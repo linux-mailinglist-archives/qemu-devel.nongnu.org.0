@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F2B34A427
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:20:47 +0100 (CET)
-Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD05D34A441
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:27:35 +0100 (CET)
+Received: from localhost ([::1]:34812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPie0-0004oC-IT
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44202)
+	id 1lPikg-0007NG-D3
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lPic7-00044Y-8P
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:18:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26815)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPihu-0006Of-Dc
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:24:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lPic3-000660-0T
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:18:42 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPihq-0001M4-FN
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:24:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616750318;
+ s=mimecast20190719; t=1616750676;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rtTDmfQbYYqqRZD3Jlsl/SCm40Dyq82G8Vau9UwrWlQ=;
- b=XDP0E9SqezonhGxxZqwoc9PW3Lc+/4iFVALP6NWgVQQ0LtkaL9eMzRrmixCuKSIrGauGa9
- R+STdJr5an5zWUwkrkGAPxc8dVUxId8UYGp5024r4ynN1PmkpQmZU5jYiOVCudHkPyid89
- PwtcrRlQSHHdW9EZZjx56bHNZOVoWCc=
+ bh=ZZF8ps/gTxzDVQIP89qCKvDtKRLsf00oPM3ACTq3Ow0=;
+ b=FbI4hMhw2M3Jv2IJ5z174p7AzmnMiodv/uPYOR5j/xsP4kifAoq9aXoVx4k0hCFxDfVS7J
+ /3cHmz84ZIjCF3sWpwg7aP9RDheEGe6m/ro6LMgfrmC2jOu7UrxLnHdqZGGbA7EvuGjvhE
+ /4s1LlpQ29oNV0tH1lmWs7HiORNyGr0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-doQmLfb5O-6xcUXvldS50Q-1; Fri, 26 Mar 2021 05:18:34 -0400
-X-MC-Unique: doQmLfb5O-6xcUXvldS50Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-314-VQihjycwMCu6jW-z9AJ6Dg-1; Fri, 26 Mar 2021 05:24:33 -0400
+X-MC-Unique: VQihjycwMCu6jW-z9AJ6Dg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CA461009E3E;
- Fri, 26 Mar 2021 09:18:33 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-10.pek2.redhat.com
- [10.72.13.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09F2C36807;
- Fri, 26 Mar 2021 09:18:27 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 0/3] virtio-net: graceful drop of vhost for TAP
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20210322122452.369750-1-yuri.benditovich@daynix.com>
- <aa33a355-5980-5ff5-7264-02d6fc7f5f9d@redhat.com>
- <CAOEp5Od+jPYdmFdD3z3hVjs5t6QXgmEoOTPHO5cLVyifjmjgRQ@mail.gmail.com>
- <e3971d80-6b7c-2e47-9ee9-41f08d0a9df9@redhat.com>
- <CAOEp5OfBpq_DjD4k_enGCuDkV9d738wyW9ye6Uk9vsnD+jS7eA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a7088e13-559b-560e-67e1-a2b8a3fed19e@redhat.com>
-Date: Fri, 26 Mar 2021 17:18:26 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 055091019630
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 09:24:33 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-48.ams2.redhat.com
+ [10.36.113.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B28255DDAD;
+ Fri, 26 Mar 2021 09:24:28 +0000 (UTC)
+Subject: Re: [PATCH] Document qemu-img options data_file and data_file_raw
+To: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org
+References: <20210301172837.20146-1-ckuehl@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <794b64ea-3e5f-8387-76c4-240eeb2a1c67@redhat.com>
+Date: Fri, 26 Mar 2021 10:24:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5OfBpq_DjD4k_enGCuDkV9d738wyW9ye6Uk9vsnD+jS7eA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210301172837.20146-1-ckuehl@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,158 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: jsnow@redhat.com, hhan@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 01.03.21 18:28, Connor Kuehl wrote:
+> The contents of this patch were initially developed and posted by Han
+> Han[1], however, it appears the original patch was not applied. Since
+> then, the relevant documentation has been moved and adapted to a new
+> format.
+> 
+> I've taken most of the original wording and tweaked it according to
+> some of the feedback from the original patch submission. I've also
+> adapted it to restructured text, which is the format the documentation
+> currently uses.
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-block/2019-10/msg01253.html
+> 
+> Reported-by: Han Han <hhan@redhat.com>
+> Co-developed-by: Han Han <hhan@redhat.com>
+> Fixes: https://bugzilla.redhat.com/1763105
+> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> ---
+>   docs/tools/qemu-img.rst | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
+> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+> index b615aa8419..5cc585dc27 100644
+> --- a/docs/tools/qemu-img.rst
+> +++ b/docs/tools/qemu-img.rst
+> @@ -866,6 +866,18 @@ Supported image file formats:
+>       issue ``lsattr filename`` to check if the NOCOW flag is set or not
+>       (Capital 'C' is NOCOW flag).
+>   
+> +  ``data_file``
+> +    Pathname that refers to a file that will store all guest data. If
+> +    this option is used, the qcow2 file will only contain the image's
+> +    metadata.
 
-在 2021/3/26 下午5:09, Yuri Benditovich 写道:
-> On Fri, Mar 26, 2021 at 10:51 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2021/3/25 下午5:00, Yuri Benditovich 写道:
->>> Hi Jason,
->>>
->>> This was discussed earlier on the previous series of patches.
->>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg01829.html
->>> There were strong objections from both Daniel and Michael and I feel
->>> that the series was rejected.
->>> There was Michael's claim:
->>> "We did what this patch is trying to change for years now, in
->>> particular KVM also seems to happily disable CPU features not supported
->>> by kernel so I wonder why we can't keep doing it, with tweaks for some
->>> corner cases."
->>
->> So for cpu feautres, it works since the management have other tool to
->> the cpuid. Then management will make sure the migration happens amongs
->> the hosts that is compatibile with the same cpuid sets.
->>
->> For vhost, we don't have such capabilities, that's why I think we need
->> to have fallback.
->>
-> Hi Jason,
-> What, from your POV was the result of v1 discussion?
+I think I would like a note here about the fact that when passing this 
+option to qemu-img create, the given data file will be newly created, 
+i.e. if it already contains data, all that data will be lost.  And 
+perhaps also note that qemu-img amend on the other hand will only change 
+the reference in the qcow2 file, so the given file should already exist 
+and will not be overwritten.
 
+(“Pathname that refers to a file” sounds like the file may already exist 
+before this operation, which may give people ideas.  (Not that the ideas 
+were bad, it’s just that they have to take care.  Referencing qemu-img 
+amend should give them a hint on how to do it right.))
 
-It looks to me we don't have an agreement on that, sorry.
+Max
 
-
-> IMO, there was one critical comment that the patch does not address
-> 'forcevhost' properly (indeed).
-> IMO, there are many comments from Daniel and Michael that in the sum
-> say that this change is not what they would like.
-> If I'm mistaken please let me know.
-
-
-I think I will open a new thread and summarize the different approaches 
-and then we can come a conclusion.
-
-
->
-> I have no problem to send v3 = v1 + handling of ''forcevhost'
-> If this is what you want, please let me know also.
->
->>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03187.html
->>> And it was Michael's question:
->>> "Can we limit the change to when a VM is migrated in?"
->>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03163.html
->>> So I'm trying to suggest another approach:
->>> - In case of conflicting features (for example RSS and vhost) we in
->>> qemu we do not have enough information to prefer one or another.
->>> - If we drop to userspace in the first set_features we say: "vhost is
->>> less important than other requested features"
->>> - This series keeps backward compatibility, i.e. if you start with
->>> vhost and some features are not available - they are silently cleared.
->>> - But in case the features are available on source machine - they are used
->>> - In case of migration this series says: "We prefer successful
->>> migration even if for that we need to drop to userspace"
->>> - On the migration back to the 1st system we again work with all the
->>> features and with vhost as all the features are available.
->>
->> One issue for this approach is that. Consider we had two drivers:
->>
->> 1) Driver A that supports split only
->> 2) Driver B that supports packed
->>
->> Consider src support packed but dest doesn't
->>
->> So switching driver A to driver B works without migration. But if we
->> switch driver from A to B after migration it won't work?
-> I assume that  both src and dest started with vhost=on.
->
-> As driver B supports both packed and split, you can switch from driver
-> A to driver B after migration
-> and driver B will work with split. Exactly as it does today.
->
-> The key question is what is more important - vhost or features that
-> vhost does not support?
-> current code says: vhost is more important always
-> v1 patch says: features are more important always.
-> v2 patch says: vhost is more important at init time, features are more
-> important at migration time.
-> Because we are able to drop vhost but we can't drop features when we
-> have a running driver.
-> Do you agree?
-
-
-I think what came from cli is the most important. So if I understand 
-correclty:
-
-- vhost=on means "turn on vhost when possible" it implies that fallback 
-is allowed (we had already had fallback codes)
-- vhostforce=on means "turn on vhost unconditonally" it implies that we 
-can't do fallback
-
-So my understanding is that:
-
-- "vhost=on, packed=on", we can fallback to userspace but must keep 
-packed virtqueue works
-- "vhost=on,vhostforce=on,packed=on", we can't fallback and must keep 
-both vhost and packed virtqueue work, if we can't we need to fail
-
-Thanks
-
-
->
->> Thanks
->>
->>
->>> Thanks,
->>> Yuri
->>>
->>>
->>>
->>> On Thu, Mar 25, 2021 at 8:59 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> 在 2021/3/22 下午8:24, Yuri Benditovich 写道:
->>>>> Allow fallback to userspace only upon migration, only for specific features
->>>>> and only if 'vhostforce' is not requested.
->>>>>
->>>>> Changes from v1:
->>>>> Patch 1 dropeed (will be submitted in another series)
->>>>> Added device callback in case the migration should fail due to missing features
->>>> Hi Yuri:
->>>>
->>>> Have a quick glance at the series. A questions is why we need to do the
->>>> fallback only during load?
->>>>
->>>> I think we should do it in the device initializating. E.g when the vhost
->>>> features can not satisfy, we should disable vhost since there.
->>>>
->>>> Thanks
->>>>
->>>>
->>>>> Yuri Benditovich (3):
->>>>>      net: add ability to hide (disable) vhost_net
->>>>>      virtio: introduce 'missing_features_migrated' device callback
->>>>>      virtio-net: implement missing_features_migrated callback
->>>>>
->>>>>     hw/net/vhost_net.c         |  4 ++-
->>>>>     hw/net/virtio-net.c        | 51 ++++++++++++++++++++++++++++++++++++++
->>>>>     hw/virtio/virtio.c         |  8 ++++++
->>>>>     include/hw/virtio/virtio.h |  8 ++++++
->>>>>     include/net/net.h          |  1 +
->>>>>     5 files changed, 71 insertions(+), 1 deletion(-)
->>>>>
+> +
+> +  ``data_file_raw``
+> +    If this option is set to ``on``, QEMU will always keep the external
+> +    data file consistent as a standalone read-only raw image. The default
+> +    value is ``off``.
+> +
+> +    This option can only be enabled if ``data_file`` is set.
+> +
+>   ``Other``
+>   
+>     QEMU also supports various other image file formats for
+> 
 
 
