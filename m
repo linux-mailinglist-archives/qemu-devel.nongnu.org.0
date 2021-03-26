@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9A234A99A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:23:55 +0100 (CET)
-Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAE334A9AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:26:28 +0100 (CET)
+Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPnNS-0000rP-1X
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
+	id 1lPnPv-00044t-4t
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lPnM2-0000D9-RJ
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:22:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lPnM0-0008Cx-Iq
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:22:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616768543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=acA7rIvwEAv3zPb8k8zR2menEm7oZkJIX2nJeF9bkeY=;
- b=F9Ye5f+LH9BzFzKn0LyJVa0780aCzILqWsBIpVia867scp4h9DM0vLHUGBMwi6CRdtFT4A
- f2x7wzlaeaxCDd2wOSo7WFTH6ETp5bD2fctOR7wcEOO4sf9tAbfMyxcgqoGZJ+QcmoqU0l
- 3Vx/VBsDevYWsVDdATPGxDDoz5DOFv4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-aGqMSuqGPJiUAAjhLo53TA-1; Fri, 26 Mar 2021 10:22:19 -0400
-X-MC-Unique: aGqMSuqGPJiUAAjhLo53TA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A44D480006E;
- Fri, 26 Mar 2021 14:22:17 +0000 (UTC)
-Received: from [10.3.114.231] (ovpn-114-231.phx2.redhat.com [10.3.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43A2F5D745;
- Fri, 26 Mar 2021 14:22:17 +0000 (UTC)
-Subject: Re: [PATCH] iotests/116: Fix reference output
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210326141419.156831-1-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d5984a8c-ac38-d6ab-8ac2-66af304bfa78@redhat.com>
-Date: Fri, 26 Mar 2021 09:22:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lPnNf-0001zv-5P; Fri, 26 Mar 2021 10:24:07 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lPnNd-0000gz-LW; Fri, 26 Mar 2021 10:24:06 -0400
+Received: by mail-wr1-x433.google.com with SMTP id b9so5808910wrt.8;
+ Fri, 26 Mar 2021 07:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RzPLUWnOnISQvZJ5eMeUSydnOMpHIDB1eukz1/lymmY=;
+ b=GIWj9FHv3bwwAtjsFXLLxkDCUlJKUQ7n7gXemAf8X6cYtnl6I/uTKv1opximD6s1vm
+ 8dT94/YBCgvBOrmOtimuaKxCpsLvh+pU/WxLrjOa/OJ5UoALxlZWISXXjFUN3WKg4qDf
+ i7UUxcGeyNCnUep7bza0OEPmrymcM1pPo5SRWpUt1+z7VOJ4G6H8cR6AddPFWnEqnw2b
+ xx8+zMmMM4dw/h/aQdLwF4BHaYMbLcC/wTPgfpwKpiqE7vBFz7oQrEb7nO03V/Lroyw5
+ yL7B7+sWlE1NHjuBeMHYmXxyltia7Bpa1osrcHGd6fHOjqlYsPzdjescnrqArbCE3NsI
+ ZwCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=RzPLUWnOnISQvZJ5eMeUSydnOMpHIDB1eukz1/lymmY=;
+ b=SF2QQwRL0IYwjMc1JHopxaNHiAXXMk29IGParOsg922Ae7FiLUIxIPUA6KQt12Kecd
+ 4mowjJWeOkIfL8y7ZqKCo02jqlSPhi1ORWUvvuPs87Oijtg5fvK5EZwo4ZDeg77U5N8X
+ PzB83XwiPZZ7QiGM73c7n0OlWL0cXXYb0IBIwcR3BAze7SdcyhR1qxetzBUs+wt5YUuh
+ 4rW/Qb3DMdA2s8Pd4H/TPs2dcbWD3iHMcuxZDbkojFun2q3SyXNmxOoghzj3pppvC9EM
+ jgfu1SQkFdi7ms7HLRk0DDAGyJ4GP6JpzGCM7dRgCoBpHURa+xMTkt1OLmeqrt7fDEFa
+ zpug==
+X-Gm-Message-State: AOAM531n13VHdc2fgJHsENCbdA10PeI1W/aniMcRq7LgmUZSxXlX4XOj
+ ZGZEKnR4qIEVsBVWO/1zU9wD8IsBZa4=
+X-Google-Smtp-Source: ABdhPJyu76IR1nj2HlM8Dfmoq2bS+jJONFaflx+6B2PfmFMrRDwLwagPlVCjyUgsqdaJc+GsoSxudQ==
+X-Received: by 2002:adf:8151:: with SMTP id 75mr14822505wrm.152.1616768642924; 
+ Fri, 26 Mar 2021 07:24:02 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m5sm13084517wrq.15.2021.03.26.07.24.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Mar 2021 07:24:02 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] qemu-iotests: quality of life improvements
+Date: Fri, 26 Mar 2021 15:23:54 +0100
+Message-Id: <20210326142359.431127-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210326141419.156831-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 9:14 AM, Max Reitz wrote:
-> 15ce94a68ca ("block/qed: bdrv_qed_do_open: deal with errp") has improved
-> the qed driver's error reporting, though sadly did not add a test for
-> it.
-> The good news are: There already is such a test, namely 116.
-> The bad news are: Its reference output was not adjusted, and so now it
-> fails.
-> 
-> Let's fix the reference output, which has the nice side effect of
-> demonstrating 15ce94a68ca's improvements.
-> 
-> Fixes: 15ce94a68ca6730466c565c3d29971aab3087bf1
->        ("block/qed: bdrv_qed_do_open: deal with errp")
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/116.out | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+This series adds a few usability improvements to qemu-iotests, in
+particular:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+- arguments can be passed to Python unittests scripts, for example
+  to run only a subset of the test cases (patches 1-2)
 
-Since the original went in through my tree, I can queue this one through
-as well.
+- it is possible to do "./check -- ../../../tests/qemu-iotests/055 args..."
+  and specify arbitrary arguments to be passed to a single test script.
+  This allows to take advantage of the previous feature and ease debugging
+  of Python tests.
+
+Paolo
+
+v2->v3: fix pylint/mypy [Max]
+        fix patch 4 for shell-based tests [Emanuele]
+
+Paolo Bonzini (5):
+  qemu-iotests: do not buffer the test output
+  qemu-iotests: allow passing unittest.main arguments to the test
+    scripts
+  qemu-iotests: move command line and environment handling from
+    TestRunner to TestEnv
+  qemu-iotests: let "check" spawn an arbitrary test command
+  qemu-iotests: fix case of SOCK_DIR already in the environment
+
+ tests/qemu-iotests/check         | 18 ++++++-
+ tests/qemu-iotests/iotests.py    | 80 +++++++++++++++++++-------------
+ tests/qemu-iotests/testenv.py    | 22 +++++++--
+ tests/qemu-iotests/testrunner.py | 15 +-----
+ 4 files changed, 85 insertions(+), 50 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.30.1
 
 
