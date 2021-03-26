@@ -2,52 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57ED434AA97
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:56:46 +0100 (CET)
-Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181C234AA9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:58:43 +0100 (CET)
+Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPntF-0004Ug-3x
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34930)
+	id 1lPnv8-0007md-2g
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lPnrJ-0003Xg-Cs
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:54:45 -0400
-Received: from mga07.intel.com ([134.134.136.100]:30556)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPnsx-0004u3-Lm
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:56:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lPnrD-0001Ya-C2
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:54:45 -0400
-IronPort-SDR: 370vQxhpv6KCSVU7Wu2HEknMFbk5hXvMOivQsp3doAuIbFLpjttogyruFeHUZFP8k72aZZmjcT
- 0wr0BnBjm5Qg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9935"; a="255154836"
-X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="255154836"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2021 07:54:36 -0700
-IronPort-SDR: 0Sj9WvrMU5rd3S6BlcOCfKN4bOXHjlIjlXfRpOoFXJP8A7oZJbt3Cybqzet7Vhg6Zel9irNnYc
- Vgr4hTIkpXQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="414569243"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga007.jf.intel.com with ESMTP; 26 Mar 2021 07:54:34 -0700
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: pbonzini@redhat.com,
-	richard.henderson@linaro.org,
-	ehabkost@redhat.com
-Subject: [PATCH v4] i386/cpu_dump: support AVX512 ZMM regs dump
-Date: Fri, 26 Mar 2021 22:54:29 +0800
-Message-Id: <1616770469-36979-1-git-send-email-robert.hu@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=robert.hu@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPnsv-0002ce-Ol
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:56:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616770585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DP5Vnbp87+J551Wm+wuLH5G1N48U2L8BiEl2oLUcwH0=;
+ b=KARfxOe6RWglCHed0lE0Dfc3ZcHKzX2bS1IfvA++vZl44UBd0IsP92zMyojI+6MzW2aaO5
+ kA5bCTlaQSxdD7bHKdmd2fSZHZ5CzJs5ECWaDDmoYqcSRWJaUmhnZYxfNBMDYDrAsB6yiP
+ fV20sb3FWJqIV2WpiF/2xmapl67WmY4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-1lf2k7cyMnOJafW8C_Vd1w-1; Fri, 26 Mar 2021 10:56:21 -0400
+X-MC-Unique: 1lf2k7cyMnOJafW8C_Vd1w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C15AB1098870;
+ Fri, 26 Mar 2021 14:55:11 +0000 (UTC)
+Received: from localhost (ovpn-113-48.ams2.redhat.com [10.36.113.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E9FD5D9DE;
+ Fri, 26 Mar 2021 14:55:11 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/2] qcow2: Force preallocation with data-file-raw
+Date: Fri, 26 Mar 2021 15:55:07 +0100
+Message-Id: <20210326145509.163455-1-mreitz@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,110 +73,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Robert Hoo <robert.hu@linux.intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit fa4518741e (target-i386: Rename struct XMMReg to ZMMReg),
-CPUX86State.xmm_regs[] has already been extended to 512bit to support
-AVX512.
-Also, other qemu level supports for AVX512 registers are there for
-years.
-But in x86_cpu_dump_state(), still only dump XMM registers no matter
-YMM/ZMM is enabled.
-This patch is to complement this, let it dump XMM/YMM/ZMM accordingly.
+v1: https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg00992.html
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
----
-Changelog:
-v4: stringent AVX512 case and AVX case judgement criteria
-v3: fix some coding style issue.
-v2: dump XMM/YMM/ZMM according to XSAVE state-components enablement.
 
- target/i386/cpu-dump.c | 62 ++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 47 insertions(+), 15 deletions(-)
+Hi,
 
-diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-index aac21f1..dea4564 100644
---- a/target/i386/cpu-dump.c
-+++ b/target/i386/cpu-dump.c
-@@ -478,6 +478,11 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
-     if (flags & CPU_DUMP_FPU) {
-         int fptag;
-+        const uint64_t avx512_mask = XSTATE_OPMASK_MASK | \
-+                                     XSTATE_ZMM_Hi256_MASK | \
-+                                     XSTATE_Hi16_ZMM_MASK | \
-+                                     XSTATE_YMM_MASK | XSTATE_SSE_MASK,
-+                       avx_mask = XSTATE_YMM_MASK | XSTATE_SSE_MASK;
-         fptag = 0;
-         for(i = 0; i < 8; i++) {
-             fptag |= ((!env->fptags[i]) << i);
-@@ -499,21 +504,48 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-             else
-                 qemu_fprintf(f, " ");
-         }
--        if (env->hflags & HF_CS64_MASK)
--            nb = 16;
--        else
--            nb = 8;
--        for(i=0;i<nb;i++) {
--            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
--                         i,
--                         env->xmm_regs[i].ZMM_L(3),
--                         env->xmm_regs[i].ZMM_L(2),
--                         env->xmm_regs[i].ZMM_L(1),
--                         env->xmm_regs[i].ZMM_L(0));
--            if ((i & 1) == 1)
--                qemu_fprintf(f, "\n");
--            else
--                qemu_fprintf(f, " ");
-+
-+        if ((env->xcr0 & avx512_mask) == avx512_mask) {
-+            /* XSAVE enabled AVX512 */
-+            for (i = 0; i < NB_OPMASK_REGS; i++) {
-+                qemu_fprintf(f, "Opmask%02d=%016lx%s", i, env->opmask_regs[i],
-+                    ((i & 3) == 3) ? "\n" : " ");
-+            }
-+
-+            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "ZMM%02d=%016lx %016lx %016lx %016lx %016lx "
-+                                "%016lx %016lx %016lx\n",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(7),
-+                             env->xmm_regs[i].ZMM_Q(6),
-+                             env->xmm_regs[i].ZMM_Q(5),
-+                             env->xmm_regs[i].ZMM_Q(4),
-+                             env->xmm_regs[i].ZMM_Q(3),
-+                             env->xmm_regs[i].ZMM_Q(2),
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+            }
-+        } else if (env->xcr0 & avx_mask) {
-+            /* XSAVE enabled AVX */
-+            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "YMM%02d=%016lx %016lx %016lx %016lx\n",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(3),
-+                             env->xmm_regs[i].ZMM_Q(2),
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0));
-+            }
-+        } else { /* SSE and below cases */
-+            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-+            for (i = 0; i < nb; i++) {
-+                qemu_fprintf(f, "XMM%02d=%016lx %016lx%s",
-+                             i,
-+                             env->xmm_regs[i].ZMM_Q(1),
-+                             env->xmm_regs[i].ZMM_Q(0),
-+                             (i & 1) ? "\n" : " ");
-+            }
-         }
-     }
-     if (flags & CPU_DUMP_CODE) {
+I think that qcow2 images with data-file-raw should always have
+preallocated 1:1 L1/L2 tables, so that the image always looks the same
+whether you respect or ignore the qcow2 metadata.  The easiest way to
+achieve that is to enforce at least metadata preallocation whenever
+data-file-raw is given.
+
+As far as I could tell, there were two main critique points about v1:
+(1) If we force metadata preallocation on creation, we should also do it
+    when the image is grown.
+(2) We could go even further and make qemu ignore all L1/L2 tables for
+    images with raw external data files.  Ideally, we wouldn’t even
+    write them at all.
+
+(1) is addressed in this v2.
+
+As for (2)...  It’s complicated.  I think we want the fix from this
+series now and if we want (2), we can have a go at it later.  Many
+things are to be considered there.
+
+For example: data-file-raw is an autoclear flag.  Technically, it is
+possible for some qcow2 implementation to support data-file, but not
+data-file-raw.  If we ignore metadata for images with data-file-raw, we
+would break them, because “ignoring” would mean we don’t even create it,
+ever, so the external data file would appear empty to such
+implementations.
+Now, in practice, there is no such implementation.  data-file-raw has
+been introduced alongside data-file.
+However, also in practice, qemu always did and still does rely on the
+metadata in the qcow2 image.  So we have to ensure the metadata is
+there, or all versions of qemu that support data-file will break.
+
+The easiest way to ensure the metadata is there is to preallocate it on
+creation/growth.  If at same later point we decide we want to ignore it
+on runtime, this preallocation would actually allow us to do that.  So
+the preallocation is the necessary first step (the second step would
+probably be a second auto-clear flag that states that all metadata has
+been preallocated and can thus be ignored at runtime).
+
+((Even today, we could ignore the L2 tables when reading, but the
+problems are that (1) images can then appear differently to qemu
+versions that do ignore them and versions that don’t, and (2) when
+writing to a cluster, we still need to ensure that its L2 entry is there
+(i.e., allocated and pointing to the correct offset).  I don’t think it
+makes sense to ignore the tables when reading but not when writing.))
+
+
+There have also been proposals of instead just not writing any metadata.
+This would naturally require an incompatible new flag, because such
+images would not be usable by current qemu versions.  Such a flag would
+make this series unnecessary, but do we really want to break
+incompatibility with all qemu versions going back to 4.0 just so we
+don’t have to waste space on L2 tables?  Users are free to just use 2M
+clusters for data-file-raw images so the wasted space is minimized (to
+1/2M of the image size, e.g. 512M per 1T).
+
+And in any case: I think patch 1 is simple enough that we can just take
+it now and it wouldn’t be too bad to write it off as a loss if we ever
+add an incompatible no-l2 flag.
+
+Point is, we have no actual patches to implement a no-l2 flag, but there
+is something that needs to be fixed about raw external data files, and
+this series fixes it.
+
+
+v2:
+- Patch 1: Force metadata preallocation when the image is resized
+- Patch 2:
+  - Use blockdev-create to create the qcow2 image instead of creating
+    the qcow2 image first and then (technically illegally) writing to
+    the external data file
+  - Test growing a qcow2 image with an external data file, where the
+    data file is grown first and the new area is filled with data
+
+
+git-backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/2:[0012] [FC] 'qcow2: Force preallocation with data-file-raw'
+002/2:[0110] [FC] 'iotests/244: Test preallocation for data-file-raw'
+
+
+Max Reitz (2):
+  qcow2: Force preallocation with data-file-raw
+  iotests/244: Test preallocation for data-file-raw
+
+ block/qcow2.c              |  34 ++++++++++++
+ tests/qemu-iotests/244     | 104 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/244.out |  68 ++++++++++++++++++++++--
+ 3 files changed, 201 insertions(+), 5 deletions(-)
+
 -- 
-1.8.3.1
+2.29.2
 
 
