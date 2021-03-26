@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BF634AF9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 20:52:52 +0100 (CET)
-Received: from localhost ([::1]:33470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AEE34AF9D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 20:52:49 +0100 (CET)
+Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPsVn-0007wJ-HB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 15:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
+	id 1lPsVk-0007nJ-0r
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 15:52:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH5-0006ML-O9
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45454)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH9-0006SN-1y
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:43 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH4-0000wl-3A
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:39 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH5-0000y5-6z
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:42 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E04EFAF33;
- Fri, 26 Mar 2021 19:37:26 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0A979AF3E;
+ Fri, 26 Mar 2021 19:37:28 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 19/65] target/arm: add temporary stub for arm_rebuild_hflags
-Date: Fri, 26 Mar 2021 20:36:15 +0100
-Message-Id: <20210326193701.5981-20-cfontana@suse.de>
+Subject: [RFC v12 20/65] target/arm: move arm_hcr_el2_eff from tcg/ to
+ common_cpu
+Date: Fri, 26 Mar 2021 20:36:16 +0100
+Message-Id: <20210326193701.5981-21-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -60,77 +61,169 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this should go away once the configuration and hw/arm is clean
+we will need this for KVM too, especially for Nested support.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- hw/arm/boot.c                 | 5 ++++-
- target/arm/arm-powerctl.c     | 8 +++++---
- target/arm/tcg/helper-stubs.c | 5 +++++
- 3 files changed, 14 insertions(+), 4 deletions(-)
+ target/arm/cpu-common.c | 68 +++++++++++++++++++++++++++++++++++++++++
+ target/arm/tcg/helper.c | 68 -----------------------------------------
+ 2 files changed, 68 insertions(+), 68 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index e56c42ac22..1fb56a846f 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -27,6 +27,7 @@
- #include "qemu/option.h"
- #include "exec/address-spaces.h"
- #include "qemu/units.h"
-+#include "sysemu/tcg.h"
- 
- /* Kernel boot protocol is specified in the kernel docs
-  * Documentation/arm/Booting and Documentation/arm64/booting.txt
-@@ -797,7 +798,9 @@ static void do_cpu_reset(void *opaque)
-                 info->secondary_cpu_reset_hook(cpu, info);
-             }
-         }
--        arm_rebuild_hflags(env);
-+        if (tcg_enabled()) {
-+            arm_rebuild_hflags(env);
-+        }
-     }
- }
- 
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index b75f813b40..a00624876c 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -15,6 +15,7 @@
- #include "arm-powerctl.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
-+#include "sysemu/tcg.h"
- 
- #ifndef DEBUG_ARM_POWERCTL
- #define DEBUG_ARM_POWERCTL 0
-@@ -127,9 +128,10 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
-         target_cpu->env.regs[0] = info->context_id;
-     }
- 
--    /* CP15 update requires rebuilding hflags */
--    arm_rebuild_hflags(&target_cpu->env);
--
-+    if (tcg_enabled()) {
-+        /* CP15 update requires rebuilding hflags */
-+        arm_rebuild_hflags(&target_cpu->env);
-+    }
-     /* Start the new CPU at the requested address */
-     cpu_set_pc(target_cpu_state, info->entry);
- 
-diff --git a/target/arm/tcg/helper-stubs.c b/target/arm/tcg/helper-stubs.c
-index 3df03a28da..5011576d47 100644
---- a/target/arm/tcg/helper-stubs.c
-+++ b/target/arm/tcg/helper-stubs.c
-@@ -19,3 +19,8 @@ void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
- {
-     g_assert_not_reached();
+diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
+index 694e5d73f3..040e06392a 100644
+--- a/target/arm/cpu-common.c
++++ b/target/arm/cpu-common.c
+@@ -231,3 +231,71 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
+     mask &= ~CACHED_CPSR_BITS;
+     env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
  }
 +
-+void arm_rebuild_hflags(CPUARMState *env)
++/*
++ * Return the effective value of HCR_EL2.
++ * Bits that are not included here:
++ * RW       (read from SCR_EL3.RW as needed)
++ */
++uint64_t arm_hcr_el2_eff(CPUARMState *env)
 +{
-+    g_assert_not_reached();
++    uint64_t ret = env->cp15.hcr_el2;
++
++    if (!arm_is_el2_enabled(env)) {
++        /*
++         * "This register has no effect if EL2 is not enabled in the
++         * current Security state".  This is ARMv8.4-SecEL2 speak for
++         * !(SCR_EL3.NS==1 || SCR_EL3.EEL2==1).
++         *
++         * Prior to that, the language was "In an implementation that
++         * includes EL3, when the value of SCR_EL3.NS is 0 the PE behaves
++         * as if this field is 0 for all purposes other than a direct
++         * read or write access of HCR_EL2".  With lots of enumeration
++         * on a per-field basis.  In current QEMU, this is condition
++         * is arm_is_secure_below_el3.
++         *
++         * Since the v8.4 language applies to the entire register, and
++         * appears to be backward compatible, use that.
++         */
++        return 0;
++    }
++
++    /*
++     * For a cpu that supports both aarch64 and aarch32, we can set bits
++     * in HCR_EL2 (e.g. via EL3) that are RES0 when we enter EL2 as aa32.
++     * Ignore all of the bits in HCR+HCR2 that are not valid for aarch32.
++     */
++    if (!arm_el_is_aa64(env, 2)) {
++        uint64_t aa32_valid;
++
++        /*
++         * These bits are up-to-date as of ARMv8.6.
++         * For HCR, it's easiest to list just the 2 bits that are invalid.
++         * For HCR2, list those that are valid.
++         */
++        aa32_valid = MAKE_64BIT_MASK(0, 32) & ~(HCR_RW | HCR_TDZ);
++        aa32_valid |= (HCR_CD | HCR_ID | HCR_TERR | HCR_TEA | HCR_MIOCNCE |
++                       HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_TTLBIS);
++        ret &= aa32_valid;
++    }
++
++    if (ret & HCR_TGE) {
++        /* These bits are up-to-date as of ARMv8.6.  */
++        if (ret & HCR_E2H) {
++            ret &= ~(HCR_VM | HCR_FMO | HCR_IMO | HCR_AMO |
++                     HCR_BSU_MASK | HCR_DC | HCR_TWI | HCR_TWE |
++                     HCR_TID0 | HCR_TID2 | HCR_TPCP | HCR_TPU |
++                     HCR_TDZ | HCR_CD | HCR_ID | HCR_MIOCNCE |
++                     HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_ENSCXT |
++                     HCR_TTLBIS | HCR_TTLBOS | HCR_TID5);
++        } else {
++            ret |= HCR_FMO | HCR_IMO | HCR_AMO;
++        }
++        ret &= ~(HCR_SWIO | HCR_PTW | HCR_VF | HCR_VI | HCR_VSE |
++                 HCR_FB | HCR_TID1 | HCR_TID3 | HCR_TSC | HCR_TACR |
++                 HCR_TSW | HCR_TTLB | HCR_TVM | HCR_HCD | HCR_TRVM |
++                 HCR_TLOR);
++    }
++
++    return ret;
 +}
+diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
+index f35d2969b0..15f53d57b0 100644
+--- a/target/arm/tcg/helper.c
++++ b/target/arm/tcg/helper.c
+@@ -261,74 +261,6 @@ static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
+ }
+ #endif /* TARGET_AARCH64 */
+ 
+-/*
+- * Return the effective value of HCR_EL2.
+- * Bits that are not included here:
+- * RW       (read from SCR_EL3.RW as needed)
+- */
+-uint64_t arm_hcr_el2_eff(CPUARMState *env)
+-{
+-    uint64_t ret = env->cp15.hcr_el2;
+-
+-    if (!arm_is_el2_enabled(env)) {
+-        /*
+-         * "This register has no effect if EL2 is not enabled in the
+-         * current Security state".  This is ARMv8.4-SecEL2 speak for
+-         * !(SCR_EL3.NS==1 || SCR_EL3.EEL2==1).
+-         *
+-         * Prior to that, the language was "In an implementation that
+-         * includes EL3, when the value of SCR_EL3.NS is 0 the PE behaves
+-         * as if this field is 0 for all purposes other than a direct
+-         * read or write access of HCR_EL2".  With lots of enumeration
+-         * on a per-field basis.  In current QEMU, this is condition
+-         * is arm_is_secure_below_el3.
+-         *
+-         * Since the v8.4 language applies to the entire register, and
+-         * appears to be backward compatible, use that.
+-         */
+-        return 0;
+-    }
+-
+-    /*
+-     * For a cpu that supports both aarch64 and aarch32, we can set bits
+-     * in HCR_EL2 (e.g. via EL3) that are RES0 when we enter EL2 as aa32.
+-     * Ignore all of the bits in HCR+HCR2 that are not valid for aarch32.
+-     */
+-    if (!arm_el_is_aa64(env, 2)) {
+-        uint64_t aa32_valid;
+-
+-        /*
+-         * These bits are up-to-date as of ARMv8.6.
+-         * For HCR, it's easiest to list just the 2 bits that are invalid.
+-         * For HCR2, list those that are valid.
+-         */
+-        aa32_valid = MAKE_64BIT_MASK(0, 32) & ~(HCR_RW | HCR_TDZ);
+-        aa32_valid |= (HCR_CD | HCR_ID | HCR_TERR | HCR_TEA | HCR_MIOCNCE |
+-                       HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_TTLBIS);
+-        ret &= aa32_valid;
+-    }
+-
+-    if (ret & HCR_TGE) {
+-        /* These bits are up-to-date as of ARMv8.6.  */
+-        if (ret & HCR_E2H) {
+-            ret &= ~(HCR_VM | HCR_FMO | HCR_IMO | HCR_AMO |
+-                     HCR_BSU_MASK | HCR_DC | HCR_TWI | HCR_TWE |
+-                     HCR_TID0 | HCR_TID2 | HCR_TPCP | HCR_TPU |
+-                     HCR_TDZ | HCR_CD | HCR_ID | HCR_MIOCNCE |
+-                     HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_ENSCXT |
+-                     HCR_TTLBIS | HCR_TTLBOS | HCR_TID5);
+-        } else {
+-            ret |= HCR_FMO | HCR_IMO | HCR_AMO;
+-        }
+-        ret &= ~(HCR_SWIO | HCR_PTW | HCR_VF | HCR_VI | HCR_VSE |
+-                 HCR_FB | HCR_TID1 | HCR_TID3 | HCR_TSC | HCR_TACR |
+-                 HCR_TSW | HCR_TTLB | HCR_TVM | HCR_HCD | HCR_TRVM |
+-                 HCR_TLOR);
+-    }
+-
+-    return ret;
+-}
+-
+ /* Return the exception level to which exceptions should be taken
+  * via SVEAccessTrap.  If an exception should be routed through
+  * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
 -- 
 2.26.2
 
