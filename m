@@ -2,105 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FF334A8AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:47:17 +0100 (CET)
-Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94ABB34A8F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:50:29 +0100 (CET)
+Received: from localhost ([::1]:60072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPmo0-0004j8-Ea
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45258)
+	id 1lPmr6-0006cw-KQ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1lPmml-0003mW-Dv; Fri, 26 Mar 2021 09:46:00 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42992)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPmoA-0005aC-7r
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:47:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1lPmmg-0002pg-8O; Fri, 26 Mar 2021 09:45:58 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12QDYFhK012278; Fri, 26 Mar 2021 09:45:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=hN0aKM+lO6uutXnfbRXmXi0g8UDR1FbhTJDTauPMVfA=;
- b=KW5iwY4LBagg3jAZK0EPVylMDgcApBiM/dnAooLxKwxoPpvKN+DEbPEtfWukve5Yo8Hu
- 1zdlfsK7zLkFdaHRWXk7wW5F+cldOG+WxmVmk3mk9sdzsEVt5IxuhOqrgA62XHWbiG6g
- 5Tg9HeDylYCJzRdKHA3TPSWXsuqYf9dnDIjKGps8IuO094f10S2jcTWawhpAl9hnTVs4
- R1Jb7mj+X7VXNPwqw0WeTS1r9VPsIoZi3rLp3CYVfgqlHmDMssFqfjNUTS9st1tEAbuH
- CrPEQTIp0aptspzugQ9SzEfdW+NDcncZWcDoaJnMUC6T8haHxCqgB9Q4KYgC1BKTFEP/ pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37hcdufnb5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Mar 2021 09:45:43 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12QDYjL5018182;
- Fri, 26 Mar 2021 09:45:43 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37hcdufn93-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Mar 2021 09:45:43 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12QDhoJJ028750;
- Fri, 26 Mar 2021 13:45:40 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 37h14vgc2v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Mar 2021 13:45:40 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12QDjc8T45941002
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Mar 2021 13:45:38 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE3BD5204E;
- Fri, 26 Mar 2021 13:45:37 +0000 (GMT)
-Received: from [9.199.49.154] (unknown [9.199.49.154])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id A538B52054;
- Fri, 26 Mar 2021 13:45:33 +0000 (GMT)
-Subject: Re: [PATCH v3 2/3] spapr: nvdimm: Implement H_SCM_FLUSH hcall
-To: David Gibson <david@gibson.dropbear.id.au>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-References: <161650723087.2959.8703728357980727008.stgit@6532096d84d3>
- <161650725183.2959.12071056430236337803.stgit@6532096d84d3>
- <YFqs8M1dHAFhdCL6@yekko.fritz.box>
- <19b5aa0b-df85-256d-d4c4-eacd0ea8312e@linux.ibm.com>
- <YFvsmKiXtb+h9HBO@yekko.fritz.box>
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <8c642adb-7c07-41e1-07d0-f23bb6c2f865@linux.ibm.com>
-Date: Fri, 26 Mar 2021 19:15:32 +0530
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPmo6-0003v1-CC
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:47:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616766440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wr18fFLIX4703M5GbwWWdaq/Hkh4PrqiADEqoZ5PDJw=;
+ b=aG7H3fpaMt37jJOEyE6GkWesNSAK7PLcG+Fu+JBpllSjG0S3+DgZwb4lSTrvEwRznV+OwA
+ PvjNC+1ebyXDAZPpMM9MA4z3zLOEADIGnZvDAEwu2MqozmTqTlpbiQrHGX0JOj8JVy/vQd
+ IARB+FPc4qx4smzsgaHdcLyGt7WGUow=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-iLZiUpMHP32c0mZ6ALvPfg-1; Fri, 26 Mar 2021 09:47:18 -0400
+X-MC-Unique: iLZiUpMHP32c0mZ6ALvPfg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EB148015B6;
+ Fri, 26 Mar 2021 13:47:17 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-48.ams2.redhat.com
+ [10.36.113.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A649217F6D;
+ Fri, 26 Mar 2021 13:47:15 +0000 (UTC)
+Subject: Re: [PATCH 1/4] qcow2: Improve refcount structure rebuilding
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210310155906.147478-1-mreitz@redhat.com>
+ <20210310155906.147478-2-mreitz@redhat.com>
+ <969cd321-0cc7-ddc3-8a0d-75819be3a6bf@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <3eb1748e-012d-9c74-d9dc-c1a6f2644ba6@redhat.com>
+Date: Fri, 26 Mar 2021 14:47:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <YFvsmKiXtb+h9HBO@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <969cd321-0cc7-ddc3-8a0d-75819be3a6bf@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TfjaPP-Svek39ukV1IUMfj-VmbPxt41r
-X-Proofpoint-ORIG-GUID: 9jkdStyqWjplPIyzdFqhl-2TNvJTeUAy
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-26_06:2021-03-26,
- 2021-03-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
- mlxlogscore=887 clxscore=1015 lowpriorityscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2103250000 definitions=main-2103260103
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,58 +84,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, bharata@linux.vnet.ibm.com,
- linux-nvdimm@lists.01.org, groug@kaod.org, kvm-ppc@vger.kernel.org,
- qemu-devel@nongnu.org, shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org,
- imammedo@redhat.com, sbhat@linux.vnet.ibm.com, xiaoguangrong.eric@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 7:21 AM, David Gibson wrote:
-> On Wed, Mar 24, 2021 at 09:34:06AM +0530, Aneesh Kumar K.V wrote:
->> On 3/24/21 8:37 AM, David Gibson wrote:
->>> On Tue, Mar 23, 2021 at 09:47:38AM -0400, Shivaprasad G Bhat wrote:
->>>> The patch adds support for the SCM flush hcall for the nvdimm devices.
-...
->>>> collects all the hcall states from 'completed' list. The necessary
->>>> nvdimm flush specific vmstate structures are added to the spapr
->>>> machine vmstate.
->>>>
->>>> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
->>> An overal question: surely the same issue must arise on x86 with
->>> file-backed NVDIMMs.  How do they handle this case?
->> On x86 we have different ways nvdimm can be discovered. ACPI NFIT, e820 map
->> and virtio_pmem. Among these virio_pmem always operated with synchronous dax
->> disabled and both ACPI and e820 doesn't have the ability to differentiate
->> support for synchronous dax.
-> Ok.  And for the virtio-pmem case, how are the extra flushes actually
-> done on x86?
+On 26.03.21 12:48, Vladimir Sementsov-Ogievskiy wrote:
+> 10.03.2021 18:59, Max Reitz wrote:
+>> When rebuilding the refcount structures (when qemu-img check -r found
+>> errors with refcount = 0, but reference count > 0), the new refcount
+>> table defaults to being put at the image file end[1].  There is no good
+>> reason for that except that it means we will not have to rewrite any
+>> refblocks we already wrote to disk.
+>>
+>> Changing the code to rewrite those refblocks is not too difficult,
+>> though, so let us do that.  That is beneficial for images on block
+>> devices, where we cannot really write beyond the end of the image file.
+>>
+>> [1] Unless there is something allocated in the area pointed to by the
+>>      last refblock, so we have to write that refblock.  In that case, we
+>>      try to put the reftable in there.
+>>
+>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1519071
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   block/qcow2-refcount.c | 126 ++++++++++++++++++++++-------------------
+>>   1 file changed, 67 insertions(+), 59 deletions(-)
+>>
+>> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+>> index 8e649b008e..162caeeb8e 100644
+>> --- a/block/qcow2-refcount.c
+>> +++ b/block/qcow2-refcount.c
+>> @@ -2352,8 +2352,9 @@ static int 
+>> rebuild_refcount_structure(BlockDriverState *bs,
+>>                                         int64_t *nb_clusters)
+>>   {
+>>       BDRVQcow2State *s = bs->opaque;
+>> -    int64_t first_free_cluster = 0, reftable_offset = -1, cluster = 0;
+>> +    int64_t first_free_cluster = 0, reftable_offset = -1, cluster;
+>>       int64_t refblock_offset, refblock_start, refblock_index;
+>> +    int64_t first_cluster, end_cluster;
+>>       uint32_t reftable_size = 0;
+>>       uint64_t *on_disk_reftable = NULL;
+>>       void *on_disk_refblock;
+>> @@ -2365,8 +2366,11 @@ static int 
+>> rebuild_refcount_structure(BlockDriverState *bs,
+>>       qcow2_cache_empty(bs, s->refcount_block_cache);
+>> +    first_cluster = 0;
+>> +    end_cluster = *nb_clusters;
+>> +
+>>   write_refblocks:
+>> -    for (; cluster < *nb_clusters; cluster++) {
+>> +    for (cluster = first_cluster; cluster < end_cluster; cluster++) {
+>>           if (!s->get_refcount(*refcount_table, cluster)) {
+>>               continue;
+>>           }
+>> @@ -2374,65 +2378,68 @@ write_refblocks:
+>>           refblock_index = cluster >> s->refcount_block_bits;
+>>           refblock_start = refblock_index << s->refcount_block_bits;
+>> -        /* Don't allocate a cluster in a refblock already written to 
+>> disk */
+>> -        if (first_free_cluster < refblock_start) {
+>> -            first_free_cluster = refblock_start;
+>> -        }
+>> -        refblock_offset = alloc_clusters_imrt(bs, 1, refcount_table,
+>> -                                              nb_clusters, 
+>> &first_free_cluster);
+>> -        if (refblock_offset < 0) {
+>> -            fprintf(stderr, "ERROR allocating refblock: %s\n",
+>> -                    strerror(-refblock_offset));
+>> -            res->check_errors++;
+>> -            ret = refblock_offset;
+>> -            goto fail;
+>> -        }
+>> -
+>> -        if (reftable_size <= refblock_index) {
+>> -            uint32_t old_reftable_size = reftable_size;
+>> -            uint64_t *new_on_disk_reftable;
+>> +        if (reftable_size > refblock_index &&
+>> +            on_disk_reftable[refblock_index])
+>> +        {
+>> +            refblock_offset = on_disk_reftable[refblock_index];
+> 
+> In this branch, we assign it to ..
+> 
+>> +        } else {
+>> +            int64_t refblock_cluster_index;
+>> -            reftable_size = ROUND_UP((refblock_index + 1) * 
+>> REFTABLE_ENTRY_SIZE,
+>> -                                     s->cluster_size) / 
+>> REFTABLE_ENTRY_SIZE;
+>> -            new_on_disk_reftable = g_try_realloc(on_disk_reftable,
+>> -                                                 reftable_size *
+>> -                                                 REFTABLE_ENTRY_SIZE);
+>> -            if (!new_on_disk_reftable) {
+>> +            /* Don't allocate a cluster in a refblock already written 
+>> to disk */
+>> +            if (first_free_cluster < refblock_start) {
+>> +                first_free_cluster = refblock_start;
+>> +            }
+>> +            refblock_offset = alloc_clusters_imrt(bs, 1, refcount_table,
+>> +                                                  nb_clusters,
+>> +                                                  &first_free_cluster);
+>> +            if (refblock_offset < 0) {
+>> +                fprintf(stderr, "ERROR allocating refblock: %s\n",
+>> +                        strerror(-refblock_offset));
+>>                   res->check_errors++;
+>> -                ret = -ENOMEM;
+>> +                ret = refblock_offset;
+>>                   goto fail;
+>>               }
+>> -            on_disk_reftable = new_on_disk_reftable;
+>> -            memset(on_disk_reftable + old_reftable_size, 0,
+>> -                   (reftable_size - old_reftable_size) * 
+>> REFTABLE_ENTRY_SIZE);
+>> +            refblock_cluster_index = refblock_offset / s->cluster_size;
+>> +            if (refblock_cluster_index >= end_cluster) {
+>> +                /*
+>> +                 * We must write the refblock that holds this refblock's
+>> +                 * refcount
+>> +                 */
+>> +                end_cluster = refblock_cluster_index + 1;
+>> +            }
+>> -            /* The offset we have for the reftable is now no longer 
+>> valid;
+>> -             * this will leak that range, but we can easily fix that 
+>> by running
+>> -             * a leak-fixing check after this rebuild operation */
+>> -            reftable_offset = -1;
+>> -        } else {
+>> -            assert(on_disk_reftable);
+>> -        }
+>> -        on_disk_reftable[refblock_index] = refblock_offset;
+>> +            if (reftable_size <= refblock_index) {
+>> +                uint32_t old_reftable_size = reftable_size;
+>> +                uint64_t *new_on_disk_reftable;
+>> +
+>> +                reftable_size =
+>> +                    ROUND_UP((refblock_index + 1) * REFTABLE_ENTRY_SIZE,
+>> +                             s->cluster_size) / REFTABLE_ENTRY_SIZE;
+>> +                new_on_disk_reftable =
+>> +                    g_try_realloc(on_disk_reftable,
+>> +                                  reftable_size * REFTABLE_ENTRY_SIZE);
+>> +                if (!new_on_disk_reftable) {
+>> +                    res->check_errors++;
+>> +                    ret = -ENOMEM;
+>> +                    goto fail;
+>> +                }
+>> +                on_disk_reftable = new_on_disk_reftable;
+>> -        /* If this is apparently the last refblock (for now), try to 
+>> squeeze the
+>> -         * reftable in */
+>> -        if (refblock_index == (*nb_clusters - 1) >> 
+>> s->refcount_block_bits &&
+>> -            reftable_offset < 0)
+>> -        {
+>> -            uint64_t reftable_clusters = size_to_clusters(s, 
+>> reftable_size *
+>> -                                                          
+>> REFTABLE_ENTRY_SIZE);
+>> -            reftable_offset = alloc_clusters_imrt(bs, reftable_clusters,
+>> -                                                  refcount_table, 
+>> nb_clusters,
+>> -                                                  &first_free_cluster);
+>> -            if (reftable_offset < 0) {
+>> -                fprintf(stderr, "ERROR allocating reftable: %s\n",
+>> -                        strerror(-reftable_offset));
+>> -                res->check_errors++;
+>> -                ret = reftable_offset;
+>> -                goto fail;
+>> +                memset(on_disk_reftable + old_reftable_size, 0,
+>> +                       (reftable_size - old_reftable_size) *
+>> +                       REFTABLE_ENTRY_SIZE);
+>> +
+>> +                /*
+>> +                 * The offset we have for the reftable is now no 
+>> longer valid;
+>> +                 * this will leak that range, but we can easily fix 
+>> that by
+>> +                 * running a leak-fixing check after this rebuild 
+>> operation
+>> +                 */
+>> +                reftable_offset = -1;
+>> +            } else {
+>> +                assert(on_disk_reftable);
+>>               }
+>> +            on_disk_reftable[refblock_index] = refblock_offset;
+> 
+> only to write back again ?
 
+This assignment is on a deeper level, though, isn it?  I.e. it’s inside 
+the else branch from above.
 
-virtio-pmem device has virtqueue with virtio_pmem_flush() as the handler
+>>           }
+>>           ret = qcow2_pre_write_overlap_check(bs, 0, refblock_offset,
+>> @@ -2459,15 +2466,12 @@ write_refblocks:
+>>       }
+>>       if (reftable_offset < 0) {
+> 
+> at this point reftable_offset is always -1 now..
+> 
+> Ah not. and now I am a bit close to understanding all of this logic. 
+> this thing with "goto write_refblocks" is not obvious
+> 
+>> -        uint64_t post_refblock_start, reftable_clusters;
+>> +        uint64_t reftable_clusters;
+>> -        post_refblock_start = ROUND_UP(*nb_clusters, 
+>> s->refcount_block_size);
+>>           reftable_clusters =
+>>               size_to_clusters(s, reftable_size * REFTABLE_ENTRY_SIZE);
+>> -        /* Not pretty but simple */
+>> -        if (first_free_cluster < post_refblock_start) {
+>> -            first_free_cluster = post_refblock_start;
+>> -        }
+>> +
+>> +        first_free_cluster = 0;
+>>           reftable_offset = alloc_clusters_imrt(bs, reftable_clusters,
+>>                                                 refcount_table, 
+>> nb_clusters,
+>>                                                 &first_free_cluster);
+>> @@ -2479,6 +2483,10 @@ write_refblocks:
+>>               goto fail;
+>>           }
+>> +        assert(offset_into_cluster(s, reftable_offset) == 0);
+>> +        first_cluster = reftable_offset / s->cluster_size;
+>> +        end_cluster = first_cluster + reftable_clusters;
+>> +
+>>           goto write_refblocks;
+> 
+> these three lines now looks like a function call in assembler :)
+> 
+>>       }
+>>
+> 
+> You didn't ping the series (more than two week old) so, I'm not sure 
+> that you are not preparing v2 now.. But I kept it "marked unred" all 
+> this time, and several times tried to look at it, and postponed, because 
+> I don't familiar with this place of qcow2 driver. And the function looks 
+> too difficult. Now finally I think I understand most of the logic that 
+> you change. Honestly, I think a bit of refactoring the 
+> rebuild_refcount_structure() prior to logic change would make it a lot 
+> easier to review..
 
-which gets called for all flush requests from guest. virtio_pmem_flush() is
+Hm, yes, putting the for () loop into its own function would probably be 
+a good starting put.  I’ll look into it.
 
-offloading the flush to thread pool with a worker doing fsync() and the
-
-completion callback notifying the guest with response.
-
-
->> With that I would expect users to use virtio_pmem when using using file
->> backed NVDIMMS
-> So... should we prevent advertising an NVDIMM through ACPI or e820 if
-> it doesn't have sync-dax enabled?
-
-
-Is it possible to have different defaults for sync-dax based on 
-architecture ?
-
-The behaviour on x86 is sync-dax=on for nvdimms. So, it would be correct to
-
-have the default as "on" for x86. For pseries -� "off" for new machines.
-
-Looking at code, I didnt find much ways to achieve this. Can you suggest
-
-what can be done ?
+Max
 
 
