@@ -2,83 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C550334A230
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:53:01 +0100 (CET)
-Received: from localhost ([::1]:39126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3820834A231
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:53:25 +0100 (CET)
+Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPgL5-0003bV-W1
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43748)
+	id 1lPgLU-00043u-8d
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lPgJL-0002dj-CW
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:51:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50836)
+ (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
+ id 1lPgJU-0002py-VC; Fri, 26 Mar 2021 02:51:20 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lPgJH-0000k9-Be
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:51:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616741465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1sc34Rm4OCNbTU2kKx14Xw5gbNJRizIRSn6nEyxwkp4=;
- b=e4yGGQyTkv0ZYi7rPplO2e7luWwCQR/xeFE2RHKDY1P48/QlWFLxKfvPA4qLaXokLrMlax
- focRxN/hmM2KYBbgAdQ1UbzJoPn6NBs8BPJtUUXHsX2I0471xFJtyWjNgcUSRFpUWu2Cr5
- zVBPA/CRl9jl/WgesS1zknHFxJzeyKw=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-7VbCpiyiMsOaEhFxrxeZsA-1; Fri, 26 Mar 2021 02:51:00 -0400
-X-MC-Unique: 7VbCpiyiMsOaEhFxrxeZsA-1
-Received: by mail-pl1-f199.google.com with SMTP id x7so2056231plg.18
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 23:51:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1sc34Rm4OCNbTU2kKx14Xw5gbNJRizIRSn6nEyxwkp4=;
- b=DDzgL4nvu/6DizTqEok5fQPm7AhVjwxStJBrruFdwxsXCD5lnq5fBzUQVAxb6Uqnmb
- 3lO5IOtUPT8pbWSbjjKNvFdbUGIpjRWqyMeqpabVY+P39y3mnqFnhRS2FZmBtwEEkdnZ
- MsoT9RpXIrCSONTa1cL7VgKHXgdekc6qg5s36fgNkEnkx+L1rDLbvwzn7TEDhvdHay3R
- lBJQTFQpCluFkCckXaE513+IDt+SezVqnz/wjrxEU5zHDi/GbbSDRukE4+pS/QX0OANY
- wxatEprx7mpFkFiNxZhrnMk2CVfTvGt7EE3LiJgvaPv/K1RiW1//AU3CEb8KYHMlXTU5
- +Ifg==
-X-Gm-Message-State: AOAM531b2H2uSJmkRngGnEsExYslhhO2uBY3cg6OvO6SHOTHDCUteibY
- RpdPBJEe7jLta25lteF9aZk4Q905au17f+zk5pmNCQQVRZ2RoZ+FExqK+6d0bGZUOzUAMHiSKMY
- Fwh1HF7tvlqzFt1xzmi5ExBXewBfyYv0=
-X-Received: by 2002:a63:3ecb:: with SMTP id
- l194mr10845959pga.146.1616741459585; 
- Thu, 25 Mar 2021 23:50:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRra4Ral/F9ScM2hOETyW7OZXMVhQP9qdfRhlHM5hOK76HcMdTSk4iROIbttWR+YMrQFyKs3lH4ycQZD9HN3A=
-X-Received: by 2002:a63:3ecb:: with SMTP id
- l194mr10845947pga.146.1616741459347; 
- Thu, 25 Mar 2021 23:50:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
+ id 1lPgJS-0000xO-Ts; Fri, 26 Mar 2021 02:51:20 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12Q6a14S064730; Fri, 26 Mar 2021 02:51:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=vcob0JS6D0igLIrMc3xXeLTlnK0WqkqHSlNvW2L17pU=;
+ b=lE/bRFJSRdm1ZNBinIKyCBcTiAzId1B8t4Pe5ZmLb+prLefYmqcFgL7YA+TSPl6JIMPJ
+ +DiVljfPKoTPor2pZItAijuvvqzcjMBBdqZUCso7JGZo0/idy1CshAOw0JrC+ZDO6DOw
+ mGhVnc6mD3PLqQjGGXExWyYMRrGkcrt0huozV3oc3AoL+1SAoIjtDI/2Ofi3sufWywT0
+ MQNyRY9FllQssXgLoiUp/BMxEPLFu8LWSwIb+a6LUU9bknNjdZv8Y4PTXJt4ONUq4A68
+ dfCig04VHxGDilgDH6vWxNYohYtEQ+XV8aDXcsrGz4w4Qdg0rE3AEBWIYoroXfRm68rf lQ== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37h74vcbfc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Mar 2021 02:51:15 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12Q6gFSF024731;
+ Fri, 26 Mar 2021 06:51:13 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma05fra.de.ibm.com with ESMTP id 37h14vg6rh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 Mar 2021 06:51:13 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12Q6pBKn35324222
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 26 Mar 2021 06:51:11 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2BA8DA405C;
+ Fri, 26 Mar 2021 06:51:11 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DD26AA4060;
+ Fri, 26 Mar 2021 06:51:10 +0000 (GMT)
+Received: from li-23497a81-5215-11cb-9bae-a81330ecc14b.ibm.com (unknown
+ [9.171.42.38])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 26 Mar 2021 06:51:10 +0000 (GMT)
+Subject: Re: [PATCH v3] linux-user/s390x: Use the guest pointer for the
+ sigreturn stub
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210324185128.63971-1-krebbel@linux.ibm.com>
+ <2b8d52a8-b72a-c968-f61a-2e6288ace4ad@vivier.eu>
+From: Andreas Krebbel <krebbel@linux.ibm.com>
+Message-ID: <37a8a2e4-17be-5a09-7069-3b7ce7fd1337@linux.ibm.com>
+Date: Fri, 26 Mar 2021 07:51:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210323181928.311862-1-pbonzini@redhat.com>
- <7aeb5c5b-59a5-20b5-4aff-c622e6914d24@redhat.com>
-In-Reply-To: <7aeb5c5b-59a5-20b5-4aff-c622e6914d24@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 26 Mar 2021 07:50:46 +0100
-Message-ID: <CABgObfZdMvySUHZTJqWYx-_vx+F9jtw4z3ueiZ=rrxKzo-dw0w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] qemu-iotests: quality of life improvements
-To: Max Reitz <mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000060ecfd05be6af4ee"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <2b8d52a8-b72a-c968-f61a-2e6288ace4ad@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: jFLqGE3PRGyaI5xN08I2RdDQNDpMLlB3
+X-Proofpoint-ORIG-GUID: jFLqGE3PRGyaI5xN08I2RdDQNDpMLlB3
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-26_01:2021-03-25,
+ 2021-03-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ bulkscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103260046
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=krebbel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,57 +107,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, "Wolf,
- Kevin" <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>
+Cc: qemu-s390x@nongnu.org, richard.henderson@linaro.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000060ecfd05be6af4ee
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/25/21 8:55 PM, Laurent Vivier wrote:
+> Le 24/03/2021 à 19:51, Andreas Krebbel a écrit :
+>> When setting up the pointer for the sigreturn stub in the return
+>> address register (r14) we currently use the host frame address instead
+>> of the guest frame address.
+>>
+>> Note: This only caused problems if Qemu has been built with
+>> --disable-pie (as it is in distros nowadays). Otherwise guest_base
+>> defaults to 0 hiding the actual problem.
+>>
+>> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
+>> ---
+>>  linux-user/s390x/signal.c | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+>> index ecfa2a14a9..7107c5fb53 100644
+>> --- a/linux-user/s390x/signal.c
+>> +++ b/linux-user/s390x/signal.c
+>> @@ -211,9 +211,10 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>>      /* Set up to return from userspace.  If provided, use a stub
+>>         already in userspace.  */
+>>      if (ka->sa_flags & TARGET_SA_RESTORER) {
+>> -        env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
+>> +        env->regs[14] = ka->sa_restorer | PSW_ADDR_AMODE;
+>>      } else {
+>> -        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
+>> +        env->regs[14] = (frame_addr + offsetof(typeof(*frame), retcode))
+>> +                        | PSW_ADDR_AMODE;
+>>          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+>>                     (uint16_t *)(frame->retcode));
+>>      }
+>>
+> 
+> Applied to my linux-user-for-6.0 branch
 
-Il gio 25 mar 2021, 19:15 Max Reitz <mreitz@redhat.com> ha scritto:
+Thanks! Since this fixes a problem which prevents important applications (e.g. golang) to run
+properly under Qemu for IBM Z right now I think it qualifies for stable branch.
 
-> I=E2=80=99ve applied an s/,attr/, attr/ to patch 1 (as suggested by Vladi=
-mir)
-> and an s/debug: bool=3D False/debug: bool =3D False/ to patch 2.  I hope
-> that=E2=80=99s OK for you.
->
-> With that I=E2=80=99ve applied the series to my block branch:
->
-> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+The patch applies cleanly on 5.0 branch. Testsuite is clean and I've verfified that it fixes the
+actual problem there as well.
 
+Please consider inclusion into stable branch.
 
-Of course, thanks Max!
+Andreas
 
-Paolo
-
---00000000000060ecfd05be6af4ee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Il gio 25 mar 2021, 19:15 Max Reitz &lt;<a href=3D"mailto:mrei=
-tz@redhat.com">mreitz@redhat.com</a>&gt; ha scritto:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">I=E2=80=99ve applied an s/,attr/, attr/ to patch 1 (as su=
-ggested by Vladimir) <br>
-and an s/debug: bool=3D False/debug: bool =3D False/ to patch 2.=C2=A0 I ho=
-pe <br>
-that=E2=80=99s OK for you.<br>
-<br>
-With that I=E2=80=99ve applied the series to my block branch:<br>
-<br>
-<a href=3D"https://git.xanclic.moe/XanClic/qemu/commits/branch/block" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://git.xanclic.moe/XanCli=
-c/qemu/commits/branch/block</a></blockquote></div></div><div dir=3D"auto"><=
-br></div><div dir=3D"auto"><span style=3D"font-family:sans-serif">Of course=
-, thanks Max!</span><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"=
->Paolo</div><div dir=3D"auto"></div></div>
-
---00000000000060ecfd05be6af4ee--
+> 
+> Thanks,
+> Laurent
+> 
 
 
