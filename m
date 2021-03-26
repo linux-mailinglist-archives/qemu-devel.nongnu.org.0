@@ -2,52 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C158434A835
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:37:19 +0100 (CET)
-Received: from localhost ([::1]:40352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C18B34A842
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:40:10 +0100 (CET)
+Received: from localhost ([::1]:45642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPmeM-0006QI-TF
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
+	id 1lPmh7-0000G7-AX
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:40:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPmcl-0005Mu-5h
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:35:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52226)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lPmdX-0006RR-JN
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:36:30 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:40363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPmci-0005Oo-WD
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:35:38 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5434FAB8A;
- Fri, 26 Mar 2021 13:35:35 +0000 (UTC)
-Subject: Re: [RFC v11 45/55] target/arm: cpu-sve: new module
-From: Claudio Fontana <cfontana@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210323151749.21299-1-cfontana@suse.de>
- <20210323154639.23477-38-cfontana@suse.de>
- <724c86f8-2275-833b-d4e1-4729c0ca2e80@linaro.org>
- <143fde2e-6c88-8fef-10ff-523c574e0db4@suse.de>
-Message-ID: <8378d23f-a838-4d1c-ac59-9101e0dfbbd3@suse.de>
-Date: Fri, 26 Mar 2021 14:35:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lPmdV-00063v-2a
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:36:27 -0400
+Received: from [192.168.100.1] ([82.142.25.162]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M4b5s-1lPEfb1TRG-001fKS; Fri, 26 Mar 2021 14:36:21 +0100
+Subject: Re: [PATCH] linux-user: allow NULL msg in recvfrom
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <CAFNex=Ddc_9Sta2W+_a90Qg7hCidMhxuqmGuggygfWWCzZdBhQ@mail.gmail.com>
+ <74ee406f-f503-a66e-80d6-989b2c8ed4aa@vivier.eu>
+ <CAFEAcA8Buc1PnX0CcCYr2w6p0PTJxOtNT1nJWZDitOA6jdQp9w@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <0e658b47-d12c-398d-5caa-78723d8f1422@vivier.eu>
+Date: Fri, 26 Mar 2021 14:36:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <143fde2e-6c88-8fef-10ff-523c574e0db4@suse.de>
+In-Reply-To: <CAFEAcA8Buc1PnX0CcCYr2w6p0PTJxOtNT1nJWZDitOA6jdQp9w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:fi6VHPltlBGhv0MZzdo62UOEULawg0d71UMetW423IE8dVp/LUj
+ enmVAJenml9Qrl8rljVfcEnRP4dDFpHcIRBONqmjT2ZRv55Pg412lhiMprlOFkhDAgx3ymb
+ lHOkp7NWZWZgWBXKdvn8qw8vaBzSB6/s7Gnutb0h+tEMH+eUWnq4UyEyGawO6XcapjJCogg
+ zyiuod1cVt9haMM9EQz7A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wm6QqqF6BQ8=:EtkKtSRX7UDDnEQtHy4Qo4
+ 3ympsyit5UaND9aoX+93onhfO2I5RfmlFhc+0daN23dOuZFJj9BIC63UNTghWiKcLF1/ImMmt
+ y3DhT28MqazOt5x5h2yXhL9qqFLnriBVWuiFMBcTFm70/0Y8Emy8EWBGa5skIbW2qJ41DrySg
+ rUnUWgp71vHnVVjdjxRdeFfjLxJG+OHNSFlpC8keZwgRoiKRDvCcnpCVKeLxbcTV/zu/qNnmF
+ qijz0w+3E5aOPdQkXqdeDuLX5qtqev5I0ZVs7R66mWWg+VgVJ16eoh/DJSBTGeLzYg5tltTLt
+ NlsG/YOo1ERpCdnn27TkNMMp29+vuxoX8zix4dEcBrSunWQ4lWCCR9D+VUmaQEmDWB+QTqcJH
+ zCTKYcG8M+Iy0BTs/QxBjJXAN6RGXw9Qa6SMqwIXmCXjI+SmRSs6yBkuryOukQ55OeFRr4k+2
+ KEjsfJr8avDoHXUSuXHIXCfrMTdPTrFhia6dnKLKEGt68vxp+f4T
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,117 +67,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Zach Reizner <zachr@google.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 7:48 PM, Claudio Fontana wrote:
-> On 3/25/21 7:40 PM, Richard Henderson wrote:
->> On 3/23/21 9:46 AM, Claudio Fontana wrote:
->>> extract the SVE-related cpu object properties and functions,
->>> and move them to a separate module.
+Le 26/03/2021 à 14:28, Peter Maydell a écrit :
+> On Fri, 26 Mar 2021 at 13:24, Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> Le 26/03/2021 à 05:05, Zach Reizner a écrit :
+>>> The kernel allows a NULL msg in recvfrom so that he size of the next
+>>> message may be queried before allocating a correctly sized buffer. This
+>>> change allows the syscall translator to pass along the NULL msg pointer
+>>> instead of returning early with EFAULT.
 >>>
->>> Disentangle SVE from pauth that is a separate, TCG-only feature.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> Signed-off-by: Zach Reizner <zachr@google.com>
 >>> ---
->>>   target/arm/cpu-sve.h     |  40 +++++
->>>   target/arm/cpu.h         |  22 +--
->>>   target/arm/cpu-sve.c     | 360 +++++++++++++++++++++++++++++++++++++++
->>>   target/arm/cpu.c         |   5 +-
->>>   target/arm/cpu64.c       | 333 +-----------------------------------
->>>   target/arm/kvm/kvm-cpu.c |   2 +-
->>>   target/arm/meson.build   |   1 +
->>>   7 files changed, 417 insertions(+), 346 deletions(-)
->>>   create mode 100644 target/arm/cpu-sve.h
->>>   create mode 100644 target/arm/cpu-sve.c
+>>>  linux-user/syscall.c | 2 --
+>>>  1 file changed, 2 deletions(-)
 >>>
->>> diff --git a/target/arm/cpu-sve.h b/target/arm/cpu-sve.h
->>> new file mode 100644
->>> index 0000000000..b1be575265
->>> --- /dev/null
->>> +++ b/target/arm/cpu-sve.h
->>> @@ -0,0 +1,40 @@
->>> +/*
->>> + * QEMU AArch64 CPU SVE Extensions for TARGET_AARCH64
->>> + *
->>> + * Copyright (c) 2013 Linaro Ltd
->>> + *
->>> + * This program is free software; you can redistribute it and/or
->>> + * modify it under the terms of the GNU General Public License
->>> + * as published by the Free Software Foundation; either version 2
->>> + * of the License, or (at your option) any later version.
->>> + *
->>> + * This program is distributed in the hope that it will be useful,
->>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->>> + * GNU General Public License for more details.
->>> + *
->>> + * You should have received a copy of the GNU General Public License
->>> + * along with this program; if not, see
->>> + * <http://www.gnu.org/licenses/gpl-2.0.html>
->>> + */
->>> +
->>> +#ifndef CPU_SVE_H
->>> +#define CPU_SVE_H
->>> +
->>> +/* note: SVE is an AARCH64-only option, only include this for TARGET_AARCH64 */
->>> +
->>> +/* called by arm_cpu_finalize_features in realizefn */
->>> +void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
->>> +
->>> +/* add the CPU SVE properties */
->>> +void cpu_sve_add_props(Object *obj);
->>> +
->>> +/* add the CPU SVE properties specific to the "MAX" CPU */
->>> +void cpu_sve_add_props_max(Object *obj);
->>> +
->>> +/* In AArch32 mode, predicate registers do not exist at all.  */
->>> +typedef struct ARMPredicateReg {
->>> +    uint64_t p[DIV_ROUND_UP(2 * ARM_MAX_VQ, 8)] QEMU_ALIGNED(16);
->>> +} ARMPredicateReg;
+>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>> index 1e508576c7..332544b43c 100644
+>>> --- a/linux-user/syscall.c
+>>> +++ b/linux-user/syscall.c
+>>> @@ -3680,8 +3680,6 @@ static abi_long do_recvfrom(int fd, abi_ulong
+>>> msg, size_t len, int flags,
+>>>      abi_long ret;
+>>>
+>>>      host_msg = lock_user(VERIFY_WRITE, msg, len, 0);
+>>> -    if (!host_msg)
+>>> -        return -TARGET_EFAULT;
+>>>      if (target_addr) {
+>>>          if (get_user_u32(addrlen, target_addrlen)) {
+>>>              ret = -TARGET_EFAULT;
+>>>
 >>
->> I don't agree with moving this out of cpu.h, next to the rest of the vector 
->> definitions.
->>
->> I agree that we should be using more files, but if we're going to have an 
->> cpu-sve.c, why did some of the sve functions go into cpu-common.c?
+>> Applied to my linux-user-for-6.0 branch
+> 
+> Doesn't this mean we'll now incorrectly treat "guest passed
+> a bad address" the same as "guest passed NULL" ? lock_user()
+> returns NULL for errors, so if you need to handle NULL input
+> specially you want something like
+> 
+>    if (!msg) {
+>        host_msg = NULL;
+>    } else {
+>        host_msg = lock_user(VERIFY_WRITE, msg, len, 0);
+>        if (!host_msg) {
+>            return -TARGET_EFAULT;
+>        }
+>    }
+> 
+> I think ?
 
+Yes, you're right.
 
-actually, now that the option of making those SVE functions in cpu-common.c TARGET_AARCH64-specific is open,
-we could attempt to import them in cpu-sve.
+Zach, could you update your patch?
 
-I'll give it a try, lets see the result.
-
-
-> 
-> maybe cpu-sve-props.c would be a better name, it really contains only cpu sve properties code.
-> 
->>
->> I don't agree with moving functions and renaming them simultaneously.  I'm not 
->> even sure why you're renaming them, or why you've suddenly chosen "cpu_sve_*" 
->> as the prefix to use.
->>
->>
->> r~
->>
-> 
-> I think the idea was trying to create a cpu_sve module handling everything related to sve,
-> and consistently using the name of the module as the prefix.
-> 
-> It might be too early to attempt that anyway; as you noted, there is other SVE-related functionality all over the place,
-> so better to revisit this.
-> 
-> I'd suggest renaming this to cpu_sve_props, and moving everything not props related out of it.
-> 
-> Thanks,
-> 
-> Claudio
-> 
-> 
-> 
-> 
+Thanks,
+Laurent
 
 
