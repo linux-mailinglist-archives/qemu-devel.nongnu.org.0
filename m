@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 812EB34AFBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:02:39 +0100 (CET)
-Received: from localhost ([::1]:55210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F123034AFCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:07:11 +0100 (CET)
+Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPsfG-0000K6-Fq
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:02:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52586)
+	id 1lPsje-0004oN-VU
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHB-0006VF-5f
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:45 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45542)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHG-0006fC-DE
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:50 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH9-0000z9-6R
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:44 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHD-00011V-6J
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:50 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4D932AF45;
- Fri, 26 Mar 2021 19:37:30 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 669AFAF48;
+ Fri, 26 Mar 2021 19:37:31 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 22/65] target/arm: move arm_mmu_idx* to cpu-mmu
-Date: Fri, 26 Mar 2021 20:36:18 +0100
-Message-Id: <20210326193701.5981-23-cfontana@suse.de>
+Subject: [RFC v12 23/65] target/arm: move sve_zcr_len_for_el to common_cpu
+Date: Fri, 26 Mar 2021 20:36:19 +0100
+Message-Id: <20210326193701.5981-24-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -60,222 +60,110 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu-mmu.c    | 95 +++++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/helper.c | 95 -----------------------------------------
- 2 files changed, 95 insertions(+), 95 deletions(-)
+it is required by arch-dump.c and cpu.c, so apparently
+we need this for KVM too
 
-diff --git a/target/arm/cpu-mmu.c b/target/arm/cpu-mmu.c
-index f463f8458e..c6ac90a61e 100644
---- a/target/arm/cpu-mmu.c
-+++ b/target/arm/cpu-mmu.c
-@@ -122,3 +122,98 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         .using64k = using64k,
-     };
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ target/arm/cpu-common.c | 43 +++++++++++++++++++++++++++++++++++++++++
+ target/arm/tcg/helper.c | 33 -------------------------------
+ 2 files changed, 43 insertions(+), 33 deletions(-)
+
+diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
+index 040e06392a..a34f7f19d8 100644
+--- a/target/arm/cpu-common.c
++++ b/target/arm/cpu-common.c
+@@ -299,3 +299,46 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
+ 
+     return ret;
  }
 +
-+/* Return the exception level we're running at if this is our mmu_idx */
-+int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
-+{
-+    if (mmu_idx & ARM_MMU_IDX_M) {
-+        return mmu_idx & ARM_MMU_IDX_M_PRIV;
-+    }
++/*
++ * these are AARCH64-only, but due to the chain of dependencies,
++ * between HELPER prototypes, hflags, cpreg definitions and functions in
++ * tcg/ etc, it becomes incredibly messy to add what should be here:
++ *
++ * #ifdef TARGET_AARCH64
++ */
 +
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_SE10_0:
-+    case ARMMMUIdx_SE20_0:
-+        return 0;
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_E10_1_PAN:
-+    case ARMMMUIdx_SE10_1:
-+    case ARMMMUIdx_SE10_1_PAN:
-+        return 1;
-+    case ARMMMUIdx_E2:
-+    case ARMMMUIdx_E20_2:
-+    case ARMMMUIdx_E20_2_PAN:
-+    case ARMMMUIdx_SE2:
-+    case ARMMMUIdx_SE20_2:
-+    case ARMMMUIdx_SE20_2_PAN:
-+        return 2;
-+    case ARMMMUIdx_SE3:
-+        return 3;
-+    default:
-+        g_assert_not_reached();
++static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
++{
++    uint32_t end_len;
++
++    end_len = start_len &= 0xf;
++    if (!test_bit(start_len, cpu->sve_vq_map)) {
++        end_len = find_last_bit(cpu->sve_vq_map, start_len);
++        assert(end_len < start_len);
 +    }
++    return end_len;
 +}
 +
-+#ifndef CONFIG_TCG
-+ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
++/*
++ * Given that SVE is enabled, return the vector length for EL.
++ */
++uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
 +{
-+    g_assert_not_reached();
-+}
-+#endif
++    ARMCPU *cpu = env_archcpu(env);
++    uint32_t zcr_len = cpu->sve_max_vq - 1;
 +
-+ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
-+{
-+    ARMMMUIdx idx;
-+    uint64_t hcr;
-+
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
++    if (el <= 1) {
++        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
++    }
++    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
++        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
++    }
++    if (arm_feature(env, ARM_FEATURE_EL3)) {
++        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
 +    }
 +
-+    /* See ARM pseudo-function ELIsInHost.  */
-+    switch (el) {
-+    case 0:
-+        hcr = arm_hcr_el2_eff(env);
-+        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+            idx = ARMMMUIdx_E20_0;
-+        } else {
-+            idx = ARMMMUIdx_E10_0;
-+        }
-+        break;
-+    case 1:
-+        if (env->pstate & PSTATE_PAN) {
-+            idx = ARMMMUIdx_E10_1_PAN;
-+        } else {
-+            idx = ARMMMUIdx_E10_1;
-+        }
-+        break;
-+    case 2:
-+        /* Note that TGE does not apply at EL2.  */
-+        if (arm_hcr_el2_eff(env) & HCR_E2H) {
-+            if (env->pstate & PSTATE_PAN) {
-+                idx = ARMMMUIdx_E20_2_PAN;
-+            } else {
-+                idx = ARMMMUIdx_E20_2;
-+            }
-+        } else {
-+            idx = ARMMMUIdx_E2;
-+        }
-+        break;
-+    case 3:
-+        return ARMMMUIdx_SE3;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (arm_is_secure_below_el3(env)) {
-+        idx &= ~ARM_MMU_IDX_A_NS;
-+    }
-+
-+    return idx;
++    return sve_zcr_get_valid_len(cpu, zcr_len);
 +}
 +
-+ARMMMUIdx arm_mmu_idx(CPUARMState *env)
-+{
-+    return arm_mmu_idx_el(env, arm_current_el(env));
-+}
++/* #endif TARGET_AARCH64 , see matching comment above */
 diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index 15f53d57b0..4b8a0d436c 100644
+index 4b8a0d436c..5bc0055c87 100644
 --- a/target/arm/tcg/helper.c
 +++ b/target/arm/tcg/helper.c
-@@ -2093,101 +2093,6 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+@@ -322,39 +322,6 @@ int sve_exception_el(CPUARMState *env, int el)
      return 0;
  }
  
--/* Return the exception level we're running at if this is our mmu_idx */
--int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
+-static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
 -{
--    if (mmu_idx & ARM_MMU_IDX_M) {
--        return mmu_idx & ARM_MMU_IDX_M_PRIV;
--    }
+-    uint32_t end_len;
 -
--    switch (mmu_idx) {
--    case ARMMMUIdx_E10_0:
--    case ARMMMUIdx_E20_0:
--    case ARMMMUIdx_SE10_0:
--    case ARMMMUIdx_SE20_0:
--        return 0;
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--    case ARMMMUIdx_SE10_1:
--    case ARMMMUIdx_SE10_1_PAN:
--        return 1;
--    case ARMMMUIdx_E2:
--    case ARMMMUIdx_E20_2:
--    case ARMMMUIdx_E20_2_PAN:
--    case ARMMMUIdx_SE2:
--    case ARMMMUIdx_SE20_2:
--    case ARMMMUIdx_SE20_2_PAN:
--        return 2;
--    case ARMMMUIdx_SE3:
--        return 3;
--    default:
--        g_assert_not_reached();
+-    end_len = start_len &= 0xf;
+-    if (!test_bit(start_len, cpu->sve_vq_map)) {
+-        end_len = find_last_bit(cpu->sve_vq_map, start_len);
+-        assert(end_len < start_len);
 -    }
+-    return end_len;
 -}
 -
--#ifndef CONFIG_TCG
--ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+-/*
+- * Given that SVE is enabled, return the vector length for EL.
+- */
+-uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
 -{
--    g_assert_not_reached();
--}
--#endif
+-    ARMCPU *cpu = env_archcpu(env);
+-    uint32_t zcr_len = cpu->sve_max_vq - 1;
 -
--ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
--{
--    ARMMMUIdx idx;
--    uint64_t hcr;
--
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
+-    if (el <= 1) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+-    }
+-    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
+-    }
+-    if (arm_feature(env, ARM_FEATURE_EL3)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
 -    }
 -
--    /* See ARM pseudo-function ELIsInHost.  */
--    switch (el) {
--    case 0:
--        hcr = arm_hcr_el2_eff(env);
--        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
--            idx = ARMMMUIdx_E20_0;
--        } else {
--            idx = ARMMMUIdx_E10_0;
--        }
--        break;
--    case 1:
--        if (env->pstate & PSTATE_PAN) {
--            idx = ARMMMUIdx_E10_1_PAN;
--        } else {
--            idx = ARMMMUIdx_E10_1;
--        }
--        break;
--    case 2:
--        /* Note that TGE does not apply at EL2.  */
--        if (arm_hcr_el2_eff(env) & HCR_E2H) {
--            if (env->pstate & PSTATE_PAN) {
--                idx = ARMMMUIdx_E20_2_PAN;
--            } else {
--                idx = ARMMMUIdx_E20_2;
--            }
--        } else {
--            idx = ARMMMUIdx_E2;
--        }
--        break;
--    case 3:
--        return ARMMMUIdx_SE3;
--    default:
--        g_assert_not_reached();
--    }
--
--    if (arm_is_secure_below_el3(env)) {
--        idx &= ~ARM_MMU_IDX_A_NS;
--    }
--
--    return idx;
+-    return sve_zcr_get_valid_len(cpu, zcr_len);
 -}
 -
--ARMMMUIdx arm_mmu_idx(CPUARMState *env)
--{
--    return arm_mmu_idx_el(env, arm_current_el(env));
--}
--
- #ifndef CONFIG_USER_ONLY
- ARMMMUIdx arm_stage1_mmu_idx(CPUARMState *env)
+ void hw_watchpoint_update(ARMCPU *cpu, int n)
  {
+     CPUARMState *env = &cpu->env;
 -- 
 2.26.2
 
