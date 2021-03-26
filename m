@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3536D34A497
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:37:08 +0100 (CET)
-Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B9C34A4AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:41:17 +0100 (CET)
+Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPitv-0000Jz-9d
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
+	id 1lPixw-0001wJ-1m
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lPisc-0007x4-CV
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:35:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28829)
+ id 1lPivS-0000tj-7v
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:38:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lPisX-0007nP-2P
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:35:46 -0400
+ id 1lPivP-0001A6-Vp
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:38:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616751338;
+ s=mimecast20190719; t=1616751519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TpHw/ZRZvklF4zEweFSNZmDPsX+do4tXURjjd3R5O/g=;
- b=INPoUC8OrKXMXzXtGKHuXN7qiag7RV2BQN1avLnYJh2XZzuUe7F34Zo4oK/+GLCBNzeNj9
- jFP3PJa3/YmjlPugEvUof8qamZk75VZ4fuGt5pfpFMlgAzpnmj+BQkwmwdbbCUzmsua8o3
- PiAmUrixurSPY5geZSAWES/GmWw/vWc=
+ bh=XEQdQhHtJDXgmL1LMNnMyOfZG6qH4PpaUSZ1Ffu6I9Y=;
+ b=KiyiYlY9cFToZD4C7j4X+/YwrBeZH5BDOQOH556vGjZjCCY7nvlXYof9q+4Lj8VjZTLBcP
+ iis0gjA1zV86/C85JTfO2GkBgCNocb/aD6Y6uBlMhNWK4GSTT3H+6B9nmKDJJIbc5Fi2/o
+ ofdA2+AwuhbGam5qqGEnZ0u5tbZu8YY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-cZ9g888HNtOM1guDtzO0Iw-1; Fri, 26 Mar 2021 05:35:34 -0400
-X-MC-Unique: cZ9g888HNtOM1guDtzO0Iw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-456-OdUX27SoNZiGfl4fAjFgdg-1; Fri, 26 Mar 2021 05:38:37 -0400
+X-MC-Unique: OdUX27SoNZiGfl4fAjFgdg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD99E6B9C0;
- Fri, 26 Mar 2021 09:35:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B97176B9C2;
+ Fri, 26 Mar 2021 09:38:35 +0000 (UTC)
 Received: from [10.36.112.13] (ovpn-112-13.ams2.redhat.com [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E1DD63632;
- Fri, 26 Mar 2021 09:35:30 +0000 (UTC)
-Subject: Re: [PATCH for-6.0 2/4] machine: Provide a function to check the
- dynamic sysbus whitelist
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60E265D9E3;
+ Fri, 26 Mar 2021 09:38:33 +0000 (UTC)
+Subject: Re: [PATCH for-6.0 3/4] hw/arm/virt: Only try to add valid dynamic
+ sysbus devices to platform bus
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210325153310.9131-1-peter.maydell@linaro.org>
- <20210325153310.9131-3-peter.maydell@linaro.org>
+ <20210325153310.9131-4-peter.maydell@linaro.org>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c841a6e8-2f98-21ff-dfc7-9e0718dcc780@redhat.com>
-Date: Fri, 26 Mar 2021 10:35:28 +0100
+Message-ID: <05ec1c52-b43b-f989-a0f4-c50030ccdb7a@redhat.com>
+Date: Fri, 26 Mar 2021 10:38:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210325153310.9131-3-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210325153310.9131-4-peter.maydell@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,13 +95,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi Peter,
 
 On 3/25/21 4:33 PM, Peter Maydell wrote:
-> Provide a new function dynamic_sysbus_dev_allowed() which checks
-> the per-machine whitelist of dynamic sysbus devices and returns
-> a boolean result indicating whether the device is whitelisted.
-> We can use this in the implementation of validate_sysbus_device(),
-> but we will also need it so that machine hotplug callbacks can
-> validate devices rather than assuming that any sysbus device
-> might be hotpluggable into the platform bus.
+> The virt machine device plug callback currently calls
+> platform_bus_link_device() for any sysbus device.  This is overly
+> broad, because platform_bus_link_device() will unconditionally grab
+> the IRQs and MMIOs of the device it is passed, whether it was
+> intended for the platform bus or not.  Restrict hotpluggability of
+> sysbus devices to only those devices on the dynamic sysbus whitelist.
+> 
+> We were mostly getting away with this because the board creates the
+> platform bus as the last device it creates, and so the hotplug
+> callback did not do anything for all the sysbus devices created by
+> the board itself.  However if the user plugged in a device which
+> itself uses a sysbus device internally we would have mishandled this
+> and probably asserted.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
@@ -109,88 +115,36 @@ Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Thanks
 
 Eric
-
 > ---
->  include/hw/boards.h | 24 ++++++++++++++++++++++++
->  hw/core/machine.c   | 21 ++++++++++++++++-----
->  2 files changed, 40 insertions(+), 5 deletions(-)
+>  hw/arm/virt.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 27106abc11d..609112a4e1a 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -51,6 +51,30 @@ void machine_set_cpu_numa_node(MachineState *machine,
->   */
->  void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index aa2bbd14e09..8625152a735 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2443,7 +2443,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+>      VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
 >  
-> +/**
-> + * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
-> + * @mc: Machine class
-> + * @dev: device to check
-> + *
-> + * Returns: true if @dev is a sysbus device on the machine's whitelist
-> + * of dynamically pluggable sysbus devices; otherwise false.
-> + *
-> + * This function checks whether @dev is a valid dynamic sysbus device,
-> + * by first confirming that it is a sysbus device and then checking it
-> + * against the whitelist of permitted dynamic sysbus devices which has
-> + * been set up by the machine using machine_class_allow_dynamic_sysbus_dev().
-> + *
-> + * It is valid to call this with something that is not a subclass of
-> + * TYPE_SYS_BUS_DEVICE; the function will return false in this case.
-> + * This allows hotplug callback functions to be written as:
-> + *     if (device_is_dynamic_sysbus(mc, dev)) {
-> + *         handle dynamic sysbus case;
-> + *     } else if (some other kind of hotplug) {
-> + *         handle that;
-> + *     }
-> + */
-> +bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev);
+>      if (vms->platform_bus_dev) {
+> -        if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE)) {
+> +        MachineClass *mc = MACHINE_GET_CLASS(vms);
 > +
->  /*
->   * Checks that backend isn't used, preps it for exclusive usage and
->   * returns migratable MemoryRegion provided by backend.
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 9935c6ddd56..8d97094736a 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -529,20 +529,31 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
->      QAPI_LIST_PREPEND(mc->allowed_dynamic_sysbus_devices, g_strdup(type));
->  }
->  
-> -static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
-> +bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
+> +        if (device_is_dynamic_sysbus(mc, dev)) {
+>              platform_bus_link_device(PLATFORM_BUS_DEVICE(vms->platform_bus_dev),
+>                                       SYS_BUS_DEVICE(dev));
+>          }
+> @@ -2527,7 +2529,9 @@ static void virt_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
+>  static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+>                                                          DeviceState *dev)
 >  {
-> -    MachineState *machine = opaque;
-> -    MachineClass *mc = MACHINE_GET_CLASS(machine);
->      bool allowed = false;
->      strList *wl;
-> +    Object *obj = OBJECT(dev);
-> +
-> +    if (!object_dynamic_cast(obj, TYPE_SYS_BUS_DEVICE)) {
-> +        return false;
-> +    }
->  
->      for (wl = mc->allowed_dynamic_sysbus_devices;
->           !allowed && wl;
->           wl = wl->next) {
-> -        allowed |= !!object_dynamic_cast(OBJECT(sbdev), wl->value);
-> +        allowed |= !!object_dynamic_cast(obj, wl->value);
->      }
->  
-> -    if (!allowed) {
-> +    return allowed;
-> +}
-> +
-> +static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
-> +{
-> +    MachineState *machine = opaque;
+> -    if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE) ||
 > +    MachineClass *mc = MACHINE_GET_CLASS(machine);
 > +
-> +    if (!device_is_dynamic_sysbus(mc, DEVICE(sbdev))) {
->          error_report("Option '-device %s' cannot be handled by this machine",
->                       object_class_get_name(object_get_class(OBJECT(sbdev))));
->          exit(1);
+> +    if (device_is_dynamic_sysbus(mc, dev) ||
+>         (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
+>          return HOTPLUG_HANDLER(machine);
+>      }
 > 
 
 
