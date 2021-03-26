@@ -2,46 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052A034AEDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:58:44 +0100 (CET)
-Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1C034AEED
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 20:07:42 +0100 (CET)
+Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPrfO-0002JQ-PM
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
+	id 1lPro4-0005rY-MW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 15:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lPrdt-0001pw-16
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:57:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54726)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPrmO-0005EA-QE
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:05:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lPrdo-0002Bp-9R
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:57:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F6AA619F7;
- Fri, 26 Mar 2021 18:56:56 +0000 (UTC)
-Date: Fri, 26 Mar 2021 18:56:54 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v10 1/6] arm64: mte: Sync tags for pages where PTE is
- untagged
-Message-ID: <20210326185653.GG5126@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
- <20210312151902.17853-2-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPrmM-0007WD-VL
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:05:56 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 466A4AC3C;
+ Fri, 26 Mar 2021 19:05:52 +0000 (UTC)
+Subject: Re: [RFC v11 47/55] target/arm: make is_aa64 and arm_el_is_aa64 a
+ macro for !TARGET_AARCH64
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210323151749.21299-1-cfontana@suse.de>
+ <20210323154639.23477-40-cfontana@suse.de>
+ <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <e17f3c0d-7231-f6b4-4e07-b90fa115bb62@suse.de>
+Date: Fri, 26 Mar 2021 20:05:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210312151902.17853-2-steven.price@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f8b0629b-a0da-e85e-5729-3f29eeb247ef@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,61 +60,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Steven,
-
-On Fri, Mar 12, 2021 at 03:18:57PM +0000, Steven Price wrote:
-> A KVM guest could store tags in a page even if the VMM hasn't mapped
-> the page with PROT_MTE. So when restoring pages from swap we will
-> need to check to see if there are any saved tags even if !pte_tagged().
+On 3/25/21 8:03 PM, Richard Henderson wrote:
+> On 3/23/21 9:46 AM, Claudio Fontana wrote:
+>> +#define is_a64(env) (false)
+> ...
+>> +#define arm_el_is_aa64(env, el) (false)
 > 
-> However don't check pages which are !pte_valid_user() as these will
-> not have been swapped out.
+> Why a define and not have the ifdef inside the static inline?
 > 
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  arch/arm64/include/asm/pgtable.h |  2 +-
->  arch/arm64/kernel/mte.c          | 16 ++++++++++++----
->  2 files changed, 13 insertions(+), 5 deletions(-)
+> This define is causing you to make other random changes to avoid unused 
+> variables, and I'm not keen.
 > 
-> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-> index e17b96d0e4b5..84166625c989 100644
-> --- a/arch/arm64/include/asm/pgtable.h
-> +++ b/arch/arm64/include/asm/pgtable.h
-> @@ -312,7 +312,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
->  		__sync_icache_dcache(pte);
->  
->  	if (system_supports_mte() &&
-> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
-> +	    pte_present(pte) && pte_valid_user(pte) && !pte_special(pte))
->  		mte_sync_tags(ptep, pte);
+> If you're running into problems with --enable-debug not eliminating code 
+> blocks, leading to link errors, then I think that 
+> __attribute__((always_inline)) and a comment will be the best option.
 
-With the EPAN patches queued in for-next/epan, pte_valid_user()
-disappeared as its semantics weren't very clear.
+I am not getting linking troubles even with --enable-debug atm,
+so I'd avoid the attribute for now?
 
-So this relies on the set_pte_at() being done on the VMM address space.
-I wonder, if the VMM did an mprotect(PROT_NONE), can the VM still access
-it via stage 2? If yes, the pte_valid_user() test wouldn't work. We need
-something like pte_present() && addr <= user_addr_max().
+> 
+> 
+>> +
+>> +#endif /* TARGET_AARCH64 */
+>> +
+>> +/**
+>> + * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
+>> + * E.g. when in secure state, fields in HCR_EL2 are suppressed,
+>> + * "for all purposes other than a direct read or write access of HCR_EL2."
+>> + * Not included here is HCR_RW.
+>> + */
+>> +uint64_t arm_hcr_el2_eff(CPUARMState *env);
+> 
+> Is this diff being weird or did you really move this declaration, and if so, why?
 
-BTW, ignoring virtualisation, can we ever bring a page in from swap on a
-PROT_NONE mapping (say fault-around)? It's not too bad if we keep the
-metadata around for when the pte becomes accessible but I suspect we
-remove it if the page is removed from swap.
+Yes, weird diff.
 
--- 
-Catalin
+> 
+> 
+> r~
+> 
+
+Tx
 
