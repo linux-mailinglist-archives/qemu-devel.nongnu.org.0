@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AEE34AF9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 20:52:49 +0100 (CET)
-Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EBC34AFAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 20:58:34 +0100 (CET)
+Received: from localhost ([::1]:45760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPsVk-0007nJ-0r
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 15:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
+	id 1lPsbJ-0004lX-5j
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 15:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH9-0006SN-1y
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:43 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45470)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHC-0006WQ-3o
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH5-0000y5-6z
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:42 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsH9-0000z7-7Q
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:45 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0A979AF3E;
- Fri, 26 Mar 2021 19:37:28 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 1DBF4AF3F;
+ Fri, 26 Mar 2021 19:37:29 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 20/65] target/arm: move arm_hcr_el2_eff from tcg/ to
- common_cpu
-Date: Fri, 26 Mar 2021 20:36:16 +0100
-Message-Id: <20210326193701.5981-21-cfontana@suse.de>
+Subject: [RFC v12 21/65] target/arm: split vfp state setting from tcg helpers
+Date: Fri, 26 Mar 2021 20:36:17 +0100
+Message-Id: <20210326193701.5981-22-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -61,169 +60,566 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-we will need this for KVM too, especially for Nested support.
+cpu-vfp.c: vfp_get_fpsr and vfp_set_fpsr are needed also for KVM,
+           so create a new cpu-vfp.c
+
+tcg/cpu-vfp.c: vfp_get_fpscr_from_host and vv are TCG-only, so we
+               move the implementation to tcg/cpu-vfp.c
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu-common.c | 68 +++++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/helper.c | 68 -----------------------------------------
- 2 files changed, 68 insertions(+), 68 deletions(-)
+ target/arm/cpu-vfp.h        |  29 +++++
+ target/arm/cpu-vfp.c        |  97 +++++++++++++++++
+ target/arm/tcg/cpu-vfp.c    | 146 +++++++++++++++++++++++++
+ target/arm/tcg/vfp_helper.c | 210 +-----------------------------------
+ target/arm/meson.build      |   1 +
+ target/arm/tcg/meson.build  |   1 +
+ 6 files changed, 276 insertions(+), 208 deletions(-)
+ create mode 100644 target/arm/cpu-vfp.h
+ create mode 100644 target/arm/cpu-vfp.c
+ create mode 100644 target/arm/tcg/cpu-vfp.c
 
-diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
-index 694e5d73f3..040e06392a 100644
---- a/target/arm/cpu-common.c
-+++ b/target/arm/cpu-common.c
-@@ -231,3 +231,71 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
-     mask &= ~CACHED_CPSR_BITS;
-     env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
- }
-+
+diff --git a/target/arm/cpu-vfp.h b/target/arm/cpu-vfp.h
+new file mode 100644
+index 0000000000..41e0d710a0
+--- /dev/null
++++ b/target/arm/cpu-vfp.h
+@@ -0,0 +1,29 @@
 +/*
-+ * Return the effective value of HCR_EL2.
-+ * Bits that are not included here:
-+ * RW       (read from SCR_EL3.RW as needed)
++ * ARM VFP floating-point operations internals
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
-+uint64_t arm_hcr_el2_eff(CPUARMState *env)
-+{
-+    uint64_t ret = env->cp15.hcr_el2;
 +
-+    if (!arm_is_el2_enabled(env)) {
++#ifndef CPU_VFP_H
++#define CPU_VFP_H
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++
++uint32_t vfp_get_fpscr_from_host(CPUARMState *env);
++void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val);
++
++#endif /* CPU_VFP_H */
+diff --git a/target/arm/cpu-vfp.c b/target/arm/cpu-vfp.c
+new file mode 100644
+index 0000000000..8ea615a916
+--- /dev/null
++++ b/target/arm/cpu-vfp.c
+@@ -0,0 +1,97 @@
++/*
++ * ARM VFP floating-point operations
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "cpu-vfp.h"
++#include "sysemu/tcg.h"
++
++uint32_t vfp_get_fpscr(CPUARMState *env)
++{
++    uint32_t i, fpscr;
++
++    fpscr = env->vfp.xregs[ARM_VFP_FPSCR]
++            | (env->vfp.vec_len << 16)
++            | (env->vfp.vec_stride << 20);
++
++    /*
++     * M-profile LTPSIZE overlaps A-profile Stride; whichever of the
++     * two is not applicable to this CPU will always be zero.
++     */
++    fpscr |= env->v7m.ltpsize << 16;
++
++    if (tcg_enabled()) {
++        fpscr |= vfp_get_fpscr_from_host(env);
++    }
++
++    i = env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc[3];
++    fpscr |= i ? FPCR_QC : 0;
++
++    return fpscr;
++}
++
++void vfp_set_fpscr(CPUARMState *env, uint32_t val)
++{
++    /* When ARMv8.2-FP16 is not supported, FZ16 is RES0.  */
++    if (!cpu_isar_feature(any_fp16, env_archcpu(env))) {
++        val &= ~FPCR_FZ16;
++    }
++
++    if (tcg_enabled()) {
++        vfp_set_fpscr_to_host(env, val);
++    }
++
++    if (!arm_feature(env, ARM_FEATURE_M)) {
 +        /*
-+         * "This register has no effect if EL2 is not enabled in the
-+         * current Security state".  This is ARMv8.4-SecEL2 speak for
-+         * !(SCR_EL3.NS==1 || SCR_EL3.EEL2==1).
++         * Short-vector length and stride; on M-profile these bits
++         * are used for different purposes.
++         * We can't make this conditional be "if MVFR0.FPShVec != 0",
++         * because in v7A no-short-vector-support cores still had to
++         * allow Stride/Len to be written with the only effect that
++         * some insns are required to UNDEF if the guest sets them.
 +         *
-+         * Prior to that, the language was "In an implementation that
-+         * includes EL3, when the value of SCR_EL3.NS is 0 the PE behaves
-+         * as if this field is 0 for all purposes other than a direct
-+         * read or write access of HCR_EL2".  With lots of enumeration
-+         * on a per-field basis.  In current QEMU, this is condition
-+         * is arm_is_secure_below_el3.
-+         *
-+         * Since the v8.4 language applies to the entire register, and
-+         * appears to be backward compatible, use that.
++         * TODO: if M-profile MVE implemented, set LTPSIZE.
 +         */
-+        return 0;
++        env->vfp.vec_len = extract32(val, 16, 3);
++        env->vfp.vec_stride = extract32(val, 20, 2);
++    }
++
++    if (arm_feature(env, ARM_FEATURE_NEON)) {
++        /*
++         * The bit we set within fpscr_q is arbitrary; the register as a
++         * whole being zero/non-zero is what counts.
++         * TODO: M-profile MVE also has a QC bit.
++         */
++        env->vfp.qc[0] = val & FPCR_QC;
++        env->vfp.qc[1] = 0;
++        env->vfp.qc[2] = 0;
++        env->vfp.qc[3] = 0;
 +    }
 +
 +    /*
-+     * For a cpu that supports both aarch64 and aarch32, we can set bits
-+     * in HCR_EL2 (e.g. via EL3) that are RES0 when we enter EL2 as aa32.
-+     * Ignore all of the bits in HCR+HCR2 that are not valid for aarch32.
++     * We don't implement trapped exception handling, so the
++     * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
++     *
++     * The exception flags IOC|DZC|OFC|UFC|IXC|IDC are stored in
++     * fp_status; QC, Len and Stride are stored separately earlier.
++     * Clear out all of those and the RES0 bits: only NZCV, AHP, DN,
++     * FZ, RMode and FZ16 are kept in vfp.xregs[FPSCR].
 +     */
-+    if (!arm_el_is_aa64(env, 2)) {
-+        uint64_t aa32_valid;
-+
-+        /*
-+         * These bits are up-to-date as of ARMv8.6.
-+         * For HCR, it's easiest to list just the 2 bits that are invalid.
-+         * For HCR2, list those that are valid.
-+         */
-+        aa32_valid = MAKE_64BIT_MASK(0, 32) & ~(HCR_RW | HCR_TDZ);
-+        aa32_valid |= (HCR_CD | HCR_ID | HCR_TERR | HCR_TEA | HCR_MIOCNCE |
-+                       HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_TTLBIS);
-+        ret &= aa32_valid;
-+    }
-+
-+    if (ret & HCR_TGE) {
-+        /* These bits are up-to-date as of ARMv8.6.  */
-+        if (ret & HCR_E2H) {
-+            ret &= ~(HCR_VM | HCR_FMO | HCR_IMO | HCR_AMO |
-+                     HCR_BSU_MASK | HCR_DC | HCR_TWI | HCR_TWE |
-+                     HCR_TID0 | HCR_TID2 | HCR_TPCP | HCR_TPU |
-+                     HCR_TDZ | HCR_CD | HCR_ID | HCR_MIOCNCE |
-+                     HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_ENSCXT |
-+                     HCR_TTLBIS | HCR_TTLBOS | HCR_TID5);
-+        } else {
-+            ret |= HCR_FMO | HCR_IMO | HCR_AMO;
-+        }
-+        ret &= ~(HCR_SWIO | HCR_PTW | HCR_VF | HCR_VI | HCR_VSE |
-+                 HCR_FB | HCR_TID1 | HCR_TID3 | HCR_TSC | HCR_TACR |
-+                 HCR_TSW | HCR_TTLB | HCR_TVM | HCR_HCD | HCR_TRVM |
-+                 HCR_TLOR);
-+    }
-+
-+    return ret;
++    env->vfp.xregs[ARM_VFP_FPSCR] = val & 0xf7c80000;
 +}
-diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index f35d2969b0..15f53d57b0 100644
---- a/target/arm/tcg/helper.c
-+++ b/target/arm/tcg/helper.c
-@@ -261,74 +261,6 @@ static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
- }
- #endif /* TARGET_AARCH64 */
+diff --git a/target/arm/tcg/cpu-vfp.c b/target/arm/tcg/cpu-vfp.c
+new file mode 100644
+index 0000000000..bb88abf1ba
+--- /dev/null
++++ b/target/arm/tcg/cpu-vfp.c
+@@ -0,0 +1,146 @@
++/*
++ * ARM VFP floating-point operations
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "qemu/log.h"
++#include "internals.h"
++#include "fpu/softfloat.h"
++#include "cpu-vfp.h"
++
++/* Convert host exception flags to vfp form.  */
++static inline int vfp_exceptbits_from_host(int host_bits)
++{
++    int target_bits = 0;
++
++    if (host_bits & float_flag_invalid) {
++        target_bits |= 1;
++    }
++    if (host_bits & float_flag_divbyzero) {
++        target_bits |= 2;
++    }
++    if (host_bits & float_flag_overflow) {
++        target_bits |= 4;
++    }
++    if (host_bits & (float_flag_underflow | float_flag_output_denormal)) {
++        target_bits |= 8;
++    }
++    if (host_bits & float_flag_inexact) {
++        target_bits |= 0x10;
++    }
++    if (host_bits & float_flag_input_denormal) {
++        target_bits |= 0x80;
++    }
++    return target_bits;
++}
++
++/* Convert vfp exception flags to target form.  */
++static inline int vfp_exceptbits_to_host(int target_bits)
++{
++    int host_bits = 0;
++
++    if (target_bits & 1) {
++        host_bits |= float_flag_invalid;
++    }
++    if (target_bits & 2) {
++        host_bits |= float_flag_divbyzero;
++    }
++    if (target_bits & 4) {
++        host_bits |= float_flag_overflow;
++    }
++    if (target_bits & 8) {
++        host_bits |= float_flag_underflow;
++    }
++    if (target_bits & 0x10) {
++        host_bits |= float_flag_inexact;
++    }
++    if (target_bits & 0x80) {
++        host_bits |= float_flag_input_denormal;
++    }
++    return host_bits;
++}
++
++uint32_t vfp_get_fpscr_from_host(CPUARMState *env)
++{
++    uint32_t i;
++
++    i = get_float_exception_flags(&env->vfp.fp_status);
++    i |= get_float_exception_flags(&env->vfp.standard_fp_status);
++    /* FZ16 does not generate an input denormal exception.  */
++    i |= (get_float_exception_flags(&env->vfp.fp_status_f16)
++          & ~float_flag_input_denormal);
++    i |= (get_float_exception_flags(&env->vfp.standard_fp_status_f16)
++          & ~float_flag_input_denormal);
++    return vfp_exceptbits_from_host(i);
++}
++
++void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
++{
++    int i;
++    uint32_t changed = env->vfp.xregs[ARM_VFP_FPSCR];
++
++    changed ^= val;
++    if (changed & (3 << 22)) {
++        i = (val >> 22) & 3;
++        switch (i) {
++        case FPROUNDING_TIEEVEN:
++            i = float_round_nearest_even;
++            break;
++        case FPROUNDING_POSINF:
++            i = float_round_up;
++            break;
++        case FPROUNDING_NEGINF:
++            i = float_round_down;
++            break;
++        case FPROUNDING_ZERO:
++            i = float_round_to_zero;
++            break;
++        }
++        set_float_rounding_mode(i, &env->vfp.fp_status);
++        set_float_rounding_mode(i, &env->vfp.fp_status_f16);
++    }
++    if (changed & FPCR_FZ16) {
++        bool ftz_enabled = val & FPCR_FZ16;
++        set_flush_to_zero(ftz_enabled, &env->vfp.fp_status_f16);
++        set_flush_to_zero(ftz_enabled, &env->vfp.standard_fp_status_f16);
++        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.fp_status_f16);
++        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.standard_fp_status_f16);
++    }
++    if (changed & FPCR_FZ) {
++        bool ftz_enabled = val & FPCR_FZ;
++        set_flush_to_zero(ftz_enabled, &env->vfp.fp_status);
++        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.fp_status);
++    }
++    if (changed & FPCR_DN) {
++        bool dnan_enabled = val & FPCR_DN;
++        set_default_nan_mode(dnan_enabled, &env->vfp.fp_status);
++        set_default_nan_mode(dnan_enabled, &env->vfp.fp_status_f16);
++    }
++
++    /*
++     * The exception flags are ORed together when we read fpscr so we
++     * only need to preserve the current state in one of our
++     * float_status values.
++     */
++    i = vfp_exceptbits_to_host(val);
++    set_float_exception_flags(i, &env->vfp.fp_status);
++    set_float_exception_flags(0, &env->vfp.fp_status_f16);
++    set_float_exception_flags(0, &env->vfp.standard_fp_status);
++    set_float_exception_flags(0, &env->vfp.standard_fp_status_f16);
++}
+diff --git a/target/arm/tcg/vfp_helper.c b/target/arm/tcg/vfp_helper.c
+index 01b9d8557f..521719f327 100644
+--- a/target/arm/tcg/vfp_helper.c
++++ b/target/arm/tcg/vfp_helper.c
+@@ -30,220 +30,14 @@
+    Single precision routines have a "s" suffix, double precision a
+    "d" suffix.  */
  
--/*
-- * Return the effective value of HCR_EL2.
-- * Bits that are not included here:
-- * RW       (read from SCR_EL3.RW as needed)
-- */
--uint64_t arm_hcr_el2_eff(CPUARMState *env)
--{
--    uint64_t ret = env->cp15.hcr_el2;
+-#ifdef CONFIG_TCG
 -
--    if (!arm_is_el2_enabled(env)) {
--        /*
--         * "This register has no effect if EL2 is not enabled in the
--         * current Security state".  This is ARMv8.4-SecEL2 speak for
--         * !(SCR_EL3.NS==1 || SCR_EL3.EEL2==1).
--         *
--         * Prior to that, the language was "In an implementation that
--         * includes EL3, when the value of SCR_EL3.NS is 0 the PE behaves
--         * as if this field is 0 for all purposes other than a direct
--         * read or write access of HCR_EL2".  With lots of enumeration
--         * on a per-field basis.  In current QEMU, this is condition
--         * is arm_is_secure_below_el3.
--         *
--         * Since the v8.4 language applies to the entire register, and
--         * appears to be backward compatible, use that.
--         */
--        return 0;
+-/* Convert host exception flags to vfp form.  */
+-static inline int vfp_exceptbits_from_host(int host_bits)
+-{
+-    int target_bits = 0;
+-
+-    if (host_bits & float_flag_invalid) {
+-        target_bits |= 1;
+-    }
+-    if (host_bits & float_flag_divbyzero) {
+-        target_bits |= 2;
+-    }
+-    if (host_bits & float_flag_overflow) {
+-        target_bits |= 4;
+-    }
+-    if (host_bits & (float_flag_underflow | float_flag_output_denormal)) {
+-        target_bits |= 8;
+-    }
+-    if (host_bits & float_flag_inexact) {
+-        target_bits |= 0x10;
+-    }
+-    if (host_bits & float_flag_input_denormal) {
+-        target_bits |= 0x80;
+-    }
+-    return target_bits;
+-}
+-
+-/* Convert vfp exception flags to target form.  */
+-static inline int vfp_exceptbits_to_host(int target_bits)
+-{
+-    int host_bits = 0;
+-
+-    if (target_bits & 1) {
+-        host_bits |= float_flag_invalid;
+-    }
+-    if (target_bits & 2) {
+-        host_bits |= float_flag_divbyzero;
+-    }
+-    if (target_bits & 4) {
+-        host_bits |= float_flag_overflow;
+-    }
+-    if (target_bits & 8) {
+-        host_bits |= float_flag_underflow;
+-    }
+-    if (target_bits & 0x10) {
+-        host_bits |= float_flag_inexact;
+-    }
+-    if (target_bits & 0x80) {
+-        host_bits |= float_flag_input_denormal;
+-    }
+-    return host_bits;
+-}
+-
+-static uint32_t vfp_get_fpscr_from_host(CPUARMState *env)
+-{
+-    uint32_t i;
+-
+-    i = get_float_exception_flags(&env->vfp.fp_status);
+-    i |= get_float_exception_flags(&env->vfp.standard_fp_status);
+-    /* FZ16 does not generate an input denormal exception.  */
+-    i |= (get_float_exception_flags(&env->vfp.fp_status_f16)
+-          & ~float_flag_input_denormal);
+-    i |= (get_float_exception_flags(&env->vfp.standard_fp_status_f16)
+-          & ~float_flag_input_denormal);
+-    return vfp_exceptbits_from_host(i);
+-}
+-
+-static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
+-{
+-    int i;
+-    uint32_t changed = env->vfp.xregs[ARM_VFP_FPSCR];
+-
+-    changed ^= val;
+-    if (changed & (3 << 22)) {
+-        i = (val >> 22) & 3;
+-        switch (i) {
+-        case FPROUNDING_TIEEVEN:
+-            i = float_round_nearest_even;
+-            break;
+-        case FPROUNDING_POSINF:
+-            i = float_round_up;
+-            break;
+-        case FPROUNDING_NEGINF:
+-            i = float_round_down;
+-            break;
+-        case FPROUNDING_ZERO:
+-            i = float_round_to_zero;
+-            break;
+-        }
+-        set_float_rounding_mode(i, &env->vfp.fp_status);
+-        set_float_rounding_mode(i, &env->vfp.fp_status_f16);
+-    }
+-    if (changed & FPCR_FZ16) {
+-        bool ftz_enabled = val & FPCR_FZ16;
+-        set_flush_to_zero(ftz_enabled, &env->vfp.fp_status_f16);
+-        set_flush_to_zero(ftz_enabled, &env->vfp.standard_fp_status_f16);
+-        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.fp_status_f16);
+-        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.standard_fp_status_f16);
+-    }
+-    if (changed & FPCR_FZ) {
+-        bool ftz_enabled = val & FPCR_FZ;
+-        set_flush_to_zero(ftz_enabled, &env->vfp.fp_status);
+-        set_flush_inputs_to_zero(ftz_enabled, &env->vfp.fp_status);
+-    }
+-    if (changed & FPCR_DN) {
+-        bool dnan_enabled = val & FPCR_DN;
+-        set_default_nan_mode(dnan_enabled, &env->vfp.fp_status);
+-        set_default_nan_mode(dnan_enabled, &env->vfp.fp_status_f16);
 -    }
 -
 -    /*
--     * For a cpu that supports both aarch64 and aarch32, we can set bits
--     * in HCR_EL2 (e.g. via EL3) that are RES0 when we enter EL2 as aa32.
--     * Ignore all of the bits in HCR+HCR2 that are not valid for aarch32.
+-     * The exception flags are ORed together when we read fpscr so we
+-     * only need to preserve the current state in one of our
+-     * float_status values.
 -     */
--    if (!arm_el_is_aa64(env, 2)) {
--        uint64_t aa32_valid;
--
--        /*
--         * These bits are up-to-date as of ARMv8.6.
--         * For HCR, it's easiest to list just the 2 bits that are invalid.
--         * For HCR2, list those that are valid.
--         */
--        aa32_valid = MAKE_64BIT_MASK(0, 32) & ~(HCR_RW | HCR_TDZ);
--        aa32_valid |= (HCR_CD | HCR_ID | HCR_TERR | HCR_TEA | HCR_MIOCNCE |
--                       HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_TTLBIS);
--        ret &= aa32_valid;
--    }
--
--    if (ret & HCR_TGE) {
--        /* These bits are up-to-date as of ARMv8.6.  */
--        if (ret & HCR_E2H) {
--            ret &= ~(HCR_VM | HCR_FMO | HCR_IMO | HCR_AMO |
--                     HCR_BSU_MASK | HCR_DC | HCR_TWI | HCR_TWE |
--                     HCR_TID0 | HCR_TID2 | HCR_TPCP | HCR_TPU |
--                     HCR_TDZ | HCR_CD | HCR_ID | HCR_MIOCNCE |
--                     HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_ENSCXT |
--                     HCR_TTLBIS | HCR_TTLBOS | HCR_TID5);
--        } else {
--            ret |= HCR_FMO | HCR_IMO | HCR_AMO;
--        }
--        ret &= ~(HCR_SWIO | HCR_PTW | HCR_VF | HCR_VI | HCR_VSE |
--                 HCR_FB | HCR_TID1 | HCR_TID3 | HCR_TSC | HCR_TACR |
--                 HCR_TSW | HCR_TTLB | HCR_TVM | HCR_HCD | HCR_TRVM |
--                 HCR_TLOR);
--    }
--
--    return ret;
+-    i = vfp_exceptbits_to_host(val);
+-    set_float_exception_flags(i, &env->vfp.fp_status);
+-    set_float_exception_flags(0, &env->vfp.fp_status_f16);
+-    set_float_exception_flags(0, &env->vfp.standard_fp_status);
+-    set_float_exception_flags(0, &env->vfp.standard_fp_status_f16);
 -}
 -
- /* Return the exception level to which exceptions should be taken
-  * via SVEAccessTrap.  If an exception should be routed through
-  * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
+-#else
+-
+-static uint32_t vfp_get_fpscr_from_host(CPUARMState *env)
+-{
+-    return 0;
+-}
+-
+-static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
+-{
+-}
+-
+-#endif
+-
+ uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
+ {
+-    uint32_t i, fpscr;
+-
+-    fpscr = env->vfp.xregs[ARM_VFP_FPSCR]
+-            | (env->vfp.vec_len << 16)
+-            | (env->vfp.vec_stride << 20);
+-
+-    /*
+-     * M-profile LTPSIZE overlaps A-profile Stride; whichever of the
+-     * two is not applicable to this CPU will always be zero.
+-     */
+-    fpscr |= env->v7m.ltpsize << 16;
+-
+-    fpscr |= vfp_get_fpscr_from_host(env);
+-
+-    i = env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc[3];
+-    fpscr |= i ? FPCR_QC : 0;
+-
+-    return fpscr;
+-}
+-
+-uint32_t vfp_get_fpscr(CPUARMState *env)
+-{
+-    return HELPER(vfp_get_fpscr)(env);
++    return vfp_get_fpscr(env);
+ }
+ 
+ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
+ {
+-    /* When ARMv8.2-FP16 is not supported, FZ16 is RES0.  */
+-    if (!cpu_isar_feature(any_fp16, env_archcpu(env))) {
+-        val &= ~FPCR_FZ16;
+-    }
+-
+-    vfp_set_fpscr_to_host(env, val);
+-
+-    if (!arm_feature(env, ARM_FEATURE_M)) {
+-        /*
+-         * Short-vector length and stride; on M-profile these bits
+-         * are used for different purposes.
+-         * We can't make this conditional be "if MVFR0.FPShVec != 0",
+-         * because in v7A no-short-vector-support cores still had to
+-         * allow Stride/Len to be written with the only effect that
+-         * some insns are required to UNDEF if the guest sets them.
+-         *
+-         * TODO: if M-profile MVE implemented, set LTPSIZE.
+-         */
+-        env->vfp.vec_len = extract32(val, 16, 3);
+-        env->vfp.vec_stride = extract32(val, 20, 2);
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_NEON)) {
+-        /*
+-         * The bit we set within fpscr_q is arbitrary; the register as a
+-         * whole being zero/non-zero is what counts.
+-         * TODO: M-profile MVE also has a QC bit.
+-         */
+-        env->vfp.qc[0] = val & FPCR_QC;
+-        env->vfp.qc[1] = 0;
+-        env->vfp.qc[2] = 0;
+-        env->vfp.qc[3] = 0;
+-    }
+-
+-    /*
+-     * We don't implement trapped exception handling, so the
+-     * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
+-     *
+-     * The exception flags IOC|DZC|OFC|UFC|IXC|IDC are stored in
+-     * fp_status; QC, Len and Stride are stored separately earlier.
+-     * Clear out all of those and the RES0 bits: only NZCV, AHP, DN,
+-     * FZ, RMode and FZ16 are kept in vfp.xregs[FPSCR].
+-     */
+-    env->vfp.xregs[ARM_VFP_FPSCR] = val & 0xf7c80000;
+-}
+-
+-void vfp_set_fpscr(CPUARMState *env, uint32_t val)
+-{
+-    HELPER(vfp_set_fpscr)(env, val);
++    vfp_set_fpscr(env, val);
+ }
+ 
+ #ifdef CONFIG_TCG
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 1f7375375e..4bc44e1db2 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -4,6 +4,7 @@ arm_ss.add(files(
+   'cpu.c',
+   'cpu-common.c',
+   'cpu-mmu.c',
++  'cpu-vfp.c',
+   'cpustate-list.c',
+   'gdbstub.c',
+   'cpu_tcg.c',
+diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
+index a0ef03a6e3..f77e2ccf01 100644
+--- a/target/arm/tcg/meson.build
++++ b/target/arm/tcg/meson.build
+@@ -18,6 +18,7 @@ arm_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'translate.c',
+   'helper.c',
+   'cpregs.c',
++  'cpu-vfp.c',
+   'iwmmxt_helper.c',
+   'm_helper.c',
+   'neon_helper.c',
 -- 
 2.26.2
 
