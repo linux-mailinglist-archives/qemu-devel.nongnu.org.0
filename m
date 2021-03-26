@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0510334ADB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 18:40:40 +0100 (CET)
-Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9312834ADB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 18:37:40 +0100 (CET)
+Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPqRr-0001iI-2o
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 13:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44422)
+	id 1lPqOr-0007MB-Vw
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 13:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lPqMe-0005Rc-2z
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:35:16 -0400
-Received: from mout.web.de ([217.72.192.78]:44131)
+ id 1lPqMq-0005b1-Dp
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:35:28 -0400
+Received: from mout.web.de ([212.227.17.12]:49723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lPqMc-0004aC-7l
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:35:15 -0400
+ id 1lPqMf-0004ej-Kr
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:35:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616780112;
- bh=+tezEO/HGYlg8UDCAoZCBB7IPiC45gc/drZqLmnqJCA=;
+ s=dbaedf251592; t=1616780116;
+ bh=gYwRYFW6o4co3B99P89eZBrde3j0fC+Y98Mt4RGPRqQ=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=ptf2v1eS9ydxbxu2dNHA8//ixmBZr9PEkdYrltA5xFnGIuwjO3j2Y5/YRmA2JCahD
- nYCJuSrUMaZRAeRDSHwiuoza5YLhFpmgl/2zxkNQyf693rbKGBEflJl/s3TLNipS6T
- 5utqLr9zTMd9H+2IAYfI7y2sea2XQgaH2BwLPxl0=
+ b=lN9O67et6pFrFJE1KP3UYBsjC4Q/eKaLAJZt3NXr4dd/megfyHSZO/QaTyELuNzp/
+ tw71NwdO4LrMzRUcLZKWSo3qPvmq6Ip1x6gQNoUn84ft68WLqHRXsE9GXibsgsNMp9
+ mWz7/reTd/8cggCkw4HBpQrzi9saA05P7aaxQPcU=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
 Received: from gecko.fritz.box ([89.247.255.242]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MfHfy-1l18TS1aJu-00OmIk; Fri, 26
- Mar 2021 18:35:12 +0100
-Date: Fri, 26 Mar 2021 18:35:10 +0100
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MBkLb-1lXItI3UBT-00ApOF; Fri, 26
+ Mar 2021 18:35:15 +0100
+Date: Fri, 26 Mar 2021 18:35:14 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/6] chardev/char.c: Always pass id to chardev_new
-Message-ID: <3e669b6c160aa7278e37c4d95e0445574f96c7b7.1616779714.git.lukasstraub2@web.de>
+Subject: [PULL 5/6] chardev: Fix yank with the chardev-change case
+Message-ID: <9637888d7591d2971975188478bb707299a1dc04.1616779714.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1616779714.git.lukasstraub2@web.de>
 References: <cover.1616779714.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RfU193eNeZKKflER_Wt9EMs";
+Content-Type: multipart/signed; boundary="Sig_/Pwr=vHzyzWtFk7imU5smsU.";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:p4aqaNZ128UjSErXZcSTZyCmTehRbHLH+yFfR86eJF7OLcKaxxn
- 0WR57zxNKrc8dos3ElSir0/lRATHshEJbPhgXuUsRc55/q3mqxSsk3ab64c+tfakyvtE5gL
- TFCILpeIbKwoUcZNsQwGg0Koy71bSl/hQAz/HdBsh/XG3TvU7TGSPF8RwO3qEn0nzFURmE0
- GCxTsc5GZDOBZjB9WSmmQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5YkUMQiK4XM=:0fgKNzTo9ESvH0FkbMjzo/
- /NCbqwgrRBcDkWcHR44keU93ApYZLL4+cf2bOzex3vm9wE0IFMm8EoKBuMpOWyxCuUpkdPss2
- Z8dYUGwzfLNHLjF7r3Bl51btZqYSZvHss80IQa828Lz9sj6mz2PDkX6hC3z1Xu3FsSF24p96u
- J1iNjhrt6ymJyKcLtUf67rcOcUyp5TQgJ/yexLjKMnhUprJ4XaVdjzmApN/z4yOYL1xxPth5j
- Y69QNOEYlNMsjQXbXo0XnBdpLTWYkwJrD7r7CenAb749Bk4Nl6MRcST1zrHxzkE0I39tvODiM
- Tqc3mHk2NBnVRxr+jy+IlcRsYNkyCEFhMubntISnI76WTT/Q+hYseiQvGk0DMYaftFwZwJDEf
- wXRED3lt/bYstgwLwglttAPSbX17rI4mLacjvj2opgP/fdh2r5gVS05+UxSBq3vQvH0gpa2wG
- yp0QMb119YAdvTFHkCl/eMLb7ks9tFlPMYPfTulTN+Iz+zu2TS9dCSoVUQy/iG82YVQ4V8jtA
- cX34VVtT7k5BwfMqnk1Y1O7tIGFm0MMMcAo51U4pj4eyKizzEYtGSbfT9reGmoqzlBADyBkgi
- Hq44Z71VMkNVimHux0g6/m0ga8rO9Ky8AUn41hZj7x+CA2j7nGdX9b32BX+I6nlx0kZ4RYO3T
- pdfk5nDZMZBD42+6b28FsiMh9qhbErF0TQiyCzH2wdl4zehn5w7ujxeBMWFVFRbQY51W1z0r9
- OBeGjUqRz3KwbLih2BcDvRxqHBHjHqR5TUVAisaV7F0VgV52N+4GS26rcwrkhKCqu3CuXSwpJ
- VWGbYPOvLxtyQkaFlBNmMpnABjUfDOYLv49PrtdISJASOyeVU4RVsQdHuIzJ2UDj3tKWWLR0R
- IzRLauPNFK3Fr3yBOmGpyb/wUSzR2q/0aKxf7HqOUcMrYXEam+iGZ9DFwOgGCvIxCBDL9HWXw
- iHK2qh8qZ//oQmc3elxWRRwnnvFpEMYQd1NGPHkLdu8K1/hFyiqz28rdkhjsG5bKVmhM5Mf4h
- gBSpGdZc3ljXariLAAyL3oX4/AwUYOTcPlvNOTNxjXFdj70NtNyVaC1rBST+S3Nehk4zGCS+3
- BarWMwwDuiMZjr47QBB5q6RNx8KMmn30xiHvE1+2cjZvNGzrYNB16vFcCEH+swXPTpijc9BgC
- FtRi/orWyvcrtgz38VQk1Wt1y50PRsloPSLcZtfc6pi16dn6wipnw3jDfyeGGIN2AbAfU=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:/CVJQYUfNGZcQMy6YZqu3OOprI5FSVkFmV5xK6zcRoH+9XZmM9H
+ UQRjR7PTTt4NCCpP1EzFMcL09WLELeGwtIRpd6N72/BpzZGIW1BlaLUI04NaNweKvG2PVgy
+ Oh70Ib/aZKFg8gkB+xl9TMaSy1e4gTi5PAuuSR0AGIJno4qHdKKCdz/H3BUx410nWs9cOU4
+ 03aVXnurpzbON5yqyssng==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2ItlImhborw=:+weMz5pFodhUuC97moj8un
+ XKG3zaiwhZkxhAmDrqQUj8aIBxIBJNIgWy7MvYgVmkZB4W6kb2HJafQxz4aP1Vd4kgbQMB5cW
+ Rhh/hnmcGHrsOV0MN3WKx0s+pWDDwrhgtnZeHyelsJxyA9euFG/UPqvShLieuIoSQ/jwhD/fH
+ fzsBlQhJx+JcMUDbHyQaphvxkxw58AfZfYr+1M8NL10QQgdbf9MPehmcQ0aJYmDGqFFZq+P1A
+ b8LinMEM01J8bEMr0Jbx1sD+yQvY1O4Jtm+KJVds4Y3+8whQnLOnCu8qZ+LtdxS7WE/U9J/h6
+ tV5vHaztMnX4mhjfozkHaxg71+G8v2x535vRLPA3z0OkkuNOjFARKGx1IIAUCcuJ6wgthaZFD
+ spP05ua084CvCK95l9ssCFcI+M1G7kS/QeGxwyBgUZkyyju5BgrCxU4kYgPvZQre50in3UqIY
+ TQl7sic3e6LTVkYt0gHX/9tJvpEa4nTYzmw5PRoudndTgp7e3Z2nDsEQ6pW6BJt97jYQNatXq
+ I0VYLRLvsMZBMz6krvlHuCHhiBX0vdMn9MCHUt+jpolobkeXhRfbsJbTGPxGir17ZUqCGBgNO
+ Ux3CWlj4ZMltPcc35bTUiplsg3c43BFzvneWlFiPcxJSIZ1pbhvQJHaKItUkDx3Nk1sev6WJ6
+ MC0dL7mXcbj23jiXZA0sRiTqUeFUbHojIQWMQvkHw5vU9VQ5GICKySPLVTBbtiiYoqLpACZrE
+ adkAYg3IpiAbd38VUCvHo4E4sXvZRjMTb0vlwm2tVcBqJCx9hwgFAG9+17sUYk3CB8G7rngMR
+ pTy8JqtayUclUOdxd3qd/++WVRgiC56LELsgjxuPyTDoQSEfK4cOdGRhrroLKkLUcmACSDvcK
+ WbHnSB1PH0MWBVshySZucT+XhDuZXVrOfeBlOkQRvLhiDiu+Fl9l8KOmMQZ+tZ4jBsGvSH4kp
+ ONbCMWZF35Ker7XskWNRhnKKfvsfZ3qZ7mO61IJ1vufhAXo/ffQwN9zPjjf39JY2+GOkbYL3W
+ WlPFgURlpC4V99UPATB8owIWCz8oB6yy1nrjeufIpIdtykrdJButNwf4rGo5+TWQIF5PWFhiR
+ yAw2JMQilO8syWRCdSfz93yRmirT3n8StpsH/5ghEyQIPekZPB4ysDWNUa9ZqqDPtnJKp+jCB
+ CC++PrThUZI+urbrFIhIxFExuVTEkIcqejVl2zUIoDdnAkC0kXGY2mvfIYOWXzndq9yhQ=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -88,77 +88,250 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/RfU193eNeZKKflER_Wt9EMs
+--Sig_/Pwr=vHzyzWtFk7imU5smsU.
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Always pass the id to chardev_new, since it is needed to register
-the yank instance for the chardev. Also, after checking that
-nothing calls chardev_new with id=3DNULL, assert() that id!=3DNULL.
+When changing from chardev-socket (which supports yank) to
+chardev-socket again, it fails, because the new chardev attempts
+to register a new yank instance. This in turn fails, as there
+still is the yank instance from the current chardev. Also,
+the old chardev shouldn't unregister the yank instance when it
+is freed.
 
-This fixes a crash when using chardev-change to change a chardev
-to chardev-socket, which attempts to register a yank instance.
-This in turn tries to dereference the NULL-pointer.
+To fix this, now the new chardev only registers a yank instance if
+the current chardev doesn't support yank and thus hasn't registered
+one already. Also, when the old chardev is freed, it now only
+unregisters the yank instance if the new chardev doesn't need it.
+
+If the initialization of the new chardev fails, it still has
+chr->handover_yank_instance set and won't unregister the yank
+instance when it is freed.
+
+s->registered_yank is always true here, as chardev-change only works
+on user-visible chardevs and those are guraranteed to register a
+yank instance as they are initialized via
+chardev_new()
+ qemu_char_open()
+  cc->open() (qmp_chardev_open_socket()).
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
 ---
- chardev/char.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ chardev/char-socket.c  | 20 +++++++++++++++++---
+ chardev/char.c         | 35 ++++++++++++++++++++++++++++-------
+ include/chardev/char.h |  3 +++
+ 3 files changed, 48 insertions(+), 10 deletions(-)
 
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 1d455ecca4..daa89fe5d1 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -1126,7 +1126,13 @@ static void char_socket_finalize(Object *obj)
+     }
+     g_free(s->tls_authz);
+     if (s->registered_yank) {
+-        yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
++        /*
++         * In the chardev-change special-case, we shouldn't unregister the=
+ yank
++         * instance, as it still may be needed.
++         */
++        if (!chr->handover_yank_instance) {
++            yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
++        }
+     }
+
+     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+@@ -1424,8 +1430,14 @@ static void qmp_chardev_open_socket(Chardev *chr,
+         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
+     }
+
+-    if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), errp)) {
+-        return;
++    /*
++     * In the chardev-change special-case, we shouldn't register a new yank
++     * instance, as there already may be one.
++     */
++    if (!chr->handover_yank_instance) {
++        if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), err=
+p)) {
++            return;
++        }
+     }
+     s->registered_yank =3D true;
+
+@@ -1567,6 +1579,8 @@ static void char_socket_class_init(ObjectClass *oc, v=
+oid *data)
+ {
+     ChardevClass *cc =3D CHARDEV_CLASS(oc);
+
++    cc->supports_yank =3D true;
++
+     cc->parse =3D qemu_chr_parse_socket;
+     cc->open =3D qmp_chardev_open_socket;
+     cc->chr_wait_connected =3D tcp_chr_wait_connected;
 diff --git a/chardev/char.c b/chardev/char.c
-index 48f321b3e1..75993f903f 100644
+index 75993f903f..398f09df19 100644
 --- a/chardev/char.c
 +++ b/chardev/char.c
-@@ -967,6 +967,7 @@ static Chardev *chardev_new(const char *id, const char =
-*typename,
-     bool be_opened =3D true;
+@@ -39,6 +39,7 @@
+ #include "qemu/option.h"
+ #include "qemu/id.h"
+ #include "qemu/coroutine.h"
++#include "qemu/yank.h"
 
-     assert(g_str_has_prefix(typename, "chardev-"));
-+    assert(id);
+ #include "chardev-internal.h"
+
+@@ -266,6 +267,7 @@ static void char_init(Object *obj)
+ {
+     Chardev *chr =3D CHARDEV(obj);
+
++    chr->handover_yank_instance =3D false;
+     chr->logfd =3D -1;
+     qemu_mutex_init(&chr->chr_write_lock);
+
+@@ -959,6 +961,7 @@ void qemu_chr_set_feature(Chardev *chr,
+ static Chardev *chardev_new(const char *id, const char *typename,
+                             ChardevBackend *backend,
+                             GMainContext *gcontext,
++                            bool handover_yank_instance,
+                             Error **errp)
+ {
+     Object *obj;
+@@ -971,6 +974,7 @@ static Chardev *chardev_new(const char *id, const char =
+*typename,
 
      obj =3D object_new(typename);
      chr =3D CHARDEV(obj);
-@@ -1095,12 +1096,11 @@ ChardevReturn *qmp_chardev_change(const char *id, C=
++    chr->handover_yank_instance =3D handover_yank_instance;
+     chr->label =3D g_strdup(id);
+     chr->gcontext =3D gcontext;
+
+@@ -1004,7 +1008,7 @@ Chardev *qemu_chardev_new(const char *id, const char =
+*typename,
+         id =3D genid;
+     }
+
+-    chr =3D chardev_new(id, typename, backend, gcontext, errp);
++    chr =3D chardev_new(id, typename, backend, gcontext, false, errp);
+     if (!chr) {
+         return NULL;
+     }
+@@ -1032,7 +1036,7 @@ ChardevReturn *qmp_chardev_add(const char *id, Charde=
+vBackend *backend,
+     }
+
+     chr =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+-                      backend, NULL, errp);
++                      backend, NULL, false, errp);
+     if (!chr) {
+         return NULL;
+     }
+@@ -1057,9 +1061,10 @@ ChardevReturn *qmp_chardev_change(const char *id, Ch=
+ardevBackend *backend,
+                                   Error **errp)
+ {
+     CharBackend *be;
+-    const ChardevClass *cc;
++    const ChardevClass *cc, *cc_new;
+     Chardev *chr, *chr_new;
+     bool closed_sent =3D false;
++    bool handover_yank_instance;
+     ChardevReturn *ret;
+
+     chr =3D qemu_chr_find(id);
+@@ -1091,13 +1096,20 @@ ChardevReturn *qmp_chardev_change(const char *id, C=
 hardevBackend *backend,
          return NULL;
      }
 
--    chr_new =3D chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
-+    chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
-                           backend, chr->gcontext, errp);
+-    cc =3D char_get_class(ChardevBackendKind_str(backend->type), errp);
+-    if (!cc) {
++    cc =3D CHARDEV_GET_CLASS(chr);
++    cc_new =3D char_get_class(ChardevBackendKind_str(backend->type), errp);
++    if (!cc_new) {
+         return NULL;
+     }
+
+-    chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+-                          backend, chr->gcontext, errp);
++    /*
++     * The new chardev should not register a yank instance if the current
++     * chardev has registered one already.
++     */
++    handover_yank_instance =3D cc->supports_yank && cc_new->supports_yank;
++
++    chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc_new)=
+),
++                          backend, chr->gcontext, handover_yank_instance, =
+errp);
      if (!chr_new) {
          return NULL;
      }
--    chr_new->label =3D g_strdup(id);
+@@ -1121,6 +1133,15 @@ ChardevReturn *qmp_chardev_change(const char *id, Ch=
+ardevBackend *backend,
+         return NULL;
+     }
 
-     if (chr->be_open && !chr_new->be_open) {
-         qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
++    /* change successfull, clean up */
++    chr_new->handover_yank_instance =3D false;
++
++    /*
++     * When the old chardev is freed, it should not unregister the yank
++     * instance if the new chardev needs it.
++     */
++    chr->handover_yank_instance =3D handover_yank_instance;
++
+     object_unparent(OBJECT(chr));
+     object_property_add_child(get_chardevs_root(), chr_new->label,
+                               OBJECT(chr_new));
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index 4181a2784a..7c0444f90d 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -65,6 +65,8 @@ struct Chardev {
+     char *filename;
+     int logfd;
+     int be_open;
++    /* used to coordinate the chardev-change special-case: */
++    bool handover_yank_instance;
+     GSource *gsource;
+     GMainContext *gcontext;
+     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
+@@ -251,6 +253,7 @@ struct ChardevClass {
+     ObjectClass parent_class;
+
+     bool internal; /* TODO: eventually use TYPE_USER_CREATABLE */
++    bool supports_yank;
+     void (*parse)(QemuOpts *opts, ChardevBackend *backend, Error **errp);
+
+     void (*open)(Chardev *chr, ChardevBackend *backend,
 --
 2.30.2
 
 
---Sig_/RfU193eNeZKKflER_Wt9EMs
+--Sig_/Pwr=vHzyzWtFk7imU5smsU.
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBeG04ACgkQNasLKJxd
-slhEYQ/+JARE3KO24R7VwpJAjIgS1ZW8ssZRoXm4G5+LwykpIar9UD+755bO/A8z
-tKhz9UE4AiTpI2uBkrp00laQ8Ex9Tl0p1oaZqUscccnrctOlrNsl1md368OTgPER
-Vx51tpJj1hjGYtqlDP5bXxB9mcMQeKAKHAlVcdwbhFZhWKFim6pZG5RA2SF+NAbV
-CimGFdYu6YvCVMuQjoGXEoLmypJOSorOy0HF5Qe6ZKdI9WESk+ITFgkoCHP9QcGl
-0dz8cKS/yLS2RlxeYEqTyQd5iERMq1hJYkSw78VQe8VyVNBmGKCUCBtk57deUcNc
-iDFD3Q6cfSM1/EIsPVijay1itdBvHd7OpbmQI3rwVG0LMHnTOtPn7OAi5YcJ7940
-WlMEoVXUPhkBxhdZT3ZGEwSpqWlpaI+8AUg6xNFjEBrheP5+XNo/Oa2+fSmqmUDc
-0v5IjLfd+b76I5Sod9rOQRAHgeK5CxzGy+ewa+0o2OopbSo8bB4iVHyj/w3Go1lk
-FYHhXU2TzDzf3ySaYZQeRAKjxZUnKqacx/I6c/Qcw7AmVk8dOzK55HCK3Qnkm75r
-3Pre2151DmwkzHP3EyYwqVQoike8hUxYC75muSYlCAZSh4b7WHtLzRIW9S6DQOjZ
-ixaGJdRGb0Qb+VuraU1rtyf/IZimoGbhkRO0YB9sNt9bxKr6VpI=
-=LII5
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBeG1IACgkQNasLKJxd
+slhpAA/9FDm24PBfLKGTu0jXKybjFl1BmOSGh7HkKu5SYMLxvKKfSqmVptvIMaEr
+kah2q2HJHRipj8wap/30KisIwKSk4sNQ/+0Xp7GB7hmTnQ7aPptUs1vPbskqGPhB
+d4BQ1UVlzIgIbI7EMESCMp/4IhBhGJRHCYdm34hMLYmReoW06Ci4f6G9OKukcZLk
+G3CgU620qfKRNeP8gs//D/vH9EgBs0a7YMb8Hj2imhfipzPYyk9/hqpWfTlm7IXx
+mPuN+DoghrD9Y+TEvS8QWsCmWV4p+VjKdRU2jqZTdn/WvG6/AWHx7YUeCXcxSuyJ
+jjMnFOLM/kL5hRUQq8i+nWaCSWtDSeVtPoJ+YmF+On50jIHq6CRGIwbXzNIY7ueF
+XM/GrOdXQzskmsraz+sK7+/1YhWHF0MWgcw07gR5IutsXQF3DLFgmivuyUeSNhBH
+wbcrghz/iFVgEwNTSYuj+eWSCkVuRXTlhQuIl7o7jPNi8YUWhCNcQH8ScBFkDUyr
+8gqbYcq5HRLhZ59/rXkf0h0fj/8+R9Hh7XkztKpsUNWyjIyL99pewgJTqj2x5zS/
+/3klpPDz0MgHGtvn0uK0/1q6U4/ZsFsVWgPnVmh/bNHOsJpRVyBfG7fsxDWqujD8
+dzedibSjJBA6QjrKJ6LONziAtJiEjannLTwjKoBHW/5IBQ3+04M=
+=trTq
 -----END PGP SIGNATURE-----
 
---Sig_/RfU193eNeZKKflER_Wt9EMs--
+--Sig_/Pwr=vHzyzWtFk7imU5smsU.--
 
