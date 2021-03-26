@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B4634A796
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:55:09 +0100 (CET)
-Received: from localhost ([::1]:52316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEE134A7A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:57:21 +0100 (CET)
+Received: from localhost ([::1]:58610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPlzY-0002Pg-IX
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59130)
+	id 1lPm1h-00055G-1G
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlv4-0005oq-AU
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50843)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlvN-00064Y-DX
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlv2-00041z-Hl
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:30 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlvF-00048F-Ks
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616763027;
+ s=mimecast20190719; t=1616763037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vxySh1EKFScsmQ+vPyvRKaFAgXcq9EkjH4Ox/0u0C0Y=;
- b=I5eRaq9jLvYAQziGSo3HoguquxDmqJnnAGu8lPczgCgqUBcMPNyfNQ8iJh7QEQA79KmJBn
- 5MiaCwwV64Xu6s8WxGdizeRNVDn2Nx8uiQWt7MRmaG+rrgDz3LtU0LeysyVPkog4OTo6oG
- mC0aTlB8taCpLf/EYrjSA6Y10UENfEI=
+ bh=HrOjiFbElUI1UPiY3wTVIe5o3LRk5qFEdbWDNQIibHU=;
+ b=YWOMzIl1PsYohh+NNkLKWYOvyhq3lVkRr2jdVWrSr1cGvGUk+LC3Ik0exNxjH9uiT6WqB3
+ FsFExMTD/l4G457WwrKhVX3nAa211GRQgaDANHLkLJbkqePn3GhJp23uoINdrj3nTcaLvk
+ GWHofpURJTkJPjGqFLCPIHFJ3MHnCGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-ZDho8ywfP3-1tpA6MNxatw-1; Fri, 26 Mar 2021 08:50:23 -0400
-X-MC-Unique: ZDho8ywfP3-1tpA6MNxatw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-163-15rlRJHjOhi52YCkfIDJtg-1; Fri, 26 Mar 2021 08:50:34 -0400
+X-MC-Unique: 15rlRJHjOhi52YCkfIDJtg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF95A81620;
- Fri, 26 Mar 2021 12:50:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1ED581627;
+ Fri, 26 Mar 2021 12:50:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-102.ams2.redhat.com
  [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0842419C84;
- Fri, 26 Mar 2021 12:50:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFFB51B5C0;
+ Fri, 26 Mar 2021 12:50:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 08C55180038F; Fri, 26 Mar 2021 13:49:33 +0100 (CET)
+ id 1BFA71800393; Fri, 26 Mar 2021 13:49:33 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] s390x: add have_virtio_ccw
-Date: Fri, 26 Mar 2021 13:49:30 +0100
-Message-Id: <20210326124932.481942-8-kraxel@redhat.com>
+Subject: [PULL 8/9] s390x: modularize virtio-gpu-ccw
+Date: Fri, 26 Mar 2021 13:49:31 +0100
+Message-Id: <20210326124932.481942-9-kraxel@redhat.com>
 In-Reply-To: <20210326124932.481942-1-kraxel@redhat.com>
 References: <20210326124932.481942-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,48 +89,85 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a symbol which can be used to prevent ccw modules
-being loaded into system emulators without ccw support.
+Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
+module, which provides the type virtio-gpu-device, packaging the
+hw-display-virtio-gpu module as a separate package that may or may not
+be installed along with the qemu package leads to problems. Namely if
+the hw-display-virtio-gpu is absent, qemu continues to advertise
+virtio-gpu-ccw, but it aborts not only when one attempts using
+virtio-gpu-ccw, but also when libvirtd's capability probing tries
+to instantiate the type to introspect it.
 
+Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
+is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
+was chosen because it is not a portable device.
+
+With virtio-gpu-ccw built as a module, the correct way to package a
+modularized qemu is to require that hw-display-virtio-gpu must be
+installed whenever the module hw-s390x-virtio-gpu-ccw.
+
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
 Tested-by: Halil Pasic <pasic@linux.ibm.com>
-Message-Id: <20210317095622.2839895-3-kraxel@redhat.com>
+Message-Id: <20210317095622.2839895-4-kraxel@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/s390x/virtio-ccw.h | 5 +++++
- hw/s390x/virtio-ccw.c | 2 ++
- 2 files changed, 7 insertions(+)
+ hw/s390x/virtio-ccw-gpu.c | 4 +++-
+ util/module.c             | 1 +
+ hw/s390x/meson.build      | 8 +++++++-
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/hw/s390x/virtio-ccw.h b/hw/s390x/virtio-ccw.h
-index 49a2b8ca42df..0168232e3b8d 100644
---- a/hw/s390x/virtio-ccw.h
-+++ b/hw/s390x/virtio-ccw.h
-@@ -63,6 +63,11 @@ typedef struct VirtioBusClass VirtioCcwBusClass;
- DECLARE_OBJ_CHECKERS(VirtioCcwBusState, VirtioCcwBusClass,
-                      VIRTIO_CCW_BUS, TYPE_VIRTIO_CCW_BUS)
+diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
+index c301e2586bde..75a9e4bb3908 100644
+--- a/hw/s390x/virtio-ccw-gpu.c
++++ b/hw/s390x/virtio-ccw-gpu.c
+@@ -62,7 +62,9 @@ static const TypeInfo virtio_ccw_gpu = {
  
-+/*
-+ * modules can reference this symbol to avoid being loaded
-+ * into system emulators without ccw support
-+ */
-+extern bool have_virtio_ccw;
- 
- struct VirtIOCCWDeviceClass {
-     CCWDeviceClass parent_class;
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 06c06056814b..314ed7b24566 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -35,6 +35,8 @@
- 
- #define NR_CLASSIC_INDICATOR_BITS 64
- 
-+bool have_virtio_ccw = true;
-+
- static int virtio_ccw_dev_post_load(void *opaque, int version_id)
+ static void virtio_ccw_gpu_register(void)
  {
-     VirtioCcwDevice *dev = VIRTIO_CCW_DEVICE(opaque);
+-    type_register_static(&virtio_ccw_gpu);
++    if (have_virtio_ccw) {
++        type_register_static(&virtio_ccw_gpu);
++    }
+ }
+ 
+ type_init(virtio_ccw_gpu_register)
+diff --git a/util/module.c b/util/module.c
+index c65060c167df..cbe89fede628 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -304,6 +304,7 @@ static struct {
+     { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
+     { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
+     { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
++    { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
+     { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
+     { "virtio-vga",            "hw-", "display-virtio-vga"    },
+     { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index 91495b563146..327e9c93afa9 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -34,7 +34,6 @@ virtio_ss.add(files('virtio-ccw.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
+-virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
+@@ -48,3 +47,10 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'
+ s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
+ 
+ hw_arch += {'s390x': s390x_ss}
++
++hw_s390x_modules = {}
++virtio_gpu_ccw_ss = ss.source_set()
++virtio_gpu_ccw_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_CCW'],
++                      if_true: [files('virtio-ccw-gpu.c'), pixman])
++hw_s390x_modules += {'virtio-gpu-ccw': virtio_gpu_ccw_ss}
++modules += {'hw-s390x': hw_s390x_modules}
 -- 
 2.30.2
 
