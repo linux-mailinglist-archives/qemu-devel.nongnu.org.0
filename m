@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2DE34A820
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:32:21 +0100 (CET)
-Received: from localhost ([::1]:34000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA8034A83B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:37:56 +0100 (CET)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPmZY-0003VO-Oz
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40742)
+	id 1lPmex-00079a-Gq
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lPmXM-0002PM-S9; Fri, 26 Mar 2021 09:30:04 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:42696)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPmcJ-0004rV-Ri
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:35:13 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lPmXK-0002nc-87; Fri, 26 Mar 2021 09:30:04 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id v107so862643ybi.9;
- Fri, 26 Mar 2021 06:30:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPmcH-0005AC-J3
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:35:11 -0400
+Received: by mail-ed1-x531.google.com with SMTP id l18so6324760edc.9
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 06:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KIYIqmTfGGqWK40aMu2S+zzetb5A+tNz+puFdVqd1uQ=;
- b=LmFwPXcZ/MMaGX/SAOQ79kllbSwlIn0KKEp/qpxVieEWNgJwyEnNzHVdtM9utnAwoa
- 0z5bV2p9UnBBIZ0A4pNEAXOZ068vW/vichNaTwUMCOsP9mbY+Gg589BDCzdUhy6poKIM
- XfW7qP9MQ/8dd6dpnRrhrfUIXRjAnM/bcyAjQK1y5tuVP1CGZwWxMgLxtBMo0QULsNOG
- GF6mM+9cTKVHR/uJZDzZaUYZ73zmSm/SbxNh+i8iUISsq85IBsbtLlzZ7XxM+KUMToz0
- dy+E2F8NWLU9PgdY53haYKsv6dGwMAJEuneFYwamr3skGANEve2ltTOOKAQ6EgYSEyu7
- CvWw==
+ :cc; bh=C40hR8+I1ugYv9Jdyl3eKoQu7BMieAYF97m8ERsIqTQ=;
+ b=RrrF3DBlYUnCro6zVfRToXcwSo/0zzpH4rTdQ6zTumG1+jjt4ZaWIvtjB3tBHjNQyl
+ se/EUlN6FobNkXtSVze5l5w33T5mVPhVAAwILewzdbjF7IZbOG5RcKZ/LqPKRIkRvp0f
+ LQKqdfXH1sDLwbLIpZvAjUlctnGLbaIxfaSqDfbp3cxuHZACS8DFkraa2bWh4100EyNF
+ Kr6Xj3wy1YwwJP6OMfAWTK5j+jOEv4SLa90gqR9xy5dlEUhNVxKpXY1kzukXXJrd+7XG
+ qDu2e6nxIasA1lnKsP0JQ7S5J1rhe7P2mPcGFoTeKSszoIzBHXZxg4VNL9QT1YHQyzXh
+ ZJig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KIYIqmTfGGqWK40aMu2S+zzetb5A+tNz+puFdVqd1uQ=;
- b=SV1kLdWhzhSljRz/7PngwDwvFYhSuRoFg4vnxzy34LwIy7JfoeMSpYKLEM+gsKK+uB
- 4HJn/sUUSgZamA8xyEP2eBkiKvR/DuQL1YkoKyXFd8qE9X4V1NKtICwRcLHdBPQ6jqhv
- GKW1zxo+4SjPrVJeyyiIGYUcQ2rKZ2dEHvzl8lK4NfpiMt+dLr/+DHheG8ltjgu/lFAe
- nGJ5krnAdJWCuz06CnPQ6q1xR+C1sosnvrvutqvr9w8JWa8XlUi+y5Qg+bEpXP9bM/VG
- CW21Li78jDSAye+dK1PaspfZ+zGIbfsTS/ssHQM7u5I3MKkf6tbmq3p3Qp1kO/PqIHUT
- 5sxQ==
-X-Gm-Message-State: AOAM530nCnT4gk+vADCe84GtTvAcPuorq/YAPzjjyUhqJLPTmRPdNUG4
- aUIe3gq3aOVgVu/2F1bVeLQklV6iyOybZb8Kn34=
-X-Google-Smtp-Source: ABdhPJw7xRi8q4SexRtoU4QnAtesuz5YkUcUMgBUa1qVNqmhDGu++MZBMx2aSjFqlAnTtzrYANdx4ZqPYTaYTq1ee4Y=
-X-Received: by 2002:a25:73d1:: with SMTP id
- o200mr20750099ybc.239.1616765400914; 
- Fri, 26 Mar 2021 06:30:00 -0700 (PDT)
+ bh=C40hR8+I1ugYv9Jdyl3eKoQu7BMieAYF97m8ERsIqTQ=;
+ b=GIvLpKI+vpvI1yumWf4Q1/65otq3lR/IXw7I8C48fcAHPiLQBu6mdfPPx6ZeXLwRDd
+ xqtGJZR/C/mIVnT4KqcdxowHKgzyjouxmauU1z9MxCW828n5SgDdyD7UDVm2A/vRenHR
+ DCwlkiXsjSSqWO7N7mpEa2BtDf2Rh+sHB6wIAT7iMJbrNd12Dtkcc0hSS81wYnrszVYy
+ meUBAQwZncNgpU2y2XgjTbA9UCUN2ywnx+/QJ+Fer/IknKLY59clHDDflbw5aGA07viO
+ eqWVjb+QwbTrKvTEoPEYEI8rAUZ3zEe7tuo1veJOYk1JyYJhimwugopa2plvMVCLl46P
+ M56g==
+X-Gm-Message-State: AOAM531KwuOqkS/Fq9PTEYOY5wJacJNlZZR+EHuF1T5mDZVSPNYA8hE2
+ Od4FUw832JVctVYGimrJnzcYSjkdgRaAZlyAymJVEdWxTtu/fA==
+X-Google-Smtp-Source: ABdhPJyxqHxwIbIJ/QSWCpNEvGfSCaol0tEhkTjD3H8I4kIFBE/3Rng8LIZzP6PdREkiYLk6I0q5f0I2P21/l6JsnYo=
+X-Received: by 2002:a05:6402:c:: with SMTP id
+ d12mr14813128edu.100.1616765707605; 
+ Fri, 26 Mar 2021 06:35:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201022053225.2596110-1-anup.patel@wdc.com>
- <CAEUhbmVWesOJTxejnr-DYMUMXgLsRLz9nVqbAEb0emu_nUEhqw@mail.gmail.com>
-In-Reply-To: <CAEUhbmVWesOJTxejnr-DYMUMXgLsRLz9nVqbAEb0emu_nUEhqw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 26 Mar 2021 21:29:51 +0800
-Message-ID: <CAEUhbmVfTNXbj02yi=MSx6voEFBiwPNsfMVUemh-tCMAVurnVg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/riscv: sifive_u: Allow passing custom DTB
-To: Anup Patel <anup.patel@wdc.com>
+References: <20210319162458.13760-1-peter.maydell@linaro.org>
+In-Reply-To: <20210319162458.13760-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Mar 2021 13:34:39 +0000
+Message-ID: <CAFEAcA9hz5ZsetCWMGJd+aX0td6vE7YiAW+x2C=K3mCsdWiJ8w@mail.gmail.com>
+Subject: Re: [PATCH for-6.0] hw/timer/renesas_tmr: Add default-case asserts in
+ read_tcnt()
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,46 +78,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 24, 2021 at 9:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Anup,
->
-> On Thu, Oct 22, 2020 at 1:34 PM Anup Patel <anup.patel@wdc.com> wrote:
-> >
-> > Extend sifive_u machine to allow passing custom DTB using "-dtb"
-> > command-line parameter. This will help users pass modified DTB
-> > or Linux SiFive DTB to sifive_u machine.
-> >
-> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > ---
-> >  hw/riscv/sifive_u.c | 28 ++++++++++++++++++++--------
-> >  1 file changed, 20 insertions(+), 8 deletions(-)
-> >
->
-> I am using the following command to boot a Linux v5.11 kernel, but it hangs at:
->
-> $ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G -display none -serial
-> stdio -kernel arch/riscv/boot/Image -dtb
-> arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb -append
-> "earlycon=sbi console=ttySIF0"
->
-> [    0.000000] smp: Bringing up secondary CPUs ...
->
-> Removing -dtb makes the kernel continue booting.
->
-> I am not sure what's missing ofusing "-dtb"?
+ping for review?
 
-I figured out what's missing, and will send a patch on documentation soon.
+thanks
+-- PMM
 
-Regards,
-Bin
+On Fri, 19 Mar 2021 at 16:24, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> In commit 81b3ddaf8772ec we fixed a use of uninitialized data
+> in read_tcnt(). However this change wasn't enough to placate
+> Coverity, which is not smart enough to see that if we read a
+> 2 bit field and then handle cases 0, 1, 2 and 3 then there cannot
+> be a flow of execution through the switch default. Add explicit
+> default cases which assert that they can't be reached, which
+> should help silence Coverity.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/timer/renesas_tmr.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
+> index eed39917fec..d96002e1ee6 100644
+> --- a/hw/timer/renesas_tmr.c
+> +++ b/hw/timer/renesas_tmr.c
+> @@ -146,6 +146,8 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+>          case CSS_CASCADING:
+>              tcnt[1] = tmr->tcnt[1];
+>              break;
+> +        default:
+> +            g_assert_not_reached();
+>          }
+>          switch (FIELD_EX8(tmr->tccr[0], TCCR, CSS)) {
+>          case CSS_INTERNAL:
+> @@ -159,6 +161,8 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+>          case CSS_EXTERNAL: /* QEMU doesn't implement this */
+>              tcnt[0] = tmr->tcnt[0];
+>              break;
+> +        default:
+> +            g_assert_not_reached();
+>          }
+>      } else {
+>          tcnt[0] = tmr->tcnt[0];
+> --
+> 2.20.1
 
