@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE7834A565
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 11:21:26 +0100 (CET)
-Received: from localhost ([::1]:37120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B23F34A572
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 11:25:04 +0100 (CET)
+Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPjam-0000pX-O7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 06:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
+	id 1lPjeJ-0004dZ-80
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 06:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
- id 1lPjZK-0008Hs-Oa; Fri, 26 Mar 2021 06:19:55 -0400
-Received: from exmail.andestech.com ([60.248.187.195]:31465
- helo=ATCSQR.andestech.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
- id 1lPjZ4-0008Am-FO; Fri, 26 Mar 2021 06:19:52 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 12QAIWk1001833;
- Fri, 26 Mar 2021 18:18:32 +0800 (GMT-8)
- (envelope-from dylan@andestech.com)
-Received: from andestech.com (10.0.15.65) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Fri, 26 Mar 2021
- 18:18:32 +0800
-Date: Fri, 26 Mar 2021 18:18:33 +0800
-From: Dylan Jhong <dylan@andestech.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [PATCH V3] target/riscv: Align the data type of reset vector
- address
-Message-ID: <20210326101833.GA21700@andestech.com>
-References: <20210325094150.28918-1-dylan@andestech.com>
- <CAKmqyKMGROe+k8=f=_Vw8eLwo-PF-ENQeoD+WSte_G8dRHmatg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPjaM-0001Ha-98
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:20:58 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lPjaK-0000Yy-CM
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:20:57 -0400
+Received: by mail-ej1-x635.google.com with SMTP id w3so7603565ejc.4
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 03:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5WJN03Ew2msb1e6JG5mzDx9NLkxyPo7Y/N/B9i/feOk=;
+ b=VusCNDBKNMaFze7Lnutcw2psNPQnQi4TZB1Q06POW0V6gExS8mxK/491KtuIwefCyy
+ H7hChsrh9Lh+xuP6VCDwoQr9mOniRYRHd+Ln9GycpZB9xvH5dP0XDT1AtKt4/YI4JZzs
+ cS3QbfCVlySh4a+2o1vKwd0Vl8/d+yJF3YRsP0kRRoxUFz5qnFRBxzmFMcmwixjol+V7
+ wDIAlCELkWXvcALQhoTjmTjwv+eNWdCklJS8J9ZIWAd1KsBMXkIzWeEqZ/t2Kk+ulFlG
+ G30asZ/ND8nT3ft+k1ChFq4MuZ2KcYEWe+1ewJ77t34xcA4BWyTycvKzqD4bL53VP1lG
+ srCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5WJN03Ew2msb1e6JG5mzDx9NLkxyPo7Y/N/B9i/feOk=;
+ b=pGkKhsGV8xwVmORhC3E1/BvUJSNlodH/5R3PW1SRAvDNiqrUj/acU9cCGbqAl+GjWR
+ qYWKHi2nHl8XsOThecDWel/djHaLhXpujUCLxtYiH59hxMLdZH10qWlJyE3/vTF41Pzh
+ jpFzjVEOBh3Q2jmrj2tYWpUBJPkBhM81oBOi5NfQkYtejVXTzCI1q4x8q6cRXEDV1QCq
+ WGusFt2ReZw6WYfqGi/trQqm3EvK9L6iGUBJbHwA5LuicRHf6rHnJ/WJdlJrauYyhOVU
+ AhPb/hjpvOAU6WM45XGaQHWLnh/wMNbL0UpSbhkR6a7ZsPvEqgn58WyyNBjQ/0N+gJLa
+ 8zJA==
+X-Gm-Message-State: AOAM532ABBKuxQZ1jTirW2d+YVH7E34/m7/AXLe2CeDWIhaOyqp2pAId
+ 6SlwT6MxnqZXFKVPbKIzfJLbiKIxNRUmmqWt4ziqvw==
+X-Google-Smtp-Source: ABdhPJws6FWSBH/yrJNI52CWe6GzlzX/nkox+RNtD8vpZSxL6eeNzthDEYM+yXZYsGvGxI26d4Qk3PyXaiWbIldnx0c=
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr14768445ejc.250.1616754054595; 
+ Fri, 26 Mar 2021 03:20:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKMGROe+k8=f=_Vw8eLwo-PF-ENQeoD+WSte_G8dRHmatg@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.0.15.65]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 12QAIWk1001833
-Received-SPF: pass client-ip=60.248.187.195; envelope-from=dylan@andestech.com;
- helo=ATCSQR.andestech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210325153310.9131-1-peter.maydell@linaro.org>
+ <20210325153310.9131-2-peter.maydell@linaro.org>
+ <af25a32c-6bff-c44c-ff9c-65721d5e9e54@redhat.com>
+In-Reply-To: <af25a32c-6bff-c44c-ff9c-65721d5e9e54@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Mar 2021 10:20:22 +0000
+Message-ID: <CAFEAcA9WqyauWsF-5FbJMt=0NcRoZZfJmunDhvqyaSBUV1xm8w@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 1/4] include/hw/boards.h: Document
+ machine_class_allow_dynamic_sysbus_dev()
+To: Auger Eric <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,132 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Alan
- Quey-Liang =?utf-8?B?S2FvKOmrmOmtgeiJryk=?= <alankao@andestech.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, "qemu-devel@nongnu.org
- Developers" <qemu-devel@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- "x5710999x@gmail.com" <x5710999x@gmail.com>,
- Ruinland Chuan-Tzu =?utf-8?B?VHNhKOiUoeWCs+izhyk=?= <ruinland@andestech.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 26, 2021 at 04:19:09AM +0800, Alistair Francis wrote:
-> On Thu, Mar 25, 2021 at 5:43 AM Dylan Jhong <dylan@andestech.com> wrote:
-> >
-> > Signed-off-by: Dylan Jhong <dylan@andestech.com>
-> > Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-> > ---
-> >  target/riscv/cpu.c | 6 +++++-
-> >  target/riscv/cpu.h | 2 +-
-> >  2 files changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 7d6ed80f6b..8a5f18bcb0 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -137,7 +137,7 @@ static void set_feature(CPURISCVState *env, int feature)
-> >      env->features |= (1ULL << feature);
-> >  }
-> >
-> > -static void set_resetvec(CPURISCVState *env, int resetvec)
-> > +static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
-> >  {
-> >  #ifndef CONFIG_USER_ONLY
-> >      env->resetvec = resetvec;
-> > @@ -554,7 +554,11 @@ static Property riscv_cpu_properties[] = {
-> >      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-> >      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-> >      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> > +#if defined(TARGET_RISCV32)
-> > +    DEFINE_PROP_UINT32("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-> > +#elif defined(TARGET_RISCV64)
-> >      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-> > +#endif
-> 
-> Thanks for the patch!
-> 
-> I don't want to introduce any more define(TARGET_* macros as we are
-> trying to make RISC-V QEMU xlen independent.
-> 
-> The hexagon port has an example of how you can use target_ulong here:
-> 
->     DEFINE_PROP_UNSIGNED("lldb-stack-adjust", HexagonCPU, lldb_stack_adjust,
->                          0, qdev_prop_uint32, target_ulong);
-> 
-> can you do something like that instead?
-> 
-> Alistair
+On Fri, 26 Mar 2021 at 09:27, Auger Eric <eric.auger@redhat.com> wrote:
 >
-
-Hi Alistair,
-
-Thanks for the comments.
-But so far I did not see a way to satisfy both 32/64bit reset vector define.
-
-The problem occurs in the 5th parameter of DEFINE_PROP_UNSIGNED(_name, _state, _field, _defval, _prop, _type).
-We need to specify the _prop parameter to one of the PropertyInfo struct as shown below:
-
-    extern const PropertyInfo qdev_prop_bit;
-    extern const PropertyInfo qdev_prop_bit64;
-    extern const PropertyInfo qdev_prop_bool;
-    extern const PropertyInfo qdev_prop_enum;
-    extern const PropertyInfo qdev_prop_uint8;
-    extern const PropertyInfo qdev_prop_uint16;
-    extern const PropertyInfo qdev_prop_uint32;
-    extern const PropertyInfo qdev_prop_int32;
-    extern const PropertyInfo qdev_prop_uint64;
-    extern const PropertyInfo qdev_prop_int64;
-    extern const PropertyInfo qdev_prop_size;
-    extern const PropertyInfo qdev_prop_string;
-    extern const PropertyInfo qdev_prop_on_off_auto;
-    extern const PropertyInfo qdev_prop_size32;
-    extern const PropertyInfo qdev_prop_arraylen;
-    extern const PropertyInfo qdev_prop_link;
-
-Currently, there is no structure like "qdev_prop_target_ulong".
-So, we still need to use an if-else condition to determine the attributes of the 5th parameter.
-Something like this:
-    #if defined(TARGET_RISCV32)
-        DEFINE_PROP_UNSIGNED("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC, qdev_prop_uint32 target_ulong),
-    #elif defined(TARGET_RISCV64)
-        DEFINE_PROP_UNSIGNED("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC, qdev_prop_uint64 target_ulong),
-    #endif
-I think this is not be what you meant.
-
-The other architectures seem to ignore this, they just choose one of the attributes(qdev_prop_uint32/64) as their parameter.
-
-So now we have 2 options:
-1. Use "qdev_prop_uint64" as the 5th parameter
-    DEFINE_PROP_UNSIGNED("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC, qdev_prop_uint64 target_ulong),
-
-2. Use if-else condition
-    [patch v3]
-
-Or if you have other opinions, please bring them up and discuss them together.
-
-Thanks,
-Dylan
- 
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
+> Hi Peter,
+>
+> On 3/25/21 4:33 PM, Peter Maydell wrote:
+> > The function machine_class_allow_dynamic_sysbus_dev() is currently
+> > undocumented; add a doc comment.
 > >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 0a33d387ba..d9d7891666 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -303,7 +303,7 @@ struct RISCVCPU {
-> >          uint16_t elen;
-> >          bool mmu;
-> >          bool pmp;
-> > -        uint64_t resetvec;
-> > +        target_ulong resetvec;
-> >      } cfg;
-> >  };
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  include/hw/boards.h | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
 > >
-> > --
-> > 2.17.1
+> > diff --git a/include/hw/boards.h b/include/hw/boards.h
+> > index 4a90549ad85..27106abc11d 100644
+> > --- a/include/hw/boards.h
+> > +++ b/include/hw/boards.h
+> > @@ -36,7 +36,21 @@ void machine_set_cpu_numa_node(MachineState *machine,
+> >                                 const CpuInstanceProperties *props,
+> >                                 Error **errp);
 > >
-> >
+> > +/**
+> > + * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+> nit: s/of valid devices/of dynamically instantiable sysbus devices ?
+
+I was trying to keep the summary line to be one line, which
+doesn't give much space for nuance with a function name this long...
+
+
+-- PMM
 
