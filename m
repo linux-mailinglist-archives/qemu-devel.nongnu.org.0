@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD1034A281
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 08:26:26 +0100 (CET)
-Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0213F34A2AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 08:47:29 +0100 (CET)
+Received: from localhost ([::1]:38974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPgrR-0004mG-91
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 03:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49226)
+	id 1lPhBn-0001hF-Pt
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 03:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lPgqE-0004Bk-Dr
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 03:25:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lPgqB-0004Wj-Ei
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 03:25:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616743504;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UMOz22D/wLZchyycf0Tf745FSgR4hmlgIx9XeBqZFr8=;
- b=YwkmdbFZ2CajcNZyxuEKzDR/FfMLmgrS+r/I3uFE9iwxWYuY5R5kePi6kj7+gaf8F7vGQ4
- jx+nyN9SAsE/vIjp0GWegEMsFT9GcrfmopV9083rQubNaWmPDuvN8mtK1kAkNCo+W23cMz
- XfXutLvrxlWCdN4d9x6mIsLkjPlUECk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-0qLjHhocPXyymIDddRKLeQ-1; Fri, 26 Mar 2021 03:25:01 -0400
-X-MC-Unique: 0qLjHhocPXyymIDddRKLeQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A671D87A82A;
- Fri, 26 Mar 2021 07:25:00 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-10.pek2.redhat.com
- [10.72.13.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59B722B88A;
- Fri, 26 Mar 2021 07:24:48 +0000 (UTC)
-Subject: Re: [PATCH 0/6] Add debug interface to kick/call on purpose
-To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210326054433.11762-1-dongli.zhang@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <440216a8-821f-92dd-bc8b-fb2427bdc0e6@redhat.com>
-Date: Fri, 26 Mar 2021 15:24:46 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPhAJ-0001DD-0L
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 03:45:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPhAG-00010g-Lh
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 03:45:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPhAE-00049G-Bq
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 07:45:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 57E652E8162
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 07:45:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210326054433.11762-1-dongli.zhang@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Mar 2021 07:36:28 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1915063@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dober60 markrhpearson paelzer sergiodj
+ ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
+Message-Id: <161674418833.18213.7994246976402059144.malone@gac.canonical.com>
+Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
+X-Launchpad-Hash: e6fe4efa7e1e9496a84c860a9ae02657cb1050d7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,192 +74,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com, ehabkost@redhat.com,
- mst@redhat.com, joe.jin@oracle.com, armbru@redhat.com, dgilbert@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com
+Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thanks David,
+I have no threadripper around atm, I think I can next week get hands on an =
+EPYC Rome, but that isn't 100% the same.
 
-ÔÚ 2021/3/26 ÏÂÎç1:44, Dongli Zhang Ð´µÀ:
-> The virtio device/driver (e.g., vhost-scsi or vhost-net) may hang due to
-> the loss of doorbell kick, e.g.,
->
-> https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01711.html
->
-> ... or due to the loss of IRQ, e.g., as fixed by linux kernel commit
-> fe200ae48ef5 ("genirq: Mark polled irqs and defer the real handler").
->
-> This patch introduces a new debug interface 'DeviceEvent' to DeviceClass
-> to help narrow down if the issue is due to loss of irq/kick. So far the new
-> interface handles only two events: 'call' and 'kick'. Any device (e.g.,
-> virtio/vhost or VFIO) may implement the interface (e.g., via eventfd, MSI-X
-> or legacy IRQ).
->
-> The 'call' is to inject irq on purpose by admin for a specific device (e.g.,
-> vhost-scsi) from QEMU/host to VM, while the 'kick' is to kick the doorbell
-> on purpose by admin at QEMU/host side for a specific device.
->
->
-> This device can be used as a workaround if call/kick is lost due to
-> virtualization software (e.g., kernel or QEMU) issue.
->
-> We may also implement the interface for VFIO PCI, e.g., to write to
-> VFIOPCIDevice->msi_vectors[i].interrupt will be able to inject IRQ to VM
-> on purpose. This is considered future work once the virtio part is done.
->
->
-> Below is from live crash analysis. Initially, the queue=2 has count=15 for
-> 'kick' eventfd_ctx. Suppose there is data in vring avail while there is no
-> used available. We suspect this is because vhost-scsi was not notified by
-> VM. In order to narrow down and analyze the issue, we use live crash to
-> dump the current counter of eventfd for queue=2.
->
-> crash> eventfd_ctx ffff8f67f6bbe700
-> struct eventfd_ctx {
->    kref = {
->      refcount = {
->        refs = {
->          counter = 4
->        }
->      }
->    },
->    wqh = {
->      lock = {
->        {
->          rlock = {
->            raw_lock = {
->              val = {
->                counter = 0
->              }
->            }
->          }
->        }
->      },
->      head = {
->        next = 0xffff8f841dc08e18,
->        prev = 0xffff8f841dc08e18
->      }
->    },
->    count = 15, ---> eventfd is 15 !!!
->    flags = 526336
-> }
->
-> Now we kick the doorbell for vhost-scsi queue=2 on purpose for diagnostic
-> with this interface.
->
-> { "execute": "x-debug-device-event",
->    "arguments": { "dev": "/machine/peripheral/vscsi0",
->                   "event": "kick", "queue": 2 } }
->
-> The counter is increased to 16. Suppose the hang issue is resolved, it
-> indicates something bad is in software that the 'kick' is lost.
+But gladly you tried this on the latest qemu 5.2 and since it is failing th=
+ere as well it might be worth to also report it upstream. That is a great c=
+ommunity which might have ran things on a threadripper already and be able =
+to point us to a qemu/kernel fix - or at least an existing discussions abut=
+ it.
+For now I'm adding a qemu task here which will mirror this case to the mail=
+ing list.
 
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
 
-What do you mean by "software" here? And it looks to me you're testing 
-whether event_notifier_set() is called by virtio_queue_notify() here. If 
-so, I'm not sure how much value could we gain from a dedicated debug 
-interface like this consider there're a lot of exisinting general 
-purpose debugging method like tracing or gdb. I'd say the path from 
-virtio_queue_notify() to event_notifier_set() is only a very small 
-fraction of the process of virtqueue kick which is unlikey to be buggy. 
-Consider usually the ioeventfd will be offloaded to KVM, it's more a 
-chance that something is wrong in setuping ioeventfd instead of here. 
-Irq is even more complicated.
+-- =
 
-I think we could not gain much for introducing an dedicated mechanism 
-for such a corner case.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915063
 
-Thanks
+Title:
+  Windows 10 wil not install using qemu-system-x86_64
 
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
 
->
-> crash> eventfd_ctx ffff8f67f6bbe700
-> struct eventfd_ctx {
->    kref = {
->      refcount = {
->        refs = {
->          counter = 4
->        }
->      }
->    },
->    wqh = {
->      lock = {
->        {
->          rlock = {
->            raw_lock = {
->              val = {
->                counter = 0
->              }
->            }
->          }
->        }
->      },
->      head = {
->        next = 0xffff8f841dc08e18,
->        prev = 0xffff8f841dc08e18
->      }
->    },
->    count = 16, ---> eventfd incremented to 16 !!!
->    flags = 526336
-> }
->
->
-> Original RFC link:
->
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg03441.html
->
-> Changed since RFC:
->    - add support for more virtio/vhost pci devices
->    - add log (toggled by DEBUG_VIRTIO_EVENT) to virtio.c to say that this
->      mischeivous command had been used
->    - fix grammer error (s/lost/loss/)
->    - change version to 6.1
->    - fix incorrect example in qapi/qdev.json
->    - manage event types with enum/array, instead of hard coding
->
->
-> Dongli Zhang (6):
->     qdev: introduce qapi/hmp command for kick/call event
->     virtio: introduce helper function for kick/call device event
->     virtio-blk-pci: implement device event interface for kick/call
->     virtio-scsi-pci: implement device event interface for kick/call
->     vhost-scsi-pci: implement device event interface for kick/call
->     virtio-net-pci: implement device event interface for kick/call
->
->   hmp-commands.hx                 | 14 ++++++++
->   hw/block/virtio-blk.c           |  9 +++++
->   hw/net/virtio-net.c             |  9 +++++
->   hw/scsi/vhost-scsi.c            |  6 ++++
->   hw/scsi/virtio-scsi.c           |  9 +++++
->   hw/virtio/vhost-scsi-pci.c      | 10 ++++++
->   hw/virtio/virtio-blk-pci.c      | 10 ++++++
->   hw/virtio/virtio-net-pci.c      | 10 ++++++
->   hw/virtio/virtio-scsi-pci.c     | 10 ++++++
->   hw/virtio/virtio.c              | 64 ++++++++++++++++++++++++++++++++++++
->   include/hw/qdev-core.h          |  9 +++++
->   include/hw/virtio/vhost-scsi.h  |  3 ++
->   include/hw/virtio/virtio-blk.h  |  2 ++
->   include/hw/virtio/virtio-net.h  |  3 ++
->   include/hw/virtio/virtio-scsi.h |  3 ++
->   include/hw/virtio/virtio.h      |  3 ++
->   include/monitor/hmp.h           |  1 +
->   qapi/qdev.json                  | 30 +++++++++++++++++
->   softmmu/qdev-monitor.c          | 56 +++++++++++++++++++++++++++++++
->   19 files changed, 261 insertions(+)
->
->
-> I did tests with below cases.
->
-> - virtio-blk-pci (ioeventfd on/off, iothread, live migration)
-> - virtio-scsi-pci (ioeventfd on/off)
-> - vhost-scsi-pci
-> - virtio-net-pci (ioeventfd on/off, vhost)
->
-> Thank you very much!
->
-> Dongli Zhang
->
->
+Bug description:
+  Steps to reproduce
+  install virt-manager and ovmf if nopt already there
+  copy windows and virtio iso files to /var/lib/libvirt/images
 
+  Use virt-manager from local machine to create your VMs with the disk, CPU=
+s and memory required
+      Select customize configuration then select OVMF(UEFI) instead of seab=
+ios
+      set first CDROM to the windows installation iso (enable in boot optio=
+ns)
+      add a second CDROM and load with the virtio iso
+  	change spice display to VNC
+
+    Always get a security error from windows and it fails to launch the ins=
+taller (works on RHEL and Fedora)
+  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
+ of no help
+  --- =
+
+  ProblemType: Bug
+  ApportVersion: 2.20.11-0ubuntu27.14
+  Architecture: amd64
+  CasperMD5CheckResult: skip
+  CurrentDesktop: ubuntu:GNOME
+  DistributionChannelDescriptor:
+   # This is the distribution channel descriptor for the OEM CDs
+   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
+criptor
+   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
+d64+X00
+  DistroRelease: Ubuntu 20.04
+  InstallationDate: Installed on 2021-01-20 (19 days ago)
+  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
+0-14:39
+  MachineType: LENOVO 30E102Z
+  NonfreeKernelModules: nvidia_modeset nvidia
+  Package: linux (not installed)
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcFB: 0 EFI VGA
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
+=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
+andoff=3D7
+  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
+  RelatedPackageVersions:
+   linux-restricted-modules-5.6.0-1042-oem N/A
+   linux-backports-modules-5.6.0-1042-oem  N/A
+   linux-firmware                          1.187.8
+  RfKill:
+   =
+
+  Tags:  focal
+  Uname: Linux 5.6.0-1042-oem x86_64
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
+udo
+  _MarkForUpload: True
+  dmi.bios.date: 07/29/2020
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: S07KT08A
+  dmi.board.name: 1046
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Defined
+  dmi.chassis.type: 3
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: None
+  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
+pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
+  dmi.product.family: INVALID
+  dmi.product.name: 30E102Z
+  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
+  dmi.product.version: ThinkStation P620
+  dmi.sys.vendor: LENOVO
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
