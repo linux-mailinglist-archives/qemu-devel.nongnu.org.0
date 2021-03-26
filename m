@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181C234AA9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:58:43 +0100 (CET)
-Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E0D34AA9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 15:57:40 +0100 (CET)
+Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPnv8-0007md-2g
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
+	id 1lPnu7-0006IG-W4
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 10:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPnsx-0004u3-Lm
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:56:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53808)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPnso-0004dC-Gi
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:56:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPnsv-0002ce-Ol
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:56:27 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPnsl-0002Wj-FW
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 10:56:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616770585;
+ s=mimecast20190719; t=1616770573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DP5Vnbp87+J551Wm+wuLH5G1N48U2L8BiEl2oLUcwH0=;
- b=KARfxOe6RWglCHed0lE0Dfc3ZcHKzX2bS1IfvA++vZl44UBd0IsP92zMyojI+6MzW2aaO5
- kA5bCTlaQSxdD7bHKdmd2fSZHZ5CzJs5ECWaDDmoYqcSRWJaUmhnZYxfNBMDYDrAsB6yiP
- fV20sb3FWJqIV2WpiF/2xmapl67WmY4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/lXYHYx7LYQealjtHRsx6hYEwV7O5G1hEeWdoq4AAs0=;
+ b=W/k0APyjaHVEtJ2gS5yQOFkcjaC3h0yijcJm5m/hferzFeycz5tEIQ52IvixqKUffuBh+T
+ bnQFzRcPpAYXWEYWvmbVccAhryTrfFJrFLLFPjAjJ1nWMCnucmhCDLk9tNE2vf4SKecrKD
+ U6r3wpUeAFaghPR3g4QEtEuNjRApiBs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-1lf2k7cyMnOJafW8C_Vd1w-1; Fri, 26 Mar 2021 10:56:21 -0400
-X-MC-Unique: 1lf2k7cyMnOJafW8C_Vd1w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-334-tuE3hKtuPpS1U3KiPfCLtw-1; Fri, 26 Mar 2021 10:56:11 -0400
+X-MC-Unique: tuE3hKtuPpS1U3KiPfCLtw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C15AB1098870;
- Fri, 26 Mar 2021 14:55:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F39101926DCE;
+ Fri, 26 Mar 2021 14:55:13 +0000 (UTC)
 Received: from localhost (ovpn-113-48.ams2.redhat.com [10.36.113.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E9FD5D9DE;
- Fri, 26 Mar 2021 14:55:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F366608BA;
+ Fri, 26 Mar 2021 14:55:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/2] qcow2: Force preallocation with data-file-raw
-Date: Fri, 26 Mar 2021 15:55:07 +0100
-Message-Id: <20210326145509.163455-1-mreitz@redhat.com>
+Subject: [PATCH v2 1/2] qcow2: Force preallocation with data-file-raw
+Date: Fri, 26 Mar 2021 15:55:08 +0100
+Message-Id: <20210326145509.163455-2-mreitz@redhat.com>
+In-Reply-To: <20210326145509.163455-1-mreitz@redhat.com>
+References: <20210326145509.163455-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -78,106 +81,104 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1: https://lists.nongnu.org/archive/html/qemu-block/2020-06/msg00992.html
+Setting the qcow2 data-file-raw bit means that you can ignore the
+qcow2 metadata when reading from the external data file.  It does not
+mean that you have to ignore it, though.  Therefore, the data read must
+be the same regardless of whether you interpret the metadata or whether
+you ignore it, and thus the L1/L2 tables must all be present and give a
+1:1 mapping.
 
+This patch changes 244's output: First, the qcow2 file is larger right
+after creation, because of metadata preallocation.  Second, the qemu-img
+map output changes: Everything that was not explicitly discarded or
+zeroed is now a data area.
 
-Hi,
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2.c              | 34 ++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/244.out |  9 ++++-----
+ 2 files changed, 38 insertions(+), 5 deletions(-)
 
-I think that qcow2 images with data-file-raw should always have
-preallocated 1:1 L1/L2 tables, so that the image always looks the same
-whether you respect or ignore the qcow2 metadata.  The easiest way to
-achieve that is to enforce at least metadata preallocation whenever
-data-file-raw is given.
-
-As far as I could tell, there were two main critique points about v1:
-(1) If we force metadata preallocation on creation, we should also do it
-    when the image is grown.
-(2) We could go even further and make qemu ignore all L1/L2 tables for
-    images with raw external data files.  Ideally, we wouldn’t even
-    write them at all.
-
-(1) is addressed in this v2.
-
-As for (2)...  It’s complicated.  I think we want the fix from this
-series now and if we want (2), we can have a go at it later.  Many
-things are to be considered there.
-
-For example: data-file-raw is an autoclear flag.  Technically, it is
-possible for some qcow2 implementation to support data-file, but not
-data-file-raw.  If we ignore metadata for images with data-file-raw, we
-would break them, because “ignoring” would mean we don’t even create it,
-ever, so the external data file would appear empty to such
-implementations.
-Now, in practice, there is no such implementation.  data-file-raw has
-been introduced alongside data-file.
-However, also in practice, qemu always did and still does rely on the
-metadata in the qcow2 image.  So we have to ensure the metadata is
-there, or all versions of qemu that support data-file will break.
-
-The easiest way to ensure the metadata is there is to preallocate it on
-creation/growth.  If at same later point we decide we want to ignore it
-on runtime, this preallocation would actually allow us to do that.  So
-the preallocation is the necessary first step (the second step would
-probably be a second auto-clear flag that states that all metadata has
-been preallocated and can thus be ignored at runtime).
-
-((Even today, we could ignore the L2 tables when reading, but the
-problems are that (1) images can then appear differently to qemu
-versions that do ignore them and versions that don’t, and (2) when
-writing to a cluster, we still need to ensure that its L2 entry is there
-(i.e., allocated and pointing to the correct offset).  I don’t think it
-makes sense to ignore the tables when reading but not when writing.))
-
-
-There have also been proposals of instead just not writing any metadata.
-This would naturally require an incompatible new flag, because such
-images would not be usable by current qemu versions.  Such a flag would
-make this series unnecessary, but do we really want to break
-incompatibility with all qemu versions going back to 4.0 just so we
-don’t have to waste space on L2 tables?  Users are free to just use 2M
-clusters for data-file-raw images so the wasted space is minimized (to
-1/2M of the image size, e.g. 512M per 1T).
-
-And in any case: I think patch 1 is simple enough that we can just take
-it now and it wouldn’t be too bad to write it off as a loss if we ever
-add an incompatible no-l2 flag.
-
-Point is, we have no actual patches to implement a no-l2 flag, but there
-is something that needs to be fixed about raw external data files, and
-this series fixes it.
-
-
-v2:
-- Patch 1: Force metadata preallocation when the image is resized
-- Patch 2:
-  - Use blockdev-create to create the qcow2 image instead of creating
-    the qcow2 image first and then (technically illegally) writing to
-    the external data file
-  - Test growing a qcow2 image with an external data file, where the
-    data file is grown first and the new area is filled with data
-
-
-git-backport-diff against v1:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-
-001/2:[0012] [FC] 'qcow2: Force preallocation with data-file-raw'
-002/2:[0110] [FC] 'iotests/244: Test preallocation for data-file-raw'
-
-
-Max Reitz (2):
-  qcow2: Force preallocation with data-file-raw
-  iotests/244: Test preallocation for data-file-raw
-
- block/qcow2.c              |  34 ++++++++++++
- tests/qemu-iotests/244     | 104 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/244.out |  68 ++++++++++++++++++++++--
- 3 files changed, 201 insertions(+), 5 deletions(-)
-
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0db1227ac9..9920c756eb 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3502,6 +3502,28 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+         ret = -EINVAL;
+         goto out;
+     }
++    if (qcow2_opts->data_file_raw &&
++        qcow2_opts->preallocation == PREALLOC_MODE_OFF)
++    {
++        /*
++         * data-file-raw means that "the external data file can be
++         * read as a consistent standalone raw image without looking
++         * at the qcow2 metadata."  It does not say that the metadata
++         * must be ignored, though (and the qcow2 driver in fact does
++         * not ignore it), so the L1/L2 tables must be present and
++         * give a 1:1 mapping, so you get the same result regardless
++         * of whether you look at the metadata or whether you ignore
++         * it.
++         */
++        qcow2_opts->preallocation = PREALLOC_MODE_METADATA;
++
++        /*
++         * Cannot use preallocation with backing files, but giving a
++         * backing file when specifying data_file_raw is an error
++         * anyway.
++         */
++        assert(!qcow2_opts->has_backing_file);
++    }
+ 
+     if (qcow2_opts->data_file) {
+         if (version < 3) {
+@@ -4237,6 +4259,18 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+             error_setg_errno(errp, -ret, "Failed to grow the L1 table");
+             goto fail;
+         }
++
++        if (data_file_is_raw(bs) && prealloc == PREALLOC_MODE_OFF) {
++            /*
++             * When creating a qcow2 image with data-file-raw, we enforce
++             * at least prealloc=metadata, so that the L1/L2 tables are
++             * fully allocated and reading from the data file will return
++             * the same data as reading from the qcow2 image.  When the
++             * image is grown, we must consequently preallocate the
++             * metadata structures to cover the added area.
++             */
++            prealloc = PREALLOC_MODE_METADATA;
++        }
+     }
+ 
+     switch (prealloc) {
+diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
+index 7269b4295a..1a3ae31dde 100644
+--- a/tests/qemu-iotests/244.out
++++ b/tests/qemu-iotests/244.out
+@@ -83,7 +83,7 @@ qcow2 file size after I/O: 327680
+ === Standalone image with external data file (valid raw) ===
+ 
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data data_file_raw=on
+-qcow2 file size before I/O: 196616
++qcow2 file size before I/O: 327680
+ 
+ wrote 4194304/4194304 bytes at offset 1048576
+ 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -93,11 +93,10 @@ wrote 3145728/3145728 bytes at offset 3145728
+ 3 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ No errors were found on the image.
+ 
+-[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false},
+-{ "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 1048576},
++[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 0},
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
+-{ "start": 4194304, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": 4194304},
+-{ "start": 5242880, "length": 61865984, "depth": 0, "zero": true, "data": false}]
++{ "start": 4194304, "length": 2097152, "depth": 0, "zero": true, "data": false, "offset": 4194304},
++{ "start": 6291456, "length": 60817408, "depth": 0, "zero": false, "data": true, "offset": 6291456}]
+ 
+ read 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 -- 
 2.29.2
 
