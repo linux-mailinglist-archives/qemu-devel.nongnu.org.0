@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2624534A451
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:30:57 +0100 (CET)
-Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5140E34A442
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:28:25 +0100 (CET)
+Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPinw-0002O2-56
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
+	id 1lPilU-0007zm-0m
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPiiI-0006fV-SN
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:25:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59573)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPiiE-0006Zo-5E
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:25:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPiiH-0001cx-2E
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:25:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPiiC-0001Yp-5K
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:25:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616750704;
+ s=mimecast20190719; t=1616750699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ulHB5goP1OYYWrCeobzy36XqIsJGJhJMrxFSyWwozcE=;
- b=Qjka55ps0wjSQrf8RgJFxYINzrIL7Uebw7bxIeUo8KE7hEIZ8J2xAm0DjOvF8550MeyU9p
- dfnoe3EU8iiMUv3IMGMH2hZUf0aWAmRf4eZuFaJa6O+RTStp25Wbw4DpPSl+lMBz/PWwcS
- oqypnX85NMqVrsM/WN4Aahxup8+YAFk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M/3F6Eu421m1jbB/t3b1ThUs8g+1gTxz96B4RTjH9P8=;
+ b=QuRlmqwQBj56Pgab0h6cs/xfzRL8clhHf7vvB5lDtpi/DPhQA3Hqg1dLeGH2hiNXmYlQ2p
+ xwZEvu2UZAWF1+Kgf3HUhQJB5deNVmY4pNaEICHhoiLmvNR5rhHC0Fb19dGTFW2AoJQq4e
+ QPXjE9s4vOCUwlAvYLy6xx/bLsLPLMs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-umlj22x_P3-rSPVuSqCt2Q-1; Fri, 26 Mar 2021 05:25:01 -0400
-X-MC-Unique: umlj22x_P3-rSPVuSqCt2Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-301-iAaNG88VOO2EF6iRbD0Xtw-1; Fri, 26 Mar 2021 05:24:57 -0400
+X-MC-Unique: iAaNG88VOO2EF6iRbD0Xtw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E1FA1052BB2
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 09:25:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43EEA10199AA
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 09:24:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-102.ams2.redhat.com
  [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 338626EF54;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 34C301992D;
  Fri, 26 Mar 2021 09:24:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8B6E71800385; Fri, 26 Mar 2021 10:24:48 +0100 (CET)
+ id 999FD1800386; Fri, 26 Mar 2021 10:24:48 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/7] ui: add vdagent implementation and clipboard support.
-Date: Fri, 26 Mar 2021 10:24:41 +0100
-Message-Id: <20210326092448.367016-1-kraxel@redhat.com>
+Subject: [PATCH v3 1/7] ui: add clipboard infrastructure
+Date: Fri, 26 Mar 2021 10:24:42 +0100
+Message-Id: <20210326092448.367016-2-kraxel@redhat.com>
+In-Reply-To: <20210326092448.367016-1-kraxel@redhat.com>
+References: <20210326092448.367016-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,62 +85,204 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fist sketch of cut+paste support for vnc.  On the guest side we are=0D
-going to reuse the spice vdagent, so things should work out-of-the-box=0D
-with guests in the wild.  So this patch set brings a qemu implemenation=0D
-of the vdagent protocol.=0D
-=0D
-Beside that there is the clipboard infrastructure of course.  For now=0D
-only text support is there.  The design allows adding more data types,=0D
-so we can add image support and maybe more later on.  So far vdagent,=0D
-vnc server and gtk ui are hooked up.=0D
-=0D
-Usage: qemu \=0D
-  -chardev vdagent,id=3Dvdagent,clipboard=3Don \=0D
-  -device virtio-serial-pci \=0D
-  -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0=0D
-=0D
-v2:=0D
- - add a bunch of sanity checks.=0D
- - add proper chunking.=0D
- - use autofree.=0D
-v3:=0D
- - support agents without VD_AGENT_CAP_CLIPBOARD_SELECTION.=0D
- - properly parse chunked messages.=0D
- - test with windows guests, minor fixes.=0D
- - set display_id for agent mouse events.=0D
-=0D
-Gerd Hoffmann (7):=0D
-  ui: add clipboard infrastructure=0D
-  ui/vdagent: core infrastructure=0D
-  ui/vdagent: add mouse support=0D
-  ui/vdagent: add clipboard support=0D
-  ui/vnc: clipboard support=0D
-  ui/gtk: move struct GtkDisplayState to ui/gtk.h=0D
-  ui/gtk: add clipboard support=0D
-=0D
- include/ui/clipboard.h |  68 ++++=0D
- include/ui/gtk.h       |  67 ++++=0D
- ui/vnc.h               |  24 ++=0D
- chardev/char.c         |   6 +=0D
- ui/clipboard.c         |  92 +++++=0D
- ui/gtk-clipboard.c     | 192 +++++++++++=0D
- ui/gtk.c               |  56 +--=0D
- ui/vdagent.c           | 756 +++++++++++++++++++++++++++++++++++++++++=0D
- ui/vnc-clipboard.c     | 323 ++++++++++++++++++=0D
- ui/vnc.c               |  20 +-=0D
- qapi/char.json         |  17 +=0D
- ui/meson.build         |   5 +-=0D
- ui/trace-events        |  10 +=0D
- 13 files changed, 1574 insertions(+), 62 deletions(-)=0D
- create mode 100644 include/ui/clipboard.h=0D
- create mode 100644 ui/clipboard.c=0D
- create mode 100644 ui/gtk-clipboard.c=0D
- create mode 100644 ui/vdagent.c=0D
- create mode 100644 ui/vnc-clipboard.c=0D
-=0D
---=20=0D
-2.30.2=0D
-=0D
+Add some infrastructure to manage the clipboard in qemu.
+
+TODO: Add API docs.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/ui/clipboard.h | 68 +++++++++++++++++++++++++++++++
+ ui/clipboard.c         | 92 ++++++++++++++++++++++++++++++++++++++++++
+ ui/meson.build         |  1 +
+ 3 files changed, 161 insertions(+)
+ create mode 100644 include/ui/clipboard.h
+ create mode 100644 ui/clipboard.c
+
+diff --git a/include/ui/clipboard.h b/include/ui/clipboard.h
+new file mode 100644
+index 000000000000..00ff559425ee
+--- /dev/null
++++ b/include/ui/clipboard.h
+@@ -0,0 +1,68 @@
++#ifndef QEMU_CLIPBOARD_H
++#define QEMU_CLIPBOARD_H
++
++#include "qemu/notify.h"
++
++typedef enum QemuClipboardType QemuClipboardType;
++typedef enum QemuClipboardSelection QemuClipboardSelection;
++typedef struct QemuClipboardPeer QemuClipboardPeer;
++typedef struct QemuClipboardInfo QemuClipboardInfo;
++
++enum QemuClipboardType {
++    QEMU_CLIPBOARD_TYPE_TEXT,  /* text/plain; charset=utf-8 */
++    QEMU_CLIPBOARD_TYPE__COUNT,
++};
++
++/* same as VD_AGENT_CLIPBOARD_SELECTION_* */
++enum QemuClipboardSelection {
++    QEMU_CLIPBOARD_SELECTION_CLIPBOARD,
++    QEMU_CLIPBOARD_SELECTION_PRIMARY,
++    QEMU_CLIPBOARD_SELECTION_SECONDARY,
++    QEMU_CLIPBOARD_SELECTION__COUNT,
++};
++
++struct QemuClipboardPeer {
++    const char *name;
++    Notifier update;
++    void (*request)(QemuClipboardInfo *info,
++                    QemuClipboardType type);
++};
++
++struct QemuClipboardInfo {
++    uint32_t refcount;
++    QemuClipboardPeer *owner;
++    QemuClipboardSelection selection;
++    struct {
++        bool available;
++        bool requested;
++        size_t size;
++        void *data;
++    } types[QEMU_CLIPBOARD_TYPE__COUNT];
++};
++
++struct QemuClipboardData {
++    uint32_t refcount;
++    QemuClipboardInfo *info;
++    QemuClipboardType type;
++};
++
++void qemu_clipboard_peer_register(QemuClipboardPeer *peer);
++void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer);
++
++QemuClipboardInfo *qemu_clipboard_info_new(QemuClipboardPeer *owner,
++                                           QemuClipboardSelection selection);
++QemuClipboardInfo *qemu_clipboard_info_get(QemuClipboardInfo *info);
++void qemu_clipboard_info_put(QemuClipboardInfo *info);
++
++void qemu_clipboard_update(QemuClipboardInfo *info);
++void qemu_clipboard_request(QemuClipboardInfo *info,
++                            QemuClipboardType type);
++
++void qemu_clipboard_set_data(QemuClipboardPeer *peer,
++                             QemuClipboardInfo *info,
++                             QemuClipboardType type,
++                             uint32_t size,
++                             void *data,
++                             bool update);
++
++#endif /* QEMU_CLIPBOARD_H */
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+new file mode 100644
+index 000000000000..556531c578a1
+--- /dev/null
++++ b/ui/clipboard.c
+@@ -0,0 +1,92 @@
++#include "qemu/osdep.h"
++#include "ui/clipboard.h"
++
++static NotifierList clipboard_notifiers =
++    NOTIFIER_LIST_INITIALIZER(clipboard_notifiers);
++
++void qemu_clipboard_peer_register(QemuClipboardPeer *peer)
++{
++    notifier_list_add(&clipboard_notifiers, &peer->update);
++}
++
++void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer)
++{
++    notifier_remove(&peer->update);
++}
++
++void qemu_clipboard_update(QemuClipboardInfo *info)
++{
++    notifier_list_notify(&clipboard_notifiers, info);
++}
++
++QemuClipboardInfo *qemu_clipboard_info_new(QemuClipboardPeer *owner,
++                                           QemuClipboardSelection selection)
++{
++    QemuClipboardInfo *info = g_new0(QemuClipboardInfo, 1);
++
++    info->owner = owner;
++    info->selection = selection;
++    info->refcount = 1;
++
++    return info;
++}
++
++QemuClipboardInfo *qemu_clipboard_info_get(QemuClipboardInfo *info)
++{
++    info->refcount++;
++    return info;
++}
++
++void qemu_clipboard_info_put(QemuClipboardInfo *info)
++{
++    uint32_t type;
++
++    if (!info) {
++        return;
++    }
++
++    info->refcount--;
++    if (info->refcount > 0) {
++        return;
++    }
++
++    for (type = 0; type < QEMU_CLIPBOARD_TYPE__COUNT; type++) {
++        g_free(info->types[type].data);
++    }
++    g_free(info);
++}
++
++void qemu_clipboard_request(QemuClipboardInfo *info,
++                            QemuClipboardType type)
++{
++    if (info->types[type].data ||
++        info->types[type].requested ||
++        !info->types[type].available ||
++        !info->owner)
++        return;
++
++    info->types[type].requested = true;
++    info->owner->request(info, type);
++}
++
++void qemu_clipboard_set_data(QemuClipboardPeer *peer,
++                             QemuClipboardInfo *info,
++                             QemuClipboardType type,
++                             uint32_t size,
++                             void *data,
++                             bool update)
++{
++    if (!info ||
++        info->owner != peer) {
++        return;
++    }
++
++    g_free(info->types[type].data);
++    info->types[type].data = g_memdup(data, size);
++    info->types[type].size = size;
++    info->types[type].available = true;
++
++    if (update) {
++        qemu_clipboard_update(info);
++    }
++}
+diff --git a/ui/meson.build b/ui/meson.build
+index e8d3ff41b905..fc4fb75c2869 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -2,6 +2,7 @@ softmmu_ss.add(pixman)
+ specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: pixman)   # for the include path
+ 
+ softmmu_ss.add(files(
++  'clipboard.c',
+   'console.c',
+   'cursor.c',
+   'input-keymap.c',
+-- 
+2.30.2
 
 
