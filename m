@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F123034AFCB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:07:11 +0100 (CET)
-Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8A034AFC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:03:34 +0100 (CET)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPsje-0004oN-VU
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52654)
+	id 1lPsg9-00018v-M1
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHG-0006fC-DE
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:50 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45614)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHE-0006cS-SZ
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:49 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHD-00011V-6J
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:50 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHD-00011X-99
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:48 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 669AFAF48;
- Fri, 26 Mar 2021 19:37:31 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 90530AF26;
+ Fri, 26 Mar 2021 19:37:32 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 23/65] target/arm: move sve_zcr_len_for_el to common_cpu
-Date: Fri, 26 Mar 2021 20:36:19 +0100
-Message-Id: <20210326193701.5981-24-cfontana@suse.de>
+Subject: [RFC v12 24/65] target/arm: move arm_sctlr away from tcg helpers
+Date: Fri, 26 Mar 2021 20:36:20 +0100
+Message-Id: <20210326193701.5981-25-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -60,110 +60,60 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it is required by arch-dump.c and cpu.c, so apparently
-we need this for KVM too
+this function is used for kvm too, add it to the
+cpu-common module.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu-common.c | 43 +++++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/helper.c | 33 -------------------------------
- 2 files changed, 43 insertions(+), 33 deletions(-)
+ target/arm/cpu-common.c | 15 +++++++++++++++
+ target/arm/tcg/helper.c | 11 -----------
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
-index 040e06392a..a34f7f19d8 100644
+index a34f7f19d8..892e075298 100644
 --- a/target/arm/cpu-common.c
 +++ b/target/arm/cpu-common.c
-@@ -299,3 +299,46 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
- 
-     return ret;
+@@ -342,3 +342,18 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
  }
+ 
+ /* #endif TARGET_AARCH64 , see matching comment above */
 +
-+/*
-+ * these are AARCH64-only, but due to the chain of dependencies,
-+ * between HELPER prototypes, hflags, cpreg definitions and functions in
-+ * tcg/ etc, it becomes incredibly messy to add what should be here:
-+ *
-+ * #ifdef TARGET_AARCH64
-+ */
-+
-+static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
++uint64_t arm_sctlr(CPUARMState *env, int el)
 +{
-+    uint32_t end_len;
-+
-+    end_len = start_len &= 0xf;
-+    if (!test_bit(start_len, cpu->sve_vq_map)) {
-+        end_len = find_last_bit(cpu->sve_vq_map, start_len);
-+        assert(end_len < start_len);
++    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
++    if (el == 0) {
++#ifdef TARGET_AARCH64
++        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
++        el = (mmu_idx == ARMMMUIdx_E20_0 || mmu_idx == ARMMMUIdx_SE20_0)
++            ? 2 : 1;
++#else
++        el = 1;
++#endif /* TARGET_AARCH64 */
 +    }
-+    return end_len;
++    return env->cp15.sctlr_el[el];
 +}
-+
-+/*
-+ * Given that SVE is enabled, return the vector length for EL.
-+ */
-+uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+    uint32_t zcr_len = cpu->sve_max_vq - 1;
-+
-+    if (el <= 1) {
-+        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
-+    }
-+    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
-+        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
-+    }
-+    if (arm_feature(env, ARM_FEATURE_EL3)) {
-+        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
-+    }
-+
-+    return sve_zcr_get_valid_len(cpu, zcr_len);
-+}
-+
-+/* #endif TARGET_AARCH64 , see matching comment above */
 diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index 4b8a0d436c..5bc0055c87 100644
+index 5bc0055c87..b72765ad8a 100644
 --- a/target/arm/tcg/helper.c
 +++ b/target/arm/tcg/helper.c
-@@ -322,39 +322,6 @@ int sve_exception_el(CPUARMState *env, int el)
-     return 0;
+@@ -1675,17 +1675,6 @@ void arm_cpu_do_interrupt(CPUState *cs)
  }
+ #endif /* !CONFIG_USER_ONLY */
  
--static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
+-uint64_t arm_sctlr(CPUARMState *env, int el)
 -{
--    uint32_t end_len;
--
--    end_len = start_len &= 0xf;
--    if (!test_bit(start_len, cpu->sve_vq_map)) {
--        end_len = find_last_bit(cpu->sve_vq_map, start_len);
--        assert(end_len < start_len);
+-    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
+-    if (el == 0) {
+-        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
+-        el = (mmu_idx == ARMMMUIdx_E20_0 || mmu_idx == ARMMMUIdx_SE20_0)
+-             ? 2 : 1;
 -    }
--    return end_len;
+-    return env->cp15.sctlr_el[el];
 -}
 -
--/*
-- * Given that SVE is enabled, return the vector length for EL.
-- */
--uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
--{
--    ARMCPU *cpu = env_archcpu(env);
--    uint32_t zcr_len = cpu->sve_max_vq - 1;
--
--    if (el <= 1) {
--        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
--    }
--    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
--        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
--    }
--    if (arm_feature(env, ARM_FEATURE_EL3)) {
--        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
--    }
--
--    return sve_zcr_get_valid_len(cpu, zcr_len);
--}
--
- void hw_watchpoint_update(ARMCPU *cpu, int n)
- {
-     CPUARMState *env = &cpu->env;
+ /* Returns true if the stage 1 translation regime is using LPAE format page
+  * tables. Used when raising alignment exceptions, whose FSR changes depending
+  * on whether the long or short descriptor format is in use. */
 -- 
 2.26.2
 
