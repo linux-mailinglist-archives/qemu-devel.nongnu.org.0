@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C297334B028
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:28:48 +0100 (CET)
-Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9149F34AFE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:11:36 +0100 (CET)
+Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPt4Z-0007R1-I5
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53250)
+	id 1lPsnv-0002PI-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:11:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHt-0007Te-5d
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHs-0007TM-JM
  for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:38:29 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46306)
+Received: from mx2.suse.de ([195.135.220.15]:46330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHp-0001OA-CU
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHq-0001Oa-Ix
  for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:38:28 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 35CE8AF2A;
- Fri, 26 Mar 2021 19:38:14 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 538BDAF28;
+ Fri, 26 Mar 2021 19:38:15 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 61/65] cpu-sve: rename sve_zcr_len_for_el to
- cpu_sve_get_zcr_len_for_el
-Date: Fri, 26 Mar 2021 20:36:57 +0100
-Message-Id: <20210326193701.5981-62-cfontana@suse.de>
+Subject: [RFC v12 62/65] target/arm: refactor arm_cpu_finalize_features into
+ cpu64
+Date: Fri, 26 Mar 2021 20:36:58 +0100
+Message-Id: <20210326193701.5981-63-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -61,149 +61,247 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-use a canonical module prefix followed by the get_zcr_len_for_el()
-method name. Also rename the static internal auxiliary function,
-where the module prefix is not necessary.
+all the features in arm_cpu_finalize_features are actually
+TARGET_AARCH64-only, since KVM is now only supported on 64bit.
+
+Therefore move the function to cpu64, and rename it to
+aarch64_cpu_finalize_features.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu-sve.h     | 2 +-
- target/arm/arch_dump.c   | 2 +-
- target/arm/cpu-sve.c     | 6 +++---
- target/arm/cpu64.c       | 2 +-
- target/arm/tcg/cpregs.c  | 4 ++--
- target/arm/tcg/helper.c  | 4 ++--
- target/arm/tcg/tcg-sve.c | 4 ++--
- 7 files changed, 12 insertions(+), 12 deletions(-)
+ target/arm/cpu.h         |  3 +-
+ target/arm/kvm/kvm_arm.h |  5 ++--
+ target/arm/cpu.c         | 64 ++++++++++------------------------------
+ target/arm/cpu64.c       | 23 +++++++++++++++
+ target/arm/kvm/kvm64.c   |  7 +++--
+ target/arm/monitor.c     |  8 +++--
+ 6 files changed, 52 insertions(+), 58 deletions(-)
 
-diff --git a/target/arm/cpu-sve.h b/target/arm/cpu-sve.h
-index 1512c56a6b..c83508ea0a 100644
---- a/target/arm/cpu-sve.h
-+++ b/target/arm/cpu-sve.h
-@@ -35,6 +35,6 @@ void cpu_sve_add_props(Object *obj);
- void cpu_sve_add_props_max(Object *obj);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 3753591216..fd181e7a72 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1047,6 +1047,7 @@ int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+ #ifdef TARGET_AARCH64
+ int aarch64_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int aarch64_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
++bool aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp);
  
- /* return the vector length for EL */
--uint32_t sve_zcr_len_for_el(CPUARMState *env, int el);
-+uint32_t cpu_sve_get_zcr_len_for_el(CPUARMState *env, int el);
- 
- #endif /* CPU_SVE_H */
-diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-index 11509557e3..dce55065ac 100644
---- a/target/arm/arch_dump.c
-+++ b/target/arm/arch_dump.c
-@@ -169,7 +169,7 @@ static off_t sve_fpcr_offset(uint32_t vq)
- 
- static uint32_t sve_current_vq(CPUARMState *env)
+ static inline bool is_a64(CPUARMState *env)
  {
--    return sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-+    return cpu_sve_get_zcr_len_for_el(env, arm_current_el(env)) + 1;
+@@ -2106,8 +2107,6 @@ static inline int arm_feature(CPUARMState *env, int feature)
+     return (env->features & (1ULL << feature)) != 0;
  }
  
- static size_t sve_size_vq(uint32_t vq)
-diff --git a/target/arm/cpu-sve.c b/target/arm/cpu-sve.c
-index e8e817e110..1bc8c0bdb0 100644
---- a/target/arm/cpu-sve.c
-+++ b/target/arm/cpu-sve.c
-@@ -289,7 +289,7 @@ void cpu_sve_add_props_max(Object *obj)
-     object_property_add(obj, "sve-max-vq", "uint32", get_prop_max_vq, set_prop_max_vq, NULL, NULL);
- }
- 
--static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
-+static uint32_t get_valid_len(ARMCPU *cpu, uint32_t start_len)
- {
-     uint32_t end_len;
- 
-@@ -304,7 +304,7 @@ static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
- /*
-  * Given that SVE is enabled, return the vector length for EL.
+-void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp);
+-
+ #if !defined(CONFIG_USER_ONLY)
+ /* Return true if exception levels below EL3 are in secure state,
+  * or would be following an exception return to that level.
+diff --git a/target/arm/kvm/kvm_arm.h b/target/arm/kvm/kvm_arm.h
+index 34f8daa377..5c0d58f527 100644
+--- a/target/arm/kvm/kvm_arm.h
++++ b/target/arm/kvm/kvm_arm.h
+@@ -275,7 +275,7 @@ void kvm_arm_add_vcpu_properties(Object *obj);
+  * Validate the kvm-steal-time property selection and set its default
+  * based on KVM support and guest configuration.
   */
--uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
-+uint32_t cpu_sve_get_zcr_len_for_el(CPUARMState *env, int el)
+-void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
++bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
+ 
+ /**
+  * kvm_arm_steal_time_supported:
+@@ -436,9 +436,10 @@ static inline void kvm_arm_pvtime_init(CPUState *cs, uint64_t ipa)
+     g_assert_not_reached();
+ }
+ 
+-static inline void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
++static inline bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
  {
-     ARMCPU *cpu = env_archcpu(env);
-     uint32_t zcr_len = cpu->sve_max_vq - 1;
-@@ -319,5 +319,5 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
-         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
+     g_assert_not_reached();
++    return false;
+ }
+ 
+ static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 4058a75c83..82f182f68c 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -820,40 +820,6 @@ static void arm_cpu_finalizefn(Object *obj)
+ #endif
+ }
+ 
+-void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+-{
+-    Error *local_err = NULL;
+-
+-#ifdef TARGET_AARCH64
+-    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        if (!cpu_sve_finalize_features(cpu, &local_err)) {
+-            error_propagate(errp, local_err);
+-            return;
+-        }
+-
+-        /*
+-         * KVM does not support modifications to this feature.
+-         * We have not registered the cpu properties when KVM
+-         * is in use, so the user will not be able to set them.
+-         */
+-        if (tcg_enabled()) {
+-            if (!cpu_pauth_finalize(cpu, &local_err)) {
+-                error_propagate(errp, local_err);
+-                return;
+-            }
+-        }
+-    }
+-#endif /* TARGET_AARCH64 */
+-
+-    if (kvm_enabled()) {
+-        kvm_arm_steal_time_finalize(cpu, &local_err);
+-        if (local_err != NULL) {
+-            error_propagate(errp, local_err);
+-            return;
+-        }
+-    }
+-}
+-
+ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+@@ -876,22 +842,22 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
      }
  
--    return sve_zcr_get_valid_len(cpu, zcr_len);
-+    return get_valid_len(cpu, zcr_len);
- }
+-    arm_cpu_finalize_features(cpu, &local_err);
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
+-        cpu->has_vfp != cpu->has_neon) {
+-        /*
+-         * This is an architectural requirement for AArch64; AArch32 is
+-         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
+-         */
+-        error_setg(errp,
+-                   "AArch64 CPUs must have both VFP and Neon or neither");
+-        return;
++#ifdef TARGET_AARCH64
++    if (arm_feature(env, ARM_FEATURE_AARCH64)) {
++        if (!aarch64_cpu_finalize_features(cpu, errp)) {
++            return;
++        }
++        if (cpu->has_vfp != cpu->has_neon) {
++            /*
++             * This is an architectural requirement for AArch64; AArch32 is
++             * more flexible and permits VFP-no-Neon and Neon-no-VFP.
++             */
++            error_setg(errp,
++                       "AArch64 CPUs must have both VFP and Neon or neither");
++            return;
++        }
+     }
++#endif /* TARGET_AARCH64 */
+ 
+     if (!cpu->has_vfp) {
+         uint64_t t;
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index b1d63fb7a7..c30ecd1de4 100644
+index c30ecd1de4..1cbfb5ef42 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -505,7 +505,7 @@ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  vfp_get_fpcr(env), vfp_get_fpsr(env));
+@@ -456,6 +456,29 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
+     return g_strdup("aarch64");
+ }
  
-     if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
--        int j, zcr_len = sve_zcr_len_for_el(env, el);
-+        int j, zcr_len = cpu_sve_get_zcr_len_for_el(env, el);
- 
-         for (i = 0; i <= FFR_PRED_NUM; i++) {
-             bool eol;
-diff --git a/target/arm/tcg/cpregs.c b/target/arm/tcg/cpregs.c
-index 4c7d96f465..dd005a1655 100644
---- a/target/arm/tcg/cpregs.c
-+++ b/target/arm/tcg/cpregs.c
-@@ -5803,7 +5803,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                       uint64_t value)
++bool aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp)
++{
++    if (!cpu_sve_finalize_features(cpu, errp)) {
++        return false;
++    }
++    if (tcg_enabled()) {
++        /*
++         * KVM does not support modifications to this feature.
++         * We have not registered the cpu properties when KVM
++         * is in use, so the user will not be able to set them.
++         */
++        if (!cpu_pauth_finalize(cpu, errp)) {
++            return false;
++        }
++    }
++    if (kvm_enabled()) {
++        if (!kvm_arm_steal_time_finalize(cpu, errp)) {
++            return false;
++        }
++    }
++    return true;
++}
++
+ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
  {
-     int cur_el = arm_current_el(env);
--    int old_len = sve_zcr_len_for_el(env, cur_el);
-+    int old_len = cpu_sve_get_zcr_len_for_el(env, cur_el);
-     int new_len;
+     ARMCPU *cpu = ARM_CPU(cs);
+diff --git a/target/arm/kvm/kvm64.c b/target/arm/kvm/kvm64.c
+index b34642e74c..372957331b 100644
+--- a/target/arm/kvm/kvm64.c
++++ b/target/arm/kvm/kvm64.c
+@@ -677,7 +677,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+     return true;
+ }
  
-     /* Bits other than [3:0] are RAZ/WI.  */
-@@ -5814,7 +5814,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-      * Because we arrived here, we know both FP and SVE are enabled;
-      * otherwise we would have trapped access to the ZCR_ELn register.
-      */
--    new_len = sve_zcr_len_for_el(env, cur_el);
-+    new_len = cpu_sve_get_zcr_len_for_el(env, cur_el);
-     if (new_len < old_len) {
-         tcg_sve_narrow_vq(env, new_len + 1);
-     }
-diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index b157b3615c..e8d6cdf2db 100644
---- a/target/arm/tcg/helper.c
-+++ b/target/arm/tcg/helper.c
-@@ -187,7 +187,7 @@ static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-          * We report in Vector Granules (VG) which is 64bit in a Z reg
-          * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
-          */
--        int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-+        int vq = cpu_sve_get_zcr_len_for_el(env, arm_current_el(env)) + 1;
-         return gdb_get_reg64(buf, vq * 2);
-     }
-     default:
-@@ -1120,7 +1120,7 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         if (sve_el != 0 && fp_el == 0) {
-             zcr_len = 0;
-         } else {
--            zcr_len = sve_zcr_len_for_el(env, el);
-+            zcr_len = cpu_sve_get_zcr_len_for_el(env, el);
+-void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
++bool kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+ {
+     bool has_steal_time = kvm_arm_steal_time_supported();
+ 
+@@ -691,7 +691,7 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+         if (!has_steal_time) {
+             error_setg(errp, "'kvm-steal-time' cannot be enabled "
+                              "on this host");
+-            return;
++            return false;
+         } else if (!arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+             /*
+              * DEN0057A chapter 2 says "This specification only covers
+@@ -702,9 +702,10 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp)
+              */
+             error_setg(errp, "'kvm-steal-time' cannot be enabled "
+                              "for AArch32 guests");
+-            return;
++            return false;
          }
-         flags = FIELD_DP32(flags, TBFLAG_A64, SVEEXC_EL, sve_el);
-         flags = FIELD_DP32(flags, TBFLAG_A64, ZCR_LEN, zcr_len);
-diff --git a/target/arm/tcg/tcg-sve.c b/target/arm/tcg/tcg-sve.c
-index 25d5a5867c..80a37caf6e 100644
---- a/target/arm/tcg/tcg-sve.c
-+++ b/target/arm/tcg/tcg-sve.c
-@@ -155,10 +155,10 @@ void tcg_sve_change_el(CPUARMState *env, int old_el,
-      */
-     old_a64 = old_el ? arm_el_is_aa64(env, old_el) : el0_a64;
-     old_len = (old_a64 && !sve_exception_el(env, old_el)
--               ? sve_zcr_len_for_el(env, old_el) : 0);
-+               ? cpu_sve_get_zcr_len_for_el(env, old_el) : 0);
-     new_a64 = new_el ? arm_el_is_aa64(env, new_el) : el0_a64;
-     new_len = (new_a64 && !sve_exception_el(env, new_el)
--               ? sve_zcr_len_for_el(env, new_el) : 0);
-+               ? cpu_sve_get_zcr_len_for_el(env, new_el) : 0);
+     }
++    return true;
+ }
  
-     /* When changing vector length, clear inaccessible state.  */
-     if (new_len < old_len) {
+ bool kvm_arm_aarch32_supported(void)
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 0c72bf7c31..8a31c4dd04 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -184,9 +184,11 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+         if (!err) {
+             visit_check_struct(visitor, &err);
+         }
++#ifdef TARGET_AARCH64
+         if (!err) {
+-            arm_cpu_finalize_features(ARM_CPU(obj), &err);
++            aarch64_cpu_finalize_features(ARM_CPU(obj), &err);
+         }
++#endif /* TARGET_AARCH64 */
+         visit_end_struct(visitor, NULL);
+         visit_free(visitor);
+         if (err) {
+@@ -195,7 +197,9 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+             return NULL;
+         }
+     } else {
+-        arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
++#ifdef TARGET_AARCH64
++        aarch64_cpu_finalize_features(ARM_CPU(obj), &error_abort);
++#endif /* TARGET_AARCH64 */
+     }
+ 
+     expansion_info = g_new0(CpuModelExpansionInfo, 1);
 -- 
 2.26.2
 
