@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC3234A4F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 10:53:40 +0100 (CET)
-Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5126034A55B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 11:14:25 +0100 (CET)
+Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPj9u-0008Nn-IJ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 05:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51598)
+	id 1lPjTz-00070g-Ko
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 06:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lPj8V-0007jS-Su
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:52:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55473)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lPj8S-0000Qb-Cf
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 05:52:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616752326;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WyJLWvGqWF31glOFxZIy/oZITo8XJPpmQwlUhuaJIeA=;
- b=gN4uhtPKrfJAKygLZhWBt3/2dKcwscLS9LVWRA85FdTIMSAO2Mj5+1cko2TXcC22Z224OE
- iUHx2ZG5RSrfyG2Wu60EQFEhCwKpF36QaaJCwps1JVMs6bMt5trKdIY+4Ovc1tESJ6b2So
- vnCB8/SaY2ybrmVJkdhFnj+uSjVFmio=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-aCsFbISoOlWQBvczD8aHdA-1; Fri, 26 Mar 2021 05:52:02 -0400
-X-MC-Unique: aCsFbISoOlWQBvczD8aHdA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2339B107ACCA;
- Fri, 26 Mar 2021 09:52:02 +0000 (UTC)
-Received: from thuth.com (ovpn-112-91.ams2.redhat.com [10.36.112.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B8E7891D0;
- Fri, 26 Mar 2021 09:51:57 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH for-6.0] hw/usb/hcd-ehci: Fix crash when showing help of EHCI
- devices
-Date: Fri, 26 Mar 2021 10:51:55 +0100
-Message-Id: <20210326095155.1994604-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPjR6-0006Ma-Fo
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:11:24 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPjR0-0003Um-32
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:11:24 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPjQx-0006Rw-Q8
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 10:11:15 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C4B7E2E8071
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 10:11:15 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Mar 2021 09:59:24 -0000
+From: Gerd Hoffmann <1920752@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: passthrough usb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kraxel-redhat philmd rreddy78
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
+References: <161641534336.27708.1507547188965412298.malonedeb@gac.canonical.com>
+Message-Id: <161675276435.855.17122307371242357304.malone@soybean.canonical.com>
+Subject: [Bug 1920752] Re: USB SoundCard Passthrough not working on arm64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
+X-Launchpad-Hash: 467617a4eeb495d77292e4a142d037ea7e21305f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,59 +70,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Bug 1920752 <1920752@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU crashes with certain targets when trying to show the help
-output of EHCI devices:
+Can you record usb traffic (add pcap=3D<file> to usb-host)?
 
-$ ./qemu-system-aarch64 -device ich9-usb-ehci1,help
-qemu-system-aarch64: ../../devel/qemu/softmmu/physmem.c:1154: phys_section_add:
- Assertion `map->sections_nb < TARGET_PAGE_SIZE' failed.
-Aborted (core dumped)
+-- =
 
-This happens because the device is doing things at "instance_init" time
-that should be done at "realize" time instead. So move the related code
-to the realize() function instead. (NB: This now also matches the
-memory_region_del_subregion() calls which are done in usb_ehci_unrealize(),
-and not during finalize()).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1920752
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/usb/hcd-ehci.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Title:
+  USB SoundCard Passthrough not working on arm64
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index f71af0ad2d..6caa7ac6c2 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -2514,6 +2514,11 @@ void usb_ehci_realize(EHCIState *s, DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    memory_region_add_subregion(&s->mem, s->capsbase, &s->mem_caps);
-+    memory_region_add_subregion(&s->mem, s->opregbase, &s->mem_opreg);
-+    memory_region_add_subregion(&s->mem, s->opregbase + s->portscbase,
-+                                &s->mem_ports);
-+
-     usb_bus_new(&s->bus, sizeof(s->bus), s->companion_enable ?
-                 &ehci_bus_ops_companion : &ehci_bus_ops_standalone, dev);
-     for (i = 0; i < s->portnr; i++) {
-@@ -2581,11 +2586,6 @@ void usb_ehci_init(EHCIState *s, DeviceState *dev)
-                           "operational", s->portscbase);
-     memory_region_init_io(&s->mem_ports, OBJECT(dev), &ehci_mmio_port_ops, s,
-                           "ports", 4 * s->portnr);
--
--    memory_region_add_subregion(&s->mem, s->capsbase, &s->mem_caps);
--    memory_region_add_subregion(&s->mem, s->opregbase, &s->mem_opreg);
--    memory_region_add_subregion(&s->mem, s->opregbase + s->portscbase,
--                                &s->mem_ports);
- }
- 
- void usb_ehci_finalize(EHCIState *s)
--- 
-2.27.0
+Status in QEMU:
+  New
 
+Bug description:
+  Hello,
+
+  I am virtualizing a armhf guest on a aarch64 host and was to use my
+  Sound Blaster USB Soundcard as passthrough.
+
+  armhf Guest is: Debian Buster =
+
+  aarch64 host is a jetson nano. KVM is enabled.
+
+  Latest qemu is built from sources.
+  The command I use for running is as follows:
+
+  ../qemu/build/qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host,aarch6=
+4=3Doff -enable-kvm  \
+  -kernel vmlinuz-4.19.0-14-armmp-lpae  -initrd initrd.img-4.19.0-14-armmp-=
+lpae -append 'root=3D/dev/vda2' \
+  -device nec-usb-xhci -device usb-kbd  -device usb-mouse -device usb-host,=
+hostbus=3D1,hostport=3D2.3  -serial stdio  \
+  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
+=3Don \
+  -drive if=3Dnone,file=3Dhda2.qcow2,format=3Dqcow2,id=3Dhd   -device virti=
+o-blk-device,drive=3Dhd   \
+  -netdev user,id=3Dmynet   -device virtio-net-device,netdev=3Dmynet \
+  -bios edk2-arm-code.fd -no-reboot
+
+  =
+
+  Where are my lsusb -t shows:
+
+  rreddy78@jetson-nano:~/Downloads$ lsusb -t
+  /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/4p, 5000M
+      |__ Port 1: Dev 3, If 0, Class=3DHub, Driver=3Dhub/4p, 5000M
+  /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dtegra-xusb/5p, 480M
+      |__ Port 2: Dev 6, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
+          |__ Port 1: Dev 7, If 0, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 1.5M
+          |__ Port 1: Dev 7, If 1, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 1.5M
+          |__ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 12M
+          |__ Port 3: Dev 8, If 1, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
+2M
+          |__ Port 3: Dev 8, If 2, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
+2M
+          |__ Port 3: Dev 8, If 0, Class=3DAudio, Driver=3Dsnd-usb-audio, 1=
+2M
+          |__ Port 4: Dev 9, If 0, Class=3DHuman Interface Device, Driver=
+=3Dusbhid, 1.5M
+
+  Within the VM I can see the usb as follows
+
+  rreddy78@debian:~$ lsusb -t
+  /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
+  /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
+      |__ Port 1: Dev 2, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 480M
+      |__ Port 2: Dev 3, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 480M
+
+  =
+
+  Its looks like some passthrough as but it seems like only for
+
+   _ Port 3: Dev 8, If 3, Class=3DHuman Interface Device, Driver=3Dusbhid,
+  12M
+
+  I am not sure if passthrough  even works because this post I saw
+
+  https://community.arm.com/developer/ip-products/system/f/embedded-
+  forum/48031/usb-pass-through-in-qemu-command-line-for-arm-
+  machines/168764#168764
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1920752/+subscriptions
 
