@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAC134A30F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:16:40 +0100 (CET)
-Received: from localhost ([::1]:48006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115F634A320
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:22:05 +0100 (CET)
+Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPhe3-0001hI-SU
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
+	id 1lPhjI-0003q8-4c
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lPhcj-0001CN-BK
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:15:17 -0400
-Received: from mout.web.de ([212.227.17.12]:33569)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lPhiX-0003QB-5L
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:21:17 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:16515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lPhcf-0001Ct-BG
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:15:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1616746503;
- bh=Jd0biYrjcmrgNdzGaOJnc2ZyFLBBPCzP/sO0jHNHwVU=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=mu6t+rykIGhibOez9mp3N6f043/QA4oXDxQWI6vKJGLH9lNW+69ANmZ+lH6UjtxcK
- b759w21NL5fD4GLDqAGa3gG/7RqH6oWY7DQYA3Ob+tnJzgkBvX5dfX/mGZ6oEG++dk
- eRJZa7bVZswHUvzS3hB+o8U61QXQR0U45naG9vNU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([89.247.255.242]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LoHTx-1lrrdm1ln7-00gE3T; Fri, 26
- Mar 2021 09:15:03 +0100
-Date: Fri, 26 Mar 2021 09:14:54 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: no-reply@patchew.org
-Subject: Re: [PATCH v4 0/4] yank: Add chardev tests and fixes
-Message-ID: <20210326091454.52dfe0e7@gecko.fritz.box>
-In-Reply-To: <161674618525.8221.939854043515059690@72b6d80f974b>
-References: <cover.1616744509.git.lukasstraub2@web.de>
- <161674618525.8221.939854043515059690@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lPhiT-0004ss-Fc
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:21:15 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C8BED7462FD;
+ Fri, 26 Mar 2021 09:21:07 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9DD5E7462E1; Fri, 26 Mar 2021 09:21:07 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9BA8E7462BD;
+ Fri, 26 Mar 2021 09:21:07 +0100 (CET)
+Date: Fri, 26 Mar 2021 09:21:07 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
+ Mac OS 9 guest
+In-Reply-To: <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
+Message-ID: <c63a699d-9419-5a87-269b-476ef0a5b587@eik.bme.hu>
+References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
+ <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
+ <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
+ <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0F0dWrBBh6WYDsvpbqAVWeI";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:IG30eqIu14U3Zuxc0ZnoOlW66SE7XXial0XVbd4nbZjsLZptQDT
- KS07Ue50wDKYjRx4a9h11xo4hFqdP4oFr7Oo6DFql3vnkuceS/8hCebhx9fNzZq7I0Aoanb
- 5SreddsBYiwkU2PMCsGLwsGeGTYSwa87Q8ErvweP1HLEr9OwaQ/QOJSGYFN39Wo07RYkSLh
- yIVMUetRR1UdZFEbcRV2A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AWNIxL8M4OM=:GHj3tEaGg95c7UGGXjnKVm
- zIN34irbTZclUWk8hcb7Bx1BgVC4w1Hkm+zB6sTeqdL5fumgVM556rGouSkrbDy+Vc7ynLYmw
- BXRVSH896W5kQXl+BHh/kId6QFo/dMILc2iOMM5Lcxs+PZu7vKvReZf7T2S1iDcC1GUE8x13w
- hqA9fB4xELGLoGVwt1kIcjbZz7iiBq8Pw1g0WRZZYnB9O54FLlbmUW6IFOZqwDvZYHaj/TBNt
- LU4UIGD/Yss3ZMCymNnyxuJqXbV12fr0VNmYaRR1GB1GXvfRT/lCMKmdERBjKFYnSYnBjWJ+Y
- TC6Ozm0Q7Re6oiOF5tP9EGmx6kMcZqm1GLRkhGsoKfgdDRMZsCve3kW6WgPobJq5uHuUjT+5F
- Vv7HLq9LwpHQ0kH9eN5I6gHsCngBw56AyLOB+fdplOnoDNVJJEBbRqDZfOayllxC5oJLEtCx3
- B/bkJiF1MhZl/aY//CFOJxCVKLX1PZ5yP5Pjsb+s1zC3WQe3DrZ7MQ16pl31ROou6p+5OFm4l
- CuoKT9CQsLOpCy7CEswdABW/TIJdaGTgidQoNK0YJmYhruLMe+csAE7iXb+3+hDnrS6TvR3AS
- CP3DccxXrAXtYwspSIGnmxm0miyYizMLCpxW0rubI8UBnK7lYeyjOn/xVf7VW8Il1oI8lzf/G
- Mf4aHNyQ04VnKqo+pWdPyzOHZ2yvbSCyLtKmPyWqYnBrqF4zzWVn/Jr+dv307HH8cdvoaMcYD
- U5uH3JoqnQlefh1nN5/98fBfrfkPKWuN6PL16rKgAKgewNfYBO+bRdmRgbjiWz4xXkyY3qRf6
- 6Axv3//6Y4sc51PXhPlfuk36BNzpjsHFfAt0bkqkmJXXXSe1ujx/J7ZqXt0Ik16t9VfQV+Rxp
- XVzO4zy1ukZHdl/T1nmGCDUlQYGXWsr1igj9Efzus8zeQBQ63ou3QwhfhfWRFqdgvmAp/idiT
- jNuVsNeNDjUHhaaqScphHxfk+X5MdFugXI6ZlArT7kHI/W46lP/RFRELwcLqvOhPmI9dbDnj8
- X3+1Ulrt/I00a4ik1cCsyLTcaI4MXAh4FwYt68hiSaB1uLA/ALZPXGhuei6cLNwrR0QSgi7jQ
- vmW6FGNxLhtUMm55bfDdGg/zwH/wtOOLmJ+6I1DhmnfsfRlGsT3GmywBZIsgthC4CcUTM6B2F
- D+RATO4sBGMIoAxWBiy7MJNYdFl7J76nEHYKRJya6rAlJ8VGpMLwuKxbekdJN1KgKqHhQ=
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,141 +60,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
- zhlcindy@gmail.com, pbonzini@redhat.com, marcandre.lureau@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>, qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/0F0dWrBBh6WYDsvpbqAVWeI
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, 26 Mar 2021, Howard Spoelstra wrote:
+> On Fri, Mar 26, 2021 at 2:50 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> Hi Howard,
+>>
+>> On Fri, Mar 26, 2021 at 1:35 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>>
+>>> (adding the relevant people to the cc list)
+>>>
+>>> On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.com> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> When running qemu-system-ppc with Mac OS guest, the guest crashes when
+>>>> using a tap network connection. Openvpn 2.4.9-I601-win10 is installed
+>>>> with TAP-Windows 9.24.2. A tap connection called TapQemu is bridged
+>>>> with the default ethernet connection. It gets activated when I start
+>>>> qemu.
+>>>>
+>>>> To reproduce, compile qemu-system-ppc from current source and run:
+>>>>
+>>>> qemu-system-ppc.exe ^
+>>>> -L pc-bios ^
+>>>> -M mac99 ^
+>>>> -m 128 ^
+>>>> -sdl -serial stdio ^
+>>>> -boot c ^
+>>>> -drive file=C:\Mac-disks\9.2.img,format=raw,media=disk ^
+>>>> -device sungem,netdev=network01 -netdev tap,ifname=TapQemu,id=network01
+>>>>
+>>>> I bisected to the commit below. Thanks for looking into this.
+>>
+>> Thanks for reporting.
+>>
+>> Can you please provide some further information:
+>>
+>> 1. Does "-net user" work on Windows?
+>> 2. If running QEMU under Linux, does "-net tap" or "-net user" work?
+>>
+>> Regards,
+>> Bin
+>
+> Hello Bin,
+>
+> Thanks for getting back to me. I forgot to mention that reverting the
+> above patch restores functionality. And that other applications using
+> the same tap device work correctly.
+> In answer to your questions:
+>
+> 1. Yes, slirp works on Windows 10 with this setup.
+> 2. Yes, in Linux both tap and slirp work.
+>
+> My Windows build is done with a fully up to date msys2 installation.
+>
+> I tried to debug in Windows:
+> (gdb) run
+> Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bios
+> -M mac99 -m 128 -sdl -serial stdio -boot c -drive
+> "file=C:\Mac-disks\9.2-usb-pci-ddk.img,format=raw,media=disk" -device
+> "sungem,netdev=network01" -netdev "tap,ifname=TapQemu,id=network01" -S
+> [New Thread 13304.0x1f00]
+> [New Thread 13304.0x2f84]
+> [New Thread 13304.0x3524]
+> [New Thread 13304.0x2b8c]
+> [New Thread 13304.0x368c]
+> [New Thread 13304.0x3668]
+> [New Thread 13304.0xf4c]
+> [New Thread 13304.0x49c]
+> [New Thread 13304.0x1d4c]
+> [New Thread 13304.0x7fc]
+> [Thread 13304.0x7fc exited with code 0]
+> [New Thread 13304.0x357c]
+> [New Thread 13304.0x7c0]
+> [New Thread 13304.0x3564]
+> [New Thread 13304.0x26f4]
+> [New Thread 13304.0x2f68]
+>
+> Program received signal SIGSEGV, Segmentation fault.
+> 0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
+> (gdb) bt
+> #0  0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
+> #1  0x000800000480bf50 in ?? ()
+> Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+> (gdb)
+>
+> Even before I could attach to the process.
 
-On Fri, 26 Mar 2021 01:09:46 -0700 (PDT)
-no-reply@patchew.org wrote:
+If you run QEMU under gdb you don't have to attach to it but to get a 
+meaningful backtrace you should configure and compile QEMU with 
+--enable-debug (this will make it run slower so not recommended normally 
+but for debugging that would be needed). If the stack is really corrupted 
+then you may not get a useful backtrace or it may be a problem with gdb on 
+Windows. I've found that gdb on Windows works for simple things but could 
+give bad results for more complex stuff. WinDbg may be better but it's 
+harder to use (needs some registry change I think to enable core dumps 
+then you could open and analyze core dumps with it or it should be able 
+to run command directly but I don't know how that works).
 
-> Patchew URL: https://patchew.org/QEMU/cover.1616744509.git.lukasstraub2@w=
-eb.de/
->=20
->=20
->=20
-> Hi,
->=20
-> This series seems to have some coding style problems. See output below for
-> more information:
->=20
-> Type: series
-> Message-id: cover.1616744509.git.lukasstraub2@web.de
-> Subject: [PATCH v4 0/4] yank: Add chardev tests and fixes
->=20
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->=20
-> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
-> From https://github.com/patchew-project/qemu
->  - [tag update]      patchew/20210323183701.281152-1-f4bug@amsat.org -> p=
-atchew/20210323183701.281152-1-f4bug@amsat.org
->  * [new tag]         patchew/cover.1616744509.git.lukasstraub2@web.de -> =
-patchew/cover.1616744509.git.lukasstraub2@web.de
-> Switched to a new branch 'test'
-> b0e7602 tests: Add tests for yank with the chardev-change case
-> f065000 chardev: Fix yank with the chardev-change case
-> e006dcc chardev/char.c: Always pass id to chardev_new
-> 8a11307 chardev/char.c: Move object_property_try_add_child out of chardev=
-_new
->=20
-> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
-> 1/4 Checking commit 8a113074e682 (chardev/char.c: Move object_property_tr=
-y_add_child out of chardev_new)
-> 2/4 Checking commit e006dccfdf7e (chardev/char.c: Always pass id to chard=
-ev_new)
-> 3/4 Checking commit f06500035576 (chardev: Fix yank with the chardev-chan=
-ge case)
-> 4/4 Checking commit b0e7602e4800 (tests: Add tests for yank with the char=
-dev-change case)
-> ERROR: Macros with multiple statements should be enclosed in a do - while=
- loop
-> #228: FILE: tests/unit/test-yank.c:179:
-> +#define CHAR_CHANGE_TEST(name, _old_yank, _new_yank)                    =
-       \
-> +        g_test_add_data_func("/yank/char_change/success/" # name,       =
-       \
-> +                             &(CharChangeTestConfig) { .addr =3D &tcpadd=
-r,       \
-> +                                                       .old_yank =3D (_o=
-ld_yank),\
-> +                                                       .new_yank =3D (_n=
-ew_yank),\
-> +                                                       .fail =3D false }=
-,        \
-> +                             char_change_test);                         =
-       \
-> +        g_test_add_data_func("/yank/char_change/fail/" # name,          =
-       \
-> +                             &(CharChangeTestConfig) { .addr =3D &tcpadd=
-r,       \
-> +                                                       .old_yank =3D (_o=
-ld_yank),\
-> +                                                       .new_yank =3D (_n=
-ew_yank),\
-> +                                                       .fail =3D true },=
-         \
-> +                             char_change_test);
->=20
-> total: 1 errors, 0 warnings, 215 lines checked
-
-This is expected. It needs to be this way so the anonymous structs don't go=
- out of
-scope.
+Another idea: maybe you could check other threads in gdb. Not sure if that 
+would reveal anything but may worth a try. I think the commands you need 
+are "info threads" and "apply all bt" or something similar.
 
 Regards,
-Lukas Straub
-
-> Patch 4/4 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
->=20
-> =3D=3D=3D OUTPUT END =3D=3D=3D
->=20
-> Test command exited with code: 1
->=20
->=20
-> The full log is available at
-> http://patchew.org/logs/cover.1616744509.git.lukasstraub2@web.de/testing.=
-checkpatch/?type=3Dmessage.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
-
-
---=20
-
-
---Sig_/0F0dWrBBh6WYDsvpbqAVWeI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBdl/4ACgkQNasLKJxd
-slilqxAAtHDqSBld8WQ3AkOUhQpEbQ+6fm/LwpjCVGiWxWwZ5rW5P2ldKDxGn1Sp
-9NG0HFEo5td5kSltC+A8lwYvrGr4fWqYtp4sdneSLIhwNfMQrEC8LLRP01SjJWpx
-gwSdIEcIVMhfXGemg7uX0SPl3k4+a5lW6GKUyWtZt4FQSje9Ry+XfKlosbc4Euz/
-axNEYP1Pe5osjYAHTGPSmTtiep19upjIhUx22S4454ZBNBrtvElyyMxUEp63TTrd
-WoomNUdG2aHvGzcP6QuHUCkrxYLWCjTAFQdpqZJzLpVILtduFB6cQmwrLBybjYWU
-7MO+Ry9ld9ip8fQ9W86k90ABGycE2j5oI/oXezfgNk6IehSaFcdEuJQK5OL47NxK
-VN/657l2eZJ95VPWhVuZ6MP1PsQOKOe5LAG0mphA58lsQPoIOapUHqHLjl52R3Av
-Q4Ek4RmOyG/5Cqy65uL0OAmqwGJa2jEIzDHv8kH71L9Sw4RgnhG89eFz9M1+BwLE
-pbh0t8WZ4AHiI++Fu90c/wixOW78YRAvsn+Pt5s0DAPj5lFo160HIbOblPBllMET
-q12zDhsdsQTdsRYYaLGGUm++E/RdRAOQ13o8AWFxJGVMs/T/yege3aZh33VlzVUd
-M8rUlpSJ3AToaNug2AYRysL7MLgOAWAn1ylWv6Q2sNjtirybtpU=
-=aqoS
------END PGP SIGNATURE-----
-
---Sig_/0F0dWrBBh6WYDsvpbqAVWeI--
+BALATON Zoltan
 
