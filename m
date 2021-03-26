@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213D634B24C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 23:50:46 +0100 (CET)
-Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD00334B28C
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Mar 2021 00:15:36 +0100 (CET)
+Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPvHw-0005iI-Hh
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 18:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
+	id 1lPvfz-0004Ff-7P
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 19:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPvGZ-00051r-EL; Fri, 26 Mar 2021 18:49:19 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:42670)
+ id 1lPve8-0003Kv-5G; Fri, 26 Mar 2021 19:13:40 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPvGX-0000H0-5E; Fri, 26 Mar 2021 18:49:18 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- b2-20020a7bc2420000b029010be1081172so3760466wmj.1; 
- Fri, 26 Mar 2021 15:49:14 -0700 (PDT)
+ id 1lPve6-0003RQ-M1; Fri, 26 Mar 2021 19:13:39 -0400
+Received: by mail-wm1-x336.google.com with SMTP id 12so3722812wmf.5;
+ Fri, 26 Mar 2021 16:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+CEM2M0T/cnC2NdZhE7Qr8460XdFbb/ZXa3v8xb4LsU=;
- b=r4GohVb3GdQikLJ72Ivc9HsENf+knuvCQiu1HgNAB4t19eO8QW3uSUmyJy4qpVMGRM
- YBnxwTM+eE8s10guEBnt8DUFIMXpNcoejIOrh0nj7qsVLK7U0aLYA0fUblWxdAv0fmxC
- uPpbEy6Tg6EZ4abQzvCBlZQ1lOcjuo//XahEMdh3dlqCoXp0y0sVR6n6JSTvKrr7CoUb
- eUNW45aiyv7S8wfbMeHa6oUshKJEpX0JIzoyQotk1Ynjr3jWpEfUpoO/6d3RGQA4LHiz
- aDTKfe2lQ3hvAG/Ahps9YEt3Vh6LErveVONRwPjFlOc9vhr8Hl+wULt832at9T/5i7/7
- Bkig==
+ bh=EVbtssKqg+FCT9xpS2SC0d/PsgZ7a3X+eLgulFz/9gA=;
+ b=MRl0DMZWdeSwZpw9jRqQyru+s4MS4kmny+UPGgvnKy46o/qB8RUf7FXgeOFzebGQhI
+ XFtneMj3FhBsDjnRfUWPE/bbQ57tQeE+qFbVg+L8oyAf3i6LPejSyeCaQBFaHSapqIIw
+ 9O5B7a8ciP/iPpcyfOrBvUepvM9Ou0xrCQxWAQxcWnEylHCYYT5WxydnJAS78LDFqVae
+ AY7P+RS+rLnuymHoGA+9YduJFqvQfgCetXTrg+750svuef5yP7MkQXb9wlgvwVCx31X8
+ JCXbdQU+KwfYzNRPvaRPbjKRebWpg8jSYrwOsCtSTTpLVwIt5xakBh2efr2XZWog1Db0
+ /kTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+CEM2M0T/cnC2NdZhE7Qr8460XdFbb/ZXa3v8xb4LsU=;
- b=qvJE3e9nIFdR5Dc1HsEVnTWTat56Nm/k7ZxeZBV9u3OBm+Rks3JkRRW4mnkwiCsEqS
- iCg1OuIRJtefFPZHL+Mkdwo7EqYENJduteHi6DwAOoYcqvulZAAeiT2CSj7kaG8KVtmu
- fW1OaqHyXTjVyWhMVc68TAcaYrEqE/Ty/osdvBYjvUjskJD11VFhMBERc74P5OeSa+8h
- O1F7oDHM4kbYrPdpZ+4/MvmTvXG/nyI0bhwyQsGaZYk3F3ccSGq4l//QZeaE2Is0jRfn
- AM5/xl/1NWTuPXRc1uiz3AKgtQBOQj3Od62BQLGW4nV5JsS/k9/Ke1ECrnqkqbXXP5pS
- eg1A==
-X-Gm-Message-State: AOAM530U9ok/IZzUcu2i34MsJ4qYL/8nSjBUPNur0G8f996ZmocQLR3i
- wzZEcPaav4cFVcx/qKMMacc=
-X-Google-Smtp-Source: ABdhPJxUadYlRJ9nqypz7uZKoxaM9IekW43Fig5m6qjAsFyDbkJhTsgUq9UG/xUgBFdA4fiE0M5fOA==
-X-Received: by 2002:a1c:7210:: with SMTP id n16mr14545785wmc.13.1616798953280; 
- Fri, 26 Mar 2021 15:49:13 -0700 (PDT)
+ bh=EVbtssKqg+FCT9xpS2SC0d/PsgZ7a3X+eLgulFz/9gA=;
+ b=sbXd1B72tPXxx7T6RrLrlaMAZyHUFZPdmgPvdpC8WOyb9Lo1Bm5IAYQqv7BitqyvfJ
+ b21Ra9Dp3c+hVlxHcnAkmnCLOBfyTkuXIVB53+fc/dn03na6vVY4IzsQjtdpXGX/ODHr
+ ItoV+Ff4+qFblmVm1o10qDOFqdG1BHrV3b+E6jHFu5mlOLqR/9QH/6ssFMJOzv2468hH
+ oalElbCSBup54ZySjx84QVZc7pbFt57jrkk8D+5HMQUjbopPiZlgixpt7xtBAH+XHu/H
+ 7kM+qGLJDDGOFFRBxc9MqE1DlUpw6tJ39l4+gxGS/yH2R945D7AtMB61DLOKj6W77dHK
+ +c0g==
+X-Gm-Message-State: AOAM531SGIgywMWchaNFzY+huW1gnt3S8ueOkG8cAV9aKTJUDVSDXkvg
+ cHs0Gr+Gb/8U/bTk0YiEMBY=
+X-Google-Smtp-Source: ABdhPJzEoOe/fBOG7SSqf8/REGgNCe/xndNhgbPvR1zcQgYy8skIs8oMsI2ZMUpmhbl4ryGusH6evg==
+X-Received: by 2002:a1c:7ed4:: with SMTP id z203mr14241603wmc.89.1616800416650; 
+ Fri, 26 Mar 2021 16:13:36 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id y10sm14688171wrl.19.2021.03.26.15.49.12
+ by smtp.gmail.com with ESMTPSA id 9sm12868889wmf.13.2021.03.26.16.13.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 15:49:12 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-6.1 03/10] hw/arm/musicpal: Map flash using
- memory_region_add_subregion_aliased()
-To: qemu-devel@nongnu.org
-References: <20210326002728.1069834-1-f4bug@amsat.org>
- <20210326002728.1069834-4-f4bug@amsat.org>
+ Fri, 26 Mar 2021 16:13:35 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] hw/display/bcm2835_fb: Resize console on reset
+To: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20210323161443.245636-1-f4bug@amsat.org>
+ <20210323161443.245636-2-f4bug@amsat.org>
+ <CAFEAcA8hKY2XGUhWoyvB8wb+mqc8nhUJHhM7J2=0EUiMBXsstQ@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4feab40f-0133-8617-52c3-0af0adf419c6@amsat.org>
-Date: Fri, 26 Mar 2021 23:49:11 +0100
+Message-ID: <2953bd3c-bdde-0a51-8938-eb3fa4808213@amsat.org>
+Date: Sat, 27 Mar 2021 00:13:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210326002728.1069834-4-f4bug@amsat.org>
+In-Reply-To: <CAFEAcA8hKY2XGUhWoyvB8wb+mqc8nhUJHhM7J2=0EUiMBXsstQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,121 +88,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Jan Kiszka <jan.kiszka@web.de>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 1:27 AM, Philippe Mathieu-Daudé wrote:
-> Instead of using a device specific feature for mapping the
-> flash memory multiple times over a wider region, use the
-> generic memory_region_add_subregion_aliased() helper.
+On 3/26/21 3:27 PM, Peter Maydell wrote:
+> On Tue, 23 Mar 2021 at 16:14, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> We want to remove the bcm2835_fb_reset() call in bcm2835_fb_realize()
+>> but doing triggers:
+>>
+>>   hw/display/bcm2835_fb.c:131:13: runtime error: store to null pointer of type 'uint32_t' (aka 'unsigned int')
+>>   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/display/bcm2835_fb.c:131:13 in
+>>   AddressSanitizer:DEADLYSIGNAL
+>>   =================================================================
+>>   ==195864==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x555d1d51e6d6 bp 0x7ffd25a31160 sp 0x7ffd25a30fb0 T0)
+>>   ==195864==The signal is caused by a WRITE memory access.
+>>   ==195864==Hint: address points to the zero page.
+>>      #0 0x555d1d51e6d6 in draw_line_src16 hw/display/bcm2835_fb.c:131:30
+>>      #1 0x555d1dd88d5f in framebuffer_update_display hw/display/framebuffer.c:107:13
+>>      #2 0x555d1d51d081 in fb_update_display hw/display/bcm2835_fb.c:203:5
+>>      #3 0x555d1ccb93d6 in graphic_hw_update ui/console.c:279:9
+>>      #4 0x555d1dbc92cb in gd_refresh ui/gtk.c:492:5
+>>      #5 0x555d1ccef1fc in dpy_refresh ui/console.c:1734:13
+>>      #6 0x555d1ccee09c in gui_update ui/console.c:209:5
+>>      #7 0x555d201f3cf2 in timerlist_run_timers util/qemu-timer.c:586:9
+>>      #8 0x555d201f4061 in qemu_clock_run_timers util/qemu-timer.c:600:12
+>>      #9 0x555d201f5029 in qemu_clock_run_all_timers util/qemu-timer.c:682:25
+>>     #10 0x555d200c6f6c in main_loop_wait util/main-loop.c:541:5
+>>     #11 0x555d1f06ba93 in qemu_main_loop softmmu/runstate.c:725:9
+>>     #12 0x555d1cafe6ae in main softmmu/main.c:50:5
+>>     #13 0x7f6e6991b081 in __libc_start_main (/lib64/libc.so.6+0x27081)
+>>     #14 0x555d1ca249ed in _start (/mnt/scratch/qemu/sanitizer_aa64/qemu-system-aarch64+0x22999ed)
+>>
+>>   AddressSanitizer can not provide additional info.
+>>   SUMMARY: AddressSanitizer: SEGV hw/display/bcm2835_fb.c:131:30 in draw_line_src16
+>>   ==195864==ABORTING
+>>
+>> The graphic console timer kicks before the display device is realized.
+>> By calling qemu_console_resize() in bcm2835_fb_reset() we force the
+>> creation of the graphic console surface early enough.
+>>
+>> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  hw/display/bcm2835_fb.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+>> index 2be77bdd3a0..3e63d58e0b2 100644
+>> --- a/hw/display/bcm2835_fb.c
+>> +++ b/hw/display/bcm2835_fb.c
+>> @@ -399,6 +399,7 @@ static void bcm2835_fb_reset(DeviceState *dev)
+>>      s->config = s->initial_config;
+>>
+>>      s->invalidate = true;
+>> +    qemu_console_resize(s->con, s->initial_config.xres, s->initial_config.yres);
+>>      s->lock = false;
+>>  }
 > 
-> There is no change in the memory layout.
+> I don't really understand how the commit message and the code
+> change relate.
 
-- before:
+The commit message is inconsistent, indeed. I tried to justify
+the next patch.
 
-  (qemu) info mtree
-  00000000fe000000-00000000ffffffff (prio 0, i/o): pflash
-    00000000fe000000-00000000fe7fffff (prio 0, romd): alias pflash-alias
-@musicpal.flash 0000000000000000-00000000007fffff
-    00000000fe800000-00000000feffffff (prio 0, romd): alias pflash-alias
-@musicpal.flash 0000000000000000-00000000007fffff
-    00000000ff000000-00000000ff7fffff (prio 0, romd): alias pflash-alias
-@musicpal.flash 0000000000000000-00000000007fffff
-    00000000ff800000-00000000ffffffff (prio 0, romd): alias pflash-alias
-@musicpal.flash 0000000000000000-00000000007fffff
+> reset happens after realize,
 
-- after:
+Yes, so this patch is incorrect.
 
-  00000000fe000000-00000000ffffffff (prio 0, i/o): masked musicpal.flash
-[span of 8 MiB]
-    00000000fe000000-00000000fe7fffff (prio 0, romd): alias
-musicpal.flash [#0/4] @musicpal.flash 0000000000000000-00000000007fffff
-    00000000fe800000-00000000feffffff (prio 0, romd): alias
-musicpal.flash [#1/4] @musicpal.flash 0000000000000000-00000000007fffff
-    00000000ff000000-00000000ff7fffff (prio 0, romd): alias
-musicpal.flash [#2/4] @musicpal.flash 0000000000000000-00000000007fffff
-    00000000ff800000-00000000ffffffff (prio 0, romd): alias
-musicpal.flash [#3/4] @musicpal.flash 0000000000000000-00000000007fffff
-
-Flatview is the same:
-
-  (qemu) info mtree -f
-  FlatView #0
-   AS "memory", root: system
-   AS "cpu-memory-0", root: system
-   AS "emac-dma", root: system
-   Root memory region: system
-    00000000fe000000-00000000fe7fffff (prio 0, romd): musicpal.flash
-    00000000fe800000-00000000feffffff (prio 0, romd): musicpal.flash
-    00000000ff000000-00000000ff7fffff (prio 0, romd): musicpal.flash
-    00000000ff800000-00000000ffffffff (prio 0, romd): musicpal.flash
-
+> and realize
+> already calls qemu_console_resize(), so how can adding a
+> call to resize here in reset cause the console surface to
+> be created any earlier than it already is ?
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/arm/musicpal.c | 11 +++++++----
->  hw/arm/Kconfig    |  1 +
->  2 files changed, 8 insertions(+), 4 deletions(-)
+> I also don't understand how the GUI timer can call us before
+> the device is realized, given that we only register ourselves
+> via graphics_console_init() in the device realize.
 > 
-> diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-> index 8b58b66f263..7d1f2f3fb3f 100644
-> --- a/hw/arm/musicpal.c
-> +++ b/hw/arm/musicpal.c
-> @@ -30,6 +30,7 @@
->  #include "hw/irq.h"
->  #include "hw/or-irq.h"
->  #include "hw/audio/wm8750.h"
-> +#include "hw/misc/aliased_region.h"
->  #include "sysemu/block-backend.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/dma.h"
-> @@ -1656,7 +1657,7 @@ static void musicpal_init(MachineState *machine)
->          qdev_prop_set_uint32(dev, "num-blocks", flash_size / sector_size);
->          qdev_prop_set_uint32(dev, "sector-length", sector_size);
->          qdev_prop_set_uint8(dev, "width", 2); /* 16-bit */
-> -        qdev_prop_set_uint8(dev, "mappings", MP_FLASH_SIZE_MAX / flash_size);
-> +        qdev_prop_set_uint8(dev, "mappings", 0);
->          qdev_prop_set_uint8(dev, "big-endian", 0);
->          qdev_prop_set_uint16(dev, "id0", 0x00bf);
->          qdev_prop_set_uint16(dev, "id1", 0x236d);
-> @@ -1667,14 +1668,16 @@ static void musicpal_init(MachineState *machine)
->          qdev_prop_set_string(dev, "name", "musicpal.flash");
->          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->  
-> -        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,
-> -                        0x100000000ULL - MP_FLASH_SIZE_MAX);
-> -
->          /*
->           * The original U-Boot accesses the flash at 0xFE000000 instead of
->           * 0xFF800000 (if there is 8 MB flash). So remap flash access if the
->           * image is smaller than 32 MB.
->           */
-> +        memory_region_add_subregion_aliased(get_system_memory(),
-> +                                0x100000000ULL - MP_FLASH_SIZE_MAX,
-> +                                MP_FLASH_SIZE_MAX,
-> +                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0),
-> +                                flash_size);
->      }
->      sysbus_create_simple(TYPE_MV88W8618_FLASHCFG, MP_FLASHCFG_BASE, NULL);
->  
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 8c37cf00da7..aa8553b3cd3 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -101,6 +101,7 @@ config MUSICPAL
->      select MARVELL_88W8618
->      select PTIMER
->      select PFLASH_CFI02
-> +    select ALIASED_REGION
->      select SERIAL
->      select WM8750
->  
+> More generally, I think we should probably start by figuring out
+> what the requirements on graphics devices vs the UI layer
+> are or should be.
+
+Agreed.
+
+> Is it possible to get the UI layer to
+> not start calling into graphics devices until after the
+> system has been reset for the first time, for instance?
+
+I have no clue, so deferring to Gerd.
+
+> Gerd, do you have any views here ?
+> 
+> thanks
+> -- PMM
 > 
 
