@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8A034AFC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:03:34 +0100 (CET)
-Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A24C34AFD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:09:05 +0100 (CET)
+Received: from localhost ([::1]:43790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPsg9-00018v-M1
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:03:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
+	id 1lPslU-0007XR-Aw
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHE-0006cS-SZ
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45616)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHH-0006gq-7N
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHD-00011X-99
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:48 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHE-00011z-24
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:37:50 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 90530AF26;
- Fri, 26 Mar 2021 19:37:32 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 9FDF8AF49;
+ Fri, 26 Mar 2021 19:37:33 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 24/65] target/arm: move arm_sctlr away from tcg helpers
-Date: Fri, 26 Mar 2021 20:36:20 +0100
-Message-Id: <20210326193701.5981-25-cfontana@suse.de>
+Subject: [RFC v12 25/65] target/arm: move arm_cpu_list to common_cpu
+Date: Fri, 26 Mar 2021 20:36:21 +0100
+Message-Id: <20210326193701.5981-26-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -60,60 +60,122 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this function is used for kvm too, add it to the
-cpu-common module.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu-common.c | 15 +++++++++++++++
- target/arm/tcg/helper.c | 11 -----------
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ target/arm/cpu-common.c | 42 +++++++++++++++++++++++++++++++++++++++++
+ target/arm/tcg/helper.c | 41 ----------------------------------------
+ 2 files changed, 42 insertions(+), 41 deletions(-)
 
 diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
-index a34f7f19d8..892e075298 100644
+index 892e075298..76aaa06ce9 100644
 --- a/target/arm/cpu-common.c
 +++ b/target/arm/cpu-common.c
-@@ -342,3 +342,18 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
- }
+@@ -8,6 +8,7 @@
  
- /* #endif TARGET_AARCH64 , see matching comment above */
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "qemu/qemu-print.h"
+ #include "qom/object.h"
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/error.h"
+@@ -357,3 +358,44 @@ uint64_t arm_sctlr(CPUARMState *env, int el)
+     }
+     return env->cp15.sctlr_el[el];
+ }
 +
-+uint64_t arm_sctlr(CPUARMState *env, int el)
++/* Sort alphabetically by type name, except for "any". */
++static gint arm_cpu_list_compare(gconstpointer a, gconstpointer b)
 +{
-+    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
-+    if (el == 0) {
-+#ifdef TARGET_AARCH64
-+        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
-+        el = (mmu_idx == ARMMMUIdx_E20_0 || mmu_idx == ARMMMUIdx_SE20_0)
-+            ? 2 : 1;
-+#else
-+        el = 1;
-+#endif /* TARGET_AARCH64 */
++    ObjectClass *class_a = (ObjectClass *)a;
++    ObjectClass *class_b = (ObjectClass *)b;
++    const char *name_a, *name_b;
++
++    name_a = object_class_get_name(class_a);
++    name_b = object_class_get_name(class_b);
++    if (strcmp(name_a, "any-" TYPE_ARM_CPU) == 0) {
++        return 1;
++    } else if (strcmp(name_b, "any-" TYPE_ARM_CPU) == 0) {
++        return -1;
++    } else {
++        return strcmp(name_a, name_b);
 +    }
-+    return env->cp15.sctlr_el[el];
++}
++
++static void arm_cpu_list_entry(gpointer data, gpointer user_data)
++{
++    ObjectClass *oc = data;
++    const char *typename;
++    char *name;
++
++    typename = object_class_get_name(oc);
++    name = g_strndup(typename, strlen(typename) - strlen("-" TYPE_ARM_CPU));
++    qemu_printf("  %s\n", name);
++    g_free(name);
++}
++
++void arm_cpu_list(void)
++{
++    GSList *list;
++
++    list = object_class_get_list(TYPE_ARM_CPU, false);
++    list = g_slist_sort(list, arm_cpu_list_compare);
++    qemu_printf("Available CPUs:\n");
++    g_slist_foreach(list, arm_cpu_list_entry, NULL);
++    g_slist_free(list);
 +}
 diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index 5bc0055c87..b72765ad8a 100644
+index b72765ad8a..9763cae8f8 100644
 --- a/target/arm/tcg/helper.c
 +++ b/target/arm/tcg/helper.c
-@@ -1675,17 +1675,6 @@ void arm_cpu_do_interrupt(CPUState *cs)
- }
- #endif /* !CONFIG_USER_ONLY */
+@@ -552,47 +552,6 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
  
--uint64_t arm_sctlr(CPUARMState *env, int el)
+ }
+ 
+-/* Sort alphabetically by type name, except for "any". */
+-static gint arm_cpu_list_compare(gconstpointer a, gconstpointer b)
 -{
--    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
--    if (el == 0) {
--        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
--        el = (mmu_idx == ARMMMUIdx_E20_0 || mmu_idx == ARMMMUIdx_SE20_0)
--             ? 2 : 1;
+-    ObjectClass *class_a = (ObjectClass *)a;
+-    ObjectClass *class_b = (ObjectClass *)b;
+-    const char *name_a, *name_b;
+-
+-    name_a = object_class_get_name(class_a);
+-    name_b = object_class_get_name(class_b);
+-    if (strcmp(name_a, "any-" TYPE_ARM_CPU) == 0) {
+-        return 1;
+-    } else if (strcmp(name_b, "any-" TYPE_ARM_CPU) == 0) {
+-        return -1;
+-    } else {
+-        return strcmp(name_a, name_b);
 -    }
--    return env->cp15.sctlr_el[el];
 -}
 -
- /* Returns true if the stage 1 translation regime is using LPAE format page
-  * tables. Used when raising alignment exceptions, whose FSR changes depending
-  * on whether the long or short descriptor format is in use. */
+-static void arm_cpu_list_entry(gpointer data, gpointer user_data)
+-{
+-    ObjectClass *oc = data;
+-    const char *typename;
+-    char *name;
+-
+-    typename = object_class_get_name(oc);
+-    name = g_strndup(typename, strlen(typename) - strlen("-" TYPE_ARM_CPU));
+-    qemu_printf("  %s\n", name);
+-    g_free(name);
+-}
+-
+-void arm_cpu_list(void)
+-{
+-    GSList *list;
+-
+-    list = object_class_get_list(TYPE_ARM_CPU, false);
+-    list = g_slist_sort(list, arm_cpu_list_compare);
+-    qemu_printf("Available CPUs:\n");
+-    g_slist_foreach(list, arm_cpu_list_entry, NULL);
+-    g_slist_free(list);
+-}
+-
+ /* Sign/zero extend */
+ uint32_t HELPER(sxtb16)(uint32_t x)
+ {
 -- 
 2.26.2
 
