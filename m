@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C014B34B053
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:39:04 +0100 (CET)
-Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C52234AFFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 21:16:47 +0100 (CET)
+Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPtEV-00019f-RN
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53270)
+	id 1lPssw-00015U-1N
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 16:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHu-0007Ua-H8
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:38:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46366)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHv-0007Us-UD
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:38:32 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHs-0001QR-Py
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:38:30 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lPsHu-0001Qt-0i
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 15:38:31 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8DFF6AF3F;
- Fri, 26 Mar 2021 19:38:17 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id B63BFAF32;
+ Fri, 26 Mar 2021 19:38:18 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v12 64/65] target/arm: tcg: remove superfluous CONFIG_TCG check
-Date: Fri, 26 Mar 2021 20:37:00 +0100
-Message-Id: <20210326193701.5981-65-cfontana@suse.de>
+Subject: [RFC v12 65/65] target/arm: remove v7m stub function for !CONFIG_TCG
+Date: Fri, 26 Mar 2021 20:37:01 +0100
+Message-Id: <20210326193701.5981-66-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210326193701.5981-1-cfontana@suse.de>
 References: <20210326193701.5981-1-cfontana@suse.de>
@@ -60,43 +60,41 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-modules under tcg/ are only built for CONFIG_TCG anyway.
+it is needed just once, so just move the CONFIG_TCG check in place.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/tcg/vfp_helper.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/arm/cpu-mmu.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/tcg/vfp_helper.c b/target/arm/tcg/vfp_helper.c
-index 521719f327..0cc6c85270 100644
---- a/target/arm/tcg/vfp_helper.c
-+++ b/target/arm/tcg/vfp_helper.c
-@@ -21,10 +21,8 @@
- #include "cpu.h"
- #include "exec/helper-proto.h"
- #include "internals.h"
--#ifdef CONFIG_TCG
- #include "qemu/log.h"
- #include "fpu/softfloat.h"
--#endif
- 
- /* VFP support.  We follow the convention used for VFP instructions:
-    Single precision routines have a "s" suffix, double precision a
-@@ -40,8 +38,6 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
-     vfp_set_fpscr(env, val);
+diff --git a/target/arm/cpu-mmu.c b/target/arm/cpu-mmu.c
+index c6ac90a61e..9969bc9d30 100644
+--- a/target/arm/cpu-mmu.c
++++ b/target/arm/cpu-mmu.c
+@@ -155,21 +155,16 @@ int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
+     }
  }
  
--#ifdef CONFIG_TCG
--
- #define VFP_HELPER(name, p) HELPER(glue(glue(vfp_,name),p))
- 
- #define VFP_BINOP(name) \
-@@ -1110,5 +1106,3 @@ void HELPER(check_hcr_el2_trap)(CPUARMState *env, uint32_t rt, uint32_t reg)
- 
-     raise_exception(env, EXCP_HYP_TRAP, syndrome, 2);
- }
--
+-#ifndef CONFIG_TCG
+-ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+-{
+-    g_assert_not_reached();
+-}
 -#endif
+-
+ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+ {
+     ARMMMUIdx idx;
+     uint64_t hcr;
+ 
++#ifdef CONFIG_TCG
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
+     }
++#endif /* CONFIG_TCG */
+ 
+     /* See ARM pseudo-function ELIsInHost.  */
+     switch (el) {
 -- 
 2.26.2
 
