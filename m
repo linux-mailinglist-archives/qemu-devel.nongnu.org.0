@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDBD34A312
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:17:34 +0100 (CET)
-Received: from localhost ([::1]:50132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B90534A2F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:08:39 +0100 (CET)
+Received: from localhost ([::1]:39834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPhev-0002b5-WE
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:17:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
+	id 1lPhWH-0006G5-S0
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPhdU-0001mj-Vk
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:16:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPhdS-0001j4-BZ
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:16:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lPhdP-0007pZ-6D
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 08:15:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E104B2E8162
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 08:15:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lPhUK-0005DW-Hn
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:06:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lPhUH-0004w0-3u
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:06:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616745991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LvAgeUOhw4hluahx5Egnzxh2FVg5E9kmJ3VtmQbDDjo=;
+ b=hi/dy00UvoZMCVz9VrTKuDMY7uoHXm4MJutJIankmByckoaOk/IWbuChTjNnjYDXZPM3yV
+ GfqC6K5HadGc6+x8WqYU46gxEcGTaMo0uqKkYAXRHQpkxxgqBLhbVyopKESzX8sNMYKYuZ
+ XMxlI6a9mZoVXe7UfRsrblLn1sFRjN8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390--B5pMNwpMtmbruEHLDXBMg-1; Fri, 26 Mar 2021 04:06:27 -0400
+X-MC-Unique: -B5pMNwpMtmbruEHLDXBMg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B32A28018A1;
+ Fri, 26 Mar 2021 08:06:26 +0000 (UTC)
+Received: from [10.36.112.13] (ovpn-112-13.ams2.redhat.com [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C694467894;
+ Fri, 26 Mar 2021 08:06:12 +0000 (UTC)
+Subject: Re: [PATCH v2 00/10] Acceptance Test: introduce base class for Linux
+ based tests
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210323221539.3532660-1-crosa@redhat.com>
+ <05118984-4a12-6cc5-ab84-a3a4953b535c@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <f8c09677-ab67-e46d-1d69-a568abc93f9a@redhat.com>
+Date: Fri, 26 Mar 2021 09:06:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 26 Mar 2021 08:02:07 -0000
-From: Frank Heimes <1921468@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=ubuntu-z-systems; status=New; importance=Medium;
- assignee=skipper-screen-team; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Medium; assignee=canonical-server; 
-X-Launchpad-Bug-Tags: architecture-s39064 bugnameltc-192200 severity-medium
- targetmilestone-inin20042
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bugproxy
-X-Launchpad-Bug-Reporter: bugproxy (bugproxy)
-X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
-References: <161674556672.2057.41866461498404333.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161674572792.19042.14927547035209879463.launchpad@gac.canonical.com>
-Subject: [Bug 1921468] Re: [UBUNTU 20.04] KVM guest fails to find zipl boot
- menu index
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
-X-Launchpad-Hash: 8d16941ec8f523b05de5e8673de23f7f4c3fd7eb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <05118984-4a12-6cc5-ab84-a3a4953b535c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,110 +85,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921468 <1921468@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eric Auger <eauger@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: qemu
-   Importance: Undecided
-       Status: New
+Hi Wainer,
 
-** No longer affects: qemu
+On 3/25/21 8:45 PM, Wainer dos Santos Moschetta wrote:
+> Hi,
+> 
+> On 3/23/21 7:15 PM, Cleber Rosa wrote:
+>> This introduces a base class for tests that need to interact with a
+>> Linux guest.  It generalizes the "boot_linux.py" code, already been
+>> used by the "virtiofs_submounts.py" and also SSH related code being
+>> used by that and "linux_ssh_mips_malta.py".
+> 
+> I ran the linux_ssh_mips_malta.py tests, they all passed:
+> 
+> (11/34)
+> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta32eb_kernel3_2_0:
+> PASS (64.41 s)
+> (12/34)
+> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta32el_kernel3_2_0:
+> PASS (63.43 s)
+> (13/34)
+> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64eb_kernel3_2_0:
+> PASS (63.76 s)
+> (14/34)
+> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64el_kernel3_2_0:
+> PASS (62.52 s)
+> 
+> Then I tried the virtiofs_submounts.py tests, it finishes with error.
+> Something like that fixes it:
+> 
+> diff --git a/tests/acceptance/virtiofs_submounts.py
+> b/tests/acceptance/virtiofs_submounts.py
+> index d77ee35674..21ad7d792e 100644
+> --- a/tests/acceptance/virtiofs_submounts.py
+> +++ b/tests/acceptance/virtiofs_submounts.py
+> @@ -195,7 +195,7 @@ def setUp(self):
+> 
+>          self.run(('ssh-keygen', '-N', '', '-t', 'ed25519', '-f',
+> self.ssh_key))
+> 
+> -        pubkey = open(self.ssh_key + '.pub').read()
+> +        pubkey = self.ssh_key + '.pub'
 
-** Also affects: ubuntu-z-systems
-   Importance: Undecided
-       Status: New
+Yes I discovered that too when developping the SMMU test. Thanks for
+mentionning
 
-** Changed in: ubuntu-z-systems
-     Assignee: (unassigned) =3D> Skipper Bug Screeners (skipper-screen-team)
+Eric
+> 
+>          super(VirtiofsSubmountsTest, self).setUp(pubkey)
+> 
+> 
+>>
+>> While at it, a number of fixes on hopeful improvements to those tests
+>> were added.
+>>
+>> Changes from v1:
+>>
+>> * Majority of v1 patches have been merged.
+>>
+>> * New patches:
+>>    - Acceptance Tests: make username/password configurable
+>>    - Acceptance Tests: set up SSH connection by default after boot for
+>> LinuxTest
+>>    - tests/acceptance/virtiofs_submounts.py: remove launch_vm()
+>>
+>> * Allowed for the configuration of the network device type (defaulting
+>>    to virtio-net) [Phil]
+>>
+>> * Fix module name typo (s/qemu.util/qemu.utils/) in the commit message
+>>    [John]
+>>
+>> * Tests based on LinuxTest will have the SSH connection already prepared
+>>
+>> Cleber Rosa (10):
+>>    tests/acceptance/virtiofs_submounts.py: add missing accel tag
+>>    tests/acceptance/virtiofs_submounts.py: evaluate string not length
+>>    Python: add utility function for retrieving port redirection
+>>    Acceptance Tests: move useful ssh methods to base class
+>>    Acceptance Tests: add port redirection for ssh by default
+>>    Acceptance Tests: make username/password configurable
+>>    Acceptance Tests: set up SSH connection by default after boot for
+>>      LinuxTest
+>>    tests/acceptance/virtiofs_submounts.py: remove launch_vm()
+>>    Acceptance Tests: add basic documentation on LinuxTest base class
+>>    Acceptance Tests: introduce CPU hotplug test
+>>
+>>   docs/devel/testing.rst                    | 25 ++++++++
+>>   python/qemu/utils.py                      | 35 ++++++++++++
+>>   tests/acceptance/avocado_qemu/__init__.py | 63 +++++++++++++++++++--
+>>   tests/acceptance/hotplug_cpu.py           | 37 ++++++++++++
+>>   tests/acceptance/info_usernet.py          | 29 ++++++++++
+>>   tests/acceptance/linux_ssh_mips_malta.py  | 44 ++-------------
+>>   tests/acceptance/virtiofs_submounts.py    | 69 +++--------------------
+>>   tests/vm/basevm.py                        |  7 +--
+>>   8 files changed, 198 insertions(+), 111 deletions(-)
+>>   create mode 100644 python/qemu/utils.py
+>>   create mode 100644 tests/acceptance/hotplug_cpu.py
+>>   create mode 100644 tests/acceptance/info_usernet.py
+>>
 
-** Changed in: qemu (Ubuntu)
-     Assignee: Skipper Bug Screeners (skipper-screen-team) =3D> Canonical S=
-erver Team (canonical-server)
-
-** Changed in: ubuntu-z-systems
-   Importance: Undecided =3D> Medium
-
-** Changed in: qemu (Ubuntu)
-   Importance: Undecided =3D> Medium
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921468
-
-Title:
-  [UBUNTU 20.04] KVM guest fails to find zipl boot menu index
-
-Status in Ubuntu on IBM z Systems:
-  New
-Status in qemu package in Ubuntu:
-  New
-
-Bug description:
-  ---Problem Description---
-  A KVM guest fails to find the zipl boot menu index if the "zIPL" magic va=
-lue is listed at the end of a disk block. =
-
-   =
-
-  ---System Hang---
-  System sits in disabled wait, last console display
-  LOADPARM=3D[        ]
-  Using virtio-blk.
-  Using ECKD scheme (block size  4096), CDL
-  VOLSER=3D[0X0067]
-   =
-
-   =
-
-  ---Steps to Reproduce---
-  1. Install Distro KVM guest from ISO on a DASD, e.g. using virt-install, =
-my invocation was =
-
-  $ virt-install --name secguest2 --memory 2048 --disk path=3D/dev/disk/by-=
-path/ccw-0.0.af6a --cdrom /var/lib/libvirt/images/xxxxxx.iso
-
-  2. Select DHCP networking and ASCII console, and accept all defaults
-  of the installer
-
-  3. Let the installer reboot after the installation completes
-
-  It is possible to recover by editing the domain XML with an explicit load=
-parm to select a boot menu entry. E.g. I changed the disk definition to
-     <disk type=3D'block' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'raw' cache=3D'none' io=3D'native'/>
-        <source dev=3D'/dev/disk/by-path/ccw-0.0.af6a'/>
-        <target dev=3D'vda' bus=3D'virtio'/>
-        <boot order=3D'1' loadparm=3D'1'/>
-        <address type=3D'ccw' cssid=3D'0xfe' ssid=3D'0x0' devno=3D'0xaf6a'/>
-      </disk>
-
-  The patches are now upstream:
-  5f97ba0c74cc ("pc-bios/s390-ccw: fix off-by-one error")
-  468184ec9024 ("pc-bios/s390-ccw: break loop if a null block number is rea=
-ched")
-
-  Current versions of qemu within Ubuntu
-
-  focal (20.04LTS) 1:4.2-3ubuntu6 [ports]: arm64 armhf ppc64el s390x
-  focal-updates (metapackages): 1:4.2-3ubuntu6.14: amd64 arm64 armhf ppc64e=
-l s390x
-
-  groovy (20.10) (metapackages): 1:5.0-5ubuntu9 [ports]: arm64 armhf ppc64e=
-l s390x
-  groovy-updates (metapackages): 1:5.0-5ubuntu9.6: amd64 arm64 armhf ppc64e=
-l s390x
-
-  hirsute (metapackages): 1:5.2+dfsg-9ubuntu1: amd64 arm64 armhf ppc64el
-  s390x
-
-  =
-
-  git-commits will apply seamlessley for the requested levels if not alread=
-y integrated
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/ubuntu-z-systems/+bug/1921468/+subscriptions
 
