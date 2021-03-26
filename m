@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596B134A784
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:48:40 +0100 (CET)
-Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA53134A791
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:52:54 +0100 (CET)
+Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPltG-0004YA-SK
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:48:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1lPlxN-0006ad-Si
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:52:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlrs-00044q-FR
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:47:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28676)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluV-0005B1-2g
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:49:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlrq-0002E2-Si
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:47:12 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluS-0003ir-V3
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:49:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616762829;
+ s=mimecast20190719; t=1616762992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QWyyf42yAZs1wH5EzrUV+efxbY/3EgHY2p18A8/6EqI=;
- b=FoP0kq0XGDSBtoPYLDu0CouD910ppu4yU5f7icPhYN6xTCuowkaYK9ZvV5KC5xW5FgWffE
- 2AJwfyGVrUkZJPtdXni0w1GYYYSQd2ur1XUR4ZNWMsJlACYcvt5BlUR8sCjznin/gxPXP2
- iZqgDC7N/go+Sd/FNXGhufIScfEB2jQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pHjn04yQnmWHzA/Ou+esA8tktXoinWG3j+Hp1sjNCL0=;
+ b=P3qF/vW7qyOdw6EpjSG1VMC/lSyvlBXlJayIPIwYm77ATsfPy/y4r82AC9qFK8xr8JpzYy
+ yACecNrlj9R3efGn/DvVFsCRSQwdJ4ibBqKbpNfB3xNrVgMTAIXNjPooZJ7u+Pdhrw8iJw
+ EOePVYZF4ktgucRGMCoPQO0myySrgoU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-bLlCv2_AMA2y-iuAUunXZQ-1; Fri, 26 Mar 2021 08:47:07 -0400
-X-MC-Unique: bLlCv2_AMA2y-iuAUunXZQ-1
+ us-mta-341-TbMm0r_CNP-uMWgLcw9K2A-1; Fri, 26 Mar 2021 08:49:48 -0400
+X-MC-Unique: TbMm0r_CNP-uMWgLcw9K2A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04C361005D4F
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 12:47:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5523C101963C;
+ Fri, 26 Mar 2021 12:49:47 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-102.ams2.redhat.com
  [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 045091962F;
- Fri, 26 Mar 2021 12:47:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 92B786E6F5;
+ Fri, 26 Mar 2021 12:49:34 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4D5271800385; Fri, 26 Mar 2021 13:47:00 +0100 (CET)
-Date: Fri, 26 Mar 2021 13:47:00 +0100
+ id 9F77C1800385; Fri, 26 Mar 2021 13:49:32 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
-Message-ID: <20210326124700.taujcpo2xqbn2pzj@sirius.home.kraxel.org>
-References: <20210121125028.3247190-1-kraxel@redhat.com>
- <20210203163202.GF241524@stefanha-x1.localdomain>
- <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
- <YFiHnr/uguP8/Vtz@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] Fixes 20210326 patches
+Date: Fri, 26 Mar 2021 13:49:23 +0100
+Message-Id: <20210326124932.481942-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YFiHnr/uguP8/Vtz@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -68,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +76,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> eg a trace point "dma_map_wait" gets mapped to probes in many
-> .stp files, once per target, because we need to match based on
-> the executable path:
-> 
->   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
->   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-ppc64").mark("dma_map_wait")
-
-Probe qemu.system.ppc64.dma_map_wait = ...
-
-Can I trace qemu started from build directory?
-Seems scripts/qemu-trace-stap doesn't support that.
-
->   qxl.destroy_primary(int qid) "%d"
->   qxl.enter_vga_mode(int qid) "%d"
->   qxl.exit_vga_mode(int qid) "%d"
-> 
-> this would be backwards compatible, as we can turn the "." back into
-> a "_" for all existing trace backends, except stp.
-
-Hmm, not sure I like this inconsistency.  I think names should be the
-same no matter which trace backend is used.
-
-take care,
-  Gerd
+The following changes since commit 9e2e9fe3df9f539f8b6941ceb96d25355fdae47e=
+:=0D
+=0D
+  Update version for v6.0.0-rc0 release (2021-03-24 19:50:49 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/fixes-20210326-pull-request=0D
+=0D
+for you to fetch changes up to db0b034185824ac33e1a85ba62ab2030eb17b00d:=0D
+=0D
+  hw/usb/hcd-ehci: Fix crash when showing help of EHCI devices (2021-03-26 =
+11:10:49 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+fixes for usb, virtio-gpu and vhost-gpu=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (3):=0D
+  s390x: move S390_ADAPTER_SUPPRESSIBLE=0D
+  s390x: add have_virtio_ccw=0D
+  s390x: modularize virtio-gpu-ccw=0D
+=0D
+Marc-Andr=C3=A9 Lureau (3):=0D
+  vhost-user-gpu: glFlush before notifying clients=0D
+  vhost-user-gpu: fix vugbm_device_init fallback=0D
+  vhost-user-gpu: fix cursor move/update=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (1):=0D
+  hw/usb/hcd-ehci-sysbus: Free USBPacket on instance finalize()=0D
+=0D
+Thomas Huth (2):=0D
+  usb: Remove "-usbdevice ccid"=0D
+  hw/usb/hcd-ehci: Fix crash when showing help of EHCI devices=0D
+=0D
+ contrib/vhost-user-gpu/vugbm.h          |  2 +-=0D
+ hw/s390x/virtio-ccw.h                   |  5 +++=0D
+ include/hw/s390x/css.h                  |  7 ----=0D
+ include/hw/s390x/s390_flic.h            |  3 ++=0D
+ target/s390x/cpu.h                      |  9 +++--=0D
+ contrib/vhost-user-gpu/vhost-user-gpu.c | 24 +++++++-------=0D
+ contrib/vhost-user-gpu/virgl.c          |  3 ++=0D
+ contrib/vhost-user-gpu/vugbm.c          | 44 +++++++++++--------------=0D
+ hw/s390x/virtio-ccw-gpu.c               |  4 ++-=0D
+ hw/s390x/virtio-ccw.c                   |  2 ++=0D
+ hw/usb/dev-smartcard-reader.c           |  1 -=0D
+ hw/usb/hcd-ehci-sysbus.c                |  9 +++++=0D
+ hw/usb/hcd-ehci.c                       | 10 +++---=0D
+ util/module.c                           |  1 +=0D
+ contrib/vhost-user-gpu/meson.build      |  2 +-=0D
+ docs/system/removed-features.rst        |  6 ++++=0D
+ hw/s390x/meson.build                    |  8 ++++-=0D
+ qemu-options.hx                         |  3 --=0D
+ 18 files changed, 85 insertions(+), 58 deletions(-)=0D
+=0D
+--=20=0D
+2.30.2=0D
+=0D
 
 
