@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B23F34A572
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 11:25:04 +0100 (CET)
-Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D9F34A567
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 11:24:33 +0100 (CET)
+Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPjeJ-0004dZ-80
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 06:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
+	id 1lPjdn-0004CP-Tv
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 06:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPjaM-0001Ha-98
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:20:58 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37549)
+ id 1lPjc5-0003F8-9W
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:22:45 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPjaK-0000Yy-CM
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:20:57 -0400
-Received: by mail-ej1-x635.google.com with SMTP id w3so7603565ejc.4
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 03:20:55 -0700 (PDT)
+ id 1lPjc1-0001gl-6y
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 06:22:45 -0400
+Received: by mail-ed1-x535.google.com with SMTP id bf3so5693066edb.6
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 03:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5WJN03Ew2msb1e6JG5mzDx9NLkxyPo7Y/N/B9i/feOk=;
- b=VusCNDBKNMaFze7Lnutcw2psNPQnQi4TZB1Q06POW0V6gExS8mxK/491KtuIwefCyy
- H7hChsrh9Lh+xuP6VCDwoQr9mOniRYRHd+Ln9GycpZB9xvH5dP0XDT1AtKt4/YI4JZzs
- cS3QbfCVlySh4a+2o1vKwd0Vl8/d+yJF3YRsP0kRRoxUFz5qnFRBxzmFMcmwixjol+V7
- wDIAlCELkWXvcALQhoTjmTjwv+eNWdCklJS8J9ZIWAd1KsBMXkIzWeEqZ/t2Kk+ulFlG
- G30asZ/ND8nT3ft+k1ChFq4MuZ2KcYEWe+1ewJ77t34xcA4BWyTycvKzqD4bL53VP1lG
- srCA==
+ :cc; bh=kJOhQ3YvSNeyK8D20Hu+xeaaKL6X3ifRqu603qQH91c=;
+ b=x11NA5dOlUTdF8W3pX2mIJRXJN8+F5MxnkmfUgIvP/c6W2IDZUrkGKKd+4W/w955gi
+ MqDGq+QTr/CtLN58eJYlZHK/EIOmq4guWW+4tI0z1PuAYLAYERsNMoXy0HtdHMFGMn99
+ 1mozAO9f5NfdSsuq7iasyHDvV6rwC9aPUw6eQo6biayNPTVP104MYWT0rhKxvrwL9Fi9
+ MILK4a7FnlmM9N89J0/rqGPAForWIiKpBr6w3dU7J3LaRU9j3wc4XYZgMDEUL3XO3Xi4
+ 8JIiF1eDPFk2UNSQFEAfucxjXbnsoKx5B9i5lNe7DthgMeXBmyvoQPiTwQqgrD0iY1zV
+ HJHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5WJN03Ew2msb1e6JG5mzDx9NLkxyPo7Y/N/B9i/feOk=;
- b=pGkKhsGV8xwVmORhC3E1/BvUJSNlodH/5R3PW1SRAvDNiqrUj/acU9cCGbqAl+GjWR
- qYWKHi2nHl8XsOThecDWel/djHaLhXpujUCLxtYiH59hxMLdZH10qWlJyE3/vTF41Pzh
- jpFzjVEOBh3Q2jmrj2tYWpUBJPkBhM81oBOi5NfQkYtejVXTzCI1q4x8q6cRXEDV1QCq
- WGusFt2ReZw6WYfqGi/trQqm3EvK9L6iGUBJbHwA5LuicRHf6rHnJ/WJdlJrauYyhOVU
- AhPb/hjpvOAU6WM45XGaQHWLnh/wMNbL0UpSbhkR6a7ZsPvEqgn58WyyNBjQ/0N+gJLa
- 8zJA==
-X-Gm-Message-State: AOAM532ABBKuxQZ1jTirW2d+YVH7E34/m7/AXLe2CeDWIhaOyqp2pAId
- 6SlwT6MxnqZXFKVPbKIzfJLbiKIxNRUmmqWt4ziqvw==
-X-Google-Smtp-Source: ABdhPJws6FWSBH/yrJNI52CWe6GzlzX/nkox+RNtD8vpZSxL6eeNzthDEYM+yXZYsGvGxI26d4Qk3PyXaiWbIldnx0c=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr14768445ejc.250.1616754054595; 
- Fri, 26 Mar 2021 03:20:54 -0700 (PDT)
+ bh=kJOhQ3YvSNeyK8D20Hu+xeaaKL6X3ifRqu603qQH91c=;
+ b=j60+gm4Ntjyi4qxUrIFmjSotVBg12FHbxrkCTcAezwBJTiyK46wAoDbryIJs4XPq0I
+ 17SK2tPdxduU0icvDG5aRPHYpIAyg3ZQX72MMe/9SU/LUnGr7wtVuFeNa0yKtLMCvtmD
+ P99PTBj9mqrkkhXWGTZwX8KIJCCRGaXJdszlderHaZdnhKqCu3x+9HwsYTaWaTsnDnFQ
+ z6IOR4wEBNngro37k9gmYAidYvOdC9rA2HOdLLkLGc4h3AAb8iRJvnGo0gjvkNBLISup
+ 6rsFwSh5ibQCkx/ndbSMST59z0Fe7FgxDwmuTjiT4SEusMUPmGGoGVGaFpq5fCVexxit
+ 96Zg==
+X-Gm-Message-State: AOAM530RQL6yKJnMJXI+Lski950ZOLGEHMwbxTH2tR1QcIdgZKiIRuai
+ 289VvgB7xyGBE9hmlhdFA/fE6mZu2tgxuHrjJX+LxA==
+X-Google-Smtp-Source: ABdhPJwWxa4cuF7Nv3Ede71rh7IayhjX6YXGcNeZJDD8wlAvmApUaKAXRbRI55HIxF9decmOCaE5VXKELI8jI8OwImA=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr13984680edt.36.1616754159282; 
+ Fri, 26 Mar 2021 03:22:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210325153310.9131-1-peter.maydell@linaro.org>
- <20210325153310.9131-2-peter.maydell@linaro.org>
- <af25a32c-6bff-c44c-ff9c-65721d5e9e54@redhat.com>
-In-Reply-To: <af25a32c-6bff-c44c-ff9c-65721d5e9e54@redhat.com>
+References: <20210324145202.430759-1-stefanha@redhat.com>
+In-Reply-To: <20210324145202.430759-1-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Mar 2021 10:20:22 +0000
-Message-ID: <CAFEAcA9WqyauWsF-5FbJMt=0NcRoZZfJmunDhvqyaSBUV1xm8w@mail.gmail.com>
-Subject: Re: [PATCH for-6.0 1/4] include/hw/boards.h: Document
- machine_class_allow_dynamic_sysbus_dev()
-To: Auger Eric <eric.auger@redhat.com>
+Date: Fri, 26 Mar 2021 10:22:07 +0000
+Message-ID: <CAFEAcA9sW32iBjxnhmG3k+7mSE2a17fPKLUEZQV09eJN10FS7g@mail.gmail.com>
+Subject: Re: [PULL 0/2] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,42 +76,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Mar 2021 at 09:27, Auger Eric <eric.auger@redhat.com> wrote:
+On Wed, 24 Mar 2021 at 14:52, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> Hi Peter,
+> The following changes since commit 67c1115edd98f388ca89dd38322ea3fadf034523:
 >
-> On 3/25/21 4:33 PM, Peter Maydell wrote:
-> > The function machine_class_allow_dynamic_sysbus_dev() is currently
-> > undocumented; add a doc comment.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  include/hw/boards.h | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >
-> > diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > index 4a90549ad85..27106abc11d 100644
-> > --- a/include/hw/boards.h
-> > +++ b/include/hw/boards.h
-> > @@ -36,7 +36,21 @@ void machine_set_cpu_numa_node(MachineState *machine,
-> >                                 const CpuInstanceProperties *props,
-> >                                 Error **errp);
-> >
-> > +/**
-> > + * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
-> nit: s/of valid devices/of dynamically instantiable sysbus devices ?
+>   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20210323-pull-request' into staging (2021-03-23 23:47:30 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 3460fd7f3959d1fa7bcc255796844aa261c805a4:
+>
+>   migrate-bitmaps-postcopy-test: check that we can't remove in-flight bitmaps (2021-03-24 13:41:19 +0000)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> This dirty bitmap fix solves a crash that can be triggered in the destination
+> QEMU process during live migration.
+>
 
-I was trying to keep the summary line to be one line, which
-doesn't give much space for nuance with a function name this long...
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
 -- PMM
 
