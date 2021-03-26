@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B5334A0D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 06:22:11 +0100 (CET)
-Received: from localhost ([::1]:41098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7826E34A100
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 06:26:15 +0100 (CET)
+Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPevC-0007Ma-AC
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 01:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
+	id 1lPez8-00007s-Ig
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 01:26:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPets-0006us-HC
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:20:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lPetq-0005Oy-1o
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:20:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lPetn-0005Dm-Ml
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 05:20:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A2FB72E8165
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 05:20:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPeyJ-00089f-Eq
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:25:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPeyG-0008OS-67
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:25:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616736318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OC5O5FcX+/tI/b+2/t7fbIKLg4goBFQ+t/hMkSCFFIE=;
+ b=Ttt3btimYjhzStgz1EjO7GStkyDxO/sCsxXA2y8HBwYKYBaWggwnae74gqxTpIklAJrG20
+ Ikxft/n7y2boLfqntMvuI3bnbBnR6/4T7wnckvY06sqo7KEXOLhx71NxsopSkRzeWrElnU
+ kwjureQWoLPG29e/3fP890kzeGaMmx4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-eI6oWu_9PkaIm3DK5ZiMLw-1; Fri, 26 Mar 2021 01:25:15 -0400
+X-MC-Unique: eI6oWu_9PkaIm3DK5ZiMLw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F519180FCA1;
+ Fri, 26 Mar 2021 05:25:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33C5462A33;
+ Fri, 26 Mar 2021 05:25:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BED7F11327E1; Fri, 26 Mar 2021 06:25:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
+ stricter checking
+References: <20210323094025.3569441-1-armbru@redhat.com>
+ <20210323094025.3569441-11-armbru@redhat.com>
+ <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com>
+ <87v99hf60v.fsf@dusky.pond.sub.org>
+ <128c8d73-e16c-cc74-4ab8-b7ef7818e0fc@redhat.com>
+ <87im5fah92.fsf@dusky.pond.sub.org>
+ <6b74a262-10c1-a857-00dd-736d29eec23f@redhat.com>
+Date: Fri, 26 Mar 2021 06:25:08 +0100
+In-Reply-To: <6b74a262-10c1-a857-00dd-736d29eec23f@redhat.com> (John Snow's
+ message of "Thu, 25 Mar 2021 13:48:34 -0400")
+Message-ID: <87a6qqbi6j.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 26 Mar 2021 05:10:29 -0000
-From: xudong <1921444@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson xudong-hao
-X-Launchpad-Bug-Reporter: xudong (xudong-hao)
-X-Launchpad-Bug-Modifier: xudong (xudong-hao)
-References: <161672454991.709.14499115006742419165.malonedeb@soybean.canonical.com>
-Message-Id: <161673542971.709.6194984416333720252.malone@soybean.canonical.com>
-Subject: [Bug 1921444] Re: Q35 doesn't support to hot add the 2nd PCIe device
- to KVM guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
-X-Launchpad-Hash: 89f7138a06ffccbf6234f130c5667f9b8b53ae59
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,142 +86,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921444 <1921444@bugs.launchpad.net>
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex, thanks for you response.
+John Snow <jsnow@redhat.com> writes:
 
-I tried to create guest with multiple root ports, but qemu report error:
-# qemu-system-x86_64 --accel kvm -m 4096 -smp 4 -drive file=3D/home/hao/rhe=
-l8.2.qcow2,if=3Dnone,id=3Dvirtio-disk0 -device virtio-blk-pci,drive=3Dvirti=
-o-disk0 -device virtio-net-pci,netdev=3Dnic0,mac=3D00:16:3e:0d:e4:ab -netde=
-v tap,id=3Dnic0,br=3Dvirbr0,helper=3D/usr/local/libexec/qemu-bridge-helper =
--cpu host -machine q35 -device pcie-root-port,id=3Droot1 -device pcie-root-=
-port,id=3Droot2 -daemonize
-qemu-system-x86_64: -device pcie-root-port,id=3Droot2: Can't add chassis sl=
-ot, error -16
+> On 3/25/21 2:18 AM, Markus Armbruster wrote:
+[...]
+>> Apropos qapi-gen testing scripts.  I have scripts to show me how the
+>> generated code changes along the way in a branch.  They evolved over a
+>> long time, and try to cope with changes in the tree that are hardly
+>> relevant anymore.  By now, they could quite possibly make Frankenstein
+>> recoil in horror.
+>> 
+>
+> Are they in the tree?
 
-Is the command wrong?
+No, because in their current state, they are incomprehensible *and* need
+frequent tinkering.
 
--- =
+>                       Largely if the generated code changes it's 
+> invisible to me, but I rely heavily on the unit tests. I guess maybe if 
+> they are not in a state to upstream it might not be worth the hassle to 
+> clean them, but I don't know.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921444
+The negative unit tests are fairly comprehensive, and guard against
+screwing up error path reasonably well.
 
-Title:
-  Q35 doesn't support to hot add the 2nd PCIe device to KVM guest
+The positive unit tests compare the frontend state dumped by
+test-qapi.py, and compile-test the generated code.  Reasonable
+protection against frontend screwups.  Some protection against backend
+screwups.  Plenty of unwanted code generation changes can go undetected.
 
-Status in QEMU:
-  New
+A tool to show generated code changes for review is useful, and having
+such a tool in the tree would be nice.
 
-Bug description:
-  KVM: https://git.kernel.org/pub/scm/virt/kvm/kvm.git  branch: next, commi=
-t: 4a98623d
-  Qemu: https://git.qemu.org/git/qemu.git  branch: master, commit: 9e2e9fe3
+>> As a secondary purpose, the scripts show me how output of pycodestyle-3
+>> and pylint change.  This would be uninteresting if the code in master
+>> was clean against a useful configuration of these tools.  Your work has
+>> been making it less interesting.
+>> 
+>
+> --js
 
-  Created a KVM guest with Q35 chipset, and try to hot add 2 PCIe device
-  to guest with qemu internal command device_add, the 1st device can be
-  added successfully, but the 2nd device failed to hot add.
-
-  If guest chipset is legacy i440fx, the 2 device can be added
-  successfully.
-
-  1. Enable VT-d in BIOS
-  2. load KVM modules in Linux OS: modprobe kvm; modprobe kvm_intel
-  3. Bind 2 device to vfio-pci
-      echo 0000:b1:00.0 > /sys/bus/pci/drivers/i40e/unbind
-      echo "8086 1572" > /sys/bus/pci/drivers/vfio-pci/new_id =
-
-      echo 0000:b1:00.1 > /sys/bus/pci/drivers/i40e/unbind
-      echo "8086 1572" > /sys/bus/pci/drivers/vfio-pci/new_id =
-
-
-  4. create guest with Q35 chipset:
-  qemu-system-x86_64 --accel kvm -m 4096 -smp 4 -drive file=3D/home/rhel8.2=
-.qcow2,if=3Dnone,id=3Dvirtio-disk0 -device virtio-blk-pci,drive=3Dvirtio-di=
-sk0 -cpu host -machine q35 -device pcie-root-port,id=3Droot1 -daemonize
-
-  5. hot add the 1st device to guest successfully
-  in guest qemu monitor "device_add vfio-pci,host=3Db1:00.0,id=3Dnic0,bus=
-=3Droot1"
-  6. hot add the 2nd device to guest
-  in guest qemu monitor "device_add vfio-pci,host=3Db1:00.1,id=3Dnic1,bus=
-=3Droot1"
-  The 2nd device doesn't be added in guest, and the 1st device is removed f=
-rom guest. =
-
-
-  Guest partial log:
-  [  110.452272] pcieport 0000:00:04.0: pciehp: Slot(0): Attention button p=
-ressed
-  [  110.453314] pcieport 0000:00:04.0: pciehp: Slot(0) Powering on due to =
-button press
-  [  110.454156] pcieport 0000:00:04.0: pciehp: Slot(0): Card present
-  [  110.454792] pcieport 0000:00:04.0: pciehp: Slot(0): Link Up
-  [  110.580927] pci 0000:01:00.0: [8086:1572] type 00 class 0x020000
-  [  110.582560] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x007fffff 64b=
-it pref]
-  [  110.583453] pci 0000:01:00.0: reg 0x1c: [mem 0x00000000-0x00007fff 64b=
-it pref]
-  [  110.584278] pci 0000:01:00.0: reg 0x30: [mem 0x00000000-0x0007ffff pre=
-f]
-  [  110.585051] pci 0000:01:00.0: Max Payload Size set to 128 (was 512, ma=
-x 2048)
-  [  110.586621] pci 0000:01:00.0: PME# supported from D0 D3hot D3cold
-  [  110.588140] pci 0000:01:00.0: BAR 0: no space for [mem size 0x00800000=
- 64bit pref]
-  [  110.588954] pci 0000:01:00.0: BAR 0: failed to assign [mem size 0x0080=
-0000 64bit pref]
-  [  110.589797] pci 0000:01:00.0: BAR 6: assigned [mem 0xfe800000-0xfe87ff=
-ff pref]
-  [  110.590703] pci 0000:01:00.0: BAR 3: assigned [mem 0xfe000000-0xfe007f=
-ff 64bit pref]
-  [  110.592085] pcieport 0000:00:04.0: PCI bridge to [bus 01]
-  [  110.592755] pcieport 0000:00:04.0:   bridge window [io  0x1000-0x1fff]
-  [  110.594403] pcieport 0000:00:04.0:   bridge window [mem 0xfe800000-0xf=
-e9fffff]
-  [  110.595847] pcieport 0000:00:04.0:   bridge window [mem 0xfe000000-0xf=
-e1fffff 64bit pref]
-  [  110.597867] PCI: No. 2 try to assign unassigned res
-  [  110.597870] release child resource [mem 0xfe000000-0xfe007fff 64bit pr=
-ef]
-  [  110.597871] pcieport 0000:00:04.0: resource 15 [mem 0xfe000000-0xfe1ff=
-fff 64bit pref] released
-  [  110.598881] pcieport 0000:00:04.0: PCI bridge to [bus 01]
-  [  110.600789] pcieport 0000:00:04.0: BAR 15: assigned [mem 0x180000000-0=
-x180bfffff 64bit pref]
-  [  110.601731] pci 0000:01:00.0: BAR 0: assigned [mem 0x180000000-0x1807f=
-ffff 64bit pref]
-  [  110.602849] pci 0000:01:00.0: BAR 3: assigned [mem 0x180800000-0x18080=
-7fff 64bit pref]
-  [  110.604069] pcieport 0000:00:04.0: PCI bridge to [bus 01]
-  [  110.604941] pcieport 0000:00:04.0:   bridge window [io  0x1000-0x1fff]
-  [  110.606237] pcieport 0000:00:04.0:   bridge window [mem 0xfe800000-0xf=
-e9fffff]
-  [  110.607401] pcieport 0000:00:04.0:   bridge window [mem 0x180000000-0x=
-180bfffff 64bit pref]
-  [  110.653661] i40e: Intel(R) Ethernet Connection XL710 Network Driver
-  [  110.654443] i40e: Copyright (c) 2013 - 2019 Intel Corporation.
-  [  110.655314] i40e 0000:01:00.0: enabling device (0140 -> 0142)
-  [  110.672396] i40e 0000:01:00.0: fw 6.0.48442 api 1.7 nvm 6.01 0x800035b=
-1 1.1747.0 [8086:1572] [8086:0008]
-  [  110.750054] i40e 0000:01:00.0: MAC address: 3c:fd:fe:c0:59:98
-  [  110.751792] i40e 0000:01:00.0: FW LLDP is enabled
-  [  110.764644] i40e 0000:01:00.0 eth1: NIC Link is Up, 10 Gbps Full Duple=
-x, Flow Control: None
-  [  110.779390] i40e 0000:01:00.0: PCI-Express: Speed 8.0GT/s Width x8
-  [  110.789841] i40e 0000:01:00.0: Features: PF-id[0] VFs: 64 VSIs: 66 QP:=
- 4 RSS FD_ATR FD_SB NTUPLE DCB VxLAN Geneve PTP VEPA
-  [  111.817553] IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
-  [  205.130288] pcieport 0000:00:04.0: pciehp: Slot(0): Attention button p=
-ressed
-  [  205.131743] pcieport 0000:00:04.0: pciehp: Slot(0): Powering off due t=
-o button press
-  [  205.133233] pcieport 0000:00:04.0: pciehp: Slot(0): Card not present
-  [  205.135728] i40e 0000:01:00.0: i40e_ptp_stop: removed PHC on eth1
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921444/+subscriptions
 
