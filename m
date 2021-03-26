@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D78634A2E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:02:05 +0100 (CET)
-Received: from localhost ([::1]:32778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDBD34A312
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:17:34 +0100 (CET)
+Received: from localhost ([::1]:50132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPhPv-0002vj-Iy
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:02:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55850)
+	id 1lPhev-0002b5-WE
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lPhN3-0001ht-OP
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 03:59:05 -0400
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:45769)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPhdU-0001mj-Vk
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:16:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lPhMz-0000EZ-IS
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 03:59:05 -0400
-Received: by mail-oo1-xc2c.google.com with SMTP id
- n6-20020a4ac7060000b02901b50acc169fso1100458ooq.12
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 00:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LJjAercYJ2WZsZMbkqEUW2kWbPjxvpis7QoIsOJMscs=;
- b=W34BJ296zgZApLYobYu5zetO7Ka6k8/TeI/UpPLErahjOkB9wTLeL2CRtaS4bu9NnI
- UoGgWIAFQTYapRghDEAxQQaB/mqHkPkHTawByT5FF3bpsbenpCoO1kEyfiGq65jwuloh
- RxsntXpCmeyIsoKS/Rl/mg6OMQsKruTvahHmFbVit4f0+/PSfPVU3xG3WCEl5YS+8BbE
- 04STYTUSLIm1uhPg4MxnfzVzhlHGIyLFjjrn2gFzqpXgmBgY0Qb3/B4pp4Y4S+J8C0lV
- x1Yg0QjnWWMJs1OK/ZimNWLmwL93pq6yNkbTMFUqa47LOSFsxd7jrQlndWE7Ipyk43Rh
- hhEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LJjAercYJ2WZsZMbkqEUW2kWbPjxvpis7QoIsOJMscs=;
- b=EUHtgocH7csmZzo6x1kKfgzGVF2R8txOxYvysq7p/nfrlIm9Ci9rFLnVLSe6bsHXwg
- RuNW3qUxhiuI/dFryo8vkZfsDx//hjtOZiAF008KYq6Y2+NXI2ZQIdMmUDYUBysmc53Q
- l9SGXApQxEl2f5AfG1+2He7CN5yh+w7a8bvRBtbGUpmm6t1MwY6lOGvUNnlDjqGm4+Qw
- 1oELoPtAPbpsxpMbYAI0+TJcae2w5IXfuM0rtW3TOafSqVNsLi0I/a2OW/XJ2UfI3cJD
- IMbJ43hnWHpUwGHwCF6ST07YDVYlfKgnLUPjH/y+1nS4mr7eeuD5ORUPDIMow4RTTb9c
- mLlQ==
-X-Gm-Message-State: AOAM531aGuh2BqsCf7pxQBV8oroLYi2Klh8gS5WeU9ipVu1MRr/vMsm4
- VC/PkxtxDUy7R0/DdB9KhI9KxKPsed9jvU9DwOU=
-X-Google-Smtp-Source: ABdhPJzzGqeU/ISjYsGf80ydwGi+GWedJiX4E6ZJ0K6wCwvPd0Ir+R30kWESU25CHF7ucP/bucp0y4jKD0nl/EBw1Fw=
-X-Received: by 2002:a4a:2747:: with SMTP id w7mr10418586oow.11.1616745539728; 
- Fri, 26 Mar 2021 00:58:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lPhdS-0001j4-BZ
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:16:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lPhdP-0007pZ-6D
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 08:15:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E104B2E8162
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 08:15:58 +0000 (UTC)
 MIME-Version: 1.0
-References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
- <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
- <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
- <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
-In-Reply-To: <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Fri, 26 Mar 2021 08:58:48 +0100
-Message-ID: <CABLmASH-dcW5ec+3KU2t3DqzAD_vWvOqyJF4FurvnJ68PMMaNA@mail.gmail.com>
-Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
- Mac OS 9 guest
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=hsp.cat7@gmail.com; helo=mail-oo1-xc2c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Mar 2021 08:02:07 -0000
+From: Frank Heimes <1921468@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=ubuntu-z-systems; status=New; importance=Medium;
+ assignee=skipper-screen-team; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Medium; assignee=canonical-server; 
+X-Launchpad-Bug-Tags: architecture-s39064 bugnameltc-192200 severity-medium
+ targetmilestone-inin20042
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bugproxy
+X-Launchpad-Bug-Reporter: bugproxy (bugproxy)
+X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
+References: <161674556672.2057.41866461498404333.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161674572792.19042.14927547035209879463.launchpad@gac.canonical.com>
+Subject: [Bug 1921468] Re: [UBUNTU 20.04] KVM guest fails to find zipl boot
+ menu index
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
+X-Launchpad-Hash: 8d16941ec8f523b05de5e8673de23f7f4c3fd7eb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,99 +75,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1921468 <1921468@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
-(I forgot to reply to all....)
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
 
-> > In answer to your questions:
-> >
-> > 1. Yes, slirp works on Windows 10 with this setup.
-> > 2. Yes, in Linux both tap and slirp work.
->
-> Thanks! Just to be clear, the above testing was performed with commit
-> 969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7, right?
->
+** No longer affects: qemu
 
-Yes, the test is based on current master, so including that commit.
-As said, reverting it restores tap functionality in Windows.
+** Also affects: ubuntu-z-systems
+   Importance: Undecided
+       Status: New
 
-> >
-> > My Windows build is done with a fully up to date msys2 installation.
-> >
-> > I tried to debug in Windows:
-> > (gdb) run
-> > Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bios
-> > -M mac99 -m 128 -sdl -serial stdio -boot c -drive
-> > "file=C:\Mac-disks\9.2-usb-pci-ddk.img,format=raw,media=disk" -device
-> > "sungem,netdev=network01" -netdev "tap,ifname=TapQemu,id=network01" -S
-> > [New Thread 13304.0x1f00]
-> > [New Thread 13304.0x2f84]
-> > [New Thread 13304.0x3524]
-> > [New Thread 13304.0x2b8c]
-> > [New Thread 13304.0x368c]
-> > [New Thread 13304.0x3668]
-> > [New Thread 13304.0xf4c]
-> > [New Thread 13304.0x49c]
-> > [New Thread 13304.0x1d4c]
-> > [New Thread 13304.0x7fc]
-> > [Thread 13304.0x7fc exited with code 0]
-> > [New Thread 13304.0x357c]
-> > [New Thread 13304.0x7c0]
-> > [New Thread 13304.0x3564]
-> > [New Thread 13304.0x26f4]
-> > [New Thread 13304.0x2f68]
-> >
-> > Program received signal SIGSEGV, Segmentation fault.
-> > 0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
-> > (gdb) bt
-> > #0  0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
-> > #1  0x000800000480bf50 in ?? ()
-> > Backtrace stopped: previous frame inner to this frame (corrupt stack?)
-> > (gdb)
-> >
-> > Even before I could attach to the process.
->
-> Is QEMU crashed, or the MacOS guest crashed?
+** Changed in: ubuntu-z-systems
+     Assignee: (unassigned) =3D> Skipper Bug Screeners (skipper-screen-team)
 
-Well, that is an interesting question.
-qemu-system-ppc -M mac99 uses openbios and it crashes while still in
-the openbios window just when it tries to boot the hd.
-Besides Mac OS 9.2, I now also tried booting a Mac OS X 10.3 image and
-it crashes just the same.
+** Changed in: qemu (Ubuntu)
+     Assignee: Skipper Bug Screeners (skipper-screen-team) =3D> Canonical S=
+erver Team (canonical-server)
 
-Tracing the default sungem network device shows:
+** Changed in: ubuntu-z-systems
+   Importance: Undecided =3D> Medium
 
-C:\qemu-master-msys2>qemu-system-ppc.exe -L pc-bios -M mac99 -m 128
--sdl -serial stdio -boot c -drive
-file=C:\Mac-disks\9.2-usb-pci-ddk.img,format=raw,media=
-disk -device sungem,netdev=network01 -netdev
-tap,ifname=TapQemu,id=network01 -trace "sung*"
-sungem_reset Full reset (PCI:1)
-sungem_rx_reset RX reset
-sungem_tx_reset TX reset
-sungem_reset Full reset (PCI:1)
-sungem_rx_reset RX reset
-sungem_tx_reset TX reset
-sungem_rx_mac_disabled Check RX MAC disabled
-sungem_rx_mac_disabled Check RX MAC disabled
-sungem_rx_mac_disabled Check RX MAC disabled
-sungem_mmio_mac_read MMIO mac read from 0x80 val=0x3456
-sungem_mmio_mac_read MMIO mac read from 0x84 val=0x12
-sungem_mmio_mac_read MMIO mac read from 0x88 val=0x5254
+** Changed in: qemu (Ubuntu)
+   Importance: Undecided =3D> Medium
 
->> =============================================================
->> OpenBIOS 1.1 [Mar 16 2021 08:16]
->> Configuration device id QEMU version 1 machine id 1
->> CPUs: 1
->> Memory: 128M
->> UUID: 00000000-0000-0000-0000-000000000000
->> CPU type PowerPC,G4
-milliseconds isn't unique.
+-- =
 
-Best,
-Howard
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921468
+
+Title:
+  [UBUNTU 20.04] KVM guest fails to find zipl boot menu index
+
+Status in Ubuntu on IBM z Systems:
+  New
+Status in qemu package in Ubuntu:
+  New
+
+Bug description:
+  ---Problem Description---
+  A KVM guest fails to find the zipl boot menu index if the "zIPL" magic va=
+lue is listed at the end of a disk block. =
+
+   =
+
+  ---System Hang---
+  System sits in disabled wait, last console display
+  LOADPARM=3D[        ]
+  Using virtio-blk.
+  Using ECKD scheme (block size  4096), CDL
+  VOLSER=3D[0X0067]
+   =
+
+   =
+
+  ---Steps to Reproduce---
+  1. Install Distro KVM guest from ISO on a DASD, e.g. using virt-install, =
+my invocation was =
+
+  $ virt-install --name secguest2 --memory 2048 --disk path=3D/dev/disk/by-=
+path/ccw-0.0.af6a --cdrom /var/lib/libvirt/images/xxxxxx.iso
+
+  2. Select DHCP networking and ASCII console, and accept all defaults
+  of the installer
+
+  3. Let the installer reboot after the installation completes
+
+  It is possible to recover by editing the domain XML with an explicit load=
+parm to select a boot menu entry. E.g. I changed the disk definition to
+     <disk type=3D'block' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'raw' cache=3D'none' io=3D'native'/>
+        <source dev=3D'/dev/disk/by-path/ccw-0.0.af6a'/>
+        <target dev=3D'vda' bus=3D'virtio'/>
+        <boot order=3D'1' loadparm=3D'1'/>
+        <address type=3D'ccw' cssid=3D'0xfe' ssid=3D'0x0' devno=3D'0xaf6a'/>
+      </disk>
+
+  The patches are now upstream:
+  5f97ba0c74cc ("pc-bios/s390-ccw: fix off-by-one error")
+  468184ec9024 ("pc-bios/s390-ccw: break loop if a null block number is rea=
+ched")
+
+  Current versions of qemu within Ubuntu
+
+  focal (20.04LTS) 1:4.2-3ubuntu6 [ports]: arm64 armhf ppc64el s390x
+  focal-updates (metapackages): 1:4.2-3ubuntu6.14: amd64 arm64 armhf ppc64e=
+l s390x
+
+  groovy (20.10) (metapackages): 1:5.0-5ubuntu9 [ports]: arm64 armhf ppc64e=
+l s390x
+  groovy-updates (metapackages): 1:5.0-5ubuntu9.6: amd64 arm64 armhf ppc64e=
+l s390x
+
+  hirsute (metapackages): 1:5.2+dfsg-9ubuntu1: amd64 arm64 armhf ppc64el
+  s390x
+
+  =
+
+  git-commits will apply seamlessley for the requested levels if not alread=
+y integrated
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu-z-systems/+bug/1921468/+subscriptions
 
