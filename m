@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC74734AEBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:49:09 +0100 (CET)
-Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC6534AEC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:50:51 +0100 (CET)
+Received: from localhost ([::1]:52486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPrW8-0007Dg-Mb
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38370)
+	id 1lPrXm-0000GW-Vd
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPrTG-0005pD-F0; Fri, 26 Mar 2021 14:46:10 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43555)
+ id 1lPrW6-00081i-Ld
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:49:06 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPrTF-0003Vp-1V; Fri, 26 Mar 2021 14:46:10 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id x7so6570301wrw.10;
- Fri, 26 Mar 2021 11:46:05 -0700 (PDT)
+ id 1lPrW5-0005D5-52
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:49:06 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ d8-20020a1c1d080000b029010f15546281so5407092wmd.4
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 11:49:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kuDF9j2QYgI2orYzVwMQfFkUExXm5JdUdAnU54c4cv0=;
- b=haMjWYKGPe5eCEh+ctJmn53XUdIhHahXlyDYuZiR2yNJfpOZXhZ8oRs/JTvEP8Mse7
- zaCcpbqozFH2szQEuPY3eH+UyC1XQ8ZQF/9ET4vKrYtcX0DfHZc3sWpCW8FTHO2a3Yem
- +nm2AC5JWmDbOkNqa5z7dy60f5rabewZ+BPFYPH0h51Zjd9MQaiaTvwDPEQfzrJqLUOT
- 8zwxAcdhTnYQPSCPrbjtB8w30DnSVvzwjVrMbZtZ7/3OFXHczYU80Um4aD3FMjdErVmB
- GoGKchIGAezDt/tn4gRpHY/lxbzu3rhE2hrOfr2oDk7H0qsI8klhwTAhiFnrI/lQ2mT9
- qsKw==
+ bh=DP/09gEFOXqr1jz/v9qo5t2dsnjwkskZ4mtSnvvRGEI=;
+ b=MSofZ3e6D/Mxp+pfZW9LaK2J6jHt83Wie2f3axroSBpJiX++wzWBbd528FxQqeFj+n
+ zUWFgiPYupLDt13PXuxTUSzliqtQflYwAHM/SXOgngJ0kxMDJmgdK9sy49LVHSRIZwwu
+ 8vcdr6D4JL6Juy12a5rKJeSiYGK2c1yzRC4gFA8htIvGdlmgC60sbdaA0UqOOif0Bl33
+ NZ+wuc6s2BzkwWhUHB+5XkmegzfBdx17TQn+OfTnLiffkYYQIhcQRG2tb7yXXaOumqDl
+ PJi+TgHIvHC8qcz64JXWZGCpejzA7lVTdqWSACZ5pO3SS/Eu0R45WsZaG4yUTiAWyYYC
+ jezg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kuDF9j2QYgI2orYzVwMQfFkUExXm5JdUdAnU54c4cv0=;
- b=C36wTtiIFiEsF8pFhcDcey4ddzouTp4rm2ifRtQ0xkkNNsdKOfCB6wg9WYB8W0MmzB
- hBUYS7upbNPTjkuZEnBnENpfMoHnQW7PtXkRwmT32TRMJorUm6xioXAAno6FOTLH7yT4
- WQmXrZWjA0o8UoE0K44SR57j3TlJqpSOy22dxrJLNk/SkqdqEnaCwJWHTiM9UzwRVLJO
- SZQ/vnZQQ2az0IfbjhadpLVDnsJesE+DflOJjNzx7Gjam+/3ES0r+16p3/yVGGbnCsW9
- ZrqfL8ZxwH5TCo1Dz2bQG8fI/WZ8MRxAe8OUnNEE5QYQqFA0+8UAoSk5tZlAcIyXW+c5
- IjGQ==
-X-Gm-Message-State: AOAM533qgoH9B3dlSpzu9EphHg8GeRp6VZNL4VXz16QulKGsMVHtr0Xh
- 9+moriONacZ+1u1LOiWKtFw=
-X-Google-Smtp-Source: ABdhPJy/bVnYjmJ3Hm7ZNh/9dSCi7i8LxsqIyYeqqA24RISF8ITC4cejxBhTvrH3I1lmlTF6pB6/tg==
-X-Received: by 2002:a5d:564a:: with SMTP id j10mr15662680wrw.120.1616784364394; 
- Fri, 26 Mar 2021 11:46:04 -0700 (PDT)
+ bh=DP/09gEFOXqr1jz/v9qo5t2dsnjwkskZ4mtSnvvRGEI=;
+ b=K0qNxW1wrRnTUh3sRQMlSArmR2QeZI65X6ylZsqrNu3YNBcynB2aUHP6Xv0wglT4i0
+ +IfnNFCEsC1FwTg41q2uxKOQVY72k4we8twepKILyWWNjBmE2qQOIaQrQf/9yH+wEdMV
+ JnxhyvhrpMVuUok1KLm6qnOdBaz6r7Cau4tg6oPMyCkK/vFQCVdOdIJLYwb0Ph4ysBUg
+ RomGFB0ZaCASNvDiDq157brMnbZUC2r3UqT+7arE0/tf9AqzK+pp16HHZB5axEin4kub
+ cC1Z9xESrUCPvJWJUE+tamPEDTvFOyFz7ZTtZDfzhL8ghbC6lILa0iec/pcDPPeybGu9
+ iOAA==
+X-Gm-Message-State: AOAM532FW/f8LPRsMP+x047gG3RWJDO5uqBHOVG3yW6SE+qkzdn+LQ8f
+ PHVtAaL6eFhMOUhanU8V/aE=
+X-Google-Smtp-Source: ABdhPJy2i23TCzIu6VRO2+FhEHV+D/AppoqFkSniVIuSdjzQ+6AYW7bKR5R91nyhRGvjMSpWXRhjpA==
+X-Received: by 2002:a05:600c:4150:: with SMTP id
+ h16mr14281522wmm.120.1616784543776; 
+ Fri, 26 Mar 2021 11:49:03 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id i4sm11054705wmq.12.2021.03.26.11.46.02
+ by smtp.gmail.com with ESMTPSA id p10sm14550265wrw.33.2021.03.26.11.49.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 11:46:03 -0700 (PDT)
-Subject: Re: [PATCH] hw: Remove superfluous includes of hw/hw.h
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210326151848.2217216-1-thuth@redhat.com>
+ Fri, 26 Mar 2021 11:49:03 -0700 (PDT)
+Subject: Re: [PATCH for-6.0] hw/timer/renesas_tmr: Add default-case asserts in
+ read_tcnt()
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20210319162458.13760-1-peter.maydell@linaro.org>
+ <CAFEAcA9hz5ZsetCWMGJd+aX0td6vE7YiAW+x2C=K3mCsdWiJ8w@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b27cdc2d-544a-ae26-ea1a-41a9a0ac6154@amsat.org>
-Date: Fri, 26 Mar 2021 19:46:02 +0100
+Message-ID: <aafa7c42-333e-60ce-1323-5623536d7af8@amsat.org>
+Date: Fri, 26 Mar 2021 19:49:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210326151848.2217216-1-thuth@redhat.com>
+In-Reply-To: <CAFEAcA9hz5ZsetCWMGJd+aX0td6vE7YiAW+x2C=K3mCsdWiJ8w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,43 +93,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 4:18 PM, Thomas Huth wrote:
-> The include/hw/hw.h header only has a prototype for hw_error(),
-> so it does not make sense to include this in files that do not
-> use this function.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/arm/musicpal.c                  | 1 -
->  hw/char/sifive_uart.c              | 1 -
->  hw/display/next-fb.c               | 1 -
->  hw/dma/sifive_pdma.c               | 1 -
->  hw/dma/xlnx_csu_dma.c              | 1 -
->  hw/hppa/lasi.c                     | 1 -
->  hw/input/lasips2.c                 | 1 -
->  hw/m68k/mcf_intc.c                 | 1 -
->  hw/m68k/next-kbd.c                 | 1 -
->  hw/m68k/q800.c                     | 1 -
->  hw/m68k/virt.c                     | 1 -
->  hw/misc/mchp_pfsoc_dmc.c           | 1 -
->  hw/misc/mchp_pfsoc_ioscb.c         | 1 -
->  hw/misc/mchp_pfsoc_sysreg.c        | 1 -
->  hw/misc/sifive_e_prci.c            | 1 -
->  hw/misc/sifive_test.c              | 1 -
->  hw/rx/rx-gdbsim.c                  | 1 -
->  hw/rx/rx62n.c                      | 1 -
->  hw/vfio/pci-quirks.c               | 1 -
->  include/hw/char/avr_usart.h        | 1 -
->  include/hw/misc/avr_power.h        | 1 -
->  include/hw/misc/stm32f4xx_exti.h   | 1 -
->  include/hw/misc/stm32f4xx_syscfg.h | 1 -
->  include/hw/pci-host/i440fx.h       | 1 -
->  include/hw/timer/avr_timer16.h     | 1 -
->  25 files changed, 25 deletions(-)
+On 3/26/21 2:34 PM, Peter Maydell wrote:
+> ping for review?
+
+FYI:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg790977.html
+
+> On Fri, 19 Mar 2021 at 16:24, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> In commit 81b3ddaf8772ec we fixed a use of uninitialized data
+>> in read_tcnt(). However this change wasn't enough to placate
+>> Coverity, which is not smart enough to see that if we read a
+>> 2 bit field and then handle cases 0, 1, 2 and 3 then there cannot
+>> be a flow of execution through the switch default. Add explicit
+>> default cases which assert that they can't be reached, which
+>> should help silence Coverity.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>  hw/timer/renesas_tmr.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
