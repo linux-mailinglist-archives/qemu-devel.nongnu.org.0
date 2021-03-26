@@ -2,70 +2,175 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC5234B116
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 22:12:21 +0100 (CET)
-Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F0B34B12D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 22:19:38 +0100 (CET)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPtkh-0001Wq-O6
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 17:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45538)
+	id 1lPtrk-0004UO-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 17:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lPtjV-0000ID-OQ
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 17:11:05 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:33369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lPtjT-00042A-54
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 17:11:05 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id w18so7904656edc.0
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 14:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+DIS4/RMXROZSW7G9YWHmzqGo4If6DaLuzFLqal031U=;
- b=RoQwj1uMhPXWl1KsM3kXz+093JYKdUwuHdCrjfa4iRflpAHbX4xO9Imm/HMkpknEeT
- niZTjzZYrcNBlqrZK6ayUvxgeK6zSR3w3jPTB0uNZVVU5PJY3K/i+Tmd8t60iq48ki/s
- c5bspe5+3Lyfnlhie2cYk3w/A/SP/nwlDsyCqyBt1Stn9b+Rai76KSaAsWJDM3reiZBO
- /xf1F22exOTRIfkxaYygeBPOPPW9Z9HS08KfnJxF77j6W9cxC6qx5hEsPMj6iu7829Oz
- gcIvv6+II2XS7RwedJ1t09ve8gUeNXHr/UFmz0r//qTR7jA8Yn0eYjdsK83hTZPFMqep
- H68w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+DIS4/RMXROZSW7G9YWHmzqGo4If6DaLuzFLqal031U=;
- b=adf6KltvLchTPPWfycStbw1iKpeQrKYAUuDG/jnSnSpY9W7rrX803JKM0EFbRtEunN
- QLFV9Txv+aCavfuq2aZj46h2kwstKUiAIklfpKlS5PrrIm76/Q0GYrLUODwT0V3uGvJ/
- Xg2ksMfSnQ+X0SwWfo6TgY47d5NxqS1xz5SGPBmN5mjaYI4dVrV0N5TFU3NTNCjWmAEG
- uhPxTggmQ2jXcE5ne4SAVHAilU8/ZgDDd8KTwt/ubJb5q8HWB19FqZR/J5X8ooVeqbP6
- gWZl6xbYdAZiSRxfYaiWfPwSkMYiIq0FVCbO9v464Jjd1sH93N/uvkMC+3qMlnZ+JnuP
- LSoQ==
-X-Gm-Message-State: AOAM531NacR3/H1bge10q5LG2E/1Q9ivIOMmsZ09BvuPLeGRrJXQ8PD+
- b4IbX7/l8aNtmr069NSANqnsLMvCcBMtDq5DlO4=
-X-Google-Smtp-Source: ABdhPJzBpNtoVNKhfrNBSHaHYfJX/grt5FpAKAYhkBfr7+qCQvgJgKZgzPBW4kSmv3L1BwZe3/2vThycYA/u/RHyOzA=
-X-Received: by 2002:aa7:dd4d:: with SMTP id o13mr17740407edw.53.1616793061624; 
- Fri, 26 Mar 2021 14:11:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1lPtp0-00036A-EV; Fri, 26 Mar 2021 17:16:46 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:48082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1lPtou-0006c5-Bt; Fri, 26 Mar 2021 17:16:45 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QLEqVF081318;
+ Fri, 26 Mar 2021 21:16:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=FqOOg6IQiCJYczL1erKO6P6Kzdw/13ILAYeIIiVuX9o=;
+ b=EELVCEaEOknBD1OAhwnolu6Fv/cDPXiB5mokvcYkXN1AKM/FTzksMiFrblTPuMuQVUjp
+ EO0YEtRCBcRKHcsg4Oc0SUFRTA7FvynSq0vIPL5g56YTQoEsVgveeISgzBXiYdn+LVXH
+ 7rD2wOPeUh8aY/y2S2N9zfr3IbvY3JgnCLXQ0yz22QyYEZ35vwHu243H2S5d14Uv1SZ9
+ PsZ2TBi1KY69KylWZzJgkmemulB3rbD3+EKYr7P9KwJrL6e6F5ldJKA7JnRu7k0Oxvlo
+ hHtyDBQOnPr7TVdMAN1pqudfSrSNNXNYT/wB66gJQAwm200A3SPgrS6C3LI3kft6K4L6 ag== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 37h13rudh7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 26 Mar 2021 21:16:31 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QLBLUe038218;
+ Fri, 26 Mar 2021 21:16:30 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+ by aserp3030.oracle.com with ESMTP id 37hff4sj3k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 26 Mar 2021 21:16:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LH8leeD7VkI3OAGH6oO3/L8tbVMzJy9px/656kvViqU9GYwuCv2MJs4mE+rI8Bap/S3hy3JK90Co/lJP9EU6GaTRvFVtXTpQNax5gRNnTbFqqIu+LPIniseV/C3SDTlvo6hRZqO1vTKQUtiHonwBlC0qeciTJpxQFvWZDLsg/W6OqW1R9M64BfKSXpmFdspyNa+TETglknJguDTESbAv//gRHF5obOwFG/qpJN9aJKujsEx0nZRkQqSgnbu6Ab37kqKPm2A5rZCz5kGXwvu17AY009++CDT0w+SvEq596E/ZkiHZF2QhlvHmD9+vuOl1YD4Sk+YDfKm5uSHhtN9hjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FqOOg6IQiCJYczL1erKO6P6Kzdw/13ILAYeIIiVuX9o=;
+ b=e6enzCxHW4gwx6ICjmgOM2u/3/xUTVieYUKDFWRlOEVwnzAVrriDuT+iYzL0M4gipNwae7Uun6Bcl0cZYs/PSkHeT1B/UrBNU/zeeuae7R+auohYmcYXd2EfBYIGXcE6LKLppgPLnEWLdVlo/neoleZJJIequxgMK4QKUy35aBl9nzxXeJ5AF1XGRnWnn1a1yi8tnFwCwIduX9y4Pv2rJ4h9n2O+6T+qrtaVafSiXrKiWyeW+SH8eJwD+9+bz3f04Xre9wqckzv+e62is0DHnPixXaC3urcsKlrP28dq2fY82MoEz23JmEuoTrj0IRdcL4xGwG6EhWnP5enlWehSyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FqOOg6IQiCJYczL1erKO6P6Kzdw/13ILAYeIIiVuX9o=;
+ b=sN6Nov0NxiZXINW2HaOTXJKhJ45R2Hw/WmGVMdBp2rg0gTOP/nfIYNmJD5QNwBptbRmeKSWaULw4feX00TPbRHaf/IItdPr9sRGu2D4Awci4g9Tcjv2TFk6yJdfuFiO96/URWahOnwgQac/jk1O+14paJWCDl8x9BiEwpITg2b0=
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by BYAPR10MB3094.namprd10.prod.outlook.com (2603:10b6:a03:14e::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Fri, 26 Mar
+ 2021 21:16:16 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::44f7:1d8f:cc50:48ad]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::44f7:1d8f:cc50:48ad%6]) with mapi id 15.20.3977.030; Fri, 26 Mar 2021
+ 21:16:16 +0000
+Subject: Re: [PATCH 0/6] Add debug interface to kick/call on purpose
+To: Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210326054433.11762-1-dongli.zhang@oracle.com>
+ <440216a8-821f-92dd-bc8b-fb2427bdc0e6@redhat.com>
+From: Dongli Zhang <dongli.zhang@oracle.com>
+Message-ID: <d5549b12-d269-a04d-01d2-2dbd1ee7fca0@oracle.com>
+Date: Fri, 26 Mar 2021 14:16:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <440216a8-821f-92dd-bc8b-fb2427bdc0e6@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [2601:646:c303:6700::a4a4]
+X-ClientProxiedBy: SN4PR0501CA0031.namprd05.prod.outlook.com
+ (2603:10b6:803:40::44) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
 MIME-Version: 1.0
-References: <cover.1616744509.git.lukasstraub2@web.de>
- <b0dd0e40c2635fcb3bc23cb26f884bf585abee95.1616744509.git.lukasstraub2@web.de>
-In-Reply-To: <b0dd0e40c2635fcb3bc23cb26f884bf585abee95.1616744509.git.lukasstraub2@web.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sat, 27 Mar 2021 01:10:50 +0400
-Message-ID: <CAJ+F1CJL3GL=EmbkqM7Y25+-riUnq=6zY8dUh4p5=FmXH-mtyQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] tests: Add tests for yank with the chardev-change
- case
-To: Lukas Straub <lukasstraub2@web.de>
-Content-Type: multipart/alternative; boundary="0000000000001d0eec05be76f888"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2601:646:c303:6700::a4a4] (2601:646:c303:6700::a4a4) by
+ SN4PR0501CA0031.namprd05.prod.outlook.com (2603:10b6:803:40::44) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.16 via Frontend
+ Transport; Fri, 26 Mar 2021 21:16:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 63ad76c9-ceda-4d4e-a903-08d8f09c643f
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3094:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB30940E1F43CFFD1025D71D45F0619@BYAPR10MB3094.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QYcdaoiNb6JuKUdIo6BIpiubRahx7kIawR/ky9wVrPg5MrAqipD6KzZNa/kZS50kL4W7R6Z6sd9voCwQKLHDePM2JNlFQpW/DjAk4mfUSjF02b+7g8M/2K13/QAgoOUWrixE4XdkYmMb/jh97Hekfe7y/hBpBgv0Uk2jT5pznQ+uKFUXjcGxQotqlSsc1EBFEPGGU80X2bgtRUPzFEVEUqaxr1Q7EM2z/vggVm18zJoaJUBJCQyWJUkr+K2EG+6PPPhCVreSZ44MOaa8+/dTjxFpgqOYiHAgFJjMRDEQ3oys7bQNfjWpS7uOInnXrtMXgw95TfEUxQp+jMmfBuxynFnBkUSspFlB1y09cBLWMTd8u1vws8tASUm5tJtfgy8NhlYi7jVQtqB/ymgMCljvrwYm28hIg4LpZw0KhaYqyYLGxIqClJAqhnoDkDB37oN4vw+TJXqzgWZCDZ/c4dDL0U+LteYFyCz6v9+KV72yR+NJABo4OSqI941wMxzqeReXHBxbqxAM9aE+4AAxxEzhW2Q0bCgSbU74I3cW9BEFBWnRvy4yoWtDAgw38Xg+8gr4jG4XNJaQB5DrPS/p5f90YeSY11JPLZb1kuEv1hrF742VwixjgCo4BHgQal2jaDw2AQsYtIDdo2iiWI3Ppach6qtd5NfueyWSqLvVfET/P98vYaaO1eyxwJUGVbj+Ys+SE/Jy2zFaeJN+EhB55yI86PgBloG0DSOZx/668lORuJV5YeUEb37oNuM5jLY/TOH1P6tz/w0F4uN+PV0CpYI7n1r5GGcEdSxEmWr1RyB1GIGuvY3oOVgDMK+HEWbhkFTM
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(366004)(346002)(376002)(396003)(136003)(38100700001)(53546011)(44832011)(5660300002)(8676002)(7416002)(478600001)(66946007)(86362001)(66476007)(83380400001)(966005)(2906002)(8936002)(66556008)(2616005)(6486002)(36756003)(31686004)(4326008)(316002)(31696002)(16526019)(186003)(107886003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?THdlbHhwc3NHbFRHWFVXTG9GMXhKbjZtQ2U3RTQ0QnlWaFlBL3ZqZ1J0SGJp?=
+ =?utf-8?B?ZVBUVDlTL1J2T3ErQ1B2QkJRbE1CcmR4NHVVNVBJTDh2ci8vTStZQTFvczlS?=
+ =?utf-8?B?aHA0Wk9KbE9PR0RjZ2l4aFIvc043aEtZbGlBbnBjTlpoQ2EzSjRIK1JmNlRY?=
+ =?utf-8?B?RjdMbGZ1NFo4MFpZSTljOFZ4VU92aDEweW5kUzE3RVB2aWFIblpnMlcxSi9R?=
+ =?utf-8?B?eFlaNTlGUUxmZzBsMGhUVGl0VC8xck54V3RnYU5rRGUrb3BOMTBqcHVCUHEw?=
+ =?utf-8?B?ZUZQUlI2Q1duUitPb0ZWbnZsajRvM3o0d0NCeTIzbmFDQ0N1NldBTlpubFBn?=
+ =?utf-8?B?NldoYXlPZTdFMzJ3M055a1UxSGZaZm9oeHJvejVuYmkrNzFqd2Rac0QzcFNN?=
+ =?utf-8?B?bUR1Z3BDQ0VNWTJVQVRNcXFaUGcxZ2JSU1VUeWtucEIrQ3VUNzAvcVVZdEwv?=
+ =?utf-8?B?TmFYTHE4U1VXUGZjOU1oNkJqd0NnZXZTVU1JQWlnZ1BUYStvQkxwc1FURjFV?=
+ =?utf-8?B?djFpT0tzRVFkYWxDanBhVzF2OVF4dWlucWZDYU5zUEppU2g2NW0zOWp6OHFh?=
+ =?utf-8?B?TGp3UXdVUnkyd0EyTUgyVTIraGFJYWhEQ0dEVW1ONkV2WXV5dTErMEc3SXoy?=
+ =?utf-8?B?NXdLTzR5MThKTEhtUi9FVk9Kc0pTOGFrdUs5cElMS1d0am53QkN3U1VZcE1s?=
+ =?utf-8?B?WXA3SGx6KzhaZFJmdWFTTUVOdm01d25kLzJNakVMeUhkUnNoZWVCMmR1dGEz?=
+ =?utf-8?B?a0lvS1hrbGM0SlYyZWROTndhWG5ndGZGTEcrYVU0S0psbjNua2hPZ21jMmsr?=
+ =?utf-8?B?MXZNclVJUE5PdCtlVTRIeTdYUXhnbHVhY25EMFUvdUM4dE43djdkNGxKcWZt?=
+ =?utf-8?B?S3cyUkk4V2FNWkswbk1iNFJ5MDF2Nm1NWnVkNWttVG5rRGJuOU85WkZZUUZG?=
+ =?utf-8?B?YmRMZHl6QXVyWTRxUURoQnY5ZHZ5RjlsdU91dElEUXpVMjh2R0RGNEY4SU05?=
+ =?utf-8?B?cy9CcmhueFU2cldGeldYWVpSTGMzNnIvVWo4c2pybUJQLzYvZ08yNFR4ZnY5?=
+ =?utf-8?B?dUxwYWVhSjJZOUtrbEFoV3VUVWpjc1U4YU1SZWplQzV5R3N4MWZvbmR1bDV4?=
+ =?utf-8?B?dlBjR1FzNTM5MkZSK0xVd1A1TlZTeE1DZWxtSTVPZGdGZW5xTWVSNkhwaEoy?=
+ =?utf-8?B?aDZKaUhMYzArVHBhUW0vMm1XY3pRN2NxQUZJcnhoYVp2TDRRYTIwakV3S2JT?=
+ =?utf-8?B?a2ZnR1hxcmRQLzJhTmtRSFNWUHZFdFNMWjlSQjBLMWgxZi8yamtXd3crWEdM?=
+ =?utf-8?B?R2hIeEp0NU8yNXJHYkhlVXJzS1VRSmoxdTVxUkoxYUpKVHMrTXpaQkNoR2R3?=
+ =?utf-8?B?K2dyRUVvSjVrRmE5S0k0U3UwSkhtU0ZhSjl5VllML2t4Sll4WHloSTNGVW14?=
+ =?utf-8?B?RWE4RENIZ2ZsR1lxQXdKSDNwSjBJVUpoQk0vZnFnMjNXTVZmcis5Z1YyYWJE?=
+ =?utf-8?B?ZzFPT3E5M1BRL29SQXJ3Q3BZanJHOW0vTTRCQUtiTUtDR2dvQUVab25DcjZQ?=
+ =?utf-8?B?ZG80R0xBaWV0bnF2MnhHYUJNMU4yTDdQMUZxOTJLa2NtY1g0WFZncjFxQWd6?=
+ =?utf-8?B?ZnBNSUFjMk9nUUFQQ1l2N21IWVZVZUEwTENUYVhtZVN5QVVKZkJoQWtVYWJV?=
+ =?utf-8?B?eDRESW9oODRuODRHdkVZRk4rSXh5dmVheERLNWI3N0R4U05nSk41amYyeHlJ?=
+ =?utf-8?B?VDY0VFpLQWRPMkpsM0VNajFlWUtPZHRic2wwMFloSVN2dHgvcEw4OXkwWHN4?=
+ =?utf-8?Q?xmpI0BIu+auioxUqNEDa0EEGuUa4DbmnnKhbY=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63ad76c9-ceda-4d4e-a903-08d8f09c643f
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2021 21:16:16.1952 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zC3yZ5BWAzH9QyivV+MGDZZAKlmsnRRLiZLng8/2m91EKFmEcyCC1oGg7lKYiE2neN3faezsG/QlsE5b4J+ZMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3094
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9935
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ spamscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 mlxscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103260158
+X-Proofpoint-ORIG-GUID: jKwkNq1amH4GDEacKyiR0xG_fqfvJdHF
+X-Proofpoint-GUID: jKwkNq1amH4GDEacKyiR0xG_fqfvJdHF
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9935
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ impostorscore=0 priorityscore=1501 clxscore=1015 spamscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103260158
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=dongli.zhang@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,627 +183,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Li Zhang <zhlcindy@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com, ehabkost@redhat.com,
+ mst@redhat.com, joe.jin@oracle.com, armbru@redhat.com, dgilbert@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001d0eec05be76f888
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Jason,
 
- Hi Lukas
+On 3/26/21 12:24 AM, Jason Wang wrote:
+> 
+> 在 2021/3/26 下午1:44, Dongli Zhang 写道:
+>> The virtio device/driver (e.g., vhost-scsi or vhost-net) may hang due to
+>> the loss of doorbell kick, e.g.,
+>>
+>> https://urldefense.com/v3/__https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01711.html__;!!GqivPVa7Brio!KS3pAU2cKjz4wgI4QSlE-YsJPhPG71nkE5_tGhaOf7mi_xvNxbvKkfn03rk5BNDLSEU$
+>>
+>> ... or due to the loss of IRQ, e.g., as fixed by linux kernel commit
+>> fe200ae48ef5 ("genirq: Mark polled irqs and defer the real handler").
+>>
+>> This patch introduces a new debug interface 'DeviceEvent' to DeviceClass
+>> to help narrow down if the issue is due to loss of irq/kick. So far the new
+>> interface handles only two events: 'call' and 'kick'. Any device (e.g.,
+>> virtio/vhost or VFIO) may implement the interface (e.g., via eventfd, MSI-X
+>> or legacy IRQ).
+>>
+>> The 'call' is to inject irq on purpose by admin for a specific device (e.g.,
+>> vhost-scsi) from QEMU/host to VM, while the 'kick' is to kick the doorbell
+>> on purpose by admin at QEMU/host side for a specific device.
+>>
+>>
+>> This device can be used as a workaround if call/kick is lost due to
+>> virtualization software (e.g., kernel or QEMU) issue.
+>>
+>> We may also implement the interface for VFIO PCI, e.g., to write to
+>> VFIOPCIDevice->msi_vectors[i].interrupt will be able to inject IRQ to VM
+>> on purpose. This is considered future work once the virtio part is done.
+>>
+>>
+>> Below is from live crash analysis. Initially, the queue=2 has count=15 for
+>> 'kick' eventfd_ctx. Suppose there is data in vring avail while there is no
+>> used available. We suspect this is because vhost-scsi was not notified by
+>> VM. In order to narrow down and analyze the issue, we use live crash to
+>> dump the current counter of eventfd for queue=2.
+>>
+>> crash> eventfd_ctx ffff8f67f6bbe700
+>> struct eventfd_ctx {
+>>    kref = {
+>>      refcount = {
+>>        refs = {
+>>          counter = 4
+>>        }
+>>      }
+>>    },
+>>    wqh = {
+>>      lock = {
+>>        {
+>>          rlock = {
+>>            raw_lock = {
+>>              val = {
+>>                counter = 0
+>>              }
+>>            }
+>>          }
+>>        }
+>>      },
+>>      head = {
+>>        next = 0xffff8f841dc08e18,
+>>        prev = 0xffff8f841dc08e18
+>>      }
+>>    },
+>>    count = 15, ---> eventfd is 15 !!!
+>>    flags = 526336
+>> }
+>>
+>> Now we kick the doorbell for vhost-scsi queue=2 on purpose for diagnostic
+>> with this interface.
+>>
+>> { "execute": "x-debug-device-event",
+>>    "arguments": { "dev": "/machine/peripheral/vscsi0",
+>>                   "event": "kick", "queue": 2 } }
+>>
+>> The counter is increased to 16. Suppose the hang issue is resolved, it
+>> indicates something bad is in software that the 'kick' is lost.
+> 
+> 
+> What do you mean by "software" here? And it looks to me you're testing whether
+> event_notifier_set() is called by virtio_queue_notify() here. If so, I'm not
+> sure how much value could we gain from a dedicated debug interface like this
+> consider there're a lot of exisinting general purpose debugging method like
+> tracing or gdb. I'd say the path from virtio_queue_notify() to
+> event_notifier_set() is only a very small fraction of the process of virtqueue
+> kick which is unlikey to be buggy. Consider usually the ioeventfd will be
+> offloaded to KVM, it's more a chance that something is wrong in setuping
+> ioeventfd instead of here. Irq is even more complicated.
 
-On Fri, Mar 26, 2021 at 11:48 AM Lukas Straub <lukasstraub2@web.de> wrote:
+Thank you very much!
 
-> Add tests for yank with the chardev-change case.
->
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->  MAINTAINERS            |   1 +
->  tests/unit/meson.build |   3 +-
->  tests/unit/test-yank.c | 199 +++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 202 insertions(+), 1 deletion(-)
->  create mode 100644 tests/unit/test-yank.c
->
->
-Please run the tests with ASAN. Can you resend with the leaks fixed?
-thanks
+I am not testing whether event_notifier_set() is called by virtio_queue_notify().
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-> index 77259c031d..accb683a55 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2821,6 +2821,7 @@ M: Lukas Straub <lukasstraub2@web.de>
->  S: Odd fixes
->  F: util/yank.c
->  F: migration/yank_functions*
-> +F: tests/unit/test-yank.c
->  F: include/qemu/yank.h
->  F: qapi/yank.json
->
-> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-> index 4bfe4627ba..b3bc2109da 100644
-> --- a/tests/unit/meson.build
-> +++ b/tests/unit/meson.build
-> @@ -123,7 +123,8 @@ if have_system
->      'test-util-sockets': ['socket-helpers.c'],
->      'test-base64': [],
->      'test-bufferiszero': [],
-> -    'test-vmstate': [migration, io]
-> +    'test-vmstate': [migration, io],
-> +    'test-yank': ['socket-helpers.c', qom, io, chardev]
->    }
->    if 'CONFIG_INOTIFY1' in config_host
->      tests +=3D {'test-util-filemonitor': []}
-> diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c
-> new file mode 100644
-> index 0000000000..8bc8291a82
-> --- /dev/null
-> +++ b/tests/unit/test-yank.c
-> @@ -0,0 +1,199 @@
-> +/*
-> + * Tests for QEMU yank feature
-> + *
-> + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include <glib/gstdio.h>
-> +
-> +#include "qemu/config-file.h"
-> +#include "qemu/module.h"
-> +#include "qemu/option.h"
-> +#include "chardev/char-fe.h"
-> +#include "sysemu/sysemu.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-commands-char.h"
-> +#include "qapi/qapi-types-char.h"
-> +#include "qapi/qapi-commands-yank.h"
-> +#include "qapi/qapi-types-yank.h"
-> +#include "io/channel-socket.h"
-> +#include "socket-helpers.h"
-> +
-> +typedef struct {
-> +    SocketAddress *addr;
-> +    bool old_yank;
-> +    bool new_yank;
-> +    bool fail;
-> +} CharChangeTestConfig;
-> +
-> +static int chardev_change(void *opaque)
-> +{
-> +    return 0;
-> +}
-> +
-> +static bool is_yank_instance_registered(void)
-> +{
-> +    YankInstanceList *list;
-> +    bool ret;
-> +
-> +    list =3D qmp_query_yank(&error_abort);
-> +
-> +    ret =3D !!list;
-> +
-> +    qapi_free_YankInstanceList(list);
-> +
-> +    return ret;
-> +}
-> +
-> +static void char_change_test(gconstpointer opaque)
-> +{
-> +    CharChangeTestConfig *conf =3D (gpointer) opaque;
-> +    SocketAddress *addr;
-> +    Chardev *chr;
-> +    CharBackend be;
-> +    ChardevReturn *ret;
-> +    QIOChannelSocket *ioc;
-> +
-> +    /*
-> +     * Setup a listener socket and determine its address
-> +     * so we know the TCP port for the client later
-> +     */
-> +    ioc =3D qio_channel_socket_new();
-> +    g_assert_nonnull(ioc);
-> +    qio_channel_socket_listen_sync(ioc, conf->addr, 1, &error_abort);
-> +    addr =3D qio_channel_socket_get_local_address(ioc, &error_abort);
-> +    g_assert_nonnull(addr);
-> +
-> +    ChardevBackend backend[2] =3D {
-> +        /* doesn't support yank */
-> +        { .type =3D CHARDEV_BACKEND_KIND_NULL },
-> +        /* supports yank */
-> +        {
-> +            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-> +            .u.socket.data =3D &(ChardevSocket) {
-> +                .addr =3D &(SocketAddressLegacy) {
-> +                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-> +                    .u.inet.data =3D &addr->u.inet
-> +                },
-> +                .has_server =3D true,
-> +                .server =3D false
-> +            }
-> +        } };
-> +
-> +    ChardevBackend fail_backend[2] =3D {
-> +        /* doesn't support yank */
-> +        {
-> +            .type =3D CHARDEV_BACKEND_KIND_UDP,
-> +            .u.udp.data =3D &(ChardevUdp) {
-> +                .remote =3D &(SocketAddressLegacy) {
-> +                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_UNIX,
-> +                    .u.q_unix.data =3D &(UnixSocketAddress) {
-> +                        .path =3D (char *)""
-> +                    }
-> +                }
-> +            }
-> +        },
-> +        /* supports yank */
-> +        {
-> +            .type =3D CHARDEV_BACKEND_KIND_SOCKET,
-> +            .u.socket.data =3D &(ChardevSocket) {
-> +                .addr =3D &(SocketAddressLegacy) {
-> +                    .type =3D SOCKET_ADDRESS_LEGACY_KIND_INET,
-> +                    .u.inet.data =3D &(InetSocketAddress) {
-> +                        .host =3D (char *)"127.0.0.1",
-> +                        .port =3D (char *)"0"
-> +                    }
-> +                },
-> +                .has_server =3D true,
-> +                .server =3D false
-> +            }
-> +        } };
-> +
-> +    g_assert(!is_yank_instance_registered());
-> +
-> +    ret =3D qmp_chardev_add("chardev", &backend[conf->old_yank],
-> &error_abort);
-> +    qapi_free_ChardevReturn(ret);
-> +    chr =3D qemu_chr_find("chardev");
-> +    g_assert_nonnull(chr);
-> +
-> +    g_assert(is_yank_instance_registered() =3D=3D conf->old_yank);
-> +
-> +    qemu_chr_wait_connected(chr, &error_abort);
-> +    qemu_chr_fe_init(&be, chr, &error_abort);
-> +    /* allow chardev-change */
-> +    qemu_chr_fe_set_handlers(&be, NULL, NULL,
-> +                             NULL, chardev_change, NULL, NULL, true);
-> +
-> +    if (conf->fail) {
-> +        g_setenv("QTEST_SILENT_ERRORS", "1", 1);
-> +        ret =3D qmp_chardev_change("chardev", &fail_backend[conf->new_ya=
-nk],
-> +                                 NULL);
-> +        g_assert_null(ret);
-> +        g_assert(be.chr =3D=3D chr);
-> +        g_assert(is_yank_instance_registered() =3D=3D conf->old_yank);
-> +        g_unsetenv("QTEST_SILENT_ERRORS");
-> +    } else {
-> +        ret =3D qmp_chardev_change("chardev", &backend[conf->new_yank],
-> +                                 &error_abort);
-> +        g_assert_nonnull(ret);
-> +        g_assert(be.chr !=3D chr);
-> +        g_assert(is_yank_instance_registered() =3D=3D conf->new_yank);
-> +    }
-> +
-> +    object_unparent(OBJECT(be.chr));
-> +    object_unref(OBJECT(ioc));
-> +    qapi_free_ChardevReturn(ret);
-> +}
-> +
-> +static SocketAddress tcpaddr =3D {
-> +    .type =3D SOCKET_ADDRESS_TYPE_INET,
-> +    .u.inet.host =3D (char *)"127.0.0.1",
-> +    .u.inet.port =3D (char *)"0",
-> +};
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    bool has_ipv4, has_ipv6;
-> +
-> +    qemu_init_main_loop(&error_abort);
-> +    socket_init();
-> +
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
-> +        g_printerr("socket_check_protocol_support() failed\n");
-> +        goto end;
-> +    }
-> +
-> +    if (!has_ipv4) {
-> +        goto end;
-> +    }
-> +
-> +    module_call_init(MODULE_INIT_QOM);
-> +    qemu_add_opts(&qemu_chardev_opts);
-> +
-> +#define CHAR_CHANGE_TEST(name, _old_yank, _new_yank)
->      \
-> +        g_test_add_data_func("/yank/char_change/success/" # name,
->       \
-> +                             &(CharChangeTestConfig) { .addr =3D &tcpadd=
-r,
->      \
-> +                                                       .old_yank =3D
-> (_old_yank),\
-> +                                                       .new_yank =3D
-> (_new_yank),\
-> +                                                       .fail =3D false }=
-,
->       \
-> +                             char_change_test);
->       \
-> +        g_test_add_data_func("/yank/char_change/fail/" # name,
->      \
-> +                             &(CharChangeTestConfig) { .addr =3D &tcpadd=
-r,
->      \
-> +                                                       .old_yank =3D
-> (_old_yank),\
-> +                                                       .new_yank =3D
-> (_new_yank),\
-> +                                                       .fail =3D true },
->      \
-> +                             char_change_test);
-> +
-> +    CHAR_CHANGE_TEST(to_yank, false, true);
-> +    CHAR_CHANGE_TEST(yank_to_yank, true, true);
-> +    CHAR_CHANGE_TEST(from_yank, true, false);
-> +
-> +end:
-> +    return g_test_run();
-> +}
-> --
-> 2.30.2
->
+The 'software' indicates the data processing and event notification mechanism
+involved with virtio/vhost PV driver frontend. E.g., while VM is waiting for an
+extra IRQ, vhost side did not trigger IRQ, suppose vring_need_event()
+erroneously returns false due to corrupted ring buffer status.
 
+This was initially proposed for vhost only and I was going to export
+ioeventfd/irqfd from vhost to admin via sysfs. Finally, I realized I would
+better implement this at QEMU.
 
---=20
-Marc-Andr=C3=A9 Lureau
+The QEMU inits the eventfd (ioeventfd and irqfd), and offloads them to
+KVM/vhost. The VM side sends requests to ring buffer and kicks the doorbell (via
+ioeventfd), while the backend vhost side sends responses back and calls the IRQ
+(via ioeventfd).
 
---0000000000001d0eec05be76f888
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Unfortunately, sometimes there is issue with virtio/vhost so that kick/call was
+missed/ignored, or even never triggered. The example mentioned in the patchset
+cover letter is with virtio-net (I assume vhost=on), where a kick to ioventfd
+was ignored, due to pci-bridge/hotplug issue.
 
-<div dir=3D"ltr"><div dir=3D"ltr">=C2=A0Hi Lukas<br></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 26, 2021 at=
- 11:48 AM Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de">lukasstra=
-ub2@web.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Add tests for yank with the chardev-change case.<br>
-<br>
-Signed-off-by: Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de" targ=
-et=3D"_blank">lukasstraub2@web.de</a>&gt;<br>
----<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 =
-+<br>
-=C2=A0tests/unit/meson.build |=C2=A0 =C2=A03 +-<br>
-=C2=A0tests/unit/test-yank.c | 199 ++++++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A03 files changed, 202 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 tests/unit/test-yank.c<br>
-<br></blockquote><div><br></div><div>Please run the tests with ASAN. Can yo=
-u resend with the leaks fixed?</div><div>thanks<br></div><div> <br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 77259c031d..accb683a55 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -2821,6 +2821,7 @@ M: Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@we=
-b.de" target=3D"_blank">lukasstraub2@web.de</a>&gt;<br>
-=C2=A0S: Odd fixes<br>
-=C2=A0F: util/yank.c<br>
-=C2=A0F: migration/yank_functions*<br>
-+F: tests/unit/test-yank.c<br>
-=C2=A0F: include/qemu/yank.h<br>
-=C2=A0F: qapi/yank.json<br>
-<br>
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build<br>
-index 4bfe4627ba..b3bc2109da 100644<br>
---- a/tests/unit/meson.build<br>
-+++ b/tests/unit/meson.build<br>
-@@ -123,7 +123,8 @@ if have_system<br>
-=C2=A0 =C2=A0 =C2=A0&#39;test-util-sockets&#39;: [&#39;socket-helpers.c&#39=
-;],<br>
-=C2=A0 =C2=A0 =C2=A0&#39;test-base64&#39;: [],<br>
-=C2=A0 =C2=A0 =C2=A0&#39;test-bufferiszero&#39;: [],<br>
--=C2=A0 =C2=A0 &#39;test-vmstate&#39;: [migration, io]<br>
-+=C2=A0 =C2=A0 &#39;test-vmstate&#39;: [migration, io],<br>
-+=C2=A0 =C2=A0 &#39;test-yank&#39;: [&#39;socket-helpers.c&#39;, qom, io, c=
-hardev]<br>
-=C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0if &#39;CONFIG_INOTIFY1&#39; in config_host<br>
-=C2=A0 =C2=A0 =C2=A0tests +=3D {&#39;test-util-filemonitor&#39;: []}<br>
-diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c<br>
-new file mode 100644<br>
-index 0000000000..8bc8291a82<br>
---- /dev/null<br>
-+++ b/tests/unit/test-yank.c<br>
-@@ -0,0 +1,199 @@<br>
-+/*<br>
-+ * Tests for QEMU yank feature<br>
-+ *<br>
-+ * Copyright (c) Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de" t=
-arget=3D"_blank">lukasstraub2@web.de</a>&gt;<br>
-+ *<br>
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.<br>
-+ * See the COPYING file in the top-level directory.<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
-+<br>
-+#include &quot;qemu/config-file.h&quot;<br>
-+#include &quot;qemu/module.h&quot;<br>
-+#include &quot;qemu/option.h&quot;<br>
-+#include &quot;chardev/char-fe.h&quot;<br>
-+#include &quot;sysemu/sysemu.h&quot;<br>
-+#include &quot;qapi/error.h&quot;<br>
-+#include &quot;qapi/qapi-commands-char.h&quot;<br>
-+#include &quot;qapi/qapi-types-char.h&quot;<br>
-+#include &quot;qapi/qapi-commands-yank.h&quot;<br>
-+#include &quot;qapi/qapi-types-yank.h&quot;<br>
-+#include &quot;io/channel-socket.h&quot;<br>
-+#include &quot;socket-helpers.h&quot;<br>
-+<br>
-+typedef struct {<br>
-+=C2=A0 =C2=A0 SocketAddress *addr;<br>
-+=C2=A0 =C2=A0 bool old_yank;<br>
-+=C2=A0 =C2=A0 bool new_yank;<br>
-+=C2=A0 =C2=A0 bool fail;<br>
-+} CharChangeTestConfig;<br>
-+<br>
-+static int chardev_change(void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-+static bool is_yank_instance_registered(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 YankInstanceList *list;<br>
-+=C2=A0 =C2=A0 bool ret;<br>
-+<br>
-+=C2=A0 =C2=A0 list =3D qmp_query_yank(&amp;error_abort);<br>
-+<br>
-+=C2=A0 =C2=A0 ret =3D !!list;<br>
-+<br>
-+=C2=A0 =C2=A0 qapi_free_YankInstanceList(list);<br>
-+<br>
-+=C2=A0 =C2=A0 return ret;<br>
-+}<br>
-+<br>
-+static void char_change_test(gconstpointer opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 CharChangeTestConfig *conf =3D (gpointer) opaque;<br>
-+=C2=A0 =C2=A0 SocketAddress *addr;<br>
-+=C2=A0 =C2=A0 Chardev *chr;<br>
-+=C2=A0 =C2=A0 CharBackend be;<br>
-+=C2=A0 =C2=A0 ChardevReturn *ret;<br>
-+=C2=A0 =C2=A0 QIOChannelSocket *ioc;<br>
-+<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Setup a listener socket and determine its address<br=
->
-+=C2=A0 =C2=A0 =C2=A0* so we know the TCP port for the client later<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 ioc =3D qio_channel_socket_new();<br>
-+=C2=A0 =C2=A0 g_assert_nonnull(ioc);<br>
-+=C2=A0 =C2=A0 qio_channel_socket_listen_sync(ioc, conf-&gt;addr, 1, &amp;e=
-rror_abort);<br>
-+=C2=A0 =C2=A0 addr =3D qio_channel_socket_get_local_address(ioc, &amp;erro=
-r_abort);<br>
-+=C2=A0 =C2=A0 g_assert_nonnull(addr);<br>
-+<br>
-+=C2=A0 =C2=A0 ChardevBackend backend[2] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* doesn&#39;t support yank */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 { .type =3D CHARDEV_BACKEND_KIND_NULL },<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* supports yank */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .type =3D CHARDEV_BACKEND_KIND_S=
-OCKET,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .u.socket.data =3D &amp;(Chardev=
-Socket) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .addr =3D &amp;(So=
-cketAddressLegacy) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .typ=
-e =3D SOCKET_ADDRESS_LEGACY_KIND_INET,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .u.i=
-net.data =3D &amp;addr-&gt;u.inet<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .has_server =3D tr=
-ue,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .server =3D false<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } };<br>
-+<br>
-+=C2=A0 =C2=A0 ChardevBackend fail_backend[2] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* doesn&#39;t support yank */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .type =3D CHARDEV_BACKEND_KIND_U=
-DP,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .u.udp.data =3D &amp;(ChardevUdp=
-) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .remote =3D &amp;(=
-SocketAddressLegacy) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .typ=
-e =3D SOCKET_ADDRESS_LEGACY_KIND_UNIX,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .u.q=
-_unix.data =3D &amp;(UnixSocketAddress) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 .path =3D (char *)&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* supports yank */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .type =3D CHARDEV_BACKEND_KIND_S=
-OCKET,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .u.socket.data =3D &amp;(Chardev=
-Socket) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .addr =3D &amp;(So=
-cketAddressLegacy) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .typ=
-e =3D SOCKET_ADDRESS_LEGACY_KIND_INET,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .u.i=
-net.data =3D &amp;(InetSocketAddress) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 .host =3D (char *)&quot;127.0.0.1&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 .port =3D (char *)&quot;0&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .has_server =3D tr=
-ue,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .server =3D false<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } };<br>
-+<br>
-+=C2=A0 =C2=A0 g_assert(!is_yank_instance_registered());<br>
-+<br>
-+=C2=A0 =C2=A0 ret =3D qmp_chardev_add(&quot;chardev&quot;, &amp;backend[co=
-nf-&gt;old_yank], &amp;error_abort);<br>
-+=C2=A0 =C2=A0 qapi_free_ChardevReturn(ret);<br>
-+=C2=A0 =C2=A0 chr =3D qemu_chr_find(&quot;chardev&quot;);<br>
-+=C2=A0 =C2=A0 g_assert_nonnull(chr);<br>
-+<br>
-+=C2=A0 =C2=A0 g_assert(is_yank_instance_registered() =3D=3D conf-&gt;old_y=
-ank);<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_chr_wait_connected(chr, &amp;error_abort);<br>
-+=C2=A0 =C2=A0 qemu_chr_fe_init(&amp;be, chr, &amp;error_abort);<br>
-+=C2=A0 =C2=A0 /* allow chardev-change */<br>
-+=C2=A0 =C2=A0 qemu_chr_fe_set_handlers(&amp;be, NULL, NULL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, chardev_change, NULL, NULL, true);<br>
-+<br>
-+=C2=A0 =C2=A0 if (conf-&gt;fail) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_setenv(&quot;QTEST_SILENT_ERRORS&quot;, &quo=
-t;1&quot;, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D qmp_chardev_change(&quot;chardev&quot;=
-, &amp;fail_backend[conf-&gt;new_yank],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_null(ret);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert(be.chr =3D=3D chr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert(is_yank_instance_registered() =3D=3D =
-conf-&gt;old_yank);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_unsetenv(&quot;QTEST_SILENT_ERRORS&quot;);<b=
-r>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D qmp_chardev_change(&quot;chardev&quot;=
-, &amp;backend[conf-&gt;new_yank],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;error_abort);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_nonnull(ret);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert(be.chr !=3D chr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert(is_yank_instance_registered() =3D=3D =
-conf-&gt;new_yank);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 object_unparent(OBJECT(be.chr));<br>
-+=C2=A0 =C2=A0 object_unref(OBJECT(ioc));<br>
-+=C2=A0 =C2=A0 qapi_free_ChardevReturn(ret);<br>
-+}<br>
-+<br>
-+static SocketAddress tcpaddr =3D {<br>
-+=C2=A0 =C2=A0 .type =3D SOCKET_ADDRESS_TYPE_INET,<br>
-+=C2=A0 =C2=A0 .u.inet.host =3D (char *)&quot;127.0.0.1&quot;,<br>
-+=C2=A0 =C2=A0 .u.inet.port =3D (char *)&quot;0&quot;,<br>
-+};<br>
-+<br>
-+int main(int argc, char **argv)<br>
-+{<br>
-+=C2=A0 =C2=A0 bool has_ipv4, has_ipv6;<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_init_main_loop(&amp;error_abort);<br>
-+=C2=A0 =C2=A0 socket_init();<br>
-+<br>
-+=C2=A0 =C2=A0 g_test_init(&amp;argc, &amp;argv, NULL);<br>
-+<br>
-+=C2=A0 =C2=A0 if (socket_check_protocol_support(&amp;has_ipv4, &amp;has_ip=
-v6) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_printerr(&quot;socket_check_protocol_support=
-() failed\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto end;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (!has_ipv4) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto end;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 module_call_init(MODULE_INIT_QOM);<br>
-+=C2=A0 =C2=A0 qemu_add_opts(&amp;qemu_chardev_opts);<br>
-+<br>
-+#define CHAR_CHANGE_TEST(name, _old_yank, _new_yank)=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_test_add_data_func(&quot;/yank/char_change/s=
-uccess/&quot; # name,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;(CharChangeTestConfig) { .addr =3D &amp=
-;tcpaddr,=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.old_yank =3D (_old_yank),\=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.new_yank =3D (_new_yank),\=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.fail =3D false },=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char_change_test);=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_test_add_data_func(&quot;/yank/char_change/f=
-ail/&quot; # name,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;(CharChangeTestConfig) { .addr =3D &amp=
-;tcpaddr,=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.old_yank =3D (_old_yank),\=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.new_yank =3D (_new_yank),\=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.fail =3D true },=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char_change_test);<br>
-+<br>
-+=C2=A0 =C2=A0 CHAR_CHANGE_TEST(to_yank, false, true);<br>
-+=C2=A0 =C2=A0 CHAR_CHANGE_TEST(yank_to_yank, true, true);<br>
-+=C2=A0 =C2=A0 CHAR_CHANGE_TEST(from_yank, true, false);<br>
-+<br>
-+end:<br>
-+=C2=A0 =C2=A0 return g_test_run();<br>
-+}<br>
---<br>
-2.30.2<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+The hotplug is with a very small window but the IO hangs permanently. I did test
+that kicking the doorbell again will help recover the IO, so that I would be
+able to conclude this was due to lost of kick.
 
---0000000000001d0eec05be76f888--
+The loss of irq/doorbell is painful especially in production environment where
+we are not able to attach to QEMU via gdb. While the patchset is only for QEMU,
+Xen PV driver used to experience loss of IRQ issue as well, e.g., linux kernel
+commit 4704fe4f03a5 ("xen/events: mask events when changing their VCPU binding").
+
+This can help "narrow down" if the IO/networking hang is due to loss of
+IRQ/doorbell issue (or VM MSI-x is erroneously masked), especially in production
+env. This can also be used as a workaround so that VM owner will not need to
+reboot VM.
+
+In addition, the VFIO will benefit from it. We will be able to test if to inject
+IRQ on purpose helps when the driver (e.g., PCI, NVMe, Ethernet) developers
+blame the hang is caused by loss of IRQ with KVM/VFIO.(It seems there is more
+chance to loose IRQ during CPU hotplug or changing IRQ affinity).
+
+> 
+> I think we could not gain much for introducing an dedicated mechanism for such a
+> corner case.
+
+As replied by Dave for prior RFC, the QEMU already supports hmp_ioport_write to
+trigger an ioport write on purpose.
+
+The linux block layer also supports the below to kick the IO queue on purpose.
+
+echo "kick" > /sys/kernel/debug/block/sda/state
+
+Dongli Zhang
+
+> 
+> Thanks
+> 
+> 
+>>
+>> crash> eventfd_ctx ffff8f67f6bbe700
+>> struct eventfd_ctx {
+>>    kref = {
+>>      refcount = {
+>>        refs = {
+>>          counter = 4
+>>        }
+>>      }
+>>    },
+>>    wqh = {
+>>      lock = {
+>>        {
+>>          rlock = {
+>>            raw_lock = {
+>>              val = {
+>>                counter = 0
+>>              }
+>>            }
+>>          }
+>>        }
+>>      },
+>>      head = {
+>>        next = 0xffff8f841dc08e18,
+>>        prev = 0xffff8f841dc08e18
+>>      }
+>>    },
+>>    count = 16, ---> eventfd incremented to 16 !!!
+>>    flags = 526336
+>> }
+>>
+>>
+>> Original RFC link:
+>>
+>> https://urldefense.com/v3/__https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg03441.html__;!!GqivPVa7Brio!KS3pAU2cKjz4wgI4QSlE-YsJPhPG71nkE5_tGhaOf7mi_xvNxbvKkfn03rk5UvUJ86I$
+>>
+>> Changed since RFC:
+>>    - add support for more virtio/vhost pci devices
+>>    - add log (toggled by DEBUG_VIRTIO_EVENT) to virtio.c to say that this
+>>      mischeivous command had been used
+>>    - fix grammer error (s/lost/loss/)
+>>    - change version to 6.1
+>>    - fix incorrect example in qapi/qdev.json
+>>    - manage event types with enum/array, instead of hard coding
+>>
+>>
+>> Dongli Zhang (6):
+>>     qdev: introduce qapi/hmp command for kick/call event
+>>     virtio: introduce helper function for kick/call device event
+>>     virtio-blk-pci: implement device event interface for kick/call
+>>     virtio-scsi-pci: implement device event interface for kick/call
+>>     vhost-scsi-pci: implement device event interface for kick/call
+>>     virtio-net-pci: implement device event interface for kick/call
+>>
+>>   hmp-commands.hx                 | 14 ++++++++
+>>   hw/block/virtio-blk.c           |  9 +++++
+>>   hw/net/virtio-net.c             |  9 +++++
+>>   hw/scsi/vhost-scsi.c            |  6 ++++
+>>   hw/scsi/virtio-scsi.c           |  9 +++++
+>>   hw/virtio/vhost-scsi-pci.c      | 10 ++++++
+>>   hw/virtio/virtio-blk-pci.c      | 10 ++++++
+>>   hw/virtio/virtio-net-pci.c      | 10 ++++++
+>>   hw/virtio/virtio-scsi-pci.c     | 10 ++++++
+>>   hw/virtio/virtio.c              | 64 ++++++++++++++++++++++++++++++++++++
+>>   include/hw/qdev-core.h          |  9 +++++
+>>   include/hw/virtio/vhost-scsi.h  |  3 ++
+>>   include/hw/virtio/virtio-blk.h  |  2 ++
+>>   include/hw/virtio/virtio-net.h  |  3 ++
+>>   include/hw/virtio/virtio-scsi.h |  3 ++
+>>   include/hw/virtio/virtio.h      |  3 ++
+>>   include/monitor/hmp.h           |  1 +
+>>   qapi/qdev.json                  | 30 +++++++++++++++++
+>>   softmmu/qdev-monitor.c          | 56 +++++++++++++++++++++++++++++++
+>>   19 files changed, 261 insertions(+)
+>>
+>>
+>> I did tests with below cases.
+>>
+>> - virtio-blk-pci (ioeventfd on/off, iothread, live migration)
+>> - virtio-scsi-pci (ioeventfd on/off)
+>> - vhost-scsi-pci
+>> - virtio-net-pci (ioeventfd on/off, vhost)
+>>
+>> Thank you very much!
+>>
+>> Dongli Zhang
+>>
+>>
+> 
 
