@@ -2,55 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBAD34AADC
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 16:04:03 +0100 (CET)
-Received: from localhost ([::1]:51152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D3B34AAF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 16:07:43 +0100 (CET)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPo0J-00050t-0B
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 11:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37040)
+	id 1lPo3q-0007D2-Vj
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 11:07:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lPnyj-0003ny-Tf
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:02:25 -0400
-Received: from mga05.intel.com ([192.55.52.43]:60283)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPo2g-0006IQ-NG
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:06:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lPnyg-00066G-5B
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:02:25 -0400
-IronPort-SDR: YlKuA9ksWI630LHFzbDkoxmaloH2H9HGa2B0fqL2AmEPgL01C3zf/cqF+8/i42y/sDNs2I50Sm
- abr8OmKEiC+w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9935"; a="276304948"
-X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="276304948"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2021 08:01:51 -0700
-IronPort-SDR: FXHiVKqzlBeJQ4Hs0sfXUyZch4ztuoLUUN1HGhzKvAPA/jac7pBhq33CZTi/YBvV+1iwtmSBFd
- apjtrdfkiH2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; d="scan'208";a="608905620"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by fmsmga005.fm.intel.com with ESMTP; 26 Mar 2021 08:01:49 -0700
-Message-ID: <c31c1d0033d1cdf7aee6dc20cb3c4c27ec754222.camel@linux.intel.com>
-Subject: Re: [PATCH v4] i386/cpu_dump: support AVX512 ZMM regs dump
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com
-Date: Fri, 26 Mar 2021 23:01:49 +0800
-In-Reply-To: <1616770469-36979-1-git-send-email-robert.hu@linux.intel.com>
-References: <1616770469-36979-1-git-send-email-robert.hu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-8.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=robert.hu@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lPo2e-0000HK-KO
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:06:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616771187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zpw2yHomQfw3iA8VUykNgYCae+f8BLg+dvT/fWQLNZc=;
+ b=HqXA5zt7U5X2y07jXtg8nhz5vFHpkv1hwuMd0uenEpOXpmy/a5eKw8QmT1gyjprax0BuGE
+ V24UsZ+swKb8gGUZv3s+RNTiep8BsG6844JifmnVORCk/yg8WLfYEyBb0SkcRKm3XOo1IK
+ yaFZeZeoxc6LYKC0qqHtfPE6SAiHXqI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-qnGxtSQvPta4Dlb6pi8gOg-1; Fri, 26 Mar 2021 11:05:52 -0400
+X-MC-Unique: qnGxtSQvPta4Dlb6pi8gOg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23B4B8DA3C4;
+ Fri, 26 Mar 2021 15:05:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-48.ams2.redhat.com
+ [10.36.113.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A822A13441;
+ Fri, 26 Mar 2021 15:05:40 +0000 (UTC)
+Subject: Re: [PATCH v3 4/5] qemu-iotests: let "check" spawn an arbitrary test
+ command
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210326142359.431127-1-pbonzini@redhat.com>
+ <20210326142359.431127-5-pbonzini@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <57668708-22b3-f21f-e737-62bbe425f763@redhat.com>
+Date: Fri, 26 Mar 2021 16:05:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210326142359.431127-5-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,123 +83,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-03-26 at 22:54 +0800, Robert Hoo wrote:
-> Since commit fa4518741e (target-i386: Rename struct XMMReg to
-> ZMMReg),
-> CPUX86State.xmm_regs[] has already been extended to 512bit to support
-> AVX512.
-> Also, other qemu level supports for AVX512 registers are there for
-> years.
-> But in x86_cpu_dump_state(), still only dump XMM registers no matter
-> YMM/ZMM is enabled.
-> This patch is to complement this, let it dump XMM/YMM/ZMM
-> accordingly.
+On 26.03.21 15:23, Paolo Bonzini wrote:
+> Right now there is no easy way for "check" to print a reproducer command.
+> Because such a reproducer command line would be huge, we can instead teach
+> check to start a command of our choice.  This can be for example a Python
+> unit test with arguments to only run a specific subtest.
 > 
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+> Move the trailing empty line to print_env(), since it always looks better
+> and one caller was not adding it.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Tested-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Message-Id: <20210323181928.311862-5-pbonzini@redhat.com>
 > ---
-> Changelog:
-> v4: stringent AVX512 case and AVX case judgement criteria
-> v3: fix some coding style issue.
-> v2: dump XMM/YMM/ZMM according to XSAVE state-components enablement.
+>   tests/qemu-iotests/check         | 18 +++++++++++++++++-
+>   tests/qemu-iotests/testenv.py    |  3 ++-
+>   tests/qemu-iotests/testrunner.py |  1 -
+>   3 files changed, 19 insertions(+), 3 deletions(-)
 > 
->  target/i386/cpu-dump.c | 62 ++++++++++++++++++++++++++++++++++++++
-> ------------
->  1 file changed, 47 insertions(+), 15 deletions(-)
+> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> index d1c87ceaf1..df9fd733ff 100755
+> --- a/tests/qemu-iotests/check
+> +++ b/tests/qemu-iotests/check
+> @@ -19,6 +19,9 @@
+>   import os
+>   import sys
+>   import argparse
+> +import shutil
+> +from pathlib import Path
+> +
+>   from findtests import TestFinder
+>   from testenv import TestEnv
+>   from testrunner import TestRunner
+> @@ -101,7 +104,7 @@ def make_argparser() -> argparse.ArgumentParser:
+>                          'rerun failed ./check command, starting from the '
+>                          'middle of the process.')
+>       g_sel.add_argument('tests', metavar='TEST_FILES', nargs='*',
+> -                       help='tests to run')
+> +                       help='tests to run, or "--" followed by a command')
+>   
+>       return p
+>   
+> @@ -114,6 +117,19 @@ if __name__ == '__main__':
+>                     imgopts=args.imgopts, misalign=args.misalign,
+>                     debug=args.debug, valgrind=args.valgrind)
+>   
+> +    if len(sys.argv) > 1 and sys.argv[-len(args.tests)-1] == '--':
+> +        if not args.tests:
+> +            sys.exit("missing command after '--'")
+> +        cmd = args.tests
+> +        env.print_env()
+> +        exec_path = Path(shutil.which(cmd[0]))
+
+297 says:
+
+check:125: error: Argument 1 to "Path" has incompatible type 
+"Optional[str]"; expected "Union[str, _PathLike[str]]"
+Found 1 error in 1 file (checked 1 source file)
+
+Normally I’d assert this away, but actually I think the returned value 
+should be checked and we should print an error if it’s None.  (Seems 
+like shutil.which() doesn’t raise an exception if there is no such 
+command, it just returns None.)
+
+Max
+
+> +        if exec_path is None:
+> +            sys.exit('command not found: ' + cmd[0])
+> +        cmd[0] = exec_path.resolve()
+> +        full_env = env.prepare_subprocess(cmd)
+> +        os.chdir(Path(exec_path).parent)
+> +        os.execve(cmd[0], cmd, full_env)
+> +
+>       testfinder = TestFinder(test_dir=env.source_iotests)
+>   
+>       groups = args.groups.split(',') if args.groups else None
+> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+> index fca3a609e0..cd0e39b789 100644
+> --- a/tests/qemu-iotests/testenv.py
+> +++ b/tests/qemu-iotests/testenv.py
+> @@ -284,7 +284,8 @@ def print_env(self) -> None:
+>   PLATFORM      -- {platform}
+>   TEST_DIR      -- {TEST_DIR}
+>   SOCK_DIR      -- {SOCK_DIR}
+> -SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}"""
+> +SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
+> +"""
+>   
+>           args = collections.defaultdict(str, self.get_env())
+>   
+> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+> index 519924dc81..2f56ac545d 100644
+> --- a/tests/qemu-iotests/testrunner.py
+> +++ b/tests/qemu-iotests/testrunner.py
+> @@ -316,7 +316,6 @@ def run_tests(self, tests: List[str]) -> bool:
+>   
+>           if not self.makecheck:
+>               self.env.print_env()
+> -            print()
+>   
+>           test_field_width = max(len(os.path.basename(t)) for t in tests) + 2
+>   
 > 
-> diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-> index aac21f1..dea4564 100644
-> --- a/target/i386/cpu-dump.c
-> +++ b/target/i386/cpu-dump.c
-> @@ -478,6 +478,11 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f,
-> int flags)
->      qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
->      if (flags & CPU_DUMP_FPU) {
->          int fptag;
-> +        const uint64_t avx512_mask = XSTATE_OPMASK_MASK | \
-> +                                     XSTATE_ZMM_Hi256_MASK | \
-> +                                     XSTATE_Hi16_ZMM_MASK | \
-> +                                     XSTATE_YMM_MASK |
-> XSTATE_SSE_MASK,
-> +                       avx_mask = XSTATE_YMM_MASK | XSTATE_SSE_MASK;
->          fptag = 0;
->          for(i = 0; i < 8; i++) {
->              fptag |= ((!env->fptags[i]) << i);
-> @@ -499,21 +504,48 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f,
-> int flags)
->              else
->                  qemu_fprintf(f, " ");
->          }
-> -        if (env->hflags & HF_CS64_MASK)
-> -            nb = 16;
-> -        else
-> -            nb = 8;
-> -        for(i=0;i<nb;i++) {
-> -            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
-> -                         i,
-> -                         env->xmm_regs[i].ZMM_L(3),
-> -                         env->xmm_regs[i].ZMM_L(2),
-> -                         env->xmm_regs[i].ZMM_L(1),
-> -                         env->xmm_regs[i].ZMM_L(0));
-> -            if ((i & 1) == 1)
-> -                qemu_fprintf(f, "\n");
-> -            else
-> -                qemu_fprintf(f, " ");
-> +
-> +        if ((env->xcr0 & avx512_mask) == avx512_mask) {
-> +            /* XSAVE enabled AVX512 */
-> +            for (i = 0; i < NB_OPMASK_REGS; i++) {
-> +                qemu_fprintf(f, "Opmask%02d=%016lx%s", i, env-
-> >opmask_regs[i],
-> +                    ((i & 3) == 3) ? "\n" : " ");
-> +            }
-> +
-> +            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
-> +            for (i = 0; i < nb; i++) {
-> +                qemu_fprintf(f, "ZMM%02d=%016lx %016lx %016lx %016lx
-> %016lx "
-> +                                "%016lx %016lx %016lx\n",
-> +                             i,
-> +                             env->xmm_regs[i].ZMM_Q(7),
-> +                             env->xmm_regs[i].ZMM_Q(6),
-> +                             env->xmm_regs[i].ZMM_Q(5),
-> +                             env->xmm_regs[i].ZMM_Q(4),
-> +                             env->xmm_regs[i].ZMM_Q(3),
-> +                             env->xmm_regs[i].ZMM_Q(2),
-> +                             env->xmm_regs[i].ZMM_Q(1),
-> +                             env->xmm_regs[i].ZMM_Q(0));
-> +            }
-> +        } else if (env->xcr0 & avx_mask) {
-Here should be
-	     else if ((env->xcr0 & avx_mask) == avx_mask)
-
-Sorry about my sleepy head.
-
-> +            /* XSAVE enabled AVX */
-> +            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-> +            for (i = 0; i < nb; i++) {
-> +                qemu_fprintf(f, "YMM%02d=%016lx %016lx %016lx
-> %016lx\n",
-> +                             i,
-> +                             env->xmm_regs[i].ZMM_Q(3),
-> +                             env->xmm_regs[i].ZMM_Q(2),
-> +                             env->xmm_regs[i].ZMM_Q(1),
-> +                             env->xmm_regs[i].ZMM_Q(0));
-> +            }
-> +        } else { /* SSE and below cases */
-> +            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-> +            for (i = 0; i < nb; i++) {
-> +                qemu_fprintf(f, "XMM%02d=%016lx %016lx%s",
-> +                             i,
-> +                             env->xmm_regs[i].ZMM_Q(1),
-> +                             env->xmm_regs[i].ZMM_Q(0),
-> +                             (i & 1) ? "\n" : " ");
-> +            }
->          }
->      }
->      if (flags & CPU_DUMP_CODE) {
 
 
