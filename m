@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7826E34A100
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 06:26:15 +0100 (CET)
-Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068B334A119
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 06:42:04 +0100 (CET)
+Received: from localhost ([::1]:46108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPez8-00007s-Ig
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 01:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
+	id 1lPfEQ-0002Ue-Rd
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 01:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPeyJ-00089f-Eq
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:25:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53384)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPfCo-0001vI-Lu
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:40:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPeyG-0008OS-67
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:25:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPfCm-0000xV-NF
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 01:40:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616736318;
+ s=mimecast20190719; t=1616737218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OC5O5FcX+/tI/b+2/t7fbIKLg4goBFQ+t/hMkSCFFIE=;
- b=Ttt3btimYjhzStgz1EjO7GStkyDxO/sCsxXA2y8HBwYKYBaWggwnae74gqxTpIklAJrG20
- Ikxft/n7y2boLfqntMvuI3bnbBnR6/4T7wnckvY06sqo7KEXOLhx71NxsopSkRzeWrElnU
- kwjureQWoLPG29e/3fP890kzeGaMmx4=
+ bh=TCuVboz/IHQVJ03ut9iGSYEEt9cmKee0CLbwydKgKek=;
+ b=diMUU0Smtto6WM6NsLTEOPEudhX2NTQl5CzlVJXpzU8darkkViNFLcgAx/O1YrMl8nKNQP
+ FfNMwLwI39Rfbf7ZdWX9g1NbMNzApopgAIUyOpta/EgcBs3EovjFaxsui7NskDKLVZVyAF
+ VwTU9kDEW/SuG1jTkE3Hzbi06dxCE+I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-eI6oWu_9PkaIm3DK5ZiMLw-1; Fri, 26 Mar 2021 01:25:15 -0400
-X-MC-Unique: eI6oWu_9PkaIm3DK5ZiMLw-1
+ us-mta-119-_D2iAXOtOJ2Wdepy9D-Rsg-1; Fri, 26 Mar 2021 01:40:15 -0400
+X-MC-Unique: _D2iAXOtOJ2Wdepy9D-Rsg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F519180FCA1;
- Fri, 26 Mar 2021 05:25:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05760180FCA5;
+ Fri, 26 Mar 2021 05:40:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33C5462A33;
- Fri, 26 Mar 2021 05:25:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A760261F49;
+ Fri, 26 Mar 2021 05:40:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BED7F11327E1; Fri, 26 Mar 2021 06:25:08 +0100 (CET)
+ id 3BD7811327E1; Fri, 26 Mar 2021 06:40:12 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 10/28] qapi: Rework name checking in preparation of
- stricter checking
-References: <20210323094025.3569441-1-armbru@redhat.com>
- <20210323094025.3569441-11-armbru@redhat.com>
- <bc06289e-87f9-3f44-a004-07c2f6327264@redhat.com>
- <87v99hf60v.fsf@dusky.pond.sub.org>
- <128c8d73-e16c-cc74-4ab8-b7ef7818e0fc@redhat.com>
- <87im5fah92.fsf@dusky.pond.sub.org>
- <6b74a262-10c1-a857-00dd-736d29eec23f@redhat.com>
-Date: Fri, 26 Mar 2021 06:25:08 +0100
-In-Reply-To: <6b74a262-10c1-a857-00dd-736d29eec23f@redhat.com> (John Snow's
- message of "Thu, 25 Mar 2021 13:48:34 -0400")
-Message-ID: <87a6qqbi6j.fsf@dusky.pond.sub.org>
+Subject: Re: [PATCH v4 05/19] qapi/expr.py: constrain incoming expression types
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-6-jsnow@redhat.com>
+ <871rc3tjlt.fsf@dusky.pond.sub.org>
+ <a2e23408-1885-3ce1-8328-47f5d837971c@redhat.com>
+Date: Fri, 26 Mar 2021 06:40:12 +0100
+In-Reply-To: <a2e23408-1885-3ce1-8328-47f5d837971c@redhat.com> (John Snow's
+ message of "Thu, 25 Mar 2021 16:48:57 -0400")
+Message-ID: <87sg4ia2wz.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -86,48 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, qemu-devel@nongnu.org, marcandre.lureau@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> On 3/25/21 2:18 AM, Markus Armbruster wrote:
+> On 3/25/21 10:04 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> mypy does not know the types of values stored in Dicts that masquerade
+>>> as objects. Help the type checker out by constraining the type.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/expr.py | 26 +++++++++++++++++++++++---
+>>>   1 file changed, 23 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>>> index b4bbcd54c0..b75c85c160 100644
+>>> --- a/scripts/qapi/expr.py
+>>> +++ b/scripts/qapi/expr.py
+>>> @@ -15,9 +15,18 @@
+>>>   # See the COPYING file in the top-level directory.
+>>>   
+>>>   import re
+>>> +from typing import Dict, Optional
+>>>   
+>>>   from .common import c_name
+>>>   from .error import QAPISemError
+>>> +from .parser import QAPIDoc
+>>> +from .source import QAPISourceInfo
+>>> +
+>>> +
+>>> +# Deserialized JSON objects as returned by the parser;
+>>> +# The values of this mapping are not necessary to exhaustively type
+>> 
+>> Not necessary and also not practical with current mypy.  Correct?
+>
+> Neither necessary nor practical. Typing as 'object' guarantees that 
+> these values will never be used in a manner not supported by all python 
+> objects. Mypy does not complain, so we know that we don't misuse the type.
+>
+> This is helpful for proving the validity of the expr.py validator 
+> itself: we know that we are not forgetting to perform type narrowing and 
+> using the value contained therein inappropriately.
+>
+> Adding a more exhaustive typing here is impractical (for reasons we 
+> learned during introspect.py), but also provides no benefit to the 
+> static analysis here anyway.
+>
+> (None of the functions written here *assume* the shape of the structure, 
+> so there are no functions that benefit from having a more laboriously 
+> specified type.)
+>
+> If the comment needs more work, suggest away -- I tried to follow our 
+> last discussion here as best as I was able.
+
+"Needs more work" sounds like "inadequate", which isn't the case.
+
+The comment focuses on what we need from mypy here.  We may or may not
+want to hint at the other aspect: what mypy can provide.
+
+>>> +# here, because the purpose of this module is to interrogate that type.
+>>> +_JSONObject = Dict[str, object]
 [...]
->> Apropos qapi-gen testing scripts.  I have scripts to show me how the
->> generated code changes along the way in a branch.  They evolved over a
->> long time, and try to cope with changes in the tree that are hardly
->> relevant anymore.  By now, they could quite possibly make Frankenstein
->> recoil in horror.
->> 
->
-> Are they in the tree?
 
-No, because in their current state, they are incomprehensible *and* need
-frequent tinkering.
+If we want to, maybe:
 
->                       Largely if the generated code changes it's 
-> invisible to me, but I rely heavily on the unit tests. I guess maybe if 
-> they are not in a state to upstream it might not be worth the hassle to 
-> clean them, but I don't know.
+     # Deserialized JSON objects as returned by the parser.
+     # The values of this mapping are not necessary to exhaustively type
+     # here (and also not practical as long as mypy lacks recursive
+     # types), because the purpose of this module is to interrogate that
+     # type.
 
-The negative unit tests are fairly comprehensive, and guard against
-screwing up error path reasonably well.
-
-The positive unit tests compare the frontend state dumped by
-test-qapi.py, and compile-test the generated code.  Reasonable
-protection against frontend screwups.  Some protection against backend
-screwups.  Plenty of unwanted code generation changes can go undetected.
-
-A tool to show generated code changes for review is useful, and having
-such a tool in the tree would be nice.
-
->> As a secondary purpose, the scripts show me how output of pycodestyle-3
->> and pylint change.  This would be uninteresting if the code in master
->> was clean against a useful configuration of these tools.  Your work has
->> been making it less interesting.
->> 
->
-> --js
+Thoughts?
 
 
