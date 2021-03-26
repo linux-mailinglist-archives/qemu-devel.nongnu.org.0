@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A397B34ADEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 18:52:43 +0100 (CET)
-Received: from localhost ([::1]:55886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB1434ADFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 18:54:20 +0100 (CET)
+Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPqdW-0000rW-8g
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 13:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49026)
+	id 1lPqf5-0002MU-Nb
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 13:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPqcG-0000Dw-Oe
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:51:24 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:40829)
+ id 1lPqe1-0001jz-7I
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:53:13 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:41851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPqcE-0005Xx-Ab
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:51:24 -0400
-Received: by mail-ej1-x634.google.com with SMTP id u9so9661893ejj.7
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 10:51:21 -0700 (PDT)
+ id 1lPqdz-0006aP-MI
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 13:53:12 -0400
+Received: by mail-ej1-x630.google.com with SMTP id u5so9677433ejn.8
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 10:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1nJ5LMb5TxhqUaIohHVWkExvFWRXOaEff2xeEAhyjv0=;
- b=NuBuBrUSarUu6EMyt1S9wffL51qX2HKkcAhIgG5BkkPU5O3mYLNAUprKt3C5LWQVdD
- UtOdFXQdpm+4VrRGM0B43Ug6dwozs70LYUYpO/6Tl7ExYsikSDB+81APLfN9QKJ7ZzAv
- 63jXMUyx2C5RTV1hAs4qi3fTF3xapt03MJ6LfPmmL7YM8q8Pp6yRtkmVfduPn0kDQdxh
- EO4WoL60z0B0U/msgO+5jTyKv16AJLhXLQFXydZOOG3QjGDOOdDhZJ6Xmy0pD6RzMTrO
- NsWiXw53qE4lHF0CDrmZUMkjWAKTPEKSdFCYCsAYkbUYEfaEMvPCVheebuiH9xKkta9i
- qO7Q==
+ :cc; bh=pWt45CEx0ZXZS8JZQLZZy0w1fdo2hEcVuK9ZEYEkRko=;
+ b=HHGWbN+EuKEQaO3dtsxkxcvpsEFvCy9rbomjojmZsMW366She3IzQi9cqXcsF+3/RZ
+ BkETrMqUhbcmrpG2zqqQogkeomHDO0zkfGw2wky9xeHZ7eapjiuzOxQUDEvmv813i4y4
+ 8v2PgCOP93TVqdj9vr0pP+k2+GeB84Lot+aMl5VfTeIxvSOu8NDjH1YRTudqaGhZy3NW
+ qfFqUEuSJzzEXKB/Sgv2FwA+XSODXtfkGqknUHMsxzAJ8r5Cp7xcVv5/m5zNskzfAM0C
+ QyG/oaaFhFOr6aO9tquHaG1Zm3ORjNTCcj9zp0NDxZl95IS7lzIulgJ1DP5C/zMPbREa
+ nz0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1nJ5LMb5TxhqUaIohHVWkExvFWRXOaEff2xeEAhyjv0=;
- b=ZOzX09b62SIXIfyRz2b2dMXTjtggl75lHDE3Rq/skexuSvHqNmT+b0c3gHd8v+gIdQ
- d8hilHZs5uqoi8FZ2NpbXyB/6htYi2UxQcJ/40Afq8lprwy7yLSgX1VklPaNQ1mUM2GG
- fcYU2IKbXQyz3nVDA0wjK6sYd2GgLvuBCQ2mP6imbtE7joneV5LTFx5v0cacmbHn3qsg
- sPM0FlU21FaFOZMkwezCKtzYDrq2Ekkx24m17RrS4HSDKC7QYC8Lar42R4JieIgpTjT1
- gXQCivvINWMWxrNOrEkQsHt0plwQkuhT58TxyWOD7RearHCG3WmDH2cGC7P/mWsCH2hd
- V+Lw==
-X-Gm-Message-State: AOAM530DIFFuhJFIl6Zpk4ayrd6iHVtlNJlNyz3BHR298BwtPxid5E/R
- gnDytKx3iuOBDVHrwpTIe9DZ3tGL6yazs3QwnYuhJQ==
-X-Google-Smtp-Source: ABdhPJx8EH3gU2cX1ynNPA+kEi+kjEkEKr1nHd2A7i31PozlZ2hctdyiuOkD9JPp0eZtl6kmkDn0EpVVx1R7teG+d/E=
-X-Received: by 2002:a17:907:10ce:: with SMTP id
- rv14mr17043893ejb.56.1616781080646; 
- Fri, 26 Mar 2021 10:51:20 -0700 (PDT)
+ bh=pWt45CEx0ZXZS8JZQLZZy0w1fdo2hEcVuK9ZEYEkRko=;
+ b=gsvrTrdcd4mTNo99I/iS8Lu1S/ubQ7mBmw/3YV+htEM1TOD4QLFboL3ISh3sr1cOuh
+ l+3DniF50+EDFVf2pCT3Z5XKV5t3SJKM10jccxrZC79ZzqZwTiT/106w3jHAasf8/6WB
+ CyHQpb05DoV9ouQMSDqMW8UvzTf2KTxmochRrDWVHL/DmvPdZA0d3Qv6GBV74rCmonsR
+ gAAMbTtic+ybNgAvPFuXhxqd0hzeYG5pYaOYfbyh5SQX/G70jIalxl8qq562KgIFJNFM
+ 1Ub4E3f2UAIy2c1TBMnryBGAk2ogX2RFPswCNVDgo0Ev3hVWShIrME3XFhhnMgqyN8xE
+ GWkQ==
+X-Gm-Message-State: AOAM533wbaNyIXOaftv2kBByD3uWp+Nu2zexNURWcEKyazQMvK0xCLOx
+ HzEOZtTPfDW7Tbf50hmvcIaWHOY0XMMNbn/QkSLZXA==
+X-Google-Smtp-Source: ABdhPJxhLPkSajZ+wzxqcfXjAm51qgetFRNgk937iC+JyiF7n99KJHwkSX1jtWWEeAuHz8eGW9sa0AgHBzkd90bcq6Q=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr16566710ejh.4.1616781190223; 
+ Fri, 26 Mar 2021 10:53:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210326124932.481942-1-kraxel@redhat.com>
-In-Reply-To: <20210326124932.481942-1-kraxel@redhat.com>
+References: <cover.1616779714.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1616779714.git.lukasstraub2@web.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Mar 2021 17:50:51 +0000
-Message-ID: <CAFEAcA-nvyXhqgCjZiAGkZVtM2eOJUwiAc3rMtdytJW7TECkGQ@mail.gmail.com>
-Subject: Re: [PULL 0/9] Fixes 20210326 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Fri, 26 Mar 2021 17:52:40 +0000
+Message-ID: <CAFEAcA_xF18iG3da8EfTSE7oLQrP056+RjdNrNGpk3F+Qj7NYg@mail.gmail.com>
+Subject: Re: [PULL for 6.0 0/6] Yank fixes
+To: Lukas Straub <lukasstraub2@web.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,39 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Mar 2021 at 12:53, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Fri, 26 Mar 2021 at 17:34, Lukas Straub <lukasstraub2@web.de> wrote:
 >
-> The following changes since commit 9e2e9fe3df9f539f8b6941ceb96d25355fdae47e:
+> The following changes since commit 5ca634afcf83215a9a54ca6e66032325b5ffb5f6:
 >
->   Update version for v6.0.0-rc0 release (2021-03-24 19:50:49 +0000)
+>   Merge remote-tracking branch 'remotes/philmd/tags/sdmmc-20210322' into staging (2021-03-22 18:50:25 +0000)
 >
 > are available in the Git repository at:
 >
->   git://git.kraxel.org/qemu tags/fixes-20210326-pull-request
+>   https://github.com/Lukey3332/qemu.git tags/pull-26-03-2021
 >
-> for you to fetch changes up to db0b034185824ac33e1a85ba62ab2030eb17b00d:
+> for you to fetch changes up to 7c2f1ddcaa1c97462cb0b834d5aa7368283aa67d:
 >
->   hw/usb/hcd-ehci: Fix crash when showing help of EHCI devices (2021-03-26 11:10:49 +0100)
->
-> ----------------------------------------------------------------
-> fixes for usb, virtio-gpu and vhost-gpu
+>   tests: Add tests for yank with the chardev-change case (2021-03-26 17:12:18 +0000)
 >
 > ----------------------------------------------------------------
+> Yank fixes for 6.0:
+>  -Remove qiochannel dependency from the yank core code
+>  -Always link in the yank code to increase test coverage
+>  -Fix yank with chardev-change
+>  -Add tests for yank with chardev-change
 
-Applied, thanks.
+Can we get these through some established submaintainer tree, please?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
