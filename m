@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3820834A231
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:53:25 +0100 (CET)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719CC34A232
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:53:36 +0100 (CET)
+Received: from localhost ([::1]:41308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPgLU-00043u-8d
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
+	id 1lPgLf-0004Wb-Fi
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
- id 1lPgJU-0002py-VC; Fri, 26 Mar 2021 02:51:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <krebbel@linux.ibm.com>)
- id 1lPgJS-0000xO-Ts; Fri, 26 Mar 2021 02:51:20 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12Q6a14S064730; Fri, 26 Mar 2021 02:51:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=vcob0JS6D0igLIrMc3xXeLTlnK0WqkqHSlNvW2L17pU=;
- b=lE/bRFJSRdm1ZNBinIKyCBcTiAzId1B8t4Pe5ZmLb+prLefYmqcFgL7YA+TSPl6JIMPJ
- +DiVljfPKoTPor2pZItAijuvvqzcjMBBdqZUCso7JGZo0/idy1CshAOw0JrC+ZDO6DOw
- mGhVnc6mD3PLqQjGGXExWyYMRrGkcrt0huozV3oc3AoL+1SAoIjtDI/2Ofi3sufWywT0
- MQNyRY9FllQssXgLoiUp/BMxEPLFu8LWSwIb+a6LUU9bknNjdZv8Y4PTXJt4ONUq4A68
- dfCig04VHxGDilgDH6vWxNYohYtEQ+XV8aDXcsrGz4w4Qdg0rE3AEBWIYoroXfRm68rf lQ== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37h74vcbfc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Mar 2021 02:51:15 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12Q6gFSF024731;
- Fri, 26 Mar 2021 06:51:13 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 37h14vg6rh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 Mar 2021 06:51:13 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12Q6pBKn35324222
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 26 Mar 2021 06:51:11 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2BA8DA405C;
- Fri, 26 Mar 2021 06:51:11 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DD26AA4060;
- Fri, 26 Mar 2021 06:51:10 +0000 (GMT)
-Received: from li-23497a81-5215-11cb-9bae-a81330ecc14b.ibm.com (unknown
- [9.171.42.38])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 26 Mar 2021 06:51:10 +0000 (GMT)
-Subject: Re: [PATCH v3] linux-user/s390x: Use the guest pointer for the
- sigreturn stub
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210324185128.63971-1-krebbel@linux.ibm.com>
- <2b8d52a8-b72a-c968-f61a-2e6288ace4ad@vivier.eu>
-From: Andreas Krebbel <krebbel@linux.ibm.com>
-Message-ID: <37a8a2e4-17be-5a09-7069-3b7ce7fd1337@linux.ibm.com>
-Date: Fri, 26 Mar 2021 07:51:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lPgJo-0003Bx-F2
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:51:43 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:36771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lPgJk-00019J-NS
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:51:40 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id w8so4877712ybt.3
+ for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 23:51:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c0KgpzAY6iohIZ9BrVmXDa3GXo6XDAI5IdUHrv9PAYQ=;
+ b=vMDxNXPQljuFGfDGah8pToF8z7TTnZDuyOztSWLfo8xzNvOofEL7g2jC5+98kV7WFg
+ 0dzWgvyCFKym0cuRoVpJPd2OmiR9W+uz3NBVdPSC3mL0rBALjOEVrvObsXgJD2zPdg7/
+ FfTisEGadXaMZYBa0GzFC0KGSlLO5l1FtroCGs4d/a0V2zhJSCVm4dVEkrSu4CgdmA35
+ LFSI+goB98zqVhYyxz9FjfGHZFOCqoFXsismKmYjyPpHB0SdOfu9RsTumh/7Z1XeRgbV
+ Me1fKW/EHXngTktAmJe5bqFkWeStfj03MJR6ld1RDbLrudmstO1beg9rT7lqfs90pNtP
+ TuQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c0KgpzAY6iohIZ9BrVmXDa3GXo6XDAI5IdUHrv9PAYQ=;
+ b=TZMZ+QHEwY7ImoydOvJBWxRraWeJ+lo3TM8UnrgMbzA5/0iLttohsvNbesy5vMoIsL
+ t3XN2E57QYEj+OCcqca9UTSQzcX0Tx6RVzPVAnfCJhSw/beBQu0Jmwi5kvpVvQTRaahf
+ Q22el496Jk9q5ztqh8l1Aire5uT4VACJHJUECPiA7DxMMPRmnxdLCPC3yM4+quuyZZjf
+ eZw1gEtYOTh5vPnFQlskhFOB4wISjGHgJft6uI+byZpZoy9pmmTV6MEqdjFgXFje0cY3
+ sZ3uPrkRxUImMYM58GWfrz5WUL3EWSrqVyCtZIVqGvIp238V5EZqqtQz95mCHMRwOooV
+ LkwQ==
+X-Gm-Message-State: AOAM530XLdNqSm53p7hB0ArjoAx/aL+FY1uuYhi2Lxu+tnSm6W+n1+0M
+ mSajXtJxlsQTCqRSyz1jovy0qJxwAc/v1fw2f24=
+X-Google-Smtp-Source: ABdhPJx0WOiQvuT8nYi6fUE+/Nmgg/zbRDdEqx2Q5LbnzoLDXNiKdSLSP2vVyTFezwRkBobkiPrQcfnZ3rByebsXmR0=
+X-Received: by 2002:a25:ed0a:: with SMTP id k10mr18708684ybh.152.1616741495651; 
+ Thu, 25 Mar 2021 23:51:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2b8d52a8-b72a-c968-f61a-2e6288ace4ad@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jFLqGE3PRGyaI5xN08I2RdDQNDpMLlB3
-X-Proofpoint-ORIG-GUID: jFLqGE3PRGyaI5xN08I2RdDQNDpMLlB3
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-26_01:2021-03-25,
- 2021-03-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- bulkscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1011 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260046
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=krebbel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
+ <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
+ <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
+ <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
+In-Reply-To: <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 26 Mar 2021 14:51:23 +0800
+Message-ID: <CAEUhbmUadyjCPpo3QOLo5TzcrDn9qzO71GQLD7cwrL-QdDvHgQ@mail.gmail.com>
+Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
+ Mac OS 9 guest
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,59 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, richard.henderson@linaro.org, qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 8:55 PM, Laurent Vivier wrote:
-> Le 24/03/2021 à 19:51, Andreas Krebbel a écrit :
->> When setting up the pointer for the sigreturn stub in the return
->> address register (r14) we currently use the host frame address instead
->> of the guest frame address.
->>
->> Note: This only caused problems if Qemu has been built with
->> --disable-pie (as it is in distros nowadays). Otherwise guest_base
->> defaults to 0 hiding the actual problem.
->>
->> Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
->> ---
->>  linux-user/s390x/signal.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
->> index ecfa2a14a9..7107c5fb53 100644
->> --- a/linux-user/s390x/signal.c
->> +++ b/linux-user/s390x/signal.c
->> @@ -211,9 +211,10 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
->>      /* Set up to return from userspace.  If provided, use a stub
->>         already in userspace.  */
->>      if (ka->sa_flags & TARGET_SA_RESTORER) {
->> -        env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
->> +        env->regs[14] = ka->sa_restorer | PSW_ADDR_AMODE;
->>      } else {
->> -        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
->> +        env->regs[14] = (frame_addr + offsetof(typeof(*frame), retcode))
->> +                        | PSW_ADDR_AMODE;
->>          __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
->>                     (uint16_t *)(frame->retcode));
->>      }
->>
-> 
-> Applied to my linux-user-for-6.0 branch
+Hi Howard,
 
-Thanks! Since this fixes a problem which prevents important applications (e.g. golang) to run
-properly under Qemu for IBM Z right now I think it qualifies for stable branch.
+On Fri, Mar 26, 2021 at 2:40 PM Howard Spoelstra <hsp.cat7@gmail.com> wrote:
+>
+> On Fri, Mar 26, 2021 at 2:50 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Howard,
+> >
+> > On Fri, Mar 26, 2021 at 1:35 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > (adding the relevant people to the cc list)
+> > >
+> > > On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.com> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > When running qemu-system-ppc with Mac OS guest, the guest crashes when
+> > > > using a tap network connection. Openvpn 2.4.9-I601-win10 is installed
+> > > > with TAP-Windows 9.24.2. A tap connection called TapQemu is bridged
+> > > > with the default ethernet connection. It gets activated when I start
+> > > > qemu.
+> > > >
+> > > > To reproduce, compile qemu-system-ppc from current source and run:
+> > > >
+> > > > qemu-system-ppc.exe ^
+> > > > -L pc-bios ^
+> > > > -M mac99 ^
+> > > > -m 128 ^
+> > > > -sdl -serial stdio ^
+> > > > -boot c ^
+> > > > -drive file=C:\Mac-disks\9.2.img,format=raw,media=disk ^
+> > > > -device sungem,netdev=network01 -netdev tap,ifname=TapQemu,id=network01
+> > > >
+> > > > I bisected to the commit below. Thanks for looking into this.
+> >
+> > Thanks for reporting.
+> >
+> > Can you please provide some further information:
+> >
+> > 1. Does "-net user" work on Windows?
+> > 2. If running QEMU under Linux, does "-net tap" or "-net user" work?
+> >
+> > Regards,
+> > Bin
+>
+> Hello Bin,
+>
+> Thanks for getting back to me. I forgot to mention that reverting the
+> above patch restores functionality. And that other applications using
+> the same tap device work correctly.
+> In answer to your questions:
+>
+> 1. Yes, slirp works on Windows 10 with this setup.
+> 2. Yes, in Linux both tap and slirp work.
 
-The patch applies cleanly on 5.0 branch. Testsuite is clean and I've verfified that it fixes the
-actual problem there as well.
+Thanks! Just to be clear, the above testing was performed with commit
+969e50b61a285b0cc8dea6d4d2ade3f758d5ecc7, right?
 
-Please consider inclusion into stable branch.
+>
+> My Windows build is done with a fully up to date msys2 installation.
+>
+> I tried to debug in Windows:
+> (gdb) run
+> Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bios
+> -M mac99 -m 128 -sdl -serial stdio -boot c -drive
+> "file=C:\Mac-disks\9.2-usb-pci-ddk.img,format=raw,media=disk" -device
+> "sungem,netdev=network01" -netdev "tap,ifname=TapQemu,id=network01" -S
+> [New Thread 13304.0x1f00]
+> [New Thread 13304.0x2f84]
+> [New Thread 13304.0x3524]
+> [New Thread 13304.0x2b8c]
+> [New Thread 13304.0x368c]
+> [New Thread 13304.0x3668]
+> [New Thread 13304.0xf4c]
+> [New Thread 13304.0x49c]
+> [New Thread 13304.0x1d4c]
+> [New Thread 13304.0x7fc]
+> [Thread 13304.0x7fc exited with code 0]
+> [New Thread 13304.0x357c]
+> [New Thread 13304.0x7c0]
+> [New Thread 13304.0x3564]
+> [New Thread 13304.0x26f4]
+> [New Thread 13304.0x2f68]
+>
+> Program received signal SIGSEGV, Segmentation fault.
+> 0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
+> (gdb) bt
+> #0  0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.dll
+> #1  0x000800000480bf50 in ?? ()
+> Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+> (gdb)
+>
+> Even before I could attach to the process.
 
-Andreas
+Is QEMU crashed, or the MacOS guest crashed?
 
-> 
-> Thanks,
-> Laurent
-> 
-
+Regards,
+Bin
 
