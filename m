@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA8534A757
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:31:47 +0100 (CET)
-Received: from localhost ([::1]:52762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9742C34A77B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:43:03 +0100 (CET)
+Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPlcw-0006A5-VA
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54720)
+	id 1lPlnp-0001fd-QU
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPlaN-0005Sh-2B
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:29:07 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:34490)
+ id 1lPlmK-0000od-7E
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:41:28 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:43635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lPlaL-00089H-GC
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:29:06 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id
- k14-20020a9d7dce0000b02901b866632f29so5056461otn.1
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 05:29:04 -0700 (PDT)
+ id 1lPlmH-000748-Ro
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:41:27 -0400
+Received: by mail-oi1-x230.google.com with SMTP id n8so5538406oie.10
+ for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 05:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DWbRHDus6hi5mCxRdXKepdfMNQdE13xI/sU6E7wqix8=;
- b=sVsjdqEgOrvVhfngSWCjElH6LSXmUu6MF6HV6mYrE7esFQ0ls+qwYpVvZJIan+LLZv
- ZtNZtYjOfbKxBYxK8m3pTwv5b201vSzvF3L6nKrI4bK4BTL70XDpuRCCNTaZpjAp61GD
- tgEMtS8TwO4d+qm8wkf05nCyel2JZ7CHld7STxMXSbGTQ5UTjPrC8bVWkWnH8S47H2LG
- OuiCKASgXcwxdZW4i710vm2Vh4TmXl7imDgECGtqY3nYBGB3S62sET1Lpo+7h4f7deTJ
- PDYTqmhj6MtTcSSsGsiIm/ZoYdxQnZ1fEKJ+QHMhSkSvA5t/HA761UIFn2QP6RkBBvFa
- PZNw==
+ bh=vbjHslwiHXklxb/etHW9QYUV8zJCR820B1OeMR6VLgI=;
+ b=bWi02tOxaqTHxi6sYtPQNVeEMNUBmAa7EltKOfcg3xNaccObPQU8Tif++SAsyAsozj
+ /YVKI0EY3l3KgTEk4tGKDPeUPPyN787Jzq/EkUqEcqw8g4eiQTxbEUyiVBaGD2gzz+HX
+ LYRxkfegOfL273eHii7K1b1pGFAG+MpscmiBpXhjtIQoROl2L8ptzpjKTo+6KuFsCBc/
+ dqE36wKwt9swXztuGpbJm88xj09jRx2ikmGVUi8E1U0muAx143B5pVG1qibCDYiV849x
+ nKOp2sN6U+HTgO1WxMxHUjUo9cTiEZ72lT+OnEhRtFPek6Cn3FAV1HSY7Dlyzrsafk+l
+ wKxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DWbRHDus6hi5mCxRdXKepdfMNQdE13xI/sU6E7wqix8=;
- b=aWtU3ExIFPKBnqq3TGX6DtUSVxZFnECvnstYWwt6Q3tX3Mpbgv3/g2wyL4hYDKS0YB
- hBHQK/13bStc2GUh7O+viohcf5qGR9boCkRIWjVYGKSjYr6sTEEjgzoUlW2fy69AhCFU
- P+VRoUieaMv5RJ20tIm1n0dxrEmN4Cm+ZZ1RL/5fGeKUrl1sQYamWCLRtEtsFfZlZPwL
- 8YNyge1mbkWBSkP0yHccpCOrSJbQGBXGy0cKZYTDA+QLzZ4JsBSO3G3mm+LomqX9sD0D
- 14Yc1nL08VJiKYw4Ck8T3G3UpzzLHcuyV4zUTGiA0HZp9j2S34qyWrTnqGhkpYqSF9lb
- lhGA==
-X-Gm-Message-State: AOAM532R+I5mTD5HKqy43Kpt+25tYiQ59+/hlD95uXW0sS+lv5oI6MtY
- httmMBODy2Q0rHJwR3+9ZAPmxA==
-X-Google-Smtp-Source: ABdhPJyNSNM5uH/SaOy74GX3rsj6VR5ytzO9b0XgD0xpjVbeZ3agg3rUqbIzblx3JFBXGYDdGYT4Pw==
-X-Received: by 2002:a05:6830:1bc2:: with SMTP id
- v2mr11367757ota.300.1616761743848; 
- Fri, 26 Mar 2021 05:29:03 -0700 (PDT)
+ bh=vbjHslwiHXklxb/etHW9QYUV8zJCR820B1OeMR6VLgI=;
+ b=KBTFt6T5Ro5l5rCctIY9hUmflXjoOjiy99yIc3xgf/yzQ3+SeY3p+DB/AKgLL7MRTS
+ Ptcz+lKiMfibFpnj0Hv7/Y7NsY3A9kC9V+oOQe8uBdgHtZKBqafiHIJ6ABl/PUxrcwRN
+ i7utA6xo998MvGBoP+JtAhYDe1uv/pK+Y3bKwjFek6RW9BMmVy8pe1rf8Amx8q0rsKyF
+ 1jr9b6tmgxUOBYgkXvbkx/6tI98Zv//qN6RhAlw+IwzrFFuusvXHaQ5HKs3XtSe6eWBb
+ O46i2RZgRRJMUVcfVbVdiAqUSXV82akzS5ObokwnFk1OxB8eJ6VgBvVp4bLCfsFjRx4I
+ r/VA==
+X-Gm-Message-State: AOAM532Ok6GOgKejGhLW1S+spdqBuansZQkKhO2c1UrgOjcn9694rIzZ
+ jKau9o07BjdH+w4Ys861HJRLYkaHRDPfxP52
+X-Google-Smtp-Source: ABdhPJzywR6CUdO9x91hulK3FKuzTw6SooQCAM8MgaAx2qmgxko1a5os60331wL7tUpR4ekKhHUncA==
+X-Received: by 2002:aca:ab85:: with SMTP id u127mr9591652oie.113.1616762484262; 
+ Fri, 26 Mar 2021 05:41:24 -0700 (PDT)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id s19sm1825642oou.21.2021.03.26.05.29.02
+ by smtp.gmail.com with ESMTPSA id h59sm2056917otb.29.2021.03.26.05.41.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 05:29:03 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PULL v5 39/43] hw/hppa: Implement DINO system board
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20180130044621.10464-1-richard.henderson@linaro.org>
- <20180130044621.10464-2-richard.henderson@linaro.org>
- <CAAdtpL5Uvvrkucyh=8+dveMeQsR4hHhynUCoF3AKT+g3mPaY0Q@mail.gmail.com>
+ Fri, 26 Mar 2021 05:41:23 -0700 (PDT)
+Subject: Re: [PATCH v5 10/10] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210323184340.619757-1-richard.henderson@linaro.org>
+ <20210323184340.619757-11-richard.henderson@linaro.org>
+ <YFqD5JOVEXVFv9Tr@yekko.fritz.box> <YFxONrbZarGMH34O@yekko.fritz.box>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6a7d7e79-e2b6-740c-72b1-4d8a62538c77@linaro.org>
-Date: Fri, 26 Mar 2021 06:29:01 -0600
+Message-ID: <0ea867e5-e2f5-954f-a07d-5a71090985e3@linaro.org>
+Date: Fri, 26 Mar 2021 06:41:21 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL5Uvvrkucyh=8+dveMeQsR4hHhynUCoF3AKT+g3mPaY0Q@mail.gmail.com>
+In-Reply-To: <YFxONrbZarGMH34O@yekko.fritz.box>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -91,23 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Helge Deller <deller@gmx.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/25/21 5:17 PM, Philippe Mathieu-Daudé wrote:
->> +    /* Set up windows into PCI bus memory.  */
->> +    for (i = 1; i < 31; i++) {
->> +        uint32_t addr = 0xf0000000 + i * DINO_MEM_CHUNK_SIZE;
->> +        char *name = g_strdup_printf("PCI Outbound Window %d", i);
->> +        memory_region_init_alias(&s->pci_mem_alias[i], OBJECT(s),
->> +                                 name, &s->pci_mem, addr,
->> +                                 DINO_MEM_CHUNK_SIZE);
+On 3/25/21 2:47 AM, David Gibson wrote:
+> On Wed, Mar 24, 2021 at 11:12:20AM +1100, David Gibson wrote:
+>> On Tue, Mar 23, 2021 at 12:43:40PM -0600, Richard Henderson wrote:
+>>> Verify that hflags was updated correctly whenever we change
+>>> cpu state that is used by hflags.
+>>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> Applied to ppc-for-6.0, thanks.
 > 
-> Where are these aliases mapped?
+> Alas, this appears to cause a failure in the 'build-user' test on
+> gitlab CI :(.  I haven't managed to reproduce it locally, so I'm not
+> sure what's going on.
 
-gsc_to_pci_forwarding
+I guess you mean e.g.
+
+https://gitlab.com/dgibson/qemu/-/jobs/1126364147
+
+?  I'll have a look.
 
 
 r~
