@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B90534A2F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:08:39 +0100 (CET)
-Received: from localhost ([::1]:39834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D14E34A2F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 09:09:16 +0100 (CET)
+Received: from localhost ([::1]:41600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPhWH-0006G5-S0
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57660)
+	id 1lPhWt-00070O-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 04:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lPhUK-0005DW-Hn
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:06:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32671)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lPhV6-0005nR-W9; Fri, 26 Mar 2021 04:07:25 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:54684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lPhUH-0004w0-3u
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 04:06:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616745991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LvAgeUOhw4hluahx5Egnzxh2FVg5E9kmJ3VtmQbDDjo=;
- b=hi/dy00UvoZMCVz9VrTKuDMY7uoHXm4MJutJIankmByckoaOk/IWbuChTjNnjYDXZPM3yV
- GfqC6K5HadGc6+x8WqYU46gxEcGTaMo0uqKkYAXRHQpkxxgqBLhbVyopKESzX8sNMYKYuZ
- XMxlI6a9mZoVXe7UfRsrblLn1sFRjN8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390--B5pMNwpMtmbruEHLDXBMg-1; Fri, 26 Mar 2021 04:06:27 -0400
-X-MC-Unique: -B5pMNwpMtmbruEHLDXBMg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B32A28018A1;
- Fri, 26 Mar 2021 08:06:26 +0000 (UTC)
-Received: from [10.36.112.13] (ovpn-112-13.ams2.redhat.com [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C694467894;
- Fri, 26 Mar 2021 08:06:12 +0000 (UTC)
-Subject: Re: [PATCH v2 00/10] Acceptance Test: introduce base class for Linux
- based tests
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210323221539.3532660-1-crosa@redhat.com>
- <05118984-4a12-6cc5-ab84-a3a4953b535c@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <f8c09677-ab67-e46d-1d69-a568abc93f9a@redhat.com>
-Date: Fri, 26 Mar 2021 09:06:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lPhV2-0005Lo-Ps; Fri, 26 Mar 2021 04:07:23 -0400
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 196B22E1A0A;
+ Fri, 26 Mar 2021 11:07:14 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ P5qKkoxjpD-7D0i6e6B; Fri, 26 Mar 2021 11:07:14 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1616746034; bh=3kJD+t7Yve04VcINiGzv4q3gz/btpGxODsrkIBoVLlc=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=Dv3SIqKOqX+cEx9C1zCkvn78TosCAGbLQLVPur88hZNA7ar/l0NkWnMGU1aEx7wwP
+ Tl39L2jjgPL+5nlhBUeJb5te+mJXhG0gJlU/6+p8LlBRDk80LpE4ihOey4FHWlkFt+
+ +BYtyOgvA032aXU/uDVTCouoqWy6Z2E3Q6c6VsMY=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:8226::1:f])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ j9T4rW8k6v-7DoOFbmM; Fri, 26 Mar 2021 11:07:13 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Fri, 26 Mar 2021 11:07:10 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 0/7] block/nbd: decouple reconnect from drain
+Message-ID: <YF2WLresxHnvwSpN@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210315060611.2989049-1-rvkagan@yandex-team.ru>
+ <2066b4a5-7a6b-1810-2522-9118540ae4a9@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <05118984-4a12-6cc5-ab84-a3a4953b535c@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2066b4a5-7a6b-1810-2522-9118540ae4a9@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,117 +77,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Wainer,
+On Wed, Mar 17, 2021 at 11:35:31AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 15.03.2021 09:06, Roman Kagan wrote:
+> > The reconnection logic doesn't need to stop while in a drained section.
+> > Moreover it has to be active during the drained section, as the requests
+> > that were caught in-flight with the connection to the server broken can
+> > only usefully get drained if the connection is restored.  Otherwise such
+> > requests can only either stall resulting in a deadlock (before
+> > 8c517de24a), or be aborted defeating the purpose of the reconnection
+> > machinery (after 8c517de24a).
+> > 
+> > This series aims to just stop messing with the drained section in the
+> > reconnection code.
+> > 
+> > While doing so it undoes the effect of 5ad81b4946 ("nbd: Restrict
+> > connection_co reentrance"); as I've missed the point of that commit I'd
+> > appreciate more scrutiny in this area.
+> > 
+> > Roman Kagan (7):
+> >    block/nbd: avoid touching freed connect_thread
+> >    block/nbd: use uniformly nbd_client_connecting_wait
+> >    block/nbd: assert attach/detach runs in the proper context
+> >    block/nbd: transfer reconnection stuff across aio_context switch
+> >    block/nbd: better document a case in nbd_co_establish_connection
+> >    block/nbd: decouple reconnect from drain
+> >    block/nbd: stop manipulating in_flight counter
+> > 
+> >   block/nbd.c  | 191 +++++++++++++++++++++++----------------------------
+> >   nbd/client.c |   2 -
+> >   2 files changed, 86 insertions(+), 107 deletions(-)
+> > 
+> 
+> 
+> Hmm. The huge source of problems for this series is weird logic around
+> drain and aio context switch in NBD driver.
+> 
+> Why do we have all these too complicated logic with abuse of in_flight
+> counter in NBD? The answer is connection_co. NBD differs from other
+> drivers, it has a coroutine independent of request coroutines. And we
+> have to move this coroutine carefully to new aio context. We can't
+> just enter it from the new context, we want to be sure that
+> connection_co is in one of yield points that supports reentering.
+> 
+> I have an idea of how to avoid this thing: drop connection_co at all.
+> 
+> 1. nbd negotiation goes to connection thread and becomes independent
+> of any aio context.
+> 
+> 2. waiting for server reply goes to request code. So, instead of
+> reading the replay from socket always in connection_co, we read in the
+> request coroutine, after sending the request. We'll need a CoMutex for
+> it (as only one request coroutine should read from socket), and be
+> prepared to coming reply is not for _this_ request (in this case we
+> should wake another request and continue read from socket).
+> 
+> but this may be too much for soft freeze.
 
-On 3/25/21 8:45 PM, Wainer dos Santos Moschetta wrote:
-> Hi,
-> 
-> On 3/23/21 7:15 PM, Cleber Rosa wrote:
->> This introduces a base class for tests that need to interact with a
->> Linux guest.  It generalizes the "boot_linux.py" code, already been
->> used by the "virtiofs_submounts.py" and also SSH related code being
->> used by that and "linux_ssh_mips_malta.py".
-> 
-> I ran the linux_ssh_mips_malta.py tests, they all passed:
-> 
-> (11/34)
-> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta32eb_kernel3_2_0:
-> PASS (64.41 s)
-> (12/34)
-> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta32el_kernel3_2_0:
-> PASS (63.43 s)
-> (13/34)
-> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64eb_kernel3_2_0:
-> PASS (63.76 s)
-> (14/34)
-> tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64el_kernel3_2_0:
-> PASS (62.52 s)
-> 
-> Then I tried the virtiofs_submounts.py tests, it finishes with error.
-> Something like that fixes it:
-> 
-> diff --git a/tests/acceptance/virtiofs_submounts.py
-> b/tests/acceptance/virtiofs_submounts.py
-> index d77ee35674..21ad7d792e 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -195,7 +195,7 @@ def setUp(self):
-> 
->          self.run(('ssh-keygen', '-N', '', '-t', 'ed25519', '-f',
-> self.ssh_key))
-> 
-> -        pubkey = open(self.ssh_key + '.pub').read()
-> +        pubkey = self.ssh_key + '.pub'
+This approach does look appealing to me, and I gave it a quick shot but
+the amount of changes this involves exceeds the rc tolerance indeed.
 
-Yes I discovered that too when developping the SMMU test. Thanks for
-mentionning
+> Another idea:
+> 
+> You want all the requests be completed on drain_begin(), not
+> cancelled. Actually, you don't need reconnect runnning during drained
+> section for it. It should be enough just wait for all currenct
+> requests before disabling the reconnect in drain_begin handler.
 
-Eric
-> 
->          super(VirtiofsSubmountsTest, self).setUp(pubkey)
-> 
-> 
->>
->> While at it, a number of fixes on hopeful improvements to those tests
->> were added.
->>
->> Changes from v1:
->>
->> * Majority of v1 patches have been merged.
->>
->> * New patches:
->>    - Acceptance Tests: make username/password configurable
->>    - Acceptance Tests: set up SSH connection by default after boot for
->> LinuxTest
->>    - tests/acceptance/virtiofs_submounts.py: remove launch_vm()
->>
->> * Allowed for the configuration of the network device type (defaulting
->>    to virtio-net) [Phil]
->>
->> * Fix module name typo (s/qemu.util/qemu.utils/) in the commit message
->>    [John]
->>
->> * Tests based on LinuxTest will have the SSH connection already prepared
->>
->> Cleber Rosa (10):
->>    tests/acceptance/virtiofs_submounts.py: add missing accel tag
->>    tests/acceptance/virtiofs_submounts.py: evaluate string not length
->>    Python: add utility function for retrieving port redirection
->>    Acceptance Tests: move useful ssh methods to base class
->>    Acceptance Tests: add port redirection for ssh by default
->>    Acceptance Tests: make username/password configurable
->>    Acceptance Tests: set up SSH connection by default after boot for
->>      LinuxTest
->>    tests/acceptance/virtiofs_submounts.py: remove launch_vm()
->>    Acceptance Tests: add basic documentation on LinuxTest base class
->>    Acceptance Tests: introduce CPU hotplug test
->>
->>   docs/devel/testing.rst                    | 25 ++++++++
->>   python/qemu/utils.py                      | 35 ++++++++++++
->>   tests/acceptance/avocado_qemu/__init__.py | 63 +++++++++++++++++++--
->>   tests/acceptance/hotplug_cpu.py           | 37 ++++++++++++
->>   tests/acceptance/info_usernet.py          | 29 ++++++++++
->>   tests/acceptance/linux_ssh_mips_malta.py  | 44 ++-------------
->>   tests/acceptance/virtiofs_submounts.py    | 69 +++--------------------
->>   tests/vm/basevm.py                        |  7 +--
->>   8 files changed, 198 insertions(+), 111 deletions(-)
->>   create mode 100644 python/qemu/utils.py
->>   create mode 100644 tests/acceptance/hotplug_cpu.py
->>   create mode 100644 tests/acceptance/info_usernet.py
->>
+So effectively you suggest doing nbd's own drain within
+bdrv_co_drain_begin callback.  I'm not totally sure there are no
+assumptions this may break, but I'll try to look into this possibility.
 
+Thanks,
+Roman.
 
