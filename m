@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FB734A1B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:23:45 +0100 (CET)
-Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0472834A1D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 07:29:12 +0100 (CET)
+Received: from localhost ([::1]:57188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPfsm-00044S-Ss
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
+	id 1lPfy3-0005Uq-3w
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 02:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lPfrJ-0003c3-O7
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:22:13 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lPfrB-0000FZ-94
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:22:13 -0400
-Received: by mail-ed1-x535.google.com with SMTP id h10so4982312edt.13
- for <qemu-devel@nongnu.org>; Thu, 25 Mar 2021 23:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3kCTNiBc8jU86jDKAzdnwHJmcWfEdRseqMGEu3twvtU=;
- b=ATGz9N+63Lc4mmFtq9l1jKynqAlnqPimnG91U1KwczjU0NNtVDnsVvrzU367tw1dN/
- ToUfVGYAZVh2+DWVWRIQKx/DlTUMQUpbx2Q78wcw60FkNdwas/+qZX7qY8/wNIoifKlS
- xjjyAicnKAgGDSQ67lTcT2kWIjnMc36XsqTukxdwmGVRCNpe8qP92tix45TUg/sm4Uvu
- mjnA/Jq0s8V/dBdD1JqB1l1OafrFaM7WeBK0Gv3StRPKGtxMp+C8NG1cRtyuauD+yTFH
- ytmvYMUVnBkN6CtYjh+lJz6sK2sl1SCaiSS14bcRpbKe7Zk/HDpsNks1Lo47fm7QZRjA
- lZXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3kCTNiBc8jU86jDKAzdnwHJmcWfEdRseqMGEu3twvtU=;
- b=glC0Xhojwf64P4mQ6C1QyX3kJHLUFsQbsnwRjvW8CexJwUEY5lhQK6Ar4T0vkn3p4v
- Sd9LS41N6I1IE7LVe1ev44piCFVf5FKuE7dFNlwoAEiBRctyo8KzUjUq9zArAo8hBgR0
- xSAMwOl1FkOjstseTluxjQYeKP5DthBx1TdlU/dEPjYOMOKG/kjK5bn5E6NbcdcIYjw1
- bAwUJCimQWA/0+09r0WtjiRt2jWPLSCUUAOGP3gvn0st7C0KM8D8iweqUy5TWDKLCW1V
- zCRaEcpuo5iIiaevm9bVDWXwzziQvPKJv8+0KpTRZ+H/jnPGb21bSpO9eaVeLWVfu7oX
- 9Q5A==
-X-Gm-Message-State: AOAM533MyrfG2iskgRlmoqskmJmeZDN8ls2q8RxwlABPiVzoKvbOIAkU
- q86gsy6ArshZOqQPPLCBAlA=
-X-Google-Smtp-Source: ABdhPJzaANxp9fUkVK+AzT/5aJ9S6cPHW7ZxD0soXurmwYhpoGYYLg8WLNTqkRxcBt1o8ZHpfSMw1g==
-X-Received: by 2002:a05:6402:51d0:: with SMTP id
- r16mr13002663edd.48.1616739723545; 
- Thu, 25 Mar 2021 23:22:03 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id t17sm3695556edr.36.2021.03.25.23.22.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Mar 2021 23:22:03 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-Subject: [PATCH] nsis: Install *.elf images
-Date: Fri, 26 Mar 2021 14:21:40 +0800
-Message-Id: <20210326062140.367861-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPfvm-0004xd-Vi
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:26:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lPfvk-0002zl-24
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 02:26:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616740005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FiLCzAsGroBWnvTuzhp0WANJcTK0UW7S8DO4xo8hf0U=;
+ b=HO8Ec452Q2fU1bJcithDK/RTAkjyO+k6INILuwy1XFZNtE7T2DOqH+vKuQpCJ8A7vlj/RP
+ Z1sWkPuV6jcTUmkH5p1P4oNxAOleUESSC/rB3BkwRRptX/Qw76L0rInHSANNZ4hBGw/dMP
+ xg/uVXKS/ACKvfx3/ePj3eYrn30Mxkg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-dCXkTkqWPcmyoccYZ_n1mQ-1; Fri, 26 Mar 2021 02:26:43 -0400
+X-MC-Unique: dCXkTkqWPcmyoccYZ_n1mQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF70F1007469;
+ Fri, 26 Mar 2021 06:26:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D72B6EF54;
+ Fri, 26 Mar 2021 06:26:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1BE5811327E1; Fri, 26 Mar 2021 07:26:41 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for
+ comments and docstrings
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-3-jsnow@redhat.com>
+ <877dlvs1gp.fsf@dusky.pond.sub.org>
+ <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com>
+Date: Fri, 26 Mar 2021 07:26:41 +0100
+In-Reply-To: <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com> (John Snow's
+ message of "Thu, 25 Mar 2021 16:20:24 -0400")
+Message-ID: <871rc277mm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of today, the QEMU Windows installer does not include the
-following two RISC-V BIOS images:
+John Snow <jsnow@redhat.com> writes:
 
-- opensbi-riscv64-generic-fw_dynamic.elf
-- opensbi-riscv32-generic-fw_dynamic.elf
+> On 3/25/21 11:21 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> PEP8's BDFL writes: "For flowing long blocks of text with fewer
+>>> structural restrictions (docstrings or comments), the line length should
+>>> be limited to 72 characters."
+>>>
+>>> I do not like this patch. I have included it explicitly to recommend we
+>>> do not pay any further heed to the 72 column limit.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> 
+>> I'd like to get the remainder of this series moving again before digging
+>> into this patch.
+>
+> I am dropping it, then -- I have no interest in bringing a patch I 
+> dislike along for another respin.
 
-Update the installer script to include them.
+Despite your dislike, there might be good parts, and if there are, I'd
+like to mine them.  I don't need you to track the patch for that,
+though.  Feel free to drop it.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
----
-Based on:
-https://repo.or.cz/qemu/ar7.git/commit/657a6a90b69da971afdc71501c30275ba307ff6c
-
-The above commit does not land on QEMU master. I am not sure what
-the process is, sending it here for comments.
-
- qemu.nsi | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/qemu.nsi b/qemu.nsi
-index 96c5534254..aeabe3bdbe 100644
---- a/qemu.nsi
-+++ b/qemu.nsi
-@@ -142,6 +142,7 @@ Section "${PRODUCT}" QEMU_System_File_Section_Description
- 
-     File "${DATADIR}\*.bin"
-     File "${DATADIR}\*.dtb"
-+    File "${DATADIR}\*.elf"
-     File "${DATADIR}\*.fd"
-     File "${DATADIR}\*.img"
-     File "${DATADIR}\*.lid"
-@@ -258,6 +259,7 @@ Section "Uninstall" Uninstall_Section_Description
-     Delete "$INSTDIR\*.bin"
-     Delete "$INSTDIR\*.dll"
-     Delete "$INSTDIR\*.dtb"
-+    Delete "$INSTDIR\*.elf"
-     Delete "$INSTDIR\*.fd"
-     Delete "$INSTDIR\*.img"
-     Delete "$INSTDIR\*.lid"
--- 
-2.25.1
+Thank you for exploring the max-doc-length option.
 
 
