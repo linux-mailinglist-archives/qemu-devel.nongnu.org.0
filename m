@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A788D34A797
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:55:10 +0100 (CET)
-Received: from localhost ([::1]:52444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1DD34A794
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 13:53:39 +0100 (CET)
+Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPlzZ-0002Sl-Nk
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59058)
+	id 1lPly6-0007SY-CA
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 08:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluy-0005Zp-1n
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlup-0003vi-BN
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPluw-0005Y5-UZ
  for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60491)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lPlup-0003vb-BX
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 08:50:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616763012;
+ s=mimecast20190719; t=1616763011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4pBAjcmtyg6rE2zpwSo/x2DQw4BAZ3xqIBUH+psTKtU=;
- b=a6iAd6iTayWDhHa/QI9m2xQDnQAXwm90VqLyWBnK6njyAYRCI6U+ZYQCSCms9Vfhk8zF+h
- 9QdJlo5VMw3045h65mwymiobB6CtTdYW6JfJIDxo+/eMEjjEhNuabt3du5vqN5OTpeXBkZ
- ztUqw7Nzm58H9gLwdsdJAb2t8UUXUPo=
+ bh=BbkbY9PGqnicrv9zSk0waCN8nAno4hlrHiPULYWCr0U=;
+ b=WbI+Dk8yLJsUm7Nbt5u2A5v2hLXtbv78Du05NWJBJDaC8911rB1S1UmhWRAza3W4KyT5ZD
+ +2bks39IwtLRM5sXsWLtu9/AWjJRSjJm2zmLjkQQsG7iF5QaM6QOZqsq3J14gcWL6mMUXC
+ Dp2uu/qPrmqYBVFNdEkBHyJHjr0NY1c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-zclRglz4PAeS2KM0B_pHVQ-1; Fri, 26 Mar 2021 08:50:07 -0400
-X-MC-Unique: zclRglz4PAeS2KM0B_pHVQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-400-DB6ibyh2PtmBW3860Ik8eQ-1; Fri, 26 Mar 2021 08:50:09 -0400
+X-MC-Unique: DB6ibyh2PtmBW3860Ik8eQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7D1C87A83C;
- Fri, 26 Mar 2021 12:50:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E4DC83DEE8;
+ Fri, 26 Mar 2021 12:50:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-102.ams2.redhat.com
  [10.36.112.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E65419D7C;
- Fri, 26 Mar 2021 12:50:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EF57138E8;
+ Fri, 26 Mar 2021 12:50:08 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E070A180038B; Fri, 26 Mar 2021 13:49:32 +0100 (CET)
+ id EF566180038E; Fri, 26 Mar 2021 13:49:32 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/9] hw/usb/hcd-ehci-sysbus: Free USBPacket on instance
- finalize()
-Date: Fri, 26 Mar 2021 13:49:28 +0100
-Message-Id: <20210326124932.481942-6-kraxel@redhat.com>
+Subject: [PULL 6/9] s390x: move S390_ADAPTER_SUPPRESSIBLE
+Date: Fri, 26 Mar 2021 13:49:29 +0100
+Message-Id: <20210326124932.481942-7-kraxel@redhat.com>
 In-Reply-To: <20210326124932.481942-1-kraxel@redhat.com>
 References: <20210326124932.481942-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,7 +82,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -91,64 +89,94 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The definition S390_ADAPTER_SUPPRESSIBLE was moved to "cpu.h", per
+suggestion of Thomas Huth. From interface design perspective, IMHO, not
+a good thing as it belongs to the public interface of
+css_register_io_adapters(). We did this because CONFIG_KVM requeires
+NEED_CPU_H and Thomas, and other commenters did not like the
+consequences of that.
 
-When building with --enable-sanitizers we get:
+Moving the interrupt related declarations to s390_flic.h was suggested
+by Cornelia Huck.
 
-  Direct leak of 32 byte(s) in 2 object(s) allocated from:
-      #0 0x5618479ec7cf in malloc (qemu-system-aarch64+0x233b7cf)
-      #1 0x7f675745f958 in g_malloc (/lib64/libglib-2.0.so.0+0x58958)
-      #2 0x561847f02ca2 in usb_packet_init hw/usb/core.c:531:5
-      #3 0x561848df4df4 in usb_ehci_init hw/usb/hcd-ehci.c:2575:5
-      #4 0x561847c119ac in ehci_sysbus_init hw/usb/hcd-ehci-sysbus.c:73:5
-      #5 0x56184a5bdab8 in object_init_with_type qom/object.c:375:9
-      #6 0x56184a5bd955 in object_init_with_type qom/object.c:371:9
-      #7 0x56184a5a2bda in object_initialize_with_type qom/object.c:517:5
-      #8 0x56184a5a24d5 in object_initialize qom/object.c:536:5
-      #9 0x56184a5a2f6c in object_initialize_child_with_propsv qom/object.c:566:5
-      #10 0x56184a5a2e60 in object_initialize_child_with_props qom/object.c:549:10
-      #11 0x56184a5a3a1e in object_initialize_child_internal qom/object.c:603:5
-      #12 0x561849542d18 in npcm7xx_init hw/arm/npcm7xx.c:427:5
-
-Similarly to commit d710e1e7bd3 ("usb: ehci: fix memory leak in
-ehci"), fix by calling usb_ehci_finalize() to free the USBPacket.
-
-Fixes: 7341ea075c0
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210323183701.281152-1-f4bug@amsat.org>
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Tested-by: Halil Pasic <pasic@linux.ibm.com>
+Message-Id: <20210317095622.2839895-2-kraxel@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-ehci-sysbus.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/hw/s390x/css.h       | 7 -------
+ include/hw/s390x/s390_flic.h | 3 +++
+ target/s390x/cpu.h           | 9 ++++++---
+ 3 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
-index e3758db1b18e..a12e21884894 100644
---- a/hw/usb/hcd-ehci-sysbus.c
-+++ b/hw/usb/hcd-ehci-sysbus.c
-@@ -74,6 +74,14 @@ static void ehci_sysbus_init(Object *obj)
-     sysbus_init_mmio(d, &s->mem);
- }
+diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
+index 7901ab276ce9..bba7593d2eaa 100644
+--- a/include/hw/s390x/css.h
++++ b/include/hw/s390x/css.h
+@@ -12,7 +12,6 @@
+ #ifndef CSS_H
+ #define CSS_H
  
-+static void ehci_sysbus_finalize(Object *obj)
-+{
-+    EHCISysBusState *i = SYS_BUS_EHCI(obj);
-+    EHCIState *s = &i->ehci;
+-#include "cpu.h"
+ #include "hw/s390x/adapter.h"
+ #include "hw/s390x/s390_flic.h"
+ #include "hw/s390x/ioinst.h"
+@@ -233,12 +232,6 @@ uint32_t css_get_adapter_id(CssIoAdapterType type, uint8_t isc);
+ void css_register_io_adapters(CssIoAdapterType type, bool swap, bool maskable,
+                               uint8_t flags, Error **errp);
+ 
+-#ifndef CONFIG_KVM
+-#define S390_ADAPTER_SUPPRESSIBLE 0x01
+-#else
+-#define S390_ADAPTER_SUPPRESSIBLE KVM_S390_ADAPTER_SUPPRESSIBLE
+-#endif
+-
+ #ifndef CONFIG_USER_ONLY
+ SubchDev *css_find_subch(uint8_t m, uint8_t cssid, uint8_t ssid,
+                          uint16_t schid);
+diff --git a/include/hw/s390x/s390_flic.h b/include/hw/s390x/s390_flic.h
+index e91b15d2d6af..3907a13d0766 100644
+--- a/include/hw/s390x/s390_flic.h
++++ b/include/hw/s390x/s390_flic.h
+@@ -134,6 +134,9 @@ void s390_flic_init(void);
+ S390FLICState *s390_get_flic(void);
+ QEMUS390FLICState *s390_get_qemu_flic(S390FLICState *fs);
+ S390FLICStateClass *s390_get_flic_class(S390FLICState *fs);
++void s390_crw_mchk(void);
++void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
++                       uint32_t io_int_parm, uint32_t io_int_word);
+ bool ais_needed(void *opaque);
+ 
+ #endif /* HW_S390_FLIC_H */
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 468b4430f339..2464d4076c0a 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -40,6 +40,12 @@
+ 
+ #define S390_MAX_CPUS 248
+ 
++#ifndef CONFIG_KVM
++#define S390_ADAPTER_SUPPRESSIBLE 0x01
++#else
++#define S390_ADAPTER_SUPPRESSIBLE KVM_S390_ADAPTER_SUPPRESSIBLE
++#endif
 +
-+    usb_ehci_finalize(s);
-+}
-+
- static void ehci_sysbus_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -94,6 +102,7 @@ static const TypeInfo ehci_type_info = {
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(EHCISysBusState),
-     .instance_init = ehci_sysbus_init,
-+    .instance_finalize = ehci_sysbus_finalize,
-     .abstract      = true,
-     .class_init    = ehci_sysbus_class_init,
-     .class_size    = sizeof(SysBusEHCIClass),
+ typedef struct PSW {
+     uint64_t mask;
+     uint64_t addr;
+@@ -811,9 +817,6 @@ int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
+ 
+ 
+ /* interrupt.c */
+-void s390_crw_mchk(void);
+-void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
+-                       uint32_t io_int_parm, uint32_t io_int_word);
+ #define RA_IGNORED                  0
+ void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
+ /* service interrupts are floating therefore we must not pass an cpustate */
 -- 
 2.30.2
 
