@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF3634AC38
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 17:03:52 +0100 (CET)
-Received: from localhost ([::1]:33294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AD334AC47
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 17:07:38 +0100 (CET)
+Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPowB-0001qr-BL
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 12:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51502)
+	id 1lPozp-0004sF-CX
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 12:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lPorR-0005tr-Rz
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:58:57 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:41600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lPorP-0007ap-Vy
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 11:58:57 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- l12-20020a9d6a8c0000b0290238e0f9f0d8so5640791otq.8
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 08:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pisrF/o1fUObV4913yamW7kNvo/R5udMETA/QVGTGy8=;
- b=DQwg8N3NISDkC0Zzj/HBxWzPtG1TfBPheBxYscATRXiNUUqrmiIYRTGKu3rYmyEUt7
- t3y7wWSWhScbfnxK4wT9voIug6f4dJJg5xzKXXh/d5SFKPYr5S4b2zMoUIChrTSlyxNW
- UT5SaHM0HfQrobCUr7DMvVT8XwsCeMZrVGlaQaYtxvgXE1ktwEjeH/+nMhck9o09XDSy
- sM1yfAOunx2KLEDE8PsOTQ/ng+NzppxksAOqJ6LJ0436jedoVcmtAN6RYnsIZ3CmXTP+
- a3oB8PH18n6X6Nhq4NRYN6gKhaIh/u98yQfJ98rsFcMYFL48/7ebgzuidxJKI0yt5qe2
- rsyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pisrF/o1fUObV4913yamW7kNvo/R5udMETA/QVGTGy8=;
- b=H/KMh4ze6qtowwoq3o/aEhj7uZOBhObqBbQK8MvDV5daV6iMvWhKUCApq+g+4s409b
- kKo6vMwvtMx6mGVhVVj5BspFyWRtH4cYczCZAgNeErClqQy9rE7NEX2jAApXbb0piWlU
- HGm5v5b1LQFbWD/KpImIoj6AFqGsa2ZLKqb6wAEj3sRRK3DAMZNeeKG2VqCjQ+0aZmjB
- vB43tyxrIfWom0CfXeOoJcG9zTHJ9jCDFaxGPzMOBjWD6LmXZi+wsqtSGrGcnYDKg1bQ
- kek5kask4/Z/vA3NzPWrVzDZab4QfLKHsJ4+SGJrj7CV2QpeJBVzll1lxad4KtyxRE1K
- BHRg==
-X-Gm-Message-State: AOAM532HljEHx7CYNlwGuCNsQVALVnEtDFeXb0S/A43FLqALzJEYjl56
- lOubSupTqoJCdtU87hEZXxCOgGF8c0JwaMF4NfU=
-X-Google-Smtp-Source: ABdhPJyE5U/YqW4EZ/JyIQtrS5nnyekUqAXw8COOILl0IzDEZm/u7GBaSwRapT4Vmz8tVuRw32SgygnfFBo9VYNjdxE=
-X-Received: by 2002:a05:6830:15d2:: with SMTP id
- j18mr12518152otr.75.1616774334772; 
- Fri, 26 Mar 2021 08:58:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lPovP-0001o8-Sn
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 12:03:03 -0400
+Received: from mout.web.de ([212.227.17.11]:60857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lPovN-0001VK-Pg
+ for qemu-devel@nongnu.org; Fri, 26 Mar 2021 12:03:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1616774574;
+ bh=9cc01FsYGllRwADue5gyIwTDc+gBaNshMoOZs+4lPFs=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=X7MVWfUFnJNp18zFEIrzV6uptUwYTw96waoU/cmxPnpFQUsGwA2RQPPt5imcpzhxK
+ xPRQUVmyjc5otUIvj+WKuZkWKyASN1YhLTB3+JFPQ5eUcLfcszoM4TMUvXDmiFj+9j
+ fiFF7DuLOY/tYd7XjGWkmj9oScE/badhG2RFyqsw=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([89.247.255.242]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MrftG-1m2VBa0s3Y-00nhU6; Fri, 26
+ Mar 2021 17:02:54 +0100
+Date: Fri, 26 Mar 2021 17:02:27 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 1/2] Fix the segment fault when calling
+ yank_register_instance
+Message-ID: <20210326170227.2c2b3598@gecko.fritz.box>
+In-Reply-To: <87sg4ihta0.fsf@dusky.pond.sub.org>
+References: <20210315170636.704201-1-zhlcindy@gmail.com>
+ <87sg4ihta0.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
- <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
- <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
- <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
- <c63a699d-9419-5a87-269b-476ef0a5b587@eik.bme.hu>
- <6271eee3-d1fa-2a54-48a6-51f4aa592642@redhat.com>
- <CAEUhbmVp_b4K=0WsaUGsXtHPqZTmn-rZYdcNsGMnRcCHdJjnNA@mail.gmail.com>
-In-Reply-To: <CAEUhbmVp_b4K=0WsaUGsXtHPqZTmn-rZYdcNsGMnRcCHdJjnNA@mail.gmail.com>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Fri, 26 Mar 2021 16:58:42 +0100
-Message-ID: <CABLmASEp+uvibhH1bEqxLkGFdrKqhHOCXUso2tY-UNprT1+W4w@mail.gmail.com>
-Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
- Mac OS 9 guest
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=hsp.cat7@gmail.com; helo=mail-ot1-x32e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; boundary="Sig_/QKU7sv.JPgkTy1n21g9MtA=";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:8POStE+fh9RJnXBQRVZBlJcuCm8jEI2zMMm0hZym1SBql8yqzH9
+ clAIrF3S1A9ShW3ELYTO1VR3Xg8D6lnfA4w60+6bO7cMhP7xdvE6hi8i0ArDaCsUgw1udkG
+ 56umaRPSmrZII1sFi0b4mO/AO74wPUKy4jcEIQFqEgepAYbV/mxsuFxFAtZwAH/0Y1ffNEj
+ BXV+goBZYJIDpbIkoKfOg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DIe9XxJnfHU=:PhIuxYmvy+XwJdraMTd3xU
+ n13zmHzF7RF2oIX3FvzN/rWfgyT4R/MlLAWxcvhExXmEBNDUIyh9bVzC6L5z58ky7yVejb7oU
+ B5fHVkJPRPREYDnucb/FtKJpAXVYMvzkCSZCEXuAVjaIWRbgMYKmrb8P9BiO+w+/kjWYS/vN5
+ udPCtJJrncU7jWdDbxBnocFkuuvJS2Cm3H0qoClmtyXcKsN120YFOBk4zjAXl9jIafmHhcdS9
+ k8YigAqWHRRdurDsIkwHxEQ6wIyI0FF9CBGPgXXNHa0Shq59aTr7UdLJOwy2eg3zp2ZI0UnxK
+ dtEDQnodavN15I6CP9hKHzwDw27NV2CN2IVeka6XB5++tNqkPc4+rTJLsjmHxleP1iKfns7MG
+ EMoeu0Q1Wz3dZu+Z3tA8Dgqyxo3KR0mF61KomDckrxTxJq74QQfMdRZZfUK6WDcna7N4Bc60z
+ 1nkegc5jCCqHUNKmWc5xOPBuljY70Q016WfbenHAAY5ab3YO3hVRnlqzU5kztfMtOl22YhfDw
+ npiL4CZgY6VIZXHjOOC4hIbzsnRc3Bqu8V9EFXS/q3frADkflwlGHD2bKk8YVAihyT+rAw5tU
+ Ab824jJr6ZXaFybOlWlR7NQCws5CWrigDcAv5gaXY7mhvxCMXWZj99teE1+4PAmpBL53Q2N8S
+ KlCrPtisoR1OIpX3ggZAleYWtatXpW0B1q0W0eKH+9TCQS/x48asxLkU6DFEnUsPfwrFE/EeS
+ N6lrpWN1+Rj3Us9q4t6lGwZge0Tc8vPOPbIwP5n0Y9dLnbH8Q1/zk1VhPxT2XISfrse2T/VzR
+ QsLth9NqEV8ta6rGKn4AT/+iNS/dhHPYdNo86gx6DDe4pOwlWuMczjkz50hV0uUtq9KVGmR9H
+ eyIWt4GuxwtKAKzE0YgjaUzuoAlhx1r710v+jbrqNRv+qQ63V056f3S7NCR8dg7icV+oBPp8l
+ H8bVqIpsvgjVhN4G3Cr67AQulQ7ALoykZldS5fLadKQGmdlkrKwC3AylrJ+Iy6t+RNbTjNw6l
+ fkafF75QHBq87rbUOXiXbsTlFm7W9OJukHmMhtHf+fvpREyyAufq1c4V/j2FeZ+0bm+G6Finf
+ CwsN0RMGpH5AucJYnGkeFgZdlW8DA+SQyxKIfuZVIqgjALsxp6RnwV1Qwcbm4UCwSX+E3ZBOB
+ jMgDQ8gGjA6mj2zvMHuLa12IuP/ebqzo6o9/juUDSqMiBMxkEYYtmap05uN+6NAqGk2tg=
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,177 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: alexandr.iarygin@profitbricks.com, qemu-devel@nongnu.org,
+ Li Zhang <li.zhang@cloud.ionos.com>, pankaj.gupta@cloud.ionos.com,
+ Li Zhang <zhlcindy@gmail.com>, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 26, 2021 at 10:00 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, Mar 26, 2021 at 4:49 PM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2021/3/26 =E4=B8=8B=E5=8D=884:21, BALATON Zoltan =E5=86=99=E9=
-=81=93:
-> > > On Fri, 26 Mar 2021, Howard Spoelstra wrote:
-> > >> On Fri, Mar 26, 2021 at 2:50 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >>>
-> > >>> Hi Howard,
-> > >>>
-> > >>> On Fri, Mar 26, 2021 at 1:35 AM Peter Maydell
-> > >>> <peter.maydell@linaro.org> wrote:
-> > >>>>
-> > >>>> (adding the relevant people to the cc list)
-> > >>>>
-> > >>>> On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.com=
->
-> > >>>> wrote:
-> > >>>>>
-> > >>>>> Hi,
-> > >>>>>
-> > >>>>> When running qemu-system-ppc with Mac OS guest, the guest crashes
-> > >>>>> when
-> > >>>>> using a tap network connection. Openvpn 2.4.9-I601-win10 is insta=
-lled
-> > >>>>> with TAP-Windows 9.24.2. A tap connection called TapQemu is bridg=
-ed
-> > >>>>> with the default ethernet connection. It gets activated when I st=
-art
-> > >>>>> qemu.
-> > >>>>>
-> > >>>>> To reproduce, compile qemu-system-ppc from current source and run=
-:
-> > >>>>>
-> > >>>>> qemu-system-ppc.exe ^
-> > >>>>> -L pc-bios ^
-> > >>>>> -M mac99 ^
-> > >>>>> -m 128 ^
-> > >>>>> -sdl -serial stdio ^
-> > >>>>> -boot c ^
-> > >>>>> -drive file=3DC:\Mac-disks\9.2.img,format=3Draw,media=3Ddisk ^
-> > >>>>> -device sungem,netdev=3Dnetwork01 -netdev
-> > >>>>> tap,ifname=3DTapQemu,id=3Dnetwork01
-> > >>>>>
-> > >>>>> I bisected to the commit below. Thanks for looking into this.
-> > >>>
-> > >>> Thanks for reporting.
-> > >>>
-> > >>> Can you please provide some further information:
-> > >>>
-> > >>> 1. Does "-net user" work on Windows?
-> > >>> 2. If running QEMU under Linux, does "-net tap" or "-net user" work=
-?
-> > >>>
-> > >>> Regards,
-> > >>> Bin
-> > >>
-> > >> Hello Bin,
-> > >>
-> > >> Thanks for getting back to me. I forgot to mention that reverting th=
-e
-> > >> above patch restores functionality. And that other applications usin=
-g
-> > >> the same tap device work correctly.
-> > >> In answer to your questions:
-> > >>
-> > >> 1. Yes, slirp works on Windows 10 with this setup.
-> > >> 2. Yes, in Linux both tap and slirp work.
-> > >>
-> > >> My Windows build is done with a fully up to date msys2 installation.
-> > >>
-> > >> I tried to debug in Windows:
-> > >> (gdb) run
-> > >> Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bio=
-s
-> > >> -M mac99 -m 128 -sdl -serial stdio -boot c -drive
-> > >> "file=3DC:\Mac-disks\9.2-usb-pci-ddk.img,format=3Draw,media=3Ddisk" =
--device
-> > >> "sungem,netdev=3Dnetwork01" -netdev "tap,ifname=3DTapQemu,id=3Dnetwo=
-rk01" -S
-> > >> [New Thread 13304.0x1f00]
-> > >> [New Thread 13304.0x2f84]
-> > >> [New Thread 13304.0x3524]
-> > >> [New Thread 13304.0x2b8c]
-> > >> [New Thread 13304.0x368c]
-> > >> [New Thread 13304.0x3668]
-> > >> [New Thread 13304.0xf4c]
-> > >> [New Thread 13304.0x49c]
-> > >> [New Thread 13304.0x1d4c]
-> > >> [New Thread 13304.0x7fc]
-> > >> [Thread 13304.0x7fc exited with code 0]
-> > >> [New Thread 13304.0x357c]
-> > >> [New Thread 13304.0x7c0]
-> > >> [New Thread 13304.0x3564]
-> > >> [New Thread 13304.0x26f4]
-> > >> [New Thread 13304.0x2f68]
-> > >>
-> > >> Program received signal SIGSEGV, Segmentation fault.
-> > >> 0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0.=
-dll
-> > >> (gdb) bt
-> > >> #0  0x00007ffb9edea991 in ?? () from
-> > >> c:\qemu-master-msys2\libglib-2.0-0.dll
-> > >> #1  0x000800000480bf50 in ?? ()
-> > >> Backtrace stopped: previous frame inner to this frame (corrupt stack=
-?)
-> > >> (gdb)
-> > >>
-> > >> Even before I could attach to the process.
-> > >
-> > > If you run QEMU under gdb you don't have to attach to it but to get a
-> > > meaningful backtrace you should configure and compile QEMU with
-> > > --enable-debug (this will make it run slower so not recommended
-> > > normally but for debugging that would be needed). If the stack is
-> > > really corrupted then you may not get a useful backtrace or it may be
-> > > a problem with gdb on Windows. I've found that gdb on Windows works
-> > > for simple things but could give bad results for more complex stuff.
-> > > WinDbg may be better but it's harder to use (needs some registry
-> > > change I think to enable core dumps then you could open and analyze
-> > > core dumps with it or it should be able to run command directly but I
-> > > don't know how that works).
-> > >
-> > > Another idea: maybe you could check other threads in gdb. Not sure if
-> > > that would reveal anything but may worth a try. I think the commands
-> > > you need are "info threads" and "apply all bt" or something similar.
-> > >
-> > > Regards,
-> > > BALATON Zoltan
-> > >
-> >
-> > It looks to me the patch tires to recycle a temporary buffer to tap thr=
-ead.
-> >
-> > Please try to attached fix to see it if works.
->
-> Yep, good catch, thanks! This patch looks correct to me.
->
-> Regards,
-> Bin
+--Sig_/QKU7sv.JPgkTy1n21g9MtA=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, 26 Mar 2021 15:41:11 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-While the patch applies, it will not compile:
+> Looks like a bug fix.  Lukas, can you take care of it in time for 6.0?
+>=20
 
-../net/tap-win32.c: In function 'tap_win32_send':
-../net/tap-win32.c:697:18: error: assignment to 'uint8_t' {aka
-'unsigned char'} from 'uint8_t *' {aka 'unsigned char *'} makes
-integer from pointer without a cast [-Werror=3Dint-conversion]
-  697 |         orig_buf =3D buf;
-      |                  ^
-../net/tap-win32.c:707:42: error: passing argument 2 of
-'tap_win32_free_buffer' makes pointer from integer without a cast
-[-Werror=3Dint-conversion]
-  707 |         tap_win32_free_buffer(s->handle, orig_buf);
-      |                                          ^~~~~~~~
-      |                                          |
-      |                                          uint8_t {aka unsigned char=
-}
-../net/tap-win32.c:590:44: note: expected 'uint8_t *' {aka 'unsigned
-char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
-  590 |                                   uint8_t *pbuf)
-      |                                   ~~~~~~~~~^~~~
+Yeah, this patch only fixes a symptom, but not the core cause of the bug.
+I have already written patches that fix the bugs inclusive test-cases:
+https://lore.kernel.org/qemu-devel/cover.1616744509.git.lukasstraub2@web.de/
+
+Regards,
+Lukas Straub
+
+--=20
 
 
-Best,
-Howard
+--Sig_/QKU7sv.JPgkTy1n21g9MtA=
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBeBZMACgkQNasLKJxd
+sliyqg//TRVr+YNqU9zQxFBkK+GX2+qJac0tflCDbMnF9GCPnJ1M4T1QnJZvYtws
+fIzm79hUH7UQsAVgpZo5voHiWp1AaKgV03jIAk4YgxCyl1OmhrZiRwILoQGEi7Xg
+YMkMTe/oUY9FCyemJXZGOpfNmWJuSync0+focMOFqkcX4mspLCFTZCroyupewzqk
+xBvt7xGgwkv9HG15cXZaafxizL2pWIMPmof4KSjeeM0ce/Xuaa7FJE2R+eae8o7y
+4/OHWwgE8fxcwKEM20uInTynDDy23eGy7Yv8jwSF8KbVh8GBSyD6LS7ZmAuU1usY
+3CJq07QF0g8MxemmvVWtKE7UZj/k4c4m+FkfBZEtcQDGP82k9qpqVU9DabIsSyUN
+udwhTcxBDGi7/aJU/Uh5zzWA52ygqKEjHOf17FkOaIl5SAnGLt9069wkiF+JYeMV
+Z5SDfZnXh+iZjw0VoOTTFYEIEKATq2v/QNu4pBccGq8wPDjiMCJ1R8VD8ijqiQej
+EoYZN0K1ofHsz/Y3I0JOaQrBZJSv4Z5Vikbs+qgpKCSKFBTgR6OLASkXtZ11fCft
+c2anjrqC7PdIHhUO0IF4a3p/9bYiXwoI/NtBJoXO8g6oHh/ms1z/IJfkQIt8ZBYP
+Ko5n1q4/0ZQk4b8YQGQQX4uTEyCx7OAPrg33TXOqVype088IR8U=
+=kZRF
+-----END PGP SIGNATURE-----
+
+--Sig_/QKU7sv.JPgkTy1n21g9MtA=--
 
