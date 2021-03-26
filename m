@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209F834A81D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:31:28 +0100 (CET)
-Received: from localhost ([::1]:59898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2DE34A820
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 14:32:21 +0100 (CET)
+Received: from localhost ([::1]:34000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPmYf-0002Ka-Li
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
+	id 1lPmZY-0003VO-Oz
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 09:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPmWm-0001tA-1I
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:29:28 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44001)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lPmXM-0002PM-S9; Fri, 26 Mar 2021 09:30:04 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:42696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lPmWk-0002Of-AF
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 09:29:27 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id l4so8382300ejc.10
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 06:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lPmXK-0002nc-87; Fri, 26 Mar 2021 09:30:04 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id v107so862643ybi.9;
+ Fri, 26 Mar 2021 06:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PwyMwbTrNnQalE5HamaxAh24xeb071kdAC6o6Of1jkQ=;
- b=OQeqDVqMuqrY8F4VoPOtasMnuCwQmc8aVsHgeQG5T7OOkSZBFHIhRUVYcBX6sfPSpp
- kLLA07j2SpVLjZYmFxnKn4tzWLRpjcWFGr0Nb/I/d59ZOhXEkXugPl2ALVFCORxdHU19
- /5CXbXOnyakZdX1GRcLcF/LvMY+Rws4MhyfY/uTWvgduAjwB0B9aflVaS5ISchgiO4bg
- Erxw9+lGnfh4rJx6aOp0eHJHOgGsdJOFKA0ZvqXUWCFycFz4+ChSeiCq+RhKdzu+9CMB
- NvD1a9Z2j9d4IRaDRDHx1QlzXMR61TWG42EdZtqe70OJ6IYnUDMUb7y5JnM3zkc+6ED4
- ad/A==
+ :cc; bh=KIYIqmTfGGqWK40aMu2S+zzetb5A+tNz+puFdVqd1uQ=;
+ b=LmFwPXcZ/MMaGX/SAOQ79kllbSwlIn0KKEp/qpxVieEWNgJwyEnNzHVdtM9utnAwoa
+ 0z5bV2p9UnBBIZ0A4pNEAXOZ068vW/vichNaTwUMCOsP9mbY+Gg589BDCzdUhy6poKIM
+ XfW7qP9MQ/8dd6dpnRrhrfUIXRjAnM/bcyAjQK1y5tuVP1CGZwWxMgLxtBMo0QULsNOG
+ GF6mM+9cTKVHR/uJZDzZaUYZ73zmSm/SbxNh+i8iUISsq85IBsbtLlzZ7XxM+KUMToz0
+ dy+E2F8NWLU9PgdY53haYKsv6dGwMAJEuneFYwamr3skGANEve2ltTOOKAQ6EgYSEyu7
+ CvWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PwyMwbTrNnQalE5HamaxAh24xeb071kdAC6o6Of1jkQ=;
- b=N9g0JP00TkF8ILSSlLVWz1uIJsOeNIKWSfxqy2zXOCgF9bmbw+CkiO138trUhi7y6m
- eOc/TCZoLNs3Cv4NJPTBcaCsWBzOwoo6XOWqB+ppi7GaQgu+qbwX+19QyqHgkEwJdjvm
- /tvgBNW2+KV1RMZUu/wKKw/2rMiHsG6jdEpkypb3d6oCvNGpBDrNZtZjp8DW7bosxMdL
- QZcK7Ut5VvoTBRNJS1ajjymAmp//hGWIrAmcFZ864Cq7SpWvtjJPjFgOGY+0EA+EnVGT
- MEll02K1lqlO4HM8U/lwS6eEWAuDfufqn9TCLcF/9RhKb+uzt77hf8rn4iglZBtwujTe
- iA4g==
-X-Gm-Message-State: AOAM532G3GBV+TNFYR5PIN4zN5P/Um/Qaa0LZqBlF62LXE5eJlLQxpCO
- EcU6543+rr9IFh+7UlDtzubGbILpl9VE0LBKUG/XXQ==
-X-Google-Smtp-Source: ABdhPJxoBOovShaQ4ljohRFdxPgw8Tv+q4czHl6cYN5FfP5tqmzTuIIeWRTAzfzNwABhGyfpHbSZuqril2jnYARzAT8=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr15705156ejc.250.1616765363816; 
- Fri, 26 Mar 2021 06:29:23 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=KIYIqmTfGGqWK40aMu2S+zzetb5A+tNz+puFdVqd1uQ=;
+ b=SV1kLdWhzhSljRz/7PngwDwvFYhSuRoFg4vnxzy34LwIy7JfoeMSpYKLEM+gsKK+uB
+ 4HJn/sUUSgZamA8xyEP2eBkiKvR/DuQL1YkoKyXFd8qE9X4V1NKtICwRcLHdBPQ6jqhv
+ GKW1zxo+4SjPrVJeyyiIGYUcQ2rKZ2dEHvzl8lK4NfpiMt+dLr/+DHheG8ltjgu/lFAe
+ nGJ5krnAdJWCuz06CnPQ6q1xR+C1sosnvrvutqvr9w8JWa8XlUi+y5Qg+bEpXP9bM/VG
+ CW21Li78jDSAye+dK1PaspfZ+zGIbfsTS/ssHQM7u5I3MKkf6tbmq3p3Qp1kO/PqIHUT
+ 5sxQ==
+X-Gm-Message-State: AOAM530nCnT4gk+vADCe84GtTvAcPuorq/YAPzjjyUhqJLPTmRPdNUG4
+ aUIe3gq3aOVgVu/2F1bVeLQklV6iyOybZb8Kn34=
+X-Google-Smtp-Source: ABdhPJw7xRi8q4SexRtoU4QnAtesuz5YkUcUMgBUa1qVNqmhDGu++MZBMx2aSjFqlAnTtzrYANdx4ZqPYTaYTq1ee4Y=
+X-Received: by 2002:a25:73d1:: with SMTP id
+ o200mr20750099ybc.239.1616765400914; 
+ Fri, 26 Mar 2021 06:30:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFNex=Ddc_9Sta2W+_a90Qg7hCidMhxuqmGuggygfWWCzZdBhQ@mail.gmail.com>
- <74ee406f-f503-a66e-80d6-989b2c8ed4aa@vivier.eu>
-In-Reply-To: <74ee406f-f503-a66e-80d6-989b2c8ed4aa@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Mar 2021 13:28:55 +0000
-Message-ID: <CAFEAcA8Buc1PnX0CcCYr2w6p0PTJxOtNT1nJWZDitOA6jdQp9w@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: allow NULL msg in recvfrom
-To: Laurent Vivier <laurent@vivier.eu>
+References: <20201022053225.2596110-1-anup.patel@wdc.com>
+ <CAEUhbmVWesOJTxejnr-DYMUMXgLsRLz9nVqbAEb0emu_nUEhqw@mail.gmail.com>
+In-Reply-To: <CAEUhbmVWesOJTxejnr-DYMUMXgLsRLz9nVqbAEb0emu_nUEhqw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 26 Mar 2021 21:29:51 +0800
+Message-ID: <CAEUhbmVfTNXbj02yi=MSx6voEFBiwPNsfMVUemh-tCMAVurnVg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/riscv: sifive_u: Allow passing custom DTB
+To: Anup Patel <anup.patel@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,57 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zach Reizner <zachr@google.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Mar 2021 at 13:24, Laurent Vivier <laurent@vivier.eu> wrote:
+On Wed, Mar 24, 2021 at 9:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Le 26/03/2021 =C3=A0 05:05, Zach Reizner a =C3=A9crit :
-> > The kernel allows a NULL msg in recvfrom so that he size of the next
-> > message may be queried before allocating a correctly sized buffer. This
-> > change allows the syscall translator to pass along the NULL msg pointer
-> > instead of returning early with EFAULT.
+> Hi Anup,
+>
+> On Thu, Oct 22, 2020 at 1:34 PM Anup Patel <anup.patel@wdc.com> wrote:
 > >
-> > Signed-off-by: Zach Reizner <zachr@google.com>
+> > Extend sifive_u machine to allow passing custom DTB using "-dtb"
+> > command-line parameter. This will help users pass modified DTB
+> > or Linux SiFive DTB to sifive_u machine.
+> >
+> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
 > > ---
-> >  linux-user/syscall.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> > index 1e508576c7..332544b43c 100644
-> > --- a/linux-user/syscall.c
-> > +++ b/linux-user/syscall.c
-> > @@ -3680,8 +3680,6 @@ static abi_long do_recvfrom(int fd, abi_ulong
-> > msg, size_t len, int flags,
-> >      abi_long ret;
-> >
-> >      host_msg =3D lock_user(VERIFY_WRITE, msg, len, 0);
-> > -    if (!host_msg)
-> > -        return -TARGET_EFAULT;
-> >      if (target_addr) {
-> >          if (get_user_u32(addrlen, target_addrlen)) {
-> >              ret =3D -TARGET_EFAULT;
+> >  hw/riscv/sifive_u.c | 28 ++++++++++++++++++++--------
+> >  1 file changed, 20 insertions(+), 8 deletions(-)
 > >
 >
-> Applied to my linux-user-for-6.0 branch
+> I am using the following command to boot a Linux v5.11 kernel, but it hangs at:
+>
+> $ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G -display none -serial
+> stdio -kernel arch/riscv/boot/Image -dtb
+> arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb -append
+> "earlycon=sbi console=ttySIF0"
+>
+> [    0.000000] smp: Bringing up secondary CPUs ...
+>
+> Removing -dtb makes the kernel continue booting.
+>
+> I am not sure what's missing ofusing "-dtb"?
 
-Doesn't this mean we'll now incorrectly treat "guest passed
-a bad address" the same as "guest passed NULL" ? lock_user()
-returns NULL for errors, so if you need to handle NULL input
-specially you want something like
+I figured out what's missing, and will send a patch on documentation soon.
 
-   if (!msg) {
-       host_msg =3D NULL;
-   } else {
-       host_msg =3D lock_user(VERIFY_WRITE, msg, len, 0);
-       if (!host_msg) {
-           return -TARGET_EFAULT;
-       }
-   }
-
-I think ?
-
-thanks
--- PMM
+Regards,
+Bin
 
