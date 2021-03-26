@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D3C34AEB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:45:47 +0100 (CET)
-Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC74734AEBC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Mar 2021 19:49:09 +0100 (CET)
+Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lPrSs-0005Gp-Va
-	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
+	id 1lPrW8-0007Dg-Mb
+	for lists+qemu-devel@lfdr.de; Fri, 26 Mar 2021 14:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPrRL-0004os-F1
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:44:11 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53833)
+ id 1lPrTG-0005pD-F0; Fri, 26 Mar 2021 14:46:10 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lPrRK-0002Qa-2Q
- for qemu-devel@nongnu.org; Fri, 26 Mar 2021 14:44:11 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g20so3467343wmk.3
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 11:44:09 -0700 (PDT)
+ id 1lPrTF-0003Vp-1V; Fri, 26 Mar 2021 14:46:10 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id x7so6570301wrw.10;
+ Fri, 26 Mar 2021 11:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fhkbjyaOT0CHmmnxyhxMQxk93pu/tPQ70STRog9oiz4=;
- b=PVA6+2WaJn1Uehh3qm1h74X7nzzkOTbruBwad6Ks7ukKaXascqaK7c3rmkTyTFGVaH
- Zkv8ExxBdQy7MvKXGtMoLHhxF8/tUBWVwxIHXgDWdEJusEJhW5m84wB3ke5HvgSv5oO4
- S8o+0t6nfigjDDQLd63eqXPqG8M50sKVzE1XIcGw0Xh95r17K1lbBdcqCnhvdpHVVKTP
- k8mlfjFX9RIglb4fwoQnp6srvOkDbjR/a7ZZJbxU601GP/3n5R321SHKGzYKP/YQhzEA
- Hi/kGTYCIQlapiBdAR6P9SRz82PN0EupAqdtCiruN8NlhoMou84wS7kLwSeg/rVq0Wf9
- WZPg==
+ bh=kuDF9j2QYgI2orYzVwMQfFkUExXm5JdUdAnU54c4cv0=;
+ b=haMjWYKGPe5eCEh+ctJmn53XUdIhHahXlyDYuZiR2yNJfpOZXhZ8oRs/JTvEP8Mse7
+ zaCcpbqozFH2szQEuPY3eH+UyC1XQ8ZQF/9ET4vKrYtcX0DfHZc3sWpCW8FTHO2a3Yem
+ +nm2AC5JWmDbOkNqa5z7dy60f5rabewZ+BPFYPH0h51Zjd9MQaiaTvwDPEQfzrJqLUOT
+ 8zwxAcdhTnYQPSCPrbjtB8w30DnSVvzwjVrMbZtZ7/3OFXHczYU80Um4aD3FMjdErVmB
+ GoGKchIGAezDt/tn4gRpHY/lxbzu3rhE2hrOfr2oDk7H0qsI8klhwTAhiFnrI/lQ2mT9
+ qsKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fhkbjyaOT0CHmmnxyhxMQxk93pu/tPQ70STRog9oiz4=;
- b=JINB1EgqlnfuHiJfcjXuyz8C/MTVX5pUUW3lI6vE7DefP+8A/99KjE+Rc4aogbk8Ah
- 48ZE4q2hlDWPyEB8ogl8utdvcAgdApxzcyxQK+VvK9r1Z/a+WmthxmABLfXVpzD1vf9O
- podzNpTR1ZEfvY7ryOmthj4nm53EEsIDyLIsLuGpQHNoD9VnB/8iH71YH2q9daDMty0P
- wo87wk+NQhl7LHt5mu/onJ6le4RD6Q8/VQ9zixMcB52JcECZJ/zrA8fC3ltt1hrMZ6O7
- hdt0TxIjHfb9u/S1KeRnO9gFt6WhfkrN4oPbxsfRHJ0rGyWKND2kEL7a/IYUyMzOIDyV
- bRJw==
-X-Gm-Message-State: AOAM530a+EFJLrGwmUAXoTCs7J6YitjXZBNynSXEh+vxEKmfXefW3E+y
- WwqUIQSh8oGxptsMndRklxMw0goEIbkepw==
-X-Google-Smtp-Source: ABdhPJx70c82FH9/vEuWAev65jYbN3WsXu6woqKB7zHQDqOfvl7ZeFNxtsK0oeZks1x8vUF6xYZGmQ==
-X-Received: by 2002:a1c:f305:: with SMTP id q5mr14123129wmq.96.1616784248425; 
- Fri, 26 Mar 2021 11:44:08 -0700 (PDT)
+ bh=kuDF9j2QYgI2orYzVwMQfFkUExXm5JdUdAnU54c4cv0=;
+ b=C36wTtiIFiEsF8pFhcDcey4ddzouTp4rm2ifRtQ0xkkNNsdKOfCB6wg9WYB8W0MmzB
+ hBUYS7upbNPTjkuZEnBnENpfMoHnQW7PtXkRwmT32TRMJorUm6xioXAAno6FOTLH7yT4
+ WQmXrZWjA0o8UoE0K44SR57j3TlJqpSOy22dxrJLNk/SkqdqEnaCwJWHTiM9UzwRVLJO
+ SZQ/vnZQQ2az0IfbjhadpLVDnsJesE+DflOJjNzx7Gjam+/3ES0r+16p3/yVGGbnCsW9
+ ZrqfL8ZxwH5TCo1Dz2bQG8fI/WZ8MRxAe8OUnNEE5QYQqFA0+8UAoSk5tZlAcIyXW+c5
+ IjGQ==
+X-Gm-Message-State: AOAM533qgoH9B3dlSpzu9EphHg8GeRp6VZNL4VXz16QulKGsMVHtr0Xh
+ 9+moriONacZ+1u1LOiWKtFw=
+X-Google-Smtp-Source: ABdhPJy/bVnYjmJ3Hm7ZNh/9dSCi7i8LxsqIyYeqqA24RISF8ITC4cejxBhTvrH3I1lmlTF6pB6/tg==
+X-Received: by 2002:a5d:564a:: with SMTP id j10mr15662680wrw.120.1616784364394; 
+ Fri, 26 Mar 2021 11:46:04 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id u9sm12007203wmc.38.2021.03.26.11.44.07
+ by smtp.gmail.com with ESMTPSA id i4sm11054705wmq.12.2021.03.26.11.46.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Mar 2021 11:44:07 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PULL v5 39/43] hw/hppa: Implement DINO system board
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20180130044621.10464-1-richard.henderson@linaro.org>
- <20180130044621.10464-2-richard.henderson@linaro.org>
- <CAAdtpL5Uvvrkucyh=8+dveMeQsR4hHhynUCoF3AKT+g3mPaY0Q@mail.gmail.com>
- <6a7d7e79-e2b6-740c-72b1-4d8a62538c77@linaro.org>
+ Fri, 26 Mar 2021 11:46:03 -0700 (PDT)
+Subject: Re: [PATCH] hw: Remove superfluous includes of hw/hw.h
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210326151848.2217216-1-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7fcd34e0-bcf7-840a-07d2-f5001e748ca3@amsat.org>
-Date: Fri, 26 Mar 2021 19:44:06 +0100
+Message-ID: <b27cdc2d-544a-ae26-ea1a-41a9a0ac6154@amsat.org>
+Date: Fri, 26 Mar 2021 19:46:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <6a7d7e79-e2b6-740c-72b1-4d8a62538c77@linaro.org>
+In-Reply-To: <20210326151848.2217216-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,24 +86,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Helge Deller <deller@gmx.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 1:29 PM, Richard Henderson wrote:
-> On 3/25/21 5:17 PM, Philippe Mathieu-Daudé wrote:
->>> +    /* Set up windows into PCI bus memory.  */
->>> +    for (i = 1; i < 31; i++) {
->>> +        uint32_t addr = 0xf0000000 + i * DINO_MEM_CHUNK_SIZE;
->>> +        char *name = g_strdup_printf("PCI Outbound Window %d", i);
->>> +        memory_region_init_alias(&s->pci_mem_alias[i], OBJECT(s),
->>> +                                 name, &s->pci_mem, addr,
->>> +                                 DINO_MEM_CHUNK_SIZE);
->>
->> Where are these aliases mapped?
+On 3/26/21 4:18 PM, Thomas Huth wrote:
+> The include/hw/hw.h header only has a prototype for hw_error(),
+> so it does not make sense to include this in files that do not
+> use this function.
 > 
-> gsc_to_pci_forwarding
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/arm/musicpal.c                  | 1 -
+>  hw/char/sifive_uart.c              | 1 -
+>  hw/display/next-fb.c               | 1 -
+>  hw/dma/sifive_pdma.c               | 1 -
+>  hw/dma/xlnx_csu_dma.c              | 1 -
+>  hw/hppa/lasi.c                     | 1 -
+>  hw/input/lasips2.c                 | 1 -
+>  hw/m68k/mcf_intc.c                 | 1 -
+>  hw/m68k/next-kbd.c                 | 1 -
+>  hw/m68k/q800.c                     | 1 -
+>  hw/m68k/virt.c                     | 1 -
+>  hw/misc/mchp_pfsoc_dmc.c           | 1 -
+>  hw/misc/mchp_pfsoc_ioscb.c         | 1 -
+>  hw/misc/mchp_pfsoc_sysreg.c        | 1 -
+>  hw/misc/sifive_e_prci.c            | 1 -
+>  hw/misc/sifive_test.c              | 1 -
+>  hw/rx/rx-gdbsim.c                  | 1 -
+>  hw/rx/rx62n.c                      | 1 -
+>  hw/vfio/pci-quirks.c               | 1 -
+>  include/hw/char/avr_usart.h        | 1 -
+>  include/hw/misc/avr_power.h        | 1 -
+>  include/hw/misc/stm32f4xx_exti.h   | 1 -
+>  include/hw/misc/stm32f4xx_syscfg.h | 1 -
+>  include/hw/pci-host/i440fx.h       | 1 -
+>  include/hw/timer/avr_timer16.h     | 1 -
+>  25 files changed, 25 deletions(-)
 
-Doh I missed it, thanks!
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
