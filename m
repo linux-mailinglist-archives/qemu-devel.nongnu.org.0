@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740ED34B452
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Mar 2021 06:15:26 +0100 (CET)
-Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D066434B49C
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Mar 2021 07:06:40 +0100 (CET)
+Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQ1ID-0000JU-4a
-	for lists+qemu-devel@lfdr.de; Sat, 27 Mar 2021 01:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57326)
+	id 1lQ25n-0000if-Ca
+	for lists+qemu-devel@lfdr.de; Sat, 27 Mar 2021 02:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lQ1Gq-000811-4S
- for qemu-devel@nongnu.org; Sat, 27 Mar 2021 01:14:00 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:46859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lQ1Go-0003wg-68
- for qemu-devel@nongnu.org; Sat, 27 Mar 2021 01:13:59 -0400
-Received: by mail-oi1-x229.google.com with SMTP id m13so7815741oiw.13
- for <qemu-devel@nongnu.org>; Fri, 26 Mar 2021 22:13:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YHYfDKvJn8XqMaEn8ZeVLCY33Ve+m6+eIvw7WqsMN7o=;
- b=NhuF63o6AMCTYM7pV6ST9k3TtWfqwnJTWBTA/zR7vwMmjshik/PVxRFE269mCRRwbK
- fqsGdsBGFdYeST0if7C+kR04pCisJXiSNgJs5Ao5oCS4cHBbBwhm/ylSubrHv+1w3NE2
- FoEN/Rd2SCQaKhuCi9ZSK5jo6bJ56dMhZcUHQGvisMhJhhQr3QDb7r+rBrxt6zg4ZORt
- lt9ELaUTUQtuzXrAtMrQ9XMt5IPOXx8rHQW+Az4ZpC08Pqf6TOGiAtDEBpjzfWGWPcjS
- C7FbXghiEJqY4zGQaDF/8OTR25kz/QnR2We2yKdL9lRpyvaXduTNsgpLJ684h8WFHvgf
- DzHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YHYfDKvJn8XqMaEn8ZeVLCY33Ve+m6+eIvw7WqsMN7o=;
- b=IrrCRUE4SizfNn+VKoIn0BQUx35oUMb4MgoIhYGfLfZWkjLlxvz9pEDdpXwVeZHxRY
- b7AGdjb0GeWseWb5D0KduVvkpl0OppeiiP22Ua7Y6pCtWiZIC28+yDZ0ZMYq/iXzJYVb
- R22DhqFozyafjSnWE4AFgh+c2BAvcv9dtJg8KQGdmIy7vjuJ5h8orJrm1mtvPrx0tkJX
- vYkDIj899+mvytQQJ2RViwLCii50BJnfEPhfHL1VwcabpmxCs571rNyLkB7VeqGJYJdC
- 3p+4dJwKx1cLZBB9qmVhjxRPOevFDgSklypkcKBo1cEOx7R4/yovYz5/PIBbmQNOYmE2
- DT/Q==
-X-Gm-Message-State: AOAM533CDfkKkZA0mXmRw45IefPAOdOByAts4VDhus/AtC+DYGEQ+XLa
- SiRqNG2NEq4jUeQ4TUBlI6NI6VcsWb+ND/KAYf4=
-X-Google-Smtp-Source: ABdhPJzxqQGvDf4FQ3R7srxKUgugMRVvftUilEUz1brJ2nHCssC9Rr8xejTZYu4+Y6O4IVJtZQVamo5XU4F24T7FUG8=
-X-Received: by 2002:a05:6808:f12:: with SMTP id
- m18mr11660895oiw.62.1616822036466; 
- Fri, 26 Mar 2021 22:13:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1lQ24E-0000Gc-Le
+ for qemu-devel@nongnu.org; Sat, 27 Mar 2021 02:05:02 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1lQ24B-0001PO-4q
+ for qemu-devel@nongnu.org; Sat, 27 Mar 2021 02:05:02 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F6pCh36Qsz1BFrH;
+ Sat, 27 Mar 2021 14:02:40 +0800 (CST)
+Received: from [10.174.184.135] (10.174.184.135) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Sat, 27 Mar 2021 14:04:39 +0800
+Subject: Re: [PATCH v3 1/1] docs/devel: Add VFIO device migration documentation
+To: Tarun Gupta <targupta@nvidia.com>, <qemu-devel@nongnu.org>,
+ <kwankhede@nvidia.com>, <alex.williamson@redhat.com>, <cohuck@redhat.com>,
+ <kevin.tian@intel.com>
+References: <20210326131850.149337-1-targupta@nvidia.com>
+From: Shenming Lu <lushenming@huawei.com>
+Message-ID: <f9e5076b-ada5-88fc-c738-db51330e96b4@huawei.com>
+Date: Sat, 27 Mar 2021 14:04:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-References: <CABLmASGq42X5pEuTkWZTp_djr5qmo98BD_9wi4zFnG1DYNnJ9A@mail.gmail.com>
- <CAFEAcA-79VsatyDSP8_u+=m=PpQLyjsuNBQh_-xt2RZ-6vqkgw@mail.gmail.com>
- <CAEUhbmUPrEkHdZ_msyr94PQJtVqSXVFGg5C_7Ybo590J7mTw1A@mail.gmail.com>
- <CABLmASGi-W=92XR27Cn6+QCkhhwFUVMqaJcpd6A8x=ZYV86HuA@mail.gmail.com>
- <c63a699d-9419-5a87-269b-476ef0a5b587@eik.bme.hu>
- <6271eee3-d1fa-2a54-48a6-51f4aa592642@redhat.com>
- <CAEUhbmVp_b4K=0WsaUGsXtHPqZTmn-rZYdcNsGMnRcCHdJjnNA@mail.gmail.com>
- <CABLmASEp+uvibhH1bEqxLkGFdrKqhHOCXUso2tY-UNprT1+W4w@mail.gmail.com>
- <d2d16d3e-9620-26aa-c5c-407a9940934d@eik.bme.hu>
-In-Reply-To: <d2d16d3e-9620-26aa-c5c-407a9940934d@eik.bme.hu>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Sat, 27 Mar 2021 06:13:44 +0100
-Message-ID: <CABLmASGv4drfs9kUsgxO2b2p39u1oS6KLgM2pxQQaO7D81uWZA@mail.gmail.com>
-Subject: Re: Bug with Windows tap network when running qemu-system-ppc with
- Mac OS 9 guest
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x229.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210326131850.149337-1-targupta@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.135]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=lushenming@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,205 +62,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: yan.y.zhao@intel.com, quintela@redhat.com, berrange@redhat.com,
+ dgilbert@redhat.com, dnigam@nvidia.com, cjia@nvidia.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 26, 2021 at 8:54 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> On Fri, 26 Mar 2021, Howard Spoelstra wrote:
-> > On Fri, Mar 26, 2021 at 10:00 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>
-> >> On Fri, Mar 26, 2021 at 4:49 PM Jason Wang <jasowang@redhat.com> wrote=
-:
-> >>>
-> >>>
-> >>> =E5=9C=A8 2021/3/26 =E4=B8=8B=E5=8D=884:21, BALATON Zoltan =E5=86=99=
-=E9=81=93:
-> >>>> On Fri, 26 Mar 2021, Howard Spoelstra wrote:
-> >>>>> On Fri, Mar 26, 2021 at 2:50 AM Bin Meng <bmeng.cn@gmail.com> wrote=
-:
-> >>>>>>
-> >>>>>> Hi Howard,
-> >>>>>>
-> >>>>>> On Fri, Mar 26, 2021 at 1:35 AM Peter Maydell
-> >>>>>> <peter.maydell@linaro.org> wrote:
-> >>>>>>>
-> >>>>>>> (adding the relevant people to the cc list)
-> >>>>>>>
-> >>>>>>> On Thu, 25 Mar 2021 at 17:26, Howard Spoelstra <hsp.cat7@gmail.co=
-m>
-> >>>>>>> wrote:
-> >>>>>>>>
-> >>>>>>>> Hi,
-> >>>>>>>>
-> >>>>>>>> When running qemu-system-ppc with Mac OS guest, the guest crashe=
-s
-> >>>>>>>> when
-> >>>>>>>> using a tap network connection. Openvpn 2.4.9-I601-win10 is inst=
-alled
-> >>>>>>>> with TAP-Windows 9.24.2. A tap connection called TapQemu is brid=
-ged
-> >>>>>>>> with the default ethernet connection. It gets activated when I s=
-tart
-> >>>>>>>> qemu.
-> >>>>>>>>
-> >>>>>>>> To reproduce, compile qemu-system-ppc from current source and ru=
-n:
-> >>>>>>>>
-> >>>>>>>> qemu-system-ppc.exe ^
-> >>>>>>>> -L pc-bios ^
-> >>>>>>>> -M mac99 ^
-> >>>>>>>> -m 128 ^
-> >>>>>>>> -sdl -serial stdio ^
-> >>>>>>>> -boot c ^
-> >>>>>>>> -drive file=3DC:\Mac-disks\9.2.img,format=3Draw,media=3Ddisk ^
-> >>>>>>>> -device sungem,netdev=3Dnetwork01 -netdev
-> >>>>>>>> tap,ifname=3DTapQemu,id=3Dnetwork01
-> >>>>>>>>
-> >>>>>>>> I bisected to the commit below. Thanks for looking into this.
-> >>>>>>
-> >>>>>> Thanks for reporting.
-> >>>>>>
-> >>>>>> Can you please provide some further information:
-> >>>>>>
-> >>>>>> 1. Does "-net user" work on Windows?
-> >>>>>> 2. If running QEMU under Linux, does "-net tap" or "-net user" wor=
-k?
-> >>>>>>
-> >>>>>> Regards,
-> >>>>>> Bin
-> >>>>>
-> >>>>> Hello Bin,
-> >>>>>
-> >>>>> Thanks for getting back to me. I forgot to mention that reverting t=
-he
-> >>>>> above patch restores functionality. And that other applications usi=
-ng
-> >>>>> the same tap device work correctly.
-> >>>>> In answer to your questions:
-> >>>>>
-> >>>>> 1. Yes, slirp works on Windows 10 with this setup.
-> >>>>> 2. Yes, in Linux both tap and slirp work.
-> >>>>>
-> >>>>> My Windows build is done with a fully up to date msys2 installation=
-.
-> >>>>>
-> >>>>> I tried to debug in Windows:
-> >>>>> (gdb) run
-> >>>>> Starting program: c:\qemu-master-msys2\qemu-system-ppc.exe -L pc-bi=
-os
-> >>>>> -M mac99 -m 128 -sdl -serial stdio -boot c -drive
-> >>>>> "file=3DC:\Mac-disks\9.2-usb-pci-ddk.img,format=3Draw,media=3Ddisk"=
- -device
-> >>>>> "sungem,netdev=3Dnetwork01" -netdev "tap,ifname=3DTapQemu,id=3Dnetw=
-ork01" -S
-> >>>>> [New Thread 13304.0x1f00]
-> >>>>> [New Thread 13304.0x2f84]
-> >>>>> [New Thread 13304.0x3524]
-> >>>>> [New Thread 13304.0x2b8c]
-> >>>>> [New Thread 13304.0x368c]
-> >>>>> [New Thread 13304.0x3668]
-> >>>>> [New Thread 13304.0xf4c]
-> >>>>> [New Thread 13304.0x49c]
-> >>>>> [New Thread 13304.0x1d4c]
-> >>>>> [New Thread 13304.0x7fc]
-> >>>>> [Thread 13304.0x7fc exited with code 0]
-> >>>>> [New Thread 13304.0x357c]
-> >>>>> [New Thread 13304.0x7c0]
-> >>>>> [New Thread 13304.0x3564]
-> >>>>> [New Thread 13304.0x26f4]
-> >>>>> [New Thread 13304.0x2f68]
-> >>>>>
-> >>>>> Program received signal SIGSEGV, Segmentation fault.
-> >>>>> 0x00007ffb9edea991 in ?? () from c:\qemu-master-msys2\libglib-2.0-0=
-.dll
-> >>>>> (gdb) bt
-> >>>>> #0  0x00007ffb9edea991 in ?? () from
-> >>>>> c:\qemu-master-msys2\libglib-2.0-0.dll
-> >>>>> #1  0x000800000480bf50 in ?? ()
-> >>>>> Backtrace stopped: previous frame inner to this frame (corrupt stac=
-k?)
-> >>>>> (gdb)
-> >>>>>
-> >>>>> Even before I could attach to the process.
-> >>>>
-> >>>> If you run QEMU under gdb you don't have to attach to it but to get =
-a
-> >>>> meaningful backtrace you should configure and compile QEMU with
-> >>>> --enable-debug (this will make it run slower so not recommended
-> >>>> normally but for debugging that would be needed). If the stack is
-> >>>> really corrupted then you may not get a useful backtrace or it may b=
-e
-> >>>> a problem with gdb on Windows. I've found that gdb on Windows works
-> >>>> for simple things but could give bad results for more complex stuff.
-> >>>> WinDbg may be better but it's harder to use (needs some registry
-> >>>> change I think to enable core dumps then you could open and analyze
-> >>>> core dumps with it or it should be able to run command directly but =
-I
-> >>>> don't know how that works).
-> >>>>
-> >>>> Another idea: maybe you could check other threads in gdb. Not sure i=
-f
-> >>>> that would reveal anything but may worth a try. I think the commands
-> >>>> you need are "info threads" and "apply all bt" or something similar.
-> >>>>
-> >>>> Regards,
-> >>>> BALATON Zoltan
-> >>>>
-> >>>
-> >>> It looks to me the patch tires to recycle a temporary buffer to tap t=
-hread.
-> >>>
-> >>> Please try to attached fix to see it if works.
-> >>
-> >> Yep, good catch, thanks! This patch looks correct to me.
-> >>
-> >> Regards,
-> >> Bin
-> >
-> > Hi,
-> >
-> > While the patch applies, it will not compile:
-> >
-> > ../net/tap-win32.c: In function 'tap_win32_send':
-> > ../net/tap-win32.c:697:18: error: assignment to 'uint8_t' {aka
-> > 'unsigned char'} from 'uint8_t *' {aka 'unsigned char *'} makes
-> > integer from pointer without a cast [-Werror=3Dint-conversion]
-> >  697 |         orig_buf =3D buf;
-> >      |                  ^
-> > ../net/tap-win32.c:707:42: error: passing argument 2 of
-> > 'tap_win32_free_buffer' makes pointer from integer without a cast
-> > [-Werror=3Dint-conversion]
-> >  707 |         tap_win32_free_buffer(s->handle, orig_buf);
-> >      |                                          ^~~~~~~~
-> >      |                                          |
-> >      |                                          uint8_t {aka unsigned c=
-har}
-> > ../net/tap-win32.c:590:44: note: expected 'uint8_t *' {aka 'unsigned
-> > char *'} but argument is of type 'uint8_t' {aka 'unsigned char'}
-> >  590 |                                   uint8_t *pbuf)
-> >      |                                   ~~~~~~~~~^~~~
->
-> Patch missing a * from this line:
->
-> +    uint8_t *buf, orig_buf;
->
-> should be
->
-> +    uint8_t *buf, *orig_buf;
->
-> Regards,
-> BALATON Zoltan
+On 2021/3/26 21:18, Tarun Gupta wrote:
+> Document interfaces used for VFIO device migration. Added flow of state changes
+> during live migration with VFIO device. Tested by building docs with the new
+> vfio-migration.rst file.
+> 
+> v3:
+> - Add introductory line about VM migration in general.
+> - Remove occurcences of vfio_pin_pages() to describe pinning.
+> - Incorporated comments from v2
+> 
+> v2:
+> - Included the new vfio-migration.rst file in index.rst
+> - Updated dirty page tracking section, also added details about
+>   'pre-copy-dirty-page-tracking' opt-out option.
+> - Incorporated comments around wording of doc.
+> 
+> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> ---
+>  MAINTAINERS                   |   1 +
+>  docs/devel/index.rst          |   1 +
+>  docs/devel/vfio-migration.rst | 143 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 145 insertions(+)
+>  create mode 100644 docs/devel/vfio-migration.rst
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 738786146d..a2a80eee59 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1801,6 +1801,7 @@ M: Alex Williamson <alex.williamson@redhat.com>
+>  S: Supported
+>  F: hw/vfio/*
+>  F: include/hw/vfio/
+> +F: docs/devel/vfio-migration.rst
+>  
+>  vfio-ccw
+>  M: Cornelia Huck <cohuck@redhat.com>
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index ae664da00c..5330f1ca1d 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -39,3 +39,4 @@ Contents:
+>     qom
+>     block-coroutine-wrapper
+>     multi-process
+> +   vfio-migration
+> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+> new file mode 100644
+> index 0000000000..24cb55991a
+> --- /dev/null
+> +++ b/docs/devel/vfio-migration.rst
+> @@ -0,0 +1,143 @@
+> +=====================
+> +VFIO device Migration
+> +=====================
+> +
+> +Migration of virtual machine involves saving the state for each device that
+> +the guest is running on source host and restoring this saved state on the
+> +destination host. This document details how saving and restoring of VFIO
+> +devices is done in QEMU.
+> +
+> +Migration of VFIO devices consists of two phases: the optional pre-copy phase,
+> +and the stop-and-copy phase. The pre-copy phase is iterative and allows to
+> +accommodate VFIO devices that have a large amount of data that needs to be
+> +transferred. The iterative pre-copy phase of migration allows for the guest to
+> +continue whilst the VFIO device state is transferred to the destination, this
+> +helps to reduce the total downtime of the VM. VFIO devices can choose to skip
+> +the pre-copy phase of migration by returning pending_bytes as zero during the
+> +pre-copy phase.
+> +
+> +A detailed description of the UAPI for VFIO device migration can be found in
+> +the comment for the ``vfio_device_migration_info`` structure in the header
+> +file linux-headers/linux/vfio.h.
+> +
+> +VFIO device hooks for iterative approach:
+> +
+> +* A ``save_setup`` function that sets up the migration region, sets _SAVING
+> +  flag in the VFIO device state and informs the VFIO IOMMU module to start
+> +  dirty page tracking.
+> +
+> +* A ``load_setup`` function that sets up the migration region on the
+> +  destination and sets _RESUMING flag in the VFIO device state.
+> +
+> +* A ``save_live_pending`` function that reads pending_bytes from the vendor
+> +  driver, which indicates the amount of data that the vendor driver has yet to
+> +  save for the VFIO device.
+> +
+> +* A ``save_live_iterate`` function that reads the VFIO device's data from the
+> +  vendor driver through the migration region during iterative phase.
+> +
+> +* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
+> +  VFIO device state, saves the device config space, if any, and iteratively
+> +  copies the remaining data for the VFIO device until the vendor driver
+> +  indicates that no data remains (pending bytes is zero).
 
-Hi all,
+Hi Tarun,
 
-Together with that * from Zoltan, this patch restores tap networking in Win=
-dows.
+We have moved the saving of the config space to the ``save_state`` function
+added in commit d329f5032e1, do we need to add this change here? :-)
 
-Thanks!
+Thanks,
+Shenming
 
-So:
-Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+> +
+> +* A ``load_state`` function that loads the config section and the data
+> +  sections that are generated by the save functions above
+> +
+> +* ``cleanup`` functions for both save and load that perform any migration
+> +  related cleanup, including unmapping the migration region
+> +
+> +A VM state change handler is registered to change the VFIO device state when
+> +the VM state changes.
+> +
+> +Similarly, a migration state change notifier is registered to get a
+> +notification on migration state change. These states are translated to the
+> +corresponding VFIO device state and conveyed to the vendor driver.
+> +
+> +System memory dirty pages tracking
+> +----------------------------------
+> +
+> +A ``log_sync`` memory listener callback marks those system memory pages
+> +as dirty which are used for DMA by the VFIO device. The dirty pages bitmap is
+> +queried per container. All pages pinned by the vendor driver through external
+> +APIs have to be marked as dirty during migration. When there are CPU writes,
+> +CPU dirty page tracking can identify dirtied pages, but any page pinned by the
+> +vendor driver can also be written by device. There is currently no device or
+> +IOMMU support for dirty page tracking in hardware.
+> +
+> +By default, dirty pages are tracked when the device is in pre-copy as well as
+> +stop-and-copy phase. So, a page pinned by vendor driver will be copied to
+> +destination in both the phases. Copying dirty pages in pre-copy phase helps
+> +QEMU to predict if it can achieve its downtime tolerances. If QEMU during
+> +pre-copy phase keeps finding dirty pages continuously, then it understands
+> +that even in stop-and-copy phase, it is likely to find dirty pages and can
+> +predict the downtime accordingly
+> +
+> +QEMU also provides per device opt-out option ``pre-copy-dirty-page-tracking``
+> +which disables querying dirty bitmap during pre-copy phase. If it is set to
+> +off, all dirty pages will be copied to destination in stop-and-copy phase only
+> +
+> +System memory dirty pages tracking when vIOMMU is enabled
+> +---------------------------------------------------------
+> +
+> +With vIOMMU, an IO virtual address range can get unmapped while in pre-copy
+> +phase of migration. In that case, the unmap ioctl returns any dirty pages in
+> +that range and QEMU reports corresponding guest physical pages dirty. During
+> +stop-and-copy phase, an IOMMU notifier is used to get a callback for mapped
+> +pages and then dirty pages bitmap is fetched from VFIO IOMMU modules for those
+> +mapped ranges.
+> +
+> +Flow of state changes during Live migration
+> +===========================================
+> +
+> +Below is the flow of state change during live migration.
+> +The values in the brackets represent the VM state, the migration state, and
+> +the VFIO device state, respectively.
+> +
+> +Live migration save path
+> +------------------------
+> +
+> +::
+> +
+> +                        QEMU normal running state
+> +                        (RUNNING, _NONE, _RUNNING)
+> +                                  |
+> +                     migrate_init spawns migration_thread
+> +                Migration thread then calls each device's .save_setup()
+> +                    (RUNNING, _SETUP, _RUNNING|_SAVING)
+> +                                  |
+> +                    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+> +             If device is active, get pending_bytes by .save_live_pending()
+> +          If total pending_bytes >= threshold_size, call .save_live_iterate()
+> +                  Data of VFIO device for pre-copy phase is copied
+> +        Iterate till total pending bytes converge and are less than threshold
+> +                                  |
+> +  On migration completion, vCPU stops and calls .save_live_complete_precopy for
+> +   each active device. The VFIO device is then transitioned into _SAVING state
+> +                   (FINISH_MIGRATE, _DEVICE, _SAVING)
+> +                                  |
+> +     For the VFIO device, iterate in .save_live_complete_precopy until
+> +                         pending data is 0
+> +                   (FINISH_MIGRATE, _DEVICE, _STOPPED)
+> +                                  |
+> +                 (FINISH_MIGRATE, _COMPLETED, _STOPPED)
+> +             Migraton thread schedules cleanup bottom half and exits
+> +
+> +Live migration resume path
+> +--------------------------
+> +
+> +::
+> +
+> +              Incoming migration calls .load_setup for each device
+> +                       (RESTORE_VM, _ACTIVE, _STOPPED)
+> +                                 |
+> +       For each device, .load_state is called for that device section data
+> +                       (RESTORE_VM, _ACTIVE, _RESUMING)
+> +                                 |
+> +    At the end, .load_cleanup is called for each device and vCPUs are started
+> +                       (RUNNING, _NONE, _RUNNING)
+> +
+> +Postcopy
+> +========
+> +
+> +Postcopy migration is currently not supported for VFIO devices.
+> 
 
