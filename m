@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAC234BD34
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:14:44 +0200 (CEST)
-Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B366234BD39
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:20:03 +0200 (CEST)
+Received: from localhost ([::1]:49880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQY3n-0002kI-BA
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
+	id 1lQY8w-0004DU-Oq
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQY2H-0002Ht-UT
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:13:09 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:41584)
+ id 1lQY7w-0003lq-4U
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:19:00 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:39500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQY2B-0001Oy-Hl
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:13:09 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- l12-20020a9d6a8c0000b0290238e0f9f0d8so9982894otq.8
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 09:13:03 -0700 (PDT)
+ id 1lQY7u-00042z-AV
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:18:59 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id i81so10870186oif.6
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 09:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n4aLhtrm3QsoXCwq3mTd7SrCdp0BFO6qpBS5z0Ex4/U=;
- b=BvYXai4aArVKsr3kK+LNFbFRa0VsZVF5SPaY5KYZJ0UZCgCtm2g8L+lmrLZcwclhoM
- 0rZInyflfE4ldKv6GKFjo7wG8ndYi2UR6oqN8B2H7YRkiT8zuMbRxkgXofbgdIbUi0t4
- 5Uv7/SnL+jywqy7gIdjOgQpDduVV8ivmAEm75ZKTqPEMj+MHJJzJ2hP9+R7Bx670vNPk
- c+XtwGjXfTq6ALtRUCq2nPxj7O+srTLfy9NuTG5Ws2bfAyqoZ/wgBYNEJqBAKc6YIQEd
- 13ui9KC+ZWQ4/9pDLWryBHuKe/wTbvllTPvc72/Allqhz3R7xmXYaavb6QJwYNo00XSV
- IqHw==
+ bh=exC/QbdEHuulcmp0vbK9k5ga87rHXg2/4WNCmNpJbss=;
+ b=kncYW2pZjhQrZbLqlrVQ25JsiBQHs+/zOYq+kEtczAWIHo4aJKTANYJTNnVXrX3zYV
+ DH+NvcnY+OXf4mXSYCYyIDI0eSTa+RGCqybl8NleuZRCCPOvi3yctuQYyx7Q+VGHoYzk
+ ivwkxXDAVqXxKd6TgsdSmod43Sie+Xdvmy2gJSKIxnQOJz1G/dlLc+rLiVTF7gmPgvs8
+ GarKmPtwTIl+g6QGV8VEYQcWpC8zEGp4R4DNP6ihAgEkVIH0TG2o0HsFcBiVxtbbPRc7
+ egcP9jxDeF4uWHewpcrflohJkFBqHDEiliE8qKSwU4J2uYT3FmbYWVZvnDg+lY0FWa0z
+ aBRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n4aLhtrm3QsoXCwq3mTd7SrCdp0BFO6qpBS5z0Ex4/U=;
- b=f8V10cw6hXMBov4U/R698DHpFFwuHzSVWRWZrE7b+iGuWuNQBDrXxuKbSmGmdIL+Es
- 9zphgTARFNydWtwxjSwIXWsvzKlBJrveYUF0xDdj0FH+ogb6FHUR3Ty5EzhqthKM76vC
- TMP5z9yb5RUNhweH7GUCnoUlsWxxB5ochp21r6UpBSuU7lHaMYweRoVA+ZShmhwd+Zj4
- tcJ4mf66x1nlaTESd9CNO9pfpXlS5LjF6M0LwTVJOVQ2Ck32XJyw6Lyfglqr9bhfi/1m
- xsjR22/DUD6/B0J98Q2XJaQafs6IywzRhM4JyyCn2ojybUCdaG25GvHb6R8U4EYnRjp+
- hpaQ==
-X-Gm-Message-State: AOAM531rralLuFEaY7qCoXC45wTVTTXycYf0Jg1VOQuXCwEajbAyI3HR
- VvSjU0FdkXKSK/U+b0ktWPeXKw==
-X-Google-Smtp-Source: ABdhPJxMRRrC+x/bQZosBei09kyA0/qxBo0+d0VsRGfv2SabMvFV3etpHnTVT2OdHDPoLPthVykYFw==
-X-Received: by 2002:a05:6830:1e45:: with SMTP id
- e5mr18784895otj.40.1616947982218; 
- Sun, 28 Mar 2021 09:13:02 -0700 (PDT)
+ bh=exC/QbdEHuulcmp0vbK9k5ga87rHXg2/4WNCmNpJbss=;
+ b=CRVSxCKrTIuLFo2aCbGnoBncCII8SuhR96T+5VnyuvcS+LaZbRBBetwUpsvKPnbwls
+ e7ceQ7jTU0AIo3R+4sjkUF5AzgaRaZXXa3WkMFjFuf+W6lFewN63kH4QUT4GpT5SLLYN
+ jpkVD69ipbm1bfOOUmJuk6ys337oKfa+bRGb1eUT4BP5iQyi0txbW6KKfC481mqBSu1w
+ 3n+U6tUqAFdS3aa7rsYSt18xlOvCXJwc63NzrrXL2k+upVgxFgwqLutG1jFT/biN8oLg
+ u6esJENnXydC/dPcT9su8G41zkhRklrEq6ByAE0D2ufCzJAcXzHVbGfGoMQ01TSBKWpr
+ /8wg==
+X-Gm-Message-State: AOAM533ElDH3NfFySwdhDRD8Rz2wV6nK/KwxltYz3vTJIHPNeBsiTRM5
+ BazNE8cqf7cLduLTv3JaMqi0iA==
+X-Google-Smtp-Source: ABdhPJwDv+mBq2r+mIsC1f2ZfKvxRWLyay7eTbbJyE3G6nCW/Yyb32nXS92S08iMGQTgV9Z+3E/Szg==
+X-Received: by 2002:aca:530e:: with SMTP id h14mr16320207oib.79.1616948336985; 
+ Sun, 28 Mar 2021 09:18:56 -0700 (PDT)
 Received: from [192.168.211.34] (171.189-204-159.bestelclientes.com.mx.
  [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id v1sm3733167otk.67.2021.03.28.09.13.00
+ by smtp.gmail.com with ESMTPSA id g5sm3028228oiy.24.2021.03.28.09.18.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Mar 2021 09:13:01 -0700 (PDT)
-Subject: Re: [RFC v12 24/65] target/arm: move arm_sctlr away from tcg helpers
+ Sun, 28 Mar 2021 09:18:56 -0700 (PDT)
+Subject: Re: [RFC v12 27/65] target/arm: split a15 cpu model and 32bit class
+ functions to cpu32.c
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-25-cfontana@suse.de>
+ <20210326193701.5981-28-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1ce5eecf-af32-208d-b10f-be7dbb097023@linaro.org>
-Date: Sun, 28 Mar 2021 10:12:58 -0600
+Message-ID: <e49aa062-0958-1d4e-c682-28d0a2897493@linaro.org>
+Date: Sun, 28 Mar 2021 10:18:52 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210326193701.5981-25-cfontana@suse.de>
+In-Reply-To: <20210326193701.5981-28-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,39 +99,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/26/21 1:36 PM, Claudio Fontana wrote:
-> this function is used for kvm too, add it to the
-> cpu-common module.
+> provide helper functions there to initialize 32bit models,
+> and export the a15 cpu model.
+> 
+> We still need to keep around a15 until we sort out the board configurations.
+> 
+> cpu.c will continue to contain the common parts between
+> 32 and 64.
+> 
+> Note that we need to build cpu32 also for TARGET_AARCH64,
+> because qemu-system-aarch64 is supposed to be able to run
+> non-aarch64 cpus too.
 > 
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   target/arm/cpu-common.c | 15 +++++++++++++++
->   target/arm/tcg/helper.c | 11 -----------
->   2 files changed, 15 insertions(+), 11 deletions(-)
-> 
-> diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
-> index a34f7f19d8..892e075298 100644
-> --- a/target/arm/cpu-common.c
-> +++ b/target/arm/cpu-common.c
-> @@ -342,3 +342,18 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
->   }
->   
->   /* #endif TARGET_AARCH64 , see matching comment above */
-> +
-> +uint64_t arm_sctlr(CPUARMState *env, int el)
-> +{
-> +    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
-> +    if (el == 0) {
-> +#ifdef TARGET_AARCH64
-> +        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
-> +        el = (mmu_idx == ARMMMUIdx_E20_0 || mmu_idx == ARMMMUIdx_SE20_0)
-> +            ? 2 : 1;
-> +#else
-> +        el = 1;
-> +#endif /* TARGET_AARCH64 */
-> +    }
 
-My comment was merely an observation; I'm not sure it's a good idea.  And you 
-should never make this functional change while moving code.
+Dump state has nothing to do with a15 or the 32-bit models.
+Moving that should be a separate change.
+
+The gdbstub changes are also a separate change, afaics.
+
+I don't understand the a15 comment above.  Is it really relevant to moving the 
+32-bit cpu models?
 
 
 r~
