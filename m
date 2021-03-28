@@ -2,46 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215F734BC4D
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 14:22:52 +0200 (CEST)
-Received: from localhost ([::1]:52298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6056C34BC80
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 15:28:03 +0200 (CEST)
+Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQURO-0002eW-EK
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 08:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
+	id 1lQVST-0005bd-Vj
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 09:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lQUQN-0002Eh-9N
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 08:21:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58078)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lQVQp-0004r9-Me; Sun, 28 Mar 2021 09:26:19 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:53563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lQUQI-0007hH-QX
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 08:21:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 80ACF6196C;
- Sun, 28 Mar 2021 12:21:35 +0000 (UTC)
-Date: Sun, 28 Mar 2021 13:21:33 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
-Message-ID: <20210328122131.GB17535@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
- <20210312151902.17853-3-steven.price@arm.com>
- <20210327152324.GA28167@arm.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lQVQe-0002Ss-4t; Sun, 28 Mar 2021 09:26:17 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F7c0Z3jnkz9sVt; Mon, 29 Mar 2021 00:25:50 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616937950;
+ bh=rLs9BCZbae80jcv0xjio7eL5HK1KVmCoHgcUYULq9p0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HvvPJuBhcqmk+19GGq4FPB5r4GOUnV3km8wqXm9sGM9PPWaoNOmxv9jRLo4ObWPs2
+ V3kNg3TWSlezfCUzpXoPezgE0jWSeEBejE3+nwdjnovSLpjGR60nWt6VGJIohUe4k7
+ /n6l/x2RRssW8OshtqOtePbsRsubBeOOuY5wzwfI=
+Date: Mon, 29 Mar 2021 00:09:51 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 10/10] target/ppc: Validate hflags with CONFIG_DEBUG_TCG
+Message-ID: <YGCAHzQ//dyTyUku@yekko.fritz.box>
+References: <20210323184340.619757-1-richard.henderson@linaro.org>
+ <20210323184340.619757-11-richard.henderson@linaro.org>
+ <YFqD5JOVEXVFv9Tr@yekko.fritz.box>
+ <YFxONrbZarGMH34O@yekko.fritz.box>
+ <0ea867e5-e2f5-954f-a07d-5a71090985e3@linaro.org>
+ <4c323791-02c4-4ad3-be58-3472ed23e21c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rGXq24hya0bKzOHH"
 Content-Disposition: inline
-In-Reply-To: <20210327152324.GA28167@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <4c323791-02c4-4ad3-be58-3472ed23e21c@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,72 +62,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 27, 2021 at 03:23:24PM +0000, Catalin Marinas wrote:
-> On Fri, Mar 12, 2021 at 03:18:58PM +0000, Steven Price wrote:
-> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > index 77cb2d28f2a4..b31b7a821f90 100644
-> > --- a/arch/arm64/kvm/mmu.c
-> > +++ b/arch/arm64/kvm/mmu.c
-> > @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-> >  	if (vma_pagesize == PAGE_SIZE && !force_pte)
-> >  		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
-> >  							   &pfn, &fault_ipa);
-> > +
-> > +	if (fault_status != FSC_PERM && kvm_has_mte(kvm) && pfn_valid(pfn)) {
-> > +		/*
-> > +		 * VM will be able to see the page's tags, so we must ensure
-> > +		 * they have been initialised. if PG_mte_tagged is set, tags
-> > +		 * have already been initialised.
-> > +		 */
-> > +		struct page *page = pfn_to_page(pfn);
-> > +		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
-> > +
-> > +		for (i = 0; i < nr_pages; i++, page++) {
-> > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> > +				mte_clear_page_tags(page_address(page));
-> > +		}
-> > +	}
-> 
-> This pfn_valid() check may be problematic. Following commit eeb0753ba27b
-> ("arm64/mm: Fix pfn_valid() for ZONE_DEVICE based memory"), it returns
-> true for ZONE_DEVICE memory but such memory is allowed not to support
-> MTE.
 
-Some more thinking, this should be safe as any ZONE_DEVICE would be
-mapped as untagged memory in the kernel linear map. It could be slightly
-inefficient if it unnecessarily tries to clear tags in ZONE_DEVICE,
-untagged memory. Another overhead is pfn_valid() which will likely end
-up calling memblock_is_map_memory().
+--rGXq24hya0bKzOHH
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, the bigger issue is that Stage 2 cannot disable tagging for
-Stage 1 unless the memory is Non-cacheable or Device at S2. Is there a
-way to detect what gets mapped in the guest as Normal Cacheable memory
-and make sure it's only early memory or hotplug but no ZONE_DEVICE (or
-something else like on-chip memory)?  If we can't guarantee that all
-Cacheable memory given to a guest supports tags, we should disable the
-feature altogether.
+On Sat, Mar 27, 2021 at 06:46:15AM -0600, Richard Henderson wrote:
+> On 3/26/21 6:41 AM, Richard Henderson wrote:
+> > On 3/25/21 2:47 AM, David Gibson wrote:
+> > > On Wed, Mar 24, 2021 at 11:12:20AM +1100, David Gibson wrote:
+> > > > On Tue, Mar 23, 2021 at 12:43:40PM -0600, Richard Henderson wrote:
+> > > > > Verify that hflags was updated correctly whenever we change
+> > > > > cpu state that is used by hflags.
+> > > > >=20
+> > > > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > > >=20
+> > > > Applied to ppc-for-6.0, thanks.
+> > >=20
+> > > Alas, this appears to cause a failure in the 'build-user' test on
+> > > gitlab CI :(.=A0 I haven't managed to reproduce it locally, so I'm not
+> > > sure what's going on.
+> >=20
+> > I guess you mean e.g.
+> >=20
+> > https://gitlab.com/dgibson/qemu/-/jobs/1126364147
 
-> I now wonder if we can get a MAP_ANONYMOUS mapping of ZONE_DEVICE pfn
-> even without virtualisation.
+Yes, sorry I meant to give you a link.
 
-I haven't checked all the code paths but I don't think we can get a
-MAP_ANONYMOUS mapping of ZONE_DEVICE memory as we normally need a file
-descriptor.
+> >=20
+> > ?=A0 I'll have a look.
+>=20
+> I haven't been able to repo locally, or on gitlab:
+>=20
+> https://gitlab.com/rth7680/qemu/-/pipelines/277073704
 
--- 
-Catalin
+Huh..
+
+> Have you tried simply re-running that job?
+
+Several times :/
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--rGXq24hya0bKzOHH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBggB0ACgkQbDjKyiDZ
+s5JQsg//SzJ+1TOOsTfvAO8CZWaHvTC6NMrtTtToolESAQWOnO5kJN5OlYrQKm3G
+DwnYSxrWBkch/Fgg9bk8oe79DzsHTipdvoRv4nGuADqoSMIneCH94nAC3xT+FQyR
+aB4PbvDkAovNH6gX7x3KYGIF6P19vFb+tXVItl9bpjwHfeZ54oqiAiEqwsoBieoz
+XPa+RrHPju5JOfqFsnZZmh7zuDbb3PyhAaX0wkGf26gZKfwO+TxT/jDY/fMLPCrX
+nfnLrzcu0r4QwbW9RpCxMXd6goYlPxDYiD6oyBuM/nPxzym/4jfAbb/flp13Rxrc
+qGhPeMat+nIVsmb6AtKYV8NyE2Jwchy7nTcekwlC3J8uATrAIHWYTrsTrd4+r/BD
+w4sjuqi+Ahmro4Jezr4X/XfYaOTZYGXscaykQhSdopLiSdRnYfD2PeKwTQyxVetR
+YCaxtf0IG2KTRaGyzHGgan4kFVbBx1HiCJzN6j9SyKeggtVE8Wc/PuWH6H0xVGru
+5b3XhxQQfrzCPRi30jxrtAREdvXV2gcBrwP2AzjA5C5Hcjg4SasnUU+JTqwU+1FA
+rHqtcuVSuw4sTAX/v5GOw7S61MlRZYQmgOkpmGouPCpek/DBDgGbgxIxKx38c43E
+cjMh5dKja0CplUFFBEuuiIhAA5EcIALrQIpFmkYERzjmYk0/238=
+=CZeb
+-----END PGP SIGNATURE-----
+
+--rGXq24hya0bKzOHH--
 
