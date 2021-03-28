@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E3034BDDE
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:07:48 +0200 (CEST)
-Received: from localhost ([::1]:59786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19A434BE38
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:23:42 +0200 (CEST)
+Received: from localhost ([::1]:37436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQZpD-00006x-2B
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
+	id 1lQa4c-0003Za-19
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQZnX-00086r-6N
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:06:06 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:37504)
+ id 1lQa36-00034t-OI
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:22:12 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:46747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQZnS-0000Tq-EL
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:06:01 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- t23-20020a0568301e37b02901b65ab30024so10167720otr.4
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 11:05:54 -0700 (PDT)
+ id 1lQa31-0007VM-8u
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:22:08 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ 68-20020a9d0f4a0000b02901b663e6258dso10137482ott.13
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 11:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dH5sG3RPIpIkTexiSGG8WQ8+fE1Vfl1F3m6wsRJId7E=;
- b=isI2XfExsjRpnblYQ5eX2A/01NwakAN7pNT1RJim469P4EQ6iI2zCtlLqVRkQMNC6B
- oyThf1BVPWqlBfTTYYph9lAzQYhrgGanaFkMkKYc7hPtP8Y5rd+KB4KzUOP2wDqVdfF7
- jPBPQdMY/LrwKH9M5Sw7EDhnBej9kUEBHEvuGucjCfSBnDKbjl/BtDp0zx+nENfH+Lt+
- Q17umrJitG/ShFAAs7QNE572Nks5BegTLe+6vPoUyLGMl9OM8UANn7xeBDDodey596V/
- YPlwGW4pX8R7PxmLYLdSJPChmRW4dLJOeX4hWzpGl//iKYp37YqfcQfstANE69wjEtpz
- g9YA==
+ bh=g+8TRjYDiWL+UY3xHpYkRwSkm1Zwk1QbGs/tgMWzj2A=;
+ b=sN7V44T2y6OJky/pGhy5Dd3qmw2Fe40HoroVrGIdsZDJYDhml/VUVsperRqrJtBqdU
+ Ha8jqA6dE/aCKjCWbG4yZuzjyxEKpJy7w3afPSn8eRzcVPwKUR2EGwBfOHw5wLqFn2qH
+ 9q5fYKb/0yX+uT0pUvtFGg4wS+WgwR/TGRJzrXF8LI6RKZnkXn3HbatOmBmzVBnbdMGn
+ UhN3NPrc7mBzCyALw15/BwKv50H5z7bUqdt7n6ApnKlcxISHhRnYOzSjsVTN7NL3Alyj
+ 43NHb5Bqp8PTAestNXIJ/4TZQYx84nh8HQAsAP0p2Xdb76Enj+YBGlJWfYlJ1kd3/Tee
+ OT/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dH5sG3RPIpIkTexiSGG8WQ8+fE1Vfl1F3m6wsRJId7E=;
- b=SnxIM8BU3zBIotjAN4w5S9kq1/ril3uzpXoWgOjCHjwn4BtATbryyXyZ7f96O89dy9
- ogumjdlsgxkY7CADhz1svxH3D22S8NB9z5VuH9eJXpYRojCZJNg2cGGMt5Z5OqjY7IY4
- Wg/DmyuTJH/LJs+1Yh1/N5rF573UewHJaAGPMbd1AVC7nQjWLvCyfdUz2KEtqhsAuAZj
- NiWsDQy8iiBjAwv5PTk1f+hsOs9ah78V+nlhIGqHpjxHSKsWbJEjpzXcVmu7riGoFckY
- cj/2QPOQ2Wd6X8DG6YOQ3fjmFfjVQV75icw6oM6Jm+SP3RoIrDvct/LAwLVep5IWi8F7
- 0KXg==
-X-Gm-Message-State: AOAM5308pYvqgiIVP3tvcQGSaEGXbiGHhpXbPFVaBm3Fge5tRAw80HZD
- xDhG/roMty+AEkU9s8a1Sgos7w==
-X-Google-Smtp-Source: ABdhPJyZNgNSOIwVYp+8eCN7SWh1i5zK+5Yc/JK6XIhEWt0DckpT3qGDaBwSbzvoU0DdjAknggN9tA==
-X-Received: by 2002:a05:6830:1542:: with SMTP id
- l2mr18547480otp.95.1616954753616; 
- Sun, 28 Mar 2021 11:05:53 -0700 (PDT)
+ bh=g+8TRjYDiWL+UY3xHpYkRwSkm1Zwk1QbGs/tgMWzj2A=;
+ b=C3D5s5UIw693YRTlvrDyLx1Y3Okzyb3HIT3IONBT9bW57twqmPmulfF5AdJJVBI8El
+ 044QvzuOWOc2e/3rVjT/UFelib+sE5rMLht4lTdqotFlMN0UQwRikDysftiZuxDrl4jO
+ gzQqCHv7GhK3XSEbi4ezCyrZVahPbaPuChERYQGiIp8SBbNA/obch40tHl+342159l+V
+ KB9XcZKqpH2xgaCcZZB+A47tXp0XOWDg9nDhxxOUczW1jaDXU0BqRRjaA9x/pLe69wkK
+ +89NKNTQX8MGn69MbfkMcS5dFMoJC+rqzQ1fvko36zf1gjukx+QEuRyreNwd5u7njUwI
+ iZww==
+X-Gm-Message-State: AOAM530YZl3pA292t5yCz8dIKZgIUzBMOt218/99meI4vo1mqxhCxJoK
+ UmUNtG0F6VseiL2ZJTt86ZHVmg==
+X-Google-Smtp-Source: ABdhPJxbdPhHjbygb3TvYx1z+uw6k7s7IYtMcyTprRq3ErjM4F9+74BMf8RKd19LLyMYgwuLJMWrhg==
+X-Received: by 2002:a9d:74d4:: with SMTP id a20mr1829379otl.301.1616955720084; 
+ Sun, 28 Mar 2021 11:22:00 -0700 (PDT)
 Received: from [192.168.211.34] (171.189-204-159.bestelclientes.com.mx.
  [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id g13sm3778466otq.3.2021.03.28.11.05.52
+ by smtp.gmail.com with ESMTPSA id k24sm3123997oic.51.2021.03.28.11.21.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Mar 2021 11:05:53 -0700 (PDT)
-Subject: Re: [RFC v12 50/65] target/arm: cpu-sve: new module
+ Sun, 28 Mar 2021 11:21:59 -0700 (PDT)
+Subject: Re: [RFC v12 51/65] target/arm: cpu-sve: split TCG and KVM
+ functionality
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-51-cfontana@suse.de>
+ <20210326193701.5981-52-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a632184a-e2b3-d4ad-9eec-2f8b9738eed2@linaro.org>
-Date: Sun, 28 Mar 2021 12:05:49 -0600
+Message-ID: <573a18c3-dc67-12f9-9cdb-826cf3c9ec00@linaro.org>
+Date: Sun, 28 Mar 2021 12:21:55 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210326193701.5981-51-cfontana@suse.de>
+In-Reply-To: <20210326193701.5981-52-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,48 +100,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/26/21 1:36 PM, Claudio Fontana wrote:
-> extract the SVE-related cpu object properties and functions,
-> and move them to a separate module.
-> 
-> Disentangle SVE from pauth that is a separate, TCG-only feature.
+> +++ b/target/arm/kvm/kvm-sve.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * QEMU AArch64 CPU SVE KVM interface
+> + *
+> + * Copyright 2021 SUSE LLC
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef KVM_SVE_H
+> +#define KVM_SVE_H
+> +
+> +/* note: SVE is an AARCH64-only option, only include this for TARGET_AARCH64 */
 
-Nit: pauth is not tcg-only, but the properties selecting the pauth hash are tcg 
-only.  For kvm, you get whatever the hardware implements.
+A pointless comment given that kvm itself is aarch64-only.
 
->   #ifdef TARGET_AARCH64
->   # define ARM_MAX_VQ    16
-> -void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
-> -void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
->   #else
->   # define ARM_MAX_VQ    1
-> -static inline void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp) { }
-> -static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
-> -#endif
-> +#endif /* TARGET_AARCH64 */
->   
->   typedef struct ARMVectorReg {
->       uint64_t d[2 * ARM_MAX_VQ] QEMU_ALIGNED(16);
-> @@ -219,10 +216,13 @@ typedef struct ARMPredicateReg {
->       uint64_t p[DIV_ROUND_UP(2 * ARM_MAX_VQ, 8)] QEMU_ALIGNED(16);
->   } ARMPredicateReg;
->   
-> +void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
->   /* In AArch32 mode, PAC keys do not exist at all.  */
->   typedef struct ARMPACKey {
->       uint64_t lo, hi;
->   } ARMPACKey;
-> +#else
-> +static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
->   #endif
+> -void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
+> +bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
 
-Also: you have not in fact disentangled anything.
+The commit message does not mention the interface change here.
 
-You've merely moved the entanglement from one aarch64 block containing sve and 
-pauth stuff, to another aarch64 block containing sve and pauth stuff.
+I'm not sure about the rest of this patch.  It saves a miniscule amount of code 
+in a kvm-only build, but I don't know that it clarifies things at all.
 
-> +void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
+As yet, the other arm hw accelerators do not support SVE, but I assume that's 
+only a matter of time.  The ARM Neoverse cpus support SVE, and will require Xen 
+to have an answer soon.  (Apple will do whatever Apple does, given that it fabs 
+its own ARM cpus, but I expect they won't delay SVE forever.)
 
-Again with the move+rename in the same patch.  Don't.
+It's not clear to me what bits of the kvm code here is really kvm specific, or 
+if we'll have to move it back.
+
+I'm tempted to leave it alone for now.
 
 
 r~
