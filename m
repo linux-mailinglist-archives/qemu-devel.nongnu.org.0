@@ -2,57 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BFF34BE3B
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:27:01 +0200 (CEST)
-Received: from localhost ([::1]:40268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8B34BE46
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:33:13 +0200 (CEST)
+Received: from localhost ([::1]:43958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQa7o-0004w4-KD
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53312)
+	id 1lQaDo-0006tF-Ih
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lQa5v-0004Fl-TN; Sun, 28 Mar 2021 14:25:03 -0400
-Resent-Date: Sun, 28 Mar 2021 14:25:03 -0400
-Resent-Message-Id: <E1lQa5v-0004Fl-TN@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lQa5p-0000FU-RV; Sun, 28 Mar 2021 14:25:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1616955892; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=a8mn/JnPyhec0NwpIFUvV2ss7rFI+E6TmE7WQC1hEY+8wbLCWbDdknO98E40mNqqrCUE/T3ArHUziDeYBDQ/5xxcAXGXy4LNiDMzo6gURSfboQIAf9WNpaqceawT5ea/ev0PhOaOyT9BrPXpCvx5OMnfUDM3UrEuYvPnxUZVLXc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1616955892;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Dty79UPqnxGVg66MINiBZqUI+lJPULMfnS20Za0UUPU=; 
- b=g7djZ99+QOHFkL2oCgLiudUATQFPvV6NGK8LpfSuJGOw8Mg14UgIpIw+St5ubvd4w4HX1bOapRyWldiuEkgiUxfcAXVbS9Ev+ZwUiITgu6H7v8ZKKI7T4/AsRc6TDFEqSw1Q3SuJdn2yesjEkv9V2OghMXbG3XY4dUp4fCfG4aY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1616955889692166.81324624230115;
- Sun, 28 Mar 2021 11:24:49 -0700 (PDT)
-In-Reply-To: <20210328180135.88449-1-frf@ghgsat.com>
-Subject: Re: [PATCH] linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if
- its length is 0
-Message-ID: <161695588851.19233.1011216598504743770@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lQaCK-0006QR-0O
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:31:40 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:39689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lQaCB-0003Pw-8S
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:31:33 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id i81so11074263oif.6
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 11:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fjopxk2H1Yi/IumX4Ne3p4gjdpW+A79BOfb+/LP592I=;
+ b=EuNiXtAAyk4rRPsMF+e1sd/ZSjaVvJ8capeGvj1GY00TAWDyKjTwmIz1aiZE6cOYtG
+ eCws/UXPvSK5HZzC3YXrmhBBWjzb2pyoccbqHYMBq53VGHMGPmMsxGzWsntlvLIA5srW
+ HJn7lsO5i+jtQnqJhYULEZIDyxlF0swgSaHDADZX+kU5og0QBnE2hO/rf7PEAGS/asIP
+ XY6ptTIIbHgVecpUtyyor1Ml/vQhoYy/hIBTr6LWiDe5Wwi6WykoKo5hS2eqvryj7O8C
+ qJt8rbiwA5WGuuxsNGTykjGnDbsyHylFF6if9VZ7YhqZ+JJUrmv5qlN6iIbR8DemFTLL
+ 8S/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fjopxk2H1Yi/IumX4Ne3p4gjdpW+A79BOfb+/LP592I=;
+ b=f43s0VQdO4ks65rYdoWkEih5KEbrYH4talI2hact17eTH5QEwzwSYMYJeRglBrZ9c/
+ VimeCG7Yhr9u0ZDB8vIuF2E/mjtbjQvdL3nOD2WmmKZz7CCbmudTzBNBdcf2/tTl5lt8
+ +3FMJN1pd450Ag8UeG1hDuBVCzGD8yZnQ+KXQwYo3nhrlgoDDOHgUR8TQDUfh++T+wBi
+ EFQ/7PNZ+wP2gvHEyyXhr5zjxcbGb9X2Ai7wPkUTZSckZblFe2UXxfuwJoxoyxT5gzW4
+ ksCMzIWv0r5q/Ky/vu7E097CBnxLPYZAsYLA4jYqxZOPEJM5xL0y/pDJZ77EBUY2O8YP
+ 01YQ==
+X-Gm-Message-State: AOAM533PJjLhxf7om74QaqX0zD5Edeub/F2IUoecCga/UOpBiKNZgFDp
+ 3pe/2Ij14Z/DGRSgORgYUuP6rA==
+X-Google-Smtp-Source: ABdhPJzhF9R9ZJRoZh9s1ve0TK1WxkguG03YhHT/WysYPMwnaiw3UuypeJ4TmR8xsK7Tkp6zqyQpkQ==
+X-Received: by 2002:a05:6808:287:: with SMTP id
+ z7mr16294171oic.111.1616956288827; 
+ Sun, 28 Mar 2021 11:31:28 -0700 (PDT)
+Received: from [192.168.211.34] (171.189-204-159.bestelclientes.com.mx.
+ [189.204.159.171])
+ by smtp.gmail.com with ESMTPSA id b22sm3723146ots.59.2021.03.28.11.31.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Mar 2021 11:31:28 -0700 (PDT)
+Subject: Re: [RFC v12 52/65] target/arm: make is_aa64 and arm_el_is_aa64 a
+ macro for !TARGET_AARCH64
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210326193701.5981-1-cfontana@suse.de>
+ <20210326193701.5981-53-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <18aeb2e2-63b3-2c86-2ea9-85efd0c3bebd@linaro.org>
+Date: Sun, 28 Mar 2021 12:31:25 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Sun, 28 Mar 2021 11:24:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210326193701.5981-53-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,39 +93,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, frf@ghgsat.com, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyODE4MDEzNS44ODQ0
-OS0xLWZyZkBnaGdzYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAzMjgxODAxMzUuODg0NDktMS1m
-cmZAZ2hnc2F0LmNvbQpTdWJqZWN0OiBbUEFUQ0hdIGxpbnV4LXVzZXI6IE5FVExJTktfTElTVF9N
-RU1CRVJTSElQUzogQWxsb3cgYmFkIHB0ciBpZiBpdHMgbGVuZ3RoIGlzIDAKCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
-ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
-dC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMjgxODAxMzUuODg0NDkt
-MS1mcmZAZ2hnc2F0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMzI4MTgwMTM1Ljg4NDQ5LTEtZnJmQGdo
-Z3NhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplMmJhN2ZiIGxpbnV4LXVz
-ZXI6IE5FVExJTktfTElTVF9NRU1CRVJTSElQUzogQWxsb3cgYmFkIHB0ciBpZiBpdHMgbGVuZ3Ro
-IGlzIDAKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBp
-cyBtYW5nbGVkIGJ5IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IEZyw6lkw6lyaWMgRm9y
-dGllciB2aWEgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJu
-aW5ncywgOCBsaW5lcyBjaGVja2VkCgpDb21taXQgZTJiYTdmYmQ3NTM1IChsaW51eC11c2VyOiBO
-RVRMSU5LX0xJU1RfTUVNQkVSU0hJUFM6IEFsbG93IGJhZCBwdHIgaWYgaXRzIGxlbmd0aCBpcyAw
-KSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDMyODE4MDEzNS44ODQ0OS0xLWZyZkBnaGdzYXQu
-Y29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 3/26/21 1:36 PM, Claudio Fontana wrote:
+> +#define is_a64(env) (false)
+...
+> +#define arm_el_is_aa64(env, el) (false)
+
+Late reply to the v11 thread: 'use" the arguments here by casting them to void. 
+  Then you don't need the other changes you make merely to avoid unused variables.
+
+
+r~
 
