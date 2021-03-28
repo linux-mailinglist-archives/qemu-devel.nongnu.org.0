@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4673D34BE60
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:53:54 +0200 (CEST)
-Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D139234BE59
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:51:46 +0200 (CEST)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQaXp-0002W9-9s
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56546)
+	id 1lQaVl-0007gd-Qv
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lQaQr-00031l-5h
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:46:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47930)
+ id 1lQaQu-0003B2-NY
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:46:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lQaQk-0001Me-O6
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:46:40 -0400
+ id 1lQaQs-0001OD-UP
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:46:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616957194;
+ s=mimecast20190719; t=1616957202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0LO8T7bNUW+8r/eMJGeX8GLhh07MCIeqwow4BHT/m7g=;
- b=X3ilC2b2AM9ZS3NSt9jNREYln9tLvRK8jKqgTTcPZuoP6TDWDv0/8D7TeAj0XxAGuC9SZt
- UzkFvQpU1FuD2K4BscZFujEgEpjE9RGdryNlln7GdkR9leSsaUX3CoprTTUqDo7wvuxNWe
- 5Vrj+SiwyF2WFlJATgws4Hy4It/BdKo=
+ bh=oXE/Bgm+erBZQtr1pW+rPTAVUh9BEM9OdXQ5YGZt2jA=;
+ b=KlPXYU5I+ftfd4MwfdpgTMu4s5Fci5kVmja8jac9F4sv47+KMb2xMUEXA6AIZ0vLO/VWdR
+ PQdnIRpDknwMJuHd6Z/hmTx4v1CjreuFiOUeSFavGzUd1oi2fWsQZ7G0EaRBlsT+tOfmbe
+ zD82lNJlUaNvz0i8x9OtvssLuSRi34I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-GRgR9l47Nra7kJ0Z81Z8Bw-1; Sun, 28 Mar 2021 14:46:31 -0400
-X-MC-Unique: GRgR9l47Nra7kJ0Z81Z8Bw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-498-cuJO6Q7kPaC4i5n24zdEiw-1; Sun, 28 Mar 2021 14:46:39 -0400
+X-MC-Unique: cuJO6Q7kPaC4i5n24zdEiw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629C687A83A;
- Sun, 28 Mar 2021 18:46:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6281C80D6B4;
+ Sun, 28 Mar 2021 18:46:38 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26C045D6A1;
- Sun, 28 Mar 2021 18:46:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53ADF60853;
+ Sun, 28 Mar 2021 18:46:36 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] yank: Always link full yank code
-Date: Sun, 28 Mar 2021 22:45:29 +0400
-Message-Id: <20210328184533.752840-7-marcandre.lureau@redhat.com>
+Subject: [PULL 07/10] chardev/char.c: Move object_property_try_add_child out
+ of chardev_new
+Date: Sun, 28 Mar 2021 22:45:30 +0400
+Message-Id: <20210328184533.752840-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20210328184533.752840-1-marcandre.lureau@redhat.com>
 References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -86,93 +87,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-Yank now only depends on util and can be always linked in. Also remove
-the stubs as they are not needed anymore.
+Move object_property_try_add_child out of chardev_new into it's
+callers. This is a preparation for the next patches to fix yank
+with the chardev-change case.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <997aa12a28c555d8a3b7a363b3bda5c3cf1821ba.1616521341.git.lukasstraub2@web.de>
+Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
+Message-Id: <b2a5092ec681737bc3a21ea16f3c00848b277521.1616794852.git.lukasstraub2@web.de>
 ---
- stubs/yank.c      | 23 -----------------------
- MAINTAINERS       |  1 -
- stubs/meson.build |  1 -
- util/meson.build  |  2 +-
- 4 files changed, 1 insertion(+), 26 deletions(-)
- delete mode 100644 stubs/yank.c
+ chardev/char.c | 42 ++++++++++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/stubs/yank.c b/stubs/yank.c
-deleted file mode 100644
-index 11b24fc057..0000000000
---- a/stubs/yank.c
-+++ /dev/null
-@@ -1,23 +0,0 @@
--#include "qemu/osdep.h"
--#include "qemu/yank.h"
--
--bool yank_register_instance(const YankInstance *instance, Error **errp)
--{
--    return true;
--}
--
--void yank_unregister_instance(const YankInstance *instance)
--{
--}
--
--void yank_register_function(const YankInstance *instance,
--                            YankFn *func,
--                            void *opaque)
--{
--}
--
--void yank_unregister_function(const YankInstance *instance,
--                              YankFn *func,
--                              void *opaque)
--{
--}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 12c28feb35..dcab656e62 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2822,7 +2822,6 @@ Yank feature
- M: Lukas Straub <lukasstraub2@web.de>
- S: Odd fixes
- F: util/yank.c
--F: stubs/yank.c
- F: migration/yank_functions*
- F: include/qemu/yank.h
- F: qapi/yank.json
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 8a3e804cf0..be6f6d609e 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -46,7 +46,6 @@ stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
- stub_ss.add(files('cpu-synchronize-state.c'))
- if have_block
--  stub_ss.add(files('yank.c'))
-   stub_ss.add(files('replay-tools.c'))
- endif
- if have_system
-diff --git a/util/meson.build b/util/meson.build
-index 984fba965f..510765cde4 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -43,6 +43,7 @@ util_ss.add(files('stats64.c'))
- util_ss.add(files('systemd.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
- util_ss.add(files('guest-random.c'))
-+util_ss.add(files('yank.c'))
+diff --git a/chardev/char.c b/chardev/char.c
+index 140d6d9d36..48f321b3e1 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -975,7 +975,9 @@ static Chardev *chardev_new(const char *id, const char *typename,
  
- if have_user
-   util_ss.add(files('selfmap.c'))
-@@ -51,7 +52,6 @@ endif
- if have_system
-   util_ss.add(files('crc-ccitt.c'))
-   util_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus.c'), gio])
--  util_ss.add(files('yank.c'))
-   util_ss.add(when: 'CONFIG_LINUX', if_true: files('userfaultfd.c'))
- endif
+     qemu_char_open(chr, backend, &be_opened, &local_err);
+     if (local_err) {
+-        goto end;
++        error_propagate(errp, local_err);
++        object_unref(obj);
++        return NULL;
+     }
  
+     if (!chr->filename) {
+@@ -985,22 +987,6 @@ static Chardev *chardev_new(const char *id, const char *typename,
+         qemu_chr_be_event(chr, CHR_EVENT_OPENED);
+     }
+ 
+-    if (id) {
+-        object_property_try_add_child(get_chardevs_root(), id, obj,
+-                                      &local_err);
+-        if (local_err) {
+-            goto end;
+-        }
+-        object_unref(obj);
+-    }
+-
+-end:
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        object_unref(obj);
+-        return NULL;
+-    }
+-
+     return chr;
+ }
+ 
+@@ -1009,6 +995,7 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
+                           GMainContext *gcontext,
+                           Error **errp)
+ {
++    Chardev *chr;
+     g_autofree char *genid = NULL;
+ 
+     if (!id) {
+@@ -1016,7 +1003,19 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
+         id = genid;
+     }
+ 
+-    return chardev_new(id, typename, backend, gcontext, errp);
++    chr = chardev_new(id, typename, backend, gcontext, errp);
++    if (!chr) {
++        return NULL;
++    }
++
++    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
++                                       errp)) {
++        object_unref(OBJECT(chr));
++        return NULL;
++    }
++    object_unref(OBJECT(chr));
++
++    return chr;
+ }
+ 
+ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+@@ -1037,6 +1036,13 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+         return NULL;
+     }
+ 
++    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
++                                       errp)) {
++        object_unref(OBJECT(chr));
++        return NULL;
++    }
++    object_unref(OBJECT(chr));
++
+     ret = g_new0(ChardevReturn, 1);
+     if (CHARDEV_IS_PTY(chr)) {
+         ret->pty = g_strdup(chr->filename + 4);
 -- 
 2.29.0
 
