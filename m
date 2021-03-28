@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6F234BDC6
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 19:49:08 +0200 (CEST)
-Received: from localhost ([::1]:45188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00C634BDC3
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 19:43:53 +0200 (CEST)
+Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQZX9-0001MA-2l
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 13:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
+	id 1lQZS4-0005pU-SH
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 13:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lQZTy-0008Ln-2J
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:45:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56334)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lQZPQ-0004DZ-NM
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:10 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:40513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lQZTt-0000bX-RR
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:45:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lQZTr-0004c8-FN
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:45:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 728B62E8157
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:45:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lQZPN-00078z-AY
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:08 -0400
+Received: by mail-oi1-x234.google.com with SMTP id i3so10996604oik.7
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 10:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xRtBhi/A7RJneuNjUm/jJnn8cNr3HAWBBeoIlAWDXpg=;
+ b=qoBm5FWmKmVXVcbUD+UhHrElp5F36lX0q7+cXWReZvXgWdGwwRF6NwjEiGERwcn2jg
+ MGjl61bsJ8QmHpuYcfOffGKAHO0IlNw50rSWd+zph2/jE8LT5VakABv6yRyQ/qusWF6e
+ Oiayn+jBiqf3DcysWxti+7HI/i7uzQdvd24Iql2uHoW1lOMo3d+ow40PUX82xffSbUDi
+ FQJNNl83MpdGhIL9wS5ha+kid6QRzpFhHbysoaCq51eU59atnG4YGPUR+H7uUMrkKUWb
+ mG7J9ABFVwgrun8OdnkkqFK9a7zuimrPrdicAF3cMVOnZhHe1Sxdmic6286Zt2GR7ChG
+ 97JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xRtBhi/A7RJneuNjUm/jJnn8cNr3HAWBBeoIlAWDXpg=;
+ b=h0f9UThvOBAysmAMw2YKBpHNJgOzx36EOCR2NHIJ1fazDwbP+b/EjE6i1JKPruA9ls
+ qtyMQIxEyXm57w7qE2A9ICXg8vN75mKO+aBjw+Zl4ZFKD7BfkoRlWcIKgDQ8+QolHZnt
+ wGjs0aYQU7i0C3lyW7e2IapGHiIRfsYF3nRC5R71K0vae7WmliK3plocR7whZClmV1hM
+ +mOudhB3A3lz8mwWpuZcgNOiBgkWO5DscbIorhxtJN/L2U0ay6nDCWnZXi0nC4pLsNCB
+ Id6IWLkCyy1li3jzMsZ++lIZLtiZ8Vf9Rmsg+HICyxD3aPpWdFE8H7fE9tzgj37n1ewh
+ wioA==
+X-Gm-Message-State: AOAM533vYIQCq3ezPtONWrv6wfuAp8O9V+dUo+8A6K09R89othSua46c
+ /3Cr6WxozOviop3dWASocGugfg==
+X-Google-Smtp-Source: ABdhPJyc0OglhwlAtnBvbMKW9gpbyvR2oOBo5grLY4m1ok6VK4w8Vjx+KppHmWUdfQPb24hTvbPYAw==
+X-Received: by 2002:aca:741:: with SMTP id 62mr15824753oih.104.1616953263831; 
+ Sun, 28 Mar 2021 10:41:03 -0700 (PDT)
+Received: from [192.168.211.34] (171.189-204-159.bestelclientes.com.mx.
+ [189.204.159.171])
+ by smtp.gmail.com with ESMTPSA id n10sm3488502otj.36.2021.03.28.10.41.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Mar 2021 10:41:03 -0700 (PDT)
+Subject: Re: [RFC v12 45/65] Revert "target/arm: Restrict v8M IDAU to TCG"
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210326193701.5981-1-cfontana@suse.de>
+ <20210326193701.5981-46-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b7049ec5-10e9-7cb6-e8b1-1fdd85fb3142@linaro.org>
+Date: Sun, 28 Mar 2021 11:40:58 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 28 Mar 2021 17:38:24 -0000
-From: Hein-PietervanBraam <1921635@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hp
-X-Launchpad-Bug-Reporter: Hein-PietervanBraam (hp)
-X-Launchpad-Bug-Modifier: Hein-PietervanBraam (hp)
-References: <161695258717.25953.1383463253951082358.malonedeb@wampee.canonical.com>
-Message-Id: <161695310462.19042.17556703809222122611.malone@gac.canonical.com>
-Subject: [Bug 1921635] Re: ESP SCSI adapter not working with DOS ASPI drivers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
-X-Launchpad-Hash: a953035f60693b846101d05b208d94ca80b7a5a2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210326193701.5981-46-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,95 +91,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921635 <1921635@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Something maybe worth noting is that the DC390 driver detectes attached
-CDROM drives as 'Fixed Disks' which seems a little fishy. The same
-appears to happen with the lsilogic card (that is cdrom drives get
-detected as hard drives and causes a failure to load the drivers)
+On 3/26/21 1:36 PM, Claudio Fontana wrote:
+> This reverts commit 6e937ba7f8fb90d66cb3781f7fed32fb4239556a
+> 
+> This change breaks quickly at startup, as all interfaces in boards
+> are checked in vl.c in select_machine():
+> {
+>    GSList *machines = object_class_get_list(TYPE_MACHINE, false);
+> }
+> 
+> In order to restrict v8M IDAU to TCG,
+> we need to first disable all incompatible boards when building
+> only KVM.
+> 
+> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+> Cc: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/arm/cpu.c                | 7 +++++++
+>   target/arm/tcg/tcg-cpu-models.c | 8 --------
+>   2 files changed, 7 insertions(+), 8 deletions(-)
 
--- =
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921635
+I have a notion this should be done earlier in the series (first?), before code 
+moves from cpu_tcg.c to tcg/tcg-cpu-models.c.
 
-Title:
-  ESP SCSI adapter not working with DOS ASPI drivers
 
-Status in QEMU:
-  New
-
-Bug description:
-  I have been trying to install the DOS ASPI drivers for the ESP scsi
-  card. Both in am53c974 and dc390 modes. Neither works but they don't
-  work in different ways.
-
-  The following things appear to be problematic:
-
-  * The am53c974 should work with the PcSCSI drivers (AMSIDA.SYS) but the A=
-SPI driver never manages to get past initializing the card. The VM never co=
-ntinues.
-  * The dc390 ASPI driver fares a little better. The ASPI driver loads and =
-is semi-functional but the drivers for the peripherals don't work.
-   - ASPI.SYS (creative name) loads
-   - TRMDISK.SYS fails to load when a cd-drive is attached and will crashs =
-scanning the scsi-id where the cd drive is attached
-   - TRMDISK.SYS loads without a CD drive attached but fails to read any sc=
-si-hd devices attached. The TFDISK.EXE formatter crashes.
-   - TRMCD.SYS loads, but can not detect any CD drives.
-
-  The various permutations:
-  am53c974 hang on ASPI driver load: (CD only attached)
-
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device am53c974,id=3Dscsi0
-  -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=
-=3D0
-  -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddrive0 -=
-vga
-  cirrus -fda am53c974_aspi.img -bios /home/hp/src/seabios/out/bios.bin
-  -boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-  dc390 crash because of CDROM attachment and loading TRMDISK.SYS (Only CD =
-attached)
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=
-=3D0 -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,l=
-un=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddri=
-ve0 -vga cirrus -fda dc390_all.img  -bios /home/hp/src/seabios/out/bios.bin=
- -boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-  dc390 successful boot, but TRMDISK.SYS not working (TFDISK.EXE will crash)
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0 -device =
-scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,logica=
-l_block_size=3D512 -drive file=3Dsmall.qcow2,if=3Dnone,id=3Ddrive0 -vga cir=
-rus -fda dc390_all.img -bios /home/hp/src/seabios/out/bios.bin -boot a  -tr=
-ace 'scsi*' -trace 'esp*' -D log
-
-  dc390 successful boot, TRMDISK.SYS not loaded, only TRMCD.SYS. CDROM not =
-detected
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=
-=3D0 -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,l=
-un=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddri=
-ve0 -vga cirrus -fda dc390_cd.img  -bios /home/hp/src/seabios/out/bios.bin =
--boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-  All of these tests were done on
-  7b9a3c9f94bcac23c534bc9f42a9e914b433b299 as well as the 'esp-next'
-  branch found here: https://github.com/mcayland/qemu/tree/esp-next
-
-  The bios file is a seabios master with all int13 support disabled.
-  With it enabled even less works but I figured this would be a seabios
-  bug and not a qemu one.
-
-  The actual iso and qcow2 files used don't appear the matter. the
-  'small.qcow2' is an empty drive of 100MB. I have also tried other ISOs
-  in the CD drives, or even not put any cd in the drives with the same
-  results.
-
-  I will attach all of the above images.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921635/+subscriptions
+r~
 
