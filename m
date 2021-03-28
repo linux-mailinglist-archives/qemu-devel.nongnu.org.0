@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3833934BA43
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 01:48:55 +0100 (CET)
-Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B24CF34BB36
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 07:49:06 +0200 (CEST)
+Received: from localhost ([::1]:60018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQJbq-0005QP-AV
-	for lists+qemu-devel@lfdr.de; Sat, 27 Mar 2021 20:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
+	id 1lQOIL-0005kQ-AG
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 01:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lQJaD-0004gd-Q9; Sat, 27 Mar 2021 20:47:13 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:43815)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lQJa7-0000jY-SN; Sat, 27 Mar 2021 20:47:13 -0400
-Received: by mail-il1-x135.google.com with SMTP id d2so8227201ilm.10;
- Sat, 27 Mar 2021 17:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zInIHyAvoPNZ/k8WdxhqxUFzosa8gXy9oigbO3HY2RI=;
- b=iHHgXVkK+uw6i5FSiSgYTLHsOrENX5RwrIxAO/ccIlYJN/TE2SYWP06kmeRHuv9KY5
- Fr81KjdAXwyYK9BcmLf95cBZuzbrU9ITIDGLh1AcBBrA50841zuhs2gnwW/rwZi8tL6l
- 3QVFL24iRssXNYmYmpIdMRavySNPdBNW1gVoFzAvj0roe6+Jx+CeAfNHa3cJeVHEYlBk
- 5c8xbZmQGn+bmpRRBytDuNRQMJDa+kJDSlZwZMLcx6sXG1QI47bbS4TbSTsTfpwB+U8k
- QTXeKq8HCOLMzRQuGzlJgAAB+xpH1VHENhhv7brBUlMf/DzGkhqsg5tnXrt+qtbMdMsO
- 44zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zInIHyAvoPNZ/k8WdxhqxUFzosa8gXy9oigbO3HY2RI=;
- b=dlL9pgwhQQWWE7aRJtBk9TQ9Ec0hNixmh7qP+UCs4piSlBl339OOj6S2qJHKqHaLFu
- 5spn+qnps0Go6CO/rDhK40w2eswcnCQpFiEykgclTnhqqBm3YzQ9mYRrlk2dwGmoUoA2
- +jQvtLl70ZGcIOYD4xiUilaSqDdKSB2l6trdqybt20XgL93kbOKfbbZvErIjK5Eqta5M
- X7BkGU310SQCsSUYV0nFglsubtehXUlG8iDdNC6x+z5wlV0YZ3x0KvCtqtOpEj1Jv1ms
- rmTog+3aVJ6q3+5BgcDB0USb7BcdK6v7Aq6O00TXZAPwhIVkQFx7wvzoxddLufwvuDGu
- ZW6w==
-X-Gm-Message-State: AOAM531Fgt2CtgarfVV/NpSv+ilOldeqYhjhAwyTtBEEz72OJy5XWkm4
- FtHm1r/CPz9daF9du5q/f13Bp7bavwjKJGhPt1w=
-X-Google-Smtp-Source: ABdhPJxS6BvbigYeXLjDWDRt7QdKuDKM8047ttLuIdfPbxIrx9Rms0iaYsvTrLvvV5T3BPdofTkYlciPNAlaE2Lt3DY=
-X-Received: by 2002:a92:da89:: with SMTP id u9mr11971684iln.131.1616892426363; 
- Sat, 27 Mar 2021 17:47:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lQOHR-0005Bo-PZ
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 01:48:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59363)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lQOHP-0001Mq-01
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 01:48:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616910485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=69iIRcsVcOUjQj5njqBHETp9yLZPgwQi4cbf7H/ksiU=;
+ b=YiuuzuvMkDDgrdMnwV2EVMTt6KV1hT4maJgC4W5YJcM25Ns4uD7v3FQkkwpfHAI5A1AK7I
+ 3R6H3C5dcyHGMN2Ntj25stMBqHBNYIQceFfUxOmV+g01OwUNlyhVauQ94v9zAKJFpFRsHm
+ WqMuc8XXG87fQpI4NfnYars4kjLGpnM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-aVOk-u0AMdyZoStfqy-kXg-1; Sun, 28 Mar 2021 01:48:03 -0400
+X-MC-Unique: aVOk-u0AMdyZoStfqy-kXg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A20910059C5;
+ Sun, 28 Mar 2021 05:48:02 +0000 (UTC)
+Received: from thuth.com (ovpn-112-12.ams2.redhat.com [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB87110016FC;
+ Sun, 28 Mar 2021 05:48:00 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] Revert "qom: use qemu_printf to print help for user-creatable
+ objects"
+Date: Sun, 28 Mar 2021 07:47:58 +0200
+Message-Id: <20210328054758.2351461-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210325094150.28918-1-dylan@andestech.com>
- <CAKmqyKMGROe+k8=f=_Vw8eLwo-PF-ENQeoD+WSte_G8dRHmatg@mail.gmail.com>
- <20210326101833.GA21700@andestech.com>
- <CAFEAcA_FeHarfkO31=OS-gdBFKgQq4U7pPj1HBeuVLPkeMZj=g@mail.gmail.com>
-In-Reply-To: <CAFEAcA_FeHarfkO31=OS-gdBFKgQq4U7pPj1HBeuVLPkeMZj=g@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 27 Mar 2021 20:46:37 -0400
-Message-ID: <CAKmqyKPC3CXGSUMKM-V=r01gEptvN4P6m+6Dp_wW8AT=X=QC4w@mail.gmail.com>
-Subject: Re: [PATCH V3] target/riscv: Align the data type of reset vector
- address
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,57 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?B?QWxhbiBRdWV5LUxpYW5nIEthbyjpq5jprYHoia8p?= <alankao@andestech.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Dylan Jhong <dylan@andestech.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "x5710999x@gmail.com" <x5710999x@gmail.com>,
- =?UTF-8?B?UnVpbmxhbmQgQ2h1YW4tVHp1IFRzYSjolKHlgrPos4cp?=
- <ruinland@andestech.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 26, 2021 at 7:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 26 Mar 2021 at 10:21, Dylan Jhong <dylan@andestech.com> wrote:
-> > Currently, there is no structure like "qdev_prop_target_ulong".
-> > So, we still need to use an if-else condition to determine the attributes of the 5th parameter.
-> > Something like this:
-> >     #if defined(TARGET_RISCV32)
-> >         DEFINE_PROP_UNSIGNED("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC, qdev_prop_uint32 target_ulong),
-> >     #elif defined(TARGET_RISCV64)
-> >         DEFINE_PROP_UNSIGNED("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC, qdev_prop_uint64 target_ulong),
-> >     #endif
-> > I think this is not be what you meant.
-> >
-> > The other architectures seem to ignore this, they just choose one of the attributes(qdev_prop_uint32/64) as their parameter.
-> >
-> > So now we have 2 options:
-> > 1. Use "qdev_prop_uint64" as the 5th parameter
-> >     DEFINE_PROP_UNSIGNED("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC, qdev_prop_uint64 target_ulong),
-> >
-> > 2. Use if-else condition
-> >     [patch v3]
-> >
-> > Or if you have other opinions, please bring them up and discuss them together.
->
-> I would recommend that you just use DEFINE_PROP_UINT64 for this property
-> (and store the value in a uint64_t cfg.resetvec) regardless of whether the
-> guest CPU happens to be 32 or 64 bit. In the case where it's 32 bits you
-> can just ignore the top 32 bits (or if you're feeling enthusiastic, report
-> an error if they're non-zero). This is simpler to code, avoids ifdefs,
-> and tends to mean that most code doesn't need to care about the 32-vs-64
-> difference.
+This reverts commit 6d9abb6de9cc53a508823db0283061824f2f98a2.
 
-That sounds good to me.
+The real code change had already been added by Kevin's commit da0a932bbf
+("hmp: QAPIfy object_add") and commit 6d9abb6d just added a duplicated
+include statement as a left-over of a rebase.
 
-Alistair
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ qom/object_interfaces.c | 1 -
+ 1 file changed, 1 deletion(-)
 
->
-> thanks
-> -- PMM
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index c3324b0f86..b17aa57de1 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -17,7 +17,6 @@
+ #include "qemu/qemu-print.h"
+ #include "qapi/opts-visitor.h"
+ #include "qemu/config-file.h"
+-#include "qemu/qemu-print.h"
+ 
+ bool user_creatable_complete(UserCreatable *uc, Error **errp)
+ {
+-- 
+2.27.0
+
 
