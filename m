@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E20734BE55
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:48:54 +0200 (CEST)
-Received: from localhost ([::1]:54556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961BE34BE56
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 20:48:58 +0200 (CEST)
+Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQaSz-0003sA-DC
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56316)
+	id 1lQaT3-00040S-Jq
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 14:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lQaQ5-00029F-Gs
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:45:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31305)
+ id 1lQaQ7-0002CX-3z
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:45:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lQaQ1-000146-CC
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:45:52 -0400
+ id 1lQaQ5-00017e-Ir
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 14:45:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616957144;
+ s=mimecast20190719; t=1616957153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CQjYpnlU/eOH1POWCg5fwey6JbJPYa1z9F88QOrJK3U=;
- b=KqU1/LU9W+XR0JCaMneitnsJ8/vJGLLwmErlRQmNyBbI+RId+B1QD9Oe1yOKkWzO8tlVuu
- 4NGlYj/FzRzmOpfxpr/AnjluVKboujTqQbt0fONAy+TtjA9Tk5jI+XYLXaKTa0n/tcqbOc
- VyLzwpnJyobcQ9/6swngIyZBCwGOEkg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iaOD3xQ5pjlLKR8kXRNgRq1GkuHPhgVh1iuHqIAgMCA=;
+ b=AcbamThuKHrWFLYrXB+yN0KNM5NJHSaVuf0YXBZUzORR2CK/8+f5fYTcW7ft81Td6wQv0E
+ KyPd4eSy7kylfOBiZfWULsbLklTJGDYyK23B1fIDrOaJVpRTgw4GWL/XS6Yc5WLFZuzi4j
+ NKO+E1wo1nzz966LIZAiMxcVFLJ36BQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-KJCL_yfwNcCdJLx55gol4g-1; Sun, 28 Mar 2021 14:45:42 -0400
-X-MC-Unique: KJCL_yfwNcCdJLx55gol4g-1
+ us-mta-145-Cy4qw1I8Pb-SSpcj6rstAw-1; Sun, 28 Mar 2021 14:45:50 -0400
+X-MC-Unique: Cy4qw1I8Pb-SSpcj6rstAw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69007501E0;
- Sun, 28 Mar 2021 18:45:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 739CA8749BC;
+ Sun, 28 Mar 2021 18:45:49 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 956695D6AC;
- Sun, 28 Mar 2021 18:45:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99FD45D6A1;
+ Sun, 28 Mar 2021 18:45:47 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/10] For 6.0 patches
-Date: Sun, 28 Mar 2021 22:45:23 +0400
-Message-Id: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+Subject: [PULL 01/10] util: fix use-after-free in module_load_one
+Date: Sun, 28 Mar 2021 22:45:24 +0400
+Message-Id: <20210328184533.752840-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -76,109 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following changes since commit 7b9a3c9f94bcac23c534bc9f42a9e914b433b299=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20210326-pull-req=
-uest' into staging (2021-03-26 12:58:58 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git@gitlab.com:marcandre.lureau/qemu.git tags/for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to f57d44b452e11d8b7c9743476c30a8d0f80926de:=0D
-=0D
-  tests: Add tests for yank with the chardev-change case (2021-03-27 13:57:=
-40 +0400)=0D
-=0D
-----------------------------------------------------------------=0D
-For 6.0 misc patches under my radar.=0D
-=0D
-Peter, let me know if you would rather split that PR.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Lukas Straub (6):=0D
-  yank: Remove dependency on qiochannel=0D
-  yank: Always link full yank code=0D
-  chardev/char.c: Move object_property_try_add_child out of chardev_new=0D
-  chardev/char.c: Always pass id to chardev_new=0D
-  chardev: Fix yank with the chardev-change case=0D
-  tests: Add tests for yank with the chardev-change case=0D
-=0D
-Marc-Andr=C3=A9 Lureau (3):=0D
-  util: fix use-after-free in module_load_one=0D
-  sphinx: adopt kernel readthedoc theme=0D
-  docs: simplify each section title=0D
-=0D
-Priyankar Jain (1):=0D
-  dbus-vmstate: Increase the size of input stream buffer used during=0D
-    load=0D
-=0D
- docs/_templates/editpage.html              |   5 -=0D
- docs/conf.py                               |  51 +++---=0D
- docs/devel/_templates/editpage.html        |   5 -=0D
- docs/devel/index.rst                       |   4 +-=0D
- docs/interop/_templates/editpage.html      |   5 -=0D
- docs/interop/index.rst                     |   4 +-=0D
- docs/meson.build                           |   5 +-=0D
- docs/specs/_templates/editpage.html        |   5 -=0D
- docs/specs/index.rst                       |   4 +-=0D
- docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++=0D
- docs/system/_templates/editpage.html       |   5 -=0D
- docs/system/index.rst                      |   4 +-=0D
- docs/tools/_templates/editpage.html        |   5 -=0D
- docs/tools/index.rst                       |   4 +-=0D
- docs/user/_templates/editpage.html         |   5 -=0D
- docs/user/index.rst                        |   4 +-=0D
- include/chardev/char.h                     |   3 +=0D
- include/qemu/yank.h                        |  10 --=0D
- migration/yank_functions.h                 |  17 ++=0D
- backends/dbus-vmstate.c                    |  20 ++-=0D
- chardev/char-socket.c                      |  41 +++--=0D
- chardev/char.c                             |  77 +++++---=0D
- migration/channel.c                        |   6 +-=0D
- migration/multifd.c                        |   3 +-=0D
- migration/qemu-file-channel.c              |   3 +-=0D
- migration/yank_functions.c                 |  20 +++=0D
- stubs/yank.c                               |  29 ---=0D
- tests/unit/test-yank.c                     | 200 +++++++++++++++++++++=0D
- util/module.c                              |   3 +-=0D
- util/yank.c                                |   8 -=0D
- MAINTAINERS                                |   3 +-=0D
- migration/meson.build                      |   1 +=0D
- stubs/meson.build                          |   1 -=0D
- tests/docker/dockerfiles/alpine.docker     |   1 +=0D
- tests/docker/dockerfiles/debian10.docker   |   1 +=0D
- tests/docker/dockerfiles/fedora.docker     |   1 +=0D
- tests/docker/dockerfiles/ubuntu.docker     |   1 +=0D
- tests/docker/dockerfiles/ubuntu1804.docker |   1 +=0D
- tests/docker/dockerfiles/ubuntu2004.docker |   1 +=0D
- tests/unit/meson.build                     |   3 +-=0D
- util/meson.build                           |   2 +-=0D
- 41 files changed, 567 insertions(+), 165 deletions(-)=0D
- delete mode 100644 docs/_templates/editpage.html=0D
- delete mode 100644 docs/devel/_templates/editpage.html=0D
- delete mode 100644 docs/interop/_templates/editpage.html=0D
- delete mode 100644 docs/specs/_templates/editpage.html=0D
- create mode 100644 docs/sphinx-static/theme_overrides.css=0D
- delete mode 100644 docs/system/_templates/editpage.html=0D
- delete mode 100644 docs/tools/_templates/editpage.html=0D
- delete mode 100644 docs/user/_templates/editpage.html=0D
- create mode 100644 migration/yank_functions.h=0D
- create mode 100644 migration/yank_functions.c=0D
- delete mode 100644 stubs/yank.c=0D
- create mode 100644 tests/unit/test-yank.c=0D
-=0D
---=20=0D
-2.29.0=0D
-=0D
+g_hash_table_add always retains ownership of the pointer passed in as
+the key. Its return status merely indicates whether the added entry was
+new, or replaced an existing entry. Thus key must never be freed after
+this method returns.
+
+Spotted by ASAN:
+
+==2407186==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020003ac4f0 at pc 0x7ffff766659c bp 0x7fffffffd1d0 sp 0x7fffffffc980
+READ of size 1 at 0x6020003ac4f0 thread T0
+    #0 0x7ffff766659b  (/lib64/libasan.so.6+0x8a59b)
+    #1 0x7ffff6bfa843 in g_str_equal ../glib/ghash.c:2303
+    #2 0x7ffff6bf8167 in g_hash_table_lookup_node ../glib/ghash.c:493
+    #3 0x7ffff6bf9b78 in g_hash_table_insert_internal ../glib/ghash.c:1598
+    #4 0x7ffff6bf9c32 in g_hash_table_add ../glib/ghash.c:1689
+    #5 0x5555596caad4 in module_load_one ../util/module.c:233
+    #6 0x5555596ca949 in module_load_one ../util/module.c:225
+    #7 0x5555596ca949 in module_load_one ../util/module.c:225
+    #8 0x5555596cbdf4 in module_load_qom_all ../util/module.c:349
+
+Typical C bug...
+
+Fixes: 90629122d2e ("module: use g_hash_table_add()")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20210316134456.3243102-1-marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ util/module.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/util/module.c b/util/module.c
+index cbe89fede6..7661d0f623 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -230,10 +230,11 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+         }
+     }
+ 
+-    if (!g_hash_table_add(loaded_modules, module_name)) {
++    if (g_hash_table_contains(loaded_modules, module_name)) {
+         g_free(module_name);
+         return true;
+     }
++    g_hash_table_add(loaded_modules, module_name);
+ 
+     search_dir = getenv("QEMU_MODULE_DIR");
+     if (search_dir != NULL) {
+-- 
+2.29.0
 
 
