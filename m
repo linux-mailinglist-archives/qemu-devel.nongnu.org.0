@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DA634BD22
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:09:17 +0200 (CEST)
-Received: from localhost ([::1]:35032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1361234BD26
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:11:16 +0200 (CEST)
+Received: from localhost ([::1]:41494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQXyW-0005yE-6x
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
+	id 1lQY0R-0000B1-5D
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lQXvp-0004ZB-1f
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lQXvp-0004aK-N9
  for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:06:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:37163)
+Received: from mout.kundenserver.de ([212.227.126.135]:41787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lQXvn-00072S-84
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:06:28 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lQXvn-00073M-8G
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:06:29 -0400
 Received: from localhost.localdomain ([82.142.14.126]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N2Dks-1ld5eq1vry-013ghr; Sun, 28 Mar 2021 18:06:22 +0200
+ id 1MrhDg-1lwIIc43me-00nh5B; Sun, 28 Mar 2021 18:06:23 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Linux user for 6.0 patches
-Date: Sun, 28 Mar 2021 18:06:17 +0200
-Message-Id: <20210328160619.4015954-1-laurent@vivier.eu>
+Subject: [PULL 1/2] linux-user/s390x: Use the guest pointer for the sigreturn
+ stub
+Date: Sun, 28 Mar 2021 18:06:18 +0200
+Message-Id: <20210328160619.4015954-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.30.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210328160619.4015954-1-laurent@vivier.eu>
+References: <20210328160619.4015954-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:kwLgPI+yPHZhKVRj8S0sZQUPICRwCb/F4h2+x3ysZQ4UUnmqG8a
- e9/Mnzx0LOJi2bQ9Kx/35bYxlkhRCBSFct1eOukO5GgLo++4EkexScG5unpgnBiNSMh6Eag
- 3M6tYzxfk2NyMZKrFqSOU4AGiQCyxoFlFKnvTIvRRs5JjvVrxTpbH9FgQfBwg9FZIzLl9E1
- up1dUFrMAmSMQ1/f/uDpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zpSLRy2Dgns=:9kknOxLKXs7BUWeENHeWSc
- LJy/VOpRE/PPfGnC2Xya77OMOYCRAIebfX3naZ6y8ZT8tm+Otrh+MUr2dWj/IcH2OtzofVfnI
- JOw7IEGE90SzngGIg0yvPmuIA+bFZWJ1WnB6l1s2G5uGS4rD/ArLC9ueb1Yu/LNPrfijsv4vM
- RERm6RASv6w9fu21VvQDjoGNvons8Wiozh2YMLpbitXQJUPZxC+T8QfN7DmHYDXQNj3r5Hm9n
- ZNnc43byycE1ngTmT4NsJdTbDDTIJQswatCMKxO+RLlkokQM89cL5bDo+giYX4vBxKeSktgsR
- wdZ2cMi7d+Kj4uDAPd2weDie3e5IFTY4WutQqWFxRJ55V1tt3iy6gcNim9euWjUHWVIGKlVra
- 4qX5gzC3IP4YVk003gDmtNsh3xHrlGBRPJXMc4fb8rZUgM0SaQzlDX/1uBnPiOMUMTKnglTlL
- SVYAA1/ynysxLWRrIUwChNlyD4Dmw5M4f+TugIUGcurkZQd8DA/7
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:qnv3au0zVnYKlYwhvUYG7nMQ1drOu+qXB5MZ/eefT3Eb1I4QUqD
+ Yrf3usLI6dnCU6xVdPrE8XhIPKRbUlStrM0IL9jP5wP7HxnNZOJbra2XyL0dxdZ/SmxrGjv
+ wgAsIDweP2AhdLYDdk54RXwVZOZc5GCNsYeLmoFG/Vm/l6wdvv0AL9l7RRjVlvc65cJQsUC
+ QzMNYmNB+cz8Vy4Tw5uBw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZsKBQzB4+U4=:juytdZk3Z5yiL/yqJQ8PCI
+ eQZBYV0xC3dYuSNGNfG9w3igh1hB9TfPJ5hlmKMQz+5et2lQgIhZcoBnR/rV8vvwW6YBXVHcK
+ 4k4UkUnYpT/l2AkI3vyjV0JDQTE0F0i7a/qIHZFUbgOBCLVXYz+xR7Do0SqF7oPyX9x7aPHBB
+ RRwMIxxeOIgq1ogCjbV+PzEO1nzg5Od9U0RaVyPjRyD/CnJw6I3BTKo2Lt8NIk9qKIky5+hR4
+ qLlr24pw6xZNLt6PZyE0MPOXFAoUZ7IHW6Ll/sJ1UDvu3Egn31n164OAotIr9+1A0fMAMUUBk
+ 5jDg/fjJCNeuU82DLjlvNRIkJanb+AYNCnqkiuKojeqkCyR1rvF4fTASX1Mm5URwIEf/JktYm
+ RSEtsWY1JSavOltl5dw+nQGIpuk/o46/UGC31XFCYu/PQRNIklbCfI2ciwIozuKRyUr44z8Ka
+ ZHKTyMFheXuFsZag++HYua/VOApCfuW/+coWov+a1x86yDr0RbgV
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,42 +63,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9e2e9fe3df9f539f8b6941ceb96d25355fdae47e=
-:=0D
-=0D
-  Update version for v6.0.0-rc0 release (2021-03-24 19:50:49 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to 4a1e6bce2308b720d79d5ea0a3d24501c89bd80c:=0D
-=0D
-  linux-user: allow NULL msg in recvfrom (2021-03-27 16:48:45 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-linux-user pull request 20210328=0D
-=0D
-- Fix recvfrom with NULL msg=0D
-- Fix sigreturn address on s390x=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Andreas Krebbel (1):=0D
-  linux-user/s390x: Use the guest pointer for the sigreturn stub=0D
-=0D
-Zach Reizner (1):=0D
-  linux-user: allow NULL msg in recvfrom=0D
-=0D
- linux-user/s390x/signal.c |  5 +++--=0D
- linux-user/syscall.c      | 11 ++++++++---=0D
- 2 files changed, 11 insertions(+), 5 deletions(-)=0D
-=0D
--- =0D
-2.30.2=0D
-=0D
+From: Andreas Krebbel <krebbel@linux.ibm.com>
+
+When setting up the pointer for the sigreturn stub in the return
+address register (r14) we currently use the host frame address instead
+of the guest frame address.
+
+Note: This only caused problems if Qemu has been built with
+--disable-pie (as it is in distros nowadays). Otherwise guest_base
+defaults to 0 hiding the actual problem.
+
+Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210324185128.63971-1-krebbel@linux.ibm.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/s390x/signal.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index ecfa2a14a982..7107c5fb5335 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -211,9 +211,10 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+-        env->regs[14] = (unsigned long) ka->sa_restorer | PSW_ADDR_AMODE;
++        env->regs[14] = ka->sa_restorer | PSW_ADDR_AMODE;
+     } else {
+-        env->regs[14] = (unsigned long) frame->retcode | PSW_ADDR_AMODE;
++        env->regs[14] = (frame_addr + offsetof(typeof(*frame), retcode))
++                        | PSW_ADDR_AMODE;
+         __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+                    (uint16_t *)(frame->retcode));
+     }
+-- 
+2.30.2
+
 
