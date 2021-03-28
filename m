@@ -2,86 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4630834BD21
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:09:01 +0200 (CEST)
-Received: from localhost ([::1]:34332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DA634BD22
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:09:17 +0200 (CEST)
+Received: from localhost ([::1]:35032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQXyF-0005f1-OZ
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57274)
+	id 1lQXyW-0005yE-6x
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQXvL-0004LT-0A
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:05:59 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:38548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQXvJ-0006lb-CW
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:05:58 -0400
-Received: by mail-ot1-x335.google.com with SMTP id
- w21-20020a9d63950000b02901ce7b8c45b4so9973052otk.5
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 09:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dvY9hDeAsrZXl831Brhgqagd+MRLaSZS9S5TQK4tb0I=;
- b=ss0/MSvPUwawJxSCCpPQBU70QkobNM/VjSqr7h84yvm3OYM+4oPHj8+1ijQnzC7gNf
- ArSiGBjrTNdAZXg+NbflDpVjOA68ANg41/dRhZo3KsD0TVcHz+PZJPxImizRfnIM6Wug
- 9k536nY5mzZPWuySdUDVJdMUY80JKNoOrrU5fJfDmrODqnLLT0ovYkRqYaAchuhpI1LH
- 4ZcmXNpqVHZJLkwKO36Agj9q/hoF/jWKAwbD4tGsJ/JT3YVyux09Dz8C6jwhx9zcD/8D
- KU152omwKpceWRCUAU04FQiY+dIpHNybdIrRii9hDNGAYUiy5Va/vMgYS9dvUlZLhFuL
- J/2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dvY9hDeAsrZXl831Brhgqagd+MRLaSZS9S5TQK4tb0I=;
- b=P0NE2qTMjD2MyKLX4JXfyOIaZCMIsLwNhLx71ivVVT8UEFjyPqMIbRkiysq+pEfSMY
- JV5cvH1fu4UPhY6KPSsAUlKtlGsfGQ6pdGwI6bn0Y0/CXtPd4PrOUY9Juejh2dD6QTTB
- IWbEpbWg/KvPVfCL77RdvdtFwxX5MfzJQwkQ2ndQwXb8NV0wJ/uB89xnKPxjiBHxbWq3
- TLIfwKsXGo5EhXRFAY4vhiDbstrhtjNgemn3EOyWfTzGOjLZwCjwmFAsBOUjJl47/ws8
- cZmBhc+1hc3NeVb69kPq+aVJM3NlyHALBeeH3xHudKZweABMcJK9eJZno9plqWfdGcp+
- 43LA==
-X-Gm-Message-State: AOAM5337jqIio03/Oy9tpzrQUutdinzWxc7WpgXPD2X4Mhx2EbIciJxC
- +U3UnpQ/RMTminOcw8FYhTALVQ==
-X-Google-Smtp-Source: ABdhPJyyGcM4E1QlhIhnDEE6hVzQ8hHdPlmiAtIS6n++MoBogSM3GaV95MgrUoyO4bx+heWNIL0nQg==
-X-Received: by 2002:a05:6830:18c6:: with SMTP id
- v6mr19259866ote.120.1616947556092; 
- Sun, 28 Mar 2021 09:05:56 -0700 (PDT)
-Received: from [192.168.211.34] (171.189-204-159.bestelclientes.com.mx.
- [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id h59sm3723082otb.29.2021.03.28.09.05.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Mar 2021 09:05:55 -0700 (PDT)
-Subject: Re: [RFC v12 20/65] target/arm: move arm_hcr_el2_eff from tcg/ to
- common_cpu
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-21-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4e8565b0-206b-c9cd-e907-4cc921adacf3@linaro.org>
-Date: Sun, 28 Mar 2021 10:05:47 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lQXvp-0004ZB-1f
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:06:29 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:37163)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lQXvn-00072S-84
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 12:06:28 -0400
+Received: from localhost.localdomain ([82.142.14.126]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1N2Dks-1ld5eq1vry-013ghr; Sun, 28 Mar 2021 18:06:22 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] Linux user for 6.0 patches
+Date: Sun, 28 Mar 2021 18:06:17 +0200
+Message-Id: <20210328160619.4015954-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.30.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210326193701.5981-21-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kwLgPI+yPHZhKVRj8S0sZQUPICRwCb/F4h2+x3ysZQ4UUnmqG8a
+ e9/Mnzx0LOJi2bQ9Kx/35bYxlkhRCBSFct1eOukO5GgLo++4EkexScG5unpgnBiNSMh6Eag
+ 3M6tYzxfk2NyMZKrFqSOU4AGiQCyxoFlFKnvTIvRRs5JjvVrxTpbH9FgQfBwg9FZIzLl9E1
+ up1dUFrMAmSMQ1/f/uDpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zpSLRy2Dgns=:9kknOxLKXs7BUWeENHeWSc
+ LJy/VOpRE/PPfGnC2Xya77OMOYCRAIebfX3naZ6y8ZT8tm+Otrh+MUr2dWj/IcH2OtzofVfnI
+ JOw7IEGE90SzngGIg0yvPmuIA+bFZWJ1WnB6l1s2G5uGS4rD/ArLC9ueb1Yu/LNPrfijsv4vM
+ RERm6RASv6w9fu21VvQDjoGNvons8Wiozh2YMLpbitXQJUPZxC+T8QfN7DmHYDXQNj3r5Hm9n
+ ZNnc43byycE1ngTmT4NsJdTbDDTIJQswatCMKxO+RLlkokQM89cL5bDo+giYX4vBxKeSktgsR
+ wdZ2cMi7d+Kj4uDAPd2weDie3e5IFTY4WutQqWFxRJ55V1tt3iy6gcNim9euWjUHWVIGKlVra
+ 4qX5gzC3IP4YVk003gDmtNsh3xHrlGBRPJXMc4fb8rZUgM0SaQzlDX/1uBnPiOMUMTKnglTlL
+ SVYAA1/ynysxLWRrIUwChNlyD4Dmw5M4f+TugIUGcurkZQd8DA/7
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,22 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 1:36 PM, Claudio Fontana wrote:
-> we will need this for KVM too, especially for Nested support.
-> 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> ---
->   target/arm/cpu-common.c | 68 +++++++++++++++++++++++++++++++++++++++++
->   target/arm/tcg/helper.c | 68 -----------------------------------------
->   2 files changed, 68 insertions(+), 68 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+The following changes since commit 9e2e9fe3df9f539f8b6941ceb96d25355fdae47e=
+:=0D
+=0D
+  Update version for v6.0.0-rc0 release (2021-03-24 19:50:49 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request=0D
+=0D
+for you to fetch changes up to 4a1e6bce2308b720d79d5ea0a3d24501c89bd80c:=0D
+=0D
+  linux-user: allow NULL msg in recvfrom (2021-03-27 16:48:45 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+linux-user pull request 20210328=0D
+=0D
+- Fix recvfrom with NULL msg=0D
+- Fix sigreturn address on s390x=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Andreas Krebbel (1):=0D
+  linux-user/s390x: Use the guest pointer for the sigreturn stub=0D
+=0D
+Zach Reizner (1):=0D
+  linux-user: allow NULL msg in recvfrom=0D
+=0D
+ linux-user/s390x/signal.c |  5 +++--=0D
+ linux-user/syscall.c      | 11 ++++++++---=0D
+ 2 files changed, 11 insertions(+), 5 deletions(-)=0D
+=0D
+-- =0D
+2.30.2=0D
+=0D
 
