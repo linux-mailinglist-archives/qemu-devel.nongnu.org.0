@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB15D34BDC1
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 19:43:48 +0200 (CEST)
-Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9D634BDCA
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 19:51:43 +0200 (CEST)
+Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQZRz-0005dL-MJ
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 13:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
+	id 1lQZZe-0002kX-LG
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 13:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lQZPL-00044V-Cb
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55822)
+ id 1lQZPN-000476-Mm
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lQZPG-0006zV-2G
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:03 -0400
+ id 1lQZPG-0006za-2S
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:05 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lQZPB-0004Hp-Q2
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:53 +0000
+ id 1lQZPC-0004H5-Mf
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BFCDB2E804C
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A76312E804C
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 28 Mar 2021 17:29:46 -0000
+Date: Sun, 28 Mar 2021 17:30:31 -0000
 From: Hein-PietervanBraam <1921635@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -40,14 +40,15 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: hp
 X-Launchpad-Bug-Reporter: Hein-PietervanBraam (hp)
 X-Launchpad-Bug-Modifier: Hein-PietervanBraam (hp)
-Message-Id: <161695258717.25953.1383463253951082358.malonedeb@wampee.canonical.com>
-Subject: [Bug 1921635] [NEW] ESP SCSI adapter not working with DOS ASPI drivers
+References: <161695258717.25953.1383463253951082358.malonedeb@wampee.canonical.com>
+Message-Id: <161695263148.610.8339727531696532754.malone@soybean.canonical.com>
+Subject: [Bug 1921635] Re: ESP SCSI adapter not working with DOS ASPI drivers
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
-X-Launchpad-Hash: a74742456ef063a7bd64725c0345c91b70bf4dd8
+X-Launchpad-Hash: ab8d9d7507ad6d5586c1665dcee0a8dc988d70dc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,81 +73,10 @@ Reply-To: Bug 1921635 <1921635@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-I have been trying to install the DOS ASPI drivers for the ESP scsi
-card. Both in am53c974 and dc390 modes. Neither works but they don't
-work in different ways.
-
-The following things appear to be problematic:
-
-* The am53c974 should work with the PcSCSI drivers (AMSIDA.SYS) but the ASP=
-I driver never manages to get past initializing the card. The VM never cont=
-inues.
-* The dc390 ASPI driver fares a little better. The ASPI driver loads and is=
- semi-functional but the drivers for the peripherals don't work.
- - ASPI.SYS (creative name) loads
- - TRMDISK.SYS fails to load when a cd-drive is attached and will crashs sc=
-anning the scsi-id where the cd drive is attached
- - TRMDISK.SYS loads without a CD drive attached but fails to read any scsi=
--hd devices attached. The TFDISK.EXE formatter crashes.
- - TRMCD.SYS loads, but can not detect any CD drives.
-
-The various permutations:
-am53c974 hang on ASPI driver load: (CD only attached)
-
-~/src/qemu/build/qemu-system-i386 -m 64 -device am53c974,id=3Dscsi0
--device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0
--drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddrive0 -vga
-cirrus -fda am53c974_aspi.img -bios /home/hp/src/seabios/out/bios.bin
--boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-dc390 crash because of CDROM attachment and loading TRMDISK.SYS (Only CD at=
-tached)
-~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=3D0=
- -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=
-=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddrive=
-0 -vga cirrus -fda dc390_all.img  -bios /home/hp/src/seabios/out/bios.bin -=
-boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-dc390 successful boot, but TRMDISK.SYS not working (TFDISK.EXE will crash)
-~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0 -device sc=
-si-hd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,logical_=
-block_size=3D512 -drive file=3Dsmall.qcow2,if=3Dnone,id=3Ddrive0 -vga cirru=
-s -fda dc390_all.img -bios /home/hp/src/seabios/out/bios.bin -boot a  -trac=
-e 'scsi*' -trace 'esp*' -D log
-
-dc390 successful boot, TRMDISK.SYS not loaded, only TRMCD.SYS. CDROM not de=
-tected
-~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=3D0=
- -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=
-=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddrive=
-0 -vga cirrus -fda dc390_cd.img  -bios /home/hp/src/seabios/out/bios.bin -b=
-oot a  -trace 'scsi*' -trace 'esp*' -D log
-
-All of these tests were done on 7b9a3c9f94bcac23c534bc9f42a9e914b433b299
-as well as the 'esp-next' branch found here:
-https://github.com/mcayland/qemu/tree/esp-next
-
-The bios file is a seabios master with all int13 support disabled. With
-it enabled even less works but I figured this would be a seabios bug and
-not a qemu one.
-
-The actual iso and qcow2 files used don't appear the matter. the
-'small.qcow2' is an empty drive of 100MB. I have also tried other ISOs
-in the CD drives, or even not put any cd in the drives with the same
-results.
-
-I will attach all of the above images.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "Seabios patched to disable INT13 support for all cont=
-rollers"
-   https://bugs.launchpad.net/bugs/1921635/+attachment/5481636/+files/bios.=
-bin
+** Attachment added: "am53c974 disk with the corresponding ASPI driver enab=
+led."
+   https://bugs.launchpad.net/qemu/+bug/1921635/+attachment/5481637/+files/=
+am53c974_aspi.img
 
 -- =
 
