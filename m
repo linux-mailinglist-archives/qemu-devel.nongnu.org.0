@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE11D34BD1E
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 18:00:55 +0200 (CEST)
-Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC5F34BD16
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 17:56:04 +0200 (CEST)
+Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQXqQ-0008RT-Pp
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 12:00:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56170)
+	id 1lQXlj-00050b-7T
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 11:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQXof-0007ea-6A
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 11:59:05 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:39906)
+ id 1lQXkd-0004ZS-8N
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 11:54:55 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:43946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lQXod-0003l0-2Q
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 11:59:04 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id i81so10838079oif.6
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 08:59:02 -0700 (PDT)
+ id 1lQXkb-0001DX-NE
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 11:54:54 -0400
+Received: by mail-oi1-x232.google.com with SMTP id n8so10810248oie.10
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 08:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
@@ -37,22 +37,22 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=Hb2h8c9OiUrKoBh86Hw6gm55i6DnPuaobmXWtZiF8IE=;
- b=tS5VgS+XTtAd0+jNSczD2Hb5/gKkzldv2NBtE2hZzkZTvQzqRS/t4G9n6ydAA5e9eI
- spFconF+ISP+9XPJ0c6TGbLbHucSviIiFvj9fk7E3VThFq0DIDUIWKJSSpl+Ypu3q7KW
- bDah+m3rWniIlpCl0IYANw/gdryFlSsxtCdHVzIgPyGBHnOfcOJDhk6o53ZRywTPrla0
- 7zsauTDX2JGBAWRPdx6cPzimQj9xsxwNbS7iLqcrPIizWLfTb4/b4y1Fi33b75JybHsB
- BjjK3nvKBEuklv3yP/mefntjQDF2q1dnK/UeGHrFi8eTJV94DDYcikha+1A7OCGy43gr
- H43A==
-X-Gm-Message-State: AOAM533+db2hEUH0LLwPAlfkPNujSPoqz3soC3fcgxnMlcVT+/Y5dTS4
- BolTwdqVYDhOXp84hsI7YJdOfA==
-X-Google-Smtp-Source: ABdhPJzy4Ouk8GwPAZFN1287OQ4bHl0UGFggRT+X7aQVc4bHQ3zXmnPwprOxIyqdM6fq/bwsQP+BQg==
-X-Received: by 2002:aca:b7d5:: with SMTP id h204mr16233211oif.18.1616947141883; 
- Sun, 28 Mar 2021 08:59:01 -0700 (PDT)
-Received: from [192.168.211.34] (171.189-204-159.bestelclientes.com.mx.
- [189.204.159.171])
- by smtp.gmail.com with ESMTPSA id u1sm3768969otj.43.2021.03.28.08.59.00
+ b=JEXRUHFT6+nOQxlnS01MI6dSJRAEJLevynMXx258+FhOEM8hMM9iQo+ZAIaf7V2uls
+ 8j8nM6/NLIR4EXXqMeIYsBYX/hTIP/JWxHw0IU79667fpGEdjesTtlK+eFvFddV7vJ+Q
+ FkkJPZ3wwLKqqZGfprwrQ1YEZiY4uYXC/Dde9sm6gBdOomro6IsvEeBFesjBzau884Lt
+ NJ54ntH90hwm2+s+Ao4F+z8jqo3UHE/ieoS83mtYvqoASKRDtNljZNz71w5f13/r8sKI
+ G18ZePIEozFL08cPFZjFuQ2RtNT2L+OkBJF1xKRPy/eNIE5OEVY/sOtn6SG9ClgTV8A+
+ 8HFA==
+X-Gm-Message-State: AOAM530CK2+QR9079wBgwS9zcmLL1k1EEkjY/FLbIO7umGgKpg1O5WeG
+ KP95l4P8CfcC2zRf1MxrroDVHA==
+X-Google-Smtp-Source: ABdhPJzlAzWaiBAWoKWS0lgKzcptlw1YoWRRVANdHABA3Lh97lM/jbD2xHTdKjBRl5XqJDr1KBgUrg==
+X-Received: by 2002:aca:f4ce:: with SMTP id s197mr15979932oih.94.1616946892669; 
+ Sun, 28 Mar 2021 08:54:52 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id 101sm3771817otj.44.2021.03.28.08.54.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Mar 2021 08:59:01 -0700 (PDT)
+ Sun, 28 Mar 2021 08:54:52 -0700 (PDT)
 Subject: Re: [RFC v12 18/65] target/arm: move cpsr_read, cpsr_write to
  cpu_common
 To: Claudio Fontana <cfontana@suse.de>,
@@ -71,15 +71,15 @@ In-Reply-To: <20210326193701.5981-19-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
