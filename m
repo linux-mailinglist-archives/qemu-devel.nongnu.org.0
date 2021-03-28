@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F58D34BDC5
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 19:47:08 +0200 (CEST)
-Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D4B34BDC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Mar 2021 19:47:04 +0200 (CEST)
+Received: from localhost ([::1]:41622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQZV9-0008DQ-To
+	id 1lQZV9-0008AS-2t
 	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 13:47:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lQZPL-000452-Ue
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55896)
+ id 1lQZPM-00045X-Ir
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lQZPG-00070t-2S
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:03 -0400
+ id 1lQZPI-00071M-2u
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 13:41:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lQZPE-0004K4-HB
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:56 +0000
+ id 1lQZPF-0004H5-Fo
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7C6702E8162
- for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7642F2E804C
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 17:40:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 28 Mar 2021 17:31:08 -0000
+Date: Sun, 28 Mar 2021 17:31:29 -0000
 From: Hein-PietervanBraam <1921635@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,14 +41,14 @@ X-Launchpad-Bug-Commenters: hp
 X-Launchpad-Bug-Reporter: Hein-PietervanBraam (hp)
 X-Launchpad-Bug-Modifier: Hein-PietervanBraam (hp)
 References: <161695258717.25953.1383463253951082358.malonedeb@wampee.canonical.com>
-Message-Id: <161695266826.968.15978137044093870149.malone@soybean.canonical.com>
+Message-Id: <161695268975.17823.9472765949367626484.malone@gac.canonical.com>
 Subject: [Bug 1921635] Re: ESP SCSI adapter not working with DOS ASPI drivers
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
-X-Launchpad-Hash: 71b16395f68f042794862b40611cf057c76bbf31
+X-Launchpad-Hash: 532b664be936bee1990cd407cf79bee205ca241b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -73,9 +73,9 @@ Reply-To: Bug 1921635 <1921635@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "dc390 dos bootdisk with only cd drivers enabled"
-   https://bugs.launchpad.net/qemu/+bug/1921635/+attachment/5481639/+files/=
-dc390_cd.img
+** Attachment added: "dc390 dos bootdisk with only disk drivers enabled"
+   https://bugs.launchpad.net/qemu/+bug/1921635/+attachment/5481640/+files/=
+dc390_disk.img
 
 -- =
 
