@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B49D34D42B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 17:42:34 +0200 (CEST)
-Received: from localhost ([::1]:41650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7C934D42C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 17:42:49 +0200 (CEST)
+Received: from localhost ([::1]:43112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQu2D-0002oz-IU
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 11:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
+	id 1lQu2S-0003RY-PZ
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 11:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lQu0L-00021K-K7
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:40:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59535)
+ id 1lQu0v-0002Il-TU
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:41:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lQu03-0005oN-8S
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:40:34 -0400
+ id 1lQu0r-0006Cr-Qu
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:41:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617032414;
+ s=mimecast20190719; t=1617032469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7DZ1q2OCSzknA0FHL2Rr9UMhXqu/FUzqN36ywkA1x/8=;
- b=Q3X45j9rK4o0l9HiypUqfDPfEmNNQxL3ZM0gsYVSjhePRE/OkxPevtd82f+u1h1lrR6gwp
- i1nOKXQL8R3QQuzoSL3Uhw+8/VK2SnqfRE1ad+DezkH9uBuiouj0CCfXqKt2BGw7btwuza
- +XOdOjnJpEjucrYV5FEthZ9nRBEtpa4=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-VZScTVKGNfm758Ye5w1kJQ-1; Mon, 29 Mar 2021 11:40:11 -0400
-X-MC-Unique: VZScTVKGNfm758Ye5w1kJQ-1
-Received: by mail-ua1-f71.google.com with SMTP id r12so3861739uao.12
- for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 08:40:11 -0700 (PDT)
+ bh=B0tb3aSy9Sj6ZiYkz+VO7oSnpKkaIzhVR5ZrZ4wRWQQ=;
+ b=Rl1uG09xL3RT4a1N4k5Zx+b50odWyvJ6z0QNxACBbX5RR3Gu0qjx9f3duYE2npML/W6M8X
+ GNCdIixyjcnSUXIYIdzLx5gTzhdUKpN7f7uP41XU2O/xv1UfI3AyHS0rTR5xKMiiXzr8RY
+ 8qRGjkLkhICJJmSwya1AVKSY0XBiy9g=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-jf5BkxjIN8S8uvJEFTBsMg-1; Mon, 29 Mar 2021 11:41:06 -0400
+X-MC-Unique: jf5BkxjIN8S8uvJEFTBsMg-1
+Received: by mail-vk1-f197.google.com with SMTP id r1so4602521vke.11
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 08:41:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7DZ1q2OCSzknA0FHL2Rr9UMhXqu/FUzqN36ywkA1x/8=;
- b=M71iDHhxjSLKcpvVrL0WYt+pA4sy5xb8wg8NguRcXF5Dth13SLG70f6kV5bwRXkXxj
- i1PvBvgq62TxddVpD/MkXaE8T1LN3MPxxQKF7pRzRfp7PrIH+k81dKJq/PkfmceOlh/m
- U5vBa1n+5kPA3ou2yOzobMR6asz3ilOHWHBoadwqttyRyuCnWT8xgtGsUZ7P0DPJ/vNw
- I3R2JYpqhiLWwxnATS8wXFgvEL4CVnYksuNWx2yWXf750UtNEOu2K9xun+oWBFR2+dme
- a7M9gC6OdNIZHmXD9XzTS3L1QQ4QLDMThTsLyTE5xCDKA2Uzv5Ndi8m2q/uMzcheDOIu
- F3Hg==
-X-Gm-Message-State: AOAM533Njmz9A4WmniVd6b+gD6wXVhsOqg4OpS9uFceS5pQ5y0fSyJAW
- eZciGWJGVhziK0pEqawgLbBXlMQGoWQ1zOJnS9kokpCGUezRRZcvBqCus1CGd0Jy0U8FAMq2Auj
- FUMSq9+mf+rjntW6LgR8VjQg3cjZoF54=
-X-Received: by 2002:a67:ed86:: with SMTP id d6mr14256044vsp.50.1617032411455; 
- Mon, 29 Mar 2021 08:40:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9cXc1UNXNqZGu3GoRc2klkX3KmgiR1Jjb+G80bIfVmYdlW3Lac5f0SlaUH772KIuxERJwLNvGLl8Z4iC7jDo=
-X-Received: by 2002:a67:ed86:: with SMTP id d6mr14256028vsp.50.1617032411276; 
- Mon, 29 Mar 2021 08:40:11 -0700 (PDT)
+ bh=B0tb3aSy9Sj6ZiYkz+VO7oSnpKkaIzhVR5ZrZ4wRWQQ=;
+ b=HOABn0p77AyL99fCJI6IdlNse9+l3fUzhKvotKK8zSbzzQR1mmDCOyn+tDPZigS/YY
+ OGP79xX7rkDDbU6Vkce4VHKKVepf/jW2Bk797OkWp4FmQ0Vg5NoQBb1Vgdg1tsuBexLy
+ UhC3UgA6Z9DaEnwwEONFpHkIVsUFcCXv2aQP7LYtJLDdSD1z4OVo1XnMMgUVvabEHB0j
+ kF5tiNc+lG1tMgvwR4QM4ReAJl/4EFQj0US0/JM3ujVZfqhGXPLJj3nVzt5Uhb5dgQJ6
+ waButajWBLTM/9GVVxDGZDYi6EpFJu8izrwuLrajC3P4AdptG3o0ez+rXOlhnmyhTj6X
+ JLhg==
+X-Gm-Message-State: AOAM5325KdPJ86A8UC7hbaYVuLpy1JkiPj0wU2jm2DMVPYGcdfpJbanh
+ w97h6iOdaFqJCFaEUfMWq3FtL3r4bYGyfdGAqYo5T2KPHCvcthPDDNxh4mq+AcYOVx+UJM4XiRA
+ 8b7KVx9QW5VNjpx4eearWgbsqS4YLIj8=
+X-Received: by 2002:a67:8702:: with SMTP id j2mr13757468vsd.50.1617032466132; 
+ Mon, 29 Mar 2021 08:41:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/MTQXHFtGhUuHw+wXGhjLSHF0DPswd4W7Avffgn7fR2PmOFp/Q5Mhq0D5Nl6J995OnQU22hc+3uqaD5IM3pE=
+X-Received: by 2002:a67:8702:: with SMTP id j2mr13757459vsd.50.1617032465988; 
+ Mon, 29 Mar 2021 08:41:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210329132632.68901-1-mreitz@redhat.com>
- <20210329132632.68901-4-mreitz@redhat.com>
-In-Reply-To: <20210329132632.68901-4-mreitz@redhat.com>
+ <20210329132632.68901-5-mreitz@redhat.com>
+In-Reply-To: <20210329132632.68901-5-mreitz@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 29 Mar 2021 12:39:45 -0300
-Message-ID: <CAKJDGDY_xqos+nCL7cCvXD+iXqd4ZtZ5jBLdsizuNufYT12NCA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] migrate-bitmaps-test: Fix pylint warnings
+Date: Mon, 29 Mar 2021 12:40:40 -0300
+Message-ID: <CAKJDGDYWiaFH88HxxzsKb=ovAghUk6aJLeZsT729a9im9mFeqA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] iotests/297: Cover tests/
 To: Max Reitz <mreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -75,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,25 +96,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Mon, Mar 29, 2021 at 10:28 AM Max Reitz <mreitz@redhat.com> wrote:
 >
-> There are a couple of things pylint takes issue with:
-> - The "time" import is unused
-> - The import order (iotests should come last)
-> - get_bitmap_hash() doesn't use @self and so should be a function
-> - Semicolons at the end of some lines
-> - Parentheses after "if"
-> - Some lines are too long (80 characters instead of 79)
-> - inject_test_case()'s @name parameter shadows a top-level @name
->   variable
-> - "lambda self: mc(self)" is equivalent to just "mc"
-> - Always put two empty lines after a function
-> - f'exec: cat > /dev/null' does not need to be an f-string
+> 297 so far does not check the named tests, which reside in the tests/
+> directory (i.e. full path tests/qemu-iotests/tests).  Fix it.
 >
-> Fix them.
+> Thanks to the previous two commits, all named tests pass its scrutiny,
+> so we do not have to add anything to SKIP_FILES.
 >
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  tests/qemu-iotests/tests/migrate-bitmaps-test | 38 ++++++++++---------
->  1 file changed, 20 insertions(+), 18 deletions(-)
+>  tests/qemu-iotests/297 | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
