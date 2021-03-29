@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5240534D623
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:37:34 +0200 (CEST)
-Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B21634D664
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:56:57 +0200 (CEST)
+Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQvpU-0002fO-So
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37910)
+	id 1lQw8G-0006QW-5Z
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQvnX-0001kE-V3
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:35:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQvnU-00082Y-Mw
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:35:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617039327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0oOUn/5XnN4U5yxiOL/g0nvuPWm4lF3yfeQRMQ3oyiY=;
- b=cWMYIcFVCmv+aPLeMGXKZDbFBMleEGLH/bXg3/g5zc1Bz1hvlITduoz752UooGp5grhtj5
- PZ+B8xSMC1qRCDJh2vtCZjeblvqoPc4UVwLPAatwArTGGdkHTOV0tgKhRcICy3gWLukfei
- cyyNxZB0jAg7kW275HJXsIA47Y7LEeo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-_2q7Nb9XNvOrgsgg7m38Mw-1; Mon, 29 Mar 2021 13:35:22 -0400
-X-MC-Unique: _2q7Nb9XNvOrgsgg7m38Mw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9666D801814;
- Mon, 29 Mar 2021 17:35:21 +0000 (UTC)
-Received: from localhost (ovpn-114-227.ams2.redhat.com [10.36.114.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8E7B607CB;
- Mon, 29 Mar 2021 17:35:17 +0000 (UTC)
-Date: Mon, 29 Mar 2021 18:35:16 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC 0/8] virtio: Improve boot time of virtio-scsi-pci and
- virtio-blk-pci
-Message-ID: <YGIP1HKa5NsHqnj7@stefanha-x1.localdomain>
-References: <20210325150735.1098387-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lQw6M-0005Yv-Fp
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:55:00 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:34582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lQw6I-0007if-LY
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:54:58 -0400
+Received: by mail-ej1-x635.google.com with SMTP id b7so20821080ejv.1
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 10:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jK8u2MEKo7ZGbGMhOhRKN9muTlo0LaQ1tz33NT7rDAM=;
+ b=J4zYgyhRDdpO8ZtsJluO56y7Gb21i7pJ4ps6xmkcyFcdpDqhU6QsBSv9lqbpK/tgdp
+ iTVlspL631jxOuojA1dWqeQu9AwdmvCAXjUuj3Yk4V0zy0FcU8gmWKt1ADv4UsP/krdX
+ KILhCpZdPaIXWC7aR1XNKNG0CO/0z3RMDo6VGpUyA2iWbqhUDt4WWrQBWQNj6aJjIWq7
+ p6NnMiRpgjDtFORvFnz+daITlVplJWK9VTGMB4y3pfXxdP8e66wu6G+0FUOtiGPUjeUT
+ rs1qQJ1HH8nddQ8dLuJSKWi4medsTrm014w+AEKnXUEl+75yjWZ0FXZ5c9BN07O7gC1u
+ 5syg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jK8u2MEKo7ZGbGMhOhRKN9muTlo0LaQ1tz33NT7rDAM=;
+ b=Jl1vvNy5XUaVgTU69DaYCCqlZUf2m5/Z/NeeloN5oP0OS/OY1bfnB6Si7WfbP4fD6v
+ GQAWTnAi0ffy+8nNfz0xN99qnjbefS6A1+9HwGRClX7S8+ukJ9kJIYsu/Sp8BkebbAEb
+ +GA1MZ7nmPYNKyivIUhmzIBa5FN4Hb8julGcK3prVB3kNmgxdQSR9XIbNMHDAr/SVEEN
+ lceFQY8/WTyiLgBek8LuE12wlqRqF59wDatMZwUCeitPxd2wuVmIdy8ncfphb7evMjOt
+ X5Y+X1EBQdaGjmWs9kZXRCL+ef3vardBCN/1Pz979NTHcEQKf9cP53iEhGSzXI+BI2C4
+ jlLA==
+X-Gm-Message-State: AOAM532IpKJFV6n6/L1Xvoop3k3rBB1iHMCZulLmzLI5JBwC7o1hR813
+ C7r7nUs00frPgm7zASVjzHUrD2FgNiqj2e+dLNXzcw==
+X-Google-Smtp-Source: ABdhPJzcL1IsYAxI6O9R6E4SNVtk67qN7JhLmddtMIubmQIsgufa4yULeVXH7Y7qnvW9HpyDV5wq8x5UpJAYNjb9XM8=
+X-Received: by 2002:a17:906:16ca:: with SMTP id
+ t10mr30089699ejd.85.1617040492835; 
+ Mon, 29 Mar 2021 10:54:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210325150735.1098387-1-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qf8c0BCH3Mn3wUD2"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+ <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
+ <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
+ <CAFEAcA_i-jx4PvDSqcZ12TWtJMzRoEBGO3tUbUJqU1voecksaw@mail.gmail.com>
+ <CAJ+F1C+uax+uUhR_dARx4kLAmc4-OgEMCh795+iW4yjm-1RPvw@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+uax+uUhR_dARx4kLAmc4-OgEMCh795+iW4yjm-1RPvw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Mar 2021 17:54:22 +0000
+Message-ID: <CAFEAcA_=GCA8FgLfBxiLvjUaOkV0TATUsuO7an2phFxmJkMxtg@mail.gmail.com>
+Subject: Re: [PULL 00/10] For 6.0 patches
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,110 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Lukas Straub <lukasstraub2@web.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---qf8c0BCH3Mn3wUD2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 29 Mar 2021 at 17:30, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Mon, Mar 29, 2021 at 7:56 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>>
+>> On Mon, 29 Mar 2021 at 15:17, Marc-Andr=C3=A9 Lureau
+>> <marcandre.lureau@gmail.com> wrote:
+>> > ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+>> > Configuration error:
+>> > The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
+>> >
+>> > ../docs/meson.build:32:6: ERROR: Problem encountered: Install a Python=
+ 3 version of python-sphinx and the readthedoc theme
+>>
+>>
+>> So why do you get that message, and I see the above? Older
+>> sphinx-build ?
+>
+>
+>
+> It's strange, it's like ModuleNotFoundError was not catched by the "excep=
+t ImportError".
+>
+> What's the version of python?
 
-On Thu, Mar 25, 2021 at 04:07:27PM +0100, Greg Kurz wrote:
-> Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,
-> a serious slow down may be observed on setups with a big enough number
-> of vCPUs.
->=20
-> Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threads=
-):
->=20
-> 1=09=090m20.922s=090m21.346s
-> 2=09=090m21.230s=090m20.350s
-> 4=09=090m21.761s=090m20.997s
-> 8=09=090m22.770s=090m20.051s
-> 16=09=090m22.038s=090m19.994s
-> 32=09=090m22.928s=090m20.803s
-> 64=09=090m26.583s=090m22.953s
-> 128=09=090m41.273s=090m32.333s
-> 256=09=092m4.727s =091m16.924s
-> 384=09=096m5.563s =093m26.186s
->=20
-> Both perf and gprof indicate that QEMU is hogging CPUs when setting up
-> the ioeventfds:
->=20
->  67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable
->   9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single
->   8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable
-> =3D>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioeventfd=
-_before
-> =3D>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_io=
-eventfds
->   0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single
->=20
-> address_space_update_ioeventfds() is called when committing an MR
-> transaction, i.e. for each ioeventfd with the current code base,
-> and it internally loops on all ioventfds:
->=20
-> static void address_space_update_ioeventfds(AddressSpace *as)
-> {
-> [...]
->     FOR_EACH_FLAT_RANGE(fr, view) {
->         for (i =3D 0; i < fr->mr->ioeventfd_nb; ++i) {
->=20
-> This means that the setup of ioeventfds for these devices has
-> quadratic time complexity.
->=20
-> This series introduce generic APIs to allow batch creation and deletion
-> of ioeventfds, and converts virtio-blk and virtio-scsi to use them. This
-> greatly improves the numbers:
->=20
-> 1=09=090m21.271s=090m22.076s
-> 2=09=090m20.912s=090m19.716s
-> 4=09=090m20.508s=090m19.310s
-> 8=09=090m21.374s=090m20.273s
-> 16=09=090m21.559s=090m21.374s
-> 32=09=090m22.532s=090m21.271s
-> 64=09=090m26.550s=090m22.007s
-> 128=09=090m29.115s=090m27.446s
-> 256=09=090m44.752s=090m41.004s
-> 384=09=091m2.884s=090m58.023s
+It's whatever's in the BSD VMs. I also saw the same error on the
+aarch64 CI machine, which has python 3.8.5 and sphinx-build 1.8.5.
+My guess is that it might be the sphinx-build version here. I vaguely
+recall that Sphinx is kind of picky about exceptions within the conf
+file but that there was a change in what it allowed at some point.
+It's possible we just can't do much with the old versions.
 
-Excellent numbers!
+I'm inclined to suggest we should postpone switching to the rtd theme
+until after the 6.0 release -- there isn't a strong need to get it
+in this release, is there ?
 
-I wonder if the code can be simplified since
-memory_region_transaction_begin/end() supports nesting. Why not call
-them directly from the device model instead of introducing callbacks in
-core virtio and virtio-pci code?
-
-Also, do you think there are other opportunities to have a long
-transaction to batch up machine init, device hotplug, etc? It's not
-clear to me when transactions must be ended. Clearly it's necessary to
-end the transaction if we need to do something that depends on the
-MemoryRegion, eventfd, etc being updated. But most of the time there is
-no immediate need to end the transaction and more code could share the
-same transaction before we go back to the event loop or vcpu thread.
-
-Stefan
-
---qf8c0BCH3Mn3wUD2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBiD9QACgkQnKSrs4Gr
-c8iRIwgAmmxk0RNOBfHOMHbttFE2oQRC0PsHYDfMMehCzvhaWDyMJHZMBGU69eIl
-QNZqFZLTqebA1x8p8jbzUPWWJ7vkwKMROu/mI+tWqgw/164su5anXBWkax7NXcYp
-Zdt121GA71/jdYgURstsdpSg8F+RC/GAEYComqDliRH7t1rhJE8y5gF5PDNQFLLP
-wIN+6NsUFhG3iyKB8XXJqFQ1re23abVXF/qycQxSDvTeWSsY0ioXc0Y1gCbDNE2L
-mD7hnuHdWvabzVqtQ41fQDyIiuesdQwgqZIu1ERG2XGhQzEUsfmdlQjmQ5VghsSz
-2kAeEBAznis9Q5bmgLSrxVIByyEVUQ==
-=ddAp
------END PGP SIGNATURE-----
-
---qf8c0BCH3Mn3wUD2--
-
+thanks
+-- PMM
 
