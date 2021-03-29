@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8690934D5D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:14:10 +0200 (CEST)
-Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B1F34D5C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:11:38 +0200 (CEST)
+Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQvSr-0001Ea-J7
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59084)
+	id 1lQvQP-0007AO-1i
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQvM3-0004vE-OD
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:07:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQvM0-0003vZ-GZ
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:07:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617037623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ukgZQvSER+jzWAQDbYdtxFn+ox9pKDg/BlYGL+DV26M=;
- b=NXs7yvrj95DHbmTCPRMQ8Lx075zoGlLSxD+oZhnPVsWNr8qTGz0AtGRrwrXeqEHF5+xPXI
- gqhJVdLanM/eJxWIV9WwPqm+BacKrwgxgZJYe3xgjFjR/WTPcDM8MPV9LAyr9Rq9PjJarf
- I+eRNfa9tKfV7HdLrXQTe4y/5atim9A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-WNjp8zsyOmqwePEzzDxiwg-1; Mon, 29 Mar 2021 13:07:01 -0400
-X-MC-Unique: WNjp8zsyOmqwePEzzDxiwg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3EB8802690;
- Mon, 29 Mar 2021 17:06:59 +0000 (UTC)
-Received: from localhost (ovpn-114-227.ams2.redhat.com [10.36.114.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEABA90A04;
- Mon, 29 Mar 2021 17:06:56 +0000 (UTC)
-Date: Mon, 29 Mar 2021 18:06:55 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC 2/8] virtio: Introduce virtio_bus_set_host_notifiers()
-Message-ID: <YGIJLyhbhKQ5yNfO@stefanha-x1.localdomain>
-References: <20210325150735.1098387-1-groug@kaod.org>
- <20210325150735.1098387-3-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lQvNP-0005tf-LE; Mon, 29 Mar 2021 13:08:31 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:43789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lQvNN-0004Qf-Kp; Mon, 29 Mar 2021 13:08:31 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id cx5so6786344qvb.10;
+ Mon, 29 Mar 2021 10:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ih20dGSxpLlL1BkR6m8Np/BFCqUcCDovNPTSrcRDno=;
+ b=EvqisE2tQLPCJaiHwIhocqPcN5Jb6mVSk8le3Phf//l5RY495rwYDJ3zu/BJnLMNWC
+ J0mpjarDYyzcwcB7mDHT4M2J9DXeAwk7g1iR6fPq7NxcpzeXjxCb1w+N7EmhSrF8aIqY
+ cDwGHjK0npvnajmKDt5YFFio0Obw9x5N6pLa689awvsNTFpL+nQM6XzyWxhI55tN8yKe
+ eD20tsielTM/sUAzb2AHaMCK89eyfLvyG8pnOjcN3zMhf61nTqwSbDn/TbVAVv6WPquA
+ VDwW4CjkFmM2o/JcZSkApZjQgijM0Gw9N8swCm6EHsJ0O11VICcVOCTGU62kbYy0aKMe
+ uOqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ih20dGSxpLlL1BkR6m8Np/BFCqUcCDovNPTSrcRDno=;
+ b=foW5+8CEjQC1EF2YCqtJspgRx6pYEk/xpQq5sn1yz0S2hGvC4B6ey2um6xwhKN88ls
+ JRSqvjemnuzJh43Qjl/QXiyNMaFvfsdaSvOn3TR85EYOauxwQUQw38P24GSid6Jnuv/W
+ P1IfZWzUFWPJ8eCfzh4l8Era2sUURyGtiSOsvEDAadb4WG0yk74PkOtHQ6j+KFpFeNdk
+ zPqYg353SNl3cz3jEP3pA4McwLyhWNAxhcraeYmkrEETet5cfiiuqG/b4vgsX1M4bU5M
+ +J3s7qfA1MSzIAHwr3JV/GTrisRCSZ50A6Xxim4dWkJjPZ1lX3roisI0g/YN357p1vVp
+ iilQ==
+X-Gm-Message-State: AOAM532nwAEK66jtN4Z7/0KayJD2zJGDq6/wYyaZ5uZSS7MX8xwAE3a5
+ H6isIoAE76fpOSiTK2r8ZMA=
+X-Google-Smtp-Source: ABdhPJxqtSUogkUdQZT+Zw0vs/vIHpv8R1/uFkGy0XyX/ex+36KO2UtCTzFetDwYp+vlkrz4MEmffg==
+X-Received: by 2002:a0c:ea81:: with SMTP id d1mr26446240qvp.57.1617037708248; 
+ Mon, 29 Mar 2021 10:08:28 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id i6sm13553981qkf.96.2021.03.29.10.08.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Mar 2021 10:08:28 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 1/8] hw/riscv: sifive_u: Switch to use
+ qemu_fdt_setprop_string_array() helper
+Date: Tue, 30 Mar 2021 01:08:11 +0800
+Message-Id: <20210329170818.23139-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210325150735.1098387-3-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="macCRpfgApiKaptK"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,55 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---macCRpfgApiKaptK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Bin Meng <bin.meng@windriver.com>
 
-On Thu, Mar 25, 2021 at 04:07:29PM +0100, Greg Kurz wrote:
-> Multiqueue devices such as virtio-scsi or virtio-blk, all open-code the
-> same pattern to setup/tear down host notifiers of the request virtqueues.
-> Consolidate the pattern in a new virtio_bus_set_host_notifiers() API.
-> Since virtio-scsi and virtio-blk both fallback to userspace if host
-> notifiers can't be set, e.g. file descriptor exhaustion, go for a
-> warning rather than an error. Also make it oneshot to avoid flooding
-> the logs since the message would be very likely the same for all
-> virtqueues.
->=20
-> Devices will be converted to use virtio_bus_set_host_notifiers() in
-> separate patches.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  include/hw/virtio/virtio-bus.h |  3 +++
->  hw/virtio/virtio-bus.c         | 36 ++++++++++++++++++++++++++++++++++
->  2 files changed, 39 insertions(+)
+Since commit 78da6a1bca22 ("device_tree: add qemu_fdt_setprop_string_array helper"),
+we can use the new helper to set the clock name for the ethernet
+controller node.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
---macCRpfgApiKaptK
-Content-Type: application/pgp-signature; name="signature.asc"
+ hw/riscv/sifive_u.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBiCS8ACgkQnKSrs4Gr
-c8iz7Qf9HWqC2WUAHJjgAcYZYgsl8x/Su+MQFXnYfHA+ULVvgYaBzj4dCOZTi+BA
-PG6KpPJMWZlCQVdduDC9Uz2irCeNlhhfix5l3GHOuetuko3GQBNzpDp2PWdOqw6t
-O2Y49ohUUFL9QhNbTflA4F848XMOdNPGTeSFi2/CD1p5Ngi3CbCnspk3xfWrfdGQ
-dHOrYCl137jY0sFSSl2ps8WJ6t+kx5ChsnBaFAbwpNtThkGkJuxM2ZKL+sXSf+UZ
-z0hZ7SPZuWNxfHQcmxZy56QvZUmUQmcCV4LRGI0hugcnWKWv/etyWiePsxeQ4i3u
-jrIGGhWzNXx0qsSC8lsya1mIkUct2g==
-=ZEhr
------END PGP SIGNATURE-----
-
---macCRpfgApiKaptK--
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 7b59942369..f06b3b2e64 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -96,7 +96,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     int cpu;
+     uint32_t *cells;
+     char *nodename;
+-    char ethclk_names[] = "pclk\0hclk";
++    const char *ethclk_names[2] = { "pclk", "hclk" };
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+ 
+@@ -413,8 +413,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
+     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
+-    qemu_fdt_setprop(fdt, nodename, "clock-names", ethclk_names,
+-        sizeof(ethclk_names));
++    qemu_fdt_setprop_string_array(fdt, nodename, "clock-names",
++        (char **)&ethclk_names, ARRAY_SIZE(ethclk_names));
+     qemu_fdt_setprop(fdt, nodename, "local-mac-address",
+         s->soc.gem.conf.macaddr.a, ETH_ALEN);
+     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
+-- 
+2.25.1
 
 
