@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D42D34C468
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:00:49 +0200 (CEST)
-Received: from localhost ([::1]:41592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4609434C47C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:04:56 +0200 (CEST)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQltH-0001xk-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
+	id 1lQlxH-0003KL-9i
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lQlrL-0001Uq-4u
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 02:58:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41632)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lQlvQ-0002s8-Sk
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:03:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lQlrI-00020E-Tu
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 02:58:46 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lQlvP-0004QT-EV
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:03:00 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DAA55B025;
- Mon, 29 Mar 2021 06:58:40 +0000 (UTC)
-Subject: Re: [RFC v12 38/65] target/arm: remove broad "else" statements when
- checking accels
+ by mx2.suse.de (Postfix) with ESMTP id 2752EB025;
+ Mon, 29 Mar 2021 07:02:58 +0000 (UTC)
+Subject: Re: [RFC v12 40/65] tests/qtest: skip bios-tables-test
+ test_acpi_oem_fields_virt for KVM
 To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-39-cfontana@suse.de>
- <00984c12-4861-7234-d62c-3a8a84ad5e31@linaro.org>
+ <20210326193701.5981-41-cfontana@suse.de>
+ <be6e704a-8c61-052a-daaf-deddd683c6cc@linaro.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ae3bd40a-4b8e-01d8-244e-6135f7d125ba@suse.de>
-Date: Mon, 29 Mar 2021 08:58:39 +0200
+Message-ID: <4d052899-9645-d98b-50d2-17d91271bc39@suse.de>
+Date: Mon, 29 Mar 2021 09:02:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <00984c12-4861-7234-d62c-3a8a84ad5e31@linaro.org>
+In-Reply-To: <be6e704a-8c61-052a-daaf-deddd683c6cc@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
 X-Spam_score_int: -41
@@ -60,75 +60,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Julien Grall <jgrall@amazon.com>,
- qemu-devel@nongnu.org, Olaf Hering <OHering@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/21 7:11 PM, Richard Henderson wrote:
+On 3/28/21 7:21 PM, Richard Henderson wrote:
 > On 3/26/21 1:36 PM, Claudio Fontana wrote:
->> @@ -638,24 +638,21 @@ static int cpu_pre_save(void *opaque)
+>> test is TCG-only.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   tests/qtest/bios-tables-test.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+>> index e020c83d2a..bd7b85909c 100644
+>> --- a/tests/qtest/bios-tables-test.c
+>> +++ b/tests/qtest/bios-tables-test.c
+>> @@ -1488,6 +1488,13 @@ static void test_acpi_oem_fields_virt(void)
+>>       };
+>>       char *args;
 >>   
->>       if (tcg_enabled()) {
->>           pmu_op_start(&cpu->env);
->> +        if (!write_cpustate_to_list(cpu, false)) {
->> +            /* This should never fail. */
->> +            abort();
->> +        }
->>       }
->> -
->>       if (kvm_enabled()) {
->>           if (!write_kvmstate_to_list(cpu)) {
->>               /* This should never fail */
->>               abort();
->>           }
->> -
->>           /*
->>            * kvm_arm_cpu_pre_save() must be called after
->>            * write_kvmstate_to_list()
->>            */
->>           kvm_arm_cpu_pre_save(cpu);
->> -    } else {
->> -        if (!write_cpustate_to_list(cpu, false)) {
->> -            /* This should never fail. */
->> -            abort();
->> -        }
->>       }
+>> +#ifndef CONFIG_TCG
+>> +    if (data.tcg_only) {
+>> +        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
+>> +        return;
+>> +    }
+>> +#endif /* CONFIG_TCG */
 > 
-> Hmm.  Not perfect.  I can't decide on
+> Why is this an ifdef and not tcg_enabled()?
+
+We want to launch this whenever TCG is compiled in.
+
+> We're using kvm_enabled() elsewhere...
+
+where?
+
+
 > 
->    if (tcg) {
->       ...
->    } else if (kvm) {
->       ...
->    }
-> 
-
-this is fine for me,
-
-> or
-> 
->    if (tcg) {
->      pmu
->    }
->    if (kvm || tcg) {
->      write_cpustate_to_list
->    }
->    if (kvm) {
->      rest of kvm stuff
->    }
-> 
-
-this is incorrect, so the choice is easy, lets do the first.
-
-Thanks,
-
-Claudio
-
 > 
 > r~
 > 
+
 
 
