@@ -2,100 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2402834C277
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 06:22:32 +0200 (CEST)
-Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA2134C2B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 06:26:11 +0200 (CEST)
+Received: from localhost ([::1]:52454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQjQ7-0000pv-6N
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 00:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
+	id 1lQjTe-0006Gb-UW
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 00:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
- id 1lQjOF-0007M6-Nd; Mon, 29 Mar 2021 00:20:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57186)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lQjOY-0007rH-Hr; Mon, 29 Mar 2021 00:20:54 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:32961 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
- id 1lQjO5-0008OQ-4r; Mon, 29 Mar 2021 00:20:35 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12T44q3M133617; Mon, 29 Mar 2021 00:20:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=nidEAHcqt5oRwPX0irtxD+lH45PPxRhgh7dlmgWaGv8=;
- b=Gr8DP6V4bO5QDNRlw05h7hwL4fMYHluThJFX3kM/6/bzDxb37Odg+KmpCmKnd4kbaSmY
- R7mohdyh3xXejpIoezbmTTPR94oXr3sRlTpGftKJAy4KD6v3gEU0tzBfg69rg6KKyrEp
- j/E37E4/e6lwN7K1K9KHE14zAlyyyVX9ePZQBvYV1wszzVnPYzTYpN4qyVTgtDmHfilH
- tsQL1WX6c0DSFT1OUlJHCpUPYT4cAdpJnxShQlZubFmNdezBfDxI+Hj+bmKT7z3CRrYW
- hkLMjzdLjMvvSTVVrsdHsrJ1QyWGYYbaYFmBvUzzvX8ue47fjPaIbBeU8RIoyHLYdugr 6w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37k24y59bf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 00:20:11 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12T45CMM135547;
- Mon, 29 Mar 2021 00:20:11 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37k24y59ar-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 00:20:11 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12T4GsQu032272;
- Mon, 29 Mar 2021 04:20:08 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 37hvb89f01-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 04:20:08 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12T4K6Et39780798
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Mar 2021 04:20:06 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 725064C044;
- Mon, 29 Mar 2021 04:20:06 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA8844C04A;
- Mon, 29 Mar 2021 04:20:03 +0000 (GMT)
-Received: from bangoria.ibmuc.com (unknown [9.199.34.103])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 29 Mar 2021 04:20:03 +0000 (GMT)
-From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-To: paulus@samba.org, david@gibson.dropbear.id.au
-Subject: [PATCH v2 3/3] ppc: Enable 2nd DAWR support on p10
-Date: Mon, 29 Mar 2021 09:49:06 +0530
-Message-Id: <20210329041906.213991-4-ravi.bangoria@linux.ibm.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210329041906.213991-1-ravi.bangoria@linux.ibm.com>
-References: <20210329041906.213991-1-ravi.bangoria@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lQjOV-00005s-EN; Mon, 29 Mar 2021 00:20:54 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F7zs94zqTz9sW1; Mon, 29 Mar 2021 15:20:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1616991645;
+ bh=vFMsSFWaRK5x/SQHzfdTuJeLkTjvHRJTo/CMCPtSIFI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mrdB1zP6BfwW4pMnXqIK2DRYSz0YvT2W4/RDRuzawgaCKqXg5Ph6CDxB+DbUEcTQT
+ pB8kKc4T6Nsxtv/Tx67lexWdTwvQI5ngP0AHasYC+byNSQIsq6aE/BRlBug6QhB+8u
+ hGcTPMOrAEh/m8BC7qGjqquh6bN68NCMa85w2LTE=
+Date: Mon, 29 Mar 2021 15:20:03 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
+ nodes
+Message-ID: <YGFVc2lBhvzm5CSa@yekko.fritz.box>
+References: <20210319183453.4466-1-danielhb413@gmail.com>
+ <20210319183453.4466-2-danielhb413@gmail.com>
+ <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+ <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
+ <YFvxAW3l4t+YznEm@yekko.fritz.box>
+ <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: U3nPNUFKFkD_Dv-ZHTw_5t1IGgYJz4ba
-X-Proofpoint-GUID: R-KEI4hfpmCeteUBAtstcuXoo6_7bucG
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-29_02:2021-03-26,
- 2021-03-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015 bulkscore=0
- spamscore=0 phishscore=0 mlxlogscore=999 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103250000 definitions=main-2103290029
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=ravi.bangoria@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TycEa0V0pv7Sj2sF"
+Content-Disposition: inline
+In-Reply-To: <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,306 +63,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ravi.bangoria@linux.ibm.com, mikey@neuling.org, kvm@vger.kernel.org,
- mst@redhat.com, mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per the PAPR, bit 0 of byte 64 in pa-features property indicates
-availability of 2nd DAWR registers. i.e. If this bit is set, 2nd 
-DAWR is present, otherwise not. Use KVM_CAP_PPC_DAWR1 capability to
-find whether kvm supports 2nd DAWR or not. If it's supported, allow
-user to set the pa-feature bit in guest DT using cap-dawr1 machine
-capability.
 
-Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
----
- hw/ppc/spapr.c                  | 34 ++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_caps.c             | 32 ++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h          |  6 +++++-
- target/ppc/cpu.h                |  2 ++
- target/ppc/kvm.c                | 12 ++++++++++++
- target/ppc/kvm_ppc.h            |  7 +++++++
- target/ppc/translate_init.c.inc | 17 ++++++++++++++++-
- 7 files changed, 108 insertions(+), 2 deletions(-)
+--TycEa0V0pv7Sj2sF
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index d56418c..4df0a37 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -241,6 +241,31 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
-         /* 60: NM atomic, 62: RNG */
-         0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
-     };
-+    uint8_t pa_features_310[] = { 66, 0,
-+        /* 0: MMU|FPU|SLB|RUN|DABR|NX, 1: fri[nzpm]|DABRX|SPRG3|SLB0|PP110 */
-+        /* 2: VPM|DS205|PPR|DS202|DS206, 3: LSD|URG, SSO, 5: LE|CFAR|EB|LSQ */
-+        0xf6, 0x1f, 0xc7, 0xc0, 0x80, 0xf0, /* 0 - 5 */
-+        /* 6: DS207 */
-+        0x80, 0x00, 0x00, 0x00, 0x00, 0x00, /* 6 - 11 */
-+        /* 16: Vector */
-+        0x00, 0x00, 0x00, 0x00, 0x80, 0x00, /* 12 - 17 */
-+        /* 18: Vec. Scalar, 20: Vec. XOR, 22: HTM */
-+        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 18 - 23 */
-+        /* 24: Ext. Dec, 26: 64 bit ftrs, 28: PM ftrs */
-+        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 24 - 29 */
-+        /* 30: MMR, 32: LE atomic, 34: EBB + ext EBB */
-+        0x80, 0x00, 0x80, 0x00, 0xC0, 0x00, /* 30 - 35 */
-+        /* 36: SPR SO, 38: Copy/Paste, 40: Radix MMU */
-+        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 36 - 41 */
-+        /* 42: PM, 44: PC RA, 46: SC vec'd */
-+        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 42 - 47 */
-+        /* 48: SIMD, 50: QP BFP, 52: String */
-+        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 48 - 53 */
-+        /* 54: DecFP, 56: DecI, 58: SHA */
-+        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 54 - 59 */
-+        /* 60: NM atomic, 62: RNG, 64: DAWR1 */
-+        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
-+    };
-     uint8_t *pa_features = NULL;
-     size_t pa_size;
- 
-@@ -256,6 +281,10 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
-         pa_features = pa_features_300;
-         pa_size = sizeof(pa_features_300);
-     }
-+    if (ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_10, 0, cpu->compat_pvr)) {
-+        pa_features = pa_features_310;
-+        pa_size = sizeof(pa_features_310);
-+    }
-     if (!pa_features) {
-         return;
-     }
-@@ -279,6 +308,9 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
-          * in pa-features. So hide it from them. */
-         pa_features[40 + 2] &= ~0x80; /* Radix MMU */
-     }
-+    if (spapr_get_cap(spapr, SPAPR_CAP_DAWR1)) {
-+        pa_features[66] |= 0x80;
-+    }
- 
-     _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_size)));
- }
-@@ -2003,6 +2035,7 @@ static const VMStateDescription vmstate_spapr = {
-         &vmstate_spapr_cap_ccf_assist,
-         &vmstate_spapr_cap_fwnmi,
-         &vmstate_spapr_fwnmi,
-+        &vmstate_spapr_cap_dawr1,
-         NULL
-     }
- };
-@@ -4539,6 +4572,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-     smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
-     smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
-     smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
-+    smc->default_caps.caps[SPAPR_CAP_DAWR1] = SPAPR_CAP_OFF;
-     spapr_caps_add_properties(smc);
-     smc->irq = &spapr_irq_dual;
-     smc->dr_phb_enabled = true;
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 9ea7ddd..9c39a21 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -523,6 +523,27 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
-     }
- }
- 
-+static void cap_dawr1_apply(SpaprMachineState *spapr, uint8_t val,
-+                               Error **errp)
-+{
-+    if (!val) {
-+        return; /* Disable by default */
-+    }
-+
-+    if (tcg_enabled()) {
-+        error_setg(errp,
-+                "DAWR1 not supported in TCG. Try appending -machine cap-dawr1=off");
-+    } else if (kvm_enabled()) {
-+        if (!kvmppc_has_cap_dawr1()) {
-+            error_setg(errp,
-+                "DAWR1 not supported by KVM. Try appending -machine cap-dawr1=off");
-+        } else if (kvmppc_set_cap_dawr1(val) < 0) {
-+            error_setg(errp,
-+                "DAWR1 not supported by KVM. Try appending -machine cap-dawr1=off");
-+        }
-+    }
-+}
-+
- SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-     [SPAPR_CAP_HTM] = {
-         .name = "htm",
-@@ -631,6 +652,16 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
-         .type = "bool",
-         .apply = cap_fwnmi_apply,
-     },
-+    [SPAPR_CAP_DAWR1] = {
-+        .name = "dawr1",
-+        .description = "Allow DAWR1",
-+        .index = SPAPR_CAP_DAWR1,
-+        .get = spapr_cap_get_bool,
-+        .set = spapr_cap_set_bool,
-+        .type = "bool",
-+        .apply = cap_dawr1_apply,
-+    },
-+
- };
- 
- static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-@@ -771,6 +802,7 @@ SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
- SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
- SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
- SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
-+SPAPR_CAP_MIG_STATE(dawr1, SPAPR_CAP_DAWR1);
- 
- void spapr_caps_init(SpaprMachineState *spapr)
- {
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index b8985fa..00c8341 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -74,8 +74,10 @@ typedef enum {
- #define SPAPR_CAP_CCF_ASSIST            0x09
- /* Implements PAPR FWNMI option */
- #define SPAPR_CAP_FWNMI                 0x0A
-+/* DAWR1 */
-+#define SPAPR_CAP_DAWR1                 0x0B
- /* Num Caps */
--#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
-+#define SPAPR_CAP_NUM                   (SPAPR_CAP_DAWR1 + 1)
- 
- /*
-  * Capability Values
-@@ -366,6 +368,7 @@ struct SpaprMachineState {
- #define H_SET_MODE_RESOURCE_SET_DAWR0           2
- #define H_SET_MODE_RESOURCE_ADDR_TRANS_MODE     3
- #define H_SET_MODE_RESOURCE_LE                  4
-+#define H_SET_MODE_RESOURCE_SET_DAWR1           5
- 
- /* Flags for H_SET_MODE_RESOURCE_LE */
- #define H_SET_MODE_ENDIAN_BIG    0
-@@ -921,6 +924,7 @@ extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
- extern const VMStateDescription vmstate_spapr_cap_large_decr;
- extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
- extern const VMStateDescription vmstate_spapr_cap_fwnmi;
-+extern const VMStateDescription vmstate_spapr_cap_dawr1;
- 
- static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
- {
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index cd02d65..6a60416 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1460,9 +1460,11 @@ typedef PowerPCCPU ArchCPU;
- #define SPR_PSPB              (0x09F)
- #define SPR_DPDES             (0x0B0)
- #define SPR_DAWR0             (0x0B4)
-+#define SPR_DAWR1             (0x0B5)
- #define SPR_RPR               (0x0BA)
- #define SPR_CIABR             (0x0BB)
- #define SPR_DAWRX0            (0x0BC)
-+#define SPR_DAWRX1            (0x0BD)
- #define SPR_HFSCR             (0x0BE)
- #define SPR_VRSAVE            (0x100)
- #define SPR_USPRG0            (0x100)
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 298c1f8..35daec2 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -89,6 +89,7 @@ static int cap_ppc_count_cache_flush_assist;
- static int cap_ppc_nested_kvm_hv;
- static int cap_large_decr;
- static int cap_fwnmi;
-+static int cap_dawr1;
- 
- static uint32_t debug_inst_opcode;
- 
-@@ -138,6 +139,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     cap_ppc_nested_kvm_hv = kvm_vm_check_extension(s, KVM_CAP_PPC_NESTED_HV);
-     cap_large_decr = kvmppc_get_dec_bits();
-     cap_fwnmi = kvm_vm_check_extension(s, KVM_CAP_PPC_FWNMI);
-+    cap_dawr1 = kvm_vm_check_extension(s, KVM_CAP_PPC_DAWR1);
-     /*
-      * Note: setting it to false because there is not such capability
-      * in KVM at this moment.
-@@ -2078,6 +2080,16 @@ int kvmppc_set_fwnmi(PowerPCCPU *cpu)
-     return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
- }
- 
-+bool kvmppc_has_cap_dawr1(void)
-+{
-+    return !!cap_dawr1;
-+}
-+
-+int kvmppc_set_cap_dawr1(int enable)
-+{
-+    return kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_DAWR1, 0, enable);
-+}
-+
- int kvmppc_smt_threads(void)
- {
-     return cap_ppc_smt ? cap_ppc_smt : 1;
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 989f61a..b13e8ab 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -63,6 +63,8 @@ bool kvmppc_has_cap_htm(void);
- bool kvmppc_has_cap_mmu_radix(void);
- bool kvmppc_has_cap_mmu_hash_v3(void);
- bool kvmppc_has_cap_xive(void);
-+bool kvmppc_has_cap_dawr1(void);
-+int kvmppc_set_cap_dawr1(int enable);
- int kvmppc_get_cap_safe_cache(void);
- int kvmppc_get_cap_safe_bounds_check(void);
- int kvmppc_get_cap_safe_indirect_branch(void);
-@@ -341,6 +343,11 @@ static inline bool kvmppc_has_cap_xive(void)
-     return false;
- }
- 
-+static inline bool kvmppc_has_cap_dawr1(void)
-+{
-+    return false;
-+}
-+
- static inline int kvmppc_get_cap_safe_cache(void)
- {
-     return 0;
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 879e6df..93937ee 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -7765,6 +7765,21 @@ static void gen_spr_book3s_207_dbg(CPUPPCState *env)
-                         KVM_REG_PPC_CIABR, 0x00000000);
- }
- 
-+static void gen_spr_book3s_310_dbg(CPUPPCState *env)
-+{
-+    gen_spr_book3s_207_dbg(env);
-+    spr_register_kvm_hv(env, SPR_DAWR1, "DAWR1",
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        &spr_read_generic, &spr_write_generic,
-+                        KVM_REG_PPC_DAWR1, 0x00000000);
-+    spr_register_kvm_hv(env, SPR_DAWRX1, "DAWRX1",
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        &spr_read_generic, &spr_write_generic,
-+                        KVM_REG_PPC_DAWRX1, 0x00000000);
-+}
-+
- static void gen_spr_970_dbg(CPUPPCState *env)
- {
-     /* Breakpoints */
-@@ -8727,7 +8742,7 @@ static void init_proc_POWER8(CPUPPCState *env)
-     /* Common Registers */
-     init_proc_book3s_common(env);
-     gen_spr_sdr1(env);
--    gen_spr_book3s_207_dbg(env);
-+    gen_spr_book3s_310_dbg(env);
- 
-     /* POWER8 Specific Registers */
-     gen_spr_book3s_ids(env);
--- 
-2.7.4
+On Thu, Mar 25, 2021 at 09:56:04AM +0100, C=E9dric Le Goater wrote:
+> On 3/25/21 3:10 AM, David Gibson wrote:
+> > On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wrote:
+> >>
+> >>
+> >> On 3/22/21 10:03 PM, David Gibson wrote:
+> >>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wro=
+te:
+> >>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
+> >>>> topology_core_cpumask") cause a regression in the pseries machine wh=
+en
+> >>>> defining certain SMP topologies [1]. The reasoning behind the change=
+ is
+> >>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
+> >>>> cpu_core_mask"). In short, cpu_core_mask logic was causing troubles =
+with
+> >>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask because,=
+ as
+> >>>> far as the kernel understanding of SMP topologies goes, both masks a=
+re
+> >>>> equivalent.
+> >>>>
+> >>>> Further discussions in the kernel mailing list [2] shown that the
+> >>>> powerpc kernel always considered that the number of sockets were equ=
+al
+> >>>> to the number of NUMA nodes. The claim is that it doesn't make sense,
+> >>>> for Power hardware at least, 2+ sockets being in the same NUMA node.=
+ The
+> >>>> immediate conclusion is that all SMP topologies the pseries machine =
+were
+> >>>> supplying to the kernel, with more than one socket in the same NUMA =
+node
+> >>>> as in [1], happened to be correctly represented in the kernel by
+> >>>> accident during all these years.
+> >>>>
+> >>>> There's a case to be made for virtual topologies being detached from
+> >>>> hardware constraints, allowing maximum flexibility to users. At the =
+same
+> >>>> time, this freedom can't result in unrealistic hardware representati=
+ons
+> >>>> being emulated. If the real hardware and the pseries kernel don't
+> >>>> support multiple chips/sockets in the same NUMA node, neither should=
+ we.
+> >>>>
+> >>>> Starting in 6.0.0, all sockets must match an unique NUMA node in the
+> >>>> pseries machine. qtest changes were made to adapt to this new
+> >>>> condition.
+> >>>
+> >>> Oof.  I really don't like this idea.  It means a bunch of fiddly work
+> >>> for users to match these up, for no real gain.  I'm also concerned
+> >>> that this will require follow on changes in libvirt to not make this a
+> >>> really cryptic and irritating point of failure.
+> >>
+> >> Haven't though about required Libvirt changes, although I can say that=
+ there
+> >> will be some amount to be mande and it will probably annoy existing us=
+ers
+> >> (everyone that has a multiple socket per NUMA node topology).
+> >>
+> >> There is not much we can do from the QEMU layer aside from what I've p=
+roposed
+> >> here. The other alternative is to keep interacting with the kernel fol=
+ks to
+> >> see if there is a way to keep our use case untouched.
+> >=20
+> > Right.  Well.. not necessarily untouched, but I'm hoping for more
+> > replies from C=E9dric to my objections and mpe's.  Even with sockets
+> > being a kinda meaningless concept in PAPR, I don't think tying it to
+> > NUMA nodes makes sense.
+>=20
+> I did a couple of replies in different email threads but maybe not=20
+> to all. I felt it was going nowhere :/ Couple of thoughts,
 
+I think I saw some of those, but maybe not all.
+
+> Shouldn't we get rid of the socket concept, die also, under pseries=20
+> since they don't exist under PAPR ? We only have numa nodes, cores,=20
+> threads AFAICT.
+
+Theoretically, yes.  I'm not sure it's really practical, though, since
+AFAICT, both qemu and the kernel have the notion of sockets (though
+not dies) built into generic code.
+
+It does mean that one possible approach here - maybe the best one - is
+to simply declare that sockets are meaningless under, so we simply
+don't expect what the guest kernel reports to match what's given to
+qemu.
+
+It'd be nice to avoid that if we can: in a sense it's just cosmetic,
+but it is likely to surprise and confuse people.
+
+> Should we diverged from PAPR and add extra DT properties "qemu,..." ?
+> There are a couple of places where Linux checks for the underlying=20
+> hypervisor already.
+>=20
+> >> This also means that
+> >> 'ibm,chip-id' will probably remain in use since it's the only place wh=
+ere
+> >> we inform cores per socket information to the kernel.
+> >=20
+> > Well.. unless we can find some other sensible way to convey that
+> > information.  I haven't given up hope for that yet.
+>=20
+> Well, we could start by fixing the value in QEMU. It is broken
+> today.
+
+Fixing what value, exactly?
+
+> This is all coming from some work we did last year to evaluate our HW=20
+> (mostly for XIVE) on 2s, 4s, 16s systems on baremetal, KVM and PowerVM.=
+=20
+> We saw some real problems because Linux did not have a clear view of the=
+=20
+> topology. See the figures here :=20
+>=20
+> http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20210303174857.176=
+0393-9-clg@kaod.org/
+>=20
+> The node id is a key parameter for system resource management, memory=20
+> allocation, interrupt affinity, etc. Linux scales much better if used
+> correctly.
+
+Well, sure.  And we have all the ibm,associativity stuff to convey the
+node ids to the guest (which has its own problems, but not that are
+relevant here).  What's throwing me is why getting node IDs correct
+has anything to do with socket numbers.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--TycEa0V0pv7Sj2sF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBhVXMACgkQbDjKyiDZ
+s5LGxg/+Ib22T2nP40+G0HL6vwSe23egD/QIseN6FDJbpdgZZxSKH3aIj5eSWSS7
+Mo2ILkFFLq2L3XCvG3ogp7geHyMxqQFAcpyjwN2Btp8hFcbxZL8R1fvPHAsRhL1S
+wjgIXv/ZDmQr5BOhkno7pZXAGN7CbgCIWhWKFctNd1H4VJzeFpovsCZj9YClTsLw
+JZ4cmPm55cHC3xE7GmC/9mhwFUJKJIcRdsh1fLLllh/7XgmqqHeqpCYd2SkWT7K0
+eegrTGxIfb7acttkwwdCSAkwjsMkI77Ip9YMZYOY14GsPAMe+D3O7q+cpOPA5s5a
+9bQPX/nFF5gK1/TYQoPAoojtU174E6hlSo2PDN+vv1EL3t68CHI/M8dpJBsKw3La
+Apt1FGNjGQ+y7CkEe/JQaTmQNNe++n6mq2pk4G4QfRFi9IGS4sn+BYAxrXoC+Sq3
+SohNEL13461ZfPsHjDexLs37sEMLxZyop0Fqy+X0Zb8vhP8GIXHvklNjpzxXubNC
+v8Vd0GVUhuzCySAnnwv4LMsK8QjhnpaJMAz7fVHe6IVD7jpe3Lq2wJd5Yk2m4XyI
+ESPoWlcW89iAmP+TM6wTAD/aVpfEeqJX5vHetDGOzauBHpPfx7hZP792TfhDmtWC
+WSB08cifDiX8Kl04my9W1qOdfqDyTyLt8zjMmL44wMHlkVp+0NE=
+=HF0E
+-----END PGP SIGNATURE-----
+
+--TycEa0V0pv7Sj2sF--
 
