@@ -2,79 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E783B34CD95
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 12:04:52 +0200 (CEST)
-Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FC534CDDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 12:23:53 +0200 (CEST)
+Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQolQ-00050y-1h
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 06:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
+	id 1lQp3o-0008NT-Jp
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 06:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lQojE-0004YQ-Et
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:02:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lQoj8-0002Yc-3x
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:02:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617012147;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c9xa0auiIOon5K5mN1jZAquo57OeiHm23mYu4G0v9Hg=;
- b=PUPhEWB2+zrKyrPH3J9nOLPsodNMYS49lO6+jbcyl4CI6HAhBAsvdQHQJYZSuht8Qv+CYt
- VF37zGd66x88eTM+jGyOi4XePFO7LttV70p/XOe+oMFVTH5KKva0wYi9AXvmxSV89uRDWD
- sEWcdhGbyWq01wJ1wFJUwm5AeoRQRmk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-PwCRuNxEP4O8jwnXdWUF-w-1; Mon, 29 Mar 2021 06:02:22 -0400
-X-MC-Unique: PwCRuNxEP4O8jwnXdWUF-w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 007F5107ACCA
- for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 10:02:22 +0000 (UTC)
-Received: from redhat.com (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F3A660D79;
- Mon, 29 Mar 2021 10:02:13 +0000 (UTC)
-Date: Mon, 29 Mar 2021 11:02:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
-Message-ID: <YGGlo0C/JqlyQLMV@redhat.com>
-References: <20210121125028.3247190-1-kraxel@redhat.com>
- <20210203163202.GF241524@stefanha-x1.localdomain>
- <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
- <YFiHnr/uguP8/Vtz@redhat.com>
- <20210326124700.taujcpo2xqbn2pzj@sirius.home.kraxel.org>
- <YGGcnmLvFHEkX4ot@redhat.com>
- <20210329094818.q4xtejd6labmb5gr@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lQp2g-0007qy-D6
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:22:42 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:52110)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lQp2d-0005cy-0K
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:22:42 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id ECF4B407624A;
+ Mon, 29 Mar 2021 10:22:30 +0000 (UTC)
+Subject: [PATCH] icount: get rid of static variable
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Mar 2021 13:22:30 +0300
+Message-ID: <161701335066.1180180.7104085247702343395.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-In-Reply-To: <20210329094818.q4xtejd6labmb5gr@sirius.home.kraxel.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,57 +50,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: alex.bennee@linaro.org, pbonzini@redhat.com, pavel.dovgalyuk@ispras.ru,
+ cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 11:48:18AM +0200, Gerd Hoffmann wrote:
-> On Mon, Mar 29, 2021 at 10:23:42AM +0100, Daniel P. Berrangé wrote:
-> > On Fri, Mar 26, 2021 at 01:47:00PM +0100, Gerd Hoffmann wrote:
-> > >   Hi,
-> > > 
-> > > > eg a trace point "dma_map_wait" gets mapped to probes in many
-> > > > .stp files, once per target, because we need to match based on
-> > > > the executable path:
-> > > > 
-> > > >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
-> > > >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-ppc64").mark("dma_map_wait")
-> > > 
-> > > Probe qemu.system.ppc64.dma_map_wait = ...
-> > > 
-> > > Can I trace qemu started from build directory?
-> > > Seems scripts/qemu-trace-stap doesn't support that.
-> > 
-> > We should really generate extra equiv .stp files just for running from
-> > the build.
-> 
-> Well, "make install" with --prefix=$HOME/qemu-install fixed that for the time
-> being.
-> 
-> Now I have this:
-> 
-> kraxel@sirius ~/qemu-install/bin# sudo ./qemu-trace-stap -v run ./qemu-system-x86_64 "qxl_soft_reset"
-> Using tapset dir '/home/kraxel/qemu-install/share/systemtap/tapset' for binary './qemu-system-x86_64'
-> Compiling script 'probe qemu.system.x86_64.log.qxl_soft_reset {}'
-> semantic error: unresolved function pid: identifier 'pid' at /home/kraxel/qemu-install/share/systemtap/tapset/qemu-system-x86_64-log.stp:5451:41
->         source:     printf("%d@%d qxl_soft_reset %d\n", pid(), gettimeofday_ns(), qid)
->                                                         ^
-> 
-> Pass 2: analysis failed.  [man error::pass2]
-> 
-> Any clue why pid() isn't known?
+This patch moves static last_delta variable into timers_state
+structure to allow correct vmstate operations with icount shift=auto enabled.
 
-Hmm, strange, makes me think we have a bug causing it to not pull in
-global functions.
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+---
+ softmmu/cpu-timers.c   |    5 +++--
+ softmmu/icount.c       |    9 +++------
+ softmmu/timers-state.h |    2 ++
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+diff --git a/softmmu/cpu-timers.c b/softmmu/cpu-timers.c
+index cd38595245..34ddfa02f1 100644
+--- a/softmmu/cpu-timers.c
++++ b/softmmu/cpu-timers.c
+@@ -188,11 +188,12 @@ static const VMStateDescription icount_vmstate_adjust_timers = {
+ 
+ static const VMStateDescription icount_vmstate_shift = {
+     .name = "timer/icount/shift",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .needed = icount_shift_state_needed,
+     .fields = (VMStateField[]) {
+         VMSTATE_INT16(icount_time_shift, TimersState),
++        VMSTATE_INT64(last_delta, TimersState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+diff --git a/softmmu/icount.c b/softmmu/icount.c
+index dbcd8c3594..21341a4ce4 100644
+--- a/softmmu/icount.c
++++ b/softmmu/icount.c
+@@ -176,9 +176,6 @@ static void icount_adjust(void)
+     int64_t cur_icount;
+     int64_t delta;
+ 
+-    /* Protected by TimersState mutex.  */
+-    static int64_t last_delta;
+-
+     /* If the VM is not running, then do nothing.  */
+     if (!runstate_is_running()) {
+         return;
+@@ -193,20 +190,20 @@ static void icount_adjust(void)
+     delta = cur_icount - cur_time;
+     /* FIXME: This is a very crude algorithm, somewhat prone to oscillation.  */
+     if (delta > 0
+-        && last_delta + ICOUNT_WOBBLE < delta * 2
++        && timers_state.last_delta + ICOUNT_WOBBLE < delta * 2
+         && timers_state.icount_time_shift > 0) {
+         /* The guest is getting too far ahead.  Slow time down.  */
+         qatomic_set(&timers_state.icount_time_shift,
+                     timers_state.icount_time_shift - 1);
+     }
+     if (delta < 0
+-        && last_delta - ICOUNT_WOBBLE > delta * 2
++        && timers_state.last_delta - ICOUNT_WOBBLE > delta * 2
+         && timers_state.icount_time_shift < MAX_ICOUNT_SHIFT) {
+         /* The guest is getting too far behind.  Speed time up.  */
+         qatomic_set(&timers_state.icount_time_shift,
+                     timers_state.icount_time_shift + 1);
+     }
+-    last_delta = delta;
++    timers_state.last_delta = delta;
+     qatomic_set_i64(&timers_state.qemu_icount_bias,
+                     cur_icount - (timers_state.qemu_icount
+                                   << timers_state.icount_time_shift));
+diff --git a/softmmu/timers-state.h b/softmmu/timers-state.h
+index db4e60f18f..8c262ce139 100644
+--- a/softmmu/timers-state.h
++++ b/softmmu/timers-state.h
+@@ -43,6 +43,8 @@ typedef struct TimersState {
+ 
+     /* Conversion factor from emulated instructions to virtual clock ticks.  */
+     int16_t icount_time_shift;
++    /* Icount delta used for shift auto adjust. */
++    int64_t last_delta;
+ 
+     /* Compensate for varying guest execution speed.  */
+     int64_t qemu_icount_bias;
 
 
