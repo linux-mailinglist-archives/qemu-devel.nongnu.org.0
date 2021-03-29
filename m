@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B52C34CCEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 11:22:30 +0200 (CEST)
-Received: from localhost ([::1]:54426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A69B34CCFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 11:26:39 +0200 (CEST)
+Received: from localhost ([::1]:58250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQo6O-0006SC-7I
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 05:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49162)
+	id 1lQoAQ-00087N-LH
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 05:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lQo5A-00062E-4K
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 05:21:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39535)
+ id 1lQo7v-0006zi-Bc
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 05:24:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lQo56-00035T-62
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 05:21:11 -0400
+ id 1lQo7t-0004lY-Oy
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 05:24:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617009665;
+ s=mimecast20190719; t=1617009839;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=uGkg0TpuEceB1mEtciUGq0pqDp0trRU8ue5Cua/lV8U=;
- b=ZO4KhNpvh1Idz2JrErB05jTeDq3KK/lV1rYmzJAPIKrM3aBfefZBcw1OoFEW9MHIRFxF7i
- XSmljXVz6UX5n3TPFsQxkKxLI8+CN5mIu+YdMRxjvxcywC/EMB4gyw3LR1ixxkPpzyjiKs
- iKnb2KYS12muSFHocVVr1anmCMqDySw=
+ bh=4d/q8CArbXwjDyOTymBG33h/R3c1p79JWHLpeX64kxM=;
+ b=Lm5iOfNBqOVIK8WUeCoYadz8q1pyXzsKLWgxJTb5wnDFv7W0XmIcMCvujg2oI3gwlHfR5Y
+ TjPVapiNIG/Ozd5PbZ6l0MKGcqN1GVsxUXPHifZOsuhxxLSeheUnnhnP3XnT1OBCaisewu
+ VySsMa7XS/uDtXfwpAfsYezxKrpgIow=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-3TTC0LstNym5IKIxs-HdIA-1; Mon, 29 Mar 2021 05:21:03 -0400
-X-MC-Unique: 3TTC0LstNym5IKIxs-HdIA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-36-SUB1YWOdOCOA6f1yw1AriQ-1; Mon, 29 Mar 2021 05:23:56 -0400
+X-MC-Unique: SUB1YWOdOCOA6f1yw1AriQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62E7483DD20;
- Mon, 29 Mar 2021 09:21:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25BA1190A7A5
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 09:23:55 +0000 (UTC)
 Received: from redhat.com (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B988437F;
- Mon, 29 Mar 2021 09:20:56 +0000 (UTC)
-Date: Mon, 29 Mar 2021 10:20:54 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DE3963633;
+ Mon, 29 Mar 2021 09:23:45 +0000 (UTC)
+Date: Mon, 29 Mar 2021 10:23:42 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: Re: [PATCH v3] qapi: introduce 'query-cpu-model-cpuid' action
-Message-ID: <YGGb9ohT/EztzFbr@redhat.com>
-References: <20210326173000.18750-1-valeriy.vdovin@virtuozzo.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
+Message-ID: <YGGcnmLvFHEkX4ot@redhat.com>
+References: <20210121125028.3247190-1-kraxel@redhat.com>
+ <20210203163202.GF241524@stefanha-x1.localdomain>
+ <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
+ <YFiHnr/uguP8/Vtz@redhat.com>
+ <20210326124700.taujcpo2xqbn2pzj@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210326173000.18750-1-valeriy.vdovin@virtuozzo.com>
+In-Reply-To: <20210326124700.taujcpo2xqbn2pzj@sirius.home.kraxel.org>
 User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,83 +83,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 26, 2021 at 08:30:00PM +0300, Valeriy Vdovin wrote:
-> Other than debug, the method is useful in cases when we would like to
-> utilize QEMU's virtual cpu initialization routines and put the retrieved
-> values into kernel CPUID overriding mechanics for more precise control
-> over how various processes perceive its underlying hardware with
-> container processes as a good example.
+On Fri, Mar 26, 2021 at 01:47:00PM +0100, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > eg a trace point "dma_map_wait" gets mapped to probes in many
+> > .stp files, once per target, because we need to match based on
+> > the executable path:
+> > 
+> >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
+> >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-ppc64").mark("dma_map_wait")
+> 
+> Probe qemu.system.ppc64.dma_map_wait = ...
+> 
+> Can I trace qemu started from build directory?
+> Seems scripts/qemu-trace-stap doesn't support that.
 
-When I read this, my impression is that QEMU's CPU handling doesn't do
-what you need, and you're trying to work around it outside of QEMU.
-Can you give more detailed information about what situations QEMU's
-CPUID handling doesn't work, and why we can't simply enhance QEMU
-to do what you need ?
+We should really generate extra equiv .stp files just for running from
+the build.
 
-> virsh qemu-monitor-command VM --pretty '{ "execute": "query-cpu-model-cpuid" }'
-> {
->   "return": {
->     "cpuid": {
->       "leafs": [
->         {
->           "leaf": 0,
->           "subleafs": [
->             {
->               "eax": 13,
->               "edx": 1231384169,
->               "ecx": 1818588270,
->               "ebx": 1970169159,
->               "subleaf": 0
->             }
->           ]
->         },
->         {
->           "leaf": 1,
->           "subleafs": [
->             {
->               "eax": 329443,
->               "edx": 529267711,
->               "ecx": 4160369187,
->               "ebx": 133120,
->               "subleaf": 0
->             }
->           ]
->         },
->         {
->           "leaf": 2,
->           "subleafs": [
->             {
->               "eax": 1,
->               "edx": 2895997,
->               "ecx": 0,
->               "ebx": 0,
->               "subleaf": 0
->             }
->           ]
->         },
->       ]
->     },
->     "vendor": "GenuineIntel",
->     "class-name": "Skylake-Client-IBRS-x86_64-cpu",
->     "model-id": "Intel Core Processor (Skylake, IBRS)"
->   },
->   "id": "libvirt-40"
-> }
-
-There's feels like there's a lot of conceptual overlap with the
-query-cpu-model-expansion command. That reports in a arch independant
-format, but IIUC the property data it returns can be mapped into
-CPUID leaf values. Is it not possible for you to use this existing
-command and maintain a mapping of property names -> CPUID leaves ?
-
+> >   qxl.destroy_primary(int qid) "%d"
+> >   qxl.enter_vga_mode(int qid) "%d"
+> >   qxl.exit_vga_mode(int qid) "%d"
+> > 
+> > this would be backwards compatible, as we can turn the "." back into
+> > a "_" for all existing trace backends, except stp.
+> 
+> Hmm, not sure I like this inconsistency.  I think names should be the
+> same no matter which trace backend is used.
 
 Regards,
 Daniel
