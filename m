@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128A134CF59
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 13:49:59 +0200 (CEST)
-Received: from localhost ([::1]:33806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1309C34CFAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 14:05:15 +0200 (CEST)
+Received: from localhost ([::1]:42486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQqP8-0001nr-5s
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 07:49:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
+	id 1lQqdt-0006Eu-S7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 08:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lQqO9-0001N2-3V
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 07:48:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46308)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lQqbz-0005MK-DP
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 08:03:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lQqO6-0005ZU-Pt
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 07:48:56 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lQqbx-0006A4-IF
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 08:03:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617018533;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=viZm1vFFQvuS7NlOMt88/xG9iPSxgDFpA/iGBgp7EKo=;
- b=GX78U125R4zuQOCzUyZQJgrjVyMJXOqZ3yZ0sgCLYuDAU7q3vLcMLe/JJwvlVjhs187kfq
- CP3BS2ADNnCBFAj+dqgTcKxytW+0BWnMrK+P0ae6Zof3Xu4JLHR9td44iaD0NE0tR7cWIo
- K6nr7BvzuUKo/szzvMJrmet2l/rDsCE=
+ s=mimecast20190719; t=1617019392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jIeG0aiGJvFD417JkZYo5YrdBQIBxVr42m5szL6O52c=;
+ b=YzUAg8EmE9mBbhVPctQ4/XoQ7vbCkhB0o8MSO9+8k7JgdEth9577/76LYVsGHSN8Pg/Agf
+ L7TKv1UPXPVV/FHiGtO8JYN8RUOCYAjg1krhzgGsQ1fzTUkfx8Fkx7LzSJ3knJA8qxSW1E
+ fxywa0osHp7wkqCmQj/xer/m9sIkHZ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-z3rKANoHM0uYKyp9rsL-mA-1; Mon, 29 Mar 2021 07:48:42 -0400
-X-MC-Unique: z3rKANoHM0uYKyp9rsL-mA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-316-0DFnNf44MVKoX6BURn9z6A-1; Mon, 29 Mar 2021 08:03:10 -0400
+X-MC-Unique: 0DFnNf44MVKoX6BURn9z6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43593501FD;
- Mon, 29 Mar 2021 11:48:41 +0000 (UTC)
-Received: from redhat.com (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64D2D19D9F;
- Mon, 29 Mar 2021 11:48:38 +0000 (UTC)
-Date: Mon, 29 Mar 2021 12:48:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: Re: [PATCH v3] qapi: introduce 'query-cpu-model-cpuid' action
-Message-ID: <YGG+k2PMJjc2yX2g@redhat.com>
-References: <20210326173000.18750-1-valeriy.vdovin@virtuozzo.com>
- <YGGb9ohT/EztzFbr@redhat.com>
- <20210329112153.GA413337@dhcp-172-16-24-191.sw.ru>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 403B3107BEFD;
+ Mon, 29 Mar 2021 12:03:09 +0000 (UTC)
+Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69E8F5C582;
+ Mon, 29 Mar 2021 12:03:07 +0000 (UTC)
+Date: Mon, 29 Mar 2021 13:03:04 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: leirao <lei.rao@intel.com>
+Subject: Re: [PATCH v4 08/10] Reduce the PVM stop time during Checkpoint
+Message-ID: <YGHB+Pdvmwb0FgIg@work-vm>
+References: <1616639091-28279-1-git-send-email-lei.rao@intel.com>
+ <1616639091-28279-9-git-send-email-lei.rao@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210329112153.GA413337@dhcp-172-16-24-191.sw.ru>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1616639091-28279-9-git-send-email-lei.rao@intel.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,115 +79,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Denis Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: lukasstraub2@web.de, lizhijian@cn.fujitsu.com, quintela@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org, chen.zhang@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 02:21:53PM +0300, Valeriy Vdovin wrote:
-> On Mon, Mar 29, 2021 at 10:20:54AM +0100, Daniel P. Berrang?? wrote:
-> > On Fri, Mar 26, 2021 at 08:30:00PM +0300, Valeriy Vdovin wrote:
-> > > Other than debug, the method is useful in cases when we would like to
-> > > utilize QEMU's virtual cpu initialization routines and put the retrieved
-> > > values into kernel CPUID overriding mechanics for more precise control
-> > > over how various processes perceive its underlying hardware with
-> > > container processes as a good example.
-> > 
-> > When I read this, my impression is that QEMU's CPU handling doesn't do
-> > what you need, and you're trying to work around it outside of QEMU.
-> > Can you give more detailed information about what situations QEMU's
-> > CPUID handling doesn't work, and why we can't simply enhance QEMU
-> > to do what you need ?
-> > 
-> We want to override CPUID for container processes to support live
-> migration. For that we want to base on a reliable cpu model, which is
-> present in libvirt and QEMU. We will communicate cpu models information
-> between physical nodes to decide the baseline cpu model and then we could
-> use the new method to get all CPUID value leaves that we would return to
-> containers during CPUID override. In our case the QAPI-way of getting the
-> values is a clean solution, because we can just query it from the outside
-> (not as guest system).
+* leirao (lei.rao@intel.com) wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
+> 
+> When flushing memory from ram cache to ram during every checkpoint
+> on secondary VM, we can copy continuous chunks of memory instead of
+> 4096 bytes per time to reduce the time of VM stop during checkpoint.
+> 
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
 
-IIUC, you seem to be saying that you're not actually going to run a
-real QEMU VM at all ?  You're just using QEMU / QMP as a convenient
-way expand a named CPI model into CPUID leaves, so you can then use
-this data in a completely separate container based mgmt application.
-Essentially treating QMP as a general purpose API for handling CPU
-models.
+A minor comment below, but :
 
-> > > virsh qemu-monitor-command VM --pretty '{ "execute": "query-cpu-model-cpuid" }'
-> > > {
-> > >   "return": {
-> > >     "cpuid": {
-> > >       "leafs": [
-> > >         {
-> > >           "leaf": 0,
-> > >           "subleafs": [
-> > >             {
-> > >               "eax": 13,
-> > >               "edx": 1231384169,
-> > >               "ecx": 1818588270,
-> > >               "ebx": 1970169159,
-> > >               "subleaf": 0
-> > >             }
-> > >           ]
-> > >         },
-> > >         {
-> > >           "leaf": 1,
-> > >           "subleafs": [
-> > >             {
-> > >               "eax": 329443,
-> > >               "edx": 529267711,
-> > >               "ecx": 4160369187,
-> > >               "ebx": 133120,
-> > >               "subleaf": 0
-> > >             }
-> > >           ]
-> > >         },
-> > >         {
-> > >           "leaf": 2,
-> > >           "subleafs": [
-> > >             {
-> > >               "eax": 1,
-> > >               "edx": 2895997,
-> > >               "ecx": 0,
-> > >               "ebx": 0,
-> > >               "subleaf": 0
-> > >             }
-> > >           ]
-> > >         },
-> > >       ]
-> > >     },
-> > >     "vendor": "GenuineIntel",
-> > >     "class-name": "Skylake-Client-IBRS-x86_64-cpu",
-> > >     "model-id": "Intel Core Processor (Skylake, IBRS)"
-> > >   },
-> > >   "id": "libvirt-40"
-> > > }
-> > 
-> > There's feels like there's a lot of conceptual overlap with the
-> > query-cpu-model-expansion command. That reports in a arch independant
-> > format, but IIUC the property data it returns can be mapped into
-> > CPUID leaf values. Is it not possible for you to use this existing
-> > command and maintain a mapping of property names -> CPUID leaves ?
-> As already stated in the use-case description above, having this method
-> around, helps us in a way that we can just take values and return them
-> to containers. QEMU code already does a great job, generating CPUID
-> responses, we don't want to do the same in our own code.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-This is asking QEMU to maintain a new QAPI command which does not appear
-to have a use case / benefit for QEMU mgmt. It isn't clear to me that
-this should be considered in scope for QMP.
+> ---
+>  migration/ram.c | 45 ++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 42 insertions(+), 3 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index c69a8e0..a258466 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -822,6 +822,39 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+>      return next;
+>  }
+>  
+> +/*
+> + * colo_bitmap_find_diry:find contiguous dirty pages from start
+> + *
+> + * Returns the page offset within memory region of the start of the contiguout
+> + * dirty page
+> + *
+> + * @rs: current RAM state
+> + * @rb: RAMBlock where to search for dirty pages
+> + * @start: page where we start the search
+> + * @num: the number of contiguous dirty pages
+> + */
+> +static inline
+> +unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+> +                                     unsigned long start, unsigned long *num)
+> +{
+> +    unsigned long size = rb->used_length >> TARGET_PAGE_BITS;
+> +    unsigned long *bitmap = rb->bmap;
+> +    unsigned long first, next;
 
-Regards,
-Daniel
+It might be better to add the 
+       *num = 0
+
+here, which means this function always writes num
+
+> +    if (ramblock_is_ignored(rb)) {
+> +        return size;
+> +    }
+> +
+> +    first = find_next_bit(bitmap, size, start);
+> +    if (first >= size) {
+> +        return first;
+> +    }
+> +    next = find_next_zero_bit(bitmap, size, first + 1);
+> +    assert(next >= first);
+> +    *num = next - first;
+> +    return first;
+> +}
+> +
+>  static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+>                                                  RAMBlock *rb,
+>                                                  unsigned long page)
+> @@ -3666,6 +3699,8 @@ void colo_flush_ram_cache(void)
+>      void *dst_host;
+>      void *src_host;
+>      unsigned long offset = 0;
+> +    unsigned long num = 0;
+
+that could move inside the while loop.
+
+> +    unsigned long i = 0;
+
+This line could move inside the 'else' clause below that uses it.
+
+>      memory_global_dirty_log_sync();
+>      WITH_RCU_READ_LOCK_GUARD() {
+> @@ -3679,19 +3714,23 @@ void colo_flush_ram_cache(void)
+>          block = QLIST_FIRST_RCU(&ram_list.blocks);
+>  
+>          while (block) {
+> -            offset = migration_bitmap_find_dirty(ram_state, block, offset);
+> +            offset = colo_bitmap_find_dirty(ram_state, block, offset, &num);
+>  
+>              if (((ram_addr_t)offset) << TARGET_PAGE_BITS
+>                  >= block->used_length) {
+>                  offset = 0;
+> +                num = 0;
+>                  block = QLIST_NEXT_RCU(block, next);
+>              } else {
+> -                migration_bitmap_clear_dirty(ram_state, block, offset);
+> +                for (i = 0; i < num; i++) {
+> +                    migration_bitmap_clear_dirty(ram_state, block, offset + i);
+> +                }
+>                  dst_host = block->host
+>                           + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+>                  src_host = block->colo_cache
+>                           + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+> -                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
+> +                memcpy(dst_host, src_host, TARGET_PAGE_SIZE * num);
+> +                offset += num;
+
+I was initially confused as to why the old code didn't have an offset++
+but I guess that means it just checked the bit a second time that was
+just cleared.
+
+Dave
+
+
+>              }
+>          }
+>      }
+> -- 
+> 1.8.3.1
+> 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
