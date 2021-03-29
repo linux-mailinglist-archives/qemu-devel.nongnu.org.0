@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D70134C0F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 03:19:55 +0200 (CEST)
-Received: from localhost ([::1]:56784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC8734C1EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 04:22:13 +0200 (CEST)
+Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQgZO-0006zb-Cn
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 21:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50324)
+	id 1lQhXg-0004fV-BK
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 22:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lQgYK-0006Sq-Sz
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 21:18:48 -0400
-Received: from mga17.intel.com ([192.55.52.151]:49751)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lQhVw-00048r-5P
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 22:20:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lQgYH-00030C-TA
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 21:18:48 -0400
-IronPort-SDR: NP5qM7AQdtxoex3TDyyLpl6FS2zaH+iquDGvDAL24tBdGagHC8Mse1rYL5Ez/wAJ6+vLBymSjn
- El0JNxEVE9dg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="171469187"
-X-IronPort-AV: E=Sophos;i="5.81,285,1610438400"; d="scan'208";a="171469187"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2021 18:18:38 -0700
-IronPort-SDR: XhERDS1vjhszqDwxUMWhT8EqqoiO8AXVE0C8tffMk074jN7AIX3kzBrinIGcee2mzWyaF2Wwi7
- YCsxl37Sa/8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,285,1610438400"; d="scan'208";a="609555949"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2021 18:18:38 -0700
-Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Sun, 28 Mar 2021 18:18:37 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 29 Mar 2021 09:18:35 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
- Mon, 29 Mar 2021 09:18:35 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: RE: [PATCH V4 5/7] net/colo-compare: Move data structure and define
- to .h file.
-Thread-Topic: [PATCH V4 5/7] net/colo-compare: Move data structure and define
- to .h file.
-Thread-Index: AQHXHHR4ttVovajvt0ybKWSDKG9HOqqSeziAgAe+j7A=
-Date: Mon, 29 Mar 2021 01:18:35 +0000
-Message-ID: <4ac5c3a9970447898940771801877a41@intel.com>
-References: <20210319035508.113741-1-chen.zhang@intel.com>
- <20210319035508.113741-6-chen.zhang@intel.com> <YFscK6+H69dXLY/Z@work-vm>
-In-Reply-To: <YFscK6+H69dXLY/Z@work-vm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lQhVt-0005nk-6N
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 22:20:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1616984418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XEyebLpdd0Wbn7joiPOJyXamZr2ndviXau08KyjElZg=;
+ b=bqMeZCyZGuGux339rcJM/1jQzmseGlyjhETVPOlOsl2E0dw/ClY/UHFknkAA+HD+s2lRG7
+ NY6gYgvbRQOwH3+hzjt2XL9vYRVeuaLW7IDI/nt1qe0cKkEvjTYaaBHRjtQxkdvjNoBMU2
+ PpkNvPkM7YO+pQLkyvmuEbNAMDs9pSU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-9Laup5g-N9GzghroI0bdAQ-1; Sun, 28 Mar 2021 22:20:14 -0400
+X-MC-Unique: 9Laup5g-N9GzghroI0bdAQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA5EC64151;
+ Mon, 29 Mar 2021 02:20:12 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-5.pek2.redhat.com [10.72.13.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 237CF1992D;
+ Mon, 29 Mar 2021 02:20:08 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: jasowang@redhat.com,
+	sw@weilnetz.de
+Subject: [PATCH] tap-win32: correctly recycle buffers
+Date: Mon, 29 Mar 2021 10:20:06 +0800
+Message-Id: <20210329022006.55532-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,181 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Zhang Chen <zhangckid@gmail.com>
+Cc: peter.maydell@linaro.org, bmeng.cn@gmail.com, hsp.cat7@gmail.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 969e50b61a28 ("net: Pad short frames to minimum size before
+sending from SLiRP/TAP") tries to pad frames but try to recyle the
+local array that is used for padding to tap thread. This patch fixes
+this by recyling the original buffer.
 
+Fixes: 969e50b61a28 ("net: Pad short frames to minimum size before sending from SLiRP/TAP")
+Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ net/tap-win32.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> -----Original Message-----
-> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Sent: Wednesday, March 24, 2021 7:02 PM
-> To: Zhang, Chen <chen.zhang@intel.com>
-> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Markus Armbruster
-> <armbru@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>; Zhang Chen
-> <zhangckid@gmail.com>; Lukas Straub <lukasstraub2@web.de>
-> Subject: Re: [PATCH V4 5/7] net/colo-compare: Move data structure and
-> define to .h file.
->=20
-> * Zhang Chen (chen.zhang@intel.com) wrote:
-> > Make other modules can reuse COLO code.
-> >
-> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > ---
-> >  net/colo-compare.c | 106
-> > ---------------------------------------------
-> >  net/colo-compare.h | 106
-> > +++++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 106 insertions(+), 106 deletions(-)
-> >
->=20
-> <snip>
->=20
-> > diff --git a/net/colo-compare.h b/net/colo-compare.h index
-> > 22ddd512e2..2a9dcac0a7 100644
-> > --- a/net/colo-compare.h
-> > +++ b/net/colo-compare.h
-> > @@ -17,6 +17,112 @@
-> >  #ifndef QEMU_COLO_COMPARE_H
-> >  #define QEMU_COLO_COMPARE_H
-> >
-> > +#include "net/net.h"
-> > +#include "chardev/char-fe.h"
-> > +#include "migration/colo.h"
-> > +#include "migration/migration.h"
-> > +#include "sysemu/iothread.h"
-> > +#include "colo.h"
-> > +
-> > +#define TYPE_COLO_COMPARE "colo-compare"
-> > +typedef struct CompareState CompareState;
-> > +DECLARE_INSTANCE_CHECKER(CompareState, COLO_COMPARE,
-> > +                         TYPE_COLO_COMPARE)
-> > +
-> > +#define COMPARE_READ_LEN_MAX NET_BUFSIZE #define
-> MAX_QUEUE_SIZE 1024
->=20
-> ^^^^
->=20
-> > +#define COLO_COMPARE_FREE_PRIMARY     0x01
-> > +#define COLO_COMPARE_FREE_SECONDARY   0x02
-> > +
-> > +#define REGULAR_PACKET_CHECK_MS 1000
-> > +#define DEFAULT_TIME_OUT_MS 3000
-> > +
-> > +typedef struct SendCo {
-> > +    Coroutine *co;
-> > +    struct CompareState *s;
-> > +    CharBackend *chr;
-> > +    GQueue send_list;
-> > +    bool notify_remote_frame;
-> > +    bool done;
-> > +    int ret;
-> > +} SendCo;
->=20
-> ^^^^^
-> > +typedef struct SendEntry {
-> > +    uint32_t size;
-> > +    uint32_t vnet_hdr_len;
-> > +    uint8_t *buf;
-> > +} SendEntry;
->=20
-> ^^^^^
->=20
-> > +/*
-> > + *  + CompareState ++
-> > + *  |               |
-> > + *  +---------------+   +---------------+         +---------------+
-> > + *  |   conn list   + - >      conn     + ------- >      conn     + --=
- > ......
-> > + *  +---------------+   +---------------+         +---------------+
-> > + *  |               |     |           |             |          |
-> > + *  +---------------+ +---v----+  +---v----+    +---v----+ +---v----+
-> > + *                    |primary |  |secondary    |primary | |secondary
-> > + *                    |packet  |  |packet  +    |packet  | |packet  +
-> > + *                    +--------+  +--------+    +--------+ +--------+
-> > + *                        |           |             |          |
-> > + *                    +---v----+  +---v----+    +---v----+ +---v----+
-> > + *                    |primary |  |secondary    |primary | |secondary
-> > + *                    |packet  |  |packet  +    |packet  | |packet  +
-> > + *                    +--------+  +--------+    +--------+ +--------+
-> > + *                        |           |             |          |
-> > + *                    +---v----+  +---v----+    +---v----+ +---v----+
-> > + *                    |primary |  |secondary    |primary | |secondary
-> > + *                    |packet  |  |packet  +    |packet  | |packet  +
-> > + *                    +--------+  +--------+    +--------+ +--------+
-> > + */
-> > +struct CompareState {
->=20
->  ^^^^^
->=20
-> For a header, these are too generic names - they need to have Colo in the=
-m;
-> e.g. MAX_COLOQUEUE_SIZE and COLOSendEntry etc
-
-Thanks Dave, I will fix it in next version.
-
-Thanks
-Chen
-
->=20
-> Dave
->=20
-> > +    Object parent;
-> > +
-> > +    char *pri_indev;
-> > +    char *sec_indev;
-> > +    char *outdev;
-> > +    char *notify_dev;
-> > +    CharBackend chr_pri_in;
-> > +    CharBackend chr_sec_in;
-> > +    CharBackend chr_out;
-> > +    CharBackend chr_notify_dev;
-> > +    SocketReadState pri_rs;
-> > +    SocketReadState sec_rs;
-> > +    SocketReadState notify_rs;
-> > +    SendCo out_sendco;
-> > +    SendCo notify_sendco;
-> > +    bool vnet_hdr;
-> > +    uint64_t compare_timeout;
-> > +    uint32_t expired_scan_cycle;
-> > +
-> > +    /*
-> > +     * Record the connection that through the NIC
-> > +     * Element type: Connection
-> > +     */
-> > +    GQueue conn_list;
-> > +    /* Record the connection without repetition */
-> > +    GHashTable *connection_track_table;
-> > +
-> > +    IOThread *iothread;
-> > +    GMainContext *worker_context;
-> > +    QEMUTimer *packet_check_timer;
-> > +
-> > +    QEMUBH *event_bh;
-> > +    enum colo_event event;
-> > +
-> > +    QTAILQ_ENTRY(CompareState) next;
-> > +};
-> > +
-> > +typedef struct CompareClass {
-> > +    ObjectClass parent_class;
-> > +} CompareClass;
-> > +
-> > +enum {
-> > +    PRIMARY_IN =3D 0,
-> > +    SECONDARY_IN,
-> > +};
-> > +
-> >  void colo_notify_compares_event(void *opaque, int event, Error
-> > **errp);  void colo_compare_register_notifier(Notifier *notify);  void
-> > colo_compare_unregister_notifier(Notifier *notify);
-> > --
-> > 2.25.1
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/net/tap-win32.c b/net/tap-win32.c
+index d7c2a8759c..7a6f3d7384 100644
+--- a/net/tap-win32.c
++++ b/net/tap-win32.c
+@@ -686,7 +686,7 @@ static ssize_t tap_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+ static void tap_win32_send(void *opaque)
+ {
+     TAPState *s = opaque;
+-    uint8_t *buf;
++    uint8_t *buf, *orig_buf;
+     int max_size = 4096;
+     int size;
+     uint8_t min_pkt[ETH_ZLEN];
+@@ -694,6 +694,8 @@ static void tap_win32_send(void *opaque)
+ 
+     size = tap_win32_read(s->handle, &buf, max_size);
+     if (size > 0) {
++        orig_buf = buf;
++
+         if (!s->nc.peer->do_not_pad) {
+             if (eth_pad_short_frame(min_pkt, &min_pktsz, buf, size)) {
+                 buf = min_pkt;
+@@ -702,7 +704,7 @@ static void tap_win32_send(void *opaque)
+         }
+ 
+         qemu_send_packet(&s->nc, buf, size);
+-        tap_win32_free_buffer(s->handle, buf);
++        tap_win32_free_buffer(s->handle, orig_buf);
+     }
+ }
+ 
+-- 
+2.24.3 (Apple Git-128)
 
 
