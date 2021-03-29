@@ -2,109 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28EF34D13B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 15:36:37 +0200 (CEST)
-Received: from localhost ([::1]:53340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526CF34D19B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 15:46:45 +0200 (CEST)
+Received: from localhost ([::1]:56408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQs4K-0004rH-U2
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 09:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51478)
+	id 1lQsE8-0006h0-6O
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 09:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
- id 1lQs2j-0004Cw-B8; Mon, 29 Mar 2021 09:34:57 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12062)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lQsCa-00060r-1J; Mon, 29 Mar 2021 09:45:08 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:51594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
- id 1lQs2c-0007pQ-3w; Mon, 29 Mar 2021 09:34:57 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12TDWkEo026024; Mon, 29 Mar 2021 09:34:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : subject : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=SEPyldpy16GplLMLA0GEH2oUhFtKE05FUdp7w85/PvQ=;
- b=gvFuy1n1MRQRDsluP5QUDASUdDYbV7Gm0+m4FaWCUpRJv4mxTvCYqjEoaWPr0NZcWsVH
- 0+qFm97MlMM2MtMTH8o+NfTXEqt2VgKaM2Mugw3TfmisZBrCZkacWJa7KMw4LTNvk14g
- /HrRhNmec9ebCFO3Vlsw9/0Mn6UqVmMWaKbzkjdtM2wI5GsdLJWEaOEvQ2zbHZqrYL8h
- YSnolCKQqRpp1/ZE9+iQxc1PA5ng1DrnPzzs85H2x6A9WOfyeARBHNje4y9FLQ1QOVxB
- I2u9XEc9p2Wg8tmnWVUeddp7+sBQD4Lb/QmpyzJOobbDakgQtPO4D+/43x4c1x9US3G4 pw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37jhru86k9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 09:34:33 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12TDWlrL026193;
- Mon, 29 Mar 2021 09:34:33 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37jhru86j6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 09:34:33 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12TDWJ6M004528;
- Mon, 29 Mar 2021 13:34:30 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 37hvb8htxt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 13:34:30 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12TDYSVh21299502
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Mar 2021 13:34:28 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B6FB4C040;
- Mon, 29 Mar 2021 13:34:28 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9818C4C046;
- Mon, 29 Mar 2021 13:34:25 +0000 (GMT)
-Received: from [9.199.34.103] (unknown [9.199.34.103])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 29 Mar 2021 13:34:25 +0000 (GMT)
-From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: Re: [PATCH v2 3/3] ppc: Enable 2nd DAWR support on p10
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210329041906.213991-1-ravi.bangoria@linux.ibm.com>
- <20210329041906.213991-4-ravi.bangoria@linux.ibm.com>
- <YGFf0WxO+LRU1ysI@yekko.fritz.box>
-Message-ID: <9abc9f1a-f855-e7bd-4b83-2884f6595172@linux.ibm.com>
-Date: Mon, 29 Mar 2021 19:04:24 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1lQsCU-0005TJ-BU; Mon, 29 Mar 2021 09:45:06 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 931AA2E1760;
+ Mon, 29 Mar 2021 16:44:55 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ sv25XqjSx6-is0S9ra8; Mon, 29 Mar 2021 16:44:55 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1617025495; bh=CQMJ6aF3ZClpf75yuIzz3LeJWPqLHNzhXx8stS239kI=;
+ h=In-Reply-To:References:Date:Message-ID:To:From:Subject:Cc;
+ b=QUyQa5mTiPnRYexNHsIX20FM9kW9TQFR+yBXQCrC6qmrCpHOw69VzN19+bGcawJye
+ HMDtJrXTt0UY8NoJS37CAO4z3YEkVPSIl+Qr29xoZH7vWIRUXO5pbi1OH5hKgOdvp2
+ xPru6rYbIWoERMStYfc0s1cc/hc2Gc6qPPkFjT4I=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8824::1:c])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ Tc2V3wblvd-ispetLFu; Mon, 29 Mar 2021 16:44:54 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v3 0/3] vhost-user-blk: fix bug on device disconnection
+ during initialization
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
+Message-ID: <a1ab7e04-86cd-7004-9687-c00382dc2e14@yandex-team.ru>
+Date: Mon, 29 Mar 2021 16:44:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <YGFf0WxO+LRU1ysI@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
+Content-Type: multipart/alternative;
+ boundary="------------9107A538A33C6514228E9481"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: t-Ib75zXb4jT1xXkPD-nxPczoUEFHf1q
-X-Proofpoint-ORIG-GUID: s-7GpMknevRtYPP9hVtAZwOTk5eOK7dc
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-29_09:2021-03-26,
- 2021-03-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 mlxscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 spamscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103250000 definitions=main-2103290103
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=ravi.bangoria@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -113,87 +76,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
- mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, paulus@samba.org,
- clg@kaod.org, pbonzini@redhat.com, Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
+ raphael.norwitz@nutanix.com, yc-core@yandex-team.ru, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+This is a multi-part message in MIME format.
+--------------9107A538A33C6514228E9481
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
->> @@ -241,6 +241,31 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
->>           /* 60: NM atomic, 62: RNG */
->>           0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
->>       };
->> +    uint8_t pa_features_310[] = { 66, 0,
->> +        /* 0: MMU|FPU|SLB|RUN|DABR|NX, 1: fri[nzpm]|DABRX|SPRG3|SLB0|PP110 */
->> +        /* 2: VPM|DS205|PPR|DS202|DS206, 3: LSD|URG, SSO, 5: LE|CFAR|EB|LSQ */
->> +        0xf6, 0x1f, 0xc7, 0xc0, 0x80, 0xf0, /* 0 - 5 */
->> +        /* 6: DS207 */
->> +        0x80, 0x00, 0x00, 0x00, 0x00, 0x00, /* 6 - 11 */
->> +        /* 16: Vector */
->> +        0x00, 0x00, 0x00, 0x00, 0x80, 0x00, /* 12 - 17 */
->> +        /* 18: Vec. Scalar, 20: Vec. XOR, 22: HTM */
->> +        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 18 - 23 */
->> +        /* 24: Ext. Dec, 26: 64 bit ftrs, 28: PM ftrs */
->> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 24 - 29 */
->> +        /* 30: MMR, 32: LE atomic, 34: EBB + ext EBB */
->> +        0x80, 0x00, 0x80, 0x00, 0xC0, 0x00, /* 30 - 35 */
->> +        /* 36: SPR SO, 38: Copy/Paste, 40: Radix MMU */
->> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 36 - 41 */
->> +        /* 42: PM, 44: PC RA, 46: SC vec'd */
->> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 42 - 47 */
->> +        /* 48: SIMD, 50: QP BFP, 52: String */
->> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 48 - 53 */
->> +        /* 54: DecFP, 56: DecI, 58: SHA */
->> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 54 - 59 */
->> +        /* 60: NM atomic, 62: RNG, 64: DAWR1 */
->> +        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
->> +    };
-> 
-> I don't see any point adding pa_features_310: it's identical to
-> pa_features_300, AFAICT.
+ping!
 
-Sure. The only difference is in the comment part: /* ... 64: DAWR1  */
-I'll update pa_features_300 with something like:
+On 25.03.2021 18:12, Denis Plotnikov wrote:
+> v3:
+>    * 0003: a new patch added fixing the problem on vm shutdown
+>      I stumbled on this bug after v2 sending.
+>    * 0001: gramma fixing (Raphael)
+>    * 0002: commit message fixing (Raphael)
+>
+> v2:
+>    * split the initial patch into two (Raphael)
+>    * rename init to realized (Raphael)
+>    * remove unrelated comment (Raphael)
+>
+> When the vhost-user-blk device lose the connection to the daemon during
+> the initialization phase it kills qemu because of the assert in the code.
+> The series fixes the bug.
+>
+> 0001 is preparation for the fix
+> 0002 fixes the bug, patch description has the full motivation for the series
+> 0003 (added in v3) fix bug on vm shutdown
+>
+> Denis Plotnikov (3):
+>    vhost-user-blk: use different event handlers on initialization
+>    vhost-user-blk: perform immediate cleanup if disconnect on
+>      initialization
+>    vhost-user-blk: add immediate cleanup on shutdown
+>
+>   hw/block/vhost-user-blk.c | 79 ++++++++++++++++++++++++---------------
+>   1 file changed, 48 insertions(+), 31 deletions(-)
+>
 
-         /* ... 64: DAWR1 (ISA 3.1) */
+--------------9107A538A33C6514228E9481
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-and reuse pa_features_300.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font size="+1"><tt>ping!</tt></font><br>
+    </p>
+    <div class="moz-cite-prefix">On 25.03.2021 18:12, Denis Plotnikov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20210325151217.262793-1-den-plotnikov@yandex-team.ru">
+      <pre class="moz-quote-pre" wrap="">v3:
+  * 0003: a new patch added fixing the problem on vm shutdown
+    I stumbled on this bug after v2 sending.
+  * 0001: gramma fixing (Raphael)
+  * 0002: commit message fixing (Raphael)
 
-[...]
+v2:
+  * split the initial patch into two (Raphael)
+  * rename init to realized (Raphael)
+  * remove unrelated comment (Raphael)
 
->> +static void cap_dawr1_apply(SpaprMachineState *spapr, uint8_t val,
->> +                               Error **errp)
->> +{
->> +    if (!val) {
->> +        return; /* Disable by default */
->> +    }
->> +
->> +    if (tcg_enabled()) {
->> +        error_setg(errp,
->> +                "DAWR1 not supported in TCG. Try appending -machine cap-dawr1=off");
-> 
-> I don't love this.  Is anyone working on DAWR1 emulation for POWER10?
+When the vhost-user-blk device lose the connection to the daemon during
+the initialization phase it kills qemu because of the assert in the code.
+The series fixes the bug.
 
-No. Infact DAWR0 is also not enabled in TCG mode.
+0001 is preparation for the fix
+0002 fixes the bug, patch description has the full motivation for the series
+0003 (added in v3) fix bug on vm shutdown
 
-[...]
+Denis Plotnikov (3):
+  vhost-user-blk: use different event handlers on initialization
+  vhost-user-blk: perform immediate cleanup if disconnect on
+    initialization
+  vhost-user-blk: add immediate cleanup on shutdown
 
->>   static void gen_spr_970_dbg(CPUPPCState *env)
->>   {
->>       /* Breakpoints */
->> @@ -8727,7 +8742,7 @@ static void init_proc_POWER8(CPUPPCState *env)
->>       /* Common Registers */
->>       init_proc_book3s_common(env);
->>       gen_spr_sdr1(env);
->> -    gen_spr_book3s_207_dbg(env);
->> +    gen_spr_book3s_310_dbg(env);
-> 
-> This should surely be in init_proc_POWER10, not init_proc_POWER8.
+ hw/block/vhost-user-blk.c | 79 ++++++++++++++++++++++++---------------
+ 1 file changed, 48 insertions(+), 31 deletions(-)
 
-Sure.
+</pre>
+    </blockquote>
+  </body>
+</html>
 
-Thanks for the review,
-Ravi
+--------------9107A538A33C6514228E9481--
 
