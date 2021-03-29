@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B5C34D886
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 21:47:50 +0200 (CEST)
-Received: from localhost ([::1]:38002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036CA34D898
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 21:53:25 +0200 (CEST)
+Received: from localhost ([::1]:41054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQxrY-0007Si-PD
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 15:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44072)
+	id 1lQxwx-0000fE-SM
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 15:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lQxpa-0006iR-8q; Mon, 29 Mar 2021 15:45:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:45429)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lQxvj-00008W-Kk
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 15:52:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lQxpY-0006uC-6T; Mon, 29 Mar 2021 15:45:46 -0400
-Received: from [192.168.100.1] ([82.142.14.126]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MW9zm-1l6eip2jaU-00XaSE; Mon, 29 Mar 2021 21:45:37 +0200
-Subject: Re: [PATCH] linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if
- its length is 0
-To: =?UTF-8?B?RnLDqWTDqXJpYyBGb3J0aWVy?= <frf@ghgsat.com>,
- qemu-devel@nongnu.org
-References: <20210328180135.88449-1-frf@ghgsat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b56c4386-0ebc-2dfb-345e-5e98b293f253@vivier.eu>
-Date: Mon, 29 Mar 2021 21:45:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lQxvh-0001Oy-7w
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 15:52:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617047523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S+G0cb3RTwoYNM1Ns0sMLLnil9yDJzTADSXnthLm1NY=;
+ b=X/qFeVV5AZixSugFKPLiPD6naxNlKS/FQqRQ7p3XJqWZoxOWRHQwCJQGxKQVx9e1HHW52/
+ fBk62fDoiwFFlk88YnwRuJr45jCGa0ngdPivPTNUZxR2InQlQjyrrcu2ZLHG2yyO5292sB
+ Xxl3JKrUX8bmKIsx/aWh2NGoNSUuf0o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-oH2voH04Md62M9TyoC1Uxg-1; Mon, 29 Mar 2021 15:52:00 -0400
+X-MC-Unique: oH2voH04Md62M9TyoC1Uxg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB3908030C4;
+ Mon, 29 Mar 2021 19:51:58 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-64.rdu2.redhat.com [10.10.116.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CDD75B4A6;
+ Mon, 29 Mar 2021 19:51:55 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id DC870220BCF; Mon, 29 Mar 2021 15:51:51 -0400 (EDT)
+Date: Mon, 29 Mar 2021 15:51:51 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Luis Henriques <lhenriques@suse.de>
+Subject: Re: [PATCH v5 5/5] virtiofsd: Switch creds, drop FSETID for
+ system.posix_acl_access xattr
+Message-ID: <20210329195151.GF676525@redhat.com>
+References: <20210325153852.572927-1-vgoyal@redhat.com>
+ <20210325153852.572927-6-vgoyal@redhat.com>
+ <YGHz3a9JCAV21Aun@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210328180135.88449-1-frf@ghgsat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9/9GUHBwfftqVmiAfNUO8mhZFgxosu1KSz2rJpVqtxwtM/+Z/sO
- EYZpgnWFCvvXlAiR9fp6TKwJrDIvW6pZhpkjlyBLs5C9fqoku/q7uFdwyiv/5Tz8mSRLCFa
- /I3GUfoH0k6jHFyXNBLtFDE16vlZMGwNAMnRKN3ItgGA3HrvHSU7GKOUVaWPGXgv6/AVKKP
- /wD+XJJ7UpBtC6C+tSWjw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wQbiv7TgUjc=:64p4BmkZ1q23qpsH7Me0eU
- EDZ4wBnrZEh0z3zE6ItLSTbPxM4Si3S7/ccQH8EqCohfXpKP2TiByoF7nVpIbkw3AtO9w8kVX
- FjLYYkBU07YFODxH/HOy+kGpsW/B9NtAdwyk5L3O0D+X3im4hA4+EjFYuoZeUws5gthX5rQfu
- 2H2gJ56T0ki/LNbcDfKwAj6+eFWLHbvEVlSV205nXPFYb3+hLBRbCUiPfbPWQCRF2lM/lC/vZ
- x9gkucJmaip8wobS6ef0t2QJfFRA87cAiWJz2wukmQc3vRBooyJdYK4EgR7e/1H0NETtBpEhp
- pRTzktXb92zZOabIQiSCT1dkyecPcXFpC0HKlUtxODyDIERmQAEnHj3A9vKrP72sBk3ZbuDAP
- uIqP7HpsgutFJlxK9A6KP4uQOUR9swwHUeCddvXbbDPTV4PV0KF9dnLWu4iFXQZwePYn2KvmD
- p8J9vPWXkHTYtqxa38s65tSCjSknK9KJKwWRcBsdvYHY0/djyIy9
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YGHz3a9JCAV21Aun@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,42 +80,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/03/2021 à 20:01, Frédéric Fortier via a écrit :
-> getsockopt(fd, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, *optval, *optlen)
-> syscall allows optval to be NULL/invalid if optlen points to a size of
-> zero. This allows userspace to query the length of the array they should
-> use to get the full membership list before allocating memory for said
-> list, then re-calling getsockopt with proper optval/optlen arguments.
+On Mon, Mar 29, 2021 at 04:35:57PM +0100, Luis Henriques wrote:
+> On Thu, Mar 25, 2021 at 11:38:52AM -0400, Vivek Goyal wrote:
+> > When posix access acls are set on a file, it can lead to adjusting file
+> > permissions (mode) as well. If caller does not have CAP_FSETID and it
+> > also does not have membership of owner group, this will lead to clearing
+> > SGID bit in mode.
+> > 
+> > Current fuse code is written in such a way that it expects file server
+> > to take care of chaning file mode (permission), if there is a need.
+> > Right now, host kernel does not clear SGID bit because virtiofsd is
+> > running as root and has CAP_FSETID. For host kernel to clear SGID,
+> > virtiofsd need to switch to gid of caller in guest and also drop
+> > CAP_FSETID (if caller did not have it to begin with).
+> > 
+> > If SGID needs to be cleared, client will set the flag
+> > FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
+> > should kill sgid.
+> > 
+> > Currently just switch to uid/gid of the caller and drop CAP_FSETID
+> > and that should do it.
+> > 
+> > This should fix the xfstest generic/375 test case.
+> > 
+> > We don't have to switch uid for this to work. That could be one optimization
+> > that pass a parameter to lo_change_cred() to only switch gid and not uid.
+> > 
+> > Also this will not work whenever (if ever) we support idmapped mounts. In
+> > that case it is possible that uid/gid in request are 0/0 but still we
+> > need to clear SGID. So we will have to pick a non-root sgid and switch
+> > to that instead. That's an TODO item for future when idmapped mount
+> > support is introduced.
+> > 
+> > Reported-by: Luis Henriques <lhenriques@suse.de>
+> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > ---
+> >  include/standard-headers/linux/fuse.h |  7 +++++
+> >  tools/virtiofsd/passthrough_ll.c      | 42 +++++++++++++++++++++++++--
+> >  2 files changed, 47 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
+> > index cc87ff27d0..4eb79399d4 100644
+> > --- a/include/standard-headers/linux/fuse.h
+> > +++ b/include/standard-headers/linux/fuse.h
+> > @@ -180,6 +180,7 @@
+> >   *  - add FUSE_HANDLE_KILLPRIV_V2, FUSE_WRITE_KILL_SUIDGID, FATTR_KILL_SUIDGID
+> >   *  - add FUSE_OPEN_KILL_SUIDGID
+> >   *  - add FUSE_SETXATTR_V2
+> > + *  - add FUSE_SETXATTR_ACL_KILL_SGID
+> >   */
+> >  
+> >  #ifndef _LINUX_FUSE_H
+> > @@ -450,6 +451,12 @@ struct fuse_file_lock {
+> >   */
+> >  #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
+> >  
+> > +/**
+> > + * setxattr flags
+> > + * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
+> > + */
+> > +#define FUSE_SETXATTR_ACL_KILL_SGID    (1 << 0)
+> > +
+> >  enum fuse_opcode {
+> >  	FUSE_LOOKUP		= 1,
+> >  	FUSE_FORGET		= 2,  /* no reply */
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index 3f5c267604..8a48071d0b 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -175,7 +175,7 @@ struct lo_data {
+> >      int user_killpriv_v2, killpriv_v2;
+> >      /* If set, virtiofsd is responsible for setting umask during creation */
+> >      bool change_umask;
+> > -    int user_posix_acl;
+> > +    int user_posix_acl, posix_acl;
+> >  };
+> >  
+> >  static const struct fuse_opt lo_opts[] = {
+> > @@ -716,8 +716,10 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+> >           * in fuse_lowlevel.c
+> >           */
+> >          fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
+> > -        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
+> > +        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
+> > +                      FUSE_CAP_SETXATTR_V2;
 > 
-> Notable users of this pattern include systemd-networkd, which in the
-> (albeit old) version 237 tested, cannot start without this fix.
+> An annoying thing with this is that if we're using a kernel without
+> _V2 support the mount will still succeed.  But we'll see:
 > 
-> Signed-off-by: Frédéric Fortier <frf@ghgsat.com>
-> ---
->  linux-user/syscall.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> ls: cannot access '/mnt': Connection refused
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 1e508576c7..9b7556a9a2 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -3025,7 +3025,7 @@ get_timeout:
->                  return -TARGET_EINVAL;
->              }
->              results = lock_user(VERIFY_WRITE, optval_addr, len, 1);
-> -            if (!results) {
-> +            if (!results && len > 0) {
->                  return -TARGET_EFAULT;
->              }
->              lv = len;
+> and in the userspace:
 > 
+> fuse: error: filesystem requested capabilities 0x20000000 that are not supported by kernel, aborting.
+> 
+> Maybe it would be worth to automatically disable acl support if this
+> happens (with an error message) but still allow the filesystem to be
+> used.
 
-Applied to my linux-user-for-6.0 branch
+If user specific "-o posix_acl" then it is better to fail explicitly
+if posix_acl can't be enabled. If user did not specify anything, then
+it makes sense to automatically disable posix acl  and continue.
 
-Thanks,
-Laurent
+> Or, which is probably better, to handle the EPROTO error in the
+> kernel during mount.
+
+This will have been idea but in fuse, init process handling happens
+asynchronously. That is mount returns to user space while init
+command might complete at a later point of time. So can't return
+-EPROTO at mount time.
+
+So one of the problems seem to be that error message is not very
+clear. How about adding following so that user is clear that posix acl
+can't be enabled.
+
+Vivek
+
+---
+ tools/virtiofsd/passthrough_ll.c |   14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+===================================================================
+--- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-03-29 14:59:28.483340964 -0400
++++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-03-29 15:42:21.797482846 -0400
+@@ -712,10 +712,18 @@ static void lo_init(void *userdata, stru
+     if (lo->user_posix_acl == 1) {
+         /*
+          * User explicitly asked for this option. Enable it unconditionally.
+-         * If connection does not have this capability, it should fail
+-         * in fuse_lowlevel.c
++         * If connection does not have this capability, give out message
++         * now. fuse_lowlevel.c will error out.
+          */
+-        fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
++        if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
++            !(conn->capable & FUSE_CAP_DONT_MASK) ||
++            !(conn->capable & FUSE_CAP_SETXATTR_V2)) {
++            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
++                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
++                     " or FUSE_SETXATTR_V2 capability.\n");
++        } else {
++            fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
++        }
+         conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
+                       FUSE_CAP_SETXATTR_V2;
+         lo->change_umask = true;
+
+
 
