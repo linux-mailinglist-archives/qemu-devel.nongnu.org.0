@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BBD34D48F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 18:12:07 +0200 (CEST)
-Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AFF34D48A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 18:09:46 +0200 (CEST)
+Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQuUj-0005qg-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 12:12:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40988)
+	id 1lQuSX-0004sE-1H
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 12:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lQuPx-0003IR-LU
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 12:07:05 -0400
-Received: from foss.arm.com ([217.140.110.172]:49006)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lQuPr-0001sh-Ji
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 12:07:05 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4987C142F;
- Mon, 29 Mar 2021 09:06:52 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 971D63F719;
- Mon, 29 Mar 2021 09:06:49 -0700 (PDT)
-Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
-To: Catalin Marinas <catalin.marinas@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
- <20210312151902.17853-3-steven.price@arm.com>
- <20210327152324.GA28167@arm.com> <20210328122131.GB17535@arm.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
-Date: Mon, 29 Mar 2021 17:06:51 +0100
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lQuQv-0003tm-Dr
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 12:08:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30093)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lQuQu-0002Ny-0M
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 12:08:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617034083;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1qar037yYG3JhZLfmr/xKEJGeP7DW5jegSrURUbWp+8=;
+ b=ixeyWDCzlyOXUtxhGdCRuwXnYQAj4cpCco4R9eZQ5smktbJyqlCUaTwHaTsoIsfemgCJjc
+ a65uxQXbwxl78beFt8oWTmecjp8zVShpRESd7KPNwnWy/Noi5yz7TJ7d9O9BAa02ovri2e
+ qakfI/EKr9xO5LyKgJ8PVpYULXTNEfs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-20gtP2MtNGSpmPl9PIgdAg-1; Mon, 29 Mar 2021 12:07:59 -0400
+X-MC-Unique: 20gtP2MtNGSpmPl9PIgdAg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B52991005D57;
+ Mon, 29 Mar 2021 16:07:58 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-119.ams2.redhat.com
+ [10.36.113.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 009C860CE6;
+ Mon, 29 Mar 2021 16:07:57 +0000 (UTC)
+Subject: Re: [PATCH] iotests/046: Filter request length
+To: qemu-block@nongnu.org
+References: <20200918153323.108932-1-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <ed9b3160-53ee-6718-d57b-7e5e824778f8@redhat.com>
+Date: Mon, 29 Mar 2021 18:07:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210328122131.GB17535@arm.com>
+In-Reply-To: <20200918153323.108932-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,87 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/03/2021 13:21, Catalin Marinas wrote:
-> On Sat, Mar 27, 2021 at 03:23:24PM +0000, Catalin Marinas wrote:
->> On Fri, Mar 12, 2021 at 03:18:58PM +0000, Steven Price wrote:
->>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
->>> index 77cb2d28f2a4..b31b7a821f90 100644
->>> --- a/arch/arm64/kvm/mmu.c
->>> +++ b/arch/arm64/kvm/mmu.c
->>> @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
->>>   	if (vma_pagesize == PAGE_SIZE && !force_pte)
->>>   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
->>>   							   &pfn, &fault_ipa);
->>> +
->>> +	if (fault_status != FSC_PERM && kvm_has_mte(kvm) && pfn_valid(pfn)) {
->>> +		/*
->>> +		 * VM will be able to see the page's tags, so we must ensure
->>> +		 * they have been initialised. if PG_mte_tagged is set, tags
->>> +		 * have already been initialised.
->>> +		 */
->>> +		struct page *page = pfn_to_page(pfn);
->>> +		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
->>> +
->>> +		for (i = 0; i < nr_pages; i++, page++) {
->>> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
->>> +				mte_clear_page_tags(page_address(page));
->>> +		}
->>> +	}
->>
->> This pfn_valid() check may be problematic. Following commit eeb0753ba27b
->> ("arm64/mm: Fix pfn_valid() for ZONE_DEVICE based memory"), it returns
->> true for ZONE_DEVICE memory but such memory is allowed not to support
->> MTE.
+On 18.09.20 17:33, Max Reitz wrote:
+> For its concurrent requests, 046 has always filtered the offset,
+> probably because concurrent requests may settle in any order.  However,
+> it did not filter the request length, and so if requests with different
+> lengths settle in an unexpected order (notably the longer request before
+> the shorter request), the test fails (for no good reason).
 > 
-> Some more thinking, this should be safe as any ZONE_DEVICE would be
-> mapped as untagged memory in the kernel linear map. It could be slightly
-> inefficient if it unnecessarily tries to clear tags in ZONE_DEVICE,
-> untagged memory. Another overhead is pfn_valid() which will likely end
-> up calling memblock_is_map_memory().
+> Filter the length, too.
 > 
-> However, the bigger issue is that Stage 2 cannot disable tagging for
-> Stage 1 unless the memory is Non-cacheable or Device at S2. Is there a
-> way to detect what gets mapped in the guest as Normal Cacheable memory
-> and make sure it's only early memory or hotplug but no ZONE_DEVICE (or
-> something else like on-chip memory)?  If we can't guarantee that all
-> Cacheable memory given to a guest supports tags, we should disable the
-> feature altogether.
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+> This has annoyed me for quite some time now, but when rebasing (and
+> testing) my FUSE export series, it became apparent that on a FUSE export
+> qcow2 images with -o compat=0.10 always fail this test (because the
+> first 56k request settles before its accompanying 8k request), so now
+> I'm forced to do something about it.
+> ---
+>   tests/qemu-iotests/046     |   3 +-
+>   tests/qemu-iotests/046.out | 104 ++++++++++++++++++-------------------
+>   2 files changed, 54 insertions(+), 53 deletions(-)
 
-In stage 2 I believe we only have two types of mapping - 'normal' or 
-DEVICE_nGnRE (see stage2_map_set_prot_attr()). Filtering out the latter 
-is a case of checking the 'device' variable, and makes sense to avoid 
-the overhead you describe.
+Applied to my block branch.
 
-This should also guarantee that all stage-2 cacheable memory supports 
-tags, as kvm_is_device_pfn() is simply !pfn_valid(), and pfn_valid() 
-should only be true for memory that Linux considers "normal".
+Max
 
->> I now wonder if we can get a MAP_ANONYMOUS mapping of ZONE_DEVICE pfn
->> even without virtualisation.
-> 
-> I haven't checked all the code paths but I don't think we can get a
-> MAP_ANONYMOUS mapping of ZONE_DEVICE memory as we normally need a file
-> descriptor.
-> 
-
-I certainly hope this is the case - it's the weird corner cases of 
-device drivers that worry me. E.g. I know i915 has a "hidden" mmap 
-behind an ioctl (see i915_gem_mmap_ioctl(), although this case is fine - 
-it's MAP_SHARED). Mali's kbase did something similar in the past.
-
-Steve
 
