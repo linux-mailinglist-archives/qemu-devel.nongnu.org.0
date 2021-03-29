@@ -2,49 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE3234C2B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 06:27:21 +0200 (CEST)
-Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E9134C276
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 06:22:22 +0200 (CEST)
+Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQjUm-0007CW-DV
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 00:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48644)
+	id 1lQjPx-0000eB-30
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 00:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lQjOZ-0007tl-3F; Mon, 29 Mar 2021 00:20:55 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50229 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
+ id 1lQjNw-0007Jx-L2; Mon, 29 Mar 2021 00:20:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lQjOV-00005q-GU; Mon, 29 Mar 2021 00:20:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F7zs93hzxz9sVb; Mon, 29 Mar 2021 15:20:45 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1616991645;
- bh=odO66/290eNIynQ0ATxRPgvLGevigChb0vFUkHx9E8Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KjB8UqDFRIjjvrC4w23npjeAl47oiuz0iRlIQq9peMUCGvwr3irq/Abn76j3jBGHd
- sJG7N7rBQLaKgnvd1I+qB+iF0Gt6uhS7kZO5WCbO42zwwndt4uAWjI+8j2WfEbS3Yt
- 8fx116rKri0EdFUNzX8VwuMTyl6mqqsHdCYCeh00=
-Date: Mon, 29 Mar 2021 15:15:25 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v11 0/7] Pegasos2 emulation
-Message-ID: <YGFUXf1Ip4siaPqd@yekko.fritz.box>
-References: <cover.1616680239.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
+ id 1lQjNu-0008D1-Fd; Mon, 29 Mar 2021 00:20:16 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12T44MqS186987; Mon, 29 Mar 2021 00:20:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=IR07W5LIxpzREqRvvNBiQMSIF2pzsSh0D44KCLXQzvE=;
+ b=KgB0LIDxMH2NfnuB0mEEJmpdC0HLU+DI0WXdvjDoWRLaOuaXB/euOk4QFLms2npqhazI
+ AJfRaZyBfH1rI6+VxdxXLBkARdOCaaEQxBG9WgrYn3eMy0QRjPqkMlNAMI4kJJl67ccx
+ tclGDmtPMmLODl4Dq8TungUV5KNecxpau31Vxh3TLNv3jXx3JTAsoPGltxj1T0ErMzhU
+ VirzdJDaAKf8dEAu5YwqNuplQhJ+wtJw1aQHQL5WqVIXp4YRda0dAiDe+coPAsH4Sny/
+ cLdRO5YcVrprvmtavSZt0pxF1ZntU1aTghDu84hwOYSHsupS6alFfGz5Ia3DK/R0iICP yA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jhm4b4xk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 00:20:01 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12T48dcp000687;
+ Mon, 29 Mar 2021 00:20:01 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jhm4b4x2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 00:20:01 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12T4HcLS013743;
+ Mon, 29 Mar 2021 04:19:58 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma02fra.de.ibm.com with ESMTP id 37hvb88rqh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 04:19:58 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12T4JuVe23855434
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 29 Mar 2021 04:19:56 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 357FB4C046;
+ Mon, 29 Mar 2021 04:19:56 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF9974C050;
+ Mon, 29 Mar 2021 04:19:52 +0000 (GMT)
+Received: from bangoria.ibmuc.com (unknown [9.199.34.103])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 29 Mar 2021 04:19:52 +0000 (GMT)
+From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+To: paulus@samba.org, david@gibson.dropbear.id.au
+Subject: [PATCH v2 0/3] ppc: Enable 2nd DAWR support on Power10
+Date: Mon, 29 Mar 2021 09:49:03 +0530
+Message-Id: <20210329041906.213991-1-ravi.bangoria@linux.ibm.com>
+X-Mailer: git-send-email 2.30.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EyPXyix-vOAiCXaFRJQj6eMW92jyQKB3
+X-Proofpoint-ORIG-GUID: mWY1CsqNmpM7uAnNDJHE2hqxBV5MI2bb
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/HDhPcnBqu8+nAIA"
-Content-Disposition: inline
-In-Reply-To: <cover.1616680239.git.balaton@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-29_02:2021-03-26,
+ 2021-03-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1011
+ spamscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=964 malwarescore=0 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103290029
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=ravi.bangoria@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,123 +106,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: ravi.bangoria@linux.ibm.com, mikey@neuling.org, kvm@vger.kernel.org,
+ mst@redhat.com, mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series enables 2nd DAWR support on p10 qemu guest. 2nd
+DAWR is new watchpoint added in Power10 processor. Kernel/kvm
+patches are already in[1].
 
---/HDhPcnBqu8+nAIA
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Patches apply fine on qemu/master branch (9e2e9fe3df9f).
 
-On Thu, Mar 25, 2021 at 02:50:39PM +0100, BALATON Zoltan wrote:
-> Hello,
->=20
-> This is adding a new PPC board called pegasos2. More info on it can be
-> found at:
->=20
-> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
->=20
-> Currently it needs a firmware ROM image that I cannot include due to
-> original copyright holder (bPlan) did not release it under a free
-> licence but I have plans to write a replacement in the future. With
-> the original board firmware it can boot MorphOS now as:
->=20
-> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile=3D=
-"" -serial stdio
->=20
-> then enter "boot cd boot.img" at the firmware "ok" prompt as described
-> in the MorphOS.readme. To boot Linux use same command line with e.g.
-> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
-> "boot cd install/pegasos"
->=20
-> The last patch adds the actual board code after previous patches
-> adding VT8231 and MV64361 system controller chip emulation.
+v1: https://lore.kernel.org/r/20200723104220.314671-1-ravi.bangoria@linux.ibm.com
+[Apologies for long gap]
+v1->v2:
+  - Introduce machine capability cap-dawr1 to enable/disable
+    the feature. By default, 2nd DAWR is OFF for guests even
+    when host kvm supports it. User has to manually enable it
+    with -machine cap-dawr1=on if he wishes to use it.
+  - Split the header file changes into separate patch. (Sync
+    headers from v5.12-rc3)
 
-Applied to ppc-for-6.1, thanks.
+[1] https://git.kernel.org/torvalds/c/bd1de1a0e6eff
 
->=20
-> Regards,
-> BALATON Zoltan
->=20
-> v11: Changes to last two patches David asked for during review
->=20
-> v10: Updated comments and added R-b from Mark
->=20
-> v9: Rebased to master
->=20
-> v8: Do not emulate setting of serial port address via register, just
->     hard code a default address instead
->=20
-> v7: Fix errp usage in patch 2
->=20
-> v6: Rebased on master, updated commit message about migration change
->=20
-> v5: Changes for review comments from David and Philippe
->=20
-> V4: Rename pegasos2_reset to pegasos2_cpu_reset
->     Add new files to MAINTAINERS
->=20
-> BALATON Zoltan (6):
->   vt82c686: QOM-ify superio related functionality
->   vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
->   vt82c686: Introduce abstract TYPE_VIA_ISA and base vt82c686b_isa on it
->   vt82c686: Add emulation of VT8231 south bridge
->   hw/pci-host: Add emulation of Marvell MV64361 PPC system controller
->   hw/ppc: Add emulation of Genesi/bPlan Pegasos II
->=20
-> Philippe Mathieu-Daud=E9 (1):
->   hw/isa/Kconfig: Add missing dependency VIA VT82C686 -> APM
->=20
->  MAINTAINERS                             |  10 +
->  default-configs/devices/ppc-softmmu.mak |   2 +
->  hw/isa/Kconfig                          |   1 +
->  hw/isa/vt82c686.c                       | 422 +++++++++--
->  hw/pci-host/Kconfig                     |   4 +
->  hw/pci-host/meson.build                 |   2 +
->  hw/pci-host/mv64361.c                   | 951 ++++++++++++++++++++++++
->  hw/pci-host/mv643xx.h                   | 918 +++++++++++++++++++++++
->  hw/pci-host/trace-events                |   6 +
->  hw/ppc/Kconfig                          |   9 +
->  hw/ppc/meson.build                      |   2 +
->  hw/ppc/pegasos2.c                       | 144 ++++
->  include/hw/isa/vt82c686.h               |   2 +-
->  include/hw/pci-host/mv64361.h           |   8 +
->  include/hw/pci/pci_ids.h                |   4 +-
->  15 files changed, 2403 insertions(+), 82 deletions(-)
->  create mode 100644 hw/pci-host/mv64361.c
->  create mode 100644 hw/pci-host/mv643xx.h
->  create mode 100644 hw/ppc/pegasos2.c
->  create mode 100644 include/hw/pci-host/mv64361.h
->=20
+Ravi Bangoria (3):
+  Linux headers: update from 5.12-rc3
+  ppc: Rename current DAWR macros and variables
+  ppc: Enable 2nd DAWR support on p10
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+ hw/ppc/spapr.c                                 | 34 ++++++++++
+ hw/ppc/spapr_caps.c                            | 32 +++++++++
+ include/hw/ppc/spapr.h                         |  8 ++-
+ include/standard-headers/drm/drm_fourcc.h      | 23 ++++++-
+ include/standard-headers/linux/input.h         |  2 +-
+ include/standard-headers/rdma/vmw_pvrdma-abi.h |  7 ++
+ linux-headers/asm-generic/unistd.h             |  4 +-
+ linux-headers/asm-mips/unistd_n32.h            |  1 +
+ linux-headers/asm-mips/unistd_n64.h            |  1 +
+ linux-headers/asm-mips/unistd_o32.h            |  1 +
+ linux-headers/asm-powerpc/kvm.h                |  2 +
+ linux-headers/asm-powerpc/unistd_32.h          |  1 +
+ linux-headers/asm-powerpc/unistd_64.h          |  1 +
+ linux-headers/asm-s390/unistd_32.h             |  1 +
+ linux-headers/asm-s390/unistd_64.h             |  1 +
+ linux-headers/asm-x86/kvm.h                    |  1 +
+ linux-headers/asm-x86/unistd_32.h              |  1 +
+ linux-headers/asm-x86/unistd_64.h              |  1 +
+ linux-headers/asm-x86/unistd_x32.h             |  1 +
+ linux-headers/linux/kvm.h                      | 89 ++++++++++++++++++++++++++
+ linux-headers/linux/vfio.h                     | 27 ++++++++
+ target/ppc/cpu.h                               |  6 +-
+ target/ppc/kvm.c                               | 12 ++++
+ target/ppc/kvm_ppc.h                           |  7 ++
+ target/ppc/translate_init.c.inc                | 21 +++++-
+ 25 files changed, 274 insertions(+), 11 deletions(-)
 
---/HDhPcnBqu8+nAIA
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.7.4
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBhVF0ACgkQbDjKyiDZ
-s5IOvQ/+PaJNsAHlFCIvdfuWBEzLbk0Ar4FJofybWcGiha5usSEC+E4NUz1Rg4Kh
-wo8xbGEAAY6A75h9dRf2TF615/7KxyIsPEqHWQgf5HzFuYX6oN6L1Vd0ARjGHmEF
-vwbOzk/vNHBcUGCbCL7PYEj34DBEWE6GfOlByWbYBVEJX0yFd7Ztar1/WoeVUOD9
-RlrZQw/Zi20cIoz/UwJaAD/qIY43ssuZwMgtZrpZx2qcScJdgzP/GsOtxBEhqfj8
-kns4mCguiSJ6LilCdC8vC9G1lT4NuE2w9g9n6wmhD4vwNAMIPPg1Y2yjEYPkjI2g
-bdMUygjLnastaamOjeTriLY4mKX78iDW+fyFq7ehMYx+sY40Gv+lLwIlSpCVPpRt
-CGH+Rrl9ypwmoR2UjqShO57uIg7nHyye1hacBMVtrfGm0xxx+Kjh2Hxyu938bU5r
-ugz3FJGvFlTtBEFZOssEXexe8+YW85H919TrVyji+fwrYPaEzW1vJ88H+5fiq59e
-2KFlTMmpxSdpdoYwKyx2XxObYwtnM1toXutwID/6v7YBCw8odKaiSjilxrJPb4Th
-RAtAJfC+2gWaMjyivUE83XXUtJp10QlAeigetTxGuYusw9vA+RpOArA0wSWny6ef
-v+2tGfqSUU/2C93icU4pH0gWP81xx1LS5vy3OArORMeL/hwnwYs=
-=F8a6
------END PGP SIGNATURE-----
-
---/HDhPcnBqu8+nAIA--
 
