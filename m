@@ -2,72 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036CA34D898
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 21:53:25 +0200 (CEST)
-Received: from localhost ([::1]:41054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B5634D8F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 22:20:02 +0200 (CEST)
+Received: from localhost ([::1]:52560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQxwx-0000fE-SM
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 15:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
+	id 1lQyMi-0006nx-Hj
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 16:20:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lQxvj-00008W-Kk
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 15:52:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43632)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lQyLf-0005yw-O9; Mon, 29 Mar 2021 16:18:55 -0400
+Received: from mail-eopbgr50131.outbound.protection.outlook.com
+ ([40.107.5.131]:28994 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lQxvh-0001Oy-7w
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 15:52:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617047523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S+G0cb3RTwoYNM1Ns0sMLLnil9yDJzTADSXnthLm1NY=;
- b=X/qFeVV5AZixSugFKPLiPD6naxNlKS/FQqRQ7p3XJqWZoxOWRHQwCJQGxKQVx9e1HHW52/
- fBk62fDoiwFFlk88YnwRuJr45jCGa0ngdPivPTNUZxR2InQlQjyrrcu2ZLHG2yyO5292sB
- Xxl3JKrUX8bmKIsx/aWh2NGoNSUuf0o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-oH2voH04Md62M9TyoC1Uxg-1; Mon, 29 Mar 2021 15:52:00 -0400
-X-MC-Unique: oH2voH04Md62M9TyoC1Uxg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB3908030C4;
- Mon, 29 Mar 2021 19:51:58 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-64.rdu2.redhat.com [10.10.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CDD75B4A6;
- Mon, 29 Mar 2021 19:51:55 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id DC870220BCF; Mon, 29 Mar 2021 15:51:51 -0400 (EDT)
-Date: Mon, 29 Mar 2021 15:51:51 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Luis Henriques <lhenriques@suse.de>
-Subject: Re: [PATCH v5 5/5] virtiofsd: Switch creds, drop FSETID for
- system.posix_acl_access xattr
-Message-ID: <20210329195151.GF676525@redhat.com>
-References: <20210325153852.572927-1-vgoyal@redhat.com>
- <20210325153852.572927-6-vgoyal@redhat.com>
- <YGHz3a9JCAV21Aun@suse.de>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lQyLc-00055N-IN; Mon, 29 Mar 2021 16:18:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SCGxIJRMPkdlObSiZVebj1L05nK1/Hd1eFQBJYAMd04gkFHVi8Rbat0Cjzt/hR7GJuWoV8pwV95TrNjK/fxcJcdkgOxzxx679Pdmm+K+ZzCtEPlARo3ZTpTG0wKIkRNgLC8x5yWQa/dL2kzCZTzFwJHJNUj7moe7snP+KK8uyYFsUyF0JsBz8spFb580Nhg+dNkCXouSNUEFuRevnRBBirktgjlHPaC0FkdNz9ojzxnEiwXJTbR7fvaM14HoNVQY0jRKufCeF0zLTlAe+bqcEInDKLUqRMk1dwhCKuI97L6ievsaBrJvLEwLchl35FvndIyKyoTWsT8r1JmZW3euwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vAO/mtWEqhkQLBb+AwTKG3c395RJ0H+ItTlIWqnofy8=;
+ b=XnXtaDBiicezu1tNEKi70o1EtZjC37mpuZuZuZC+rw//L/CcyPIIzW360oFnG3lcQXe0KipOgbXcVpLD9Ea3RUysVziwC5vXbke/4o37O7lHXSYVgJWXaeNLZKJXWWLpZ4QvvfxyNOW88G721r0E8LbkDp/EqzloCXPgsnHZmmniRFbbI24GeqpSN0rU9U1zxUE1HKOtZwcDU8Pa15o61IfPSNUKfHojlzOwXvlp5sxKAEPcVCQOPyf1ITQsTW4t2x3szH292OmGClhVsEjiBdTw87Ja76x8hPLYQPlFdbF31Fv8n6BQX8DGbYciEdmpTdK7xmldb1dCdP4b516HEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vAO/mtWEqhkQLBb+AwTKG3c395RJ0H+ItTlIWqnofy8=;
+ b=a25BIqUp+ezO171bb72Vuij1KT5TYzRVY3xii3KqWIEyI21RUKtOKnxIfeB32i7SxTAmit+YhaR1m0Gg5J24a02VkH8Km+raHdrzcw6Pl+J+FQ0AOnDDmHKSsTxeWl8A6uou9cKY/c2f/dDwjYVd8AQZgijDbvZuBOxZ6ewZ238=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5208.eurprd08.prod.outlook.com (2603:10a6:20b:eb::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Mon, 29 Mar
+ 2021 20:18:48 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%6]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
+ 20:18:48 +0000
+Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com
+References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
+ <20210305173507.393137-7-vsementsov@virtuozzo.com>
+ <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <8c702bb9-416f-ada9-4691-22f37d82b2b8@virtuozzo.com>
+Date: Mon, 29 Mar 2021 23:18:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+In-Reply-To: <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.207]
+X-ClientProxiedBy: AM0PR08CA0020.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::33) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <YGHz3a9JCAV21Aun@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.207) by
+ AM0PR08CA0020.eurprd08.prod.outlook.com (2603:10a6:208:d2::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.26 via Frontend Transport; Mon, 29 Mar 2021 20:18:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bfd986f5-2831-48bf-5568-08d8f2efdc3d
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5208:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB520809435D15EF3D10C2721EC17E9@AM6PR08MB5208.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uzReA3UB/8q51lBtS+r9cwnKJfkKWyCeuGSjUjIBzDD2/VfQPXw/3hV4NIkH7+C2f79ud1/8VDJDmfmDQi/g6mJWsu3AXYwZD4De29rMKy3QlgUgyHQ8CB2++vB+9HNAsCATgKiBCqpatzC1GN+1xlvmjb6aeD510XJeHgeHriGHVnctEWU+mFQw9ROH9Lprl8wSpb/OP9J1oPdQmnaRnzxEVWL7XUuQIBc547uOgI0v6PZTWyWtuGDWhzAh9FPXdRaBCJV6pWcXHRLc6uGci1bQlpKqQHLuxLG9RTlK75wT9qPJQObs5cKta+mh7rPcp5HggMbdO1cJKu/bwWOrjiHzF2BMe5hhj/w7tGYzVSbM8Nj7ZxZBSmx2PFVYh0r8x9LDQVYOCSGJ0DjxCPs/+SneugmIGJE2n26bgj1+6VCgMZ8f4usU3umgl3mn8Ql3le4jSDoO5UCwgn/eHtHncQMtDNXZFSP2rL0oZl0vTVfnSn3tGCSse4STNpdzExa4+GCP6woxxZXkGcI5aIAAaIlhzm1nwWX+UIYAfTxdX9/mKw87zW192pGqEgV1A2ajNMtQi2oO9F1iiqAHnXDQq0PiW4YITkasEZF91P+/deISqnbfxSJIuU2aniPc8rrByBG+R5ZOsiqmsq5kBkwDTiZjiOM0o3mrxDRoRsOYiQAhpC5hoBNzttmnG2QOSJiDwUq+zrv+TUvuq41icMXiY6iPo9lRvR505iwrTPe+cDs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(396003)(366004)(39840400004)(136003)(16576012)(316002)(86362001)(5660300002)(2616005)(66556008)(66476007)(53546011)(38100700001)(31696002)(52116002)(8676002)(8936002)(6486002)(31686004)(956004)(16526019)(2906002)(26005)(186003)(4326008)(478600001)(83380400001)(66946007)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K3JwS3lQQXVMdVFLT3F3RTdidGQxUzB1UUpaTXlzWStRUnJMU2dyQytueWNG?=
+ =?utf-8?B?SzVkUEtSLy8vR0l4RVl6K0JXcGcveXFkVWU5bTBKeldDUXIyWWNOVXVnL3E1?=
+ =?utf-8?B?enFURUl4V0Y2bzZMSndTK1lkek8xYkdOMWR3ZktIY3RSZHl0c3FyWVo5YTFW?=
+ =?utf-8?B?MWxEQ3RNZWNQVmZlaGJ6empIdGtqZ1dCdzZuWjM3cXl3SWNjanQ2S281T0VE?=
+ =?utf-8?B?MDZsc3BKUzRqN25JMCtMbTVVRmVRNThXMVhKeGpnWlJEeUU1YnMra0ZYb0hM?=
+ =?utf-8?B?dThKaC94L21hbGhHc1pRMHRmZndCbnduVE12cGJjd05NemZQSVdPbG5tTEI0?=
+ =?utf-8?B?YkF5cFNJUk5LYVp5Uk1XbzFGVlQzRlJ3eHVpNzJ0a1JpblBIdUdZYlJ3RmlK?=
+ =?utf-8?B?YUJ6Y3pld0xyOVBkWVRzOENiTWFLVzZKaWFjNXV3TGpyV3BueTFYWU5tTFhK?=
+ =?utf-8?B?NndZVThITVNpY2FNTEwxK3N5emRnRkdUVm9vbmp2M1FIN1pIS25RejRtc0xS?=
+ =?utf-8?B?NmNidzZRYkk4dmdrWk9qVHh1elNMcTBwRndCNU5lRHYySnIrQk91Z0Z1czdB?=
+ =?utf-8?B?MzRJUEh0Q1BNTCtOMlJsNlpCM3N2ZGlXUHNqZ3NCZnViWUNLeW5LT3NvQ2pO?=
+ =?utf-8?B?cTl5VUlWc081K294OCtCZ1BhUCtGdCtiaEJtTDl1VStNeGdzRzJqR1pQYlpL?=
+ =?utf-8?B?QjRtM05QS0k3bExCMjZvaU1XK3V1Y3U1Rng1NldoZGpGVjA1bzdBRUJFUHp0?=
+ =?utf-8?B?Q1NxS2pZbExVNnVyN1BBK0hMeFp2bXpoSlNEdm5hOEVDLzkyTWRwUDFLRXND?=
+ =?utf-8?B?Szl5VDdmc2xsQVdEaWt1MHh6K1p2RTNhMlRPcVNtMUduSWZGaGZ2ZHFSd28w?=
+ =?utf-8?B?NnBYVWoyOFRuSE9CRmlxaFJzWW12Ukh6bllXVzhYQlQxZWpsUGRkOURZamNp?=
+ =?utf-8?B?dnRjM2drK2dBcjRadUZyRjRKTkVpQ3pzTWFIc0hQYmJpVEJBOStMR1F0VXIr?=
+ =?utf-8?B?SUgvMCtpOTFFUFFqa1BiaWJOM0dtMFMzTEZXVWVuWFEyL3lmSGhvZUE1Q3Q3?=
+ =?utf-8?B?eWszTFEvcHRpMkl5MjNTak9YZlRKUm9EVmRCNndQaDdZdCs0ajVMM3REQVBQ?=
+ =?utf-8?B?QVNuK25xMVlJU1U2MDd5UGRnY0UwYjV6TUpGSnVSVXQrVEU5d0ZjNndCZm1P?=
+ =?utf-8?B?NGNQODU1N2VON1l4TjB1QnFlM0RlYWxDMCtFMmRRd2p3aGhzajZaT2RwRzVJ?=
+ =?utf-8?B?UnppSkdONnZIc2F1Snl5bDJnY2F6Z1hacUNDekFzTjlLWEx6R1h0TUI5Q3Zt?=
+ =?utf-8?B?MnZnNitBWHJBOXc1L2NFSlRXOWpuem5YanBtUytSOFY1dERVbFRSWS9YRG4y?=
+ =?utf-8?B?ZzZtck5rYUVzQnhXbnRIcVV2Tnk0Vk41TmIwUHYvZTE4K3BEaWNINWlOL2Rq?=
+ =?utf-8?B?dXN6RElGd1lkT2RlbnJKQVprSUE3NWI1U0pGdUl4T1dMU1d0Rm9lUDF0QUI4?=
+ =?utf-8?B?L09DRWVHd2JRWk5MTkI5clFLMm5HQTMrYS9MMW9MZmpZZ09FQldSdyt3K2tT?=
+ =?utf-8?B?RGJEckxvUDNXbndPbENnKzkxV0V4QzhKdFpBVnZyeWR1VXp4cXo0Q0ZjejhK?=
+ =?utf-8?B?VmxRTGhDOVlPeXdweDkyNjB2T3RGeFVoMnI5SDlQd3BsRFFGN2RZeGJKcWt3?=
+ =?utf-8?B?NDczTGtXcERmUGhyR0dKVTllWE9ZM3RldFdLSFVCRW0vcTV0UjV5UkJlUHlL?=
+ =?utf-8?Q?rsdA0NZqN6/BrTboRhtmoIzDdU155T+OQSgUXNe?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfd986f5-2831-48bf-5568-08d8f2efdc3d
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 20:18:48.1805 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /73M6vi03icvt1FY/vTS6MVqkJ6xIkK3W+b8DT9Fx/wDJM4RAw7jPFnBgCSIPUP6tt9soxffNA9LTUCycJm/vN0Gj9OgNtxkKV6nQ7tk1cM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5208
+Received-SPF: pass client-ip=40.107.5.131;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,157 +145,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
- dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 04:35:57PM +0100, Luis Henriques wrote:
-> On Thu, Mar 25, 2021 at 11:38:52AM -0400, Vivek Goyal wrote:
-> > When posix access acls are set on a file, it can lead to adjusting file
-> > permissions (mode) as well. If caller does not have CAP_FSETID and it
-> > also does not have membership of owner group, this will lead to clearing
-> > SGID bit in mode.
-> > 
-> > Current fuse code is written in such a way that it expects file server
-> > to take care of chaning file mode (permission), if there is a need.
-> > Right now, host kernel does not clear SGID bit because virtiofsd is
-> > running as root and has CAP_FSETID. For host kernel to clear SGID,
-> > virtiofsd need to switch to gid of caller in guest and also drop
-> > CAP_FSETID (if caller did not have it to begin with).
-> > 
-> > If SGID needs to be cleared, client will set the flag
-> > FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
-> > should kill sgid.
-> > 
-> > Currently just switch to uid/gid of the caller and drop CAP_FSETID
-> > and that should do it.
-> > 
-> > This should fix the xfstest generic/375 test case.
-> > 
-> > We don't have to switch uid for this to work. That could be one optimization
-> > that pass a parameter to lo_change_cred() to only switch gid and not uid.
-> > 
-> > Also this will not work whenever (if ever) we support idmapped mounts. In
-> > that case it is possible that uid/gid in request are 0/0 but still we
-> > need to clear SGID. So we will have to pick a non-root sgid and switch
-> > to that instead. That's an TODO item for future when idmapped mount
-> > support is introduced.
-> > 
-> > Reported-by: Luis Henriques <lhenriques@suse.de>
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  include/standard-headers/linux/fuse.h |  7 +++++
-> >  tools/virtiofsd/passthrough_ll.c      | 42 +++++++++++++++++++++++++--
-> >  2 files changed, 47 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-> > index cc87ff27d0..4eb79399d4 100644
-> > --- a/include/standard-headers/linux/fuse.h
-> > +++ b/include/standard-headers/linux/fuse.h
-> > @@ -180,6 +180,7 @@
-> >   *  - add FUSE_HANDLE_KILLPRIV_V2, FUSE_WRITE_KILL_SUIDGID, FATTR_KILL_SUIDGID
-> >   *  - add FUSE_OPEN_KILL_SUIDGID
-> >   *  - add FUSE_SETXATTR_V2
-> > + *  - add FUSE_SETXATTR_ACL_KILL_SGID
-> >   */
-> >  
-> >  #ifndef _LINUX_FUSE_H
-> > @@ -450,6 +451,12 @@ struct fuse_file_lock {
-> >   */
-> >  #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
-> >  
-> > +/**
-> > + * setxattr flags
-> > + * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
-> > + */
-> > +#define FUSE_SETXATTR_ACL_KILL_SGID    (1 << 0)
-> > +
-> >  enum fuse_opcode {
-> >  	FUSE_LOOKUP		= 1,
-> >  	FUSE_FORGET		= 2,  /* no reply */
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index 3f5c267604..8a48071d0b 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -175,7 +175,7 @@ struct lo_data {
-> >      int user_killpriv_v2, killpriv_v2;
-> >      /* If set, virtiofsd is responsible for setting umask during creation */
-> >      bool change_umask;
-> > -    int user_posix_acl;
-> > +    int user_posix_acl, posix_acl;
-> >  };
-> >  
-> >  static const struct fuse_opt lo_opts[] = {
-> > @@ -716,8 +716,10 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-> >           * in fuse_lowlevel.c
-> >           */
-> >          fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-> > -        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
-> > +        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
-> > +                      FUSE_CAP_SETXATTR_V2;
+12.03.2021 21:15, Max Reitz wrote:
+> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
+>> Compressed writes are unaligned to 512, which works very slow in
+>> O_DIRECT mode. Let's use the cache.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/coroutines.h     |   3 +
+>>   block/qcow2.h          |   4 ++
+>>   block/qcow2-refcount.c |  10 +++
+>>   block/qcow2.c          | 158 ++++++++++++++++++++++++++++++++++++++---
+>>   4 files changed, 164 insertions(+), 11 deletions(-)
+>>
+
+[..]
+
+>> +static int coroutine_fn
+>> +qcow2_co_compressed_flush_one(BlockDriverState *bs, bool unfinished)
+>> +{
+>> +    BDRVQcow2State *s = bs->opaque;
+>> +    int ret;
+>> +    int64_t align = 1;
+>> +    int64_t offset, bytes;
+>> +    uint8_t *buf;
+>> +
+>> +    if (!s->compressed_cache) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    if (!seqcache_get_next_flush(s->compressed_cache, &offset, &bytes, &buf,
+>> +                                 &unfinished))
+>> +    {
+>> +        return 0;
+>> +    }
+>> +
+>> +    qcow2_inflight_writes_inc(bs, offset, bytes);
+>> +
+>> +    /*
+>> +     * Don't try to align-up unfinished cached cluster, parallel write to it is
+>> +     * possible! For finished host clusters data in the tail of the cluster will
+>> +     * be never used. So, take some good alignment for speed.
+>> +     *
+>> +     * Note also, that seqcache guarantees that allocated size of @buf is enough
+>> +     * to fill the cluster up to the end, so we are safe to align up with
+>> +     * align <= cluster_size.
+>> +     */
+>> +    if (!unfinished) {
+>> +        align = MIN(s->cluster_size,
+>> +                    MAX(s->data_file->bs->bl.request_alignment,
+>> +                        bdrv_opt_mem_align(bs)));
+>> +    }
+>> +
 > 
-> An annoying thing with this is that if we're using a kernel without
-> _V2 support the mount will still succeed.  But we'll see:
+> I’d move the pre-write overlap check here, because its purpose is to prevent writes to metadata structures as they are happening, not as they are queued into a cache.  (I’d say.)
+
+Hmm. pre-write overlap check usually done under mutex.. Should I add an additional critical section to do overlap check? I'm not sure.
+
 > 
-> ls: cannot access '/mnt': Connection refused
+>> +    BLKDBG_EVENT(s->data_file, BLKDBG_WRITE_COMPRESSED);
+>> +    ret = bdrv_co_pwrite(s->data_file, offset,
+>> +                         QEMU_ALIGN_UP(offset + bytes, align) - offset,
 > 
-> and in the userspace:
+> I remember you said you wanted to describe more of the properties of the buffer returned by seqcache_get_next_flush().  That would be nice here, because intuitively one would assume that the buffer is @bytes bytes long, which aligning here will exceed.  (It’s fine, but it would be nicer if there was a comment that assured that it’s fine.)
 > 
-> fuse: error: filesystem requested capabilities 0x20000000 that are not supported by kernel, aborting.
-> 
-> Maybe it would be worth to automatically disable acl support if this
-> happens (with an error message) but still allow the filesystem to be
-> used.
 
-If user specific "-o posix_acl" then it is better to fail explicitly
-if posix_acl can't be enabled. If user did not specify anything, then
-it makes sense to automatically disable posix acl  and continue.
+It's here, read several lines above: "Note also, that..."
 
-> Or, which is probably better, to handle the EPROTO error in the
-> kernel during mount.
-
-This will have been idea but in fuse, init process handling happens
-asynchronously. That is mount returns to user space while init
-command might complete at a later point of time. So can't return
--EPROTO at mount time.
-
-So one of the problems seem to be that error message is not very
-clear. How about adding following so that user is clear that posix acl
-can't be enabled.
-
-Vivek
-
----
- tools/virtiofsd/passthrough_ll.c |   14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-===================================================================
---- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-03-29 14:59:28.483340964 -0400
-+++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-03-29 15:42:21.797482846 -0400
-@@ -712,10 +712,18 @@ static void lo_init(void *userdata, stru
-     if (lo->user_posix_acl == 1) {
-         /*
-          * User explicitly asked for this option. Enable it unconditionally.
--         * If connection does not have this capability, it should fail
--         * in fuse_lowlevel.c
-+         * If connection does not have this capability, give out message
-+         * now. fuse_lowlevel.c will error out.
-          */
--        fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-+        if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
-+            !(conn->capable & FUSE_CAP_DONT_MASK) ||
-+            !(conn->capable & FUSE_CAP_SETXATTR_V2)) {
-+            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
-+                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
-+                     " or FUSE_SETXATTR_V2 capability.\n");
-+        } else {
-+            fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-+        }
-         conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
-                       FUSE_CAP_SETXATTR_V2;
-         lo->change_umask = true;
+>> +                         buf, 0);
+>> +    if (ret < 0 && s->compressed_flush_ret == 0) {
+>> +        /*
+>> +         * The data that was "written" earlier is lost. We don't want to
+>> +         * care with storing it somehow to retry flushing later.
 
 
+
+-- 
+Best regards,
+Vladimir
 
