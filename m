@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1933D34D600
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:27:00 +0200 (CEST)
-Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5F134D5FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:26:59 +0200 (CEST)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQvfH-0003IS-3j
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34858)
+	id 1lQvfG-0003FR-92
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQvdU-0001qp-N3
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:25:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33063)
+ id 1lQvdv-00029V-9c
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:25:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQvdQ-0002mt-Hy
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:25:07 -0400
+ id 1lQvds-00034n-Lb
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:25:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617038702;
+ s=mimecast20190719; t=1617038731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KFh21w/KsAThfgPiqfbWxDg/6jdAG310wpe2rebwwMA=;
- b=FhGW8awzMZREFp5sQHbLTc71O8Px0/bL1I4xIQU2kghKEx1J1IWkiyKu0FbeJ1JGSbGVZq
- DbkbQ8ASty5ou+CZpbPQ5Js0EtYMUTce7JX7SXKj559+wLGJfiBSjkGvRcBNJpJ2j2a0RL
- wmhTNp/0yrslY3TyztkSkSYliDxNyBI=
+ bh=lHzTjEm/hdZpj/i5rpW99+yMc6Ou9hQXKNJFNFyo6mA=;
+ b=e0Y+FNmTFYKQq54z/bk3wDUAdi1FaDTbnt9RxoHaJJSOPdTiiZLsmpAjCkR569aMXzfvVr
+ w97AYADeRIQiNKOKTeN9wNFBkztg2QQzQCnfSCUcbLCjuPKVA3lYqQcD+4pkt4oi5g3ApB
+ U+lYba3qBVatDAW45qk5NbqZtgSdoZU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-IscaumHgOEa5QiKeZVUbkg-1; Mon, 29 Mar 2021 13:24:47 -0400
-X-MC-Unique: IscaumHgOEa5QiKeZVUbkg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-56-962vfUymPUSwWVVr77BVKQ-1; Mon, 29 Mar 2021 13:25:18 -0400
+X-MC-Unique: 962vfUymPUSwWVVr77BVKQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3432817469;
- Mon, 29 Mar 2021 17:24:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D297A1019639;
+ Mon, 29 Mar 2021 17:25:15 +0000 (UTC)
 Received: from localhost (ovpn-114-227.ams2.redhat.com [10.36.114.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29F1F60C5B;
- Mon, 29 Mar 2021 17:24:42 +0000 (UTC)
-Date: Mon, 29 Mar 2021 18:24:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACC835044F;
+ Mon, 29 Mar 2021 17:25:10 +0000 (UTC)
+Date: Mon, 29 Mar 2021 18:25:09 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC 4/8] virtio-pci: Batch add/del ioeventfds in a single MR
- transaction
-Message-ID: <YGINWHUDN0hw/92j@stefanha-x1.localdomain>
+Subject: Re: [RFC 5/8] virtio-blk: Fix rollback path in
+ virtio_blk_data_plane_start()
+Message-ID: <YGINdeUQag8Z1ryw@stefanha-x1.localdomain>
 References: <20210325150735.1098387-1-groug@kaod.org>
- <20210325150735.1098387-5-groug@kaod.org>
+ <20210325150735.1098387-6-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210325150735.1098387-5-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210325150735.1098387-6-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0H4erGExLlOp+oiA"
+ protocol="application/pgp-signature"; boundary="Mcr6X0A+FfxzLeCE"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,50 +88,50 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0H4erGExLlOp+oiA
+--Mcr6X0A+FfxzLeCE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 25, 2021 at 04:07:31PM +0100, Greg Kurz wrote:
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 1b1942d521cc..0279e5671bcb 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -2368,7 +2368,7 @@ void memory_region_add_eventfd_full(MemoryRegion *mr,
->      if (size) {
->          adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
->      }
-> -    if (transaction) {
-> +    if (!transaction) {
->          memory_region_transaction_begin();
->      }
->      for (i = 0; i < mr->ioeventfd_nb; ++i) {
-> @@ -2383,7 +2383,7 @@ void memory_region_add_eventfd_full(MemoryRegion *mr,
->              sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb-1 - i));
->      mr->ioeventfds[i] = mrfd;
->      ioeventfd_update_pending |= mr->enabled;
-> -    if (transaction) {
-> +    if (!transaction) {
->          memory_region_transaction_commit();
->      }
+On Thu, Mar 25, 2021 at 04:07:32PM +0100, Greg Kurz wrote:
+> When dataplane multiqueue support was added in QEMU 2.7, the path
+> that would rollback guest notifiers assignment in case of error
+> simply got dropped.
+>=20
+> Later on, when Error was added to blk_set_aio_context() in QEMU 4.1,
+> another error path was introduced, but it ommits to rollback both
+> host and guest notifiers.
+>=20
+> It seems cleaner to fix the rollback path in one go. The patch is
+> simple enough that it can be adjusted if backported to a pre-4.1
+> QEMU.
+>=20
+> Fixes: 51b04ac5c6a6 ("virtio-blk: dataplane multiqueue support")
+> Cc: stefanha@redhat.com
+> Fixes: 97896a4887a0 ("block: Add Error to blk_set_aio_context()")
+> Cc: kwolf@redhat.com
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  hw/block/dataplane/virtio-blk.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 
-Looks like these two hunks belong in a previous patch.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---0H4erGExLlOp+oiA
+--Mcr6X0A+FfxzLeCE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBiDVgACgkQnKSrs4Gr
-c8ib/Af8DAUAD12zhzLw2hVfWyG247JkofzUUan/8mjSq9OKk3w/idhyKbZZojAI
-nO6BFoq3hyqFQvRpnWCLZkk+WZVchkCnEbhGERFC3q8BQKlwtzdWq/u8LkdyLn9E
-hc3Y496MoYdmHAvtmAXuw8IcnadrO/ankNBk0JMFjqIiU1dSiCPZtTSPRoOr27R8
-vWGUtXa+jXHehRv/9UuUD2Gzhf9flDJU6smIx/Hkx1cYOzy0zzDOqLU2bepmqe0n
-SUX8AsiBxULppJHak+grTf3UIXsaYpl8t+i1r0BvjtiPE73TJcVLd/ggaCNasb62
-rijL28iHudXE67FBn+SIj+2kCup+yA==
-=5b8q
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBiDXUACgkQnKSrs4Gr
+c8gmywgAlCNl2HVIAS3ziPfwQzngivGn6i/UA70iNPLTPJ4iK/H0b+VWNedAsrOl
+JjeIOPLXIq73ctnOQFeTXYFdvwFUR9ekUkxbLOOV1iD9nFmaGi3OxPCI3zqHYeZt
+UNuMVGVRX0mJSUXQz/goifb8qkmW8mkNKpmhWRjfpg85VOQnYvVD9G3GcKJaONXM
+kOhPIY0g7Ha7da16M1eD61Q5BSZrNdWP2vYWWkmEL9nhAUpqAAzFHyKGP/HumEc+
+TiflsDZrnkVXCwt5Ubif6JiS0QOZJNLtUPcpwx1Ht6ieBaFlq8w9UD9HiyYq5NWr
+g2VgDYePEON2HLsPW2yyw2/hBDJWmw==
+=C2/w
 -----END PGP SIGNATURE-----
 
---0H4erGExLlOp+oiA--
+--Mcr6X0A+FfxzLeCE--
 
 
