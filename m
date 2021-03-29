@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A8534CD72
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 11:59:04 +0200 (CEST)
-Received: from localhost ([::1]:54632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E783B34CD95
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 12:04:52 +0200 (CEST)
+Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQofn-0003bP-8w
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 05:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1lQolQ-00050y-1h
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 06:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1lQoec-00039B-6z
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 05:57:50 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:5062)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lQojE-0004YQ-Et
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:02:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1lQoeY-0008HO-Tc
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 05:57:48 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id D4B8E458B0;
- Mon, 29 Mar 2021 11:49:07 +0200 (CEST)
-Subject: Re: [PATCH] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-To: Markus Armbruster <armbru@redhat.com>,
- Wolfgang Bumiller <w.bumiller@proxmox.com>
-References: <20210318133550.13120-1-s.reiter@proxmox.com>
- <20210322110847.cdo477ve2gydab64@wobu-vie.proxmox.com>
- <87lfaahsxm.fsf@dusky.pond.sub.org>
-From: Stefan Reiter <s.reiter@proxmox.com>
-Message-ID: <26625cd5-7eab-46f6-a8af-14e7069e7dbb@proxmox.com>
-Date: Mon, 29 Mar 2021 11:49:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lQoj8-0002Yc-3x
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:02:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617012147;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c9xa0auiIOon5K5mN1jZAquo57OeiHm23mYu4G0v9Hg=;
+ b=PUPhEWB2+zrKyrPH3J9nOLPsodNMYS49lO6+jbcyl4CI6HAhBAsvdQHQJYZSuht8Qv+CYt
+ VF37zGd66x88eTM+jGyOi4XePFO7LttV70p/XOe+oMFVTH5KKva0wYi9AXvmxSV89uRDWD
+ sEWcdhGbyWq01wJ1wFJUwm5AeoRQRmk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-PwCRuNxEP4O8jwnXdWUF-w-1; Mon, 29 Mar 2021 06:02:22 -0400
+X-MC-Unique: PwCRuNxEP4O8jwnXdWUF-w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 007F5107ACCA
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 10:02:22 +0000 (UTC)
+Received: from redhat.com (ovpn-114-228.ams2.redhat.com [10.36.114.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F3A660D79;
+ Mon, 29 Mar 2021 10:02:13 +0000 (UTC)
+Date: Mon, 29 Mar 2021 11:02:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
+Message-ID: <YGGlo0C/JqlyQLMV@redhat.com>
+References: <20210121125028.3247190-1-kraxel@redhat.com>
+ <20210203163202.GF241524@stefanha-x1.localdomain>
+ <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
+ <YFiHnr/uguP8/Vtz@redhat.com>
+ <20210326124700.taujcpo2xqbn2pzj@sirius.home.kraxel.org>
+ <YGGcnmLvFHEkX4ot@redhat.com>
+ <20210329094818.q4xtejd6labmb5gr@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <87lfaahsxm.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210329094818.q4xtejd6labmb5gr@sirius.home.kraxel.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,70 +87,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Thomas Lamprecht <t.lamprecht@proxmox.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 3:48 PM, Markus Armbruster wrote:
-> Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
+On Mon, Mar 29, 2021 at 11:48:18AM +0200, Gerd Hoffmann wrote:
+> On Mon, Mar 29, 2021 at 10:23:42AM +0100, Daniel P. Berrangé wrote:
+> > On Fri, Mar 26, 2021 at 01:47:00PM +0100, Gerd Hoffmann wrote:
+> > >   Hi,
+> > > 
+> > > > eg a trace point "dma_map_wait" gets mapped to probes in many
+> > > > .stp files, once per target, because we need to match based on
+> > > > the executable path:
+> > > > 
+> > > >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
+> > > >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-ppc64").mark("dma_map_wait")
+> > > 
+> > > Probe qemu.system.ppc64.dma_map_wait = ...
+> > > 
+> > > Can I trace qemu started from build directory?
+> > > Seems scripts/qemu-trace-stap doesn't support that.
+> > 
+> > We should really generate extra equiv .stp files just for running from
+> > the build.
 > 
->> On Thu, Mar 18, 2021 at 02:35:50PM +0100, Stefan Reiter wrote:
->>> If OOB is disabled, events received in monitor_qmp_event will be handled
->>> in the main context. Thus, we must not acquire a qmp_queue_lock there,
->>> as the dispatcher coroutine holds one over a yield point, where it
->>> expects to be rescheduled from the main context. If a CHR_EVENT_CLOSED
->>> event is received just then, it can race and block the main thread by
->>> waiting on the queue lock.
->>>
->>> Run monitor_qmp_cleanup_queue_and_resume in a BH on the iohandler
->>> thread, so the main thread can always make progress during the
->>> reschedule.
->>>
->>> The delaying of the cleanup is safe, since the dispatcher always moves
->>> back to the iothread afterward, and thus the cleanup will happen before
->>> it gets to its next iteration.
->>>
->>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->>> ---
->>
->> This is a tough one. It *may* be fine, but I wonder if we can approach
->> this differently:
+> Well, "make install" with --prefix=$HOME/qemu-install fixed that for the time
+> being.
 > 
-> You guys make my head hurt.
+> Now I have this:
 > 
-
-That makes three of us, I think.
-
-> I understand we're talking about a bug.  Is it a recent regression, or
-> an older bug?  How badly does the bug affect users?
+> kraxel@sirius ~/qemu-install/bin# sudo ./qemu-trace-stap -v run ./qemu-system-x86_64 "qxl_soft_reset"
+> Using tapset dir '/home/kraxel/qemu-install/share/systemtap/tapset' for binary './qemu-system-x86_64'
+> Compiling script 'probe qemu.system.x86_64.log.qxl_soft_reset {}'
+> semantic error: unresolved function pid: identifier 'pid' at /home/kraxel/qemu-install/share/systemtap/tapset/qemu-system-x86_64-log.stp:5451:41
+>         source:     printf("%d@%d qxl_soft_reset %d\n", pid(), gettimeofday_ns(), qid)
+>                                                         ^
 > 
-
-It's a regression introduced with the coroutinization of QMP in 5.2. It 
-only occurs when OOB is disabled - in our downstream we have it disabled 
-unconditionally, as it caused some issues in the past.
-
-It affected quite a lot of our users, some when the host was under CPU 
-load, some seemingly random. When it happened it usually hit multiple 
-VMs at once, completely hanging them.
-
-Just for reference, our forum has the full story:
-https://forum.proxmox.com/threads/all-vms-locking-up-after-latest-pve-update.85397/
-
-> I'm about to vanish for my Easter break...  If the bug must be fixed for
-> 6.0, just waiting for me to come back seems unadvisable.
+> Pass 2: analysis failed.  [man error::pass2]
 > 
+> Any clue why pid() isn't known?
 
-Since it doesn't happen with OOB (so, by default), I don't think it's 
-that urgent.
+Hmm, strange, makes me think we have a bug causing it to not pull in
+global functions.
 
-BTW, I've sent a v2 as well:
-https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg07590.html
-
-That one we have shipped to our users for now, with mostly good success, 
-though a few reports that something still hangs - which could be people 
-failing to upgrade, or some other issue still unsolved...
-
-And happy easter break :)
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
