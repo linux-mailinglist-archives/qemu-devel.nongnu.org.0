@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82FB34C52C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:46:13 +0200 (CEST)
-Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBC434C569
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 10:00:46 +0200 (CEST)
+Received: from localhost ([::1]:43788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQmbE-0006v3-TN
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
+	id 1lQmpJ-0001Hh-4L
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 04:00:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lQmYx-0005Sz-Qy
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:43:51 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:54658)
+ id 1lQmoC-0000pd-FY
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:59:36 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:56664)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lQmYw-0004Lr-1h
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:43:51 -0400
+ id 1lQmoA-0005X4-8b
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:59:36 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id A14D340755D9;
- Mon, 29 Mar 2021 07:43:47 +0000 (UTC)
-Subject: [PATCH v2] replay: notify CPU on event
+ by mail.ispras.ru (Postfix) with ESMTPSA id 55E3C40755CC;
+ Mon, 29 Mar 2021 07:59:25 +0000 (UTC)
+Subject: [PATCH] replay: fix recursive checkpoints
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Mar 2021 10:43:47 +0300
-Message-ID: <161700382734.1136014.13372992399972618499.stgit@pasha-ThinkPad-X280>
+Date: Mon, 29 Mar 2021 10:59:25 +0300
+Message-ID: <161700476500.1140362.10108444973730452257.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -54,33 +54,42 @@ Cc: alex.bennee@linaro.org, pbonzini@redhat.com, pavel.dovgalyuk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch enables vCPU notification to wake it up
-when new async event comes in replay mode.
-
-The motivation of this patch is the following.
-Consider recorded block async event. It is saved into the log
-with one of the checkpoints. This checkpoint may be passed in
-vCPU loop. In replay mode when this async event is read from
-the log, and block thread task is not finished yet, vCPU thread
-goes to sleep. That is why this patch adds waking up the vCPU
-to process this finished event.
+Record/replay uses checkpoints to synchronize the execution
+of the threads and timers. Hardware events such as BH are
+processed at the checkpoints too.
+Event processing can cause refreshing the virtual timers
+and calling the icount-related functions, that also use checkpoints.
+This patch prevents recursive processing of such checkpoints,
+because they have their own records in the log and should be
+processed later.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
- replay/replay-events.c |    1 +
- 1 file changed, 1 insertion(+)
+ replay/replay.c |   11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/replay/replay-events.c b/replay/replay-events.c
-index a1c6bb934e..92dc800219 100644
---- a/replay/replay-events.c
-+++ b/replay/replay-events.c
-@@ -126,6 +126,7 @@ void replay_add_event(ReplayAsyncEventKind event_kind,
+diff --git a/replay/replay.c b/replay/replay.c
+index c806fec69a..6df2abc18c 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -180,12 +180,13 @@ bool replay_checkpoint(ReplayCheckpoint checkpoint)
+     }
  
-     g_assert(replay_mutex_locked());
-     QTAILQ_INSERT_TAIL(&events_list, event, events);
-+    qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
- }
+     if (in_checkpoint) {
+-        /* If we are already in checkpoint, then there is no need
+-           for additional synchronization.
++        /*
+            Recursion occurs when HW event modifies timers.
+-           Timer modification may invoke the checkpoint and
+-           proceed to recursion. */
+-        return true;
++           Prevent performing icount warp in this case and
++           wait for another invocation of the checkpoint.
++        */
++        g_assert(replay_mode == REPLAY_MODE_PLAY);
++        return false;
+     }
+     in_checkpoint = true;
  
- void replay_bh_schedule_event(QEMUBH *bh)
 
 
