@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF7934DCA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 01:53:37 +0200 (CEST)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4586834DCAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 01:56:56 +0200 (CEST)
+Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lR1hQ-0001Q0-1h
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 19:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
+	id 1lR1kd-0002fQ-BB
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 19:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lR1fj-0000Vn-6d
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 19:51:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21459)
+ id 1lR1je-00028N-IH
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 19:55:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lR1fe-0003KE-LT
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 19:51:49 -0400
+ id 1lR1jb-0004ys-W5
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 19:55:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617061905;
+ s=mimecast20190719; t=1617062151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OsAkRTw3HoJwIn7/Po5R2Of9WmKTWC8N0PGFb8BWWzY=;
- b=OOppjCuB38yM1TwTdqul8FX+yqPdDlaWf+HR6mgHiS1LQZmP9KacK1721hg3QjRD1Hvl4n
- x+oqbElKyH4FpwechzR0Xe+39DfoXom3AlB0FaUj6TGl2RcZ/+DeW9VKpwYnVSY8MkdSCR
- 0vCru9LjRZtfZKYtbM6tKMLo9R46Bu8=
+ bh=O7YgIem/m7xcmjl1s1NefsGkDRjQ1m5iaYL/IuPrKhU=;
+ b=fTLWt+bukT4lnp4erDCCNRBeDzv+W2dU61R9k7MKWUer2Ugg6wtdpdGaPNdvJyTvBK0yUa
+ fhNj3WRIEAEEgf6/35YzrI+VEo0+1qaHw0FK9eyopLFl1p/waFmpnZaYmDUXrmBf+9tfNR
+ Pia2DxlNox0u1aA6kH3FJoeXCHOqVnw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-97o-JTEaMASsXaK0nmodfQ-1; Mon, 29 Mar 2021 19:51:43 -0400
-X-MC-Unique: 97o-JTEaMASsXaK0nmodfQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-211-BBi7EDarMdatBf4W-S0Imw-1; Mon, 29 Mar 2021 19:55:47 -0400
+X-MC-Unique: BBi7EDarMdatBf4W-S0Imw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AE33501F8;
- Mon, 29 Mar 2021 23:51:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4362C6B9C4;
+ Mon, 29 Mar 2021 23:55:46 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D71D85D6D3;
- Mon, 29 Mar 2021 23:51:36 +0000 (UTC)
-Date: Tue, 30 Mar 2021 01:51:33 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE9585D9F0;
+ Mon, 29 Mar 2021 23:55:42 +0000 (UTC)
+Date: Tue, 30 Mar 2021 01:55:40 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
 Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
  nodes
-Message-ID: <20210330015133.11cd9334@redhat.com>
-In-Reply-To: <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+Message-ID: <20210330015540.6fde17ea@redhat.com>
+In-Reply-To: <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
 References: <20210319183453.4466-1-danielhb413@gmail.com>
  <20210319183453.4466-2-danielhb413@gmail.com>
  <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+ <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
+ <YFvxAW3l4t+YznEm@yekko.fritz.box>
+ <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
+ <YGFVc2lBhvzm5CSa@yekko.fritz.box>
+ <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
+ <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,284 +89,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org
+ Michael Ellerman <mpe@ellerman.id.au>, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Mar 2021 12:03:58 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+On Mon, 29 Mar 2021 15:32:37 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
-> > Kernel commit 4bce545903fa ("powerpc/topology: Update
-> > topology_core_cpumask") cause a regression in the pseries machine when
-> > defining certain SMP topologies [1]. The reasoning behind the change is
-> > explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
-> > cpu_core_mask"). In short, cpu_core_mask logic was causing troubles wit=
-h
-> > large VMs with lots of CPUs and was changed by cpu_cpu_mask because, as
-> > far as the kernel understanding of SMP topologies goes, both masks are
-> > equivalent.
+> On 3/29/21 12:32 PM, C=C3=A9dric Le Goater wrote:
+> > On 3/29/21 6:20 AM, David Gibson wrote: =20
+> >> On Thu, Mar 25, 2021 at 09:56:04AM +0100, C=C3=A9dric Le Goater wrote:=
+ =20
+> >>> On 3/25/21 3:10 AM, David Gibson wrote: =20
+> >>>> On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wr=
+ote: =20
+> >>>>>
+> >>>>>
+> >>>>> On 3/22/21 10:03 PM, David Gibson wrote: =20
+> >>>>>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza =
+wrote: =20
+> >>>>>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
+> >>>>>>> topology_core_cpumask") cause a regression in the pseries machine=
+ when
+> >>>>>>> defining certain SMP topologies [1]. The reasoning behind the cha=
+nge is
+> >>>>>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updat=
+ing
+> >>>>>>> cpu_core_mask"). In short, cpu_core_mask logic was causing troubl=
+es with
+> >>>>>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask becau=
+se, as
+> >>>>>>> far as the kernel understanding of SMP topologies goes, both mask=
+s are
+> >>>>>>> equivalent.
+> >>>>>>>
+> >>>>>>> Further discussions in the kernel mailing list [2] shown that the
+> >>>>>>> powerpc kernel always considered that the number of sockets were =
+equal
+> >>>>>>> to the number of NUMA nodes. The claim is that it doesn't make se=
+nse,
+> >>>>>>> for Power hardware at least, 2+ sockets being in the same NUMA no=
+de. The
+> >>>>>>> immediate conclusion is that all SMP topologies the pseries machi=
+ne were
+> >>>>>>> supplying to the kernel, with more than one socket in the same NU=
+MA node
+> >>>>>>> as in [1], happened to be correctly represented in the kernel by
+> >>>>>>> accident during all these years.
+> >>>>>>>
+> >>>>>>> There's a case to be made for virtual topologies being detached f=
+rom
+> >>>>>>> hardware constraints, allowing maximum flexibility to users. At t=
+he same
+> >>>>>>> time, this freedom can't result in unrealistic hardware represent=
+ations
+> >>>>>>> being emulated. If the real hardware and the pseries kernel don't
+> >>>>>>> support multiple chips/sockets in the same NUMA node, neither sho=
+uld we.
+> >>>>>>>
+> >>>>>>> Starting in 6.0.0, all sockets must match an unique NUMA node in =
+the
+> >>>>>>> pseries machine. qtest changes were made to adapt to this new
+> >>>>>>> condition. =20
+> >>>>>>
+> >>>>>> Oof.  I really don't like this idea.  It means a bunch of fiddly w=
+ork
+> >>>>>> for users to match these up, for no real gain.  I'm also concerned
+> >>>>>> that this will require follow on changes in libvirt to not make th=
+is a
+> >>>>>> really cryptic and irritating point of failure. =20
+> >>>>>
+> >>>>> Haven't though about required Libvirt changes, although I can say t=
+hat there
+> >>>>> will be some amount to be mande and it will probably annoy existing=
+ users
+> >>>>> (everyone that has a multiple socket per NUMA node topology).
+> >>>>>
+> >>>>> There is not much we can do from the QEMU layer aside from what I'v=
+e proposed
+> >>>>> here. The other alternative is to keep interacting with the kernel =
+folks to
+> >>>>> see if there is a way to keep our use case untouched. =20
+> >>>>
+> >>>> Right.  Well.. not necessarily untouched, but I'm hoping for more
+> >>>> replies from C=C3=A9dric to my objections and mpe's.  Even with sock=
+ets
+> >>>> being a kinda meaningless concept in PAPR, I don't think tying it to
+> >>>> NUMA nodes makes sense. =20
+> >>>
+> >>> I did a couple of replies in different email threads but maybe not
+> >>> to all. I felt it was going nowhere :/ Couple of thoughts, =20
+> >>
+> >> I think I saw some of those, but maybe not all.
+> >> =20
+> >>> Shouldn't we get rid of the socket concept, die also, under pseries
+> >>> since they don't exist under PAPR ? We only have numa nodes, cores,
+> >>> threads AFAICT. =20
+> >>
+> >> Theoretically, yes.  I'm not sure it's really practical, though, since
+> >> AFAICT, both qemu and the kernel have the notion of sockets (though
+> >> not dies) built into generic code. =20
 > >=20
-> > Further discussions in the kernel mailing list [2] shown that the
-> > powerpc kernel always considered that the number of sockets were equal
-> > to the number of NUMA nodes. The claim is that it doesn't make sense,
-> > for Power hardware at least, 2+ sockets being in the same NUMA node. Th=
-e
-> > immediate conclusion is that all SMP topologies the pseries machine wer=
-e
-> > supplying to the kernel, with more than one socket in the same NUMA nod=
-e
-> > as in [1], happened to be correctly represented in the kernel by
-> > accident during all these years.
-> >=20
-> > There's a case to be made for virtual topologies being detached from
-> > hardware constraints, allowing maximum flexibility to users. At the sam=
-e
-> > time, this freedom can't result in unrealistic hardware representations
-> > being emulated. If the real hardware and the pseries kernel don't
-> > support multiple chips/sockets in the same NUMA node, neither should we=
-.
-> >=20
-> > Starting in 6.0.0, all sockets must match an unique NUMA node in the
-> > pseries machine. qtest changes were made to adapt to this new
-> > condition. =20
->=20
-> Oof.  I really don't like this idea.  It means a bunch of fiddly work
-> for users to match these up, for no real gain.  I'm also concerned
-> that this will require follow on changes in libvirt to not make this a
-> really cryptic and irritating point of failure.
-
-yes, it is annoying to users but we were very slowly tightening limitations
-on numa path, especially if it causes problems on guest side when user
-specify nonsense configs (and suspect there are few things to enforce in
-generic numa code left (currently just warnings)). So it's nothing new.
-
-So if limit applies to new machine type it should be fine (i.e. no existing
-VMs will suffer). Later on we can deprecate invalid configurations altogeth=
-er
-and just error out.
-=20
-> >=20
-> > [1] https://bugzilla.redhat.com/1934421
-> > [2] https://lore.kernel.org/linuxppc-dev/daa5d05f-dbd0-05ad-7395-5d5a3d=
-364fc6@gmail.com/
-> >=20
-> > CC: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
-> > CC: C=C3=A9dric Le Goater <clg@kaod.org>
-> > CC: Igor Mammedov <imammedo@redhat.com>
-> > CC: Laurent Vivier <lvivier@redhat.com>
-> > CC: Thomas Huth <thuth@redhat.com>
-> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > ---
-> >  hw/ppc/spapr.c                 |  3 ++
-> >  hw/ppc/spapr_numa.c            |  7 +++++
-> >  include/hw/ppc/spapr.h         |  1 +
-> >  tests/qtest/cpu-plug-test.c    |  4 +--
-> >  tests/qtest/device-plug-test.c |  9 +++++-
-> >  tests/qtest/numa-test.c        | 52 ++++++++++++++++++++++++++++------
-> >  6 files changed, 64 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index d56418ca29..745f71c243 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -4611,8 +4611,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
-> >   */
-> >  static void spapr_machine_5_2_class_options(MachineClass *mc)
-> >  {
-> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> > +
-> >      spapr_machine_6_0_class_options(mc);
-> >      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_le=
-n);
-> > +    smc->pre_6_0_smp_topology =3D true;
-> >  }
-> > =20
-> >  DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
-> > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> > index 779f18b994..0ade43dd79 100644
-> > --- a/hw/ppc/spapr_numa.c
-> > +++ b/hw/ppc/spapr_numa.c
-> > @@ -163,6 +163,13 @@ void spapr_numa_associativity_init(SpaprMachineSta=
-te *spapr,
-> >      int i, j, max_nodes_with_gpus;
-> >      bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr);
-> > =20
-> > +    if (!smc->pre_6_0_smp_topology &&
-> > +        nb_numa_nodes !=3D machine->smp.sockets) {
-> > +        error_report("Number of CPU sockets must be equal to the numbe=
-r "
-> > +                     "of NUMA nodes");
-> > +        exit(EXIT_FAILURE);
-> > +    }
-> > +
-> >      /*
-> >       * For all associativity arrays: first position is the size,
-> >       * position MAX_DISTANCE_REF_POINTS is always the numa_id,
-> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > index 47cebaf3ac..98dc5d198a 100644
-> > --- a/include/hw/ppc/spapr.h
-> > +++ b/include/hw/ppc/spapr.h
-> > @@ -142,6 +142,7 @@ struct SpaprMachineClass {
-> >      hwaddr rma_limit;          /* clamp the RMA to this size */
-> >      bool pre_5_1_assoc_refpoints;
-> >      bool pre_5_2_numa_associativity;
-> > +    bool pre_6_0_smp_topology;
-> > =20
-> >      bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-> >                            uint64_t *buid, hwaddr *pio,
-> > diff --git a/tests/qtest/cpu-plug-test.c b/tests/qtest/cpu-plug-test.c
-> > index a1c689414b..946b9129ea 100644
-> > --- a/tests/qtest/cpu-plug-test.c
-> > +++ b/tests/qtest/cpu-plug-test.c
-> > @@ -118,8 +118,8 @@ static void add_pseries_test_case(const char *mname=
-)
-> >      data->machine =3D g_strdup(mname);
-> >      data->cpu_model =3D "power8_v2.0";
-> >      data->device_model =3D g_strdup("power8_v2.0-spapr-cpu-core");
-> > -    data->sockets =3D 2;
-> > -    data->cores =3D 3;
-> > +    data->sockets =3D 1;
-> > +    data->cores =3D 6;
-> >      data->threads =3D 1;
-> >      data->maxcpus =3D data->sockets * data->cores * data->threads;
-> > =20
-> > diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-t=
-est.c
-> > index 559d47727a..dd7d8268d2 100644
-> > --- a/tests/qtest/device-plug-test.c
-> > +++ b/tests/qtest/device-plug-test.c
-> > @@ -91,7 +91,14 @@ static void test_spapr_cpu_unplug_request(void)
-> >  {
-> >      QTestState *qtest;
-> > =20
-> > -    qtest =3D qtest_initf("-cpu power9_v2.0 -smp 1,maxcpus=3D2 "
-> > +    /*
-> > +     * Default smp settings will prioritize sockets over cores and
-> > +     * threads, so '-smp 2,maxcpus=3D2' will add 2 sockets. However,
-> > +     * the pseries machine requires a NUMA node for each socket
-> > +     * (since 6.0.0). Specify sockets=3D1 to make life easier.
-> > +     */
-> > +    qtest =3D qtest_initf("-cpu power9_v2.0 "
-> > +                        "-smp 1,maxcpus=3D2,threads=3D1,cores=3D2,sock=
-ets=3D1 "
-> >                          "-device power9_v2.0-spapr-cpu-core,core-id=3D=
-1,id=3Ddev0");
-> > =20
-> >      /* similar to test_pci_unplug_request */
-> > diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-> > index dc0ec571ca..bb13f7131b 100644
-> > --- a/tests/qtest/numa-test.c
-> > +++ b/tests/qtest/numa-test.c
-> > @@ -24,9 +24,17 @@ static void test_mon_explicit(const void *data)
-> >      QTestState *qts;
-> >      g_autofree char *s =3D NULL;
-> >      g_autofree char *cli =3D NULL;
-> > +    const char *arch =3D qtest_get_arch();
-> > +
-> > +    if (g_str_equal(arch, "ppc64")) {
-> > +        cli =3D make_cli(data, "-smp 8,threads=3D1,cores=3D4,sockets=
-=3D2 "
-> > +                             "-numa node,nodeid=3D0,memdev=3Dram,cpus=
-=3D0-3 "
-> > +                             "-numa node,nodeid=3D1,cpus=3D4-7");
-> > +    } else {
-> > +        cli =3D make_cli(data, "-smp 8 -numa node,nodeid=3D0,memdev=3D=
-ram,cpus=3D0-3 "
-> > +                             "-numa node,nodeid=3D1,cpus=3D4-7");
-> > +    }
-> > =20
-> > -    cli =3D make_cli(data, "-smp 8 -numa node,nodeid=3D0,memdev=3Dram,=
-cpus=3D0-3 "
-> > -                         "-numa node,nodeid=3D1,cpus=3D4-7");
-> >      qts =3D qtest_init(cli);
-> > =20
-> >      s =3D qtest_hmp(qts, "info numa");
-> > @@ -57,10 +65,18 @@ static void test_mon_partial(const void *data)
-> >      QTestState *qts;
-> >      g_autofree char *s =3D NULL;
-> >      g_autofree char *cli =3D NULL;
-> > +    const char *arch =3D qtest_get_arch();
-> > +
-> > +    if (g_str_equal(arch, "ppc64")) {
-> > +        cli =3D make_cli(data, "-smp 8,threads=3D1,cores=3D4,sockets=
-=3D2 "
-> > +                             "-numa node,nodeid=3D0,memdev=3Dram,cpus=
-=3D0-1 "
-> > +                             "-numa node,nodeid=3D1,cpus=3D4-5 ");
-> > +    } else {
-> > +        cli =3D make_cli(data, "-smp 8 "
-> > +                             "-numa node,nodeid=3D0,memdev=3Dram,cpus=
-=3D0-1 "
-> > +                             "-numa node,nodeid=3D1,cpus=3D4-5 ");
-> > +    }
-> > =20
-> > -    cli =3D make_cli(data, "-smp 8 "
-> > -                   "-numa node,nodeid=3D0,memdev=3Dram,cpus=3D0-1 "
-> > -                   "-numa node,nodeid=3D1,cpus=3D4-5 ");
-> >      qts =3D qtest_init(cli);
-> > =20
-> >      s =3D qtest_hmp(qts, "info numa");
-> > @@ -85,9 +101,17 @@ static void test_query_cpus(const void *data)
-> >      QObject *e;
-> >      QTestState *qts;
-> >      g_autofree char *cli =3D NULL;
-> > +    const char *arch =3D qtest_get_arch();
-> > +
-> > +    if (g_str_equal(arch, "ppc64")) {
-> > +        cli =3D make_cli(data, "-smp 8,threads=3D1,cores=3D4,sockets=
-=3D2 "
-> > +                             "-numa node,memdev=3Dram,cpus=3D0-3 "
-> > +                             "-numa node,cpus=3D4-7");
-> > +    } else {
-> > +        cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram,cpus=3D=
-0-3 "
-> > +                             "-numa node,cpus=3D4-7");
-> > +    }
-> > =20
-> > -    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram,cpus=3D0-3 =
+> > Yes. But, AFAICT, these topology notions have not reached "arch/powerpc=
 "
-> > -                         "-numa node,cpus=3D4-7");
-> >      qts =3D qtest_init(cli);
-> >      cpus =3D get_cpus(qts, &resp);
-> >      g_assert(cpus);
-> > @@ -177,7 +201,7 @@ static void spapr_numa_cpu(const void *data)
-> >      QTestState *qts;
-> >      g_autofree char *cli =3D NULL;
-> > =20
-> > -    cli =3D make_cli(data, "-smp 4,cores=3D4 "
-> > +    cli =3D make_cli(data, "-smp 4,threads=3D1,cores=3D2,sockets=3D2 "
-> >          "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-> >          "-numa cpu,node-id=3D0,core-id=3D0 "
-> >          "-numa cpu,node-id=3D0,core-id=3D1 "
-> > @@ -554,7 +578,17 @@ int main(int argc, char **argv)
-> > =20
-> >      g_test_init(&argc, &argv, NULL);
-> > =20
-> > -    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_s=
-plit);
-> > +    /*
-> > +     * Starting on 6.0.0, for the pseries machine, '-smp 8' will only =
-work
-> > +     * if we have 8 NUMA nodes. If we specify 'smp 8,sockets=3D2' to m=
-atch
-> > +     * 2 NUMA nodes, the CPUs will be split as 0123/4567 instead of
-> > +     * 0246/1357 that test_def_cpu_split expects. In short, this test =
-is
-> > +     * no longer valid for ppc64 in 6.0.0.
-> > +     */
-> > +    if (!g_str_equal(arch, "ppc64")) {
-> > +        qtest_add_data_func("/numa/mon/cpus/default", args, test_def_c=
-pu_split);
-> > +    }
-> > +
-> >      qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_expl=
-icit);
-> >      qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_parti=
-al);
-> >      qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_=
-cpus); =20
+> > and PPC Linux only has a NUMA node id, on pseries and powernv.
+> >  =20
+> >> It does mean that one possible approach here - maybe the best one - is
+> >> to simply declare that sockets are meaningless under, so we simply
+> >> don't expect what the guest kernel reports to match what's given to
+> >> qemu.
+> >>
+> >> It'd be nice to avoid that if we can: in a sense it's just cosmetic,
+> >> but it is likely to surprise and confuse people.
+> >> =20
+> >>> Should we diverged from PAPR and add extra DT properties "qemu,..." ?
+> >>> There are a couple of places where Linux checks for the underlying
+> >>> hypervisor already.
+> >>> =20
+> >>>>> This also means that
+> >>>>> 'ibm,chip-id' will probably remain in use since it's the only place=
+ where
+> >>>>> we inform cores per socket information to the kernel. =20
+> >>>>
+> >>>> Well.. unless we can find some other sensible way to convey that
+> >>>> information.  I haven't given up hope for that yet. =20
+> >>>
+> >>> Well, we could start by fixing the value in QEMU. It is broken
+> >>> today. =20
+> >>
+> >> Fixing what value, exactly? =20
+> >=20
+> > The value of the "ibm,chip-id" since we are keeping the property under
+> > QEMU. =20
+>=20
+> David, I believe this has to do with the discussing we had last Friday.
+>=20
+> I mentioned that the ibm,chip-id property is being calculated in a way th=
+at
+> promotes the same ibm,chip-id in CPUs that belongs to different NUMA node=
+s,
+> e.g.:
+>=20
+> -smp 4,cores=3D4,maxcpus=3D8,threads=3D1 \
+> -numa node,nodeid=3D0,cpus=3D0-1,cpus=3D4-5,memdev=3Dram-node0 \
+> -numa node,nodeid=3D1,cpus=3D2-3,cpus=3D6-7,memdev=3Dram-node1
+
+just heads up, 'cpus=3D' is going away (deprecation patch got lost during 6=
+.0
+but I plan on pushing it during 6.1 devel window),
+you can use '-numa cpus,node-id=3Da,core-id=3Db' instead
+
+>=20
+>=20
+> $ dtc -I dtb -O dts fdt.dtb | grep -B2 ibm,chip-id
+> =09=09=09ibm,associativity =3D <0x05 0x00 0x00 0x00 0x00 0x00>;
+> =09=09=09ibm,pft-size =3D <0x00 0x19>;
+> =09=09=09ibm,chip-id =3D <0x00>;
+> --
+> =09=09=09ibm,associativity =3D <0x05 0x00 0x00 0x00 0x00 0x01>;
+> =09=09=09ibm,pft-size =3D <0x00 0x19>;
+> =09=09=09ibm,chip-id =3D <0x00>;
+> --
+> =09=09=09ibm,associativity =3D <0x05 0x01 0x01 0x01 0x01 0x02>;
+> =09=09=09ibm,pft-size =3D <0x00 0x19>;
+> =09=09=09ibm,chip-id =3D <0x00>;
+> --
+> =09=09=09ibm,associativity =3D <0x05 0x01 0x01 0x01 0x01 0x03>;
+> =09=09=09ibm,pft-size =3D <0x00 0x19>;
+> =09=09=09ibm,chip-id =3D <0x00>;
+>=20
+> We assign ibm,chip-id=3D0x0 to CPUs 0-3, but CPUs 2-3 are located in a di=
+fferent
+> NUMA node than 0-1. This would mean that the same socket would belong to
+> different NUMA nodes at the same time.
+>=20
+> I believe this is what Cedric wants to be addressed. Given that the prope=
+rty is
+> called after the OPAL property ibm,chip-id, the kernel expects that the p=
+roperty
+> will have the same semantics as in OPAL.
+>=20
+>=20
+>=20
+> Thanks,
+>=20
+>=20
+> DHB
+>=20
+>=20
+>=20
+>=20
+> >  =20
+> >>> This is all coming from some work we did last year to evaluate our HW
+> >>> (mostly for XIVE) on 2s, 4s, 16s systems on baremetal, KVM and PowerV=
+M.
+> >>> We saw some real problems because Linux did not have a clear view of =
+the
+> >>> topology. See the figures here :
+> >>>
+> >>> http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20210303174857=
+.1760393-9-clg@kaod.org/
+> >>>
+> >>> The node id is a key parameter for system resource management, memory
+> >>> allocation, interrupt affinity, etc. Linux scales much better if used
+> >>> correctly. =20
+> >>
+> >> Well, sure.  And we have all the ibm,associativity stuff to convey the
+> >> node ids to the guest (which has its own problems, but not that are
+> >> relevant here).  What's throwing me is why getting node IDs correct
+> >> has anything to do with socket numbers. =20
+> >=20
+> >  =20
 >=20
 
 
