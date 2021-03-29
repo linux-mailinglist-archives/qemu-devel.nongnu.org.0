@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DFB34D7A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 20:58:54 +0200 (CEST)
-Received: from localhost ([::1]:55412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633E134D7B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 21:00:27 +0200 (CEST)
+Received: from localhost ([::1]:32842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQx6C-0005V4-W1
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 14:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60510)
+	id 1lQx7i-0007rc-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 15:00:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lQx3X-00046H-I2
+ id 1lQx3b-00047q-PO
  for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:56:11 -0400
-Received: from mout.web.de ([212.227.15.3]:48629)
+Received: from mout.web.de ([212.227.15.3]:46089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lQx3E-0001VK-Nj
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:56:00 -0400
+ id 1lQx3K-0001Wx-9a
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:56:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1617044146;
- bh=ybGPFs+IiyELjdB4kjrWpvCjsGqjwjL1p7axE6FExWY=;
+ s=dbaedf251592; t=1617044150;
+ bh=XE/hPgaLWkL1KNO6Xt3is37V6Zr1ybJs0A2eQp9QpGA=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=GGjcspO6JD7IMeKczTzaPbv49OHpLSPWRNrnWDw89LvhABCUjtv2lX7X3SiReLXH7
- nRYB5x0h07kPKoSKWHUs86rGWBXoqrIbQX0TdUPvdrk8vBRjOSMuZaJOBSgckjcgd5
- 5RZpgqJ4wDzeGZWaWKfhOKkFiK8RL5lMR1YUT9UM=
+ b=S9aQxfZf3Bpwo1YOKxDS2zkualaxHp7lNohOWnvVAK2YMPKDevHjM3CRDPwjJlP1J
+ IMA+DjitspozX3SgEx/ArbU9QXG1nHPBliE3nmDvrWVES94dXFdw/8jVymDxE6SDLO
+ 5q1rwM4awlxkKT9Qmd1xncZO/Cz8NOCBUlAAe9nE=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.225]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0Ma2V5-1lCSTN2FPL-00LmWt; Mon, 29
- Mar 2021 20:55:46 +0200
-Date: Mon, 29 Mar 2021 20:55:45 +0200
+Received: from gecko.fritz.box ([94.134.180.225]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MS1xS-1l2FBs0Hk2-00T9fY; Mon, 29
+ Mar 2021 20:55:50 +0200
+Date: Mon, 29 Mar 2021 20:55:48 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v7 1/4] chardev/char.c: Move object_property_try_add_child
- out of chardev_new
-Message-ID: <b2a5092ec681737bc3a21ea16f3c00848b277521.1617043998.git.lukasstraub2@web.de>
+Subject: [PATCH v7 2/4] chardev/char.c: Always pass id to chardev_new
+Message-ID: <3e669b6c160aa7278e37c4d95e0445574f96c7b7.1617043998.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1617043998.git.lukasstraub2@web.de>
 References: <cover.1617043998.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/X6hc9O33sewwDKnbSKkcg5m";
+Content-Type: multipart/signed; boundary="Sig_/grzVZpCZus86LE_RQqMimSk";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:vBs8PP7HOu9ImlnfYPNihLvhy4uOF1clVod6D0GbowAPxMgjUdl
- D7wERzjfLXpq2aPaDA/TWXSi0pmXxCExBBIXLlPbDU8yGKLUJI9JnliOuVhmeY0796MQM9I
- IKSPxxXZawpYMQhkH5pqruVMPmgw5h3noLvlngk3IetC1E5jT7wSRHxY5q6tazfDjcY+oDL
- TRT8yPOgxCIDW687S554g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ht+0dloK1+4=:o2KtQtcmGIqhwfiSodS+eU
- kFdPXmabeEscxOjSpbYEgZDuaEA/gnIk1YIkiJgaSYTSqBxiANUwDeyVrmvV55BQMSq7geTDe
- FNhO2DBFG7QdlVrkgx3p2dzQFT2sACKsh8X/T09wQ7g2tH+uP5v/G49gsyC27LCOuym9L3bUt
- hur8v8nI3AGzv+h7I6m8Qo2v4WfIeiiuPZMLgKnrF6qJSbXgg308yX9B0qF7cjKvGnAKbuCWP
- 0GP3/ThnKtCmQNS7EURRlcJM9AqGI51K6X8dMHfcAwHdNaEdJlrtwL9xUn6BTibEhRTaGVG5U
- 25c8I0SH3+zjtk8QtUMSYZlWFNHIl31Jx9OlIHSWS8bvPU6sRMDZgxFl8TO0b2ap5uOvVnSI/
- byskbYunyDuq71wQ5OK9OIEk6aFil7D+zviFaonCgIInlSgzIngB7Plm9ej1CPq//XwH4Yzui
- 3x0ZLrtfHD4yK2DkH6jYJASZ3Xk+GlMRcYRhLPbwt7koYDiVbyj0Lhl2RALk9UEQEHwgUqWJT
- oQKjkS2gx+broKUtXEdefy5nPj0R2alW7k8q3g3A/71Za1ckGVxYOHONJEFDaZoumLaDP/W/I
- 0hWadM9s5MYEpIhgxsLwoLG8ywVoSb0Ub6d5R9LBP8DjgdcOgzz2UpRnpvKoHmekRO79KvZMs
- WKA+pLaHmpcX7e0epDMdotry366upISuO9RZ4nixt2yPl2xWds9aoNAhkUWq9t7qw8FDNQz88
- 0a1ba1BWu90tFj3AU7wStYAkEReA2GildT4LjWY/yhtu78RJLuvLDISWlYqUrveSqgC4wFj4W
- w9Nxkh7nCghv2c5vwcWF+Qn/5Q5dHnOdQ529Iy6MlGKtD0qK2c5CnW2Bh9inIE6Ur3ik1dNp1
- oWFDZ8ZM0xo96ThJZbfZagyrEzRum7dnrlIMuABV05nex4snrHc0LZm3LYjfpkMBkBETHzprp
- nIeRjPQLeSX+TkhHWUq5gpM6uos9Hn0zUK8fAzSlUDeMbGK1CHAFaOUA0GxH27J7jTMgjF5Sy
- tCws4+sPgMoAM10TJt2xhpIWcu9/087Cxj9jg0hG14Rt59LxnYJa1l2B89r84Dr362xym6YOk
- khUdzS24YSldqMFXTWFSeNDdTTnZPdWLyQ/4E9PBR4JWgVcSZhx73+q2pPm6Y/F+AVuotsphb
- mLmCh5U7pemPYCXXrwV15yYndfGSmWZ74gB9vvrOp1y1qVoQ8CEEl6N7Wa1GR14XWtfEg=
+X-Provags-ID: V03:K1:xJJ5NnVLqYC+0075Tq8mhZmpHEO8Op46JdWjLwO/iEaRvTsh9fD
+ Baf1YUdAy+pEC/4kjhqS2WHBe4ItyDdf12j5bfjh3SxbGm7P8KN+I3OI6PcugUo0GS+BiD9
+ 4nnOV2iJNkYlUrSm635MZBnJVIRHpwXkmv2uOHdDHOCUckSFjytqatRAnWzVmceJLwigq59
+ KUS457ormFhcLikEYeRVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KgHUdfjLTfs=:Y0ticQJCafAon/HtTpr36W
+ J5VikKX307SC0Csbw3+IIVs6x6AKGWD03EDP9YgxuH+fvgMJXXdoFvIoOO6+03finy9wiwXD2
+ 4VBhbe8Kjd0Vdg9DMF2hPjZdLP2TQzT4NwB+b5KRvKPnjAlopVLe5tsaHhVCzjdPWzGCFzcxA
+ YVTlbL7KfJVqwjcR/zehm7pIQ+xkR1y47SYU9hOT6qurEB2Tc1HO+0hbqs9JMelOtxt1Hz6Sh
+ s8BFxyrP4Q7S8J8R1UeV1RuiyWUqKnOeOxCY9v2ntBK6yCI+7IhtNwhBjCSC0U2YbB/anDe7N
+ PPqga4VZoFyMSHs37hASuuh4jLgSgFgZGKi99QamdzOqZCbKmklg3/DldslTwD1d1EU988uxg
+ 2hMcUxkLBFopBpoviVz/eCygeRQ/JTuCan6W9NpPFJeIeWXtsbKQQ7YZN8MLdJSAx7ulqNT+A
+ CpRBVGF9nV9BvsMNquPesvvWCNPZysvvry8Y6JFBx9mv0IrpG35h65soxg1+Stw8XR5neT0A2
+ YlfHEQQJDUITbu8/ybn1S4pHMoC9a6M7L9glDsr5DvbQuXGdrI0jONKVBb5un+vcknIY9x0rP
+ 4+l+3E6ZH9aIFn0rvB89A8dPbKbjGoC2H3sMWhnPj+UvVPQe/hfHzTvT53/TXk87TPau6MLe9
+ mPjhs4jaec2X+EPtTAWafSi9hjw+Xj6rOIN4xNfnutWHjYGQGYvzS3WqJ6QdCPMq8+nOt5fj4
+ DEqCUi9SmvaePxa4T4ij9dMUuUArxau2vG1KvU2gdyEo5iIBS1Y2VowOP7oKumcys5fW51JBk
+ +gX19cqU3FVdtIEJl1XQGich5765UnnUU9myOBTM0w4kpVy1FI+fBhO+K4/isbjQUHnbwhL2c
+ oPbmPA9pR2AHZNUx2mxE2VmF1WbLL6YG6MRiPssOn3IlUmcSdYfNqOZ0ONySCT1mxcXceqC3Z
+ MSGNBFXl8bRCje0/nRg1Nd9Nojr7lGgQZTnOKR0AXSlrHoC0vq9BEYJ7PQZFUuxETH0EYKwAR
+ QnZWV5v5yV5JCB/EZLUVN9+yMvu4Uyb2U2bxfpF3K7eccEEm1CSCUFXj7dLRSfXIw1ycanhKC
+ quFf8K3rFgCSfriRopSTP2NYRv97nEp3lOgOSp+Cv4O8i3f1R1GI9PYjB6mbnZ6Kw/028r1od
+ RKg2xqJtfgVcoI80d5MIPxgE6YHy2tmTRlLWx/9sr2Wgwu+MDOCOCBBbwcg5Smd84x+MI=
 Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -24
@@ -89,133 +88,77 @@ Cc: Marc-Andre Lureau <marcandre.lureau@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/X6hc9O33sewwDKnbSKkcg5m
+--Sig_/grzVZpCZus86LE_RQqMimSk
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Move object_property_try_add_child out of chardev_new into it's
-callers. This is a preparation for the next patches to fix yank
-with the chardev-change case.
+Always pass the id to chardev_new, since it is needed to register
+the yank instance for the chardev. Also, after checking that
+nothing calls chardev_new with id=3DNULL, assert() that id!=3DNULL.
+
+This fixes a crash when using chardev-change to change a chardev
+to chardev-socket, which attempts to register a yank instance.
+This in turn tries to dereference the NULL-pointer.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
 ---
- chardev/char.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ chardev/char.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/chardev/char.c b/chardev/char.c
-index 140d6d9d36..48f321b3e1 100644
+index 48f321b3e1..75993f903f 100644
 --- a/chardev/char.c
 +++ b/chardev/char.c
-@@ -975,7 +975,9 @@ static Chardev *chardev_new(const char *id, const char =
+@@ -967,6 +967,7 @@ static Chardev *chardev_new(const char *id, const char =
 *typename,
+     bool be_opened =3D true;
 
-     qemu_char_open(chr, backend, &be_opened, &local_err);
-     if (local_err) {
--        goto end;
-+        error_propagate(errp, local_err);
-+        object_unref(obj);
-+        return NULL;
-     }
+     assert(g_str_has_prefix(typename, "chardev-"));
++    assert(id);
 
-     if (!chr->filename) {
-@@ -985,22 +987,6 @@ static Chardev *chardev_new(const char *id, const char=
- *typename,
-         qemu_chr_be_event(chr, CHR_EVENT_OPENED);
-     }
-
--    if (id) {
--        object_property_try_add_child(get_chardevs_root(), id, obj,
--                                      &local_err);
--        if (local_err) {
--            goto end;
--        }
--        object_unref(obj);
--    }
--
--end:
--    if (local_err) {
--        error_propagate(errp, local_err);
--        object_unref(obj);
--        return NULL;
--    }
--
-     return chr;
- }
-
-@@ -1009,6 +995,7 @@ Chardev *qemu_chardev_new(const char *id, const char *=
-typename,
-                           GMainContext *gcontext,
-                           Error **errp)
- {
-+    Chardev *chr;
-     g_autofree char *genid =3D NULL;
-
-     if (!id) {
-@@ -1016,7 +1003,19 @@ Chardev *qemu_chardev_new(const char *id, const char=
- *typename,
-         id =3D genid;
-     }
-
--    return chardev_new(id, typename, backend, gcontext, errp);
-+    chr =3D chardev_new(id, typename, backend, gcontext, errp);
-+    if (!chr) {
-+        return NULL;
-+    }
-+
-+    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr=
-),
-+                                       errp)) {
-+        object_unref(OBJECT(chr));
-+        return NULL;
-+    }
-+    object_unref(OBJECT(chr));
-+
-+    return chr;
- }
-
- ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-@@ -1037,6 +1036,13 @@ ChardevReturn *qmp_chardev_add(const char *id, Chard=
-evBackend *backend,
+     obj =3D object_new(typename);
+     chr =3D CHARDEV(obj);
+@@ -1095,12 +1096,11 @@ ChardevReturn *qmp_chardev_change(const char *id, C=
+hardevBackend *backend,
          return NULL;
      }
 
-+    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr=
-),
-+                                       errp)) {
-+        object_unref(OBJECT(chr));
-+        return NULL;
-+    }
-+    object_unref(OBJECT(chr));
-+
-     ret =3D g_new0(ChardevReturn, 1);
-     if (CHARDEV_IS_PTY(chr)) {
-         ret->pty =3D g_strdup(chr->filename + 4);
+-    chr_new =3D chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
++    chr_new =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+                           backend, chr->gcontext, errp);
+     if (!chr_new) {
+         return NULL;
+     }
+-    chr_new->label =3D g_strdup(id);
+
+     if (chr->be_open && !chr_new->be_open) {
+         qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
 --
 2.30.2
 
 
---Sig_/X6hc9O33sewwDKnbSKkcg5m
+--Sig_/grzVZpCZus86LE_RQqMimSk
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBiIrEACgkQNasLKJxd
-slhUlA//QTZ9RlMuvkos/cINlgkEEEQi0yOixPThgNweTB7VeC3FH23pEaqHGZsT
-nLi4ax1zBURow+r804fBT0v4wF8bG5+16cr9VlVBBwx91tLIIKN5aLMewB/gG5M2
-0/EohSVfgwGMTqsk3XmcvRadIDLeIJGC9L7v7pQoJg/yaQ2P7TBWbrR1UdMz1/JD
-JCdb86hEulHEnHu9W244v0T/yc2PcwOqBWGlzeykPIVFQIiYLsT7XVKrevJF75ll
-wqZh1TRucfYcu6NDEBVoRM0PBcTvWl2lzuMcfn1vM1iU/IAY6qCp8bNtFT9Lcxg2
-ck8DgiRFLyl4+JvQei0XhWKsoze11aP0hOvbpzQoF3iLlgAFfVqnVgBuGboAYoml
-ELhE2WqgQx7VwXapBWH+z5Hoq2qlBXn0kRHrMXA+WBa0DViT234ehrAuQOOnWg54
-UzWPPBIDxw7QFDdyk7/aldqUdyPGhi9bP1it4kg4diDDT3prdmEP9omRUqjEwUL6
-chUO450Cy2+JUEiDgSh5aYQChaPZyCnFWl8P2wBlIONRVhV8AkHWDhVYcZArBUz/
-JIEIdBiSSv3rDkHuB13p+2lboDWoL0Z+BUSukjtLOKF4bN/Wb+vtGlMW5cZ1fI3x
-LbOnHgmI5hBXCBC5yWT/qoW9PU8ryIpn30zByJCKLO1HyhxlFWQ=
-=f4uh
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBiIrQACgkQNasLKJxd
+slgemQ//exZ1NYzrDZ1GgFU4hCEd5fPBIbmcMZi/VfvACpntQ4eliXXO7CPsNPG+
+27B/SsuXly+FbUukwI6yQVq7914dVqYK8FO7qJ/G66Hj81dNVPV5HR3lL2v0gwwm
+D5Y+STIjNWaKeIlgWEKNcPRZyadNTv5OYmnAuzFgqMBdJEuiAGJYxSkX+4BAGgCd
+gxAa+E46+slVotAm7fD6DYiFwuzyHrbqWHQIJNDctqS3o8M7TAJse+u5/DF/BWcz
+iqpzIZ/wxpZ2D2Znc8V62Gn25IC/QCcmTRpQ2O376aMx/ZSx77OVR+4CXqyI6Gig
+PMg4k7IRKwil0+WSficrN8Y8iNvMpty3WPMB49fzitYlvLctk7S7BMraMmOpKlPB
+zWa4v9khyBewzYOxyHT9yePkvQUhlhSHozy9In0X+f2ZKFLGvI1JHtKsjtzL41FZ
+3aXzO9sUqD4iZF9IsGE8+O3/DqGWNFLchGfFHIADPnLn3aGYZHaj0/UDtCoIvNZx
+w8KhItHLqyLaCWRNG8axAxA5zkxByrmBgvjRKpA61zLG2dHV4Sc2e9Xajf2eJC0H
+gEs8A8SlOrdRsMovpyZ8MQWr/aNoBNftsrqm5hYfUsBaY2p7oF+GZoyzs5MURhH8
+oryvEXMf8E4j/5EG2B21D0q8euPfI63z/FhxSnggUY+a+7DGPII=
+=T3q8
 -----END PGP SIGNATURE-----
 
---Sig_/X6hc9O33sewwDKnbSKkcg5m--
+--Sig_/grzVZpCZus86LE_RQqMimSk--
 
