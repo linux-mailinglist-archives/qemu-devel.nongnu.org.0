@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E5F34CE7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 13:08:17 +0200 (CEST)
-Received: from localhost ([::1]:59472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960BC34CE81
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 13:10:15 +0200 (CEST)
+Received: from localhost ([::1]:35854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQpkn-00048X-3I
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 07:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
+	id 1lQpmg-00061t-N5
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 07:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lQpfv-0000FJ-75
+ id 1lQpfv-0000Ga-VO
  for qemu-devel@nongnu.org; Mon, 29 Mar 2021 07:03:15 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43695)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lQpft-0004j4-HA
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 07:03:14 -0400
-Received: by mail-wr1-x429.google.com with SMTP id x7so12385909wrw.10
+ id 1lQpfu-0004jl-9y
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 07:03:15 -0400
+Received: by mail-wr1-x436.google.com with SMTP id e18so12400449wrt.6
  for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 04:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0fyfWdwzjylGxvKnzivZ43UVg+YqR6Th9DTQ7YDVM4A=;
- b=HR00xf2U+c2OunXJGgOQYED5dsT12DFQWHFxfScwwCIfio9VVhrubb4YXdlPxFmgXG
- qb35PQqz+lN8v6GdlJOf4pBnWOM9aOTFfFgFS/yKr11YiEZg+vnZckBUKHW1ZAdw3Y1N
- YjgspKoq/mihuVChnSoy5UHADUtif4CBRzx32gkcD+DmWpBQFANm7aRZOQQs3DJ+XOxF
- EImm0/kmpWoi5FAWHYqfNgpNzKNoYAMePvBIj2RDJHrpnFq6mfzdehzZOnTpzOKge/p5
- j2qyq3ksThbqx2ffcfUubrAzg31Jxp+DLv5OqkDsgBNWfvDve4kqSf57mfene2W9soc1
- 22Dw==
+ bh=BTPxFERU7JNP+dRRV3lyj7Z5hAmDZqNFOETfABGGYiA=;
+ b=T+4Cnz8cTi8a/W5kriEn/jvoMXL3wa9aVK55x5JiDxm7bxLSaKDHDpGLMB2H86jIaZ
+ 4puNlKbZl6wkxJ2P09sk2o6O1xQk4MZ0EOWludd92zyPc3hTQIZjvHJefOLBB0NtX4sj
+ gAHkf9cFoRjShO0BvWubE8KzWw5NkomUe/tcsUZgy8MWjyZk83jed+2aRm/9wGjR+x4L
+ 7OZeLzIiyxcZKeW8OeLPJ7oIXqLufMx+zyC8VyC5Dz0zJG79ZixTMBaDQz7oOIDegFbH
+ tbUPOltl9ocdo8YNQRy8W0Vy+/Fi77hLr8bp/T8oxS0JSuxAoZlk0ECZXnVcNlXaL7NI
+ +gow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0fyfWdwzjylGxvKnzivZ43UVg+YqR6Th9DTQ7YDVM4A=;
- b=pHX9okPyYm7M7OEw8glLTitxDbjBVGuty3ID4mtighxL1j/DiT8pAkuwfxDLNq1okG
- OMx9v0RnlLuJajUYBQInXOWM/4JIgCDAdQTufupNLkaCxzxXQFZeWWTtBtnyYKHwyXXB
- LCgjZ5ZUvTCYPkaCqASTgpNhuAabRdj/o4acOBUgrH9WABhTCvAtKoTEHSFpil/ym942
- sXsYMMVfGZpXgLhkjeRJWfjhrkI6v+lGhGnzuytkiqjNxyrhnW17Ldrgk9kfrBGqbtLH
- 4SUa33R8SpVedbdcyxWXtacAG7F0rerhZG872ESgWO43JkjxnY7mhxlNKOplugFx7+wj
- 06iA==
-X-Gm-Message-State: AOAM530Bfh8eGv3UKSkUIlIJM3KapyWxn8EGZvmRI22xaDz+UQNKLdUM
- 50TXRA0z0qpKzQeI5R26faIcWw==
-X-Google-Smtp-Source: ABdhPJxYQa7/bE8F1Tv94F8EETJHlF2h0Ptkt0JICjc8sZwMvhveaQQcuyWAj5uFAUKKgoJJkNFuaA==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr28020622wrt.203.1617015792188; 
+ bh=BTPxFERU7JNP+dRRV3lyj7Z5hAmDZqNFOETfABGGYiA=;
+ b=l70fUwiy3aNSC96xyg80Bnd0WY08GbzmCgl9TBXWATTGl4A1Iu5DJluTV8vMrlL7dY
+ Qj2/UCX8ZS0SX6jUyH9K8Bz6L7KkbMW4gdvHyz8/cN33ka5oIvm/OEhCVrXsyJosPuit
+ t6Ih5jEbmL7sZbXVAUW+VDPZyVETOzgzsTEPOoa91VVJ2GOG4x29kqG9Lju+vU/gjZNR
+ s/VLrdqpZyqeGsOXdR+uxIA/QW8O5bh+d9XIg7C6SJzFCHR3NnURAivTQjXpS8oo77k9
+ /Gjs3Fjw8rzsJ2F7KQaI4k5IJYZ+H7AClA6JDwyniMWtInFtzOYCUfKtMogaK9NvD9pX
+ mlGA==
+X-Gm-Message-State: AOAM53281/4odag6LNyD4boKhcHluvf9zsUp1eByddny+gaz7LLIME2r
+ nlXSPG9aflPCyHyEaHCB8xfjIJlLG1Fmvzex
+X-Google-Smtp-Source: ABdhPJyVhzZ+Sekz0qC6oPkNsLYdDorDdixs11TFkODdyDRBWoHNkzjyCaIo3fSUYDMB7R7s15lsbA==
+X-Received: by 2002:adf:e68e:: with SMTP id r14mr27608041wrm.273.1617015792968; 
  Mon, 29 Mar 2021 04:03:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q4sm23995496wma.20.2021.03.29.04.03.05
+ by smtp.gmail.com with ESMTPSA id a15sm19297187wrr.53.2021.03.29.04.03.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 29 Mar 2021 04:03:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DF6EC1FF91;
- Mon, 29 Mar 2021 12:03:03 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0136C1FF92;
+ Mon, 29 Mar 2021 12:03:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/6] tests/tcg/i386: expand .data sections for system tests
-Date: Mon, 29 Mar 2021 12:03:02 +0100
-Message-Id: <20210329110303.15235-6-alex.bennee@linaro.org>
+Subject: [PATCH v1 6/6] tests/i386/test-i386: try and correct constrain 16 bit
+ call (WIP)
+Date: Mon, 29 Mar 2021 12:03:03 +0100
+Message-Id: <20210329110303.15235-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210329110303.15235-1-alex.bennee@linaro.org>
 References: <20210329110303.15235-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,28 +94,51 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Newer compilers might end up putting some data in .data.rel.local
-which was getting skipped resulting in hilarious confusion on some
-tests. Fix that.
+Newer compilers complain about non-matching constraints:
+
+  test-i386.c:1393:5: error: asm operand 2 probably doesn’t match constraints [-Werror]
+   1393 |     asm volatile ("lcall %1, %2"
+        |     ^~~
+
+It seems the plain "i" immediate constraint is a little too lax here.
+What we are actually dealing with is a 32 bit offset into a particular
+segment. I think that is "Ts" (Address operand without segment
+register).
+
+[AJB: however this just seems to push it a bit further down the road:
+
+test-i386.c:1393: Error: operand type mismatch for `lcall'
+
+Inline ASM constraints are hard :-/]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/i386/system/kernel.ld | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/i386/test-i386.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/tcg/i386/system/kernel.ld b/tests/tcg/i386/system/kernel.ld
-index 92de525e93..27ea5bbe04 100644
---- a/tests/tcg/i386/system/kernel.ld
-+++ b/tests/tcg/i386/system/kernel.ld
-@@ -12,7 +12,7 @@ SECTIONS {
- 	}
- 
- 	.data : {
--		*(.data)
-+		*(.data*)
- 		__load_en = .;
- 	}
- 
+diff --git a/tests/tcg/i386/test-i386.c b/tests/tcg/i386/test-i386.c
+index 18d5609665..6d8aeccfb5 100644
+--- a/tests/tcg/i386/test-i386.c
++++ b/tests/tcg/i386/test-i386.c
+@@ -1392,15 +1392,15 @@ void test_code16(void)
+     /* call the first function */
+     asm volatile ("lcall %1, %2"
+                   : "=a" (res)
+-                  : "i" (MK_SEL(1)), "i" (&code16_func1): "memory", "cc");
++                  : "i" (MK_SEL(1)), "Ts" (&code16_func1): "memory", "cc");
+     printf("func1() = 0x%08x\n", res);
+     asm volatile ("lcall %2, %3"
+                   : "=a" (res), "=c" (res2)
+-                  : "i" (MK_SEL(1)), "i" (&code16_func2): "memory", "cc");
++                  : "i" (MK_SEL(1)), "Ts" (&code16_func2): "memory", "cc");
+     printf("func2() = 0x%08x spdec=%d\n", res, res2);
+     asm volatile ("lcall %1, %2"
+                   : "=a" (res)
+-                  : "i" (MK_SEL(1)), "i" (&code16_func3): "memory", "cc");
++                  : "i" (MK_SEL(1)), "Ts" (&code16_func3): "memory", "cc");
+     printf("func3() = 0x%08x\n", res);
+ }
+ #endif
 -- 
 2.20.1
 
