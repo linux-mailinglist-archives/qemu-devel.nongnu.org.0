@@ -2,137 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B5634D8F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 22:20:02 +0200 (CEST)
-Received: from localhost ([::1]:52560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A0334D914
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 22:35:12 +0200 (CEST)
+Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQyMi-0006nx-Hj
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 16:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50652)
+	id 1lQybO-0000fz-VT
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 16:35:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lQyLf-0005yw-O9; Mon, 29 Mar 2021 16:18:55 -0400
-Received: from mail-eopbgr50131.outbound.protection.outlook.com
- ([40.107.5.131]:28994 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lQya0-0000Bc-SL
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 16:33:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lQyLc-00055N-IN; Mon, 29 Mar 2021 16:18:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SCGxIJRMPkdlObSiZVebj1L05nK1/Hd1eFQBJYAMd04gkFHVi8Rbat0Cjzt/hR7GJuWoV8pwV95TrNjK/fxcJcdkgOxzxx679Pdmm+K+ZzCtEPlARo3ZTpTG0wKIkRNgLC8x5yWQa/dL2kzCZTzFwJHJNUj7moe7snP+KK8uyYFsUyF0JsBz8spFb580Nhg+dNkCXouSNUEFuRevnRBBirktgjlHPaC0FkdNz9ojzxnEiwXJTbR7fvaM14HoNVQY0jRKufCeF0zLTlAe+bqcEInDKLUqRMk1dwhCKuI97L6ievsaBrJvLEwLchl35FvndIyKyoTWsT8r1JmZW3euwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vAO/mtWEqhkQLBb+AwTKG3c395RJ0H+ItTlIWqnofy8=;
- b=XnXtaDBiicezu1tNEKi70o1EtZjC37mpuZuZuZC+rw//L/CcyPIIzW360oFnG3lcQXe0KipOgbXcVpLD9Ea3RUysVziwC5vXbke/4o37O7lHXSYVgJWXaeNLZKJXWWLpZ4QvvfxyNOW88G721r0E8LbkDp/EqzloCXPgsnHZmmniRFbbI24GeqpSN0rU9U1zxUE1HKOtZwcDU8Pa15o61IfPSNUKfHojlzOwXvlp5sxKAEPcVCQOPyf1ITQsTW4t2x3szH292OmGClhVsEjiBdTw87Ja76x8hPLYQPlFdbF31Fv8n6BQX8DGbYciEdmpTdK7xmldb1dCdP4b516HEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vAO/mtWEqhkQLBb+AwTKG3c395RJ0H+ItTlIWqnofy8=;
- b=a25BIqUp+ezO171bb72Vuij1KT5TYzRVY3xii3KqWIEyI21RUKtOKnxIfeB32i7SxTAmit+YhaR1m0Gg5J24a02VkH8Km+raHdrzcw6Pl+J+FQ0AOnDDmHKSsTxeWl8A6uou9cKY/c2f/dDwjYVd8AQZgijDbvZuBOxZ6ewZ238=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB5208.eurprd08.prod.outlook.com (2603:10a6:20b:eb::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Mon, 29 Mar
- 2021 20:18:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%6]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
- 20:18:48 +0000
-Subject: Re: [PATCH v3 6/6] block/qcow2: use seqcache for compressed writes
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com
-References: <20210305173507.393137-1-vsementsov@virtuozzo.com>
- <20210305173507.393137-7-vsementsov@virtuozzo.com>
- <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <8c702bb9-416f-ada9-4691-22f37d82b2b8@virtuozzo.com>
-Date: Mon, 29 Mar 2021 23:18:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-In-Reply-To: <e85d05f3-5500-9a55-0bd5-ceb581c27ef7@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.207]
-X-ClientProxiedBy: AM0PR08CA0020.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::33) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lQyZx-0003sE-RA
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 16:33:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617050020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hM3u09Ktq6gK7UVTvwdSOAiaVK6/b21+FG7nNax9RYI=;
+ b=hFFABWIaKg2c+EmeCbBNQqO+pH5i++LJFpzTFCB43bIC6yJ9lbLFYXbxrwN3CtjJzpUzHp
+ uFA0HtZDKGsf1/saZW7cxmwBCTpg+2Z0pL7PFL9WZOaSEHbz3StAtK/WCgSAThPnyf/MHf
+ D1ty5e2Jf8lu71jaXA9d3FOsf+NawXY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-RUurl7hRMwKUQmc076XXIg-1; Mon, 29 Mar 2021 16:33:35 -0400
+X-MC-Unique: RUurl7hRMwKUQmc076XXIg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8BD180D6A8;
+ Mon, 29 Mar 2021 20:33:19 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFCD3712A8;
+ Mon, 29 Mar 2021 20:32:47 +0000 (UTC)
+Date: Mon, 29 Mar 2021 22:32:45 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Ways to deal with broken machine types
+Message-ID: <20210329223245.55c6b56e@redhat.com>
+In-Reply-To: <YGHoXfe8M5eLZ94h@work-vm>
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ <20210322114116-mutt-send-email-mst@kernel.org>
+ <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
+ <20210323104542-mutt-send-email-mst@kernel.org>
+ <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
+ <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
+ <20210323175447.0c57d2a4@redhat.com> <YFooFMWxwpiSB6ZJ@redhat.com>
+ <20210326014825.2e58c68f@redhat.com> <YGHoXfe8M5eLZ94h@work-vm>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.207) by
- AM0PR08CA0020.eurprd08.prod.outlook.com (2603:10a6:208:d2::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.26 via Frontend Transport; Mon, 29 Mar 2021 20:18:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bfd986f5-2831-48bf-5568-08d8f2efdc3d
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5208:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB520809435D15EF3D10C2721EC17E9@AM6PR08MB5208.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uzReA3UB/8q51lBtS+r9cwnKJfkKWyCeuGSjUjIBzDD2/VfQPXw/3hV4NIkH7+C2f79ud1/8VDJDmfmDQi/g6mJWsu3AXYwZD4De29rMKy3QlgUgyHQ8CB2++vB+9HNAsCATgKiBCqpatzC1GN+1xlvmjb6aeD510XJeHgeHriGHVnctEWU+mFQw9ROH9Lprl8wSpb/OP9J1oPdQmnaRnzxEVWL7XUuQIBc547uOgI0v6PZTWyWtuGDWhzAh9FPXdRaBCJV6pWcXHRLc6uGci1bQlpKqQHLuxLG9RTlK75wT9qPJQObs5cKta+mh7rPcp5HggMbdO1cJKu/bwWOrjiHzF2BMe5hhj/w7tGYzVSbM8Nj7ZxZBSmx2PFVYh0r8x9LDQVYOCSGJ0DjxCPs/+SneugmIGJE2n26bgj1+6VCgMZ8f4usU3umgl3mn8Ql3le4jSDoO5UCwgn/eHtHncQMtDNXZFSP2rL0oZl0vTVfnSn3tGCSse4STNpdzExa4+GCP6woxxZXkGcI5aIAAaIlhzm1nwWX+UIYAfTxdX9/mKw87zW192pGqEgV1A2ajNMtQi2oO9F1iiqAHnXDQq0PiW4YITkasEZF91P+/deISqnbfxSJIuU2aniPc8rrByBG+R5ZOsiqmsq5kBkwDTiZjiOM0o3mrxDRoRsOYiQAhpC5hoBNzttmnG2QOSJiDwUq+zrv+TUvuq41icMXiY6iPo9lRvR505iwrTPe+cDs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(396003)(366004)(39840400004)(136003)(16576012)(316002)(86362001)(5660300002)(2616005)(66556008)(66476007)(53546011)(38100700001)(31696002)(52116002)(8676002)(8936002)(6486002)(31686004)(956004)(16526019)(2906002)(26005)(186003)(4326008)(478600001)(83380400001)(66946007)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K3JwS3lQQXVMdVFLT3F3RTdidGQxUzB1UUpaTXlzWStRUnJMU2dyQytueWNG?=
- =?utf-8?B?SzVkUEtSLy8vR0l4RVl6K0JXcGcveXFkVWU5bTBKeldDUXIyWWNOVXVnL3E1?=
- =?utf-8?B?enFURUl4V0Y2bzZMSndTK1lkek8xYkdOMWR3ZktIY3RSZHl0c3FyWVo5YTFW?=
- =?utf-8?B?MWxEQ3RNZWNQVmZlaGJ6empIdGtqZ1dCdzZuWjM3cXl3SWNjanQ2S281T0VE?=
- =?utf-8?B?MDZsc3BKUzRqN25JMCtMbTVVRmVRNThXMVhKeGpnWlJEeUU1YnMra0ZYb0hM?=
- =?utf-8?B?dThKaC94L21hbGhHc1pRMHRmZndCbnduVE12cGJjd05NemZQSVdPbG5tTEI0?=
- =?utf-8?B?YkF5cFNJUk5LYVp5Uk1XbzFGVlQzRlJ3eHVpNzJ0a1JpblBIdUdZYlJ3RmlK?=
- =?utf-8?B?YUJ6Y3pld0xyOVBkWVRzOENiTWFLVzZKaWFjNXV3TGpyV3BueTFYWU5tTFhK?=
- =?utf-8?B?NndZVThITVNpY2FNTEwxK3N5emRnRkdUVm9vbmp2M1FIN1pIS25RejRtc0xS?=
- =?utf-8?B?NmNidzZRYkk4dmdrWk9qVHh1elNMcTBwRndCNU5lRHYySnIrQk91Z0Z1czdB?=
- =?utf-8?B?MzRJUEh0Q1BNTCtOMlJsNlpCM3N2ZGlXUHNqZ3NCZnViWUNLeW5LT3NvQ2pO?=
- =?utf-8?B?cTl5VUlWc081K294OCtCZ1BhUCtGdCtiaEJtTDl1VStNeGdzRzJqR1pQYlpL?=
- =?utf-8?B?QjRtM05QS0k3bExCMjZvaU1XK3V1Y3U1Rng1NldoZGpGVjA1bzdBRUJFUHp0?=
- =?utf-8?B?Q1NxS2pZbExVNnVyN1BBK0hMeFp2bXpoSlNEdm5hOEVDLzkyTWRwUDFLRXND?=
- =?utf-8?B?Szl5VDdmc2xsQVdEaWt1MHh6K1p2RTNhMlRPcVNtMUduSWZGaGZ2ZHFSd28w?=
- =?utf-8?B?NnBYVWoyOFRuSE9CRmlxaFJzWW12Ukh6bllXVzhYQlQxZWpsUGRkOURZamNp?=
- =?utf-8?B?dnRjM2drK2dBcjRadUZyRjRKTkVpQ3pzTWFIc0hQYmJpVEJBOStMR1F0VXIr?=
- =?utf-8?B?SUgvMCtpOTFFUFFqa1BiaWJOM0dtMFMzTEZXVWVuWFEyL3lmSGhvZUE1Q3Q3?=
- =?utf-8?B?eWszTFEvcHRpMkl5MjNTak9YZlRKUm9EVmRCNndQaDdZdCs0ajVMM3REQVBQ?=
- =?utf-8?B?QVNuK25xMVlJU1U2MDd5UGRnY0UwYjV6TUpGSnVSVXQrVEU5d0ZjNndCZm1P?=
- =?utf-8?B?NGNQODU1N2VON1l4TjB1QnFlM0RlYWxDMCtFMmRRd2p3aGhzajZaT2RwRzVJ?=
- =?utf-8?B?UnppSkdONnZIc2F1Snl5bDJnY2F6Z1hacUNDekFzTjlLWEx6R1h0TUI5Q3Zt?=
- =?utf-8?B?MnZnNitBWHJBOXc1L2NFSlRXOWpuem5YanBtUytSOFY1dERVbFRSWS9YRG4y?=
- =?utf-8?B?ZzZtck5rYUVzQnhXbnRIcVV2Tnk0Vk41TmIwUHYvZTE4K3BEaWNINWlOL2Rq?=
- =?utf-8?B?dXN6RElGd1lkT2RlbnJKQVprSUE3NWI1U0pGdUl4T1dMU1d0Rm9lUDF0QUI4?=
- =?utf-8?B?L09DRWVHd2JRWk5MTkI5clFLMm5HQTMrYS9MMW9MZmpZZ09FQldSdyt3K2tT?=
- =?utf-8?B?RGJEckxvUDNXbndPbENnKzkxV0V4QzhKdFpBVnZyeWR1VXp4cXo0Q0ZjejhK?=
- =?utf-8?B?VmxRTGhDOVlPeXdweDkyNjB2T3RGeFVoMnI5SDlQd3BsRFFGN2RZeGJKcWt3?=
- =?utf-8?B?NDczTGtXcERmUGhyR0dKVTllWE9ZM3RldFdLSFVCRW0vcTV0UjV5UkJlUHlL?=
- =?utf-8?Q?rsdA0NZqN6/BrTboRhtmoIzDdU155T+OQSgUXNe?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfd986f5-2831-48bf-5568-08d8f2efdc3d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 20:18:48.1805 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /73M6vi03icvt1FY/vTS6MVqkJ6xIkK3W+b8DT9Fx/wDJM4RAw7jPFnBgCSIPUP6tt9soxffNA9LTUCycJm/vN0Gj9OgNtxkKV6nQ7tk1cM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5208
-Received-SPF: pass client-ip=40.107.5.131;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,85 +85,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu devel list <qemu-devel@nongnu.org>, Vitaly Cheptsov <cheptsov@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.03.2021 21:15, Max Reitz wrote:
-> On 05.03.21 18:35, Vladimir Sementsov-Ogievskiy wrote:
->> Compressed writes are unaligned to 512, which works very slow in
->> O_DIRECT mode. Let's use the cache.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/coroutines.h     |   3 +
->>   block/qcow2.h          |   4 ++
->>   block/qcow2-refcount.c |  10 +++
->>   block/qcow2.c          | 158 ++++++++++++++++++++++++++++++++++++++---
->>   4 files changed, 164 insertions(+), 11 deletions(-)
->>
+On Mon, 29 Mar 2021 15:46:53 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-[..]
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > On Tue, 23 Mar 2021 17:40:36 +0000
+> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> >  =20
+> > > On Tue, Mar 23, 2021 at 05:54:47PM +0100, Igor Mammedov wrote: =20
+> > > > Let me hijack this thread for beyond this case scope.
+> > > >=20
+> > > > I agree that for this particular bug we've done all we could, but
+> > > > there is broader issue to discuss here.
+> > > >=20
+> > > > We have machine versions to deal with hw compatibility issues and t=
+hat covers most of the cases,
+> > > > but occasionally we notice problem well after release(s),
+> > > > so users may be stuck with broken VM and need to manually fix confi=
+guration (and/or VM).
+> > > > Figuring out what's wrong and how to fix it is far from trivial. So=
+ lets discuss if we
+> > > > can help to ease this pain, yes it will be late for first victims b=
+ut it's still
+> > > > better than never.   =20
+> > >=20
+> > > To summarize the problem situation
+> > >=20
+> > >  - We rely on a machine type version to encode a precise guest ABI.
+> > >  - Due a bug, we are in a situation where the same machine type
+> > >    encodes two distinct guest ABIs due to a mistake introduced
+> > >    betwen QEMU N-2 and N-1
+> > >  - We want to fix the bug in QEMU N
+> > >  - For incoming migration there is no way to distinguish between
+> > >    the ABIs used in N-2 and N-1, to pick the right one
+> > >=20
+> > > So we're left with an unwinnable problem:
+> > >=20
+> > >   - Not fixing the bug =3D>
+> > >=20
+> > >        a) user migrating N-2 to N-1 have ABI change
+> > >        b) user migrating N-2 to N have ABI change
+> > >        c) user migrating N-1 to N are fine
+> > >=20
+> > >     No mitigation for (a) or (b)
+> > >=20
+> > >   - Fixing the bug =3D>
+> > >=20
+> > >        a) user migrating N-2 to N-1 have ABI change.
+> > >        b) user migrating N-2 to N are fine
+> > >        c) user migrating N-1 to N have ABI change
+> > >=20
+> > >     Bad situations (a) and (c) are mitigated by
+> > >     backporting fix to N-1-stable too.
+> > >=20
+> > > Generally we have preferred to fix the bug, because we have
+> > > usually identified them fairly quickly after release, and
+> > > backporting the fix to stable has been sufficient mitigation
+> > > against ill effects. Basically the people left broken are a
+> > > relatively small set out of the total userbase.
+> > >=20
+> > > The real challenge arises when we are slow to identify the
+> > > problem, such that we have a large number of people impacted.
+> > >=20
+> > >  =20
+> > > > I'll try to sum up idea Michael suggested (here comes my unorganize=
+d brain-dump),
+> > > >=20
+> > > > 1. We can keep in VM's config QEMU version it was created on
+> > > >    and as minimum warn user with a pointer to known issues if versi=
+on in
+> > > >    config mismatches version of actually used QEMU, with a knob to =
+silence
+> > > >    it for particular mismatch.
+> > > >=20
+> > > > When an issue becomes know and resolved we know for sure how and wh=
+at
+> > > > changed and embed instructions on what options to use for fixing up=
+ VM's
+> > > > config to preserve old HW config depending on QEMU version VM was i=
+nstalled on.   =20
+> > >  =20
+> > > > some more ideas:
+> > > >    2. let mgmt layer to keep fixup list and apply them to config if=
+ available
+> > > >        (user would need to upgrade mgmt or update fixup list someho=
+w)
+> > > >    3. let mgmt layer to pass VM's QEMU version to currently used QE=
+MU, so
+> > > >       that QEMU could maintain and apply fixups based on QEMU versi=
+on + machine type.
+> > > >       The user will have to upgrade to newer QEMU to get/use new fi=
+xups.   =20
+> > >=20
+> > > The nice thing about machine type versioning is that we are treating =
+the
+> > > versions as opaque strings which represent a specific ABI, regardless=
+ of
+> > > the QEMU version. This means that even if distros backport fixes for =
+bugs
+> > > or even new features, the machine type compatibility check remains a
+> > > simple equality comparsion.
+> > >=20
+> > > As soon as you introduce the QEMU version though, we have created a
+> > > large matrix for compatibility. This matrix is expanded if a distro
+> > > chooses to backport fixes for any of the machine type bugs to their
+> > > stable streams. This can get particularly expensive when there are
+> > > multiple streams a distro is maintaining.
+> > >=20
+> > > *IF* the original N-1 qemu has a property that could be queried by
+> > > the mgmt app to identify a machine type bug, then we could potentiall=
+y
+> > > apply a fixup automatically.
+> > >=20
+> > > eg query-machines command in QEMU version N could report against
+> > > "pc-i440fx-5.0", that there was a regression fix that has to be
+> > > applied if property "foo" had value "bar".
+> > >=20
+> > > Now, the mgmt app wants to migrate from QEMU N-2 or N-1 to QEMU N.
+> > > It can query the value of "foo" on the source QEMU with qom-get.
+> > > It now knows whether it has to override this property "foo" when
+> > > spawning QEMU N on the target host.
+> > >=20
+> > > Of course this doesn't help us if neither N-1 or N-2 QEMU had a
+> > > property that can be queried to identify the bug - ie if the
+> > > property in question was newly introduced in QEMU N to fix the
+> > > bug.
+> > >  =20
+> > > > In my opinion both would lead to explosion of 'possibly needed' pro=
+perties for each
+> > > > change we introduce in hw/firmware(read ACPI) and very possibly a l=
+ot of conditional
+> > > > branches in QEMU code. And I'm afraid it will become hard to mainta=
+in QEMU =3D>
+> > > > more bugs in future.
+> > > > Also it will lead to explosion of test matrix for downstreams who c=
+are about testing.
+> > > >=20
+> > > > If we proactively gate changes on properties, we can just update fi=
+xup lists in mgmt,
+> > > > without need to update QEMU (aka Insite rules) at a cost of complex=
+ity on QMEU side.
+> > > >=20
+> > > > Alternatively we can be conservative in spawning new properties, th=
+at means creating
+> > > > them only when issue is fixed and require users to update QEMU, so =
+that fixups could
+> > > > be applied to VM.
+> > > >=20
+> > > > Feel free to shoot the messenger down or suggest ways how we can de=
+al with the problem.   =20
+> > >=20
+> > > The best solution is of course to not have introduced the ABI change =
+in
+> > > the first place. We have lots of testing, but upstream at least, I do=
+n't
+> > > think we have anything that is explicitly recording the ABI associate=
+d
+> > > with each machine type and validating that it hasn't changed. We rely=
+ on
+> > > the developers to follow the coding practices wrt setting machine typ=
+e
+> > > defaults for back compat, and while we're good, we inevitably screw u=
+p
+> > > every now & then.
+> > >=20
+> > > Downstreams do have some of this ABI testing - several problems like =
+the
+> > > one we have there, have been identified when RHEL downstream QE did
+> > > migration tests and found a change in RHEL machine types, which then
+> > > was traced back to upstream.
+> > >=20
+> > > I feel like we need some standard tool which can be run inside a VM
+> > > that dumps all the possible ABI relevant information about the virtua=
+l
+> > > machine in a nice data format.
+> > >=20
+> > > We would have to run this for each machine type, and save the
+> > > results to git immediately after release. Then for every change to
+> > > master, we would have to run the test again for every historic
+> > > machine type version and compare to the recorded ABI record. =20
+> >=20
+> > Like Michael said we don't know that something is broken until it's
+> > too late and this particular case it's not even broken (strictly speaki=
+ng
+> > change is correct) and is not even a part of ABI (it's ACPI code, i.e. =
+firmware).
+> >=20
+> > Problem is in the way virtio drivers enumerate devices, which makes the=
+ same
+> > device appear as a new one. We can work around issue on hypervisor side=
+ so user
+> > won't loose network connectivity or would be able to boot guest after Q=
+EMU upgrade.
+> >=20
+> > We can suggest user re-installing their Windows (method that fixes almo=
+st all Win issues)
+> > or to try to make it pain-less for user in these rare cases, by upgradi=
+ng to
+> > new QEMU (or fixed stable) which has workaround, so only the first few =
+has to suffer.
+> >=20
+> > (I think downstreams would even more benefit from this, there were simi=
+lar problems
+> > there before).
+> >=20
+> > Yes, It surely will expand test matrix, but it should be limited to spe=
+cific cases
+> > we implemented fixups for. =20
+>=20
+> My suggestion from a long while ago (which no one liked) was to
+> include the source qemu version and then have a quirks list of things to
+> fix up.
 
->> +static int coroutine_fn
->> +qcow2_co_compressed_flush_one(BlockDriverState *bs, bool unfinished)
->> +{
->> +    BDRVQcow2State *s = bs->opaque;
->> +    int ret;
->> +    int64_t align = 1;
->> +    int64_t offset, bytes;
->> +    uint8_t *buf;
->> +
->> +    if (!s->compressed_cache) {
->> +        return 0;
->> +    }
->> +
->> +    if (!seqcache_get_next_flush(s->compressed_cache, &offset, &bytes, &buf,
->> +                                 &unfinished))
->> +    {
->> +        return 0;
->> +    }
->> +
->> +    qcow2_inflight_writes_inc(bs, offset, bytes);
->> +
->> +    /*
->> +     * Don't try to align-up unfinished cached cluster, parallel write to it is
->> +     * possible! For finished host clusters data in the tail of the cluster will
->> +     * be never used. So, take some good alignment for speed.
->> +     *
->> +     * Note also, that seqcache guarantees that allocated size of @buf is enough
->> +     * to fill the cluster up to the end, so we are safe to align up with
->> +     * align <= cluster_size.
->> +     */
->> +    if (!unfinished) {
->> +        align = MIN(s->cluster_size,
->> +                    MAX(s->data_file->bs->bl.request_alignment,
->> +                        bdrv_opt_mem_align(bs)));
->> +    }
->> +
-> 
-> I’d move the pre-write overlap check here, because its purpose is to prevent writes to metadata structures as they are happening, not as they are queued into a cache.  (I’d say.)
+That would help, in migration case but not much when starting VM.
 
-Hmm. pre-write overlap check usually done under mutex.. Should I add an additional critical section to do overlap check? I'm not sure.
+Though idea here is similar to yours but applies to VM start time,
+and then you don't need version in migration stream as target is told
+about source version explicitly upon startup.
 
-> 
->> +    BLKDBG_EVENT(s->data_file, BLKDBG_WRITE_COMPRESSED);
->> +    ret = bdrv_co_pwrite(s->data_file, offset,
->> +                         QEMU_ALIGN_UP(offset + bytes, align) - offset,
-> 
-> I remember you said you wanted to describe more of the properties of the buffer returned by seqcache_get_next_flush().  That would be nice here, because intuitively one would assume that the buffer is @bytes bytes long, which aligning here will exceed.  (It’s fine, but it would be nicer if there was a comment that assured that it’s fine.)
-> 
+> Dave
+>=20
+> > >=20
+> > > Regards,
+> > > Daniel =20
+> >=20
+> >  =20
 
-It's here, read several lines above: "Note also, that..."
-
->> +                         buf, 0);
->> +    if (ret < 0 && s->compressed_flush_ret == 0) {
->> +        /*
->> +         * The data that was "written" earlier is lost. We don't want to
->> +         * care with storing it somehow to retry flushing later.
-
-
-
--- 
-Best regards,
-Vladimir
 
