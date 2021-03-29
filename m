@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3297D34C4B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:17:14 +0200 (CEST)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3161C34C4DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:27:53 +0200 (CEST)
+Received: from localhost ([::1]:54386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQm9A-0006tQ-W2
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:17:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51750)
+	id 1lQmJS-0000KA-Gi
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lQm85-0006Pz-UK; Mon, 29 Mar 2021 03:16:05 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:35383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lQm83-00045P-0G; Mon, 29 Mar 2021 03:16:05 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id m132so12782747ybf.2;
- Mon, 29 Mar 2021 00:16:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MBTE2ln4BgbbXqrkGLEvSfJ8/X1gKcz4yAqlCLSGJdc=;
- b=Mfg8bhNxbpbyyHMlTAjG7orNYp6llaCsY9DtH7DXB/BXjZ+2zjrYJu4PqS51iRGBz8
- Q0pp3MptxEmvlxi2nKN2B+ghge2kDScwRTOBTRW+sQUaOKaI8dx+fbqrZ4RVMQ+U2mPq
- Y/HoEr7/mqLWWXtQICi1yN3E1Nog3yw9HM5iA7551y+f5ksWVlfuyVLwdT2Zgd/X9CGg
- Yc8ZuHqiujEfDoUPC6MhRZGCBScnJmOjNEGzYSID5X2Y7+83IwebbUEYzmly7DdG414W
- cs7u4MKZysZdwTU0wJTBWHhFUVU1cDlCR98YVcx1pxtv4YFfwFsuCKROR1Z2ZSupcNdj
- 8hqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MBTE2ln4BgbbXqrkGLEvSfJ8/X1gKcz4yAqlCLSGJdc=;
- b=VbQtzwSqX3lIGvmVEUO+xSALiSD/MQF40iHwJAEzRZ+XmZc6Im1QszIr2ddtX2S0NO
- 56ye/dZsp8OM5x26wXpCIq7eTmZodC3JJF+ogZ1EvK12ZshsRZJBk7ERejIIq4cRB38K
- YB+ImhtjEzhPXMCao7Ba5C6KUaGsVLR5unSV3DYPAhfZ3wsBJBz6Q3l68PARS58hmqyb
- ggEl8NJ8/RSa3V6q7pvD2vc9lq+J21uR0XSH+8ltoDilXDghxHNeiSyYMIrHUPO7K3vY
- plQjLAyPGXihaKx7lku1GTW3L9BLnfByHXaEMnLuxZ3/fFQo+nlTX6Ot3S2EBFrzmnaV
- YlOw==
-X-Gm-Message-State: AOAM533PX16M3dTrkV6iSwuk/Eu5U3s0TVz7XNQ0/Q5IRMsTmV8dEfUj
- YXcrwz1GYWMZNCs0bJRxrbcASrcA0YjaVzKG87c=
-X-Google-Smtp-Source: ABdhPJzTWUN5bs55UW6Yc5nogJsfvXQK+b7r73k7f53B9PZ2y4Bzey+hzzIMSjBgmcdxkLJM3WyKLE2iJhi+R/xkJqs=
-X-Received: by 2002:a25:d645:: with SMTP id n66mr35775675ybg.122.1617002161344; 
- Mon, 29 Mar 2021 00:16:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lQmHs-0008EH-4v
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:26:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lQmHq-0001mC-20
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:26:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617002767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TardH8dRqyKv6yW/R4ESCjExg2FmibPfOj94+rU2LL4=;
+ b=HTIKHh8lmNB5VWmJQ+Eoxhj6ieYPCIGCOMsPbTnepvC95fvm6onPnTtrWBboth57d4VHvA
+ I4P+O++yQ4+kuCUPTOqek7Dxwmg6oroK9HXfAZYrzr6+Tyl3kA60jhqWZ/YqmHCVR8ZT/k
+ 5I0yTpVJn5tIQ3zlnwt+nRPT9vJQXC0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-RX9JoDUlPAWhn9UyQNmomQ-1; Mon, 29 Mar 2021 03:26:04 -0400
+X-MC-Unique: RX9JoDUlPAWhn9UyQNmomQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 262AE180FCA1;
+ Mon, 29 Mar 2021 07:26:03 +0000 (UTC)
+Received: from thuth.com (ovpn-112-129.ams2.redhat.com [10.36.112.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F6E519C45;
+ Mon, 29 Mar 2021 07:26:01 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org,
+	Kevin Wolf <kwolf@redhat.com>
+Subject: [RFC PATCH] block/vpc: Support probing of fixed-size VHD images
+Date: Mon, 29 Mar 2021 09:25:59 +0200
+Message-Id: <20210329072559.2668780-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210329034801.22667-1-dylan@andestech.com>
-In-Reply-To: <20210329034801.22667-1-dylan@andestech.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 29 Mar 2021 15:15:50 +0800
-Message-ID: <CAEUhbmVvmWLALMe1W_wZBHX9NyKh8C1VXp2gy9fvcoHXV53gmA@mail.gmail.com>
-Subject: Re: [PATCH V5] target/riscv: Align the data type of reset vector
- address
-To: Dylan Jhong <dylan@andestech.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,28 +74,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Alan Kao <alankao@andestech.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, x5710999x@gmail.com,
- "Ruinland Chuan-Tzu Tsa\(\(\(\(\(\(\(\(\(\(\)" <ruinland@andestech.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 11:48 AM Dylan Jhong <dylan@andestech.com> wrote:
->
-> Use target_ulong to instead of uint64_t on reset vector address
-> to adapt on both 32/64 machine.
->
-> Signed-off-by: Dylan Jhong <dylan@andestech.com>
-> Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-> ---
->  target/riscv/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+Fixed-size VHD images don't have a header, only a footer. To be able
+to still detect them right, support probing via the file name, too.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Without this change, images get detected as raw:
+
+$ qemu-img create -f vpc -o subformat=fixed test.vhd 2G
+Formatting 'test.vhd', fmt=vpc size=2147483648 subformat=fixed
+$ qemu-img info test.vhd
+image: test.vhd
+file format: raw
+virtual size: 2 GiB (2147992064 bytes)
+disk size: 8 KiB
+
+With this change:
+
+$ qemu-img info test.vhd
+image: test.vhd
+file format: vpc
+virtual size: 2 GiB (2147991552 bytes)
+disk size: 8 KiB
+
+Resolves: https://bugs.launchpad.net/qemu/+bug/1819182
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ I've marked the subject with RFC since I'm not quite sure whether this
+ is really a good idea... please let me know what you think about it...
+
+ block/vpc.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/block/vpc.c b/block/vpc.c
+index 17a705b482..be561e4b39 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -191,8 +191,18 @@ static uint32_t vpc_checksum(void *p, size_t size)
+ 
+ static int vpc_probe(const uint8_t *buf, int buf_size, const char *filename)
+ {
+-    if (buf_size >= 8 && !strncmp((char *)buf, "conectix", 8))
++    if (buf_size >= 8 && !strncmp((char *)buf, "conectix", 8)) {
+         return 100;
++    }
++
++    /* It could be a fixed-size image without header -> check extension, too */
++    if (filename) {
++        int len = strlen(filename);
++        if (len > 4 && !strcasecmp(&filename[len - 4], ".vhd")) {
++            return 10;
++        }
++    }
++
+     return 0;
+ }
+ 
+-- 
+2.27.0
+
 
