@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C49534C1EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 04:23:48 +0200 (CEST)
-Received: from localhost ([::1]:35340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A6B34C216
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 05:03:01 +0200 (CEST)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQhZD-0005hj-87
-	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 22:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1lQiB9-00016z-RY
+	for lists+qemu-devel@lfdr.de; Sun, 28 Mar 2021 23:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lQhY7-0005EH-3A
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 22:22:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lQhY5-0006pT-Pr
- for qemu-devel@nongnu.org; Sun, 28 Mar 2021 22:22:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1616984557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CKHZ46vhE4qkGs65FtNk9qFpdq4ZNWZl1+SLj00CWOA=;
- b=E1QKxe81hBVoxnLI39nDhTOug/0dUt9z8Blpxxa3FRzsEiYX/wJNz1pb1JiQ4ndnV7K1wq
- LhEM39AgolOBn8nASRzHPKG6cXcLykaz3v5gkOJHGhEjhWKvHEWJ1bC/lI3YV8CIE1fkXY
- wa1FlHbEiHtsVRFEqHg0FOQ/dN4mEOw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-oC3kAQSlMUKkbUuBPRb63Q-1; Sun, 28 Mar 2021 22:22:35 -0400
-X-MC-Unique: oC3kAQSlMUKkbUuBPRb63Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F153814338;
- Mon, 29 Mar 2021 02:22:34 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-5.pek2.redhat.com
- [10.72.13.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 662C953E35;
- Mon, 29 Mar 2021 02:22:33 +0000 (UTC)
-Subject: Re: [PATCH] tap-bsd: Remove special casing for older OpenBSD releases
-To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org
-References: <YF5y+MDiK2QInFA2@humpty.home.comstyle.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <8571b8c8-f3ed-ef67-6ea3-2e6652a2e435@redhat.com>
-Date: Mon, 29 Mar 2021 10:22:31 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lQiA9-0000hU-Jk
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 23:01:57 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:34555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lQiA3-0002ZZ-Uk
+ for qemu-devel@nongnu.org; Sun, 28 Mar 2021 23:01:57 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id i144so12299571ybg.1
+ for <qemu-devel@nongnu.org>; Sun, 28 Mar 2021 20:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B1dWeyDyb/qD0QGjOzAFRGQAfuJbZGUFowNaVVzslek=;
+ b=jmiXsIVdsvhDJ46vkQ0wdb+j7JgoJ1B6m/Sb0p//0C1INaeKi5NDx5IddBZhdDgIVa
+ SAI6r/seX/6FoC2JHIwGgE/d3J4MtbAVwL3q0QU92/N95yycqLcWP5OF/iFMRxrdVUDC
+ bEh8ZUmAzNG/wabc/a1D1Z4pssme2pR5DSHlJDeiHKRUA985HqO5HQwtlpRs8EnqRK86
+ aVHghRP4WE+kxSivPgyPPDCVe5+QsCkFjQhmSngBzMv7tzKOHuPS8g8E/+vUndo+TUuq
+ CaSeQSyLM3D4pLN7XQwczWPViewWZ4a6VLtN7WQQAxvnLOPqpnqQ/eG8aytWWVCbidVg
+ 3Y8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B1dWeyDyb/qD0QGjOzAFRGQAfuJbZGUFowNaVVzslek=;
+ b=pCmkc+raOYhxQ8Jk8/WufTU4hJzMgX0rNfxTrQFIcbQCRcfULFXxJQMa6DQNoSaXiZ
+ lh3UhcuZP7HGZa1qKtzb4gnmbxsoEdgcZgeS2lUdcCNVplcG8S7Xu+hAS2BlFdxj1NSv
+ 1TA6JWJ8Nps4sXK+1oliCDvElMgzHr9YdhFL+Z/zDrUOGucUn26PJT69LX0PhoB9yinn
+ tamFO7u+K24rpuoi1I8wTB4RLtWO7XdLvCMy9tS3S9VQJ8KflQvkOfcqgcuaXEjCBsgB
+ OrsTo6ACDI0hbYSMYS1f+GZEaxHSBKYTYlTF8Yv9hl9dweMMOzfbuyE4OKsaYcH3yRcT
+ VjXA==
+X-Gm-Message-State: AOAM533sRt2LhWBmPg1dvU+ZcPnYlSx9rKOkO2gowvx73TrjqrqFDXc3
+ AJ4vkT5EWy63cz0N+a8ZFxqQwMkmmsdW32eNZFM=
+X-Google-Smtp-Source: ABdhPJxIS94gll2m/mvgm6YC/U10VsBIA63o7z1o10I3BIB+VNP8hUU6JLYJqSu2m/oBYKV/JqGaaXBOVeJtdTtZt/Y=
+X-Received: by 2002:a25:ed0a:: with SMTP id k10mr37367751ybh.152.1616986910534; 
+ Sun, 28 Mar 2021 20:01:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YF5y+MDiK2QInFA2@humpty.home.comstyle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+References: <20210329022006.55532-1-jasowang@redhat.com>
+In-Reply-To: <20210329022006.55532-1-jasowang@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 29 Mar 2021 11:01:39 +0800
+Message-ID: <CAEUhbmUciCL-kiikmTyR172kZ2A0D-nz+gsEXkwP_MneGsu=SA@mail.gmail.com>
+Subject: Re: [PATCH] tap-win32: correctly recycle buffers
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,53 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ Howard Spoelstra <hsp.cat7@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-ÔÚ 2021/3/27 ÉÏÎç7:49, Brad Smith Ð´µÀ:
-> OpenBSD added support for tap(4) 10 releases ago.
+On Mon, Mar 29, 2021 at 10:20 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Remove the special casing for older releases.
+> Commit 969e50b61a28 ("net: Pad short frames to minimum size before
+> sending from SLiRP/TAP") tries to pad frames but try to recyle the
+> local array that is used for padding to tap thread. This patch fixes
+> this by recyling the original buffer.
 >
->
-> Signed-off-by: Brad Smith <brad@comstyle.com>
->
-> diff --git a/net/tap-bsd.c b/net/tap-bsd.c
-> index 77aaf674b1..59dfcdfae0 100644
-> --- a/net/tap-bsd.c
-> +++ b/net/tap-bsd.c
-> @@ -35,10 +35,6 @@
->   #include <net/if_tap.h>
->   #endif
->   
-> -#if defined(__OpenBSD__)
-> -#include <sys/param.h>
-> -#endif
-> -
->   #ifndef __FreeBSD__
->   int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
->                int vnet_hdr_required, int mq_required, Error **errp)
-> @@ -59,11 +55,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
->           if (*ifname) {
->               snprintf(dname, sizeof dname, "/dev/%s", ifname);
->           } else {
-> -#if defined(__OpenBSD__) && OpenBSD < 201605
-
-
-I am not sure this sis correct. My understanding is that we still need 
-to use tun for old OpenBSD release.
-
-Thanks
-
-
-> -            snprintf(dname, sizeof dname, "/dev/tun%d", i);
-> -#else
->               snprintf(dname, sizeof dname, "/dev/tap%d", i);
-> -#endif
->           }
->           TFR(fd = open(dname, O_RDWR));
->           if (fd >= 0) {
+> Fixes: 969e50b61a28 ("net: Pad short frames to minimum size before sending from SLiRP/TAP")
+> Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  net/tap-win32.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
 
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+
+Tested booting U-Boot with QEMU ppce500 on Windows, without the patch,
+QEMU crashes
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
