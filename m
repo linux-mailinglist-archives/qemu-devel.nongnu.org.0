@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321B634C524
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:43:28 +0200 (CEST)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6BB34C526
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 09:43:56 +0200 (CEST)
+Received: from localhost ([::1]:34874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQmYY-0004Bh-Qn
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
+	id 1lQmZ0-0004uo-IM
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 03:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lQmXY-0003j1-0K
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:42:24 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:54436)
+ id 1lQmXt-00043T-2Z
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:42:45 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:54486)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lQmXV-0003RR-TP
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:42:23 -0400
+ id 1lQmXr-0003gU-Hx
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 03:42:44 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id A15C340755CC;
- Mon, 29 Mar 2021 07:42:10 +0000 (UTC)
-Subject: [PATCH] target/alpha: fix icount handling for timer instructions
+ by mail.ispras.ru (Postfix) with ESMTPSA id EAB4D40755CC;
+ Mon, 29 Mar 2021 07:42:41 +0000 (UTC)
+Subject: [PATCH] target/openrisc: fix icount handling for timer instructions
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Mar 2021 10:42:10 +0300
-Message-ID: <161700373035.1135822.16451510827008616793.stgit@pasha-ThinkPad-X280>
+Date: Mon, 29 Mar 2021 10:42:41 +0300
+Message-ID: <161700376169.1135890.8707223959310729949.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -50,59 +50,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, pavel.dovgalyuk@ispras.ru
+Cc: shorne@gmail.com, pavel.dovgalyuk@ispras.ru, proljc@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch handles icount mode for timer read/write instructions,
-because it is required to call gen_io_start in such cases.
+This patch adds icount handling to mfspr/mtspr instructions
+that may deal with hardware timers.
 
 Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/translate.c |    9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/openrisc/translate.c |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index a02b4e70b7..f454adea5e 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -1330,7 +1330,7 @@ static DisasJumpType gen_mfpr(DisasContext *ctx, TCGv va, int regno)
-     case 249: /* VMTIME */
-         helper = gen_helper_get_vmtime;
-     do_helper:
--        if (icount_enabled()) {
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-             helper(va);
-             return DISAS_PC_STALE;
-@@ -1366,6 +1366,7 @@ static DisasJumpType gen_mfpr(DisasContext *ctx, TCGv va, int regno)
- static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
- {
-     int data;
-+    DisasJumpType ret = DISAS_NEXT;
- 
-     switch (regno) {
-     case 255:
-@@ -1395,6 +1396,10 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
- 
-     case 251:
-         /* ALARM */
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index c6dce879f1..a9c81f8bd5 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -884,6 +884,18 @@ static bool trans_l_mfspr(DisasContext *dc, arg_l_mfspr *a)
+         gen_illegal_exception(dc);
+     } else {
+         TCGv spr = tcg_temp_new();
++
++        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
 +            gen_io_start();
-+            ret = DISAS_PC_STALE;
++            if (dc->delayed_branch) {
++                tcg_gen_mov_tl(cpu_pc, jmp_pc);
++                tcg_gen_discard_tl(jmp_pc);
++            } else {
++                tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
++            }
++            dc->base.is_jmp = DISAS_EXIT;
 +        }
-         gen_helper_set_alarm(cpu_env, vb);
-         break;
++
+         tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
+         gen_helper_mfspr(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d), spr);
+         tcg_temp_free(spr);
+@@ -898,6 +910,9 @@ static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
+     } else {
+         TCGv spr;
  
-@@ -1434,7 +1439,7 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
-         break;
-     }
- 
--    return DISAS_NEXT;
-+    return ret;
- }
- #endif /* !USER_ONLY*/
- 
++        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
++            gen_io_start();
++        }
+         /* For SR, we will need to exit the TB to recognize the new
+          * exception state.  For NPC, in theory this counts as a branch
+          * (although the SPR only exists for use by an ICE).  Save all
 
 
