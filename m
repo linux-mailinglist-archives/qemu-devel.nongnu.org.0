@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD6A34C27B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 06:24:55 +0200 (CEST)
-Received: from localhost ([::1]:49850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE3234C2B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 06:27:21 +0200 (CEST)
+Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQjSQ-00059U-O0
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 00:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48648)
+	id 1lQjUm-0007CW-DV
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 00:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lQjOZ-0007uz-KW; Mon, 29 Mar 2021 00:20:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:34017)
+ id 1lQjOZ-0007tl-3F; Mon, 29 Mar 2021 00:20:55 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50229 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lQjOW-00005X-6s; Mon, 29 Mar 2021 00:20:55 -0400
+ id 1lQjOV-00005q-GU; Mon, 29 Mar 2021 00:20:54 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F7zs94SdGz9sW4; Mon, 29 Mar 2021 15:20:45 +1100 (AEDT)
+ id 4F7zs93hzxz9sVb; Mon, 29 Mar 2021 15:20:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1616991645;
- bh=umubXwmB0G0CpiqVw0TC9gPKSv1UzwrXH1/mL02Xo5I=;
+ bh=odO66/290eNIynQ0ATxRPgvLGevigChb0vFUkHx9E8Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qFrVq0gmMuJZQaeGZLUEp5qXEjgvgD2zYB2TfdfHMxXMNasZ0I9zI09rGqWE/lqFa
- HALOikngZhXcW2EXVaQrDuk8JuW5vajNErjtt3aNaI+BU1pASuSSDvmdukMsHmhXfn
- EzM9pWQSd11/qQsNn/djOnYDjkj8nJthtyyi8TsA=
-Date: Mon, 29 Mar 2021 15:12:20 +1100
+ b=KjB8UqDFRIjjvrC4w23npjeAl47oiuz0iRlIQq9peMUCGvwr3irq/Abn76j3jBGHd
+ sJG7N7rBQLaKgnvd1I+qB+iF0Gt6uhS7kZO5WCbO42zwwndt4uAWjI+8j2WfEbS3Yt
+ 8fx116rKri0EdFUNzX8VwuMTyl6mqqsHdCYCeh00=
+Date: Mon, 29 Mar 2021 15:15:25 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-6.1 07/10] hw/block/pflash_cfi02: Simplify
- pflash_cfi02_register() prototype
-Message-ID: <YGFTpHZhWxqYxxl2@yekko.fritz.box>
-References: <20210326002728.1069834-1-f4bug@amsat.org>
- <20210326002728.1069834-8-f4bug@amsat.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v11 0/7] Pegasos2 emulation
+Message-ID: <YGFUXf1Ip4siaPqd@yekko.fritz.box>
+References: <cover.1616680239.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="whqoo4aav4AqWT8g"
+ protocol="application/pgp-signature"; boundary="/HDhPcnBqu8+nAIA"
 Content-Disposition: inline
-In-Reply-To: <20210326002728.1069834-8-f4bug@amsat.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <cover.1616680239.git.balaton@eik.bme.hu>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,194 +57,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---whqoo4aav4AqWT8g
+--/HDhPcnBqu8+nAIA
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 26, 2021 at 01:27:25AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The previous commit removed the mapping code from TYPE_PFLASH_CFI02.
-> pflash_cfi02_register() doesn't use the 'nb_mappings' argument
-> anymore. Simply remove it to simplify.
+On Thu, Mar 25, 2021 at 02:50:39PM +0100, BALATON Zoltan wrote:
+> Hello,
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-
-Revieed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  include/hw/block/flash.h | 1 -
->  hw/arm/digic_boards.c    | 1 -
->  hw/arm/musicpal.c        | 1 -
->  hw/arm/xilinx_zynq.c     | 2 +-
->  hw/block/pflash_cfi02.c  | 3 +--
->  hw/lm32/lm32_boards.c    | 4 ++--
->  hw/ppc/ppc405_boards.c   | 6 +++---
->  hw/sh4/r2d.c             | 2 +-
->  8 files changed, 8 insertions(+), 12 deletions(-)
+> This is adding a new PPC board called pegasos2. More info on it can be
+> found at:
 >=20
-> diff --git a/include/hw/block/flash.h b/include/hw/block/flash.h
-> index 7dde0adcee7..0e5dd818a9d 100644
-> --- a/include/hw/block/flash.h
-> +++ b/include/hw/block/flash.h
-> @@ -36,7 +36,6 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
->                                     hwaddr size,
->                                     BlockBackend *blk,
->                                     uint32_t sector_len,
-> -                                   int nb_mappings,
->                                     int width,
->                                     uint16_t id0, uint16_t id1,
->                                     uint16_t id2, uint16_t id3,
-> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-> index 293402b1240..eb694c70d4c 100644
-> --- a/hw/arm/digic_boards.c
-> +++ b/hw/arm/digic_boards.c
-> @@ -128,7 +128,6 @@ static void digic4_add_k8p3215uqb_rom(DigicState *s, =
-hwaddr addr,
->                           FLASH_K8P3215UQB_SIZE / FLASH_K8P3215UQB_SECTOR=
-_SIZE);
->      qdev_prop_set_uint32(dev, "sector-length", FLASH_K8P3215UQB_SECTOR_S=
-IZE);
->      qdev_prop_set_uint8(dev, "width", 4); /* 32-bit */
-> -    qdev_prop_set_uint8(dev, "mappings", 0);
->      qdev_prop_set_uint8(dev, "big-endian", 0);
->      qdev_prop_set_uint16(dev, "id0", 0x00ec);
->      qdev_prop_set_uint16(dev, "id1", 0x007e);
-> diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-> index 7d1f2f3fb3f..e882e11df36 100644
-> --- a/hw/arm/musicpal.c
-> +++ b/hw/arm/musicpal.c
-> @@ -1657,7 +1657,6 @@ static void musicpal_init(MachineState *machine)
->          qdev_prop_set_uint32(dev, "num-blocks", flash_size / sector_size=
-);
->          qdev_prop_set_uint32(dev, "sector-length", sector_size);
->          qdev_prop_set_uint8(dev, "width", 2); /* 16-bit */
-> -        qdev_prop_set_uint8(dev, "mappings", 0);
->          qdev_prop_set_uint8(dev, "big-endian", 0);
->          qdev_prop_set_uint16(dev, "id0", 0x00bf);
->          qdev_prop_set_uint16(dev, "id1", 0x236d);
-> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index 8db6cfd47f5..d12b00e7648 100644
-> --- a/hw/arm/xilinx_zynq.c
-> +++ b/hw/arm/xilinx_zynq.c
-> @@ -220,7 +220,7 @@ static void zynq_init(MachineState *machine)
->      pflash_cfi02_register(0xe2000000, "zynq.pflash", FLASH_SIZE,
->                            dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
->                            FLASH_SECTOR_SIZE, 1,
-> -                          1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2=
-aa,
-> +                          0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2aa,
->                            0);
-> =20
->      /* Create the main clock source, and feed slcr with it */
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index 6f4b3e3c3fe..2b412402fac 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -968,7 +968,7 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
->                                     hwaddr size,
->                                     BlockBackend *blk,
->                                     uint32_t sector_len,
-> -                                   int nb_mappings, int width,
-> +                                   int width,
->                                     uint16_t id0, uint16_t id1,
->                                     uint16_t id2, uint16_t id3,
->                                     uint16_t unlock_addr0,
-> @@ -977,7 +977,6 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
->  {
->      DeviceState *dev =3D qdev_new(TYPE_PFLASH_CFI02);
-> =20
-> -    assert(nb_mappings <=3D 1);
->      if (blk) {
->          qdev_prop_set_drive(dev, "drive", blk);
->      }
-> diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-> index b5d97dd53ed..96877ba7cfb 100644
-> --- a/hw/lm32/lm32_boards.c
-> +++ b/hw/lm32/lm32_boards.c
-> @@ -121,7 +121,7 @@ static void lm32_evr_init(MachineState *machine)
->      pflash_cfi02_register(flash_base, "lm32_evr.flash", flash_size,
->                            dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
->                            flash_sector_size,
-> -                          1, 2, 0x01, 0x7e, 0x43, 0x00, 0x555, 0x2aa, 1);
-> +                          2, 0x01, 0x7e, 0x43, 0x00, 0x555, 0x2aa, 1);
-> =20
->      /* create irq lines */
->      env->pic_state =3D lm32_pic_init(qemu_allocate_irq(cpu_irq_handler, =
-cpu, 0));
-> @@ -218,7 +218,7 @@ static void lm32_uclinux_init(MachineState *machine)
->      pflash_cfi02_register(flash_base, "lm32_uclinux.flash", flash_size,
->                            dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
->                            flash_sector_size,
-> -                          1, 2, 0x01, 0x7e, 0x43, 0x00, 0x555, 0x2aa, 1);
-> +                          2, 0x01, 0x7e, 0x43, 0x00, 0x555, 0x2aa, 1);
-> =20
->      /* create irq lines */
->      env->pic_state =3D lm32_pic_init(qemu_allocate_irq(cpu_irq_handler, =
-env, 0));
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 8f77887fb18..2503e033497 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -198,7 +198,7 @@ static void ref405ep_init(MachineState *machine)
->          pflash_cfi02_register((uint32_t)(-bios_size),
->                                "ef405ep.bios", bios_size,
->                                blk_by_legacy_dinfo(dinfo),
-> -                              64 * KiB, 1,
-> +                              64 * KiB,
->                                2, 0x0001, 0x22DA, 0x0000, 0x0000, 0x555, =
-0x2AA,
->                                1);
->      } else
-> @@ -469,7 +469,7 @@ static void taihu_405ep_init(MachineState *machine)
->          pflash_cfi02_register(0xFFE00000,
->                                "taihu_405ep.bios", bios_size,
->                                blk_by_legacy_dinfo(dinfo),
-> -                              64 * KiB, 1,
-> +                              64 * KiB,
->                                4, 0x0001, 0x22DA, 0x0000, 0x0000, 0x555, =
-0x2AA,
->                                1);
->          fl_idx++;
-> @@ -502,7 +502,7 @@ static void taihu_405ep_init(MachineState *machine)
->          bios_size =3D 32 * MiB;
->          pflash_cfi02_register(0xfc000000, "taihu_405ep.flash", bios_size,
->                                blk_by_legacy_dinfo(dinfo),
-> -                              64 * KiB, 1,
-> +                              64 * KiB,
->                                4, 0x0001, 0x22DA, 0x0000, 0x0000, 0x555, =
-0x2AA,
->                                1);
->          fl_idx++;
-> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-> index 443820901d4..b7288dcba80 100644
-> --- a/hw/sh4/r2d.c
-> +++ b/hw/sh4/r2d.c
-> @@ -301,7 +301,7 @@ static void r2d_init(MachineState *machine)
->      dinfo =3D drive_get(IF_PFLASH, 0, 0);
->      pflash_cfi02_register(0x0, "r2d.flash", FLASH_SIZE,
->                            dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
-> -                          64 * KiB, 1, 2, 0x0001, 0x227e, 0x2220, 0x2200,
-> +                          64 * KiB, 2, 0x0001, 0x227e, 0x2220, 0x2200,
->                            0x555, 0x2aa, 0);
-> =20
->      /* NIC: rtl8139 on-board, and 2 slots. */
+> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>=20
+> Currently it needs a firmware ROM image that I cannot include due to
+> original copyright holder (bPlan) did not release it under a free
+> licence but I have plans to write a replacement in the future. With
+> the original board firmware it can boot MorphOS now as:
+>=20
+> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile=3D=
+"" -serial stdio
+>=20
+> then enter "boot cd boot.img" at the firmware "ok" prompt as described
+> in the MorphOS.readme. To boot Linux use same command line with e.g.
+> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
+> "boot cd install/pegasos"
+>=20
+> The last patch adds the actual board code after previous patches
+> adding VT8231 and MV64361 system controller chip emulation.
+
+Applied to ppc-for-6.1, thanks.
+
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
+> v11: Changes to last two patches David asked for during review
+>=20
+> v10: Updated comments and added R-b from Mark
+>=20
+> v9: Rebased to master
+>=20
+> v8: Do not emulate setting of serial port address via register, just
+>     hard code a default address instead
+>=20
+> v7: Fix errp usage in patch 2
+>=20
+> v6: Rebased on master, updated commit message about migration change
+>=20
+> v5: Changes for review comments from David and Philippe
+>=20
+> V4: Rename pegasos2_reset to pegasos2_cpu_reset
+>     Add new files to MAINTAINERS
+>=20
+> BALATON Zoltan (6):
+>   vt82c686: QOM-ify superio related functionality
+>   vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
+>   vt82c686: Introduce abstract TYPE_VIA_ISA and base vt82c686b_isa on it
+>   vt82c686: Add emulation of VT8231 south bridge
+>   hw/pci-host: Add emulation of Marvell MV64361 PPC system controller
+>   hw/ppc: Add emulation of Genesi/bPlan Pegasos II
+>=20
+> Philippe Mathieu-Daud=E9 (1):
+>   hw/isa/Kconfig: Add missing dependency VIA VT82C686 -> APM
+>=20
+>  MAINTAINERS                             |  10 +
+>  default-configs/devices/ppc-softmmu.mak |   2 +
+>  hw/isa/Kconfig                          |   1 +
+>  hw/isa/vt82c686.c                       | 422 +++++++++--
+>  hw/pci-host/Kconfig                     |   4 +
+>  hw/pci-host/meson.build                 |   2 +
+>  hw/pci-host/mv64361.c                   | 951 ++++++++++++++++++++++++
+>  hw/pci-host/mv643xx.h                   | 918 +++++++++++++++++++++++
+>  hw/pci-host/trace-events                |   6 +
+>  hw/ppc/Kconfig                          |   9 +
+>  hw/ppc/meson.build                      |   2 +
+>  hw/ppc/pegasos2.c                       | 144 ++++
+>  include/hw/isa/vt82c686.h               |   2 +-
+>  include/hw/pci-host/mv64361.h           |   8 +
+>  include/hw/pci/pci_ids.h                |   4 +-
+>  15 files changed, 2403 insertions(+), 82 deletions(-)
+>  create mode 100644 hw/pci-host/mv64361.c
+>  create mode 100644 hw/pci-host/mv643xx.h
+>  create mode 100644 hw/ppc/pegasos2.c
+>  create mode 100644 include/hw/pci-host/mv64361.h
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -254,25 +155,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---whqoo4aav4AqWT8g
+--/HDhPcnBqu8+nAIA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBhU6QACgkQbDjKyiDZ
-s5IfTxAArwoh5tiOGaQDwwySJibn2OlWFHhDeHWypBm4CRO7ISGSS30+jC70bi2X
-Tdqm0kpivNw2yvR6mGlyhP9/Hj3mJIzUkmmEiptmYLAJKEvinEOiy54URu/xnoDy
-V/kMQqYElaQO5eAerIcp22fv1VNTVsRLWvJhBev7AwaZ3pJ87/7gJmhAmd2bIMya
-SPQ7h9SO7I00TV7QqHXaUS4aUhIMmpQL5D/oXpH/QmRoVOqsB3tDPTgMzP6t5Be6
-MrHc+Y7ZzbFWmTffQxrQb/kcc98rSQzLbJar5Ulnw1iyjBSSoPQsrpERHBkWto+l
-Ffvi7zs5DUcfNymjRz2Uo5rh2oKBj5J5lw1HwB+jLI0zUb0VUMPAHt73xDKk1TiN
-qPk2yEjhGXXINHzl0QJn2egYDnOcvUs6QUTr3SPCAX2any3f+RcTdeneyCgZRiy+
-YdWPgw/E0dbO0pC5ARtMc3VzdSC3UUVHomwBD48rdMEGZS5NLVpoIFROcGmvwp33
-z0Vncv3wgOVXfBnsrcC8XcUyW5SXgVE4r/Egf4/Usb2WOsDyVMZTQ+9278yc0/R/
-atVOBrESMk9IPDpq1pXW25zHn+nFU89KiDexvkYKAqr44iHC9iHpCUEOsgCu3ZpP
-sK4AYYYVtAsCywGsv1gdIe3KtV7UWkb00LUYH9KOvE9PQ+YGXfY=
-=Ft1W
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBhVF0ACgkQbDjKyiDZ
+s5IOvQ/+PaJNsAHlFCIvdfuWBEzLbk0Ar4FJofybWcGiha5usSEC+E4NUz1Rg4Kh
+wo8xbGEAAY6A75h9dRf2TF615/7KxyIsPEqHWQgf5HzFuYX6oN6L1Vd0ARjGHmEF
+vwbOzk/vNHBcUGCbCL7PYEj34DBEWE6GfOlByWbYBVEJX0yFd7Ztar1/WoeVUOD9
+RlrZQw/Zi20cIoz/UwJaAD/qIY43ssuZwMgtZrpZx2qcScJdgzP/GsOtxBEhqfj8
+kns4mCguiSJ6LilCdC8vC9G1lT4NuE2w9g9n6wmhD4vwNAMIPPg1Y2yjEYPkjI2g
+bdMUygjLnastaamOjeTriLY4mKX78iDW+fyFq7ehMYx+sY40Gv+lLwIlSpCVPpRt
+CGH+Rrl9ypwmoR2UjqShO57uIg7nHyye1hacBMVtrfGm0xxx+Kjh2Hxyu938bU5r
+ugz3FJGvFlTtBEFZOssEXexe8+YW85H919TrVyji+fwrYPaEzW1vJ88H+5fiq59e
+2KFlTMmpxSdpdoYwKyx2XxObYwtnM1toXutwID/6v7YBCw8odKaiSjilxrJPb4Th
+RAtAJfC+2gWaMjyivUE83XXUtJp10QlAeigetTxGuYusw9vA+RpOArA0wSWny6ef
+v+2tGfqSUU/2C93icU4pH0gWP81xx1LS5vy3OArORMeL/hwnwYs=
+=F8a6
 -----END PGP SIGNATURE-----
 
---whqoo4aav4AqWT8g--
+--/HDhPcnBqu8+nAIA--
 
