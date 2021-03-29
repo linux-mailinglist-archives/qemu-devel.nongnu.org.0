@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691FE34D75D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 20:35:51 +0200 (CEST)
-Received: from localhost ([::1]:39232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA8B34D75F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 20:36:05 +0200 (CEST)
+Received: from localhost ([::1]:40250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQwjt-0005zT-SK
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 14:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54128)
+	id 1lQwk8-0006PT-Mf
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 14:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lQwgu-0004r8-TV; Mon, 29 Mar 2021 14:32:46 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:46752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lQwgs-0007zT-V3; Mon, 29 Mar 2021 14:32:44 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id j17so6911323qvo.13;
- Mon, 29 Mar 2021 11:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wp1d28WlMuLqpSD3/lBYdNazIJhF+b2dFoRs3YVjsQc=;
- b=dAn3fIMDO76Va4IJwJE3HL3xqJyIyNBpd6K0K6l/57KOQ0N8UeNPlBWcYQuAfXIWjF
- tGzm/kOlkIx0f70jS456xSvOm+TI4vmoIVBOsnmCuymE19ZflSy0GyliwwM0q3JZdjhh
- /7sxUSmLc1rzJfjZewm3Sz33p1vq1kvq+8we2WCaE6A8lv0D129RUQBwDT7DFdUuEpa4
- NkUyH2MbMRD+FgyPZdp/ZEgoMzO2IHZLiuwRDH0l3puTBox84bvAAYDTUBCOLy62reZ+
- DTyXlRL0wpFcxSECHtXOXN9IqrknS8xoObEqe2/UTXwulEAs1u/WFMmMU4FlyTTiB6vo
- ODXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wp1d28WlMuLqpSD3/lBYdNazIJhF+b2dFoRs3YVjsQc=;
- b=hgXP/eW+fOF59p3rCX+f39he+29YDoLrYZ+W/0wT5s6717+gnJ50B7HHykXDFosajT
- WwNemxz8ENmt8Oe1Z/SgbtA85a7dqyZNToZjZrDHu4iAr2PYfb5L5iLfz0wlb5m7D9PT
- Q6m54J/pQDtGgeYG/tb4PQH+OywM+UFejHDGkWk90awMfoMfu9wSQOUdtNTHEHMHe1z1
- W8CmaHKh1GxY1EI7AiJApomDathpVhOqUEiO74631iqxPNxK8xneZzjS4XgcjdvKsNb7
- Q44wt3SEQCSvG8qa/wVkNPjuyh6GI3GAY7O9DI7So8D+JmbsL7L32snDDcZbPf5y37Yo
- Rh6Q==
-X-Gm-Message-State: AOAM5305ZUJEENBZxw+7/x/X9Eji1pwFZyQLg5uWkwv2+JEIIpBZOxlT
- F3PSbJMX463lMprhFVBBaC4=
-X-Google-Smtp-Source: ABdhPJw6zNUxPjFh6LJV1Fs5t7ekf4HMVqjkLjgvPchThpxRikhNRAyHsnNFgHNSRShGZ15illtNAg==
-X-Received: by 2002:a0c:f092:: with SMTP id g18mr27021477qvk.11.1617042761094; 
- Mon, 29 Mar 2021 11:32:41 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c6:6b49:9e31:c2b4:54cb:eeb6?
- ([2804:431:c7c6:6b49:9e31:c2b4:54cb:eeb6])
- by smtp.gmail.com with ESMTPSA id y14sm11261238qtw.70.2021.03.29.11.32.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Mar 2021 11:32:40 -0700 (PDT)
-Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
- nodes
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210319183453.4466-1-danielhb413@gmail.com>
- <20210319183453.4466-2-danielhb413@gmail.com>
- <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
- <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
- <YFvxAW3l4t+YznEm@yekko.fritz.box>
- <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
- <YGFVc2lBhvzm5CSa@yekko.fritz.box>
- <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
-Date: Mon, 29 Mar 2021 15:32:37 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lQwhz-0005AH-CX
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:33:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lQwhu-0008Pz-Qw
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:33:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617042824;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=eHNuWgnwu6rNHDlxCpE/Kwv8RD1eesgZda3UZjFfyxM=;
+ b=DSPwlBDxa2WTo4KLzxxXyiut+KHksojBLEBQxlfkXHKEm4sMQ+oZMexErr3iQWLXLwHAmM
+ ug6aWvKr8O8sx1c6u3lAHVfbKnE6RwlX9eeSSn6kZSAQTjr7599EICjI8i2mSGVo/SLRDh
+ P2TKHQ0PN8WIB9r3x0VIQ7R6GFziFg0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-HxV-LJlENNiyPouVfUHUpA-1; Mon, 29 Mar 2021 14:33:36 -0400
+X-MC-Unique: HxV-LJlENNiyPouVfUHUpA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04962501FE;
+ Mon, 29 Mar 2021 18:33:35 +0000 (UTC)
+Received: from redhat.com (ovpn-114-228.ams2.redhat.com [10.36.114.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7713A19D7C;
+ Mon, 29 Mar 2021 18:33:29 +0000 (UTC)
+Date: Mon, 29 Mar 2021 19:33:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
+ Policy document
+Message-ID: <YGIdduioIxRIxMMp@redhat.com>
+References: <20210329180140.2761383-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210329180140.2761383-1-thuth@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,175 +79,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Alexander Graf <agraf@csgraf.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 3/29/21 12:32 PM, Cédric Le Goater wrote:
-> On 3/29/21 6:20 AM, David Gibson wrote:
->> On Thu, Mar 25, 2021 at 09:56:04AM +0100, Cédric Le Goater wrote:
->>> On 3/25/21 3:10 AM, David Gibson wrote:
->>>> On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wrote:
->>>>>
->>>>>
->>>>> On 3/22/21 10:03 PM, David Gibson wrote:
->>>>>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
->>>>>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
->>>>>>> topology_core_cpumask") cause a regression in the pseries machine when
->>>>>>> defining certain SMP topologies [1]. The reasoning behind the change is
->>>>>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
->>>>>>> cpu_core_mask"). In short, cpu_core_mask logic was causing troubles with
->>>>>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask because, as
->>>>>>> far as the kernel understanding of SMP topologies goes, both masks are
->>>>>>> equivalent.
->>>>>>>
->>>>>>> Further discussions in the kernel mailing list [2] shown that the
->>>>>>> powerpc kernel always considered that the number of sockets were equal
->>>>>>> to the number of NUMA nodes. The claim is that it doesn't make sense,
->>>>>>> for Power hardware at least, 2+ sockets being in the same NUMA node. The
->>>>>>> immediate conclusion is that all SMP topologies the pseries machine were
->>>>>>> supplying to the kernel, with more than one socket in the same NUMA node
->>>>>>> as in [1], happened to be correctly represented in the kernel by
->>>>>>> accident during all these years.
->>>>>>>
->>>>>>> There's a case to be made for virtual topologies being detached from
->>>>>>> hardware constraints, allowing maximum flexibility to users. At the same
->>>>>>> time, this freedom can't result in unrealistic hardware representations
->>>>>>> being emulated. If the real hardware and the pseries kernel don't
->>>>>>> support multiple chips/sockets in the same NUMA node, neither should we.
->>>>>>>
->>>>>>> Starting in 6.0.0, all sockets must match an unique NUMA node in the
->>>>>>> pseries machine. qtest changes were made to adapt to this new
->>>>>>> condition.
->>>>>>
->>>>>> Oof.  I really don't like this idea.  It means a bunch of fiddly work
->>>>>> for users to match these up, for no real gain.  I'm also concerned
->>>>>> that this will require follow on changes in libvirt to not make this a
->>>>>> really cryptic and irritating point of failure.
->>>>>
->>>>> Haven't though about required Libvirt changes, although I can say that there
->>>>> will be some amount to be mande and it will probably annoy existing users
->>>>> (everyone that has a multiple socket per NUMA node topology).
->>>>>
->>>>> There is not much we can do from the QEMU layer aside from what I've proposed
->>>>> here. The other alternative is to keep interacting with the kernel folks to
->>>>> see if there is a way to keep our use case untouched.
->>>>
->>>> Right.  Well.. not necessarily untouched, but I'm hoping for more
->>>> replies from Cédric to my objections and mpe's.  Even with sockets
->>>> being a kinda meaningless concept in PAPR, I don't think tying it to
->>>> NUMA nodes makes sense.
->>>
->>> I did a couple of replies in different email threads but maybe not
->>> to all. I felt it was going nowhere :/ Couple of thoughts,
->>
->> I think I saw some of those, but maybe not all.
->>
->>> Shouldn't we get rid of the socket concept, die also, under pseries
->>> since they don't exist under PAPR ? We only have numa nodes, cores,
->>> threads AFAICT.
->>
->> Theoretically, yes.  I'm not sure it's really practical, though, since
->> AFAICT, both qemu and the kernel have the notion of sockets (though
->> not dies) built into generic code.
+On Mon, Mar 29, 2021 at 08:01:40PM +0200, Thomas Huth wrote:
+> In an ideal world, we would all get along together very well, always be
+> polite and never end up in huge conflicts. And even if there are conflicts,
+> we would always handle each other fair and respectfully. Unfortunately,
+> this is not an ideal world and sometimes people forget how to interact with
+> each other in a professional and respectful way. Fortunately, this rarely
+> happens in the QEMU community, but still there are such rare cases, and
+> then it would be good to have a basic code of conduct document available
+> that can be shown to persons who are misbehaving. And if that does not help
+> yet, we should also have a conflict resolution policy ready that can be
+> applied in the worst case.
 > 
-> Yes. But, AFAICT, these topology notions have not reached "arch/powerpc"
-> and PPC Linux only has a NUMA node id, on pseries and powernv.
+> The Code of Conduct document is based on the Django Code of Conduct
+> (https://www.djangoproject.com/conduct/) and the conflict resolution
+> has been assembled by Paolo, based on the Drupal Conflict Resolution Policy
+> (https://www.drupal.org/conflict-resolution) and the Mozilla Consequence Ladder
+> (https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md)
 > 
->> It does mean that one possible approach here - maybe the best one - is
->> to simply declare that sockets are meaningless under, so we simply
->> don't expect what the guest kernel reports to match what's given to
->> qemu.
->>
->> It'd be nice to avoid that if we can: in a sense it's just cosmetic,
->> but it is likely to surprise and confuse people.
->>
->>> Should we diverged from PAPR and add extra DT properties "qemu,..." ?
->>> There are a couple of places where Linux checks for the underlying
->>> hypervisor already.
->>>
->>>>> This also means that
->>>>> 'ibm,chip-id' will probably remain in use since it's the only place where
->>>>> we inform cores per socket information to the kernel.
->>>>
->>>> Well.. unless we can find some other sensible way to convey that
->>>> information.  I haven't given up hope for that yet.
->>>
->>> Well, we could start by fixing the value in QEMU. It is broken
->>> today.
->>
->> Fixing what value, exactly?
-> 
-> The value of the "ibm,chip-id" since we are keeping the property under
-> QEMU.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Discussion about a Code of Conduct already started off-list last summer,
+>  but it unfortunately ceased without a result. Let's have another try
+>  now by discussing this suggestion publically. I've picked the Django Code
+>  of Conduct as a base, since it sounds rather friendly and still welcoming
+>  to me, but I'm open for other suggestions, too.
 
-David, I believe this has to do with the discussing we had last Friday.
+The obvious alternative is to import the contributor covenant
 
-I mentioned that the ibm,chip-id property is being calculated in a way that
-promotes the same ibm,chip-id in CPUs that belongs to different NUMA nodes,
-e.g.:
+  https://www.contributor-covenant.org/
 
--smp 4,cores=4,maxcpus=8,threads=1 \
--numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 \
--numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
+IMHO the biggest appealing reason is that it is a defacto
+common standard across a huge number of open source projects.
 
+The second, it isn't a static document. It is being evolved over
+time with new versions issued as understanding of problematic
+situations evolves. We can choose to periodically update to stay
+current with the broadly accepted norms.
 
-$ dtc -I dtb -O dts fdt.dtb | grep -B2 ibm,chip-id
-			ibm,associativity = <0x05 0x00 0x00 0x00 0x00 0x00>;
-			ibm,pft-size = <0x00 0x19>;
-			ibm,chip-id = <0x00>;
---
-			ibm,associativity = <0x05 0x00 0x00 0x00 0x00 0x01>;
-			ibm,pft-size = <0x00 0x19>;
-			ibm,chip-id = <0x00>;
---
-			ibm,associativity = <0x05 0x01 0x01 0x01 0x01 0x02>;
-			ibm,pft-size = <0x00 0x19>;
-			ibm,chip-id = <0x00>;
---
-			ibm,associativity = <0x05 0x01 0x01 0x01 0x01 0x03>;
-			ibm,pft-size = <0x00 0x19>;
-			ibm,chip-id = <0x00>;
+I tend to view this similarly to license choice. It is almost
+always better to adopt a commonly accepted standard as-i,s than
+to have something custom to just one project, even if it was
+derived from / inspired by another well known example project's
+own example.
 
-We assign ibm,chip-id=0x0 to CPUs 0-3, but CPUs 2-3 are located in a different
-NUMA node than 0-1. This would mean that the same socket would belong to
-different NUMA nodes at the same time.
-
-I believe this is what Cedric wants to be addressed. Given that the property is
-called after the OPAL property ibm,chip-id, the kernel expects that the property
-will have the same semantics as in OPAL.
-
-
-
-Thanks,
-
-
-DHB
-
-
-
+Overall I think it is a good idea to introduce an explicit CoC
+doc to QEMU, and indeed any community project, so thanks for
+bringing this up again.
 
 > 
->>> This is all coming from some work we did last year to evaluate our HW
->>> (mostly for XIVE) on 2s, 4s, 16s systems on baremetal, KVM and PowerVM.
->>> We saw some real problems because Linux did not have a clear view of the
->>> topology. See the figures here :
->>>
->>> http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20210303174857.1760393-9-clg@kaod.org/
->>>
->>> The node id is a key parameter for system resource management, memory
->>> allocation, interrupt affinity, etc. Linux scales much better if used
->>> correctly.
->>
->> Well, sure.  And we have all the ibm,associativity stuff to convey the
->> node ids to the guest (which has its own problems, but not that are
->> relevant here).  What's throwing me is why getting node IDs correct
->> has anything to do with socket numbers.
+>  docs/devel/code-of-conduct.rst     | 85 ++++++++++++++++++++++++++++++
+>  docs/devel/conflict-resolution.rst | 85 ++++++++++++++++++++++++++++++
+>  docs/devel/index.rst               |  2 +
+>  3 files changed, 172 insertions(+)
+>  create mode 100644 docs/devel/code-of-conduct.rst
+>  create mode 100644 docs/devel/conflict-resolution.rst
 > 
-> 
+
+
+> diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-resolution.rst
+> new file mode 100644
+> index 0000000000..4eb4fb45df
+> --- /dev/null
+> +++ b/docs/devel/conflict-resolution.rst
+> @@ -0,0 +1,85 @@
+> +.. _conflict-resolution:
+> +
+> +Conflict Resolution Policy
+> +==========================
+> +
+> +Conflicts in the community can take many forms, from someone having a
+> +bad day and using harsh and hurtful language on the mailing list to more
+> +serious code of conduct violations (including sexist/racist statements
+> +or threats of violence), and everything in between.
+> +
+> +For the vast majority of issues, we aim to empower individuals to first
+> +resolve conflicts themselves, asking for help when needed, and only
+> +after that fails to escalate further. This approach gives people more
+> +control over the outcome of their dispute.
+> +
+> +How we resolve conflicts
+> +------------------------
+> +
+> +If you are experiencing conflict, you should first address the perceived
+> +conflict directly with other involved parties, preferably through a
+> +real-time medium such as IRC. If this fails, get a third-party (e.g. a
+> +mutual friend, and/or someone with background on the issue, but not
+> +involved in the conflict) to intercede or mediate.
+> +
+> +If you are witnessing conflict, you should also first try to address it
+> +directly by interceding or mediating between the involved parties.
+> +
+> +If a good faith effort towards resolving the conflict fails,
+> +escalate to the QEMU leadership committee by sending email at
+> +qemu@sfconservancy.org. It is strongly suggested to include evidence of
+> +past effort towards resolving the conflict.
+> +
+> +The QEMU leadership committee will do its best to review the incident
+> +timely, and will either seek further information, or will make a
+> +determination on next steps.
+> +
+> +Note: If the behaviour is threatening/harassing and requires immediate
+> +escalation, contact the QEMU leadership committee immediately before
+> +trying other steps, and possibly inform one or more members through IRC.
+> +The up-to-date list of members is `available on the QEMU wiki
+> +<https://wiki.qemu.org/Conservancy>`__.
+
+I feel this section is rather disjoint. First repeatedly saying the
+victim must try to resolve it themselves, and must provide prove of
+trying to resolve it when escalating. Then at the end saying you can
+ignore this and escalate immediately but only in certain nominated
+circumstances. I get what this is trying to achieve, but I feel it
+is overly complicated and first part comes across as putting the
+burden on the person suffering to take the lead in resolving problems.
+
+I feel the contributor covenant is clearer in this area through its
+simplicity
+
+Also this document doesn't mention anything about ensuring the
+confidentiality/privacy for any complaints reported, which I
+think is important to state explicitly.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
