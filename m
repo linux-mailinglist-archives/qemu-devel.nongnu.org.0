@@ -2,118 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BFF34DEF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 05:06:42 +0200 (CEST)
-Received: from localhost ([::1]:45520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FE134D2CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 16:50:39 +0200 (CEST)
+Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lR4iH-0003mJ-5l
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 23:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
+	id 1lQtDx-0002lE-Qx
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 10:50:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lR4gR-0002h3-83
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 23:04:47 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:51025)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lQtAg-0001fT-NG
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:47:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lR4gO-0002h3-2G
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 23:04:47 -0400
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20210330030438epoutp02b8c7db7a3d9689590feb8076ba208ad9~w-8LW9HDy3159831598epoutp02f
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 03:04:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20210330030438epoutp02b8c7db7a3d9689590feb8076ba208ad9~w-8LW9HDy3159831598epoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1617073478;
- bh=hIA8vV7G3YKQcmOSiXqkdogXBPBC5yt9M8gk1NPJjqQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=jLPg61F4wb8C3iEwXY1Ax1boQUVTmSyRmhxSVGM6i2R8H+2N1hFHHxKPLnLrq3h7Q
- RNWa2PQ8322+cMKffW15ADDaq49E9HBKyyEIAdYk5FrJVHykx1kkIxmI0zwFWx4aFi
- KT/c8PImUSFyOdCwDd4yoAUjHSH7O2YSngUrjbzU=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20210330030437epcas5p3741748d0b7cc49b004e09dfea5dd8951~w-8Kwnnj00537005370epcas5p3O;
- Tue, 30 Mar 2021 03:04:37 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 25.1D.41008.54592606; Tue, 30 Mar 2021 12:04:37 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20210329144714epcas5p4adab8d7549b97fcf3b838f18ab9e070a~w14V2fX9V2839628396epcas5p4O;
- Mon, 29 Mar 2021 14:47:14 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210329144714epsmtrp24cbc9105d1997a8ee144ef7616b12799~w14V1q8Yv1780317803epsmtrp28;
- Mon, 29 Mar 2021 14:47:14 +0000 (GMT)
-X-AuditID: b6c32a4b-661ff7000001a030-1d-60629545fea4
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 19.0E.08745.278E1606; Mon, 29 Mar 2021 23:47:14 +0900 (KST)
-Received: from 2030045822 (unknown [107.108.221.178]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210329144713epsmtip1f4eb5d18aba6823bfd771fca2adce5c9~w14UjLvM22464724647epsmtip1w;
- Mon, 29 Mar 2021 14:47:12 +0000 (GMT)
-Date: Mon, 29 Mar 2021 20:14:06 +0530
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH for-6.0 2/7] hw/block/nvme: fix missing string
- representation for ns attachment
-Message-ID: <20210329144406.GB23272@2030045822>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lQtAd-0001ml-Pg
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:47:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617029230;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nYmg6gycb7+Bq0MpfcB3k1zUpVuZQf0QYsaK4dFtDnk=;
+ b=I9l83VEmvaEuF4qiNVBvFYwQo2eChsD1K7k/vGw87cEs7SUHxNp34xJ8FMFm2K2zvLjRoI
+ bfSOErrznqIvK9C11MMp03Q0tBlrNAQGTY7mO7kavHWaUrIVaEBzT8I+r5rR0GFSfqgCda
+ 9PNG8et+oYluHKEZnIunBip8AJRY+tU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-kBRaEBtSOHC3IitmWLWWdg-1; Mon, 29 Mar 2021 10:47:06 -0400
+X-MC-Unique: kBRaEBtSOHC3IitmWLWWdg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBE54108BD07;
+ Mon, 29 Mar 2021 14:47:04 +0000 (UTC)
+Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1ADE75D9D3;
+ Mon, 29 Mar 2021 14:46:56 +0000 (UTC)
+Date: Mon, 29 Mar 2021 15:46:53 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: Ways to deal with broken machine types
+Message-ID: <YGHoXfe8M5eLZ94h@work-vm>
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ <20210322114116-mutt-send-email-mst@kernel.org>
+ <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
+ <20210323104542-mutt-send-email-mst@kernel.org>
+ <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
+ <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
+ <20210323175447.0c57d2a4@redhat.com> <YFooFMWxwpiSB6ZJ@redhat.com>
+ <20210326014825.2e58c68f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210324200907.408996-3-its@irrelevant.dk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsWy7bCmpq7r1KQEg0un9C2u7D/PaLH/4DdW
- i5ONe1gtJh26xmix5GKqxbxbyhaz3rWzWRzv3cFi8XrSf1YHTo8f59rZPM7tOM/usWlVJ5vH
- k2ubmTze77vK5tG3ZRVjAFsUl01Kak5mWWqRvl0CV0b3qqiCHu6K3h2eDYyLObsYOTgkBEwk
- fr3W7WLk4hAS2M0oMWlXL3MXIyeQ84lR4sqKLIjEZ0aJtVu+s4EkQBp+tF9khUjsYpT42PqM
- BcJ5xSjx4+0CZpCxLAKqEn2NhSANbAJGErPfvmEEsUUEVCSe/tsLVs8s8JdR4vuu3WBThQVS
- JY48nc0OYvMK6Es0NLVD2YISJ2c+YQGxOQUsJNaebQKrFxVQljiw7TgTyCAJgYkcEv0bbzBD
- nOci0XnvKCOELSzx6vgWdghbSuLzu71AzexAdrXE4SKI1g5GiWOXN0B9Zi/x79k0sFZmgQyJ
- BVO+Q42RlZh6ah0TRJxPovf3EyaIOK/EjnkwtprEglvfoVbJSMz8c5sVwvaQmDvpCjskgHYy
- SsyavYRlAqP8LCS/zUKyD8K2kuj80MQ6CxiOzALSEsv/cUCYmhLrd+kvYGRdxSiZWlCcm55a
- bFpgnJdarlecmFtcmpeul5yfu4kRnJ60vHcwPnrwQe8QIxMH4yFGCQ5mJRFe4QOJCUK8KYmV
- ValF+fFFpTmpxYcYpTlYlMR5dxg8iBcSSE8sSc1OTS1ILYLJMnFwSjUwHTU+XZhb9sFB/9Wr
- WVLs03V9d9u4dzzWDo7f1OXpsPqgwK7tN1K6vnO1fJUu2sXUsKbb5w6/3xmVklgx2fPl2bzv
- 3rAWbJzuP+dA7IzpMa+1lk/ZbZe0t06Va3Mut7m1+JL/rTn877xnWOz/I2atePe9+dqN7yP+
- n7tzu4zvvtPxRQq/3ii6zku1cpthUSZz0Cl3jdzkm0tOPN7X+s5GaOH8T5YOD4PnfOCbOiNu
- eRenoYh5/2WTmBTj3vye7yHii4K+bclYOUNUurrHN4u993vYsuyXn6wjf+Y96+rV8K5/9u5u
- uujDb5Lnsw89dGi0mvUlLXDag/X3Hp/qDWNltpt26prP5Z7gVp52Ldt/SizFGYmGWsxFxYkA
- GxHK2r4DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWy7bCSnG7Ri8QEg11PRS2u7D/PaLH/4DdW
- i5ONe1gtJh26xmix5GKqxbxbyhaz3rWzWRzv3cFi8XrSf1YHTo8f59rZPM7tOM/usWlVJ5vH
- k2ubmTze77vK5tG3ZRVjAFsUl01Kak5mWWqRvl0CV8bkS9PYC/ZxVNzft4mxgfE9WxcjJ4eE
- gInEj/aLrF2MXBxCAjsYJXZeX8YIkZCR+HVqKjOELSyx8t9zdoiiF4wSX3a3AiU4OFgEVCX6
- GgtBatgEjCRmv30D1isioCLx9N9eFpB6ZoH/jBKPdh8BGyQskCpx5OlsdhCbV0BfoqGpnR1k
- jhBQ/PlcV4iwoMTJmU9YQGxmATOJeZsfgq1iFpCWWP6PAyTMKWAhsfZsE9j9ogLKEge2HWea
- wCg4C0n3LCTdsxC6FzAyr2KUTC0ozk3PLTYsMMpLLdcrTswtLs1L10vOz93ECI4OLa0djHtW
- fdA7xMjEwXiIUYKDWUmEV/hAYoIQb0piZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OFBNITS1Kz
- U1MLUotgskwcnFINTP6eLA310h+fLX/OU2aqbhx0M05NYneh2FQ2NZ8FjN/Esg7a3dqo/MR4
- j++NAH12IS6lScniHE/3vU5T+PDouBEHQ/3nC1w6j7fbzQ6brlMjomrrbvRsHdv5DsXelYtU
- cvlvLimYrhMuIfWgULVlrwsrR/oR9/Cc/l8Bi+/sfmCn9trG80VXvfDd+QzL3ObLOIhrlV08
- 831lx3TTotC5j9t+zPepqrjIU/9jFVtes/q/+PxVxn4LldLKY290n2Xa0+fTE8z6V8TvvEtI
- wQ65jSncAaGrEpas053FoXJPKDMq4PUaxTTTf47f1mx0U/6z6alb4jzfU+tq1CO+sfkvcw78
- tWznlGl68v/4N01QYinOSDTUYi4qTgQAIh7viv0CAAA=
-X-CMS-MailID: 20210329144714epcas5p4adab8d7549b97fcf3b838f18ab9e070a
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_14575_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210329144714epcas5p4adab8d7549b97fcf3b838f18ab9e070a
-References: <20210324200907.408996-1-its@irrelevant.dk>
- <20210324200907.408996-3-its@irrelevant.dk>
- <CGME20210329144714epcas5p4adab8d7549b97fcf3b838f18ab9e070a@epcas5p4.samsung.com>
-Received-SPF: pass client-ip=203.254.224.25;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20210326014825.2e58c68f@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,49 +87,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu devel list <qemu-devel@nongnu.org>, Vitaly Cheptsov <cheptsov@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_14575_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+* Igor Mammedov (imammedo@redhat.com) wrote:
+> On Tue, 23 Mar 2021 17:40:36 +0000
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
+> 
+> > On Tue, Mar 23, 2021 at 05:54:47PM +0100, Igor Mammedov wrote:
+> > > Let me hijack this thread for beyond this case scope.
+> > > 
+> > > I agree that for this particular bug we've done all we could, but
+> > > there is broader issue to discuss here.
+> > > 
+> > > We have machine versions to deal with hw compatibility issues and that covers most of the cases,
+> > > but occasionally we notice problem well after release(s),
+> > > so users may be stuck with broken VM and need to manually fix configuration (and/or VM).
+> > > Figuring out what's wrong and how to fix it is far from trivial. So lets discuss if we
+> > > can help to ease this pain, yes it will be late for first victims but it's still
+> > > better than never.  
+> > 
+> > To summarize the problem situation
+> > 
+> >  - We rely on a machine type version to encode a precise guest ABI.
+> >  - Due a bug, we are in a situation where the same machine type
+> >    encodes two distinct guest ABIs due to a mistake introduced
+> >    betwen QEMU N-2 and N-1
+> >  - We want to fix the bug in QEMU N
+> >  - For incoming migration there is no way to distinguish between
+> >    the ABIs used in N-2 and N-1, to pick the right one
+> > 
+> > So we're left with an unwinnable problem:
+> > 
+> >   - Not fixing the bug =>
+> > 
+> >        a) user migrating N-2 to N-1 have ABI change
+> >        b) user migrating N-2 to N have ABI change
+> >        c) user migrating N-1 to N are fine
+> > 
+> >     No mitigation for (a) or (b)
+> > 
+> >   - Fixing the bug =>
+> > 
+> >        a) user migrating N-2 to N-1 have ABI change.
+> >        b) user migrating N-2 to N are fine
+> >        c) user migrating N-1 to N have ABI change
+> > 
+> >     Bad situations (a) and (c) are mitigated by
+> >     backporting fix to N-1-stable too.
+> > 
+> > Generally we have preferred to fix the bug, because we have
+> > usually identified them fairly quickly after release, and
+> > backporting the fix to stable has been sufficient mitigation
+> > against ill effects. Basically the people left broken are a
+> > relatively small set out of the total userbase.
+> > 
+> > The real challenge arises when we are slow to identify the
+> > problem, such that we have a large number of people impacted.
+> > 
+> > 
+> > > I'll try to sum up idea Michael suggested (here comes my unorganized brain-dump),
+> > > 
+> > > 1. We can keep in VM's config QEMU version it was created on
+> > >    and as minimum warn user with a pointer to known issues if version in
+> > >    config mismatches version of actually used QEMU, with a knob to silence
+> > >    it for particular mismatch.
+> > > 
+> > > When an issue becomes know and resolved we know for sure how and what
+> > > changed and embed instructions on what options to use for fixing up VM's
+> > > config to preserve old HW config depending on QEMU version VM was installed on.  
+> > 
+> > > some more ideas:
+> > >    2. let mgmt layer to keep fixup list and apply them to config if available
+> > >        (user would need to upgrade mgmt or update fixup list somehow)
+> > >    3. let mgmt layer to pass VM's QEMU version to currently used QEMU, so
+> > >       that QEMU could maintain and apply fixups based on QEMU version + machine type.
+> > >       The user will have to upgrade to newer QEMU to get/use new fixups.  
+> > 
+> > The nice thing about machine type versioning is that we are treating the
+> > versions as opaque strings which represent a specific ABI, regardless of
+> > the QEMU version. This means that even if distros backport fixes for bugs
+> > or even new features, the machine type compatibility check remains a
+> > simple equality comparsion.
+> > 
+> > As soon as you introduce the QEMU version though, we have created a
+> > large matrix for compatibility. This matrix is expanded if a distro
+> > chooses to backport fixes for any of the machine type bugs to their
+> > stable streams. This can get particularly expensive when there are
+> > multiple streams a distro is maintaining.
+> > 
+> > *IF* the original N-1 qemu has a property that could be queried by
+> > the mgmt app to identify a machine type bug, then we could potentially
+> > apply a fixup automatically.
+> > 
+> > eg query-machines command in QEMU version N could report against
+> > "pc-i440fx-5.0", that there was a regression fix that has to be
+> > applied if property "foo" had value "bar".
+> > 
+> > Now, the mgmt app wants to migrate from QEMU N-2 or N-1 to QEMU N.
+> > It can query the value of "foo" on the source QEMU with qom-get.
+> > It now knows whether it has to override this property "foo" when
+> > spawning QEMU N on the target host.
+> > 
+> > Of course this doesn't help us if neither N-1 or N-2 QEMU had a
+> > property that can be queried to identify the bug - ie if the
+> > property in question was newly introduced in QEMU N to fix the
+> > bug.
+> > 
+> > > In my opinion both would lead to explosion of 'possibly needed' properties for each
+> > > change we introduce in hw/firmware(read ACPI) and very possibly a lot of conditional
+> > > branches in QEMU code. And I'm afraid it will become hard to maintain QEMU =>
+> > > more bugs in future.
+> > > Also it will lead to explosion of test matrix for downstreams who care about testing.
+> > > 
+> > > If we proactively gate changes on properties, we can just update fixup lists in mgmt,
+> > > without need to update QEMU (aka Insite rules) at a cost of complexity on QMEU side.
+> > > 
+> > > Alternatively we can be conservative in spawning new properties, that means creating
+> > > them only when issue is fixed and require users to update QEMU, so that fixups could
+> > > be applied to VM.
+> > > 
+> > > Feel free to shoot the messenger down or suggest ways how we can deal with the problem.  
+> > 
+> > The best solution is of course to not have introduced the ABI change in
+> > the first place. We have lots of testing, but upstream at least, I don't
+> > think we have anything that is explicitly recording the ABI associated
+> > with each machine type and validating that it hasn't changed. We rely on
+> > the developers to follow the coding practices wrt setting machine type
+> > defaults for back compat, and while we're good, we inevitably screw up
+> > every now & then.
+> > 
+> > Downstreams do have some of this ABI testing - several problems like the
+> > one we have there, have been identified when RHEL downstream QE did
+> > migration tests and found a change in RHEL machine types, which then
+> > was traced back to upstream.
+> > 
+> > I feel like we need some standard tool which can be run inside a VM
+> > that dumps all the possible ABI relevant information about the virtual
+> > machine in a nice data format.
+> > 
+> > We would have to run this for each machine type, and save the
+> > results to git immediately after release. Then for every change to
+> > master, we would have to run the test again for every historic
+> > machine type version and compare to the recorded ABI record.
+> 
+> Like Michael said we don't know that something is broken until it's
+> too late and this particular case it's not even broken (strictly speaking
+> change is correct) and is not even a part of ABI (it's ACPI code, i.e. firmware).
+> 
+> Problem is in the way virtio drivers enumerate devices, which makes the same
+> device appear as a new one. We can work around issue on hypervisor side so user
+> won't loose network connectivity or would be able to boot guest after QEMU upgrade.
+> 
+> We can suggest user re-installing their Windows (method that fixes almost all Win issues)
+> or to try to make it pain-less for user in these rare cases, by upgrading to
+> new QEMU (or fixed stable) which has workaround, so only the first few has to suffer.
+> 
+> (I think downstreams would even more benefit from this, there were similar problems
+> there before).
+> 
+> Yes, It surely will expand test matrix, but it should be limited to specific cases
+> we implemented fixups for.
 
-On Wed, Mar 24, 2021 at 09:09:02PM +0100, Klaus Jensen wrote:
->From: Klaus Jensen <k.jensen@samsung.com>
->
->Add the missing nvme_adm_opc_str entry for the Namespace Attachment
->command.
->
->Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->---
-> hw/block/nvme.h | 1 +
-> 1 file changed, 1 insertion(+)
->
->diff --git a/hw/block/nvme.h b/hw/block/nvme.h
->index 5b0031b11db2..9edc86d79e98 100644
->--- a/hw/block/nvme.h
->+++ b/hw/block/nvme.h
->@@ -86,6 +86,7 @@ static inline const char *nvme_adm_opc_str(uint8_t opc)
->     case NVME_ADM_CMD_SET_FEATURES:     return "NVME_ADM_CMD_SET_FEATURES";
->     case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
->     case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
->+    case NVME_ADM_CMD_NS_ATTACHMENT:    return "NVME_ADM_CMD_NS_ATTACHMENT";
->     case NVME_ADM_CMD_FORMAT_NVM:       return "NVME_ADM_CMD_FORMAT_NVM";
->     default:                            return "NVME_ADM_CMD_UNKNOWN";
->     }
->--
-Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->2.31.0
->
->
+My suggestion from a long while ago (which no one liked) was to
+include the source qemu version and then have a quirks list of things to
+fix up.
 
-------9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_14575_
-Content-Type: text/plain; charset="utf-8"
+Dave
 
+> > 
+> > Regards,
+> > Daniel
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-------9CMuN9iDGEr79_UZ9KBz13DO6G9EfLQokAV6LaKoO8yZ8pVk=_14575_--
 
