@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52BC34CDF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 12:29:16 +0200 (CEST)
-Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE6934CE01
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 12:31:44 +0200 (CEST)
+Received: from localhost ([::1]:40462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQp8v-0001te-Uk
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 06:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
+	id 1lQpBP-0002x3-42
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 06:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lQp7L-00018m-KL
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60739)
+ id 1lQp9M-0002QY-MF
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:29:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lQp7I-0000Eh-Rr
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:27:30 -0400
+ id 1lQp9I-0001Kj-QU
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 06:29:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617013646;
+ s=mimecast20190719; t=1617013769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tgjvXzM+TR5QIXlSjNkLN5M7V8Etri4+GLTMLtpeLiM=;
- b=ZrOxwKSX6a7zN9juqv/XTefn8A1qRuZ9aQQMeZ9TwmYO3XH4q8/vuVtkeNTKjAgWCA1JWQ
- NKdqnRRNaqAQAeUyvn8ObQ6pVCRE4A6iIfAcDq9eZjfcl/t0UgiVkUnGI5gmq7POuE+/jX
- dtS8VBG49JzKn7MpaysZzXADQVE85eI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-IOVrCbkDNJyp3ozSyx2LhQ-1; Mon, 29 Mar 2021 06:27:24 -0400
-X-MC-Unique: IOVrCbkDNJyp3ozSyx2LhQ-1
-Received: by mail-ed1-f69.google.com with SMTP id q12so8376832edv.9
- for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 03:27:24 -0700 (PDT)
+ bh=6/RPWM9tQWn+8KgIkE/9pdQwEjcx6rVHz+YUjcedeEE=;
+ b=GHWnv69rRUV1uiv0Lm3/fWqBYxKugTTI40bKBW01P0W7KqoZCZkb1RLMDepfErwXAb7lYp
+ 5zZoQJl19oYkey2EWLPDPlNkWf+PkGLPBkGDFMgpRzu7FiHwN/PqpJc55eQ3pTFtD5OwYo
+ /FDGEUMZZP9k5v28x+5oZCp1XlycmRE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-ky7BKVNnMPynXdLl0XN-4A-1; Mon, 29 Mar 2021 06:29:27 -0400
+X-MC-Unique: ky7BKVNnMPynXdLl0XN-4A-1
+Received: by mail-wr1-f69.google.com with SMTP id t14so8460609wrx.12
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 03:29:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tgjvXzM+TR5QIXlSjNkLN5M7V8Etri4+GLTMLtpeLiM=;
- b=Hy6/ydBoc8dBWnfsNKwSvYA4A+laO77dT024K8zEKu2ufFGmLsTHwoAaWp27rC4ER4
- 0bGrNlSl0UaOm4KZwAi8H76eCbKyI6IxXSTDWIAI1V1T/s+0ubuFDeIfVd3sz99TosXY
- qRzZu+b3bMw5Z+Vh6rcRWYxPjqind0JM6qtVL5AIEFRW2iEbtpe0/6jsbozL/OmEqhG9
- Hpb1sFnkDpM+2wemmvegBZg0HEH7UTtGwWMrNEwYs7tMfrX0FzgsW3/VTSi1vMjHP3Hc
- BNYfXoO4R1bEeoeRJmWrxa2Z0Xjq24ziDz4eWqoqfxSFilruEKJjhj/a0FAS60Kiiy3o
- piIQ==
-X-Gm-Message-State: AOAM5310/LUe7feg2W8NKJi5iVikoF69rwlxQv1A2Pdj2ui0yfTd9n7/
- uyxAP8X383Bl1MTPp6DOAf3KQOkEWLCjw6DtzC9P7PhjnV347fDYXg8lNhIplMu4e18pTnasdSn
- s/01dZLxE+4/BWvM=
-X-Received: by 2002:a17:906:86c6:: with SMTP id
- j6mr26743928ejy.197.1617013643437; 
- Mon, 29 Mar 2021 03:27:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzVeo7magV6t/zxbRLf9IVf/+CC9xeVLY7Bf0XNuTqyAPeFiOpnq38Em2VG4j//81cra98qNQ==
-X-Received: by 2002:a17:906:86c6:: with SMTP id
- j6mr26743915ejy.197.1617013643242; 
- Mon, 29 Mar 2021 03:27:23 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id l12sm8599011edb.39.2021.03.29.03.27.20
+ bh=6/RPWM9tQWn+8KgIkE/9pdQwEjcx6rVHz+YUjcedeEE=;
+ b=sSn3Zmxe6rSYic5VMffSznsMytrxDPidp547Y1aHi0KcTdeNF7O6pb1Wj88Dbvbspw
+ aXsoOPx/qEcxF92+fHQurpe4mUVcwO2DrsnagrVBJr4gY20e8b2SGaLyF1QyDrW0Fc6w
+ Xfwj4+iKiXBzi0tg0xEtOfaqDFpVZpkyR3HN7KBXbV5BbDtq03LWFc279IWaJPuLjRmz
+ 7PYVQmpiGrZEyhAoMBc4X1ebL2jyhrzglP06ED6srfvewkIadu0yxs6PKKc7iiAAfV7y
+ pAbxs4IatMV7iTzlbaQGeoCOWZuRTsjj9jMtIG/MfYbWoHTI8i/tOxga5dE0hygarxLg
+ AWPg==
+X-Gm-Message-State: AOAM533EmDgzfMBrFrlJ1r56oxI7V/3mUD6BhL4bAcbiBRsLt1DXStpY
+ z2tBheX7mnlElwE0rGXjV7WnkC5oFbT/iyO/kX702Zpe4oMXbmBrjKg0kGrono4niKR/onMaqya
+ bNodlNs2gpvKjazc=
+X-Received: by 2002:a5d:65cd:: with SMTP id e13mr28350812wrw.334.1617013766300; 
+ Mon, 29 Mar 2021 03:29:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyvWrmtRYTTZMjLhOQczzNbldktSt3SwrPTGK7F0yNSAPFsSyHAzHyUPaNqGl4NVAwsXlpvvw==
+X-Received: by 2002:a5d:65cd:: with SMTP id e13mr28350794wrw.334.1617013766098; 
+ Mon, 29 Mar 2021 03:29:26 -0700 (PDT)
+Received: from [192.168.10.118] ([93.56.169.140])
+ by smtp.gmail.com with ESMTPSA id l15sm28674531wru.38.2021.03.29.03.29.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Mar 2021 03:27:20 -0700 (PDT)
-Subject: Re: [PATCH] icount: get rid of static variable
+ Mon, 29 Mar 2021 03:29:25 -0700 (PDT)
+Subject: Re: [PATCH v2] replay: notify CPU on event
 To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <161701335066.1180180.7104085247702343395.stgit@pasha-ThinkPad-X280>
+References: <161700382734.1136014.13372992399972618499.stgit@pasha-ThinkPad-X280>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e59b5179-081a-7fc0-919f-b1b0d0941241@redhat.com>
-Date: Mon, 29 Mar 2021 12:27:19 +0200
+Message-ID: <0fa410cd-32e8-5349-dbde-0c61fdc29e80@redhat.com>
+Date: Mon, 29 Mar 2021 12:29:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <161701335066.1180180.7104085247702343395.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <161700382734.1136014.13372992399972618499.stgit@pasha-ThinkPad-X280>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,22 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, cfontana@suse.de
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/03/21 12:22, Pavel Dovgalyuk wrote:
-> This patch moves static last_delta variable into timers_state
-> structure to allow correct vmstate operations with icount shift=auto enabled.
+On 29/03/21 09:43, Pavel Dovgalyuk wrote:
+> This patch enables vCPU notification to wake it up
+> when new async event comes in replay mode.
+> 
+> The motivation of this patch is the following.
+> Consider recorded block async event. It is saved into the log
+> with one of the checkpoints. This checkpoint may be passed in
+> vCPU loop. In replay mode when this async event is read from
+> the log, and block thread task is not finished yet, vCPU thread
+> goes to sleep. That is why this patch adds waking up the vCPU
+> to process this finished event.
 > 
 > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > ---
->   softmmu/cpu-timers.c   |    5 +++--
->   softmmu/icount.c       |    9 +++------
->   softmmu/timers-state.h |    2 ++
->   3 files changed, 8 insertions(+), 8 deletions(-)
+>   replay/replay-events.c |    1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/replay/replay-events.c b/replay/replay-events.c
+> index a1c6bb934e..92dc800219 100644
+> --- a/replay/replay-events.c
+> +++ b/replay/replay-events.c
+> @@ -126,6 +126,7 @@ void replay_add_event(ReplayAsyncEventKind event_kind,
+>   
+>       g_assert(replay_mutex_locked());
+>       QTAILQ_INSERT_TAIL(&events_list, event, events);
+> +    qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+>   }
 
-Queued, thanks.
+I still do not understand why the qemu_clock_notify function is used to 
+notify the CPU.  It would be nice to have a description of the call 
+chain in a comment or to have a more appropriate API.  I can queue the 
+patch since it's deep in replay-events.c and not in common code, but if 
+you post a short description here I'll integrate it.
 
 Paolo
 
