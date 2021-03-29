@@ -2,80 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7C934D42C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 17:42:49 +0200 (CEST)
-Received: from localhost ([::1]:43112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDE134D45A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 17:56:39 +0200 (CEST)
+Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQu2S-0003RY-PZ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 11:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
+	id 1lQuFp-0004tu-V4
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 11:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lQu0v-0002Il-TU
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lQu0r-0006Cr-Qu
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:41:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617032469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B0tb3aSy9Sj6ZiYkz+VO7oSnpKkaIzhVR5ZrZ4wRWQQ=;
- b=Rl1uG09xL3RT4a1N4k5Zx+b50odWyvJ6z0QNxACBbX5RR3Gu0qjx9f3duYE2npML/W6M8X
- GNCdIixyjcnSUXIYIdzLx5gTzhdUKpN7f7uP41XU2O/xv1UfI3AyHS0rTR5xKMiiXzr8RY
- 8qRGjkLkhICJJmSwya1AVKSY0XBiy9g=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-jf5BkxjIN8S8uvJEFTBsMg-1; Mon, 29 Mar 2021 11:41:06 -0400
-X-MC-Unique: jf5BkxjIN8S8uvJEFTBsMg-1
-Received: by mail-vk1-f197.google.com with SMTP id r1so4602521vke.11
- for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 08:41:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B0tb3aSy9Sj6ZiYkz+VO7oSnpKkaIzhVR5ZrZ4wRWQQ=;
- b=HOABn0p77AyL99fCJI6IdlNse9+l3fUzhKvotKK8zSbzzQR1mmDCOyn+tDPZigS/YY
- OGP79xX7rkDDbU6Vkce4VHKKVepf/jW2Bk797OkWp4FmQ0Vg5NoQBb1Vgdg1tsuBexLy
- UhC3UgA6Z9DaEnwwEONFpHkIVsUFcCXv2aQP7LYtJLDdSD1z4OVo1XnMMgUVvabEHB0j
- kF5tiNc+lG1tMgvwR4QM4ReAJl/4EFQj0US0/JM3ujVZfqhGXPLJj3nVzt5Uhb5dgQJ6
- waButajWBLTM/9GVVxDGZDYi6EpFJu8izrwuLrajC3P4AdptG3o0ez+rXOlhnmyhTj6X
- JLhg==
-X-Gm-Message-State: AOAM5325KdPJ86A8UC7hbaYVuLpy1JkiPj0wU2jm2DMVPYGcdfpJbanh
- w97h6iOdaFqJCFaEUfMWq3FtL3r4bYGyfdGAqYo5T2KPHCvcthPDDNxh4mq+AcYOVx+UJM4XiRA
- 8b7KVx9QW5VNjpx4eearWgbsqS4YLIj8=
-X-Received: by 2002:a67:8702:: with SMTP id j2mr13757468vsd.50.1617032466132; 
- Mon, 29 Mar 2021 08:41:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/MTQXHFtGhUuHw+wXGhjLSHF0DPswd4W7Avffgn7fR2PmOFp/Q5Mhq0D5Nl6J995OnQU22hc+3uqaD5IM3pE=
-X-Received: by 2002:a67:8702:: with SMTP id j2mr13757459vsd.50.1617032465988; 
- Mon, 29 Mar 2021 08:41:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lQuEz-0004Cn-9s
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:55:45 -0400
+Received: from foss.arm.com ([217.140.110.172]:48770)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lQuEo-0004rX-LO
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:55:44 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0F36142F;
+ Mon, 29 Mar 2021 08:55:30 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAA313F719;
+ Mon, 29 Mar 2021 08:55:27 -0700 (PDT)
+Subject: Re: [PATCH v10 1/6] arm64: mte: Sync tags for pages where PTE is
+ untagged
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210312151902.17853-1-steven.price@arm.com>
+ <20210312151902.17853-2-steven.price@arm.com> <20210326185653.GG5126@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <21842e4d-7935-077c-3d6f-fced89b7f2bb@arm.com>
+Date: Mon, 29 Mar 2021 16:55:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210329132632.68901-1-mreitz@redhat.com>
- <20210329132632.68901-5-mreitz@redhat.com>
-In-Reply-To: <20210329132632.68901-5-mreitz@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 29 Mar 2021 12:40:40 -0300
-Message-ID: <CAKJDGDYWiaFH88HxxzsKb=ovAghUk6aJLeZsT729a9im9mFeqA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] iotests/297: Cover tests/
-To: Max Reitz <mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210326185653.GG5126@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,26 +59,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 10:28 AM Max Reitz <mreitz@redhat.com> wrote:
->
-> 297 so far does not check the named tests, which reside in the tests/
-> directory (i.e. full path tests/qemu-iotests/tests).  Fix it.
->
-> Thanks to the previous two commits, all named tests pass its scrutiny,
-> so we do not have to add anything to SKIP_FILES.
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/297 | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
+On 26/03/2021 18:56, Catalin Marinas wrote:
+> Hi Steven,
+> 
+> On Fri, Mar 12, 2021 at 03:18:57PM +0000, Steven Price wrote:
+>> A KVM guest could store tags in a page even if the VMM hasn't mapped
+>> the page with PROT_MTE. So when restoring pages from swap we will
+>> need to check to see if there are any saved tags even if !pte_tagged().
+>>
+>> However don't check pages which are !pte_valid_user() as these will
+>> not have been swapped out.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>   arch/arm64/include/asm/pgtable.h |  2 +-
+>>   arch/arm64/kernel/mte.c          | 16 ++++++++++++----
+>>   2 files changed, 13 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+>> index e17b96d0e4b5..84166625c989 100644
+>> --- a/arch/arm64/include/asm/pgtable.h
+>> +++ b/arch/arm64/include/asm/pgtable.h
+>> @@ -312,7 +312,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+>>   		__sync_icache_dcache(pte);
+>>   
+>>   	if (system_supports_mte() &&
+>> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
+>> +	    pte_present(pte) && pte_valid_user(pte) && !pte_special(pte))
+>>   		mte_sync_tags(ptep, pte);
+> 
+> With the EPAN patches queued in for-next/epan, pte_valid_user()
+> disappeared as its semantics weren't very clear.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Thanks for pointing that out.
 
+> So this relies on the set_pte_at() being done on the VMM address space.
+> I wonder, if the VMM did an mprotect(PROT_NONE), can the VM still access
+> it via stage 2? If yes, the pte_valid_user() test wouldn't work. We need
+> something like pte_present() && addr <= user_addr_max().
+
+AFAIUI the stage 2 matches the VMM's address space (for the subset that 
+has memslots). So mprotect(PROT_NONE) would cause the stage 2 mapping to 
+be invalidated and a subsequent fault would exit to the VMM to sort out. 
+This sort of thing is done for the lazy migration use case (i.e. pages 
+are fetched as the VM tries to access them).
+
+> BTW, ignoring virtualisation, can we ever bring a page in from swap on a
+> PROT_NONE mapping (say fault-around)? It's not too bad if we keep the
+> metadata around for when the pte becomes accessible but I suspect we
+> remove it if the page is removed from swap.
+
+There are two stages of bringing data from swap. First is populating the 
+swap cache by doing the physical read from swap. The second is actually 
+restoring the page table entries.
+
+Clearly the first part can happen even with PROT_NONE (the simple case 
+is there's another mapping which is !PROT_NONE).
+
+For the second I'm a little hazy on exactly what happens when you do a 
+'swapoff' - that may cause a page to be re-inserted into a page table 
+without a fault. If you follow the chain down from try_to_unuse() you 
+end up at a call to set_pte_at(). So we need set_pte_at() to handle a 
+PROT_NONE mapping. So I guess the test we really want here is just 
+(pte_val() & PTE_USER).
+
+Steve
 
