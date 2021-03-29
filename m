@@ -2,71 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED5434D242
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 16:18:30 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E489634DEF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 05:06:38 +0200 (CEST)
+Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQsiq-0008LE-S7
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 10:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
+	id 1lR4iC-0003Zh-Kv
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 23:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lQshf-0007sJ-2o
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:17:15 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lQshd-00009V-1i
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:17:14 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id w18so14501381edc.0
- for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 07:17:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=khBfSoiP07rxsriYEWbezpvjGpbJCcBSnxoytsf5Ysw=;
- b=TVlgw58kkYXL6l/qpcU6YfvZOczDOkzIWLDHo3eRvva60nDw8gydp1Q5jhE2ZC0zlJ
- PxIlPdP6fCEenpdSRCzIIDUKnt52jnvIlW7NfFavqpW6Wus5Z0oNRnOfgcKDu86bzJ0I
- 6jVSzsV9bB1d0kWIYY/U6zYRgSkmvS/+/BV3QvwO7XVMKAIjs8wUoZx3gkYpWpqWb2QT
- hk/XCQjNZxcUNTo0Gk6NqZkMGzqA6ChisS9nVZcXRjTmuR18vdbQ6fKfgYLyrtdzaGRf
- gqoSybrX0fKebtFMeogsIlFQqZq8yJtsHZW6muZIEnW8a4mgDXK202okz2K229/+kGwz
- FRmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=khBfSoiP07rxsriYEWbezpvjGpbJCcBSnxoytsf5Ysw=;
- b=jDdST+QfMbQLKtS2lMCCcwkhcNUDV2xXHQZRBqHvFmdHrXkCDPtbLVeUKSG2hz97+O
- jerhk8k5OAMhvTqIIMPylGYfbaTWBWUMAooHJVbelMGZPvHbTpRgnuQbf0A9MAoggWic
- MjfVEKmPmDAoVmv8g1WIruihCvzunjkr+5k0NjKB3o0V5J0adjgUu8qJpo2Op+152FKg
- TSvgkFn0/bG6JWDxFSMRtBaV5Sznn9wNodHJL0hddQgyA366TBiTXdAXjGhq1iSfIQ/S
- lfP2RzHSe3Ds54cS4F1iyAPbhE6McFI3rgFa2BpxHfrRz1HfL9om8tJbgmkdzirErX5e
- 40qQ==
-X-Gm-Message-State: AOAM5333zJgewUIuM9JjCDxM2V2F68/j5xCi9eglA9mFLbu9nhIpAn/a
- eYoS+5SV7IEJ9g2TS2SkWlqUZGzp9W6UDrCAKRw=
-X-Google-Smtp-Source: ABdhPJwWIUZykewWBJlhpdiYbdlEhmybKvemUuNXVnKy+YmZjdC1FT6k7jt0O3GXcSKHvfB+gv63xRKNdamQuvDW0r8=
-X-Received: by 2002:aa7:cf17:: with SMTP id a23mr29541318edy.30.1617027430780; 
- Mon, 29 Mar 2021 07:17:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lR4gJ-0002dl-QT
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 23:04:40 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:33262)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lR4gC-0002aV-Bw
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 23:04:39 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210330030421epoutp01b811b90119339e53756e429b86a62d17~w-77FVt752096720967epoutp01A
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 03:04:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210330030421epoutp01b811b90119339e53756e429b86a62d17~w-77FVt752096720967epoutp01A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1617073461;
+ bh=8kVEg6pBMT78ogjL/bwtwbp1AfRJQUnQNaKH0b7oVVM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=H72/owPDStza5RufAzcXdx4IM30T0uIySgktCoiexDFWOV+VgmomCkcMEfTi+fufv
+ rj08cxja+NL+EwYv+7ZA119Bey01EEKihXpDPoWoFADTo89A/j/bCYCeN+JPx100Fn
+ cu0NDfIfp2gu0LBndhhtuEBV6rVs11Y2DuxJ8nJI=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+ 20210330030420epcas5p4414cb342087802bb59561fc15167097e~w-76zLjOV1131511315epcas5p4v;
+ Tue, 30 Mar 2021 03:04:20 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 69.14.15682.43592606; Tue, 30 Mar 2021 12:04:20 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20210329142606epcas5p45c24d24ea384e7bd68c368f1083c1b84~w1l5NSg3q0733507335epcas5p4d;
+ Mon, 29 Mar 2021 14:26:06 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210329142606epsmtrp18acd189b44c17ee46005d6d5e90b6f5c~w1l5Mjy033152931529epsmtrp1M;
+ Mon, 29 Mar 2021 14:26:06 +0000 (GMT)
+X-AuditID: b6c32a49-8d5ff70000013d42-36-60629534dc55
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 3C.8D.08745.E73E1606; Mon, 29 Mar 2021 23:26:06 +0900 (KST)
+Received: from 2030045822 (unknown [107.108.221.178]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210329142605epsmtip27c5a70567ef70f804035437b12ae864b~w1l34ioiw0736507365epsmtip2C;
+ Mon, 29 Mar 2021 14:26:05 +0000 (GMT)
+Date: Mon, 29 Mar 2021 19:52:58 +0530
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH for-6.0 1/7] hw/block/nvme: fix pi constraint check
+Message-ID: <20210329142258.GA23272@2030045822>
 MIME-Version: 1.0
-References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
- <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 29 Mar 2021 18:16:59 +0400
-Message-ID: <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
-Subject: Re: [PULL 00/10] For 6.0 patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>
-Content-Type: multipart/alternative; boundary="0000000000009a906c05bead896a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210324200907.408996-2-its@irrelevant.dk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLKsWRmVeSWpSXmKPExsWy7bCmuq7J1KQEg989ahZX9p9ntNh/8Bur
+ xcnGPawWkw5dY7RYcjHVYt4tZYtZ79rZLI737mCxeD3pP6sDp8ePc+1sHud2nGf32LSqk83j
+ ybXNTB7v911l8+jbsooxgC2KyyYlNSezLLVI3y6BK+Ps4YiCbq6K+zfaWBsYZ3N0MXJySAiY
+ SFx58Y29i5GLQ0hgN6PE240nGSGcT4wSD1fsgnI+M0p8fNzIBNNyf/4XFojELkaJf0c3M4Mk
+ hAReMUq8fFIHYrMIqEpcXLmEBcRmEzCSmP32DSOILSKgIvH0316wZmaBv4wS33ftZgNJCAu4
+ S7yY9YMVxOYV0Jd4PH8aC4QtKHFy5hMwm1PAQmLiso/sILaogLLEgW3HmUAGSQhM5JCY1DSH
+ FeI8F4nGU19YIGxhiVfHt7BD2FISL/vbgGx2ILta4nARRGsHo8SxyxvYIErsJf49mwZ2KLNA
+ hsTKq8ugxshKTD21jgkizifR+/sJNCR4JXbMg7HVJBbc+g61SkZi5p/bUOd4SJw6DXG/kMBO
+ RonjS6UmMMrPQvLaLCTrIGwric4PTayzGDmAbGmJ5f84IExNifW79Bcwsq5ilEwtKM5NTy02
+ LTDMSy3XK07MLS7NS9dLzs/dxAhOUVqeOxjvPvigd4iRiYPxEKMEB7OSCK/wgcQEId6UxMqq
+ 1KL8+KLSnNTiQ4zSHCxK4rw7DB7ECwmkJ5akZqemFqQWwWSZODilGpi2SAQX7f3lHbqDZ97b
+ 9RNYZqhwPJNbfCh/0sJpItPeLbyitcniEndQic6zExnH1yzVPDrFrOTXeY23XUYPAw8em6ak
+ /MDyPfP2ad1Hbole3FOQ9/azYvbbG7ILG6ueLZm5rOKKXfx8jXPLRN+5tM1mX3H91OvLF27Z
+ OMUkpZ5W3JZSHtwqJR6o5cpn1vR7zpHCwCc39Hwv3PS0Lta4e741/kPK15vcZkuEtVaKVmVW
+ ci5rlLN/a1f9hiv9X0OO9g0f91dJ+cu5FudOkF6/KJKN98tUr6AzMcaxBzTMdfTeML7df9Y2
+ 3rK9TvX0djdXl5ptDyc7Z9Zu3ySvIMx0Pl/ofdIaoWNzYl6Y7HL2W1ihxFKckWioxVxUnAgA
+ IRKu08ADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNLMWRmVeSWpSXmKPExsWy7bCSvG7d48QEg92/1Syu7D/PaLH/4DdW
+ i5ONe1gtJh26xmix5GKqxbxbyhaz3rWzWRzv3cFi8XrSf1YHTo8f59rZPM7tOM/usWlVJ5vH
+ k2ubmTze77vK5tG3ZRVjAFsUl01Kak5mWWqRvl0CV8bW512sBXvZKyZM3MDSwPictYuRk0NC
+ wETi/vwvLF2MXBxCAjsYJZbMOQaVkJH4dWoqM4QtLLHy33N2EFtI4AWjRMPiZBCbRUBV4uLK
+ JSwgNpuAkcTst28YQWwRARWJp//2gg1lFvjPKPFo9xGwQcIC7hIvZv0AW8AroC/xeP40Foih
+ qRIrd85kgYgLSpyc+QTMZhYwk5i3+SFQLweQLS2x/B8HSJhTwEJi4rKPYPeICihLHNh2nGkC
+ o+AsJN2zkHTPQuhewMi8ilEytaA4Nz232LDAKC+1XK84Mbe4NC9dLzk/dxMjOD60tHYw7ln1
+ Qe8QIxMH4yFGCQ5mJRFe4QOJCUK8KYmVValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1O
+ TS1ILYLJMnFwSjUwsUy7XT3l85YNVwvWKBdN/2a8OPdOXY9V9p7eDwUBLutjjYPmlBw9qJHn
+ /Zt5sXa0iea1NaoF7UqSvz6ver1DLWD/VcM4gfXfWmxTfoZYNXxbGb6xsvALE5f45yZpUbvb
+ movPyylO45GptXwjzh0T0Ltv3myWuOdxGxpWldx/eaJ0zpM3NzY7vD6/WkPumcDHdbJODPPm
+ KK15ZnLSIGenm9d2x+cWYb0W/6/JN7Vam1V/emN938JH+E7rL+X7M1qkXZxvrVflTuRyTCoq
+ 8WT27jZYbsFp9KnfYW5UTwqHzcW9GtZb3eZsmW534fjFMgP2XW9sIrP2H6yb/6/v2CfPgjNL
+ Yq5cc346Q/8Lh7O4EktxRqKhFnNRcSIAumMQ1f4CAAA=
+X-CMS-MailID: 20210329142606epcas5p45c24d24ea384e7bd68c368f1083c1b84
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----rJxxaR0GuCM_dHQxpWiIChs6D.UommiO4QigGiW7XG79mXGL=_1444c_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210329142606epcas5p45c24d24ea384e7bd68c368f1083c1b84
+References: <20210324200907.408996-1-its@irrelevant.dk>
+ <20210324200907.408996-2-its@irrelevant.dk>
+ <CGME20210329142606epcas5p45c24d24ea384e7bd68c368f1083c1b84@epcas5p4.samsung.com>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,231 +125,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009a906c05bead896a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+------rJxxaR0GuCM_dHQxpWiIChs6D.UommiO4QigGiW7XG79mXGL=_1444c_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Hi
+On Wed, Mar 24, 2021 at 09:09:01PM +0100, Klaus Jensen wrote:
+>From: Klaus Jensen <k.jensen@samsung.com>
+>
+>Protection Information can only be enabled if there is at least 8 bytes
+>of metadata.
+>
+>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>---
+> hw/block/nvme-ns.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+>index 7f8d139a8663..ca04ee1bacfb 100644
+>--- a/hw/block/nvme-ns.c
+>+++ b/hw/block/nvme-ns.c
+>@@ -394,7 +394,7 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
+>         return -1;
+>     }
+>
+>-    if (ns->params.pi && !ns->params.ms) {
+>+    if (ns->params.pi && ns->params.ms < 8) {
+and also it is good check that "metadata size" is power of 2 or not?
 
-On Mon, Mar 29, 2021 at 5:54 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Sun, 28 Mar 2021 at 19:45, <marcandre.lureau@redhat.com> wrote:
-> >
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > The following changes since commit
-> 7b9a3c9f94bcac23c534bc9f42a9e914b433b299:
-> >
-> >   Merge remote-tracking branch
-> 'remotes/kraxel/tags/fixes-20210326-pull-request' into staging (2021-03-2=
-6
-> 12:58:58 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git@gitlab.com:marcandre.lureau/qemu.git tags/for-6.0-pull-request
-> >
-> > for you to fetch changes up to f57d44b452e11d8b7c9743476c30a8d0f80926de=
-:
-> >
-> >   tests: Add tests for yank with the chardev-change case (2021-03-27
-> 13:57:40 +0400)
-> >
-> > ----------------------------------------------------------------
-> > For 6.0 misc patches under my radar.
-> >
-> > Peter, let me know if you would rather split that PR.
-> >
-> > ----------------------------------------------------------------
->
-> This produces a backtrace from sphinx-build which nonetheless doesn't
-> cause a build failure:
->
->
-> Program sphinx-build found: YES
-> ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:
-> Configuration error:
-> There is a programable error in your configuration file:
->
-> Traceback (most recent call last):
->   File "conf.py", line 154, in <module>
->     import sphinx_rtd_theme
-> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
->
-> During handling of the above exception, another exception occurred:
->
-> Traceback (most recent call last):
->   File "/usr/lib/python3/dist-packages/sphinx/config.py", line 157, in
-> __init__
->     execfile_(filename, config)
->   File "/usr/lib/python3/dist-packages/sphinx/util/pycompat.py", line
-> 150, in execfile_
->     exec_(code, _globals)
->   File "conf.py", line 157, in <module>
->     'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
-> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme
-> was not found.
+>         error_setg(errp, "at least 8 bytes of metadata required to enable "
+>                    "protection information");
+>         return -1;
+>-- 
+>2.31.0
 >
 >
 
-../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
-Configuration error:
-The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
-
-../docs/meson.build:32:6: ERROR: Problem encountered: Install a Python 3
-version of python-sphinx and the readthedoc theme
-
-It's only fatal if you explicitely enabled docs. Otherwise, it just prints
-a warning and disable it (just like sphinx 3.6 version requirement).
+------rJxxaR0GuCM_dHQxpWiIChs6D.UommiO4QigGiW7XG79mXGL=_1444c_
+Content-Type: text/plain; charset="utf-8"
 
 
->
->
-> Program python3 found: YES (/usr/bin/python3)
->
->
-> In particular I see that on all the BSD VMs. If we're going to
-> require rtd that means we need to ensure it's present on all
-> the VM configs, docker configs, everything the CI uses, etc.
-> You should also flag up new build-deps in the pullreq cover
-> letter.
->
-
-I updated all docker configs. We don't have sphinx in the BSD VMs
-apparently, am I wrong?
-
-
-> I dunno if we can get the error message neater (I know sphinx-build,
-> especially older versions, is a bit unhelpful about what it lets us
-> report.)
->
-> The test-yank stuff also failed on OSX:
->
-> Unexpected error in inet_connect_addr() at ../../util/qemu-sockets.c:380:
-> Failed to connect to '127.0.0.1:63820': Operation timed out
-> ERROR test-yank - too few tests run (expected 6, got 1)
->
->
-Lukas, can you have a look too?
-
-thanks
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000009a906c05bead896a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 29, 2021 at 5:54 PM Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
-naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Sun, 28 Mar 2021 at 19:45, &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<=
-br>
-&gt;<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; The following changes since commit 7b9a3c9f94bcac23c534bc9f42a9e914b43=
-3b299:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/kraxel/tags/fixe=
-s-20210326-pull-request&#39; into staging (2021-03-26 12:58:58 +0000)<br>
-&gt;<br>
-&gt; are available in the Git repository at:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0git@gitlab.com:marcandre.lureau/qemu.git tags/for-6.0-pull=
--request<br>
-&gt;<br>
-&gt; for you to fetch changes up to f57d44b452e11d8b7c9743476c30a8d0f80926d=
-e:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0tests: Add tests for yank with the chardev-change case (20=
-21-03-27 13:57:40 +0400)<br>
-&gt;<br>
-&gt; ----------------------------------------------------------------<br>
-&gt; For 6.0 misc patches under my radar.<br>
-&gt;<br>
-&gt; Peter, let me know if you would rather split that PR.<br>
-&gt;<br>
-&gt; ----------------------------------------------------------------<br>
-<br>
-This produces a backtrace from sphinx-build which nonetheless doesn&#39;t<b=
-r>
-cause a build failure:<br>
-<br>
-<br>
-Program sphinx-build found: YES<br>
-../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:<br>
-Configuration error:<br>
-There is a programable error in your configuration file:<br>
-<br>
-Traceback (most recent call last):<br>
-=C2=A0 File &quot;conf.py&quot;, line 154, in &lt;module&gt;<br>
-=C2=A0 =C2=A0 import sphinx_rtd_theme<br>
-ModuleNotFoundError: No module named &#39;sphinx_rtd_theme&#39;<br>
-<br>
-During handling of the above exception, another exception occurred:<br>
-<br>
-Traceback (most recent call last):<br>
-=C2=A0 File &quot;/usr/lib/python3/dist-packages/sphinx/config.py&quot;, li=
-ne 157, in __init__<br>
-=C2=A0 =C2=A0 execfile_(filename, config)<br>
-=C2=A0 File &quot;/usr/lib/python3/dist-packages/sphinx/util/pycompat.py&qu=
-ot;, line<br>
-150, in execfile_<br>
-=C2=A0 =C2=A0 exec_(code, _globals)<br>
-=C2=A0 File &quot;conf.py&quot;, line 157, in &lt;module&gt;<br>
-=C2=A0 =C2=A0 &#39;The Sphinx \&#39;sphinx_rtd_theme\&#39; HTML theme was n=
-ot found.\n&#39;<br>
-sphinx.errors.ConfigError: The Sphinx &#39;sphinx_rtd_theme&#39; HTML theme=
-<br>
-was not found.<br>
-<br></blockquote><div><br></div><div><br></div><div>../docs/meson.build:30:=
- WARNING: /usr/bin/sphinx-build-3: <br>Configuration error:<br>The Sphinx &=
-#39;sphinx_rtd_theme&#39; HTML theme was not found.<br><br>../docs/meson.bu=
-ild:32:6: ERROR: Problem encountered: Install a Python 3 version of python-=
-sphinx and the readthedoc theme<br></div><div><br></div><div>It&#39;s only =
-fatal if you explicitely enabled docs. Otherwise, it just prints a warning =
-and disable it (just like sphinx 3.6 version requirement).<br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<br>
-Program python3 found: YES (/usr/bin/python3)<br>
-<br>
-<br>
-In particular I see that on all the BSD VMs. If we&#39;re going to<br>
-require rtd that means we need to ensure it&#39;s present on all<br>
-the VM configs, docker configs, everything the CI uses, etc.<br>
-You should also flag up new build-deps in the pullreq cover<br>
-letter.<br></blockquote><div><br></div><div>I updated all docker configs. W=
-e don&#39;t have sphinx in the BSD VMs apparently, am I wrong?<br></div><di=
-v> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-I dunno if we can get the error message neater (I know sphinx-build,<br>
-especially older versions, is a bit unhelpful about what it lets us<br>
-report.)<br>
-<br>
-The test-yank stuff also failed on OSX:<br>
-<br>
-Unexpected error in inet_connect_addr() at ../../util/qemu-sockets.c:380:<b=
-r>
-Failed to connect to &#39;<a href=3D"http://127.0.0.1:63820" rel=3D"norefer=
-rer" target=3D"_blank">127.0.0.1:63820</a>&#39;: Operation timed out<br>
-ERROR test-yank - too few tests run (expected 6, got 1)<br><br></blockquote=
-><div><br></div><div>Lukas, can you have a look too?</div><div><br> </div><=
-div>thanks</div><div><br></div></div>-- <br><div dir=3D"ltr" class=3D"gmail=
-_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000009a906c05bead896a--
+------rJxxaR0GuCM_dHQxpWiIChs6D.UommiO4QigGiW7XG79mXGL=_1444c_--
 
