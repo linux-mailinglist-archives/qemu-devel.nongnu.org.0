@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABB134D22F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 16:13:12 +0200 (CEST)
-Received: from localhost ([::1]:45768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED5434D242
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 16:18:30 +0200 (CEST)
+Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQsdj-0006mU-Hj
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 10:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60394)
+	id 1lQsiq-0008LE-S7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 10:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQscj-0006Ku-Ta
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:12:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lQsch-0005JQ-A4
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:12:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617027125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QbXnCpovIZ5xwKTI7qvcocs6L6NzBRUHYgRspjiAyuo=;
- b=I0c+uV3LIwS59WPeeyYGLYkbvtU01BUphYs3xV3sCo/LddHwataz2q357qLnVxqZC9E2NG
- HpE7eCdpnvIi24+sodNcBvWbdvPuJfu9sjeC5OepmEiuerybB7/LLjBQJDwpddhrPe7sJ5
- ywAFAWYy3xJTY528cgmkRUMgW6aIUJI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-6CxFVvhOPr2GVr3mQHySmQ-1; Mon, 29 Mar 2021 10:11:57 -0400
-X-MC-Unique: 6CxFVvhOPr2GVr3mQHySmQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4634910D170C;
- Mon, 29 Mar 2021 14:10:44 +0000 (UTC)
-Received: from localhost (ovpn-114-227.ams2.redhat.com [10.36.114.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B91E0196E3;
- Mon, 29 Mar 2021 14:10:37 +0000 (UTC)
-Date: Mon, 29 Mar 2021 15:10:36 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: Serious doubts about Gitlab CI
-Message-ID: <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
- <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
- <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
- <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
- <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
- <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
- <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
- <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lQshf-0007sJ-2o
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:17:15 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lQshd-00009V-1i
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:17:14 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id w18so14501381edc.0
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 07:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=khBfSoiP07rxsriYEWbezpvjGpbJCcBSnxoytsf5Ysw=;
+ b=TVlgw58kkYXL6l/qpcU6YfvZOczDOkzIWLDHo3eRvva60nDw8gydp1Q5jhE2ZC0zlJ
+ PxIlPdP6fCEenpdSRCzIIDUKnt52jnvIlW7NfFavqpW6Wus5Z0oNRnOfgcKDu86bzJ0I
+ 6jVSzsV9bB1d0kWIYY/U6zYRgSkmvS/+/BV3QvwO7XVMKAIjs8wUoZx3gkYpWpqWb2QT
+ hk/XCQjNZxcUNTo0Gk6NqZkMGzqA6ChisS9nVZcXRjTmuR18vdbQ6fKfgYLyrtdzaGRf
+ gqoSybrX0fKebtFMeogsIlFQqZq8yJtsHZW6muZIEnW8a4mgDXK202okz2K229/+kGwz
+ FRmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=khBfSoiP07rxsriYEWbezpvjGpbJCcBSnxoytsf5Ysw=;
+ b=jDdST+QfMbQLKtS2lMCCcwkhcNUDV2xXHQZRBqHvFmdHrXkCDPtbLVeUKSG2hz97+O
+ jerhk8k5OAMhvTqIIMPylGYfbaTWBWUMAooHJVbelMGZPvHbTpRgnuQbf0A9MAoggWic
+ MjfVEKmPmDAoVmv8g1WIruihCvzunjkr+5k0NjKB3o0V5J0adjgUu8qJpo2Op+152FKg
+ TSvgkFn0/bG6JWDxFSMRtBaV5Sznn9wNodHJL0hddQgyA366TBiTXdAXjGhq1iSfIQ/S
+ lfP2RzHSe3Ds54cS4F1iyAPbhE6McFI3rgFa2BpxHfrRz1HfL9om8tJbgmkdzirErX5e
+ 40qQ==
+X-Gm-Message-State: AOAM5333zJgewUIuM9JjCDxM2V2F68/j5xCi9eglA9mFLbu9nhIpAn/a
+ eYoS+5SV7IEJ9g2TS2SkWlqUZGzp9W6UDrCAKRw=
+X-Google-Smtp-Source: ABdhPJwWIUZykewWBJlhpdiYbdlEhmybKvemUuNXVnKy+YmZjdC1FT6k7jt0O3GXcSKHvfB+gv63xRKNdamQuvDW0r8=
+X-Received: by 2002:aa7:cf17:: with SMTP id a23mr29541318edy.30.1617027430780; 
+ Mon, 29 Mar 2021 07:17:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8YjXQIwmXniMHxmr"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+ <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 29 Mar 2021 18:16:59 +0400
+Message-ID: <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
+Subject: Re: [PULL 00/10] For 6.0 patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Lukas Straub <lukasstraub2@web.de>
+Content-Type: multipart/alternative; boundary="0000000000009a906c05bead896a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,114 +79,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Andrew Jones <drjones@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---8YjXQIwmXniMHxmr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--0000000000009a906c05bead896a
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 19, 2021 at 12:27:10PM -0300, Wainer dos Santos Moschetta wrote=
+Hi
+
+On Mon, Mar 29, 2021 at 5:54 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Sun, 28 Mar 2021 at 19:45, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > The following changes since commit
+> 7b9a3c9f94bcac23c534bc9f42a9e914b433b299:
+> >
+> >   Merge remote-tracking branch
+> 'remotes/kraxel/tags/fixes-20210326-pull-request' into staging (2021-03-2=
+6
+> 12:58:58 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git@gitlab.com:marcandre.lureau/qemu.git tags/for-6.0-pull-request
+> >
+> > for you to fetch changes up to f57d44b452e11d8b7c9743476c30a8d0f80926de=
 :
-> Hi,
->=20
-> On 3/19/21 8:34 AM, Philippe Mathieu-Daud=E9 wrote:
-> > On 3/19/21 11:59 AM, Paolo Bonzini wrote:
-> > > On 19/03/21 11:18, Andrew Jones wrote:
-> > > > > Yikes, that is 41 hours per CI run. I wonder if GitLab's CI minut=
-es are
-> > > > > on slow machines or if we'll hit the same issue with dedicated ru=
-nners.
-> > > > > It seems like CI optimization will be necessary...
-> > > > >=20
-> > > > We need to reduce the amount of CI we do, not only because we can't
-> > > > afford
-> > > > it, but because it's wasteful. I hate to think of all the kWhs spen=
-t
-> > > > testing the exact same code in the exact same way, since everyone r=
-uns
-> > > > everything with a simple 'git push'.
-> > > Yes, I thought the same.
-> > >=20
-> > > > IMHO, 'git push' shouldn't trigger
-> > > > anything. Starting CI should be an explicit step.
-> > * tests/acceptance: Only run tests tagged 'gating-ci' on GitLab CI
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg756464.html
-> >=20
-> > * gitlab-ci: Allow forks to select & restrict build jobs
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg758331.html
->=20
-> In my opinion that series is the first step towards a smart CI. It got so=
-me
-> reviews of Thomas and myself already but it didn't move ahead. If Philipp=
-e
-> for some reason cannot continue that work, I'm volunteering to take it ov=
-er.
+> >
+> >   tests: Add tests for yank with the chardev-change case (2021-03-27
+> 13:57:40 +0400)
+> >
+> > ----------------------------------------------------------------
+> > For 6.0 misc patches under my radar.
+> >
+> > Peter, let me know if you would rather split that PR.
+> >
+> > ----------------------------------------------------------------
+>
+> This produces a backtrace from sphinx-build which nonetheless doesn't
+> cause a build failure:
+>
+>
+> Program sphinx-build found: YES
+> ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:
+> Configuration error:
+> There is a programable error in your configuration file:
+>
+> Traceback (most recent call last):
+>   File "conf.py", line 154, in <module>
+>     import sphinx_rtd_theme
+> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
+>
+> During handling of the above exception, another exception occurred:
+>
+> Traceback (most recent call last):
+>   File "/usr/lib/python3/dist-packages/sphinx/config.py", line 157, in
+> __init__
+>     execfile_(filename, config)
+>   File "/usr/lib/python3/dist-packages/sphinx/util/pycompat.py", line
+> 150, in execfile_
+>     exec_(code, _globals)
+>   File "conf.py", line 157, in <module>
+>     'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
+> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme
+> was not found.
+>
+>
 
-Hi,
-I wanted to follow up with a summary of the CI jobs:
+../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+Configuration error:
+The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
 
-1. Containers & Containers Layer2 - ~3 minutes/job x 39 jobs
-2. Builds - ~50 minutes/job x 61 jobs
-3. Tests - ~12 minutes/job x 20 jobs
-4. Deploy - 52 minutes x 1 job
+../docs/meson.build:32:6: ERROR: Problem encountered: Install a Python 3
+version of python-sphinx and the readthedoc theme
 
-The Builds phase consumes the most CI minutes. If we can optimize this
-phase then we'll achieve the biggest impact.
+It's only fatal if you explicitely enabled docs. Otherwise, it just prints
+a warning and disable it (just like sphinx 3.6 version requirement).
 
-In the short term builds could be disabled. However, in the long term I
-think full build coverage is desirable to prevent merging code that
-breaks certain host OSes/architectures (e.g. stable Linux distros,
-macOS, etc).
 
-Traditionally ccache (https://ccache.dev/) was used to detect
-recompilation of the same compiler input files. This is trickier to do
-in GitLab CI since it would be necessary to share and update a cache,
-potentially between untrusted users. Unfortunately this shifts the
-bottleneck from CPU to network in a CI-as-a-Service environment since
-the cached build output needs to be accessed by the linker on the CI
-runner but is stored remotely.
+>
+>
+> Program python3 found: YES (/usr/bin/python3)
+>
+>
+> In particular I see that on all the BSD VMs. If we're going to
+> require rtd that means we need to ensure it's present on all
+> the VM configs, docker configs, everything the CI uses, etc.
+> You should also flag up new build-deps in the pullreq cover
+> letter.
+>
 
-A complementary approach is avoiding compilation altogether when code
-changes do not affect a build target. For example, a change to
-qemu-storage-daemon.c does not require rebuilding the system emulator
-targets. Either the compiler or the build system could produce a
-manifest of source files that went into a build target, and that
-information is what's needed to avoid compiling unchanged targets.
+I updated all docker configs. We don't have sphinx in the BSD VMs
+apparently, am I wrong?
 
-Ideally the CI would look at the code changes and only launch jobs that
-were affected. Those jobs would use a C compiler cache to avoid
-rebuilding compiler input that has not changed. Basically, we need
-incremental builds.
 
-This is as far as I've gotten with thinking about CI efficiency. Do you
-think these optimizations are worth investigating or should we keep it
-simple and just disable many builds by default?
+> I dunno if we can get the error message neater (I know sphinx-build,
+> especially older versions, is a bit unhelpful about what it lets us
+> report.)
+>
+> The test-yank stuff also failed on OSX:
+>
+> Unexpected error in inet_connect_addr() at ../../util/qemu-sockets.c:380:
+> Failed to connect to '127.0.0.1:63820': Operation timed out
+> ERROR test-yank - too few tests run (expected 6, got 1)
+>
+>
+Lukas, can you have a look too?
 
-Stefan
+thanks
 
---8YjXQIwmXniMHxmr
-Content-Type: application/pgp-signature; name="signature.asc"
+--=20
+Marc-Andr=C3=A9 Lureau
 
------BEGIN PGP SIGNATURE-----
+--0000000000009a906c05bead896a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBh39wACgkQnKSrs4Gr
-c8h3XggAgdcNwRV3Ht0mmeDrG8rfpzdXeOgDetMXKpF6Gvk9ixB0uURnfayf2o6B
-6BOn+70G//ZmfKjgRSj2T0xctfvka/IPpk/0E44nqEwqvkHYHXJxifVmL6gH5N5M
-PO21l7143UUeFs0h0Xy09Ttr6GUJHg4a/6zoHNChIGA0KFrQYGC+jxZ9YQHNxstB
-7QpuGw1qbLPvpabULVueqk0gPurNnpvcdFhBV+u3SFu9FtjkmGT8re+vM8esSKeW
-bvschsS8esaYFYSSd/YNmVGQeo2+16vbNvro8EVivaLnoUqgfqasYCLu0yK1ccOl
-J3vo6UpIdtQSDEJ7Subh8Ut9NipVpQ==
-=oMX5
------END PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 29, 2021 at 5:54 PM Pet=
+er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
+naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Sun, 28 Mar 2021 at 19:45, &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<=
+br>
+&gt;<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; The following changes since commit 7b9a3c9f94bcac23c534bc9f42a9e914b43=
+3b299:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/kraxel/tags/fixe=
+s-20210326-pull-request&#39; into staging (2021-03-26 12:58:58 +0000)<br>
+&gt;<br>
+&gt; are available in the Git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0git@gitlab.com:marcandre.lureau/qemu.git tags/for-6.0-pull=
+-request<br>
+&gt;<br>
+&gt; for you to fetch changes up to f57d44b452e11d8b7c9743476c30a8d0f80926d=
+e:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0tests: Add tests for yank with the chardev-change case (20=
+21-03-27 13:57:40 +0400)<br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+&gt; For 6.0 misc patches under my radar.<br>
+&gt;<br>
+&gt; Peter, let me know if you would rather split that PR.<br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+<br>
+This produces a backtrace from sphinx-build which nonetheless doesn&#39;t<b=
+r>
+cause a build failure:<br>
+<br>
+<br>
+Program sphinx-build found: YES<br>
+../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:<br>
+Configuration error:<br>
+There is a programable error in your configuration file:<br>
+<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;conf.py&quot;, line 154, in &lt;module&gt;<br>
+=C2=A0 =C2=A0 import sphinx_rtd_theme<br>
+ModuleNotFoundError: No module named &#39;sphinx_rtd_theme&#39;<br>
+<br>
+During handling of the above exception, another exception occurred:<br>
+<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;/usr/lib/python3/dist-packages/sphinx/config.py&quot;, li=
+ne 157, in __init__<br>
+=C2=A0 =C2=A0 execfile_(filename, config)<br>
+=C2=A0 File &quot;/usr/lib/python3/dist-packages/sphinx/util/pycompat.py&qu=
+ot;, line<br>
+150, in execfile_<br>
+=C2=A0 =C2=A0 exec_(code, _globals)<br>
+=C2=A0 File &quot;conf.py&quot;, line 157, in &lt;module&gt;<br>
+=C2=A0 =C2=A0 &#39;The Sphinx \&#39;sphinx_rtd_theme\&#39; HTML theme was n=
+ot found.\n&#39;<br>
+sphinx.errors.ConfigError: The Sphinx &#39;sphinx_rtd_theme&#39; HTML theme=
+<br>
+was not found.<br>
+<br></blockquote><div><br></div><div><br></div><div>../docs/meson.build:30:=
+ WARNING: /usr/bin/sphinx-build-3: <br>Configuration error:<br>The Sphinx &=
+#39;sphinx_rtd_theme&#39; HTML theme was not found.<br><br>../docs/meson.bu=
+ild:32:6: ERROR: Problem encountered: Install a Python 3 version of python-=
+sphinx and the readthedoc theme<br></div><div><br></div><div>It&#39;s only =
+fatal if you explicitely enabled docs. Otherwise, it just prints a warning =
+and disable it (just like sphinx 3.6 version requirement).<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+Program python3 found: YES (/usr/bin/python3)<br>
+<br>
+<br>
+In particular I see that on all the BSD VMs. If we&#39;re going to<br>
+require rtd that means we need to ensure it&#39;s present on all<br>
+the VM configs, docker configs, everything the CI uses, etc.<br>
+You should also flag up new build-deps in the pullreq cover<br>
+letter.<br></blockquote><div><br></div><div>I updated all docker configs. W=
+e don&#39;t have sphinx in the BSD VMs apparently, am I wrong?<br></div><di=
+v> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+I dunno if we can get the error message neater (I know sphinx-build,<br>
+especially older versions, is a bit unhelpful about what it lets us<br>
+report.)<br>
+<br>
+The test-yank stuff also failed on OSX:<br>
+<br>
+Unexpected error in inet_connect_addr() at ../../util/qemu-sockets.c:380:<b=
+r>
+Failed to connect to &#39;<a href=3D"http://127.0.0.1:63820" rel=3D"norefer=
+rer" target=3D"_blank">127.0.0.1:63820</a>&#39;: Operation timed out<br>
+ERROR test-yank - too few tests run (expected 6, got 1)<br><br></blockquote=
+><div><br></div><div>Lukas, can you have a look too?</div><div><br> </div><=
+div>thanks</div><div><br></div></div>-- <br><div dir=3D"ltr" class=3D"gmail=
+_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---8YjXQIwmXniMHxmr--
-
+--0000000000009a906c05bead896a--
 
