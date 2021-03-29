@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0E434CFD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 14:12:43 +0200 (CEST)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D4A34CFD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 14:13:28 +0200 (CEST)
+Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQql8-0007ne-Ge
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 08:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
+	id 1lQqlr-0008G7-Ey
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 08:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lQqjK-00078w-W7
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 08:10:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60565)
+ id 1lQqkI-0007PN-40
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 08:11:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lQqjI-0002Aj-Vm
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 08:10:50 -0400
+ id 1lQqkE-0002fy-Pk
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 08:11:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617019848;
+ s=mimecast20190719; t=1617019904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ufaaHvqrPkYSMbtAjYMPu5xe5gVwD/UY1/0CQEYQwnk=;
- b=fQe/Ovv8s3AGDQX9fQAkFajpENJQ4+8Tv2ltlIGIWnWI9RlORmW71K+z37QuMtHBGqZjaN
- ujEW7qQW0F4b2gzOJXLMxiGHFbfCI4bPbpZ8aw05Lr+X6o5cL39njaGGjH33fikuAPF0J0
- YzWGh96PMbphStbbdoKKFujOURT0Cgs=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-V4RIsm_SPJWKJz-5yqCkKw-1; Mon, 29 Mar 2021 08:10:46 -0400
-X-MC-Unique: V4RIsm_SPJWKJz-5yqCkKw-1
-Received: by mail-ej1-f71.google.com with SMTP id fy8so5681421ejb.19
- for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 05:10:45 -0700 (PDT)
+ bh=Fe2ZJI5iWIKNgDXByMOUtdAYwC2IeU2LlOay7KgIIEY=;
+ b=JTAAgo3fEQtfjlwhuQ5RFvRLTNhcwc73GUvBObfR6ZWoUvGk1dypU8Wel4tnN/Z8CHhQjU
+ Nv5R1g24Xahtjvp11Lf77f2Nf6kb2YhnCsD+Vs4LcQvRcYiR5x5vX3HLJmrTY77EjjnNHZ
+ 2crrDgoCJ/ELNewcKgZ/OHfbM1mNU4I=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-mTfBQ0dCOnKJLnMhy8Xt4Q-1; Mon, 29 Mar 2021 08:11:42 -0400
+X-MC-Unique: mTfBQ0dCOnKJLnMhy8Xt4Q-1
+Received: by mail-ed1-f72.google.com with SMTP id k8so8472956edn.19
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 05:11:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ufaaHvqrPkYSMbtAjYMPu5xe5gVwD/UY1/0CQEYQwnk=;
- b=uXS3GHw9oo4nEUEfYwuwjxqMJB9ZlZbhF7UUQyJJ2nqMVe0rf28gXexpNP0Tk7ruTO
- pvgTbRj6YfDPfiYcgXjPk28GFwqAj4uqZuXNBkas0pNYgqxGOHL1TMmRfp6BW1+b9Ppn
- vAWbOjmOFBfBYdB0+NUvGgjvgZdVdh3LoCJE/pbCaYieao9ln0L8Fip0ERza+6KeDouC
- esEeBSP/rnjffsd2ga+TMwdJ8QA9hlNNWuM8+K6zgcQcPEJgjryy8SHV75floVlQVdaT
- cLHva+t+CFq47wmUaNbgt+NlQr8wYDgGkKFJNoYPDSXbdqZbRv2zraGYgfoo9wCOqQNQ
- OZQA==
-X-Gm-Message-State: AOAM533T2arRBNx1Id883W64qeCucx5a04d3BoFt3ABsmbmSCMHrVVU+
- BV261IRLSEMQpQI70s7qOpkT0BtaN8vfp3W6gzHGvDm7hMIvcQDaWY+ZTAjn+UjqAFbpRgPhVTw
- XHokKne9FKMENrYc=
-X-Received: by 2002:a17:906:ecb8:: with SMTP id
- qh24mr29057696ejb.162.1617019844837; 
- Mon, 29 Mar 2021 05:10:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJySUdhy1w3VKI0WEkndUrtWR9f51PKcOEez1EYbZaivXrhmvCZqEfHvz0/G/FS9QPCXaFzg0Q==
-X-Received: by 2002:a17:906:ecb8:: with SMTP id
- qh24mr29057683ejb.162.1617019844666; 
- Mon, 29 Mar 2021 05:10:44 -0700 (PDT)
+ bh=Fe2ZJI5iWIKNgDXByMOUtdAYwC2IeU2LlOay7KgIIEY=;
+ b=FrXKkqRgIg0PnSHzEQXONOOKfOhPP8WYJnxjBXMR4QICbg7/dhbDUkPMfGFCSZGE+I
+ 79bTNTwCu/WoH+DqdWmqoWBrIJu7SkvJpui4QfRhFzLi2HxTicFLBRkyyX6ZWY7iNG0c
+ nEy1Ek09SirjY+sJks8AZ/q2/XjgshkdI7+SM5ckXj5sKN/zpJwrCQRVHBvuVndma7MK
+ qPlI2qOf0ojMPfuWmNOGZv4UJthwis4omOl7imIwCMrohU2rdmglGtmLx8jfnU0oZl27
+ +43BipZKdBn+z2Hgw+xv4yoxOFKjMvmLdGeUK2i8mCGhvII9FiIuWtTMuAYBSHw3mjvQ
+ DBUw==
+X-Gm-Message-State: AOAM532Nlhw3H/uw1/2VNrMyc+FLoh5vqZh8I78Frn1ZngqaevTwIX9u
+ oekHTTDF3r63v3pUDwgZAUiZ9xjaLn4wBVr7TwLbiaUcS4nCalhlruxZ86Uq/7G0kXuTZuJmCOK
+ r8anG1MXiK4igUwE=
+X-Received: by 2002:a05:6402:38d:: with SMTP id
+ o13mr27857423edv.337.1617019901487; 
+ Mon, 29 Mar 2021 05:11:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyESkzt3kBjsRxWHrEQyIRcmmLMzpM1bSeHT5AcCJFEcRnsNKSyYa/GIAoHgFX9+/42JODDpw==
+X-Received: by 2002:a05:6402:38d:: with SMTP id
+ o13mr27857250edv.337.1617019898916; 
+ Mon, 29 Mar 2021 05:11:38 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id l10sm8974249edr.87.2021.03.29.05.10.40
+ by smtp.gmail.com with ESMTPSA id n16sm8994993edr.42.2021.03.29.05.11.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Mar 2021 05:10:41 -0700 (PDT)
-Subject: Re: [PATCH v2] replay: notify CPU on event
+ Mon, 29 Mar 2021 05:11:37 -0700 (PDT)
+Subject: Re: [PATCH] replay: don't wait in run_on_cpu
 To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <161700382734.1136014.13372992399972618499.stgit@pasha-ThinkPad-X280>
- <0fa410cd-32e8-5349-dbde-0c61fdc29e80@redhat.com>
- <4be6bee2-fa58-09ec-439f-8ccd99a965e8@ispras.ru>
+References: <161700514781.1141125.8890164582302771524.stgit@pasha-ThinkPad-X280>
+ <e18262ca-c41b-2257-323a-ff22ba462ed5@redhat.com>
+ <2f94f9b5-0a90-dbc1-e35e-d6c43580c127@ispras.ru>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a05d12f6-7e2a-53f5-5aaf-1fbdea8b0bb5@redhat.com>
-Date: Mon, 29 Mar 2021 14:10:40 +0200
+Message-ID: <d43889b5-ebf6-12e5-af95-94e25bc7d383@redhat.com>
+Date: Mon, 29 Mar 2021 14:11:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <4be6bee2-fa58-09ec-439f-8ccd99a965e8@ispras.ru>
+In-Reply-To: <2f94f9b5-0a90-dbc1-e35e-d6c43580c127@ispras.ru>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,24 +103,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/03/21 13:23, Pavel Dovgalyuk wrote:
+On 29/03/21 12:55, Pavel Dovgalyuk wrote:
+>>>
 >>
->> I still do not understand why the qemu_clock_notify function is used 
->> to notify the CPU.  It would be nice to have a description of the call 
->> chain in a comment or to have a more appropriate API.  I can queue the 
->> patch since it's deep in replay-events.c and not in common code, but 
->> if you post a short description here I'll integrate it.
+>> Is the "or" saying that the execution is using the lockstep mode?  If 
+>> so, can you put it in a separate function so that it's more 
+>> self-explanatory and check if it should be used elsewhere?
 > 
-> Maybe I missed something.
-> This call is needed for the case when vCPU is waiting in rr_wait_io_event.
-> You mean that we can use qemu_cpu_kick instead?
+> It was replay (is that lockstep that you mentioned?).
 
-I have no idea.  Using qemu_clock_notify however is definitely weird.
+Lockstep in the sense that (as is the case in record/replay mode) the 
+I/O thread and vCPU thread execute in turns.
 
 Paolo
+
+> I check that the mutex is already locked, which means, that vCPU
+> does nothing at this moment.
 
 
