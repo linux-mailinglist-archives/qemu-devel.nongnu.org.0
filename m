@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FE134D2CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 16:50:39 +0200 (CEST)
-Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A3334D2DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 16:52:08 +0200 (CEST)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQtDx-0002lE-Qx
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 10:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43792)
+	id 1lQtFP-0004CB-76
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 10:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lQtAg-0001fT-NG
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:47:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29907)
+ id 1lQtCu-00030y-GC
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:49:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lQtAd-0001ml-Pg
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:47:14 -0400
+ id 1lQtCp-0002yS-QE
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 10:49:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617029230;
+ s=mimecast20190719; t=1617029366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nYmg6gycb7+Bq0MpfcB3k1zUpVuZQf0QYsaK4dFtDnk=;
- b=I9l83VEmvaEuF4qiNVBvFYwQo2eChsD1K7k/vGw87cEs7SUHxNp34xJ8FMFm2K2zvLjRoI
- bfSOErrznqIvK9C11MMp03Q0tBlrNAQGTY7mO7kavHWaUrIVaEBzT8I+r5rR0GFSfqgCda
- 9PNG8et+oYluHKEZnIunBip8AJRY+tU=
+ bh=mPOxFs9jHTEG/2pU3P/BqdEJcn3SM758fByuuvtdLrQ=;
+ b=IKtB/sqTcz/tOJXPQ1sUdFgjg/0iVnhQ8CSFeickHUH8nvpfqAWUkwcTc7n6J6Xapq1qSD
+ fH1T8fglMz56PEm43KZYDvHctk2QKzUK+u0TPaKMdKV5B2ig7Q8FakdYPo4sygXb7r48PQ
+ r+WdRq3j0RF9j98p3695sAOcIr0XpJI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-kBRaEBtSOHC3IitmWLWWdg-1; Mon, 29 Mar 2021 10:47:06 -0400
-X-MC-Unique: kBRaEBtSOHC3IitmWLWWdg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-505-b9sEbFWvNxuZtyW81djcXA-1; Mon, 29 Mar 2021 10:49:24 -0400
+X-MC-Unique: b9sEbFWvNxuZtyW81djcXA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBE54108BD07;
- Mon, 29 Mar 2021 14:47:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23890108BD0D;
+ Mon, 29 Mar 2021 14:49:23 +0000 (UTC)
 Received: from work-vm (ovpn-114-160.ams2.redhat.com [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1ADE75D9D3;
- Mon, 29 Mar 2021 14:46:56 +0000 (UTC)
-Date: Mon, 29 Mar 2021 15:46:53 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A855B10016FD;
+ Mon, 29 Mar 2021 14:49:15 +0000 (UTC)
+Date: Mon, 29 Mar 2021 15:49:13 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: Ways to deal with broken machine types
-Message-ID: <YGHoXfe8M5eLZ94h@work-vm>
-References: <20210301195919.9333-1-cheptsov@ispras.ru>
- <20210322114116-mutt-send-email-mst@kernel.org>
- <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
- <20210323104542-mutt-send-email-mst@kernel.org>
- <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
- <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
- <20210323175447.0c57d2a4@redhat.com> <YFooFMWxwpiSB6ZJ@redhat.com>
- <20210326014825.2e58c68f@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v2] i386: Make migration fail when Hyper-V
+ reenlightenment was enabled but 'user_tsc_khz' is unset
+Message-ID: <YGHo6WiRVcmVrnSZ@work-vm>
+References: <20210319123801.1111090-1-vkuznets@redhat.com>
+ <YGHGR9LkV92k0IF2@work-vm> <87y2e69lg8.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210326014825.2e58c68f@redhat.com>
+In-Reply-To: <87y2e69lg8.fsf@vitty.brq.redhat.com>
 User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,184 +80,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
- qemu devel list <qemu-devel@nongnu.org>, Vitaly Cheptsov <cheptsov@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Igor Mammedov (imammedo@redhat.com) wrote:
-> On Tue, 23 Mar 2021 17:40:36 +0000
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
+* Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 > 
-> > On Tue, Mar 23, 2021 at 05:54:47PM +0100, Igor Mammedov wrote:
-> > > Let me hijack this thread for beyond this case scope.
-> > > 
-> > > I agree that for this particular bug we've done all we could, but
-> > > there is broader issue to discuss here.
-> > > 
-> > > We have machine versions to deal with hw compatibility issues and that covers most of the cases,
-> > > but occasionally we notice problem well after release(s),
-> > > so users may be stuck with broken VM and need to manually fix configuration (and/or VM).
-> > > Figuring out what's wrong and how to fix it is far from trivial. So lets discuss if we
-> > > can help to ease this pain, yes it will be late for first victims but it's still
-> > > better than never.  
-> > 
-> > To summarize the problem situation
-> > 
-> >  - We rely on a machine type version to encode a precise guest ABI.
-> >  - Due a bug, we are in a situation where the same machine type
-> >    encodes two distinct guest ABIs due to a mistake introduced
-> >    betwen QEMU N-2 and N-1
-> >  - We want to fix the bug in QEMU N
-> >  - For incoming migration there is no way to distinguish between
-> >    the ABIs used in N-2 and N-1, to pick the right one
-> > 
-> > So we're left with an unwinnable problem:
-> > 
-> >   - Not fixing the bug =>
-> > 
-> >        a) user migrating N-2 to N-1 have ABI change
-> >        b) user migrating N-2 to N have ABI change
-> >        c) user migrating N-1 to N are fine
-> > 
-> >     No mitigation for (a) or (b)
-> > 
-> >   - Fixing the bug =>
-> > 
-> >        a) user migrating N-2 to N-1 have ABI change.
-> >        b) user migrating N-2 to N are fine
-> >        c) user migrating N-1 to N have ABI change
-> > 
-> >     Bad situations (a) and (c) are mitigated by
-> >     backporting fix to N-1-stable too.
-> > 
-> > Generally we have preferred to fix the bug, because we have
-> > usually identified them fairly quickly after release, and
-> > backporting the fix to stable has been sufficient mitigation
-> > against ill effects. Basically the people left broken are a
-> > relatively small set out of the total userbase.
-> > 
-> > The real challenge arises when we are slow to identify the
-> > problem, such that we have a large number of people impacted.
-> > 
-> > 
-> > > I'll try to sum up idea Michael suggested (here comes my unorganized brain-dump),
-> > > 
-> > > 1. We can keep in VM's config QEMU version it was created on
-> > >    and as minimum warn user with a pointer to known issues if version in
-> > >    config mismatches version of actually used QEMU, with a knob to silence
-> > >    it for particular mismatch.
-> > > 
-> > > When an issue becomes know and resolved we know for sure how and what
-> > > changed and embed instructions on what options to use for fixing up VM's
-> > > config to preserve old HW config depending on QEMU version VM was installed on.  
-> > 
-> > > some more ideas:
-> > >    2. let mgmt layer to keep fixup list and apply them to config if available
-> > >        (user would need to upgrade mgmt or update fixup list somehow)
-> > >    3. let mgmt layer to pass VM's QEMU version to currently used QEMU, so
-> > >       that QEMU could maintain and apply fixups based on QEMU version + machine type.
-> > >       The user will have to upgrade to newer QEMU to get/use new fixups.  
-> > 
-> > The nice thing about machine type versioning is that we are treating the
-> > versions as opaque strings which represent a specific ABI, regardless of
-> > the QEMU version. This means that even if distros backport fixes for bugs
-> > or even new features, the machine type compatibility check remains a
-> > simple equality comparsion.
-> > 
-> > As soon as you introduce the QEMU version though, we have created a
-> > large matrix for compatibility. This matrix is expanded if a distro
-> > chooses to backport fixes for any of the machine type bugs to their
-> > stable streams. This can get particularly expensive when there are
-> > multiple streams a distro is maintaining.
-> > 
-> > *IF* the original N-1 qemu has a property that could be queried by
-> > the mgmt app to identify a machine type bug, then we could potentially
-> > apply a fixup automatically.
-> > 
-> > eg query-machines command in QEMU version N could report against
-> > "pc-i440fx-5.0", that there was a regression fix that has to be
-> > applied if property "foo" had value "bar".
-> > 
-> > Now, the mgmt app wants to migrate from QEMU N-2 or N-1 to QEMU N.
-> > It can query the value of "foo" on the source QEMU with qom-get.
-> > It now knows whether it has to override this property "foo" when
-> > spawning QEMU N on the target host.
-> > 
-> > Of course this doesn't help us if neither N-1 or N-2 QEMU had a
-> > property that can be queried to identify the bug - ie if the
-> > property in question was newly introduced in QEMU N to fix the
-> > bug.
-> > 
-> > > In my opinion both would lead to explosion of 'possibly needed' properties for each
-> > > change we introduce in hw/firmware(read ACPI) and very possibly a lot of conditional
-> > > branches in QEMU code. And I'm afraid it will become hard to maintain QEMU =>
-> > > more bugs in future.
-> > > Also it will lead to explosion of test matrix for downstreams who care about testing.
-> > > 
-> > > If we proactively gate changes on properties, we can just update fixup lists in mgmt,
-> > > without need to update QEMU (aka Insite rules) at a cost of complexity on QMEU side.
-> > > 
-> > > Alternatively we can be conservative in spawning new properties, that means creating
-> > > them only when issue is fixed and require users to update QEMU, so that fixups could
-> > > be applied to VM.
-> > > 
-> > > Feel free to shoot the messenger down or suggest ways how we can deal with the problem.  
-> > 
-> > The best solution is of course to not have introduced the ABI change in
-> > the first place. We have lots of testing, but upstream at least, I don't
-> > think we have anything that is explicitly recording the ABI associated
-> > with each machine type and validating that it hasn't changed. We rely on
-> > the developers to follow the coding practices wrt setting machine type
-> > defaults for back compat, and while we're good, we inevitably screw up
-> > every now & then.
-> > 
-> > Downstreams do have some of this ABI testing - several problems like the
-> > one we have there, have been identified when RHEL downstream QE did
-> > migration tests and found a change in RHEL machine types, which then
-> > was traced back to upstream.
-> > 
-> > I feel like we need some standard tool which can be run inside a VM
-> > that dumps all the possible ABI relevant information about the virtual
-> > machine in a nice data format.
-> > 
-> > We would have to run this for each machine type, and save the
-> > results to git immediately after release. Then for every change to
-> > master, we would have to run the test again for every historic
-> > machine type version and compare to the recorded ABI record.
+> > * Vitaly Kuznetsov (vkuznets@redhat.com) wrote:
+> >> KVM doesn't fully support Hyper-V reenlightenment notifications on
+> >> migration. In particular, it doesn't support emulating TSC frequency
+> >> of the source host by trapping all TSC accesses so unless TSC scaling
+> >> is supported on the destination host and KVM_SET_TSC_KHZ succeeds, it
+> >> is unsafe to proceed with migration.
+> >> 
+> >> KVM_SET_TSC_KHZ is called from two sites: kvm_arch_init_vcpu() and
+> >> kvm_arch_put_registers(). The later (intentionally) doesn't propagate
+> >> errors allowing migrations to succeed even when TSC scaling is not
+> >> supported on the destination. This doesn't suit 're-enlightenment'
+> >> use-case as we have to guarantee that TSC frequency stays constant.
+> >> 
+> >> Require 'tsc-frequency=' command line option to be specified for successful
+> >> migration when re-enlightenment was enabled by the guest.
+> >> 
+> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> >> ---
+> >> This patch is a successor of "[PATCH 3/3] i386: Make sure
+> >> kvm_arch_set_tsc_khz() succeeds on migration when 'hv-reenlightenment'
+> >> was exposed" taking a different approach suggested by Paolo.
+> >> ---
+> >>  docs/hyperv.txt                |  5 +++++
+> >>  target/i386/kvm/hyperv-proto.h |  1 +
+> >>  target/i386/machine.c          | 20 ++++++++++++++++++++
+> >>  3 files changed, 26 insertions(+)
+> >> 
+> >> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+> >> index 5df00da54fc4..e53c581f4586 100644
+> >> --- a/docs/hyperv.txt
+> >> +++ b/docs/hyperv.txt
+> >> @@ -160,6 +160,11 @@ the hypervisor) until it is ready to switch to the new one. This, in conjunction
+> >>  with hv-frequencies, allows Hyper-V on KVM to pass stable clocksource (Reference
+> >>  TSC page) to its own guests.
+> >>  
+> >> +Note, KVM doesn't fully support re-enlightenment notifications and doesn't
+> >> +emulate TSC accesses after migration so 'tsc-frequency=' CPU option also has to
+> >> +be specified to make migration succeed. The destination host has to either have
+> >> +the same TSC frequency or support TSC scaling CPU feature.
+> >> +
+> >>  Recommended: hv-frequencies
+> >>  
+> >>  3.16. hv-evmcs
+> >> diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+> >> index 056a305be38c..e30d64b4ade4 100644
+> >> --- a/target/i386/kvm/hyperv-proto.h
+> >> +++ b/target/i386/kvm/hyperv-proto.h
+> >> @@ -139,6 +139,7 @@
+> >>   * Reenlightenment notification MSRs
+> >>   */
+> >>  #define HV_X64_MSR_REENLIGHTENMENT_CONTROL      0x40000106
+> >> +#define HV_REENLIGHTENMENT_ENABLE_BIT           (1u << 16)
+> >>  #define HV_X64_MSR_TSC_EMULATION_CONTROL        0x40000107
+> >>  #define HV_X64_MSR_TSC_EMULATION_STATUS         0x40000108
+> >>  
+> >> diff --git a/target/i386/machine.c b/target/i386/machine.c
+> >> index 7259fe6868c6..137604ddb898 100644
+> >> --- a/target/i386/machine.c
+> >> +++ b/target/i386/machine.c
+> >> @@ -883,11 +883,31 @@ static bool hyperv_reenlightenment_enable_needed(void *opaque)
+> >>          env->msr_hv_tsc_emulation_status != 0;
+> >>  }
+> >>  
+> >> +static int hyperv_reenlightenment_post_load(void *opaque, int version_id)
+> >> +{
+> >> +    X86CPU *cpu = opaque;
+> >> +    CPUX86State *env = &cpu->env;
+> >> +
+> >> +    /*
+> >> +     * KVM doesn't fully support re-enlightenment notifications so we need to
+> >> +     * make sure TSC frequency doesn't change upon migration.
+> >> +     */
+> >> +    if ((env->msr_hv_reenlightenment_control & HV_REENLIGHTENMENT_ENABLE_BIT) &&
+> >> +        !env->user_tsc_khz) {
+> >> +        error_report("Guest enabled re-enlightenment notifications, "
+> >> +                     "'tsc-frequency=' has to be specified");
+> >
+> > It's unusual to fail on the destination for a valid configuration but
+> > guest state;  wouldn't it be better to always insist on tsc-frequency if
+> > that hv feature is exposed; failing early before reeiving the state?
+> >
 > 
-> Like Michael said we don't know that something is broken until it's
-> too late and this particular case it's not even broken (strictly speaking
-> change is correct) and is not even a part of ABI (it's ACPI code, i.e. firmware).
-> 
-> Problem is in the way virtio drivers enumerate devices, which makes the same
-> device appear as a new one. We can work around issue on hypervisor side so user
-> won't loose network connectivity or would be able to boot guest after QEMU upgrade.
-> 
-> We can suggest user re-installing their Windows (method that fixes almost all Win issues)
-> or to try to make it pain-less for user in these rare cases, by upgrading to
-> new QEMU (or fixed stable) which has workaround, so only the first few has to suffer.
-> 
-> (I think downstreams would even more benefit from this, there were similar problems
-> there before).
-> 
-> Yes, It surely will expand test matrix, but it should be limited to specific cases
-> we implemented fixups for.
+> Doing so would make a number of currently existing configurations
+> invalid, even when re-enlightenment is not to be used by the
+> guest. AFAIR Windows without Hyper-V doesn't enable it. Generally, we
+> just advise people to 'enable all currently supported hyper-v
+> enlightenments' to make things easier so reenlightenment may end up
+> being added for no particular reason.
 
-My suggestion from a long while ago (which no one liked) was to
-include the source qemu version and then have a quirks list of things to
-fix up.
+Ouch, that's difficult - the problem with testing this late is that the
+migration fails right at the end so it's an unpleasent surprise.
+
+Could you disallow re-enlightenment without tsc-frequency on new machine
+types?
 
 Dave
 
-> > 
-> > Regards,
-> > Daniel
+> FWIW, v1 of this patch used a slightly different approach: I was
+> requiring kvm_arch_set_tsc_khz() to succeed. This is not exactly the
+> same as e.g. even when the destination host doesn't support TSC scaling,
+> it may happen to have the same TSC frequency.
 > 
+> -- 
+> Vitaly
 > 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
