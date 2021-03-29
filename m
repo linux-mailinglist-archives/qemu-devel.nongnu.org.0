@@ -2,139 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F41C34D120
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 15:30:32 +0200 (CEST)
-Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28EF34D13B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 15:36:37 +0200 (CEST)
+Received: from localhost ([::1]:53340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQryR-0002wP-3U
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 09:30:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49436)
+	id 1lQs4K-0004rH-U2
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 09:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lQrvE-0006ki-Q1; Mon, 29 Mar 2021 09:27:13 -0400
-Received: from mail-eopbgr150104.outbound.protection.outlook.com
- ([40.107.15.104]:38823 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
+ id 1lQs2j-0004Cw-B8; Mon, 29 Mar 2021 09:34:57 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lQrvA-00036E-PP; Mon, 29 Mar 2021 09:27:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LHK/Eo5QsH9fN7Ewpb67EZCsShVCAYzCzCJWzM0yfhM3IWdzM2rKrz9kLEvD0g7LvBt7PACH9BJVBV3n4VUMgcv8MgoufRYDfA5Gjqk+DSwGez8QyQYFoblR0aGxB2xdmBLcHEYSlCaxQC9TPZjhSTo2ZHe+JOrlPnNq2TUJF9WpyjYgAXTeK9uVEzWaylDUxV04TkZW784YBKT0OXTIfRz+8A425ioS5WT18FXC9mxI7ZKJLtMRhIzeZusgTvNpsVxB2ptY/RJL1HJkYoSLR/jHyO+EB/O1hhC9TSMz9LtwzCEytEZqgVZ77EdPLjizepyy5tWTcveYZgFAInkjNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X3KTRA0fTqLHRN/iCQI6QLfaPhqF8PyK/c1gVgz8gko=;
- b=KzCtYuG6l6o5V5J1sYJ4SLtHlpQJEExRzeILKqEIFrqS20q7aICnErRrskhqu8F9cGWKW0Medh9sMa2PPqFXJjgnaNsVopQNNfXI5jSjp171XLh753bEXJUjx67mXB098h2XYsvVvZO3r6SI8QdhY1i7aLXdxGY/NFfXyuraVY+n6WQpKm89S97l9M5snxN6CNJOT3/JcAQeifIrvVxaXgva8ngPvE4JxEf56RjSSF9F8IbmznoqSZ+crMn1VOoJxRxlSDN6SV0ySfNgXtqdMVScejBEtzhI8vq9NZiMPqnsOp+yx2R4r4GxWrVs3zHHe7QWXkmLY/YYSpfesxvSUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X3KTRA0fTqLHRN/iCQI6QLfaPhqF8PyK/c1gVgz8gko=;
- b=Vrtw0awzK9/IbH/ton4WwLZFWwN2gZvoMypw/gjLMr8jCkP/F0ucdOtsJClKHKSpERclsNPFSIcx29Q2bWw/Qk8HvJBkGbq8IAnoZ3H3xA4vLazjoe40kfgI1FKNGIQInROBDx5vlaQdYKn9556qizRDONjyU2T53HzYIkbpZQk=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from DB8PR08MB5499.eurprd08.prod.outlook.com (2603:10a6:10:fa::16)
- by DB6PR0801MB1670.eurprd08.prod.outlook.com (2603:10a6:4:37::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.33; Mon, 29 Mar
- 2021 13:27:01 +0000
-Received: from DB8PR08MB5499.eurprd08.prod.outlook.com
- ([fe80::f127:7f1e:e776:42c8]) by DB8PR08MB5499.eurprd08.prod.outlook.com
- ([fe80::f127:7f1e:e776:42c8%7]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
- 13:27:01 +0000
-Subject: Re: [PATCH] iotests: add test for removing persistent bitmap from
- backing file
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, pkrempa@redhat.com,
- nshirokovskiy@virtuozzo.com, den@virtuozzo.com
-References: <20210317160207.626468-1-vsementsov@virtuozzo.com>
- <50162cf1-a4b3-4aec-9f29-7edafc83bd9b@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <dbdc0cd0-978e-3a1d-7080-81a5b2457632@virtuozzo.com>
-Date: Mon, 29 Mar 2021 16:26:59 +0300
+ (Exim 4.90_1) (envelope-from <ravi.bangoria@linux.ibm.com>)
+ id 1lQs2c-0007pQ-3w; Mon, 29 Mar 2021 09:34:57 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12TDWkEo026024; Mon, 29 Mar 2021 09:34:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : subject : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=SEPyldpy16GplLMLA0GEH2oUhFtKE05FUdp7w85/PvQ=;
+ b=gvFuy1n1MRQRDsluP5QUDASUdDYbV7Gm0+m4FaWCUpRJv4mxTvCYqjEoaWPr0NZcWsVH
+ 0+qFm97MlMM2MtMTH8o+NfTXEqt2VgKaM2Mugw3TfmisZBrCZkacWJa7KMw4LTNvk14g
+ /HrRhNmec9ebCFO3Vlsw9/0Mn6UqVmMWaKbzkjdtM2wI5GsdLJWEaOEvQ2zbHZqrYL8h
+ YSnolCKQqRpp1/ZE9+iQxc1PA5ng1DrnPzzs85H2x6A9WOfyeARBHNje4y9FLQ1QOVxB
+ I2u9XEc9p2Wg8tmnWVUeddp7+sBQD4Lb/QmpyzJOobbDakgQtPO4D+/43x4c1x9US3G4 pw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jhru86k9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 09:34:33 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12TDWlrL026193;
+ Mon, 29 Mar 2021 09:34:33 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jhru86j6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 09:34:33 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12TDWJ6M004528;
+ Mon, 29 Mar 2021 13:34:30 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04ams.nl.ibm.com with ESMTP id 37hvb8htxt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 13:34:30 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12TDYSVh21299502
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 29 Mar 2021 13:34:28 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7B6FB4C040;
+ Mon, 29 Mar 2021 13:34:28 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9818C4C046;
+ Mon, 29 Mar 2021 13:34:25 +0000 (GMT)
+Received: from [9.199.34.103] (unknown [9.199.34.103])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 29 Mar 2021 13:34:25 +0000 (GMT)
+From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: Re: [PATCH v2 3/3] ppc: Enable 2nd DAWR support on p10
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210329041906.213991-1-ravi.bangoria@linux.ibm.com>
+ <20210329041906.213991-4-ravi.bangoria@linux.ibm.com>
+ <YGFf0WxO+LRU1ysI@yekko.fritz.box>
+Message-ID: <9abc9f1a-f855-e7bd-4b83-2884f6595172@linux.ibm.com>
+Date: Mon, 29 Mar 2021 19:04:24 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-In-Reply-To: <50162cf1-a4b3-4aec-9f29-7edafc83bd9b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.207]
-X-ClientProxiedBy: AM9P192CA0015.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21d::20) To DB8PR08MB5499.eurprd08.prod.outlook.com
- (2603:10a6:10:fa::16)
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.207) by
- AM9P192CA0015.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.25 via Frontend Transport; Mon, 29 Mar 2021 13:27:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5c087b50-8c50-4d19-5dc6-08d8f2b65603
-X-MS-TrafficTypeDiagnostic: DB6PR0801MB1670:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DB6PR0801MB167068D24C78975C5A00C4A2C17E9@DB6PR0801MB1670.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RA5T57QlhtYFAmXeGglTmWTQOgrVn5qNAKorOFMsR6iN9bbNEqSTGokLPEWIQQ3gQPVz+FWsyRxlc2ztXkx2Kx3CubaL5Cgq6zbnToDQ532eEZNzuEX4FQ/rjl9zzqL0bZgUsljFN/badFTbYyLCMPToA0RMluAC5W68y+pNUBs57HgmWKmNWcKBFH304od8oF0Ksm2vhNHV1TYrAgsTJ3WrIsse9LZZTEx41XV48IKlaMKWIx7gKwzJpFuVZrqcrfdVnC7ZKLFmki9jijsSB9R6IBH/S1OwJhIhiVmEUMb5l8R9kBYgd7RU9dKsLTDGgjAEKdAPbGa8sJuT0/hsxY6NoPtSIQCKntdFwpMHYE2pu8NnVuwGXOFBShbzlW8v+B7qo07zicp0Po4XtNp/F1F9oxolyXVPXMVRX15YrF216pTpjEMb1mITzVbtQ+RiGyGZksLNVFhKthCKTBHJcDnWwFTRa5Lp0QMI57B2Nd3icmX8C3JBluRBZtRYb2Yye0CmJi1iwSYkTfYWIdoJwcfv+J2OiQyUdwvaktJDSg3au20I/OW381LPEk4/SpLfwS0QKjqeJXBOYAcUv/IXfMjJOT4wVBq+K3uTILxM4NOR2TnKeI5jMATfWdzq7dC0LvF9A5iv+50qbcR7ag+fBqyM54uPjj6uoQ/4Hhi7m68bKDE5VVTLqAB8AcLQK69Vz2s7u+088eCH50jKE2x4Vq+1PyMt+ZIG7BkSAN4UCPHxwcTFTb1TQPZxrYqB3IM7unF9HMqyF+aXhxoPc+JifpOhsk+NjFL94tzBgloKw/IzjTQlaJ09fugtcnQPzYTeXfTud/b0F6m+Oznt3ZliMg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB8PR08MB5499.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(376002)(366004)(396003)(136003)(86362001)(66476007)(66946007)(6486002)(4326008)(66556008)(31696002)(186003)(53546011)(52116002)(38100700001)(478600001)(316002)(5660300002)(16526019)(83380400001)(16576012)(2616005)(36756003)(31686004)(2906002)(8676002)(107886003)(956004)(8936002)(26005)(2004002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aDg2dGx2WW0yZFNIWllxajBsYXlsc2xnWVR5U3E2ZHViUWR5bzF1L3pEWVFh?=
- =?utf-8?B?RXIwb0Vqa3o0eGlxR0FtNEFsUi8yaUtoV0JDQy95dFJhN3NGcW5BTGZ0UjRu?=
- =?utf-8?B?SWRQUUJ1VTZ1bGIwckRyQndzMXhkU1ZkTUIySS9Ta0dzWVF2OTExMjlaMG5U?=
- =?utf-8?B?d0FGLzYwV21pam43YWNaWnE0VE8yTGlMU1Ara0t2WDlURHpPTGpQdFdTcUpK?=
- =?utf-8?B?cGEybVhtUW9lWkZLTnNlaVplY0EyeWs1cFg1Q3VxMUo1R1VoVytDS2dBa2FQ?=
- =?utf-8?B?bFJxL3Vuejkwd3pYTmRsNGQ0b2ZxNUc3emJ4bkJQclhDWVlZRlBxM1BSR0Zk?=
- =?utf-8?B?WVBnTHh0TlBPUUVLa2Q3VzRTRzh3T0lsTVhXc1lEWVFhdmNrdjNhZE1nTlFj?=
- =?utf-8?B?TEU3OENQMG9vQnd4SFVvQy9ybHJWWE05K1VrdU9xdWVuM1pLcFZub0dLbVFa?=
- =?utf-8?B?djZyNDlQU2VDZkhYQm5KTC9IK2RUQUNlOVA4MFFjSEFaVmlDbHREYzRhQVFT?=
- =?utf-8?B?dHhyNVhrK2h6YVNmVEpSby9lN3d1NnJ2YS81SEhnYjgza2cweGUwOW9mYkda?=
- =?utf-8?B?TzJZdUdqSXdhdk9Zd0pFd29Vb2tTNnE2OEVyR1ZGZCsyTFFqdEpkWkZwT2J5?=
- =?utf-8?B?VEhNbmJ3VnVjU1pzdlRWTHB4bWQ3WC9IWFhRZVJ3blE3QWszamJzRWtRSjJ4?=
- =?utf-8?B?NGg4OVhLVjF3dnl6NXlrVi9YZjZOU0N2OXI3VllUUGlQN1lVRGs2U21NcHlC?=
- =?utf-8?B?WnlyY3hzRzNEd2xCUU9ZVDBiRTFDdWRTQ1JCV0pvNTVSK3hieXhVTkFiekRX?=
- =?utf-8?B?TlFLdVBJUXFpUVpBNVFLSE9lMnpaQ2wxRFloMG1wNHRHVmJ5ci9EZ242YW1k?=
- =?utf-8?B?bFN4SHpsK2svSUxNdGVZMzY3UzJtQmsybWhkaTdYenZicHQ4V25zRnE3eWFB?=
- =?utf-8?B?U2Juc3lRUU5SUmRjRXBPU0NYQm5FUXVPaDZXZElweWlxQkdXc3lQMy8wRG41?=
- =?utf-8?B?cDlNNDNwUDJXNzhYNVlNWUEzVjFhdnJnbUZNeHVDU3h4b0FKd0x5Q0lYUnZX?=
- =?utf-8?B?S0NCUEdyTGJDUDhRU3g5TEFSakRtWFJQTmZ4dWdHZW9pNVFHNDVoVnNQaUZm?=
- =?utf-8?B?YldhTjN6UzZoeE9rUXkybTJVeW0vcmgydHpkM3E1YTV4YUphU0QvdXZhSmY2?=
- =?utf-8?B?YjNjRytJSDE3U3pIclBzVmQzWmhKUi9GU2RIbkwyTG5Ta1p6azFZZ3kvNnhO?=
- =?utf-8?B?ZmsxU0lySzNRLzB6UUN3UWQrRnNEU3A3bU5xRWVoQ1pPOXVSK2Q3ZWVacVB6?=
- =?utf-8?B?ZWZmeUV6ZVpaWFBmbTdzbXV5OTI4YXpXbmRJZldKdkRpUE5CZytGY2RLY1p6?=
- =?utf-8?B?bUt6OURBUHhsSWg0MEF2cWRLWXFiMUl4Tjc0TUpoYndpWVBwdXd4NzNxRVRG?=
- =?utf-8?B?V0RndXhXcTk0ZWJ4OHQ2dE5zT0ZUTWxad3Nlemc3bEEwWjdxTkxVcm1IUkFs?=
- =?utf-8?B?RlVTWVlTTzZ1bW5TYTFlTloreEhkdE1hVVVKVk01anR4ZVFEZEJpbjdZVTlT?=
- =?utf-8?B?bGtLRHFSc2RkczUrWHVNY2IvUUx6azgvdzh2NEwycWt3QXFjV0RyLzRsN3Vu?=
- =?utf-8?B?L2h4Q0IvSWI3U2Z1ais4WXgrazlFTjJBMENhZ0hOQWlIMlJZdnBSZW1neTRn?=
- =?utf-8?B?N01KdVRVZ25vRmJwejlZVkJaOG1aQmhudEYrR1dhU005VXZsWmRQdzQzclRZ?=
- =?utf-8?Q?+PKkCZIsIk6QTxYDal0pQ85mwDLhjV/6DF4i6Wp?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c087b50-8c50-4d19-5dc6-08d8f2b65603
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR08MB5499.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 13:27:01.5359 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 41+jJWwcKmIoCMEw8FLLqWufZxA5sU72ygUX/urau+a/h2s7qoJkBu21N4LduqDK77qX1oMC8WJkn/p8lG4sicc8UsHrTQryqk3XzHb61OU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB1670
-Received-SPF: pass client-ip=40.107.15.104;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <YGFf0WxO+LRU1ysI@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: t-Ib75zXb4jT1xXkPD-nxPczoUEFHf1q
+X-Proofpoint-ORIG-GUID: s-7GpMknevRtYPP9hVtAZwOTk5eOK7dc
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-29_09:2021-03-26,
+ 2021-03-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 mlxscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103250000 definitions=main-2103290103
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=ravi.bangoria@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,146 +113,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
+ mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, paulus@samba.org,
+ clg@kaod.org, pbonzini@redhat.com, Ravi Bangoria <ravi.bangoria@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-29.03.2021 15:56, Max Reitz wrote:
-> On 17.03.21 17:02, Vladimir Sementsov-Ogievskiy wrote:
->> Just demonstrate one of x-blockdev-reopen usecases. We can't simply
->> remove persistent bitmap from RO node (for example from backing file),
->> as we need to remove it from the image too. So, we should reopen the
->> node first.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   .../tests/remove-bitmap-from-backing          | 68 +++++++++++++++++++
->>   .../tests/remove-bitmap-from-backing.out      |  6 ++
->>   2 files changed, 74 insertions(+)
->>   create mode 100755 tests/qemu-iotests/tests/remove-bitmap-from-backing
->>   create mode 100644 tests/qemu-iotests/tests/remove-bitmap-from-backing.out
->>
->> diff --git a/tests/qemu-iotests/tests/remove-bitmap-from-backing b/tests/qemu-iotests/tests/remove-bitmap-from-backing
->> new file mode 100755
->> index 0000000000..121860d035
->> --- /dev/null
->> +++ b/tests/qemu-iotests/tests/remove-bitmap-from-backing
->> @@ -0,0 +1,68 @@
->> +#!/usr/bin/env python3
->> +#
->> +# Test removing persistent bitmap from backing
->> +#
->> +# Copyright (c) 2021 Virtuozzo International GmbH.
->> +#
->> +# This program is free software; you can redistribute it and/or modify
->> +# it under the terms of the GNU General Public License as published by
->> +# the Free Software Foundation; either version 2 of the License, or
->> +# (at your option) any later version.
->> +#
->> +# This program is distributed in the hope that it will be useful,
->> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
->> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->> +# GNU General Public License for more details.
->> +#
->> +# You should have received a copy of the GNU General Public License
->> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
->> +#
->> +
->> +import iotests
->> +from iotests import log, qemu_img_create
->> +
->> +iotests.script_initialize(supported_fmts=['qcow2'])
->> +
->> +top, base = iotests.file_path('top', 'base')
->> +size = '1M'
->> +
->> +qemu_img_create('-f', iotests.imgfmt, base, size)
->> +qemu_img_create('-f', iotests.imgfmt, '-b', base, top, size)
+Hi David,
+
+>> @@ -241,6 +241,31 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
+>>           /* 60: NM atomic, 62: RNG */
+>>           0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
+>>       };
+>> +    uint8_t pa_features_310[] = { 66, 0,
+>> +        /* 0: MMU|FPU|SLB|RUN|DABR|NX, 1: fri[nzpm]|DABRX|SPRG3|SLB0|PP110 */
+>> +        /* 2: VPM|DS205|PPR|DS202|DS206, 3: LSD|URG, SSO, 5: LE|CFAR|EB|LSQ */
+>> +        0xf6, 0x1f, 0xc7, 0xc0, 0x80, 0xf0, /* 0 - 5 */
+>> +        /* 6: DS207 */
+>> +        0x80, 0x00, 0x00, 0x00, 0x00, 0x00, /* 6 - 11 */
+>> +        /* 16: Vector */
+>> +        0x00, 0x00, 0x00, 0x00, 0x80, 0x00, /* 12 - 17 */
+>> +        /* 18: Vec. Scalar, 20: Vec. XOR, 22: HTM */
+>> +        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 18 - 23 */
+>> +        /* 24: Ext. Dec, 26: 64 bit ftrs, 28: PM ftrs */
+>> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 24 - 29 */
+>> +        /* 30: MMR, 32: LE atomic, 34: EBB + ext EBB */
+>> +        0x80, 0x00, 0x80, 0x00, 0xC0, 0x00, /* 30 - 35 */
+>> +        /* 36: SPR SO, 38: Copy/Paste, 40: Radix MMU */
+>> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 36 - 41 */
+>> +        /* 42: PM, 44: PC RA, 46: SC vec'd */
+>> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 42 - 47 */
+>> +        /* 48: SIMD, 50: QP BFP, 52: String */
+>> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 48 - 53 */
+>> +        /* 54: DecFP, 56: DecI, 58: SHA */
+>> +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 54 - 59 */
+>> +        /* 60: NM atomic, 62: RNG, 64: DAWR1 */
+>> +        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
+>> +    };
 > 
-> I think qemu-img create nowadays complains when you use -b without -F. Also, I’d prefer an assert around this (i.e. assert qemu_img_create() == 0).
-> 
+> I don't see any point adding pa_features_310: it's identical to
+> pa_features_300, AFAICT.
+
+Sure. The only difference is in the comment part: /* ... 64: DAWR1  */
+I'll update pa_features_300 with something like:
+
+         /* ... 64: DAWR1 (ISA 3.1) */
+
+and reuse pa_features_300.
+
+[...]
+
+>> +static void cap_dawr1_apply(SpaprMachineState *spapr, uint8_t val,
+>> +                               Error **errp)
+>> +{
+>> +    if (!val) {
+>> +        return; /* Disable by default */
+>> +    }
 >> +
->> +iotests.qemu_img('bitmap', '--add', base ,'bitmap0')
+>> +    if (tcg_enabled()) {
+>> +        error_setg(errp,
+>> +                "DAWR1 not supported in TCG. Try appending -machine cap-dawr1=off");
 > 
-> s/ ,/, /
+> I don't love this.  Is anyone working on DAWR1 emulation for POWER10?
+
+No. Infact DAWR0 is also not enabled in TCG mode.
+
+[...]
+
+>>   static void gen_spr_970_dbg(CPUPPCState *env)
+>>   {
+>>       /* Breakpoints */
+>> @@ -8727,7 +8742,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+>>       /* Common Registers */
+>>       init_proc_book3s_common(env);
+>>       gen_spr_sdr1(env);
+>> -    gen_spr_book3s_207_dbg(env);
+>> +    gen_spr_book3s_310_dbg(env);
 > 
-> Which makes me notice that 297 doesn’t yet check tests/.  I’ll send a patch.
-> 
-> Also, again, an assert == 0 might be nice.
-> 
-> And then I wonder why you import qemu_img_create from iotests, but not qemu_img and qemu_img_pipe.
+> This should surely be in init_proc_POWER10, not init_proc_POWER8.
 
-Hmm, at least qemu_img is used only once. On the other hand, it's probably better to import them all, readability would become better.
+Sure.
 
-> 
->> +# Just assert that our method of checking bitmaps in the image works.
->> +assert 'bitmaps' in iotests.qemu_img_pipe('info', base)
->> +
->> +vm = iotests.VM().add_drive(top, 'backing.node-name=base')
->> +vm.launch()
->> +
->> +log('Trying to remove persistent bitmap from r-o base node, should fail:')
->> +vm.qmp_log('block-dirty-bitmap-remove', node='base', name='bitmap0')
->> +
->> +new_base_opts = {
->> +    'node-name': 'base',
->> +    'driver': 'qcow2',
->> +    'file': {
->> +        'driver': 'file',
->> +        'filename':  base
->> +    },
->> +    'read-only': False
->> +}
->> +
->> +# Don't want to bother with filtering qmp_log for reopen command
->> +result = vm.qmp('x-blockdev-reopen', **new_base_opts)
->> +if result != {'return': {}}:
->> +    log('Failed to reopen: ' + str(result))
->> +
->> +log('Remove persistent bitmap from base node reopened to RW:')
->> +vm.qmp_log('block-dirty-bitmap-remove', node='base', name='bitmap0')
->> +
->> +new_base_opts['read-only'] = True
->> +result = vm.qmp('x-blockdev-reopen', **new_base_opts)
->> +if result != {'return': {}}:
->> +    log('Failed to reopen: ' + str(result))
->> +
->> +vm.shutdown()
->> +
->> +if 'bitmaps' in iotests.qemu_img_pipe('info', base):
->> +    "Hmm, bitmap is still in the base image. That's wrong"
-> 
-> With 297 covering tests/, it complains about this “pointless string statement”.  Shouldn’t this be something like
-> 
-> log('ERROR: Bitmap is still in the base image')
-
-Oops yes:)
-
-> 
-> ?
-> 
-> Apart from that more syntax-y stuff, the test looks good to me.
-> 
-
-Thanks, I'll resend.
-
-Side notes:
-
-Actually I had to implement a downstream-only argument for block-dirty-bitmap-remove command, that allows to temporary reopen the node, because:
-
-1. in Rhel7 based downstream, we don't have x-blockdev-reopen at all
-2. in Rhel8 based downstream, we are still in pre-blockdev era, and x-blockdev-reopen doesn't work as expected (it doesn't want to work with generated node-names)
-
-And I have a request of doing it in a qmp transaction.. It's very nice to do complicated bitmap manipulations in transactions, because management code (libvirt) becomes a lot simpler..
-Probably I should publish my patch.
-
-On the one hand, it seems that, I should not: upstream way is using blockdev-reopen.
-
-Still, transaction support seems simpler to implement for temporary reopening to RW than for the whole blockdev-reopen.. Or may be not? blockdev-reopen is already transaction-backed, may be we could support qmp transactions. Anyway, my "update permissions update" series should be merged first..
-
-Also, working with this all by hand, I found it not-comfortable to specify all blockdev-options to just reopen to RW.. May be for libvirt it's not a problem if it tracks all options in the own node graph model.
-
-
--- 
-Best regards,
-Vladimir
+Thanks for the review,
+Ravi
 
