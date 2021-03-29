@@ -2,101 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A6234D7FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 21:17:19 +0200 (CEST)
-Received: from localhost ([::1]:41142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96EB34D516
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 18:28:09 +0200 (CEST)
+Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQxO2-0003ub-CJ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 15:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
+	id 1lQukL-0002sf-0p
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 12:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lQufp-0000d2-IK; Mon, 29 Mar 2021 12:23:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28436)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lQuig-0001lR-Fj
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 12:26:26 -0400
+Received: from mout.web.de ([212.227.17.12]:55111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lQufn-0000vV-Fx; Mon, 29 Mar 2021 12:23:29 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12TG5sO9137869; Mon, 29 Mar 2021 12:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=Hx3fi2Q+P4ksONsGgd+byzzB7qT+hU6hrNzx9nEi/mQ=;
- b=H1Zde1GyQ8Rn/d0RuS8PCuDv3SZw22eqMmZco/lUrta2OrNUYFGacmsKrWGC5ttwGZa7
- YWGQdAS9QiMIJIE/f4oG54JMDs4QOF3ozlX2bvwxmTbFOiZYIhKFnrBVbYoU5HTypvd9
- XyNq66AmSLerYnUGlVrFt32+RyhdxEnTxk/XkMzKZeeGxuZDvoU4wgoS7xl+OqjyTy0h
- O2iNErbwvvsQHglOTZYhqltGYY3zJd+NXrrxBNhgDwLHU24TZraJ8QL5pmpWfJ9qy9Pw
- cZhGzVri9Lg3PxufEinQC3I2gPAA22IbNvARHmi1UAywc8kyaXegwLB7b1ftY59CYtyE 3Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37jhsrwf1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 12:23:18 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12TG6ggF140806;
- Mon, 29 Mar 2021 12:23:18 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37jhsrwf0h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 12:23:17 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12TGHYVB027108;
- Mon, 29 Mar 2021 16:23:15 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06fra.de.ibm.com with ESMTP id 37huyh91n2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 29 Mar 2021 16:23:15 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12TGNCRU21561606
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Mar 2021 16:23:12 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E764C52051;
- Mon, 29 Mar 2021 16:23:11 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.199.32.234])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 2782152054;
- Mon, 29 Mar 2021 16:23:07 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Mon, 29 Mar 2021 21:53:01 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, mst@redhat.com, imammedo@redhat.com,
- xiaoguangrong.eric@gmail.com
-Subject: [PATCH] ppc/spapr: Add support for implement support for H_SCM_HEALTH
-Date: Mon, 29 Mar 2021 21:52:59 +0530
-Message-Id: <20210329162259.536964-1-vaibhav@linux.ibm.com>
-X-Mailer: git-send-email 2.30.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: x45TEkg21_tEQI_vfq9kbMxW333R3s48
-X-Proofpoint-ORIG-GUID: plkVkfeFRB0KYvPDakx7v36qc2PKnziC
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lQuie-0002QA-KC
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 12:26:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1617035180;
+ bh=6FbHjKdtcWebeS4SPteSnEA0awPT+Mchl7agO23VWnY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=hMQOxkcTZaw8zFXLn39Cs+ACdKkhQMJHQLkiTxF/BfVrQkrx5vB52eBz1rlOgItMp
+ 6s8FbmOYaqLgGxnY/qTJa45izsMcjJHfDJodnRaZi/cp85zKZZ5dtVcmcXnHNfCST6
+ Ujz+MhuyA6T7WdO/e6/XIsE9goPubALId2Nuqjy0=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([94.134.180.225]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYtx4-1l4nMK1cSO-00VDKw; Mon, 29
+ Mar 2021 18:26:20 +0200
+Date: Mon, 29 Mar 2021 18:26:02 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PULL 00/10] For 6.0 patches
+Message-ID: <20210329182602.2701ba01@gecko.fritz.box>
+In-Reply-To: <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
+References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+ <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
+ <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-29_10:2021-03-26,
- 2021-03-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- phishscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1011
- priorityscore=1501 mlxscore=0 mlxlogscore=999 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103250000 definitions=main-2103290118
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=vaibhav@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/signed; boundary="Sig_/M3jRrO3P8zm_i_VaSWfsmON";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:fdzqusVWJESaumtwUZEU3uEUtuhgPIYpusgAI3NwGCw9UITCnFT
+ 4ppFXEozq08kgjuqvjqsT0U/69d8C0+dB33jcGnxybyXV4SB/qzjSIpohtPSvK+NcX8b4vF
+ AswZb5LLpNLEWoqqnSB/RvIQeBiWXuEhqGcmQGxPEi8eLzy5sgZHgEeIwkxiIhTAcEfipdd
+ y5wyrIoH2q6P7Tdaf5HjQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1H/A6FIR4/w=:cMAiLvO4AXcGDFxnmt7fD+
+ OdtUE6JF7YpGZ93LI04ODmgd2NYeAg0QIpC2L1/wFghT1cv8RKywb9PRfbp/nXFQOiAxeMf+3
+ 7q3GSndXe0OMnSXhehTPsNqjWu+eCl8NbBtjgr00YbpPvoFT6eE/FTS0ZBULQUh/RTQo8Gxh5
+ W8ilC/PfoI65KGce1OepT5Ne4WRub2XeY60yyRVeixwG75nVFAyCtYhKeqdesJwV1AClsOq65
+ KmepTeXtbznLwPh8hMLCfXZvcuGm+HzrIbe/Jn/EowfE3Oh/XO1NCuYUTtXkWqSBqT2Lnl9o2
+ VvuLaiOT+asZm+GF5oQHWpEvJDrZMNAxhONR8p4w8Uahg56t9Br4/RpQP6zqY/CJzxJjZVYBN
+ uZDM/rXkgsDVMaVY0Kqs5pTnV6s7vklar0Ihm2am1fn1OaHSXfz26hTsHClp3/Sapjc/uYchN
+ lmBjtqwP2QQUiTVndrKNzRIcgQcI67g91V8TOwFnqeFBYWl3C8JqobZ7y/fsIPdB5fkHKR5Ts
+ 9H7cijNQUuW0Wr4owK7Dgdk5lTfxUqR0zz1XhuXJKEqNrNtsDpfNIYG3Qk68NjAr8oX3AeTmb
+ hvCJtSPOmRCdsKXTFmYyP/cbh71KccihilOdhEXBuPAYdaJph84vT1DkjK9QI7cja7hVDgOoX
+ 5DnM+PN235TAOKV+S74aOZFaJDWXgvdSda289R0VXnvOAZW2/0PTnsyhi4baVmWki6f9l3blb
+ OOMZl77PCuN5zvodcjkKwis0KfHjvPu9s4qF88aFUjcXw448bzbEauK1KSS7BY2ltiSnXiruh
+ nkEsH6AAUbytix+ipIKyrTeUqKdM3qfLHqlSErGWUQh7lGalDmC8eA5LZDFctHeO3WlBvxYfZ
+ 0yoDyXEOJM2SoAm5kGpzZ4NUoNEKpVlXo3ZVDT/eFcO4XQdBJyE4zWeGnS0pJnx5qokBUpeFL
+ AlW/3glppyory+T9PsbKEg4FUvdLkKXj9jslZd3lCbzvppNPj2kQGqDxVfd0DPOd66MzjWRo2
+ IBbXbSBLHJt4UmXX02GM6CneAqAQRkJwa27P7OM+N/uqA+vw/wsL/1iNZeljfOmRG6EDnORgu
+ 2uJXScvUqaMxGu3Z59r2OgNISLsxteiF1lF5gaErPUZBatZ/6sA4q6U0snulnNv3TxSTSg7fg
+ K3fredshkw3L49X8btU8lWPY3Z6BEY1m5JAcfO6nT/hLo0K295BD988OIF26aMH2Dx8ao=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 29 Mar 2021 15:14:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,108 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, aneesh.kumar@linux.ibm.com, groug@kaod.org,
- shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com,
- Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for H_SCM_HEALTH hcall described at [1] for spapr
-nvdimms. This enables guest to detect the 'unarmed' status of a
-specific spapr nvdimm identified by its DRC and if its unarmed, mark
-the region backed by the nvdimm as read-only.
+--Sig_/M3jRrO3P8zm_i_VaSWfsmON
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
-returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
-from 'struct nvdimm->unarmed' member.
+On Mon, 29 Mar 2021 18:16:59 +0400
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> wrote:
 
-Linux kernel side changes to enable handling of 'unarmed' nvdimms for
-ppc64 are proposed at [2].
+> Hi
+>=20
+> On Mon, Mar 29, 2021 at 5:54 PM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+> > [...]
+> >
+> > I dunno if we can get the error message neater (I know sphinx-build,
+> > especially older versions, is a bit unhelpful about what it lets us
+> > report.)
+> >
+> > The test-yank stuff also failed on OSX:
+> >
+> > Unexpected error in inet_connect_addr() at ../../util/qemu-sockets.c:38=
+0:
+> > Failed to connect to '127.0.0.1:63820': Operation timed out
+> > ERROR test-yank - too few tests run (expected 6, got 1)
+> >
+> > =20
+> Lukas, can you have a look too?
 
-References:
-[1] "Hypercall Op-codes (hcalls)"
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst
+I guess OSX is waiting for a accept() from the other side (I have no OSX he=
+re
+to test though). I'll fix it.
 
-[2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
-    https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibhav@linux.ibm.com/
+Regards,
+Lukas Straub
 
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
----
- hw/ppc/spapr_nvdimm.c  | 30 ++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |  4 ++--
- 2 files changed, 32 insertions(+), 2 deletions(-)
+--=20
 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index b46c36917c..e38740036d 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -31,6 +31,13 @@
- #include "qemu/range.h"
- #include "hw/ppc/spapr_numa.h"
- 
-+/* DIMM health bitmap bitmap indicators */
-+/* SCM device is unable to persist memory contents */
-+#define PAPR_PMEM_UNARMED (1ULL << (63 - 0))
-+
-+/* Bits status indicators for health bitmap indicating unarmed dimm */
-+#define PAPR_PMEM_UNARMED_MASK (PAPR_PMEM_UNARMED)
-+
- bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp)
- {
-@@ -467,6 +474,28 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     return H_SUCCESS;
- }
- 
-+static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                                 target_ulong opcode, target_ulong *args)
-+{
-+    uint32_t drc_index = args[0];
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    NVDIMMDevice *nvdimm;
-+
-+    if (drc && spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    nvdimm = NVDIMM(drc->dev);
-+
-+    /* Check if the nvdimm is unarmed and send its status via health bitmaps */
-+    args[0] = nvdimm->unarmed ? PAPR_PMEM_UNARMED_MASK : 0;
-+
-+    /* health bitmap mask same as the health bitmap */
-+    args[1] = args[0];
-+
-+    return H_SUCCESS;
-+}
-+
- static void spapr_scm_register_types(void)
- {
-     /* qemu/scm specific hcalls */
-@@ -475,6 +504,7 @@ static void spapr_scm_register_types(void)
-     spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-+    spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
- }
- 
- type_init(spapr_scm_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 47cebaf3ac..18859b9ab2 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -538,8 +538,8 @@ struct SpaprMachineState {
- #define H_SCM_BIND_MEM          0x3EC
- #define H_SCM_UNBIND_MEM        0x3F0
- #define H_SCM_UNBIND_ALL        0x3FC
--
--#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
-+#define H_SCM_HEALTH            0x400
-+#define MAX_HCALL_OPCODE        H_SCM_HEALTH
- 
- /* The hcalls above are standardized in PAPR and implemented by pHyp
-  * as well.
--- 
-2.30.2
 
+--Sig_/M3jRrO3P8zm_i_VaSWfsmON
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBh/5oACgkQNasLKJxd
+slj9dA//YwawAHa+2a9mqWeJtsgNruFHqasAcZJ0E3YVR4V9MhmKWMEF6IfhHUkE
+/wwiyJdL0QfR69Met8Bb66vkDbYjtkhF0xoYQ0oQSKe5u6Yam04EwSSeVLFLBva/
+NavmhPaprzXcTQRzK6AHIFteX2EIxhW9+TZqVz0sTFdbpN1aY8azQ4lKvQq7eCBQ
+kK4TuqSUwqiPjrivOlcnRq7DZPmLIlScwNHIPVIm2Vcl+d9JP0J4m/oju9gCFbYf
+V3upmlN6QzX7FSRBXvZ77Ll31/k2JpbgPEBoU2hyZ5nsARMifP7hHo1KhcX1h3R5
+x3u0pmGrBYojQ/eN4G3ooW2Rljk7KLPzkvcT8MZbtMG9gqFGm3Tc9T60sOKcBU7F
+lhZucOpZy3M7KZRT/jJcZyxspy3+Y5UJ1hHd1omf4f9/ep+Sz5cZ9Eov4gahKszs
+zvo9hlXVVaXf48td4AvFJpaBRXzC2XNKNUMFcAUXcOuiTdqCWS86j21lJljMJcnT
+/ilu4cvWqP2ecNs8a60MjCGwgNDKRIN2o74aZadZiceZoIEe+ocWg0mBACT/EYVF
+A9jlrzs789KdbkyFT06Z0dkpOVp62KLED+esCtG6wnWcQi0ojd7gc5IDUfdAG+l9
+j3k4S331VixPf+tHxucvRvL7REt0f3iO30WKNTJuddGgppfvBVA=
+=9m0b
+-----END PGP SIGNATURE-----
+
+--Sig_/M3jRrO3P8zm_i_VaSWfsmON--
 
