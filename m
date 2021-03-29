@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D01E34D34F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 17:07:55 +0200 (CEST)
-Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA5E34D362
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 17:11:49 +0200 (CEST)
+Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQtUg-00047f-1w
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 11:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
+	id 1lQtYS-0006Zq-Qv
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 11:11:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lQtP2-000867-Vl
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:02:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50650)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lQtWs-0005vS-Ii
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:10:10 -0400
+Resent-Date: Mon, 29 Mar 2021 11:10:10 -0400
+Resent-Message-Id: <E1lQtWs-0005vS-Ii@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lQtOs-0002Nl-GM
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:02:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617030112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/h/9FCHLPUALSSaLJ05cd+OsJaZfWoRB6csTz/uUqP0=;
- b=Lu9UJdmCyS67DuSXdD7GFswf9yBzCNsPPKJdIKhSGOoIpL98xD9wji9yc5bX1KHwQbTygc
- /DKFrb8yhv6tO8yFlGNwlpJqGLXyxcUKnFgBhcTSh5sGIdjzJmptWuRmo4W3/scWAAxJwP
- 62CsUTf9iq+1EB/tb7s6C+Ade6YOltI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-hCuQxWtHOyK57PyvFVfPlw-1; Mon, 29 Mar 2021 11:01:49 -0400
-X-MC-Unique: hCuQxWtHOyK57PyvFVfPlw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2216A50204;
- Mon, 29 Mar 2021 15:01:48 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-115-72.ams2.redhat.com
- [10.36.115.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 530D95D9D3;
- Mon, 29 Mar 2021 15:01:40 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] block/rbd: fix memory leak in qemu_rbd_co_create_opts()
-Date: Mon, 29 Mar 2021 17:01:29 +0200
-Message-Id: <20210329150129.121182-3-sgarzare@redhat.com>
-In-Reply-To: <20210329150129.121182-1-sgarzare@redhat.com>
-References: <20210329150129.121182-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lQtWp-0006oi-O3
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 11:10:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1617030591; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=NAebLenSH/iZ/x9c2O5ShITWtNOV00zc1klE9LezEmdZpNI5Qp+hHqxw4v4AMhNKbKKOoBBQkD64i5PJzG+Svsfd51NkjzRrAKxX05A3me/dY6T6Hdlu7BUTTnWAUrdlEP0GFeh3KT1X0JuEn8/hGz3RkfQgUJ9gT/UH4UqeUNQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1617030591;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=fnAZtITux0ur7uTqB7tCajsqi4bBaQ0sjlQRKlV/UcM=; 
+ b=VzNdkurjQ1Y9m31tK5EipAJYSJeSfMFhuL6KgZVIL5tngBPt+jwqr4n7yF6VA6Zf45jUyGkwJD2qwBLDUVnYZDU+Qk1CLVl6RPIjFI9BKTPuZf9DDvaQxhymwKOpXANS4wOJsUFEHHuiQnz4Gu4yhEW0sIwAg9it+T96QoJtbS4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1617030586136237.97204368954942;
+ Mon, 29 Mar 2021 08:09:46 -0700 (PDT)
+In-Reply-To: <20210329145947.14280-1-alex.bennee@linaro.org>
+Subject: Re: [RFC PATCH] docs: rst-ify the record/replay documentation
+Message-ID: <161703058464.402.16834002215122078032@72b6d80f974b>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Mon, 29 Mar 2021 08:09:46 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,48 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Peter Lieven <pl@kamp.de>, Max Reitz <mreitz@redhat.com>,
- Florian Florensa <fflorensa@online.net>, Jason Dillaman <dillaman@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we allocate 'q_namespace', we forgot to set 'has_q_namespace'
-to true. This can cause several issues, including a memory leak,
-since qapi_free_BlockdevCreateOptions() does not deallocate that
-memory, as reported by valgrind:
-
-  13 bytes in 1 blocks are definitely lost in loss record 7 of 96
-     at 0x4839809: malloc (vg_replace_malloc.c:307)
-     by 0x48CEBB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
-     by 0x48E3FE3: g_strdup (in /usr/lib64/libglib-2.0.so.0.6600.8)
-     by 0x180010: qemu_rbd_co_create_opts (rbd.c:446)
-     by 0x1AE72C: bdrv_create_co_entry (block.c:492)
-     by 0x241902: coroutine_trampoline (coroutine-ucontext.c:173)
-     by 0x57530AF: ??? (in /usr/lib64/libc-2.32.so)
-     by 0x1FFEFFFA6F: ???
-
-Fix setting 'has_q_namespace' to true when we allocate 'q_namespace'.
-
-Fixes: 19ae9ae014 ("block/rbd: Add support for ceph namespaces")
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- block/rbd.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/block/rbd.c b/block/rbd.c
-index 24cefcd0dc..f098a89c7b 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -444,6 +444,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
-     loc->user        = g_strdup(qdict_get_try_str(options, "user"));
-     loc->has_user    = !!loc->user;
-     loc->q_namespace = g_strdup(qdict_get_try_str(options, "namespace"));
-+    loc->has_q_namespace = !!loc->q_namespace;
-     loc->image       = g_strdup(qdict_get_try_str(options, "image"));
-     keypairs         = qdict_get_try_str(options, "=keyvalue-pairs");
- 
--- 
-2.30.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMyOTE0NTk0Ny4xNDI4
+MC0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDMyOTE0NTk0Ny4x
+NDI4MC0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1JGQyBQQVRDSF0gZG9jczog
+cnN0LWlmeSB0aGUgcmVjb3JkL3JlcGxheSBkb2N1bWVudGF0aW9uCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBl
+eGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGht
+IGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0g
+VEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdm
+NDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
+dQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMzI5MTEwMzAzLjE1MjM1LTEtYWxl
+eC5iZW5uZWVAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMzI5MTEwMzAzLjE1MjM1LTEtYWxl
+eC5iZW5uZWVAbGluYXJvLm9yZwogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMzI5
+MTQ1OTQ3LjE0MjgwLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMzI5
+MTQ1OTQ3LjE0MjgwLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBi
+cmFuY2ggJ3Rlc3QnCjM4MTZhYzggZG9jczogcnN0LWlmeSB0aGUgcmVjb3JkL3JlcGxheSBkb2N1
+bWVudGF0aW9uCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFj
+ZQojNjQ6IEZJTEU6IGRvY3MvZGV2ZWwvcmVwbGF5LnJzdDo0OgorICAgJAoKRVJST1I6IHRyYWls
+aW5nIHdoaXRlc3BhY2UKIzc2OiBGSUxFOiBkb2NzL2RldmVsL3JlcGxheS5yc3Q6Mjk6CisgICAg
+ICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM4NzogRklMRTogZG9jcy9kZXZlbC9yZXBs
+YXkucnN0OjM5OgorICAgICAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMTE4OiBGSUxF
+OiBkb2NzL2RldmVsL3JlcGxheS5yc3Q6NzE6CisgICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNw
+YWNlCiMxNjc6IEZJTEU6IGRvY3MvZGV2ZWwvcmVwbGF5LnJzdDoyNDE6CisgICQKCkVSUk9SOiB0
+cmFpbGluZyB3aGl0ZXNwYWNlCiMxODE6IEZJTEU6IGRvY3MvZGV2ZWwvcmVwbGF5LnJzdDoyNjU6
+CisgICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMxOTU6IEZJTEU6IGRvY3MvZGV2ZWwv
+cmVwbGF5LnJzdDoyNzU6CisgICQKCnRvdGFsOiA3IGVycm9ycywgMCB3YXJuaW5ncywgMzA2IGxp
+bmVzIGNoZWNrZWQKCkNvbW1pdCAzODE2YWM4OWUzNjMgKGRvY3M6IHJzdC1pZnkgdGhlIHJlY29y
+ZC9yZXBsYXkgZG9jdW1lbnRhdGlvbikgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9V
+VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAzMjkxNDU5
+NDcuMTQyODAtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
