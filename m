@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFDA34D68E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 20:04:23 +0200 (CEST)
-Received: from localhost ([::1]:57762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576CD34D6E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 20:22:03 +0200 (CEST)
+Received: from localhost ([::1]:33066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQwFS-0008WP-KL
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 14:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45282)
+	id 1lQwWX-0002cv-VX
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 14:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lQwDC-000820-D0
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:02:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lQwD7-0002rV-V7
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:02:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617040915;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DA7o3BP44BGuqVAT1gLVbR5OhzyvrT/WCX3WPhvOGYQ=;
- b=JGUnbHVzHx7aTj5nIh+YZIYIIclIydnH8zFvzdA7c9k06fXQigzhUsNO0bEJ8/OtnB8iv5
- hBrZfM3tdmCXb8vfVXV8jxiwt0OMPRewhr0tvZECe6H9Embpehh3J6IQ9l2Xl5vmjcHDuF
- +Hf+KDOPXJcS8oig1yEVhlvo1i3hO8Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-OlKM6jXoP4WNcj_e2OaRww-1; Mon, 29 Mar 2021 14:01:51 -0400
-X-MC-Unique: OlKM6jXoP4WNcj_e2OaRww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAE851005D4F;
- Mon, 29 Mar 2021 18:01:49 +0000 (UTC)
-Received: from thuth.com (ovpn-112-129.ams2.redhat.com [10.36.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54EC110016FD;
- Mon, 29 Mar 2021 18:01:42 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
- Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
- Policy document
-Date: Mon, 29 Mar 2021 20:01:40 +0200
-Message-Id: <20210329180140.2761383-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lQwUF-00022E-ML
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:19:40 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lQwU9-00026u-6x
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 14:19:39 -0400
+Received: by mail-ej1-x633.google.com with SMTP id ap14so7786175ejc.0
+ for <qemu-devel@nongnu.org>; Mon, 29 Mar 2021 11:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=32TCJto0OPKAWsXJ0xPtXpsF4a5kD/MrNOZ6Fo6FaUM=;
+ b=KyVtjObVVC+aqIGBXhkY0toiuxo+IYBBcGZjV2vY1sDzr4mHz3/LdbUooL4uqDldNW
+ TQsmCw7OkEEbk5idbWCoVzBuVXfYxhu1gxEfpDZ0TXpiXgti6uznlFMveXm8/3CGV2wp
+ RtGDoLQJ2fcBC9t/FAlOGPf66AeGTncKl/DYoBob8M5mBtDfPcW4+qRBtgQhuXDWxQuv
+ m3AyDUJy5tQ3cbtsrpzvUmryrJoTv7tgzDlNtYlwaTJW4Jyk4xMM8KW7yB3LVHxyf4kQ
+ rik9eh9GD+pDZgILmqZkA8M6GnF54OS7cuifT1l+479WfacQ7gPZA4lgRHLJudcoIuvq
+ cb3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=32TCJto0OPKAWsXJ0xPtXpsF4a5kD/MrNOZ6Fo6FaUM=;
+ b=hqKU7sR8eyd3vjOHYD1JDfo090ilptH92jyGeiWx4alM9ppT0mE8juzDihjvcv6oZv
+ 3URc/U2xDpxcVwizWTxztHZVqaz6NkrXe6AhMPYZE0NFjnWNeRo4rZ8TFTKQ9MGQ9Ris
+ Z9pxezYpcH4ZbsVJcQN8P2xsQ6bwtP/S6y1AUY/zY5qJk64k0FteA1bzzhtlZ/HwCTeA
+ MMjYMZnd0Ui59zQfkVP1TBxnkP/EV06L+w7eGwrys9n0VJCs3LR8ouPJLC4YYZLNVz1q
+ dwdvVaL9k5Dg61UvpykaL20wvfYZqA9RGAUgrsLaZD7U5BXj9NYVcq2L4HYXFvSVdCPH
+ d/hg==
+X-Gm-Message-State: AOAM5329nhM8fx5y3Ro4NOCdcKzC28PHiS6F/29zwke69fnKIib2jnAr
+ h/soRuvR/3VTPX62TaN77A3XbdjjLqDmyUOm1HU=
+X-Google-Smtp-Source: ABdhPJz6B+DQ+KO+icS4XDZI6R9gHBqY+EI68HZXsLvePcqmaIwJrZrEHIqtQF63H7/T2xK7lsE+dSBapqlCrOnXkpk=
+X-Received: by 2002:a17:907:3e8c:: with SMTP id
+ hs12mr29973573ejc.105.1617041970641; 
+ Mon, 29 Mar 2021 11:19:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <cover.1617035720.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1617035720.git.lukasstraub2@web.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 29 Mar 2021 22:19:17 +0400
+Message-ID: <CAJ+F1C+hq+fop4cBEeNeRYj8qi-bAmvH3myEoVn2cUiC4ttCAg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] yank: Add chardev tests and fixes
+To: Lukas Straub <lukasstraub2@web.de>
+Content-Type: multipart/alternative; boundary="0000000000003f42d505beb0ece2"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,237 +77,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In an ideal world, we would all get along together very well, always be
-polite and never end up in huge conflicts. And even if there are conflicts,
-we would always handle each other fair and respectfully. Unfortunately,
-this is not an ideal world and sometimes people forget how to interact with
-each other in a professional and respectful way. Fortunately, this rarely
-happens in the QEMU community, but still there are such rare cases, and
-then it would be good to have a basic code of conduct document available
-that can be shown to persons who are misbehaving. And if that does not help
-yet, we should also have a conflict resolution policy ready that can be
-applied in the worst case.
+--0000000000003f42d505beb0ece2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Code of Conduct document is based on the Django Code of Conduct
-(https://www.djangoproject.com/conduct/) and the conflict resolution
-has been assembled by Paolo, based on the Drupal Conflict Resolution Policy
-(https://www.drupal.org/conflict-resolution) and the Mozilla Consequence Ladder
-(https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md)
+Hi Lukas
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Discussion about a Code of Conduct already started off-list last summer,
- but it unfortunately ceased without a result. Let's have another try
- now by discussing this suggestion publically. I've picked the Django Code
- of Conduct as a base, since it sounds rather friendly and still welcoming
- to me, but I'm open for other suggestions, too.
+On Mon, Mar 29, 2021 at 8:38 PM Lukas Straub <lukasstraub2@web.de> wrote:
 
- docs/devel/code-of-conduct.rst     | 85 ++++++++++++++++++++++++++++++
- docs/devel/conflict-resolution.rst | 85 ++++++++++++++++++++++++++++++
- docs/devel/index.rst               |  2 +
- 3 files changed, 172 insertions(+)
- create mode 100644 docs/devel/code-of-conduct.rst
- create mode 100644 docs/devel/conflict-resolution.rst
+> Hello Everyone,
+> These patches increase test coverage for yank, add tests and fix bugs and
+> crashes in yank in combination with chardev-change.
+> Please Review.
+>
+> Regards,
+> Lukas Straub
+>
+> Changes:
+> -v6:
+>  -test: (hopefully) fix test on OSX by using qio_net_listener on the dumm=
+y
+>   server socket so new clients get accept()'ed properly
+>
 
-diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.rst
-new file mode 100644
-index 0000000000..050dbd9e16
---- /dev/null
-+++ b/docs/devel/code-of-conduct.rst
-@@ -0,0 +1,85 @@
-+Code of Conduct
-+===============
-+
-+Like the technical community as a whole, the QEMU community is made up of a
-+mixture of professionals and volunteers from all over the world.
-+Diversity is one of our huge strengths, but it can also lead to communication
-+issues and unhappiness. To that end, we have a few ground rules that we ask
-+people to adhere to. This code applies equally to founders, maintainers,
-+contributors, mentors and those seeking help and guidance.
-+
-+This isn't an exhaustive list of things that you can't do. Rather, take it in
-+the spirit in which it's intended - a guide to make it easier to enrich all of
-+us and the technical communities in which we participate:
-+
-+* Be friendly and patient.
-+
-+* Be welcoming. We strive to be a community that welcomes and supports people
-+  of all backgrounds and identities. This includes, but is not limited to
-+  members of any race, ethnicity, culture, national origin, colour, immigration
-+  status, social and economic class, educational level, sex, sexual orientation,
-+  gender identity and expression, age, size, family status, political belief,
-+  religion, and mental and physical ability.
-+
-+* Be considerate. Your work will be used by other people, and you in turn will
-+  depend on the work of others. Any decision you take will affect users and
-+  colleagues, and you should take those consequences into account when making
-+  decisions. Remember that we're a world-wide community, so you might not be
-+  communicating in someone else's primary language.
-+
-+* Be respectful. Not all of us will agree all the time, but disagreement is no
-+  excuse for poor behavior and poor manners. We might all experience some
-+  frustration now and then, but we cannot allow that frustration to turn into
-+  a personal attack. It's important to remember that a community where people
-+  feel uncomfortable or threatened is not a productive one. Members of the QEMU
-+  community should be respectful when dealing with other members as well as
-+  with people outside the QEMU community.
-+
-+* Be careful in the words that you choose. We are a community of professionals,
-+  and we conduct ourselves professionally. Be kind to others. Do not insult or
-+  put down other participants. Harassment and other exclusionary behavior
-+  aren't acceptable. This includes, but is not limited to:
-+
-+  * Violent threats or language directed against another person.
-+
-+  * Discriminatory jokes and language.
-+
-+  * Posting sexually explicit or violent material.
-+
-+  * Posting (or threatening to post) other people's personally identifying
-+    information ("doxing").
-+
-+  * Personal insults, especially those using racist or sexist terms.
-+
-+  * Unwelcome sexual attention.
-+
-+  * Advocating for, or encouraging, any of the above behavior.
-+
-+  * Repeated harassment of others. In general, if someone asks you to stop,
-+    then stop.
-+
-+* When we disagree, try to understand why. Disagreements, both social and
-+  technical, happen all the time and our project is no exception. It is
-+  important that we resolve disagreements and differing views constructively.
-+  Remember that we're different. The strength of our project comes from its
-+  varied community, people from a wide range of backgrounds. Different people
-+  have different perspectives on issues. Being unable to understand why someone
-+  holds a viewpoint doesn't mean that they're wrong. Don't forget that it is
-+  human to err and blaming each other doesn't get us anywhere. Instead, focus
-+  on helping to resolve issues and learning from mistakes.
-+
-+This code of conduct applies to all spaces managed by the QEMU project. This
-+includes IRC, the mailing lists, the issue tracker, community events, and any
-+other forums created by the project team which the community uses for
-+communication. In addition, violations of this code outside these spaces may
-+affect a person's ability to participate within them.
-+
-+If you believe someone is violating the code of conduct, please read the
-+:ref:`conflict-resolution` document for information about how to proceed.
-+
-+This document is based on the `Django Code of Conduct
-+<https://www.djangoproject.com/conduct/>`__, with original text courtesy of the
-+`Speak Up! project
-+<http://web.archive.org/web/20141109123859/http://speakup.io/coc.html>`__
-+(`CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>`__).
-+
-diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-resolution.rst
-new file mode 100644
-index 0000000000..4eb4fb45df
---- /dev/null
-+++ b/docs/devel/conflict-resolution.rst
-@@ -0,0 +1,85 @@
-+.. _conflict-resolution:
-+
-+Conflict Resolution Policy
-+==========================
-+
-+Conflicts in the community can take many forms, from someone having a
-+bad day and using harsh and hurtful language on the mailing list to more
-+serious code of conduct violations (including sexist/racist statements
-+or threats of violence), and everything in between.
-+
-+For the vast majority of issues, we aim to empower individuals to first
-+resolve conflicts themselves, asking for help when needed, and only
-+after that fails to escalate further. This approach gives people more
-+control over the outcome of their dispute.
-+
-+How we resolve conflicts
-+------------------------
-+
-+If you are experiencing conflict, you should first address the perceived
-+conflict directly with other involved parties, preferably through a
-+real-time medium such as IRC. If this fails, get a third-party (e.g. a
-+mutual friend, and/or someone with background on the issue, but not
-+involved in the conflict) to intercede or mediate.
-+
-+If you are witnessing conflict, you should also first try to address it
-+directly by interceding or mediating between the involved parties.
-+
-+If a good faith effort towards resolving the conflict fails,
-+escalate to the QEMU leadership committee by sending email at
-+qemu@sfconservancy.org. It is strongly suggested to include evidence of
-+past effort towards resolving the conflict.
-+
-+The QEMU leadership committee will do its best to review the incident
-+timely, and will either seek further information, or will make a
-+determination on next steps.
-+
-+Note: If the behaviour is threatening/harassing and requires immediate
-+escalation, contact the QEMU leadership committee immediately before
-+trying other steps, and possibly inform one or more members through IRC.
-+The up-to-date list of members is `available on the QEMU wiki
-+<https://wiki.qemu.org/Conservancy>`__.
-+
-+Remedies
-+--------
-+
-+Escalating an issue to the QEMU leadership committee may result in actions
-+impacting one or more involved parties. In the event the leadership
-+committee has to intervene, here are some of the ways they might respond:
-+
-+1. Take no action. For example, if the leadership committee determines
-+the complaint has not been substantiated or is being made in bad faith,
-+or if it is deemed to be outside its purview.
-+
-+2. A private reprimand, explaining the consequences of continued behavior,
-+to one or more involved individuals.
-+
-+3. A private reprimand and request for a private or public apology
-+
-+4. A public reprimand and request for a public apology
-+
-+5. A public reprimand plus a mandatory cooling off period. The cooling
-+off period may require, for example, one or more of the following:
-+abstaining from maintainer duties; not interacting with people involved,
-+including unsolicited interaction with those enforcing the guidelines
-+and interaction on social media; being denied participation to in-person
-+events.  The cooling off period is voluntary but may escalate to a
-+temporary ban in order to enforce it.
-+
-+6. A permanent or temporary ban from some or all QEMU spaces (mailing
-+lists, IRC, wiki, etc.). The group will maintain records of all such
-+bans so that they may be reviewed in the future, extended to new fora,
-+or otherwise maintained.
-+
-+In the event of severe harassment, the leadership comittee may advise that
-+the matter be escalated to the relevant local law enforcement agency. It
-+is however not the role of the leadership comittee to initiate contact
-+with law enforcement on behalf of any of the community members involved
-+in an incident.
-+
-+Sources
-+-------
-+
-+* `Drupal Conflict Resolution Policy and Process <https://www.drupal.org/conflict-resolution>`__
-+
-+* `Mozilla Consequence Ladder <https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md>`__
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 7c424ea6d7..416261505f 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -14,6 +14,8 @@ Contents:
-    :maxdepth: 2
-    :includehidden:
- 
-+   code-of-conduct
-+   conflict-resolution
-    build-system
-    style
-    kconfig
--- 
-2.27.0
+I can't see the change, patchew neither:
+https://patchew.org/QEMU/cover.1616794852.git.lukasstraub2@web.de/diff/cove=
+r.1617035720.git.lukasstraub2@web.de/
 
+btw, could you also fix the checkpatch style issue?
+
+thanks
+
+>
+> -v5:
+>  -test: fix memory leak
+>
+> -v4:
+>  -test: fix CharChangeTestConfig structs on stack going out of scope
+>  -test: move after bugfixes
+>
+> -v3:
+>  -Base on <cover.1616521341.git.lukasstraub2@web.de>
+>   ([PATCH 0/2] yank: Always link full yank code)
+>  -Drop patch 1 (tests: Use the normal yank code instead of stubs in
+> relevant tests)
+>
+> -v2:
+>  -test: add license
+>  -test: factorize testcases to a single function
+>  -test: test chardev_change with initialization of new chardev failing
+>  -fix chardev_change with initialization of new chardev failing
+>  -add reviewed-by and tested-by tags
+>
+> Based-on: <cover.1616521341.git.lukasstraub2@web.de>
+> ([PATCH 0/2] yank: Always link full yank code)
+>
+>
+> Lukas Straub (4):
+>   chardev/char.c: Move object_property_try_add_child out of chardev_new
+>   chardev/char.c: Always pass id to chardev_new
+>   chardev: Fix yank with the chardev-change case
+>   tests: Add tests for yank with the chardev-change case
+>
+>  MAINTAINERS            |   1 +
+>  chardev/char-socket.c  |  20 ++++-
+>  chardev/char.c         |  77 ++++++++++------
+>  include/chardev/char.h |   3 +
+>  tests/unit/meson.build |   3 +-
+>  tests/unit/test-yank.c | 200 +++++++++++++++++++++++++++++++++++++++++
+>  6 files changed, 275 insertions(+), 29 deletions(-)
+>  create mode 100644 tests/unit/test-yank.c
+>
+> --
+> 2.30.2
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000003f42d505beb0ece2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Lukas<br></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 29, 2021 at 8:38 =
+PM Lukas Straub &lt;<a href=3D"mailto:lukasstraub2@web.de">lukasstraub2@web=
+.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Hello Everyone,<br>
+These patches increase test coverage for yank, add tests and fix bugs and<b=
+r>
+crashes in yank in combination with chardev-change.<br>
+Please Review.<br>
+<br>
+Regards,<br>
+Lukas Straub<br>
+<br>
+Changes:<br>
+-v6:<br>
+=C2=A0-test: (hopefully) fix test on OSX by using qio_net_listener on the d=
+ummy<br>
+=C2=A0 server socket so new clients get accept()&#39;ed properly<br></block=
+quote><div><br></div><div>I can&#39;t see the change, patchew neither:<br><=
+/div><div><a href=3D"https://patchew.org/QEMU/cover.1616794852.git.lukasstr=
+aub2@web.de/diff/cover.1617035720.git.lukasstraub2@web.de/">https://patchew=
+.org/QEMU/cover.1616794852.git.lukasstraub2@web.de/diff/cover.1617035720.gi=
+t.lukasstraub2@web.de/</a></div><div><br> </div><div>btw, could you also fi=
+x the checkpatch style issue?</div><div><br></div><div>thanks<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+-v5:<br>
+=C2=A0-test: fix memory leak<br>
+<br>
+-v4:<br>
+=C2=A0-test: fix CharChangeTestConfig structs on stack going out of scope<b=
+r>
+=C2=A0-test: move after bugfixes<br>
+<br>
+-v3:<br>
+=C2=A0-Base on &lt;<a href=3D"mailto:cover.1616521341.git.lukasstraub2@web.=
+de" target=3D"_blank">cover.1616521341.git.lukasstraub2@web.de</a>&gt;<br>
+=C2=A0 ([PATCH 0/2] yank: Always link full yank code)<br>
+=C2=A0-Drop patch 1 (tests: Use the normal yank code instead of stubs in re=
+levant tests)<br>
+<br>
+-v2:<br>
+=C2=A0-test: add license<br>
+=C2=A0-test: factorize testcases to a single function<br>
+=C2=A0-test: test chardev_change with initialization of new chardev failing=
+<br>
+=C2=A0-fix chardev_change with initialization of new chardev failing<br>
+=C2=A0-add reviewed-by and tested-by tags<br>
+<br>
+Based-on: &lt;<a href=3D"mailto:cover.1616521341.git.lukasstraub2@web.de" t=
+arget=3D"_blank">cover.1616521341.git.lukasstraub2@web.de</a>&gt;<br>
+([PATCH 0/2] yank: Always link full yank code)<br>
+<br>
+<br>
+Lukas Straub (4):<br>
+=C2=A0 chardev/char.c: Move object_property_try_add_child out of chardev_ne=
+w<br>
+=C2=A0 chardev/char.c: Always pass id to chardev_new<br>
+=C2=A0 chardev: Fix yank with the chardev-change case<br>
+=C2=A0 tests: Add tests for yank with the chardev-change case<br>
+<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 =
++<br>
+=C2=A0chardev/char-socket.c=C2=A0 |=C2=A0 20 ++++-<br>
+=C2=A0chardev/char.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 77 ++++++++++=
+------<br>
+=C2=A0include/chardev/char.h |=C2=A0 =C2=A03 +<br>
+=C2=A0tests/unit/meson.build |=C2=A0 =C2=A03 +-<br>
+=C2=A0tests/unit/test-yank.c | 200 ++++++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A06 files changed, 275 insertions(+), 29 deletions(-)<br>
+=C2=A0create mode 100644 tests/unit/test-yank.c<br>
+<br>
+--<br>
+2.30.2<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000003f42d505beb0ece2--
 
