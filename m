@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2745634D5FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:26:06 +0200 (CEST)
-Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8690934D5D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Mar 2021 19:14:10 +0200 (CEST)
+Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lQveP-0000j2-1a
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:26:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58504)
+	id 1lQvSr-0001Ea-J7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 13:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lQvJz-0003P8-To; Mon, 29 Mar 2021 13:04:59 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:38197)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lQvM3-0004vE-OD
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:07:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lQvJw-00033E-U4; Mon, 29 Mar 2021 13:04:59 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 27E015C014D;
- Mon, 29 Mar 2021 13:04:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 29 Mar 2021 13:04:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=kKx4g7Byamc73
- tDohNq7+68NWOhzh3b0kjWEapAwPFk=; b=HgaFloAgtM4Bi/0JsWIfmR1VTjwSR
- /MrXikuVwMmJ+KSbxiBU/i4SGmLTDHNVLsP2CIVeGKAhEgvaxhwMZ0JDkNgKMxXS
- EmkmZCkSLYksd8pKn2o6MRtGpkZNDdzc7GsZzNcifNEeiT+5aPdxPR0SdAnagKfU
- 1bLLVyo7aTqZXSiAVQ+UL8YZLZB+1/z7tKchmxTVcw9DfeSqnN5f4ZeaIcuicUKq
- E58kw6rmx04rvC30IZhKlyoLUOXLhatFFA2uYqtBkUY1iOcUkO/U1W+z0RhsudXR
- g9T3MNX6OS7sRZ5zyK8eb2yHPp44GYLeemvdEb1hBD9w7eFLZkGNkJoQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=kKx4g7Byamc73tDohNq7+68NWOhzh3b0kjWEapAwPFk=; b=ujE3hxAL
- r7cke01huV/J3APtA2wrQilQakdQW10Eh33zoSWIZ+lrpbOlyOw8HN4beHp5kJAP
- g11Mzm4XHsuhw6Mxla2Y7shBraYVw5xJX51R4YuCclLVLnjrevqOybbD94AxsMdY
- 7LzYxZQPI24q4P4Yxy3K0pnBN2oIB7O3G3b5jXzcsJQaJkRmSX8MF6/zkYfCNX45
- lFuezufHIksqsQyo64NMXpX1ssRYD77ttccXCO04UisQCdHCoLxOaELkLSBohMN6
- Y6rm0uvcFmo6RTzvB99/l1XZk2SKZzIeVHIyrBMp+qtO5fQwkxmWUps/4HWsVXTz
- ZSc/ny+XhF2DYg==
-X-ME-Sender: <xms:uAhiYCUQYynSV0W8dq3d26Yz-AIzvZn3XqD8scF-2elk3aFkiSEEtQ>
- <xme:uAhiYOk5wd8nx1PcRldQO15iQHDHETS9DglWkd1D-FARjxP9TQN9F1uGMfoTWwO3x
- VR_tz2HTf86PfFBtZQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehkedguddutdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:uAhiYGZWeUeLwS-KJwtkhhYDmp7u3bvBNCH3gd8u_84gpjuzXlT0jQ>
- <xmx:uAhiYJXZNNFUsHSzHwlFuLnPizJo8bgznrOtWVBXnxdYHqvY1njc0A>
- <xmx:uAhiYMlGnJa2MtTVvtsi3M7At2Cinmmek96OWKlUkYKUGf3jaA7WhQ>
- <xmx:uAhiYKbIeCRiTkX8s6IIyLaIhHx3jE58L9nJK062U9AOaGBqowmwuQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CAC621080054;
- Mon, 29 Mar 2021 13:04:54 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL for-6.0 2/2] hw/block/nvme: fix ref counting in nvme_format_ns
-Date: Mon, 29 Mar 2021 19:04:49 +0200
-Message-Id: <20210329170449.125958-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210329170449.125958-1-its@irrelevant.dk>
-References: <20210329170449.125958-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lQvM0-0003vZ-GZ
+ for qemu-devel@nongnu.org; Mon, 29 Mar 2021 13:07:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617037623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ukgZQvSER+jzWAQDbYdtxFn+ox9pKDg/BlYGL+DV26M=;
+ b=NXs7yvrj95DHbmTCPRMQ8Lx075zoGlLSxD+oZhnPVsWNr8qTGz0AtGRrwrXeqEHF5+xPXI
+ gqhJVdLanM/eJxWIV9WwPqm+BacKrwgxgZJYe3xgjFjR/WTPcDM8MPV9LAyr9Rq9PjJarf
+ I+eRNfa9tKfV7HdLrXQTe4y/5atim9A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-WNjp8zsyOmqwePEzzDxiwg-1; Mon, 29 Mar 2021 13:07:01 -0400
+X-MC-Unique: WNjp8zsyOmqwePEzzDxiwg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3EB8802690;
+ Mon, 29 Mar 2021 17:06:59 +0000 (UTC)
+Received: from localhost (ovpn-114-227.ams2.redhat.com [10.36.114.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEABA90A04;
+ Mon, 29 Mar 2021 17:06:56 +0000 (UTC)
+Date: Mon, 29 Mar 2021 18:06:55 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC 2/8] virtio: Introduce virtio_bus_set_host_notifiers()
+Message-ID: <YGIJLyhbhKQ5yNfO@stefanha-x1.localdomain>
+References: <20210325150735.1098387-1-groug@kaod.org>
+ <20210325150735.1098387-3-groug@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
+In-Reply-To: <20210325150735.1098387-3-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="macCRpfgApiKaptK"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,60 +79,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+--macCRpfgApiKaptK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Max noticed that since blk_aio_pwrite_zeroes() may invoke the callback
-before returning, the callbacks will never see *count == 0 and thus
-never free the count variable or decrement num_formats causing a CQE to
-never be posted.
+On Thu, Mar 25, 2021 at 04:07:29PM +0100, Greg Kurz wrote:
+> Multiqueue devices such as virtio-scsi or virtio-blk, all open-code the
+> same pattern to setup/tear down host notifiers of the request virtqueues.
+> Consolidate the pattern in a new virtio_bus_set_host_notifiers() API.
+> Since virtio-scsi and virtio-blk both fallback to userspace if host
+> notifiers can't be set, e.g. file descriptor exhaustion, go for a
+> warning rather than an error. Also make it oneshot to avoid flooding
+> the logs since the message would be very likely the same for all
+> virtqueues.
+>=20
+> Devices will be converted to use virtio_bus_set_host_notifiers() in
+> separate patches.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  include/hw/virtio/virtio-bus.h |  3 +++
+>  hw/virtio/virtio-bus.c         | 36 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 39 insertions(+)
 
-Coverity (CID 1451082) also picked up on the fact that count would not
-be free'ed if the namespace was of zero size.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Fix both of these issues by explicitly checking *count and finalize for
-the given namespace if --(*count) is zero. Enqueing a CQE if there are
-no AIOs outstanding after this case is already handled by nvme_format()
-by inspecting *num_formats.
+--macCRpfgApiKaptK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Reported-by: Max Reitz <mreitz@redhat.com>
-Reported-by: Coverity (CID 1451082)
-Fixes: dc04d25e2f3f ("hw/block/nvme: add support for the format nvm command")
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
----
- hw/block/nvme.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6842b01ab58b..c54ec3c9523c 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -5009,9 +5009,15 @@ static uint16_t nvme_format_ns(NvmeCtrl *n, NvmeNamespace *ns, uint8_t lbaf,
- 
-     }
- 
--    (*count)--;
-+    if (--(*count)) {
-+        return NVME_NO_COMPLETE;
-+    }
- 
--    return NVME_NO_COMPLETE;
-+    g_free(count);
-+    ns->status = 0x0;
-+    (*num_formats)--;
-+
-+    return NVME_SUCCESS;
- }
- 
- static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
--- 
-2.31.0
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBiCS8ACgkQnKSrs4Gr
+c8iz7Qf9HWqC2WUAHJjgAcYZYgsl8x/Su+MQFXnYfHA+ULVvgYaBzj4dCOZTi+BA
+PG6KpPJMWZlCQVdduDC9Uz2irCeNlhhfix5l3GHOuetuko3GQBNzpDp2PWdOqw6t
+O2Y49ohUUFL9QhNbTflA4F848XMOdNPGTeSFi2/CD1p5Ngi3CbCnspk3xfWrfdGQ
+dHOrYCl137jY0sFSSl2ps8WJ6t+kx5ChsnBaFAbwpNtThkGkJuxM2ZKL+sXSf+UZ
+z0hZ7SPZuWNxfHQcmxZy56QvZUmUQmcCV4LRGI0hugcnWKWv/etyWiePsxeQ4i3u
+jrIGGhWzNXx0qsSC8lsya1mIkUct2g==
+=ZEhr
+-----END PGP SIGNATURE-----
+
+--macCRpfgApiKaptK--
 
 
