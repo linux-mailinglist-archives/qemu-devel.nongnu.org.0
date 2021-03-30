@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC9834E7D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:49:36 +0200 (CEST)
-Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A0634E7ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:53:15 +0200 (CEST)
+Received: from localhost ([::1]:42028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDoO-0007dJ-0C
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58348)
+	id 1lRDru-0003t7-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfd-000147-14
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfd-00016P-JA
  for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41019)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfS-0003QL-4F
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:32 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfS-0003R9-Dw
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617108019;
+ s=mimecast20190719; t=1617108020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BcV7OFirmTsF/6Vx4L9qORemtTd4108boUdPewlJ840=;
- b=YY55cID8R2/up8Fk/5VTWClUcMUF7DMjd/Dy25JccsAd1uPvF1Csx96W4ldG/um5NoGvg6
- 6+wsx9fXhmyckb40hLqfyWyko7LK3eucxzy0tyivPzy3mY5qSF87Tz/Os6lRLlzvZ96/az
- QDUqw/cpgc+kXLt5GkzHet1PETpKQqQ=
+ bh=yHUxUOmr2Qoj4pM9z/cRcpLZAfx5nyjg45qCoUBAHNM=;
+ b=SEkNUEmYKowZOOJmCCoGkr6A9hGNPylGfseyClj02t7iuYzd4oQD8nJFc25OdiZ3C/KtJj
+ u2gIt3TktipkdwJWMdf6Q1vdf0zclfQnDiiM4+5gNbo5O3iJasxUVZPhHGA+AUq28dP+ow
+ SWGFgxkSoqhS/EOtZrbwcuHuy1fCXF0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-HEDJC3NRNueQFDhhwveYdg-1; Tue, 30 Mar 2021 08:40:15 -0400
-X-MC-Unique: HEDJC3NRNueQFDhhwveYdg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-256-bbw2bZqkOu6Ob8wrzYGjnA-1; Tue, 30 Mar 2021 08:40:18 -0400
+X-MC-Unique: bbw2bZqkOu6Ob8wrzYGjnA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5499DF8A9;
- Tue, 30 Mar 2021 12:40:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84EC1108BD11;
+ Tue, 30 Mar 2021 12:40:17 +0000 (UTC)
 Received: from localhost (ovpn-113-220.ams2.redhat.com [10.36.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 799E12AC85;
- Tue, 30 Mar 2021 12:40:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 154564F3C6;
+ Tue, 30 Mar 2021 12:40:16 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 7/9] qsd: Document FUSE exports
-Date: Tue, 30 Mar 2021 14:39:55 +0200
-Message-Id: <20210330123957.826170-8-mreitz@redhat.com>
+Subject: [PULL 8/9] qcow2: Force preallocation with data-file-raw
+Date: Tue, 30 Mar 2021 14:39:56 +0200
+Message-Id: <20210330123957.826170-9-mreitz@redhat.com>
 In-Reply-To: <20210330123957.826170-1-mreitz@redhat.com>
 References: <20210330123957.826170-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,78 +81,106 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implementing FUSE exports required no changes to the storage daemon, so
-we forgot to document them there.  Considering that both NBD and
-vhost-user-blk exports are documented in its man page (and NBD exports
-in its --help text), we should probably do the same for FUSE.
+Setting the qcow2 data-file-raw bit means that you can ignore the
+qcow2 metadata when reading from the external data file.  It does not
+mean that you have to ignore it, though.  Therefore, the data read must
+be the same regardless of whether you interpret the metadata or whether
+you ignore it, and thus the L1/L2 tables must all be present and give a
+1:1 mapping.
+
+This patch changes 244's output: First, the qcow2 file is larger right
+after creation, because of metadata preallocation.  Second, the qemu-img
+map output changes: Everything that was not explicitly discarded or
+zeroed is now a data area.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210217115844.62661-1-mreitz@redhat.com>
+Message-Id: <20210326145509.163455-2-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- docs/tools/qemu-storage-daemon.rst   | 19 +++++++++++++++++++
- storage-daemon/qemu-storage-daemon.c |  4 ++++
- 2 files changed, 23 insertions(+)
+ block/qcow2.c              | 34 ++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/244.out |  9 ++++-----
+ 2 files changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 086493ebb3..3ec4bdd914 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -74,6 +74,7 @@ Standard options:
- .. option:: --export [type=]nbd,id=<id>,node-name=<node-name>[,name=<export-name>][,writable=on|off][,bitmap=<name>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-+  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off]
- 
-   is a block export definition. ``node-name`` is the block node that should be
-   exported. ``writable`` determines whether or not the export allows write
-@@ -92,6 +93,16 @@ Standard options:
-   ``logical-block-size`` sets the logical block size in bytes (the default is
-   512). ``num-queues`` sets the number of virtqueues (the default is 1).
- 
-+  The ``fuse`` export type takes a mount point, which must be a regular file,
-+  on which to export the given block node. That file will not be changed, it
-+  will just appear to have the block node's content while the export is active
-+  (very much like mounting a filesystem on a directory does not change what the
-+  directory contains, it only shows a different content while the filesystem is
-+  mounted). Consequently, applications that have opened the given file before
-+  the export became active will continue to see its original content. If
-+  ``growable`` is set, writes after the end of the exported file will grow the
-+  block node to fit.
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 2fb43c6f7e..9727ae8fe3 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3503,6 +3503,28 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+         ret = -EINVAL;
+         goto out;
+     }
++    if (qcow2_opts->data_file_raw &&
++        qcow2_opts->preallocation == PREALLOC_MODE_OFF)
++    {
++        /*
++         * data-file-raw means that "the external data file can be
++         * read as a consistent standalone raw image without looking
++         * at the qcow2 metadata."  It does not say that the metadata
++         * must be ignored, though (and the qcow2 driver in fact does
++         * not ignore it), so the L1/L2 tables must be present and
++         * give a 1:1 mapping, so you get the same result regardless
++         * of whether you look at the metadata or whether you ignore
++         * it.
++         */
++        qcow2_opts->preallocation = PREALLOC_MODE_METADATA;
 +
- .. option:: --monitor MONITORDEF
++        /*
++         * Cannot use preallocation with backing files, but giving a
++         * backing file when specifying data_file_raw is an error
++         * anyway.
++         */
++        assert(!qcow2_opts->has_backing_file);
++    }
  
-   is a QMP monitor definition. See the :manpage:`qemu(1)` manual page for
-@@ -196,6 +207,14 @@ domain socket ``vhost-user-blk.sock``::
-       --blockdev driver=qcow2,node-name=qcow2,file=file \
-       --export type=vhost-user-blk,id=export,addr.type=unix,addr.path=vhost-user-blk.sock,node-name=qcow2
- 
-+Export a qcow2 image file ``disk.qcow2`` via FUSE on itself, so the disk image
-+file will then appear as a raw image::
+     if (qcow2_opts->data_file) {
+         if (version < 3) {
+@@ -4238,6 +4260,18 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+             error_setg_errno(errp, -ret, "Failed to grow the L1 table");
+             goto fail;
+         }
 +
-+  $ qemu-storage-daemon \
-+      --blockdev driver=file,node-name=file,filename=disk.qcow2 \
-+      --blockdev driver=qcow2,node-name=qcow2,file=file \
-+      --export type=fuse,id=export,node-name=qcow2,mountpoint=disk.qcow2,writable=on
-+
- See also
- --------
++        if (data_file_is_raw(bs) && prealloc == PREALLOC_MODE_OFF) {
++            /*
++             * When creating a qcow2 image with data-file-raw, we enforce
++             * at least prealloc=metadata, so that the L1/L2 tables are
++             * fully allocated and reading from the data file will return
++             * the same data as reading from the qcow2 image.  When the
++             * image is grown, we must consequently preallocate the
++             * metadata structures to cover the added area.
++             */
++            prealloc = PREALLOC_MODE_METADATA;
++        }
+     }
  
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 72900dc2ec..fc8b150629 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -98,6 +98,10 @@ static void help(void)
- "                         export the specified block node over NBD\n"
- "                         (requires --nbd-server)\n"
- "\n"
-+"  --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>\n"
-+"           [,growable=on|off][,writable=on|off]\n"
-+"                         export the specified block node over FUSE\n"
-+"\n"
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
- "                         configure a QMP monitor\n"
- "\n"
+     switch (prealloc) {
+diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
+index 7269b4295a..1a3ae31dde 100644
+--- a/tests/qemu-iotests/244.out
++++ b/tests/qemu-iotests/244.out
+@@ -83,7 +83,7 @@ qcow2 file size after I/O: 327680
+ === Standalone image with external data file (valid raw) ===
+ 
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data data_file_raw=on
+-qcow2 file size before I/O: 196616
++qcow2 file size before I/O: 327680
+ 
+ wrote 4194304/4194304 bytes at offset 1048576
+ 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -93,11 +93,10 @@ wrote 3145728/3145728 bytes at offset 3145728
+ 3 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ No errors were found on the image.
+ 
+-[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false},
+-{ "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 1048576},
++[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 0},
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
+-{ "start": 4194304, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": 4194304},
+-{ "start": 5242880, "length": 61865984, "depth": 0, "zero": true, "data": false}]
++{ "start": 4194304, "length": 2097152, "depth": 0, "zero": true, "data": false, "offset": 4194304},
++{ "start": 6291456, "length": 60817408, "depth": 0, "zero": false, "data": true, "offset": 6291456}]
+ 
+ read 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 -- 
 2.29.2
 
