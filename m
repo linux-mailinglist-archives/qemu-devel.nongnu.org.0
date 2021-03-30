@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366BF34EAFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:49:06 +0200 (CEST)
-Received: from localhost ([::1]:52010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B195534EB07
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:50:43 +0200 (CEST)
+Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFg1-00079k-6s
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38672)
+	id 1lRFha-0000u9-O2
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:50:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lRFW9-00041S-DC
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:60159)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lRFWB-00045w-9Z
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:55 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:47287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lRFW7-0005Jv-Jz
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:53 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lRFW9-0005LH-MN
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:55 -0400
 Received: from localhost.localdomain ([82.142.14.126]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mo77T-1lxVqs19Ex-00pc0G; Tue, 30 Mar 2021 16:38:49 +0200
+ id 1MvazO-1ljb5D38ys-00sfUr; Tue, 30 Mar 2021 16:38:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] Linux user for 6.0 patches
-Date: Tue, 30 Mar 2021 16:38:45 +0200
-Message-Id: <20210330143846.721955-1-laurent@vivier.eu>
+Subject: [PULL 1/1] linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if its
+ length is 0
+Date: Tue, 30 Mar 2021 16:38:46 +0200
+Message-Id: <20210330143846.721955-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210330143846.721955-1-laurent@vivier.eu>
+References: <20210330143846.721955-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BWVYqT8x7I+87aHF2VArueVRvSNRCyraql/+yZe7Syn6IR8rcB3
- eRe8Yytrgw5MRPaotEc3waUVsp+HLOEZGyldn2bi8mmGeBvRDHYDMp80fUn7lCCI4jMumQ6
- AycIsWgqs+zG6f2/4QN8fIWvozfASnL2E0SVt0vOwQFj1Q4UGZ89PV+WNn2mPs87KMR6z4I
- eRJlnzoKvb8vs24a1yrbQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ATMU0cTNHnw=:8Lh+0uN2O9oRWWTbZKoc0E
- aQ4MDUqLloy96G3uuUuNJyp81o3FtOZ1ZCYczgngJLeaiRnoil65Mb3bJVfFPLXijdBwm+Thp
- aHQCF2AwUnYgRXQD7Nz1FYxTWtQgDAM1lvBm418LSrcxd98ztmOS8VbaMfZ3bLOhlvcLtO5cH
- ulIDsneYAQS/GmwW0s888I1D0BLUAOGtUmxh7jriQStYZ78recNjQ5HYJm9nZifs2IismeyAJ
- cXx96OCPRTwikc1YhYu+6NJtXKq9OL7QbKs8t08PMt0twvbeXSN8BkzMhkkvsgnaQ6jkEZ/Kj
- h+JZcMdPuIWE/38L+tAcrroYYUBK49ZBQGbB/rQPJClsecDvj9UX4F9zhsQDTEYUF2Rror2tw
- g4ZK+LFy8wsGgWpeAjyN4gOHdbumLBcArFA+yxEQ6EL44d3W4qhUSJgiQykPrXq5upInQv3fT
- YaE4WCL8LU4bjnbKgB0nt9GxZ8WNxk7qQ9Aj2U+VybH+cLm4G/Wp
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:JBkfnHovGgA1nN0wduoDHw3qWDq0L/MawnAXkWs2wGwHHMUQepp
+ N/7ckiwnQX0H9v/nwQQE2KLDs7Og62L4dInE3bipmldqlqp1SwWB+EiDJJ8zO+75bcK5ov5
+ ndy8NQhYQXDna/jB+tHP7FlHY4Fi/JlaxiSneQDdEmSSDDUoUJvCengAKTIoUhfY21qNLOR
+ Kcew2P59TWqojgOUxwgtg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dNAdnacb9DI=:lr+sGNLV9IpAvrUVEvSOWi
+ mbx3LTxi+G67b6bS/2JAHHRpvWIAqKpqN+ZknLtq6D9NjHAnLLzUAnDNPSRIhEu7KKjeZbJiT
+ 3d1LgoBpPzo9erKwxwYlcpKhSF3pvRCNE2OtMJPTGUXfzR8AKgT8qg83Wf487FBI9NPa/BSPC
+ xFiYugXprE2kTluIX/kmho+NHF8/XWEC9xJQKp+DhJpC0lw5rXPo8datmHjBP63X751GBiBi1
+ e8elI7y9M+cUR0jvtICCHLI9T9UPNhRhOS8LkMB8dlYf4bxF+JHzyVfmByXaqbbws1QcrZ9Nz
+ 1xUEkt0ozH4iBainbj5gqOOLfjfwVna8LitMY4XP12vY4J97a7+d9wydBEt98DCpw8raW/bbZ
+ efyxdLiafVsjRlI6HjaEU/clN0Y4G+739nhd8vA98UAUVzkIvPktuejP5WXmq3qnQdlFVCejD
+ rz9SU+zf+aNA3yIXPdmtfsrvCx5q23SAkKwkfyaOQ0VgaLNnLRz4
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,41 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20Fortier?= <frf@ghgsat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ec2e6e016d24bd429792d08cf607e4c5350dcdaa=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pul=
-l-=3D=0D
-request' into staging (2021-03-28 19:49:57 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to 13e340c886679fb17df02a35e7d82cb8beb6e9f4:=0D
-=0D
-  linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if its length is 0 (2=
-02=3D=0D
-1-03-29 21:56:18 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-linux-user Pull request 20210330=0D
-=0D
-Fix NETLINK_LIST_MEMBERSHIPS with NULL/invalid pointer and 0 length=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Fr=3DC3=3DA9d=3DC3=3DA9ric Fortier (1):=0D
-  linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if its length is 0=0D
-=0D
- linux-user/syscall.c | 2 +-=0D
- 1 file changed, 1 insertion(+), 1 deletion(-)=0D
-=0D
---=3D20=0D
-2.30.2=0D
-=0D
+From: Frédéric Fortier <frf@ghgsat.com>
+
+getsockopt(fd, SOL_NETLINK, NETLINK_LIST_MEMBERSHIPS, *optval, *optlen)
+syscall allows optval to be NULL/invalid if optlen points to a size of
+zero. This allows userspace to query the length of the array they should
+use to get the full membership list before allocating memory for said
+list, then re-calling getsockopt with proper optval/optlen arguments.
+
+Notable users of this pattern include systemd-networkd, which in the
+(albeit old) version 237 tested, cannot start without this fix.
+
+Signed-off-by: Frédéric Fortier <frf@ghgsat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210328180135.88449-1-frf@ghgsat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 294779c86f4d..95d79ddc437a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3025,7 +3025,7 @@ get_timeout:
+                 return -TARGET_EINVAL;
+             }
+             results = lock_user(VERIFY_WRITE, optval_addr, len, 1);
+-            if (!results) {
++            if (!results && len > 0) {
+                 return -TARGET_EFAULT;
+             }
+             lv = len;
+-- 
+2.30.2
+
 
