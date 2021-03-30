@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A10934E741
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:14:26 +0200 (CEST)
-Received: from localhost ([::1]:52658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9405E34E73E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:13:19 +0200 (CEST)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDGL-00088h-IY
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51478)
+	id 1lRDFG-0007bE-LA
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRDBr-0006MF-Ju
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:09:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22858)
+ id 1lRDCV-0006YJ-Or
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:10:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRDBp-0003Nz-80
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:09:47 -0400
+ id 1lRDCJ-0003bx-0v
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:10:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617106184;
+ s=mimecast20190719; t=1617106213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gGm5x14kbjTrkBr+ftKMeYeM+MNs+N7Fj/NbcEqpZzk=;
- b=DQ9OxmBCjw3stRXXYa0cZRUqTHjXY960qvBv6i2JpFjY2ERMhzeTe0ZiQ0q/H4RDveBX5R
- lbPK5j6BJutmVo4cRTx9EAaBANzU/6lkNY+Np9SlHdSU1T1kUCI+Ae3sX7+u2Md2B390TI
- ppzva9NVITanpAMi31Lf5XTBbTt/b9s=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-1L2HhQNbPmKzU2ZCCQgzag-1; Tue, 30 Mar 2021 08:09:42 -0400
-X-MC-Unique: 1L2HhQNbPmKzU2ZCCQgzag-1
-Received: by mail-ed1-f72.google.com with SMTP id cq11so10071992edb.14
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 05:09:42 -0700 (PDT)
+ bh=hKagbKOxP5oaTqz+Vs8R6T/pDkAumw5vSVCgysNW1Mk=;
+ b=aqF768p0fIwPckh4anTGpsVHaQBxuqXS0Q1TLPgcxx0l79lt5UaHmqVioMDcuCkURHbWvB
+ v4q0YWhyKo9vZSJhE1eWENnMr2ga52e9zNcWgjXQlzRmSMqRaPKwROyhZ23JJsb26EiJyn
+ syK2P3iP6djbzLugncclgmX9qp8Hq/A=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-S4zwVBWYPz2e42xT7ukXlg-1; Tue, 30 Mar 2021 08:10:11 -0400
+X-MC-Unique: S4zwVBWYPz2e42xT7ukXlg-1
+Received: by mail-ed1-f70.google.com with SMTP id f9so10079044edd.13
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 05:10:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gGm5x14kbjTrkBr+ftKMeYeM+MNs+N7Fj/NbcEqpZzk=;
- b=k5BA/LI0zA/FHCf0wjqVxIIFoNdt9uSnxq5rnUUumA26KuCPnv10yEe3AN3Y8oGYb5
- 7nXrv4M1EukIDau/BtDLF3hCr4682IFunGNC4o9Zya2YP1ey0hh1xPEaCA+85VN2XGxo
- jlHz+64loqwmXOkc5cicGyyWTzML7hK8H2pj10GkdjOubcXiB2v/ciqArSuWHt8jLlbz
- QR53kCo5COOuZGN/OawkhLSHqo3TdSRGtxrJDjiwl9gC+TtpDe2o+ZsvOmaCnWXSjAEq
- kT9Sp0BxS5EDjg8LDett37eOfkb2+HwDYe5D0PwRn4WD1KRxJUmN7LCYvYM8wR+rpaEP
- cT7A==
-X-Gm-Message-State: AOAM5316zvVBgmKJv3yYtw30sjOoxncCqETcodCvBp2z5LZPL3lrnVE0
- EhtbVIcc+JNURlGAMsNA0qv2tN+iFReYN7NRXoW5MS/SGmgDma6RnJ0+R6RI8o9HEr4IHlZUdh3
- GemOmY4o6DH+iUc8=
-X-Received: by 2002:aa7:d4d6:: with SMTP id t22mr34028798edr.376.1617106181385; 
- Tue, 30 Mar 2021 05:09:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBLk8aVfD+av8pse9LeC26hjd8eJHlNSw0ybTO4dIbizc+ejXUskGxxuRIvJrM24KSh7FY2Q==
-X-Received: by 2002:aa7:d4d6:: with SMTP id t22mr34028780edr.376.1617106181200; 
- Tue, 30 Mar 2021 05:09:41 -0700 (PDT)
+ bh=hKagbKOxP5oaTqz+Vs8R6T/pDkAumw5vSVCgysNW1Mk=;
+ b=TIR2ao7AqKXM1re0QqgP6ND5K7H42EdP2kXYsLgSQSa8m4zvtMrZk9P4+tTRdDiwdh
+ Lqdlznks/AXaxHXBBikh41U5OhNltiBIo4NwSxP9dqbNdKIl4whbB4AUsrnzSTBgN12U
+ Y7MMJZxL1DRCayeUwjSgWptT3yTMoLYx5m09dxzu1pMsUGyLp4kXEq9SghIJhHWnCwca
+ WwgIOTvm0mN+XwSh5wz7yMJjIaHqiEvoQqL8C3UViwCIxfNN+NjYdSendZLyQuTcgZPw
+ DFtJ3OesY6LXylUiO81tcAoDGGH1ftqsMbua8cAi+uHxIpE72TN2CVN+ABpsDyon8Bwo
+ 9xOw==
+X-Gm-Message-State: AOAM532ZOV2Tx1McjZ+iGP08FfDdlGQ5y82FRI5zrVhk441i4t+RpuXL
+ Xqi955iISIQ/VwZv8M0rh94iQE7QwJjRm4SECVIUy8L4AG0/vOcykssblFc+tEWUJBE8DhoIm8a
+ umxxEXuyKj4uUOkM=
+X-Received: by 2002:aa7:d492:: with SMTP id b18mr33135516edr.381.1617106210415; 
+ Tue, 30 Mar 2021 05:10:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrChG7VTHSDsk6BZk2qLJonqXaY5aoOhjy3ufnHoWGaeW0Go2awE8GxPWKzH30/vs1g3ZGdQ==
+X-Received: by 2002:aa7:d492:: with SMTP id b18mr33135482edr.381.1617106210236; 
+ Tue, 30 Mar 2021 05:10:10 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v8sm10989307edc.30.2021.03.30.05.09.38
+ by smtp.gmail.com with ESMTPSA id q16sm11307188edv.61.2021.03.30.05.09.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 05:09:39 -0700 (PDT)
+ Tue, 30 Mar 2021 05:09:59 -0700 (PDT)
 Subject: Re: Serious doubts about Gitlab CI
 To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
  <berrange@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
@@ -74,8 +74,8 @@ References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
  <YGHf3HjYTRJwktbf@stefanha-x1.localdomain> <YGMJSoIGa5VoVDB1@redhat.com>
  <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <902a93ca-bd71-504b-fcf5-fec2480f9ec0@redhat.com>
-Date: Tue, 30 Mar 2021 14:09:38 +0200
+Message-ID: <f1541cc0-0fdb-cbe0-2505-9ade88c061c0@redhat.com>
+Date: Tue, 30 Mar 2021 14:09:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
@@ -136,7 +136,7 @@ Hmm... it should be the same (or if not it's a bug).
 
 At least for slirp, we probably want to stay more on the bleeding edge 
 which implies having to keep the submodule.  Capstone and libfdt 
-probably can go.
+probably can go, though at least libfdt may be more useful on Windows.
 
 Paolo
 
