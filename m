@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BEB34F1D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 21:51:45 +0200 (CEST)
-Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C7A34F1D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 21:53:03 +0200 (CEST)
+Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRKOt-0005X2-7A
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 15:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
+	id 1lRKQA-0006Wi-LH
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 15:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lRKNA-0004tL-AV
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 15:49:56 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46079)
+ id 1lRKP5-00061O-Ag
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 15:51:55 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lRKN6-0003sl-Hh
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 15:49:56 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id v10so12452008pgs.12
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 12:49:51 -0700 (PDT)
+ id 1lRKP3-0004qN-RP
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 15:51:55 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ k23-20020a17090a5917b02901043e35ad4aso10011056pji.3
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 12:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yK/NKdQiNaoZI7ey2aqBTCy6u8EIOuJy45NdyRfEZyw=;
- b=sgTG0AAnoQWCg+JlXjxhX5mMUBaL55ezeCTxdkzQpUJDEzOoHq1BkGSFBrgX8dp9SO
- bhpH+TR0tN62Z5KDSriyRrA0w7iJXFYfoXysuMIZBMjLKJQZywnYsNrvh45Fch1EBMwb
- 5ujOvAT5XsgqCY1R/JgWm0mDbaJ0JJsWtCyH0Y5V8F2Jog2IxviPLLa/jmNbpX3CxQyS
- GQD9JOgOsjh1mCBnq20qN9V3g+/NTnuT7xoKYyvnco7Gt2RSLPhzzhk7ykGhYkGtKrOT
- LCI2+apjJZT5rH3/dIdDXCQaPOLcYDUsCh6pCKFS99kXbUT5w9L5B6hBocnjsGA5zGMU
- swWA==
+ bh=jI+Keo9V78tN9EI3EajyJDUrKD6iHWW4sxlel4Ya4J0=;
+ b=yQ6U1Y9VIqGNx5QCZyzu2wcXnLBJLhdY1xtjPSFDOh2SIw/TKrCWEwW482jXyVf2QC
+ NcxmZ+YO/Rn639Nwsax5236LJiXQrNWSxy0ytMp8b+V2F+XSXlvFEq271iZARsRBOg+P
+ o5mCBRbjILNtnpbQeEdihA9RHlwnRj64LugfKonvK5kqlVhUo8R5aBJL604JYM5JieNU
+ MOE9Dje/biIAsiPau0gL2L9GCGcsyScLo5jUmx/mr7DXIia9qWVpaC6fUc+t9lNA7LF0
+ i1OVJShEDJdli4RS89DSyQ56384J613fG2kEgOgnOVIF5T44+fz3VAtTG51utLeEcTWX
+ vIkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yK/NKdQiNaoZI7ey2aqBTCy6u8EIOuJy45NdyRfEZyw=;
- b=c2Xx/rfV0bGp7BNOoOspJ8RDT+CoMOofIOCwwkd/djxt3snRqJ1C+Z+wCXDt1M+Lus
- /OTnAboMAG3saOEB1BFzOEr+hEGZKwXpbAhFVMHNqyNWhS8dG2nm/bJ6AILDCm0eFOSt
- k9vBITR4fKZEZ1gcloUDMcb1KfJZXumCN6NfvSjpSeNbH8x0737vGOJPb3z5gFiEsv//
- S0ZyUmAf3a66o2K5V2Zbwz2iWMZVtgP0MiRF040bvmzP2Bs1uFI2HVhsS7Z+i0UEYJrj
- b94I2WIMCfLYkTUHCNBo/4xVc6dXAEZwg39r/q1Oq3EYTBPpM88cwAxgIeIf0uVtGRbm
- y0zg==
-X-Gm-Message-State: AOAM533MX+Tm4+/tZjcphMlN7EcZoekzFhk5fOCrLiZyHo+RtqGvw/f7
- lzLGrZfuE8IHw5y+Q2YtWvr86D8YRhcuFHmC
-X-Google-Smtp-Source: ABdhPJzL21Yw6EA2kR7bSpCfRLLgLyR4jbgjxz8CettYIeG2OpSWq3001s+5KPJRfJ4i3sSF7MG6cQ==
-X-Received: by 2002:a63:5807:: with SMTP id m7mr29657295pgb.73.1617133791024; 
- Tue, 30 Mar 2021 12:49:51 -0700 (PDT)
+ bh=jI+Keo9V78tN9EI3EajyJDUrKD6iHWW4sxlel4Ya4J0=;
+ b=Ngpfa996PjYVkda1FBTX8YfWvGeQC2K0cuuP3BDMQdqGgtanOit9H+7HiE9ZBfF5Ua
+ dtYNmMiDgbK6V3bD/Qho/ceeIJEtfqNb3O8+Wl+VvYi1joFmLDxNy95RidMI9oX2XQ0s
+ mbi5/7HP2dFlU8KxyJAf4PbZnA8y9kK8ADMjOFZL85Ldpl5TYHwZXFcVZSDaEvNIBS15
+ Hq/m6eYiKUh65wcO3Fko3C9bPn9pbrag4xl5pr8SXlYip52xm2MQakm4UWOdCFK2CiH9
+ 9KQT2t7PoQkslrU8jYR7WS607FSYKipfNFnmhYSF+iiDM1bO2oZ1BvZWb59zG48OjOfb
+ dG5w==
+X-Gm-Message-State: AOAM533XiXgkcgN8WUuotZAGtu+hk5QfejIkYvcC6piALl8rGRxlWxoN
+ 3TRutB7cHzNyEin72BJy+NfzGw==
+X-Google-Smtp-Source: ABdhPJyxn63gY8U+EeLwnmVGQx5HuvJVXc7mUeF6d4ox8HMGwHb0vvOxDpTzlUX0uyh00HKpbG/Wlw==
+X-Received: by 2002:a17:902:dacd:b029:e5:cf71:3901 with SMTP id
+ q13-20020a170902dacdb02900e5cf713901mr34038247plx.23.1617133912526; 
+ Tue, 30 Mar 2021 12:51:52 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id w188sm21359542pfb.4.2021.03.30.12.49.50
+ by smtp.gmail.com with ESMTPSA id h68sm20818272pfe.111.2021.03.30.12.51.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 12:49:50 -0700 (PDT)
-Subject: Re: AUTIA authentication sometimes fails
-To: Peter Maydell <peter.maydell@linaro.org>,
- Derrick McKee <derrick.mckee@gmail.com>
-References: <CAJoBWHx5DM=zhj10j1ai5T_LO9ScAhFzUezuhGu6a73vn=4_Rg@mail.gmail.com>
- <CAFEAcA8KCJTwsb2YYoU3d_PbO=KW_ytSJXHLZZTkukVX6YzCPQ@mail.gmail.com>
+ Tue, 30 Mar 2021 12:51:52 -0700 (PDT)
+Subject: Re: [RFC PATCH] docs: rst-ify the record/replay documentation
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210329145947.14280-1-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <82f550a0-7ef0-acd0-bbe1-5fae9b7fbcff@linaro.org>
-Date: Tue, 30 Mar 2021 12:49:48 -0700
+Message-ID: <7c19395d-8808-c7dc-64f8-93b80ffaad82@linaro.org>
+Date: Tue, 30 Mar 2021 12:51:50 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8KCJTwsb2YYoU3d_PbO=KW_ytSJXHLZZTkukVX6YzCPQ@mail.gmail.com>
+In-Reply-To: <20210329145947.14280-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,72 +89,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM" <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/29/21 3:04 PM, Peter Maydell wrote:
-> On Mon, 29 Mar 2021 at 21:07, Derrick McKee <derrick.mckee@gmail.com> wrote:
->>
->> Hi,
->>
->> I am running across a scenario where a PAC signed code pointer (using
->> pacia) sometimes does not successfully authenticate despite the signed
->> pointer and the salt used to sign the pointer are correctly given to a
->> autia instruction.  Only one particular pointer fails, while others
->> are correctly authenticated.  Unfortunately, I can't provide a simple
->> use case, because the behavior is part of a running kernel, and all
->> the pointers involved are kernel space pointers.  An example of what I
->> am seeing (not guaranteeing correct assembly, just a gist):
->>
->> mov x9, 0xffff800009200000
->> mov x10, 0x20001
->> pacia x9, x10  // x9 contains 0xff90800009200000
->> ...
->> mov x9, 0xff90800009200000
->> mov x10 0x20001
->> autia x9, x10  // x9 contains invalid pointer
->>
->> However, this same code with different pointer values correctly
->> authenticate.  Is there something specific about the kernel and PAC
->> authentication that I am missing?  Thanks.
+On 3/29/21 8:59 AM, Alex Bennée wrote:
+> No changes to the text, just plain rst-ification of the original
+> source text. Notably:
 > 
-> cc'ing Richard, but I suspect you'll need to provide more detail...
+>    - fixed up indentation of bullet points
+>    - proper :: escapes for code samples
+>    - added titles to paper links
+>    - moved events into a table
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   docs/devel/index.rst                  |   1 +
+>   docs/{replay.txt => devel/replay.rst} | 211 ++++++++++++++------------
+>   MAINTAINERS                           |   2 +-
+>   3 files changed, 120 insertions(+), 94 deletions(-)
+>   rename docs/{replay.txt => devel/replay.rst} (58%)
 
-Definitely.
+There's a few instances of trailing whitespace.  But otherwise,
 
-I transliterated your code above into a stand-alone test case:
-
-#include <assert.h>
-#include <stdio.h>
-
-int main()
-{
-     unsigned long p0 = 0xffff800009200000ul;
-     unsigned long salt = 0x20001;
-     unsigned long p1, p2;
-
-     asm("pacia %0, %1" : "=r"(p1) : "r"(salt), "0"(p0));
-     asm("autia %0, %1" : "=r"(p2) : "r"(salt), "0"(p1));
-     assert(p2 == p0);
-
-     printf("%016lx\n%016lx\n", p0, p1);
-     return 0;
-}
-
-In your comments above, 0xff90800009200000 is the signed pointer, with the top 
-16 bits (ff90) bearing the signature.  This exact value cannot be obtained 
-without knowing the contents of the encryption key and will of course vary from 
-run to run.
-
-The test case above does not fail.
-
-So: more details about the context are required.
-
-I must say that my first guess is that you're signing with one encryption key 
-and authenticating with a different encryption key, with the kernel having 
-performed a context switch in the interim.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
