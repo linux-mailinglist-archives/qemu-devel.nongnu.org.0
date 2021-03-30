@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4583934EA28
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:20:38 +0200 (CEST)
-Received: from localhost ([::1]:49856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6EA34EA3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:22:42 +0200 (CEST)
+Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFET-0006n7-7q
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
+	id 1lRFGU-0000kQ-2K
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF3z-0002tW-7M
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36338)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF4D-00034a-1w
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:10:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF3v-00054U-4O
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:46 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF3x-00056T-2k
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:10:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617113380;
+ s=mimecast20190719; t=1617113384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5gJP52Zqh3kpE6TcUNZWjRxSQ69ELdgT6ZQo2ROocsg=;
- b=ZzZd7c/OLTMMwdN3/u22Yi/v67w23Vwxla7xpsdCZuS8kXl5shPvypy4pUMNp8HMvWyIWY
- qAOR4kETjVYJFEC/GL0InQBYNre56OW6pOQhjFc5P9sjshjggOFCe1Oeh6BR6lXf7ge5kG
- VsGcStcOIedEZNwhFWg6xIfD5870lHM=
+ bh=rtS/g0OGOClDMjnADvuymU2io8u8AE6nWPE506Ug4tA=;
+ b=XjBYjFFK2LLDDBgKi0PjK7ZfQNH6zVxd7F0t7KBUVhQHcwx+NeKl/1RNXLmcyvv1p1IdkP
+ sPRX6KFSneMVZjGe/mAZvY9f8MLiWV7jor9YIEwMPN5CD5wge+NlfeifL+YxLC/h8LimLk
+ CTiqwv6GpUjM9hLTpaYEDenbvxaqxk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-348H6Ia4P3KvkoaML_k4wA-1; Tue, 30 Mar 2021 10:09:36 -0400
-X-MC-Unique: 348H6Ia4P3KvkoaML_k4wA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-342-3E4893LePjCqhMioXZXDOw-1; Tue, 30 Mar 2021 10:09:42 -0400
+X-MC-Unique: 3E4893LePjCqhMioXZXDOw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E830F83DBE2;
- Tue, 30 Mar 2021 14:09:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9E011B18BC3;
+ Tue, 30 Mar 2021 14:09:39 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-118.rdu2.redhat.com [10.10.116.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FFBB60938;
- Tue, 30 Mar 2021 14:09:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79D645D9CC;
+ Tue, 30 Mar 2021 14:09:36 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 328E9225FCE; Tue, 30 Mar 2021 10:09:34 -0400 (EDT)
+ id 371FC225FCF; Tue, 30 Mar 2021 10:09:34 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v6 4/5] virtiofsd: Add support for setxattr_v2
-Date: Tue, 30 Mar 2021 10:09:24 -0400
-Message-Id: <20210330140925.730449-5-vgoyal@redhat.com>
+Subject: [PATCH v6 5/5] virtiofsd: Switch creds,
+ drop FSETID for system.posix_acl_access xattr
+Date: Tue, 30 Mar 2021 10:09:25 -0400
+Message-Id: <20210330140925.730449-6-vgoyal@redhat.com>
 In-Reply-To: <20210330140925.730449-1-vgoyal@redhat.com>
 References: <20210330140925.730449-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,201 +85,155 @@ Cc: lhenriques@suse.de, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the bits to enable support for setxattr_v2 if fuse offers it.
+When posix access acls are set on a file, it can lead to adjusting file
+permissions (mode) as well. If caller does not have CAP_FSETID and it
+also does not have membership of owner group, this will lead to clearing
+SGID bit in mode.
 
+Current fuse code is written in such a way that it expects file server
+to take care of chaning file mode (permission), if there is a need.
+Right now, host kernel does not clear SGID bit because virtiofsd is
+running as root and has CAP_FSETID. For host kernel to clear SGID,
+virtiofsd need to switch to gid of caller in guest and also drop
+CAP_FSETID (if caller did not have it to begin with).
+
+If SGID needs to be cleared, client will set the flag
+FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
+should kill sgid.
+
+Currently just switch to uid/gid of the caller and drop CAP_FSETID
+and that should do it.
+
+This should fix the xfstest generic/375 test case.
+
+We don't have to switch uid for this to work. That could be one optimization
+that pass a parameter to lo_change_cred() to only switch gid and not uid.
+
+Also this will not work whenever (if ever) we support idmapped mounts. In
+that case it is possible that uid/gid in request are 0/0 but still we
+need to clear SGID. So we will have to pick a non-root sgid and switch
+to that instead. That's an TODO item for future when idmapped mount
+support is introduced.
+
+Reported-by: Luis Henriques <lhenriques@suse.de>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- include/standard-headers/linux/fuse.h | 12 +++++++-
- tools/virtiofsd/fuse_common.h         |  6 ++++
- tools/virtiofsd/fuse_lowlevel.c       | 42 ++++++++++++++++++++++++++-
- tools/virtiofsd/fuse_lowlevel.h       |  3 +-
- tools/virtiofsd/passthrough_ll.c      |  3 +-
- 5 files changed, 62 insertions(+), 4 deletions(-)
+ include/standard-headers/linux/fuse.h |  7 ++++
+ tools/virtiofsd/passthrough_ll.c      | 50 ++++++++++++++++++++++++---
+ 2 files changed, 52 insertions(+), 5 deletions(-)
 
 diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-index 950d7edb7e..cc87ff27d0 100644
+index cc87ff27d0..4eb79399d4 100644
 --- a/include/standard-headers/linux/fuse.h
 +++ b/include/standard-headers/linux/fuse.h
-@@ -179,6 +179,7 @@
-  *  7.33
+@@ -180,6 +180,7 @@
   *  - add FUSE_HANDLE_KILLPRIV_V2, FUSE_WRITE_KILL_SUIDGID, FATTR_KILL_SUIDGID
   *  - add FUSE_OPEN_KILL_SUIDGID
-+ *  - add FUSE_SETXATTR_V2
+  *  - add FUSE_SETXATTR_V2
++ *  - add FUSE_SETXATTR_ACL_KILL_SGID
   */
  
  #ifndef _LINUX_FUSE_H
-@@ -210,7 +211,7 @@
- #define FUSE_KERNEL_VERSION 7
- 
- /** Minor version number of this interface */
--#define FUSE_KERNEL_MINOR_VERSION 33
-+#define FUSE_KERNEL_MINOR_VERSION 34
- 
- /** The node ID of the root inode */
- #define FUSE_ROOT_ID 1
-@@ -326,6 +327,7 @@ struct fuse_file_lock {
-  *			does not have CAP_FSETID. Additionally upon
-  *			write/truncate sgid is killed only if file has group
-  *			execute permission. (Same as Linux VFS behavior).
-+ * FUSE_SETXATTR_V2:	Does file server support V2 of struct fuse_setxattr_in
+@@ -450,6 +451,12 @@ struct fuse_file_lock {
   */
- #define FUSE_ASYNC_READ		(1 << 0)
- #define FUSE_POSIX_LOCKS	(1 << 1)
-@@ -356,6 +358,7 @@ struct fuse_file_lock {
- #define FUSE_MAP_ALIGNMENT	(1 << 26)
- #define FUSE_SUBMOUNTS		(1 << 27)
- #define FUSE_HANDLE_KILLPRIV_V2	(1 << 28)
-+#define FUSE_SETXATTR_V2	(1 << 29)
- 
- /**
-  * CUSE INIT request/reply flags
-@@ -682,6 +685,13 @@ struct fuse_setxattr_in {
- 	uint32_t	flags;
- };
- 
-+struct fuse_setxattr_in_v2 {
-+	uint32_t	size;
-+	uint32_t	flags;
-+	uint32_t	setxattr_flags;
-+	uint32_t	padding;
-+};
-+
- struct fuse_getxattr_in {
- 	uint32_t	size;
- 	uint32_t	padding;
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index fa9671872e..84e78c2a56 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -372,6 +372,12 @@ struct fuse_file_info {
-  */
- #define FUSE_CAP_HANDLE_KILLPRIV_V2 (1 << 28)
+ #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
  
 +/**
-+ * Indicates that file server will expect "struct fuse_setxattr_in_v2" type
-+ * of struct in setxattr requests
++ * setxattr flags
++ * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
 + */
-+#define FUSE_CAP_SETXATTR_V2 (1 << 29)
++#define FUSE_SETXATTR_ACL_KILL_SGID    (1 << 0)
 +
- /**
-  * Ioctl flags
-  *
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 58e32fc963..72f8252af8 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1420,6 +1420,34 @@ static void do_statfs(fuse_req_t req, fuse_ino_t nodeid,
-     }
- }
- 
-+static void do_setxattr_v2(fuse_req_t req, fuse_ino_t nodeid,
-+                           struct fuse_mbuf_iter *iter)
-+{
-+    struct fuse_setxattr_in_v2 *arg;
-+    const char *name;
-+    const char *value;
-+
-+    arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
-+    name = fuse_mbuf_iter_advance_str(iter);
-+    if (!arg || !name) {
-+        fuse_reply_err(req, EINVAL);
-+        return;
-+    }
-+
-+    value = fuse_mbuf_iter_advance(iter, arg->size);
-+    if (!value) {
-+        fuse_reply_err(req, EINVAL);
-+        return;
-+    }
-+
-+    if (req->se->op.setxattr) {
-+        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags,
-+                             arg->setxattr_flags);
-+    } else {
-+        fuse_reply_err(req, ENOSYS);
-+    }
-+}
-+
- static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
-                         struct fuse_mbuf_iter *iter)
- {
-@@ -1427,6 +1455,9 @@ static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
-     const char *name;
-     const char *value;
- 
-+    if (req->se->conn.want & FUSE_CAP_SETXATTR_V2) {
-+        return do_setxattr_v2(req, nodeid, iter);
-+    }
-     arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
-     name = fuse_mbuf_iter_advance_str(iter);
-     if (!arg || !name) {
-@@ -1441,7 +1472,8 @@ static void do_setxattr(fuse_req_t req, fuse_ino_t nodeid,
-     }
- 
-     if (req->se->op.setxattr) {
--        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags);
-+        req->se->op.setxattr(req, nodeid, name, value, arg->size, arg->flags,
-+                             0);
-     } else {
-         fuse_reply_err(req, ENOSYS);
-     }
-@@ -1988,6 +2020,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-     if (arg->flags & FUSE_HANDLE_KILLPRIV_V2) {
-         se->conn.capable |= FUSE_CAP_HANDLE_KILLPRIV_V2;
-     }
-+    if (arg->flags & FUSE_SETXATTR_V2) {
-+        se->conn.capable |= FUSE_CAP_SETXATTR_V2;
-+    }
- #ifdef HAVE_SPLICE
- #ifdef HAVE_VMSPLICE
-     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
-@@ -2020,6 +2055,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-     LL_SET_DEFAULT(se->op.readdirplus, FUSE_CAP_READDIRPLUS);
-     LL_SET_DEFAULT(se->op.readdirplus && se->op.readdir,
-                    FUSE_CAP_READDIRPLUS_AUTO);
-+    LL_SET_DEFAULT(1, FUSE_CAP_SETXATTR_V2);
-     se->conn.time_gran = 1;
- 
-     if (bufsize < FUSE_MIN_READ_BUFFER) {
-@@ -2123,6 +2159,10 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-         outarg.flags |= FUSE_HANDLE_KILLPRIV_V2;
-     }
- 
-+    if (se->conn.want & FUSE_CAP_SETXATTR_V2) {
-+        outarg.flags |= FUSE_SETXATTR_V2;
-+    }
-+
-     fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major, outarg.minor);
-     fuse_log(FUSE_LOG_DEBUG, "   flags=0x%08x\n", outarg.flags);
-     fuse_log(FUSE_LOG_DEBUG, "   max_readahead=0x%08x\n", outarg.max_readahead);
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-index 3bf786b034..4b4e8c9724 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -798,7 +798,8 @@ struct fuse_lowlevel_ops {
-      *   fuse_reply_err
-      */
-     void (*setxattr)(fuse_req_t req, fuse_ino_t ino, const char *name,
--                     const char *value, size_t size, int flags);
-+                     const char *value, size_t size, int flags,
-+                     uint32_t setxattr_flags);
- 
-     /**
-      * Get an extended attribute
+ enum fuse_opcode {
+ 	FUSE_LOOKUP		= 1,
+ 	FUSE_FORGET		= 2,  /* no reply */
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index fda6b90fb3..c5a589441d 100644
+index c5a589441d..a968dc4e61 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3053,7 +3053,8 @@ out:
- }
+@@ -175,7 +175,7 @@ struct lo_data {
+     int user_killpriv_v2, killpriv_v2;
+     /* If set, virtiofsd is responsible for setting umask during creation */
+     bool change_umask;
+-    int user_posix_acl;
++    int user_posix_acl, posix_acl;
+ };
  
- static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
--                        const char *value, size_t size, int flags)
-+                        const char *value, size_t size, int flags,
-+                        uint32_t extra_flags)
- {
-     char procname[64];
-     const char *name;
+ static const struct fuse_opt lo_opts[] = {
+@@ -716,16 +716,19 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+          * now. It will fail later in fuse_lowlevel.c
+          */
+         if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
+-            !(conn->capable & FUSE_CAP_DONT_MASK)) {
++            !(conn->capable & FUSE_CAP_DONT_MASK) ||
++            !(conn->capable & FUSE_CAP_SETXATTR_V2)) {
+             fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
+-                     " kernel does not support FUSE_POSIX_ACL or FUSE_DONT_MASK"
+-                     " capability.\n");
++                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
++                     " or FUSE_SETXATTR_V2 capability.\n");
+         } else {
+             fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
+         }
+ 
+-        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
++        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
++                      FUSE_CAP_SETXATTR_V2;
+         lo->change_umask = true;
++        lo->posix_acl = true;
+     } else {
+         /* User either did not specify anything or wants it disabled */
+         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
+@@ -3100,12 +3103,49 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+ 
+     sprintf(procname, "%i", inode->fd);
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
++        bool switched_creds = false;
++        struct lo_cred old = {};
++
+         fd = openat(lo->proc_self_fd, procname, O_RDONLY);
+         if (fd < 0) {
+             saverr = errno;
+             goto out;
+         }
++
++        /*
++         * If we are setting posix access acl and if SGID needs to be
++         * cleared, then switch to caller's gid and drop CAP_FSETID
++         * and that should make sure host kernel clears SGID.
++         *
++         * This probably will not work when we support idmapped mounts.
++         * In that case we will need to find a non-root gid and switch
++         * to it. (Instead of gid in request). Fix it when we support
++         * idmapped mounts.
++         */
++        if (lo->posix_acl && !strcmp(name, "system.posix_acl_access")
++            && (extra_flags & FUSE_SETXATTR_ACL_KILL_SGID)) {
++            ret = lo_change_cred(req, &old, false);
++            if (ret) {
++                saverr = ret;
++                goto out;
++            }
++            ret = drop_effective_cap("FSETID", NULL);
++            if (ret != 0) {
++                lo_restore_cred(&old, false);
++                saverr = ret;
++                goto out;
++            }
++            switched_creds = true;
++        }
++
+         ret = fsetxattr(fd, name, value, size, flags);
++
++        if (switched_creds) {
++            if (gain_effective_cap("FSETID")) {
++                fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
++            }
++            lo_restore_cred(&old, false);
++        }
+     } else {
+         /* fchdir should not fail here */
+         assert(fchdir(lo->proc_self_fd) == 0);
 -- 
 2.25.4
 
