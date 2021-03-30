@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B39D34EF47
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:22:35 +0200 (CEST)
-Received: from localhost ([::1]:51364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61B634EF62
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:25:35 +0200 (CEST)
+Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRI4Y-0002Cl-HM
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
+	id 1lRI7S-0006xb-QE
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:25:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRI18-0000I8-Ga
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:19:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRI0z-0003Wf-Qk
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617124731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rmf7j9CyAs4NzTSRbrPfH8cj1lI17psnHQJCtBig6Gs=;
- b=W/IUSATJf5jV++abduiTGUe8udHQiHFbxNQCU1cQokwrbdio7zwfM/4EVhmnf8L7ennSTJ
- x86f1HevAET09/TZxNq8BHkTJHgHwFohGrSqilkOBjh0wdLEvDVQyIo9HPOIXITT+Mt0I4
- ACf08iZKRmL5laoXN+xhn3DfxAs7WOk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-jR-31LnNPhmAbPnt-UQiag-1; Tue, 30 Mar 2021 13:18:49 -0400
-X-MC-Unique: jR-31LnNPhmAbPnt-UQiag-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE4B41005D54;
- Tue, 30 Mar 2021 17:18:47 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-220.ams2.redhat.com
- [10.36.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6F3E5DDAD;
- Tue, 30 Mar 2021 17:18:46 +0000 (UTC)
-Subject: Re: [PATCH 2/4] migrate-bitmaps-postcopy-test: Fix pylint warnings
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210329132632.68901-1-mreitz@redhat.com>
- <20210329132632.68901-3-mreitz@redhat.com>
- <0f1f876b-e93c-4234-4c4c-3de19a3c577c@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <3fea2027-c8a3-ab65-cd3a-01f7d0c6bb15@redhat.com>
-Date: Tue, 30 Mar 2021 19:18:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRI3P-0002PG-CK
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:21:23 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRI3K-0004N1-SK
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:21:23 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id l18so19120718edc.9
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 10:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qg9M+9QFMczToKu4h4LqcQnzDJ+o14FdYvleiw8q4Js=;
+ b=vd4dtOXjaNtiKeXqbZU93i3PoRNjkp9luq5xrsPI4UfkDwrQ7MBEPYeSkc8J46ki41
+ kZRJkoupZFVAOQvyXWkYlbqC7vgFJgiakWuY9+CYDEXdf744GN7sJUFqUrzK2CIadCQr
+ ON9HBi0XquAG3xb7h1XijqwHmmvt5kEoVkgcvHNA9BEGW4BiV+J29dJtxEFUvtAoKwI3
+ ucKosh36RCMpj737LDrnBHv00r0Kj/OJPuX0YpVPlSTOu9t/DTB4JNq6Eoihidh5stM3
+ 4pZjzthuNiISzrK2cl0Jvrz7d3Fvd950Who/hzF05X/DZ8TGuvZNWFDw1EA3wDROwNSF
+ MRKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qg9M+9QFMczToKu4h4LqcQnzDJ+o14FdYvleiw8q4Js=;
+ b=iW7wkNxq1fdy+ZcJjm2zUQKUSWp7IEe6cjwd+1lRwLSROIJgTueZHoE+qs/FWzNTOb
+ J/hd7BKHT0vtvnLFz5sWYPLp/GTxp9QW5NQ0+tEZMGeVdrhDlYGbmgUhvpVJcMjdGl8/
+ VlZFtiJTtl/KTOPLepcHN0FUoDjSKMvJKSLbUf2ZccvnSebCu+m7ES1mcLr4NJv59YlL
+ mg8iKoir432qOeVi0NYLY6vdz4saGkv7w44e0N896Kb4XCEwcexNSNjb1PAudpe28DbP
+ YbapX3LRNGcxZH7SBmTr5bDTiC+ActVSnks8ou6WLqG0xABKysvLb35tYPKHXSuOB9go
+ ejDA==
+X-Gm-Message-State: AOAM530Ey0NmoQLlezDDwW0zA4D94fq/IfpFHSNwQ2RPHR5mVKvf+FlG
+ iuR4+SReWUEj8NyaIa5dKK0Xfhiz3SVc372Z9ZwWiA==
+X-Google-Smtp-Source: ABdhPJzWI4b3c84BTj9mjIo2PScAHe+kUjeRlUT/8J2DKDYqqkBywpYqtsIDpx5Ho9GzBt+L3EfNwbFTopJ/derbVdE=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr34510100edt.36.1617124876520; 
+ Tue, 30 Mar 2021 10:21:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0f1f876b-e93c-4234-4c4c-3de19a3c577c@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210330143846.721955-1-laurent@vivier.eu>
+In-Reply-To: <20210330143846.721955-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Mar 2021 17:20:45 +0000
+Message-ID: <CAFEAcA_jKdUsqjmFG4OAPO5MD4KGoDmXfx=g3=_jthp07i5T9Q@mail.gmail.com>
+Subject: Re: [PULL 0/1] Linux user for 6.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,46 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.21 18:47, Vladimir Sementsov-Ogievskiy wrote:
-> 29.03.2021 16:26, Max Reitz wrote:
->> pylint complains that discards1_sha256 and all_discards_sha256 are first
->> set in non-__init__ methods.  Let's make it happy.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test 
->> b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
->> index 584062b412..013e94fc39 100755
->> --- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
->> +++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
->> @@ -76,6 +76,9 @@ def check_bitmaps(vm, count):
->>   class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
->> +    discards1_sha256 = None
->> +    all_discards_sha256 = None
->> +
->>       def tearDown(self):
->>           if debug:
->>               self.vm_a_events += self.vm_a.get_qmp_events()
->>
-> 
-> I'd prefer not making them class-variables. I think initializing them in 
-> setUp should work (as a lot of other variables are initialized in 
-> setUp() and pylint doesn't complain). And better thing is return it 
-> together with event_resume from start_postcopy(), as actually it's a 
-> kind of result of the function.
+On Tue, 30 Mar 2021 at 15:49, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit ec2e6e016d24bd429792d08cf607e4c5350dcdaa:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-=
+> request' into staging (2021-03-28 19:49:57 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request
+>
+> for you to fetch changes up to 13e340c886679fb17df02a35e7d82cb8beb6e9f4:
+>
+>   linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if its length is 0 (202=
+> 1-03-29 21:56:18 +0200)
+>
+> ----------------------------------------------------------------
+> linux-user Pull request 20210330
+>
+> Fix NETLINK_LIST_MEMBERSHIPS with NULL/invalid pointer and 0 length
+>
+> ----------------------------------------------------------------
+>
+> Fr=C3=A9d=C3=A9ric Fortier (1):
+>   linux-user: NETLINK_LIST_MEMBERSHIPS: Allow bad ptr if its length is 0
+>
+>  linux-user/syscall.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Oh, that sounds good.  Is a list fine, i.e. return (event_resume, 
-discards1_sha256, all_discards_sha256)?
+This didn't quite make it in time for rc1, but it's only one patch;
+it's still on my to-process queue and I'll apply it tomorrow.
 
-(We could also make it an object.  I don’t know what Python prefers. :))
-
-Max
-
+thanks
+-- PMM
 
