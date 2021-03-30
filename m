@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACE934EF68
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:26:50 +0200 (CEST)
-Received: from localhost ([::1]:39182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B39D34EF47
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:22:35 +0200 (CEST)
+Received: from localhost ([::1]:51364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRI8f-0000Tr-Se
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38664)
+	id 1lRI4Y-0002Cl-HM
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lRI1Q-0000NR-IW
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:19:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45466)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRI18-0000I8-Ga
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:19:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lRI1D-0003b3-79
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:19:19 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRI0z-0003Wf-Qk
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:18:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617124746;
+ s=mimecast20190719; t=1617124731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mWblpa47kQMKXizt8nHrFY5rb8quFHkiLPOvpY5aBNc=;
- b=g+YhBCqG9NLBIkanWDMg5NMLHTF3cPgZFn9kvuLd9MMs8i3czAOOPgB2DeeR6i5eJg4Ret
- /+CyOBprrg0CY/uxzx7nX8M0F+SAeozLLjgLBvqxQWxtopJnhvomVmrIP7Q6Xtz5tvVUES
- Nv/VtZ0kMlU6jhM5GWWy19gXld6wKus=
+ bh=rmf7j9CyAs4NzTSRbrPfH8cj1lI17psnHQJCtBig6Gs=;
+ b=W/IUSATJf5jV++abduiTGUe8udHQiHFbxNQCU1cQokwrbdio7zwfM/4EVhmnf8L7ennSTJ
+ x86f1HevAET09/TZxNq8BHkTJHgHwFohGrSqilkOBjh0wdLEvDVQyIo9HPOIXITT+Mt0I4
+ ACf08iZKRmL5laoXN+xhn3DfxAs7WOk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-ATybsIuYObW-CI-jU8aang-1; Tue, 30 Mar 2021 13:19:04 -0400
-X-MC-Unique: ATybsIuYObW-CI-jU8aang-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-229-jR-31LnNPhmAbPnt-UQiag-1; Tue, 30 Mar 2021 13:18:49 -0400
+X-MC-Unique: jR-31LnNPhmAbPnt-UQiag-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8412F1005D58;
- Tue, 30 Mar 2021 17:19:03 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43C4060861;
- Tue, 30 Mar 2021 17:18:59 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 8/8] qapi/error.py: enable mypy checks
-Date: Tue, 30 Mar 2021 13:18:44 -0400
-Message-Id: <20210330171844.1197918-9-jsnow@redhat.com>
-In-Reply-To: <20210330171844.1197918-1-jsnow@redhat.com>
-References: <20210330171844.1197918-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE4B41005D54;
+ Tue, 30 Mar 2021 17:18:47 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-220.ams2.redhat.com
+ [10.36.113.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6F3E5DDAD;
+ Tue, 30 Mar 2021 17:18:46 +0000 (UTC)
+Subject: Re: [PATCH 2/4] migrate-bitmaps-postcopy-test: Fix pylint warnings
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210329132632.68901-1-mreitz@redhat.com>
+ <20210329132632.68901-3-mreitz@redhat.com>
+ <0f1f876b-e93c-4234-4c4c-3de19a3c577c@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <3fea2027-c8a3-ab65-cd3a-01f7d0c6bb15@redhat.com>
+Date: Tue, 30 Mar 2021 19:18:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <0f1f876b-e93c-4234-4c4c-3de19a3c577c@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,41 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+On 30.03.21 18:47, Vladimir Sementsov-Ogievskiy wrote:
+> 29.03.2021 16:26, Max Reitz wrote:
+>> pylint complains that discards1_sha256 and all_discards_sha256 are first
+>> set in non-__init__ methods.  Let's make it happy.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test 
+>> b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+>> index 584062b412..013e94fc39 100755
+>> --- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+>> +++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+>> @@ -76,6 +76,9 @@ def check_bitmaps(vm, count):
+>>   class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>> +    discards1_sha256 = None
+>> +    all_discards_sha256 = None
+>> +
+>>       def tearDown(self):
+>>           if debug:
+>>               self.vm_a_events += self.vm_a.get_qmp_events()
+>>
+> 
+> I'd prefer not making them class-variables. I think initializing them in 
+> setUp should work (as a lot of other variables are initialized in 
+> setUp() and pylint doesn't complain). And better thing is return it 
+> together with event_resume from start_postcopy(), as actually it's a 
+> kind of result of the function.
 
----
+Oh, that sounds good.  Is a list fine, i.e. return (event_resume, 
+discards1_sha256, all_discards_sha256)?
 
-(This can be squashed with the previous commit when staged.)
+(We could also make it an object.  I don’t know what Python prefers. :))
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/mypy.ini | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 7797c83432..54ca4483d6 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -3,11 +3,6 @@ strict = True
- disallow_untyped_calls = False
- python_version = 3.6
- 
--[mypy-qapi.error]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
--
- [mypy-qapi.parser]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
--- 
-2.30.2
+Max
 
 
