@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E572034E9B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 15:57:31 +0200 (CEST)
-Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579E434E9E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:08:35 +0200 (CEST)
+Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lREs6-0005Ho-KG
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 09:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49898)
+	id 1lRF2n-0000GN-QB
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lREqi-0004CL-RD
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:56:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58913)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRF1b-00085t-P4
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:07:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lREqb-000551-0r
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:56:04 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRF1X-0003mT-6e
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:07:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617112556;
+ s=mimecast20190719; t=1617113234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hbNKz6PA2wdNnA/7qpFfTv6CIK4/xmNox1zLskIz7A0=;
- b=O2mxy0QQvnhgx8XTJSKnYXGOMfZ3V+Ozcf7mw5jbPB8M3Dk5JIRhZ/Wmz/GRq8pzSKKr0W
- BoJX+HlxJ5+nve93Ckfmy6qNpvExIqgD2LRKlQZsKOABvp7mB3Yt2UcVLGVCisuAWe1SIG
- f42INprLwvBtpTU2aFyDdpy9w5AQ+jo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-xudlXGMhOyuBCVm9kFDWig-1; Tue, 30 Mar 2021 09:55:51 -0400
-X-MC-Unique: xudlXGMhOyuBCVm9kFDWig-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA31281650;
- Tue, 30 Mar 2021 13:55:49 +0000 (UTC)
-Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF9F21002388;
- Tue, 30 Mar 2021 13:55:43 +0000 (UTC)
-Date: Tue, 30 Mar 2021 14:55:42 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC 3/8] virtio: Add API to batch set host notifiers
-Message-ID: <YGMt3t3WNVxUDMnE@stefanha-x1.localdomain>
-References: <20210325150735.1098387-1-groug@kaod.org>
- <20210325150735.1098387-4-groug@kaod.org>
- <YGIKIUIJbkNTfXKC@stefanha-x1.localdomain>
- <20210330121740.73825957@bahia.lan>
+ bh=i3SlnLGogtzJJz2dJCioCsfRN5RKBJThqXMxbOPfPtM=;
+ b=U52PAAQlON9a3hcpOOOx/wdVDx3o5Y+8XHrVQqHwTFXausMqnbAP+mEQvGmo+Ng4w6JWIJ
+ x0ZY0yKpLfvKDnNKaF1tXWMRqFQ6W5O/b+AFt8eeIMUa+wKlQF7h/inlNqsPfBZIKBRKpU
+ F+ZWMGL5U4nYg5fL9Bd4ALf73bZIeao=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-WhWmm_lmOnykxu1fqQzdWQ-1; Tue, 30 Mar 2021 10:07:10 -0400
+X-MC-Unique: WhWmm_lmOnykxu1fqQzdWQ-1
+Received: by mail-wr1-f69.google.com with SMTP id i5so10452350wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 07:07:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i3SlnLGogtzJJz2dJCioCsfRN5RKBJThqXMxbOPfPtM=;
+ b=oJC3GeO8k7d1H8+odPfEESobunGD+ZUdu928+X2eyV9RC730SX7zHaY1Lv86FyF8p7
+ H373gUmJOR9fhGzmA8SEWISpooMosSdYYDqjgJ5z8IDd51uiGgtEaCYi7AxlIC316m6w
+ 9f4numdCVO1uvec1UPt74IOeylL+YxXhprgcg1rk1KZBVRSpgojz5aXAQZHXHctCdmML
+ zyOcZnWQcV9lwcZL8Qj8dfzouh1frvO31JsGwNIKmNJoPdRqINY2pW2jXETsvvtFcIEu
+ tVaYsSRsc2AdmH9JPKwlJnilbE5R+Iex0jH6X7OdHooz4cD/eXvNzLIFHmHQBqOkrqJU
+ HvyQ==
+X-Gm-Message-State: AOAM531VrlVLafbJo6g8OIApRAE847Fesp7dAlm6+120vErGwW9ndxKG
+ bvWaYFJC/T6wEkGwWVGMkiQXEzCXKgQNDqGAtruuq9d9TFAsJJ4WhesuJoZP0jKWYy64cm6lk0l
+ 2fXX87NjpjVJwvuo=
+X-Received: by 2002:a05:6000:1803:: with SMTP id
+ m3mr34941396wrh.50.1617113228771; 
+ Tue, 30 Mar 2021 07:07:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIFspi1ACBwd+L7Avmfb75q7MuKlAo9H2qcjL1IYn6d2TLNmP6iKNVwklNVhZIdPIgU87TNQ==
+X-Received: by 2002:a05:6000:1803:: with SMTP id
+ m3mr34941377wrh.50.1617113228588; 
+ Tue, 30 Mar 2021 07:07:08 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h10sm36159450wrp.22.2021.03.30.07.07.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Mar 2021 07:07:07 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210330090806.2802667-1-thuth@redhat.com>
+ <c8cc80d5-51f8-9c35-ad98-1eac0d164be6@redhat.com>
+ <YGMhUTUXJBM3BcW5@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict
+ Resolution Policy document
+Message-ID: <c9ae35d4-65c3-980a-aaf3-e4be58b68d24@redhat.com>
+Date: Tue, 30 Mar 2021 16:07:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210330121740.73825957@bahia.lan>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YGMhUTUXJBM3BcW5@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rm5SJ9NIrrgpf0ki"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,73 +104,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Graf <agraf@csgraf.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---rm5SJ9NIrrgpf0ki
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 30/03/21 15:02, Daniel P. Berrangé wrote:
+> Consider someone is kicked out from another project for violation
+> of that project's CoC, that would also be considered a violation
+> under QEMU's CoC. This qualifier is explicitly stating that the CoC
+> violation in the other project has no bearing on whether that
+> person can now start participating in QEMU. I think that's a bad
+> mixed message we're sending there. It is especially poor if the
+> victim from the other project is also a QEMU contributor.
 
-On Tue, Mar 30, 2021 at 12:17:40PM +0200, Greg Kurz wrote:
-> On Mon, 29 Mar 2021 18:10:57 +0100
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > On Thu, Mar 25, 2021 at 04:07:30PM +0100, Greg Kurz wrote:
-> > > @@ -315,6 +338,10 @@ static void virtio_bus_unset_and_cleanup_host_no=
-tifiers(VirtioBusState *bus,
-> > > =20
-> > >      for (i =3D 0; i < nvqs; i++) {
-> > >          virtio_bus_set_host_notifier(bus, i + n_offset, false);
-> > > +    }
-> > > +    /* Let address_space_update_ioeventfds() run before closing ioev=
-entfds */
-> >=20
-> > assert(memory_region_transaction_depth =3D=3D 0)?
-> >=20
->=20
-> Hmm... appart from the fact that memory_region_transaction_depth is
-> a memory internal thing that shouldn't be exposed here, it seems to
-> me that memory_region_transaction_depth can be !=3D 0 when, e.g. when
-> batching is used... or I'm missing something ?
->=20
-> I was actually thinking of adding some asserts for that in the
-> memory_region_*_eventfd_full() functions introduced by patch 1.
->=20
->     if (!transaction) {
->         memory_region_transaction_begin();
->     }
->     assert(memory_region_transaction_depth !=3D 0);
+My wording is actually already broader than what is in the contributor 
+covenant:
 
-In that case is it safe to call virtio_bus_cleanup_host_notifier()
-below? I thought it depends on the transaction committing first.
+   This Code of Conduct applies within all project spaces, and it also
+   applies when an individual is representing the project or its
+   community in public spaces. Examples of representing a project or
+   community include using an official project e-mail address, posting
+   via an official social media account, or acting as an appointed
+   representative at an online or offline event.
 
->=20
-> > > +    virtio_bus_set_host_notifier_commit(bus);
-> > > +    for (i =3D 0; i < nvqs; i++) {
-> > >          virtio_bus_cleanup_host_notifier(bus, i + n_offset);
-> > >      }
-> > >  }
+That is, the Code of Conduct would not apply to someone saying "the QEMU 
+SCSI maintainer rejected my patches, he is an idiot" on Twitter.  My 
+proposal sought to find a middle ground, where that person could be 
+reasonably considered to be "acting as a member of the project or its 
+community".
 
---rm5SJ9NIrrgpf0ki
-Content-Type: application/pgp-signature; name="signature.asc"
+> The wording Thomas' draft has
+>
+>   In addition, violations of this code outside these spaces may
+>   affect a person's ability to participate within them.
+> 
+> doesn't require QEMU to take action. It just set a statement
+> of intent that gives QEMU the freedom to evaluate whether it is
+> reasonable to take action to protect its contributors, should a
+> contributor wish to raise an issue that occurred outside QEMU.
 
------BEGIN PGP SIGNATURE-----
+There have been in the past cases of external people asking projects to 
+ban contributors because of views they held on social media.  The 
+Contributor Covenant initially included no limit to the application of 
+the CoC and only added a limitation after the author herself was 
+involved in such an episode[1][2].
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBjLd4ACgkQnKSrs4Gr
-c8iOlgf/SCMeWv/SGVMHh/0b8dr5HlZlB7yjrqpNJE5cO/wGwY45xXRtJkN6Jhs+
-Y/xX8i4KGY2qEAmoBSrVvn542SlUy2F2GIMuAzU2rZe+ipZF/whWM/YOwPTZt2vA
-iJLrfYkx5rD5gTAsBINCcue88dvnmow1eADVynNPW1vwAT5hdHp1EaBRjBjqLQ2T
-dLYfzKIoxJkokl88/RCjfQ/JIXJuihBYHYX1MwM4L/sHyoNr4u8O4H+hx1L+mDZk
-gcOY/GJx+72KIULVi83PPx6pFjtNA4JfhXwn4vN9o+7ti+a/QmMF0lQjNBMEEys4
-n4+lC+IluG36Ngu8skMft1zNA1yZsg==
-=MPeP
------END PGP SIGNATURE-----
+I would prefer to avoid putting QEMU in that situation, and limit the 
+applicability code of conduct as much as possible to conflicts within 
+the community.
 
---rm5SJ9NIrrgpf0ki--
+The Mozilla participation guidelines (2165 words :)) acknowledge that 
+"it is possible for actions taken outside of Mozilla's online or in 
+person spaces to have a deep impact on community health" but also admit 
+that "this is an active topic in the diversity and inclusion realm"[3].
+
+The Django code of conduct seems to be in the minority in having such a 
+broad applicability, while the wording in the Contributor Covenant seems 
+to be more informed by actual experience.
+
+Paolo
+
+[1] https://github.com/opal/opal/issues/941 (June 18, 2015)
+[2] 
+https://github.com/ContributorCovenant/contributor_covenant/commit/c400f17438 
+(June 19, 2015)
+[3] https://www.mozilla.org/en-US/about/governance/policies/participation/
 
 
