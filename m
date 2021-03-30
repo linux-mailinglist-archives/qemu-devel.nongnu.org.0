@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DE834EADD
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:47:39 +0200 (CEST)
-Received: from localhost ([::1]:47658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CADD634EAC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:45:02 +0200 (CEST)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFec-0005MG-V5
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
+	id 1lRFc4-0001v4-AY
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lRFVk-000391-Ak
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:28 -0400
-Received: from rev.ng ([5.9.113.41]:45239)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lRFVm-0003Dq-4k
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:30 -0400
+Received: from rev.ng ([5.9.113.41]:55541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lRFVa-0004x0-F4
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:28 -0400
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lRFVa-0004x4-FN
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:38:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=v3Mp4qE6QPfGMYfFwmbFg8cv/3Gpp8SNoSLu/UaNH9U=; b=UmZTx1dwRkREFWYJTBzI/v9ja6
- x+WjRDJddUgT+ZJJnMU6+zq7r935qxdPyGOoKRLLZWm2YQ+eiSfyGI2ALbBMNNug51Zg81gY3bdKe
- ORCVe9RykVeGDjcmQRumvWO6How0cKgXiMFoKDUFMotXLOwDp7XezewXGiPL2bAaBMwY=;
+ bh=z5uH72O4kN211iKfztZ7evlqZ3MCU0PqebyXX7A1wOs=; b=mMSXNkHl2T9/9G6N5srtmcmIXS
+ 55TbaWxJcU4KVl8oWHoQ9Wt/2yCxq9q6Yv6WMOB/oulXhZ8LYQxELfBRP+9RQ55hQ1bbKz1H0zZAl
+ enD85NwvgRA8Pn4JC+ZWr/+vKmuqBT/47ft2h7ERUE6V9YuqaeeUG3oscJLKq011ja6Y=;
 To: qemu-devel@nongnu.org
 Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
  philmd@redhat.com, richard.henderson@linaro.org,
  Alessandro Di Federico <ale@rev.ng>
-Subject: [PATCH v3 08/12] target/hexagon: prepare input for the idef-parser
-Date: Tue, 30 Mar 2021 16:37:46 +0200
-Message-Id: <20210330143750.3037824-9-ale.qemu@rev.ng>
+Subject: [PATCH v3 09/12] target/hexagon: import lexer for idef-parser
+Date: Tue, 30 Mar 2021 16:37:47 +0200
+Message-Id: <20210330143750.3037824-10-ale.qemu@rev.ng>
 In-Reply-To: <20210330143750.3037824-1-ale.qemu@rev.ng>
 References: <20210330143750.3037824-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
@@ -61,148 +61,288 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
 From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
-
-Introduce infrastructure necessary to produce a file suitable for being
-parsed by the idef-parser.
+From: Paolo Montesel <babush@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
 ---
- target/hexagon/gen_idef_parser_funcs.py | 114 ++++++++++++++++++
- target/hexagon/idef-parser/macros.inc   | 150 ++++++++++++++++++++++++
- target/hexagon/idef-parser/prepare      |  24 ++++
- target/hexagon/meson.build              |  18 +++
- 4 files changed, 306 insertions(+)
- create mode 100644 target/hexagon/gen_idef_parser_funcs.py
- create mode 100644 target/hexagon/idef-parser/macros.inc
- create mode 100755 target/hexagon/idef-parser/prepare
+ target/hexagon/idef-parser/idef-parser.h      | 240 +++++++
+ target/hexagon/idef-parser/idef-parser.lex    | 611 ++++++++++++++++++
+ target/hexagon/meson.build                    |   4 +
+ tests/docker/dockerfiles/alpine.docker        |   1 +
+ tests/docker/dockerfiles/centos7.docker       |   1 +
+ tests/docker/dockerfiles/centos8.docker       |   1 +
+ tests/docker/dockerfiles/debian10.docker      |   1 +
+ .../dockerfiles/fedora-i386-cross.docker      |   1 +
+ .../dockerfiles/fedora-win32-cross.docker     |   1 +
+ .../dockerfiles/fedora-win64-cross.docker     |   1 +
+ tests/docker/dockerfiles/fedora.docker        |   1 +
+ tests/docker/dockerfiles/opensuse-leap.docker |   1 +
+ tests/docker/dockerfiles/ubuntu.docker        |   1 +
+ tests/docker/dockerfiles/ubuntu1804.docker    |   1 +
+ tests/docker/dockerfiles/ubuntu2004.docker    |   3 +-
+ 15 files changed, 868 insertions(+), 1 deletion(-)
+ create mode 100644 target/hexagon/idef-parser/idef-parser.h
+ create mode 100644 target/hexagon/idef-parser/idef-parser.lex
 
-diff --git a/target/hexagon/gen_idef_parser_funcs.py b/target/hexagon/gen_idef_parser_funcs.py
+diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/idef-parser/idef-parser.h
 new file mode 100644
-index 0000000000..7b8e0f6981
+index 0000000000..ecfa0174e2
 --- /dev/null
-+++ b/target/hexagon/gen_idef_parser_funcs.py
-@@ -0,0 +1,114 @@
-+#!/usr/bin/env python3
++++ b/target/hexagon/idef-parser/idef-parser.h
+@@ -0,0 +1,240 @@
++/*
++ * Copyright(c) 2019-2021 rev.ng Srls. All Rights Reserved.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+##
-+##  Copyright(c) 2019-2021 rev.ng Srls. All Rights Reserved.
-+##
-+##  This program is free software; you can redistribute it and/or modify
-+##  it under the terms of the GNU General Public License as published by
-+##  the Free Software Foundation; either version 2 of the License, or
-+##  (at your option) any later version.
-+##
-+##  This program is distributed in the hope that it will be useful,
-+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+##  GNU General Public License for more details.
-+##
-+##  You should have received a copy of the GNU General Public License
-+##  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+##
++#ifndef IDEF_PARSER_H
++#define IDEF_PARSER_H
 +
-+import sys
-+import re
-+import string
-+from io import StringIO
++#include <inttypes.h>
++#include <stdio.h>
++#include <stdbool.h>
++#include <glib.h>
 +
-+import hex_common
++#define TCGV_NAME_SIZE 7
++#define MAX_WRITTEN_REGS 32
++#define OFFSET_STR_LEN 32
++#define ALLOC_LIST_LEN 32
++#define ALLOC_NAME_SIZE 32
++#define INIT_LIST_LEN 32
++#define OUT_BUF_LEN (1024 * 1024)
++#define SIGNATURE_BUF_LEN (128 * 1024)
++#define HEADER_BUF_LEN (128 * 1024)
 +
-+##
-+## Generate code to be fed to the idef_parser
-+##
-+## Consider A2_add:
-+##
-+##     Rd32=add(Rs32,Rt32), { RdV=RsV+RtV;}
-+##
-+## We produce:
-+##
-+##     A2_add(RdV, in RsV, in RtV) {
-+##       { RdV=RsV+RtV;}
-+##     }
-+##
-+## A2_add represents the instruction tag. Then we have a list of TCGv
-+## that the code generated by the parser can expect in input. Some of
-+## them are inputs ("in" prefix), while some others are outputs.
-+##
-+def main():
-+    hex_common.read_semantics_file(sys.argv[1])
-+    hex_common.read_attribs_file(sys.argv[2])
-+    hex_common.read_overrides_file(sys.argv[3])
-+    hex_common.calculate_attribs()
-+    tagregs = hex_common.get_tagregs()
-+    tagimms = hex_common.get_tagimms()
++/* Variadic macros to wrap the buffer printing functions */
++#define EMIT(c, ...)                                                 \
++    do {                                                             \
++        g_string_append_printf((c)->out_str, __VA_ARGS__);           \
++    } while (0)
 +
-+    with open(sys.argv[4], 'w') as f:
-+        f.write('#include "macros.inc"\n\n')
++#define EMIT_SIG(c, ...)                                                       \
++    do {                                                                       \
++        g_string_append_printf((c)->signature_str, __VA_ARGS__);               \
++    } while (0)
 +
-+        for tag in hex_common.tags:
-+            ## Skip the priv instructions
-+            if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-+                continue
-+            ## Skip the guest instructions
-+            if ( "A_GUEST" in hex_common.attribdict[tag] ) :
-+                continue
-+            ## Skip instructions using switch
-+            if ( tag in {'S4_vrcrotate_acc', 'S4_vrcrotate'} ) :
-+                continue
-+            ## Skip trap instructions
-+            if ( tag in {'J2_trap0', 'J2_trap1'} ) :
-+                continue
-+            ## Skip 128-bit instructions
-+            if ( tag in {'A7_croundd_ri', 'A7_croundd_rr'} ) :
-+                continue
-+            ## Skip other unsupported instructions
-+            if ( tag.startswith('S2_cabacdecbin') ) :
-+                continue
-+            if ( tag.startswith('Y') ) :
-+                continue
-+            if ( tag.startswith('V6_') ) :
-+                continue
-+            if ( tag.startswith('F') ) :
-+                continue
-+            if ( tag.endswith('_locked') ) :
-+                continue
++#define EMIT_HEAD(c, ...)                                                      \
++    do {                                                                       \
++        g_string_append_printf((c)->header_str, __VA_ARGS__);                  \
++    } while (0)
 +
-+            regs = tagregs[tag]
-+            imms = tagimms[tag]
++/**
++ * Type of register, assigned to the HexReg.type field
++ */
++typedef enum {GENERAL_PURPOSE, CONTROL, MODIFIER, DOTNEW} RegType;
 +
-+            arguments = []
-+            if hex_common.need_ea(tag):
-+                arguments.append("EA")
++/**
++ * Types of control registers, assigned to the HexReg.id field
++ */
++typedef enum {SP, FP, LR, GP, LC0, LC1, SA0, SA1} CregType;
 +
-+            for regtype,regid,toss,numregs in regs:
-+                prefix = "in " if hex_common.is_read(regid) else ""
++/**
++ * Identifier string of the control registers, indexed by the CregType enum
++ */
++extern const char *creg_str[];
 +
-+                is_pair = hex_common.is_pair(regid)
-+                is_single_old = (hex_common.is_single(regid)
-+                                 and hex_common.is_old_val(regtype, regid, tag))
-+                is_single_new = (hex_common.is_single(regid)
-+                                 and hex_common.is_new_val(regtype, regid, tag))
++/**
++ * Semantic record of the REG tokens, identifying registers
++ */
++typedef struct HexReg {
++    CregType id;            /**< Identifier of the register                  */
++    RegType type;           /**< Type of the register                        */
++    unsigned bit_width;     /**< Bit width of the reg, 32 or 64 bits         */
++} HexReg;
 +
-+                if is_pair or is_single_old:
-+                    arguments.append("%s%s%sV" % (prefix, regtype, regid))
-+                elif is_single_new:
-+                    arguments.append("%s%s%sN" % (prefix, regtype, regid))
-+                else:
-+                    print("Bad register parse: ",regtype,regid,toss,numregs)
++/**
++ * Data structure, identifying a TCGv temporary value
++ */
++typedef struct HexTmp {
++    int index;              /**< Index of the TCGv temporary value    */
++} HexTmp;
 +
-+            for immlett,bits,immshift in imms:
-+                arguments.append(hex_common.imm_name(immlett))
++/**
++ * Enum of the possible immediated, an immediate is a value which is known
++ * at tinycode generation time, e.g. an integer value, not a TCGv
++ */
++enum ImmUnionTag {I, VARIABLE, VALUE, QEMU_TMP, IMM_PC, IMM_CONSTEXT};
 +
-+            f.write("%s(%s) {\n" % (tag, ", ".join(arguments)))
-+            f.write("    %s\n" % hex_common.semdict[tag])
-+            f.write("}\n\n")
++/**
++ * Semantic record of the IMM token, identifying an immediate constant
++ */
++typedef struct HexImm {
++    union {
++        char id;            /**< Identifier of the immediate                 */
++        uint64_t value;     /**< Immediate value (for VALUE type immediates) */
++        uint64_t index;     /**< Index of the immediate (for int temp vars)  */
++    };
++    enum ImmUnionTag type;  /**< Type of the immediate                      */
++} HexImm;
 +
-+if __name__ == "__main__":
-+    main()
-diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-parser/macros.inc
++/**
++ * Semantic record of the PRE token, identifying a predicate
++ */
++typedef struct HexPre {
++    char id;                /**< Identifier of the predicate                 */
++} HexPre;
++
++/**
++ * Semantic record of the SAT token, identifying the saturate operator
++ */
++typedef struct HexSat {
++    bool set_overflow;      /**< Set-overflow feature for the sat operator   */
++    bool is_unsigned;       /**< Unsigned flag for the saturate operator     */
++} HexSat;
++
++/**
++ * Semantic record of the CAST token, identifying the cast operator
++ */
++typedef struct HexCast {
++    int bit_width;          /**< Bit width of the cast operator              */
++    bool is_unsigned;       /**< Unsigned flag for the cast operator         */
++} HexCast;
++
++/**
++ * Semantic record of the EXTRACT token, identifying the cast operator
++ */
++typedef struct HexExtract {
++    int bit_width;          /**< Bit width of the extract operator           */
++    int storage_bit_width;  /**< Actual bit width of the extract operator    */
++    bool is_unsigned;       /**< Unsigned flag for the extract operator      */
++} HexExtract;
++
++/**
++ * Semantic record of the MPY token, identifying the fMPY multiplication
++ * operator
++ */
++typedef struct HexMpy {
++    int first_bit_width;    /**< Bit width of the first operand of fMPY op   */
++    int second_bit_width;   /**< Bit width of the second operand of fMPY     */
++    bool first_unsigned;    /**< Unsigned flag for the first operand of fMPY */
++    bool second_unsigned;   /**< Unsigned flag for second operand of fMPY    */
++} HexMpy;
++
++/**
++ * Semantic record of the VARID token, identifying automatic variables
++ * of the input language
++ */
++typedef struct HexVar {
++    GString *name;          /**< Name of the VARID automatic variable        */
++} HexVar;
++
++/**
++ * Data structure uniquely identifying an automatic VARID variable, used for
++ * keeping track of declared variable, so that any variable is declared only
++ * once, and its properties are propagated through all the subsequent instances
++ * of that variable
++ */
++typedef struct Var {
++    GString *name;          /**< Name of the VARID automatic variable        */
++    uint8_t bit_width;      /**< Bit width of the VARID automatic variable   */
++    bool is_unsigned;       /**< Unsigned flag for the VARID automatic var   */
++} Var;
++
++/**
++ * Enum of the possible rvalue types, used in the HexValue.type field
++ */
++typedef enum RvalueUnionTag {
++    REGISTER, TEMP, IMMEDIATE, PREDICATE, VARID
++} RvalueUnionTag;
++
++/**
++ * Semantic record of the rvalue token, identifying any numeric value,
++ * immediate or register based. The rvalue tokens are combined together
++ * through the use of several operators, to encode expressions
++ */
++typedef struct HexValue {
++    union {
++        HexReg reg;      /**< rvalue of register type                     */
++        HexTmp tmp;      /**< rvalue of temporary type                    */
++        HexImm imm;      /**< rvalue of immediate type                    */
++        HexPre pre;      /**< rvalue of predicate type                    */
++        HexVar var;      /**< rvalue of automatic variable type           */
++    };
++    RvalueUnionTag type;    /**< Type of the rvalue                          */
++    unsigned bit_width;     /**< Bit width of the rvalue                     */
++    bool is_unsigned;       /**< Unsigned flag for the rvalue                */
++    bool is_dotnew;         /**< rvalue of predicate type is dotnew?         */
++    bool is_manual;         /**< Opt out of automatic freeing of params      */
++} HexValue;
++
++/**
++ * Operator type, used for referencing the correct operator when calling the
++ * gen_bin_op() function, which in turn will generate the correct code to
++ * execute the operation between the two rvalues
++ */
++typedef enum OpType {
++    ADD_OP, SUB_OP, MUL_OP, ASL_OP, ASR_OP, LSR_OP, ANDB_OP, ORB_OP,
++    XORB_OP, ANDL_OP, MINI_OP, MAXI_OP, MOD_OP
++} OpType;
++
++/**
++ * Data structure including instruction specific information, to be cleared
++ * out after the compilation of each instruction
++ */
++typedef struct Inst {
++    GString *name;                /**< Name of the compiled instruction      */
++    char *code_begin;             /**< Beginning of instruction input code   */
++    char *code_end;               /**< End of instruction input code         */
++    int tmp_count;                /**< Index of the last declared TCGv temp  */
++    int qemu_tmp_count;           /**< Index of the last declared int temp   */
++    int if_count;                 /**< Index of the last declared if label   */
++    int error_count;              /**< Number of generated errors            */
++    GArray *allocated;            /**< Allocated VARID automatic vars        */
++    GArray *init_list;            /**< List of initialized registers         */
++    GArray *strings;              /**< Strings allocated by the instruction  */
++} Inst;
++
++/**
++ * Data structure representing the whole translation context, which in a
++ * reentrant flex/bison parser just like ours is passed between the scanner
++ * and the parser, holding all the necessary information to perform the
++ * parsing, this data structure survives between the compilation of different
++ * instructions
++ *
++ */
++typedef struct Context {
++    void *scanner;                /**< Reentrant parser state pointer        */
++    char *input_buffer;           /**< Buffer containing the input code      */
++    GString *out_str;             /**< String containing the output code     */
++    GString *signature_str;       /**< String containing the signatures code */
++    GString *header_str;          /**< String containing the output code     */
++    FILE *defines_file;           /**< FILE * of the generated header        */
++    FILE *output_file;            /**< FILE * of the C output file           */
++    FILE *enabled_file;           /**< FILE * of the list of enabled inst    */
++    int total_insn;               /**< Number of instructions in input file  */
++    int implemented_insn;         /**< Instruction compiled without errors   */
++    Inst inst;                  /**< Parsing data of the current inst      */
++} Context;
++
++#endif /* IDEF_PARSER_H */
+diff --git a/target/hexagon/idef-parser/idef-parser.lex b/target/hexagon/idef-parser/idef-parser.lex
 new file mode 100644
-index 0000000000..a0e16180c9
+index 0000000000..7593c9392b
 --- /dev/null
-+++ b/target/hexagon/idef-parser/macros.inc
-@@ -0,0 +1,150 @@
++++ b/target/hexagon/idef-parser/idef-parser.lex
+@@ -0,0 +1,611 @@
++%option noyywrap noinput nounput
++%option 8bit reentrant bison-bridge
++%option warn nodefault
++%option bison-locations
++
++%{
 +/*
 + * Copyright(c) 2019-2021 rev.ng Srls. All Rights Reserved.
 + *
@@ -220,203 +360,754 @@ index 0000000000..a0e16180c9
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+/* Copy rules */
-+#define fLSBOLD(VAL) (fGETBIT(0, VAL))
-+#define fSATH(VAL) fSATN(16, VAL)
-+#define fSATUH(VAL) fSATUN(16, VAL)
-+#define fVSATH(VAL) fVSATN(16, VAL)
-+#define fVSATUH(VAL) fVSATUN(16, VAL)
-+#define fSATUB(VAL) fSATUN(8, VAL)
-+#define fSATB(VAL) fSATN(8, VAL)
-+#define fVSATUB(VAL) fVSATUN(8, VAL)
-+#define fVSATB(VAL) fVSATN(8, VAL)
-+#define fCALL(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCALLR(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCAST2_8s(A) fSXTN(16, 64, A)
-+#define fCAST2_8u(A) fZXTN(16, 64, A)
-+#define fCAST8S_16S(A) (fSXTN(64, 128, A))
-+#define fCAST16S_8S(A) (fSXTN(128, 64, A))
-+#define fVSATW(A) fVSATN(32, fCAST8_8s(A))
-+#define fSATW(A) fSATN(32, fCAST8_8s(A))
-+#define fVSAT(A) fVSATN(32, A)
-+#define fSAT(A) fSATN(32, A)
++#include <string.h>
++#include <stdbool.h>
 +
-+/* Ease parsing */
-+#define f8BITSOF(VAL) ((VAL) ? 0xff : 0x00)
-+#define fREAD_GP() (Constant_extended ? (0) : GP)
-+#define fCLIP(DST, SRC, U) (DST = fMIN((1 << U) - 1, fMAX(SRC, -(1 << U))))
-+#define fBIDIR_ASHIFTL(SRC, SHAMT, REGSTYPE)                            \
-+    ((SHAMT > 0) ?                                                      \
-+     (fCAST##REGSTYPE##s(SRC) << SHAMT) :                               \
-+     (fCAST##REGSTYPE##s(SRC) >> -SHAMT))
++#include "idef-parser.h"
++#include "idef-parser.tab.h"
 +
-+#define fBIDIR_LSHIFTL(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##u(SRC) << SHAMT) :       \
-+     (fCAST##REGSTYPE##u(SRC) >>> -SHAMT))
-+
-+#define fBIDIR_ASHIFTR(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##s(SRC) >> SHAMT) :       \
-+     (fCAST##REGSTYPE##s(SRC) << -SHAMT))
-+
-+#define fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE) \
-+    (((SHAMT) < 0) ? ((fCAST##REGSTYPE(SRC) << ((-(SHAMT)) - 1)) << 1)  \
-+                   : (fCAST##REGSTYPE(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_LSHIFTR(SRC, SHAMT, REGSTYPE)                            \
-+    fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE##u)
-+
-+#define fSATVALN(N, VAL)                                                \
-+    fSET_OVERFLOW(                                                      \
-+        ((VAL) < 0) ? (-(1LL << ((N) - 1))) : ((1LL << ((N) - 1)) - 1)  \
-+    )
-+
-+#define fSAT_ORIG_SHL(A, ORIG_REG)                                      \
-+    (((fCAST4s((fSAT(A)) ^ (fCAST4s(ORIG_REG)))) < 0)                   \
-+        ? fSATVALN(32, (fCAST4s(ORIG_REG)))                             \
-+        : ((((ORIG_REG) > 0) && ((A) == 0)) ? fSATVALN(32, (ORIG_REG))  \
-+                                            : fSAT(A)))
-+
-+#define fBIDIR_ASHIFTR_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0) ? fSAT_ORIG_SHL((fCAST##REGSTYPE##s(SRC)             \
-+                        << ((-(SHAMT)) - 1)) << 1, (SRC))               \
-+                   : (fCAST##REGSTYPE##s(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_ASHIFTL_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0)                                                      \
-+     ? ((fCAST##REGSTYPE##s(SRC) >> ((-(SHAMT)) - 1)) >> 1)             \
-+     : fSAT_ORIG_SHL(fCAST##REGSTYPE##s(SRC) << (SHAMT), (SRC)))
-+
-+#define fEXTRACTU_BIDIR(INREG, WIDTH, OFFSET)                           \
-+    (fZXTN(WIDTH, 32, fBIDIR_LSHIFTR((INREG), (OFFSET), 4_8)))
-+
-+#define fADDSAT64(DST, A, B)                                            \
-+    __a = fCAST8u(A);                                                   \
-+    __b = fCAST8u(B);                                                   \
-+    __sum = __a + __b;                                                  \
-+    __xor = __a ^ __b;                                                  \
-+    __mask = fCAST8s(0x8000000000000000ULL);                            \
-+    if (((__a ^ __b) | ~(__a ^ __sum)) & __mask) {                      \
-+        DST = __sum;                                                    \
-+    } else {                                                            \
-+        DST = ((__sum & __mask) >> 63) + __mask;                        \
-+        fSET_OVERFLOW();                                                \
++/* Keep track of scanner position for error message printout */
++#define YY_USER_ACTION yylloc->first_column = yylloc->last_column; \
++    for (int i = 0; yytext[i] != '\0'; i++) {   \
++        yylloc->last_column++;                  \
 +    }
 +
-+/* Negation operator */
-+#define fLSBOLDNOT(VAL) fGETBIT(0, ~VAL)
-+#define fLSBNEWNOT(PNUM) (!fLSBNEW(PNUM))
-+#define fLSBNEW0NOT (!fLSBNEW0)
++/* Global Error Counter */
++int error_count;
 +
-+/* Assignments */
-+#define fPCALIGN(IMM) (IMM = IMM & ~3)
-+#define fWRITE_LR(A) (LR = A)
-+#define fWRITE_FP(A) (FP = A)
-+#define fWRITE_SP(A) (SP = A)
-+#define fBRANCH(LOC, TYPE) (PC = LOC)
-+#define fJUMPR(REGNO, TARGET, TYPE) (PC = TARGET)
-+#define fWRITE_LOOP_REGS0(START, COUNT) SA0 = START; (LC0 = COUNT)
-+#define fWRITE_LOOP_REGS1(START, COUNT) SA1 = START; (LC1 = COUNT)
-+#define fWRITE_LC0(VAL) (LC0 = VAL)
-+#define fWRITE_LC1(VAL) (LC1 = VAL)
-+#define fSET_LPCFG(VAL) (USR.LPCFG = VAL)
-+#define fWRITE_P0(VAL) P0 = VAL;
-+#define fWRITE_P1(VAL) P1 = VAL;
-+#define fWRITE_P3(VAL) P3 = VAL;
-+#define fEA_RI(REG, IMM) (EA = REG + IMM)
-+#define fEA_RRs(REG, REG2, SCALE) (EA = REG + (REG2 << SCALE))
-+#define fEA_IRs(IMM, REG, SCALE) (EA = IMM + (REG << SCALE))
-+#define fEA_IMM(IMM) (EA = IMM)
-+#define fEA_REG(REG) (EA = REG)
-+#define fEA_BREVR(REG) (EA = fbrev(REG))
-+#define fEA_GPI(IMM) (EA = fREAD_GP() + IMM)
-+#define fPM_I(REG, IMM) (REG = REG + IMM)
-+#define fPM_M(REG, MVAL) (REG = REG + MVAL)
-+#define fWRITE_NPC(VAL) (PC = VAL)
++%}
 +
-+/* Unary operators */
-+#define fROUND(A) (A + 0x8000)
++/* Definitions */
++DIGIT                    [0-9]
++LOWER_ID                 [a-z]
++UPPER_ID                 [A-Z]
++ID                       LOWER_ID|UPPER_ID
++INST_NAME                [A-Z]+[0-9]_([A-Za-z]|[0-9]|_)+
++HEX_DIGIT                [0-9a-fA-F]
++REG_ID_32                e|s|d|t|u|v|x|y
++REG_ID_64                ee|ss|dd|tt|uu|vv|xx|yy
++SYS_ID_32                s|d
++SYS_ID_64                ss|dd
++LOWER_PRE                d|s|t|u|v|e|x|x
++IMM_ID                   r|s|S|u|U
++VAR_ID                   [a-zA-Z_][a-zA-Z0-9_]*
++SIGN_ID                  s|u
 +
-+/* Binary operators */
-+#define fADD128(A, B) (A + B)
-+#define fSUB128(A, B) (A - B)
-+#define fSHIFTR128(A, B) (size8s_t) (A >> B)
-+#define fSHIFTL128(A, B) (A << B)
-+#define fAND128(A, B) (A & B)
-+#define fSCALE(N, A) (A << N)
-+#define fASHIFTR(SRC, SHAMT, REGSTYPE) (SRC >> SHAMT)
-+#define fLSHIFTR(SRC, SHAMT, REGSTYPE) (SRC >>> SHAMT)
-+#define fROTL(SRC, SHAMT, REGSTYPE) fROTL(SRC, SHAMT)
-+#define fASHIFTL(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) << SHAMT)
++/* Tokens */
++%%
 +
-+/* Purge non-relavant parts */
-+#define fHIDE(A)
-+#define fBRANCH_SPECULATE_STALL(A, B, C, D, E)
-diff --git a/target/hexagon/idef-parser/prepare b/target/hexagon/idef-parser/prepare
-new file mode 100755
-index 0000000000..9b662dea18
---- /dev/null
-+++ b/target/hexagon/idef-parser/prepare
-@@ -0,0 +1,24 @@
-+#!/bin/bash
++[ \t\f\v]+                { /* Ignore whitespaces. */ }
++[\n\r]+                   { /* Ignore newlines. */ }
 +
-+#
-+# Copyright(c) 2019-2021 rev.ng Srls. All Rights Reserved.
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+#
++{INST_NAME}               { yylval->string = g_string_new(yytext);
++                            return INAME; }
++"fFLOAT"                 |
++"fUNFLOAT"               |
++"fDOUBLE"                |
++"fUNDOUBLE"              |
++"0.0"                    |
++"0x1.0p52"               |
++"0x1.0p-52"              { return FAIL; }
++"R"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return REG; }
++"R"{REG_ID_32}"N" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return REG; }
++"R"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           return REG; }
++"R"{REG_ID_64}"N" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = true;
++                           return REG; }
++"MuV" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = MODIFIER;
++                           yylval->rvalue.reg.id = 'u';
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"C"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return REG; }
++"C"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           return REG; }
++{IMM_ID}"iV" {
++                           yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.is_unsigned = false;
++                           yylval->rvalue.imm.type = VARIABLE;
++                           yylval->rvalue.imm.id = yytext[0];
++                           yylval->rvalue.is_dotnew = false;
++                           return IMM; }
++"P"{LOWER_PRE}"V" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return PRE; }
++"P"{LOWER_PRE}"N" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRE; }
++"in R"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[4];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return RREG; }
++"in R"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[4];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           return RREG; }
++"in N"{REG_ID_32}"N" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[4];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return RREG; }
++"in N"{REG_ID_64}"N" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[4];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = true;
++                           return RREG; }
++"in P"{LOWER_PRE}"V" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = yytext[4];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return RPRE; }
++"in P"{LOWER_PRE}"N" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = yytext[4];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return RPRE; }
++"in MuV" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = MODIFIER;
++                           yylval->rvalue.reg.id = 'u';
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return RREG; }
++"in C"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[4];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return RREG; }
++"in C"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[4];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           return RREG; }
++"fGEN_TCG_"{INST_NAME}"(" { return FWRAP; }
++"IV1DEAD()"              |
++"fPAUSE(uiV);"           { return ';'; }
++"**"                     { return POW; }
++"+="                     { return INC; }
++"-="                     { return DEC; }
++"++"                     { return PLUSPLUS; }
++"&="                     { return ANDA; }
++"|="                     { return ORA; }
++"^="                     { return XORA; }
++"<<"                     { return ASL; }
++">>"                     { return ASR; }
++">>>"                    { return LSR; }
++"=="                     { return EQ; }
++"!="                     { return NEQ; }
++"<="                     { return LTE; }
++">="                     { return GTE; }
++"&&"                     { return ANDL; }
++"||"                     { return ORL; }
++"else"                   { return ELSE; }
++"for"                    { return FOR; }
++"fREAD_IREG"             { return ICIRC; }
++"fPART1"                 { return PART1; }
++"if"                     { return IF; }
++"fFRAME_SCRAMBLE"        { return FSCR; }
++"fFRAME_UNSCRAMBLE"      { return FSCR; }
++"fFRAMECHECK"            { return FCHK; }
++"Constant_extended"      { return CONSTEXT; }
++"fCL1_"{DIGIT}           { return LOCNT; }
++"fBREV_8"                { return BREV_8; }
++"fBREV_4"                { return BREV_4; }
++"fbrev"                  { return BREV; }
++"fSXTN"                  { return SXT; }
++"fZXTN"                  { return ZXT; }
++"fDF_MAX"                |
++"fSF_MAX"                |
++"fMAX"                   { return MAX; }
++"fDF_MIN"                |
++"fSF_MIN"                |
++"fMIN"                   { return MIN; }
++"fABS"                   { return ABS; }
++"fRNDN"                  { return ROUND; }
++"fCRND"                  { return CROUND; }
++"fCRNDN"                 { return CROUND; }
++"fPM_CIRI"               { return CIRCADD; }
++"fPM_CIRR"               { return CIRCADD; }
++"fCOUNTONES_"{DIGIT}     { return COUNTONES; }
++"fSATN"                  { yylval->sat.set_overflow = false;
++                           yylval->sat.is_unsigned = false;
++                           return SAT; }
++"fVSATN"                 { yylval->sat.set_overflow = true;
++                           yylval->sat.is_unsigned = false;
++                           return SAT; }
++"fSATUN"                 { yylval->sat.set_overflow = false;
++                           yylval->sat.is_unsigned = true;
++                           return SAT; }
++"fSE32_64"               { yylval->cast.bit_width = 64;
++                           yylval->cast.is_unsigned = false;
++                           return CAST; }
++"fCAST4_4u"              { yylval->cast.bit_width = 32;
++                           yylval->cast.is_unsigned = true;
++                           return CAST; }
++"fCAST4_8s"              { yylval->cast.bit_width = 64;
++                           yylval->cast.is_unsigned = false;
++                           return CAST; }
++"fCAST4_8u"              { return CAST4_8U; }
++"fCAST4u"                { yylval->cast.bit_width = 32;
++                           yylval->cast.is_unsigned = true;
++                           return CAST; }
++"fCAST4s"                { yylval->cast.bit_width = 32;
++                           yylval->cast.is_unsigned = false;
++                           return CAST; }
++"fCAST8_8u"              { yylval->cast.bit_width = 64;
++                           yylval->cast.is_unsigned = true;
++                           return CAST; }
++"fCAST8u"                { yylval->cast.bit_width = 64;
++                           yylval->cast.is_unsigned = true;
++                           return CAST; }
++"fCAST8s"                { yylval->cast.bit_width = 64;
++                           yylval->cast.is_unsigned = false;
++                           return CAST; }
++"fGETBIT"                { yylval->extract.bit_width = 1;
++                           yylval->extract.storage_bit_width = 1;
++                           yylval->extract.is_unsigned = true;
++                           return EXTRACT; }
++"fGETBYTE"               { yylval->extract.bit_width = 8;
++                           yylval->extract.storage_bit_width = 8;
++                           yylval->extract.is_unsigned = false;
++                           return EXTRACT; }
++"fGETUBYTE"              { yylval->extract.bit_width = 8;
++                           yylval->extract.storage_bit_width = 8;
++                           yylval->extract.is_unsigned = true;
++                           return EXTRACT; }
++"fGETHALF"               { yylval->extract.bit_width = 16;
++                           yylval->extract.storage_bit_width = 16;
++                           yylval->extract.is_unsigned = false;
++                           return EXTRACT; }
++"fGETUHALF"              { yylval->extract.bit_width = 16;
++                           yylval->extract.storage_bit_width = 16;
++                           yylval->extract.is_unsigned = true;
++                           return EXTRACT; }
++"fGETWORD"               { yylval->extract.bit_width = 32;
++                           yylval->extract.storage_bit_width = 64;
++                           yylval->extract.is_unsigned = false;
++                           return EXTRACT; }
++"fGETUWORD"              { yylval->extract.bit_width = 32;
++                           yylval->extract.storage_bit_width = 64;
++                           yylval->extract.is_unsigned = true;
++                           return EXTRACT; }
++"fEXTRACTU_BITS"         { return EXTBITS; }
++"fEXTRACTU_RANGE"        { return EXTRANGE; }
++"fSETBIT"                { yylval->cast.bit_width = 1;
++                           yylval->cast.is_unsigned = false;
++                           return DEPOSIT; }
++"fSETBYTE"               { yylval->cast.bit_width = 8;
++                           yylval->cast.is_unsigned = false;
++                           return DEPOSIT; }
++"fSETHALF"               { yylval->cast.bit_width = 16;
++                           yylval->cast.is_unsigned = false;
++                           return SETHALF; }
++"fSETWORD"               { yylval->cast.bit_width = 32;
++                           yylval->cast.is_unsigned = false;
++                           return DEPOSIT; }
++"fINSERT_BITS"           { return INSBITS; }
++"fSETBITS"               { return SETBITS; }
++"fMPY8UU"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_unsigned = true;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fMPY8US"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_unsigned = true;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY8SU"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fMPY8SS"                { yylval->mpy.first_bit_width = 8;
++                           yylval->mpy.second_bit_width = 8;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY16UU"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_unsigned = true;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fMPY16US"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_unsigned = true;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY16SU"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fMPY16SS"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY32UU"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_unsigned = true;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fMPY32US"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_unsigned = true;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY32SU"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fSFMPY"                 |
++"fMPY32SS"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY3216SS"             { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = false;
++                           return MPY; }
++"fMPY3216SU"             { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_unsigned = false;
++                           yylval->mpy.second_unsigned = true;
++                           return MPY; }
++"fNEWREG"                |
++"fNEWREG_ST"             |
++"fIMMEXT"                |
++"fMUST_IMMEXT"           |
++"fCAST2_2s"              |
++"fCAST2_2u"              |
++"fCAST4_4s"              |
++"fCAST8_8s"              |
++"fZE8_16"                |
++"fSE8_16"                |
++"fZE16_32"               |
++"fSE16_32"               |
++"fZE32_64"               |
++"fPASS"                  |
++"fECHO"                  { return IDENTITY; }
++"(size8"[us]"_t)"        { yylval->cast.bit_width = 8;
++                           yylval->cast.is_unsigned = ((yytext[6]) == 'u');
++                           return CAST; }
++"(size16"[us]"_t)"       { yylval->cast.bit_width = 16;
++                           yylval->cast.is_unsigned = ((yytext[7]) == 'u');
++                           return CAST; }
++"(int)"                  { yylval->cast.bit_width = 32;
++                           yylval->cast.is_unsigned = false;
++                           return CAST; }
++"(unsigned int)"         { yylval->cast.bit_width = 32;
++                           yylval->cast.is_unsigned = true;
++                           return CAST; }
++"fREAD_PC()"             |
++"PC"                     { return PC; }
++"fREAD_NPC()"            |
++"NPC"                    { return NPC; }
++"fGET_LPCFG"             |
++"USR.LPCFG"              { return LPCFG; }
++"LOAD_CANCEL(EA)"        |
++"STORE_CANCEL(EA)"       |
++"CANCEL"                 { return CANCEL; }
++"N"{LOWER_ID}            { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"N"{LOWER_ID}"N"         { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++[rR]{DIGIT}+             { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = atoi(yytext + 1);
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"fREAD_SP()"             |
++"SP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = SP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"fREAD_FP()"             |
++"FP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = FP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"fREAD_LR()"             |
++"LR"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = LR;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"GP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = GP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"fREAD_LC"[01]           { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = LC0 + (yytext[8] - '0');
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"LC"[01]                 { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = LC0 + (yytext[2] - '0');
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"fREAD_SA"[01]           { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = SA0 + (yytext[8] - '0');
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"SA"[01]                 { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = SA0 + (yytext[2] - '0');
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           return REG; }
++"MuN"                    { return MUN; }
++"fREAD_P0()"             { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = '0';
++                           yylval->rvalue.bit_width = 32;
++                           return PRE; }
++[pP]{DIGIT}              { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           return PRE; }
++"fLSBNEW(P"{LOWER_PRE}"N)" { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = yytext[9];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRE; }
++"fLSBNEW0"               { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = '0';
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRE; }
++"fLSBNEW1"               { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = '1';
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRE; }
++"fLSBNEW1NOT"            { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pre.id = '1';
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRE; }
++"N"                      { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.imm.type = VARIABLE;
++                           yylval->rvalue.imm.id = 'N';
++                           return IMM; }
++"i"                      { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.imm.type = I;
++                           return IMM; }
++{SIGN_ID}                { yylval->is_unsigned = (yytext[0] == 'u');
++                           return SIGN;
++                         }
++"fSF_BIAS()"             { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_unsigned = false;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = 127;
++                           return IMM; }
++{DIGIT}+                 { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_unsigned = false;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = atoi(yytext);
++                           return IMM; }
++{DIGIT}+"LL"             { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_unsigned = false;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoll(yytext, NULL, 10);
++                           return IMM; }
++"0x"{HEX_DIGIT}+         { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_unsigned = false;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoul(yytext, NULL, 16);
++                           return IMM; }
++"0x"{HEX_DIGIT}+"LL"     { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_unsigned = false;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoll(yytext, NULL, 16);
++                           return IMM; }
++"0x"{HEX_DIGIT}+"ULL"    { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_unsigned = true;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoull(yytext,
++                                                               NULL,
++                                                               16);
++                           return IMM; }
++"fCONSTLL"               { return CONSTLL; }
++"fCONSTULL"              { return CONSTULL; }
++"fLOAD"                  { return LOAD; }
++"fSTORE"                 { return STORE; }
++"fROTL"                  { return ROTL; }
++"fSET_OVERFLOW"          { return SETOVF; }
++"fDEINTERLEAVE"          { return DEINTERLEAVE; }
++"fINTERLEAVE"            { return INTERLEAVE; }
++"fCARRY_FROM_ADD"        { return CARRY_FROM_ADD; }
++{VAR_ID}                 { /* Variable name, we adopt the C names convention */
++                           yylval->rvalue.type = VARID;
++                           yylval->rvalue.var.name = g_string_new(yytext);
++                           /* Default types are int */
++                           yylval->rvalue.bit_width = 32;
++                           return VAR; }
++"fHINTJR(RsV)"           { /* Emit no token */ }
++.                        { return yytext[0]; }
 +
-+set -e
-+set -o pipefail
-+
-+# Run the preprocessor and drop comments
-+cpp "$@" | grep -v '^#'
++%%
 diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index 15318a6fa7..2c18edf67a 100644
+index 2c18edf67a..5dda04dc29 100644
 --- a/target/hexagon/meson.build
 +++ b/target/hexagon/meson.build
-@@ -20,6 +20,7 @@ hexagon_ss = ss.source_set()
- hex_common_py = 'hex_common.py'
- attribs_def = meson.current_source_dir() / 'attribs_def.h.inc'
- gen_tcg_h = meson.current_source_dir() / 'gen_tcg.h'
-+idef_parser_dir = meson.current_source_dir() / 'idef-parser'
+@@ -206,4 +206,8 @@ idef_parser_input_generated_prep = custom_target(
+     command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir],
+ )
  
- #
- #  Step 1
-@@ -188,4 +189,21 @@ hexagon_ss.add(files(
-     'conv_emu.c',
- ))
- 
-+idef_parser_input_generated = custom_target(
-+    'idef_parser_input.h.inc',
-+    output: 'idef_parser_input.h.inc',
-+    input: 'gen_idef_parser_funcs.py',
-+    depend_files: [hex_common_py],
-+    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
-+)
-+
-+idef_parser_input_generated_prep = custom_target(
-+    'idef_parser_input.preprocessed.h.inc',
-+    output: 'idef_parser_input.preprocessed.h.inc',
-+    input: idef_parser_input_generated,
-+    capture: true,
-+    depend_files: [hex_common_py],
-+    command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir],
-+)
++flex = generator(find_program('flex'),
++                 output: ['@BASENAME@.yy.c', '@BASENAME@.yy.h'],
++                 arguments: ['-o', '@OUTPUT0@', '--header-file=@OUTPUT1@', '@INPUT@'])
 +
  target_arch += {'hexagon': hexagon_ss}
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index d63a269aef..1120e8555d 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -11,6 +11,7 @@ ENV PACKAGES \
+ 	binutils \
+ 	coreutils \
+ 	curl-dev \
++	flex \
+ 	g++ \
+ 	gcc \
+ 	git \
+diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+index 75fdb53c7c..95966ea7e6 100644
+--- a/tests/docker/dockerfiles/centos7.docker
++++ b/tests/docker/dockerfiles/centos7.docker
+@@ -10,6 +10,7 @@ ENV PACKAGES \
+     ccache \
+     csnappy-devel \
+     dbus-daemon \
++    flex \
+     gcc-c++ \
+     gcc \
+     gettext \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index a763d55730..5919aa0697 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -7,6 +7,7 @@ ENV PACKAGES \
+     bzip2-devel \
+     dbus-daemon \
+     diffutils \
++    flex \
+     gcc \
+     gcc-c++ \
+     genisoimage \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index d034acbd25..97ec6d5637 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -23,6 +23,7 @@ RUN apt update && \
+         ccache \
+         clang \
+         dbus \
++        flex \
+         gdb-multiarch \
+         gettext \
+         git \
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index 966072c08e..9703b7ec78 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -3,6 +3,7 @@ ENV PACKAGES \
+     bzip2 \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     git \
+     libtasn1-devel.i686 \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 81b5659e9c..2018dcabe5 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -6,6 +6,7 @@ ENV PACKAGES \
+     bzip2 \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gettext \
+     git \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index bcb428e724..b05e4cbcc6 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -6,6 +6,7 @@ ENV PACKAGES \
+     bzip2 \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gettext \
+     git \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 915fdc1845..5d3f49936b 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -14,6 +14,7 @@ ENV PACKAGES \
+     device-mapper-multipath-devel \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gcc-c++ \
+     genisoimage \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 0e64893e4a..ce1db959a2 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -6,6 +6,7 @@ ENV PACKAGES \
+     brlapi-devel \
+     bzip2 \
+     cyrus-sasl-devel \
++    flex \
+     gcc \
+     gcc-c++ \
+     mkisofs \
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index b5ef7a8198..e2f55eb892 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -14,6 +14,7 @@ ENV PACKAGES \
+     ccache \
+     clang \
+     dbus \
++    flex \
+     gcc \
+     gettext \
+     git \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 9b0a19ba5e..2068118180 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -2,6 +2,7 @@ FROM ubuntu:18.04
+ ENV PACKAGES \
+     ccache \
+     clang \
++    flex \
+     gcc \
+     gettext \
+     git \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 9750016e51..13d43a7b90 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,8 +1,9 @@
+ FROM ubuntu:20.04
+-ENV PACKAGES flex bison \
++ENV PACKAGES bison \
+     bsdmainutils \
+     ccache \
+     clang-10\
++    flex \
+     gcc \
+     gcovr \
+     genisoimage \
 -- 
 2.31.1
 
