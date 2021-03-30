@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D737B34E7D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:49:12 +0200 (CEST)
-Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179D634E7E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:51:05 +0200 (CEST)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDny-0006vm-EI
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58214)
+	id 1lRDpo-0001V1-5D
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfU-0000te-Bb
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59331)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfa-0000yH-2e
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfM-0003Nc-Cx
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:24 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfM-0003OI-C8
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617108012;
+ s=mimecast20190719; t=1617108013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8B9bGDXpPIpRCRhpVsNkjFGkPYIFt7EGtkbW3KWad+M=;
- b=JJp6I8deENC8dKP6oGeqoKiPTdKUj4H5jWEWtCRYot+Gf3ucA2jnrZBrrmSTsRYuMrbzn5
- zU1Vd9ckmGS76wmm7zdrlhXwhXRnwAb+HRoAs/YFoTBAEUKekboOi9au9bPHV3ckQ0bQe/
- YcsZULHbcMZ2/OkFxuAOO2CNXAets9I=
+ bh=kQje1/FozqUGMuU1hbq0SzlNZFi2tbXPWPzlwvclHbs=;
+ b=bu+dcd5bcY/R44DbcYc9mkyeWPnj5YY2GS9+eUHy5LG1v8nc0KOfongDuiOFR+ndKvE60R
+ L/lMDeWN/JrI7fXZJ4+E16rSsIhrTeFAmGFGvbKWQ1SuxNrueCMrUfi0mOneyk6AsHG2g9
+ hftPk4IYk++kkRLU1cqGjiWn+BaNfqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-DQgn2gu5MeeMJT8enLRbMg-1; Tue, 30 Mar 2021 08:40:09 -0400
-X-MC-Unique: DQgn2gu5MeeMJT8enLRbMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-576-qL1bOeWHNPi8JIdDRKUn7Q-1; Tue, 30 Mar 2021 08:40:11 -0400
+X-MC-Unique: qL1bOeWHNPi8JIdDRKUn7Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4121F1B18BC2;
- Tue, 30 Mar 2021 12:40:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 946AE1B18BC5;
+ Tue, 30 Mar 2021 12:40:10 +0000 (UTC)
 Received: from localhost (ovpn-113-220.ams2.redhat.com [10.36.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D790054272;
- Tue, 30 Mar 2021 12:40:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F93B19645;
+ Tue, 30 Mar 2021 12:40:10 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 4/9] qcow2: use external virtual timers
-Date: Tue, 30 Mar 2021 14:39:52 +0200
-Message-Id: <20210330123957.826170-5-mreitz@redhat.com>
+Subject: [PULL 5/9] iotests/046: Filter request length
+Date: Tue, 30 Mar 2021 14:39:53 +0200
+Message-Id: <20210330123957.826170-6-mreitz@redhat.com>
 In-Reply-To: <20210330123957.826170-1-mreitz@redhat.com>
 References: <20210330123957.826170-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,42 +81,166 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+For its concurrent requests, 046 has always filtered the offset,
+probably because concurrent requests may settle in any order.  However,
+it did not filter the request length, and so if requests with different
+lengths settle in an unexpected order (notably the longer request before
+the shorter request), the test fails (for no good reason).
 
-Regular virtual timers are used to emulate timings
-related to vCPU and peripheral states. QCOW2 uses timers
-to clean the cache. These timers should have external
-flag. In the opposite case they affect the execution
-and it can't be recorded and replayed.
-This patch adds external flag to the timer for qcow2
-cache clean.
+Filter the length, too.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <161700516327.1141158.8366564693714562536.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200918153323.108932-1-mreitz@redhat.com>
 ---
- block/qcow2.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/046     |   3 +-
+ tests/qemu-iotests/046.out | 104 ++++++++++++++++++-------------------
+ 2 files changed, 54 insertions(+), 53 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 0db1227ac9..2fb43c6f7e 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -840,9 +840,10 @@ static void cache_clean_timer_init(BlockDriverState *bs, AioContext *context)
- {
-     BDRVQcow2State *s = bs->opaque;
-     if (s->cache_clean_interval > 0) {
--        s->cache_clean_timer = aio_timer_new(context, QEMU_CLOCK_VIRTUAL,
--                                             SCALE_MS, cache_clean_timer_cb,
--                                             bs);
-+        s->cache_clean_timer =
-+            aio_timer_new_with_attrs(context, QEMU_CLOCK_VIRTUAL,
-+                                     SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
-+                                     cache_clean_timer_cb, bs);
-         timer_mod(s->cache_clean_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-                   (int64_t) s->cache_clean_interval * 1000);
-     }
+diff --git a/tests/qemu-iotests/046 b/tests/qemu-iotests/046
+index 50b0678f60..517b162508 100755
+--- a/tests/qemu-iotests/046
++++ b/tests/qemu-iotests/046
+@@ -187,7 +187,8 @@ EOF
+ }
+ 
+ overlay_io | $QEMU_IO blkdebug::"$TEST_IMG" | _filter_qemu_io |\
+-	sed -e 's/bytes at offset [0-9]*/bytes at offset XXX/g'
++    sed -e 's/[0-9]*\/[0-9]* bytes at offset [0-9]*/XXX\/XXX bytes at offset XXX/g' \
++        -e 's/^[0-9]* KiB/XXX KiB/g'
+ 
+ echo
+ echo "== Verify image content =="
+diff --git a/tests/qemu-iotests/046.out b/tests/qemu-iotests/046.out
+index 66ad987ab3..b1a03f4041 100644
+--- a/tests/qemu-iotests/046.out
++++ b/tests/qemu-iotests/046.out
+@@ -71,74 +71,74 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=6442450944 backing_file=TEST_DIR
+ == Some concurrent requests touching the same cluster ==
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 32768/32768 bytes at offset XXX
+-32 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 57344/57344 bytes at offset XXX
+-56 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 4096/4096 bytes at offset XXX
+-4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 32768/32768 bytes at offset XXX
+-32 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-discard 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 57344/57344 bytes at offset XXX
+-56 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 4096/4096 bytes at offset XXX
+-4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-discard 65536/65536 bytes at offset XXX
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 57344/57344 bytes at offset XXX
+-56 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 98304/98304 bytes at offset XXX
+-96 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 8192/8192 bytes at offset XXX
+-8 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 81920/81920 bytes at offset XXX
+-80 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ blkdebug: Suspended request 'A'
+ blkdebug: Resuming request 'A'
+-wrote 32768/32768 bytes at offset XXX
+-32 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-wrote 98304/98304 bytes at offset XXX
+-96 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote XXX/XXX bytes at offset XXX
++XXX KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ == Verify image content ==
+ read 65536/65536 bytes at offset 0
 -- 
 2.29.2
 
