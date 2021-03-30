@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2B334EF31
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:17:51 +0200 (CEST)
-Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CAD34EF57
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:24:36 +0200 (CEST)
+Received: from localhost ([::1]:60102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRHzy-0007yK-9k
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
+	id 1lRI6V-0005qn-Fd
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lRHwg-0006VH-5u
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:14:26 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lRHwX-0001UO-C2
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:14:25 -0400
-Received: by mail-ej1-x636.google.com with SMTP id w3so25983195ejc.4
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 10:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=Yl9YWt8XBuWEIu0uz2X+U3Ey0tlOtaB4TPBDzoWFIRc=;
- b=M9Zrw4hmC1+nZ2bCOXkUdSsi4VQBj6vDfFWHwVBYzjwriqkUKiGDgYEP9jcQqbbr0i
- I1xztUwnpb6tzbRQBrNR/RbxfKtRBr6NEHM6esNkqMONeFk7GJ4PKodWszBN0HgZz/vB
- pLB119OZVfH7WJda+nalaj3oE6JPv1EEHXoOe4ID4I/yZ92BMctfDz8S1jaw/3msHzEe
- ddcj7LFUUXSH6IIvetF8YZJXXSenYNljg60LSpThnQ3Nx9gFyKqU9VQTj+bXG8diXadd
- 6LmaiqmCde5YqpG7QjpUF/Bna+DYTNz3OTDq86BEsa8xLXZSVR9eK4nNxkMU41r00d48
- l4pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=Yl9YWt8XBuWEIu0uz2X+U3Ey0tlOtaB4TPBDzoWFIRc=;
- b=Ht9ooCE8ebuCrtT7QhYYoO12WDtjhELHkXFIAdD02YORV9swcO1RLHvZXx/YTaUz4g
- WGKhTm/sLegS9J27UBPR3eBFPRVnct3foHZP0YsayuEnwYelqgPCQYIjdFmebC+iKB5u
- Te0d09XLEpwzBnAi/dbFoEmycbEdH1V+c5jjIfxiLbvernu/YgzrbDRYsXea7iKfFuoz
- Hucu+KBOXpqCB0BoPclw7BoQHoY9Yf+VuqnW89CYSIMUKtG0odka/4yMsZAiv8J77+9u
- BXZKN4p7SXirwPGLcI36xnbEV1EDO0CzW9Aq9zpc9Icyd8w+DWbngEQ5em/Tb62zgv+2
- weng==
-X-Gm-Message-State: AOAM531iIJN08V4s2VJeDGG6hbPXhqq+U4eWGDimJ1yG0wHE7xx6uebP
- NBnGK1lU9fizNzQympeFt/lFnRGvmwZRutOmAYmkC6n82V62uw==
-X-Google-Smtp-Source: ABdhPJwt6AM28GftdpPuNa6RPgtlIMPMfPHeAb7MB8Dn/pp/ckA23HDShSICGOCGyFJ7twVNVqc7YP1I32BJD63TViM=
-X-Received: by 2002:a17:907:629e:: with SMTP id
- nd30mr33986628ejc.407.1617124455739; 
- Tue, 30 Mar 2021 10:14:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lRI1D-0000J6-Cs
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:19:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53887)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lRI10-0003Wb-5O
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 13:19:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617124730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=I7PZ8JIAvpxFAxJRWdQxnAtYwCXgDXzeYB8T5+GpxXI=;
+ b=DVifgZGiSkWqOKnqrqaPeog1OAICW4T0Mp3TSnLOyvrEDPGHrBw2QTt3iTiOmAvEHa4Lvb
+ L3O1wjkemyXPXqEZeh0oiusuPL9D1NIE5GkwxLn6pDb5JUvQacwCUJeveqTnqzd6yfJ7jc
+ h8/vkNUD0w4qPyNaQ0YwbJ/QMGProiU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-600-3diDUgweOGSyLJAelQz2dA-1; Tue, 30 Mar 2021 13:18:47 -0400
+X-MC-Unique: 3diDUgweOGSyLJAelQz2dA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E2A3108BD06;
+ Tue, 30 Mar 2021 17:18:46 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B561A60861;
+ Tue, 30 Mar 2021 17:18:45 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v2 0/8] qapi: static typing conversion, pt4
+Date: Tue, 30 Mar 2021 13:18:36 -0400
+Message-Id: <20210330171844.1197918-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20210330132555.8144-1-peter.maydell@linaro.org>
-In-Reply-To: <20210330132555.8144-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Mar 2021 17:13:44 +0000
-Message-ID: <CAFEAcA8P5p5KmS4R_7=MV6uHeEq8QyfYSPE2bGG+9fxgtuvB1g@mail.gmail.com>
-Subject: Re: [PULL 0/5] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,36 +74,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Mar 2021 at 14:25, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit 7993b0f83fe5c3f8555e79781d5d098f99751a94:
->
->   Merge remote-tracking branch 'remotes/nvme/tags/nvme-fixes-for-6.0-pull-request' into staging (2021-03-29 18:45:12 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git pull-target-arm-20210330
->
-> for you to fetch changes up to b9e3f1579a4b06fc63dfa8cdb68df1c58eeb0cf1:
->
->   hw/timer/renesas_tmr: Add default-case asserts in read_tcnt() (2021-03-30 14:05:34 +0100)
->
-> ----------------------------------------------------------------
->  * net/npcm7xx_emc.c: Fix handling of receiving packets when RSDR not set
->  * hw/display/xlnx_dp: Free FIFOs adding xlnx_dp_finalize()
->  * hw/arm/smmuv3: Drop unused CDM_VALID() and is_cd_valid()
->  * target/arm: Make number of counters in PMCR follow the CPU
->  * hw/timer/renesas_tmr: Add default-case asserts in read_tcnt()
->
+Hi, this series adds static type hints to the QAPI module.=0D
+This is part four, and focuses on error.py.=0D
+=0D
+Part 4: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt4=0D
+=0D
+Requirements:=0D
+- Python 3.6+=0D
+- mypy >=3D 0.770=0D
+- pylint >=3D 2.6.0 (2.7.0+ when using Python 3.9+)=0D
+=0D
+Every commit should pass with:=0D
+ - isort -c qapi/=0D
+ - flake8 qapi/=0D
+ - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
+ - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
+=0D
+John Snow (8):=0D
+  qapi/error: Repurpose QAPIError as a generic exception base class=0D
+  qapi/error: Use Python3-style super()=0D
+  qapi/error: Make QAPISourceError 'col' parameter optional=0D
+  qapi/error: Change assertion=0D
+  qapi/error.py: move QAPIParseError to parser.py=0D
+  qapi/error.py: enable pylint checks=0D
+  qapi/error: Add type hints=0D
+  qapi/error.py: enable mypy checks=0D
+=0D
+ docs/sphinx/qapidoc.py |  3 ++-=0D
+ scripts/qapi/error.py  | 37 +++++++++++++++++++------------------=0D
+ scripts/qapi/mypy.ini  |  5 -----=0D
+ scripts/qapi/parser.py | 14 +++++++++++++-=0D
+ scripts/qapi/pylintrc  |  3 +--=0D
+ scripts/qapi/schema.py |  4 ++--=0D
+ 6 files changed, 37 insertions(+), 29 deletions(-)=0D
+=0D
+--=20=0D
+2.30.2=0D
+=0D
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
