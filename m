@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E6834EB24
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:54:16 +0200 (CEST)
-Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E124534EB73
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 17:03:41 +0200 (CEST)
+Received: from localhost ([::1]:47256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFl1-0005OY-WC
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:54:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43418)
+	id 1lRFu8-0000SN-Dl
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 11:03:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lRFjA-0003Lq-DX
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:52:20 -0400
-Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:56858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lRFj2-0004Df-Ci
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:52:20 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 469BA27A325;
- Tue, 30 Mar 2021 16:52:08 +0200 (CEST)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 30 Mar
- 2021 16:52:07 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002c055f940-b32b-40b8-803a-b962a7c5a5b9,
- ACC3036D4A0BACA70991A0E48D5F19CB1CCAE693) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 30 Mar 2021 16:52:05 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: Re: [PATCH v3 2/3] ppc: Rename current DAWR macros and variables
-Message-ID: <20210330165205.21c6443c@bahia.lan>
-In-Reply-To: <20210330095350.36309-3-ravi.bangoria@linux.ibm.com>
-References: <20210330095350.36309-1-ravi.bangoria@linux.ibm.com>
- <20210330095350.36309-3-ravi.bangoria@linux.ibm.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lRFrr-00089c-G9
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:01:19 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lRFrp-0001Vm-PK
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:01:19 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ f2-20020a17090a4a82b02900c67bf8dc69so9609170pjh.1
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 08:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HZqrdCMOynGpkAvSOv+CLSQJSgxk82kQF+nyVgm9fZE=;
+ b=tI/yjuTlz7Ue3n0bDw7CL/2vo5HZNhKSIbV7fuN+vYAF7TRcbyRcs3SQM/ninMBYoq
+ f3fkV4GN8XAPFAlt2HiDfaPodIr3FSs3H7PzeMa2zpNpetLcC1XEqiQmEkUvbQMUeEJy
+ 02sd7LcKB6yavt78qq1TQBcoO0axXv06jtXgl/NS0rkd7YljwmWOtq8S9WG212Pm5c6n
+ MM0w9ZCE8t2nzV1h417RUzOCM4de/aQ2Rnzf7wUC80kBm2fTpEe0r3EJ1Ikdq1iTNsQ7
+ luwIbFf4TOCi45zkzEJd5FaeynKunLLDGkyPiQ+fPNV9rb7uwkdmGvJVpKs1aw6NjMgo
+ xznw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HZqrdCMOynGpkAvSOv+CLSQJSgxk82kQF+nyVgm9fZE=;
+ b=UnvbwJE9l7mMN8XNR0YfV2PAkM50g2AbIDYui9pq7hIPyTpRb6nN7+bwlwad1IFdzK
+ OSX6RQbkYYDJXvgiLWeMP/XmfzjoIqfQ9UbQqDUFLgjNUZGcNLOuOdPn5s/B6WcQV8bu
+ Lk6eHl308SJHmeSlgzwRaJMUNlRuJvKajedhqnnsIiVqISbAXFeyLw10FBMMgqSAM0L+
+ 1rSIqZWKyp+G0JQp4XWwq22DFE1nQIFEBPK5GS2Po5pH09CUkx/hsu7sTpVmwGiylnsa
+ NiOACzCc3H0m6MAFks3LHe2gojb2uJ1temOjpmgXUGMEHzx4/gOAJEYlyHI2bCH79VtE
+ 572A==
+X-Gm-Message-State: AOAM533TfWc6DGxh0/UvjBawon+PM5M8uFiPsTrfkKALltJkTK6m6mwq
+ WWMt9vcOb/ooihrmGwX+VKSENJmOEirkYLLY
+X-Google-Smtp-Source: ABdhPJwa20iPZomUlTp713oKl7WI9972HDd7wFD6BO4i4cArVM3yG1IocdmJ6jQE/rq11eeu4HsbTA==
+X-Received: by 2002:a17:90a:f2d5:: with SMTP id
+ gt21mr4914871pjb.197.1617116476221; 
+ Tue, 30 Mar 2021 08:01:16 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id t67sm438776pfc.86.2021.03.30.08.01.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Mar 2021 08:01:15 -0700 (PDT)
+Subject: Re: [PATCH v5 02/10] target/ppc: Disconnect hflags from MSR
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210323184340.619757-1-richard.henderson@linaro.org>
+ <20210323184340.619757-3-richard.henderson@linaro.org>
+ <YFqBtsijRRcEBB/k@yekko.fritz.box> <20210329150522.1b00607d@bahia.lan>
+ <d0221e19-6c8b-6cc3-c4aa-2d5fff4ecb8b@linaro.org>
+ <YGKvDOCtfbj0avYF@yekko.fritz.box>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c368bcc2-3aa0-608e-c596-b7c9df1923e3@linaro.org>
+Date: Tue, 30 Mar 2021 08:01:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <YGKvDOCtfbj0avYF@yekko.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: df34418c-3a83-4e4d-92e9-174410d45fa9
-X-Ovh-Tracer-Id: 4258153449415481848
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgkedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
- helo=10.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,79 +92,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com, mpe@ellerman.id.au,
- cohuck@redhat.com, qemu-devel@nongnu.org, paulus@samba.org, clg@kaod.org,
- pbonzini@redhat.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Mar 2021 15:23:49 +0530
-Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
+On 3/29/21 10:54 PM, David Gibson wrote:
+>    B) Just the hflags patches from my / Richard's tree
+>       https://gitlab.com/dgibson/qemu/-/pipelines/278497244
 
-> Power10 is introducing second DAWR. Use real register names (with
-> suffix 0) from ISA for current macros and variables used by Qemu.
-> 
-> One exception to this is KVM_REG_PPC_DAWR[X]. This is from kernel
-> uapi header and thus not changed in kernel as well as Qemu.
-> 
-> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-> ---
+Look closer at this one -- it's an s390x test that's failing:
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+make: *** [/builds/dgibson/qemu/tests/Makefile.include:63: 
+run-tcg-tests-s390x-linux-user] Error 2
 
->  include/hw/ppc/spapr.h          | 2 +-
->  target/ppc/cpu.h                | 4 ++--
->  target/ppc/translate_init.c.inc | 4 ++--
->  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 47cebaf3ac..b8985fab5b 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -363,7 +363,7 @@ struct SpaprMachineState {
->  
->  /* Values for 2nd argument to H_SET_MODE */
->  #define H_SET_MODE_RESOURCE_SET_CIABR           1
-> -#define H_SET_MODE_RESOURCE_SET_DAWR            2
-> +#define H_SET_MODE_RESOURCE_SET_DAWR0           2
->  #define H_SET_MODE_RESOURCE_ADDR_TRANS_MODE     3
->  #define H_SET_MODE_RESOURCE_LE                  4
->  
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index e73416da68..cd02d65303 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1459,10 +1459,10 @@ typedef PowerPCCPU ArchCPU;
->  #define SPR_MPC_BAR           (0x09F)
->  #define SPR_PSPB              (0x09F)
->  #define SPR_DPDES             (0x0B0)
-> -#define SPR_DAWR              (0x0B4)
-> +#define SPR_DAWR0             (0x0B4)
->  #define SPR_RPR               (0x0BA)
->  #define SPR_CIABR             (0x0BB)
-> -#define SPR_DAWRX             (0x0BC)
-> +#define SPR_DAWRX0            (0x0BC)
->  #define SPR_HFSCR             (0x0BE)
->  #define SPR_VRSAVE            (0x100)
->  #define SPR_USPRG0            (0x100)
-> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-> index c03a7c4f52..879e6df217 100644
-> --- a/target/ppc/translate_init.c.inc
-> +++ b/target/ppc/translate_init.c.inc
-> @@ -7748,12 +7748,12 @@ static void gen_spr_book3s_dbg(CPUPPCState *env)
->  
->  static void gen_spr_book3s_207_dbg(CPUPPCState *env)
->  {
-> -    spr_register_kvm_hv(env, SPR_DAWR, "DAWR",
-> +    spr_register_kvm_hv(env, SPR_DAWR0, "DAWR0",
->                          SPR_NOACCESS, SPR_NOACCESS,
->                          SPR_NOACCESS, SPR_NOACCESS,
->                          &spr_read_generic, &spr_write_generic,
->                          KVM_REG_PPC_DAWR, 0x00000000);
-> -    spr_register_kvm_hv(env, SPR_DAWRX, "DAWRX",
-> +    spr_register_kvm_hv(env, SPR_DAWRX0, "DAWRX0",
->                          SPR_NOACCESS, SPR_NOACCESS,
->                          SPR_NOACCESS, SPR_NOACCESS,
->                          &spr_read_generic, &spr_write_generic,
 
+r~
 
