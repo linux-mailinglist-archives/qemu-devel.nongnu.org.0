@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A3B34EA90
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:40:12 +0200 (CEST)
-Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C08934EAAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:42:00 +0200 (CEST)
+Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFXP-0004Xu-BN
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36542)
+	id 1lRFZ9-0006ZY-3R
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lRFSj-0008T3-Nr
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:35:26 -0400
-Received: from forward3-smtp.messagingengine.com ([66.111.4.237]:53051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lRFSg-0003GT-D1
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:35:21 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailforward.nyi.internal (Postfix) with ESMTP id E547C194135B;
- Tue, 30 Mar 2021 10:35:16 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 30 Mar 2021 10:35:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=an9CjP
- Eia3NFZo9+jaQ9oH7WEovvSvPWesUXDrZMjmM=; b=nWgf5EWn2oHIDO/xVHuo3R
- peRvmVA3MCPzt3B6P1lUJcAAtiUn03/yxpt5QT1vrf1mS2dOVG/CxIxbClNmYcND
- aLL6mAKjnOk0DuGl+LUO64km9ConaRDNZ5eJD+TUXz7dJYzUIR7HkQ0N5nd7aF2K
- cFP7xy/rapVstdJ6VCrVgEmqQ5lLRbEf6vYd/WFBUlQ9X8eLwBR++CB2USxY432f
- s+98MqQlIHBmjaEBjDD0ZC5DllNgpGWqkSSHYH2MOxHikj1oqaRzkcpPxReTtmXB
- v00baCywqOKGO1sjMgrRu31585D/wpMip0ezbHX94XJJTQQYEr1s0CgQX1Jvxo4A
- ==
-X-ME-Sender: <xms:IzdjYHn1sPQuDOoTwOrRRMduInmRqhOnO4aBNXwQJLfI-Yw8g-Bggg>
- <xme:IzdjYK1WZa1wqSaVDuxU4_IganmUNNqD4VcweJMOrNDihlRVzizUFC1wC56C0i8nV
- _QOOyU87Ilq0rcVAPw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgjeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepvffujghfhfffkfggtgesthdtredttddttdenucfhrhhomhepffgrvhhiugcu
- gfgumhhonhgushhonhcuoegumhgvsegumhgvrdhorhhgqeenucggtffrrghtthgvrhhnpe
- fhkeeguedtvdegffffteehjedvjeeitefgfefgffdugeffffegudehgeetgeelkeenucfk
- phepkedurddukeejrddviedrvdefkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegumhgvsegumhgvrdhorhhg
-X-ME-Proxy: <xmx:IzdjYNqt4cSUU60Gg4DKksNX6g2QLwdLnReo-NrVseqf26kSVchF7w>
- <xmx:IzdjYPlNJCwO3NbS4ai-qIBmw-gqq-PkdIo8X1r7h3_RB6plntwfAw>
- <xmx:IzdjYF2tUnWxMTelBq5WUPkiaknwWvexeQnCbo-pl0SmJFVRIha9sQ>
- <xmx:JDdjYPqqGskD_cDpYRAj4TyernT9tA1iOe6bCmXNGdu7-O5dmSYI9Q>
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
- [81.187.26.238])
- by mail.messagingengine.com (Postfix) with ESMTPA id 138CF1080063;
- Tue, 30 Mar 2021 10:35:15 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id c97b5c0f;
- Tue, 30 Mar 2021 14:35:13 +0000 (UTC)
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org, Paolo
- Bonzini <pbonzini@redhat.com>, "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: Re: [PATCH] i386: Make 'hv-reenlightenment' require explicit
- 'tsc-frequency' setting
-In-Reply-To: <20210330123603.284354-1-vkuznets@redhat.com>
-References: <20210330123603.284354-1-vkuznets@redhat.com>
-X-HGTTG: zarquon
-From: David Edmondson <dme@dme.org>
-Date: Tue, 30 Mar 2021 15:35:13 +0100
-Message-ID: <cunpmzghfq6.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lRFUB-0001BS-A4
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:36:51 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lRFTv-000458-WE
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:36:50 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id a7so25189650ejs.3
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 07:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qf4o++mMWyAIU6l+WLFuZObrua0LcgflHxzx+b0xbGA=;
+ b=G25mSax+xRhIYhZDazQiTZkaQ0E71RclCsrj7YgB4m8Lu2QEJQk78FTQxIZyq6SUNb
+ Dc99iiWaDDkSH4IaFirr6KiMLG8+xMRfvs3Ot96bPoFSdK35PHI8yausHe72QqH/WZER
+ le0xB+4tigXtjeJONsCR6YTleqxNC098wXwAPq7JVVCJsDHv+ofHz7ecdBaghCorDoAj
+ LbfADpjWpmj6k5SGZmHyqihuUjqffOvmYXBb4cjRP4ipDqcKz+EQGTOMUv/i3Cl6UPpO
+ 5xVYN4dfiFgzzDGXtdt2FnVwPqgd4kBFwVXnzlTuT8Kb2ggZel4Yf2m5XokYmgIB0G12
+ bwCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qf4o++mMWyAIU6l+WLFuZObrua0LcgflHxzx+b0xbGA=;
+ b=tiPxo76q9Bmonu9b107IUtF3og1AK6BlOzPyM5OFOMz/11+/clwmaRWTz3NBmlu+50
+ RKZfz7N4KDjAOiOZ3gBIUcV610jrnm1kJPxT21f1Xe9uBfF4c42cgF54o5tKuGlzjtSE
+ PPATqrbNff0VObY9Tl4XF1NQC4hN6EmTZz+EsAs9Q+h/QePO9LBO11v3bZqQEtYDXckG
+ JY+Vz/01x1JM1te4y+Q/RuoZjiNTY5JE0kRBns/FywjQb6yGsmSFuLWXuCOHqAk13Orv
+ /hP9S5k9w1VPfvNNmeGV2BjoZyRs9/PWIod7LgbRF5Fww+VHi/6yMAdb8xY3wXXjLVRa
+ WM8Q==
+X-Gm-Message-State: AOAM530nG7hyEUHDcCo2q4IImzgqSJRwka3UEhOBY8KgyCaDFdBI8K6Z
+ dKvc3SJhytYdoTdVNRehuME0EZMPLPvfGBW3qbc=
+X-Google-Smtp-Source: ABdhPJwJGbx0/MIlmxKCd0Z4xuSUK+0g50hzCk4iktjn5eKdQxs2E8mKvJ1T4Y1PlPqSABdRZjmOE+WJCjZjVi6qajk=
+X-Received: by 2002:a17:907:3e8c:: with SMTP id
+ hs12mr33909771ejc.105.1617114988954; 
+ Tue, 30 Mar 2021 07:36:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=66.111.4.237; envelope-from=dme@dme.org;
- helo=forward3-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+ <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
+ <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
+ <CAFEAcA_i-jx4PvDSqcZ12TWtJMzRoEBGO3tUbUJqU1voecksaw@mail.gmail.com>
+ <CAJ+F1C+uax+uUhR_dARx4kLAmc4-OgEMCh795+iW4yjm-1RPvw@mail.gmail.com>
+ <CAFEAcA_=GCA8FgLfBxiLvjUaOkV0TATUsuO7an2phFxmJkMxtg@mail.gmail.com>
+ <CAJ+F1CK2jf5O226zLqpKt_=9mSE4t979huMZ0s9FGZ4TATKguA@mail.gmail.com>
+ <CAFEAcA8dnsC30ZQVXOCLWdwb50nQFcWQjRZB_m5S6Mpv3WC2Ug@mail.gmail.com>
+In-Reply-To: <CAFEAcA8dnsC30ZQVXOCLWdwb50nQFcWQjRZB_m5S6Mpv3WC2Ug@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 30 Mar 2021 18:36:17 +0400
+Message-ID: <CAJ+F1CJCRzBa29qpAgYswiJSZ-ouxQAZvfLaHwZo_xhHaJjJ1Q@mail.gmail.com>
+Subject: Re: [PULL 00/10] For 6.0 patches
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000007a484805bec1ecd4"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,133 +84,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2021-03-30 at 14:36:03 +02, Vitaly Kuznetsov wrote:
+--0000000000007a484805bec1ecd4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Commit 561dbb41b1d7 "i386: Make migration fail when Hyper-V reenlightenment
-> was enabled but 'user_tsc_khz' is unset" forbade migrations with when guest
-> has opted for reenlightenment notifications but 'tsc-frequency' wasn't set
-> explicitly on the command line. This works but the migration fail late and
+Hi
 
-s/fail/fails/
+On Tue, Mar 30, 2021 at 4:12 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-> this may come as an unpleasant surprise. To make things more explicit,
-> require 'tsc-frequency=' on the command line when 'hv-reenlightenment' was
-> enabled. Make the change affect 6.0+ machine types only to preserve
-> previously-valid configurations valid.
-
-s/ valid//
-
+> On Tue, 30 Mar 2021 at 09:29, Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Mon, Mar 29, 2021 at 9:54 PM Peter Maydell <peter.maydell@linaro.org=
 >
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  docs/hyperv.txt   |  1 +
->  hw/i386/pc.c      |  1 +
->  target/i386/cpu.c | 23 +++++++++++++++++++++--
->  target/i386/cpu.h |  1 +
->  4 files changed, 24 insertions(+), 2 deletions(-)
+> wrote:
+> >> aarch64 CI machine, which has python 3.8.5 and sphinx-build 1.8.5.
+> >> My guess is that it might be the sphinx-build version here. I vaguely
+> >> recall that Sphinx is kind of picky about exceptions within the conf
+> >> file but that there was a change in what it allowed at some point.
+> >> It's possible we just can't do much with the old versions.
+> >
+> >
+> > How do you run the build? Running make from an existing configured or
+> build state? If so, I have seen sphinx errors that don't stop the build
+> (and actually building the docs without sphinx-rtd). I don't know why thi=
+s
+> happens, "regenerate"/reconfigure errors should stop the build.
 >
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index e53c581f4586..5b02d341ab25 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -165,6 +165,7 @@ emulate TSC accesses after migration so 'tsc-frequency=' CPU option also has to
->  be specified to make migration succeed. The destination host has to either have
->  the same TSC frequency or support TSC scaling CPU feature.
->  
-> +Requires: tsc-frequency
->  Recommended: hv-frequencies
->  
->  3.16. hv-evmcs
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 8a84b25a031e..47b79e949ad7 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -98,6 +98,7 @@
->  
->  GlobalProperty pc_compat_5_2[] = {
->      { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
-> +    { TYPE_X86_CPU, "x-hv-reenlightenment-requires-tscfreq", "off"},
->  };
->  const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
->  
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 6b3e9467f177..751636bafac5 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6647,10 +6647,23 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->      }
->  }
->  
-> -static void x86_cpu_hyperv_realize(X86CPU *cpu)
-> +static void x86_cpu_hyperv_realize(X86CPU *cpu, Error **errp)
->  {
-> +    CPUX86State *env = &cpu->env;
->      size_t len;
->  
-> +    /*
-> +     * Reenlightenment requires explicit 'tsc-frequency' setting for successful
-> +     * migration (see hyperv_reenlightenment_post_load(). As 'hv-passthrough'
+> On that machine, yes, it's an incremental build.
+>
+>
+Could you check if --enable-docs was enabled? It turns out I wasn't always
+checking things properly, and it works as expected for me. Without the rtd
+theme installed and:
 
-s/post_load()/post_load())/
+- Without --enable-docs,
 
-> +     * mode is not migratable, we can loosen the restriction.
-> +     */
-> +    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_REENLIGHTENMENT) &&
-> +        !cpu->hyperv_passthrough && !env->user_tsc_khz &&
-> +        cpu->hyperv_reenlightenment_requires_tscfreq) {
-> +        error_setg(errp, "'hv-reenlightenment' requires 'tsc-frequency=' to be set");
+./docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+Configuration error:
+The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
 
-s/=//
+On incremental build, extra warnings and the build continues, disabling
+docs as necessary.
 
-> +        return;
-> +    }
-> +
->      /* Hyper-V vendor id */
->      if (!cpu->hyperv_vendor) {
->          memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
-> @@ -6846,7 +6859,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->      }
->  
->      /* Process Hyper-V enlightenments */
-> -    x86_cpu_hyperv_realize(cpu);
-> +    x86_cpu_hyperv_realize(cpu, &local_err);
-> +    if (local_err != NULL) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
->  
->      cpu_exec_realizefn(cs, &local_err);
->      if (local_err != NULL) {
-> @@ -7374,6 +7391,8 @@ static Property x86_cpu_properties[] = {
->      DEFINE_PROP_INT32("x-hv-max-vps", X86CPU, hv_max_vps, -1),
->      DEFINE_PROP_BOOL("x-hv-synic-kvm-only", X86CPU, hyperv_synic_kvm_only,
->                       false),
-> +    DEFINE_PROP_BOOL("x-hv-reenlightenment-requires-tscfreq", X86CPU,
-> +                     hyperv_reenlightenment_requires_tscfreq, true),
->      DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
->                       true),
->      DEFINE_PROP_END_OF_LIST()
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 570f916878f9..0196a300f018 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1677,6 +1677,7 @@ struct X86CPU {
->      uint32_t hyperv_spinlock_attempts;
->      char *hyperv_vendor;
->      bool hyperv_synic_kvm_only;
-> +    bool hyperv_reenlightenment_requires_tscfreq;
->      uint64_t hyperv_features;
->      bool hyperv_passthrough;
->      OnOffAuto hyperv_no_nonarch_cs;
-> -- 
-> 2.30.2
+- With --enable-docs,
 
-dme.
--- 
-No proper time of day.
+../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+Configuration error:
+The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
+../docs/meson.build:32:6: ERROR: Problem encountered: Install a Python 3
+version of python-sphinx and the readthedoc theme
+
+A full log can be found at
+/home/elmarco/src/qemu/build/meson-logs/meson-log.txt
+
+ERROR: meson setup failed
+
+
+
+On incremental build, it correctly stops:
+
+../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+Configuration error:
+The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
+../docs/meson.build:32:6: ERROR: Problem encountered: Install a Python 3
+version of python-sphinx and the readthedoc theme
+A full log can be found at
+/home/elmarco/src/qemu/build/meson-logs/meson-log.txt
+ninja: error: FAILED: build.ninja
+/usr/bin/meson --internal regenerate /home/elmarco/src/qemu
+/home/elmarco/src/qemu/build --backend ninja
+rebuilding 'build.ninja': subcommand failed
+make: *** [Makefile:152: run-ninja] Error 1
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000007a484805bec1ecd4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 30, 2021 at 4:12 PM Pet=
+er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
+naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Tue, 30 Mar 2021 at 09:29, Marc-Andr=C3=A9 Lureau<br>
+&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
+re.lureau@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Mon, Mar 29, 2021 at 9:54 PM Peter Maydell &lt;<a href=3D"mailto:pe=
+ter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; =
+wrote:<br>
+&gt;&gt; aarch64 CI machine, which has python 3.8.5 and sphinx-build 1.8.5.=
+<br>
+&gt;&gt; My guess is that it might be the sphinx-build version here. I vagu=
+ely<br>
+&gt;&gt; recall that Sphinx is kind of picky about exceptions within the co=
+nf<br>
+&gt;&gt; file but that there was a change in what it allowed at some point.=
+<br>
+&gt;&gt; It&#39;s possible we just can&#39;t do much with the old versions.=
+<br>
+&gt;<br>
+&gt;<br>
+&gt; How do you run the build? Running make from an existing configured or =
+build state? If so, I have seen sphinx errors that don&#39;t stop the build=
+ (and actually building the docs without sphinx-rtd). I don&#39;t know why =
+this happens, &quot;regenerate&quot;/reconfigure errors should stop the bui=
+ld.<br>
+<br>
+On that machine, yes, it&#39;s an incremental build.<br clear=3D"all"><br><=
+/blockquote><div><br></div><div>Could you check if --enable-docs was enable=
+d? It turns out I wasn&#39;t always checking things properly, and it works =
+as expected for me. Without the rtd theme installed and:<br></div><div><br>=
+</div><div>- Without --enable-docs,<br></div><div><br></div><div>./docs/mes=
+on.build:30: WARNING: /usr/bin/sphinx-build-3: <br>Configuration error:<br>=
+The Sphinx &#39;sphinx_rtd_theme&#39; HTML theme was not found.<br></div><d=
+iv><br></div><div>On incremental build, extra warnings and the build contin=
+ues, disabling docs as necessary.</div><div><br></div><div>- With --enable-=
+docs, <br></div><div><br></div><div>../docs/meson.build:30: WARNING: /usr/b=
+in/sphinx-build-3: <br>Configuration error:<br>The Sphinx &#39;sphinx_rtd_t=
+heme&#39; HTML theme was not found.<br>../docs/meson.build:32:6: ERROR: Pro=
+blem encountered: Install a Python 3 version of python-sphinx and the readt=
+hedoc theme<br><br>A full log can be found at /home/elmarco/src/qemu/build/=
+meson-logs/meson-log.txt<br><br>ERROR: meson setup failed<br><br><br></div>=
+<div><br></div><div>On incremental build, it correctly stops:</div><div><br=
+></div><div>../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3: <br>C=
+onfiguration error:<br>The Sphinx &#39;sphinx_rtd_theme&#39; HTML theme was=
+ not found.<br></div><div>../docs/meson.build:32:6: ERROR: Problem encounte=
+red: Install a Python 3 version of python-sphinx and the readthedoc theme<b=
+r>A full log can be found at /home/elmarco/src/qemu/build/meson-logs/meson-=
+log.txt<br>ninja: error: FAILED: build.ninja <br>/usr/bin/meson --internal =
+regenerate /home/elmarco/src/qemu /home/elmarco/src/qemu/build --backend ni=
+nja<br>rebuilding &#39;build.ninja&#39;: subcommand failed<br>make: *** [Ma=
+kefile:152: run-ninja] Error 1</div><div><br></div></div><br>-- <br><div di=
+r=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000007a484805bec1ecd4--
 
