@@ -2,61 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E1C34E57D
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 12:31:48 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AFC34E57F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 12:32:50 +0200 (CEST)
+Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRBex-0003mD-6p
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 06:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49052)
+	id 1lRBg1-0004m9-6N
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 06:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lRBcz-0003Dd-0K; Tue, 30 Mar 2021 06:29:41 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:34431)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lRBdl-0003re-9U
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 06:30:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lRBcx-0003gT-8G; Tue, 30 Mar 2021 06:29:40 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.90])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 66D8895D98BE;
- Tue, 30 Mar 2021 12:29:34 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 30 Mar
- 2021 12:29:33 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0033a4169ad-b92d-43cd-ab3f-30c9296730fc,
- ACC3036D4A0BACA70991A0E48D5F19CB1CCAE693) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 30 Mar 2021 12:29:32 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC 4/8] virtio-pci: Batch add/del ioeventfds in a single MR
- transaction
-Message-ID: <20210330122932.13d83c0b@bahia.lan>
-In-Reply-To: <YGINWHUDN0hw/92j@stefanha-x1.localdomain>
-References: <20210325150735.1098387-1-groug@kaod.org>
- <20210325150735.1098387-5-groug@kaod.org>
- <YGINWHUDN0hw/92j@stefanha-x1.localdomain>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lRBdf-00049p-11
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 06:30:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F15E76195C;
+ Tue, 30 Mar 2021 10:30:17 +0000 (UTC)
+Date: Tue, 30 Mar 2021 11:30:15 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
+Message-ID: <20210330103013.GD18075@arm.com>
+References: <20210312151902.17853-1-steven.price@arm.com>
+ <20210312151902.17853-3-steven.price@arm.com>
+ <20210327152324.GA28167@arm.com> <20210328122131.GB17535@arm.com>
+ <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_sOrxax2F4DzRDyoI.YPBlH";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 4574ce3a-ff3f-4cd3-88f8-3117eac771ab
-X-Ovh-Tracer-Id: 18270540741800466735
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgfedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,72 +55,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/_sOrxax2F4DzRDyoI.YPBlH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Mar 29, 2021 at 05:06:51PM +0100, Steven Price wrote:
+> On 28/03/2021 13:21, Catalin Marinas wrote:
+> > On Sat, Mar 27, 2021 at 03:23:24PM +0000, Catalin Marinas wrote:
+> > > On Fri, Mar 12, 2021 at 03:18:58PM +0000, Steven Price wrote:
+> > > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > > > index 77cb2d28f2a4..b31b7a821f90 100644
+> > > > --- a/arch/arm64/kvm/mmu.c
+> > > > +++ b/arch/arm64/kvm/mmu.c
+> > > > @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+> > > >   	if (vma_pagesize == PAGE_SIZE && !force_pte)
+> > > >   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+> > > >   							   &pfn, &fault_ipa);
+> > > > +
+> > > > +	if (fault_status != FSC_PERM && kvm_has_mte(kvm) && pfn_valid(pfn)) {
+> > > > +		/*
+> > > > +		 * VM will be able to see the page's tags, so we must ensure
+> > > > +		 * they have been initialised. if PG_mte_tagged is set, tags
+> > > > +		 * have already been initialised.
+> > > > +		 */
+> > > > +		struct page *page = pfn_to_page(pfn);
+> > > > +		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
+> > > > +
+> > > > +		for (i = 0; i < nr_pages; i++, page++) {
+> > > > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+> > > > +				mte_clear_page_tags(page_address(page));
+> > > > +		}
+> > > > +	}
+> > > 
+> > > This pfn_valid() check may be problematic. Following commit eeb0753ba27b
+> > > ("arm64/mm: Fix pfn_valid() for ZONE_DEVICE based memory"), it returns
+> > > true for ZONE_DEVICE memory but such memory is allowed not to support
+> > > MTE.
+> > 
+> > Some more thinking, this should be safe as any ZONE_DEVICE would be
+> > mapped as untagged memory in the kernel linear map. It could be slightly
+> > inefficient if it unnecessarily tries to clear tags in ZONE_DEVICE,
+> > untagged memory. Another overhead is pfn_valid() which will likely end
+> > up calling memblock_is_map_memory().
+> > 
+> > However, the bigger issue is that Stage 2 cannot disable tagging for
+> > Stage 1 unless the memory is Non-cacheable or Device at S2. Is there a
+> > way to detect what gets mapped in the guest as Normal Cacheable memory
+> > and make sure it's only early memory or hotplug but no ZONE_DEVICE (or
+> > something else like on-chip memory)?  If we can't guarantee that all
+> > Cacheable memory given to a guest supports tags, we should disable the
+> > feature altogether.
+> 
+> In stage 2 I believe we only have two types of mapping - 'normal' or
+> DEVICE_nGnRE (see stage2_map_set_prot_attr()). Filtering out the latter is a
+> case of checking the 'device' variable, and makes sense to avoid the
+> overhead you describe.
+> 
+> This should also guarantee that all stage-2 cacheable memory supports tags,
+> as kvm_is_device_pfn() is simply !pfn_valid(), and pfn_valid() should only
+> be true for memory that Linux considers "normal".
 
-On Mon, 29 Mar 2021 18:24:40 +0100
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+That's the problem. With Anshuman's commit I mentioned above,
+pfn_valid() returns true for ZONE_DEVICE mappings (e.g. persistent
+memory, not talking about some I/O mapping that requires Device_nGnRE).
+So kvm_is_device_pfn() is false for such memory and it may be mapped as
+Normal but it is not guaranteed to support tagging.
 
-> On Thu, Mar 25, 2021 at 04:07:31PM +0100, Greg Kurz wrote:
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index 1b1942d521cc..0279e5671bcb 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> > @@ -2368,7 +2368,7 @@ void memory_region_add_eventfd_full(MemoryRegion =
-*mr,
-> >      if (size) {
-> >          adjust_endianness(mr, &mrfd.data, size_memop(size) | MO_TE);
-> >      }
-> > -    if (transaction) {
-> > +    if (!transaction) {
-> >          memory_region_transaction_begin();
-> >      }
-> >      for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
-> > @@ -2383,7 +2383,7 @@ void memory_region_add_eventfd_full(MemoryRegion =
-*mr,
-> >              sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb-1 - i));
-> >      mr->ioeventfds[i] =3D mrfd;
-> >      ioeventfd_update_pending |=3D mr->enabled;
-> > -    if (transaction) {
-> > +    if (!transaction) {
-> >          memory_region_transaction_commit();
-> >      }
->=20
-> Looks like these two hunks belong in a previous patch.
+For user MTE, we get away with this as the MAP_ANONYMOUS requirement
+would filter it out while arch_add_memory() will ensure it's mapped as
+untagged in the linear map. See another recent fix for hotplugged
+memory: d15dfd31384b ("arm64: mte: Map hotplugged memory as Normal
+Tagged"). We needed to ensure that ZONE_DEVICE doesn't end up as tagged,
+only hoplugged memory. Both handled via arch_add_memory() in the arch
+code with ZONE_DEVICE starting at devm_memremap_pages().
 
-And they are actually wrong... we *do* want a nested
-transaction if 'transaction' is true :) This is a
-leftover I thought I had removed but obviously not...
+> > > I now wonder if we can get a MAP_ANONYMOUS mapping of ZONE_DEVICE pfn
+> > > even without virtualisation.
+> > 
+> > I haven't checked all the code paths but I don't think we can get a
+> > MAP_ANONYMOUS mapping of ZONE_DEVICE memory as we normally need a file
+> > descriptor.
+> 
+> I certainly hope this is the case - it's the weird corner cases of device
+> drivers that worry me. E.g. I know i915 has a "hidden" mmap behind an ioctl
+> (see i915_gem_mmap_ioctl(), although this case is fine - it's MAP_SHARED).
+> Mali's kbase did something similar in the past.
 
---Sig_/_sOrxax2F4DzRDyoI.YPBlH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+I think this should be fine since it's not a MAP_ANONYMOUS (we do allow
+MAP_SHARED to be tagged).
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmBi/YwACgkQcdTV5YIv
-c9aQ5hAAlNkfA0e3kywcL4dMEy3Lj+9QtNcwy7nI441l2JMwryr1dDGEpZsZpBXK
-sylIj56OAh160HculAgkzpmxo1jTFouMPF0NFp9JfrTRTce+tj7GFFtT/Csmbt/G
-Can75W9r+Ay+DX8sNrJAODbI1RJ/scnHbmfu4uM9BBKlG50styycrs5dfENTgK7b
-K6o0HKdnUXKIMByTSb37V30G50BCVd2VD3qXkSdRkBGWixt8kXf0CPnUMTP9jbbQ
-FZKRcrjZlekdsYlUO9NE6YoqvMRgUzn62sAcqrPO+qlyrex/yKhQ2950o7p5MkTy
-KrQgr5TTGMfcL1cC8bBqCEvKp6zFe21brNcmSoMgyN0oJbegEi5DlUwwLuvYU+c3
-qvuVfjLHFE642UfOM/g1JaR8eYTAmg7wj5bIUdBFYN1k9urQY/IlTCY5rKmaMsq+
-UFuTFpMt7N/P7SH+SZ6AYgrfkjhbKVG+jNSeFMLFnifNpzfILGOs7KDthkinsSrv
-Wm4NMRgKklvKDGlZjR7wFFu2ks3PFgCEPY6+/Jf9TyII0L76jCvuTGzXaIbF/7t7
-Zad2F0vIr2TS5J3tfaGa69Y8e4OVE8s5eduurOY4k6e4vbvOTqIZH9zhOGrzfxty
-t9UKyIjm+lnnZIPu/2FMYsKsMe8aeUMCOnPfOWtdB6QmJAu3Dcc=
-=0Xnd
------END PGP SIGNATURE-----
-
---Sig_/_sOrxax2F4DzRDyoI.YPBlH--
+-- 
+Catalin
 
