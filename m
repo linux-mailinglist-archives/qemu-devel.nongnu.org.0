@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8865234E759
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:17:34 +0200 (CEST)
-Received: from localhost ([::1]:57940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C79234E742
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:15:36 +0200 (CEST)
+Received: from localhost ([::1]:54628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDJN-0001uJ-LH
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
+	id 1lRDHT-0000YW-1o
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRDDQ-0006wN-LZ
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:11:24 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39487)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRDEJ-0007d8-5Q
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:12:19 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRDDM-0004GA-Hy
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:11:24 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id e18so16003928wrt.6
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 05:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=A1/hwK7SmHteWqnxypWdRVmiA3kAY4f3b8n6N4vM/E0=;
- b=H/ydsLVyMQ68CDl0kXRr+zsuhdaJahdPGvZKUsoWnZ22CDGKvAscVmU2C/n4PP94js
- aYGAJZQNVSCbRas7AUWBvEROTtUU3A5rgEQgFS3p78yQ8LnQfzCNcWD7sJ5uetasJ88n
- BjWVYUWBwHwjhA25BRxXFT2xJtkw1URGA4vA6Mt/M5y2BN+65+s8qr1s9AuHJ+hkmGxW
- Nu8eCfWsaJ7Rj60pFJfJT0mxdpWMohSIkWoykyE9TrIXMfjRiQAiArA8AjoONQs4PBwg
- wo8aC0mNX4JLJn0vyWlSdz8dXC86V9Kh9QnCk85keiRSg/znNWVMEBwbzv5wkgxmSe1c
- TDuA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRDE5-0004bD-VU
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:12:18 -0400
+Received: by mail-ed1-x531.google.com with SMTP id h10so17894164edt.13
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 05:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mJ9M33cDCjhYTUEaHD0TsWrYQjawwdPNd3sWNoPigPg=;
+ b=tbQP09jW0SGuBP4vg1qL/mSHKnkM5CvAomE5Yf1HENoRacGwgl0h05F6ErgN3wVs6L
+ AgmhbaOL9XJxTnjDRgIgYLf0ec7i0q7x1UX2RXFwkIGFZBNiafrsxnWfjoDfZKbv328Y
+ vuOSEsAqeiUDvxk66NMFSPtICeaVQEr/RZwdLnAh/zD310nhZGDDIbe3xrgvtOCUnk/4
+ wDN7beUyFNs3WT+92URalvaBxXX/NM1sMSTWZPYnqLTe0plys4QfsjQJ4Att1Uxa/5mm
+ 2PRWGcePWEH8DofO2yas5x0F81v9FTIWZqGyinjkJk+smQr5JnyZQlaAtFXajd5it0Hl
+ 5CFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=A1/hwK7SmHteWqnxypWdRVmiA3kAY4f3b8n6N4vM/E0=;
- b=Ru/od+xkl+pfmzXbQiw3WiV4OxPB5LuAW8rSjTpIYO0GfT0jiyBEXF2E/WOSrtcRuz
- get4ZYhrcuqrNhLh3XwFhah1169Ey2YYQA6yVgQknJC2UfZQF34Vr6Rq8E9TREp3hvAX
- ZGCAhJgoldBRnILlBedGJY7ODv2ADOxuCZTPZw75KIZAG0SX0vlOxEHkJZLCRCYWLevK
- sJ7sacEgX/n4cN7uhmdlghSPrQ8pqVn7wGBpWvUBX65qRR5aBwCEtkimX/JstUzgDTsd
- 1/8DU5Q1DZhAmwUwwI8MEnCZAykgqifbW4xN4oN9f5z14vqhEDJSFrUu39KR8xHajtWA
- 8Mkg==
-X-Gm-Message-State: AOAM533lAD5NjeT+SNCrk1ln2x9rNzFhP8HgcCPhRa/E9p7qzp2Lxjz9
- CZGfVLhtwEYFbr8LZEscq2w=
-X-Google-Smtp-Source: ABdhPJwuELH6ox8J19ekzIB1vzOYLb8++QsQcpZvTmAqvFeINmTRT6fxq3mEfVfCizEO82kc49BUvg==
-X-Received: by 2002:adf:82af:: with SMTP id 44mr32538518wrc.279.1617106277151; 
- Tue, 30 Mar 2021 05:11:17 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id z8sm32318917wrh.37.2021.03.30.05.11.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 05:11:16 -0700 (PDT)
-Subject: Re: [PATCH] target/xtensa: make xtensa_modules static on import
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
-References: <20210330073057.24627-1-jcmvbkbc@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9a3b6060-3617-367b-29c6-959ff8f28d9c@amsat.org>
-Date: Tue, 30 Mar 2021 14:11:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mJ9M33cDCjhYTUEaHD0TsWrYQjawwdPNd3sWNoPigPg=;
+ b=CkjYhteCIexhst1ufyJrV+3Yghem8dogtVQcBjjrUUCPXcVPOBgN1VEd6Il1bYV7rz
+ pcfysrQfNyOp/KZDNJa7GGDW1k3EUuPj26QRMjfEEP3LKnaWV/MCh1/B6FcKGs/XkeOI
+ GQhxIIm+u+ai9U7cZtFfaTuXbvS6LTwb3ZYpY0XTTvIXiCQVB0+CtJOsvXAdguVlixXV
+ yiRrj3IMKQF8Ydw6IbcvxydXrMaYoVzkfYECPsnQSiLmbrOYCT2ZFLLjOXMvG7QNzzSm
+ tWwcLOMPuMrBmgeysmB8mF4dth9E4ceFMauhzV0/2XJcQg7jr1A4+eK9Zpv8a04t2mMt
+ wnwg==
+X-Gm-Message-State: AOAM531U5dSxi4oGk/SzaCZjQOIxFQUl0Z8lSNE9HwQtajWRTAPZUi37
+ bwOYMn64UU6kfA9JgAk7ZUvEiFvPNUZJIH/htbqxH9xSNQL7YXvR
+X-Google-Smtp-Source: ABdhPJwQ4SZqBXnHoVfjHDTT3891VydjC3vznQNmJ5UKjkMjagLquH5lxSqRLWAT3Nj5UWY2kPq8Ia2s1c1mjf76Amk=
+X-Received: by 2002:aa7:d686:: with SMTP id d6mr33734784edr.146.1617106322282; 
+ Tue, 30 Mar 2021 05:12:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210330073057.24627-1-jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20210328184533.752840-1-marcandre.lureau@redhat.com>
+ <CAFEAcA9FiNLr=CsxRLpUbMgROMBmO-8WoPtEkfL4b4+ZHrAhdA@mail.gmail.com>
+ <CAJ+F1CJK450rAMA7VU2b7VFL0FK6f3mkR=kwPB+d5M4DozRHFg@mail.gmail.com>
+ <CAFEAcA_i-jx4PvDSqcZ12TWtJMzRoEBGO3tUbUJqU1voecksaw@mail.gmail.com>
+ <CAJ+F1C+uax+uUhR_dARx4kLAmc4-OgEMCh795+iW4yjm-1RPvw@mail.gmail.com>
+ <CAFEAcA_=GCA8FgLfBxiLvjUaOkV0TATUsuO7an2phFxmJkMxtg@mail.gmail.com>
+ <CAJ+F1CK2jf5O226zLqpKt_=9mSE4t979huMZ0s9FGZ4TATKguA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CK2jf5O226zLqpKt_=9mSE4t979huMZ0s9FGZ4TATKguA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Mar 2021 12:11:30 +0000
+Message-ID: <CAFEAcA8dnsC30ZQVXOCLWdwb50nQFcWQjRZB_m5S6Mpv3WC2Ug@mail.gmail.com>
+Subject: Re: [PULL 00/10] For 6.0 patches
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,37 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yury Gribov <tetra2005@gmail.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/21 9:30 AM, Max Filippov wrote:
-> xtensa_modules variable defined in each xtensa-modules.c.inc is only
-> used locally by the including file. Make it static.
-> 
+On Tue, 30 Mar 2021 at 09:29, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Mon, Mar 29, 2021 at 9:54 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>> aarch64 CI machine, which has python 3.8.5 and sphinx-build 1.8.5.
+>> My guess is that it might be the sphinx-build version here. I vaguely
+>> recall that Sphinx is kind of picky about exceptions within the conf
+>> file but that there was a change in what it allowed at some point.
+>> It's possible we just can't do much with the old versions.
+>
+>
+> How do you run the build? Running make from an existing configured or bui=
+ld state? If so, I have seen sphinx errors that don't stop the build (and a=
+ctually building the docs without sphinx-rtd). I don't know why this happen=
+s, "regenerate"/reconfigure errors should stop the build.
 
-Reported-by: Yury Gribov <tetra2005@gmail.com>
+On that machine, yes, it's an incremental build.
 
-> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> ---
->  target/xtensa/import_core.sh | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/target/xtensa/import_core.sh b/target/xtensa/import_core.sh
-> index f3404039cc20..53d3c4d099bb 100755
-> --- a/target/xtensa/import_core.sh
-> +++ b/target/xtensa/import_core.sh
-> @@ -35,6 +35,7 @@ tar -xf "$OVERLAY" -O binutils/xtensa-modules.c | \
->          -e '/^#include "ansidecl.h"/d' \
->          -e '/^Slot_[a-zA-Z0-9_]\+_decode (const xtensa_insnbuf insn)/,/^}/s/^  return 0;$/  return XTENSA_UNDEFINED;/' \
->          -e 's/#include <xtensa-isa.h>/#include "xtensa-isa.h"/' \
-> +        -e 's/^\(xtensa_isa_internal xtensa_modules\)/static \1/' \
->      > "$TARGET"/xtensa-modules.c.inc
->  
->  cat <<EOF > "${TARGET}.c"
-> 
-
+thanks
+-- PMM
 
