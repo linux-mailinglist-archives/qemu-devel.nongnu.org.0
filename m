@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F01534F518
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 01:32:24 +0200 (CEST)
-Received: from localhost ([::1]:39324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEEE34F523
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 01:42:11 +0200 (CEST)
+Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRNqQ-0005p0-Nq
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 19:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
+	id 1lRNzt-0008EF-HZ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 19:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lRNow-00056A-Qk
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 19:30:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54144)
+ id 1lRNyh-0007ZZ-0y
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 19:40:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lRNot-0004FB-3b
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 19:30:50 -0400
+ id 1lRNyf-0000Q1-1K
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 19:40:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lRNoq-0007I2-2s
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 23:30:44 +0000
+ id 1lRNyc-00082d-Px
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 23:40:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 07E632E8165
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 23:30:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9D2AC2E8165
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 23:40:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Mar 2021 23:22:03 -0000
-From: Richard Henderson <1921948@bugs.launchpad.net>
+Date: Tue, 30 Mar 2021 23:32:35 -0000
+From: Peter Collingbourne <1921948@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
@@ -38,11 +38,11 @@ X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rth xairy
+X-Launchpad-Bug-Commenters: pcc-goog rth xairy
 X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+X-Launchpad-Bug-Modifier: Peter Collingbourne (pcc-goog)
 References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <161714652343.360.6742694661379399744.malone@soybean.canonical.com>
+Message-Id: <161714715555.303.9805847434762909396.malone@soybean.canonical.com>
 Subject: [Bug 1921948] Re: MTE tags not checked properly for unaligned
  accesses at EL1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
-X-Launchpad-Hash: 6facc559c51d01f97148d1d853743810f0a83310
+X-Launchpad-Hash: 66ebb3e128d16ee02672b115a0baadb918820570
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,20 +75,11 @@ Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I believe that you're correct, and that I mis-read the MTE
-specification.
+The flags that you need to pass to FVP to enable MTE are listed near the
+end of the README here:
 
-I believed that exactly one mte tag check was made for any single memory
-access.  But I missed that unaligned accesses are as-if a sequence of byte
-accesses -- in the Arm ARM, see aarch64/functions/memory/Mem[].
-
-I'm still trying to verify this via the Arm FVP, but so far I've not
-found the right incantation of parameters to properly enable MTE.
-(I can enable the instructions, but a simple stg/ldg test suggests
-that there is no tag storage enabled -- all tags read as 0.)
-
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+https://cs.android.com/android/platform/superproject/+/master:device/generi=
+c/goldfish/fvpbase/README.md
 
 -- =
 
