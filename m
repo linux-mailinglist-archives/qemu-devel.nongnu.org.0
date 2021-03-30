@@ -2,96 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579E434E9E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:08:35 +0200 (CEST)
-Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A50F34EA12
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:14:45 +0200 (CEST)
+Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRF2n-0000GN-QB
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
+	id 1lRF8m-0000UP-Dp
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRF1b-00085t-P4
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:07:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28997)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lRF47-0002wO-3b
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRF1X-0003mT-6e
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:07:19 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lRF3z-000585-7K
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617113234;
+ s=mimecast20190719; t=1617113386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i3SlnLGogtzJJz2dJCioCsfRN5RKBJThqXMxbOPfPtM=;
- b=U52PAAQlON9a3hcpOOOx/wdVDx3o5Y+8XHrVQqHwTFXausMqnbAP+mEQvGmo+Ng4w6JWIJ
- x0ZY0yKpLfvKDnNKaF1tXWMRqFQ6W5O/b+AFt8eeIMUa+wKlQF7h/inlNqsPfBZIKBRKpU
- F+ZWMGL5U4nYg5fL9Bd4ALf73bZIeao=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-WhWmm_lmOnykxu1fqQzdWQ-1; Tue, 30 Mar 2021 10:07:10 -0400
-X-MC-Unique: WhWmm_lmOnykxu1fqQzdWQ-1
-Received: by mail-wr1-f69.google.com with SMTP id i5so10452350wrp.8
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 07:07:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i3SlnLGogtzJJz2dJCioCsfRN5RKBJThqXMxbOPfPtM=;
- b=oJC3GeO8k7d1H8+odPfEESobunGD+ZUdu928+X2eyV9RC730SX7zHaY1Lv86FyF8p7
- H373gUmJOR9fhGzmA8SEWISpooMosSdYYDqjgJ5z8IDd51uiGgtEaCYi7AxlIC316m6w
- 9f4numdCVO1uvec1UPt74IOeylL+YxXhprgcg1rk1KZBVRSpgojz5aXAQZHXHctCdmML
- zyOcZnWQcV9lwcZL8Qj8dfzouh1frvO31JsGwNIKmNJoPdRqINY2pW2jXETsvvtFcIEu
- tVaYsSRsc2AdmH9JPKwlJnilbE5R+Iex0jH6X7OdHooz4cD/eXvNzLIFHmHQBqOkrqJU
- HvyQ==
-X-Gm-Message-State: AOAM531VrlVLafbJo6g8OIApRAE847Fesp7dAlm6+120vErGwW9ndxKG
- bvWaYFJC/T6wEkGwWVGMkiQXEzCXKgQNDqGAtruuq9d9TFAsJJ4WhesuJoZP0jKWYy64cm6lk0l
- 2fXX87NjpjVJwvuo=
-X-Received: by 2002:a05:6000:1803:: with SMTP id
- m3mr34941396wrh.50.1617113228771; 
- Tue, 30 Mar 2021 07:07:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIFspi1ACBwd+L7Avmfb75q7MuKlAo9H2qcjL1IYn6d2TLNmP6iKNVwklNVhZIdPIgU87TNQ==
-X-Received: by 2002:a05:6000:1803:: with SMTP id
- m3mr34941377wrh.50.1617113228588; 
- Tue, 30 Mar 2021 07:07:08 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h10sm36159450wrp.22.2021.03.30.07.07.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 07:07:07 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210330090806.2802667-1-thuth@redhat.com>
- <c8cc80d5-51f8-9c35-ad98-1eac0d164be6@redhat.com>
- <YGMhUTUXJBM3BcW5@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict
- Resolution Policy document
-Message-ID: <c9ae35d4-65c3-980a-aaf3-e4be58b68d24@redhat.com>
-Date: Tue, 30 Mar 2021 16:07:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=sR2PucaV/L9kjDh8x9BGCLhvc4nO1JnnuZSY34xZChw=;
+ b=JQo0o575GgPdWScDja6nmUtODe8/1p6A7V9qZaepQc4Y+2mtpk8Y0QxUg/y2B8hIuxeOEb
+ UMM3lHXi1sdxcAzYRqF7Ao5IL8omxDJ8qcGPry39XFDkvKiKRD3leNAxXx0meEd6sg+qx3
+ DAgBSYw92v/HVXvSwgYCr41iVckRSCE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-8ZXOYVFpM0qyuOVcoMjVvA-1; Tue, 30 Mar 2021 10:09:41 -0400
+X-MC-Unique: 8ZXOYVFpM0qyuOVcoMjVvA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 472D283DD27;
+ Tue, 30 Mar 2021 14:09:40 +0000 (UTC)
+Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE5A75D761;
+ Tue, 30 Mar 2021 14:09:21 +0000 (UTC)
+Date: Tue, 30 Mar 2021 15:09:15 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: Serious doubts about Gitlab CI
+Message-ID: <YGMxC8tJnKm/J2Nu@stefanha-x1.localdomain>
+References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
+ <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
+ <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
+ <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
+ <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
+ <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
+ <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
+ <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
+ <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
+ <YGMJSoIGa5VoVDB1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YGMhUTUXJBM3BcW5@redhat.com>
+In-Reply-To: <YGMJSoIGa5VoVDB1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KAwCu6TwApouZcZU"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,73 +88,110 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Alexander Graf <agraf@csgraf.de>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+ Andrew Jones <drjones@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/03/21 15:02, Daniel P. Berrangé wrote:
-> Consider someone is kicked out from another project for violation
-> of that project's CoC, that would also be considered a violation
-> under QEMU's CoC. This qualifier is explicitly stating that the CoC
-> violation in the other project has no bearing on whether that
-> person can now start participating in QEMU. I think that's a bad
-> mixed message we're sending there. It is especially poor if the
-> victim from the other project is also a QEMU contributor.
+--KAwCu6TwApouZcZU
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My wording is actually already broader than what is in the contributor 
-covenant:
+On Tue, Mar 30, 2021 at 12:19:38PM +0100, Daniel P. Berrang=E9 wrote:
+> On Mon, Mar 29, 2021 at 03:10:36PM +0100, Stefan Hajnoczi wrote:
+> > Hi,
+> > I wanted to follow up with a summary of the CI jobs:
+> >=20
+> > 1. Containers & Containers Layer2 - ~3 minutes/job x 39 jobs
+> > 2. Builds - ~50 minutes/job x 61 jobs
+> > 3. Tests - ~12 minutes/job x 20 jobs
+> > 4. Deploy - 52 minutes x 1 job
+> >=20
+> > The Builds phase consumes the most CI minutes. If we can optimize this
+> > phase then we'll achieve the biggest impact.
+> >=20
+> > In the short term builds could be disabled. However, in the long term I
+> > think full build coverage is desirable to prevent merging code that
+> > breaks certain host OSes/architectures (e.g. stable Linux distros,
+> > macOS, etc).
+>=20
+> The notion of "full build coverage" doesn't really exist in reality.
+> The number of platforms that QEMU is targetting, combined with the
+> number of features that can be turned on/off in QEMU configure
+> means that the matrix for "full build coverage" is too huge to ever
+> contemplate.
 
-   This Code of Conduct applies within all project spaces, and it also
-   applies when an individual is representing the project or its
-   community in public spaces. Examples of representing a project or
-   community include using an official project e-mail address, posting
-   via an official social media account, or acting as an appointed
-   representative at an online or offline event.
+Good point. We will never cover the full build matrix. I do think that
+it's important to cover real-world builds, especially ones that tend to
+expose issues (e.g. macOS, Windows, stable Linux distros, etc).
 
-That is, the Code of Conduct would not apply to someone saying "the QEMU 
-SCSI maintainer rejected my patches, he is an idiot" on Twitter.  My 
-proposal sought to find a middle ground, where that person could be 
-reasonably considered to be "acting as a member of the project or its 
-community".
+> I think a challenges we have with our incremental approach is that
+> we're not really taking into account relative importance of the
+> different build scenarios, and often don't look at the big picture
+> of what the new job adds in terms of quality, compared to existing
+> jobs.
+>=20
+> eg Consider we have
+>=20
+>   build-system-alpine:
+>   build-system-ubuntu:
+>   build-system-debian:
+>   build-system-fedora:
+>   build-system-centos:
+>   build-system-opensuse:
+>=20
+>   build-trace-multi-user:
+>   build-trace-ftrace-system:
+>   build-trace-ust-system:
+>=20
+> I'd question whether we really need any of those 'build-trace'
+> jobs. Instead, we could have build-system-ubuntu pass
+> --enable-trace-backends=3Dlog,simple,syslog, build-system-debian
+> pass --enable-trace-backends=3Dust and build-system-fedora
+> pass --enable-trace-backends=3Dftrace, etc.=20
 
-> The wording Thomas' draft has
->
->   In addition, violations of this code outside these spaces may
->   affect a person's ability to participate within them.
-> 
-> doesn't require QEMU to take action. It just set a statement
-> of intent that gives QEMU the freedom to evaluate whether it is
-> reasonable to take action to protect its contributors, should a
-> contributor wish to raise an issue that occurred outside QEMU.
+Yes, I agree. The trace builds could be collapsed into various other
+builds.
 
-There have been in the past cases of external people asking projects to 
-ban contributors because of views they held on social media.  The 
-Contributor Covenant initially included no limit to the application of 
-the CoC and only added a limitation after the author herself was 
-involved in such an episode[1][2].
+> > Traditionally ccache (https://ccache.dev/) was used to detect
+> > recompilation of the same compiler input files. This is trickier to do
+> > in GitLab CI since it would be necessary to share and update a cache,
+> > potentially between untrusted users. Unfortunately this shifts the
+> > bottleneck from CPU to network in a CI-as-a-Service environment since
+> > the cached build output needs to be accessed by the linker on the CI
+> > runner but is stored remotely.
+>=20
+> Our docker containers install ccache already and I could have sworn
+> that we use that in gitlab, but now I'm not so sure. We're only
+> saving the "build/" directory as an artifact between jobs, and I'm
+> not sure that directory holds the ccache cache.
 
-I would prefer to avoid putting QEMU in that situation, and limit the 
-applicability code of conduct as much as possible to conflicts within 
-the community.
+It seems we're not benefitting much from ccache at the moment since the
+build takes 50 minutes. Maybe this is a good area to investigate further
+and find out what can be improved.
 
-The Mozilla participation guidelines (2165 words :)) acknowledge that 
-"it is possible for actions taken outside of Mozilla's online or in 
-person spaces to have a deep impact on community health" but also admit 
-that "this is an active topic in the diversity and inclusion realm"[3].
+Stefan
 
-The Django code of conduct seems to be in the minority in having such a 
-broad applicability, while the wording in the Contributor Covenant seems 
-to be more informed by actual experience.
+--KAwCu6TwApouZcZU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Paolo
+-----BEGIN PGP SIGNATURE-----
 
-[1] https://github.com/opal/opal/issues/941 (June 18, 2015)
-[2] 
-https://github.com/ContributorCovenant/contributor_covenant/commit/c400f17438 
-(June 19, 2015)
-[3] https://www.mozilla.org/en-US/about/governance/policies/participation/
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBjMQsACgkQnKSrs4Gr
+c8hQ3AgAwHze2S4K3QTWciivZ+LsamFNHl4Ztna9uKo8zja+WbPMrKmHtTUDM+nY
+/dTksXGKgSQ0wGZqvJUINv2PXMWSQ6cUPHIZn1VrS87ogjL7AfV8MpFPI/7ndZSU
+sMBcjZmXRLBrNKAyFg37IeFYESdnXi8VMxUO39x/OnGWtN98i0v5he88Tv+vjbim
+mEnhbz3s6ZTKLISHGVEAQRuZK70cuK99kNurHxyucYeKHxFmysjiZDR1B5v/KKe0
+tph8iynuZX6iBnl0ATXGSo1Tf3wwvFkN2tosw2F1iU1l7Na2dAr7mpmt3XmB/Ob+
+Pri0nRRDwdMmoFot599lrkyvcVxOPA==
+=vdrS
+-----END PGP SIGNATURE-----
+
+--KAwCu6TwApouZcZU--
 
 
