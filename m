@@ -2,70 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A2034E40C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 11:09:37 +0200 (CEST)
-Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9E134E48E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 11:36:54 +0200 (CEST)
+Received: from localhost ([::1]:39340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRANU-00011x-1r
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 05:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56770)
+	id 1lRAnt-0005r8-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 05:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRAMP-0000ch-8i
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 05:08:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27330)
+ (Exim 4.90_1) (envelope-from <lhenriques@suse.de>)
+ id 1lRAmr-0005A3-IY
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 05:35:49 -0400
+Received: from mx2.suse.de ([195.135.220.15]:33984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRAMJ-0005RJ-9D
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 05:08:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617095300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=J9updPIcNWkAEREa/hl6RSqM3olKdIK082QIkwvYo3s=;
- b=fdivZxLKfqOQAeOK8m4GdEfKS4RjoiIwasrSzGXAvE9suWVt+fWC2fibyIi3w8HQISlrpq
- vfgNEtfttFtkSg+B9nfRZ+ANsnIcu0cpVhW+aenxUfd5PIR0ZIEV5tiTGeNsiiiV8Xp6d+
- Ccjd46O/Up4rIsY3dxvBXbJe1J4dfkQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-pwAS8WsrMHq5BRG4Aylu-w-1; Tue, 30 Mar 2021 05:08:15 -0400
-X-MC-Unique: pwAS8WsrMHq5BRG4Aylu-w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5658A5B368;
- Tue, 30 Mar 2021 09:08:14 +0000 (UTC)
-Received: from thuth.com (ovpn-112-225.ams2.redhat.com [10.36.112.225])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F34FB5E1A4;
- Tue, 30 Mar 2021 09:08:08 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
- Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict Resolution
- Policy document
-Date: Tue, 30 Mar 2021 11:08:06 +0200
-Message-Id: <20210330090806.2802667-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <lhenriques@suse.de>)
+ id 1lRAmp-000520-BO
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 05:35:49 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A8FFEB1DC;
+ Tue, 30 Mar 2021 09:35:45 +0000 (UTC)
+Received: from localhost (brahms [local])
+ by brahms (OpenSMTPD) with ESMTPA id 2dee5515;
+ Tue, 30 Mar 2021 09:37:06 +0000 (UTC)
+Date: Tue, 30 Mar 2021 10:37:05 +0100
+From: Luis Henriques <lhenriques@suse.de>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v5 5/5] virtiofsd: Switch creds, drop FSETID for
+ system.posix_acl_access xattr
+Message-ID: <YGLxQR5V4d+8mQiK@suse.de>
+References: <20210325153852.572927-1-vgoyal@redhat.com>
+ <20210325153852.572927-6-vgoyal@redhat.com>
+ <YGHz3a9JCAV21Aun@suse.de> <20210329195151.GF676525@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210329195151.GF676525@redhat.com>
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=lhenriques@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,234 +60,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In an ideal world, we would all get along together very well, always be
-polite and never end up in huge conflicts. And even if there are conflicts,
-we would always handle each other fair and respectfully. Unfortunately,
-this is not an ideal world and sometimes people forget how to interact with
-each other in a professional and respectful way. Fortunately, this rarely
-happens in the QEMU community, but still there are such rare cases, and
-then it would be good to have a basic code of conduct document available
-that can be shown to persons who are misbehaving. And if that does not help
-yet, we should also have a conflict resolution policy ready that can be
-applied in the worst case.
+On Mon, Mar 29, 2021 at 03:51:51PM -0400, Vivek Goyal wrote:
+> On Mon, Mar 29, 2021 at 04:35:57PM +0100, Luis Henriques wrote:
+> > On Thu, Mar 25, 2021 at 11:38:52AM -0400, Vivek Goyal wrote:
+> > > When posix access acls are set on a file, it can lead to adjusting file
+> > > permissions (mode) as well. If caller does not have CAP_FSETID and it
+> > > also does not have membership of owner group, this will lead to clearing
+> > > SGID bit in mode.
+> > > 
+> > > Current fuse code is written in such a way that it expects file server
+> > > to take care of chaning file mode (permission), if there is a need.
+> > > Right now, host kernel does not clear SGID bit because virtiofsd is
+> > > running as root and has CAP_FSETID. For host kernel to clear SGID,
+> > > virtiofsd need to switch to gid of caller in guest and also drop
+> > > CAP_FSETID (if caller did not have it to begin with).
+> > > 
+> > > If SGID needs to be cleared, client will set the flag
+> > > FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
+> > > should kill sgid.
+> > > 
+> > > Currently just switch to uid/gid of the caller and drop CAP_FSETID
+> > > and that should do it.
+> > > 
+> > > This should fix the xfstest generic/375 test case.
+> > > 
+> > > We don't have to switch uid for this to work. That could be one optimization
+> > > that pass a parameter to lo_change_cred() to only switch gid and not uid.
+> > > 
+> > > Also this will not work whenever (if ever) we support idmapped mounts. In
+> > > that case it is possible that uid/gid in request are 0/0 but still we
+> > > need to clear SGID. So we will have to pick a non-root sgid and switch
+> > > to that instead. That's an TODO item for future when idmapped mount
+> > > support is introduced.
+> > > 
+> > > Reported-by: Luis Henriques <lhenriques@suse.de>
+> > > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > > ---
+> > >  include/standard-headers/linux/fuse.h |  7 +++++
+> > >  tools/virtiofsd/passthrough_ll.c      | 42 +++++++++++++++++++++++++--
+> > >  2 files changed, 47 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
+> > > index cc87ff27d0..4eb79399d4 100644
+> > > --- a/include/standard-headers/linux/fuse.h
+> > > +++ b/include/standard-headers/linux/fuse.h
+> > > @@ -180,6 +180,7 @@
+> > >   *  - add FUSE_HANDLE_KILLPRIV_V2, FUSE_WRITE_KILL_SUIDGID, FATTR_KILL_SUIDGID
+> > >   *  - add FUSE_OPEN_KILL_SUIDGID
+> > >   *  - add FUSE_SETXATTR_V2
+> > > + *  - add FUSE_SETXATTR_ACL_KILL_SGID
+> > >   */
+> > >  
+> > >  #ifndef _LINUX_FUSE_H
+> > > @@ -450,6 +451,12 @@ struct fuse_file_lock {
+> > >   */
+> > >  #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
+> > >  
+> > > +/**
+> > > + * setxattr flags
+> > > + * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
+> > > + */
+> > > +#define FUSE_SETXATTR_ACL_KILL_SGID    (1 << 0)
+> > > +
+> > >  enum fuse_opcode {
+> > >  	FUSE_LOOKUP		= 1,
+> > >  	FUSE_FORGET		= 2,  /* no reply */
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > index 3f5c267604..8a48071d0b 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -175,7 +175,7 @@ struct lo_data {
+> > >      int user_killpriv_v2, killpriv_v2;
+> > >      /* If set, virtiofsd is responsible for setting umask during creation */
+> > >      bool change_umask;
+> > > -    int user_posix_acl;
+> > > +    int user_posix_acl, posix_acl;
+> > >  };
+> > >  
+> > >  static const struct fuse_opt lo_opts[] = {
+> > > @@ -716,8 +716,10 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+> > >           * in fuse_lowlevel.c
+> > >           */
+> > >          fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
+> > > -        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
+> > > +        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
+> > > +                      FUSE_CAP_SETXATTR_V2;
+> > 
+> > An annoying thing with this is that if we're using a kernel without
+> > _V2 support the mount will still succeed.  But we'll see:
+> > 
+> > ls: cannot access '/mnt': Connection refused
+> > 
+> > and in the userspace:
+> > 
+> > fuse: error: filesystem requested capabilities 0x20000000 that are not supported by kernel, aborting.
+> > 
+> > Maybe it would be worth to automatically disable acl support if this
+> > happens (with an error message) but still allow the filesystem to be
+> > used.
+> 
+> If user specific "-o posix_acl" then it is better to fail explicitly
+> if posix_acl can't be enabled. If user did not specify anything, then
+> it makes sense to automatically disable posix acl  and continue.
+> 
+> > Or, which is probably better, to handle the EPROTO error in the
+> > kernel during mount.
+> 
+> This will have been idea but in fuse, init process handling happens
+> asynchronously. That is mount returns to user space while init
+> command might complete at a later point of time. So can't return
+> -EPROTO at mount time.
 
-The Code of Conduct document is based on the Django Code of Conduct
-(https://www.djangoproject.com/conduct/) and the conflict resolution
-has been assembled by Paolo, based on the Drupal Conflict Resolution Policy
-(https://www.drupal.org/conflict-resolution) and the Mozilla Consequence Ladder
-(https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md)
+Oh, right.  I remember the first time I looked that I found it a bit odd
+that fuse_send_init() didn't wait to return an error.  So, my suggestion
+isn't feasible.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- I've picked the Django Code of Conduct as a base, since it sounds rather
- friendly and still welcoming to me, but I'm open for other suggestions, too
- (but we should maybe pick one where the conflict resolution policy is
- separated from the CoC itself so that it can be better taylored to the
- requirements of the QEMU project)
+> So one of the problems seem to be that error message is not very
+> clear. How about adding following so that user is clear that posix acl
+> can't be enabled.
 
- v2: Adjusted the wording in the conflict resolution document according to
-     the suggestions from Daniel and Paolo
+Thanks, I think this extra information is indeed useful.
 
- docs/devel/code-of-conduct.rst     | 85 ++++++++++++++++++++++++++++++
- docs/devel/conflict-resolution.rst | 78 +++++++++++++++++++++++++++
- docs/devel/index.rst               |  2 +
- 3 files changed, 165 insertions(+)
- create mode 100644 docs/devel/code-of-conduct.rst
- create mode 100644 docs/devel/conflict-resolution.rst
+Cheers,
+--
+Luís
 
-diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.rst
-new file mode 100644
-index 0000000000..050dbd9e16
---- /dev/null
-+++ b/docs/devel/code-of-conduct.rst
-@@ -0,0 +1,85 @@
-+Code of Conduct
-+===============
-+
-+Like the technical community as a whole, the QEMU community is made up of a
-+mixture of professionals and volunteers from all over the world.
-+Diversity is one of our huge strengths, but it can also lead to communication
-+issues and unhappiness. To that end, we have a few ground rules that we ask
-+people to adhere to. This code applies equally to founders, maintainers,
-+contributors, mentors and those seeking help and guidance.
-+
-+This isn't an exhaustive list of things that you can't do. Rather, take it in
-+the spirit in which it's intended - a guide to make it easier to enrich all of
-+us and the technical communities in which we participate:
-+
-+* Be friendly and patient.
-+
-+* Be welcoming. We strive to be a community that welcomes and supports people
-+  of all backgrounds and identities. This includes, but is not limited to
-+  members of any race, ethnicity, culture, national origin, colour, immigration
-+  status, social and economic class, educational level, sex, sexual orientation,
-+  gender identity and expression, age, size, family status, political belief,
-+  religion, and mental and physical ability.
-+
-+* Be considerate. Your work will be used by other people, and you in turn will
-+  depend on the work of others. Any decision you take will affect users and
-+  colleagues, and you should take those consequences into account when making
-+  decisions. Remember that we're a world-wide community, so you might not be
-+  communicating in someone else's primary language.
-+
-+* Be respectful. Not all of us will agree all the time, but disagreement is no
-+  excuse for poor behavior and poor manners. We might all experience some
-+  frustration now and then, but we cannot allow that frustration to turn into
-+  a personal attack. It's important to remember that a community where people
-+  feel uncomfortable or threatened is not a productive one. Members of the QEMU
-+  community should be respectful when dealing with other members as well as
-+  with people outside the QEMU community.
-+
-+* Be careful in the words that you choose. We are a community of professionals,
-+  and we conduct ourselves professionally. Be kind to others. Do not insult or
-+  put down other participants. Harassment and other exclusionary behavior
-+  aren't acceptable. This includes, but is not limited to:
-+
-+  * Violent threats or language directed against another person.
-+
-+  * Discriminatory jokes and language.
-+
-+  * Posting sexually explicit or violent material.
-+
-+  * Posting (or threatening to post) other people's personally identifying
-+    information ("doxing").
-+
-+  * Personal insults, especially those using racist or sexist terms.
-+
-+  * Unwelcome sexual attention.
-+
-+  * Advocating for, or encouraging, any of the above behavior.
-+
-+  * Repeated harassment of others. In general, if someone asks you to stop,
-+    then stop.
-+
-+* When we disagree, try to understand why. Disagreements, both social and
-+  technical, happen all the time and our project is no exception. It is
-+  important that we resolve disagreements and differing views constructively.
-+  Remember that we're different. The strength of our project comes from its
-+  varied community, people from a wide range of backgrounds. Different people
-+  have different perspectives on issues. Being unable to understand why someone
-+  holds a viewpoint doesn't mean that they're wrong. Don't forget that it is
-+  human to err and blaming each other doesn't get us anywhere. Instead, focus
-+  on helping to resolve issues and learning from mistakes.
-+
-+This code of conduct applies to all spaces managed by the QEMU project. This
-+includes IRC, the mailing lists, the issue tracker, community events, and any
-+other forums created by the project team which the community uses for
-+communication. In addition, violations of this code outside these spaces may
-+affect a person's ability to participate within them.
-+
-+If you believe someone is violating the code of conduct, please read the
-+:ref:`conflict-resolution` document for information about how to proceed.
-+
-+This document is based on the `Django Code of Conduct
-+<https://www.djangoproject.com/conduct/>`__, with original text courtesy of the
-+`Speak Up! project
-+<http://web.archive.org/web/20141109123859/http://speakup.io/coc.html>`__
-+(`CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>`__).
-+
-diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-resolution.rst
-new file mode 100644
-index 0000000000..3f2a1744fd
---- /dev/null
-+++ b/docs/devel/conflict-resolution.rst
-@@ -0,0 +1,78 @@
-+.. _conflict-resolution:
-+
-+Conflict Resolution Policy
-+==========================
-+
-+Conflicts in the community can take many forms, from someone having a
-+bad day and using harsh and hurtful language on the mailing list to more
-+serious code of conduct violations (including sexist/racist statements
-+or threats of violence), and everything in between.
-+
-+For the vast majority of issues, we aim to empower individuals to first
-+resolve conflicts themselves, asking for help when needed, and only
-+after that fails to escalate further. This approach gives people more
-+control over the outcome of their dispute.
-+
-+How we resolve conflicts
-+------------------------
-+
-+If you are experiencing conflict, please consider first addressing the
-+perceived conflict directly with other involved parties, preferably through
-+a real-time medium such as IRC. You could also try to get a third-party (e.g.
-+a mutual friend, and/or someone with background on the issue, but not
-+involved in the conflict) to intercede or mediate.
-+
-+If this fails or if you do not feel comfortable proceeding this way, or
-+if the problem requires immediate escalation, report the issue to the QEMU
-+leadership committee by sending an email to qemu@sfconservancy.org, providing
-+references to the misconduct.
-+For very urgent topics, you can also inform one or more members through IRC.
-+The up-to-date list of members is `available on the QEMU wiki
-+<https://wiki.qemu.org/Conservancy>`__.
-+
-+Your report will be treated confidentially by the leadership committee and
-+not be published without your agreement. The QEMU leadership committee will
-+then do its best to review the incident timely, and will either seek further
-+information, or will make a determination on next steps.
-+
-+Remedies
-+--------
-+
-+Escalating an issue to the QEMU leadership committee may result in actions
-+impacting one or more involved parties. In the event the leadership
-+committee has to intervene, here are some of the ways they might respond:
-+
-+1. Take no action. For example, if the leadership committee determines
-+   the complaint has not been substantiated or is being made in bad faith,
-+   or if it is deemed to be outside its purview.
-+
-+2. A private reprimand, explaining the consequences of continued behavior,
-+   to one or more involved individuals.
-+
-+3. A private reprimand and request for a private or public apology
-+
-+4. A public reprimand and request for a public apology
-+
-+5. A public reprimand plus a mandatory cooling off period. The cooling
-+   off period may require, for example, one or more of the following:
-+   abstaining from maintainer duties; not interacting with people involved,
-+   including unsolicited interaction with those enforcing the guidelines
-+   and interaction on social media; being denied participation to in-person
-+   events.  The cooling off period is voluntary but may escalate to a
-+   temporary ban in order to enforce it.
-+
-+6. A permanent or temporary ban from some or all current and future QEMU
-+   spaces (mailing lists, IRC, wiki, etc.).
-+
-+In the event of severe harassment, the leadership comittee may advise that
-+the matter be escalated to the relevant local law enforcement agency. It
-+is however not the role of the leadership comittee to initiate contact
-+with law enforcement on behalf of any of the community members involved
-+in an incident.
-+
-+Sources
-+-------
-+
-+* `Drupal Conflict Resolution Policy and Process <https://www.drupal.org/conflict-resolution>`__
-+
-+* `Mozilla Consequence Ladder <https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md>`__
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 7c424ea6d7..416261505f 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -14,6 +14,8 @@ Contents:
-    :maxdepth: 2
-    :includehidden:
- 
-+   code-of-conduct
-+   conflict-resolution
-    build-system
-    style
-    kconfig
--- 
-2.27.0
-
+> 
+> Vivek
+> 
+> ---
+>  tools/virtiofsd/passthrough_ll.c |   14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-03-29 14:59:28.483340964 -0400
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-03-29 15:42:21.797482846 -0400
+> @@ -712,10 +712,18 @@ static void lo_init(void *userdata, stru
+>      if (lo->user_posix_acl == 1) {
+>          /*
+>           * User explicitly asked for this option. Enable it unconditionally.
+> -         * If connection does not have this capability, it should fail
+> -         * in fuse_lowlevel.c
+> +         * If connection does not have this capability, give out message
+> +         * now. fuse_lowlevel.c will error out.
+>           */
+> -        fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
+> +        if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
+> +            !(conn->capable & FUSE_CAP_DONT_MASK) ||
+> +            !(conn->capable & FUSE_CAP_SETXATTR_V2)) {
+> +            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
+> +                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
+> +                     " or FUSE_SETXATTR_V2 capability.\n");
+> +        } else {
+> +            fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
+> +        }
+>          conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
+>                        FUSE_CAP_SETXATTR_V2;
+>          lo->change_umask = true;
+> 
+> 
 
