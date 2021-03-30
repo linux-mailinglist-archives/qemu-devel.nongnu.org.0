@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A50F34EA12
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:14:45 +0200 (CEST)
-Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1006D34EA22
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:17:59 +0200 (CEST)
+Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRF8m-0000UP-Dp
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
+	id 1lRFBu-0004LT-2d
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRF47-0002wO-3b
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46847)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF4C-00031t-0A
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:10:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRF3z-000585-7K
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:54 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF44-00059B-L8
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617113386;
+ s=mimecast20190719; t=1617113390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sR2PucaV/L9kjDh8x9BGCLhvc4nO1JnnuZSY34xZChw=;
- b=JQo0o575GgPdWScDja6nmUtODe8/1p6A7V9qZaepQc4Y+2mtpk8Y0QxUg/y2B8hIuxeOEb
- UMM3lHXi1sdxcAzYRqF7Ao5IL8omxDJ8qcGPry39XFDkvKiKRD3leNAxXx0meEd6sg+qx3
- DAgBSYw92v/HVXvSwgYCr41iVckRSCE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0/sjZtxUzqtj4xdFj5spfN0WmiSX0yBOdYBBO+ul87A=;
+ b=hgP03FZRw0PNIkroTORPVnhTBIfYLg5i09iBbjfHbdfe5Y4IVoNOpd+yW+T+QRndAjxzE7
+ PBU1jZuN6UBhZGD/roZ6YeNEE9MEF4gKOBr87tPIVZBqJ6G2MaUGfDKw6Xkoij19K3RQqd
+ Qv9331B21HVJfcTzPd6rF3QXXI2y8KU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-8ZXOYVFpM0qyuOVcoMjVvA-1; Tue, 30 Mar 2021 10:09:41 -0400
-X-MC-Unique: 8ZXOYVFpM0qyuOVcoMjVvA-1
+ us-mta-470-u5GcLVPnM3aV67q-dUGCUA-1; Tue, 30 Mar 2021 10:09:46 -0400
+X-MC-Unique: u5GcLVPnM3aV67q-dUGCUA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 472D283DD27;
- Tue, 30 Mar 2021 14:09:40 +0000 (UTC)
-Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE5A75D761;
- Tue, 30 Mar 2021 14:09:21 +0000 (UTC)
-Date: Tue, 30 Mar 2021 15:09:15 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: Serious doubts about Gitlab CI
-Message-ID: <YGMxC8tJnKm/J2Nu@stefanha-x1.localdomain>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
- <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
- <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
- <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
- <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
- <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
- <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
- <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
- <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
- <YGMJSoIGa5VoVDB1@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 850FD612AF;
+ Tue, 30 Mar 2021 14:09:44 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-118.rdu2.redhat.com [10.10.116.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8186D62A24;
+ Tue, 30 Mar 2021 14:09:35 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 1E47B220BCF; Tue, 30 Mar 2021 10:09:34 -0400 (EDT)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH v6 0/5] virtiofsd: Add support to enable/disable posix acl
+Date: Tue, 30 Mar 2021 10:09:20 -0400
+Message-Id: <20210330140925.730449-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YGMJSoIGa5VoVDB1@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KAwCu6TwApouZcZU"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,111 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Andrew Jones <drjones@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: lhenriques@suse.de, dgilbert@redhat.com, vgoyal@redhat.com,
+ miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---KAwCu6TwApouZcZU
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, Mar 30, 2021 at 12:19:38PM +0100, Daniel P. Berrang=E9 wrote:
-> On Mon, Mar 29, 2021 at 03:10:36PM +0100, Stefan Hajnoczi wrote:
-> > Hi,
-> > I wanted to follow up with a summary of the CI jobs:
-> >=20
-> > 1. Containers & Containers Layer2 - ~3 minutes/job x 39 jobs
-> > 2. Builds - ~50 minutes/job x 61 jobs
-> > 3. Tests - ~12 minutes/job x 20 jobs
-> > 4. Deploy - 52 minutes x 1 job
-> >=20
-> > The Builds phase consumes the most CI minutes. If we can optimize this
-> > phase then we'll achieve the biggest impact.
-> >=20
-> > In the short term builds could be disabled. However, in the long term I
-> > think full build coverage is desirable to prevent merging code that
-> > breaks certain host OSes/architectures (e.g. stable Linux distros,
-> > macOS, etc).
->=20
-> The notion of "full build coverage" doesn't really exist in reality.
-> The number of platforms that QEMU is targetting, combined with the
-> number of features that can be turned on/off in QEMU configure
-> means that the matrix for "full build coverage" is too huge to ever
-> contemplate.
+This is V6 of the patches.
 
-Good point. We will never cover the full build matrix. I do think that
-it's important to cover real-world builds, especially ones that tend to
-expose issues (e.g. macOS, Windows, stable Linux distros, etc).
+Changes since V5:
 
-> I think a challenges we have with our incremental approach is that
-> we're not really taking into account relative importance of the
-> different build scenarios, and often don't look at the big picture
-> of what the new job adds in terms of quality, compared to existing
-> jobs.
->=20
-> eg Consider we have
->=20
->   build-system-alpine:
->   build-system-ubuntu:
->   build-system-debian:
->   build-system-fedora:
->   build-system-centos:
->   build-system-opensuse:
->=20
->   build-trace-multi-user:
->   build-trace-ftrace-system:
->   build-trace-ust-system:
->=20
-> I'd question whether we really need any of those 'build-trace'
-> jobs. Instead, we could have build-system-ubuntu pass
-> --enable-trace-backends=3Dlog,simple,syslog, build-system-debian
-> pass --enable-trace-backends=3Dust and build-system-fedora
-> pass --enable-trace-backends=3Dftrace, etc.=20
+- If user asked to enable posix acl and if it can't be enabled, give a
+  clear message before failure. (Luis).
+- Took care of some coding style issues.
 
-Yes, I agree. The trace builds could be collapsed into various other
-builds.
+Corresponding kernel patches are posted here.
 
-> > Traditionally ccache (https://ccache.dev/) was used to detect
-> > recompilation of the same compiler input files. This is trickier to do
-> > in GitLab CI since it would be necessary to share and update a cache,
-> > potentially between untrusted users. Unfortunately this shifts the
-> > bottleneck from CPU to network in a CI-as-a-Service environment since
-> > the cached build output needs to be accessed by the linker on the CI
-> > runner but is stored remotely.
->=20
-> Our docker containers install ccache already and I could have sworn
-> that we use that in gitlab, but now I'm not so sure. We're only
-> saving the "build/" directory as an artifact between jobs, and I'm
-> not sure that directory holds the ccache cache.
+https://lore.kernel.org/linux-fsdevel/20210325151823.572089-1-vgoyal@redhat.com/
 
-It seems we're not benefitting much from ccache at the moment since the
-build takes 50 minutes. Maybe this is a good area to investigate further
-and find out what can be improved.
+Thanks
+Vivek
 
-Stefan
+Vivek Goyal (5):
+  virtiofsd: Add umask to seccom allow list
+  virtiofsd: Add capability to change/restore umask
+  virtiofsd: Add an option to enable/disable posix acls
+  virtiofsd: Add support for setxattr_v2
+  virtiofsd: Switch creds, drop FSETID for system.posix_acl_access xattr
 
---KAwCu6TwApouZcZU
-Content-Type: application/pgp-signature; name="signature.asc"
+ docs/tools/virtiofsd.rst              |   3 +
+ include/standard-headers/linux/fuse.h |  19 ++-
+ tools/virtiofsd/fuse_common.h         |   6 +
+ tools/virtiofsd/fuse_lowlevel.c       |  42 +++++-
+ tools/virtiofsd/fuse_lowlevel.h       |   3 +-
+ tools/virtiofsd/helper.c              |   1 +
+ tools/virtiofsd/passthrough_ll.c      | 177 ++++++++++++++++++++++++--
+ tools/virtiofsd/passthrough_seccomp.c |   1 +
+ 8 files changed, 241 insertions(+), 11 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBjMQsACgkQnKSrs4Gr
-c8hQ3AgAwHze2S4K3QTWciivZ+LsamFNHl4Ztna9uKo8zja+WbPMrKmHtTUDM+nY
-/dTksXGKgSQ0wGZqvJUINv2PXMWSQ6cUPHIZn1VrS87ogjL7AfV8MpFPI/7ndZSU
-sMBcjZmXRLBrNKAyFg37IeFYESdnXi8VMxUO39x/OnGWtN98i0v5he88Tv+vjbim
-mEnhbz3s6ZTKLISHGVEAQRuZK70cuK99kNurHxyucYeKHxFmysjiZDR1B5v/KKe0
-tph8iynuZX6iBnl0ATXGSo1Tf3wwvFkN2tosw2F1iU1l7Na2dAr7mpmt3XmB/Ob+
-Pri0nRRDwdMmoFot599lrkyvcVxOPA==
-=vdrS
------END PGP SIGNATURE-----
-
---KAwCu6TwApouZcZU--
+-- 
+2.25.4
 
 
