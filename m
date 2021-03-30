@@ -2,47 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AFC34E57F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 12:32:50 +0200 (CEST)
-Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B8934E58E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 12:37:06 +0200 (CEST)
+Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRBg1-0004m9-6N
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 06:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
+	id 1lRBk9-0006WW-Go
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 06:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lRBdl-0003re-9U
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 06:30:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55314)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRBj2-00065w-I5
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 06:35:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lRBdf-00049p-11
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 06:30:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F15E76195C;
- Tue, 30 Mar 2021 10:30:17 +0000 (UTC)
-Date: Tue, 30 Mar 2021 11:30:15 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
-Message-ID: <20210330103013.GD18075@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
- <20210312151902.17853-3-steven.price@arm.com>
- <20210327152324.GA28167@arm.com> <20210328122131.GB17535@arm.com>
- <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRBix-0007Gq-Vu
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 06:35:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617100550;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=7NiLNLmCPmakhFQtO+N7GnlTCalkZohMXJVRHbqTEUA=;
+ b=CG2mu+zfX1lp6zcdy0AJQI79bu9XRoEwzO1HZ4xrUJcrcGe5i4x7ufU9vBmcFiMe6ZxA91
+ +qW2utNeuuXftAWmmO5cknmEQs2FRNYxpitS+r3m9ZRjSekp+6AH2MHp29clQenU5YNitY
+ Hh+Nb63LBD9j8WtDfEWR0DA+owoeL6M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-TDNFR3P9PoKRJZQoR9sZDw-1; Tue, 30 Mar 2021 06:35:45 -0400
+X-MC-Unique: TDNFR3P9PoKRJZQoR9sZDw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D636108BD12;
+ Tue, 30 Mar 2021 10:35:44 +0000 (UTC)
+Received: from redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6259E679EE;
+ Tue, 30 Mar 2021 10:35:41 +0000 (UTC)
+Date: Tue, 30 Mar 2021 11:35:39 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Vincent Bernat <vincent@bernat.ch>
+Subject: Re: [RFC v1] hw/smbios: support for type 41 (onboard devices
+ extended information)
+Message-ID: <YGL++3NLdBeN7j4f@redhat.com>
+References: <20210328205726.1330291-1-vincent@bernat.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20210328205726.1330291-1-vincent@bernat.ch>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,105 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 05:06:51PM +0100, Steven Price wrote:
-> On 28/03/2021 13:21, Catalin Marinas wrote:
-> > On Sat, Mar 27, 2021 at 03:23:24PM +0000, Catalin Marinas wrote:
-> > > On Fri, Mar 12, 2021 at 03:18:58PM +0000, Steven Price wrote:
-> > > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > > > index 77cb2d28f2a4..b31b7a821f90 100644
-> > > > --- a/arch/arm64/kvm/mmu.c
-> > > > +++ b/arch/arm64/kvm/mmu.c
-> > > > @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-> > > >   	if (vma_pagesize == PAGE_SIZE && !force_pte)
-> > > >   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
-> > > >   							   &pfn, &fault_ipa);
-> > > > +
-> > > > +	if (fault_status != FSC_PERM && kvm_has_mte(kvm) && pfn_valid(pfn)) {
-> > > > +		/*
-> > > > +		 * VM will be able to see the page's tags, so we must ensure
-> > > > +		 * they have been initialised. if PG_mte_tagged is set, tags
-> > > > +		 * have already been initialised.
-> > > > +		 */
-> > > > +		struct page *page = pfn_to_page(pfn);
-> > > > +		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
-> > > > +
-> > > > +		for (i = 0; i < nr_pages; i++, page++) {
-> > > > +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> > > > +				mte_clear_page_tags(page_address(page));
-> > > > +		}
-> > > > +	}
-> > > 
-> > > This pfn_valid() check may be problematic. Following commit eeb0753ba27b
-> > > ("arm64/mm: Fix pfn_valid() for ZONE_DEVICE based memory"), it returns
-> > > true for ZONE_DEVICE memory but such memory is allowed not to support
-> > > MTE.
-> > 
-> > Some more thinking, this should be safe as any ZONE_DEVICE would be
-> > mapped as untagged memory in the kernel linear map. It could be slightly
-> > inefficient if it unnecessarily tries to clear tags in ZONE_DEVICE,
-> > untagged memory. Another overhead is pfn_valid() which will likely end
-> > up calling memblock_is_map_memory().
-> > 
-> > However, the bigger issue is that Stage 2 cannot disable tagging for
-> > Stage 1 unless the memory is Non-cacheable or Device at S2. Is there a
-> > way to detect what gets mapped in the guest as Normal Cacheable memory
-> > and make sure it's only early memory or hotplug but no ZONE_DEVICE (or
-> > something else like on-chip memory)?  If we can't guarantee that all
-> > Cacheable memory given to a guest supports tags, we should disable the
-> > feature altogether.
+On Sun, Mar 28, 2021 at 10:57:26PM +0200, Vincent Bernat wrote:
+> Type 41 defines the attributes of devices that are onboard. The
+> original intent was to imply the BIOS had some level of control over
+> the enablement of the associated devices.
 > 
-> In stage 2 I believe we only have two types of mapping - 'normal' or
-> DEVICE_nGnRE (see stage2_map_set_prot_attr()). Filtering out the latter is a
-> case of checking the 'device' variable, and makes sense to avoid the
-> overhead you describe.
+> If network devices are present in this table, by default, udev will
+> name the corresponding interfaces enoX, X being the instance number.
+> Without such information, udev will fallback to using the PCI ID and
+> this usually gives ens3 or ens4. This can be a bit annoying as the
+> name of the network card may depend on the order of options and may
+> change if a new PCI device is added earlier on the commande line.
+> Being able to provide SMBIOS type 41 entry ensure the name of the
+> interface won't change and helps the user guess the right name without
+> booting a first time.
 > 
-> This should also guarantee that all stage-2 cacheable memory supports tags,
-> as kvm_is_device_pfn() is simply !pfn_valid(), and pfn_valid() should only
-> be true for memory that Linux considers "normal".
-
-That's the problem. With Anshuman's commit I mentioned above,
-pfn_valid() returns true for ZONE_DEVICE mappings (e.g. persistent
-memory, not talking about some I/O mapping that requires Device_nGnRE).
-So kvm_is_device_pfn() is false for such memory and it may be mapped as
-Normal but it is not guaranteed to support tagging.
-
-For user MTE, we get away with this as the MAP_ANONYMOUS requirement
-would filter it out while arch_add_memory() will ensure it's mapped as
-untagged in the linear map. See another recent fix for hotplugged
-memory: d15dfd31384b ("arm64: mte: Map hotplugged memory as Normal
-Tagged"). We needed to ensure that ZONE_DEVICE doesn't end up as tagged,
-only hoplugged memory. Both handled via arch_add_memory() in the arch
-code with ZONE_DEVICE starting at devm_memremap_pages().
-
-> > > I now wonder if we can get a MAP_ANONYMOUS mapping of ZONE_DEVICE pfn
-> > > even without virtualisation.
-> > 
-> > I haven't checked all the code paths but I don't think we can get a
-> > MAP_ANONYMOUS mapping of ZONE_DEVICE memory as we normally need a file
-> > descriptor.
+> This can be invoked with:
 > 
-> I certainly hope this is the case - it's the weird corner cases of device
-> drivers that worry me. E.g. I know i915 has a "hidden" mmap behind an ioctl
-> (see i915_gem_mmap_ioctl(), although this case is fine - it's MAP_SHARED).
-> Mali's kbase did something similar in the past.
+>     $QEMU -netdev user,id=internet
+>           -device virtio-net-pci,mac=50:54:00:00:00:42,netdev=internet \
+>           -smbios type=41,designation=Onboard LAN,instance=1,kind=ethernet,pci=0000:00:09.0
+> 
+> Which results in the guest seeing dmidecode data and the interface
+> exposed as "eno1":
+> 
+>     $ dmidecode -t 41
+>     # dmidecode 3.3
+>     Getting SMBIOS data from sysfs.
+>     SMBIOS 2.8 present.Handle 0x2900, DMI type 41, 11 bytes
+>     Onboard Device
+>             Reference Designation: Onboard LAN
+>             Type: Ethernet
+>             Status: Enabled
+>             Type Instance: 1
+>             Bus Address: 0000:00:09.0
+>     $ udevadm info -p /sys/class/net/eno1 | grep ONBOARD
+>     E: ID_NET_NAME_ONBOARD=eno1
+>     E: ID_NET_LABEL_ONBOARD=Onboard LAN
+> 
+> The original plan was to directly provide a device and populate "kind"
+> and "pci" from the device. However, since the SMIBIOS tables are built
+> during argument evaluation, the information is not yet available.
+> I would welcome some guidance on how to implement this.
 
-I think this should be fine since it's not a MAP_ANONYMOUS (we do allow
-MAP_SHARED to be tagged).
+I'm not sure I see the problem you're describing here, could
+you elaborate ?
 
+I see SMBIOS tables are built by  smbios_get_tables() method.
+This is called from qemu_init(), after all arguents have been
+processed and devices have been created.
+
+It seems like this should allow SMBIOS tables to be auto-populated
+from the NICs listed in -device args previously.
+
+
+Note, if we're going to auto-populate the SMBIOS type 41 tabes
+from -device args, then we'll need to make this behaviour
+configurable via a property, so that we can ensure this only
+applies to new machine types.
+
+Regards,
+Daniel
 -- 
-Catalin
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
