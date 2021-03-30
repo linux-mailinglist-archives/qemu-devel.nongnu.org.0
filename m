@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6EA34EA3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:22:42 +0200 (CEST)
-Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A0734EA2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:21:07 +0200 (CEST)
+Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFGU-0000kQ-2K
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
+	id 1lRFEw-0006zb-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF4D-00034a-1w
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:10:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32622)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lRF8C-000100-Ek
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:14:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF3x-00056T-2k
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:10:00 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lRF8A-0007cw-QL
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:14:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617113384;
+ s=mimecast20190719; t=1617113645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rtS/g0OGOClDMjnADvuymU2io8u8AE6nWPE506Ug4tA=;
- b=XjBYjFFK2LLDDBgKi0PjK7ZfQNH6zVxd7F0t7KBUVhQHcwx+NeKl/1RNXLmcyvv1p1IdkP
- sPRX6KFSneMVZjGe/mAZvY9f8MLiWV7jor9YIEwMPN5CD5wge+NlfeifL+YxLC/h8LimLk
- CTiqwv6GpUjM9hLTpaYEDenbvxaqxk0=
+ bh=4FyFJ2vWfmQ/+UTkXjTUM/thmbaTnXHRGcmHheChgDU=;
+ b=HnYlGL87r6zCe1oriDB1LkxZR2kbaK7ma0a0cj0OJB77gRjYPG5o5HlO+Mg2f39MosT0oE
+ iEO3zYJzTqZ5ZdBrpnaxB3GYr3plkOptdgIzr0F2tC+W4mqF4qKyDzjuSjq44N+pGLFfi6
+ NrnLA+3hylGq475KKdaXfUODAc8lJAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-3E4893LePjCqhMioXZXDOw-1; Tue, 30 Mar 2021 10:09:42 -0400
-X-MC-Unique: 3E4893LePjCqhMioXZXDOw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-40-Ezl-OtKUPhKntCCMi60Nog-1; Tue, 30 Mar 2021 10:14:01 -0400
+X-MC-Unique: Ezl-OtKUPhKntCCMi60Nog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9E011B18BC3;
- Tue, 30 Mar 2021 14:09:39 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-118.rdu2.redhat.com [10.10.116.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79D645D9CC;
- Tue, 30 Mar 2021 14:09:36 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 371FC225FCF; Tue, 30 Mar 2021 10:09:34 -0400 (EDT)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH v6 5/5] virtiofsd: Switch creds,
- drop FSETID for system.posix_acl_access xattr
-Date: Tue, 30 Mar 2021 10:09:25 -0400
-Message-Id: <20210330140925.730449-6-vgoyal@redhat.com>
-In-Reply-To: <20210330140925.730449-1-vgoyal@redhat.com>
-References: <20210330140925.730449-1-vgoyal@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AC691083E82;
+ Tue, 30 Mar 2021 14:14:00 +0000 (UTC)
+Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5A377217B;
+ Tue, 30 Mar 2021 14:13:56 +0000 (UTC)
+Date: Tue, 30 Mar 2021 15:13:55 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: Serious doubts about Gitlab CI
+Message-ID: <YGMyIxXn6QgBJNqJ@stefanha-x1.localdomain>
+References: <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
+ <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
+ <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
+ <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
+ <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
+ <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
+ <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
+ <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
+ <YGMJSoIGa5VoVDB1@redhat.com>
+ <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PFVBJm/WuuJYtRqW"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,161 +87,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lhenriques@suse.de, dgilbert@redhat.com, vgoyal@redhat.com,
- miklos@szeredi.hu
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When posix access acls are set on a file, it can lead to adjusting file
-permissions (mode) as well. If caller does not have CAP_FSETID and it
-also does not have membership of owner group, this will lead to clearing
-SGID bit in mode.
+--PFVBJm/WuuJYtRqW
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Current fuse code is written in such a way that it expects file server
-to take care of chaning file mode (permission), if there is a need.
-Right now, host kernel does not clear SGID bit because virtiofsd is
-running as root and has CAP_FSETID. For host kernel to clear SGID,
-virtiofsd need to switch to gid of caller in guest and also drop
-CAP_FSETID (if caller did not have it to begin with).
+On Tue, Mar 30, 2021 at 01:55:48PM +0200, Thomas Huth wrote:
+> On 30/03/2021 13.19, Daniel P. Berrang=E9 wrote:
+> > On Mon, Mar 29, 2021 at 03:10:36PM +0100, Stefan Hajnoczi wrote:
+> > > Hi,
+> > > I wanted to follow up with a summary of the CI jobs:
+> > >=20
+> > > 1. Containers & Containers Layer2 - ~3 minutes/job x 39 jobs
+> > > 2. Builds - ~50 minutes/job x 61 jobs
+> > > 3. Tests - ~12 minutes/job x 20 jobs
+> > > 4. Deploy - 52 minutes x 1 job
+>=20
+> I hope that 52 was just a typo ... ?
 
-If SGID needs to be cleared, client will set the flag
-FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
-should kill sgid.
+No, but I think Dan already found this issue a little while ago. The
+deploy job uses "make install":
 
-Currently just switch to uid/gid of the caller and drop CAP_FSETID
-and that should do it.
+  # Prepare for GitLab pages deployment. Anything copied into the
+  # "public" directory will be deployed to $USER.gitlab.io/$PROJECT
+  pages:
+    image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+    stage: test
+    needs:
+      - job: build-tools-and-docs-debian
+    script:
+      - mkdir -p public
+      # HTML-ised source tree
+      - make gtags
+      - htags -anT --tree-view=3Dfiletree -m qemu_init
+          -t "Welcome to the QEMU sourcecode"
+      - mv HTML public/src
+      # Project documentation
+      - make -C build install DESTDIR=3D$(pwd)/temp-install
+      - mv temp-install/usr/local/share/doc/qemu/* public/
+    artifacts:
+      paths:
+        - public
 
-This should fix the xfstest generic/375 test case.
+Do we have/need a docs-only install target?
 
-We don't have to switch uid for this to work. That could be one optimization
-that pass a parameter to lo_change_cred() to only switch gid and not uid.
+Stefan
 
-Also this will not work whenever (if ever) we support idmapped mounts. In
-that case it is possible that uid/gid in request are 0/0 but still we
-need to clear SGID. So we will have to pick a non-root sgid and switch
-to that instead. That's an TODO item for future when idmapped mount
-support is introduced.
+--PFVBJm/WuuJYtRqW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Reported-by: Luis Henriques <lhenriques@suse.de>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- include/standard-headers/linux/fuse.h |  7 ++++
- tools/virtiofsd/passthrough_ll.c      | 50 ++++++++++++++++++++++++---
- 2 files changed, 52 insertions(+), 5 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-index cc87ff27d0..4eb79399d4 100644
---- a/include/standard-headers/linux/fuse.h
-+++ b/include/standard-headers/linux/fuse.h
-@@ -180,6 +180,7 @@
-  *  - add FUSE_HANDLE_KILLPRIV_V2, FUSE_WRITE_KILL_SUIDGID, FATTR_KILL_SUIDGID
-  *  - add FUSE_OPEN_KILL_SUIDGID
-  *  - add FUSE_SETXATTR_V2
-+ *  - add FUSE_SETXATTR_ACL_KILL_SGID
-  */
- 
- #ifndef _LINUX_FUSE_H
-@@ -450,6 +451,12 @@ struct fuse_file_lock {
-  */
- #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
- 
-+/**
-+ * setxattr flags
-+ * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
-+ */
-+#define FUSE_SETXATTR_ACL_KILL_SGID    (1 << 0)
-+
- enum fuse_opcode {
- 	FUSE_LOOKUP		= 1,
- 	FUSE_FORGET		= 2,  /* no reply */
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index c5a589441d..a968dc4e61 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -175,7 +175,7 @@ struct lo_data {
-     int user_killpriv_v2, killpriv_v2;
-     /* If set, virtiofsd is responsible for setting umask during creation */
-     bool change_umask;
--    int user_posix_acl;
-+    int user_posix_acl, posix_acl;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -716,16 +716,19 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-          * now. It will fail later in fuse_lowlevel.c
-          */
-         if (!(conn->capable & FUSE_CAP_POSIX_ACL) ||
--            !(conn->capable & FUSE_CAP_DONT_MASK)) {
-+            !(conn->capable & FUSE_CAP_DONT_MASK) ||
-+            !(conn->capable & FUSE_CAP_SETXATTR_V2)) {
-             fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable posix acl."
--                     " kernel does not support FUSE_POSIX_ACL or FUSE_DONT_MASK"
--                     " capability.\n");
-+                     " kernel does not support FUSE_POSIX_ACL, FUSE_DONT_MASK"
-+                     " or FUSE_SETXATTR_V2 capability.\n");
-         } else {
-             fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-         }
- 
--        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
-+        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK |
-+                      FUSE_CAP_SETXATTR_V2;
-         lo->change_umask = true;
-+        lo->posix_acl = true;
-     } else {
-         /* User either did not specify anything or wants it disabled */
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-@@ -3100,12 +3103,49 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
- 
-     sprintf(procname, "%i", inode->fd);
-     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
-+        bool switched_creds = false;
-+        struct lo_cred old = {};
-+
-         fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-         if (fd < 0) {
-             saverr = errno;
-             goto out;
-         }
-+
-+        /*
-+         * If we are setting posix access acl and if SGID needs to be
-+         * cleared, then switch to caller's gid and drop CAP_FSETID
-+         * and that should make sure host kernel clears SGID.
-+         *
-+         * This probably will not work when we support idmapped mounts.
-+         * In that case we will need to find a non-root gid and switch
-+         * to it. (Instead of gid in request). Fix it when we support
-+         * idmapped mounts.
-+         */
-+        if (lo->posix_acl && !strcmp(name, "system.posix_acl_access")
-+            && (extra_flags & FUSE_SETXATTR_ACL_KILL_SGID)) {
-+            ret = lo_change_cred(req, &old, false);
-+            if (ret) {
-+                saverr = ret;
-+                goto out;
-+            }
-+            ret = drop_effective_cap("FSETID", NULL);
-+            if (ret != 0) {
-+                lo_restore_cred(&old, false);
-+                saverr = ret;
-+                goto out;
-+            }
-+            switched_creds = true;
-+        }
-+
-         ret = fsetxattr(fd, name, value, size, flags);
-+
-+        if (switched_creds) {
-+            if (gain_effective_cap("FSETID")) {
-+                fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
-+            }
-+            lo_restore_cred(&old, false);
-+        }
-     } else {
-         /* fchdir should not fail here */
-         assert(fchdir(lo->proc_self_fd) == 0);
--- 
-2.25.4
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBjMiMACgkQnKSrs4Gr
+c8hq2gf+IkokRUZu6DttvPD6Z+qD8fdWdTIx+hEIgbIHlgMJH2kqTZL/WayhFTz1
+ypHftUi6tWh555DscC/jEaKHLwlOr322CasxUItI6ThN79/trIdMXyA54GHQqL4T
+PcZuYCu5a2PZwObwF1gfJ1cnVUttYjvNXzu9Mi8Sz7mIyaI/q8ocdhRJnyLOy6q/
+JMPxJpfFoeQM+45ikekC2SqdIbGoWQoBAMpTn31O3UQ+IQzCk6f7H6pHBlVL/9S3
+KxQYP9/fAN2p6sugQQ4aI0fRhGWhb6CT5TD8dJ4r3eb4bZNqWUgKO6tbNgoUi2CL
+nK2ZDKkPjH+U6YG5n1BesNTuI8nLew==
+=f5Gy
+-----END PGP SIGNATURE-----
+
+--PFVBJm/WuuJYtRqW--
 
 
