@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E124534EB73
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 17:03:41 +0200 (CEST)
-Received: from localhost ([::1]:47256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24F734EC49
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 17:26:48 +0200 (CEST)
+Received: from localhost ([::1]:38434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFu8-0000SN-Dl
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 11:03:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46036)
+	id 1lRGGV-0002hB-OD
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 11:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lRFrr-00089c-G9
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:01:19 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36548)
+ id 1lRGEA-0000jw-VG
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:24:22 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lRFrp-0001Vm-PK
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:01:19 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- f2-20020a17090a4a82b02900c67bf8dc69so9609170pjh.1
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 08:01:17 -0700 (PDT)
+ id 1lRGE5-0008Qp-Sl
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:24:22 -0400
+Received: by mail-pf1-x433.google.com with SMTP id g15so12400502pfq.3
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 08:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HZqrdCMOynGpkAvSOv+CLSQJSgxk82kQF+nyVgm9fZE=;
- b=tI/yjuTlz7Ue3n0bDw7CL/2vo5HZNhKSIbV7fuN+vYAF7TRcbyRcs3SQM/ninMBYoq
- f3fkV4GN8XAPFAlt2HiDfaPodIr3FSs3H7PzeMa2zpNpetLcC1XEqiQmEkUvbQMUeEJy
- 02sd7LcKB6yavt78qq1TQBcoO0axXv06jtXgl/NS0rkd7YljwmWOtq8S9WG212Pm5c6n
- MM0w9ZCE8t2nzV1h417RUzOCM4de/aQ2Rnzf7wUC80kBm2fTpEe0r3EJ1Ikdq1iTNsQ7
- luwIbFf4TOCi45zkzEJd5FaeynKunLLDGkyPiQ+fPNV9rb7uwkdmGvJVpKs1aw6NjMgo
- xznw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=kKqKeJbVc+qM4PattL1DWYWfUBV3IFxCUlCgBl2m858=;
+ b=CCT2RKXiKx4nRpz/Y5NqDqUmC/ufngbnIyVZ8LJ+GbcjsNDyxDcTmSO/Veo1JF6jeC
+ 1/mVz1paYcWXHJqAoOVBwcjSk9F/MTh7Dng6IL1/x611vRLD+kx1sUeWn8r9WBT9Eu9U
+ mQK3RefR05JxdufLO6Kcjlvg45J6YkF8aZaV4SHlASXhT841xiUH/9LOGREYy0ctw2Nm
+ 5ALYp6V99/yQ1c+lT5Me9PIgiq7qpL0ytHsunACZJYyOhwJGFwFZ9ByLtbRP1+sViqIZ
+ 4e/PhokrjhdnOE4vpNkFgba9wtlnpKUq5111ORtrnvG7veBqQwmdztfLd0OOBe6r1Y+q
+ N4iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HZqrdCMOynGpkAvSOv+CLSQJSgxk82kQF+nyVgm9fZE=;
- b=UnvbwJE9l7mMN8XNR0YfV2PAkM50g2AbIDYui9pq7hIPyTpRb6nN7+bwlwad1IFdzK
- OSX6RQbkYYDJXvgiLWeMP/XmfzjoIqfQ9UbQqDUFLgjNUZGcNLOuOdPn5s/B6WcQV8bu
- Lk6eHl308SJHmeSlgzwRaJMUNlRuJvKajedhqnnsIiVqISbAXFeyLw10FBMMgqSAM0L+
- 1rSIqZWKyp+G0JQp4XWwq22DFE1nQIFEBPK5GS2Po5pH09CUkx/hsu7sTpVmwGiylnsa
- NiOACzCc3H0m6MAFks3LHe2gojb2uJ1temOjpmgXUGMEHzx4/gOAJEYlyHI2bCH79VtE
- 572A==
-X-Gm-Message-State: AOAM533TfWc6DGxh0/UvjBawon+PM5M8uFiPsTrfkKALltJkTK6m6mwq
- WWMt9vcOb/ooihrmGwX+VKSENJmOEirkYLLY
-X-Google-Smtp-Source: ABdhPJwa20iPZomUlTp713oKl7WI9972HDd7wFD6BO4i4cArVM3yG1IocdmJ6jQE/rq11eeu4HsbTA==
-X-Received: by 2002:a17:90a:f2d5:: with SMTP id
- gt21mr4914871pjb.197.1617116476221; 
- Tue, 30 Mar 2021 08:01:16 -0700 (PDT)
+ bh=kKqKeJbVc+qM4PattL1DWYWfUBV3IFxCUlCgBl2m858=;
+ b=d7LLtygAU4kQ9CK+JY7dMtauuKIEwC6sGEKhyww+c1sKa/RVTfj/IUl80eDb1svINb
+ h28WuxVWg7jMh0FFbojfzB3TwCENkhN9DerEnduROL+FQGsyeB21miUBoS9Dh6PevR6y
+ JSf4pLybHIcRy9KQkStJn5sCk7QtqstKvLn5uH4ndwi4iX84fyrULrLEARYk1VSUdlLi
+ FVvqMQERzlEgaQ7o6hAO/87zhGIcK5WkJjOLCYss9AXP+DfIGjIICYPGa6SP5e+65P4G
+ Is3ff35S/zBH/4S94zJewqYFsbCJ5BmRzmFhRNs6xoNY76XupRpCwUk7TmKCwSkqgP2N
+ S84g==
+X-Gm-Message-State: AOAM530hE1ZkmLtyN/zP2ESQR3OZtGnyzQ5a2oLe63VjFxKa1oUmOvsQ
+ /YuqFBX9UoTWXUETtg+5Ql38ayKHwlf+OrbM
+X-Google-Smtp-Source: ABdhPJyAkcEkK4INKIbKNXzWNZtBFNc2vVTwiZEf3jJozF4RqDjy2p/z6lpzbAIt/GVlcmZpZcQsVA==
+X-Received: by 2002:aa7:990d:0:b029:21d:7aef:c545 with SMTP id
+ z13-20020aa7990d0000b029021d7aefc545mr30141639pff.77.1617117856204; 
+ Tue, 30 Mar 2021 08:24:16 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id t67sm438776pfc.86.2021.03.30.08.01.15
+ by smtp.gmail.com with ESMTPSA id s1sm3040619pju.7.2021.03.30.08.24.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 08:01:15 -0700 (PDT)
-Subject: Re: [PATCH v5 02/10] target/ppc: Disconnect hflags from MSR
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210323184340.619757-1-richard.henderson@linaro.org>
- <20210323184340.619757-3-richard.henderson@linaro.org>
- <YFqBtsijRRcEBB/k@yekko.fritz.box> <20210329150522.1b00607d@bahia.lan>
- <d0221e19-6c8b-6cc3-c4aa-2d5fff4ecb8b@linaro.org>
- <YGKvDOCtfbj0avYF@yekko.fritz.box>
+ Tue, 30 Mar 2021 08:24:15 -0700 (PDT)
+Subject: Re: [PATCH v1 1/6] tests/tcg: update the defaults for x86 compilers
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210329110303.15235-1-alex.bennee@linaro.org>
+ <20210329110303.15235-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c368bcc2-3aa0-608e-c596-b7c9df1923e3@linaro.org>
-Date: Tue, 30 Mar 2021 08:01:13 -0700
+Message-ID: <7aaa1ca0-ba8f-a032-a619-3e03e47065bc@linaro.org>
+Date: Tue, 30 Mar 2021 08:24:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <YGKvDOCtfbj0avYF@yekko.fritz.box>
+In-Reply-To: <20210329110303.15235-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,20 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/29/21 10:54 PM, David Gibson wrote:
->    B) Just the hflags patches from my / Richard's tree
->       https://gitlab.com/dgibson/qemu/-/pipelines/278497244
+On 3/29/21 5:02 AM, Alex Bennée wrote:
+> You don't usually notice this is broken on developer system on x86 as
+> we use the normal host compiler. However on other systems the -pc was
+> extraneous. Also for 32 bit only i686 packages exist now so we should
+> use those when available.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   tests/tcg/configure.sh | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Look closer at this one -- it's an s390x test that's failing:
-
-make: *** [/builds/dgibson/qemu/tests/Makefile.include:63: 
-run-tcg-tests-s390x-linux-user] Error 2
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
