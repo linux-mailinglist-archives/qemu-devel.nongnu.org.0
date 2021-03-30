@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4224934F549
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 02:07:08 +0200 (CEST)
-Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1344534F55B
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 02:11:47 +0200 (CEST)
+Received: from localhost ([::1]:59872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lROO2-0005e2-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 20:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
+	id 1lROSY-0007sp-3a
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 20:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lROLL-0004FQ-Au; Tue, 30 Mar 2021 20:04:19 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50869)
+ id 1lROLK-0004F9-IY; Tue, 30 Mar 2021 20:04:18 -0400
+Received: from ozlabs.org ([203.11.71.1]:36801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lROLH-0002us-2L; Tue, 30 Mar 2021 20:04:19 -0400
+ id 1lROLH-0002uY-3I; Tue, 30 Mar 2021 20:04:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F96492fX7z9shx; Wed, 31 Mar 2021 11:04:09 +1100 (AEDT)
+ id 4F96493khDz9shn; Wed, 31 Mar 2021 11:04:09 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1617149049;
- bh=KKbWb1jeZ7gWEamN12RZBI5mqQukpe0Qp9oQlldnmn8=;
+ bh=lMeLc46oRwdFVM2Nou8iBYKbwRZ3LSWyy8K2UZyiTfs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LSWWjhJ+ukQXA3xz5bLB5x0QIjWDVsP0MwO9H13F3IG40dRb/BP650WHF02h71EeD
- Eu6rRE7PgthkEELUk31MlSI6FbQNo1P3s5lhRZ3xo1zl8bpbauzrtwpkmAqCSwPXoM
- HK8rM3t0kRpvDvSRK3P+G76aGSd60rmIFuUvA90s=
-Date: Wed, 31 Mar 2021 10:49:07 +1100
+ b=cLoOphmQNQrp9BisxqgNN7zKGdJRwlKQTGW4RpTSaNP9N32HdALreGpCogPTwgvzr
+ Utg6r9WEqFy0N8c7Q8PV/cottZqiJoqlNK8KKhdlT+7FY+JPEYDrwm3Nn21Q/rpkhX
+ y70EQz+ecJzwr9Md8DFmAYBgN6d8pMxzd2o9HmpY=
+Date: Wed, 31 Mar 2021 10:49:32 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH] ppc/spapr: Add support for implement support for
- H_SCM_HEALTH
-Message-ID: <YGO488mqe2RMHBiu@yekko.fritz.box>
-References: <20210329162259.536964-1-vaibhav@linux.ibm.com>
- <20210330161437.45872897@bahia.lan>
- <87r1jwpo3p.fsf@vajain21.in.ibm.com>
+To: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: Re: [PATCH v2 3/3] ppc: Enable 2nd DAWR support on p10
+Message-ID: <YGO5DMzDd+TxW83x@yekko.fritz.box>
+References: <20210329041906.213991-1-ravi.bangoria@linux.ibm.com>
+ <20210329041906.213991-4-ravi.bangoria@linux.ibm.com>
+ <YGFf0WxO+LRU1ysI@yekko.fritz.box>
+ <9abc9f1a-f855-e7bd-4b83-2884f6595172@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="f7ONA1GK+uW2NGpv"
+ protocol="application/pgp-signature"; boundary="1g7/c8FFHzCbaxEg"
 Content-Disposition: inline
-In-Reply-To: <87r1jwpo3p.fsf@vajain21.in.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <9abc9f1a-f855-e7bd-4b83-2884f6595172@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -60,163 +60,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
- Greg Kurz <groug@kaod.org>, kvm-ppc@vger.kernel.org, qemu-devel@nongnu.org,
- shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
- imammedo@redhat.com, ehabkost@redhat.com
+Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
+ mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, paulus@samba.org,
+ clg@kaod.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---f7ONA1GK+uW2NGpv
+--1g7/c8FFHzCbaxEg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 30, 2021 at 10:37:06PM +0530, Vaibhav Jain wrote:
+On Mon, Mar 29, 2021 at 07:04:24PM +0530, Ravi Bangoria wrote:
+> Hi David,
 >=20
-> Thanks for looking into this patch Greg. My responses below inline.
+> > > @@ -241,6 +241,31 @@ static void spapr_dt_pa_features(SpaprMachineSta=
+te *spapr,
+> > >           /* 60: NM atomic, 62: RNG */
+> > >           0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
+> > >       };
+> > > +    uint8_t pa_features_310[] =3D { 66, 0,
+> > > +        /* 0: MMU|FPU|SLB|RUN|DABR|NX, 1: fri[nzpm]|DABRX|SPRG3|SLB0=
+|PP110 */
+> > > +        /* 2: VPM|DS205|PPR|DS202|DS206, 3: LSD|URG, SSO, 5: LE|CFAR=
+|EB|LSQ */
+> > > +        0xf6, 0x1f, 0xc7, 0xc0, 0x80, 0xf0, /* 0 - 5 */
+> > > +        /* 6: DS207 */
+> > > +        0x80, 0x00, 0x00, 0x00, 0x00, 0x00, /* 6 - 11 */
+> > > +        /* 16: Vector */
+> > > +        0x00, 0x00, 0x00, 0x00, 0x80, 0x00, /* 12 - 17 */
+> > > +        /* 18: Vec. Scalar, 20: Vec. XOR, 22: HTM */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 18 - 23 */
+> > > +        /* 24: Ext. Dec, 26: 64 bit ftrs, 28: PM ftrs */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 24 - 29 */
+> > > +        /* 30: MMR, 32: LE atomic, 34: EBB + ext EBB */
+> > > +        0x80, 0x00, 0x80, 0x00, 0xC0, 0x00, /* 30 - 35 */
+> > > +        /* 36: SPR SO, 38: Copy/Paste, 40: Radix MMU */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 36 - 41 */
+> > > +        /* 42: PM, 44: PC RA, 46: SC vec'd */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 42 - 47 */
+> > > +        /* 48: SIMD, 50: QP BFP, 52: String */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 48 - 53 */
+> > > +        /* 54: DecFP, 56: DecI, 58: SHA */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 54 - 59 */
+> > > +        /* 60: NM atomic, 62: RNG, 64: DAWR1 */
+> > > +        0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
+> > > +    };
+> >=20
+> > I don't see any point adding pa_features_310: it's identical to
+> > pa_features_300, AFAICT.
 >=20
+> Sure. The only difference is in the comment part: /* ... 64: DAWR1  */
+> I'll update pa_features_300 with something like:
 >=20
-> Greg Kurz <groug@kaod.org> writes:
+>         /* ... 64: DAWR1 (ISA 3.1) */
 >=20
-> > Hi Vaibhav,
-> >
-> > Great to see you around :-)
+> and reuse pa_features_300.
 >=20
-> :-)
+> [...]
 >=20
-> >
-> > On Mon, 29 Mar 2021 21:52:59 +0530
-> > Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
-> >
-> >> Add support for H_SCM_HEALTH hcall described at [1] for spapr
-> >> nvdimms. This enables guest to detect the 'unarmed' status of a
-> >> specific spapr nvdimm identified by its DRC and if its unarmed, mark
-> >> the region backed by the nvdimm as read-only.
-> >>=20
-> >
-> > Any chance that you can provide the documentation of this new hcall ?
-> >
-> H_SCM_HEALTH specifications is already documented in linux kernel
-> documentation at
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
-ocumentation/powerpc/papr_hcalls.rst
+> > > +static void cap_dawr1_apply(SpaprMachineState *spapr, uint8_t val,
+> > > +                               Error **errp)
+> > > +{
+> > > +    if (!val) {
+> > > +        return; /* Disable by default */
+> > > +    }
+> > > +
+> > > +    if (tcg_enabled()) {
+> > > +        error_setg(errp,
+> > > +                "DAWR1 not supported in TCG. Try appending -machine =
+cap-dawr1=3Doff");
+> >=20
+> > I don't love this.  Is anyone working on DAWR1 emulation for POWER10?
+>=20
+> No. Infact DAWR0 is also not enabled in TCG mode.
 
-Putting a reference to that in the commit message would be a good idea.
+Huh.  Good point.
 
-> That documentation was added when kernel support for H_SCM_HEALTH hcall
-> support was implemented in 5.9 kernel.=20
 >=20
-> >> The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
-> >> returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
-> >> from 'struct nvdimm->unarmed' member.
-> >>=20
-> >> Linux kernel side changes to enable handling of 'unarmed' nvdimms for
-> >> ppc64 are proposed at [2].
-> >>=20
-> >> References:
-> >> [1] "Hypercall Op-codes (hcalls)"
-> >>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
-/tree/Documentation/powerpc/papr_hcalls.rst
-> >>=20
-> >> [2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
-> >>     https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibh=
-av@linux.ibm.com/
-> >>=20
-> >> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> >> ---
-> >>  hw/ppc/spapr_nvdimm.c  | 30 ++++++++++++++++++++++++++++++
-> >>  include/hw/ppc/spapr.h |  4 ++--
-> >>  2 files changed, 32 insertions(+), 2 deletions(-)
-> >>=20
-> >> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> >> index b46c36917c..e38740036d 100644
-> >> --- a/hw/ppc/spapr_nvdimm.c
-> >> +++ b/hw/ppc/spapr_nvdimm.c
-> >> @@ -31,6 +31,13 @@
-> >>  #include "qemu/range.h"
-> >>  #include "hw/ppc/spapr_numa.h"
-> >> =20
-> >> +/* DIMM health bitmap bitmap indicators */
-> >> +/* SCM device is unable to persist memory contents */
-> >> +#define PAPR_PMEM_UNARMED (1ULL << (63 - 0))
-> >
-> > This looks like PPC_BIT(0).
-> >
-> Yes, right. Will update the patch in v2 to use the PPC_BIT macro.
+> [...]
 >=20
-> >> +
-> >> +/* Bits status indicators for health bitmap indicating unarmed dimm */
-> >> +#define PAPR_PMEM_UNARMED_MASK (PAPR_PMEM_UNARMED)
-> >> +
-> >>  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice =
-*nvdimm,
-> >>                             uint64_t size, Error **errp)
-> >>  {
-> >> @@ -467,6 +474,28 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *=
-cpu, SpaprMachineState *spapr,
-> >>      return H_SUCCESS;
-> >>  }
-> >> =20
-> >> +static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *=
-spapr,
-> >> +                                 target_ulong opcode, target_ulong *a=
-rgs)
-> >> +{
-> >> +    uint32_t drc_index =3D args[0];
-> >> +    SpaprDrc *drc =3D spapr_drc_by_index(drc_index);
-> >> +    NVDIMMDevice *nvdimm;
-> >> +
-> >> +    if (drc && spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM)=
- {
-> >> +        return H_PARAMETER;
-> >> +    }
-> >> +
-> >> +    nvdimm =3D NVDIMM(drc->dev);
-> >
-> > Yeah as already suggested by Shiva, drc->dev should be checked like
-> > in h_scm_bind_mem().
-> >
-> Yes, will send a v2 with this case handled.
+> > >   static void gen_spr_970_dbg(CPUPPCState *env)
+> > >   {
+> > >       /* Breakpoints */
+> > > @@ -8727,7 +8742,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+> > >       /* Common Registers */
+> > >       init_proc_book3s_common(env);
+> > >       gen_spr_sdr1(env);
+> > > -    gen_spr_book3s_207_dbg(env);
+> > > +    gen_spr_book3s_310_dbg(env);
+> >=20
+> > This should surely be in init_proc_POWER10, not init_proc_POWER8.
 >=20
-> >> +
-> >> +    /* Check if the nvdimm is unarmed and send its status via health =
-bitmaps */
-> >> +    args[0] =3D nvdimm->unarmed ? PAPR_PMEM_UNARMED_MASK : 0;
-> >> +
-> >
-> > Shouldn't ^^ use PAPR_PMEM_UNARMED then ?
-> >
-> >> +    /* health bitmap mask same as the health bitmap */
-> >> +    args[1] =3D args[0];
-> >> +
-> >
-> > If so, it seems that PAPR_PMEM_UNARMED_MASK isn't even needed.
+> Sure.
 >=20
-> Definition of these defines are similar to what kernel implementation
-> uses at
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/a=
-rch/powerpc/platforms/pseries/papr_scm.c#n53
+> Thanks for the review,
+> Ravi
 >=20
-> Since unarmed condition can also arise due to an unhealthy nvdimm hence
-> the kernel implementation uses a mask thats composed of two bits
-> PPC_BIT(0) and PPC_BIT(6) being set. Though we arent using PPC_BIT(6)
-> right now in qemu, it will change in future when better nvdimm health
-> reporting will be done. Hence kept the PPC_BIT(0) define as well as the
-> mask to mimic the kernel definitions.
->=20
-> >
-> > Having access to the excerpts from the PAPR addendum that describes
-> > this hcall would _really_ help in reviewing.
-> >
-> The kernel documentation for H_SCM_HEALTH mentioned above captures most
-> if not all parts of the PAPR addendum for this hcall. I believe it
-> contains enough information to review the patch. If you still need more
-> info than please let me know.
-
-We've missed the qemu-6.0 cutoff, so this will be 6.1 material.  I'll
-await v2 for further review.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -224,25 +165,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---f7ONA1GK+uW2NGpv
+--1g7/c8FFHzCbaxEg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBjuPIACgkQbDjKyiDZ
-s5JzlA//T11BtMlXSLbvRPM52bSDvooPztpoMZGvaRtj7YJPJXsAUH76v4/XcFfl
-lZ2ZELMyuQc4Dms4Ylff1/srXq73eC8p/GYIt9K5iAU7NZop5hbcFiaWv5FaU7um
-CzimfPN8g+sPj0+O06O6oAELVTZZvcsdLn7Tq+alVegvg2vtfHesQklH7tHqVox3
-FRrxrxmEpAHsaVVfZKqyOrrjEVwtcFpeh9cnqgWGtbJuF6rFuqMoNzLeyUJ6k4Ea
-Z8vA0sj9wOP2uR2yROp6+R3+YKOlUZfMRxXO2Yqt50ePVwcaIA/fWZV5hNHGFu5V
-D+I53u8lBZ6oFStXlBUREp+DtUMj0RH+l8jHfMKJnYIdu1jixWa8yh6qQibQ4+A4
-tOzWCn5ipL2L48kAbq9xBZisz4c3v9BxF8UlluV21QmEtZZCd6P3Sjdg7Cf4Tsg+
-AtSC+jfUIKzPi8QLeGmvJDDGQocvr/4WZ7D0EkZmpa7vwnviQfN6slyYj1fSIF2h
-kV8sBi5AkqZAKGexeDHTdihR/AT64EdcRNM+1EFBXc+ZSXk/guGX7efmwWfBLW81
-k0zjUyCongXcMAvotY3GI9DEEepaMJW1yN1aqrc3mqUt5dx8dv2JwaOvdF3TI84J
-G9m6vGW92xUU2eyLIphMqgkHLVJzixEpFeHLBrTTKupLMD9BoOY=
-=jjbl
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBjuQwACgkQbDjKyiDZ
+s5JAhQ//UWKdv4Eg6tUDxKky6b7FYqMHNNskXbTpOLe7OpAhEpC7d+fR/nTnJ0oe
+YmFKBXXbyHPbgiHN6A1yO6G5fo25ypDs0S0BPxBBpCYUH213Sg6Wn8rPK+ELafLQ
+C97Wj5RTaRXjoT+zTWWcJLExJ0Lf+wD/ECQTHU6Ya586jOinYp4G6fkV+7WGTTBo
+U3/QwBWJf4z73pzhs3UGdcPVRFhmF4nlxiqK773aqvR5OxHNvwe1jsGX1rwWt9sN
+F1j7bd5hjGZ/NQ5R9V3vvUPZvuT6hLbZeeDfbAzLPj38HFfeNmSt9ppKqxJ12Dg4
+53DoOb4Sm2wnH6VbCKCn8AgFD8FBhKM0meu0W7aYXwVXMP2aKFMOZRazXFHi5V+f
+C3/RLs/8PJyb9ZvL/CZbTBEu6xiRYHRWhwf/yeEjZs2lHUO4X2M1TvlegBXU0IXs
+0Idvh/u7Mqv7zPVcSFdi4nd6/6OuoDP2sTauBXGHtOjSlktrcUsWf6tjOLaVxiDQ
+OO5KKu1bU1QX/qJx2AStRLziAGJ8nj/5uxDTsWHaRPfVdEnFhv7UrdyAVH+f/qn0
+GBD1nMzpitj8jw2SfmL6E4MkFi/Y63WJrr0z8HDOyMikSnoQuh6CuUb9izB24SBJ
+34jqUUXks29AHWLHCW9uwqe5RIVJLIMDlrG82Pv5GotnricMTi4=
+=+xCs
 -----END PGP SIGNATURE-----
 
---f7ONA1GK+uW2NGpv--
+--1g7/c8FFHzCbaxEg--
 
