@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAD034E790
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:37:21 +0200 (CEST)
-Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B7534E7C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:47:16 +0200 (CEST)
+Received: from localhost ([::1]:50796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDcW-0008RO-Ir
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1lRDm7-0003vw-Bm
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:47:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lRDbV-0007zI-Sv
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:36:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45514)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lRDe9-0000bm-3F; Tue, 30 Mar 2021 08:39:01 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:48027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lRDbS-00014z-B8
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:36:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617107772;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EGdIDKG6NI6mtXJzr7gPDXUihog94686fbrK3tpNMU0=;
- b=KB798jVx2i2CVh2y6xLKr2/J1Biiy+kgoI7rfZBZ1qWVSgwg+nthn5JDnVlC+BcqAxhBFG
- XNn/DewIKFR7AicTf7IdKddGQnheBrKCxT2HZBworqfF3F/oQs7vgZptq3Kzz+zd530qnS
- tNei9OD6OEBvLP+WBqULIRnbLye1mck=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-FxwtoPpgO7C_RqJj2FyyDA-1; Tue, 30 Mar 2021 08:36:11 -0400
-X-MC-Unique: FxwtoPpgO7C_RqJj2FyyDA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 395DECC626;
- Tue, 30 Mar 2021 12:36:10 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.195.155])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FBF97217B;
- Tue, 30 Mar 2021 12:36:04 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH] i386: Make 'hv-reenlightenment' require explicit
- 'tsc-frequency' setting
-Date: Tue, 30 Mar 2021 14:36:03 +0200
-Message-Id: <20210330123603.284354-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lRDe5-0002jj-GQ; Tue, 30 Mar 2021 08:39:00 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0B3955C016A;
+ Tue, 30 Mar 2021 08:38:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 30 Mar 2021 08:38:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=UB0Fz5PQIDlTk51X+9qMCM7jri8
+ Dj6070Pc+UCesGg4=; b=L/ajXCggA/4oebV6c7R2IZcS99p9nmvdVTPZNzh6HGx
+ DlrsckPb6JUa0PnJztEVE8TyCiefZiJ+01SqpLj0iJHbNtJgTRQjovKVSSXwmMUo
+ naUwKlCFoV8bKHV9YLcg1osQucY1suCzhabZGVE+MgCD33gOhh2mv6OaUnCAupMM
+ cF+0Iy4Dpe1hQ0P58NNll1MMAFR0rD6suHqG7PBkNsmFXiorzP6rten2wORKaEDX
+ TFmvebrxBsvL4UeAxsnEMrlLB5Uv2jSjyQOsMZQ5BZqt+F6JtADIyXpcSLNdPGgo
+ mLcMTmcAX1daq8x7uPK6/cBR7USe66d1k8w+rEESnMw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=UB0Fz5
+ PQIDlTk51X+9qMCM7jri8Dj6070Pc+UCesGg4=; b=E/Dg2rYmfe6GysBQvoXovi
+ uJ+aC06e2USKIGlNq/KmW8a/xliBgMjgcwMK4g/tS4h+sx+LRIyrfmCCJgYLEW72
+ bmko4OZ7pWVB1dtRyPEJ3n3StoGodu+LxteQUw0gO4W82cFGixF64GNwpf1oXe0h
+ ASMWmB1cJ98k274KKnIzEbrGHoLptS8hIYgJjqSsZ7wDaSXm7rnthr5jtrcCHR1s
+ er9cVmi+I1mxC9G/1/uNUzcqEKqU/OoH8BLQWQlxLFeHQfv1/BAgrn4A2dbPD2aL
+ HQP04hCijvIZTpdAijh0IgG5jjpOJtl5weck/Y/LjGW5F41Hy7dmfzNYPFCshHgA
+ ==
+X-ME-Sender: <xms:3htjYAE2xLH2ozIyco2Y7AxlX4GSmE7tdJC4sKrmNJdhOuYZEnf-ww>
+ <xme:3htjYJUA8ucVjj31S4oNY-14LL8PhDGv8GyokvH7_-EUQt3bbDUdyAgGkn4uOu7mV
+ I9jwih6fbgz2S5QSxU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgheehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:3htjYKJ1TOU-H-Z_G-NMvkC8W0Qu6IQk2GQ1y-Q5Fouv_yrNIXIgDA>
+ <xmx:3htjYCEOeYVi3ZxL90_sNSB8LduvT9Uunbbv9hUXj01fVDdYZqN_5Q>
+ <xmx:3htjYGVu7Hde3kiw9MaednrXgwmWCjJRO-xq0zLhr79EfSeuKad9mA>
+ <xmx:3xtjYDgDb7rAMYF6p2HjXaa3xyDE0dZqO4Rq-t8BMaS1y3Tz0eITKg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 72CD51080063;
+ Tue, 30 Mar 2021 08:38:53 -0400 (EDT)
+Date: Tue, 30 Mar 2021 14:38:50 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH] hw/block/nvme: remove description for
+ zoned.append_size_limit
+Message-ID: <YGMb2gfySMGL20Co@apples.localdomain>
+References: <20210323111817.115837-1-Niklas.Cassel@wdc.com>
+ <YFnPAKkbw3bkB6n5@apples.localdomain>
+ <YGL7SOSqHG6WSshj@x1-carbon.lan>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YB4i9BpFUeBwAJx+"
+Content-Disposition: inline
+In-Reply-To: <YGL7SOSqHG6WSshj@x1-carbon.lan>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,116 +96,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 561dbb41b1d7 "i386: Make migration fail when Hyper-V reenlightenment
-was enabled but 'user_tsc_khz' is unset" forbade migrations with when guest
-has opted for reenlightenment notifications but 'tsc-frequency' wasn't set
-explicitly on the command line. This works but the migration fail late and
-this may come as an unpleasant surprise. To make things more explicit,
-require 'tsc-frequency=' on the command line when 'hv-reenlightenment' was
-enabled. Make the change affect 6.0+ machine types only to preserve
-previously-valid configurations valid.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- docs/hyperv.txt   |  1 +
- hw/i386/pc.c      |  1 +
- target/i386/cpu.c | 23 +++++++++++++++++++++--
- target/i386/cpu.h |  1 +
- 4 files changed, 24 insertions(+), 2 deletions(-)
+--YB4i9BpFUeBwAJx+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index e53c581f4586..5b02d341ab25 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -165,6 +165,7 @@ emulate TSC accesses after migration so 'tsc-frequency=' CPU option also has to
- be specified to make migration succeed. The destination host has to either have
- the same TSC frequency or support TSC scaling CPU feature.
- 
-+Requires: tsc-frequency
- Recommended: hv-frequencies
- 
- 3.16. hv-evmcs
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8a84b25a031e..47b79e949ad7 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -98,6 +98,7 @@
- 
- GlobalProperty pc_compat_5_2[] = {
-     { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
-+    { TYPE_X86_CPU, "x-hv-reenlightenment-requires-tscfreq", "off"},
- };
- const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
- 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b3e9467f177..751636bafac5 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6647,10 +6647,23 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-     }
- }
- 
--static void x86_cpu_hyperv_realize(X86CPU *cpu)
-+static void x86_cpu_hyperv_realize(X86CPU *cpu, Error **errp)
- {
-+    CPUX86State *env = &cpu->env;
-     size_t len;
- 
-+    /*
-+     * Reenlightenment requires explicit 'tsc-frequency' setting for successful
-+     * migration (see hyperv_reenlightenment_post_load(). As 'hv-passthrough'
-+     * mode is not migratable, we can loosen the restriction.
-+     */
-+    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_REENLIGHTENMENT) &&
-+        !cpu->hyperv_passthrough && !env->user_tsc_khz &&
-+        cpu->hyperv_reenlightenment_requires_tscfreq) {
-+        error_setg(errp, "'hv-reenlightenment' requires 'tsc-frequency=' to be set");
-+        return;
-+    }
-+
-     /* Hyper-V vendor id */
-     if (!cpu->hyperv_vendor) {
-         memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
-@@ -6846,7 +6859,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     /* Process Hyper-V enlightenments */
--    x86_cpu_hyperv_realize(cpu);
-+    x86_cpu_hyperv_realize(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
- 
-     cpu_exec_realizefn(cs, &local_err);
-     if (local_err != NULL) {
-@@ -7374,6 +7391,8 @@ static Property x86_cpu_properties[] = {
-     DEFINE_PROP_INT32("x-hv-max-vps", X86CPU, hv_max_vps, -1),
-     DEFINE_PROP_BOOL("x-hv-synic-kvm-only", X86CPU, hyperv_synic_kvm_only,
-                      false),
-+    DEFINE_PROP_BOOL("x-hv-reenlightenment-requires-tscfreq", X86CPU,
-+                     hyperv_reenlightenment_requires_tscfreq, true),
-     DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
-                      true),
-     DEFINE_PROP_END_OF_LIST()
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 570f916878f9..0196a300f018 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1677,6 +1677,7 @@ struct X86CPU {
-     uint32_t hyperv_spinlock_attempts;
-     char *hyperv_vendor;
-     bool hyperv_synic_kvm_only;
-+    bool hyperv_reenlightenment_requires_tscfreq;
-     uint64_t hyperv_features;
-     bool hyperv_passthrough;
-     OnOffAuto hyperv_no_nonarch_cs;
--- 
-2.30.2
+On Mar 30 10:19, Niklas Cassel wrote:
+> On Tue, Mar 23, 2021 at 12:20:32PM +0100, Klaus Jensen wrote:
+> > On Mar 23 11:18, Niklas Cassel wrote:
+> > > From: Niklas Cassel <niklas.cassel@wdc.com>
+> > >=20
+> > > The description was originally removed in commit 578d914b263c
+> > > ("hw/block/nvme: align zoned.zasl with mdts") together with the remov=
+al
+> > > of the zoned.append_size_limit parameter itself.
+> > >=20
+> > > However, it was (most likely accidentally), re-added in commit
+> > > f7dcd31885cb ("hw/block/nvme: add non-mdts command size limit for ver=
+ify").
+> > >=20
+> > > Remove the description again, since the parameter it describes,
+> > > zoned.append_size_limit, no longer exists.
+> > >=20
+> > > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> > > ---
+> > >  hw/block/nvme.c | 8 --------
+> > >  1 file changed, 8 deletions(-)
+> > >=20
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index 6842b01ab5..205d3ec944 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -91,14 +91,6 @@
+> > >   *   the minimum memory page size (CAP.MPSMIN). The default value is=
+ 0 (i.e.
+> > >   *   defaulting to the value of `mdts`).
+> > >   *
+> > > - * - `zoned.append_size_limit`
+> > > - *   The maximum I/O size in bytes that is allowed in Zone Append co=
+mmand.
+> > > - *   The default is 128KiB. Since internally this this value is main=
+tained as
+> > > - *   ZASL =3D log2(<maximum append size> / <page size>), some values=
+ assigned
+> > > - *   to this property may be rounded down and result in a lower maxi=
+mum ZA
+> > > - *   data size being in effect. By setting this property to 0, users=
+ can make
+> > > - *   ZASL to be equal to MDTS. This property only affects zoned name=
+spaces.
+> > > - *
+> > >   * nvme namespace device parameters
+> > >   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >   * - `subsys`
+> > > --=20
+> > > 2.30.2
+> >=20
+> > Argh. Thanks Niklas, queing it up for fixes.
+> >=20
+> > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> I don't see it in nvme-fixes yet.
+>=20
+> Did it get stuck in purgatory? ;)
+>=20
+>=20
 
+I could have included it for the PULL from yesterday, but I kinda forgot
+and only added the coverity fixes. That's pulled now, so I've queued it
+up for the next round of fixes now! :)
+
+Thanks for following up on it!
+
+--YB4i9BpFUeBwAJx+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBjG9gACgkQTeGvMW1P
+DemO6Qf+KxaiT6NE/g3/m8gq9mOt041vWJyKxKtvEN/vBo7X42aZqWWdhPzqKtYP
+G3PCcUQ1/DRPuqzY5e1zJUbna2LVWk5WzLsNvCHVr3gMTkSITKaRUv8tSXQni5+g
+WiQzsfcLPQcPX+gVhnQ+JrcxoNOmmNP2mjNmyr03mIXGk40x6wVOGJPWgmCWbTeZ
+iTBl9PKWY4oTQXFgjVZiJ6Rbkdj37eKyhdrF6ALrC5EKbwMCXw8bP8ZKsmUWFY/6
+HMl4d4ylKXqlfoegBDBXfuDSQkaT3jd2NECZ+IS+Ctfz063NWnA9SyzftGN3TI2A
++gZgclOvAyFjP2kZINSVp/OdEhg7jA==
+=/Qz7
+-----END PGP SIGNATURE-----
+
+--YB4i9BpFUeBwAJx+--
 
