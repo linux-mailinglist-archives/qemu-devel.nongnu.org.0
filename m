@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1006D34EA22
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:17:59 +0200 (CEST)
-Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3753A34EA21
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:17:42 +0200 (CEST)
+Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFBu-0004LT-2d
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53952)
+	id 1lRFBd-0003wM-6O
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF4C-00031t-0A
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:10:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53792)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF4A-0002yT-Kt
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF44-00059B-L8
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:59 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lRF42-00058W-O7
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:09:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617113390;
+ s=mimecast20190719; t=1617113389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0/sjZtxUzqtj4xdFj5spfN0WmiSX0yBOdYBBO+ul87A=;
- b=hgP03FZRw0PNIkroTORPVnhTBIfYLg5i09iBbjfHbdfe5Y4IVoNOpd+yW+T+QRndAjxzE7
- PBU1jZuN6UBhZGD/roZ6YeNEE9MEF4gKOBr87tPIVZBqJ6G2MaUGfDKw6Xkoij19K3RQqd
- Qv9331B21HVJfcTzPd6rF3QXXI2y8KU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fz2lty2f82fOCXnvCMnt30KfeGYKl86ayn41eviG2iA=;
+ b=KtJ9q9JiPIyQXulL79H+eRfdkApjiHQAA105TzovhOpt2iy0PMz8cF9pnEK314s77/pbd3
+ 2M868/7dfDifuP6dTvj2f0VlnzBBImWkzoaoAI/8yY353N7z9aGhOwI/x/NR0n2Kg1nwfh
+ OwZM0cq+YLjDSFKybIW6g9idupW51/o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-u5GcLVPnM3aV67q-dUGCUA-1; Tue, 30 Mar 2021 10:09:46 -0400
-X-MC-Unique: u5GcLVPnM3aV67q-dUGCUA-1
+ us-mta-417-I9i8mo09OsWhxZQSD_2Z3Q-1; Tue, 30 Mar 2021 10:09:45 -0400
+X-MC-Unique: I9i8mo09OsWhxZQSD_2Z3Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 850FD612AF;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84ECD612AE;
  Tue, 30 Mar 2021 14:09:44 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-118.rdu2.redhat.com [10.10.116.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8186D62A24;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FD0A62A22;
  Tue, 30 Mar 2021 14:09:35 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 1E47B220BCF; Tue, 30 Mar 2021 10:09:34 -0400 (EDT)
+ id 22E9C223D98; Tue, 30 Mar 2021 10:09:34 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v6 0/5] virtiofsd: Add support to enable/disable posix acl
-Date: Tue, 30 Mar 2021 10:09:20 -0400
-Message-Id: <20210330140925.730449-1-vgoyal@redhat.com>
+Subject: [PATCH v6 1/5] virtiofsd: Add umask to seccom allow list
+Date: Tue, 30 Mar 2021 10:09:21 -0400
+Message-Id: <20210330140925.730449-2-vgoyal@redhat.com>
+In-Reply-To: <20210330140925.730449-1-vgoyal@redhat.com>
+References: <20210330140925.730449-1-vgoyal@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -55,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,45 +79,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lhenriques@suse.de, dgilbert@redhat.com, vgoyal@redhat.com,
- miklos@szeredi.hu
+Cc: lhenriques@suse.de, Stefan Hajnoczi <stefanha@redhat.com>,
+ dgilbert@redhat.com, vgoyal@redhat.com, miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Patches in this series  are going to make use of "umask" syscall.
+So allow it.
 
-This is V6 of the patches.
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ tools/virtiofsd/passthrough_seccomp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes since V5:
-
-- If user asked to enable posix acl and if it can't be enabled, give a
-  clear message before failure. (Luis).
-- Took care of some coding style issues.
-
-Corresponding kernel patches are posted here.
-
-https://lore.kernel.org/linux-fsdevel/20210325151823.572089-1-vgoyal@redhat.com/
-
-Thanks
-Vivek
-
-Vivek Goyal (5):
-  virtiofsd: Add umask to seccom allow list
-  virtiofsd: Add capability to change/restore umask
-  virtiofsd: Add an option to enable/disable posix acls
-  virtiofsd: Add support for setxattr_v2
-  virtiofsd: Switch creds, drop FSETID for system.posix_acl_access xattr
-
- docs/tools/virtiofsd.rst              |   3 +
- include/standard-headers/linux/fuse.h |  19 ++-
- tools/virtiofsd/fuse_common.h         |   6 +
- tools/virtiofsd/fuse_lowlevel.c       |  42 +++++-
- tools/virtiofsd/fuse_lowlevel.h       |   3 +-
- tools/virtiofsd/helper.c              |   1 +
- tools/virtiofsd/passthrough_ll.c      | 177 ++++++++++++++++++++++++--
- tools/virtiofsd/passthrough_seccomp.c |   1 +
- 8 files changed, 241 insertions(+), 11 deletions(-)
-
+diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+index 62441cfcdb..f49ed94b5e 100644
+--- a/tools/virtiofsd/passthrough_seccomp.c
++++ b/tools/virtiofsd/passthrough_seccomp.c
+@@ -114,6 +114,7 @@ static const int syscall_allowlist[] = {
+     SCMP_SYS(utimensat),
+     SCMP_SYS(write),
+     SCMP_SYS(writev),
++    SCMP_SYS(umask),
+ };
+ 
+ /* Syscalls used when --syslog is enabled */
 -- 
 2.25.4
 
