@@ -2,134 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0186E34EEE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:02:48 +0200 (CEST)
-Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4435D34EEFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 19:09:37 +0200 (CEST)
+Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRHlP-0001Pg-2P
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:02:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
+	id 1lRHrz-0004q6-SM
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 13:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lRHj3-0000tX-AI; Tue, 30 Mar 2021 13:00:21 -0400
-Received: from mail-db8eur05on2139.outbound.protection.outlook.com
- ([40.107.20.139]:17377 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
+ id 1lRHq5-0003yu-9M; Tue, 30 Mar 2021 13:07:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lRHj1-0004C0-I0; Tue, 30 Mar 2021 13:00:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UxwNMZqCPL/yzPWBBCB8TVQ3EJCfWfePoW5dAa9ZH/Cag4cE64dHC4iq/GzBFaRReF2oCz2PBQR67sefvYoWvAOZRiqKcG2XXwHGL5TgHyxmuJc2MuacSlZkQ5DVaMOUIc4isxm1h2PBnmIFSwyrK0cXuaYGH0ApBCKSfICXHyDpJefZGNBcgt9z3BvYXYtAO9EmQ3Qwt6q3ir+FUVdprcoTa0MXA0Ddj3XaSmxIh2fbmRnPHHNCKmrDEGDG8j8VLrjzj/faV4VjE5UCrYavoF8kUd685l2AWrgL64T67YF1NrDYoNYWr/MOptkrLMUQ2y+bZG8yR/506cQ0EoODeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=694yqhwDAr76KVVaeFrL9sc1+Vp13gWDqMyGLIgZajE=;
- b=CjDPib0S0QnGXOfVhu8qqg5w0a459baPnc+dgQj6JdB55hZdsB5ov4rNiaU6yZnOvCi4KUKqu8+dJ/pKTk7lGdS5dZCSuDWvIxikWxp7wdhO4zdNcTh9avTVN0PBo+zCIOEm39BJ2cQUwB+oHe2u3JYjJ1ZcNn7PeQDpJKF36ierWB7pasBQoL34+5OVOsaoX5DFnT2Ih3Z4T9YRZ58iLr7kZEvZEHfshsckvsWR2putVErxjjiEOIrUe7YXd68MQrokT8GvKh8WM7KUxM5lEJf+/sxyiCff2bYbj2P0Nr2WVUfMTbqTMA439I+rZVvj5fMZ+WewBzpVXJlA1004Tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=694yqhwDAr76KVVaeFrL9sc1+Vp13gWDqMyGLIgZajE=;
- b=HO5oWq3G8nXGHOsCEI0TBIMuaOKb4C8fbgEdTAMXvC6o/Ue/xPZJhwST7HTMOPEtLgobKSGxyyUSVn+DE5F65BhdtdjKN5EryGXNUGBdLnm755cGItD3gm38y5V7e9MM0ZiLvtB+cFIq87qmdfNNg2qwGRuIKY6SMRM33+fHRQE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0802MB2532.eurprd08.prod.outlook.com (2603:10a6:203:a1::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Tue, 30 Mar
- 2021 17:00:16 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%6]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 17:00:16 +0000
-Subject: Re: [PATCH 4/4] iotests/297: Cover tests/
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20210329132632.68901-1-mreitz@redhat.com>
- <20210329132632.68901-5-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <37713b3b-5d27-77dc-a18c-e1a16faecc5b@virtuozzo.com>
-Date: Tue, 30 Mar 2021 20:00:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-In-Reply-To: <20210329132632.68901-5-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.207]
-X-ClientProxiedBy: AM0PR02CA0031.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::44) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
+ id 1lRHq1-0007Ge-Pz; Tue, 30 Mar 2021 13:07:37 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12UGpklm046509; Tue, 30 Mar 2021 13:07:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=uTTMdWJjSUTPpaCGFIQwP9AzM712D9b+ucU/im1WZpw=;
+ b=IP0SZq5B685v/9sYDsE84pMQG9gOHqyOc799dmQmw4x1QmOid81rQbLFWRJI00oytU/D
+ BBJlhc0k81M63x4UNPsl8lQliW53mxp60IQCLrpbOcp1U+lmgb+zuJ5UDuEHexLzLo6X
+ EGJhe7enPBdNlgBlfHWINV7LQKZniXl9lipeO8YLUQL8X+gBjeG+0T4NG/3pFTLfQvpx
+ EqbOB4a8jzZ1oW9W/slTzoi2n2jAmUch4uBykyBzlQge1levFhxUlBaXsg3gHAk2ejDu
+ We4w3HiVxMkr0hiN8OwBICf7rxRnH6rpM/+YElMam3r4WNCQX8F3Xz48hVdcFPqaAgIz VQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jpmfjv89-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Mar 2021 13:07:16 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12UGq856048089;
+ Tue, 30 Mar 2021 13:07:16 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jpmfjv7j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Mar 2021 13:07:16 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12UH53nK007026;
+ Tue, 30 Mar 2021 17:07:13 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 37huyhaw2b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Mar 2021 17:07:13 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12UH6qss35782916
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 30 Mar 2021 17:06:52 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68C21A4051;
+ Tue, 30 Mar 2021 17:07:11 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 86ABBA404D;
+ Tue, 30 Mar 2021 17:07:07 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.85.111.7])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 30 Mar 2021 17:07:07 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
+ Tue, 30 Mar 2021 22:37:06 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] ppc/spapr: Add support for implement support for
+ H_SCM_HEALTH
+In-Reply-To: <20210330161437.45872897@bahia.lan>
+References: <20210329162259.536964-1-vaibhav@linux.ibm.com>
+ <20210330161437.45872897@bahia.lan>
+Date: Tue, 30 Mar 2021 22:37:06 +0530
+Message-ID: <87r1jwpo3p.fsf@vajain21.in.ibm.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: W44JBgOpQFz_v9gt6C9PaZ_tWBsAA1AE
+X-Proofpoint-ORIG-GUID: NMg58oGRxVWYCNbMejL9CfQE-w0V2tQq
+X-Proofpoint-UnRewURL: 6 URL's were un-rewritten
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.207) by
- AM0PR02CA0031.eurprd02.prod.outlook.com (2603:10a6:208:3e::44) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.29 via Frontend Transport; Tue, 30 Mar 2021 17:00:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa6b1aa8-445b-47b0-19ea-08d8f39d4a8e
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2532:
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB2532976D565FE90783359697C17D9@AM5PR0802MB2532.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GzsSLL63MtUS+9CaEyT+qOj6m8B5T0v5wYr44hXHH+DL3h0r5LC7wTOStYJWoRFYVV2c5RSLu+mq2oCsHyBvaM5G9lgKtvk9pubhFPlFTwWgafu0ubsnPp2eFWY0KcAzNzUnbOE+LT/DiDqEteHyNgCqr14xkIX+npxz8wwD6+hFmK+gUkAuNwFX0VxzlQTG9mPsMafNoIAtMVJCqKSClBbpL2rx9T0J9ba/1MOQq/gH/6xeXiyIaOyZR9GHuDrtPCLnLZCw3RZbwcNhb6qk6qLSxT4VywKzvk3j7cgHdVbkDNIyF9R3Lv1qTKTE3W/yWEcWcAjtKeGuw1qjTlit0x2cgpyg+ugTdMMOL7HTL7AzneZKMjcffSE4U/dQ6V4A+n/W6P9wFpAgoQrEqv6ddBFwgo3gxNHBUeSqAlFS7OdQZXnN/VOtguVJCs7docAxUB20jFfFnypDFVZWKuHLTZkZa5RU53P/HEeC5xZwaEJeYSogAcVINmYGRfWuJW2xkVI+OQpLXNO/oIzxbOg42GIhNtM1r79zKiNjYKXBVZQpnKDD0z2AR+TgKa2Cl7hdu7V1aDmzIUSSP3W08KbjArEQ/So8jA94yFXZW6UHoINGKjvQib20Mk4OTK8PZIoxVfkHYcZ/Cb/9FYTCm1+16LVXw6+OQjYyfNZh2T3yJVrOqTXj1kOmfzYWZ78mBZeX+mocdAYh11iGIv8qDkNtxxqXywHYSBBNeHm0yRLtZXw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39840400004)(376002)(136003)(366004)(396003)(316002)(16576012)(5660300002)(86362001)(4744005)(31686004)(66476007)(66556008)(31696002)(186003)(52116002)(2616005)(8676002)(66946007)(6486002)(8936002)(2906002)(36756003)(956004)(38100700001)(26005)(478600001)(4326008)(16526019)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aFlZWm54WlZHN01FL2ovcDRwcHlDMGFMYnByT3lUMWRPc05OUTVoM3Rsa2FW?=
- =?utf-8?B?OWpDdFdKSklGVmVkTW9ObVFmWVhLbHduRDlMdWZCaFdESG80Rk91VSszbWV4?=
- =?utf-8?B?ODdDZEtlcGcyaENrRzB3ZVQvK0NvdUttVFVPSjdUWGxFRzhFbHZuQUZjRXkr?=
- =?utf-8?B?aEJDUGVWTjljWVlJdUN0aXd4ejNEck5QWnJCTnhHMTN1QU9VNmdOTjZjcmlD?=
- =?utf-8?B?Q2tJdGNYT1ovS1ZrZ1dCZVczTlZiUkpYOURtL0dsTFdwYm56UWR2TFpYSm5P?=
- =?utf-8?B?NmR2TEk0cURBZzJLRC9WcXMzT3dweUREOC9DYjlEL2lHRHU2U1dNdm9KcndD?=
- =?utf-8?B?Ti81blFmMzNvdVhlcWNuc1YvOEdqWDJyYWIxeTdBVUZDeTkvZHl1YXVNa3l5?=
- =?utf-8?B?NXBHRDhFUlo0OVcvc2lyQVRJbXRvdGplZ2s1WUVkL3dBTUN3NUpkcnI3N1dl?=
- =?utf-8?B?NFFUQkRXYzljQVdxOXA5ZkhqZnkyWkNONG4zZTdQZXZSRUIyaThJdFhRWVdH?=
- =?utf-8?B?OFVVVlR4MzgzWkdxb3JXb3NlNHFuNEFjZkw3Zi95eGUvbjZ1ZVR2UmFpN2V1?=
- =?utf-8?B?MWloa2t4SStDN2hPWFNZYmR0RGliY1RKTFZWNmdia3JJU21OUzZkS3RTMjN6?=
- =?utf-8?B?Zk5NMDdrTEpPRDFnaEplT0xSOTdRZm80emtVNEZpTGVlUC9EQnRaMXlXL21W?=
- =?utf-8?B?eWFwQ0NUQk9ZZUZNK3JtZDZDNlhIQzZQeGZwbHZNQzlxNTJWVUJ1czJmM3E5?=
- =?utf-8?B?dFNYVUZ2MytHc0VQVXFKeUd1bGNMTG9nRi9seU5CclFUVEZuZlZFbVNvbGVw?=
- =?utf-8?B?MEtlSmtJQnk3dkNKUnpsOXRYR2d4cnBPcDZ2R25jRFFmRVJLK215ZE8rbVY2?=
- =?utf-8?B?L3oxUW5VbHkzbFc0ZFBDYWpsTXgvb1B5cXVCL2pMeEszOWR1bjJLZm1wV0M2?=
- =?utf-8?B?dzJuU1FmMjY2RDlJU2dqWWZTbVZKWTJ6M1hxbks3UDYzZmFOQVpFSXYzSmN3?=
- =?utf-8?B?eFRvTUVxOW1TaVJPSzF2b20vLzZkQ3IxK3dabWVCMVg1Qk5mTFJEUDFWZ2V0?=
- =?utf-8?B?M0hRc2RzUkIyd1FLcmYrODNZUXYvVDM1aHpZZEtWUWZzRndXZFJWY3F0Wi93?=
- =?utf-8?B?eVNzYTRmSTl6RUNOQmtKRlpHVm43K3NjT25JMzFjQXZyaG5kcVI1OGUrd1lG?=
- =?utf-8?B?YUpOOEdYVzBVNjFQVGdYa2FjR3gxUWpMVnp2S1Q2YXcxaldwczdFWUVyNlc5?=
- =?utf-8?B?WkMrUFM1d25SMlZsMkp5MnN0aUdFWkxGd1FoQUJyT3dBcTRSemtzMkVXdURn?=
- =?utf-8?B?T2MwR3FzVlZnZ0JKN2JwS1FLdmNpdUdMdGs0TTZ6N0s1aFdIQ1FLRmVvZEE3?=
- =?utf-8?B?UlU5RGZkUlU2OGlWTTdJZGVrTDgxeTZic0wvcDMrcUhQVGMzZGt0cGpkMlFa?=
- =?utf-8?B?T0VXVThSMTgxRVdidXhKM1JsWXNTb3hOZENlNXlSdGpXQmdwVU5sWWo2WFNm?=
- =?utf-8?B?SmcrVlNzNU9xSjFGN1o0R3ZYOWxHTkNBRFVjRWlsNGN3cUlLQVJRVy80MEU1?=
- =?utf-8?B?YWd5c1ZEWkFKS1hIMCtUTDFKTGhjTXFycjNpMTZGMmtRcFA4dTVORGJ5ZXY1?=
- =?utf-8?B?ZHVDaVB5NW9jRUl5L0ZaelpKT1RScUJOMVRDTGkyenMxRjQraEFObEJOekhD?=
- =?utf-8?B?dktDdDRVZnVPWWIzY0t2akFtTExjVTlPZXl3U3FrdEtFMEdjZS94L1lqQ2pn?=
- =?utf-8?Q?9ahX6ml8w72ImjynsUtC9d5ynbLwdYafc5SPJ3+?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa6b1aa8-445b-47b0-19ea-08d8f39d4a8e
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 17:00:16.1566 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 57pcpc97dq6ZsxioPSCELAl/DSjdqLzkvMzJAq5Dh5dKuEAYWTgBEf7SgjRJ9YPMg0G9bDJKYpgm65eUp3eHb8mH0ESxin9yVqosfP3bDuM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2532
-Received-SPF: pass client-ip=40.107.20.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-30_08:2021-03-30,
+ 2021-03-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 adultscore=0 clxscore=1015 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103300115
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=vaibhav@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,21 +111,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
+ qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com,
+ qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com, imammedo@redhat.com,
+ ehabkost@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-29.03.2021 16:26, Max Reitz wrote:
-> 297 so far does not check the named tests, which reside in the tests/
-> directory (i.e. full path tests/qemu-iotests/tests).  Fix it.
-> 
-> Thanks to the previous two commits, all named tests pass its scrutiny,
-> so we do not have to add anything to SKIP_FILES.
-> 
-> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Thanks for looking into this patch Greg. My responses below inline.
+
+
+Greg Kurz <groug@kaod.org> writes:
+
+> Hi Vaibhav,
+>
+> Great to see you around :-)
+
+:-)
+
+>
+> On Mon, 29 Mar 2021 21:52:59 +0530
+> Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+>
+>> Add support for H_SCM_HEALTH hcall described at [1] for spapr
+>> nvdimms. This enables guest to detect the 'unarmed' status of a
+>> specific spapr nvdimm identified by its DRC and if its unarmed, mark
+>> the region backed by the nvdimm as read-only.
+>> 
+>
+> Any chance that you can provide the documentation of this new hcall ?
+>
+H_SCM_HEALTH specifications is already documented in linux kernel
+documentation at
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst
+
+That documentation was added when kernel support for H_SCM_HEALTH hcall
+support was implemented in 5.9 kernel. 
+
+>> The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
+>> returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
+>> from 'struct nvdimm->unarmed' member.
+>> 
+>> Linux kernel side changes to enable handling of 'unarmed' nvdimms for
+>> ppc64 are proposed at [2].
+>> 
+>> References:
+>> [1] "Hypercall Op-codes (hcalls)"
+>>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst
+>> 
+>> [2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
+>>     https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibhav@linux.ibm.com/
+>> 
+>> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+>> ---
+>>  hw/ppc/spapr_nvdimm.c  | 30 ++++++++++++++++++++++++++++++
+>>  include/hw/ppc/spapr.h |  4 ++--
+>>  2 files changed, 32 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+>> index b46c36917c..e38740036d 100644
+>> --- a/hw/ppc/spapr_nvdimm.c
+>> +++ b/hw/ppc/spapr_nvdimm.c
+>> @@ -31,6 +31,13 @@
+>>  #include "qemu/range.h"
+>>  #include "hw/ppc/spapr_numa.h"
+>>  
+>> +/* DIMM health bitmap bitmap indicators */
+>> +/* SCM device is unable to persist memory contents */
+>> +#define PAPR_PMEM_UNARMED (1ULL << (63 - 0))
+>
+> This looks like PPC_BIT(0).
+>
+Yes, right. Will update the patch in v2 to use the PPC_BIT macro.
+
+>> +
+>> +/* Bits status indicators for health bitmap indicating unarmed dimm */
+>> +#define PAPR_PMEM_UNARMED_MASK (PAPR_PMEM_UNARMED)
+>> +
+>>  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+>>                             uint64_t size, Error **errp)
+>>  {
+>> @@ -467,6 +474,28 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>      return H_SUCCESS;
+>>  }
+>>  
+>> +static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>> +                                 target_ulong opcode, target_ulong *args)
+>> +{
+>> +    uint32_t drc_index = args[0];
+>> +    SpaprDrc *drc = spapr_drc_by_index(drc_index);
+>> +    NVDIMMDevice *nvdimm;
+>> +
+>> +    if (drc && spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+>> +        return H_PARAMETER;
+>> +    }
+>> +
+>> +    nvdimm = NVDIMM(drc->dev);
+>
+> Yeah as already suggested by Shiva, drc->dev should be checked like
+> in h_scm_bind_mem().
+>
+Yes, will send a v2 with this case handled.
+
+>> +
+>> +    /* Check if the nvdimm is unarmed and send its status via health bitmaps */
+>> +    args[0] = nvdimm->unarmed ? PAPR_PMEM_UNARMED_MASK : 0;
+>> +
+>
+> Shouldn't ^^ use PAPR_PMEM_UNARMED then ?
+>
+>> +    /* health bitmap mask same as the health bitmap */
+>> +    args[1] = args[0];
+>> +
+>
+> If so, it seems that PAPR_PMEM_UNARMED_MASK isn't even needed.
+
+Definition of these defines are similar to what kernel implementation
+uses at
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/powerpc/platforms/pseries/papr_scm.c#n53
+
+Since unarmed condition can also arise due to an unhealthy nvdimm hence
+the kernel implementation uses a mask thats composed of two bits
+PPC_BIT(0) and PPC_BIT(6) being set. Though we arent using PPC_BIT(6)
+right now in qemu, it will change in future when better nvdimm health
+reporting will be done. Hence kept the PPC_BIT(0) define as well as the
+mask to mimic the kernel definitions.
+
+>
+> Having access to the excerpts from the PAPR addendum that describes
+> this hcall would _really_ help in reviewing.
+>
+The kernel documentation for H_SCM_HEALTH mentioned above captures most
+if not all parts of the PAPR addendum for this hcall. I believe it
+contains enough information to review the patch. If you still need more
+info than please let me know.
+
+
+>> +    return H_SUCCESS;
+>> +}
+>> +
+>>  static void spapr_scm_register_types(void)
+>>  {
+>>      /* qemu/scm specific hcalls */
+>> @@ -475,6 +504,7 @@ static void spapr_scm_register_types(void)
+>>      spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
+>>      spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
+>>      spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
+>> +    spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
+>>  }
+>>  
+>>  type_init(spapr_scm_register_types)
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index 47cebaf3ac..18859b9ab2 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -538,8 +538,8 @@ struct SpaprMachineState {
+>>  #define H_SCM_BIND_MEM          0x3EC
+>>  #define H_SCM_UNBIND_MEM        0x3F0
+>>  #define H_SCM_UNBIND_ALL        0x3FC
+>> -
+>> -#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
+>> +#define H_SCM_HEALTH            0x400
+>> +#define MAX_HCALL_OPCODE        H_SCM_HEALTH
+>>  
+>>  /* The hcalls above are standardized in PAPR and implemented by pHyp
+>>   * as well.
+>
 
 -- 
-Best regards,
-Vladimir
+Cheers
+~ Vaibhav
 
