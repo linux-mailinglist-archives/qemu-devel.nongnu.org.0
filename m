@@ -2,106 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19DB34E34F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 10:41:11 +0200 (CEST)
-Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A2034E40C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 11:09:37 +0200 (CEST)
+Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lR9vy-0001ND-QA
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 04:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
+	id 1lRANU-00011x-1r
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 05:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lR9tY-0000pu-5P; Tue, 30 Mar 2021 04:38:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64776
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRAMP-0000ch-8i
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 05:08:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lR9tQ-0004Dq-3k; Tue, 30 Mar 2021 04:38:39 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 12U8XiDB047939; Tue, 30 Mar 2021 04:38:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=0JoidHTPm5NfLDH1D1lJOrNJURGsWcMZRA5qS3w0/ho=;
- b=Lr+lSVqVhi5VxSea+YGFHsiZoogyI7Q1yuk9fIsCSlkf0TvIHUTGyyQowhRUKSsk0T3r
- CT7P2S/7+ZEk5w16irzzLoKAupES9q9+x8Q1PBYkMJuylgIQXoS9OJHLGcFws8tdqzzy
- oiu3XjeEE3+h94kZJZvrqTF7KgrD7NoZXZfyKk5IwhY/RvB8M3X14OitcqEX2x7C0636
- y+pz8Iwyur3yXOHNm4Og1/BPwOjCD0RjrurIDdNoRiTgHrFN7OBjQwnt7mkvtTidhLpx
- 94Hx37u0yynlTwVUtRltrsBJd0/shbA0Is0wGeHdG7QjBziKqs/OTtImhSc3O3ukaHAL zQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37jjb5syut-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Mar 2021 04:38:25 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12U8XhnJ047816;
- Tue, 30 Mar 2021 04:38:24 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37jjb5sytw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Mar 2021 04:38:24 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12U8bJas014958;
- Tue, 30 Mar 2021 08:38:22 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 37hvb8ahef-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Mar 2021 08:38:22 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 12U8cJBd49021234
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Mar 2021 08:38:19 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AE8BC11C054;
- Tue, 30 Mar 2021 08:38:19 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07BDE11C04C;
- Tue, 30 Mar 2021 08:38:15 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.85.111.7])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 30 Mar 2021 08:38:14 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Tue, 30 Mar 2021 14:08:14 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, qemu-devel@nongnu.org,
- kvm-ppc@vger.kernel.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, mst@redhat.com, imammedo@redhat.com,
- xiaoguangrong.eric@gmail.com
-Subject: Re: [PATCH] ppc/spapr: Add support for implement support for
- H_SCM_HEALTH
-In-Reply-To: <ef44262e-907d-5200-022c-a26e16522ab0@linux.ibm.com>
-References: <20210329162259.536964-1-vaibhav@linux.ibm.com>
- <ef44262e-907d-5200-022c-a26e16522ab0@linux.ibm.com>
-Date: Tue, 30 Mar 2021 14:08:13 +0530
-Message-ID: <87tuotox3e.fsf@vajain21.in.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRAMJ-0005RJ-9D
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 05:08:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617095300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J9updPIcNWkAEREa/hl6RSqM3olKdIK082QIkwvYo3s=;
+ b=fdivZxLKfqOQAeOK8m4GdEfKS4RjoiIwasrSzGXAvE9suWVt+fWC2fibyIi3w8HQISlrpq
+ vfgNEtfttFtkSg+B9nfRZ+ANsnIcu0cpVhW+aenxUfd5PIR0ZIEV5tiTGeNsiiiV8Xp6d+
+ Ccjd46O/Up4rIsY3dxvBXbJe1J4dfkQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-pwAS8WsrMHq5BRG4Aylu-w-1; Tue, 30 Mar 2021 05:08:15 -0400
+X-MC-Unique: pwAS8WsrMHq5BRG4Aylu-w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5658A5B368;
+ Tue, 30 Mar 2021 09:08:14 +0000 (UTC)
+Received: from thuth.com (ovpn-112-225.ams2.redhat.com [10.36.112.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F34FB5E1A4;
+ Tue, 30 Mar 2021 09:08:08 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+ Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict Resolution
+ Policy document
+Date: Tue, 30 Mar 2021 11:08:06 +0200
+Message-Id: <20210330090806.2802667-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: nwWq9ZXSkN3FuQVjvcY5ZsyGNJr0WvdK
-X-Proofpoint-ORIG-GUID: 9nVRh3bMV186V7r0NV0O9HIZFqHfd8aE
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-30_02:2021-03-26,
- 2021-03-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- mlxscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103300060
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=vaibhav@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,57 +78,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, bharata@linux.vnet.ibm.com,
- shivaprasadbhat@gmail.com, ehabkost@redhat.com, groug@kaod.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shiva,
+In an ideal world, we would all get along together very well, always be
+polite and never end up in huge conflicts. And even if there are conflicts,
+we would always handle each other fair and respectfully. Unfortunately,
+this is not an ideal world and sometimes people forget how to interact with
+each other in a professional and respectful way. Fortunately, this rarely
+happens in the QEMU community, but still there are such rare cases, and
+then it would be good to have a basic code of conduct document available
+that can be shown to persons who are misbehaving. And if that does not help
+yet, we should also have a conflict resolution policy ready that can be
+applied in the worst case.
 
-Thanks for reviweing this patch. My responses inline below;
+The Code of Conduct document is based on the Django Code of Conduct
+(https://www.djangoproject.com/conduct/) and the conflict resolution
+has been assembled by Paolo, based on the Drupal Conflict Resolution Policy
+(https://www.drupal.org/conflict-resolution) and the Mozilla Consequence Ladder
+(https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md)
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ I've picked the Django Code of Conduct as a base, since it sounds rather
+ friendly and still welcoming to me, but I'm open for other suggestions, too
+ (but we should maybe pick one where the conflict resolution policy is
+ separated from the CoC itself so that it can be better taylored to the
+ requirements of the QEMU project)
 
-Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+ v2: Adjusted the wording in the conflict resolution document according to
+     the suggestions from Daniel and Paolo
 
-<snip>
+ docs/devel/code-of-conduct.rst     | 85 ++++++++++++++++++++++++++++++
+ docs/devel/conflict-resolution.rst | 78 +++++++++++++++++++++++++++
+ docs/devel/index.rst               |  2 +
+ 3 files changed, 165 insertions(+)
+ create mode 100644 docs/devel/code-of-conduct.rst
+ create mode 100644 docs/devel/conflict-resolution.rst
 
->>   
->> +static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
->> +                                 target_ulong opcode, target_ulong *args)
->> +{
->> +    uint32_t drc_index = args[0];
->> +    SpaprDrc *drc = spapr_drc_by_index(drc_index);
->> +    NVDIMMDevice *nvdimm;
->> +
->> +    if (drc && spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
->> +        return H_PARAMETER;
->> +    }
->> +
->
->
-> Please check if drc->dev is not NULL too. DRCs are created in advance
->
-> and drc->dev may not be assigned if the device is not plugged yet.
->
->
-Sure, will address that in v2
-
->> +    nvdimm = NVDIMM(drc->dev);
->> +
->> +    /* Check if the nvdimm is unarmed and send its status via health bitmaps */
->> +    args[0] = nvdimm->unarmed ? PAPR_PMEM_UNARMED_MASK : 0;
->
->
-> Please use object_property_get_bool to fetch the unarmed value.
->
->
-Sure I will switch to object_property_get_bool in v2. However I see
-nvdimm->unarmed being accessed in similar manner in
-nvdimm_build_structure_memdev() which probably needs an update too.
-
-<snip>
-
+diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.rst
+new file mode 100644
+index 0000000000..050dbd9e16
+--- /dev/null
++++ b/docs/devel/code-of-conduct.rst
+@@ -0,0 +1,85 @@
++Code of Conduct
++===============
++
++Like the technical community as a whole, the QEMU community is made up of a
++mixture of professionals and volunteers from all over the world.
++Diversity is one of our huge strengths, but it can also lead to communication
++issues and unhappiness. To that end, we have a few ground rules that we ask
++people to adhere to. This code applies equally to founders, maintainers,
++contributors, mentors and those seeking help and guidance.
++
++This isn't an exhaustive list of things that you can't do. Rather, take it in
++the spirit in which it's intended - a guide to make it easier to enrich all of
++us and the technical communities in which we participate:
++
++* Be friendly and patient.
++
++* Be welcoming. We strive to be a community that welcomes and supports people
++  of all backgrounds and identities. This includes, but is not limited to
++  members of any race, ethnicity, culture, national origin, colour, immigration
++  status, social and economic class, educational level, sex, sexual orientation,
++  gender identity and expression, age, size, family status, political belief,
++  religion, and mental and physical ability.
++
++* Be considerate. Your work will be used by other people, and you in turn will
++  depend on the work of others. Any decision you take will affect users and
++  colleagues, and you should take those consequences into account when making
++  decisions. Remember that we're a world-wide community, so you might not be
++  communicating in someone else's primary language.
++
++* Be respectful. Not all of us will agree all the time, but disagreement is no
++  excuse for poor behavior and poor manners. We might all experience some
++  frustration now and then, but we cannot allow that frustration to turn into
++  a personal attack. It's important to remember that a community where people
++  feel uncomfortable or threatened is not a productive one. Members of the QEMU
++  community should be respectful when dealing with other members as well as
++  with people outside the QEMU community.
++
++* Be careful in the words that you choose. We are a community of professionals,
++  and we conduct ourselves professionally. Be kind to others. Do not insult or
++  put down other participants. Harassment and other exclusionary behavior
++  aren't acceptable. This includes, but is not limited to:
++
++  * Violent threats or language directed against another person.
++
++  * Discriminatory jokes and language.
++
++  * Posting sexually explicit or violent material.
++
++  * Posting (or threatening to post) other people's personally identifying
++    information ("doxing").
++
++  * Personal insults, especially those using racist or sexist terms.
++
++  * Unwelcome sexual attention.
++
++  * Advocating for, or encouraging, any of the above behavior.
++
++  * Repeated harassment of others. In general, if someone asks you to stop,
++    then stop.
++
++* When we disagree, try to understand why. Disagreements, both social and
++  technical, happen all the time and our project is no exception. It is
++  important that we resolve disagreements and differing views constructively.
++  Remember that we're different. The strength of our project comes from its
++  varied community, people from a wide range of backgrounds. Different people
++  have different perspectives on issues. Being unable to understand why someone
++  holds a viewpoint doesn't mean that they're wrong. Don't forget that it is
++  human to err and blaming each other doesn't get us anywhere. Instead, focus
++  on helping to resolve issues and learning from mistakes.
++
++This code of conduct applies to all spaces managed by the QEMU project. This
++includes IRC, the mailing lists, the issue tracker, community events, and any
++other forums created by the project team which the community uses for
++communication. In addition, violations of this code outside these spaces may
++affect a person's ability to participate within them.
++
++If you believe someone is violating the code of conduct, please read the
++:ref:`conflict-resolution` document for information about how to proceed.
++
++This document is based on the `Django Code of Conduct
++<https://www.djangoproject.com/conduct/>`__, with original text courtesy of the
++`Speak Up! project
++<http://web.archive.org/web/20141109123859/http://speakup.io/coc.html>`__
++(`CC BY 3.0 <https://creativecommons.org/licenses/by/3.0/>`__).
++
+diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-resolution.rst
+new file mode 100644
+index 0000000000..3f2a1744fd
+--- /dev/null
++++ b/docs/devel/conflict-resolution.rst
+@@ -0,0 +1,78 @@
++.. _conflict-resolution:
++
++Conflict Resolution Policy
++==========================
++
++Conflicts in the community can take many forms, from someone having a
++bad day and using harsh and hurtful language on the mailing list to more
++serious code of conduct violations (including sexist/racist statements
++or threats of violence), and everything in between.
++
++For the vast majority of issues, we aim to empower individuals to first
++resolve conflicts themselves, asking for help when needed, and only
++after that fails to escalate further. This approach gives people more
++control over the outcome of their dispute.
++
++How we resolve conflicts
++------------------------
++
++If you are experiencing conflict, please consider first addressing the
++perceived conflict directly with other involved parties, preferably through
++a real-time medium such as IRC. You could also try to get a third-party (e.g.
++a mutual friend, and/or someone with background on the issue, but not
++involved in the conflict) to intercede or mediate.
++
++If this fails or if you do not feel comfortable proceeding this way, or
++if the problem requires immediate escalation, report the issue to the QEMU
++leadership committee by sending an email to qemu@sfconservancy.org, providing
++references to the misconduct.
++For very urgent topics, you can also inform one or more members through IRC.
++The up-to-date list of members is `available on the QEMU wiki
++<https://wiki.qemu.org/Conservancy>`__.
++
++Your report will be treated confidentially by the leadership committee and
++not be published without your agreement. The QEMU leadership committee will
++then do its best to review the incident timely, and will either seek further
++information, or will make a determination on next steps.
++
++Remedies
++--------
++
++Escalating an issue to the QEMU leadership committee may result in actions
++impacting one or more involved parties. In the event the leadership
++committee has to intervene, here are some of the ways they might respond:
++
++1. Take no action. For example, if the leadership committee determines
++   the complaint has not been substantiated or is being made in bad faith,
++   or if it is deemed to be outside its purview.
++
++2. A private reprimand, explaining the consequences of continued behavior,
++   to one or more involved individuals.
++
++3. A private reprimand and request for a private or public apology
++
++4. A public reprimand and request for a public apology
++
++5. A public reprimand plus a mandatory cooling off period. The cooling
++   off period may require, for example, one or more of the following:
++   abstaining from maintainer duties; not interacting with people involved,
++   including unsolicited interaction with those enforcing the guidelines
++   and interaction on social media; being denied participation to in-person
++   events.  The cooling off period is voluntary but may escalate to a
++   temporary ban in order to enforce it.
++
++6. A permanent or temporary ban from some or all current and future QEMU
++   spaces (mailing lists, IRC, wiki, etc.).
++
++In the event of severe harassment, the leadership comittee may advise that
++the matter be escalated to the relevant local law enforcement agency. It
++is however not the role of the leadership comittee to initiate contact
++with law enforcement on behalf of any of the community members involved
++in an incident.
++
++Sources
++-------
++
++* `Drupal Conflict Resolution Policy and Process <https://www.drupal.org/conflict-resolution>`__
++
++* `Mozilla Consequence Ladder <https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md>`__
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 7c424ea6d7..416261505f 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -14,6 +14,8 @@ Contents:
+    :maxdepth: 2
+    :includehidden:
+ 
++   code-of-conduct
++   conflict-resolution
+    build-system
+    style
+    kconfig
 -- 
-Cheers
-~ Vaibhav
+2.27.0
+
 
