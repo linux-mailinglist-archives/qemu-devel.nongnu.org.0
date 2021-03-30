@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D883534E8D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 15:18:14 +0200 (CEST)
-Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82C534E8E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 15:21:56 +0200 (CEST)
+Received: from localhost ([::1]:54342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lREG5-00033e-OP
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 09:18:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38706)
+	id 1lREJf-0004ym-OH
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 09:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lREDl-00028m-Vj
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:15:50 -0400
-Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:54298)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lREHJ-00043k-WC
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:19:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lREDd-0006Uj-NY
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:15:49 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.76])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id AD95A255E7B;
- Tue, 30 Mar 2021 15:15:30 +0200 (CEST)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 30 Mar
- 2021 15:15:29 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003d3ce4b5a-2f09-4139-9779-16dda1179bd0,
- ACC3036D4A0BACA70991A0E48D5F19CB1CCAE693) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 30 Mar 2021 15:15:27 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC 0/8] virtio: Improve boot time of virtio-scsi-pci and
- virtio-blk-pci
-Message-ID: <20210330151527.0b5d2870@bahia.lan>
-In-Reply-To: <YGIP1HKa5NsHqnj7@stefanha-x1.localdomain>
-References: <20210325150735.1098387-1-groug@kaod.org>
- <YGIP1HKa5NsHqnj7@stefanha-x1.localdomain>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lREHF-00007T-8A
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:19:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617110364;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=unGHEf+8eyX5Rt/PZWhU7p87tM4OK09+hkycZACRYlo=;
+ b=Q59WVH0IFk+dtaV8zXHhd9vleciafJx1wmftsiYiHNulN11ypivhcBe/nKNKmIJipITyvf
+ d0qFDXDr+OS+HdQxhbr+gwpZNEp9gZwXIkGxcYw2RrSpcWgzK55xZksf6ZGTSXEqFuvx8H
+ t3Cc3d2kdUQLMaJeRGi2+SISgyqHgZE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-MZ8QjfzWMva_pWnMcvh2Cg-1; Tue, 30 Mar 2021 09:19:15 -0400
+X-MC-Unique: MZ8QjfzWMva_pWnMcvh2Cg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 769921927824;
+ Tue, 30 Mar 2021 13:19:09 +0000 (UTC)
+Received: from redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A97D27A3B0;
+ Tue, 30 Mar 2021 13:19:06 +0000 (UTC)
+Date: Tue, 30 Mar 2021 14:19:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: Serious doubts about Gitlab CI
+Message-ID: <YGMlR9gXwPqLdhr0@redhat.com>
+References: <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
+ <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
+ <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
+ <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
+ <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
+ <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
+ <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
+ <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
+ <YGMJSoIGa5VoVDB1@redhat.com>
+ <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/33Dg3Tz5.8fdq2m7nQDQbF5";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: ddc81369-0295-4225-99d5-5380f1e6e78e
-X-Ovh-Tracer-Id: 2626161534636300591
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
- helo=4.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,160 +91,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/33Dg3Tz5.8fdq2m7nQDQbF5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Mar 30, 2021 at 01:55:48PM +0200, Thomas Huth wrote:
+> On 30/03/2021 13.19, Daniel P. Berrangé wrote:
 
-On Mon, 29 Mar 2021 18:35:16 +0100
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > Another example, is that we test builds on centos7 with
+> > three different combos of crypto backend settings. This was
+> > to exercise bugs we've seen in old crypto packages in RHEL-7
+> > but in reality, it is probably overkill, because downstream
+> > RHEL-7 only cares about one specific combination.
+> 
+> Care to send a patch? Or shall we just wait one more months and then remove
+> these jobs (since we won't support RHEL7 after QEMU 6.0 anymore)?
 
-> On Thu, Mar 25, 2021 at 04:07:27PM +0100, Greg Kurz wrote:
-> > Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,
-> > a serious slow down may be observed on setups with a big enough number
-> > of vCPUs.
-> >=20
-> > Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threa=
-ds):
-> >=20
-> > 1		0m20.922s	0m21.346s
-> > 2		0m21.230s	0m20.350s
-> > 4		0m21.761s	0m20.997s
-> > 8		0m22.770s	0m20.051s
-> > 16		0m22.038s	0m19.994s
-> > 32		0m22.928s	0m20.803s
-> > 64		0m26.583s	0m22.953s
-> > 128		0m41.273s	0m32.333s
-> > 256		2m4.727s 	1m16.924s
-> > 384		6m5.563s 	3m26.186s
-> >=20
-> > Both perf and gprof indicate that QEMU is hogging CPUs when setting up
-> > the ioeventfds:
-> >=20
-> >  67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable
-> >   9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single
-> >   8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable
-> > =3D>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioevent=
-fd_before
-> > =3D>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_=
-ioeventfds
-> >   0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single
-> >=20
-> > address_space_update_ioeventfds() is called when committing an MR
-> > transaction, i.e. for each ioeventfd with the current code base,
-> > and it internally loops on all ioventfds:
-> >=20
-> > static void address_space_update_ioeventfds(AddressSpace *as)
-> > {
-> > [...]
-> >     FOR_EACH_FLAT_RANGE(fr, view) {
-> >         for (i =3D 0; i < fr->mr->ioeventfd_nb; ++i) {
-> >=20
-> > This means that the setup of ioeventfds for these devices has
-> > quadratic time complexity.
-> >=20
-> > This series introduce generic APIs to allow batch creation and deletion
-> > of ioeventfds, and converts virtio-blk and virtio-scsi to use them. This
-> > greatly improves the numbers:
-> >=20
-> > 1		0m21.271s	0m22.076s
-> > 2		0m20.912s	0m19.716s
-> > 4		0m20.508s	0m19.310s
-> > 8		0m21.374s	0m20.273s
-> > 16		0m21.559s	0m21.374s
-> > 32		0m22.532s	0m21.271s
-> > 64		0m26.550s	0m22.007s
-> > 128		0m29.115s	0m27.446s
-> > 256		0m44.752s	0m41.004s
-> > 384		1m2.884s	0m58.023s
->=20
-> Excellent numbers!
->=20
-> I wonder if the code can be simplified since
-> memory_region_transaction_begin/end() supports nesting. Why not call
-> them directly from the device model instead of introducing callbacks in
-> core virtio and virtio-pci code?
->=20
+Yeah, we'll be able to cull this entirely very soon, including
+both the C backcompat code and CI jobs at the same time, so I'll
+just wait.
 
-It seems a bit awkward that the device model should assume a memory
-transaction is needed to setup host notifiers, which are ioeventfds
-under the hood but the device doesn't know that.
 
-> Also, do you think there are other opportunities to have a long
-> transaction to batch up machine init, device hotplug, etc? It's not
-> clear to me when transactions must be ended. Clearly it's necessary to
+> > Our docker containers install ccache already and I could have sworn
+> > that we use that in gitlab, but now I'm not so sure. We're only
+> > saving the "build/" directory as an artifact between jobs, and I'm
+> > not sure that directory holds the ccache cache.
+> 
+> AFAIK we never really enabled ccache in the gitlab-CI, only in Travis.
+> 
+> > > This is as far as I've gotten with thinking about CI efficiency. Do you
+> > > think these optimizations are worth investigating or should we keep it
+> > > simple and just disable many builds by default?
+> > 
+> > ccache is a no-brainer and assuming it isn't already working with
+> > our gitlab jobs, we must fix that asap.
+> 
+> I've found some nice instructions here:
+> 
+> https://gould.cx/ted/blog/2017/06/10/ccache-for-Gitlab-CI/
+> 
+> ... and just kicked off a build with these modifications, let's see how it
+> goes...
 
-The transaction *must* be ended before calling
-virtio_bus_cleanup_host_notifier() because
-address_space_add_del_ioeventfds(), called when
-finishing the transaction, needs the "to-be-closed"
-eventfds to be still open, otherwise the KVM_IOEVENTFD=20
-ioctl() might fail with EBADF.
+Yep, that looks similar to what we do in libvirt, though we don't override
+the compiler at the job level. Instead we just ensure the dir containing
+ccache symlinks appears first in $PATH.
 
-See this change in patch 3:
+So in containers we have this:
 
-@@ -315,6 +338,10 @@ static void virtio_bus_unset_and_cleanup_host_notifier=
-s(VirtioBusState *bus,
-=20
-     for (i =3D 0; i < nvqs; i++) {
-         virtio_bus_set_host_notifier(bus, i + n_offset, false);
-+    }
-+    /* Let address_space_update_ioeventfds() run before closing ioeventfds=
- */
-+    virtio_bus_set_host_notifier_commit(bus);
-+    for (i =3D 0; i < nvqs; i++) {
-         virtio_bus_cleanup_host_notifier(bus, i + n_offset);
-     }
- }
+https://gitlab.com/libvirt/libvirt/-/blob/master/ci/containers/centos-8.Dockerfile
 
-Maybe I should provide more details why we're doing that ?
+and in gitlab-ci.yml we have env vars set
 
-> end the transaction if we need to do something that depends on the
-> MemoryRegion, eventfd, etc being updated. But most of the time there is
-> no immediate need to end the transaction and more code could share the
-> same transaction before we go back to the event loop or vcpu thread.
->=20
+  export CCACHE_BASEDIR="$(pwd)"
+  export CCACHE_DIR="$CCACHE_BASEDIR/ccache"
+  export CCACHE_MAXSIZE="500M"
+  export PATH="$CCACHE_WRAPPERSDIR:$PATH"
 
-I can't tell for all scenarios that involve memory transactions but
-it seems this is definitely not the case for ioeventfds : the rest
-of the code expects the transaction to be complete.
+And per-job caches:
 
-> Stefan
+  cache:
+    paths:
+      - ccache/
+    key: "$CI_JOB_NAME"
 
-Thanks for the review !
+note the "key" is important to avoid clashing caches from different
+envs.
 
-Cheers,
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---
-Greg
-
---Sig_/33Dg3Tz5.8fdq2m7nQDQbF5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmBjJG8ACgkQcdTV5YIv
-c9YM2A/9Glc4WthxJuoY7ekmOVQ2O63QwD3w63pxWFUweTKbTM69yQbgzz1RBDQV
-mE79uXNl4U0BPf98yIf28RdUO+DUCIhX+t0a38r+qKxvf3ho42mUmPwZLDkfSOKA
-otDGpvvKOPUngv326vYO2pMpDatKr6gwJCSt+lEEj5b2ICEVrNEFHh+LQS5V7XOD
-M+daIu++bSKvvvhNn6N/X9qhgp6xzSu7OCUp4ANzLj9gM38Zw9ehTDObDJC5HKhp
-kVd89Jm5YIGJ97dMDICbsnitD70R7MLuhoz3gNp8IDdZdP7CCqmVw4WPqJ41x7NU
-hwsTtiYmhBvgMaYzN8TDXZujLTxH384BbRKjZB7Q+MSRQPUCOuuBacdok8Kja49C
-gAXWUTq9Ab8IltS0cVMvWxYuiq2LVYZlCBrCoDWyeW5iFP1s3Ncj3FNNx41xFUwD
-Sn+kawA4iTslAvf8IIF6clGGeVHS6NQ6H6OvJwn/Ugm8/HytiS8xLSX5IJFUmleo
-O05gf/zYvO4cDDR+8AZYKp0yTZ1w5/v0ZaU5Cakg2SLpnvzt/ShHVUIATVleGwaZ
-lvI+r46+VfHW7uXT5KAsbcd6hFLhyjei28hp8Nk/CGDSy6SCF8jYuHTx3aqv5CX6
-oUOrqfodAy2u+cLMBaMfHYv13d7M2dIMVdNjDj9ql9O815F0No4=
-=j4cv
------END PGP SIGNATURE-----
-
---Sig_/33Dg3Tz5.8fdq2m7nQDQbF5--
 
