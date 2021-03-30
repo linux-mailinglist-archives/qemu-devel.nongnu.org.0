@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B571D34E7EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:53:14 +0200 (CEST)
-Received: from localhost ([::1]:41988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2E434E84C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 15:04:27 +0200 (CEST)
+Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDrt-0003s8-Nv
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60792)
+	id 1lRE2j-0005a4-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 09:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDpy-0002Nk-VQ
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:51:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24134)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRE1C-0004kO-Ki
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:02:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDpx-000126-1k
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:51:14 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRE11-0007ln-1A
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 09:02:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617108672;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1617109356;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=trGN9gMgRGPRLq/gri4GbOLSH8LdtJEdsSIuiPHH1vA=;
- b=LSiH7T0kdj9ctKT2gtf97iYNWh1uy0AxkgOFCc/GfVAffZw6mrq0sBVRWgBs28l/ZfNLCl
- FHnnAoyTpnlaTQM1LvlSQPgB11qMpb6EJmoghQjqDC9iIB00Tp0cYOGu2JFaR9Ra2EMqmK
- dl32kM9TK6A52D9QVTUY4IzAcK6UyDE=
+ bh=yK6KBXlZW8dgDeoovng5may0JUPLQq6FTiSFum1c6I0=;
+ b=AC6JJf+abkY3+MO3fZK/ATl7zeFT4E8eL1jaVIXFA7dPLUtWVIO4dVbfqJYy/gDBiV2kYY
+ Z85Ea4izFezOvmUIEs0u1COKe6NUnnUE0qVLadk8ffMXS+vbPMo9r5HyjcMneXa4gzuroA
+ olLfKUbkpAesnTi+XGp5FtlTFk8rUfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-N2dN9Zs7N52AfSHoYAQ_5A-1; Tue, 30 Mar 2021 08:51:10 -0400
-X-MC-Unique: N2dN9Zs7N52AfSHoYAQ_5A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-448-LbHaMnIJP1W2FC_y5eAHsA-1; Tue, 30 Mar 2021 09:02:20 -0400
+X-MC-Unique: LbHaMnIJP1W2FC_y5eAHsA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23213180FCB7;
- Tue, 30 Mar 2021 12:51:09 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-220.ams2.redhat.com
- [10.36.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D20C560CD0;
- Tue, 30 Mar 2021 12:51:07 +0000 (UTC)
-Subject: Re: [PATCH v4 for-6.0? 0/3] qcow2: fix parallel rewrite and discard
- (rw-lock)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210319100811.342464-1-vsementsov@virtuozzo.com>
- <f16e8ea3-5af7-abc2-bf1c-7fd997ecf651@virtuozzo.com>
- <c3c2ea3a-9475-69f2-b9d7-e88001d822c0@redhat.com>
- <166496e1-f855-5813-2fe8-88035fb85a26@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <80e4838f-772b-28e1-3bdb-10a5d7e72ec0@redhat.com>
-Date: Tue, 30 Mar 2021 14:51:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A5188127C;
+ Tue, 30 Mar 2021 13:02:19 +0000 (UTC)
+Received: from redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F8F71B5FE;
+ Tue, 30 Mar 2021 13:02:12 +0000 (UTC)
+Date: Tue, 30 Mar 2021 14:02:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict
+ Resolution Policy document
+Message-ID: <YGMhUTUXJBM3BcW5@redhat.com>
+References: <20210330090806.2802667-1-thuth@redhat.com>
+ <c8cc80d5-51f8-9c35-ad98-1eac0d164be6@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <166496e1-f855-5813-2fe8-88035fb85a26@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <c8cc80d5-51f8-9c35-ad98-1eac0d164be6@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,87 +84,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Graf <agraf@csgraf.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.03.21 12:51, Vladimir Sementsov-Ogievskiy wrote:
-> 30.03.2021 12:49, Max Reitz wrote:
->> On 25.03.21 20:12, Vladimir Sementsov-Ogievskiy wrote:
->>> ping. Do we want it for 6.0?
->>
->> I’d rather wait.  I think the conclusion was that guests shouldn’t hit 
->> this because they serialize discards?
+On Tue, Mar 30, 2021 at 12:53:04PM +0200, Paolo Bonzini wrote:
+> On 30/03/21 11:08, Thomas Huth wrote:
+> >   I've picked the Django Code of Conduct as a base, since it sounds rather
+> >   friendly and still welcoming to me, but I'm open for other suggestions, too
+> >   (but we should maybe pick one where the conflict resolution policy is
+> >   separated from the CoC itself so that it can be better taylored to the
+> >   requirements of the QEMU project)
 > 
-> I think, that we never had bugs, so we of course can wait.
+> It turns out that the Django CoC is ultimately based on the Fedora CoC,
+> so I tried using https://docs.fedoraproject.org/en-US/project/code-of-conduct/
+> as an inspiration for what can be cut. Here is the outcome:
 > 
->>
->> There’s also something Kevin wrote on IRC a couple of weeks ago, for 
->> which I had hoped he’d sent an email but I don’t think he did, so I’ll 
->> try to remember and paraphrase as well as I can...
->>
->> He basically asked whether it wouldn’t be conceptually simpler to take 
->> a reference to some cluster in get_cluster_offset() and later release 
->> it with a to-be-added put_cluster_offset().
->>
->> He also noted that reading is problematic, too, because if you read a 
->> discarded and reused cluster, this might result in an information leak 
->> (some guest application might be able to read data it isn’t allowed to 
->> read); that’s why making get_cluster_offset() the point of locking 
->> clusters against discarding would be better.
+> -----
+> The QEMU community is made up of a mixture of professionals and
+> volunteers from all over the world. Diversity is one of our strengths,
+> but it can also lead to communication issues and unhappiness.
+> To that end, we have a few ground rules that we ask people to adhere to.
 > 
-> Yes, I thought about read too, (RFCed in cover letter of [PATCH v5 0/6] 
-> qcow2: fix parallel rewrite and discard (lockless))
+> * Be welcoming. We are committed to making participation in this project
+>   a harassment-free experience for everyone, regardless of level of
+>   experience, gender, gender identity and expression, sexual orientation,
+>   disability, personal appearance, body size, race, ethnicity, age, religion,
+>   or nationality.
 > 
->>
->> This would probably work with both of your solutions.  For the 
->> in-memory solutions, you’d take a refcount to an actual cluster; in 
->> the CoRwLock solution, you’d take that lock.
->>
->> What do you think?
->>
+> * Be respectful. Not all of us will agree all the time.  Disagreements, both
+>   social and technical, happen all the time and the QEMU community is no
+>   exception. When we disagree, we try to understand why.  It is important that
+>   we resolve disagreements and differing views constructively.  Members of the
+>   QEMU community should be respectful when dealing with other contributors as
+>   well as with people outside the QEMU community and with users of QEMU.
 > 
-> Hmm. What do you mean? Just rename my qcow2_inflight_writes_inc() and 
-> qcow2_inflight_writes_dec() to 
-> get_cluster_offset()/put_cluster_offset(), to make it more native to use 
-> for read operations as well?
+> Harassment and other exclusionary behavior are not acceptable. A community
+> where people feel uncomfortable or threatened is neither welcoming nor
+> respectful.  Examples of unacceptable behavior by participants include:
+> 
+> * The use of sexualized language or imagery
+> 
+> * Personal attacks
+> 
+> * Trolling or insulting/derogatory comments
+> 
+> * Public or private harassment
+> 
+> * Publishing other's private information, such as physical or electronic
+> addresses, without explicit permission
+> 
+> This isn't an exhaustive list of things that you can't do. Rather, take
+> it in the spirit in which it's intended—a guide to make it easier to
+> be excellent to each other.
+> 
+> This code of conduct applies to all spaces managed by the QEMU project.
+> This includes IRC, the mailing lists, the issue tracker, community
+> events, and any other forums created by the project team which the
+> community uses for communication. This code of conduct also applies
+> outside these spaces, when an individual acts as a representative or a
+> member of the project or its community.
 
-Hm.  Our discussion wasn’t so detailed.
+I really don't like this last sentance. The qualifier
 
-I interpreted it to mean all qcow2 functions that find an offset to a 
-qcow2 cluster, namely qcow2_get_host_offset(), 
-qcow2_alloc_host_offset(), and qcow2_alloc_compressed_cluster_offset().
+  ', when an individual acts as a representative or member...'
 
-When those functions return an offset (in)to some cluster, that cluster 
-(or the image as a whole) should be locked against discards.  Every 
-offset received this way would require an accompanying 
-qcow2_put_host_offset().
+is opening up a clear loophole to escape consequences under the
+QEMU CoC.
 
-> Or to update any kind of "getting cluster offset" in the whole qcow2 
-> driver to take a kind of "dynamic reference count" by 
-> get_cluster_offset() and then call corresponding put() somewhere? In 
-> this case I'm afraid it's a lot more work..
+Consider someone is kicked out from another project for violation
+of that project's CoC, that would also be considered a violation
+under QEMU's CoC. This qualifier is explicitly stating that the CoC
+violation in the other project has no bearing on whether that
+person can now start participating in QEMU. I think that's a bad
+mixed message we're sending there. It is especially poor if the
+victim from the other project is also a QEMU contributor.
 
-Hm, really?  I would have assumed we need to do some locking in all 
-functions that get a cluster offset this way, so it should be less work 
-to take the lock in the functions they invoke to get the offset.
+The wording Thomas' draft has
 
-> It would be also the problem 
-> that a lot of paths in qcow2 are not in coroutine and don't even take 
-> s->lock when they actually should.
+  In addition, violations of this code outside these spaces may
+  affect a person's ability to participate within them.
 
-I’m not sure what you mean here, because all functions that invoke any 
-of the three functions I listed above are coroutine_fns (or, well, I 
-didn’t look it up, but they all have *_co_* in their name).
+doesn't require QEMU to take action. It just set a statement
+of intent that gives QEMU the freedom to evaluate whether it is
+reasonable to take action to protect its contributors, should a
+contributor wish to raise an issue that occurred outside QEMU.
 
-> This will also mean that we do same 
-> job as normal qcow2 refcounts already do: no sense in keeping additional 
-> "dynamic refcount" for L2 table cluster while reading it, as we already 
-> have non-zero qcow2 normal refcount for it..
-
-I’m afraid I don’t understand how normal refcounts relate to this.  For 
-example, qcow2_get_host_offset() doesn’t touch refcounts at all.
-
-Max
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
