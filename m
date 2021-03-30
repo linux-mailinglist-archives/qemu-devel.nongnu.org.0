@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1376C34E787
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:35:05 +0200 (CEST)
-Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAD034E790
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:37:21 +0200 (CEST)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDaJ-00075C-JM
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:35:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56464)
+	id 1lRDcW-0008RO-Ir
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRDYR-0006BZ-VT
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:33:08 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRDYQ-0007mU-Bb
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:33:07 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j7so16105679wrd.1
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 05:33:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yrd+yXK0SNafUkeVhpoJxtLAcoyIW4/5K8gxS4WVvns=;
- b=o1NWUKzFzgfIlkAa+Bhl6HsnJfuoBee45pKgmifUTJhiRn+XbRO8TUaBywgYoMLzAQ
- wtiI0sn3OpAZy5iU1+KsmtXCfOmZ/2PC881er5m83YozlCGAjGDb+Wwxc0y9YYp+jpBz
- F6SYtGTxKrdEkucRwd6HB1Aq6tixB/2Y/903v1qsvJS6Leo9dweWmyIu7dDfOTBLz7vu
- hW2eUZBdCL2/QkA5Zf9YaAvsr0vUB8018MHHiCAF6fTqZ1x1/9V8E3PydciYUxfH2vyG
- S0bkVlxWQmMOPV2zYziVi7ZFDuEhIH+HNsYaacLWlKOgx+xelikSk7WSOy1ujz6M+Lv+
- w/1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yrd+yXK0SNafUkeVhpoJxtLAcoyIW4/5K8gxS4WVvns=;
- b=R9IwKXO97uxTBQtc6qMN8e5Myl7RQk66+Bv0CdtDtct8gRV4eKVvm3K20k5l4XN7Cq
- UPSRT/4Qj3wvcnxHW8QlFTSUrQOO9RYwNcf+36ymdCkeYZ+zJWGB9+0Fg4oX2wHtjWDr
- +l3kQiRw6OMNaydg8r+Sen9w25+bnlPniKLCdIX4bq+FRmLu4oDQgo/STB4Krei5SPWv
- 0fwA6YHxF6JS9Z9xe6bDwAKvZnUUCbRKlksM1cdnnPghkJ9TBCDrzxlCM/Qz2inGXuKZ
- jUZRCbujSvDAv6NJ7A2UIu3KR+xIj68kNCVxpZUIWFY2IHaaDtfcYozPADUhb2sMMCug
- 2P9w==
-X-Gm-Message-State: AOAM530smUdJsdhKDECS1cWILLCIMNhEDwbSnp+ivDNPXXOFaW/qmADq
- PbzMEoKOoMq0GokAqUyr+PQ=
-X-Google-Smtp-Source: ABdhPJydG4sDRuEtyBZoZRkKVtFs/TyAF0vECAWt/+zJswmwt4ENs7/Ca78DtK4088pqqQFf0mLosw==
-X-Received: by 2002:a5d:4f0e:: with SMTP id c14mr22595549wru.286.1617107583810; 
- Tue, 30 Mar 2021 05:33:03 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id l21sm3138809wmg.41.2021.03.30.05.33.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 05:33:03 -0700 (PDT)
-Subject: Re: Serious doubts about Gitlab CI
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
- <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
- <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
- <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
- <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
- <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
- <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
- <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
- <YGHf3HjYTRJwktbf@stefanha-x1.localdomain> <YGMJSoIGa5VoVDB1@redhat.com>
- <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5799156b-0363-28aa-908e-9237b16787f0@amsat.org>
-Date: Tue, 30 Mar 2021 14:33:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lRDbV-0007zI-Sv
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:36:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45514)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lRDbS-00014z-B8
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:36:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617107772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EGdIDKG6NI6mtXJzr7gPDXUihog94686fbrK3tpNMU0=;
+ b=KB798jVx2i2CVh2y6xLKr2/J1Biiy+kgoI7rfZBZ1qWVSgwg+nthn5JDnVlC+BcqAxhBFG
+ XNn/DewIKFR7AicTf7IdKddGQnheBrKCxT2HZBworqfF3F/oQs7vgZptq3Kzz+zd530qnS
+ tNei9OD6OEBvLP+WBqULIRnbLye1mck=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-FxwtoPpgO7C_RqJj2FyyDA-1; Tue, 30 Mar 2021 08:36:11 -0400
+X-MC-Unique: FxwtoPpgO7C_RqJj2FyyDA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 395DECC626;
+ Tue, 30 Mar 2021 12:36:10 +0000 (UTC)
+Received: from vitty.brq.redhat.com (unknown [10.40.195.155])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FBF97217B;
+ Tue, 30 Mar 2021 12:36:04 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH] i386: Make 'hv-reenlightenment' require explicit
+ 'tsc-frequency' setting
+Date: Tue, 30 Mar 2021 14:36:03 +0200
+Message-Id: <20210330123603.284354-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <04e5e251-7a09-dcf6-82ad-31bf696bc248@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_SBL_A=0.1 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,60 +77,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/30/21 1:55 PM, Thomas Huth wrote:
-> On 30/03/2021 13.19, Daniel P. Berrangé wrote:
->> On Mon, Mar 29, 2021 at 03:10:36PM +0100, Stefan Hajnoczi wrote:
+Commit 561dbb41b1d7 "i386: Make migration fail when Hyper-V reenlightenment
+was enabled but 'user_tsc_khz' is unset" forbade migrations with when guest
+has opted for reenlightenment notifications but 'tsc-frequency' wasn't set
+explicitly on the command line. This works but the migration fail late and
+this may come as an unpleasant surprise. To make things more explicit,
+require 'tsc-frequency=' on the command line when 'hv-reenlightenment' was
+enabled. Make the change affect 6.0+ machine types only to preserve
+previously-valid configurations valid.
 
->>> Traditionally ccache (https://ccache.dev/) was used to detect
->>> recompilation of the same compiler input files. This is trickier to do
->>> in GitLab CI since it would be necessary to share and update a cache,
->>> potentially between untrusted users. Unfortunately this shifts the
->>> bottleneck from CPU to network in a CI-as-a-Service environment since
->>> the cached build output needs to be accessed by the linker on the CI
->>> runner but is stored remotely.
->>
->> Our docker containers install ccache already and I could have sworn
->> that we use that in gitlab, but now I'm not so sure. We're only
->> saving the "build/" directory as an artifact between jobs, and I'm
->> not sure that directory holds the ccache cache.
-> 
-> AFAIK we never really enabled ccache in the gitlab-CI, only in Travis.
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ docs/hyperv.txt   |  1 +
+ hw/i386/pc.c      |  1 +
+ target/i386/cpu.c | 23 +++++++++++++++++++++--
+ target/i386/cpu.h |  1 +
+ 4 files changed, 24 insertions(+), 2 deletions(-)
 
-Back then the Travis setup was simpler, and it took me 2 to 3 weeks
-to get it right (probably spending 3 to 4h a day on it).
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index e53c581f4586..5b02d341ab25 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -165,6 +165,7 @@ emulate TSC accesses after migration so 'tsc-frequency=' CPU option also has to
+ be specified to make migration succeed. The destination host has to either have
+ the same TSC frequency or support TSC scaling CPU feature.
+ 
++Requires: tsc-frequency
+ Recommended: hv-frequencies
+ 
+ 3.16. hv-evmcs
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8a84b25a031e..47b79e949ad7 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -98,6 +98,7 @@
+ 
+ GlobalProperty pc_compat_5_2[] = {
+     { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
++    { TYPE_X86_CPU, "x-hv-reenlightenment-requires-tscfreq", "off"},
+ };
+ const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
+ 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6b3e9467f177..751636bafac5 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6647,10 +6647,23 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+     }
+ }
+ 
+-static void x86_cpu_hyperv_realize(X86CPU *cpu)
++static void x86_cpu_hyperv_realize(X86CPU *cpu, Error **errp)
+ {
++    CPUX86State *env = &cpu->env;
+     size_t len;
+ 
++    /*
++     * Reenlightenment requires explicit 'tsc-frequency' setting for successful
++     * migration (see hyperv_reenlightenment_post_load(). As 'hv-passthrough'
++     * mode is not migratable, we can loosen the restriction.
++     */
++    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_REENLIGHTENMENT) &&
++        !cpu->hyperv_passthrough && !env->user_tsc_khz &&
++        cpu->hyperv_reenlightenment_requires_tscfreq) {
++        error_setg(errp, "'hv-reenlightenment' requires 'tsc-frequency=' to be set");
++        return;
++    }
++
+     /* Hyper-V vendor id */
+     if (!cpu->hyperv_vendor) {
+         memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
+@@ -6846,7 +6859,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Process Hyper-V enlightenments */
+-    x86_cpu_hyperv_realize(cpu);
++    x86_cpu_hyperv_realize(cpu, &local_err);
++    if (local_err != NULL) {
++        error_propagate(errp, local_err);
++        return;
++    }
+ 
+     cpu_exec_realizefn(cs, &local_err);
+     if (local_err != NULL) {
+@@ -7374,6 +7391,8 @@ static Property x86_cpu_properties[] = {
+     DEFINE_PROP_INT32("x-hv-max-vps", X86CPU, hv_max_vps, -1),
+     DEFINE_PROP_BOOL("x-hv-synic-kvm-only", X86CPU, hyperv_synic_kvm_only,
+                      false),
++    DEFINE_PROP_BOOL("x-hv-reenlightenment-requires-tscfreq", X86CPU,
++                     hyperv_reenlightenment_requires_tscfreq, true),
+     DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
+                      true),
+     DEFINE_PROP_END_OF_LIST()
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 570f916878f9..0196a300f018 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1677,6 +1677,7 @@ struct X86CPU {
+     uint32_t hyperv_spinlock_attempts;
+     char *hyperv_vendor;
+     bool hyperv_synic_kvm_only;
++    bool hyperv_reenlightenment_requires_tscfreq;
+     uint64_t hyperv_features;
+     bool hyperv_passthrough;
+     OnOffAuto hyperv_no_nonarch_cs;
+-- 
+2.30.2
 
->>> This is as far as I've gotten with thinking about CI efficiency. Do you
->>> think these optimizations are worth investigating or should we keep it
->>> simple and just disable many builds by default?
->>
->> ccache is a no-brainer and assuming it isn't already working with
->> our gitlab jobs, we must fix that asap.
-> 
-> I've found some nice instructions here:
-> 
-> https://gould.cx/ted/blog/2017/06/10/ccache-for-Gitlab-CI/
-> 
-> ... and just kicked off a build with these modifications, let's see how
-> it goes...
-
-But we cross-build in Docker containers, so you need to mount the
-cache dir in the container and set the CCACHE_DIR env var, isn't it?
-
-Watch out about custom runners. If we do too many changes on the
-free-tier runners, we'll never have the custom runner series integrated.
-
-My 2 cents.
-
-Regards,
-
-Phil.
 
