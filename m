@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743D534E647
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 13:21:42 +0200 (CEST)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109DF34E64B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 13:22:42 +0200 (CEST)
+Received: from localhost ([::1]:45600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRCRH-00071D-DO
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 07:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38294)
+	id 1lRCSH-0007wq-56
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 07:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lRCPj-0006F1-68
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 07:20:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56422)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lRCRN-0007SK-Lc
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 07:21:45 -0400
+Received: from forward1-smtp.messagingengine.com ([66.111.4.223]:59787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lRCPf-0007If-Cr
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 07:20:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617103197;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=5YoZN8famXMCNUn7S4jrjzdXBH/KpQ9HylYpyZ6Yl3A=;
- b=TJaPzTlRmo7kHUgF+oxUGyjyTsf5bj6d+m6ombpT2pzHF73Sb57ETNPRK3nMyMNH4CgUkw
- Qn+qDfi6Fyk523+ka6pFQL/huXoghNsgGUUObfw2eX//vQzd1S8tCHGIag9hz6SYjLSSoW
- Ap0scIjNXjVCCudlQj/beN1pk9NMmEg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-v-uVDetxOpCejP_Y3jjCDA-1; Tue, 30 Mar 2021 07:19:51 -0400
-X-MC-Unique: v-uVDetxOpCejP_Y3jjCDA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7997584B9A0;
- Tue, 30 Mar 2021 11:19:50 +0000 (UTC)
-Received: from redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4669319C45;
- Tue, 30 Mar 2021 11:19:41 +0000 (UTC)
-Date: Tue, 30 Mar 2021 12:19:38 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: Serious doubts about Gitlab CI
-Message-ID: <YGMJSoIGa5VoVDB1@redhat.com>
-References: <cb9d0504-aba5-3114-d121-694a5247764c@amsat.org>
- <YFOt+R77HfpNEYFc@stefanha-x1.localdomain>
- <2d1e40c6-5fa4-271f-5ecc-74da7c04ffea@redhat.com>
- <YFRv9zMvBXtpfN3t@stefanha-x1.localdomain>
- <20210319101848.ebdwkfttay73jajr@kamzik.brq.redhat.com>
- <cad173cb-7715-1286-eba2-75e9816e6177@redhat.com>
- <b351f107-a9fd-f7cf-1f27-2d435cea612a@amsat.org>
- <d05a40b2-ff80-d9c8-8dfe-5dfce2e57d3d@redhat.com>
- <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lRCRK-0008Oc-Vh
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 07:21:45 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailforward.nyi.internal (Postfix) with ESMTP id 989D41940233;
+ Tue, 30 Mar 2021 07:21:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 30 Mar 2021 07:21:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=pZdZK6a3aB/u38wQ0aX6CnmVhjmA0L1+X5Rf0OgqJ
+ II=; b=pl+8YrKGLZVviO3DnwJBUZB1Tx3PNylNnE64BU38mPtoOjroq8Adygrde
+ eMpO/dq5muLOPJ1fvzMkmr24lowtF4baDOjADPtuO1LxNuimqlr6VHljmg6i6MO7
+ B/cEku2AvdIxHj7Rv1IB1RkUhJq5Z2nfj5DDeXUx3r9WOS+V0wdXiIyrG/7F110u
+ YpfhEzFr8Xmxqr3IzmysCmJmQ9fRyDgvpdjq9JfOtov6wvtFMeKzH8CN+ZPL0f3L
+ 74tKRGiWT2VHA8jw2qPYtCFR2GvVM0ntQLKT9725slibEIfjl/iHG3yzmP+SsHDE
+ FWGuWs5QAbND38Yk4tcQ8zSFfa8sw==
+X-ME-Sender: <xms:xAljYGTefM1LI3nZIJp3R7abxdWJP6TZjnhpygqiwUfR38Rx0ZDMBA>
+ <xme:xAljYEmW4ujerQyS9bPQ_5yKKXlz7CI0Uf0LbDBly6e-TTUCLyvsw5ZAjWRNJkIf7
+ BZUX0Egng3GjQ9een4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddggedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepvffujghfhfffkfggtgfgsehtqhertddttdejnecuhfhrohhmpeffrghvihgu
+ ucfgughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnh
+ epudffjeeiueeludehfeejgeefvefhueeguefhgfeigeekffekgedtheelteeihfegnecu
+ ffhomhgrihhnpegsvghrrhgrnhhgvgdrtghomhdpfhhlihgtkhhrrdgtohhmpdhlihgsvh
+ hirhhtrdhorhhgpdgvnhhtrghnghhlvgdqphhhohhtohdrohhrghdpihhnshhtrghgrhgr
+ mhdrtghomhenucfkphepkedurddukeejrddviedrvdefkeenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegumhgvsegumhgvrdhorhhg
+X-ME-Proxy: <xmx:xAljYFJEnTJnSqBXuTHETXsZZfk_fi_Xz81AvaEQ-IjzM_HiqbNnOQ>
+ <xmx:xAljYHTHHouq8UlH7BohiUCF-fvyIdWDrxaZX8yW7q3Atv8rYUTgZQ>
+ <xmx:xAljYDTM-ARENtKMGDj1WXwZXQa_q3Odz9qJGFZHyRC2Rw4chqPwRw>
+ <xmx:xQljYDWRYXwH-Iz_gSP2Ci34cMIUzmXcJMn_D1_BxNhFeRDamrAW3w>
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
+ [81.187.26.238])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 342D6240067;
+ Tue, 30 Mar 2021 07:21:39 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id a32154af;
+ Tue, 30 Mar 2021 11:21:37 +0000 (UTC)
+To: "Michael S. Tsirkin" <mst@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang?=
+ =?utf-8?Q?=C3=A9?= <berrange@redhat.com>
+Subject: Re: Ways to deal with broken machine types
+In-Reply-To: <20210323153730-mutt-send-email-mst@kernel.org>
+References: <20210301195919.9333-1-cheptsov@ispras.ru>
+ <20210322114116-mutt-send-email-mst@kernel.org>
+ <B813DBC6-B989-4630-B2DE-8F5825484E78@ispras.ru>
+ <20210323104542-mutt-send-email-mst@kernel.org>
+ <71AD039B-775A-4DF3-B16D-4BC3768A20AC@ispras.ru>
+ <a1a1b783-6217-cb22-0dd8-fab9b7971542@proxmox.com>
+ <20210323175447.0c57d2a4@redhat.com> <YFooFMWxwpiSB6ZJ@redhat.com>
+ <20210323153730-mutt-send-email-mst@kernel.org>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Tue, 30 Mar 2021 12:21:37 +0100
+Message-ID: <m2o8f0q43i.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <YGHf3HjYTRJwktbf@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=66.111.4.223; envelope-from=dme@dme.org;
+ helo=forward1-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,174 +96,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Andrew Jones <drjones@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
+ qemu devel list <qemu-devel@nongnu.org>, Vitaly Cheptsov <cheptsov@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 03:10:36PM +0100, Stefan Hajnoczi wrote:
-> Hi,
-> I wanted to follow up with a summary of the CI jobs:
-> 
-> 1. Containers & Containers Layer2 - ~3 minutes/job x 39 jobs
-> 2. Builds - ~50 minutes/job x 61 jobs
-> 3. Tests - ~12 minutes/job x 20 jobs
-> 4. Deploy - 52 minutes x 1 job
-> 
-> The Builds phase consumes the most CI minutes. If we can optimize this
-> phase then we'll achieve the biggest impact.
-> 
-> In the short term builds could be disabled. However, in the long term I
-> think full build coverage is desirable to prevent merging code that
-> breaks certain host OSes/architectures (e.g. stable Linux distros,
-> macOS, etc).
+On Tuesday, 2021-03-23 at 15:40:24 -04, Michael S. Tsirkin wrote:
 
-The notion of "full build coverage" doesn't really exist in reality.
-The number of platforms that QEMU is targetting, combined with the
-number of features that can be turned on/off in QEMU configure
-means that the matrix for "full build coverage" is too huge to ever
-contemplate.
+> On Tue, Mar 23, 2021 at 05:40:36PM +0000, Daniel P. Berrang=C3=A9 wrote:
+>> On Tue, Mar 23, 2021 at 05:54:47PM +0100, Igor Mammedov wrote:
+>> > Let me hijack this thread for beyond this case scope.
+>> >=20
+>> > I agree that for this particular bug we've done all we could, but
+>> > there is broader issue to discuss here.
+>> >=20
+>> > We have machine versions to deal with hw compatibility issues and that=
+ covers most of the cases,
+>> > but occasionally we notice problem well after release(s),
+>> > so users may be stuck with broken VM and need to manually fix configur=
+ation (and/or VM).
+>> > Figuring out what's wrong and how to fix it is far from trivial. So le=
+ts discuss if we
+>> > can help to ease this pain, yes it will be late for first victims but =
+it's still
+>> > better than never.
+>>=20
+>> To summarize the problem situation
+>>=20
+>>  - We rely on a machine type version to encode a precise guest ABI.
+>>  - Due a bug, we are in a situation where the same machine type
+>>    encodes two distinct guest ABIs due to a mistake introduced
+>>    betwen QEMU N-2 and N-1
+>>  - We want to fix the bug in QEMU N
+>>  - For incoming migration there is no way to distinguish between
+>>    the ABIs used in N-2 and N-1, to pick the right one
+>
+>
+> Not just incoming migration. Same applies to a guest restart.
+>
+>
+>> So we're left with an unwinnable problem:
+>>=20
+>>   - Not fixing the bug =3D>
+>>=20
+>>        a) user migrating N-2 to N-1 have ABI change
+>>        b) user migrating N-2 to N have ABI change
+>>        c) user migrating N-1 to N are fine
+>>=20
+>>     No mitigation for (a) or (b)
+>>=20
+>>   - Fixing the bug =3D>
+>>=20
+>>        a) user migrating N-2 to N-1 have ABI change.
+>>        b) user migrating N-2 to N are fine
+>>        c) user migrating N-1 to N have ABI change
+>>=20
+>>     Bad situations (a) and (c) are mitigated by
+>>     backporting fix to N-1-stable too.
+>>=20
+>> Generally we have preferred to fix the bug, because we have
+>> usually identified them fairly quickly after release, and
+>> backporting the fix to stable has been sufficient mitigation
+>> against ill effects. Basically the people left broken are a
+>> relatively small set out of the total userbase.
+>>=20
+>> The real challenge arises when we are slow to identify the
+>> problem, such that we have a large number of people impacted.
+>>=20
+>>=20
+>> > I'll try to sum up idea Michael suggested (here comes my unorganized b=
+rain-dump),
+>> >=20
+>> > 1. We can keep in VM's config QEMU version it was created on
+>> >    and as minimum warn user with a pointer to known issues if version =
+in
+>> >    config mismatches version of actually used QEMU, with a knob to sil=
+ence
+>> >    it for particular mismatch.
+>> >=20
+>> > When an issue becomes know and resolved we know for sure how and what
+>> > changed and embed instructions on what options to use for fixing up VM=
+'s
+>> > config to preserve old HW config depending on QEMU version VM was inst=
+alled on.
+>>=20
+>> > some more ideas:
+>> >    2. let mgmt layer to keep fixup list and apply them to config if av=
+ailable
+>> >        (user would need to upgrade mgmt or update fixup list somehow)
+>> >    3. let mgmt layer to pass VM's QEMU version to currently used QEMU,=
+ so
+>> >       that QEMU could maintain and apply fixups based on QEMU version =
++ machine type.
+>> >       The user will have to upgrade to newer QEMU to get/use new fixup=
+s.
+>>=20
+>> The nice thing about machine type versioning is that we are treating the
+>> versions as opaque strings which represent a specific ABI, regardless of
+>> the QEMU version. This means that even if distros backport fixes for bugs
+>> or even new features, the machine type compatibility check remains a
+>> simple equality comparsion.
+>>=20
+>> As soon as you introduce the QEMU version though, we have created a
+>> large matrix for compatibility.
+>
+>
+> Yes but. If we explicitly handle them all the same then
+> mechanically testing them all is an overkill.
+> We just need to test the ones that have bugs which we
+> care about fixing.
+>
+>
+>> This matrix is expanded if a distro
+>> chooses to backport fixes for any of the machine type bugs to their
+>> stable streams. This can get particularly expensive when there are
+>> multiple streams a distro is maintaining.
+>>=20
+>> *IF* the original N-1 qemu has a property that could be queried by
+>> the mgmt app to identify a machine type bug, then we could potentially
+>> apply a fixup automatically.
+>>=20
+>> eg query-machines command in QEMU version N could report against
+>> "pc-i440fx-5.0", that there was a regression fix that has to be
+>> applied if property "foo" had value "bar".
+>>=20
+>> Now, the mgmt app wants to migrate from QEMU N-2 or N-1 to QEMU N.
+>> It can query the value of "foo" on the source QEMU with qom-get.
+>> It now knows whether it has to override this property "foo" when
+>> spawning QEMU N on the target host.
+>>=20
+>> Of course this doesn't help us if neither N-1 or N-2 QEMU had a
+>> property that can be queried to identify the bug - ie if the
+>> property in question was newly introduced in QEMU N to fix the
+>> bug.
+>>=20
+>> > In my opinion both would lead to explosion of 'possibly needed' proper=
+ties for each
+>> > change we introduce in hw/firmware(read ACPI) and very possibly a lot =
+of conditional
+>> > branches in QEMU code. And I'm afraid it will become hard to maintain =
+QEMU =3D>
+>> > more bugs in future.
+>> > Also it will lead to explosion of test matrix for downstreams who care=
+ about testing.
+>> >=20
+>> > If we proactively gate changes on properties, we can just update fixup=
+ lists in mgmt,
+>> > without need to update QEMU (aka Insite rules) at a cost of complexity=
+ on QMEU side.
+>> >=20
+>> > Alternatively we can be conservative in spawning new properties, that =
+means creating
+>> > them only when issue is fixed and require users to update QEMU, so tha=
+t fixups could
+>> > be applied to VM.
+>> >=20
+>> > Feel free to shoot the messenger down or suggest ways how we can deal =
+with the problem.
+>>=20
+>> The best solution is of course to not have introduced the ABI change in
+>> the first place. We have lots of testing, but upstream at least, I don't
+>> think we have anything that is explicitly recording the ABI associated
+>> with each machine type and validating that it hasn't changed. We rely on
+>> the developers to follow the coding practices wrt setting machine type
+>> defaults for back compat, and while we're good, we inevitably screw up
+>> every now & then.
+>>=20
+>> Downstreams do have some of this ABI testing - several problems like the
+>> one we have there, have been identified when RHEL downstream QE did
+>> migration tests and found a change in RHEL machine types, which then
+>> was traced back to upstream.
+>>=20
+>> I feel like we need some standard tool which can be run inside a VM
+>> that dumps all the possible ABI relevant information about the virtual
+>> machine in a nice data format.
+>>=20
+>> We would have to run this for each machine type, and save the
+>> results to git immediately after release. Then for every change to
+>> master, we would have to run the test again for every historic
+>> machine type version and compare to the recorded ABI record.
+>>=20
+>> Regards,
+>> Daniel
+>
+>
+> Unfortunately I do not think this is practical :(.
+>
+> All examples of breakage I am aware of, we did not
+> realise some part of interface was part of guest ABI
+> and unsafe to change. We simply would not know to write a
+> test for it.
 
-So far we've been adding new jobs whenever we hit some situation
-where we found a build problem that wasn't previously detected by
-CI. In theory this is more reasonable as a strategy, than striving
-for full build coverage, as it targets only places where we've hit
-real world problems. I think we're seeing though, that even the
-incremental new coverage approach is not sustainable in the real
-world. Or rather it is only sustainable if CI resources are
-essentially free.
+While agreeing that it would not be possible to cover all aspects of the
+ABI immediately, does that mean that some level of coverage would not be
+useful?
 
+>> --=20
+>> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberra=
+nge :|
+>> |: https://libvirt.org         -o-            https://fstop138.berrange.=
+com :|
+>> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberra=
+nge :|
 
-Traditionally the biggest amount of testing would be done in a
-freeze period leading upto a release. WIth GitLab CI we've tried
-to move to a model where testing is continuous, such that we
-have git master in a so called "always ready" state. This is
-very good in general, but it comes with significant hardware
-resource costs. We've relied on free service for this and this
-is being less viable.
-
-
-
-I think a challenges we have with our incremental approach is that
-we're not really taking into account relative importance of the
-different build scenarios, and often don't look at the big picture
-of what the new job adds in terms of quality, compared to existing
-jobs.
-
-eg Consider we have
-
-  build-system-alpine:
-  build-system-ubuntu:
-  build-system-debian:
-  build-system-fedora:
-  build-system-centos:
-  build-system-opensuse:
-
-  build-trace-multi-user:
-  build-trace-ftrace-system:
-  build-trace-ust-system:
-
-I'd question whether we really need any of those 'build-trace'
-jobs. Instead, we could have build-system-ubuntu pass
---enable-trace-backends=log,simple,syslog, build-system-debian
-pass --enable-trace-backends=ust and build-system-fedora
-pass --enable-trace-backends=ftrace, etc. 
-
-Another example, is that we test builds on centos7 with
-three different combos of crypto backend settings. This was
-to exercise bugs we've seen in old crypto packages in RHEL-7
-but in reality, it is probably overkill, because downstream
-RHEL-7 only cares about one specific combination.
-
-We don't really have a clearly defined plan to identify what
-the most important things are in our testing coverage, so we
-tend to accept anything without questioning its value add.
-This really feeds back into the idea I've brought up many
-times in the past, that we need to better define what we aim
-to support in QEMU and its quality level, which will influence
-what are the scenarios we care about testing.
-
-
-> Traditionally ccache (https://ccache.dev/) was used to detect
-> recompilation of the same compiler input files. This is trickier to do
-> in GitLab CI since it would be necessary to share and update a cache,
-> potentially between untrusted users. Unfortunately this shifts the
-> bottleneck from CPU to network in a CI-as-a-Service environment since
-> the cached build output needs to be accessed by the linker on the CI
-> runner but is stored remotely.
-
-Our docker containers install ccache already and I could have sworn
-that we use that in gitlab, but now I'm not so sure. We're only
-saving the "build/" directory as an artifact between jobs, and I'm
-not sure that directory holds the ccache cache.
-
-> A complementary approach is avoiding compilation altogether when code
-> changes do not affect a build target. For example, a change to
-> qemu-storage-daemon.c does not require rebuilding the system emulator
-> targets. Either the compiler or the build system could produce a
-> manifest of source files that went into a build target, and that
-> information is what's needed to avoid compiling unchanged targets.
-
-I think we want to be pretty wary of making the CI jobs too complex
-in what they do. We want them to accurately reflect the way that our
-developers and end users build the system in general. Trying to add
-clever logic to the CI system to skip building certain pieces will
-make the CI system more complex and fragile which will increase the
-burden of keeping CI working reliably.
-
-> Ideally the CI would look at the code changes and only launch jobs that
-> were affected. Those jobs would use a C compiler cache to avoid
-> rebuilding compiler input that has not changed. Basically, we need
-> incremental builds.
-
-If we want to consider "code changes" between CI runs, then we need
-to establish as baseline. If we're triggering GitLab jobs on "push"
-events, then the baseline is whatever content already exists in
-the remote server. eg if you have a branch with 10 commits delta
-on top of "master", but 8 of those commits already exist in the
-branch on gitlab, then the push event baseline is those 8 commits,
-so it'll only look at changes in the 2 top commits, rather than
-the entire 10 commits of that branch.  This is generally *not*
-what we want for testing, because we can't assume that the 8
-commits which already exist have successfully passed CI. We've
-seen this cause us problems for CI already, when we tried to
-filter out jobs rebuilding container images, so they only ran
-when a tests/docker/* file was modified. 
-
-If we want to consider code changes where "master" is the baseline,
-then we need to trigger CI pipelines from merge requests, because
-merge requests have an explicit baseline associated with them. Of
-course this means we need to be using merge requests in some way
-which is a big can of worms.
-
-> This is as far as I've gotten with thinking about CI efficiency. Do you
-> think these optimizations are worth investigating or should we keep it
-> simple and just disable many builds by default?
-
-ccache is a no-brainer and assuming it isn't already working with
-our gitlab jobs, we must fix that asap.
-
-
-Aside from optimizing CI, we should consider whether there's more we
-can do to optimize build process itself. We've done alot of work, but
-there's still plenty of stuff we build multiple times, once for each
-target. Perhaps there's scope for cutting this down in some manner ?
-
-I'm unclear how many jobs in CI are build submodules, but if there's
-more scope for using the pre-built distro packages that's going to
-be beneficial in build time.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+dme.
+--=20
+Leaves are falling all around, it's time I was on my way.
 
