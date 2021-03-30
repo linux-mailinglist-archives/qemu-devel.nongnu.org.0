@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5942734E7AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:43:21 +0200 (CEST)
-Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D737B34E7D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 14:49:12 +0200 (CEST)
+Received: from localhost ([::1]:57576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRDiK-0002c5-Fc
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
+	id 1lRDny-0006vm-EI
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 08:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfT-0000tJ-QR
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24302)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfU-0000te-Bb
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfI-0003N7-1r
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:22 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRDfM-0003Nc-Cx
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 08:40:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617108009;
+ s=mimecast20190719; t=1617108012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ElevEDzid7Hb5vvORFVk+u4BuCouWa591e7mqeNJ988=;
- b=fHwpcW/8Zo9h6bwzxfHAKU/Z4WCo68Q8BN0+86hzdo5oS7lsyNeSqYM/iBudQ3vyRBxEXc
- 25ATMXFQT0zPkRMPUf6HpV748dNM6ARFIygueJUb8WnP1xgFelJQ3Al3UBlhHxUt0EvCoy
- Rlkxve8Lg3JbvZzWRMAuWZzoWAEYtxI=
+ bh=8B9bGDXpPIpRCRhpVsNkjFGkPYIFt7EGtkbW3KWad+M=;
+ b=JJp6I8deENC8dKP6oGeqoKiPTdKUj4H5jWEWtCRYot+Gf3ucA2jnrZBrrmSTsRYuMrbzn5
+ zU1Vd9ckmGS76wmm7zdrlhXwhXRnwAb+HRoAs/YFoTBAEUKekboOi9au9bPHV3ckQ0bQe/
+ YcsZULHbcMZ2/OkFxuAOO2CNXAets9I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-0SkokXhwP4KghlpfPraujg-1; Tue, 30 Mar 2021 08:40:07 -0400
-X-MC-Unique: 0SkokXhwP4KghlpfPraujg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-343-DQgn2gu5MeeMJT8enLRbMg-1; Tue, 30 Mar 2021 08:40:09 -0400
+X-MC-Unique: DQgn2gu5MeeMJT8enLRbMg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 404F5107B7C4;
- Tue, 30 Mar 2021 12:40:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4121F1B18BC2;
+ Tue, 30 Mar 2021 12:40:08 +0000 (UTC)
 Received: from localhost (ovpn-113-220.ams2.redhat.com [10.36.113.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B90DC19718;
- Tue, 30 Mar 2021 12:40:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D790054272;
+ Tue, 30 Mar 2021 12:40:07 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 3/9] iotests/116: Fix reference output
-Date: Tue, 30 Mar 2021 14:39:51 +0200
-Message-Id: <20210330123957.826170-4-mreitz@redhat.com>
+Subject: [PULL 4/9] qcow2: use external virtual timers
+Date: Tue, 30 Mar 2021 14:39:52 +0200
+Message-Id: <20210330123957.826170-5-mreitz@redhat.com>
 In-Reply-To: <20210330123957.826170-1-mreitz@redhat.com>
 References: <20210330123957.826170-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,64 +81,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-15ce94a68ca ("block/qed: bdrv_qed_do_open: deal with errp") has improved
-the qed driver's error reporting, though sadly did not add a test for
-it.
-The good news are: There already is such a test, namely 116.
-The bad news are: Its reference output was not adjusted, and so now it
-fails.
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-Let's fix the reference output, which has the nice side effect of
-demonstrating 15ce94a68ca's improvements.
+Regular virtual timers are used to emulate timings
+related to vCPU and peripheral states. QCOW2 uses timers
+to clean the cache. These timers should have external
+flag. In the opposite case they affect the execution
+and it can't be recorded and replayed.
+This patch adds external flag to the timer for qcow2
+cache clean.
 
-Fixes: 15ce94a68ca6730466c565c3d29971aab3087bf1
-       ("block/qed: bdrv_qed_do_open: deal with errp")
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <161700516327.1141158.8366564693714562536.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210326141419.156831-1-mreitz@redhat.com>
 ---
- tests/qemu-iotests/116.out | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ block/qcow2.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/116.out b/tests/qemu-iotests/116.out
-index 49f9a261a0..5f6c6fffca 100644
---- a/tests/qemu-iotests/116.out
-+++ b/tests/qemu-iotests/116.out
-@@ -2,7 +2,7 @@ QA output created by 116
- 
- == truncated header cluster ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
--qemu-io: can't open device TEST_DIR/t.qed: Could not open 'TEST_DIR/t.qed': Invalid argument
-+qemu-io: can't open device TEST_DIR/t.qed: QED table offset is invalid
- 
- == invalid header magic ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
-@@ -10,21 +10,21 @@ qemu-io: can't open device TEST_DIR/t.qed: Image not in QED format
- 
- == invalid cluster size ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
--qemu-io: can't open device TEST_DIR/t.qed: Could not open 'TEST_DIR/t.qed': Invalid argument
-+qemu-io: can't open device TEST_DIR/t.qed: QED cluster size is invalid
- 
- == invalid table size ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
--qemu-io: can't open device TEST_DIR/t.qed: Could not open 'TEST_DIR/t.qed': Invalid argument
-+qemu-io: can't open device TEST_DIR/t.qed: QED table size is invalid
- 
- == invalid header size ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
--qemu-io: can't open device TEST_DIR/t.qed: Could not open 'TEST_DIR/t.qed': Invalid argument
-+qemu-io: can't open device TEST_DIR/t.qed: QED table offset is invalid
- 
- == invalid L1 table offset ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
--qemu-io: can't open device TEST_DIR/t.qed: Could not open 'TEST_DIR/t.qed': Invalid argument
-+qemu-io: can't open device TEST_DIR/t.qed: QED table offset is invalid
- 
- == invalid image size ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
--qemu-io: can't open device TEST_DIR/t.qed: Could not open 'TEST_DIR/t.qed': Invalid argument
-+qemu-io: can't open device TEST_DIR/t.qed: QED image size is invalid
- *** done
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0db1227ac9..2fb43c6f7e 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -840,9 +840,10 @@ static void cache_clean_timer_init(BlockDriverState *bs, AioContext *context)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     if (s->cache_clean_interval > 0) {
+-        s->cache_clean_timer = aio_timer_new(context, QEMU_CLOCK_VIRTUAL,
+-                                             SCALE_MS, cache_clean_timer_cb,
+-                                             bs);
++        s->cache_clean_timer =
++            aio_timer_new_with_attrs(context, QEMU_CLOCK_VIRTUAL,
++                                     SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
++                                     cache_clean_timer_cb, bs);
+         timer_mod(s->cache_clean_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+                   (int64_t) s->cache_clean_interval * 1000);
+     }
 -- 
 2.29.2
 
