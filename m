@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC2334E302
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 10:20:07 +0200 (CEST)
-Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED80A34E317
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 10:25:02 +0200 (CEST)
+Received: from localhost ([::1]:39156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lR9bV-0004iO-86
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 04:20:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
+	id 1lR9gL-0006Bn-Qa
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 04:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lR9aY-0003uA-2X
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 04:19:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lR9aT-0001Jg-Ay
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 04:19:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617092334;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XxPtAjRoEu8FIQGk6jQ5AwaHIJ87lNyS8X4n8h9qgSI=;
- b=XVLUE6PDiYIyvaUxGEJMieGZziseT2IX+K1mobBCRsnuw9q14kovQnv4YiknyW3JhpuIpb
- BspqyseSG+635eEh3rXOEAdE0T6JBw5FpWLxkldhxqjqG539bjFpGOgpIvfTDEnnbEnd24
- db051f/6sXAMjSAEoS08NopQI4UVIeY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-ReKoCaFOMkWdY_bggglRPw-1; Tue, 30 Mar 2021 04:18:48 -0400
-X-MC-Unique: ReKoCaFOMkWdY_bggglRPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DED4610CE7A7;
- Tue, 30 Mar 2021 08:18:46 +0000 (UTC)
-Received: from redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9550F62688;
- Tue, 30 Mar 2021 08:18:44 +0000 (UTC)
-Date: Tue, 30 Mar 2021 09:18:41 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
- Policy document
-Message-ID: <YGLe4XdJHiAMIY+s@redhat.com>
-References: <20210329180140.2761383-1-thuth@redhat.com>
- <YGIdduioIxRIxMMp@redhat.com>
- <CABgObfbyDTNyww5QE-tOsBVfkZVziX3uwGJCN+7mrXOQ_ZuHFg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lR9fc-0005bC-2A
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 04:24:16 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:51098)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lR9fW-0004Ok-RN
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 04:24:14 -0400
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id B273E40755E4;
+ Tue, 30 Mar 2021 08:24:01 +0000 (UTC)
+Subject: Re: [PATCH] replay: fix recursive checkpoints
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <161700476500.1140362.10108444973730452257.stgit@pasha-ThinkPad-X280>
+ <87o8f2xk04.fsf@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <ff556599-6412-94bd-88f7-6b3c8aa6af49@ispras.ru>
+Date: Tue, 30 Mar 2021 11:24:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <CABgObfbyDTNyww5QE-tOsBVfkZVziX3uwGJCN+7mrXOQ_ZuHFg@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <87o8f2xk04.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,54 +55,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 10:59:23PM +0200, Paolo Bonzini wrote:
-> Il lun 29 mar 2021, 20:33 Daniel P. Berrangé <berrange@redhat.com> ha
-> scritto:
+On 29.03.2021 14:25, Alex Bennée wrote:
 > 
-> > The obvious alternative is to import the contributor covenant
-> >
-> >   https://www.contributor-covenant.org/
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
 > 
+>> Record/replay uses checkpoints to synchronize the execution
+>> of the threads and timers. Hardware events such as BH are
+>> processed at the checkpoints too.
+>> Event processing can cause refreshing the virtual timers
+>> and calling the icount-related functions, that also use checkpoints.
+>> This patch prevents recursive processing of such checkpoints,
+>> because they have their own records in the log and should be
+>> processed later.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>   replay/replay.c |   11 ++++++-----
+>>   1 file changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/replay/replay.c b/replay/replay.c
+>> index c806fec69a..6df2abc18c 100644
+>> --- a/replay/replay.c
+>> +++ b/replay/replay.c
+>> @@ -180,12 +180,13 @@ bool replay_checkpoint(ReplayCheckpoint checkpoint)
+>>       }
+>>   
+>>       if (in_checkpoint) {
+>> -        /* If we are already in checkpoint, then there is no need
+>> -           for additional synchronization.
+>> +        /*
+>>              Recursion occurs when HW event modifies timers.
+>> -           Timer modification may invoke the checkpoint and
+>> -           proceed to recursion. */
+>> -        return true;
+>> +           Prevent performing icount warp in this case and
+>> +           wait for another invocation of the checkpoint.
+>> +        */
 > 
-> The Contributor Covenant 1.x and 2.x are very different in that 2.x also
-> includes conflict resolution. Unlike the code of conduct, the consequences
-> of bad behavior are hard to generalize across multiple projects, so I would
-> prefer anyway the 1.x version. The differences with the Django CoC aren't
-> substantial.
+> nit: as you are updating the comment you might as well fix the style. It
+> would probably help with the diff as well.
 > 
-> However this does mean being more careful about the language in the
-> "custom" documents such as the conflict resolution policy.
+>> +        g_assert(replay_mode == REPLAY_MODE_PLAY);
+>> +        return false;
+>>       }
+>>       in_checkpoint = true;
 > 
+> The accompanying comments in replay.h are also confusing
 > 
-> The second, it isn't a static document. It is being evolved over
-> > time with new versions issued as understanding of problematic
-> > situations evolves. We can choose to periodically update to stay
-> > current with the broadly accepted norms.
-> >
+>      Returns 0 in PLAY mode if checkpoint was not found.
+>      Returns 1 in all other cases.
 > 
-> This however has the same issues as the "or later" clause of the GPL (see
-> the above example of 1.x vs 2.x for the Contributor Covenant). I don't
-> think upgrade of the CoC should be automatic since there are no
-> "compatibility" issues.
+> Which translated to actual bool results:
+> 
+>      Returns false in PLAY mode if checkpoint was not found
+>      Returns true in all other cases
+> 
+> Which implies the checkpoint is always found (or created?) which I'm not
+> even sure of while following the rest of the replay_checkpoint code
+> which has exit cases of:
+> 
+>      bool res = false; (default)
+>      replay_state.data_kind != EVENT_ASYNC;
+>      res = true; (when recording)
+> 
+> So is the following more correct?
+> 
+> /**
+>   * replay_checkpoint(checkpoint): save (in RECORD) or consume (in PLAY) checkpoint
+>   * @checkpoint: the checkpoint event
+>   *
+>   * In SAVE mode stores the checkpoint in the record and potentially
+>   * saves a number of events.
+>   *
+>   * In PLAY mode consumes checkpoint and any following EVENT_ASYNC events.
+>   *
+>   * Results: in SAVE mode always True
+>   *          in PLAY mode True unless checkpoint not found or recursively called.
+>   */
+> 
 
-Note, I didn't say we should automatically upgrade - I said we can
-choose to upgrade. 
+Almost true.
+In PLAY returns True only if the checkpoint was found and all following 
+async events matched and processed.
+Otherwise returns false and non-processed events are postponed to be 
+consumed later.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Pavel Dovgalyuk
 
