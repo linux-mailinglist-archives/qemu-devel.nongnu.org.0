@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D6834EC7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 17:31:54 +0200 (CEST)
-Received: from localhost ([::1]:44936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894FF34ECB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 17:37:04 +0200 (CEST)
+Received: from localhost ([::1]:54704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRGLR-0005e4-7l
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 11:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35062)
+	id 1lRGQR-0001Wr-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 11:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRGJb-0004ae-0C
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:29:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29199)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRGJY-0003N6-If
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:29:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617118193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vL3+08vvjyomYz+S99eMOAG013fx4QK915YfRk/xJBQ=;
- b=TPGV0yHTvnQ03Y76lxEtCJJKhZmLwQ5k21F6isujQDyGikn9JNXapQoJJdMsfe3VYSWCxh
- Z3q/tRIlndulQaKZiqC/f1zziLE6V+Opum0YubnAA4dgUYUDHUdFpQaWSfO7ZYyKw9v+9x
- tFtaScbFRGtpniyLm2RIGyCzFRAqQFM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-yfTfov_uOZW9XiwPy5H-jw-1; Tue, 30 Mar 2021 11:29:50 -0400
-X-MC-Unique: yfTfov_uOZW9XiwPy5H-jw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DF64E49EB;
- Tue, 30 Mar 2021 15:29:49 +0000 (UTC)
-Received: from localhost (ovpn-115-22.ams2.redhat.com [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6CA51002388;
- Tue, 30 Mar 2021 15:29:48 +0000 (UTC)
-Date: Tue, 30 Mar 2021 16:29:47 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 3/6] coroutine-lock: Store the coroutine in the
- CoWaitRecord only once
-Message-ID: <YGND6xn7dcbe1NaP@stefanha-x1.localdomain>
-References: <20210325112941.365238-1-pbonzini@redhat.com>
- <20210325112941.365238-4-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRGOb-0000Sx-4z
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:35:09 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRGOZ-0006XX-Cc
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 11:35:08 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id kt15so25447316ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 08:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SNE4lw2TleC/D6wyTUGeG0Yc2uCpf+dsZxnp+QfAjrA=;
+ b=FupDSSNgN1/rKF+xzm2eRcO162L3lgMcSmUf3JyKaUcCi6M02V1Jju4OvJrCQ3pmVG
+ FCFYpXQFxeFZHa3fSLQYgUWsKD1DH4VU1DC5/0+KkXmIXKNk8+gSVsHYI/4lYxiGjGMi
+ AuikRDsRHYJzjESjKIDhRfdNSJelUq+cQg34EgOSAIE1CWj4peRqa4aZbTA3hXmukBpt
+ SVMFYPume4ImYhiiZ7OSA6ZJKLQ6K0NZPj4hKHAfEZ0TcktT9oyWF8LAmSP4ZNtR76zh
+ 7rGmQbenWEZJ8uItVaXjjQGcS5eDUjmswKsLecjBTyMzwMF8Wx0iL2JeFxwpSzKK9/jG
+ fAdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SNE4lw2TleC/D6wyTUGeG0Yc2uCpf+dsZxnp+QfAjrA=;
+ b=ay894affKd5nNGXhKyuQnk4+TLjd3gabhGX3k3Z1UK8efiGiuCzIGq072NoPfS87sp
+ +chNZnoJ9crgWl4wSoXDE1j98OB50gEchdc57KayY8h+2x6gle9TSQJyOsUcJfymTqYt
+ J2TdaLCUuTuRSMkmzAYnE512hkTUq9gqkbemush5faZoR/psjMaRykQ87OeO7hwOcoKY
+ zfluDtiPiNwQtLwu+xhB5PcfoVuC9TYwBnj0/UuLjSxXYAL5qwyQeNlP7OmsMmvevbxM
+ hSJmsV0C9kmZGV3e8NhAm1gvzzrKP+cRsaU/4khxVA0aYCibVYMrXmSW2TSz0vfEIyLY
+ B+Kg==
+X-Gm-Message-State: AOAM5315TFUuBNX/Kz3bRoh5MfU7tkm9dzG8K+f2lbNbC08Emm8wBC5T
+ Cq2B16wsjNdLZDBm1nVqzNXCYBRTW7c76Grd0YWOBg==
+X-Google-Smtp-Source: ABdhPJyFasMc0XQ/l58HS0ebvkDV4ueRJy7xA7i94JS32XrkgJBtnTIBDPGoOAVsLjLqxd6XzEdR5JIBIImoKGry1I0=
+X-Received: by 2002:a17:907:629e:: with SMTP id
+ nd30mr33549029ejc.407.1617118505449; 
+ Tue, 30 Mar 2021 08:35:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210325112941.365238-4-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8cw0SuHqauOdQ1g3"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210330123957.826170-1-mreitz@redhat.com>
+In-Reply-To: <20210330123957.826170-1-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Mar 2021 15:34:33 +0000
+Message-ID: <CAFEAcA8sRo00Q991439wp-LBON32iZE1aQmw6R6n-9wwDbXqGA@mail.gmail.com>
+Subject: Re: [PULL 0/9] Block patches for 6.0-rc1
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---8cw0SuHqauOdQ1g3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 30 Mar 2021 at 13:40, Max Reitz <mreitz@redhat.com> wrote:
+>
+> The following changes since commit ec2e6e016d24bd429792d08cf607e4c5350dcdaa:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-03-28 19:49:57 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/XanClic/qemu.git tags/pull-block-2021-03-30
+>
+> for you to fetch changes up to 2ec7e8a94668efccf7f45634584cfa19a83fc553:
+>
+>   iotests/244: Test preallocation for data-file-raw (2021-03-30 13:02:11 +0200)
+>
+> ----------------------------------------------------------------
+> Block patches for 6.0-rc1:
+> - Mark the qcow2 cache clean timer as external to fix record/replay
+> - Fix the mirror filter node's permissions so that an external process
+>   cannot grab an image while it is used as the mirror source
+> - Add documentation about FUSE exports to the storage daemon
+> - When creating a qcow2 image with the data-file-raw option, all
+>   metadata structures should be preallocated
+> - iotest fixes
+>
+> ----------------------------------------------------------------
 
-On Thu, Mar 25, 2021 at 12:29:38PM +0100, Paolo Bonzini wrote:
-> From: David Edmondson <david.edmondson@oracle.com>
->=20
-> When taking the slow path for mutex acquisition, set the coroutine
-> value in the CoWaitRecord in push_waiter(), rather than both there and
-> in the caller.
->=20
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> Message-Id: <20210309144015.557477-4-david.edmondson@oracle.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  util/qemu-coroutine-lock.c | 1 -
->  1 file changed, 1 deletion(-)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Applied, thanks.
 
---8cw0SuHqauOdQ1g3
-Content-Type: application/pgp-signature; name="signature.asc"
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBjQ+sACgkQnKSrs4Gr
-c8itjwf/To+7tzCiIy5XnQI2V4eKiro2fyl01nJYM5/n59udePVPEzeNhsZ+A7bU
-r2q96cEA8Gr2yJSZkZ9nrjMW9sa02BGOHOotMf/O07aS59q4+2U+JiquWdS5S5AV
-6rvlNNl/MS4NpUt639jFjrXPHffjFcfKMxnQupDhCNV0Gf26Q8yuKQnORDaTUfMb
-fkAyMoEv0zhW+Rz4c7wlz3f7qWq0vWJE4mJ2rjKV6HeP7IeKnO2TWcviakgU8NRj
-eQ0TxL1sz57+Xo6Q68MT4z2aXjxaXGMUai4nlq89BzM71+ILk6JE5TVfhOYhq7ED
-0pqnQO9NdHMN/k5Lfn6EF1URefUktA==
-=p3jD
------END PGP SIGNATURE-----
-
---8cw0SuHqauOdQ1g3--
-
+-- PMM
 
