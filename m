@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8760434DF7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 05:39:52 +0200 (CEST)
-Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE1734E0D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 07:47:45 +0200 (CEST)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lR5EN-0002PW-5B
-	for lists+qemu-devel@lfdr.de; Mon, 29 Mar 2021 23:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47410)
+	id 1lR7E8-0003yb-3x
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 01:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lR5DA-0001nn-Ka
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 23:38:36 -0400
-Received: from mga12.intel.com ([192.55.52.136]:1997)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lR7CJ-0003VW-LJ; Tue, 30 Mar 2021 01:45:52 -0400
+Received: from ozlabs.org ([203.11.71.1]:44519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lR5D7-0006Ov-Tc
- for qemu-devel@nongnu.org; Mon, 29 Mar 2021 23:38:36 -0400
-IronPort-SDR: UCL6PnLHhMEGTbLf8JUWaINYNy4AogKAGh7Kr26fNCiSsTGnxKbuRJdmRt3m/8DnU6cvtonimW
- 5OmgTPGN9esg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="171081085"
-X-IronPort-AV: E=Sophos;i="5.81,289,1610438400"; d="scan'208";a="171081085"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2021 20:38:24 -0700
-IronPort-SDR: TkDhdlDmv1PXqLYfvVCC9rZbJu1v/3CC6AXVi9ETgC9fPwcHlBJsQ389bqFnvum9TE5oCStMOn
- nGNQCRDlrUtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,289,1610438400"; d="scan'208";a="516269239"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2021 20:38:24 -0700
-Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 29 Mar 2021 20:38:24 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 30 Mar 2021 11:38:22 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
- Tue, 30 Mar 2021 11:38:22 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: RE: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO passthrough
-Thread-Topic: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO passthrough
-Thread-Index: AQHXHHR2COkU3F5OI06xFEZCxXoB9aqP9vp0gAFX/fCAAT46kIAJZLCg
-Date: Tue, 30 Mar 2021 03:38:22 +0000
-Message-ID: <d30a03502f8e4600be6f11c775ac858c@intel.com>
-References: <20210319035508.113741-1-chen.zhang@intel.com>
- <20210319035508.113741-4-chen.zhang@intel.com>
- <87ft0n4b7u.fsf@dusky.pond.sub.org>
- <63966964f3ea447bac59561cc1174f9f@intel.com>
- <87tup2tcn6.fsf@dusky.pond.sub.org>
-In-Reply-To: <87tup2tcn6.fsf@dusky.pond.sub.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lR7CH-0002JX-44; Tue, 30 Mar 2021 01:45:51 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F8dhZ3dxWz9sWF; Tue, 30 Mar 2021 16:45:34 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1617083134;
+ bh=2m5B4mCYePkslhFXDt+tFhD75FEyimoBsvR0n+I19CM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FHKFZj3dhnrBt5qZkO7aY4d1Szfa/sRVIaLB8Svu2iwCMTTJu7VopYGUHDCmoAsVn
+ 18wNCpHhyNx0qKJjyn6nBoIfJkyrk2aMugpaTaA/OJqeyTdVvGmHr8Fyxcfjfjgysx
+ DZyI2VclPlw2XJMYq+nvulmBynABuCzFO6zcQAaU=
+Date: Tue, 30 Mar 2021 15:54:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 02/10] target/ppc: Disconnect hflags from MSR
+Message-ID: <YGKvDOCtfbj0avYF@yekko.fritz.box>
+References: <20210323184340.619757-1-richard.henderson@linaro.org>
+ <20210323184340.619757-3-richard.henderson@linaro.org>
+ <YFqBtsijRRcEBB/k@yekko.fritz.box>
+ <20210329150522.1b00607d@bahia.lan>
+ <d0221e19-6c8b-6cc3-c4aa-2d5fff4ecb8b@linaro.org>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KPSFNFhpRi5gq9Jr"
+Content-Disposition: inline
+In-Reply-To: <d0221e19-6c8b-6cc3-c4aa-2d5fff4ecb8b@linaro.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,73 +61,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, Zhang Chen <zhangckid@gmail.com>
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--KPSFNFhpRi5gq9Jr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-
-> bounces+chen.zhang=3Dintel.com@nongnu.org> On Behalf Of Markus
-> Armbruster
-> Sent: Tuesday, March 23, 2021 5:58 PM
-> To: Zhang, Chen <chen.zhang@intel.com>
-> Cc: Lukas Straub <lukasstraub2@web.de>; Li Zhijian
-> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; qemu-
-> dev <qemu-devel@nongnu.org>; Dr. David Alan Gilbert
-> <dgilbert@redhat.com>; Zhang Chen <zhangckid@gmail.com>
-> Subject: Re: [PATCH V4 3/7] qapi/net: Add new QMP command for COLO
-> passthrough
+On Mon, Mar 29, 2021 at 10:26:02AM -0600, Richard Henderson wrote:
+> On 3/29/21 7:05 AM, Greg Kurz wrote:
+> > On Wed, 24 Mar 2021 11:03:02 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >=20
+> > > On Tue, Mar 23, 2021 at 12:43:32PM -0600, Richard Henderson wrote:
+> > > > Copying flags directly from msr has drawbacks: (1) msr bits
+> > > > mean different things per cpu, (2) msr has 64 bits on 64 cpus
+> > > > while tb->flags has only 32 bits.
+> > > >=20
+> > > > Create a enum to define these bits.  Document the origin of each bit
+> > > > and validate those bits that must match MSR.  This fixes the
+> > > > truncation of env->hflags to tb->flags, because we no longer
+> > > > have hflags bits set above bit 31.
+> > > >=20
+> > > > Most of the code in ppc_tr_init_disas_context is moved over to
+> > > > hreg_compute_hflags.  Some of it is simple extractions from msr,
+> > > > some requires examining other cpu flags.  Anything that is moved
+> > > > becomes a simple extract from hflags in ppc_tr_init_disas_context.
+> > > >=20
+> > > > Several existing bugs are left in ppc_tr_init_disas_context, where
+> > > > additional changes are required -- to be addressed in future patche=
+s.
+> > > >=20
+> > > > Remove a broken #if 0 block.
+> > > >=20
+> > > > Reported-by: Ivan Warren <ivan@vmfacility.fr>
+> > > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > >=20
+> > > Applied to ppc-for-6.0.
+> > >=20
+> >=20
+> > FYI I can consistently reproduce locally on my laptop an error I'm also
+> > seeing in CI.
+> >=20
+> > $ ./configure --target-list=3Dppc64abi32-linux-user && make -j all && m=
+ake check-tcg
+> > ...
+> >    TEST    threadcount on ppc64abi32
+> > qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+> >=20
+> > Bisect led to this commit in ppc-for-6.0
 >=20
-> "Zhang, Chen" <chen.zhang@intel.com> writes:
->=20
-> >> -----Original Message-----
-> >> From: Markus Armbruster <armbru@redhat.com>
-> [...]
-> >> Now let's look at colo-passthrough-del.  I figure it is for deleting
-> >> the kind of things colo-passthrough-add adds.
-> >>
-> >
-> > Yes.
-> >
-> >> What exactly is deleted?  The thing created with the exact same
-> arguments?
-> >>
-> >
-> > Delete the rule from the module's private bypass list.
-> > When user input a rule, the colo-passthrough-del will find the
-> > specific module by the object ID, Then delete the rule.
-> >
-> >> This would be unusual.  Commonly, FOO-add and FOO-del both take a
-> >> string ID argument.  The FOO created by FOO-add remembers its ID, and
-> >> FOO-del deletes by ID.
-> >
-> > The ID not for rules itself, it just logged the modules(ID tagged) affe=
-cted by
-> the rule.
->=20
-> I'm not sure I understand.
->=20
-> If you're pointing out that existing colo-passthrough-del parameter @id i=
-s not
-> suitable for use as unique rule ID: you can always add another parameter
-> that is suitable.
+> Any more details?  Because this works for me.
 
-Sorry to missed this mail.
+Yeah, I haven't gotten this to fail locally either.
 
-For example:
-The VM running with filter-mirror(object id=3D=3D0), filter-redirector(obje=
-ct id=3D=3D1) and colo-compare(object id=3D=3D2),
-We use  colo-passthrough-add/del to add/del a rule with a ID, if the ID=3D=
-=3D2, the rule just affect to colo-compare.
-The filter-mirror and filter-redirector feel nothing after the add/del.
+But wait... it gets even weirder.  With gitlab, I can get similar
+looking failures with
 
-Thanks
-Chen
+  A) Just the non-hflags patches from my tree
+     https://gitlab.com/dgibson/qemu/-/pipelines/278542370
 
->=20
+  B) Just the hflags patches from my / Richard's tree
+     https://gitlab.com/dgibson/qemu/-/pipelines/278497244
 
+But I haven't managed to get the same failures with (C) their common
+ancestor (i.e. the upstream master at the time I split made the (A)
+and (B) branches).
+    https://gitlab.com/dgibson/qemu/-/pipelines/278497233
+
+With (A) and (B) the build-user and build-user-static tests don't
+always fail, but they generally seem to fail within 2-4 attempts.
+I've made a bunch of retries on (C) and haven't managed to get either
+build-user or build-user-static to fail.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--KPSFNFhpRi5gq9Jr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBirwoACgkQbDjKyiDZ
+s5K7zRAAwf8ELBjQR/CBYk/q1qzKHtRJ3bJ4lfdkZXJoHPGF1mxypT/Bvk8R6mei
+YBA5cYi4U2EaMmpdzh4NePv5IeVVbeYUavSS7FXnQCrDBRGgz/T6R1h+9uwEUezT
+3TxexP5eHqjM5om5NjFsA5ca8hqkg3CNLUwIGmtcu/yZqSmFSWhcWVcafQxLkh/H
+mcT9DMlaK6gPEplw/NLylypqUG9OvHTmNesZj8Id2V5ceaJp6ba6jmCUMwl8cp6t
+e6HwC2153I3ZZI6xpO3vWv0c9V8dpsSoITg1yrilAHmn6PYkmA+fJgOVrSwMEfXQ
+3q8JPdLTy/JqBxFRAKSPzruZLwRjvARImW7A3BNWrcgPYkP8FtwH48kZvDV7zKPB
+OOtOJbQnPNL2BmbPWb5f3+2vJoGqUyiU6ixwXSDMP5z/HBDClfVC9Lo1EW0mrCsl
+R3tSChZa8HCfIrgjF5JKEw3Kgbu/OMhpE2lhjGb6T67l7DK5y7el9edSpeOS1kg4
+W4fZZmzcYNzN69PPhBjTq75RvWQeTLDLW0MThIIgT7k/nulhvI0970Icf9wdDyFx
+wFjNbLPxydKolV3kCmHWfdtFGDCkKOLiuZONYW6SWWjyifkqlF3ZDg+wRQRKfZM3
+ZL9bw32ibmxnwtzdNjyoEcYsS4kXA0+Myh4//l0yw/AwDTc/9Xw=
+=P93t
+-----END PGP SIGNATURE-----
+
+--KPSFNFhpRi5gq9Jr--
 
