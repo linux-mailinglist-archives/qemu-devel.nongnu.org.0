@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653F134EA55
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:23:43 +0200 (CEST)
-Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CA834EA29
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Mar 2021 16:20:53 +0200 (CEST)
+Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRFHS-0002DU-FU
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55012)
+	id 1lRFEi-0006qx-Ei
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 10:20:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lRF8o-0001iI-EL
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:14:46 -0400
-Received: from 9.mo52.mail-out.ovh.net ([87.98.180.222]:46811)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lRFBf-0004zE-Jx; Tue, 30 Mar 2021 10:17:43 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:45877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lRF8l-0007xG-Rd
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 10:14:46 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id CA2B22578A1;
- Tue, 30 Mar 2021 16:14:39 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lRFBd-0001A1-87; Tue, 30 Mar 2021 10:17:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.179])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 93E3C95EEBC3;
+ Tue, 30 Mar 2021 16:17:35 +0200 (CEST)
 Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 30 Mar
- 2021 16:14:38 +0200
+ 2021 16:17:34 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004ce38ddac-b932-4c77-ab80-7586f22d16a3,
+ (GARM-101G0041b1e4aae-72e2-49cc-bd54-0830ee67f4fe,
  ACC3036D4A0BACA70991A0E48D5F19CB1CCAE693) smtp.auth=groug@kaod.org
 X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 30 Mar 2021 16:14:37 +0200
+Date: Tue, 30 Mar 2021 16:17:32 +0200
 From: Greg Kurz <groug@kaod.org>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH] ppc/spapr: Add support for implement support for
- H_SCM_HEALTH
-Message-ID: <20210330161437.45872897@bahia.lan>
-In-Reply-To: <20210329162259.536964-1-vaibhav@linux.ibm.com>
-References: <20210329162259.536964-1-vaibhav@linux.ibm.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC 3/8] virtio: Add API to batch set host notifiers
+Message-ID: <20210330161732.1ee55325@bahia.lan>
+In-Reply-To: <YGMt3t3WNVxUDMnE@stefanha-x1.localdomain>
+References: <20210325150735.1098387-1-groug@kaod.org>
+ <20210325150735.1098387-4-groug@kaod.org>
+ <YGIKIUIJbkNTfXKC@stefanha-x1.localdomain>
+ <20210330121740.73825957@bahia.lan>
+ <YGMt3t3WNVxUDMnE@stefanha-x1.localdomain>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/daE9IVCkIjG_P2OJoQiwr/b";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-Originating-IP: [37.59.142.101]
 X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
  (172.16.2.71)
-X-Ovh-Tracer-GUID: 8eb5dc12-5bd8-458e-91ea-a889d4d30dac
-X-Ovh-Tracer-Id: 3625116227933411771
+X-Ovh-Tracer-GUID: f24fb89b-a36b-41f4-80ce-5606413c4fc3
+X-Ovh-Tracer-Id: 3674655824941521199
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeeftdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedvhfehtefgheehudejiefhudeliedvkeduteejieelleelfedvtdeftdetfefghfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=groug@kaod.org;
- helo=9.mo52.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,133 +70,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
- qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com,
- qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com, imammedo@redhat.com,
- ehabkost@redhat.com, david@gibson.dropbear.id.au
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Vaibhav,
+--Sig_/daE9IVCkIjG_P2OJoQiwr/b
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Great to see you around :-)
+On Tue, 30 Mar 2021 14:55:42 +0100
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-On Mon, 29 Mar 2021 21:52:59 +0530
-Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
+> On Tue, Mar 30, 2021 at 12:17:40PM +0200, Greg Kurz wrote:
+> > On Mon, 29 Mar 2021 18:10:57 +0100
+> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > On Thu, Mar 25, 2021 at 04:07:30PM +0100, Greg Kurz wrote:
+> > > > @@ -315,6 +338,10 @@ static void virtio_bus_unset_and_cleanup_host_=
+notifiers(VirtioBusState *bus,
+> > > > =20
+> > > >      for (i =3D 0; i < nvqs; i++) {
+> > > >          virtio_bus_set_host_notifier(bus, i + n_offset, false);
+> > > > +    }
+> > > > +    /* Let address_space_update_ioeventfds() run before closing io=
+eventfds */
+> > >=20
+> > > assert(memory_region_transaction_depth =3D=3D 0)?
+> > >=20
+> >=20
+> > Hmm... appart from the fact that memory_region_transaction_depth is
+> > a memory internal thing that shouldn't be exposed here, it seems to
+> > me that memory_region_transaction_depth can be !=3D 0 when, e.g. when
+> > batching is used... or I'm missing something ?
+> >=20
+> > I was actually thinking of adding some asserts for that in the
+> > memory_region_*_eventfd_full() functions introduced by patch 1.
+> >=20
+> >     if (!transaction) {
+> >         memory_region_transaction_begin();
+> >     }
+> >     assert(memory_region_transaction_depth !=3D 0);
+>=20
+> In that case is it safe to call virtio_bus_cleanup_host_notifier()
+> below? I thought it depends on the transaction committing first.
+>=20
 
-> Add support for H_SCM_HEALTH hcall described at [1] for spapr
-> nvdimms. This enables guest to detect the 'unarmed' status of a
-> specific spapr nvdimm identified by its DRC and if its unarmed, mark
-> the region backed by the nvdimm as read-only.
-> 
+Yes because the transaction ends...
 
-Any chance that you can provide the documentation of this new hcall ?
+> >=20
+> > > > +    virtio_bus_set_host_notifier_commit(bus);
+...                here ^^
 
-> The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
-> returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
-> from 'struct nvdimm->unarmed' member.
-> 
-> Linux kernel side changes to enable handling of 'unarmed' nvdimms for
-> ppc64 are proposed at [2].
-> 
-> References:
-> [1] "Hypercall Op-codes (hcalls)"
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst
-> 
-> [2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
->     https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibhav@linux.ibm.com/
-> 
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> ---
->  hw/ppc/spapr_nvdimm.c  | 30 ++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |  4 ++--
->  2 files changed, 32 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index b46c36917c..e38740036d 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -31,6 +31,13 @@
->  #include "qemu/range.h"
->  #include "hw/ppc/spapr_numa.h"
->  
-> +/* DIMM health bitmap bitmap indicators */
-> +/* SCM device is unable to persist memory contents */
-> +#define PAPR_PMEM_UNARMED (1ULL << (63 - 0))
+> > > > +    for (i =3D 0; i < nvqs; i++) {
+> > > >          virtio_bus_cleanup_host_notifier(bus, i + n_offset);
+> > > >      }
+> > > >  }
 
-This looks like PPC_BIT(0).
 
-> +
-> +/* Bits status indicators for health bitmap indicating unarmed dimm */
-> +#define PAPR_PMEM_UNARMED_MASK (PAPR_PMEM_UNARMED)
-> +
->  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
->                             uint64_t size, Error **errp)
->  {
-> @@ -467,6 +474,28 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *cpu, SpaprMachineState *spapr,
->      return H_SUCCESS;
->  }
->  
-> +static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> +                                 target_ulong opcode, target_ulong *args)
-> +{
-> +    uint32_t drc_index = args[0];
-> +    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-> +    NVDIMMDevice *nvdimm;
-> +
-> +    if (drc && spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    nvdimm = NVDIMM(drc->dev);
+--Sig_/daE9IVCkIjG_P2OJoQiwr/b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Yeah as already suggested by Shiva, drc->dev should be checked like
-in h_scm_bind_mem().
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +    /* Check if the nvdimm is unarmed and send its status via health bitmaps */
-> +    args[0] = nvdimm->unarmed ? PAPR_PMEM_UNARMED_MASK : 0;
-> +
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmBjMvwACgkQcdTV5YIv
+c9YFGBAAyD3nvnm9h35HOvfAaBIOLW2M9P9tK1azMJaN7JmXaFUOijMj7b29myOZ
+Bh+yYshKVBFok9DDRF4zSU4G94ram5DnfcZk4U3ruuy4BUL4+RtiCJmoeC7nPkxI
+NAYkMyvz64JEOAxeVS/n3QhJnNbgKBpj7mEsqowf2JH+WclTVkmMj6fbGSBNP4Z3
+zlkAn6bTruqwabE8tL2MHxhlVSAfz4oRwPBq6RDrkSveA6+oEpOqzxaYIOVpIisD
+Ty3VSU633FWB5e5BQD1Aa0MOHjVFKKKGERh2jDatnFxkVQtfqxlpA3kVogsWusNk
+Cudyxzg+SgaIPLRPWXUC6fbsECMo1a2cRjyYhM3Kt7mVyJCwQJYJx8Cxn6WGjqEB
+jIKvFa1kma1MxkFu+wYIh9SIP8qh3KelUKyH3jFx2+Cdy9pez312FbVjyZMRwx2S
+Mrx8HT3dCTK6+y/30mr7Y5SAghZWFteQnwfFLXnJn1HwhD1N60vYUzHeq2bbJdX/
+Axm5eO1Y1oKVWS0B+7/mcpWgACQbJMATwwR4QWoYBIR1I9GgVWtyCKDh2qBIlQ7x
+5h/Vu+KQXuc6gsZCbYa/ONnJP1pBZ2Edl6lQ4F33PBoVTIYYIxO2n6dV7gbPfFj9
+KWAOpQL/xoCLtvrwEhAgLvy9Sslg/sjc5c1MTbTavkKLuo7hNVU=
+=TS3X
+-----END PGP SIGNATURE-----
 
-Shouldn't ^^ use PAPR_PMEM_UNARMED then ?
-
-> +    /* health bitmap mask same as the health bitmap */
-> +    args[1] = args[0];
-> +
-
-If so, it seems that PAPR_PMEM_UNARMED_MASK isn't even needed.
-
-Having access to the excerpts from the PAPR addendum that describes
-this hcall would _really_ help in reviewing.
-
-> +    return H_SUCCESS;
-> +}
-> +
->  static void spapr_scm_register_types(void)
->  {
->      /* qemu/scm specific hcalls */
-> @@ -475,6 +504,7 @@ static void spapr_scm_register_types(void)
->      spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
->      spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
->      spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-> +    spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
->  }
->  
->  type_init(spapr_scm_register_types)
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 47cebaf3ac..18859b9ab2 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -538,8 +538,8 @@ struct SpaprMachineState {
->  #define H_SCM_BIND_MEM          0x3EC
->  #define H_SCM_UNBIND_MEM        0x3F0
->  #define H_SCM_UNBIND_ALL        0x3FC
-> -
-> -#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
-> +#define H_SCM_HEALTH            0x400
-> +#define MAX_HCALL_OPCODE        H_SCM_HEALTH
->  
->  /* The hcalls above are standardized in PAPR and implemented by pHyp
->   * as well.
-
+--Sig_/daE9IVCkIjG_P2OJoQiwr/b--
 
