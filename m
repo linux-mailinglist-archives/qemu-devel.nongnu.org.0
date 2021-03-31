@@ -2,74 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609963507C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 22:05:42 +0200 (CEST)
-Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36526350819
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 22:18:32 +0200 (CEST)
+Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRh5w-0005IL-TS
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 16:05:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
+	id 1lRhIN-0000kT-4l
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 16:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lRh12-0003Qe-Pm
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:00:37 -0400
-Received: from mout.web.de ([217.72.192.78]:32857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lRh0v-0007tB-8M
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:00:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1617220823;
- bh=8BVemdGq9jCwSWKIJCQq2JsYCk3yLoxtWWpl66zPH4s=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=Gz/sEf7ByNxOnIeddHAes8/ieF4ZQ2pfgCRV5POydlmy0ObgIKShGZ1EBtjz+7VCY
- pZp4fRxRo/npQ+Ci7u9BZ/M0wc9RpSdMfWaE5lOQs1XGFflHrpvAzWVhX07IVjnzl1
- GbU1dAud+afQ77yNrqhWb0QQPQbUGIg2nOqclS0Y=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([89.247.255.31]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Le4Tw-1lxTSt2HQy-00psiA; Wed, 31
- Mar 2021 22:00:23 +0200
-Date: Wed, 31 Mar 2021 22:00:06 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Bug: object-add qmp command that used to work fails now
-Message-ID: <20210331215844.43914a75@gecko.fritz.box>
+ (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
+ id 1lRh8m-0006qD-4H
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:08:36 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:60958
+ helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lRh8k-0002xU-7H
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:08:35 -0400
+Received: by diablo.13thmonkey.org (Postfix, from userid 103)
+ id 12BB2C13ADE; Wed, 31 Mar 2021 22:08:30 +0200 (CEST)
+From: Reinoud Zandijk <reinoud@NetBSD.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+Date: Wed, 31 Mar 2021 22:07:56 +0200
+Message-Id: <20210331200800.24168-1-reinoud@NetBSD.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Cr4BvHpVdlYifN/JC7d5uVW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:LhUIeSCCNORmpnUXhBDA5j8ru9CVAVAozRm76MUGvKuPj/ZaLo1
- fnrW32B/LOeiUaV9kd6YLDIcXt2Y5C6T2PvC/Namo745EQd5hWoWCF1ZXdE6K4J7cEfMg1m
- wLpgQzp6aEjk6LQNQ7RHgoto33e1YsMPy/Xk6XjUugulpvjMxu9GDKnnuj3VJjVBqsqGzKd
- vaW0Ku8dznqPwpYsMtR6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:A153AGc/gR4=:SHHyDnX+pvxpVRF8I3C5iU
- owD1gvdbs3TFVRAGK9ovLGVXjayGRUKZ9CIpmrpmyIHqf1cIGP/auuGRXuuubIz+pZneP2Sd+
- 1g1V84AtfpEBTesLfqSwcF8tCCv9HOBfY6hizKYd7aFbqoaAQ4ET9z0xIxNpYcBGEtUBxBazn
- AbRZj9WsdfHQLQ3l6UXfZ5LEcHnKcCjuTMx1BvDPuLZAeibAGWLUfakiFGrjHzDaMS8lx8wOd
- Dc7z8UQd3pvGe3Tzue4v+m4FVJABmQCdeYAKEPSnZyWp9J8PMzlz2SZ1DmG4Tpj+aTNUfalTM
- xpiqR6haXW8AZnfMD4OHgZnP5zWzi7m9X8zkIxUbKZg1dbTspCPD7D+iDUNyqNe2AgKzCeX6X
- uQBdzsrvgWBOIzqWcABvY4DJ4uGu7VyAS4tpmp5HeA+SQkCsFUdW10spcdpzL5ZuRS85OU06C
- jp0EAvMJgnSa32XSpYkrvJ9Z3JfYhEkPFRJJoJIHBv/k1Qvo5NhFMAYdWBwdlqPP2VxwIy1Un
- /gkOP6eg4f/BZGP1bn+dB2Z6l4GXLDnNfOHzF/7iM4qDK6pLjijlNx+HmoJDYa2oyDCuJpSHU
- jBgFzubKB69J7WkVzAzP8+UvS+f3eBn0Zgi04MMM77d88HV9jFz+K+qUGmtyxvjwFrNBiPdxB
- hGig7x9h84DPlGN3E/n9UvKFyeuy7tlnNka15X+m1FN42dfJGMe1dFve9dSD9RomuknXAa5ZU
- 0v/5XA4c63M0j3+uGN0yD5lDRyYwhSs/n5b90YbBVuk7hK8noXUYEuH4iwW1IKHxuL1VVFhcz
- JwfFUMAbtp2bgkZ4G1cF1uVKKl0HZHCeQ9L75mL6LG/CnGXPhxtcln7s9GYTmHPj/r45rb9d/
- Q7K+6QHRnwZIgx+sJHaJqn8/UYGDdbZSGxHws6xoGFbxpH1cHSGxgeGMIasG4LkmC6YhR5nNX
- fD9TWdikHA4CfWGg5JW+v5xllzApAQRYWO1gOYoB/bT7B093vbY/zUpc1uFclq3zCGowP1msR
- 9pWraW4PNZ8joho9Dh71pMr5llSjpsrrxpMTlWamrb3CAE1QFJKdB/a5UkbTff9Kb4g3e5LSg
- Sl467eCij3yme3WwjUYyvzQK+R9t4Grtob5O+sXJpwrbyIHqHQe6YUzQCc6q21SYlIk1M9a00
- Ko1q2TpSlZ7TMIrXOHRyAlMkHx/WVTa7FK+pQNOPUpGqrj67hxpyintNG3fyNl09/g0AE=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=80.100.255.32;
+ envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,53 +49,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kamil Rytarowski <kamil@NetBSD.org>, Reinoud Zandijk <reinoud@NetBSD.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Cr4BvHpVdlYifN/JC7d5uVW
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The NetBSD team has been working hard on a new user-mode API for our
+hypervisor that will be released as part of the upcoming NetBSD 9.0.
 
-Hi,
-This qmp command that used to work:
-{"execute": "object-add", "arguments": {"qom-type": "filter-mirror", "id": =
-"m0", "props": {"netdev": "hn0", "queue": "tx", "outdev": "mirror0", "vnet_=
-hdr_support": false}}}
-now fails with the following error:
-{"error": {"class": "GenericError", "desc": "Parameter 'netdev' is missing"=
-}}
+The NetBSD team has implemented its new hypervisor called NVMM. It has been
+included since NetBSD 9.0 and has been in use now for quite some time. NVMM
+adds user-mode capabilities to create and manage virtual machines, configure
+memory mappings for guest machines, and create and control execution of
+virtual processors.
 
-I haven't looked closely into it, but I think
-9151e59a8b6e854eb733553c6772351049ca6ab6 "qapi/qom: QAPIfy object-add"
-is the culprint.
+With this new API we are now able to bring our hypervisor to the QEMU
+community! The following patches implement the NetBSD Virtual Machine Monitor
+accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
 
-Regards,
-Lukas Straub
+When compiling QEMU for x86_64 it will autodetect nvmm and will compile the
+accelerator for use if found. At runtime using the '-accel nvmm' should see a
+significant performance improvement over emulation, much like when using 'hax'
+on NetBSD.
 
---=20
+The documentation for this new API is visible at https://man.netbsd.org under
+the libnvmm(3) and nvmm(4) pages.
+
+NVMM was designed and implemented by Maxime Villard <max@m00nbsd.net>
+
+Thank you for your feedback.
+
+Refrences:
+https://m00nbsd.net/4e0798b7f2620c965d0dd9d6a7a2f296.html
 
 
---Sig_/Cr4BvHpVdlYifN/JC7d5uVW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Test plan:
 
------BEGIN PGP SIGNATURE-----
+1. Download a NetBSD 9.1 release:
+http://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/amd64/installation/cdrom/boot.iso
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmBk1MYACgkQNasLKJxd
-slg1OQ/+If9raaRDNCfuljPqhVTb99Wh6rAZTLUmOQhK50QPu8sydWjmayGDS03T
-nkfzWmFlUQwvwuyCmVC13uzJ0GsncgJw1YUm2XwYDgqoKW1kncpGhtiR/mbi0AUq
-WWPW37LYZGXEexIRo8SfNhjwcM/4CzvkATKX6nmvuCFuFBEeHlgXSqAlitBrSZTZ
-rywyWR/wqZKqgUbAo5P2vCEyAHYQysbIjN3pSI5+v7w1XaJnXmNJJ2bdpl7gjJlR
-ppUx3FXGGnahQx1P9WUpQD/t//Ue0K40mwc4kTcKriWcFaAJlp1dqdv8U5Q0IiqQ
-lI7yT+7A2fzCKOvmk/gabWKZ9GNpGreaSCMKsX7jGrA5NUWVoG7c1pC/pTGxmzrH
-Lk+5ld1wwQFBDWTvHZW8CzbCSQFIqoAgYL6hX7A4AVkgeWj0dA32uLP38Ppftd9W
-gj0RbY/IR22K8UnHsvLYQPTyI+l/8epevuvmbq/EtIRabzw1j32pf0mW3eO77iN5
-KRxg8coOH1KkwRnmIoahV+aGHqrowYJ6G6nGrtj4zNYFWJdeX0fpn0LODhvpWquV
-YJkaokcZciM0+EdVuL6OxdrZM5ZAUWLlo0b7BQoSm9suEIerCUCF+M1XZ4xOoEEF
-JxFkp5ZQTzgoA+61+9hIFzfKbAZdhx71/A2pShVMQdYibsa4hH8=
-=fKdt
------END PGP SIGNATURE-----
+2. Install it natively on a not too old x86_64 hardware (Intel or AMD).
 
---Sig_/Cr4BvHpVdlYifN/JC7d5uVW--
+There is no support for nested virtualization in NVMM.
+
+3. Setup the system.
+
+ export PKG_PATH=http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/9.0/All/
+ pkg_add git gmake python37 glib2 bison pkgconf pixman
+ 
+Install mozilla-rootcerts and follow post-install instructions.
+
+ pkg_add mozilla-rootcerts
+
+More information: https://wiki.qemu.org/Hosts/BSD#NetBSD
+
+4. Build qemu
+
+ mkdir build
+ cd build
+ ../configure --python=python3.7
+ gmake
+ gmake check
+
+5. Test
+
+ qemu -accel nvmm ...
+
+History:
+v5 -> v6:
+ - Ported to updated Qemu 6.0 build system and reshuffeling and refactoring
+ - Improved auto detection
+ - Added support for improved NVMM interface fixing feedback on the use of
+   signals
+v4 -> v5:
+ - Mainly cosmetic
+ - Automatic detection
+v3 -> v4:
+ - Correct build warning by adding a missing include
+ - Do not set R8-R16 registers unless TARGET_X86_64
+v2 -> v3:
+ - Register nvmm in targetos NetBSD check
+ - Stop including hw/boards.h
+ - Rephrase old code comments (remove XXX)
+v1 -> v2:
+ - Included the testing plan as requested by Philippe Mathieu-Daude
+ - Formatting nit fix in qemu-options.hx
+ - Document NVMM in the accel section of qemu-options.hx
+
+
+Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
+Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
+
+
+Reinoud Zandijk (4):
+  Add NVMM accelerator: configure and build logic
+  Add NVMM accelerator: x86 CPU support
+  Add NVMM accelerator: acceleration enlightenments
+  Add NVMM Accelerator: add maintainers for NetBSD/NVMM
+
+ MAINTAINERS                       |   11 +
+ accel/Kconfig                     |    3 +
+ configure                         |   12 +-
+ include/sysemu/hw_accel.h         |    1 +
+ include/sysemu/nvmm.h             |   26 +
+ meson.build                       |   23 +-
+ meson_options.txt                 |    2 +
+ qemu-options.hx                   |    8 +-
+ target/i386/helper.c              |    2 +-
+ target/i386/meson.build           |    1 +
+ target/i386/nvmm/meson.build      |    4 +
+ target/i386/nvmm/nvmm-accel-ops.c |  111 +++
+ target/i386/nvmm/nvmm-accel-ops.h |   25 +
+ target/i386/nvmm/nvmm-all.c       | 1231 +++++++++++++++++++++++++++++
+ 14 files changed, 1449 insertions(+), 11 deletions(-)
+ create mode 100644 include/sysemu/nvmm.h
+ create mode 100644 target/i386/nvmm/meson.build
+ create mode 100644 target/i386/nvmm/nvmm-accel-ops.c
+ create mode 100644 target/i386/nvmm/nvmm-accel-ops.h
+ create mode 100644 target/i386/nvmm/nvmm-all.c
+
+-- 
+2.29.2
+
 
