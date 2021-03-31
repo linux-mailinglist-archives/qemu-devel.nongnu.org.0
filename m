@@ -2,121 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7DA350603
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 20:10:29 +0200 (CEST)
-Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3891135067E
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 20:37:19 +0200 (CEST)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRfIS-0000w7-GU
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 14:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
+	id 1lRfiP-0007uR-PE
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 14:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1lRfDE-0007et-2c
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 14:05:10 -0400
-Received: from mail-eopbgr40063.outbound.protection.outlook.com
- ([40.107.4.63]:46341 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lRfh2-0007Fh-AJ
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 14:35:52 -0400
+Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
+ ([40.107.21.137]:16609 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1lRfD5-0004SB-JQ
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 14:05:02 -0400
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lRfgv-0005bd-HS
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 14:35:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LZFVrLO1dccsKUQS62+N0+0cVUZLjMHwYB0ax0gJ1SO0bBoC4PugV0CiKQ1wSkNnXb8FRgzR0obW6+E1oSnpe7KhogQ5U2ASNAFz7TiiOZzOws5wLCnpNTmdHCj2aD+zALWRYoKlVYt6jcWQPaTjfy1vP/MFFRCA+TdKOY7bjciIbGq9RuBdqD9C7R5z0+Aw/Ve7Toba87cQ8FEyQtBSa4qyt9tNGgHqXe6R7lSBwaHtA/nkHuM+mur0QVPQOTr+3NifO0jTjrqAYpm8Ozqmp+w/Nf/pqgf3CDMu3DnZPzutSJrZQNnjfwUYCAgxR5OhTN30WHRR+TFx/Z+54teMjw==
+ b=nl7rKboJ1QBYbCd8iG9kGOjqYwOp5+yvtHYP98FnsoWBf+fUnPcMFS2lKt5UJg4dOX9uPk5NnXsejdxyzaL9QUTwEtNltmTogCqSWIn4iEvW9sFonWJfIFLEDXlD2Ur9cnuR0jhVK3OcYjIchEQE+BuBMkOiw247N+30chNiHsjIw9yXAACoWSZnfBi7my8vCbj+UrTAw1eTmwOaTqJCNtDf+vH1cEJLoPx0JD8fqmvJeveSqC/64P7m5Ucc0de4g4Yu6JTSYqVfdf/CaM/61zEICLWfoGrbC/bLeLLZ/Es13JZlH62c7hc6xR8xqiQszxpM4AIuHZ+qapVxJnivVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=90CkQE6igeaq4oGWEWRy5vhhirSR/RV75fbYUZkhQeI=;
- b=YDMvNMzMcV5MF+FriZI/BxXbYHaQN4g3nBanVSXH6W6s2NcAo8d1XzPPUC4YgbX+Pn3zTYnP1hQSKuDPy68XyKxtlDfmrw2T/D/yuqNJm4uzCezL3SFmQ+Ic+BHP3/sFN57O8XX70tKUpk/Al5giXBOW7nFEql0iE7AUwg3rwtiIRZZqnbMdFn8OrXN0S+HKSlYgU+cW0X6jp/5Hb0UnUGd5vkwbxeYhQk5ioB8vapvidVqD0x2ktz6MDCk1TZl5f4IELlNSZl3AaGrCh+ds5jf+JnFrPt9K4HtYd0jBIOGy7Zf6E30G2urg5Pg51ZI3pHC2x5akK2fBTh50200vyw==
+ bh=Sg1b3Jq7obpa7r1ckk2Yrgk/LWqt9VMrXTGLPz+e20A=;
+ b=nJ/mXXO8Y5SNXEjhpwdt/MmSQqsebz39RPi0J8YWQal4dpD95QaKHYZrmGWit7Q8n170Bv3iad9VqEf/32dqiXc3PzM5gYRuLNYA3hSPzjF5zBsmSR9kRXlKExmoKFDETvtmYKpI4MYEFUgHps4qkDYyyWI8CcokxSEMVXUIMxUQMmJ9LSicUVKGROR2ZfURsreBb5GQZISvdI1I2G0YeJYsoXJFnr4JoXjVb9DikPGCSfLLIaPes/eZSkmWGYe2/fGxQQ2WKBWR/Xk4xc5vYWbI04lTmPm+L+vyrcg83WH9SyUNwUme+A/PZP84RLmKLbG7vhy+hkNFkZcATZ+shg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kent.ac.uk; dmarc=pass action=none header.from=kent.ac.uk;
- dkim=pass header.d=kent.ac.uk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livekentac.onmicrosoft.com; s=selector2-livekentac-onmicrosoft-com;
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=90CkQE6igeaq4oGWEWRy5vhhirSR/RV75fbYUZkhQeI=;
- b=Mb3gJGgJel3Cva0b5R/UujXgNCzBTxKQISusoK3oaguP74gqBA8WUiPLCN+jC/qI1rnwbtFDlGMqEzO9axuHkzeLep19b0AU/vmGue+KoBEctELWt+0lA7ht8zY2NcTj4VayrCkiTtSt2b16prX0ds24ZFkHrHjAMp2AfkdYK4M=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=kent.ac.uk;
-Received: from DB7PR01MB4092.eurprd01.prod.exchangelabs.com
- (2603:10a6:5:2c::13) by DBAPR01MB7157.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:198::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Wed, 31 Mar
- 2021 17:34:44 +0000
-Received: from DB7PR01MB4092.eurprd01.prod.exchangelabs.com
- ([fe80::29f8:3034:6643:b516]) by DB7PR01MB4092.eurprd01.prod.exchangelabs.com
- ([fe80::29f8:3034:6643:b516%7]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
- 17:34:37 +0000
-Date: Wed, 31 Mar 2021 18:42:21 +0100
-From: Sarah Harris <seh53@kent.ac.uk>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: Status update for maintainers file
-Message-Id: <20210331184221.d81b4ffed7c7c733c33f8c66@kent.ac.uk>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [195.213.130.164]
-X-ClientProxiedBy: LO3P265CA0010.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:bb::15) To DB7PR01MB4092.eurprd01.prod.exchangelabs.com
- (2603:10a6:5:2c::13)
+ bh=Sg1b3Jq7obpa7r1ckk2Yrgk/LWqt9VMrXTGLPz+e20A=;
+ b=Inu0WZwZq2mC6xZiJB+NxqiDxwwGvYR6IKS5/kPaiXNLOL/qEEs79UtwYt9B/r7eif+0oiu1XUCnhnUnp0I98LdlGXyK2HKLKMTZTDQv1cJVsA34eRvXX6xsNRszfsk+T4pTqOteiTR5scYcLa+yFGGvd2+K33zDFBmzX4mOzng=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
+ by AM4PR0802MB2275.eurprd08.prod.outlook.com (2603:10a6:200:63::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26; Wed, 31 Mar
+ 2021 18:35:41 +0000
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::a8e6:4693:824d:19f5]) by AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::a8e6:4693:824d:19f5%7]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
+ 18:35:41 +0000
+Subject: Re: [PATCH for-6.0 3/3] migration: Pre-fault memory before starting
+ background snasphot
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>
+References: <20210331172803.87756-1-andrey.gruzdev@virtuozzo.com>
+ <20210331172803.87756-4-andrey.gruzdev@virtuozzo.com>
+ <cf44ad26-c7f0-ed62-e348-9e99d7d6ede8@redhat.com>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <cb38a354-6e27-3049-0bb1-39d5adf1cad7@virtuozzo.com>
+Date: Wed, 31 Mar 2021 21:35:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
+In-Reply-To: <cf44ad26-c7f0-ed62-e348-9e99d7d6ede8@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [158.255.154.235]
+X-ClientProxiedBy: AM3PR03CA0061.eurprd03.prod.outlook.com
+ (2603:10a6:207:5::19) To AM0PR08MB3364.eurprd08.prod.outlook.com
+ (2603:10a6:208:e4::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from cadance (195.213.130.164) by
- LO3P265CA0010.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:bb::15) with Microsoft
+Received: from [192.168.1.64] (158.255.154.235) by
+ AM3PR03CA0061.eurprd03.prod.outlook.com (2603:10a6:207:5::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.32 via Frontend Transport; Wed, 31 Mar 2021 17:34:36 +0000
+ 15.20.3999.27 via Frontend Transport; Wed, 31 Mar 2021 18:35:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c1448d8d-5669-4cac-7dec-08d8f46b40fc
-X-MS-TrafficTypeDiagnostic: DBAPR01MB7157:
-X-Microsoft-Antispam-PRVS: <DBAPR01MB7157980AFC3F1BE449911E51F77C9@DBAPR01MB7157.eurprd01.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 0e8f1af5-c4f7-46dc-a330-08d8f473c993
+X-MS-TrafficTypeDiagnostic: AM4PR0802MB2275:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM4PR0802MB2275A23D52477A56BDEAC9439F7C9@AM4PR0802MB2275.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5vmnsEVhGByx0aVJfS/hogqBa4a0Oa++0KXwsc5i9cp/Z8mldFl5T4RN6XBmvAIPF2s4wTioQq202msgymSToaaCgIYNIphDER7QqXCHwyMMT1J/cYNbAJ/jO3p2HkSSyAVK4phbYFWn7ASUY2Hit7365hCnOJsDJJYtcElj/hZMfN+/zyKyTlPkZIJ8cTFide6TxThMZJ7ilfSf5EN0GmCR1gJaYHN4XRRXAEoZZ6kwv/6EoH0y9fraN2AQDN1TX0ng8EWH+FUzsU5h8HcPkNX35qiStduPIJcg2B7PYp9xg8mEbVi/ZJqLZc6TwRXbUJB1bbArWYTZXitaKbJp8VyGpTv4u0s5cCVe6qH55x1C3ntPHDcZZKmryiKh7lgVHhuvjy3zh3xaiTXOSoq/dLIPHEqHUWv0lNkf4MwVNhz+r/kkDG8RWXw7D1v3wM42xfZJBSmDwUd5ZowGOnytXokqYD+dPbCoTYc5TmCfwi0MPnXNa4Z37KrJt7bUe/ZOdaYs0mbiIfUOCULg/KHl0Nl9ueYv1c3RQO6TqQHH1027LpuFbA28xsHUHbRjn6r0IUx9mJFXlBt9mhR9AUre/i7M0987lqmA+Bh+IjBN1GLAF+TUyUbMGSAF4u83SMeYKTPsvyrTXrbQoMqo6NsxCw==
+X-Microsoft-Antispam-Message-Info: FOP68nqbBwcORoyrELonh6jxhoRr2PSENu90x+LkM8IEMYiYLhBXV9390X3ig7KyIEWDNcjCXJrHb2GKLTPiMk8QQPcFrdZ041rSGigWGWfF8JKOno+2LkPgd2BNFokkcpnDrYtw7o3rBEOwtuhPVTe3Woaeb6GGXelsIEKF4OJTvS7RJRs5i1Lv9RqkixyFOexudKhuyj5yeoCPalrax25WQMEZZ/j3azjBx4SCEncpNdUx5+3yKXG3Nyo9gnsWJJBGzid1wfbI4aqNxI8V2QKmw3+LTRi9JLW5WgiYi+u25K5qHzr+Jw+lZw/ot6Kgs1NhIbYAiYzvGRLJXmvAcY7HMh3WPfWh4sHFpwLAKmmLDPaoHK/phxw1vI2sCiMDoFsycN0weCLakJGH3Sn74wqpFn5x3BVBlWqk5m0KdEAypxAsKWaiahLloxIn5/IOgRUSUry/CXIUu1eIyZYT/kbAXJlj8jQxLKbd8yP5CQxaYVoWl4qk37s5Wnjv+PG+IU/JD3yzQ1vzR4EJnc7Oc2/FAZMXHP61SS+opOUpC7WNsl70T1JMlpz+fLRdO7wV0g6qGVVtmf2B+vI4C/NSxs/NU7Pwnf5h3lWnbL4gCjHApkm7AmK+jF8KqYlR2irprKn6WRgWtCjdX08B1VNX7Zfzoqld8nHtXHEoJA/0LTfYmX1ePSQqm3l2WaV941Z1Ewhoa+9ls3QdYf3zn5LX5Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB7PR01MB4092.eurprd01.prod.exchangelabs.com; PTR:;
- CAT:NONE;
- SFS:(4636009)(366004)(136003)(346002)(39850400004)(376002)(396003)(186003)(956004)(2616005)(83380400001)(1076003)(4744005)(36756003)(16526019)(66946007)(478600001)(6486002)(66476007)(66556008)(6666004)(52116002)(8676002)(8936002)(5660300002)(38100700001)(6916009)(316002)(786003)(26005)(2906002)(6496006);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?nc8dK0E8CntkE18P+tn2NMF7nw08MoY8DJWfKLIq0lEABR8jan9onc2Qj+rL?=
- =?us-ascii?Q?Abw8jE2cVEEnNzuA/As+ryxwGjDtj7csSaa1tAwlGOtxoBorcW+wgo3U1IiZ?=
- =?us-ascii?Q?xn+WPCXe3kmbaSPS/VToPrkN083xix+6wS7UKwiGr69EklKftOKsoacHYs27?=
- =?us-ascii?Q?xRliZbSU3Ut5poRA7WQmRBURzBv13zAvnxriQT1ObihentRwL/LzyIMeSmPx?=
- =?us-ascii?Q?PrDO/36E8kY7camLapXNObNZ/O7qmAvzwhXEbogYvx82Q9lSxl4WO5yFKLCU?=
- =?us-ascii?Q?vftL1uCuhGeBdf1sukDFwRWNXPHvyxZeXj0p2XUk/WVx8uByaYs+btYqivF9?=
- =?us-ascii?Q?ri+ToxUUaG1aNPmNSQS/Tr9kgRxfMxNjlU3V7Ng2YViKvGIrjEtdxxU4GRJZ?=
- =?us-ascii?Q?NqvJOS3xUT+iKY9DHbzql/B6PTL+iJwENP9aoq3YI5N3g/ebVhKPWkdWd57K?=
- =?us-ascii?Q?4hQeKSiCMIfV1GPWHcB6AFMfwMclezKho//D1rL4nOppSxRs58DJuFW5tH0k?=
- =?us-ascii?Q?b0mKNlI7YHNKAcbEymd4mcLKiTh77oal9IZHtYdFTIgyZqBetMDAyL/sI48Z?=
- =?us-ascii?Q?LVsSWs+cK5toBEnKqgF04MIqtUU5OG6KcVbPZJ5BkfnchRwWlKM+1fJJVsUR?=
- =?us-ascii?Q?ffJjTumyqFy/ctC/vu/Zu3In1wcUFq2B+u5s+MXk8jEJa4YVUfqx/6Ww3hPk?=
- =?us-ascii?Q?4/DnQByyQPOCJZyEr8AYeTbYsjOZUkU3RTi9JhTNQNMmDZ4B/zGavk1Xra0k?=
- =?us-ascii?Q?Wo3/LpbpqPkwx20kdOGnKcwAahSqdAYm4po92RKdWt9gh6mPW2XSzInQPmMp?=
- =?us-ascii?Q?GOXqTxLmTQM8RiX0+0TSnh5v7nmN0ynuAXcmgJp/Sbmg0gP9sRVL0fLnR84B?=
- =?us-ascii?Q?NKOM2I9Z1sW3nbC3f79O2E9T19/hrLlwQU2cnNgEUxMPUA53HREJcAnDcJh8?=
- =?us-ascii?Q?s8y2pViJi+YosmMN8EsWfy+JCH70eB+MPUCxqBRU2YbnnWiSB+Pf0PMgCkpT?=
- =?us-ascii?Q?H6xDFHiB4UfnmiEC1BfVVuToY0u2ByqHjgaX7+sxGnRA8p/VdB5IvV9YlpHd?=
- =?us-ascii?Q?cJNSYYXrRfWv5akF1/0j2hnQlvTug6L0TOWg8KZ78Xn5wxOzacVpdQELVCcH?=
- =?us-ascii?Q?vza50MK2YIUbXWKYpIj8PhqxjGQ8XvwzbQeCNGpQr3kJG8SFJrE+QResdToT?=
- =?us-ascii?Q?38MC7XIwwo2a+6z1axx4uMeLkPXfcop0F/KNw5kM6rlmEtR5Q4Z/yV2wfiKb?=
- =?us-ascii?Q?1i8gFLPG3RPex2+L+upfrWWo7b1c4eom9WnepE1+40j1b80vq1MTkioUxYNh?=
- =?us-ascii?Q?q7JbruiPsoxbpmF1jzD06wWb?=
-X-OriginatorOrg: kent.ac.uk
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1448d8d-5669-4cac-7dec-08d8f46b40fc
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(376002)(136003)(346002)(39830400003)(31696002)(31686004)(83380400001)(316002)(8676002)(478600001)(5660300002)(52116002)(956004)(44832011)(16576012)(54906003)(66556008)(66476007)(66946007)(4326008)(38100700001)(26005)(6486002)(53546011)(2906002)(36756003)(186003)(16526019)(8936002)(2616005)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZDRiK2NzZGswUGFZcGRPamRNYW9VRFp6R0VaamhieHUxUldjQ0JlWEp2SWtD?=
+ =?utf-8?B?WTNxb2M0SlZ5aWI3Ymwralc5Z0V5Rk1Cd3lWTFRVTjNPcHpBTmVmd3Z5Wnor?=
+ =?utf-8?B?YmtMQTFEcTloZlE5ZFdlczNIektYWlY2N1ZSclZNVkhNcGpFQmpZQUpuMWJ5?=
+ =?utf-8?B?Y3U2MThoUHF2OXhXbnJyRVBnWHRaem84c3lMOVV5Y0dRclo3eGhxSTdqRnc2?=
+ =?utf-8?B?eGNtOVlRZVhkOWpqUFZCVy9ZZmMrcm1YUmVyczQ5VHdDSmlQUjIyQWU3YzdK?=
+ =?utf-8?B?QzA1cWU0RHl0bzBkVXJQRlhMMkxGSkMwZWNrd2phSGkrYUlDdk5na2pnMUcv?=
+ =?utf-8?B?M1g2ZjhHU29YMDdLTzlrZ2EreWZxZlpIeThyRnQyeFF1WFFTc0lJTmdQRFQ2?=
+ =?utf-8?B?UHFLWVlnVmlFRmZhQXBMVmZIMDhIOG9lQzE1UlNqcjJabDhwSHBGWWt2dDBi?=
+ =?utf-8?B?OHRwSUxHTVA4Uk82M2VZYk5CSHZlaXNjOURtV2NjRHNXUzZmclppTWQwc05Y?=
+ =?utf-8?B?NGwvSDI3V2FPM0prZlI1d2p0VFpuNGFPM1o5VUpwNVI4MURsVjZKRVNrK3hm?=
+ =?utf-8?B?SklVY2Y5elROazlYWjQ2QmtVUUhuOUtVMGVwVGxhWWdJd2p2dXloM1pYV2My?=
+ =?utf-8?B?WFBES1QyRGhSZ3kwUWxjQndDOVUxeXErVE5RMEpOZFpHSTZOY0QrWDFpYmln?=
+ =?utf-8?B?REdJOVI3aVdLdU91MWliNFViSzFNZ2phTDY0MStMcU5oMmozNU5vV09RWDBQ?=
+ =?utf-8?B?M3htTkhqckZvS1l4RkJOUElsR1M3aktXZld0RXE5RTg0SUJ0N3VoZXp0SDY5?=
+ =?utf-8?B?RDVhdmRNcE9yT1AvZm9Gbm1qNmZ3MHhqMVpSL0wzcFByU3BIcUU1Y0gwYmJk?=
+ =?utf-8?B?VWxneXQyc0k1UGxhQUVoWk43UDVWS0xjQllKVTkwaG1nTHJyYm5LcFZQR0pX?=
+ =?utf-8?B?eU9MWFNuYmpzTWZFdlhDZkZpYVh5TGxaYnIyOWJDVlhJeDgxVFZxSlV3dHRU?=
+ =?utf-8?B?WDBFUWl3VC9IL0VnWllWL2UrbjNWK05wUEx1Tzc2dXlOSHFoZ0dtRnZlandY?=
+ =?utf-8?B?RUc1S1pTSXdjUlRCQjFScUdJbW91MEdLZEk4cXRmNDFWeDdjbUp0c3poalBj?=
+ =?utf-8?B?MUdGMzgxM2hUZ0JVK2RqbVdKcWFTUzE3a0tzcXJlZnBtelVUWmd6K05Dd3gw?=
+ =?utf-8?B?WXBROWtHR2tXTUgrK0xLTXhXeEkxS0hHcUR4alJsUnNCbnl1ZU10cjd4aDBM?=
+ =?utf-8?B?Z09ybEI4ZTFieHowVkIwWWRFTnJiaGZ5dW9DMmpWcklFN0NLaGVQQzVaamd4?=
+ =?utf-8?B?YjVDSm9VWWVKZDJ2SDdHTVJDVmxCZnhOdzIyOVNNUm4xRUE2VWFHcE8yWlM2?=
+ =?utf-8?B?YVY5eHVuejNSZml3VXJPVkFLNHg0dDdPNVVXQXlQRVU2emRaNnlrWUJkaUJv?=
+ =?utf-8?B?QU1FOGxUNHJuNDUwaHUwT0poa2pLZ1R6QUNtQlIvTHBEbnQxZ09HaTU1NUtn?=
+ =?utf-8?B?dWtwU3pORklkOHdJZ3BkcWVSUGtNdVNiRDNxKzBFQ1BvYTZia3pNMEJUWEpn?=
+ =?utf-8?B?bFJtTS9SN3VhdFZ0VkE0UTZXTEpNTkVDbzU1STVZS3dsUjFzRWJmOUg2bVEz?=
+ =?utf-8?B?RUVnVjUyZmJic2tGbzROOGsySzlvdmEwcWgybDBqZ1ZmOHVad2hoalRrUDFL?=
+ =?utf-8?B?NkZUeDE4YWJmcng0cmo5Qm90c2hsbDJDS0xOV1lIdFdOMGdGRDBJY0djTGdE?=
+ =?utf-8?Q?+DORsyYJR+X5ue5jE3dCHHr4AhKasfy8Sz0kyZs?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e8f1af5-c4f7-46dc-a330-08d8f473c993
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2021 17:34:37.4895 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2021 18:35:41.4296 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 51a9fa56-3f32-449a-a721-3e3f49aa5e9a
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /gw4zUVQyZ5rEOkb+U9mJnBRYLcJKB+Ak04XJHreQlaAiPJNNJCJHllzM6jWBZcuz6r6rFYc6+v6OBFWk0saUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR01MB7157
-Received-SPF: pass client-ip=40.107.4.63; envelope-from=S.E.Harris@kent.ac.uk;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: xTAfP/+fJ8P0l9rEPpF4wCWfCeUaTqFIX0k5QkJ97a1a22yrTPyw32HijxMFs3Rd1tEs9WIt89DUzMLOV8RhoeatkqIvRkCnRbGgkph2uPc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0802MB2275
+Received-SPF: pass client-ip=40.107.21.137;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -134,13 +154,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On 31.03.2021 20:33, David Hildenbrand wrote:
+> On 31.03.21 19:28, Andrey Gruzdev wrote:
+>> This commit solves the issue with userfault_fd WP feature that
+>> background snapshot is based on. For any never poluated or discarded
+>> memory page, the UFFDIO_WRITEPROTECT ioctl() would skip updating
+>> PTE for that page, thereby loosing WP setting for it.
+>>
+>> So we need to pre-fault pages for each RAM block to be protected
+>> before making a userfault_fd wr-protect ioctl().
+>>
+>> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>> ---
+>>   migration/migration.c |  6 ++++++
+>>   migration/ram.c       | 48 +++++++++++++++++++++++++++++++++++++++++++
+>>   migration/ram.h       |  1 +
+>>   3 files changed, 55 insertions(+)
+>>
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index be4729e7c8..71bce15a1b 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -3827,6 +3827,12 @@ static void *bg_migration_thread(void *opaque)
+>>         update_iteration_initial_status(s);
+>>   +    /*
+>> +     * Prepare for tracking memory writes with UFFD-WP - populate
+>> +     * RAM pages before protecting.
+>> +     */
+>> +    ram_write_tracking_prepare();
+>> +
+>>       qemu_savevm_state_header(s->to_dst_file);
+>>       qemu_savevm_state_setup(s->to_dst_file);
+>>   diff --git a/migration/ram.c b/migration/ram.c
+>> index 40e78952ad..24c8627214 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -1560,6 +1560,54 @@ out:
+>>       return ret;
+>>   }
+>>   +/*
+>> + * ram_block_populate_pages: populate memory in the RAM block by 
+>> reading
+>> + *   an integer from the beginning of each page.
+>> + *
+>> + * Since it's solely used for userfault_fd WP feature, here we just
+>> + *   hardcode page size to qemu_real_host_page_size.
+>> + *
+>> + * @bs: RAM block to populate
+>> + */
+>> +static void ram_block_populate_pages(RAMBlock *bs)
+>
+> Usually we use "rb" or "block"; however migration/ram.c seems to do 
+> things differently.
+>
+Yes, I'll rename.
+>> +{
+>> +    char *ptr = (char *) bs->host;
+>> +
+>> +    for (ram_addr_t offset = 0; offset < bs->used_length;
+>> +            offset += qemu_real_host_page_size) {
+>> +        char tmp = *(ptr + offset);
+>
+> ^ missing empty line.
+>
+Aha.
+>> +        /* Don't optimize the read out */
+>> +        asm volatile("" : "+r" (tmp));
+>> +    }
+>
+>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+>
+>
+> and might want to add
+>
+> Reported-by: David Hildenbrand <david@redhat.com>
+>
+> (also to patch #2)
+>
+I'll add, thanks.
 
-I was added as a reviewer (in MAINTAINERS) for the AVR target for the duration of my research work using it.
-The funding for my project expires in the middle of April, so I will not be able to provide time for reviewing patches from that point.
 
-I'm not sure what the process is for removing my reviewer entry, but I assume if someone needs to be notified they'll be a member of this list.
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
-Kind regards,
-Sarah Harris
 
