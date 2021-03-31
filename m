@@ -2,57 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4387134F9C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 09:22:31 +0200 (CEST)
-Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A570C34F9CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 09:28:23 +0200 (CEST)
+Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRVBL-0000um-DT
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 03:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47396)
+	id 1lRVH3-0002WM-3g
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 03:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lRVA0-0000Ux-EN; Wed, 31 Mar 2021 03:21:04 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:36779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lRV9y-0000l1-94; Wed, 31 Mar 2021 03:21:04 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.216])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6A6D5961F045;
- Wed, 31 Mar 2021 09:20:58 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 31 Mar
- 2021 09:20:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005201826ac-a360-4a58-b93b-0faac95adc14,
- 9D8442807461E38AC8E896D56D3346AE12FD8989) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 31 Mar 2021 09:20:56 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu] spapr: Rename RTAS_MAX_ADDR to FDT_MAX_ADDR
-Message-ID: <20210331092056.458de363@bahia.lan>
-In-Reply-To: <20210331025123.29310-1-aik@ozlabs.ru>
-References: <20210331025123.29310-1-aik@ozlabs.ru>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lRVGF-00026O-7F
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 03:27:31 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:44706)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lRVGA-0004gQ-JV
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 03:27:31 -0400
+Received: from [10.12.39.188] (unknown [85.142.117.224])
+ by mail.ispras.ru (Postfix) with ESMTPSA id C05DA40755D3;
+ Wed, 31 Mar 2021 07:27:21 +0000 (UTC)
+Subject: Re: [PATCH] target/openrisc: fix icount handling for timer
+ instructions
+To: Stafford Horne <shorne@gmail.com>
+References: <161700376169.1135890.8707223959310729949.stgit@pasha-ThinkPad-X280>
+ <20210330220532.GC1171117@lianli.shorne-pla.net>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <532799f9-e9ed-1e7a-713e-0ff436721f82@ispras.ru>
+Date: Wed, 31 Mar 2021 10:27:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20210330220532.GC1171117@lianli.shorne-pla.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 5cfa61e1-80d2-465a-90d4-51c68a9287f0
-X-Ovh-Tracer-Id: 2511319744087431648
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeiuddguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,65 +56,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, proljc@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 31 Mar 2021 13:51:23 +1100
-Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
-
-> SLOF instantiates RTAS since
-> 744a928ccee9 ("spapr: Stop providing RTAS blob")
-> so the max address applies to the FDT only.
+On 31.03.2021 01:05, Stafford Horne wrote:
+> Hi Pavel,
 > 
-> This renames the macro and fixes up the comment.
+> Thanks for the patch.
 > 
-> This should not cause any behavioral change.
+> On Mon, Mar 29, 2021 at 10:42:41AM +0300, Pavel Dovgalyuk wrote:
+>> This patch adds icount handling to mfspr/mtspr instructions
+>> that may deal with hardware timers.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+>> ---
+>>   target/openrisc/translate.c |   15 +++++++++++++++
+>>   1 file changed, 15 insertions(+)
+>>
+>> diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+>> index c6dce879f1..a9c81f8bd5 100644
+>> --- a/target/openrisc/translate.c
+>> +++ b/target/openrisc/translate.c
+>> @@ -884,6 +884,18 @@ static bool trans_l_mfspr(DisasContext *dc, arg_l_mfspr *a)
+>>           gen_illegal_exception(dc);
+>>       } else {
+>>           TCGv spr = tcg_temp_new();
+>> +
+>> +        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+>> +            gen_io_start();
+>> +            if (dc->delayed_branch) {
+>> +                tcg_gen_mov_tl(cpu_pc, jmp_pc);
+>> +                tcg_gen_discard_tl(jmp_pc);
+>> +            } else {
+>> +                tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
+>> +            }
+>> +            dc->base.is_jmp = DISAS_EXIT;
+>> +        }
 > 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/ppc/spapr.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> I don't know alot about how the icount works.  But I read this document to help
+> understand this patch.
 > 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 73a06df3b1b1..1e18a0a62839 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -100,7 +100,7 @@
->   *
->   * We load our kernel at 4M, leaving space for SLOF initial image
->   */
-> -#define RTAS_MAX_ADDR           0x80000000 /* RTAS must stay below that */
-> +#define FDT_MAX_ADDR            0x80000000 /* FDT must stay below that */
->  #define FW_MAX_SIZE             0x400000
->  #define FW_FILE_NAME            "slof.bin"
->  #define FW_OVERHEAD             0x2800000
-> @@ -1617,11 +1617,11 @@ static void spapr_machine_reset(MachineState *machine)
->      spapr_clear_pending_events(spapr);
->  
->      /*
-> -     * We place the device tree and RTAS just below either the top of the RMA,
-> +     * We place the device tree just below either the top of the RMA,
->       * or just below 2GB, whichever is lower, so that it can be
->       * processed with 32-bit real mode code if necessary
->       */
-> -    fdt_addr = MIN(spapr->rma_size, RTAS_MAX_ADDR) - FDT_MAX_SIZE;
-> +    fdt_addr = MIN(spapr->rma_size, FDT_MAX_ADDR) - FDT_MAX_SIZE;
->  
->      fdt = spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
->  
-> @@ -2694,7 +2694,7 @@ static void spapr_machine_init(MachineState *machine)
->      spapr->rma_size = spapr_rma_size(spapr, &error_fatal);
->  
->      /* Setup a load limit for the ramdisk leaving room for SLOF and FDT */
-> -    load_limit = MIN(spapr->rma_size, RTAS_MAX_ADDR) - FW_OVERHEAD;
-> +    load_limit = MIN(spapr->rma_size, FDT_MAX_ADDR) - FW_OVERHEAD;
->  
->      /*
->       * VSMT must be set in order to be able to compute VCPU ids, ie to
+> https://qemu.readthedocs.io/en/latest/devel/tcg-icount.html
+> 
+> Could you explain why we need to exit the tb on mfspr?  This may just be reading
+> a timer value, but I am not sure why we need it?
 
+Because virtual clock in icount mode is correct only at the end of the 
+block.
+Allowing virtual clock reads in other places will make execution 
+non-deterministic, because icount is updated to the value, which it gets 
+after the block ends.
+
+> 
+>>           tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
+>>           gen_helper_mfspr(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d), spr);
+>>           tcg_temp_free(spr);
+>> @@ -898,6 +910,9 @@ static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
+>>       } else {
+>>           TCGv spr;
+>>   
+>> +        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+>> +            gen_io_start();
+>> +        }
+> 
+> Here and above, why do we need to call gen_io_start()?  This seems to need to be
+> called before io operations.
+
+gen_io_start allows reading icount for the instruction.
+It is needed to prevent invalid reads in the middle of the block.
+
+> 
+> This may all be OK, but could you help explain the theory of operation?  Also,
+> have you tested this?
+
+I have record/replay tests for openrisc, but I can't submit them without 
+this patch, because they will fail.
+
+Pavel Dovgalyuk
 
