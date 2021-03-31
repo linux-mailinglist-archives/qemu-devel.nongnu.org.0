@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9DE350752
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 21:22:44 +0200 (CEST)
-Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D33350758
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 21:25:13 +0200 (CEST)
+Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRgQM-00043t-Ps
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 15:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
+	id 1lRgSm-0006jS-8y
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 15:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lRgOM-0002yr-45
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 15:20:38 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51936)
+ id 1lRgRW-0005q9-AW
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 15:23:54 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lRgOK-0005uS-CQ
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 15:20:37 -0400
-Received: by mail-wm1-x332.google.com with SMTP id p19so10700369wmq.1
- for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 12:20:34 -0700 (PDT)
+ id 1lRgRT-0007LL-N8
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 15:23:53 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id c8so20745688wrq.11
+ for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 12:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=kzvDRDojxqYMcHddndzb7+t/d38gGYhYz6MzfArSfIs=;
- b=vj1Euq3ej4BX2Hnn7k+jWx47tbI+wbIzXC9cOBsnEjhk4L+nFGDhb8a71UpYoaQ8No
- 0tJsICMqCdJXkqxLBbJ4tJvcb6l+d8okgE5Ugrz050VNKwBf0gi7I8kbro5lx8/CUWIk
- 7NulQPHOPKPAMq2TarJ4M4JdcPkbDF+f35RHrJlWmXVfv2SXu7B3Bxpl1hxZ4tB9MXuB
- vHWHJW41jvhfFVhEz4LGGXR8+kpCUQ3AEdl4K0lrbng7gWYUxtnbWwmCG/JpuvvwIcYF
- N9LSt6YO7g/osLDpPiBC3R93FVIsMIUcBXigfVZvfJHf8aGJ58xYDM8e0kr0819OHdhI
- ugpg==
+ bh=Jjsu2T5Ch9Hj/AM5VF45QIPFjmOU56i/te38N8WfG9g=;
+ b=MkX2MOA35MKbY9Qo/d4o8e+ySHpDOxQp7Wh/bILdmMtveWDG2CiKDaCWHTwRjtlK56
+ gpgCbDtwYmGH8pGLKSsmqzFQT5QEf/PuomoGTlGIYnb0L9ZX5NAXAFvpUT41pUwPdxKG
+ vRn92IW4QFUWTDboHAbAmfx8eiMNGF96DUSTal6qz+FUgB143hi6HkZwGENHmOaqWtwP
+ 3+bXmSy7S1S5/EED6GyY890WVljdBz5+pIn2So5PbnKlU9kqRtgKZjQyqzuXWIuF45so
+ 7qHuvxWgg1IpHkKGlE46yAj9OK/19zp/hcu/F+YY4u9tqb0J9z0gJCDXBBiYB3RwWYy4
+ geag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=kzvDRDojxqYMcHddndzb7+t/d38gGYhYz6MzfArSfIs=;
- b=GdU/YzwfRmmlg3Uv1StOMFnwEAxRlPfwQ7FdivrkzA3xQFO4Z5XQHxFTaRJ6rLAtMe
- N4usg3Yikn8e4iVuZbSUxyWHRhC940hmPgyhHtkTaSpLqUQEn8t/2r16y10TcizLVAG5
- oFLULElCegzP7QnbgSOsCBl5cpjqQ7vPuTip1ST0b4BfZWI9gPtBxKSBGl4dlxs8Kwwz
- 0dm87qH6zosy+pGNUdEl5tZZE3j+Wn2UEA2+57Bv+0mfnfMLkPqaJh7O3yumcDOvMKZX
- eWlOQ/u/qUnsA9+4Bww1gJUDddn80yQCMFo76Sl5lZPMPQmyTZYOUGFq/X1wBD0ydn18
- 3GTQ==
-X-Gm-Message-State: AOAM530AtQSpr68EJWgwvmOhO9AKUxolzrxSGKR3VM2sLcsfLYTTcBjM
- qjczId0Ut4i5ot0ubGD4qXxAzQ==
-X-Google-Smtp-Source: ABdhPJzfjM87pzI3+0UmkMQmAgdHtXlZjwbX37FWj2n/6fHWcZE8jI5sptFa/pFCTq112ea9OOtyhg==
-X-Received: by 2002:a7b:c214:: with SMTP id x20mr4562618wmi.186.1617218433186; 
- Wed, 31 Mar 2021 12:20:33 -0700 (PDT)
+ bh=Jjsu2T5Ch9Hj/AM5VF45QIPFjmOU56i/te38N8WfG9g=;
+ b=Xft9Jxdcb8ImrKDWFP6Tsr+btvQPO8YfdUW++ZmsJoNlgC9UzFNs0swz/1Skm1ONJf
+ xdtx6ejvVJXkOm4iQtR3AiiO+zUlie4W/KD75L6cLVWzUL1wia9nuFW6ghwRVWVxcFWX
+ MO8s6rP8OF2ws/TGWPCm73yOjRM5IigmlMp8VNY9pR+exHtlCYg+zD2SgldwMV76rQzC
+ 7Oc8HUYDyuewqNfguzQ4ci2h/1oQW48XyuGOoMiHrJNTOomRhruL6Ggd3Ku+X09k5eNP
+ PzWY3wLquZGhbOkd2yP6f0eJtiRCMdHY3prrYX9yZVCt/UD57aPB465+wW0qWgERzTZA
+ yjVQ==
+X-Gm-Message-State: AOAM532z8/viiUtcoyJ/5UdV7E1cj1bJBX/SgMrvRmNMzBnJh/T1C/FT
+ potYgmEMZeaPZQz5usr/AZDPCA==
+X-Google-Smtp-Source: ABdhPJwugi0nDSg9X2TIwksUxhcd2BX78MMuY8pFhGWU+/idhYlmynW2+v085Zx9iBz5gUCI/1TVow==
+X-Received: by 2002:adf:e34f:: with SMTP id n15mr5383973wrj.224.1617218629864; 
+ Wed, 31 Mar 2021 12:23:49 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m11sm6201347wrz.40.2021.03.31.12.20.32
+ by smtp.gmail.com with ESMTPSA id 64sm5133992wmz.7.2021.03.31.12.23.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 12:20:32 -0700 (PDT)
+ Wed, 31 Mar 2021 12:23:48 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5F0B61FF7E;
- Wed, 31 Mar 2021 20:20:31 +0100 (BST)
-References: <20210331150527.14857-1-pbonzini@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id 1B2661FF7E;
+ Wed, 31 Mar 2021 20:23:48 +0100 (BST)
+References: <20210331160351.3071279-1-thuth@redhat.com>
 User-agent: mu4e 1.5.11; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict
- Resolution Policy document
-Date: Wed, 31 Mar 2021 20:12:51 +0100
-In-reply-to: <20210331150527.14857-1-pbonzini@redhat.com>
-Message-ID: <87blaznn9c.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] gitlab-ci.yml: Test the dtrace backend in one of the jobs
+Date: Wed, 31 Mar 2021 20:23:42 +0100
+In-reply-to: <20210331160351.3071279-1-thuth@redhat.com>
+Message-ID: <878s63nn3v.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,30 +86,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- berrange@redhat.com, qemu-devel@nongnu.org, agraf@csgraf.de,
- stefanha@redhat.com, afaerber@suse.de
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-<snip>
-> +
-> +This isn't an exhaustive list of things that you can't do. Rather, take
-> +it in the spirit in which it's intended=E2=80=94a guide to make it easie=
-r to
-> +be excellent to each other.
+> We are using the dtrace backend in downstream RHEL, so testing this
+> in the CentOS 8 task seems to be a good fit.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-I think a colon might work better here:
-
-  Rather, take it in the spirit in which it's intended: a guide to make it
-  easier to be excellent to each other.
-
-Other that that all looks good to me.
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Queued to for-6.0/fixes-for-rc2, thanks.
 
 --=20
 Alex Benn=C3=A9e
