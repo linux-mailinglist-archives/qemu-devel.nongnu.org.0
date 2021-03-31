@@ -2,71 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B29634FDA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:59:54 +0200 (CEST)
-Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABF434FD8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:57:21 +0200 (CEST)
+Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRXdh-00089l-EG
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:59:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
+	id 1lRXbE-0004Mw-4z
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRXVw-0008Tg-0f
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 05:51:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27588)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lRXYB-0002dE-4r; Wed, 31 Mar 2021 05:54:12 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRXVu-0001Ot-7f
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 05:51:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617184309;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wckQYKVlGLePyac3Ud9XANvFrgZCkQVjzf9UPTUYLHk=;
- b=BSyY8CLJQZXhJgcpENkgvtx62EzGMstiqVOnXMT0bNfUrPSPqPAas96qMmXdZd3qDfZzGI
- 7k2cFADLELJ34fO4KR9qzq4uqvuZ2nUYUIdfEqnupjhE0hoFAZT9N8sFLnPV0xzkmvApmr
- YXcsUHk1e6MZyiF9NIWmpZXHG6y6Kw4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-WdlnYraKMISURIwIxb2UXg-1; Wed, 31 Mar 2021 05:51:47 -0400
-X-MC-Unique: WdlnYraKMISURIwIxb2UXg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07BF98018AC;
- Wed, 31 Mar 2021 09:51:46 +0000 (UTC)
-Received: from localhost (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A254B4F3C6;
- Wed, 31 Mar 2021 09:51:38 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL for-6.0 6/6] test-coroutine: Add rwlock downgrade test
-Date: Wed, 31 Mar 2021 10:50:59 +0100
-Message-Id: <20210331095059.303996-7-stefanha@redhat.com>
-In-Reply-To: <20210331095059.303996-1-stefanha@redhat.com>
-References: <20210331095059.303996-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1lRXY3-0002Xx-MS; Wed, 31 Mar 2021 05:54:10 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9M6F6Y7qz1BFy0;
+ Wed, 31 Mar 2021 17:51:49 +0800 (CST)
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 31 Mar 2021 17:53:45 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: [RFC PATCH 0/6] Introduce cluster cpu topology support
+Date: Wed, 31 Mar 2021 17:53:37 +0800
+Message-ID: <20210331095343.12172-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,116 +53,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- David Edmondson <david.edmondson@oracle.com>, Stefan Weil <sw@weilnetz.de>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo
+ Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, yuzenghui@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
+ Jiajie Li <lijiajie11@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogRGF2aWQgRWRtb25kc29uIDxkYXZpZC5lZG1vbmRzb25Ab3JhY2xlLmNvbT4KClRlc3Qg
-dGhhdCBkb3duZ3JhZGluZyBhbiByd2xvY2sgZG9lcyBub3QgcmVzdWx0IGluIGEgZmFpbHVyZSB0
-bwpzY2hlZHVsZSBjb3JvdXRpbmVzIHF1ZXVlZCBvbiB0aGUgcndsb2NrLgoKVGhlIGRpYWdyYW0g
-YXNzb2NpYXRlZCB3aXRoIHRlc3RfY29fcndsb2NrX2Rvd25ncmFkZSgpIGRlc2NyaWJlcyB0aGUK
-aW50ZW5kZWQgYmVoYXZpb3VyLCBidXQgd2hhdCB3YXMgb2JzZXJ2ZWQgcHJldmlvdXNseSBjb3Jy
-ZXNwb25kcyB0bzoKCnwgYzEgICAgIHwgYzIgICAgICAgICB8IGMzICAgICAgICAgfCBjNCAgICAg
-ICB8CnwtLS0tLS0tLSstLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS18CnwgcmRs
-b2NrIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICB8CnwgeWllbGQgIHwgICAg
-ICAgICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICB8CnwgICAgICAgIHwgd3Jsb2NrICAgICB8
-ICAgICAgICAgICAgfCAgICAgICAgICB8CnwgICAgICAgIHwgPHF1ZXVlZD4gICB8ICAgICAgICAg
-ICAgfCAgICAgICAgICB8CnwgICAgICAgIHwgICAgICAgICAgICB8IHJkbG9jayAgICAgfCAgICAg
-ICAgICB8CnwgICAgICAgIHwgICAgICAgICAgICB8IDxxdWV1ZWQ+ICAgfCAgICAgICAgICB8Cnwg
-ICAgICAgIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfCB3cmxvY2sgICB8CnwgICAgICAgIHwg
-ICAgICAgICAgICB8ICAgICAgICAgICAgfCA8cXVldWVkPiB8CnwgdW5sb2NrIHwgICAgICAgICAg
-ICB8ICAgICAgICAgICAgfCAgICAgICAgICB8CnwgeWllbGQgIHwgICAgICAgICAgICB8ICAgICAg
-ICAgICAgfCAgICAgICAgICB8CnwgICAgICAgIHwgPGRlcXVldWVkPiB8ICAgICAgICAgICAgfCAg
-ICAgICAgICB8CnwgICAgICAgIHwgZG93bmdyYWRlICB8ICAgICAgICAgICAgfCAgICAgICAgICB8
-CnwgICAgICAgIHwgLi4uICAgICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICB8CnwgICAgICAg
-IHwgdW5sb2NrICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICB8CnwgICAgICAgIHwgICAgICAg
-ICAgICB8IDxkZXF1ZXVlZD4gfCAgICAgICAgICB8CnwgICAgICAgIHwgICAgICAgICAgICB8IDxx
-dWV1ZWQ+ICAgfCAgICAgICAgICB8CgpUaGlzIHJlc3VsdHMgaW4gYSBmYWlsdXJlLi4uCgpFUlJP
-UjouLi90ZXN0cy90ZXN0LWNvcm91dGluZS5jOjM2OTp0ZXN0X2NvX3J3bG9ja19kb3duZ3JhZGU6
-IGFzc2VydGlvbiBmYWlsZWQ6IChjM19kb25lKQpCYWlsIG91dCEgRVJST1I6Li4vdGVzdHMvdGVz
-dC1jb3JvdXRpbmUuYzozNjk6dGVzdF9jb19yd2xvY2tfZG93bmdyYWRlOiBhc3NlcnRpb24gZmFp
-bGVkOiAoYzNfZG9uZSkKCi4uLmFzIGEgcmVzdWx0IG9mIHRoZSBjMyBjb3JvdXRpbmUgZmFpbGlu
-ZyB0byBydW4gdG8gY29tcGxldGlvbi4KClNpZ25lZC1vZmYtYnk6IERhdmlkIEVkbW9uZHNvbiA8
-ZGF2aWQuZWRtb25kc29uQG9yYWNsZS5jb20+ClNpZ25lZC1vZmYtYnk6IFBhb2xvIEJvbnppbmkg
-PHBib256aW5pQHJlZGhhdC5jb20+Ck1lc3NhZ2UtaWQ6IDIwMjEwMzI1MTEyOTQxLjM2NTIzOC03
-LXBib256aW5pQHJlZGhhdC5jb20KTWVzc2FnZS1JZDogPDIwMjEwMzA5MTQ0MDE1LjU1NzQ3Ny01
-LWRhdmlkLmVkbW9uZHNvbkBvcmFjbGUuY29tPgpTaWduZWQtb2ZmLWJ5OiBQYW9sbyBCb256aW5p
-IDxwYm9uemluaUByZWRoYXQuY29tPgpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0
-ZWZhbmhhQHJlZGhhdC5jb20+Ci0tLQogdGVzdHMvdW5pdC90ZXN0LWNvcm91dGluZS5jIHwgOTkg
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDk5
-IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS90ZXN0cy91bml0L3Rlc3QtY29yb3V0aW5lLmMg
-Yi90ZXN0cy91bml0L3Rlc3QtY29yb3V0aW5lLmMKaW5kZXggNmU2ZjUxZDQ4MC4uYWE3N2EzYmNi
-MyAxMDA2NDQKLS0tIGEvdGVzdHMvdW5pdC90ZXN0LWNvcm91dGluZS5jCisrKyBiL3Rlc3RzL3Vu
-aXQvdGVzdC1jb3JvdXRpbmUuYwpAQCAtMzI1LDYgKzMyNSwxMDQgQEAgc3RhdGljIHZvaWQgdGVz
-dF9jb19yd2xvY2tfdXBncmFkZSh2b2lkKQogICAgIGdfYXNzZXJ0KGMyX2RvbmUpOwogfQogCitz
-dGF0aWMgdm9pZCBjb3JvdXRpbmVfZm4gcndsb2NrX3JkbG9ja195aWVsZCh2b2lkICpvcGFxdWUp
-Cit7CisgICAgcWVtdV9jb19yd2xvY2tfcmRsb2NrKCZyd2xvY2spOworICAgIHFlbXVfY29yb3V0
-aW5lX3lpZWxkKCk7CisKKyAgICBxZW11X2NvX3J3bG9ja191bmxvY2soJnJ3bG9jayk7CisgICAg
-cWVtdV9jb3JvdXRpbmVfeWllbGQoKTsKKworICAgICooYm9vbCAqKW9wYXF1ZSA9IHRydWU7Cit9
-CisKK3N0YXRpYyB2b2lkIGNvcm91dGluZV9mbiByd2xvY2tfd3Jsb2NrX2Rvd25ncmFkZSh2b2lk
-ICpvcGFxdWUpCit7CisgICAgcWVtdV9jb19yd2xvY2tfd3Jsb2NrKCZyd2xvY2spOworCisgICAg
-cWVtdV9jb19yd2xvY2tfZG93bmdyYWRlKCZyd2xvY2spOworICAgIHFlbXVfY29fcndsb2NrX3Vu
-bG9jaygmcndsb2NrKTsKKyAgICAqKGJvb2wgKilvcGFxdWUgPSB0cnVlOworfQorCitzdGF0aWMg
-dm9pZCBjb3JvdXRpbmVfZm4gcndsb2NrX3JkbG9jayh2b2lkICpvcGFxdWUpCit7CisgICAgcWVt
-dV9jb19yd2xvY2tfcmRsb2NrKCZyd2xvY2spOworCisgICAgcWVtdV9jb19yd2xvY2tfdW5sb2Nr
-KCZyd2xvY2spOworICAgICooYm9vbCAqKW9wYXF1ZSA9IHRydWU7Cit9CisKK3N0YXRpYyB2b2lk
-IGNvcm91dGluZV9mbiByd2xvY2tfd3Jsb2NrKHZvaWQgKm9wYXF1ZSkKK3sKKyAgICBxZW11X2Nv
-X3J3bG9ja193cmxvY2soJnJ3bG9jayk7CisKKyAgICBxZW11X2NvX3J3bG9ja191bmxvY2soJnJ3
-bG9jayk7CisgICAgKihib29sICopb3BhcXVlID0gdHJ1ZTsKK30KKworLyoKKyAqIENoZWNrIHRo
-YXQgZG93bmdyYWRpbmcgYSByZWFkZXItd3JpdGVyIGxvY2sgZG9lcyBub3QgY2F1c2UgYSBoYW5n
-LgorICoKKyAqIEZvdXIgY29yb3V0aW5lcyBhcmUgdXNlZCB0byBwcm9kdWNlIGEgc2l0dWF0aW9u
-IHdoZXJlIHRoZXJlIGFyZQorICogYm90aCByZWFkZXIgYW5kIHdyaXRlciBob3BlZnVscyB3YWl0
-aW5nIHRvIGFjcXVpcmUgYW4gcndsb2NrIHRoYXQKKyAqIGlzIGhlbGQgYnkgYSByZWFkZXIuCisg
-KgorICogVGhlIGNvcnJlY3Qgc2VxdWVuY2Ugb2Ygb3BlcmF0aW9ucyB3ZSBhaW0gdG8gcHJvdm9r
-ZSBjYW4gYmUKKyAqIHJlcHJlc2VudGVkIGFzOgorICoKKyAqIHwgYzEgICAgIHwgYzIgICAgICAg
-ICB8IGMzICAgICAgICAgfCBjNCAgICAgICAgIHwKKyAqIHwtLS0tLS0tLSstLS0tLS0tLS0tLS0r
-LS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLXwKKyAqIHwgcmRsb2NrIHwgICAgICAgICAgICB8ICAg
-ICAgICAgICAgfCAgICAgICAgICAgIHwKKyAqIHwgeWllbGQgIHwgICAgICAgICAgICB8ICAgICAg
-ICAgICAgfCAgICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwgd3Jsb2NrICAgICB8ICAgICAgICAg
-ICAgfCAgICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwgPHF1ZXVlZD4gICB8ICAgICAgICAgICAg
-fCAgICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwgICAgICAgICAgICB8IHJkbG9jayAgICAgfCAg
-ICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwgICAgICAgICAgICB8IDxxdWV1ZWQ+ICAgfCAgICAg
-ICAgICAgIHwKKyAqIHwgICAgICAgIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfCB3cmxvY2sg
-ICAgIHwKKyAqIHwgICAgICAgIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfCA8cXVldWVkPiAg
-IHwKKyAqIHwgdW5sb2NrIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICAgIHwK
-KyAqIHwgeWllbGQgIHwgICAgICAgICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICAgIHwKKyAq
-IHwgICAgICAgIHwgPGRlcXVldWVkPiB8ICAgICAgICAgICAgfCAgICAgICAgICAgIHwKKyAqIHwg
-ICAgICAgIHwgZG93bmdyYWRlICB8ICAgICAgICAgICAgfCAgICAgICAgICAgIHwKKyAqIHwgICAg
-ICAgIHwgICAgICAgICAgICB8IDxkZXF1ZXVlZD4gfCAgICAgICAgICAgIHwKKyAqIHwgICAgICAg
-IHwgICAgICAgICAgICB8IHVubG9jayAgICAgfCAgICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwg
-Li4uICAgICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwgdW5s
-b2NrICAgICB8ICAgICAgICAgICAgfCAgICAgICAgICAgIHwKKyAqIHwgICAgICAgIHwgICAgICAg
-ICAgICB8ICAgICAgICAgICAgfCA8ZGVxdWV1ZWQ+IHwKKyAqIHwgICAgICAgIHwgICAgICAgICAg
-ICB8ICAgICAgICAgICAgfCB1bmxvY2sgICAgIHwKKyAqLworc3RhdGljIHZvaWQgdGVzdF9jb19y
-d2xvY2tfZG93bmdyYWRlKHZvaWQpCit7CisgICAgYm9vbCBjMV9kb25lID0gZmFsc2U7CisgICAg
-Ym9vbCBjMl9kb25lID0gZmFsc2U7CisgICAgYm9vbCBjM19kb25lID0gZmFsc2U7CisgICAgYm9v
-bCBjNF9kb25lID0gZmFsc2U7CisgICAgQ29yb3V0aW5lICpjMSwgKmMyLCAqYzMsICpjNDsKKwor
-ICAgIHFlbXVfY29fcndsb2NrX2luaXQoJnJ3bG9jayk7CisKKyAgICBjMSA9IHFlbXVfY29yb3V0
-aW5lX2NyZWF0ZShyd2xvY2tfcmRsb2NrX3lpZWxkLCAmYzFfZG9uZSk7CisgICAgYzIgPSBxZW11
-X2Nvcm91dGluZV9jcmVhdGUocndsb2NrX3dybG9ja19kb3duZ3JhZGUsICZjMl9kb25lKTsKKyAg
-ICBjMyA9IHFlbXVfY29yb3V0aW5lX2NyZWF0ZShyd2xvY2tfcmRsb2NrLCAmYzNfZG9uZSk7Cisg
-ICAgYzQgPSBxZW11X2Nvcm91dGluZV9jcmVhdGUocndsb2NrX3dybG9jaywgJmM0X2RvbmUpOwor
-CisgICAgcWVtdV9jb3JvdXRpbmVfZW50ZXIoYzEpOworICAgIHFlbXVfY29yb3V0aW5lX2VudGVy
-KGMyKTsKKyAgICBxZW11X2Nvcm91dGluZV9lbnRlcihjMyk7CisgICAgcWVtdV9jb3JvdXRpbmVf
-ZW50ZXIoYzQpOworCisgICAgcWVtdV9jb3JvdXRpbmVfZW50ZXIoYzEpOworCisgICAgZ19hc3Nl
-cnQoYzJfZG9uZSk7CisgICAgZ19hc3NlcnQoYzNfZG9uZSk7CisgICAgZ19hc3NlcnQoYzRfZG9u
-ZSk7CisKKyAgICBxZW11X2Nvcm91dGluZV9lbnRlcihjMSk7CisKKyAgICBnX2Fzc2VydChjMV9k
-b25lKTsKK30KKwogLyoKICAqIENoZWNrIHRoYXQgY3JlYXRpb24sIGVudGVyLCBhbmQgcmV0dXJu
-IHdvcmsKICAqLwpAQCAtNTYzLDYgKzY2MSw3IEBAIGludCBtYWluKGludCBhcmdjLCBjaGFyICoq
-YXJndikKICAgICBnX3Rlc3RfYWRkX2Z1bmMoIi9sb2NraW5nL2NvLW11dGV4IiwgdGVzdF9jb19t
-dXRleCk7CiAgICAgZ190ZXN0X2FkZF9mdW5jKCIvbG9ja2luZy9jby1tdXRleC9sb2NrYWJsZSIs
-IHRlc3RfY29fbXV0ZXhfbG9ja2FibGUpOwogICAgIGdfdGVzdF9hZGRfZnVuYygiL2xvY2tpbmcv
-Y28tcndsb2NrL3VwZ3JhZGUiLCB0ZXN0X2NvX3J3bG9ja191cGdyYWRlKTsKKyAgICBnX3Rlc3Rf
-YWRkX2Z1bmMoIi9sb2NraW5nL2NvLXJ3bG9jay9kb3duZ3JhZGUiLCB0ZXN0X2NvX3J3bG9ja19k
-b3duZ3JhZGUpOwogICAgIGlmIChnX3Rlc3RfcGVyZigpKSB7CiAgICAgICAgIGdfdGVzdF9hZGRf
-ZnVuYygiL3BlcmYvbGlmZWN5Y2xlIiwgcGVyZl9saWZlY3ljbGUpOwogICAgICAgICBnX3Rlc3Rf
-YWRkX2Z1bmMoIi9wZXJmL25lc3RpbmciLCBwZXJmX25lc3RpbmcpOwotLSAKMi4zMC4yCgo=
+Hi,
+This series introduces the cluster cpu topology support, besides now
+existing sockets, cores, and threads.
+
+A cluster means a group of cores that share some resources (e.g. cache)
+among them under the LLC. For example, ARM64 server chip Kunpeng 920 has
+6 or 8 clusters in each NUMA, and each cluster has 4 cores. All clusters
+share L3 cache data while cores within each cluster share the L2 cache.
+
+Also, there are some x86 CPU implementations (e.g. Jacobsville) where L2
+cache is shared among a cluster of cores instead of being exclusive to
+one single core. For example, on Jacobsville there are 6 clusters of 4
+Atom cores, each cluster sharing a separate L2, and 24 cores sharing L3).
+
+The cache affinity of cluster has been proved to improve the Linux kernel
+scheduling performance and a patchset [1] has already been posted, where
+a general sched_domain for clusters was added and a cluster level was
+added in the arch-neutral cpu topology struct like below.
+struct cpu_topology {
+    int thread_id;
+    int core_id;
+    int cluster_id;
+    int package_id;
+    int llc_id;
+    cpumask_t thread_sibling;
+    cpumask_t core_sibling;
+    cpumask_t cluster_sibling;
+    cpumask_t llc_sibling;
+};
+
+Also Kernel Doc [2]: Documentation/devicetree/bindings/cpu/cpu-topology.txt
+defines a four-level CPU topology hierarchy like socket/cluster/core/thread.
+According to the context, a socket node's child nodes must be one or more
+cluster nodes and a cluster node's child nodes must be one or more cluster
+nodes/one or more core nodes.
+
+So let's add the arch-neutral -smp, clusters=* command line support, so that
+future guest os could make use of cluster cpu topology for better scheduling
+performance. And whichever architecture that has groups of cpus sharing some
+separate resources(e.g. L2 cache) internely under LLC can use this command
+line parameter to define a VM with cluster level cpu topology.
+
+For ARM machines, a four-level cpu hierarchy can be defined and it will be
+sockets/clusters/cores/threads. For PC machines, a five-level cpu hierarchy
+can be defined and it will be sockets/dies/clusters/cores/threads.
+
+About this series:
+Note that, this series was implemented based on [3] and [4]. Although they
+have not merged into qemu mainline for now, it's still meaning to post this
+series to express the thoughts first. So a RFC is sent and any comments are
+welcomed and appreciated.
+
+Test results:
+With command line: -smp 96,sockets=2,clusters=6,cores=4,threads=2, VM's cpu
+topology description shows as below.
+lscpu:
+Architecture:        aarch64
+Byte Order:          Little Endian
+CPU(s):              96
+On-line CPU(s) list: 0-95
+Thread(s) per core:  2
+Core(s) per socket:  24
+Socket(s):           2
+NUMA node(s):        1
+Vendor ID:           0x48
+Model:               0
+Stepping:            0x1
+BogoMIPS:            200.00
+L1d cache:           unknown size
+L1i cache:           unknown size
+L2 cache:            unknown size
+NUMA node0 CPU(s):   0-95
+
+Topology information of clusters can also be got:
+cat /sys/devices/system/cpu/cpu0/topology/cluster_cpus_list: 0-7
+cat /sys/devices/system/cpu/cpu0/topology/cluster_id: 56
+
+cat /sys/devices/system/cpu/cpu8/topology/cluster_cpus_list: 8-15
+cat /sys/devices/system/cpu/cpu8/topology/cluster_id: 316
+...
+cat /sys/devices/system/cpu/cpu95/topology/cluster_cpus_list: 88-95
+cat /sys/devices/system/cpu/cpu95/topology/cluster_id: 2936
+
+Links:
+[1] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20210319041618.14316-1-song.bao.hua@hisilicon.com/
+[2] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/cpu/cpu-topology.txt
+[3] https://patchwork.kernel.org/project/qemu-devel/cover/20210225085627.2263-1-fangying1@huawei.com/
+[4] https://patchwork.kernel.org/project/qemu-devel/patch/20201109030452.2197-4-fangying1@huawei.com/
+
+Yanan Wang (6):
+  vl.c: Add arch-neutral -smp, clusters=* command line support
+  hw/core/machine: Parse cluster cpu topology in smp_parse()
+  hw/arm/virt: Parse cluster cpu topology for ARM machines
+  hw/i386/pc: Parse cluster cpu topology for PC machines
+  hw/arm/virt-acpi-build: Add cluster level for ARM PPTT table
+  hw/arm/virt: Add cluster level for ARM device tree
+
+ hw/acpi/aml-build.c         | 11 +++++++++
+ hw/arm/virt-acpi-build.c    | 43 ++++++++++++++++++++---------------
+ hw/arm/virt.c               | 45 ++++++++++++++++++++++---------------
+ hw/core/machine.c           | 32 +++++++++++++++-----------
+ hw/i386/pc.c                | 31 +++++++++++++++----------
+ include/hw/acpi/aml-build.h |  2 ++
+ include/hw/boards.h         |  4 +++-
+ qemu-options.hx             | 27 +++++++++++++---------
+ softmmu/vl.c                |  3 +++
+ 9 files changed, 125 insertions(+), 73 deletions(-)
+
+-- 
+2.19.1
 
 
