@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E83534FC42
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:13:25 +0200 (CEST)
-Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28FB34FC75
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:18:03 +0200 (CEST)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRWui-00022r-0m
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42114)
+	id 1lRWzC-0003Un-5u
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRWtJ-0001cy-Rw
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 05:11:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40224)
+ id 1lRWve-0002bl-6d
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 05:14:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lRWtF-0002gQ-Jp
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 05:11:57 -0400
+ id 1lRWvb-0004BH-Cb
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 05:14:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617181911;
+ s=mimecast20190719; t=1617182058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KXRcpfLcVnIRoOERpmPzKJEcI2P7LkMQUmUvPHq6NaI=;
- b=g0HdBBL7V1Ojsb+L6j4YpMS2OUVcX94ak82K1QjMRvLmYLuRx8VacwGHstE+JqiL5ILu1k
- wtXszLN5o2xLE0HqNpudR+tmBk3ZRYtK1y/ZfL7KJ1HiA8dJoYN78UHOa0odRFZKHNVRS2
- kvRdc8C4vqepoRG4y+Vsy1xmy0vFHi4=
+ bh=bXER9d+cUkrKqoQn3Pt2pdwx177mNMtor62wmoeiBBs=;
+ b=bgm4OVZb/nJYmzw8QW66Tk0uT7miGS2RQQ2wey3HfqDzRF9c552CPcThuVzF03X8QqlS2C
+ N36UuGHemaoMF2lFxluV7+FfunsSItYrKD32nAnNIzZVKtymK9roln1Kxa5q39LaBse8/0
+ rhY99sK+0RhHRGplv/mkqSnI1WeXYqM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-W0VSr2MvMAuAPk-Si2EKXA-1; Wed, 31 Mar 2021 05:11:46 -0400
-X-MC-Unique: W0VSr2MvMAuAPk-Si2EKXA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-475-n7m9HXGBMwCsLXYsIMnpvg-1; Wed, 31 Mar 2021 05:14:13 -0400
+X-MC-Unique: n7m9HXGBMwCsLXYsIMnpvg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B4308189CA;
- Wed, 31 Mar 2021 09:11:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36C98A0CB7;
+ Wed, 31 Mar 2021 09:14:12 +0000 (UTC)
 Received: from localhost (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFDA8A8438;
- Wed, 31 Mar 2021 09:11:44 +0000 (UTC)
-Date: Wed, 31 Mar 2021 10:11:43 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE6147943E;
+ Wed, 31 Mar 2021 09:14:11 +0000 (UTC)
+Date: Wed, 31 Mar 2021 10:14:10 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
+To: lagarcia@linux.ibm.com
 Subject: Re: [PATCH v2] IOMMU not supported by vhost-user.
-Message-ID: <YGQ8z+Uv4QTmbYTl@stefanha-x1.localdomain>
+Message-ID: <YGQ9YhTALf+KSvCf@stefanha-x1.localdomain>
 References: <a47b7a5dafcab0f3a662414ba6cbbc7eb280d478.1613591341.git.lagarcia@br.ibm.com>
- <20210223165541.5aafc638@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20210223165541.5aafc638@bahia.lan>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <a47b7a5dafcab0f3a662414ba6cbbc7eb280d478.1613591341.git.lagarcia@br.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+c4yZhOzomX86yW8"
+ protocol="application/pgp-signature"; boundary="pJCjEkHnaL3lmn/n"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,56 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@br.ibm.com, Leonardo Garcia <lagarcia@br.ibm.com>,
- lagarcia@linux.ibm.com, qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: farosas@br.ibm.com, gkurz@redhat.com, Leonardo Garcia <lagarcia@br.ibm.com>,
+ qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+c4yZhOzomX86yW8
+--pJCjEkHnaL3lmn/n
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 23, 2021 at 04:55:41PM +0100, Greg Kurz wrote:
-> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > index 6e17d631f7..78e58d2148 100644
-> > --- a/hw/virtio/vhost.c
-> > +++ b/hw/virtio/vhost.c
-> > @@ -1293,7 +1293,6 @@ int vhost_dev_init(struct vhost_dev *hdev, void *=
-opaque,
-> >      int i, r, n_initialized_vqs =3D 0;
-> >      Error *local_err =3D NULL;
-> > =20
-> > -    hdev->vdev =3D NULL;
->=20
-> With this change, vhost_dev_init() no longer offers the guarantee
-> that ->vdev is valid, which might cause problems for any device
-> that doesn't set ->vdev itself like this patch does for vhost-user-fs.
->=20
-> I suggest you to turn vhost_dev_init() into a vhost_dev_init_vdev()
-> with an extra vdev argument and use it for all vhost-user devices.
-> Introduce a vhost_dev_init() inline that does vhost_dev_init_vdev(NULL)
-> and call it everywhere else.
+On Wed, Feb 17, 2021 at 04:55:12PM -0300, lagarcia@linux.ibm.com wrote:
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 2fdd5daf74..6ab760364b 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1849,6 +1849,13 @@ static int vhost_user_backend_init(struct vhost_de=
+v *dev, void *opaque)
+>              }
+>          }
+> =20
+> +        if ((dev->vdev !=3D NULL) &&
+> +            virtio_host_has_feature(dev->vdev, VIRTIO_F_IOMMU_PLATFORM) =
+&&
+> +            !(features & (1ULL << VIRTIO_F_IOMMU_PLATFORM))) {
+> +            error_report("IOMMU is currently not supported with vhost-us=
+er");
 
-Yes, I agree. Passing vdev in as an argument is a clean solution.
+I think IOMMU *is* supported by vhost-user. It's just that specific
+vhost-user backends might not implement it.
+
+This error message can be made more specific:
+
+  error_report("IOMMU is not supported by the connected vhost-user backend"=
+);
 
 Stefan
 
---+c4yZhOzomX86yW8
+--pJCjEkHnaL3lmn/n
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBkPM8ACgkQnKSrs4Gr
-c8jM+Af/f1+pG0d0GjR4TtHjeXnEzBdaO/TpqwIV4yqPtyDTGAAhfsKnOYtF4X0N
-GN6RDy/Ex4ke++5p73biOtTrO57XTIhKBYOXQ/gUKUTzX7mqVH/yN/5S7MfMrniE
-6NmI80UBXsO/Tab+hPU+wr4YGuG+0Ia/pdYmXfbuT6n3XwDlaKZb8xt+RdRpmQUU
-kD1/clY1L2ni92b0t3zScqaxUiwN1XbrFcVWtBhKXJZ8EEZevfINZVlzLbf72jm8
-mCuWdyfcp0d2FmwgaJv4/qRnZfuAD8uLMz8HKkyuQvuR1Ksya1BOL02+WeATAuIF
-4LeatMePvHe+cU/Yx7IHga79KpQHuA==
-=HyUY
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmBkPWIACgkQnKSrs4Gr
+c8jJ9wf/QqdABW8Qx81mEYW/KXwHo4tn0myI//Oy6sbmEUPUdN/kWaRuvSbNW7/b
+ZWFF3zYWFdjhScedkkUFJGzdhA9b2n2EbxOwlTTCfX4NRJZavjuORZkztarTQ1hk
+bLwYPooIeNqts0X3uipK95bqyWns3euYI0QKKSxxSkm1GRaKwxHvtXSgniVoHBvz
+fm6xvnTFV1xQmGgj7oPndZ9qsG45dbm03gw8O2lBGvWYAlvwYDSqyaDo62m0iFKt
+Uev0VqG/Xxkd1LpveHcqd1VOm2egYcp2KdNrz4vGcAs/qO0ktf6DBLlq6qwSUfMP
+B+24IzodBTssqlOCdlobxSFYdLdr1A==
+=6bjX
 -----END PGP SIGNATURE-----
 
---+c4yZhOzomX86yW8--
+--pJCjEkHnaL3lmn/n--
 
 
