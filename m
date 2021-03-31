@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F0434F8B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:26:47 +0200 (CEST)
-Received: from localhost ([::1]:38040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F6834F82E
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 06:59:15 +0200 (CEST)
+Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRUJR-0004bu-KX
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36576)
+	id 1lRSwj-0002e1-Ku
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 00:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRUGZ-00038p-AK; Wed, 31 Mar 2021 02:23:48 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59847 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <mpe@ellerman.id.au>)
+ id 1lRSvs-00028v-Mi; Wed, 31 Mar 2021 00:58:21 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRUGW-0008Bc-6A; Wed, 31 Mar 2021 02:23:47 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F9GTw25f0z9sW4; Wed, 31 Mar 2021 17:23:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1617171812;
- bh=esNa0VDIb/MFssp42TUra8JOJaeJg7hKihrnw8heaYo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mtCqHJTiZ5oE4cGuFd1A8zc7fX9f0eeRJcreMXV2qMGM4IsJCyHogB+3QSBixO+gc
- ycuQae5v84Q1OwsBX1g51TTwXXCebVTm+OmkbI1VmU7Gc/ChIXLhywUtWB52yR1bPq
- KzXMFMj9pOxGp2L4rkPQIGpFoWFFkNj/RDJRBRmc=
-Date: Wed, 31 Mar 2021 15:47:26 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v5 02/10] target/ppc: Disconnect hflags from MSR
-Message-ID: <YGP+3m96lwZrMxwU@yekko.fritz.box>
-References: <20210323184340.619757-1-richard.henderson@linaro.org>
- <20210323184340.619757-3-richard.henderson@linaro.org>
- <YFqBtsijRRcEBB/k@yekko.fritz.box>
- <20210329150522.1b00607d@bahia.lan>
- <d0221e19-6c8b-6cc3-c4aa-2d5fff4ecb8b@linaro.org>
- <YGKvDOCtfbj0avYF@yekko.fritz.box>
- <c368bcc2-3aa0-608e-c596-b7c9df1923e3@linaro.org>
- <YGO9oklIrjN7O0f2@yekko.fritz.box>
- <20210331060427.16984110@bahia.lan>
+ (Exim 4.90_1) (envelope-from <mpe@ellerman.id.au>)
+ id 1lRSvp-0006a0-V5; Wed, 31 Mar 2021 00:58:20 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4F9DbH4cWMz9sWK;
+ Wed, 31 Mar 2021 15:58:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+ s=201909; t=1617166685;
+ bh=rNPeANeJb0IEtwHXdF9sChKGAGD6QUedZ3TobGs/FM4=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=FyQ5LkPaOgxj1LwhFBphElivqB2Ss/vC+7pes7mZxB8LA+wPisdbL223ugv2ALdaX
+ MusLl+14Md130ajqpxRCmceRfe76U4Z9x7qzWOrUa//drPZXf5lW38ubLeeAEVYm/j
+ zKY8tQ13d/TZD5qEdnulFq6sM+LNpP8cPgRPNhxL/8HzC8EGhP5gh9tQLE3STdasDz
+ KJl7XAQT55wWPWydsNeO4Odkjf2aMQF7PnhsbBnR7acvz9khIVWY1CpqBlI+WT8Jl/
+ ncJ88OzQEFTnF0VUpYtBynuLyfv9F8kVttX+JSB0SlVyEW6meq2xNNAykusM06w41D
+ nR56Nx2UqYnKA==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: David Gibson <david@gibson.dropbear.id.au>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
+ nodes
+In-Reply-To: <YGPI5vgoI8JDO1HN@yekko.fritz.box>
+References: <20210319183453.4466-1-danielhb413@gmail.com>
+ <20210319183453.4466-2-danielhb413@gmail.com>
+ <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+ <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
+ <YFvxAW3l4t+YznEm@yekko.fritz.box>
+ <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
+ <YGFVc2lBhvzm5CSa@yekko.fritz.box>
+ <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
+ <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
+ <YGPI5vgoI8JDO1HN@yekko.fritz.box>
+Date: Wed, 31 Mar 2021 15:58:03 +1100
+Message-ID: <87blazyl5w.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="I2d91hviQJiBss5n"
-Content-Disposition: inline
-In-Reply-To: <20210331060427.16984110@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Content-Type: text/plain
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=mpe@ellerman.id.au;
  helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,80 +73,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Srikar Dronamraju <srikar@linux.vnet.ibm.com>, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+David Gibson <david@gibson.dropbear.id.au> writes:
+> On Mon, Mar 29, 2021 at 03:32:37PM -0300, Daniel Henrique Barboza wrote:
+...
+>
+>> We assign ibm,chip-id=0x0 to CPUs 0-3, but CPUs 2-3 are located in a
+>> different NUMA node than 0-1. This would mean that the same socket
+>> would belong to different NUMA nodes at the same time.
+>
+> Right... and I'm still not seeing why that's a problem.  AFAICT that's
+> a possible, if unexpected, situation under real hardware - though
+> maybe not for POWER9 specifically.
 
---I2d91hviQJiBss5n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think I agree.
 
-On Wed, Mar 31, 2021 at 06:04:27AM +0200, Greg Kurz wrote:
-> On Wed, 31 Mar 2021 11:09:06 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Tue, Mar 30, 2021 at 08:01:13AM -0700, Richard Henderson wrote:
-> > > On 3/29/21 10:54 PM, David Gibson wrote:
-> > > >    B) Just the hflags patches from my / Richard's tree
-> > > >       https://gitlab.com/dgibson/qemu/-/pipelines/278497244
-> > >=20
-> > > Look closer at this one -- it's an s390x test that's failing:
-> > >=20
->=20
-> I've been seeing errors with s390x as well in CI but I couldn't
-> reproduce locally... and of course, now it seems I cannot
-> reproduce locally with ppc64abi32 either :-\
+>> I believe this is what Cedric wants to be addressed. Given that the
+>> property is called after the OPAL property ibm,chip-id, the kernel
+>> expects that the property will have the same semantics as in OPAL.
+>
+> Even on powernv, I'm not clear why chip-id is tied into the NUMA
+> configuration, rather than getting all the NUMA info from
+> associativity properties.
 
-Huh.  Well supporting the idea that the issues I've seen on gitlab
-were just bad luck, I've now gotten a clean check with the hflags
-patches... bug only on my ppc-for-6.1 branch.
+AFAIK we don't use chip-id for anything related to NUMA, if we do I'd
+consider that a bug.
 
-The ppc64 bug that Greg was seeing still makes me nervous, as does the
-failures which we saw at one point which showed that new hflags assert
-explicitly failing.
+We do use it for topology_physical_package_id(), but that's almost
+completely unused.
 
-Since the hflags stuff is of moderate complexity and is a bug fix,
-it's not a regression fix.  So, I'm going to postpone that until
-ppc-for-6.1, and move ahead with this PR without it.
-
-Richard - the remaining possible problem with the hflags stuff seems
-to manifest with the assert failing in the last patch.  However, I'm
-guess that's just exposing some more subtle problem introduced by an
-earlier patch.  Any chance you could re-order the series to insert the
-assert near the beginning, which might give us a better way of
-bisecting if this shows up again.
-
-Greg, if this shows up again for you locally, can you please try to
-track it down.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---I2d91hviQJiBss5n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBj/t4ACgkQbDjKyiDZ
-s5LHyRAAljufOxBYgRerpN6lrxtjhicz4m4LNfSleGiOVpQj9h1vq+f7b3J5pcnV
-ByaMs2OU8aWZ0XGa69CFXwNR/P4YlJiJF1MVmp5C0UUp4eunvd2nBBSUJtlpyVhZ
-fgv0o7WoqFeciqNA8dg+JlPVZvVnbY3OjntFZE5UYqQKMYvcURBu13YyHtc9A1m9
-u+YnUWnWM1P2b/JNF4ktkYifRsOQIIE7D8tDrYmWK19KcGuF5qHv3GNsYp1o57a1
-mSg6oMfM/LcOpGrPhS55taCY/SArupgfwB5G9GosHWj6Z6x78spek2wnbH5uB3fK
-0tIOmM7L0a7jABw0QFSTybNHBUZb4/WDysggZKZxIdTp+OGqXwuThaSTkd+nn7Nx
-ohlyMiSZ6Wjgyhce0idjYB+XvUz0/GFNUZyxNAdvjIPk7nSulMNF68E48NeGScKm
-TL5YPi2t2xWZ1Dff00tLiScQRQ4IupgyNHaZHLfNQ6XqiZ0ha1mHvaki3I80DQvY
-uWaX0aCZvBf/Y8F9THNF6UH3fMDs2ZkDgqo9ivQfidf7Pp4UtztTEThmY11Rx839
-5EsyT+iujONOWnaa1pj9tH9CqerOy9tjRrupK4UPSgtOR8CL9XvTfa22bf/Tyxh8
-V4oP3+fp0ooHCfwy/52QEvUrL5ag1ZwpO9eMg2y0mPezi4VTieE=
-=rxPe
------END PGP SIGNATURE-----
-
---I2d91hviQJiBss5n--
+cheers
 
