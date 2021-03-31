@@ -2,57 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0209035056E
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 19:30:55 +0200 (CEST)
-Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F850350585
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 19:35:00 +0200 (CEST)
+Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRegA-0003Ir-QP
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 13:30:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
+	id 1lRek5-0006xd-Tl
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 13:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lRedX-00020U-2R
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 13:28:11 -0400
-Received: from relay.sw.ru ([185.231.240.75]:56394)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lRedT-0000pC-Nb
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 13:28:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=1AaVatpZSlATx99e4rvSYANsjd/KI7S4MT1FQQLheok=; b=NYFwCnFoACcI
- NoYdUFhAXsd5EeqQVKNcTE62ve4r1mQNntqCtjoAk2iY0Dtb/Vsiar01GhDEIK8hENAH3PHmnewo6
- h7Jzx3JSwF1FB1VysCe4ZJKK2I9sHXJf+rbCOJcBMqFKFzdEj+rGJtoF1TPGDbiHTcI56pTbOo3R2
- ApIMk=;
-Received: from [192.168.15.162] (helo=andrey-MS-7B54.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lRedQ-000D00-9R; Wed, 31 Mar 2021 20:28:04 +0300
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH for-6.0 3/3] migration: Pre-fault memory before starting
- background snasphot
-Date: Wed, 31 Mar 2021 20:28:03 +0300
-Message-Id: <20210331172803.87756-4-andrey.gruzdev@virtuozzo.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210331172803.87756-1-andrey.gruzdev@virtuozzo.com>
-References: <20210331172803.87756-1-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lReee-00032N-6j; Wed, 31 Mar 2021 13:29:20 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:42650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lReec-0001U2-4g; Wed, 31 Mar 2021 13:29:19 -0400
+Received: by mail-qk1-x735.google.com with SMTP id y5so20120745qkl.9;
+ Wed, 31 Mar 2021 10:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cQipijX7beA8elQDNjfTpZJEg/+Cl1JgiZMq2D4C6wI=;
+ b=RYXKUL+XWAyqbx0xCNSjgpdLMtDWR7lY8G973ned6Wgoyp+vqV/FEGev1sAQ4hlbRc
+ fT/yjFv0x2oUzsEzzSNKN4SIRpCibBPh6CfDe3vHB/ProRcKneRe7RjvkRw46/L1tiYx
+ 195Vwx9rInEEWGEm+/OdV+5/tdj0TwekA199Wg1ESqPpreggi/yh1J22Gxm4c8z+aDp3
+ Zd+ztJ3XYWPnqnm5Ma9yEwDycN77PeCbNKXqIrvn7xqnRRv/QkI9gXuG3F0Y7lbewqiC
+ JtfCgNIKOWNiDLFaYX4QVl95CxtJvkZOQRDIUiGBGn2ZVe95pjur20D9J0Q//pFPGB9c
+ qbiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cQipijX7beA8elQDNjfTpZJEg/+Cl1JgiZMq2D4C6wI=;
+ b=AjqqxvgcI9iLTXv3lTpSizNOpYjSitDEOW8eLwINfKbSLjdvhfywdYarSScaUMyZyV
+ PMIpOCUak2tXpDrqFGcIYeYXM9XdYSBJ1Mat6erubHwz0nRF+mj7JBpcEtqNX7jEjiBW
+ JqngTlOuIcnl3DVOGP6IPKlkeH7EooLJ1LnANgxeUB2UI4d/3dy4fkqM5LIPs6rpRaah
+ EX96HL5Jjd+wdcyA9/JXQkxwNlOrqtLl2+37d7aNIWe7GZs9VQJ52NinIdY0CShYbFAJ
+ QKkqrFF1eHbtRETh3FM0s0t4BITHhRi2VGpAgnrTVYbtrruKDXy/cdv0UJIvLixnA9LU
+ DwrQ==
+X-Gm-Message-State: AOAM531y23Y14DADGS4CP4ULpvUshS9Uldmdrv1bEQCDDp0Kx5/xmLYW
+ pCwkzz0eaXTWH/SS5IP+KDo=
+X-Google-Smtp-Source: ABdhPJyUED1EerqwqsL+19e92NI7g9PqdRtR/WMs2XGhe45nxzZgrPWls8eW3Yeb29VGesi4NVZ2JA==
+X-Received: by 2002:a37:ae44:: with SMTP id x65mr4181757qke.9.1617211756753;
+ Wed, 31 Mar 2021 10:29:16 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c6:e000:6f43:93dd:11a0:93a1?
+ ([2804:431:c7c6:e000:6f43:93dd:11a0:93a1])
+ by smtp.gmail.com with ESMTPSA id m16sm1863990qkm.100.2021.03.31.10.29.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Mar 2021 10:29:16 -0700 (PDT)
+Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
+ nodes
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210319183453.4466-1-danielhb413@gmail.com>
+ <20210319183453.4466-2-danielhb413@gmail.com>
+ <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+ <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
+ <YFvxAW3l4t+YznEm@yekko.fritz.box>
+ <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
+ <YGFVc2lBhvzm5CSa@yekko.fritz.box>
+ <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
+ <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
+ <YGPI5vgoI8JDO1HN@yekko.fritz.box>
+ <1e16fe5e-f20a-f882-d18a-113cf48c934c@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <61876812-c915-6489-3058-b463967b0679@gmail.com>
+Date: Wed, 31 Mar 2021 14:29:12 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <1e16fe5e-f20a-f882-d18a-113cf48c934c@kaod.org>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay.sw.ru
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,113 +98,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit solves the issue with userfault_fd WP feature that
-background snapshot is based on. For any never poluated or discarded
-memory page, the UFFDIO_WRITEPROTECT ioctl() would skip updating
-PTE for that page, thereby loosing WP setting for it.
 
-So we need to pre-fault pages for each RAM block to be protected
-before making a userfault_fd wr-protect ioctl().
+On 3/31/21 12:18 PM, Cédric Le Goater wrote:
+> On 3/31/21 2:57 AM, David Gibson wrote:
+>> On Mon, Mar 29, 2021 at 03:32:37PM -0300, Daniel Henrique Barboza wrote:
+>>>
+>>>
+>>> On 3/29/21 12:32 PM, Cédric Le Goater wrote:
+>>>> On 3/29/21 6:20 AM, David Gibson wrote:
+>>>>> On Thu, Mar 25, 2021 at 09:56:04AM +0100, Cédric Le Goater wrote:
+>>>>>> On 3/25/21 3:10 AM, David Gibson wrote:
+>>>>>>> On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 3/22/21 10:03 PM, David Gibson wrote:
+>>>>>>>>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
+>>>>>>>>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
+>>>>>>>>>> topology_core_cpumask") cause a regression in the pseries machine when
+>>>>>>>>>> defining certain SMP topologies [1]. The reasoning behind the change is
+>>>>>>>>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
+>>>>>>>>>> cpu_core_mask"). In short, cpu_core_mask logic was causing troubles with
+>>>>>>>>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask because, as
+>>>>>>>>>> far as the kernel understanding of SMP topologies goes, both masks are
+>>>>>>>>>> equivalent.
+>>>>>>>>>>
+>>>>>>>>>> Further discussions in the kernel mailing list [2] shown that the
+>>>>>>>>>> powerpc kernel always considered that the number of sockets were equal
+>>>>>>>>>> to the number of NUMA nodes. The claim is that it doesn't make sense,
+>>>>>>>>>> for Power hardware at least, 2+ sockets being in the same NUMA node. The
+>>>>>>>>>> immediate conclusion is that all SMP topologies the pseries machine were
+>>>>>>>>>> supplying to the kernel, with more than one socket in the same NUMA node
+>>>>>>>>>> as in [1], happened to be correctly represented in the kernel by
+>>>>>>>>>> accident during all these years.
+>>>>>>>>>>
+>>>>>>>>>> There's a case to be made for virtual topologies being detached from
+>>>>>>>>>> hardware constraints, allowing maximum flexibility to users. At the same
+>>>>>>>>>> time, this freedom can't result in unrealistic hardware representations
+>>>>>>>>>> being emulated. If the real hardware and the pseries kernel don't
+>>>>>>>>>> support multiple chips/sockets in the same NUMA node, neither should we.
+>>>>>>>>>>
+>>>>>>>>>> Starting in 6.0.0, all sockets must match an unique NUMA node in the
+>>>>>>>>>> pseries machine. qtest changes were made to adapt to this new
+>>>>>>>>>> condition.
+>>>>>>>>>
+>>>>>>>>> Oof.  I really don't like this idea.  It means a bunch of fiddly work
+>>>>>>>>> for users to match these up, for no real gain.  I'm also concerned
+>>>>>>>>> that this will require follow on changes in libvirt to not make this a
+>>>>>>>>> really cryptic and irritating point of failure.
+>>>>>>>>
+>>>>>>>> Haven't though about required Libvirt changes, although I can say that there
+>>>>>>>> will be some amount to be mande and it will probably annoy existing users
+>>>>>>>> (everyone that has a multiple socket per NUMA node topology).
+>>>>>>>>
+>>>>>>>> There is not much we can do from the QEMU layer aside from what I've proposed
+>>>>>>>> here. The other alternative is to keep interacting with the kernel folks to
+>>>>>>>> see if there is a way to keep our use case untouched.
+>>>>>>>
+>>>>>>> Right.  Well.. not necessarily untouched, but I'm hoping for more
+>>>>>>> replies from Cédric to my objections and mpe's.  Even with sockets
+>>>>>>> being a kinda meaningless concept in PAPR, I don't think tying it to
+>>>>>>> NUMA nodes makes sense.
+>>>>>>
+>>>>>> I did a couple of replies in different email threads but maybe not
+>>>>>> to all. I felt it was going nowhere :/ Couple of thoughts,
+>>>>>
+>>>>> I think I saw some of those, but maybe not all.
+>>>>>
+>>>>>> Shouldn't we get rid of the socket concept, die also, under pseries
+>>>>>> since they don't exist under PAPR ? We only have numa nodes, cores,
+>>>>>> threads AFAICT.
+>>>>>
+>>>>> Theoretically, yes.  I'm not sure it's really practical, though, since
+>>>>> AFAICT, both qemu and the kernel have the notion of sockets (though
+>>>>> not dies) built into generic code.
+>>>>
+>>>> Yes. But, AFAICT, these topology notions have not reached "arch/powerpc"
+>>>> and PPC Linux only has a NUMA node id, on pseries and powernv.
+>>>>
+>>>>> It does mean that one possible approach here - maybe the best one - is
+>>>>> to simply declare that sockets are meaningless under, so we simply
+>>>>> don't expect what the guest kernel reports to match what's given to
+>>>>> qemu.
+>>>>>
+>>>>> It'd be nice to avoid that if we can: in a sense it's just cosmetic,
+>>>>> but it is likely to surprise and confuse people.
+>>>>>
+>>>>>> Should we diverged from PAPR and add extra DT properties "qemu,..." ?
+>>>>>> There are a couple of places where Linux checks for the underlying
+>>>>>> hypervisor already.
+>>>>>>
+>>>>>>>> This also means that
+>>>>>>>> 'ibm,chip-id' will probably remain in use since it's the only place where
+>>>>>>>> we inform cores per socket information to the kernel.
+>>>>>>>
+>>>>>>> Well.. unless we can find some other sensible way to convey that
+>>>>>>> information.  I haven't given up hope for that yet.
+>>>>>>
+>>>>>> Well, we could start by fixing the value in QEMU. It is broken
+>>>>>> today.
+>>>>>
+>>>>> Fixing what value, exactly?
+>>>>
+>>>> The value of the "ibm,chip-id" since we are keeping the property under
+>>>> QEMU.
+>>>
+>>> David, I believe this has to do with the discussing we had last Friday.
+>>>
+>>> I mentioned that the ibm,chip-id property is being calculated in a way that
+>>> promotes the same ibm,chip-id in CPUs that belongs to different NUMA nodes,
+>>> e.g.:
+>>>
+>>> -smp 4,cores=4,maxcpus=8,threads=1 \
+>>> -numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 \
+>>> -numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
+>>>
+>>>
+>>> $ dtc -I dtb -O dts fdt.dtb | grep -B2 ibm,chip-id
+>>> 			ibm,associativity = <0x05 0x00 0x00 0x00 0x00 0x00>;
+>>> 			ibm,pft-size = <0x00 0x19>;
+>>> 			ibm,chip-id = <0x00>;
+>>> --
+>>>                        ibm,associativity = <0x05 0x00 0x00 0x00 0x00 0x01>;
+>>>                        ibm,pft-size = <0x00 0x19>;
+>>>                        ibm,chip-id = <0x00>;
+>>> --
+>>>                        ibm,associativity = <0x05 0x01 0x01 0x01 0x01 0x02>;
+>>>                        ibm,pft-size = <0x00 0x19>;
+>>>                        ibm,chip-id = <0x00>;
+>>> --
+>>>                        ibm,associativity = <0x05 0x01 0x01 0x01 0x01 0x03>;
+>>>                        ibm,pft-size = <0x00 0x19>;
+>>>                        ibm,chip-id = <0x00>;
+>>
+>>> We assign ibm,chip-id=0x0 to CPUs 0-3, but CPUs 2-3 are located in a
+>>> different NUMA node than 0-1. This would mean that the same socket
+>>> would belong to different NUMA nodes at the same time.
+>>
+>> Right... and I'm still not seeing why that's a problem.  AFAICT that's
+>> a possible, if unexpected, situation under real hardware - though
+>> maybe not for POWER9 specifically.
+> The ibm,chip-id property does not exist under PAPR. PAPR only has
+> NUMA nodes, no sockets nor chips.
+> 
+> And the property value is simply broken under QEMU. Try this  :
+> 
+>     -smp 4,cores=1,maxcpus=8 -object memory-backend-ram,id=ram-node0,size=2G -numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 -object memory-backend-ram,id=ram-node1,size=2G -numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
+> 
+> # dmesg | grep numa
+> [    0.013106] numa: Node 0 CPUs: 0-1
+> [    0.013136] numa: Node 1 CPUs: 2-3
+> 
+> # dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
+> 		ibm,chip-id = <0x01>;
+> 		ibm,chip-id = <0x02>;
+> 		ibm,chip-id = <0x00>;
+> 		ibm,chip-id = <0x03>;
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
----
- migration/migration.c |  6 ++++++
- migration/ram.c       | 48 +++++++++++++++++++++++++++++++++++++++++++
- migration/ram.h       |  1 +
- 3 files changed, 55 insertions(+)
+These values are not wrong. When you do:
 
-diff --git a/migration/migration.c b/migration/migration.c
-index be4729e7c8..71bce15a1b 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3827,6 +3827,12 @@ static void *bg_migration_thread(void *opaque)
- 
-     update_iteration_initial_status(s);
- 
-+    /*
-+     * Prepare for tracking memory writes with UFFD-WP - populate
-+     * RAM pages before protecting.
-+     */
-+    ram_write_tracking_prepare();
-+
-     qemu_savevm_state_header(s->to_dst_file);
-     qemu_savevm_state_setup(s->to_dst_file);
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 40e78952ad..24c8627214 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1560,6 +1560,54 @@ out:
-     return ret;
- }
- 
-+/*
-+ * ram_block_populate_pages: populate memory in the RAM block by reading
-+ *   an integer from the beginning of each page.
-+ *
-+ * Since it's solely used for userfault_fd WP feature, here we just
-+ *   hardcode page size to qemu_real_host_page_size.
-+ *
-+ * @bs: RAM block to populate
-+ */
-+static void ram_block_populate_pages(RAMBlock *bs)
-+{
-+    char *ptr = (char *) bs->host;
-+
-+    for (ram_addr_t offset = 0; offset < bs->used_length;
-+            offset += qemu_real_host_page_size) {
-+        char tmp = *(ptr + offset);
-+        /* Don't optimize the read out */
-+        asm volatile("" : "+r" (tmp));
-+    }
-+}
-+
-+/*
-+ * ram_write_tracking_prepare: prepare for UFFD-WP memory tracking
-+ */
-+void ram_write_tracking_prepare(void)
-+{
-+    RAMBlock *bs;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        /* Nothing to do with read-only and MMIO-writable regions */
-+        if (bs->mr->readonly || bs->mr->rom_device) {
-+            continue;
-+        }
-+
-+        /*
-+         * Populate pages of the RAM block before enabling userfault_fd
-+         * write protection.
-+         *
-+         * This stage is required since ioctl(UFFDIO_WRITEPROTECT) with
-+         * UFFDIO_WRITEPROTECT_MODE_WP mode setting would silently skip
-+         * pages with pte_none() entries in page table.
-+         */
-+        ram_block_populate_pages(bs);
-+    }
-+}
-+
- /*
-  * ram_write_tracking_start: start UFFD-WP memory tracking
-  *
-diff --git a/migration/ram.h b/migration/ram.h
-index 6378bb3ebc..4833e9fd5b 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -82,6 +82,7 @@ void colo_incoming_start_dirty_log(void);
- /* Background snapshot */
- bool ram_write_tracking_available(void);
- bool ram_write_tracking_compatible(void);
-+void ram_write_tracking_prepare(void);
- int ram_write_tracking_start(void);
- void ram_write_tracking_stop(void);
- 
--- 
-2.27.0
+-smp 4,cores=1,maxcpus=8 (....)
 
+You didn't fill threads and sockets. QEMU default is to prioritize sockets
+to fill the missing information, up to the maxcpus value. This means that what
+you did is equivalent to:
+
+-smp 4,threads=1,cores=1,sockets=8,maxcpus=8 (....)
+
+
+It's a 1 thread/core, 1 core/socket with 8 sockets config. Each possible CPU
+will sit in its own core, having its own ibm,chip-id. So:
+
+"-numa node,nodeid=0,cpus=0-1"
+
+is in fact allocating sockets 0 and 1 to NUMA node 0.
+
+
+Thanks,
+
+
+
+DHB
+
+> 
+>>> I believe this is what Cedric wants to be addressed. Given that the
+>>> property is called after the OPAL property ibm,chip-id, the kernel
+>>> expects that the property will have the same semantics as in OPAL.>
+>> Even on powernv, I'm not clear why chip-id is tied into the NUMA
+>> configuration, rather than getting all the NUMA info from
+>> associativity properties.
+> 
+> It is the case.
+> 
+> The associativity properties are built from chip-id in OPAL though.
+> 
+> The chip-id property is only used in low level PowerNV drivers, VAS,
+> XSCOM, LPC, etc.
+> 
+> It's also badly used in the common part of the XIVE driver, what I am
+> trying to fix to introduce an IPI per node on all platforms.
+> 
+> C.
+> 
+>   
+> 
 
