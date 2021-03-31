@@ -2,73 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBB03505AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 19:43:26 +0200 (CEST)
-Received: from localhost ([::1]:45062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7DA350603
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 20:10:29 +0200 (CEST)
+Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lResH-0003FK-U8
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 13:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42276)
+	id 1lRfIS-0000w7-GU
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 14:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lRepm-0002Ty-L0; Wed, 31 Mar 2021 13:40:50 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:49235)
+ (Exim 4.90_1) (envelope-from <S.E.Harris@kent.ac.uk>)
+ id 1lRfDE-0007et-2c
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 14:05:10 -0400
+Received: from mail-eopbgr40063.outbound.protection.outlook.com
+ ([40.107.4.63]:46341 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lRepj-00085l-2U; Wed, 31 Mar 2021 13:40:50 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.159])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6691D964CFEC;
- Wed, 31 Mar 2021 19:40:42 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 31 Mar
- 2021 19:40:40 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0024c57058d-cafd-4637-8412-763ea9d3b513,
- 34F67B4AF11B3FB6BB2DF0D0E8ED693DFFA38C47) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 86.210.153.104
-Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
- nodes
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, David Gibson
- <david@gibson.dropbear.id.au>
-References: <20210319183453.4466-1-danielhb413@gmail.com>
- <20210319183453.4466-2-danielhb413@gmail.com>
- <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
- <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
- <YFvxAW3l4t+YznEm@yekko.fritz.box>
- <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
- <YGFVc2lBhvzm5CSa@yekko.fritz.box>
- <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
- <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
- <YGPI5vgoI8JDO1HN@yekko.fritz.box>
- <1e16fe5e-f20a-f882-d18a-113cf48c934c@kaod.org>
- <61876812-c915-6489-3058-b463967b0679@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <05f3120c-84f8-7711-d2a5-9b29b0f3f746@kaod.org>
-Date: Wed, 31 Mar 2021 19:40:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <S.E.Harris@kent.ac.uk>)
+ id 1lRfD5-0004SB-JQ
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 14:05:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LZFVrLO1dccsKUQS62+N0+0cVUZLjMHwYB0ax0gJ1SO0bBoC4PugV0CiKQ1wSkNnXb8FRgzR0obW6+E1oSnpe7KhogQ5U2ASNAFz7TiiOZzOws5wLCnpNTmdHCj2aD+zALWRYoKlVYt6jcWQPaTjfy1vP/MFFRCA+TdKOY7bjciIbGq9RuBdqD9C7R5z0+Aw/Ve7Toba87cQ8FEyQtBSa4qyt9tNGgHqXe6R7lSBwaHtA/nkHuM+mur0QVPQOTr+3NifO0jTjrqAYpm8Ozqmp+w/Nf/pqgf3CDMu3DnZPzutSJrZQNnjfwUYCAgxR5OhTN30WHRR+TFx/Z+54teMjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=90CkQE6igeaq4oGWEWRy5vhhirSR/RV75fbYUZkhQeI=;
+ b=YDMvNMzMcV5MF+FriZI/BxXbYHaQN4g3nBanVSXH6W6s2NcAo8d1XzPPUC4YgbX+Pn3zTYnP1hQSKuDPy68XyKxtlDfmrw2T/D/yuqNJm4uzCezL3SFmQ+Ic+BHP3/sFN57O8XX70tKUpk/Al5giXBOW7nFEql0iE7AUwg3rwtiIRZZqnbMdFn8OrXN0S+HKSlYgU+cW0X6jp/5Hb0UnUGd5vkwbxeYhQk5ioB8vapvidVqD0x2ktz6MDCk1TZl5f4IELlNSZl3AaGrCh+ds5jf+JnFrPt9K4HtYd0jBIOGy7Zf6E30G2urg5Pg51ZI3pHC2x5akK2fBTh50200vyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kent.ac.uk; dmarc=pass action=none header.from=kent.ac.uk;
+ dkim=pass header.d=kent.ac.uk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livekentac.onmicrosoft.com; s=selector2-livekentac-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=90CkQE6igeaq4oGWEWRy5vhhirSR/RV75fbYUZkhQeI=;
+ b=Mb3gJGgJel3Cva0b5R/UujXgNCzBTxKQISusoK3oaguP74gqBA8WUiPLCN+jC/qI1rnwbtFDlGMqEzO9axuHkzeLep19b0AU/vmGue+KoBEctELWt+0lA7ht8zY2NcTj4VayrCkiTtSt2b16prX0ds24ZFkHrHjAMp2AfkdYK4M=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=kent.ac.uk;
+Received: from DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ (2603:10a6:5:2c::13) by DBAPR01MB7157.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:198::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Wed, 31 Mar
+ 2021 17:34:44 +0000
+Received: from DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ ([fe80::29f8:3034:6643:b516]) by DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ ([fe80::29f8:3034:6643:b516%7]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
+ 17:34:37 +0000
+Date: Wed, 31 Mar 2021 18:42:21 +0100
+From: Sarah Harris <seh53@kent.ac.uk>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Subject: Status update for maintainers file
+Message-Id: <20210331184221.d81b4ffed7c7c733c33f8c66@kent.ac.uk>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [195.213.130.164]
+X-ClientProxiedBy: LO3P265CA0010.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:bb::15) To DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ (2603:10a6:5:2c::13)
 MIME-Version: 1.0
-In-Reply-To: <61876812-c915-6489-3058-b463967b0679@gmail.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: ef8f910c-74e4-4d30-9eb0-d3193c0603a1
-X-Ovh-Tracer-Id: 12977403804357594034
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeivddguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeglefgjeevheeifeffudeuhedvveeftdeliedukeejgeeviefgieefhfdtffeftdenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from cadance (195.213.130.164) by
+ LO3P265CA0010.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:bb::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.32 via Frontend Transport; Wed, 31 Mar 2021 17:34:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c1448d8d-5669-4cac-7dec-08d8f46b40fc
+X-MS-TrafficTypeDiagnostic: DBAPR01MB7157:
+X-Microsoft-Antispam-PRVS: <DBAPR01MB7157980AFC3F1BE449911E51F77C9@DBAPR01MB7157.eurprd01.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5vmnsEVhGByx0aVJfS/hogqBa4a0Oa++0KXwsc5i9cp/Z8mldFl5T4RN6XBmvAIPF2s4wTioQq202msgymSToaaCgIYNIphDER7QqXCHwyMMT1J/cYNbAJ/jO3p2HkSSyAVK4phbYFWn7ASUY2Hit7365hCnOJsDJJYtcElj/hZMfN+/zyKyTlPkZIJ8cTFide6TxThMZJ7ilfSf5EN0GmCR1gJaYHN4XRRXAEoZZ6kwv/6EoH0y9fraN2AQDN1TX0ng8EWH+FUzsU5h8HcPkNX35qiStduPIJcg2B7PYp9xg8mEbVi/ZJqLZc6TwRXbUJB1bbArWYTZXitaKbJp8VyGpTv4u0s5cCVe6qH55x1C3ntPHDcZZKmryiKh7lgVHhuvjy3zh3xaiTXOSoq/dLIPHEqHUWv0lNkf4MwVNhz+r/kkDG8RWXw7D1v3wM42xfZJBSmDwUd5ZowGOnytXokqYD+dPbCoTYc5TmCfwi0MPnXNa4Z37KrJt7bUe/ZOdaYs0mbiIfUOCULg/KHl0Nl9ueYv1c3RQO6TqQHH1027LpuFbA28xsHUHbRjn6r0IUx9mJFXlBt9mhR9AUre/i7M0987lqmA+Bh+IjBN1GLAF+TUyUbMGSAF4u83SMeYKTPsvyrTXrbQoMqo6NsxCw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR01MB4092.eurprd01.prod.exchangelabs.com; PTR:;
+ CAT:NONE;
+ SFS:(4636009)(366004)(136003)(346002)(39850400004)(376002)(396003)(186003)(956004)(2616005)(83380400001)(1076003)(4744005)(36756003)(16526019)(66946007)(478600001)(6486002)(66476007)(66556008)(6666004)(52116002)(8676002)(8936002)(5660300002)(38100700001)(6916009)(316002)(786003)(26005)(2906002)(6496006);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?nc8dK0E8CntkE18P+tn2NMF7nw08MoY8DJWfKLIq0lEABR8jan9onc2Qj+rL?=
+ =?us-ascii?Q?Abw8jE2cVEEnNzuA/As+ryxwGjDtj7csSaa1tAwlGOtxoBorcW+wgo3U1IiZ?=
+ =?us-ascii?Q?xn+WPCXe3kmbaSPS/VToPrkN083xix+6wS7UKwiGr69EklKftOKsoacHYs27?=
+ =?us-ascii?Q?xRliZbSU3Ut5poRA7WQmRBURzBv13zAvnxriQT1ObihentRwL/LzyIMeSmPx?=
+ =?us-ascii?Q?PrDO/36E8kY7camLapXNObNZ/O7qmAvzwhXEbogYvx82Q9lSxl4WO5yFKLCU?=
+ =?us-ascii?Q?vftL1uCuhGeBdf1sukDFwRWNXPHvyxZeXj0p2XUk/WVx8uByaYs+btYqivF9?=
+ =?us-ascii?Q?ri+ToxUUaG1aNPmNSQS/Tr9kgRxfMxNjlU3V7Ng2YViKvGIrjEtdxxU4GRJZ?=
+ =?us-ascii?Q?NqvJOS3xUT+iKY9DHbzql/B6PTL+iJwENP9aoq3YI5N3g/ebVhKPWkdWd57K?=
+ =?us-ascii?Q?4hQeKSiCMIfV1GPWHcB6AFMfwMclezKho//D1rL4nOppSxRs58DJuFW5tH0k?=
+ =?us-ascii?Q?b0mKNlI7YHNKAcbEymd4mcLKiTh77oal9IZHtYdFTIgyZqBetMDAyL/sI48Z?=
+ =?us-ascii?Q?LVsSWs+cK5toBEnKqgF04MIqtUU5OG6KcVbPZJ5BkfnchRwWlKM+1fJJVsUR?=
+ =?us-ascii?Q?ffJjTumyqFy/ctC/vu/Zu3In1wcUFq2B+u5s+MXk8jEJa4YVUfqx/6Ww3hPk?=
+ =?us-ascii?Q?4/DnQByyQPOCJZyEr8AYeTbYsjOZUkU3RTi9JhTNQNMmDZ4B/zGavk1Xra0k?=
+ =?us-ascii?Q?Wo3/LpbpqPkwx20kdOGnKcwAahSqdAYm4po92RKdWt9gh6mPW2XSzInQPmMp?=
+ =?us-ascii?Q?GOXqTxLmTQM8RiX0+0TSnh5v7nmN0ynuAXcmgJp/Sbmg0gP9sRVL0fLnR84B?=
+ =?us-ascii?Q?NKOM2I9Z1sW3nbC3f79O2E9T19/hrLlwQU2cnNgEUxMPUA53HREJcAnDcJh8?=
+ =?us-ascii?Q?s8y2pViJi+YosmMN8EsWfy+JCH70eB+MPUCxqBRU2YbnnWiSB+Pf0PMgCkpT?=
+ =?us-ascii?Q?H6xDFHiB4UfnmiEC1BfVVuToY0u2ByqHjgaX7+sxGnRA8p/VdB5IvV9YlpHd?=
+ =?us-ascii?Q?cJNSYYXrRfWv5akF1/0j2hnQlvTug6L0TOWg8KZ78Xn5wxOzacVpdQELVCcH?=
+ =?us-ascii?Q?vza50MK2YIUbXWKYpIj8PhqxjGQ8XvwzbQeCNGpQr3kJG8SFJrE+QResdToT?=
+ =?us-ascii?Q?38MC7XIwwo2a+6z1axx4uMeLkPXfcop0F/KNw5kM6rlmEtR5Q4Z/yV2wfiKb?=
+ =?us-ascii?Q?1i8gFLPG3RPex2+L+upfrWWo7b1c4eom9WnepE1+40j1b80vq1MTkioUxYNh?=
+ =?us-ascii?Q?q7JbruiPsoxbpmF1jzD06wWb?=
+X-OriginatorOrg: kent.ac.uk
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1448d8d-5669-4cac-7dec-08d8f46b40fc
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2021 17:34:37.4895 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 51a9fa56-3f32-449a-a721-3e3f49aa5e9a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /gw4zUVQyZ5rEOkb+U9mJnBRYLcJKB+Ak04XJHreQlaAiPJNNJCJHllzM6jWBZcuz6r6rFYc6+v6OBFWk0saUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR01MB7157
+Received-SPF: pass client-ip=40.107.4.63; envelope-from=S.E.Harris@kent.ac.uk;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,190 +131,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/21 7:29 PM, Daniel Henrique Barboza wrote:
-> 
-> On 3/31/21 12:18 PM, Cédric Le Goater wrote:
->> On 3/31/21 2:57 AM, David Gibson wrote:
->>> On Mon, Mar 29, 2021 at 03:32:37PM -0300, Daniel Henrique Barboza wrote:
->>>>
->>>>
->>>> On 3/29/21 12:32 PM, Cédric Le Goater wrote:
->>>>> On 3/29/21 6:20 AM, David Gibson wrote:
->>>>>> On Thu, Mar 25, 2021 at 09:56:04AM +0100, Cédric Le Goater wrote:
->>>>>>> On 3/25/21 3:10 AM, David Gibson wrote:
->>>>>>>> On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 3/22/21 10:03 PM, David Gibson wrote:
->>>>>>>>>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboza wrote:
->>>>>>>>>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
->>>>>>>>>>> topology_core_cpumask") cause a regression in the pseries machine when
->>>>>>>>>>> defining certain SMP topologies [1]. The reasoning behind the change is
->>>>>>>>>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop updating
->>>>>>>>>>> cpu_core_mask"). In short, cpu_core_mask logic was causing troubles with
->>>>>>>>>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask because, as
->>>>>>>>>>> far as the kernel understanding of SMP topologies goes, both masks are
->>>>>>>>>>> equivalent.
->>>>>>>>>>>
->>>>>>>>>>> Further discussions in the kernel mailing list [2] shown that the
->>>>>>>>>>> powerpc kernel always considered that the number of sockets were equal
->>>>>>>>>>> to the number of NUMA nodes. The claim is that it doesn't make sense,
->>>>>>>>>>> for Power hardware at least, 2+ sockets being in the same NUMA node. The
->>>>>>>>>>> immediate conclusion is that all SMP topologies the pseries machine were
->>>>>>>>>>> supplying to the kernel, with more than one socket in the same NUMA node
->>>>>>>>>>> as in [1], happened to be correctly represented in the kernel by
->>>>>>>>>>> accident during all these years.
->>>>>>>>>>>
->>>>>>>>>>> There's a case to be made for virtual topologies being detached from
->>>>>>>>>>> hardware constraints, allowing maximum flexibility to users. At the same
->>>>>>>>>>> time, this freedom can't result in unrealistic hardware representations
->>>>>>>>>>> being emulated. If the real hardware and the pseries kernel don't
->>>>>>>>>>> support multiple chips/sockets in the same NUMA node, neither should we.
->>>>>>>>>>>
->>>>>>>>>>> Starting in 6.0.0, all sockets must match an unique NUMA node in the
->>>>>>>>>>> pseries machine. qtest changes were made to adapt to this new
->>>>>>>>>>> condition.
->>>>>>>>>>
->>>>>>>>>> Oof.  I really don't like this idea.  It means a bunch of fiddly work
->>>>>>>>>> for users to match these up, for no real gain.  I'm also concerned
->>>>>>>>>> that this will require follow on changes in libvirt to not make this a
->>>>>>>>>> really cryptic and irritating point of failure.
->>>>>>>>>
->>>>>>>>> Haven't though about required Libvirt changes, although I can say that there
->>>>>>>>> will be some amount to be mande and it will probably annoy existing users
->>>>>>>>> (everyone that has a multiple socket per NUMA node topology).
->>>>>>>>>
->>>>>>>>> There is not much we can do from the QEMU layer aside from what I've proposed
->>>>>>>>> here. The other alternative is to keep interacting with the kernel folks to
->>>>>>>>> see if there is a way to keep our use case untouched.
->>>>>>>>
->>>>>>>> Right.  Well.. not necessarily untouched, but I'm hoping for more
->>>>>>>> replies from Cédric to my objections and mpe's.  Even with sockets
->>>>>>>> being a kinda meaningless concept in PAPR, I don't think tying it to
->>>>>>>> NUMA nodes makes sense.
->>>>>>>
->>>>>>> I did a couple of replies in different email threads but maybe not
->>>>>>> to all. I felt it was going nowhere :/ Couple of thoughts,
->>>>>>
->>>>>> I think I saw some of those, but maybe not all.
->>>>>>
->>>>>>> Shouldn't we get rid of the socket concept, die also, under pseries
->>>>>>> since they don't exist under PAPR ? We only have numa nodes, cores,
->>>>>>> threads AFAICT.
->>>>>>
->>>>>> Theoretically, yes.  I'm not sure it's really practical, though, since
->>>>>> AFAICT, both qemu and the kernel have the notion of sockets (though
->>>>>> not dies) built into generic code.
->>>>>
->>>>> Yes. But, AFAICT, these topology notions have not reached "arch/powerpc"
->>>>> and PPC Linux only has a NUMA node id, on pseries and powernv.
->>>>>
->>>>>> It does mean that one possible approach here - maybe the best one - is
->>>>>> to simply declare that sockets are meaningless under, so we simply
->>>>>> don't expect what the guest kernel reports to match what's given to
->>>>>> qemu.
->>>>>>
->>>>>> It'd be nice to avoid that if we can: in a sense it's just cosmetic,
->>>>>> but it is likely to surprise and confuse people.
->>>>>>
->>>>>>> Should we diverged from PAPR and add extra DT properties "qemu,..." ?
->>>>>>> There are a couple of places where Linux checks for the underlying
->>>>>>> hypervisor already.
->>>>>>>
->>>>>>>>> This also means that
->>>>>>>>> 'ibm,chip-id' will probably remain in use since it's the only place where
->>>>>>>>> we inform cores per socket information to the kernel.
->>>>>>>>
->>>>>>>> Well.. unless we can find some other sensible way to convey that
->>>>>>>> information.  I haven't given up hope for that yet.
->>>>>>>
->>>>>>> Well, we could start by fixing the value in QEMU. It is broken
->>>>>>> today.
->>>>>>
->>>>>> Fixing what value, exactly?
->>>>>
->>>>> The value of the "ibm,chip-id" since we are keeping the property under
->>>>> QEMU.
->>>>
->>>> David, I believe this has to do with the discussing we had last Friday.
->>>>
->>>> I mentioned that the ibm,chip-id property is being calculated in a way that
->>>> promotes the same ibm,chip-id in CPUs that belongs to different NUMA nodes,
->>>> e.g.:
->>>>
->>>> -smp 4,cores=4,maxcpus=8,threads=1 \
->>>> -numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 \
->>>> -numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
->>>>
->>>>
->>>> $ dtc -I dtb -O dts fdt.dtb | grep -B2 ibm,chip-id
->>>>             ibm,associativity = <0x05 0x00 0x00 0x00 0x00 0x00>;
->>>>             ibm,pft-size = <0x00 0x19>;
->>>>             ibm,chip-id = <0x00>;
->>>> -- 
->>>>                        ibm,associativity = <0x05 0x00 0x00 0x00 0x00 0x01>;
->>>>                        ibm,pft-size = <0x00 0x19>;
->>>>                        ibm,chip-id = <0x00>;
->>>> -- 
->>>>                        ibm,associativity = <0x05 0x01 0x01 0x01 0x01 0x02>;
->>>>                        ibm,pft-size = <0x00 0x19>;
->>>>                        ibm,chip-id = <0x00>;
->>>> -- 
->>>>                        ibm,associativity = <0x05 0x01 0x01 0x01 0x01 0x03>;
->>>>                        ibm,pft-size = <0x00 0x19>;
->>>>                        ibm,chip-id = <0x00>;
->>>
->>>> We assign ibm,chip-id=0x0 to CPUs 0-3, but CPUs 2-3 are located in a
->>>> different NUMA node than 0-1. This would mean that the same socket
->>>> would belong to different NUMA nodes at the same time.
->>>
->>> Right... and I'm still not seeing why that's a problem.  AFAICT that's
->>> a possible, if unexpected, situation under real hardware - though
->>> maybe not for POWER9 specifically.
->> The ibm,chip-id property does not exist under PAPR. PAPR only has
->> NUMA nodes, no sockets nor chips.
->>
->> And the property value is simply broken under QEMU. Try this  :
->>
->>     -smp 4,cores=1,maxcpus=8 -object memory-backend-ram,id=ram-node0,size=2G -numa node,nodeid=0,cpus=0-1,cpus=4-5,memdev=ram-node0 -object memory-backend-ram,id=ram-node1,size=2G -numa node,nodeid=1,cpus=2-3,cpus=6-7,memdev=ram-node1
->>
->> # dmesg | grep numa
->> [    0.013106] numa: Node 0 CPUs: 0-1
->> [    0.013136] numa: Node 1 CPUs: 2-3
->>
->> # dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
->>         ibm,chip-id = <0x01>;
->>         ibm,chip-id = <0x02>;
->>         ibm,chip-id = <0x00>;
->>         ibm,chip-id = <0x03>;
-> 
-> These values are not wrong. When you do:
-> 
-> -smp 4,cores=1,maxcpus=8 (....)
-> 
-> You didn't fill threads and sockets. QEMU default is to prioritize sockets
-> to fill the missing information, up to the maxcpus value. This means that what
-> you did is equivalent to:
-> 
-> -smp 4,threads=1,cores=1,sockets=8,maxcpus=8 (....)
-> 
-> 
-> It's a 1 thread/core, 1 core/socket with 8 sockets config. Each possible CPU
-> will sit in its own core, having its own ibm,chip-id. So:
-> 
-> "-numa node,nodeid=0,cpus=0-1"
-> 
-> is in fact allocating sockets 0 and 1 to NUMA node 0.
+Hi all,
 
-ok. 
-Thanks,
+I was added as a reviewer (in MAINTAINERS) for the AVR target for the duration of my research work using it.
+The funding for my project expires in the middle of April, so I will not be able to provide time for reviewing patches from that point.
 
-C.
+I'm not sure what the process is for removing my reviewer entry, but I assume if someone needs to be notified they'll be a member of this list.
+
+Kind regards,
+Sarah Harris
 
