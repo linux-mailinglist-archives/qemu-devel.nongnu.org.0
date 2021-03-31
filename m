@@ -2,49 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EDE34F906
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:49:12 +0200 (CEST)
-Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719C034F944
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:52:47 +0200 (CEST)
+Received: from localhost ([::1]:43914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRUf8-00018q-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41182)
+	id 1lRUic-0002s3-Go
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lRUe5-0000ag-J2; Wed, 31 Mar 2021 02:48:05 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:4057)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRUgz-0001zG-6i
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 02:51:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lRUe3-0005fT-AZ; Wed, 31 Mar 2021 02:48:05 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F9H015lNhzlWh0;
- Wed, 31 Mar 2021 14:46:09 +0800 (CST)
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 31 Mar 2021 14:47:40 +0800
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Eric Auger <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, "open list:ARM SMMU" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- <shameerali.kolothum.thodi@huawei.com>
-Subject: [PATCH] hw/arm/smmuv3: Support 16K translation granule
-Date: Wed, 31 Mar 2021 14:47:13 +0800
-Message-ID: <20210331064713.1782-1-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRUgt-0007WL-K1
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 02:51:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617173457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uyyxsWqXUPsDGm7G0oqqU9JN9pR8LpcCYhxzwws3uR4=;
+ b=AVaEk0Cqa9kJtZsDe561yH6LfUb4D1YwpqPJxxlOrRiWf56krecaHbuEIpvhUfqGFU33rh
+ lp/ws+V+lNVQ8hjZ5jkwneCiu81mQbQeFrmUsNPRjG4tCtsGgKf6/NAdCWLgaotVopDnGS
+ FTnoo7FPWXIO6ouQQ8I/q9Hco973UOk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-JvP1JUv_Mg6recfAUAdcKg-1; Wed, 31 Mar 2021 02:50:53 -0400
+X-MC-Unique: JvP1JUv_Mg6recfAUAdcKg-1
+Received: by mail-wr1-f72.google.com with SMTP id v13so479914wrs.21
+ for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 23:50:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uyyxsWqXUPsDGm7G0oqqU9JN9pR8LpcCYhxzwws3uR4=;
+ b=oKRtrh8iE/YXyqwtk15TILKlQWGuoOWPk8dfuSJNG+rA9XEMFegwRaTRXlGyDdkRzm
+ WcmWAGzk7FjCmNabdxquBpjPmIAr0isKLqBw0dQqtld4t3tq6hdkDn7jcvIP6n6gSWUK
+ Wa1yoAhNZIpJjClIqw1MxLnRW63qrbiXdliw8YBsmdqxRWLV6OR7NpRJtJnpVj88vIzU
+ LLZyKuARkqaD4Tk3kApNzRLDcLV6BBq4iurgU/UUFCDEdw6WrEJo3h6lXG5Ce7wuSgMS
+ luAGXFOkOVQvMvGMYYy5MubfImBB+pF271oCTVoGgHOljt4K0uIzohxXvSmz0COU17ND
+ OocA==
+X-Gm-Message-State: AOAM530lfCMO7++pSHbqeYtEJQfaNRSyUbsNRCYFzvpXFDqvT4EHF7cm
+ lAS2o+hWDGQ2x9KY6bZPHsSxj6iZwYpwKsXQ6koXx/u17njPoOn/qrwmdijM8kb3AcMWpKF8+MV
+ rX9Cw3F9lnwz0Vko=
+X-Received: by 2002:a1c:e912:: with SMTP id q18mr1686685wmc.59.1617173452521; 
+ Tue, 30 Mar 2021 23:50:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxNe3A3tqEK++UBEkJsOeGAXE2aAwFfszf0Qz5W2UE1roCoa6mSFW2IFW+i1hq1y9VhfIK8Mg==
+X-Received: by 2002:a1c:e912:: with SMTP id q18mr1686662wmc.59.1617173452245; 
+ Tue, 30 Mar 2021 23:50:52 -0700 (PDT)
+Received: from [192.168.10.118] ([93.56.169.140])
+ by smtp.gmail.com with ESMTPSA id x25sm3266155wmj.14.2021.03.30.23.50.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Mar 2021 23:50:49 -0700 (PDT)
+Subject: Re: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict
+ Resolution Policy document
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
+ <afaerber@suse.de>, Alexander Graf <agraf@csgraf.de>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210330090806.2802667-1-thuth@redhat.com>
+ <c8cc80d5-51f8-9c35-ad98-1eac0d164be6@redhat.com>
+ <7d135bc6-f130-74bc-8833-1938d835dec4@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <49a02d4e-ddb4-00c7-a208-69b6171f8aa9@redhat.com>
+Date: Wed, 31 Mar 2021 08:50:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <7d135bc6-f130-74bc-8833-1938d835dec4@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.210]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=jiangkunkun@huawei.com; helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,51 +105,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>, Peter Xu <peterx@redhat.com>,
- jasonwang@redhat.com
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The driver can query some bits in SMMUv3 IDR5 to learn which
-translation granules are supported. Arm recommends that SMMUv3
-implementations support at least 4K and 64K granules. But in
-the vSMMUv3, there seems to be no reason not to support 16K
-translation granule. In addition, if 16K is not supported,
-vSVA will failed to be enabled in the future for 16K guest
-kernel. So it'd better to support it.
+On 31/03/21 07:40, Thomas Huth wrote:
+> On 30/03/2021 12.53, Paolo Bonzini wrote:
+>> On 30/03/21 11:08, Thomas Huth wrote:
+>>>   I've picked the Django Code of Conduct as a base, since it sounds 
+>>> rather
+>>>   friendly and still welcoming to me, but I'm open for other 
+>>> suggestions, too
+>>>   (but we should maybe pick one where the conflict resolution policy is
+>>>   separated from the CoC itself so that it can be better taylored to the
+>>>   requirements of the QEMU project)
+>>
+>> It turns out that the Django CoC is ultimately based on the Fedora CoC,
+>> so I tried using 
+>> https://docs.fedoraproject.org/en-US/project/code-of-conduct/
+>> as an inspiration for what can be cut. Here is the outcome:
+>>
+>> -----
+>> The QEMU community is made up of a mixture of professionals and
+>> volunteers from all over the world. Diversity is one of our strengths,
+>> but it can also lead to communication issues and unhappiness.
+>> To that end, we have a few ground rules that we ask people to adhere to.
+>>
+>> * Be welcoming. We are committed to making participation in this project
+>>    a harassment-free experience for everyone, regardless of level of
+>>    experience, gender, gender identity and expression, sexual 
+>> orientation,
+>>    disability, personal appearance, body size, race, ethnicity, age, 
+>> religion,
+>>    or nationality.
+>>
+>> * Be respectful. Not all of us will agree all the time.  
+>> Disagreements, both
+>>    social and technical, happen all the time and the QEMU community is no
+>>    exception. When we disagree, we try to understand why.  It is 
+>> important that
+>>    we resolve disagreements and differing views constructively.  
+>> Members of the
+>>    QEMU community should be respectful when dealing with other 
+>> contributors as
+>>    well as with people outside the QEMU community and with users of QEMU.
+>>
+>> Harassment and other exclusionary behavior are not acceptable. A 
+>> community
+>> where people feel uncomfortable or threatened is neither welcoming nor
+>> respectful.  Examples of unacceptable behavior by participants include:
+>>
+>> * The use of sexualized language or imagery
+>>
+>> * Personal attacks
+>>
+>> * Trolling or insulting/derogatory comments
+>>
+>> * Public or private harassment
+>>
+>> * Publishing other's private information, such as physical or electronic
+>> addresses, without explicit permission
+>>
+>> This isn't an exhaustive list of things that you can't do. Rather, take
+>> it in the spirit in which it's intended—a guide to make it easier to
+>> be excellent to each other.
+>>
+>> This code of conduct applies to all spaces managed by the QEMU project.
+>> This includes IRC, the mailing lists, the issue tracker, community
+>> events, and any other forums created by the project team which the
+>> community uses for communication. This code of conduct also applies
+>> outside these spaces, when an individual acts as a representative or a
+>> member of the project or its community.
+>>
+>> By adopting this code of conduct, project maintainers commit themselves
+>> to fairly and consistently applying these principles to every aspect of
+>> managing this project.  If you believe someone is violating the code of
+>> conduct, please read the +:ref:`conflict-resolution` document for
+>> information about how to proceed.
+>>
+>> This document is based on the `Fedora Code of Conduct
+>> <https://fedoraproject.org/code-of-conduct>`__ and the
+>> `Contributor Covenant version 1.3.0
+>> <https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/>`__.
+> 
+> That text sounds fine to me, too.
+> 
+> ... since you've basically assembled now both files, do you want to go 
+> ahead and post this as v3?
 
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- hw/arm/smmuv3.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Fair enough.  Thanks very much for bringing up the topic again.
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 3b87324ce2..0a483b0bab 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -259,8 +259,9 @@ static void smmuv3_init_regs(SMMUv3State *s)
-     s->idr[3] = FIELD_DP32(s->idr[3], IDR3, RIL, 1);
-     s->idr[3] = FIELD_DP32(s->idr[3], IDR3, HAD, 1);
- 
--   /* 4K and 64K granule support */
-+    /* 4K, 16K and 64K granule support */
-     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
-+    s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN16K, 1);
-     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
-     s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, SMMU_IDR5_OAS); /* 44 bits */
- 
-@@ -503,7 +504,8 @@ static int decode_cd(SMMUTransCfg *cfg, CD *cd, SMMUEventInfo *event)
- 
-         tg = CD_TG(cd, i);
-         tt->granule_sz = tg2granule(tg, i);
--        if ((tt->granule_sz != 12 && tt->granule_sz != 16) || CD_ENDI(cd)) {
-+        if ((tt->granule_sz != 12 && tt->granule_sz != 14 &&
-+             tt->granule_sz != 16) || CD_ENDI(cd)) {
-             goto bad_cd;
-         }
- 
--- 
-2.19.1
+Paolo
 
 
