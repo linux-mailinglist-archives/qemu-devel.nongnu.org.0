@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999E434F779
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 05:28:14 +0200 (CEST)
-Received: from localhost ([::1]:57396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5770534F77C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 05:29:22 +0200 (CEST)
+Received: from localhost ([::1]:59872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRRWf-0002dc-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 23:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36598)
+	id 1lRRXl-0003eA-FC
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 23:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lRRQg-0002ll-9i
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:22:02 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53070)
+ id 1lRRQh-0002pA-KG
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:22:03 -0400
+Received: from mga18.intel.com ([134.134.136.126]:53068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lRRQe-00057q-2m
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:22:01 -0400
-IronPort-SDR: kwSZ5aHihTNRDFKOxoTzqCRTmXe9nMwkZJ4vv/EDcVhkqwXvL6+WaJJ+NfSrfVEL7ksLMqQRPy
- PRhT572Rpdcw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="179449776"
-X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="179449776"
+ id 1lRRQf-000572-8n
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:22:03 -0400
+IronPort-SDR: lXEndyIJ4uYEZocrSw4RMTHOzeMqvxjZOcXbMcya6GK/GXK3VwyTGejely+Pcgp9Zjgu5uS/1e
+ kR3w22sTk8Lg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="179449780"
+X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="179449780"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2021 20:21:35 -0700
-IronPort-SDR: xLcEk+NSXZ0Bl8MyDZwEGKi5f3QTbnFc3WV1BWQgni8jg0BWnuRpyc8sitOC5df1+vpVzHjbUv
- 1FnxEHNQoNPA==
-X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="418454141"
+IronPort-SDR: lPI01Z4xj3Ugpl10TGuuFE6hBBNuxHIYIKTfMHKrEo9A19A2kn+EX90p7L9ubQYRuaygrbUsBY
+ zc0ZQxfTX6vQ==
+X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="418454145"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2021 20:21:35 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/11] virtio-gpu: Add helpers to create and destroy dmabuf
- objects
-Date: Tue, 30 Mar 2021 20:09:59 -0700
-Message-Id: <20210331031001.1564125-10-vivek.kasireddy@intel.com>
+Subject: [PATCH 10/11] virtio-gpu: Add virtio_gpu_set_scanout_blob
+Date: Tue, 30 Mar 2021 20:10:00 -0700
+Message-Id: <20210331031001.1564125-11-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
 References: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
@@ -62,163 +61,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These helpers can be useful for creating dmabuf objects from blobs
-and submitting them to the UI.
+This API allows Qemu to set the blob allocated by the Guest as
+the scanout buffer. If Opengl support is available, then the
+scanout buffer would be submitted as a dmabuf to the UI; if not,
+a pixman image is created from the scanout buffer and is
+submitted to the UI via the display surface.
 
+Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/virtio-gpu-udmabuf.c | 88 +++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio-gpu.h  | 15 ++++++
- 2 files changed, 103 insertions(+)
+ hw/display/trace-events                     |  1 +
+ hw/display/virtio-gpu-udmabuf.c             |  1 +
+ hw/display/virtio-gpu.c                     | 84 ++++++++++++++++++++-
+ include/hw/virtio/virtio-gpu-bswap.h        |  7 ++
+ include/hw/virtio/virtio-gpu.h              |  1 +
+ include/standard-headers/linux/virtio_gpu.h |  1 +
+ 6 files changed, 91 insertions(+), 4 deletions(-)
 
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index 99e5256aac..96fe1ea3de 100644
+--- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -40,6 +40,7 @@ virtio_gpu_features(bool virgl) "virgl %d"
+ virtio_gpu_cmd_get_display_info(void) ""
+ virtio_gpu_cmd_get_edid(uint32_t scanout) "scanout %d"
+ virtio_gpu_cmd_set_scanout(uint32_t id, uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "id %d, res 0x%x, w %d, h %d, x %d, y %d"
++virtio_gpu_cmd_set_scanout_blob(uint32_t id, uint32_t res, uint32_t w, uint32_t h, uint32_t x, uint32_t y) "id %d, res 0x%x, w %d, h %d, x %d, y %d"
+ virtio_gpu_cmd_res_create_2d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h) "res 0x%x, fmt 0x%x, w %d, h %d"
+ virtio_gpu_cmd_res_create_3d(uint32_t res, uint32_t fmt, uint32_t w, uint32_t h, uint32_t d) "res 0x%x, fmt 0x%x, w %d, h %d, d %d"
+ virtio_gpu_cmd_res_create_blob(uint32_t res, uint64_t size) "res 0x%x, size %" PRId64
 diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
-index bbcaf27b56..bda8af5458 100644
+index bda8af5458..6fbe709811 100644
 --- a/hw/display/virtio-gpu-udmabuf.c
 +++ b/hw/display/virtio-gpu-udmabuf.c
-@@ -166,6 +166,85 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
+@@ -206,6 +206,7 @@ static VGPUDMABuf *virtio_gpu_create_dmabuf(VirtIOGPU *g,
+     dmabuf->buf.height = fb->height;
+     dmabuf->buf.stride = fb->stride;
+     dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
++    dmabuf->buf.modifier = fb->modifier;
+     dmabuf->buf.fd = res->dmabuf_fd;
+ 
+     dmabuf->scanout_id = scanout_id;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 8a8cc7f181..642f95a269 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -449,7 +449,9 @@ static void virtio_gpu_resource_destroy(VirtIOGPU *g,
+         }
      }
+ 
+-    pixman_image_unref(res->image);
++    if (res->image) {
++        pixman_image_unref(res->image);
++    }
+     virtio_gpu_cleanup_mapping(g, res);
+     QTAILQ_REMOVE(&g->reslist, res, next);
+     g->hostmem -= res->hostmem;
+@@ -639,10 +641,22 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
+     }
+ 
+     g->parent_obj.enable = 1;
+-    data = (uint8_t *)pixman_image_get_data(res->image);
++
++    if (res->blob) {
++        if (display_opengl) {
++            if (!virtio_gpu_dmabuf_update(g, scanout_id, res, fb)) {
++                return;
++            }
++        }
++
++        data = res->blob;
++    } else {
++        data = (uint8_t *)pixman_image_get_data(res->image);
++    }
+ 
+     /* create a surface for this scanout */
+-    if (!scanout->ds ||
++    if ((res->blob && !display_opengl) ||
++        !scanout->ds ||
+         surface_data(scanout->ds) != data + fb->offset ||
+         scanout->width != r->width ||
+         scanout->height != r->height) {
+@@ -716,6 +730,61 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
+                               &fb, res, &ss.r, &cmd->error);
  }
  
-+static void virtio_gpu_free_one_dmabuf(VirtIOGPU *g, VGPUDMABuf *dmabuf,
-+                                       uint32_t scanout_id)
++static void virtio_gpu_set_scanout_blob(VirtIOGPU *g,
++                                        struct virtio_gpu_ctrl_command *cmd)
 +{
-+    struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
++    struct virtio_gpu_simple_resource *res;
++    struct virtio_gpu_framebuffer fb = { 0 };
++    struct virtio_gpu_set_scanout_blob ss;
++    uint64_t fbend;
 +
-+    QTAILQ_REMOVE(&g->dmabuf.bufs, dmabuf, next);
-+    dpy_gl_release_dmabuf(scanout->con, &dmabuf->buf);
-+    g_free(dmabuf);
++    VIRTIO_GPU_FILL_CMD(ss);
++    virtio_gpu_scanout_blob_bswap(&ss);
++    trace_virtio_gpu_cmd_set_scanout_blob(ss.scanout_id, ss.resource_id,
++                                          ss.r.width, ss.r.height, ss.r.x, ss.r.y);
++
++    if (ss.resource_id == 0) {
++        virtio_gpu_disable_scanout(g, ss.scanout_id);
++        return;
++    }
++
++    res = virtio_gpu_find_check_resource(g, ss.resource_id, true,
++                                         __func__, &cmd->error);
++    if (!res) {
++        return;
++    }
++
++    fb.format = virtio_gpu_get_pixman_format(ss.format);
++    if (!fb.format) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: host couldn't handle guest format %d\n",
++                      __func__, ss.format);
++        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
++        return;
++    }
++
++    fb.bytes_pp = DIV_ROUND_UP(PIXMAN_FORMAT_BPP(fb.format), 8);
++    fb.width = ss.width;
++    fb.height = ss.height;
++    fb.stride = ss.strides[0];
++    fb.offset = ss.offsets[0] + ss.r.x * fb.bytes_pp + ss.r.y * fb.stride;
++    fb.modifier = ss.modifier;
++
++    fbend = fb.offset;
++    fbend += fb.stride * (ss.r.height - 1);
++    fbend += fb.bytes_pp * ss.r.width;
++    if (fbend > res->blob_size) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: fb end out of range\n",
++                      __func__);
++        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
++        return;
++    }
++
++    virtio_gpu_do_set_scanout(g, ss.scanout_id,
++                              &fb, res, &ss.r, &cmd->error);
 +}
 +
-+static void virtio_gpu_free_dmabufs(VirtIOGPU *g,
-+                                    uint32_t scanout_id)
-+{
-+    VGPUDMABuf *dmabuf, *tmp;
-+
-+    QTAILQ_FOREACH_SAFE(dmabuf, &g->dmabuf.bufs, next, tmp) {
-+        if (dmabuf != g->dmabuf.primary &&
-+            dmabuf->scanout_id == scanout_id) {
-+            virtio_gpu_free_one_dmabuf(g, dmabuf, scanout_id);
+ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+                                   uint32_t nr_entries, uint32_t offset,
+                                   struct virtio_gpu_ctrl_command *cmd,
+@@ -876,7 +945,7 @@ static void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+     case VIRTIO_GPU_CMD_RESOURCE_CREATE_2D:
+         virtio_gpu_resource_create_2d(g, cmd);
+         break;
+-  case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:
++    case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:
+         if (!virtio_gpu_blob_enabled(g->parent_obj.conf)) {
+             cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
+             break;
+@@ -895,6 +964,13 @@ static void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+     case VIRTIO_GPU_CMD_SET_SCANOUT:
+         virtio_gpu_set_scanout(g, cmd);
+         break;
++    case VIRTIO_GPU_CMD_SET_SCANOUT_BLOB:
++        if (!virtio_gpu_blob_enabled(g->parent_obj.conf)) {
++            cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
 +            break;
 +        }
-+    }
-+}
-+
-+static VGPUDMABuf *virtio_gpu_create_dmabuf(VirtIOGPU *g,
-+                                            uint32_t scanout_id,
-+                                            struct virtio_gpu_simple_resource *res,
-+                                            struct virtio_gpu_framebuffer *fb)
-+{
-+    VGPUDMABuf *dmabuf;
-+
-+    if (res->dmabuf_fd < 0) {
-+        return NULL;
-+    }
-+
-+    dmabuf = g_new0(VGPUDMABuf, 1);
-+    dmabuf->buf.width = fb->width;
-+    dmabuf->buf.height = fb->height;
-+    dmabuf->buf.stride = fb->stride;
-+    dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
-+    dmabuf->buf.fd = res->dmabuf_fd;
-+
-+    dmabuf->scanout_id = scanout_id;
-+    QTAILQ_INSERT_HEAD(&g->dmabuf.bufs, dmabuf, next);
-+
-+    return dmabuf;
-+}
-+
-+int virtio_gpu_dmabuf_update(VirtIOGPU *g,
-+                             uint32_t scanout_id,
-+                             struct virtio_gpu_simple_resource *res,
-+                             struct virtio_gpu_framebuffer *fb)
-+{
-+    struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
-+    VGPUDMABuf *primary;
-+    bool free_bufs = false;
-+
-+    primary = virtio_gpu_create_dmabuf(g, scanout_id, res, fb);
-+    if (!primary) {
-+        return -EINVAL;
-+    }
-+
-+    if (g->dmabuf.primary != primary) {
-+        g->dmabuf.primary = primary;
-+        qemu_console_resize(scanout->con,
-+                            primary->buf.width, primary->buf.height);
-+        dpy_gl_scanout_dmabuf(scanout->con, &primary->buf);
-+        free_bufs = true;
-+    }
-+
-+    dpy_gl_update(scanout->con, 0, 0, primary->buf.width, primary->buf.height);
-+
-+    if (free_bufs) {
-+        virtio_gpu_free_dmabufs(g, scanout_id);
-+    }
-+
-+    return 0;
-+}
-+
- #else
- 
- bool virtio_gpu_have_udmabuf(void)
-@@ -184,4 +263,13 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
-     /* nothing (stub) */
++        virtio_gpu_set_scanout_blob(g, cmd);
++        break;
+     case VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING:
+         virtio_gpu_resource_attach_backing(g, cmd);
+         break;
+diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
+index d23ac5cc4a..e2bee8f595 100644
+--- a/include/hw/virtio/virtio-gpu-bswap.h
++++ b/include/hw/virtio/virtio-gpu-bswap.h
+@@ -68,4 +68,11 @@ virtio_gpu_create_blob_bswap(struct virtio_gpu_resource_create_blob *cblob)
+     le64_to_cpus(&cblob->size);
  }
  
-+int virtio_gpu_dmabuf_update(VirtIOGPU *g,
-+                             uint32_t scanout_id,
-+                             struct virtio_gpu_simple_resource *res,
-+                             struct virtio_gpu_framebuffer *fb)
++static inline void
++virtio_gpu_scanout_blob_bswap(struct virtio_gpu_set_scanout_blob *ssb)
 +{
-+    /* nothing (stub) */
-+    return 0;
++    virtio_gpu_bswap_32(ssb, sizeof(*ssb) - sizeof(ssb->offsets[3]));
++    le32_to_cpus(&ssb->offsets[3]);
 +}
 +
  #endif
 diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index a65215dc52..8b6bf851da 100644
+index 8b6bf851da..2ad90ae632 100644
 --- a/include/hw/virtio/virtio-gpu.h
 +++ b/include/hw/virtio/virtio-gpu.h
-@@ -149,6 +149,12 @@ struct VirtIOGPUBaseClass {
-     DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1024), \
-     DEFINE_PROP_UINT32("yres", _state, _conf.yres, 768)
- 
-+typedef struct VGPUDMABuf {
-+    QemuDmaBuf buf;
-+    uint32_t scanout_id;
-+    QTAILQ_ENTRY(VGPUDMABuf) next;
-+} VGPUDMABuf;
-+
- struct VirtIOGPU {
-     VirtIOGPUBase parent_obj;
- 
-@@ -179,6 +185,11 @@ struct VirtIOGPU {
-         uint32_t req_3d;
-         uint32_t bytes_3d;
-     } stats;
-+
-+    struct {
-+        QTAILQ_HEAD(, VGPUDMABuf) bufs;
-+        VGPUDMABuf *primary;
-+    } dmabuf;
+@@ -63,6 +63,7 @@ struct virtio_gpu_framebuffer {
+     uint32_t width, height;
+     uint32_t stride;
+     uint32_t offset;
++    uint64_t modifier;
  };
  
- struct VhostUserGPU {
-@@ -236,6 +247,10 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g);
- bool virtio_gpu_have_udmabuf(void);
- void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res);
- void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res);
-+int virtio_gpu_dmabuf_update(VirtIOGPU *g,
-+                             uint32_t scanout_id,
-+                             struct virtio_gpu_simple_resource *res,
-+                             struct virtio_gpu_framebuffer *fb);
- 
- /* virtio-gpu-3d.c */
- void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+ struct virtio_gpu_scanout {
+diff --git a/include/standard-headers/linux/virtio_gpu.h b/include/standard-headers/linux/virtio_gpu.h
+index 1357e4774e..87992ca7ee 100644
+--- a/include/standard-headers/linux/virtio_gpu.h
++++ b/include/standard-headers/linux/virtio_gpu.h
+@@ -409,6 +409,7 @@ struct virtio_gpu_set_scanout_blob {
+ 	uint32_t width;
+ 	uint32_t height;
+ 	uint32_t format;
++	uint64_t modifier;
+ 	uint32_t padding;
+ 	uint32_t strides[4];
+ 	uint32_t offsets[4];
 -- 
 2.26.2
 
