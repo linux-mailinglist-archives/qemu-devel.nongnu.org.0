@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8192734FF6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 13:26:40 +0200 (CEST)
-Received: from localhost ([::1]:38550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D1334FFA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 13:42:05 +0200 (CEST)
+Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRYzf-0003Sh-KX
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 07:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1lRZEY-00085i-P1
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 07:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lRYyt-00032Y-Gf
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 07:25:51 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lRYyr-0006Ea-QY
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 07:25:51 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id o16so19346272wrn.0
- for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 04:25:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=2oc4L37YVDlF6ucmserJ6GhjNV895Q9Rxi1s6C74IbM=;
- b=GbfeJJ/csbqRtp5VvvyDdDZ8su75w/fhMVRmV8soF0G7gNCelxZGf94nYxUAuPdP9u
- PEEp6Sa3Cmh65+XSjce0ECfmYLgx+LNWRLaun2vMaM7E4o45UIn+Qcwd78xz/ijlleh0
- wvBy3HXZHMlUVjAnxWC531uJRfIbim6G7hPpCA5k9kBbj8cjsXnlSueHBV6XvRLCL9ZU
- IuGmSRr8ibwq+Ph5ds4240yQoN3jQhjyyNKDaBnzZLQaTdCxGQPz6hMFzauYEv97K99e
- 62jqep4qii3G3ffeHZyD6/gN1eYpp5QWA3srEiah8vfPdHY2g6ML1MT6xrXwPH6bYkHR
- S3vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=2oc4L37YVDlF6ucmserJ6GhjNV895Q9Rxi1s6C74IbM=;
- b=nzExi2S1/A9kjmS9UoysOe0Qt560iFrn/oqewJDII6Ii+wXDZaK3DcBQ1FFWYX8JIR
- QoRYOzTVTuwclPJAPOXSptUCFc6xLX6EolJsAF9fxbdjnwu7efNdiE45RaSL0xIxCgg5
- XE6L/ASngQOTeVGE/LZXDAAIgPpx03x8Se9z9gg7Izi7GNdzuXc3VqQmFP+1QYGzz6WT
- 95uUWYOUEnUw7kejLWf2//Lz98YmLwlSqdM4eRCItvSMS93eGG0i9hxJMvpCnxLMsoah
- nL6mnkpGc8LkTpaf6luC9F8x9usw9DTxGA3V8RYrAUN3ZdYBoqLs63QMctgVRkSsbIXf
- E6ag==
-X-Gm-Message-State: AOAM532/N8nVwozC/0OzK1COjhlJNdUonsvSNLwDnHhFGa/T6k7jpaV9
- 8OvlVgrWSpyh5q63IrfJQ3hCSw==
-X-Google-Smtp-Source: ABdhPJyXUjy9tC4CBSL192HgbMx9x43/LdMHIRCQOn6ab3OVe33eykzf4kNC7TR4gYD+lrpa/q8V0w==
-X-Received: by 2002:a05:6000:1acb:: with SMTP id
- i11mr3219089wry.68.1617189948178; 
- Wed, 31 Mar 2021 04:25:48 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m11sm3830718wri.44.2021.03.31.04.25.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 04:25:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A7D441FF7E;
- Wed, 31 Mar 2021 12:25:46 +0100 (BST)
-References: <20210325175023.13838-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.0 0/2] document gdbstub debugging of multicore
- machines
-Date: Wed, 31 Mar 2021 12:25:40 +0100
-In-reply-to: <20210325175023.13838-1-peter.maydell@linaro.org>
-Message-ID: <87sg4bo98l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lRZCo-0007UA-JF
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 07:40:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lRZCd-00073U-2y
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 07:40:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617190800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JPSCgCVEpQjrJaHbtEdxAqB9J5Tb5Fqfyu6GL9BE70s=;
+ b=dbrWNVfs7t40SlNoQmdKovsFTTdVIjC7pvnctIXF9b6Bux4skjmybbq6ZU/Nj0OPUq5eXI
+ LuC45fVEhOPrQU0A6fn3AXjSIq2C42OG/DnOMr+X4uQWgzLV5gtBbMyZ9QVJVPHuICL9cy
+ Id8tW/EPBGy3/0jUz+sEYNkdETmSY7w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-XF2CCWSrOT6tezp8drrPrw-1; Wed, 31 Mar 2021 07:39:56 -0400
+X-MC-Unique: XF2CCWSrOT6tezp8drrPrw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1D3910059C0;
+ Wed, 31 Mar 2021 11:39:55 +0000 (UTC)
+Received: from vitty.brq.redhat.com (unknown [10.40.193.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EAB495C1B4;
+ Wed, 31 Mar 2021 11:39:49 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2] i386: Make 'hv-reenlightenment' require explicit
+ 'tsc-frequency' setting
+Date: Wed, 31 Mar 2021 13:39:48 +0200
+Message-Id: <20210331113948.333461-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,30 +77,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, David Edmondson <dme@dme.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 561dbb41b1d7 "i386: Make migration fail when Hyper-V reenlightenment
+was enabled but 'user_tsc_khz' is unset" forbade migrations with when guest
+has opted for reenlightenment notifications but 'tsc-frequency' wasn't set
+explicitly on the command line. This works but the migration fails late and
+this may come as an unpleasant surprise. To make things more explicit,
+require 'tsc-frequency=' on the command line when 'hv-reenlightenment' was
+enabled. Make the change affect 6.0+ machine types only to preserve
+previously-valid configurations.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+Changes since v1:
+- Typos in commit message/comment fixed [David Edmondson]
+- Add Acked-by tag [Dr. David Alan Gilbert]
+---
+ docs/hyperv.txt   |  1 +
+ hw/i386/pc.c      |  1 +
+ target/i386/cpu.c | 23 +++++++++++++++++++++--
+ target/i386/cpu.h |  1 +
+ 4 files changed, 24 insertions(+), 2 deletions(-)
 
-> The way gdb and our gdbstub handle multicore and multicluster
-> machines is not very obvious.  This patchset adds some documentation
-> of how to do it. In particular it gives the necessary runes
-> for how to get gdb to work with machines which have multiple
-> clusters of heterogenous CPUs (that's the sifive_u board, some
-> of the MPS2/MPS3 boards, and the Xilinx one).
->
-> I don't think there's any way for the stub to tell gdb
-> "I have 2 inferiors, attach to both of them", unfortunately,
-> so the user has to manually connect to them. (We should talk
-> to the gdb folks to confirm that and perhaps suggest protocol
-> enhancements. For 6.0, at least let's document the current state
-> of affairs.)
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index e53c581f4586..5b02d341ab25 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -165,6 +165,7 @@ emulate TSC accesses after migration so 'tsc-frequency=' CPU option also has to
+ be specified to make migration succeed. The destination host has to either have
+ the same TSC frequency or support TSC scaling CPU feature.
+ 
++Requires: tsc-frequency
+ Recommended: hv-frequencies
+ 
+ 3.16. hv-evmcs
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8a84b25a031e..47b79e949ad7 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -98,6 +98,7 @@
+ 
+ GlobalProperty pc_compat_5_2[] = {
+     { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
++    { TYPE_X86_CPU, "x-hv-reenlightenment-requires-tscfreq", "off"},
+ };
+ const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
+ 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6b3e9467f177..dbcd2ffbbbe5 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6647,10 +6647,23 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+     }
+ }
+ 
+-static void x86_cpu_hyperv_realize(X86CPU *cpu)
++static void x86_cpu_hyperv_realize(X86CPU *cpu, Error **errp)
+ {
++    CPUX86State *env = &cpu->env;
+     size_t len;
+ 
++    /*
++     * Reenlightenment requires explicit 'tsc-frequency' setting for successful
++     * migration (see hyperv_reenlightenment_post_load()). As 'hv-passthrough'
++     * mode is not migratable, we can loosen the restriction.
++     */
++    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_REENLIGHTENMENT) &&
++        !cpu->hyperv_passthrough && !env->user_tsc_khz &&
++        cpu->hyperv_reenlightenment_requires_tscfreq) {
++        error_setg(errp, "'hv-reenlightenment' requires 'tsc-frequency' to be set");
++        return;
++    }
++
+     /* Hyper-V vendor id */
+     if (!cpu->hyperv_vendor) {
+         memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
+@@ -6846,7 +6859,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Process Hyper-V enlightenments */
+-    x86_cpu_hyperv_realize(cpu);
++    x86_cpu_hyperv_realize(cpu, &local_err);
++    if (local_err != NULL) {
++        error_propagate(errp, local_err);
++        return;
++    }
+ 
+     cpu_exec_realizefn(cs, &local_err);
+     if (local_err != NULL) {
+@@ -7374,6 +7391,8 @@ static Property x86_cpu_properties[] = {
+     DEFINE_PROP_INT32("x-hv-max-vps", X86CPU, hv_max_vps, -1),
+     DEFINE_PROP_BOOL("x-hv-synic-kvm-only", X86CPU, hyperv_synic_kvm_only,
+                      false),
++    DEFINE_PROP_BOOL("x-hv-reenlightenment-requires-tscfreq", X86CPU,
++                     hyperv_reenlightenment_requires_tscfreq, true),
+     DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
+                      true),
+     DEFINE_PROP_END_OF_LIST()
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 570f916878f9..0196a300f018 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1677,6 +1677,7 @@ struct X86CPU {
+     uint32_t hyperv_spinlock_attempts;
+     char *hyperv_vendor;
+     bool hyperv_synic_kvm_only;
++    bool hyperv_reenlightenment_requires_tscfreq;
+     uint64_t hyperv_features;
+     bool hyperv_passthrough;
+     OnOffAuto hyperv_no_nonarch_cs;
+-- 
+2.30.2
 
-Queued to for-6.0/fixes-for-rc2, thanks.
-
---=20
-Alex Benn=C3=A9e
 
