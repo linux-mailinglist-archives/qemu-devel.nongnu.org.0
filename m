@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36526350819
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 22:18:32 +0200 (CEST)
-Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653823507F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 22:16:55 +0200 (CEST)
+Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRhIN-0000kT-4l
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 16:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46818)
+	id 1lRhGo-0000HK-8L
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 16:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
- id 1lRh8m-0006qD-4H
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:08:36 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:60958
+ id 1lRh8n-0006r2-Eq
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:08:38 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:60959
  helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lRh8k-0002xU-7H
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:08:35 -0400
+ (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lRh8k-0002xT-67
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 16:08:37 -0400
 Received: by diablo.13thmonkey.org (Postfix, from userid 103)
- id 12BB2C13ADE; Wed, 31 Mar 2021 22:08:30 +0200 (CEST)
+ id 168ECC13793; Wed, 31 Mar 2021 22:08:31 +0200 (CEST)
 From: Reinoud Zandijk <reinoud@NetBSD.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/4] Implements the NetBSD Virtual Machine Monitor
- accelerator
-Date: Wed, 31 Mar 2021 22:07:56 +0200
-Message-Id: <20210331200800.24168-1-reinoud@NetBSD.org>
+Subject: [PATCH v6 1/4] Add NVMM accelerator: configure and build logic
+Date: Wed, 31 Mar 2021 22:07:57 +0200
+Message-Id: <20210331200800.24168-2-reinoud@NetBSD.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210331200800.24168-1-reinoud@NetBSD.org>
+References: <20210331200800.24168-1-reinoud@NetBSD.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=80.100.255.32;
@@ -56,120 +57,232 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NetBSD team has been working hard on a new user-mode API for our
-hypervisor that will be released as part of the upcoming NetBSD 9.0.
-
-The NetBSD team has implemented its new hypervisor called NVMM. It has been
-included since NetBSD 9.0 and has been in use now for quite some time. NVMM
-adds user-mode capabilities to create and manage virtual machines, configure
-memory mappings for guest machines, and create and control execution of
-virtual processors.
-
-With this new API we are now able to bring our hypervisor to the QEMU
-community! The following patches implement the NetBSD Virtual Machine Monitor
-accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
-
-When compiling QEMU for x86_64 it will autodetect nvmm and will compile the
-accelerator for use if found. At runtime using the '-accel nvmm' should see a
-significant performance improvement over emulation, much like when using 'hax'
-on NetBSD.
-
-The documentation for this new API is visible at https://man.netbsd.org under
-the libnvmm(3) and nvmm(4) pages.
-
-NVMM was designed and implemented by Maxime Villard <max@m00nbsd.net>
-
-Thank you for your feedback.
-
-Refrences:
-https://m00nbsd.net/4e0798b7f2620c965d0dd9d6a7a2f296.html
-
-
-Test plan:
-
-1. Download a NetBSD 9.1 release:
-http://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/amd64/installation/cdrom/boot.iso
-
-2. Install it natively on a not too old x86_64 hardware (Intel or AMD).
-
-There is no support for nested virtualization in NVMM.
-
-3. Setup the system.
-
- export PKG_PATH=http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/9.0/All/
- pkg_add git gmake python37 glib2 bison pkgconf pixman
- 
-Install mozilla-rootcerts and follow post-install instructions.
-
- pkg_add mozilla-rootcerts
-
-More information: https://wiki.qemu.org/Hosts/BSD#NetBSD
-
-4. Build qemu
-
- mkdir build
- cd build
- ../configure --python=python3.7
- gmake
- gmake check
-
-5. Test
-
- qemu -accel nvmm ...
-
-History:
-v5 -> v6:
- - Ported to updated Qemu 6.0 build system and reshuffeling and refactoring
- - Improved auto detection
- - Added support for improved NVMM interface fixing feedback on the use of
-   signals
-v4 -> v5:
- - Mainly cosmetic
- - Automatic detection
-v3 -> v4:
- - Correct build warning by adding a missing include
- - Do not set R8-R16 registers unless TARGET_X86_64
-v2 -> v3:
- - Register nvmm in targetos NetBSD check
- - Stop including hw/boards.h
- - Rephrase old code comments (remove XXX)
-v1 -> v2:
- - Included the testing plan as requested by Philippe Mathieu-Daude
- - Formatting nit fix in qemu-options.hx
- - Document NVMM in the accel section of qemu-options.hx
-
-
 Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
 Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
 
+---
+ accel/Kconfig     |  3 +++
+ configure         | 12 +++++++++---
+ meson.build       | 23 ++++++++++++++++++++---
+ meson_options.txt |  2 ++
+ qemu-options.hx   |  8 ++++----
+ 5 files changed, 38 insertions(+), 10 deletions(-)
 
-Reinoud Zandijk (4):
-  Add NVMM accelerator: configure and build logic
-  Add NVMM accelerator: x86 CPU support
-  Add NVMM accelerator: acceleration enlightenments
-  Add NVMM Accelerator: add maintainers for NetBSD/NVMM
-
- MAINTAINERS                       |   11 +
- accel/Kconfig                     |    3 +
- configure                         |   12 +-
- include/sysemu/hw_accel.h         |    1 +
- include/sysemu/nvmm.h             |   26 +
- meson.build                       |   23 +-
- meson_options.txt                 |    2 +
- qemu-options.hx                   |    8 +-
- target/i386/helper.c              |    2 +-
- target/i386/meson.build           |    1 +
- target/i386/nvmm/meson.build      |    4 +
- target/i386/nvmm/nvmm-accel-ops.c |  111 +++
- target/i386/nvmm/nvmm-accel-ops.h |   25 +
- target/i386/nvmm/nvmm-all.c       | 1231 +++++++++++++++++++++++++++++
- 14 files changed, 1449 insertions(+), 11 deletions(-)
- create mode 100644 include/sysemu/nvmm.h
- create mode 100644 target/i386/nvmm/meson.build
- create mode 100644 target/i386/nvmm/nvmm-accel-ops.c
- create mode 100644 target/i386/nvmm/nvmm-accel-ops.h
- create mode 100644 target/i386/nvmm/nvmm-all.c
-
+diff --git a/accel/Kconfig b/accel/Kconfig
+index 461104c771..8bdedb7d15 100644
+--- a/accel/Kconfig
++++ b/accel/Kconfig
+@@ -1,6 +1,9 @@
+ config WHPX
+     bool
+ 
++config NVMM
++    bool
++
+ config HAX
+     bool
+ 
+diff --git a/configure b/configure
+index 535e6a9269..0d4e6dd521 100755
+--- a/configure
++++ b/configure
+@@ -352,6 +352,7 @@ kvm="auto"
+ hax="auto"
+ hvf="auto"
+ whpx="auto"
++nvmm="auto"
+ rdma="$default_feature"
+ pvrdma="$default_feature"
+ gprof="no"
+@@ -886,7 +887,7 @@ for opt do
+   ;;
+   --python=*) python="$optarg" ; explicit_python=yes
+   ;;
+-  --sphinx-build=*) sphinx_build="$optarg"
++  --sphinx-build-3.8-3.8=*) sphinx_build="$optarg"
+   ;;
+   --skip-meson) skip_meson=yes
+   ;;
+@@ -1107,6 +1108,10 @@ for opt do
+   ;;
+   --enable-hvf) hvf="enabled"
+   ;;
++  --disable-nvmm) nvmm="disabled"
++  ;;
++  --enable-nvmm) nvmm="enabled"
++  ;;
+   --disable-whpx) whpx="disabled"
+   ;;
+   --enable-whpx) whpx="enabled"
+@@ -1727,7 +1732,7 @@ Advanced options (experts only):
+   --cross-cc-flags-ARCH=   use compiler flags when building ARCH guest tests
+   --make=MAKE              use specified make [$make]
+   --python=PYTHON          use specified python [$python]
+-  --sphinx-build=SPHINX    use specified sphinx-build [$sphinx_build]
++  --sphinx-build-3.8-3.8=SPHINX    use specified sphinx-build-3.8-3.8 [$sphinx_build]
+   --meson=MESON            use specified meson [$meson]
+   --ninja=NINJA            use specified ninja [$ninja]
+   --smbd=SMBD              use specified smbd [$smbd]
+@@ -1848,6 +1853,7 @@ disabled with --disable-FEATURE, default is enabled if available
+   kvm             KVM acceleration support
+   hax             HAX acceleration support
+   hvf             Hypervisor.framework acceleration support
++  nvmm            NVMM acceleration support
+   whpx            Windows Hypervisor Platform acceleration support
+   rdma            Enable RDMA-based migration
+   pvrdma          Enable PVRDMA support
+@@ -6410,7 +6416,7 @@ NINJA=$ninja $meson setup \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+         -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug \
+         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+-        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
++        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
+         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
+         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+diff --git a/meson.build b/meson.build
+index c6f4b0cf5e..e33face775 100644
+--- a/meson.build
++++ b/meson.build
+@@ -87,6 +87,7 @@ if cpu in ['x86', 'x86_64']
+   accelerator_targets += {
+     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
+     'CONFIG_HVF': ['x86_64-softmmu'],
++    'CONFIG_NVMM': ['i386-softmmu', 'x86_64-softmmu'],
+     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
+   }
+ endif
+@@ -170,6 +171,7 @@ version_res = []
+ coref = []
+ iokit = []
+ emulator_link_args = []
++nvmm = []
+ hvf = not_found
+ if targetos == 'windows'
+   socket = cc.find_library('ws2_32')
+@@ -195,6 +197,12 @@ elif targetos == 'openbsd'
+     # Disable OpenBSD W^X if available
+     emulator_link_args = cc.get_supported_link_arguments('-Wl,-z,wxneeded')
+   endif
++elif targetos == 'netbsd'
++  if not get_option('nvmm').disabled()
++    if cc.has_header('nvmm.h')
++      nvmm = cc.find_library('nvmm')
++    endif
++  endif
+ endif
+ 
+ accelerators = []
+@@ -227,6 +235,11 @@ if not get_option('hax').disabled()
+     accelerators += 'CONFIG_HAX'
+   endif
+ endif
++if not get_option('nvmm').disabled()
++  if cc.has_header('nvmm.h', required: get_option('nvmm'))
++    accelerators += 'CONFIG_NVMM'
++  endif
++endif
+ 
+ tcg_arch = config_host['ARCH']
+ if not get_option('tcg').disabled()
+@@ -271,6 +284,9 @@ endif
+ if 'CONFIG_HVF' not in accelerators and get_option('hvf').enabled()
+   error('HVF not available on this platform')
+ endif
++if 'CONFIG_NVMM' not in accelerators and get_option('nvmm').enabled()
++  error('NVMM not available on this platform')
++endif
+ if 'CONFIG_WHPX' not in accelerators and get_option('whpx').enabled()
+   error('WHPX not available on this platform')
+ endif
+@@ -607,7 +623,7 @@ if have_system and not get_option('curses').disabled()
+       has_curses_h = cc.has_header('curses.h', args: curses_compile_args)
+     endif
+     if has_curses_h
+-      curses_libname_list = (targetos == 'windows' ? ['pdcurses'] : ['ncursesw', 'cursesw'])
++      curses_libname_list = (targetos == 'windows' ? ['pdcurses'] : ['ncursesw', 'cursesw', 'curses'])
+       foreach curses_libname : curses_libname_list
+         libcurses = cc.find_library(curses_libname,
+                                     required: false,
+@@ -625,7 +641,7 @@ if have_system and not get_option('curses').disabled()
+     endif
+   endif
+   if not get_option('iconv').disabled()
+-    foreach link_args : [ ['-liconv'], [] ]
++    foreach link_args : [ [], ['-liconv'] ]
+       # Programs will be linked with glib and this will bring in libiconv on FreeBSD.
+       # We need to use libiconv if available because mixing libiconv's headers with
+       # the system libc does not work.
+@@ -2226,7 +2242,7 @@ foreach target : target_dirs
+       'name': 'qemu-system-' + target_name,
+       'gui': false,
+       'sources': files('softmmu/main.c'),
+-      'dependencies': []
++      'dependencies': [nvmm]
+     }]
+     if targetos == 'windows' and (sdl.found() or gtk.found())
+       execs += [{
+@@ -2576,6 +2592,7 @@ if have_system
+   summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
+   summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
+   summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
++  summary_info += {'NVMM support':      config_all.has_key('CONFIG_NVMM')}
+   summary_info += {'Xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
+   if config_host.has_key('CONFIG_XEN_BACKEND')
+     summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
+diff --git a/meson_options.txt b/meson_options.txt
+index 9734019995..91034420a1 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -33,6 +33,8 @@ option('whpx', type: 'feature', value: 'auto',
+        description: 'WHPX acceleration support')
+ option('hvf', type: 'feature', value: 'auto',
+        description: 'HVF acceleration support')
++option('nvmm', type: 'feature', value: 'auto',
++       description: 'NVMM acceleration support')
+ option('xen', type: 'feature', value: 'auto',
+        description: 'Xen backend support')
+ option('xen_pci_passthrough', type: 'feature', value: 'auto',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index fd21002bd6..dadf11fae9 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -26,7 +26,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "-machine [type=]name[,prop[=value][,...]]\n"
+     "                selects emulated machine ('-machine help' for list)\n"
+     "                property accel=accel1[:accel2[:...]] selects accelerator\n"
+-    "                supported accelerators are kvm, xen, hax, hvf, whpx or tcg (default: tcg)\n"
++    "                supported accelerators are kvm, xen, hax, hvf, nvmm, whpx or tcg (default: tcg)\n"
+     "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
+     "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
+     "                mem-merge=on|off controls memory merge support (default: on)\n"
+@@ -58,7 +58,7 @@ SRST
+ 
+     ``accel=accels1[:accels2[:...]]``
+         This is used to enable an accelerator. Depending on the target
+-        architecture, kvm, xen, hax, hvf, whpx or tcg can be available.
++        architecture, kvm, xen, hax, hvf, nvmm, whpx or tcg can be available.
+         By default, tcg is used. If there is more than one accelerator
+         specified, the next one is used if the previous one fails to
+         initialize.
+@@ -135,7 +135,7 @@ ERST
+ 
+ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "-accel [accel=]accelerator[,prop[=value][,...]]\n"
+-    "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
++    "                select accelerator (kvm, xen, hax, hvf, nvmm, whpx or tcg; use 'help' for a list)\n"
+     "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
+     "                kernel-irqchip=on|off|split controls accelerated irqchip support (default=on)\n"
+     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
+@@ -145,7 +145,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+ SRST
+ ``-accel name[,prop=value[,...]]``
+     This is used to enable an accelerator. Depending on the target
+-    architecture, kvm, xen, hax, hvf, whpx or tcg can be available. By
++    architecture, kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By
+     default, tcg is used. If there is more than one accelerator
+     specified, the next one is used if the previous one fails to
+     initialize.
 -- 
 2.29.2
 
