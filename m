@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAF234F782
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 05:30:28 +0200 (CEST)
-Received: from localhost ([::1]:33788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E159F34F79D
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 05:47:32 +0200 (CEST)
+Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRRYp-0004Wa-JZ
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 23:30:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36620)
+	id 1lRRpL-0007Ja-JI
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 23:47:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lRRQi-0002qd-6j
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:22:04 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53064)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lRRo4-0006ui-5K
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:46:12 -0400
+Resent-Date: Tue, 30 Mar 2021 23:46:12 -0400
+Resent-Message-Id: <E1lRRo4-0006ui-5K@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lRRQg-00055o-9M
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:22:03 -0400
-IronPort-SDR: Tb2iRZWzLOhqHvH8E2f0xTo8cSXdjXmP2Log/2aZy3kmWlil2gq9DZOKlTWggP0zjQpvTja4oa
- vF/WGFKSmM7w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="179449781"
-X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="179449781"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2021 20:21:36 -0700
-IronPort-SDR: EGgA1ubdtishb0GZ7v6MUl8GamlmyRRai5rQy+PAyRyCrlN3esGvSS/fLQDKbyT4T61m1ihwp4
- dh/Bc4F2jOYA==
-X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; d="scan'208";a="418454150"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2021 20:21:35 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] virtio-gpu: Update cursor data using blob
-Date: Tue, 30 Mar 2021 20:10:01 -0700
-Message-Id: <20210331031001.1564125-12-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lRRny-00030d-6i
+ for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:46:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1617162355; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KcSeMDNd75MAVX5/4FfDOYVV+rf4tQOcMLGgzETqEc+mlSwGMaymv+h7arBfOEMSp0ovSudkzNDEQWqV8UU3F6R1PIQ12nuu8schZg7TNgkcwJcrm2ruCjACCRa6OjnIrQTiesOBVa0es/vSlfyz/IaY+WsF8oYAIUMSDbm3Pzc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1617162355;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=f+ROndv09rS/kHcnJrfhI0UeLmvkjLSw1YIKq3iYC38=; 
+ b=Qw7jAPr414bbuTlwZL2q/IqAe62vuH0fYM0itn84XjNFugQMfz4W92zc9P9+ryPFbRMo5dRdZAP20GuQfzH98ELu3FxqPX02T1pqOESO/udrYgO3mzhKyCVdd0IpwSY3jcjfwzcvQZI2iCtON0hbfZLt+EMs1U7w40E+pPiEx4s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1617162351742537.2953289581427;
+ Tue, 30 Mar 2021 20:45:51 -0700 (PDT)
 In-Reply-To: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
-References: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 00/11] Add support for Blob resources feature
+Message-ID: <161716235039.402.858795551132956407@72b6d80f974b>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=vivek.kasireddy@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vivek.kasireddy@intel.com
+Date: Tue, 30 Mar 2021 20:45:51 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,60 +67,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: dongwon.kim@intel.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com,
+ tina.zhang@intel.com, kraxel@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a blob is available for the cursor, copy the data from the blob.
-
-Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- hw/display/virtio-gpu.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 642f95a269..c2f5290ffe 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -67,6 +67,7 @@ static void update_cursor_data_simple(VirtIOGPU *g,
- {
-     struct virtio_gpu_simple_resource *res;
-     uint32_t pixels;
-+    void *data;
- 
-     res = virtio_gpu_find_check_resource(g, resource_id, false,
-                                          __func__, NULL);
-@@ -74,14 +75,22 @@ static void update_cursor_data_simple(VirtIOGPU *g,
-         return;
-     }
- 
--    if (pixman_image_get_width(res->image)  != s->current_cursor->width ||
--        pixman_image_get_height(res->image) != s->current_cursor->height) {
--        return;
-+    if (res->blob_size) {
-+        if (res->blob_size < (s->current_cursor->width *
-+                              s->current_cursor->height * 4)) {
-+            return;
-+        }
-+        data = res->blob;
-+    } else {
-+        if (pixman_image_get_width(res->image)  != s->current_cursor->width ||
-+            pixman_image_get_height(res->image) != s->current_cursor->height) {
-+            return;
-+        }
-+        data = pixman_image_get_data(res->image);
-     }
- 
-     pixels = s->current_cursor->width * s->current_cursor->height;
--    memcpy(s->current_cursor->data,
--           pixman_image_get_data(res->image),
-+    memcpy(s->current_cursor->data, data,
-            pixels * sizeof(uint32_t));
- }
- 
--- 
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMzMTAzMTAwMS4xNTY0
+MTI1LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzMxMDMx
+MDAxLjE1NjQxMjUtMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tClN1YmplY3Q6IFtQQVRDSCAw
+MC8xMV0gQWRkIHN1cHBvcnQgZm9yIEJsb2IgcmVzb3VyY2VzIGZlYXR1cmUKCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
+IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
+cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
+Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
+ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
+dC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMzEwMzEwMDEuMTU2NDEy
+NS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20gLT4gcGF0Y2hldy8yMDIxMDMzMTAzMTAwMS4x
+NTY0MTI1LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFu
+Y2ggJ3Rlc3QnCmI0NDZmZDkgdmlydGlvLWdwdTogVXBkYXRlIGN1cnNvciBkYXRhIHVzaW5nIGJs
+b2IKMzIzOWNhNyB2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9zZXRfc2Nhbm91dF9ibG9iCmY1
+MjE5OWUgdmlydGlvLWdwdTogQWRkIGhlbHBlcnMgdG8gY3JlYXRlIGFuZCBkZXN0cm95IGRtYWJ1
+ZiBvYmplY3RzCjFkY2QzNDEgdmlydGlvLWdwdTogQWRkIHZpcnRpb19ncHVfcmVzb3VyY2VfY3Jl
+YXRlX2Jsb2IKNjU1MGRjNyB2aXJ0aW8tZ3B1OiBBZGQgaW5pdGlhbCBkZWZpbml0aW9ucyBmb3Ig
+YmxvYiByZXNvdXJjZXMKZDM5NDYxMiB2aXJ0aW8tZ3B1OiBSZWZhY3RvciB2aXJ0aW9fZ3B1X2Ny
+ZWF0ZV9tYXBwaW5nX2lvdgozNzJkOThjIHZpcnRpby1ncHU6IFJlZmFjdG9yIHZpcnRpb19ncHVf
+c2V0X3NjYW5vdXQKNDNhYThkNSB2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9maW5kX2NoZWNr
+X3Jlc291cmNlCjRlYmRkYmEgdmlydGlvLWdwdTogQWRkIHVkbWFidWYgaGVscGVycwo5NjlkYTQy
+IHVpL3BpeG1hbjogQWRkIHFlbXVfcGl4bWFuX3RvX2RybV9mb3JtYXQoKQpkMzNhZDExIHVpOiBH
+ZXQgdGhlIGZkIGFzc29jaWF0ZWQgd2l0aCB1ZG1hYnVmIGRyaXZlcgoKPT09IE9VVFBVVCBCRUdJ
+TiA9PT0KMS8xMSBDaGVja2luZyBjb21taXQgZDMzYWQxMWNlNjlmICh1aTogR2V0IHRoZSBmZCBh
+c3NvY2lhdGVkIHdpdGggdWRtYWJ1ZiBkcml2ZXIpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVl
+ICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
+cGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0NDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
+Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDU0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEv
+MTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8xMSBDaGVja2luZyBjb21taXQgOTY5ZGE0
+MjNkZDk1ICh1aS9waXhtYW46IEFkZCBxZW11X3BpeG1hbl90b19kcm1fZm9ybWF0KCkpCjMvMTEg
+Q2hlY2tpbmcgY29tbWl0IDRlYmRkYmE3Zjc0YiAodmlydGlvLWdwdTogQWRkIHVkbWFidWYgaGVs
+cGVycykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0
+cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzM5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiB1c2UgcWVtdV9yZWFsX2hv
+c3RfcGFnZV9zaXplIGluc3RlYWQgb2YgZ2V0cGFnZXNpemUoKQojMTE5OiBGSUxFOiBody9kaXNw
+bGF5L3ZpcnRpby1ncHUtdWRtYWJ1Zi5jOjc2OgorICAgIHJlcy0+cmVtYXBzeiA9IFFFTVVfQUxJ
+R05fVVAocmVzLT5yZW1hcHN6LCBnZXRwYWdlc2l6ZSgpKTsKCkVSUk9SOiBicmFjZXMge30gYXJl
+IG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzE2OTogRklMRTogaHcv
+ZGlzcGxheS92aXJ0aW8tZ3B1LXVkbWFidWYuYzoxMjY6CisgICAgaWYgKHVkbWFidWYgPCAwKQpb
+Li4uXQoKdG90YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCAyNjUgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMy8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC8xMSBDaGVja2luZyBjb21taXQg
+NDNhYThkNWViNWRkICh2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9maW5kX2NoZWNrX3Jlc291
+cmNlKQo1LzExIENoZWNraW5nIGNvbW1pdCAzNzJkOThjYTYwNGEgKHZpcnRpby1ncHU6IFJlZmFj
+dG9yIHZpcnRpb19ncHVfc2V0X3NjYW5vdXQpCjYvMTEgQ2hlY2tpbmcgY29tbWl0IGQzOTQ2MTI1
+ZmQ5YiAodmlydGlvLWdwdTogUmVmYWN0b3IgdmlydGlvX2dwdV9jcmVhdGVfbWFwcGluZ19pb3Yp
+CjcvMTEgQ2hlY2tpbmcgY29tbWl0IDY1NTBkYzc5MGVlZiAodmlydGlvLWdwdTogQWRkIGluaXRp
+YWwgZGVmaW5pdGlvbnMgZm9yIGJsb2IgcmVzb3VyY2VzKQo4LzExIENoZWNraW5nIGNvbW1pdCAx
+ZGNkMzQxN2VkMGYgKHZpcnRpby1ncHU6IEFkZCB2aXJ0aW9fZ3B1X3Jlc291cmNlX2NyZWF0ZV9i
+bG9iKQo5LzExIENoZWNraW5nIGNvbW1pdCBmNTIxOTllNjRkMTYgKHZpcnRpby1ncHU6IEFkZCBo
+ZWxwZXJzIHRvIGNyZWF0ZSBhbmQgZGVzdHJveSBkbWFidWYgb2JqZWN0cykKV0FSTklORzogbGlu
+ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzUxOiBGSUxFOiBody9kaXNwbGF5L3ZpcnRpby1ncHUtdWRt
+YWJ1Zi5jOjE5NToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+c3RydWN0IHZpcnRpb19ncHVfc2ltcGxlX3Jlc291cmNlICpyZXMsCgp0b3RhbDogMCBlcnJvcnMs
+IDEgd2FybmluZ3MsIDEzMSBsaW5lcyBjaGVja2VkCgpQYXRjaCA5LzExIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjEwLzExIENoZWNraW5nIGNvbW1pdCAzMjM5Y2E3NTU2MjggKHZpcnRpby1n
+cHU6IEFkZCB2aXJ0aW9fZ3B1X3NldF9zY2Fub3V0X2Jsb2IpCldBUk5JTkc6IGxpbmUgb3ZlciA4
+MCBjaGFyYWN0ZXJzCiMxMDQ6IEZJTEU6IGh3L2Rpc3BsYXkvdmlydGlvLWdwdS5jOjc0NDoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNzLnIud2lkdGgsIHNzLnIu
+aGVpZ2h0LCBzcy5yLngsIHNzLnIueSk7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE1
+NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgox
+MS8xMSBDaGVja2luZyBjb21taXQgYjQ0NmZkOTFmZDUzICh2aXJ0aW8tZ3B1OiBVcGRhdGUgY3Vy
+c29yIGRhdGEgdXNpbmcgYmxvYikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhp
+dGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3Bh
+dGNoZXcub3JnL2xvZ3MvMjAyMTAzMzEwMzEwMDEuMTU2NDEyNS0xLXZpdmVrLmthc2lyZWRkeUBp
+bnRlbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
+cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
+ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
