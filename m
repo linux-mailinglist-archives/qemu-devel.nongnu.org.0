@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F6834F82E
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 06:59:15 +0200 (CEST)
-Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCBA34F836
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 07:01:39 +0200 (CEST)
+Received: from localhost ([::1]:33722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRSwj-0002e1-Ku
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 00:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51160)
+	id 1lRSz4-0003cz-UD
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 01:01:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mpe@ellerman.id.au>)
- id 1lRSvs-00028v-Mi; Wed, 31 Mar 2021 00:58:21 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42183)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRSx7-00037U-IC
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 00:59:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mpe@ellerman.id.au>)
- id 1lRSvp-0006a0-V5; Wed, 31 Mar 2021 00:58:20 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4F9DbH4cWMz9sWK;
- Wed, 31 Mar 2021 15:58:03 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
- s=201909; t=1617166685;
- bh=rNPeANeJb0IEtwHXdF9sChKGAGD6QUedZ3TobGs/FM4=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=FyQ5LkPaOgxj1LwhFBphElivqB2Ss/vC+7pes7mZxB8LA+wPisdbL223ugv2ALdaX
- MusLl+14Md130ajqpxRCmceRfe76U4Z9x7qzWOrUa//drPZXf5lW38ubLeeAEVYm/j
- zKY8tQ13d/TZD5qEdnulFq6sM+LNpP8cPgRPNhxL/8HzC8EGhP5gh9tQLE3STdasDz
- KJl7XAQT55wWPWydsNeO4Odkjf2aMQF7PnhsbBnR7acvz9khIVWY1CpqBlI+WT8Jl/
- ncJ88OzQEFTnF0VUpYtBynuLyfv9F8kVttX+JSB0SlVyEW6meq2xNNAykusM06w41D
- nR56Nx2UqYnKA==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: David Gibson <david@gibson.dropbear.id.au>, Daniel Henrique Barboza
- <danielhb413@gmail.com>
-Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
- nodes
-In-Reply-To: <YGPI5vgoI8JDO1HN@yekko.fritz.box>
-References: <20210319183453.4466-1-danielhb413@gmail.com>
- <20210319183453.4466-2-danielhb413@gmail.com>
- <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
- <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
- <YFvxAW3l4t+YznEm@yekko.fritz.box>
- <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
- <YGFVc2lBhvzm5CSa@yekko.fritz.box>
- <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
- <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
- <YGPI5vgoI8JDO1HN@yekko.fritz.box>
-Date: Wed, 31 Mar 2021 15:58:03 +1100
-Message-ID: <87blazyl5w.fsf@mpe.ellerman.id.au>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRSx2-0007P2-QH
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 00:59:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617166771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y+nqg9kgw6h4oxEmAf0mdT7/1zov9Tsq21mXGHgAEqU=;
+ b=cYpI84s6wN96MNMhQKu5OlOO7dpWIX9tUOR2c3gXcVewLeBwT9l3c6gW4Bx5O3Ku0C2ETu
+ sNbg3nIrgZrmeZgGBsE/0m2lb4v5pzdWoj6qdYm3/9ycFdGLrd8dKNcLX8hQ98YqDWkDLN
+ Xl+VJt89ecBI6BrDGWvYQuedbJr24SQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-aHsPk6hUMHCyPTfQ7HuDEQ-1; Wed, 31 Mar 2021 00:59:27 -0400
+X-MC-Unique: aHsPk6hUMHCyPTfQ7HuDEQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD259107ACCA;
+ Wed, 31 Mar 2021 04:59:26 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-75.ams2.redhat.com [10.36.112.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF4EA6E71D;
+ Wed, 31 Mar 2021 04:59:25 +0000 (UTC)
+Subject: Re: Planning wiki page is outdated (says 5.0 is currently in
+ development)
+To: Rebecca Cran <rebecca@nuviainc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <c6a2d07b-4406-9a52-92f9-286911c79dd3@nuviainc.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c91deb8c-085e-d691-9ed7-b039a3d8bce9@redhat.com>
+Date: Wed, 31 Mar 2021 06:59:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=mpe@ellerman.id.au;
- helo=ozlabs.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <c6a2d07b-4406-9a52-92f9-286911c79dd3@nuviainc.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,41 +83,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Srikar Dronamraju <srikar@linux.vnet.ibm.com>, groug@kaod.org,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
-> On Mon, Mar 29, 2021 at 03:32:37PM -0300, Daniel Henrique Barboza wrote:
-...
->
->> We assign ibm,chip-id=0x0 to CPUs 0-3, but CPUs 2-3 are located in a
->> different NUMA node than 0-1. This would mean that the same socket
->> would belong to different NUMA nodes at the same time.
->
-> Right... and I'm still not seeing why that's a problem.  AFAICT that's
-> a possible, if unexpected, situation under real hardware - though
-> maybe not for POWER9 specifically.
+On 31/03/2021 04.53, Rebecca Cran wrote:
+> I noticed https://wiki.qemu.org/Planning is outdated: 6.0 is listed under 
+> Planning Pages, but at the top it says 5.0 is the release that's currently 
+> in development.
 
-I think I agree.
+Thanks for the hint! I've simply removed that link now since we apparently 
+forgot to update it since a year already.
 
->> I believe this is what Cedric wants to be addressed. Given that the
->> property is called after the OPAL property ibm,chip-id, the kernel
->> expects that the property will have the same semantics as in OPAL.
->
-> Even on powernv, I'm not clear why chip-id is tied into the NUMA
-> configuration, rather than getting all the NUMA info from
-> associativity properties.
+  Thomas
 
-AFAIK we don't use chip-id for anything related to NUMA, if we do I'd
-consider that a bug.
 
-We do use it for topology_physical_package_id(), but that's almost
-completely unused.
-
-cheers
 
