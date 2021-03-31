@@ -2,57 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E159F34F79D
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 05:47:32 +0200 (CEST)
-Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA62734F7A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 05:51:08 +0200 (CEST)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRRpL-0007Ja-JI
-	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 23:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39816)
+	id 1lRRsq-0008To-0S
+	for lists+qemu-devel@lfdr.de; Tue, 30 Mar 2021 23:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lRRo4-0006ui-5K
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:46:12 -0400
-Resent-Date: Tue, 30 Mar 2021 23:46:12 -0400
-Resent-Message-Id: <E1lRRo4-0006ui-5K@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21393)
+ (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
+ id 1lRRrb-0007xu-C1; Tue, 30 Mar 2021 23:49:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lRRny-00030d-6i
- for qemu-devel@nongnu.org; Tue, 30 Mar 2021 23:46:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1617162355; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KcSeMDNd75MAVX5/4FfDOYVV+rf4tQOcMLGgzETqEc+mlSwGMaymv+h7arBfOEMSp0ovSudkzNDEQWqV8UU3F6R1PIQ12nuu8schZg7TNgkcwJcrm2ruCjACCRa6OjnIrQTiesOBVa0es/vSlfyz/IaY+WsF8oYAIUMSDbm3Pzc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1617162355;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=f+ROndv09rS/kHcnJrfhI0UeLmvkjLSw1YIKq3iYC38=; 
- b=Qw7jAPr414bbuTlwZL2q/IqAe62vuH0fYM0itn84XjNFugQMfz4W92zc9P9+ryPFbRMo5dRdZAP20GuQfzH98ELu3FxqPX02T1pqOESO/udrYgO3mzhKyCVdd0IpwSY3jcjfwzcvQZI2iCtON0hbfZLt+EMs1U7w40E+pPiEx4s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1617162351742537.2953289581427;
- Tue, 30 Mar 2021 20:45:51 -0700 (PDT)
-In-Reply-To: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 00/11] Add support for Blob resources feature
-Message-ID: <161716235039.402.858795551132956407@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
+ id 1lRRrZ-0005Am-IS; Tue, 30 Mar 2021 23:49:51 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12V3X2MJ033526; Tue, 30 Mar 2021 23:49:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=UGudfjMlEZLfqlVSDmOnmDyvQ96ap/6ySNEkNaXapKw=;
+ b=GTM9yj3DTlZ+CObdWSTnW7Ti60AIpB1DD8bx/5JfermBikCns6FKGLVRq1ETpjXyKxoC
+ M3vtxB9eXlFItXnfEhduT3noYYDUM5j9h94OydqzV7Pt1zhOesv4IIx854LMNsO9bnkM
+ a78JOmjlRHK3dhFZihAupQ/bQFtANmh6TeKLJscLEKBZzIJcSVWU8AMV+GA7Ggt/vpBp
+ ymwW3emIn/WK1EhRswureNr0iADPHJ8rinK+lbdRrBEzf8cQ/7uXgKjxDBjHoC2jFvjZ
+ jWy/PLPAAAd8kMwy6cpyxsL70EH2kz6ayKLDKflqmX1HsUYtZZ2BS23OQmLeLFy/ORX+ mg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37mb4qytu6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Mar 2021 23:49:37 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12V3YmCp043540;
+ Tue, 30 Mar 2021 23:49:36 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37mb4qyttn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 Mar 2021 23:49:36 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12V3mcq9030521;
+ Wed, 31 Mar 2021 03:49:34 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma02fra.de.ibm.com with ESMTP id 37maaqr4a8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 Mar 2021 03:49:34 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 12V3nCLI19857854
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 31 Mar 2021 03:49:12 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EB88F11C058;
+ Wed, 31 Mar 2021 03:49:31 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07B0911C04A;
+ Wed, 31 Mar 2021 03:49:28 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.199.35.103])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 31 Mar 2021 03:49:27 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
+ Wed, 31 Mar 2021 09:19:26 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] ppc/spapr: Add support for implement support for
+ H_SCM_HEALTH
+In-Reply-To: <YGO488mqe2RMHBiu@yekko.fritz.box>
+References: <20210329162259.536964-1-vaibhav@linux.ibm.com>
+ <20210330161437.45872897@bahia.lan> <87r1jwpo3p.fsf@vajain21.in.ibm.com>
+ <YGO488mqe2RMHBiu@yekko.fritz.box>
+Date: Wed, 31 Mar 2021 09:19:26 +0530
+Message-ID: <87o8f0oud5.fsf@vajain21.in.ibm.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 3l4_Pp94MnAf2UruDvx2Q97Q3CG-PIJJ
+X-Proofpoint-ORIG-GUID: Vu5cKAMR9g1BQsQvQjgcVMnbtcKqz1wo
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vivek.kasireddy@intel.com
-Date: Tue, 30 Mar 2021 20:45:51 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-31_01:2021-03-30,
+ 2021-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1015 adultscore=0 malwarescore=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2103300000 definitions=main-2103310024
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=vaibhav@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -67,90 +112,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: dongwon.kim@intel.com, qemu-devel@nongnu.org, vivek.kasireddy@intel.com,
- tina.zhang@intel.com, kraxel@redhat.com, marcandre.lureau@redhat.com
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
+ Greg Kurz <groug@kaod.org>, kvm-ppc@vger.kernel.org, qemu-devel@nongnu.org,
+ shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
+ imammedo@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDMzMTAzMTAwMS4xNTY0
-MTI1LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMzMxMDMx
-MDAxLjE1NjQxMjUtMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tClN1YmplY3Q6IFtQQVRDSCAw
-MC8xMV0gQWRkIHN1cHBvcnQgZm9yIEJsb2IgcmVzb3VyY2VzIGZlYXR1cmUKCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
-ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
-dC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAzMzEwMzEwMDEuMTU2NDEy
-NS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20gLT4gcGF0Y2hldy8yMDIxMDMzMTAzMTAwMS4x
-NTY0MTI1LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFu
-Y2ggJ3Rlc3QnCmI0NDZmZDkgdmlydGlvLWdwdTogVXBkYXRlIGN1cnNvciBkYXRhIHVzaW5nIGJs
-b2IKMzIzOWNhNyB2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9zZXRfc2Nhbm91dF9ibG9iCmY1
-MjE5OWUgdmlydGlvLWdwdTogQWRkIGhlbHBlcnMgdG8gY3JlYXRlIGFuZCBkZXN0cm95IGRtYWJ1
-ZiBvYmplY3RzCjFkY2QzNDEgdmlydGlvLWdwdTogQWRkIHZpcnRpb19ncHVfcmVzb3VyY2VfY3Jl
-YXRlX2Jsb2IKNjU1MGRjNyB2aXJ0aW8tZ3B1OiBBZGQgaW5pdGlhbCBkZWZpbml0aW9ucyBmb3Ig
-YmxvYiByZXNvdXJjZXMKZDM5NDYxMiB2aXJ0aW8tZ3B1OiBSZWZhY3RvciB2aXJ0aW9fZ3B1X2Ny
-ZWF0ZV9tYXBwaW5nX2lvdgozNzJkOThjIHZpcnRpby1ncHU6IFJlZmFjdG9yIHZpcnRpb19ncHVf
-c2V0X3NjYW5vdXQKNDNhYThkNSB2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9maW5kX2NoZWNr
-X3Jlc291cmNlCjRlYmRkYmEgdmlydGlvLWdwdTogQWRkIHVkbWFidWYgaGVscGVycwo5NjlkYTQy
-IHVpL3BpeG1hbjogQWRkIHFlbXVfcGl4bWFuX3RvX2RybV9mb3JtYXQoKQpkMzNhZDExIHVpOiBH
-ZXQgdGhlIGZkIGFzc29jaWF0ZWQgd2l0aCB1ZG1hYnVmIGRyaXZlcgoKPT09IE9VVFBVVCBCRUdJ
-TiA9PT0KMS8xMSBDaGVja2luZyBjb21taXQgZDMzYWQxMWNlNjlmICh1aTogR2V0IHRoZSBmZCBh
-c3NvY2lhdGVkIHdpdGggdWRtYWJ1ZiBkcml2ZXIpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVl
-ICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
-cGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
-b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0NDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
-Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDU0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEv
-MTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8xMSBDaGVja2luZyBjb21taXQgOTY5ZGE0
-MjNkZDk1ICh1aS9waXhtYW46IEFkZCBxZW11X3BpeG1hbl90b19kcm1fZm9ybWF0KCkpCjMvMTEg
-Q2hlY2tpbmcgY29tbWl0IDRlYmRkYmE3Zjc0YiAodmlydGlvLWdwdTogQWRkIHVkbWFidWYgaGVs
-cGVycykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0
-cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFk
-ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
-dGluZz8KIzM5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiB1c2UgcWVtdV9yZWFsX2hv
-c3RfcGFnZV9zaXplIGluc3RlYWQgb2YgZ2V0cGFnZXNpemUoKQojMTE5OiBGSUxFOiBody9kaXNw
-bGF5L3ZpcnRpby1ncHUtdWRtYWJ1Zi5jOjc2OgorICAgIHJlcy0+cmVtYXBzeiA9IFFFTVVfQUxJ
-R05fVVAocmVzLT5yZW1hcHN6LCBnZXRwYWdlc2l6ZSgpKTsKCkVSUk9SOiBicmFjZXMge30gYXJl
-IG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzE2OTogRklMRTogaHcv
-ZGlzcGxheS92aXJ0aW8tZ3B1LXVkbWFidWYuYzoxMjY6CisgICAgaWYgKHVkbWFidWYgPCAwKQpb
-Li4uXQoKdG90YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCAyNjUgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggMy8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC8xMSBDaGVja2luZyBjb21taXQg
-NDNhYThkNWViNWRkICh2aXJ0aW8tZ3B1OiBBZGQgdmlydGlvX2dwdV9maW5kX2NoZWNrX3Jlc291
-cmNlKQo1LzExIENoZWNraW5nIGNvbW1pdCAzNzJkOThjYTYwNGEgKHZpcnRpby1ncHU6IFJlZmFj
-dG9yIHZpcnRpb19ncHVfc2V0X3NjYW5vdXQpCjYvMTEgQ2hlY2tpbmcgY29tbWl0IGQzOTQ2MTI1
-ZmQ5YiAodmlydGlvLWdwdTogUmVmYWN0b3IgdmlydGlvX2dwdV9jcmVhdGVfbWFwcGluZ19pb3Yp
-CjcvMTEgQ2hlY2tpbmcgY29tbWl0IDY1NTBkYzc5MGVlZiAodmlydGlvLWdwdTogQWRkIGluaXRp
-YWwgZGVmaW5pdGlvbnMgZm9yIGJsb2IgcmVzb3VyY2VzKQo4LzExIENoZWNraW5nIGNvbW1pdCAx
-ZGNkMzQxN2VkMGYgKHZpcnRpby1ncHU6IEFkZCB2aXJ0aW9fZ3B1X3Jlc291cmNlX2NyZWF0ZV9i
-bG9iKQo5LzExIENoZWNraW5nIGNvbW1pdCBmNTIxOTllNjRkMTYgKHZpcnRpby1ncHU6IEFkZCBo
-ZWxwZXJzIHRvIGNyZWF0ZSBhbmQgZGVzdHJveSBkbWFidWYgb2JqZWN0cykKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzUxOiBGSUxFOiBody9kaXNwbGF5L3ZpcnRpby1ncHUtdWRt
-YWJ1Zi5jOjE5NToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-c3RydWN0IHZpcnRpb19ncHVfc2ltcGxlX3Jlc291cmNlICpyZXMsCgp0b3RhbDogMCBlcnJvcnMs
-IDEgd2FybmluZ3MsIDEzMSBsaW5lcyBjaGVja2VkCgpQYXRjaCA5LzExIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjEwLzExIENoZWNraW5nIGNvbW1pdCAzMjM5Y2E3NTU2MjggKHZpcnRpby1n
-cHU6IEFkZCB2aXJ0aW9fZ3B1X3NldF9zY2Fub3V0X2Jsb2IpCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiMxMDQ6IEZJTEU6IGh3L2Rpc3BsYXkvdmlydGlvLWdwdS5jOjc0NDoKKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNzLnIud2lkdGgsIHNzLnIu
-aGVpZ2h0LCBzcy5yLngsIHNzLnIueSk7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE1
-NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgox
-MS8xMSBDaGVja2luZyBjb21taXQgYjQ0NmZkOTFmZDUzICh2aXJ0aW8tZ3B1OiBVcGRhdGUgY3Vy
-c29yIGRhdGEgdXNpbmcgYmxvYikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhp
-dGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3Bh
-dGNoZXcub3JnL2xvZ3MvMjAyMTAzMzEwMzEwMDEuMTU2NDEyNS0xLXZpdmVrLmthc2lyZWRkeUBp
-bnRlbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
-cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
-ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Thanks for looking into this patch,
+
+David Gibson <david@gibson.dropbear.id.au> writes:
+
+<snip>
+>> H_SCM_HEALTH specifications is already documented in linux kernel
+>> documentation at
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst
+>
+> Putting a reference to that in the commit message would be a good idea.
+>
+Yes, its already part of v1 patch description as reference [1].
+
+<snip>
+>> >
+>> > Having access to the excerpts from the PAPR addendum that describes
+>> > this hcall would _really_ help in reviewing.
+>> >
+>> The kernel documentation for H_SCM_HEALTH mentioned above captures most
+>> if not all parts of the PAPR addendum for this hcall. I believe it
+>> contains enough information to review the patch. If you still need more
+>> info than please let me know.
+>
+> We've missed the qemu-6.0 cutoff, so this will be 6.1 material.  I'll
+> await v2 for further review.
+>
+Agree. Will send a v2 today incorporating current review comments.
+
+
+-- 
+Cheers
+~ Vaibhav
 
