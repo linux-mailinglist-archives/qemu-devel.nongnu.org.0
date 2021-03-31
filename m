@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB3A34FC12
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:02:52 +0200 (CEST)
-Received: from localhost ([::1]:43774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3920834FC1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:04:42 +0200 (CEST)
+Received: from localhost ([::1]:47434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRWkV-0007Or-A2
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
+	id 1lRWmH-0000T1-9t
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1lRWhx-0006O7-S4; Wed, 31 Mar 2021 05:00:13 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4490)
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lRWiU-0006Y8-CC; Wed, 31 Mar 2021 05:00:46 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1lRWhu-00040h-A0; Wed, 31 Mar 2021 05:00:13 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F9Kvx2qMjzyNL0;
- Wed, 31 Mar 2021 16:57:49 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 31 Mar 2021 16:59:44 +0800
-Subject: Re: [PATCH] target/arm: Make number of counters in PMCR follow the CPU
-To: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20210311165947.27470-1-peter.maydell@linaro.org>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <431943c3-a603-7426-273f-b5a00f10ce41@huawei.com>
-Date: Wed, 31 Mar 2021 16:59:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lRWiJ-0004Lw-Od; Wed, 31 Mar 2021 05:00:45 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9KwX0zlmz1BFsX;
+ Wed, 31 Mar 2021 16:58:20 +0800 (CST)
+Received: from [10.174.185.226] (10.174.185.226) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 31 Mar 2021 17:00:17 +0800
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
+ <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
+References: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
+From: Wang Xingang <wangxingang5@huawei.com>
+Subject: Re: [PATCH RFC RESEND v2 0/6] Introduce IOMMU Option For PCI Root Bus
+Message-ID: <43d4c60f-f290-8b6e-08ec-9974265b9f62@huawei.com>
+Date: Wed, 31 Mar 2021 17:00:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20210311165947.27470-1-peter.maydell@linaro.org>
+In-Reply-To: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.185.226]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=yuzenghui@huawei.com;
- helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=wangxingang5@huawei.com; helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -59,69 +61,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- Marc Zyngier <maz@kernel.org>, Leif Lindholm <leif@nuviainc.com>,
- kvmarm@lists.cs.columbia.edu, wanghaibin.wang@huawei.com
+Cc: xieyingtai@huawei.com, cenjiahui@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[+kvmarm, Marc]
+Hi, everyone!
 
-On 2021/3/12 0:59, Peter Maydell wrote:
-> Currently we give all the v7-and-up CPUs a PMU with 4 counters.  This
-> means that we don't provide the 6 counters that are required by the
-> Arm BSA (Base System Architecture) specification if the CPU supports
-> the Virtualization extensions.
+Do you have any suggestions about this iommu configuration feature?
+Please help review these patches, thanks very much.
+
+On 2021/3/25 15:22, Wang Xingang wrote:
+> From: Xingang Wang <wangxingang5@huawei.com>
 > 
-> Instead of having a single PMCR_NUM_COUNTERS, make each CPU type
-> specify the PMCR reset value (obtained from the appropriate TRM), and
-> use the 'N' field of that value to define the number of counters
-> provided.
+> These patches add support for configure iommu on/off for pci root bus,
+> including primary bus and pxb root bus. At present, All root bus
+> will go through iommu when iommu is configured, which is not flexible.
 > 
-> This means that we now supply 6 counters for Cortex-A53, A57, A72,
-> A15 and A9 as well as '-cpu max'; Cortex-A7 and A8 stay at 4; and
-> Cortex-R5 goes down to 3.
+> So this add option to enable/disable iommu for primary bus and pxb
+> root bus.  When iommu is enabled for the root bus, devices attached to it
+> will go through iommu. When iommu is disabled for the root bus, devices
+> will not go through iommu accordingly.
 > 
-> Note that because we now use the PMCR reset value of the specific
-> implementation, we no longer set the LC bit out of reset.  This has
-> an UNKNOWN value out of reset for all cores with any AArch32 support,
-> so guest software should be setting it anyway if it wants it.
+> The option example for iommu configuration is like the following:
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> This is pretty much untested (I just checked Linux still boots;
-> haven't tried it with KVM either). It's an alternative to
-> just bumping PMCR_NUM_COUNTERS to 6.
-
-So I've tested it with kvm and I get the following error before
-VM startup:
-
-   "qemu-system-aarch64: Failed to retrieve host CPU features"
-
-> ---
->   target/arm/cpu.h     |  1 +
->   target/arm/cpu64.c   |  3 +++
->   target/arm/cpu_tcg.c |  5 +++++
->   target/arm/helper.c  | 29 +++++++++++++++++------------
->   target/arm/kvm64.c   |  2 ++
->   5 files changed, 28 insertions(+), 12 deletions(-)
-
-[...]
-
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index dff85f6db94..581335e49d3 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -566,6 +566,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->                                 ARM64_SYS_REG(3, 0, 0, 7, 1));
->           err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
->                                 ARM64_SYS_REG(3, 0, 0, 7, 2));
-> +        err |= read_sys_reg64(fdarray[2], &ahcf->isar.reset_pmcr_el0,
-> +                              ARM64_SYS_REG(3, 3, 9, 12, 0));
-
-Looks like we tried to access PMCR_EL0 *before* telling kvm that
-KVM_ARM_VCPU_PMU_V3 feature should be supported, which is now
-refused by kvm [*].
-
-[*] https://git.kernel.org/torvalds/c/11663111cd49
+> primary root bus option:
+> arm: -machine virt iommu=smmuv3,primary_bus_iommu=false(or true)
+> x86: -machine q35,primary_bus_iommu=false(or true)
+> 
+> pxb root bus:
+>   -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3.0x1,iommu=false
+> 
+> History:
+> 
+> v1 -> v2:
+> - rebase on top of v6.0.0-rc0
+> - Fix some issues
+> - Took into account Eric's comments, and remove the PCI_BUS_IOMMU flag,
+>    replace it with a property in PCIHostState.
+> - Add support for x86 iommu option
+> 
+> Xingang Wang (6):
+>    hw/pci/pci_host: Add iommu property for pci host
+>    hw/pci: Add iommu option for pci root bus
+>    hw/pci: Add pci_root_bus_max_bus
+>    hw/arm/virt-acpi-build: Add explicit idmap info in IORT table
+>    hw/i386/acpi-build: Add explicit scope in DMAR table
+>    hw/i386/acpi-build: Add iommu filter in IVRS table
+> 
+>   hw/arm/virt-acpi-build.c            | 103 ++++++++++++++++++++++------
+>   hw/arm/virt.c                       |  25 +++++++
+>   hw/i386/acpi-build.c                |  70 ++++++++++++++++++-
+>   hw/i386/pc.c                        |  19 +++++
+>   hw/pci-bridge/pci_expander_bridge.c |   3 +
+>   hw/pci-host/q35.c                   |   1 +
+>   hw/pci/pci.c                        |  52 +++++++++++++-
+>   hw/pci/pci_host.c                   |   2 +
+>   include/hw/arm/virt.h               |   1 +
+>   include/hw/i386/pc.h                |   1 +
+>   include/hw/pci/pci.h                |   2 +
+>   include/hw/pci/pci_host.h           |   1 +
+>   12 files changed, 254 insertions(+), 26 deletions(-)
+> 
 
