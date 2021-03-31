@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6447734F8C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:32:02 +0200 (CEST)
-Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BA434F8CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:33:02 +0200 (CEST)
+Received: from localhost ([::1]:50324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRUOX-0008OT-DI
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37032)
+	id 1lRUPV-0001Ve-Kv
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRUIJ-0004Xl-Q9; Wed, 31 Mar 2021 02:25:36 -0400
-Received: from ozlabs.org ([203.11.71.1]:54609)
+ id 1lRUIL-0004Zd-3h; Wed, 31 Mar 2021 02:25:37 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:57469 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRUIG-0000ov-4b; Wed, 31 Mar 2021 02:25:35 -0400
+ id 1lRUII-0000oy-61; Wed, 31 Mar 2021 02:25:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F9GX667VZz9sWT; Wed, 31 Mar 2021 17:25:26 +1100 (AEDT)
+ id 4F9GX709tlz9sWX; Wed, 31 Mar 2021 17:25:26 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1617171926;
- bh=IAXTeCAYq9UAhT4FZCaUQxfKJxQcGMr2ZL37dSw0zEk=;
+ d=gibson.dropbear.id.au; s=201602; t=1617171927;
+ bh=ZbUZUTlF8jf5aE4OwXCN/W/eDeVgxYnFh4FTht1TnKw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eHK/EfqhEBKjCuKDJ5cCbAwZ4DP+kkfxhZAifmA+Y+iYVI/ZzbVZsLOAXbpfO1Vt2
- bhb2yr841VlSJHqNZNb1EBo8VgwfQgNoo6kJ7Bx2a+6vj8CByGkmn2E7KPp/199HFL
- mr2slqlVgltRVisNegW+DZKxhLVUvuaOgJwMuU4E=
+ b=E2F52+tw5QHSo6d7PtrnTG33Izz85LheGxTw8m/480BKEhFFwUZFO12VIZ7RBaBzX
+ oJBhkA+tthbXrT60ElkGT5Yr3e0J7/1Rdr8LeYw+POiUajmM5ZBP2CI283GA4p9Ck3
+ zENlyuAj1jvFOSrSQ9HuI3KOfHqOVvAb6Ydv4bU8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 2/5] target/ppc/kvm: Cache timebase frequency
-Date: Wed, 31 Mar 2021 17:25:21 +1100
-Message-Id: <20210331062524.335749-3-david@gibson.dropbear.id.au>
+Subject: [PULL 3/5] spapr: Assert DIMM unplug state in spapr_memory_unplug()
+Date: Wed, 31 Mar 2021 17:25:22 +1100
+Message-Id: <20210331062524.335749-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210331062524.335749-1-david@gibson.dropbear.id.au>
 References: <20210331062524.335749-1-david@gibson.dropbear.id.au>
@@ -57,105 +57,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Each vCPU core exposes its timebase frequency in the DT. When running
-under KVM, this means parsing /proc/cpuinfo in order to get the timebase
-frequency of the host CPU.
+spapr_memory_unplug() is the last step of the hot unplug sequence.
+It is indirectly called by:
 
-The parsing appears to slow down the boot quite a bit with higher number
-of cores:
+ spapr_lmb_release()
+  hotplug_handler_unplug()
 
-# of cores     seconds spent in spapr_dt_cpus()
-      8                  0.550122
-     16                  1.342375
-     32                  2.850316
-     64                  5.922505
-     96                  9.109224
-    128                 12.245504
-    256                 24.957236
-    384                 37.389113
+and spapr_lmb_release() already buys us that DIMM unplug state is
+present : it gets restored with spapr_recover_pending_dimm_state()
+if missing.
 
-The timebase frequency of the host CPU is identical for all
-cores and it is an invariant for the VM lifetime. Cache it
-instead of doing the same expensive parsing again and again.
+g_assert() that spapr_pending_dimm_unplugs_find() cannot return NULL
+in spapr_memory_unplug() to make this clear and silence Coverity.
 
-Rename kvmppc_get_tbfreq() to kvmppc_get_tbfreq_procfs() and
-rename the 'retval' variable to make it clear it is used as
-fallback only. Come up with a new version of kvmppc_get_tbfreq()
-that calls kvmppc_get_tbfreq_procfs() only once and keep the
-value in a static.
-
-Zero is certainly not a valid value for the timebase frequency.
-Treat atoi() returning zero as another parsing error and return
-the fallback value instead. This allows kvmppc_get_tbfreq() to
-use zero as an indicator that kvmppc_get_tbfreq_procfs() hasn't
-been called yet.
-
-With this patch applied:
-
-    384                 0.518382
-
+Fixes: Coverity CID 1450767
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <161600382766.1780699.6787739229984093959.stgit@bahia.lan>
+Message-Id: <161562021166.948373.15092876234470478331.stgit@bahia.lan>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/kvm.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ hw/ppc/spapr.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 298c1f882c..104a308abb 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1815,24 +1815,37 @@ static int read_cpuinfo(const char *field, char *value, int len)
-     return ret;
- }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index d56418ca29..73a06df3b1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3660,6 +3660,9 @@ static void spapr_memory_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
+     SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
+     SpaprDimmState *ds = spapr_pending_dimm_unplugs_find(spapr, PC_DIMM(dev));
  
--uint32_t kvmppc_get_tbfreq(void)
-+static uint32_t kvmppc_get_tbfreq_procfs(void)
- {
-     char line[512];
-     char *ns;
--    uint32_t retval = NANOSECONDS_PER_SECOND;
-+    uint32_t tbfreq_fallback = NANOSECONDS_PER_SECOND;
-+    uint32_t tbfreq_procfs;
- 
-     if (read_cpuinfo("timebase", line, sizeof(line))) {
--        return retval;
-+        return tbfreq_fallback;
-     }
- 
-     ns = strchr(line, ':');
-     if (!ns) {
--        return retval;
-+        return tbfreq_fallback;
-     }
- 
--    ns++;
-+    tbfreq_procfs = atoi(++ns);
++    /* We really shouldn't get this far without anything to unplug */
++    g_assert(ds);
 +
-+    /* 0 is certainly not acceptable by the guest, return fallback value */
-+    return tbfreq_procfs ? tbfreq_procfs : tbfreq_fallback;
-+}
-+
-+uint32_t kvmppc_get_tbfreq(void)
-+{
-+    static uint32_t cached_tbfreq;
-+
-+    if (!cached_tbfreq) {
-+        cached_tbfreq = kvmppc_get_tbfreq_procfs();
-+    }
- 
--    return atoi(ns);
-+    return cached_tbfreq;
- }
- 
- bool kvmppc_get_host_serial(char **value)
+     pc_dimm_unplug(PC_DIMM(dev), MACHINE(hotplug_dev));
+     qdev_unrealize(dev);
+     spapr_pending_dimm_unplugs_remove(spapr, ds);
 -- 
 2.30.2
 
