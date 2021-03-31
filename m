@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86C3350102
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 15:15:05 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606D83501FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 16:16:41 +0200 (CEST)
+Received: from localhost ([::1]:37322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRaga-0004Pq-H7
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 09:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44046)
+	id 1lRbeB-0004uz-WA
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 10:16:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRafL-0003uW-HE; Wed, 31 Mar 2021 09:13:47 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRafK-0002qx-03; Wed, 31 Mar 2021 09:13:47 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id g25so10179292wmh.0;
- Wed, 31 Mar 2021 06:13:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2imILVcWDhiWtLMyZB9g3JpmaqOWwGDkSEShu4U5JT0=;
- b=TkVpzMEdBkT0lZ456GlW7Xkm4iVez3wlB4axs37OBJ6hg8IggasKV6/iYc2LQlxFA+
- pAAGhP6Ga6/aNsU7poXMo/yIKgrOvCLn+IQ71dA6QX5BRY/fKK+MNoWaS+NnPEQd9817
- U3yXEtpH+sze2/5Zfs+XxboWa1oFqp4DFrD59+xViXXT8EnkNj1PpUbbkTWWYJa55fIu
- BOjWgNeBR2RlZGJN+hgzgV+LmM2XCX6g4nBJ9XoZno1AkSqU/eVurk+UrKCdfiJUpNQo
- eaGF0UxQUS3zo/qw66Rld49CiMIKh0MVTPGIUh0gGAazKCzsuuTHd4B7xb7mVMbvC2gu
- j6Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2imILVcWDhiWtLMyZB9g3JpmaqOWwGDkSEShu4U5JT0=;
- b=fLwc8o03jQXBDy07NNVdf5c/EWV9+gOv+BY+Q4ej1c8/qrin3iRasXloxItOrj98tM
- DFvcWDY8H4dHcGmvk3sf5iAIc5S0aNZ7dN1QKz2xC8087eD6/qEejrOWH2a7yfAApKDW
- Bk3XEMXEvrw8egL3QEBrZDy5KF9PUNAsYXVIkvliGX2czQpNYPAAlII0qv3SOoQ6pBsG
- JiAqr8qsR8xXqYgRqDXcMzQPJS+ULVPAK/PXpb6mWBdlOZ6n1VJjlUFZbIXGZVnfOpIm
- g//jEVMN2YYnXuc3l9nwKQVva6Y8RmMcWYGb1uH0le0GbCQkMCozrp3sIrEqZilm2BN/
- Vx3Q==
-X-Gm-Message-State: AOAM533x+ChcY3Wo2bXycWpNqpGgDSZnOMJycXxBR6COPtAL+wiEgdJM
- U0D1xCKdd7ZYu0acGFtuklQ=
-X-Google-Smtp-Source: ABdhPJzxbTjQO8IT0O2lwZq9fHL7mVaKa1tB8U2bZYT7dSSCOjIgOXvf0yAc199bKLSXczw1qZqukg==
-X-Received: by 2002:a7b:c186:: with SMTP id y6mr3238175wmi.84.1617196424086;
- Wed, 31 Mar 2021 06:13:44 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id u8sm4764708wrr.42.2021.03.31.06.13.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Mar 2021 06:13:43 -0700 (PDT)
-Subject: Re: [PATCH] hw/riscv: sifive_e: Add 'const' to sifive_e_memmap[]
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
- <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20210331103612.654261-1-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d107d524-db19-72d0-bcee-b741c6fcc4da@amsat.org>
-Date: Wed, 31 Mar 2021 15:13:42 +0200
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lRbc8-0004Jj-Au
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 10:14:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lRbc4-0006KS-B3
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 10:14:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617200066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UWfseHyMDmnbmy78Fa+ZyCroksy1qHofcVaPy2EiTbQ=;
+ b=NRYsSZRCXDgshNzeMTKEmnQK8QpGq3xhKu18i1seC54Z5rc5046rp/JdBPlqiHVilPJCQG
+ VwI1gt84cWJJCuCKhLdXKT5xH2mnjnQNbVw0v4BvU0fT+J+/Ri+hxLb3GiXSfsQ7bsPUoV
+ 8hp7ZEgOggShUQoNL/bStJhc5hQqxdA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-xamaPO5pMw25ouUJ_K9Tqw-1; Wed, 31 Mar 2021 10:14:22 -0400
+X-MC-Unique: xamaPO5pMw25ouUJ_K9Tqw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E7341018F64;
+ Wed, 31 Mar 2021 14:14:19 +0000 (UTC)
+Received: from [10.36.113.60] (ovpn-113-60.ams2.redhat.com [10.36.113.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB5B619727;
+ Wed, 31 Mar 2021 14:14:13 +0000 (UTC)
+To: Steven Price <steven.price@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>
+References: <20210312151902.17853-1-steven.price@arm.com>
+ <20210312151902.17853-3-steven.price@arm.com>
+ <20210327152324.GA28167@arm.com> <20210328122131.GB17535@arm.com>
+ <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
+ <20210330103013.GD18075@arm.com>
+ <8977120b-841d-4882-2472-6e403bc9c797@redhat.com>
+ <20210331092109.GA21921@arm.com>
+ <d545a051-a02a-4c3a-0afe-66612839ba32@redhat.com>
+ <86a968c8-7a0e-44a4-28c3-bac62c2b7d65@arm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
+Message-ID: <eebe69ad-1a2f-91ee-75b1-f295d7a3389c@redhat.com>
+Date: Wed, 31 Mar 2021 16:14:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210331103612.654261-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <86a968c8-7a0e-44a4-28c3-bac62c2b7d65@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,39 +86,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emmanuel Blot <eblot.ml@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ James Morse <james.morse@arm.com>, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.cs.columbia.edu, Thomas Gleixner <tglx@linutronix.de>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/21 12:36 PM, Bin Meng wrote:
-> This was accidentally dropped before. Add it back.
+On 31.03.21 12:41, Steven Price wrote:
+> On 31/03/2021 10:32, David Hildenbrand wrote:
+>> On 31.03.21 11:21, Catalin Marinas wrote:
+>>> On Wed, Mar 31, 2021 at 09:34:44AM +0200, David Hildenbrand wrote:
+>>>> On 30.03.21 12:30, Catalin Marinas wrote:
+>>>>> On Mon, Mar 29, 2021 at 05:06:51PM +0100, Steven Price wrote:
+>>>>>> On 28/03/2021 13:21, Catalin Marinas wrote:
+>>>>>>> On Sat, Mar 27, 2021 at 03:23:24PM +0000, Catalin Marinas wrote:
+>>>>>>>> On Fri, Mar 12, 2021 at 03:18:58PM +0000, Steven Price wrote:
+>>>>>>>>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>>>>>>>>> index 77cb2d28f2a4..b31b7a821f90 100644
+>>>>>>>>> --- a/arch/arm64/kvm/mmu.c
+>>>>>>>>> +++ b/arch/arm64/kvm/mmu.c
+>>>>>>>>> @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu
+>>>>>>>>> *vcpu, phys_addr_t fault_ipa,
+>>>>>>>>>          if (vma_pagesize == PAGE_SIZE && !force_pte)
+>>>>>>>>>              vma_pagesize = transparent_hugepage_adjust(memslot,
+>>>>>>>>> hva,
+>>>>>>>>>                                     &pfn, &fault_ipa);
+>>>>>>>>> +
+>>>>>>>>> +    if (fault_status != FSC_PERM && kvm_has_mte(kvm) &&
+>>>>>>>>> pfn_valid(pfn)) {
+>>>>>>>>> +        /*
+>>>>>>>>> +         * VM will be able to see the page's tags, so we must
+>>>>>>>>> ensure
+>>>>>>>>> +         * they have been initialised. if PG_mte_tagged is set,
+>>>>>>>>> tags
+>>>>>>>>> +         * have already been initialised.
+>>>>>>>>> +         */
+>>>>>>>>> +        struct page *page = pfn_to_page(pfn);
+>>>>>>>>> +        unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
+>>>>>>>>> +
+>>>>>>>>> +        for (i = 0; i < nr_pages; i++, page++) {
+>>>>>>>>> +            if (!test_and_set_bit(PG_mte_tagged, &page->flags))
+>>>>>>>>> +                mte_clear_page_tags(page_address(page));
+>>>>>>>>> +        }
+>>>>>>>>> +    }
+>>>>>>>>
+>>>>>>>> This pfn_valid() check may be problematic. Following commit
+>>>>>>>> eeb0753ba27b
+>>>>>>>> ("arm64/mm: Fix pfn_valid() for ZONE_DEVICE based memory"), it
+>>>>>>>> returns
+>>>>>>>> true for ZONE_DEVICE memory but such memory is allowed not to
+>>>>>>>> support
+>>>>>>>> MTE.
+>>>>>>>
+>>>>>>> Some more thinking, this should be safe as any ZONE_DEVICE would be
+>>>>>>> mapped as untagged memory in the kernel linear map. It could be
+>>>>>>> slightly
+>>>>>>> inefficient if it unnecessarily tries to clear tags in ZONE_DEVICE,
+>>>>>>> untagged memory. Another overhead is pfn_valid() which will likely
+>>>>>>> end
+>>>>>>> up calling memblock_is_map_memory().
+>>>>>>>
+>>>>>>> However, the bigger issue is that Stage 2 cannot disable tagging for
+>>>>>>> Stage 1 unless the memory is Non-cacheable or Device at S2. Is
+>>>>>>> there a
+>>>>>>> way to detect what gets mapped in the guest as Normal Cacheable
+>>>>>>> memory
+>>>>>>> and make sure it's only early memory or hotplug but no ZONE_DEVICE
+>>>>>>> (or
+>>>>>>> something else like on-chip memory)?  If we can't guarantee that all
+>>>>>>> Cacheable memory given to a guest supports tags, we should disable
+>>>>>>> the
+>>>>>>> feature altogether.
+>>>>>>
+>>>>>> In stage 2 I believe we only have two types of mapping - 'normal' or
+>>>>>> DEVICE_nGnRE (see stage2_map_set_prot_attr()). Filtering out the
+>>>>>> latter is a
+>>>>>> case of checking the 'device' variable, and makes sense to avoid the
+>>>>>> overhead you describe.
+>>>>>>
+>>>>>> This should also guarantee that all stage-2 cacheable memory
+>>>>>> supports tags,
+>>>>>> as kvm_is_device_pfn() is simply !pfn_valid(), and pfn_valid()
+>>>>>> should only
+>>>>>> be true for memory that Linux considers "normal".
+>>>>
+>>>> If you think "normal" == "normal System RAM", that's wrong; see below.
+>>>
+>>> By "normal" I think both Steven and I meant the Normal Cacheable memory
+>>> attribute (another being the Device memory attribute).
 > 
-
-Fixes: 732612856a8 ("hw/riscv: Drop 'struct MemmapEntry'")
-
-> Reported-by: Emmanuel Blot <eblot.ml@gmail.com>
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> ---
+> Sadly there's no good standardised terminology here. Aarch64 provides
+> the "normal (cacheable)" definition. Memory which is mapped as "Normal
+> Cacheable" is implicitly MTE capable when shared with a guest (because
+> the stage 2 mappings don't allow restricting MTE other than mapping it
+> as Device memory).
 > 
->  hw/riscv/sifive_e.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> So MTE also forces us to have a definition of memory which is "bog
+> standard memory"[1] separate from the mapping attributes. This is the
+> main memory which fully supports MTE.
 > 
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index f939bcf9ea..82096b3e5a 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -50,7 +50,7 @@
->  #include "sysemu/sysemu.h"
->  #include "exec/address-spaces.h"
->  
-> -static MemMapEntry sifive_e_memmap[] = {
-> +static const MemMapEntry sifive_e_memmap[] = {
->      [SIFIVE_E_DEV_DEBUG] =    {        0x0,     0x1000 },
->      [SIFIVE_E_DEV_MROM] =     {     0x1000,     0x2000 },
->      [SIFIVE_E_DEV_OTP] =      {    0x20000,     0x2000 },
+> Separate from the "bog standard" we have the "special"[1] memory, e.g.
+> ZONE_DEVICE memory may be mapped as "Normal Cacheable" at stage 1 but
+> that memory may not support MTE tags. This memory can only be safely
+> shared with a guest in the following situations:
 > 
+>    1. MTE is completely disabled for the guest
+> 
+>    2. The stage 2 mappings are 'device' (e.g. DEVICE_nGnRE)
+> 
+>    3. We have some guarantee that guest MTE access are in some way safe.
+> 
+> (1) is the situation today (without this patch series). But it prevents
+> the guest from using MTE in any form.
+> 
+> (2) is pretty terrible for general memory, but is the get-out clause for
+> mapping devices into the guest.
+> 
+> (3) isn't something we have any architectural way of discovering. We'd
+> need to know what the device did with the MTE accesses (and any caches
+> between the CPU and the device) to ensure there aren't any side-channels
+> or h/w lockup issues. We'd also need some way of describing this memory
+> to the guest.
+> 
+> So at least for the time being the approach is to avoid letting a guest
+> with MTE enabled have access to this sort of memory.
+> 
+> [1] Neither "bog standard" nor "special" are real terms - like I said
+> there's a lack of standardised terminology.
+> 
+>>>>> That's the problem. With Anshuman's commit I mentioned above,
+>>>>> pfn_valid() returns true for ZONE_DEVICE mappings (e.g. persistent
+>>>>> memory, not talking about some I/O mapping that requires Device_nGnRE).
+>>>>> So kvm_is_device_pfn() is false for such memory and it may be mapped as
+>>>>> Normal but it is not guaranteed to support tagging.
+>>>>
+>>>> pfn_valid() means "there is a struct page"; if you do pfn_to_page() and
+>>>> touch the page, you won't fault. So Anshuman's commit is correct.
+>>>
+>>> I agree.
+>>>
+>>>> pfn_to_online_page() means, "there is a struct page and it's system RAM
+>>>> that's in use; the memmap has a sane content"
+>>>
+>>> Does pfn_to_online_page() returns a valid struct page pointer for
+>>> ZONE_DEVICE pages? IIUC, these are not guaranteed to be system RAM, for
+>>> some definition of system RAM (I assume NVDIMM != system RAM). For
+>>> example, pmem_attach_disk() calls devm_memremap_pages() and this would
+>>> use the Normal Cacheable memory attribute without necessarily being
+>>> system RAM.
+>>
+>> No, not for ZONE_DEVICE.
+>>
+>> However, if you expose PMEM via dax/kmem as System RAM to the system (->
+>> add_memory_driver_managed()), then PMEM (managed via ZONE_NOMRAL or
+>> ZONE_MOVABLE) would work with pfn_to_online_page() -- as the system
+>> thinks it's "ordinary system RAM" and the memory is managed by the buddy.
+> 
+> So if I'm understanding this correctly for KVM we need to use
+> pfn_to_online_pages() and reject if NULL is returned? In the case of
+> dax/kmem there already needs to be validation that the memory supports
+> MTE (otherwise we break user space) before it's allowed into the
+> "ordinary system RAM" bucket.
+
+That should work.
+
+1. One alternative is
+
+if (!pfn_valid(pfn))
+	return false;
+#ifdef CONFIG_ZONE_DEVICE
+page = pfn_to_page(pfn);
+if (page_zonenum(page) == ZONE_DEVICE)
+	return false;
+#endif
+return true;
+
+
+Note that when you are dealing with random PFNs, this approach is in 
+general not safe; the memmap could be uninitialized and contain garbage. 
+You can have false positives for ZONE_DEVICE.
+
+
+2. Yet another (slower?) variant to detect (some?) ZONE_DEVICE is
+
+pgmap = get_dev_pagemap(pfn, NULL);
+put_dev_pagemap(pgmap);
+
+if (pgmap)
+	return false;
+return true;
+
+
+
+I know that /dev/mem mappings can be problematic ... because the memmap 
+could be in any state and actually we shouldn't even touch/rely on any 
+"struct pages" at all, as we have a pure PFN mapping ...
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
