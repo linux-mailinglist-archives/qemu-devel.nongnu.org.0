@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3410B350074
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 14:36:09 +0200 (CEST)
-Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02961350071
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 14:35:34 +0200 (CEST)
+Received: from localhost ([::1]:46686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRa4u-0005d4-AH
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 08:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
+	id 1lRa4K-0005AI-GT
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 08:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRa1J-0003Of-Md
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 08:32:26 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44024)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1lRa2f-0004KY-UP
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 08:33:49 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRa1H-00039v-Tl
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 08:32:25 -0400
-Received: by mail-wr1-x431.google.com with SMTP id x7so19480118wrw.10
- for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 05:32:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1lRa2d-0003vo-Rh
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 08:33:49 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ ot17-20020a17090b3b51b0290109c9ac3c34so1079380pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 05:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LZj6aje8euFkcZr3uYandwiIPzcXGr7NpmC72vYzoFs=;
- b=qivSbljzOr2D4U7JdLAOSSOLgph0U3xatvWo0wkxqxo8c4YhKaA6pk6sVWzMCrEU33
- 6MVPbDT26g6SwsRlmrDNTP0Q+x75rcMhEfuqvZ1mTPbLM8Oh4gTxA8HN6LGeOuj3azyd
- LQ69qLUqUNmXsH9e7uQfTXn+iqOGPrV580WYpl5uq7W3W78D6JMQSaM9E1bR1LPtjkig
- pSLxWReZxtOj2y0oUIXskjFISZY0tlgepAhOWEmyD+qnIYbFwmRROqJUYz2aqReL3jOX
- Ok7zyV/H3oTT9Aw3GZdlbBmKbIDxcHjOAkD3xPrcbdY/cHi7HFdYPISjnGD73g6NjM6D
- 9i8Q==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=OGMT9azHA2QCA/gYcf5BbgPBfd9TJ5BlM0zo2Higg3o=;
+ b=uO8oTMn7v8QpjrswPcDDGxrGfL59AV5HIzc3PGROI13w2WWxfQp2hYON9YgeZpKcT8
+ tWnRDoUUPJJtvaoAcpeNcwADN+CnrMPrgHGmkeg982hvmf7Gt0dSHQ2mSJ/pqICpczhY
+ Mu6ceNrsXinOFYvuTomB1HE0If2QNvGwyp0iUrtx+WRzn9GSsHHwqKvIdMqOkMdBVy+M
+ G+wmhiZoEEKpOceQxPrVyYA1sS3iGQMwyQLmqvtQWwJFKnc8LPZXy0aqVDmxQs1eoqg2
+ OsVYYOX+UE0waKEdE48YQAvgGGW+jdV/JN6cOGThMiIKRz4hFl1Xydm9rRS5xqafw9qe
+ 544A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LZj6aje8euFkcZr3uYandwiIPzcXGr7NpmC72vYzoFs=;
- b=kSkkhYmrhJL2qBP8DcDZ4axJqRcjErg5FzVVKhLJPGKDtltkuNXvISoDTQrWROlftw
- hhCNF8Cm2Tk4of/w5lDyociP4GjXirpYnNLvdIJAZZW+Ya6IF8u1x0ZX8VhVl5BC6YOZ
- LeGhFnYW7JZOcn4K9n89QRx8rzA20SlZr1LmygWYmYiVnsd9Z7bHgvYNE6b67l04YgBZ
- vMuvI9d/kyY6ww5ioo6+Y9mDJTAlDfEUOxA5x7PVQgJcIC3nRBcKDKBmR1fLtIJTUrTj
- EvS9hYL+BAH+aT8mV6B8hX+8hXh49yB3T5DnEAqMn3pM+9pQKQHwz2mNgN6ntXcLzM2m
- gm6g==
-X-Gm-Message-State: AOAM532gta6RRckhSKXuILAu6DiX/mIngNk2v7hSzjwwGJ0VqtaPS7mN
- 4VpXq6kOIizPeyIeAM+KkyQ=
-X-Google-Smtp-Source: ABdhPJw4Yyq+llXakgLPhAMbrY3tZSizI/pP0JE93bLKk1JjFx/tRMADHRbZow7nw6w/d7hg3XWRGA==
-X-Received: by 2002:a05:6000:1b0f:: with SMTP id
- f15mr3476848wrz.171.1617193940538; 
- Wed, 31 Mar 2021 05:32:20 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id t1sm5428010wry.90.2021.03.31.05.32.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Mar 2021 05:32:19 -0700 (PDT)
-Subject: Re: [PATCH v1 2/6] tests/docker: don't set DOCKER_REGISTRY on
- non-x86_64
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Willian Rampazzo <willianr@redhat.com>
-References: <20210329110303.15235-1-alex.bennee@linaro.org>
- <20210329110303.15235-3-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e1db2987-b9d2-c4a0-d96e-441c182a6c5a@amsat.org>
-Date: Wed, 31 Mar 2021 14:32:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OGMT9azHA2QCA/gYcf5BbgPBfd9TJ5BlM0zo2Higg3o=;
+ b=guyEdyachxzKIIPjqyQrIPcN8wsNLvHJ+igSmGU9lvAR8ywROZ6ooeBpLi3NBbRSuw
+ gmom63ZR0t8R1QqUw6r+OOBGSxb+gjeEhZNjEZE4KQfYLMQFft3prljgcBbKvm0AgOWo
+ GWH+i1Wc8DvSEZIube94krf4y6p1K59bDtaaMAm/uN+Mpk+cPwzyQ7tdUZWIUcs8tpXM
+ DTHmmzAyAF7hjMZ7xKTvfY4UxI33MF5pnp4yEUJlCVU2zgY70bSNVA/RWRE7wVZ8/OdZ
+ 17TFcLtgu5fD6qXBSuYF90ehPYNwHpGMwP8PIx3qFtB6WKIX6ELgz5oXEUzm6vM05qTv
+ Z7ng==
+X-Gm-Message-State: AOAM530s+6NeDbvwgWQpqPQ6ft5MJEu/xvyUfzAK9LOY8c+u/Xc4UajR
+ XOYtSbEk/ka+6mMHpSdLJjw=
+X-Google-Smtp-Source: ABdhPJzOfN2ziIG4K06jfj27FdlyPAS0PDFM+yK7ajrDZiVuBgTqLf9Yl+lq0Y8AvcwMwQpfsE9BaQ==
+X-Received: by 2002:a17:90a:488a:: with SMTP id
+ b10mr3297436pjh.2.1617194026239; 
+ Wed, 31 Mar 2021 05:33:46 -0700 (PDT)
+Received: from localhost (g139.124-45-193.ppp.wakwak.ne.jp. [124.45.193.139])
+ by smtp.gmail.com with ESMTPSA id
+ g18sm2206256pfb.178.2021.03.31.05.33.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Mar 2021 05:33:45 -0700 (PDT)
+Date: Wed, 31 Mar 2021 21:33:42 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH] target/openrisc: fix icount handling for timer
+ instructions
+Message-ID: <20210331123342.GG1171117@lianli.shorne-pla.net>
+References: <161700376169.1135890.8707223959310729949.stgit@pasha-ThinkPad-X280>
+ <20210330220532.GC1171117@lianli.shorne-pla.net>
+ <532799f9-e9ed-1e7a-713e-0ff436721f82@ispras.ru>
 MIME-Version: 1.0
-In-Reply-To: <20210329110303.15235-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <532799f9-e9ed-1e7a-713e-0ff436721f82@ispras.ru>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,61 +86,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-devel@nongnu.org, proljc@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex, Willian,
-
-On 3/29/21 1:02 PM, Alex Bennée wrote:
-> Currently our gitlab registry is x86_64 only so attempting to pull an
-> image from it on something else will end in tears.
+On Wed, Mar 31, 2021 at 10:27:21AM +0300, Pavel Dovgalyuk wrote:
+> On 31.03.2021 01:05, Stafford Horne wrote:
+> > Hi Pavel,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Mon, Mar 29, 2021 at 10:42:41AM +0300, Pavel Dovgalyuk wrote:
+> > > This patch adds icount handling to mfspr/mtspr instructions
+> > > that may deal with hardware timers.
+> > > 
+> > > Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+> > > ---
+> > >   target/openrisc/translate.c |   15 +++++++++++++++
+> > >   1 file changed, 15 insertions(+)
+> > > 
+> > > diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+> > > index c6dce879f1..a9c81f8bd5 100644
+> > > --- a/target/openrisc/translate.c
+> > > +++ b/target/openrisc/translate.c
+> > > @@ -884,6 +884,18 @@ static bool trans_l_mfspr(DisasContext *dc, arg_l_mfspr *a)
+> > >           gen_illegal_exception(dc);
+> > >       } else {
+> > >           TCGv spr = tcg_temp_new();
+> > > +
+> > > +        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+> > > +            gen_io_start();
+> > > +            if (dc->delayed_branch) {
+> > > +                tcg_gen_mov_tl(cpu_pc, jmp_pc);
+> > > +                tcg_gen_discard_tl(jmp_pc);
+> > > +            } else {
+> > > +                tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
+> > > +            }
+> > > +            dc->base.is_jmp = DISAS_EXIT;
+> > > +        }
+> > 
+> > I don't know alot about how the icount works.  But I read this document to help
+> > understand this patch.
+> > 
+> > https://qemu.readthedocs.io/en/latest/devel/tcg-icount.html
+> > 
+> > Could you explain why we need to exit the tb on mfspr?  This may just be reading
+> > a timer value, but I am not sure why we need it?
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/docker/Makefile.include | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Because virtual clock in icount mode is correct only at the end of the
+> block.
+> Allowing virtual clock reads in other places will make execution
+> non-deterministic, because icount is updated to the value, which it gets
+> after the block ends.
+
+OK, got it.
+
+> > 
+> > >           tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
+> > >           gen_helper_mfspr(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d), spr);
+> > >           tcg_temp_free(spr);
+> > > @@ -898,6 +910,9 @@ static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
+> > >       } else {
+> > >           TCGv spr;
+> > > +        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+> > > +            gen_io_start();
+> > > +        }
+> > 
+> > Here and above, why do we need to call gen_io_start()?  This seems to need to be
+> > called before io operations.
 > 
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index 7cab761bf5..9f464cb92c 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -16,7 +16,10 @@ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.doc
->  DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
->  # Use a global constant ccache directory to speed up repetitive builds
->  DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
-> -DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),registry.gitlab.com/qemu-project/qemu)
-> +ifeq ($(HOST_ARCH),x86_64)
-> +DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
-> +endif
-> +DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
+> gen_io_start allows reading icount for the instruction.
+> It is needed to prevent invalid reads in the middle of the block.
+> 
+> > 
+> > This may all be OK, but could you help explain the theory of operation?  Also,
+> > have you tested this?
+> 
+> I have record/replay tests for openrisc, but I can't submit them without
+> this patch, because they will fail.
 
-I remember we chatted about Docker multiarch on IRC.
+OK.
 
-It doesn't look going into the right direction. IMO the problem
-you are having is because we push an amd64 docker image into the now
-multiarch namespace, so it is obviously failing on all non-amd64 hosts.
+Acked-by: Stafford Horne <shorne@gmail.com>
 
-I think the correct way is to remove the images stored in the multiarch
-namespace (they are amd64, not multiarch); and store the amd64 images
-under the amd64 namespace.
+I am not currently maintaining an openrisc queue, but I could start one.  Do you
+have another way to submit this upstream?
 
-IOW prepend amd64/ in our amd64 specific images.
-
-Then you could push a aarch64 image using the arm64v8/ prefix namespace
-and the buildsys machinery will work with the registry.
-
-FWIW I tested it with mips64le/ prefix on the mips64le runner.
-
-Willian, can you have a try with ppc64le/ (eventually s390x/) prefix
-for similar hosts?
-
-Related info:
-https://github.com/docker-library/official-images#architectures-other-than-amd64
-https://github.com/docker-library/official-images#multiple-architectures
-
-Regards,
-
-Phil.
+-Stafford
 
