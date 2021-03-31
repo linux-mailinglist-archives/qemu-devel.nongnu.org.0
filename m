@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC1A3503DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:53:13 +0200 (CEST)
-Received: from localhost ([::1]:47928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E383503DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:54:07 +0200 (CEST)
+Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRd9c-0006wX-I6
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59944)
+	id 1lRdAU-00087X-9K
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lRd3k-0001dF-VR; Wed, 31 Mar 2021 11:47:08 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:40509)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lRd4c-0002Mg-Cs
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:48:02 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lRd3j-0002kY-9p; Wed, 31 Mar 2021 11:47:08 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id e186so3052337iof.7;
- Wed, 31 Mar 2021 08:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cbf1ZPo9ScFisp+Gu2lhLLE9w6VQBrjHMovqTbo/WCM=;
- b=Z/8dQKEMScC5T3KHaZcrpR/lLKZ+KeqUwGrHz7/jPD31KEJ0nwuJfQr1XcclXm14s7
- B5cm2ALrzaWQ/Jxb2gIsf2kePPjj9OPN0Q1qseLgY/o3QlThlzCvxR4sL2MNnI2FIw+E
- FLgR2hH1400jBMFh/cDdJURncsXso0krBXynNXhO73h3r8EOF7lIcU41dxgeSH6v1DsJ
- qjaaL0M/J11/9yi0+k8hdYEH0LICgmg3JIFL3QmwMEB9HqqZsvps8vQNht5OQVpY4Q53
- pmsuWGHdGayoe+tdFJRzGtUOGGRNdiTe5elw6nYOgvZ8H6zRCfIK+iOhQQe60Oc1mgVo
- UWMw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lRd4W-0003DS-9s
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:47:59 -0400
+Received: by mail-wr1-x435.google.com with SMTP id x16so20142548wrn.4
+ for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 08:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=eFw3EDFgZL+GuhOStaUJQGwRpu4MxKa+wWXmCZYcrFI=;
+ b=kAH7ADxM/NneEr4+4gEnvnwN1QuiOxUQeDxfmTnKWdw0pPsNi8aHhk1WQW5GCEipIB
+ kCC4pwOvbGosepmx90YfUVuax37QzuJ8Fr6zbg8Zfm6ZkrcMPJ76SDlOlfRVkY0dF+vD
+ CW9MVtxFRap+tPgvdV0geIspuTLn+lNL+U4MqeNwtOyBF0UOPQ+eWbb/8UamJqK+vve7
+ J0kCsqGuBexCIWOgsMQX+xdEyWzHA/9b9FTuqSBi3S2jNin0oheeAV1Dz1vdxXdM/YGc
+ YUKrppMK93IjyXo38hl7fu7tNSL3+7NcGU6CBsKCcmO+kTHsORp2vGgTLcM+yDWLvuve
+ BIaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cbf1ZPo9ScFisp+Gu2lhLLE9w6VQBrjHMovqTbo/WCM=;
- b=D8087dnys0H/EW2NwhKQaxUVJvvK7JpvgcF5IEH5R4gdd/Jo5M2uXnOX7cvm4t/PVa
- xRj16hZIpCMN9F/xW0VQkycwMr9rJW9uMffn4DHJiFBtXvybPK8C9zSwGG0UXnQkIv8k
- DKu4461CARcMlM+fifhAGyubBbr/mAgcr+0NuExo4rRCjgf+e6/ogr+czmQ4i8/QxtFc
- vG6d/Zvj9DMt7dzQ8yCcoOXw86JhqFPzPxq7BMBwH9POv+Y+R0LEENmQh6exHVEssuTP
- hT/6CUAr1OvY6ku2EW36k7Nl6Qi9sVTe7hftBlQM+l6XbksWoWl97glScKdUmqLeS8xP
- GNIw==
-X-Gm-Message-State: AOAM531zgeZnWo2IJIwoTKd98fAGZNIMPeZEvGe6HQMyaMV3ReLAqVo6
- BbB5Uwx0uVxt0Ho6I+ReZNes8hNiQ3mHu6cgRDA=
-X-Google-Smtp-Source: ABdhPJzgzQC9KLqgNCYWrIQikuPr6R81Tm+Tjzet3O+Lke+eAhuK9+ML5p59ib/3XCK4g5OijTcP/MggFoSDCnYMoJY=
-X-Received: by 2002:a6b:7808:: with SMTP id j8mr2818118iom.118.1617205625755; 
- Wed, 31 Mar 2021 08:47:05 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=eFw3EDFgZL+GuhOStaUJQGwRpu4MxKa+wWXmCZYcrFI=;
+ b=IHrbwrR1yYyiWyokbZpng+pAvoLbMIInvnTajxgapxeZ7n0pP8YPHzZ+07s/9rwF+a
+ ZUr4QAXdwXEz4zgysaP5oF1rmI6QKJmLv9U/BO97Hdj01Y4MVc/f50G99Yl1BZ/m+8gH
+ ByhCtv7s0tqHwo2bZIWZjK51yYeOZAs9XcL7iVO7+0JOnD/k1ACzEzpj895b77/VUM7Z
+ xouIPgVrZ7I3vCrmHc/eoyuPEv7PLhRjoOZKzCM6r9xA4SqSS1uB9kCx7jP/BmHoFoTg
+ 0PSZRj4rGKAjJ+PsHHyanogKYLXVY7vG4ou8o+xD/65wm6yTYVD0vXmzqYusYH1g5h9+
+ wCYg==
+X-Gm-Message-State: AOAM532wp7iyh8fbtRQwPh7xFNJRoQr7izLBJyDo5wgIQweqWaz9gIw/
+ f1E78uz8EGq2MvXODuW+fuOOHg==
+X-Google-Smtp-Source: ABdhPJwLi0BMPOyLyLhP5QZKax4IMSt/90HqD9Kine0x+oBwMfJdbopOE0h/y8GFnGpo0dTVWToRhQ==
+X-Received: by 2002:adf:fd48:: with SMTP id h8mr4510342wrs.229.1617205673212; 
+ Wed, 31 Mar 2021 08:47:53 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r1sm7184348wrj.63.2021.03.31.08.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Mar 2021 08:47:52 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 51A541FF7E;
+ Wed, 31 Mar 2021 16:47:51 +0100 (BST)
+References: <20200929224857.1225107-1-philmd@redhat.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] tests/acceptance: Add a 'virt_kvm' test using the GICv3
+Date: Wed, 31 Mar 2021 16:45:25 +0100
+In-reply-to: <20200929224857.1225107-1-philmd@redhat.com>
+Message-ID: <87eefvnx3s.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210329170818.23139-1-bmeng.cn@gmail.com>
- <20210329170818.23139-7-bmeng.cn@gmail.com>
-In-Reply-To: <20210329170818.23139-7-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 31 Mar 2021 11:44:57 -0400
-Message-ID: <CAKmqyKP_P8C8dqUsWN=ynaC4nK2T_Ejqf+STMaNQunrAPuy7RA@mail.gmail.com>
-Subject: Re: [PATCH 7/8] hw/riscv: Use macros for BIOS image names
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,109 +86,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 1:20 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> The OpenSBI BIOS image names are used by many RISC-V machines.
-> Let's define macros for them.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Alistair
+> The current 'virt_kvm' test is restricted to GICv2, but can also
+> work with a GICv3. Duplicate it but add a GICv3 test which can be
+> tested on some hardware.
+>
+> Noticed while running:
+>
+>  $ avocado --show=3Dapp run -t machine:virt tests/acceptance/
+>  ...
+>  (2/6) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm: ERR=
+OR: Unexpected empty reply from server (1.82 s)
+>
+> The job.log content is:
+>
+>   L0351 DEBUG| Output: 'qemu-system-aarch64: host does not support in-ker=
+nel GICv2 emulation\n'
+>
+> With this patch:
+>
+>  $ avocado --show=3Dapp run -t device:gicv3 tests/acceptance/
+>  (1/1)
+>  tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gicv3:
+>  PASS (55.10 s)
 
+On the new aarch64 machine which is GICv3 I get the following:
+
+ (006/142) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gi=
+cv2: ERROR: Unexpected empty reply from server (0.47 s)
+
+which it shouldn't have run. However:
+
+  ./tests/venv/bin/avocado --show=3Dapp run -t device:gic3 tests/acceptance/
+  Test Suite could not be create. No test references provided nor any other=
+ arguments resolved into tests
+
+Is this something that has regressed or am I doing it wrong?
+
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
+>  tests/acceptance/boot_linux.py | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
 >
->  include/hw/riscv/boot.h | 5 +++++
->  hw/riscv/sifive_u.c     | 6 ++----
->  hw/riscv/spike.c        | 6 ++----
->  hw/riscv/virt.c         | 6 ++----
->  4 files changed, 11 insertions(+), 12 deletions(-)
->
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index 11a21dd584..0e89400b09 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -24,6 +24,11 @@
->  #include "hw/loader.h"
->  #include "hw/riscv/riscv_hart.h"
->
-> +#define RISCV32_BIOS_BIN    "opensbi-riscv32-generic-fw_dynamic.bin"
-> +#define RISCV32_BIOS_ELF    "opensbi-riscv32-generic-fw_dynamic.elf"
-> +#define RISCV64_BIOS_BIN    "opensbi-riscv64-generic-fw_dynamic.bin"
-> +#define RISCV64_BIOS_ELF    "opensbi-riscv64-generic-fw_dynamic.elf"
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux=
+.py
+> index 0055dc7cee..c743e231f4 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -182,10 +182,11 @@ def test_virt_tcg(self):
+>          self.add_common_args()
+>          self.launch_and_wait()
+>=20=20
+> -    def test_virt_kvm(self):
+> +    def test_virt_kvm_gicv2(self):
+>          """
+>          :avocado: tags=3Daccel:kvm
+>          :avocado: tags=3Dcpu:host
+> +        :avocado: tags=3Ddevice:gicv2
+>          """
+>          if not kvm_available(self.arch, self.qemu_bin):
+>              self.cancel(KVM_NOT_AVAILABLE)
+> @@ -195,6 +196,20 @@ def test_virt_kvm(self):
+>          self.add_common_args()
+>          self.launch_and_wait()
+>=20=20
+> +    def test_virt_kvm_gicv3(self):
+> +        """
+> +        :avocado: tags=3Daccel:kvm
+> +        :avocado: tags=3Dcpu:host
+> +        :avocado: tags=3Ddevice:gicv3
+> +        """
+> +        if not kvm_available(self.arch, self.qemu_bin):
+> +            self.cancel(KVM_NOT_AVAILABLE)
+> +        self.vm.add_args("-accel", "kvm")
+> +        self.vm.add_args("-cpu", "host")
+> +        self.vm.add_args("-machine", "virt,gic-version=3D3")
+> +        self.add_common_args()
+> +        self.launch_and_wait()
 > +
->  bool riscv_is_32bit(RISCVHartArrayState *harts);
->
->  target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 651a439528..d484ec3483 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -557,12 +557,10 @@ static void sifive_u_machine_init(MachineState *machine)
->
->      if (riscv_is_32bit(&s->soc.u_cpus)) {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
-> -                                    "opensbi-riscv32-generic-fw_dynamic.bin",
-> -                                    start_addr, NULL);
-> +                                    RISCV32_BIOS_BIN, start_addr, NULL);
->      } else {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
-> -                                    "opensbi-riscv64-generic-fw_dynamic.bin",
-> -                                    start_addr, NULL);
-> +                                    RISCV64_BIOS_BIN, start_addr, NULL);
->      }
->
->      if (machine->kernel_filename) {
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index cc33061f23..4f19c8acba 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -257,13 +257,11 @@ static void spike_board_init(MachineState *machine)
->       */
->      if (riscv_is_32bit(&s->soc[0])) {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
-> -                                    "opensbi-riscv32-generic-fw_dynamic.elf",
-> -                                    memmap[SPIKE_DRAM].base,
-> +                                    RISCV32_BIOS_ELF, memmap[SPIKE_DRAM].base,
->                                      htif_symbol_callback);
->      } else {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
-> -                                    "opensbi-riscv64-generic-fw_dynamic.elf",
-> -                                    memmap[SPIKE_DRAM].base,
-> +                                    RISCV64_BIOS_ELF, memmap[SPIKE_DRAM].base,
->                                      htif_symbol_callback);
->      }
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index d04733d97c..25e845fc78 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -676,12 +676,10 @@ static void virt_machine_init(MachineState *machine)
->
->      if (riscv_is_32bit(&s->soc[0])) {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
-> -                                    "opensbi-riscv32-generic-fw_dynamic.bin",
-> -                                    start_addr, NULL);
-> +                                    RISCV32_BIOS_BIN, start_addr, NULL);
->      } else {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
-> -                                    "opensbi-riscv64-generic-fw_dynamic.bin",
-> -                                    start_addr, NULL);
-> +                                    RISCV64_BIOS_BIN, start_addr, NULL);
->      }
->
->      if (machine->kernel_filename) {
-> --
-> 2.25.1
->
->
+>=20=20
+>  class BootLinuxPPC64(BootLinux):
+>      """
+
+
+--=20
+Alex Benn=C3=A9e
 
