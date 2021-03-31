@@ -2,85 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBEB350537
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 19:06:12 +0200 (CEST)
-Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F8A350561
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 19:23:32 +0200 (CEST)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lReIF-0001GL-46
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 13:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55150)
+	id 1lReZ0-0006CU-Fi
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 13:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lReEG-0000HH-To
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 13:02:07 -0400
-Received: from forward2-smtp.messagingengine.com ([66.111.4.226]:52679)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lReXO-00054B-1r
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 13:21:50 -0400
+Received: from mail-eopbgr10103.outbound.protection.outlook.com
+ ([40.107.1.103]:22815 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lReED-0002PF-Q0
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 13:02:04 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailforward.nyi.internal (Postfix) with ESMTP id 3D6881942041;
- Wed, 31 Mar 2021 13:02:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 31 Mar 2021 13:02:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=1ArsmZeXiRz9T5nRNzCO0hAnUbvxgw+FzH21K1K4F
- so=; b=LzgRkT7zBkZ8iMWJZ8eWENOPD+Fb5RFzJaqiy+oHdJIQ8GMF2jOYXu1nV
- BdnmEJSZVNStFILblQs8Hq4c36dsID0qRylNdlteCRwYEM/LAqMIWh9RfdCSK5rG
- npNCo1V5CytAn7CHrY8RapBwIumoJVPiyXOjMoDwn9IoQsnnKFxtppYd3pFz9LZD
- CEIEA2ZYeokwgT/wGdnCng7DSRRSfq4L3HYvGMA3LJd39ZoKQa0qFoeZIkNVKeyf
- 3Am4nOn7MPfHBZLBcFQ5yEmjMUtkzgWBEWP970D1oqaC2nAd4YOJjmIUVgNLsZKd
- 6dL8p4sWHF2akGtNJBtMG7xDGqq7g==
-X-ME-Sender: <xms:BqtkYKyiWiBOhTB_JxWJlG3bAsSIl1pllAS0vQCkLyxwRf4IVyJBjg>
- <xme:BqtkYKm25fDEs7nWc2ijszZ8ji0FgP7PGXsVCrHioJ7axL0IynMHXEbGqNrEagJq-
- D3hL9L9NyzCwwRzhF8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeivddgudduudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefvufgjfhfhfffkgggtgfesthhqredttddtjeenucfhrhhomhepffgrvhhi
- ugcugfgumhhonhgushhonhcuoegumhgvsegumhgvrdhorhhgqeenucggtffrrghtthgvrh
- hnpeevheejkeduteeiieduhfeilefhteduvefhgefhfeekueeiheeggfeihefguefgieen
- ucffohhmrghinhepfhgvughorhgrphhrohhjvggtthdrtghomhdptghonhhtrhhisghuth
- horhdqtghovhgvnhgrnhhtrdhorhhgpdgujhgrnhhgohhprhhojhgvtghtrdgtohhmpdgu
- rhhuphgrlhdrohhrghdpghhithhhuhgsrdgtohhmpdhfvgguohhrrghprhhojhgvtghtrd
- horhhgpdhqvghmuhdrohhrghenucfkphepkedurddukeejrddviedrvdefkeenucevlhhu
- shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegumhgvsegumhgvrd
- horhhg
-X-ME-Proxy: <xmx:BqtkYLdOS8F81rU3b3SWJDiUVIzNJ-QUM10v4OQQ7EYOLoHdv0bxqQ>
- <xmx:BqtkYIrlTupp7i4SBmZ81ZqHEZMJf36RGJQfL72MzNpg24vjlQiH4Q>
- <xmx:BqtkYB7AhyGmxtR5jv02NAKmqJXnxwfFhuMjp1ti7I3NTDPuk5AA4w>
- <xmx:CKtkYOIYDZ-OAkA_klHCv5OzlvZpzFlb1N-cAybwFNKv2Y_SDqZ_Zw>
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net
- [81.187.26.238])
- by mail.messagingengine.com (Postfix) with ESMTPA id CF757240057;
- Wed, 31 Mar 2021 13:01:57 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 335df1c0;
- Wed, 31 Mar 2021 17:01:55 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict
- Resolution Policy document
-In-Reply-To: <20210331150527.14857-1-pbonzini@redhat.com>
-References: <20210331150527.14857-1-pbonzini@redhat.com>
-X-HGTTG: zarquon
-From: David Edmondson <dme@dme.org>
-Date: Wed, 31 Mar 2021 18:01:55 +0100
-Message-ID: <cunk0pngsu4.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lReXH-0004hu-MP
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 13:21:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TS1XB0/CXZMYDDeLOMcMB0qlqGZwJOHyUyZ9WUNyPLi0IRkSNFrjt+ipQRkKLL/DSgvQpHfvsnGlgPAjcIVWkLf8x/DgYRIurwAKrWJH4hEh9KdiQKtRYpZYGM0CH+p3c3J3hPGoxgN1m4pg4GWQrqR5ty9ZLjrE7/Skv9YKW7/eJBweUBQACGeP+z83lzqQwvR2r6v4HanM9522vb7aM4+LV9s7KJIlNJLz62b3+Pp4+j4Q62yfCejgUiwBweaf4bRlGdIil/E767eqtDj9qq6bT04Au1HCM8E8pid0JTsX6JQe0OA/UpIyUfENaIaq2sHXyOgL0ZvxIqDp3IH6IQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0v2FXXXatm5vpwdkeH/UFYK+Wff/Cf5wjpH5DaF09zo=;
+ b=Ya8Dy2p2G+CbMyOvFKGsHrAHz69gxJwbe02BjNCkFLoBGkFvHdnXEPZa6OC0U0YtVeqL82uZxKxVlQac8S3WzJFBNzGzQRmKtUXUC2wxa2RwxdmtzhDxEIGA3Bf8TSMNkt0rndAjJt6XjcV7AScbhvgcC6tL/Vx0/8F12AcSrkcQuDiw/tPmHhLorjnXmoyQ1zgvdpP+iXNZJHi+zVXbEb5UOWf0AfjWo8GrQvNGJLPddT/RFiCBnP2bC5ts7PnRbrSk0BhbbxqBrbbJCTNg9YScbE5yExIIZvOdoZENWHqmReKyHVgMX5xQLsjn4RED3ev+9ZR1p6LnA5T9T92H8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0v2FXXXatm5vpwdkeH/UFYK+Wff/Cf5wjpH5DaF09zo=;
+ b=cWvL6PV/q5Vl6UWbq8TnBWMJA6cDxCEiNx/eAaoM1ZA3UzBb/zTqn5+9j1fH2p/qraSN64C7bVZ/01YlZYZOaqyPWbHlXxVL1T+WDYV2V0j/WyDhvIvm3WFaEsXNmEJjBxF++8+kxBQMq7g9kvQecJnGr+GgA/OdFyCP82FPmyc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
+ by AM0PR08MB2995.eurprd08.prod.outlook.com (2603:10a6:208:5f::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.27; Wed, 31 Mar
+ 2021 17:21:34 +0000
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::a8e6:4693:824d:19f5]) by AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::a8e6:4693:824d:19f5%7]) with mapi id 15.20.3977.033; Wed, 31 Mar 2021
+ 17:21:34 +0000
+Subject: Re: [PATCH v2 0/3] migration: Fixes to the 'background-snapshot' code
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
+References: <20210331154809.86052-1-andrey.gruzdev@virtuozzo.com>
+ <20210331160257.GO429942@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <d45c9f47-2337-ad68-06eb-7473f7ec069c@virtuozzo.com>
+Date: Wed, 31 Mar 2021 20:21:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
+In-Reply-To: <20210331160257.GO429942@xz-x1>
+Content-Type: multipart/alternative;
+ boundary="------------A5B95CC65AC2FAA2D08C9FA3"
+Content-Language: en-US
+X-Originating-IP: [158.255.154.235]
+X-ClientProxiedBy: AM0PR03CA0048.eurprd03.prod.outlook.com (2603:10a6:208::25)
+ To AM0PR08MB3364.eurprd08.prod.outlook.com
+ (2603:10a6:208:e4::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: neutral client-ip=66.111.4.226; envelope-from=dme@dme.org;
- helo=forward2-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_NEUTRAL=0.779,
- T_FILL_THIS_FORM_SHORT=0.01,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (158.255.154.235) by
+ AM0PR03CA0048.eurprd03.prod.outlook.com (2603:10a6:208::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3999.27 via Frontend Transport; Wed, 31 Mar 2021 17:21:33 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eba74820-c0f6-42c0-d40a-08d8f4696ee6
+X-MS-TrafficTypeDiagnostic: AM0PR08MB2995:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB29955DA3BF02615312F167919F7C9@AM0PR08MB2995.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yrlH4MNax1Q/qmgq5hJiLxMtQf7phAQbNQNK+qi7Tc0bbRohah2DZnrgUmqxvkmDfFGMR3ElrxC38j050V/hse0y8UuyJqra44zhZYJz1fH0iFUL5463Y/+pTu8LXKeMrnS8ID57XwhQvZuji9hdrOnKTDTe6T2P5AT7l5g17HQZ4V7YDvA0gGK1IGfvHyIvk+odMiYT73jWaJei9Pm005qdhgVNmGmiaKRtz6lFAfEcgURQmCo2OOvmNM6EhjlbV1awdbkGRFzuZfVFF4tkJLCxvW6rVrB+WcnBvlMksy6vJG/kejQ9bZhzVMzsOZLrH5eA79FkTWKnEf/RYhF9L6KZRYeTai3GmoFVJM07YIIKmDbjbSpFRUpqfxMjYixzC4UozelkHIAazkAhY2CQ43UrHzGIHo5s8m9QL7UoXVRAf/2EvsOcrW+JbT0HaxknjSfdfKGCDayEv46TBm4gR/JgtTZU99czoLHKb+7U3nSar/OSwPwZLYWEiarhBPGnsBmgJJZQTCBqyfpha2WIXbXACmG4rlKcb84yF+jDZFfe6Hh5bVv3ctj7VXZ26fRVl0lWpkNyLPDdm+BFmaW4NOkpE+gU70lQeGS5nw/RRtX+GLT4jpyTyP1OAIoyAIEntNHDo2QfLgE1QGjM/eeLTVTlTl6ryXnNt93tzlVQSxbRVDqwejbI108itCoDzA8emDzn8MBg0dKhmir/ti+3jg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(396003)(346002)(376002)(366004)(136003)(53546011)(38100700001)(2906002)(31696002)(33964004)(36756003)(5660300002)(956004)(83380400001)(2616005)(8936002)(478600001)(6486002)(16526019)(4326008)(186003)(86362001)(8676002)(44832011)(16576012)(316002)(52116002)(31686004)(6916009)(54906003)(26005)(66556008)(66476007)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aWxYa1NHZU9hU0hrTC9XTy9HRUVLOWdnRFg0aitvTXdOS1FwV3VsL1h0KzAw?=
+ =?utf-8?B?T3F1NzduT2lPTUJxSjdoOEF1M1J4dVFvOFVINUZMcnladXlrcFpYdXlBSHUy?=
+ =?utf-8?B?bXNucjZ0MlRXNWlWYWxRTmRxMVoxSm56Nmt3b25ucnhwSUFvR1RHaTFsNFdv?=
+ =?utf-8?B?TU91a0RxWmkxb2tkQ2tIQ3BNVUp2aGplOWtjak5DVWI4d1Nyemx1N0k1dFFX?=
+ =?utf-8?B?bEFhazAvQkRKYWhoQXdIZnkrbUdEQ0g5OHBXSVJSUVM0RUozdlFuQzJ2dkNM?=
+ =?utf-8?B?OE41VnFhMUNYbklWU21nWDdnZkMxOHZKZzZ6dlJRaXQvczlaeWNnQm9Fczhr?=
+ =?utf-8?B?QWlhdXEza0dVV1dMcEVOOWQraS9Oc2ptU2ZQOFQvVFF4QnpEYnhjUzVUU3Q0?=
+ =?utf-8?B?T09oQTNBTktnaWgrUzFPVUV3TzdncWltM1Zid1BkTG9uTzhPUDN5VjZyRFdC?=
+ =?utf-8?B?VzJ6akJJVCt1TFl5VW5qMGhOcUhHTzNWT2k3aFdPV2REWVJaNlBnajdQUVU5?=
+ =?utf-8?B?N3JJNmpXQlNEbmtwVHVYbVJhR3BVOVJ6MkhBYXFXcUJYdVN0WS9kdUlpWDZn?=
+ =?utf-8?B?eDlPZjlzckdVdDFnVDlQQ2RDVm5jaGxWSUtTcllOem5nTmdCR3Q0SkJMNW5h?=
+ =?utf-8?B?NVhycXEzaCs2OHNMTmlDTUQySXRWeUNWZmtDd2h1QkJxQmljM3pMVjdVeHAr?=
+ =?utf-8?B?RW5WTW41Rkg4WEpZTm8zSVVxUHJMWkZiMTlGZC9KMDVKSDhqelF2N1FkTnJO?=
+ =?utf-8?B?cUZKcWxpdmlMNTNxZkxHODdZaEtGY1lEQktCOVRxR3k1QjZZbG4zaFlXVDhu?=
+ =?utf-8?B?cm9qdG81Qys4WU80cnNBczMzNnNWZkxLakc4U2puQzFLd00yTkhFai9LZ0hQ?=
+ =?utf-8?B?QUUydDBSWjRRWVBPTlY5VXhWWDFaTTI2eTN4Z1kzbnNzY1RqN3dWekZEaHhJ?=
+ =?utf-8?B?bVp4ZXF6SklpYlM3UnhEOWJ2YkdIcWpzMEw0T2l6SFJhWWxRVGQ0OWw0Y2dJ?=
+ =?utf-8?B?dWRkcytEYXVRSlAzUjhXWGdHZGNGRlFQdjg3ODlHOGNiSnpoeXcyUXRkMTdR?=
+ =?utf-8?B?bG1QRTlXZFNoWFNlRjNBZVE5NXNZbG9aRkFPQUcvWGU1dWRIUnA5SFZSK0lw?=
+ =?utf-8?B?MDJTTlZTOHVhdC9PZEVJZ0lsWDBHeFVTTnF2dmZuc0RLMUhoTFJaOXdLeXRa?=
+ =?utf-8?B?QWdLMmFJOEVjbDBrSHJoMjdQOURmZWRiNzV5WVEyUndFd0ZBK2xyUVB4OGhV?=
+ =?utf-8?B?d0x4ZWlENXZXYlhCSXhUR3pUSGlTbnV4ZS9zY1pTekw1aSt1TzRHSU9iK08w?=
+ =?utf-8?B?eWJsRzJxYlZsU2c5V2tzSmtmZTlCL0pPbXZ1Und3UmNQTTZJZERYanJaNlV2?=
+ =?utf-8?B?MkQvVllqNTROYnNZb3NTNmlhWnhicEJIc01hNEVIS093bk1nZmsxbnBQSnJP?=
+ =?utf-8?B?Wkkrbm83VFczRVFMYUo2TlhvcEMrNFZtcGhwYnN5QTB5QnN1M0pWYll2WnlJ?=
+ =?utf-8?B?MVlHUE9paVorcGNWYVYrQW1oajlSNGZoVXZjUGFjSG1WV2MzK0dzcnowQ0hv?=
+ =?utf-8?B?djBJV0N3blR6bWNOKy81SVR5TkNvV1kzSkpEazZxb1kwWWtQZWVuNnlmNGNz?=
+ =?utf-8?B?b1A0RUU5VERYSmRxa1RRcWdKY1k5Z29TNWJ0TEMxaUQ3UUZQY05Oam9UR3Ns?=
+ =?utf-8?B?WFBoZ25TME1Lb1gzczdwejBPZUJlWTVHMnROL3lrSEJMZlJ2WmRCbU9Qb0hu?=
+ =?utf-8?Q?JH06lN93p7BidRw1k4MSBLiV7RALZA8dRXu30AD?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eba74820-c0f6-42c0-d40a-08d8f4696ee6
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2021 17:21:34.3429 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xV7qxLHn/fWr+laSFIL1gZXNtzlRzUPYsWmAXSiNgV0SYk1CqFmTrLxODMa+0KQdwKC3VKKMoDfpmyYTJCch2ry3cbG0lls4D5tu6fpx1so=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB2995
+Received-SPF: pass client-ip=40.107.1.103;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,261 +150,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- berrange@redhat.com, agraf@csgraf.de, stefanha@redhat.com,
- alex.bennee@linaro.org, afaerber@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2021-03-31 at 17:05:27 +02, Paolo Bonzini wrote:
+--------------A5B95CC65AC2FAA2D08C9FA3
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> In an ideal world, we would all get along together very well, always be
-> polite and never end up in huge conflicts. And even if there are conflict=
-s,
-> we would always handle each other fair and respectfully. Unfortunately,
-> this is not an ideal world and sometimes people forget how to interact wi=
-th
-> each other in a professional and respectful way. Fortunately, this seldom
-> happens in the QEMU community, but for such rare cases it is preferrable
-> to have a basic code of conduct document available to show to people
-> who are misbehaving.  In case that does not help yet, we should also have
-> a conflict resolution policy ready that can be applied in the worst case.
+On 31.03.2021 19:02, Peter Xu wrote:
+> On Wed, Mar 31, 2021 at 06:48:06PM +0300, Andrey Gruzdev wrote:
+>> Changes v1->v2:
+>>   * Added comment over the overlooked qemu_flush() in bg_migration_thread
+>>
+>> Changes v0->v1:
+>>   * Using qemu_real_host_page_size instead of TARGET_PAGE_SIZE for host
+>>     page size in ram_block_populate_pages()
+>>   * More elegant implementation of ram_block_populate_pages()
+>>
+>> This patch series contains:
+>>   * Fix to the issue with occasionally truncated non-iterable device state
+>>   * Solution to compatibility issues with virtio-balloon device
+>>   * Fix to the issue when discarded or never populated pages miss UFFD
+>>     write protection and get into migration stream in dirty state
+>>
+>> Andrey Gruzdev (3):
+>>    migration: Fix missing qemu_fflush() on buffer file in
+>>      bg_migration_thread
+>>    migration: Inhibit virtio-balloon for the duration of background
+>>      snapshot
+>>    migration: Pre-fault memory before starting background snasphot
+> Should this be 6.0-rc material, maybe?
 >
-> The Code of Conduct document tries to be short and to the point while
-> trying to remain friendly and welcoming; it is based on the Fedora Code
-> of Conduct[1] with extra detail added based on the Contributor Covenant
-> 1.3.0[2].  Other proposals included the Contributor Covenant 1.3.0 itself
-> or the Django Code of Conduct[3] (which is also a derivative of Fedora's)
-> but, in any case, there was agreement on keeping the conflict resolution
-> policy separate from the CoC itself.
->
-> An important point is whether to apply the code of conduct to violations
-> that occur outside public spaces.  The text herein restricts that to
-> individuals acting as a representative or a member of the project or
-> its community.  This is intermediate between the Contributor Covenant
-> (which only mentions representatives of the community, for example using
-> an official project e-mail address or posting via an official social media
-> account), and the Django Code of Conduct, which says that violations of
-> this code outside these spaces "may" be considered but does not limit
-> this further.
->
-> The conflict resolution policy is based on the Drupal Conflict Resolution
-> Policy[4] and its derivative, the Mozilla Consequence Ladder[5].
->
-> [1] https://www.fedoraproject.com/code-of-conduct/
-> [2] https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/
-> [3] https://www.djangoproject.com/conduct/
-> [4] https://www.drupal.org/conflict-resolution
-> [5] https://github.com/mozilla/diversity/blob/master/code-of-conduct-enfo=
-rcement/consequence-ladder.md
->
-> Co-developed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  docs/devel/code-of-conduct.rst     | 60 ++++++++++++++++++++++
->  docs/devel/conflict-resolution.rst | 80 ++++++++++++++++++++++++++++++
->  docs/devel/index.rst               |  2 +
->  3 files changed, 142 insertions(+)
->  create mode 100644 docs/devel/code-of-conduct.rst
->  create mode 100644 docs/devel/conflict-resolution.rst
->
-> diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.=
-rst
-> new file mode 100644
-> index 0000000000..83e8855250
-> --- /dev/null
-> +++ b/docs/devel/code-of-conduct.rst
-> @@ -0,0 +1,60 @@
-> +Code of Conduct
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The QEMU community is made up of a mixture of professionals and
-> +volunteers from all over the world. Diversity is one of our strengths,
-> +but it can also lead to communication issues and unhappiness.
-> +To that end, we have a few ground rules that we ask people to adhere to.
-> +
-> +* Be welcoming. We are committed to making participation in this project
-> +  a harassment-free experience for everyone, regardless of level of
-> +  experience, gender, gender identity and expression, sexual orientation,
-> +  disability, personal appearance, body size, race, ethnicity, age, reli=
-gion,
-> +  or nationality.
-> +
-> +* Be respectful. Not all of us will agree all the time.  Disagreements, =
-both
-> +  social and technical, happen all the time and the QEMU community is no
-> +  exception. When we disagree, we try to understand why.  It is importan=
-t that
-> +  we resolve disagreements and differing views constructively.  Members =
-of the
-> +  QEMU community should be respectful when dealing with other contributo=
-rs as
-> +  well as with people outside the QEMU community and with users of QEMU.
-> +
-> +Harassment and other exclusionary behavior are not acceptable. A communi=
-ty
-> +where people feel uncomfortable or threatened is neither welcoming nor
-> +respectful.  Examples of unacceptable behavior by participants include:
-> +
-> +* The use of sexualized language or imagery
-> +
-> +* Personal attacks
-> +
-> +* Trolling or insulting/derogatory comments
-> +
-> +* Public or private harassment
-> +
-> +* Publishing other's private information, such as physical or electronic
-> +addresses, without explicit permission
-> +
-> +This isn't an exhaustive list of things that you can't do. Rather, take
-> +it in the spirit in which it's intended=E2=80=94a guide to make it easie=
-r to
-> +be excellent to each other.
-> +
-> +This code of conduct applies to all spaces managed by the QEMU project.
-> +This includes IRC, the mailing lists, the issue tracker, community
-> +events, and any other forums created by the project team which the
-> +community uses for communication. This code of conduct also applies
-> +outside these spaces, when an individual acts as a representative or a
-> +member of the project or its community.
-> +
-> +By adopting this code of conduct, project maintainers commit themselves
-> +to fairly and consistently applying these principles to every aspect of
-> +managing this project.  If you believe someone is violating the code of
-> +conduct, please read the +:ref:`conflict-resolution` document for
-> +information about how to proceed.
-> +
-> +Sources
-> +-------
-> +
-> +This document is based on the `Fedora Code of Conduct
-> +<https://fedoraproject.org/code-of-conduct>`__ and the
-> +`Contributor Covenant version 1.3.0
-> +<https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/>`__.
-> diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-res=
-olution.rst
-> new file mode 100644
-> index 0000000000..1e0bb41674
-> --- /dev/null
-> +++ b/docs/devel/conflict-resolution.rst
-> @@ -0,0 +1,80 @@
-> +.. _conflict-resolution:
-> +
-> +Conflict Resolution Policy
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +
-> +Conflicts in the community can take many forms, from someone having a
-> +bad day and using harsh and hurtful language on the mailing list to more
-> +serious code of conduct violations (including sexist/racist statements
-> +or threats of violence), and everything in between.
-> +
-> +For the vast majority of issues, we aim to empower individuals to first
-> +resolve conflicts themselves, asking for help when needed, and only
-> +after that fails to escalate further. This approach gives people more
-> +control over the outcome of their dispute.
-> +
-> +How we resolve conflicts
-> +------------------------
-> +
-> +If you are experiencing conflict, please consider first addressing the
-> +perceived conflict directly with other involved parties, preferably thro=
-ugh
-> +a real-time medium such as IRC. You could also try to get a third-party =
-(e.g.
-> +a mutual friend, and/or someone with background on the issue, but not
-> +involved in the conflict) to intercede or mediate.
-> +
-> +If this fails or if you do not feel comfortable proceeding this way, or
-> +if the problem requires immediate escalation, report the issue to the QE=
-MU
-> +leadership committee by sending an email to qemu@sfconservancy.org, prov=
-iding
-> +references to the misconduct.
-> +For very urgent topics, you can also inform one or more members through =
-IRC.
-> +The up-to-date list of members is `available on the QEMU wiki
-> +<https://wiki.qemu.org/Conservancy>`__.
-> +
-> +Your report will be treated confidentially by the leadership committee a=
-nd
-> +not be published without your agreement. The QEMU leadership committee w=
-ill
-> +then do its best to review the incident timely, and will either seek fur=
-ther
+Ah, yes)
 
-s/timely/in a timely manner/ ?
 
-> +information, or will make a determination on next steps.
-> +
-> +Remedies
-> +--------
-> +
-> +Escalating an issue to the QEMU leadership committee may result in actio=
-ns
-> +impacting one or more involved parties. In the event the leadership
-> +committee has to intervene, here are some of the ways they might respond:
-> +
-> +1. Take no action. For example, if the leadership committee determines
-> +   the complaint has not been substantiated or is being made in bad fait=
-h,
-> +   or if it is deemed to be outside its purview.
-> +
-> +2. A private reprimand, explaining the consequences of continued behavio=
-r,
-> +   to one or more involved individuals.
-> +
-> +3. A private reprimand and request for a private or public apology
-> +
-> +4. A public reprimand and request for a public apology
-> +
-> +5. A public reprimand plus a mandatory cooling off period. The cooling
-> +   off period may require, for example, one or more of the following:
-> +   abstaining from maintainer duties; not interacting with people involv=
-ed,
-> +   including unsolicited interaction with those enforcing the guidelines
-> +   and interaction on social media; being denied participation to in-per=
-son
-> +   events.  The cooling off period is voluntary but may escalate to a
-> +   temporary ban in order to enforce it.
-> +
-> +6. A temporary or permanent ban from some or all current and future QEMU
-> +   spaces (mailing lists, IRC, wiki, etc.), possibly including in-person
-> +   events.
-> +
-> +In the event of severe harassment, the leadership committee may advise t=
-hat
-> +the matter be escalated to the relevant local law enforcement agency. It
-> +is however not the role of the leadership committee to initiate contact
-> +with law enforcement on behalf of any of the community members involved
-> +in an incident.
-> +
-> +Sources
-> +-------
-> +
-> +This document was developed based on the `Drupal Conflict Resolution
-> +Policy and Process <https://www.drupal.org/conflict-resolution>`__
-> +and the `Mozilla Consequence Ladder
-> +<https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforc=
-ement/consequence-ladder.md>`__
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index 7c424ea6d7..416261505f 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -14,6 +14,8 @@ Contents:
->     :maxdepth: 2
->     :includehidden:
->=20=20
-> +   code-of-conduct
-> +   conflict-resolution
->     build-system
->     style
->     kconfig
-> --=20
-> 2.30.1
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
-dme.
---=20
-I got a girlfriend that's better than that.
+
+--------------A5B95CC65AC2FAA2D08C9FA3
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 31.03.2021 19:02, Peter Xu wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20210331160257.GO429942@xz-x1">
+      <pre class="moz-quote-pre" wrap="">On Wed, Mar 31, 2021 at 06:48:06PM +0300, Andrey Gruzdev wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Changes v1-&gt;v2:
+ * Added comment over the overlooked qemu_flush() in bg_migration_thread
+
+Changes v0-&gt;v1:
+ * Using qemu_real_host_page_size instead of TARGET_PAGE_SIZE for host
+   page size in ram_block_populate_pages()
+ * More elegant implementation of ram_block_populate_pages()
+
+This patch series contains:
+ * Fix to the issue with occasionally truncated non-iterable device state
+ * Solution to compatibility issues with virtio-balloon device
+ * Fix to the issue when discarded or never populated pages miss UFFD
+   write protection and get into migration stream in dirty state
+
+Andrey Gruzdev (3):
+  migration: Fix missing qemu_fflush() on buffer file in
+    bg_migration_thread
+  migration: Inhibit virtio-balloon for the duration of background
+    snapshot
+  migration: Pre-fault memory before starting background snasphot
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Should this be 6.0-rc material, maybe?
+
+</pre>
+    </blockquote>
+    <pre>Ah, yes)
+</pre>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                virtuzzo.com</pre>
+  </body>
+</html>
+
+--------------A5B95CC65AC2FAA2D08C9FA3--
 
