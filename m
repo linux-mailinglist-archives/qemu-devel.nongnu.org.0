@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3AFD34FD92
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 11:58:20 +0200 (CEST)
-Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B2B34FDC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 12:04:49 +0200 (CEST)
+Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRXcB-0006J8-RB
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 05:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52204)
+	id 1lRXiS-0004pP-PJ
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 06:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lRXYL-0002lr-T0; Wed, 31 Mar 2021 05:54:21 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4841)
+ id 1lRXYD-0002eG-A0; Wed, 31 Mar 2021 05:54:14 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:4059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lRXY7-0002aw-2M; Wed, 31 Mar 2021 05:54:21 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9M6M1MGlz1BFy9;
- Wed, 31 Mar 2021 17:51:55 +0800 (CST)
+ id 1lRXY5-0002as-CO; Wed, 31 Mar 2021 05:54:13 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F9M6p0g3tzlWmZ;
+ Wed, 31 Mar 2021 17:52:18 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 31 Mar 2021 17:53:51 +0800
+ 14.3.498.0; Wed, 31 Mar 2021 17:53:52 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH 4/6] hw/i386/pc: Parse cluster cpu topology for PC machines
-Date: Wed, 31 Mar 2021 17:53:41 +0800
-Message-ID: <20210331095343.12172-5-wangyanan55@huawei.com>
+Subject: [RFC PATCH 5/6] hw/arm/virt-acpi-build: Add cluster level for ARM
+ PPTT table
+Date: Wed, 31 Mar 2021 17:53:42 +0800
+Message-ID: <20210331095343.12172-6-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210331095343.12172-1-wangyanan55@huawei.com>
 References: <20210331095343.12172-1-wangyanan55@huawei.com>
@@ -35,8 +36,8 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=wangyanan55@huawei.com; helo=szxga06-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -67,97 +68,117 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a separate function pc_smp_parse() in hw/i386/pc.c used
-to parse cpu topology for the PC machines. And there are some x86
-implementations that have a similar concept of cluster, for example,
-on Jacobsville there are 6 clusters of 4 Atom cores, each cluster
-sharing a separate L2 cache, and 24 cores sharing L3 cache.
-So parse cluster cpu topology the for PC machines, then guest kernel
-will take advantages of it for better scheduling performance.
-
-In pc_smp_parse(), the computing logic of missing values prefers
-sockets over cores over threads. And the value of clusters will be
-set as default 1 if not explictly specified, so that it will not
-impact the parsing results of machines that won't specify "clusters="
-in -smp command line because they just don't support it.
+Add a Processor Hierarchy Node of cluster level between core level
+and package level for ARM PPTT table.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/i386/pc.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ hw/acpi/aml-build.c         | 11 ++++++++++
+ hw/arm/virt-acpi-build.c    | 43 +++++++++++++++++++++----------------
+ include/hw/acpi/aml-build.h |  2 ++
+ 3 files changed, 38 insertions(+), 18 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8aa85dec54..f2906f9185 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -716,33 +716,39 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-         unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-         unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-         unsigned dies = qemu_opt_get_number(opts, "dies", 1);
-+        unsigned clusters = qemu_opt_get_number(opts, "clusters", 1);
-         unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
-         unsigned threads = qemu_opt_get_number(opts, "threads", 0);
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index a0af3e9d73..fe07817013 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -1902,6 +1902,17 @@ void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+     build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+ }
  
--        /* compute missing values, prefer sockets over cores over threads */
-+        /*
-+         * Compute missing values, prefer sockets over cores
-+         * over threads. And the value of dies or clusters has
-+         * been set as default 1 if not explicitly specified.
-+         */
-         if (cpus == 0 || sockets == 0) {
-             cores = cores > 0 ? cores : 1;
-             threads = threads > 0 ? threads : 1;
-             if (cpus == 0) {
-                 sockets = sockets > 0 ? sockets : 1;
--                cpus = cores * threads * dies * sockets;
-+                cpus = sockets * dies * clusters * cores * threads;
-             } else {
-                 ms->smp.max_cpus =
-                         qemu_opt_get_number(opts, "maxcpus", cpus);
--                sockets = ms->smp.max_cpus / (cores * threads * dies);
-+                sockets = ms->smp.max_cpus /
-+                          (dies * clusters * cores * threads);
-             }
-         } else if (cores == 0) {
-             threads = threads > 0 ? threads : 1;
--            cores = cpus / (sockets * dies * threads);
-+            cores = cpus / (sockets * dies * clusters * threads);
-             cores = cores > 0 ? cores : 1;
-         } else if (threads == 0) {
--            threads = cpus / (cores * dies * sockets);
-+            threads = cpus / (sockets * dies * clusters * cores);
-             threads = threads > 0 ? threads : 1;
--        } else if (sockets * dies * cores * threads < cpus) {
-+        } else if (sockets * dies * clusters * cores * threads < cpus) {
-             error_report("cpu topology: "
--                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
--                         "smp_cpus (%u)",
--                         sockets, dies, cores, threads, cpus);
-+                         "sockets (%u) * dies (%u) * clusters (%u) * "
-+                         "cores (%u) * threads (%u) < smp_cpus (%u)",
-+                         sockets, dies, clusters, cores, threads, cpus);
-             exit(1);
++void build_cluster_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
++{
++    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
++    build_append_byte(tbl, 20);           /* Length, no private resources */
++    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
++    build_append_int_noprefix(tbl, 0, 4);      /* Flags */
++    build_append_int_noprefix(tbl, parent, 4); /* Parent */
++    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
++    build_append_int_noprefix(tbl, 0, 4); /* Number of private resources */
++}
++
+ void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+                                uint32_t parent, uint32_t id)
+ {
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 38d50ce66c..3b80518a90 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -442,6 +442,7 @@ build_pptt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     int pptt_start = table_data->len;
+     int uid = 0, cpus = 0, socket = 0;
+     MachineState *ms = MACHINE(vms);
++    unsigned int smp_clusters = ms->smp.clusters;
+     unsigned int smp_cores = ms->smp.cores;
+     unsigned int smp_threads = ms->smp.threads;
+ 
+@@ -449,29 +450,35 @@ build_pptt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ 
+     for (socket = 0; cpus < ms->possible_cpus->len; socket++) {
+         uint32_t socket_offset = table_data->len - pptt_start;
+-        int core;
++        int cluster;
+ 
+         build_socket_hierarchy(table_data, 0, socket);
+ 
+-        for (core = 0; core < smp_cores; core++) {
+-            uint32_t core_offset = table_data->len - pptt_start;
+-            int thread;
+-
+-            if (smp_threads <= 1) {
+-                build_processor_hierarchy(table_data,
+-                                          ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
+-                                          ACPI_PPTT_ACPI_LEAF_NODE,
+-                                          socket_offset, uid++);
+-             } else {
+-                build_processor_hierarchy(table_data,
+-                                          ACPI_PPTT_ACPI_PROCESSOR_ID_VALID,
+-                                          socket_offset, core);
+-                for (thread = 0; thread < smp_threads; thread++) {
+-                    build_thread_hierarchy(table_data, core_offset, uid++);
++        for (cluster = 0; cluster < smp_clusters; cluster++) {
++            uint32_t cluster_offset = table_data->len - pptt_start;
++            int core;
++
++            build_cluster_hierarchy(table_data, socket_offset, cluster);
++
++            for (core = 0; core < smp_cores; core++) {
++                uint32_t core_offset = table_data->len - pptt_start;
++                int thread;
++
++                if (smp_threads <= 1) {
++                    build_processor_hierarchy(table_data,
++                                              ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
++                                              ACPI_PPTT_ACPI_LEAF_NODE,
++                                              cluster_offset, uid++);
++                } else {
++                    build_processor_hierarchy(table_data, 0, cluster_offset, core);
++
++                    for (thread = 0; thread < smp_threads; thread++) {
++                        build_thread_hierarchy(table_data, core_offset, uid++);
++                    }
+                 }
+-             }
++            }
          }
+-        cpus += smp_cores * smp_threads;
++        cpus += smp_clusters * smp_cores * smp_threads;
+     }
  
-@@ -756,14 +762,15 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+     build_header(linker, table_data,
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index 7f0ca1a198..cb68535cf1 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -464,6 +464,8 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
  
-         if (sockets * dies * cores * threads != ms->smp.max_cpus) {
-             error_report("Invalid CPU topology deprecated: "
--                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
--                         "!= maxcpus (%u)",
--                         sockets, dies, cores, threads,
-+                         "sockets (%u) * dies (%u) * clusters (%u) * "
-+                         "cores (%u) * threads (%u) != maxcpus (%u)",
-+                         sockets, dies, clusters, cores, threads,
-                          ms->smp.max_cpus);
-             exit(1);
-         }
+ void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
  
-         ms->smp.cpus = cpus;
-+        ms->smp.clusters = clusters;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-         ms->smp.sockets = sockets;
++void build_cluster_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
++
+ void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+                                uint32_t parent, uint32_t id);
+ 
 -- 
 2.19.1
 
