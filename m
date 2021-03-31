@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370623500A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 14:50:50 +0200 (CEST)
-Received: from localhost ([::1]:52374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86C3350102
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 15:15:05 +0200 (CEST)
+Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRaJ6-0008MH-OU
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 08:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37690)
+	id 1lRaga-0004Pq-H7
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 09:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lRaHe-0007sr-PE
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 08:49:18 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:37392)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lRaHc-00059o-BV
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 08:49:18 -0400
-Received: from [10.12.39.188] (unknown [85.142.117.224])
- by mail.ispras.ru (Postfix) with ESMTPSA id 756A240A1DC7;
- Wed, 31 Mar 2021 12:49:03 +0000 (UTC)
-Subject: Re: [PATCH] target/openrisc: fix icount handling for timer
- instructions
-To: Stafford Horne <shorne@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <161700376169.1135890.8707223959310729949.stgit@pasha-ThinkPad-X280>
- <20210330220532.GC1171117@lianli.shorne-pla.net>
- <532799f9-e9ed-1e7a-713e-0ff436721f82@ispras.ru>
- <20210331123342.GG1171117@lianli.shorne-pla.net>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <78f2452a-5a26-472d-2bf1-1a2a338eb8d3@ispras.ru>
-Date: Wed, 31 Mar 2021 15:48:58 +0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRafL-0003uW-HE; Wed, 31 Mar 2021 09:13:47 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRafK-0002qx-03; Wed, 31 Mar 2021 09:13:47 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id g25so10179292wmh.0;
+ Wed, 31 Mar 2021 06:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2imILVcWDhiWtLMyZB9g3JpmaqOWwGDkSEShu4U5JT0=;
+ b=TkVpzMEdBkT0lZ456GlW7Xkm4iVez3wlB4axs37OBJ6hg8IggasKV6/iYc2LQlxFA+
+ pAAGhP6Ga6/aNsU7poXMo/yIKgrOvCLn+IQ71dA6QX5BRY/fKK+MNoWaS+NnPEQd9817
+ U3yXEtpH+sze2/5Zfs+XxboWa1oFqp4DFrD59+xViXXT8EnkNj1PpUbbkTWWYJa55fIu
+ BOjWgNeBR2RlZGJN+hgzgV+LmM2XCX6g4nBJ9XoZno1AkSqU/eVurk+UrKCdfiJUpNQo
+ eaGF0UxQUS3zo/qw66Rld49CiMIKh0MVTPGIUh0gGAazKCzsuuTHd4B7xb7mVMbvC2gu
+ j6Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2imILVcWDhiWtLMyZB9g3JpmaqOWwGDkSEShu4U5JT0=;
+ b=fLwc8o03jQXBDy07NNVdf5c/EWV9+gOv+BY+Q4ej1c8/qrin3iRasXloxItOrj98tM
+ DFvcWDY8H4dHcGmvk3sf5iAIc5S0aNZ7dN1QKz2xC8087eD6/qEejrOWH2a7yfAApKDW
+ Bk3XEMXEvrw8egL3QEBrZDy5KF9PUNAsYXVIkvliGX2czQpNYPAAlII0qv3SOoQ6pBsG
+ JiAqr8qsR8xXqYgRqDXcMzQPJS+ULVPAK/PXpb6mWBdlOZ6n1VJjlUFZbIXGZVnfOpIm
+ g//jEVMN2YYnXuc3l9nwKQVva6Y8RmMcWYGb1uH0le0GbCQkMCozrp3sIrEqZilm2BN/
+ Vx3Q==
+X-Gm-Message-State: AOAM533x+ChcY3Wo2bXycWpNqpGgDSZnOMJycXxBR6COPtAL+wiEgdJM
+ U0D1xCKdd7ZYu0acGFtuklQ=
+X-Google-Smtp-Source: ABdhPJzxbTjQO8IT0O2lwZq9fHL7mVaKa1tB8U2bZYT7dSSCOjIgOXvf0yAc199bKLSXczw1qZqukg==
+X-Received: by 2002:a7b:c186:: with SMTP id y6mr3238175wmi.84.1617196424086;
+ Wed, 31 Mar 2021 06:13:44 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id u8sm4764708wrr.42.2021.03.31.06.13.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Mar 2021 06:13:43 -0700 (PDT)
+Subject: Re: [PATCH] hw/riscv: sifive_e: Add 'const' to sifive_e_memmap[]
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20210331103612.654261-1-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d107d524-db19-72d0-bcee-b741c6fcc4da@amsat.org>
+Date: Wed, 31 Mar 2021 15:13:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210331123342.GG1171117@lianli.shorne-pla.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210331103612.654261-1-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,97 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, proljc@gmail.com
+Cc: Emmanuel Blot <eblot.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CC'ed Paolo.
+On 3/31/21 12:36 PM, Bin Meng wrote:
+> This was accidentally dropped before. Add it back.
+> 
 
+Fixes: 732612856a8 ("hw/riscv: Drop 'struct MemmapEntry'")
 
-On 31.03.2021 15:33, Stafford Horne wrote:
-> On Wed, Mar 31, 2021 at 10:27:21AM +0300, Pavel Dovgalyuk wrote:
->> On 31.03.2021 01:05, Stafford Horne wrote:
->>> Hi Pavel,
->>>
->>> Thanks for the patch.
->>>
->>> On Mon, Mar 29, 2021 at 10:42:41AM +0300, Pavel Dovgalyuk wrote:
->>>> This patch adds icount handling to mfspr/mtspr instructions
->>>> that may deal with hardware timers.
->>>>
->>>> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
->>>> ---
->>>>    target/openrisc/translate.c |   15 +++++++++++++++
->>>>    1 file changed, 15 insertions(+)
->>>>
->>>> diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
->>>> index c6dce879f1..a9c81f8bd5 100644
->>>> --- a/target/openrisc/translate.c
->>>> +++ b/target/openrisc/translate.c
->>>> @@ -884,6 +884,18 @@ static bool trans_l_mfspr(DisasContext *dc, arg_l_mfspr *a)
->>>>            gen_illegal_exception(dc);
->>>>        } else {
->>>>            TCGv spr = tcg_temp_new();
->>>> +
->>>> +        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
->>>> +            gen_io_start();
->>>> +            if (dc->delayed_branch) {
->>>> +                tcg_gen_mov_tl(cpu_pc, jmp_pc);
->>>> +                tcg_gen_discard_tl(jmp_pc);
->>>> +            } else {
->>>> +                tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
->>>> +            }
->>>> +            dc->base.is_jmp = DISAS_EXIT;
->>>> +        }
->>>
->>> I don't know alot about how the icount works.  But I read this document to help
->>> understand this patch.
->>>
->>> https://qemu.readthedocs.io/en/latest/devel/tcg-icount.html
->>>
->>> Could you explain why we need to exit the tb on mfspr?  This may just be reading
->>> a timer value, but I am not sure why we need it?
->>
->> Because virtual clock in icount mode is correct only at the end of the
->> block.
->> Allowing virtual clock reads in other places will make execution
->> non-deterministic, because icount is updated to the value, which it gets
->> after the block ends.
-> 
-> OK, got it.
-> 
->>>
->>>>            tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
->>>>            gen_helper_mfspr(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d), spr);
->>>>            tcg_temp_free(spr);
->>>> @@ -898,6 +910,9 @@ static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
->>>>        } else {
->>>>            TCGv spr;
->>>> +        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
->>>> +            gen_io_start();
->>>> +        }
->>>
->>> Here and above, why do we need to call gen_io_start()?  This seems to need to be
->>> called before io operations.
->>
->> gen_io_start allows reading icount for the instruction.
->> It is needed to prevent invalid reads in the middle of the block.
->>
->>>
->>> This may all be OK, but could you help explain the theory of operation?  Also,
->>> have you tested this?
->>
->> I have record/replay tests for openrisc, but I can't submit them without
->> this patch, because they will fail.
-> 
-> OK.
-> 
-> Acked-by: Stafford Horne <shorne@gmail.com>
-> 
-> I am not currently maintaining an openrisc queue, but I could start one.  Do you
-> have another way to submit this upstream?
+> Reported-by: Emmanuel Blot <eblot.ml@gmail.com>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Paolo, can you queue this one?
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Pavel Dovgalyuk
+> ---
+> 
+>  hw/riscv/sifive_e.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index f939bcf9ea..82096b3e5a 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -50,7 +50,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "exec/address-spaces.h"
+>  
+> -static MemMapEntry sifive_e_memmap[] = {
+> +static const MemMapEntry sifive_e_memmap[] = {
+>      [SIFIVE_E_DEV_DEBUG] =    {        0x0,     0x1000 },
+>      [SIFIVE_E_DEV_MROM] =     {     0x1000,     0x2000 },
+>      [SIFIVE_E_DEV_OTP] =      {    0x20000,     0x2000 },
+> 
+
 
