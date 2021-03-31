@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FF93503FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:59:08 +0200 (CEST)
-Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06AB3503F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:57:31 +0200 (CEST)
+Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRdFL-0005rL-73
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32880)
+	id 1lRdDm-00033F-NT
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lRd5G-0003Mg-EQ; Wed, 31 Mar 2021 11:48:42 -0400
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:44912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lRd5E-0003gN-HB; Wed, 31 Mar 2021 11:48:42 -0400
-Received: by mail-il1-x12d.google.com with SMTP id t6so17528925ilp.11;
- Wed, 31 Mar 2021 08:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KjZ0G05Gm4AVtoqHU3z2Jec0h5+ZhUFbB2yXo7AJ+WU=;
- b=Nk26JDwGgDIthuZZLdjcrS2DHIX9RzyEqI2kbmz0kJGgv6DVB99Pp0EqcqLt5YISVB
- IKKuhMmKcEwQVGbt8YbvVfsNySw41ww7mW8cH/zJJzX+da/Bq6Nz45/BvH680rP7kdFj
- aID0N6TZ70KtkL8mw2JYM9V/T40nuq31rpai2sa/HM4Wh7THdtWF/tWuKVgn0AwAHcjV
- xD3XQGcBX7FuOF4LoD/ZACrcN/gMUBlUCfWjvfrLRPSk93GR5x1N9V2csFRIFjqrCwcD
- LWR2EbSyfzAWUSX+Ad3FlQrLWdYhqgsM1ETI13iHIHD5GBJu6DtiEXQ7xV+y/LRsG1Wh
- N0uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KjZ0G05Gm4AVtoqHU3z2Jec0h5+ZhUFbB2yXo7AJ+WU=;
- b=mJ1IjZ68+Cy89jJtqxS51M5Lx/7MXMyKRkk6O3M3cXw83oewjrOw2Iqx5gcUJPRyA8
- AvGSK2HVw7SQdU2Zpsfa1hHx1XlOuVMWWqJTvyCY/B5g2IIPETri3oZmd314Xq0TSJBM
- /RmdJYClY8eD15AdsqR1P4eSUoEC1jmyYOPe4MFXvQuEd/lS+xPUscubc+c5rMbQllWN
- iy6NgJF3icrhEtsV7Lnc+wcUYlz81pfT1iDdaZ3bYsejFxPwXkRa5JpAAgYzf4VlbB6P
- dGTMcBHNViwRow78JrVfGUOmRcA2GIdRX4VxwUmdPgY4TVkSyeyBOK4CP3erzkA6F7XM
- 7zZA==
-X-Gm-Message-State: AOAM530rTpx1UjdgRS8ZiEi5+uMRYa0GT1XNCmQAppDciEvP6UL3ivcB
- FFnB4r0bUGIY0q407K3P6KmdXFgMUBpvuzzJhn8=
-X-Google-Smtp-Source: ABdhPJxhXVxdrTN0Z8RPECWLT4bXIL8/LbVrCHXcJwUEXOGR9FyoDbZHLfumpQabkHQMB+dIpJx5AHZT9pFj2jXg3fo=
-X-Received: by 2002:a05:6e02:1989:: with SMTP id
- g9mr3053038ilf.40.1617205718755; 
- Wed, 31 Mar 2021 08:48:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRd4o-0002Uu-Re
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:48:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRd4j-0003Kr-Qi
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:48:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617205687;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/+F0SkDiOwXaGaasQrGOh0vOjJgJXe0Fk24TfaRIcZ8=;
+ b=bKzr7xH15rRNGiFaGwPACgDR2/UR05w3348ldArufCopbxLs+oV54SLRKnyRTJKvWivaEE
+ TlXi630uAexcDliRrDNAEP9qSq5DTqRuT4tkh+KzPEjz4UsUWYekRg8JYb20Dj61YJeXfc
+ VG9yTZalI2owJj+eVtTv9R82O1gpUsY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-3vYKyCdNNa22rzDxJItOyw-1; Wed, 31 Mar 2021 11:48:03 -0400
+X-MC-Unique: 3vYKyCdNNa22rzDxJItOyw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D54F91009E29;
+ Wed, 31 Mar 2021 15:48:02 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-75.ams2.redhat.com [10.36.112.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3AB45C1BB;
+ Wed, 31 Mar 2021 15:47:57 +0000 (UTC)
+Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
+ Policy document
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210331150527.14857-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <72bc8020-2028-82db-219c-a6ae311e26df@redhat.com>
+Date: Wed, 31 Mar 2021 17:47:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210329170818.23139-1-bmeng.cn@gmail.com>
- <20210329170818.23139-6-bmeng.cn@gmail.com>
-In-Reply-To: <20210329170818.23139-6-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 31 Mar 2021 11:46:28 -0400
-Message-ID: <CAKmqyKNKzWKxn0gaKQcg=uGTDw5JTzexMzrwciUYMMEc_pRLug@mail.gmail.com>
-Subject: Re: [PATCH 6/8] docs/system/riscv: sifive_u: Document '-dtb' usage
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210331150527.14857-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,116 +81,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, agraf@csgraf.de,
+ stefanha@redhat.com, alex.bennee@linaro.org, afaerber@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 29, 2021 at 1:27 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Update the 'sifive_u' machine documentation to mention the '-dtb'
-> option that can be used to pass a custom DTB to QEMU.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 31/03/2021 17.05, Paolo Bonzini wrote:
+> In an ideal world, we would all get along together very well, always be
+> polite and never end up in huge conflicts. And even if there are conflicts,
+> we would always handle each other fair and respectfully. Unfortunately,
+> this is not an ideal world and sometimes people forget how to interact with
+> each other in a professional and respectful way. Fortunately, this seldom
+> happens in the QEMU community, but for such rare cases it is preferrable
+> to have a basic code of conduct document available to show to people
+> who are misbehaving.  In case that does not help yet, we should also have
+> a conflict resolution policy ready that can be applied in the worst case.
+> 
+> The Code of Conduct document tries to be short and to the point while
+> trying to remain friendly and welcoming; it is based on the Fedora Code
+> of Conduct[1] with extra detail added based on the Contributor Covenant
+> 1.3.0[2].  Other proposals included the Contributor Covenant 1.3.0 itself
+> or the Django Code of Conduct[3] (which is also a derivative of Fedora's)
+> but, in any case, there was agreement on keeping the conflict resolution
+> policy separate from the CoC itself.
+> 
+> An important point is whether to apply the code of conduct to violations
+> that occur outside public spaces.  The text herein restricts that to
+> individuals acting as a representative or a member of the project or
+> its community.  This is intermediate between the Contributor Covenant
+> (which only mentions representatives of the community, for example using
+> an official project e-mail address or posting via an official social media
+> account), and the Django Code of Conduct, which says that violations of
+> this code outside these spaces "may" be considered but does not limit
+> this further.
+> 
+> The conflict resolution policy is based on the Drupal Conflict Resolution
+> Policy[4] and its derivative, the Mozilla Consequence Ladder[5].
+> 
+> [1] https://www.fedoraproject.com/code-of-conduct/
+> [2] https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/
+> [3] https://www.djangoproject.com/conduct/
+> [4] https://www.drupal.org/conflict-resolution
+> [5] https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md
+> 
+> Co-developed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->
->  docs/system/riscv/sifive_u.rst | 47 +++++++++++++++++++++++++++++-----
->  1 file changed, 41 insertions(+), 6 deletions(-)
->
-> diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.=
-rst
-> index dcdfbda931..32d0a1b85d 100644
-> --- a/docs/system/riscv/sifive_u.rst
-> +++ b/docs/system/riscv/sifive_u.rst
-> @@ -36,12 +36,21 @@ Hardware configuration information
->  ----------------------------------
->
->  The ``sifive_u`` machine automatically generates a device tree blob ("dt=
-b")
-> -which it passes to the guest. This provides information about the addres=
-ses,
-> -interrupt lines and other configuration of the various devices in the sy=
-stem.
-> -Guest software should discover the devices that are present in the gener=
-ated
-> -DTB instead of using a DTB for the real hardware, as some of the devices=
- are
-> -not modeled by QEMU and trying to access these devices may cause unexpec=
-ted
-> -behavior.
-> +which it passes to the guest, if there is no ``-dtb`` option. This provi=
-des
-> +information about the addresses, interrupt lines and other configuration=
- of
-> +the various devices in the system. Guest software should discover the de=
-vices
-> +that are present in the generated DTB instead of using a DTB for the rea=
-l
-> +hardware, as some of the devices are not modeled by QEMU and trying to a=
-ccess
-> +these devices may cause unexpected behavior.
+>   docs/devel/code-of-conduct.rst     | 60 ++++++++++++++++++++++
+>   docs/devel/conflict-resolution.rst | 80 ++++++++++++++++++++++++++++++
+>   docs/devel/index.rst               |  2 +
+>   3 files changed, 142 insertions(+)
+>   create mode 100644 docs/devel/code-of-conduct.rst
+>   create mode 100644 docs/devel/conflict-resolution.rst
+> 
+> diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.rst
+> new file mode 100644
+> index 0000000000..83e8855250
+> --- /dev/null
+> +++ b/docs/devel/code-of-conduct.rst
+> @@ -0,0 +1,60 @@
+> +Code of Conduct
+> +===============
 > +
-> +If users want to provide their own DTB, they can use the ``-dtb`` option=
-.
-> +These DTBs should have the following requirements:
+> +The QEMU community is made up of a mixture of professionals and
+> +volunteers from all over the world. Diversity is one of our strengths,
+> +but it can also lead to communication issues and unhappiness.
+> +To that end, we have a few ground rules that we ask people to adhere to.
 > +
-> +* The /cpus node should contain at least one subnode for E51 and the num=
-ber
-> +  of subnodes should match QEMU's ``-smp`` option
-> +* The /memory reg size should match QEMU=E2=80=99s selected ram_size via=
- ``-m``
-> +* Should contain a node for the CLINT device with a compatible string
-> +  "riscv,clint0" if using with OpenSBI BIOS images
->
->  Boot options
->  ------------
-> @@ -122,6 +131,32 @@ To boot the newly built Linux kernel in QEMU with th=
-e ``sifive_u`` machine:
->        -initrd /path/to/rootfs.ext4 \
->        -append "root=3D/dev/ram"
->
-> +Alternatively, we can use a custom DTB to boot the machine by inserting =
-a CLINT
-> +node in fu540-c000.dtsi in the Linux kernel,
+> +* Be welcoming. We are committed to making participation in this project
+> +  a harassment-free experience for everyone, regardless of level of
+> +  experience, gender, gender identity and expression, sexual orientation,
+> +  disability, personal appearance, body size, race, ethnicity, age, religion,
+> +  or nationality.
 > +
-> +.. code-block:: none
+> +* Be respectful. Not all of us will agree all the time.  Disagreements, both
+> +  social and technical, happen all the time and the QEMU community is no
+> +  exception. When we disagree, we try to understand why.  It is important that
+> +  we resolve disagreements and differing views constructively.  Members of the
+> +  QEMU community should be respectful when dealing with other contributors as
+> +  well as with people outside the QEMU community and with users of QEMU.
 > +
-> +    clint: clint@2000000 {
-> +        compatible =3D "riscv,clint0";
-> +        interrupts-extended =3D <&cpu0_intc 3 &cpu0_intc 7
-> +                               &cpu1_intc 3 &cpu1_intc 7
-> +                               &cpu2_intc 3 &cpu2_intc 7
-> +                               &cpu3_intc 3 &cpu3_intc 7
-> +                               &cpu4_intc 3 &cpu4_intc 7>;
-> +        reg =3D <0x00 0x2000000 0x00 0x10000>;
-> +    };
+> +Harassment and other exclusionary behavior are not acceptable. A community
+> +where people feel uncomfortable or threatened is neither welcoming nor
+> +respectful.  Examples of unacceptable behavior by participants include:
 > +
-> +with the following command line options:
+> +* The use of sexualized language or imagery
 > +
-> +.. code-block:: bash
+> +* Personal attacks
 > +
-> +  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G \
-> +      -display none -serial stdio \
-> +      -kernel arch/riscv/boot/Image \
-> +      -dtb arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb \
-> +      -initrd /path/to/rootfs.ext4 \
-> +      -append "root=3D/dev/ram"
+> +* Trolling or insulting/derogatory comments
 > +
->  To build a Linux mainline kernel that can be booted by the ``sifive_u`` =
-machine
->  in 32-bit mode, use the rv32_defconfig configuration. A patch is require=
-d to
->  fix the 32-bit boot issue for Linux kernel v5.10.
-> --
-> 2.25.1
->
->
+> +* Public or private harassment
+> +
+> +* Publishing other's private information, such as physical or electronic
+> +addresses, without explicit permission
+> +
+> +This isn't an exhaustive list of things that you can't do. Rather, take
+> +it in the spirit in which it's intended—a guide to make it easier to
+
+s/intended—a/intended — a/
+
+With that fixed:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Thanks for putting this together!
+
+
+> +be excellent to each other.
+> +
+> +This code of conduct applies to all spaces managed by the QEMU project.
+> +This includes IRC, the mailing lists, the issue tracker, community
+> +events, and any other forums created by the project team which the
+> +community uses for communication. This code of conduct also applies
+> +outside these spaces, when an individual acts as a representative or a
+> +member of the project or its community.
+> +
+> +By adopting this code of conduct, project maintainers commit themselves
+> +to fairly and consistently applying these principles to every aspect of
+> +managing this project.  If you believe someone is violating the code of
+> +conduct, please read the +:ref:`conflict-resolution` document for
+> +information about how to proceed.
+> +
+> +Sources
+> +-------
+> +
+> +This document is based on the `Fedora Code of Conduct
+> +<https://fedoraproject.org/code-of-conduct>`__ and the
+> +`Contributor Covenant version 1.3.0
+> +<https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/>`__.
+> diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-resolution.rst
+> new file mode 100644
+> index 0000000000..1e0bb41674
+> --- /dev/null
+> +++ b/docs/devel/conflict-resolution.rst
+> @@ -0,0 +1,80 @@
+> +.. _conflict-resolution:
+> +
+> +Conflict Resolution Policy
+> +==========================
+> +
+> +Conflicts in the community can take many forms, from someone having a
+> +bad day and using harsh and hurtful language on the mailing list to more
+> +serious code of conduct violations (including sexist/racist statements
+> +or threats of violence), and everything in between.
+> +
+> +For the vast majority of issues, we aim to empower individuals to first
+> +resolve conflicts themselves, asking for help when needed, and only
+> +after that fails to escalate further. This approach gives people more
+> +control over the outcome of their dispute.
+> +
+> +How we resolve conflicts
+> +------------------------
+> +
+> +If you are experiencing conflict, please consider first addressing the
+> +perceived conflict directly with other involved parties, preferably through
+> +a real-time medium such as IRC. You could also try to get a third-party (e.g.
+> +a mutual friend, and/or someone with background on the issue, but not
+> +involved in the conflict) to intercede or mediate.
+> +
+> +If this fails or if you do not feel comfortable proceeding this way, or
+> +if the problem requires immediate escalation, report the issue to the QEMU
+> +leadership committee by sending an email to qemu@sfconservancy.org, providing
+> +references to the misconduct.
+> +For very urgent topics, you can also inform one or more members through IRC.
+> +The up-to-date list of members is `available on the QEMU wiki
+> +<https://wiki.qemu.org/Conservancy>`__.
+> +
+> +Your report will be treated confidentially by the leadership committee and
+> +not be published without your agreement. The QEMU leadership committee will
+> +then do its best to review the incident timely, and will either seek further
+> +information, or will make a determination on next steps.
+> +
+> +Remedies
+> +--------
+> +
+> +Escalating an issue to the QEMU leadership committee may result in actions
+> +impacting one or more involved parties. In the event the leadership
+> +committee has to intervene, here are some of the ways they might respond:
+> +
+> +1. Take no action. For example, if the leadership committee determines
+> +   the complaint has not been substantiated or is being made in bad faith,
+> +   or if it is deemed to be outside its purview.
+> +
+> +2. A private reprimand, explaining the consequences of continued behavior,
+> +   to one or more involved individuals.
+> +
+> +3. A private reprimand and request for a private or public apology
+> +
+> +4. A public reprimand and request for a public apology
+> +
+> +5. A public reprimand plus a mandatory cooling off period. The cooling
+> +   off period may require, for example, one or more of the following:
+> +   abstaining from maintainer duties; not interacting with people involved,
+> +   including unsolicited interaction with those enforcing the guidelines
+> +   and interaction on social media; being denied participation to in-person
+> +   events.  The cooling off period is voluntary but may escalate to a
+> +   temporary ban in order to enforce it.
+> +
+> +6. A temporary or permanent ban from some or all current and future QEMU
+> +   spaces (mailing lists, IRC, wiki, etc.), possibly including in-person
+> +   events.
+> +
+> +In the event of severe harassment, the leadership committee may advise that
+> +the matter be escalated to the relevant local law enforcement agency. It
+> +is however not the role of the leadership committee to initiate contact
+> +with law enforcement on behalf of any of the community members involved
+> +in an incident.
+> +
+> +Sources
+> +-------
+> +
+> +This document was developed based on the `Drupal Conflict Resolution
+> +Policy and Process <https://www.drupal.org/conflict-resolution>`__
+> +and the `Mozilla Consequence Ladder
+> +<https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md>`__
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index 7c424ea6d7..416261505f 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -14,6 +14,8 @@ Contents:
+>      :maxdepth: 2
+>      :includehidden:
+>   
+> +   code-of-conduct
+> +   conflict-resolution
+>      build-system
+>      style
+>      kconfig
+> 
+
 
