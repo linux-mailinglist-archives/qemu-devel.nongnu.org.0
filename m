@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B3E3503F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:59:01 +0200 (CEST)
-Received: from localhost ([::1]:36464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128D235043D
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 18:14:24 +0200 (CEST)
+Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRdFE-0005ef-Ic
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
+	id 1lRdU7-0002Ac-2S
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 12:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lRdAL-0000M3-OH; Wed, 31 Mar 2021 11:53:57 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:39534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lRdAF-0006Sj-Pl; Wed, 31 Mar 2021 11:53:57 -0400
-Received: by mail-io1-xd30.google.com with SMTP id k25so20629009iob.6;
- Wed, 31 Mar 2021 08:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cIaPXoZQNM46sZutf+VUaPa0zzyFJFOG1v9LF2gSpfQ=;
- b=WePvoS6ZJ3lfDEn6Rqq5we4UmQrjTRh3j09o4S/PvOO/hlyPIltPwEI1+AIqnUL84y
- Pjqs6ht+9aRXztvXXJSTTH7MszqWsQJKdCwkuPGbiPDhCrwRVEo+tv9ALyrEagHF4s0e
- T1FrMXib8UaX3F+wZr095z9lWfC4WQ3llX8Zt8amagaAadMxNI60h9T0h42ezTT4eCy0
- 8b6kYn7QqAEdb4NuQYopi2rtUuFWxTMNv4gDeWAZPjvE+3/tr830fTFZ1sMgZd1UFlrb
- IlQNNzQya1OOqXKIQb6qfQIqrmz36U4tVf8vk4Uhu4N7xK5c/UpmXMToBR0DTjleyDT5
- QaVg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lRdJE-0001I4-U7
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 12:03:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lRdJC-00034V-GP
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 12:03:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617206582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=68Exs8vps+/cghIZzSfas1YEDcsuJVsF93rUgca2Vic=;
+ b=U5SKyupcZCaXPD1bJ+PwfMmhfEjyllYE1a6AAp69RyGgeg0bsP6zEumYmEpXns0yrLbWGP
+ haUDzxIf7yia6qH24Q8wdGV1DpSlqDH71HL2GOyT3dFn/XnacWT4GYHc/RWTk5dYTiDr9t
+ O/whivfzL1o59czA21wpP3oGswnrVc8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-RBF-XGitMLixEtej0iWecA-1; Wed, 31 Mar 2021 12:03:00 -0400
+X-MC-Unique: RBF-XGitMLixEtej0iWecA-1
+Received: by mail-qv1-f72.google.com with SMTP id n3so1516629qvr.8
+ for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 09:03:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cIaPXoZQNM46sZutf+VUaPa0zzyFJFOG1v9LF2gSpfQ=;
- b=a2P3kyT2PPenAtqCPun3XkqLcoliKfuSQE8CbGIaKyLTgefVsH8x127fLbKnqBd+UZ
- V8ucD6V9hN/+drY/DdkfTDsLZmNpbbyjrbLn4Y5t+mdcqMhcDzZeUpJHIwoMR2Rpcc0X
- y7cLeGb+V0nn+8WbrMDOmzyI9LFYnfjELgRQmzQQyrARgON1kxwfZ3F+VANYhQ2tf+bZ
- UVu5Z7TxrOstejzJAiu8f/Qn9vVfPgoUBJauczAagUZtrC0Xl+Pi3QQNkQotXNNw6jH8
- CLc+svIYQK9yKMJlx5GCooyWk41PiN7+70V8pJxo5lAzxHivG9Q+e3XJ1P98B1NFicZi
- PepA==
-X-Gm-Message-State: AOAM531WlY/JVLBOSMzc86HeFwz152bSphGZgFoC75YFVNMzxR6gnsgk
- 1XYFuEpjwCltqT2nPe1ZohkSTzMH+YIXAp3Qsdc=
-X-Google-Smtp-Source: ABdhPJzq38Iwp31Iu56mr10uL4O5e/2yfNyPmkyXcCUgUXyWKtrC1K3BUBy55zI/0r+GGC8JOP4JHZNTcMDjvIaDmqg=
-X-Received: by 2002:a6b:7808:: with SMTP id j8mr2840045iom.118.1617206030248; 
- Wed, 31 Mar 2021 08:53:50 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=68Exs8vps+/cghIZzSfas1YEDcsuJVsF93rUgca2Vic=;
+ b=laVOpdz6Un42DHzIYiRcQ2BgrpXHjemv+QqVlAQIp8Kt0vaEbfwE7PtscBJPeXCrQo
+ /8joXXC0Zkb/G1P7ABN00CSWTUSO+5TuFUHXBg80WJsjHdWTMPcOZCHQjtXHkqYoHujG
+ RPnOdWlG80doS+CZ9tM2x/2QXD8KY3RGuBFMZ551LK6UlanvkvXa0SzEH+d7mobPC0BE
+ wqYyiS6W/HDobp+fAh2/GCuwPeMpCE2vSWl++rLB5jdKSqHqRhHAnlHYr8QSWGKsb/Mo
+ SNFp4pvmt7fUuV3YvsiRsHQgOCxVKNfGEV/yEHNX7aalhoqrmrQ/WGywztHVDcPScCsK
+ ZPMg==
+X-Gm-Message-State: AOAM533+eixeC7VnaexfgufJrGnRWhLZ0lj1BuQfXL3jOxYUu6L4oqNT
+ MpaONpYTen7cudtyICGntcGCB69hewo7ljANdl8xSoBIMWkhPHdkLd8RzxSJ0Sg4CrsSO6x34TB
+ ATdKCjx+5ScYMunc=
+X-Received: by 2002:ac8:5151:: with SMTP id h17mr3125650qtn.24.1617206580054; 
+ Wed, 31 Mar 2021 09:03:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSBx5Wza8s2e3iAROM1u+CeVrLsCI2Zt1QtIAmay9c4j/Sa1sZVOWW9kMKwOFw/rtd/rSlbQ==
+X-Received: by 2002:ac8:5151:: with SMTP id h17mr3125606qtn.24.1617206579503; 
+ Wed, 31 Mar 2021 09:02:59 -0700 (PDT)
+Received: from xz-x1 (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca.
+ [174.91.135.175])
+ by smtp.gmail.com with ESMTPSA id d10sm1726271qko.70.2021.03.31.09.02.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Mar 2021 09:02:58 -0700 (PDT)
+Date: Wed, 31 Mar 2021 12:02:57 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v2 0/3] migration: Fixes to the 'background-snapshot' code
+Message-ID: <20210331160257.GO429942@xz-x1>
+References: <20210331154809.86052-1-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210331021825.537484-1-bmeng.cn@gmail.com>
- <20210331021825.537484-2-bmeng.cn@gmail.com>
-In-Reply-To: <20210331021825.537484-2-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 31 Mar 2021 11:51:41 -0400
-Message-ID: <CAKmqyKMCTFVs9dhFza+GnTM-EqRngPmTEfWbuX=BaVMGAEpbCg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: csr: Remove redundant check in fp csr
- read/write routines
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210331154809.86052-1-andrey.gruzdev@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,106 +91,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 30, 2021 at 10:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> The following check:
->
->     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->         return -RISCV_EXCP_ILLEGAL_INST;
->     }
->
-> is redundant in fflags/frm/fcsr read/write routines, as the check was
-> already done in fs().
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+On Wed, Mar 31, 2021 at 06:48:06PM +0300, Andrey Gruzdev wrote:
+> Changes v1->v2:
+>  * Added comment over the overlooked qemu_flush() in bg_migration_thread
+> 
+> Changes v0->v1:
+>  * Using qemu_real_host_page_size instead of TARGET_PAGE_SIZE for host
+>    page size in ram_block_populate_pages()
+>  * More elegant implementation of ram_block_populate_pages()
+> 
+> This patch series contains:
+>  * Fix to the issue with occasionally truncated non-iterable device state
+>  * Solution to compatibility issues with virtio-balloon device
+>  * Fix to the issue when discarded or never populated pages miss UFFD
+>    write protection and get into migration stream in dirty state
+> 
+> Andrey Gruzdev (3):
+>   migration: Fix missing qemu_fflush() on buffer file in
+>     bg_migration_thread
+>   migration: Inhibit virtio-balloon for the duration of background
+>     snapshot
+>   migration: Pre-fault memory before starting background snasphot
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Should this be 6.0-rc material, maybe?
 
-Alistair
+-- 
+Peter Xu
 
-> ---
->
->  target/riscv/csr.c | 24 ------------------------
->  1 file changed, 24 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 2bad396f64..7c24318f75 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -193,11 +193,6 @@ static int pmp(CPURISCVState *env, int csrno)
->  /* User Floating-Point CSRs */
->  static int read_fflags(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> -#if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> -        return -RISCV_EXCP_ILLEGAL_INST;
-> -    }
-> -#endif
->      *val = riscv_cpu_get_fflags(env);
->      return 0;
->  }
-> @@ -205,9 +200,6 @@ static int read_fflags(CPURISCVState *env, int csrno, target_ulong *val)
->  static int write_fflags(CPURISCVState *env, int csrno, target_ulong val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> -        return -RISCV_EXCP_ILLEGAL_INST;
-> -    }
->      env->mstatus |= MSTATUS_FS;
->  #endif
->      riscv_cpu_set_fflags(env, val & (FSR_AEXC >> FSR_AEXC_SHIFT));
-> @@ -216,11 +208,6 @@ static int write_fflags(CPURISCVState *env, int csrno, target_ulong val)
->
->  static int read_frm(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> -#if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> -        return -RISCV_EXCP_ILLEGAL_INST;
-> -    }
-> -#endif
->      *val = env->frm;
->      return 0;
->  }
-> @@ -228,9 +215,6 @@ static int read_frm(CPURISCVState *env, int csrno, target_ulong *val)
->  static int write_frm(CPURISCVState *env, int csrno, target_ulong val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> -        return -RISCV_EXCP_ILLEGAL_INST;
-> -    }
->      env->mstatus |= MSTATUS_FS;
->  #endif
->      env->frm = val & (FSR_RD >> FSR_RD_SHIFT);
-> @@ -239,11 +223,6 @@ static int write_frm(CPURISCVState *env, int csrno, target_ulong val)
->
->  static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> -#if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> -        return -RISCV_EXCP_ILLEGAL_INST;
-> -    }
-> -#endif
->      *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
->          | (env->frm << FSR_RD_SHIFT);
->      if (vs(env, csrno) >= 0) {
-> @@ -256,9 +235,6 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
->  static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> -        return -RISCV_EXCP_ILLEGAL_INST;
-> -    }
->      env->mstatus |= MSTATUS_FS;
->  #endif
->      env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-> --
-> 2.25.1
->
->
 
