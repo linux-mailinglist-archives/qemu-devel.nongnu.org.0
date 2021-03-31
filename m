@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BA434F8CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:33:02 +0200 (CEST)
-Received: from localhost ([::1]:50324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3B034F8BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:28:31 +0200 (CEST)
+Received: from localhost ([::1]:42156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRUPV-0001Ve-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
+	id 1lRUL8-0006Pp-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRUIL-0004Zd-3h; Wed, 31 Mar 2021 02:25:37 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57469 helo=ozlabs.org)
+ id 1lRUIL-0004ZS-0d; Wed, 31 Mar 2021 02:25:37 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56393 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRUII-0000oy-61; Wed, 31 Mar 2021 02:25:36 -0400
+ id 1lRUIG-0000p2-5h; Wed, 31 Mar 2021 02:25:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F9GX709tlz9sWX; Wed, 31 Mar 2021 17:25:26 +1100 (AEDT)
+ id 4F9GX71Dtsz9sWd; Wed, 31 Mar 2021 17:25:26 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1617171927;
- bh=ZbUZUTlF8jf5aE4OwXCN/W/eDeVgxYnFh4FTht1TnKw=;
+ bh=frdXBfskgd8jnykC7Qw1E4cZMMmjNwvV6d/c8E8/1NQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E2F52+tw5QHSo6d7PtrnTG33Izz85LheGxTw8m/480BKEhFFwUZFO12VIZ7RBaBzX
- oJBhkA+tthbXrT60ElkGT5Yr3e0J7/1Rdr8LeYw+POiUajmM5ZBP2CI283GA4p9Ck3
- zENlyuAj1jvFOSrSQ9HuI3KOfHqOVvAb6Ydv4bU8=
+ b=mhPaDrqJh/i1HUzxdpgYm7mqV9qetgONOvF8d+u/u6o/oh5ZDS/RHk2KUtXLtb/DU
+ IA+1tG6BvpD0DBYYTjstVbtlWNgw81nHcOqhvYGKdcAZolo11oqz1gIjgaz3WEQydG
+ 0YA5v323RXYW9RQShQqztpGYe/TLcF96RVYskGvY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 3/5] spapr: Assert DIMM unplug state in spapr_memory_unplug()
-Date: Wed, 31 Mar 2021 17:25:22 +1100
-Message-Id: <20210331062524.335749-4-david@gibson.dropbear.id.au>
+Subject: [PULL 4/5] spapr: Fix typo in the patb_entry comment
+Date: Wed, 31 Mar 2021 17:25:23 +1100
+Message-Id: <20210331062524.335749-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210331062524.335749-1-david@gibson.dropbear.id.au>
 References: <20210331062524.335749-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,49 +57,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-spapr_memory_unplug() is the last step of the hot unplug sequence.
-It is indirectly called by:
+There is no H_REGISTER_PROCESS_TABLE, it is H_REGISTER_PROC_TBL handler
+for which is still called h_register_process_table() though.
 
- spapr_lmb_release()
-  hotplug_handler_unplug()
-
-and spapr_lmb_release() already buys us that DIMM unplug state is
-present : it gets restored with spapr_recover_pending_dimm_state()
-if missing.
-
-g_assert() that spapr_pending_dimm_unplugs_find() cannot return NULL
-in spapr_memory_unplug() to make this clear and silence Coverity.
-
-Fixes: Coverity CID 1450767
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <161562021166.948373.15092876234470478331.stgit@bahia.lan>
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20210225032335.64245-1-aik@ozlabs.ru>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/hw/ppc/spapr.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index d56418ca29..73a06df3b1 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3660,6 +3660,9 @@ static void spapr_memory_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
-     SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
-     SpaprDimmState *ds = spapr_pending_dimm_unplugs_find(spapr, PC_DIMM(dev));
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 47cebaf3ac..bf7cab7a2c 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -168,7 +168,7 @@ struct SpaprMachineState {
+     SpaprResizeHpt resize_hpt;
+     void *htab;
+     uint32_t htab_shift;
+-    uint64_t patb_entry; /* Process tbl registed in H_REGISTER_PROCESS_TABLE */
++    uint64_t patb_entry; /* Process tbl registed in H_REGISTER_PROC_TBL */
+     SpaprPendingHpt *pending_hpt; /* in-progress resize */
  
-+    /* We really shouldn't get this far without anything to unplug */
-+    g_assert(ds);
-+
-     pc_dimm_unplug(PC_DIMM(dev), MACHINE(hotplug_dev));
-     qdev_unrealize(dev);
-     spapr_pending_dimm_unplugs_remove(spapr, ds);
+     hwaddr rma_size;
 -- 
 2.30.2
 
