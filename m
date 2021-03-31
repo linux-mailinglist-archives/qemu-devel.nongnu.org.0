@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45323502EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:06:58 +0200 (CEST)
-Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6513502F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:08:50 +0200 (CEST)
+Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRcQr-000504-LV
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43092)
+	id 1lRcSf-0006bD-F5
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:08:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRcPV-00044q-99
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:05:33 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRcPT-0002lO-2J
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:05:33 -0400
-Received: by mail-ej1-x630.google.com with SMTP id ap14so17430950ejc.0
- for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 08:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kpLyYmB8Ifa7BAgV3/Kz5ipu0Q0/5i68lB6G2u9z6R8=;
- b=GmfkEMaH75zrCMJW6ejYB2ak2l4PdGZCWRnyuo0BI7iIMQiTKcU5m/hkGC5ZCOzpmS
- 7k501370ohGGsgl9ZoHX11+YnXBMqGs23MKGRiuLoT55AwsqRtPrYxgbmSp4ouiLOOk0
- JYygmmMRASLHi4gIAmoRDdflCWecUD/xRYqhqg2P6JseUStXgZyjAG3Ih4IppTR1rOWF
- dwpuUfPA/VPqK4nTy2VXI5c1TzEURRVhLn0hJi0YZ5hHfCxB5LXbF2rHHxXmMgIo3Cc5
- 9S2noQGX/Jo45CnpJOTZlX/nlRzR3DovmBBgPrdKAzRugGpT+KTQ+NFVFczpcB6jTFTy
- AVxw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRcQP-0005Is-7M
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:06:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRcQM-0003Pt-3X
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:06:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617203182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+7gkFIi1N91FLCYUWSZN++c5zJzTjszVD3mr3Eri16g=;
+ b=H6tQeSHtZLAG4ruBWb+NQQTRWuJWdhMFCwDRSKBIPaF0miBqPXjRxEiQqtf3SLJBjIB4mu
+ lqxylmHeGP0sLOoo9oWGlGun5izr8x5EXBscab+WzEYz46hsF5IQeR0NEqb+8yRSn0ei1a
+ 5R044mOpYnHYGB7H+Xuj+v9o2n4PCEI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565-J_PqMhsYNAOE5bHVQog7mw-1; Wed, 31 Mar 2021 11:06:20 -0400
+X-MC-Unique: J_PqMhsYNAOE5bHVQog7mw-1
+Received: by mail-wm1-f70.google.com with SMTP id a17so647597wme.4
+ for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 08:06:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kpLyYmB8Ifa7BAgV3/Kz5ipu0Q0/5i68lB6G2u9z6R8=;
- b=gqJNdOhhsQqpAmJfGy0/eV3iryMsM9Q9i6EQxkUVM01VlPtji2DlkUKaAzBGgVgTZx
- 0w6K9ZbY3ZxpAcoxDWMVasi+IM3m21BsfDMOM7EH8nC9mAaPBRrbNyHoqHbrJfCRD605
- v9by4VvUoupZr4sO2CuNg9rvNzo0fp30gOFcZBAga8cjN7KtGAHK+ICUguTgkgyk7D3G
- 2eLdfjKWnu1fN4zbHnhkoRkJ3xcDwz4AHP776jn0Trk6Njn+PPgrp2Z8Z6lbDz4E41Ha
- 1NkTyPnzovT4T3C/xJRH4ZR9F0vzLHsV7lE6nx9hlPqBHxVC20fFDsmqUbAosZ+A8nxB
- Va9Q==
-X-Gm-Message-State: AOAM530MflmQwwnbNON0vD0atHgPJ0kiRUWP/okz07nA8qfZF27r2+Ib
- 63kPOEcY1x+aG8XsxBi6rYqxdEIO8Ac=
-X-Google-Smtp-Source: ABdhPJz5gAVhfHd147xrkqEugEPjxtCpMsfJVqPvTEpqZIktzZsjQa75puWMwcZoKsanlrmoacRbcg==
-X-Received: by 2002:a17:906:4a50:: with SMTP id
- a16mr4057679ejv.256.1617203128775; 
- Wed, 31 Mar 2021 08:05:28 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q25sm1820943edt.51.2021.03.31.08.05.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 08:05:28 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+7gkFIi1N91FLCYUWSZN++c5zJzTjszVD3mr3Eri16g=;
+ b=Xo9ofhs8HMrENJQHx7hSd3UykGCpdGgINnKichl9YP1DSyemXOFcdqYizL/UkBBsxz
+ BgU3YC9PrRy4og19bXGQx8tWBW4KW0UUTQLDaPTK8hL1LEercuJwv711aFmXq/c+mHnH
+ 8tDFH78Bhd/dd5P2EY1QpK0pY4Q/LuAuo/1RXTuqQs8r6Nz+vFf0tCl18CSXCODl1xpS
+ ByVGNZoO92n+Z36SWybgEGkW2HgUW8h3a5voFjzXIdAr5+CeFavxMPFCZPHAPRLwaV1m
+ HN+cSzJVTwkAJN1rD2LKODVnzd5g9ZbcwXpfBaHPzSgjYGjxqkzqmtFD8qd8+gZXY/+p
+ B9iw==
+X-Gm-Message-State: AOAM531LGg9jPUtRxluoflAIXKlkSd5AIB7BABB3H2qkaKTKZMAktMFe
+ jHBsHd5h4eK7L8Flojbd04jsBmRWGtw55xmwXMUiuTFchBrHXVllQlov22EHpBc8Klb2cBSU5sM
+ 2GlhJ0iiMfH0lvOE=
+X-Received: by 2002:a5d:4281:: with SMTP id k1mr4197935wrq.374.1617203178557; 
+ Wed, 31 Mar 2021 08:06:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0c0EekwhWdf8bUSNXbJsN8J8ub0016HUPqtJZhGfGnYNmTmw9OET1chcMO8r7mT0J1+4Fzg==
+X-Received: by 2002:a5d:4281:: with SMTP id k1mr4197917wrq.374.1617203178378; 
+ Wed, 31 Mar 2021 08:06:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e8sm4490559wme.14.2021.03.31.08.06.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Mar 2021 08:06:16 -0700 (PDT)
+Subject: Re: [PATCH] configure: Do not use default_feature for EXESUF
+To: mrezanin@redhat.com, qemu-devel@nongnu.org
+References: <20210331081845.105089-1-mrezanin@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
- Policy document
-Date: Wed, 31 Mar 2021 17:05:27 +0200
-Message-Id: <20210331150527.14857-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.30.1
+Message-ID: <8187ce64-4060-5a3c-8aee-af69f48584c0@redhat.com>
+Date: Wed, 31 Mar 2021 17:06:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20210331081845.105089-1-mrezanin@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,225 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- berrange@redhat.com, agraf@csgraf.de, stefanha@redhat.com,
- alex.bennee@linaro.org, afaerber@suse.de
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In an ideal world, we would all get along together very well, always be
-polite and never end up in huge conflicts. And even if there are conflicts,
-we would always handle each other fair and respectfully. Unfortunately,
-this is not an ideal world and sometimes people forget how to interact with
-each other in a professional and respectful way. Fortunately, this seldom
-happens in the QEMU community, but for such rare cases it is preferrable
-to have a basic code of conduct document available to show to people
-who are misbehaving.  In case that does not help yet, we should also have
-a conflict resolution policy ready that can be applied in the worst case.
+On 31/03/21 10:18, mrezanin@redhat.com wrote:
+> From: Miroslav Rezanina <mrezanin@redhat.com>
+> 
+> Commit "c87ea11631 configure: add --without-default-features" use
+> default_feature to set default values for configure option. This value
+> is used for EXESUF too.
+> 
+> However, EXESUF is not option to be tested, it is just append to any
+> binary name so using --without-default-features set EXESUF to "n"o and
+> all binaries using it has form <name>no (e.g. qemu-imgno).
+> 
+> This is not expected behavior as disabling features should not cause
+> generating different binary names.
+> 
+> Reverting back to setting EXESUF to empty value unless needed otherwise.
+> 
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+> ---
+>   configure | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 535e6a9269..8275df1506 100755
+> --- a/configure
+> +++ b/configure
+> @@ -365,7 +365,7 @@ tcg_interpreter="false"
+>   bigendian="no"
+>   mingw32="no"
+>   gcov="no"
+> -EXESUF="$default_feature"
+> +EXESUF=""
+>   HOST_DSOSUF=".so"
+>   modules="no"
+>   module_upgrades="no"
+> 
 
-The Code of Conduct document tries to be short and to the point while
-trying to remain friendly and welcoming; it is based on the Fedora Code
-of Conduct[1] with extra detail added based on the Contributor Covenant
-1.3.0[2].  Other proposals included the Contributor Covenant 1.3.0 itself
-or the Django Code of Conduct[3] (which is also a derivative of Fedora's)
-but, in any case, there was agreement on keeping the conflict resolution
-policy separate from the CoC itself.
+Queued, thanks.
 
-An important point is whether to apply the code of conduct to violations
-that occur outside public spaces.  The text herein restricts that to
-individuals acting as a representative or a member of the project or
-its community.  This is intermediate between the Contributor Covenant
-(which only mentions representatives of the community, for example using
-an official project e-mail address or posting via an official social media
-account), and the Django Code of Conduct, which says that violations of
-this code outside these spaces "may" be considered but does not limit
-this further.
-
-The conflict resolution policy is based on the Drupal Conflict Resolution
-Policy[4] and its derivative, the Mozilla Consequence Ladder[5].
-
-[1] https://www.fedoraproject.com/code-of-conduct/
-[2] https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/
-[3] https://www.djangoproject.com/conduct/
-[4] https://www.drupal.org/conflict-resolution
-[5] https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md
-
-Co-developed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/devel/code-of-conduct.rst     | 60 ++++++++++++++++++++++
- docs/devel/conflict-resolution.rst | 80 ++++++++++++++++++++++++++++++
- docs/devel/index.rst               |  2 +
- 3 files changed, 142 insertions(+)
- create mode 100644 docs/devel/code-of-conduct.rst
- create mode 100644 docs/devel/conflict-resolution.rst
-
-diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.rst
-new file mode 100644
-index 0000000000..83e8855250
---- /dev/null
-+++ b/docs/devel/code-of-conduct.rst
-@@ -0,0 +1,60 @@
-+Code of Conduct
-+===============
-+
-+The QEMU community is made up of a mixture of professionals and
-+volunteers from all over the world. Diversity is one of our strengths,
-+but it can also lead to communication issues and unhappiness.
-+To that end, we have a few ground rules that we ask people to adhere to.
-+
-+* Be welcoming. We are committed to making participation in this project
-+  a harassment-free experience for everyone, regardless of level of
-+  experience, gender, gender identity and expression, sexual orientation,
-+  disability, personal appearance, body size, race, ethnicity, age, religion,
-+  or nationality.
-+
-+* Be respectful. Not all of us will agree all the time.  Disagreements, both
-+  social and technical, happen all the time and the QEMU community is no
-+  exception. When we disagree, we try to understand why.  It is important that
-+  we resolve disagreements and differing views constructively.  Members of the
-+  QEMU community should be respectful when dealing with other contributors as
-+  well as with people outside the QEMU community and with users of QEMU.
-+
-+Harassment and other exclusionary behavior are not acceptable. A community
-+where people feel uncomfortable or threatened is neither welcoming nor
-+respectful.  Examples of unacceptable behavior by participants include:
-+
-+* The use of sexualized language or imagery
-+
-+* Personal attacks
-+
-+* Trolling or insulting/derogatory comments
-+
-+* Public or private harassment
-+
-+* Publishing other's private information, such as physical or electronic
-+addresses, without explicit permission
-+
-+This isn't an exhaustive list of things that you can't do. Rather, take
-+it in the spirit in which it's intended—a guide to make it easier to
-+be excellent to each other.
-+
-+This code of conduct applies to all spaces managed by the QEMU project.
-+This includes IRC, the mailing lists, the issue tracker, community
-+events, and any other forums created by the project team which the
-+community uses for communication. This code of conduct also applies
-+outside these spaces, when an individual acts as a representative or a
-+member of the project or its community.
-+
-+By adopting this code of conduct, project maintainers commit themselves
-+to fairly and consistently applying these principles to every aspect of
-+managing this project.  If you believe someone is violating the code of
-+conduct, please read the +:ref:`conflict-resolution` document for
-+information about how to proceed.
-+
-+Sources
-+-------
-+
-+This document is based on the `Fedora Code of Conduct
-+<https://fedoraproject.org/code-of-conduct>`__ and the
-+`Contributor Covenant version 1.3.0
-+<https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/>`__.
-diff --git a/docs/devel/conflict-resolution.rst b/docs/devel/conflict-resolution.rst
-new file mode 100644
-index 0000000000..1e0bb41674
---- /dev/null
-+++ b/docs/devel/conflict-resolution.rst
-@@ -0,0 +1,80 @@
-+.. _conflict-resolution:
-+
-+Conflict Resolution Policy
-+==========================
-+
-+Conflicts in the community can take many forms, from someone having a
-+bad day and using harsh and hurtful language on the mailing list to more
-+serious code of conduct violations (including sexist/racist statements
-+or threats of violence), and everything in between.
-+
-+For the vast majority of issues, we aim to empower individuals to first
-+resolve conflicts themselves, asking for help when needed, and only
-+after that fails to escalate further. This approach gives people more
-+control over the outcome of their dispute.
-+
-+How we resolve conflicts
-+------------------------
-+
-+If you are experiencing conflict, please consider first addressing the
-+perceived conflict directly with other involved parties, preferably through
-+a real-time medium such as IRC. You could also try to get a third-party (e.g.
-+a mutual friend, and/or someone with background on the issue, but not
-+involved in the conflict) to intercede or mediate.
-+
-+If this fails or if you do not feel comfortable proceeding this way, or
-+if the problem requires immediate escalation, report the issue to the QEMU
-+leadership committee by sending an email to qemu@sfconservancy.org, providing
-+references to the misconduct.
-+For very urgent topics, you can also inform one or more members through IRC.
-+The up-to-date list of members is `available on the QEMU wiki
-+<https://wiki.qemu.org/Conservancy>`__.
-+
-+Your report will be treated confidentially by the leadership committee and
-+not be published without your agreement. The QEMU leadership committee will
-+then do its best to review the incident timely, and will either seek further
-+information, or will make a determination on next steps.
-+
-+Remedies
-+--------
-+
-+Escalating an issue to the QEMU leadership committee may result in actions
-+impacting one or more involved parties. In the event the leadership
-+committee has to intervene, here are some of the ways they might respond:
-+
-+1. Take no action. For example, if the leadership committee determines
-+   the complaint has not been substantiated or is being made in bad faith,
-+   or if it is deemed to be outside its purview.
-+
-+2. A private reprimand, explaining the consequences of continued behavior,
-+   to one or more involved individuals.
-+
-+3. A private reprimand and request for a private or public apology
-+
-+4. A public reprimand and request for a public apology
-+
-+5. A public reprimand plus a mandatory cooling off period. The cooling
-+   off period may require, for example, one or more of the following:
-+   abstaining from maintainer duties; not interacting with people involved,
-+   including unsolicited interaction with those enforcing the guidelines
-+   and interaction on social media; being denied participation to in-person
-+   events.  The cooling off period is voluntary but may escalate to a
-+   temporary ban in order to enforce it.
-+
-+6. A temporary or permanent ban from some or all current and future QEMU
-+   spaces (mailing lists, IRC, wiki, etc.), possibly including in-person
-+   events.
-+
-+In the event of severe harassment, the leadership committee may advise that
-+the matter be escalated to the relevant local law enforcement agency. It
-+is however not the role of the leadership committee to initiate contact
-+with law enforcement on behalf of any of the community members involved
-+in an incident.
-+
-+Sources
-+-------
-+
-+This document was developed based on the `Drupal Conflict Resolution
-+Policy and Process <https://www.drupal.org/conflict-resolution>`__
-+and the `Mozilla Consequence Ladder
-+<https://github.com/mozilla/diversity/blob/master/code-of-conduct-enforcement/consequence-ladder.md>`__
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 7c424ea6d7..416261505f 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -14,6 +14,8 @@ Contents:
-    :maxdepth: 2
-    :includehidden:
- 
-+   code-of-conduct
-+   conflict-resolution
-    build-system
-    style
-    kconfig
--- 
-2.30.1
+Paolo
 
 
