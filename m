@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3FA34FDE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 12:16:35 +0200 (CEST)
-Received: from localhost ([::1]:49240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DAC234FDDC
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 12:15:01 +0200 (CEST)
+Received: from localhost ([::1]:46264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRXtq-0004sz-Ej
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 06:16:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56292)
+	id 1lRXsK-0003g5-8c
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 06:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lRXqr-0002O6-SB; Wed, 31 Mar 2021 06:13:29 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4309)
+ id 1lRXr1-0002U3-4B; Wed, 31 Mar 2021 06:13:40 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:4310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lRXqp-0005bJ-73; Wed, 31 Mar 2021 06:13:29 -0400
+ id 1lRXqw-0005iF-Jz; Wed, 31 Mar 2021 06:13:38 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9MX26Bc3znWZN;
- Wed, 31 Mar 2021 18:10:42 +0800 (CST)
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9MXF1lGKznVL4;
+ Wed, 31 Mar 2021 18:10:53 +0800 (CST)
 Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 31 Mar 2021 18:13:15 +0800
+ 14.3.498.0; Wed, 31 Mar 2021 18:13:21 +0800
 From: Kunkun Jiang <jiangkunkun@huawei.com>
 To: Eric Auger <eric.auger@redhat.com>, Peter Maydell
  <peter.maydell@linaro.org>, Alex Williamson <alex.williamson@redhat.com>,
  <kevin.tian@intel.com>, Yi Sun <yi.y.sun@linux.intel.com>, "open list:ARM
  SMMU" <qemu-arm@nongnu.org>, "open list:All patches CC here"
  <qemu-devel@nongnu.org>
-Subject: [RFC PATCH v2 0/4] Add migration support for VFIO PCI devices in
- SMMUv3 nested stage mode
-Date: Wed, 31 Mar 2021 18:12:55 +0800
-Message-ID: <20210331101259.2153-1-jiangkunkun@huawei.com>
+Subject: [RFC PATCH v2 1/4] vfio: Introduce helpers to mark dirty pages of a
+ RAM section
+Date: Wed, 31 Mar 2021 18:12:56 +0800
+Message-ID: <20210331101259.2153-2-jiangkunkun@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20210331101259.2153-1-jiangkunkun@huawei.com>
+References: <20210331101259.2153-1-jiangkunkun@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -65,62 +67,62 @@ Cc: Liu Yi L <yi.l.liu@intel.com>, shameerali.kolothum.thodi@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Extract part of the code from vfio_sync_dirty_bitmap to form a
+new helper, which allows to mark dirty pages of a RAM section.
+This helper will be called for nested stage.
 
-Since the SMMUv3's nested translation stages[1] has been introduced by Eric, we
-need to pay attention to the migration of VFIO PCI devices in SMMUv3 nested stage
-mode. At present, it is not yet supported in QEMU. There are two problems in the
-existing framework.
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+---
+ hw/vfio/common.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-First, the current way to get dirty pages is not applicable to nested stage mode.
-Because of the "Caching Mode", VTD can map the RAM through the host single stage
-(giova->hpa). "vfio_listener_log_sync" gets dirty pages by transferring "giova"
-to the kernel for the RAM block section of mapped MMIO region. In nested stage
-mode, we setup the stage 2 (gpa->hpa) and the stage 1(giova->gpa) separately. So
-it is inapplicable to get dirty pages by the current way in nested stage mode.
-
-Second, it also need to pass stage 1 configurations to the destination host after
-the migration. In Eric's patch, it passes the stage 1 configuration to the host on
-each STE update for the devices set the PASID PciOps. The configuration will be
-applied at physical level. But the data of physical level will not be sent to the
-destination host. So we have to pass stage 1 configurations to the destination
-host after the migration.
-
-Best Regards,
-Kunkun Jiang
-
-[1] [RFC,v8,00/28] vSMMUv3/pSMMUv3 2 stage VFIO integration
-http://patchwork.ozlabs.org/project/qemu-devel/cover/20210225105233.650545-1-eric.auger@redhat.com/
-
-This Patch set includes patches as below:
-Patch 1-2:
-- Refactor the vfio_listener_log_sync and added a new function to get dirty pages
-in nested stage mode.
-
-Patch 3:
-- Added global_log_start/stop interface in vfio_memory_prereg_listener
-
-Patch 4:
-- Added the post_load function to vmstate_smmuv3 for passing stage 1 configuration
-to the destination host after the migration.
-
-History:
-
-v1 -> v2:
-- Add global_log_start/stop interface in vfio_memory_prereg_listener
-- Add support for repass stage 1 configs with multiple CDs to the host
-
-Kunkun Jiang (4):
-  vfio: Introduce helpers to mark dirty pages of a RAM section
-  vfio: Add vfio_prereg_listener_log_sync in nested stage
-  vfio: Add vfio_prereg_listener_global_log_start/stop in nested stage
-  hw/arm/smmuv3: Post-load stage 1 configurations to the host
-
- hw/arm/smmuv3.c     | 62 +++++++++++++++++++++++++++++++++++++++
- hw/arm/trace-events |  1 +
- hw/vfio/common.c    | 71 ++++++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 126 insertions(+), 8 deletions(-)
-
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 7da1e95b43..3117979307 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1271,6 +1271,19 @@ err_out:
+     return ret;
+ }
+ 
++static int vfio_dma_sync_ram_section_dirty_bitmap(VFIOContainer *container,
++                                                  MemoryRegionSection *section)
++{
++    ram_addr_t ram_addr;
++
++    ram_addr = memory_region_get_ram_addr(section->mr) +
++               section->offset_within_region;
++
++    return vfio_get_dirty_bitmap(container,
++                    REAL_HOST_PAGE_ALIGN(section->offset_within_address_space),
++                    int128_get64(section->size), ram_addr);
++}
++
+ typedef struct {
+     IOMMUNotifier n;
+     VFIOGuestIOMMU *giommu;
+@@ -1312,8 +1325,6 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+                                   MemoryRegionSection *section)
+ {
+-    ram_addr_t ram_addr;
+-
+     if (memory_region_is_iommu(section->mr)) {
+         VFIOGuestIOMMU *giommu;
+ 
+@@ -1342,12 +1353,7 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+         return 0;
+     }
+ 
+-    ram_addr = memory_region_get_ram_addr(section->mr) +
+-               section->offset_within_region;
+-
+-    return vfio_get_dirty_bitmap(container,
+-                   REAL_HOST_PAGE_ALIGN(section->offset_within_address_space),
+-                   int128_get64(section->size), ram_addr);
++    return vfio_dma_sync_ram_section_dirty_bitmap(container, section);
+ }
+ 
+ static void vfio_listener_log_sync(MemoryListener *listener,
 -- 
 2.23.0
 
