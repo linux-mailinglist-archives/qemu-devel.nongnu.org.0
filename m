@@ -2,97 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719C034F944
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 08:52:47 +0200 (CEST)
-Received: from localhost ([::1]:43914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4387134F9C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 09:22:31 +0200 (CEST)
+Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRUic-0002s3-Go
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 02:52:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
+	id 1lRVBL-0000um-DT
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 03:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRUgz-0001zG-6i
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 02:51:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21928)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lRVA0-0000Ux-EN; Wed, 31 Mar 2021 03:21:04 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:36779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRUgt-0007WL-K1
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 02:51:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617173457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uyyxsWqXUPsDGm7G0oqqU9JN9pR8LpcCYhxzwws3uR4=;
- b=AVaEk0Cqa9kJtZsDe561yH6LfUb4D1YwpqPJxxlOrRiWf56krecaHbuEIpvhUfqGFU33rh
- lp/ws+V+lNVQ8hjZ5jkwneCiu81mQbQeFrmUsNPRjG4tCtsGgKf6/NAdCWLgaotVopDnGS
- FTnoo7FPWXIO6ouQQ8I/q9Hco973UOk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-JvP1JUv_Mg6recfAUAdcKg-1; Wed, 31 Mar 2021 02:50:53 -0400
-X-MC-Unique: JvP1JUv_Mg6recfAUAdcKg-1
-Received: by mail-wr1-f72.google.com with SMTP id v13so479914wrs.21
- for <qemu-devel@nongnu.org>; Tue, 30 Mar 2021 23:50:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uyyxsWqXUPsDGm7G0oqqU9JN9pR8LpcCYhxzwws3uR4=;
- b=oKRtrh8iE/YXyqwtk15TILKlQWGuoOWPk8dfuSJNG+rA9XEMFegwRaTRXlGyDdkRzm
- WcmWAGzk7FjCmNabdxquBpjPmIAr0isKLqBw0dQqtld4t3tq6hdkDn7jcvIP6n6gSWUK
- Wa1yoAhNZIpJjClIqw1MxLnRW63qrbiXdliw8YBsmdqxRWLV6OR7NpRJtJnpVj88vIzU
- LLZyKuARkqaD4Tk3kApNzRLDcLV6BBq4iurgU/UUFCDEdw6WrEJo3h6lXG5Ce7wuSgMS
- luAGXFOkOVQvMvGMYYy5MubfImBB+pF271oCTVoGgHOljt4K0uIzohxXvSmz0COU17ND
- OocA==
-X-Gm-Message-State: AOAM530lfCMO7++pSHbqeYtEJQfaNRSyUbsNRCYFzvpXFDqvT4EHF7cm
- lAS2o+hWDGQ2x9KY6bZPHsSxj6iZwYpwKsXQ6koXx/u17njPoOn/qrwmdijM8kb3AcMWpKF8+MV
- rX9Cw3F9lnwz0Vko=
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr1686685wmc.59.1617173452521; 
- Tue, 30 Mar 2021 23:50:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNe3A3tqEK++UBEkJsOeGAXE2aAwFfszf0Qz5W2UE1roCoa6mSFW2IFW+i1hq1y9VhfIK8Mg==
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr1686662wmc.59.1617173452245; 
- Tue, 30 Mar 2021 23:50:52 -0700 (PDT)
-Received: from [192.168.10.118] ([93.56.169.140])
- by smtp.gmail.com with ESMTPSA id x25sm3266155wmj.14.2021.03.30.23.50.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Mar 2021 23:50:49 -0700 (PDT)
-Subject: Re: [PATCH v2] docs: Add a QEMU Code of Conduct and Conflict
- Resolution Policy document
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?=
- <afaerber@suse.de>, Alexander Graf <agraf@csgraf.de>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210330090806.2802667-1-thuth@redhat.com>
- <c8cc80d5-51f8-9c35-ad98-1eac0d164be6@redhat.com>
- <7d135bc6-f130-74bc-8833-1938d835dec4@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <49a02d4e-ddb4-00c7-a208-69b6171f8aa9@redhat.com>
-Date: Wed, 31 Mar 2021 08:50:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lRV9y-0000l1-94; Wed, 31 Mar 2021 03:21:04 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.216])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6A6D5961F045;
+ Wed, 31 Mar 2021 09:20:58 +0200 (CEST)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 31 Mar
+ 2021 09:20:57 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005201826ac-a360-4a58-b93b-0faac95adc14,
+ 9D8442807461E38AC8E896D56D3346AE12FD8989) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 31 Mar 2021 09:20:56 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu] spapr: Rename RTAS_MAX_ADDR to FDT_MAX_ADDR
+Message-ID: <20210331092056.458de363@bahia.lan>
+In-Reply-To: <20210331025123.29310-1-aik@ozlabs.ru>
+References: <20210331025123.29310-1-aik@ozlabs.ru>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <7d135bc6-f130-74bc-8833-1938d835dec4@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 5cfa61e1-80d2-465a-90d4-51c68a9287f0
+X-Ovh-Tracer-Id: 2511319744087431648
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeiuddguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,96 +66,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/21 07:40, Thomas Huth wrote:
-> On 30/03/2021 12.53, Paolo Bonzini wrote:
->> On 30/03/21 11:08, Thomas Huth wrote:
->>>   I've picked the Django Code of Conduct as a base, since it sounds 
->>> rather
->>>   friendly and still welcoming to me, but I'm open for other 
->>> suggestions, too
->>>   (but we should maybe pick one where the conflict resolution policy is
->>>   separated from the CoC itself so that it can be better taylored to the
->>>   requirements of the QEMU project)
->>
->> It turns out that the Django CoC is ultimately based on the Fedora CoC,
->> so I tried using 
->> https://docs.fedoraproject.org/en-US/project/code-of-conduct/
->> as an inspiration for what can be cut. Here is the outcome:
->>
->> -----
->> The QEMU community is made up of a mixture of professionals and
->> volunteers from all over the world. Diversity is one of our strengths,
->> but it can also lead to communication issues and unhappiness.
->> To that end, we have a few ground rules that we ask people to adhere to.
->>
->> * Be welcoming. We are committed to making participation in this project
->>    a harassment-free experience for everyone, regardless of level of
->>    experience, gender, gender identity and expression, sexual 
->> orientation,
->>    disability, personal appearance, body size, race, ethnicity, age, 
->> religion,
->>    or nationality.
->>
->> * Be respectful. Not all of us will agree all the time.  
->> Disagreements, both
->>    social and technical, happen all the time and the QEMU community is no
->>    exception. When we disagree, we try to understand why.  It is 
->> important that
->>    we resolve disagreements and differing views constructively.  
->> Members of the
->>    QEMU community should be respectful when dealing with other 
->> contributors as
->>    well as with people outside the QEMU community and with users of QEMU.
->>
->> Harassment and other exclusionary behavior are not acceptable. A 
->> community
->> where people feel uncomfortable or threatened is neither welcoming nor
->> respectful.  Examples of unacceptable behavior by participants include:
->>
->> * The use of sexualized language or imagery
->>
->> * Personal attacks
->>
->> * Trolling or insulting/derogatory comments
->>
->> * Public or private harassment
->>
->> * Publishing other's private information, such as physical or electronic
->> addresses, without explicit permission
->>
->> This isn't an exhaustive list of things that you can't do. Rather, take
->> it in the spirit in which it's intended—a guide to make it easier to
->> be excellent to each other.
->>
->> This code of conduct applies to all spaces managed by the QEMU project.
->> This includes IRC, the mailing lists, the issue tracker, community
->> events, and any other forums created by the project team which the
->> community uses for communication. This code of conduct also applies
->> outside these spaces, when an individual acts as a representative or a
->> member of the project or its community.
->>
->> By adopting this code of conduct, project maintainers commit themselves
->> to fairly and consistently applying these principles to every aspect of
->> managing this project.  If you believe someone is violating the code of
->> conduct, please read the +:ref:`conflict-resolution` document for
->> information about how to proceed.
->>
->> This document is based on the `Fedora Code of Conduct
->> <https://fedoraproject.org/code-of-conduct>`__ and the
->> `Contributor Covenant version 1.3.0
->> <https://www.contributor-covenant.org/version/1/3/0/code-of-conduct/>`__.
-> 
-> That text sounds fine to me, too.
-> 
-> ... since you've basically assembled now both files, do you want to go 
-> ahead and post this as v3?
+On Wed, 31 Mar 2021 13:51:23 +1100
+Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 
-Fair enough.  Thanks very much for bringing up the topic again.
+> SLOF instantiates RTAS since
+> 744a928ccee9 ("spapr: Stop providing RTAS blob")
+> so the max address applies to the FDT only.
+> 
+> This renames the macro and fixes up the comment.
+> 
+> This should not cause any behavioral change.
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
 
-Paolo
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/ppc/spapr.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 73a06df3b1b1..1e18a0a62839 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -100,7 +100,7 @@
+>   *
+>   * We load our kernel at 4M, leaving space for SLOF initial image
+>   */
+> -#define RTAS_MAX_ADDR           0x80000000 /* RTAS must stay below that */
+> +#define FDT_MAX_ADDR            0x80000000 /* FDT must stay below that */
+>  #define FW_MAX_SIZE             0x400000
+>  #define FW_FILE_NAME            "slof.bin"
+>  #define FW_OVERHEAD             0x2800000
+> @@ -1617,11 +1617,11 @@ static void spapr_machine_reset(MachineState *machine)
+>      spapr_clear_pending_events(spapr);
+>  
+>      /*
+> -     * We place the device tree and RTAS just below either the top of the RMA,
+> +     * We place the device tree just below either the top of the RMA,
+>       * or just below 2GB, whichever is lower, so that it can be
+>       * processed with 32-bit real mode code if necessary
+>       */
+> -    fdt_addr = MIN(spapr->rma_size, RTAS_MAX_ADDR) - FDT_MAX_SIZE;
+> +    fdt_addr = MIN(spapr->rma_size, FDT_MAX_ADDR) - FDT_MAX_SIZE;
+>  
+>      fdt = spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
+>  
+> @@ -2694,7 +2694,7 @@ static void spapr_machine_init(MachineState *machine)
+>      spapr->rma_size = spapr_rma_size(spapr, &error_fatal);
+>  
+>      /* Setup a load limit for the ramdisk leaving room for SLOF and FDT */
+> -    load_limit = MIN(spapr->rma_size, RTAS_MAX_ADDR) - FW_OVERHEAD;
+> +    load_limit = MIN(spapr->rma_size, FDT_MAX_ADDR) - FW_OVERHEAD;
+>  
+>      /*
+>       * VSMT must be set in order to be able to compute VCPU ids, ie to
 
 
