@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E383503DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:54:07 +0200 (CEST)
-Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FF93503FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 17:59:08 +0200 (CEST)
+Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRdAU-00087X-9K
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
+	id 1lRdFL-0005rL-73
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 11:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lRd4c-0002Mg-Cs
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:48:02 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37638)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lRd5G-0003Mg-EQ; Wed, 31 Mar 2021 11:48:42 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:44912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lRd4W-0003DS-9s
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 11:47:59 -0400
-Received: by mail-wr1-x435.google.com with SMTP id x16so20142548wrn.4
- for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 08:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=eFw3EDFgZL+GuhOStaUJQGwRpu4MxKa+wWXmCZYcrFI=;
- b=kAH7ADxM/NneEr4+4gEnvnwN1QuiOxUQeDxfmTnKWdw0pPsNi8aHhk1WQW5GCEipIB
- kCC4pwOvbGosepmx90YfUVuax37QzuJ8Fr6zbg8Zfm6ZkrcMPJ76SDlOlfRVkY0dF+vD
- CW9MVtxFRap+tPgvdV0geIspuTLn+lNL+U4MqeNwtOyBF0UOPQ+eWbb/8UamJqK+vve7
- J0kCsqGuBexCIWOgsMQX+xdEyWzHA/9b9FTuqSBi3S2jNin0oheeAV1Dz1vdxXdM/YGc
- YUKrppMK93IjyXo38hl7fu7tNSL3+7NcGU6CBsKCcmO+kTHsORp2vGgTLcM+yDWLvuve
- BIaA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lRd5E-0003gN-HB; Wed, 31 Mar 2021 11:48:42 -0400
+Received: by mail-il1-x12d.google.com with SMTP id t6so17528925ilp.11;
+ Wed, 31 Mar 2021 08:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KjZ0G05Gm4AVtoqHU3z2Jec0h5+ZhUFbB2yXo7AJ+WU=;
+ b=Nk26JDwGgDIthuZZLdjcrS2DHIX9RzyEqI2kbmz0kJGgv6DVB99Pp0EqcqLt5YISVB
+ IKKuhMmKcEwQVGbt8YbvVfsNySw41ww7mW8cH/zJJzX+da/Bq6Nz45/BvH680rP7kdFj
+ aID0N6TZ70KtkL8mw2JYM9V/T40nuq31rpai2sa/HM4Wh7THdtWF/tWuKVgn0AwAHcjV
+ xD3XQGcBX7FuOF4LoD/ZACrcN/gMUBlUCfWjvfrLRPSk93GR5x1N9V2csFRIFjqrCwcD
+ LWR2EbSyfzAWUSX+Ad3FlQrLWdYhqgsM1ETI13iHIHD5GBJu6DtiEXQ7xV+y/LRsG1Wh
+ N0uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=eFw3EDFgZL+GuhOStaUJQGwRpu4MxKa+wWXmCZYcrFI=;
- b=IHrbwrR1yYyiWyokbZpng+pAvoLbMIInvnTajxgapxeZ7n0pP8YPHzZ+07s/9rwF+a
- ZUr4QAXdwXEz4zgysaP5oF1rmI6QKJmLv9U/BO97Hdj01Y4MVc/f50G99Yl1BZ/m+8gH
- ByhCtv7s0tqHwo2bZIWZjK51yYeOZAs9XcL7iVO7+0JOnD/k1ACzEzpj895b77/VUM7Z
- xouIPgVrZ7I3vCrmHc/eoyuPEv7PLhRjoOZKzCM6r9xA4SqSS1uB9kCx7jP/BmHoFoTg
- 0PSZRj4rGKAjJ+PsHHyanogKYLXVY7vG4ou8o+xD/65wm6yTYVD0vXmzqYusYH1g5h9+
- wCYg==
-X-Gm-Message-State: AOAM532wp7iyh8fbtRQwPh7xFNJRoQr7izLBJyDo5wgIQweqWaz9gIw/
- f1E78uz8EGq2MvXODuW+fuOOHg==
-X-Google-Smtp-Source: ABdhPJwLi0BMPOyLyLhP5QZKax4IMSt/90HqD9Kine0x+oBwMfJdbopOE0h/y8GFnGpo0dTVWToRhQ==
-X-Received: by 2002:adf:fd48:: with SMTP id h8mr4510342wrs.229.1617205673212; 
- Wed, 31 Mar 2021 08:47:53 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r1sm7184348wrj.63.2021.03.31.08.47.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Mar 2021 08:47:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 51A541FF7E;
- Wed, 31 Mar 2021 16:47:51 +0100 (BST)
-References: <20200929224857.1225107-1-philmd@redhat.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] tests/acceptance: Add a 'virt_kvm' test using the GICv3
-Date: Wed, 31 Mar 2021 16:45:25 +0100
-In-reply-to: <20200929224857.1225107-1-philmd@redhat.com>
-Message-ID: <87eefvnx3s.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KjZ0G05Gm4AVtoqHU3z2Jec0h5+ZhUFbB2yXo7AJ+WU=;
+ b=mJ1IjZ68+Cy89jJtqxS51M5Lx/7MXMyKRkk6O3M3cXw83oewjrOw2Iqx5gcUJPRyA8
+ AvGSK2HVw7SQdU2Zpsfa1hHx1XlOuVMWWqJTvyCY/B5g2IIPETri3oZmd314Xq0TSJBM
+ /RmdJYClY8eD15AdsqR1P4eSUoEC1jmyYOPe4MFXvQuEd/lS+xPUscubc+c5rMbQllWN
+ iy6NgJF3icrhEtsV7Lnc+wcUYlz81pfT1iDdaZ3bYsejFxPwXkRa5JpAAgYzf4VlbB6P
+ dGTMcBHNViwRow78JrVfGUOmRcA2GIdRX4VxwUmdPgY4TVkSyeyBOK4CP3erzkA6F7XM
+ 7zZA==
+X-Gm-Message-State: AOAM530rTpx1UjdgRS8ZiEi5+uMRYa0GT1XNCmQAppDciEvP6UL3ivcB
+ FFnB4r0bUGIY0q407K3P6KmdXFgMUBpvuzzJhn8=
+X-Google-Smtp-Source: ABdhPJxhXVxdrTN0Z8RPECWLT4bXIL8/LbVrCHXcJwUEXOGR9FyoDbZHLfumpQabkHQMB+dIpJx5AHZT9pFj2jXg3fo=
+X-Received: by 2002:a05:6e02:1989:: with SMTP id
+ g9mr3053038ilf.40.1617205718755; 
+ Wed, 31 Mar 2021 08:48:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210329170818.23139-1-bmeng.cn@gmail.com>
+ <20210329170818.23139-6-bmeng.cn@gmail.com>
+In-Reply-To: <20210329170818.23139-6-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 31 Mar 2021 11:46:28 -0400
+Message-ID: <CAKmqyKNKzWKxn0gaKQcg=uGTDw5JTzexMzrwciUYMMEc_pRLug@mail.gmail.com>
+Subject: Re: [PATCH 6/8] docs/system/riscv: sifive_u: Document '-dtb' usage
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,98 +79,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> The current 'virt_kvm' test is restricted to GICv2, but can also
-> work with a GICv3. Duplicate it but add a GICv3 test which can be
-> tested on some hardware.
+On Mon, Mar 29, 2021 at 1:27 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Noticed while running:
+> From: Bin Meng <bin.meng@windriver.com>
 >
->  $ avocado --show=3Dapp run -t machine:virt tests/acceptance/
->  ...
->  (2/6) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm: ERR=
-OR: Unexpected empty reply from server (1.82 s)
+> Update the 'sifive_u' machine documentation to mention the '-dtb'
+> option that can be used to pass a custom DTB to QEMU.
 >
-> The job.log content is:
->
->   L0351 DEBUG| Output: 'qemu-system-aarch64: host does not support in-ker=
-nel GICv2 emulation\n'
->
-> With this patch:
->
->  $ avocado --show=3Dapp run -t device:gicv3 tests/acceptance/
->  (1/1)
->  tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gicv3:
->  PASS (55.10 s)
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-On the new aarch64 machine which is GICv3 I get the following:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
- (006/142) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gi=
-cv2: ERROR: Unexpected empty reply from server (0.47 s)
+Alistair
 
-which it shouldn't have run. However:
-
-  ./tests/venv/bin/avocado --show=3Dapp run -t device:gic3 tests/acceptance/
-  Test Suite could not be create. No test references provided nor any other=
- arguments resolved into tests
-
-Is this something that has regressed or am I doing it wrong?
-
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tests/acceptance/boot_linux.py | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
 >
-> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux=
-.py
-> index 0055dc7cee..c743e231f4 100644
-> --- a/tests/acceptance/boot_linux.py
-> +++ b/tests/acceptance/boot_linux.py
-> @@ -182,10 +182,11 @@ def test_virt_tcg(self):
->          self.add_common_args()
->          self.launch_and_wait()
->=20=20
-> -    def test_virt_kvm(self):
-> +    def test_virt_kvm_gicv2(self):
->          """
->          :avocado: tags=3Daccel:kvm
->          :avocado: tags=3Dcpu:host
-> +        :avocado: tags=3Ddevice:gicv2
->          """
->          if not kvm_available(self.arch, self.qemu_bin):
->              self.cancel(KVM_NOT_AVAILABLE)
-> @@ -195,6 +196,20 @@ def test_virt_kvm(self):
->          self.add_common_args()
->          self.launch_and_wait()
->=20=20
-> +    def test_virt_kvm_gicv3(self):
-> +        """
-> +        :avocado: tags=3Daccel:kvm
-> +        :avocado: tags=3Dcpu:host
-> +        :avocado: tags=3Ddevice:gicv3
-> +        """
-> +        if not kvm_available(self.arch, self.qemu_bin):
-> +            self.cancel(KVM_NOT_AVAILABLE)
-> +        self.vm.add_args("-accel", "kvm")
-> +        self.vm.add_args("-cpu", "host")
-> +        self.vm.add_args("-machine", "virt,gic-version=3D3")
-> +        self.add_common_args()
-> +        self.launch_and_wait()
+>  docs/system/riscv/sifive_u.rst | 47 +++++++++++++++++++++++++++++-----
+>  1 file changed, 41 insertions(+), 6 deletions(-)
+>
+> diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.=
+rst
+> index dcdfbda931..32d0a1b85d 100644
+> --- a/docs/system/riscv/sifive_u.rst
+> +++ b/docs/system/riscv/sifive_u.rst
+> @@ -36,12 +36,21 @@ Hardware configuration information
+>  ----------------------------------
+>
+>  The ``sifive_u`` machine automatically generates a device tree blob ("dt=
+b")
+> -which it passes to the guest. This provides information about the addres=
+ses,
+> -interrupt lines and other configuration of the various devices in the sy=
+stem.
+> -Guest software should discover the devices that are present in the gener=
+ated
+> -DTB instead of using a DTB for the real hardware, as some of the devices=
+ are
+> -not modeled by QEMU and trying to access these devices may cause unexpec=
+ted
+> -behavior.
+> +which it passes to the guest, if there is no ``-dtb`` option. This provi=
+des
+> +information about the addresses, interrupt lines and other configuration=
+ of
+> +the various devices in the system. Guest software should discover the de=
+vices
+> +that are present in the generated DTB instead of using a DTB for the rea=
+l
+> +hardware, as some of the devices are not modeled by QEMU and trying to a=
+ccess
+> +these devices may cause unexpected behavior.
 > +
->=20=20
->  class BootLinuxPPC64(BootLinux):
->      """
-
-
---=20
-Alex Benn=C3=A9e
+> +If users want to provide their own DTB, they can use the ``-dtb`` option=
+.
+> +These DTBs should have the following requirements:
+> +
+> +* The /cpus node should contain at least one subnode for E51 and the num=
+ber
+> +  of subnodes should match QEMU's ``-smp`` option
+> +* The /memory reg size should match QEMU=E2=80=99s selected ram_size via=
+ ``-m``
+> +* Should contain a node for the CLINT device with a compatible string
+> +  "riscv,clint0" if using with OpenSBI BIOS images
+>
+>  Boot options
+>  ------------
+> @@ -122,6 +131,32 @@ To boot the newly built Linux kernel in QEMU with th=
+e ``sifive_u`` machine:
+>        -initrd /path/to/rootfs.ext4 \
+>        -append "root=3D/dev/ram"
+>
+> +Alternatively, we can use a custom DTB to boot the machine by inserting =
+a CLINT
+> +node in fu540-c000.dtsi in the Linux kernel,
+> +
+> +.. code-block:: none
+> +
+> +    clint: clint@2000000 {
+> +        compatible =3D "riscv,clint0";
+> +        interrupts-extended =3D <&cpu0_intc 3 &cpu0_intc 7
+> +                               &cpu1_intc 3 &cpu1_intc 7
+> +                               &cpu2_intc 3 &cpu2_intc 7
+> +                               &cpu3_intc 3 &cpu3_intc 7
+> +                               &cpu4_intc 3 &cpu4_intc 7>;
+> +        reg =3D <0x00 0x2000000 0x00 0x10000>;
+> +    };
+> +
+> +with the following command line options:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G \
+> +      -display none -serial stdio \
+> +      -kernel arch/riscv/boot/Image \
+> +      -dtb arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb \
+> +      -initrd /path/to/rootfs.ext4 \
+> +      -append "root=3D/dev/ram"
+> +
+>  To build a Linux mainline kernel that can be booted by the ``sifive_u`` =
+machine
+>  in 32-bit mode, use the rv32_defconfig configuration. A patch is require=
+d to
+>  fix the 32-bit boot issue for Linux kernel v5.10.
+> --
+> 2.25.1
+>
+>
 
