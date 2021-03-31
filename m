@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D1334FFA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 13:42:05 +0200 (CEST)
-Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22E434FFC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Mar 2021 13:56:28 +0200 (CEST)
+Received: from localhost ([::1]:53622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRZEY-00085i-P1
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 07:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
+	id 1lRZSV-000308-8J
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 07:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lRZCo-0007UA-JF
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 07:40:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45105)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lRZQw-00025X-BI; Wed, 31 Mar 2021 07:54:50 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:45302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lRZCd-00073U-2y
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 07:40:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617190800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JPSCgCVEpQjrJaHbtEdxAqB9J5Tb5Fqfyu6GL9BE70s=;
- b=dbrWNVfs7t40SlNoQmdKovsFTTdVIjC7pvnctIXF9b6Bux4skjmybbq6ZU/Nj0OPUq5eXI
- LuC45fVEhOPrQU0A6fn3AXjSIq2C42OG/DnOMr+X4uQWgzLV5gtBbMyZ9QVJVPHuICL9cy
- Id8tW/EPBGy3/0jUz+sEYNkdETmSY7w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-XF2CCWSrOT6tezp8drrPrw-1; Wed, 31 Mar 2021 07:39:56 -0400
-X-MC-Unique: XF2CCWSrOT6tezp8drrPrw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1D3910059C0;
- Wed, 31 Mar 2021 11:39:55 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.193.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAB495C1B4;
- Wed, 31 Mar 2021 11:39:49 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2] i386: Make 'hv-reenlightenment' require explicit
- 'tsc-frequency' setting
-Date: Wed, 31 Mar 2021 13:39:48 +0200
-Message-Id: <20210331113948.333461-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lRZQk-0006eb-J6; Wed, 31 Mar 2021 07:54:45 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 62DE3746342;
+ Wed, 31 Mar 2021 13:54:28 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 1BCCF7462FD; Wed, 31 Mar 2021 13:54:28 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1A6437462E0;
+ Wed, 31 Mar 2021 13:54:28 +0200 (CEST)
+Date: Wed, 31 Mar 2021 13:54:28 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v16] spapr: Implement Open Firmware client interface
+In-Reply-To: <98565b10-debd-be0a-79f7-9f08737a49d1@ozlabs.ru>
+Message-ID: <aea3e082-f4a0-10a3-c799-d323e4e02620@eik.bme.hu>
+References: <20210323025830.104781-1-aik@ozlabs.ru>
+ <YFv69rtZd6yzKAtU@yekko.fritz.box>
+ <98565b10-debd-be0a-79f7-9f08737a49d1@ozlabs.ru>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,123 +56,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, David Edmondson <dme@dme.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 561dbb41b1d7 "i386: Make migration fail when Hyper-V reenlightenment
-was enabled but 'user_tsc_khz' is unset" forbade migrations with when guest
-has opted for reenlightenment notifications but 'tsc-frequency' wasn't set
-explicitly on the command line. This works but the migration fails late and
-this may come as an unpleasant surprise. To make things more explicit,
-require 'tsc-frequency=' on the command line when 'hv-reenlightenment' was
-enabled. Make the change affect 6.0+ machine types only to preserve
-previously-valid configurations.
+On Thu, 25 Mar 2021, Alexey Kardashevskiy wrote:
+> On 25/03/2021 13:52, David Gibson wrote:
+>> On Tue, Mar 23, 2021 at 01:58:30PM +1100, Alexey Kardashevskiy wrote:
+>>> The PAPR platform which describes an OS environment that's presented by
+>>> a combination of a hypervisor and firmware. The features it specifies
+>>> require collaboration between the firmware and the hypervisor.
+>>> 
+>>> Since the beginning, the runtime component of the firmware (RTAS) has
+>>> been implemented as a 20 byte shim which simply forwards it to
+>>> a hypercall implemented in qemu. The boot time firmware component is
+>>> SLOF - but a build that's specific to qemu, and has always needed to be
+>>> updated in sync with it. Even though we've managed to limit the amount
+>>> of runtime communication we need between qemu and SLOF, there's some,
+>>> and it has become increasingly awkward to handle as we've implemented
+>>> new features.
+>>> 
+>>> This implements a boot time OF client interface (CI) which is
+>>> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
+>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+>>> which implements Open Firmware Client Interface (OF CI). This allows
+>>> using a smaller stateless firmware which does not have to manage
+>>> the device tree.
+>>> 
+>>> The new "vof.bin" firmware image is included with source code under
+>>> pc-bios/. It also includes RTAS blob.
+>>> 
+>>> This implements a handful of CI methods just to get -kernel/-initrd
+>>> working. In particular, this implements the device tree fetching and
+>>> simple memory allocator - "claim" (an OF CI memory allocator) and updates
+>>> "/memory@0/available" to report the client about available memory.
+>>> 
+>>> This implements changing some device tree properties which we know how
+>>> to deal with, the rest is ignored. To allow changes, this skips
+>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
+>>> appending.
+>>> 
+>>> In absence of SLOF, this assigns phandles to device tree nodes to make
+>>> device tree traversing work.
+>>> 
+>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
+>>> 
+>>> This adds basic instances support which are managed by a hash map
+>>> ihandle -> [phandle].
+>>> 
+>>> Before the guest started, the used memory is:
+>>> 0..e60 - the initial firmware
+>>> 8000..10000 - stack
+>>> 400000.. - kernel
+>>> 3ea0000.. - initramdisk
+>>> 
+>>> This OF CI does not implement "interpret".
+>>> 
+>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
+>>> includes a disk image with pre-formatted nvram.
+>>> 
+>>> With this basic support, this can only boot into kernel directly.
+>>> However this is just enough for the petitboot kernel and initradmdisk to
+>>> boot from any possible source. Note this requires reasonably recent guest
+>>> kernel with:
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735
+>>> 
+>>> The immediate benefit is much faster booting time which especially
+>>> crucial with fully emulated early CPU bring up environments. Also this
+>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
+>>> 
+>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
+>>> other POWERPC boards which do not support pSeries.
+>>> 
+>>> This is coded in assumption that later on we might be adding support for
+>>> booting from QEMU backends (blockdev is the first candidate) without
+>>> devices/drivers in between as OF1275 does not require that and
+>>> it is quite easy to so.
+>>> 
+>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>> 
+>> I have some comments below, but they're basically all trivial at this
+>> point.  We've missed qemu-6.0 obviously, but I'm hoping I can merge
+>> the next spin to my ppc-for-6.1 tree.
+>> 
+>>> ---
+>>> 
+>>> The example command line is:
+>>> 
+>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
+>>> -nodefaults \
+>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
+>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
+>>> -mon id=MON0,chardev=STDIO0,mode=readline \
+>>> -nographic \
+>>> -vga none \
+>>> -enable-kvm \
+>>> -m 2G \
+>>> -machine 
+>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
+>>> \
+>>> -kernel pbuild/kernel-le-guest/vmlinux \
+>>> -initrd pb/rootfs.cpio.xz \
+>>> -drive 
+>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
+>>> \
+>> 
+>> Removing the need for a prebuild NVRAM image is something I'd like to
+>> see as a followup.
+>
+>
+> We do not _need_ NVRAM in the VM to begin with, or is this a requirement? The 
+> whole VOF thing is more like a hack and I do not recall myself on doing 
+> anything useful with NVRAM.
+>
+> If we really need it, then when to format it - in QEMU or VOF.bin? This alone 
+> will trigger a (lengthy) discussion :)
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
-Changes since v1:
-- Typos in commit message/comment fixed [David Edmondson]
-- Add Acked-by tag [Dr. David Alan Gilbert]
----
- docs/hyperv.txt   |  1 +
- hw/i386/pc.c      |  1 +
- target/i386/cpu.c | 23 +++++++++++++++++++++--
- target/i386/cpu.h |  1 +
- 4 files changed, 24 insertions(+), 2 deletions(-)
+Not necessarily lengthy. I don't know much about this but I'd say if the 
+contents of the NVRAM is used by or only used by VOF then format it from 
+VOF. If it's not used by VOF as I think you said then VOF does not need to 
+know about it and you can/should handle it QEMU. (But VOF is part of QEMU 
+so you'll do it within QEMU either way :-) )
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index e53c581f4586..5b02d341ab25 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -165,6 +165,7 @@ emulate TSC accesses after migration so 'tsc-frequency=' CPU option also has to
- be specified to make migration succeed. The destination host has to either have
- the same TSC frequency or support TSC scaling CPU feature.
- 
-+Requires: tsc-frequency
- Recommended: hv-frequencies
- 
- 3.16. hv-evmcs
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8a84b25a031e..47b79e949ad7 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -98,6 +98,7 @@
- 
- GlobalProperty pc_compat_5_2[] = {
-     { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
-+    { TYPE_X86_CPU, "x-hv-reenlightenment-requires-tscfreq", "off"},
- };
- const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
- 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b3e9467f177..dbcd2ffbbbe5 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6647,10 +6647,23 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
-     }
- }
- 
--static void x86_cpu_hyperv_realize(X86CPU *cpu)
-+static void x86_cpu_hyperv_realize(X86CPU *cpu, Error **errp)
- {
-+    CPUX86State *env = &cpu->env;
-     size_t len;
- 
-+    /*
-+     * Reenlightenment requires explicit 'tsc-frequency' setting for successful
-+     * migration (see hyperv_reenlightenment_post_load()). As 'hv-passthrough'
-+     * mode is not migratable, we can loosen the restriction.
-+     */
-+    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_REENLIGHTENMENT) &&
-+        !cpu->hyperv_passthrough && !env->user_tsc_khz &&
-+        cpu->hyperv_reenlightenment_requires_tscfreq) {
-+        error_setg(errp, "'hv-reenlightenment' requires 'tsc-frequency' to be set");
-+        return;
-+    }
-+
-     /* Hyper-V vendor id */
-     if (!cpu->hyperv_vendor) {
-         memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
-@@ -6846,7 +6859,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     /* Process Hyper-V enlightenments */
--    x86_cpu_hyperv_realize(cpu);
-+    x86_cpu_hyperv_realize(cpu, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
- 
-     cpu_exec_realizefn(cs, &local_err);
-     if (local_err != NULL) {
-@@ -7374,6 +7391,8 @@ static Property x86_cpu_properties[] = {
-     DEFINE_PROP_INT32("x-hv-max-vps", X86CPU, hv_max_vps, -1),
-     DEFINE_PROP_BOOL("x-hv-synic-kvm-only", X86CPU, hyperv_synic_kvm_only,
-                      false),
-+    DEFINE_PROP_BOOL("x-hv-reenlightenment-requires-tscfreq", X86CPU,
-+                     hyperv_reenlightenment_requires_tscfreq, true),
-     DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
-                      true),
-     DEFINE_PROP_END_OF_LIST()
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 570f916878f9..0196a300f018 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1677,6 +1677,7 @@ struct X86CPU {
-     uint32_t hyperv_spinlock_attempts;
-     char *hyperv_vendor;
-     bool hyperv_synic_kvm_only;
-+    bool hyperv_reenlightenment_requires_tscfreq;
-     uint64_t hyperv_features;
-     bool hyperv_passthrough;
-     OnOffAuto hyperv_no_nonarch_cs;
--- 
-2.30.2
+I think the NVRAM is now formatted in QEMU and OpenBIOS for Mac emulation 
+also uses that in some way but I'm not sure about that.
 
+Regards,
+BALATON Zoltan
 
