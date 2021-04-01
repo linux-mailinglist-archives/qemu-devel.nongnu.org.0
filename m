@@ -2,51 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8EA350CFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:08:40 +0200 (CEST)
-Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CB4350D03
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:16:34 +0200 (CEST)
+Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRnhI-0000mZ-1w
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33490)
+	id 1lRnou-0003kC-Qv
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:16:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRnd1-0005iZ-TW; Wed, 31 Mar 2021 23:04:15 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36887 helo=ozlabs.org)
+ id 1lRnnb-00038v-CK; Wed, 31 Mar 2021 23:15:11 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:56703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRncq-00083T-87; Wed, 31 Mar 2021 23:04:11 -0400
+ id 1lRnnZ-0005tR-4X; Wed, 31 Mar 2021 23:15:11 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F9p1C1wbkz9sXV; Thu,  1 Apr 2021 14:03:59 +1100 (AEDT)
+ id 4F9pFz5CVbz9sX5; Thu,  1 Apr 2021 14:15:03 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1617246239;
- bh=yiERlw+zPdzLXE8jH7EUkgS8yNVqKQSg6WLAwCXm8ew=;
+ d=gibson.dropbear.id.au; s=201602; t=1617246903;
+ bh=zWQL/FPafX2NIv3xWBRD6hS0PJSNM706Rl67pD3dSn0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fGG4b/p+GwEm96QoYM0K7gLp6kNwctpyWsN0nX43nOsCRS/6Uj5/IDgddqZDkrKb2
- R9kNCJPmbPHq3FApTj7ddpUfHdz8I3fUH9dxGo8tlmE26wmwa4OvrbgQX+M23/YwO4
- p9IqOMg2CbqNxAO7aHlBKJ+9LbDbJCRaXXmJiqTU=
-Date: Thu, 1 Apr 2021 13:59:16 +1100
+ b=XgIoPEp7ENrtceWQEhvK8MqKIHfLs64aDiKcXHeIRKdFXN1Dl2PFMaOBBxg7oTTDp
+ rncVxuUbV2hQZuPjN2QPKsFm0TBY4ierd4m1S6FJKUL5jK93HpJ2jMknI8uTsB79kX
+ oJcpza5Z6Pc0qv/EHM6kNwLN3NbIwMR/3zzLNAGI=
+Date: Thu, 1 Apr 2021 14:10:33 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
- nodes
-Message-ID: <YGU3BPTJK5qE+iNG@yekko.fritz.box>
-References: <20210319183453.4466-2-danielhb413@gmail.com>
- <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
- <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
- <YFvxAW3l4t+YznEm@yekko.fritz.box>
- <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
- <YGFVc2lBhvzm5CSa@yekko.fritz.box>
- <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
- <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
- <YGPI5vgoI8JDO1HN@yekko.fritz.box>
- <1e16fe5e-f20a-f882-d18a-113cf48c934c@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v16] spapr: Implement Open Firmware client interface
+Message-ID: <YGU5qYPSgV39qPn6@yekko.fritz.box>
+References: <20210323025830.104781-1-aik@ozlabs.ru>
+ <YFv69rtZd6yzKAtU@yekko.fritz.box>
+ <98565b10-debd-be0a-79f7-9f08737a49d1@ozlabs.ru>
+ <YGPKcKqPtKCTdMCi@yekko.fritz.box>
+ <2880d500-94bb-5579-8aba-4b78d35ba504@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CEgy40WHtvwFg/xu"
+ protocol="application/pgp-signature"; boundary="zgWkP+O3Z32dL1/e"
 Content-Disposition: inline
-In-Reply-To: <1e16fe5e-f20a-f882-d18a-113cf48c934c@kaod.org>
+In-Reply-To: <2880d500-94bb-5579-8aba-4b78d35ba504@ozlabs.ru>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -67,233 +61,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---CEgy40WHtvwFg/xu
-Content-Type: text/plain; charset=iso-8859-1
+--zgWkP+O3Z32dL1/e
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 31, 2021 at 05:18:45PM +0200, C=E9dric Le Goater wrote:
-> On 3/31/21 2:57 AM, David Gibson wrote:
-> > On Mon, Mar 29, 2021 at 03:32:37PM -0300, Daniel Henrique Barboza wrote:
-> >>
-> >>
-> >> On 3/29/21 12:32 PM, C=E9dric Le Goater wrote:
-> >>> On 3/29/21 6:20 AM, David Gibson wrote:
-> >>>> On Thu, Mar 25, 2021 at 09:56:04AM +0100, C=E9dric Le Goater wrote:
-> >>>>> On 3/25/21 3:10 AM, David Gibson wrote:
-> >>>>>> On Tue, Mar 23, 2021 at 02:21:33PM -0300, Daniel Henrique Barboza =
-wrote:
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> On 3/22/21 10:03 PM, David Gibson wrote:
-> >>>>>>>> On Fri, Mar 19, 2021 at 03:34:52PM -0300, Daniel Henrique Barboz=
-a wrote:
-> >>>>>>>>> Kernel commit 4bce545903fa ("powerpc/topology: Update
-> >>>>>>>>> topology_core_cpumask") cause a regression in the pseries machi=
-ne when
-> >>>>>>>>> defining certain SMP topologies [1]. The reasoning behind the c=
-hange is
-> >>>>>>>>> explained in kernel commit 4ca234a9cbd7 ("powerpc/smp: Stop upd=
-ating
-> >>>>>>>>> cpu_core_mask"). In short, cpu_core_mask logic was causing trou=
-bles with
-> >>>>>>>>> large VMs with lots of CPUs and was changed by cpu_cpu_mask bec=
-ause, as
-> >>>>>>>>> far as the kernel understanding of SMP topologies goes, both ma=
-sks are
-> >>>>>>>>> equivalent.
-> >>>>>>>>>
-> >>>>>>>>> Further discussions in the kernel mailing list [2] shown that t=
-he
-> >>>>>>>>> powerpc kernel always considered that the number of sockets wer=
-e equal
-> >>>>>>>>> to the number of NUMA nodes. The claim is that it doesn't make =
-sense,
-> >>>>>>>>> for Power hardware at least, 2+ sockets being in the same NUMA =
-node. The
-> >>>>>>>>> immediate conclusion is that all SMP topologies the pseries mac=
-hine were
-> >>>>>>>>> supplying to the kernel, with more than one socket in the same =
-NUMA node
-> >>>>>>>>> as in [1], happened to be correctly represented in the kernel by
-> >>>>>>>>> accident during all these years.
-> >>>>>>>>>
-> >>>>>>>>> There's a case to be made for virtual topologies being detached=
- from
-> >>>>>>>>> hardware constraints, allowing maximum flexibility to users. At=
- the same
-> >>>>>>>>> time, this freedom can't result in unrealistic hardware represe=
-ntations
-> >>>>>>>>> being emulated. If the real hardware and the pseries kernel don=
-'t
-> >>>>>>>>> support multiple chips/sockets in the same NUMA node, neither s=
-hould we.
-> >>>>>>>>>
-> >>>>>>>>> Starting in 6.0.0, all sockets must match an unique NUMA node i=
-n the
-> >>>>>>>>> pseries machine. qtest changes were made to adapt to this new
-> >>>>>>>>> condition.
-> >>>>>>>>
-> >>>>>>>> Oof.  I really don't like this idea.  It means a bunch of fiddly=
- work
-> >>>>>>>> for users to match these up, for no real gain.  I'm also concern=
-ed
-> >>>>>>>> that this will require follow on changes in libvirt to not make =
-this a
-> >>>>>>>> really cryptic and irritating point of failure.
-> >>>>>>>
-> >>>>>>> Haven't though about required Libvirt changes, although I can say=
- that there
-> >>>>>>> will be some amount to be mande and it will probably annoy existi=
-ng users
-> >>>>>>> (everyone that has a multiple socket per NUMA node topology).
-> >>>>>>>
-> >>>>>>> There is not much we can do from the QEMU layer aside from what I=
-'ve proposed
-> >>>>>>> here. The other alternative is to keep interacting with the kerne=
-l folks to
-> >>>>>>> see if there is a way to keep our use case untouched.
-> >>>>>>
-> >>>>>> Right.  Well.. not necessarily untouched, but I'm hoping for more
-> >>>>>> replies from C=E9dric to my objections and mpe's.  Even with socke=
-ts
-> >>>>>> being a kinda meaningless concept in PAPR, I don't think tying it =
-to
-> >>>>>> NUMA nodes makes sense.
-> >>>>>
-> >>>>> I did a couple of replies in different email threads but maybe not
-> >>>>> to all. I felt it was going nowhere :/ Couple of thoughts,
-> >>>>
-> >>>> I think I saw some of those, but maybe not all.
-> >>>>
-> >>>>> Shouldn't we get rid of the socket concept, die also, under pseries
-> >>>>> since they don't exist under PAPR ? We only have numa nodes, cores,
-> >>>>> threads AFAICT.
-> >>>>
-> >>>> Theoretically, yes.  I'm not sure it's really practical, though, sin=
-ce
-> >>>> AFAICT, both qemu and the kernel have the notion of sockets (though
-> >>>> not dies) built into generic code.
-> >>>
-> >>> Yes. But, AFAICT, these topology notions have not reached "arch/power=
-pc"
-> >>> and PPC Linux only has a NUMA node id, on pseries and powernv.
-> >>>
-> >>>> It does mean that one possible approach here - maybe the best one - =
+On Thu, Apr 01, 2021 at 11:17:39AM +1100, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 31/03/2021 12:03, David Gibson wrote:
+> > On Thu, Mar 25, 2021 at 02:25:33PM +1100, Alexey Kardashevskiy wrote:
+> > >=20
+> > >=20
+> > > On 25/03/2021 13:52, David Gibson wrote:
+> > > > On Tue, Mar 23, 2021 at 01:58:30PM +1100, Alexey Kardashevskiy wrot=
+e:
+> > > > > The PAPR platform which describes an OS environment that's presen=
+ted by
+> > > > > a combination of a hypervisor and firmware. The features it speci=
+fies
+> > > > > require collaboration between the firmware and the hypervisor.
+> > > > >=20
+> > > > > Since the beginning, the runtime component of the firmware (RTAS)=
+ has
+> > > > > been implemented as a 20 byte shim which simply forwards it to
+> > > > > a hypercall implemented in qemu. The boot time firmware component=
+ is
+> > > > > SLOF - but a build that's specific to qemu, and has always needed=
+ to be
+> > > > > updated in sync with it. Even though we've managed to limit the a=
+mount
+> > > > > of runtime communication we need between qemu and SLOF, there's s=
+ome,
+> > > > > and it has become increasingly awkward to handle as we've impleme=
+nted
+> > > > > new features.
+> > > > >=20
+> > > > > This implements a boot time OF client interface (CI) which is
+> > > > > enabled by a new "x-vof" pseries machine option (stands for "Virt=
+ual Open
+> > > > > Firmware). When enabled, QEMU implements the custom H_OF_CLIENT h=
+call
+> > > > > which implements Open Firmware Client Interface (OF CI). This all=
+ows
+> > > > > using a smaller stateless firmware which does not have to manage
+> > > > > the device tree.
+> > > > >=20
+> > > > > The new "vof.bin" firmware image is included with source code und=
+er
+> > > > > pc-bios/. It also includes RTAS blob.
+> > > > >=20
+> > > > > This implements a handful of CI methods just to get -kernel/-init=
+rd
+> > > > > working. In particular, this implements the device tree fetching =
+and
+> > > > > simple memory allocator - "claim" (an OF CI memory allocator) and=
+ updates
+> > > > > "/memory@0/available" to report the client about available memory.
+> > > > >=20
+> > > > > This implements changing some device tree properties which we kno=
+w how
+> > > > > to deal with, the rest is ignored. To allow changes, this skips
+> > > > > fdt_pack() when x-vof=3Don as not packing the blob leaves some ro=
+om for
+> > > > > appending.
+> > > > >=20
+> > > > > In absence of SLOF, this assigns phandles to device tree nodes to=
+ make
+> > > > > device tree traversing work.
+> > > > >=20
+> > > > > When x-vof=3Don, this adds "/chosen" every time QEMU (re)builds a=
+ tree.
+> > > > >=20
+> > > > > This adds basic instances support which are managed by a hash map
+> > > > > ihandle -> [phandle].
+> > > > >=20
+> > > > > Before the guest started, the used memory is:
+> > > > > 0..e60 - the initial firmware
+> > > > > 8000..10000 - stack
+> > > > > 400000.. - kernel
+> > > > > 3ea0000.. - initramdisk
+> > > > >=20
+> > > > > This OF CI does not implement "interpret".
+> > > > >=20
+> > > > > Unlike SLOF, this does not format uninitialized nvram. Instead, t=
+his
+> > > > > includes a disk image with pre-formatted nvram.
+> > > > >=20
+> > > > > With this basic support, this can only boot into kernel directly.
+> > > > > However this is just enough for the petitboot kernel and initradm=
+disk to
+> > > > > boot from any possible source. Note this requires reasonably rece=
+nt guest
+> > > > > kernel with:
+> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Ddf5be5be8735
+> > > > >=20
+> > > > > The immediate benefit is much faster booting time which especially
+> > > > > crucial with fully emulated early CPU bring up environments. Also=
+ this
+> > > > > may come handy when/if GRUB-in-the-userspace sees light of the da=
+y.
+> > > > >=20
+> > > > > This separates VOF and sPAPR in a hope that VOF bits may be reuse=
+d by
+> > > > > other POWERPC boards which do not support pSeries.
+> > > > >=20
+> > > > > This is coded in assumption that later on we might be adding supp=
+ort for
+> > > > > booting from QEMU backends (blockdev is the first candidate) with=
+out
+> > > > > devices/drivers in between as OF1275 does not require that and
+> > > > > it is quite easy to so.
+> > > > >=20
+> > > > > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> > > >=20
+> > > > I have some comments below, but they're basically all trivial at th=
 is
-> >>>> to simply declare that sockets are meaningless under, so we simply
-> >>>> don't expect what the guest kernel reports to match what's given to
-> >>>> qemu.
-> >>>>
-> >>>> It'd be nice to avoid that if we can: in a sense it's just cosmetic,
-> >>>> but it is likely to surprise and confuse people.
-> >>>>
-> >>>>> Should we diverged from PAPR and add extra DT properties "qemu,..."=
- ?
-> >>>>> There are a couple of places where Linux checks for the underlying
-> >>>>> hypervisor already.
-> >>>>>
-> >>>>>>> This also means that
-> >>>>>>> 'ibm,chip-id' will probably remain in use since it's the only pla=
-ce where
-> >>>>>>> we inform cores per socket information to the kernel.
-> >>>>>>
-> >>>>>> Well.. unless we can find some other sensible way to convey that
-> >>>>>> information.  I haven't given up hope for that yet.
-> >>>>>
-> >>>>> Well, we could start by fixing the value in QEMU. It is broken
-> >>>>> today.
-> >>>>
-> >>>> Fixing what value, exactly?
-> >>>
-> >>> The value of the "ibm,chip-id" since we are keeping the property under
-> >>> QEMU.
-> >>
-> >> David, I believe this has to do with the discussing we had last Friday.
-> >>
-> >> I mentioned that the ibm,chip-id property is being calculated in a way=
- that
-> >> promotes the same ibm,chip-id in CPUs that belongs to different NUMA n=
-odes,
-> >> e.g.:
-> >>
-> >> -smp 4,cores=3D4,maxcpus=3D8,threads=3D1 \
-> >> -numa node,nodeid=3D0,cpus=3D0-1,cpus=3D4-5,memdev=3Dram-node0 \
-> >> -numa node,nodeid=3D1,cpus=3D2-3,cpus=3D6-7,memdev=3Dram-node1
-> >>
-> >>
-> >> $ dtc -I dtb -O dts fdt.dtb | grep -B2 ibm,chip-id
-> >> 			ibm,associativity =3D <0x05 0x00 0x00 0x00 0x00 0x00>;
-> >> 			ibm,pft-size =3D <0x00 0x19>;
-> >> 			ibm,chip-id =3D <0x00>;
+> > > > point.  We've missed qemu-6.0 obviously, but I'm hoping I can merge
+> > > > the next spin to my ppc-for-6.1 tree.
+> > > >=20
+> > > > > ---
+> > > > >=20
+> > > > > The example command line is:
+> > > > >=20
+> > > > > /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
+> > > > > -nodefaults \
+> > > > > -chardev stdio,id=3DSTDIO0,signal=3Doff,mux=3Don \
+> > > > > -device spapr-vty,id=3Dsvty0,reg=3D0x71000110,chardev=3DSTDIO0 \
+> > > > > -mon id=3DMON0,chardev=3DSTDIO0,mode=3Dreadline \
+> > > > > -nographic \
+> > > > > -vga none \
+> > > > > -enable-kvm \
+> > > > > -m 2G \
+> > > > > -machine pseries,x-vof=3Don,cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,c=
+ap-ibs=3Dbroken,cap-ccf-assist=3Doff \
+> > > > > -kernel pbuild/kernel-le-guest/vmlinux \
+> > > > > -initrd pb/rootfs.cpio.xz \
+> > > > > -drive id=3DDRIVE0,if=3Dnone,file=3D./p/qemu-killslof/pc-bios/vof=
+-nvram.bin,format=3Draw \
+> > > >=20
+> > > > Removing the need for a prebuild NVRAM image is something I'd like =
+to
+> > > > see as a followup.
+> > >=20
+> > >=20
+> > > We do not _need_ NVRAM in the VM to begin with, or is this a requirem=
+ent?
 > >=20
-> >> We assign ibm,chip-id=3D0x0 to CPUs 0-3, but CPUs 2-3 are located in a
-> >> different NUMA node than 0-1. This would mean that the same socket
-> >> would belong to different NUMA nodes at the same time.
+> > Actually.. I'm not certain.
+>=20
+>=20
+> Have you heard of using it, ever? What do people store in there in practi=
+ce?
+
+Well... I've never heard of someone actually bothering to set up a
+persistent NVRAM, so it's unlikely that we care about anything stored
+in there.  However, I think some tools/scripts in userspace might poke
+at it nvsetenv, not knowing that (and for the PowerVM case).  So we
+probably don't want nvsetenv to outright fail.
+
+Not sure if the kernel itself ever looks at anything in the nvram.
+
+> > > The whole VOF thing is more like a hack and I do not recall myself on=
+ doing
+> > > anything useful with NVRAM.
+> > >=20
+> > > If we really need it, then when to format it - in QEMU or VOF.bin? Th=
+is
+> > > alone will trigger a (lengthy) discussion :)
 > >=20
-> > Right... and I'm still not seeing why that's a problem.  AFAICT that's
-> > a possible, if unexpected, situation under real hardware - though
-> > maybe not for POWER9 specifically.
-> The ibm,chip-id property does not exist under PAPR. PAPR only has
-> NUMA nodes, no sockets nor chips.=20
+> > I prefer qemu, but we can worry about that later.
 >=20
-> And the property value is simply broken under QEMU. Try this  :
 >=20
->    -smp 4,cores=3D1,maxcpus=3D8 -object memory-backend-ram,id=3Dram-node0=
-,size=3D2G -numa node,nodeid=3D0,cpus=3D0-1,cpus=3D4-5,memdev=3Dram-node0 -=
-object memory-backend-ram,id=3Dram-node1,size=3D2G -numa node,nodeid=3D1,cp=
-us=3D2-3,cpus=3D6-7,memdev=3Dram-node1
+> [...]
 >=20
-> # dmesg | grep numa
-> [    0.013106] numa: Node 0 CPUs: 0-1
-> [    0.013136] numa: Node 1 CPUs: 2-3
+> > > > > +void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
+> > > > > +                     target_ulong *stack_ptr, Error **errp)
+> > > > > +{
+> > > > > +    Vof *vof =3D spapr->vof;
+> > > > > +
+> > > > > +    vof_cleanup(vof);
+> > > > > +
+> > > > > +    spapr_vof_client_dt_finalize(spapr, fdt);
+> > > > > +
+> > > > > +    if (vof_claim(spapr->fdt_blob, vof, 0, spapr->fw_size, 0) =
+=3D=3D -1) {
+> > > > > +        error_setg(errp, "Memory for firmware is in use");
+> > > >=20
+> > > > This could probably be an assert, yes?  IIUC this the very first
+> > > > claim, so if this fails then we've placed things incorrectly in the
+> > > > first place, so it's a code error rather than a user error.
+> > >=20
+> > >=20
+> > > Passing &error_fatal as errp is an assert pretty much but more inform=
+ative
+> > > imho.
+> >=20
+> > Not quite.  Passing &error_abort is similar to an assert, but
+> > &error_fatal is not.  The rule is that error_abort or assert() should
+> > be used for things that can only occur as a result of a bug in qemu
+> > itself, whereas error_fatal and other errors should be used for things
+> > where the failure may be because of user configuration, or something
+> > wrong on the host or in the guest.
+> >=20
+> > Since the VOF image is being provided by qemu and this is too early
+> > for the guest to have messed with it, this counts as something that is
+> > necessarily a problem in qemu itself.
 >=20
-> # dtc -I fs /proc/device-tree/cpus/ -f | grep ibm,chip-id
-> 		ibm,chip-id =3D <0x01>;
-> 		ibm,chip-id =3D <0x02>;
-> 		ibm,chip-id =3D <0x00>;
-> 		ibm,chip-id =3D <0x03>;
-
-Not seeing the problem here.  You've specified 8 (possible) cpus, 1
-core-per-socket, therefore there are 4 sockets, hence 4 chip-ids.
-Again, I don't see where this assumption that the chip-id is somehow
-related to the NUMA topology is coming from.
-
-> >> I believe this is what Cedric wants to be addressed. Given that the
-> >> property is called after the OPAL property ibm,chip-id, the kernel
-> >> expects that the property will have the same semantics as in OPAL.>
-> > Even on powernv, I'm not clear why chip-id is tied into the NUMA
-> > configuration, rather than getting all the NUMA info from
-> > associativity properties.
 >=20
-> It is the case.=20
+> vof.bin can be passed via "-bios" which is +1 for error_fatal imho.
 
-What exactly is the case?
+Ah... you do have a point there.
 
-> The associativity properties are built from chip-id in OPAL though.
+> Sorry I missed this reply when posted v18. Repost with error_abort? I do =
+not
+> care as much about this one.
 
-Ok, so?  Why do we care how OPAL builds the associativity properties
-once we *have* the associativity properties its built?
-
-> The chip-id property is only used in low level PowerNV drivers, VAS,
-> XSCOM, LPC, etc.
-
-Which AFAIK, really *do* need to know which chip they're on, not the
-NUMA toplogy.
-
-> It's also badly used in the common part of the XIVE driver, what I am
-> trying to fix to introduce an IPI per node on all platforms.  =20
-
-See comments on other thread.
+Nah, leave it for now.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -301,25 +291,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---CEgy40WHtvwFg/xu
+--zgWkP+O3Z32dL1/e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBlNwQACgkQbDjKyiDZ
-s5Jy7RAA5DxAAc6tFAPxTTchT/58FlMzBESmj1TDtZemlQFdZRlKUJWpEKyWwukq
-3GLsFZJvZ0anXtPea7wn+QsEHNAkM71F24W1pDEyqGxbIyqerN9Rv0/9yP5+bW0l
-Co414Ozl0eRkpguoOoWhNoqQH4IQ/a4HqEPcBWreNa0UT/eWQkxQEfdSG4y/T8Jm
-RwQxhq28HgIFgNO1OLrO5DJqEXMPdGitb/irX/YTAkRmIf/D+BAoXa3hrmAzJehE
-SHC4OadziRJaUttf072A2JJWaFV2/VCfu3q0IoF74zPQX1UpLOvgFopqeruPWRKc
-aBs//d47rMtAg+tAAV7NkBzQFa8qu7S3/i7LWb8i+EAVQUnvMnP/bjMZfvZJqcDS
-Xi9GjKLPrRJS0B+lcHCyqRk0CRpK7lV5alX+6lgxCRkWtcQmO9lZJS46Rc7DeBLv
-mIeyUOCcb6SZSziJOgRLcC03FFhmtwoYjDed31ueV4CEzgaEUsGCS9Zm6W+BLgzs
-3DIfcAzGpNPY52w/63HpVEyIb9B0+kqsjuoqN55z5+4jo1FhPRUC8/u+/7pRUl/e
-Zg8BDEwb5sduQlENSlryDMxoAvPhAF2SDAWrl8Yjab0HlbHJXKilUsGxIyxJ+tJy
-m/UkpY2tfYn++9yTk5dmYfz3yUoH3PaezJQ4fm/9yc2NDOPy1wI=
-=unxI
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBlOacACgkQbDjKyiDZ
+s5IVdxAA2FeUhS7Ojz3aYHRXk+FH9XIfuPxt4XQEqlO2+3SARspkleFDA2ega4ho
+uFLtF39ISiNp7LGiUck/HmNu0G3dq586kBjK1KnSOHdFJ/9ctRIKvZjiy/z4dO85
+5WcEgDgdsm8Nk2Ubiqq3R7UGrt1DSa7PYL3OZsSzvLgpp93FXhUzM2CACexax/eH
+PjWZIJvB4PhXffzQrpqLHQRAYNHtZAknXYOPGeDDMaPCrw90PhuIsFiUwmB55FzC
+Rw1cPUUW0NLqA09OqxpB9oMILyoXB3lD8W/yAABpEfyhNCGcmuJcTGD0TIHhh7jo
+8Km33YQ0YVQQAC1D9CcFH2wy2Jzlf7diYaNHsEveTQjf748on7sYHEPkIMgi4Uw8
+FHeFPhLdoX5Mkxkhhd+JcTIWhh75/nPClJygCB/qCcmyhddEp/eUpkqBUQ3B9RtO
+RxNXPqW7fYDeRaS2wExrbdLZrXwLOHdLknReqRE56FuOqDByqvTULLPIyv9HuKa0
+KydfnUabwkeBn8oEWtMdaVBNhiPwZhE0Io4Bj0ftdnwo3VSjBoXYXM16LdJ4iVTk
+YlVfam6RdB07J8H8F7Qygz4hHo4bL3914OuFSM8QP9psqXzA6l7sfeurAx0vzhVi
+jEEEsFkqlinLI6yzdaIUvt6i59E+BLAO644eZBs1X3QYs9RiIQY=
+=gL4n
 -----END PGP SIGNATURE-----
 
---CEgy40WHtvwFg/xu--
+--zgWkP+O3Z32dL1/e--
 
