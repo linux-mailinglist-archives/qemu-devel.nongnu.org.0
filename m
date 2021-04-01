@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B21A35188A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 19:49:00 +0200 (CEST)
-Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76805351933
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 19:55:10 +0200 (CEST)
+Received: from localhost ([::1]:39872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS1RC-000851-W2
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 13:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52152)
+	id 1lS1XA-0001QC-DY
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 13:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
- id 1lS1NE-0007Qw-Br; Thu, 01 Apr 2021 13:44:52 -0400
-Received: from sender-of-o51.zoho.in ([103.117.158.51]:2362)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1lS1Vz-0000bQ-Fg
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 13:53:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
- id 1lS1NB-00042H-P4; Thu, 01 Apr 2021 13:44:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1617299080; cv=none; d=zohomail.in; s=zohoarc; 
- b=Sr6Qq/7LLq/th34SANKwVNrqsr0GdgVACAfr0Tid5cTlAQi9W7xdZ87xC6KAxfMxwYLB8AkOFPWjpvMggoVoXwH0yR6LeuWKPIU00FgouaZeYKrGi1VC9Defw27cZQQmEMG524r7+RY9nPwgyNOk5K5IhZpljtqoNL1g36bGP/I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1617299080;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=9dw4Qj7vCHhAE27KQz8xHYbTjKgyFQ6N6NexHZxzRgA=; 
- b=UE7MHDG5LGizV/j22x1/GYNQ6gZiNJ/vChXQzSPj4bWNu3YHxqzD+YxHInJlcl3qnfS6n2/CAGcmAf8o3C2RsxT73ibi8ZtpKLuPhSPIXq0K18hKoO/YU55BbCtKpl/WV4WzNdy5ImDv+MuMZkjHuJxmVsxLffthwev2Rf3nSo4=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
- dkim=pass  header.i=behindbytes.com;
- spf=pass  smtp.mailfrom=vijai@behindbytes.com;
- dmarc=pass header.from=<vijai@behindbytes.com>
- header.from=<vijai@behindbytes.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1617299080; 
- s=yrk; d=behindbytes.com; i=vijai@behindbytes.com;
- h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=9dw4Qj7vCHhAE27KQz8xHYbTjKgyFQ6N6NexHZxzRgA=;
- b=PRFQeOaQVvWHw8AIAKRepaY/zpyk8G0txdHQA/gFm+rKVlenrrWR0rAmaBg7Kjd/
- imID9YSDhWXGWmHp0BbjN2jldcT9QcJmNyhqVwXcBXa7MUk46zxJOKM4F3gRpYGh0pA
- lhh0n8nfaNm0UFs0RMaX9rG8uK91w3k4Ysw3HqiQ=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1617299079578580.2480048419588;
- Thu, 1 Apr 2021 23:14:39 +0530 (IST)
-Date: Thu, 01 Apr 2021 23:14:39 +0530
-From: Vijai Kumar K <vijai@behindbytes.com>
-To: "Alistair Francis" <alistair23@gmail.com>
-Message-ID: <1788e898198.1700a7c443261.664917774245161790@behindbytes.com>
-In-Reply-To: <CAKmqyKPUK-9rGVHuzUH5pFUusc-45cyxKeg0Ec1xp_m=v8GHbQ@mail.gmail.com>
-References: <20210321050917.24621-1-vijai@behindbytes.com>
- <20210321050917.24621-3-vijai@behindbytes.com>
- <CAKmqyKPu44=w=upUxv=4JMjoF1vY4dXwFSFmPMA7FOZgY82d+g@mail.gmail.com>
- <1788e717742.b23f5ec42963.7150229126692558445@behindbytes.com>
- <CAKmqyKPUK-9rGVHuzUH5pFUusc-45cyxKeg0Ec1xp_m=v8GHbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] riscv: Add initial support for Shakti C machine
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1lS1Vv-0000do-Ax
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 13:53:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617299629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tCVuFGx6htuo6vh9EcFAsRLD5r0NdZVC9QNpsmxAQSA=;
+ b=EuyPU9oFf1qJvf1Kx+iNfZx88WNXb7fNCzOpQAzbZFeMojDUiOYku4V9Bq3j9HM6isFIML
+ vhrHmML7Qg61YmK1xGUmx07SQE6eiiilkH+ZrYV2Br70Lkxefg6n4Ox0aCZBveCFd955/j
+ mSgpG3ELLtMSB2mOMmoAHwRbuu8gmXU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-7O-KI34UMe-lPIH5HEj_4g-1; Thu, 01 Apr 2021 13:53:47 -0400
+X-MC-Unique: 7O-KI34UMe-lPIH5HEj_4g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5448C501F8;
+ Thu,  1 Apr 2021 17:53:46 +0000 (UTC)
+Received: from harajuku.usersys.redhat.com (unknown [10.40.193.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA0D359468;
+ Thu,  1 Apr 2021 17:53:43 +0000 (UTC)
+Message-ID: <7f8146ebba9234d8d21beaa8a1ab8996ae5c63d4.camel@redhat.com>
+Subject: Re: [PATCH RESEND v2 0/6] target/arm: Add nested virtualization
+ support
+From: Andrea Bolognani <abologna@redhat.com>
+To: Haibo Xu <haibo.xu@linaro.org>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Thu, 01 Apr 2021 19:53:40 +0200
+In-Reply-To: <cover.1617281290.git.haibo.xu@linaro.org>
+References: <cover.1617281290.git.haibo.xu@linaro.org>
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Received-SPF: pass client-ip=103.117.158.51;
- envelope-from=vijai@behindbytes.com; helo=sender-of-o51.zoho.in
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,172 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 2021-04-01 at 12:55 +0000, Haibo Xu wrote:
+> v2:
+>   - Move the NV to a CPU feature flag(Andrea&Andrew)
+>   - Add CPU feature 'el2' test(Andrew)
+> 
+> Many thanks to Andrea and Andrew for their comments!
+> 
+> This series add support for ARMv8.3/8.4 nested virtualization support
+> in KVM mode. It's based on Marc Zyngier's kernel KVM patches[1], and 
+> has been tested on a FVP model to run a L2 guest with Qemu. Now the 
+> feature can be enabled by "-M virt,accel=kvm -cpu host,el2=on" when
+> starting a VM. 
 
+This looks good from the user interface point of view, thanks for
+addressing the concerns that were raised!
 
+I'll leave Drew to review the actual code changes :)
 
----- On Thu, 01 Apr 2021 22:51:42 +0530 Alistair Francis <alistair23@gmail.com> wrote ----
+-- 
+Andrea Bolognani / Red Hat / Virtualization
 
- > On Thu, Apr 1, 2021 at 1:18 PM Vijai Kumar K <vijai@behindbytes.com> wrote: 
- > > 
- > > 
- > > 
- > > 
- > > ---- On Wed, 31 Mar 2021 21:05:47 +0530 Alistair Francis <alistair23@gmail.com> wrote ---- 
- > > 
- > >  > On Sun, Mar 21, 2021 at 1:09 AM Vijai Kumar K <vijai@behindbytes.com> wrote: 
- > >  > > 
- > >  > > Add support for emulating Shakti reference platform based on C-class 
- > >  > > running on arty-100T board. 
- > >  > > 
- > >  > > https://gitlab.com/shaktiproject/cores/shakti-soc/-/blob/master/README.rst 
- > >  > > 
- > >  > > Signed-off-by: Vijai Kumar K <vijai@behindbytes.com> 
- > >  > > --- 
- > >  > >  MAINTAINERS                                 |   7 + 
- > >  > >  default-configs/devices/riscv64-softmmu.mak |   1 + 
- > >  > >  hw/riscv/Kconfig                            |  10 ++ 
- > >  > >  hw/riscv/meson.build                        |   1 + 
- > >  > >  hw/riscv/shakti_c.c                         | 171 ++++++++++++++++++++ 
- > >  > >  include/hw/riscv/shakti_c.h                 |  74 +++++++++ 
- > >  > >  6 files changed, 264 insertions(+) 
- > >  > >  create mode 100644 hw/riscv/shakti_c.c 
- > >  > >  create mode 100644 include/hw/riscv/shakti_c.h 
- > >  > > 
- > >  > > diff --git a/MAINTAINERS b/MAINTAINERS 
- > >  > > index 8e9f0d591e..9f71c4cc3f 100644 
- > >  > > --- a/MAINTAINERS 
- > >  > > +++ b/MAINTAINERS 
- > >  > > @@ -1380,6 +1380,13 @@ F: include/hw/misc/mchp_pfsoc_dmc.h 
- > >  > >  F: include/hw/misc/mchp_pfsoc_ioscb.h 
- > >  > >  F: include/hw/misc/mchp_pfsoc_sysreg.h 
- > >  > > 
- > >  > > +Shakti C class SoC 
- > >  > > +M: Vijai Kumar K <vijai@behindbytes.com> 
- > >  > > +L: qemu-riscv@nongnu.org 
- > >  > > +S: Supported 
- > >  > > +F: hw/riscv/shakti_c.c 
- > >  > > +F: include/hw/riscv/shakti_c.h 
- > >  > > + 
- > >  > >  SiFive Machines 
- > >  > >  M: Alistair Francis <Alistair.Francis@wdc.com> 
- > >  > >  M: Bin Meng <bin.meng@windriver.com> 
- > >  > > diff --git a/default-configs/devices/riscv64-softmmu.mak b/default-configs/devices/riscv64-softmmu.mak 
- > >  > > index d5eec75f05..bc69301fa4 100644 
- > >  > > --- a/default-configs/devices/riscv64-softmmu.mak 
- > >  > > +++ b/default-configs/devices/riscv64-softmmu.mak 
- > >  > > @@ -13,3 +13,4 @@ CONFIG_SIFIVE_E=y 
- > >  > >  CONFIG_SIFIVE_U=y 
- > >  > >  CONFIG_RISCV_VIRT=y 
- > >  > >  CONFIG_MICROCHIP_PFSOC=y 
- > >  > > +CONFIG_SHAKTI_C=y 
- > >  > > diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig 
- > >  > > index d139074b02..92a62b5ce9 100644 
- > >  > > --- a/hw/riscv/Kconfig 
- > >  > > +++ b/hw/riscv/Kconfig 
- > >  > > @@ -19,6 +19,16 @@ config OPENTITAN 
- > >  > >      select IBEX 
- > >  > >      select UNIMP 
- > >  > > 
- > >  > > +config SHAKTI 
- > >  > > +    bool 
- > >  > > + 
- > >  > > +config SHAKTI_C 
- > >  > > +    bool 
- > >  > > +    select UNIMP 
- > >  > > +    select SHAKTI 
- > >  > > +    select SIFIVE_CLINT 
- > >  > > +    select SIFIVE_PLIC 
- > >  > > + 
- > >  > >  config RISCV_VIRT 
- > >  > >      bool 
- > >  > >      imply PCI_DEVICES 
- > >  > > diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build 
- > >  > > index 275c0f7eb7..a97454661c 100644 
- > >  > > --- a/hw/riscv/meson.build 
- > >  > > +++ b/hw/riscv/meson.build 
- > >  > > @@ -4,6 +4,7 @@ riscv_ss.add(files('numa.c')) 
- > >  > >  riscv_ss.add(files('riscv_hart.c')) 
- > >  > >  riscv_ss.add(when: 'CONFIG_OPENTITAN', if_true: files('opentitan.c')) 
- > >  > >  riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c')) 
- > >  > > +riscv_ss.add(when: 'CONFIG_SHAKTI_C', if_true: files('shakti_c.c')) 
- > >  > >  riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c')) 
- > >  > >  riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c')) 
- > >  > >  riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c')) 
- > >  > > diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c 
- > >  > > new file mode 100644 
- > >  > > index 0000000000..45d0eedabd 
- > >  > > --- /dev/null 
- > >  > > +++ b/hw/riscv/shakti_c.c 
- > >  > > @@ -0,0 +1,171 @@ 
- > >  > > +/* 
- > >  > > + * Shakti C-class SoC emulation 
- > >  > > + * 
- > >  > > + * Copyright (c) 2021 Vijai Kumar K <vijai@behindbytes.com> 
- > >  > > + * 
- > >  > > + * This program is free software; you can redistribute it and/or modify it 
- > >  > > + * under the terms and conditions of the GNU General Public License, 
- > >  > > + * version 2 or later, as published by the Free Software Foundation. 
- > >  > > + * 
- > >  > > + * This program is distributed in the hope it will be useful, but WITHOUT 
- > >  > > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- > >  > > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for 
- > >  > > + * more details. 
- > >  > > + * 
- > >  > > + * You should have received a copy of the GNU General Public License along with 
- > >  > > + * this program.  If not, see <http://www.gnu.org/licenses/>. 
- > >  > > + */ 
- > >  > > + 
- > >  > > +#include "qemu/osdep.h" 
- > >  > > +#include "hw/boards.h" 
- > >  > > +#include "hw/riscv/shakti_c.h" 
- > >  > > +#include "qapi/error.h" 
- > >  > > +#include "hw/intc/sifive_plic.h" 
- > >  > > +#include "hw/intc/sifive_clint.h" 
- > >  > > +#include "sysemu/sysemu.h" 
- > >  > > +#include "hw/qdev-properties.h" 
- > >  > > +#include "exec/address-spaces.h" 
- > >  > > +#include "hw/riscv/boot.h" 
- > >  > > + 
- > >  > > + 
- > >  > > +static const struct MemmapEntry { 
- > >  > > +    hwaddr base; 
- > >  > > +    hwaddr size; 
- > >  > > +} shakti_c_memmap[] = { 
- > >  > > +    [SHAKTI_C_ROM]   =  {  0x00001000,  0x2000   }, 
- > >  > > +    [SHAKTI_C_RAM]   =  {  0x80000000,  0x0      }, 
- > >  > > +    [SHAKTI_C_UART]  =  {  0x00011300,  0x00040  }, 
- > >  > > +    [SHAKTI_C_GPIO]  =  {  0x020d0000,  0x00100  }, 
- > >  > > +    [SHAKTI_C_PLIC]  =  {  0x0c000000,  0x20000  }, 
- > >  > > +    [SHAKTI_C_CLINT] =  {  0x02000000,  0xc0000  }, 
- > >  > > +    [SHAKTI_C_DEBUG] =  {  0x00000000,  0x00010  }, 
- > >  > 
- > >  > What is this debug used for? 
- > > 
- > > I could not find the answer in docs. I got in touch with the developer and this is the response I got. 
- > > 
- > > "It where the debug self-loop lies. When halted by a debugger, the core executes a loop of [nop; j nop]. This loop is placed at the debug_loop location." 
- > > 
- > > This has no purpose in QEMU. It is there for sake of completion. 
- >  
- > Hmm... Maybe let's just remove it then. If it's not being used, not 
- > going to be used and not exposed to software there isn't much benefit 
- > in keeping it. 
-
-Ok. Works for me. Will send v3.
-
-Thanks,
-Vijai Kumar K
-
- >  
- > Alistair 
- >  
- > > 
- > > Thanks, 
- > > Vijai Kumar K 
- > 
 
