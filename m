@@ -2,81 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E157351F42
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 21:07:44 +0200 (CEST)
-Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E0B35209C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 22:31:48 +0200 (CEST)
+Received: from localhost ([::1]:54990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS2fP-0001pC-JA
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 15:07:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44850)
+	id 1lS3yj-0001Zi-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 16:31:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lS2d9-0000PX-FS
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 15:05:24 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lS2d3-0007i3-Tz
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 15:05:20 -0400
-Received: by mail-wr1-x436.google.com with SMTP id x13so2800523wrs.9
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 12:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8WByKP4BhigSIv7qwnR4ZuMwND/wT6u9UYnnYnrzVqw=;
- b=sERxjlTWhFMcnL8ZOv3lc378Q5hEteqbb2GV/wGS8IIPspGolfTD664iKzclzCKgII
- MzUnmeB0QiZrJ+BiaE4ruMe8n3+WKCIaPgRzmA5n5Hlv8hIjFVZ2Vb5SRRx1doR6tM0R
- tvVQY1sR6FL13pcXXe+JKu0cD2MmMR7a3srnrhpuvUj6LXhWgp92Vui6LA9Bbx02sQwx
- IATPvS28MM/pQZB9CNtoJqk7Milj8ON9dwHGSkYw6IA2lhTW0+yKB53VvsIQd/7Kiqa9
- WR2OGZckThe5ouGxAVGXGGg273u8G/rtbbw3pt5IZRAHUOzLPkfl50on4tDeMc4vTsZP
- lUuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8WByKP4BhigSIv7qwnR4ZuMwND/wT6u9UYnnYnrzVqw=;
- b=O7w2zGPnDjRUqCRx0GOOjtomSfLtpFlvwzCqkssmlwE8dDdU7qxPCXdqEMw1efLutc
- t9uj0hT6NLdjWQMELy7oyftRy2nCcD61rWIKgQf8vVzYBIUl9F2mnzsc/yqWkSLtXUUB
- QXbXcxIfC00niV10jORjXQK/V6g1ULJxiQlq7ppre1v4ggwDWJB+yc55N8XtzwOt0guT
- GLuM2LYXD9YUwoS6jbHYJwp0aMAYllH6f1ffZIoXJ9YHEq8BYeDE+ySne0ohkCKRHdcJ
- gk9a8BignUwFp5zgEF68U+pdtv9/dRd5AeC6xnnOu2KZ+GHJWjhs9p8Vj+iMbt33+6f1
- IbBQ==
-X-Gm-Message-State: AOAM531DG3Tsf2s0uHRgVHnD65mcRgCohY+PfP+rwzNx4IHsGmpWx+tI
- MMr60W8Ku1bcDHnYacWfIas=
-X-Google-Smtp-Source: ABdhPJyI8arUuBZX6VqmiZ1ftwTKxsVZGgLartyM49mV/yUAoEHbfjrpBLI3msKeoBzqvD5zDIElZQ==
-X-Received: by 2002:adf:fac1:: with SMTP id a1mr11689966wrs.98.1617303915855; 
- Thu, 01 Apr 2021 12:05:15 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id s8sm10943849wrn.97.2021.04.01.12.05.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 12:05:14 -0700 (PDT)
-Subject: Re: [1/1] tcg/mips: Fix SoftTLB comparison on mips backend
-To: Kele Huang <kele.hwang@gmail.com>, qemu-devel@nongnu.org,
- Jin Guojie <jinguojie@loongson.cn>, Yunqiang Su <ysu@wavecomp.com>
-References: <20210401100457.191458-1-kele.hwang@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9fa65fbd-8fb5-7a30-99ab-47c95db9a97b@amsat.org>
-Date: Thu, 1 Apr 2021 21:05:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1lS3wu-0000Zz-Ih; Thu, 01 Apr 2021 16:29:52 -0400
+Received: from mail.mutex.one ([62.77.152.124]:59956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1lS3ws-0005fo-HF; Thu, 01 Apr 2021 16:29:52 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id 8BE88BF4059C;
+ Thu,  1 Apr 2021 23:29:46 +0300 (EEST)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Yr3EOOYWDrWt; Thu,  1 Apr 2021 23:29:45 +0300 (EEST)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [109.103.89.101])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id 5594ABF404E3;
+ Thu,  1 Apr 2021 23:29:45 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1617308985; bh=+gA+9ZBo1HGb7T9YAPVuaEzDSqI1KeS7DY0mJHuWT84=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JEso691mQuaRGLgzfAW8pnZjjyjPzthMNmSATsgDQz4h8aUBJOG2o3jGO9mQrYFbC
+ 0EZL1ezNdn5W89BOXu/HK+RbBMqRTVy31QuGUHfTpbS1qiqqH/UDX62ZLuybLsdpAF
+ 9siQuobuIZj3rISL5SA2XdgRddOKBZf/9iiyYARA=
+From: Marian Postevca <posteuca@mutex.one>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/1] Rework ACPI OEM fields handling to simplify code (was:
+ acpi: Remove duplicated code handling OEM ID and OEM table ID fields)
+Date: Thu,  1 Apr 2021 23:29:27 +0300
+Message-Id: <20210401202928.16082-1-posteuca@mutex.one>
 MIME-Version: 1.0
-In-Reply-To: <20210401100457.191458-1-kele.hwang@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=marian@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,50 +63,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alistair.francis@wdc.com,
- richard.henderson@linaro.org, j@getutm.app
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Marian Postevca <posteuca@mutex.one>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/21 12:04 PM, Kele Huang wrote:
-> The addrl used to compare with SoftTLB entry should be sign-extended
-> in common case, and it will cause constant failing in SoftTLB
-> comparisons for the addrl whose address is over 0x80000000 on the
-> emulation of 32-bit guest on 64-bit host.
+This patch consolidates ACPI OEM fields handling
+by:
+- Moving common code in PC and MICROVM to X86.
+- Changes unnecessary dynamic memory allocation to static allocation
+- Uses dedicated structure to keep values of fields instead of two
+  separate strings
+- Adds helper functions to initialize the structure
 
-Apparently missed in commit f0d703314ec
-("tcg-mips: Adjust qemu_ld/st for mips64").
+v2:
+- Move the setters/getters of OEM fields to X86MachineState to
+  remove duplication
+- Change commit message to make it clear the second commit is
+  a re-factor
 
-> 
-> This is an important performance bug fix. Spec2000 gzip rate increase
-> from ~45 to ~140 on Loongson 3A4000 (MIPS compatible platform).
-> 
-> Signed-off-by: Kele Huang <kele.hwang@gmail.com>
+v3:
+- Rebase "acpi: Consolidate the handling of OEM ID and OEM
+          Table ID fields to latest" to latest HEAD
+- Dropped "acpi: Move setters/getters of oem fields to
+           X86MachineState" since it was accepted already
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+v4:
+- Drop helper macros and use static inline functions instead
+- Removed variables starting with __
+- Used consistent naming for helper functions that start with ACPI_BUILD_OEM_*
+- Didn't drop the defines ACPI_BUILD_APPNAME6 and ACPI_BUILD_APPNAME8 since
+  ACPI_BUILD_APPNAME8 is still used in build_header() in aml-build.c and it
+  feels better to keep them defined together. But if others prefer to drop the
+  ACPI_BUILD_APPNAME6 define, will resend the patch.
 
-> ---
->  tcg/mips/tcg-target.c.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index 8738a3a581..8b16726242 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -1201,13 +1201,13 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg base, TCGReg addrl,
->             load the tlb addend for the fast path.  */
->          tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
->      }
-> -    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
->  
->      /* Zero extend a 32-bit guest address for a 64-bit host. */
->      if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
->          tcg_out_ext32u(s, base, addrl);
->          addrl = base;
->      }
-> +    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
->  
->      label_ptr[0] = s->code_ptr;
->      tcg_out_opc_br(s, OPC_BNE, TCG_TMP1, TCG_TMP0);
-> 
+Marian Postevca (1):
+  acpi: Consolidate the handling of OEM ID and OEM Table ID fields
+
+ hw/acpi/hmat.h                   |  2 +-
+ hw/i386/acpi-common.h            |  2 +-
+ include/hw/acpi/acpi-build-oem.h | 61 +++++++++++++++++++++++++
+ include/hw/acpi/aml-build.h      | 15 +++---
+ include/hw/acpi/ghes.h           |  2 +-
+ include/hw/acpi/pci.h            |  2 +-
+ include/hw/acpi/vmgenid.h        |  2 +-
+ include/hw/arm/virt.h            |  4 +-
+ include/hw/i386/x86.h            |  4 +-
+ include/hw/mem/nvdimm.h          |  4 +-
+ hw/acpi/aml-build.c              | 27 ++++++-----
+ hw/acpi/ghes.c                   |  5 +-
+ hw/acpi/hmat.c                   |  4 +-
+ hw/acpi/nvdimm.c                 | 22 +++++----
+ hw/acpi/pci.c                    |  4 +-
+ hw/acpi/vmgenid.c                |  6 ++-
+ hw/arm/virt-acpi-build.c         | 40 ++++++----------
+ hw/arm/virt.c                    | 16 +++----
+ hw/i386/acpi-build.c             | 78 +++++++++++++++-----------------
+ hw/i386/acpi-common.c            |  4 +-
+ hw/i386/acpi-microvm.c           | 13 ++----
+ hw/i386/x86.c                    | 19 ++++----
+ 22 files changed, 188 insertions(+), 148 deletions(-)
+ create mode 100644 include/hw/acpi/acpi-build-oem.h
+
+-- 
+2.26.2
+
 
