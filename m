@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E73D351BFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:17:43 +0200 (CEST)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC6A351BF9
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:17:35 +0200 (CEST)
+Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS1t0-0003rM-6e
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57682)
+	id 1lS1sr-0003h2-7K
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lS1f4-0003PG-SA
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:03:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29120)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lS1f5-0003QL-Jo
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:03:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lS1ey-0005xy-OX
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:03:18 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lS1f1-000604-Vr
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:03:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617300192;
+ s=mimecast20190719; t=1617300195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cc1ejjyRsgD3Z98rDH9YyBq+JCXKSN4A99erroM1Vog=;
- b=O9VObFiLRrWoUM/CrlkrTS6k1nY1Nd5QqyzCpAeaQX9YvckNqqcX1I2gryakJm2624kJFY
- R/Sg6FlsHqBpAIJc7z/WSQzHqZHBtTFgAi6uFZb/wR8s7gQ8l9HHEh0JcS9mFqKMiuOFMX
- CVmTKfqc3BeDZnFd84nxpcowg8/1SzQ=
+ bh=XZxETA9xkUI8DHODBhav7aR/O/iVcPfZSSiEn8GIYWg=;
+ b=FJ1ym/SiY7qpu+IeJhzLLBPbdNQ2kaWnAau9gea30OVt8ITUMqiIdncN1z7SWhlYrX0c69
+ /PaWtI5FeYPAlsE4H1auSPY2pMEim276z99U6rVzjeTeETgcrtV0zA9+D+QJhF1qBRYQSf
+ taeDzj2HLMyTn7lffAhuLSxdSSnqtEc=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-K9JG0v4pN56_6LuYuJDjIg-1; Thu, 01 Apr 2021 14:03:09 -0400
-X-MC-Unique: K9JG0v4pN56_6LuYuJDjIg-1
-Received: by mail-wr1-f70.google.com with SMTP id s10so3130696wre.0
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 11:03:08 -0700 (PDT)
+ us-mta-230-kkDSjYLDMGyDjW_X73ZVXQ-1; Thu, 01 Apr 2021 14:03:11 -0400
+X-MC-Unique: kkDSjYLDMGyDjW_X73ZVXQ-1
+Received: by mail-wr1-f70.google.com with SMTP id e10so3095574wru.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 11:03:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Cc1ejjyRsgD3Z98rDH9YyBq+JCXKSN4A99erroM1Vog=;
- b=fp0ypw8Z6nm8ePktFDOnaDetlweQ11vKrdKcDLdF8wHb0kUmllDH09Xlb8TP78A7KX
- Ee3s4xutY/vaQ1fNYQBoWKC1tuN5FaJeAeaNh2IzbNs/hFd694vFj04Y3+uUMvy2WjMa
- kJPOrEKMHeulwwAup1QNXxTdBrsLk2zKt4hUu5bCyuv3hIhJ46H8ptpFmbgAPzDg/kPy
- kxckrN8v/Z476mFjtAFzh4Jq8y2XZ9WdDu9ctrZ6ldRnO4+zJqQB/WhRQrvP/mXfAvVL
- fcsSmEc2ziETCQcAE/3nqBSRdKtlMJ8a+LQXGwvzDoB2K1bLwDPfLgofOzbElVVnhmoi
- dS6Q==
-X-Gm-Message-State: AOAM530BbpkH18iRSdo4INVdpc/wPY9toi5VJL0i1QCC8F7q8t30e4wK
- jwsc5fKZ8wgXjUL30q3GEbMV8NjC3tCfHG13FKXhmXLqC7HlHM4UFywXPPU0VAUMZGj6N+qYhX4
- EI40MmgaBHiCOf1RnI4nSFvhEGflhRC/BjSwQchvkSi+zr+S5bWr5j24VGA1i
-X-Received: by 2002:a1c:5f54:: with SMTP id t81mr9275804wmb.84.1617300187202; 
- Thu, 01 Apr 2021 11:03:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy35eNu/CZLDeYF58L+vfZzFv0LE3SsTu/U5aXJT2A2X3o60QQPADSV9TvkNY8GjtJsAVcNEw==
-X-Received: by 2002:a1c:5f54:: with SMTP id t81mr9275782wmb.84.1617300187009; 
- Thu, 01 Apr 2021 11:03:07 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=XZxETA9xkUI8DHODBhav7aR/O/iVcPfZSSiEn8GIYWg=;
+ b=VugOHNID1PPxURU4Cn8qS9Y6I+PfiemrrJRGnf32PJvV7BIOVrwpsdaTACwyPJBmlw
+ iNCiRvhBtEbSJnQfVFsoPiEoIF1oeJP8OWctCnvOaBzsrBN7ZYKPScMWiZ1cl9OOQtiT
+ 8Dztyos4hhvqwhmZe/jwrLlGStXIfvm0GEfcjAmqvgRGbVPHatnpYCMJ/AV92q4ZY2sq
+ vRCVtAReM9GtOKWLWsWjIEnIHen2rfCta7Cpyg2wJLQVK8dMZyEVwxMCrysn0z/8Pw0I
+ v8v7P6kn6Y7LXNGO+6yndiB+jpeQUqocbBanVXR5PGJYPVrLuDt+aYSY5Rq3S9P4CKRY
+ /92w==
+X-Gm-Message-State: AOAM532LXU7UmpvswATTCfzhRS7LYZ0/paKASZ3b550H9P0+k1g9kcHQ
+ 7mEzk4h0ihqmMMWjjrBrW412y40mXAWET3WbXPB4Vwof3ajJ1VwAh9z+it7MXLEPGquRCad40c0
+ 8sWd7+fK74FipSfcQ02HypFocEFHdpYA7FRti9US3CBW4MRNdPgBW7Ec02thh
+X-Received: by 2002:a5d:4fca:: with SMTP id h10mr11577267wrw.70.1617300190366; 
+ Thu, 01 Apr 2021 11:03:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxu7trJFGO0P/GheHrc9mpZGvXsP04ONlfeXadPMaqkyowx/882HFtyVuEFbfX9A7W089qQuA==
+X-Received: by 2002:a5d:4fca:: with SMTP id h10mr11577246wrw.70.1617300190192; 
+ Thu, 01 Apr 2021 11:03:10 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id n1sm13964745wro.36.2021.04.01.11.03.05
+ by smtp.gmail.com with ESMTPSA id m9sm11272840wro.52.2021.04.01.11.03.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 11:03:06 -0700 (PDT)
-Date: Thu, 1 Apr 2021 14:03:04 -0400
+ Thu, 01 Apr 2021 11:03:09 -0700 (PDT)
+Date: Thu, 1 Apr 2021 14:03:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] acpi/piix4: reinitialize acpi PM device on reset
-Message-ID: <20210401180235.226321-7-mst@redhat.com>
+Subject: [PULL 7/9] vt82c686.c: don't raise SCI when PCI_INTERRUPT_PIN isn't
+ setup
+Message-ID: <20210401180235.226321-8-mst@redhat.com>
 References: <20210401180235.226321-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210401180235.226321-1-mst@redhat.com>
@@ -69,9 +72,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,67 +97,83 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Isaku Yamahata <isaku.yamahata@intel.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Reinoud Zandijk <reinoud@netbsd.org>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Peter Maydell <peter.maydell@linaro.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Commit 6be8cf56bc8b made sure that SCI is enabled in PM1.CNT
-on reset in acpi_only mode by modifying acpi_pm1_cnt_reset() and
-that worked for q35 as expected.
+Without this patch, the following patch will triger clan runtime
+sanitizer warnings as follows. This patch proactively works around it.
+I leave a correct fix to v582c686.c maintainerfix as I'm not sure
+about fuloong2e device model.
 
-The function was introduced by commit
-  eaba51c573a (acpi, acpi_piix, vt82c686: factor out PM1_CNT logic)
-that forgot to actually call it at piix4 reset time and as result
-SCI_EN wasn't set as was expected by 6be8cf56bc8b in acpi_only mode.
+> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=./qemu-img
+> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/qom-test --tap -k
+> PASS 1 qtest-mips64el/qom-test /mips64el/qom/loongson3-virt
+> PASS 2 qtest-mips64el/qom-test /mips64el/qom/none
+> PASS 3 qtest-mips64el/qom-test /mips64el/qom/magnum
+> PASS 4 qtest-mips64el/qom-test /mips64el/qom/mipssim
+> PASS 5 qtest-mips64el/qom-test /mips64el/qom/malta
+> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+> PASS 6 qtest-mips64el/qom-test /mips64el/qom/fuloong2e
+> PASS 7 qtest-mips64el/qom-test /mips64el/qom/boston
+> PASS 8 qtest-mips64el/qom-test /mips64el/qom/pica61
+>
+> and similarly for eg
+>
+> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=./qemu-img
+> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/endianness-test
+> --tap -k
+> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+> PASS 1 qtest-mips64el/endianness-test /mips64el/endianness/fuloong2e
+> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+> PASS 2 qtest-mips64el/endianness-test /mips64el/endianness/split/fuloong2e
+> ../../hw/pci/pci.c:252:30: runtime error: shift exponent -1 is negative
+> PASS 3 qtest-mips64el/endianness-test /mips64el/endianness/combine/fuloong2e
 
-So Windows crashes when it notices that SCI_EN is not set and FADT is
-not providing information about how to enable it anymore.
-Reproducer:
-   qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.0,smm=off -cdrom any_windows_10x64.iso
-
-Fix it by calling acpi_pm1_cnt_reset() at piix4 reset time.
-
-Occasionally this patch adds reset acpi PM related registers on
-piix4 reset time and de-assert sci.
-piix4_pm_realize() initializes acpi pm tmr, evt, cnt and gpe.
-Reset them on device reset. pm_reset() in ich9.c correctly calls
-corresponding reset functions.
-
-Fixes: 6be8cf56bc8b (acpi/core: always set SCI_EN when SMM isn't supported)
-Reported-by: Reinoud Zandijk <reinoud@NetBSD.org>
-Co-developed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-Message-Id: <8a5bbd19727045ec863523830078dd4ca63f6a9a.1616532563.git.isaku.yamahata@intel.com>
+Message-Id: <62a5fc69e453fb848bfd4794bae1852a75af73c5.1616532563.git.isaku.yamahata@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/piix4.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/isa/vt82c686.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 6056d51667..8f8b0e95e5 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -326,6 +326,13 @@ static void piix4_pm_reset(DeviceState *dev)
-         /* Mark SMM as already inited (until KVM supports SMM). */
-         pci_conf[0x5B] = 0x02;
-     }
-+
-+    acpi_pm1_evt_reset(&s->ar);
-+    acpi_pm1_cnt_reset(&s->ar);
-+    acpi_pm_tmr_reset(&s->ar);
-+    acpi_gpe_reset(&s->ar);
-+    acpi_update_sci(&s->ar, s->irq);
-+
-     pm_io_space_update(s);
-     acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
- }
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 05d084f698..f0fb309f12 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -144,7 +144,18 @@ static void pm_update_sci(ViaPMState *s)
+                    ACPI_BITMASK_POWER_BUTTON_ENABLE |
+                    ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
+                    ACPI_BITMASK_TIMER_ENABLE)) != 0);
+-    pci_set_irq(&s->dev, sci_level);
++    if (pci_get_byte(s->dev.config + PCI_INTERRUPT_PIN)) {
++        /*
++         * FIXME:
++         * Fix device model that realizes this PM device and remove
++         * this work around.
++         * The device model should wire SCI and setup
++         * PCI_INTERRUPT_PIN properly.
++         * If PIN# = 0(interrupt pin isn't used), don't raise SCI as
++         * work around.
++         */
++        pci_set_irq(&s->dev, sci_level);
++    }
+     /* schedule a timer interruption if needed */
+     acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
+                        !(pmsts & ACPI_BITMASK_TIMER_STATUS));
 -- 
 MST
 
