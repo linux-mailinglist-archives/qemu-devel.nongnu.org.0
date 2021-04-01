@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76805351933
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 19:55:10 +0200 (CEST)
-Received: from localhost ([::1]:39872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5961D351ACA
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:07:33 +0200 (CEST)
+Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS1XA-0001QC-DY
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 13:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54702)
+	id 1lS1j9-0004oh-WE
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1lS1Vz-0000bQ-Fg
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 13:53:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20058)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lS1en-0003BP-4F
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:03:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1lS1Vv-0000do-Ax
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 13:53:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lS1ei-0005rG-JS
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:03:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617299629;
+ s=mimecast20190719; t=1617300175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tCVuFGx6htuo6vh9EcFAsRLD5r0NdZVC9QNpsmxAQSA=;
- b=EuyPU9oFf1qJvf1Kx+iNfZx88WNXb7fNCzOpQAzbZFeMojDUiOYku4V9Bq3j9HM6isFIML
- vhrHmML7Qg61YmK1xGUmx07SQE6eiiilkH+ZrYV2Br70Lkxefg6n4Ox0aCZBveCFd955/j
- mSgpG3ELLtMSB2mOMmoAHwRbuu8gmXU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-7O-KI34UMe-lPIH5HEj_4g-1; Thu, 01 Apr 2021 13:53:47 -0400
-X-MC-Unique: 7O-KI34UMe-lPIH5HEj_4g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5448C501F8;
- Thu,  1 Apr 2021 17:53:46 +0000 (UTC)
-Received: from harajuku.usersys.redhat.com (unknown [10.40.193.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA0D359468;
- Thu,  1 Apr 2021 17:53:43 +0000 (UTC)
-Message-ID: <7f8146ebba9234d8d21beaa8a1ab8996ae5c63d4.camel@redhat.com>
-Subject: Re: [PATCH RESEND v2 0/6] target/arm: Add nested virtualization
- support
-From: Andrea Bolognani <abologna@redhat.com>
-To: Haibo Xu <haibo.xu@linaro.org>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Date: Thu, 01 Apr 2021 19:53:40 +0200
-In-Reply-To: <cover.1617281290.git.haibo.xu@linaro.org>
-References: <cover.1617281290.git.haibo.xu@linaro.org>
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=5Pbh7JYsI4J0e5aEuzh0AVVibuHdRTHb5Ki7aunNDXc=;
+ b=dkur4zEVvVobN4x665tRKORFezd7nHqtWU1KDoDlt6xIW9LqbYbGaPApCjBVKo+VR+rm4C
+ RLj6AmOVNRrA4hhZfwP4VI/xt4I6/fTtzQpvr/zX5LKnzE2Q/2m135AFFSZZyRVXcSzylw
+ VAbd0mkkXg8ixFQzYlzUKzvbqh9fY9A=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-YTLhSD74NuKz22wDWxUzYQ-1; Thu, 01 Apr 2021 14:02:53 -0400
+X-MC-Unique: YTLhSD74NuKz22wDWxUzYQ-1
+Received: by mail-wr1-f70.google.com with SMTP id o11so3126723wrc.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 11:02:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=5Pbh7JYsI4J0e5aEuzh0AVVibuHdRTHb5Ki7aunNDXc=;
+ b=LUKvM+IBnHxFy9N73HSiA9Dfl+pZXANxuovxxJsYkjl7Zds7mI81P4aZEq2ynA/sWw
+ E/GnX/R2M7GyTR19zaDnflsZWtiY0kn7G7LP3QebgLLdewIwyOzfA5XBs52y7JSicT4z
+ eZr0H0ilKw2mkcS59+a3g/cYlUAcImJMTQ0USiDWZL2GFyTozZ+PVu8g8GuR6S4gYWw9
+ JXg67/6HH4hLkYyjIWr+QisGRTO4uQP2gRkRPm/PXboDvatM3lGbrNuIZsflK1P21k3H
+ zaLlK4gJ1/4SOmgGKTAUyWo0sPD3msCLLac27OvWZLTrruxfsrzF40g5oaHAb4m5lc/H
+ 2lcQ==
+X-Gm-Message-State: AOAM533vmWLD7k3/BQ7VrP6l4ZQue2tV4EaWYA14HJA7wFqjNZfOhUog
+ GKQX8z04DHI+lKt3kH0CKyymtcbiFfV0RPP8TbwgfrXB/aSSuZMaN5BUUd976JMCejkjXFn5ZAY
+ zD6DEl3tPDiwogdPQnuLlOhXfQgoXZJ8rL8DYixnJQiI7K6oWLqcsTgMwUobz
+X-Received: by 2002:a5d:518c:: with SMTP id k12mr11218607wrv.15.1617300171964; 
+ Thu, 01 Apr 2021 11:02:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0lKH4WJxozZ+LB5sVQ2JxeNL5RLED6REzAnEM4C8iW8UQ8QpzJLM/imk5FSJiP72pbO2mJA==
+X-Received: by 2002:a5d:518c:: with SMTP id k12mr11218580wrv.15.1617300171768; 
+ Thu, 01 Apr 2021 11:02:51 -0700 (PDT)
+Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
+ by smtp.gmail.com with ESMTPSA id x14sm10675432wrw.13.2021.04.01.11.02.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 11:02:51 -0700 (PDT)
+Date: Thu, 1 Apr 2021 14:02:49 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] pc,virtio,pci: bugfixes
+Message-ID: <20210401180235.226321-1-mst@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,30 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2021-04-01 at 12:55 +0000, Haibo Xu wrote:
-> v2:
->   - Move the NV to a CPU feature flag(Andrea&Andrew)
->   - Add CPU feature 'el2' test(Andrew)
-> 
-> Many thanks to Andrea and Andrew for their comments!
-> 
-> This series add support for ARMv8.3/8.4 nested virtualization support
-> in KVM mode. It's based on Marc Zyngier's kernel KVM patches[1], and 
-> has been tested on a FVP model to run a L2 guest with Qemu. Now the 
-> feature can be enabled by "-M virt,accel=kvm -cpu host,el2=on" when
-> starting a VM. 
+The following changes since commit 1bd16067b652cce41a9214d0c62c73d5b45ab4b1:
 
-This looks good from the user interface point of view, thanks for
-addressing the concerns that were raised!
+  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-03-31 16:38:49 +0100)
 
-I'll leave Drew to review the actual code changes :)
+are available in the Git repository at:
 
--- 
-Andrea Bolognani / Red Hat / Virtualization
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 8ddf54324858ce5e35272efa449f27fc0a19f957:
+
+  pci: sprinkle assert in PCI pin number (2021-04-01 12:19:52 -0400)
+
+----------------------------------------------------------------
+pc,virtio,pci: bugfixes
+
+Fixes all over the place.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Denis Plotnikov (3):
+      vhost-user-blk: use different event handlers on initialization
+      vhost-user-blk: perform immediate cleanup if disconnect on initialization
+      vhost-user-blk: add immediate cleanup on shutdown
+
+Isaku Yamahata (4):
+      acpi/piix4: reinitialize acpi PM device on reset
+      vt82c686.c: don't raise SCI when PCI_INTERRUPT_PIN isn't setup
+      isa/v582c686: Reinitialize ACPI PM device on reset
+      pci: sprinkle assert in PCI pin number
+
+Yuri Benditovich (2):
+      virtio-pci: add check for vdev in virtio_pci_isr_read
+      virtio-pci: remove explicit initialization of val
+
+ hw/acpi/piix4.c           |  7 +++++
+ hw/block/vhost-user-blk.c | 79 ++++++++++++++++++++++++++++-------------------
+ hw/isa/vt82c686.c         | 18 ++++++++++-
+ hw/pci/pci.c              |  3 ++
+ hw/virtio/virtio-pci.c    | 16 +++++++---
+ 5 files changed, 87 insertions(+), 36 deletions(-)
 
 
