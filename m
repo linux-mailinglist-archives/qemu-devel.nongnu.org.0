@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA36351507
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 15:17:36 +0200 (CEST)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D09E35150E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 15:19:49 +0200 (CEST)
+Received: from localhost ([::1]:55624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRxCZ-0006cI-I6
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 09:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35492)
+	id 1lRxEh-00011K-U8
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 09:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx7p-0001t5-KX
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx7r-0001tm-GT
  for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47424)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx7n-0004RC-KD
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx7o-0004RT-FE
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617282758;
+ s=mimecast20190719; t=1617282759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rA/o/XKTsvHS3blLtpoZ9zaGS3NupSLgOTyIppc67I0=;
- b=deQ0Cxu4/tAgqXPmOkSq1iOuWTnjVCBt7qsYqHkAyS6UPLHVsM3juVxRXuSxRWiW+pJpEt
- gQubU4owOfA7ih5do23ptC/BJTisuzVXmk7zxXpzNEscv0IqWb8QphJYDVdWyXDwB+sl2+
- AUUiBjFdbGSYLI0LgKhN3YTHt4EIadY=
+ bh=ZwOcQEd7H7MbO+MV41Zd90QaVi9nUUDy/4cQYvQ4ZhE=;
+ b=AkXu2THUqW43AM7qQ81oDF5pEBsmfajKTV8iVDUD4ybzjLHPoYUl8A1fZMkkZFOWJJfzxW
+ zXBwXMPVYp4Ag6YobfYhMuSFALKfHe5hNSneHp8AkGcjQ9NFdaiWzHJO5Iki5JRrODhdHL
+ Wm9H4ASgSY0yU26mq0vpp8nVzzXXn/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-mPw_Hmk0Oz619YpBQ7Y3Cg-1; Thu, 01 Apr 2021 09:12:36 -0400
-X-MC-Unique: mPw_Hmk0Oz619YpBQ7Y3Cg-1
+ us-mta-436-NrvyZI0mMnSq5Q9GSAPX8A-1; Thu, 01 Apr 2021 09:12:37 -0400
+X-MC-Unique: NrvyZI0mMnSq5Q9GSAPX8A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CC6B107BEF5;
- Thu,  1 Apr 2021 13:12:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BEA190A7D5;
+ Thu,  1 Apr 2021 13:12:37 +0000 (UTC)
 Received: from thuth.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 103F31378E;
- Thu,  1 Apr 2021 13:12:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D7AC19107;
+ Thu,  1 Apr 2021 13:12:35 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/13] MAINTAINERS: Drop the line with Xiang Zheng
-Date: Thu,  1 Apr 2021 15:12:12 +0200
-Message-Id: <20210401131220.3252320-6-thuth@redhat.com>
+Subject: [PULL 06/13] MAINTAINERS: add virtio-fs mailing list
+Date: Thu,  1 Apr 2021 15:12:13 +0200
+Message-Id: <20210401131220.3252320-7-thuth@redhat.com>
 In-Reply-To: <20210401131220.3252320-1-thuth@redhat.com>
 References: <20210401131220.3252320-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,44 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Connor Kuehl <ckuehl@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When sending a mail with CC: to zhengxiang9@huawei.com I got a mail
-back saying:
+From: Connor Kuehl <ckuehl@redhat.com>
 
- Your message couldn't be delivered
+General discussion and patch reviews take place on this list for both
+virtiofsd (tools/virtiofsd/*) and the guest kernel module.
 
- The message you sent to zhengxiang9@huawei.com couldn't be delivered due to:
- Recipient email address is possibly incorrect.
-
- Further information
-
- 5.1.1 <zhengxiang9@huawei.com>: Recipient address rejected: Failed recipient
- validation check.: host 127.0.0.1[127.0.0.1] said: 554 5.7.1 recipient verify
- from ldap failed (in reply to RCPT TO command)
-
-Looks like this address does not exist anymore, thus drop it from the
-MAINTAINERS file.
-
-Message-Id: <20210401065343.3197791-1-thuth@redhat.com>
+Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+Message-Id: <20210318154157.1357224-1-ckuehl@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4dab272320..f237ea313d 100644
+index f237ea313d..155c7995d4 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1726,7 +1726,6 @@ F: tests/data/acpi/
+@@ -1916,6 +1916,7 @@ F: tools/virtiofsd/*
+ F: hw/virtio/vhost-user-fs*
+ F: include/hw/virtio/vhost-user-fs.h
+ F: docs/tools/virtiofsd.rst
++L: virtio-fs@redhat.com
  
- ACPI/HEST/GHES
- R: Dongjiu Geng <gengdongjiu1@gmail.com>
--R: Xiang Zheng <zhengxiang9@huawei.com>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/acpi/ghes.c
+ virtio-input
+ M: Gerd Hoffmann <kraxel@redhat.com>
 -- 
 2.27.0
 
