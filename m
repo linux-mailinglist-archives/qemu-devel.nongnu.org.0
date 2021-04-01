@@ -2,44 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5857350CE5
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:06:36 +0200 (CEST)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10261350CFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:08:36 +0200 (CEST)
+Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRnfH-00079l-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33486)
+	id 1lRnhD-0000er-51
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRnd1-0005iR-MG; Wed, 31 Mar 2021 23:04:15 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60295 helo=ozlabs.org)
+ id 1lRnd1-0005ic-Ua; Wed, 31 Mar 2021 23:04:15 -0400
+Received: from ozlabs.org ([203.11.71.1]:41381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRncq-00083Q-1M; Wed, 31 Mar 2021 23:04:09 -0400
+ id 1lRncq-00083R-8K; Wed, 31 Mar 2021 23:04:11 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F9p1C07dfz9sWF; Thu,  1 Apr 2021 14:03:58 +1100 (AEDT)
+ id 4F9p1C1Rnyz9sXG; Thu,  1 Apr 2021 14:03:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1617246239;
- bh=5uxwIZQnCzmQes0I7kYM7oVGib8PVDMmllogI+bzxDM=;
+ bh=suh4e+0H1WTSrprX4LDtSEOedIqgTJvxZH+FUfsxQ1U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A254//1R9eQ1CJBTDRWbnNiywczuRMwsNII9K2GxIyNY9oOhle2yuSDI3rNqnX88y
- pLukHvKp5nIwP4YnymuhFWy7q0qsN00thviv8Rmar8aEHNPrNLgUw5I1YywcTlzmyX
- sNoKVb6s9sKpYfiVfpNkT0TwDLm46c+DKb/7NzNw=
-Date: Thu, 1 Apr 2021 13:37:11 +1100
+ b=aHKjyR/AuFLJtqM0vfUJeP84QlKydz1y7w8mbHoASQVMh/zg/TZCewzStSDbePcRU
+ 15YQGy3/UHbifdHZ3+AsJlEuilzatCnq3/tGqH5rOjSAT02dcKqKUXKoowQ2y3YvSJ
+ 2+gdDQcsiWwZIqxOkdmsPwx2svCGEQAZhOUsrd/c=
+Date: Thu, 1 Apr 2021 13:53:48 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 2/2] spapr.c: always pulse guest IRQ in
- spapr_core_unplug_request()
-Message-ID: <YGUx1+bNSR2IFFSV@yekko.fritz.box>
-References: <20210401000437.131140-1-danielhb413@gmail.com>
- <20210401000437.131140-3-danielhb413@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/2] spapr: number of SMP sockets must be equal to NUMA
+ nodes
+Message-ID: <YGU1vKCC9ER538dz@yekko.fritz.box>
+References: <YFk+fkK6KVN8ZiQK@yekko.fritz.box>
+ <2025f26f-5883-4e86-02af-5b83a8d52465@gmail.com>
+ <YFvxAW3l4t+YznEm@yekko.fritz.box>
+ <d13d3c70-6f12-713e-6995-070292cb30c6@kaod.org>
+ <YGFVc2lBhvzm5CSa@yekko.fritz.box>
+ <9870aaba-9921-5c5d-113c-5be6cd098cf2@kaod.org>
+ <91e406bf-c9c6-0734-1f69-081d3633332b@gmail.com>
+ <YGPI5vgoI8JDO1HN@yekko.fritz.box>
+ <87blazyl5w.fsf@mpe.ellerman.id.au>
+ <041ea566-62cd-0017-fbaa-bb56bd97d381@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YcqI9hB86IWcACmy"
+ protocol="application/pgp-signature"; boundary="veLyJj+FzBZrdtvL"
 Content-Disposition: inline
-In-Reply-To: <20210401000437.131140-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <041ea566-62cd-0017-fbaa-bb56bd97d381@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,74 +67,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Srikar Dronamraju <srikar@linux.vnet.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---YcqI9hB86IWcACmy
-Content-Type: text/plain; charset=us-ascii
+--veLyJj+FzBZrdtvL
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 31, 2021 at 09:04:37PM -0300, Daniel Henrique Barboza wrote:
-> Commit 47c8c915b162 fixed a problem where multiple spapr_drc_detach()
-> requests were breaking QEMU. The solution was to just spapr_drc_detach()
-> once, and use spapr_drc_unplug_requested() to filter whether we already
-> detached it or not. The commit also tied the hotplug request to the
-> guest in the same condition.
+On Wed, Mar 31, 2021 at 05:22:39PM +0200, C=E9dric Le Goater wrote:
+> On 3/31/21 6:58 AM, Michael Ellerman wrote:
+> > David Gibson <david@gibson.dropbear.id.au> writes:
+> >> On Mon, Mar 29, 2021 at 03:32:37PM -0300, Daniel Henrique Barboza wrot=
+e:
+> > ...
+> >>
+> >>> We assign ibm,chip-id=3D0x0 to CPUs 0-3, but CPUs 2-3 are located in a
+> >>> different NUMA node than 0-1. This would mean that the same socket
+> >>> would belong to different NUMA nodes at the same time.
+> >>
+> >> Right... and I'm still not seeing why that's a problem.  AFAICT that's
+> >> a possible, if unexpected, situation under real hardware - though
+> >> maybe not for POWER9 specifically.
+> >=20
+> > I think I agree.
+> >=20
+> >>> I believe this is what Cedric wants to be addressed. Given that the
+> >>> property is called after the OPAL property ibm,chip-id, the kernel
+> >>> expects that the property will have the same semantics as in OPAL.
+> >>
+> >> Even on powernv, I'm not clear why chip-id is tied into the NUMA
+> >> configuration, rather than getting all the NUMA info from
+> >> associativity properties.
+> >=20
+> > AFAIK we don't use chip-id for anything related to NUMA, if we do I'd
+> > consider that a bug.
 >=20
-> Turns out that there is a reliable way for a CPU hotunplug to fail. If a
-> guest with one CPU hotplugs a CPU1, then offline CPU0s via 'echo 0 >
-> /sys/devices/system/cpu/cpu0/online', then attempts to hotunplug CPU1,
-> the kernel will refuse it because it's the last online CPU of the
-> system. Given that we're pulsing the IRQ only in the first try, in a
-> failed attempt, all other CPU1 hotunplug attempts will fail, regardless
-> of the online state of CPU1 in the kernel, because we're simply not
-> letting the guest know that we want to hotunplug the device.
+> Since PAPR only has NUMA nodes, is the use of chip-id in XIVE PAPR=20
+> considered as a bug ? I would say so.
+
+As noted in another thread, XIVE PAPR *doesn't* actually use chip_id.
+
+And even on PowerNV, I don't think this has any real connection to
+NUMA.  For PowerNV we care about whether we're working within a single
+XIVE hardware instance, or across multiple.  There's one XIVE
+per-chip, hence the relevance of chip-id.  That happens to also match
+to NUMA topology on (currently existing) POWER9 chips, but I don't see
+that it inherently has to.
+
+> > We do use it for topology_physical_package_id(), but that's almost
+> > completely unused.
 >=20
-> Let's move spapr_hotplug_req_remove_by_index() back out of the "if
-> (!spapr_drc_unplug_requested(drc))" conditional, allowing for multiple
-> 'device_del' requests to the same CPU core to reach the guest, in case
-> the CPU core didn't fully hotunplugged previously.
+> In that case, I think it should be fine to return -1 like under PowerVM.
 >=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-I've applied these to ppc-for-6.0, but..
-
-> ---
->  hw/ppc/spapr.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> Thanks,
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 05a765fab4..e4be00b732 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3777,8 +3777,17 @@ void spapr_core_unplug_request(HotplugHandler *hot=
-plug_dev, DeviceState *dev,
-> =20
->      if (!spapr_drc_unplug_requested(drc)) {
->          spapr_drc_unplug_request(drc);
-> -        spapr_hotplug_req_remove_by_index(drc);
->      }
-> +
-> +    /*
-> +     * spapr_hotplug_req_remove_by_index is left unguarded, out of the
-> +     * "!spapr_drc_unplug_requested" check, to allow for multiple IRQ
-> +     * pulses removing the same CPU. Otherwise, in an failed hotunplug
-> +     * attempt (e.g. the kernel will refuse to remove the last online
-> +     * CPU), we will never attempt it again because unplug_requested
-> +     * will still be 'true' in that case.
-> +     */
-> +    spapr_hotplug_req_remove_by_index(drc);
-
-I think we need similar changes for all the other unplug types (LMB,
-PCI, PHB) - basically retries should always be allowed, and at worst
-be a no-op, rather than generating an error like they do now.
-
->  }
-> =20
->  int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+> C.=20
+>=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -134,25 +138,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---YcqI9hB86IWcACmy
+--veLyJj+FzBZrdtvL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBlMdcACgkQbDjKyiDZ
-s5JhwBAAmdi0ayejzUzUhTBaWEMmpm8kXR+hKcXiJXsYDT3A/CjV2ySaMI6GuUtD
-bxCXYzLF9FFBQmewX01OjdKamYv/nUDNJKzYbXdPrloSORUWRlQKQGX/krDpX3Pv
-4TRoDxVGaoY48C93Ibk84eczOipQFdB0gALSt6jgb5ADgDRu0xezEL4enBA3gQyP
-siwGDNbuPSAcvDz6xv7IqFy5+AJnIKrCImXr1JCHETntJYRBo09DHjvUO+sQISen
-xSIFO5q/cdoQmsOqqflzDxqUPr2RJ5wD9TNxhAjcOUhgH0UQBFbf5tpOpjlvb2ht
-YlCNnhUuJwFDt+EuJUG9Z6wjEcNaRdsu+U7ADkdcgrsakrGuo5ktYUxHWCgEUEuD
-yzGsYRpR0uP2pSpX+X65C62vmHgOZQ9jgFlyiAEEREpt/l7kdTFEUCmzfGC+SXMi
-r13MqxTNxXP5TNLg8C/VIjt44tfvy/976ixyWucrJ8gF6E58ifsOFa05IDxp9sN7
-IZvNWZbItlfak1kDPICIU4ewkh3K+BJsblBM2dsKeFtwlfdFN3ACcBnH5p4vVVF7
-fYWrGil0MCdWgRNj2LtGBm1KJXgY3T8WPoiCDVgt3GE4CDPt0FRfFjkx5laIVqHr
-BSBAR5RlSRq9sPd3g31wsBOqtW/hxC1wiZuAIQfJJiHUB459QrU=
-=VmXY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBlNbwACgkQbDjKyiDZ
+s5K+FhAAxgbQ7AR1a8LpRwYfDYOp+wdnR14OIaLl9xwzXJxZsxlHOuMJ2eqNVagT
+VpQnoYWIEFEXaNJuLw9dirQjX9TOjXNb4bg7a3E77n29c2xgweFTIZ0X572DMPpP
+H1njmA7p+Lfddq1iahtoGNsgpRnoFBLmqnm4ykKn4e6tLJj9rvx8TdtwvJCC84pT
+3+5T/sHGpbfSmTU1U6mMmEo8VnPK7cPwWSltv27h4pcYUhKgFt/OMSgoN5qluozN
+cfiIlHBQ9k2JycUul/Osi2SS98MBD5uNNuZ6YWwtdQBQ8GJEGpi6oLkA7brD1dJO
+KiVcIUO2R5p52r2sl30+RlrKWhd2l8frejL6N/U7L5llINEjCIfcD/rheGkDosWN
+XJr055zo+Re8xa+UCPS/PNNdatHPTrcdb/D6LlXx8b8eicHUf1T51FO4Juo8Vugk
+fR6enoevhJw0E9hX98uPkZwCWckc7/4VDdt6k0l1oBWtJmSs3UtDin3Q+zzh6zzS
+o/bG40rdncyrP3K1DKlqfNgrByAF+iMDgaigfEDmY6vtlFnSQgtHeC8JbGg487Sy
+57lIeOy0bcI8ay6/dnJkVTPeCU22IdGgd7MSbsU0DYph7/hwVuUzy4meBDADkeht
+n3UhXyeLHPCjgc6vd1Ob5HsBv7/dZ6qGB7woFeY/n2J2wLW7lzk=
+=adxM
 -----END PGP SIGNATURE-----
 
---YcqI9hB86IWcACmy--
+--veLyJj+FzBZrdtvL--
 
