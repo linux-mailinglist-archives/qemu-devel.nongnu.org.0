@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB48351632
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 17:29:48 +0200 (CEST)
-Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31276351630
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 17:28:23 +0200 (CEST)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRzGW-0000Dx-0S
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 11:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45360)
+	id 1lRzF8-0007kt-99
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 11:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lRz7g-0007zp-Ck
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:20:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34062)
+ id 1lRz7a-0007vK-W5
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:20:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lRz7d-0005OY-Ld
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:20:40 -0400
+ id 1lRz7Z-0005N6-9v
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:20:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617290435;
+ s=mimecast20190719; t=1617290432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eouiSVEHA2DpldbG4KgKOboFwtCaoy3z9k7jDn2b9vI=;
- b=HnMw06BM9E1FEZbl9AbET+9pcO9/nirbLIVGzU1pyu+4DW57WeLE0o1OtciYu2kDxrFong
- qAUPtDfs6W1L/afM3OGj++UvFaCWNSzZSt6t2AcZY+Ptx4uk/Q+MfV/57Us2pmrY5gP+vh
- hX8Xj2O//fg1p21SrvBiqHtMc/pvW3k=
+ bh=dTyQBYhxzQqR27Ruc5JaZXlCCIo/O+xYlXi1OCqM+Qw=;
+ b=YMYujoLGmsEpIWE9XkypxpmNPc/Bl2Or2nZBuqf9Me6eyZZ9kkkGWiaBvuVb52JduSdxCc
+ ojS8xALcGF0YCGXhLVn2TZ10xdHYpTVIEfBLX44RQB4yOdQSCWFpYURoBzNnPTa6cGLXTq
+ qO1F7cYIWEaTkHtjF0R3vS/4mrBLE7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-tI7loeUmPveAWXLcvWAkXg-1; Thu, 01 Apr 2021 11:20:28 -0400
-X-MC-Unique: tI7loeUmPveAWXLcvWAkXg-1
+ us-mta-2-JBxRCuv6N4KOz_yQkkkR2A-1; Thu, 01 Apr 2021 11:20:30 -0400
+X-MC-Unique: JBxRCuv6N4KOz_yQkkkR2A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4531018C89E6;
- Thu,  1 Apr 2021 15:20:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B58D86B9FC;
+ Thu,  1 Apr 2021 15:20:29 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D7851001281;
- Thu,  1 Apr 2021 15:20:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0A0010074E1;
+ Thu,  1 Apr 2021 15:20:27 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 1/2] i386: Add 'kvm-asyncpf-int' to kvm_default_props array
-Date: Thu,  1 Apr 2021 17:19:56 +0200
-Message-Id: <20210401151957.408028-2-vkuznets@redhat.com>
+Subject: [PATCH 2/2] i386: Disable 'kvm-asyncpf-int' feature for machine types
+ <= 5.1
+Date: Thu,  1 Apr 2021 17:19:57 +0200
+Message-Id: <20210401151957.408028-3-vkuznets@redhat.com>
 In-Reply-To: <20210401151957.408028-1-vkuznets@redhat.com>
 References: <20210401151957.408028-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,27 +87,31 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just like all other KVM PV features, 'kvm-asyncpf-int' needs to be
-added to all CPU models when KVM is enabled or the feature will always
-remain 'off' unless specified explicitly on the command line.
+'kvm-asyncpf-int' was implemented in QEMU-5.2 so older machine types
+should have it disabled to make migration to an older QEMU which does not
+support this feature possible.
 
+The issue went unnoticed probably because we also forgot to add
+'kvm-asyncpf-int' to 'kvm_default_props[]' so it was rarely enabled.
+
+Fixes: db5daafab2 ("target/i386: support KVM_FEATURE_ASYNC_PF_INT")
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c | 1 +
+ hw/i386/pc.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b3e9467f177..c7f8a8a8fec0 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4244,6 +4244,7 @@ static PropValue kvm_default_props[] = {
-     { "kvmclock", "on" },
-     { "kvm-nopiodelay", "on" },
-     { "kvm-asyncpf", "on" },
-+    { "kvm-asyncpf-int", "on" },
-     { "kvm-steal-time", "on" },
-     { "kvm-pv-eoi", "on" },
-     { "kvmclock-stable-bit", "on" },
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8a84b25a031e..04d5f76bf133 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -103,6 +103,7 @@ const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
+ 
+ GlobalProperty pc_compat_5_1[] = {
+     { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
++    { TYPE_X86_CPU, "kvm-asyncpf-int", "off" },
+     { TYPE_X86_CPU, "kvm-msi-ext-dest-id", "off" },
+ };
+ const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
 -- 
 2.30.2
 
