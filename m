@@ -2,53 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77CF3513F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 12:55:23 +0200 (CEST)
-Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60260351433
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:07:10 +0200 (CEST)
+Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRuyw-0008Et-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 06:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51136)
+	id 1lRvAK-0003gT-WB
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRuxT-0007mf-NH
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:53:51 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57534
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lRv8z-00033w-9O
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:05:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRuvW-0005I5-PE
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:53:50 -0400
-Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRuvd-0005OZ-Tk; Thu, 01 Apr 2021 11:51:58 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
-References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
- <20210401074933.9923-6-mark.cave-ayland@ilande.co.uk>
- <0c3900c2-fa72-47ea-d48c-625dd1b40734@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <854e3d13-4610-8780-e27c-a7cb72b54dd1@ilande.co.uk>
-Date: Thu, 1 Apr 2021 11:51:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lRv8t-0004WS-Sd
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:05:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617275135;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fQuhy1STUJtQUWRgMPGGnVDT2Nv8xxMQoM6zTvXKCxs=;
+ b=Uh3Z0QIgRt/jGF6a77ScwK5B9YVLu3qgZj35h2lZV6ZUaYvtb6Cd4bXGKf95jbC1qemUzw
+ 1aDVQF2iZ/yTPnXGtAuzsSQ+8TeKbGUY1i7wc1C0zraqF3/85uk2vbDi2GgdmSPjI7Hxrw
+ xojBgS2TawjuqxX05uNH0ngCnYhDF3M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-Gw3b7SgMO-qm5A-Gj_LsKg-1; Thu, 01 Apr 2021 07:05:33 -0400
+X-MC-Unique: Gw3b7SgMO-qm5A-Gj_LsKg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64A521009E25;
+ Thu,  1 Apr 2021 11:05:31 +0000 (UTC)
+Received: from gondolin (ovpn-113-119.ams2.redhat.com [10.36.113.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 586336F13B;
+ Thu,  1 Apr 2021 11:05:25 +0000 (UTC)
+Date: Thu, 1 Apr 2021 13:05:22 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v3 1/1] docs/devel: Add VFIO device migration documentation
+Message-ID: <20210401130522.1e9c2871.cohuck@redhat.com>
+In-Reply-To: <20210326131850.149337-1-targupta@nvidia.com>
+References: <20210326131850.149337-1-targupta@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <0c3900c2-fa72-47ea-d48c-625dd1b40734@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.103.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 05/11] esp: introduce esp_fifo_pop_buf() and use it
- instead of fifo8_pop_buf()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,58 +77,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kevin.tian@intel.com, cjia@nvidia.com, quintela@redhat.com,
+ alex.williamson@redhat.com, qemu-devel@nongnu.org, yan.y.zhao@intel.com,
+ lushenming@huawei.com, kwankhede@nvidia.com, dnigam@nvidia.com,
+ berrange@redhat.com, philmd@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/04/2021 10:34, Philippe Mathieu-Daudé wrote:
+On Fri, 26 Mar 2021 18:48:50 +0530
+Tarun Gupta <targupta@nvidia.com> wrote:
 
-> On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
->> The const pointer returned by fifo8_pop_buf() lies directly within the array used
->> to model the FIFO. Building with address sanitisers enabled shows that if the
+> Document interfaces used for VFIO device migration. Added flow of state changes
+> during live migration with VFIO device. Tested by building docs with the new
+> vfio-migration.rst file.
+
+I don't think you want to include the test state in the patch
+description; that should go into a --- section that is stripped off by
+git am.
+
 > 
-> Typo "sanitizers"
-
-Ha. It's definitely "sanitiser" here in the UK (UK English) as opposed to "sanitizer" 
-(US English). I don't really mind either way, but I can fix this if it needs a v4 
-following Paolo's comments.
-
->> caller expects a minimum number of bytes present then if the FIFO is nearly full,
->> the caller may unexpectedly access past the end of the array.
+> v3:
+> - Add introductory line about VM migration in general.
+> - Remove occurcences of vfio_pin_pages() to describe pinning.
+> - Incorporated comments from v2
 > 
-> Why isn't it a problem with the other models? Because the pointed
-> buffer is consumed directly?
+> v2:
+> - Included the new vfio-migration.rst file in index.rst
+> - Updated dirty page tracking section, also added details about
+>   'pre-copy-dirty-page-tracking' opt-out option.
+> - Incorporated comments around wording of doc.
 
-Yes that's correct, which is why Fifo8 currently doesn't support wraparound. I 
-haven't analysed how other devices have used it but I would imagine there would be an 
-ASan hit if it were being misused this way.
+Same for the changelog; this is interesting for review, but not for the
+final git log.
 
->> Introduce esp_fifo_pop_buf() which takes a destination buffer and performs a
->> memcpy() in it to guarantee that the caller cannot overwrite the FIFO array and
->> update all callers to use it. Similarly add underflow protection similar to
->> esp_fifo_push() and esp_fifo_pop() so that instead of triggering an assert()
->> the operation becomes a no-op.
 > 
-> This is OK for your ESP model.
-> 
-> Now thinking loudly about the Fifo8 API, shouldn't this be part of it?
-> 
-> Something prototype like:
-> 
->    /**
->     * fifo8_pop_buf:
->     * @do_copy: If %true, also copy data to @bufptr.
->     */
->    size_t fifo8_pop_buf(Fifo8 *fifo,
->                         void **bufptr,
->                         size_t buflen,
->                         bool do_copy);
+> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 
-That could work, and may even allow support for wraparound in future. I suspect 
-things would become clearer after looking at the other Fifo8 users to see if this is 
-worth an API change/alternative API.
+This S-o-b chain does not look correct. Your address should be the last
+one in the chain, signing off on all of the previous ones. (Maybe Kirti
+also needs to be listed in a Co-developed-by: statement?)
+
+> ---
+>  MAINTAINERS                   |   1 +
+>  docs/devel/index.rst          |   1 +
+>  docs/devel/vfio-migration.rst | 143 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 145 insertions(+)
+>  create mode 100644 docs/devel/vfio-migration.rst
+
+> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+> new file mode 100644
+> index 0000000000..24cb55991a
+> --- /dev/null
+> +++ b/docs/devel/vfio-migration.rst
+
+(...)
+
+> +VFIO device hooks for iterative approach:
+
+"VFIO implements the device hooks for the iterative approach as
+follows:"
+
+?
+
+> +
+> +* A ``save_setup`` function that sets up the migration region, sets _SAVING
+> +  flag in the VFIO device state and informs the VFIO IOMMU module to start
+> +  dirty page tracking.
+> +
+> +* A ``load_setup`` function that sets up the migration region on the
+> +  destination and sets _RESUMING flag in the VFIO device state.
+> +
+> +* A ``save_live_pending`` function that reads pending_bytes from the vendor
+> +  driver, which indicates the amount of data that the vendor driver has yet to
+> +  save for the VFIO device.
+> +
+> +* A ``save_live_iterate`` function that reads the VFIO device's data from the
+> +  vendor driver through the migration region during iterative phase.
+> +
+> +* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
+> +  VFIO device state, saves the device config space, if any, and iteratively
+> +  copies the remaining data for the VFIO device until the vendor driver
+> +  indicates that no data remains (pending bytes is zero).
+> +
+> +* A ``load_state`` function that loads the config section and the data
+> +  sections that are generated by the save functions above
+> +
+> +* ``cleanup`` functions for both save and load that perform any migration
+> +  related cleanup, including unmapping the migration region
+> +
+> +A VM state change handler is registered to change the VFIO device state when
+> +the VM state changes.
+
+This sentence is not very informative. What about:
+
+"The VFIO migration code uses a VM state change handler to change the
+VFIO device state when the VM state changes from running to
+not-running, and vice versa."
+
+> +
+> +Similarly, a migration state change notifier is registered to get a
+> +notification on migration state change. These states are translated to the
+> +corresponding VFIO device state and conveyed to the vendor driver.
+
+"Similarly, a migration state change handler is used to transition the
+VFIO device state back to _RUNNING in case a migration failed or was
+canceled."
 
 
-ATB,
+> +
+> +System memory dirty pages tracking
+> +----------------------------------
+> +
+> +A ``log_sync`` memory listener callback marks those system memory pages
+> +as dirty which are used for DMA by the VFIO device. The dirty pages bitmap is
+> +queried per container. All pages pinned by the vendor driver through external
+> +APIs have to be marked as dirty during migration. When there are CPU writes,
+> +CPU dirty page tracking can identify dirtied pages, but any page pinned by the
+> +vendor driver can also be written by device. There is currently no device or
 
-Mark.
+s/by/by the/
+
+> +IOMMU support for dirty page tracking in hardware.
+> +
+> +By default, dirty pages are tracked when the device is in pre-copy as well as
+> +stop-and-copy phase. So, a page pinned by vendor driver will be copied to
+
+s/by/by the/
+s/to/to the/
+
+> +destination in both the phases. Copying dirty pages in pre-copy phase helps
+
+s/both the/both/ ?
+
+> +QEMU to predict if it can achieve its downtime tolerances. If QEMU during
+> +pre-copy phase keeps finding dirty pages continuously, then it understands
+> +that even in stop-and-copy phase, it is likely to find dirty pages and can
+> +predict the downtime accordingly
+> +
+> +QEMU also provides per device opt-out option ``pre-copy-dirty-page-tracking``
+
+s/provides/provides a/
+
+> +which disables querying dirty bitmap during pre-copy phase. If it is set to
+
+s/querying/querying the/
+
+> +off, all dirty pages will be copied to destination in stop-and-copy phase only
+
+s/to/to the/
+
+(...)
+
 
