@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E478F35147E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:32:10 +0200 (CEST)
-Received: from localhost ([::1]:55082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27B9351481
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:33:48 +0200 (CEST)
+Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRvYY-0002TC-00
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
+	id 1lRva7-0004J7-V3
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPK-0000mt-Ff
+ id 1lRvPK-0000mx-G8
  for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:38 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40545)
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPE-0006hH-3D
+ id 1lRvPE-0006hO-LS
  for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:35 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id b16so1526765eds.7
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:31 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id e14so2301842ejz.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uxNED1duCyBdlkruJzl0xnqKRNFLuA5HiEispmsiklU=;
- b=PWIwEsAtqZBqWSOU9CNEtKO6peNbxdJs36RsGUFHDFmq3hJkOPDIzG+JhG46rjDWz2
- e3Ea8FQtXyDjiuMqO/IUgg2iPQfAILSECH9Lu4e7mobu8OtzPcRvKDclz3O2vqyiuSS6
- oATfjxqZCrn9LnWxDhBOoVV66+AOWTctqkDKD8ho+kpQ+mQztWqiJ04B+tdHC5wb3VjJ
- eLzq9JxNR6qFxlRZ3IexIO68t6dJv3Y3FJdLUhCWsAlok59gU+1uc7Vd0HhiJWdowl1h
- AqAEwEgXIlMzM61rJtN7otwE0nsIo2dYSct8+AjvwfnGaSJ7+wk6Rp/siO+ayaU1H9Gh
- LVLw==
+ bh=16KFCO3ieOKGNO78IkfXmCnzdtyYQDIwmMaQzvcQVWg=;
+ b=dmymLPXrZbBL8EboANDgncnNXyhkvytNYi8dDFzRETjABvygCtf0McNmRn/2K1WC+/
+ PvaJbG8SrFz/FjNNsWASl9Egxls8qwsC89o0h/CcRPrXBSypv7Gk8dfhb5wP5wRdMa8M
+ Z2FhMQNDzO2SMWAYYRyblslsttO2VCAdU9iX6KcaB7RMKo+7NzoXVNgEmlANqGwO9hxP
+ 4RULpGcy+4vRvNZ1RrF+cYBeYEIt1zR16l1M23bBh9COL6SEQ+1bsbC9E5UrmWgDNKKM
+ vZM3ZHe8VoQDMuUyb+DpkpX6YZixFHb2wu4x7MtL/LFj7bO1WLpN+OWES1h+bz0fmrr2
+ Xzsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uxNED1duCyBdlkruJzl0xnqKRNFLuA5HiEispmsiklU=;
- b=hd3vKnZhzDGDSkloe9f3juWZZfxbbnPabMjJHKu8+cfUbMJ5jzBTq/SlBh1TOfGZxG
- OAQrzXC13rClQHEHd4Yn8CgTnydLQ92RaNwdJnbbP1bCHAS2r9OdGYWF7dJldlrYhhcI
- 9uhSJWaAgHJ8qPCbWOze3vh07+3YwnZYfxKULj91/jgdnaksb7udSwMmSrB0EA2q+6ZI
- 5hTY92auiUs+K0Z3wnl2x3lCDmOcsuLXVg+O2FdcoBTdN0dvR0u604I9TSGXZtAfbEwq
- lgC/j8V4IKgdOYvFwMaCC+d6Mp3poencAGwZ3BnGau8kZNJHLB1vYxaSaH34sHRK16JP
- Ocig==
-X-Gm-Message-State: AOAM531ntgIi/USuOiyhKyFcwi/TOAw+OusDHEvdvmw8/uf+V0Duq/DR
- /TPRPHvC3nTjOKipCvT32LlR4ek70s4=
-X-Google-Smtp-Source: ABdhPJyqDuqClVFBr+staTqdF7aRU9NdLf9feukpcJ/Q3lMQbK+Q8+8sGcJBORVIOGZZjuc2jOQJ2g==
-X-Received: by 2002:aa7:d98b:: with SMTP id u11mr9541116eds.352.1617276150855; 
- Thu, 01 Apr 2021 04:22:30 -0700 (PDT)
+ bh=16KFCO3ieOKGNO78IkfXmCnzdtyYQDIwmMaQzvcQVWg=;
+ b=l5zyBRBbfySQC7xl0u4cvu2rUoyotYuFdgfLJiWPqIP9coe0nTNsSUmKz0Tsu/9SHE
+ 00+9N35wqNM4ZGQwrFbSLLsn9EQ11FBz6g4Ddotr3Hsqw0O77Kh94qaRUK7DPCeGw3Vd
+ a25OXBi6ZuO86kfhiwAkVE0Fk8jpxi+0mWnVb8qoO2jNUtATWtqRUJU854k4QgCA3Cvv
+ bU+zg1Se8RMWt0A1irVcDFbw69PM5gR1+fXTxZ6MfbZLWm/5aKMkrzf1g9Qk2Um/S8e7
+ PWHY7qfUKI7+v92fR+8Ngt9CpREQvgG1kOzioq2vOd6SZ+WuD5zP5DDpzcDgxZ9VlxAs
+ wABQ==
+X-Gm-Message-State: AOAM531MgSXTuinRwVIhUEFifrvZxGvsVjepa7tpgS22D3c9XNrDCUlp
+ 6PMit3r7RkNDAjmhtWlu7q0oxjQjt/Y=
+X-Google-Smtp-Source: ABdhPJyvU6YKMk/D6es0h2++8LcuEwJrPtIHFw00XXk/xbwwkhghVdykzhutjKLFHHrRm3bczyoRmA==
+X-Received: by 2002:a17:907:204c:: with SMTP id
+ pg12mr8547271ejb.225.1617276151488; 
+ Thu, 01 Apr 2021 04:22:31 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id d15sm3383516edx.62.2021.04.01.04.22.30
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 04:22:30 -0700 (PDT)
+ Thu, 01 Apr 2021 04:22:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] configure: Do not use default_feature for EXESUF
-Date: Thu,  1 Apr 2021 13:22:20 +0200
-Message-Id: <20210401112223.55711-10-pbonzini@redhat.com>
+Subject: [PULL 10/12] hexagon: do not specify executables as inputs
+Date: Thu,  1 Apr 2021 13:22:21 +0200
+Message-Id: <20210401112223.55711-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210401112223.55711-1-pbonzini@redhat.com>
 References: <20210401112223.55711-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,45 +85,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+gen_semantics is an executable, not an input.  Meson 0.57 special cases
+the first argument and @INPUT@ is not expanded there.  Fix that by
+not including it in the input, only in the command.
 
-Commit "c87ea11631 configure: add --without-default-features" use
-default_feature to set default values for configure option. This value
-is used for EXESUF too.
-
-However, EXESUF is not option to be tested, it is just append to any
-binary name so using --without-default-features set EXESUF to "n"o and
-all binaries using it has form <name>no (e.g. qemu-imgno).
-
-This is not expected behavior as disabling features should not cause
-generating different binary names.
-
-Reverting back to setting EXESUF to empty value unless needed otherwise.
-
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-Message-Id: <20210331081845.105089-1-mrezanin@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/hexagon/meson.build | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 535e6a9269..8275df1506 100755
---- a/configure
-+++ b/configure
-@@ -365,7 +365,7 @@ tcg_interpreter="false"
- bigendian="no"
- mingw32="no"
- gcov="no"
--EXESUF="$default_feature"
-+EXESUF=""
- HOST_DSOSUF=".so"
- modules="no"
- module_upgrades="no"
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+index 15318a6fa7..5dd68907b1 100644
+--- a/target/hexagon/meson.build
++++ b/target/hexagon/meson.build
+@@ -33,8 +33,7 @@ gen_semantics = executable(
+ semantics_generated = custom_target(
+     'semantics_generated.pyinc',
+     output: 'semantics_generated.pyinc',
+-    input: gen_semantics,
+-    command: ['@INPUT@', '@OUTPUT@'],
++    command: [gen_semantics, '@OUTPUT@'],
+ )
+ hexagon_ss.add(semantics_generated)
+ 
+@@ -154,8 +153,7 @@ gen_dectree_import = executable(
+ iset_py = custom_target(
+     'iset.py',
+     output: 'iset.py',
+-    input: gen_dectree_import,
+-    command: ['@INPUT@', '@OUTPUT@'],
++    command: [gen_dectree_import, '@OUTPUT@'],
+ )
+ hexagon_ss.add(iset_py)
+ 
 -- 
 2.30.1
 
