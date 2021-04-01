@@ -2,93 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E7B35167A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 17:59:00 +0200 (CEST)
-Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEFA351698
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 18:03:38 +0200 (CEST)
+Received: from localhost ([::1]:47984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRzik-00017W-Kr
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 11:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54920)
+	id 1lRznF-0003dH-HD
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 12:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRzhq-0000X2-DN
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:58:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRzhm-00034S-Rw
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:58:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617292677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BQY1BbWq8EX3AptLm5rLrvnldxlwGhEJXjTtzYrq/sc=;
- b=VBCrasUU7CSUNH/6ZkXX8MZyPRw/AL8rziusKq8A4YalHP6bpGUebKIZMUI5Ol27gbjBGF
- ueaYuRWCXQMZnLx69f2qSdAVGXnoPk3hoQtvriKZhnCWSzQG5PTOPV7jcrWVYn9oM7y56J
- 2wS3ZQKTUHhixAmj7aOEB1zMk57OYRg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-oXJ9Ep6tP3WrQh1J8C8jOw-1; Thu, 01 Apr 2021 11:57:55 -0400
-X-MC-Unique: oXJ9Ep6tP3WrQh1J8C8jOw-1
-Received: by mail-ej1-f71.google.com with SMTP id jo6so2406226ejb.13
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 08:57:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BQY1BbWq8EX3AptLm5rLrvnldxlwGhEJXjTtzYrq/sc=;
- b=YQN4nznDAk+zeV9NR0Qo0/0Vr2kyttz5xpXlpbM8C7I9R5sUETTcxXcC9VL7esOQb6
- t73tJYJFCklsktkS9dnZnoKnoYWFWQRxnvBH5xpGr8vAgi33Uv2lJtz6Ch6TyWpNuxvZ
- eUPLoZKycB2Bok93Y77hMJ6Zckd1S8YrNAhjcvDFV4IhYBvyzosVgolTktERIE9SAev2
- Gv3tC39bTTCQH1RW6AUIL8SCiCLkVWtLK/751DkB1ivPN5ltx/uLWn8vgyH7aYoiLyol
- Oj/FGRvywxlnBqEmAVu7zW+fdwaSH31wVnYmXBcodfuKtVE7IC8h8N/sOAqZC2+0UBcK
- qXZA==
-X-Gm-Message-State: AOAM530CpqCBxggJxx5khwdsImiaKnmh0apRZWCUWwW5E3ffrbwsRpJ3
- hwPMOeeIg7xYnVT4ldyNpHqHCproPbe8Oa4l68RBg+VzRQavkaXIfaIJZ5PF399Z4TRG652sSR7
- m/OirmD5ngjUzQXo=
-X-Received: by 2002:a17:906:684b:: with SMTP id
- a11mr9521623ejs.329.1617292674394; 
- Thu, 01 Apr 2021 08:57:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvk9mBmqJ9jTVclHELuT/q3R9eAU8yjHfQaDrq7kMZ9eL5VQR61A1iJK22w7Ys6Awawx/Xlw==
-X-Received: by 2002:a17:906:684b:: with SMTP id
- a11mr9521602ejs.329.1617292674234; 
- Thu, 01 Apr 2021 08:57:54 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r10sm2965165eju.66.2021.04.01.08.57.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 08:57:53 -0700 (PDT)
-Subject: Re: [PATCH 0/2] i386: Fix interrupt based Async PF enablement
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20210401151957.408028-1-vkuznets@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ea3fc380-332f-b9e5-aa31-3540916cfc33@redhat.com>
-Date: Thu, 1 Apr 2021 17:57:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <20210401151957.408028-1-vkuznets@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1lRziF-0000zZ-5u
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:58:27 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:42786)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1lRziD-0003Ld-6S
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 11:58:26 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id BE2FD7B710;
+ Fri,  2 Apr 2021 00:58:20 +0900 (JST)
+Received: from localhost.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id 16AA21C03C0;
+ Fri,  2 Apr 2021 00:58:20 +0900 (JST)
+Date: Fri, 02 Apr 2021 00:58:16 +0900
+Message-ID: <s591rbuq9nr.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-6.0] hw/timer/renesas_tmr: Add default-case asserts in
+ read_tcnt()
+In-Reply-To: <20210319162458.13760-1-peter.maydell@linaro.org>
+References: <20210319162458.13760-1-peter.maydell@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (arm-unknown-linux-androideabi) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.224.55.14;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail02.asahi-net.or.jp
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,32 +57,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/04/21 17:19, Vitaly Kuznetsov wrote:
-> I noticed two issues with 'kvm-asyncpf-int' enablement:
-> 1) We forgot to add to to kvm_default_props[] so it doesn't get enabled
->   automatically (unless '-cpu host' is used or the feature is enabled
->   manually on the command line)
-> 2) We forgot to disable it for older machine types to preserve migration.
->   This went unnoticed because of 1) I believe.
+On Sat, 20 Mar 2021 01:24:58 +0900,
+Peter Maydell wrote:
 > 
-> Vitaly Kuznetsov (2):
->    i386: Add 'kvm-asyncpf-int' to kvm_default_props array
->    i386: Disable 'kvm-asyncpf-int' feature for machine types <= 5.1
+> In commit 81b3ddaf8772ec we fixed a use of uninitialized data
+> in read_tcnt(). However this change wasn't enough to placate
+> Coverity, which is not smart enough to see that if we read a
+> 2 bit field and then handle cases 0, 1, 2 and 3 then there cannot
+> be a flow of execution through the switch default. Add explicit
+> default cases which assert that they can't be reached, which
+> should help silence Coverity.
 > 
->   hw/i386/pc.c      | 1 +
->   target/i386/cpu.c | 1 +
->   2 files changed, 2 insertions(+)
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+
+> ---
+>  hw/timer/renesas_tmr.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
+> index eed39917fec..d96002e1ee6 100644
+> --- a/hw/timer/renesas_tmr.c
+> +++ b/hw/timer/renesas_tmr.c
+> @@ -146,6 +146,8 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+>          case CSS_CASCADING:
+>              tcnt[1] = tmr->tcnt[1];
+>              break;
+> +        default:
+> +            g_assert_not_reached();
+>          }
+>          switch (FIELD_EX8(tmr->tccr[0], TCCR, CSS)) {
+>          case CSS_INTERNAL:
+> @@ -159,6 +161,8 @@ static uint16_t read_tcnt(RTMRState *tmr, unsigned size, int ch)
+>          case CSS_EXTERNAL: /* QEMU doesn't implement this */
+>              tcnt[0] = tmr->tcnt[0];
+>              break;
+> +        default:
+> +            g_assert_not_reached();
+>          }
+>      } else {
+>          tcnt[0] = tmr->tcnt[0];
+> -- 
+> 2.20.1
 > 
 
-Wasn't this intentional to avoid requiring a new kernel version?
-
-Paolo
-
+I'm back.
+---
+Yoshinori Sato
 
