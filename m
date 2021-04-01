@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964D2350D51
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:56:13 +0200 (CEST)
-Received: from localhost ([::1]:36596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2991A350D50
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:56:11 +0200 (CEST)
+Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRoRI-000387-Km
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40706)
+	id 1lRoRF-000300-Kj
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoP0-0001Os-Fs
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:50 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46773)
+ id 1lRoOx-0001Lu-O0
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:47 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46761)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoOx-0004u8-Uh
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:50 -0400
+ id 1lRoOv-0004ri-Cf
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617249227; x=1648785227;
+ t=1617249225; x=1648785225;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ytCIHyzTxcVjz9DjlmeCv6xwmvcrInHSrRGstqBC3EA=;
- b=oBQqfpA6XlZ3bzwit6mNCNqHxiQLXsuf4n8eJVGA3G8xSKd2P0tfwiLy
- eThqDHPPKHjnQI0lLohh+BgJWSZjZ0MXvn0/DVUUFLG9YXUT0jiLgIBot
- mHYXP3RR+lYqrDEfKZBYD4IMprsshOgWZgvhdchkCW8h1Zp2P+IwxbG/s w=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2021 20:53:42 -0700
+ bh=3v9UZn8HopUm9cQP63ez8kbf0Uv8MfKI8+fTZCjxWSA=;
+ b=AUb0DpQiZuEHxxdIlMiCV2WEEbhK0QMJQI3kJ4yys3W1e2TF8hymCiSz
+ VEwvpdBa4gEf2LbtMAq/gRhMtnFNY5S+zIuQtR8Mie3X0mRxP5vRU04D1
+ JrjDtdhqIUhecqEmOczTXZS6gUmiUXRjnH/dYEWdglAOJ6mbt5k/B1B5p g=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 04A01115A; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
+ id D62241203; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/21] Hexagon (target/hexagon) remove unused
- carry_from_add64 function
-Date: Wed, 31 Mar 2021 22:53:19 -0500
-Message-Id: <1617249213-22667-8-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v2 10/21] Hexagon (target/hexagon) replace float32_mul_pow2
+ with float32_scalbn
+Date: Wed, 31 Mar 2021 22:53:22 -0500
+Message-Id: <1617249213-22667-11-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
@@ -78,60 +78,68 @@ Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/arch.c   | 13 -------------
- target/hexagon/arch.h   |  1 -
- target/hexagon/macros.h |  2 --
- 3 files changed, 16 deletions(-)
+ target/hexagon/arch.c | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
 diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index 09de124..699e2cf 100644
+index bb51f19..40b6e3d 100644
 --- a/target/hexagon/arch.c
 +++ b/target/hexagon/arch.c
-@@ -76,19 +76,6 @@ uint64_t deinterleave(uint64_t src)
-     return myeven | (myodd << 32);
+@@ -143,12 +143,6 @@ void arch_fpop_end(CPUHexagonState *env)
+     }
  }
  
--uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c)
+-static float32 float32_mul_pow2(float32 a, uint32_t p, float_status *fp_status)
 -{
--    uint64_t tmpa, tmpb, tmpc;
--    tmpa = fGETUWORD(0, a);
--    tmpb = fGETUWORD(0, b);
--    tmpc = tmpa + tmpb + c;
--    tmpa = fGETUWORD(1, a);
--    tmpb = fGETUWORD(1, b);
--    tmpc = tmpa + tmpb + fGETUWORD(1, tmpc);
--    tmpc = fGETUWORD(1, tmpc);
--    return tmpc;
+-    float32 b = make_float32((SF_BIAS + p) << SF_MANTBITS);
+-    return float32_mul(a, b, fp_status);
 -}
 -
- int32_t conv_round(int32_t a, int n)
+ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
+                          float_status *fp_status)
  {
-     int64_t val;
-diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
-index 1f7f036..6e0b0d9 100644
---- a/target/hexagon/arch.h
-+++ b/target/hexagon/arch.h
-@@ -22,7 +22,6 @@
- 
- uint64_t interleave(uint32_t odd, uint32_t even);
- uint64_t deinterleave(uint64_t src);
--uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c);
- int32_t conv_round(int32_t a, int n);
- void arch_fpop_start(CPUHexagonState *env);
- void arch_fpop_end(CPUHexagonState *env);
-diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-index cfcb817..8cb211d 100644
---- a/target/hexagon/macros.h
-+++ b/target/hexagon/macros.h
-@@ -341,8 +341,6 @@ static inline void gen_logical_not(TCGv dest, TCGv src)
- #define fWRITE_LC0(VAL) WRITE_RREG(HEX_REG_LC0, VAL)
- #define fWRITE_LC1(VAL) WRITE_RREG(HEX_REG_LC1, VAL)
- 
--#define fCARRY_FROM_ADD(A, B, C) carry_from_add64(A, B, C)
--
- #define fSET_OVERFLOW() SET_USR_FIELD(USR_OVF, 1)
- #define fSET_LPCFG(VAL) SET_USR_FIELD(USR_LPCFG, (VAL))
- #define fGET_LPCFG (GET_USR_FIELD(USR_LPCFG))
+@@ -217,22 +211,22 @@ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
+         if ((n_exp - d_exp + SF_BIAS) <= SF_MANTBITS) {
+             /* Near quotient underflow / inexact Q */
+             PeV = 0x80;
+-            RtV = float32_mul_pow2(RtV, -64, fp_status);
+-            RsV = float32_mul_pow2(RsV, 64, fp_status);
++            RtV = float32_scalbn(RtV, -64, fp_status);
++            RsV = float32_scalbn(RsV, 64, fp_status);
+         } else if ((n_exp - d_exp + SF_BIAS) > (SF_MAXEXP - 24)) {
+             /* Near quotient overflow */
+             PeV = 0x40;
+-            RtV = float32_mul_pow2(RtV, 32, fp_status);
+-            RsV = float32_mul_pow2(RsV, -32, fp_status);
++            RtV = float32_scalbn(RtV, 32, fp_status);
++            RsV = float32_scalbn(RsV, -32, fp_status);
+         } else if (n_exp <= SF_MANTBITS + 2) {
+-            RtV = float32_mul_pow2(RtV, 64, fp_status);
+-            RsV = float32_mul_pow2(RsV, 64, fp_status);
++            RtV = float32_scalbn(RtV, 64, fp_status);
++            RsV = float32_scalbn(RsV, 64, fp_status);
+         } else if (d_exp <= 1) {
+-            RtV = float32_mul_pow2(RtV, 32, fp_status);
+-            RsV = float32_mul_pow2(RsV, 32, fp_status);
++            RtV = float32_scalbn(RtV, 32, fp_status);
++            RsV = float32_scalbn(RsV, 32, fp_status);
+         } else if (d_exp > 252) {
+-            RtV = float32_mul_pow2(RtV, -32, fp_status);
+-            RsV = float32_mul_pow2(RsV, -32, fp_status);
++            RtV = float32_scalbn(RtV, -32, fp_status);
++            RsV = float32_scalbn(RsV, -32, fp_status);
+         }
+         RdV = 0;
+         ret = 1;
+@@ -274,7 +268,7 @@ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
+         /* Basic checks passed */
+         r_exp = float32_getexp(RsV);
+         if (r_exp <= 24) {
+-            RsV = float32_mul_pow2(RsV, 64, fp_status);
++            RsV = float32_scalbn(RsV, 64, fp_status);
+             PeV = 0xe0;
+         }
+         RdV = 0;
 -- 
 2.7.4
 
