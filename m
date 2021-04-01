@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BBF351202
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:28:20 +0200 (CEST)
-Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59703511F7
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:24:46 +0200 (CEST)
+Received: from localhost ([::1]:42730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRtch-00049h-VI
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52988)
+	id 1lRtZF-000097-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lRtXE-0006s7-Va
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:22:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49892)
+ id 1lRtXH-0006uH-SD
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:22:44 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lRtX5-0006Ur-6b
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:22:40 -0400
+ id 1lRtX5-0006Uv-6h
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:22:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=ekx+sVi13apei4mNX/i6GowawZdZltdKXlwiXY93H5Y=; b=gcTYmw/5tf4J
- su82W3sNu1v3CDvhZFGxDL7V/1yCq6AceDAHVmhv4/HhCOEDJi+l7SD9/COrX0lGQE2i3x4e58DqS
- HLM6D5K2nWeHSQK9ImWscotBUJcGNpqXnY+NvRRbn0ApXE2MaLCoy/Hwv4VMusvMD2cv51AO0Q16O
- J5ySU=;
+ Content-Type; bh=dsT5zM3LWm54KXJKp+koHgDkvBukDrpfrwMHQpQFtts=; b=sxaZUZK0L+fj
+ U2ENCId29ZfoIff7emFCaDQofdJJje0+V2AaPdOEMFbc8R4l+5FIRy1gItPNSLxUBDNwElmg5JH6W
+ 8vREjz4Id1nNVV21/xYUhsO1YZYhxxKVN0plm8UmVDFzCRj267d59dTdsZ/XxNK2EwpQs6VlSL2jx
+ koFEU=;
 Received: from [192.168.15.162] (helo=andrey-MS-7B54.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lRtX1-000DxR-AD; Thu, 01 Apr 2021 12:22:27 +0300
+ id 1lRtX1-000DxR-Eq; Thu, 01 Apr 2021 12:22:27 +0300
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
@@ -37,11 +37,13 @@ Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH for-6.0 v1 0/4] migration: Fixes to the 'background-snapshot'
- code
-Date: Thu,  1 Apr 2021 12:22:22 +0300
-Message-Id: <20210401092226.102804-1-andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH for-6.0 v1 1/4] migration: Fix missing qemu_fflush() on buffer
+ file in bg_migration_thread
+Date: Thu,  1 Apr 2021 12:22:23 +0300
+Message-Id: <20210401092226.102804-2-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210401092226.102804-1-andrey.gruzdev@virtuozzo.com>
+References: <20210401092226.102804-1-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=185.231.240.75;
@@ -51,7 +53,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,33 +69,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes v0->v1:
- * Fixes to coding style and commit messages
- * Renamed 'bs' to 'block' in migration/ram.c background snapshot code
+Added missing qemu_fflush() on buffer file holding precopy device state.
+Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
+Typical configurations often require >200KB for device state and VMDESC.
 
-This patch series contains:
- * Fix to the issue with occasionally truncated non-iterable device state
- * Solution to compatibility issues with virtio-balloon device
- * Fix to the issue when discarded or never populated pages miss UFFD
-   write protection and get into migration stream in dirty state
- * Renaming of 'bs' to commonly used 'block' in migration/ram.c background
-   snapshot code
+Fixes: 8518278a6af589ccc401f06e35f171b1e6fae800 (migration: implementation
+  of background snapshot thread)
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+---
+ migration/migration.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Andrey Gruzdev (4):
-  migration: Fix missing qemu_fflush() on buffer file in
-    bg_migration_thread
-  migration: Inhibit virtio-balloon for the duration of background
-    snapshot
-  migration: Pre-fault memory before starting background snasphot
-  migration: Rename 'bs' to 'block' in background snapshot code
-
- hw/virtio/virtio-balloon.c |   8 ++-
- include/migration/misc.h   |   2 +
- migration/migration.c      |  22 ++++++-
- migration/ram.c            | 119 ++++++++++++++++++++++++++-----------
- migration/ram.h            |   1 +
- 5 files changed, 115 insertions(+), 37 deletions(-)
-
+diff --git a/migration/migration.c b/migration/migration.c
+index ca8b97baa5..00e13f9d58 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
+      * with vCPUs running and, finally, write stashed non-RAM part of
+      * the vmstate from the buffer to the migration stream.
+      */
+-    s->bioc = qio_channel_buffer_new(128 * 1024);
++    s->bioc = qio_channel_buffer_new(512 * 1024);
+     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
+     fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
+     object_unref(OBJECT(s->bioc));
+@@ -3866,6 +3866,12 @@ static void *bg_migration_thread(void *opaque)
+     if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+         goto fail;
+     }
++    /*
++     * Since we are going to get non-iterable state data directly
++     * from s->bioc->data, explicit flush is needed here.
++     */
++    qemu_fflush(fb);
++
+     /* Now initialize UFFD context and start tracking RAM writes */
+     if (ram_write_tracking_start()) {
+         goto fail;
 -- 
 2.27.0
 
