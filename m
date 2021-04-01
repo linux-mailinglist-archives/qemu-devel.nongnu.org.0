@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73A5351259
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:34:41 +0200 (CEST)
-Received: from localhost ([::1]:37660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3275351264
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:36:50 +0200 (CEST)
+Received: from localhost ([::1]:41534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRtiq-0001P6-QA
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1lRtkw-00035V-2e
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lRtbm-00041W-Jr
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:27:22 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56084)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRtiW-0001tP-I5
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:34:20 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lRtbj-0000lH-Qm
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:27:22 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id bt4so832915pjb.5
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 02:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yRXQ7R56bwmVedE1UHd1VCnBbICL7x86UFC15hD4h74=;
- b=fhU1RCD96FUa6bOak7LBbA4OrjvGVIMrvUBeXjtTVqjeXiuox5NwYT/WVXpPtukv4E
- +fi8m0NDhZU+dlzr//kvFLOLv0Bj6CZPa6mETl2vWff8EkKV4QNijvTbG5AjzW6nnc2k
- nC9HcqgpWad5+auXO+2Hzjtb5/5i3xDWnGbEHrG+TVrFqyF9425Pq5YkwQJqp/mRn0nE
- p5ctJ9lmFoRupxvjLbCqFUPB3XPSQZy0zXYkd/YGotBoNL1S9cO/diY3Xyo5dKRtUNRs
- bHA49dA+KaVyK3gvqzAJhXDI7f/0rJF3UYRTjDlOUr2evGPZUx3vE7GH2OU0xoqC3GPb
- nq+Q==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRtiU-0004uI-G3
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:34:20 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ m20-20020a7bcb940000b029010cab7e5a9fso2495813wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 02:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nmWcVeVz/+cZQKYVX7uQfoa79Mgaz6FN/LVOZqYVpwY=;
+ b=s0Ganqa2T3TxPyBwCTt8Z/7uO/Yyuak/mTl8pT6qFKupukh9fLcGBO5T7lzZ7SWc1S
+ eYMVUV7urzfk07Hb8MR8dw//hDXU9CkxgxPxS6piBj7pY5zyclKczCMWGWETc+hqX4M3
+ ZC3WwJEaFOrSRlv1MPGt5aB1ggj3uHwN4P7kUQeMylpZrWC2zv6U31Dc7rzZFwQQ2aQy
+ HyMBcBReJTsxUmVwSNvPJproNhmfHlUNL+sYR02oXWF8PQHu2sDeqdJdAIUTDZ1QpBz4
+ 9gL3iTBEtKW1mVehpjfGV71m1RFz3pHLieAff9kB/rXD7X1kzBjM54mRBFtjYprdu7Oe
+ pW6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=yRXQ7R56bwmVedE1UHd1VCnBbICL7x86UFC15hD4h74=;
- b=aF9Md7onbNOq/h9i0z8n9DPgDwiZtCdT46VjRrj2GqhBVecRz3Wo5jE/U66qjKJGxM
- 62P9VsQmdvrabPH9ytUA7uMhT0vIGRwD447fOQBmyf7uCv9cw/xy/47uBO5yVm3P1Iaf
- jtNRorTlGE/NhLjwyWTaey200xC2YrsI4tFj840k1GLDqdWcq54d8JitL/W/326ts2T9
- hEU0285h/gdHVEyyumvMEefDhH3ioFq/T2ij5qx9+yyIc7+Yubuml/a7dvmvrFBdfVc1
- iNwNhR0F5FtX29A2dPZDk+TxXbxfnT760hYU8x7frwgIjZdvISWWChCoSJ2unzI2iX1l
- jG3A==
-X-Gm-Message-State: AOAM531f/1840Y7kPZmD2J2C4elqHo0+XtlKzcBkh4QaKj+etjum9gE6
- nI0yPGjANKRq4WVm6d/aPRAfVIQpZhsRoy4D
-X-Google-Smtp-Source: ABdhPJzeQFCY5g/taRt/75FqGydVO/xktO/dykm6MpiAVv4atpJQLibcEIq8RU6VRhHkiZc3GvpvDw==
-X-Received: by 2002:a17:90a:4d07:: with SMTP id
- c7mr8053701pjg.104.1617269238305; 
- Thu, 01 Apr 2021 02:27:18 -0700 (PDT)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id i7sm4751319pgq.16.2021.04.01.02.27.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 02:27:17 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v2 4/4] target/riscv: add RNMI mnret instruction
-Date: Thu,  1 Apr 2021 17:26:51 +0800
-Message-Id: <20210401092659.12014-5-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210401092659.12014-1-frank.chang@sifive.com>
-References: <20210401092659.12014-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nmWcVeVz/+cZQKYVX7uQfoa79Mgaz6FN/LVOZqYVpwY=;
+ b=fMFdb7+JDP9mO4I/eq1U4vvVmJN+FJotDB8dRxflJ6McYph3I1/YGk7ZR350kS2gVn
+ ygQ/2dJzJfbddMKMymTQcY5ovx2YOVDmplirVjGLPt17PKWzK/qKimvdQ56ldHGFCtO+
+ cHBHMTcZfB3H70WRctWuLDsQaiLCoCEE+bqcVLnVZQlIAcCSe/sBrBPIWjYpVHznRYk1
+ DLzTCbDWmPK+yJqkGX/KKdmzqo3dj8AcbpMyBQ23H2WqNY/T6U/d6bctW5VdqeBt9VOV
+ QwUDqczcYQdxUrXttcKfttewOdbsMq8l5DbXdBtF2mqamk/IxLXPtBRqd3zcUWyFFPIx
+ 08rw==
+X-Gm-Message-State: AOAM533Q0xLHgk8YZD4FayQWfxyMb5Vvtd8hDm8Q/EbeyDg1yr4atV60
+ tYhsi7bL3vMPIGn4GVhptsw=
+X-Google-Smtp-Source: ABdhPJzpaxOk+y1kIjtzMx7KHKEb+Uu/leBN3tlCHUXlILGrRx0ry0JeIAXkJjbDzZJnhUdjfxoKLg==
+X-Received: by 2002:a7b:cf16:: with SMTP id l22mr7014477wmg.26.1617269657030; 
+ Thu, 01 Apr 2021 02:34:17 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id k13sm11443819wri.27.2021.04.01.02.34.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 02:34:16 -0700 (PDT)
+Subject: Re: [PATCH v3 05/11] esp: introduce esp_fifo_pop_buf() and use it
+ instead of fifo8_pop_buf()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
+References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+ <20210401074933.9923-6-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0c3900c2-fa72-47ea-d48c-625dd1b40734@amsat.org>
+Date: Thu, 1 Apr 2021 11:34:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+MIME-Version: 1.0
+In-Reply-To: <20210401074933.9923-6-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,121 +92,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Packard <keithp@keithp.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
+> The const pointer returned by fifo8_pop_buf() lies directly within the array used
+> to model the FIFO. Building with address sanitisers enabled shows that if the
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/helper.h                         |  1 +
- target/riscv/insn32.decode                    |  3 ++
- .../riscv/insn_trans/trans_privileged.c.inc   | 13 ++++++++
- target/riscv/op_helper.c                      | 31 +++++++++++++++++++
- 4 files changed, 48 insertions(+)
+Typo "sanitizers"
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index e3f3f41e891..0914d777d6d 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -65,6 +65,7 @@ DEF_HELPER_4(csrrc, tl, env, tl, tl, tl)
- #ifndef CONFIG_USER_ONLY
- DEF_HELPER_2(sret, tl, env, tl)
- DEF_HELPER_2(mret, tl, env, tl)
-+DEF_HELPER_2(mnret, tl, env, tl)
- DEF_HELPER_1(wfi, void, env)
- DEF_HELPER_1(tlb_flush, void, env)
- #endif
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 84080dd18ca..557f3394276 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -97,6 +97,9 @@ wfi         0001000    00101 00000 000 00000 1110011
- sfence_vma  0001001    ..... ..... 000 00000 1110011 @sfence_vma
- sfence_vm   0001000    00100 ..... 000 00000 1110011 @sfence_vm
- 
-+# *** NMI ***
-+mnret       0111000    00010 00000 000 00000 1110011
-+
- # *** RV32I Base Instruction Set ***
- lui      ....................       ..... 0110111 @u
- auipc    ....................       ..... 0010111 @u
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index 32312be2024..63c49dfe6fb 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -106,6 +106,19 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
- #endif
- }
- 
-+static bool trans_mnret(DisasContext *ctx, arg_mnret *a)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
-+    gen_helper_mnret(cpu_pc, cpu_env, cpu_pc);
-+    exit_tb(ctx); /* no chaining */
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    return true;
-+#else
-+    return false;
-+#endif
-+}
-+
- static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- {
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 1eddcb94de7..b9601776153 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -175,6 +175,37 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
-     return retpc;
- }
- 
-+target_ulong helper_mnret(CPURISCVState *env, target_ulong cpu_pc_deb)
-+{
-+    if (!riscv_feature(env, RISCV_FEATURE_RNMI)) {
-+        /* RNMI feature is not presented. */
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-+    if (!(env->priv >= PRV_M)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-+    /* Get return PC from mnepc CSR. */
-+    target_ulong retpc = env->mnepc;
-+    if (!riscv_has_ext(env, RVC) && (retpc & 0x3)) {
-+        riscv_raise_exception(env, RISCV_EXCP_INST_ADDR_MIS, GETPC());
-+    }
-+
-+    /* Get previous privilege level from mnstatus CSR. */
-+    target_ulong prev_priv = get_field(env->mnstatus, MNSTATUS_MPP);
-+
-+    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-+    riscv_cpu_set_mode(env, prev_priv);
-+
-+    env->nmie = true;
-+
-+    return retpc;
-+}
-+
- void helper_wfi(CPURISCVState *env)
- {
-     CPUState *cs = env_cpu(env);
--- 
-2.17.1
+> caller expects a minimum number of bytes present then if the FIFO is nearly full,
+> the caller may unexpectedly access past the end of the array.
 
+Why isn't it a problem with the other models? Because the pointed
+buffer is consumed directly?
+
+> Introduce esp_fifo_pop_buf() which takes a destination buffer and performs a
+> memcpy() in it to guarantee that the caller cannot overwrite the FIFO array and
+> update all callers to use it. Similarly add underflow protection similar to
+> esp_fifo_push() and esp_fifo_pop() so that instead of triggering an assert()
+> the operation becomes a no-op.
+
+This is OK for your ESP model.
+
+Now thinking loudly about the Fifo8 API, shouldn't this be part of it?
+
+Something prototype like:
+
+  /**
+   * fifo8_pop_buf:
+   * @do_copy: If %true, also copy data to @bufptr.
+   */
+  size_t fifo8_pop_buf(Fifo8 *fifo,
+                       void **bufptr,
+                       size_t buflen,
+                       bool do_copy);
+
+> 
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/scsi/esp.c | 41 +++++++++++++++++++++++++++++------------
+>  1 file changed, 29 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index ce88866803..1aa2caf57d 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -107,6 +107,7 @@ static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
+>  
+>      fifo8_push(fifo, val);
+>  }
+> +
+>  static uint8_t esp_fifo_pop(Fifo8 *fifo)
+>  {
+>      if (fifo8_is_empty(fifo)) {
+> @@ -116,6 +117,23 @@ static uint8_t esp_fifo_pop(Fifo8 *fifo)
+>      return fifo8_pop(fifo);
+>  }
+>  
+> +static uint32_t esp_fifo_pop_buf(Fifo8 *fifo, uint8_t *dest, int maxlen)
+> +{
+> +    const uint8_t *buf;
+> +    uint32_t n;
+> +
+> +    if (maxlen == 0) {
+> +        return 0;
+> +    }
+> +
+> +    buf = fifo8_pop_buf(fifo, maxlen, &n);
+> +    if (dest) {
+> +        memcpy(dest, buf, n);
+> +    }
+> +
+> +    return n;
+> +}
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
