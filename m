@@ -2,45 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EB33514D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:37:29 +0200 (CEST)
-Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237BC3514D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:36:55 +0200 (CEST)
+Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRwZk-0004D1-8A
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
+	id 1lRwZC-0005HD-7E
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:36:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
- id 1lRwV7-0002n4-FY
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:32:41 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:60833
- helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lRwV5-0005TL-JF
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:32:41 -0400
-Received: by diablo.13thmonkey.org (Postfix, from userid 103)
- id A5FF3C139C5; Thu,  1 Apr 2021 14:32:37 +0200 (CEST)
-Date: Thu, 1 Apr 2021 14:32:37 +0200
-From: Reinoud Zandijk <reinoud@NetBSD.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 2/4] Add NVMM accelerator: x86 CPU support
-Message-ID: <YGW9ZSo5RbeqDuVX@diablo.13thmonkey.org>
-References: <20210331200800.24168-1-reinoud@NetBSD.org>
- <20210331200800.24168-3-reinoud@NetBSD.org>
- <5afd10b1-bd32-2f06-b311-246815428bfc@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRwXx-0004Ia-7R
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:35:37 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lRwXv-0007Ha-C0
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:35:36 -0400
+Received: by mail-ed1-x535.google.com with SMTP id z1so1756009edb.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:35:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qcmTyoJs+UqGgzz2PWFYcbhMGucM4EtbegH2Tn9EILQ=;
+ b=no9GRLY/jQKQcd6gvDmYlK0m6E5O5STdLjUeVBGM7gG+U6KQLVn3qW8QzYwskQ2Yvd
+ pFABGKtqyL1jljx4ZKAUc11hLxkgHFdyTnjpz4ab06Vnr2peFkktgXh74V1M5S4M6NmG
+ bpW6jTA8oacAkWPjt9QymfR97THeMcXJSyXnJrV9ENwaSzKhmioURbga955K2ib3lrZE
+ iu1NB3efA2Mo6g1+OYFsCXck/SNaJ/KFHt6tQSQy+iHtWxEyMecisUBt7w31cxnf1vrd
+ UivlX7sasozVh4WNQRYXUL8iSBStN5q2jAbyThV7DSDg4/jawve9KitXPnw3WSNwOWuv
+ KvMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qcmTyoJs+UqGgzz2PWFYcbhMGucM4EtbegH2Tn9EILQ=;
+ b=FKXrVPtmPUCxdzBxrsnQNJvpBo0EJCo0qRjDjRZdRodwLa8HaTYEHRla4gZ/59XV5B
+ 6ws3kgs4QcSMMjVkH4CooAgiH/nQk8bjLX/TabsX0AJkWkQbOnNz1a7y2EaYH8I/PXyz
+ RPoG3X1HgD/do9U9+6BJ2FHwzR5uoWuxO7DZC02XrKGBNVMX/hLP+Z5PSlcwP4pEmSWW
+ nyF/Rrf8D7sXpX90WZEox1q/LNOmit2iWFu2131zOoidSJFtIoCrKbwTbi7xbE9lxYfd
+ qJfONEWk26rWWrW7/Bd6SBMWwOC7EowrOiBnhkTwjqa1L3x6t5NZNFDxdOQUu7zXcEuT
+ qFaQ==
+X-Gm-Message-State: AOAM532HmgCNWlg8gou0q1fgpEvu36GcmSvZU8Zbe6VTf8YziADegm4p
+ V0P81LmMY7mO5hvByElNi+57GTdXQr+KHNsI7yt5CA==
+X-Google-Smtp-Source: ABdhPJze/SwLZw0UbYcLiLcKecu9g80iDjPzGfEpniZL1fncmmv95YbHM4s0PpwNabpMNYP3w7DdDy97veSwc9VfTUw=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr9582734edb.204.1617280532837; 
+ Thu, 01 Apr 2021 05:35:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JZZO+Q2K4y9a3TS/"
-Content-Disposition: inline
-In-Reply-To: <5afd10b1-bd32-2f06-b311-246815428bfc@redhat.com>
-Received-SPF: none client-ip=80.100.255.32;
- envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <20210331095059.303996-1-stefanha@redhat.com>
+In-Reply-To: <20210331095059.303996-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 1 Apr 2021 12:34:59 +0000
+Message-ID: <CAFEAcA9JH6Bywh9f2Ri2Ew5SGFW7fqw-+tX9q2SXbx7FB5CqiA@mail.gmail.com>
+Subject: Re: [PULL for-6.0 0/6] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,95 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Kamil Rytarowski <kamil@NetBSD.org>, Reinoud Zandijk <reinoud@NetBSD.org>,
- Ryo ONODERA <ryoon@netbsd.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, John Snow <jsnow@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---JZZO+Q2K4y9a3TS/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Apr 01, 2021 at 10:35:40AM +0200, Paolo Bonzini wrote:
-> On 31/03/21 22:07, Reinoud Zandijk wrote:
-> > +void nvmm_vcpu_kick(CPUState *cpu);
-> 
-> Not defined anywhere.
-
-Hmmm, indeed. I think its a leftover of the former patch. Good catch.
-
-> > +{
-> > +#if NVMM_USER_VERSION == 1
-> > +    struct sigaction sigact;
-> > +    sigset_t set;
-> > +
-> > +    /* Install the IPI handler. */
-> > +    memset(&sigact, 0, sizeof(sigact));
-> > +    sigact.sa_handler = nvmm_ipi_signal;
-> > +    sigaction(SIG_IPI, &sigact, NULL);
-> > +
-> > +    /* Allow IPIs on the current thread. */
-> > +    sigprocmask(SIG_BLOCK, NULL, &set);
-> > +    sigdelset(&set, SIG_IPI);
-> > +    pthread_sigmask(SIG_SETMASK, &set, NULL);
-> > +#else
-> > +    /*
-> > +     * We use the nvmm_vcpu_stop() mechanism, and don't use signals.
-> > +     * Nothing to do.
-> > +     */
-> > +#endif
-> 
-> Since nvmm_vcpu_stop is very similar to KVM's immediate_exit mechanism, I
-> think you still need to have a dummy signal handler to kick the VM out of
-> the run loop *if it is in the kernel*.  The signal handler however can just
-> do nothing.
-
-Are you worried the in-kernel thread will somehow get stuck or halt on exit of
-Qemu and left as a zombie?
-
-> Also, can you just drop support for NVMM_USER_VERSION == 1?
-
-Now thats a good suggestion. We could add support for it in the pkgsrc
-package. When 9.0 gets retired, we could then retire it there without the need
-to patch Qemu again.
-
-> > diff --git a/target/i386/nvmm/meson.build b/target/i386/nvmm/meson.build
-> > new file mode 100644
-> > index 0000000000..c154e78014
-> > --- /dev/null
-> > +++ b/target/i386/nvmm/meson.build
-> > @@ -0,0 +1,4 @@
-> > +i386_softmmu_ss.add(when: 'CONFIG_NVMM', if_true: files(
-> > +  'nvmm-all.c',
-> > +  'nvmm-accel-ops.c',
-> > +))
-> 
-> The nvmm library should be added here.
-
-I am not sure what you mean by that. You provided a patch for the meson.build
-file, will that not suffice?
-
-With regards,
-Reinoud
+On Wed, 31 Mar 2021 at 10:51, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit 6d40ce00c1166c317e298ad82ecf10e650c4f87d:
+>
+>   Update version for v6.0.0-rc1 release (2021-03-30 18:19:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to b6489ac06695e257ea0a9841364577e247fdee30:
+>
+>   test-coroutine: Add rwlock downgrade test (2021-03-31 10:44:21 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> A fix for VDI image files and more generally for CoRwlock.
+>
+> ----------------------------------------------------------------
 
 
---JZZO+Q2K4y9a3TS/
-Content-Type: application/pgp-signature; name="signature.asc"
+Applied, thanks.
 
------BEGIN PGP SIGNATURE-----
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-iQEzBAEBCAAdFiEELRHWktq6GkG74/X0gpw3AEPIqmgFAmBlvWEACgkQgpw3AEPI
-qmj7qggAjmVqNTa86IdJscBqLixvf3cHfmRb/2DPYBZihWQUFL/1A46VP3jhGHrs
-j2CNBl1pEgPZnVL8TyhiEqJn19naJHe8xdNSoKjTGkvLjsOtcGYGNFC5UgHyF2Hh
-j0Nb6tYd/U+N/irFAxkZu4AtRhzY9M1rnYUJBu6tur4KI6/AgYfoHmghqsnDft3D
-Azqv4xIE/0dajgaCOr/z7CD57t2LqBoXaYhjMe9KsnZgHIYOdfcxsXnYi0xUcEf6
-9UdbkoUWkCdlUZrnLCSH+lSYNsk2Z4YRuoluMU1fV6wMH0Oq5hQYd89C1Ryzp2Kz
-3AaFnvWKOM3jzWJvVESbJgMr7yFFDw==
-=fPky
------END PGP SIGNATURE-----
-
---JZZO+Q2K4y9a3TS/--
+-- PMM
 
