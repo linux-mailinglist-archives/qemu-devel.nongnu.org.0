@@ -2,58 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87D5351113
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:46:25 +0200 (CEST)
-Received: from localhost ([::1]:42630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FB2351115
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:48:19 +0200 (CEST)
+Received: from localhost ([::1]:45996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRsy9-00008C-2D
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
+	id 1lRszy-0001fr-Js
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:48:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lRsvB-0007ew-LH; Thu, 01 Apr 2021 04:43:21 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2133)
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lRsyY-0000v4-SI
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:46:50 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:42793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lRsv3-0008VL-Nq; Thu, 01 Apr 2021 04:43:20 -0400
-Received: from DGGEML404-HUB.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4F9xV507Xwz5ktx;
- Thu,  1 Apr 2021 16:41:01 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- DGGEML404-HUB.china.huawei.com (10.3.17.39) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Thu, 1 Apr 2021 16:43:06 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2106.2; Thu, 1 Apr 2021 16:43:05 +0800
-Subject: Re: [RFC PATCH 0/6] Introduce cluster cpu topology support
-To: Paolo Bonzini <pbonzini@redhat.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>
-References: <20210331095343.12172-1-wangyanan55@huawei.com>
- <20162bd1-b31e-e180-8792-81934e0d005b@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <1cddde6a-3338-70f0-1d4c-d6fd5d634bb3@huawei.com>
-Date: Thu, 1 Apr 2021 16:43:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lRsyW-00027F-Vk
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:46:50 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 144B32E2A;
+ Thu,  1 Apr 2021 04:46:46 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 01 Apr 2021 04:46:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernat.ch; h=
+ from:to:cc:subject:references:date:in-reply-to:message-id
+ :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
+ p0QZwl4o35Y8qpfyuyAVhbZtvOPH/cDEDBz79eFLK94=; b=p4LLkKKIeR17jFl7
+ /Im5IoHkDK4ba0p+85jXIVPYjFmsp0WjIH9V5Piccq/4oWyddPhqV5keEzY/T/mo
+ +orMEKWs+v8++8O3+pNhzZrULgfHFt8bAJW284VuqSr7zAUxurKgFq1ew8960S8D
+ bsDxIHIMqGzsHDK/0I2Zoy2LnjcsEWZbi30wKlpWA4vOGLHOWhw7BZvO1t/eSFwS
+ SAUDchpo7dDrg0qJIL+m/fjuXdPe+9Nqfcv8FJBtCXindSLZVgsAUcTkW/AhM8mo
+ GSxSwyI54/J/Sd+yJ8kv7adXep3fS8gKJG8wmiiCq/FRlGh+McXVl7vEhLuojhon
+ gfXa3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=p0QZwl4o35Y8qpfyuyAVhbZtvOPH/cDEDBz79eFLK
+ 94=; b=q7Co8UkSnCSLlLqONBbWCUIMzV23GsRI0SCL3+scoSA4QATRJldXbsqbj
+ xAs1G0JsZf5eEBN1orrzlxoLKhaGmDXEaTHTC8W8vO+1EzFV/q/was7qTwnGLY9t
+ BXyCJ/4kT3PrGJ4aROp+ZkhILomfZOEze5aH4NB67PaEoWbJo7Ns5QoIdCaDwxwN
+ 4zbRw05aZGMexUeyKE0wJvPsrIWJlQDMh9OPxP2qtv1e3eIB4acnQsAxi/cFTyUn
+ eKgZ6l/9bXulEbZTULrsf9anXynrAx9BhOSj7F9gdhgfhwiQjPv/NjgfrG45iVUI
+ AePKTe8x6M5POm4vQ5lIIbviTnHEw==
+X-ME-Sender: <xms:dYhlYAvZ0capC17ExaaCBeGIOjZexJAJxIdCG3y-Gm8n6elZTTWO-w>
+ <xme:dYhlYE5DT4Iw7erQ0AIVOMNHrPocRdgTE0KCG_l39eFiezH-6KfpuMykX5YZP1iOa
+ 7AJBzXLhptdxea8fwk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeigedgtdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufhfffgjkfgfgggtgfesthekredttderjeenucfhrhhomhepgghinhgt
+ vghnthcuuegvrhhnrghtuceovhhinhgtvghnthessggvrhhnrghtrdgthheqnecuggftrf
+ grthhtvghrnhepudeuveeggedtveduudejgfeiffeiveduiedvjedvudefleetgfefvdfh
+ kedtieejnecukfhppeeltddrledtrdeltddrfeehnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepvhhinhgtvghnthessggvrhhnrghtrdgthh
+X-ME-Proxy: <xmx:dYhlYJLEnZaTaDNP3qZITIhz9xE1uQaiWI_hpzWKtXNwl_5qYM1eHA>
+ <xmx:dYhlYM5hKpt6Iub5o3qvu7J7dcgcyw6HYyKGSuijM-PdFMN04GALzw>
+ <xmx:dYhlYEw0NF2NVgvzmutLP9nDnbKPZXQ2rZ4mTSzoaziTHsAyhaEZZA>
+ <xmx:dYhlYHAgNEBwP_fkl4xKLYqqcnda7ZRQ_3nYT-4YOWMhBJL6fB2bYQ>
+Received: from neo.luffy.cx (lfbn-idf1-1-1655-35.w90-90.abo.wanadoo.fr
+ [90.90.90.35])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 53ABB240054;
+ Thu,  1 Apr 2021 04:46:45 -0400 (EDT)
+Received: by neo.luffy.cx (Postfix, from userid 500)
+ id 256B9A28; Thu,  1 Apr 2021 10:46:44 +0200 (CEST)
+From: Vincent Bernat <vincent@bernat.ch>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 1/2] hw/smbios: support for type 41 (onboard devices
+ extended information)
+References: <20210401082544.16522-1-vincent@bernat.ch>
+ <YGWHPWSrOLxEQtMA@redhat.com>
+Date: Thu, 01 Apr 2021 10:46:44 +0200
+In-Reply-To: <YGWHPWSrOLxEQtMA@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 1 Apr 2021 09:41:33 +0100")
+Message-ID: <m31rbul7d7.fsf@bernat.ch>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20162bd1-b31e-e180-8792-81934e0d005b@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme717-chm.china.huawei.com (10.1.199.113) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=vincent@bernat.ch;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,55 +100,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Barry Song <song.bao.hua@hisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo
- Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, wanghaibin.wang@huawei.com,
- yuzenghui@huawei.com, Igor Mammedov <imammedo@redhat.com>,
- zhukeqian1@huawei.com, Jiajie Li <lijiajie11@huawei.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+ ❦  1 avril 2021 09:41 +01, Daniel P. Berrangé:
 
-On 2021/3/31 18:00, Paolo Bonzini wrote:
-> On 31/03/21 11:53, Yanan Wang wrote:
->> A cluster means a group of cores that share some resources (e.g. cache)
->> among them under the LLC. For example, ARM64 server chip Kunpeng 920 has
->> 6 or 8 clusters in each NUMA, and each cluster has 4 cores. All clusters
->> share L3 cache data while cores within each cluster share the L2 cache.
+>> +            t = calloc(1, sizeof(struct type41_instance));
+>> +            if (!t) {
+>> +                error_setg(errp,
+>> +                           "Unable to allocate memory for a new type 41 instance");
+>> +                return;
+>> +            }
 >
-> Is this different from what we already have with "-smp dies"?
-As far as I know, yes. I think they are two architecture concepts of 
-different levels.
-A cpu socket/package can consist of multiple dies, and each die can 
-consist of
-multiple clusters, which means dies are parent for clusters. And this 
-kind of cpu
-hierarchy structure is normal in ARM64 platform.
+> QEMU uses GLib allocation functions throughout, which abort
+> on OOM. So replace this with g_new0.
 
-Still take above ARM64 server chip Kunpeng 920 as an example, there 
-totally are
-2 sockets, 2 dies in each socket, 6 or 8 clusters in each die, and 4 
-cores in each
-cluster. Since it also supports NUMA architecture, then each NUMA actually
-represents one die.
-
-Although there is already "-smp dies=*" command line parameter for PC 
-Machines,
-a cluster level can be added for x86 architecture if meaningful and 
-there will be more
-work to do in qemu to make use of it. And I am sure that ARM needs this 
-level.
-
-If there is something wrong above, please correct me, thanks!
-
-Thanks,
-Yanan
->
-> Paolo
->
-> .
+Ack. Will be fixed on the next version. Thanks!
+-- 
+Make input easy to proofread.
+            - The Elements of Programming Style (Kernighan & Plauger)
 
