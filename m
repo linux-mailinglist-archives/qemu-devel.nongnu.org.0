@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4844E350CC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 04:46:28 +0200 (CEST)
-Received: from localhost ([::1]:51076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609F1350CC8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 04:48:17 +0200 (CEST)
+Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRnLn-0007VA-BQ
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 22:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58470)
+	id 1lRnNY-0001J5-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 22:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lRnHZ-0002p3-J5
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 22:42:05 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:35367)
+ id 1lRnHa-0002rK-OI
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 22:42:06 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:42646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lRnHU-0003BZ-C2
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 22:42:05 -0400
-Received: by mail-qk1-x730.google.com with SMTP id i9so924218qka.2
- for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 19:41:59 -0700 (PDT)
+ id 1lRnHV-0003Cb-3H
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 22:42:06 -0400
+Received: by mail-qk1-x729.google.com with SMTP id y5so875309qkl.9
+ for <qemu-devel@nongnu.org>; Wed, 31 Mar 2021 19:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dDFLsvyLe8lLl4nZKmWov7o0SG/Q1sJrDdZtdR5zH+8=;
- b=InR1Q00OkWFeCk7332+QyLnJG2pqndgyUXZKQX3bQF4ied5UYxs8QQXyVXrItiF4KX
- ezO2oGXXuQpobrKdtJqq9FhKi6pG9BzQohxy6qMQatauVPRexlTb6lkBAadD6tQt69Cd
- uKEfHjFqnb4Ol/Tp5uL/MCmglgxrhMK79bRMF/jiFLvVw88gqlg88d/NrtltyqLejYuf
- SBUi4PqqQUqO/0OUx4F9n1qJrxgEo4CZSMcH1RKZg11JVXKZDTU+tNAADYRNsAzaTwaP
- hNTqRPVcA5dDrXstxtXW7cJueAdWvleNmk1yG9mh4FPHHuwBNQan6yALfYz0I0JUi7co
- ZMkQ==
+ bh=36CRRigRDg6z7Ps/zHm2nFOe3o4QS1w0QeVs5IpQt88=;
+ b=D68RcJiw9z0nkC+YTho/xYvi6Gl34ideQTD1NULJeMec2XASt3Z8WKABH+PRJf00mD
+ KTdzP8LDslcwdJS+E1zVMCpeaAMWN1lB5/m3iQtaPoevb9DmFkViwA72MSemPeV7aaAN
+ O4HgyS5QyqPtkKXAjzPM7sPz0a4vB4WzUq9O7GpBmN71TO73HcCZdmiqOsz1Ce+UmrxL
+ Spjhyw58ChQIiGdjJFmSzzEVjkJah8oP3kl2jXsz/FOgL3uSKgL7nCBw4p9+6KeVGW4N
+ /uqleBhiOxc2W7QmBG65uguew3ImzEPolJBwSGH2InnomSZaMwG8re0fwmvU9aqV432i
+ pXcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dDFLsvyLe8lLl4nZKmWov7o0SG/Q1sJrDdZtdR5zH+8=;
- b=kEXmzMTyjIKgtgwqTHuk4GVtWYhrezkKTg7cgzvh9ZBSHMIJbgZGcXetAZIx5ZHRon
- 4INp0YfT3FkuAlez0eVkpqLmyZsB4cBjpyqkjFaAJyYS946Ipxhl2INcH7pe0mX0MBJW
- sPR1uqyTabgsxiJWezUBxJQrlFRpEyb0ikdob3FglP3Sow9wXn6qF3BQshlnNq3yqMai
- wVOdeIE1aJfMn3dh8J0RZxEa6ByuLBtncCUuNUvQb4WuKHvLg3fZIgdLmSxqJ/xLX8iG
- ACFcymow+F4sgK/q1LdkCnTvVvvAJzWmSpxR2Nkla8l5WYB+Vz/OC0sgv4y/JnUUg2hc
- 7IKg==
-X-Gm-Message-State: AOAM531xELPdYnNEA7dks6Ts60Z4Rj3cxAlaAXO/QA6unUmSIbhSUfsK
- IJYp2OWS+e7Jh+E+9fBFyEUvWg==
-X-Google-Smtp-Source: ABdhPJx/Jz4h2lVxTtgLlXlUv4pU/Qhtbcvrm774zvESoQa71XgmW71b6wrIpiB/k/tKuwNEOkeYiA==
-X-Received: by 2002:a37:a211:: with SMTP id l17mr6439009qke.195.1617244919306; 
+ bh=36CRRigRDg6z7Ps/zHm2nFOe3o4QS1w0QeVs5IpQt88=;
+ b=VQEPvKBbULr+RqQiqsXAfLsAzbkg7i/QruvldifQSMRIiDkNaDIWaeOr5t9sAHnf5J
+ msPF0pNa1mY/E6nZwPwZzGEQ7Ro6o7mS+vRo3BqSLIyLRMHMxLrigxT2qrdslGEdMDrv
+ 6/jcrDmqbOhnRpTNtsk+zSd2bEEXpLKTGxxd3mqCjg/L8LKfZ3/8AyNVOl0gefgomFo6
+ uyTVvf/J/iq3ykyOXhJ6dK0ZlBNK7HXsOAlg/JGBeSU64vZD0tuz3bx3gGtgKhqeS2rD
+ kENvXpF5aW2+9t5C1Gxx9k/CQUm4UTB8FUudwsTldOch2Yumrgb2GhRtgo29XcVtIXyq
+ 6YSw==
+X-Gm-Message-State: AOAM532HUl92N9rbuX4l/Jz4oDmpEVpfrpmOJ58RWmA2H86nMrnL18dC
+ mfsGe3GTem/qkaGCcNxctlvBRA==
+X-Google-Smtp-Source: ABdhPJzJqbH+IcDfBfH9ORFpvkEK0VwLuylAw6B+ZoABabqP9LGk8CzyWlug61Jzk162w/P/RYmVzQ==
+X-Received: by 2002:a05:620a:14b3:: with SMTP id
+ x19mr6434890qkj.384.1617244919937; 
  Wed, 31 Mar 2021 19:41:59 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-stsvon1503w-grc-23-174-92-28-28.dsl.bell.ca. [174.92.28.28])
- by smtp.googlemail.com with ESMTPSA id a8sm2525707qtx.9.2021.03.31.19.41.58
+ by smtp.googlemail.com with ESMTPSA id a8sm2525707qtx.9.2021.03.31.19.41.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 31 Mar 2021 19:41:59 -0700 (PDT)
 From: Shashi Mallela <shashi.mallela@linaro.org>
 To: peter.maydell@linaro.org,
 	leif@nuviainc.com,
 	rad@semihalf.com
-Subject: [PATCH v2 7/8] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-Date: Wed, 31 Mar 2021 22:41:51 -0400
-Message-Id: <20210401024152.203896-8-shashi.mallela@linaro.org>
+Subject: [PATCH v2 8/8] hw/arm/virt: add ITS support in virt GIC
+Date: Wed, 31 Mar 2021 22:41:52 -0400
+Message-Id: <20210401024152.203896-9-shashi.mallela@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210401024152.203896-1-shashi.mallela@linaro.org>
 References: <20210401024152.203896-1-shashi.mallela@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,93 +90,67 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Included creation of ITS as part of SBSA platform GIC
-initialization.
+Included creation of ITS as part of virt platform GIC
+initialization.This Emulated ITS model now co-exists with kvm
+ITS and is enabled in absence of kvm irq kernel support in a
+platform.
 
 Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ hw/arm/virt.c        | 10 ++++++++--
+ target/arm/kvm_arm.h |  4 ++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 88dfb2284c..d05cbcae48 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -35,7 +35,7 @@
- #include "hw/boards.h"
- #include "hw/ide/internal.h"
- #include "hw/ide/ahci_internal.h"
--#include "hw/intc/arm_gicv3_common.h"
-+#include "hw/intc/arm_gicv3_its_common.h"
- #include "hw/loader.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/qdev-properties.h"
-@@ -65,6 +65,7 @@ enum {
-     SBSA_CPUPERIPHS,
-     SBSA_GIC_DIST,
-     SBSA_GIC_REDIST,
-+    SBSA_GIC_ITS,
-     SBSA_SECURE_EC,
-     SBSA_GWDT,
-     SBSA_GWDT_REFRESH,
-@@ -108,6 +109,7 @@ static const MemMapEntry sbsa_ref_memmap[] = {
-     [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
-     [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
-     [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
-+    [SBSA_GIC_ITS] =            { 0x44090000, 0x00020000 },
-     [SBSA_SECURE_EC] =          { 0x50000000, 0x00001000 },
-     [SBSA_GWDT_REFRESH] =       { 0x50010000, 0x00001000 },
-     [SBSA_GWDT_CONTROL] =       { 0x50011000, 0x00001000 },
-@@ -378,7 +380,20 @@ static void create_secure_ram(SBSAMachineState *sms,
-     memory_region_add_subregion(secure_sysmem, base, secram);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index aa2bbd14e0..77cf2db90f 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -622,7 +622,7 @@ static void create_v2m(VirtMachineState *vms)
+     vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
  }
  
--static void create_gic(SBSAMachineState *sms)
-+static void create_its(SBSAMachineState *sms)
-+{
-+    DeviceState *dev;
-+
-+    dev = qdev_new(TYPE_ARM_GICV3_ITS);
-+    SysBusDevice *s = SYS_BUS_DEVICE(dev);
-+
-+    object_property_set_link(OBJECT(dev), "parent-gicv3", OBJECT(sms->gic),
-+                             &error_abort);
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    sysbus_mmio_map(s, 0, sbsa_ref_memmap[SBSA_GIC_ITS].base);
-+}
-+
-+static void create_gic(SBSAMachineState *sms, MemoryRegion *mem)
+-static void create_gic(VirtMachineState *vms)
++static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
  {
-     unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
-     SysBusDevice *gicbusdev;
-@@ -405,6 +420,10 @@ static void create_gic(SBSAMachineState *sms)
-     qdev_prop_set_uint32(sms->gic, "len-redist-region-count", 1);
-     qdev_prop_set_uint32(sms->gic, "redist-region-count[0]", redist0_count);
+     MachineState *ms = MACHINE(vms);
+     /* We create a standalone GIC */
+@@ -656,6 +656,12 @@ static void create_gic(VirtMachineState *vms)
+                              nb_redist_regions);
+         qdev_prop_set_uint32(vms->gic, "redist-region-count[0]", redist0_count);
  
-+    object_property_set_link(OBJECT(sms->gic), "sysmem", OBJECT(mem),
-+                                 &error_fatal);
-+    qdev_prop_set_bit(sms->gic, "has-lpi", true);
++        if (!kvm_irqchip_in_kernel()) {
++            object_property_set_link(OBJECT(vms->gic), "sysmem", OBJECT(mem),
++                                     &error_fatal);
++            qdev_prop_set_bit(vms->gic, "has-lpi", true);
++        }
 +
-     gicbusdev = SYS_BUS_DEVICE(sms->gic);
-     sysbus_realize_and_unref(gicbusdev, &error_fatal);
-     sysbus_mmio_map(gicbusdev, 0, sbsa_ref_memmap[SBSA_GIC_DIST].base);
-@@ -451,6 +470,7 @@ static void create_gic(SBSAMachineState *sms)
-         sysbus_connect_irq(gicbusdev, i + 3 * smp_cpus,
-                            qdev_get_gpio_in(cpudev, ARM_CPU_VFIQ));
+         if (nb_redist_regions == 2) {
+             uint32_t redist1_capacity =
+                     vms->memmap[VIRT_HIGH_GIC_REDIST2].size / GICV3_REDIST_SIZE;
+@@ -2039,7 +2045,7 @@ static void machvirt_init(MachineState *machine)
+ 
+     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
+-    create_gic(vms);
++    create_gic(vms, sysmem);
+ 
+     virt_cpu_post_init(vms, sysmem);
+ 
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 34f8daa377..0613454975 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -525,8 +525,8 @@ static inline const char *its_class_name(void)
+         /* KVM implementation requires this capability */
+         return kvm_direct_msi_enabled() ? "arm-its-kvm" : NULL;
+     } else {
+-        /* Software emulation is not implemented yet */
+-        return NULL;
++        /* Software emulation based model */
++        return "arm-gicv3-its";
      }
-+    create_its(sms);
  }
  
- static void create_uart(const SBSAMachineState *sms, int uart,
-@@ -763,7 +783,7 @@ static void sbsa_ref_init(MachineState *machine)
- 
-     create_secure_ram(sms, secure_sysmem);
- 
--    create_gic(sms);
-+    create_gic(sms, sysmem);
- 
-     create_uart(sms, SBSA_UART, sysmem, serial_hd(0));
-     create_uart(sms, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
 -- 
 2.27.0
 
