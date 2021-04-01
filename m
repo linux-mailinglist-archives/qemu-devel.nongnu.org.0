@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD835108A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:04:41 +0200 (CEST)
-Received: from localhost ([::1]:39932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7CD351091
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:06:37 +0200 (CEST)
+Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRsJk-0004mM-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:04:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58544)
+	id 1lRsLc-0007I5-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRsCO-0006IQ-Oc
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:57:04 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57130
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRsCN-0005Vw-1F
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:57:04 -0400
-Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRsCQ-0004Mi-LB; Thu, 01 Apr 2021 08:57:12 +0100
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- alxndr@bu.edu, laurent@vivier.eu
-References: <20210317230223.24854-1-mark.cave-ayland@ilande.co.uk>
- <dffedca1-d7e1-206b-3260-6b9d88ac7d54@redhat.com>
- <f5ed9741-0f2b-313f-fc66-82f939b24d63@ilande.co.uk>
- <d33de3a4-0ec6-0506-b19a-1e6043615980@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <6f91d44f-297a-72ef-bd47-198533f8a4eb@ilande.co.uk>
-Date: Thu, 1 Apr 2021 08:56:54 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRsIc-0004LL-O9; Thu, 01 Apr 2021 04:03:31 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:41832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRsIa-00015n-Gf; Thu, 01 Apr 2021 04:03:29 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ t5-20020a1c77050000b029010e62cea9deso436870wmi.0; 
+ Thu, 01 Apr 2021 01:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XYB0+Zh72AFKnNJPJ3qEYeedDoTJ5raLhm8zVFcQZ70=;
+ b=qrEQLyqQ/lh5bLTG6HiJFMjC4rLfgFqx6RKDzXfAcx29Kd23vFLvsYNJK8XFAKAimY
+ i64bbJwF3o6GAZv1/juNHJY850s0OF8bl62QYknA+nxiGbvvlLWPpR4qNVmEtvJcWBD2
+ UJq2HsRQkXjDgDIvVW0QT6xO/+Frwy23ifrrTPeiPMWhXN+qzWfyuKfJNcKKFhGAfzxz
+ B8g/9jaGmpXbMQrl2jamRgSL3eA+VjzckmQ1N2H2GbVAdKDP50wO3yFDE2GBPfWhO0Bc
+ HA5u+CWXMUO8aKwIQNsHjvkS/nMfCkCErYCPChzY3iuykIVzH869wkQ9BTt0FHTbjMhL
+ lUcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XYB0+Zh72AFKnNJPJ3qEYeedDoTJ5raLhm8zVFcQZ70=;
+ b=s0Qvl5fkrkD9BApA+uirR9SA7wLKkfSOKPyoGRyUY73ZboWIWqLgaApfWLZXkOVHr2
+ jNRQeB8qTSRUvuFfvIk7Zvx44HnRmzPjpBHcajnyJ7XSPXy7pW7mrzN0cuYTxorf4jfp
+ 2nu1407nUbfmQeVB40TH2fs9275mH/nGDK72VgmYx6GawpCAtEDgoLKa+Mjxb0uzPzyn
+ aWTtDMHZgH0lVOQQg2I4Pdn918AKJOx4oRuhUJWk5l4GjLqKmbo07cp5S/YDqeTrfCtE
+ r60CP+mpESMSAKLvoBjkPu9Y0iPb3NCjNdcIGFCwy7qRoGKRy7IP6XdERco5T4sSEbhh
+ DN3A==
+X-Gm-Message-State: AOAM5303dlkIA+fuS515Tlx1ZGCRdxmPIw9bhGpk9/389CEUh0NAfHt9
+ 6T30U5+cRSbiuEHj/n/zgUph3zCygH3Lcw==
+X-Google-Smtp-Source: ABdhPJw7ZUiuHS9YQjuZdxsm5r3SmYVZodpeiVuST9DE58e4I5l6SpLJ/CxH//yf9ZI340VX+X/ZWg==
+X-Received: by 2002:a1c:4e07:: with SMTP id g7mr6874939wmh.29.1617264206196;
+ Thu, 01 Apr 2021 01:03:26 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id 91sm9133078wrl.20.2021.04.01.01.03.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 01:03:25 -0700 (PDT)
+Subject: Re: [PATCH v3 2/4] block: check for sys/disk.h
+To: Joelle van Dyne <j@getutm.app>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210315180341.31638-1-j@getutm.app>
+ <20210315180341.31638-3-j@getutm.app>
+ <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9181c138-d39e-7d28-d19a-8a46b118fb23@amsat.org>
+Date: Thu, 1 Apr 2021 10:03:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <d33de3a4-0ec6-0506-b19a-1e6043615980@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.103.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 0/6] esp: fix asserts/segfaults discovered by fuzzer
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,34 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/03/2021 10:59, Paolo Bonzini wrote:
-
-> Hi,
+On 4/1/21 7:08 AM, Joelle van Dyne wrote:
+> On Mon, Mar 15, 2021 at 11:03 AM Joelle van Dyne <j@getutm.app> wrote:
+>>
+>> Some BSD platforms do not have this header.
+>>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: Joelle van Dyne <j@getutm.app>
 > 
-> I also had some failures of the tests on CI, which is why I hadn't incorporated these 
-> changes yet.  Thanks for the advance warning, I'll wait for your v3.
-> 
-> Paolo
+> Please bear with me as I am still new to this, but what happens to the
+> three patches that are reviewed if the last patch does not get
+> reviewed? Do the reviewed patches still get to make it into 6.0? I am
+> willing to drop the unreviewed patch if there are issues. Thanks.
 
-Hi Paolo,
+I guess this is bad timing, as this time in year various maintainers
+are on vacations. Cc'ing Paolo as he sometimes take generic/block
+patches.
 
-I've just posted the latest v3 which passes all my local boot tests and the extra 
-test cases posted to LP. There is one failure on Gitlab CI but that is for the 
-clang-user build for tcg-tests-s390x-linux-user which is an existing issue.
+Regards,
 
-Apologies it took a bit longer than expected: my laptop isn't the fastest in the 
-world and booting everything will full debug and ASAN across several targets is 
-tremendously slow :/
-
-Also it seems there is something wrong with the qtest dependencies: for my current 
-build of ~2900 files, the final commit to add the qtest for am53c974 which adds the 
-test to test/qtest/meson.build causes ~2100 of those files to be rebuilt :(
-
-
-ATB,
-
-Mark.
+Phil.
 
