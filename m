@@ -2,104 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5983350B7D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 03:07:50 +0200 (CEST)
-Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E42B350C67
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 04:11:44 +0200 (CEST)
+Received: from localhost ([::1]:59864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRloL-0007yv-4i
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 21:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43030)
+	id 1lRmoB-00067S-2I
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 22:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lRlmV-0007R6-UA; Wed, 31 Mar 2021 21:05:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30880
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lRmko-0004ci-Au; Wed, 31 Mar 2021 22:08:14 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:56869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lRlmG-0008Du-M3; Wed, 31 Mar 2021 21:05:55 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13113YIj111381; Wed, 31 Mar 2021 21:05:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=lqGRzVm48nouvVTLixPfttRJPvqeBGwFOk4tCZ8RI+s=;
- b=VK6gntUqwjcJNMGYeAE3rvn0zQJLI7p00QyOkBppTPRwltnLs/yYx+NmKutxQ8MwNXGd
- PdV12/mI7sM+E6plQN/wkH/xKEB7neBg0Be8MY75ouHhPlXi0KSRyHzBxC/AUUuEvWEH
- tAW/pv4Z4nzhunKIEq+7cDrYlEYoLDyJuKPPD776kSWZsivuzuuriBRWKK0eapCDQqT0
- Y6APwTtuzlHDqj6/hn16PInEUXBfEjWk/EkERKatmJV8C1AgOJXWslN/yzyRAA4TCdey
- xBLW/aZ1EIxb4k9SLxA2IMHnWHsiyp17PkA36goedpPPMSqAFT9bI7eHTf/m1K9wgjqE zw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37n2edabm1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 Mar 2021 21:05:30 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1311599j118797;
- Wed, 31 Mar 2021 21:05:30 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37n2edabkg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 Mar 2021 21:05:30 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1310w7lY030504;
- Thu, 1 Apr 2021 01:05:28 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 37n28tr2be-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Apr 2021 01:05:28 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 131155Ik26280294
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 1 Apr 2021 01:05:05 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39AF8AE045;
- Thu,  1 Apr 2021 01:05:25 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2CC0DAE057;
- Thu,  1 Apr 2021 01:05:21 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.199.43.15])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu,  1 Apr 2021 01:05:20 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Thu, 01 Apr 2021 06:35:20 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, mst@redhat.com, imammedo@redhat.com,
- xiaoguangrong.eric@gmail.com
-Subject: [PATCH v2] ppc/spapr: Add support for implement support for
- H_SCM_HEALTH
-Date: Thu,  1 Apr 2021 06:35:19 +0530
-Message-Id: <20210401010519.7225-1-vaibhav@linux.ibm.com>
-X-Mailer: git-send-email 2.30.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uDpwi3j0r4DXPqXow9P6f_3Y3rdCSgSp
-X-Proofpoint-GUID: LErx0t8uYbRbtOyN-vR0khyzSqv2Q-DP
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lRmkm-0003H1-14; Wed, 31 Mar 2021 22:08:14 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4F9mml1DmLz9sWw; Thu,  1 Apr 2021 13:08:07 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1617242887;
+ bh=uimYFeg8tfROgkDe8c2UcRwKeHIYOzuGahA/7H0MExY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=armnbMSVYp5oistihOkj9nqMGlCmZN9nxbaWJkQSYqpKjiJTDZi1RUA5kxrnh523I
+ MvaCB7n+E2pfoxI2uVArmv3pyzJnn5cQLJe4jszmJY70CaZy1vf8+DbnDm1XLfguQc
+ TtI1vw3TpleYldbzbRlD9SyFYhPkyiIcupuY6voo=
+Date: Thu, 1 Apr 2021 12:31:27 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 0/4] DEVICE_NOT_DELETED/DEVICE_UNPLUG_ERROR QAPI events
+Message-ID: <YGUibyjrO+HTFSbR@yekko.fritz.box>
+References: <20210312200740.815014-1-danielhb413@gmail.com>
+ <YFlAheldkqCkZytI@yekko.fritz.box>
+ <b8d96ab9-61e5-b941-6405-5beff5fe0df5@gmail.com>
+ <YFqYkuBSD3xPgLVi@yekko.fritz.box>
+ <ba20de28-d65b-6da4-5bff-92b637cf7a56@gmail.com>
+ <20210330012831.2ce0514c@redhat.com>
+ <YGO4aXzC6uEC3e/U@yekko.fritz.box>
+ <20210331114914.50950465@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-03-31_11:2021-03-31,
- 2021-03-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- impostorscore=0 adultscore=0 clxscore=1015 spamscore=0 mlxscore=0
- mlxlogscore=999 phishscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103310000 definitions=main-2104010004
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=vaibhav@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yzog+coloFKoWSMx"
+Content-Disposition: inline
+In-Reply-To: <20210331114914.50950465@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,126 +64,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, aneesh.kumar@linux.ibm.com, groug@kaod.org,
- shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com,
- Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ groug@kaod.org, armbru@redhat.com, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for H_SCM_HEALTH hcall described at [1] for spapr
-nvdimms. This enables guest to detect the 'unarmed' status of a
-specific spapr nvdimm identified by its DRC and if its unarmed, mark
-the region backed by the nvdimm as read-only.
 
-The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
-returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
-from 'struct nvdimm->unarmed' member.
+--yzog+coloFKoWSMx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Linux kernel side changes to enable handling of 'unarmed' nvdimms for
-ppc64 are proposed at [2].
+On Wed, Mar 31, 2021 at 11:49:14AM +0200, Igor Mammedov wrote:
+> On Wed, 31 Mar 2021 10:46:49 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Tue, Mar 30, 2021 at 01:28:31AM +0200, Igor Mammedov wrote:
+> > > On Wed, 24 Mar 2021 16:09:59 -0300
+> > > Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> > >  =20
+> > > > On 3/23/21 10:40 PM, David Gibson wrote: =20
+> > > > > On Tue, Mar 23, 2021 at 02:10:22PM -0300, Daniel Henrique Barboza=
+ wrote:   =20
+> > > > >>
+> > > > >>
+> > > > >> On 3/22/21 10:12 PM, David Gibson wrote:   =20
+> > > > >>> On Fri, Mar 12, 2021 at 05:07:36PM -0300, Daniel Henrique Barbo=
+za wrote:   =20
+> > > > >>>> Hi,
+> > > > >>>>
+> > > > >>>> This series adds 2 new QAPI events, DEVICE_NOT_DELETED and
+> > > > >>>> DEVICE_UNPLUG_ERROR. They were (and are still being) discussed=
+ in [1].
+> > > > >>>>
+> > > > >>>> Patches 1 and 3 are independent of the ppc patches and can be =
+applied
+> > > > >>>> separately. Patches 2 and 4 are based on David's ppc-for-6.0 b=
+ranch and
+> > > > >>>> are dependent on the QAPI patches.   =20
+> > > > >>>
+> > > > >>> Implementation looks fine, but I think there's a bit more to di=
+scuss
+> > > > >>> before we can apply.
+> > > > >>>
+> > > > >>> I think it would make sense to re-order this and put UNPLUG_ERR=
+OR
+> > > > >>> first.  Its semantics are clearer, and I think there's a strong=
+er case
+> > > > >>> for it.   =20
+> > > > >>
+> > > > >> Alright
+> > > > >>   =20
+> > > > >>>
+> > > > >>> I'm a bit less sold on DEVICE_NOT_DELETED, after consideration.=
+  Does
+> > > > >>> it really tell the user/management anything useful beyond what
+> > > > >>> receiving neither a DEVICE_DELETED nor a DEVICE_UNPLUG_ERROR do=
+es?   =20
+> > > > >>
+> > > > >>
+> > > > >> It informs that the hotunplug operation exceed the timeout that =
+QEMU
+> > > > >> internals considers adequate, but QEMU can't assert that it was =
+caused
+> > > > >> by an error or an unexpected delay. The end result is that the d=
+evice
+> > > > >> is not going to be deleted from QMP, so DEVICE_NOT_DELETED.   =
+=20
+> > > > >=20
+> > > > > Is it, though?  I mean, it is with this implementation for papr:
+> > > > > because we clear the unplug_requested flag, even if the guest lat=
+er
+> > > > > tries to complete the unplug, it will fail.
+> > > > >=20
+> > > > > But if I understand what Markus was saying correctly, that might =
+not
+> > > > > be possible for all hotplug systems.  I believe Markus was sugges=
+ting
+> > > > > that DEVICE_NOT_DELETED could just mean that we haven't deleted t=
+he
+> > > > > device yet, but it could still happen later.
+> > > > >=20
+> > > > > And in that case, I'm not yet sold on the value of a message that
+> > > > > essentially just means "Ayup, still dunno what's happening, sorry=
+".
+> > > > >    =20
+> > > > >> Perhaps we should just be straightforward and create a DEVICE_UN=
+PLUG_TIMEOUT
+> > > > >> event.   =20
+> > > > >=20
+> > > > > Hm... what if we added a "reason" field to UNPLUG_ERROR.  That co=
+uld
+> > > > > be "guest rejected hotplug", or something more specific, in the r=
+are
+> > > > > case that the guest has a way of signalling something more specif=
+ic,
+> > > > > or "timeout" - but the later *only* to be sent in cases where on =
+the
+> > > > > timeout we're able to block any later completion of the unplug (a=
+s we
+> > > > > can on papr). =20
+> > >=20
+> > > Is canceling unplug on timeout documented somewhere (like some spec)?=
+ =20
+> >=20
+> > Uh.. not as such.  In the PAPR model, hotplugs and unplugs are mostly
+> > guest directed, so the question doesn't really arise.
+> >=20
+> > > If not it might (theoretically) confuse guest when it tries to unplug
+> > > after timeout and leave guest in some unexpected state. =20
+> >=20
+> > Possible, but probably not that likely.  The mechanism we use to
+> > "cancel" the hotplugs is that we just fail the hypercalls that the
+> > guest will need to call to actually complete the hotplug.  We also
+> > fail those in some other situations, and that seems to work.
+> >=20
+> > That said, I no longer think this cancelling on timeout is a good
+> > idea, since it mismatches what happens on other platforms more than I
+> > think we need to.
+> >=20
+> > My now preferred approach is to revert the timeout changes, but
+> > instead allow retries of unplugs to be issued.  I think that's just a
+> > matter of resending the unplug message to the guest, while making it
+> > otherwise a no-op on the qemu side.
+>=20
+> Yep, all we need to do is notify QEMU user, so it knows that unplug
+> has failed. Then It can decide on it's own what to do with it and also wh=
+en.
 
-References:
-[1] "Hypercall Op-codes (hcalls)"
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst#n220
-[2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
-    https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibhav@linux.ibm.com/
+I'm not sure even that makes sense.  I mean in the cases that the
+guest specifically signals failure, then yes, we should definitely
+notify the user.  But for the cases the timeout was covering, I'm not
+convinced a notification is useful: we *don't* know the unplug has
+failed, we only suspect it, and I don't see that qemu really has any
+more information than the user about what the expected time for an
+unplug should be.
 
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
----
-Changelog
+> > > > I believe that's already covered by the existing API:
+> > > >=20
+> > > >=20
+> > > > +# @DEVICE_UNPLUG_ERROR:
+> > > > +#
+> > > > +# Emitted when a device hot unplug error occurs.
+> > > > +#
+> > > > +# @device: device name
+> > > > +#
+> > > > +# @msg: Informative message
+> > > >=20
+> > > > The 'informative message' would be the reason the event occurred. I=
+n patch
+> > > > 4/4, for the memory hotunplug refused by the guest, it is being set=
+ as:
+> > > >=20
+> > > >       qapi_error =3D g_strdup_printf("Memory hotunplug rejected by =
+the guest "
+> > > >                                    "for device %s", dev->id);
+> > > >       qapi_event_send_device_unplug_error(dev->id, qapi_error);
+> > > >=20
+> > > >=20
+> > > >=20
+> > > > We could use the same DEVICE_UNPLUG_ERROR event in the CPU hotunplu=
+g timeout
+> > > > case (currently on patch 2/4) by just changing 'msg', e.g.:
+> > > >=20
+> > > >=20
+> > > >       qapi_error =3D g_strdup_printf("CPU hotunplug timeout for dev=
+ice %s", dev->id);
+> > > >       qapi_event_send_device_unplug_error(dev->id, qapi_error);
+> > > >  =20
+> > >=20
+> > > lets make everything support ACPI (just kidding). =20
+> >=20
+> > Heh.  If nothing else, doesn't help us with existing guests.
+> >=20
+> > > maybe we can reuse already existing ACPI_DEVICE_OST instead of DEVICE=
+_UNPLUG_ERROR
+> > > which sort of does the same thing (and more) but instead of strings u=
+ses status codes
+> > > defined by spec. =20
+> >=20
+> > Hmm.  I'm a bit dubious about issuing ACPI messages for a non ACPI
+> > guest, but maybe that could work.
+>=20
+> May be we can rename it to be ACPI agnostic (though I'm not sure how rena=
+ming
+> QAPI interfaces should be done (it might upset libvirt for example)).
+>=20
+> (My point was that ACPI spec had already gone through all the trouble def=
+ining
+> status of completion and documenting it. Also libvirt supports this notif=
+ication.
+> It looks like worthwhile thing to consider if can somehow reuse it outsid=
+e of
+> x86 world)
 
-v2:
-* Added a check for drc->dev to ensure that the dimm is plugged in
-  when servicing H_SCM_HEALTH. [ Shiva ]
-* Instead of accessing the 'nvdimm->unarmed' member directly use the
-  object_property_get_bool accessor to fetch it. [ Shiva ]
-* Update the usage of PAPR_PMEM_UNARMED* macros [ Greg ]
-* Updated patch description reference#1 to point appropriate section
-  in the documentation. [ Greg ]
----
- hw/ppc/spapr_nvdimm.c  | 38 ++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |  3 ++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
+Yeah, that's a fair point.
 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index b46c36917c..34096e4718 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -31,6 +31,13 @@
- #include "qemu/range.h"
- #include "hw/ppc/spapr_numa.h"
- 
-+/* DIMM health bitmap bitmap indicators. Taken from kernel's papr_scm.c */
-+/* SCM device is unable to persist memory contents */
-+#define PAPR_PMEM_UNARMED (1ULL << (63 - 0))
-+
-+/* Bits status indicators for health bitmap indicating unarmed dimm */
-+#define PAPR_PMEM_UNARMED_MASK (PAPR_PMEM_UNARMED)
-+
- bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp)
- {
-@@ -467,6 +474,36 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     return H_SUCCESS;
- }
- 
-+static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                                 target_ulong opcode, target_ulong *args)
-+{
-+    uint32_t drc_index = args[0];
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    NVDIMMDevice *nvdimm;
-+
-+    if (drc && spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    /* Ensure that the dimm is plugged in */
-+    if (!drc->dev) {
-+        return H_HARDWARE;
-+    }
-+
-+    nvdimm = NVDIMM(drc->dev);
-+
-+    args[0] = 0;
-+    /* Check if the nvdimm is unarmed and send its status via health bitmaps */
-+    if (object_property_get_bool(OBJECT(nvdimm), NVDIMM_UNARMED_PROP, NULL)) {
-+        args[0] |= PAPR_PMEM_UNARMED;
-+    }
-+
-+    /* Update the health bitmap with the applicable mask */
-+    args[1] = PAPR_PMEM_UNARMED_MASK;
-+
-+    return H_SUCCESS;
-+}
-+
- static void spapr_scm_register_types(void)
- {
-     /* qemu/scm specific hcalls */
-@@ -475,6 +512,7 @@ static void spapr_scm_register_types(void)
-     spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-+    spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
- }
- 
- type_init(spapr_scm_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 47cebaf3ac..6e1eafb05d 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -538,8 +538,9 @@ struct SpaprMachineState {
- #define H_SCM_BIND_MEM          0x3EC
- #define H_SCM_UNBIND_MEM        0x3F0
- #define H_SCM_UNBIND_ALL        0x3FC
-+#define H_SCM_HEALTH            0x400
- 
--#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
-+#define MAX_HCALL_OPCODE        H_SCM_HEALTH
- 
- /* The hcalls above are standardized in PAPR and implemented by pHyp
-  * as well.
--- 
-2.30.2
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--yzog+coloFKoWSMx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBlIm0ACgkQbDjKyiDZ
+s5LZCA/+Ijsvp1dFWk0Viv+DulEPTawJVhvf2n6Oao6HW1Gc97TvlVsEnx0k8zaD
+JZUfhTZv9kTy2+iCgIzjgTrQSfIeCeYjQJtoYoRNmaqjklgxo5+8znvKpcCPky1J
+X2dldrpwGHICiPu8h3AzHd4gkhKto03dSH/TH3stIMUCmK2oYjq05FMcjMEAm+v4
+5iKLN/EstbuYz07Wk4nz4c1CR0VyVcoJDzbno7OIeF1MgZHSA56b5zCd0ktTj282
+EXye0d3OlTqoNdjIwyjsy93YEV6uyels2Rxv1LJuiCrRf+wYHteNMoZNHQ7wVsbf
+OQzeh7pRoA+ZEOJa8vWR9Oxpxg05ri680R+9NRHCama7jDD47YTeio0OtoVSA3gG
+uZZWEofrwNNsJ4qVq7LPcm5dRLUnWbXR7rukM6ahgV874CcdTd7eXpQsssX5/KUJ
+fh679jt2VbVLo+jkxwrNphjTWypSKtGTxj0jTAVYy4WVEtxUspo68EAiwE28jxM9
+Fv1Is9bRwuXoPWDJuTq9grEJ9envNX8GqTTOx64Na426cgz2c7J7/2Y3JUtYn3YT
+9mrKHZCgOukA7lFiP9qL9vHsJTNcPCDpRqQUkNjlYv0dms53t2jk+EirbU57N9eG
+LoBNPWaDQGtQetnJFmKjdaXyl3zuQqmZAaABIwJ7D1X6CHl5Pfs=
+=Pm8l
+-----END PGP SIGNATURE-----
+
+--yzog+coloFKoWSMx--
 
