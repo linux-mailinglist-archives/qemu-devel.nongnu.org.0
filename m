@@ -2,116 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B160350FEB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:14:44 +0200 (CEST)
-Received: from localhost ([::1]:57740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB33351012
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:25:37 +0200 (CEST)
+Received: from localhost ([::1]:40948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRrXO-00082j-Ri
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49906)
+	id 1lRrhw-00050F-NM
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:25:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <targupta@nvidia.com>)
- id 1lRrW8-00071E-9Y
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:13:24 -0400
-Received: from mail-mw2nam10on2078.outbound.protection.outlook.com
- ([40.107.94.78]:15712 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <targupta@nvidia.com>)
- id 1lRrW5-0003JD-2g
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:13:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y9EMeQl5W58FOi04adOkMLLTSfRktt5w1w6f8dDYhnvOqfxzeRjRYFCzQVIEbg1LMvuMkDDx52k8J7451nHLKtLEPgUOA1X5QUlOgCkQTALTg2swX+gWyzSBXo2ZYiRfZLl35ZtjwYxRuDCUi71YrS3E+8f+gAEuc8eQ6/LpqYpvrePku3Hfvrd253aoZdumYe59fFYrCaeT+HJIu52UrfMov1+1t+qYUx+4Kv3+NSaSDA3Pcp8xS+B4WO5Sa1LZH0zqMRCNDmEiUv/pSlQMpEo3XppLoJPCrCcjSokgtM9qPm5ouCP4Gk84NLvYvNqe7ZTtRJQvGyPYoZRa/i+3vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sMJs0alOnTGErZ+WbAiv0Jhcw6URdxunGVGqhyAp1P8=;
- b=BicV1DhjrtoY0DeBku1fyZIN8YZSn4Nz7Bi5GPtGXrYYoRQqo1lIv+PivJC7SOtiHdKuo484GZshp4gjVttEap+8zBg0BrJtlfkrF8m98sfxQBqSmnnmP+VNOBXcm/8z3JnbV8B3Wn318pLs3pB7GUxz5eE6KMbfUNh0oatMZpWxeiWa9m8oE8hH0Z/XMC51yEH5CHYHaSYAPJnA2StmJFsq6pkjAE8eIJBqi+KKFt72ZST6jT1W6+Mtt9f9V+PBYzZyYOgLBTb7ny0UtN6sbkXUZRiiCucP7F2Nztf3hZSEkJAi/iJ4oJvijcL3weCrULvlE/avq9r9KOTFT04Ybw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sMJs0alOnTGErZ+WbAiv0Jhcw6URdxunGVGqhyAp1P8=;
- b=TC5XY1SdElPiY5kiRWJNB9I7tk8bTxU37Mx54cC9C3NoEK+lJMAh5eZs5v8YXdOZUytyapXYZi2O/R9M2iMdrZePMtQx1xFxvr5O4Sb2etRRHI7cZSTSMXn1t2cEA/hnHP6+VOQDl3e0b/LSYywBKTFSRwBm1ekToThhQfkNYAaswA8clGYHbVCYUbz901GSFKfh5CnB6ltRPzSk+mCw8YzGappjSe1QG3eSHcH8NZnkWsxOzQG4oeIxuWTrCI7sPwVv4xDxPfdJLONn9f3BFkpipGCRac3a7i10woaiZ9VfWY3Mco1Sjlj6PWC2Js6ONn9yl6EfyH94MpUmr9JYew==
-Received: from MWHPR21CA0055.namprd21.prod.outlook.com (2603:10b6:300:db::17)
- by DM6PR12MB2955.namprd12.prod.outlook.com (2603:10b6:5:181::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Thu, 1 Apr
- 2021 06:58:14 +0000
-Received: from CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:db:cafe::71) by MWHPR21CA0055.outlook.office365.com
- (2603:10b6:300:db::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.1 via Frontend
- Transport; Thu, 1 Apr 2021 06:58:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT043.mail.protection.outlook.com (10.13.174.193) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3999.28 via Frontend Transport; Thu, 1 Apr 2021 06:58:13 +0000
-Received: from [10.40.100.74] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 1 Apr
- 2021 06:58:08 +0000
-Subject: Re: [PATCH v3 1/1] docs/devel: Add VFIO device migration documentation
-To: Shenming Lu <lushenming@huawei.com>, <qemu-devel@nongnu.org>,
- <kwankhede@nvidia.com>, <alex.williamson@redhat.com>, <cohuck@redhat.com>,
- <kevin.tian@intel.com>
-References: <20210326131850.149337-1-targupta@nvidia.com>
- <f9e5076b-ada5-88fc-c738-db51330e96b4@huawei.com>
-From: "Tarun Gupta (SW-GPU)" <targupta@nvidia.com>
-Message-ID: <420730cc-1fef-accf-ea92-612e0678924a@nvidia.com>
-Date: Thu, 1 Apr 2021 12:28:05 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lRrgW-000436-Ht
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:24:10 -0400
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:38868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lRrgS-0001ip-7p
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:24:08 -0400
+Received: by mail-oo1-xc32.google.com with SMTP id
+ n12-20020a4ad12c0000b02901b63e7bc1b4so334644oor.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 00:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o16T19NAMFwoQrpfUvQjEEY5h9zWKnF/QNFGeDVKZqA=;
+ b=zaA5DE4z/jazQL3hmS7l09akE8eikRJ8bbL3Dq92kHUhiNvREctWF1VtcuhnWzDWC/
+ KtUZSxwZO1MMZ9eGy7WmbxXfYQp+hxeIXfaWmgwtoys3KtpSJP/7SCntKrGITZuYBJX+
+ iOmrdQVCo81I/5xtz87k7K+sdNIpC7oUR1h6apJ3K2kNERMw10EbRReHfbdD0vNf4fhp
+ RY++Ns5IJyfp9sJoyydPcTpcW+hnQ+UmmU9pY3ji1n2qkDsPSqgjvkP5p3pSDE5ehWyL
+ CB4zKrnw5+JM32mj1k6HQ3DcijpitxIcxpSkw9SkQo6Qehf+I8xgKQBNzpqUT3db6XeI
+ sqtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o16T19NAMFwoQrpfUvQjEEY5h9zWKnF/QNFGeDVKZqA=;
+ b=k+wXM8mHQGsoVapAdj6h6eyrAGIRbbI8iehdyJGUApNBdE5KQi8RKXD8YQ1SxVwCbO
+ fI0/W52gXiMgxtGDuSHV5QyXMTV5I5esfDevUbkyDlX4AlYg6wngkKmf1ZvLQ2K2JTjK
+ ABipR6aYHbTKwxXtmkIO2T+EclxM51RuwFgoTBrTD6EK+DYGA0T6H8046YHYZ00aIDLh
+ Zo4SaY1D9A+glX803vBRh/0haqfynQDk/TAcbCFJxSLbQtJc3QEmvlJT9W8oCKFvE5Sk
+ uYbseAnkpxK6+so+Dy0KhDrvytZR92extrzJDULvrpXjT3OYwM4ota1+7Nq584x3OD41
+ MtRg==
+X-Gm-Message-State: AOAM531S7ACMnro6kG4qGD7L24cN5J8QdrgeXLQ/WhkmrAQP6uA0675h
+ sV1nxESqh87CkQPr7LJNJxG6zJs3lBnSdUSZOJwSzebSsJRzlgQd
+X-Google-Smtp-Source: ABdhPJzkhC1xJyobfRL+Iaj7JrmnNeYGwQFUznUlPb4Z8k2tsjh2t1T3zAkAZcSELOUvajU0a+BNuOoAcrawKF7CxbI=
+X-Received: by 2002:a4a:244d:: with SMTP id v13mr6025555oov.66.1617261842275; 
+ Thu, 01 Apr 2021 00:24:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f9e5076b-ada5-88fc-c738-db51330e96b4@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 413dd64d-7c9e-4cd4-704e-08d8f4db84da
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2955:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB2955AEB2470C9C4D6D055E82B87B9@DM6PR12MB2955.namprd12.prod.outlook.com>
-X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:883;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MNK/BvtRPnOKq9fNmGSzopRtVK+ybqE0Nr3xw87bJ5nZ269hIrqpFXpb9+GekSv3LiufqSj0prA+nG7oGK7Vzhb9hbqnhX6lP6mu7D8IZIo0GTTrE1YH+noIoK4CVGjyrtepCs1lWJE9i9eBuhQ/wM6gh/ywgEVxNjAkPhK4zsPNUenM8Bs1yiPaVw6iP4GgNjGnFx82Bwl+jsGHvbW7k6VHiHyK/ZuDwjXYcqFYNDfZqKbewvCsW0AuBUfGjVbwnL8VVmj037a8clLGzwh63uWrF+NSZPTaOVJnZuz9Mr5zETFW/+wo16/PUOreilm5lGOsjQrX1j0KbKCEXbD+eQ+UeJuaNzc3K+rUZ5APhFKz2HUI1jAi/ppfWviICpJwYpsAmqDNkV6YaVtXIRzxETF+cnjS6PFS9QGIV/if/IsefAL3VGz8xEJaxO+1UE5p3mZnAPxntmZzBZgjL86HJrVjtxbPmTX/EFXkUcuodOcU0QMulPKoVYa5VzgKGK9pdSfx67rSFOeh1QELI6ekMxlnAJpQPHz57wW5/zj/K6BiKs6S6ypL9XvL+JaAK3HnYzsOx8GhKgk7+UbY9JDBeP1geNxHr0KUKYqIonXwFvd+25Jzb3+pGIX71hFwxemM/PcCaTimYZd9gIgcc0mck3vwcCmUo6Pk2G+HUh91zKKLzS87ZB13TdfU1WuNzJD5
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(136003)(346002)(39860400002)(396003)(376002)(46966006)(36840700001)(7636003)(2616005)(16576012)(316002)(426003)(186003)(4326008)(83380400001)(53546011)(36756003)(7416002)(26005)(107886003)(82740400003)(86362001)(70586007)(8936002)(16526019)(82310400003)(110136005)(54906003)(356005)(2906002)(8676002)(478600001)(31686004)(47076005)(36860700001)(36906005)(31696002)(6666004)(336012)(70206006)(5660300002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 06:58:13.5489 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 413dd64d-7c9e-4cd4-704e-08d8f4db84da
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT043.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2955
-Received-SPF: softfail client-ip=40.107.94.78;
- envelope-from=targupta@nvidia.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210325153529.75831-1-andrew@daynix.com>
+ <161668791685.4923.12339857183621777474@72b6d80f974b>
+In-Reply-To: <161668791685.4923.12339857183621777474@72b6d80f974b>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Thu, 1 Apr 2021 10:22:37 +0300
+Message-ID: <CABcq3pECgKYk34_pSZHcyGJLYpcXXPXTE6er2dpSOgCj+4+qOQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] eBPF RSS support for virtio-net
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000009e31e205bee41d57"
+Received-SPF: none client-ip=2607:f8b0:4864:20::c32;
+ envelope-from=andrew@daynix.com; helo=mail-oo1-xc32.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,223 +76,1138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan.y.zhao@intel.com, quintela@redhat.com, berrange@redhat.com,
- dgilbert@redhat.com, dnigam@nvidia.com, cjia@nvidia.com, philmd@redhat.com
+Cc: Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Jason Wang <jasowang@redhat.com>, berrange@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000009e31e205bee41d57
+Content-Type: text/plain; charset="UTF-8"
 
+The skeleton is generated file. Style issues with rss.bpf.c would be fixed
+in upcoming patches.
 
-On 3/27/2021 11:34 AM, Shenming Lu wrote:
-> On 2021/3/26 21:18, Tarun Gupta wrote:
->> Document interfaces used for VFIO device migration. Added flow of state changes
->> during live migration with VFIO device. Tested by building docs with the new
->> vfio-migration.rst file.
->>
->> v3:
->> - Add introductory line about VM migration in general.
->> - Remove occurcences of vfio_pin_pages() to describe pinning.
->> - Incorporated comments from v2
->>
->> v2:
->> - Included the new vfio-migration.rst file in index.rst
->> - Updated dirty page tracking section, also added details about
->>    'pre-copy-dirty-page-tracking' opt-out option.
->> - Incorporated comments around wording of doc.
->>
->> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
->> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->> ---
->>   MAINTAINERS                   |   1 +
->>   docs/devel/index.rst          |   1 +
->>   docs/devel/vfio-migration.rst | 143 ++++++++++++++++++++++++++++++++++
->>   3 files changed, 145 insertions(+)
->>   create mode 100644 docs/devel/vfio-migration.rst
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 738786146d..a2a80eee59 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1801,6 +1801,7 @@ M: Alex Williamson <alex.williamson@redhat.com>
->>   S: Supported
->>   F: hw/vfio/*
->>   F: include/hw/vfio/
->> +F: docs/devel/vfio-migration.rst
->>
->>   vfio-ccw
->>   M: Cornelia Huck <cohuck@redhat.com>
->> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
->> index ae664da00c..5330f1ca1d 100644
->> --- a/docs/devel/index.rst
->> +++ b/docs/devel/index.rst
->> @@ -39,3 +39,4 @@ Contents:
->>      qom
->>      block-coroutine-wrapper
->>      multi-process
->> +   vfio-migration
->> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
->> new file mode 100644
->> index 0000000000..24cb55991a
->> --- /dev/null
->> +++ b/docs/devel/vfio-migration.rst
->> @@ -0,0 +1,143 @@
->> +=====================
->> +VFIO device Migration
->> +=====================
->> +
->> +Migration of virtual machine involves saving the state for each device that
->> +the guest is running on source host and restoring this saved state on the
->> +destination host. This document details how saving and restoring of VFIO
->> +devices is done in QEMU.
->> +
->> +Migration of VFIO devices consists of two phases: the optional pre-copy phase,
->> +and the stop-and-copy phase. The pre-copy phase is iterative and allows to
->> +accommodate VFIO devices that have a large amount of data that needs to be
->> +transferred. The iterative pre-copy phase of migration allows for the guest to
->> +continue whilst the VFIO device state is transferred to the destination, this
->> +helps to reduce the total downtime of the VM. VFIO devices can choose to skip
->> +the pre-copy phase of migration by returning pending_bytes as zero during the
->> +pre-copy phase.
->> +
->> +A detailed description of the UAPI for VFIO device migration can be found in
->> +the comment for the ``vfio_device_migration_info`` structure in the header
->> +file linux-headers/linux/vfio.h.
->> +
->> +VFIO device hooks for iterative approach:
->> +
->> +* A ``save_setup`` function that sets up the migration region, sets _SAVING
->> +  flag in the VFIO device state and informs the VFIO IOMMU module to start
->> +  dirty page tracking.
->> +
->> +* A ``load_setup`` function that sets up the migration region on the
->> +  destination and sets _RESUMING flag in the VFIO device state.
->> +
->> +* A ``save_live_pending`` function that reads pending_bytes from the vendor
->> +  driver, which indicates the amount of data that the vendor driver has yet to
->> +  save for the VFIO device.
->> +
->> +* A ``save_live_iterate`` function that reads the VFIO device's data from the
->> +  vendor driver through the migration region during iterative phase.
->> +
->> +* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
->> +  VFIO device state, saves the device config space, if any, and iteratively
->> +  copies the remaining data for the VFIO device until the vendor driver
->> +  indicates that no data remains (pending bytes is zero).
-> 
-> Hi Tarun,
-> 
-> We have moved the saving of the config space to the ``save_state`` function
-> added in commit d329f5032e1, do we need to add this change here? :-)
-> 
+On Thu, Mar 25, 2021 at 5:58 PM <no-reply@patchew.org> wrote:
 
-Thanks Shenming, I'll update it accordingly in the next version.
+> Patchew URL:
+> https://patchew.org/QEMU/20210325153529.75831-1-andrew@daynix.com/
+>
+>
+>
+> Hi,
+>
+> This series seems to have some coding style problems. See output below for
+> more information:
+>
+> Type: series
+> Message-id: 20210325153529.75831-1-andrew@daynix.com
+> Subject: [PATCH v5 0/7] eBPF RSS support for virtio-net
+>
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+>
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> Switched to a new branch 'test'
+> ad293ca MAINTAINERS: Added eBPF maintainers information.
+> 57b0f9a docs: Added eBPF documentation.
+> 043dbde virtio-net: Added eBPF RSS to virtio-net.
+> aa652c0 ebpf: Added eBPF RSS loader.
+> 9f24275 ebpf: Added eBPF RSS program.
+> 6a33681 net: Added SetSteeringEBPF method for NetClientState.
+> ad82041 net/tap: Added TUNSETSTEERINGEBPF code.
+>
+> === OUTPUT BEGIN ===
+> 1/7 Checking commit ad820417b22d (net/tap: Added TUNSETSTEERINGEBPF code.)
+> 2/7 Checking commit 6a33681ca4bf (net: Added SetSteeringEBPF method for
+> NetClientState.)
+> 3/7 Checking commit 9f24275a1eef (ebpf: Added eBPF RSS program.)
+> Use of uninitialized value $acpi_testexpected in string eq at ./scripts/
+> checkpatch.pl line 1529.
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #22:
+> new file mode 100755
+>
+> WARNING: line over 80 characters
+> #210: FILE: tools/ebpf/rss.bpf.c:156:
+> + * According to
+> https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml
+>
+> WARNING: line over 80 characters
+> #213: FILE: tools/ebpf/rss.bpf.c:159:
+> + * Need to choose reasonable amount of maximum extensions/options we may
+> check to find
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #235: FILE: tools/ebpf/rss.bpf.c:181:
+> +        if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #243: FILE: tools/ebpf/rss.bpf.c:189:
+> +            if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #254: FILE: tools/ebpf/rss.bpf.c:200:
+> +                if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #271: FILE: tools/ebpf/rss.bpf.c:217:
+> +                if (err)
+> [...]
+>
+> WARNING: line over 80 characters
+> #283: FILE: tools/ebpf/rss.bpf.c:229:
+> +                        *l4_offset + opt_offset + offsetof(struct
+> ipv6_destopt_hao, addr),
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #286: FILE: tools/ebpf/rss.bpf.c:232:
+> +                    if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #316: FILE: tools/ebpf/rss.bpf.c:262:
+> +    if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #330: FILE: tools/ebpf/rss.bpf.c:276:
+> +    if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #359: FILE: tools/ebpf/rss.bpf.c:305:
+> +        if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #373: FILE: tools/ebpf/rss.bpf.c:319:
+> +        if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #383: FILE: tools/ebpf/rss.bpf.c:329:
+> +        if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #394: FILE: tools/ebpf/rss.bpf.c:340:
+> +            if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #405: FILE: tools/ebpf/rss.bpf.c:351:
+> +            if (err)
+> [...]
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #429: FILE: tools/ebpf/rss.bpf.c:375:
+> +    if (err)
+> [...]
+>
+> total: 13 errors, 4 warnings, 574 lines checked
+>
+> Patch 3/7 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+>
+> 4/7 Checking commit aa652c04e4a0 (ebpf: Added eBPF RSS loader.)
+> Use of uninitialized value $acpi_testexpected in string eq at ./scripts/
+> checkpatch.pl line 1529.
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #71:
+> new file mode 100644
+>
+> WARNING: architecture specific defines should be avoided
+> #353: FILE: ebpf/rss.bpf.skeleton.h:4:
+> +#ifndef __RSS_BPF_SKEL_H__
+>
+> ERROR: code indent should never use tabs
+> #360: FILE: ebpf/rss.bpf.skeleton.h:11:
+> +^Istruct bpf_object_skeleton *skeleton;$
+>
+> ERROR: code indent should never use tabs
+> #361: FILE: ebpf/rss.bpf.skeleton.h:12:
+> +^Istruct bpf_object *obj;$
+>
+> ERROR: code indent should never use tabs
+> #362: FILE: ebpf/rss.bpf.skeleton.h:13:
+> +^Istruct {$
+>
+> ERROR: code indent should never use tabs
+> #363: FILE: ebpf/rss.bpf.skeleton.h:14:
+> +^I^Istruct bpf_map *tap_rss_map_configurations;$
+>
+> ERROR: code indent should never use tabs
+> #364: FILE: ebpf/rss.bpf.skeleton.h:15:
+> +^I^Istruct bpf_map *tap_rss_map_indirection_table;$
+>
+> ERROR: code indent should never use tabs
+> #365: FILE: ebpf/rss.bpf.skeleton.h:16:
+> +^I^Istruct bpf_map *tap_rss_map_toeplitz_key;$
+>
+> ERROR: code indent should never use tabs
+> #366: FILE: ebpf/rss.bpf.skeleton.h:17:
+> +^I} maps;$
+>
+> ERROR: code indent should never use tabs
+> #367: FILE: ebpf/rss.bpf.skeleton.h:18:
+> +^Istruct {$
+>
+> ERROR: code indent should never use tabs
+> #368: FILE: ebpf/rss.bpf.skeleton.h:19:
+> +^I^Istruct bpf_program *tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #369: FILE: ebpf/rss.bpf.skeleton.h:20:
+> +^I} progs;$
+>
+> ERROR: code indent should never use tabs
+> #370: FILE: ebpf/rss.bpf.skeleton.h:21:
+> +^Istruct {$
+>
+> ERROR: code indent should never use tabs
+> #371: FILE: ebpf/rss.bpf.skeleton.h:22:
+> +^I^Istruct bpf_link *tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #372: FILE: ebpf/rss.bpf.skeleton.h:23:
+> +^I} links;$
+>
+> ERROR: code indent should never use tabs
+> #378: FILE: ebpf/rss.bpf.skeleton.h:29:
+> +^Iif (!obj)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #378: FILE: ebpf/rss.bpf.skeleton.h:29:
+> +       if (!obj)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #379: FILE: ebpf/rss.bpf.skeleton.h:30:
+> +^I^Ireturn;$
+>
+> ERROR: code indent should never use tabs
+> #380: FILE: ebpf/rss.bpf.skeleton.h:31:
+> +^Iif (obj->skeleton)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #380: FILE: ebpf/rss.bpf.skeleton.h:31:
+> +       if (obj->skeleton)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #381: FILE: ebpf/rss.bpf.skeleton.h:32:
+> +^I^Ibpf_object__destroy_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #382: FILE: ebpf/rss.bpf.skeleton.h:33:
+> +^Ifree(obj);$
+>
+> ERROR: code indent should never use tabs
+> #391: FILE: ebpf/rss.bpf.skeleton.h:42:
+> +^Istruct rss_bpf *obj;$
+>
+> ERROR: code indent should never use tabs
+> #393: FILE: ebpf/rss.bpf.skeleton.h:44:
+> +^Iobj = (struct rss_bpf *)calloc(1, sizeof(*obj));$
+>
+> ERROR: code indent should never use tabs
+> #394: FILE: ebpf/rss.bpf.skeleton.h:45:
+> +^Iif (!obj)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #394: FILE: ebpf/rss.bpf.skeleton.h:45:
+> +       if (!obj)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #395: FILE: ebpf/rss.bpf.skeleton.h:46:
+> +^I^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #396: FILE: ebpf/rss.bpf.skeleton.h:47:
+> +^Iif (rss_bpf__create_skeleton(obj))$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #396: FILE: ebpf/rss.bpf.skeleton.h:47:
+> +       if (rss_bpf__create_skeleton(obj))
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #397: FILE: ebpf/rss.bpf.skeleton.h:48:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #398: FILE: ebpf/rss.bpf.skeleton.h:49:
+> +^Iif (bpf_object__open_skeleton(obj->skeleton, opts))$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #398: FILE: ebpf/rss.bpf.skeleton.h:49:
+> +       if (bpf_object__open_skeleton(obj->skeleton, opts))
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #399: FILE: ebpf/rss.bpf.skeleton.h:50:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #401: FILE: ebpf/rss.bpf.skeleton.h:52:
+> +^Ireturn obj;$
+>
+> ERROR: code indent should never use tabs
+> #403: FILE: ebpf/rss.bpf.skeleton.h:54:
+> +^Irss_bpf__destroy(obj);$
+>
+> ERROR: code indent should never use tabs
+> #404: FILE: ebpf/rss.bpf.skeleton.h:55:
+> +^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #410: FILE: ebpf/rss.bpf.skeleton.h:61:
+> +^Ireturn rss_bpf__open_opts(NULL);$
+>
+> ERROR: code indent should never use tabs
+> #416: FILE: ebpf/rss.bpf.skeleton.h:67:
+> +^Ireturn bpf_object__load_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #422: FILE: ebpf/rss.bpf.skeleton.h:73:
+> +^Istruct rss_bpf *obj;$
+>
+> ERROR: code indent should never use tabs
+> #424: FILE: ebpf/rss.bpf.skeleton.h:75:
+> +^Iobj = rss_bpf__open();$
+>
+> ERROR: code indent should never use tabs
+> #425: FILE: ebpf/rss.bpf.skeleton.h:76:
+> +^Iif (!obj)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #425: FILE: ebpf/rss.bpf.skeleton.h:76:
+> +       if (!obj)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #426: FILE: ebpf/rss.bpf.skeleton.h:77:
+> +^I^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #427: FILE: ebpf/rss.bpf.skeleton.h:78:
+> +^Iif (rss_bpf__load(obj)) {$
+>
+> ERROR: code indent should never use tabs
+> #428: FILE: ebpf/rss.bpf.skeleton.h:79:
+> +^I^Irss_bpf__destroy(obj);$
+>
+> ERROR: code indent should never use tabs
+> #429: FILE: ebpf/rss.bpf.skeleton.h:80:
+> +^I^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #430: FILE: ebpf/rss.bpf.skeleton.h:81:
+> +^I}$
+>
+> ERROR: code indent should never use tabs
+> #431: FILE: ebpf/rss.bpf.skeleton.h:82:
+> +^Ireturn obj;$
+>
+> ERROR: code indent should never use tabs
+> #437: FILE: ebpf/rss.bpf.skeleton.h:88:
+> +^Ireturn bpf_object__attach_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #443: FILE: ebpf/rss.bpf.skeleton.h:94:
+> +^Ireturn bpf_object__detach_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #449: FILE: ebpf/rss.bpf.skeleton.h:100:
+> +^Istruct bpf_object_skeleton *s;$
+>
+> ERROR: code indent should never use tabs
+> #451: FILE: ebpf/rss.bpf.skeleton.h:102:
+> +^Is = (struct bpf_object_skeleton *)calloc(1, sizeof(*s));$
+>
+> ERROR: code indent should never use tabs
+> #452: FILE: ebpf/rss.bpf.skeleton.h:103:
+> +^Iif (!s)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #452: FILE: ebpf/rss.bpf.skeleton.h:103:
+> +       if (!s)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #453: FILE: ebpf/rss.bpf.skeleton.h:104:
+> +^I^Ireturn -1;$
+>
+> ERROR: code indent should never use tabs
+> #454: FILE: ebpf/rss.bpf.skeleton.h:105:
+> +^Iobj->skeleton = s;$
+>
+> ERROR: code indent should never use tabs
+> #456: FILE: ebpf/rss.bpf.skeleton.h:107:
+> +^Is->sz = sizeof(*s);$
+>
+> ERROR: code indent should never use tabs
+> #457: FILE: ebpf/rss.bpf.skeleton.h:108:
+> +^Is->name = "rss_bpf";$
+>
+> ERROR: code indent should never use tabs
+> #458: FILE: ebpf/rss.bpf.skeleton.h:109:
+> +^Is->obj = &obj->obj;$
+>
+> ERROR: code indent should never use tabs
+> #460: FILE: ebpf/rss.bpf.skeleton.h:111:
+> +^I/* maps */$
+>
+> ERROR: code indent should never use tabs
+> #461: FILE: ebpf/rss.bpf.skeleton.h:112:
+> +^Is->map_cnt = 3;$
+>
+> ERROR: code indent should never use tabs
+> #462: FILE: ebpf/rss.bpf.skeleton.h:113:
+> +^Is->map_skel_sz = sizeof(*s->maps);$
+>
+> ERROR: code indent should never use tabs
+> #463: FILE: ebpf/rss.bpf.skeleton.h:114:
+> +^Is->maps = (struct bpf_map_skeleton *)calloc(s->map_cnt,
+> s->map_skel_sz);$
+>
+> ERROR: code indent should never use tabs
+> #464: FILE: ebpf/rss.bpf.skeleton.h:115:
+> +^Iif (!s->maps)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #464: FILE: ebpf/rss.bpf.skeleton.h:115:
+> +       if (!s->maps)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #465: FILE: ebpf/rss.bpf.skeleton.h:116:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #467: FILE: ebpf/rss.bpf.skeleton.h:118:
+> +^Is->maps[0].name = "tap_rss_map_configurations";$
+>
+> ERROR: code indent should never use tabs
+> #468: FILE: ebpf/rss.bpf.skeleton.h:119:
+> +^Is->maps[0].map = &obj->maps.tap_rss_map_configurations;$
+>
+> ERROR: code indent should never use tabs
+> #470: FILE: ebpf/rss.bpf.skeleton.h:121:
+> +^Is->maps[1].name = "tap_rss_map_indirection_table";$
+>
+> ERROR: code indent should never use tabs
+> #471: FILE: ebpf/rss.bpf.skeleton.h:122:
+> +^Is->maps[1].map = &obj->maps.tap_rss_map_indirection_table;$
+>
+> ERROR: code indent should never use tabs
+> #473: FILE: ebpf/rss.bpf.skeleton.h:124:
+> +^Is->maps[2].name = "tap_rss_map_toeplitz_key";$
+>
+> ERROR: code indent should never use tabs
+> #474: FILE: ebpf/rss.bpf.skeleton.h:125:
+> +^Is->maps[2].map = &obj->maps.tap_rss_map_toeplitz_key;$
+>
+> ERROR: code indent should never use tabs
+> #476: FILE: ebpf/rss.bpf.skeleton.h:127:
+> +^I/* programs */$
+>
+> ERROR: code indent should never use tabs
+> #477: FILE: ebpf/rss.bpf.skeleton.h:128:
+> +^Is->prog_cnt = 1;$
+>
+> ERROR: code indent should never use tabs
+> #478: FILE: ebpf/rss.bpf.skeleton.h:129:
+> +^Is->prog_skel_sz = sizeof(*s->progs);$
+>
+> WARNING: line over 80 characters
+> #479: FILE: ebpf/rss.bpf.skeleton.h:130:
+> +       s->progs = (struct bpf_prog_skeleton *)calloc(s->prog_cnt,
+> s->prog_skel_sz);
+>
+> ERROR: code indent should never use tabs
+> #479: FILE: ebpf/rss.bpf.skeleton.h:130:
+> +^Is->progs = (struct bpf_prog_skeleton *)calloc(s->prog_cnt,
+> s->prog_skel_sz);$
+>
+> ERROR: code indent should never use tabs
+> #480: FILE: ebpf/rss.bpf.skeleton.h:131:
+> +^Iif (!s->progs)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #480: FILE: ebpf/rss.bpf.skeleton.h:131:
+> +       if (!s->progs)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #481: FILE: ebpf/rss.bpf.skeleton.h:132:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #483: FILE: ebpf/rss.bpf.skeleton.h:134:
+> +^Is->progs[0].name = "tun_rss_steering_prog";$
+>
+> ERROR: code indent should never use tabs
+> #484: FILE: ebpf/rss.bpf.skeleton.h:135:
+> +^Is->progs[0].prog = &obj->progs.tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #485: FILE: ebpf/rss.bpf.skeleton.h:136:
+> +^Is->progs[0].link = &obj->links.tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #487: FILE: ebpf/rss.bpf.skeleton.h:138:
+> +^Is->data_sz = 7864;$
+>
+> ERROR: code indent should never use tabs
+> #488: FILE: ebpf/rss.bpf.skeleton.h:139:
+> +^Is->data = (void *)"\$
+>
+> ERROR: code indent should never use tabs
+> #766: FILE: ebpf/rss.bpf.skeleton.h:417:
+> +^Ireturn 0;$
+>
+> ERROR: code indent should never use tabs
+> #768: FILE: ebpf/rss.bpf.skeleton.h:419:
+> +^Ibpf_object__destroy_skeleton(s);$
+>
+> ERROR: code indent should never use tabs
+> #769: FILE: ebpf/rss.bpf.skeleton.h:420:
+> +^Ireturn -1;$
+>
+> total: 85 errors, 3 warnings, 758 lines checked
+>
+> Patch 4/7 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+>
+> 5/7 Checking commit 043dbde56379 (virtio-net: Added eBPF RSS to
+> virtio-net.)
+> WARNING: line over 80 characters
+> #185: FILE: hw/net/virtio-net.c:2868:
+> +                    warn_report("Can't post-load eBPF RSS - fallback to
+> software RSS");
+>
+> total: 0 errors, 1 warnings, 214 lines checked
+>
+> Patch 5/7 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 6/7 Checking commit 57b0f9a94036 (docs: Added eBPF documentation.)
+> Use of uninitialized value $acpi_testexpected in string eq at ./scripts/
+> checkpatch.pl line 1529.
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #16:
+> new file mode 100644
+>
+> total: 0 errors, 1 warnings, 129 lines checked
+>
+> Patch 6/7 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 7/7 Checking commit ad293ca1c684 (MAINTAINERS: Added eBPF maintainers
+> information.)
+> === OUTPUT END ===
+>
+> Test command exited with code: 1
+>
+>
+> The full log is available at
+>
+> http://patchew.org/logs/20210325153529.75831-1-andrew@daynix.com/testing.checkpatch/?type=message
+> .
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
-Thanks,
-Tarun
+--0000000000009e31e205bee41d57
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Thanks,
-> Shenming
-> 
->> +
->> +* A ``load_state`` function that loads the config section and the data
->> +  sections that are generated by the save functions above
->> +
->> +* ``cleanup`` functions for both save and load that perform any migration
->> +  related cleanup, including unmapping the migration region
->> +
->> +A VM state change handler is registered to change the VFIO device state when
->> +the VM state changes.
->> +
->> +Similarly, a migration state change notifier is registered to get a
->> +notification on migration state change. These states are translated to the
->> +corresponding VFIO device state and conveyed to the vendor driver.
->> +
->> +System memory dirty pages tracking
->> +----------------------------------
->> +
->> +A ``log_sync`` memory listener callback marks those system memory pages
->> +as dirty which are used for DMA by the VFIO device. The dirty pages bitmap is
->> +queried per container. All pages pinned by the vendor driver through external
->> +APIs have to be marked as dirty during migration. When there are CPU writes,
->> +CPU dirty page tracking can identify dirtied pages, but any page pinned by the
->> +vendor driver can also be written by device. There is currently no device or
->> +IOMMU support for dirty page tracking in hardware.
->> +
->> +By default, dirty pages are tracked when the device is in pre-copy as well as
->> +stop-and-copy phase. So, a page pinned by vendor driver will be copied to
->> +destination in both the phases. Copying dirty pages in pre-copy phase helps
->> +QEMU to predict if it can achieve its downtime tolerances. If QEMU during
->> +pre-copy phase keeps finding dirty pages continuously, then it understands
->> +that even in stop-and-copy phase, it is likely to find dirty pages and can
->> +predict the downtime accordingly
->> +
->> +QEMU also provides per device opt-out option ``pre-copy-dirty-page-tracking``
->> +which disables querying dirty bitmap during pre-copy phase. If it is set to
->> +off, all dirty pages will be copied to destination in stop-and-copy phase only
->> +
->> +System memory dirty pages tracking when vIOMMU is enabled
->> +---------------------------------------------------------
->> +
->> +With vIOMMU, an IO virtual address range can get unmapped while in pre-copy
->> +phase of migration. In that case, the unmap ioctl returns any dirty pages in
->> +that range and QEMU reports corresponding guest physical pages dirty. During
->> +stop-and-copy phase, an IOMMU notifier is used to get a callback for mapped
->> +pages and then dirty pages bitmap is fetched from VFIO IOMMU modules for those
->> +mapped ranges.
->> +
->> +Flow of state changes during Live migration
->> +===========================================
->> +
->> +Below is the flow of state change during live migration.
->> +The values in the brackets represent the VM state, the migration state, and
->> +the VFIO device state, respectively.
->> +
->> +Live migration save path
->> +------------------------
->> +
->> +::
->> +
->> +                        QEMU normal running state
->> +                        (RUNNING, _NONE, _RUNNING)
->> +                                  |
->> +                     migrate_init spawns migration_thread
->> +                Migration thread then calls each device's .save_setup()
->> +                    (RUNNING, _SETUP, _RUNNING|_SAVING)
->> +                                  |
->> +                    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
->> +             If device is active, get pending_bytes by .save_live_pending()
->> +          If total pending_bytes >= threshold_size, call .save_live_iterate()
->> +                  Data of VFIO device for pre-copy phase is copied
->> +        Iterate till total pending bytes converge and are less than threshold
->> +                                  |
->> +  On migration completion, vCPU stops and calls .save_live_complete_precopy for
->> +   each active device. The VFIO device is then transitioned into _SAVING state
->> +                   (FINISH_MIGRATE, _DEVICE, _SAVING)
->> +                                  |
->> +     For the VFIO device, iterate in .save_live_complete_precopy until
->> +                         pending data is 0
->> +                   (FINISH_MIGRATE, _DEVICE, _STOPPED)
->> +                                  |
->> +                 (FINISH_MIGRATE, _COMPLETED, _STOPPED)
->> +             Migraton thread schedules cleanup bottom half and exits
->> +
->> +Live migration resume path
->> +--------------------------
->> +
->> +::
->> +
->> +              Incoming migration calls .load_setup for each device
->> +                       (RESTORE_VM, _ACTIVE, _STOPPED)
->> +                                 |
->> +       For each device, .load_state is called for that device section data
->> +                       (RESTORE_VM, _ACTIVE, _RESUMING)
->> +                                 |
->> +    At the end, .load_cleanup is called for each device and vCPUs are started
->> +                       (RUNNING, _NONE, _RUNNING)
->> +
->> +Postcopy
->> +========
->> +
->> +Postcopy migration is currently not supported for VFIO devices.
->>
+<div dir=3D"ltr">The skeleton is generated file. Style issues with rss.bpf.=
+c would be fixed in upcoming patches.</div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 25, 2021 at 5:58 PM &lt;<a=
+ href=3D"mailto:no-reply@patchew.org">no-reply@patchew.org</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">Patchew URL: <a h=
+ref=3D"https://patchew.org/QEMU/20210325153529.75831-1-andrew@daynix.com/" =
+rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/2021032515352=
+9.75831-1-andrew@daynix.com/</a><br>
+<br>
+<br>
+<br>
+Hi,<br>
+<br>
+This series seems to have some coding style problems. See output below for<=
+br>
+more information:<br>
+<br>
+Type: series<br>
+Message-id: <a href=3D"mailto:20210325153529.75831-1-andrew@daynix.com" tar=
+get=3D"_blank">20210325153529.75831-1-andrew@daynix.com</a><br>
+Subject: [PATCH v5 0/7] eBPF RSS support for virtio-net<br>
+<br>
+=3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D<br>
+#!/bin/bash<br>
+git rev-parse base &gt; /dev/null || exit 0<br>
+git config --local diff.renamelimit 0<br>
+git config --local diff.renames True<br>
+git config --local diff.algorithm histogram<br>
+./scripts/<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_bl=
+ank">checkpatch.pl</a> --mailback base..<br>
+=3D=3D=3D TEST SCRIPT END =3D=3D=3D<br>
+<br>
+Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384<br>
+Switched to a new branch &#39;test&#39;<br>
+ad293ca MAINTAINERS: Added eBPF maintainers information.<br>
+57b0f9a docs: Added eBPF documentation.<br>
+043dbde virtio-net: Added eBPF RSS to virtio-net.<br>
+aa652c0 ebpf: Added eBPF RSS loader.<br>
+9f24275 ebpf: Added eBPF RSS program.<br>
+6a33681 net: Added SetSteeringEBPF method for NetClientState.<br>
+ad82041 net/tap: Added TUNSETSTEERINGEBPF code.<br>
+<br>
+=3D=3D=3D OUTPUT BEGIN =3D=3D=3D<br>
+1/7 Checking commit ad820417b22d (net/tap: Added TUNSETSTEERINGEBPF code.)<=
+br>
+2/7 Checking commit 6a33681ca4bf (net: Added SetSteeringEBPF method for Net=
+ClientState.)<br>
+3/7 Checking commit 9f24275a1eef (ebpf: Added eBPF RSS program.)<br>
+Use of uninitialized value $acpi_testexpected in string eq at ./scripts/<a =
+href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpat=
+ch.pl</a> line 1529.<br>
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?<b=
+r>
+#22: <br>
+new file mode 100755<br>
+<br>
+WARNING: line over 80 characters<br>
+#210: FILE: tools/ebpf/rss.bpf.c:156:<br>
++ * According to <a href=3D"https://www.iana.org/assignments/ipv6-parameter=
+s/ipv6-parameters.xhtml" rel=3D"noreferrer" target=3D"_blank">https://www.i=
+ana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml</a><br>
+<br>
+WARNING: line over 80 characters<br>
+#213: FILE: tools/ebpf/rss.bpf.c:159:<br>
++ * Need to choose reasonable amount of maximum extensions/options we may c=
+heck to find<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#235: FILE: tools/ebpf/rss.bpf.c:181:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#243: FILE: tools/ebpf/rss.bpf.c:189:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#254: FILE: tools/ebpf/rss.bpf.c:200:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#271: FILE: tools/ebpf/rss.bpf.c:217:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+WARNING: line over 80 characters<br>
+#283: FILE: tools/ebpf/rss.bpf.c:229:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 *l4_offset + opt_offset + offsetof(struct ipv6_destopt_hao, addr=
+),<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#286: FILE: tools/ebpf/rss.bpf.c:232:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#316: FILE: tools/ebpf/rss.bpf.c:262:<br>
++=C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#330: FILE: tools/ebpf/rss.bpf.c:276:<br>
++=C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#359: FILE: tools/ebpf/rss.bpf.c:305:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#373: FILE: tools/ebpf/rss.bpf.c:319:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#383: FILE: tools/ebpf/rss.bpf.c:329:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#394: FILE: tools/ebpf/rss.bpf.c:340:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#405: FILE: tools/ebpf/rss.bpf.c:351:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#429: FILE: tools/ebpf/rss.bpf.c:375:<br>
++=C2=A0 =C2=A0 if (err)<br>
+[...]<br>
+<br>
+total: 13 errors, 4 warnings, 574 lines checked<br>
+<br>
+Patch 3/7 has style problems, please review.=C2=A0 If any of these errors<b=
+r>
+are false positives report them to the maintainer, see<br>
+CHECKPATCH in MAINTAINERS.<br>
+<br>
+4/7 Checking commit aa652c04e4a0 (ebpf: Added eBPF RSS loader.)<br>
+Use of uninitialized value $acpi_testexpected in string eq at ./scripts/<a =
+href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpat=
+ch.pl</a> line 1529.<br>
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?<b=
+r>
+#71: <br>
+new file mode 100644<br>
+<br>
+WARNING: architecture specific defines should be avoided<br>
+#353: FILE: ebpf/rss.bpf.skeleton.h:4:<br>
++#ifndef __RSS_BPF_SKEL_H__<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#360: FILE: ebpf/rss.bpf.skeleton.h:11:<br>
++^Istruct bpf_object_skeleton *skeleton;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#361: FILE: ebpf/rss.bpf.skeleton.h:12:<br>
++^Istruct bpf_object *obj;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#362: FILE: ebpf/rss.bpf.skeleton.h:13:<br>
++^Istruct {$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#363: FILE: ebpf/rss.bpf.skeleton.h:14:<br>
++^I^Istruct bpf_map *tap_rss_map_configurations;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#364: FILE: ebpf/rss.bpf.skeleton.h:15:<br>
++^I^Istruct bpf_map *tap_rss_map_indirection_table;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#365: FILE: ebpf/rss.bpf.skeleton.h:16:<br>
++^I^Istruct bpf_map *tap_rss_map_toeplitz_key;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#366: FILE: ebpf/rss.bpf.skeleton.h:17:<br>
++^I} maps;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#367: FILE: ebpf/rss.bpf.skeleton.h:18:<br>
++^Istruct {$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#368: FILE: ebpf/rss.bpf.skeleton.h:19:<br>
++^I^Istruct bpf_program *tun_rss_steering_prog;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#369: FILE: ebpf/rss.bpf.skeleton.h:20:<br>
++^I} progs;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#370: FILE: ebpf/rss.bpf.skeleton.h:21:<br>
++^Istruct {$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#371: FILE: ebpf/rss.bpf.skeleton.h:22:<br>
++^I^Istruct bpf_link *tun_rss_steering_prog;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#372: FILE: ebpf/rss.bpf.skeleton.h:23:<br>
++^I} links;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#378: FILE: ebpf/rss.bpf.skeleton.h:29:<br>
++^Iif (!obj)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#378: FILE: ebpf/rss.bpf.skeleton.h:29:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!obj)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#379: FILE: ebpf/rss.bpf.skeleton.h:30:<br>
++^I^Ireturn;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#380: FILE: ebpf/rss.bpf.skeleton.h:31:<br>
++^Iif (obj-&gt;skeleton)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#380: FILE: ebpf/rss.bpf.skeleton.h:31:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (obj-&gt;skeleton)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#381: FILE: ebpf/rss.bpf.skeleton.h:32:<br>
++^I^Ibpf_object__destroy_skeleton(obj-&gt;skeleton);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#382: FILE: ebpf/rss.bpf.skeleton.h:33:<br>
++^Ifree(obj);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#391: FILE: ebpf/rss.bpf.skeleton.h:42:<br>
++^Istruct rss_bpf *obj;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#393: FILE: ebpf/rss.bpf.skeleton.h:44:<br>
++^Iobj =3D (struct rss_bpf *)calloc(1, sizeof(*obj));$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#394: FILE: ebpf/rss.bpf.skeleton.h:45:<br>
++^Iif (!obj)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#394: FILE: ebpf/rss.bpf.skeleton.h:45:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!obj)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#395: FILE: ebpf/rss.bpf.skeleton.h:46:<br>
++^I^Ireturn NULL;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#396: FILE: ebpf/rss.bpf.skeleton.h:47:<br>
++^Iif (rss_bpf__create_skeleton(obj))$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#396: FILE: ebpf/rss.bpf.skeleton.h:47:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (rss_bpf__create_skeleton(obj))<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#397: FILE: ebpf/rss.bpf.skeleton.h:48:<br>
++^I^Igoto err;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#398: FILE: ebpf/rss.bpf.skeleton.h:49:<br>
++^Iif (bpf_object__open_skeleton(obj-&gt;skeleton, opts))$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#398: FILE: ebpf/rss.bpf.skeleton.h:49:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (bpf_object__open_skeleton(obj-&gt;skeleton,=
+ opts))<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#399: FILE: ebpf/rss.bpf.skeleton.h:50:<br>
++^I^Igoto err;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#401: FILE: ebpf/rss.bpf.skeleton.h:52:<br>
++^Ireturn obj;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#403: FILE: ebpf/rss.bpf.skeleton.h:54:<br>
++^Irss_bpf__destroy(obj);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#404: FILE: ebpf/rss.bpf.skeleton.h:55:<br>
++^Ireturn NULL;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#410: FILE: ebpf/rss.bpf.skeleton.h:61:<br>
++^Ireturn rss_bpf__open_opts(NULL);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#416: FILE: ebpf/rss.bpf.skeleton.h:67:<br>
++^Ireturn bpf_object__load_skeleton(obj-&gt;skeleton);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#422: FILE: ebpf/rss.bpf.skeleton.h:73:<br>
++^Istruct rss_bpf *obj;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#424: FILE: ebpf/rss.bpf.skeleton.h:75:<br>
++^Iobj =3D rss_bpf__open();$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#425: FILE: ebpf/rss.bpf.skeleton.h:76:<br>
++^Iif (!obj)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#425: FILE: ebpf/rss.bpf.skeleton.h:76:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!obj)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#426: FILE: ebpf/rss.bpf.skeleton.h:77:<br>
++^I^Ireturn NULL;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#427: FILE: ebpf/rss.bpf.skeleton.h:78:<br>
++^Iif (rss_bpf__load(obj)) {$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#428: FILE: ebpf/rss.bpf.skeleton.h:79:<br>
++^I^Irss_bpf__destroy(obj);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#429: FILE: ebpf/rss.bpf.skeleton.h:80:<br>
++^I^Ireturn NULL;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#430: FILE: ebpf/rss.bpf.skeleton.h:81:<br>
++^I}$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#431: FILE: ebpf/rss.bpf.skeleton.h:82:<br>
++^Ireturn obj;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#437: FILE: ebpf/rss.bpf.skeleton.h:88:<br>
++^Ireturn bpf_object__attach_skeleton(obj-&gt;skeleton);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#443: FILE: ebpf/rss.bpf.skeleton.h:94:<br>
++^Ireturn bpf_object__detach_skeleton(obj-&gt;skeleton);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#449: FILE: ebpf/rss.bpf.skeleton.h:100:<br>
++^Istruct bpf_object_skeleton *s;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#451: FILE: ebpf/rss.bpf.skeleton.h:102:<br>
++^Is =3D (struct bpf_object_skeleton *)calloc(1, sizeof(*s));$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#452: FILE: ebpf/rss.bpf.skeleton.h:103:<br>
++^Iif (!s)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#452: FILE: ebpf/rss.bpf.skeleton.h:103:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!s)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#453: FILE: ebpf/rss.bpf.skeleton.h:104:<br>
++^I^Ireturn -1;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#454: FILE: ebpf/rss.bpf.skeleton.h:105:<br>
++^Iobj-&gt;skeleton =3D s;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#456: FILE: ebpf/rss.bpf.skeleton.h:107:<br>
++^Is-&gt;sz =3D sizeof(*s);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#457: FILE: ebpf/rss.bpf.skeleton.h:108:<br>
++^Is-&gt;name =3D &quot;rss_bpf&quot;;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#458: FILE: ebpf/rss.bpf.skeleton.h:109:<br>
++^Is-&gt;obj =3D &amp;obj-&gt;obj;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#460: FILE: ebpf/rss.bpf.skeleton.h:111:<br>
++^I/* maps */$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#461: FILE: ebpf/rss.bpf.skeleton.h:112:<br>
++^Is-&gt;map_cnt =3D 3;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#462: FILE: ebpf/rss.bpf.skeleton.h:113:<br>
++^Is-&gt;map_skel_sz =3D sizeof(*s-&gt;maps);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#463: FILE: ebpf/rss.bpf.skeleton.h:114:<br>
++^Is-&gt;maps =3D (struct bpf_map_skeleton *)calloc(s-&gt;map_cnt, s-&gt;ma=
+p_skel_sz);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#464: FILE: ebpf/rss.bpf.skeleton.h:115:<br>
++^Iif (!s-&gt;maps)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#464: FILE: ebpf/rss.bpf.skeleton.h:115:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!s-&gt;maps)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#465: FILE: ebpf/rss.bpf.skeleton.h:116:<br>
++^I^Igoto err;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#467: FILE: ebpf/rss.bpf.skeleton.h:118:<br>
++^Is-&gt;maps[0].name =3D &quot;tap_rss_map_configurations&quot;;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#468: FILE: ebpf/rss.bpf.skeleton.h:119:<br>
++^Is-&gt;maps[0].map =3D &amp;obj-&gt;maps.tap_rss_map_configurations;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#470: FILE: ebpf/rss.bpf.skeleton.h:121:<br>
++^Is-&gt;maps[1].name =3D &quot;tap_rss_map_indirection_table&quot;;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#471: FILE: ebpf/rss.bpf.skeleton.h:122:<br>
++^Is-&gt;maps[1].map =3D &amp;obj-&gt;maps.tap_rss_map_indirection_table;$<=
+br>
+<br>
+ERROR: code indent should never use tabs<br>
+#473: FILE: ebpf/rss.bpf.skeleton.h:124:<br>
++^Is-&gt;maps[2].name =3D &quot;tap_rss_map_toeplitz_key&quot;;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#474: FILE: ebpf/rss.bpf.skeleton.h:125:<br>
++^Is-&gt;maps[2].map =3D &amp;obj-&gt;maps.tap_rss_map_toeplitz_key;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#476: FILE: ebpf/rss.bpf.skeleton.h:127:<br>
++^I/* programs */$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#477: FILE: ebpf/rss.bpf.skeleton.h:128:<br>
++^Is-&gt;prog_cnt =3D 1;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#478: FILE: ebpf/rss.bpf.skeleton.h:129:<br>
++^Is-&gt;prog_skel_sz =3D sizeof(*s-&gt;progs);$<br>
+<br>
+WARNING: line over 80 characters<br>
+#479: FILE: ebpf/rss.bpf.skeleton.h:130:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;progs =3D (struct bpf_prog_skeleton *)cal=
+loc(s-&gt;prog_cnt, s-&gt;prog_skel_sz);<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#479: FILE: ebpf/rss.bpf.skeleton.h:130:<br>
++^Is-&gt;progs =3D (struct bpf_prog_skeleton *)calloc(s-&gt;prog_cnt, s-&gt=
+;prog_skel_sz);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#480: FILE: ebpf/rss.bpf.skeleton.h:131:<br>
++^Iif (!s-&gt;progs)$<br>
+<br>
+ERROR: braces {} are necessary for all arms of this statement<br>
+#480: FILE: ebpf/rss.bpf.skeleton.h:131:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!s-&gt;progs)<br>
+[...]<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#481: FILE: ebpf/rss.bpf.skeleton.h:132:<br>
++^I^Igoto err;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#483: FILE: ebpf/rss.bpf.skeleton.h:134:<br>
++^Is-&gt;progs[0].name =3D &quot;tun_rss_steering_prog&quot;;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#484: FILE: ebpf/rss.bpf.skeleton.h:135:<br>
++^Is-&gt;progs[0].prog =3D &amp;obj-&gt;progs.tun_rss_steering_prog;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#485: FILE: ebpf/rss.bpf.skeleton.h:136:<br>
++^Is-&gt;progs[0].link =3D &amp;obj-&gt;links.tun_rss_steering_prog;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#487: FILE: ebpf/rss.bpf.skeleton.h:138:<br>
++^Is-&gt;data_sz =3D 7864;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#488: FILE: ebpf/rss.bpf.skeleton.h:139:<br>
++^Is-&gt;data =3D (void *)&quot;\$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#766: FILE: ebpf/rss.bpf.skeleton.h:417:<br>
++^Ireturn 0;$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#768: FILE: ebpf/rss.bpf.skeleton.h:419:<br>
++^Ibpf_object__destroy_skeleton(s);$<br>
+<br>
+ERROR: code indent should never use tabs<br>
+#769: FILE: ebpf/rss.bpf.skeleton.h:420:<br>
++^Ireturn -1;$<br>
+<br>
+total: 85 errors, 3 warnings, 758 lines checked<br>
+<br>
+Patch 4/7 has style problems, please review.=C2=A0 If any of these errors<b=
+r>
+are false positives report them to the maintainer, see<br>
+CHECKPATCH in MAINTAINERS.<br>
+<br>
+5/7 Checking commit 043dbde56379 (virtio-net: Added eBPF RSS to virtio-net.=
+)<br>
+WARNING: line over 80 characters<br>
+#185: FILE: hw/net/virtio-net.c:2868:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn=
+_report(&quot;Can&#39;t post-load eBPF RSS - fallback to software RSS&quot;=
+);<br>
+<br>
+total: 0 errors, 1 warnings, 214 lines checked<br>
+<br>
+Patch 5/7 has style problems, please review.=C2=A0 If any of these errors<b=
+r>
+are false positives report them to the maintainer, see<br>
+CHECKPATCH in MAINTAINERS.<br>
+6/7 Checking commit 57b0f9a94036 (docs: Added eBPF documentation.)<br>
+Use of uninitialized value $acpi_testexpected in string eq at ./scripts/<a =
+href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpat=
+ch.pl</a> line 1529.<br>
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?<b=
+r>
+#16: <br>
+new file mode 100644<br>
+<br>
+total: 0 errors, 1 warnings, 129 lines checked<br>
+<br>
+Patch 6/7 has style problems, please review.=C2=A0 If any of these errors<b=
+r>
+are false positives report them to the maintainer, see<br>
+CHECKPATCH in MAINTAINERS.<br>
+7/7 Checking commit ad293ca1c684 (MAINTAINERS: Added eBPF maintainers infor=
+mation.)<br>
+=3D=3D=3D OUTPUT END =3D=3D=3D<br>
+<br>
+Test command exited with code: 1<br>
+<br>
+<br>
+The full log is available at<br>
+<a href=3D"http://patchew.org/logs/20210325153529.75831-1-andrew@daynix.com=
+/testing.checkpatch/?type=3Dmessage" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://patchew.org/logs/20210325153529.75831-1-andrew@daynix.com/testing.che=
+ckpatch/?type=3Dmessage</a>.<br>
+---<br>
+Email generated automatically by Patchew [<a href=3D"https://patchew.org/" =
+rel=3D"noreferrer" target=3D"_blank">https://patchew.org/</a>].<br>
+Please send your feedback to <a href=3D"mailto:patchew-devel@redhat.com" ta=
+rget=3D"_blank">patchew-devel@redhat.com</a></blockquote></div>
+
+--0000000000009e31e205bee41d57--
 
