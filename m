@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88FB2351115
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:48:19 +0200 (CEST)
-Received: from localhost ([::1]:45996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D07C351126
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:52:36 +0200 (CEST)
+Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRszy-0001fr-Js
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:48:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42820)
+	id 1lRt47-0003IX-JK
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lRsyY-0000v4-SI
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:46:50 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:42793)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRt1b-0002Nk-IZ
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:49:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lRsyW-00027F-Vk
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:46:50 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 144B32E2A;
- Thu,  1 Apr 2021 04:46:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 01 Apr 2021 04:46:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernat.ch; h=
- from:to:cc:subject:references:date:in-reply-to:message-id
- :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- p0QZwl4o35Y8qpfyuyAVhbZtvOPH/cDEDBz79eFLK94=; b=p4LLkKKIeR17jFl7
- /Im5IoHkDK4ba0p+85jXIVPYjFmsp0WjIH9V5Piccq/4oWyddPhqV5keEzY/T/mo
- +orMEKWs+v8++8O3+pNhzZrULgfHFt8bAJW284VuqSr7zAUxurKgFq1ew8960S8D
- bsDxIHIMqGzsHDK/0I2Zoy2LnjcsEWZbi30wKlpWA4vOGLHOWhw7BZvO1t/eSFwS
- SAUDchpo7dDrg0qJIL+m/fjuXdPe+9Nqfcv8FJBtCXindSLZVgsAUcTkW/AhM8mo
- GSxSwyI54/J/Sd+yJ8kv7adXep3fS8gKJG8wmiiCq/FRlGh+McXVl7vEhLuojhon
- gfXa3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=p0QZwl4o35Y8qpfyuyAVhbZtvOPH/cDEDBz79eFLK
- 94=; b=q7Co8UkSnCSLlLqONBbWCUIMzV23GsRI0SCL3+scoSA4QATRJldXbsqbj
- xAs1G0JsZf5eEBN1orrzlxoLKhaGmDXEaTHTC8W8vO+1EzFV/q/was7qTwnGLY9t
- BXyCJ/4kT3PrGJ4aROp+ZkhILomfZOEze5aH4NB67PaEoWbJo7Ns5QoIdCaDwxwN
- 4zbRw05aZGMexUeyKE0wJvPsrIWJlQDMh9OPxP2qtv1e3eIB4acnQsAxi/cFTyUn
- eKgZ6l/9bXulEbZTULrsf9anXynrAx9BhOSj7F9gdhgfhwiQjPv/NjgfrG45iVUI
- AePKTe8x6M5POm4vQ5lIIbviTnHEw==
-X-ME-Sender: <xms:dYhlYAvZ0capC17ExaaCBeGIOjZexJAJxIdCG3y-Gm8n6elZTTWO-w>
- <xme:dYhlYE5DT4Iw7erQ0AIVOMNHrPocRdgTE0KCG_l39eFiezH-6KfpuMykX5YZP1iOa
- 7AJBzXLhptdxea8fwk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeigedgtdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufhfffgjkfgfgggtgfesthekredttderjeenucfhrhhomhepgghinhgt
- vghnthcuuegvrhhnrghtuceovhhinhgtvghnthessggvrhhnrghtrdgthheqnecuggftrf
- grthhtvghrnhepudeuveeggedtveduudejgfeiffeiveduiedvjedvudefleetgfefvdfh
- kedtieejnecukfhppeeltddrledtrdeltddrfeehnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepvhhinhgtvghnthessggvrhhnrghtrdgthh
-X-ME-Proxy: <xmx:dYhlYJLEnZaTaDNP3qZITIhz9xE1uQaiWI_hpzWKtXNwl_5qYM1eHA>
- <xmx:dYhlYM5hKpt6Iub5o3qvu7J7dcgcyw6HYyKGSuijM-PdFMN04GALzw>
- <xmx:dYhlYEw0NF2NVgvzmutLP9nDnbKPZXQ2rZ4mTSzoaziTHsAyhaEZZA>
- <xmx:dYhlYHAgNEBwP_fkl4xKLYqqcnda7ZRQ_3nYT-4YOWMhBJL6fB2bYQ>
-Received: from neo.luffy.cx (lfbn-idf1-1-1655-35.w90-90.abo.wanadoo.fr
- [90.90.90.35])
- by mail.messagingengine.com (Postfix) with ESMTPA id 53ABB240054;
- Thu,  1 Apr 2021 04:46:45 -0400 (EDT)
-Received: by neo.luffy.cx (Postfix, from userid 500)
- id 256B9A28; Thu,  1 Apr 2021 10:46:44 +0200 (CEST)
-From: Vincent Bernat <vincent@bernat.ch>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 1/2] hw/smbios: support for type 41 (onboard devices
- extended information)
-References: <20210401082544.16522-1-vincent@bernat.ch>
- <YGWHPWSrOLxEQtMA@redhat.com>
-Date: Thu, 01 Apr 2021 10:46:44 +0200
-In-Reply-To: <YGWHPWSrOLxEQtMA@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 1 Apr 2021 09:41:33 +0100")
-Message-ID: <m31rbul7d7.fsf@bernat.ch>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lRt1Z-000485-3u
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:49:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617266995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fvWzL8akX5++DoAH5SrCKwq44ZUrmDwMsqpsF7lZwOw=;
+ b=GJ+1/VpjshZ3eTE6qAZ19d4ccbAJ7oA27TfUJwOei9cXT1eyRR5mzSdfJx+GDKoxfmdiEI
+ ljoQroATzMWu8aDKa0TV9D5q1nUB3yCz8QK0/4EsFG3KdNnLxe/yRogHvNAB6mvBpN6fJH
+ XuhD0BOUVV6Rfhhx1vfUvjU7eB8jFPE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-4jye6LinO7iDq7WngiQHQw-1; Thu, 01 Apr 2021 04:49:53 -0400
+X-MC-Unique: 4jye6LinO7iDq7WngiQHQw-1
+Received: by mail-ed1-f70.google.com with SMTP id r6so2507522edh.7
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:49:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fvWzL8akX5++DoAH5SrCKwq44ZUrmDwMsqpsF7lZwOw=;
+ b=dLM5ItsqmdowDg4SDYgfZhpNaQlpT8+cm+gx4MkaY8CKnrDFhVaot4QtCxfBAkn40a
+ BTyhzRFWUJJ9B/B6NdXM7qwJm8J4/QldntpmLzmN9WxPWdHRH6z1tqIDqYpMuYXWMBdx
+ wgiatiAwiD85H+BpQcUbLhoYZzMbTLl0sKfgHeCyhzSMK9DCCrHFwt/yTeVJ5qBaQwy3
+ l6b2VRU/UAOI5n28qqpgAeaHf5TOdlctXXhadrlJO7b8r97nwufahQX1deLownxjY6jy
+ tzAi/GrvqZzb/VIhOoYCwh7dmjMUL7Z1sAEWmkgL4WInhi4q92PEj7ajs6aKlBJ9sZ/C
+ vPLg==
+X-Gm-Message-State: AOAM533LFLYSMrRAiNhm3F0LY81AbzTiWFi1Kc+y6SkCzYJwT6cKJ6l0
+ alvOwHwcKdfFyiC21IjBvqhwa+F1UJ0ZefSnTs7ezjpUXz2nJZn1XssvzKGHrsfgdL4q0B+O5h+
+ EsYoGMmpSaQ77RFk=
+X-Received: by 2002:a17:906:144d:: with SMTP id
+ q13mr8430404ejc.458.1617266992262; 
+ Thu, 01 Apr 2021 01:49:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/iv8bR8ZcptY3S8AdaZwpiw2mC9i5DkvoGge4HOgH6ReKxKBjM5fccwvpObIzgSbepspX1w==
+X-Received: by 2002:a17:906:144d:: with SMTP id
+ q13mr8430393ejc.458.1617266992098; 
+ Thu, 01 Apr 2021 01:49:52 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m14sm3092002edd.63.2021.04.01.01.49.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 01:49:51 -0700 (PDT)
+Subject: Re: [PATCH v3] replay: notify CPU on event
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <161726519158.1476949.7614181684462079836.stgit@pasha-ThinkPad-X280>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <085ea81c-6d08-11b1-d496-568320f53de7@redhat.com>
+Date: Thu, 1 Apr 2021 10:49:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=vincent@bernat.ch;
- helo=wout1-smtp.messagingengine.com
+In-Reply-To: <161726519158.1476949.7614181684462079836.stgit@pasha-ThinkPad-X280>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,25 +101,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- ❦  1 avril 2021 09:41 +01, Daniel P. Berrangé:
+On 01/04/21 10:19, Pavel Dovgalyuk wrote:
+> This patch enables vCPU notification to wake it up
+> when new async event comes in replay mode.
+> 
+> The motivation of this patch is the following.
+> Consider recorded block async event. It is saved into the log
+> with one of the checkpoints. This checkpoint may be passed in
+> vCPU loop. In replay mode when this async event is read from
+> the log, and block thread task is not finished yet, vCPU thread
+> goes to sleep. That is why this patch adds waking up the vCPU
+> to process this finished event.
+> 
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>   replay/replay-events.c |    2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/replay/replay-events.c b/replay/replay-events.c
+> index a1c6bb934e..15983dd250 100644
+> --- a/replay/replay-events.c
+> +++ b/replay/replay-events.c
+> @@ -15,6 +15,7 @@
+>   #include "replay-internal.h"
+>   #include "block/aio.h"
+>   #include "ui/input.h"
+> +#include "hw/core/cpu.h"
+>   
+>   typedef struct Event {
+>       ReplayAsyncEventKind event_kind;
+> @@ -126,6 +127,7 @@ void replay_add_event(ReplayAsyncEventKind event_kind,
+>   
+>       g_assert(replay_mutex_locked());
+>       QTAILQ_INSERT_TAIL(&events_list, event, events);
+> +    qemu_cpu_kick(first_cpu);
+>   }
+>   
+>   void replay_bh_schedule_event(QEMUBH *bh)
+> 
 
->> +            t = calloc(1, sizeof(struct type41_instance));
->> +            if (!t) {
->> +                error_setg(errp,
->> +                           "Unable to allocate memory for a new type 41 instance");
->> +                return;
->> +            }
->
-> QEMU uses GLib allocation functions throughout, which abort
-> on OOM. So replace this with g_new0.
+Queued, thanks.
 
-Ack. Will be fixed on the next version. Thanks!
--- 
-Make input easy to proofread.
-            - The Elements of Programming Style (Kernighan & Plauger)
+Paolo
+
 
