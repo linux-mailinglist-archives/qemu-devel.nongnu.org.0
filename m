@@ -2,91 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B34351BF6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:13:57 +0200 (CEST)
-Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBEB351C07
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:28:43 +0200 (CEST)
+Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS1pK-0001Ss-Kn
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59146)
+	id 1lS23e-0003d8-W4
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:28:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lS1l9-00086C-3a
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:09:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26923)
+ (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
+ id 1lS1qi-0003Mv-Ss; Thu, 01 Apr 2021 14:15:26 -0400
+Received: from sender-of-o51.zoho.in ([103.117.158.51]:2302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lS1l4-0000cO-5H
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:09:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617300569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Kx9DbhVSJrB9vI9FErGrA8bAvmekmul4UBa7pJXLaoE=;
- b=KSxeA3FlRIZPvY8hiFFDAd2FK3zLMCI9ahbY7Je/hW3q0mB9twcgtn09+GIcZQN2v69hdR
- kH0Lvh3r44DBffs66FAcgUFSWDh+g4V27KYQYUaA7dKGhbb3NXRrcrpl/bKTAI1Qn1cJLb
- jDoffooj9ksZMesFzVRh42V9nX2dpHc=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-Lu0iXlNNPay4XlWhysZ3aQ-1; Thu, 01 Apr 2021 14:09:27 -0400
-X-MC-Unique: Lu0iXlNNPay4XlWhysZ3aQ-1
-Received: by mail-ot1-f72.google.com with SMTP id 45so2872175otg.10
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 11:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Kx9DbhVSJrB9vI9FErGrA8bAvmekmul4UBa7pJXLaoE=;
- b=NbdcuqFDl+68pBd2qPvyH9aci5/H8rmbMF0+tE6tYs+STF3IdmTs0CN264EsvGSx2P
- bcF06E+l0fFjTESWNUwl5jvXu0aNe6HeDbhdLkqqtOjZFTnALTqRQpOwZu9oodaihLW5
- FI4I7wWgL75lEzjzEfVJ+iFZXxsegp1bJepR8sNo2JwqSUsXoB5zwGBW5iVWo4phaA/Q
- UAY/qEadT82Ob44xb/paYe7xYiVGfF1c0cSfdurKhmO8nwCgJWIgB01lWjXmu/FjqUnP
- nUsMzmYSHSZBgTmo3kPQ8Z5XFu+Tbd4oXlDwM9re1N3ztCO6NiZNrURad3a5KpHfhEer
- st+g==
-X-Gm-Message-State: AOAM531LyHUuti2N5QDKshh7siWR5Mq1VGT7al9Tz9ForyOwtbHXOWpn
- AHQgTQP1lgIPeZT/tPAn8aZzhD5QE8VIDVjyv0K2PgsN7DABKrCVyPcMELqfJnKMFLQ2bpXxt3z
- YKkMCURuXptVxZA4=
-X-Received: by 2002:a9d:21a5:: with SMTP id s34mr8307607otb.240.1617300567121; 
- Thu, 01 Apr 2021 11:09:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwce7ltC5rlzdmjefW4iZnoG2mF0fmXP4s9gEyZSKWw97K6P7O6Tuo077wW3p+a103CDJR8Q==
-X-Received: by 2002:a9d:21a5:: with SMTP id s34mr8307599otb.240.1617300566924; 
- Thu, 01 Apr 2021 11:09:26 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- z3sm1199604oop.41.2021.04.01.11.09.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 11:09:26 -0700 (PDT)
-Subject: Re: [PATCH 2/2] block/rbd: Don't unescape in qemu_rbd_next_tok()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210401155211.2093139-1-ckuehl@redhat.com>
- <20210401155211.2093139-3-ckuehl@redhat.com>
- <c8a21743-6264-fe4e-294f-82f74766a5e7@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <c7d42197-b874-9c81-e8dd-ef0ebf8e784d@redhat.com>
-Date: Thu, 1 Apr 2021 13:09:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
+ id 1lS1qX-0003Y1-Vz; Thu, 01 Apr 2021 14:15:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1617300900; cv=none; d=zohomail.in; s=zohoarc; 
+ b=Sb5rhDZC8bOTBNKNw7YUTN9rEiAHSSgaTnt6NyvLbL9qeCL5OgxnpttDuzwG90i2SCUDmeGVMPiA6Kly0UFSeKBuDtVPpiaTfpnCXyDSH1fP6JodL3yw4BA8JHtQDAzrzEbA8OnANnMjVxmQESmVA1Sok/ME35OvvJ6Ga9KWtKs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1617300900;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=gpNvWb11klRaX3ZQW/T/0R6XxaJ510x8GYvqivdKx0U=; 
+ b=RleI/utt0MTC1xYZi/rKw5g8w3WFUDyKVBKIGaJ8PwJKyw1SzduttVm+9Yl1m31Nge/SOJAEzx5Yv/BLgI6iOoLZPCFObZRYJnfFBnxPqgCEYquBwBczXsgMVwdBGbJqTW8kyTm0hJYT4BPZlr/iXEhqUPG7QoZBlIOOJS4K3XE=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+ dkim=pass  header.i=behindbytes.com;
+ spf=pass  smtp.mailfrom=vijai@behindbytes.com;
+ dmarc=pass header.from=<vijai@behindbytes.com>
+ header.from=<vijai@behindbytes.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1617300900; 
+ s=yrk; d=behindbytes.com; i=vijai@behindbytes.com;
+ h=From:To:Cc:Message-ID:Subject:Date:MIME-Version:Content-Transfer-Encoding:Content-Type;
+ bh=gpNvWb11klRaX3ZQW/T/0R6XxaJ510x8GYvqivdKx0U=;
+ b=KaLxw8V5F7p0H0Xhjs3d2RNQrikTpHY1gsK5F9KAEtvwPIWDQQkuBfc11B8YPClG
+ YMF/+GyMjTGFIMDFdpW+5y5OZp81fYH2oHCID1NDr0bOI+2yvnfWyE4Sh0dRcrueRp7
+ Og0/fa2bsxsWJpiWCMASIjrKQZa+cDEKgz8dNfAU=
+Received: from localhost.localdomain (49.207.218.164 [49.207.218.164]) by
+ mx.zoho.in with SMTPS id 1617300899344966.5717957986967;
+ Thu, 1 Apr 2021 23:44:59 +0530 (IST)
+From: Vijai Kumar K <vijai@behindbytes.com>
+To: qemu-riscv@nongnu.org,
+	alistair23@gmail.com
+Message-ID: <20210401181457.73039-1-vijai@behindbytes.com>
+Subject: [PATCH v3 0/4] Add support for Shakti SoC from IIT-M
+Date: Thu,  1 Apr 2021 23:44:53 +0530
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <c8a21743-6264-fe4e-294f-82f74766a5e7@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
+Received-SPF: pass client-ip=103.117.158.51;
+ envelope-from=vijai@behindbytes.com; helo=sender-of-o51.zoho.in
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,49 +71,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org
+Cc: Vijai Kumar K <vijai@behindbytes.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/21 12:24 PM, Max Reitz wrote:
-> On 01.04.21 17:52, Connor Kuehl wrote:
->> That's qemu_rbd_unescape()'s job! No need to duplicate the labor.
->>
->> Furthermore, this was causing some confusion in the parsing logic to
->> where the caller might test for the presence of a character to split on
->> like so:
->>
->> if (strchr(image_name, '/')) {
->>          found_str = qemu_rbd_next_tok(image_name, '/', &image_name);
->>     [..]
->>
->> When qemu_rbd_next_tok() performs unescaping as a side effect, the
->> parser can get confused thinking that it can split this string, but
->> really the delimiter '/' gets unescaped and so qemu_rbd_next_tok() never
->> "finds" the delimiter and consumes the rest of the token input stream.
-> 
-> I don’t fully understand.  I understand the strchr() problem and the 
-> thing you explain next.  But I would have thought that’s a problem of 
-> using strchr(), i.e. that we’d need a custom function to do strchr() but 
-> consider escaped characters.  If it’s just about true/false like in your 
-> example, it could be a new version of qemu_rbd_next_tok() that does not 
-> modify the string.
+Changes in v3:
+ - Drop SHAKTI_C_DEBUG register
 
-I went back and forth a lot on the different ways this can be fixed 
-before sending this, and I agree the most consistent fix here would be 
-to add an escape-aware strchr. Initially, adding another libc-like 
-function with more side effects wasn't as appealing to me as removing 
-the side effects entirely to separate mechanism vs. policy. Your example 
-below convinced me that this patch would split the token in unexpected 
-ways. I'll send a v2 :-)
+Changes in v2:
+ - Moved CPU addition to a separate patch(P1)
+ - Use riscv_setup_rom_resetvec API to setup reset vector
+ - Dropped unused DPRINTF and unwanted break statements
+ - Fixed uart_can_receive logic
+ - Reused sifive_u_cpu_init routine for shakti
+ - Error out when an unsupported CPU is specified
+ - Addressed formatting changes pointed out in review
 
-Thanks,
+Vijai Kumar K (4):
+  target/riscv: Add Shakti C class CPU
+  riscv: Add initial support for Shakti C machine
+  hw/char: Add Shakti UART emulation
+  hw/riscv: Connect Shakti UART to Shakti platform
 
-Connor
+ MAINTAINERS                                 |   9 +
+ default-configs/devices/riscv64-softmmu.mak |   1 +
+ hw/char/meson.build                         |   1 +
+ hw/char/shakti_uart.c                       | 185 ++++++++++++++++++++
+ hw/char/trace-events                        |   4 +
+ hw/riscv/Kconfig                            |  10 ++
+ hw/riscv/meson.build                        |   1 +
+ hw/riscv/shakti_c.c                         | 178 +++++++++++++++++++
+ include/hw/char/shakti_uart.h               |  74 ++++++++
+ include/hw/riscv/shakti_c.h                 |  75 ++++++++
+ target/riscv/cpu.c                          |   1 +
+ target/riscv/cpu.h                          |   1 +
+ 12 files changed, 540 insertions(+)
+ create mode 100644 hw/char/shakti_uart.c
+ create mode 100644 hw/riscv/shakti_c.c
+ create mode 100644 include/hw/char/shakti_uart.h
+ create mode 100644 include/hw/riscv/shakti_c.h
 
-> [..]
-> Should it?  I would have fully expected it to not be split and the 
-> parser complains that the input is invalid.  Or, let’s say, 
-> "foo\/bar/baz” should be split into “foo\/bar” and “baz”.
+--=20
+2.25.1
+
 
 
