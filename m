@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD71350E57
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 07:10:14 +0200 (CEST)
-Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4250350E61
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 07:19:27 +0200 (CEST)
+Received: from localhost ([::1]:44410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRpav-0007LD-8S
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 01:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
+	id 1lRpjq-0000Dz-Nl
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 01:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lRpZg-0006q4-Ll; Thu, 01 Apr 2021 01:08:56 -0400
-Received: from mail-io1-f52.google.com ([209.85.166.52]:45721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1lRpZf-0002CD-6I; Thu, 01 Apr 2021 01:08:56 -0400
-Received: by mail-io1-f52.google.com with SMTP id k8so910390iop.12;
- Wed, 31 Mar 2021 22:08:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fc4RWcd3ISQsBuHpJedvpbBJ3k7OPE4/gqpmnYuqjg4=;
- b=K9ciPl1F2t2XiAlcl6k6e2xfIBtI9nOiJ3+C+YRJ8jEEryh+AGhVBjTUs5Rig7jtKF
- wnaHzFf5FPn2/xxwoH9tJOUdQ+Tpr1/fa9sSGia9OvXXLE4H0XB+PCYtZqr24M9kMAx+
- Nf2vnHFt8UjvOP9Uu1UugMswLUJ5MeNIk1HSbqqYI6Ti2N8PoiE5k7XSAM7Z0nw8ZIAW
- ZuCWlHPotZHy79t1JM1UvCbQzbYfnioR35oO/N2SAcKqCrIDiQW+U/zK66QyFhRIlUsQ
- mZ1AeQpTF9VhBcRt+iA7wFm82v1QBbzuhPqXwCGs5S8HjD/JprXpdAevJwUTJ/RGDPO/
- DvDQ==
-X-Gm-Message-State: AOAM5323MSi0OHA1RmKg2h6RNQ8Qf7/C0Vl2TBhhTdE3o+yMoGEvEutI
- dmBp6tFOVfplKKaYKIBpiXGS6iT4PHI=
-X-Google-Smtp-Source: ABdhPJzVa6Avgw2u+7TK343gAksyNHR70QzhUE/BMiLeNfTm1DuQPNQjHNg+bP2LUEUCIpWU/Ajgrg==
-X-Received: by 2002:a05:6638:2726:: with SMTP id
- m38mr6187496jav.6.1617253732864; 
- Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com.
- [209.85.166.175])
- by smtp.gmail.com with ESMTPSA id 23sm2300703iog.45.2021.03.31.22.08.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
-Received: by mail-il1-f175.google.com with SMTP id j16so1013209ilq.13;
- Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
-X-Received: by 2002:a92:c26e:: with SMTP id h14mr820265ild.33.1617253732329;
- Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRpj6-0008GU-3L
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 01:18:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRpj3-0008Rr-DV
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 01:18:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617254315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+ZgKGYDUAqwB0ZU2iwhyHRbK1NrPHYdy6cUlBr6QwxI=;
+ b=OvvrFuqm1nZRvuDSGML9V0YrxW+Vl0r3ry26PExwk9JKstQVcHbyerHGW2EjYZdZo0bTlO
+ Elx0ahDZSVgYUou0KYGaZE7z1KkR8Zzdcxeiu+JzU77CgscLaYxB62JcPiiQ6Mi1WIMlo7
+ cQLIw9DocrcJdLG/873Ad31fbBQ5Yig=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-GyjWRuxWNKW51GHVyLzEKA-1; Thu, 01 Apr 2021 01:18:34 -0400
+X-MC-Unique: GyjWRuxWNKW51GHVyLzEKA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C74276B9C1;
+ Thu,  1 Apr 2021 05:18:32 +0000 (UTC)
+Received: from thuth.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4E255D748;
+ Thu,  1 Apr 2021 05:18:31 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	pbonzini@redhat.com
+Subject: [PATCH] docs: Fix typo in the default name of the qemu-system-x86_64
+ binary
+Date: Thu,  1 Apr 2021 07:18:29 +0200
+Message-Id: <20210401051829.3169438-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210315180341.31638-1-j@getutm.app>
- <20210315180341.31638-3-j@getutm.app>
-In-Reply-To: <20210315180341.31638-3-j@getutm.app>
-From: Joelle van Dyne <j@getutm.app>
-Date: Wed, 31 Mar 2021 22:08:41 -0700
-X-Gmail-Original-Message-ID: <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
-Message-ID: <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] block: check for sys/disk.h
-To: Joelle van Dyne <j@getutm.app>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.52; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f52.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,25 +75,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 15, 2021 at 11:03 AM Joelle van Dyne <j@getutm.app> wrote:
->
-> Some BSD platforms do not have this header.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Joelle van Dyne <j@getutm.app>
+It's a '-' between 'qemu' and 'system', not a '_'.
 
-Please bear with me as I am still new to this, but what happens to the
-three patches that are reviewed if the last patch does not get
-reviewed? Do the reviewed patches still get to make it into 6.0? I am
-willing to drop the unreviewed patch if there are issues. Thanks.
+Fixes: 324b2298fe ("docs/system: convert Texinfo documentation to rST")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/defs.rst.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--j
+diff --git a/docs/defs.rst.inc b/docs/defs.rst.inc
+index 48d05aaf33..52d6454b93 100644
+--- a/docs/defs.rst.inc
++++ b/docs/defs.rst.inc
+@@ -10,6 +10,6 @@
+    incorrectly in boldface.
+ 
+ .. |qemu_system| replace:: qemu-system-x86_64
+-.. |qemu_system_x86| replace:: qemu_system-x86_64
++.. |qemu_system_x86| replace:: qemu-system-x86_64
+ .. |I2C| replace:: I\ :sup:`2`\ C
+ .. |I2S| replace:: I\ :sup:`2`\ S
+-- 
+2.27.0
+
 
