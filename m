@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1473510CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:23:55 +0200 (CEST)
-Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE76F3510D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:27:44 +0200 (CEST)
+Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRscM-0002H6-W4
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:23:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
+	id 1lRsg3-0005rW-PA
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:27:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRsUU-00021f-F8
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:15:46 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41696)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lRsem-0004kL-Kj
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:26:24 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRsUT-0000aS-1f
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:15:46 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id b9so881158wrt.8
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ixhH8+tpc7+EjgYKOszroB8cW7uLwr6qZZnKdi7Z2RY=;
- b=O1t7Nt6NjK+iUfoejpUSEJ3bZJguykKPHP8LkXqLc2G1p3ktJ/Dr2nwKlTSWzzNhSA
- 9bo8Aai0wKkiplPJJV+W4hzDM0XSVdJHsx1HEK+Cuhha5StjA1rtGoAxaa5TORAtO6fr
- zn/Z7qR4Dia8WQYg1Sqaq1B4BFWFN2zHaqh3X8roJ6n6H3mkiiuL9y7V8h8ahDAUym9I
- 203N0jwM/DsmqCiuusQd9buFZm/xZZS1iNzQaQpPycAIffg/MFui3hCPzaeXEF4GPIP+
- ao0meGxGFR0PWAT35G+2/RaJn5q1qWZNWPeqlajtuhFKNPxtPlnWesagnVgU7OGjgbRs
- 5Jsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ixhH8+tpc7+EjgYKOszroB8cW7uLwr6qZZnKdi7Z2RY=;
- b=QDthZKdlXjUC6AHtZymEw7/YtrG0IibIVhfNKz4QCgOjXrowMJxkzrEzkAIjAqiJqi
- BMkoK0fXaDAJj51WWUx02MSaIl2aj7xtOi70v91ebdD0ruIXvUJXJ+n+5JFXrPKefCGq
- bOaDQyZQq486eBVCKxQmi2PvFNDRAUpjP+o4Ci+9Hv2OVkiuzLenutWn4jaDkJRHttFN
- z7OZZBD1dsa7ti1TWU1fhmOxu3jTvjKOuv6DSHt5vFylVuWPy9x632A04wa7q0ABJbC+
- BRKOS6YVj6zW435ME/5PvReuwksbyn2ioCb9YkvfTqdXUPLxqeA1LWn7AUsLEKbcyNc/
- fYZA==
-X-Gm-Message-State: AOAM532J8wPuyHi3qzs2db0Y5juEjbWHv9i3gz4eMCX31y07h+z1q3Bu
- VZStv0vDD7mYRjHGxCkxkEVm++biNSOphA==
-X-Google-Smtp-Source: ABdhPJwSNgY41TVZ60/Fdw9eb8OHE5BVblxYtqFWuGEXxJ3I6Y/saDtkqlxAxwVa9wiDgyPa0FmIKg==
-X-Received: by 2002:adf:f190:: with SMTP id h16mr8178640wro.187.1617264943781; 
- Thu, 01 Apr 2021 01:15:43 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id b65sm7229993wmh.4.2021.04.01.01.15.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 01:15:43 -0700 (PDT)
-Subject: Re: [PATCH v3 04/11] esp: consolidate esp_cmdfifo_pop() into
- esp_fifo_pop()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
-References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
- <20210401074933.9923-5-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ff28c72d-caf0-709c-7743-7c49fc5f6865@amsat.org>
-Date: Thu, 1 Apr 2021 10:15:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lRsea-0006y1-3e
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:26:24 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lRseV-0004Rf-UO
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 08:26:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E21322E8162
+ for <qemu-devel@nongnu.org>; Thu,  1 Apr 2021 08:26:07 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210401074933.9923-5-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 01 Apr 2021 08:15:58 -0000
+From: Mark Cave-Ayland <1909247@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: cve fuzzer qemu security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland mauro-cascella philmd pjps
+X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
+References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
+Message-Id: <161726495856.2987.624497283423977492.malone@chaenomeles.canonical.com>
+Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
+ in hw/scsi/esp.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="21fefc602783aa4ba863a4a6c29d38d788ce04ad"; Instance="production"
+X-Launchpad-Hash: b6bbb7ab5653bb9bdd005ede9272032631dff8f0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,23 +71,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
-> Each FIFO currently has its own pop functions with the only difference being
-> the capacity check. The original reason for this was that the fifo8
-> implementation doesn't have a formal API for retrieving the FIFO capacity,
-> however there are multiple examples within QEMU where the capacity field is
-> accessed directly.
-> 
-> Change esp_fifo_pop() to access the FIFO capacity directly and then consolidate
-> esp_cmdfifo_pop() into esp_fifo_pop().
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c | 21 ++++++---------------
->  1 file changed, 6 insertions(+), 15 deletions(-)
+Thanks again Alex. I've just posted a v3 to the list which fixes your
+extra test cases, and also those contained within the uaf and hw-esp-oob
+attachments:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00015.html
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909247
+
+Title:
+  QEMU: use after free vulnerability in esp_do_dma() in hw/scsi/esp.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  A use-after-free vulnerability was found in the am53c974 SCSI host bus
+  adapter emulation of QEMU. It could occur in the esp_do_dma() function
+  in hw/scsi/esp.c while handling the 'Information Transfer' command
+  (CMD_TI). A privileged guest user may abuse this flaw to crash the
+  QEMU process on the host, resulting in a denial of service or
+  potential code execution with the privileges of the QEMU process.
+
+  This issue was reported by Cheolwoo Myung (Seoul National University).
+
+  Original report:
+  Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in
+  am53c974 emulator of QEMU enabled ASan.
+
+  It occurs while transferring information, as it does not check the
+  buffer to be transferred.
+
+  A malicious guest user/process could use this flaw to crash the QEMU
+  process resulting in DoS scenario.
+
+  To reproduce this issue, please run the QEMU with the following command
+  line.
+
+  # To enable ASan option, please set configuration with the following
+  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
+tizers
+  $ make
+
+  # To reproduce this issue, please run the QEMU process with the following=
+ command line
+  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
+disk,format=3Draw \
+  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
+  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+
+  Please find attached the disk images to reproduce this issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909247/+subscriptions
 
