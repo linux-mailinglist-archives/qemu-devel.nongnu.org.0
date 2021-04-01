@@ -2,74 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82DE03516E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 18:54:47 +0200 (CEST)
-Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B51D351700
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 18:58:15 +0200 (CEST)
+Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS0ak-0001NS-5N
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 12:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41160)
+	id 1lS0e6-0003Ge-KN
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 12:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lS0Yv-0000X3-0a
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 12:52:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54177)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lS0ci-0002pb-EI
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 12:56:48 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:37443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lS0Ys-0000dq-LC
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 12:52:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617295969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=omcAlKD+fPsIredQtVnnSnUsrP3FOZTZ+PGb0nvgnxw=;
- b=IzRH8fhD1qAAUJzHi5Dvbvse/ASk3pXcKFCmzzKE7wbFsuwhozwOyWVs9y1tqRJGxrDwqp
- JNRhSrJyEJeQpfCqEtiogR2SxILNNH2WCZMt0mJ/MRyfFMw5DHhlAHH0NyKUNYQI2CjB6u
- NLVtUwXg3hw4MoIKdJW1BH/+AkUns4o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-QJ0F3_wNNCKJQ8gcbqeDhg-1; Thu, 01 Apr 2021 12:52:47 -0400
-X-MC-Unique: QJ0F3_wNNCKJQ8gcbqeDhg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 524385B365;
- Thu,  1 Apr 2021 16:52:46 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-60.ams2.redhat.com
- [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23C9C5D9CC;
- Thu,  1 Apr 2021 16:52:41 +0000 (UTC)
-Subject: Re: [PATCH 1/2] iotests/231: Update expected deprecation message
-To: Connor Kuehl <ckuehl@redhat.com>, qemu-block@nongnu.org
-References: <20210401155211.2093139-1-ckuehl@redhat.com>
- <20210401155211.2093139-2-ckuehl@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <b4276364-0eee-f244-1146-ee8ac1a01a59@redhat.com>
-Date: Thu, 1 Apr 2021 18:52:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lS0cg-00035F-CY
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 12:56:47 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 131GtxuR026354
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 1 Apr 2021 12:56:04 -0400
+Date: Thu, 1 Apr 2021 12:55:59 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v3 11/11] tests/qtest: add tests for am53c974 device
+Message-ID: <20210401165559.oy5orwrchietgeg6@mozz.bu.edu>
+References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+ <20210401074933.9923-12-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <20210401155211.2093139-2-ckuehl@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210401074933.9923-12-mark.cave-ayland@ilande.co.uk>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,26 +55,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.04.21 17:52, Connor Kuehl wrote:
-> The deprecation message changed slightly at some point in the past but
-> the expected output wasn't updated along with it; causing it to fail.
-> Fix it, so it passes.
+On 210401 0849, Mark Cave-Ayland wrote:
+> Use the autogenerated fuzzer test cases as the basis for a set of am53c974
+> regression tests.
 > 
-> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->   tests/qemu-iotests/231.out | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>  MAINTAINERS                 |   1 +
+>  tests/qtest/am53c974-test.c | 216 ++++++++++++++++++++++++++++++++++++
+>  tests/qtest/meson.build     |   1 +
+>  3 files changed, 218 insertions(+)
+>  create mode 100644 tests/qtest/am53c974-test.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 554be84b32..675f35d3af 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1776,6 +1776,7 @@ F: include/hw/scsi/*
+>  F: hw/scsi/*
+>  F: tests/qtest/virtio-scsi-test.c
+>  F: tests/qtest/fuzz-virtio-scsi-test.c
+> +F: tests/qtest/am53c974-test.c
+>  T: git https://github.com/bonzini/qemu.git scsi-next
+>  
+>  SSI
+> diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
+> new file mode 100644
+> index 0000000000..9c4285d0c0
+> --- /dev/null
+> +++ b/tests/qtest/am53c974-test.c
+> @@ -0,0 +1,216 @@
+> +/*
+> + * QTest testcase for am53c974
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> + * later. See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "libqos/libqtest.h"
+> +
+> +
+> +static void test_cmdfifo_underflow_ok(void)
+> +{
+> +    QTestState *s = qtest_init(
+> +        "-device am53c974,id=scsi "
+> +        "-device scsi-hd,drive=disk0 -drive "
+> +        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
+> +    qtest_outl(s, 0xcf8, 0x80001004);
+> +    qtest_outw(s, 0xcfc, 0x01);
+> +    qtest_outl(s, 0xcf8, 0x8000100e);
+> +    qtest_outl(s, 0xcfc, 0x8a000000);
+> +    qtest_outl(s, 0x8a09, 0x42000000);
+> +    qtest_outl(s, 0x8a0d, 0x00);
+> +    qtest_outl(s, 0x8a0b, 0x1000);
+> +    qtest_quit(s);
+> +}
+> +
 
-Uh, well, you know what, I can’t find any version where there was any 
-other output.  Even back in 66e6a735e97450ac50fcaf40f78600c688534cae, 
-where this test was introduced, I get this diff.
-
-What’s going on there?
-
-Max
-
+Hi Mark,
+> +/* Reported as crash_1548bd10e7 */
+                        ^^^
+These numbers were just the filename/hash of the crashing test-case. I'm
+not sure if they are useful to keep them around - I just needed some way
+to name a bunch of functions :)
+-Alex
 
