@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC799350D72
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 06:08:20 +0200 (CEST)
-Received: from localhost ([::1]:49884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8957F350D65
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 06:03:54 +0200 (CEST)
+Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRod1-0003K0-UT
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 00:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40920)
+	id 1lRoYj-0005Na-JL
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 00:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoPH-0001my-Vm
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:54:09 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46761)
+ id 1lRoPA-0001iQ-NG
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:54:02 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:2925)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoPE-0004ri-RK
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:54:07 -0400
+ id 1lRoP3-0004wA-5N
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:54:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617249244; x=1648785244;
+ t=1617249233; x=1648785233;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=v+bhglNwG8NpJm17TDY1q2nZ94MQtJKap+Gf+OKMGGQ=;
- b=ARZjSXduK4MOnTxk9vohUnSNwd1cZz8HRQB5g4ghh9EBcLaV6V9cDhrL
- sf5ZRy50SC8Zcl4zqJSY+nxEkKXmBfSKdi3OsvG2u8V7d6p65c59tUD9M
- w2+g9lcXiMzRyqICalFeta6C7clou5lo0aMcqStZ2wjNkZJ9O8hvUoPOL Y=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2021 20:53:43 -0700
+ bh=kwKqXG57Hq12+33+2FAeJQez6atx/7d4l80RwCMME98=;
+ b=RGT8k54M33S8DTn4BTwBnMXtQB9tLGYy/dWl+Jc9urg8jFpmlb+oc4TA
+ HxwBHmQl98x0LH0Fq5teYixvACuVsGSJ3ImSlh8DpBqe+2nwPelqN4gtT
+ eIO7WMYioaqVzGE5oG185DGzVZHeI5RnrODYvvXh2qzElwD8n44ogVcQw E=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Mar 2021 20:53:42 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg05-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:42 -0700
+ by ironmsg02-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 0B82916AF; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
+ id DA7171653; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/21] Hexagon (target/hexagon) add A4_addp_c/A4_subp_c
-Date: Wed, 31 Mar 2021 22:53:28 -0500
-Message-Id: <1617249213-22667-17-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v2 17/21] Hexagon (target/hexagon) circular addressing
+Date: Wed, 31 Mar 2021 22:53:29 -0500
+Message-Id: <1617249213-22667-18-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -73,236 +73,1015 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rdd32 = add(Rss32, Rtt32, Px4):carry
-    Add with carry
-Rdd32 = sub(Rss32, Rtt32, Px4):carry
-    Sub with carry
+The following instructions are added
+    L2_loadrub_pci          Rd32 = memub(Rx32++#s4:0:circ(Mu2))
+    L2_loadrb_pci           Rd32 = memb(Rx32++#s4:0:circ(Mu2))
+    L2_loadruh_pci          Rd32 = memuh(Rx32++#s4:1:circ(Mu2))
+    L2_loadrh_pci           Rd32 = memh(Rx32++#s4:1:circ(Mu2))
+    L2_loadri_pci           Rd32 = memw(Rx32++#s4:2:circ(Mu2))
+    L2_loadrd_pci           Rdd32 = memd(Rx32++#s4:3:circ(Mu2))
+    S2_storerb_pci          memb(Rx32++#s4:0:circ(Mu2)) = Rt32
+    S2_storerh_pci          memh(Rx32++#s4:1:circ(Mu2)) = Rt32
+    S2_storerf_pci          memh(Rx32++#s4:1:circ(Mu2)) = Rt.H32
+    S2_storeri_pci          memw(Rx32++#s4:2:circ(Mu2)) = Rt32
+    S2_storerd_pci          memd(Rx32++#s4:3:circ(Mu2)) = Rtt32
+    S2_storerbnew_pci       memb(Rx32++#s4:0:circ(Mu2)) = Nt8.new
+    S2_storerhnew_pci       memw(Rx32++#s4:1:circ(Mu2)) = Nt8.new
+    S2_storerinew_pci       memw(Rx32++#s4:2:circ(Mu2)) = Nt8.new
+    L2_loadrub_pcr          Rd32 = memub(Rx32++I:circ(Mu2))
+    L2_loadrb_pcr           Rd32 = memb(Rx32++I:circ(Mu2))
+    L2_loadruh_pcr          Rd32 = memuh(Rx32++I:circ(Mu2))
+    L2_loadrh_pcr           Rd32 = memh(Rx32++I:circ(Mu2))
+    L2_loadri_pcr           Rd32 = memw(Rx32++I:circ(Mu2))
+    L2_loadrd_pcr           Rdd32 = memd(Rx32++I:circ(Mu2))
+    S2_storerb_pcr          memb(Rx32++I:circ(Mu2)) = Rt32
+    S2_storerh_pcr          memh(Rx32++I:circ(Mu2)) = Rt32
+    S2_storerf_pcr          memh(Rx32++I:circ(Mu2)) = Rt32.H32
+    S2_storeri_pcr          memw(Rx32++I:circ(Mu2)) = Rt32
+    S2_storerd_pcr          memd(Rx32++I:circ(Mu2)) = Rtt32
+    S2_storerbnew_pcr       memb(Rx32++I:circ(Mu2)) = Nt8.new
+    S2_storerhnew_pcr       memh(Rx32++I:circ(Mu2)) = Nt8.new
+    S2_storerinew_pcr       memw(Rx32++I:circ(Mu2)) = Nt8.new
 
-Test cases in tests/tcg/hexagon/multi_result.c
+Test cases in tests/tcg/hexagon/circ.c
 
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/gen_tcg.h              | 37 ++++++++++++++++
- target/hexagon/genptr.c               | 11 +++++
- target/hexagon/imported/alu.idef      | 15 +++++++
- target/hexagon/imported/encode_pp.def |  2 +
- tests/tcg/hexagon/multi_result.c      | 82 +++++++++++++++++++++++++++++++++++
- 5 files changed, 147 insertions(+)
+ target/hexagon/gen_tcg.h              | 112 +++++++++-
+ target/hexagon/genptr.c               | 100 +++++++++
+ target/hexagon/imported/encode_pp.def |  10 +
+ target/hexagon/imported/ldst.idef     |   4 +
+ target/hexagon/imported/macros.def    |  26 +++
+ target/hexagon/macros.h               |  92 ++++++++
+ tests/tcg/hexagon/Makefile.target     |   1 +
+ tests/tcg/hexagon/circ.c              | 391 ++++++++++++++++++++++++++++++++++
+ 8 files changed, 735 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/hexagon/circ.c
 
 diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h
-index d6ed5d9..c6c9cf9 100644
+index c6c9cf9..e673298 100644
 --- a/target/hexagon/gen_tcg.h
 +++ b/target/hexagon/gen_tcg.h
-@@ -238,6 +238,43 @@
-     } while (0)
+@@ -38,6 +38,8 @@
+  *     _ap       absolute set                      r0 = memw(r1=##variable)
+  *     _pr       post increment register           r0 = memw(r1++m1)
+  *     _pi       post increment immediate          r0 = memb(r1++#1)
++ *     _pci      post increment circular immediate r0 = memw(r1++#4:circ(m0))
++ *     _pcr      post increment circular register  r0 = memw(r1++I:circ(m0))
+  */
  
+ /* Macros for complex addressing modes */
+@@ -56,7 +58,22 @@
+         fEA_REG(RxV); \
+         fPM_I(RxV, siV); \
+     } while (0)
+-
++#define GET_EA_pci \
++    do { \
++        TCGv tcgv_siV = tcg_const_tl(siV); \
++        tcg_gen_mov_tl(EA, RxV); \
++        gen_helper_fcircadd(RxV, RxV, tcgv_siV, MuV, \
++                            hex_gpr[HEX_REG_CS0 + MuN]); \
++        tcg_temp_free(tcgv_siV); \
++    } while (0)
++#define GET_EA_pcr(SHIFT) \
++    do { \
++        TCGv ireg = tcg_temp_new(); \
++        tcg_gen_mov_tl(EA, RxV); \
++        gen_read_ireg(ireg, MuV, (SHIFT)); \
++        gen_helper_fcircadd(RxV, RxV, ireg, MuV, hex_gpr[HEX_REG_CS0 + MuN]); \
++        tcg_temp_free(ireg); \
++    } while (0)
+ 
+ /* Instructions with multiple definitions */
+ #define fGEN_TCG_LOAD_AP(RES, SIZE, SIGN) \
+@@ -80,6 +97,36 @@
+ #define fGEN_TCG_L4_loadrd_ap(SHORTCODE) \
+     fGEN_TCG_LOAD_AP(RddV, 8, u)
+ 
++#define fGEN_TCG_L2_loadrub_pci(SHORTCODE)    SHORTCODE
++#define fGEN_TCG_L2_loadrb_pci(SHORTCODE)     SHORTCODE
++#define fGEN_TCG_L2_loadruh_pci(SHORTCODE)    SHORTCODE
++#define fGEN_TCG_L2_loadrh_pci(SHORTCODE)     SHORTCODE
++#define fGEN_TCG_L2_loadri_pci(SHORTCODE)     SHORTCODE
++#define fGEN_TCG_L2_loadrd_pci(SHORTCODE)     SHORTCODE
++
++#define fGEN_TCG_LOAD_pcr(SHIFT, LOAD) \
++    do { \
++        TCGv ireg = tcg_temp_new(); \
++        tcg_gen_mov_tl(EA, RxV); \
++        gen_read_ireg(ireg, MuV, SHIFT); \
++        gen_helper_fcircadd(RxV, RxV, ireg, MuV, hex_gpr[HEX_REG_CS0 + MuN]); \
++        LOAD; \
++        tcg_temp_free(ireg); \
++    } while (0)
++
++#define fGEN_TCG_L2_loadrub_pcr(SHORTCODE) \
++      fGEN_TCG_LOAD_pcr(0, fLOAD(1, 1, u, EA, RdV))
++#define fGEN_TCG_L2_loadrb_pcr(SHORTCODE) \
++      fGEN_TCG_LOAD_pcr(0, fLOAD(1, 1, s, EA, RdV))
++#define fGEN_TCG_L2_loadruh_pcr(SHORTCODE) \
++      fGEN_TCG_LOAD_pcr(1, fLOAD(1, 2, u, EA, RdV))
++#define fGEN_TCG_L2_loadrh_pcr(SHORTCODE) \
++      fGEN_TCG_LOAD_pcr(1, fLOAD(1, 2, s, EA, RdV))
++#define fGEN_TCG_L2_loadri_pcr(SHORTCODE) \
++      fGEN_TCG_LOAD_pcr(2, fLOAD(1, 4, u, EA, RdV))
++#define fGEN_TCG_L2_loadrd_pcr(SHORTCODE) \
++      fGEN_TCG_LOAD_pcr(3, fLOAD(1, 8, u, EA, RddV))
++
+ #define fGEN_TCG_L2_loadrub_pr(SHORTCODE)      SHORTCODE
+ #define fGEN_TCG_L2_loadrub_pi(SHORTCODE)      SHORTCODE
+ #define fGEN_TCG_L2_loadrb_pr(SHORTCODE)       SHORTCODE
+@@ -195,6 +242,69 @@
+ #define fGEN_TCG_S4_stored_locked(SHORTCODE) \
+     do { SHORTCODE; READ_PREG(PdV, PdN); } while (0)
+ 
++#define fGEN_TCG_STORE(SHORTCODE) \
++    do { \
++        TCGv HALF = tcg_temp_new(); \
++        TCGv BYTE = tcg_temp_new(); \
++        SHORTCODE; \
++        tcg_temp_free(HALF); \
++        tcg_temp_free(BYTE); \
++    } while (0)
++
++#define fGEN_TCG_STORE_pcr(SHIFT, STORE) \
++    do { \
++        TCGv ireg = tcg_temp_new(); \
++        TCGv HALF = tcg_temp_new(); \
++        TCGv BYTE = tcg_temp_new(); \
++        tcg_gen_mov_tl(EA, RxV); \
++        gen_read_ireg(ireg, MuV, SHIFT); \
++        gen_helper_fcircadd(RxV, RxV, ireg, MuV, hex_gpr[HEX_REG_CS0 + MuN]); \
++        STORE; \
++        tcg_temp_free(ireg); \
++        tcg_temp_free(HALF); \
++        tcg_temp_free(BYTE); \
++    } while (0)
++
++#define fGEN_TCG_S2_storerb_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerb_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(0, fSTORE(1, 1, EA, fGETBYTE(0, RtV)))
++
++#define fGEN_TCG_S2_storerh_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerh_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(1, fSTORE(1, 2, EA, fGETHALF(0, RtV)))
++
++#define fGEN_TCG_S2_storerf_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerf_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(1, fSTORE(1, 2, EA, fGETHALF(1, RtV)))
++
++#define fGEN_TCG_S2_storeri_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storeri_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(2, fSTORE(1, 4, EA, RtV))
++
++#define fGEN_TCG_S2_storerd_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerd_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(3, fSTORE(1, 8, EA, RttV))
++
++#define fGEN_TCG_S2_storerbnew_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerbnew_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(0, fSTORE(1, 1, EA, fGETBYTE(0, NtN)))
++
++#define fGEN_TCG_S2_storerhnew_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerhnew_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(1, fSTORE(1, 2, EA, fGETHALF(0, NtN)))
++
++#define fGEN_TCG_S2_storerinew_pci(SHORTCODE) \
++    fGEN_TCG_STORE(SHORTCODE)
++#define fGEN_TCG_S2_storerinew_pcr(SHORTCODE) \
++    fGEN_TCG_STORE_pcr(2, fSTORE(1, 4, EA, NtN))
++
  /*
-+ * Add or subtract with carry.
-+ * Predicate register is used as an extra input and output.
-+ * r5:4 = add(r1:0, r3:2, p1):carry
-+ */
-+#define fGEN_TCG_A4_addp_c(SHORTCODE) \
-+    do { \
-+        TCGv_i64 carry = tcg_temp_new_i64(); \
-+        TCGv_i64 zero = tcg_const_i64(0); \
-+        tcg_gen_extu_i32_i64(carry, PxV); \
-+        tcg_gen_andi_i64(carry, carry, 1); \
-+        tcg_gen_add2_i64(RddV, carry, RssV, zero, carry, zero); \
-+        tcg_gen_add2_i64(RddV, carry, RddV, carry, RttV, zero); \
-+        tcg_gen_extrl_i64_i32(PxV, carry); \
-+        gen_8bitsof(PxV, PxV); \
-+        tcg_temp_free_i64(carry); \
-+        tcg_temp_free_i64(zero); \
-+    } while (0)
-+
-+/* r5:4 = sub(r1:0, r3:2, p1):carry */
-+#define fGEN_TCG_A4_subp_c(SHORTCODE) \
-+    do { \
-+        TCGv_i64 carry = tcg_temp_new_i64(); \
-+        TCGv_i64 zero = tcg_const_i64(0); \
-+        TCGv_i64 not_RttV = tcg_temp_new_i64(); \
-+        tcg_gen_extu_i32_i64(carry, PxV); \
-+        tcg_gen_andi_i64(carry, carry, 1); \
-+        tcg_gen_not_i64(not_RttV, RttV); \
-+        tcg_gen_add2_i64(RddV, carry, RssV, zero, carry, zero); \
-+        tcg_gen_add2_i64(RddV, carry, RddV, carry, not_RttV, zero); \
-+        tcg_gen_extrl_i64_i32(PxV, carry); \
-+        gen_8bitsof(PxV, PxV); \
-+        tcg_temp_free_i64(carry); \
-+        tcg_temp_free_i64(zero); \
-+        tcg_temp_free_i64(not_RttV); \
-+    } while (0)
-+
-+/*
-  * Compare each of the 8 unsigned bytes
-  * The minimum is placed in each byte of the destination.
-  * Each bit of the predicate is set true if the bit from the first operand
+  * Mathematical operations with more than one definition require
+  * special handling
 diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-index 6755194..69a0202 100644
+index 69a0202..0d83fe3 100644
 --- a/target/hexagon/genptr.c
 +++ b/target/hexagon/genptr.c
-@@ -361,5 +361,16 @@ static inline void gen_store_conditional8(CPUHexagonState *env,
-     tcg_gen_movi_tl(hex_llsc_addr, ~0);
- }
+@@ -27,6 +27,12 @@
+ #include "macros.h"
+ #include "gen_tcg.h"
  
-+static TCGv gen_8bitsof(TCGv result, TCGv value)
++static inline TCGv gen_read_reg(TCGv result, int num)
 +{
-+    TCGv zero = tcg_const_tl(0);
-+    TCGv ones = tcg_const_tl(0xff);
-+    tcg_gen_movcond_tl(TCG_COND_NE, result, value, zero, ones, zero);
-+    tcg_temp_free(zero);
-+    tcg_temp_free(ones);
-+
++    tcg_gen_mov_tl(result, hex_gpr[num]);
 +    return result;
 +}
 +
- #include "tcg_funcs_generated.c.inc"
- #include "tcg_func_table_generated.c.inc"
-diff --git a/target/hexagon/imported/alu.idef b/target/hexagon/imported/alu.idef
-index f0c9bb4..58477ae 100644
---- a/target/hexagon/imported/alu.idef
-+++ b/target/hexagon/imported/alu.idef
-@@ -153,6 +153,21 @@ Q6INSN(A2_subp,"Rdd32=sub(Rtt32,Rss32)",ATTRIBS(),
- "Sub",
- { RddV=RttV-RssV;})
+ static inline TCGv gen_read_preg(TCGv pred, uint8_t num)
+ {
+     tcg_gen_mov_tl(pred, hex_pred[num]);
+@@ -266,6 +272,16 @@ static inline void gen_write_ctrl_reg_pair(DisasContext *ctx, int reg_num,
+     }
+ }
  
-+/* 64-bit with carry */
-+
-+Q6INSN(A4_addp_c,"Rdd32=add(Rss32,Rtt32,Px4):carry",ATTRIBS(),"Add with Carry",
++static TCGv gen_get_byte(TCGv result, int N, TCGv src, bool sign)
 +{
-+  RddV = RssV + RttV + fLSBOLD(PxV);
-+  PxV = f8BITSOF(fCARRY_FROM_ADD(RssV,RttV,fLSBOLD(PxV)));
-+})
++    if (sign) {
++        tcg_gen_sextract_tl(result, src, N * 8, 8);
++    } else {
++        tcg_gen_extract_tl(result, src, N * 8, 8);
++    }
++    return result;
++}
 +
-+Q6INSN(A4_subp_c,"Rdd32=sub(Rss32,Rtt32,Px4):carry",ATTRIBS(),"Sub with Carry",
-+{
-+  RddV = RssV + ~RttV + fLSBOLD(PxV);
-+  PxV = f8BITSOF(fCARRY_FROM_ADD(RssV,~RttV,fLSBOLD(PxV)));
-+})
-+
-+
- /* NEG and ABS */
+ static TCGv gen_get_byte_i64(TCGv result, int N, TCGv_i64 src, bool sign)
+ {
+     TCGv_i64 res64 = tcg_temp_new_i64();
+@@ -280,6 +296,21 @@ static TCGv gen_get_byte_i64(TCGv result, int N, TCGv_i64 src, bool sign)
+     return result;
+ }
  
- Q6INSN(A2_negsat,"Rd32=neg(Rs32):sat",ATTRIBS(),
++static inline TCGv gen_get_half(TCGv result, int N, TCGv src, bool sign)
++{
++    if (sign) {
++        tcg_gen_sextract_tl(result, src, N * 16, 16);
++    } else {
++        tcg_gen_extract_tl(result, src, N * 16, 16);
++    }
++    return result;
++}
++
++static inline void gen_set_byte(int N, TCGv result, TCGv src)
++{
++    tcg_gen_deposit_tl(result, result, src, N * 8, 8);
++}
++
+ static void gen_set_byte_i64(int N, TCGv_i64 result, TCGv src)
+ {
+     TCGv_i64 src64 = tcg_temp_new_i64();
+@@ -361,6 +392,75 @@ static inline void gen_store_conditional8(CPUHexagonState *env,
+     tcg_gen_movi_tl(hex_llsc_addr, ~0);
+ }
+ 
++static inline void gen_store32(TCGv vaddr, TCGv src, int width, int slot)
++{
++    tcg_gen_mov_tl(hex_store_addr[slot], vaddr);
++    tcg_gen_movi_tl(hex_store_width[slot], width);
++    tcg_gen_mov_tl(hex_store_val32[slot], src);
++}
++
++static inline void gen_store1(TCGv_env cpu_env, TCGv vaddr, TCGv src,
++                              DisasContext *ctx, int slot)
++{
++    gen_store32(vaddr, src, 1, slot);
++    ctx->store_width[slot] = 1;
++}
++
++static inline void gen_store1i(TCGv_env cpu_env, TCGv vaddr, int32_t src,
++                               DisasContext *ctx, int slot)
++{
++    TCGv tmp = tcg_const_tl(src);
++    gen_store1(cpu_env, vaddr, tmp, ctx, slot);
++    tcg_temp_free(tmp);
++}
++
++static inline void gen_store2(TCGv_env cpu_env, TCGv vaddr, TCGv src,
++                              DisasContext *ctx, int slot)
++{
++    gen_store32(vaddr, src, 2, slot);
++    ctx->store_width[slot] = 2;
++}
++
++static inline void gen_store2i(TCGv_env cpu_env, TCGv vaddr, int32_t src,
++                               DisasContext *ctx, int slot)
++{
++    TCGv tmp = tcg_const_tl(src);
++    gen_store2(cpu_env, vaddr, tmp, ctx, slot);
++    tcg_temp_free(tmp);
++}
++
++static inline void gen_store4(TCGv_env cpu_env, TCGv vaddr, TCGv src,
++                              DisasContext *ctx, int slot)
++{
++    gen_store32(vaddr, src, 4, slot);
++    ctx->store_width[slot] = 4;
++}
++
++static inline void gen_store4i(TCGv_env cpu_env, TCGv vaddr, int32_t src,
++                               DisasContext *ctx, int slot)
++{
++    TCGv tmp = tcg_const_tl(src);
++    gen_store4(cpu_env, vaddr, tmp, ctx, slot);
++    tcg_temp_free(tmp);
++}
++
++static inline void gen_store8(TCGv_env cpu_env, TCGv vaddr, TCGv_i64 src,
++                              DisasContext *ctx, int slot)
++{
++    tcg_gen_mov_tl(hex_store_addr[slot], vaddr);
++    tcg_gen_movi_tl(hex_store_width[slot], 8);
++    tcg_gen_mov_i64(hex_store_val64[slot], src);
++    ctx->store_width[slot] = 8;
++}
++
++static inline void gen_store8i(TCGv_env cpu_env, TCGv vaddr, int64_t src,
++                               DisasContext *ctx, int slot)
++{
++    TCGv_i64 tmp = tcg_const_i64(src);
++    gen_store8(cpu_env, vaddr, tmp, ctx, slot);
++    tcg_temp_free_i64(tmp);
++}
++
+ static TCGv gen_8bitsof(TCGv result, TCGv value)
+ {
+     TCGv zero = tcg_const_tl(0);
 diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
-index 4619398..514c240 100644
+index 514c240..68b435e 100644
 --- a/target/hexagon/imported/encode_pp.def
 +++ b/target/hexagon/imported/encode_pp.def
-@@ -1749,6 +1749,8 @@ SH_RRR_ENC(S4_extractp_rp,      "0001","11-","-","10-","ddddd")
- DEF_FIELDROW_DESC32(ICLASS_S3op" 0010 -------- PP------ --------","[#2] Rdd=(Rss,Rtt,Pu)")
- SH_RRR_ENC(S2_valignrb,         "0010","0--","-","-uu","ddddd")
- SH_RRR_ENC(S2_vsplicerb,        "0010","100","-","-uu","ddddd")
-+SH_RRR_ENC(A4_addp_c,           "0010","110","-","-xx","ddddd")
-+SH_RRR_ENC(A4_subp_c,           "0010","111","-","-xx","ddddd")
+@@ -294,6 +294,7 @@ DEF_CLASS32(ICLASS_LD" ---- -------- PP------ --------",LD)
  
  
- DEF_FIELDROW_DESC32(ICLASS_S3op" 0011 -------- PP------ --------","[#3] Rdd=(Rss,Rt)")
-diff --git a/tests/tcg/hexagon/multi_result.c b/tests/tcg/hexagon/multi_result.c
-index aa2d586..4007b63 100644
---- a/tests/tcg/hexagon/multi_result.c
-+++ b/tests/tcg/hexagon/multi_result.c
-@@ -85,6 +85,38 @@ static long long vminub(long long Rtt, long long Rss,
-   return result;
- }
+ DEF_CLASS32(ICLASS_LD" 0--- -------- PP------ --------",LD_ADDR_ROFFSET)
++DEF_CLASS32(ICLASS_LD" 100- -------- PP----0- --------",LD_ADDR_POST_CIRC_IMMED)
+ DEF_CLASS32(ICLASS_LD" 101- -------- PP00---- --------",LD_ADDR_POST_IMMED)
+ DEF_CLASS32(ICLASS_LD" 101- -------- PP01---- --------",LD_ADDR_ABS_UPDATE_V4)
+ DEF_CLASS32(ICLASS_LD" 101- -------- PP1----- --------",LD_ADDR_POST_IMMED_PRED_V2)
+@@ -308,18 +309,23 @@ DEF_FIELD32(ICLASS_LD" ---- --!----- PP------ --------",LD_UN,"Unsigned")
  
-+static long long add_carry(long long Rss, long long Rtt,
-+                           int pred_in, int *pred_result)
-+{
-+  long long result;
-+  int predval = pred_in;
+ #define STD_LD_ENC(TAG,OPC) \
+ DEF_ENC32(L2_load##TAG##_io,   ICLASS_LD" 0 ii "OPC"  sssss  PPiiiiii  iiiddddd")\
++DEF_ENC32(L2_load##TAG##_pci,  ICLASS_LD" 1 00 "OPC"  xxxxx  PPu0--0i  iiiddddd")\
+ DEF_ENC32(L2_load##TAG##_pi,   ICLASS_LD" 1 01 "OPC"  xxxxx  PP00---i  iiiddddd")\
+ DEF_ENC32(L4_load##TAG##_ap,   ICLASS_LD" 1 01 "OPC"  eeeee  PP01IIII  -IIddddd")\
+ DEF_ENC32(L2_load##TAG##_pr,   ICLASS_LD" 1 10 "OPC"  xxxxx  PPu0----  0--ddddd")\
+ DEF_ENC32(L4_load##TAG##_ur,   ICLASS_LD" 1 10 "OPC"  ttttt  PPi1IIII  iIIddddd")\
++DEF_ENC32(L2_load##TAG##_pcr,  ICLASS_LD" 1 00 "OPC"  xxxxx  PPu0--1-  0--ddddd")\
+ 
+ 
+ #define STD_LDX_ENC(TAG,OPC) \
+ DEF_ENC32(L2_load##TAG##_io,   ICLASS_LD" 0 ii "OPC"  sssss  PPiiiiii  iiiyyyyy")\
++DEF_ENC32(L2_load##TAG##_pci,  ICLASS_LD" 1 00 "OPC"  xxxxx  PPu0--0i  iiiyyyyy")\
+ DEF_ENC32(L2_load##TAG##_pi,   ICLASS_LD" 1 01 "OPC"  xxxxx  PP00---i  iiiyyyyy")\
+ DEF_ENC32(L4_load##TAG##_ap,   ICLASS_LD" 1 01 "OPC"  eeeee  PP01IIII  -IIyyyyy")\
+ DEF_ENC32(L2_load##TAG##_pr,   ICLASS_LD" 1 10 "OPC"  xxxxx  PPu0----  0--yyyyy")\
+ DEF_ENC32(L4_load##TAG##_ur,   ICLASS_LD" 1 10 "OPC"  ttttt  PPi1IIII  iIIyyyyy")\
++DEF_ENC32(L2_load##TAG##_pcr,  ICLASS_LD" 1 00 "OPC"  xxxxx  PPu0--1-  0--yyyyy")\
++DEF_ENC32(L2_load##TAG##_pbr,  ICLASS_LD" 1 11 "OPC"  xxxxx  PPu0----  0--yyyyy")
+ 
+ 
+ #define STD_PLD_ENC(TAG,OPC) \
+@@ -351,6 +357,7 @@ STD_PLD_ENC(rd,  "1 110") /* note dest reg field LSB=0, 1 is reserved */
+ 
+ DEF_CLASS32(    ICLASS_LD" 0--0 000----- PP------ --------",LD_MISC)
+ DEF_ANTICLASS32(ICLASS_LD" 0--0 000----- PP------ --------",LD_ADDR_ROFFSET)
++DEF_ANTICLASS32(ICLASS_LD" 1000 000----- PP------ --------",LD_ADDR_POST_CIRC_IMMED)
+ DEF_ANTICLASS32(ICLASS_LD" 1010 000----- PP------ --------",LD_ADDR_POST_IMMED)
+ DEF_ANTICLASS32(ICLASS_LD" 1100 000----- PP------ --------",LD_ADDR_POST_REG)
+ DEF_ANTICLASS32(ICLASS_LD" 1110 000----- PP------ --------",LD_ADDR_POST_REG)
+@@ -397,6 +404,7 @@ DEF_FIELD32(ICLASS_ST" ---! !!------ PP------ --------",ST_Type,"Type")
+ DEF_FIELD32(ICLASS_ST" ---- --!----- PP------ --------",ST_UN,"Unsigned")
+ 
+ DEF_CLASS32(ICLASS_ST" 0--1 -------- PP------ --------",ST_ADDR_ROFFSET)
++DEF_CLASS32(ICLASS_ST" 1001 -------- PP------ ------0-",ST_ADDR_POST_CIRC_IMMED)
+ DEF_CLASS32(ICLASS_ST" 1011 -------- PP0----- 0-----0-",ST_ADDR_POST_IMMED)
+ DEF_CLASS32(ICLASS_ST" 1011 -------- PP0----- 1-------",ST_ADDR_ABS_UPDATE_V4)
+ DEF_CLASS32(ICLASS_ST" 1011 -------- PP1----- --------",ST_ADDR_POST_IMMED_PRED_V2)
+@@ -411,10 +419,12 @@ DEF_CLASS32(ICLASS_ST" 0--0 0------- PP------ --------",ST_MISC_CACHEOP)
+ 
+ #define STD_ST_ENC(TAG,OPC,SRC) \
+ DEF_ENC32(S2_store##TAG##_io,   ICLASS_ST" 0 ii "OPC"  sssss  PPi"SRC"  iiiiiiii")\
++DEF_ENC32(S2_store##TAG##_pci,  ICLASS_ST" 1 00 "OPC"  xxxxx  PPu"SRC"  0iiii-0-")\
+ DEF_ENC32(S2_store##TAG##_pi,   ICLASS_ST" 1 01 "OPC"  xxxxx  PP0"SRC"  0iiii-0-")\
+ DEF_ENC32(S4_store##TAG##_ap,   ICLASS_ST" 1 01 "OPC"  eeeee  PP0"SRC"  1-IIIIII")\
+ DEF_ENC32(S2_store##TAG##_pr,   ICLASS_ST" 1 10 "OPC"  xxxxx  PPu"SRC"  0-------")\
+ DEF_ENC32(S4_store##TAG##_ur,   ICLASS_ST" 1 10 "OPC"  uuuuu  PPi"SRC"  1iIIIIII")\
++DEF_ENC32(S2_store##TAG##_pcr,  ICLASS_ST" 1 00 "OPC"  xxxxx  PPu"SRC"  0-----1-")\
+ 
+ 
+ #define STD_PST_ENC(TAG,OPC,SRC) \
+diff --git a/target/hexagon/imported/ldst.idef b/target/hexagon/imported/ldst.idef
+index 78a2ea4..6ce0635 100644
+--- a/target/hexagon/imported/ldst.idef
++++ b/target/hexagon/imported/ldst.idef
+@@ -26,6 +26,8 @@ Q6INSN(L4_##TAG##_ur,  OPER"(Rt32<<#u2+#U6)",             ATTRIB,DESCR,{fMUST_IM
+ Q6INSN(L4_##TAG##_ap,  OPER"(Re32=#U6)",                  ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IMM(UiV); SEMANTICS; ReV=UiV; })\
+ Q6INSN(L2_##TAG##_pr,  OPER"(Rx32++Mu2)",                 ATTRIB,DESCR,{fEA_REG(RxV); fPM_M(RxV,MuV); SEMANTICS;})\
+ Q6INSN(L2_##TAG##_pi,  OPER"(Rx32++#s4:"SHFT")",          ATTRIB,DESCR,{fEA_REG(RxV); fPM_I(RxV,siV); SEMANTICS;})\
++Q6INSN(L2_##TAG##_pci, OPER"(Rx32++#s4:"SHFT":circ(Mu2))",ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRI(RxV,siV,MuV); SEMANTICS;})\
++Q6INSN(L2_##TAG##_pcr, OPER"(Rx32++I:circ(Mu2))",  ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRR(RxV,fREAD_IREG(MuV)<<SCALE,MuV); SEMANTICS;})
+ 
+ /* The set of 32-bit load instructions */
+ STD_LD_AMODES(loadrub,"Rd32=memub","Load Unsigned Byte",ATTRIBS(A_LOAD),"0",fLOAD(1,1,u,EA,RdV),0)
+@@ -42,6 +44,8 @@ Q6INSN(S2_##TAG##_pi,  OPER"(Rx32++#s4:"SHFT")="DEST,     ATTRIB,DESCR,{fEA_REG(
+ Q6INSN(S4_##TAG##_ap,  OPER"(Re32=#U6)="DEST,             ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IMM(UiV); SEMANTICS; ReV=UiV; })\
+ Q6INSN(S2_##TAG##_pr,  OPER"(Rx32++Mu2)="DEST,            ATTRIB,DESCR,{fEA_REG(RxV); fPM_M(RxV,MuV); SEMANTICS; })\
+ Q6INSN(S4_##TAG##_ur,  OPER"(Ru32<<#u2+#U6)="DEST,            ATTRIB,DESCR,{fMUST_IMMEXT(UiV); fEA_IRs(UiV,RuV,uiV); SEMANTICS;})\
++Q6INSN(S2_##TAG##_pci, OPER"(Rx32++#s4:"SHFT":circ(Mu2))="DEST,  ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRI(RxV,siV,MuV); SEMANTICS;})\
++Q6INSN(S2_##TAG##_pcr, OPER"(Rx32++I:circ(Mu2))="DEST,  ATTRIB,DESCR,{fEA_REG(RxV); fPM_CIRR(RxV,fREAD_IREG(MuV)<<SCALE,MuV); SEMANTICS;})
+ 
+ 
+ /* The set of 32-bit store instructions */
+diff --git a/target/hexagon/imported/macros.def b/target/hexagon/imported/macros.def
+index 65292c7..25f57b6 100755
+--- a/target/hexagon/imported/macros.def
++++ b/target/hexagon/imported/macros.def
+@@ -277,6 +277,12 @@ DEF_MACRO(
+ /*************************************/
+ 
+ DEF_MACRO(
++    fREAD_IREG, /* read modifier register */
++    (fSXTN(11,64,(((VAL) & 0xf0000000)>>21) | ((VAL>>17)&0x7f) )),          /* behavior */
++    ()
++)
 +
-+  asm volatile("p0 = %1\n\t"
-+               "%0 = add(%2, %3, p0):carry\n\t"
-+               "%1 = p0\n\t"
-+               : "=r"(result), "+r"(predval)
-+               : "r"(Rss), "r"(Rtt)
-+               : "p0");
-+  *pred_result = predval;
-+  return result;
++DEF_MACRO(
+     fREAD_LR, /* read link register */
+     (READ_RREG(REG_LR)),          /* behavior */
+     ()
+@@ -307,6 +313,12 @@ DEF_MACRO(
+ )
+ 
+ DEF_MACRO(
++    fREAD_CSREG, /* read  CS register */
++    (READ_RREG(REG_CSA+N)),          /* behavior */
++    ()
++)
++
++DEF_MACRO(
+     fREAD_LC0, /* read loop count */
+     (READ_RREG(REG_LC0)),          /* behavior */
+     ()
+@@ -825,6 +837,20 @@ DEF_MACRO(
+ )
+ 
+ DEF_MACRO(
++    fPM_CIRI, /* Post Modify Register using Circular arithmetic by Immediate */
++    do { fcirc_add(REG,siV,MuV); } while (0),
++    ()
++)
++
++DEF_MACRO(
++    fPM_CIRR, /* Post Modify Register using Circular arithmetic by register */
++    do { fcirc_add(REG,VAL,MuV); } while (0),
++    ()
++)
++
++
++
++DEF_MACRO(
+     fSCALE, /* scale by N */
+     (((size8s_t)(A))<<N),
+     /* optional attributes */
+diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
+index 8cb211d..ba8450b 100644
+--- a/target/hexagon/macros.h
++++ b/target/hexagon/macros.h
+@@ -133,6 +133,38 @@
+         CHECK_NOSHUF; \
+         tcg_gen_qemu_ld64(DST, VA, ctx->mem_idx); \
+     } while (0)
++
++#define MEM_STORE1_FUNC(X) \
++    __builtin_choose_expr(TYPE_INT(X), \
++        gen_store1i, \
++        __builtin_choose_expr(TYPE_TCGV(X), \
++            gen_store1, (void)0))
++#define MEM_STORE1(VA, DATA, SLOT) \
++    MEM_STORE1_FUNC(DATA)(cpu_env, VA, DATA, ctx, SLOT)
++
++#define MEM_STORE2_FUNC(X) \
++    __builtin_choose_expr(TYPE_INT(X), \
++        gen_store2i, \
++        __builtin_choose_expr(TYPE_TCGV(X), \
++            gen_store2, (void)0))
++#define MEM_STORE2(VA, DATA, SLOT) \
++    MEM_STORE2_FUNC(DATA)(cpu_env, VA, DATA, ctx, SLOT)
++
++#define MEM_STORE4_FUNC(X) \
++    __builtin_choose_expr(TYPE_INT(X), \
++        gen_store4i, \
++        __builtin_choose_expr(TYPE_TCGV(X), \
++            gen_store4, (void)0))
++#define MEM_STORE4(VA, DATA, SLOT) \
++    MEM_STORE4_FUNC(DATA)(cpu_env, VA, DATA, ctx, SLOT)
++
++#define MEM_STORE8_FUNC(X) \
++    __builtin_choose_expr(TYPE_INT(X), \
++        gen_store8i, \
++        __builtin_choose_expr(TYPE_TCGV_I64(X), \
++            gen_store8, (void)0))
++#define MEM_STORE8(VA, DATA, SLOT) \
++    MEM_STORE8_FUNC(DATA)(cpu_env, VA, DATA, ctx, SLOT)
+ #else
+ #define MEM_LOAD1s(VA) ((int8_t)mem_load1(env, slot, VA))
+ #define MEM_LOAD1u(VA) ((uint8_t)mem_load1(env, slot, VA))
+@@ -285,6 +317,39 @@ static inline void gen_logical_not(TCGv dest, TCGv src)
+ 
+ #define fPCALIGN(IMM) IMM = (IMM & ~PCALIGN_MASK)
+ 
++#ifdef QEMU_GENERATE
++static inline TCGv gen_read_ireg(TCGv result, TCGv val, int shift)
++{
++    /*
++     * Section 2.2.4 of the Hexagon V67 Programmer's Reference Manual
++     *
++     *  The "I" value from a modifier register is divided into two pieces
++     *      LSB         bits 23:17
++     *      MSB         bits 31:28
++     * At the end we shift the result according to the shift argument
++     */
++    TCGv msb = tcg_temp_new();
++    TCGv lsb = tcg_temp_new();
++
++    tcg_gen_extract_tl(lsb, val, 17, 7);
++    tcg_gen_extract_tl(msb, val, 28, 4);
++    tcg_gen_movi_tl(result, 0);
++    tcg_gen_deposit_tl(result, result, lsb, 0, 7);
++    tcg_gen_deposit_tl(result, result, msb, 7, 4);
++
++    tcg_gen_shli_tl(result, result, shift);
++
++    tcg_temp_free(msb);
++    tcg_temp_free(lsb);
++
++    return result;
++}
++#define fREAD_IREG(VAL, SHIFT) gen_read_ireg(ireg, (VAL), (SHIFT))
++#else
++#define fREAD_IREG(VAL) \
++    (fSXTN(11, 64, (((VAL) & 0xf0000000) >> 21) | ((VAL >> 17) & 0x7f)))
++#endif
++
+ #define fREAD_LR() (READ_REG(HEX_REG_LR))
+ 
+ #define fWRITE_LR(A) WRITE_RREG(HEX_REG_LR, A)
+@@ -418,6 +483,13 @@ static inline void gen_logical_not(TCGv dest, TCGv src)
+ #define fEA_REG(REG) tcg_gen_mov_tl(EA, REG)
+ #define fPM_I(REG, IMM)     tcg_gen_addi_tl(REG, REG, IMM)
+ #define fPM_M(REG, MVAL)    tcg_gen_add_tl(REG, REG, MVAL)
++#define fPM_CIRI(REG, IMM, MVAL) \
++    do { \
++        TCGv tcgv_siV = tcg_const_tl(siV); \
++        gen_helper_fcircadd(REG, REG, tcgv_siV, MuV, \
++                            hex_gpr[HEX_REG_CS0 + MuN]); \
++        tcg_temp_free(tcgv_siV); \
++    } while (0)
+ #else
+ #define fEA_IMM(IMM)        do { EA = (IMM); } while (0)
+ #define fEA_REG(REG)        do { EA = (REG); } while (0)
+@@ -494,23 +566,43 @@ static inline void gen_logical_not(TCGv dest, TCGv src)
+     gen_load_locked##SIZE##SIGN(DST, EA, ctx->mem_idx);
+ #endif
+ 
++#ifdef QEMU_GENERATE
++#define fSTORE(NUM, SIZE, EA, SRC) MEM_STORE##SIZE(EA, SRC, insn->slot)
++#else
+ #define fSTORE(NUM, SIZE, EA, SRC) MEM_STORE##SIZE(EA, SRC, slot)
++#endif
+ 
+ #ifdef QEMU_GENERATE
+ #define fSTORE_LOCKED(NUM, SIZE, EA, SRC, PRED) \
+     gen_store_conditional##SIZE(env, ctx, PdN, PRED, EA, SRC);
+ #endif
+ 
++#ifdef QEMU_GENERATE
++#define GETBYTE_FUNC(X) \
++    __builtin_choose_expr(TYPE_TCGV(X), \
++        gen_get_byte, \
++        __builtin_choose_expr(TYPE_TCGV_I64(X), \
++            gen_get_byte_i64, (void)0))
++#define fGETBYTE(N, SRC) GETBYTE_FUNC(SRC)(BYTE, N, SRC, true)
++#define fGETUBYTE(N, SRC) GETBYTE_FUNC(SRC)(BYTE, N, SRC, false)
++#else
+ #define fGETBYTE(N, SRC) ((int8_t)((SRC >> ((N) * 8)) & 0xff))
+ #define fGETUBYTE(N, SRC) ((uint8_t)((SRC >> ((N) * 8)) & 0xff))
++#endif
+ 
+ #define fSETBYTE(N, DST, VAL) \
+     do { \
+         DST = (DST & ~(0x0ffLL << ((N) * 8))) | \
+         (((uint64_t)((VAL) & 0x0ffLL)) << ((N) * 8)); \
+     } while (0)
++
++#ifdef QEMU_GENERATE
++#define fGETHALF(N, SRC)  gen_get_half(HALF, N, SRC, true)
++#define fGETUHALF(N, SRC) gen_get_half(HALF, N, SRC, false)
++#else
+ #define fGETHALF(N, SRC) ((int16_t)((SRC >> ((N) * 16)) & 0xffff))
+ #define fGETUHALF(N, SRC) ((uint16_t)((SRC >> ((N) * 16)) & 0xffff))
++#endif
+ #define fSETHALF(N, DST, VAL) \
+     do { \
+         DST = (DST & ~(0x0ffffLL << ((N) * 16))) | \
+diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+index 18218ad..81f73c0 100644
+--- a/tests/tcg/hexagon/Makefile.target
++++ b/tests/tcg/hexagon/Makefile.target
+@@ -41,6 +41,7 @@ HEX_TESTS += preg_alias
+ HEX_TESTS += dual_stores
+ HEX_TESTS += multi_result
+ HEX_TESTS += mem_noshuf
++HEX_TESTS += circ
+ HEX_TESTS += atomics
+ HEX_TESTS += fpstuff
+ 
+diff --git a/tests/tcg/hexagon/circ.c b/tests/tcg/hexagon/circ.c
+new file mode 100644
+index 0000000..b819020
+--- /dev/null
++++ b/tests/tcg/hexagon/circ.c
+@@ -0,0 +1,391 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <stdio.h>
++
++#define DEBUG          0
++#if DEBUG
++#define DEBUG_PRINTF(...) printf(__VA_ARGS__)
++#else
++#define DEBUG_PRINTF(...) do { } while (0)
++#endif
++
++
++#define NBYTES         (1 << 8)
++#define NHALFS         (NBYTES / sizeof(short))
++#define NWORDS         (NBYTES / sizeof(int))
++#define NDOBLS         (NBYTES / sizeof(long long))
++
++long long     dbuf[NDOBLS] __attribute__((aligned(1 << 12))) = {0};
++int           wbuf[NWORDS] __attribute__((aligned(1 << 12))) = {0};
++short         hbuf[NHALFS] __attribute__((aligned(1 << 12))) = {0};
++unsigned char bbuf[NBYTES] __attribute__((aligned(1 << 12))) = {0};
++
++/*
++ * We use the C preporcessor to deal with the combinations of types
++ */
++
++#define INIT(BUF, N) \
++    void init_##BUF(void) \
++    { \
++        int i; \
++        for (i = 0; i < N; i++) { \
++            BUF[i] = i; \
++        } \
++    } \
++
++INIT(bbuf, NBYTES)
++INIT(hbuf, NHALFS)
++INIT(wbuf, NWORDS)
++INIT(dbuf, NDOBLS)
++
++/*
++ * Macros for performing circular load
++ *     RES         result
++ *     ADDR        address
++ *     START       start address of buffer
++ *     LEN         length of buffer (in bytes)
++ *     INC         address increment (in bytes for IMM, elements for REG)
++ */
++#define CIRC_LOAD_IMM(SIZE, RES, ADDR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %3\n\t" \
++        "m0 = r4\n\t" \
++        "cs0 = %2\n\t" \
++        "%0 = mem" #SIZE "(%1++#" #INC ":circ(M0))\n\t" \
++        : "=r"(RES), "+r"(ADDR) \
++        : "r"(START), "r"(LEN) \
++        : "r4", "m0", "cs0")
++#define CIRC_LOAD_IMM_b(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_IMM(b, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_IMM_ub(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_IMM(ub, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_IMM_h(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_IMM(h, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_IMM_uh(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_IMM(uh, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_IMM_w(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_IMM(w, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_IMM_d(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_IMM(d, RES, ADDR, START, LEN, INC)
++
++#define CIRC_LOAD_REG(SIZE, RES, ADDR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %2\n\t" \
++        "m1 = r4\n\t" \
++        "cs1 = %3\n\t" \
++        "%0 = mem" #SIZE "(%1++I:circ(M1))\n\t" \
++        : "=r"(RES), "+r"(ADDR) \
++        : "r"((((INC) & 0x7f) << 17) | ((LEN) & 0x1ffff)), \
++          "r"(START) \
++        : "r4", "m1", "cs1")
++#define CIRC_LOAD_REG_b(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_REG(b, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_REG_ub(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_REG(ub, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_REG_h(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_REG(h, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_REG_uh(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_REG(uh, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_REG_w(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_REG(w, RES, ADDR, START, LEN, INC)
++#define CIRC_LOAD_REG_d(RES, ADDR, START, LEN, INC) \
++    CIRC_LOAD_REG(d, RES, ADDR, START, LEN, INC)
++
++/*
++ * Macros for performing circular store
++ *     VAL         value to store
++ *     ADDR        address
++ *     START       start address of buffer
++ *     LEN         length of buffer (in bytes)
++ *     INC         address increment (in bytes for IMM, elements for REG)
++ */
++#define CIRC_STORE_IMM(SIZE, PART, VAL, ADDR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %3\n\t" \
++        "m0 = r4\n\t" \
++        "cs0 = %1\n\t" \
++        "mem" #SIZE "(%0++#" #INC ":circ(M0)) = %2" PART "\n\t" \
++        : "+r"(ADDR) \
++        : "r"(START), "r"(VAL), "r"(LEN) \
++        : "r4", "m0", "cs0", "memory")
++#define CIRC_STORE_IMM_b(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_IMM(b, "", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_IMM_h(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_IMM(h, "", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_IMM_f(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_IMM(h, ".H", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_IMM_w(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_IMM(w, "", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_IMM_d(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_IMM(d, "", VAL, ADDR, START, LEN, INC)
++
++#define CIRC_STORE_NEW_IMM(SIZE, VAL, ADDR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %3\n\t" \
++        "m0 = r4\n\t" \
++        "cs0 = %1\n\t" \
++        "{\n\t" \
++        "    r5 = %2\n\t" \
++        "    mem" #SIZE "(%0++#" #INC ":circ(M0)) = r5.new\n\t" \
++        "}\n\t" \
++        : "+r"(ADDR) \
++        : "r"(START), "r"(VAL), "r"(LEN) \
++        : "r4", "r5", "m0", "cs0", "memory")
++#define CIRC_STORE_IMM_bnew(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_NEW_IMM(b, VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_IMM_hnew(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_NEW_IMM(h, VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_IMM_wnew(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_NEW_IMM(w, VAL, ADDR, START, LEN, INC)
++
++#define CIRC_STORE_REG(SIZE, PART, VAL, ADDR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %1\n\t" \
++        "m1 = r4\n\t" \
++        "cs1 = %2\n\t" \
++        "mem" #SIZE "(%0++I:circ(M1)) = %3" PART "\n\t" \
++        : "+r"(ADDR) \
++        : "r"((((INC) & 0x7f) << 17) | ((LEN) & 0x1ffff)), \
++          "r"(START), \
++          "r"(VAL) \
++        : "r4", "m1", "cs1", "memory")
++#define CIRC_STORE_REG_b(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_REG(b, "", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_REG_h(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_REG(h, "", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_REG_f(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_REG(h, ".H", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_REG_w(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_REG(w, "", VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_REG_d(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_REG(d, "", VAL, ADDR, START, LEN, INC)
++
++#define CIRC_STORE_NEW_REG(SIZE, VAL, ADDR, START, LEN, INC) \
++    __asm__( \
++        "r4 = %1\n\t" \
++        "m1 = r4\n\t" \
++        "cs1 = %2\n\t" \
++        "{\n\t" \
++        "    r5 = %3\n\t" \
++        "    mem" #SIZE "(%0++I:circ(M1)) = r5.new\n\t" \
++        "}\n\t" \
++        : "+r"(ADDR) \
++        : "r"((((INC) & 0x7f) << 17) | ((LEN) & 0x1ffff)), \
++          "r"(START), \
++          "r"(VAL) \
++        : "r4", "r5", "m1", "cs1", "memory")
++#define CIRC_STORE_REG_bnew(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_NEW_REG(b, VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_REG_hnew(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_NEW_REG(h, VAL, ADDR, START, LEN, INC)
++#define CIRC_STORE_REG_wnew(VAL, ADDR, START, LEN, INC) \
++    CIRC_STORE_NEW_REG(w, VAL, ADDR, START, LEN, INC)
++
++
++int err;
++
++void check_load(int i, long long result, int mod)
++{
++    if (result != (i % mod)) {
++        printf("ERROR(%d): %lld != %d\n", i, result, i % mod);
++        err++;
++    }
 +}
 +
-+static long long sub_carry(long long Rss, long long Rtt,
-+                           int pred_in, int *pred_result)
-+{
-+  long long result;
-+  int predval = pred_in;
-+
-+  asm volatile("p0 = !cmp.eq(%1, #0)\n\t"
-+               "%0 = sub(%2, %3, p0):carry\n\t"
-+               "%1 = p0\n\t"
-+               : "=r"(result), "+r"(predval)
-+               : "r"(Rss), "r"(Rtt)
-+               : "p0");
-+  *pred_result = predval;
-+  return result;
++#define TEST_LOAD_IMM(SZ, TYPE, BUF, BUFSIZE, INC, FMT) \
++void circ_test_load_imm_##SZ(void) \
++{ \
++    TYPE *p = (TYPE *)BUF; \
++    int size = 10; \
++    int i; \
++    for (i = 0; i < BUFSIZE; i++) { \
++        TYPE element; \
++        CIRC_LOAD_IMM_##SZ(element, p, BUF, size * sizeof(TYPE), INC); \
++        DEBUG_PRINTF("i = %2d, p = 0x%p, element = %2" #FMT "\n", \
++                     i, p, element); \
++        check_load(i, element, size); \
++    } \
 +}
 +
- int err;
- 
- static void check_ll(long long val, long long expect)
-@@ -181,12 +213,62 @@ static void test_vminub()
-     check_p(pred_result, 0xaa);
- }
- 
-+static void test_add_carry()
-+{
-+    long long res64;
-+    int pred_result;
++TEST_LOAD_IMM(b,  char,           bbuf, NBYTES, 1, d)
++TEST_LOAD_IMM(ub, unsigned char,  bbuf, NBYTES, 1, d)
++TEST_LOAD_IMM(h,  short,          hbuf, NHALFS, 2, d)
++TEST_LOAD_IMM(uh, unsigned short, hbuf, NHALFS, 2, d)
++TEST_LOAD_IMM(w,  int,            wbuf, NWORDS, 4, d)
++TEST_LOAD_IMM(d,  long long,      dbuf, NDOBLS, 8, lld)
 +
-+    res64 = add_carry(0x0000000000000000LL,
-+                      0xffffffffffffffffLL,
-+                      1, &pred_result);
-+    check_ll(res64, 0x0000000000000000LL);
-+    check_p(pred_result, 0xff);
-+
-+    res64 = add_carry(0x0000000100000000LL,
-+                      0xffffffffffffffffLL,
-+                      0, &pred_result);
-+    check_ll(res64, 0x00000000ffffffffLL);
-+    check_p(pred_result, 0xff);
-+
-+    res64 = add_carry(0x0000000100000000LL,
-+                      0xffffffffffffffffLL,
-+                      0, &pred_result);
-+    check_ll(res64, 0x00000000ffffffffLL);
-+    check_p(pred_result, 0xff);
++#define TEST_LOAD_REG(SZ, TYPE, BUF, BUFSIZE, FMT) \
++void circ_test_load_reg_##SZ(void) \
++{ \
++    TYPE *p = (TYPE *)BUF; \
++    int size = 13; \
++    int i; \
++    for (i = 0; i < BUFSIZE; i++) { \
++        TYPE element; \
++        CIRC_LOAD_REG_##SZ(element, p, BUF, size * sizeof(TYPE), 1); \
++        DEBUG_PRINTF("i = %2d, p = 0x%p, element = %2" #FMT "\n", \
++                     i, p, element); \
++        check_load(i, element, size); \
++    } \
 +}
 +
-+static void test_sub_carry()
-+{
-+    long long res64;
-+    int pred_result;
++TEST_LOAD_REG(b,  char,           bbuf, NBYTES, d)
++TEST_LOAD_REG(ub, unsigned char,  bbuf, NBYTES, d)
++TEST_LOAD_REG(h,  short,          hbuf, NHALFS, d)
++TEST_LOAD_REG(uh, unsigned short, hbuf, NHALFS, d)
++TEST_LOAD_REG(w,  int,            wbuf, NWORDS, d)
++TEST_LOAD_REG(d,  long long,      dbuf, NDOBLS, lld)
 +
-+    res64 = sub_carry(0x0000000000000000LL,
-+                      0x0000000000000000LL,
-+                      1, &pred_result);
-+    check_ll(res64, 0x0000000000000000LL);
-+    check_p(pred_result, 0xff);
-+
-+    res64 = sub_carry(0x0000000100000000LL,
-+                      0x0000000000000000LL,
-+                      0, &pred_result);
-+    check_ll(res64, 0x00000000ffffffffLL);
-+    check_p(pred_result, 0xff);
-+
-+    res64 = sub_carry(0x0000000100000000LL,
-+                      0x0000000000000000LL,
-+                      0, &pred_result);
-+    check_ll(res64, 0x00000000ffffffffLL);
-+    check_p(pred_result, 0xff);
++#define CIRC_VAL(SZ, TYPE, BUFSIZE) \
++TYPE circ_val_##SZ(int i, int size) \
++{ \
++    int mod = BUFSIZE % size; \
++    if (i < mod) { \
++        return (i + BUFSIZE - mod); \
++    } else { \
++        return (i + BUFSIZE - size - mod); \
++    } \
 +}
 +
- int main()
- {
-     test_sfrecipa();
-     test_sfinvsqrta();
-     test_vacsh();
-     test_vminub();
-+    test_add_carry();
-+    test_sub_carry();
- 
-     puts(err ? "FAIL" : "PASS");
-     return err;
++CIRC_VAL(b, unsigned char, NBYTES)
++CIRC_VAL(h, short,         NHALFS)
++CIRC_VAL(w, int,           NWORDS)
++CIRC_VAL(d, long long,     NDOBLS)
++
++#define CHECK_STORE(SZ, BUF, BUFSIZE, FMT) \
++void check_store_##SZ(int size) \
++{ \
++    int i; \
++    for (i = 0; i < size; i++) { \
++        DEBUG_PRINTF(#BUF "[%3d] = 0x%02" #FMT ", guess = 0x%02" #FMT "\n", \
++                     i, BUF[i], circ_val_##SZ(i, size)); \
++        if (BUF[i] != circ_val_##SZ(i, size)) { \
++            printf("ERROR(%3d): 0x%02" #FMT " != 0x%02" #FMT "\n", \
++                   i, BUF[i], circ_val_##SZ(i, size)); \
++            err++; \
++        } \
++    } \
++    for (i = size; i < BUFSIZE; i++) { \
++        if (BUF[i] != i) { \
++            printf("ERROR(%3d): 0x%02" #FMT " != 0x%02x\n", i, BUF[i], i); \
++            err++; \
++        } \
++    } \
++}
++
++CHECK_STORE(b, bbuf, NBYTES, x)
++CHECK_STORE(h, hbuf, NHALFS, x)
++CHECK_STORE(w, wbuf, NWORDS, x)
++CHECK_STORE(d, dbuf, NDOBLS, llx)
++
++#define CIRC_TEST_STORE_IMM(SZ, CHK, TYPE, BUF, BUFSIZE, SHIFT, INC) \
++void circ_test_store_imm_##SZ(void) \
++{ \
++    unsigned int size = 27; \
++    TYPE *p = BUF; \
++    TYPE val = 0; \
++    int i; \
++    init_##BUF(); \
++    for (i = 0; i < BUFSIZE; i++) { \
++        CIRC_STORE_IMM_##SZ(val << SHIFT, p, BUF, size * sizeof(TYPE), INC); \
++        val++; \
++    } \
++    check_store_##CHK(size); \
++}
++
++CIRC_TEST_STORE_IMM(b,    b, unsigned char, bbuf, NBYTES, 0,  1)
++CIRC_TEST_STORE_IMM(h,    h, short,         hbuf, NHALFS, 0,  2)
++CIRC_TEST_STORE_IMM(f,    h, short,         hbuf, NHALFS, 16, 2)
++CIRC_TEST_STORE_IMM(w,    w, int,           wbuf, NWORDS, 0,  4)
++CIRC_TEST_STORE_IMM(d,    d, long long,     dbuf, NDOBLS, 0,  8)
++CIRC_TEST_STORE_IMM(bnew, b, unsigned char, bbuf, NBYTES, 0,  1)
++CIRC_TEST_STORE_IMM(hnew, h, short,         hbuf, NHALFS, 0,  2)
++CIRC_TEST_STORE_IMM(wnew, w, int,           wbuf, NWORDS, 0,  4)
++
++#define CIRC_TEST_STORE_REG(SZ, CHK, TYPE, BUF, BUFSIZE, SHIFT) \
++void circ_test_store_reg_##SZ(void) \
++{ \
++    TYPE *p = BUF; \
++    unsigned int size = 19; \
++    TYPE val = 0; \
++    int i; \
++    init_##BUF(); \
++    for (i = 0; i < BUFSIZE; i++) { \
++        CIRC_STORE_REG_##SZ(val << SHIFT, p, BUF, size * sizeof(TYPE), 1); \
++        val++; \
++    } \
++    check_store_##CHK(size); \
++}
++
++CIRC_TEST_STORE_REG(b,    b, unsigned char, bbuf, NBYTES, 0)
++CIRC_TEST_STORE_REG(h,    h, short,         hbuf, NHALFS, 0)
++CIRC_TEST_STORE_REG(f,    h, short,         hbuf, NHALFS, 16)
++CIRC_TEST_STORE_REG(w,    w, int,           wbuf, NWORDS, 0)
++CIRC_TEST_STORE_REG(d,    d, long long,     dbuf, NDOBLS, 0)
++CIRC_TEST_STORE_REG(bnew, b, unsigned char, bbuf, NBYTES, 0)
++CIRC_TEST_STORE_REG(hnew, h, short,         hbuf, NHALFS, 0)
++CIRC_TEST_STORE_REG(wnew, w, int,           wbuf, NWORDS, 0)
++
++int main()
++{
++    init_bbuf();
++    init_hbuf();
++    init_wbuf();
++    init_dbuf();
++
++    DEBUG_PRINTF("NBYTES = %d\n", NBYTES);
++    DEBUG_PRINTF("Address of dbuf = 0x%p\n", dbuf);
++    DEBUG_PRINTF("Address of wbuf = 0x%p\n", wbuf);
++    DEBUG_PRINTF("Address of hbuf = 0x%p\n", hbuf);
++    DEBUG_PRINTF("Address of bbuf = 0x%p\n", bbuf);
++
++    circ_test_load_imm_b();
++    circ_test_load_imm_ub();
++    circ_test_load_imm_h();
++    circ_test_load_imm_uh();
++    circ_test_load_imm_w();
++    circ_test_load_imm_d();
++
++    circ_test_load_reg_b();
++    circ_test_load_reg_ub();
++    circ_test_load_reg_h();
++    circ_test_load_reg_uh();
++    circ_test_load_reg_w();
++    circ_test_load_reg_d();
++
++    circ_test_store_imm_b();
++    circ_test_store_imm_h();
++    circ_test_store_imm_f();
++    circ_test_store_imm_w();
++    circ_test_store_imm_d();
++    circ_test_store_imm_bnew();
++    circ_test_store_imm_hnew();
++    circ_test_store_imm_wnew();
++
++    circ_test_store_reg_b();
++    circ_test_store_reg_h();
++    circ_test_store_reg_f();
++    circ_test_store_reg_w();
++    circ_test_store_reg_d();
++    circ_test_store_reg_bnew();
++    circ_test_store_reg_hnew();
++    circ_test_store_reg_wnew();
++
++    puts(err ? "FAIL" : "PASS");
++    return err ? 1 : 0;
++}
 -- 
 2.7.4
 
