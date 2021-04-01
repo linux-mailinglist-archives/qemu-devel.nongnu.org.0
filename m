@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573223511F5
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:24:34 +0200 (CEST)
-Received: from localhost ([::1]:41408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BBF351202
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:28:20 +0200 (CEST)
+Received: from localhost ([::1]:52322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRtZ3-00083I-Ds
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
+	id 1lRtch-00049h-VI
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lRtWl-0006Bw-Ty; Thu, 01 Apr 2021 05:22:11 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:50792)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lRtXE-0006s7-Va
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:22:40 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1lRtWh-0006Ep-5o; Thu, 01 Apr 2021 05:22:09 -0400
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 214C22E16D2;
- Thu,  1 Apr 2021 12:22:01 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 6HipgWJrBO-M00iuZN4; Thu, 01 Apr 2021 12:22:01 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1617268921; bh=Lm1y7SxPqttepjOId/Dkr3lTOKTzmkQX5I1yAMewSYU=;
- h=In-Reply-To:References:Date:Message-ID:To:From:Subject:Cc;
- b=vGYXAZtgsyFWpQCI2vfY1llkYp+Ww8blMcmhTNkz2606p2VUQ6tMZ0S6yRWEdnSTt
- wZ/xfFrSZkFw+bLbvOUdcZb8FrY5fM1cehziApo5iBEmptQ1OmDhSBj8ENJxGNJnl3
- EgWp6xC9ZKXoZOQUtFer5rWHdAr7EUefr+CNQ8GA=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8822::1:15])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- FvV3HU48uv-M0o8sFqO; Thu, 01 Apr 2021 12:22:00 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Subject: [BUG FIX][PATCH v3 0/3] vhost-user-blk: fix bug on device
- disconnection during initialization
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lRtX5-0006Ur-6b
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:22:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
+ Content-Type; bh=ekx+sVi13apei4mNX/i6GowawZdZltdKXlwiXY93H5Y=; b=gcTYmw/5tf4J
+ su82W3sNu1v3CDvhZFGxDL7V/1yCq6AceDAHVmhv4/HhCOEDJi+l7SD9/COrX0lGQE2i3x4e58DqS
+ HLM6D5K2nWeHSQK9ImWscotBUJcGNpqXnY+NvRRbn0ApXE2MaLCoy/Hwv4VMusvMD2cv51AO0Q16O
+ J5ySU=;
+Received: from [192.168.15.162] (helo=andrey-MS-7B54.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lRtX1-000DxR-AD; Thu, 01 Apr 2021 12:22:27 +0300
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 To: qemu-devel@nongnu.org
-References: <20210325151217.262793-1-den-plotnikov@yandex-team.ru>
- <a1ab7e04-86cd-7004-9687-c00382dc2e14@yandex-team.ru>
-Message-ID: <7735213d-f3ac-ab49-ecaf-0878808167aa@yandex-team.ru>
-Date: Thu, 1 Apr 2021 12:21:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH for-6.0 v1 0/4] migration: Fixes to the 'background-snapshot'
+ code
+Date: Thu,  1 Apr 2021 12:22:22 +0300
+Message-Id: <20210401092226.102804-1-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <a1ab7e04-86cd-7004-9687-c00382dc2e14@yandex-team.ru>
-Content-Type: multipart/alternative;
- boundary="------------5C71974781E72D8C70499849"
-Content-Language: en-US
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay.sw.ru
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,118 +64,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- raphael.norwitz@nutanix.com, yc-core@yandex-team.ru, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------5C71974781E72D8C70499849
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Changes v0->v1:
+ * Fixes to coding style and commit messages
+ * Renamed 'bs' to 'block' in migration/ram.c background snapshot code
 
-This is a series fixing a bug in host-user-blk.
-Is there any chance for it to be considered for the next rc?
+This patch series contains:
+ * Fix to the issue with occasionally truncated non-iterable device state
+ * Solution to compatibility issues with virtio-balloon device
+ * Fix to the issue when discarded or never populated pages miss UFFD
+   write protection and get into migration stream in dirty state
+ * Renaming of 'bs' to commonly used 'block' in migration/ram.c background
+   snapshot code
 
-Thanks!
+Andrey Gruzdev (4):
+  migration: Fix missing qemu_fflush() on buffer file in
+    bg_migration_thread
+  migration: Inhibit virtio-balloon for the duration of background
+    snapshot
+  migration: Pre-fault memory before starting background snasphot
+  migration: Rename 'bs' to 'block' in background snapshot code
 
-Denis
+ hw/virtio/virtio-balloon.c |   8 ++-
+ include/migration/misc.h   |   2 +
+ migration/migration.c      |  22 ++++++-
+ migration/ram.c            | 119 ++++++++++++++++++++++++++-----------
+ migration/ram.h            |   1 +
+ 5 files changed, 115 insertions(+), 37 deletions(-)
 
-On 29.03.2021 16:44, Denis Plotnikov wrote:
->
-> ping!
->
-> On 25.03.2021 18:12, Denis Plotnikov wrote:
->> v3:
->>    * 0003: a new patch added fixing the problem on vm shutdown
->>      I stumbled on this bug after v2 sending.
->>    * 0001: gramma fixing (Raphael)
->>    * 0002: commit message fixing (Raphael)
->>
->> v2:
->>    * split the initial patch into two (Raphael)
->>    * rename init to realized (Raphael)
->>    * remove unrelated comment (Raphael)
->>
->> When the vhost-user-blk device lose the connection to the daemon during
->> the initialization phase it kills qemu because of the assert in the code.
->> The series fixes the bug.
->>
->> 0001 is preparation for the fix
->> 0002 fixes the bug, patch description has the full motivation for the series
->> 0003 (added in v3) fix bug on vm shutdown
->>
->> Denis Plotnikov (3):
->>    vhost-user-blk: use different event handlers on initialization
->>    vhost-user-blk: perform immediate cleanup if disconnect on
->>      initialization
->>    vhost-user-blk: add immediate cleanup on shutdown
->>
->>   hw/block/vhost-user-blk.c | 79 ++++++++++++++++++++++++---------------
->>   1 file changed, 48 insertions(+), 31 deletions(-)
->>
+-- 
+2.27.0
 
---------------5C71974781E72D8C70499849
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><font size="+1"><tt>This is a series fixing a bug in
-          host-user-blk. <br>
-          Is there any chance for it to be considered for the next rc?</tt></font></p>
-    <p><font size="+1"><tt>Thanks!</tt></font></p>
-    <p><font size="+1"><tt>Denis<br>
-        </tt></font></p>
-    <div class="moz-cite-prefix">On 29.03.2021 16:44, Denis Plotnikov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:a1ab7e04-86cd-7004-9687-c00382dc2e14@yandex-team.ru">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><font size="+1"><tt>ping!</tt></font><br>
-      </p>
-      <div class="moz-cite-prefix">On 25.03.2021 18:12, Denis Plotnikov
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:20210325151217.262793-1-den-plotnikov@yandex-team.ru">
-        <pre class="moz-quote-pre" wrap="">v3:
-  * 0003: a new patch added fixing the problem on vm shutdown
-    I stumbled on this bug after v2 sending.
-  * 0001: gramma fixing (Raphael)
-  * 0002: commit message fixing (Raphael)
-
-v2:
-  * split the initial patch into two (Raphael)
-  * rename init to realized (Raphael)
-  * remove unrelated comment (Raphael)
-
-When the vhost-user-blk device lose the connection to the daemon during
-the initialization phase it kills qemu because of the assert in the code.
-The series fixes the bug.
-
-0001 is preparation for the fix
-0002 fixes the bug, patch description has the full motivation for the series
-0003 (added in v3) fix bug on vm shutdown
-
-Denis Plotnikov (3):
-  vhost-user-blk: use different event handlers on initialization
-  vhost-user-blk: perform immediate cleanup if disconnect on
-    initialization
-  vhost-user-blk: add immediate cleanup on shutdown
-
- hw/block/vhost-user-blk.c | 79 ++++++++++++++++++++++++---------------
- 1 file changed, 48 insertions(+), 31 deletions(-)
-
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
-
---------------5C71974781E72D8C70499849--
 
