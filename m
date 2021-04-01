@@ -2,69 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60260351433
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:07:10 +0200 (CEST)
-Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C66D35144B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:12:17 +0200 (CEST)
+Received: from localhost ([::1]:52892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRvAK-0003gT-WB
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
+	id 1lRvFI-0005YY-MN
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lRv8z-00033w-9O
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:05:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45539)
+ (Exim 4.90_1) (envelope-from <S.E.Harris@kent.ac.uk>)
+ id 1lRvDh-0004kk-Vz
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:10:38 -0400
+Received: from mail-eopbgr80048.outbound.protection.outlook.com
+ ([40.107.8.48]:54547 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lRv8t-0004WS-Sd
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:05:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617275135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fQuhy1STUJtQUWRgMPGGnVDT2Nv8xxMQoM6zTvXKCxs=;
- b=Uh3Z0QIgRt/jGF6a77ScwK5B9YVLu3qgZj35h2lZV6ZUaYvtb6Cd4bXGKf95jbC1qemUzw
- 1aDVQF2iZ/yTPnXGtAuzsSQ+8TeKbGUY1i7wc1C0zraqF3/85uk2vbDi2GgdmSPjI7Hxrw
- xojBgS2TawjuqxX05uNH0ngCnYhDF3M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-Gw3b7SgMO-qm5A-Gj_LsKg-1; Thu, 01 Apr 2021 07:05:33 -0400
-X-MC-Unique: Gw3b7SgMO-qm5A-Gj_LsKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64A521009E25;
- Thu,  1 Apr 2021 11:05:31 +0000 (UTC)
-Received: from gondolin (ovpn-113-119.ams2.redhat.com [10.36.113.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 586336F13B;
- Thu,  1 Apr 2021 11:05:25 +0000 (UTC)
-Date: Thu, 1 Apr 2021 13:05:22 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v3 1/1] docs/devel: Add VFIO device migration documentation
-Message-ID: <20210401130522.1e9c2871.cohuck@redhat.com>
-In-Reply-To: <20210326131850.149337-1-targupta@nvidia.com>
-References: <20210326131850.149337-1-targupta@nvidia.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <S.E.Harris@kent.ac.uk>)
+ id 1lRvDe-0007my-E2
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:10:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mxeXgLj1g44RMMzxyG8YMvTnBjzEwcO+e6y7LqU/LixDbFVbIjq29NT7PMXb7DA5ZmIt/WubeXDRuH38/QpjRJrFPehnlWfROg3+t7w5L5BMeQtyOa/JDRg7qrLZY8bfcU688DJc1wDObVIMZUOACA8Gh/Z+yLs1rgwbOGg7/tY65Pr3WrcImf3m4DSuTyWIN6ZDVgSSY5i2c4kpWYKhRaFqLuq5Crl5uw2jgVz6NllSlC2+EhedBYBPgPVlf8lamrHH2hFnkX2wRDi2XHX/i7KWpuVtgUiG1OFuE+a+OirEpB0NogRV4hjaf3s9aklc7Qx4huxPRnA0iN2ObpnesA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IlVEVMlWUAVdXal9DPRxQX9+N4worMTErKWBYukyfCE=;
+ b=ntYkZNq0qUWbAYS/jwqemY2Pw0kwY0XVvcG98qkyAMY7hKf+CC3rEg+nfIIhDTeqPkbXv/abfYOcocP6MTqVC0PKY1G3mQAcwuJTAEZuoyXpbwKI2839RcR7h8RhnBehTtseszBnEvFRHASDr7jIFTcK7ZKf5lBkZuY5woZex6+SOfdAX4FTkql913CJMK1JwQk7zaiFw3NccvZIrwA2y10RwX4vQhKcGl5k4yrmxCBgDoXOobceLHK+rldV6Mmq+/+M6mGBXKVC9KvgGgYi5fFREiaNmEKR9l5cY2hQtlXWsqDAv/aJnBQzhlCIs9iXCIRrc8K+DXA+pFl0kzwlag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kent.ac.uk; dmarc=pass action=none header.from=kent.ac.uk;
+ dkim=pass header.d=kent.ac.uk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livekentac.onmicrosoft.com; s=selector2-livekentac-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IlVEVMlWUAVdXal9DPRxQX9+N4worMTErKWBYukyfCE=;
+ b=FMCLp2jZJ388ldR62n+gTugpn3935wa7b2Wfb5yY3IN5nNHXIe2nIXkYUJTShE5CtPLwk2q0KjKXoJ7kUpJ0fc3QAfCaoGiJY/2/XbNuqTqleb6fnFbrC5ciPWWMTgIdna23dBHzF+BwuaJsJtmJnu5ZllunbL9v7DFWtq7rGiI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=kent.ac.uk;
+Received: from DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ (2603:10a6:5:2c::13) by DB7PR01MB4235.eurprd01.prod.exchangelabs.com
+ (2603:10a6:5:2d::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Thu, 1 Apr
+ 2021 11:10:29 +0000
+Received: from DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ ([fe80::29f8:3034:6643:b516]) by DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ ([fe80::29f8:3034:6643:b516%7]) with mapi id 15.20.3977.036; Thu, 1 Apr 2021
+ 11:10:29 +0000
+Date: Thu, 1 Apr 2021 12:18:15 +0100
+From: Sarah Harris <seh53@kent.ac.uk>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: Drop the lines with Sarah Harris
+Message-Id: <20210401121815.1aadaff74327d5b7bec45bff@kent.ac.uk>
+In-Reply-To: <20210401062426.3192118-1-thuth@redhat.com>
+References: <20210401062426.3192118-1-thuth@redhat.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [195.213.130.164]
+X-ClientProxiedBy: LO4P123CA0022.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:151::9) To DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+ (2603:10a6:5:2c::13)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from cadance (195.213.130.164) by
+ LO4P123CA0022.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:151::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.30 via Frontend Transport; Thu, 1 Apr 2021 11:10:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f2a72eb6-bfa4-4512-f9cf-08d8f4fec1f4
+X-MS-TrafficTypeDiagnostic: DB7PR01MB4235:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DB7PR01MB42355D254A59B5B1F7D758EFF77B9@DB7PR01MB4235.eurprd01.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HwJK3MvOIKuJ+revj89qEqykzxnpda6tVr37ycsb02spY2KEbWNirSmZP/m67RHEipMeNqRkK5zh/t6lV/jRhklU0AdbqATXYywtZ8BaxoOcDc6mDEwHLeHhNVzS0YrsVOSTd6oLg/tD4mDlKOQv3dGDG+kHuqchucP4ijp5MMc+K4A36TxhYa+z7vnKWAhszfPBKorwAaLS6JcI+gfB79GWydjshxm4p4qxABtFAg0PK+iHKOvEMsW28JUlGLf2oFqWfVxnR0kfkVamoKUjUZAe9uJ7xzzy4lgX+BFW0A/gXAIuLEAts6WVtBo/uaXL5Ay5bZt4ue7AMe7S2dg1shRUwi79hKB6/p5OMrhBe3oxYBIt/rXNVNZyn6w+8hiX2rmhCuK7rKw5TuJGBGzg3aHyM/nvSQ/ezqvv6crdeqMABlVUMF+XZVfp1d+ShRYi6SsTdAV4WhSTBeUXZspccChKLGf6s73dThyxP0Ql1itTOXZttcHiNzDXGrZh5w+BwAQoJlLn37r7RalEdREMB8Q7GcIh/qFNIxuppS4XOwCLbLWSKs1+KqrjDaBdWp/xrBwXg3LwbKi9LKLLo6c8XxVxjw4We/2b3xJRAVjyxiE2AydI3ZGwu+ok7diQPqxWEHjOrL+zo9BVepqi4f7W1w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR01MB4092.eurprd01.prod.exchangelabs.com; PTR:;
+ CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(346002)(376002)(39860400002)(26005)(2906002)(6496006)(956004)(66946007)(478600001)(83380400001)(4326008)(8936002)(66476007)(36756003)(786003)(66556008)(6666004)(6916009)(54906003)(5660300002)(8676002)(316002)(6486002)(2616005)(52116002)(16526019)(186003)(1076003)(38100700001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?ICdkAWWITpBuVIYG0D/bHRlExpwycWTRNPawvrf2s2LUA8qlBsragWt5Q2?=
+ =?iso-8859-1?Q?YMsb5ZJcRqq+7ssyn1K4sbII2DFU9eMnT+rGJfz3GXsC0Yq5o6iVXP02FA?=
+ =?iso-8859-1?Q?IJCmXkYAmCVCrQkOwgNeLGK/LKCIfd4Z4k9Fx0h2mqLwGmLK19HCiG3FzW?=
+ =?iso-8859-1?Q?aOFWfL4rkHQo8EaCCOr7R3EVVvUeEleD4UymylAGl8/atX9KqxhcugtPh+?=
+ =?iso-8859-1?Q?O3c3D6SsHMZLIgNQrQkqC4sFHgbYkamqNzLnL3Sc/V/yA6vF9F3PRUUQzd?=
+ =?iso-8859-1?Q?jQ4L8SNkXyaExRYBNpVGubhISnjfgmHEjLYqA2L4zntIjFfH4IIzrkPTJP?=
+ =?iso-8859-1?Q?Hct++AHMnWgkx2v76MLLU8tmrxEpiQqSZx95x2ZcAzSk+zuIdhtYFOBS1P?=
+ =?iso-8859-1?Q?ujNANC9ZFNXvw24n33/xX8YU5FarXJ0H15L4E4TcSvTRSm7ulKEFkz1It5?=
+ =?iso-8859-1?Q?RoOnzZhxI2t2gqnAd9wUweLZcRRKIMf7jWZUaAFgmSg0xaf7HA82IeY39A?=
+ =?iso-8859-1?Q?43kBxSohwGNcM/3lGDt8CzcvkWm276aEKiVqUlViXY7u5EqpVs3q7ZLAko?=
+ =?iso-8859-1?Q?ouWNugzMwTX9BoKilDob6Et05WJN10y4IdKyJO7lwtAaveIztILBeqLk41?=
+ =?iso-8859-1?Q?o6y0ipd8sG+T+7///0ioXYpXcKc8Hz9bu497piKca3MMNuHoZXVut7+gP1?=
+ =?iso-8859-1?Q?jVl+H4lpg9xDcjsaMBcWNPemKrCtVEo6cT1t3rogFbmkgySG+8V2wRUoQo?=
+ =?iso-8859-1?Q?Q7Qi4zxmSncNsWu/ZurgH87nnzpGwjdABRKvJce5raXn1BQLokc/t8FY9g?=
+ =?iso-8859-1?Q?korJknz/kZRtuk+HLK/hxmtdUC5vnu6Onts5l7kkTV/6oH0ys/gKgmnAig?=
+ =?iso-8859-1?Q?3OvCjFBrJFBsULjOffuHfGS4YAHOEcMKXhij1dzuVMmym5rUrcSbCQ0qeO?=
+ =?iso-8859-1?Q?exDHceaCSOsZOuoviO2Qy7Ydf+FT5lQDFKLMka35YO00frCM3ZXoTbUrjT?=
+ =?iso-8859-1?Q?AuhKheCoCPzPsP81XC60lojQADKvbhAsDrfgW5HGFExBg/AP2pBXNV8J9p?=
+ =?iso-8859-1?Q?NtWvv8EP0lAVs3NSfeK03kQLA8tlpzfbD3Zdcn/akstf8MVNcfovI4rqso?=
+ =?iso-8859-1?Q?d5x1eTZKi9nGbviQV2otDeHmxUCcEkqmqtR0B343tJQDKfUrFj5HhVGZlz?=
+ =?iso-8859-1?Q?y0SnBzy6JCC+P9OKWKR7R/x93UpxhdVdD6kavrNejUBuE+34XFP2M6WtjF?=
+ =?iso-8859-1?Q?qhUZKdJIhHly8DaoCyeUrKeP5OHdgve1Yh+KElzgp/oZ+HwQsmsV25vC3W?=
+ =?iso-8859-1?Q?ihmS9pGCUJQFaS23qQ5eSehCquoTx5VgnkSdD2aOvdYknfuTSHf0zvYi3Q?=
+ =?iso-8859-1?Q?++4SbK+RGJ?=
+X-OriginatorOrg: kent.ac.uk
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2a72eb6-bfa4-4512-f9cf-08d8f4fec1f4
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR01MB4092.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 11:10:29.2139 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 51a9fa56-3f32-449a-a721-3e3f49aa5e9a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U5ISM5mDq6lv1RBad+e9PM2HxbEzMEgTxfW2DEIkMXDdTIWbGOf4zxeXWnoNPdT7WZvV8YIKeS4vhyaDzb36Dg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR01MB4235
+Received-SPF: pass client-ip=40.107.8.48; envelope-from=S.E.Harris@kent.ac.uk;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,156 +135,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, cjia@nvidia.com, quintela@redhat.com,
- alex.williamson@redhat.com, qemu-devel@nongnu.org, yan.y.zhao@intel.com,
- lushenming@huawei.com, kwankhede@nvidia.com, dnigam@nvidia.com,
- berrange@redhat.com, philmd@redhat.com, dgilbert@redhat.com
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Mar 2021 18:48:50 +0530
-Tarun Gupta <targupta@nvidia.com> wrote:
+On Thu, 1 Apr 2021 08:26:41 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-> Document interfaces used for VFIO device migration. Added flow of state changes
-> during live migration with VFIO device. Tested by building docs with the new
-> vfio-migration.rst file.
+> This is done by sending a patch to the list that remove the entries. I ju=
+st=20
+> did that now - would be great if you could reply to that mail on the list=
+=20
+> with "Reviewed-by: ..." or "Acked-by: ...".
 
-I don't think you want to include the test state in the patch
-description; that should go into a --- section that is stripped off by
-git am.
+On Thu, 1 Apr 2021 08:24:26 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-> 
-> v3:
-> - Add introductory line about VM migration in general.
-> - Remove occurcences of vfio_pin_pages() to describe pinning.
-> - Incorporated comments from v2
-> 
-> v2:
-> - Included the new vfio-migration.rst file in index.rst
-> - Updated dirty page tracking section, also added details about
->   'pre-copy-dirty-page-tracking' opt-out option.
-> - Incorporated comments around wording of doc.
-
-Same for the changelog; this is interesting for review, but not for the
-final git log.
-
-> 
-> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-
-This S-o-b chain does not look correct. Your address should be the last
-one in the chain, signing off on all of the previous ones. (Maybe Kirti
-also needs to be listed in a Co-developed-by: statement?)
-
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  MAINTAINERS                   |   1 +
->  docs/devel/index.rst          |   1 +
->  docs/devel/vfio-migration.rst | 143 ++++++++++++++++++++++++++++++++++
->  3 files changed, 145 insertions(+)
->  create mode 100644 docs/devel/vfio-migration.rst
+>  MAINTAINERS | 3 ---
+>  1 file changed, 3 deletions(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 554be84b32..e7b54372c8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -174,7 +174,6 @@ F: include/hw/arm/smmu*
+> =20
+>  AVR TCG CPUs
+>  M: Michael Rolnik <mrolnik@gmail.com>
+> -R: Sarah Harris <S.E.Harris@kent.ac.uk>
+>  S: Maintained
+>  F: docs/system/target-avr.rst
+>  F: gdb-xml/avr-cpu.xml
+> @@ -1045,7 +1044,6 @@ AVR Machines
+> =20
+>  AVR MCUs
+>  M: Michael Rolnik <mrolnik@gmail.com>
+> -R: Sarah Harris <S.E.Harris@kent.ac.uk>
+>  S: Maintained
+>  F: default-configs/*/avr-softmmu.mak
+>  F: hw/avr/
+> @@ -1058,7 +1056,6 @@ F: hw/misc/avr_power.c
+> =20
+>  Arduino
+>  M: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> -R: Sarah Harris <S.E.Harris@kent.ac.uk>
+>  S: Maintained
+>  F: hw/avr/arduino.c
+> =20
+> --=20
+> 2.27.0
 
-> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
-> new file mode 100644
-> index 0000000000..24cb55991a
-> --- /dev/null
-> +++ b/docs/devel/vfio-migration.rst
-
-(...)
-
-> +VFIO device hooks for iterative approach:
-
-"VFIO implements the device hooks for the iterative approach as
-follows:"
-
-?
-
-> +
-> +* A ``save_setup`` function that sets up the migration region, sets _SAVING
-> +  flag in the VFIO device state and informs the VFIO IOMMU module to start
-> +  dirty page tracking.
-> +
-> +* A ``load_setup`` function that sets up the migration region on the
-> +  destination and sets _RESUMING flag in the VFIO device state.
-> +
-> +* A ``save_live_pending`` function that reads pending_bytes from the vendor
-> +  driver, which indicates the amount of data that the vendor driver has yet to
-> +  save for the VFIO device.
-> +
-> +* A ``save_live_iterate`` function that reads the VFIO device's data from the
-> +  vendor driver through the migration region during iterative phase.
-> +
-> +* A ``save_live_complete_precopy`` function that resets _RUNNING flag from the
-> +  VFIO device state, saves the device config space, if any, and iteratively
-> +  copies the remaining data for the VFIO device until the vendor driver
-> +  indicates that no data remains (pending bytes is zero).
-> +
-> +* A ``load_state`` function that loads the config section and the data
-> +  sections that are generated by the save functions above
-> +
-> +* ``cleanup`` functions for both save and load that perform any migration
-> +  related cleanup, including unmapping the migration region
-> +
-> +A VM state change handler is registered to change the VFIO device state when
-> +the VM state changes.
-
-This sentence is not very informative. What about:
-
-"The VFIO migration code uses a VM state change handler to change the
-VFIO device state when the VM state changes from running to
-not-running, and vice versa."
-
-> +
-> +Similarly, a migration state change notifier is registered to get a
-> +notification on migration state change. These states are translated to the
-> +corresponding VFIO device state and conveyed to the vendor driver.
-
-"Similarly, a migration state change handler is used to transition the
-VFIO device state back to _RUNNING in case a migration failed or was
-canceled."
-
-
-> +
-> +System memory dirty pages tracking
-> +----------------------------------
-> +
-> +A ``log_sync`` memory listener callback marks those system memory pages
-> +as dirty which are used for DMA by the VFIO device. The dirty pages bitmap is
-> +queried per container. All pages pinned by the vendor driver through external
-> +APIs have to be marked as dirty during migration. When there are CPU writes,
-> +CPU dirty page tracking can identify dirtied pages, but any page pinned by the
-> +vendor driver can also be written by device. There is currently no device or
-
-s/by/by the/
-
-> +IOMMU support for dirty page tracking in hardware.
-> +
-> +By default, dirty pages are tracked when the device is in pre-copy as well as
-> +stop-and-copy phase. So, a page pinned by vendor driver will be copied to
-
-s/by/by the/
-s/to/to the/
-
-> +destination in both the phases. Copying dirty pages in pre-copy phase helps
-
-s/both the/both/ ?
-
-> +QEMU to predict if it can achieve its downtime tolerances. If QEMU during
-> +pre-copy phase keeps finding dirty pages continuously, then it understands
-> +that even in stop-and-copy phase, it is likely to find dirty pages and can
-> +predict the downtime accordingly
-> +
-> +QEMU also provides per device opt-out option ``pre-copy-dirty-page-tracking``
-
-s/provides/provides a/
-
-> +which disables querying dirty bitmap during pre-copy phase. If it is set to
-
-s/querying/querying the/
-
-> +off, all dirty pages will be copied to destination in stop-and-copy phase only
-
-s/to/to the/
-
-(...)
-
+Thanks for explaining and submitting this patch!
+Reviewed-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 
