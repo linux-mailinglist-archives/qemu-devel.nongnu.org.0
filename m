@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0362E35147F
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:32:14 +0200 (CEST)
-Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E478F35147E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:32:10 +0200 (CEST)
+Received: from localhost ([::1]:55082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRvYb-0002WI-2P
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:32:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34198)
+	id 1lRvYY-0002TC-00
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPG-0000mH-FJ
+ id 1lRvPK-0000mt-Ff
  for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:38 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40745)
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPD-0006fx-S4
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:34 -0400
-Received: by mail-ej1-x636.google.com with SMTP id u9so2321003ejj.7
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:28 -0700 (PDT)
+ id 1lRvPE-0006hH-3D
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:35 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id b16so1526765eds.7
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JQoDQ8iT0Uvjd7qMNAdOTTXuMpF8k0rgM3v4MUOSB5I=;
- b=bWJaiR2z1vcDu3Gwq14Wj9OuhrH83Nki2rH/VvfeluaFHEQfIV0rUAM+/8HuGj8gk3
- WGQnlAyIm8kCdpGgmNWGljIUpXvP0XfecFa7+L20IPupFHwPE8xwpBoNvRoiJlMHBcI9
- 3horxNJVdix5+2NV7iobaufTAa4WKULMu5g4bwg+ejeBfH8Nk3j5VkWG6gyD0qYgIUuT
- xsfaB/8HoODaQt595lh9Ttfp1uHQHLEObs5i77rCxwEkUz2/hUx2EROiz934S4FtfngO
- PkXPPCQewteo93f9sij9EaCMM/nBVEKo5npvDoJ0a57DS6aH9QT4Rr+7y94qGAbk7+79
- G6Rw==
+ bh=uxNED1duCyBdlkruJzl0xnqKRNFLuA5HiEispmsiklU=;
+ b=PWIwEsAtqZBqWSOU9CNEtKO6peNbxdJs36RsGUFHDFmq3hJkOPDIzG+JhG46rjDWz2
+ e3Ea8FQtXyDjiuMqO/IUgg2iPQfAILSECH9Lu4e7mobu8OtzPcRvKDclz3O2vqyiuSS6
+ oATfjxqZCrn9LnWxDhBOoVV66+AOWTctqkDKD8ho+kpQ+mQztWqiJ04B+tdHC5wb3VjJ
+ eLzq9JxNR6qFxlRZ3IexIO68t6dJv3Y3FJdLUhCWsAlok59gU+1uc7Vd0HhiJWdowl1h
+ AqAEwEgXIlMzM61rJtN7otwE0nsIo2dYSct8+AjvwfnGaSJ7+wk6Rp/siO+ayaU1H9Gh
+ LVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JQoDQ8iT0Uvjd7qMNAdOTTXuMpF8k0rgM3v4MUOSB5I=;
- b=XotXlSwTMTDnDiovxqz+wgDrwd7lLR3apeL1DuW8leol6rwvUfhuPw9cUVx+ZpcDal
- RNiSmRKXewBNfUJ7TniKwrxvZX5QGDCULQ9RMMazxUhJjU/gfuVAP6bxa9pmXAl9u84g
- dar7Y650Rh9oQO/MQUpY+0knXLU1Jcfx+JA9AjvEIu5I/inpBDyto23RkNeDsXlePEGU
- gbn9YQl0OL2kAoQJkfJc/tpdJ9T1yIWjNWd3thMNhWCdqg9N0vcRSjtUX/94gva8+yRv
- vM77zwI654BdVosloJsvMAhJhgjmsWWehSOt7dO3+uWOLsGeKYg5imfN88Y+kKzHiRrW
- gXjw==
-X-Gm-Message-State: AOAM532oxqYnoAVJuUd8LIuHn2NskvcZaNt+/HQK7YZD2kaMHx7WAWT+
- 1PdqaNtqJCed/0t0idim7QvEchHlrDw=
-X-Google-Smtp-Source: ABdhPJyEQFbZVyBDw2zslTNvwAwZ1Ox1n7FgxCTtYD3qhiZ7umYsZLe9ea1Qvo/OCOMfOF3yWT5Q0g==
-X-Received: by 2002:a17:906:f247:: with SMTP id
- gy7mr8759685ejb.183.1617276146962; 
- Thu, 01 Apr 2021 04:22:26 -0700 (PDT)
+ bh=uxNED1duCyBdlkruJzl0xnqKRNFLuA5HiEispmsiklU=;
+ b=hd3vKnZhzDGDSkloe9f3juWZZfxbbnPabMjJHKu8+cfUbMJ5jzBTq/SlBh1TOfGZxG
+ OAQrzXC13rClQHEHd4Yn8CgTnydLQ92RaNwdJnbbP1bCHAS2r9OdGYWF7dJldlrYhhcI
+ 9uhSJWaAgHJ8qPCbWOze3vh07+3YwnZYfxKULj91/jgdnaksb7udSwMmSrB0EA2q+6ZI
+ 5hTY92auiUs+K0Z3wnl2x3lCDmOcsuLXVg+O2FdcoBTdN0dvR0u604I9TSGXZtAfbEwq
+ lgC/j8V4IKgdOYvFwMaCC+d6Mp3poencAGwZ3BnGau8kZNJHLB1vYxaSaH34sHRK16JP
+ Ocig==
+X-Gm-Message-State: AOAM531ntgIi/USuOiyhKyFcwi/TOAw+OusDHEvdvmw8/uf+V0Duq/DR
+ /TPRPHvC3nTjOKipCvT32LlR4ek70s4=
+X-Google-Smtp-Source: ABdhPJyqDuqClVFBr+staTqdF7aRU9NdLf9feukpcJ/Q3lMQbK+Q8+8sGcJBORVIOGZZjuc2jOQJ2g==
+X-Received: by 2002:aa7:d98b:: with SMTP id u11mr9541116eds.352.1617276150855; 
+ Thu, 01 Apr 2021 04:22:30 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d15sm3383516edx.62.2021.04.01.04.22.26
+ by smtp.gmail.com with ESMTPSA id d15sm3383516edx.62.2021.04.01.04.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 04:22:26 -0700 (PDT)
+ Thu, 01 Apr 2021 04:22:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/12] qapi: qom: do not use target-specific conditionals
-Date: Thu,  1 Apr 2021 13:22:14 +0200
-Message-Id: <20210401112223.55711-4-pbonzini@redhat.com>
+Subject: [PULL 09/12] configure: Do not use default_feature for EXESUF
+Date: Thu,  1 Apr 2021 13:22:20 +0200
+Message-Id: <20210401112223.55711-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210401112223.55711-1-pbonzini@redhat.com>
 References: <20210401112223.55711-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,71 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ObjectType and ObjectOptions are defined in a target-independent file,
-therefore they do not have access to target-specific configuration
-symbols such as CONFIG_PSERIES or CONFIG_SEV.  For this reason,
-pef-guest and sev-guest are currently omitted when compiling the
-generated QAPI files.  In addition, this causes ObjectType to have
-different definitions depending on the file that is including
-qapi-types-qom.h (currently this is not causing any issues, but it
-is wrong).
+From: Miroslav Rezanina <mrezanin@redhat.com>
 
-Define the two enum entries and the SevGuestProperties type
-unconditionally to avoid the issue.  We do not expect to have
-many target-dependent user-creatable classes, so it is not
-particularly problematic.
+Commit "c87ea11631 configure: add --without-default-features" use
+default_feature to set default values for configure option. This value
+is used for EXESUF too.
 
-Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
+However, EXESUF is not option to be tested, it is just append to any
+binary name so using --without-default-features set EXESUF to "n"o and
+all binaries using it has form <name>no (e.g. qemu-imgno).
+
+This is not expected behavior as disabling features should not cause
+generating different binary names.
+
+Reverting back to setting EXESUF to empty value unless needed otherwise.
+
+Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+Message-Id: <20210331081845.105089-1-mrezanin@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/qom.json | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 2056edc072..db5ac419b1 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -733,8 +733,7 @@
-             '*policy': 'uint32',
-             '*handle': 'uint32',
-             '*cbitpos': 'uint32',
--            'reduced-phys-bits': 'uint32' },
--  'if': 'defined(CONFIG_SEV)' }
-+            'reduced-phys-bits': 'uint32' } }
- 
- ##
- # @ObjectType:
-@@ -768,14 +767,14 @@
-     { 'name': 'memory-backend-memfd',
-       'if': 'defined(CONFIG_LINUX)' },
-     'memory-backend-ram',
--    {'name': 'pef-guest', 'if': 'defined(CONFIG_PSERIES)' },
-+    'pef-guest',
-     'pr-manager-helper',
-     'rng-builtin',
-     'rng-egd',
-     'rng-random',
-     'secret',
-     'secret_keyring',
--    {'name': 'sev-guest', 'if': 'defined(CONFIG_SEV)' },
-+    'sev-guest',
-     's390-pv-guest',
-     'throttle-group',
-     'tls-creds-anon',
-@@ -831,8 +830,7 @@
-       'rng-random':                 'RngRandomProperties',
-       'secret':                     'SecretProperties',
-       'secret_keyring':             'SecretKeyringProperties',
--      'sev-guest':                  { 'type': 'SevGuestProperties',
--                                      'if': 'defined(CONFIG_SEV)' },
-+      'sev-guest':                  'SevGuestProperties',
-       'throttle-group':             'ThrottleGroupProperties',
-       'tls-creds-anon':             'TlsCredsAnonProperties',
-       'tls-creds-psk':              'TlsCredsPskProperties',
+diff --git a/configure b/configure
+index 535e6a9269..8275df1506 100755
+--- a/configure
++++ b/configure
+@@ -365,7 +365,7 @@ tcg_interpreter="false"
+ bigendian="no"
+ mingw32="no"
+ gcov="no"
+-EXESUF="$default_feature"
++EXESUF=""
+ HOST_DSOSUF=".so"
+ modules="no"
+ module_upgrades="no"
 -- 
 2.30.1
 
