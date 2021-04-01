@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D141E351C03
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:24:16 +0200 (CEST)
-Received: from localhost ([::1]:47606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B34351BF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 20:13:57 +0200 (CEST)
+Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS1zL-0000lz-RI
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58274)
+	id 1lS1pK-0001Ss-Kn
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 14:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lS1hW-0004ry-8b
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:05:55 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lS1hT-0007E9-13
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:05:49 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- m20-20020a7bcb940000b029010cab7e5a9fso3270979wmi.3
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 11:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xvWtabnOQcPId3sA+NwCbWJCmFb8w7anWDmod0vHqxM=;
- b=q1toBM/zMYhAQB8LiHOLpwB6FSnNPCxLxXaKmHcEXOs6j41PVpQRXegof1WYrsO9uL
- JzbMwfv+QNjBgxQ/KxPAdB6a3YfH0MisxawWMmMlwCKpPbkbNa7PCuj3gErZv9UzjN0z
- 5TeYfxb3+nYBd4+Y5tnRmVSZtxVpsYsl6cUpv4QQljuSclUOAYfwB1s5CYfOr08dV+X0
- zbbvMtyH5PrONwZKDYLgEAi7JYh4zPmhhWIDc7R93vdz1HrrzPrmcsqMfEd+GNf9hcj+
- q6ljMLzDQVra2WcZMYmuZNLcIC5DA+LC5c9u80RCES2h7cujXs16RYJuNmDTU5mvL6c7
- e75A==
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lS1l9-00086C-3a
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:09:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lS1l4-0000cO-5H
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 14:09:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617300569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kx9DbhVSJrB9vI9FErGrA8bAvmekmul4UBa7pJXLaoE=;
+ b=KSxeA3FlRIZPvY8hiFFDAd2FK3zLMCI9ahbY7Je/hW3q0mB9twcgtn09+GIcZQN2v69hdR
+ kH0Lvh3r44DBffs66FAcgUFSWDh+g4V27KYQYUaA7dKGhbb3NXRrcrpl/bKTAI1Qn1cJLb
+ jDoffooj9ksZMesFzVRh42V9nX2dpHc=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-Lu0iXlNNPay4XlWhysZ3aQ-1; Thu, 01 Apr 2021 14:09:27 -0400
+X-MC-Unique: Lu0iXlNNPay4XlWhysZ3aQ-1
+Received: by mail-ot1-f72.google.com with SMTP id 45so2872175otg.10
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 11:09:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xvWtabnOQcPId3sA+NwCbWJCmFb8w7anWDmod0vHqxM=;
- b=e2AMKdg6UBjSn3GdvVdIaSEU/HV/SkyoDGF27kYJtvY0cz6I3mRsZTKI08dRqPVTYo
- tttk/Y2r/ehD917+PB/1zIOXaiKk57v6bgOLIRk+j329r7yBB7fqVQLZAdjD811wQGKG
- H2G5IZMJM09TMeQ6oV1yEHqMVALxL/5tFIO9WAK7FjY5VKHBe5CR3yWpqXR/4yvBKDtD
- jiXjeShthtttyKwvpHzvqcQ1lBdnsXCzW2VHJcfIjnW7lI60XSh2ORTkpkalkYGhKy8V
- c7WVNVbJG6RtLvTcYbIbataNlpof+k/0xoefLI00BoUm2OG1aO3BdJXVjkCBqNHB7HVn
- OB2Q==
-X-Gm-Message-State: AOAM532jM6KXwIZoW52Jl8WmJcYyJGt6DU60TGevsUFxZcuj436l/xlm
- C7IX1whEZ0SXktJy1aY7NM8=
-X-Google-Smtp-Source: ABdhPJzHMy6LwOzDzH/NnSDuYi7HbN+cFl1qm/Ykg2hnLT9v2zbFwmNPK+5+Z9e5/CBXArKDrnvYIg==
-X-Received: by 2002:a1c:b4c6:: with SMTP id d189mr9061175wmf.72.1617300343911; 
- Thu, 01 Apr 2021 11:05:43 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id m3sm10947022wme.40.2021.04.01.11.05.42
+ bh=Kx9DbhVSJrB9vI9FErGrA8bAvmekmul4UBa7pJXLaoE=;
+ b=NbdcuqFDl+68pBd2qPvyH9aci5/H8rmbMF0+tE6tYs+STF3IdmTs0CN264EsvGSx2P
+ bcF06E+l0fFjTESWNUwl5jvXu0aNe6HeDbhdLkqqtOjZFTnALTqRQpOwZu9oodaihLW5
+ FI4I7wWgL75lEzjzEfVJ+iFZXxsegp1bJepR8sNo2JwqSUsXoB5zwGBW5iVWo4phaA/Q
+ UAY/qEadT82Ob44xb/paYe7xYiVGfF1c0cSfdurKhmO8nwCgJWIgB01lWjXmu/FjqUnP
+ nUsMzmYSHSZBgTmo3kPQ8Z5XFu+Tbd4oXlDwM9re1N3ztCO6NiZNrURad3a5KpHfhEer
+ st+g==
+X-Gm-Message-State: AOAM531LyHUuti2N5QDKshh7siWR5Mq1VGT7al9Tz9ForyOwtbHXOWpn
+ AHQgTQP1lgIPeZT/tPAn8aZzhD5QE8VIDVjyv0K2PgsN7DABKrCVyPcMELqfJnKMFLQ2bpXxt3z
+ YKkMCURuXptVxZA4=
+X-Received: by 2002:a9d:21a5:: with SMTP id s34mr8307607otb.240.1617300567121; 
+ Thu, 01 Apr 2021 11:09:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwce7ltC5rlzdmjefW4iZnoG2mF0fmXP4s9gEyZSKWw97K6P7O6Tuo077wW3p+a103CDJR8Q==
+X-Received: by 2002:a9d:21a5:: with SMTP id s34mr8307599otb.240.1617300566924; 
+ Thu, 01 Apr 2021 11:09:26 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ z3sm1199604oop.41.2021.04.01.11.09.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 11:05:43 -0700 (PDT)
-Subject: Re: [PATCH v3 05/11] esp: introduce esp_fifo_pop_buf() and use it
- instead of fifo8_pop_buf()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
-References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
- <20210401074933.9923-6-mark.cave-ayland@ilande.co.uk>
- <0c3900c2-fa72-47ea-d48c-625dd1b40734@amsat.org>
- <854e3d13-4610-8780-e27c-a7cb72b54dd1@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <27a538a1-be1a-2368-800f-247661f71d70@amsat.org>
-Date: Thu, 1 Apr 2021 20:05:41 +0200
+ Thu, 01 Apr 2021 11:09:26 -0700 (PDT)
+Subject: Re: [PATCH 2/2] block/rbd: Don't unescape in qemu_rbd_next_tok()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210401155211.2093139-1-ckuehl@redhat.com>
+ <20210401155211.2093139-3-ckuehl@redhat.com>
+ <c8a21743-6264-fe4e-294f-82f74766a5e7@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <c7d42197-b874-9c81-e8dd-ef0ebf8e784d@redhat.com>
+Date: Thu, 1 Apr 2021 13:09:25 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <854e3d13-4610-8780-e27c-a7cb72b54dd1@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c8a21743-6264-fe4e-294f-82f74766a5e7@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,70 +99,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/21 12:51 PM, Mark Cave-Ayland wrote:
-> On 01/04/2021 10:34, Philippe Mathieu-Daudé wrote:
->> On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
->>> The const pointer returned by fifo8_pop_buf() lies directly within
->>> the array used
->>> to model the FIFO. Building with address sanitisers enabled shows
->>> that if the
+On 4/1/21 12:24 PM, Max Reitz wrote:
+> On 01.04.21 17:52, Connor Kuehl wrote:
+>> That's qemu_rbd_unescape()'s job! No need to duplicate the labor.
 >>
->> Typo "sanitizers"
+>> Furthermore, this was causing some confusion in the parsing logic to
+>> where the caller might test for the presence of a character to split on
+>> like so:
+>>
+>> if (strchr(image_name, '/')) {
+>>          found_str = qemu_rbd_next_tok(image_name, '/', &image_name);
+>>     [..]
+>>
+>> When qemu_rbd_next_tok() performs unescaping as a side effect, the
+>> parser can get confused thinking that it can split this string, but
+>> really the delimiter '/' gets unescaped and so qemu_rbd_next_tok() never
+>> "finds" the delimiter and consumes the rest of the token input stream.
 > 
-> Ha. It's definitely "sanitiser" here in the UK (UK English) as opposed
-> to "sanitizer" (US English).
+> I don’t fully understand.  I understand the strchr() problem and the 
+> thing you explain next.  But I would have thought that’s a problem of 
+> using strchr(), i.e. that we’d need a custom function to do strchr() but 
+> consider escaped characters.  If it’s just about true/false like in your 
+> example, it could be a new version of qemu_rbd_next_tok() that does not 
+> modify the string.
 
-Oh OK, TIL :)
+I went back and forth a lot on the different ways this can be fixed 
+before sending this, and I agree the most consistent fix here would be 
+to add an escape-aware strchr. Initially, adding another libc-like 
+function with more side effects wasn't as appealing to me as removing 
+the side effects entirely to separate mechanism vs. policy. Your example 
+below convinced me that this patch would split the token in unexpected 
+ways. I'll send a v2 :-)
 
-> I don't really mind either way, but I can
-> fix this if it needs a v4 following Paolo's comments.
+Thanks,
 
-Not needed since it is correct.
+Connor
 
->>> caller expects a minimum number of bytes present then if the FIFO is
->>> nearly full,
->>> the caller may unexpectedly access past the end of the array.
->>
->> Why isn't it a problem with the other models? Because the pointed
->> buffer is consumed directly?
-> 
-> Yes that's correct, which is why Fifo8 currently doesn't support
-> wraparound. I haven't analysed how other devices have used it but I
-> would imagine there would be an ASan hit if it were being misused this way.
-> 
->>> Introduce esp_fifo_pop_buf() which takes a destination buffer and
->>> performs a
->>> memcpy() in it to guarantee that the caller cannot overwrite the FIFO
->>> array and
->>> update all callers to use it. Similarly add underflow protection
->>> similar to
->>> esp_fifo_push() and esp_fifo_pop() so that instead of triggering an
->>> assert()
->>> the operation becomes a no-op.
->>
->> This is OK for your ESP model.
->>
->> Now thinking loudly about the Fifo8 API, shouldn't this be part of it?
->>
->> Something prototype like:
->>
->>    /**
->>     * fifo8_pop_buf:
->>     * @do_copy: If %true, also copy data to @bufptr.
->>     */
->>    size_t fifo8_pop_buf(Fifo8 *fifo,
->>                         void **bufptr,
->>                         size_t buflen,
->>                         bool do_copy);
-> 
-> That could work, and may even allow support for wraparound in future. I
-> suspect things would become clearer after looking at the other Fifo8
-> users to see if this is worth an API change/alternative API.
+> [..]
+> Should it?  I would have fully expected it to not be split and the 
+> parser complains that the input is invalid.  Or, let’s say, 
+> "foo\/bar/baz” should be split into “foo\/bar” and “baz”.
 
-Thanks for the feedback!
-
-Phil.
 
