@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD513510C0
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:21:11 +0200 (CEST)
-Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D193510C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:21:34 +0200 (CEST)
+Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRsZi-0007IH-7P
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36492)
+	id 1lRsa5-0007wf-He
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRsXq-0005rN-6I
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:19:14 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40941)
+ id 1lRsYG-0006am-W5
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:19:41 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lRsXo-0002k0-Ja
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:19:13 -0400
-Received: by mail-wr1-x430.google.com with SMTP id v11so887357wro.7
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:19:11 -0700 (PDT)
+ id 1lRsYF-00031C-F0
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:19:40 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id v11so888551wro.7
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p6T3VIkOrMfa6+ngXBSeeK8B9WkjIwRo5/JnqcHP32Y=;
- b=RHwRkBzTkjPnXUvguAuGkRxUChfSiTBbShGHs77vxtAVcNm6qEFzW0cmhYTeemnJKu
- 5nORqje/e69jZMn96iKdN4R+2L1bntBhmTiMim82jIMM+j+1HTzfy3iB2hFRkEOUK2DS
- 3HzHi2FBzdcZ1e4tHT4kcjBZi1VIkSURbb/+dJ2ecfeEktQmFf+os6lG4Ecbkqv+Vu81
- SPpP2MtiT86UfZkEUdwhHegly8PT9PK3foXGeg95gXatbMKsZ7guVAQN1neB+KneVi3Q
- Dg+SmJ7clxKqsQRkMo3emPBLDjoVLqsBPAkWJL+nca7KUvTwG5PMgGexGOfcITr4dUJr
- RLcQ==
+ bh=gmuds0U0jq2c5B9Dp09CcfNWR02HuTmniLRVTt4LE54=;
+ b=EQNCb4fZb3L8MLWI/9ZCoWlkzF3Rv83GN3QC3+Ngl/bA4dlAPjxPWWqGFFVx/yEVRI
+ mMH1yquZyhgsS0mXGOd6oVH6Mm9cbZuIMCEg1ZNiptfgQ8PswUFV45U6k201piCDV9lJ
+ +rhwl1E8IPz4gPqHhg2cTaEO7Aas/pG6SFObTN8V0UjHB/l1qnsLdCQty38fPzFasL3Z
+ CXN7SzmNRvixcs9XuN1BuyEN5XiBeUPhWuse4XaOZDssY7q+V4PJfzMc6Kyh4sr6sOj6
+ a8kvxEO1cs33cr5dki5lho6nfL4dk64vNdILLz201HKKgjhM0S50ZYUmnIOOeLhVA6bf
+ YYdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p6T3VIkOrMfa6+ngXBSeeK8B9WkjIwRo5/JnqcHP32Y=;
- b=DIVG8zcrQfB23EC7QlfY8LlIzK5wxMrgJe/lTRc3Onm9jzeLRax3EEdovnYgvg1DWc
- UGPHy2D3DwpZmrwU/JpR+SMkSHQNwZA3qycxT4fBL4eTYQqcyYA6zeiI0OjyWluozjpn
- HP7LH3pJ2QnuWjbqKf8yd3p0DCATwPXW2yDmcHVBO9S9MazXA+dbD4mWlLfTxKMRyibL
- i5Oh18r+Vbbmely1+I3cQ/7xOHJ99usc9fjz6QbrzXX45XjYT0c38/Wifa7GjgVZbOEa
- XluQuSDdNO/BBRHwalMVoJb5O+ZT4POfsBBzlW6pjWhHwkpVLvuQ6jAJHp3VYgIMbjlq
- mP7g==
-X-Gm-Message-State: AOAM5304UVFSQGxqFc+swWSf0FXGAn5dReYUlHIOIooI6rkCymFI7Ek6
- Jp+Ke6W2jad7aVSkYT/QJqU=
-X-Google-Smtp-Source: ABdhPJy92J5h/GseokEvdVa+o+M/QTzbAuAQ1fxRcktPzUg7GoucKHkfd2BTgRku7qHSXmwTqnwl0A==
-X-Received: by 2002:a5d:4884:: with SMTP id g4mr8104156wrq.191.1617265150718; 
- Thu, 01 Apr 2021 01:19:10 -0700 (PDT)
+ bh=gmuds0U0jq2c5B9Dp09CcfNWR02HuTmniLRVTt4LE54=;
+ b=L5EengJnu0vuCcPTWnKw3SIQKc4oMESWnl2V2bG0o1IhCH22tiCSviBledQJHtHVOm
+ 92twq0xbdKVa20/IyvKIQdp/eZPcCw1i7RU7MvsUxQSW0JYdDm3YIVUxkg1iKM0hhLjM
+ jpiUYClDRuZho1xuu9qKgq8BmZQgowVtvdJgEl7acJhreSy5NkS1Gs493l/a6symZ7+P
+ zhNTw7GNqp553iV30TO5vRJndprgab26aMIxfNBGa4EuhJViuPk+AE9hX98vROlsAf+Y
+ N45IEBFknPLo24XZezSuB0nLKPEF+KYWy3UiL14VdO/WV3fWXufhIMvGACUEiQrj8ap/
+ pgXA==
+X-Gm-Message-State: AOAM530Mr1HfklnkvdEtctJF7x54FsM4SkIpR9+sl9Ru1KpQLB9fmfPM
+ 4e9PHK3Lj00s20k5kgm9wUw=
+X-Google-Smtp-Source: ABdhPJxfqD1cdzDagSgfUTd0sTmsI7A1WMeoetz14yFF4lYe/eo1CYUQmFTeRgI7FUIwA2hYwDHdgA==
+X-Received: by 2002:adf:e84f:: with SMTP id d15mr8169797wrn.394.1617265177739; 
+ Thu, 01 Apr 2021 01:19:37 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id f4sm8821688wrz.4.2021.04.01.01.19.09
+ by smtp.gmail.com with ESMTPSA id m14sm7194414wmi.27.2021.04.01.01.19.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 01:19:10 -0700 (PDT)
-Subject: Re: [PATCH v3 07/11] esp: don't underflow cmdfifo in do_cmd()
+ Thu, 01 Apr 2021 01:19:37 -0700 (PDT)
+Subject: Re: [PATCH v3 08/11] esp: don't overflow cmdfifo in get_cmd()
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
 References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
- <20210401074933.9923-8-mark.cave-ayland@ilande.co.uk>
+ <20210401074933.9923-9-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2c2f7f50-a4bd-916f-6c71-a61dd4b566e9@amsat.org>
-Date: Thu, 1 Apr 2021 10:19:09 +0200
+Message-ID: <1aa39496-e535-5e38-552b-1e314fcb9905@amsat.org>
+Date: Thu, 1 Apr 2021 10:19:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210401074933.9923-8-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210401074933.9923-9-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,47 +94,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
-> If the guest tries to execute a CDB when cmdfifo is not empty before the start
-> of the message out phase then clearing the message out phase data will cause
-> cmdfifo to underflow due to cmdfifo_cdb_offset being larger than the amount of
-> data within.
+> If the guest tries to read a CDB using DMA and cmdfifo is not empty then it is
+> possible to overflow cmdfifo.
 > 
 > Since this can only occur by issuing deliberately incorrect instruction
-> sequences, ensure that the maximum length of esp_fifo_pop_buf() is limited to
-> the size of the data within cmdfifo.
+> sequences, ensure that the maximum length of the CDB transferred to cmdfifo is
+> limited to the available free space within cmdfifo.
 > 
 > Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  hw/scsi/esp.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 4decbbfc29..7f49522e1d 100644
+> index 7f49522e1d..c547c60395 100644
 > --- a/hw/scsi/esp.c
 > +++ b/hw/scsi/esp.c
-> @@ -319,13 +319,15 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
->  
->  static void do_cmd(ESPState *s)
->  {
-> -    uint8_t busid = fifo8_pop(&s->cmdfifo);
-> +    uint8_t busid = esp_fifo_pop(&s->cmdfifo);
-> +    int len;
->  
->      s->cmdfifo_cdb_offset--;
->  
->      /* Ignore extended messages for now */
->      if (s->cmdfifo_cdb_offset) {
-> -        esp_fifo_pop_buf(&s->cmdfifo, NULL, s->cmdfifo_cdb_offset);
-> +        len = MIN(s->cmdfifo_cdb_offset, fifo8_num_used(&s->cmdfifo));
+> @@ -243,6 +243,7 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
+>          }
+>          if (s->dma_memory_read) {
+>              s->dma_memory_read(s->dma_opaque, buf, dmalen);
+> +            dmalen = MIN(fifo8_num_free(&s->fifo), dmalen);
 
-Do we want to log(GUEST_ERRORS) this?
-
-> +        esp_fifo_pop_buf(&s->cmdfifo, NULL, len);
->          s->cmdfifo_cdb_offset = 0;
->      }
->  
-> 
+Ditto, GUEST_ERRORS?
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>              fifo8_push_all(&s->cmdfifo, buf, dmalen);
+>          } else {
+>              if (esp_select(s) < 0) {
+> 
+
 
