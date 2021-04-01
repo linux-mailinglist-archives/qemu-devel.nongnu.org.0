@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846AC351070
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:57:24 +0200 (CEST)
-Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BB4351071
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:58:34 +0200 (CEST)
+Received: from localhost ([::1]:53810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRsCh-00060M-M0
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57074)
+	id 1lRsDp-0006yO-CD
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs5p-0005lO-6W
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57046
+ id 1lRs63-0005qY-J2
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:31 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57056
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs5m-0000z4-L5
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:16 -0400
+ id 1lRs5r-00012W-DJ
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:27 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs5r-0004IO-Pe; Thu, 01 Apr 2021 08:50:24 +0100
+ id 1lRs5w-0004IO-VH; Thu, 01 Apr 2021 08:50:29 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, alxndr@bu.edu, laurent@vivier.eu,
  pbonzini@redhat.com
-Date: Thu,  1 Apr 2021 08:49:28 +0100
-Message-Id: <20210401074933.9923-7-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  1 Apr 2021 08:49:29 +0100
+Message-Id: <20210401074933.9923-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
 References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 06/11] esp: ensure cmdfifo is not empty and current_dev is
- non-NULL
+Subject: [PATCH v3 07/11] esp: don't underflow cmdfifo in do_cmd()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,32 +63,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When about to execute a SCSI command, ensure that cmdfifo is not empty and
-current_dev is non-NULL. This can happen if the guest tries to execute a TI
-(Transfer Information) command without issuing one of the select commands
-first.
+If the guest tries to execute a CDB when cmdfifo is not empty before the start
+of the message out phase then clearing the message out phase data will cause
+cmdfifo to underflow due to cmdfifo_cdb_offset being larger than the amount of
+data within.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
+Since this can only occur by issuing deliberately incorrect instruction
+sequences, ensure that the maximum length of esp_fifo_pop_buf() is limited to
+the size of the data within cmdfifo.
+
 Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/scsi/esp.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 1aa2caf57d..4decbbfc29 100644
+index 4decbbfc29..7f49522e1d 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -284,6 +284,9 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
-     trace_esp_do_busid_cmd(busid);
-     lun = busid & 7;
-     cmdlen = fifo8_num_used(&s->cmdfifo);
-+    if (!cmdlen || !s->current_dev) {
-+        return;
-+    }
-     esp_fifo_pop_buf(&s->cmdfifo, buf, cmdlen);
+@@ -319,13 +319,15 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
  
-     current_lun = scsi_device_find(&s->bus, 0, s->current_dev->id, lun);
+ static void do_cmd(ESPState *s)
+ {
+-    uint8_t busid = fifo8_pop(&s->cmdfifo);
++    uint8_t busid = esp_fifo_pop(&s->cmdfifo);
++    int len;
+ 
+     s->cmdfifo_cdb_offset--;
+ 
+     /* Ignore extended messages for now */
+     if (s->cmdfifo_cdb_offset) {
+-        esp_fifo_pop_buf(&s->cmdfifo, NULL, s->cmdfifo_cdb_offset);
++        len = MIN(s->cmdfifo_cdb_offset, fifo8_num_used(&s->cmdfifo));
++        esp_fifo_pop_buf(&s->cmdfifo, NULL, len);
+         s->cmdfifo_cdb_offset = 0;
+     }
+ 
 -- 
 2.20.1
 
