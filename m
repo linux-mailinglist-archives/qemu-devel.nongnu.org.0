@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F585350D59
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:58:19 +0200 (CEST)
-Received: from localhost ([::1]:44842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C1B350D5B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:58:25 +0200 (CEST)
+Received: from localhost ([::1]:45020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRoTK-0006YN-I1
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40680)
+	id 1lRoTQ-0006cj-HH
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoOz-0001NA-Gn
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:49 -0400
+ id 1lRoP2-0001Ro-5L
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:52 -0400
 Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:2902)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoOv-0004rM-Pc
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:49 -0400
+ id 1lRoOz-0004rM-Q7
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617249225; x=1648785225;
+ t=1617249229; x=1648785229;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6xf/nSFM2nuaNhVnME8yourJSYSTMLNg0UOXxiyN+HY=;
- b=T1StnQ8AehsLVG6tqXNhLMOSjRFixYMi2Pt6k21GLHu0y6kZ1qCWZD4A
- xHeDlzCgpF0Kz8gIpbGHRspiUnMwXB64eWaV25DaTf8apIC2Uwl5IXTzT
- iShc8A/LHKcAjWloPR7r4Aio+y06T1PkMyHIO2lKw4FWKkYiuPvRsqBOS M=;
+ bh=Z1zvhbqv1JKRYUY3adycDNaCNM3gNBXRu9gHNL7StUM=;
+ b=rgPcvmS7+C3harY947Ng5WgJ20cyZBIH1jsv7oj9+wTh2XRtui/zmup4
+ HFAjq0bMByZPHqjtIIDEn9GVAR/7/SwAiTrFYNbkkEq+PdeS2H7wX5jD4
+ L8+J69G9rotdXKQDLZcrEVkt5xN6MSlD22x+Y0ngQCW/Iwp3080GW38Fc 4=;
 Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Mar 2021 20:53:42 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
  by ironmsg05-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id BB1BDCC0; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
+ id 03DAD80D; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/21] Hexagon (target/hexagon) remove unnecessary inline
- directives
-Date: Wed, 31 Mar 2021 22:53:14 -0500
-Message-Id: <1617249213-22667-3-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v2 05/21] Hexagon (target/hexagon) decide if pred has been
+ written at TCG gen time
+Date: Wed, 31 Mar 2021 22:53:17 -0500
+Message-Id: <1617249213-22667-6-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
@@ -74,376 +74,175 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Multiple writes to the same preg are and'ed together.  Rather than
+generating a runtime check, we can determine at TCG generation time
+if the predicate has previously been written in the packet.
+
+Test added to tests/tcg/hexagon/misc.c
+
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/cpu.c       |  9 ++++-----
- target/hexagon/decode.c    |  6 +++---
- target/hexagon/fma_emu.c   | 39 ++++++++++++++++++++-------------------
- target/hexagon/op_helper.c | 37 ++++++++++++++++++-------------------
- target/hexagon/translate.c |  2 +-
- 5 files changed, 46 insertions(+), 47 deletions(-)
+ target/hexagon/gen_tcg_funcs.py |  2 +-
+ target/hexagon/genptr.c         | 22 +++++++++++++++-------
+ target/hexagon/translate.c      |  9 +++++++--
+ target/hexagon/translate.h      |  2 ++
+ tests/tcg/hexagon/misc.c        | 19 +++++++++++++++++++
+ 5 files changed, 44 insertions(+), 10 deletions(-)
 
-diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
-index b0b3040..c2fe357 100644
---- a/target/hexagon/cpu.c
-+++ b/target/hexagon/cpu.c
-@@ -69,10 +69,9 @@ const char * const hexagon_regnames[TOTAL_PER_THREAD_REGS] = {
-  * stacks at different locations.  This is used to compensate so the diff is
-  * cleaner.
-  */
--static inline target_ulong adjust_stack_ptrs(CPUHexagonState *env,
--                                             target_ulong addr)
-+static target_ulong adjust_stack_ptrs(CPUHexagonState *env, target_ulong addr)
- {
--    HexagonCPU *cpu = container_of(env, HexagonCPU, env);
-+    HexagonCPU *cpu = hexagon_env_get_cpu(env);
-     target_ulong stack_adjust = cpu->lldb_stack_adjust;
-     target_ulong stack_start = env->stack_start;
-     target_ulong stack_size = 0x10000;
-@@ -88,7 +87,7 @@ static inline target_ulong adjust_stack_ptrs(CPUHexagonState *env,
- }
- 
- /* HEX_REG_P3_0 (aka C4) is an alias for the predicate registers */
--static inline target_ulong read_p3_0(CPUHexagonState *env)
-+static target_ulong read_p3_0(CPUHexagonState *env)
- {
-     int32_t control_reg = 0;
-     int i;
-@@ -116,7 +115,7 @@ static void print_reg(FILE *f, CPUHexagonState *env, int regnum)
- 
- static void hexagon_dump(CPUHexagonState *env, FILE *f)
- {
--    HexagonCPU *cpu = container_of(env, HexagonCPU, env);
-+    HexagonCPU *cpu = hexagon_env_get_cpu(env);
- 
-     if (cpu->lldb_compat) {
-         /*
-diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
-index 1c9c074..65d97ce 100644
---- a/target/hexagon/decode.c
-+++ b/target/hexagon/decode.c
-@@ -354,7 +354,7 @@ static void decode_split_cmpjump(Packet *pkt)
-     }
- }
- 
--static inline int decode_opcode_can_jump(int opcode)
-+static int decode_opcode_can_jump(int opcode)
- {
-     if ((GET_ATTRIB(opcode, A_JUMP)) ||
-         (GET_ATTRIB(opcode, A_CALL)) ||
-@@ -370,7 +370,7 @@ static inline int decode_opcode_can_jump(int opcode)
-     return 0;
- }
- 
--static inline int decode_opcode_ends_loop(int opcode)
-+static int decode_opcode_ends_loop(int opcode)
- {
-     return GET_ATTRIB(opcode, A_HWLOOP0_END) ||
-            GET_ATTRIB(opcode, A_HWLOOP1_END);
-@@ -764,7 +764,7 @@ static void decode_add_endloop_insn(Insn *insn, int loopnum)
-     }
- }
- 
--static inline int decode_parsebits_is_loopend(uint32_t encoding32)
-+static int decode_parsebits_is_loopend(uint32_t encoding32)
- {
-     uint32_t bits = parse_bits(encoding32);
-     return bits == 0x2;
-diff --git a/target/hexagon/fma_emu.c b/target/hexagon/fma_emu.c
-index 842d903..f324b83 100644
---- a/target/hexagon/fma_emu.c
-+++ b/target/hexagon/fma_emu.c
-@@ -64,7 +64,7 @@ typedef union {
-     };
- } Float;
- 
--static inline uint64_t float64_getmant(float64 f64)
-+static uint64_t float64_getmant(float64 f64)
- {
-     Double a = { .i = f64 };
-     if (float64_is_normal(f64)) {
-@@ -91,7 +91,7 @@ int32_t float64_getexp(float64 f64)
-     return -1;
- }
- 
--static inline uint64_t float32_getmant(float32 f32)
-+static uint64_t float32_getmant(float32 f32)
- {
-     Float a = { .i = f32 };
-     if (float32_is_normal(f32)) {
-@@ -118,17 +118,17 @@ int32_t float32_getexp(float32 f32)
-     return -1;
- }
- 
--static inline uint32_t int128_getw0(Int128 x)
-+static uint32_t int128_getw0(Int128 x)
- {
-     return int128_getlo(x);
- }
- 
--static inline uint32_t int128_getw1(Int128 x)
-+static uint32_t int128_getw1(Int128 x)
- {
-     return int128_getlo(x) >> 32;
- }
- 
--static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
-+static Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
- {
-     Int128 a, b;
-     uint64_t pp0, pp1a, pp1b, pp1s, pp2;
-@@ -152,7 +152,7 @@ static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
-     return int128_make128(ret_low, pp2 + (pp1s >> 32));
- }
- 
--static inline Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
-+static Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
- {
-     Int128 ret = int128_sub(a, b);
-     if (borrow != 0) {
-@@ -170,7 +170,7 @@ typedef struct {
-     uint8_t sticky;
- } Accum;
- 
--static inline void accum_init(Accum *p)
-+static void accum_init(Accum *p)
- {
-     p->mant = int128_zero();
-     p->exp = 0;
-@@ -180,7 +180,7 @@ static inline void accum_init(Accum *p)
-     p->sticky = 0;
- }
- 
--static inline Accum accum_norm_left(Accum a)
-+static Accum accum_norm_left(Accum a)
- {
-     a.exp--;
-     a.mant = int128_lshift(a.mant, 1);
-@@ -190,6 +190,7 @@ static inline Accum accum_norm_left(Accum a)
-     return a;
- }
- 
-+/* This function is marked inline for performance reasons */
- static inline Accum accum_norm_right(Accum a, int amt)
- {
-     if (amt > 130) {
-@@ -226,7 +227,7 @@ static inline Accum accum_norm_right(Accum a, int amt)
-  */
- static Accum accum_add(Accum a, Accum b);
- 
--static inline Accum accum_sub(Accum a, Accum b, int negate)
-+static Accum accum_sub(Accum a, Accum b, int negate)
- {
-     Accum ret;
-     accum_init(&ret);
-@@ -329,7 +330,7 @@ static Accum accum_add(Accum a, Accum b)
- }
- 
- /* Return an infinity with requested sign */
--static inline float64 infinite_float64(uint8_t sign)
-+static float64 infinite_float64(uint8_t sign)
- {
-     if (sign) {
-         return make_float64(DF_MINUS_INF);
-@@ -339,7 +340,7 @@ static inline float64 infinite_float64(uint8_t sign)
- }
- 
- /* Return a maximum finite value with requested sign */
--static inline float64 maxfinite_float64(uint8_t sign)
-+static float64 maxfinite_float64(uint8_t sign)
- {
-     if (sign) {
-         return make_float64(DF_MINUS_MAXF);
-@@ -349,7 +350,7 @@ static inline float64 maxfinite_float64(uint8_t sign)
- }
- 
- /* Return a zero value with requested sign */
--static inline float64 zero_float64(uint8_t sign)
-+static float64 zero_float64(uint8_t sign)
- {
-     if (sign) {
-         return make_float64(0x8000000000000000);
-@@ -369,7 +370,7 @@ float32 infinite_float32(uint8_t sign)
- }
- 
- /* Return a maximum finite value with the requested sign */
--static inline float32 maxfinite_float32(uint8_t sign)
-+static float32 maxfinite_float32(uint8_t sign)
- {
-     if (sign) {
-         return make_float32(SF_MINUS_MAXF);
-@@ -379,7 +380,7 @@ static inline float32 maxfinite_float32(uint8_t sign)
- }
- 
- /* Return a zero value with requested sign */
--static inline float32 zero_float32(uint8_t sign)
-+static float32 zero_float32(uint8_t sign)
- {
-     if (sign) {
-         return make_float32(0x80000000);
-@@ -389,7 +390,7 @@ static inline float32 zero_float32(uint8_t sign)
- }
- 
- #define GEN_XF_ROUND(SUFFIX, MANTBITS, INF_EXP, INTERNAL_TYPE) \
--static inline SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
-+static SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
- { \
-     if ((int128_gethi(a.mant) == 0) && (int128_getlo(a.mant) == 0) \
-         && ((a.guard | a.round | a.sticky) == 0)) { \
-@@ -526,8 +527,8 @@ static bool is_inf_prod(float64 a, float64 b)
-             (float64_is_infinity(b) && is_finite(a) && (!float64_is_zero(a))));
- }
- 
--static inline float64 special_fma(float64 a, float64 b, float64 c,
--                                  float_status *fp_status)
-+static float64 special_fma(float64 a, float64 b, float64 c,
-+                           float_status *fp_status)
- {
-     float64 ret = make_float64(0);
- 
-@@ -586,8 +587,8 @@ static inline float64 special_fma(float64 a, float64 b, float64 c,
-     g_assert_not_reached();
- }
- 
--static inline float32 special_fmaf(float32 a, float32 b, float32 c,
--                                 float_status *fp_status)
-+static float32 special_fmaf(float32 a, float32 b, float32 c,
-+                            float_status *fp_status)
- {
-     float64 aa, bb, cc;
-     aa = float32_to_float64(a, fp_status);
-diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-index d6b5c47..5d35dfc 100644
---- a/target/hexagon/op_helper.c
-+++ b/target/hexagon/op_helper.c
-@@ -46,8 +46,8 @@ void QEMU_NORETURN HELPER(raise_exception)(CPUHexagonState *env, uint32_t excp)
-     do_raise_exception_err(env, excp, 0);
- }
- 
--static inline void log_reg_write(CPUHexagonState *env, int rnum,
--                                 target_ulong val, uint32_t slot)
-+static void log_reg_write(CPUHexagonState *env, int rnum,
-+                          target_ulong val, uint32_t slot)
- {
-     HEX_DEBUG_LOG("log_reg_write[%d] = " TARGET_FMT_ld " (0x" TARGET_FMT_lx ")",
-                   rnum, val, val);
-@@ -63,8 +63,7 @@ static inline void log_reg_write(CPUHexagonState *env, int rnum,
+diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
+index db9f663..7ceb25b 100755
+--- a/target/hexagon/gen_tcg_funcs.py
++++ b/target/hexagon/gen_tcg_funcs.py
+@@ -316,7 +316,7 @@ def genptr_dst_write(f, tag, regtype, regid):
+             print("Bad register parse: ", regtype, regid)
+     elif (regtype == "P"):
+         if (regid in {"d", "e", "x"}):
+-            f.write("    gen_log_pred_write(%s%sN, %s%sV);\n" % \
++            f.write("    gen_log_pred_write(ctx, %s%sN, %s%sV);\n" % \
+                 (regtype, regid, regtype, regid))
+             f.write("    ctx_log_pred_write(ctx, %s%sN);\n" % \
+                 (regtype, regid))
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index 87f5d92..dad5292 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -120,20 +120,28 @@ static void gen_log_reg_write_pair(int rnum, TCGv_i64 val)
  #endif
  }
  
--static inline void log_pred_write(CPUHexagonState *env, int pnum,
--                                  target_ulong val)
-+static void log_pred_write(CPUHexagonState *env, int pnum, target_ulong val)
+-static inline void gen_log_pred_write(int pnum, TCGv val)
++static inline void gen_log_pred_write(DisasContext *ctx, int pnum, TCGv val)
  {
-     HEX_DEBUG_LOG("log_pred_write[%d] = " TARGET_FMT_ld
-                   " (0x" TARGET_FMT_lx ")\n",
-@@ -79,8 +78,8 @@ static inline void log_pred_write(CPUHexagonState *env, int pnum,
-     }
- }
+     TCGv zero = tcg_const_tl(0);
+     TCGv base_val = tcg_temp_new();
+     TCGv and_val = tcg_temp_new();
+     TCGv pred_written = tcg_temp_new();
  
--static inline void log_store32(CPUHexagonState *env, target_ulong addr,
--                               target_ulong val, int width, int slot)
-+static void log_store32(CPUHexagonState *env, target_ulong addr,
-+                        target_ulong val, int width, int slot)
- {
-     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx
-                   ", %" PRId32 " [0x08%" PRIx32 "])\n",
-@@ -90,8 +89,8 @@ static inline void log_store32(CPUHexagonState *env, target_ulong addr,
-     env->mem_log_stores[slot].data32 = val;
- }
+-    /* Multiple writes to the same preg are and'ed together */
+     tcg_gen_andi_tl(base_val, val, 0xff);
+-    tcg_gen_and_tl(and_val, base_val, hex_new_pred_value[pnum]);
+-    tcg_gen_andi_tl(pred_written, hex_pred_written, 1 << pnum);
+-    tcg_gen_movcond_tl(TCG_COND_NE, hex_new_pred_value[pnum],
+-                       pred_written, zero,
+-                       and_val, base_val);
++
++    /*
++     * Section 6.1.3 of the Hexagon V67 Programmer's Reference Manual
++     *
++     * Multiple writes to the same preg are and'ed together
++     * If this is the first predicate write in the packet, do a
++     * straight assignment.  Otherwise, do an and.
++     */
++    if (!test_bit(pnum, ctx->pregs_written)) {
++        tcg_gen_mov_tl(hex_new_pred_value[pnum], base_val);
++    } else {
++        tcg_gen_and_tl(hex_new_pred_value[pnum],
++                       hex_new_pred_value[pnum], base_val);
++    }
+     tcg_gen_ori_tl(hex_pred_written, hex_pred_written, 1 << pnum);
  
--static inline void log_store64(CPUHexagonState *env, target_ulong addr,
--                               int64_t val, int width, int slot)
-+static void log_store64(CPUHexagonState *env, target_ulong addr,
-+                        int64_t val, int width, int slot)
- {
-     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx
-                   ", %" PRId64 " [0x016%" PRIx64 "])\n",
-@@ -101,7 +100,7 @@ static inline void log_store64(CPUHexagonState *env, target_ulong addr,
-     env->mem_log_stores[slot].data64 = val;
- }
- 
--static inline void write_new_pc(CPUHexagonState *env, target_ulong addr)
-+static void write_new_pc(CPUHexagonState *env, target_ulong addr)
- {
-     HEX_DEBUG_LOG("write_new_pc(0x" TARGET_FMT_lx ")\n", addr);
- 
-@@ -132,7 +131,7 @@ void HELPER(debug_start_packet)(CPUHexagonState *env)
- }
- #endif
- 
--static inline int32_t new_pred_value(CPUHexagonState *env, int pnum)
-+static int32_t new_pred_value(CPUHexagonState *env, int pnum)
- {
-     return env->new_pred_value[pnum];
- }
-@@ -332,8 +331,8 @@ static void check_noshuf(CPUHexagonState *env, uint32_t slot)
-     }
- }
- 
--static inline uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
--                                target_ulong vaddr)
-+static uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
-+                         target_ulong vaddr)
- {
-     uint8_t retval;
-     check_noshuf(env, slot);
-@@ -341,8 +340,8 @@ static inline uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
-     return retval;
- }
- 
--static inline uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
--                                 target_ulong vaddr)
-+static uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
-+                          target_ulong vaddr)
- {
-     uint16_t retval;
-     check_noshuf(env, slot);
-@@ -350,8 +349,8 @@ static inline uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
-     return retval;
- }
- 
--static inline uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
--                                 target_ulong vaddr)
-+static uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
-+                          target_ulong vaddr)
- {
-     uint32_t retval;
-     check_noshuf(env, slot);
-@@ -359,8 +358,8 @@ static inline uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
-     return retval;
- }
- 
--static inline uint64_t mem_load8(CPUHexagonState *env, uint32_t slot,
--                                 target_ulong vaddr)
-+static uint64_t mem_load8(CPUHexagonState *env, uint32_t slot,
-+                          target_ulong vaddr)
- {
-     uint64_t retval;
-     check_noshuf(env, slot);
-@@ -939,7 +938,7 @@ float32 HELPER(sffms)(CPUHexagonState *env, float32 RxV,
-     return RxV;
- }
- 
--static inline bool is_inf_prod(int32_t a, int32_t b)
-+static bool is_inf_prod(int32_t a, int32_t b)
- {
-     return (float32_is_infinity(a) && float32_is_infinity(b)) ||
-            (float32_is_infinity(a) && is_finite(b) && !float32_is_zero(b)) ||
+     tcg_temp_free(zero);
 diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index 2317508..f975d7a 100644
+index 9f2a531..49ec8b7 100644
 --- a/target/hexagon/translate.c
 +++ b/target/hexagon/translate.c
-@@ -585,7 +585,7 @@ static void hexagon_tr_translate_packet(DisasContextBase *dcbase, CPUState *cpu)
-          * The CPU log is used to compare against LLDB single stepping,
-          * so end the TLB after every packet.
-          */
--        HexagonCPU *hex_cpu = container_of(env, HexagonCPU, env);
-+        HexagonCPU *hex_cpu = hexagon_env_get_cpu(env);
-         if (hex_cpu->lldb_compat && qemu_loglevel_mask(CPU_LOG_TB_CPU)) {
-             ctx->base.is_jmp = DISAS_TOO_MANY;
-         }
+@@ -172,6 +172,7 @@ static void gen_start_packet(DisasContext *ctx, Packet *pkt)
+     ctx->reg_log_idx = 0;
+     bitmap_zero(ctx->regs_written, TOTAL_PER_THREAD_REGS);
+     ctx->preg_log_idx = 0;
++    bitmap_zero(ctx->pregs_written, NUM_PREGS);
+     for (i = 0; i < STORES_MAX; i++) {
+         ctx->store_width[i] = 0;
+     }
+@@ -226,7 +227,7 @@ static void mark_implicit_pred_write(DisasContext *ctx, Insn *insn,
+     }
+ }
+ 
+-static void mark_implicit_writes(DisasContext *ctx, Insn *insn)
++static void mark_implicit_reg_writes(DisasContext *ctx, Insn *insn)
+ {
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_FP,  HEX_REG_FP);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SP,  HEX_REG_SP);
+@@ -235,7 +236,10 @@ static void mark_implicit_writes(DisasContext *ctx, Insn *insn)
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SA0, HEX_REG_SA0);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_LC1, HEX_REG_LC1);
+     mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SA1, HEX_REG_SA1);
++}
+ 
++static void mark_implicit_pred_writes(DisasContext *ctx, Insn *insn)
++{
+     mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P0, 0);
+     mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P1, 1);
+     mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P2, 2);
+@@ -246,8 +250,9 @@ static void gen_insn(CPUHexagonState *env, DisasContext *ctx,
+                      Insn *insn, Packet *pkt)
+ {
+     if (insn->generate) {
+-        mark_implicit_writes(ctx, insn);
++        mark_implicit_reg_writes(ctx, insn);
+         insn->generate(env, ctx, insn, pkt);
++        mark_implicit_pred_writes(ctx, insn);
+     } else {
+         gen_exception_end_tb(ctx, HEX_EXCP_INVALID_OPCODE);
+     }
+diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
+index 12506c8..0ecfbd7 100644
+--- a/target/hexagon/translate.h
++++ b/target/hexagon/translate.h
+@@ -34,6 +34,7 @@ typedef struct DisasContext {
+     DECLARE_BITMAP(regs_written, TOTAL_PER_THREAD_REGS);
+     int preg_log[PRED_WRITES_MAX];
+     int preg_log_idx;
++    DECLARE_BITMAP(pregs_written, NUM_PREGS);
+     uint8_t store_width[STORES_MAX];
+     uint8_t s1_store_processed;
+ } DisasContext;
+@@ -60,6 +61,7 @@ static inline void ctx_log_pred_write(DisasContext *ctx, int pnum)
+ {
+     ctx->preg_log[ctx->preg_log_idx] = pnum;
+     ctx->preg_log_idx++;
++    set_bit(pnum, ctx->pregs_written);
+ }
+ 
+ static inline bool is_preloaded(DisasContext *ctx, int num)
+diff --git a/tests/tcg/hexagon/misc.c b/tests/tcg/hexagon/misc.c
+index 458759f..e5d78b4 100644
+--- a/tests/tcg/hexagon/misc.c
++++ b/tests/tcg/hexagon/misc.c
+@@ -264,6 +264,22 @@ static long long creg_pair(int x, int y)
+     return retval;
+ }
+ 
++/* Check that predicates are auto-and'ed in a packet */
++static int auto_and(void)
++{
++    int retval;
++    asm ("r5 = #1\n\t"
++         "{\n\t"
++         "    p0 = cmp.eq(r1, #1)\n\t"
++         "    p0 = cmp.eq(r1, #2)\n\t"
++         "}\n\t"
++         "%0 = p0\n\t"
++         : "=r"(retval)
++         :
++         : "r5", "p0");
++    return retval;
++}
++
+ int main()
+ {
+ 
+@@ -375,6 +391,9 @@ int main()
+     res = test_clrtnew(2, 7);
+     check(res, 7);
+ 
++    res = auto_and();
++    check(res, 0);
++
+     puts(err ? "FAIL" : "PASS");
+     return err;
+ }
 -- 
 2.7.4
 
