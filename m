@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BEB3510F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:38:50 +0200 (CEST)
-Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93701351107
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:42:43 +0200 (CEST)
+Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRsqn-0004ul-FH
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
+	id 1lRsuY-0006aP-Mx
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRsoM-00041u-58
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:36:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53007)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRstj-00069r-VF
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:41:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRsoJ-0004SW-1C
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:36:17 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRstg-0007gZ-5m
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:41:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617266173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TkNvy7gtKB4wajLYixwjS2U8AcHfs41D3/4sSI+1nyY=;
- b=ix97gCcNd0y5WrOJZi5AEngMCVw6LlR8Gjd9mPBOLS0mAY0DxjhyxEEzssFSPihaPd2BeT
- ZioYGXD/+MKaoSpqid0TlQSu97YOJ9N0z/DJFQcPs75ZJ0Sk7xx9Ak/2auUYmnA6lJ4xpJ
- zRhz5P9OirAAZnvKrzH+KTRclYLjX78=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-Hh_LxbAYN7mCgzhVp4hUXw-1; Thu, 01 Apr 2021 04:36:10 -0400
-X-MC-Unique: Hh_LxbAYN7mCgzhVp4hUXw-1
-Received: by mail-ed1-f72.google.com with SMTP id k8so2468584edn.19
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:36:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TkNvy7gtKB4wajLYixwjS2U8AcHfs41D3/4sSI+1nyY=;
- b=DU69X7EjstoMPJtNdG0ti/4DYcCDGwMM3+fxf58Sqrt+XxibbrG29qMUXldXuRkeLO
- arG1Tx2B/68gvqkbznEnIL+EHyBpu8xoCTcP8Ho17EM7pmZqExS7vF56zW3iP+4sWzc2
- NbKLmBn4uSP+oIIlhIEDvSjGflThTeICbysJuDB8pMvWhLYUaTG2jar9fI4vQEHYkZL7
- oMtmQddyJG+e36pA2C+oatPgC+BOJASvu3I/gBRYHfZTXxtTCBx0YNx7VpcVK7Ou11Cd
- Qk6WPB15fxDCCPUkYWKORruRuIc7DtjD6XSgnQjE0XCt2rXbDStKWL7Qp0cLhdY28Irq
- IBsw==
-X-Gm-Message-State: AOAM5323TaX6lFezs3pmD7tS0NNxaURGTjynipj7xQId/3tCijjLADUX
- QJVpjcMcFeYh1fFg/HTw0jRXZVRotgxeoXVES/5aEX44ZbOl+00UUUfwYjk+lDJ3azjWpjprNsB
- Xd3/hSmH6pI9IM14=
-X-Received: by 2002:a17:906:fc1c:: with SMTP id
- ov28mr7940923ejb.342.1617266169317; 
- Thu, 01 Apr 2021 01:36:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUXUJQla7WVN2HSAwWwyb9gOSD6IMsjTjkVf/X7UupaK7ubpj6UpUgxx17jjqBqXu881sm8g==
-X-Received: by 2002:a17:906:fc1c:: with SMTP id
- ov28mr7940909ejb.342.1617266169124; 
- Thu, 01 Apr 2021 01:36:09 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n16sm3190901edr.42.2021.04.01.01.36.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 01:36:08 -0700 (PDT)
-Subject: Re: [PATCH v6 0/4] Implements the NetBSD Virtual Machine Monitor
- accelerator
-To: Reinoud Zandijk <reinoud@NetBSD.org>, qemu-devel@nongnu.org
-References: <20210331200800.24168-1-reinoud@NetBSD.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <df14826f-4ae4-fca8-ea66-572b22bbb2a1@redhat.com>
-Date: Thu, 1 Apr 2021 10:36:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ s=mimecast20190719; t=1617266507;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hW0bLOQ8feL6J+TSFQjSXJXpjtqVU/nA4oRqzWmvWjM=;
+ b=GEM3qwqvIqMijgiylcYN2lcc1sKGSKSZgmAP3V7NQZDcgNkouHZWi/TRfBD5/+hDY2cE1J
+ CfVZb/aFP/coWAMTO/ZpQZfUtLs/W7lhsen19724nwlZR5CGrT52hYfrYb2jIlznBUTyfl
+ f0qZ6beJcwDTawZUovo8Wi9ssmN7Kv4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-y8w8kWjYN4WIva0Yf8YhKg-1; Thu, 01 Apr 2021 04:41:42 -0400
+X-MC-Unique: y8w8kWjYN4WIva0Yf8YhKg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B98F1881278;
+ Thu,  1 Apr 2021 08:41:41 +0000 (UTC)
+Received: from redhat.com (ovpn-114-106.ams2.redhat.com [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D7DD19C44;
+ Thu,  1 Apr 2021 08:41:36 +0000 (UTC)
+Date: Thu, 1 Apr 2021 09:41:33 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Vincent Bernat <vincent@bernat.ch>
+Subject: Re: [PATCH v2 1/2] hw/smbios: support for type 41 (onboard devices
+ extended information)
+Message-ID: <YGWHPWSrOLxEQtMA@redhat.com>
+References: <20210401082544.16522-1-vincent@bernat.ch>
 MIME-Version: 1.0
-In-Reply-To: <20210331200800.24168-1-reinoud@NetBSD.org>
+In-Reply-To: <20210401082544.16522-1-vincent@bernat.ch>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,40 +79,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kamil Rytarowski <kamil@NetBSD.org>, Ryo ONODERA <ryoon@netbsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/21 22:07, Reinoud Zandijk wrote:
-> The NetBSD team has been working hard on a new user-mode API for our
-> hypervisor that will be released as part of the upcoming NetBSD 9.0.
+On Thu, Apr 01, 2021 at 10:25:43AM +0200, Vincent Bernat wrote:
+> Type 41 defines the attributes of devices that are onboard. The
+> original intent was to imply the BIOS had some level of control over
+> the enablement of the associated devices.
 > 
-> The NetBSD team has implemented its new hypervisor called NVMM. It has been
-> included since NetBSD 9.0 and has been in use now for quite some time. NVMM
-> adds user-mode capabilities to create and manage virtual machines, configure
-> memory mappings for guest machines, and create and control execution of
-> virtual processors.
+> If network devices are present in this table, by default, udev will
+> name the corresponding interfaces enoX, X being the instance number.
+> Without such information, udev will fallback to using the PCI ID and
+> this usually gives ens3 or ens4. This can be a bit annoying as the
+> name of the network card may depend on the order of options and may
+> change if a new PCI device is added earlier on the commande line.
+> Being able to provide SMBIOS type 41 entry ensure the name of the
+> interface won't change and helps the user guess the right name without
+> booting a first time.
 > 
-> With this new API we are now able to bring our hypervisor to the QEMU
-> community! The following patches implement the NetBSD Virtual Machine Monitor
-> accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
+> This can be invoked with:
 > 
-> When compiling QEMU for x86_64 it will autodetect nvmm and will compile the
-> accelerator for use if found. At runtime using the '-accel nvmm' should see a
-> significant performance improvement over emulation, much like when using 'hax'
-> on NetBSD.
+>     $QEMU -netdev user,id=internet
+>           -device virtio-net-pci,mac=50:54:00:00:00:42,netdev=internet \
+>           -smbios type=41,designation='Onboard LAN',instance=1,kind=ethernet,pci=0000:00:09.0
 > 
-> The documentation for this new API is visible at https://man.netbsd.org under
-> the libnvmm(3) and nvmm(4) pages.
+> Which results in the guest seeing dmidecode data and the interface
+> exposed as "eno1":
 > 
-> NVMM was designed and implemented by Maxime Villard <max@m00nbsd.net>
+>     $ dmidecode -t 41
+>     # dmidecode 3.3
+>     Getting SMBIOS data from sysfs.
+>     SMBIOS 2.8 present.Handle 0x2900, DMI type 41, 11 bytes
+>     Onboard Device
+>             Reference Designation: Onboard LAN
+>             Type: Ethernet
+>             Status: Enabled
+>             Type Instance: 1
+>             Bus Address: 0000:00:09.0
+>     $ udevadm info -p /sys/class/net/eno1 | grep ONBOARD
+>     E: ID_NET_NAME_ONBOARD=eno1
+>     E: ID_NET_LABEL_ONBOARD=Onboard LAN
 > 
-> Thank you for your feedback.
+> Signed-off-by: Vincent Bernat <vincent@bernat.ch>
+> ---
+>  hw/smbios/smbios.c           | 119 +++++++++++++++++++++++++++++++++++
+>  include/hw/firmware/smbios.h |  11 ++++
+>  qemu-options.hx              |   7 ++-
+>  3 files changed, 136 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> index f22c4f5b734e..46a08652dff4 100644
+> --- a/hw/smbios/smbios.c
+> +++ b/hw/smbios/smbios.c
 
-Very nice.  Just a couple remarks but nothing too serious.
 
-Paolo
+>  static void smbios_register_config(void)
+>  {
+>      qemu_add_opts(&qemu_smbios_opts);
+> @@ -773,6 +826,26 @@ static void smbios_build_type_32_table(void)
+>      SMBIOS_BUILD_TABLE_POST;
+>  }
+>  
+> +static void smbios_build_type_41_table(void)
+> +{
+> +    unsigned instance = 0;
+> +    struct type41_instance *t41;
+> +
+> +    QTAILQ_FOREACH(t41, &type41, next) {
+> +        SMBIOS_BUILD_TABLE_PRE(41, 0x2900 + instance, true);
+> +
+> +        SMBIOS_TABLE_SET_STR(41, reference_designation_str, t41->designation);
+> +        t->device_type = t41->kind;
+> +        t->device_type_instance = t41->instance;
+> +        t->segment_group_number = cpu_to_le16(t41->pci.segment);
+> +        t->bus_number = t41->pci.bus;
+> +        t->device_number = t41->pci.device;
+> +
+> +        SMBIOS_BUILD_TABLE_POST;
+> +        instance++;
+> +    }
+> +}
+> +
+>  static void smbios_build_type_127_table(void)
+>  {
+>      SMBIOS_BUILD_TABLE_PRE(127, 0x7F00, true); /* required */
+> @@ -928,6 +1001,7 @@ void smbios_get_tables(MachineState *ms,
+>  
+>          smbios_build_type_32_table();
+>          smbios_build_type_38_table();
+> +        smbios_build_type_41_table();
+>          smbios_build_type_127_table();
+>  
+>          smbios_validate_table(ms);
+> @@ -1224,6 +1298,51 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>              save_opt(&type17.part, opts, "part");
+>              type17.speed = qemu_opt_get_number(opts, "speed", 0);
+>              return;
+> +        case 41: {
+> +            struct type41_instance *t;
+> +            Error *local_err = NULL;
+> +            int pseg, pbus, pdevice, pfunction;
+> +
+> +            if (!qemu_opts_validate(opts, qemu_smbios_type41_opts, errp)) {
+> +                return;
+> +            }
+> +            t = calloc(1, sizeof(struct type41_instance));
+> +            if (!t) {
+> +                error_setg(errp,
+> +                           "Unable to allocate memory for a new type 41 instance");
+> +                return;
+> +            }
+
+QEMU uses GLib allocation functions throughout, which abort
+on OOM. So replace this with g_new0.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
