@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E5B351473
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:28:19 +0200 (CEST)
-Received: from localhost ([::1]:44004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2540351479
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:30:22 +0200 (CEST)
+Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRvUo-0006Bz-Tk
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
+	id 1lRvWn-0000Uu-WC
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPG-0000lY-1I
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:34 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40547)
+ id 1lRvPG-0000mK-KX
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:38 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:40551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPD-0006gq-Td
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:33 -0400
-Received: by mail-ed1-x532.google.com with SMTP id b16so1526647eds.7
+ id 1lRvPD-0006gz-UG
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:34 -0400
+Received: by mail-ed1-x536.google.com with SMTP id b16so1526675eds.7
  for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lEWIVDCtkimYtMK0ltNHTGDin3qV16dT3jK9cH3aIDI=;
- b=HhFegB0Hu2K6XbH+2BX+DNT8c9BbNMKQestSQX1WdY+EkZzV/sB85E8p+9jOs7fVML
- wIxn8NCUGuSh7LhxKjfF/wOhJ8fe9vnuQSCW9HkYTZ+EICP6vNy4AyTWLlO1lXWC5EsM
- nY9yi9cs/ulInHHFOkhlBYXNwnPKU0iMbncEE+YUKiLAF97P9xycMUeMSpYedGZbB8MJ
- PdYgwQrw+yC/AZ3TzQLnA5n9IaabSApi+o/bSlNp7RPHbn8SYvJdTOyKuauBhYStzEhY
- SjLcZTDRkN3To+Wt4djuhbwX8P8TaZoSGBFJrfrNDCYLQn8ICxkpIwx29M32cmDbpOwg
- bMRw==
+ bh=d0WSF/QYN6qIBRa1lwbS2t9p1DzdIoxNbWQ0dDd75WM=;
+ b=c/G1gf50lE68TRGecWBo8y9FRje0elNwcWyVKc3kQy/JmPtCLNSr2bbVr3ap9B+sAN
+ oUQ0o8HOxEG4GaXf8dhT7t82iPI4COz/LoAnDzQ9i29Ab7VRnjqSXyeT0viWkneG92Bp
+ jBazZ2+s367seixuEjj1otnMsA3g9SOnt11Dc1YaTQhsh8wjWEXvAGA16k6AGeI+J8Ou
+ ++iLM9o1QjOL2tnYiamBNA6e88t298tRzEWGBRXXPUMosorvJG0LvWN7heJ65c++gV2g
+ +lJ6ehbSzrzHRtbj6bnQnz/GpyQHLerpk/VwU1QKPEAuK8mreEIzDLzsGg29OZs8VXf6
+ aBoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lEWIVDCtkimYtMK0ltNHTGDin3qV16dT3jK9cH3aIDI=;
- b=CfcHvZpG4DMwTPMXMAIXMt6rX3+7K5v3d7LfzcImbW4FGndAwt/uCSXv76NzAC4vyd
- spOh+UbPrA0zHJIUztHCXO8VFZ/ZG0JimNIigy4bxbVrE49MsRqfJ1M6M635pLlYEYgB
- 1Km6S6gWtVL7vjQVh/iYNfjGEF75HQKpCTrZdqI4d/Sc6U3dtQ8NsNtfr65dzwo3QOWo
- xxalmKgKmdLLr+stXvA11MGlSRxbHu+tdlAnn/bQng6dnkBcCrcZkiO/T6X/dq5OkCya
- GL0rQJI5OwY8e2tCTs7hgGzinTgF2PMWrmb8vRvl2Dot+Fp+qw/Tqhk/ISp9fdiuJmFZ
- U5Sw==
-X-Gm-Message-State: AOAM53132Tr89tavQOyXbd8QJRuYyGB2QbJ6xQKyQIGP8ZbERBSUu0+Y
- kXfYXvjOus/U4bijO97A3AlfbC5MriA=
-X-Google-Smtp-Source: ABdhPJxFR9jAO7r8sW8lMV3pgTOMQKDPt5xCoDm4RufLoAco79BWeXcPucsHhPkfYSNs3OWc32Mnpw==
-X-Received: by 2002:aa7:c9d1:: with SMTP id i17mr9029326edt.46.1617276148241; 
+ bh=d0WSF/QYN6qIBRa1lwbS2t9p1DzdIoxNbWQ0dDd75WM=;
+ b=IYWAplVIQY63fshBGnPFVJ0sgLCOiXAmsSABPIGsQ+CwA4oj7XhrR7xhmxJKcSwQZz
+ pFkV6uXapfs0DTBsCoZGmD/EAr+By/ccuSg5ZJtesuf6KVzYws3DpUjxinBRGPse3tjM
+ dGGeyHq5yJ9oO/X56pF+t+uoY7tsDqlwm3TOY1MAk8fomNsvFrTWemsANW1wCOzEy0k+
+ GI+iIMOtWAuB3HuRG6G+G3LEAEh+vR7Xn9yI8y0XnCRtwj5Vky5uMCdPj7+YDJxBlvgJ
+ 7ZIIXICQg89yTJ+rQIjA8hXiEnEos6mGqspBMpeknE9mmulti5Pi63PZIzIiy/IN/luG
+ sg5w==
+X-Gm-Message-State: AOAM530OtYIybob7UpG7ai7Z7FsqTRU3yUjVd1lPLP59qEBUww64nXEv
+ VSPd8CUu2JTt/mFag5yHZQ8TS87g1Tk=
+X-Google-Smtp-Source: ABdhPJzY9iuO8yr8EE5fIGwlPWRn0wlVCp+/57dP4TKLBSdL86+ngaeqMKPGSWgN8sB+LxKyPps+Fg==
+X-Received: by 2002:a05:6402:12cf:: with SMTP id
+ k15mr8971863edx.192.1617276148892; 
  Thu, 01 Apr 2021 04:22:28 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d15sm3383516edx.62.2021.04.01.04.22.27
+ by smtp.gmail.com with ESMTPSA id d15sm3383516edx.62.2021.04.01.04.22.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 04:22:27 -0700 (PDT)
+ Thu, 01 Apr 2021 04:22:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] Revert "qom: use qemu_printf to print help for
- user-creatable objects"
-Date: Thu,  1 Apr 2021 13:22:16 +0200
-Message-Id: <20210401112223.55711-6-pbonzini@redhat.com>
+Subject: [PULL 06/12] icount: get rid of static variable
+Date: Thu,  1 Apr 2021 13:22:17 +0200
+Message-Id: <20210401112223.55711-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210401112223.55711-1-pbonzini@redhat.com>
 References: <20210401112223.55711-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,37 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-This reverts commit 6d9abb6de9cc53a508823db0283061824f2f98a2.
+This patch moves static last_delta variable into timers_state
+structure to allow correct vmstate operations with icount shift=auto enabled.
 
-The real code change had already been added by Kevin's commit da0a932bbf
-("hmp: QAPIfy object_add") and commit 6d9abb6d just added a duplicated
-include statement as a left-over of a rebase.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210328054758.2351461-1-thuth@redhat.com>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Message-Id: <161701335066.1180180.7104085247702343395.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object_interfaces.c | 1 -
- 1 file changed, 1 deletion(-)
+ softmmu/cpu-timers.c   | 5 +++--
+ softmmu/icount.c       | 9 +++------
+ softmmu/timers-state.h | 2 ++
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index c3324b0f86..b17aa57de1 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -17,7 +17,6 @@
- #include "qemu/qemu-print.h"
- #include "qapi/opts-visitor.h"
- #include "qemu/config-file.h"
--#include "qemu/qemu-print.h"
+diff --git a/softmmu/cpu-timers.c b/softmmu/cpu-timers.c
+index cd38595245..34ddfa02f1 100644
+--- a/softmmu/cpu-timers.c
++++ b/softmmu/cpu-timers.c
+@@ -188,11 +188,12 @@ static const VMStateDescription icount_vmstate_adjust_timers = {
  
- bool user_creatable_complete(UserCreatable *uc, Error **errp)
- {
+ static const VMStateDescription icount_vmstate_shift = {
+     .name = "timer/icount/shift",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .needed = icount_shift_state_needed,
+     .fields = (VMStateField[]) {
+         VMSTATE_INT16(icount_time_shift, TimersState),
++        VMSTATE_INT64(last_delta, TimersState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+diff --git a/softmmu/icount.c b/softmmu/icount.c
+index dbcd8c3594..21341a4ce4 100644
+--- a/softmmu/icount.c
++++ b/softmmu/icount.c
+@@ -176,9 +176,6 @@ static void icount_adjust(void)
+     int64_t cur_icount;
+     int64_t delta;
+ 
+-    /* Protected by TimersState mutex.  */
+-    static int64_t last_delta;
+-
+     /* If the VM is not running, then do nothing.  */
+     if (!runstate_is_running()) {
+         return;
+@@ -193,20 +190,20 @@ static void icount_adjust(void)
+     delta = cur_icount - cur_time;
+     /* FIXME: This is a very crude algorithm, somewhat prone to oscillation.  */
+     if (delta > 0
+-        && last_delta + ICOUNT_WOBBLE < delta * 2
++        && timers_state.last_delta + ICOUNT_WOBBLE < delta * 2
+         && timers_state.icount_time_shift > 0) {
+         /* The guest is getting too far ahead.  Slow time down.  */
+         qatomic_set(&timers_state.icount_time_shift,
+                     timers_state.icount_time_shift - 1);
+     }
+     if (delta < 0
+-        && last_delta - ICOUNT_WOBBLE > delta * 2
++        && timers_state.last_delta - ICOUNT_WOBBLE > delta * 2
+         && timers_state.icount_time_shift < MAX_ICOUNT_SHIFT) {
+         /* The guest is getting too far behind.  Speed time up.  */
+         qatomic_set(&timers_state.icount_time_shift,
+                     timers_state.icount_time_shift + 1);
+     }
+-    last_delta = delta;
++    timers_state.last_delta = delta;
+     qatomic_set_i64(&timers_state.qemu_icount_bias,
+                     cur_icount - (timers_state.qemu_icount
+                                   << timers_state.icount_time_shift));
+diff --git a/softmmu/timers-state.h b/softmmu/timers-state.h
+index db4e60f18f..8c262ce139 100644
+--- a/softmmu/timers-state.h
++++ b/softmmu/timers-state.h
+@@ -43,6 +43,8 @@ typedef struct TimersState {
+ 
+     /* Conversion factor from emulated instructions to virtual clock ticks.  */
+     int16_t icount_time_shift;
++    /* Icount delta used for shift auto adjust. */
++    int64_t last_delta;
+ 
+     /* Compensate for varying guest execution speed.  */
+     int64_t qemu_icount_bias;
 -- 
 2.30.1
 
