@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D553514A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:59:28 +0200 (CEST)
-Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F260C3514A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:59:29 +0200 (CEST)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRvyx-00015P-1l
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
+	id 1lRvyz-0001Ad-0z
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lRvwK-0005OY-57
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37147)
+ id 1lRvwM-0005UF-7E
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lRvwH-0002WY-P2
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:43 -0400
+ id 1lRvwK-0002Xv-13
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617278200;
+ s=mimecast20190719; t=1617278203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oMva8pidwhrff2eP7M4aCTOHQrwFVRDH+Y9qYHtBtrg=;
- b=gTgkT2uC/NGme0+z8zQPzAJMVmJj06pAwFi6XELWVp67TfVAx7l6ZkwKjT0+9keFd3TUA3
- /aZ4Em5FPXA2CpTgwyk0egHJscVLDcf7LDWq9JhTsMagDXg9yaV81lpz8pFkcZD5qew+Bj
- JPaByLyswg0+r36CDlnBWbwI/fCSDAM=
+ bh=uhfSmRhns+ivA4uVzbLsfC95kF/YsbwJNKXaDqCxNxk=;
+ b=X6gN3tObm0C7Y3y7lDKyPjmdSB6BGZwauS1Qsh1tk4k59O80JaFpM/WxYfQLt9+kLWSEvL
+ mqoQhr0a+BCxMTV/QPq7Nc7AAld33tYAjw0Q5rprrlAkR/9pnpN4HDgVWsi1Mgce/f7HJy
+ KDcopSWE9n6Du97qymhBMtq6hsTZIlk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-pzM_-SxAP4yDi2g4qlhJoA-1; Thu, 01 Apr 2021 07:56:33 -0400
-X-MC-Unique: pzM_-SxAP4yDi2g4qlhJoA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-202-VQ06xojbP7iXK00yn6aIAw-1; Thu, 01 Apr 2021 07:56:39 -0400
+X-MC-Unique: VQ06xojbP7iXK00yn6aIAw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E82E21853021;
- Thu,  1 Apr 2021 11:56:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92564801597;
+ Thu,  1 Apr 2021 11:56:38 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7545451C3F;
- Thu,  1 Apr 2021 11:56:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F33605D72F;
+ Thu,  1 Apr 2021 11:56:36 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 8/9] chardev: Fix yank with the chardev-change case
-Date: Thu,  1 Apr 2021 15:55:31 +0400
-Message-Id: <20210401115532.430961-9-marcandre.lureau@redhat.com>
+Subject: [PULL v2 9/9] tests: Add tests for yank with the chardev-change case
+Date: Thu,  1 Apr 2021 15:55:32 +0400
+Message-Id: <20210401115532.430961-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20210401115532.430961-1-marcandre.lureau@redhat.com>
 References: <20210401115532.430961-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -86,212 +86,300 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-When changing from chardev-socket (which supports yank) to
-chardev-socket again, it fails, because the new chardev attempts
-to register a new yank instance. This in turn fails, as there
-still is the yank instance from the current chardev. Also,
-the old chardev shouldn't unregister the yank instance when it
-is freed.
-
-To fix this, now the new chardev only registers a yank instance if
-the current chardev doesn't support yank and thus hasn't registered
-one already. Also, when the old chardev is freed, it now only
-unregisters the yank instance if the new chardev doesn't need it.
-
-If the initialization of the new chardev fails, it still has
-chr->handover_yank_instance set and won't unregister the yank
-instance when it is freed.
-
-s->registered_yank is always true here, as chardev-change only works
-on user-visible chardevs and those are guraranteed to register a
-yank instance as they are initialized via
-chardev_new()
- qemu_char_open()
-  cc->open() (qmp_chardev_open_socket()).
+Add tests for yank with the chardev-change case.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
-Message-Id: <9637888d7591d2971975188478bb707299a1dc04.1617127849.git.lukasstraub2@web.de>
+Message-Id: <697ce111503a8bab011d21519ae0b6b07041ec9a.1617127849.git.lukasstraub2@web.de>
 ---
- include/chardev/char.h |  3 +++
- chardev/char-socket.c  | 20 +++++++++++++++++---
- chardev/char.c         | 35 ++++++++++++++++++++++++++++-------
- 3 files changed, 48 insertions(+), 10 deletions(-)
+ tests/unit/test-yank.c | 249 +++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS            |   1 +
+ tests/unit/meson.build |   3 +-
+ 3 files changed, 252 insertions(+), 1 deletion(-)
+ create mode 100644 tests/unit/test-yank.c
 
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index 4181a2784a..7c0444f90d 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -65,6 +65,8 @@ struct Chardev {
-     char *filename;
-     int logfd;
-     int be_open;
-+    /* used to coordinate the chardev-change special-case: */
-+    bool handover_yank_instance;
-     GSource *gsource;
-     GMainContext *gcontext;
-     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
-@@ -251,6 +253,7 @@ struct ChardevClass {
-     ObjectClass parent_class;
- 
-     bool internal; /* TODO: eventually use TYPE_USER_CREATABLE */
-+    bool supports_yank;
-     void (*parse)(QemuOpts *opts, ChardevBackend *backend, Error **errp);
- 
-     void (*open)(Chardev *chr, ChardevBackend *backend,
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 1d455ecca4..daa89fe5d1 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1126,7 +1126,13 @@ static void char_socket_finalize(Object *obj)
-     }
-     g_free(s->tls_authz);
-     if (s->registered_yank) {
--        yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
-+        /*
-+         * In the chardev-change special-case, we shouldn't unregister the yank
-+         * instance, as it still may be needed.
-+         */
-+        if (!chr->handover_yank_instance) {
-+            yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
+diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c
+new file mode 100644
+index 0000000000..2383d2908c
+--- /dev/null
++++ b/tests/unit/test-yank.c
+@@ -0,0 +1,249 @@
++/*
++ * Tests for QEMU yank feature
++ *
++ * Copyright (c) Lukas Straub <lukasstraub2@web.de>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include <glib/gstdio.h>
++
++#include "qemu/config-file.h"
++#include "qemu/module.h"
++#include "qemu/option.h"
++#include "chardev/char-fe.h"
++#include "sysemu/sysemu.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-char.h"
++#include "qapi/qapi-types-char.h"
++#include "qapi/qapi-commands-yank.h"
++#include "qapi/qapi-types-yank.h"
++#include "io/channel-socket.h"
++#include "socket-helpers.h"
++
++typedef struct {
++    SocketAddress *addr;
++    bool old_yank;
++    bool new_yank;
++    bool fail;
++} CharChangeTestConfig;
++
++static int chardev_change(void *opaque)
++{
++    return 0;
++}
++
++static bool is_yank_instance_registered(void)
++{
++    YankInstanceList *list;
++    bool ret;
++
++    list = qmp_query_yank(&error_abort);
++
++    ret = !!list;
++
++    qapi_free_YankInstanceList(list);
++
++    return ret;
++}
++
++static gpointer accept_thread(gpointer data)
++{
++    QIOChannelSocket *ioc = data;
++    QIOChannelSocket *cioc;
++
++    cioc = qio_channel_socket_accept(ioc, &error_abort);
++    object_unref(OBJECT(cioc));
++
++    return NULL;
++}
++
++static void char_change_test(gconstpointer opaque)
++{
++    CharChangeTestConfig *conf = (gpointer) opaque;
++    SocketAddress *addr;
++    Chardev *chr;
++    CharBackend be;
++    ChardevReturn *ret;
++    QIOChannelSocket *ioc;
++    QemuThread thread;
++
++    /*
++     * Setup a listener socket and determine its address
++     * so we know the TCP port for the client later
++     */
++    ioc = qio_channel_socket_new();
++    g_assert_nonnull(ioc);
++    qio_channel_socket_listen_sync(ioc, conf->addr, 1, &error_abort);
++    addr = qio_channel_socket_get_local_address(ioc, &error_abort);
++    g_assert_nonnull(addr);
++
++    ChardevBackend backend[2] = {
++        /* doesn't support yank */
++        { .type = CHARDEV_BACKEND_KIND_NULL },
++        /* supports yank */
++        {
++            .type = CHARDEV_BACKEND_KIND_SOCKET,
++            .u.socket.data = &(ChardevSocket) {
++                .addr = &(SocketAddressLegacy) {
++                    .type = SOCKET_ADDRESS_LEGACY_KIND_INET,
++                    .u.inet.data = &addr->u.inet
++                },
++                .has_server = true,
++                .server = false
++            }
++        } };
++
++    ChardevBackend fail_backend[2] = {
++        /* doesn't support yank */
++        {
++            .type = CHARDEV_BACKEND_KIND_UDP,
++            .u.udp.data = &(ChardevUdp) {
++                .remote = &(SocketAddressLegacy) {
++                    .type = SOCKET_ADDRESS_LEGACY_KIND_UNIX,
++                    .u.q_unix.data = &(UnixSocketAddress) {
++                        .path = (char *)""
++                    }
++                }
++            }
++        },
++        /* supports yank */
++        {
++            .type = CHARDEV_BACKEND_KIND_SOCKET,
++            .u.socket.data = &(ChardevSocket) {
++                .addr = &(SocketAddressLegacy) {
++                    .type = SOCKET_ADDRESS_LEGACY_KIND_INET,
++                    .u.inet.data = &(InetSocketAddress) {
++                        .host = (char *)"127.0.0.1",
++                        .port = (char *)"0"
++                    }
++                },
++                .has_server = true,
++                .server = false
++            }
++        } };
++
++    g_assert(!is_yank_instance_registered());
++
++    if (conf->old_yank) {
++        qemu_thread_create(&thread, "accept", accept_thread,
++                           ioc, QEMU_THREAD_JOINABLE);
++    }
++
++    ret = qmp_chardev_add("chardev", &backend[conf->old_yank], &error_abort);
++    qapi_free_ChardevReturn(ret);
++    chr = qemu_chr_find("chardev");
++    g_assert_nonnull(chr);
++
++    g_assert(is_yank_instance_registered() == conf->old_yank);
++
++    qemu_chr_wait_connected(chr, &error_abort);
++    if (conf->old_yank) {
++        qemu_thread_join(&thread);
++    }
++
++    qemu_chr_fe_init(&be, chr, &error_abort);
++    /* allow chardev-change */
++    qemu_chr_fe_set_handlers(&be, NULL, NULL,
++                             NULL, chardev_change, NULL, NULL, true);
++
++    if (conf->fail) {
++        g_setenv("QTEST_SILENT_ERRORS", "1", 1);
++        ret = qmp_chardev_change("chardev", &fail_backend[conf->new_yank],
++                                 NULL);
++        g_assert_null(ret);
++        g_assert(be.chr == chr);
++        g_assert(is_yank_instance_registered() == conf->old_yank);
++        g_unsetenv("QTEST_SILENT_ERRORS");
++    } else {
++        if (conf->new_yank) {
++                qemu_thread_create(&thread, "accept", accept_thread,
++                                   ioc, QEMU_THREAD_JOINABLE);
 +        }
-     }
- 
-     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
-@@ -1424,8 +1430,14 @@ static void qmp_chardev_open_socket(Chardev *chr,
-         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
-     }
- 
--    if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), errp)) {
--        return;
-+    /*
-+     * In the chardev-change special-case, we shouldn't register a new yank
-+     * instance, as there already may be one.
-+     */
-+    if (!chr->handover_yank_instance) {
-+        if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), errp)) {
-+            return;
++        ret = qmp_chardev_change("chardev", &backend[conf->new_yank],
++                                 &error_abort);
++        if (conf->new_yank) {
++            qemu_thread_join(&thread);
 +        }
-     }
-     s->registered_yank = true;
- 
-@@ -1567,6 +1579,8 @@ static void char_socket_class_init(ObjectClass *oc, void *data)
- {
-     ChardevClass *cc = CHARDEV_CLASS(oc);
- 
-+    cc->supports_yank = true;
++        g_assert_nonnull(ret);
++        g_assert(be.chr != chr);
++        g_assert(is_yank_instance_registered() == conf->new_yank);
++    }
 +
-     cc->parse = qemu_chr_parse_socket;
-     cc->open = qmp_chardev_open_socket;
-     cc->chr_wait_connected = tcp_chr_wait_connected;
-diff --git a/chardev/char.c b/chardev/char.c
-index 75993f903f..398f09df19 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -39,6 +39,7 @@
- #include "qemu/option.h"
- #include "qemu/id.h"
- #include "qemu/coroutine.h"
-+#include "qemu/yank.h"
- 
- #include "chardev-internal.h"
- 
-@@ -266,6 +267,7 @@ static void char_init(Object *obj)
- {
-     Chardev *chr = CHARDEV(obj);
- 
-+    chr->handover_yank_instance = false;
-     chr->logfd = -1;
-     qemu_mutex_init(&chr->chr_write_lock);
- 
-@@ -959,6 +961,7 @@ void qemu_chr_set_feature(Chardev *chr,
- static Chardev *chardev_new(const char *id, const char *typename,
-                             ChardevBackend *backend,
-                             GMainContext *gcontext,
-+                            bool handover_yank_instance,
-                             Error **errp)
- {
-     Object *obj;
-@@ -971,6 +974,7 @@ static Chardev *chardev_new(const char *id, const char *typename,
- 
-     obj = object_new(typename);
-     chr = CHARDEV(obj);
-+    chr->handover_yank_instance = handover_yank_instance;
-     chr->label = g_strdup(id);
-     chr->gcontext = gcontext;
- 
-@@ -1004,7 +1008,7 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
-         id = genid;
-     }
- 
--    chr = chardev_new(id, typename, backend, gcontext, errp);
-+    chr = chardev_new(id, typename, backend, gcontext, false, errp);
-     if (!chr) {
-         return NULL;
-     }
-@@ -1032,7 +1036,7 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-     }
- 
-     chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
--                      backend, NULL, errp);
-+                      backend, NULL, false, errp);
-     if (!chr) {
-         return NULL;
-     }
-@@ -1057,9 +1061,10 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
-                                   Error **errp)
- {
-     CharBackend *be;
--    const ChardevClass *cc;
-+    const ChardevClass *cc, *cc_new;
-     Chardev *chr, *chr_new;
-     bool closed_sent = false;
-+    bool handover_yank_instance;
-     ChardevReturn *ret;
- 
-     chr = qemu_chr_find(id);
-@@ -1091,13 +1096,20 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
-         return NULL;
-     }
- 
--    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
--    if (!cc) {
-+    cc = CHARDEV_GET_CLASS(chr);
-+    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
-+    if (!cc_new) {
-         return NULL;
-     }
- 
--    chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
--                          backend, chr->gcontext, errp);
-+    /*
-+     * The new chardev should not register a yank instance if the current
-+     * chardev has registered one already.
-+     */
-+    handover_yank_instance = cc->supports_yank && cc_new->supports_yank;
++    object_unparent(OBJECT(be.chr));
++    object_unref(OBJECT(ioc));
++    qapi_free_ChardevReturn(ret);
++    qapi_free_SocketAddress(addr);
++}
 +
-+    chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc_new)),
-+                          backend, chr->gcontext, handover_yank_instance, errp);
-     if (!chr_new) {
-         return NULL;
-     }
-@@ -1121,6 +1133,15 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
-         return NULL;
-     }
++static SocketAddress tcpaddr = {
++    .type = SOCKET_ADDRESS_TYPE_INET,
++    .u.inet.host = (char *)"127.0.0.1",
++    .u.inet.port = (char *)"0",
++};
++
++int main(int argc, char **argv)
++{
++    bool has_ipv4, has_ipv6;
++
++    qemu_init_main_loop(&error_abort);
++    socket_init();
++
++    g_test_init(&argc, &argv, NULL);
++
++    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
++    }
++
++    if (!has_ipv4) {
++        goto end;
++    }
++
++    module_call_init(MODULE_INIT_QOM);
++    qemu_add_opts(&qemu_chardev_opts);
++
++    g_test_add_data_func("/yank/char_change/success/to_yank",
++                         &(CharChangeTestConfig) { .addr = &tcpaddr,
++                                                   .old_yank = false,
++                                                   .new_yank = true,
++                                                   .fail = false },
++                         char_change_test);
++    g_test_add_data_func("/yank/char_change/fail/to_yank",
++                         &(CharChangeTestConfig) { .addr = &tcpaddr,
++                                                   .old_yank = false,
++                                                   .new_yank = true,
++                                                   .fail = true },
++                         char_change_test);
++
++    g_test_add_data_func("/yank/char_change/success/yank_to_yank",
++                         &(CharChangeTestConfig) { .addr = &tcpaddr,
++                                                   .old_yank = true,
++                                                   .new_yank = true,
++                                                   .fail = false },
++                         char_change_test);
++    g_test_add_data_func("/yank/char_change/fail/yank_to_yank",
++                         &(CharChangeTestConfig) { .addr = &tcpaddr,
++                                                   .old_yank = true,
++                                                   .new_yank = true,
++                                                   .fail = true },
++                         char_change_test);
++
++    g_test_add_data_func("/yank/char_change/success/from_yank",
++                         &(CharChangeTestConfig) { .addr = &tcpaddr,
++                                                   .old_yank = true,
++                                                   .new_yank = false,
++                                                   .fail = false },
++                         char_change_test);
++    g_test_add_data_func("/yank/char_change/fail/from_yank",
++                         &(CharChangeTestConfig) { .addr = &tcpaddr,
++                                                   .old_yank = true,
++                                                   .new_yank = false,
++                                                   .fail = true },
++                         char_change_test);
++
++end:
++    return g_test_run();
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dcab656e62..aa894767dc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2823,6 +2823,7 @@ M: Lukas Straub <lukasstraub2@web.de>
+ S: Odd fixes
+ F: util/yank.c
+ F: migration/yank_functions*
++F: tests/unit/test-yank.c
+ F: include/qemu/yank.h
+ F: qapi/yank.json
  
-+    /* change successfull, clean up */
-+    chr_new->handover_yank_instance = false;
-+
-+    /*
-+     * When the old chardev is freed, it should not unregister the yank
-+     * instance if the new chardev needs it.
-+     */
-+    chr->handover_yank_instance = handover_yank_instance;
-+
-     object_unparent(OBJECT(chr));
-     object_property_add_child(get_chardevs_root(), chr_new->label,
-                               OBJECT(chr_new));
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 4bfe4627ba..b3bc2109da 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -123,7 +123,8 @@ if have_system
+     'test-util-sockets': ['socket-helpers.c'],
+     'test-base64': [],
+     'test-bufferiszero': [],
+-    'test-vmstate': [migration, io]
++    'test-vmstate': [migration, io],
++    'test-yank': ['socket-helpers.c', qom, io, chardev]
+   }
+   if 'CONFIG_INOTIFY1' in config_host
+     tests += {'test-util-filemonitor': []}
 -- 
 2.29.0
 
