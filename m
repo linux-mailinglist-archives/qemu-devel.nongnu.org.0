@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ADE35116A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:04:34 +0200 (CEST)
-Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0428C3511C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:18:21 +0200 (CEST)
+Received: from localhost ([::1]:58262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRtFh-0003rY-35
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:04:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46252)
+	id 1lRtT1-0003Ba-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRtAD-0000ij-NE
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:58:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRtA9-0001PM-A1
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:58:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617267528;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SU46m+WCWDrJ2rmP14gpnskRlcAQUcrzbiu90F/SU9g=;
- b=f85XswcKqwYodk1xlH9QlmRgrXeTyp+kqlcambY4J3e5DrzzC862hCu+60TlTYPrE77ZAL
- /XAiBjfdb0VDgHrB9d90XSLbWpWapUVs7gflw0PLzw5gpLveiiWQyf7lEhbEQ++tWLgWXV
- 5c+C3K0PEmkRNwPwRNSY/HX/4KIRlyg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-U9sadhdgNKaiycw4RZnwvg-1; Thu, 01 Apr 2021 04:58:44 -0400
-X-MC-Unique: U9sadhdgNKaiycw4RZnwvg-1
-Received: by mail-ed1-f71.google.com with SMTP id h5so2501420edf.17
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:58:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRtRN-0002YO-Df
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:16:37 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRtRL-0003Ae-9b
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:16:36 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id j9so1053565wrx.12
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 02:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8AvdzUu0nfjpl785PRn7wGCNF0V+8WeLCO4Fzx85K8U=;
+ b=BgFU3hOZcBoNQSfEtfUnwXlea2+sxN3gooBdui1pAkmKPzj2/Z0IrkIn3Ajjs+XStv
+ /AVQqQb/aFY27ao9+uu6rpADYtJ5YITdAp14a1U/HREtuEPELwc3kHPOyjT5RQdilpKW
+ RsEtLUNG/xBMsOBzCk9PcB0VUl1XfalbVw0GHITb6LjEnTQj0EgwndVUQwZyW4nejaam
+ s4FsmppnAYiYxOsBNW8aAqXpw2hge+YuxRFnR6eOxAtmQqizn4cqQNyL3fyKn83HL4ya
+ Ma0jKEwCSFWC+/OkbdyyQtROqIyUVSBdVI4EktFd+fnk8py7JiwjMoO7I3QBlfSBNl7H
+ NELg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SU46m+WCWDrJ2rmP14gpnskRlcAQUcrzbiu90F/SU9g=;
- b=J/0/QSd/gm6SQG15f2bKePIqwhfFHm0jiU75WyhcvmZ/mWs1m3enNmvPyyvO2m5cxi
- CuOJLTV17Usp3veZ+X532DbSn4AOvlqtU/Olx+/RFpp1ylY9F4N1FPx3u4+nFKHu16jh
- /oDL/g8aUoj/M960nibNNqTZdEeNTJqz1abG73WkTg4btwUucVgnmJgiWveBaJPYnUIH
- irKdwMZul7eDqcyLOvPnCemXYCKnxP+pXHUIXo2GNnOpucopQK7J+6Gs2vnrV3URq346
- RlRhnPGrI7S75XaCiHnEsdbFRjEZ89Imt0dlGHSXbiy/ZD43L+FcCfW8VYlAH4Can0tA
- jjyg==
-X-Gm-Message-State: AOAM530ypw0Pz7XC4M4iUlreR40no7+6ThFagJmK54P0AxqmBL/lmzOL
- Q60UeWLcJ9CzRau/fL5uBizwWXydj/2cWFVsfow/ulGrzHlwMTIHfjIyC2vv0XADoCLBS8YLJR6
- BFc3/E9BsPr+iQmQ=
-X-Received: by 2002:a17:907:766f:: with SMTP id
- kk15mr8111985ejc.24.1617267523606; 
- Thu, 01 Apr 2021 01:58:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw3vQJfDPGlUG37BcyY/4b5Hd1OB4frkmVcUSF3IM4MHfwRTV1XEXtxXKnD2Jq3rbfKsQGDqQ==
-X-Received: by 2002:a17:907:766f:: with SMTP id
- kk15mr8111975ejc.24.1617267523446; 
- Thu, 01 Apr 2021 01:58:43 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w18sm2505529ejn.23.2021.04.01.01.58.42
+ bh=8AvdzUu0nfjpl785PRn7wGCNF0V+8WeLCO4Fzx85K8U=;
+ b=i6NevLRskQTtv2dGk7h6HHnpvqel8RGjuOPqnTeoTUzY5X+Y+j19hPhAOftHfifpYN
+ +gxk8zvoR9dXfk3gc+BWsBseAe4ns+IDZILReh1J5ihpxJ7qnpEn4PxZXuDwxq+LCqI6
+ IPaHK4NCHX5kE38riv1iOIV65h6+dJmtnYipQSqbe/5pTvPHgtGv+TXNnIQriqcW2QJh
+ EuRf6+e6e9x3xBZ6XLYNb/745vAHYB5WgZ+RlGD09LXkrdMlaWgFRiHc6nIp2DkEQktc
+ 3OtkM8gNKhsdhWxT66esSFlQR/1Vsn/A2F03BTXkOl8+Wj0DQShgtxO0Qu+BhIQ9emLv
+ rokA==
+X-Gm-Message-State: AOAM533y+G533WCVUXhmptds6WKWMVuU2PCkEWxAVEriCrD96ayaecgR
+ 9jnW5ZQefDNL+Fk+5ZWY7i0=
+X-Google-Smtp-Source: ABdhPJx61eeo6IkfkMlLVbC1naTT7SS01QNX0KEHuGi8AyLTPghyS8WFh2AVBw1CUezrpBlY0c5t2w==
+X-Received: by 2002:a5d:698e:: with SMTP id g14mr8254912wru.127.1617268592607; 
+ Thu, 01 Apr 2021 02:16:32 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id f4sm9082415wrz.4.2021.04.01.02.16.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 01:58:42 -0700 (PDT)
-Subject: Re: [PATCH v3 2/4] block: check for sys/disk.h
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Joelle van Dyne <j@getutm.app>
-References: <20210315180341.31638-1-j@getutm.app>
- <20210315180341.31638-3-j@getutm.app>
- <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
- <9181c138-d39e-7d28-d19a-8a46b118fb23@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <945069b6-1d8f-a898-5f93-8780fc02ac84@redhat.com>
-Date: Thu, 1 Apr 2021 10:58:41 +0200
+ Thu, 01 Apr 2021 02:16:31 -0700 (PDT)
+Subject: Re: [PATCH v3 03/11] esp: consolidate esp_cmdfifo_push() into
+ esp_fifo_push()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
+References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+ <20210401074933.9923-4-mark.cave-ayland@ilande.co.uk>
+ <bc8795c0-4fc6-a923-0458-f2ac0feb590c@amsat.org>
+ <0629537e-f168-020b-7252-8e59028c62b3@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ea6f7f62-3e9a-cbcd-4e6d-7c7b791874ed@amsat.org>
+Date: Thu, 1 Apr 2021 11:16:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <9181c138-d39e-7d28-d19a-8a46b118fb23@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <0629537e-f168-020b-7252-8e59028c62b3@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,36 +93,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/04/21 10:03, Philippe Mathieu-Daudé wrote:
-> On 4/1/21 7:08 AM, Joelle van Dyne wrote:
->> On Mon, Mar 15, 2021 at 11:03 AM Joelle van Dyne <j@getutm.app> wrote:
->>>
->>> Some BSD platforms do not have this header.
->>>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> Signed-off-by: Joelle van Dyne <j@getutm.app>
->>
->> Please bear with me as I am still new to this, but what happens to the
->> three patches that are reviewed if the last patch does not get
->> reviewed? Do the reviewed patches still get to make it into 6.0? I am
->> willing to drop the unreviewed patch if there are issues. Thanks.
+On 4/1/21 10:50 AM, Mark Cave-Ayland wrote:
+> On 01/04/2021 09:15, Philippe Mathieu-Daudé wrote:
 > 
-> I guess this is bad timing, as this time in year various maintainers
-> are on vacations. Cc'ing Paolo as he sometimes take generic/block
-> patches.
+>> On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
+>>> Each FIFO currently has its own push functions with the only
+>>> difference being
+>>> the capacity check. The original reason for this was that the fifo8
+>>> implementation doesn't have a formal API for retrieving the FIFO
+>>> capacity,
+>>> however there are multiple examples within QEMU where the capacity
+>>> field is
+>>> accessed directly.
+>>
+>> So the Fifo8 API is not complete / practical.
+> 
+> I guess it depends what you consider to be public and private to Fifo8:
+> what is arguably missing is something like:
+> 
+> int fifo8_capacity(Fifo8 *fifo)
+> {
+>     return fifo->capacity;
+> }
+> 
+> But given that most other users access fifo->capacity directly then I
+> might as well do the same and save myself requiring 2 separate
+> implementations of esp_fifo_pop_buf() :)
 
-I didn't notice this series before, and it was posted a bit late (one 
-day before feature freeze).  I have queued it, so Joelle need not do 
-anything else, but I won't include it in my pull request for 6.0.
+Sorry, I should have been more explicit by precising this was not
+a comment directed to your patch, but I was thinking loudly about
+the Fifo8 API; and as you mentioned the other models do that so your
+kludge is acceptable.
+>>> Change esp_fifo_push() to access the FIFO capacity directly and then
+>>> consolidate
+>>> esp_cmdfifo_push() into esp_fifo_push().
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hw/scsi/esp.c | 27 ++++++++-------------------
+>>>   1 file changed, 8 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+>>> index 26fe1dcb9d..16aaf8be93 100644
+>>> --- a/hw/scsi/esp.c
+>>> +++ b/hw/scsi/esp.c
+>>> @@ -98,16 +98,15 @@ void esp_request_cancelled(SCSIRequest *req)
+>>>       }
+>>>   }
+>>>   -static void esp_fifo_push(ESPState *s, uint8_t val)
+>>> +static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
+>>>   {
+>>> -    if (fifo8_num_used(&s->fifo) == ESP_FIFO_SZ) {
+>>> +    if (fifo8_num_used(fifo) == fifo->capacity) {
+>>>           trace_esp_error_fifo_overrun();
+>>>           return;
+>>>       }
+>>>   -    fifo8_push(&s->fifo, val);
+>>> +    fifo8_push(fifo, val);
+>>>   }
+>>> -
+>>
+>> Spurious line removal?
+> 
+> Ooops yes. I'm not too worried about this, but if Paolo has any other
+> changes then I can roll this into a v4.
 
-Paolo
-
+Actually it reappears in patch 05/11 ;)
 
