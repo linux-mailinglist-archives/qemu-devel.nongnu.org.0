@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC81F351061
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:51:37 +0200 (CEST)
-Received: from localhost ([::1]:34356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6959351069
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:54:07 +0200 (CEST)
+Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRs76-00071c-NK
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56960)
+	id 1lRs9W-0002bE-R2
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs5Z-0005Rp-Ny
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:01 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57018
+ id 1lRs5e-0005ax-KM
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:06 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57024
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs5Y-0000m8-61
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:01 -0400
+ id 1lRs5c-0000rH-VO
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:06 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs5f-0004IO-IB; Thu, 01 Apr 2021 08:50:10 +0100
+ id 1lRs5i-0004IO-TH; Thu, 01 Apr 2021 08:50:15 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, alxndr@bu.edu, laurent@vivier.eu,
  pbonzini@redhat.com
-Date: Thu,  1 Apr 2021 08:49:25 +0100
-Message-Id: <20210401074933.9923-4-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  1 Apr 2021 08:49:26 +0100
+Message-Id: <20210401074933.9923-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
 References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 03/11] esp: consolidate esp_cmdfifo_push() into
- esp_fifo_push()
+Subject: [PATCH v3 04/11] esp: consolidate esp_cmdfifo_pop() into
+ esp_fifo_pop()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,94 +64,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each FIFO currently has its own push functions with the only difference being
+Each FIFO currently has its own pop functions with the only difference being
 the capacity check. The original reason for this was that the fifo8
 implementation doesn't have a formal API for retrieving the FIFO capacity,
 however there are multiple examples within QEMU where the capacity field is
 accessed directly.
 
-Change esp_fifo_push() to access the FIFO capacity directly and then consolidate
-esp_cmdfifo_push() into esp_fifo_push().
+Change esp_fifo_pop() to access the FIFO capacity directly and then consolidate
+esp_cmdfifo_pop() into esp_fifo_pop().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+ hw/scsi/esp.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 26fe1dcb9d..16aaf8be93 100644
+index 16aaf8be93..ce88866803 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -98,16 +98,15 @@ void esp_request_cancelled(SCSIRequest *req)
-     }
- }
+@@ -107,22 +107,13 @@ static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
  
--static void esp_fifo_push(ESPState *s, uint8_t val)
-+static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
+     fifo8_push(fifo, val);
+ }
+-static uint8_t esp_fifo_pop(ESPState *s)
++static uint8_t esp_fifo_pop(Fifo8 *fifo)
  {
--    if (fifo8_num_used(&s->fifo) == ESP_FIFO_SZ) {
-+    if (fifo8_num_used(fifo) == fifo->capacity) {
-         trace_esp_error_fifo_overrun();
-         return;
+-    if (fifo8_is_empty(&s->fifo)) {
++    if (fifo8_is_empty(fifo)) {
+         return 0;
      }
  
--    fifo8_push(&s->fifo, val);
-+    fifo8_push(fifo, val);
- }
--
- static uint8_t esp_fifo_pop(ESPState *s)
- {
-     if (fifo8_is_empty(&s->fifo)) {
-@@ -117,16 +116,6 @@ static uint8_t esp_fifo_pop(ESPState *s)
-     return fifo8_pop(&s->fifo);
- }
- 
--static void esp_cmdfifo_push(ESPState *s, uint8_t val)
--{
--    if (fifo8_num_used(&s->cmdfifo) == ESP_CMDFIFO_SZ) {
--        trace_esp_error_fifo_overrun();
--        return;
--    }
--
--    fifo8_push(&s->cmdfifo, val);
+-    return fifo8_pop(&s->fifo);
 -}
 -
- static uint8_t esp_cmdfifo_pop(ESPState *s)
- {
-     if (fifo8_is_empty(&s->cmdfifo)) {
-@@ -187,9 +176,9 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
-     }
+-static uint8_t esp_cmdfifo_pop(ESPState *s)
+-{
+-    if (fifo8_is_empty(&s->cmdfifo)) {
+-        return 0;
+-    }
+-
+-    return fifo8_pop(&s->cmdfifo);
++    return fifo8_pop(fifo);
+ }
+ 
+ static uint32_t esp_get_tc(ESPState *s)
+@@ -159,9 +150,9 @@ static uint8_t esp_pdma_read(ESPState *s)
+     uint8_t val;
  
      if (s->do_cmd) {
--        esp_cmdfifo_push(s, val);
-+        esp_fifo_push(&s->cmdfifo, val);
+-        val = esp_cmdfifo_pop(s);
++        val = esp_fifo_pop(&s->cmdfifo);
      } else {
--        esp_fifo_push(s, val);
-+        esp_fifo_push(&s->fifo, val);
+-        val = esp_fifo_pop(s);
++        val = esp_fifo_pop(&s->fifo);
      }
  
-     dmalen--;
-@@ -645,7 +634,7 @@ static void esp_do_dma(ESPState *s)
-              */
-             if (len < esp_get_tc(s) && esp_get_tc(s) <= ESP_FIFO_SZ) {
-                 while (fifo8_num_used(&s->fifo) < ESP_FIFO_SZ) {
--                    esp_fifo_push(s, 0);
-+                    esp_fifo_push(&s->fifo, 0);
-                     len++;
-                 }
-             }
-@@ -947,9 +936,9 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
-         break;
-     case ESP_FIFO:
-         if (s->do_cmd) {
--            esp_cmdfifo_push(s, val);
-+            esp_fifo_push(&s->cmdfifo, val);
+     return val;
+@@ -887,7 +878,7 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+             qemu_log_mask(LOG_UNIMP, "esp: PIO data read not implemented\n");
+             s->rregs[ESP_FIFO] = 0;
          } else {
--            esp_fifo_push(s, val);
-+            esp_fifo_push(&s->fifo, val);
+-            s->rregs[ESP_FIFO] = esp_fifo_pop(s);
++            s->rregs[ESP_FIFO] = esp_fifo_pop(&s->fifo);
          }
- 
-         /* Non-DMA transfers raise an interrupt after every byte */
+         val = s->rregs[ESP_FIFO];
+         break;
 -- 
 2.20.1
 
