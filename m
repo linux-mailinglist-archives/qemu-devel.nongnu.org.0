@@ -2,53 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CB4350D03
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:16:34 +0200 (CEST)
-Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F585350D59
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:58:19 +0200 (CEST)
+Received: from localhost ([::1]:44842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRnou-0003kC-Qv
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35118)
+	id 1lRoTK-0006YN-I1
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRnnb-00038v-CK; Wed, 31 Mar 2021 23:15:11 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lRnnZ-0005tR-4X; Wed, 31 Mar 2021 23:15:11 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4F9pFz5CVbz9sX5; Thu,  1 Apr 2021 14:15:03 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1617246903;
- bh=zWQL/FPafX2NIv3xWBRD6hS0PJSNM706Rl67pD3dSn0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XgIoPEp7ENrtceWQEhvK8MqKIHfLs64aDiKcXHeIRKdFXN1Dl2PFMaOBBxg7oTTDp
- rncVxuUbV2hQZuPjN2QPKsFm0TBY4ierd4m1S6FJKUL5jK93HpJ2jMknI8uTsB79kX
- oJcpza5Z6Pc0qv/EHM6kNwLN3NbIwMR/3zzLNAGI=
-Date: Thu, 1 Apr 2021 14:10:33 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v16] spapr: Implement Open Firmware client interface
-Message-ID: <YGU5qYPSgV39qPn6@yekko.fritz.box>
-References: <20210323025830.104781-1-aik@ozlabs.ru>
- <YFv69rtZd6yzKAtU@yekko.fritz.box>
- <98565b10-debd-be0a-79f7-9f08737a49d1@ozlabs.ru>
- <YGPKcKqPtKCTdMCi@yekko.fritz.box>
- <2880d500-94bb-5579-8aba-4b78d35ba504@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1lRoOz-0001NA-Gn
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:49 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:2902)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1lRoOv-0004rM-Pc
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1617249225; x=1648785225;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=6xf/nSFM2nuaNhVnME8yourJSYSTMLNg0UOXxiyN+HY=;
+ b=T1StnQ8AehsLVG6tqXNhLMOSjRFixYMi2Pt6k21GLHu0y6kZ1qCWZD4A
+ xHeDlzCgpF0Kz8gIpbGHRspiUnMwXB64eWaV25DaTf8apIC2Uwl5IXTzT
+ iShc8A/LHKcAjWloPR7r4Aio+y06T1PkMyHIO2lKw4FWKkYiuPvRsqBOS M=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
+X-QCInternal: smtphost
+Received: from vu-tsimpson-aus.qualcomm.com (HELO
+ vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
+ by ironmsg05-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
+Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
+ id BB1BDCC0; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 02/21] Hexagon (target/hexagon) remove unnecessary inline
+ directives
+Date: Wed, 31 Mar 2021 22:53:14 -0500
+Message-Id: <1617249213-22667-3-git-send-email-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
+References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zgWkP+O3Z32dL1/e"
-Content-Disposition: inline
-In-Reply-To: <2880d500-94bb-5579-8aba-4b78d35ba504@ozlabs.ru>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,255 +69,382 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
+ richard.henderson@linaro.org, bcain@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+---
+ target/hexagon/cpu.c       |  9 ++++-----
+ target/hexagon/decode.c    |  6 +++---
+ target/hexagon/fma_emu.c   | 39 ++++++++++++++++++++-------------------
+ target/hexagon/op_helper.c | 37 ++++++++++++++++++-------------------
+ target/hexagon/translate.c |  2 +-
+ 5 files changed, 46 insertions(+), 47 deletions(-)
 
---zgWkP+O3Z32dL1/e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index b0b3040..c2fe357 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -69,10 +69,9 @@ const char * const hexagon_regnames[TOTAL_PER_THREAD_REGS] = {
+  * stacks at different locations.  This is used to compensate so the diff is
+  * cleaner.
+  */
+-static inline target_ulong adjust_stack_ptrs(CPUHexagonState *env,
+-                                             target_ulong addr)
++static target_ulong adjust_stack_ptrs(CPUHexagonState *env, target_ulong addr)
+ {
+-    HexagonCPU *cpu = container_of(env, HexagonCPU, env);
++    HexagonCPU *cpu = hexagon_env_get_cpu(env);
+     target_ulong stack_adjust = cpu->lldb_stack_adjust;
+     target_ulong stack_start = env->stack_start;
+     target_ulong stack_size = 0x10000;
+@@ -88,7 +87,7 @@ static inline target_ulong adjust_stack_ptrs(CPUHexagonState *env,
+ }
+ 
+ /* HEX_REG_P3_0 (aka C4) is an alias for the predicate registers */
+-static inline target_ulong read_p3_0(CPUHexagonState *env)
++static target_ulong read_p3_0(CPUHexagonState *env)
+ {
+     int32_t control_reg = 0;
+     int i;
+@@ -116,7 +115,7 @@ static void print_reg(FILE *f, CPUHexagonState *env, int regnum)
+ 
+ static void hexagon_dump(CPUHexagonState *env, FILE *f)
+ {
+-    HexagonCPU *cpu = container_of(env, HexagonCPU, env);
++    HexagonCPU *cpu = hexagon_env_get_cpu(env);
+ 
+     if (cpu->lldb_compat) {
+         /*
+diff --git a/target/hexagon/decode.c b/target/hexagon/decode.c
+index 1c9c074..65d97ce 100644
+--- a/target/hexagon/decode.c
++++ b/target/hexagon/decode.c
+@@ -354,7 +354,7 @@ static void decode_split_cmpjump(Packet *pkt)
+     }
+ }
+ 
+-static inline int decode_opcode_can_jump(int opcode)
++static int decode_opcode_can_jump(int opcode)
+ {
+     if ((GET_ATTRIB(opcode, A_JUMP)) ||
+         (GET_ATTRIB(opcode, A_CALL)) ||
+@@ -370,7 +370,7 @@ static inline int decode_opcode_can_jump(int opcode)
+     return 0;
+ }
+ 
+-static inline int decode_opcode_ends_loop(int opcode)
++static int decode_opcode_ends_loop(int opcode)
+ {
+     return GET_ATTRIB(opcode, A_HWLOOP0_END) ||
+            GET_ATTRIB(opcode, A_HWLOOP1_END);
+@@ -764,7 +764,7 @@ static void decode_add_endloop_insn(Insn *insn, int loopnum)
+     }
+ }
+ 
+-static inline int decode_parsebits_is_loopend(uint32_t encoding32)
++static int decode_parsebits_is_loopend(uint32_t encoding32)
+ {
+     uint32_t bits = parse_bits(encoding32);
+     return bits == 0x2;
+diff --git a/target/hexagon/fma_emu.c b/target/hexagon/fma_emu.c
+index 842d903..f324b83 100644
+--- a/target/hexagon/fma_emu.c
++++ b/target/hexagon/fma_emu.c
+@@ -64,7 +64,7 @@ typedef union {
+     };
+ } Float;
+ 
+-static inline uint64_t float64_getmant(float64 f64)
++static uint64_t float64_getmant(float64 f64)
+ {
+     Double a = { .i = f64 };
+     if (float64_is_normal(f64)) {
+@@ -91,7 +91,7 @@ int32_t float64_getexp(float64 f64)
+     return -1;
+ }
+ 
+-static inline uint64_t float32_getmant(float32 f32)
++static uint64_t float32_getmant(float32 f32)
+ {
+     Float a = { .i = f32 };
+     if (float32_is_normal(f32)) {
+@@ -118,17 +118,17 @@ int32_t float32_getexp(float32 f32)
+     return -1;
+ }
+ 
+-static inline uint32_t int128_getw0(Int128 x)
++static uint32_t int128_getw0(Int128 x)
+ {
+     return int128_getlo(x);
+ }
+ 
+-static inline uint32_t int128_getw1(Int128 x)
++static uint32_t int128_getw1(Int128 x)
+ {
+     return int128_getlo(x) >> 32;
+ }
+ 
+-static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
++static Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
+ {
+     Int128 a, b;
+     uint64_t pp0, pp1a, pp1b, pp1s, pp2;
+@@ -152,7 +152,7 @@ static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
+     return int128_make128(ret_low, pp2 + (pp1s >> 32));
+ }
+ 
+-static inline Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
++static Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
+ {
+     Int128 ret = int128_sub(a, b);
+     if (borrow != 0) {
+@@ -170,7 +170,7 @@ typedef struct {
+     uint8_t sticky;
+ } Accum;
+ 
+-static inline void accum_init(Accum *p)
++static void accum_init(Accum *p)
+ {
+     p->mant = int128_zero();
+     p->exp = 0;
+@@ -180,7 +180,7 @@ static inline void accum_init(Accum *p)
+     p->sticky = 0;
+ }
+ 
+-static inline Accum accum_norm_left(Accum a)
++static Accum accum_norm_left(Accum a)
+ {
+     a.exp--;
+     a.mant = int128_lshift(a.mant, 1);
+@@ -190,6 +190,7 @@ static inline Accum accum_norm_left(Accum a)
+     return a;
+ }
+ 
++/* This function is marked inline for performance reasons */
+ static inline Accum accum_norm_right(Accum a, int amt)
+ {
+     if (amt > 130) {
+@@ -226,7 +227,7 @@ static inline Accum accum_norm_right(Accum a, int amt)
+  */
+ static Accum accum_add(Accum a, Accum b);
+ 
+-static inline Accum accum_sub(Accum a, Accum b, int negate)
++static Accum accum_sub(Accum a, Accum b, int negate)
+ {
+     Accum ret;
+     accum_init(&ret);
+@@ -329,7 +330,7 @@ static Accum accum_add(Accum a, Accum b)
+ }
+ 
+ /* Return an infinity with requested sign */
+-static inline float64 infinite_float64(uint8_t sign)
++static float64 infinite_float64(uint8_t sign)
+ {
+     if (sign) {
+         return make_float64(DF_MINUS_INF);
+@@ -339,7 +340,7 @@ static inline float64 infinite_float64(uint8_t sign)
+ }
+ 
+ /* Return a maximum finite value with requested sign */
+-static inline float64 maxfinite_float64(uint8_t sign)
++static float64 maxfinite_float64(uint8_t sign)
+ {
+     if (sign) {
+         return make_float64(DF_MINUS_MAXF);
+@@ -349,7 +350,7 @@ static inline float64 maxfinite_float64(uint8_t sign)
+ }
+ 
+ /* Return a zero value with requested sign */
+-static inline float64 zero_float64(uint8_t sign)
++static float64 zero_float64(uint8_t sign)
+ {
+     if (sign) {
+         return make_float64(0x8000000000000000);
+@@ -369,7 +370,7 @@ float32 infinite_float32(uint8_t sign)
+ }
+ 
+ /* Return a maximum finite value with the requested sign */
+-static inline float32 maxfinite_float32(uint8_t sign)
++static float32 maxfinite_float32(uint8_t sign)
+ {
+     if (sign) {
+         return make_float32(SF_MINUS_MAXF);
+@@ -379,7 +380,7 @@ static inline float32 maxfinite_float32(uint8_t sign)
+ }
+ 
+ /* Return a zero value with requested sign */
+-static inline float32 zero_float32(uint8_t sign)
++static float32 zero_float32(uint8_t sign)
+ {
+     if (sign) {
+         return make_float32(0x80000000);
+@@ -389,7 +390,7 @@ static inline float32 zero_float32(uint8_t sign)
+ }
+ 
+ #define GEN_XF_ROUND(SUFFIX, MANTBITS, INF_EXP, INTERNAL_TYPE) \
+-static inline SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
++static SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
+ { \
+     if ((int128_gethi(a.mant) == 0) && (int128_getlo(a.mant) == 0) \
+         && ((a.guard | a.round | a.sticky) == 0)) { \
+@@ -526,8 +527,8 @@ static bool is_inf_prod(float64 a, float64 b)
+             (float64_is_infinity(b) && is_finite(a) && (!float64_is_zero(a))));
+ }
+ 
+-static inline float64 special_fma(float64 a, float64 b, float64 c,
+-                                  float_status *fp_status)
++static float64 special_fma(float64 a, float64 b, float64 c,
++                           float_status *fp_status)
+ {
+     float64 ret = make_float64(0);
+ 
+@@ -586,8 +587,8 @@ static inline float64 special_fma(float64 a, float64 b, float64 c,
+     g_assert_not_reached();
+ }
+ 
+-static inline float32 special_fmaf(float32 a, float32 b, float32 c,
+-                                 float_status *fp_status)
++static float32 special_fmaf(float32 a, float32 b, float32 c,
++                            float_status *fp_status)
+ {
+     float64 aa, bb, cc;
+     aa = float32_to_float64(a, fp_status);
+diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
+index d6b5c47..5d35dfc 100644
+--- a/target/hexagon/op_helper.c
++++ b/target/hexagon/op_helper.c
+@@ -46,8 +46,8 @@ void QEMU_NORETURN HELPER(raise_exception)(CPUHexagonState *env, uint32_t excp)
+     do_raise_exception_err(env, excp, 0);
+ }
+ 
+-static inline void log_reg_write(CPUHexagonState *env, int rnum,
+-                                 target_ulong val, uint32_t slot)
++static void log_reg_write(CPUHexagonState *env, int rnum,
++                          target_ulong val, uint32_t slot)
+ {
+     HEX_DEBUG_LOG("log_reg_write[%d] = " TARGET_FMT_ld " (0x" TARGET_FMT_lx ")",
+                   rnum, val, val);
+@@ -63,8 +63,7 @@ static inline void log_reg_write(CPUHexagonState *env, int rnum,
+ #endif
+ }
+ 
+-static inline void log_pred_write(CPUHexagonState *env, int pnum,
+-                                  target_ulong val)
++static void log_pred_write(CPUHexagonState *env, int pnum, target_ulong val)
+ {
+     HEX_DEBUG_LOG("log_pred_write[%d] = " TARGET_FMT_ld
+                   " (0x" TARGET_FMT_lx ")\n",
+@@ -79,8 +78,8 @@ static inline void log_pred_write(CPUHexagonState *env, int pnum,
+     }
+ }
+ 
+-static inline void log_store32(CPUHexagonState *env, target_ulong addr,
+-                               target_ulong val, int width, int slot)
++static void log_store32(CPUHexagonState *env, target_ulong addr,
++                        target_ulong val, int width, int slot)
+ {
+     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx
+                   ", %" PRId32 " [0x08%" PRIx32 "])\n",
+@@ -90,8 +89,8 @@ static inline void log_store32(CPUHexagonState *env, target_ulong addr,
+     env->mem_log_stores[slot].data32 = val;
+ }
+ 
+-static inline void log_store64(CPUHexagonState *env, target_ulong addr,
+-                               int64_t val, int width, int slot)
++static void log_store64(CPUHexagonState *env, target_ulong addr,
++                        int64_t val, int width, int slot)
+ {
+     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx
+                   ", %" PRId64 " [0x016%" PRIx64 "])\n",
+@@ -101,7 +100,7 @@ static inline void log_store64(CPUHexagonState *env, target_ulong addr,
+     env->mem_log_stores[slot].data64 = val;
+ }
+ 
+-static inline void write_new_pc(CPUHexagonState *env, target_ulong addr)
++static void write_new_pc(CPUHexagonState *env, target_ulong addr)
+ {
+     HEX_DEBUG_LOG("write_new_pc(0x" TARGET_FMT_lx ")\n", addr);
+ 
+@@ -132,7 +131,7 @@ void HELPER(debug_start_packet)(CPUHexagonState *env)
+ }
+ #endif
+ 
+-static inline int32_t new_pred_value(CPUHexagonState *env, int pnum)
++static int32_t new_pred_value(CPUHexagonState *env, int pnum)
+ {
+     return env->new_pred_value[pnum];
+ }
+@@ -332,8 +331,8 @@ static void check_noshuf(CPUHexagonState *env, uint32_t slot)
+     }
+ }
+ 
+-static inline uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
+-                                target_ulong vaddr)
++static uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
++                         target_ulong vaddr)
+ {
+     uint8_t retval;
+     check_noshuf(env, slot);
+@@ -341,8 +340,8 @@ static inline uint8_t mem_load1(CPUHexagonState *env, uint32_t slot,
+     return retval;
+ }
+ 
+-static inline uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
+-                                 target_ulong vaddr)
++static uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
++                          target_ulong vaddr)
+ {
+     uint16_t retval;
+     check_noshuf(env, slot);
+@@ -350,8 +349,8 @@ static inline uint16_t mem_load2(CPUHexagonState *env, uint32_t slot,
+     return retval;
+ }
+ 
+-static inline uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
+-                                 target_ulong vaddr)
++static uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
++                          target_ulong vaddr)
+ {
+     uint32_t retval;
+     check_noshuf(env, slot);
+@@ -359,8 +358,8 @@ static inline uint32_t mem_load4(CPUHexagonState *env, uint32_t slot,
+     return retval;
+ }
+ 
+-static inline uint64_t mem_load8(CPUHexagonState *env, uint32_t slot,
+-                                 target_ulong vaddr)
++static uint64_t mem_load8(CPUHexagonState *env, uint32_t slot,
++                          target_ulong vaddr)
+ {
+     uint64_t retval;
+     check_noshuf(env, slot);
+@@ -939,7 +938,7 @@ float32 HELPER(sffms)(CPUHexagonState *env, float32 RxV,
+     return RxV;
+ }
+ 
+-static inline bool is_inf_prod(int32_t a, int32_t b)
++static bool is_inf_prod(int32_t a, int32_t b)
+ {
+     return (float32_is_infinity(a) && float32_is_infinity(b)) ||
+            (float32_is_infinity(a) && is_finite(b) && !float32_is_zero(b)) ||
+diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
+index 2317508..f975d7a 100644
+--- a/target/hexagon/translate.c
++++ b/target/hexagon/translate.c
+@@ -585,7 +585,7 @@ static void hexagon_tr_translate_packet(DisasContextBase *dcbase, CPUState *cpu)
+          * The CPU log is used to compare against LLDB single stepping,
+          * so end the TLB after every packet.
+          */
+-        HexagonCPU *hex_cpu = container_of(env, HexagonCPU, env);
++        HexagonCPU *hex_cpu = hexagon_env_get_cpu(env);
+         if (hex_cpu->lldb_compat && qemu_loglevel_mask(CPU_LOG_TB_CPU)) {
+             ctx->base.is_jmp = DISAS_TOO_MANY;
+         }
+-- 
+2.7.4
 
-On Thu, Apr 01, 2021 at 11:17:39AM +1100, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 31/03/2021 12:03, David Gibson wrote:
-> > On Thu, Mar 25, 2021 at 02:25:33PM +1100, Alexey Kardashevskiy wrote:
-> > >=20
-> > >=20
-> > > On 25/03/2021 13:52, David Gibson wrote:
-> > > > On Tue, Mar 23, 2021 at 01:58:30PM +1100, Alexey Kardashevskiy wrot=
-e:
-> > > > > The PAPR platform which describes an OS environment that's presen=
-ted by
-> > > > > a combination of a hypervisor and firmware. The features it speci=
-fies
-> > > > > require collaboration between the firmware and the hypervisor.
-> > > > >=20
-> > > > > Since the beginning, the runtime component of the firmware (RTAS)=
- has
-> > > > > been implemented as a 20 byte shim which simply forwards it to
-> > > > > a hypercall implemented in qemu. The boot time firmware component=
- is
-> > > > > SLOF - but a build that's specific to qemu, and has always needed=
- to be
-> > > > > updated in sync with it. Even though we've managed to limit the a=
-mount
-> > > > > of runtime communication we need between qemu and SLOF, there's s=
-ome,
-> > > > > and it has become increasingly awkward to handle as we've impleme=
-nted
-> > > > > new features.
-> > > > >=20
-> > > > > This implements a boot time OF client interface (CI) which is
-> > > > > enabled by a new "x-vof" pseries machine option (stands for "Virt=
-ual Open
-> > > > > Firmware). When enabled, QEMU implements the custom H_OF_CLIENT h=
-call
-> > > > > which implements Open Firmware Client Interface (OF CI). This all=
-ows
-> > > > > using a smaller stateless firmware which does not have to manage
-> > > > > the device tree.
-> > > > >=20
-> > > > > The new "vof.bin" firmware image is included with source code und=
-er
-> > > > > pc-bios/. It also includes RTAS blob.
-> > > > >=20
-> > > > > This implements a handful of CI methods just to get -kernel/-init=
-rd
-> > > > > working. In particular, this implements the device tree fetching =
-and
-> > > > > simple memory allocator - "claim" (an OF CI memory allocator) and=
- updates
-> > > > > "/memory@0/available" to report the client about available memory.
-> > > > >=20
-> > > > > This implements changing some device tree properties which we kno=
-w how
-> > > > > to deal with, the rest is ignored. To allow changes, this skips
-> > > > > fdt_pack() when x-vof=3Don as not packing the blob leaves some ro=
-om for
-> > > > > appending.
-> > > > >=20
-> > > > > In absence of SLOF, this assigns phandles to device tree nodes to=
- make
-> > > > > device tree traversing work.
-> > > > >=20
-> > > > > When x-vof=3Don, this adds "/chosen" every time QEMU (re)builds a=
- tree.
-> > > > >=20
-> > > > > This adds basic instances support which are managed by a hash map
-> > > > > ihandle -> [phandle].
-> > > > >=20
-> > > > > Before the guest started, the used memory is:
-> > > > > 0..e60 - the initial firmware
-> > > > > 8000..10000 - stack
-> > > > > 400000.. - kernel
-> > > > > 3ea0000.. - initramdisk
-> > > > >=20
-> > > > > This OF CI does not implement "interpret".
-> > > > >=20
-> > > > > Unlike SLOF, this does not format uninitialized nvram. Instead, t=
-his
-> > > > > includes a disk image with pre-formatted nvram.
-> > > > >=20
-> > > > > With this basic support, this can only boot into kernel directly.
-> > > > > However this is just enough for the petitboot kernel and initradm=
-disk to
-> > > > > boot from any possible source. Note this requires reasonably rece=
-nt guest
-> > > > > kernel with:
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Ddf5be5be8735
-> > > > >=20
-> > > > > The immediate benefit is much faster booting time which especially
-> > > > > crucial with fully emulated early CPU bring up environments. Also=
- this
-> > > > > may come handy when/if GRUB-in-the-userspace sees light of the da=
-y.
-> > > > >=20
-> > > > > This separates VOF and sPAPR in a hope that VOF bits may be reuse=
-d by
-> > > > > other POWERPC boards which do not support pSeries.
-> > > > >=20
-> > > > > This is coded in assumption that later on we might be adding supp=
-ort for
-> > > > > booting from QEMU backends (blockdev is the first candidate) with=
-out
-> > > > > devices/drivers in between as OF1275 does not require that and
-> > > > > it is quite easy to so.
-> > > > >=20
-> > > > > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> > > >=20
-> > > > I have some comments below, but they're basically all trivial at th=
-is
-> > > > point.  We've missed qemu-6.0 obviously, but I'm hoping I can merge
-> > > > the next spin to my ppc-for-6.1 tree.
-> > > >=20
-> > > > > ---
-> > > > >=20
-> > > > > The example command line is:
-> > > > >=20
-> > > > > /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
-> > > > > -nodefaults \
-> > > > > -chardev stdio,id=3DSTDIO0,signal=3Doff,mux=3Don \
-> > > > > -device spapr-vty,id=3Dsvty0,reg=3D0x71000110,chardev=3DSTDIO0 \
-> > > > > -mon id=3DMON0,chardev=3DSTDIO0,mode=3Dreadline \
-> > > > > -nographic \
-> > > > > -vga none \
-> > > > > -enable-kvm \
-> > > > > -m 2G \
-> > > > > -machine pseries,x-vof=3Don,cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,c=
-ap-ibs=3Dbroken,cap-ccf-assist=3Doff \
-> > > > > -kernel pbuild/kernel-le-guest/vmlinux \
-> > > > > -initrd pb/rootfs.cpio.xz \
-> > > > > -drive id=3DDRIVE0,if=3Dnone,file=3D./p/qemu-killslof/pc-bios/vof=
--nvram.bin,format=3Draw \
-> > > >=20
-> > > > Removing the need for a prebuild NVRAM image is something I'd like =
-to
-> > > > see as a followup.
-> > >=20
-> > >=20
-> > > We do not _need_ NVRAM in the VM to begin with, or is this a requirem=
-ent?
-> >=20
-> > Actually.. I'm not certain.
->=20
->=20
-> Have you heard of using it, ever? What do people store in there in practi=
-ce?
-
-Well... I've never heard of someone actually bothering to set up a
-persistent NVRAM, so it's unlikely that we care about anything stored
-in there.  However, I think some tools/scripts in userspace might poke
-at it nvsetenv, not knowing that (and for the PowerVM case).  So we
-probably don't want nvsetenv to outright fail.
-
-Not sure if the kernel itself ever looks at anything in the nvram.
-
-> > > The whole VOF thing is more like a hack and I do not recall myself on=
- doing
-> > > anything useful with NVRAM.
-> > >=20
-> > > If we really need it, then when to format it - in QEMU or VOF.bin? Th=
-is
-> > > alone will trigger a (lengthy) discussion :)
-> >=20
-> > I prefer qemu, but we can worry about that later.
->=20
->=20
-> [...]
->=20
-> > > > > +void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
-> > > > > +                     target_ulong *stack_ptr, Error **errp)
-> > > > > +{
-> > > > > +    Vof *vof =3D spapr->vof;
-> > > > > +
-> > > > > +    vof_cleanup(vof);
-> > > > > +
-> > > > > +    spapr_vof_client_dt_finalize(spapr, fdt);
-> > > > > +
-> > > > > +    if (vof_claim(spapr->fdt_blob, vof, 0, spapr->fw_size, 0) =
-=3D=3D -1) {
-> > > > > +        error_setg(errp, "Memory for firmware is in use");
-> > > >=20
-> > > > This could probably be an assert, yes?  IIUC this the very first
-> > > > claim, so if this fails then we've placed things incorrectly in the
-> > > > first place, so it's a code error rather than a user error.
-> > >=20
-> > >=20
-> > > Passing &error_fatal as errp is an assert pretty much but more inform=
-ative
-> > > imho.
-> >=20
-> > Not quite.  Passing &error_abort is similar to an assert, but
-> > &error_fatal is not.  The rule is that error_abort or assert() should
-> > be used for things that can only occur as a result of a bug in qemu
-> > itself, whereas error_fatal and other errors should be used for things
-> > where the failure may be because of user configuration, or something
-> > wrong on the host or in the guest.
-> >=20
-> > Since the VOF image is being provided by qemu and this is too early
-> > for the guest to have messed with it, this counts as something that is
-> > necessarily a problem in qemu itself.
->=20
->=20
-> vof.bin can be passed via "-bios" which is +1 for error_fatal imho.
-
-Ah... you do have a point there.
-
-> Sorry I missed this reply when posted v18. Repost with error_abort? I do =
-not
-> care as much about this one.
-
-Nah, leave it for now.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---zgWkP+O3Z32dL1/e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBlOacACgkQbDjKyiDZ
-s5IVdxAA2FeUhS7Ojz3aYHRXk+FH9XIfuPxt4XQEqlO2+3SARspkleFDA2ega4ho
-uFLtF39ISiNp7LGiUck/HmNu0G3dq586kBjK1KnSOHdFJ/9ctRIKvZjiy/z4dO85
-5WcEgDgdsm8Nk2Ubiqq3R7UGrt1DSa7PYL3OZsSzvLgpp93FXhUzM2CACexax/eH
-PjWZIJvB4PhXffzQrpqLHQRAYNHtZAknXYOPGeDDMaPCrw90PhuIsFiUwmB55FzC
-Rw1cPUUW0NLqA09OqxpB9oMILyoXB3lD8W/yAABpEfyhNCGcmuJcTGD0TIHhh7jo
-8Km33YQ0YVQQAC1D9CcFH2wy2Jzlf7diYaNHsEveTQjf748on7sYHEPkIMgi4Uw8
-FHeFPhLdoX5Mkxkhhd+JcTIWhh75/nPClJygCB/qCcmyhddEp/eUpkqBUQ3B9RtO
-RxNXPqW7fYDeRaS2wExrbdLZrXwLOHdLknReqRE56FuOqDByqvTULLPIyv9HuKa0
-KydfnUabwkeBn8oEWtMdaVBNhiPwZhE0Io4Bj0ftdnwo3VSjBoXYXM16LdJ4iVTk
-YlVfam6RdB07J8H8F7Qygz4hHo4bL3914OuFSM8QP9psqXzA6l7sfeurAx0vzhVi
-jEEEsFkqlinLI6yzdaIUvt6i59E+BLAO644eZBs1X3QYs9RiIQY=
-=gL4n
------END PGP SIGNATURE-----
-
---zgWkP+O3Z32dL1/e--
 
