@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B14535134D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 12:21:13 +0200 (CEST)
-Received: from localhost ([::1]:44572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97907351378
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 12:28:41 +0200 (CEST)
+Received: from localhost ([::1]:52580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRuRs-0001Y0-0T
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 06:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39660)
+	id 1lRuZ6-0005Un-Kf
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 06:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lRuQA-00014i-W7
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:19:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lRuQ8-0006h0-8O
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:19:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617272363;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zWDhm7n+g8QqYNqVy/VAxQLPcVJh8VLnxGoJcKYEUO4=;
- b=h9j2TqawDSHX6jJDoITypNFR3L/WFXgWQxlGsM3kWUv7dGweUdSI9sIDSWi09yp+/RGz+2
- 9uR3M8M01OFfXDJ1bsHf3N9zwZ6ZQJa5PWUd4XGLsYkH5ONS73PkM0xN0xaMFVdG6Kc2hn
- mQiaUxFykfjYVXFMe/IMos4M0cVR3SM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-WQxa5TpIPW2bcHqS0LXJ1A-1; Thu, 01 Apr 2021 06:19:18 -0400
-X-MC-Unique: WQxa5TpIPW2bcHqS0LXJ1A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEB951084D70;
- Thu,  1 Apr 2021 10:19:17 +0000 (UTC)
-Received: from redhat.com (ovpn-114-106.ams2.redhat.com [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FBDB5D9CA;
- Thu,  1 Apr 2021 10:19:12 +0000 (UTC)
-Date: Thu, 1 Apr 2021 11:19:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vincent Bernat <vincent@bernat.ch>
-Subject: Re: [PATCH v2 2/2] hw/smbios: retrieve PCI address from specified
- device for Type 41
-Message-ID: <YGWeHXMPIbbI5wWA@redhat.com>
-References: <20210401082544.16522-1-vincent@bernat.ch>
- <20210401082544.16522-2-vincent@bernat.ch>
- <YGWUrw9wgOI1E3aN@redhat.com> <m3wntmjp25.fsf@bernat.ch>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lRuWD-0002eK-5j
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:25:43 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lRuW6-0001iB-Gy
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:25:40 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id b9so1269720wrt.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 03:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bXbcsxg/LkOYXWCS8QBEz2Cjpji+r/sSYoUyIZXDDHw=;
+ b=vYtGvNPdWcG+WIOsmw4ntWGwUqZU0D62zViYJFaBUP5jru9qWREQjr5K0t+J/VrbRk
+ RXwjgfIPYxFuuehbQv+oPZInmLpcT9mktEIzMxDEY+teRV30AfZjNDgxd4v7UKAS8+ew
+ EpjyG1T/5+/dIkRdWE56mrgWEJfcr5+7lr14DC6zkIa+6dPxlHOU1rY2MaHjE4XPjNLe
+ z9cI/xRKFjrQ03W3QAapit3r0jcV35i2LJDnjZH301U8SFjmoIVmHKiD+K+0X4r4+EvX
+ LFBM3p7HFeKNN2izrV6skx97jxnOyJS7jdFabVEeOMhGWlQMyjH/ZjIK13AMY9h4vdZR
+ CuQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bXbcsxg/LkOYXWCS8QBEz2Cjpji+r/sSYoUyIZXDDHw=;
+ b=iAQIkQsN8CvGiEvozgZD9EKiwqi3YT+cNgnEJFkwzmNFGS6y8Wt2cgfDQtJilB4QtS
+ AJdUMPugAP886jp/vg+mR1riUTX2pvw22aQDs3pyzawUSwP2GlUGc3fdSeO76Qdi1ZgA
+ bOgRCuYqc7DqM7wZv4SRwShS5R7woa/QrJmUI2HsS4qCsZGPSnyAdTpDFP3SsRYweZ6x
+ Uql5+8tFOKkMG+SE9UpsHK9u0RGnuud7EoZT6gcYthZ86l9v4/du7WznzoAk6CKyW06r
+ MVO3hmmF0p/CywJv634dY4Qi1BlwZjH1oAXqkmqju5PUFrKScfD0YoBEykIIqta1n9jT
+ WeYg==
+X-Gm-Message-State: AOAM531CcbEG3FS5wP8znBCWu3GDiEArtF+G4bqXuYANfHfc51lCqoVO
+ LkuW06nCdCAC9ZRm3G9Q8WGGyA==
+X-Google-Smtp-Source: ABdhPJwNRnm1j3OeUQNaIh3rc91fwRnwaBNj5edU5mpLU7dVBq4YXZcUle/NRXzTVgdFhjd3appTpA==
+X-Received: by 2002:a5d:5641:: with SMTP id j1mr8946566wrw.100.1617272732191; 
+ Thu, 01 Apr 2021 03:25:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j9sm7430500wmi.24.2021.04.01.03.25.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 03:25:31 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6FF7E1FF7E;
+ Thu,  1 Apr 2021 11:25:30 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 6.0-rc2 v2 00/11] various fixes, pre-PR (check-tcg, gdbstub,
+ gitlab)
+Date: Thu,  1 Apr 2021 11:25:19 +0100
+Message-Id: <20210401102530.12030-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <m3wntmjp25.fsf@bernat.ch>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,59 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 01, 2021 at 12:07:30PM +0200, Vincent Bernat wrote:
->  ❦  1 avril 2021 10:38 +01, Daniel P. Berrangé:
-> 
-> >>  hw/smbios/smbios.c | 47 +++++++++++++++++++++-------------------------
-> >>  qemu-options.hx    |  2 +-
-> >>  2 files changed, 22 insertions(+), 27 deletions(-)
-> >
-> > It doesn't really make sense to have this as a separate patch
-> > when it is deleting half the code you added in the previous
-> > patch. Just merge them together as one.
-> 
-> I'll do that.
-> 
-> >> +                /*
-> >> +                 * TODO: Extract the appropriate value. Most of the
-> >> +                 * time, this will be 0.
-> >> +                 */
-> >> +                t->segment_group_number = cpu_to_le16(0);
-> >
-> > Hmm, tricky, as it requires interpreting the PCI topology. Wonder if
-> > there's any helper that can do the hard work for you
-> 
-> There is pci_root_bus_path(), but it returns a string which could just
-> contain a segment or several segments. It seems the SMBIOS standard
-> didn't account for complex topologies. I could parse the string. and
-> keep only the right-most segment.
-> 
-> >> +                t->bus_number = pci_dev_bus_num(pdev);
-> >> +                t->device_number = pdev->devfn;
-> >> +            } else {
-> >> +                fprintf(stderr, "%s: cannot find PCI device %s\n",
-> >> +                        __func__, t41->pcidev);
-> >
-> > This isn't terminating execution which looks like a bug.
-> 
-> It was my intention. The PCI address will then be 00:00:00.0. If you
-> think it's better to terminate, I can do what you suggest.
+Hi,
 
-If we can't find the PCI device, that's user configuration error, and
-we prefer to report those & exit, rather than continuing with likely
-bogus data.
+A few more patches have been added:
 
-Regards,
-Daniel
+  - gdbstub documentation
+  - tweak the gdbstub sha1 test
+  - tweaks for gitlab
+
+as well as fixing the i386-linux-user cross compile case (including
+detecting the support for -no-pie for cross compilers). Other than
+that it's just review tags. I plan to cut the PR from this post on the
+morning of the 6th in time for rc2.
+
+The following remain un-reviewed:
+
+ - tests/tcg: relax the next step precision of the gdb sha1 test
+ - tests/tcg/i386: force -fno-pie for test-i386
+ - tests/tcg/configure.sh: make sure we pick up x86_64 cross compilers
+ - tests/tcg: add concept of container_hosts
+
+Alex Bennée (7):
+  tests/tcg: update the defaults for x86 compilers
+  tests/docker: don't set DOCKER_REGISTRY on non-x86_64
+  tests/tcg: add concept of container_hosts
+  tests/tcg/configure.sh: make sure we pick up x86_64 cross compilers
+  tests/tcg/i386: expand .data sections for system tests
+  tests/tcg/i386: force -fno-pie for test-i386
+  tests/tcg: relax the next step precision of the gdb sha1 test
+
+Peter Maydell (2):
+  docs/system/gdb.rst: Add some more heading structure
+  docs/system/gdb.rst: Document how to debug multicore machines
+
+Thomas Huth (2):
+  gitlab-ci.yml: Fix the filtering for the git submodules
+  gitlab-ci.yml: Test the dtrace backend in one of the jobs
+
+ docs/system/gdb.rst                     | 63 ++++++++++++++++++++++++-
+ configure                               |  2 +-
+ .gitlab-ci.yml                          |  4 +-
+ tests/docker/Makefile.include           |  5 +-
+ tests/docker/dockerfiles/centos8.docker |  1 +
+ tests/tcg/configure.sh                  | 42 +++++++++++++++--
+ tests/tcg/i386/Makefile.target          | 16 +++++--
+ tests/tcg/i386/system/kernel.ld         |  2 +-
+ tests/tcg/multiarch/gdbstub/sha1.py     |  5 +-
+ 9 files changed, 126 insertions(+), 14 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
