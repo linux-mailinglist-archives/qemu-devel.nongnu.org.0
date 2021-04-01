@@ -2,52 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20EB351068
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:53:02 +0200 (CEST)
-Received: from localhost ([::1]:41134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3842535106A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 09:54:59 +0200 (CEST)
+Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRs8T-0001Ny-Ua
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
+	id 1lRsAM-0003ZZ-AA
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 03:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs6F-00068p-4H
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57096
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs6C-0001DG-Sp
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:50:42 -0400
-Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
- helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lRs6I-0004IO-N4; Thu, 01 Apr 2021 08:50:51 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, alxndr@bu.edu, laurent@vivier.eu,
- pbonzini@redhat.com
-Date: Thu,  1 Apr 2021 08:49:33 +0100
-Message-Id: <20210401074933.9923-12-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
-References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRs99-0002dq-6q
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:53:43 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRs97-0003Ac-M7
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 03:53:42 -0400
+Received: by mail-wr1-x435.google.com with SMTP id v4so798625wrp.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 00:53:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+4IPyPjYPx3UwgoakiaIDpHjPZ/MjugBnT4GC1jxOE8=;
+ b=J4xNwwSNo15j/5Xvhk7Kwj1c9HBgmCcK5hVlxNi4xGoT1Mtky+mgJu/p7rT6QvRJB1
+ EJAjDUGbbXlUcSn9DGaVk0CTeOderAWkTO5JHTKiWZ22A8OA5bMlFoj6eGnDPbkXIAcN
+ m6L3x3DzsnyTqwYYR5xo7hSMqLMiKpbOK9lhOT3TBdsK3UMtTEASJ70kDUsN36PqMAKb
+ gkz9nJK5Ht8OtAtC6/tgAJpioyZ0vTQquxq6MCOLQuJlEixCsAGzYWxL5dQ5xN4ig6e9
+ 12zGsVsXd19JXvlqebLoZnVuUtuUovE5SxjYDccY45ubIrBcc18vyjM1ho6fJqF5KkBF
+ Sj8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+4IPyPjYPx3UwgoakiaIDpHjPZ/MjugBnT4GC1jxOE8=;
+ b=byOMKmqfv5LXv1eVQc3VRu3da98GK7UWnwCwnHlgwDbggcghiXLH6tkUoQWXv0+1A3
+ uAktr9eYRDJ7yekuAHwm84lcgceFxLOKz8LoJY8MkFD6RCHihKpnLpASO9QT7I4sI4yo
+ G2tACz6bp3TN5jcpxU7oatWL7EbnO2c5vOv11NkP5NHwKN5NSAzvCgpa2uWjNUEhzN2p
+ c7PzgYv7rNt0Yb23eB4N9VWuEl7lPQzVCEhu5E+zyxHRrvyM6Az48llYpbP6GwVUEMFX
+ V0FYCzwENNFG4F3SBBROHIcmWMO+LSzbQSga8OB6mdi0Dv+dKT/ytqgdoh/P3De3JFjX
+ fQDQ==
+X-Gm-Message-State: AOAM531Fvh5tbhwonYRp06aTWSwrJY8RSSTsNwhZSn31WIqoYEBZx9Fi
+ nab495RNe7dJMfhvdX/g43A=
+X-Google-Smtp-Source: ABdhPJzPDQoHFedgiblwe/Y4DxvwLEd2jwHtE+MIfy69xiLZJ0PcyZ0Qit0PRCjMkevLfjAB9KU+ZQ==
+X-Received: by 2002:a5d:6c62:: with SMTP id r2mr8450781wrz.62.1617263620089;
+ Thu, 01 Apr 2021 00:53:40 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id 13sm7032462wmw.5.2021.04.01.00.53.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 00:53:39 -0700 (PDT)
+Subject: Re: Status update for maintainers file
+To: Sarah Harris <seh53@kent.ac.uk>, QEMU Developers <qemu-devel@nongnu.org>
+References: <20210331184221.d81b4ffed7c7c733c33f8c66@kent.ac.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2a6c50f1-4067-21ff-f92f-66cbb1023d9d@amsat.org>
+Date: Thu, 1 Apr 2021 09:53:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.103.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 11/11] tests/qtest: add tests for am53c974 device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210331184221.d81b4ffed7c7c733c33f8c66@kent.ac.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,267 +88,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the autogenerated fuzzer test cases as the basis for a set of am53c974
-regression tests.
+On 3/31/21 7:42 PM, Sarah Harris wrote:
+> Hi all,
+> 
+> I was added as a reviewer (in MAINTAINERS) for the AVR target for the duration of my research work using it.
+> The funding for my project expires in the middle of April, so I will not be able to provide time for reviewing patches from that point.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- MAINTAINERS                 |   1 +
- tests/qtest/am53c974-test.c | 216 ++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build     |   1 +
- 3 files changed, 218 insertions(+)
- create mode 100644 tests/qtest/am53c974-test.c
+Thank you Sarah for your AVR reviews the last years, they
+have been of great value for the project and community.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 554be84b32..675f35d3af 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1776,6 +1776,7 @@ F: include/hw/scsi/*
- F: hw/scsi/*
- F: tests/qtest/virtio-scsi-test.c
- F: tests/qtest/fuzz-virtio-scsi-test.c
-+F: tests/qtest/am53c974-test.c
- T: git https://github.com/bonzini/qemu.git scsi-next
- 
- SSI
-diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
-new file mode 100644
-index 0000000000..9c4285d0c0
---- /dev/null
-+++ b/tests/qtest/am53c974-test.c
-@@ -0,0 +1,216 @@
-+/*
-+ * QTest testcase for am53c974
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later. See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "libqos/libqtest.h"
-+
-+
-+static void test_cmdfifo_underflow_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xcf8, 0x8000100e);
-+    qtest_outl(s, 0xcfc, 0x8a000000);
-+    qtest_outl(s, 0x8a09, 0x42000000);
-+    qtest_outl(s, 0x8a0d, 0x00);
-+    qtest_outl(s, 0x8a0b, 0x1000);
-+    qtest_quit(s);
-+}
-+
-+/* Reported as crash_1548bd10e7 */
-+static void test_cmdfifo_underflow2_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-m 512M -device am53c974,id=scsi -device scsi-hd,drive=disk0 "
-+        "-drive id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outw(s, 0xc00c, 0x41);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x43);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc006, 0x00);
-+    qtest_outl(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x0800);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outl(s, 0xc006, 0x00);
-+    qtest_outl(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x0800);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x4100);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x100000);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x43);
-+    qtest_outl(s, 0xc00a, 0x100000);
-+    qtest_outl(s, 0xc00a, 0x100000);
-+    qtest_quit(s);
-+}
-+
-+static void test_cmdfifo_overflow_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xcf8, 0x8000100e);
-+    qtest_outl(s, 0xcfc, 0x0e000000);
-+    qtest_outl(s, 0xe40, 0x03);
-+    qtest_outl(s, 0xe0b, 0x4100);
-+    qtest_outl(s, 0xe0b, 0x9000);
-+    qtest_quit(s);
-+}
-+
-+/* Reported as crash_530ff2e211 */
-+static void test_cmdfifo_overflow2_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-m 512M -device am53c974,id=scsi -device scsi-hd,drive=disk0 "
-+        "-drive id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xc00b, 0x4100);
-+    qtest_outw(s, 0xc00b, 0xc200);
-+    qtest_outl(s, 0xc03f, 0x0300);
-+    qtest_quit(s);
-+}
-+
-+/* Reported as crash_0900379669 */
-+static void test_fifo_pop_buf(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-m 512M -device am53c974,id=scsi -device scsi-hd,drive=disk0 "
-+        "-drive id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outb(s, 0xc000, 0x4);
-+    qtest_outb(s, 0xc008, 0xa0);
-+    qtest_outl(s, 0xc03f, 0x0300);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outw(s, 0xc00b, 0x9000);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outw(s, 0xc00b, 0x9000);
-+    qtest_outw(s, 0xc00b, 0x1000);
-+    qtest_quit(s);
-+}
-+
-+static void test_target_selected_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001001);
-+    qtest_outl(s, 0xcfc, 0x01000000);
-+    qtest_outl(s, 0xcf8, 0x8000100e);
-+    qtest_outl(s, 0xcfc, 0xef800000);
-+    qtest_outl(s, 0xef8b, 0x4100);
-+    qtest_outw(s, 0xef80, 0x01);
-+    qtest_outl(s, 0xefc0, 0x03);
-+    qtest_outl(s, 0xef8b, 0xc100);
-+    qtest_outl(s, 0xef8b, 0x9000);
-+    qtest_quit(s);
-+}
-+
-+static void test_fifo_underflow_on_write_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xc008, 0x0a);
-+    qtest_outl(s, 0xc009, 0x41000000);
-+    qtest_outl(s, 0xc009, 0x41000000);
-+    qtest_outl(s, 0xc00b, 0x1000);
-+    qtest_quit(s);
-+}
-+
-+static void test_cancelled_request_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x05);
-+    qtest_outb(s, 0xc046, 0x02);
-+    qtest_outl(s, 0xc00b, 0xc100);
-+    qtest_outl(s, 0xc040, 0x03);
-+    qtest_outl(s, 0xc040, 0x03);
-+    qtest_bufwrite(s, 0x0, "\x41", 0x1);
-+    qtest_outl(s, 0xc00b, 0xc100);
-+    qtest_outw(s, 0xc040, 0x02);
-+    qtest_outw(s, 0xc040, 0x81);
-+    qtest_outl(s, 0xc00b, 0x9000);
-+    qtest_quit(s);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (strcmp(arch, "i386") == 0) {
-+        qtest_add_func("am53c974/test_cmdfifo_underflow_ok",
-+                       test_cmdfifo_underflow_ok);
-+        qtest_add_func("am53c974/test_cmdfifo_underflow2_ok",
-+                       test_cmdfifo_underflow2_ok);
-+        qtest_add_func("am53c974/test_cmdfifo_overflow_ok",
-+                       test_cmdfifo_overflow_ok);
-+        qtest_add_func("am53c974/test_cmdfifo_overflow2_ok",
-+                       test_cmdfifo_overflow2_ok);
-+        qtest_add_func("am53c974/test_fifo_pop_buf",
-+                       test_fifo_pop_buf);
-+        qtest_add_func("am53c974/test_target_selected_ok",
-+                       test_target_selected_ok);
-+        qtest_add_func("am53c974/test_fifo_underflow_on_write_ok",
-+                       test_fifo_underflow_on_write_ok);
-+        qtest_add_func("am53c974/test_cancelled_request_ok",
-+                       test_cancelled_request_ok);
-+    }
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 902cfef7cb..25f605cf1d 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -68,6 +68,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
-+  (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
-   qtests_pci +                                                                              \
-   ['fdc-test',
-    'ide-test',
--- 
-2.20.1
+Best regards,
 
+Phil.
 
