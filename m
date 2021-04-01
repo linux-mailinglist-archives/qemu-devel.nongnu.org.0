@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F7F3514AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:02:19 +0200 (CEST)
-Received: from localhost ([::1]:34662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864DF3514AF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:02:24 +0200 (CEST)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRw1j-0004Fa-16
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
+	id 1lRw1n-0004IB-Br
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lRvw6-0005F4-0F
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50593)
+ id 1lRvw8-0005Gz-6b
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lRvw1-0002QL-K5
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:29 -0400
+ id 1lRvw5-0002Qi-W3
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617278185;
+ s=mimecast20190719; t=1617278189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IdHMm3QbJd3MAySeBn092KAn+e3GFVk6ESm00Gw2ms8=;
- b=Nrl638U52DkW/PxHCh6hWdX9bLdjO5174y2NONLIe+mzuEhq92Sgy1/6tLifGv+s3WmIkL
- 0D1kNwR27lLqdU1TXrPMd0DjD8UOHMzESPopSKpa1r7np8qQYPNQXF4osWxiW1V6hVK30i
- Rm/J4ZaEHR3ARDvTklVPup1fEhgHxD8=
+ bh=QpBwc4N9AO7sZNRqHpJv8uCgZkugyse87WKBzp3WcA4=;
+ b=CIDiuDg3afas026HLY8YrjhcC9ZaFzP6uk2GotSK4UsBYVqVWQgePFY/aEeQyhFumfLVeu
+ BA/gRgOdN5K8qzmQ3+I9Krqfl/2kn3ogBCd3szxgCQoGOneXsb2xTE/QQB11Z/+qQP9j1m
+ Sss3kRuC2RsLzz1fz2GhUGGa7kUCyMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-llkpIjmwPeConPQH3z5v5w-1; Thu, 01 Apr 2021 07:56:22 -0400
-X-MC-Unique: llkpIjmwPeConPQH3z5v5w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-289-MF53vEInPeCEVdS2IhEdiA-1; Thu, 01 Apr 2021 07:56:27 -0400
+X-MC-Unique: MF53vEInPeCEVdS2IhEdiA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78DA91853026;
- Thu,  1 Apr 2021 11:56:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48AAB7FE80;
+ Thu,  1 Apr 2021 11:56:26 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38C9B608DB;
- Thu,  1 Apr 2021 11:56:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40C7E5C238;
+ Thu,  1 Apr 2021 11:56:24 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 6/9] chardev/char.c: Move object_property_try_add_child out
- of chardev_new
-Date: Thu,  1 Apr 2021 15:55:29 +0400
-Message-Id: <20210401115532.430961-7-marcandre.lureau@redhat.com>
+Subject: [PULL v2 7/9] chardev/char.c: Always pass id to chardev_new
+Date: Thu,  1 Apr 2021 15:55:30 +0400
+Message-Id: <20210401115532.430961-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20210401115532.430961-1-marcandre.lureau@redhat.com>
 References: <20210401115532.430961-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,99 +86,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-Move object_property_try_add_child out of chardev_new into it's
-callers. This is a preparation for the next patches to fix yank
-with the chardev-change case.
+Always pass the id to chardev_new, since it is needed to register
+the yank instance for the chardev. Also, after checking that
+nothing calls chardev_new with id=NULL, assert() that id!=NULL.
+
+This fixes a crash when using chardev-change to change a chardev
+to chardev-socket, which attempts to register a yank instance.
+This in turn tries to dereference the NULL-pointer.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Tested-by: Li Zhang <li.zhang@cloud.ionos.com>
-Message-Id: <b2a5092ec681737bc3a21ea16f3c00848b277521.1617127849.git.lukasstraub2@web.de>
+Message-Id: <3e669b6c160aa7278e37c4d95e0445574f96c7b7.1617127849.git.lukasstraub2@web.de>
 ---
- chardev/char.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ chardev/char.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/chardev/char.c b/chardev/char.c
-index 140d6d9d36..48f321b3e1 100644
+index 48f321b3e1..75993f903f 100644
 --- a/chardev/char.c
 +++ b/chardev/char.c
-@@ -975,7 +975,9 @@ static Chardev *chardev_new(const char *id, const char *typename,
+@@ -967,6 +967,7 @@ static Chardev *chardev_new(const char *id, const char *typename,
+     bool be_opened = true;
  
-     qemu_char_open(chr, backend, &be_opened, &local_err);
-     if (local_err) {
--        goto end;
-+        error_propagate(errp, local_err);
-+        object_unref(obj);
-+        return NULL;
-     }
+     assert(g_str_has_prefix(typename, "chardev-"));
++    assert(id);
  
-     if (!chr->filename) {
-@@ -985,22 +987,6 @@ static Chardev *chardev_new(const char *id, const char *typename,
-         qemu_chr_be_event(chr, CHR_EVENT_OPENED);
-     }
- 
--    if (id) {
--        object_property_try_add_child(get_chardevs_root(), id, obj,
--                                      &local_err);
--        if (local_err) {
--            goto end;
--        }
--        object_unref(obj);
--    }
--
--end:
--    if (local_err) {
--        error_propagate(errp, local_err);
--        object_unref(obj);
--        return NULL;
--    }
--
-     return chr;
- }
- 
-@@ -1009,6 +995,7 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
-                           GMainContext *gcontext,
-                           Error **errp)
- {
-+    Chardev *chr;
-     g_autofree char *genid = NULL;
- 
-     if (!id) {
-@@ -1016,7 +1003,19 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
-         id = genid;
-     }
- 
--    return chardev_new(id, typename, backend, gcontext, errp);
-+    chr = chardev_new(id, typename, backend, gcontext, errp);
-+    if (!chr) {
-+        return NULL;
-+    }
-+
-+    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
-+                                       errp)) {
-+        object_unref(OBJECT(chr));
-+        return NULL;
-+    }
-+    object_unref(OBJECT(chr));
-+
-+    return chr;
- }
- 
- ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-@@ -1037,6 +1036,13 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+     obj = object_new(typename);
+     chr = CHARDEV(obj);
+@@ -1095,12 +1096,11 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
          return NULL;
      }
  
-+    if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
-+                                       errp)) {
-+        object_unref(OBJECT(chr));
-+        return NULL;
-+    }
-+    object_unref(OBJECT(chr));
-+
-     ret = g_new0(ChardevReturn, 1);
-     if (CHARDEV_IS_PTY(chr)) {
-         ret->pty = g_strdup(chr->filename + 4);
+-    chr_new = chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
++    chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+                           backend, chr->gcontext, errp);
+     if (!chr_new) {
+         return NULL;
+     }
+-    chr_new->label = g_strdup(id);
+ 
+     if (chr->be_open && !chr_new->be_open) {
+         qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
 -- 
 2.29.0
 
