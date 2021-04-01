@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70351350D6F
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 06:06:49 +0200 (CEST)
-Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FF5350D91
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 06:20:55 +0200 (CEST)
+Received: from localhost ([::1]:56488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRobY-0000Rs-Gz
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 00:06:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
+	id 1lRopB-0006sV-Ov
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 00:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoPC-0001ih-En
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:54:03 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:2906)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoP9-0004rm-KX
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:54:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617249239; x=1648785239;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kPRWlBV5fSZAJOSJef4KkuKkO157aZfgtqMV2r7N72U=;
- b=YFbGz9lwrdGl0G/4t9fBpqYk4QT0oytSC2KUYRyNnij6Roe9/Qj0CsqC
- QQ8yCjPbdZfS83O+WBhTKAFr992waQgevjWmoYqdkhGjflzoouf95Zr9i
- uvAsVaM5a4CC5nVTne4HCRaWlPtUf+vwC0wKUsOe0/Jnzxf4i/kHMWdO8 E=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Mar 2021 20:53:43 -0700
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg02-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:42 -0700
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 0E2901976; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/21] Hexagon (target/hexagon) CABAC decode bin
-Date: Wed, 31 Mar 2021 22:53:33 -0500
-Message-Id: <1617249213-22667-22-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
-References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lRooB-0006Ia-KC
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 00:19:51 -0400
+Received: from mga02.intel.com ([134.134.136.20]:60276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1lRoo8-0003n9-K0
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 00:19:51 -0400
+IronPort-SDR: 4RffXAT9zFNe4wfObBxdFiJ2dmYAa2Zh+mF19i+UK30WNThANUgqr51v7VPIWPAQOtxneFiyit
+ pIn5+zt4INnw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="179276278"
+X-IronPort-AV: E=Sophos;i="5.81,295,1610438400"; d="scan'208";a="179276278"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2021 21:19:41 -0700
+IronPort-SDR: s1reD9dhDaeslPKyuNvef2I8xxDB6m12Zz9NnxI+D4fQsdRKsYq6HWNverfmgcG1J5zvFYpwt+
+ 3UsO/djPJBBQ==
+X-IronPort-AV: E=Sophos;i="5.81,295,1610438400"; d="scan'208";a="418999836"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.2.5])
+ ([10.238.2.5])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2021 21:19:39 -0700
+Subject: Re: [RFC PATCH] i386: Add ratelimit for bus locks acquired in guest
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+References: <20210317084709.15605-1-chenyi.qiang@intel.com>
+Message-ID: <158f7def-10f2-4798-a6bc-5f2a70b867f6@intel.com>
+Date: Thu, 1 Apr 2021 12:19:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+In-Reply-To: <20210317084709.15605-1-chenyi.qiang@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,319 +69,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
- richard.henderson@linaro.org, bcain@quicinc.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following instruction is added
-    S2_cabacdecbin            Rdd32=decbin(Rss32,Rtt32)
+Hi Paolo,
 
-Test cases added to tests/tcg/hexagon/misc.c
+Do we have any comment for this Bus lock VM exit QEMU patch?
 
-Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
----
- target/hexagon/arch.c                 | 91 +++++++++++++++++++++++++++++++++++
- target/hexagon/arch.h                 |  4 ++
- target/hexagon/imported/encode_pp.def |  1 +
- target/hexagon/imported/macros.def    | 15 ++++++
- target/hexagon/imported/shift.idef    | 47 ++++++++++++++++++
- target/hexagon/macros.h               |  7 +++
- tests/tcg/hexagon/misc.c              | 28 +++++++++++
- 7 files changed, 193 insertions(+)
-
-diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index e602a05..92d4104 100644
---- a/target/hexagon/arch.c
-+++ b/target/hexagon/arch.c
-@@ -27,6 +27,97 @@
- #define SF_MANTBITS    23
- #define float32_nan    make_float32(0xffffffff)
- 
-+/*
-+ * These three tables are used by the cabacdecbin instruction
-+ */
-+const uint8_t rLPS_table_64x4[64][4] = {
-+    {128, 176, 208, 240},
-+    {128, 167, 197, 227},
-+    {128, 158, 187, 216},
-+    {123, 150, 178, 205},
-+    {116, 142, 169, 195},
-+    {111, 135, 160, 185},
-+    {105, 128, 152, 175},
-+    {100, 122, 144, 166},
-+    {95, 116, 137, 158},
-+    {90, 110, 130, 150},
-+    {85, 104, 123, 142},
-+    {81, 99, 117, 135},
-+    {77, 94, 111, 128},
-+    {73, 89, 105, 122},
-+    {69, 85, 100, 116},
-+    {66, 80, 95, 110},
-+    {62, 76, 90, 104},
-+    {59, 72, 86, 99},
-+    {56, 69, 81, 94},
-+    {53, 65, 77, 89},
-+    {51, 62, 73, 85},
-+    {48, 59, 69, 80},
-+    {46, 56, 66, 76},
-+    {43, 53, 63, 72},
-+    {41, 50, 59, 69},
-+    {39, 48, 56, 65},
-+    {37, 45, 54, 62},
-+    {35, 43, 51, 59},
-+    {33, 41, 48, 56},
-+    {32, 39, 46, 53},
-+    {30, 37, 43, 50},
-+    {29, 35, 41, 48},
-+    {27, 33, 39, 45},
-+    {26, 31, 37, 43},
-+    {24, 30, 35, 41},
-+    {23, 28, 33, 39},
-+    {22, 27, 32, 37},
-+    {21, 26, 30, 35},
-+    {20, 24, 29, 33},
-+    {19, 23, 27, 31},
-+    {18, 22, 26, 30},
-+    {17, 21, 25, 28},
-+    {16, 20, 23, 27},
-+    {15, 19, 22, 25},
-+    {14, 18, 21, 24},
-+    {14, 17, 20, 23},
-+    {13, 16, 19, 22},
-+    {12, 15, 18, 21},
-+    {12, 14, 17, 20},
-+    {11, 14, 16, 19},
-+    {11, 13, 15, 18},
-+    {10, 12, 15, 17},
-+    {10, 12, 14, 16},
-+    {9, 11, 13, 15},
-+    {9, 11, 12, 14},
-+    {8, 10, 12, 14},
-+    {8, 9, 11, 13},
-+    {7, 9, 11, 12},
-+    {7, 9, 10, 12},
-+    {7, 8, 10, 11},
-+    {6, 8, 9, 11},
-+    {6, 7, 9, 10},
-+    {6, 7, 8, 9},
-+    {2, 2, 2, 2}
-+};
-+
-+const uint8_t AC_next_state_MPS_64[64] = {
-+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-+    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-+    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-+    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-+    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-+    61, 62, 62, 63
-+};
-+
-+
-+const uint8_t AC_next_state_LPS_64[64] = {
-+    0, 0, 1, 2, 2, 4, 4, 5, 6, 7,
-+    8, 9, 9, 11, 11, 12, 13, 13, 15, 15,
-+    16, 16, 18, 18, 19, 19, 21, 21, 22, 22,
-+    23, 24, 24, 25, 26, 26, 27, 27, 28, 29,
-+    29, 30, 30, 30, 31, 32, 32, 33, 33, 33,
-+    34, 34, 35, 35, 35, 36, 36, 36, 37, 37,
-+    37, 38, 38, 63
-+};
-+
- #define BITS_MASK_8 0x5555555555555555ULL
- #define PAIR_MASK_8 0x3333333333333333ULL
- #define NYBL_MASK_8 0x0f0f0f0f0f0f0f0fULL
-diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
-index 544288e..f6fdd88 100644
---- a/target/hexagon/arch.h
-+++ b/target/hexagon/arch.h
-@@ -20,6 +20,10 @@
- 
- #include "qemu/int128.h"
- 
-+extern const uint8_t rLPS_table_64x4[64][4];
-+extern const uint8_t AC_next_state_MPS_64[64];
-+extern const uint8_t AC_next_state_LPS_64[64];
-+
- uint64_t interleave(uint32_t odd, uint32_t even);
- uint64_t deinterleave(uint64_t src);
- int32_t conv_round(int32_t a, int n);
-diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
-index dc4eba4..35ae3d2 100644
---- a/target/hexagon/imported/encode_pp.def
-+++ b/target/hexagon/imported/encode_pp.def
-@@ -1767,6 +1767,7 @@ SH_RRR_ENC(S4_vxsubaddh,        "0001","01-","-","110","ddddd")
- SH_RRR_ENC(S4_vxaddsubhr,       "0001","11-","-","00-","ddddd")
- SH_RRR_ENC(S4_vxsubaddhr,       "0001","11-","-","01-","ddddd")
- SH_RRR_ENC(S4_extractp_rp,      "0001","11-","-","10-","ddddd")
-+SH_RRR_ENC(S2_cabacdecbin,      "0001","11-","-","11-","ddddd") /* implicit P0 write */
- 
- 
- DEF_FIELDROW_DESC32(ICLASS_S3op" 0010 -------- PP------ --------","[#2] Rdd=(Rss,Rtt,Pu)")
-diff --git a/target/hexagon/imported/macros.def b/target/hexagon/imported/macros.def
-index 56c99b1..32ed3bf 100755
---- a/target/hexagon/imported/macros.def
-+++ b/target/hexagon/imported/macros.def
-@@ -92,6 +92,21 @@ DEF_MACRO(
-     /* attribs */
- )
- 
-+
-+DEF_MACRO(
-+    fINSERT_RANGE,
-+        {
-+            int offset=LOWBIT;
-+            int width=HIBIT-LOWBIT+1;
-+            /* clear bits where new bits go */
-+            INREG &= ~(((fCONSTLL(1)<<width)-1)<<offset);
-+            /* OR in new bits */
-+            INREG |= ((INVAL & ((fCONSTLL(1)<<width)-1)) << offset);
-+        },
-+    /* attribs */
-+)
-+
-+
- DEF_MACRO(
-     f8BITSOF,
-     ( (VAL) ? 0xff : 0x00),
-diff --git a/target/hexagon/imported/shift.idef b/target/hexagon/imported/shift.idef
-index e328ab7..b32c4e0 100644
---- a/target/hexagon/imported/shift.idef
-+++ b/target/hexagon/imported/shift.idef
-@@ -1029,6 +1029,53 @@ Q6INSN(S4_clbpaddi,"Rd32=add(clb(Rss32),#s6)",ATTRIBS(A_ARCHV2),
- { RdV = (fMAX(fCL1_8(RssV),fCL1_8(~RssV)))+siV;})
- 
- 
-+
-+Q6INSN(S2_cabacdecbin,"Rdd32=decbin(Rss32,Rtt32)",ATTRIBS(A_ARCHV3),"CABAC decode bin",
-+{
-+    fHIDE(size4u_t state;)
-+    fHIDE(size4u_t valMPS;)
-+    fHIDE(size4u_t bitpos;)
-+    fHIDE(size4u_t range;)
-+    fHIDE(size4u_t offset;)
-+    fHIDE(size4u_t rLPS;)
-+    fHIDE(size4u_t rMPS;)
-+
-+    state =  fEXTRACTU_RANGE( fGETWORD(1,RttV) ,5,0);
-+    valMPS = fEXTRACTU_RANGE( fGETWORD(1,RttV) ,8,8);
-+    bitpos = fEXTRACTU_RANGE( fGETWORD(0,RttV) ,4,0);
-+    range =  fGETWORD(0,RssV);
-+    offset = fGETWORD(1,RssV);
-+
-+    /* calculate rLPS */
-+    range <<= bitpos;
-+    offset <<= bitpos;
-+    rLPS = rLPS_table_64x4[state][ (range >>29)&3];
-+    rLPS  = rLPS << 23;   /* left aligned */
-+
-+    /* calculate rMPS */
-+    rMPS= (range&0xff800000) - rLPS;
-+
-+    /* most probable region */
-+    if (offset < rMPS) {
-+        RddV = AC_next_state_MPS_64[state];
-+        fINSERT_RANGE(RddV,8,8,valMPS);
-+        fINSERT_RANGE(RddV,31,23,(rMPS>>23));
-+        fSETWORD(1,RddV,offset);
-+        fWRITE_P0(valMPS);
-+
-+
-+    }
-+    /* least probable region */
-+    else {
-+        RddV = AC_next_state_LPS_64[state];
-+        fINSERT_RANGE(RddV,8,8,((!state)?(1-valMPS):(valMPS)));
-+        fINSERT_RANGE(RddV,31,23,(rLPS>>23));
-+        fSETWORD(1,RddV,(offset-rMPS));
-+        fWRITE_P0((valMPS^1));
-+    }
-+})
-+
-+
- Q6INSN(S2_clb,"Rd32=clb(Rs32)",ATTRIBS(),
- "Count leading bits", {RdV = fMAX(fCL1_4(RsV),fCL1_4(~RsV));})
- 
-diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-index a71da8c..1ffd531 100644
---- a/target/hexagon/macros.h
-+++ b/target/hexagon/macros.h
-@@ -222,6 +222,13 @@ static inline void gen_pred_cancel(TCGv pred, int slot_num)
-     (((HIBIT) - (LOWBIT) + 1) ? \
-         extract64((INREG), (LOWBIT), ((HIBIT) - (LOWBIT) + 1)) : \
-         0LL)
-+#define fINSERT_RANGE(INREG, HIBIT, LOWBIT, INVAL) \
-+    do { \
-+        int width = ((HIBIT) - (LOWBIT) + 1); \
-+        INREG = (width >= 0 ? \
-+            deposit64((INREG), (LOWBIT), width, (INVAL)) : \
-+            INREG); \
-+    } while (0)
- 
- #define f8BITSOF(VAL) ((VAL) ? 0xff : 0x00)
- 
-diff --git a/tests/tcg/hexagon/misc.c b/tests/tcg/hexagon/misc.c
-index e5d78b4..17c3919 100644
---- a/tests/tcg/hexagon/misc.c
-+++ b/tests/tcg/hexagon/misc.c
-@@ -231,6 +231,14 @@ static void check(int val, int expect)
-     }
- }
- 
-+static void check64(long long val, long long expect)
-+{
-+    if (val != expect) {
-+        printf("ERROR: 0x%016llx != 0x%016llx\n", val, expect);
-+        err++;
-+    }
-+}
-+
- uint32_t init[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
- uint32_t array[10];
- 
-@@ -264,6 +272,16 @@ static long long creg_pair(int x, int y)
-     return retval;
- }
- 
-+static long long decbin(long long x, long long y, int *pred)
-+{
-+    long long retval;
-+    asm ("%0 = decbin(%2, %3)\n\t"
-+         "%1 = p0\n\t"
-+         : "=r"(retval), "=r"(*pred)
-+         : "r"(x), "r"(y));
-+    return retval;
-+}
-+
- /* Check that predicates are auto-and'ed in a packet */
- static int auto_and(void)
- {
-@@ -282,6 +300,8 @@ static int auto_and(void)
- 
- int main()
- {
-+    long long res64;
-+    int pred;
- 
-     memcpy(array, init, sizeof(array));
-     S4_storerhnew_rr(array, 4, 0xffff);
-@@ -391,6 +411,14 @@ int main()
-     res = test_clrtnew(2, 7);
-     check(res, 7);
- 
-+    res64 = decbin(0xf0f1f2f3f4f5f6f7LL, 0x7f6f5f4f3f2f1f0fLL, &pred);
-+    check64(res64, 0x357980003700010cLL);
-+    check(pred, 0);
-+
-+    res64 = decbin(0xfLL, 0x1bLL, &pred);
-+    check64(res64, 0x78000100LL);
-+    check(pred, 1);
-+
-     res = auto_and();
-     check(res, 0);
- 
--- 
-2.7.4
-
+On 3/17/2021 4:47 PM, Chenyi Qiang wrote:
+> Virtual Machines can exploit bus locks to degrade the performance of
+> system. To address this kind of performance DOS attack, bus lock VM exit
+> is introduced in KVM and it will report the bus locks detected in guest,
+> which can help userspace to enforce throttling policies.
+> 
+> The availability of bus lock VM exit can be detected through the
+> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
+> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
+> bitmap is the only supported strategy at present. It indicates that KVM
+> will exit to userspace to handle the bus locks.
+> 
+> This patch adds a ratelimit on the bus locks acquired in guest as a
+> mitigation policy.
+> 
+> Introduce a new field "bld" to record the limited speed of bus locks in
+> target VM. The user can specify it through the "bus-lock-detection"
+> as a machine property. In current implementation, the default value of
+> the speed is 0 per second, which means no restriction on the bus locks.
+> 
+> Ratelimit enforced in data transmission uses a time slice of 100ms to
+> get smooth output during regular operations in block jobs. As for
+> ratelimit on bus lock detection, simply set the ratelimit interval to 1s
+> and restrict the quota of bus lock occurrence to the value of "bld". A
+> potential alternative is to introduce the time slice as a property
+> which can help the user achieve more precise control.
+> 
+> The detail of Bus lock VM exit can be found in spec:
+> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
+> 
+> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+> ---
+>   hw/i386/x86.c         |  6 ++++++
+>   include/hw/i386/x86.h |  7 +++++++
+>   target/i386/kvm/kvm.c | 44 +++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 57 insertions(+)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 7865660e2c..a70a259e97 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1209,6 +1209,12 @@ static void x86_machine_initfn(Object *obj)
+>       x86ms->acpi = ON_OFF_AUTO_AUTO;
+>       x86ms->smp_dies = 1;
+>       x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+> +    x86ms->bld = 0;
+> +
+> +    object_property_add_uint64_ptr(obj, "bus-lock-detection",
+> +                                   &x86ms->bld, OBJ_PROP_FLAG_READWRITE);
+> +    object_property_set_description(obj, "bus-lock-detection",
+> +            "Bus lock detection ratelimit");
+>   }
+>   
+>   static void x86_machine_class_init(ObjectClass *oc, void *data)
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index 56080bd1fb..1f0ffbcfb9 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -72,6 +72,13 @@ struct X86MachineState {
+>        * will be translated to MSI messages in the address space.
+>        */
+>       AddressSpace *ioapic_as;
+> +
+> +    /*
+> +     * ratelimit enforced on detected bus locks, the default value
+> +     * is 0 per second
+> +     */
+> +    uint64_t bld;
+> +    RateLimit bld_limit;
+>   };
+>   
+>   #define X86_MACHINE_SMM              "smm"
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index c8d61daf68..724862137d 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -130,6 +130,8 @@ static bool has_msr_mcg_ext_ctl;
+>   static struct kvm_cpuid2 *cpuid_cache;
+>   static struct kvm_msr_list *kvm_feature_msrs;
+>   
+> +#define SLICE_TIME 1000000000ULL /* ns */
+> +
+>   int kvm_has_pit_state2(void)
+>   {
+>       return has_pit_state2;
+> @@ -2267,6 +2269,27 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>           }
+>       }
+>   
+> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
+> +        X86MachineState *x86ms = X86_MACHINE(ms);
+> +
+> +        if (x86ms->bld > 0) {
+> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
+> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
+> +                error_report("kvm: bus lock detection unsupported");
+> +                return -ENOTSUP;
+> +            }
+> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
+> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
+> +            if (ret < 0) {
+> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
+> +                             strerror(-ret));
+> +                return ret;
+> +            }
+> +
+> +            ratelimit_set_speed(&x86ms->bld_limit, x86ms->bld, SLICE_TIME);
+> +        }
+> +    }
+> +
+>       return 0;
+>   }
+>   
+> @@ -4221,6 +4244,18 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
+>       }
+>   }
+>   
+> +static void kvm_rate_limit_on_bus_lock(void)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+> +    X86MachineState *x86ms = X86_MACHINE(ms);
+> +
+> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bld_limit, 1);
+> +
+> +    if (delay_ns) {
+> +        g_usleep(delay_ns / SCALE_US);
+> +    }
+> +}
+> +
+>   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+>   {
+>       X86CPU *x86_cpu = X86_CPU(cpu);
+> @@ -4236,6 +4271,11 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
+>       } else {
+>           env->eflags &= ~IF_MASK;
+>       }
+> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
+> +        kvm_cpu_synchronize_state(cpu);
+> +        warn_report("bus lock detected at rip: 0x%lx", env->eip);
+> +        kvm_rate_limit_on_bus_lock();
+> +    }
+>   
+>       /* We need to protect the apic state against concurrent accesses from
+>        * different threads in case the userspace irqchip is used. */
+> @@ -4594,6 +4634,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>           ioapic_eoi_broadcast(run->eoi.vector);
+>           ret = 0;
+>           break;
+> +    case KVM_EXIT_X86_BUS_LOCK:
+> +        /* already handled in kvm_arch_post_run */
+> +        ret = 0;
+> +        break;
+>       default:
+>           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>           ret = -1;
+> 
 
