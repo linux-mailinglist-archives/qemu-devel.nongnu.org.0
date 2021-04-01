@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4CCB351515
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 15:22:35 +0200 (CEST)
-Received: from localhost ([::1]:33614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B0C351519
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 15:23:45 +0200 (CEST)
+Received: from localhost ([::1]:39220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRxHO-0003lR-N9
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 09:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
+	id 1lRxIW-00065B-7n
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 09:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx80-0002Dw-GV
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31255)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx81-0002H1-RJ
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx7y-0004Xf-TX
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRx80-0004Yn-3w
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 09:12:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617282769;
+ s=mimecast20190719; t=1617282771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rJVoZDEu0mOF1Bz8VqNtK9s70wy3KsmhgCzkJS3gMGQ=;
- b=GF6yz853EhVadSKmvSKY7/b+FG1CwNU3afCSOfsG2DMCuOjXC/tifJqTqj1NPPMlc2mZfy
- jACnQGV6uvSSjd5Bg0/sZzMeMTBAueTTd8RM0qABPJpJ404SBU3alPeZiMpcEToo4v4AL/
- EifXuWZkXTzLDRXCCV5qMDd4CFU27Ao=
+ bh=WySVd8oh3uLzesZKC79sNuKWhpR6KcEfJgF3g+eNAd8=;
+ b=Mr4gmT8djfc3fVnOkjcsYuFeLY//tmw49/AgKl1idt4w6rwRbqyzV7g/sBYXTG38wiZCYU
+ uQLw7E1rQQJsCTLVaIekmVy0OEltCXMq6cuHR6qoT8T440Fzsp1KOQ1kqFTaZpnJMXb3fE
+ 090gAKZk7gOOa1h5yGc92XlXIOVdqp4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-DQmrdhS4N4i2tmRGeIIhLw-1; Thu, 01 Apr 2021 09:12:47 -0400
-X-MC-Unique: DQmrdhS4N4i2tmRGeIIhLw-1
+ us-mta-379-uYlYfjmoP8uLJxPFjmL5aQ-1; Thu, 01 Apr 2021 09:12:49 -0400
+X-MC-Unique: uYlYfjmoP8uLJxPFjmL5aQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F815A40CA;
- Thu,  1 Apr 2021 13:12:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B0D7814338;
+ Thu,  1 Apr 2021 13:12:48 +0000 (UTC)
 Received: from thuth.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0479C2AC82;
- Thu,  1 Apr 2021 13:12:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67FA219107;
+ Thu,  1 Apr 2021 13:12:47 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/13] docs: Fix typo in the default name of the
- qemu-system-x86_64 binary
-Date: Thu,  1 Apr 2021 15:12:19 +0200
-Message-Id: <20210401131220.3252320-13-thuth@redhat.com>
+Subject: [PULL 13/13] device-crash-test: Ignore errors about a bus not being
+ available
+Date: Thu,  1 Apr 2021 15:12:20 +0200
+Message-Id: <20210401131220.3252320-14-thuth@redhat.com>
 In-Reply-To: <20210401131220.3252320-1-thuth@redhat.com>
 References: <20210401131220.3252320-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,32 +78,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a '-' between 'qemu' and 'system', not a '_'.
+Recent QEMU versions now sometimes exit cleanly with an error message
+that a bus is not available for a specified device. Don't flag those
+as an error in the device-crash-test script.
 
-Fixes: 324b2298fe ("docs/system: convert Texinfo documentation to rST")
-Message-Id: <20210401051829.3169438-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210323164718.1393792-1-thuth@redhat.com>
+Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/defs.rst.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/device-crash-test | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/defs.rst.inc b/docs/defs.rst.inc
-index 48d05aaf33..52d6454b93 100644
---- a/docs/defs.rst.inc
-+++ b/docs/defs.rst.inc
-@@ -10,6 +10,6 @@
-    incorrectly in boldface.
+diff --git a/scripts/device-crash-test b/scripts/device-crash-test
+index 6d809ac711..8331c057b8 100755
+--- a/scripts/device-crash-test
++++ b/scripts/device-crash-test
+@@ -175,6 +175,7 @@ ERROR_RULE_LIST = [
+     {'log':r"Multiple VT220 operator consoles are not supported"},
+     {'log':r"core 0 already populated"},
+     {'log':r"could not find stage1 bootloader"},
++    {'log':r"No '.*' bus found for device"},
  
- .. |qemu_system| replace:: qemu-system-x86_64
--.. |qemu_system_x86| replace:: qemu_system-x86_64
-+.. |qemu_system_x86| replace:: qemu-system-x86_64
- .. |I2C| replace:: I\ :sup:`2`\ C
- .. |I2S| replace:: I\ :sup:`2`\ S
+     # other exitcode=1 failures not listed above will just generate INFO messages:
+     {'exitcode':1, 'loglevel':logging.INFO},
 -- 
 2.27.0
 
