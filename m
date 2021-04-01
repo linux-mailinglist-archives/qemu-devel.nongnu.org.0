@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4CC35146E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:25:08 +0200 (CEST)
-Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E5B351473
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 13:28:19 +0200 (CEST)
+Received: from localhost ([::1]:44004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRvRj-0002Un-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:25:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34154)
+	id 1lRvUo-0006Bz-Tk
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 07:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPF-0000ju-Aw
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:33 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44905)
+ id 1lRvPG-0000lY-1I
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:34 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lRvPD-0006gh-My
+ id 1lRvPD-0006gq-Td
  for qemu-devel@nongnu.org; Thu, 01 Apr 2021 07:22:33 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id e14so2301608ejz.11
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:28 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id b16so1526647eds.7
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 04:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BQ2k06TKvkRak3oJkOP50HBxN0KuGNiuSPZNaP9RB5o=;
- b=NjLQXYtswEi83ijiKTbBVcTBY4ZXaRs8AS31QtE3M2lA2+51v02UqCBtT7u/2KNEhG
- Z8e80FHf/qC7ZmDXhDWQjM86OPZvm7SYTC3q4u8itKdxiEH/EPqC19EiTFzpkVduUhH/
- z84xKyA8x0tth3kNs4peDateGw++qIiOGmnW69faB+w001g1yR6XXF1/bc6vRPxU1rgT
- iEw4SSYy1EW12R4Qi9/pUFrVPTW1k0jbUULq8nRQ8SqCu2MZB4AerumSExyyWkg91pr6
- wiklxzsVw2AOhyiJTOzCMgswZBMk0UkP4EFtVABcUs6SmrPc3IKL2haC+ZbKsDlugh9h
- XLxQ==
+ bh=lEWIVDCtkimYtMK0ltNHTGDin3qV16dT3jK9cH3aIDI=;
+ b=HhFegB0Hu2K6XbH+2BX+DNT8c9BbNMKQestSQX1WdY+EkZzV/sB85E8p+9jOs7fVML
+ wIxn8NCUGuSh7LhxKjfF/wOhJ8fe9vnuQSCW9HkYTZ+EICP6vNy4AyTWLlO1lXWC5EsM
+ nY9yi9cs/ulInHHFOkhlBYXNwnPKU0iMbncEE+YUKiLAF97P9xycMUeMSpYedGZbB8MJ
+ PdYgwQrw+yC/AZ3TzQLnA5n9IaabSApi+o/bSlNp7RPHbn8SYvJdTOyKuauBhYStzEhY
+ SjLcZTDRkN3To+Wt4djuhbwX8P8TaZoSGBFJrfrNDCYLQn8ICxkpIwx29M32cmDbpOwg
+ bMRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BQ2k06TKvkRak3oJkOP50HBxN0KuGNiuSPZNaP9RB5o=;
- b=glz/CYeE97RuCoKV/RbyW42dRTUDn9VFnRr3eDdU4DF+JhkuX18DFjs+DAvQxtuokG
- AeASqhrB/UWfcZ19tQ6+IS56EtqbGQaNJwvo/gcXHnPqOwfNj+gIM8SHTQcQ7+z0C/vx
- MYVl0Gqtoj3dyGMlhPBaaPK0DLaIc0UZpt48KwXGx5ylSRWwZoGd9cJheYZzaiDls4Xp
- xe91v+Td1Rj2AHVPvswnDgktbUtAEiqC5MKVpfHeAxkyIeXZn/osC8VxIXg7FuQXCVJj
- ug6Xpii83v4kVhEE+m4pX+0FbkWXM2R+J8/+yh+5mwEGk2RxJPUeFYwgDW7yh29onxuM
- E0VQ==
-X-Gm-Message-State: AOAM532keCvR/1/6DLB1zpNBwcuk/HOp0wBBW/AVoyk6nksUxY3lsWXs
- e3NxfoMcvgbvQbWUUijS2jzvXmvaOVU=
-X-Google-Smtp-Source: ABdhPJwbTN5MafkBHpewYcQ2iZsliIy+EW3jo4GKIAHYmJIwpiy8oUVZw5waxSn4cYXiUp0W1S+s+A==
-X-Received: by 2002:a17:906:9442:: with SMTP id
- z2mr8992610ejx.79.1617276147636; 
- Thu, 01 Apr 2021 04:22:27 -0700 (PDT)
+ bh=lEWIVDCtkimYtMK0ltNHTGDin3qV16dT3jK9cH3aIDI=;
+ b=CfcHvZpG4DMwTPMXMAIXMt6rX3+7K5v3d7LfzcImbW4FGndAwt/uCSXv76NzAC4vyd
+ spOh+UbPrA0zHJIUztHCXO8VFZ/ZG0JimNIigy4bxbVrE49MsRqfJ1M6M635pLlYEYgB
+ 1Km6S6gWtVL7vjQVh/iYNfjGEF75HQKpCTrZdqI4d/Sc6U3dtQ8NsNtfr65dzwo3QOWo
+ xxalmKgKmdLLr+stXvA11MGlSRxbHu+tdlAnn/bQng6dnkBcCrcZkiO/T6X/dq5OkCya
+ GL0rQJI5OwY8e2tCTs7hgGzinTgF2PMWrmb8vRvl2Dot+Fp+qw/Tqhk/ISp9fdiuJmFZ
+ U5Sw==
+X-Gm-Message-State: AOAM53132Tr89tavQOyXbd8QJRuYyGB2QbJ6xQKyQIGP8ZbERBSUu0+Y
+ kXfYXvjOus/U4bijO97A3AlfbC5MriA=
+X-Google-Smtp-Source: ABdhPJxFR9jAO7r8sW8lMV3pgTOMQKDPt5xCoDm4RufLoAco79BWeXcPucsHhPkfYSNs3OWc32Mnpw==
+X-Received: by 2002:aa7:c9d1:: with SMTP id i17mr9029326edt.46.1617276148241; 
+ Thu, 01 Apr 2021 04:22:28 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id d15sm3383516edx.62.2021.04.01.04.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 01 Apr 2021 04:22:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/12] replay: fix recursive checkpoints
-Date: Thu,  1 Apr 2021 13:22:15 +0200
-Message-Id: <20210401112223.55711-5-pbonzini@redhat.com>
+Subject: [PULL 05/12] Revert "qom: use qemu_printf to print help for
+ user-creatable objects"
+Date: Thu,  1 Apr 2021 13:22:16 +0200
+Message-Id: <20210401112223.55711-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210401112223.55711-1-pbonzini@redhat.com>
 References: <20210401112223.55711-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,51 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+From: Thomas Huth <thuth@redhat.com>
 
-Record/replay uses checkpoints to synchronize the execution
-of the threads and timers. Hardware events such as BH are
-processed at the checkpoints too.
-Event processing can cause refreshing the virtual timers
-and calling the icount-related functions, that also use checkpoints.
-This patch prevents recursive processing of such checkpoints,
-because they have their own records in the log and should be
-processed later.
+This reverts commit 6d9abb6de9cc53a508823db0283061824f2f98a2.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <161700476500.1140362.10108444973730452257.stgit@pasha-ThinkPad-X280>
+The real code change had already been added by Kevin's commit da0a932bbf
+("hmp: QAPIfy object_add") and commit 6d9abb6d just added a duplicated
+include statement as a left-over of a rebase.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210328054758.2351461-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- replay/replay.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ qom/object_interfaces.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/replay/replay.c b/replay/replay.c
-index c806fec69a..6df2abc18c 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -180,12 +180,13 @@ bool replay_checkpoint(ReplayCheckpoint checkpoint)
-     }
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index c3324b0f86..b17aa57de1 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -17,7 +17,6 @@
+ #include "qemu/qemu-print.h"
+ #include "qapi/opts-visitor.h"
+ #include "qemu/config-file.h"
+-#include "qemu/qemu-print.h"
  
-     if (in_checkpoint) {
--        /* If we are already in checkpoint, then there is no need
--           for additional synchronization.
-+        /*
-            Recursion occurs when HW event modifies timers.
--           Timer modification may invoke the checkpoint and
--           proceed to recursion. */
--        return true;
-+           Prevent performing icount warp in this case and
-+           wait for another invocation of the checkpoint.
-+        */
-+        g_assert(replay_mode == REPLAY_MODE_PLAY);
-+        return false;
-     }
-     in_checkpoint = true;
- 
+ bool user_creatable_complete(UserCreatable *uc, Error **errp)
+ {
 -- 
 2.30.1
 
