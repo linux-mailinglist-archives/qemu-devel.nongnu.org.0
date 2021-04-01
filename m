@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4250350E61
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 07:19:27 +0200 (CEST)
-Received: from localhost ([::1]:44410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38B1350E96
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 07:53:16 +0200 (CEST)
+Received: from localhost ([::1]:50356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRpjq-0000Dz-Nl
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 01:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
+	id 1lRqGZ-0004pw-Ce
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 01:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRpj6-0008GU-3L
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 01:18:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22777)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lRqFU-0004IO-97
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 01:52:08 -0400
+Received: from 1.mo51.mail-out.ovh.net ([178.32.121.110]:55779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRpj3-0008Rr-DV
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 01:18:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617254315;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+ZgKGYDUAqwB0ZU2iwhyHRbK1NrPHYdy6cUlBr6QwxI=;
- b=OvvrFuqm1nZRvuDSGML9V0YrxW+Vl0r3ry26PExwk9JKstQVcHbyerHGW2EjYZdZo0bTlO
- Elx0ahDZSVgYUou0KYGaZE7z1KkR8Zzdcxeiu+JzU77CgscLaYxB62JcPiiQ6Mi1WIMlo7
- cQLIw9DocrcJdLG/873Ad31fbBQ5Yig=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-GyjWRuxWNKW51GHVyLzEKA-1; Thu, 01 Apr 2021 01:18:34 -0400
-X-MC-Unique: GyjWRuxWNKW51GHVyLzEKA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C74276B9C1;
- Thu,  1 Apr 2021 05:18:32 +0000 (UTC)
-Received: from thuth.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4E255D748;
- Thu,  1 Apr 2021 05:18:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	pbonzini@redhat.com
-Subject: [PATCH] docs: Fix typo in the default name of the qemu-system-x86_64
- binary
-Date: Thu,  1 Apr 2021 07:18:29 +0200
-Message-Id: <20210401051829.3169438-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lRqFN-0003wF-PW
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 01:52:08 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.35])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id DF2D327A912;
+ Thu,  1 Apr 2021 07:51:57 +0200 (CEST)
+Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 1 Apr 2021
+ 07:51:56 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006286b2b47-9e79-43ca-b58f-aa332cd287af,
+ A2907451AC51A4EFF4C4D6DD6E02A54F207D12BE) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 1 Apr 2021 07:51:55 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2] ppc/spapr: Add support for implement support for
+ H_SCM_HEALTH
+Message-ID: <20210401075155.44b9267d@bahia.lan>
+In-Reply-To: <YGUvQ0XD+pQvWC/9@yekko.fritz.box>
+References: <20210401010519.7225-1-vaibhav@linux.ibm.com>
+ <YGUvQ0XD+pQvWC/9@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/7qo0K+59=sl2FU82aBhc9E8";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: d02a1d92-91ff-4346-b061-cafd730401e7
+X-Ovh-Tracer-Id: 6880655809270487483
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeifedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfejudetffetgfekveekvefhieekheekgefgvdelleelhffggeetfeeigffhleegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=groug@kaod.org;
+ helo=1.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,31 +69,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
+ bharata@linux.vnet.ibm.com, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
+ shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, imammedo@redhat.com,
+ Vaibhav Jain <vaibhav@linux.ibm.com>, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a '-' between 'qemu' and 'system', not a '_'.
+--Sig_/7qo0K+59=sl2FU82aBhc9E8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 324b2298fe ("docs/system: convert Texinfo documentation to rST")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/defs.rst.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 1 Apr 2021 13:26:11 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-diff --git a/docs/defs.rst.inc b/docs/defs.rst.inc
-index 48d05aaf33..52d6454b93 100644
---- a/docs/defs.rst.inc
-+++ b/docs/defs.rst.inc
-@@ -10,6 +10,6 @@
-    incorrectly in boldface.
- 
- .. |qemu_system| replace:: qemu-system-x86_64
--.. |qemu_system_x86| replace:: qemu_system-x86_64
-+.. |qemu_system_x86| replace:: qemu-system-x86_64
- .. |I2C| replace:: I\ :sup:`2`\ C
- .. |I2S| replace:: I\ :sup:`2`\ S
--- 
-2.27.0
+> On Thu, Apr 01, 2021 at 06:35:19AM +0530, Vaibhav Jain wrote:
+> > Add support for H_SCM_HEALTH hcall described at [1] for spapr
+> > nvdimms. This enables guest to detect the 'unarmed' status of a
+> > specific spapr nvdimm identified by its DRC and if its unarmed, mark
+> > the region backed by the nvdimm as read-only.
+> >=20
+> > The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
+> > returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
+> > from 'struct nvdimm->unarmed' member.
+> >=20
+> > Linux kernel side changes to enable handling of 'unarmed' nvdimms for
+> > ppc64 are proposed at [2].
+> >=20
+> > References:
+> > [1] "Hypercall Op-codes (hcalls)"
+> >     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
+tree/Documentation/powerpc/papr_hcalls.rst#n220
+> > [2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
+> >     https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibha=
+v@linux.ibm.com/
+> >=20
+> > Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+>=20
+> As well as the handful of comments below, this will definitely need to
+> wait for ppc-6.1 at this point.
+>=20
+> > ---
+> > Changelog
+> >=20
+> > v2:
+> > * Added a check for drc->dev to ensure that the dimm is plugged in
+> >   when servicing H_SCM_HEALTH. [ Shiva ]
+> > * Instead of accessing the 'nvdimm->unarmed' member directly use the
+> >   object_property_get_bool accessor to fetch it. [ Shiva ]
+> > * Update the usage of PAPR_PMEM_UNARMED* macros [ Greg ]
+> > * Updated patch description reference#1 to point appropriate section
+> >   in the documentation. [ Greg ]
+> > ---
+> >  hw/ppc/spapr_nvdimm.c  | 38 ++++++++++++++++++++++++++++++++++++++
+> >  include/hw/ppc/spapr.h |  3 ++-
+> >  2 files changed, 40 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+> > index b46c36917c..34096e4718 100644
+> > --- a/hw/ppc/spapr_nvdimm.c
+> > +++ b/hw/ppc/spapr_nvdimm.c
+> > @@ -31,6 +31,13 @@
+> >  #include "qemu/range.h"
+> >  #include "hw/ppc/spapr_numa.h"
+> > =20
+> > +/* DIMM health bitmap bitmap indicators. Taken from kernel's papr_scm.=
+c */
+> > +/* SCM device is unable to persist memory contents */
+> > +#define PAPR_PMEM_UNARMED (1ULL << (63 - 0))
+>=20
+> You can use PPC_BIT() for more clarity here.
+>=20
 
+I had already suggested PPC_BIT(0) but since this macro was copied
+from the kernel source, I've let Vaibhav decide whether to use
+PPC_BIT() or keep the macro and comment it comes from the kernel.
+
+I agree I prefer PPC_BIT(0) :-)
+
+> > +/* Bits status indicators for health bitmap indicating unarmed dimm */
+> > +#define PAPR_PMEM_UNARMED_MASK (PAPR_PMEM_UNARMED)
+>=20
+> I'm not sure why you want two equal #defines here.
+>=20
+
+Especially, this define doesn't make sense for the hypervisor IMHO.
+
+It is _just_ the mask of bits for the "unarmed" state in the kernel.
+
+> > +
+> >  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *=
+nvdimm,
+> >                             uint64_t size, Error **errp)
+> >  {
+> > @@ -467,6 +474,36 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *c=
+pu, SpaprMachineState *spapr,
+> >      return H_SUCCESS;
+> >  }
+> > =20
+> > +static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *s=
+papr,
+> > +                                 target_ulong opcode, target_ulong *ar=
+gs)
+> > +{
+> > +    uint32_t drc_index =3D args[0];
+> > +    SpaprDrc *drc =3D spapr_drc_by_index(drc_index);
+> > +    NVDIMMDevice *nvdimm;
+> > +
+> > +    if (drc && spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+>=20
+> This will fail badly if !drc (given index is way out of bounds).  I'm
+> pretty sure you want
+> 	if (!drc || spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+>=20
+>=20
+> > +        return H_PARAMETER;
+> > +    }
+> > +
+> > +    /* Ensure that the dimm is plugged in */
+> > +    if (!drc->dev) {
+> > +        return H_HARDWARE;
+>=20
+> H_HARDWARE doesn't seem right - it's the guest that has chosen to
+> attempt this on an unplugged LMB, not the (virtual) hardware's fault.
+>=20
+
+Yes. As already suggested, simply do the same as in other hcall
+implementations in this file, e.g. from h_scm_bind_mem() :
+
+    if (!drc || !drc->dev ||
+        spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+        return H_PARAMETER;
+    }
+
+> > +    }
+> > +
+> > +    nvdimm =3D NVDIMM(drc->dev);
+> > +
+> > +    args[0] =3D 0;
+> > +    /* Check if the nvdimm is unarmed and send its status via health b=
+itmaps */
+
+Not sure this comment is super useful.
+
+> > +    if (object_property_get_bool(OBJECT(nvdimm), NVDIMM_UNARMED_PROP, =
+NULL)) {
+> > +        args[0] |=3D PAPR_PMEM_UNARMED;
+> > +    }
+> > +
+> > +    /* Update the health bitmap with the applicable mask */
+> > +    args[1] =3D PAPR_PMEM_UNARMED_MASK;
+
+I still think this is a misuse of PAPR_PMEM_UNARMED_MASK... The
+meaning of args[1] is "health-bit-valid-bitmap indicate which
+bits in health-bitmap are valid" according to the documentation.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Doc=
+umentation/powerpc/papr_hcalls.rst#n228
+
+Without any further detail, I tend to consider this as a hint
+to the guest on the bits supported by the hypervisor. Since
+we can only set PAPR_PMEM_UNARMED, for now, args[1] should
+be set to just that bit PAPR_PMEM_UNARMED. Other bits can
+be added later if QEMU supports more of them.
+
+> > +
+> > +    return H_SUCCESS;
+> > +}
+> > +
+> >  static void spapr_scm_register_types(void)
+> >  {
+> >      /* qemu/scm specific hcalls */
+> > @@ -475,6 +512,7 @@ static void spapr_scm_register_types(void)
+> >      spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
+> >      spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
+> >      spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
+> > +    spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
+> >  }
+> > =20
+> >  type_init(spapr_scm_register_types)
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index 47cebaf3ac..6e1eafb05d 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -538,8 +538,9 @@ struct SpaprMachineState {
+> >  #define H_SCM_BIND_MEM          0x3EC
+> >  #define H_SCM_UNBIND_MEM        0x3F0
+> >  #define H_SCM_UNBIND_ALL        0x3FC
+> > +#define H_SCM_HEALTH            0x400
+> > =20
+> > -#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
+> > +#define MAX_HCALL_OPCODE        H_SCM_HEALTH
+> > =20
+> >  /* The hcalls above are standardized in PAPR and implemented by pHyp
+> >   * as well.
+>=20
+
+
+--Sig_/7qo0K+59=sl2FU82aBhc9E8
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmBlX3sACgkQcdTV5YIv
+c9YBlA//S0kZnzRddcnbSPO/BIdgPu/FpvEbVCzApps8NIrR/lNT59nRz2+B62Lq
+vKwq+ueubX/Hj3ipYRMeIQouk7FsJNi+ZbDvvlO4htEeNrswm7BOMUIMZRJt2+Cz
+NDNfkQwfCPIdKPWiUUGIv6ZOSESMcaHBs6VrVeqiqPG+YOmXcrhwDtjEk+fw1NCf
+iX6inkhCeBcK+C7L+YcwXIypyAL28PWUwAyEHjk6M+TQGa+WXo4QiUSYyJnXr+no
+um8RqSdSejrcmM4DEtEi8k+Rg9Yr3nf2fc4vGXiT1eqbkHSATg9gy6lO7fZOp0p8
+nQPWY95Q7ghm7CSUpwTJv2bjL0bDVGIJ0/kD4m4+MhrBSnAapM/Hr8FtY18DvKng
+5qSApuVDlY0XwUEPXtKBahIHlwT1o0O/EozsA8ybVx7TsXJBZ1gLbfqNOQn1UTDi
+01QviqIKCAROXt4tBRqr2l359XoD1So/e5BoEPP71Dfi1LipOoMM9chuRB58cD+D
+qI+sDH9kcxiQMUEhjUSqXo53ADHFFexK8LIYL0h51fDBT4P0/4mYT9zwlWEIXRCo
+0AHdhgYWpby09pS8N8A8BQStTnQC306i5C34bPnYFbs8t25QFL4BY7B44qzb3aF+
+52yfDjcBtBy85NuNPlQitbwIkG5KyQUUZ5HBu2y7UCrsx7S/L5w=
+=Qqjn
+-----END PGP SIGNATURE-----
+
+--Sig_/7qo0K+59=sl2FU82aBhc9E8--
 
