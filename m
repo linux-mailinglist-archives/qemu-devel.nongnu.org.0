@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE1A35127B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:39:35 +0200 (CEST)
-Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A9A351282
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 11:41:27 +0200 (CEST)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRtna-0005MF-Pj
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56020)
+	id 1lRtpO-0006T9-Qg
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 05:41:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <0xc0de0125@gmail.com>)
- id 1lRtkn-0003fJ-AR; Thu, 01 Apr 2021 05:36:41 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:40805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <0xc0de0125@gmail.com>)
- id 1lRtkk-0006Fq-VJ; Thu, 01 Apr 2021 05:36:40 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- a22-20020a17090aa516b02900c1215e9b33so2769392pjq.5; 
- Thu, 01 Apr 2021 02:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R3pZVWUZsq0lfvQA1XeBZseC1FjiJbe7pK8DgkQJPwA=;
- b=YbtKmfiBuqPuVnDxfYgOq6TIjVBidCvESkmKr5QB5hqXJEZIBjSp/h8x+BVoRzl6S8
- BFP9twICe0kTG7bQI1QDvO7zPWiQJJIrr9l47qP6wAtzSXW0T27cyl4xSv2Ya6Z1sNrV
- HFGmhOCwMVW92lDnE5d4JHp9+8coBMzUhFCeANyYgFvZtr7XMTgvdDaeP2uzhKzNr5hM
- tk/vRbbQ+3JOOyuCIcgReMm+poCEXt+X8jG4M8nIVcBRtmkdw4fQ5Gy94m8vjMdLo68z
- /GTs6jQh+GqUWkyZ5R933EVN1fCi8bmczyDDcSUbAnhOid4KFJV7W771I2BTzC2X6U8S
- lDfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R3pZVWUZsq0lfvQA1XeBZseC1FjiJbe7pK8DgkQJPwA=;
- b=BcK93i9PimwfgxN3PnQcFtHCbFQ06QT1KDasc85It8oxlORq5SKn+hwxEt0odx+tMU
- LSTkKqNdCtmJaRLZfbY8Il0K66ijwviz665hY45nepOWsT5sDMEyLh6HbfFvdmEoq7GN
- AXlmSj2S8QVVXRvH1nbzXuh16h3jHo5Y8M/6WbsMMrbDnoUYa5vs5KSSRBc5SvZ8GJHD
- 52gwBFZMyh6SeuG8YPTolWy4iMNXIlRfd7MjWFtoO4OWDJ0ZsafQ8zfj6h15UiIFiFE2
- gpoB8rKSBq2st+A9vDqrsCYNKuYW99OZzYYm8yFAPZihh8gf1KPbk4q0qjWO/X0D9jab
- lJCA==
-X-Gm-Message-State: AOAM530O33iEzkPI6/wCAujgv56SxdlYwdHw2g+yi7kI0GX/50XT0X5+
- 1D+2bOzEAdHFFZoSzJr9nkP97lp8F7lJKfuvsww=
-X-Google-Smtp-Source: ABdhPJwKU61CACGOnn5u1GFHMGV3f4gz5jKNKNod65sW9g7S6bo7ytbAasvDIn6qHeYdu2UZS7EYRIffgLr2yz5h0eI=
-X-Received: by 2002:a17:902:da8d:b029:e5:c7d9:81f2 with SMTP id
- j13-20020a170902da8db02900e5c7d981f2mr7101745plx.21.1617269796519; Thu, 01
- Apr 2021 02:36:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRtnD-0005a7-0O
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27281)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lRtn9-0007jz-UK
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 05:39:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617269945;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=T+se/5mTiAgAH536orvPybAUb2A6mrIQSgLkYGbYhmg=;
+ b=F8VCSQHM/+G9METoCZX2ggQbv4lifE1PHZv0yVmJnqj6e6K5IQGTF0VJ2AtAp5ep1aDNyg
+ Lperw8tLL2UxuAqLdVD0oInCpTBV0ORt4OM7WlIRYi1UxAckHI4SBKvJw/TUv4IVqZN7Eo
+ 2Y1FybaiuilAn7ivz9cJewz/+qtoc0c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-wFCOppchMGSwPjoMYknbNQ-1; Thu, 01 Apr 2021 05:39:04 -0400
+X-MC-Unique: wFCOppchMGSwPjoMYknbNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7568B107B7C3;
+ Thu,  1 Apr 2021 09:39:03 +0000 (UTC)
+Received: from redhat.com (ovpn-114-106.ams2.redhat.com [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53D8510016FD;
+ Thu,  1 Apr 2021 09:38:58 +0000 (UTC)
+Date: Thu, 1 Apr 2021 10:38:55 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Vincent Bernat <vincent@bernat.ch>
+Subject: Re: [PATCH v2 2/2] hw/smbios: retrieve PCI address from specified
+ device for Type 41
+Message-ID: <YGWUrw9wgOI1E3aN@redhat.com>
+References: <20210401082544.16522-1-vincent@bernat.ch>
+ <20210401082544.16522-2-vincent@bernat.ch>
 MIME-Version: 1.0
-References: <20210401092659.12014-1-frank.chang@sifive.com>
-In-Reply-To: <20210401092659.12014-1-frank.chang@sifive.com>
-From: Frank Chang <0xc0de0125@gmail.com>
-Date: Thu, 1 Apr 2021 17:36:25 +0800
-Message-ID: <CANzO1D18x0DWgWdw0eYnd3w=bUJLwf_mHQOXh9Z_Nodew=nPmg@mail.gmail.com>
-Subject: Re: [RFC v2 0/4] target/riscv: add RNMI support
-To: frank.chang@sifive.com
-Content-Type: multipart/alternative; boundary="000000000000ba416805bee5f7b1"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=0xc0de0125@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210401082544.16522-2-vincent@bernat.ch>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,313 +80,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ba416805bee5f7b1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Apr 01, 2021 at 10:25:44AM +0200, Vincent Bernat wrote:
+> Instead of specifying the PCI address manually, the device can be
+> specified by ID:
+> 
+>     $QEMU -netdev user,id=internet
+>           -device virtio-net-pci,mac=50:54:00:00:00:42,netdev=internet,id=internet-dev \
+>           -smbios type=41,designation='Onboard LAN',instance=1,kind=ethernet,pcidev=internet-dev
+> 
+> The PCI segment is assumed to be 0. This should hold true for most
+> cases.
+> 
+>     $ dmidecode -t 41
+>     # dmidecode 3.3
+>     Getting SMBIOS data from sysfs.
+>     SMBIOS 2.8 present.
+> 
+>     Handle 0x2900, DMI type 41, 11 bytes
+>     Onboard Device
+>             Reference Designation: Onboard LAN
+>             Type: Ethernet
+>             Status: Enabled
+>             Type Instance: 1
+>             Bus Address: 0000:00:09.0
+> 
+>     $ ip -brief a
+>     lo               UNKNOWN        127.0.0.1/8 ::1/128
+>     eno1             UP             10.0.2.14/24 fec0::5254:ff:fe00:42/64 fe80::5254:ff:fe00:42/64
+> 
+> Signed-off-by: Vincent Bernat <vincent@bernat.ch>
+> ---
+>  hw/smbios/smbios.c | 47 +++++++++++++++++++++-------------------------
+>  qemu-options.hx    |  2 +-
+>  2 files changed, 22 insertions(+), 27 deletions(-)
 
-<frank.chang@sifive.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=881=E6=97=A5 =E9=80=
-=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:27=E5=AF=AB=E9=81=93=EF=BC=9A
+It doesn't really make sense to have this as a separate patch
+when it is deleting half the code you added in the previous
+patch. Just merge them together as one.
 
-> From: Frank Chang <frank.chang@sifive.com>
->
-> This patchset add suport of Resumable NMI (RNMI) in RISC-V.
->
-> There are four new CSRs and one new instruction added to allow NMI to be
-> resumable in RISC-V, which are:
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   * mnscratch (0x350)
->   * mnepc     (0x351)
->   * mncause   (0x352)
->   * mnstatus  (0x353)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   * mnret: To return from RNMI interrupt/exception handler.
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> RNMI also has higher priority than any other interrupts or exceptions
-> and cannot be disable by software.
->
-> RNMI may be used to route to other devices such as Bus Error Unit or
-> Watchdog Timer in the future.
->
-> The interrupt/exception trap handler addresses of RNMI are
-> implementation defined.
->
-> The technical proposal of RNMI can be found:
-> https://lists.riscv.org/g/tech-privileged/message/421
->
-> The port is available here:
-> https://github.com/sifive/qemu/tree/nmi-upstream-v2
->
-> To test RNMI, we have created another QEMU branch to have
-> RNMI feature enabled and also both SiFive Bus Error Unit and
-> Error Device included on sifive_e machine.
->
-> Bus Error Unit (BEU) is routed to RNMI with mncause value set to 3.
-> When any reads or writes to Error Device, it will drive BEU RNMI.
-> A freedom-e-sdk RNMI example is also provided for testing.
-> (We will also upstream BEU and Error Device in the near future.)
->
-> Two -cpu options are added for RNMI and BEU:
->   * rnmi=3Dtrue to enable RNMI feature
->   * beu=3Dtrue to enable BEU feature
->
-> Download and build freedom-e-sdk rnmi example:
->
-> 1. git clone git@github.com:sifive/freedom-e-sdk.git
-> 2. cd freedom-e-sdk
-> 3. git checkout origin/dev/yihaoc/nmi -b nmi
-> 4. git submodule init
-> 5. git submodule update --recursive
-> 6. Follow freedom-e-sdk guide to install freedom-e-sdk:
->    https://sifive.github.io/freedom-e-sdk-docs/index.html
-> 7. make PROGRAM=3Dexample-rnmi TARGET=3Dqemu-sifive-e31 \
->     CONFIGURATION=3Drelease software
->
+> 
+> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> index 46a08652dff4..0f390e03453c 100644
+> --- a/hw/smbios/smbios.c
+> +++ b/hw/smbios/smbios.c
+> @@ -27,6 +27,7 @@
+>  #include "hw/firmware/smbios.h"
+>  #include "hw/loader.h"
+>  #include "hw/boards.h"
+> +#include "hw/pci/pci.h"
+>  #include "smbios_build.h"
+>  
+>  /* legacy structures and constants for <= 2.0 machines */
+> @@ -134,12 +135,8 @@ static QEnumLookup type41_kind_lookup = {
+>      .size = 10
+>  };
+>  struct type41_instance {
+> -    const char *designation;
+> +    const char *designation, *pcidev;
+>      uint8_t instance, kind;
+> -    struct {
+> -        uint16_t segment;
+> -        uint8_t bus, device;
+> -    } pci;
+>      QTAILQ_ENTRY(type41_instance) next;
+>  };
+>  static QTAILQ_HEAD(, type41_instance) type41 = QTAILQ_HEAD_INITIALIZER(type41);
+> @@ -403,10 +400,9 @@ static const QemuOptDesc qemu_smbios_type41_opts[] = {
+>          .type = QEMU_OPT_NUMBER,
+>          .help = "device type instance",
+>      },{
+> -        .name = "pci",
+> +        .name = "pcidev",
+>          .type = QEMU_OPT_STRING,
+>          .help = "PCI device",
+> -        .def_value_str = "0:0.0",
+>      },
+>      { /* end of list */ }
+>  };
+> @@ -837,9 +833,23 @@ static void smbios_build_type_41_table(void)
+>          SMBIOS_TABLE_SET_STR(41, reference_designation_str, t41->designation);
+>          t->device_type = t41->kind;
+>          t->device_type_instance = t41->instance;
+> -        t->segment_group_number = cpu_to_le16(t41->pci.segment);
+> -        t->bus_number = t41->pci.bus;
+> -        t->device_number = t41->pci.device;
+> +
+> +        if (t41->pcidev) {
+> +            PCIDevice *pdev = NULL;
+> +            int rc = pci_qdev_find_device(t41->pcidev, &pdev);
+> +            if (rc == 0) {
+> +                /*
+> +                 * TODO: Extract the appropriate value. Most of the
+> +                 * time, this will be 0.
+> +                 */
+> +                t->segment_group_number = cpu_to_le16(0);
 
-freedom-e-sdk RNMI example code is available at:
-https://github.com/sifive/freedom-e-sdk/tree/dev/yihaoc/nmi/software/exampl=
-e-rnmi
+Hmm, tricky, as it requires interpreting the PCI topology. Wonder if
+there's any helper that can do the hard work for you
 
+> +                t->bus_number = pci_dev_bus_num(pdev);
+> +                t->device_number = pdev->devfn;
+> +            } else {
+> +                fprintf(stderr, "%s: cannot find PCI device %s\n",
+> +                        __func__, t41->pcidev);
 
->
-> Download, build and run freedom-e-sdk RNMI example on QEMU:
->
-> 1. git clone git@github.com:sifive/qemu.git
-> 2. cd qemu
-> 3. git checkout origin/upstream-nmi-beu-error-device -b
-> nmi-beu-error-device
-> 4. git submodule init
-> 5. git submodule update --recursive
-> 6. ./configure --target-list=3Driscv32-softmmu
-> 7. make -j
-> 8. <path to qemu-system-riscv32> -nographic -M sifive_e \
->     -cpu rv32,rnmi=3Dtrue,beu=3Dtrue \
->     --bios none -kernel <path to example-rnmi.elf>
->
-> Output example:
->
-> RNMI Driver Example.
-> Cleared accrued bus error
-> Enter RNMI interrupt ISR.
-> mnscratch: 0x00000000
-> mnepc: 0x20401178
-> mncause: 0x00000003
-> mnstatus: 0x00001800
-> Try to trigger illegal instruction exception.
-> Enter RNMI exception ISR.
-> mscratch: 0x00000000
-> mepc: 0x20401208
-> mcause: 0x00000002
-> mstatus: 0x80007800
-> Return from RNMI exception ISR.
-> Handled TileLink bus error
-> Return from RNMI interrupt ISR.
-> Test passed!!
->
-> Changelog:
->
-> v2
->   * split up the series into more commits for convenience of review.
->   * add missing rnmi_irqvec and rnmi_excpvec properties to riscv_harts.
->
-> Frank Chang (4):
->   target/riscv: add RNMI cpu feature
->   target/riscv: add RNMI CSRs
->   target/riscv: handle RNMI interrupt and exception
->   target/riscv: add RNMI mnret instruction
->
->  hw/riscv/riscv_hart.c                         |  8 +++
->  include/hw/riscv/riscv_hart.h                 |  2 +
->  target/riscv/cpu.c                            | 40 +++++++++++++
->  target/riscv/cpu.h                            | 16 ++++-
->  target/riscv/cpu_bits.h                       | 19 ++++++
->  target/riscv/cpu_helper.c                     | 49 +++++++++++++--
->  target/riscv/csr.c                            | 59 +++++++++++++++++++
->  target/riscv/helper.h                         |  1 +
->  target/riscv/insn32.decode                    |  3 +
->  .../riscv/insn_trans/trans_privileged.c.inc   | 13 ++++
->  target/riscv/op_helper.c                      | 31 ++++++++++
->  11 files changed, 236 insertions(+), 5 deletions(-)
->
-> --
-> 2.17.1
->
->
->
+This isn't terminating execution which looks like a bug.
 
---000000000000ba416805bee5f7b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Modify this method to have an 'Error **errp' parameter and
+use 'error_setg' to report it.  You'll need to modify the
+smbios_get_tables caller to have an 'Error **errp' too.
 
-<div dir=3D"ltr"><div dir=3D"ltr">&lt;<a href=3D"mailto:frank.chang@sifive.=
-com">frank.chang@sifive.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=881=E6=
-=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:27=E5=AF=AB=E9=81=93=EF=BC=9A=
-<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com"=
- target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-This patchset add suport of Resumable NMI (RNMI) in RISC-V.<br>
-<br>
-There are four new CSRs and one new instruction added to allow NMI to be<br=
->
-resumable in RISC-V, which are:<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-=C2=A0 * mnscratch (0x350)<br>
-=C2=A0 * mnepc=C2=A0 =C2=A0 =C2=A0(0x351)<br>
-=C2=A0 * mncause=C2=A0 =C2=A0(0x352)<br>
-=C2=A0 * mnstatus=C2=A0 (0x353)<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-=C2=A0 * mnret: To return from RNMI interrupt/exception handler.<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-<br>
-RNMI also has higher priority than any other interrupts or exceptions<br>
-and cannot be disable by software.<br>
-<br>
-RNMI may be used to route to other devices such as Bus Error Unit or<br>
-Watchdog Timer in the future.<br>
-<br>
-The interrupt/exception trap handler addresses of RNMI are<br>
-implementation defined.<br>
-<br>
-The technical proposal of RNMI can be found:<br>
-<a href=3D"https://lists.riscv.org/g/tech-privileged/message/421" rel=3D"no=
-referrer" target=3D"_blank">https://lists.riscv.org/g/tech-privileged/messa=
-ge/421</a><br>
-<br>
-The port is available here:<br>
-<a href=3D"https://github.com/sifive/qemu/tree/nmi-upstream-v2" rel=3D"nore=
-ferrer" target=3D"_blank">https://github.com/sifive/qemu/tree/nmi-upstream-=
-v2</a><br>
-<br>
-To test RNMI, we have created another QEMU branch to have<br>
-RNMI feature enabled and also both SiFive Bus Error Unit and<br>
-Error Device included on sifive_e machine.<br>
-<br>
-Bus Error Unit (BEU) is routed to RNMI with mncause value set to 3.<br>
-When any reads or writes to Error Device, it will drive BEU RNMI.<br>
-A freedom-e-sdk RNMI example is also provided for testing.<br>
-(We will also upstream BEU and Error Device in the near future.)<br>
-<br>
-Two -cpu options are added for RNMI and BEU:<br>
-=C2=A0 * rnmi=3Dtrue to enable RNMI feature<br>
-=C2=A0 * beu=3Dtrue to enable BEU feature<br>
-<br>
-Download and build freedom-e-sdk rnmi example:<br>
-<br>
-1. git clone git@github.com:sifive/freedom-e-sdk.git<br>
-2. cd freedom-e-sdk<br>
-3. git checkout origin/dev/yihaoc/nmi -b nmi<br>
-4. git submodule init<br>
-5. git submodule update --recursive<br>
-6. Follow freedom-e-sdk guide to install freedom-e-sdk:<br>
-=C2=A0 =C2=A0<a href=3D"https://sifive.github.io/freedom-e-sdk-docs/index.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://sifive.github.io/freedom-=
-e-sdk-docs/index.html</a><br>
-7. make PROGRAM=3Dexample-rnmi TARGET=3Dqemu-sifive-e31 \<br>
-=C2=A0 =C2=A0 CONFIGURATION=3Drelease software<br></blockquote><div><br></d=
-iv><div>freedom-e-sdk RNMI example code is available at:</div><div><a href=
-=3D"https://github.com/sifive/freedom-e-sdk/tree/dev/yihaoc/nmi/software/ex=
-ample-rnmi">https://github.com/sifive/freedom-e-sdk/tree/dev/yihaoc/nmi/sof=
-tware/example-rnmi</a><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-Download, build and run freedom-e-sdk RNMI example on QEMU:<br>
-<br>
-1. git clone git@github.com:sifive/qemu.git<br>
-2. cd qemu<br>
-3. git checkout origin/upstream-nmi-beu-error-device -b nmi-beu-error-devic=
-e<br>
-4. git submodule init<br>
-5. git submodule update --recursive<br>
-6. ./configure --target-list=3Driscv32-softmmu<br>
-7. make -j<br>
-8. &lt;path to qemu-system-riscv32&gt; -nographic -M sifive_e \<br>
-=C2=A0 =C2=A0 -cpu rv32,rnmi=3Dtrue,beu=3Dtrue \<br>
-=C2=A0 =C2=A0 --bios none -kernel &lt;path to example-rnmi.elf&gt;<br>
-<br>
-Output example:<br>
-<br>
-RNMI Driver Example.<br>
-Cleared accrued bus error<br>
-Enter RNMI interrupt ISR.<br>
-mnscratch: 0x00000000<br>
-mnepc: 0x20401178<br>
-mncause: 0x00000003<br>
-mnstatus: 0x00001800<br>
-Try to trigger illegal instruction exception.<br>
-Enter RNMI exception ISR.<br>
-mscratch: 0x00000000<br>
-mepc: 0x20401208<br>
-mcause: 0x00000002<br>
-mstatus: 0x80007800<br>
-Return from RNMI exception ISR.<br>
-Handled TileLink bus error<br>
-Return from RNMI interrupt ISR.<br>
-Test passed!!<br>
-<br>
-Changelog:<br>
-<br>
-v2<br>
-=C2=A0 * split up the series into more commits for convenience of review.<b=
-r>
-=C2=A0 * add missing rnmi_irqvec and rnmi_excpvec properties to riscv_harts=
-.<br>
-<br>
-Frank Chang (4):<br>
-=C2=A0 target/riscv: add RNMI cpu feature<br>
-=C2=A0 target/riscv: add RNMI CSRs<br>
-=C2=A0 target/riscv: handle RNMI interrupt and exception<br>
-=C2=A0 target/riscv: add RNMI mnret instruction<br>
-<br>
-=C2=A0hw/riscv/riscv_hart.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 8 +++<br>
-=C2=A0include/hw/riscv/riscv_hart.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
-=C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 40 +++++++++++++<br>
-=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 16 ++++-<br>
-=C2=A0target/riscv/cpu_bits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 19 ++++++<br>
-=C2=A0target/riscv/cpu_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 49 +++++++++++++--<br>
-=C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 59 +++++++++++++++++++<b=
-r>
-=C2=A0target/riscv/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A0target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +<br>
-=C2=A0.../riscv/insn_trans/trans_privileged.c.inc=C2=A0 =C2=A0| 13 ++++<br>
-=C2=A0target/riscv/op_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 31 ++++++++++<br>
-=C2=A011 files changed, 236 insertions(+), 5 deletions(-)<br>
-<br>
---<br>
-2.17.1<br>
-<br>
-<br>
-</blockquote></div></div>
+For the callers of smbios_get_tables(), you can then just pass
+in '&error_fatal', to make it print the error + exit.
 
---000000000000ba416805bee5f7b1--
+> +            }
+> +        }
+>  
+>          SMBIOS_BUILD_TABLE_POST;
+>          instance++;
+> @@ -1301,7 +1311,6 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>          case 41: {
+>              struct type41_instance *t;
+>              Error *local_err = NULL;
+> -            int pseg, pbus, pdevice, pfunction;
+>  
+>              if (!qemu_opts_validate(opts, qemu_smbios_type41_opts, errp)) {
+>                  return;
+> @@ -1324,21 +1333,7 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>                  return;
+>              }
+>              t->instance = qemu_opt_get_number(opts, "instance", 1);
+> -            if (sscanf(qemu_opt_get(opts, "pci"), "%x:%x:%x.%x",
+> -                       &pseg,
+> -                       &pbus,
+> -                       &pdevice,
+> -                       &pfunction) != 4) {
+> -                error_setg(errp, "unable to parse %s: %s",
+> -                           qemu_opt_get(opts, "pci"),
+> -                           g_strerror(errno));
+> -                free(t);
+> -                return;
+> -            }
+> -            t->pci.segment = pseg;
+> -            t->pci.bus = pbus;
+> -            t->pci.device = ((uint8_t)pdevice << 3) +
+> -                ((uint8_t)pfunction & 0x7);
+> +            save_opt(&t->pcidev, opts, "pcidev");
+>  
+>              QTAILQ_INSERT_TAIL(&type41, t, next);
+>              return;
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index eb2de7c372c7..e6e54f9bd1f3 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2371,7 +2371,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+>      "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
+>      "               [,asset=str][,part=str][,speed=%d]\n"
+>      "                specify SMBIOS type 17 fields\n"
+> -    "-smbios type=41[,designation=str][,kind=str][,instance=%d][,pci=%x:%x:%x.%x]\n"
+> +    "-smbios type=41[,designation=str][,kind=str][,instance=%d][,pcidev=str]\n"
+>      "                specify SMBIOS type 41 fields\n",
+>      QEMU_ARCH_I386 | QEMU_ARCH_ARM)
+>  SRST
+> -- 
+> 2.31.0
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
