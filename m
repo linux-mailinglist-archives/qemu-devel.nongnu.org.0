@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B7E3514F3
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:57:59 +0200 (CEST)
-Received: from localhost ([::1]:57914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961A33514F6
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 15:01:11 +0200 (CEST)
+Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRwta-0003bk-Cy
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57126)
+	id 1lRwwg-0006hb-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 09:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lRwrY-0001hN-9e
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:52 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:38673)
+ id 1lRwrZ-0001jM-8k
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:53 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:36821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lRwrW-0002yI-9a
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:51 -0400
-Received: by mail-oi1-x232.google.com with SMTP id v25so1670603oic.5
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:55:49 -0700 (PDT)
+ id 1lRwrX-0002yh-Bf
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:52 -0400
+Received: by mail-oi1-x234.google.com with SMTP id c16so1683343oib.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3J/atxW6sPYnXqaJSp9SobS3v6A+MNQfu9eol6wNQ30=;
- b=KLY2oOlZTJhTWb3UIrY7e18uqGaEK2xvaLysjy7MJtXDUs070MMjii5B4pBurCYFB9
- qySEVXiBaIzM0zCr1wF5LRLFklKjryKdF4V+Ug1skqIkv8ikHCHm+kZ5tpmWtdi5UGu2
- /97WcZu7SwcIDTJ9VvhwmCa4kSEfeYP9+39Ih4ic7s689TE6ePHfbRFrhhF6w6lgZUkI
- ZLw+KHl7q9hCrNC0agH+YU+Yts7W4j2ihJVWC4h/P2XxEFxRwJdARNVx+zRc61IRYOMr
- 5pYDPuQG8slq6+QpGrJpgfKnqoe9JhyDu/ob63LNibEFpMHwzlMII2tepurVV8KyYQge
- lNcA==
+ bh=+OpEDkbIB7gVmSFeUBZiFRPGe0lGXnIYEfiFDB8srwo=;
+ b=CYVY4YuydGCWk0nJSlP1qJfy9o6yJBcE3EDK9jEIsAXofVhlRpOD2LhyrO+Bp/yjsy
+ ngm18JleIuDltQgCDFeFMG1RMq1hraG4/9RbFTIJ8Yypz+BoGgs8eXFcCtiw4/vT4KNU
+ 11h7sAGIYB0jrQ0VGx03UDyvuiv6n5rmFwQWrboO0KvGCtLjDjCDAmb/wi6upGxuvxOk
+ Eq7PGSdHM8g6oUnO/C9J0GcB+tC9Gld4Sc3aQX6vQdSBgqv7HCPte1tVPT2HBPCpqNAo
+ 4BHwd2e98+MothDGRxtYeBNbzXa7GMwN47vU7JR+6GGeDbTfsVUgX315EWoaABegdoGo
+ +gXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3J/atxW6sPYnXqaJSp9SobS3v6A+MNQfu9eol6wNQ30=;
- b=nGCtI3msWmXxwvdY8+8rzQYRV/wqyuhKiZwNJQo9l73SZImH8u4zJyriTI9jmq3bQG
- hUAyEFEqt3pmmzsa7WyP8/C6zHFfX92ad9wBb+15ngypOFeC+Ogs7gWB7eQ5/4YjrZ2H
- P+nF9asVpsgmt2lvO11g4vsL/AyNo7n2KND76nHaBNVWyjUvd0Ml3G4L0FgRny2Ff6OE
- HDGaGYmrJc8dBHrHPg2olfjgieiek6nyGidbjI+oCmbf+P3KzW5gAg7h9FQbLLJRFv3z
- 9dtT64d+gzLLisPGy1Q8PLG7NpH7GWoN7gdtTmSKKl1CWtmXPyaFSRqE4ddMAdkYR/nf
- E5MQ==
-X-Gm-Message-State: AOAM532IRfY/zMEB2By2l8oeWSXinszyUTC9QZhXmHd6Mf3Gp6ufGxM9
- qyN3gQlFy8bZldUwyEd7cqEGF5KI6SibTyg=
-X-Google-Smtp-Source: ABdhPJyzuCI+gtU+a8SwPXa6zfIX3j+QFNSdGzYLeTURExLel2W4Zy/HnPcWvTa9wo31FcGnxAkNhA==
-X-Received: by 2002:aca:d514:: with SMTP id m20mr5850356oig.47.1617281749029; 
+ bh=+OpEDkbIB7gVmSFeUBZiFRPGe0lGXnIYEfiFDB8srwo=;
+ b=ppfAYPoBlHrpuycbxwe4njk3Jhjjbvk752bCNOUDnJJ/wTUTYQWLqE2goKBRVCZU2W
+ 76+raev5IBW6bbYY4Gbgu4YBT84TM89tYdhwkx4Wpej3GXUMj9BSgWOQTbtiKkI6TJ6+
+ klNdXHYpPOc50g8eUQeXEa5jwb3NGqomSVu0kGN4i8Ab9J+XHBowIeY9nB4gK9goNoCj
+ dLhgLeAZ1ZxUlAh5FAYTunW902WxBcFaHzzNuutMK9BgAl9wMXuzGKx+2MM8TSujVcuG
+ S11+rtP5tCUWtn2keweuapeksCIThVjY/vt7Ojal57S4NboMhvNjr35mCBrv9MbmddBj
+ U4KQ==
+X-Gm-Message-State: AOAM530T8VroBoMCtfvaRMRA1UycfnTfxX7KvAz6l2hgQnhqfF96pzNq
+ 2mQbN8UZCML+/Kf9p2PK+d7bbsE2+EIo8UY=
+X-Google-Smtp-Source: ABdhPJyjuGoajchkp6IaQLkRx33S6JPBejJ0IW2DVez2jVK4o3LvBBOyXsBqMUx2gShSUitFGQssJA==
+X-Received: by 2002:aca:df44:: with SMTP id w65mr5696005oig.36.1617281749967; 
  Thu, 01 Apr 2021 05:55:49 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id w11sm1082245ooc.35.2021.04.01.05.55.48
+ by smtp.gmail.com with ESMTPSA id w11sm1082245ooc.35.2021.04.01.05.55.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 05:55:48 -0700 (PDT)
+ Thu, 01 Apr 2021 05:55:49 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH RESEND v2 2/6] target/arm/kvm: Add helper to detect el2 when
- using KVM
-Date: Thu,  1 Apr 2021 12:55:34 +0000
-Message-Id: <65b8771bfecada08bf02c9cf87c2f0f9cdf943b3.1617281290.git.haibo.xu@linaro.org>
+Subject: [PATCH RESEND v2 3/6] target/arm/kvm: Add an option to turn on/off
+ el2 support
+Date: Thu,  1 Apr 2021 12:55:35 +0000
+Message-Id: <80d8bac17a21b41b36cde3eec6c9681b93f43d7c.1617281290.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617281290.git.haibo.xu@linaro.org>
 References: <cover.1617281290.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=haibo.xu@linaro.org; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=haibo.xu@linaro.org; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,59 +89,134 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Adds an el2=[on/off] option to enable/disable el2(nested virtualization)
+support in KVM guest vCPU.
+
 Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
 ---
- target/arm/kvm64.c   |  5 +++++
- target/arm/kvm_arm.h | 13 +++++++++++++
- 2 files changed, 18 insertions(+)
+ target/arm/cpu.c   | 11 ++++++++++
+ target/arm/cpu.h   |  4 ++++
+ target/arm/cpu64.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+)
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index dff85f6db9..9cacaf2eb8 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -721,6 +721,11 @@ bool kvm_arm_steal_time_supported(void)
-     return kvm_check_extension(kvm_state, KVM_CAP_STEAL_TIME);
- }
- 
-+bool kvm_arm_el2_supported(void)
-+{
-+    return kvm_check_extension(kvm_state, KVM_CAP_ARM_EL2);
-+}
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index ae04884408..30cc330f50 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1349,6 +1349,17 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+                 return;
+             }
+         }
 +
- QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
++        /*
++         * Currently, vCPU feature 'el2' only supported in KVM mode.
++         */
++        if (kvm_enabled()) {
++            arm_cpu_el2_finalize(cpu, &local_err);
++            if (local_err != NULL) {
++                error_propagate(errp, local_err);
++                return;
++            }
++        }
+     }
  
- void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 34f8daa377..7d7fc7981b 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -285,6 +285,14 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
-  */
- bool kvm_arm_steal_time_supported(void);
+     if (kvm_enabled()) {
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 193a49ec7f..19fa9cfbfd 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -203,10 +203,12 @@ typedef struct {
+ # define ARM_MAX_VQ    16
+ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
+ void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
++void arm_cpu_el2_finalize(ARMCPU *cpu, Error **errp);
+ #else
+ # define ARM_MAX_VQ    1
+ static inline void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp) { }
+ static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
++static inline void arm_cpu_el2_finalize(ARMCPU *cpu, Error **errp) { }
+ #endif
  
-+/**
-+ * kvm_arm_el2_supported:
-+ *
-+ * Returns: true if KVM can enable el2(nested virtualization)
-+ * and false otherwise.
-+ */
-+bool kvm_arm_el2_supported(void);
-+
- /**
-  * kvm_arm_aarch32_supported:
-  *
-@@ -398,6 +406,11 @@ static inline bool kvm_arm_steal_time_supported(void)
-     return false;
- }
+ typedef struct ARMVectorReg {
+@@ -1058,6 +1060,7 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
+ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64);
+ void aarch64_add_sve_properties(Object *obj);
++void aarch64_add_el2_properties(Object *obj);
  
-+static inline bool kvm_arm_el2_supported(void)
-+{
-+    return false;
-+}
-+
  /*
-  * These functions should never actually be called without KVM support.
-  */
+  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
+@@ -1089,6 +1092,7 @@ static inline void aarch64_sve_change_el(CPUARMState *env, int o,
+                                          int n, bool a)
+ { }
+ static inline void aarch64_add_sve_properties(Object *obj) { }
++static inline void aarch64_add_el2_properties(Object *obj) { }
+ #endif
+ 
+ void aarch64_sync_32_to_64(CPUARMState *env);
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index f0a9e968c9..3f3f2c5495 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -603,6 +603,58 @@ static Property arm_cpu_pauth_property =
+ static Property arm_cpu_pauth_impdef_property =
+     DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
+ 
++void arm_cpu_el2_finalize(ARMCPU *cpu, Error **errp)
++{
++    if (cpu->has_el2) {
++        if (!kvm_enabled() || !kvm_arm_el2_supported()) {
++            error_setg(errp, "'el2' cannot be enabled on this host");
++            return;
++        }
++    }
++
++    if (cpu->has_el2) {
++        set_feature(&cpu->env, ARM_FEATURE_EL2);
++    } else {
++        unset_feature(&cpu->env, ARM_FEATURE_EL2);
++    }
++}
++
++static bool arm_get_el2(Object *obj, Error **errp)
++{
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    return cpu->has_el2;
++}
++
++static void arm_set_el2(Object *obj, bool value, Error **errp)
++{
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    if (value) {
++        if (!kvm_enabled() || !kvm_arm_el2_supported()) {
++            error_setg(errp, "'el2' cannot be enabled on this host");
++            return;
++        }
++        set_feature(&cpu->env, ARM_FEATURE_EL2);
++    } else {
++        unset_feature(&cpu->env, ARM_FEATURE_EL2);
++    }
++
++    cpu->has_el2 = value;
++}
++
++void aarch64_add_el2_properties(Object *obj)
++{
++    /*
++     * vCPU feature 'el2' is only available in KVM mode, and is
++     * disabled by default to keep in line with that in TCG mode.
++     */
++    ARM_CPU(obj)->has_el2 = false;
++    object_property_add_bool(obj, "el2", arm_get_el2, arm_set_el2);
++    object_property_set_description(obj, "el2", "Set off to disable "
++                                    "nested virtulization.");
++}
++
+ /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+  * otherwise, a CPU with as many features enabled as our emulation supports.
+  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
 -- 
 2.17.1
 
