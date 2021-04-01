@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06753510BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:19:50 +0200 (CEST)
-Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3513510C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 10:21:53 +0200 (CEST)
+Received: from localhost ([::1]:33216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRsYP-00069P-JX
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
+	id 1lRsaO-0000Dt-Rj
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 04:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lRsTN-0000wx-NY
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:14:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lRsTK-0008Qu-JA
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:14:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617264873;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9HCo3EVttw54/+ofQrNs1s0gYoj0ueFZ5VZ5MMWpDvM=;
- b=D7QykBr2YuS4MdQqCAdvwqwGSoXDjJn6yEftpAJY5IN2caguCLThVFOiamYZQu0AtvNjsg
- pHspnij9xcg9SM2d7egopFrWuBW0vd4JFOZx3a9m9BkOqimI9X7vt0S1BLMy8TJvz99ibP
- E72d4plNZ2iRi+c3o5hwsrBxo1vCosY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-t_0JPwqJO4ymuMFy4833ZA-1; Thu, 01 Apr 2021 04:14:29 -0400
-X-MC-Unique: t_0JPwqJO4ymuMFy4833ZA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB5D6801814;
- Thu,  1 Apr 2021 08:14:28 +0000 (UTC)
-Received: from redhat.com (ovpn-114-106.ams2.redhat.com [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B76265F705;
- Thu,  1 Apr 2021 08:14:26 +0000 (UTC)
-Date: Thu, 1 Apr 2021 09:14:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Brad Smith <brad@comstyle.com>
-Subject: Re: [PATCH] migration: Remove time_t cast for OpenBSD
-Message-ID: <YGWA4MSRe9JUmGqC@redhat.com>
-References: <YDNdAiOkEYOfmbhT@humpty.home.comstyle.com>
- <7eaad721-9d2a-83ed-00fc-80c8ee37e156@redhat.com>
- <26c9c34a-3872-c044-4b01-06d2eb4bfbb1@vivier.eu>
- <YEphaTV6uzhDEY7R@work-vm> <YEpj8MsBzqfRDTWo@redhat.com>
- <70bda12d-17fc-5e41-b723-e1409017a599@comstyle.com>
- <31adf621-ab77-3ac3-5995-501ac87426b3@comstyle.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRsU8-0001Tl-Ql
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:15:24 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lRsU6-0000Lj-Ac
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 04:15:24 -0400
+Received: by mail-wr1-x433.google.com with SMTP id j7so902468wrd.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 01:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6qHtcohBw/996lcHpKqsbGshYdCD7SS6Y8OWyQ/RYPs=;
+ b=sqLdLh2F+G+IqOWDgRTFGmYEJ7PD3W7jXFE5gAwAeU+gQwrG9cN0FHp9WZuKpmJeRL
+ 5QW4w2lanoP4EFA/Kh2Ea3nJC9Ax/2uLbHsYX0Rns+jhaTRow7WOqRJx9xwvjccwfHNy
+ xzpF4mEM34aw1KpEkov9pb1ZpZWjP2s0xeYeAiL+qxkMDByc2YY0QIJcVryZSjsEMdFI
+ bDma30kfnSvf7tjjvB0NIsD5VyMApEM2yEn4xWVBRSm1bLbLi/CEwD4iicMDY01GXKxN
+ vkL4Sy7tUw5OaBewjRtuWxGuF/aYTIVIgaOEYNk3r0nvE/CJFyC65Nb5YxfXA1ibWLEd
+ cVKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6qHtcohBw/996lcHpKqsbGshYdCD7SS6Y8OWyQ/RYPs=;
+ b=AlbBFk/K0E6Wc32yGSEmk0HbqfeJWNkdSBKtWpO2qjYOGGvCgVIe/E0KaWbhndyTZ8
+ x6T3FVBKw/jZt3z5cfqFZ7icEP4pCsTtmyNukJkHBs+0w75fnnUoSj4iVX1kqwWVToyG
+ HapwHEVEbFFLh8o/9W0YVvTeNPLOijrhkigo1Q67fXy8ngLfdGYXqZ7FVGepc3oqr3U8
+ dY9080OlyT3Q/Pn/dJqQ3llnDbCDaIFCovbyyxOnh3Kuw2FY/RVOOB0OpyuUixtQfgHk
+ Si0gq3j+6IKV0JAblr44N7nCKsBARt49WJkKYldAI/4piMt2l8lOd7i7wM66QkjtY2Mk
+ Up4g==
+X-Gm-Message-State: AOAM532Z8fPFO5JKgK2EIXpUs8O3t2oPvce3VF1ngGnSKtIJY/O53rtJ
+ H1+I3/XzPT0WgY3Xz2TT9uw=
+X-Google-Smtp-Source: ABdhPJyBYcaic44hUEnJUr04QCE79yAWaGIcfI5yRDLbX5xrM0StyMH5DPiviSnpOrijfATiPHp/qA==
+X-Received: by 2002:a05:6000:18f:: with SMTP id
+ p15mr8248025wrx.23.1617264917399; 
+ Thu, 01 Apr 2021 01:15:17 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id 18sm7036534wmj.21.2021.04.01.01.15.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 01:15:16 -0700 (PDT)
+Subject: Re: [PATCH v3 03/11] esp: consolidate esp_cmdfifo_push() into
+ esp_fifo_push()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
+References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+ <20210401074933.9923-4-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bc8795c0-4fc6-a923-0458-f2ac0feb590c@amsat.org>
+Date: Thu, 1 Apr 2021 10:15:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <31adf621-ab77-3ac3-5995-501ac87426b3@comstyle.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210401074933.9923-4-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,75 +92,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 31, 2021 at 03:26:16PM -0400, Brad Smith wrote:
-> On 3/13/2021 6:33 PM, Brad Smith wrote:
-> > On 3/11/2021 1:39 PM, Daniel P. Berrangé wrote:
-> > > On Thu, Mar 11, 2021 at 06:28:57PM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Laurent Vivier (laurent@vivier.eu) wrote:
-> > > > > Le 08/03/2021 à 12:46, Thomas Huth a écrit :
-> > > > > > On 22/02/2021 08.28, Brad Smith wrote:
-> > > > > > > OpenBSD has supported 64-bit time_t across all archs
-> > > > > > > since 5.5 released in 2014.
-> > > > > > > 
-> > > > > > > Remove a time_t cast that is no longer necessary.
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Signed-off-by: Brad Smith <brad@comstyle.com>
-> > > > > > > 
-> > > > > > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > > > > > index 52e2d72e4b..9557f85ba9 100644
-> > > > > > > --- a/migration/savevm.c
-> > > > > > > +++ b/migration/savevm.c
-> > > > > > > @@ -2849,8 +2849,7 @@ bool save_snapshot(const char
-> > > > > > > *name, bool overwrite, const char *vmstate,
-> > > > > > >       if (name) {
-> > > > > > >           pstrcpy(sn->name, sizeof(sn->name), name);
-> > > > > > >       } else {
-> > > > > > > -        /* cast below needed for OpenBSD where
-> > > > > > > tv_sec is still 'long' */
-> > > > > > > -        localtime_r((const time_t *)&tv.tv_sec, &tm);
-> > > > > > > +        localtime_r(&tv.tv_sec, &tm);
-> > > > > > >           strftime(sn->name, sizeof(sn->name),
-> > > > > > > "vm-%Y%m%d%H%M%S", &tm);
-> > > > > > >       }
-> > > > > but the qemu_timeval from "include/sysemu/os-win32.h" still
-> > > > > uses a long: is this file compiled for
-> > > > > win32?
-> > > > Yep this fails for me when built with x86_64-w64-mingw32- (it's fine
-> > > > with i686-w64-mingw32- )
-> > > We could just switch the code to use GDateTime from GLib and thus
-> > > avoid portability issues. I think this should be equivalent:
-> > > 
-> > >       g_autoptr(GDateTime) now = g_date_time_new_now_local();
-> > >       g_autofree char *nowstr = g_date_time_format(now,
-> > > "vm-%Y%m%d%H%M%s");
-> > >       strncpy(sn->name, sizeof(sn->name), nowstr);
-> > 
-> > Which way do you guys want to go? Something like above, remove the
-> > comment
-> > or some variation on the comment but not mentioning OpenBSD since it is
-> > no
-> > longer relevant?
+On 4/1/21 9:49 AM, Mark Cave-Ayland wrote:
+> Each FIFO currently has its own push functions with the only difference being
+> the capacity check. The original reason for this was that the fifo8
+> implementation doesn't have a formal API for retrieving the FIFO capacity,
+> however there are multiple examples within QEMU where the capacity field is
+> accessed directly.
+
+So the Fifo8 API is not complete / practical.
+
+> Change esp_fifo_push() to access the FIFO capacity directly and then consolidate
+> esp_cmdfifo_push() into esp_fifo_push().
 > 
-> Anyone?
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/scsi/esp.c | 27 ++++++++-------------------
+>  1 file changed, 8 insertions(+), 19 deletions(-)
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index 26fe1dcb9d..16aaf8be93 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -98,16 +98,15 @@ void esp_request_cancelled(SCSIRequest *req)
+>      }
+>  }
+>  
+> -static void esp_fifo_push(ESPState *s, uint8_t val)
+> +static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
+>  {
+> -    if (fifo8_num_used(&s->fifo) == ESP_FIFO_SZ) {
+> +    if (fifo8_num_used(fifo) == fifo->capacity) {
+>          trace_esp_error_fifo_overrun();
+>          return;
+>      }
+>  
+> -    fifo8_push(&s->fifo, val);
+> +    fifo8_push(fifo, val);
+>  }
+> -
 
-Personally I always favour using GLib APIs if there's an applicable one,
-since it eliminates portability problems - or rather offloads them to
-the GLib maintainers, who have already solved them generally.
+Spurious line removal?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  static uint8_t esp_fifo_pop(ESPState *s)
+>  {
+>      if (fifo8_is_empty(&s->fifo)) {
+> @@ -117,16 +116,6 @@ static uint8_t esp_fifo_pop(ESPState *s)
+>      return fifo8_pop(&s->fifo);
+>  }
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
