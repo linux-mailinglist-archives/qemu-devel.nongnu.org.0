@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2991A350D50
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:56:11 +0200 (CEST)
-Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83D8350D5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 05:58:21 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRoRF-000300-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:56:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
+	id 1lRoTM-0006YS-Q3
+	for lists+qemu-devel@lfdr.de; Wed, 31 Mar 2021 23:58:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoOx-0001Lu-O0
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:47 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46761)
+ id 1lRoP0-0001Pe-TO
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:50 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:2906)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lRoOv-0004ri-Cf
- for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:46 -0400
+ id 1lRoOv-0004rm-J7
+ for qemu-devel@nongnu.org; Wed, 31 Mar 2021 23:53:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
  t=1617249225; x=1648785225;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3v9UZn8HopUm9cQP63ez8kbf0Uv8MfKI8+fTZCjxWSA=;
- b=AUb0DpQiZuEHxxdIlMiCV2WEEbhK0QMJQI3kJ4yys3W1e2TF8hymCiSz
- VEwvpdBa4gEf2LbtMAq/gRhMtnFNY5S+zIuQtR8Mie3X0mRxP5vRU04D1
- JrjDtdhqIUhecqEmOczTXZS6gUmiUXRjnH/dYEWdglAOJ6mbt5k/B1B5p g=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
+ bh=ghVkWD4RAYC3bybKZC/uIehELkvGLAFCnisI1Bf02TY=;
+ b=oGW3S63iYI7nmlLMB6naV5Ol0jjJkBEOW+V1NvO4WtrmgHZueV65NtjH
+ vVF7BKkhVnAR3TbSfX8vb7asTE/x5gQil8torsNAgyDCNY48KM92UaNc6
+ nIASIFg4FIiavkvz6fP9IEygamDbLc3xkEM9N/CQkMffMUsRvzvPs5Nhv I=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 31 Mar 2021 20:53:42 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg01-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
+ by ironmsg05-sd.qualcomm.com with ESMTP; 31 Mar 2021 20:53:41 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id D62241203; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
+ id 053C0119E; Wed, 31 Mar 2021 22:53:40 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/21] Hexagon (target/hexagon) replace float32_mul_pow2
- with float32_scalbn
-Date: Wed, 31 Mar 2021 22:53:22 -0500
-Message-Id: <1617249213-22667-11-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v2 11/21] Hexagon (target/hexagon) use softfloat for
+ float-to-int conversions
+Date: Wed, 31 Mar 2021 22:53:23 -0500
+Message-Id: <1617249213-22667-12-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -74,72 +74,761 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use the proper return for helpers that convert to unsigned
+Remove target/hexagon/conv_emu.[ch]
+
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/arch.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+ target/hexagon/conv_emu.c   | 177 --------------------------------------------
+ target/hexagon/conv_emu.h   |  31 --------
+ target/hexagon/fma_emu.c    |   1 -
+ target/hexagon/helper.h     |  16 ++--
+ target/hexagon/meson.build  |   1 -
+ target/hexagon/op_helper.c  | 169 ++++++++++++++++++++++++++++++++----------
+ tests/tcg/hexagon/fpstuff.c | 145 ++++++++++++++++++++++++++++++++++++
+ 7 files changed, 281 insertions(+), 259 deletions(-)
+ delete mode 100644 target/hexagon/conv_emu.c
+ delete mode 100644 target/hexagon/conv_emu.h
 
-diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index bb51f19..40b6e3d 100644
---- a/target/hexagon/arch.c
-+++ b/target/hexagon/arch.c
-@@ -143,12 +143,6 @@ void arch_fpop_end(CPUHexagonState *env)
-     }
- }
- 
--static float32 float32_mul_pow2(float32 a, uint32_t p, float_status *fp_status)
+diff --git a/target/hexagon/conv_emu.c b/target/hexagon/conv_emu.c
+deleted file mode 100644
+index 3985b10..0000000
+--- a/target/hexagon/conv_emu.c
++++ /dev/null
+@@ -1,177 +0,0 @@
+-/*
+- *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qemu/host-utils.h"
+-#include "fpu/softfloat.h"
+-#include "macros.h"
+-#include "conv_emu.h"
+-
+-#define LL_MAX_POS 0x7fffffffffffffffULL
+-#define MAX_POS 0x7fffffffU
+-
+-static uint64_t conv_f64_to_8u_n(float64 in, int will_negate,
+-                                 float_status *fp_status)
 -{
--    float32 b = make_float32((SF_BIAS + p) << SF_MANTBITS);
--    return float32_mul(a, b, fp_status);
+-    uint8_t sign = float64_is_neg(in);
+-    if (float64_is_infinity(in)) {
+-        float_raise(float_flag_invalid, fp_status);
+-        if (float64_is_neg(in)) {
+-            return 0ULL;
+-        } else {
+-            return ~0ULL;
+-        }
+-    }
+-    if (float64_is_any_nan(in)) {
+-        float_raise(float_flag_invalid, fp_status);
+-        return ~0ULL;
+-    }
+-    if (float64_is_zero(in)) {
+-        return 0;
+-    }
+-    if (sign) {
+-        float_raise(float_flag_invalid, fp_status);
+-        return 0;
+-    }
+-    if (float64_lt(in, float64_half, fp_status)) {
+-        /* Near zero, captures large fracshifts, denorms, etc */
+-        float_raise(float_flag_inexact, fp_status);
+-        switch (get_float_rounding_mode(fp_status)) {
+-        case float_round_down:
+-            if (will_negate) {
+-                return 1;
+-            } else {
+-                return 0;
+-            }
+-        case float_round_up:
+-            if (!will_negate) {
+-                return 1;
+-            } else {
+-                return 0;
+-            }
+-        default:
+-            return 0;    /* nearest or towards zero */
+-        }
+-    }
+-    return float64_to_uint64(in, fp_status);
 -}
 -
- int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
-                          float_status *fp_status)
+-static void clr_float_exception_flags(uint8_t flag, float_status *fp_status)
+-{
+-    uint8_t flags = fp_status->float_exception_flags;
+-    flags &= ~flag;
+-    set_float_exception_flags(flags, fp_status);
+-}
+-
+-static uint32_t conv_df_to_4u_n(float64 fp64, int will_negate,
+-                                float_status *fp_status)
+-{
+-    uint64_t tmp;
+-    tmp = conv_f64_to_8u_n(fp64, will_negate, fp_status);
+-    if (tmp > 0x00000000ffffffffULL) {
+-        clr_float_exception_flags(float_flag_inexact, fp_status);
+-        float_raise(float_flag_invalid, fp_status);
+-        return ~0U;
+-    }
+-    return (uint32_t)tmp;
+-}
+-
+-uint64_t conv_df_to_8u(float64 in, float_status *fp_status)
+-{
+-    return conv_f64_to_8u_n(in, 0, fp_status);
+-}
+-
+-uint32_t conv_df_to_4u(float64 in, float_status *fp_status)
+-{
+-    return conv_df_to_4u_n(in, 0, fp_status);
+-}
+-
+-int64_t conv_df_to_8s(float64 in, float_status *fp_status)
+-{
+-    uint8_t sign = float64_is_neg(in);
+-    uint64_t tmp;
+-    if (float64_is_any_nan(in)) {
+-        float_raise(float_flag_invalid, fp_status);
+-        return -1;
+-    }
+-    if (sign) {
+-        float64 minus_fp64 = float64_abs(in);
+-        tmp = conv_f64_to_8u_n(minus_fp64, 1, fp_status);
+-    } else {
+-        tmp = conv_f64_to_8u_n(in, 0, fp_status);
+-    }
+-    if (tmp > (LL_MAX_POS + sign)) {
+-        clr_float_exception_flags(float_flag_inexact, fp_status);
+-        float_raise(float_flag_invalid, fp_status);
+-        tmp = (LL_MAX_POS + sign);
+-    }
+-    if (sign) {
+-        return -tmp;
+-    } else {
+-        return tmp;
+-    }
+-}
+-
+-int32_t conv_df_to_4s(float64 in, float_status *fp_status)
+-{
+-    uint8_t sign = float64_is_neg(in);
+-    uint64_t tmp;
+-    if (float64_is_any_nan(in)) {
+-        float_raise(float_flag_invalid, fp_status);
+-        return -1;
+-    }
+-    if (sign) {
+-        float64 minus_fp64 = float64_abs(in);
+-        tmp = conv_f64_to_8u_n(minus_fp64, 1, fp_status);
+-    } else {
+-        tmp = conv_f64_to_8u_n(in, 0, fp_status);
+-    }
+-    if (tmp > (MAX_POS + sign)) {
+-        clr_float_exception_flags(float_flag_inexact, fp_status);
+-        float_raise(float_flag_invalid, fp_status);
+-        tmp = (MAX_POS + sign);
+-    }
+-    if (sign) {
+-        return -tmp;
+-    } else {
+-        return tmp;
+-    }
+-}
+-
+-uint64_t conv_sf_to_8u(float32 in, float_status *fp_status)
+-{
+-    float64 fp64 = float32_to_float64(in, fp_status);
+-    return conv_df_to_8u(fp64, fp_status);
+-}
+-
+-uint32_t conv_sf_to_4u(float32 in, float_status *fp_status)
+-{
+-    float64 fp64 = float32_to_float64(in, fp_status);
+-    return conv_df_to_4u(fp64, fp_status);
+-}
+-
+-int64_t conv_sf_to_8s(float32 in, float_status *fp_status)
+-{
+-    float64 fp64 = float32_to_float64(in, fp_status);
+-    return conv_df_to_8s(fp64, fp_status);
+-}
+-
+-int32_t conv_sf_to_4s(float32 in, float_status *fp_status)
+-{
+-    float64 fp64 = float32_to_float64(in, fp_status);
+-    return conv_df_to_4s(fp64, fp_status);
+-}
+diff --git a/target/hexagon/conv_emu.h b/target/hexagon/conv_emu.h
+deleted file mode 100644
+index cade9de..0000000
+--- a/target/hexagon/conv_emu.h
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/*
+- *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#ifndef HEXAGON_CONV_EMU_H
+-#define HEXAGON_CONV_EMU_H
+-
+-uint64_t conv_sf_to_8u(float32 in, float_status *fp_status);
+-uint32_t conv_sf_to_4u(float32 in, float_status *fp_status);
+-int64_t conv_sf_to_8s(float32 in, float_status *fp_status);
+-int32_t conv_sf_to_4s(float32 in, float_status *fp_status);
+-
+-uint64_t conv_df_to_8u(float64 in, float_status *fp_status);
+-uint32_t conv_df_to_4u(float64 in, float_status *fp_status);
+-int64_t conv_df_to_8s(float64 in, float_status *fp_status);
+-int32_t conv_df_to_4s(float64 in, float_status *fp_status);
+-
+-#endif
+diff --git a/target/hexagon/fma_emu.c b/target/hexagon/fma_emu.c
+index f324b83..d3b45d4 100644
+--- a/target/hexagon/fma_emu.c
++++ b/target/hexagon/fma_emu.c
+@@ -19,7 +19,6 @@
+ #include "qemu/int128.h"
+ #include "fpu/softfloat.h"
+ #include "macros.h"
+-#include "conv_emu.h"
+ #include "fma_emu.h"
+ 
+ #define DF_INF_EXP     0x7ff
+diff --git a/target/hexagon/helper.h b/target/hexagon/helper.h
+index a5f340c..715c246 100644
+--- a/target/hexagon/helper.h
++++ b/target/hexagon/helper.h
+@@ -38,21 +38,21 @@ DEF_HELPER_2(conv_ud2sf, f32, env, s64)
+ DEF_HELPER_2(conv_ud2df, f64, env, s64)
+ DEF_HELPER_2(conv_d2sf, f32, env, s64)
+ DEF_HELPER_2(conv_d2df, f64, env, s64)
+-DEF_HELPER_2(conv_sf2uw, s32, env, f32)
++DEF_HELPER_2(conv_sf2uw, i32, env, f32)
+ DEF_HELPER_2(conv_sf2w, s32, env, f32)
+-DEF_HELPER_2(conv_sf2ud, s64, env, f32)
++DEF_HELPER_2(conv_sf2ud, i64, env, f32)
+ DEF_HELPER_2(conv_sf2d, s64, env, f32)
+-DEF_HELPER_2(conv_df2uw, s32, env, f64)
++DEF_HELPER_2(conv_df2uw, i32, env, f64)
+ DEF_HELPER_2(conv_df2w, s32, env, f64)
+-DEF_HELPER_2(conv_df2ud, s64, env, f64)
++DEF_HELPER_2(conv_df2ud, i64, env, f64)
+ DEF_HELPER_2(conv_df2d, s64, env, f64)
+-DEF_HELPER_2(conv_sf2uw_chop, s32, env, f32)
++DEF_HELPER_2(conv_sf2uw_chop, i32, env, f32)
+ DEF_HELPER_2(conv_sf2w_chop, s32, env, f32)
+-DEF_HELPER_2(conv_sf2ud_chop, s64, env, f32)
++DEF_HELPER_2(conv_sf2ud_chop, i64, env, f32)
+ DEF_HELPER_2(conv_sf2d_chop, s64, env, f32)
+-DEF_HELPER_2(conv_df2uw_chop, s32, env, f64)
++DEF_HELPER_2(conv_df2uw_chop, i32, env, f64)
+ DEF_HELPER_2(conv_df2w_chop, s32, env, f64)
+-DEF_HELPER_2(conv_df2ud_chop, s64, env, f64)
++DEF_HELPER_2(conv_df2ud_chop, i64, env, f64)
+ DEF_HELPER_2(conv_df2d_chop, s64, env, f64)
+ DEF_HELPER_3(sfadd, f32, env, f32, f32)
+ DEF_HELPER_3(sfsub, f32, env, f32, f32)
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+index 15318a6..7b380fc 100644
+--- a/target/hexagon/meson.build
++++ b/target/hexagon/meson.build
+@@ -185,7 +185,6 @@ hexagon_ss.add(files(
+     'printinsn.c',
+     'arch.c',
+     'fma_emu.c',
+-    'conv_emu.c',
+ ))
+ 
+ target_arch += {'hexagon': hexagon_ss}
+diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
+index 478421d..b70c5d6 100644
+--- a/target/hexagon/op_helper.c
++++ b/target/hexagon/op_helper.c
+@@ -25,7 +25,6 @@
+ #include "arch.h"
+ #include "hex_arch_types.h"
+ #include "fma_emu.h"
+-#include "conv_emu.h"
+ 
+ #define SF_BIAS        127
+ #define SF_MANTBITS    23
+@@ -438,11 +437,17 @@ float64 HELPER(conv_d2df)(CPUHexagonState *env, int64_t RssV)
+     return RddV;
+ }
+ 
+-int32_t HELPER(conv_sf2uw)(CPUHexagonState *env, float32 RsV)
++uint32_t HELPER(conv_sf2uw)(CPUHexagonState *env, float32 RsV)
  {
-@@ -217,22 +211,22 @@ int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd, int *adjust,
-         if ((n_exp - d_exp + SF_BIAS) <= SF_MANTBITS) {
-             /* Near quotient underflow / inexact Q */
-             PeV = 0x80;
--            RtV = float32_mul_pow2(RtV, -64, fp_status);
--            RsV = float32_mul_pow2(RsV, 64, fp_status);
-+            RtV = float32_scalbn(RtV, -64, fp_status);
-+            RsV = float32_scalbn(RsV, 64, fp_status);
-         } else if ((n_exp - d_exp + SF_BIAS) > (SF_MAXEXP - 24)) {
-             /* Near quotient overflow */
-             PeV = 0x40;
--            RtV = float32_mul_pow2(RtV, 32, fp_status);
--            RsV = float32_mul_pow2(RsV, -32, fp_status);
-+            RtV = float32_scalbn(RtV, 32, fp_status);
-+            RsV = float32_scalbn(RsV, -32, fp_status);
-         } else if (n_exp <= SF_MANTBITS + 2) {
--            RtV = float32_mul_pow2(RtV, 64, fp_status);
--            RsV = float32_mul_pow2(RsV, 64, fp_status);
-+            RtV = float32_scalbn(RtV, 64, fp_status);
-+            RsV = float32_scalbn(RsV, 64, fp_status);
-         } else if (d_exp <= 1) {
--            RtV = float32_mul_pow2(RtV, 32, fp_status);
--            RsV = float32_mul_pow2(RsV, 32, fp_status);
-+            RtV = float32_scalbn(RtV, 32, fp_status);
-+            RsV = float32_scalbn(RsV, 32, fp_status);
-         } else if (d_exp > 252) {
--            RtV = float32_mul_pow2(RtV, -32, fp_status);
--            RsV = float32_mul_pow2(RsV, -32, fp_status);
-+            RtV = float32_scalbn(RtV, -32, fp_status);
-+            RsV = float32_scalbn(RsV, -32, fp_status);
-         }
-         RdV = 0;
-         ret = 1;
-@@ -274,7 +268,7 @@ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
-         /* Basic checks passed */
-         r_exp = float32_getexp(RsV);
-         if (r_exp <= 24) {
--            RsV = float32_mul_pow2(RsV, 64, fp_status);
-+            RsV = float32_scalbn(RsV, 64, fp_status);
-             PeV = 0xe0;
-         }
-         RdV = 0;
+-    int32_t RdV;
++    uint32_t RdV;
+     arch_fpop_start(env);
+-    RdV = conv_sf_to_4u(RsV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float32_is_neg(RsV) && !float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = 0;
++    } else {
++        RdV = float32_to_uint32(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -451,16 +456,28 @@ int32_t HELPER(conv_sf2w)(CPUHexagonState *env, float32 RsV)
+ {
+     int32_t RdV;
+     arch_fpop_start(env);
+-    RdV = conv_sf_to_4s(RsV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = -1;
++    } else {
++        RdV = float32_to_int32(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+ 
+-int64_t HELPER(conv_sf2ud)(CPUHexagonState *env, float32 RsV)
++uint64_t HELPER(conv_sf2ud)(CPUHexagonState *env, float32 RsV)
+ {
+-    int64_t RddV;
++    uint64_t RddV;
+     arch_fpop_start(env);
+-    RddV = conv_sf_to_8u(RsV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float32_is_neg(RsV) && !float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = 0;
++    } else {
++        RddV = float32_to_uint64(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -469,16 +486,28 @@ int64_t HELPER(conv_sf2d)(CPUHexagonState *env, float32 RsV)
+ {
+     int64_t RddV;
+     arch_fpop_start(env);
+-    RddV = conv_sf_to_8s(RsV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = -1;
++    } else {
++        RddV = float32_to_int64(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+ 
+-int32_t HELPER(conv_df2uw)(CPUHexagonState *env, float64 RssV)
++uint32_t HELPER(conv_df2uw)(CPUHexagonState *env, float64 RssV)
+ {
+-    int32_t RdV;
++    uint32_t RdV;
+     arch_fpop_start(env);
+-    RdV = conv_df_to_4u(RssV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float64_is_neg(RssV) && !float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = 0;
++    } else {
++        RdV = float64_to_uint32(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -487,16 +516,28 @@ int32_t HELPER(conv_df2w)(CPUHexagonState *env, float64 RssV)
+ {
+     int32_t RdV;
+     arch_fpop_start(env);
+-    RdV = conv_df_to_4s(RssV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = -1;
++    } else {
++        RdV = float64_to_int32(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+ 
+-int64_t HELPER(conv_df2ud)(CPUHexagonState *env, float64 RssV)
++uint64_t HELPER(conv_df2ud)(CPUHexagonState *env, float64 RssV)
+ {
+-    int64_t RddV;
++    uint64_t RddV;
+     arch_fpop_start(env);
+-    RddV = conv_df_to_8u(RssV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float64_is_neg(RssV) && !float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = 0;
++    } else {
++        RddV = float64_to_uint64(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -505,17 +546,28 @@ int64_t HELPER(conv_df2d)(CPUHexagonState *env, float64 RssV)
+ {
+     int64_t RddV;
+     arch_fpop_start(env);
+-    RddV = conv_df_to_8s(RssV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = -1;
++    } else {
++        RddV = float64_to_int64(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+ 
+-int32_t HELPER(conv_sf2uw_chop)(CPUHexagonState *env, float32 RsV)
++uint32_t HELPER(conv_sf2uw_chop)(CPUHexagonState *env, float32 RsV)
+ {
+-    int32_t RdV;
++    uint32_t RdV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RdV = conv_sf_to_4u(RsV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float32_is_neg(RsV) && !float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = 0;
++    } else {
++        RdV = float32_to_uint32_round_to_zero(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -524,18 +576,28 @@ int32_t HELPER(conv_sf2w_chop)(CPUHexagonState *env, float32 RsV)
+ {
+     int32_t RdV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RdV = conv_sf_to_4s(RsV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = -1;
++    } else {
++        RdV = float32_to_int32_round_to_zero(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+ 
+-int64_t HELPER(conv_sf2ud_chop)(CPUHexagonState *env, float32 RsV)
++uint64_t HELPER(conv_sf2ud_chop)(CPUHexagonState *env, float32 RsV)
+ {
+-    int64_t RddV;
++    uint64_t RddV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RddV = conv_sf_to_8u(RsV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float32_is_neg(RsV) && !float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = 0;
++    } else {
++        RddV = float32_to_uint64_round_to_zero(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -544,18 +606,28 @@ int64_t HELPER(conv_sf2d_chop)(CPUHexagonState *env, float32 RsV)
+ {
+     int64_t RddV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RddV = conv_sf_to_8s(RsV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float32_is_any_nan(RsV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = -1;
++    } else {
++        RddV = float32_to_int64_round_to_zero(RsV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+ 
+-int32_t HELPER(conv_df2uw_chop)(CPUHexagonState *env, float64 RssV)
++uint32_t HELPER(conv_df2uw_chop)(CPUHexagonState *env, float64 RssV)
+ {
+-    int32_t RdV;
++    uint32_t RdV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RdV = conv_df_to_4u(RssV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float64_is_neg(RssV) && !float32_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = 0;
++    } else {
++        RdV = float64_to_uint32_round_to_zero(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -564,18 +636,28 @@ int32_t HELPER(conv_df2w_chop)(CPUHexagonState *env, float64 RssV)
+ {
+     int32_t RdV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RdV = conv_df_to_4s(RssV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RdV = -1;
++    } else {
++        RdV = float64_to_int32_round_to_zero(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RdV;
+ }
+ 
+-int64_t HELPER(conv_df2ud_chop)(CPUHexagonState *env, float64 RssV)
++uint64_t HELPER(conv_df2ud_chop)(CPUHexagonState *env, float64 RssV)
+ {
+-    int64_t RddV;
++    uint64_t RddV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RddV = conv_df_to_8u(RssV, &env->fp_status);
++    /* Hexagon checks the sign before rounding */
++    if (float64_is_neg(RssV) && !float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = 0;
++    } else {
++        RddV = float64_to_uint64_round_to_zero(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -584,8 +666,13 @@ int64_t HELPER(conv_df2d_chop)(CPUHexagonState *env, float64 RssV)
+ {
+     int64_t RddV;
+     arch_fpop_start(env);
+-    set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+-    RddV = conv_df_to_8s(RssV, &env->fp_status);
++    /* Hexagon returns -1 for NaN */
++    if (float64_is_any_nan(RssV)) {
++        float_raise(float_flag_invalid, &env->fp_status);
++        RddV = -1;
++    } else {
++        RddV = float64_to_int64_round_to_zero(RssV, &env->fp_status);
++    }
+     arch_fpop_end(env);
+     return RddV;
+ }
+diff --git a/tests/tcg/hexagon/fpstuff.c b/tests/tcg/hexagon/fpstuff.c
+index e4f1a0e..6b60f92 100644
+--- a/tests/tcg/hexagon/fpstuff.c
++++ b/tests/tcg/hexagon/fpstuff.c
+@@ -37,10 +37,12 @@ const int SF_NaN =                        0x7fc00000;
+ const int SF_NaN_special =                0x7f800001;
+ const int SF_ANY =                        0x3f800000;
+ const int SF_HEX_NAN =                    0xffffffff;
++const int SF_small_neg =                  0xab98fba8;
+ 
+ const long long DF_NaN =                  0x7ff8000000000000ULL;
+ const long long DF_ANY =                  0x3f80000000000000ULL;
+ const long long DF_HEX_NAN =              0xffffffffffffffffULL;
++const long long DF_small_neg =            0xbd731f7500000000ULL;
+ 
+ int err;
+ 
+@@ -358,12 +360,155 @@ static void check_canonical_NaN(void)
+     check_fpstatus(usr, 0);
+ }
+ 
++static void check_float2int_convs()
++{
++    int res32;
++    long long res64;
++    int usr;
++
++    /*
++     * Check that the various forms of float-to-unsigned
++     *  check sign before rounding
++     */
++        asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2uw(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(SF_small_neg)
++        : "r2", "usr");
++    check32(res32, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2uw(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(SF_small_neg)
++        : "r2", "usr");
++    check32(res32, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2ud(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(SF_small_neg)
++        : "r2", "usr");
++    check64(res64, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2ud(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(SF_small_neg)
++        : "r2", "usr");
++    check64(res64, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2uw(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(DF_small_neg)
++        : "r2", "usr");
++    check32(res32, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2uw(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(DF_small_neg)
++        : "r2", "usr");
++    check32(res32, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2ud(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(DF_small_neg)
++        : "r2", "usr");
++    check64(res64, 0);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2ud(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(DF_small_neg)
++        : "r2", "usr");
++    check64(res64, 0);
++    check_fpstatus(usr, FPINVF);
++
++    /*
++     * Check that the various forms of float-to-signed return -1 for NaN
++     */
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2w(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(SF_NaN)
++        : "r2", "usr");
++    check32(res32, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2w(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(SF_NaN)
++        : "r2", "usr");
++    check32(res32, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2d(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(SF_NaN)
++        : "r2", "usr");
++    check64(res64, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_sf2d(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(SF_NaN)
++        : "r2", "usr");
++    check64(res64, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2w(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(DF_NaN)
++        : "r2", "usr");
++    check32(res32, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2w(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res32), "=r"(usr) : "r"(DF_NaN)
++        : "r2", "usr");
++    check32(res32, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2d(%2)\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(DF_NaN)
++        : "r2", "usr");
++    check64(res64, -1);
++    check_fpstatus(usr, FPINVF);
++
++    asm(CLEAR_FPSTATUS
++        "%0 = convert_df2d(%2):chop\n\t"
++        "%1 = usr\n\t"
++        : "=r"(res64), "=r"(usr) : "r"(DF_NaN)
++        : "r2", "usr");
++    check64(res64, -1);
++    check_fpstatus(usr, FPINVF);
++}
++
+ int main()
+ {
+     check_compare_exception();
+     check_sfminmax();
+     check_dfminmax();
+     check_canonical_NaN();
++    check_float2int_convs();
+ 
+     puts(err ? "FAIL" : "PASS");
+     return err ? 1 : 0;
 -- 
 2.7.4
 
