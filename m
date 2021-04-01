@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E99C351307
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 12:06:59 +0200 (CEST)
-Received: from localhost ([::1]:33266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89A735130D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 12:08:54 +0200 (CEST)
+Received: from localhost ([::1]:38308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRuE6-0004jA-99
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 06:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
+	id 1lRuFx-0006nA-Tx
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 06:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRuCZ-0003lH-FP
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:05:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54691)
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lRuEi-00060c-Jt
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:07:36 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:56257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lRuCO-0006dB-Hp
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:05:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617271509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EumhMr2Z1cj6bbKn3Ux4C/IVqHUOWe/BqwSAmQewuso=;
- b=A44uT/QPWXe8wg8V5cC0yjrTYVqnZqsKbb4obQRmOjPOYrIbTjlIH6RzWMf32TKdfPAacL
- /13FvmPV5huPYSz+6fEgqJTVduUkcbQu4YvISjIBdKRKDZhlcEXN01drfmfpjsNuLXwAt0
- 54JIwzmvYZ+bdlV81lzS+B/QdDMfdmQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-vP2h2L99MK6TbZmtlmsosw-1; Thu, 01 Apr 2021 06:05:07 -0400
-X-MC-Unique: vP2h2L99MK6TbZmtlmsosw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5171A107ACCA;
- Thu,  1 Apr 2021 10:05:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-60.ams2.redhat.com
- [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C9865C1BB;
- Thu,  1 Apr 2021 10:05:04 +0000 (UTC)
-Subject: Re: [PATCH] iotests: Test mirror-top filter permissions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210331122815.51491-1-mreitz@redhat.com>
- <263c7339-2ac7-c34a-eb71-67148f075e25@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <8332323c-bd34-ad2d-71fe-9e8cde42e224@redhat.com>
-Date: Thu, 1 Apr 2021 12:05:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lRuEg-000859-RW
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 06:07:36 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id C75882D5A;
+ Thu,  1 Apr 2021 06:07:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 01 Apr 2021 06:07:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernat.ch; h=
+ from:to:cc:subject:references:date:in-reply-to:message-id
+ :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
+ TO1gxBt4tZlbMfFNeVpfx8d3MDgdjrSmNCdLlz6H6Rk=; b=EO0y1/uJjR8/zT/C
+ 98AnjPC1iDtg5bfK1uylrGgZoEfegBUOG3WoScSSRrnwJGjc92587/uKAfuoILTD
+ sLHcocNkMbSsT6vLnk20djnAm2+Gj3YAuGcAUXQX7TKrE5dIV/443F1MHKsKtCRg
+ IzDRKZmdffzbz14fxg7z9SIGSMW1MNgqrYBX+ECjSmjq0GAGMl7kx87T788GyRFT
+ TnZ0xe4dZr4GBQGE7LpgldNqftouDRdHhPUGD29zSkC3swHymAqvb6+c0vnL9isq
+ zXKsCXRW2O6A1rDqoyshOcn6wdA2lrAwwDVB6hXAzOym3Fm+rhiNrQk5TUGi8r+n
+ AE5GBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=TO1gxBt4tZlbMfFNeVpfx8d3MDgdjrSmNCdLlz6H6
+ Rk=; b=BUxo3R7IxXouASWwP8PD3e+i3lGYjd3zu1RGtsYj3nnhjelTjo6gAp3Lg
+ 3E9xctj7arP/gcLgFzsc1iicdYlRRKr3mn93uKVpKKt9bl0jEWlEFoShsHQGskzH
+ yh0ugAROXc/wFpQpSNR5cPRDnqFaagRWC0+TJUGqnR4ks4xFaVN6NR87BGlDs0nF
+ wMIlVs7am98Yh96urjriLPJQ1rMHLor0XydQV+tgFs5EWOLa76tbNynHKqRoBFAq
+ 7sGsBJ27pKHjyHtiRrtdgre1kxFILbp896XDbohvh/D+rEVGarNtXWl8rEne40Sc
+ Onp6YVmAKrDPLvomkRSaCp7wnC32g==
+X-ME-Sender: <xms:ZJtlYJCu2pHnwrQzMr8cy_T0lqQ8FwzPwv1gbW0uQ7j3uzJV6nOGhg>
+ <xme:ZJtlYHjPp6e17dJhVA1HkIBgJeti1QKYNSxaYD7865riCvoRuZqpjyyxSJrLL0MBa
+ qBLX_0jmmasBsDkw1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeigedgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufhfffgjkfgfgggtgfesthekredttderjeenucfhrhhomhepgghinhgt
+ vghnthcuuegvrhhnrghtuceovhhinhgtvghnthessggvrhhnrghtrdgthheqnecuggftrf
+ grthhtvghrnhepudeuveeggedtveduudejgfeiffeiveduiedvjedvudefleetgfefvdfh
+ kedtieejnecukfhppeeltddrledtrdeltddrfeehnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepvhhinhgtvghnthessggvrhhnrghtrdgthh
+X-ME-Proxy: <xmx:ZJtlYEl-2XCToefySUFcXbg-ahV62BpIULjT9abZAzT1gpE0jCW8fg>
+ <xmx:ZJtlYDzHP3LIMof8kLHuhwKV7JDCzfOec_xFhKYzgADKrFA2my5P4A>
+ <xmx:ZJtlYOSAu-GUePxRzQRTFSiEN9YTNETXEcy7AEvtQo00qP-cxaZrDA>
+ <xmx:ZJtlYBL--YFdAs_f9f4K1RafeN95J5H0j2hQZkxTYckVbEERKcE1Yg>
+Received: from neo.luffy.cx (lfbn-idf1-1-1655-35.w90-90.abo.wanadoo.fr
+ [90.90.90.35])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E07A41080064;
+ Thu,  1 Apr 2021 06:07:31 -0400 (EDT)
+Received: by neo.luffy.cx (Postfix, from userid 500)
+ id 4E146A28; Thu,  1 Apr 2021 12:07:30 +0200 (CEST)
+From: Vincent Bernat <vincent@bernat.ch>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 2/2] hw/smbios: retrieve PCI address from specified
+ device for Type 41
+References: <20210401082544.16522-1-vincent@bernat.ch>
+ <20210401082544.16522-2-vincent@bernat.ch>
+ <YGWUrw9wgOI1E3aN@redhat.com>
+Date: Thu, 01 Apr 2021 12:07:30 +0200
+In-Reply-To: <YGWUrw9wgOI1E3aN@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 1 Apr 2021 10:38:55 +0100")
+Message-ID: <m3wntmjp25.fsf@bernat.ch>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <263c7339-2ac7-c34a-eb71-67148f075e25@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=vincent@bernat.ch;
+ helo=wout4-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,187 +101,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.04.21 10:32, Vladimir Sementsov-Ogievskiy wrote:
-> 31.03.2021 15:28, Max Reitz wrote:
->> Add a test accompanying commit 53431b9086b2832ca1aeff0c55e186e9ed79bd11
->> ("block/mirror: Fix mirror_top's permissions").
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   tests/qemu-iotests/tests/mirror-top-perms     | 121 ++++++++++++++++++
->>   tests/qemu-iotests/tests/mirror-top-perms.out |   5 +
->>   2 files changed, 126 insertions(+)
->>   create mode 100755 tests/qemu-iotests/tests/mirror-top-perms
->>   create mode 100644 tests/qemu-iotests/tests/mirror-top-perms.out
->>
->> diff --git a/tests/qemu-iotests/tests/mirror-top-perms 
->> b/tests/qemu-iotests/tests/mirror-top-perms
->> new file mode 100755
->> index 0000000000..451a0666f8
->> --- /dev/null
->> +++ b/tests/qemu-iotests/tests/mirror-top-perms
->> @@ -0,0 +1,121 @@
->> +#!/usr/bin/env python3
->> +# group: rw
->> +#
->> +# Test permissions taken by the mirror-top filter
->> +#
->> +# Copyright (C) 2021 Red Hat, Inc.
->> +#
->> +# This program is free software; you can redistribute it and/or modify
->> +# it under the terms of the GNU General Public License as published by
->> +# the Free Software Foundation; either version 2 of the License, or
->> +# (at your option) any later version.
->> +#
->> +# This program is distributed in the hope that it will be useful,
->> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
->> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->> +# GNU General Public License for more details.
->> +#
->> +# You should have received a copy of the GNU General Public License
->> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
->> +#
->> +
->> +import os
->> +import iotests
->> +from iotests import qemu_img
->> +
->> +# Import qemu after iotests.py has amended sys.path
->> +# pylint: disable=wrong-import-order
->> +import qemu
->> +
->> +
->> +image_size = 1 * 1024 * 1024
->> +source = os.path.join(iotests.test_dir, 'source.img')
->> +
->> +
->> +class TestMirrorTopPerms(iotests.QMPTestCase):
->> +    def setUp(self):
->> +        assert qemu_img('create', '-f', iotests.imgfmt, source,
->> +                        str(image_size)) == 0
->> +        self.vm = iotests.VM()
->> +        self.vm.add_drive(source)
->> +        
->> self.vm.add_blockdev(f'null-co,node-name=null,size={image_size}')
->> +        self.vm.launch()
->> +
->> +        # Will be created by the test function itself
->> +        self.vm_b = None
->> +
->> +    def tearDown(self):
->> +        try:
->> +            self.vm.shutdown()
->> +        except qemu.machine.AbnormalShutdown:
->> +            pass
->> +
->> +        if self.vm_b is not None:
->> +            self.vm_b.shutdown()
->> +
->> +        os.remove(source)
->> +
->> +    def test_cancel(self):
->> +        """
->> +        Before commit 53431b9086b28, mirror-top used to not take any
->> +        permissions but WRITE and share all permissions.  Because it
->> +        is inserted between the source's original parents and the
->> +        source, there generally was no parent that would have taken or
->> +        unshared any permissions on the source, which means that an
->> +        external process could access the image unhindered by locks.
->> +        (Unless there was a parent above the protocol node that would
->> +        take its own locks, e.g. a format driver.)
->> +        This is bad enough, but if the mirror job is then cancelled,
->> +        the mirroring VM tries to take back the image, restores the
->> +        original permissions taken and unshared, and assumes this must
->> +        just work.  But it will not, and so the VM aborts.
->> +
->> +        Commit 53431b9086b28 made mirror keep the original permissions
->> +        and so no other process can "steal" the image.
->> +
->> +        (Note that you cannot really do the same with the target image
->> +        and then completing the job, because the mirror job always
->> +        took/unshared the correct permissions on the target.  For
->> +        example, it does not share READ_CONSISTENT, which makes it
->> +        difficult to let some other qemu process open the image.)
->> +        """
->> +
->> +        result = self.vm.qmp('blockdev-mirror',
->> +                             job_id='mirror',
->> +                             device='drive0',
->> +                             target='null',
->> +                             sync='full')
->> +        self.assert_qmp(result, 'return', {})
->> +
->> +        self.vm.event_wait('BLOCK_JOB_READY')
->> +
->> +        # We want this to fail because the image cannot be locked.
->> +        # If it does not fail, continue still and see what happens.
-> 
-> This comment is about vm_b.launch(), not about creating vm object. 
-> Probably better to move it down
+ ❦  1 avril 2021 10:38 +01, Daniel P. Berrangé:
 
-I kind of meant this as a general comment on what this VM is for.  I 
-think I kind of like any comment here, and I don’t see a practical 
-advantage in having this comment above the try-except, because the whole 
-“launch VM, see it fail” block is kind of one monolithic concept.
+>>  hw/smbios/smbios.c | 47 +++++++++++++++++++++-------------------------
+>>  qemu-options.hx    |  2 +-
+>>  2 files changed, 22 insertions(+), 27 deletions(-)
+>
+> It doesn't really make sense to have this as a separate patch
+> when it is deleting half the code you added in the previous
+> patch. Just merge them together as one.
 
->> +        self.vm_b = iotests.VM(path_suffix='b')
->> +        # Must use -blockdev -device so we can use share-rw.
->> +        # (And we need share-rw=on because mirror-top was always
->> +        # forced to take the WRITE permission so it can write to the
->> +        # source image.)
->> +        
->> self.vm_b.add_blockdev(f'file,node-name=drive0,filename={source}')
->> +        self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
->> +        try:
->> +            self.vm_b.launch()
->> +            print('ERROR: VM B launched successfully, this should not 
->> have '
->> +                  'happened')
-> 
-> probably iotests.log() is better here.
+I'll do that.
 
-No, because logging is disabled, and so it wouldn’t be visible.  I’d 
-need to enable logging, which would make the test quite different overall.
+>> +                /*
+>> +                 * TODO: Extract the appropriate value. Most of the
+>> +                 * time, this will be 0.
+>> +                 */
+>> +                t->segment_group_number = cpu_to_le16(0);
+>
+> Hmm, tricky, as it requires interpreting the PCI topology. Wonder if
+> there's any helper that can do the hard work for you
 
-Max
+There is pci_root_bus_path(), but it returns a string which could just
+contain a segment or several segments. It seems the SMBIOS standard
+didn't account for complex topologies. I could parse the string. and
+keep only the right-most segment.
 
->> +        except qemu.qmp.QMPConnectError:
->> +            assert 'Is another process using the image' in 
->> self.vm_b.get_log()
->> +
->> +        result = self.vm.qmp('block-job-cancel',
->> +                             device='mirror')
->> +        self.assert_qmp(result, 'return', {})
->> +
->> +        self.vm.event_wait('BLOCK_JOB_COMPLETED')
->> +
->> +
->> +if __name__ == '__main__':
->> +    # No metadata format driver supported, because they would for
->> +    # example always unshare the WRITE permission.  The raw driver
->> +    # just passes through the permissions from the guest device, and
->> +    # those are the permissions that we want to test.
->> +    iotests.main(supported_fmts=['raw'],
->> +                 supported_protocols=['file'])
->> diff --git a/tests/qemu-iotests/tests/mirror-top-perms.out 
->> b/tests/qemu-iotests/tests/mirror-top-perms.out
->> new file mode 100644
->> index 0000000000..ae1213e6f8
->> --- /dev/null
->> +++ b/tests/qemu-iotests/tests/mirror-top-perms.out
->> @@ -0,0 +1,5 @@
->> +.
->> +----------------------------------------------------------------------
->> +Ran 1 tests
->> +
->> +OK
->>
-> 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
+>> +                t->bus_number = pci_dev_bus_num(pdev);
+>> +                t->device_number = pdev->devfn;
+>> +            } else {
+>> +                fprintf(stderr, "%s: cannot find PCI device %s\n",
+>> +                        __func__, t41->pcidev);
+>
+> This isn't terminating execution which looks like a bug.
 
+It was my intention. The PCI address will then be 00:00:00.0. If you
+think it's better to terminate, I can do what you suggest.
+-- 
+Replace repetitive expressions by calls to a common function.
+            - The Elements of Programming Style (Kernighan & Plauger)
 
