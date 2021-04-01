@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4434350E1C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 06:34:09 +0200 (CEST)
-Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD71350E57
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 07:10:14 +0200 (CEST)
+Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRp20-0001JL-RM
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 00:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
+	id 1lRpav-0007LD-8S
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 01:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRp0g-0000sz-Ok
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 00:32:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lRp0b-0003Ss-7c
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 00:32:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617251559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KHtmFmrBjz0RoQ+eda2TEgI7y59lV6egpiqQbXjdNDM=;
- b=bEZ+mGCYzfsIiK9by6u8tSO8lo29HYUJ/AX2O4Al3FnRfX3PvQGa0w5bRUuFKkCrd58+Mn
- UuJKjzlM5d8qOTSP4qa0xdG0Y70c3OLNmXvSqQH3am5dolpXqWHAMKuqwathfCGQot1jRt
- K7ATNdDslRv6VeU0SN3wIcVU3mDFkh4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-DmYqyeJqOUCngZ8r1nuD9A-1; Thu, 01 Apr 2021 00:32:38 -0400
-X-MC-Unique: DmYqyeJqOUCngZ8r1nuD9A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34E8A80986C;
- Thu,  1 Apr 2021 04:32:37 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-53.ams2.redhat.com [10.36.112.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15881B2402;
- Thu,  1 Apr 2021 04:32:18 +0000 (UTC)
-Subject: Re: [PATCH] gitlab-ci.yml: Use unrecoverable address sanitizer
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20210331160546.3071575-1-thuth@redhat.com>
- <20210331163634.oh7gznylvyxtwzz3@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3f066915-75d3-421c-880b-4e9f9a069e28@redhat.com>
-Date: Thu, 1 Apr 2021 06:32:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1lRpZg-0006q4-Ll; Thu, 01 Apr 2021 01:08:56 -0400
+Received: from mail-io1-f52.google.com ([209.85.166.52]:45721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1lRpZf-0002CD-6I; Thu, 01 Apr 2021 01:08:56 -0400
+Received: by mail-io1-f52.google.com with SMTP id k8so910390iop.12;
+ Wed, 31 Mar 2021 22:08:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fc4RWcd3ISQsBuHpJedvpbBJ3k7OPE4/gqpmnYuqjg4=;
+ b=K9ciPl1F2t2XiAlcl6k6e2xfIBtI9nOiJ3+C+YRJ8jEEryh+AGhVBjTUs5Rig7jtKF
+ wnaHzFf5FPn2/xxwoH9tJOUdQ+Tpr1/fa9sSGia9OvXXLE4H0XB+PCYtZqr24M9kMAx+
+ Nf2vnHFt8UjvOP9Uu1UugMswLUJ5MeNIk1HSbqqYI6Ti2N8PoiE5k7XSAM7Z0nw8ZIAW
+ ZuCWlHPotZHy79t1JM1UvCbQzbYfnioR35oO/N2SAcKqCrIDiQW+U/zK66QyFhRIlUsQ
+ mZ1AeQpTF9VhBcRt+iA7wFm82v1QBbzuhPqXwCGs5S8HjD/JprXpdAevJwUTJ/RGDPO/
+ DvDQ==
+X-Gm-Message-State: AOAM5323MSi0OHA1RmKg2h6RNQ8Qf7/C0Vl2TBhhTdE3o+yMoGEvEutI
+ dmBp6tFOVfplKKaYKIBpiXGS6iT4PHI=
+X-Google-Smtp-Source: ABdhPJzVa6Avgw2u+7TK343gAksyNHR70QzhUE/BMiLeNfTm1DuQPNQjHNg+bP2LUEUCIpWU/Ajgrg==
+X-Received: by 2002:a05:6638:2726:: with SMTP id
+ m38mr6187496jav.6.1617253732864; 
+ Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com.
+ [209.85.166.175])
+ by smtp.gmail.com with ESMTPSA id 23sm2300703iog.45.2021.03.31.22.08.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
+Received: by mail-il1-f175.google.com with SMTP id j16so1013209ilq.13;
+ Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
+X-Received: by 2002:a92:c26e:: with SMTP id h14mr820265ild.33.1617253732329;
+ Wed, 31 Mar 2021 22:08:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210331163634.oh7gznylvyxtwzz3@mozz.bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210315180341.31638-1-j@getutm.app>
+ <20210315180341.31638-3-j@getutm.app>
+In-Reply-To: <20210315180341.31638-3-j@getutm.app>
+From: Joelle van Dyne <j@getutm.app>
+Date: Wed, 31 Mar 2021 22:08:41 -0700
+X-Gmail-Original-Message-ID: <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
+Message-ID: <CA+E+eSAc7mvmxfrafgL4RYoSpj-M2T7WCXYXgFw3YOwxwWx+Rw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] block: check for sys/disk.h
+To: Joelle van Dyne <j@getutm.app>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.52; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f52.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,34 +79,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/2021 18.36, Alexander Bulekov wrote:
-> On 210331 1805, Thomas Huth wrote:
->> Make sure that errors don't go unnoticed by using the unrecoverable
->> sanitizer switch here, too.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
-> 
-> I thought sanitizer recovery is disabled by default for ASan. I've only
-> seen it enabled by default for UBSan. The docs seem to hint at this as
-> well [1]. Was there something specific in the CI logs that went
-> unnoticed?
+On Mon, Mar 15, 2021 at 11:03 AM Joelle van Dyne <j@getutm.app> wrote:
+>
+> Some BSD platforms do not have this header.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
 
-Oh, you're right. I just wanted to turn this on pro-actively, but also the 
-GCC man page says: "... error recovery is turned on by default, except 
--fsanitize=address ...".
+Please bear with me as I am still new to this, but what happens to the
+three patches that are reviewed if the last patch does not get
+reviewed? Do the reviewed patches still get to make it into 6.0? I am
+willing to drop the unreviewed patch if there are issues. Thanks.
 
-So never mind, this patch is not required.
-
-Thanks,
-  Thomas
-
+-j
 
