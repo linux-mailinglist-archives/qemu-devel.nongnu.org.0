@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFC03514F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:57:55 +0200 (CEST)
-Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156383514F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:57:23 +0200 (CEST)
+Received: from localhost ([::1]:56944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRwtX-0003X5-10
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57070)
+	id 1lRwsz-0003EM-S7
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lRwrW-0001gx-6K
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:50 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37826)
+ id 1lRwrX-0001hE-9r
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:51 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:46962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1lRwrU-0002xB-Bz
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:49 -0400
-Received: by mail-oi1-x236.google.com with SMTP id k25so1672258oic.4
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:55:47 -0700 (PDT)
+ id 1lRwrV-0002xj-7X
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:55:51 -0400
+Received: by mail-oi1-x236.google.com with SMTP id m13so1634333oiw.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:55:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5RkNLC5WI+uRZhYZKVcGch990QPAIEFOdI+kgFgPscg=;
- b=lySFpGRpFCVhpkTG1mIVxCwCe8MRPa62h/Le11fY7EqzwuGNrwJhQG4cRaGPOHdxmZ
- h9vVeRoRC+jSMN1cthB/X5YdIecNtksl2l5wG5BqT9I8Il9HE1zW/hFZeohBaQgR7Tkc
- L1JXvF59SjKXt7CWHnVpMAU3r3BFUG44z+5nBiSY9UWhebXYoNOF/+58OxcSxO7iIlV1
- 6VCK/YjD3wz2zerjmQLMJ1EbWmQx+3foChOhCao5lEjJCnCcouCQAogH6OxqDnKRb/7Z
- R8Sa+lRnv2mH37jPpsRWThVBmbbve6a0b/5BA36stiEDoI9iHXME4Jyph7Td4mfgvbme
- ChpA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jf1VGujtece+sgrlTdeq9JiiLbbG5le4coO4jmGjzMs=;
+ b=uJWJC90Fv3ZfmbNRq3PElKSAw+GkhitzXwH22LsbNIH0RAiT7H9ibTes7cnAWqcvWi
+ VODHrHUx+TGfJJvejG3WadK527IcHhlgySFaQMOSwPC6PpOFF5E0oHWKmVWzoF0yixAB
+ qW639gd+NAUgg4N52YRZsMWyShCzVb7ERZ4/3r2h/NGgZjcgRoYVabgFJ/aHZmpC2HRx
+ frx6v1p9crcOj3mcbfK7cLmth4KW1Dya6BM2gxQcRv/f62XSlqJ2skpyNO/onIR8u0Ft
+ lymtdn1jPOSYvaPwhPVHr+vl+EgJIce2OCimm34D45O4TnC1x3IpVDZvtUH8CWCaxCyW
+ 1Kag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5RkNLC5WI+uRZhYZKVcGch990QPAIEFOdI+kgFgPscg=;
- b=LIuVAD7M8zQ/Eds09PYEiutKwl/VCUe0CJagR4wbayXezYTfmpk57UWsCoeBf7AURY
- JfkbZfxS5XO5vuCiIfzElj34qWZ03B/52iCpe1AeKteDS+qlON+e1uwICK280enQ3PyG
- XDOGDfuryiRSxSi+eATzFCYPWdq6+F0uRNYJxdeDNNLYYQI7FzCgfTDs666bxFFtpfFx
- Ph7xRYUkLPt764EgMbOK8WmmFeOyIvJicMguj2R8X4YvUVgwnkgPTB6A272dvTg0kEV3
- dt1EV1ZdNv65vBBuGKf9Unt5rDN6coUHTszZFkES2WCUkx2Kp2EA+kZrYI9wn6ozwXY+
- 9Lbg==
-X-Gm-Message-State: AOAM531xEYyJG37R4M5Df2057gKwAooBorWgNytX03vJmBiwV9y5E+lV
- JiOU/05RhGP2bsfceKsjJuaNJEeCDiUdbCE=
-X-Google-Smtp-Source: ABdhPJyqvas8G/RV91W4iY/+GUTQ6C3yHZ3E8QQbAh8r+t0iPtEwWpqI22jJAqysCMObutywl5xJhg==
-X-Received: by 2002:aca:1909:: with SMTP id l9mr5825428oii.144.1617281747188; 
- Thu, 01 Apr 2021 05:55:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jf1VGujtece+sgrlTdeq9JiiLbbG5le4coO4jmGjzMs=;
+ b=GCIo/VtcCMqN8sVB3x98BxJa9AF6jyxM26QDP6RLbq3M631UhP1FJ8CGgKLqCeJHve
+ ARmhXCS/cK37eXdtAa1GWQMiF2ahAgAOfWYjEOvO9n36BRhqyE4Ly7zlW6RQKBuAhGH/
+ tucXwu6MD8Yh7f20Vhq5WJaGmIfLqGkD3g1jTx1eEIec/0VzAPKDQlsc8wNQEqoLA/yP
+ x2hV+MF6b3o5Z4JzoMqhBlHvVQKjLX/jRHZPmXlagpjKJzMUghjHeE/5qINErsBQkGu3
+ 6ygT8bgR0yl9F1ZyXdJsAFTkXKnPEaf+uEmRU+usF19jPsuf9SRbj8SMNsZgZ7yt5hAs
+ Y6FQ==
+X-Gm-Message-State: AOAM531re8uDrSfvhpLM9snl4+HhC9o6u3zXxAV6pRybGnUGu2mZFBDs
+ 0eyTVFJ0reM76ZXp+aMJhGwk79T8XQZYHHw=
+X-Google-Smtp-Source: ABdhPJzjQST9swZ1Ajtv8/20xozu3k76Wb0dZHepRGvjiQXJ7fmWyUd+18IsZdmNkdUVd8KHWaMszg==
+X-Received: by 2002:aca:4b4d:: with SMTP id y74mr5869561oia.97.1617281748104; 
+ Thu, 01 Apr 2021 05:55:48 -0700 (PDT)
 Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id w11sm1082245ooc.35.2021.04.01.05.55.46
+ by smtp.gmail.com with ESMTPSA id w11sm1082245ooc.35.2021.04.01.05.55.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 05:55:46 -0700 (PDT)
+ Thu, 01 Apr 2021 05:55:47 -0700 (PDT)
 From: Haibo Xu <haibo.xu@linaro.org>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH RESEND v2 0/6] target/arm: Add nested virtualization support
-Date: Thu,  1 Apr 2021 12:55:32 +0000
-Message-Id: <cover.1617281290.git.haibo.xu@linaro.org>
+Subject: [PATCH RESEND v2 1/6] Update linux header with new arm64 NV macro
+Date: Thu,  1 Apr 2021 12:55:33 +0000
+Message-Id: <87d2a40fa0a6775dd5a6af9b0d1609c1bf2a9610.1617281290.git.haibo.xu@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1617281290.git.haibo.xu@linaro.org>
+References: <cover.1617281290.git.haibo.xu@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
@@ -86,43 +88,44 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-  - Move the NV to a CPU feature flag(Andrea&Andrew)
-  - Add CPU feature 'el2' test(Andrew)
+Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+---
+ linux-headers/asm-arm64/kvm.h | 2 ++
+ linux-headers/linux/kvm.h     | 1 +
+ 2 files changed, 3 insertions(+)
 
-Many thanks to Andrea and Andrew for their comments!
-
-This series add support for ARMv8.3/8.4 nested virtualization support
-in KVM mode. It's based on Marc Zyngier's kernel KVM patches[1], and 
-has been tested on a FVP model to run a L2 guest with Qemu. Now the 
-feature can be enabled by "-M virt,accel=kvm -cpu host,el2=on" when
-starting a VM. 
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=kvm-arm64/nv-5.12-WIP
-
-Haibo Xu (6):
-  Update linux header with new arm64 NV macro
-  target/arm/kvm: Add helper to detect el2 when using KVM
-  target/arm/kvm: Add an option to turn on/off el2 support
-  hw/intc/arm_gicv3: Enable support for setting vGIC maintenance IRQ
-  target/arm/cpu: Enable 'el2' to work with host/max cpu
-  target/arm: Add vCPU feature 'el2' test.
-
- hw/arm/virt.c                      | 19 ++++++++---
- hw/intc/arm_gicv3_common.c         |  1 +
- hw/intc/arm_gicv3_kvm.c            | 16 +++++++++
- include/hw/intc/arm_gicv3_common.h |  1 +
- linux-headers/asm-arm64/kvm.h      |  2 ++
- linux-headers/linux/kvm.h          |  1 +
- target/arm/cpu.c                   | 14 +++++++-
- target/arm/cpu.h                   |  4 +++
- target/arm/cpu64.c                 | 53 ++++++++++++++++++++++++++++++
- target/arm/kvm64.c                 | 15 +++++++++
- target/arm/kvm_arm.h               | 13 ++++++++
- target/arm/monitor.c               |  2 +-
- tests/qtest/arm-cpu-features.c     |  9 +++++
- 13 files changed, 144 insertions(+), 6 deletions(-)
-
+diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.h
+index b6a0eaa32a..77b995a26c 100644
+--- a/linux-headers/asm-arm64/kvm.h
++++ b/linux-headers/asm-arm64/kvm.h
+@@ -106,6 +106,7 @@ struct kvm_regs {
+ #define KVM_ARM_VCPU_SVE		4 /* enable SVE for this CPU */
+ #define KVM_ARM_VCPU_PTRAUTH_ADDRESS	5 /* VCPU uses address authentication */
+ #define KVM_ARM_VCPU_PTRAUTH_GENERIC	6 /* VCPU uses generic authentication */
++#define KVM_ARM_VCPU_HAS_EL2		7 /* Support nested virtualization */
+ 
+ struct kvm_vcpu_init {
+ 	__u32 target;
+@@ -334,6 +335,7 @@ struct kvm_vcpu_events {
+ #define KVM_DEV_ARM_VGIC_GRP_CPU_SYSREGS 6
+ #define KVM_DEV_ARM_VGIC_GRP_LEVEL_INFO  7
+ #define KVM_DEV_ARM_VGIC_GRP_ITS_REGS 8
++#define KVM_DEV_ARM_VGIC_GRP_MAINT_IRQ 9
+ #define KVM_DEV_ARM_VGIC_LINE_LEVEL_INFO_SHIFT	10
+ #define KVM_DEV_ARM_VGIC_LINE_LEVEL_INFO_MASK \
+ 			(0x3fffffULL << KVM_DEV_ARM_VGIC_LINE_LEVEL_INFO_SHIFT)
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 020b62a619..ce4630c4db 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+ #define KVM_CAP_SYS_HYPERV_CPUID 191
+ #define KVM_CAP_DIRTY_LOG_RING 192
++#define KVM_CAP_ARM_EL2 193
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.17.1
 
