@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0BE351F40
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 21:06:47 +0200 (CEST)
-Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E157351F42
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 21:07:44 +0200 (CEST)
+Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS2eT-0000kB-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 15:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44758)
+	id 1lS2fP-0001pC-JA
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 15:07:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lS2cd-0000D5-Mo
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 15:04:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lS2cb-0007TA-KH
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 15:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617303886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=09frSVIlFQ/OfNGszJXS33jprl8KRI3kr0DwsuRhQ00=;
- b=ezf+rrbnKTmLc9etX+6e54afpkUHwdsQ1GiL5RcgwRltfQctVPeTnI63SCFFbfRHlUZVGK
- 61YwugUa8LpGKzJPlGJTN3rEweYRW0GFI1B2jydvjfy48/Ytjk9/MVxf2mSnnFZ52T9dhk
- MGbNA9amfheLycTNXn3FqG8VRjuuedE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-mcCieigbP5KmD_x2xytY1g-1; Thu, 01 Apr 2021 15:04:40 -0400
-X-MC-Unique: mcCieigbP5KmD_x2xytY1g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38382180FCAD
- for <qemu-devel@nongnu.org>; Thu,  1 Apr 2021 19:04:39 +0000 (UTC)
-Received: from avogadro.lan (ovpn-112-73.ams2.redhat.com [10.36.112.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 827766C330;
- Thu,  1 Apr 2021 19:04:38 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] add link to the code of conduct
-Date: Thu,  1 Apr 2021 21:04:37 +0200
-Message-Id: <20210401190437.75251-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lS2d9-0000PX-FS
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 15:05:24 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lS2d3-0007i3-Tz
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 15:05:20 -0400
+Received: by mail-wr1-x436.google.com with SMTP id x13so2800523wrs.9
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 12:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8WByKP4BhigSIv7qwnR4ZuMwND/wT6u9UYnnYnrzVqw=;
+ b=sERxjlTWhFMcnL8ZOv3lc378Q5hEteqbb2GV/wGS8IIPspGolfTD664iKzclzCKgII
+ MzUnmeB0QiZrJ+BiaE4ruMe8n3+WKCIaPgRzmA5n5Hlv8hIjFVZ2Vb5SRRx1doR6tM0R
+ tvVQY1sR6FL13pcXXe+JKu0cD2MmMR7a3srnrhpuvUj6LXhWgp92Vui6LA9Bbx02sQwx
+ IATPvS28MM/pQZB9CNtoJqk7Milj8ON9dwHGSkYw6IA2lhTW0+yKB53VvsIQd/7Kiqa9
+ WR2OGZckThe5ouGxAVGXGGg273u8G/rtbbw3pt5IZRAHUOzLPkfl50on4tDeMc4vTsZP
+ lUuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8WByKP4BhigSIv7qwnR4ZuMwND/wT6u9UYnnYnrzVqw=;
+ b=O7w2zGPnDjRUqCRx0GOOjtomSfLtpFlvwzCqkssmlwE8dDdU7qxPCXdqEMw1efLutc
+ t9uj0hT6NLdjWQMELy7oyftRy2nCcD61rWIKgQf8vVzYBIUl9F2mnzsc/yqWkSLtXUUB
+ QXbXcxIfC00niV10jORjXQK/V6g1ULJxiQlq7ppre1v4ggwDWJB+yc55N8XtzwOt0guT
+ GLuM2LYXD9YUwoS6jbHYJwp0aMAYllH6f1ffZIoXJ9YHEq8BYeDE+ySne0ohkCKRHdcJ
+ gk9a8BignUwFp5zgEF68U+pdtv9/dRd5AeC6xnnOu2KZ+GHJWjhs9p8Vj+iMbt33+6f1
+ IbBQ==
+X-Gm-Message-State: AOAM531DG3Tsf2s0uHRgVHnD65mcRgCohY+PfP+rwzNx4IHsGmpWx+tI
+ MMr60W8Ku1bcDHnYacWfIas=
+X-Google-Smtp-Source: ABdhPJyI8arUuBZX6VqmiZ1ftwTKxsVZGgLartyM49mV/yUAoEHbfjrpBLI3msKeoBzqvD5zDIElZQ==
+X-Received: by 2002:adf:fac1:: with SMTP id a1mr11689966wrs.98.1617303915855; 
+ Thu, 01 Apr 2021 12:05:15 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id s8sm10943849wrn.97.2021.04.01.12.05.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Apr 2021 12:05:14 -0700 (PDT)
+Subject: Re: [1/1] tcg/mips: Fix SoftTLB comparison on mips backend
+To: Kele Huang <kele.hwang@gmail.com>, qemu-devel@nongnu.org,
+ Jin Guojie <jinguojie@loongson.cn>, Yunqiang Su <ysu@wavecomp.com>
+References: <20210401100457.191458-1-kele.hwang@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9fa65fbd-8fb5-7a30-99ab-47c95db9a97b@amsat.org>
+Date: Thu, 1 Apr 2021 21:05:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210401100457.191458-1-kele.hwang@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,26 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
+Cc: peter.maydell@linaro.org, alistair.francis@wdc.com,
+ richard.henderson@linaro.org, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- contribute.md | 2 ++
- 1 file changed, 2 insertions(+)
+On 4/1/21 12:04 PM, Kele Huang wrote:
+> The addrl used to compare with SoftTLB entry should be sign-extended
+> in common case, and it will cause constant failing in SoftTLB
+> comparisons for the addrl whose address is over 0x80000000 on the
+> emulation of 32-bit guest on 64-bit host.
 
-diff --git a/contribute.md b/contribute.md
-index bcb048e..d7e295f 100644
---- a/contribute.md
-+++ b/contribute.md
-@@ -16,3 +16,5 @@ permalink: /contribute/
-   &ldquo;[Contributor FAQ](https://wiki.qemu.org/Contribute/FAQ)&rdquo;,
-   &ldquo;[How to submit a patch](https://wiki.qemu.org/Contribute/SubmitAPatch)&rdquo;,
-   &ldquo;[Improve the website](https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/)&rdquo;
-+
-+Contributing to QEMU is subject to the [QEMU Code of Conduct](https://qemu.org/docs/master/devel/code-of-conduct.html).
--- 
-2.30.1
+Apparently missed in commit f0d703314ec
+("tcg-mips: Adjust qemu_ld/st for mips64").
 
+> 
+> This is an important performance bug fix. Spec2000 gzip rate increase
+> from ~45 to ~140 on Loongson 3A4000 (MIPS compatible platform).
+> 
+> Signed-off-by: Kele Huang <kele.hwang@gmail.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> ---
+>  tcg/mips/tcg-target.c.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+> index 8738a3a581..8b16726242 100644
+> --- a/tcg/mips/tcg-target.c.inc
+> +++ b/tcg/mips/tcg-target.c.inc
+> @@ -1201,13 +1201,13 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg base, TCGReg addrl,
+>             load the tlb addend for the fast path.  */
+>          tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
+>      }
+> -    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
+>  
+>      /* Zero extend a 32-bit guest address for a 64-bit host. */
+>      if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+>          tcg_out_ext32u(s, base, addrl);
+>          addrl = base;
+>      }
+> +    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
+>  
+>      label_ptr[0] = s->code_ptr;
+>      tcg_out_opc_br(s, OPC_BNE, TCG_TMP1, TCG_TMP0);
+> 
 
