@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335243514DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:46:21 +0200 (CEST)
-Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4313514E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Apr 2021 14:49:40 +0200 (CEST)
+Received: from localhost ([::1]:51224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lRwiJ-0007sn-LC
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
+	id 1lRwlX-0000U2-Qe
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 08:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRwgn-0007L5-PV
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:44:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40646)
+ id 1lRwki-0008TD-QO
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:48:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lRwgl-0004gI-5P
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:44:44 -0400
+ id 1lRwkh-00075v-4K
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 08:48:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617281080;
+ s=mimecast20190719; t=1617281326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=387rRRbaZYvckk2VXgApdJdhzNgMkGbtwQW7p9oVLDg=;
- b=g3mUXd9drJsi+ZCSOuouBH30BepnUpQnq6wARFb7tElKFpwAdsee+rRaKS+VUncajdXe4G
- h3+OT4N61bCeIF0OokQjUKCFvJzLDcT0WSDClongUd+xVD5X9QFRBhU39Vap7uM7R1XEni
- vfiE6pZ8UZZ4kLQ1giOkVDeYO0iv62g=
+ bh=gENHOQIqWm4bFjC3lTVU/0PXAiAza1zIis1kpMR7SxI=;
+ b=bd/OVz5lOXxHkbR2VJbDRNy3ZcAsruIxbJg1gU4ZI4Th/kEmFpQrjjiqRB64AmZzaO1yvl
+ ABSj9ML01664CGtqiPqSInDYtxt8P3vJP9cix73jgX5sic+jJGwFZ1ETqqRZwrPinVH496
+ Ao5GQ8/x0RJd0L0CpR7HmDgBz9ebrFw=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-7xZUFLLuN5SSd4RQi1h_aQ-1; Thu, 01 Apr 2021 08:44:38 -0400
-X-MC-Unique: 7xZUFLLuN5SSd4RQi1h_aQ-1
-Received: by mail-ed1-f70.google.com with SMTP id r19so2780722edv.3
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:44:38 -0700 (PDT)
+ us-mta-194-5QMQMbQ7O32dCh2JpBuE7Q-1; Thu, 01 Apr 2021 08:48:43 -0400
+X-MC-Unique: 5QMQMbQ7O32dCh2JpBuE7Q-1
+Received: by mail-ed1-f70.google.com with SMTP id i19so2786281edy.18
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 05:48:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=387rRRbaZYvckk2VXgApdJdhzNgMkGbtwQW7p9oVLDg=;
- b=HFZxDpJE2zResVWuLU1f77HVBPJ4MtCRCseoJ82bNzTsymVLL9CXxVlcw5eP2EGbZc
- kAw2x7u03FPE1sMHfLIGmJTqleE8xoeiPaJRHv8MoV5m1dLWgFEIxDYpFXLtqqGmVTpK
- JaGxcWUgdmRARI7CEB6pRgkdoG/028se/FQB8hov81h2DRgPfWBZhJL0r33+cV0QaAcF
- QoKRHzRIlrpYYocMmDkR19Tv8luRXcNyxNTIj4VkZJP3neyvawWj/Bws+fwNrALTUOvQ
- CmTcbA9UOUh34/Ask/VsZ2hb8CRCN0iX21tjbooKEX8MUzjVZJXpzv9TYHu00udMfQsD
- /gUA==
-X-Gm-Message-State: AOAM5324CBz+cnU0tmBHkOIcai41PXwpM0v9s/NVy44VpSPmeHX/VzE6
- FLXKD0mVGVnPzdx+IkZ811lz4+UmVEXcEitcJFlU2YmZ3In8cmRCEiZHDoJs4dr5XQ+jPnjqkPS
- 0sqPuekRvsUaF8JA=
-X-Received: by 2002:a05:6402:b2a:: with SMTP id
- bo10mr9456462edb.144.1617281077632; 
- Thu, 01 Apr 2021 05:44:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxrO1rOlQBo7/fUH5p0M8s2FjLU6C+CHPKUpgAt7hKjHCcqLdHFWkr5favXj1buhGOWELC4g==
-X-Received: by 2002:a05:6402:b2a:: with SMTP id
- bo10mr9456447edb.144.1617281077481; 
- Thu, 01 Apr 2021 05:44:37 -0700 (PDT)
+ bh=gENHOQIqWm4bFjC3lTVU/0PXAiAza1zIis1kpMR7SxI=;
+ b=k1iJL3/YKp7/v4e2OYv9eoDWOxSgA+fCmO7nfVrnSrfvpLSRmVH28qcu+ol6Uf+i/9
+ W9hW+/luKmMqKBj5ixsAFXgjISSt4dudMn7vEMBLCMqrSLq71/hbaoIfZnqhvebAmfgB
+ WrG50wXHZDu3IzGrCU4j7qYWlSulfvxdI1ZNR/DazeqQCkLvrvVa1N+9IuomSMUcxFjN
+ h9PY1gzgCQIqpxgwn0DJFOmzcq0sgWIjhgnU8KGbK22eMZB2Z1x28MPKFb/6z5/KIwcs
+ WVN3FoRjpwXjSQdSjiZSkHSNJHY0yVUVTuAAAdS84ntnEoHcDjOBrRuy3N8RO/FqM4kZ
+ Q2Mg==
+X-Gm-Message-State: AOAM531gT4tVlglBnPAK2HOdHGCq2FZ5fzKzejjqEaEZEUkEr1+iAOIX
+ avlJ2gqIuj7lVprjGGTVnYXQyuyfvyfRgI3CVGfbAlei4LB6GCrkhEIejVOVroIVadvr+gsETCy
+ OJjuFhCvKP58GJO0=
+X-Received: by 2002:a05:6402:1d33:: with SMTP id
+ dh19mr9577987edb.362.1617281321958; 
+ Thu, 01 Apr 2021 05:48:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/ji2qFQSy7iFDFYDjKXaMwWOuVgeEJxSTODE4x5UshPdqpQC2xyQUBzhNUcFv0nOsNiKLsQ==
+X-Received: by 2002:a05:6402:1d33:: with SMTP id
+ dh19mr9577977edb.362.1617281321801; 
+ Thu, 01 Apr 2021 05:48:41 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v15sm3452842edw.28.2021.04.01.05.44.36
+ by smtp.gmail.com with ESMTPSA id gn3sm2668522ejc.2.2021.04.01.05.48.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 05:44:36 -0700 (PDT)
-Subject: Re: [PATCH v6 1/4] Add NVMM accelerator: configure and build logic
+ Thu, 01 Apr 2021 05:48:41 -0700 (PDT)
+Subject: Re: [PATCH v6 2/4] Add NVMM accelerator: x86 CPU support
 To: Reinoud Zandijk <reinoud@NetBSD.org>
 References: <20210331200800.24168-1-reinoud@NetBSD.org>
- <20210331200800.24168-2-reinoud@NetBSD.org>
- <5251852d-19ac-11d1-6343-6e1156d81f3e@redhat.com>
- <YGW50ugBOV+GIe+3@diablo.13thmonkey.org>
+ <20210331200800.24168-3-reinoud@NetBSD.org>
+ <5afd10b1-bd32-2f06-b311-246815428bfc@redhat.com>
+ <YGW9ZSo5RbeqDuVX@diablo.13thmonkey.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cf8800fa-d854-c475-aae7-bd9a96a31f74@redhat.com>
-Date: Thu, 1 Apr 2021 14:44:35 +0200
+Message-ID: <1122c14e-1b9f-be29-aba9-b39dd3e78fd5@redhat.com>
+Date: Thu, 1 Apr 2021 14:48:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YGW50ugBOV+GIe+3@diablo.13thmonkey.org>
+In-Reply-To: <YGW9ZSo5RbeqDuVX@diablo.13thmonkey.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -110,29 +110,81 @@ Cc: Kamil Rytarowski <kamil@NetBSD.org>, Ryo ONODERA <ryoon@netbsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/04/21 14:17, Reinoud Zandijk wrote:
-> Hi Paolo,
-> 
-> thanks for the review!
-> 
-> On Thu, Apr 01, 2021 at 10:28:19AM +0200, Paolo Bonzini wrote:
+On 01/04/21 14:32, Reinoud Zandijk wrote:
+> On Thu, Apr 01, 2021 at 10:35:40AM +0200, Paolo Bonzini wrote:
 >> On 31/03/21 22:07, Reinoud Zandijk wrote:
->>> Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
->>> Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
+>>> +void nvmm_vcpu_kick(CPUState *cpu);
 >>
->> Incorrect order for the S-o-b headers, you should be last.
+>> Not defined anywhere.
 > 
-> Oops? there is a prescribed order in those? Will change the order!
-
-The second got the patch from the first, the third from the second etc.
-
-> Will try to fix it and go for version 7 soon.
+> Hmmm, indeed. I think its a leftover of the former patch. Good catch.
 > 
-> Is there a way for `qemu format-patch' to preserve the comments made in the
-> previous run? It would be handy if it would paste in the old patchset's
-> comments in the new patchset :)
+>>> +{
+>>> +#if NVMM_USER_VERSION == 1
+>>> +    struct sigaction sigact;
+>>> +    sigset_t set;
+>>> +
+>>> +    /* Install the IPI handler. */
+>>> +    memset(&sigact, 0, sizeof(sigact));
+>>> +    sigact.sa_handler = nvmm_ipi_signal;
+>>> +    sigaction(SIG_IPI, &sigact, NULL);
+>>> +
+>>> +    /* Allow IPIs on the current thread. */
+>>> +    sigprocmask(SIG_BLOCK, NULL, &set);
+>>> +    sigdelset(&set, SIG_IPI);
+>>> +    pthread_sigmask(SIG_SETMASK, &set, NULL);
+>>> +#else
+>>> +    /*
+>>> +     * We use the nvmm_vcpu_stop() mechanism, and don't use signals.
+>>> +     * Nothing to do.
+>>> +     */
+>>> +#endif
+>>
+>> Since nvmm_vcpu_stop is very similar to KVM's immediate_exit mechanism, I
+>> think you still need to have a dummy signal handler to kick the VM out of
+>> the run loop *if it is in the kernel*.  The signal handler however can just
+>> do nothing.
+> 
+> Are you worried the in-kernel thread will somehow get stuck or halt on exit of
+> Qemu and left as a zombie?
 
-Hmm, not sure what you mean.  There is "git notes".
+No, you need all three of these:
+
+- the signal to interrupt a thread that is running the VM
+
+- the exit_request field to interrupt a thread that is running QEMU code
+
+- nvmm_vcpu_stop() to interrupt a thread that is running kernel code but 
+has not yet started running the VM.
+
+>> Also, can you just drop support for NVMM_USER_VERSION == 1?
+> 
+> Now thats a good suggestion. We could add support for it in the pkgsrc
+> package. When 9.0 gets retired, we could then retire it there without the need
+> to patch Qemu again.
+
+If it's still in use in the wild I have no problem keeping it.  The 
+difference is small; I was just asking.
+
+>>> diff --git a/target/i386/nvmm/meson.build b/target/i386/nvmm/meson.build
+>>> new file mode 100644
+>>> index 0000000000..c154e78014
+>>> --- /dev/null
+>>> +++ b/target/i386/nvmm/meson.build
+>>> @@ -0,0 +1,4 @@
+>>> +i386_softmmu_ss.add(when: 'CONFIG_NVMM', if_true: files(
+>>> +  'nvmm-all.c',
+>>> +  'nvmm-accel-ops.c',
+>>> +))
+>>
+>> The nvmm library should be added here.
+> 
+> I am not sure what you mean by that. You provided a patch for the meson.build
+> file, will that not suffice?
+
+That patch dropped nvmm from meson.build, here is where it should be 
+added (so that it is conditional on CONFIG_NVMM and qemu-system-arm does 
+not link to libnvmm).
 
 Paolo
 
