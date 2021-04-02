@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72740352791
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 10:47:20 +0200 (CEST)
-Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F48352792
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 10:49:19 +0200 (CEST)
+Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSFSZ-0005v8-4u
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 04:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
+	id 1lSFUU-00070w-AB
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 04:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lSFQv-0005UD-Q5
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:45:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21902)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1lSFTP-0006S3-Du; Fri, 02 Apr 2021 04:48:11 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:4061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lSFQs-00059t-6v
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:45:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617353132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I+jICSLQJ1954QsQsTAlD+2a4lZlyc3rsMnIEDDwGTU=;
- b=bOiuaGGx9VGGwHsIintfBSLZLJaDniCk7ef//enU9DWzH5BAWxIUXZdjkM6JhX8DC2enPJ
- M8LhdUWQk4aNYGUWQb1zTU6xWOQ90Gwtn/zp1DSs7xeglsMz/Xkfax+uyfF61C9Fq+Q2fJ
- nWF9D4f3G8ns5hsm+jxqcj5oQWdBq5g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-03IuZdvENb2V4HesgBSbMA-1; Fri, 02 Apr 2021 04:45:29 -0400
-X-MC-Unique: 03IuZdvENb2V4HesgBSbMA-1
-Received: by mail-wr1-f70.google.com with SMTP id b6so4051245wrq.22
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 01:45:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I+jICSLQJ1954QsQsTAlD+2a4lZlyc3rsMnIEDDwGTU=;
- b=Mm8B+zGw+tu6F8Wmm7e8kwcvKtgahrSpt7aSQGVxSslMpvv+WrbnJIh/1vyHHpXfmu
- wqAg1UxTUbmL2AJoo0NkvSxUDkAUZeY5DpjbEUn3QHjykt8dKmQwfFRbeus/NgJGFuW7
- qr21htg7Azz4UZhJF16Ffx9kocbYEhSkjpc1qUQnAQEqA5GsabBs/c+u6WnU/lVF+Dl5
- zfZH8PZ0gYUEscAqXlfdJe56IypblmL/OyMje1ygPXuT2a64mG3S5BfxqxPDcICjkO68
- t+VTDo1nvLMTdaGllQh2tRWNq7z3zi7g9/+Rq3WBrvrq4y3HTy9lKvfCS5dkgTa2s0K0
- tIRA==
-X-Gm-Message-State: AOAM533vICBFJkttRP2Zy6oAJp3ui1kAxGLGAT+nwMdJjovX/E/vkq0u
- bPxFgJgKdYbjcjlQxo8k62sSE77KumZ9i0pNhcF6w49LV/TKgYPq1MwPstmwNkGWNWJzEYXqGC5
- 3Mxpw2jyijBwtym4=
-X-Received: by 2002:a5d:5007:: with SMTP id e7mr14095233wrt.10.1617353128078; 
- Fri, 02 Apr 2021 01:45:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJximH62wBt95UmaHPIG+u+wXPZtX26Kb1D6hPEMmQKmTIUydzab8S+foeUY/q9GKvnEdrRaxw==
-X-Received: by 2002:a5d:5007:: with SMTP id e7mr14095217wrt.10.1617353127866; 
- Fri, 02 Apr 2021 01:45:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id a13sm13392336wrp.31.2021.04.02.01.45.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Apr 2021 01:45:27 -0700 (PDT)
-Subject: Re: Bug: fstenv is wrongly implemented
-To: Ziqiao Kong <ziqiaokong@gmail.com>, qemu-devel@nongnu.org
-References: <CAM0BWNCTD_oe3BgKQUqG41fgFqGCXVh1gaiMqJpvXbR4Fh5vHg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7c63e938-2482-3150-7cfb-1459c132fda6@redhat.com>
-Date: Fri, 2 Apr 2021 10:45:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1lSFTM-0006Yr-Ug; Fri, 02 Apr 2021 04:48:10 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FBYYb3MygzkhFT;
+ Fri,  2 Apr 2021 16:46:11 +0800 (CST)
+Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.179) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 2 Apr 2021 16:47:47 +0800
+From: Zenghui Yu <yuzenghui@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <peter.maydell@linaro.org>, <eric.auger@redhat.com>,
+ <prem.mallappa@broadcom.com>, <shannon.zhaosl@gmail.com>
+Subject: [PATCH] hw/arm/virt-acpi-build: Fix GSIV values of the {GERR,
+ Sync} interrupts
+Date: Fri, 2 Apr 2021 16:47:31 +0800
+Message-ID: <20210402084731.93-1-yuzenghui@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <CAM0BWNCTD_oe3BgKQUqG41fgFqGCXVh1gaiMqJpvXbR4Fh5vHg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.179]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=yuzenghui@huawei.com;
+ helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,29 +57,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, rth@twiddle.net
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/04/21 10:29, Ziqiao Kong wrote:
-> 
-> According to git blame, this bug is introduced about 13 years ago:
-> https://github.com/qemu/qemu/blame/633decd71119a4293e5e53e6059026c517a8bef0/target-i386/fpu_helper.c#L997.
-> 
-> We also had a patch for this bug:
-> https://github.com/unicorn-engine/unicorn/commit/59b09a71bfc6fd8b95357944f6be9aa54f424421
-> which you may refer to. I can also help draft a patch if necessary.
+The GSIV values in SMMUv3 IORT node are not correct as they don't match
+the SMMUIrq enumeration, which describes the IRQ<->PIN mapping used by
+our emulated vSMMU.
 
-Hi!
+Fixes: a703b4f6c1ee ("hw/arm/virt-acpi-build: Add smmuv3 node in IORT table")
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+---
+ hw/arm/virt-acpi-build.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Unfortunately the patch is incorrect, because fpu_update_ip is called 
-only at translation time and not at run-time.  If more than one x87 
-instruction is present in the same translation block, or if a 
-translation block has been compiled after the one that is executing, 
-env->fpip will be incorrect.
-
-Thanks,
-
-Paolo
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index f5a2b2d4cb..60fe2e65a7 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -292,8 +292,8 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         smmu->flags = cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE);
+         smmu->event_gsiv = cpu_to_le32(irq);
+         smmu->pri_gsiv = cpu_to_le32(irq + 1);
+-        smmu->gerr_gsiv = cpu_to_le32(irq + 2);
+-        smmu->sync_gsiv = cpu_to_le32(irq + 3);
++        smmu->sync_gsiv = cpu_to_le32(irq + 2);
++        smmu->gerr_gsiv = cpu_to_le32(irq + 3);
+ 
+         /* Identity RID mapping covering the whole input RID range */
+         idmap = &smmu->id_mapping_array[0];
+-- 
+2.19.1
 
 
