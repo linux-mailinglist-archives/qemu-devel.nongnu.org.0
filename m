@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400943526F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 09:37:02 +0200 (CEST)
-Received: from localhost ([::1]:59822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E21535271F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 09:55:11 +0200 (CEST)
+Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSEMX-0004NK-8K
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 03:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1lSEe6-00077l-3j
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 03:55:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lSEL8-0003ss-E8
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 03:35:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58892
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lSEL5-00031q-Ao
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 03:35:34 -0400
-Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lSEL8-0005cj-FL; Fri, 02 Apr 2021 08:35:39 +0100
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
- <20210401170021.x5ek7cusc62m7m6f@mozz.bu.edu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <bb30a76c-c758-6829-d3fe-3e2d01cf55b6@ilande.co.uk>
-Date: Fri, 2 Apr 2021 08:35:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1lSEd2-0006hf-Ah
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 03:54:04 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1lSEd0-0006nr-40
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 03:54:04 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id ce10so6365785ejb.6
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 00:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZYKtzedpbpsJpYoLCKpQlvNbXL5SYyWrt8yi+AvRQ5o=;
+ b=YMDLCFQ9WwpGh26x/5eVF4zt8y+nM6O/7an7vUBkrhMq/WTPt4B3y3FycZSBGQLZ48
+ c4ubaROfkR+Tpd2vYa5k3VNeG4IkDhhX6nLFvPLSfOmlw2lKGAgwGYpbm9OMKT93FAIm
+ +pB8373GJSN3EDT1c8R4D5Ltma+XjY6CpmrYFBge6XhIuJyyBRTV8VkjjRgy2Ykz2jdD
+ zrdjUP3zYsnXv7pbo14KGuFVEsx3TfXTGGLPCJs06QHZFgYBikYd4YesVg6smEfnw/Hr
+ ej10js7F4zzxN4lvSh8345tlS6jjurOz/qwvhK6mxkKSSvuhUlM3UlS57if70ic5kLIq
+ GDaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZYKtzedpbpsJpYoLCKpQlvNbXL5SYyWrt8yi+AvRQ5o=;
+ b=mV7P89amuxBSxlZoDnPtRAVZ4QtESrhbL73Smd5+bSM17vnYGUEqBDH9Fav9ZRMFxM
+ RnV/0oW7XwSXaxYZh4xEHxxGfwykNUiKuRbNRSva3pwdDSonazGnq05JCeGluwuBBeiW
+ 6sj2jmsFYgKk0PtItxcwprQ/9pdckOGabSD9d2SCTnnTiRVypyVhTFydPX6zbVP5keKe
+ 3EmVOQCyDM8Lss9Zl45K9hdqxlkZZBTjGPxLckLlh2SMlks73z7sluko4KYedKJhPlTm
+ R/1ZRxCyuxaVaWMyKydD5v/mR0ru6dLud9EqtHBmSlfWXyx+ku50lTwmUcJnJf1sPH8q
+ IxPQ==
+X-Gm-Message-State: AOAM533JHLE6S99VCfelOrU430OSCSgf9fjCHKcLnhl2ZJp87/yfbeqX
+ CTzigQMI/2IldW4o+G2+4OA8rW9oF4hDmVHcOw5xRA==
+X-Google-Smtp-Source: ABdhPJwNcDCkpRByf3qqohbllZtbYKEdOv/3WxagL/EPJELudzmvDnk/y+VSQY4cGyQZjtHvbilvGjk1VGyIHlZfkRg=
+X-Received: by 2002:a17:907:3e21:: with SMTP id
+ hp33mr12680005ejc.313.1617350040342; 
+ Fri, 02 Apr 2021 00:54:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210401170021.x5ek7cusc62m7m6f@mozz.bu.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.148.103.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 00/11] esp: fix asserts/segfaults discovered by fuzzer
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+References: <CAARzgwyS6Lhcqx6nPqtbdwzZuhz+roKCiVLDPzftpsxN2T+H2Q@mail.gmail.com>
+ <20210401095259-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210401095259-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 2 Apr 2021 13:23:49 +0530
+Message-ID: <CAARzgwy4ceeXLNfTJYJFTR95yOg3oeBd60UNh-KEyx2yXToc2g@mail.gmail.com>
+Subject: Re: virtio-pci reset option
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::62c;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,92 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/04/2021 18:00, Alexander Bulekov wrote:
+On Thu, Apr 1, 2021 at 7:23 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Thu, Apr 01, 2021 at 05:09:23PM +0530, Ani Sinha wrote:
+> > Hi MST:
+> >
+> > ref: https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci
+> >
+> > What: /sys/bus/pci/devices/.../reset
+> > Date: July 2009
+> > Contact: Michael S. Tsirkin <mst@redhat.com>
+> > Description:
+> > Some devices allow an individual function to be reset
+> > without affecting other functions in the same device.
+> > For devices that have this support, a file named reset
+> > will be present in sysfs.  Writing 1 to this file
+> > will perform reset.
+> >
+> >
+> > Can you please tell me which change in the kernel virtio-pci driver
+> > enabled this option to be available in sysfs? The kernel we are
+> > running does not seem to have this option for virtio-pci devices. I
+> > cannot seem to pin-point the exact change that is needed to get this.
+> >
+> >
+> > thanks
+> >
+> > ani
+>
+> Likely this one:
+>
+> commit eb1556c493d8abc5bfc8685561bcea934700e200
+> Author: Julia Suvorova <jusual@redhat.com>
+> Date:   Tue Aug 20 18:30:05 2019 +0200
+>
+>     virtio-pci: Add Function Level Reset support
 
-> On 210401 0849, Mark Cave-Ayland wrote:
->> Recently there have been a number of issues raised on Launchpad as a result of
->> fuzzing the am53c974 (ESP) device. I spent some time over the past couple of
->> days checking to see if anything had improved since my last patchset: from
->> what I can tell the issues are still present, but the cmdfifo related failures
->> now assert rather than corrupting memory.
->>
->> This patchset applied to master passes my local tests using the qtest fuzz test
->> cases added by Alexander for the following Launchpad bugs:
->>
->>    https://bugs.launchpad.net/qemu/+bug/1919035
->>    https://bugs.launchpad.net/qemu/+bug/1919036
->>    https://bugs.launchpad.net/qemu/+bug/1910723
->>    https://bugs.launchpad.net/qemu/+bug/1909247
->>    
->> I'm posting this now just before soft freeze since I see that some of the issues
->> have recently been allocated CVEs and so it could be argued that even though
->> they have existed for some time, it is worth fixing them for 6.0.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>
->> v3:
->> - Rebase onto master
->> - Rearrange patch ordering (move patch 5 to the front) to help reduce cross-talk
->>    between the regression tests
->> - Introduce patch 2 to remove unnecessary FIFO usage
->> - Introduce patches 3-4 to consolidate esp_fifo_pop()/esp_fifo_push() wrapper
->>    functions to avoid having to introduce 2 variants of esp_fifo_pop_buf()
->> - Introduce esp_fifo_pop_buf() in patch 5 to prevent callers from overflowing
->>    the array used to model the FIFO
->> - Introduce patch 10 to clarify cancellation logic should all occur in the .cancel
->>    SCSI callback rather than at the site of the caller
->> - Add extra qtests in patch 11 to cover addition test cases provided on LP
->>
-> 
-> Hi Mark,
-> I applied this and ran through the whole fuzzer corpus, and all I'm
-> seeing are just a few assertion failures:
-> handle_satn_stop -> get_cmd -> util/fifo8.c:43:5 and
-> hw/scsi/esp.c:790:5
-> 
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> 
-> Thank you
-> -Alex
+Hmm. Ok. I was actually looking in the kernel virtio-driver code
+because I saw, under the same hypervisor, qemu 4.2.1, my centos 7.9 VM
+was NOT showing that file in sysfs whereas my centos 8.0 did provide
+that option. I was thinking, maybe the newer driver code is
+responsible. Now I realize that FLR is pcie specific feature and that
+my centos 8 VM is actually q35 based whereas my centos 7 VM is i440fx.
+Hence, the difference.
 
-Thanks for the testing! I've just realised that there is an error in the get_cmd() 
-MIN() check (it should be cmdfifo, not fifo) and also the limit is missing from the 
-non-DMA path.
-
-Does the following patch on v3 fix the outstanding get_cmd() asserts?
-
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index ca062a0400..3b9037e4f4 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -243,7 +243,7 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
-          }
-          if (s->dma_memory_read) {
-              s->dma_memory_read(s->dma_opaque, buf, dmalen);
--            dmalen = MIN(fifo8_num_free(&s->fifo), dmalen);
-+            dmalen = MIN(fifo8_num_free(&s->cmdfifo), dmalen);
-              fifo8_push_all(&s->cmdfifo, buf, dmalen);
-          } else {
-              if (esp_select(s) < 0) {
-@@ -263,6 +263,7 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
-          if (n >= 3) {
-              buf[0] = buf[2] >> 5;
-          }
-+        n = MIN(fifo8_num_free(&s->cmdfifo), n);
-          fifo8_push_all(&s->cmdfifo, buf, n);
-      }
-      trace_esp_get_cmd(dmalen, target);
-
-Given that there is going to be a v4 now, if you are able to provide a handful of 
-test cases for hw/scsi/esp.c:790:5 as a diff on v3 like you did before then I can 
-take a quick look.
+Maybe you can consider updating that kernel documentation to mention
+that this sysfs specific option is only available in PCIE and in case
+of qemu based VMs, for q35 machine types.
 
 
-ATB,
-
-Mark.
+>
+>
+>
+> --
+> MST
+>
 
