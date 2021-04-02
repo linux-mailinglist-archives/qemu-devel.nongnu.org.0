@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A890352592
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 04:57:02 +0200 (CEST)
-Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15130352593
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 04:58:38 +0200 (CEST)
+Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lS9zZ-00035x-2U
-	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 22:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45288)
+	id 1lSA17-0004Gy-5s
+	for lists+qemu-devel@lfdr.de; Thu, 01 Apr 2021 22:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jie.deng@intel.com>)
- id 1lS9yJ-00029C-Pl
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 22:55:45 -0400
-Received: from mga14.intel.com ([192.55.52.115]:33669)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lS9zb-0003hl-IK
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 22:57:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jie.deng@intel.com>)
- id 1lS9y5-0002PX-5O
- for qemu-devel@nongnu.org; Thu, 01 Apr 2021 22:55:37 -0400
-IronPort-SDR: TkGBzIhAU30QsNUJtvuEIypRN8epqzDZwD4YBkJq1KPVfXoTX1q3b4v+fUcQNAwLjYoU4EUiOp
- UNCUH2hqeRHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9941"; a="191856375"
-X-IronPort-AV: E=Sophos;i="5.81,298,1610438400"; d="scan'208";a="191856375"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2021 19:55:19 -0700
-IronPort-SDR: 8ztB4sjTmBUJcnb8FGCLFe/Q5lxUhza/kciQcLxfLOtKuWbb1HsFaPw8/zzORh5JXkerjY2ebj
- UQL1mjaOnJ2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,298,1610438400"; d="scan'208";a="412985938"
-Received: from unknown (HELO [10.239.154.55]) ([10.239.154.55])
- by fmsmga008.fm.intel.com with ESMTP; 01 Apr 2021 19:55:17 -0700
-Subject: Re: [PATCH V2 4/6] tools/vhost-user-i2c: Add backend driver
-To: Viresh Kumar <viresh.kumar@linaro.org>, qemu-devel@nongnu.org
-References: <cover.1617278395.git.viresh.kumar@linaro.org>
- <e0adcd9552cee4de0ee844f6b3c87fb2b2f2357c.1617278395.git.viresh.kumar@linaro.org>
-From: Jie Deng <jie.deng@intel.com>
-Message-ID: <dd1373df-0e25-fcca-fb7e-669e3fa72739@intel.com>
-Date: Fri, 2 Apr 2021 10:55:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lS9zY-0003cx-K8
+ for qemu-devel@nongnu.org; Thu, 01 Apr 2021 22:57:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617332218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LtkiLDk5WxV8Ar5q9b3VfrBM0f/FZlJHrUXiXULVHPM=;
+ b=bT8YlmbCuXHTp8SCxSfxKiJ4nEo0ki10KNNKx6zFtRYQHyr2fGhL3uhUiaBRKS/SSHGORC
+ zs6MI5k9q2uctqkxYS842cuRwItovYfC08BVw24EQ2xbBNGQg2jM0eAU6kxbj+fS0/evCu
+ oZNd2FqZYSYO1AYpGrNKFWT2CRHLcQ0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-Z9-eQd9rP5Sn8Uy_hGG4yQ-1; Thu, 01 Apr 2021 22:56:55 -0400
+X-MC-Unique: Z9-eQd9rP5Sn8Uy_hGG4yQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D540501FE;
+ Fri,  2 Apr 2021 02:56:54 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-24.pek2.redhat.com
+ [10.72.12.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F18151C5B;
+ Fri,  2 Apr 2021 02:56:48 +0000 (UTC)
+Subject: Re: [PATCH v5 0/7] eBPF RSS support for virtio-net
+To: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com
+References: <20210325153529.75831-1-andrew@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <9046e35b-5487-c644-5186-d019255ccc70@redhat.com>
+Date: Fri, 2 Apr 2021 10:56:47 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <e0adcd9552cee4de0ee844f6b3c87fb2b2f2357c.1617278395.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=jie.deng@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210325153529.75831-1-andrew@daynix.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,85 +82,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
- Bill Mills <bill.mills@linaro.org>, Arnd Bergmann <arnd.bergmann@linaro.com>,
- Mike Holmes <mike.holmes@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021/4/1 20:12, Viresh Kumar wrote:
-> +
-> +/* vhost-user-i2c definitions */
-> +
-> +#define MAX_I2C_VDEV                    (1 << 7)
-> +#define MAX_I2C_ADAPTER                 16
-
-Generally speaking, 16 is big enough for most cases. But comparing with 
-static configuration,
-I think it is better if we can check how many adapters in the host when 
-doing initialization and
-use that number as "MAX_I2C_ADAPTER".
-
-
-> +
-> +static VI2cAdapter *vi2c_create_adapter(int32_t bus, uint16_t client_addr[],
-> +                                        int32_t n_client)
-> +{
-> +    VI2cAdapter *adapter;
-> +    char path[20];
-> +    uint64_t funcs;
-> +    int32_t fd, i;
-> +
-> +    if (bus < 0) {
-> +        return NULL;
-> +    }
-> +
-> +    adapter = g_malloc0(sizeof(*adapter));
-> +    if (!adapter) {
-> +        g_printerr("failed to alloc adapter");
-> +        return NULL;
-> +    }
-> +
-> +    snprintf(path, sizeof(path), "/dev/i2c-%d", bus);
-> +    path[sizeof(path) - 1] = '\0';
-> +
-> +    fd = open(path, O_RDWR);
-> +    if (fd < 0) {
-> +        g_printerr("virtio_i2c: failed to open %s\n", path);
-> +        goto fail;
-> +    }
-> +
-> +    adapter->fd = fd;
-> +    adapter->bus = bus;
-> +
-> +    if (ioctl(fd, I2C_FUNCS, &funcs) < 0) {
-> +        g_printerr("virtio_i2c: failed to get functionality %s: %d\n", path,
-> +                   errno);
-> +        goto close_fd;
-> +    }
-> +
-> +    if (funcs & I2C_FUNC_I2C) {
-> +        adapter->smbus = false;
-> +    } else if (funcs & I2C_FUNC_SMBUS_WORD_DATA) {
-
-
-Only I2C_FUNC_SMBUS_WORD_DATA is checked here. But in addition to it, 
-the smbus_xfer
-seems support I2C_FUNC_SMBUS_BYTE, I2C_FUNC_SMBUS_BYTE_DATA. So if an 
-adapter only
-support the latter two, it will never go to smbus_xfer.
-
-
-
-> +        adapter->smbus = true;
-> +    } else {
-> +        g_printerr("virtio_i2c: invalid functionality %lx\n", funcs);
-> +        goto close_fd;
-> +    }
-> +
+ÔÚ 2021/3/25 ÏÂÎç11:35, Andrew Melnychenko Ð´µÀ:
+> This set of patches introduces the usage of eBPF for packet steering
+> and RSS hash calculation:
+> * RSS(Receive Side Scaling) is used to distribute network packets to
+> guest virtqueues by calculating packet hash
+> * Additionally adding support for the usage of RSS with vhost
 >
+> The eBPF works on kernels 5.8+
+> On earlier kerneld it fails to load and the RSS feature is reported
+> only without vhost and implemented in 'in-qemu' software.
 >
+> Implementation notes:
+> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+> Added libbpf dependency and eBPF support.
+> The eBPF program is part of the qemu and presented as an array
+> of BPF ELF file data. The eBPF array file initially generated by bpftool.
+> The compilation of eBPF is not part of QEMU build and can be done
+> using provided Makefile.ebpf.
+> Added changes to virtio-net and vhost, primary eBPF RSS is used.
+> 'in-qemu' RSS used in the case of hash population and as a fallback option.
+> For vhost, the hash population feature is not reported to the guest.
+>
+> Please also see the documentation in PATCH 6/7.
+>
+> Known issues:
+> * hash population not supported by eBPF RSS: 'in-qemu' RSS used
+> as a fallback, also, hash population feature is not reported to guests
+> with vhost.
+> * IPv6 extensions still in progress.
+
+
+Hi Andrew:
+
+The patch looks good at a glance. I tend to queue it for 6.1.
+
+One issue is that, there's no easy way for testing it without a windows 
+guest.
+
+Do you have plan to extend Linux driver to support RSS (e.g via ethtool?).
+
+Thanks
+
+
+>
+> Changes since v1:
+> * using libbpf instead of direct 'bpf' system call.
+> * added libbpf dependency to the configure/meson scripts.
+> * changed python script for eBPF .h file generation.
+> * changed eBPF program - reading L3 proto from ethernet frame.
+> * added TUNSETSTEERINGEBPF define for TUN.
+> * changed the maintainer's info.
+> * added license headers.
+> * refactored code.
+>
+> Changes since v2:
+> * using bpftool for eBPF skeleton generation.
+> * ebpf_rss is refactored to use skeleton generated by bpftool.
+> * added/adjasted license in comment sections and in eBPF file.
+> * rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
+> * virtio-net eBPF rss refactored. Now eBPF initialized during realize().
+>
+> Changes since v3:
+> * rebased to last master.
+> * fixed issue with failed build without libbpf.
+> * fixed ebpf loading without rss option.
+> * refactored labels in ebpf_rss.c
+>
+> Changes since v4:
+> * refactored configure/meson script.
+> * added checks for load_bytes in ebpf.
+> * documentation added to the index.
+> * refactored Makefile and rss.bpf.c.
+> * rebased to last master.
+>
+> Andrew (7):
+>    net/tap: Added TUNSETSTEERINGEBPF code.
+>    net: Added SetSteeringEBPF method for NetClientState.
+>    ebpf: Added eBPF RSS program.
+>    ebpf: Added eBPF RSS loader.
+>    virtio-net: Added eBPF RSS to virtio-net.
+>    docs: Added eBPF documentation.
+>    MAINTAINERS: Added eBPF maintainers information.
+>
+>   MAINTAINERS                    |   8 +
+>   configure                      |   8 +-
+>   docs/devel/ebpf_rss.rst        | 125 ++++++++
+>   docs/devel/index.rst           |   1 +
+>   ebpf/ebpf_rss-stub.c           |  40 +++
+>   ebpf/ebpf_rss.c                | 165 ++++++++++
+>   ebpf/ebpf_rss.h                |  44 +++
+>   ebpf/meson.build               |   1 +
+>   ebpf/rss.bpf.skeleton.h        | 423 +++++++++++++++++++++++++
+>   ebpf/trace-events              |   4 +
+>   ebpf/trace.h                   |   2 +
+>   hw/net/vhost_net.c             |   3 +
+>   hw/net/virtio-net.c            | 115 ++++++-
+>   include/hw/virtio/virtio-net.h |   4 +
+>   include/net/net.h              |   2 +
+>   meson.build                    |   9 +
+>   meson_options.txt              |   2 +
+>   net/tap-bsd.c                  |   5 +
+>   net/tap-linux.c                |  13 +
+>   net/tap-linux.h                |   1 +
+>   net/tap-solaris.c              |   5 +
+>   net/tap-stub.c                 |   5 +
+>   net/tap.c                      |   9 +
+>   net/tap_int.h                  |   1 +
+>   net/vhost-vdpa.c               |   2 +
+>   tools/ebpf/Makefile.ebpf       |  22 ++
+>   tools/ebpf/rss.bpf.c           | 552 +++++++++++++++++++++++++++++++++
+>   27 files changed, 1567 insertions(+), 4 deletions(-)
+>   create mode 100644 docs/devel/ebpf_rss.rst
+>   create mode 100644 ebpf/ebpf_rss-stub.c
+>   create mode 100644 ebpf/ebpf_rss.c
+>   create mode 100644 ebpf/ebpf_rss.h
+>   create mode 100644 ebpf/meson.build
+>   create mode 100644 ebpf/rss.bpf.skeleton.h
+>   create mode 100644 ebpf/trace-events
+>   create mode 100644 ebpf/trace.h
+>   create mode 100755 tools/ebpf/Makefile.ebpf
+>   create mode 100644 tools/ebpf/rss.bpf.c
+>
+
 
