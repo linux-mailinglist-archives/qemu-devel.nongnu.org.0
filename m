@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E58353016
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 22:01:56 +0200 (CEST)
-Received: from localhost ([::1]:40684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC96035301D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 22:08:46 +0200 (CEST)
+Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSPzP-0004hK-DB
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 16:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
+	id 1lSQ62-00009M-0Y
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 16:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSPy5-0004Ck-35
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 16:00:33 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:33463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSPy3-0001m0-83
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 16:00:32 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- lr1-20020a17090b4b81b02900ea0a3f38c1so6601583pjb.0
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 13:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y2DSWaCw6g1v5VbgJJT4SdwfZtUUTDqeX7PknT6PoIY=;
- b=SxDbQpozsHSuRy9y5vaE84CmW6zVaXLmYeR6m2jBbYbPFLqzMe0F1/SywTP78wsqVz
- iU3GgGjsZe5gT94JOVptlDHOebeW40mWbp/X2o3b1tBVDQECaoIi5IN6rhTaekHlFC5f
- QiqBPIm9M3CtvzLif1K39lZ0OP9SSn+iVV8yfaRCQuA1XjMjep98NTW++/uHLGGMcy1M
- SF/91WjhCwbdGG7nEqnHMP9MILJlvaeU6ygvB8ptkD992SeD9VP/yvssfguhsFKbdZVf
- xUYQcaninO2HfLVSNH+muziTz0j/MNoHbsrp9z3oBt6H+Y4KqQ2yz0A+26zDUFTLtpIv
- KxXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=y2DSWaCw6g1v5VbgJJT4SdwfZtUUTDqeX7PknT6PoIY=;
- b=d/KhYCchGZQVGP1bORy8+rCAyE957OvwyhCOiCPuiFtPKbtM2sYv/cDHDdGANuzr8v
- Oi5M3gWGEO6RgqqWnyJT0oGeGGI/cf7Wru+MinyLYmZ7GQ96+WJocQFmZXuySX/GiUbw
- P23EdeiFpl2cKXoqWoIKF9uDpvFdd7uqY7Rl0fUGfrZv5rRG8vMR+3rQRw1fDudb0gw4
- I7ga0gWQqMvuH0tAqluU8Aimxe3b1h354MUIXhh81ne/8rmsIuJNJv9KXVM8jn/ZbYsW
- f9fcqJzfGBYjLmkeaSZVQ3XMLP9krW0PpA81qLLHrY6x0+imb20Mlhg25LFVoPQ5rRLT
- TA6w==
-X-Gm-Message-State: AOAM5329/3ShRLOQIiUpZi/amfyoXpSvRwHrqIpOWBjNNDu7ToV8O1EO
- nrLj+TNwLhZZpkH4CopdQ20VwA==
-X-Google-Smtp-Source: ABdhPJxBx64C3di0RcrivfVEl4wgeMAyYFE2u4SRCBpCPYEr+Cz+GOcdRgpm3McK9bAqmjNCF9u5ug==
-X-Received: by 2002:a17:90b:4d05:: with SMTP id
- mw5mr15204022pjb.236.1617393629483; 
- Fri, 02 Apr 2021 13:00:29 -0700 (PDT)
-Received: from [192.168.106.34]
- (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id u25sm8918786pgk.34.2021.04.02.13.00.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Apr 2021 13:00:29 -0700 (PDT)
-Subject: Re: [PATCH v2 01/21] Hexagon (target/hexagon) TCG generation cleanup
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
- <1617249213-22667-2-git-send-email-tsimpson@quicinc.com>
- <0cbf66d0-e306-972a-ca39-aadae2e9dc27@linaro.org>
- <BYAPR02MB48860C83CC91FDFC9D9DC06DDE7A9@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <42fcb60a-b6ee-c4d0-fad0-9fcc42c27314@linaro.org>
-Date: Fri, 2 Apr 2021 13:00:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1)
+ (envelope-from <prvs=7197bd837=alistair.francis@wdc.com>)
+ id 1lSQ1X-0005KK-68; Fri, 02 Apr 2021 16:04:07 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:6345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7197bd837=alistair.francis@wdc.com>)
+ id 1lSQ1U-0003EZ-LR; Fri, 02 Apr 2021 16:04:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1617393844; x=1648929844;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=4pOLarYNC5b4CVIKibxf0S+h2HcJ0ERquVzbRSFSCGM=;
+ b=W17X8TT8gh6O6y71Es9M5OiCNsyBeXbb59ntJulSZmldwni9hoO7rxty
+ Sr/JZUVyMDpewAhHDd7M4zTTtVeChGbwWO6rhdamp3x1lTxeH/JXf/Obm
+ jIe5ZAp1XjbYVvuF7i3xaYjEG1nRw6vKXSbHchk911dRha6wKoYVoYzo6
+ 9sL1kgonDs7W/j57VBW0x5sZc33s9bDHg3anhcLt/iQHyRtZy1ffNP1Ok
+ xR0V98r6XIKky0VZBKW25TjSu4i5l2UCeg1XR9Lg6VfeXSDg/amXpQHpY
+ tVLoAxc+RBKrQMgHT1sxjjF+gDSK77JeKv3BGb9mooKA7nTlI5q3BvDde A==;
+IronPort-SDR: nLYrsi7c7nM94RGQCfIQF3of170z42aneeEPr7+W1OQZIVlBJ3IY2rXpw05kPbKKcz08xvMTZ6
+ +gMgmjpXliqQknjYHo/zHm2cz8atFAzjmLIvi8MeLtk4lI75ObTRB17CuvV/6CEZKkmD/kOzfO
+ zr9NuBRD79w0rWBZmGGwYfl1Ezqk4QeDfIZpsNgpvtCt3ISm3ZNzNtlCW1iKoGDkxKDdHoAwzV
+ gv6BVRCr8X2f3eIGJYXVBHjQYsK9QD8oAkj26NHkLLCjl1OWU5ukDqCL2WZIsygkdlCrruddgt
+ ZGY=
+X-IronPort-AV: E=Sophos;i="5.81,300,1610380800"; d="scan'208";a="163694212"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 03 Apr 2021 04:04:02 +0800
+IronPort-SDR: yTRbt051MeXN/eIgQyoNPK8j8I9uucvowxsP1EuzQHKWd7j33FCPf2b2qIUVK6p1wj3T1cyaB6
+ TFJrbMh4zUzNtHevhx6LKEQXk1u4PQCLp3hWr0/+E2L6eaFgYX9d5KRqw8zzA31gQEJcmXL2Id
+ /lIKo/BEHzHnMP4wordEhuo50sp9izCwfS0z3BMm5HCApDZZKYGRpu4jymTi3GnEi5434m1ibr
+ l3o0K/zi66q6FIcclOKUMPC4iB0a1tkHtEc+/8B0VLl5lI79vD5L5pwUkqbC1gXRAIpNJGDd2y
+ 5pK438kouuo39FtQUgKHSsS1
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2021 12:45:42 -0700
+IronPort-SDR: 1sO+NMff0dwKF9kOAARUJEh9TloJISumSOYZ0JfVdKJmCiAsU0P/PaQo2sC0OtSMw/wNPTTPV4
+ t8y+JYrxxF710nGTmQnOLhGQ8Ty/M8DDds9nk7L6bTj/kIn5RN2E9KfTWDHU2LvakWeL4Dphn8
+ B/x6GCNwdgMEg9nRi/Ujk77If20idjBS8Bd47pzVoUoiVp7pILjJOM6r+tA7EbIXsmEMrRpVQQ
+ qGwGQ6zL9fQbOsdM9sgbExHbM76Kz//iVRIrmDi86cZdVfSrfskUsr5ozsz0W/M+siSNvboyZJ
+ kp8=
+WDCIronportException: Internal
+Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.167.80])
+ by uls-op-cesaip01.wdc.com with ESMTP; 02 Apr 2021 13:04:01 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 0/8]  RISC-V: Steps towards running 32-bit guests on
+Date: Fri,  2 Apr 2021 16:02:06 -0400
+Message-Id: <cover.1617393702.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB48860C83CC91FDFC9D9DC06DDE7A9@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=7197bd837=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,23 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/2/21 12:42 PM, Taylor Simpson wrote:
->>> @@ -43,12 +42,17 @@ static inline void gen_log_predicated_reg_write(int
-...
->> Having looked forward at patch 5, it appears this could be further improved
->> by examining ctx->regs_written.
-> 
-> It's not obvious how.  This is for a predicated instruction (e.g., if (p0) r2 = add(r1, r0)), so the checks need to be made at runtime.  There can be more than one predicated instruction in a packet that writes to the same register as long as only one of the predicates is true at runtime.
-> 
-> Am I missing something?
+This is another step towards running 32-bit CPU code on the 64-bit
+softmmu builds for RISC-V.
 
-Whoops, no.  I misread where we were here.
+I have tested this and am able to run some 32-bit code, but eventually
+hit some issue.  This series doesn't allow users to use 32-bit CPUs with
+64-bit softmmu builds as it doesn't work yet. This series instead just
+gets us a little closer to being able to and removes more hardcoded
+macros so hopefully others also stop using them for new code.
 
+Alistair Francis (8):
+  target/riscv: Remove the hardcoded RVXLEN macro
+  target/riscv: Remove the hardcoded SSTATUS_SD macro
+  target/riscv: Remove the hardcoded HGATP_MODE macro
+  target/riscv: Remove the hardcoded MSTATUS_SD macro
+  target/riscv: Remove the hardcoded SATP_MODE macro
+  target/riscv: Remove the unused HSTATUS_WPRI macro
+  target/riscv: Remove an unused CASE_OP_32_64 macro
+  target/riscv: Include RV32 instructions in RV64 build
 
-r~
+ target/riscv/cpu.h            |  6 ----
+ target/riscv/cpu_bits.h       | 44 ----------------------------
+ target/riscv/insn16-32.decode | 24 ++++++++++++++++
+ target/riscv/insn16-64.decode | 31 ++++++++++++++++++++
+ target/riscv/cpu.c            |  6 +++-
+ target/riscv/cpu_helper.c     | 51 +++++++++++++++++++++++++--------
+ target/riscv/csr.c            | 54 +++++++++++++++++++++++++++--------
+ target/riscv/monitor.c        | 22 ++++++++++----
+ target/riscv/translate.c      | 43 ++++++++++++++++++++++------
+ target/riscv/meson.build      |  7 +++--
+ 10 files changed, 197 insertions(+), 91 deletions(-)
+
+-- 
+2.31.0
+
 
