@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477FA352DAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 18:25:34 +0200 (CEST)
-Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86AE352DBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 18:29:15 +0200 (CEST)
+Received: from localhost ([::1]:36130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSMc1-0007As-Ci
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 12:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52810)
+	id 1lSMfb-0001Xu-12
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 12:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSMZl-0005lw-Tf
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:23:14 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42510)
+ id 1lSMcr-000850-FL
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:26:25 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSMZg-0005mf-Uh
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:23:13 -0400
-Received: by mail-pg1-x534.google.com with SMTP id f10so3829343pgl.9
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 09:23:08 -0700 (PDT)
+ id 1lSMco-0007xR-KB
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:26:25 -0400
+Received: by mail-pl1-x632.google.com with SMTP id f17so2754729plr.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 09:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1xGRAO8uFYwMPIUzyjH7fY98AaN77YRskCx/5s3MCKY=;
- b=cxDgncUK90MtsgC91nJd/vZR0z/I6JX0IUZRNm0rOgzliXTQbmLInPiylnupILDmmL
- i8okHLzB8Jd1sxFX0c9SzedXkJ7mxNTwH1+n4RNI5zDlivBsAF53URsknyeWetz6U3Xt
- 5lt31RzyB8DnHvraKYVduprijzRgeyuHgfRhX2YTET9gfsZOjFTbRp/ZODFqfDUCuqko
- jYf/xm03wMq+CVqD0b3j2Iu67wcCJ+E5rnHYdb81IqZJxkYgkvvf3x+OJmJJVpbexlA2
- eDJ2py2nDdOxI7sdmuncGDbR5O2Hro0wa0oiOBO6JgBAuHIhD9WCgOuIONGupPEAMxIA
- kQrg==
+ bh=OBzTV85pM+VX0n/BT0uqEZd7CKzQtpZFOdp/PFr2Rpc=;
+ b=hVwEZKv/0FIC7uCHpAAHKCGGK4o41Fp1fRMq2+mXn8zENRb7uZ+pTZ5fXtp3rKMU1O
+ g3I/UpxiYjdEALEm/L9M/Ld/e8OJejhi57z4GmB0ZtG1DY2Fc12QYie+ZuwnbblAeFuf
+ twBMYH2IhQkr163Ez11Z2ElbZ6aDMJvNTj7T+jearOvhv1avBrbhaBxLJTGI+UxwN1/G
+ RwVj+dcARfSeku/LNBJjcIWBMJCCslR+1N5YjGHKLkzNruKOhKkUvKjhU9nKlIXN2rdF
+ 3YbjerkYZw/RY7sXtGAt2zDeW6rpQCJ/A7JLemxY8NQgY8ALJ8hm2v10WY06/LdRjgT9
+ F4Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1xGRAO8uFYwMPIUzyjH7fY98AaN77YRskCx/5s3MCKY=;
- b=VADIAGRvDspaq8khPpdWgUpDuVuz6iIru36mfiVaFM1pnqhbHThW4oH7PCzqxjXkfW
- 3bDah8mFZjKK1t+s86zDYkuxJ8ZEDNyqmonDM/SPM1BckoADdb/zRDSZ7VvR91S/LZw/
- mMI5Oa7kQWRYYzGKEExMsmVXBDIZZUuzJFAgdddyai/anJP6xSqfw7itzbOHzhIJvPHq
- lN1FrMRz9k04UeVD/LAW4LFm/9GLa6klUKm7op2KV3ALO9NX4xJWDKjzyijDHkh72P74
- km6iH6Ld5goSvBNQMsyorwZhsPE+8b8lz8Eyjki/JWKIOSZwUVm3AAbVniwG4rWknkls
- px4A==
-X-Gm-Message-State: AOAM5315LTcVbkHNq4VQiA5048ihH2Edf8qrRUlrrt6pNki7scK/6nym
- wAHcfuEZkzZ3hqSzzjBHLCwzWQ==
-X-Google-Smtp-Source: ABdhPJwUm73+UkLaRmGUnrA4ucOYeFnO7ltP4Zbf8/xc5OOK0YztiMCbH7UNoa6dV3VMHW2rLZV1rA==
-X-Received: by 2002:aa7:8681:0:b029:1fd:4dd2:5659 with SMTP id
- d1-20020aa786810000b02901fd4dd25659mr12660476pfo.8.1617380587097; 
- Fri, 02 Apr 2021 09:23:07 -0700 (PDT)
+ bh=OBzTV85pM+VX0n/BT0uqEZd7CKzQtpZFOdp/PFr2Rpc=;
+ b=ENUyuAJIb+IaUyCBYE/mlIdX0yz9Dhtg+z3qu2YLDp9FaBAFORnAOFs0ehZqfnMYrY
+ aCfcswTHf2gMRO911qU09fo9QUHRW7OgNC9jBKlDaql3Hcz4nDMPiSnx7r0JiE5hqM5A
+ aO/PqnQc1niBqn7qtjUIxS1Fy+qo2LplN+43F06+4qverUWxwsUnTUIjWx6H603s4l37
+ pUfdYBmEgDb3YUHWT8561nbaFm4PpsHE6DtgGrfJ798Che1a75hXKxQTfgih4R6nbz9Y
+ n67cIMzxryn68Zim+As8Fhzc6m1dsFi8TJpUwgopPX1vb0Uu9ZlUaPhauMwdMab2+1j6
+ IyAw==
+X-Gm-Message-State: AOAM530dinGGsgykTPdEYbBGx4q6Hup/MVW4J1816vBI3RLX7BtkPT55
+ imUQkhdHCER8GH0av2vDDhgj8w==
+X-Google-Smtp-Source: ABdhPJwy1PudbzKEmSpytsWEXB1XksBo8K9P+a4yWBGKR0QVRW8icD6r9A2z8BgVXJLAddTlecDoWA==
+X-Received: by 2002:a17:90a:6343:: with SMTP id
+ v3mr14359793pjs.153.1617380780275; 
+ Fri, 02 Apr 2021 09:26:20 -0700 (PDT)
 Received: from [192.168.81.184]
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id w124sm8745286pfb.73.2021.04.02.09.23.06
+ by smtp.gmail.com with ESMTPSA id p25sm8861376pfe.100.2021.04.02.09.26.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Apr 2021 09:23:06 -0700 (PDT)
-Subject: Re: [PATCH v2 03/11] tests/tcg: add concept of container_hosts
+ Fri, 02 Apr 2021 09:26:19 -0700 (PDT)
+Subject: Re: [PATCH v2 04/11] tests/tcg/configure.sh: make sure we pick up
+ x86_64 cross compilers
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210401102530.12030-1-alex.bennee@linaro.org>
- <20210401102530.12030-4-alex.bennee@linaro.org>
+ <20210401102530.12030-5-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <171d328a-85aa-0d40-c181-8c7ed9e56fd6@linaro.org>
-Date: Fri, 2 Apr 2021 09:23:04 -0700
+Message-ID: <1b119958-38ec-3b61-8957-bd8a1113994c@linaro.org>
+Date: Fri, 2 Apr 2021 09:26:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210401102530.12030-4-alex.bennee@linaro.org>
+In-Reply-To: <20210401102530.12030-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,24 +97,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/1/21 3:25 AM, Alex Bennée wrote:
-> While docker is nominally multarch these days it doesn't mean our
-> distros actually package all cross compilers for all architectures.
-> The upcoming Debian bullseye release will improve things further. At
-> least for now we can get things like the 32 bit ARM compiler on it's
-> 64 bit cousin.
+> While it's hard to find cross compilers packaged for arches other than
+> x86_64 the same cannot be said for the x86_64 compiler which is
+> available on Debians i386, arm64 and ppc64el release architectures.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   configure              |  2 +-
->   tests/tcg/configure.sh | 27 +++++++++++++++++++++++++--
->   2 files changed, 26 insertions(+), 3 deletions(-)
+>   tests/tcg/configure.sh | 5 +++++
+>   1 file changed, 5 insertions(+)
 
-I'm not really keen on this, but I can't think of anything else. At least the 
-dockerfile contents are also under our control, and this is only matching that.
-
+Dunno why only these 3 hosts, but what you have matches the data in 
+packages.debian.org.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
