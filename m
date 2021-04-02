@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE043528EB
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 11:37:54 +0200 (CEST)
-Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804BA3528EC
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 11:38:01 +0200 (CEST)
+Received: from localhost ([::1]:56834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSGFV-00019M-LR
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 05:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55206)
+	id 1lSGFc-0001HQ-I1
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 05:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lSGDT-0008MV-JS
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 05:35:47 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:42772)
+ id 1lSGDY-0008Og-6D
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 05:35:52 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:42800)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lSGDQ-0002b1-OT
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 05:35:47 -0400
+ id 1lSGDW-0002er-Gs
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 05:35:51 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 2CC6140D3BFF;
- Fri,  2 Apr 2021 09:35:42 +0000 (UTC)
-Subject: [PATCH 2/4] tests/acceptance: add replay kernel test for ppc64
+ by mail.ispras.ru (Postfix) with ESMTPSA id B1C9840D3BFF;
+ Fri,  2 Apr 2021 09:35:47 +0000 (UTC)
+Subject: [PATCH 3/4] tests/acceptance: add replay kernel test for openrisc
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 02 Apr 2021 12:35:41 +0300
-Message-ID: <161735614192.1593935.18389180090912195825.stgit@pasha-ThinkPad-X280>
+Date: Fri, 02 Apr 2021 12:35:47 +0300
+Message-ID: <161735614743.1593935.5583218345759342239.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <161735613083.1593935.15369171718807768142.stgit@pasha-ThinkPad-X280>
 References: <161735613083.1593935.15369171718807768142.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -58,36 +58,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds record/replay test which boots Linux
-kernel on ppc64 platform. The test uses kernel binaries
+kernel on openrisc platform. The test uses kernel binaries
 taken from boot_linux_console test.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
- tests/acceptance/boot_linux_console.py |   12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ tests/acceptance/replay_kernel.py |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 1ca32ecf25..22a434ebd9 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -1018,6 +1018,18 @@ def test_m68k_mcf5208evb(self):
-         tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
-         self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index cdc22cb6d3..c1e80ab5ad 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -319,6 +319,17 @@ def test_ppc64_e500(self):
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'uImage', ('-cpu', 'e5500'))
  
-+    def test_ppc64_e500(self):
++    def test_or1k_sim(self):
 +        """
-+        :avocado: tags=arch:ppc64
-+        :avocado: tags=machine:ppce500
-+        :avocado: tags=cpu:e5500
++        :avocado: tags=arch:or1k
++        :avocado: tags=machine:or1k-sim
 +        """
-+        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
++        tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
 +        tar_url = ('https://www.qemu-advent-calendar.org'
-+                   '/2018/download/day19.tar.xz')
++                   '/2018/download/day20.tar.xz')
 +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        self.do_test_advcal_2018(file_path, 'uImage', ('-cpu', 'e5500'))
++        self.do_test_advcal_2018(file_path, 'vmlinux')
 +
-     def test_or1k_sim(self):
+     def test_ppc_g3beige(self):
          """
-         :avocado: tags=arch:or1k
+         :avocado: tags=arch:ppc
 
 
