@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14623526BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 08:52:53 +0200 (CEST)
-Received: from localhost ([::1]:42676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22ADA3526C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 08:53:57 +0200 (CEST)
+Received: from localhost ([::1]:45876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSDfo-00035U-MZ
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 02:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51826)
+	id 1lSDgq-0004R6-7l
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 02:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lSDeI-0002D5-JT
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 02:51:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41206)
+ id 1lSDeK-0002DS-CE
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 02:51:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lSDeG-0000GG-Q4
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 02:51:18 -0400
+ id 1lSDeG-0000Gd-QM
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 02:51:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lSDeE-0008QR-A7
+ id 1lSDeE-0008UH-Va
  for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 06:51:14 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4A3C72E8165
+ by loganberry.canonical.com (Postfix) with ESMTP id EAC152E806F
  for <qemu-devel@nongnu.org>; Fri,  2 Apr 2021 06:51:14 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Apr 2021 06:33:56 -0000
+Date: Fri, 02 Apr 2021 06:37:14 -0000
 From: promeneur <1873335@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: epistemepromeneur ruthan
 X-Launchpad-Bug-Reporter: ruthan (ruthan)
 X-Launchpad-Bug-Modifier: promeneur (epistemepromeneur)
 References: <158706530687.6368.4226982042682182002.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161734523674.24005.16087728315758916331.malone@chaenomeles.canonical.com>
+Message-Id: <161734543429.28954.16486330455332531877.malone@gac.canonical.com>
 Subject: [Bug 1873335] Re: Dos Keypad is not working for numbers - numlock is
  not working
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 8f5e35ff664d6be1c614d61fe88b7347e494235f
+X-Launchpad-Hash: 77bea9f66fbbe13a988e9f2919518eca33c6accc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,56 +74,31 @@ Reply-To: Bug 1873335 <1873335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I made the following experiments
+I use this qemu invocation
 
-openSuse 15.2
-kde environment
-qemu 4.2.1 and 5.2.0
+[CODE]
+#!/bin/bash
 
-VM: android-x86-7.1-r5 (www.android-x86.org)
+qemu-kvm \
+-enable-kvm \
+-k fr \
+-m 2048 \
+-smp 2 \
+-cpu host \
+-vga qxl \
+-device usb-ehci \
+-device usb-mouse \
+-device usb-kbd \
+-device usb-tablet \
+-device ich9-intel-hda \
+-device hda-duplex,audiodev=3Dsnd0 \
+-audiodev pa,id=3Dsnd0 \
+-device usb-host,vendorid=3D0x046d,productid=3D0x08e5 \
+-boot menu=3Don \
+-nic bridge \
+~/QEMU_VM/android_x86_7.1-r5.img \
 
-1.
-
-i add a standard 102 keys PC keyboard with "-device usb-kbd"
-
-for host numlock is "on"
-i launch the VM
-for host numlock is on. We can use the numeric keypad.
-for guest numlock is off! We can't use the numeric keypad.
-
-Now to add the keyboard instead of "-device usb-kbd" I use "-device usb-
-host, vendorid=3D<hex number>,productid=3D <hex number>
-
-for host numlock is "on"
-I launch the VM
-for host numlock is on. We can use the numeric keypad.
-for guest numlock is on. We can use the numeric keypad.
-
-2.
-
-I add a standard 102 keys PC keyboard with "-device usb-kbd"
-
-for the host the keyboard is in state "numlock on"
-launch the VM
-wait for launching is finished
-
-for the host the keyboard is in state "numlock on". We see that the numlock=
- ligh is on. We can use the numeric keypad.
-but for the guest the keyboard is in state "numlock off" ! We can't use the=
- numeric keypad.
-
-type the key "numlock". the numlock light is switched off.
-
-for the host the keyboard is in the state "numlock off". We can't use the n=
-umeric keypad to write 0...9, "."
-for the guest the keyboard is in the state "numlock on" ! We can use the nu=
-meric keypad to write 0...9, "."
-
-retype the key "numlock"
-
-this time the numeric keypad is in state "numlock on" for the host and
-the guest. We can use the numeric keypad for the host and for the guest
-!
+[/CODE]
 
 -- =
 
