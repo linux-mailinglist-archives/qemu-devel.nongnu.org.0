@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DB63530EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 23:57:03 +0200 (CEST)
-Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1873530F5
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 00:07:21 +0200 (CEST)
+Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSRmn-0008LT-KB
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 17:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37558)
+	id 1lSRwl-0005W8-I9
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 18:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lSRkt-0007RV-0q; Fri, 02 Apr 2021 17:55:03 -0400
-Resent-Date: Fri, 02 Apr 2021 17:55:03 -0400
-Resent-Message-Id: <E1lSRkt-0007RV-0q@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21341)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lSRkq-0004ro-9l; Fri, 02 Apr 2021 17:55:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1617400491; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KWh9izEcop5wzrwE2JR+RzqtEKcv0eaRED5/AZ6GKrX9d8XW41Jfgj6LVsozgCLEWcTgIPR7KEBl5jMbTLc6gYlBg1N1PLLFht2tp5jOYoOg9IG6MDA9pmSoofqmizkC9NbNnZb2pLfGEuh0UHsZpLE5pz2pSnsCsBVO6C6fvDI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1617400491;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=5Zxp4fFvc93Jc4WSbX+QOy4IMQglujSAF04xm+YDEw4=; 
- b=OW4TUOrKd8kKLFbgdxg61EjTXeauRTTmEJ/vgmc9P6PhtSUXoE60lPGzr9YF8sPcHM92tRJPyD6BiCaqqaqBTZgLfP9B76YOfJzzhJADVcdB8NMuwS6StT8Le3lW2vLbUeFuIQbtISeMStf4r5m2EueoX1c1fd3Gcx8dV7xc780=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1617400489838280.4869831431655;
- Fri, 2 Apr 2021 14:54:49 -0700 (PDT)
-In-Reply-To: <20210402214217.422585-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 00/11] target/arm mte fixes
-Message-ID: <161740048883.1406.12622616360712808288@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lSRvF-00053j-8i
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 18:05:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lSRvC-0001Hq-3t
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 18:05:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lSRv9-000819-Fy
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 22:05:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 778EF2E8157
+ for <qemu-devel@nongnu.org>; Fri,  2 Apr 2021 22:05:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Fri, 2 Apr 2021 14:54:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 02 Apr 2021 21:59:30 -0000
+From: =?utf-8?q?H=C3=A5vard_Eidnes?= <1922391@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: he-uninett
+X-Launchpad-Bug-Reporter: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
+References: <161739653585.29688.16825149829487531908.malonedeb@gac.canonical.com>
+Message-Id: <161740077163.22926.17762420527689076806.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1922391] Re: qemu-system-ppc assertion "!mr->container" failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: b8c37b52c01fb06912f1f0879d6f5c49be87d8e0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,92 +70,260 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1922391 <1922391@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQwMjIxNDIxNy40MjI1
-ODUtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MDIy
-MTQyMTcuNDIyNTg1LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggdjMgMDAvMTFdIHRhcmdldC9hcm0gbXRlIGZpeGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
-PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
-Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
-ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBb
-bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNDAyMjE0MjE3LjQyMjU4NS0xLXJpY2hhcmQu
-aGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDQwMjIxNDIxNy40MjI1ODUtMS1y
-aWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
-dCcKNjhlN2ZmNSB0YXJnZXQvYXJtOiBSZW1vdmUgbG9nMl9lc2l6ZSBwYXJhbWV0ZXIgdG8gZ2Vu
-X210ZV9jaGVja04KOTE3MTUwZCB0YXJnZXQvYXJtOiBTaW1wbGlmeSBzdmUgbXRlIGNoZWNraW5n
-CmRmNjA1YWMgdGFyZ2V0L2FybTogUmVuYW1lIG10ZV9wcm9iZTEgdG8gbXRlX3Byb2JlCjVkMDVh
-Y2QgdGFyZ2V0L2FybTogTWVyZ2UgbXRlX2NoZWNrMSwgbXRlX2NoZWNrTgo1NWVmYzk4IHRhcmdl
-dC9hcm06IFJlcGxhY2UgTVRFREVTQyBFU0laRStUU0laRSB3aXRoIFNJWkVNMQpiOTU4NTM3IHRl
-c3QvdGNnL2FhcmNoNjQ6IEFkZCBtdGUtNQo2ZDQyZDcxIHRhcmdldC9hcm06IEZpeCB1bmFsaWdu
-ZWQgY2hlY2tzIGZvciBtdGVfY2hlY2sxLCBtdGVfcHJvYmUxCjdjOTU1NTIgdGFyZ2V0L2FybTog
-U3BsaXQgb3V0IG10ZV9wcm9iZV9pbnQKYWI4ZDlmMiB0YXJnZXQvYXJtOiBGaXggdW5hbGlnbmVk
-IG10ZSBjaGVja3MgZm9yIG10ZV9jaGVja04KNjUyMjc4MSB0YXJnZXQvYXJtOiBDaGVjayBQQUdF
-X1dSSVRFX09SRyBmb3IgTVRFIHdyaXRlYWJpbGl0eQo3NzFjZmU0IGFjY2VsL3RjZzogUHJlc2Vy
-dmUgUEFHRV9BTk9OIHdoZW4gY2hhbmdpbmcgcGFnZSBwZXJtaXNzaW9ucwoKPT09IE9VVFBVVCBC
-RUdJTiA9PT0KMS8xMSBDaGVja2luZyBjb21taXQgNzcxY2ZlNDFiZGM4IChhY2NlbC90Y2c6IFBy
-ZXNlcnZlIFBBR0VfQU5PTiB3aGVuIGNoYW5naW5nIHBhZ2UgcGVybWlzc2lvbnMpClVzZSBvZiB1
-bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9z
-Y3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3Ig
-ZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM2NjogCm5l
-dyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogImZvbyAqIGJhciIgc2hvdWxkIGJlICJmb28gKmJh
-ciIKIzEyMzogRklMRTogdGVzdHMvdGNnL2FhcmNoNjQvbXRlLmg6NTE6CitzdGF0aWMgdm9pZCAq
-IGFsbG9jX210ZV9tZW0oc2l6ZV90IHNpemUpIF9fYXR0cmlidXRlX18oKHVudXNlZCkpOwoKRVJS
-T1I6ICJmb28gKiBiYXIiIHNob3VsZCBiZSAiZm9vICpiYXIiCiMxMjQ6IEZJTEU6IHRlc3RzL3Rj
-Zy9hYXJjaDY0L210ZS5oOjUyOgorc3RhdGljIHZvaWQgKiBhbGxvY19tdGVfbWVtKHNpemVfdCBz
-aXplKQoKdG90YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCA4NCBsaW5lcyBjaGVja2VkCgpQYXRj
-aCAxLzExIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzExIENoZWNraW5nIGNvbW1pdCA2
-NTIyNzgxZjNiMjEgKHRhcmdldC9hcm06IENoZWNrIFBBR0VfV1JJVEVfT1JHIGZvciBNVEUgd3Jp
-dGVhYmlsaXR5KQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjg6IEZJTEU6IHRh
-cmdldC9hcm0vbXRlX2hlbHBlci5jOjg2OgorICAgIGlmICghKGZsYWdzICYgKHB0cl9hY2Nlc3Mg
-PT0gTU1VX0RBVEFfU1RPUkUgPyBQQUdFX1dSSVRFX09SRyA6IFBBR0VfUkVBRCkpKSB7Cgp0b3Rh
-bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8xMSBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgozLzExIENoZWNraW5nIGNvbW1pdCBhYjhkOWYyMTA1MjAg
-KHRhcmdldC9hcm06IEZpeCB1bmFsaWduZWQgbXRlIGNoZWNrcyBmb3IgbXRlX2NoZWNrTikKNC8x
-MSBDaGVja2luZyBjb21taXQgN2M5NTU1MjFhZTg1ICh0YXJnZXQvYXJtOiBTcGxpdCBvdXQgbXRl
-X3Byb2JlX2ludCkKNS8xMSBDaGVja2luZyBjb21taXQgNmQ0MmQ3MTQyZDUwICh0YXJnZXQvYXJt
-OiBGaXggdW5hbGlnbmVkIGNoZWNrcyBmb3IgbXRlX2NoZWNrMSwgbXRlX3Byb2JlMSkKNi8xMSBD
-aGVja2luZyBjb21taXQgYjk1ODUzNzRiMzRmICh0ZXN0L3RjZy9hYXJjaDY0OiBBZGQgbXRlLTUp
-ClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcg
-ZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMyOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDUyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-Ny8xMSBDaGVja2luZyBjb21taXQgNTVlZmM5ODBlNWU2ICh0YXJnZXQvYXJtOiBSZXBsYWNlIE1U
-RURFU0MgRVNJWkUrVFNJWkUgd2l0aCBTSVpFTTEpCjgvMTEgQ2hlY2tpbmcgY29tbWl0IDVkMDVh
-Y2QwNjlkZSAodGFyZ2V0L2FybTogTWVyZ2UgbXRlX2NoZWNrMSwgbXRlX2NoZWNrTikKOS8xMSBD
-aGVja2luZyBjb21taXQgZGY2MDVhYzRiM2JmICh0YXJnZXQvYXJtOiBSZW5hbWUgbXRlX3Byb2Jl
-MSB0byBtdGVfcHJvYmUpCjEwLzExIENoZWNraW5nIGNvbW1pdCA5MTcxNTBkNThlNzAgKHRhcmdl
-dC9hcm06IFNpbXBsaWZ5IHN2ZSBtdGUgY2hlY2tpbmcpCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
-YXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQojOTU6IEZJTEU6IHRhcmdldC9hcm0vc3ZlX2hlbHBl
-ci5jOjQ0Mzg6CisgICAgICAgICAgICAgICBzdmVfbGRzdDFfdGxiX2ZuICp0bGJfZm4pCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJv
-dW5kIHRoYXQgJyonIChjdHg6V3hWKQojMTg5OiBGSUxFOiB0YXJnZXQvYXJtL3N2ZV9oZWxwZXIu
-Yzo1MDYzOgorICAgICAgICAgICAgICAgc3ZlX2xkc3QxX3RsYl9mbiAqdGxiX2ZuKQogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3Ms
-IDIwMiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-LgoKMTEvMTEgQ2hlY2tpbmcgY29tbWl0IDY4ZTdmZjU5Nzc3OCAodGFyZ2V0L2FybTogUmVtb3Zl
-IGxvZzJfZXNpemUgcGFyYW1ldGVyIHRvIGdlbl9tdGVfY2hlY2tOKQo9PT0gT1VUUFVUIEVORCA9
-PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
-YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDQwMjIxNDIxNy40MjI1ODUt
-MS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+** Description changed:
+
+  Hi,
+  =
+
+  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
+n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
+  quite a bit into the "unpacking sets" part of the installation procedure,
+  unpacking from the install iso image.
+  =
+
+  Qemu is run on a NetBSD/amd64 9.1 host system.
+  =
+
+  The asert message from qemu is
+  =
+
+  assertion "!mr->container" failed: file "../softmmu/memory.c", line
+  1739, function "memory_region_finalize"
+  =
+
+- The stack backtrace from the core file is
++ The stack backtrace from the core file (when built with debug symbols)
++ is
+  =
+
++ Core was generated by `qemu-system-ppc'.
+  Program terminated with signal SIGABRT, Aborted.
+- #0  0x000078859a36791a in _lwp_kill () from /usr/lib/libc.so.12
++ #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
+  [Current thread is 1 (process 1)]
+  (gdb) where
+- #0  0x000078859a36791a in _lwp_kill () from /usr/lib/libc.so.12
+- #1  0x000078859a3671ca in abort () from /usr/lib/libc.so.12
+- #2  0x000078859a2a8507 in __assert13 () from /usr/lib/libc.so.12
+- #3  0x000000015a3c19c0 in memory_region_finalize ()
+- #4  0x000000015a3fef1c in object_unref ()
+- #5  0x000000015a3feee6 in object_unref ()
+- #6  0x000000015a374154 in address_space_unmap ()
+- #7  0x000000015a276551 in pmac_ide_atapi_transfer_cb ()
+- #8  0x000000015a150a59 in dma_blk_cb ()
+- #9  0x000000015a46a1c7 in blk_aio_complete ()
+- #10 0x000000015a5a617d in coroutine_trampoline ()
+- #11 0x000078859a264150 in ?? () from /usr/lib/libc.so.12
+- Backtrace stopped: Cannot access memory at address 0x7884894ff000
+- (gdb)
++ #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
++ #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
++ #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
++ #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
++     at ../softmmu/memory.c:1739
++ #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
+
++     obj=3D<optimized out>) at ../qom/object.c:671
++ #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
++ #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
++ #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
++     at ../qom/object.c:623
++ #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
++ #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
++ #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
++     at ../softmmu/memory.c:1787
++ #11 0x000000003e7d8eb4 in address_space_unmap (
++     as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
+d out>, =
+
++     len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
+mized out>)
++     at ../softmmu/physmem.c:3222
++ #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
+
++     dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
+>, =
+
++     as=3D<optimized out>)
++     at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
++ #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
+ out>)
++     at ../hw/ide/macio.c:122
++ #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
++     at ../softmmu/dma-helpers.c:120
++ #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
+rs.c:138
++ #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
++     at ../block/block-backend.c:1412
++ #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
+
++     i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
++ #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
++ Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
++ (gdb) =
+
++ =
+
+  =
+
+  I start qemu with this small script:
+  =
+
+  ---
+  #!/bin/sh
+  =
+
+  MEM=3D3g
+  qemu-system-ppc \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
+raw,file=3Ddisk.img \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
+stfwd=3Dtcp::2223-:22,ipv6=3Doff \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
+netdev=3Dnet0 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
+iso
+  ---
+  =
+
+  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
+  to replicate this I can provide more detailed instructions to repeat the
+  procedure I used to start the install.
+  =
+
+  Any hints about what more to look for?
+  =
+
+  Regards,
+  =
+
+  - H=C3=A5vard
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922391
+
+Title:
+  qemu-system-ppc assertion "!mr->container" failed
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
+n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
+  quite a bit into the "unpacking sets" part of the installation procedure,
+  unpacking from the install iso image.
+
+  Qemu is run on a NetBSD/amd64 9.1 host system.
+
+  The asert message from qemu is
+
+  assertion "!mr->container" failed: file "../softmmu/memory.c", line
+  1739, function "memory_region_finalize"
+
+  The stack backtrace from the core file (when built with debug symbols)
+  is
+
+  Core was generated by `qemu-system-ppc'.
+  Program terminated with signal SIGABRT, Aborted.
+  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
+  [Current thread is 1 (process 1)]
+  (gdb) where
+  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
+  #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
+  #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
+  #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
+      at ../softmmu/memory.c:1739
+  #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
+
+      obj=3D<optimized out>) at ../qom/object.c:671
+  #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
+  #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
+  #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
+      at ../qom/object.c:623
+  #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
+  #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
+  #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
+      at ../softmmu/memory.c:1787
+  #11 0x000000003e7d8eb4 in address_space_unmap (
+      as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
+d out>, =
+
+      len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
+mized out>)
+      at ../softmmu/physmem.c:3222
+  #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
+
+      dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
+>, =
+
+      as=3D<optimized out>)
+      at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
+  #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
+ out>)
+      at ../hw/ide/macio.c:122
+  #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
+      at ../softmmu/dma-helpers.c:120
+  #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
+rs.c:138
+  #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
+      at ../block/block-backend.c:1412
+  #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
+
+      i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
+  #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
+  Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
+  (gdb) =
+
+
+  =
+
+  I start qemu with this small script:
+
+  ---
+  #!/bin/sh
+
+  MEM=3D3g
+  qemu-system-ppc \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
+raw,file=3Ddisk.img \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
+stfwd=3Dtcp::2223-:22,ipv6=3Doff \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
+netdev=3Dnet0 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
+iso
+  ---
+
+  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
+  to replicate this I can provide more detailed instructions to repeat the
+  procedure I used to start the install.
+
+  Any hints about what more to look for?
+
+  Regards,
+
+  - H=C3=A5vard
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922391/+subscriptions
 
