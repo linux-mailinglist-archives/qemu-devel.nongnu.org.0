@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255F4352DDB
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 18:42:30 +0200 (CEST)
-Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2962A352E0C
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 19:14:04 +0200 (CEST)
+Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSMsP-00016l-85
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 12:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59310)
+	id 1lSNMw-0000Qr-O8
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 13:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSMrH-0000CS-7r
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:41:19 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36411)
+ id 1lSNKi-00082j-0E
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 13:11:44 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:40613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSMrE-0008Sr-6B
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:41:18 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- f2-20020a17090a4a82b02900c67bf8dc69so4843392pjh.1
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 09:41:15 -0700 (PDT)
+ id 1lSNKg-0001zp-Cr
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 13:11:43 -0400
+Received: by mail-pg1-x529.google.com with SMTP id b17so258568pgh.7
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 10:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kF+2n82M+2ysf197zUQWTPXBwzAsUm/B5bc92ciWheE=;
- b=NFz6X7ojtn942AghJg8cn+KHXLIZufTtVRoaHps8+gBbVS8i10s2QlW5yhZ2xabSYq
- M8CvSelx5a1buVYgUC6j+/drM+hCeNwtcV/j/i6mJourqnSx6dbkKdDwpwxY+qcO+x/t
- sDxiynWgbuOgoq8LXrW9bZD99eAOSTXZvan4SZkHI+tLbnPfsuNNjqWwGYzHxaHZpnyg
- X00qPZyK+YcErENQ6i7zEzNZz4D/P25WyR5zOkqm0uK6+SE3KtNiwSf0/57IenorpoD4
- fgGr8rINJxMP6HTLt0AVa6X7Vsedxs4f3QgNMsEopPKt3L4b7H6XHAE9AfWzqQRDn2dL
- 88cA==
+ bh=QdD7HEZR0muMqnZaelCXg/4/u7m18lqMo7GL/1Ukw2I=;
+ b=CQ3iMnktLwW3XHgqy4r8NHRHoWLvMyB3L/qx96UtSgcHVKgyh5UDgDs4AA1kKF7Im/
+ KLrSrO5hfR/y0EQt3di/oW9wtwasFdSg1rJ91aTcxWjXD/q9Apei93qEMN8TRsNJSNj0
+ 2sZWICP3BEbABhp/KAhrLepDZOxlYG6tUcHI6DpPwjUgDGZBwrFbz2EVP1LI6A/1WG5I
+ 7zCIfG4FmyaUOJSmCo/qttHixxQBeHCVAIs60HfGKgsl6NAZkbzVGFhVhx8VPTnILgub
+ pfGehJIbefo/Na16NmUg61l/EsWsYDMQQStnUNTx6THCMjfn+CD5094TwBG0fkBRgbtl
+ e2fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kF+2n82M+2ysf197zUQWTPXBwzAsUm/B5bc92ciWheE=;
- b=oK5TW5UMPpIzF6nhwPoTOVeR3hTF+tkN0wGjcLMO7mIvhwGmrSIVchK6ESiRS86qlq
- naNyzXT41+g+wM98Z9xeTLOGzLh9sb5rcvLUOeVvqoUBI/JWmJu3/4Cz3i33jxC8f8lH
- DPjxo/hsOhwIJaCu/lMMJuE+VxwxpC0Wf57ymonkU9i8S7jVfhYu45gM69G8BbFP7865
- F1WT9k+1erdtf8k7Y83gu4Yr/aUhiWH6QEI2ZSkQCs77AecLdlG8H/mjVGSKwWB0QYBO
- y0jgSL5R83GOfiuMHlXPm5gX0Vh2CcmzDOleLqT70oFDb0wiRaAEhdC6l7am662tw6jd
- AN/g==
-X-Gm-Message-State: AOAM533iC9M0QBMAhfy91799drSd8E4VYAu0nDB2Tf/1HphcZv9nlrYv
- nJC03oUv1FOh2GgwBggm0hpvAg==
-X-Google-Smtp-Source: ABdhPJxL/PCnWZZHH1c37+SYV2Nkv0wc3Ou9C+mqjle8X2SBjPDAa5rV22DVg129QJYx1MMqJgwK2g==
-X-Received: by 2002:a17:90b:1216:: with SMTP id
- gl22mr14655934pjb.99.1617381674497; 
- Fri, 02 Apr 2021 09:41:14 -0700 (PDT)
-Received: from [192.168.81.184]
+ bh=QdD7HEZR0muMqnZaelCXg/4/u7m18lqMo7GL/1Ukw2I=;
+ b=ejldSpZpDttom8BCVk5Yak6rlg4N89kY352V1j1A1hTzEM5U47i0ab3fTQFRO7pkL7
+ +EsvADshHIGZbWbqL5b+sbYITA7Jj/M3NTD43OjVsJ3b2115mK4cKhe+Qz+RjpbXeevb
+ h49FnKczK9mRSfzFnig3ZS2IKdYHNQ9dxGy+FRc+lOobyRYvEPA7c8CbWM3IjebuVxsO
+ bspyeBbk1TjO9trU9rDvF0lo9gVxiVT4RNaZ8/L1t9RcWJDeiK7zdds3fxypCp8Tv79x
+ pLs4R9eJm7M/q3CR8P160udu8KgiXrzEWhvFQO2kcro6xgn6pNItaJfRt2J4EqtHOh2o
+ D8QA==
+X-Gm-Message-State: AOAM5302x4DHQ6G9eUwLEGV/+IepdUJVW3+9ajlhJTA3YYOsy/C2Q//5
+ N6UIVRWx1L0cbZBc1qrDtAf44Q==
+X-Google-Smtp-Source: ABdhPJx8GyYpwdBNpSMHV1Ohq6skPBfKtMS+Mqs3BWdjm5RnV6vD5rnzse1ZabF35ErRPFIvMTRTjA==
+X-Received: by 2002:a63:d40b:: with SMTP id a11mr12513182pgh.192.1617383500822; 
+ Fri, 02 Apr 2021 10:11:40 -0700 (PDT)
+Received: from [192.168.51.248]
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id b19sm8312120pfo.7.2021.04.02.09.41.12
+ by smtp.gmail.com with ESMTPSA id q10sm8576990pfc.190.2021.04.02.10.11.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Apr 2021 09:41:13 -0700 (PDT)
-Subject: Re: [PATCH v2 07/11] tests/tcg: relax the next step precision of the
- gdb sha1 test
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210401102530.12030-1-alex.bennee@linaro.org>
- <20210401102530.12030-8-alex.bennee@linaro.org>
+ Fri, 02 Apr 2021 10:11:40 -0700 (PDT)
+Subject: Re: [PATCH v2 1/5] target/riscv: Convert the RISC-V exceptions to an
+ enum
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1617290165.git.alistair.francis@wdc.com>
+ <f191dcf08bf413a822e743a7c7f824d68879a527.1617290165.git.alistair.francis@wdc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <de4fa9a0-8951-14fa-d2c4-fa0df2fbf8f8@linaro.org>
-Date: Fri, 2 Apr 2021 09:41:10 -0700
+Message-ID: <94b40cdc-4869-730e-50c2-0d33f93be077@linaro.org>
+Date: Fri, 2 Apr 2021 10:11:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210401102530.12030-8-alex.bennee@linaro.org>
+In-Reply-To: <f191dcf08bf413a822e743a7c7f824d68879a527.1617290165.git.alistair.francis@wdc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,28 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/21 3:25 AM, Alex Bennée wrote:
->       check_break("SHA1Init")
->   
-> -    # check step and inspect values
-> +    # Check step and inspect values. We do a double next after the
-> +    # breakpoint as depending on the version of gdb we may step the
-> +    # preamble and not the first actual line of source.
-> +    gdb.execute("next")
->       gdb.execute("next")
->       val_ctx = gdb.parse_and_eval("context->state[0]")
->       exp_ctx = 0x67452301
+On 4/1/21 8:17 AM, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis<alistair.francis@wdc.com>
+> Reviewed-by: Bin Meng<bmeng.cn@gmail.com>
+> ---
+>   target/riscv/cpu_bits.h   | 44 ++++++++++++++++++++-------------------
+>   target/riscv/cpu.c        |  2 +-
+>   target/riscv/cpu_helper.c |  4 ++--
+>   3 files changed, 26 insertions(+), 24 deletions(-)
 
-This double next seems just as fragile.  Why don't you just set the breakpoint 
-where you want, which appears to be sha1.c:138?
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
