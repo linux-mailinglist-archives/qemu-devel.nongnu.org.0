@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE313352DB8
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 18:27:42 +0200 (CEST)
-Received: from localhost ([::1]:60680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236C1352DA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 18:21:10 +0200 (CEST)
+Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSMe5-0008Lk-T8
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 12:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53670)
+	id 1lSMXl-0002LJ-51
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 12:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lSMcB-0007iq-Ch
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:25:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39006)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lSMVP-0000tq-5S
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:18:43 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lSMc9-0007RG-41
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:25:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lSMc7-0000UB-1p
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 16:25:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0BBEB2E8157
- for <qemu-devel@nongnu.org>; Fri,  2 Apr 2021 16:25:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Apr 2021 16:17:49 -0000
-From: Andrey Konovalov <1921948@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lSMVM-00035A-Ex
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 12:18:42 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ il9-20020a17090b1649b0290114bcb0d6c2so4828596pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 09:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RhHqeyidCB+9/uyN78QecO6UZ1exOGFoiaz07QlfopQ=;
+ b=QkZCKP+k2IrB/f8r4ebE4hAAOiTl0bbs1komSIkEebZKiL13cgMo46b5tls1Tnw5Ht
+ a9lViBULc9+pHNRjxzqlNFxyLrwydS+iMfEbjRsaaFolz3vzRk8ux22xH65FzAUeCU/R
+ fhPZGZBKRK93GOfRWyUqE/UhvOS3DAyCinFDz8Wqe+/l1WAMrbNvCxVDQDhoCVUSnPmT
+ RhUjp2GoAgVsbxK99YkO1dPolapct8j2quRm9Q78HbHsnG4wCOtI64jvPmKv4FsPfL/Y
+ C6me8slgLSU9XRhkO7cJh1Vri3vv5p7PiMhTlp5fR9pyXOjpL6gfuHi0CNv5L1Vp0+hM
+ 3Reg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RhHqeyidCB+9/uyN78QecO6UZ1exOGFoiaz07QlfopQ=;
+ b=UTc6soj9b3qHJlEcp/T3EYafP1QpeuOLXw7EipMd7cv3kZUvwYn3uS/oh2fBbLDBTZ
+ nJpojKgJhdgfbxRnPsGx+iCMv6eLPT9tTVAVI4jqdRHpAx/txAx1IuYCw/vRpsG11GtU
+ eRF6UR4HzYiUbrt3sqXyCKDE/mDvOrfijBqqh7yEm2Q34okwV2UH+il0aiGpMLOkI2V7
+ StfAGe3hQw6z5yT5n97DxTBm4KdWxyZbA+Uh2r48gjWXhoFbjIFvAXHHl6Aojfg890Kt
+ tZXnBlr+msWC1Pyhhf/g5fVeI9YkeJpmlzEycD2qf/LvcG5+7Y4MFH2eGpaQfTErBhKI
+ oP0w==
+X-Gm-Message-State: AOAM531crU5PS8UYrZjrEKwdlkz8kSD8cyZZ0xfd81Okd2bcKrQH/ILZ
+ pvyb+ei+ujD72BzdsrouQqak7NfR2+16Rw==
+X-Google-Smtp-Source: ABdhPJwX/Wbd3SeaZgZ1po3ltOiJ43c0nMy778bO8M00/paklJ5WvkRim0QwwISZcG8DY/kWLmRJhQ==
+X-Received: by 2002:a17:90a:5587:: with SMTP id
+ c7mr14008245pji.5.1617380317698; 
+ Fri, 02 Apr 2021 09:18:37 -0700 (PDT)
+Received: from localhost.localdomain
+ (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
+ by smtp.gmail.com with ESMTPSA id m7sm8821761pjc.54.2021.04.02.09.18.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Apr 2021 09:18:37 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog rth xairy
-X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: Andrey Konovalov (xairy)
-References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <161738027004.22881.1680936569061184145.malone@chaenomeles.canonical.com>
-Subject: [Bug 1921948] Re: MTE tags not checked properly for unaligned
- accesses at EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 76ee64b6ed70ca3c64742929fa6c8994d6a01eda
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2 0/3] target/arm mte fixes
+Date: Fri,  2 Apr 2021 09:18:32 -0700
+Message-Id: <20210402161835.286665-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,86 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+In addition to re-instating the "is tag checking enabled" test
+in gen_mte_checkN, add a fix for a second bug in mprotect.
 
-I tried your patch, but QEMU crashes with:
+I have verified that the 5.10 kernel, running in system mode,
+allows setting PROT_MTE with mprotect.
 
-ERROR:../target/arm/mte_helper.c:588:mte_check_fail: code should not be rea=
-ched
-Bail out! ERROR:../target/arm/mte_helper.c:588:mte_check_fail: code should =
-not be reached
 
-when running KASAN tests.
+r~
 
-Thanks!
 
--- =
+Supercedes: 20210402053728.265173-1-richard.henderson@linaro.org
+("target/arm: Fix unaligned mte checks")
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921948
 
-Title:
-  MTE tags not checked properly for unaligned accesses at EL1
+Richard Henderson (3):
+  target/arm: Check PAGE_WRITE_ORG for MTE writeability
+  target/arm: Fix unaligned mte checks
+  accel/tcg: Preserve PAGE_ANON when changing page permissions
 
-Status in QEMU:
-  In Progress
+ target/arm/helper-a64.h           |   3 +-
+ target/arm/internals.h            |  13 +--
+ target/arm/translate-a64.h        |   2 +-
+ tests/tcg/aarch64/mte.h           |   3 +-
+ accel/tcg/translate-all.c         |   9 +-
+ target/arm/mte_helper.c           | 171 ++++++++++++------------------
+ target/arm/sve_helper.c           |  96 ++++++-----------
+ target/arm/translate-a64.c        |  31 +++---
+ target/arm/translate-sve.c        |   9 +-
+ tests/tcg/aarch64/mte-5.c         |  44 ++++++++
+ tests/tcg/aarch64/mte-6.c         |  43 ++++++++
+ tests/tcg/aarch64/Makefile.target |   2 +-
+ 12 files changed, 222 insertions(+), 204 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-5.c
+ create mode 100644 tests/tcg/aarch64/mte-6.c
 
-Bug description:
-  For kernel memory accesses that span across two memory granules,
-  QEMU's MTE implementation only checks the tag of the first granule but
-  not of the second one.
+-- 
+2.25.1
 
-  To reproduce this, build the Linux kernel with CONFIG_KASAN_HW_TAGS
-  enabled, apply the patch below, and boot the kernel:
-
-  diff --git a/sound/last.c b/sound/last.c
-  index f0bb98780e70..04745cb30b74 100644
-  --- a/sound/last.c
-  +++ b/sound/last.c
-  @@ -5,12 +5,18 @@
-    */
-   =
-
-   #include <linux/init.h>
-  +#include <linux/slab.h>
-   #include <sound/core.h>
-   =
-
-   static int __init alsa_sound_last_init(void)
-   {
-          struct snd_card *card;
-          int idx, ok =3D 0;
-  +
-  +       char *ptr =3D kmalloc(128, GFP_KERNEL);
-  +       pr_err("KASAN report should follow:\n");
-  +       *(volatile unsigned long *)(ptr + 124);
-  +       kfree(ptr);
-          =
-
-          printk(KERN_INFO "ALSA device list:\n");
-          for (idx =3D 0; idx < SNDRV_CARDS; idx++) {
-
-  KASAN tags the 128 allocated bytes with the same tag as the returned
-  pointer. The memory granule that follows the 128 allocated bytes has a
-  different tag (with 1/15 probability).
-
-  Expected result: a tag fault is detected and a KASAN report is printed wh=
-en accessing bytes [124, 130).
-  Observed result: no tag fault is detected and no KASAN report is printed.
-
-  Here are the flags that I use to run QEMU if they matter:
-
-  qemu-system-aarch64 -s -machine virt,mte=3Don -cpu max -m 2G -smp 2 -net
-  user,host=3D10.0.2.10,hostfwd=3Dtcp:127.0.0.1:10021-:22 -net nic
-  -nographic -kernel ./Image -append "console=3DttyAMA0 root=3D/dev/vda
-  earlyprintk=3Dserial" -drive file=3D./fs.img,format=3Draw,if=3Dvirtio -no-
-  shutdown -no-reboot
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921948/+subscriptions
 
