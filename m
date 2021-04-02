@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CD9352765
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 10:22:58 +0200 (CEST)
-Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A71352772
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 10:31:20 +0200 (CEST)
+Received: from localhost ([::1]:33354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSF4z-000125-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 04:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40272)
+	id 1lSFD5-0003Au-VR
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 04:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lSF3f-0000SZ-89
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:21:36 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37781)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1lSFBg-0002g1-UV
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:29:52 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:36500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lSF3d-0007N5-JI
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:21:34 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- f22-20020a7bc8d60000b029010c024a1407so3989698wml.2
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 01:21:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1lSFBf-0004Dp-7T
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:29:52 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id w8so4452354ybt.3
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 01:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/kkhhXrv9zALTxYnf0aoOrh65wTIbb7FoLwL6ANAmNM=;
- b=Pv7Koy83AqyuWHSmJAXt1WeFBVqACWfbmEv9psz1fyfM7ITDFnwEqWGRSkJUN2rkmx
- s/yJl/+uU4CBu+oqCjI+olPGEfiQqEh/bQzd+JzkaHJ0DCRhe3Fu99qDIeCesOns/MAq
- NDncKPHcgCdgCwgALlYv55UycJx71MhXvlqmIVldjIYKVT4MGNzlQH5f7pzFFWEWZ5M2
- VdP9zLoRaBE9HgbQxq4DkBbBRKTjPGgh6ZiBopH5QpULG/e4kF8ijNZG0lHZ5KWha4NI
- 5Ql2Ol9f9iRQsFhLTImdwdaa63v52MDsSl7PVxLn7ZPQzRLv5d9HzpO3or0WxUAE26dI
- /Spg==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ypH9u1BUgNRRDkjFDN1finKrfaIKE5GwZ3zLHX5brCU=;
+ b=mUxIAYe550FkvjAyvrvZL4++VEOF4b6FtIxY2HIKKBJPdJbXK13I/aXM3yalbulr/e
+ 7Pt0FLp3BmRMt75lOKh6NW+R8q65jju19dvcaKopafScg1gStiI4iB8Yi3FxZg86cIMN
+ rpRLCkyr677C1szL+niUKNNYdxUTJJPfQFXtvVDg+tKFXzpHHc4352U/AwJHGXDivg03
+ cBpNeKxTa7p0WNYKdofzbH2An3tYPNay7ETC4t2s+5NckkobPF0hCg+R7jyOvQIcsVaC
+ TXjtwiIRFglFYR/5Do4C/8tR8vI5Gv451WqMJ+Q6mNb3Bpp4kpS3jjb3ilPqPlOUQDqC
+ 2RUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=/kkhhXrv9zALTxYnf0aoOrh65wTIbb7FoLwL6ANAmNM=;
- b=TJfOAocmeq1wAJkU6KjF/luhNIayqAFd9vNFMu/svAFtRJ2CT23psWd5zpAudp5pKe
- NLFekRz2i1r6d0BCsL7QtViAp3tM6ChQCC3ayzsMCj+2taSKpn9266oFZxYgcjkMFbiL
- N0rP6zQXj/m9Pxo1eoV1G3XBWf8KgJNbmpzVXsB5zE27j1DN010gS1aubb/+o6SUW173
- 9J96hF7xfod5tlTYIebVkN56WEMRSjOTWbZOj22cDJo6rfrXiN8H1wpuWPbfOhBD/RQs
- CBm/smglzjzQABuI0jA/NGDzzfsaOpq7sS4Tj2lLUl+VaGEteXsoTzK+V/xPyWBiIiKm
- kOTQ==
-X-Gm-Message-State: AOAM530zH1N0JCE64VQyhpDIB896TGVkTgRnH2wlIL+1BLhembsPLvtN
- nXs4cDzVgJHwmL+veWTUEq+ZTZv1hJE=
-X-Google-Smtp-Source: ABdhPJyPlHCdYj0da4wQnjjVwrRh7SZphOCQqhcv4T7q9eXhq7dQGTPTyBHSrrtLhKC7krSP8fyjFw==
-X-Received: by 2002:a7b:ce06:: with SMTP id m6mr11298045wmc.38.1617351690075; 
- Fri, 02 Apr 2021 01:21:30 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id o2sm11330841wme.19.2021.04.02.01.21.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Apr 2021 01:21:29 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for 6.0] x86: rename oem-id and oem-table-id properties
-Date: Fri,  2 Apr 2021 10:21:28 +0200
-Message-Id: <20210402082128.13854-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.30.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ypH9u1BUgNRRDkjFDN1finKrfaIKE5GwZ3zLHX5brCU=;
+ b=HepNr3Th4OVV+2xcxhxU1evn2NpQZ9DTjUQeRzEbCLmxI9/uMhyNQvomp+CBPyBZNq
+ JJo00FgCh2eTJVTJiga0Q8p/FoGOOpaI7UBdFxK0/21GoVmCifjAGDDbm+S/3s8Ddt8X
+ 8I1YXclzlCFrcmqaCjqc9feMVeTjyHs/9VgyZlbFu78IJH/3dEcHxQRf90ONT6nLoA7o
+ oTjgf1vM8a39Y2W7fOwjdDWf4GPd5qnxF/d1llmbR6tYdwhObOLYuZdtS8e++TTipp6V
+ xK+1jJ4DjywzuEqrg31+bXQWzF2hJOOdZtTMgGvbOEFIpsCz2StQcYRCNQaSh4sSGoPQ
+ l5kw==
+X-Gm-Message-State: AOAM5328kZIy8btJD42YiZBcO7KB2uM8zb6IPppvUF2KZUZfrOdRaDei
+ bJTQoDb2KhEzKLF4CX5S9KIFiqfzMgv6fF1tBbJkOCU1av6EBw==
+X-Google-Smtp-Source: ABdhPJyZB54Qm2Vf9luGvQx/WTPjW25bsQy74gZXWsakgSsKr7Mg8uR4IKYN/WL8likMjDT+sg1j6hr38haRuOVOFU0=
+X-Received: by 2002:a25:74ca:: with SMTP id
+ p193mr17124734ybc.405.1617352189445; 
+ Fri, 02 Apr 2021 01:29:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+From: Ziqiao Kong <ziqiaokong@gmail.com>
+Date: Fri, 2 Apr 2021 16:29:38 +0800
+Message-ID: <CAM0BWNCTD_oe3BgKQUqG41fgFqGCXVh1gaiMqJpvXbR4Fh5vHg@mail.gmail.com>
+Subject: Bug: fstenv is wrongly implemented
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,82 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: pbonzini@redhat.com, ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After introducing non-scalar machine properties, it would be preferrable
-to have a single acpitable property which includes both generic
-information (such as the OEM ids) and custom tables currently
-passed via -acpitable.
+Hello everyone,
 
-Do not saddle ourselves with legacy oem-id and oem-table-id
-properties, instead mark them as experimental.
+I am an active maintainer of Unicorn engine
+(https://github.com/unicorn-engine). During my development, I found
+that the fstenv implementation in qemu upstream is incorrect.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/arm/virt.c                  | 8 ++++----
- include/hw/i386/x86.h          | 4 ++--
- tests/qtest/bios-tables-test.c | 2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+Below is the code snippet from target/i386/tcg/fpu_helper.c
+(https://github.com/qemu/qemu/blob/266469947161aa10b1d36843580d369d5aa38589/target/i386/tcg/fpu_helper.c#L2393).
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index aa2bbd14e0..bc5f948367 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2670,19 +2670,19 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable "
-                                           "ITS instantiation");
- 
--    object_class_property_add_str(oc, "oem-id",
-+    object_class_property_add_str(oc, "x-oem-id",
-                                   virt_get_oem_id,
-                                   virt_set_oem_id);
--    object_class_property_set_description(oc, "oem-id",
-+    object_class_property_set_description(oc, "x-oem-id",
-                                           "Override the default value of field OEMID "
-                                           "in ACPI table header."
-                                           "The string may be up to 6 bytes in size");
- 
- 
--    object_class_property_add_str(oc, "oem-table-id",
-+    object_class_property_add_str(oc, "x-oem-table-id",
-                                   virt_get_oem_table_id,
-                                   virt_set_oem_table_id);
--    object_class_property_set_description(oc, "oem-table-id",
-+    object_class_property_set_description(oc, "x-oem-table-id",
-                                           "Override the default value of field OEM Table ID "
-                                           "in ACPI table header."
-                                           "The string may be up to 8 bytes in size");
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 26c9cc45a4..c09b648dff 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -78,8 +78,8 @@ struct X86MachineState {
- 
- #define X86_MACHINE_SMM              "smm"
- #define X86_MACHINE_ACPI             "acpi"
--#define X86_MACHINE_OEM_ID           "oem-id"
--#define X86_MACHINE_OEM_TABLE_ID     "oem-table-id"
-+#define X86_MACHINE_OEM_ID           "x-oem-id"
-+#define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index e020c83d2a..156d4174aa 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -73,7 +73,7 @@
- 
- #define OEM_ID             "TEST"
- #define OEM_TABLE_ID       "OEM"
--#define OEM_TEST_ARGS      "-machine oem-id="OEM_ID",oem-table-id="OEM_TABLE_ID
-+#define OEM_TEST_ARGS      "-machine x-oem-id="OEM_ID",x-oem-table-id="OEM_TABLE_ID
- 
- typedef struct {
-     bool tcg_only;
--- 
-2.30.1
+> cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
+> cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
+> cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
+> cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
+> cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
+> cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
+> cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
 
+The value of fpip is wrongly set to 0, which should be env->fpip at
+least I think. In real-world usage, the fstenv is often used to obtain
+the current eip value from the FIP field in shellcode.
+
+According to git blame, this bug is introduced about 13 years ago:
+https://github.com/qemu/qemu/blame/633decd71119a4293e5e53e6059026c517a8bef0/target-i386/fpu_helper.c#L997.
+
+We also had a patch for this bug:
+https://github.com/unicorn-engine/unicorn/commit/59b09a71bfc6fd8b95357944f6be9aa54f424421
+which you may refer to. I can also help draft a patch if necessary.
+
+I'm pretty new to qemu-devel mail list and sorry for any violation of
+your convention. Thanks in advance!
+
+Ziqiao
 
