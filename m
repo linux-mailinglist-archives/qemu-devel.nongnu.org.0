@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD966352BA5
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 17:13:26 +0200 (CEST)
-Received: from localhost ([::1]:36002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFD4352BD6
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 17:44:57 +0200 (CEST)
+Received: from localhost ([::1]:52510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSLUD-0002b7-BS
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 11:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47306)
+	id 1lSLyi-0003Ro-1s
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 11:44:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lSLTN-00022L-GY
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 11:12:33 -0400
-Received: from 5.mo52.mail-out.ovh.net ([188.165.45.220]:47912)
+ (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
+ id 1lSLvB-0002Y4-1d; Fri, 02 Apr 2021 11:41:17 -0400
+Received: from sender-of-o51.zoho.in ([103.117.158.51]:2364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lSLTL-0003Ch-AM
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 11:12:33 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id D3FBF256D31;
- Fri,  2 Apr 2021 17:12:19 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 2 Apr 2021
- 17:12:19 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0017aa8a2b9-02fb-4f61-8382-18e3f2b59c62,
- CB78C42F11C12B32A09FD1B1D16988F28347D0D1) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Fri, 2 Apr 2021 17:12:17 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v3] ppc/spapr: Add support for implement support for
- H_SCM_HEALTH
-Message-ID: <20210402171217.711ad6b5@bahia.lan>
-In-Reply-To: <20210402102128.213943-1-vaibhav@linux.ibm.com>
-References: <20210402102128.213943-1-vaibhav@linux.ibm.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <vijai@behindbytes.com>)
+ id 1lSLv8-0004jF-BY; Fri, 02 Apr 2021 11:41:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1617378063; cv=none; d=zohomail.in; s=zohoarc; 
+ b=SMGQeGJVG3/DxMlzsPBmlmA2WxcYSnK7cmaug9fvY5NSouFmwLFwwI5I6QryyiKNbtFF7OniQp61DbKIgmSy2zaN36ohMUN6XvKum9QCGpCMiIAn13o00HE6GH4jVeodUaOBpflsiHgLtrR6e9/zxdBvr6I+HDeE1LyHmcLmcR4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1617378063;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=b9XHrSf/1QpdNkkDHEYBFzxGNrNIsmYCD6m/byGvcAI=; 
+ b=J6Z93HpPvIwKEtSC4hlcCZ4OpXQ1p+h/V6cV9KHqrkPCDJ0NMhpiCkKwgMKKf+ZzZedN+flx0DYsyohLSBDo626TTHFR8FUxOAAYnot16rxyu0IJC5zR6slPuK6wX/Ja52k00mH4AxjyoztEvxATgNGipNKYy30uN0CkWUk0NaI=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+ dkim=pass  header.i=behindbytes.com;
+ spf=pass  smtp.mailfrom=vijai@behindbytes.com;
+ dmarc=pass header.from=<vijai@behindbytes.com>
+ header.from=<vijai@behindbytes.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1617378063; 
+ s=yrk; d=behindbytes.com; i=vijai@behindbytes.com;
+ h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
+ bh=b9XHrSf/1QpdNkkDHEYBFzxGNrNIsmYCD6m/byGvcAI=;
+ b=fUpeG0pERRNnwZzYIiMvKG+1kvunRPTh3Npf9akMfeYeY40/QozRJt7eTCF4lxnu
+ KjbwEm4Q76z6gtLPfKHte45vNcP7k4TO9lNqo/40omru+XAB+sIshPxCTH5T/rFTrns
+ 1l61fU7jzuG91GKRX1bxPIcS8EEwnOA6NABzf8b4=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 1617378061554346.2604210256774;
+ Fri, 2 Apr 2021 21:11:01 +0530 (IST)
+Date: Fri, 02 Apr 2021 21:11:01 +0530
+From: Vijai Kumar K <vijai@behindbytes.com>
+To: "Alistair Francis" <alistair23@gmail.com>
+Message-ID: <178933eacf0.29d40a5748832.4360448576483328617@behindbytes.com>
+In-Reply-To: <CAKmqyKPCbBznWkOeREnb-r7gHbzhvvjBXafNYkBT1u52+9z7hQ@mail.gmail.com>
+References: <20210401181457.73039-1-vijai@behindbytes.com>
+ <20210401181457.73039-5-vijai@behindbytes.com>
+ <CAKmqyKPCbBznWkOeREnb-r7gHbzhvvjBXafNYkBT1u52+9z7hQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] hw/riscv: Connect Shakti UART to Shakti platform
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 56c54b3b-684b-4f6b-821b-a618a71a243b
-X-Ovh-Tracer-Id: 3770357316049148347
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeiiedgkeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekgeffheegjeegvdejueevleeiffekheeghfeijeetvedukeehudetlefhteefgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=groug@kaod.org;
- helo=5.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Received-SPF: pass client-ip=103.117.158.51;
+ envelope-from=vijai@behindbytes.com; helo=sender-of-o51.zoho.in
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,138 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
- qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com,
- qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com, imammedo@redhat.com,
- ehabkost@redhat.com, david@gibson.dropbear.id.au
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  2 Apr 2021 15:51:28 +0530
-Vaibhav Jain <vaibhav@linux.ibm.com> wrote:
 
-> Add support for H_SCM_HEALTH hcall described at [1] for spapr
-> nvdimms. This enables guest to detect the 'unarmed' status of a
-> specific spapr nvdimm identified by its DRC and if its unarmed, mark
-> the region backed by the nvdimm as read-only.
-> 
-> The patch adds h_scm_health() to handle the H_SCM_HEALTH hcall which
-> returns two 64-bit bitmaps (health bitmap, health bitmap mask) derived
-> from 'struct nvdimm->unarmed' member.
-> 
-> Linux kernel side changes to enable handling of 'unarmed' nvdimms for
-> ppc64 are proposed at [2].
-> 
-> References:
-> [1] "Hypercall Op-codes (hcalls)"
->     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst#n220
-> [2] "powerpc/papr_scm: Mark nvdimm as unarmed if needed during probe"
->     https://lore.kernel.org/linux-nvdimm/20210329113103.476760-1-vaibhav@linux.ibm.com/
-> 
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> ---
-> Changelog
-> 
-> v3:
-> * Switched to PPC_BIT macro for definitions of the health bits. [ Greg, David ]
-> * Updated h_scm_health() to use a const uint64_t to denote supported
->   bits in 'hbitmap_mask'.
-> * Fixed an error check for drc->dev to return H_PARAMETER in case nvdimm
->   is not yet plugged in [ Greg ]
-> * Fixed an wrong error check for ensuring drc and drc-type are correct
->   [ Greg ]
-> 
-> v2:
-> * Added a check for drc->dev to ensure that the dimm is plugged in
->   when servicing H_SCM_HEALTH. [ Shiva ]
-> * Instead of accessing the 'nvdimm->unarmed' member directly use the
->   object_property_get_bool accessor to fetch it. [ Shiva ]
-> * Update the usage of PAPR_PMEM_UNARMED* macros [ Greg ]
-> * Updated patch description reference#1 to point appropriate section
->   in the documentation. [ Greg ]
-> ---
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  hw/ppc/spapr_nvdimm.c  | 36 ++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |  3 ++-
->  2 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index b46c36917c..252204e25f 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -31,6 +31,10 @@
->  #include "qemu/range.h"
->  #include "hw/ppc/spapr_numa.h"
->  
-> +/* DIMM health bitmap bitmap indicators. Taken from kernel's papr_scm.c */
-> +/* SCM device is unable to persist memory contents */
-> +#define PAPR_PMEM_UNARMED PPC_BIT(0)
-> +
->  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
->                             uint64_t size, Error **errp)
->  {
-> @@ -467,6 +471,37 @@ static target_ulong h_scm_unbind_all(PowerPCCPU *cpu, SpaprMachineState *spapr,
->      return H_SUCCESS;
->  }
->  
-> +static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> +                                 target_ulong opcode, target_ulong *args)
-> +{
-> +
-> +    NVDIMMDevice *nvdimm;
-> +    uint64_t hbitmap = 0;
-> +    uint32_t drc_index = args[0];
-> +    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-> +    const uint64_t hbitmap_mask = PAPR_PMEM_UNARMED;
-> +
-> +
-> +    /* Ensure that the drc is valid & is valid PMEM dimm and is plugged in */
-> +    if (!drc || !drc->dev ||
-> +        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    nvdimm = NVDIMM(drc->dev);
-> +
-> +    /* Update if the nvdimm is unarmed and send its status via health bitmaps */
-> +    if (object_property_get_bool(OBJECT(nvdimm), NVDIMM_UNARMED_PROP, NULL)) {
-> +        hbitmap |= PAPR_PMEM_UNARMED;
-> +    }
-> +
-> +    /* Update the out args with health bitmap/mask */
-> +    args[0] = hbitmap;
-> +    args[1] = hbitmap_mask;
-> +
-> +    return H_SUCCESS;
-> +}
-> +
->  static void spapr_scm_register_types(void)
->  {
->      /* qemu/scm specific hcalls */
-> @@ -475,6 +510,7 @@ static void spapr_scm_register_types(void)
->      spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
->      spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
->      spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-> +    spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
->  }
->  
->  type_init(spapr_scm_register_types)
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 47cebaf3ac..6e1eafb05d 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -538,8 +538,9 @@ struct SpaprMachineState {
->  #define H_SCM_BIND_MEM          0x3EC
->  #define H_SCM_UNBIND_MEM        0x3F0
->  #define H_SCM_UNBIND_ALL        0x3FC
-> +#define H_SCM_HEALTH            0x400
->  
-> -#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
-> +#define MAX_HCALL_OPCODE        H_SCM_HEALTH
->  
->  /* The hcalls above are standardized in PAPR and implemented by pHyp
->   * as well.
+---- On Fri, 02 Apr 2021 18:35:04 +0530 Alistair Francis <alistair23@gmail.com> wrote ----
 
+ > On Thu, Apr 1, 2021 at 2:15 PM Vijai Kumar K <vijai@behindbytes.com> wrote: 
+ > > 
+ > > Connect one shakti uart to the shakti_c machine. 
+ > > 
+ > > Signed-off-by: Vijai Kumar K <vijai@behindbytes.com> 
+ >  
+ > In future can you please keep the Reviewed by tags when sending a new 
+ > version of the patch series? 
+
+Yes. My bad. Sorry about that.
+
+Thanks,
+Vijai Kumar K
+
+ >  
+ > Reviewed-by: Alistair Francis <alistair.francis@wdc.com> 
+ >  
+ > Alistair 
+ >  
+ > > --- 
+ > >  hw/riscv/shakti_c.c         | 8 ++++++++ 
+ > >  include/hw/riscv/shakti_c.h | 2 ++ 
+ > >  2 files changed, 10 insertions(+) 
+ > > 
+ > > diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c 
+ > > index c8205d3f22..e207fa83dd 100644 
+ > > --- a/hw/riscv/shakti_c.c 
+ > > +++ b/hw/riscv/shakti_c.c 
+ > > @@ -125,6 +125,13 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp) 
+ > >          SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, 
+ > >          SIFIVE_CLINT_TIMEBASE_FREQ, false); 
+ > > 
+ > > +    qdev_prop_set_chr(DEVICE(&(sss->uart)), "chardev", serial_hd(0)); 
+ > > +    if (!sysbus_realize(SYS_BUS_DEVICE(&sss->uart), errp)) { 
+ > > +        return; 
+ > > +    } 
+ > > +    sysbus_mmio_map(SYS_BUS_DEVICE(&sss->uart), 0, 
+ > > +                    shakti_c_memmap[SHAKTI_C_UART].base); 
+ > > + 
+ > >      /* ROM */ 
+ > >      memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom", 
+ > >                             shakti_c_memmap[SHAKTI_C_ROM].size, &error_fatal); 
+ > > @@ -143,6 +150,7 @@ static void shakti_c_soc_instance_init(Object *obj) 
+ > >      ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(obj); 
+ > > 
+ > >      object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY); 
+ > > +    object_initialize_child(obj, "uart", &sss->uart, TYPE_SHAKTI_UART); 
+ > > 
+ > >      /* 
+ > >       * CPU type is fixed and we are not supporting passing from commandline yet. 
+ > > diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h 
+ > > index 8ffc2b0213..50a2b79086 100644 
+ > > --- a/include/hw/riscv/shakti_c.h 
+ > > +++ b/include/hw/riscv/shakti_c.h 
+ > > @@ -21,6 +21,7 @@ 
+ > > 
+ > >  #include "hw/riscv/riscv_hart.h" 
+ > >  #include "hw/boards.h" 
+ > > +#include "hw/char/shakti_uart.h" 
+ > > 
+ > >  #define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc" 
+ > >  #define RISCV_SHAKTI_SOC(obj) \ 
+ > > @@ -33,6 +34,7 @@ typedef struct ShaktiCSoCState { 
+ > >      /*< public >*/ 
+ > >      RISCVHartArrayState cpus; 
+ > >      DeviceState *plic; 
+ > > +    ShaktiUartState uart; 
+ > >      MemoryRegion rom; 
+ > > 
+ > >  } ShaktiCSoCState; 
+ > > -- 
+ > > 2.25.1 
+ > > 
+ > > 
+ > 
 
