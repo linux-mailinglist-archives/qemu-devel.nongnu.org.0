@@ -2,67 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B24C35302A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 22:13:01 +0200 (CEST)
-Received: from localhost ([::1]:34660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545B6353060
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 22:44:30 +0200 (CEST)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSQA8-0005i2-Ak
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 16:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48330)
+	id 1lSQeb-0002Rh-94
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 16:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lSQ53-0000DW-Vp; Fri, 02 Apr 2021 16:07:45 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:47078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lSQ50-0004qW-N4; Fri, 02 Apr 2021 16:07:45 -0400
-Received: by mail-io1-xd34.google.com with SMTP id j26so1176971iog.13;
- Fri, 02 Apr 2021 13:07:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0O/yA3qyej1tmGaNUAhGdoC8z8bWASm8BGnCvWUAI/Y=;
- b=mJZw6+dcrmh/MZniqs5MunD/u62Q2D7wW2j1PToeytu+NlTjFSLdbgSbGX7F+kD6/8
- b49gGSzXDfOwg5AGwlXKFyOON8r0b73VgdGJX/8SYPt7v123dsvdjsvg2jEtZq3IwvyH
- I22Yv7hD1QFYVie9oxeNQWQn0Fqd0U1f7/IZSp8btw+bdQctH0es9zZReuttZWHMdRE3
- dWdwMsstKFpuwBrPYyNd8Pn4fVh1i4Fj1k/vMnKJOcp/WILI9GHZ2h/LX1S/MX3BVF4F
- 48a4+1gOQshF6KwutMimoyumr8wVU9zPtk81PFzxBQcZ+VOvg3n0/+sTaZD3PlkjLUo6
- IIuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0O/yA3qyej1tmGaNUAhGdoC8z8bWASm8BGnCvWUAI/Y=;
- b=EUCEZOAMn3Pz9r3se/D1P/lFYe5YuaRoWOfL7iLskZuxsZPNjTUQ//CjCqXblI5bmQ
- ImsW01ensueRjGtY0sgzsM5cM968FAnROHKtNvR7/vL6EyKMH9hsTfQYCEx3hOl5rn+0
- /sFCALYh3x0t93qZE2bxWkAeG0JeoQ+0PoNUmPX2RvXQVgTaMU8IcYJVz/t8h5Jjl4Ix
- 7hSvOrzeMhEXtEcyJw/lodT/POL3FA1EVG7ChHjot2Zaa58xQ5r7Aw9CKhxnOyb84oVu
- HcNpWAor2WbDFyI/5drLMXAyJuhs8/xjphkbCV+GqP85kTS4q1AF6zel8V8PIw46CkLe
- S7MA==
-X-Gm-Message-State: AOAM531Tq+xy1X0dhoCR0oNumawrbpIMaiJkUuD8IAcv3vISn2PIwgnU
- KTZpGgJPEJ4/0jRW+FjtHXv4UMZEnqe70tWAuv4H/opfftlZzg==
-X-Google-Smtp-Source: ABdhPJyBc05eXzMd9u3CJOlM3gW/REYLzbPp7YX4jhGG+VgKK9yD+Pyk+J9liRDZe6nyAQTZHHDSUIEp1VLusPfVU9I=
-X-Received: by 2002:a02:cc1b:: with SMTP id n27mr14121139jap.106.1617394061009; 
- Fri, 02 Apr 2021 13:07:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <reinoud@diablo.13thmonkey.org>)
+ id 1lSQMd-0003oR-EP
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 16:25:55 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:59796
+ helo=diablo.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <reinoud@diablo.13thmonkey.org>) id 1lSQMa-000553-0F
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 16:25:55 -0400
+Received: by diablo.13thmonkey.org (Postfix, from userid 103)
+ id 35728C139C5; Fri,  2 Apr 2021 22:25:49 +0200 (CEST)
+From: Reinoud Zandijk <reinoud@NetBSD.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+Date: Fri,  2 Apr 2021 22:25:31 +0200
+Message-Id: <20210402202535.11550-1-reinoud@NetBSD.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210401181457.73039-1-vijai@behindbytes.com>
-In-Reply-To: <20210401181457.73039-1-vijai@behindbytes.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 2 Apr 2021 16:05:25 -0400
-Message-ID: <CAKmqyKPAXLHPi_anf_Xbe6=9j-nkBP-b6QRqC4xDUT3u-7riUA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Add support for Shakti SoC from IIT-M
-To: Vijai Kumar K <vijai@behindbytes.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=80.100.255.32;
+ envelope-from=reinoud@diablo.13thmonkey.org; helo=diablo.13thmonkey.org
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,63 +49,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kamil Rytarowski <kamil@NetBSD.org>, Reinoud Zandijk <reinoud@NetBSD.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 1, 2021 at 2:15 PM Vijai Kumar K <vijai@behindbytes.com> wrote:
->
-> Changes in v3:
->  - Drop SHAKTI_C_DEBUG register
->
-> Changes in v2:
->  - Moved CPU addition to a separate patch(P1)
->  - Use riscv_setup_rom_resetvec API to setup reset vector
->  - Dropped unused DPRINTF and unwanted break statements
->  - Fixed uart_can_receive logic
->  - Reused sifive_u_cpu_init routine for shakti
->  - Error out when an unsupported CPU is specified
->  - Addressed formatting changes pointed out in review
+The NetBSD team has implemented its new hypervisor called NVMM. It has been
+included since NetBSD 9.0 and has been in use now for quite some time. NVMM
+adds user-mode capabilities to create and manage virtual machines, configure
+memory mappings for guest machines, and create and control execution of
+virtual processors.
 
-Thanks, I have reviewed these patches and applied them.
+With this new API we are now able to bring our hypervisor to the QEMU
+community! The following patches implement the NetBSD Virtual Machine Monitor
+accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
 
-Can you add details to the docs on how to build images and run this machine?
+When compiling QEMU for x86_64 it will autodetect nvmm and will compile the
+accelerator for use if found. At runtime using the '-accel nvmm' should see a
+significant performance improvement over emulation, much like when using 'hax'
+on NetBSD.
 
-This is an example for a different board:
-https://gitlab.com/qemu-project/qemu/-/blob/master/docs/system/riscv/microchip-icicle-kit.rst
+The documentation for this new API is visible at https://man.netbsd.org under
+the libnvmm(3) and nvmm(4) pages.
 
-That way others can use this machine and I can generate tests for it.
+NVMM was designed and implemented by Maxime Villard <max@m00nbsd.net>
 
-Alistair
+Thank you for your feedback.
 
->
-> Vijai Kumar K (4):
->   target/riscv: Add Shakti C class CPU
->   riscv: Add initial support for Shakti C machine
->   hw/char: Add Shakti UART emulation
->   hw/riscv: Connect Shakti UART to Shakti platform
->
->  MAINTAINERS                                 |   9 +
->  default-configs/devices/riscv64-softmmu.mak |   1 +
->  hw/char/meson.build                         |   1 +
->  hw/char/shakti_uart.c                       | 185 ++++++++++++++++++++
->  hw/char/trace-events                        |   4 +
->  hw/riscv/Kconfig                            |  10 ++
->  hw/riscv/meson.build                        |   1 +
->  hw/riscv/shakti_c.c                         | 178 +++++++++++++++++++
->  include/hw/char/shakti_uart.h               |  74 ++++++++
->  include/hw/riscv/shakti_c.h                 |  75 ++++++++
->  target/riscv/cpu.c                          |   1 +
->  target/riscv/cpu.h                          |   1 +
->  12 files changed, 540 insertions(+)
->  create mode 100644 hw/char/shakti_uart.c
->  create mode 100644 hw/riscv/shakti_c.c
->  create mode 100644 include/hw/char/shakti_uart.h
->  create mode 100644 include/hw/riscv/shakti_c.h
->
-> --
-> 2.25.1
->
->
+Refrences:
+https://m00nbsd.net/4e0798b7f2620c965d0dd9d6a7a2f296.html
+
+
+Test plan:
+
+1. Download a NetBSD 9.1 release:
+http://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/amd64/installation/cdrom/boot.iso
+
+2. Install it natively on a not too old x86_64 hardware (Intel or AMD).
+
+There is no support for nested virtualization in NVMM.
+
+3. Setup the system.
+
+ export PKG_PATH=http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/9.0/All/
+ pkg_add git gmake python37 glib2 bison pkgconf pixman
+ 
+Install mozilla-rootcerts and follow post-install instructions.
+
+ pkg_add mozilla-rootcerts
+
+More information: https://wiki.qemu.org/Hosts/BSD#NetBSD
+
+4. Build qemu
+
+ mkdir build
+ cd build
+ ../configure --python=python3.7
+ gmake
+ gmake check
+
+5. Test
+
+ qemu -accel nvmm ...
+
+History:
+v6 -> v7:
+ - Remove small patches from pkgsrc that krept in
+ - Enhance the possible race on exit fix
+ - update the build system to only link the nvmm library for targets that
+   support NVMM
+v5 -> v6:
+ - Ported to updated Qemu 6.0 build system, reshuffeling and refactoring
+ - Improved auto detection
+ - Added support for improved NVMM interface fixing feedback on the use of
+   signals
+v4 -> v5:
+ - Mainly cosmetic
+ - Automatic detection
+v3 -> v4:
+ - Correct build warning by adding a missing include
+ - Do not set R8-R16 registers unless TARGET_X86_64
+v2 -> v3:
+ - Register nvmm in targetos NetBSD check
+ - Stop including hw/boards.h
+ - Rephrase old code comments (remove XXX)
+v1 -> v2:
+ - Included the testing plan as requested by Philippe Mathieu-Daude
+ - Formatting nit fix in qemu-options.hx
+ - Document NVMM in the accel section of qemu-options.hx
+
+
+Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
+Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
+
+
+Reinoud Zandijk (4):
+  Add NVMM accelerator: configure and build logic
+  Add NVMM accelerator: x86 CPU support
+  Add NVMM accelerator: acceleration enlightenments
+  Add NVMM Accelerator: add maintainers for NetBSD/NVMM
+
+ MAINTAINERS                       |   11 +
+ accel/Kconfig                     |    3 +
+ configure                         |    8 +-
+ include/sysemu/hw_accel.h         |    1 +
+ include/sysemu/nvmm.h             |   26 +
+ meson.build                       |   14 +
+ meson_options.txt                 |    2 +
+ qemu-options.hx                   |    8 +-
+ target/i386/helper.c              |    2 +-
+ target/i386/meson.build           |    1 +
+ target/i386/nvmm/meson.build      |   10 +
+ target/i386/nvmm/nvmm-accel-ops.c |  111 +++
+ target/i386/nvmm/nvmm-accel-ops.h |   24 +
+ target/i386/nvmm/nvmm-all.c       | 1226 +++++++++++++++++++++++++++++
+ 14 files changed, 1441 insertions(+), 6 deletions(-)
+ create mode 100644 include/sysemu/nvmm.h
+ create mode 100644 target/i386/nvmm/meson.build
+ create mode 100644 target/i386/nvmm/nvmm-accel-ops.c
+ create mode 100644 target/i386/nvmm/nvmm-accel-ops.h
+ create mode 100644 target/i386/nvmm/nvmm-all.c
+
+-- 
+2.29.2
+
 
