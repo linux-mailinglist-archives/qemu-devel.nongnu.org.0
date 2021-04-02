@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DBB3527AA
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 10:57:25 +0200 (CEST)
-Received: from localhost ([::1]:42164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE4E3527C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 11:01:59 +0200 (CEST)
+Received: from localhost ([::1]:44520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSFcK-0000mf-2m
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 04:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
+	id 1lSFgk-0002HD-8P
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 05:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lSFbW-0000KL-TT
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:56:34 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:42539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lSFbV-0003iu-4a
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 04:56:34 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id c195so4480795ybf.9
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 01:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=67DtOtIfUvANibYjz/VEnIriXMrIIl3/I/SbukQmtOQ=;
- b=vVx+dGEMLvaLk53kLHNtDyDvEd/OEXVN4n+sPPnA8KFmiPZdFWC3im6AQw9X/45Tj/
- AWKsEKhsJ4c/ztgVXNs5ydruwbUhMuPyyQtgnbbuJd1UmOsBG1LSkFOJdTYlkbRKCgu3
- MKz2Yi+b97QQHIeO0XXJcvH/sSPPgMjFQh4X9fObkcgqcQYfpu4JXY6txFbeCxABQcXY
- TQj/Zh4m363+o77z9uaXwZZsWXHO0S1G+chTcmMAoTKYfk4yPSfDhzGzfqhw4NB/b2fc
- kZX0EX7Osn0JDRrs7mCtdJiav8wEtYA1ui8ViDdfoTmZwkmGisLdn3X6UjLdtaKJrZJt
- ub+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=67DtOtIfUvANibYjz/VEnIriXMrIIl3/I/SbukQmtOQ=;
- b=TbIvBrheWW2JUjjBg5LnkSWn8MY60DqyCB4wWkZuvJ0BTKI5wc5rdvifd2bg1zZq7J
- KQLpfuies22R9Dvl4LcaqBfyQ+JQHOdthTgpt15YgSMTZ6EpKPNR98e0WxUpyL/J5Ru6
- uHlfNudso3at0EN4GPYgUf1XlZEHIyhZJ8d+jT9xDq5Zg6u7LXMOUOQmxIBHvDDITdA8
- 6tB0sjAHL1+AKwKpI/zg2SGwkSQKefxvphfvyORGvUClgmzQPBiPyUkNpwbsA4IKm2xk
- GDwrkqA3R+xqrxnssPXa7FfYiv8AGTLck+ZJwDL4Vrolh6vCGF6/rq6l8SSPBhY9C17T
- 5LkA==
-X-Gm-Message-State: AOAM530YLQGhv9HeYK4txGelAgA/7f4S556J/jNUizGRU1qnUnRrei0t
- eaIX4I45za6Yh060PMrM5T5B4YXjEKD+/JuNDF0=
-X-Google-Smtp-Source: ABdhPJw1dShbzm7HinH1wHQ7MzrHw7X1pei/eXDplCPaQZNN55TlLGd70BwBTmZODC4y3JttOrDygLCUIctJuHB07qM=
-X-Received: by 2002:a25:7d81:: with SMTP id
- y123mr16903960ybc.294.1617353792236; 
- Fri, 02 Apr 2021 01:56:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lSFfJ-0001hJ-5N
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 05:00:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lSFfG-0006DQ-8K
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 05:00:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617354024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sr2W7drYut4TjECzLuFHvnCky5OPdlo8egPMkXrMS+o=;
+ b=XAq9Dkq1+KuAp4IRIKEF0T36FUxHEcW9TyWLb0xd4BEIjzasP+tae6kldqMcnUc2KmJXT/
+ U+7u2T97uAEz73YHOMOq9782BU4TYQUnaxkcaRSGtgSo+29KnqGl7xVrOOO3f98OqC9QEl
+ QD7ca/FcEjOtqPAcGJCazvDEEH21hv4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-euQjrEF2PcmoDoeBAZTioA-1; Fri, 02 Apr 2021 05:00:22 -0400
+X-MC-Unique: euQjrEF2PcmoDoeBAZTioA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 979331018F75;
+ Fri,  2 Apr 2021 09:00:21 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-26.pek2.redhat.com
+ [10.72.12.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B4816F45C;
+ Fri,  2 Apr 2021 09:00:19 +0000 (UTC)
+Subject: Re: [PATCH 3/5] Revert "net: Move NetClientState.info_str to dynamic
+ allocations"
+To: qemu-devel@nongnu.org, lekiravi@yandex-team.ru
+References: <20210402081519.78878-1-jasowang@redhat.com>
+ <20210402081519.78878-4-jasowang@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <f2a48118-879d-ce0c-40a7-2a13a55fe7a8@redhat.com>
+Date: Fri, 2 Apr 2021 17:00:18 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.0
 MIME-Version: 1.0
-References: <CAM0BWNCTD_oe3BgKQUqG41fgFqGCXVh1gaiMqJpvXbR4Fh5vHg@mail.gmail.com>
- <7c63e938-2482-3150-7cfb-1459c132fda6@redhat.com>
-In-Reply-To: <7c63e938-2482-3150-7cfb-1459c132fda6@redhat.com>
-From: Ziqiao Kong <ziqiaokong@gmail.com>
-Date: Fri, 2 Apr 2021 16:56:21 +0800
-Message-ID: <CAM0BWNCYXywdDdr+b6R1uFBNOKdaWnotaoy=W2DLjpx9eshcrQ@mail.gmail.com>
-Subject: Re: Bug: fstenv is wrongly implemented
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210402081519.78878-4-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,40 +84,337 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
 
-Thanks for your reply.
+ÔÚ 2021/4/2 ÏÂÎç4:15, Jason Wang Ð´µÀ:
+> Several issues has been reported for query-netdev info
+> series. Consider it's late in the rc, this reverts commitThis reverts
 
-I read the IA32 manual just now and indeed the patch is not correct.
-Is there any related patch for this bug?
 
-Ziqiao
+copy and paste error :(.
 
-On Fri, Apr 2, 2021 at 4:45 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+Will fix this when applying the series.
+
+Thanks
+
+
+> commit 59b5437eb732d6b103a9bc279c3482c834d1eff9.
 >
-> On 02/04/21 10:29, Ziqiao Kong wrote:
-> >
-> > According to git blame, this bug is introduced about 13 years ago:
-> > https://github.com/qemu/qemu/blame/633decd71119a4293e5e53e6059026c517a8bef0/target-i386/fpu_helper.c#L997.
-> >
-> > We also had a patch for this bug:
-> > https://github.com/unicorn-engine/unicorn/commit/59b09a71bfc6fd8b95357944f6be9aa54f424421
-> > which you may refer to. I can also help draft a patch if necessary.
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>   hw/net/xen_nic.c  |  5 +++--
+>   include/net/net.h |  2 +-
+>   net/l2tpv3.c      |  3 ++-
+>   net/net.c         | 14 ++++++--------
+>   net/slirp.c       |  5 +++--
+>   net/socket.c      | 43 +++++++++++++++++++------------------------
+>   net/tap-win32.c   |  3 ++-
+>   net/tap.c         | 13 ++++++++-----
+>   net/vde.c         |  3 ++-
+>   net/vhost-user.c  |  3 ++-
+>   net/vhost-vdpa.c  |  2 +-
+>   11 files changed, 49 insertions(+), 47 deletions(-)
 >
-> Hi!
->
-> Unfortunately the patch is incorrect, because fpu_update_ip is called
-> only at translation time and not at run-time.  If more than one x87
-> instruction is present in the same translation block, or if a
-> translation block has been compiled after the one that is executing,
-> env->fpip will be incorrect.
->
-> Thanks,
->
-> Paolo
->
+> diff --git a/hw/net/xen_nic.c b/hw/net/xen_nic.c
+> index 8431808ea0..5c815b4f0c 100644
+> --- a/hw/net/xen_nic.c
+> +++ b/hw/net/xen_nic.c
+> @@ -296,8 +296,9 @@ static int net_init(struct XenLegacyDevice *xendev)
+>       netdev->nic = qemu_new_nic(&net_xen_info, &netdev->conf,
+>                                  "xen", NULL, netdev);
+>   
+> -    qemu_get_queue(netdev->nic)->info_str = g_strdup_printf(
+> -        "nic: xenbus vif macaddr=%s", netdev->mac);
+> +    snprintf(qemu_get_queue(netdev->nic)->info_str,
+> +             sizeof(qemu_get_queue(netdev->nic)->info_str),
+> +             "nic: xenbus vif macaddr=%s", netdev->mac);
+>   
+>       /* fill info */
+>       xenstore_write_be_int(&netdev->xendev, "feature-rx-copy", 1);
+> diff --git a/include/net/net.h b/include/net/net.h
+> index 3559f3ca19..e5ba61cf8d 100644
+> --- a/include/net/net.h
+> +++ b/include/net/net.h
+> @@ -94,7 +94,7 @@ struct NetClientState {
+>       NetQueue *incoming_queue;
+>       char *model;
+>       char *name;
+> -    char *info_str;
+> +    char info_str[256];
+>       NetdevInfo *stored_config;
+>       unsigned receive_disabled : 1;
+>       NetClientDestructor *destructor;
+> diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+> index 96611cb4af..8aa0a3e1a0 100644
+> --- a/net/l2tpv3.c
+> +++ b/net/l2tpv3.c
+> @@ -730,7 +730,8 @@ int net_init_l2tpv3(const Netdev *netdev,
+>       QAPI_CLONE_MEMBERS(NetdevL2TPv3Options,
+>                          &nc->stored_config->u.l2tpv3, l2tpv3);
+>   
+> -    s->nc.info_str = g_strdup_printf("l2tpv3: connected");
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +             "l2tpv3: connected");
+>       return 0;
+>   outerr:
+>       qemu_del_net_client(nc);
+> diff --git a/net/net.c b/net/net.c
+> index 277da712eb..9a2a6ab155 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -129,12 +129,11 @@ char *qemu_mac_strdup_printf(const uint8_t *macaddr)
+>   
+>   void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6])
+>   {
+> -    g_free(nc->info_str);
+> -    nc->info_str = g_strdup_printf(
+> -        "model=%s,macaddr=%02x:%02x:%02x:%02x:%02x:%02x",
+> -        nc->model,
+> -        macaddr[0], macaddr[1], macaddr[2],
+> -        macaddr[3], macaddr[4], macaddr[5]);
+> +    snprintf(nc->info_str, sizeof(nc->info_str),
+> +             "model=%s,macaddr=%02x:%02x:%02x:%02x:%02x:%02x",
+> +             nc->model,
+> +             macaddr[0], macaddr[1], macaddr[2],
+> +             macaddr[3], macaddr[4], macaddr[5]);
+>   }
+>   
+>   static int mac_table[256] = {0};
+> @@ -353,7 +352,6 @@ static void qemu_free_net_client(NetClientState *nc)
+>       }
+>       g_free(nc->name);
+>       g_free(nc->model);
+> -    g_free(nc->info_str);
+>       qapi_free_NetdevInfo(nc->stored_config);
+>       if (nc->destructor) {
+>           nc->destructor(nc);
+> @@ -1228,7 +1226,7 @@ void print_net_client(Monitor *mon, NetClientState *nc)
+>       monitor_printf(mon, "%s: index=%d,type=%s,%s\n", nc->name,
+>                      nc->queue_index,
+>                      NetClientDriver_str(nc->info->type),
+> -                   nc->info_str ? nc->info_str : "");
+> +                   nc->info_str);
+>       if (!QTAILQ_EMPTY(&nc->filters)) {
+>           monitor_printf(mon, "filters:\n");
+>       }
+> diff --git a/net/slirp.c b/net/slirp.c
+> index 67f0f1d925..b3b979845e 100644
+> --- a/net/slirp.c
+> +++ b/net/slirp.c
+> @@ -674,8 +674,9 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+>           stored->tftp_server_name = g_strdup(tftp_server_name);
+>       }
+>   
+> -    nc->info_str = g_strdup_printf("net=%s,restrict=%s", inet_ntoa(net),
+> -                                   restricted ? "on" : "off");
+> +    snprintf(nc->info_str, sizeof(nc->info_str),
+> +             "net=%s,restrict=%s", inet_ntoa(net),
+> +             restricted ? "on" : "off");
+>   
+>       s = DO_UPCAST(SlirpState, nc, nc);
+>   
+> diff --git a/net/socket.c b/net/socket.c
+> index 98172347d7..1614523b82 100644
+> --- a/net/socket.c
+> +++ b/net/socket.c
+> @@ -180,8 +180,7 @@ static void net_socket_send(void *opaque)
+>           s->fd = -1;
+>           net_socket_rs_init(&s->rs, net_socket_rs_finalize, false);
+>           s->nc.link_down = true;
+> -        g_free(s->nc.info_str);
+> -        s->nc.info_str = g_new0(char, 1);
+> +        memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
+>   
+>           return;
+>       }
+> @@ -401,16 +400,16 @@ static NetSocketState *net_socket_fd_init_dgram(NetClientState *peer,
+>           stored->mcast = g_strdup(mcast);
+>   
+>           s->dgram_dst = saddr;
+> -        nc->info_str = g_strdup_printf("socket: fd=%d (cloned mcast=%s:%d)",
+> -                                       fd, inet_ntoa(saddr.sin_addr),
+> -                                       ntohs(saddr.sin_port));
+> +        snprintf(nc->info_str, sizeof(nc->info_str),
+> +                 "socket: fd=%d (cloned mcast=%s:%d)",
+> +                 fd, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+>       } else {
+>           if (sa_type == SOCKET_ADDRESS_TYPE_UNIX) {
+>               s->dgram_dst.sin_family = AF_UNIX;
+>           }
+>   
+> -        nc->info_str = g_strdup_printf("socket: fd=%d %s",
+> -                                       fd, SocketAddressType_str(sa_type));
+> +        snprintf(nc->info_str, sizeof(nc->info_str),
+> +                 "socket: fd=%d %s", fd, SocketAddressType_str(sa_type));
+>       }
+>   
+>       return s;
+> @@ -445,7 +444,7 @@ static NetSocketState *net_socket_fd_init_stream(NetClientState *peer,
+>   
+>       nc = qemu_new_net_client(&net_socket_info, peer, model, name);
+>   
+> -    nc->info_str = g_strdup_printf("socket: fd=%d", fd);
+> +    snprintf(nc->info_str, sizeof(nc->info_str), "socket: fd=%d", fd);
+>   
+>       s = DO_UPCAST(NetSocketState, nc, nc);
+>   
+> @@ -529,10 +528,9 @@ static void net_socket_accept(void *opaque)
+>       stored->has_fd = true;
+>       stored->fd = g_strdup_printf("%d", fd);
+>   
+> -    g_free(s->nc.info_str);
+> -    s->nc.info_str = g_strdup_printf("socket: connection from %s:%d",
+> -                                     inet_ntoa(saddr.sin_addr),
+> -                                     ntohs(saddr.sin_port));
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +             "socket: connection from %s:%d",
+> +             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+>   }
+>   
+>   static int net_socket_listen_init(NetClientState *peer,
+> @@ -647,10 +645,9 @@ static int net_socket_connect_init(NetClientState *peer,
+>       stored->has_connect = true;
+>       stored->connect = g_strdup(host_str);
+>   
+> -    g_free(s->nc.info_str);
+> -    s->nc.info_str = g_strdup_printf("socket: connect to %s:%d",
+> -                                     inet_ntoa(saddr.sin_addr),
+> -                                     ntohs(saddr.sin_port));
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +             "socket: connect to %s:%d",
+> +             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+>       return 0;
+>   }
+>   
+> @@ -707,10 +704,9 @@ static int net_socket_mcast_init(NetClientState *peer,
+>           stored->localaddr = g_strdup(localaddr_str);
+>       }
+>   
+> -    g_free(s->nc.info_str);
+> -    s->nc.info_str = g_strdup_printf("socket: mcast=%s:%d",
+> -                                     inet_ntoa(saddr.sin_addr),
+> -                                     ntohs(saddr.sin_port));
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +             "socket: mcast=%s:%d",
+> +             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+>       return 0;
+>   
+>   }
+> @@ -773,10 +769,9 @@ static int net_socket_udp_init(NetClientState *peer,
+>       stored->has_udp = true;
+>       stored->udp = g_strdup(rhost);
+>   
+> -    g_free(s->nc.info_str);
+> -    s->nc.info_str = g_strdup_printf("socket: udp=%s:%d",
+> -                                     inet_ntoa(raddr.sin_addr),
+> -                                     ntohs(raddr.sin_port));
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +             "socket: udp=%s:%d",
+> +             inet_ntoa(raddr.sin_addr), ntohs(raddr.sin_port));
+>       return 0;
+>   }
+>   
+> diff --git a/net/tap-win32.c b/net/tap-win32.c
+> index 959266c658..2a2ba4f527 100644
+> --- a/net/tap-win32.c
+> +++ b/net/tap-win32.c
+> @@ -797,7 +797,8 @@ static int tap_win32_init(NetClientState *peer, const char *model,
+>       stored->has_ifname = true;
+>       stored->ifname = g_strdup(ifname);
+>   
+> -    s->nc.info_str = g_strdup_printf("tap: ifname=%s", ifname);
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +             "tap: ifname=%s", ifname);
+>   
+>       s->handle = handle;
+>   
+> diff --git a/net/tap.c b/net/tap.c
+> index 522ce7e487..35895192c5 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -635,7 +635,8 @@ int net_init_bridge(const Netdev *netdev, const char *name,
+>           stored->helper = g_strdup(helper);
+>       }
+>   
+> -    s->nc.info_str = g_strdup_printf("helper=%s,br=%s", helper, br);
+> +    snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=%s,br=%s", helper,
+> +             br);
+>   
+>       return 0;
+>   }
+> @@ -723,7 +724,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>               g_free(tmp_s);
+>           }
+>   
+> -        s->nc.info_str = g_strdup_printf("fd=%d", fd);
+> +        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "fd=%d", fd);
+>       } else if (tap->has_helper) {
+>           if (!stored->has_helper) {
+>               stored->has_helper = true;
+> @@ -736,7 +737,8 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>                                          g_strdup(DEFAULT_BRIDGE_INTERFACE);
+>           }
+>   
+> -        s->nc.info_str = g_strdup_printf("helper=%s", tap->helper);
+> +        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=%s",
+> +                 tap->helper);
+>       } else {
+>           if (ifname && !stored->has_ifname) {
+>               stored->has_ifname = true;
+> @@ -753,8 +755,9 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>               stored->downscript = g_strdup(downscript);
+>           }
+>   
+> -        s->nc.info_str = g_strdup_printf("ifname=%s,script=%s,downscript=%s",
+> -                                         ifname, script, downscript);
+> +        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+> +                 "ifname=%s,script=%s,downscript=%s", ifname, script,
+> +                 downscript);
+>   
+>           if (strcmp(downscript, "no") != 0) {
+>               snprintf(s->down_script, sizeof(s->down_script), "%s", downscript);
+> diff --git a/net/vde.c b/net/vde.c
+> index 67de6eb0c5..b0b8800571 100644
+> --- a/net/vde.c
+> +++ b/net/vde.c
+> @@ -100,7 +100,8 @@ static int net_vde_init(NetClientState *peer, const char *model,
+>   
+>       nc = qemu_new_net_client(&net_vde_info, peer, model, name);
+>   
+> -    nc->info_str = g_strdup_printf("sock=%s,fd=%d", sock, vde_datafd(vde));
+> +    snprintf(nc->info_str, sizeof(nc->info_str), "sock=%s,fd=%d",
+> +             sock, vde_datafd(vde));
+>   
+>       s = DO_UPCAST(VDEState, nc, nc);
+>   
+> diff --git a/net/vhost-user.c b/net/vhost-user.c
+> index 49c9a740c2..5b7056be25 100644
+> --- a/net/vhost-user.c
+> +++ b/net/vhost-user.c
+> @@ -327,7 +327,8 @@ static int net_vhost_user_init(NetClientState *peer, const char *device,
+>       user = g_new0(struct VhostUserState, 1);
+>       for (i = 0; i < queues; i++) {
+>           nc = qemu_new_net_client(&net_vhost_user_info, peer, device, name);
+> -        nc->info_str = g_strdup_printf("vhost-user%d to %s", i, chr->label);
+> +        snprintf(nc->info_str, sizeof(nc->info_str), "vhost-user%d to %s",
+> +                 i, chr->label);
+>           nc->queue_index = i;
+>           if (!nc0) {
+>               nc0 = nc;
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 423d71770d..8c27ea0142 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -200,7 +200,7 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+>       stored->has_queues = true;
+>       stored->queues = 1; /* TODO: change when support multiqueue */
+>   
+> -    nc->info_str = g_strdup_printf(TYPE_VHOST_VDPA);
+> +    snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
+>       nc->queue_index = 0;
+>       s = DO_UPCAST(VhostVDPAState, nc, nc);
+>       vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
+
 
