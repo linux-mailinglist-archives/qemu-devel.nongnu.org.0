@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BB9352BDF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 17:56:44 +0200 (CEST)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7F4352BE0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 17:56:48 +0200 (CEST)
+Received: from localhost ([::1]:40212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSMA7-0002lX-3G
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 11:56:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1lSMAB-0002uw-OW
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 11:56:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lSM81-0001V7-Tq; Fri, 02 Apr 2021 11:54:33 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:53969)
+ id 1lSM84-0001Xh-8I; Fri, 02 Apr 2021 11:54:36 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lSM7x-0004yf-6D; Fri, 02 Apr 2021 11:54:33 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id t18so2877000pjs.3;
- Fri, 02 Apr 2021 08:54:25 -0700 (PDT)
+ id 1lSM82-00052w-Ff; Fri, 02 Apr 2021 11:54:35 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id w8so2874627pjf.4;
+ Fri, 02 Apr 2021 08:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8TMGCO1ooIPpKsTuojQpj0eW+Ayh7TPtCvPU6SJHF/o=;
- b=RU2eDOjQjqrVIjmC/xUSh1RE/RPmwuy1i61SMfamf5X6ltlzqgxUWFRyt0OxSjnrpG
- uj9v7nlPBpKskVHpnkL5mSm8Vu+WFAOyqlUOiyvTaorAeKu8rWl2S1eQK1mGlbVTRa++
- Puc0/JR/FcMkGo6EeqXVWbvZL1YL+qAj/JAgvki8UZfK7mgUxQNb7EfZt+BMTLvvqH/W
- 4g96W9yeItQBsISJJvghNMiXIKyhDobX3rlkD4mM5kOivP+aEluJ2sK2vlooLVx5FNGY
- b5pgk80ddV/6+AEYUXEhXER37VyMGb33Xr6EiQLx3GicJ9lGhAGjp7fV8mPTg/LP7sYj
- yh5g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9+cB+4RWNjTMO5skPwNv/dthVhDglokW5cciULwl+L8=;
+ b=oQiV7qM6ai+do6Dqq0sobSHaBLPL/eQ2YPmaReQPckOj+fn722OZyqXtBzw6PKCOQI
+ ir6adq4fPl46rDLZSMyQEfmMClq+Pe6EhW4toMAfyuyhFbOiUreKPI7+9UgA2yyEzQnW
+ 7qZr0q74W2fSbwTS+C1h+w0heu3zVUUrGjWmWwFoclncMFFV+l1LR66BsTtbBr1fTfrq
+ 4u2DORIaxtD789VbA0pviyq7+gUdwz/qzfSm+7oyHda5EqRGV/ZisK/4IwGVbrp9tpgI
+ tI4IZF4F8/aPevFQ6A6mK3qm7yTcSAlfynxDh+t8WIqRwgLMuHymC9iS3LRZTrWU+qoA
+ 4f8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8TMGCO1ooIPpKsTuojQpj0eW+Ayh7TPtCvPU6SJHF/o=;
- b=Ano7TcP7bjCeSlh+rkXkMTF1nQEtcqGobSbsbOWIOlkOKSOjRwBC7jRVSxCvyYhuAu
- JZz7Dvacc9DYj4210bL6kp3crCcnFTAYNRn14pSH6SLfSn1K6l2LgwSZpNiNmxAyPDa5
- aXNvZDO9vZhCxHecMU6yOIZIR9LxB6+bQ6GL02KC+NQ0HaFGX0Ifnm6LhICPlFdWb5Hw
- 3aphI+G1/TD5r5qhKk1mrzPyMtGDRL1Za9wzcAKtJb/+skxlRi0V13G5XGpyHNAkgPin
- jciQhYNA30z6eUDcT66NX+p9tU5UDTAvkX6sEDYH1/ify/4P7gh5zd7yztwAEOSU1oBw
- KmUw==
-X-Gm-Message-State: AOAM531ej1OQeyTQnU38zgu50XnxsXh/a4rWi2XFFE2xjwm2isKX3cFs
- bh3r3DwwxQFuZ+bdtRG5GBeWeOG6Dl7RJQ==
-X-Google-Smtp-Source: ABdhPJyP7AmqGE8Gn+8C4BrMJe1VY/NZaMvUmeCSxwmuJu6F6YrGMYy0jq0jy0ScRjCZcigKt/LUeA==
-X-Received: by 2002:a17:903:1cf:b029:e8:c4ca:be6d with SMTP id
- e15-20020a17090301cfb02900e8c4cabe6dmr2521829plh.39.1617378864053; 
- Fri, 02 Apr 2021 08:54:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9+cB+4RWNjTMO5skPwNv/dthVhDglokW5cciULwl+L8=;
+ b=k+NnyoT3Duvf8ukdw8FWAg0BYqV9bitELgnNQimjcixs5+gQNjlNb5h3boWZuW8e2H
+ wF4u6e0Qk2lZ5IxbTyabh5wyRa/zyTVoaWC+lBaTQFHKbUucxrfhLYEOv2Whv3ix67CI
+ Gpo4dpzR8lF333V44YEK4D8+ziJ8obuSZXnswcTwMQPNzW1dOVzpLIrWokqN2B5Uk3No
+ oHAAPodFbJapo1+BBebk9zwG/qlm+EdFawUpTQL712+7baUXiO4d3ByP//LX4yfTBfBd
+ VlSpTOWNLTamv3rn+SlJlU6JNNvT8kZmSYeuR+kFw30enkuK/xj+BzxLo5m0HkDrmEBr
+ QK5A==
+X-Gm-Message-State: AOAM530ye2TfvHB2mdMhTDnWlNbpH2HGc5BGbi+SlNUC+O1nOEcEW/x2
+ CBUrtfGZSISKrhSmVNqBjeq+ro9SW4qDDg==
+X-Google-Smtp-Source: ABdhPJygTXcJUiuCRYfT3t+5IC7FHN2syqsF785hvablgXLDyOZZyyt43Ya3DHxuhwK2SGTIbJQ2Sw==
+X-Received: by 2002:a17:902:a505:b029:e6:7a98:691b with SMTP id
+ s5-20020a170902a505b02900e67a98691bmr13427852plq.84.1617378872359; 
+ Fri, 02 Apr 2021 08:54:32 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:3c79:94d8:55ff:9601])
- by smtp.gmail.com with ESMTPSA id 138sm8540278pfv.192.2021.04.02.08.54.21
+ by smtp.gmail.com with ESMTPSA id 138sm8540278pfv.192.2021.04.02.08.54.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 02 Apr 2021 08:54:23 -0700 (PDT)
+ Fri, 02 Apr 2021 08:54:31 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [v4 1/3] block/file-posix: Optimize for macOS
-Date: Sat,  3 Apr 2021 00:54:04 +0900
-Message-Id: <20210402155406.31033-1-akihiko.odaki@gmail.com>
+Subject: [v4 2/3] block: Add backend_defaults property
+Date: Sat,  3 Apr 2021 00:54:05 +0900
+Message-Id: <20210402155406.31033-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20210402155406.31033-1-akihiko.odaki@gmail.com>
+References: <20210402155406.31033-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,92 +91,113 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit introduces "punch hole" operation and optimizes transfer
-block size for macOS.
+backend_defaults property allow users to control if default block
+properties should be decided with backend information.
 
-Thanks to Konstantin Nazarov for detailed analysis of a flaw in an
-old version of this change:
-https://gist.github.com/akihikodaki/87df4149e7ca87f18dc56807ec5a1bc5#gistcomment-3654667
+If it is off, any backend information will be discarded, which is
+suitable if you plan to perform live migration to a different disk backend.
+
+If it is on, a block device may utilize backend information more
+aggressively.
+
+By default, it is auto, which uses backend information for block
+sizes and ignores the others, which is consistent with the older
+versions.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- block/file-posix.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ hw/block/block.c         | 42 ++++++++++++++++++++++++++++++++++++----
+ include/hw/block/block.h |  3 +++
+ 2 files changed, 41 insertions(+), 4 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 05079b40cae..8f25e194fcd 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -44,6 +44,7 @@
- #if defined(__APPLE__) && (__MACH__)
- #include <paths.h>
- #include <sys/param.h>
-+#include <sys/mount.h>
- #include <IOKit/IOKitLib.h>
- #include <IOKit/IOBSD.h>
- #include <IOKit/storage/IOMediaBSDClient.h>
-@@ -1248,6 +1249,15 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+diff --git a/hw/block/block.c b/hw/block/block.c
+index 1e34573da71..d47ebf005ad 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -65,24 +65,58 @@ bool blkconf_blocksizes(BlockConf *conf, Error **errp)
  {
-     BDRVRawState *s = bs->opaque;
- 
-+#if defined(__APPLE__) && (__MACH__)
-+    struct statfs buf;
+     BlockBackend *blk = conf->blk;
+     BlockSizes blocksizes;
+-    int backend_ret;
++    BlockDriverState *bs;
++    bool use_blocksizes;
++    bool use_bs;
 +
-+    if (!fstatfs(s->fd, &buf)) {
-+        bs->bl.opt_transfer = buf.f_iosize;
-+        bs->bl.pdiscard_alignment = buf.f_bsize;
++    switch (conf->backend_defaults) {
++    case ON_OFF_AUTO_AUTO:
++        use_blocksizes = !blk_probe_blocksizes(blk, &blocksizes);
++        use_bs = false;
++        break;
++
++    case ON_OFF_AUTO_ON:
++        use_blocksizes = !blk_probe_blocksizes(blk, &blocksizes);
++        bs = blk_bs(blk);
++        use_bs = bs;
++        break;
++
++    case ON_OFF_AUTO_OFF:
++        use_blocksizes = false;
++        use_bs = false;
++        break;
++
++    default:
++        abort();
 +    }
-+#endif
-+
-     if (bs->sg) {
-         int ret = sg_get_max_transfer_length(s->fd);
  
-@@ -1586,6 +1596,7 @@ out:
+-    backend_ret = blk_probe_blocksizes(blk, &blocksizes);
+     /* fill in detected values if they are not defined via qemu command line */
+     if (!conf->physical_block_size) {
+-        if (!backend_ret) {
++        if (use_blocksizes) {
+            conf->physical_block_size = blocksizes.phys;
+         } else {
+             conf->physical_block_size = BDRV_SECTOR_SIZE;
+         }
      }
- }
- 
-+#if defined(CONFIG_FALLOCATE) || defined(BLKZEROOUT)
- static int translate_err(int err)
- {
-     if (err == -ENODEV || err == -ENOSYS || err == -EOPNOTSUPP ||
-@@ -1594,6 +1605,7 @@ static int translate_err(int err)
+     if (!conf->logical_block_size) {
+-        if (!backend_ret) {
++        if (use_blocksizes) {
+             conf->logical_block_size = blocksizes.log;
+         } else {
+             conf->logical_block_size = BDRV_SECTOR_SIZE;
+         }
      }
-     return err;
- }
-+#endif
- 
- #ifdef CONFIG_FALLOCATE
- static int do_fallocate(int fd, int mode, off_t offset, off_t len)
-@@ -1795,16 +1807,27 @@ static int handle_aiocb_discard(void *opaque)
-             }
-         } while (errno == EINTR);
- 
--        ret = -errno;
-+        ret = translate_err(-errno);
- #endif
-     } else {
- #ifdef CONFIG_FALLOCATE_PUNCH_HOLE
-         ret = do_fallocate(s->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-                            aiocb->aio_offset, aiocb->aio_nbytes);
-+        ret = translate_err(-errno);
-+#elif defined(__APPLE__) && (__MACH__)
-+        fpunchhole_t fpunchhole;
-+        fpunchhole.fp_flags = 0;
-+        fpunchhole.reserved = 0;
-+        fpunchhole.fp_offset = aiocb->aio_offset;
-+        fpunchhole.fp_length = aiocb->aio_nbytes;
-+        if (fcntl(s->fd, F_PUNCHHOLE, &fpunchhole) == -1) {
-+            ret = errno == ENODEV ? -ENOTSUP : -errno;
-+        } else {
-+            ret = 0;
++    if (use_bs) {
++        if (!conf->opt_io_size) {
++            conf->opt_io_size = bs->bl.opt_transfer;
 +        }
- #endif
-     }
++        if (conf->discard_granularity == -1) {
++            if (bs->bl.pdiscard_alignment) {
++                conf->discard_granularity = bs->bl.pdiscard_alignment;
++            } else if (bs->bl.request_alignment != 1) {
++                conf->discard_granularity = bs->bl.request_alignment;
++            }
++        }
++    }
  
--    ret = translate_err(ret);
-     if (ret == -ENOTSUP) {
-         s->has_discard = false;
-     }
+     if (conf->logical_block_size > conf->physical_block_size) {
+         error_setg(errp,
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index c172cbe65f1..5902c0440a5 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -19,6 +19,7 @@
+ 
+ typedef struct BlockConf {
+     BlockBackend *blk;
++    OnOffAuto backend_defaults;
+     uint32_t physical_block_size;
+     uint32_t logical_block_size;
+     uint32_t min_io_size;
+@@ -48,6 +49,8 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
+ }
+ 
+ #define DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)                     \
++    DEFINE_PROP_ON_OFF_AUTO("backend_defaults", _state,                 \
++                            _conf.backend_defaults, ON_OFF_AUTO_AUTO),  \
+     DEFINE_PROP_BLOCKSIZE("logical_block_size", _state,                 \
+                           _conf.logical_block_size),                    \
+     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
 -- 
 2.24.3 (Apple Git-128)
 
