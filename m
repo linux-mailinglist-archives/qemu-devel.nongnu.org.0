@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D09F352F70
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 20:49:13 +0200 (CEST)
-Received: from localhost ([::1]:40764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32307352F66
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 20:47:04 +0200 (CEST)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSOr2-0005dz-4L
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 14:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34764)
+	id 1lSOox-0004Tq-8j
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 14:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sedat.dilek@gmail.com>)
- id 1lSOnX-0003qa-Ge
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 14:45:35 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:36652)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lSOn2-0003cr-Lg
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 14:45:04 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:46639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sedat.dilek@gmail.com>)
- id 1lSOnQ-0008AY-Vr
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 14:45:35 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id f19so6186615ion.3
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 11:45:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=/OThl2TJ86i+d/Z9onNMKzzml/86evlKk1D8sXUWm3s=;
- b=spoXp4ymwf+FzwwvTbLnfHRGKw2cJp5whg010ZpGpMj7Je/U9GpUX6h6Shj6vEnj2V
- 2pp5bM13UMj8HBbM4e2Vp0mulbICA5btgWbxg5n8kuhbvRBwdQ2Sqxcr4EXaXFrFyGCy
- hzWx5OJj9NkNVwIpEQSB2Nmw9EqP5y6PpWTSmkRP0+RAxS5p4DSEeMb/nOfHbuZjXzSn
- aFIusYmUpIEbZM8XuaIqO1SXNamHYjSKcmwZSKPDq9TbxZs8POr5ji4EDRBgo9lLzglR
- q1FL2F4XNE+T4ISBWzkZfA8NAk3Tcm7mFWPxpn/Y6/+fa9GcFZBsUPajvlorufdoNmpS
- VoNQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lSOn0-0007xE-K2
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 14:45:04 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ q6-20020a17090a4306b02900c42a012202so2927168pjg.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 11:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gzqCIvOq8GrMORdKvB10npTgKYbTdzFUJvcQ1yK8B1E=;
+ b=K//U607XYx7Esi6PknfYhmTYpqD4Qii4EQKvfayrTKLh2OhBRAnTs0gt0xqlOg+l/u
+ B2H4Sa+t0mJIAp9o9mgt7V4hYeLzupeF1/y9F4wZQv0M3IgEPvp4HlU8YRPz321cWWc1
+ kKT0HYYAxenf1FC6kkJWJrL17jmPNUXCjtsO2BGIqgSPW3p+vuxsYpmoME+diseEHpVh
+ phOfeDy1mF256wIF4muL8zZmbpXD8JTXWd8soFrfPhkyyVzJCqGFlNH/0AO+lbWfDpo6
+ SWjuNiaHW12gNDIzGf1SKKJ9jZCEAC9Jd6LMyS+3styR92wYF1yg64me5aWMAdaO1r5F
+ /YUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=/OThl2TJ86i+d/Z9onNMKzzml/86evlKk1D8sXUWm3s=;
- b=i923GyueEPBmOTRt5MRPA/FyBBAR3eXePrYTNtAGuPCOHMktO2mIvjZbUkE8upJPm2
- GHjB2dbn13J8yfy+J1im2+uFqQ01VbmiE99uiaN78EuQP57hm5Byta8iXsvX/NGjRpeF
- Ol1SJXbaoyK4FZ7s2iJ8BbhpxNz21d46JHDspTU0HilqX6ZRdOp24Y4uw/km5hv1mdPQ
- O91Z2oiyW+H9FCz6LSi6UoOR8Z3UKa0AEkOcLsgRRPZ1a7I8f/PXXuSkSkrzzbkgb3ep
- 7+G8TkNTTm8XLDhaeX5Zfs4greUHSlVM5Yeu9vOPslPIBodi6TvFkk9O6+t2ifrqY/Nq
- JCvA==
-X-Gm-Message-State: AOAM531WrnLnaWrJ7B1yeXPOW61+hwX6bZDGWyWgQH5LHoZP4rKJKzx3
- s7MOS6+n2KsLAVNw53Mpu8JZKHx5xkucTOLRBT0=
-X-Google-Smtp-Source: ABdhPJwIz5lMeJXF/ig31xaHINMB9NbZhAF9rqQ90Plamzp40mgR8F+megcIBShLyOw7K3egXeMkAPSODarClDsRkNY=
-X-Received: by 2002:a5d:9d13:: with SMTP id j19mr12186378ioj.110.1617389125411; 
- Fri, 02 Apr 2021 11:45:25 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gzqCIvOq8GrMORdKvB10npTgKYbTdzFUJvcQ1yK8B1E=;
+ b=fYUWs+D/sZ6DxBDEaO1Sbm+Lj/LkHvrrNiG3jZHAy/ZcKA6ex2ldGbVsDcEJrxp38b
+ QigqsKDRyNXgsBqZTIKVnylRZ0puJh+l+6uHoSAWdd7rHuvdPY9bEoS9eMjULF/cofoV
+ 8wGWWj2njLYE3b8JrhJM0rbMfWvWEUM8CmK/unDzQG2XwPMvxoVUlSxZat39yDvkj45X
+ Za/w895OoL5P+PR5qbIs2WrD7mlWKb9ilEkiVpXb54fdse8quIIRaZ48qVHik0OMs4Hk
+ daZNMR/mTiqhhmkgyN5kZv4CUBlm9TfaBD5N548BVkKURtaLSxJxfyDmuAAOpNEi2izy
+ g+Lg==
+X-Gm-Message-State: AOAM532OheyrGAI/y+vA6bMLwMFobnDOtThnslTOceAeg6wfuD97Mzo8
+ cVyVCKfsRhM5dcrsB7qPukkuUw==
+X-Google-Smtp-Source: ABdhPJzLlf1OQ7tZOz0ljCvgmVTbcid11EFVTFuqSliB6lQFQXrupNpEVGsloudkaPfGpplcySO2Pg==
+X-Received: by 2002:a17:90a:1696:: with SMTP id
+ o22mr14653000pja.0.1617389100819; 
+ Fri, 02 Apr 2021 11:45:00 -0700 (PDT)
+Received: from [192.168.51.152]
+ (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
+ by smtp.gmail.com with ESMTPSA id s76sm8982779pfc.110.2021.04.02.11.44.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Apr 2021 11:45:00 -0700 (PDT)
+Subject: Re: [PATCH 2/2] target/arm: Fix unaligned mte checks
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210402053728.265173-1-richard.henderson@linaro.org>
+ <20210402053728.265173-3-richard.henderson@linaro.org>
+ <CAFEAcA-jky04K9d3WFxj+JU31mP_NS+yrEDXzXaffYC7CRTFLQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <09b35fc8-89c3-0440-40ea-6f58561b1dce@linaro.org>
+Date: Fri, 2 Apr 2021 11:44:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210211194258.4137998-1-nathan@kernel.org>
- <161428829728.2305454.15456455443457551559.b4-ty@chromium.org>
- <CA+icZUWdeWSy52bU4cjHau1hn5NiFAozaHgDb=geaaCYOET9+w@mail.gmail.com>
- <202104021125.53164550A@keescook>
- <20210402183110.zmnuoc74mzil3tml@archlinux-ax161>
-In-Reply-To: <20210402183110.zmnuoc74mzil3tml@archlinux-ax161>
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Fri, 2 Apr 2021 20:44:49 +0200
-Message-ID: <CA+icZUXvqF79a=zSOxrshSK3gZHFpPQa=U=MqrK6cnu7Cvmq0A@mail.gmail.com>
-Subject: Re: [PATCH] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=sedat.dilek@gmail.com; helo=mail-io1-xd2d.google.com
+In-Reply-To: <CAFEAcA-jky04K9d3WFxj+JU31mP_NS+yrEDXzXaffYC7CRTFLQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,61 +91,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: sedat.dilek@gmail.com
-Cc: Kees Cook <keescook@chromium.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Gabriel Somlo <somlo@cmu.edu>, Nick Desaulniers <ndesaulniers@google.com>,
- qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
- Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
- Sami Tolvanen <samitolvanen@google.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 2, 2021 at 8:31 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Fri, Apr 02, 2021 at 11:25:42AM -0700, Kees Cook wrote:
-> > On Fri, Apr 02, 2021 at 08:42:07AM +0200, Sedat Dilek wrote:
-> > > On Thu, Feb 25, 2021 at 10:25 PM Kees Cook <keescook@chromium.org> wrote:
-> > > >
-> > > > On Thu, 11 Feb 2021 12:42:58 -0700, Nathan Chancellor wrote:
-> > > > > fw_cfg_showrev() is called by an indirect call in kobj_attr_show(),
-> > > > > which violates clang's CFI checking because fw_cfg_showrev()'s second
-> > > > > parameter is 'struct attribute', whereas the ->show() member of 'struct
-> > > > > kobj_structure' expects the second parameter to be of type 'struct
-> > > > > kobj_attribute'.
-> > > > >
-> > > > > $ cat /sys/firmware/qemu_fw_cfg/rev
-> > > > > 3
-> > > > >
-> > > > > [...]
-> > > >
-> > > > Applied to kspp/cfi/cleanups, thanks!
-> > > >
-> > > > [1/1] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
-> > > >       https://git.kernel.org/kees/c/f5c4679d6c49
-> > > >
-> > >
-> > > I have queued this up in my custom patchset
-> > > (for-5.12/kspp-cfi-cleanups-20210225).
-> > >
-> > > What is the plan to get this upstream?
-> >
-> > I haven't sent it to Linus yet -- I was expecting to batch more of these
-> > and send them for v5.13. (But if the kvm folks snag it, that's good
-> > too.)
->
-> I am going to be putting the CFI series through its paces on both arm64
-> and x86_64 over the next week or so on several different machines (in
-> fact, I am writing up a report right now) so I will probably have some
-> more of these as I find them.
->
+On 4/2/21 11:35 AM, Peter Maydell wrote:
+> On Fri, 2 Apr 2021 at 06:42, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> We were incorrectly assuming that only the first byte of an MTE access
+>> is checked against the tags.  But per the ARM, unaligned accesses are
+>> pre-decomposed into single-byte accesses.  So by the time we reach the
+>> actual MTE check in the ARM pseudocode, all accesses are aligned.
+>>
+>> Therefore, drop mte_check1, since we cannot know a priori that an
+>> access is aligned.  Rename mte_checkN to mte_check, which now handles
+>> all accesses.  Rename mte_probe1 to mte_probe, and use a common helper.
+>>
+>> Drop the computation of the faulting nth element, since all accesses
+>> can be considered to devolve to bytes, and simply compute the faulting
+>> address.
+>>
+>> Buglink: https://bugs.launchpad.net/bugs/1921948
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> This is a pretty chunky patch for this point in the release cycle.
+> I don't suppose there's a way to make it more digestible for review?
 
-This was just a friendly ping.
+Hmm.  I guess I could split it into more pieces...
 
-Sami has sent some patches which I reported in the early stage of
-clang-cfi (x86-64) through subtree maintainers.
-It's up to you Nathan or kvm folks.
+I had thought one of the intermediary steps was larger than the result, simply 
+because one of the interfaces was adjusted instead of simply being removed.
 
-Upstreamed patches means to me a RDC-ed custom patchset.
+I'll see what I can come up with.
 
-- Sedat -
+
+r~
 
