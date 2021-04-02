@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42891352EBC
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 19:51:01 +0200 (CEST)
-Received: from localhost ([::1]:45056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14EF352F3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 20:28:24 +0200 (CEST)
+Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSNwi-0008Ud-Bc
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 13:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48226)
+	id 1lSOWt-0006Tk-BW
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 14:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSNty-0007Rm-N0
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 13:48:10 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:42767)
+ (Exim 4.90_1) (envelope-from <keescook@chromium.org>)
+ id 1lSOUP-0005xk-Fz
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 14:25:49 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:38735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSNtv-0006S9-Qe
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 13:48:10 -0400
-Received: by mail-pl1-x633.google.com with SMTP id t5so858269plg.9
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 10:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6U7h58lokfiEzbYzD8Tywa8u2P3Ed5r3zF1BNTrQfJg=;
- b=EV9nvMUGE/6AWLAnMlyJr9yjH9aQIkFN96TrVYhQsUoJ5fsCrw9lq98gGkpRblTS+q
- lIP1qpFTi37ZvQRvaqhE8YOlnebWjBOb4EuzWzlkzulb4DE1CfHy9Tsal4A6/BI8s8cB
- f4evUel+LReT4mtCVkQ4g4sJnkdJYq/SROEiYUej+IrF6uUij9e34cISyL3jwUXiqPMI
- OA4zNZ6aCSjH8mYZJSXzAnYJTaWVDJwZQyUxfKwedg6qqzuc2aZR0wXUXbqDyLxlqUUJ
- WQFtQses3d0AAESbGWuwmmUcVBfLo1aVCVMX36hJ9yhk6Z7FWUJBa1i8/rsI1+VnQw7V
- buSA==
+ (Exim 4.90_1) (envelope-from <keescook@chromium.org>)
+ id 1lSOUN-0004R3-La
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 14:25:49 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ k23-20020a17090a5917b02901043e35ad4aso4947624pji.3
+ for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 11:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7WB9dyBxJfyi+dnN/pUTcNGEGmQQ19of2/quWexK5LI=;
+ b=S6NXdtr+LlK6Nx57Jl5hfAvwLV62rZq1q9FrJPkyMVNZcnp6YgfAJ0ljinGEeEojZL
+ 542zCwNZXfoWy1Ucv+WcLme19/ihTv0HTdcMLHfon7tz7nivoz3RFfhLKvd4pdkzVuhR
+ 5HVoI7ahUuhXAv+n/q9uCCpZVw9CCf5emX71w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6U7h58lokfiEzbYzD8Tywa8u2P3Ed5r3zF1BNTrQfJg=;
- b=MP8njyf3zLZd8sJ9/CacDcPek037P08vbR3QvEYyiTXxY6Wn40cpNC4pVvVavBX/5s
- eEi3B3s1veQH8CreO2Zwn7RnvNybT1xZrHU9d2MioX8fM0dPko4dQ7TTkCmPNETVue6T
- LLyWwWjIOwOnq4GN+BNZhWwyiXb5I5DiX6ahLpcYMbj0y67HypxiopbK4ny4kxRq0cNp
- j5MkKT+Ns0qX14P/9OW56CND07o2kA1AmWis/XOpTRL+z2AEWAgmRJKZMRtyibEcZShw
- V6bKt2EuZhCbDzu91uV2eXyXV8sBrr+ZKJ0EQQDkHZhQXuOUDruz2PByaR7mjA2sNJHw
- Ew3w==
-X-Gm-Message-State: AOAM5308XAaNpBQ+Dc37dEUJ9f96nWXlJqbquqXCNw0kkS9vYQ9d4TCE
- 5mGJOM/rI/Ob+kGmPY17dy1F1Q==
-X-Google-Smtp-Source: ABdhPJxlvscNWoNayLht2pQ0hAEccBOwkCOrUKBUOIxn0NZUmphTs8JM9Acg56mWw5rN2AIuBmijKg==
-X-Received: by 2002:a17:90a:e7d0:: with SMTP id
- kb16mr700882pjb.206.1617385684103; 
- Fri, 02 Apr 2021 10:48:04 -0700 (PDT)
-Received: from [192.168.51.248]
- (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id w23sm8727920pgi.63.2021.04.02.10.48.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Apr 2021 10:48:03 -0700 (PDT)
-Subject: Re: [PATCH v2 09/21] Hexagon (target/hexagon) use softfloat default
- NaN and tininess
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
- <1617249213-22667-10-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <08554481-3c75-af48-a36f-98165088956b@linaro.org>
-Date: Fri, 2 Apr 2021 10:48:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7WB9dyBxJfyi+dnN/pUTcNGEGmQQ19of2/quWexK5LI=;
+ b=pLjjdCUKwBtgKrESzBgoTh/VeUrQZpNE0jNEQ17yX7GiwTKAnakZnMBuqbTMIGUpKk
+ o9ji6DsB5NKp6KbVNsFYe007rKkBmpZbMWlN1MGKvxFw4GJRmcYrjPL4w682qSs0+MM6
+ pIJpNN+yqF4SctKeyNrzSEub4S4yXgNyFJ7K1N8Sc2WS3fPURLpU5s9zmQ43zx7a7TFu
+ DOiKfz8VIMJbVz1B7KsCHKlnj+vb9mT2MEFXFTwVpZxqgBIwdW8XnUOfFzrcpcGZRnUT
+ a65SF30y2RyqABy9ixTF9p+SfJJf7x2sofH2H6Q6L9XA8Pjh5wpTyciD50cjC2G0sPrN
+ 6f1g==
+X-Gm-Message-State: AOAM532H8hBD1IUp91Hmdk5wzvqiPqd4bYxgp3Og+WGk+eZ3BafstFij
+ 3Ae4XPB6n6G4cSouUTeIshfiKA==
+X-Google-Smtp-Source: ABdhPJxFdQIKTxzrvLroVyzxnLHiDY5q50gwTx44nmerTmTqVhmwikVsbTgh8V9WzpbDCaKSwEXltw==
+X-Received: by 2002:a17:90a:9413:: with SMTP id
+ r19mr14769842pjo.65.1617387944473; 
+ Fri, 02 Apr 2021 11:25:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id p17sm8464878pjv.49.2021.04.02.11.25.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Apr 2021 11:25:43 -0700 (PDT)
+Date: Fri, 2 Apr 2021 11:25:42 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Sedat Dilek <sedat.dilek@gmail.com>
+Subject: Re: [PATCH] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
+Message-ID: <202104021125.53164550A@keescook>
+References: <20210211194258.4137998-1-nathan@kernel.org>
+ <161428829728.2305454.15456455443457551559.b4-ty@chromium.org>
+ <CA+icZUWdeWSy52bU4cjHau1hn5NiFAozaHgDb=geaaCYOET9+w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1617249213-22667-10-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+icZUWdeWSy52bU4cjHau1hn5NiFAozaHgDb=geaaCYOET9+w@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=keescook@chromium.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,20 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gabriel Somlo <somlo@cmu.edu>,
+ Nick Desaulniers <ndesaulniers@google.com>, qemu-devel@nongnu.org,
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+ Sami Tolvanen <samitolvanen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/21 8:53 PM, Taylor Simpson wrote:
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   fpu/softfloat-specialize.c.inc |  3 +++
->   target/hexagon/cpu.c           |  5 +++++
->   target/hexagon/op_helper.c     | 47 ------------------------------------------
->   3 files changed, 8 insertions(+), 47 deletions(-)
+On Fri, Apr 02, 2021 at 08:42:07AM +0200, Sedat Dilek wrote:
+> On Thu, Feb 25, 2021 at 10:25 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Thu, 11 Feb 2021 12:42:58 -0700, Nathan Chancellor wrote:
+> > > fw_cfg_showrev() is called by an indirect call in kobj_attr_show(),
+> > > which violates clang's CFI checking because fw_cfg_showrev()'s second
+> > > parameter is 'struct attribute', whereas the ->show() member of 'struct
+> > > kobj_structure' expects the second parameter to be of type 'struct
+> > > kobj_attribute'.
+> > >
+> > > $ cat /sys/firmware/qemu_fw_cfg/rev
+> > > 3
+> > >
+> > > [...]
+> >
+> > Applied to kspp/cfi/cleanups, thanks!
+> >
+> > [1/1] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
+> >       https://git.kernel.org/kees/c/f5c4679d6c49
+> >
+> 
+> I have queued this up in my custom patchset
+> (for-5.12/kspp-cfi-cleanups-20210225).
+> 
+> What is the plan to get this upstream?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I haven't sent it to Linus yet -- I was expecting to batch more of these
+and send them for v5.13. (But if the kvm folks snag it, that's good
+too.)
 
-r~
+-Kees
+
+> 
+> Feel free to add my:
+> 
+> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> 
+> - Sedat -
+
+-- 
+Kees Cook
 
