@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E035A35266F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 07:33:16 +0200 (CEST)
-Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D868352671
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 07:40:32 +0200 (CEST)
+Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSCQm-0003LG-11
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 01:33:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39624)
+	id 1lSCXn-0005iF-7M
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 01:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSCPa-0002s5-71
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 01:32:02 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:38418)
+ id 1lSCUy-0004Ol-IP
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 01:37:36 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSCPY-00019a-HQ
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 01:32:01 -0400
-Received: by mail-pf1-x435.google.com with SMTP id v10so2958472pfn.5
- for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 22:31:59 -0700 (PDT)
+ id 1lSCUw-0004SD-Lh
+ for qemu-devel@nongnu.org; Fri, 02 Apr 2021 01:37:36 -0400
+Received: by mail-pl1-x634.google.com with SMTP id t20so2052788plr.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Apr 2021 22:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YMc+eiZcUmWhvolDQF1owslkvvJZy+8Ia8Txn8NoVmQ=;
- b=YcOh8Q98G7F2B+vj5EW6v5g0b0BI5agQj5qSsFFoaNJn1Uo22XUH52ddLYHRH2FJbE
- VN6HRI6d2Efmed58DeiaZoDb2YvMwHAYu2/iRcm13cukCdnyiq9xsAH6dA8OEnjZzxeG
- pkwFnchABwrUnOtUoJzZxni+AVgfTDjNFNKTqi3UAbL6uzHibIGQiY3ZaPl5vSZXJEW6
- ZVpa9KZso3rZIU2G/L68TgtundXZpjeZvpVxkyxQjT18eolF4OUbV0kdJKeuBJlc1uY9
- SzfmZsIeDgp7W2r7X/V2rNjoRz3rJvRZive2pYUKKd173okWe40rUHNymK6nU0TtgLcc
- WEMg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P7OeMQi9Fy965ZESvD0QJwHLzMPBCmAGEybjj57QBfg=;
+ b=MhVf18zZkHK2y8Dn+XeLdDZiZmuk3qfm8ZcumoXmjUOs5mTqOYmhfY5RAbJuL0kkBH
+ eYD6Eea0Aq3EACI7jFtorBncC0cq/Dt8jcODDhO5ZWu84N1x2gZ9Vniue1dzLhrdERY7
+ ugi11IKe+YBAkkWEB9YECl4PzQwESI6whvRiV4JAczPtZF6WOy/Fkpt35MAGXGoFPA7W
+ gTrLKqOCXtoXl0PVoq4MiHAYjJyKVCXBg0SnD8VWH2gFPT8/erGFojUA0J/I2RDOER/4
+ gObL46lErwkj8hLr0CLpVIDJoyIQ8Ox8seLMSUg1KXMhEwYRQ9Ddnc1F5PZgEMu3fxdI
+ MzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=YMc+eiZcUmWhvolDQF1owslkvvJZy+8Ia8Txn8NoVmQ=;
- b=G3DGUm8gZ7TYuchP/v2+MkaGVbt670J68Q1Wi6cAZWPTrGzPuMib6v2lyi4V170l3V
- prjiYlY8Zp+2hqbw2Oj5x8C1l8PFE9kYkAAp8JzzAUHnOyf4EK1UNT3YTVKLY5MONGrz
- b3djt+lsDMrVrCyt+lfWa9cSLBKynmrKsBygDKK4E45XW8wykAMi7sm1X/C6be6jSn/C
- OBG3ubLgtvnwsSpoUz2vrQbc/mr7TkeV/BgADSSmq0rQ7vktxB0KG6680b7m/9ApMY62
- TuHtc9YmfRhCfVjNtZkQasD1tbKMOsOYnS4i/ZDMMbvGK2p7KExU9Qwrn4Fr2zJxvKsU
- f3aA==
-X-Gm-Message-State: AOAM530yNnWFHs+STNZKe9erZq2yxST6Y2iBsGEljwqQYhCPqrG+oLys
- fJ7z1lURaMNXs2pv801dL9JPnw==
-X-Google-Smtp-Source: ABdhPJwiB2HznDIhSsT6B31/gjbjJM/mDTM8VVz8CSyN7Bu17JBxmm1Slv2P+VtQttH0ideRVBQFow==
-X-Received: by 2002:a62:2a8b:0:b029:21c:3016:3a9f with SMTP id
- q133-20020a622a8b0000b029021c30163a9fmr10799005pfq.38.1617341518890; 
- Thu, 01 Apr 2021 22:31:58 -0700 (PDT)
-Received: from [192.168.81.184]
+ bh=P7OeMQi9Fy965ZESvD0QJwHLzMPBCmAGEybjj57QBfg=;
+ b=FzlXyBPo0B4mnK02medDN5dgYOaPXMHkPXnApMrbLinAQahD5RBldHVp/BXO17dpdU
+ sSan+s9uok0KW5x/03mFXW0gIFhL4c23wkw5stPtC+t28HBAYJIN+PpCz7MoPRt8SjhN
+ KkSiwKtcJY+G6suDaEby4AxJrmp6zNKaK5/oINNnVMHrBt+WK6mJ12GG9RRenwgrpoAV
+ 6Z8B1mOKMpWg3YMAMSjwGroR3BA+oY7DGG9X1OwUV7u9PazwyYVkO2+zhE1pRgATw5o0
+ 62AQ6MyhsfYz+R+4u4vgiT3TVPIgyYY3yS1C5oW8L1WHE0y9xZD7hVRWBl1eEwnbm7ua
+ cTlg==
+X-Gm-Message-State: AOAM5320yF7dgEtVf9zH6WV1UmwwF5YmdDvFNRH/J3Xi0xLFxmSFhBqt
+ cvZE22S0WUyBwJQ5n1KZg7EnN4jZd9df1A==
+X-Google-Smtp-Source: ABdhPJwpRgl6Smfc2A53+7II92jqryGttW3fWzX5aA+wza/zPwWqvm4rMvq7kGU8pnGsiTtBYpmbLA==
+X-Received: by 2002:a17:902:a404:b029:e6:23d:44ac with SMTP id
+ p4-20020a170902a404b02900e6023d44acmr11073449plq.50.1617341852062; 
+ Thu, 01 Apr 2021 22:37:32 -0700 (PDT)
+Received: from localhost.localdomain
  (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id 186sm7326353pfb.143.2021.04.01.22.31.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Apr 2021 22:31:58 -0700 (PDT)
-Subject: Re: [1/1] tcg/mips: Fix SoftTLB comparison on mips backend
-To: Kele Huang <kele.hwang@gmail.com>, qemu-devel@nongnu.org
-References: <20210401100457.191458-1-kele.hwang@gmail.com>
+ by smtp.gmail.com with ESMTPSA id g10sm6908074pgh.36.2021.04.01.22.37.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 22:37:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5b0f83f9-2db9-48e0-eada-56ce1883927c@linaro.org>
-Date: Thu, 1 Apr 2021 22:31:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] target/arm: Fix unaligned mte checks
+Date: Thu,  1 Apr 2021 22:37:26 -0700
+Message-Id: <20210402053728.265173-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210401100457.191458-1-kele.hwang@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,27 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, j@getutm.app,
- f4bug@amsat.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/21 3:04 AM, Kele Huang wrote:
-> The addrl used to compare with SoftTLB entry should be sign-extended
-> in common case, and it will cause constant failing in SoftTLB
-> comparisons for the addrl whose address is over 0x80000000 on the
-> emulation of 32-bit guest on 64-bit host.
-> 
-> This is an important performance bug fix. Spec2000 gzip rate increase
-> from ~45 to ~140 on Loongson 3A4000 (MIPS compatible platform).
-> 
-> Signed-off-by: Kele Huang<kele.hwang@gmail.com>
-> ---
->   tcg/mips/tcg-target.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+I was incorrectly assuming that only the first byte of an MTE access
+is checked against the tags.  But per the ARM, unaligned accesses are
+pre-decomposed into single-byte accesses.  So by the time we reach the
+actual MTE check in the ARM pseudocode, all accesses are aligned.
 
-Queued, thanks.
+There's probably more that could be simplified here, but I did try to
+keep the patch small-ish.
 
 
 r~
+
+
+Richare Henderson (2):
+  target/arm: Check PAGE_WRITE_ORG for MTE writeability
+  target/arm: Fix unaligned mte checks
+
+ target/arm/helper-a64.h           |   3 +-
+ target/arm/internals.h            |  13 +--
+ target/arm/translate-a64.h        |   2 +-
+ target/arm/mte_helper.c           | 171 ++++++++++++------------------
+ target/arm/sve_helper.c           |  96 ++++++-----------
+ target/arm/translate-a64.c        |  52 ++++-----
+ target/arm/translate-sve.c        |   9 +-
+ tests/tcg/aarch64/mte-5.c         |  44 ++++++++
+ tests/tcg/aarch64/Makefile.target |   2 +-
+ 9 files changed, 179 insertions(+), 213 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-5.c
+
+-- 
+2.25.1
+
 
