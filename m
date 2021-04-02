@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B203529F6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 12:54:49 +0200 (CEST)
-Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3CB352AC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Apr 2021 14:47:05 +0200 (CEST)
+Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSHRw-00047f-Nm
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 06:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43788)
+	id 1lSJCa-0005al-C0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 08:47:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lSHQW-0003Ls-J1
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 06:53:20 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:33484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lSHQV-00020l-3X
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 06:53:20 -0400
-Received: by mail-ed1-x536.google.com with SMTP id w18so5113049edc.0
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 03:53:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MkexkkyY5ycmEsulYBWc68OAUWd6GltXad6DFiPwqII=;
- b=kESPAjfmTKKWOJzXMh9SuBHdLf8J0NBywjbzvf5O9rFYg4FVAuFnxZyjUuX/zcYv9s
- QWsJL+bpvTjFDtwOCnx8pv+HtpedkM6RqStfqvoEetKThvZ9yoICmw3krmbewAV32hWK
- VY5eCX0dWInaoLQBW2k4falj0sCoFwx6JuBefC2XKVo9db36KU0VNWsVq1AXCf8lI9pu
- 1bfxUhMUHRlVeea5mp+Z9luo64jTvoQyvgbYoMTkL1YHryj7KqnfR6q1MxBmRJhG8uOW
- nbosuqrmUl9XdGN/kT7trqQQWqvTzFAPsSC8K2VgQaIAIfebAu6eTAU6aRzZhFzq6yId
- Kb7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MkexkkyY5ycmEsulYBWc68OAUWd6GltXad6DFiPwqII=;
- b=WDPT1nwF8wVRAtMaCrpB804zd/Wa5UWIcQJT95srL92wO9M5ywZ+WgL1nB7Vl6z6dm
- xC1ecIc5b/OOdn0siKKKeFUI276PztSsnAB0JWcRX6UHTOimUx27MspgIbPlVD1lLrfI
- nBOI85GDxQUEsi6MhF0WpZvxIG+PgaRooeR3bIH+4RG7Iutz90/Af3jv+IEdgXxzdtzJ
- Jvjam71+CwcUCu1xLhI3tRwbGIHCnoqWSxSlC/M/91tIKgYSxb8MFLyq6O/c6TLBKldb
- OSI65jDKlYSi6Z2kcCq7wrnEPzMOB1bArWZM7Xtiv8F5OB3iqjd7TUA9qYo2MbOLrSDB
- qKHA==
-X-Gm-Message-State: AOAM5320kkFHXun74hK5FbySSHMBlkRAAZ4INO3GnZahIp/jUes9ZDbd
- /elqwEhJJljDadcFzy1emCqRVAIQRwMGhlyIJ/migw==
-X-Google-Smtp-Source: ABdhPJzKt3tcWz04mJffZ+a45E90jndOykB0XvVuFQuBCdzNZ2Y4HbMdbT2iU5tdOp+7P2SGu6aqUw/3hsiWthV28fc=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr14498006edt.251.1617360797592; 
- Fri, 02 Apr 2021 03:53:17 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7197bd837=alistair.francis@wdc.com>)
+ id 1lSJAI-0004S5-3E; Fri, 02 Apr 2021 08:44:42 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:38118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7197bd837=alistair.francis@wdc.com>)
+ id 1lSJAD-0001u3-Qy; Fri, 02 Apr 2021 08:44:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1617367479; x=1648903479;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uecuS9K8C0ccA/9w1say4RsflDfzOigWK8yy3hE5m5E=;
+ b=fT2aqFh0NrdXyjrzi0AsoMdkQS6Bfwtb3xvCD2jN9cc4YebMky1e6u7V
+ och/MO4cs0khjQ8qc8V/eouIDFkFUXTCPp0CP7pKglJlhHf5pmUvImgdf
+ PUYRjlehWJHYMU2F4NDMfUF7M8o0xofGJacnJc1puBnquz3oaYXjqJyW5
+ I7S/3E3RCL0mKOa4ALpfC5aJCMNrWXdmAX2FiZRU7nHjByzteaYEQSq2n
+ 2i5h8JjhZNyzXOrRAvFQ0j/vg+BX7rCjZDFLfxJkT7dqLm1+JxXHoz0xB
+ vtFw9bVj48W8YY7BaVFuYLt50YjhIXSYtyyDKzUjSjGoOGoNNM3yZdiDh A==;
+IronPort-SDR: r6iS1o9AOzBfv47QmOPqeDXhkcPF674QasUio4bD4eW2QYWZ8Goa98UItpdY+Gc0n7XfdRxLjr
+ LNyYV/BZrGVkr82beaqB/Ocm09Y0HeIDrjd+2c7VotQTteJDJi+0fd5hkl0NlhfOIh5gak2OoZ
+ 12EWfksXseSbmOz+H519XqYpZSIm9V0gRxQuDjhJz595gzpBfYaFzfE6e2De0UaKOfh+X9fEoC
+ ttbCbvQ3pXeoJBqB0v2W4N55Q5wiNxRmm1vzzo8S2kIUNBjsWUcS2e/ufAroWUi6R9bzlpSKH2
+ AyU=
+X-IronPort-AV: E=Sophos;i="5.81,299,1610380800"; d="scan'208";a="268041570"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Apr 2021 20:44:09 +0800
+IronPort-SDR: ffSqjRVRRx7jw4ZIMtyg0NtpzLLVkdLRf61SdfUmlZKTEsWGtP01Pu8q7q6w94c1RQcOKXQ2QH
+ VcYu51yJoN3ItbwrrYCG/PIhD2YW04TWioTLWkmqJxEkfy/+raO/hhdnI+kI3h1UhlNLh53A5u
+ ByL1xJ6ki5PCytY+whLYVgb3JpGcQ4LKnbgGa+4Dqh/1Bwbey5QEx3BxTkK1WeY+47H7hjA9Ld
+ gncfw62A1n17yRIbh7yPCyNtPSyouu7iIrFe7IPj1/o1jBj6ttYpXWDgnBK8Ul9iQUviprlzR1
+ 08n15hBpLtpDYocXTXJXKUY+
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Apr 2021 05:25:48 -0700
+IronPort-SDR: vUgwfsZJY8Ggz8ZIm/mo7QLdmJ6omS+JUYHkzTdWgcsAT1yqc4uMLLu5cEsvGMG4QpRpbTp165
+ nhKkNpomIjEtTlSLGmOwj/hqr9yigPbtB3H7aZ5n8w3TrYaWzbrzuhBQWPO2HDhZWkPf+INcBS
+ xvkI/lFLTIkhHYvARc6B55DZWvy0DeUG4FDL+hAaQjWbC39bBa1YmS6NF3eXqBAsAEPFb2FPCz
+ GdnXu7lrp0gHAkC+AK625aInZqDaxeAyYQ6sEwmNyCIh1K+QS2xc6Juf6b8HeLIyQaEa7wzkew
+ bgg=
+WDCIronportException: Internal
+Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.167.78])
+ by uls-op-cesaip01.wdc.com with ESMTP; 02 Apr 2021 05:44:07 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 1/1] hw/riscv: Enalbe VIRTIO_VGA for RISC-V virt machine
+Date: Fri,  2 Apr 2021 08:42:12 -0400
+Message-Id: <7ac26fafee8bd59d2a0640f3233f8ad1ab270e1e.1617367317.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <20210401131220.3252320-1-thuth@redhat.com>
-In-Reply-To: <20210401131220.3252320-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 2 Apr 2021 10:52:43 +0000
-Message-ID: <CAFEAcA-urh5b7XvGoZrQd0QFRpODJMd_5me7GQ3skFmLo_xR+Q@mail.gmail.com>
-Subject: Re: [PULL 00/13] Updates to MAINTAINERS, docs, and some small fixes
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=7197bd837=alistair.francis@wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,36 +87,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 1 Apr 2021 at 14:12, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter,
->
-> the following changes since commit 6ee55e1d10c25c2f6bf5ce2084ad2327e17affa5:
->
->   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.0-20210331' into staging (2021-03-31 13:14:18 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-04-01
->
-> for you to fetch changes up to ca89d15f8e42f2e5eac5bd200af38fdbfb32e875:
->
->   device-crash-test: Ignore errors about a bus not being available (2021-04-01 14:28:39 +0200)
->
-> ----------------------------------------------------------------
-> * Updates for the MAINTAINERS file
-> * Some small documentation updates
-> * Some small misc fixes
+imply VIRTIO_VGA for the virt machine, this fixes the following error
+when specifying `-vga virtio` as a command line argument:
 
+qemu-system-riscv64: Virtio VGA not available
 
-Applied, thanks.
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ hw/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 1de18cdcf1..9dc1e7c244 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -22,6 +22,7 @@ config OPENTITAN
+ config RISCV_VIRT
+     bool
+     imply PCI_DEVICES
++    imply VIRTIO_VGA
+     imply TEST_DEVICES
+     select GOLDFISH_RTC
+     select MSI_NONBROKEN
+-- 
+2.31.0
 
--- PMM
 
