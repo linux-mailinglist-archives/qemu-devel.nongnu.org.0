@@ -2,137 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426FF3534B8
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 18:30:14 +0200 (CEST)
-Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFD63534CE
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 19:02:57 +0200 (CEST)
+Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSjA4-0001VN-Ml
-	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 12:30:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41274)
+	id 1lSjfj-0007YM-Ks
+	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 13:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1lSj9D-00013y-Dh
- for qemu-devel@nongnu.org; Sat, 03 Apr 2021 12:29:19 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:35319)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1lSj9B-0001IB-92
- for qemu-devel@nongnu.org; Sat, 03 Apr 2021 12:29:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617467357; x=1649003357;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=YkXtCT1ukxXXZGHl65E8x6eajSeBlDClYf96xSoKwGQ=;
- b=M59b30CMil3YRb1SjoEqShril4UsZIqVH1IAorXxy9SfmTXsa3dp0kAX
- +5doX6XCUGkTsR2wumuPCNvZlLH8WhVvhHm8VJskim6QTW8NR6TrgYIcD
- acC+0NlHM5tKDyGcGy7mzgNpXy2NeUNAal7d+jxtN3o1uRF5meyfdre02 E=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 03 Apr 2021 09:29:13 -0700
-X-QCInternal: smtphost
-Received: from nasanexm03a.na.qualcomm.com ([10.85.0.103])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 03 Apr 2021 09:29:13 -0700
-Received: from nasanexm03f.na.qualcomm.com (10.85.0.47) by
- nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 3 Apr 2021 09:29:13 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03f.na.qualcomm.com (10.85.0.47) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Sat, 3 Apr 2021 09:29:13 -0700
-Received: from BN7PR02MB4194.namprd02.prod.outlook.com (2603:10b6:406:f8::18)
- by BN8PR02MB5777.namprd02.prod.outlook.com (2603:10b6:408:bb::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29; Sat, 3 Apr
- 2021 16:29:08 +0000
-Received: from BN7PR02MB4194.namprd02.prod.outlook.com
- ([fe80::dd4b:260f:b5df:a879]) by BN7PR02MB4194.namprd02.prod.outlook.com
- ([fe80::dd4b:260f:b5df:a879%7]) with mapi id 15.20.3999.032; Sat, 3 Apr 2021
- 16:29:08 +0000
-From: Brian Cain <bcain@quicinc.com>
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: testing/next - hexagon toolchain update
-Thread-Topic: testing/next - hexagon toolchain update
-Thread-Index: Adcopleuoa++F+G2QduyoJlnZb/5iQ==
-Date: Sat, 3 Apr 2021 16:29:07 +0000
-Message-ID: <BN7PR02MB4194DF5752EF3BADE858018DB8799@BN7PR02MB4194.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
-x-originating-ip: [104.54.226.75]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cf289f85-f0af-4b3c-451e-08d8f6bd9ae1
-x-ms-traffictypediagnostic: BN8PR02MB5777:
-x-microsoft-antispam-prvs: <BN8PR02MB57772A912A9451747CDC5EA9B8799@BN8PR02MB5777.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:428;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 91nKFLVP8gYVnx7HQy9426Hz3a9/kHtV6pCxNCdB7KnIWiVgE86755P0PJH7GlrQe5Es4+3tJUzmUH/TErtZBGsA+2mqDopAjlDp2/B4KvGGXcrcVqrDIpRd78yyC/mFVmWfRxM1M16LyUGk8CwLeJRC2o+VzLH//XfOw7jpwlb63zt4GePdpV+/14Ae8JeJ0NjOash6ko8CwJ72p3fNUI6XAdn/DUvMdxUnzbVtaCr6XWr/6tXRoK4NCRC88lrYJxTpv9VFbIi3VaHA9VsnrrdU3EYrMvaFi1QSEzBiYHySE4Ryf13o4NhgBhQwrKH5ZMjayThexLCVPIJ9m7ZDxjX9TKpAR/uzNxpZU7Ol+/m1/0q6DvNXm4bFDpxb3FBxBbetqpz8Qtsr6XTQKH9YUf6zhZkd9a2H/v57cmejE+sIaXFPUWv7othW5NMmdkGYh1aYgwGeoEu6Ey4d05Sk3hUH4N17oTZnjthGWdtpJ1jXmSi9YgspiKKb2qCy39ZLWxsHelZRAXgmI4nOX59it7HJ7Jf3otLlj3rEmdwPKOkCcZhvIqUutlSEgYnIvmnEPCNjoc7rPmczpx/EYo5hd02V1AjWzpx9gljn4A2F1JIZ9CiIOjCRsB/FXxO+ris3MkvW8MX9PYgZ0nImw9AK3pffWFN1AoRnk9MhTD8VB+ya9TDIfxGEInyCa43Y/Lx+0NmKnnYgvNc8Rxlo+/aJlyAc3XNH4e0UJuE8QQRbsA1X66yC7ehenRctyoHorS3H
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN7PR02MB4194.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(136003)(396003)(346002)(366004)(15650500001)(83380400001)(2906002)(99936003)(8676002)(8936002)(186003)(71200400001)(478600001)(966005)(5660300002)(6916009)(4326008)(86362001)(316002)(38100700001)(33656002)(6506007)(66946007)(66616009)(66476007)(26005)(66446008)(55016002)(66556008)(76116006)(64756008)(9686003)(7696005)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?Ob66ZNYL+ugTDqULUUQfkEZlfz5P/IWmDlZ+f9sBF9fxzmjrXGDmuojCgs?=
- =?iso-8859-1?Q?jKiIb5Pian8DdK8Zreo+QateUiK4w3pLXRphS3YL9+F3aEe5TiUuBDecXY?=
- =?iso-8859-1?Q?Z/7Qy5E+Kav0WBylvOf3gt5bNJKQQcrdxcspeF9obvDt491s8pJ/5Pz4Bb?=
- =?iso-8859-1?Q?/Xh+jpLNV0+qUGRrZUcs9CHeK4meDjbtU46zDEHb2p2ANcPiXiKHmnvByX?=
- =?iso-8859-1?Q?pNm6I+zo+YfTKvXvQmcA2LpPl5armiICA0KUmuE7wjdRPAVLMa4p1hWB9c?=
- =?iso-8859-1?Q?OrJ3w4sy7hqmbTrZ0FoSCNgKdrGpVg1RTaw1Af9Q5oKjMAvF0V/Sdyf4H7?=
- =?iso-8859-1?Q?zyeZXbSy3RdkSJVTaWss7Z9D0DiQ+/LiMOTH0guMEgCR4MLllv+5EUFByE?=
- =?iso-8859-1?Q?cFbIIkabUB1RzqlLXWxG0eaVRryPx+//CbUS6WdcNFYemKAuM+FifUlXVy?=
- =?iso-8859-1?Q?+ll3x2/iB0PSe9IxEnVDW7VGDZykJsYRqEJfddyvZ3Evozj38PZl6q6yCW?=
- =?iso-8859-1?Q?zxEO8uoWUYLmg6psGpbs77KHVen/FbcX+Fa5WVNfpUvEsuXb8m9F0O43Lw?=
- =?iso-8859-1?Q?qgtmDqKzo73aTUy1Vi0ruOTvBsTggJfyb9zubX2OeTxFu9os4DFdI3WgCD?=
- =?iso-8859-1?Q?q+yYGatQnoI5a4AKdNu8SKKVSqboSoIu4m4ZRUykbyEdi0Ziqgcb6Ozv2k?=
- =?iso-8859-1?Q?AIlZEYi/q/LIJ8pmjOzIfvAKoT1l+4hCSESIFrZjQMWbeLuT/CsL3Z8N8l?=
- =?iso-8859-1?Q?8kP0B3hma5+7s2lOQb4hF09Fkw/ZCrjZeaZ8/5cwULS810tBHUWsp1npHO?=
- =?iso-8859-1?Q?8L+mlJp7q1AZ+iGg3ftYT6HTvpi6fZhSqxSrQXztML1Bsf02WarRallHUY?=
- =?iso-8859-1?Q?twoWfo4vRmhE6zfxoHg8nsvFt+jsjpKxcfsyyF+0knxFhyNvQ4AFXgheO4?=
- =?iso-8859-1?Q?tpFueE0FxgAQZTQDn5wXZ3FZPOzDdh+W7q1EWyOBpAc+w003W85pBA2SsJ?=
- =?iso-8859-1?Q?6r3LHM63FoySBtsSSdQsbdjaqKM9j+BCJ0qCUVTTWqljOmdurgjr4EpJj/?=
- =?iso-8859-1?Q?JYQ9v4R1h5yiwMF02iPasCRZb9zaFx3+kNoBdeshEjBaUU2vPI4e37sCKp?=
- =?iso-8859-1?Q?hBVzAP+hluGv2/3W1ZNslTU7sx6YfoRsQ98kWvaktAOoGKN2z1BCiP3qQn?=
- =?iso-8859-1?Q?ApN5MsoZjENCa8K4h0mZFcGAYfgS554eR8AXEL6Mpf+5SueT12Bakjhxg/?=
- =?iso-8859-1?Q?ZXiJoYxWArPAlnKeyZIHTYO2dXgGLj7prg6iyCuZ28gdCyF9yWM0N9bDKe?=
- =?iso-8859-1?Q?jm67yepJuqipNrWlMsMBhkVe1ECB38+LLhXpVOEWFhp9Ld0aVC9Tz1MwHP?=
- =?iso-8859-1?Q?NVihCaFOa6?=
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g4lChL8OZ4jFEdnsp4FwK8a57ZYhrrQ0C+q4Yr4dVwKsJc3tI1CVqsZEZjmoIpxcjpwcU4HdZUuI6Bk30JQdWH4itzXSufaI9FGMwdpb3nHCFb9HBwAHcFDO1NiSOLcEHYgMtyPSfVMhfi1I1kOWxnfonpVoR0pcF3XasY5EVDJ0Gsv51EplaeLfwzAe4hxn90BDlRffxCKGY8ouG0NlP6fQGsd+eMmskxeJfRnMpJoasaMd9S3Z2Pkbaj+l4rWM0iKIinPXH2q1Aj2LHsOBGsQ92Fyastmpt6/GOVU13OuyN85mmVNLW6nAaVlmZFor02V7UPEyimj09U489OAZOQ==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BEdI2YPxZBLY8JPmbn3eVkS4Qq8bBoHkqynOUC3ozdY=;
- b=Wo/1r1syA1/ixC2iR4XeNXhvqOF6iJcoWoIJup80UK+lUbF75iUi1KUvhYqeMKBmI8OUD2Vca89lTjL1rLg86HfcJJ54oSCWZGnu1hqurNkXLz4Hd5gfNbavEIFn1buWDjUrF8NoZbZ7NdzhAwTRvfIENP6sJoAmyfIkTfuvIAwSpxL5vRfUn0C0X+QH0S558t3VG8k+PDiYvcvE/bi7BzFUDKYDOpGFPBqoMVVej+9ecCBoJuDUhQtioJH37dVZz63T8Zq+a/RPPzFdIPMuRhDJT5+HTSUpxB/afE/dnJWM8YqTSzQdkLCmKsoczBK6Yr1RcK1ePp7nES7OILVqqQ==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-x-ms-exchange-crosstenant-authas: Internal
-x-ms-exchange-crosstenant-authsource: BN7PR02MB4194.namprd02.prod.outlook.com
-x-ms-exchange-crosstenant-network-message-id: cf289f85-f0af-4b3c-451e-08d8f6bd9ae1
-x-ms-exchange-crosstenant-originalarrivaltime: 03 Apr 2021 16:29:07.7403 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: pTMq/sBWy2hp7u83mA59p7/+PmWg3jppHCGm93qTWT82VvDFNHzxa7WKodqnQkESawtUDGb2+INJOtlbfdn0SA==
-x-ms-exchange-transport-crosstenantheadersstamped: BN8PR02MB5777
-x-originatororg: quicinc.com
-Content-Type: multipart/mixed;
- boundary="_002_BN7PR02MB4194DF5752EF3BADE858018DB8799BN7PR02MB4194namp_"
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lSjdp-0006zt-Dd
+ for qemu-devel@nongnu.org; Sat, 03 Apr 2021 13:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lSjdm-0003Q7-0e
+ for qemu-devel@nongnu.org; Sat, 03 Apr 2021 13:00:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lSjdf-0002is-Ld
+ for <qemu-devel@nongnu.org>; Sat, 03 Apr 2021 17:00:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A1D632E8073
+ for <qemu-devel@nongnu.org>; Sat,  3 Apr 2021 17:00:47 +0000 (UTC)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=199.106.114.38; envelope-from=bcain@quicinc.com;
- helo=alexa-out-sd-01.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 03 Apr 2021 16:52:13 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1915063@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dober60 markrhpearson paelzer sergiodj
+ ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
+Message-Id: <161746873353.29047.7907960307448967364.malone@gac.canonical.com>
+Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: 94710214a7560b2c11051590e42fc0a314ae32d0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -141,91 +74,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_002_BN7PR02MB4194DF5752EF3BADE858018DB8799BN7PR02MB4194namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+That is awesome David,
+qemu64 is like a very low common denominator with only very basic CPU featu=
+res.
+While "copy host" means "enable all you can".
 
-Alex,
-
-You are the one maintaining the testing/next tree at https://gitlab.com/sts=
-quad/qemu correct?  The current patch series for hexagon under review requi=
-res toolchain updates.  These changes to llvm/clang landed in the last week=
- or two.
-
-Can you apply this patch?
-
-~~~~
-
-From 68547357c895934796e9b4687338bb9e39ac86c5 Mon Sep 17 00:00:00 2001
-From: Brian Cain mailto:bcain@quicinc.com
-Date: Thu, 1 Apr 2021 10:32:24 -0500
-Subject: [PATCH] Update llvm-project commit
-
-clang was updated with new inline asm registers for hexagon, this is
-necessary for QEMU test cases currently under review.
-
-Signed-off-by: Brian Cain mailto:bcain@quicinc.com
----
- tests/docker/dockerfiles/debian-hexagon-cross.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests/d=
-ocker/dockerfiles/debian-hexagon-cross.docker
-index b6fb651..1d19e8f 100644
---- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
-+++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
-@@ -24,7 +24,7 @@ RUN apt update && \
- ENV TOOLCHAIN_INSTALL /usr/local
- ENV ROOTFS /usr/local
-
--ENV LLVM_URL https://github.com/llvm/llvm-project/archive/3d8149c2a1228609=
-fd7d7c91a04681304a2f0ca9.tar.gz
-+ENV LLVM_URL https://github.com/llvm/llvm-project/archive/bfcd21876adc3498=
-065e4da92799f613e730d475.tar.gz
- ENV MUSL_URL https://github.com/quic/musl/archive/aff74b395fbf59cd7e93b369=
-1905aa1af6c0778c.tar.gz
- ENV LINUX_URL https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.18.ta=
-r.xz
+We can surely work with that a bit, but until I get access to the same
+HW I need you to do it.
 
 
---_002_BN7PR02MB4194DF5752EF3BADE858018DB8799BN7PR02MB4194namp_
-Content-Type: application/octet-stream;
-	name="0001-Update-llvm-project-commit.patch"
-Content-Description: 0001-Update-llvm-project-commit.patch
-Content-Disposition: attachment;
-	filename="0001-Update-llvm-project-commit.patch"; size=1355;
-	creation-date="Sat, 03 Apr 2021 16:26:41 GMT";
-	modification-date="Sat, 03 Apr 2021 16:26:41 GMT"
-Content-Transfer-Encoding: base64
+If you run in a console `$virsh domcapabilities` it will spew some XML at y=
+ou. One of the sections will be for "host-model". In my case that looks like
 
-RnJvbSA2ODU0NzM1N2M4OTU5MzQ3OTZlOWI0Njg3MzM4YmI5ZTM5YWM4NmM1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcmlhbiBDYWluIDxiY2FpbkBxdWljaW5jLmNvbT4KRGF0ZTog
-VGh1LCAxIEFwciAyMDIxIDEwOjMyOjI0IC0wNTAwClN1YmplY3Q6IFtQQVRDSF0gVXBkYXRlIGxs
-dm0tcHJvamVjdCBjb21taXQKCmNsYW5nIHdhcyB1cGRhdGVkIHdpdGggbmV3IGlubGluZSBhc20g
-cmVnaXN0ZXJzIGZvciBoZXhhZ29uLCB0aGlzIGlzCm5lY2Vzc2FyeSBmb3IgUUVNVSB0ZXN0IGNh
-c2VzIGN1cnJlbnRseSB1bmRlciByZXZpZXcuCgpTaWduZWQtb2ZmLWJ5OiBCcmlhbiBDYWluIDxi
-Y2FpbkBxdWljaW5jLmNvbT4KLS0tCiB0ZXN0cy9kb2NrZXIvZG9ja2VyZmlsZXMvZGViaWFuLWhl
-eGFnb24tY3Jvc3MuZG9ja2VyIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2Rl
-Ymlhbi1oZXhhZ29uLWNyb3NzLmRvY2tlciBiL3Rlc3RzL2RvY2tlci9kb2NrZXJmaWxlcy9kZWJp
-YW4taGV4YWdvbi1jcm9zcy5kb2NrZXIKaW5kZXggYjZmYjY1MS4uMWQxOWU4ZiAxMDA2NDQKLS0t
-IGEvdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRvY2tlcgor
-KysgYi90ZXN0cy9kb2NrZXIvZG9ja2VyZmlsZXMvZGViaWFuLWhleGFnb24tY3Jvc3MuZG9ja2Vy
-CkBAIC0yNCw3ICsyNCw3IEBAIFJVTiBhcHQgdXBkYXRlICYmIFwKIEVOViBUT09MQ0hBSU5fSU5T
-VEFMTCAvdXNyL2xvY2FsCiBFTlYgUk9PVEZTIC91c3IvbG9jYWwKIAotRU5WIExMVk1fVVJMIGh0
-dHBzOi8vZ2l0aHViLmNvbS9sbHZtL2xsdm0tcHJvamVjdC9hcmNoaXZlLzNkODE0OWMyYTEyMjg2
-MDlmZDdkN2M5MWEwNDY4MTMwNGEyZjBjYTkudGFyLmd6CitFTlYgTExWTV9VUkwgaHR0cHM6Ly9n
-aXRodWIuY29tL2xsdm0vbGx2bS1wcm9qZWN0L2FyY2hpdmUvYmZjZDIxODc2YWRjMzQ5ODA2NWU0
-ZGE5Mjc5OWY2MTNlNzMwZDQ3NS50YXIuZ3oKIEVOViBNVVNMX1VSTCBodHRwczovL2dpdGh1Yi5j
-b20vcXVpYy9tdXNsL2FyY2hpdmUvYWZmNzRiMzk1ZmJmNTljZDdlOTNiMzY5MTkwNWFhMWFmNmMw
-Nzc4Yy50YXIuZ3oKIEVOViBMSU5VWF9VUkwgaHR0cHM6Ly9jZG4ua2VybmVsLm9yZy9wdWIvbGlu
-dXgva2VybmVsL3Y1LngvbGludXgtNS42LjE4LnRhci54egogCi0tIApUaGUgUXVhbGNvbW0gSW5u
-b3ZhdGlvbiBDZW50ZXIsIEluYy4gaXMgYSBtZW1iZXIgb2YgdGhlIENvZGUgQXVyb3JhIEZvcnVt
-LAphIExpbnV4IEZvdW5kYXRpb24gQ29sbGFib3JhdGl2ZSBQcm9qZWN0Cgo=
+    <mode name=3D'host-model' supported=3D'yes'>
+      <model fallback=3D'forbid'>Skylake-Client-IBRS</model>
+      <vendor>Intel</vendor>
+      <feature policy=3D'require' name=3D'ss'/>
+      <feature policy=3D'require' name=3D'vmx'/>
+      <feature policy=3D'require' name=3D'hypervisor'/>
+...
+    </mode>
 
---_002_BN7PR02MB4194DF5752EF3BADE858018DB8799BN7PR02MB4194namp_--
+
+That means a names CPU type (the one that is closest to what you have) and =
+some feature additionally enabled/disabled.
+
+If you could please post the full output you have, that can be useful.
+>From there you could go two steps.
+1. as you see in my example it will list some cpu features on top of the na=
+med type.
+   If you remove them one by one you might be able to identify the single-c=
+pu featute
+   that breaks in your case.
+2. The named CPU that you have also has a representation, it can be found in
+   /usr/share/libvirt/cpu_map...
+   That ill list all the CPU features that make up the named type.
+   If #1 wasn't sufficient, you can now add those to your guest definition =
+one by one in disabled =
+
+   state, example
+    <feature policy=3D'disable' name=3D'ss'/>
+
+A description of the underlying mechanism is here
+https://libvirt.org/formatdomain.html#cpu-model-and-topology
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915063
+
+Title:
+  Windows 10 wil not install using qemu-system-x86_64
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  Steps to reproduce
+  install virt-manager and ovmf if nopt already there
+  copy windows and virtio iso files to /var/lib/libvirt/images
+
+  Use virt-manager from local machine to create your VMs with the disk, CPU=
+s and memory required
+      Select customize configuration then select OVMF(UEFI) instead of seab=
+ios
+      set first CDROM to the windows installation iso (enable in boot optio=
+ns)
+      add a second CDROM and load with the virtio iso
+  	change spice display to VNC
+
+    Always get a security error from windows and it fails to launch the ins=
+taller (works on RHEL and Fedora)
+  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
+ of no help
+  --- =
+
+  ProblemType: Bug
+  ApportVersion: 2.20.11-0ubuntu27.14
+  Architecture: amd64
+  CasperMD5CheckResult: skip
+  CurrentDesktop: ubuntu:GNOME
+  DistributionChannelDescriptor:
+   # This is the distribution channel descriptor for the OEM CDs
+   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
+criptor
+   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
+d64+X00
+  DistroRelease: Ubuntu 20.04
+  InstallationDate: Installed on 2021-01-20 (19 days ago)
+  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
+0-14:39
+  MachineType: LENOVO 30E102Z
+  NonfreeKernelModules: nvidia_modeset nvidia
+  Package: linux (not installed)
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcFB: 0 EFI VGA
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
+=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
+andoff=3D7
+  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
+  RelatedPackageVersions:
+   linux-restricted-modules-5.6.0-1042-oem N/A
+   linux-backports-modules-5.6.0-1042-oem  N/A
+   linux-firmware                          1.187.8
+  RfKill:
+   =
+
+  Tags:  focal
+  Uname: Linux 5.6.0-1042-oem x86_64
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
+udo
+  _MarkForUpload: True
+  dmi.bios.date: 07/29/2020
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: S07KT08A
+  dmi.board.name: 1046
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Defined
+  dmi.chassis.type: 3
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: None
+  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
+pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
+  dmi.product.family: INVALID
+  dmi.product.name: 30E102Z
+  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
+  dmi.product.version: ThinkStation P620
+  dmi.sys.vendor: LENOVO
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
