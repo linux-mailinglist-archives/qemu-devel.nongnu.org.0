@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19E435345B
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 16:42:17 +0200 (CEST)
-Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA00C353459
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 16:39:42 +0200 (CEST)
+Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lShTd-0004JT-19
-	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 10:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
+	id 1lShR7-00035w-DO
+	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 10:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lShSJ-0003gU-4H
- for qemu-devel@nongnu.org; Sat, 03 Apr 2021 10:40:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lShSH-0001XH-7p
- for qemu-devel@nongnu.org; Sat, 03 Apr 2021 10:40:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lShSF-0002nI-6q
- for <qemu-devel@nongnu.org>; Sat, 03 Apr 2021 14:40:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1B7E82E8050
- for <qemu-devel@nongnu.org>; Sat,  3 Apr 2021 14:40:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lShQP-0002hD-IH
+ for qemu-devel@nongnu.org; Sat, 03 Apr 2021 10:38:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60210
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lShQN-0000S0-QE
+ for qemu-devel@nongnu.org; Sat, 03 Apr 2021 10:38:57 -0400
+Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lShQK-0001nk-6P; Sat, 03 Apr 2021 15:38:57 +0100
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <bb30a76c-c758-6829-d3fe-3e2d01cf55b6@ilande.co.uk>
+ <20210402162052.264952-1-alxndr@bu.edu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <7bb5adaa-a7aa-8418-7819-e5421bfbae32@ilande.co.uk>
+Date: Sat, 3 Apr 2021 15:38:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 03 Apr 2021 14:34:14 -0000
-From: Andrey Konovalov <1921948@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog rth xairy
-X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: Andrey Konovalov (xairy)
-References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <161746045417.26990.16587353702195332523.malone@wampee.canonical.com>
-Subject: [Bug 1921948] Re: MTE tags not checked properly for unaligned
- accesses at EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 51f74e7fbc4b61e0a3bc081b0d1a958a8c980428
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210402162052.264952-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.148.103.9
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] tests/qtest: add one more test for the am53c974
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,82 +63,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With v2, a lot of KASAN tests start failing. This likely means that MTE
-tag faults stop being generated in certain cases.
+On 02/04/2021 17:20, Alexander Bulekov wrote:
 
-With v3 [1], no MTE faults are generated at all.
+> Original crash:
+> qemu-fuzz-i386: ../hw/scsi/esp.c:791: void esp_transfer_data(SCSIRequest *, uint32_t): Assertion `!s->do_cmd' failed.
+> ==257532== ERROR: libFuzzer: deadly signal
+> __assert_fail assert/assert.c:101:3
+> esp_transfer_data hw/scsi/esp.c:791:5
+> scsi_req_data hw/scsi/scsi-bus.c:1412:9
+> scsi_disk_emulate_read_data hw/scsi/scsi-disk.c:1407:9
+> scsi_req_continue hw/scsi/scsi-bus.c:1394:9
+> do_busid_cmd hw/scsi/esp.c:317:9
+> handle_s_without_atn hw/scsi/esp.c:393:9
+> esp_reg_write hw/scsi/esp.c:1029:13
+> esp_pci_io_write hw/scsi/esp-pci.c:215:9
+> memory_region_write_accessor softmmu/memory.c:491:5
+> access_with_adjusted_size softmmu/memory.c:552:18
+> memory_region_dispatch_write softmmu/memory.c:1502:16
+> flatview_write_continue softmmu/physmem.c:2746:23
+> flatview_write softmmu/physmem.c:2786:14
+> address_space_write softmmu/physmem.c:2878:18
+> cpu_outl softmmu/ioport.c:80:5
+> 
+> Based-on: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   tests/qtest/am53c974-test.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> The patch took care of the handle_satn_stop assert. Here's a test case
+> for the other assert.
 
-[1]
-https://patchew.org/QEMU/20210402214217.422585-1-richard.henderson@linaro.o=
-rg/
+Great! I've squashed the get_cmd() changes into a v4 version of the patchset.
 
--- =
+> Pasteable:
+> 
+> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+> 512M -device am53c974,id=scsi -device scsi-hd,drive=disk0 -drive \
+> id=disk0,if=none,file=null-co://,format=raw -nodefaults -qtest stdio
+> outl 0xcf8 0x80001010
+> outl 0xcfc 0xc000
+> outl 0xcf8 0x80001004
+> outw 0xcfc 0x01
+> outl 0xc00b 0x4100
+> outb 0xc008 0x42
+> outw 0xc03f 0x0300
+> outl 0xc00b 0xc100
+> EOF
+> 
+> 
+> diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
+> index 9c4285d0c0..506276677a 100644
+> --- a/tests/qtest/am53c974-test.c
+> +++ b/tests/qtest/am53c974-test.c
+> @@ -9,6 +9,22 @@
+>   
+>   #include "libqos/libqtest.h"
+>   
+> +static void test_do_cmd_assert(void)
+> +{
+> +    QTestState *s = qtest_init(
+> +        "-device am53c974,id=scsi "
+> +        "-device scsi-hd,drive=disk0 -drive "
+> +        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
+> +    qtest_outl(s, 0xcf8, 0x80001010);
+> +    qtest_outl(s, 0xcfc, 0xc000);
+> +    qtest_outl(s, 0xcf8, 0x80001004);
+> +    qtest_outw(s, 0xcfc, 0x01);
+> +    qtest_outl(s, 0xc00b, 0x4100);
+> +    qtest_outb(s, 0xc008, 0x42);
+> +    qtest_outw(s, 0xc03f, 0x0300);
+> +    qtest_outl(s, 0xc00b, 0xc100);
+> +    qtest_quit(s);
+> +}
+>   
+>   static void test_cmdfifo_underflow_ok(void)
+>   {
+> @@ -194,6 +210,8 @@ int main(int argc, char **argv)
+>       g_test_init(&argc, &argv, NULL);
+>   
+>       if (strcmp(arch, "i386") == 0) {
+> +        qtest_add_func("am53c974/test_do_cmd_asser",
+> +                       test_do_cmd_assert);
+>           qtest_add_func("am53c974/test_cmdfifo_underflow_ok",
+>                          test_cmdfifo_underflow_ok);
+>           qtest_add_func("am53c974/test_cmdfifo_underflow2_ok",
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921948
+When I try this patch on top of the v4 patchset I don't get an assert() in 
+esp_transfer_data here?
 
-Title:
-  MTE tags not checked properly for unaligned accesses at EL1
 
-Status in QEMU:
-  In Progress
+ATB,
 
-Bug description:
-  For kernel memory accesses that span across two memory granules,
-  QEMU's MTE implementation only checks the tag of the first granule but
-  not of the second one.
-
-  To reproduce this, build the Linux kernel with CONFIG_KASAN_HW_TAGS
-  enabled, apply the patch below, and boot the kernel:
-
-  diff --git a/sound/last.c b/sound/last.c
-  index f0bb98780e70..04745cb30b74 100644
-  --- a/sound/last.c
-  +++ b/sound/last.c
-  @@ -5,12 +5,18 @@
-    */
-   =
-
-   #include <linux/init.h>
-  +#include <linux/slab.h>
-   #include <sound/core.h>
-   =
-
-   static int __init alsa_sound_last_init(void)
-   {
-          struct snd_card *card;
-          int idx, ok =3D 0;
-  +
-  +       char *ptr =3D kmalloc(128, GFP_KERNEL);
-  +       pr_err("KASAN report should follow:\n");
-  +       *(volatile unsigned long *)(ptr + 124);
-  +       kfree(ptr);
-          =
-
-          printk(KERN_INFO "ALSA device list:\n");
-          for (idx =3D 0; idx < SNDRV_CARDS; idx++) {
-
-  KASAN tags the 128 allocated bytes with the same tag as the returned
-  pointer. The memory granule that follows the 128 allocated bytes has a
-  different tag (with 1/15 probability).
-
-  Expected result: a tag fault is detected and a KASAN report is printed wh=
-en accessing bytes [124, 130).
-  Observed result: no tag fault is detected and no KASAN report is printed.
-
-  Here are the flags that I use to run QEMU if they matter:
-
-  qemu-system-aarch64 -s -machine virt,mte=3Don -cpu max -m 2G -smp 2 -net
-  user,host=3D10.0.2.10,hostfwd=3Dtcp:127.0.0.1:10021-:22 -net nic
-  -nographic -kernel ./Image -append "console=3DttyAMA0 root=3D/dev/vda
-  earlyprintk=3Dserial" -drive file=3D./fs.img,format=3Draw,if=3Dvirtio -no-
-  shutdown -no-reboot
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921948/+subscriptions
+Mark.
 
