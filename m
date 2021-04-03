@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC0E353579
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 21:47:43 +0200 (CEST)
-Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54F53535A9
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Apr 2021 00:29:41 +0200 (CEST)
+Received: from localhost ([::1]:44994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSmFC-00080h-2Z
-	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 15:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43698)
+	id 1lSolw-0005EL-6U
+	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 18:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSmDy-0007S1-Ee
- for qemu-devel@nongnu.org; Sat, 03 Apr 2021 15:46:26 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35811)
+ (Exim 4.90_1) (envelope-from
+ <3_utoYAcKCoM2lu01ylnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--venture.bounces.google.com>)
+ id 1lSokc-0004Pw-Iv
+ for qemu-devel@nongnu.org; Sat, 03 Apr 2021 18:28:18 -0400
+Received: from mail-qv1-xf4a.google.com ([2607:f8b0:4864:20::f4a]:48462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lSmDw-0003AO-Cr
- for qemu-devel@nongnu.org; Sat, 03 Apr 2021 15:46:26 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- il9-20020a17090b1649b0290114bcb0d6c2so6067163pjb.0
- for <qemu-devel@nongnu.org>; Sat, 03 Apr 2021 12:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aWuMgXK2MjXEvdnVSP4NmEJDJEsKhp+6uFfDHtB0Yvs=;
- b=LgGG3gN99KmLtbYX81UMem31/ijnlDH1Zs2Oy4AWjrc8sOPsPvSpXP8rvrklw+bJXh
- w+7rDGX95lOeaQ7zLkT8HITvXndI9lDeZ/C2vovqW2V1Wt6odsEEewAoOc1FY2h3GQ7L
- WZ7AIN6O0rPrak8kJCU8qv6txXlQS01krNAIRIRw2Ny9EZoEJaLzkJQfGaFdeidLj8l4
- acJA8VyhDlHqGH3SCFaFHpAINFtAc/WRnor1q6etIOtxBOu4ktVIjm2s1C8zFEL+sRk7
- oOxbyZQkk1HpkksNx7LP0pUy10r1htfYDG/9eVD3ybYArrgOWHfk+riW2TKn/fcQzonn
- 8XVQ==
+ (Exim 4.90_1) (envelope-from
+ <3_utoYAcKCoM2lu01ylnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--venture.bounces.google.com>)
+ id 1lSoka-0002jY-6F
+ for qemu-devel@nongnu.org; Sat, 03 Apr 2021 18:28:18 -0400
+Received: by mail-qv1-xf4a.google.com with SMTP id b15so7047170qvz.15
+ for <qemu-devel@nongnu.org>; Sat, 03 Apr 2021 15:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=CcXHgvhVeEHG+eKI2QyebbLaHc7ecWlehjfmZSzEvfA=;
+ b=GUDw7b8hFE0uIo4DkT6io+xPP9AwIOpmjROOIVQx6r5MC4UePjlJ3w8AciGmuIfq1d
+ ScIykgZf0StwRW39T6aaPT7hi4DL/QOIu8Byav9IL3g9uNJMUzoiJ3Wln4StbXoFvfWH
+ KY6fwoM+Ij/re8+VDHKmacRgCHwMV97OYCmeK9RPeGeduvOjPUV2Twi3k8mDEDCsFIym
+ LHkhaQR1ljpkUlXbKLgUr5SKlcGq0M/NjoKkL38bjkznnIF2oeIsAeVH7pMaTxbBfp3q
+ SVMt4iTY2LAja8YSJGwcdR5JGPF4QmyMxEQIHM2C9Yw4UDKVHzixS2nAFvofZ4xb9xJV
+ FMjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aWuMgXK2MjXEvdnVSP4NmEJDJEsKhp+6uFfDHtB0Yvs=;
- b=CwtJMqIZTgi3rjLCVBIA8iumLJIF0p1sAyClIHgtVIZ/Ct6lU4vRc6O5gZTvEZJ3RT
- cXOnpH9D7icSA+4FXNSWGIqmqq/kY+p3tJxyPSqddUOdlv6H5M7NJZcexpxbv2yKVWqA
- zHZGJzFetK0JNZJDZfB0SPO93GHoG6eSfVht77LFUrUW6TRPVkogTiJmhlLf//ICv/nC
- T7SZbkgLkqtmtLyAUPUP/yhs7hsCdNDc9ll533tOBLekEy6HRra9yt8LFh5LbDCm6DgW
- galndx7ewcqFAtz/eaT82edTNUIz1z6MWDRDr2VAz7aghb3hTiJR1SKR9bmaYDcHV9ir
- IvXg==
-X-Gm-Message-State: AOAM530PvP51xu8GelFm99wvElaJ5TWxZD8B0h5JTclI3xK+TCk099uE
- gAaxcJyXZYqOgT1DT+y3rODxrUM2FlCB6g==
-X-Google-Smtp-Source: ABdhPJzNPIyspeUVW1Va6Xds5kiobFZQ0++ZPHg3/+uAQKIW4C/vcQwQR0nrGXdVErY6iEQGWGG0ZQ==
-X-Received: by 2002:a17:90b:4c0a:: with SMTP id
- na10mr20169860pjb.227.1617479182621; 
- Sat, 03 Apr 2021 12:46:22 -0700 (PDT)
-Received: from [192.168.81.184]
- (h216-228-167-147.bendor.dedicated.static.tds.net. [216.228.167.147])
- by smtp.gmail.com with ESMTPSA id g3sm11424189pfi.31.2021.04.03.12.46.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Apr 2021 12:46:22 -0700 (PDT)
-Subject: Re: [PATCH v3 00/11] target/arm mte fixes
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20210402214217.422585-1-richard.henderson@linaro.org>
-Message-ID: <223bfe3b-8959-efca-ddd7-2e1103226a05@linaro.org>
-Date: Sat, 3 Apr 2021 12:46:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210402214217.422585-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=CcXHgvhVeEHG+eKI2QyebbLaHc7ecWlehjfmZSzEvfA=;
+ b=nslzIqtwwPJnHIO8tyhJq2MzghgYAEv4NGFz9wS1ubltoKsf68TXLwcLw0gVSzhbxh
+ oJzZo+dIkeCrKHZ+b4ty9Fb55+9+ikWnEd0RMe3VY5JDC6PcrUjy8sK6tPdjSO0FWXHg
+ lZzioqwU50y3ZU3LUpNQBv3t2wbZ0CB/TMa1EKnOpb+vnz8COe3Wm+E59nd8LYPJxZSa
+ C/E6qFhHc78HMX1tyFBzIIg7pY/KaI5TEmHwt9XzuMX3fr53XoDmFdoiyZJafEG3QbUU
+ gbI1q4dmm7ZhLz1AyCzJ5iO2ld4uya8L53SQ8a5LBDMqTGIoku2xx7lvHO+71qe09KZQ
+ KS6w==
+X-Gm-Message-State: AOAM53190PCnbZCLWF/E8qe7kYhhqv5+ghagVBZDw4nlxtrxPqagDJd0
+ Cpas5PipUleCR0f8zOrTnDMTWuIuJw7c
+X-Google-Smtp-Source: ABdhPJyr8zVwk7jPhA2TZXfMdsEB+d68Qnhe6cXqoj30ULUMjtyXPwSAhmY5l7NyHlUsP0okLJ1MftWqKvoU
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:bcbb:2e0c:25df:d735])
+ (user=venture job=sendgmr) by 2002:a05:6214:20c8:: with SMTP id
+ 8mr18417622qve.15.1617488894304; Sat, 03 Apr 2021 15:28:14 -0700 (PDT)
+Date: Sat,  3 Apr 2021 15:28:08 -0700
+Message-Id: <20210403222810.3481372-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
+Subject: [PATCH 0/2] hw/i2c: Adds pca954x i2c mux switch device
+From: Patrick Venture <venture@google.com>
+To: cminyard@mvista.com, wuhaotsh@google.com, hskinnemoen@google.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f4a;
+ envelope-from=3_utoYAcKCoM2lu01ylnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--venture.bounces.google.com;
+ helo=mail-qv1-xf4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,25 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/2/21 2:42 PM, Richard Henderson wrote:
-> Changes for v3:
->    * linux-user mprotect fix moved to start, just to get it out
->      of the way while I reworked the others.
-> 
->    * Patch 2, the fix for unaligned accesses, has been split into 9.
->      Hopefully these are much easier to review than previously.
-> 
->      Technically only patches 1-6,11 are required for bug fixing.
->      Patches 7-10 are only cleanups, but I think they're important
->      for clarity post bug fixing.
+The i2c mux device pca954x implements two devices:
+ - the pca9546 and pca9548.
 
-... and it fails all of the kasan unit tests.
-I'll have to investigate more next week.
+Patrick Venture (2):
+  hw/i2c/core: add reachable state boolean
+  hw/i2c: add pca954x i2c-mux switch
 
+ MAINTAINERS                      |   6 +
+ hw/i2c/Kconfig                   |   4 +
+ hw/i2c/core.c                    |   6 +
+ hw/i2c/i2c_mux_pca954x.c         | 182 +++++++++++++++++++++++++++++++
+ hw/i2c/meson.build               |   1 +
+ hw/i2c/trace-events              |   5 +
+ include/hw/i2c/i2c.h             |   3 +
+ include/hw/i2c/i2c_mux_pca954x.h |  60 ++++++++++
+ 8 files changed, 267 insertions(+)
+ create mode 100644 hw/i2c/i2c_mux_pca954x.c
+ create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
 
-r~
+-- 
+2.31.0.208.g409f899ff0-goog
+
 
