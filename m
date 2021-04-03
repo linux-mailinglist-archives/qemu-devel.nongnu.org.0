@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1873530F5
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 00:07:21 +0200 (CEST)
-Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98E8353240
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Apr 2021 06:05:02 +0200 (CEST)
+Received: from localhost ([::1]:36190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lSRwl-0005W8-I9
-	for lists+qemu-devel@lfdr.de; Fri, 02 Apr 2021 18:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
+	id 1lSXWu-0006tP-VY
+	for lists+qemu-devel@lfdr.de; Sat, 03 Apr 2021 00:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lSRvF-00053j-8i
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 18:05:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44118)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lSXW1-0006MI-5a; Sat, 03 Apr 2021 00:04:05 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:36839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lSRvC-0001Hq-3t
- for qemu-devel@nongnu.org; Fri, 02 Apr 2021 18:05:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lSRv9-000819-Fy
- for <qemu-devel@nongnu.org>; Fri, 02 Apr 2021 22:05:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 778EF2E8157
- for <qemu-devel@nongnu.org>; Fri,  2 Apr 2021 22:05:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Apr 2021 21:59:30 -0000
-From: =?utf-8?q?H=C3=A5vard_Eidnes?= <1922391@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lSXVz-0004ji-KJ; Sat, 03 Apr 2021 00:04:04 -0400
+Received: by mail-pg1-x533.google.com with SMTP id h25so4666703pgm.3;
+ Fri, 02 Apr 2021 21:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xg4WzxtO4C/JOGvXXxcmYIFXrx59NHNCnX86F3t0aDY=;
+ b=aMsi+mwK07cqHT+Ed8fKOjfL3rI804EMMGk3gUO7KaOVA+To5fZ51UvwjSufVN9oiR
+ o9tUzZW0YX/laZBf302cWRldhAmPKn5F6VAcmqktIC1Wm6lf8801jJEwhPGMA/kRFRC9
+ 6V5hlPvOIJXpatZxs61raYlAzCBnes7qMkqMS9f594ruxVZvGiqpSQqj+ocK/e4Zyi+C
+ Ubid0Zb0/qzxGWgwNKDbY6UhEoicNXve2cE6ozpUJjaA7hc5BRptnG7Eaes2KzaGNkIj
+ CwJkfq+s6wFbmREWFbHbsmy29wSKy/DT2jZLOinhr0qBkJrBIuJZ05EhMqYwrP2jYT5V
+ xIPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xg4WzxtO4C/JOGvXXxcmYIFXrx59NHNCnX86F3t0aDY=;
+ b=SGuzC46VXNiCrhK4ek4uosh+xV8jxTw5oIFyB5CIiR4zxEwZLjSyJWQ4xcy1Z+5OrB
+ RZVGsKQqLHCbpG9UHxDdduIk3L4dR2IMdLNX1RuEb91wwmwB+CLF2TmreiUID0k6ZrEM
+ 3H7X9rQ9wkcGbElQ7a/CWSTtfmWPIaNpBiyEX9eK784m7Om8ZbLHe3pfXOaWsPrNiMsc
+ L9vMQtU7Yey6NZG/oAmyP97c+gbDiQvoLm/BJqgoIMxg/zIx+/k1+7itfW93vCN51XAo
+ csSeTKWrX0gPtjQPK8iluS2vcRFBb/tCYjzU7twk0Kgyrbw4TMLhVnABBuOyAvSWtqq+
+ Vw2w==
+X-Gm-Message-State: AOAM53380k9fsqAx482TX/4RmHWpttaWruyIZwq5JHaGvm4LbvaGgWHK
+ kYE8bnAuoajPKyE93OyCgarnWMr3KJE=
+X-Google-Smtp-Source: ABdhPJwPPLFecAeNRgpOpTUHO4Db0i/I43vsML/AFkUa3SNLSxXBvKFYXzTDgJqOar8RCl8f9nVT4g==
+X-Received: by 2002:a63:1b5c:: with SMTP id b28mr14711993pgm.186.1617422641034; 
+ Fri, 02 Apr 2021 21:04:01 -0700 (PDT)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:400:9e10:2d94:bd34:41ff:d945])
+ by smtp.gmail.com with ESMTPSA id fv9sm10510709pjb.23.2021.04.02.21.04.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Apr 2021 21:04:00 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: he-uninett
-X-Launchpad-Bug-Reporter: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
-References: <161739653585.29688.16825149829487531908.malonedeb@gac.canonical.com>
-Message-Id: <161740077163.22926.17762420527689076806.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1922391] Re: qemu-system-ppc assertion "!mr->container" failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: b8c37b52c01fb06912f1f0879d6f5c49be87d8e0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] target/xtensa: fix meson.build rule for xtensa cores
+Date: Fri,  2 Apr 2021 21:03:38 -0700
+Message-Id: <20210403040338.18929-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,260 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922391 <1922391@bugs.launchpad.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+import_core.sh tries to change Makefile.objs when importing new xtensa
+core, but that file no longer exists. Rewrite meson.build rule to pick
+up all source files that match core-*.c pattern and drop commands that
+change Makefile.objs.
 
-  Hi,
-  =
+Cc: qemu-stable@nongnu.org # v5.2.0
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+---
+ target/xtensa/import_core.sh |  3 ---
+ target/xtensa/meson.build    | 13 ++++---------
+ 2 files changed, 4 insertions(+), 12 deletions(-)
 
-  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
-n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
-  quite a bit into the "unpacking sets" part of the installation procedure,
-  unpacking from the install iso image.
-  =
+diff --git a/target/xtensa/import_core.sh b/target/xtensa/import_core.sh
+index c8626a8c02eb..1120a4a2a5e1 100755
+--- a/target/xtensa/import_core.sh
++++ b/target/xtensa/import_core.sh
+@@ -65,6 +65,3 @@ static XtensaConfig $NAME __attribute__((unused)) = {
+ 
+ REGISTER_CORE($NAME)
+ EOF
+-
+-grep -q core-${NAME}.o "$BASE"/Makefile.objs || \
+-    echo "obj-y += core-${NAME}.o" >> "$BASE"/Makefile.objs
+diff --git a/target/xtensa/meson.build b/target/xtensa/meson.build
+index dd750a977ef9..7c4efa6c6290 100644
+--- a/target/xtensa/meson.build
++++ b/target/xtensa/meson.build
+@@ -1,14 +1,9 @@
+ xtensa_ss = ss.source_set()
++
++xtensa_cores = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT/$MESON_SUBDIR ; ls -1 core-*.c')
++xtensa_ss.add(files(xtensa_cores.stdout().strip().split('\n')))
++
+ xtensa_ss.add(files(
+-  'core-dc232b.c',
+-  'core-dc233c.c',
+-  'core-de212.c',
+-  'core-de233_fpu.c',
+-  'core-dsp3400.c',
+-  'core-fsf.c',
+-  'core-sample_controller.c',
+-  'core-test_kc705_be.c',
+-  'core-test_mmuhifi_c3.c',
+   'cpu.c',
+   'exc_helper.c',
+   'fpu_helper.c',
+-- 
+2.20.1
 
-  Qemu is run on a NetBSD/amd64 9.1 host system.
-  =
-
-  The asert message from qemu is
-  =
-
-  assertion "!mr->container" failed: file "../softmmu/memory.c", line
-  1739, function "memory_region_finalize"
-  =
-
-- The stack backtrace from the core file is
-+ The stack backtrace from the core file (when built with debug symbols)
-+ is
-  =
-
-+ Core was generated by `qemu-system-ppc'.
-  Program terminated with signal SIGABRT, Aborted.
-- #0  0x000078859a36791a in _lwp_kill () from /usr/lib/libc.so.12
-+ #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  [Current thread is 1 (process 1)]
-  (gdb) where
-- #0  0x000078859a36791a in _lwp_kill () from /usr/lib/libc.so.12
-- #1  0x000078859a3671ca in abort () from /usr/lib/libc.so.12
-- #2  0x000078859a2a8507 in __assert13 () from /usr/lib/libc.so.12
-- #3  0x000000015a3c19c0 in memory_region_finalize ()
-- #4  0x000000015a3fef1c in object_unref ()
-- #5  0x000000015a3feee6 in object_unref ()
-- #6  0x000000015a374154 in address_space_unmap ()
-- #7  0x000000015a276551 in pmac_ide_atapi_transfer_cb ()
-- #8  0x000000015a150a59 in dma_blk_cb ()
-- #9  0x000000015a46a1c7 in blk_aio_complete ()
-- #10 0x000000015a5a617d in coroutine_trampoline ()
-- #11 0x000078859a264150 in ?? () from /usr/lib/libc.so.12
-- Backtrace stopped: Cannot access memory at address 0x7884894ff000
-- (gdb)
-+ #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-+ #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
-+ #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
-+ #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
-+     at ../softmmu/memory.c:1739
-+ #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
-
-+     obj=3D<optimized out>) at ../qom/object.c:671
-+ #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
-+ #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
-+ #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
-+     at ../qom/object.c:623
-+ #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
-+ #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
-+ #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
-+     at ../softmmu/memory.c:1787
-+ #11 0x000000003e7d8eb4 in address_space_unmap (
-+     as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
-d out>, =
-
-+     len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
-mized out>)
-+     at ../softmmu/physmem.c:3222
-+ #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
-
-+     dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
->, =
-
-+     as=3D<optimized out>)
-+     at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
-+ #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
- out>)
-+     at ../hw/ide/macio.c:122
-+ #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
-+     at ../softmmu/dma-helpers.c:120
-+ #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
-rs.c:138
-+ #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
-+     at ../block/block-backend.c:1412
-+ #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
-
-+     i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
-+ #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
-+ Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
-+ (gdb) =
-
-+ =
-
-  =
-
-  I start qemu with this small script:
-  =
-
-  ---
-  #!/bin/sh
-  =
-
-  MEM=3D3g
-  qemu-system-ppc \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
-raw,file=3Ddisk.img \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
-stfwd=3Dtcp::2223-:22,ipv6=3Doff \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
-netdev=3Dnet0 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
-iso
-  ---
-  =
-
-  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
-  to replicate this I can provide more detailed instructions to repeat the
-  procedure I used to start the install.
-  =
-
-  Any hints about what more to look for?
-  =
-
-  Regards,
-  =
-
-  - H=C3=A5vard
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922391
-
-Title:
-  qemu-system-ppc assertion "!mr->container" failed
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
-n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
-  quite a bit into the "unpacking sets" part of the installation procedure,
-  unpacking from the install iso image.
-
-  Qemu is run on a NetBSD/amd64 9.1 host system.
-
-  The asert message from qemu is
-
-  assertion "!mr->container" failed: file "../softmmu/memory.c", line
-  1739, function "memory_region_finalize"
-
-  The stack backtrace from the core file (when built with debug symbols)
-  is
-
-  Core was generated by `qemu-system-ppc'.
-  Program terminated with signal SIGABRT, Aborted.
-  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  [Current thread is 1 (process 1)]
-  (gdb) where
-  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
-  #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
-  #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
-      at ../softmmu/memory.c:1739
-  #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
-
-      obj=3D<optimized out>) at ../qom/object.c:671
-  #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
-  #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
-  #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
-      at ../qom/object.c:623
-  #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
-  #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
-  #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
-      at ../softmmu/memory.c:1787
-  #11 0x000000003e7d8eb4 in address_space_unmap (
-      as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
-d out>, =
-
-      len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
-mized out>)
-      at ../softmmu/physmem.c:3222
-  #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
-
-      dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
->, =
-
-      as=3D<optimized out>)
-      at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
-  #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
- out>)
-      at ../hw/ide/macio.c:122
-  #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
-      at ../softmmu/dma-helpers.c:120
-  #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
-rs.c:138
-  #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
-      at ../block/block-backend.c:1412
-  #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
-
-      i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
-  #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
-  Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
-  (gdb) =
-
-
-  =
-
-  I start qemu with this small script:
-
-  ---
-  #!/bin/sh
-
-  MEM=3D3g
-  qemu-system-ppc \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
-raw,file=3Ddisk.img \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
-stfwd=3Dtcp::2223-:22,ipv6=3Doff \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
-netdev=3Dnet0 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
-iso
-  ---
-
-  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
-  to replicate this I can provide more detailed instructions to repeat the
-  procedure I used to start the install.
-
-  Any hints about what more to look for?
-
-  Regards,
-
-  - H=C3=A5vard
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922391/+subscriptions
 
