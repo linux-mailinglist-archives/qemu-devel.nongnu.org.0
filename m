@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAC4354688
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 20:07:47 +0200 (CEST)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD74D354673
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 20:01:08 +0200 (CEST)
+Received: from localhost ([::1]:43386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTTdZ-0007hu-CN
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 14:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33874)
+	id 1lTTX9-0003bZ-8e
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 14:01:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTTRG-00010s-9k; Mon, 05 Apr 2021 13:55:02 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:50515)
+ id 1lTTRK-00014P-T0; Mon, 05 Apr 2021 13:55:07 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:40245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTTRE-0000HR-9B; Mon, 05 Apr 2021 13:55:02 -0400
+ id 1lTTRJ-0000Jp-GC; Mon, 05 Apr 2021 13:55:06 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6989C5C00D3;
- Mon,  5 Apr 2021 13:54:59 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id B7F565C00C8;
+ Mon,  5 Apr 2021 13:55:04 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:54:59 -0400
+ by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:55:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=8iIZGMHdQqlSi
- rN5venvR9XOEQjrVpmHq0C4xJBTKAU=; b=YiZYzq197mfJZJOJtO87xhEE080XV
- KrcmvB6m8nDi+RBgkPOitg1XW6DVAbnl5mGAQuY1zeb64kk709qfrH8amOlYzTZB
- 9HTOsF1y96sR09ULBmKnEiwS3rln6nFzbfgWLjO9M557B1qIZTWq9zYrbXjJmQwb
- CVtAFet/FkB18eakTZClh7i0XIkHKtf2NYPU7mn+cwwxS1Xpahw31f1Kbk9Rv47c
- grKmapM9mHEO/vlJAVO5Gqn0/SaB3VenpeUoqij7JlygKsaTAN5e7HF7PWfHBVnA
- tzVTMuvBIe/CNcrlmFNv1cfgjccS3exM61SoCOp9JID6a/pr2vzLHNY+w==
+ :mime-version:content-transfer-encoding; s=fm2; bh=X2nJtyHs3uF7J
+ Gp1US5wprBitEbEUq28vmiGzv4z40k=; b=3a0YXjosKbXLZov4spAlvYWOxjnVc
+ jI3fEiirz0WXDVjusBmnoMANN6q4v2TpA0WrhDqJuqMZJGA1CgXLmuxKjrFF2/TE
+ WUGdYMzTVxGIAGIfrEsk0LyII2zoNoSs0XJDMT5ir6MhugJjQ0u5B4hv8QwtJg2I
+ vJncPJFd/yOTGTSNeC7URtxQYvYyhtW4LoPtPywOLDXgAQJGg7HUZyjb18KEl1Og
+ JRskxioTR/qxIsp58SCZKTs07KJn4rX1Z5Qzn/rvOUHQsYPrJFnuGv9cJRJyVmxF
+ DjoB5yVSpDIhE7Ydr77hDD+yg9YaVJDZ+0t4b/66pEmb22StONFNpGgew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=8iIZGMHdQqlSirN5venvR9XOEQjrVpmHq0C4xJBTKAU=; b=YImcLvWM
- Q9tSiWHTZaF+/a1sLJrz5RmAJNbgsZ0G8OW0W6NouWDwNEvOf9BTvYJW4wxIZTGk
- rnSwF3/j7WIDl3Ap78ehBBxlLzpZmYUy5DH+04F9FS1AADqTi3GYXNjqkGyEoXWS
- KQKGdfFEJX89ttw6dmq9fp7PMD8BIos9oGal76Afd8SRo4Hnmwvz175ekKlu/X4j
- 7OMLeYqSq/dP0UkMmQPtmPrFsryulRjF9F9fyPBjhqeQlz2+1k2q0uuanMhRClVc
- tV8U+L72TNznoOoOeeq1XNKeRxY764/EgIWfUBmHTuznvgmwYW5tdNER6kc0tweG
- xyZw/u97XrJrJA==
-X-ME-Sender: <xms:805rYD6XUkeNw-u5deWyIus5-rVrWde2LWkQ4JcwOOJ3l4Mpt94Y9A>
- <xme:805rYI41KgvFaQJ9WMmRPB_O0cJczIEl4KI3pWsy0FKqoJKDAZtEHA522aRHfrov5
- 2uzaJdlcbgHl9QIgTs>
+ fm2; bh=X2nJtyHs3uF7JGp1US5wprBitEbEUq28vmiGzv4z40k=; b=ClvPdoJR
+ 7Azw6KS+DOLR6oKikgBcifprLJ81r54dXNyqmLU1MNtxiRz1tz6lIPhevIIw2Yyn
+ OnQ8XjQdU1nHpsqCxdQMajLhATtcPMbBPVemCget0XJXt2Qlaz1xkDpYLKHN839g
+ Nnoy/cYIYnQ8E95CPNzGqSnd0FgA7fYnHF+pBTs3ddI/1hJepoLrzKT6/MMs/a0+
+ maRc4u8l3b6VhAPRegI0RO5fwVoIi9kg8Q4QzaeCnOUODqx6FP2lrx3nGzBCbtf+
+ 2y+IbN4R6HIP9eSKm4eFGzKL/2i8wN/84IVPrvptP+DpZf0/4rArGVWeSWBqb8Oj
+ K9jqXpW6JVUlTA==
+X-ME-Sender: <xms:-E5rYO0TPjwQ9qPJLchySSM0QI5GMy-WtU0CuDEBsXKi64OLmuWEnA>
+ <xme:-E5rYBGGx5hNkBzJ3VfC0d1iN-BeDQVpvvALjAViaC1FlaCVHD_VqRRiZL56uDHrV
+ _pns6cimYi69mVlNxM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejvddguddvtdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:805rYKe5XidHtPAnyqEBb3GcIau2QXAvXbgAfLVX6dioXidd4NGqFQ>
- <xmx:805rYEKC-Bp-O8PERjt8Lmk_6pTeia9u3ur2aPJ3EZPesBY-8gBo2g>
- <xmx:805rYHKG8k3X1nKR6U2Jek-oUugAG0pMZn6S5Vq6yIDkeR11MBd0JQ>
- <xmx:805rYEo_5KBQ23vvHfpocyd4BsJGboJ0Z97dXyUDS4QQwbO1nr_Vrw>
+X-ME-Proxy: <xmx:-E5rYG6zc5z6YbaQZ3Da7h1I18o95eyelCk_Ss3d1fVtFWTXbBkiOg>
+ <xmx:-E5rYP2lw6LXfNUz5CpBY3rSGssdks7Xth8Ps5r8_djrKLaWYx6-Yw>
+ <xmx:-E5rYBG_7rviCO1VHnRXyBB59n8uDvXEQcBveE7HNm96anaCSUXS9Q>
+ <xmx:-E5rYI220mtX6_3rmalMkKzL5t8AAum0Z5g4RrcfsqF5OTWsyQF_ig>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E5981240054;
- Mon,  5 Apr 2021 13:54:56 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4190C240054;
+ Mon,  5 Apr 2021 13:55:02 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 v2 1/8] hw/block/nvme: fix pi constraint check
-Date: Mon,  5 Apr 2021 19:54:45 +0200
-Message-Id: <20210405175452.37578-2-its@irrelevant.dk>
+Subject: [PATCH for-6.0 v2 3/8] hw/block/nvme: fix the nsid 'invalid' value
+Date: Mon,  5 Apr 2021 19:54:47 +0200
+Message-Id: <20210405175452.37578-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210405175452.37578-1-its@irrelevant.dk>
 References: <20210405175452.37578-1-its@irrelevant.dk>
@@ -102,28 +102,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Protection Information can only be enabled if there is at least 8 bytes
-of metadata.
+The `nvme_nsid()` function returns '-1' (FFFFFFFFh) when the given
+namespace is NULL. Since FFFFFFFFh is actually a valid namespace
+identifier (the "broadcast" value), change this to be '0' since that
+actually *is* the invalid value.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 ---
- hw/block/nvme-ns.c | 2 +-
+ hw/block/nvme-ns.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 7f8d139a8663..ca04ee1bacfb 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -394,7 +394,7 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
-         return -1;
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index 9ab7894fc83e..82340c4b2574 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -96,7 +96,7 @@ static inline uint32_t nvme_nsid(NvmeNamespace *ns)
+         return ns->params.nsid;
      }
  
--    if (ns->params.pi && !ns->params.ms) {
-+    if (ns->params.pi && ns->params.ms < 8) {
-         error_setg(errp, "at least 8 bytes of metadata required to enable "
-                    "protection information");
-         return -1;
+-    return -1;
++    return 0;
+ }
+ 
+ static inline bool nvme_ns_shared(NvmeNamespace *ns)
 -- 
 2.31.1
 
