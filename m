@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3773542EE
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:41:50 +0200 (CEST)
-Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B5C3542FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:48:44 +0200 (CEST)
+Received: from localhost ([::1]:53190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTQQH-0008RZ-1k
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
+	id 1lTQWx-00048a-R0
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:48:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQHA-00019w-2R
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:24 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40623)
+ id 1lTQHH-0001Ob-OO
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:31 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQH1-0001gN-L1
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:23 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so7658693wmy.5
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:15 -0700 (PDT)
+ id 1lTQH6-0001h3-Vf
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:31 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ g18-20020a7bc4d20000b0290116042cfdd8so2563623wmk.4
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p27G6Mpux4Qspdx5EdK3xzLt3ibjSRL9rOzmrpq9xh8=;
- b=TeHPgyCz4zXUk9MjVsXCqgeGLtp2tma0rytvmmO76JkoZl1RWEt08R+99QB1IkoaIv
- rtBc5ksfnoSjUtsXvUlbbxEqDN/ofXbCIDWecBdjrUjYaHdcBryOrjNC5jWaRG4pUiRC
- F8Jith0tNt7CosGMjSX1uqLX/BhLGhRqD7eQCysLBSijIH+qt8AwIkpgFBceWrKGHnVN
- MBek8kYqT39JCGOkUkT5NHPNhkVBy03A2ZsS/qsS6Mfp0weV58rPuDPB/6PtCjyEUCya
- aXj6GiR3Mvws2Cs7dw7wugrs1jjR9Nky5Wg7EKFDusM4XX3tC8HlSn/Y9Q6TDtSssj6n
- VgSQ==
+ bh=hbkYf6QhJVztcgkYoq1wMu1UN4T9y2xIVrbzdlQ8kdE=;
+ b=f9SeEyS6rRUWokLi+ud2wjyGmtmC0XjcOS6IT0v7PyhyljzcAuBHKfhxan2L7eRuc3
+ mUxUfsmExlcG3e8MxgyaH0d5HKxmYe1lVtgBeMWZ16/dK49O8JMK16qpRwPoejiqlP2M
+ 3Ux3CHyXHnlY4udH8Sdldoc9RFkPmHA79s1IvVtRbtKXW2a6fyHPl5NY6UiaarnQD7iu
+ FgKgBYIIP5CxWSPCgnymO9Sllwrcq4mwPpGf74tOV3N4Zyw4KK9AG8WFb37zFRk1jxGM
+ GSz8qb2efDNQTwZSj33p97V3Y+lc6cwVfl9nK8tlUChQAcQ8KDHWi8fJ/WvGXHw2/2Fi
+ CCvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p27G6Mpux4Qspdx5EdK3xzLt3ibjSRL9rOzmrpq9xh8=;
- b=iYaxGED0koVZViTZ3dbzLckUHnvvtgx9oDzk3gt32baUvvJ9XgmMnBwXezGzTkAHKg
- tNPpCqe3UnNWM/bKf4xAr6GekB2VCIGjMEOq0M3fgn519//NOVUkg0KdRpobsNUSOIR7
- K6dFd9X8vlzusxyd0JTeL9QB0SCjiKT2LH31gBF5a+ZnunZ70UzaC3Um0Poi4akMengi
- B/v3lgrqXWPjDjJqfvDxC395OhNnjBLE9+ITtMOmA3ScbneTy6CNmND7M/zlwGeN5VfW
- wSOX3c3yikGB5xN+aHhsf6806NKSsISAYRyjOWWhYbB3pC8K9fTLOHSWLhBCo99VhhoH
- cNJQ==
-X-Gm-Message-State: AOAM531uJ5xYFG/ELmQfKQgoYs8+qLb5FCJVPdQmGiISbuLid9AHCAiZ
- Ek0fFdlcdCv2HDSThd4oCCdoyKnU8xR/lQ==
-X-Google-Smtp-Source: ABdhPJwaKdkP6+dYBQH5DJ6rrQUXVEoK3vLDqZBR9Q2zs+tGNjxWBcARNH2pS+LMfS9iHk0urBVirA==
-X-Received: by 2002:a05:600c:1913:: with SMTP id
- j19mr25349799wmq.155.1617633133883; 
- Mon, 05 Apr 2021 07:32:13 -0700 (PDT)
+ bh=hbkYf6QhJVztcgkYoq1wMu1UN4T9y2xIVrbzdlQ8kdE=;
+ b=nXorV5v+LK85GM1zPXLiWKd+K3kmS4Cx0xU9Hgc2I6hBUGn5VjOEJAeILOuidl9RlD
+ 0qjEx23cbcbEl7hhv15i/s0bj5phf4SFL71W9E9w6uYvWdIi9sK/9uEsYZV80h/sZBV/
+ HpFzv+Z70Utp9wOKvTIvw4KzodDybMWER3wgGyVM2GqDMjk0/YPOWuFxMf+PM5pRQrTO
+ CZDRM5s0kwh6YssvxR+VQUGth0Pd9EDpGkSmLbo0gLvv66mLgKZ0jaXQDdjrC/2MDxRV
+ DrxZ9rxX/Kz7Y3HaiVNIgC4XBPf7p9gVshgw1kVm5iDbBN0jiL9wDO+N2pO0Ejnfh9JJ
+ 3Ayg==
+X-Gm-Message-State: AOAM531O12vDYam/o3+VBkr+dw3+iGV/OFPXZtQ8XaBoLuEop2Z1GEvv
+ PJxmlAkdkELjxRQbk026YVBwaLqNDEtEIw==
+X-Google-Smtp-Source: ABdhPJxg7Vqo6di9tqLhNq1Zl9Yf6vx4uyFskoMvs4wW08GlvkSn4SM5clvNilwdweKc9s39oQRH7A==
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr25548094wml.123.1617633135122; 
+ Mon, 05 Apr 2021 07:32:15 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
- by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.12
+ by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:13 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:14 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/27] arc: semfunc.c tcg code generator.
-Date: Mon,  5 Apr 2021 15:31:17 +0100
-Message-Id: <20210405143138.17016-7-cupertinomiranda@gmail.com>
+Subject: [PATCH 07/27] arc: TCG instruction definitions
+Date: Mon,  5 Apr 2021 15:31:18 +0100
+Message-Id: <20210405143138.17016-8-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,2958 +91,746 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cupertino Miranda <cmiranda@synopsys.com>
 
-TCG generator scripts for semfunc.c file.
+TCG definitions as defined by our domain-specific-language (DSL) ISA
+infrastructure.
 
 Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
 ---
- target/arc/semfunc_generator/Gemfile          |   3 +
- target/arc/semfunc_generator/README           |  35 ++
- .../classes/CreateInternalVars.rb             | 117 ++++
- .../classes/DecomposeExpressions.rb           |  45 ++
- .../classes/IdentifyQEmuStaticInferedParts.rb |  91 +++
- .../semfunc_generator/classes/QEmuCompiler.rb |  15 +
- .../classes/QEmuTranslator.rb                 | 269 +++++++++
- .../classes/SemanticFunctionAST.rb            | 466 +++++++++++++++
- .../classes/SpaghettiCodePass.rb              |  55 ++
- .../classes/SpaghettiCodePass1.rb             |  66 +++
- .../semfunc_generator/classes/UnfoldCode.rb   | 305 ++++++++++
- target/arc/semfunc_generator/init.rb          |  15 +
- .../arc/semfunc_generator/modules/Compiler.rb |  42 ++
- .../modules/ConstantTables.rb                 |  57 ++
- target/arc/semfunc_generator/modules/Pass.rb  |  11 +
- .../SemanticFunctionASTBlockOperators.rb      | 145 +++++
- .../modules/SemanticFunctionASTFactory.rb     |  55 ++
- .../semfunc_generator/modules/Translator.rb   | 102 ++++
- .../modules/TranslatorAST.rb                  |  80 +++
- .../modules/TranslatorFinal.rb                | 103 ++++
- .../parsers/SemanticFunctionParser.tab.rb     | 553 ++++++++++++++++++
- .../parsers/SemanticFunctionParser.y          | 126 ++++
- .../semfunc_generator/regenerate_semfunc.rb   | 245 ++++++++
- 23 files changed, 3001 insertions(+)
- create mode 100644 target/arc/semfunc_generator/Gemfile
- create mode 100644 target/arc/semfunc_generator/README
- create mode 100644 target/arc/semfunc_generator/classes/CreateInternalVars.rb
- create mode 100644 target/arc/semfunc_generator/classes/DecomposeExpressions.rb
- create mode 100644 target/arc/semfunc_generator/classes/IdentifyQEmuStaticInferedParts.rb
- create mode 100644 target/arc/semfunc_generator/classes/QEmuCompiler.rb
- create mode 100644 target/arc/semfunc_generator/classes/QEmuTranslator.rb
- create mode 100644 target/arc/semfunc_generator/classes/SemanticFunctionAST.rb
- create mode 100644 target/arc/semfunc_generator/classes/SpaghettiCodePass.rb
- create mode 100644 target/arc/semfunc_generator/classes/SpaghettiCodePass1.rb
- create mode 100644 target/arc/semfunc_generator/classes/UnfoldCode.rb
- create mode 100644 target/arc/semfunc_generator/init.rb
- create mode 100644 target/arc/semfunc_generator/modules/Compiler.rb
- create mode 100644 target/arc/semfunc_generator/modules/ConstantTables.rb
- create mode 100644 target/arc/semfunc_generator/modules/Pass.rb
- create mode 100644 target/arc/semfunc_generator/modules/SemanticFunctionASTBlockOperators.rb
- create mode 100644 target/arc/semfunc_generator/modules/SemanticFunctionASTFactory.rb
- create mode 100644 target/arc/semfunc_generator/modules/Translator.rb
- create mode 100644 target/arc/semfunc_generator/modules/TranslatorAST.rb
- create mode 100644 target/arc/semfunc_generator/modules/TranslatorFinal.rb
- create mode 100644 target/arc/semfunc_generator/parsers/SemanticFunctionParser.tab.rb
- create mode 100644 target/arc/semfunc_generator/parsers/SemanticFunctionParser.y
- create mode 100644 target/arc/semfunc_generator/regenerate_semfunc.rb
+ target/arc/semfunc-helper.c |  414 ++
+ target/arc/semfunc-helper.h |  293 ++
+ target/arc/semfunc.c        | 8436 +++++++++++++++++++++++++++++++++++
+ target/arc/semfunc.h        |   63 +
+ 4 files changed, 9206 insertions(+)
+ create mode 100644 target/arc/semfunc-helper.c
+ create mode 100644 target/arc/semfunc-helper.h
+ create mode 100644 target/arc/semfunc.c
+ create mode 100644 target/arc/semfunc.h
 
-diff --git a/target/arc/semfunc_generator/Gemfile b/target/arc/semfunc_generator/Gemfile
+diff --git a/target/arc/semfunc-helper.c b/target/arc/semfunc-helper.c
 new file mode 100644
-index 0000000000..ad695b4d11
+index 0000000000..5f952d80b6
 --- /dev/null
-+++ b/target/arc/semfunc_generator/Gemfile
-@@ -0,0 +1,3 @@
-+source 'http://rubygems.org'
++++ b/target/arc/semfunc-helper.c
+@@ -0,0 +1,414 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
 +
-+gem 'racc'
-diff --git a/target/arc/semfunc_generator/README b/target/arc/semfunc_generator/README
++#include "qemu/osdep.h"
++#include "translate.h"
++#include "qemu/bitops.h"
++#include "tcg/tcg.h"
++#include "semfunc-helper.h"
++#include "translate.h"
++
++void arc_gen_verifyCCFlag(const DisasCtxt *ctx, TCGv ret)
++{
++    TCGv c1 = tcg_temp_new();
++
++    TCGv nZ = tcg_temp_new();
++    TCGv nN = tcg_temp_new();
++    TCGv nV = tcg_temp_new();
++    TCGv nC = tcg_temp_new();
++
++    switch (ctx->insn.cc) {
++    /* AL, RA */
++    case ARC_COND_AL:
++        tcg_gen_movi_tl(ret, 1);
++        break;
++    /* EQ, Z */
++    case ARC_COND_EQ:
++        tcg_gen_mov_tl(ret, cpu_Zf);
++        break;
++    /* NE, NZ */
++    case ARC_COND_NE:
++        tcg_gen_xori_tl(ret, cpu_Zf, 1);
++        break;
++    /* PL, P */
++    case ARC_COND_PL:
++        tcg_gen_xori_tl(ret, cpu_Nf, 1);
++        break;
++    /* MI, N: */
++    case ARC_COND_MI:
++        tcg_gen_mov_tl(ret, cpu_Nf);
++        break;
++    /* CS, C, LO */
++    case ARC_COND_CS:
++        tcg_gen_mov_tl(ret, cpu_Cf);
++        break;
++    /* CC, NC, HS */
++    case ARC_COND_CC:
++        tcg_gen_xori_tl(ret, cpu_Cf, 1);
++        break;
++    /* VS, V */
++    case ARC_COND_VS:
++        tcg_gen_mov_tl(ret, cpu_Vf);
++        break;
++    /* VC, NV */
++    case ARC_COND_VC:
++        tcg_gen_xori_tl(ret, cpu_Vf, 1);
++        break;
++    /* GT */
++    case ARC_COND_GT:
++        /* (N & V & !Z) | (!N & !V & !Z) === XNOR(N, V) & !Z */
++        tcg_gen_eqv_tl(ret, cpu_Nf, cpu_Vf);
++        tcg_gen_xori_tl(nZ, cpu_Zf, 1);
++        tcg_gen_and_tl(ret, ret, nZ);
++        break;
++    /* GE */
++    case ARC_COND_GE:
++        /* (N & V) | (!N & !V)  === XNOR(N, V) */
++        tcg_gen_eqv_tl(ret, cpu_Nf, cpu_Vf);
++        tcg_gen_andi_tl(ret, ret, 1);
++        break;
++    /* LT */
++    case ARC_COND_LT:
++        /* (N & !V) | (!N & V) === XOR(N, V) */
++        tcg_gen_xor_tl(ret, cpu_Nf, cpu_Vf);
++        break;
++    /* LE */
++    case ARC_COND_LE:
++        /* Z | (N & !V) | (!N & V) === XOR(N, V) | Z */
++        tcg_gen_xor_tl(ret, cpu_Nf, cpu_Vf);
++        tcg_gen_or_tl(ret, ret, cpu_Zf);
++        break;
++    /* HI */
++    case ARC_COND_HI:
++        /* !C & !Z === !(C | Z) */
++        tcg_gen_or_tl(ret, cpu_Cf, cpu_Zf);
++        tcg_gen_xori_tl(ret, ret, 1);
++        break;
++    /* LS */
++    case ARC_COND_LS:
++        /* C & Z */
++        tcg_gen_or_tl(ret, cpu_Cf, cpu_Zf);
++        break;
++    /* PNZ */
++    case ARC_COND_PNZ:
++        /* !N & !Z === !(N | Z) */
++        tcg_gen_or_tl(ret, cpu_Nf, cpu_Zf);
++        tcg_gen_xori_tl(ret, ret, 1);
++        break;
++
++    default:
++        g_assert_not_reached();
++    }
++
++    tcg_temp_free(c1);
++    tcg_temp_free(nZ);
++    tcg_temp_free(nN);
++    tcg_temp_free(nV);
++    tcg_temp_free(nC);
++}
++
++#define MEMIDX (ctx->mem_idx)
++
++const MemOp memop_for_size_sign[2][3] = {
++    { MO_UL, MO_UB, MO_UW }, /* non sign-extended */
++    { MO_UL, MO_SB, MO_SW } /* sign-extended */
++};
++
++void arc_gen_set_memory(const DisasCtxt *ctx, TCGv vaddr, int size,
++        TCGv src, bool sign_extend)
++{
++    assert(size != 0x3);
++
++    tcg_gen_qemu_st_tl(src, vaddr, MEMIDX,
++                       memop_for_size_sign[sign_extend][size]);
++}
++
++void arc_gen_get_memory(const DisasCtxt *ctx, TCGv dest, TCGv vaddr,
++        int size, bool sign_extend)
++{
++    assert(size != 0x3);
++
++    tcg_gen_qemu_ld_tl(dest, vaddr, MEMIDX,
++                       memop_for_size_sign[sign_extend][size]);
++}
++
++void arc_gen_no_further_loads_pending(const DisasCtxt *ctx, TCGv ret)
++{
++    /* TODO: To complete on SMP support. */
++    tcg_gen_movi_tl(ret, 1);
++}
++
++void arc_gen_set_debug(const DisasCtxt *ctx, bool value)
++{
++    /* TODO: Could not find a reson to set this. */
++}
++
++void
++arc_gen_execute_delayslot(DisasCtxt *ctx, TCGv bta, TCGv take_branch)
++{
++    assert(ctx->insn.limm_p == 0 && !ctx->in_delay_slot);
++
++    ctx->in_delay_slot = true;
++    uint32_t cpc = ctx->cpc;
++    uint32_t pcl = ctx->pcl;
++    insn_t insn = ctx->insn;
++
++    ctx->cpc = ctx->npc;
++    ctx->pcl = ctx->cpc & ((target_ulong) 0xfffffffffffffffc);
++
++    ++ctx->ds;
++
++    TCGLabel *do_not_set_bta_and_de = gen_new_label();
++    tcg_gen_brcondi_tl(TCG_COND_NE, take_branch, 1, do_not_set_bta_and_de);
++    /*
++     * In case an exception should be raised during the execution
++     * of delay slot, bta value is used to set erbta.
++     */
++    tcg_gen_mov_tl(cpu_bta, bta);
++    /* We are in a delay slot */
++    tcg_gen_mov_tl(cpu_DEf, take_branch);
++    gen_set_label(do_not_set_bta_and_de);
++
++    tcg_gen_movi_tl(cpu_is_delay_slot_instruction, 1);
++
++    /* Set the pc to the next pc */
++    tcg_gen_movi_tl(cpu_pc, ctx->npc);
++    /* Necessary for the likely call to restore_state_to_opc() */
++    tcg_gen_insn_start(ctx->npc);
++
++    DisasJumpType type = ctx->base.is_jmp;
++    ctx->env->enabled_interrupts = false;
++
++    /*
++     * In case we might be in a situation where the delayslot is in a
++     * different MMU page. Make a fake exception to interrupt
++     * delayslot execution in the context of the branch.
++     * The delayslot will then be re-executed in isolation after the
++     * branch code has set bta and DEf status flag.
++     */
++    if ((cpc & PAGE_MASK) < 0x80000000 &&
++        (cpc & PAGE_MASK) != (ctx->cpc & PAGE_MASK)) {
++        ctx->in_delay_slot = false;
++        TCGv dpc = tcg_const_local_tl(ctx->npc);
++        tcg_gen_mov_tl(cpu_pc, dpc);
++        gen_helper_fake_exception(cpu_env, dpc);
++        tcg_temp_free(dpc);
++        return;
++    }
++
++    decode_opc(ctx->env, ctx);
++    ctx->env->enabled_interrupts = true;
++    ctx->base.is_jmp = type;
++
++    tcg_gen_movi_tl(cpu_DEf, 0);
++    tcg_gen_movi_tl(cpu_is_delay_slot_instruction, 0);
++
++    /* Restore the pc back */
++    tcg_gen_movi_tl(cpu_pc, cpc);
++    /* Again, restore_state_to_opc() must use recent value */
++    tcg_gen_insn_start(cpc);
++
++    assert(ctx->base.is_jmp == DISAS_NEXT);
++
++    --ctx->ds;
++
++    /* Restore old values.  */
++    ctx->cpc = cpc;
++    ctx->pcl = pcl;
++    ctx->insn = insn;
++    ctx->in_delay_slot = false;
++
++    return;
++}
++
++
++/* dest = src1 - src2. Compute C, N, V and Z flags */
++void arc_gen_sub_Cf(TCGv ret, TCGv dest, TCGv src1, TCGv src2)
++{
++    TCGv t1 = tcg_temp_new();
++    TCGv t2 = tcg_temp_new();
++    TCGv t3 = tcg_temp_new();
++
++    tcg_gen_not_tl(t1, src1);       /* t1 = ~src1                 */
++    tcg_gen_and_tl(t2, t1, src2);   /* t2 = ~src1 & src2          */
++    tcg_gen_or_tl(t3, t1, src2);    /* t3 = (~src1 | src2) & dest */
++    tcg_gen_and_tl(t3, t3, dest);
++    /* t2 = ~src1 & src2 | ~src1 & dest | dest & src2 */
++    tcg_gen_or_tl(t2, t2, t3);
++    tcg_gen_shri_tl(ret, t2, TARGET_LONG_BITS - 1);   /* Cf = t2[31/63] */
++
++    tcg_temp_free(t3);
++    tcg_temp_free(t2);
++    tcg_temp_free(t1);
++}
++
++
++void arc_gen_get_bit(TCGv ret, TCGv a, TCGv pos)
++{
++    tcg_gen_rotr_tl(ret, a, pos);
++    tcg_gen_andi_tl(ret, ret, 1);
++}
++
++/* accumulator += b32 * c32 */
++void arc_gen_mac(TCGv phi, TCGv b32, TCGv c32)
++{
++    TCGv plo = tcg_temp_new();
++    tcg_gen_muls2_tl(plo, phi, b32, c32);
++
++    /* Adding the product to the accumulator */
++    tcg_gen_add2_tl(cpu_acclo, cpu_acchi, cpu_acclo, cpu_acchi, plo, phi);
++    tcg_temp_free(plo);
++}
++
++/* Unsigned version of mac */
++void arc_gen_macu(TCGv phi, TCGv b32, TCGv c32)
++{
++    TCGv plo = tcg_temp_new();
++    tcg_gen_mulu2_tl(plo, phi, b32, c32);
++
++    /* Adding the product to the accumulator */
++    tcg_gen_add2_tl(cpu_acclo, cpu_acchi, cpu_acclo, cpu_acchi, plo, phi);
++    tcg_temp_free(plo);
++}
++
++void tcg_gen_shlfi_tl(TCGv a, int b, TCGv c)
++{
++    TCGv tmp = tcg_temp_new();
++    tcg_gen_movi_tl(tmp, b);
++    tcg_gen_shl_tl(a, tmp, c);
++    tcg_temp_free(tmp);
++}
++
++void arc_gen_extract_bits(TCGv ret, TCGv a, TCGv start, TCGv end)
++{
++    TCGv tmp1 = tcg_temp_new();
++
++    tcg_gen_shr_tl(ret, a, end);
++
++    tcg_gen_sub_tl(tmp1, start, end);
++    tcg_gen_addi_tl(tmp1, tmp1, 1);
++    tcg_gen_shlfi_tl(tmp1, 1, tmp1);
++    tcg_gen_subi_tl(tmp1, tmp1, 1);
++
++    tcg_gen_and_tl(ret, ret, tmp1);
++
++    tcg_temp_free(tmp1);
++}
++
++void arc_gen_get_register(TCGv ret, enum arc_registers reg)
++{
++    switch (reg) {
++    case R_SP:
++        tcg_gen_mov_tl(ret, cpu_sp);
++        break;
++    case R_STATUS32:
++        gen_helper_get_status32(ret, cpu_env);
++        break;
++    case R_ACCLO:
++        tcg_gen_mov_tl(ret, cpu_acclo);
++        break;
++    case R_ACCHI:
++        tcg_gen_mov_tl(ret, cpu_acchi);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++
++void arc_gen_set_register(enum arc_registers reg, TCGv value)
++{
++    switch (reg) {
++    case R_SP:
++        tcg_gen_mov_tl(cpu_sp, value);
++        break;
++    case R_STATUS32:
++        gen_helper_set_status32(cpu_env, value);
++        break;
++    case R_ACCLO:
++        tcg_gen_mov_tl(cpu_acclo, value);
++        break;
++    case R_ACCHI:
++        tcg_gen_mov_tl(cpu_acchi, value);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++
++/* TODO: Get this from props ... */
++void arc_has_interrupts(const DisasCtxt *ctx, TCGv ret)
++{
++    tcg_gen_movi_tl(ret, 1);
++}
++
++/*
++ ***************************************
++ * Statically inferred return function *
++ ***************************************
++ */
++
++TCGv arc_gen_next_reg(const DisasCtxt *ctx, TCGv reg)
++{
++    int i;
++    for (i = 0; i < 64; i += 2) {
++        if (reg == cpu_r[i]) {
++            return cpu_r[i + 1];
++        }
++    }
++    /* Check if REG is an odd register. */
++    for (i = 1; i < 64; i += 2) {
++        /* If so, that is unsanctioned. */
++        if (reg == cpu_r[i]) {
++            arc_gen_excp(ctx, EXCP_INST_ERROR, 0, 0);
++            return NULL;
++        }
++    }
++    /* REG was not a register after all. */
++    g_assert_not_reached();
++}
++
++bool arc_target_has_option(enum target_options option)
++{
++    /* TODO: Fill with meaningful cases. */
++    switch (option) {
++    case LL64_OPTION:
++        return true;
++        break;
++    default:
++        break;
++    }
++    return false;
++}
++
++
++bool arc_is_instruction_operand_a_register(const DisasCtxt *ctx, int nop)
++{
++    assert(nop < ctx->insn.n_ops);
++    operand_t operand = ctx->insn.operands[nop];
++
++    return (operand.type & ARC_OPERAND_IR) != 0;
++}
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/target/arc/semfunc-helper.h b/target/arc/semfunc-helper.h
 new file mode 100644
-index 0000000000..965e79b894
+index 0000000000..b89a8e916e
 --- /dev/null
-+++ b/target/arc/semfunc_generator/README
-@@ -0,0 +1,35 @@
-+Helper file for ARC instruction traslation functions.
-+
-+The code generator was implemented using ruby language.
-+In order to change the content of semfunc.c file these scripts should be used.
-+
-+Ruby instalation process:
-+
-+The recommended way to obtain a compatible ruby is to install it in a user
-+local directory using RVM.
-+Instructions to install RVM can be found in https://rvm.io/.
-+
-+Using RVM one can install Ruby interpreter executing the following
-+steps/commands.
-+
-+Install Ruby version 2.6:
-+  # rvm install ruby-2.6
-+Set ruby version 2.6 as current in use.
-+  # rvm use 2.6
-+Create an isolated environment for the required ruby dependencies.
-+  # rvm gemset create arc_generator
-+Install bundler tool
-+  # gem install bundler
-+Bundle tool reads the Gemfile file and installs project dependencies.
-+  # cd ${QEMU_SOURCE}/target/arc/semfunc_generator & bundle install
-+
-+
-+In order to regenerate the semfunc.c file, please execute the following command.
-+  # ruby regenerate_semfunc.rb > ../semfunc.c
-+
-+By default the tool reads the semfunc.c file and prints the new content for
-+the same file.
-+The information of what is generated is presented as comment in the file.
-+In order to change the functionality of those functions one should change the
-+"pseudo code" in the comments, which is what is used to generate the
-+semantically similar TCG code.
-diff --git a/target/arc/semfunc_generator/classes/CreateInternalVars.rb b/target/arc/semfunc_generator/classes/CreateInternalVars.rb
-new file mode 100644
-index 0000000000..05b2eac7ab
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/CreateInternalVars.rb
-@@ -0,0 +1,117 @@
-+class CreateInternalVars
-+  private
-+
-+  # extend SemanticFunctionASTFactory
-+  include Pass
-+  include ConstantTables
-+  extend TranslatorAST
-+
-+
-+
-+  def self.translation_rules
-+    ret = {}
-+
-+    create_var = Proc.new { |stmt, repl, mappings, to_do|
-+
-+      var = stmt.object[:lhs]
-+      rhs = stmt.object[:rhs]
-+      if(@@vars[var.object[:name]].nil? && var.object[:name] !~ /@.+/)
-+        # puts "VAR = #{var.object[:name]}"
-+        if(var.hasAttr?(:static))
-+          defVar = SemanticFunctionAST.function("defStaticVariable", stmt.getAttr(:static), stmt.object[:lhs])
-+        else
-+	  #puts "NAME = #{rhs.object.inspect}"
-+	  #puts "L = #{LIST_OF_FUNCTIONS.index(rhs.object[:name])}"
-+
-+
-+	  defVar = SemanticFunctionAST.function("defVariable", stmt.object[:lhs])
-+	  #if(rhs.object[:type] == :func && !TEMP_CREATING_FUNCTIONS.index(rhs.object[:name]).nil?)
-+	  #  #puts " IN HERE"
-+	  #  stmt.object[:lhs].setAttr(:reference, true)
-+          #  defVar = SemanticFunctionAST.function("defReference", stmt.object[:lhs])
-+	  #else
-+	  #  defVar = SemanticFunctionAST.function("defVariable", stmt.object[:lhs])
-+
-+
-+
-+	  #end
-+        end
-+        # to_do[:pre_pend].push(defVar)
-+        @@vars[var.object[:name]] = defVar
-+        # @@vars1[var.object[:name]] = {
-+        #   defVar: defVar,
-+        #   stmt: stmt,
-+        #   block: stmt.find_parent_node_with_type(:block)
-+        # }
-+      # elsif(@@vars[var.object[:name]].nil? && var.object[:name] =~ /@.+/)
-+      end
-+    }
-+
-+    match = SemanticFunctionAST.new(type: :assign,
-+                                    lhs: SemanticFunctionAST.var("a"),
-+                                    rhs: SemanticFunctionAST.var("_"))
-+    ret[match] = create_var
-+
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      ret = { result: true, mappings: {} } if(ast.object[:type] == :if)
-+      ret
-+    }
-+    ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+      generate(stmt_ast.object[:then])
-+      generate(stmt_ast.object[:else])
-+      nil
-+    }
-+
-+    return ret
-+  end
-+
-+
-+  public
-+  def self.task(ast)
-+    @@vars = {}
-+    # @@vars1 = {}
-+    self.generate(ast)
-+    # puts "AST = #{ast.class}"
-+    # puts ast.debug
-+
-+    # NOTE: Add free variables to end of semfunc.
-+    new_stmt_list = SemanticFunctionAST.createStmtListFromArray(@@vars.values)
-+    new_stmt_list.append_in_stmt_list(ast)
-+    ast = new_stmt_list
-+
-+    list = []
-+    @@vars.each_pair do |var_name, func|
-+
-+      # puts "VAR: #{var_name}"
-+      # puts "STMT: #{@@vars1[var_name][:stmt]}"
-+      # puts "BLOCK:\n#{@@vars1[var_name][:block].class}"
-+
-+      # list.push(var_name) if func.object[:type] == :func &&
-+      #                        (func.object[:name] == "defVariable" ||
-+      #                         func.object[:name] == "defReference")
-+
-+      if(func.object[:type] == :func)
-+        if(func.object[:name] == "defVariable")
-+          list.push(SemanticFunctionAST.function("freeVariable", SemanticFunctionAST.var(var_name)))
-+        elsif(func.object[:name] == "defReference")
-+          list.push(SemanticFunctionAST.function("freeReference", SemanticFunctionAST.var(var_name)))
-+        end
-+      end
-+    end
-+    # list = list.map do |var_name|
-+    #   SemanticFunctionAST.function("freeVariable", SemanticFunctionAST.var(var_name))
-+    # end
-+    stmt_list = SemanticFunctionAST.createStmtListFromArray(list)
-+    ast.append_in_stmt_list(stmt_list)
-+
-+    # @@vars.each_pair do |k, v|
-+    #   puts "FREE: #{k} : #{v.pp}"
-+    #   ast.prepend_in_stmt_list(SemanticFunctionAST.function("freeVariable", SemanticFunctionAST.createVar(k)))
-+    # end
-+
-+    # puts ast.pp
-+
-+    return ast
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/DecomposeExpressions.rb b/target/arc/semfunc_generator/classes/DecomposeExpressions.rb
-new file mode 100644
-index 0000000000..c353cc90bb
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/DecomposeExpressions.rb
-@@ -0,0 +1,45 @@
-+class DecomposeExpressions
-+  private
-+
-+  extend SemanticFunctionASTFactory
-+  include Pass
-+
-+  def self.traverse(ast)
-+  end
-+
-+  def self.expandConditions(ast)
-+    object = ast.object
-+    case(object[:type])
-+    when :var
-+    else
-+      return ast
-+    end
-+    return ret
-+  end
-+
-+  public
-+  def self.task(ast)
-+    # reset_counters
-+    tmp_vars_for_nodes = {}
-+    current_stmt = nil
-+
-+    ast.traverse_LR_TB() do |ast, to_do|
-+      object = ast.object
-+      case(object[:type])
-+      when :func
-+        if(object[:name] == "IF")
-+          to_do[:pre_pend] += ast.object[:args][0].create_stmts_for_expression()
-+
-+          var = to_do[:pre_pend][-1].object[:lhs]
-+
-+          ast.object[:args][0] = SemanticFunctionAST.new(type: :bincond, name: "==", lhs: var, rhs: createVar("true"))
-+        end
-+      else
-+
-+      end
-+      true
-+    end
-+
-+    return ast
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/IdentifyQEmuStaticInferedParts.rb b/target/arc/semfunc_generator/classes/IdentifyQEmuStaticInferedParts.rb
-new file mode 100644
-index 0000000000..536f9fdd49
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/IdentifyQEmuStaticInferedParts.rb
-@@ -0,0 +1,91 @@
-+class IdentifyQEmuStaticInferedParts
-+  private
-+
-+  # extend SemanticFunctionASTFactory
-+  include Pass
-+  extend Translator
-+
-+  public
-+
-+  rules = {}
-+  def self.translation_rules
-+    ret = {}
-+    functions = {
-+      "shouldExecuteDelaySlot" => "bool",
-+      "getAAFlag" => "int",
-+      "getZZFlag" => "int",
-+      "getFFlag" => "int",
-+      "getFlagX" => "bool",
-+      "nextReg" => "TCGvPtr",
-+      "instructionHasRegisterOperandIn" => "bool",
-+      "targetHasOption" => "bool",
-+      "Ext64" => "TCGv_i64",
-+      "SignExt64" => "TCGv_i64",
-+      "SignExtend" => "TCGv",
-+      "getNFlag" => "TCGv",
-+      "Zero" => "TCGv",
-+    }.each_pair do |name, type|
-+      ret[SemanticFunctionAST.function(name)] = SemanticFunctionAST.var(type)
-+    end
-+    # ret[SemanticFunctionAST.function("shouldExecuteDelaySlot")] = SemanticFunctionAST.var("bool")
-+    # ret[SemanticFunctionAST.function("getAAFlag")] = SemanticFunctionAST.var("int")
-+    # ret[SemanticFunctionAST.function("getZZFlag")] = SemanticFunctionAST.var("int")
-+    return ret;
-+  end
-+  def self.task(ast)
-+    static_variables = {}
-+
-+    ast.traverse_LR_BT do |ast|
-+
-+      rules = {
-+      }
-+
-+      match = self.find_matching_rule(ast)
-+      if(match)
-+        if(match[:replacement])
-+          ast.setAttr(:static, match[:replacement])
-+        end
-+      else
-+        case(ast.object[:type])
-+        when :var
-+          name = ast.object[:name]
-+          ast.setAttr(:static, static_variables[name]) if static_variables[name] != nil && ast.object[:name] !~ /@.+/
-+        when :assign
-+          name = ast.object[:lhs].object[:name]
-+          if(ast.object[:rhs].hasAttr?(:static))
-+            ast.object[:lhs].setAttr(:static, ast.object[:rhs].getAttr(:static))
-+            ast.setAttr(:static, ast.object[:rhs].getAttr(:static))
-+            static_variables[name] = ast.object[:rhs].getAttr(:static) if static_variables[name].nil?
-+          end
-+        when :if
-+          ast.setAttr(:static, ast.object[:cond].getAttr(:static)) if(ast.object[:cond].hasAttr?(:static))
-+        when :unicond
-+          ast.setAttr(:static, ast.object[:rhs].getAttr(:static)) if(ast.object[:rhs].hasAttr?(:static))
-+        when :bincond
-+          if(ast.object[:lhs].hasAttr?(:static) && ast.object[:rhs].hasAttr?(:static))
-+            # TODO: Static elements might not have same type. Create a warning
-+            ast.setAttr(:static, ast.object[:lhs].getAttr(:static))
-+
-+          elsif(ast.object[:lhs].hasAttr?(:static))
-+            tmp = ast.object[:rhs]
-+            if(tmp.object[:type] == :number || tmp.object[:type] == :var )
-+              tmp.setAttr(:static, ast.object[:lhs].getAttr(:static))
-+              ast.setAttr(:static, ast.object[:lhs].getAttr(:static))
-+            end
-+
-+            # TODO: Verify if other conditions are possible as well.
-+            # For example, verify if bincond for static and non static conjunctions.
-+            # Currently no validation is being performed.
-+          elsif(ast.object[:rhs].hasAttr?(:static))
-+            tmp = ast.object[:lhs]
-+            if(tmp.object[:type] == :number || tmp.object[:type] == :var )
-+              tmp.setAttr(:static, ast.object[:rhs].getAttr(:static))
-+              ast.setAttr(:static, ast.object[:rhs].getAttr(:static))
-+            end
-+          end
-+        end
-+      end
-+      false
-+    end
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/QEmuCompiler.rb b/target/arc/semfunc_generator/classes/QEmuCompiler.rb
-new file mode 100644
-index 0000000000..9860d878bc
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/QEmuCompiler.rb
-@@ -0,0 +1,15 @@
-+class QEmuCompiler
-+  include Compiler
-+
-+  def initialize()
-+    @passes = [
-+      IdentifyQEmuStaticInferedParts,
-+      SpaghettiCodePass,
-+      DecomposeExpressions,
-+      UnfoldCode,
-+      CreateInternalVars,
-+    ]
-+    @translator = QEmuTranslator
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/classes/QEmuTranslator.rb b/target/arc/semfunc_generator/classes/QEmuTranslator.rb
-new file mode 100644
-index 0000000000..1b739d2614
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/QEmuTranslator.rb
-@@ -0,0 +1,269 @@
-+class QEmuTranslator
-+
-+  extend TranslatorFinal
-+  include ConstantTables
-+
-+  def self.translation_rules
-+    ret = {
-+      SemanticFunctionAST.function("defLabel", SemanticFunctionAST.var("name")) =>
-+        "TCGLabel *$name = gen_new_label()",
-+      SemanticFunctionAST.function("setLabel", SemanticFunctionAST.var("name")) =>
-+        "gen_set_label($name)",
-+      SemanticFunctionAST.function("createTmpVar", SemanticFunctionAST.var("name")) =>
-+        "TCGv $name = tcg_temp_new()",
-+      SemanticFunctionAST.function("defVariable", SemanticFunctionAST.var("name")) =>
-+        "TCGv $name = tcg_temp_local_new()",
-+      SemanticFunctionAST.function("freeVariable", SemanticFunctionAST.var("name")) =>
-+        "tcg_temp_free($name)",
-+      SemanticFunctionAST.function("freeReference", SemanticFunctionAST.var("name")) =>
-+        "if($name != NULL) tcg_temp_free($name)",
-+      SemanticFunctionAST.function("defReference", SemanticFunctionAST.var("name")) =>
-+        "TCGv $name = NULL /* REFERENCE */",
-+
-+      SemanticFunctionAST.assign(
-+        SemanticFunctionAST.var("a"),
-+        SemanticFunctionAST.function("HELPER",
-+                                     SemanticFunctionAST.var("helper"),
-+                                     SemanticFunctionAST.var("..."))) =>
-+        "ARC_HELPER($helper, $a, $varargs_)",
-+      SemanticFunctionAST.function("HELPER",
-+                                   SemanticFunctionAST.var("helper"),
-+                                   SemanticFunctionAST.var("...")) =>
-+      "ARC_HELPER($helper, NULL, $varargs_)",
-+
-+      SemanticFunctionAST.function("goto", SemanticFunctionAST.var("label")) => "tcg_gen_br($label)",
-+
-+      # SemanticFunctionAST.function("_func", SemanticFunctionAST.var("a")) => "$func($a)",
-+      # SemanticFunctionAST.function("_func", SemanticFunctionAST.number("1")) => "$func($1)",
-+
-+      SemanticFunctionAST.parse_stmt("a = b") => "tcg_gen_mov_tl($a, $b)",
-+      SemanticFunctionAST.parse_stmt("a = 1") => "tcg_gen_movi_tl($a, $1)",
-+    }
-+
-+    match = SemanticFunctionAST.function("defStaticVariable", SemanticFunctionAST.var("type"), SemanticFunctionAST.var("name"))
-+    ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+      ret = "#{mappings["type"]} #{mappings["name"]}"
-+      if mappings["type"] == "TCGvPtr"
-+        ret = "TCGv #{mappings["name"]} = NULL"
-+      end
-+      if mappings["type"] == "TCGv"
-+        ret = "TCGv #{mappings["name"]} = tcg_temp_local_new()"
-+      end
-+      ret
-+    }
-+
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      ret = { result: true, mappings: {} } if(ast.object[:type] == :if)
-+      ret
-+    }
-+    ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+      tmp =  "  if (#{stmt_ast.object[:cond].pp}) {\n"
-+      tmp += @translator.generate(stmt_ast.object[:then], false)
-+      tmp += "    }\n"
-+      if(stmt_ast.object[:else].valid?)
-+        tmp += "  else {\n"
-+        tmp += @translator.generate(stmt_ast.object[:else], false)
-+        tmp += "    }\n"
-+      end
-+      return tmp
-+    }
-+
-+    # Any other static statement.
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      ret = { result: true, mappings: {} } if(ast.hasAttr?(:static))
-+      ret
-+    }
-+    ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+      tmp =  stmt_ast.pp
-+      tmp
-+    }
-+
-+
-+    {
-+      "+": "add",
-+      "-": "sub",
-+      "*": "mul",
-+      "/": "div",
-+      "&": "and",
-+      "|": "or",
-+      "^": "xor",
-+      "<<": "shl",
-+      ">>": "shr",
-+
-+    }.each_pair do |k, v|
-+      ret[SemanticFunctionAST.parse_stmt("a = b #{k} c")] = "tcg_gen_#{v}_tl($a, $b, $c)"
-+      ret[SemanticFunctionAST.parse_stmt("a = b #{k} 1")] = "tcg_gen_#{v}i_tl($a, $b, $1)"
-+      ret[SemanticFunctionAST.parse_stmt("a = 2 #{k} c")] = "tcg_gen_#{v}fi_tl($a, $2, $c)"
-+    end
-+
-+
-+    options1 = {
-+      SemanticFunctionAST.var("b") => "$b",
-+      SemanticFunctionAST.number("1") => "$1",
-+      SemanticFunctionAST.function("_func1", SemanticFunctionAST.var("...")) => "$func1($varargs_func1)"
-+    }
-+    options2 = {
-+      SemanticFunctionAST.var("c") => "$c",
-+      SemanticFunctionAST.number("2") => "$2",
-+      SemanticFunctionAST.function("_func2", SemanticFunctionAST.var("...")) => "$func2($varargs_func2)"
-+    }
-+
-+
-+    # Combinations of options
-+    options1.each_pair do |m1, r1|
-+      options2.each_pair do |m2, r2|
-+        next if m1.object[:type] == :number && m2.object[:type] == :number
-+
-+        reverted_immediate = false
-+        #Revert immediate value and condition
-+        if(m1.object[:type] == :number)
-+          tmp = [m1, r1]
-+          m1 = m2; r2 = r1
-+          reverted_immediate = true
-+          m2 = tmp[0]; r2 = tmp[1]
-+        end
-+        type = "i" if(m2.object[:type] == :number)
-+
-+        {
-+          "&&": "and",
-+          "||": "or",
-+          "^^": "xor",
-+        }.each_pair do |k, v|
-+          op = v
-+
-+          # A = B && C (for example)
-+          rhs = SemanticFunctionAST.new(type: :bincond, name: k.to_s, lhs: m1.clone, rhs: m2.clone)
-+          match = SemanticFunctionAST.new(type: :assign, lhs: SemanticFunctionAST.var("a"), rhs: rhs)
-+          ret[match] = "tcg_gen_#{op}_tl($a, #{r1}, #{r2})"
-+
-+        end
-+
-+        {
-+          "==": "TCG_COND_EQ",
-+          "!=": "TCG_COND_NE",
-+          "<": "TCG_COND_LT",
-+          ">": "TCG_COND_GT",
-+          "<=": "TCG_COND_LE",
-+          ">=": "TCG_COND_GE",
-+        }.each_pair do |k, v|
-+
-+          op = v
-+          if(reverted_immediate == true)
-+            case (k)
-+            when "<"
-+              op = "TCG_COND_GE"
-+            when ">"
-+              op = "TCG_COND_LE"
-+            when "<="
-+              op = "TCG_COND_GT"
-+            when ">="
-+              op = "TCG_COND_LT"
-+            end
-+          end
-+
-+          # A = B == C (for example)
-+          rhs = SemanticFunctionAST.new(type: :bincond, name: k.to_s, lhs: m1.clone, rhs: m2.clone)
-+          match = SemanticFunctionAST.new(type: :assign, lhs: SemanticFunctionAST.var("a"), rhs: rhs)
-+          ret[match] = "tcg_gen_setcond#{type}_tl(#{op}, $a, #{r1}, #{r2})"
-+
-+          # IF(cond, label1, label2) # TODO: Label2 is expected to be equal to label1
-+          cond = SemanticFunctionAST.new(type: :bincond, name: k.to_s, lhs: m1.clone, rhs: m2.clone)
-+          ifcond_match = SemanticFunctionAST.function("IF", cond,
-+            SemanticFunctionAST.var("label1"),
-+            SemanticFunctionAST.var("label2")
-+          )
-+          ret[ifcond_match] = "tcg_gen_brcond#{type}_tl(#{op}, #{r1}, #{r2}, $label1)"
-+          # Proc.new { |stmt_ast, repl, mappings, to_do|
-+            # mappings.each_pair do |k, v|
-+            #   mappings[k] = "arc_#{v}" if (v =~ /^(true|false)$/)
-+            # end
-+          # }
-+        end
-+      end
-+    end
-+
-+    {
-+      "!": nil,
-+    }.each_pair do |k, v|
-+      [:unicond, :uniop].each do |type|
-+        rhs = SemanticFunctionAST.new(type: type, name: k.to_s, rhs: SemanticFunctionAST.var("b"))
-+        match = SemanticFunctionAST.new(type: :assign, lhs: SemanticFunctionAST.var("a"), rhs: rhs)
-+        ret[match] = "tcg_gen_xori_tl($a, $b, 1);\ntcg_gen_andi_tl($a, $a, 1)"
-+
-+        rhs1 = SemanticFunctionAST.new(type: type, name: k.to_s, rhs: SemanticFunctionAST.function("_func", SemanticFunctionAST.var("...")))
-+        match1 = SemanticFunctionAST.new(type: :assign, lhs: SemanticFunctionAST.var("a"), rhs: rhs1)
-+        ret[match1] = "tcg_gen_xori_tl($a, $func($varargs_func), 1);\ntcg_gen_andi_tl($a, $a, 1)"
-+      end
-+    end
-+
-+    {
-+      "~": "not",
-+    }.each_pair do |k, v|
-+      [:unicond, :uniop].each do |type|
-+        rhs = SemanticFunctionAST.new(type: type, name: k.to_s, rhs: SemanticFunctionAST.var("b"))
-+        match = SemanticFunctionAST.new(type: :assign, lhs: SemanticFunctionAST.var("a"), rhs: rhs)
-+        ret[match] = "tcg_gen_#{v}_tl($a, $b)"
-+
-+        rhs1 = SemanticFunctionAST.new(type: type, name: k.to_s, rhs: SemanticFunctionAST.function("_func", SemanticFunctionAST.var("...")))
-+        match1 = SemanticFunctionAST.new(type: :assign, lhs: SemanticFunctionAST.var("a"), rhs: rhs1)
-+        ret[match1] = "tcg_gen_#{v}_tl($a, $func($varargs_func))"
-+      end
-+    end
-+
-+    DIRECT_TCG_FUNC_TRANSLATIONS.each_pair do |f1, f2|
-+      #ret[SemanticFunctionAST.assign(SemanticFunctionAST.var("a"), SemanticFunctionAST.function(f, SemanticFunctionAST.var("...")))] = "#{f}($a, $varargs_)"
-+      match = SemanticFunctionAST.assign(SemanticFunctionAST.var("a"), SemanticFunctionAST.function(f1, SemanticFunctionAST.var("...")))
-+      ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+	ret = ""
-+	if(mappings["varargs_"].class == Array)
-+	  mappings["varargs_"] = mappings["varargs_"].map { |a| a.debug() }.join(", ")
-+	end
-+	if(mappings["varargs_"] =~ /^$/)
-+	  ret = "#{f2}($a)"
-+	else
-+	  ret = "#{f2}($a, $varargs_)"
-+	end
-+	ret
-+      }
-+    end
-+
-+    TEMP_CREATING_FUNCTIONS.each do |f|
-+      #ret[SemanticFunctionAST.assign(SemanticFunctionAST.var("a"), SemanticFunctionAST.function(f, SemanticFunctionAST.var("...")))] = "#{f}($a, $varargs_)"
-+      match = SemanticFunctionAST.assign(SemanticFunctionAST.var("a"), SemanticFunctionAST.function(f, SemanticFunctionAST.var("...")))
-+      ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+	ret = ""
-+	if(mappings["varargs_"].class == Array)
-+	  mappings["varargs_"] = mappings["varargs_"].map { |a| a.debug() }.join(", ")
-+	end
-+	if(mappings["varargs_"] =~ /^$/)
-+	  ret = "#{f}($a)"
-+	else
-+	  ret = "#{f}($a, $varargs_)"
-+	end
-+	ret
-+      }
-+    end
-+
-+    ret[SemanticFunctionAST.assign(SemanticFunctionAST.var("a"), SemanticFunctionAST.function("_func", SemanticFunctionAST.var("...")))] =
-+      "tcg_gen_mov_tl($a, $func($varargs_func))"
-+
-+    #  "$a = $func($varargs_func)"
-+    #ret[SemanticFunctionAST.assign(SemanticFunctionAST.var("a"), SemanticFunctionAST.function("_func", SemanticFunctionAST.var("...")))] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+    #  lhs = stmt_ast.object[:lhs]
-+    #  if(lhs.hasAttr?(:reference))
-+    #    tmp =  stmt_ast.pp
-+    #  else
-+    #    tmp = "tcg_gen_mov_tl()"
-+    #  end
-+    #  tmp = "tcg_gen_mov_tl()"
-+    #  tmp
-+    #}
-+    ret[SemanticFunctionAST.function("_func", SemanticFunctionAST.var("..."))] = "$func($varargs_func)"
-+
-+
-+
-+    return ret
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/SemanticFunctionAST.rb b/target/arc/semfunc_generator/classes/SemanticFunctionAST.rb
-new file mode 100644
-index 0000000000..b617bb7093
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/SemanticFunctionAST.rb
-@@ -0,0 +1,466 @@
-+class SemanticFunctionAST
-+
-+  include Enumerable
-+  extend SemanticFunctionASTFactory
-+  include SemanticFunctionASTBlockOperators
-+
-+  def each(&block)
-+    yield self
-+    @object.each_pair do |k, e|
-+      if(e.class == SemanticFunctionAST)
-+        e.each(&block)
-+      end
-+    end
-+  end
-+
-+  def find_parent_node_with_type(type, parents = {})
-+    if(self.object[:type] == type)
-+      return self
-+    else
-+      if(parents[self] != nil)
-+        parents[self].find_parent_node_with_type(type, parents)
-+      else
-+        return nil
-+      end
-+    end
-+  end
-+
-+
-+  def initialize(params)
-+    @object = params
-+  end
-+
-+  def clone
-+    new_elem = SemanticFunctionAST.new({})
-+    self.object.each_pair do |k, v|
-+      if(v.class == SemanticFunctionAST)
-+        new_elem.object[k] = v.clone
-+      elsif v.class == Array
-+        new_elem.object[k] = Array.new
-+        v.each_with_index do |e, i|
-+          new_elem.object[k][i] = e.clone
-+        end
-+      else
-+        begin
-+          new_elem.object[k] = v.clone
-+        rescue
-+          new_elem.object[k] = v
-+        end
-+      end
-+    end
-+    return new_elem
-+  end
-+
-+  def self.error(string)
-+    SemanticFunctionAST.new({ type: 'error', message: string })
-+  end
-+
-+  def self.nothing
-+    SemanticFunctionAST.new({ type: :nothing })
-+  end
-+
-+  def self.var(name)
-+    SemanticFunctionAST.new({ type: :var, name: name })
-+  end
-+
-+  def self.number(number)
-+    SemanticFunctionAST.new({ type: :number, number: number })
-+  end
-+
-+  def self.assign(lhs, rhs)
-+    return SemanticFunctionAST.new({ type: :assign, lhs: lhs, rhs: rhs })
-+  end
-+
-+  def self.function(name, *args)
-+    return SemanticFunctionAST.new({ type: :func, name: name, args: args || [] })
-+  end
-+
-+  def self.bincond(name, lhs, rhs)
-+    return SemanticFunctionAST.new({ type: :bincond, name: name, lhs: lhs, rhs: rhs })
-+  end
-+
-+  def self.unicond(name, rhs)
-+    return SemanticFunctionAST.new({ type: :unicond, name: name, rhs: rhs })
-+  end
-+
-+  def self.parse(string)
-+    #puts "Parsing: #{string}"
-+    SemanticFunctionParser.new.parse(string)
-+  end
-+  def self.parse_stmt(str)
-+    ast = self.parse(str)
-+    return ast.object[:list].object[:head]
-+  end
-+
-+  def getAttr(name)
-+    return nil if(object[:attrs] == nil || object[:attrs][name] == nil)
-+    return object[:attrs][name]
-+  end
-+  def hasAttr?(name)
-+    getAttr(name) != nil
-+  end
-+  def setAttr(name, value)
-+    object[:attrs] = object[:attrs] || {}
-+    object[:attrs][name] = value
-+  end
-+
-+  def valid?
-+    @object[:type] != :nothing
-+  end
-+  def shouldSeparate?
-+    # return true
-+    return (@object[:type] != :block)
-+  end
-+
-+  def object
-+    return @object
-+  end
-+
-+  def traverse(data, &block)
-+    cont = yield @object, data
-+    if(cont)
-+      @object.each_pair do |k,v|
-+        v.traverse(data, &block) if v.class == SemanticFunctionAST
-+        v.each { |v1| v1.traverse(data, &block) } if v.class == Array
-+      end
-+    end
-+  end
-+
-+  def graphviz(filename = "/tmp/tmp.png", g = nil, parent = nil)
-+    first_call = false
-+    if(g == nil)
-+      first_call = true
-+      g = GraphViz.new( :G, :type => :digraph )
-+    end
-+
-+    label = []
-+
-+    node = g.add_nodes("n#{g.node_count}")
-+    @object.each_pair do |k,v|
-+      if v.class == SemanticFunctionAST
-+        v.graphviz(filename, g, node)
-+      elsif v.class == Array
-+        v.each do |v1|
-+          v1.graphviz(filename, g, node)
-+        end
-+      else
-+        label.push("#{k}: #{v}")
-+      end
-+    end
-+    node[:label] = label.join("\n")
-+    g.add_edges(parent, node) if(parent != nil)
-+
-+    if(first_call)
-+      g.output(:png => filename)
-+    end
-+  end
-+
-+  def traverseASTWithMethodName(data, method_name)
-+    cont = self.send(method_name, data)
-+    if(cont)
-+      @object.each_pair do |k,v|
-+        v.traverseASTWithMethodName(data, method_name) if v.class == SemanticFunctionAST
-+      end
-+    end
-+  end
-+
-+  def SemanticFunctionAST.IF(cond, ifthen, ifelse)
-+    ifthen = ifthen || SemanticFunctionAST.nothing
-+    ifelse = ifelse || SemanticFunctionAST.nothing
-+    return SemanticFunctionAST.new(type: :function, name: "IF", args: [cond, ifthen, ifelse])
-+  end
-+
-+  def constructDefinitions(data = {})
-+    #puts " -- #{ object[:type] } ------------------------ "
-+    data.each_pair do |k, v|
-+      #puts k
-+      #puts (v == nil) ? "NIL" : v.debug
-+    end
-+
-+    case object[:type]
-+    when :assign
-+      # #puts " =========> #{self.debug}"
-+      new_data = object[:rhs].constructDefinitions(data)
-+      data[object[:lhs].object[:name]] = new_data["_"]
-+      #puts "================== #{object[:lhs].object[:name]} => #{new_data["_"].inspect}"
-+      return data
-+    when :var
-+      if data[object[:name]]
-+        #puts " VAR NAME = #{object[:name]} = #{data[object[:name]].debug}"
-+        data["_"] = data[object[:name]].clone
-+      else
-+        data["_"] = self.clone
-+      end
-+      return data
-+    when :func
-+      new_func = self.object.clone
-+
-+      new_func[:args].map! do |arg|
-+        if(arg.valid?)
-+          new_data = arg.constructDefinitions(data.clone)
-+          arg = new_data["_"]
-+        end
-+        arg
-+      end
-+      data[object[:name]] = SemanticFunctionAST.new(new_func)
-+      data["_"] = data[object[:name]]
-+
-+
-+      return data
-+    when :if
-+      # One function IF(COND, THEN, ELSE)
-+      cond_data = object[:cond].constructDefinitions(data.clone)
-+      then_data = object[:then].constructDefinitions(data.clone)
-+      else_data = object[:else].constructDefinitions(data.clone)
-+
-+      elems = (then_data.keys + else_data.keys).uniq
-+
-+      elems.each do |k|
-+        td = then_data[k] || SemanticFunctionAST.nothing
-+        ed = else_data[k] || SemanticFunctionAST.nothing
-+
-+        if(data[k] != then_data[k] || data[k] != else_data[k] || data[k])
-+          #puts "SAME #{k}"
-+          #puts "SAME1 #{then_data[k].debug}" if then_data[k]
-+          #puts "SAME2 #{else_data[k].debug}" if else_data[k]
-+          data[k] = SemanticFunctionAST.IF(cond_data["_"], td, ed)
-+        else
-+          #puts "DIFFERENT #{k}"
-+          #puts "DIFFERENT1 #{then_data[k].debug}" if then_data[k]
-+          #puts "DIFFERENT2 #{else_data[k].debug}" if else_data[k]
-+        end
-+      end
-+
-+      cond_data.each_pair do |k, v|
-+        data[k] = v if (data[k] != v)
-+      end
-+
-+      # puts " == #{SemanticFunctionAST.new(object).debug(false) } =="
-+      # data.each_pair do |k, v|
-+      #   puts "      #{k} : #{v.debug(false)}"
-+      # end
-+
-+      data["_"] = SemanticFunctionAST.nothing
-+      return {}
-+
-+    # when :while
-+    #   cond_data = object[:cond].constructDefinitions(data.clone)
-+    #   loop_data = object[:loop].constructDefinitions(data.clone)
-+    #
-+    #   loop_dat.each { |k| data[k] = SemanticFunctionAST.new(type: :function, name: "WHILE", args: [cond_data["_"], loop_data[k]]) }
-+    #   data["_"] = SemanticFunctionAST.nothing
-+    else
-+      # puts self.inspect
-+      # puts self.object[:type]
-+      elems = {}  #Pre-fill semantic function table
-+
-+      object.clone.each_pair do |k, v|
-+        if (v.class == SemanticFunctionAST)
-+          data.merge!(v.constructDefinitions(data))
-+          elems[k] = data["_"] || SemanticFunctionAST.nothing
-+        elsif (v.class == Array)
-+          v = v.map do |v1|
-+            v1.constructDefinitions(data)
-+            data["_"] || SemanticFunctionAST.nothing
-+          end
-+          elems[k] = v
-+        else
-+          elems[k] = v
-+        end
-+        # v.traverseASTWithMethodName(data, :constructDefinitions) if(v.class == SemanticFunctionAST)
-+      end
-+      data["_"] = SemanticFunctionAST.new(elems)
-+    end
-+
-+    return data
-+  end
-+
-+  def debug(pn = false)
-+    begin
-+      case @object[:type]
-+        when /error/
-+	      return "--- ERROR: #{@object[:message]} ---"
-+        when /block/
-+	      return "{ #{@object[:list].debug(pn)} }"
-+        when /stmt_list/
-+	      return "#{@object[:head].debug(pn)}; #{@object[:tail].debug(pn)}"
-+        when /if/
-+	      ret = "if(#{@object[:cond].debug(pn)}) #{@object[:then].debug(pn)}"
-+	      ret += " else #{@object[:else].debug(pn)}" if @object[:else].valid?
-+	      return ret
-+        when /while/
-+	      return "while(#{@object[:cond].debug(pn)}) #{@object[:loop].debug(pn)}"
-+        when /bincond/
-+	      return "#{@object[:lhs].debug(pn)} #{@object[:name]} #{@object[:rhs].debug(pn)}"
-+        when /unicond/
-+	      return "#{@object[:name]} #{@object[:rhs].debug(pn)}"
-+        when /cond/
-+	      return @object[:value].debug(pn)
-+        when /func/
-+	      return "#{@object[:name]} (#{@object[:args].map{|a| a.debug(pn)}.join(", ")})"
-+        when /expr_block/
-+	      return "(#{@object[:value].debug(pn)})"
-+        when /assign/
-+	      return "#{@object[:lhs].debug(pn)} = #{@object[:rhs].debug(pn)}"
-+        when /binop/
-+          return "#{@object[:lhs].debug(pn)}#{@object[:name]}#{@object[:rhs].debug(pn)}"
-+        when /uniop/
-+          return "#{@object[:name]}#{@object[:rhs].debug(pn)}"
-+        when /var/
-+          return "#{@object[:name]}"
-+        when /number/
-+          return "#{@object[:number]}"
-+        when /nothing/
-+          return "NOTHING" if(pn == true)
-+        else
-+          puts @object.inspect
-+          raise "Object type is invalid"
-+      end
-+    rescue Exception => e
-+      return "FAILED TO _DEBUG\n#{self.inspect}\nException at: #{e.backtrace}"
-+    end
-+  end
-+
-+  def debug_encoded()
-+    ret = debug(false)
-+    begin
-+    ret = ret.gsub("+","%2B")
-+    ret = ret.gsub(";","%3B")
-+    ret = URI.encode(ret)
-+    rescue
-+      ret = "ERROR"
-+    end
-+    return ret
-+  end
-+
-+  def pp(ind = 0)
-+    ss = " " * ind
-+
-+    begin
-+    case @object[:type]
-+      when /error/
-+        return "--- ERROR: #{@object[:message]} ---"
-+      when /block/
-+	ret = "#{ss}{\n"
-+	ret+= "#{@object[:list].pp(ind + 2)}"
-+	ret+= "#{ss}}"
-+	return ret
-+      when /stmt_list/
-+        ret = ""
-+        if(object[:head].is_a?(SemanticFunctionAST))
-+		ret += "#{ss}#{@object[:head].pp(ind)}" if @object[:head].valid?
-+          ret += ";" if @object[:head].shouldSeparate?
-+        else
-+          ret += "// INVALID (#{object[:head].inspect})"
-+        end
-+        ret += "     (static)" if @object[:head].hasAttr?(:static)
-+        # ret += "     (#{@object[:head].object[:attrs].inspect})"
-+        ret += "\n"
-+      # ret += "#{ss}" if @object[:tail][:type] != "stmt_list"
-+        if(object[:tail].is_a?(SemanticFunctionAST))
-+	  ret += "#{@object[:tail].pp(ind)}" if @object[:tail].valid?
-+        else
-+          ret += "// INVALID (#{object[:tail].inspect})"
-+        end
-+        # puts " --- \n#{ret}"
-+	return ret
-+      when /if/
-+        ret = "if(#{@object[:cond].pp(ind)})\n"
-+        ret += "#{@object[:then].pp(ind+2)}"
-+        if @object[:else].valid?
-+          ret += "\n"
-+          ret += "#{ss}else\n"
-+          ret += "#{@object[:else].pp(ind+2)}"
-+        end
-+        return ret
-+      when /while/
-+        return "#{ss}while(#{@object[:cond].pp(ind)})\n#{@object[:loop].pp(ind )}"
-+      when /bincond/
-+        ret = ""
-+        ret += "(#{@object[:lhs].pp(ind)} #{@object[:name]} #{@object[:rhs].pp(ind)})"
-+        return ret
-+      when /unicond/
-+        return "#{@object[:name]}#{@object[:rhs].pp(ind)}"
-+      when /cond/
-+        return @object[:value].pp(ind)
-+      when /func/
-+        ret = ""
-+        ret += "#{@object[:name]} (#{@object[:args].map{|a| a.pp(ind)}.join(", ")})"
-+      when /expr_block/
-+        return "(#{@object[:value].pp(ind)})"
-+      when /assign/
-+        return "#{@object[:lhs].pp(ind)} = #{@object[:rhs].pp(ind)}"
-+      when /binop/
-+        return "(#{@object[:lhs].pp(ind)} #{@object[:name]} #{@object[:rhs].pp(ind)})"
-+      when /uniop/
-+        return "#{@object[:name]}#{@object[:rhs].pp(ind)}"
-+      when /var/
-+        return "#{@object[:name]}"
-+      when /number/
-+        return "#{@object[:number]}"
-+      when /nothing/
-+	return ""
-+      else
-+        raise "Object type is invalid"
-+    end
-+    rescue
-+      raise "Failed pretty printing #{stmt.inspect}"
-+    end
-+  end
-+
-+  def ppf(ind = 0)
-+    ss = " " * ind
-+
-+    case @object[:type]
-+      when /error/
-+        return "--- ERROR: #{@object[:message]} ---"
-+      when /bincond/
-+        return "#{@object[:lhs].ppf(ind)} #{@object[:name]} #{@object[:rhs].ppf(ind)}"
-+      when /unicond/
-+        return "#{@object[:name]} #{@object[:rhs].ppf(ind)}"
-+      when /cond/
-+        return @object[:value].ppf(ind)
-+      when /func/
-+        return "#{@object[:name]} (\n#{ss}  #{@object[:args].map{ |a| a.ppf(ind+2) }.join(",\n#{ss}  ")})"
-+      when /expr_block/
-+        return "(#{@object[:value].ppf(ind)})"
-+      when /assign/
-+        return "#{@object[:lhs].ppf(ind)} = #{@object[:rhs].ppf(ind)}"
-+      when /binop/
-+        return "#{@object[:lhs].ppf(ind)}#{@object[:name]}#{@object[:rhs].ppf(ind)}"
-+      when /uniop/
-+        return "#{@object[:name]}#{@object[:rhs].ppf(ind)}"
-+      when /var/
-+        return "#{@object[:name]}"
-+      when /number/
-+        return "#{@object[:number]}"
-+      when /nothing/
-+        return "NOTHING"
-+	return ""
-+      else
-+        raise "Object type is invalid"
-+    end
-+  end
-+
-+
-+  def to_c(r={})
-+    case @object[:type]
-+      when /binop/
-+        return "( #{@object[:lhs].to_c(r)} #{@object[:name]} #{@object[:rhs].to_c(r)} )"
-+      when /uniop/
-+        return "( #{@object[:name]}#{@object[:rhs].to_c(r)} )"
-+      when /func/
-+        return "( #{@object[:name]} ( #{@object[:param].map {|p| p.to_c(r) }.join(",") } ) )"
-+      when /var/
-+        var_name = @object[:var].to_sym
-+        #puts "VAR_NAME= #{var_name}"
-+        return r[var_name] if r[var_name] != nil
-+        return @object[:var]
-+      when /number/
-+        return "#{@object[:number]}"
-+      else
-+        raise "Object type is invalid #{self}"
-+    end
-+
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/SpaghettiCodePass.rb b/target/arc/semfunc_generator/classes/SpaghettiCodePass.rb
-new file mode 100644
-index 0000000000..0c9ff3e013
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/SpaghettiCodePass.rb
-@@ -0,0 +1,55 @@
-+class SpaghettiCodePass
-+  private
-+
-+  # extend SemanticFunctionASTFactory
-+  include Pass
-+
-+  def self.spaghetify(ast)
-+    ret = []
-+    object = ast.object
-+
-+    case(object[:type])
-+    when :block
-+      ret += spaghetify(object[:list])
-+    when :stmt_list
-+      ret += spaghetify(object[:head])
-+      ret += spaghetify(object[:tail])
-+    when :if
-+
-+      cond = ast.object[:cond]
-+
-+      if(cond.hasAttr?(:static))
-+        ast.object[:then] = SemanticFunctionAST.block(SemanticFunctionAST.createStmtListFromArray(spaghetify(ast.object[:then])))
-+        ast.object[:else] = SemanticFunctionAST.block(SemanticFunctionAST.createStmtListFromArray(spaghetify(ast.object[:else])))
-+        ret.push(ast)
-+      else
-+        done_label = SemanticFunctionAST.createTmpVar("done")
-+        else_label = SemanticFunctionAST.createTmpVar("else")
-+        else_label = done_label unless object[:else].valid?
-+
-+        ret.push(SemanticFunctionAST.defLabel(else_label)) if object[:else].valid?
-+        ret.push(SemanticFunctionAST.defLabel(done_label))
-+
-+        ret.push(SemanticFunctionAST.function("IF", SemanticFunctionAST.notCond(object[:cond].clone), else_label, done_label))
-+
-+        ret += spaghetify(object[:then])
-+        if object[:else].valid?
-+          ret.push(SemanticFunctionAST.function("goto", done_label))
-+          ret.push(SemanticFunctionAST.setLabel(else_label))
-+          ret += spaghetify(object[:else])
-+        end
-+        ret.push(SemanticFunctionAST.setLabel(done_label))
-+      end
-+    else
-+      ret.push(ast) if ast.valid?
-+    end
-+
-+    return ret
-+  end
-+
-+  public
-+  def self.task(ast)
-+    # reset_counters
-+    return SemanticFunctionAST.createStmtListFromArray(spaghetify(ast))
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/SpaghettiCodePass1.rb b/target/arc/semfunc_generator/classes/SpaghettiCodePass1.rb
-new file mode 100644
-index 0000000000..c38b279c48
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/SpaghettiCodePass1.rb
-@@ -0,0 +1,66 @@
-+class SpaghettiCodePass1
-+  private
-+
-+  # extend SemanticFunctionASTFactory
-+  include Pass
-+  extend Translator
-+
-+  def self.translation_rules
-+    ret = {}
-+
-+    match = SemanticFunctionAST.new(type: :if, name: "_")
-+    ret[match] =
-+      Proc.new { |stmt, repl, mappings, to_do|
-+
-+        binop_lhs = stmt.object[:rhs].object[:lhs]
-+        binop_rhs = stmt.object[:rhs].object[:rhs]
-+        changed_lhs = false
-+        changed_rhs = false
-+
-+        if(binop_lhs.object[:type] != :var && binop_lhs.object[:type] != :number)
-+          # puts "IN 1 #{binop_lhs.inspect}"
-+          var = SemanticFunctionAST.createTmpVar("temp")
-+          tmp = [
-+            # SemanticFunctionAST.function("createTmpVar", var),
-+          ]
-+          to_do[:pre_pend] = tmp + to_do[:pre_pend]
-+          assign = SemanticFunctionAST.new(type: :assign, lhs: var, rhs: binop_lhs)
-+          self.replace(assign, to_do)
-+          binop_lhs = var
-+          changed_lhs = true
-+        end
-+
-+        if(binop_rhs.object[:type] != :var && binop_rhs.object[:type] != :number)
-+          # puts "IN 2 #{binop_rhs.inspect}"
-+          var = SemanticFunctionAST.createTmpVar("temp")
-+          tmp = [
-+            # SemanticFunctionAST.function("createTmpVar", var),
-+            assign = SemanticFunctionAST.new(type: :assign, lhs: var, rhs: binop_rhs)
-+          ]
-+          to_do[:pre_pend] = tmp + to_do[:pre_pend]
-+          self.replace(assign, to_do)
-+          binop_rhs = var
-+          changed_rhs = true
-+        end
-+
-+        if(changed_lhs == true || changed_rhs == true)
-+          new_stmt = stmt.clone
-+          new_stmt.object[:rhs].object[:lhs] = binop_lhs
-+          new_stmt.object[:rhs].object[:rhs] = binop_rhs
-+          to_do[:pre_pend].push(new_stmt)
-+          # to_do[:remove] = true
-+          stmt.object[:type] = :nothing
-+        end
-+      }
-+
-+    return ret
-+  end
-+
-+  public
-+  def self.task(ast)
-+    self.generate(ast)
-+    # puts "AST = #{ast.class}"
-+    # puts ast.debug
-+    return ast
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/classes/UnfoldCode.rb b/target/arc/semfunc_generator/classes/UnfoldCode.rb
-new file mode 100644
-index 0000000000..0146407a96
---- /dev/null
-+++ b/target/arc/semfunc_generator/classes/UnfoldCode.rb
-@@ -0,0 +1,305 @@
-+class UnfoldCode
-+  private
-+
-+  # extend SemanticFunctionASTFactory
-+  include Pass
-+  include ConstantTables
-+  extend TranslatorAST
-+
-+  def self.translation_rules
-+    ret = {}
-+
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      # ret = { result: true, mappings: {} } if(ast.hasAttr?(static))
-+      ret = { result: true, mappings: {} } if(ast.object[:type] == :if)
-+      ret
-+    }
-+    ret[match] = Proc.new { |stmt_ast, repl, mappings, to_do|
-+      case(stmt_ast.object[:type])
-+      when :if
-+        self.generate(stmt_ast.object[:then])
-+        self.generate(stmt_ast.object[:else])
-+      end
-+    }
-+
-+    # match = Proc.new { |ast|
-+    #   ret = { result: false, mappings: {} }
-+    #   ret = {result: true, mappings: {} } if (ast.object[:type] == :variable && ast.object[:name] =~ /^(true|false)$/ && !ast.hasAttr?(:static))
-+    # }
-+    # ret[match] = Proc.new { |ast|
-+    #   return SemanticFunctionAST.variable("arc_#{ast.object[:name]}")
-+    # }
-+
-+    match = SemanticFunctionAST.new(type: :assign,
-+                                    lhs: SemanticFunctionAST.var("a"),
-+                                    rhs: SemanticFunctionAST.new(type: :binop, name: "_"))
-+
-+    # match = Proc.new { |ast|
-+    #   ret = { result: false, mappings: {} }
-+    #   # ret = { result: true, mappings: {} } if(ast.hasAttr?(static))
-+    #   if(ast.object[:type] == :assign &&
-+    #      ast.object[:rhs].object[:type] != :func &&
-+    #      ast.object[:rhs].object[:type] != :var &&
-+    #      ast.object[:rhs].object[:type] != :number)
-+    #       ret = { result: true, mappings: {} }
-+    #   end
-+    #   ret
-+    # }
-+
-+
-+    def self.binOpProcess(stmt, repl, mappings, to_do)
-+      # puts "STMT = #{stmt.debug}"
-+
-+      binop_lhs = stmt.object[:rhs].object[:lhs]
-+      binop_rhs = stmt.object[:rhs].object[:rhs]
-+      changed_lhs = false
-+      changed_rhs = false
-+
-+      if(binop_lhs.object[:type] != :var && binop_lhs.object[:type] != :number)
-+        # puts "IN 1 #{binop_lhs.inspect}"
-+        var = SemanticFunctionAST.createTmpVar("temp")
-+        tmp = [
-+          # SemanticFunctionAST.function("createTmpVar", var),
-+          assign = SemanticFunctionAST.new(type: :assign, lhs: var, rhs: binop_lhs)
-+        ]
-+        to_do[:pre_pend] = tmp + to_do[:pre_pend]
-+        self.replace(assign, to_do)
-+        binop_lhs = var
-+        changed_lhs = true
-+      end
-+
-+      if(binop_rhs.object[:type] != :var && binop_rhs.object[:type] != :number)
-+        # puts "IN 2 #{binop_rhs.inspect}"
-+        var = SemanticFunctionAST.createTmpVar("temp")
-+        tmp = [
-+          # SemanticFunctionAST.function("createTmpVar", var),
-+          assign = SemanticFunctionAST.new(type: :assign, lhs: var, rhs: binop_rhs)
-+        ]
-+        to_do[:pre_pend] = tmp + to_do[:pre_pend]
-+        self.replace(assign, to_do)
-+        binop_rhs = var
-+        changed_rhs = true
-+      end
-+
-+      if(changed_lhs == true || changed_rhs == true)
-+        new_stmt = stmt.clone
-+        new_stmt.object[:rhs].object[:lhs] = binop_lhs
-+        new_stmt.object[:rhs].object[:rhs] = binop_rhs
-+        to_do[:pre_pend].push(new_stmt)
-+        # to_do[:remove] = true
-+        stmt.object[:type] = :nothing
-+      end
-+    end
-+                                    # puts "IAMHERE"
-+    ret[match] =
-+      Proc.new { |stmt, repl, mappings, to_do|
-+        self.binOpProcess(stmt, repl, mappings, to_do)
-+      }
-+
-+
-+    # Do not convert special IF function
-+    func_match =
-+    Proc.new { |stmt, repl, mappings, to_do|
-+      changed = false
-+      new_stmt = nil
-+      # puts "BLA => #{stmt.debug}"
-+      args = stmt.object[:args]
-+      new_args = []
-+      args.each_with_index do |arg, i|
-+        new_args[i] = arg
-+
-+        if(arg.object[:type] != :var) # && arg.object[:type] != :number)
-+          var = SemanticFunctionAST.createTmpVar("temp")
-+          # arg_var = self.replace(arg.clone, to_do)
-+          # puts arg_var.inspect
-+          tmp = [
-+            # SemanticFunctionAST.function("createTmpVar", var),
-+            assign = SemanticFunctionAST.new(type: :assign, lhs: var, rhs: arg)
-+          ]
-+          to_do[:pre_pend] = tmp + to_do[:pre_pend]
-+          self.replace(assign, to_do)
-+          arg = var
-+          new_args[i] = var
-+          changed = true
-+        end
-+      end
-+
-+      if(changed)
-+        new_stmt = SemanticFunctionAST.function(stmt.object[:name], *new_args)
-+        to_do[:pre_pend].push(new_stmt)
-+        stmt.object[:type] = :nothing
-+      end
-+
-+      new_stmt
-+    }
-+
-+    assign_func_match =
-+      Proc.new { |stmt, repl, mappings, to_do|
-+        # puts "FUNC_MATCH"
-+        lhs = stmt.object[:lhs]
-+        rhs = stmt.object[:rhs]
-+
-+        if(lhs.object[:type] == :var &&
-+            rhs.object[:type] == :func && TEMP_CREATING_FUNCTIONS.index(rhs.object[:name]))
-+          # puts "INSIDE"
-+            var = SemanticFunctionAST.createTmpVar("temp")
-+            assign = SemanticFunctionAST.assign(var, rhs)
-+            new_stmt = func_match.call(rhs, repl, mappings, to_do)
-+            if(new_stmt != nil)
-+              assign = SemanticFunctionAST.assign(var, to_do[:pre_pend].pop)
-+            end
-+            to_do[:pre_pend].push(assign)
-+            assign = SemanticFunctionAST.assign(lhs, var)
-+            to_do[:pre_pend].push(assign)
-+
-+            stmt.object[:type] = :nothing
-+        else
-+          new_stmt = func_match.call(stmt.object[:rhs], repl, mappings, to_do)
-+          if(new_stmt != nil)
-+            new_stmt = SemanticFunctionAST.assign(stmt.object[:lhs], to_do[:pre_pend].pop)
-+            to_do[:pre_pend].push(new_stmt)
-+            stmt.object[:type] = :nothing
-+          end
-+        end
-+      }
-+
-+
-+    ret[SemanticFunctionAST.function("IF", SemanticFunctionAST.var("..."))] = nil
-+    ret[SemanticFunctionAST.function("_", SemanticFunctionAST.var("..."))] = func_match
-+
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      # ret = { result: true, mappings: {} } if(ast.hasAttr?(static))
-+      if(ast.object[:type] == :assign && ast.object[:rhs].object[:type] == :func)
-+        ret = { result: true, mappings: {} }
-+      end
-+      ret
-+    }
-+    ret[match] = assign_func_match
-+
-+
-+    assign_cond_match =
-+    Proc.new { |stmt, repl, mappings, to_do|
-+      # puts " BINCOND = #{stmt.pp}"
-+
-+      cond = stmt.object[:rhs]
-+      changed = false
-+
-+      if(cond.object[:type] == :bincond)
-+        elems = { lhs: cond.object[:lhs], rhs: cond.object[:rhs] }
-+      elsif(cond.object[:type] == :unicond)
-+        elems = { rhs: cond.object[:rhs] }
-+      end
-+
-+      elems.clone.each_pair do |k, v|
-+        if(v.object[:type] == :func && TEMP_CREATING_FUNCTIONS.index(v.object[:name]))
-+          var = SemanticFunctionAST.createTmpVar("temp")
-+          assign = SemanticFunctionAST.assign(var, v)
-+          new_stmt = func_match.call(v, repl, mappings, to_do)
-+          if(new_stmt != nil)
-+            assign = SemanticFunctionAST.assign(var, to_do[:pre_pend].pop)
-+          end
-+          to_do[:pre_pend].push(assign)
-+          elems[k] = var
-+          changed = true
-+        end
-+      end
-+
-+      if(changed == true)
-+        if(cond.object[:type] == :bincond)
-+          new_cond = SemanticFunctionAST.bincond(cond.object[:name], elems[:lhs], elems[:rhs])
-+          new_stmt = SemanticFunctionAST.assign(stmt.object[:lhs], new_cond)
-+        elsif(cond.object[:type] == :unicond)
-+          new_cond = SemanticFunctionAST.unicond(cond.object[:name], elems[:rhs])
-+          new_stmt = SemanticFunctionAST.assign(stmt.object[:lhs], new_cond)
-+        end
-+        to_do[:pre_pend].push(new_stmt)
-+        stmt.object[:type] = :nothing
-+      end
-+    }
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      # ret = { result: true, mappings: {} } if(ast.hasAttr?(static))
-+      if(ast.object[:type] == :assign && ast.object[:rhs].object[:type] == :bincond)
-+        ret = { result: true, mappings: {} }
-+      end
-+      if(ast.object[:type] == :assign && ast.object[:rhs].object[:type] == :unicond)
-+        ret = { result: true, mappings: {} }
-+      end
-+      ret
-+    }
-+    ret[match] = assign_cond_match
-+
-+
-+    if_cond_match =
-+    Proc.new { |stmt, repl, mappings, to_do|
-+      # puts " BINCOND = #{stmt.pp}"
-+      cond = stmt.object[:cond]
-+
-+      changed = false
-+      elems = { cond: bincond.object[:cond] }
-+
-+      elems.clone.each_pair do |k, v|
-+        if(v.object[:type] == :func && TEMP_CREATING_FUNCTIONS.index(v.object[:name]))
-+          var = SemanticFunctionAST.createTmpVar("temp")
-+          assign = SemanticFunctionAST.assign(var, v)
-+          new_stmt = func_match.call(v, repl, mappings, to_do)
-+          if(new_stmt != nil)
-+            assign = SemanticFunctionAST.assign(var, to_do[:pre_pend].pop)
-+          end
-+          to_do[:pre_pend].push(assign)
-+          elems[k] = var
-+          changed = true
-+        end
-+      end
-+
-+      if(changed == true)
-+        new_bincond = SemanticFunctionAST.bincond(bincond.object[:name], elems[:lhs], elems[:rhs])
-+        new_stmt = SemanticFunctionAST.assign(stmt.object[:lhs], new_bincond)
-+        to_do[:pre_pend].push(new_stmt)
-+        stmt.object[:type] = :nothing
-+      end
-+    }
-+    match = Proc.new { |ast|
-+      ret = { result: false, mappings: {} }
-+      # ret = { result: true, mappings: {} } if(ast.hasAttr?(static))
-+      if(ast.object[:type] == :if)
-+        ret = { result: true, mappings: {} }
-+      end
-+      ret
-+    }
-+    ret[match] = if_cond_match
-+
-+
-+    # match = SemanticFunctionAST.new(type: :assign,
-+    #                                 lhs: SemanticFunctionAST.var("a"),
-+    #                                 rhs: SemanticFunctionAST.function("_", SemanticFunctionAST.var("...")))
-+    # ret[match] = Proc.new { |stmt, repl, mappings, to_do|
-+    #   # puts "BLA -------------"
-+    #   # puts stmt.debug
-+    #   # puts " ------------- "
-+    #
-+    #   new_func = func_match.call(stmt.object[:rhs], repl, mappings, to_do)
-+    #
-+    #   if(new_func != nil)
-+    #     new_stmt = SemanticFunctionAST.assign(stmt.object[:lhs], new_func)
-+    #     to_do[:pre_pend].push(new_stmt)
-+    #     stmt.object[:type] = :nothing
-+    #   end
-+    # }
-+
-+    return ret
-+
-+  end
-+
-+
-+  public
-+  def self.task(ast)
-+    # SemanticFunctionAST.reset_counters()
-+    self.generate(ast)
-+    # puts "AST = #{ast.class}"
-+    # puts ast.debug
-+    return ast
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/init.rb b/target/arc/semfunc_generator/init.rb
-new file mode 100644
-index 0000000000..20a51a9fbf
---- /dev/null
-+++ b/target/arc/semfunc_generator/init.rb
-@@ -0,0 +1,15 @@
-+require 'rubygems'
-+#require 'graphviz'
-+
-+project_root = File.dirname(File.absolute_path(__FILE__))
-+Dir.glob(project_root + "/parsers/*.rb").each do |file|
-+  require file
-+end
-+
-+Dir.glob(project_root + "/modules/*.rb").each do |file|
-+  require file
-+end
-+
-+Dir.glob(project_root + "/classes/*.rb").each do |file|
-+  require file
-+end
-diff --git a/target/arc/semfunc_generator/modules/Compiler.rb b/target/arc/semfunc_generator/modules/Compiler.rb
-new file mode 100644
-index 0000000000..c63f55c1ff
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/Compiler.rb
-@@ -0,0 +1,42 @@
-+module Compiler
-+  def optimize(ast, log = [], debug = false)
-+    log.push({ name: 'start', ast: ast })
-+    SemanticFunctionAST.reset_counters()
-+    @passes.each do |pass|
-+      ast = ast.clone
-+      ast = pass.task(ast)
-+      log.push({ name: pass.name, ast: ast })
-+      # puts " -- #{pass.name} --"
-+      # puts ast.pp
-+    end
-+    if(debug == true)
-+      log.each do |v|
-+        puts v[:name] + ":"
-+        puts "  => #{v[:ast].pp}"
-+      end
-+    end
-+    return ast
-+  end
-+
-+  def getAST(input)
-+    if(input.class == String)
-+      input = SemanticFunctionAST.parse(input)
-+    elsif(input.class != SemanticFunctionAST)
-+      abort()
-+    end
-+    return input
-+  end
-+
-+  def generate(input, log = [], debug = false)
-+    ast = getAST(input)
-+    ast = self.optimize(ast, log, debug)
-+    # puts ast.class
-+    return @translator.generate(ast, debug)
-+  end
-+
-+  def compile(code, log = [], debug = false)
-+    ast = getAST(code)
-+    ast = optimize(ast, log, debug)
-+    return ast
-+  end
-+end
-diff --git a/target/arc/semfunc_generator/modules/ConstantTables.rb b/target/arc/semfunc_generator/modules/ConstantTables.rb
-new file mode 100644
-index 0000000000..047665c4ab
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/ConstantTables.rb
-@@ -0,0 +1,57 @@
-+module ConstantTables
-+
-+  TEMP_CREATING_FUNCTIONS = [
-+    "CarryADD",
-+    "CarrySUB",
-+    "OverflowADD",
-+    "OverflowSUB",
-+    "getCCFlag",
-+
-+    "Carry",
-+
-+    "getCFlag",
-+    "getMemory",
-+    # "SignExtend",
-+    # "getNFlag",
-+    "getPC",
-+    "nextInsnAddressAfterDelaySlot",
-+    "nextInsnAddress",
-+    "getPCL",
-+    "unsignedLT",
-+    "unsignedGE",
-+    "logicalShiftRight",
-+    "logicalShiftLeft",
-+    "arithmeticShiftRight",
-+    "rotateLeft",
-+    "rotateRight",
-+    "getBit",
-+    "getRegIndex",
-+    "readAuxReg",
-+    "extractBits",
-+    "getRegister",
-+    "ARC_HELPER",
-+    # "nextReg",
-+    "CLZ",
-+    "CTZ",
-+
-+    "MAC",
-+    "MACU",
-+
-+    "divSigned",
-+    "divUnsigned",
-+    "divRemainingSigned",
-+    "divRemainingUnsigned",
-+    "getLF",
-+    "setLF",
-+    "hasInterrupts",
-+    "NoFurtherLoadsPending"
-+  ]
-+
-+
-+  DIRECT_TCG_FUNC_TRANSLATIONS = {
-+    "CLZ" => "tcg_gen_clz_tl",
-+    "CTZ" => "tcg_gen_ctz_tl",
-+    "CRLSB" => "tcg_gen_clrsb_tl",
-+    "SignExtend16to32" => "tcg_gen_ext16s_tl"
++++ b/target/arc/semfunc-helper.h
+@@ -0,0 +1,293 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#ifndef SEMFUNC_HELPER_H_
++#define SEMFUNC_HELPER_H_
++
++#include "translate.h"
++#include "qemu/bitops.h"
++#include "tcg/tcg.h"
++#include "target/arc/regs.h"
++
++typedef enum ARC_COND {
++    ARC_COND_AL      = 0x00,
++    ARC_COND_RA      = 0x00,
++    ARC_COND_EQ      = 0x01,
++    ARC_COND_Z       = 0x01,
++    ARC_COND_NE      = 0x02,
++    ARC_COND_NZ      = 0x02,
++    ARC_COND_PL      = 0x03,
++    ARC_COND_P       = 0x03,
++    ARC_COND_MI      = 0x04,
++    ARC_COND_N       = 0x04,
++    ARC_COND_CS      = 0x05,
++    ARC_COND_C       = 0x05,
++    ARC_COND_LO      = 0x05,
++    ARC_COND_CC      = 0x06,
++    ARC_COND_NC      = 0x06,
++    ARC_COND_HS      = 0x06,
++    ARC_COND_VS      = 0x07,
++    ARC_COND_V       = 0x07,
++    ARC_COND_VC      = 0x08,
++    ARC_COND_NV      = 0x08,
++    ARC_COND_GT      = 0x09,
++    ARC_COND_GE      = 0x0a,
++    ARC_COND_LT      = 0x0b,
++    ARC_COND_LE      = 0x0c,
++    ARC_COND_HI      = 0x0d,
++    ARC_COND_LS      = 0x0e,
++    ARC_COND_PNZ     = 0x0f,
++} ARC_COND;
++
++#define ARC_HELPER(NAME, RET, ...) \
++    gen_helper_##NAME(RET, cpu_env, __VA_ARGS__)
++
++
++enum arc_registers {
++    R_SP = 0,
++    R_STATUS32,
++    R_ACCLO,
++    R_ACCHI
++};
++
++enum target_options {
++    INVALID_TARGET_OPTIONS = -1,
++    DIV_REM_OPTION,
++    STACK_CHECKING,
++    LL64_OPTION
++};
++
++/* TODO: Change this to allow something else then ARC HS. */
++#define LP_START    \
++    (arc_aux_reg_address_for(AUX_ID_lp_start, ARC_OPCODE_ARCv2HS))
++#define LP_END      \
++    (arc_aux_reg_address_for(AUX_ID_lp_end, ARC_OPCODE_ARCv2HS))
++
++#define ReplMask(DEST, SRC, MASK) \
++    gen_helper_repl_mask(DEST, DEST, SRC, MASK)
++
++void arc_gen_verifyCCFlag(const DisasCtxt *ctx, TCGv ret);
++#define getCCFlag(R)    arc_gen_verifyCCFlag(ctx, R)
++
++#define getFFlag(R) ((int) ctx->insn.f)
++
++void to_implement(const DisasCtxt *ctx);
++void to_implement_wo_abort(const DisasCtxt *ctx);
++
++void arc_gen_set_memory(
++        const DisasCtxt *ctx, TCGv addr, int size, TCGv src, bool sign_extend);
++#define setMemory(ADDRESS, SIZE, VALUE) \
++    arc_gen_set_memory(ctx, ADDRESS, SIZE, VALUE, getFlagX())
++void arc_gen_get_memory(
++        const DisasCtxt *ctx, TCGv ret, TCGv addr, int size, bool sign_extend);
++#define getMemory(R, ADDRESS, SIZE) \
++    arc_gen_get_memory(ctx, R, ADDRESS, SIZE, getFlagX())
++
++#define getFlagX()  (ctx->insn.x)
++#define getZZFlag() (ctx->insn.zz)
++#define getAAFlag() (ctx->insn.aa)
++
++#define SignExtend(VALUE, SIZE) VALUE
++void arc_gen_no_further_loads_pending(const DisasCtxt *ctx, TCGv ret);
++#define NoFurtherLoadsPending(R)    arc_gen_no_further_loads_pending(ctx, R)
++void arc_gen_set_debug(const DisasCtxt *ctx, bool value);
++#define setDebugLD(A)   arc_gen_set_debug(ctx, A)
++void arc_gen_execute_delayslot(DisasCtxt *ctx, TCGv bta, TCGv take_branch);
++#define executeDelaySlot(bta, take_branch) \
++    arc_gen_execute_delayslot(ctx, bta, take_branch)
++
++#define shouldExecuteDelaySlot()    (ctx->insn.d != 0)
++
++#define getNFlag(R)     cpu_Nf
++#define setNFlag(ELEM)  tcg_gen_shri_tl(cpu_Nf, ELEM, (TARGET_LONG_BITS - 1))
++
++#define setCFlag(ELEM)  tcg_gen_andi_tl(cpu_Cf, ELEM, 1)
++#define getCFlag(R)     tcg_gen_mov_tl(R, cpu_Cf)
++
++#define setVFlag(ELEM)  tcg_gen_andi_tl(cpu_Vf, ELEM, 1)
++
++#define setZFlag(ELEM)  \
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, ELEM, 0);
++
++#define nextInsnAddressAfterDelaySlot(R) \
++  { \
++    ARCCPU *cpu = env_archcpu(ctx->env); \
++    uint16_t delayslot_buffer[2]; \
++    uint8_t delayslot_length; \
++    ctx->env->pc = ctx->cpc; \
++    ctx->env->stat.is_delay_slot_instruction = 1; \
++    delayslot_buffer[0] = cpu_lduw_code(ctx->env, ctx->npc); \
++    delayslot_length = arc_insn_length(delayslot_buffer[0], cpu->family); \
++    tcg_gen_movi_tl(R, ctx->npc + delayslot_length); \
 +  }
-+end
-diff --git a/target/arc/semfunc_generator/modules/Pass.rb b/target/arc/semfunc_generator/modules/Pass.rb
++
++#define nextInsnAddress(R)  tcg_gen_movi_tl(R, ctx->npc)
++#define getPCL(R)           tcg_gen_movi_tl(R, ctx->pcl)
++
++#define setPC(NEW_PC)                                   \
++    do {                                                \
++        gen_goto_tb(ctx, 1, NEW_PC);                    \
++        ret = ret == DISAS_NEXT ? DISAS_NORETURN : ret; \
++    } while (0)
++
++#define setBLINK(BLINK_ADDR) \
++  tcg_gen_mov_tl(cpu_blink, BLINK_ADDR);
++
++#define Carry(R, A)             tcg_gen_shri_tl(R, A, 31);
++
++#define CarryADD(R, A, B, C)    gen_helper_carry_add_flag(R, A, B, C)
++#define OverflowADD(R, A, B, C) gen_helper_overflow_add_flag(R, A, B, C)
++
++#define CarryADD32(R, A, B, C)    gen_helper_carry_add_flag32(R, A, B, C)
++#define OverflowADD32(R, A, B, C) gen_helper_overflow_add_flag32(R, A, B, C)
++
++void arc_gen_sub_Cf(TCGv ret, TCGv dest, TCGv src1, TCGv src2);
++#define CarrySUB(R, A, B, C)    arc_gen_sub_Cf(R, A, B, C); \
++                                tcg_gen_setcondi_tl(TCG_COND_NE, R, R, 0)
++#define OverflowSUB(R, A, B, C) gen_helper_overflow_sub_flag(R, A, B, C)
++
++#define CarrySUB32(R, A, B, C)    gen_helper_carry_sub_flag32(R, A, B, C)
++#define OverflowSUB32(R, A, B, C) gen_helper_overflow_sub_flag32(R, A, B, C)
++
++
++#define unsignedLT(R, B, C)           tcg_gen_setcond_tl(TCG_COND_LTU, R, B, C)
++#define unsignedGE(R, B, C)           tcg_gen_setcond_tl(TCG_COND_GEU, R, B, C)
++#define logicalShiftRight(R, B, C)    tcg_gen_shr_tl(R, B, C)
++#define logicalShiftLeft(R, B, C)     tcg_gen_shl_tl(R, B, C)
++#define arithmeticShiftRight(R, B, C) tcg_gen_sar_tl(R, B, C)
++#define rotateLeft(R, B, C)           tcg_gen_rotl_tl(R, B, C)
++#define rotateRight(R, B, C)          tcg_gen_rotr_tl(R, B, C)
++
++void arc_gen_get_bit(TCGv ret, TCGv a, TCGv pos);
++#define getBit(R, A, POS)   arc_gen_get_bit(R, A, POS)
++
++#define getRegIndex(R, ID)  tcg_gen_movi_tl(R, (int) ID)
++
++#define readAuxReg(R, A)    gen_helper_lr(R, cpu_env, A)
++/*
++ * Here, by returning DISAS_UPDATE we are making SR the end
++ * of a Translation Block (TB). This is necessary because
++ * sometimes writing to control registers updates how a TB is
++ * handled, like enabling MMU/MPU. If SR is not marked as the
++ * end, the next instructions are fetched and generated and
++ * the updated outcome (page/region permissions) is not taken
++ * into account.
++ */
++#define writeAuxReg(NAME, B)             \
++    do {                                 \
++        gen_helper_sr(cpu_env, B, NAME); \
++        ret = DISAS_UPDATE;              \
++    } while (0)
++
++/*
++ * At the end of a SYNC instruction, it is guaranteed that
++ * handling the current interrupt is finished and the raising
++ * pulse signal (if any), is cleared. By marking SYNC as the
++ * end of a TB we gave a chance to interrupt threads to execute.
++ */
++#define syncReturnDisasUpdate()     (ret = DISAS_UPDATE)
++
++/*
++ * An enter_s may change code like below:
++ * ----
++ * r13 .. r26 <== shell opcodes
++ * sp <= pc+56
++ * enter_s
++ * ---
++ * It's not that we are promoting these type of instructions.
++ * nevertheless we must be able to emulate them. Hence, once
++ * again: ret = DISAS_UPDATE
++ */
++#define helperEnter(U6)                 \
++    do {                                \
++        gen_helper_enter(cpu_env, U6);  \
++        ret = DISAS_UPDATE;             \
++    } while (0)
++
++/* A leave_s may jump to blink, hence the DISAS_UPDATE */
++#define helperLeave(U7)                                           \
++    do {                                                          \
++        tcg_gen_movi_tl(cpu_pc, ctx->cpc);                        \
++        gen_helper_leave(cpu_env, U7);                            \
++        TCGv jump_to_blink = tcg_temp_local_new();                \
++        TCGLabel *done = gen_new_label();                         \
++        tcg_gen_shri_tl(jump_to_blink, U7, 6);                    \
++        tcg_gen_brcondi_tl(TCG_COND_EQ, jump_to_blink, 0, done);  \
++        gen_goto_tb(ctx, 1, cpu_pc);                              \
++        ret = DISAS_NORETURN;                                     \
++        gen_set_label(done);                                      \
++        tcg_temp_free(jump_to_blink);                             \
++    } while (0)
++
++void arc_gen_mac(TCGv phi, TCGv b, TCGv c);
++#define MAC(R, B, C)  arc_gen_mac(R, B, C)
++void arc_gen_macu(TCGv phi, TCGv b, TCGv c);
++#define MACU(R, B, C) arc_gen_macu(R, B, C)
++
++void arc_gen_extract_bits(TCGv ret, TCGv a, TCGv start, TCGv end);
++#define extractBits(R, ELEM, START, END) \
++    arc_gen_extract_bits(R, ELEM, START, END)
++void arc_gen_get_register(TCGv ret, enum arc_registers reg);
++#define getRegister(R, REG) arc_gen_get_register(R, REG)
++void arc_gen_set_register(enum arc_registers reg, TCGv value);
++#define setRegister(REG, VALUE) \
++    arc_gen_set_register(REG, VALUE); \
++    if (REG == R_STATUS32) { \
++        ret = DISAS_NORETURN; \
++    } \
++
++#define divSigned(R, SRC1, SRC2)            tcg_gen_div_tl(R, SRC1, SRC2)
++#define divUnsigned(R, SRC1, SRC2)          tcg_gen_divu_tl(R, SRC1, SRC2)
++#define divRemainingSigned(R, SRC1, SRC2)   tcg_gen_rem_tl(R, SRC1, SRC2)
++#define divRemainingUnsigned(R, SRC1, SRC2) tcg_gen_remu_tl(R, SRC1, SRC2)
++
++/* TODO: To implement */
++#define Halt()
++
++void arc_has_interrupts(const DisasCtxt *ctx, TCGv ret);
++#define hasInterrupts(R)    arc_has_interrupts(ctx, R)
++#define doNothing()
++
++#define setLF(VALUE)    tcg_gen_mov_tl(cpu_lock_lf_var, VALUE)
++#define getLF(R)        tcg_gen_mov_tl(R, cpu_lock_lf_var)
++
++/* Statically inferred return function */
++
++TCGv arc_gen_next_reg(const DisasCtxt *ctx, TCGv reg);
++#define nextReg(A) arc_gen_next_reg(ctx, A)
++
++/* TODO (issue #62): This must be removed. */
++#define Zero()  (ctx->zero)
++
++bool arc_target_has_option(enum target_options option);
++#define targetHasOption(OPTION) arc_target_has_option(OPTION)
++
++bool arc_is_instruction_operand_a_register(const DisasCtxt *ctx, int nop);
++#define instructionHasRegisterOperandIn(NOP) \
++    arc_is_instruction_operand_a_register(ctx, NOP)
++
++void tcg_gen_shlfi_tl(TCGv a, int b, TCGv c);
++
++#endif /* SEMFUNC_HELPER_H_ */
++
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/target/arc/semfunc.c b/target/arc/semfunc.c
 new file mode 100644
-index 0000000000..b4f0382d6a
+index 0000000000..51e7a3d076
 --- /dev/null
-+++ b/target/arc/semfunc_generator/modules/Pass.rb
-@@ -0,0 +1,11 @@
-+module Pass
-+
-+  def name
-+    return self.class
-+  end
-+
-+  def execute(ast)
-+    return task(ast)
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/modules/SemanticFunctionASTBlockOperators.rb b/target/arc/semfunc_generator/modules/SemanticFunctionASTBlockOperators.rb
-new file mode 100644
-index 0000000000..774c43dcc8
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/SemanticFunctionASTBlockOperators.rb
-@@ -0,0 +1,145 @@
-+module SemanticFunctionASTBlockOperators
-+
-+  def prepend_in_stmt_list(elem, parents = {})
-+    parent = parents[self]
-+    # puts self
-+    # parent = parents[parent] if parent.object[:type] != :stmt_list && parent.object[:type] != :block
-+
-+    if(parent != nil)
-+      new_stmt_list = SemanticFunctionAST.new(type: :stmt_list, head: elem, tail: self)
-+      parents[new_stmt_list] = parent
-+      parents[self] = new_stmt_list
-+
-+      parent.object.each_pair do |k, v|
-+        parent.object[k] = new_stmt_list if(v == self)
-+      end
-+    end
-+  end
-+
-+  def append_in_stmt_list(stmt_list, parents = {})
-+    return stmt_list if self.object[:type] == :nothing
-+    raise "self is not of type :stmt_list\n#{self.inspect}" if self.object[:type] != :stmt_list
-+
-+    if(self.object[:tail].object[:type] == :nothing)
-+      self.object[:tail] = stmt_list
-+    else
-+      self.object[:tail].append_in_stmt_list(stmt_list, parents)
-+    end
-+  end
-+
-+  def remove_from_stmt_list(parents = {})
-+    elem = self.find_parent_node_with_type(:stmt_list, parents)
-+    # puts parents.inspect
-+    parent = parents[elem]
-+    puts "BLING => #{parent.debug}"
-+    parents.each_pair do |k, v|
-+      puts "#{k.debug} => #{v.debug}"
-+    end
-+    puts parent
-+    parent.object.each_pair do |k, v|
-+      if(v == elem)
-+        parent.object[k] = elem.object[:tail]
-+        parents[parent.object[k]] = parent
-+      end
-+    end
-+  end
-+
-+  def create_stmts_for_expression(tmp_vars = {})
-+    ret = []
-+    self.object.each_pair do |k, v|
-+      if(v.class == SemanticFunctionAST && v.valid?)
-+        ret += v.create_stmts_for_expression(tmp_vars)
-+      end
-+    end
-+
-+    case(object[:type])
-+    when :binop
-+    when :bincond
-+      var = SemanticFunctionAST.createTmpVar("temp")
-+      rhs = SemanticFunctionAST.new(type: object[:type], name: object[:name], lhs: tmp_vars[object[:lhs]], rhs: tmp_vars[object[:rhs]])
-+      ret += [
-+        # SemanticFunctionAST.function("createTmpVar", var),
-+        SemanticFunctionAST.new(type: :assign, lhs: var, rhs: rhs)
-+      ]
-+      tmp_vars[self] = var
-+    when :uniop
-+    when :unicond
-+      var = SemanticFunctionAST.createTmpVar("temp")
-+      rhs = SemanticFunctionAST.new(type: object[:type], name: object[:name], rhs: tmp_vars[object[:rhs]])
-+      ret += [
-+        # SemanticFunctionAST.function("createTmpVar", var),
-+        SemanticFunctionAST.new(type: :assign, lhs: var, rhs: rhs)
-+      ]
-+      tmp_vars[self] = var
-+    else
-+      tmp_vars[self] = self
-+    end
-+    return ret
-+  end
-+
-+
-+  def traverse_LR_TB(to_do = {}, parents = {}, &block)
-+    to_do[self] ||= { pre_pend: [], post_pend: [], remove: false }
-+
-+    do_childs = yield self, to_do[self]
-+
-+    if(do_childs == true)
-+      @object.each_pair do |k, e|
-+        if(e.class == SemanticFunctionAST)
-+          if(self.object[:type] == :stmt_list || self.object[:type] == :block)
-+            parents[e] = self
-+          else
-+            parents[e] = parents[self]
-+          end
-+          e.traverse_LR_TB(to_do, parents, &block)
-+        end
-+      end
-+    end
-+
-+    # If it is back to the head of the recursion
-+    if(parents[self] == nil)
-+      to_do.each_pair do |elem, to_do|
-+        to_do[:pre_pend].each do |elem1|
-+          elem.prepend_in_stmt_list(elem1, parents)
-+        end
-+
-+        if(to_do[:remove] == true)
-+          elem.remove_from_stmt_list(parents)
-+        end
-+      end
-+    end
-+    return self
-+  end
-+
-+  def traverse_LR_BT(to_do = {}, parents = {}, &block)
-+    to_do[self] ||= { pre_pend: [], post_pend: [], remove: false }
-+
-+    @object.each_pair do |k, e|
-+      if(e.class == SemanticFunctionAST)
-+        if(self.object[:type] == :stmt_list || self.object[:type] == :block)
-+          parents[e] = self
-+        else
-+          parents[e] = parents[self]
-+        end
-+        e.traverse_LR_BT(to_do, parents, &block)
-+      end
-+    end
-+
-+    yield self, to_do[self]
-+
-+    # If it is back to the head of the recursion
-+    if(parents[self] == nil)
-+      to_do.each_pair do |elem, to_do|
-+        to_do[:pre_pend].each do |elem1|
-+          elem.prepend_in_stmt_list(elem1, parents)
-+        end
-+
-+        if(to_do[:remove] == true)
-+          elem.remove_from_stmt_list(parents)
-+        end
-+      end
-+    end
-+    return self
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/modules/SemanticFunctionASTFactory.rb b/target/arc/semfunc_generator/modules/SemanticFunctionASTFactory.rb
-new file mode 100644
-index 0000000000..14df3bcd67
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/SemanticFunctionASTFactory.rb
-@@ -0,0 +1,55 @@
-+module SemanticFunctionASTFactory
-+
-+  def createIf(cond, else_label, done_label)
-+    return SemanticFunctionAST.function("IF", cond.clone,
-+                SemanticFunctionAST.function("goto", else_label),
-+                SemanticFunctionAST.function("goto", done_label))
-+    return SemanticFunctionAST.new(type: :func, name: "IF", args: [
-+      cond.clone,
-+      SemanticFunctionAST.new(type: :func, name: "goto", args: [ else_label ]),
-+      SemanticFunctionAST.new(type: :func, name: "goto", args: [ done_label ])
-+    ])
-+  end
-+
-+  def createVar(varname)
-+    return SemanticFunctionAST.new(type: :var, name: varname)
-+  end
-+
-+  def notCond(cond)
-+    return SemanticFunctionAST.new(type: :unicond, name: "!", rhs: cond)
-+  end
-+
-+  def defLabel(label)
-+    return SemanticFunctionAST.new(type: :func, name: "defLabel", args: [ label ])
-+  end
-+
-+  def setLabel(label)
-+    return SemanticFunctionAST.new(type: :func, name: "setLabel", args: [ label ])
-+  end
-+
-+  def block(stmt_list)
-+    return SemanticFunctionAST.new(type: :block, list: stmt_list)
-+  end
-+
-+  def reset_counters
-+    @__Label_counts = {}
-+  end
-+  def createTmpVar(label_prefix)
-+    @__Label_counts ||= {}
-+    @__Label_counts[label_prefix] ||= 0
-+    @__Label_counts[label_prefix] += 1
-+    count = @__Label_counts[label_prefix]
-+    ret = createVar("#{label_prefix}_#{count}")
-+    # puts ret.inspect
-+    return ret
-+  end
-+
-+  def createStmtListFromArray(array)
-+    if(array.count > 0)
-+      return SemanticFunctionAST.new(type: :stmt_list, head: array.shift, tail: createStmtListFromArray(array))
-+    else
-+      return SemanticFunctionAST.nothing
-+    end
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/modules/Translator.rb b/target/arc/semfunc_generator/modules/Translator.rb
-new file mode 100644
-index 0000000000..d532e96363
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/Translator.rb
-@@ -0,0 +1,102 @@
-+module Translator
-+
-+  # def map_for_variable
-+  #   if(rule_pattern.object[:name] =~ /^_(.*)$/)
-+  #     name = $1
-+  #     if name == ""
-+  #       name = "unname#{unname}"
-+  #       unname += 1
-+  #     end
-+  #     return name
-+  #   end
-+
-+  # Function that verifies is AST is compatible with AST Pattern
-+  # The function results a hash of the mapping of variables and number elements
-+  # the rule pattern
-+  def is_a_match(ast, rule_pattern, unname = 1)
-+    ret = { result: true, mappings: {} }
-+
-+    if(rule_pattern.class == Proc)
-+
-+      return rule_pattern.call(ast)
-+    end
-+
-+    return ret if(rule_pattern.class == TrueClass)
-+    ret[:result] &= false if(rule_pattern == nil || ast == nil)
-+
-+    if(ret[:result] == false)
-+      return ret
-+    end
-+
-+    if(rule_pattern.object[:name] =~ /^_(.*)$/)
-+      name = $1
-+      if name == ""
-+        name = "unname#{unname}"
-+        unname += 1
-+      end
-+
-+      ret[:result] &= false if(ast.object[:type] != rule_pattern.object[:type]) if(rule_pattern.object[:type] != :var)
-+      ret[:mappings][name] = ast.object[:name]
-+    else
-+      ret[:result] &= false if(ast.object[:type] != rule_pattern.object[:type])
-+
-+  # if(ast.object[:type] == :func)
-+      if(ast.object[:name].class == String && ast.object[:type] != :var)
-+        # puts "NOW THIS"
-+        # puts ast.debug
-+        # puts rule_pattern.inspect
-+        ret[:result] = false if (ast.object[:name] != rule_pattern.object[:name])
-+      end
-+
-+      if(ast.object[:type] == :var)
-+        ret[:mappings][rule_pattern.object[:name]] = ast.object[:name]
-+      elsif(ast.object[:type] == :number)
-+        ret[:mappings][rule_pattern.object[:number]] = ast.object[:number].to_s
-+      end
-+    end
-+
-+    # puts "RULE = #{rule_pattern.debug}"
-+    # puts "AST  = #{ast.debug}"
-+
-+    if(ret[:result] == true)
-+
-+      if(rule_pattern.object[:type] == :func)
-+        rule_pattern.object[:args].each_with_index do |arg_rule, i|
-+          if(arg_rule.object[:type] == :var && arg_rule.object[:name] == "...")
-+            # puts ast.inspect
-+            ret[:mappings]["varargs_#{name}"] = ast.object[:args][i..-1] || []
-+          elsif(ast.object[:args][i])
-+            tmp = is_a_match(ast.object[:args][i], arg_rule, unname)
-+            ret[:result] &= tmp[:result]
-+            ret[:mappings].merge!(tmp[:mappings])
-+          else
-+            ret[:result] &= false
-+          end
-+        end
-+      end
-+
-+      rule_pattern.object.each_pair do |k, v|
-+        if(v.class == SemanticFunctionAST)
-+          tmp = is_a_match(ast.object[k], v, unname)
-+          ret[:result] &= tmp[:result]
-+          ret[:mappings].merge!(tmp[:mappings])
-+        end
-+      end
-+    end
-+
-+    return ret
-+  end
-+
-+  def find_matching_rule(ast)
-+    rules = self.translation_rules
-+
-+    rules.each_pair do |k, v|
-+      tmp = is_a_match(ast, k)
-+      if(tmp[:result] == true)
-+        return { replacement: v, mappings: tmp[:mappings], index: rules.keys.index(k) }
-+      end
-+    end
-+    return nil
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/modules/TranslatorAST.rb b/target/arc/semfunc_generator/modules/TranslatorAST.rb
-new file mode 100644
-index 0000000000..595b9437e6
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/TranslatorAST.rb
-@@ -0,0 +1,80 @@
-+require_relative "Translator.rb"
-+
-+module TranslatorAST
-+
-+  include Translator
-+
-+  def replace_variable(str, variable, replace)
-+    return str.gsub(/(\$#{variable})([^$a-zA-Z_])/, "#{replace}\\2")
-+  end
-+
-+  def replace(stmt_ast, to_do = {})
-+    match = find_matching_rule(stmt_ast)
-+    if(match)
-+      repl = match[:replacement]
-+      mappings = match[:mappings]
-+
-+      if(repl.class == SemanticFunctionAST)
-+        repl.traverse_LR_TB do |ast|
-+          ast.object.each_pair do |ok1, ov1|
-+            if(ov1.class == String && ov1 =~ /^\$(.+)$/)
-+              repl.object[ok1] = mappings[$1]
-+            end
-+          end
-+        end
-+
-+        # mappings.each_pair do |k, v|
-+        #   if(v.class == String)
-+        #     # repl = repl.gsub(/(\$#{k})([^a-zA-Z_]+)/, "#{v}\\2")
-+        #     repl = replace_variable(repl, k, v)
-+        #   elsif(v.class == Array)
-+        #     tmp = v.map { |e| e.debug }.join(", ")
-+        #     repl = replace_variable(repl, k, tmp)
-+        #   end
-+        # end
-+        return repl
-+      elsif(repl.class == Proc)
-+        repl.call(stmt_ast, repl, mappings, to_do)
-+      elsif(repl == nil)
-+        # Do nothing
-+      else
-+        return "CAN'T REPLACE ELEMENT OF CLASS #{repl.class}"
-+      end
-+    else
-+      ret = "/*\n"
-+      ret += "FAILED TO MATCH { #{stmt_ast.debug }}\n"
-+      ret += " -----------------------\n"
-+      ret += stmt_ast.inspect
-+      ret += "\n -----------------------\n"
-+      ret += "*/"
-+      return ret
-+    end
-+  end
-+
-+  def generate_for_stmt(ast, to_do)
-+    object = ast.object
-+    case(object[:type])
-+    when :assign, :func, :if
-+      # puts ast.inspect
-+      # puts "HERE at #{object[:type]} (#{ast.debug})"
-+      tmp = replace(ast, to_do)
-+      ret = false
-+    when :stmt_list, :block
-+      ret = true
-+    else
-+      # puts "Stopping at #{object[:type]}"
-+      ret = false
-+    end
-+    return ret
-+  end
-+
-+  def generate(full_ast)
-+    result = ""
-+    full_ast.traverse_LR_TB do |ast, to_do|
-+      ret = generate_for_stmt(ast, to_do)
-+      ret
-+    end
-+    return result
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/modules/TranslatorFinal.rb b/target/arc/semfunc_generator/modules/TranslatorFinal.rb
-new file mode 100644
-index 0000000000..9ca9e080b5
---- /dev/null
-+++ b/target/arc/semfunc_generator/modules/TranslatorFinal.rb
-@@ -0,0 +1,103 @@
-+require_relative 'Translator.rb'
-+
-+module TranslatorFinal
-+
-+  include Translator
-+
-+  def replace_variable(str, variable, replace)
-+    # puts "REPLACE #{str}. #{variable}, #{replace}"
-+    replace = replace.gsub("@", "")
-+    #  = $1 if replace =~ /\@(.+)/
-+    return str.gsub(/(\$#{variable})([^$a-zA-Z_])?/, "#{replace}\\2")
-+  end
-+
-+  def replace(stmt_ast, to_do = {}, debug = true)
-+    ret = ""
-+    match = find_matching_rule(stmt_ast)
-+    if(match)
-+      repl = match[:replacement]
-+      mappings = match[:mappings]
-+
-+      ret += "  // Rule with index #{match[:index]}\n" if debug == true
-+
-+      if(repl.class == String)
-+        mappings.each_pair do |k, v|
-+
-+          if(v.class == String)
-+            # puts v.inspect
-+            # puts "TRUE" if(v =~ /(true|false)/)
-+
-+            # repl = repl.gsub(/(\$#{k})([^a-zA-Z_]+)/, "#{v}\\2")
-+            # if(!stmt_ast.hasAttr?(:static))
-+              v = "arc_#{v}" if (v =~ /(true|false)/)
-+            # end
-+            repl = replace_variable(repl, k, v)
-+
-+          elsif(v.class == Array)
-+            # puts "STMT_AST = #{stmt_ast.pp}"
-+            tmp = v.map { |e| e.debug }.join(", ")
-+            repl = replace_variable(repl, k, tmp)
-+          end
-+        end
-+        return ret + repl
-+      elsif(repl.class == Proc)
-+        repl = repl.call(stmt_ast, repl, mappings, to_do)
-+        if(repl.class == String)
-+          if(!stmt_ast.hasAttr?(:static))
-+            v = "arc_#{v}" if (v =~ /(true|false)/)
-+          end
-+          mappings.each_pair { |k, v| repl = replace_variable(repl, k, v) }
-+          ret += repl
-+        else
-+          ret += "RESULT SHOULD BE A String ELEMENT."
-+        end
-+        return ret
-+      else
-+        return "CAN'T REPLACE ELEMENT OF CLASS #{repl.class}"
-+      end
-+    else
-+      ret = "/*\n"
-+      ret += "FAILED TO MATCH { #{stmt_ast.debug }}\n"
-+      ret += " -----------------------\n"
-+      ret += stmt_ast.inspect
-+      ret += "\n -----------------------\n"
-+      ret += "*/"
-+      return ret
-+    end
-+  end
-+
-+  def generate(full_ast, debug = false)
-+    result = ""
-+    full_ast.traverse_LR_TB do |ast, to_do|
-+      ret = true
-+      object = ast.object
-+      case(object[:type])
-+      when :if
-+        result +=  "  if (#{object[:cond].pp}) {\n"
-+        tmp = generate(object[:then], debug)
-+        result += "  #{tmp};\n"
-+        result += "    }\n"
-+        if(object[:else].valid?)
-+          result += "  else {\n"
-+          tmp = generate(object[:else], debug)
-+          result += "  #{tmp};\n"
-+          result += "    }\n"
-+        end
-+        ret = false
-+      when :assign, :func
-+        # puts "HERE at #{object[:type]} (#{ast.debug})"
-+        tmp = replace(ast, to_do, debug)
-+        result += "  #{tmp};\n"
-+        ret = false
-+      when :stmt_list, :block
-+        ret = true
-+      else
-+        # puts "Stopping at #{object[:type]}"
-+        ret = false
-+      end
-+      ret
-+    end
-+    return result
-+  end
-+
-+end
-diff --git a/target/arc/semfunc_generator/parsers/SemanticFunctionParser.tab.rb b/target/arc/semfunc_generator/parsers/SemanticFunctionParser.tab.rb
-new file mode 100644
-index 0000000000..e0634d5a33
---- /dev/null
-+++ b/target/arc/semfunc_generator/parsers/SemanticFunctionParser.tab.rb
-@@ -0,0 +1,553 @@
-+#
-+# DO NOT MODIFY!!!!
-+# This file is automatically generated by Racc 1.4.12
-+# from Racc grammer file "".
-+#
-+
-+require 'racc/parser.rb'
-+class SemanticFunctionParser < Racc::Parser
-+
-+module_eval(<<'...end SemanticFunctionParser.y/module_eval...', 'SemanticFunctionParser.y', 66)
-+
-+def parse(str)
-+  orig_str = str
-+  str = str.gsub(" ", "").gsub("\n", "").gsub("\r", "")
-+  @yydebug = true
-+  @q = []
-+  until str.empty?
-+    append = ""
-+    case str
-+      when /\A(if)/
-+        @q.push [:IF, $1]
-+      when /\A(else)/
-+        @q.push [:ELSE, $1]
-+      when /\A(while)/
-+        @q.push [:WHILE, $1]
-+      when /\A(&&|\|\||\^\^)/
-+        @q.push [:BINCOND, $1]
-+      when /\A(&|\||\^|<<|>>|-|\+|\/|\*)/
-+        @q.push [:BINOP, $1]
-+      when /\A(==|!=|<=|<|>=|>)/
-+        @q.push [:BINCOMP, $1]
-+      when /\A([\~!])/
-+        @q.push [:UNIOP, $1]
-+      when /\A(a)\]/
-+        @q.push [:STRING, $1]
-+        append = "]"
-+      when /\A(^[a-zA-Z][a-zA-Z0-9]*)\(/
-+        @q.push [:FUNC, $1]
-+        append = '('
-+      when /\A(@?[a-zA-Z_][a-zA-Z0-9_]*)/
-+        @q.push [:VAR, $1]
-+      when /\A0x([0-9a-fA-F])+/
-+        @q.push [:HEX_NUMBER, $&.to_i(16)]
-+      when /\A\d+/
-+        @q.push [:NUMBER, $&.to_i]
-+      when /\A.|\n/o
-+        s = $&
-+        @q.push [s, s]
-+#     # when /\A([\+\-\*\/]|<<|>>|&)/
-+#     #   @q.push [:BINOP, $1]
-+    end
-+    str = append + $'
-+  end
-+  @q.push [false, '$end']
-+#  begin
-+    do_parse
-+#  rescue
-+#    return SemanticFunctionAST.error("Error parsing: --#{orig_str}--")
-+#  end
-+end
-+
-+ def next_token
-+  @q.shift
-+ end
-+
-+ def on_error(t, val, vstack)
-+   raise ParseError, sprintf("\nparse error on value %s (%s)",
-+                             val.inspect, token_to_str(t) || '?')
-+ end
-+
-+...end SemanticFunctionParser.y/module_eval...
-+##### State transition tables begin ###
-+
-+racc_action_table = [
-+     7,     7,     8,     8,    53,    52,     2,     2,    12,    11,
-+    51,     9,     9,     7,     7,     8,     8,     7,    17,     8,
-+    10,    10,    18,     2,     9,     9,    53,    52,     9,     7,
-+     7,     8,     8,    10,    10,     2,     2,    10,    19,    47,
-+     9,     9,    29,    20,     9,    28,    62,    21,    33,    10,
-+    10,    34,    35,    10,    39,    47,     9,    37,    53,    52,
-+    33,    22,    62,    34,    35,    10,    39,    23,     9,    37,
-+    24,    24,    33,    53,    52,    34,    35,    10,    39,    58,
-+     9,    37,    47,    50,    33,    53,    52,    34,    35,    10,
-+    29,    67,     9,    28,    47,    59,    33,    60,    47,    34,
-+    35,    10,    29,    63,     9,    28,    47,    70,    33,    53,
-+   nil,    34,    35,    10,    39,   nil,     9,    37,   nil,   nil,
-+    33,   nil,   nil,    34,    35,    10,    39,   nil,     9,    37,
-+   nil,   nil,    33,   nil,   nil,    34,    35,    10,    29,   nil,
-+     9,    28,   nil,   nil,    33,   nil,   nil,    34,    35,    10,
-+    39,   nil,     9,    37,   nil,   nil,    33,   nil,   nil,    34,
-+    35,    10,    39,   nil,     9,    37,   nil,   nil,    33,   nil,
-+   nil,    34,    35,    10,    39,   nil,     9,    37,   nil,   nil,
-+    33,   nil,   nil,    34,    35,    10,    47,   -26,   -26 ]
-+
-+racc_action_check = [
-+     0,     2,     0,     2,    36,    36,     0,     2,     2,     1,
-+    36,     0,     2,    16,    24,    16,    24,    51,     5,    51,
-+     0,     2,     7,    51,    16,    24,    44,    44,    51,    58,
-+    70,    58,    70,    16,    24,    58,    70,    51,     8,    49,
-+    58,    70,    17,     9,    17,    17,    49,    11,    17,    58,
-+    70,    17,    17,    17,    18,    56,    18,    18,    55,    55,
-+    18,    13,    56,    18,    18,    18,    19,    14,    19,    19,
-+    15,    25,    19,    41,    41,    19,    19,    19,    20,    41,
-+    20,    20,    27,    33,    20,    57,    57,    20,    20,    20,
-+    28,    57,    28,    28,    38,    42,    28,    45,    48,    28,
-+    28,    28,    29,    50,    29,    29,    54,    64,    29,    65,
-+   nil,    29,    29,    29,    37,   nil,    37,    37,   nil,   nil,
-+    37,   nil,   nil,    37,    37,    37,    39,   nil,    39,    39,
-+   nil,   nil,    39,   nil,   nil,    39,    39,    39,    47,   nil,
-+    47,    47,   nil,   nil,    47,   nil,   nil,    47,    47,    47,
-+    52,   nil,    52,    52,   nil,   nil,    52,   nil,   nil,    52,
-+    52,    52,    53,   nil,    53,    53,   nil,   nil,    53,   nil,
-+   nil,    53,    53,    53,    60,   nil,    60,    60,   nil,   nil,
-+    60,   nil,   nil,    60,    60,    60,    43,    43,    43 ]
-+
-+racc_action_pointer = [
-+    -3,     9,    -2,   nil,   nil,     7,   nil,    10,    26,    31,
-+   nil,    47,   nil,    51,    57,    53,    10,    30,    42,    54,
-+    66,   nil,   nil,   nil,    11,    54,   nil,    76,    78,    90,
-+   nil,   nil,   nil,    64,   nil,   nil,    -3,   102,    88,   114,
-+   nil,    66,    82,   180,    19,    81,   nil,   126,    92,    33,
-+    83,    14,   138,   150,   100,    51,    49,    78,    26,   nil,
-+   162,   nil,   nil,   nil,   103,   102,   nil,   nil,   nil,   nil,
-+    27,   nil ]
-+
-+racc_action_default = [
-+   -37,   -37,   -37,    -4,    -5,   -37,    -7,   -37,   -37,   -37,
-+   -36,   -37,    -1,   -37,   -37,    -4,    -5,   -37,   -37,   -37,
-+   -21,    72,    -2,    -3,   -30,   -31,   -29,    -6,   -37,   -37,
-+   -15,   -16,   -32,   -37,   -34,   -35,   -37,   -37,   -26,   -37,
-+   -16,   -37,   -37,   -17,   -18,   -20,   -28,   -37,   -12,   -37,
-+   -37,   -37,   -37,   -37,   -12,   -25,   -26,   -37,   -37,   -11,
-+   -21,   -13,   -14,   -33,    -9,   -23,   -24,   -22,   -10,   -19,
-+   -37,    -8 ]
-+
-+racc_goto_table = [
-+     1,     5,    13,     5,     6,    42,     6,    27,   nil,   nil,
-+    43,    31,    36,    41,   nil,   nil,    14,     5,    48,    49,
-+     6,    15,    31,    31,   nil,     5,    16,    54,     6,    56,
-+    26,    55,   nil,    57,   nil,    25,   nil,    61,    46,   nil,
-+    16,    31,   nil,    25,   nil,    69,    65,    66,    16,   nil,
-+    43,    64,     5,   nil,   nil,     6,   nil,   nil,    68,     5,
-+   nil,   nil,     6,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-+    71,     5,   nil,   nil,     6 ]
-+
-+racc_goto_check = [
-+     1,     5,     1,     5,     7,     9,     7,     6,   nil,   nil,
-+     6,    10,     8,     8,   nil,   nil,     2,     5,     6,     6,
-+     7,     3,    10,    10,   nil,     5,     4,     6,     7,     6,
-+     2,     8,   nil,     8,   nil,     3,   nil,     6,     2,   nil,
-+     4,    10,   nil,     3,   nil,     9,     8,     8,     4,   nil,
-+     6,     1,     5,   nil,   nil,     7,   nil,   nil,     1,     5,
-+   nil,   nil,     7,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-+     1,     5,   nil,   nil,     7 ]
-+
-+racc_goto_pointer = [
-+   nil,     0,    14,    19,    24,     1,   -10,     4,    -6,   -15,
-+    -6,   nil ]
-+
-+racc_goto_default = [
-+   nil,   nil,   nil,     3,     4,    32,    38,    30,    44,   nil,
-+    40,    45 ]
-+
-+racc_reduce_table = [
-+  0, 0, :racc_error,
-+  2, 25, :_reduce_1,
-+  3, 25, :_reduce_2,
-+  3, 25, :_reduce_3,
-+  1, 25, :_reduce_4,
-+  1, 27, :_reduce_5,
-+  3, 27, :_reduce_6,
-+  1, 27, :_reduce_7,
-+  7, 28, :_reduce_8,
-+  5, 28, :_reduce_9,
-+  5, 28, :_reduce_10,
-+  4, 31, :_reduce_11,
-+  2, 30, :_reduce_12,
-+  3, 30, :_reduce_13,
-+  3, 30, :_reduce_14,
-+  1, 30, :_reduce_15,
-+  1, 30, :_reduce_16,
-+  1, 35, :_reduce_17,
-+  1, 35, :_reduce_18,
-+  3, 33, :_reduce_19,
-+  1, 33, :_reduce_20,
-+  0, 33, :_reduce_21,
-+  3, 32, :_reduce_22,
-+  3, 32, :_reduce_23,
-+  3, 32, :_reduce_24,
-+  2, 32, :_reduce_25,
-+  1, 32, :_reduce_26,
-+  1, 32, :_reduce_27,
-+  3, 26, :_reduce_28,
-+  2, 26, :_reduce_29,
-+  2, 26, :_reduce_30,
-+  1, 26, :_reduce_31,
-+  1, 34, :_reduce_32,
-+  3, 34, :_reduce_33,
-+  1, 34, :_reduce_34,
-+  1, 34, :_reduce_35,
-+  1, 29, :_reduce_36 ]
-+
-+racc_reduce_n = 37
-+
-+racc_shift_n = 72
-+
-+racc_token_table = {
-+  false => 0,
-+  :error => 1,
-+  :UMINUS => 2,
-+  :IF => 3,
-+  :ELSE => 4,
-+  :WHILE => 5,
-+  :BINOP => 6,
-+  :BINCOMP => 7,
-+  :BINCOND => 8,
-+  "{" => 9,
-+  "}" => 10,
-+  "=" => 11,
-+  "(" => 12,
-+  ")" => 13,
-+  :FUNC => 14,
-+  :UNIOP => 15,
-+  "," => 16,
-+  ";" => 17,
-+  "[" => 18,
-+  :STRING => 19,
-+  "]" => 20,
-+  :NUMBER => 21,
-+  :HEX_NUMBER => 22,
-+  :VAR => 23 }
-+
-+racc_nt_base = 24
-+
-+racc_use_result_var = true
-+
-+Racc_arg = [
-+  racc_action_table,
-+  racc_action_check,
-+  racc_action_default,
-+  racc_action_pointer,
-+  racc_goto_table,
-+  racc_goto_check,
-+  racc_goto_default,
-+  racc_goto_pointer,
-+  racc_nt_base,
-+  racc_reduce_table,
-+  racc_token_table,
-+  racc_shift_n,
-+  racc_reduce_n,
-+  racc_use_result_var ]
-+
-+Racc_token_to_s_table = [
-+  "$end",
-+  "error",
-+  "UMINUS",
-+  "IF",
-+  "ELSE",
-+  "WHILE",
-+  "BINOP",
-+  "BINCOMP",
-+  "BINCOND",
-+  "\"{\"",
-+  "\"}\"",
-+  "\"=\"",
-+  "\"(\"",
-+  "\")\"",
-+  "FUNC",
-+  "UNIOP",
-+  "\",\"",
-+  "\";\"",
-+  "\"[\"",
-+  "STRING",
-+  "\"]\"",
-+  "NUMBER",
-+  "HEX_NUMBER",
-+  "VAR",
-+  "$start",
-+  "block",
-+  "stmt_list",
-+  "stmt",
-+  "block_stmt",
-+  "var",
-+  "expr",
-+  "func",
-+  "cond",
-+  "func_args",
-+  "leaf",
-+  "arg" ]
-+
-+Racc_debug_parser = false
-+
-+##### State transition tables end #####
-+
-+# reduce 0 omitted
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 12)
-+  def _reduce_1(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :block, list: SemanticFunctionAST.nothing })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 13)
-+  def _reduce_2(val, _values, result)
-+     return val[1]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 14)
-+  def _reduce_3(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :block, list: val[1] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 15)
-+  def _reduce_4(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :block, list: SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: SemanticFunctionAST.nothing }) })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 17)
-+  def _reduce_5(val, _values, result)
-+     return val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 18)
-+  def _reduce_6(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :assign, lhs: val[0], rhs: val[2] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 19)
-+  def _reduce_7(val, _values, result)
-+     return val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 21)
-+  def _reduce_8(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :if, cond: val[2], then: val[4], else: val[6] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 22)
-+  def _reduce_9(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :if, cond: val[2], then: val[4], else: SemanticFunctionAST.nothing })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 23)
-+  def _reduce_10(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :while, cond: val[2], loop: val[4] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 25)
-+  def _reduce_11(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :func, name: val[0], args: val[2] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 27)
-+  def _reduce_12(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :uniop, name: val[0], rhs: val[1] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 28)
-+  def _reduce_13(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :binop, name: val[1], lhs: val[0], rhs: val[2] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 29)
-+  def _reduce_14(val, _values, result)
-+     return val[1]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 30)
-+  def _reduce_15(val, _values, result)
-+     return val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 31)
-+  def _reduce_16(val, _values, result)
-+     return val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 33)
-+  def _reduce_17(val, _values, result)
-+    val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 34)
-+  def _reduce_18(val, _values, result)
-+    val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 37)
-+  def _reduce_19(val, _values, result)
-+     return [val[0]] + val[2]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 38)
-+  def _reduce_20(val, _values, result)
-+     return [val[0]]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 39)
-+  def _reduce_21(val, _values, result)
-+     return []
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 41)
-+  def _reduce_22(val, _values, result)
-+     return val[1]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 42)
-+  def _reduce_23(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :bincond, name: val[1], lhs: val[0], rhs: val[2] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 43)
-+  def _reduce_24(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :bincond, name: val[1], lhs: val[0], rhs: val[2] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 44)
-+  def _reduce_25(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :unicond, name: val[0], rhs: val[1] })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 45)
-+  def _reduce_26(val, _values, result)
-+     val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 46)
-+  def _reduce_27(val, _values, result)
-+     val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 50)
-+  def _reduce_28(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: val[2]})
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 51)
-+  def _reduce_29(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: val[1]})
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 52)
-+  def _reduce_30(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: SemanticFunctionAST.nothing })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 53)
-+  def _reduce_31(val, _values, result)
-+     return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: SemanticFunctionAST.nothing })
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 55)
-+  def _reduce_32(val, _values, result)
-+     return val[0]
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 56)
-+  def _reduce_33(val, _values, result)
-+     return SemanticFunctionAST.new(type: :string, value: val[0])
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 57)
-+  def _reduce_34(val, _values, result)
-+     return SemanticFunctionAST.new(type: :number, number: val[0])
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 58)
-+  def _reduce_35(val, _values, result)
-+     return SemanticFunctionAST.new(type: :number, number: val[0])
-+    result
-+  end
-+.,.,
-+
-+module_eval(<<'.,.,', 'SemanticFunctionParser.y', 60)
-+  def _reduce_36(val, _values, result)
-+     return SemanticFunctionAST.new(type: :var, name: val[0])
-+    result
-+  end
-+.,.,
-+
-+def _reduce_none(val, _values, result)
-+  val[0]
-+end
-+
-+end   # class SemanticFunctionParser
-diff --git a/target/arc/semfunc_generator/parsers/SemanticFunctionParser.y b/target/arc/semfunc_generator/parsers/SemanticFunctionParser.y
-new file mode 100644
-index 0000000000..31cec1734c
---- /dev/null
-+++ b/target/arc/semfunc_generator/parsers/SemanticFunctionParser.y
-@@ -0,0 +1,126 @@
-+class SemanticFunctionParser
-+
-+prechigh
-+  nonassoc UMINUS IF ELSE WHILE
-+#  left '*' '/'
-+#  left '+' '-'
-+  left BINOP BINCOMP
-+  left BINCOND
-+preclow
-+
-+rule
-+
-+  block: '{' '}' { return SemanticFunctionAST.new({ type: :block, list: SemanticFunctionAST.nothing }) }
-+  block: '{' block '}'     { return val[1] }
-+       | '{' stmt_list '}' { return SemanticFunctionAST.new({ type: :block, list: val[1] }) }
-+       | stmt		   { return SemanticFunctionAST.new({ type: :block, list: SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: SemanticFunctionAST.nothing }) }) }
-+
-+  stmt: block_stmt       { return val[0] }
-+      | var '=' expr	   { return SemanticFunctionAST.new({ type: :assign, lhs: val[0], rhs: val[2] }) }
-+      | func  { return val[0] }
-+
-+  block_stmt: IF '(' cond ')' block ELSE block  { return SemanticFunctionAST.new({ type: :if, cond: val[2], then: val[4], else: val[6] }) }
-+            | IF '(' cond ')' block		  { return SemanticFunctionAST.new({ type: :if, cond: val[2], then: val[4], else: SemanticFunctionAST.nothing }) }
-+            | WHILE '(' cond ')' block	  { return SemanticFunctionAST.new({ type: :while, cond: val[2], loop: val[4] }) }
-+
-+  func: FUNC '(' func_args ')'	{ return SemanticFunctionAST.new({ type: :func, name: val[0], args: val[2] }) }
-+
-+  expr: UNIOP expr	{ return SemanticFunctionAST.new({ type: :uniop, name: val[0], rhs: val[1] }) }
-+      | expr BINOP expr	{ return SemanticFunctionAST.new({ type: :binop, name: val[1], lhs: val[0], rhs: val[2] }) }
-+      | '(' expr ')'	{ return val[1] }
-+      | func    { return val[0] }
-+      | leaf		{ return val[0] }
-+
-+  arg: expr {val[0]}
-+     | cond {val[0]}
-+#     | '{' stmt_list '}' { return SemanticFunctionAST.new({ type: :block, list: val[1] }) }
-+
-+  func_args: arg ',' func_args	  { return [val[0]] + val[2] }
-+	   | arg		  { return [val[0]] }
-+     |          { return [] }
-+
-+  cond: '(' cond ')' { return val[1] }
-+      | cond BINCOND cond   { return SemanticFunctionAST.new({ type: :bincond, name: val[1], lhs: val[0], rhs: val[2] }) }
-+      | cond BINCOMP cond   { return SemanticFunctionAST.new({ type: :bincond, name: val[1], lhs: val[0], rhs: val[2] }) }
-+      | UNIOP cond	    { return SemanticFunctionAST.new({ type: :unicond, name: val[0], rhs: val[1] }) }
-+      | expr		    { val[0] }
-+      | leaf		    { val[0] }
-+#      | expr		    { return SemanticFunctionAST.new({ type: :cond, value: val[0] }) }
-+#      | leaf		    { return SemanticFunctionAST.new({ type: :cond, value: val[0] }) }
-+
-+  stmt_list: stmt ';' stmt_list   { return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: val[2]}) }
-+           | block_stmt stmt_list { return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: val[1]}) }
-+           | stmt ';'             { return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: SemanticFunctionAST.nothing }) }
-+           | stmt                 { return SemanticFunctionAST.new({ type: :stmt_list, head: val[0], tail: SemanticFunctionAST.nothing }) }
-+
-+  leaf: var               { return val[0] }
-+      | '[' STRING ']'  { return SemanticFunctionAST.new(type: :string, value: val[0]) }
-+      | NUMBER            { return SemanticFunctionAST.new(type: :number, number: val[0]) }
-+      | HEX_NUMBER        { return SemanticFunctionAST.new(type: :number, number: val[0]) }
-+
-+  var: VAR                { return SemanticFunctionAST.new(type: :var, name: val[0]) }
-+
-+end
-+
-+---- inner
-+
-+def parse(str)
-+  orig_str = str
-+  str = str.gsub(" ", "").gsub("\n", "").gsub("\r", "")
-+  @yydebug = true
-+  @q = []
-+  until str.empty?
-+    append = ""
-+    case str
-+      when /\A(if)/
-+        @q.push [:IF, $1]
-+      when /\A(else)/
-+        @q.push [:ELSE, $1]
-+      when /\A(while)/
-+        @q.push [:WHILE, $1]
-+      when /\A(&&|\|\||\^\^)/
-+        @q.push [:BINCOND, $1]
-+      when /\A(&|\||\^|<<|>>|-|\+|\/|\*)/
-+        @q.push [:BINOP, $1]
-+      when /\A(==|!=|<=|<|>=|>)/
-+        @q.push [:BINCOMP, $1]
-+      when /\A([\~!])/
-+        @q.push [:UNIOP, $1]
-+      when /\A(a)\]/
-+        @q.push [:STRING, $1]
-+        append = "]"
-+      when /\A(^[a-zA-Z][a-zA-Z0-9]*)\(/
-+        @q.push [:FUNC, $1]
-+        append = '('
-+      when /\A(@?[a-zA-Z_][a-zA-Z0-9_]*)/
-+        @q.push [:VAR, $1]
-+      when /\A0x([0-9a-fA-F])+/
-+        @q.push [:HEX_NUMBER, $&.to_i(16)]
-+      when /\A\d+/
-+        @q.push [:NUMBER, $&.to_i]
-+      when /\A.|\n/o
-+        s = $&
-+        @q.push [s, s]
-+#     # when /\A([\+\-\*\/]|<<|>>|&)/
-+#     #   @q.push [:BINOP, $1]
-+    end
-+    str = append + $'
-+  end
-+  @q.push [false, '$end']
-+#  begin
-+    do_parse
-+#  rescue
-+#    return SemanticFunctionAST.error("Error parsing: --#{orig_str}--")
-+#  end
-+end
-+
-+ def next_token
-+  @q.shift
-+ end
-+
-+ def on_error(t, val, vstack)
-+   raise ParseError, sprintf("\nparse error on value %s (%s)",
-+                             val.inspect, token_to_str(t) || '?')
-+ end
-+
-+---- footer
-diff --git a/target/arc/semfunc_generator/regenerate_semfunc.rb b/target/arc/semfunc_generator/regenerate_semfunc.rb
-new file mode 100644
-index 0000000000..61936f9d7c
---- /dev/null
-+++ b/target/arc/semfunc_generator/regenerate_semfunc.rb
-@@ -0,0 +1,245 @@
-+#!/usr/bin/env ruby
-+
-+require 'erb'
-+require_relative 'init.rb'
-+
-+HEADER = <<EOF
++++ b/target/arc/semfunc.c
+@@ -0,0 +1,8436 @@
 +/*
 + * QEMU ARC CPU
 + *
@@ -3069,220 +856,8486 @@ index 0000000000..61936f9d7c
 +#include "translate.h"
 +#include "target/arc/semfunc.h"
 +
-+EOF
-+
-+ERB_TEMPLATE = <<EOF
 +/*
-+ * <%= @name %>
-+<%= print_lists("   Variables", @variables) %>
-+<%= print_lists("   Functions", @functions) %>
++ * FLAG
++ *    Variables: @src
++ *    Functions: getCCFlag, getRegister, getBit, hasInterrupts, Halt, ReplMask,
++ *               targetHasOption, setRegister
 + * --- code ---
-+<%= @pretty_code %>
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       status32 = getRegister (R_STATUS32);
++ *       if(((getBit (@src, 0) == 1) && (getBit (status32, 7) == 0)))
++ *         {
++ *           if((hasInterrupts () > 0))
++ *             {
++ *               status32 = (status32 | 1);
++ *               Halt ();
++ *             };
++ *         }
++ *       else
++ *         {
++ *           ReplMask (status32, @src, 3840);
++ *           if(((getBit (status32, 7) == 0) && (hasInterrupts () > 0)))
++ *             {
++ *               ReplMask (status32, @src, 30);
++ *               if(targetHasOption (DIV_REM_OPTION))
++ *                 {
++ *                   ReplMask (status32, @src, 8192);
++ *                 };
++ *               if(targetHasOption (STACK_CHECKING))
++ *                 {
++ *                   ReplMask (status32, @src, 16384);
++ *                 };
++ *               if(targetHasOption (LL64_OPTION))
++ *                 {
++ *                   ReplMask (status32, @src, 524288);
++ *                 };
++ *               ReplMask (status32, @src, 1048576);
++ *             };
++ *         };
++ *       setRegister (R_STATUS32, status32);
++ *     };
++ * }
 + */
 +
 +int
-+arc_gen_<%= @name %>(DisasCtxt *ctx<%= @tcg_variables %>)
++arc_gen_FLAG(DisasCtxt *ctx, TCGv src)
 +{
 +    int ret = DISAS_NEXT;
-+<%= @tcg_code %>
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_14 = tcg_temp_local_new();
++    TCGv status32 = tcg_temp_local_new();
++    TCGv temp_16 = tcg_temp_local_new();
++    TCGv temp_15 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_18 = tcg_temp_local_new();
++    TCGv temp_17 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_19 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_20 = tcg_temp_local_new();
++    TCGv temp_22 = tcg_temp_local_new();
++    TCGv temp_21 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_23 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv temp_24 = tcg_temp_local_new();
++    TCGv temp_25 = tcg_temp_local_new();
++    TCGv temp_26 = tcg_temp_local_new();
++    TCGv temp_27 = tcg_temp_local_new();
++    TCGv temp_28 = tcg_temp_local_new();
++    getCCFlag(temp_13);
++    tcg_gen_mov_tl(cc_flag, temp_13);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    getRegister(temp_14, R_STATUS32);
++    tcg_gen_mov_tl(status32, temp_14);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_movi_tl(temp_16, 0);
++    getBit(temp_15, src, temp_16);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, temp_15, 1);
++    tcg_gen_movi_tl(temp_18, 7);
++    getBit(temp_17, status32, temp_18);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_4, temp_17, 0);
++    tcg_gen_and_tl(temp_5, temp_3, temp_4);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_2);
++    TCGLabel *done_3 = gen_new_label();
++    hasInterrupts(temp_19);
++    tcg_gen_setcondi_tl(TCG_COND_GT, temp_7, temp_19, 0);
++    tcg_gen_xori_tl(temp_8, temp_7, 1);
++    tcg_gen_andi_tl(temp_8, temp_8, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_8, arc_true, done_3);
++    tcg_gen_ori_tl(status32, status32, 1);
++    Halt();
++    gen_set_label(done_3);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_movi_tl(temp_20, 3840);
++    ReplMask(status32, src, temp_20);
++    TCGLabel *done_4 = gen_new_label();
++    tcg_gen_movi_tl(temp_22, 7);
++    getBit(temp_21, status32, temp_22);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_9, temp_21, 0);
++    hasInterrupts(temp_23);
++    tcg_gen_setcondi_tl(TCG_COND_GT, temp_10, temp_23, 0);
++    tcg_gen_and_tl(temp_11, temp_9, temp_10);
++    tcg_gen_xori_tl(temp_12, temp_11, 1);
++    tcg_gen_andi_tl(temp_12, temp_12, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_12, arc_true, done_4);
++    tcg_gen_movi_tl(temp_24, 30);
++    ReplMask(status32, src, temp_24);
++    if (targetHasOption (DIV_REM_OPTION)) {
++        tcg_gen_movi_tl(temp_25, 8192);
++        ReplMask(status32, src, temp_25);
++    }
++    if (targetHasOption (STACK_CHECKING)) {
++        tcg_gen_movi_tl(temp_26, 16384);
++        ReplMask(status32, src, temp_26);
++    }
++    if (targetHasOption (LL64_OPTION)) {
++        tcg_gen_movi_tl(temp_27, 524288);
++        ReplMask(status32, src, temp_27);
++    }
++    tcg_gen_movi_tl(temp_28, 1048576);
++    ReplMask(status32, src, temp_28);
++    gen_set_label(done_4);
++    gen_set_label(done_2);
++    setRegister(R_STATUS32, status32);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_14);
++    tcg_temp_free(status32);
++    tcg_temp_free(temp_16);
++    tcg_temp_free(temp_15);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_18);
++    tcg_temp_free(temp_17);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_19);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_20);
++    tcg_temp_free(temp_22);
++    tcg_temp_free(temp_21);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_23);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(temp_24);
++    tcg_temp_free(temp_25);
++    tcg_temp_free(temp_26);
++    tcg_temp_free(temp_27);
++    tcg_temp_free(temp_28);
++
 +    return ret;
 +}
 +
 +
-+EOF
++/*
++ * KFLAG
++ *    Variables: @src
++ *    Functions: getCCFlag, getRegister, getBit, hasInterrupts, Halt, ReplMask,
++ *               targetHasOption, setRegister
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       status32 = getRegister (R_STATUS32);
++ *       if(((getBit (@src, 0) == 1) && (getBit (status32, 7) == 0)))
++ *         {
++ *           if((hasInterrupts () > 0))
++ *             {
++ *               status32 = (status32 | 1);
++ *               Halt ();
++ *             };
++ *         }
++ *       else
++ *         {
++ *           ReplMask (status32, @src, 3840);
++ *           if(((getBit (status32, 7) == 0) && (hasInterrupts () > 0)))
++ *             {
++ *               ReplMask (status32, @src, 62);
++ *               if(targetHasOption (DIV_REM_OPTION))
++ *                 {
++ *                   ReplMask (status32, @src, 8192);
++ *                 };
++ *               if(targetHasOption (STACK_CHECKING))
++ *                 {
++ *                   ReplMask (status32, @src, 16384);
++ *                 };
++ *               ReplMask (status32, @src, 65536);
++ *               if(targetHasOption (LL64_OPTION))
++ *                 {
++ *                   ReplMask (status32, @src, 524288);
++ *                 };
++ *               ReplMask (status32, @src, 1048576);
++ *               ReplMask (status32, @src, 2147483648);
++ *             };
++ *         };
++ *       setRegister (R_STATUS32, status32);
++ *     };
++ * }
++ */
 +
-+def print_lists(name, elems, max_length = 80, prefix: " * ")
-+  ret = ""
-+  to_print = prefix + name + ": "
++int
++arc_gen_KFLAG(DisasCtxt *ctx, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_14 = tcg_temp_local_new();
++    TCGv status32 = tcg_temp_local_new();
++    TCGv temp_16 = tcg_temp_local_new();
++    TCGv temp_15 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_18 = tcg_temp_local_new();
++    TCGv temp_17 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_19 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_20 = tcg_temp_local_new();
++    TCGv temp_22 = tcg_temp_local_new();
++    TCGv temp_21 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_23 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv temp_24 = tcg_temp_local_new();
++    TCGv temp_25 = tcg_temp_local_new();
++    TCGv temp_26 = tcg_temp_local_new();
++    TCGv temp_27 = tcg_temp_local_new();
++    TCGv temp_28 = tcg_temp_local_new();
++    TCGv temp_29 = tcg_temp_local_new();
++    TCGv temp_30 = tcg_temp_local_new();
++    getCCFlag(temp_13);
++    tcg_gen_mov_tl(cc_flag, temp_13);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    getRegister(temp_14, R_STATUS32);
++    tcg_gen_mov_tl(status32, temp_14);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_movi_tl(temp_16, 0);
++    getBit(temp_15, src, temp_16);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, temp_15, 1);
++    tcg_gen_movi_tl(temp_18, 7);
++    getBit(temp_17, status32, temp_18);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_4, temp_17, 0);
++    tcg_gen_and_tl(temp_5, temp_3, temp_4);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_2);
++    TCGLabel *done_3 = gen_new_label();
++    hasInterrupts(temp_19);
++    tcg_gen_setcondi_tl(TCG_COND_GT, temp_7, temp_19, 0);
++    tcg_gen_xori_tl(temp_8, temp_7, 1);
++    tcg_gen_andi_tl(temp_8, temp_8, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_8, arc_true, done_3);
++    tcg_gen_ori_tl(status32, status32, 1);
++    Halt();
++    gen_set_label(done_3);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_movi_tl(temp_20, 3840);
++    ReplMask(status32, src, temp_20);
++    TCGLabel *done_4 = gen_new_label();
++    tcg_gen_movi_tl(temp_22, 7);
++    getBit(temp_21, status32, temp_22);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_9, temp_21, 0);
++    hasInterrupts(temp_23);
++    tcg_gen_setcondi_tl(TCG_COND_GT, temp_10, temp_23, 0);
++    tcg_gen_and_tl(temp_11, temp_9, temp_10);
++    tcg_gen_xori_tl(temp_12, temp_11, 1);
++    tcg_gen_andi_tl(temp_12, temp_12, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_12, arc_true, done_4);
++    tcg_gen_movi_tl(temp_24, 62);
++    ReplMask(status32, src, temp_24);
++    if (targetHasOption (DIV_REM_OPTION)) {
++        tcg_gen_movi_tl(temp_25, 8192);
++        ReplMask(status32, src, temp_25);
++    }
++    if (targetHasOption (STACK_CHECKING)) {
++        tcg_gen_movi_tl(temp_26, 16384);
++        ReplMask(status32, src, temp_26);
++    }
++    tcg_gen_movi_tl(temp_27, 65536);
++    ReplMask(status32, src, temp_27);
++    if (targetHasOption (LL64_OPTION)) {
++        tcg_gen_movi_tl(temp_28, 524288);
++        ReplMask(status32, src, temp_28);
++    }
++    tcg_gen_movi_tl(temp_29, 1048576);
++    ReplMask(status32, src, temp_29);
++    tcg_gen_movi_tl(temp_30, 2147483648);
++    ReplMask(status32, src, temp_30);
++    gen_set_label(done_4);
++    gen_set_label(done_2);
++    setRegister(R_STATUS32, status32);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_14);
++    tcg_temp_free(status32);
++    tcg_temp_free(temp_16);
++    tcg_temp_free(temp_15);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_18);
++    tcg_temp_free(temp_17);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_19);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_20);
++    tcg_temp_free(temp_22);
++    tcg_temp_free(temp_21);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_23);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(temp_24);
++    tcg_temp_free(temp_25);
++    tcg_temp_free(temp_26);
++    tcg_temp_free(temp_27);
++    tcg_temp_free(temp_28);
++    tcg_temp_free(temp_29);
++    tcg_temp_free(temp_30);
 +
-+  elems.each_with_index do |e, i|
-+    if(to_print.length + e.length + 2 > max_length)
-+      ret += to_print.gsub(/ $/, "") + "\n"
-+      to_print = prefix + (" " * (name.length + 2))
-+    end
-+
-+    to_print += e
-+    to_print += ", " if i + 1 != elems.length
-+  end
-+
-+  ret += to_print
-+  return ret.split("\n").map { |a| a.gsub(/[ \t]+$/, "") }.join("\n")
-+end
-+
-+
-+def error(line_num, message)
-+  puts "Error at semfunc.c:#{line_num} -- #{message}"
-+  exit(-1)
-+end
-+
-+EMPTY_ENTRY = {
-+  name: "invalid",
-+  code: ""
++    return ret;
 +}
 +
-+funcs = {}
-+funcs_in_order = []
 +
-+current_func = nil
-+func_name = nil
-+in_comment = false
-+in_code = false
-+in_field_read = nil
-+line_num = 1;
-+File.read("../semfunc.c").each_line do |l|
-+    if(l =~ /^\/[*]/)
-+        #  puts "ENTERED IN COMMENT at line #{line_num}"
-+        in_comment = true
-+    elsif (in_comment == true && l =~ /\*\/[ \t]*$/)
-+        in_comment = false
-+        if(in_code == true)
-+          #  puts "END_COMMENT at line #{line_num}"
-+          #  puts current_func[:code]
-+          current_func[:ast] = SemanticFunctionParser.new.parse(current_func[:code])
-+          funcs[func_name] = current_func
-+          funcs_in_order.push(func_name)
-+        end
-+        in_code = false
-+    elsif (in_comment == true)
-+      if(l =~ /^ [*][ ]+([A-Z0-9_]+)$/)
-+        func_name = $1
-+        current_func = EMPTY_ENTRY.clone()
-+        current_func["Variables"] = []
-+        current_func["Functions"] = []
-+        current_func[:name] = func_name
-+        current_func[:code] = ""
-+      elsif(in_field_read != nil && l =~ /^ [*][ \t]+([@a-zA-Z0-9, ]+)$/)
-+        data = $1
-+        data.split(/,[ ]*/).each do |d_entry|
-+          current_func[in_field_read].push(d_entry)
-+        end
-+      elsif(l =~ /^ [*][ \t]+([a-zA-Z]+): ([@a-zA-Z0-9, ]+)$/)
-+        field = $1
-+        data = $2
-+        if(current_func[field].nil?)
-+          error(line_num, "Field '#{field}' not valid.")
-+        end
-+        data.split(/,[ ]*/).each do |d_entry|
-+          #puts "#{field} = #{d_entry}"
-+          current_func[field].push(d_entry)
-+        end
-+        in_field_read = field
-+      elsif(l =~ /^ [*] --- code ---$/)
-+        in_field_read = nil
-+        in_code = true
-+      elsif(in_code)
-+        current_func[:code] = "#{current_func[:code]}#{l[3..-1]}"
-+      end
-+    end
-+    line_num += 1
-+end
++/*
++ * ADD
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarryADD,
++ *               setVFlag, OverflowADD
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   lc = @c;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = (@b + @c);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarryADD (@a, lb, lc));
++ *           setVFlag (OverflowADD (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
 +
-+def fix_indentation_tcg_code(code)
++int
++arc_gen_ADD(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_add_tl(a, b, c);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarryADD(temp_5, a, lb, lc);
++        tcg_gen_mov_tl(temp_4, temp_5);
++        setCFlag(temp_4);
++        OverflowADD(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setVFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
 +
-+  ret = ""
-+  in_comment = false
-+  indent = 0
-+  #puts code
-+
-+  code.split("\n").each_with_index do |line, idx|
-+
-+    if(in_comment == false)
-+      if(line =~ /^[ \t]+$/)
-+        #ret += "1: "
-+        ret += "\n"
-+      elsif(line =~ /^[ \t;]+$/)
-+        #ret += "2: \n"
-+        ret += ""
-+      else
-+        indent -= (line.scan(/}/).size - 1) * 4
-+
-+        #ret += "9: "
-+        line =~ /^[ \t]*(.+)$/
-+        code = $1
-+        ret += "#{" "*indent}#{$1}\n"
-+
-+        indent += (line.scan(/{/).size - 1) * 4
-+      end
-+    end
-+
-+  end
-+
-+  ret1 = ""
-+  in_else = nil
-+  else_content = ""
-+  perhaps_else = false;
-+  ret.split("\n").each_with_index do |line, i|
-+    if(line.index("else {") != nil)
-+      #puts "1- #{line}"
-+       in_else = i
-+       else_content = " else {\n"
-+    elsif(line.index("}") != nil && in_else != nil)
-+      if(in_else + 1 != i)
-+        #puts "2- #{line}"
-+        else_content += line
-+        ret1 += else_content + "\n"
-+      end
-+      else_content = ""
-+      in_else = nil
-+    elsif(line.index("}") != nil && in_else == nil)
-+      ret1 += line
-+      else_content += line
-+      perhaps_else = true
-+    else
-+      if(in_else != nil)
-+        perhaps_else = false
-+        #puts "3- #{line}"
-+        else_content += line + "\n"
-+      else
-+        #puts "4- #{line}"
-+        ret1 += "\n" if(perhaps_else == true)
-+        ret1 += "#{line}\n"
-+        perhaps_else = false
-+      end
-+    end
-+  end
-+  return ret1
-+end
++    return ret;
++}
 +
 +
-+class FuncBinding
-+  def initialize(data, opts)
-+    @name = data[:name]
-+    @functions = data["Functions"]
-+    @variables = data["Variables"]
-+    @code = data[:code].gsub(/\t/, '')
-+    @pretty_code = data[:code].split("\n").map { |l| " * #{l}" }.join("\n")
-+    @ast = SemanticFunctionParser.new.parse(@code)
-+    tcg_code = QEmuCompiler.new.generate(@ast, [], opts[:debug])
-+    @tcg_code = fix_indentation_tcg_code(tcg_code)
-+    @tcg_variables = @variables.map { |a| "TCGv #{a.gsub("@", "")}"}.unshift("").join(", ")
-+  end
-+end
++/*
++ * ADD1
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarryADD,
++ *               setVFlag, OverflowADD
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   lc = @c;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = (@b + (@c << 1));
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarryADD (@a, lb, lc));
++ *           setVFlag (OverflowADD (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ADD1(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_shli_tl(temp_4, c, 1);
++    tcg_gen_add_tl(a, b, temp_4);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarryADD(temp_6, a, lb, lc);
++        tcg_gen_mov_tl(temp_5, temp_6);
++        setCFlag(temp_5);
++        OverflowADD(temp_8, a, lb, lc);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setVFlag(temp_7);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
 +
 +
-+# Options parsing
-+opts = { debug: false }
-+while(ARGV.count > 0)
-+  opt = ARGV.shift
-+  if(opt == '-f' && (tmp = ARGV.shift) != nil)
-+    opts[:filter] = tmp
-+  elsif(opt == '-d')
-+    puts "HERE"
-+    opts[:debug] = true
-+  end
-+end
++/*
++ * ADD2
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarryADD,
++ *               setVFlag, OverflowADD
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   lc = @c;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = (@b + (@c << 2));
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarryADD (@a, lb, lc));
++ *           setVFlag (OverflowADD (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
 +
-+puts HEADER
-+funcs_in_order.each do |name|
-+  next if(opts[:filter] && opts[:filter] != name)
-+  data = funcs[name]
-+  #puts name
-+  next if data[:code].nil?
-+  erb = ERB.new(ERB_TEMPLATE)
-+  MyClass = erb.def_class(FuncBinding, 'render()')
-+  puts MyClass.new(data, opts).render()
-+  self.class.send(:remove_const, :MyClass)
-+end
++int
++arc_gen_ADD2(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_shli_tl(temp_4, c, 2);
++    tcg_gen_add_tl(a, b, temp_4);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarryADD(temp_6, a, lb, lc);
++        tcg_gen_mov_tl(temp_5, temp_6);
++        setCFlag(temp_5);
++        OverflowADD(temp_8, a, lb, lc);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setVFlag(temp_7);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
++
++
++/*
++ * ADD3
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarryADD,
++ *               setVFlag, OverflowADD
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   lc = @c;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = (@b + (@c << 3));
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarryADD (@a, lb, lc));
++ *           setVFlag (OverflowADD (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ADD3(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_shli_tl(temp_4, c, 3);
++    tcg_gen_add_tl(a, b, temp_4);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarryADD(temp_6, a, lb, lc);
++        tcg_gen_mov_tl(temp_5, temp_6);
++        setCFlag(temp_5);
++        OverflowADD(temp_8, a, lb, lc);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setVFlag(temp_7);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
++
++
++/*
++ * ADC
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getCFlag, getFFlag, setZFlag, setNFlag, setCFlag,
++ *               CarryADD, setVFlag, OverflowADD
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   lc = @c;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = ((@b + @c) + getCFlag ());
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarryADD (@a, lb, lc));
++ *           setVFlag (OverflowADD (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ADC(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_add_tl(temp_4, b, c);
++    getCFlag(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_add_tl(a, temp_4, temp_5);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarryADD(temp_8, a, lb, lc);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setCFlag(temp_7);
++        OverflowADD(temp_10, a, lb, lc);
++        tcg_gen_mov_tl(temp_9, temp_10);
++        setVFlag(temp_9);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++
++    return ret;
++}
++
++
++/*
++ * SBC
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getCFlag, getFFlag, setZFlag, setNFlag, setCFlag,
++ *               CarryADD, setVFlag, OverflowADD
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   lc = @c;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = ((@b - @c) - getCFlag ());
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarryADD (@a, lb, lc));
++ *           setVFlag (OverflowADD (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SBC(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_sub_tl(temp_4, b, c);
++    getCFlag(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_sub_tl(a, temp_4, temp_5);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarryADD(temp_8, a, lb, lc);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setCFlag(temp_7);
++        OverflowADD(temp_10, a, lb, lc);
++        tcg_gen_mov_tl(temp_9, temp_10);
++        setVFlag(temp_9);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++
++    return ret;
++}
++
++
++/*
++ * NEG
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       @a = (0 - @b);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarrySUB (@a, 0, lb));
++ *           setVFlag (OverflowSUB (@a, 0, lb));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_NEG(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_subfi_tl(a, 0, b);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        tcg_gen_movi_tl(temp_6, 0);
++        CarrySUB(temp_5, a, temp_6, lb);
++        tcg_gen_mov_tl(temp_4, temp_5);
++        setCFlag(temp_4);
++        tcg_gen_movi_tl(temp_9, 0);
++        OverflowSUB(temp_8, a, temp_9, lb);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setVFlag(temp_7);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
++
++
++/*
++ * SUB
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       @a = (@b - @c);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarrySUB (@a, lb, lc));
++ *           setVFlag (OverflowSUB (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SUB(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_sub_tl(a, b, c);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarrySUB(temp_5, a, lb, lc);
++        tcg_gen_mov_tl(temp_4, temp_5);
++        setCFlag(temp_4);
++        OverflowSUB(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setVFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * SUB1
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = (@c << 1);
++ *       @a = (@b - lc);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarrySUB (@a, lb, lc));
++ *           setVFlag (OverflowSUB (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SUB1(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_shli_tl(lc, c, 1);
++    tcg_gen_sub_tl(a, b, lc);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarrySUB(temp_5, a, lb, lc);
++        tcg_gen_mov_tl(temp_4, temp_5);
++        setCFlag(temp_4);
++        OverflowSUB(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setVFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * SUB2
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = (@c << 2);
++ *       @a = (@b - lc);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarrySUB (@a, lb, lc));
++ *           setVFlag (OverflowSUB (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SUB2(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_shli_tl(lc, c, 2);
++    tcg_gen_sub_tl(a, b, lc);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarrySUB(temp_5, a, lb, lc);
++        tcg_gen_mov_tl(temp_4, temp_5);
++        setCFlag(temp_4);
++        OverflowSUB(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setVFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * SUB3
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = (@c << 3);
++ *       @a = (@b - lc);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setCFlag (CarrySUB (@a, lb, lc));
++ *           setVFlag (OverflowSUB (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SUB3(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_shli_tl(lc, c, 3);
++    tcg_gen_sub_tl(a, b, lc);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        CarrySUB(temp_5, a, lb, lc);
++        tcg_gen_mov_tl(temp_4, temp_5);
++        setCFlag(temp_4);
++        OverflowSUB(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setVFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * MAX
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       alu = (lb - lc);
++ *       if((lc >= lb))
++ *         {
++ *           @a = lc;
++ *         }
++ *       else
++ *         {
++ *           @a = lb;
++ *         };
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (alu);
++ *           setNFlag (alu);
++ *           setCFlag (CarrySUB (@a, lb, lc));
++ *           setVFlag (OverflowSUB (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MAX(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv alu = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_sub_tl(alu, lb, lc);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GE, temp_3, lc, lb);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_mov_tl(a, lc);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_mov_tl(a, lb);
++    gen_set_label(done_2);
++    if ((getFFlag () == true)) {
++        setZFlag(alu);
++        setNFlag(alu);
++        CarrySUB(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setCFlag(temp_6);
++        OverflowSUB(temp_9, a, lb, lc);
++        tcg_gen_mov_tl(temp_8, temp_9);
++        setVFlag(temp_8);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lc);
++    tcg_temp_free(alu);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * MIN
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, CarrySUB,
++ *               setVFlag, OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   lb = @b;
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = @c;
++ *       alu = (lb - lc);
++ *       if((lc <= lb))
++ *         {
++ *           @a = lc;
++ *         }
++ *       else
++ *         {
++ *           @a = lb;
++ *         };
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (alu);
++ *           setNFlag (alu);
++ *           setCFlag (CarrySUB (@a, lb, lc));
++ *           setVFlag (OverflowSUB (@a, lb, lc));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MIN(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv alu = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    tcg_gen_mov_tl(lb, b);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_mov_tl(lc, c);
++    tcg_gen_sub_tl(alu, lb, lc);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LE, temp_3, lc, lb);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_mov_tl(a, lc);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_mov_tl(a, lb);
++    gen_set_label(done_2);
++    if ((getFFlag () == true)) {
++        setZFlag(alu);
++        setNFlag(alu);
++        CarrySUB(temp_7, a, lb, lc);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setCFlag(temp_6);
++        OverflowSUB(temp_9, a, lb, lc);
++        tcg_gen_mov_tl(temp_8, temp_9);
++        setVFlag(temp_8);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lc);
++    tcg_temp_free(alu);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * CMP
++ *    Variables: @b, @c
++ *    Functions: getCCFlag, setZFlag, setNFlag, setCFlag, CarrySUB, setVFlag,
++ *               OverflowSUB
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       alu = (@b - @c);
++ *       setZFlag (alu);
++ *       setNFlag (alu);
++ *       setCFlag (CarrySUB (alu, @b, @c));
++ *       setVFlag (OverflowSUB (alu, @b, @c));
++ *     };
++ * }
++ */
++
++int
++arc_gen_CMP(DisasCtxt *ctx, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv alu = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_sub_tl(alu, b, c);
++    setZFlag(alu);
++    setNFlag(alu);
++    CarrySUB(temp_5, alu, b, c);
++    tcg_gen_mov_tl(temp_4, temp_5);
++    setCFlag(temp_4);
++    OverflowSUB(temp_7, alu, b, c);
++    tcg_gen_mov_tl(temp_6, temp_7);
++    setVFlag(temp_6);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(alu);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * AND
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = (@b & @c);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_AND(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_and_tl(la, b, c);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * OR
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = (@b | @c);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_OR(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_or_tl(la, b, c);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * XOR
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = (@b ^ @c);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_XOR(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_xor_tl(la, b, c);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * MOV
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = @b;
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MOV(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(la, b);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * ASL
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setCFlag, getBit,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = (@c & 31);
++ *       la = (lb << lc);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *           if((lc == 0))
++ *             {
++ *               setCFlag (0);
++ *             }
++ *           else
++ *             {
++ *               setCFlag (getBit (lb, (32 - lc)));
++ *             };
++ *           if((@c == 268435457))
++ *             {
++ *               t1 = getBit (la, 31);
++ *               t2 = getBit (lb, 31);
++ *               if((t1 == t2))
++ *                 {
++ *                   setVFlag (0);
++ *                 }
++ *               else
++ *                 {
++ *                   setVFlag (1);
++ *                 };
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ASL(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_15 = tcg_temp_local_new();
++    TCGv temp_14 = tcg_temp_local_new();
++    TCGv t1 = tcg_temp_local_new();
++    TCGv temp_17 = tcg_temp_local_new();
++    TCGv temp_16 = tcg_temp_local_new();
++    TCGv t2 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_18 = tcg_temp_local_new();
++    TCGv temp_19 = tcg_temp_local_new();
++    getCCFlag(temp_9);
++    tcg_gen_mov_tl(cc_flag, temp_9);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_andi_tl(lc, c, 31);
++    tcg_gen_shl_tl(la, lb, lc);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++        TCGLabel *else_2 = gen_new_label();
++        TCGLabel *done_2 = gen_new_label();
++        tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, lc, 0);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++        tcg_gen_movi_tl(temp_10, 0);
++        setCFlag(temp_10);
++        tcg_gen_br(done_2);
++        gen_set_label(else_2);
++        tcg_gen_subfi_tl(temp_13, 32, lc);
++        getBit(temp_12, lb, temp_13);
++        tcg_gen_mov_tl(temp_11, temp_12);
++        setCFlag(temp_11);
++        gen_set_label(done_2);
++        TCGLabel *done_3 = gen_new_label();
++        tcg_gen_setcondi_tl(TCG_COND_EQ, temp_5, c, 268435457);
++        tcg_gen_xori_tl(temp_6, temp_5, 1);
++        tcg_gen_andi_tl(temp_6, temp_6, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, done_3);
++        tcg_gen_movi_tl(temp_15, 31);
++        getBit(temp_14, la, temp_15);
++        tcg_gen_mov_tl(t1, temp_14);
++        tcg_gen_movi_tl(temp_17, 31);
++        getBit(temp_16, lb, temp_17);
++        tcg_gen_mov_tl(t2, temp_16);
++        TCGLabel *else_4 = gen_new_label();
++        TCGLabel *done_4 = gen_new_label();
++        tcg_gen_setcond_tl(TCG_COND_EQ, temp_7, t1, t2);
++        tcg_gen_xori_tl(temp_8, temp_7, 1);
++        tcg_gen_andi_tl(temp_8, temp_8, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_8, arc_true, else_4);
++        tcg_gen_movi_tl(temp_18, 0);
++        setVFlag(temp_18);
++        tcg_gen_br(done_4);
++        gen_set_label(else_4);
++        tcg_gen_movi_tl(temp_19, 1);
++        setVFlag(temp_19);
++        gen_set_label(done_4);
++        gen_set_label(done_3);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(la);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_15);
++    tcg_temp_free(temp_14);
++    tcg_temp_free(t1);
++    tcg_temp_free(temp_17);
++    tcg_temp_free(temp_16);
++    tcg_temp_free(t2);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_18);
++    tcg_temp_free(temp_19);
++
++    return ret;
++}
++
++
++/*
++ * ASR
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, arithmeticShiftRight, getFFlag, setZFlag, setNFlag,
++ *               setCFlag, getBit
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = (@c & 31);
++ *       la = arithmeticShiftRight (lb, lc);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *           if((lc == 0))
++ *             {
++ *               setCFlag (0);
++ *             }
++ *           else
++ *             {
++ *               setCFlag (getBit (lb, (lc - 1)));
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ASR(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_andi_tl(lc, c, 31);
++    arithmeticShiftRight(temp_6, lb, lc);
++    tcg_gen_mov_tl(la, temp_6);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++        TCGLabel *else_2 = gen_new_label();
++        TCGLabel *done_2 = gen_new_label();
++        tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, lc, 0);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++        tcg_gen_movi_tl(temp_7, 0);
++        setCFlag(temp_7);
++        tcg_gen_br(done_2);
++        gen_set_label(else_2);
++        tcg_gen_subi_tl(temp_10, lc, 1);
++        getBit(temp_9, lb, temp_10);
++        tcg_gen_mov_tl(temp_8, temp_9);
++        setCFlag(temp_8);
++        gen_set_label(done_2);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(la);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * ASR8
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, arithmeticShiftRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       la = arithmeticShiftRight (lb, 8);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ASR8(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_movi_tl(temp_5, 8);
++    arithmeticShiftRight(temp_4, lb, temp_5);
++    tcg_gen_mov_tl(la, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * ASR16
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, arithmeticShiftRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       la = arithmeticShiftRight (lb, 16);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ASR16(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_movi_tl(temp_5, 16);
++    arithmeticShiftRight(temp_4, lb, temp_5);
++    tcg_gen_mov_tl(la, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lb);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * LSL16
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, logicalShiftLeft, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = logicalShiftLeft (@b, 16);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_LSL16(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_5, 16);
++    logicalShiftLeft(temp_4, b, temp_5);
++    tcg_gen_mov_tl(la, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * LSL8
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, logicalShiftLeft, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = logicalShiftLeft (@b, 8);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_LSL8(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_5, 8);
++    logicalShiftLeft(temp_4, b, temp_5);
++    tcg_gen_mov_tl(la, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * LSR
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, logicalShiftRight, getFFlag, setZFlag, setNFlag,
++ *               setCFlag, getBit
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lb = @b;
++ *       lc = (@c & 31);
++ *       la = logicalShiftRight (lb, lc);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *           if((lc == 0))
++ *             {
++ *               setCFlag (0);
++ *             }
++ *           else
++ *             {
++ *               setCFlag (getBit (lb, (lc - 1)));
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_LSR(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lb = tcg_temp_local_new();
++    TCGv lc = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lb, b);
++    tcg_gen_andi_tl(lc, c, 31);
++    logicalShiftRight(temp_6, lb, lc);
++    tcg_gen_mov_tl(la, temp_6);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++        TCGLabel *else_2 = gen_new_label();
++        TCGLabel *done_2 = gen_new_label();
++        tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, lc, 0);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++        tcg_gen_movi_tl(temp_7, 0);
++        setCFlag(temp_7);
++        tcg_gen_br(done_2);
++        gen_set_label(else_2);
++        tcg_gen_subi_tl(temp_10, lc, 1);
++        getBit(temp_9, lb, temp_10);
++        tcg_gen_mov_tl(temp_8, temp_9);
++        setCFlag(temp_8);
++        gen_set_label(done_2);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lb);
++    tcg_temp_free(lc);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(la);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * LSR16
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, logicalShiftRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = logicalShiftRight (@b, 16);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_LSR16(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_5, 16);
++    logicalShiftRight(temp_4, b, temp_5);
++    tcg_gen_mov_tl(la, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * LSR8
++ *    Variables: @b, @a
++ *    Functions: getCCFlag, logicalShiftRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = logicalShiftRight (@b, 8);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_LSR8(DisasCtxt *ctx, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_5, 8);
++    logicalShiftRight(temp_4, b, temp_5);
++    tcg_gen_mov_tl(la, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * BIC
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       la = (@b & ~@c);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BIC(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_not_tl(temp_4, c);
++    tcg_gen_and_tl(la, b, temp_4);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * BCLR
++ *    Variables: @c, @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp = (1 << (@c & 31));
++ *       la = (@b & ~tmp);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BCLR(DisasCtxt *ctx, TCGv c, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(temp_4, c, 31);
++    tcg_gen_shlfi_tl(tmp, 1, temp_4);
++    tcg_gen_not_tl(temp_5, tmp);
++    tcg_gen_and_tl(la, b, temp_5);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * BMSK
++ *    Variables: @c, @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp1 = ((@c & 31) + 1);
++ *       if((tmp1 == 32))
++ *         {
++ *           tmp2 = 4294967295;
++ *         }
++ *       else
++ *         {
++ *           tmp2 = ((1 << tmp1) - 1);
++ *         };
++ *       la = (@b & tmp2);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BMSK(DisasCtxt *ctx, TCGv c, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv tmp1 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp2 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(temp_6, c, 31);
++    tcg_gen_addi_tl(tmp1, temp_6, 1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, tmp1, 32);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_movi_tl(tmp2, 4294967295);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_shlfi_tl(temp_7, 1, tmp1);
++    tcg_gen_subi_tl(tmp2, temp_7, 1);
++    gen_set_label(done_2);
++    tcg_gen_and_tl(la, b, tmp2);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(tmp1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp2);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * BMSKN
++ *    Variables: @c, @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp1 = ((@c & 31) + 1);
++ *       if((tmp1 == 32))
++ *         {
++ *           tmp2 = 4294967295;
++ *         }
++ *       else
++ *         {
++ *           tmp2 = ((1 << tmp1) - 1);
++ *         };
++ *       la = (@b & ~tmp2);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BMSKN(DisasCtxt *ctx, TCGv c, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv tmp1 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp2 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(temp_6, c, 31);
++    tcg_gen_addi_tl(tmp1, temp_6, 1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_3, tmp1, 32);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_movi_tl(tmp2, 4294967295);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_shlfi_tl(temp_7, 1, tmp1);
++    tcg_gen_subi_tl(tmp2, temp_7, 1);
++    gen_set_label(done_2);
++    tcg_gen_not_tl(temp_8, tmp2);
++    tcg_gen_and_tl(la, b, temp_8);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(tmp1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp2);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * BSET
++ *    Variables: @c, @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp = (1 << (@c & 31));
++ *       la = (@b | tmp);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BSET(DisasCtxt *ctx, TCGv c, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(temp_4, c, 31);
++    tcg_gen_shlfi_tl(tmp, 1, temp_4);
++    tcg_gen_or_tl(la, b, tmp);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * BXOR
++ *    Variables: @c, @b, @a
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp = (1 << @c);
++ *       la = (@b ^ tmp);
++ *       @a = la;
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (la);
++ *           setNFlag (la);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BXOR(DisasCtxt *ctx, TCGv c, TCGv b, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv la = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_shlfi_tl(tmp, 1, c);
++    tcg_gen_xor_tl(la, b, tmp);
++    tcg_gen_mov_tl(a, la);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(la);
++        setNFlag(la);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(tmp);
++    tcg_temp_free(la);
++
++    return ret;
++}
++
++
++/*
++ * ROL
++ *    Variables: @src, @dest
++ *    Functions: getCCFlag, rotateLeft, getFFlag, setZFlag, setNFlag, setCFlag,
++ *               extractBits
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lsrc = @src;
++ *       @dest = rotateLeft (lsrc, 1);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *           setCFlag (extractBits (lsrc, 31, 31));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ROL(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_movi_tl(temp_5, 1);
++    rotateLeft(temp_4, lsrc, temp_5);
++    tcg_gen_mov_tl(dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_movi_tl(temp_9, 31);
++        tcg_gen_movi_tl(temp_8, 31);
++        extractBits(temp_7, lsrc, temp_8, temp_9);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setCFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lsrc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * ROL8
++ *    Variables: @src, @dest
++ *    Functions: getCCFlag, rotateLeft, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lsrc = @src;
++ *       @dest = rotateLeft (lsrc, 8);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ROL8(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_movi_tl(temp_5, 8);
++    rotateLeft(temp_4, lsrc, temp_5);
++    tcg_gen_mov_tl(dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lsrc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * ROR
++ *    Variables: @src, @n, @dest
++ *    Functions: getCCFlag, rotateRight, getFFlag, setZFlag, setNFlag,
++ *               setCFlag, extractBits
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lsrc = @src;
++ *       ln = (@n & 31);
++ *       @dest = rotateRight (lsrc, ln);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *           setCFlag (extractBits (lsrc, (ln - 1), (ln - 1)));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ROR(DisasCtxt *ctx, TCGv src, TCGv n, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv ln = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_andi_tl(ln, n, 31);
++    rotateRight(temp_4, lsrc, ln);
++    tcg_gen_mov_tl(dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_subi_tl(temp_8, ln, 1);
++        tcg_gen_subi_tl(temp_7, ln, 1);
++        extractBits(temp_6, lsrc, temp_7, temp_8);
++        tcg_gen_mov_tl(temp_5, temp_6);
++        setCFlag(temp_5);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lsrc);
++    tcg_temp_free(ln);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++
++    return ret;
++}
++
++
++/*
++ * ROR8
++ *    Variables: @src, @dest
++ *    Functions: getCCFlag, rotateRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lsrc = @src;
++ *       @dest = rotateRight (lsrc, 8);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_ROR8(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_movi_tl(temp_5, 8);
++    rotateRight(temp_4, lsrc, temp_5);
++    tcg_gen_mov_tl(dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lsrc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * RLC
++ *    Variables: @src, @dest
++ *    Functions: getCCFlag, getCFlag, getFFlag, setZFlag, setNFlag, setCFlag,
++ *               extractBits
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lsrc = @src;
++ *       @dest = (lsrc << 1);
++ *       @dest = (@dest | getCFlag ());
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *           setCFlag (extractBits (lsrc, 31, 31));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_RLC(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_shli_tl(dest, lsrc, 1);
++    getCFlag(temp_5);
++    tcg_gen_mov_tl(temp_4, temp_5);
++    tcg_gen_or_tl(dest, dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_movi_tl(temp_9, 31);
++        tcg_gen_movi_tl(temp_8, 31);
++        extractBits(temp_7, lsrc, temp_8, temp_9);
++        tcg_gen_mov_tl(temp_6, temp_7);
++        setCFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lsrc);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * RRC
++ *    Variables: @src, @dest
++ *    Functions: getCCFlag, getCFlag, getFFlag, setZFlag, setNFlag, setCFlag,
++ *               extractBits
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       lsrc = @src;
++ *       @dest = (lsrc >> 1);
++ *       @dest = (@dest | (getCFlag () << 31));
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *           setCFlag (extractBits (lsrc, 0, 0));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_RRC(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_shri_tl(dest, lsrc, 1);
++    getCFlag(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_shli_tl(temp_4, temp_5, 31);
++    tcg_gen_or_tl(dest, dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_movi_tl(temp_10, 0);
++        tcg_gen_movi_tl(temp_9, 0);
++        extractBits(temp_8, lsrc, temp_9, temp_10);
++        tcg_gen_mov_tl(temp_7, temp_8);
++        setCFlag(temp_7);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(lsrc);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
++
++
++/*
++ * SEXB
++ *    Variables: @dest, @src
++ *    Functions: getCCFlag, arithmeticShiftRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @dest = arithmeticShiftRight ((@src << 24), 24);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SEXB(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_6, 24);
++    tcg_gen_shli_tl(temp_5, src, 24);
++    arithmeticShiftRight(temp_4, temp_5, temp_6);
++    tcg_gen_mov_tl(dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * SEXH
++ *    Variables: @dest, @src
++ *    Functions: getCCFlag, arithmeticShiftRight, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @dest = arithmeticShiftRight ((@src << 16), 16);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SEXH(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_6, 16);
++    tcg_gen_shli_tl(temp_5, src, 16);
++    arithmeticShiftRight(temp_4, temp_5, temp_6);
++    tcg_gen_mov_tl(dest, temp_4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * EXTB
++ *    Variables: @dest, @src
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @dest = (@src & 255);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_EXTB(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(dest, src, 255);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * EXTH
++ *    Variables: @dest, @src
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @dest = (@src & 65535);
++ *       f_flag = getFFlag ();
++ *       if((f_flag == true))
++ *         {
++ *           setZFlag (@dest);
++ *           setNFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_EXTH(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    int f_flag;
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(dest, src, 65535);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * BTST
++ *    Variables: @c, @b
++ *    Functions: getCCFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp = (1 << (@c & 31));
++ *       alu = (@b & tmp);
++ *       setZFlag (alu);
++ *       setNFlag (alu);
++ *     };
++ * }
++ */
++
++int
++arc_gen_BTST(DisasCtxt *ctx, TCGv c, TCGv b)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv alu = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(temp_4, c, 31);
++    tcg_gen_shlfi_tl(tmp, 1, temp_4);
++    tcg_gen_and_tl(alu, b, tmp);
++    setZFlag(alu);
++    setNFlag(alu);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp);
++    tcg_temp_free(alu);
++
++    return ret;
++}
++
++
++/*
++ * TST
++ *    Variables: @b, @c
++ *    Functions: getCCFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       alu = (@b & @c);
++ *       setZFlag (alu);
++ *       setNFlag (alu);
++ *     };
++ * }
++ */
++
++int
++arc_gen_TST(DisasCtxt *ctx, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv alu = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_and_tl(alu, b, c);
++    setZFlag(alu);
++    setNFlag(alu);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(alu);
++
++    return ret;
++}
++
++
++/*
++ * XBFU
++ *    Variables: @src2, @src1, @dest
++ *    Functions: getCCFlag, extractBits, getFFlag, setZFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       N = extractBits (@src2, 4, 0);
++ *       M = (extractBits (@src2, 9, 5) + 1);
++ *       tmp1 = (@src1 >> N);
++ *       tmp2 = ((1 << M) - 1);
++ *       @dest = (tmp1 & tmp2);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@dest);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_XBFU(DisasCtxt *ctx, TCGv src2, TCGv src1, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv N = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv M = tcg_temp_local_new();
++    TCGv tmp1 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv tmp2 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_6, 0);
++    tcg_gen_movi_tl(temp_5, 4);
++    extractBits(temp_4, src2, temp_5, temp_6);
++    tcg_gen_mov_tl(N, temp_4);
++    tcg_gen_movi_tl(temp_10, 5);
++    tcg_gen_movi_tl(temp_9, 9);
++    extractBits(temp_8, src2, temp_9, temp_10);
++    tcg_gen_mov_tl(temp_7, temp_8);
++    tcg_gen_addi_tl(M, temp_7, 1);
++    tcg_gen_shr_tl(tmp1, src1, N);
++    tcg_gen_shlfi_tl(temp_11, 1, M);
++    tcg_gen_subi_tl(tmp2, temp_11, 1);
++    tcg_gen_and_tl(dest, tmp1, tmp2);
++    if ((getFFlag () == true)) {
++        setZFlag(dest);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(N);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(M);
++    tcg_temp_free(tmp1);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(tmp2);
++
++    return ret;
++}
++
++
++/*
++ * AEX
++ *    Variables: @src2, @b
++ *    Functions: getCCFlag, readAuxReg, writeAuxReg
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       tmp = readAuxReg (@src2);
++ *       writeAuxReg (@src2, @b);
++ *       @b = tmp;
++ *     };
++ * }
++ */
++
++int
++arc_gen_AEX(DisasCtxt *ctx, TCGv src2, TCGv b)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    readAuxReg(temp_4, src2);
++    tcg_gen_mov_tl(tmp, temp_4);
++    writeAuxReg(src2, b);
++    tcg_gen_mov_tl(b, tmp);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp);
++
++    return ret;
++}
++
++
++/*
++ * LR
++ *    Variables: @dest, @src
++ *    Functions: readAuxReg
++ * --- code ---
++ * {
++ *   @dest = readAuxReg (@src);
++ * }
++ */
++
++int
++arc_gen_LR(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_1 = tcg_temp_local_new();
++    readAuxReg(temp_1, src);
++    tcg_gen_mov_tl(dest, temp_1);
++    tcg_temp_free(temp_1);
++
++    return ret;
++}
++
++
++/*
++ * CLRI
++ *    Variables: @c
++ *    Functions: getRegister, setRegister
++ * --- code ---
++ * {
++ *   status32 = getRegister (R_STATUS32);
++ *   ie = (status32 & 2147483648);
++ *   ie = (ie >> 27);
++ *   e = ((status32 & 30) >> 1);
++ *   a = 32;
++ *   @c = ((ie | e) | a);
++ *   mask = 2147483648;
++ *   mask = ~mask;
++ *   status32 = (status32 & mask);
++ *   setRegister (R_STATUS32, status32);
++ * }
++ */
++
++int
++arc_gen_CLRI(DisasCtxt *ctx, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv status32 = tcg_temp_local_new();
++    TCGv ie = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv e = tcg_temp_local_new();
++    TCGv a = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv mask = tcg_temp_local_new();
++    getRegister(temp_1, R_STATUS32);
++    tcg_gen_mov_tl(status32, temp_1);
++    tcg_gen_andi_tl(ie, status32, 2147483648);
++    tcg_gen_shri_tl(ie, ie, 27);
++    tcg_gen_andi_tl(temp_2, status32, 30);
++    tcg_gen_shri_tl(e, temp_2, 1);
++    tcg_gen_movi_tl(a, 32);
++    tcg_gen_or_tl(temp_3, ie, e);
++    tcg_gen_or_tl(c, temp_3, a);
++    tcg_gen_movi_tl(mask, 2147483648);
++    tcg_gen_not_tl(mask, mask);
++    tcg_gen_and_tl(status32, status32, mask);
++    setRegister(R_STATUS32, status32);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(status32);
++    tcg_temp_free(ie);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(e);
++    tcg_temp_free(a);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(mask);
++
++    return ret;
++}
++
++
++/*
++ * SETI
++ *    Variables: @c
++ *    Functions: getRegister, setRegister
++ * --- code ---
++ * {
++ *   status32 = getRegister (R_STATUS32);
++ *   e_mask = 30;
++ *   e_mask = ~e_mask;
++ *   e_value = ((@c & 15) << 1);
++ *   temp1 = (@c & 32);
++ *   if((temp1 != 0))
++ *     {
++ *       status32 = ((status32 & e_mask) | e_value);
++ *       ie_mask = 2147483648;
++ *       ie_mask = ~ie_mask;
++ *       ie_value = ((@c & 16) << 27);
++ *       status32 = ((status32 & ie_mask) | ie_value);
++ *     }
++ *   else
++ *     {
++ *       status32 = (status32 | 2147483648);
++ *       temp2 = (@c & 16);
++ *       if((temp2 != 0))
++ *         {
++ *           status32 = ((status32 & e_mask) | e_value);
++ *         };
++ *     };
++ *   setRegister (R_STATUS32, status32);
++ * }
++ */
++
++int
++arc_gen_SETI(DisasCtxt *ctx, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv status32 = tcg_temp_local_new();
++    TCGv e_mask = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv e_value = tcg_temp_local_new();
++    TCGv temp1 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv ie_mask = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv ie_value = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    getRegister(temp_5, R_STATUS32);
++    tcg_gen_mov_tl(status32, temp_5);
++    tcg_gen_movi_tl(e_mask, 30);
++    tcg_gen_not_tl(e_mask, e_mask);
++    tcg_gen_andi_tl(temp_6, c, 15);
++    tcg_gen_shli_tl(e_value, temp_6, 1);
++    tcg_gen_andi_tl(temp1, c, 32);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_1, temp1, 0);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_and_tl(temp_7, status32, e_mask);
++    tcg_gen_or_tl(status32, temp_7, e_value);
++    tcg_gen_movi_tl(ie_mask, 2147483648);
++    tcg_gen_not_tl(ie_mask, ie_mask);
++    tcg_gen_andi_tl(temp_8, c, 16);
++    tcg_gen_shli_tl(ie_value, temp_8, 27);
++    tcg_gen_and_tl(temp_9, status32, ie_mask);
++    tcg_gen_or_tl(status32, temp_9, ie_value);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    tcg_gen_ori_tl(status32, status32, 2147483648);
++    tcg_gen_andi_tl(temp2, c, 16);
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_3, temp2, 0);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++    tcg_gen_and_tl(temp_10, status32, e_mask);
++    tcg_gen_or_tl(status32, temp_10, e_value);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    setRegister(R_STATUS32, status32);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(status32);
++    tcg_temp_free(e_mask);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(e_value);
++    tcg_temp_free(temp1);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(ie_mask);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(ie_value);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_10);
++
++    return ret;
++}
++
++
++/*
++ * NOP
++ *    Variables:
++ *    Functions: doNothing
++ * --- code ---
++ * {
++ *   doNothing ();
++ * }
++ */
++
++int
++arc_gen_NOP(DisasCtxt *ctx)
++{
++    int ret = DISAS_NEXT;
++
++    return ret;
++}
++
++
++/*
++ * PREALLOC
++ *    Variables:
++ *    Functions: doNothing
++ * --- code ---
++ * {
++ *   doNothing ();
++ * }
++ */
++
++int
++arc_gen_PREALLOC(DisasCtxt *ctx)
++{
++    int ret = DISAS_NEXT;
++
++    return ret;
++}
++
++
++/*
++ * PREFETCH
++ *    Variables: @src1, @src2
++ *    Functions: getAAFlag, doNothing
++ * --- code ---
++ * {
++ *   AA = getAAFlag ();
++ *   if(((AA == 1) || (AA == 2)))
++ *     {
++ *       @src1 = (@src1 + @src2);
++ *     }
++ *   else
++ *     {
++ *       doNothing ();
++ *     };
++ * }
++ */
++
++int
++arc_gen_PREFETCH(DisasCtxt *ctx, TCGv src1, TCGv src2)
++{
++    int ret = DISAS_NEXT;
++    int AA;
++    AA = getAAFlag ();
++    if (((AA == 1) || (AA == 2))) {
++        tcg_gen_add_tl(src1, src1, src2);
++    } else {
++        doNothing();
++    }
++
++    return ret;
++}
++
++
++/*
++ * MPY
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, HELPER, setZFlag, setNFlag, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       _b = @b;
++ *       _c = @c;
++ *       @a = ((_b * _c) & 4294967295);
++ *       if((getFFlag () == true))
++ *         {
++ *           high_part = HELPER (mpym, _b, _c);
++ *           tmp1 = (high_part & 2147483648);
++ *           tmp2 = (@a & 2147483648);
++ *           setZFlag (@a);
++ *           setNFlag (high_part);
++ *           setVFlag ((tmp1 != tmp2));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MPY(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv _b = tcg_temp_local_new();
++    TCGv _c = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv high_part = tcg_temp_local_new();
++    TCGv tmp1 = tcg_temp_local_new();
++    TCGv tmp2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(_b, b);
++    tcg_gen_mov_tl(_c, c);
++    tcg_gen_mul_tl(temp_4, _b, _c);
++    tcg_gen_andi_tl(a, temp_4, 4294967295);
++    if ((getFFlag () == true)) {
++        ARC_HELPER(mpym, high_part, _b, _c);
++        tcg_gen_andi_tl(tmp1, high_part, 2147483648);
++        tcg_gen_andi_tl(tmp2, a, 2147483648);
++        setZFlag(a);
++        setNFlag(high_part);
++        tcg_gen_setcond_tl(TCG_COND_NE, temp_5, tmp1, tmp2);
++        setVFlag(temp_5);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(_b);
++    tcg_temp_free(_c);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(high_part);
++    tcg_temp_free(tmp1);
++    tcg_temp_free(tmp2);
++    tcg_temp_free(temp_5);
++
++    return ret;
++}
++
++
++/*
++ * MPYMU
++ *    Variables: @a, @b, @c
++ *    Functions: getCCFlag, HELPER, getFFlag, setZFlag, setNFlag, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @a = HELPER (mpymu, @b, @c);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (0);
++ *           setVFlag (0);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MPYMU(DisasCtxt *ctx, TCGv a, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    ARC_HELPER(mpymu, a, b, c);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        tcg_gen_movi_tl(temp_4, 0);
++        setNFlag(temp_4);
++        tcg_gen_movi_tl(temp_5, 0);
++        setVFlag(temp_5);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++
++    return ret;
++}
++
++
++/*
++ * MPYM
++ *    Variables: @a, @b, @c
++ *    Functions: getCCFlag, HELPER, getFFlag, setZFlag, setNFlag, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @a = HELPER (mpym, @b, @c);
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setVFlag (0);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MPYM(DisasCtxt *ctx, TCGv a, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    ARC_HELPER(mpym, a, b, c);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        tcg_gen_movi_tl(temp_4, 0);
++        setVFlag(temp_4);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * MPYU
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getFFlag, HELPER, setZFlag, setNFlag, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       _b = @b;
++ *       _c = @c;
++ *       @a = ((_b * _c) & 4294967295);
++ *       if((getFFlag () == true))
++ *         {
++ *           high_part = HELPER (mpym, _b, _c);
++ *           setZFlag (@a);
++ *           setNFlag (0);
++ *           setVFlag ((high_part > 0));
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MPYU(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv _b = tcg_temp_local_new();
++    TCGv _c = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv high_part = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(_b, b);
++    tcg_gen_mov_tl(_c, c);
++    tcg_gen_mul_tl(temp_4, _b, _c);
++    tcg_gen_andi_tl(a, temp_4, 4294967295);
++    if ((getFFlag () == true)) {
++        ARC_HELPER(mpym, high_part, _b, _c);
++        setZFlag(a);
++        tcg_gen_movi_tl(temp_5, 0);
++        setNFlag(temp_5);
++        tcg_gen_setcondi_tl(TCG_COND_GT, temp_6, high_part, 0);
++        setVFlag(temp_6);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(_b);
++    tcg_temp_free(_c);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(high_part);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * MPYUW
++ *    Variables: @a, @b, @c
++ *    Functions: getCCFlag, getFFlag, setZFlag, setNFlag, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @a = ((@b & 65535) * (@c & 65535));
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (0);
++ *           setVFlag (0);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MPYUW(DisasCtxt *ctx, TCGv a, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_andi_tl(temp_5, c, 65535);
++    tcg_gen_andi_tl(temp_4, b, 65535);
++    tcg_gen_mul_tl(a, temp_4, temp_5);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        tcg_gen_movi_tl(temp_6, 0);
++        setNFlag(temp_6);
++        tcg_gen_movi_tl(temp_7, 0);
++        setVFlag(temp_7);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
++
++
++/*
++ * MPYW
++ *    Variables: @a, @b, @c
++ *    Functions: getCCFlag, arithmeticShiftRight, getFFlag, setZFlag, setNFlag,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       @a = (arithmeticShiftRight ((@b << 16), 16)
++ *            * arithmeticShiftRight ((@c << 16), 16));
++ *       if((getFFlag () == true))
++ *         {
++ *           setZFlag (@a);
++ *           setNFlag (@a);
++ *           setVFlag (0);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MPYW(DisasCtxt *ctx, TCGv a, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    getCCFlag(temp_3);
++    tcg_gen_mov_tl(cc_flag, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_movi_tl(temp_11, 16);
++    tcg_gen_shli_tl(temp_10, c, 16);
++    tcg_gen_movi_tl(temp_7, 16);
++    tcg_gen_shli_tl(temp_6, b, 16);
++    arithmeticShiftRight(temp_5, temp_6, temp_7);
++    tcg_gen_mov_tl(temp_4, temp_5);
++    arithmeticShiftRight(temp_9, temp_10, temp_11);
++    tcg_gen_mov_tl(temp_8, temp_9);
++    tcg_gen_mul_tl(a, temp_4, temp_8);
++    if ((getFFlag () == true)) {
++        setZFlag(a);
++        setNFlag(a);
++        tcg_gen_movi_tl(temp_12, 0);
++        setVFlag(temp_12);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_12);
++
++    return ret;
++}
++
++
++/*
++ * DIV
++ *    Variables: @src2, @src1, @dest
++ *    Functions: getCCFlag, divSigned, getFFlag, setZFlag, setNFlag, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       if(((@src2 != 0) && ((@src1 != 2147483648) || (@src2 != 4294967295))))
++ *         {
++ *           @dest = divSigned (@src1, @src2);
++ *           if((getFFlag () == true))
++ *             {
++ *               setZFlag (@dest);
++ *               setNFlag (@dest);
++ *               setVFlag (0);
++ *             };
++ *         }
++ *       else
++ *         {
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_DIV(DisasCtxt *ctx, TCGv src2, TCGv src1, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    getCCFlag(temp_9);
++    tcg_gen_mov_tl(cc_flag, temp_9);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_3, src2, 0);
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_4, src1, 2147483648);
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_5, src2, 4294967295);
++    tcg_gen_or_tl(temp_6, temp_4, temp_5);
++    tcg_gen_and_tl(temp_7, temp_3, temp_6);
++    tcg_gen_xori_tl(temp_8, temp_7, 1);
++    tcg_gen_andi_tl(temp_8, temp_8, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_8, arc_true, else_2);
++    divSigned(temp_10, src1, src2);
++    tcg_gen_mov_tl(dest, temp_10);
++    if ((getFFlag () == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_movi_tl(temp_11, 0);
++        setVFlag(temp_11);
++    }
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_11);
++
++    return ret;
++}
++
++
++/*
++ * DIVU
++ *    Variables: @src2, @dest, @src1
++ *    Functions: getCCFlag, divUnsigned, getFFlag, setZFlag, setNFlag,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       if((@src2 != 0))
++ *         {
++ *           @dest = divUnsigned (@src1, @src2);
++ *           if((getFFlag () == true))
++ *             {
++ *               setZFlag (@dest);
++ *               setNFlag (0);
++ *               setVFlag (0);
++ *             };
++ *         }
++ *       else
++ *         {
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_DIVU(DisasCtxt *ctx, TCGv src2, TCGv dest, TCGv src1)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_3, src2, 0);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    divUnsigned(temp_6, src1, src2);
++    tcg_gen_mov_tl(dest, temp_6);
++    if ((getFFlag () == true)) {
++        setZFlag(dest);
++        tcg_gen_movi_tl(temp_7, 0);
++        setNFlag(temp_7);
++        tcg_gen_movi_tl(temp_8, 0);
++        setVFlag(temp_8);
++    }
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * REM
++ *    Variables: @src2, @src1, @dest
++ *    Functions: getCCFlag, divRemainingSigned, getFFlag, setZFlag, setNFlag,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       if(((@src2 != 0) && ((@src1 != 2147483648) || (@src2 != 4294967295))))
++ *         {
++ *           @dest = divRemainingSigned (@src1, @src2);
++ *           if((getFFlag () == true))
++ *             {
++ *               setZFlag (@dest);
++ *               setNFlag (@dest);
++ *               setVFlag (0);
++ *             };
++ *         }
++ *       else
++ *         {
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_REM(DisasCtxt *ctx, TCGv src2, TCGv src1, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    getCCFlag(temp_9);
++    tcg_gen_mov_tl(cc_flag, temp_9);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_3, src2, 0);
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_4, src1, 2147483648);
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_5, src2, 4294967295);
++    tcg_gen_or_tl(temp_6, temp_4, temp_5);
++    tcg_gen_and_tl(temp_7, temp_3, temp_6);
++    tcg_gen_xori_tl(temp_8, temp_7, 1);
++    tcg_gen_andi_tl(temp_8, temp_8, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_8, arc_true, else_2);
++    divRemainingSigned(temp_10, src1, src2);
++    tcg_gen_mov_tl(dest, temp_10);
++    if ((getFFlag () == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_movi_tl(temp_11, 0);
++        setVFlag(temp_11);
++    }
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_11);
++
++    return ret;
++}
++
++
++/*
++ * REMU
++ *    Variables: @src2, @dest, @src1
++ *    Functions: getCCFlag, divRemainingUnsigned, getFFlag, setZFlag, setNFlag,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       if((@src2 != 0))
++ *         {
++ *           @dest = divRemainingUnsigned (@src1, @src2);
++ *           if((getFFlag () == true))
++ *             {
++ *               setZFlag (@dest);
++ *               setNFlag (0);
++ *               setVFlag (0);
++ *             };
++ *         }
++ *       else
++ *         {
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_REMU(DisasCtxt *ctx, TCGv src2, TCGv dest, TCGv src1)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_3, src2, 0);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    divRemainingUnsigned(temp_6, src1, src2);
++    tcg_gen_mov_tl(dest, temp_6);
++    if ((getFFlag () == true)) {
++        setZFlag(dest);
++        tcg_gen_movi_tl(temp_7, 0);
++        setNFlag(temp_7);
++        tcg_gen_movi_tl(temp_8, 0);
++        setVFlag(temp_8);
++    }
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * MAC
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getRegister, MAC, getFFlag, setNFlag, OverflowADD,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       old_acchi = getRegister (R_ACCHI);
++ *       high_mul = MAC (@b, @c);
++ *       @a = getRegister (R_ACCLO);
++ *       if((getFFlag () == true))
++ *         {
++ *           new_acchi = getRegister (R_ACCHI);
++ *           setNFlag (new_acchi);
++ *           if((OverflowADD (new_acchi, old_acchi, high_mul) == true))
++ *             {
++ *               setVFlag (1);
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MAC(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv old_acchi = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv high_mul = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv new_acchi = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    getRegister(temp_6, R_ACCHI);
++    tcg_gen_mov_tl(old_acchi, temp_6);
++    MAC(temp_7, b, c);
++    tcg_gen_mov_tl(high_mul, temp_7);
++    getRegister(temp_8, R_ACCLO);
++    tcg_gen_mov_tl(a, temp_8);
++    if ((getFFlag () == true)) {
++        getRegister(temp_9, R_ACCHI);
++        tcg_gen_mov_tl(new_acchi, temp_9);
++        setNFlag(new_acchi);
++        TCGLabel *done_2 = gen_new_label();
++        OverflowADD(temp_10, new_acchi, old_acchi, high_mul);
++        tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, temp_10, arc_true);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++        tcg_gen_movi_tl(temp_11, 1);
++        setVFlag(temp_11);
++        gen_set_label(done_2);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(old_acchi);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(high_mul);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(new_acchi);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_11);
++
++    return ret;
++}
++
++
++/*
++ * MACU
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getRegister, MACU, getFFlag, CarryADD, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       old_acchi = getRegister (R_ACCHI);
++ *       high_mul = MACU (@b, @c);
++ *       @a = getRegister (R_ACCLO);
++ *       if((getFFlag () == true))
++ *         {
++ *           new_acchi = getRegister (R_ACCHI);
++ *           if((CarryADD (new_acchi, old_acchi, high_mul) == true))
++ *             {
++ *               setVFlag (1);
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MACU(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv old_acchi = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv high_mul = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv new_acchi = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    getRegister(temp_6, R_ACCHI);
++    tcg_gen_mov_tl(old_acchi, temp_6);
++    MACU(temp_7, b, c);
++    tcg_gen_mov_tl(high_mul, temp_7);
++    getRegister(temp_8, R_ACCLO);
++    tcg_gen_mov_tl(a, temp_8);
++    if ((getFFlag () == true)) {
++        getRegister(temp_9, R_ACCHI);
++        tcg_gen_mov_tl(new_acchi, temp_9);
++        TCGLabel *done_2 = gen_new_label();
++        CarryADD(temp_10, new_acchi, old_acchi, high_mul);
++        tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, temp_10, arc_true);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++        tcg_gen_movi_tl(temp_11, 1);
++        setVFlag(temp_11);
++        gen_set_label(done_2);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(old_acchi);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(high_mul);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(new_acchi);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_11);
++
++    return ret;
++}
++
++
++/*
++ * MACD
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getRegister, MAC, nextReg, getFFlag, setNFlag,
++ *               OverflowADD, setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       old_acchi = getRegister (R_ACCHI);
++ *       high_mul = MAC (@b, @c);
++ *       @a = getRegister (R_ACCLO);
++ *       pair = nextReg (a);
++ *       pair = getRegister (R_ACCHI);
++ *       if((getFFlag () == true))
++ *         {
++ *           new_acchi = getRegister (R_ACCHI);
++ *           setNFlag (new_acchi);
++ *           if((OverflowADD (new_acchi, old_acchi, high_mul) == true))
++ *             {
++ *               setVFlag (1);
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MACD(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv old_acchi = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv high_mul = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv pair = NULL;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv new_acchi = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    getRegister(temp_6, R_ACCHI);
++    tcg_gen_mov_tl(old_acchi, temp_6);
++    MAC(temp_7, b, c);
++    tcg_gen_mov_tl(high_mul, temp_7);
++    getRegister(temp_8, R_ACCLO);
++    tcg_gen_mov_tl(a, temp_8);
++    pair = nextReg (a);
++    getRegister(temp_9, R_ACCHI);
++    tcg_gen_mov_tl(pair, temp_9);
++    if ((getFFlag () == true)) {
++        getRegister(temp_10, R_ACCHI);
++        tcg_gen_mov_tl(new_acchi, temp_10);
++        setNFlag(new_acchi);
++        TCGLabel *done_2 = gen_new_label();
++        OverflowADD(temp_11, new_acchi, old_acchi, high_mul);
++        tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, temp_11, arc_true);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++        tcg_gen_movi_tl(temp_12, 1);
++        setVFlag(temp_12);
++        gen_set_label(done_2);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(old_acchi);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(high_mul);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(new_acchi);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_12);
++
++    return ret;
++}
++
++
++/*
++ * MACDU
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag, getRegister, MACU, nextReg, getFFlag, CarryADD,
++ *               setVFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       old_acchi = getRegister (R_ACCHI);
++ *       high_mul = MACU (@b, @c);
++ *       @a = getRegister (R_ACCLO);
++ *       pair = nextReg (a);
++ *       pair = getRegister (R_ACCHI);
++ *       if((getFFlag () == true))
++ *         {
++ *           new_acchi = getRegister (R_ACCHI);
++ *           if((CarryADD (new_acchi, old_acchi, high_mul) == true))
++ *             {
++ *               setVFlag (1);
++ *             };
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_MACDU(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv old_acchi = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv high_mul = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv pair = NULL;
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv new_acchi = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    getRegister(temp_6, R_ACCHI);
++    tcg_gen_mov_tl(old_acchi, temp_6);
++    MACU(temp_7, b, c);
++    tcg_gen_mov_tl(high_mul, temp_7);
++    getRegister(temp_8, R_ACCLO);
++    tcg_gen_mov_tl(a, temp_8);
++    pair = nextReg (a);
++    getRegister(temp_9, R_ACCHI);
++    tcg_gen_mov_tl(pair, temp_9);
++    if ((getFFlag () == true)) {
++        getRegister(temp_10, R_ACCHI);
++        tcg_gen_mov_tl(new_acchi, temp_10);
++        TCGLabel *done_2 = gen_new_label();
++        CarryADD(temp_11, new_acchi, old_acchi, high_mul);
++        tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, temp_11, arc_true);
++        tcg_gen_xori_tl(temp_4, temp_3, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++        tcg_gen_movi_tl(temp_12, 1);
++        setVFlag(temp_12);
++        gen_set_label(done_2);
++    }
++    gen_set_label(done_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(old_acchi);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(high_mul);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(new_acchi);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_12);
++
++    return ret;
++}
++
++
++/*
++ * ABS
++ *    Variables: @src, @dest
++ *    Functions: Carry, getFFlag, setZFlag, setNFlag, setCFlag, Zero, setVFlag,
++ *               getNFlag
++ * --- code ---
++ * {
++ *   lsrc = @src;
++ *   alu = (0 - lsrc);
++ *   if((Carry (lsrc) == 1))
++ *     {
++ *       @dest = alu;
++ *     }
++ *   else
++ *     {
++ *       @dest = lsrc;
++ *     };
++ *   if((getFFlag () == true))
++ *     {
++ *       setZFlag (@dest);
++ *       setNFlag (@dest);
++ *       setCFlag (Zero ());
++ *       setVFlag (getNFlag ());
++ *     };
++ * }
++ */
++
++int
++arc_gen_ABS(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv lsrc = tcg_temp_local_new();
++    TCGv alu = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    tcg_gen_mov_tl(lsrc, src);
++    tcg_gen_subfi_tl(alu, 0, lsrc);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    Carry(temp_3, lsrc);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_1, temp_3, 1);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_mov_tl(dest, alu);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    tcg_gen_mov_tl(dest, lsrc);
++    gen_set_label(done_1);
++    if ((getFFlag () == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++        tcg_gen_mov_tl(temp_4, Zero());
++        setCFlag(temp_4);
++        tcg_gen_mov_tl(temp_5, getNFlag());
++        setVFlag(temp_5);
++    }
++    tcg_temp_free(lsrc);
++    tcg_temp_free(alu);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++
++    return ret;
++}
++
++
++/*
++ * SWAP
++ *    Variables: @src, @dest
++ *    Functions: getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   tmp1 = (@src << 16);
++ *   tmp2 = ((@src >> 16) & 65535);
++ *   @dest = (tmp1 | tmp2);
++ *   f_flag = getFFlag ();
++ *   if((f_flag == true))
++ *     {
++ *       setZFlag (@dest);
++ *       setNFlag (@dest);
++ *     };
++ * }
++ */
++
++int
++arc_gen_SWAP(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv tmp1 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv tmp2 = tcg_temp_local_new();
++    int f_flag;
++    tcg_gen_shli_tl(tmp1, src, 16);
++    tcg_gen_shri_tl(temp_1, src, 16);
++    tcg_gen_andi_tl(tmp2, temp_1, 65535);
++    tcg_gen_or_tl(dest, tmp1, tmp2);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    tcg_temp_free(tmp1);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(tmp2);
++
++    return ret;
++}
++
++
++/*
++ * SWAPE
++ *    Variables: @src, @dest
++ *    Functions: getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   tmp1 = ((@src << 24) & 4278190080);
++ *   tmp2 = ((@src << 8) & 16711680);
++ *   tmp3 = ((@src >> 8) & 65280);
++ *   tmp4 = ((@src >> 24) & 255);
++ *   @dest = (((tmp1 | tmp2) | tmp3) | tmp4);
++ *   f_flag = getFFlag ();
++ *   if((f_flag == true))
++ *     {
++ *       setZFlag (@dest);
++ *       setNFlag (@dest);
++ *     };
++ * }
++ */
++
++int
++arc_gen_SWAPE(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv tmp1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv tmp2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv tmp3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv tmp4 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    int f_flag;
++    tcg_gen_shli_tl(temp_1, src, 24);
++    tcg_gen_andi_tl(tmp1, temp_1, 4278190080);
++    tcg_gen_shli_tl(temp_2, src, 8);
++    tcg_gen_andi_tl(tmp2, temp_2, 16711680);
++    tcg_gen_shri_tl(temp_3, src, 8);
++    tcg_gen_andi_tl(tmp3, temp_3, 65280);
++    tcg_gen_shri_tl(temp_4, src, 24);
++    tcg_gen_andi_tl(tmp4, temp_4, 255);
++    tcg_gen_or_tl(temp_6, tmp1, tmp2);
++    tcg_gen_or_tl(temp_5, temp_6, tmp3);
++    tcg_gen_or_tl(dest, temp_5, tmp4);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    tcg_temp_free(temp_1);
++    tcg_temp_free(tmp1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(tmp2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(tmp3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(tmp4);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++
++    return ret;
++}
++
++
++/*
++ * NOT
++ *    Variables: @dest, @src
++ *    Functions: getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   @dest = ~@src;
++ *   f_flag = getFFlag ();
++ *   if((f_flag == true))
++ *     {
++ *       setZFlag (@dest);
++ *       setNFlag (@dest);
++ *     };
++ * }
++ */
++
++int
++arc_gen_NOT(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    int f_flag;
++    tcg_gen_not_tl(dest, src);
++    f_flag = getFFlag ();
++    if ((f_flag == true)) {
++        setZFlag(dest);
++        setNFlag(dest);
++    }
++    return ret;
++}
++
++
++/*
++ * BI
++ *    Variables: @c
++ *    Functions: setPC, getPCL
++ * --- code ---
++ * {
++ *   setPC ((nextInsnAddress () + (@c << 2)));
++ * }
++ */
++
++int
++arc_gen_BI(DisasCtxt *ctx, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    tcg_gen_shli_tl(temp_4, c, 2);
++    nextInsnAddress(temp_3);
++    tcg_gen_mov_tl(temp_2, temp_3);
++    tcg_gen_add_tl(temp_1, temp_2, temp_4);
++    setPC(temp_1);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_1);
++
++    return ret;
++}
++
++
++/*
++ * BIH
++ *    Variables: @c
++ *    Functions: setPC, getPCL
++ * --- code ---
++ * {
++ *   setPC ((nextInsnAddress () + (@c << 1)));
++ * }
++ */
++
++int
++arc_gen_BIH(DisasCtxt *ctx, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    tcg_gen_shli_tl(temp_4, c, 1);
++    nextInsnAddress(temp_3);
++    tcg_gen_mov_tl(temp_2, temp_3);
++    tcg_gen_add_tl(temp_1, temp_2, temp_4);
++    setPC(temp_1);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_1);
++
++    return ret;
++}
++
++
++/*
++ * B
++ *    Variables: @rd
++ *    Functions: getCCFlag, getPCL, shouldExecuteDelaySlot, executeDelaySlot,
++ *               setPC
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       take_branch = true;
++ *     };
++ *   bta = (getPCL () + @rd);
++ *   if((shouldExecuteDelaySlot () == true))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       setPC (bta);
++ *     };
++ * }
++ */
++
++int
++arc_gen_B(DisasCtxt *ctx, TCGv rd)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    gen_set_label(done_1);
++    getPCL(temp_7);
++    tcg_gen_mov_tl(temp_6, temp_7);
++    tcg_gen_add_tl(bta, temp_6, rd);
++    if ((shouldExecuteDelaySlot () == true)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++    setPC(bta);
++    gen_set_label(done_2);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * B_S
++ *    Variables: @rd
++ *    Functions: getCCFlag, setPC, getPCL
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       setPC ((getPCL () + @rd));
++ *     };
++ * }
++ */
++
++int
++arc_gen_B_S(DisasCtxt *ctx, TCGv rd)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    gen_set_label(done_1);
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++    getPCL(temp_8);
++    tcg_gen_mov_tl(temp_7, temp_8);
++    tcg_gen_add_tl(temp_6, temp_7, rd);
++    setPC(temp_6);
++    gen_set_label(done_2);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * BBIT0
++ *    Variables: @b, @c, @rd
++ *    Functions: getCCFlag, getPCL, shouldExecuteDelaySlot, executeDelaySlot,
++ *               setPC
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   p_b = @b;
++ *   p_c = (@c & 31);
++ *   tmp = (1 << p_c);
++ *   if((cc_flag == true))
++ *     {
++ *       if(((p_b && tmp) == 0))
++ *         {
++ *           take_branch = true;
++ *         };
++ *     };
++ *   bta = (getPCL () + @rd);
++ *   if((shouldExecuteDelaySlot () == true))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       if(((p_b && tmp) == 0))
++ *         {
++ *           setPC (bta);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BBIT0(DisasCtxt *ctx, TCGv b, TCGv c, TCGv rd)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_11);
++    tcg_gen_mov_tl(cc_flag, temp_11);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_andi_tl(p_c, c, 31);
++    tcg_gen_shlfi_tl(tmp, 1, p_c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_and_tl(temp_3, p_b, tmp);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_4, temp_3, 0);
++    tcg_gen_xori_tl(temp_5, temp_4, 1);
++    tcg_gen_andi_tl(temp_5, temp_5, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_5, arc_true, done_2);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    getPCL(temp_13);
++    tcg_gen_mov_tl(temp_12, temp_13);
++    tcg_gen_add_tl(bta, temp_12, rd);
++    if ((shouldExecuteDelaySlot () == true)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_6, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_7, temp_6, 1);
++    tcg_gen_andi_tl(temp_7, temp_7, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_7, arc_true, done_3);
++    TCGLabel *done_4 = gen_new_label();
++    tcg_gen_and_tl(temp_8, p_b, tmp);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_9, temp_8, 0);
++    tcg_gen_xori_tl(temp_10, temp_9, 1);
++    tcg_gen_andi_tl(temp_10, temp_10, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_10, arc_true, done_4);
++    setPC(bta);
++    gen_set_label(done_4);
++    gen_set_label(done_3);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(tmp);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_10);
++
++    return ret;
++}
++
++
++/*
++ * BBIT1
++ *    Variables: @b, @c, @rd
++ *    Functions: getCCFlag, getPCL, shouldExecuteDelaySlot, executeDelaySlot,
++ *               setPC
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   p_b = @b;
++ *   p_c = (@c & 31);
++ *   tmp = (1 << p_c);
++ *   if((cc_flag == true))
++ *     {
++ *       if(((p_b && tmp) != 0))
++ *         {
++ *           take_branch = true;
++ *         };
++ *     };
++ *   bta = (getPCL () + @rd);
++ *   if((shouldExecuteDelaySlot () == true))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       if(((p_b && tmp) != 0))
++ *         {
++ *           setPC (bta);
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_BBIT1(DisasCtxt *ctx, TCGv b, TCGv c, TCGv rd)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_11);
++    tcg_gen_mov_tl(cc_flag, temp_11);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_andi_tl(p_c, c, 31);
++    tcg_gen_shlfi_tl(tmp, 1, p_c);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_and_tl(temp_3, p_b, tmp);
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_4, temp_3, 0);
++    tcg_gen_xori_tl(temp_5, temp_4, 1);
++    tcg_gen_andi_tl(temp_5, temp_5, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_5, arc_true, done_2);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    gen_set_label(done_2);
++    gen_set_label(done_1);
++    getPCL(temp_13);
++    tcg_gen_mov_tl(temp_12, temp_13);
++    tcg_gen_add_tl(bta, temp_12, rd);
++    if ((shouldExecuteDelaySlot () == true)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_6, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_7, temp_6, 1);
++    tcg_gen_andi_tl(temp_7, temp_7, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_7, arc_true, done_3);
++    TCGLabel *done_4 = gen_new_label();
++    tcg_gen_and_tl(temp_8, p_b, tmp);
++    tcg_gen_setcondi_tl(TCG_COND_NE, temp_9, temp_8, 0);
++    tcg_gen_xori_tl(temp_10, temp_9, 1);
++    tcg_gen_andi_tl(temp_10, temp_10, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_10, arc_true, done_4);
++    setPC(bta);
++    gen_set_label(done_4);
++    gen_set_label(done_3);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(tmp);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_10);
++
++    return ret;
++}
++
++
++/*
++ * BL
++ *    Variables: @rd
++ *    Functions: getCCFlag, getPCL, shouldExecuteDelaySlot, setBLINK,
++ *               nextInsnAddressAfterDelaySlot, executeDelaySlot,
++ *               nextInsnAddress, setPC
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       take_branch = true;
++ *     };
++ *   bta = (getPCL () + @rd);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       if(take_branch)
++ *         {
++ *           setBLINK (nextInsnAddressAfterDelaySlot ());
++ *         };
++ *       executeDelaySlot (bta, take_branch);
++ *     }
++ *   else
++ *     {
++ *       if(take_branch)
++ *         {
++ *           setBLINK (nextInsnAddress ());
++ *         };
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       setPC (bta);
++ *     };
++ * }
++ */
++
++int
++arc_gen_BL(DisasCtxt *ctx, TCGv rd)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    gen_set_label(done_1);
++    getPCL(temp_9);
++    tcg_gen_mov_tl(temp_8, temp_9);
++    tcg_gen_add_tl(bta, temp_8, rd);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        TCGLabel *done_2 = gen_new_label();
++        tcg_gen_xori_tl(temp_3, take_branch, 1);
++        tcg_gen_andi_tl(temp_3, temp_3, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_3, arc_true, done_2);
++        nextInsnAddressAfterDelaySlot(temp_11);
++        tcg_gen_mov_tl(temp_10, temp_11);
++        setBLINK(temp_10);
++        gen_set_label(done_2);
++        executeDelaySlot(bta, take_branch);
++    } else {
++        TCGLabel *done_3 = gen_new_label();
++        tcg_gen_xori_tl(temp_4, take_branch, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_3);
++        nextInsnAddress(temp_13);
++        tcg_gen_mov_tl(temp_12, temp_13);
++        setBLINK(temp_12);
++        gen_set_label(done_3);
++    }
++    TCGLabel *done_4 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_5, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, done_4);
++    setPC(bta);
++    gen_set_label(done_4);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * J
++ *    Variables: @src
++ *    Functions: getCCFlag, shouldExecuteDelaySlot, executeDelaySlot, setPC
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       take_branch = true;
++ *     };
++ *   bta = @src;
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       setPC (bta);
++ *     };
++ * }
++ */
++
++int
++arc_gen_J(DisasCtxt *ctx, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_5);
++    tcg_gen_mov_tl(cc_flag, temp_5);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    gen_set_label(done_1);
++    tcg_gen_mov_tl(bta, src);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_2);
++    setPC(bta);
++    gen_set_label(done_2);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * JL
++ *    Variables: @src
++ *    Functions: getCCFlag, shouldExecuteDelaySlot, setBLINK,
++ *               nextInsnAddressAfterDelaySlot, executeDelaySlot,
++ *               nextInsnAddress, setPC
++ * --- code ---
++ * {
++ *   take_branch = false;
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       take_branch = true;
++ *     };
++ *   bta = @src;
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       if(take_branch)
++ *         {
++ *           setBLINK (nextInsnAddressAfterDelaySlot ());
++ *         };
++ *       executeDelaySlot (bta, take_branch);
++ *     }
++ *   else
++ *     {
++ *       if(take_branch)
++ *         {
++ *           setBLINK (nextInsnAddress ());
++ *         };
++ *     };
++ *   if((cc_flag == true))
++ *     {
++ *       setPC (bta);
++ *     };
++ * }
++ */
++
++int
++arc_gen_JL(DisasCtxt *ctx, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    tcg_gen_mov_tl(take_branch, arc_false);
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    gen_set_label(done_1);
++    tcg_gen_mov_tl(bta, src);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        TCGLabel *done_2 = gen_new_label();
++        tcg_gen_xori_tl(temp_3, take_branch, 1);
++        tcg_gen_andi_tl(temp_3, temp_3, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_3, arc_true, done_2);
++        nextInsnAddressAfterDelaySlot(temp_9);
++        tcg_gen_mov_tl(temp_8, temp_9);
++        setBLINK(temp_8);
++        gen_set_label(done_2);
++        executeDelaySlot(bta, take_branch);
++    } else {
++        TCGLabel *done_3 = gen_new_label();
++        tcg_gen_xori_tl(temp_4, take_branch, 1);
++        tcg_gen_andi_tl(temp_4, temp_4, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, done_3);
++        nextInsnAddress(temp_11);
++        tcg_gen_mov_tl(temp_10, temp_11);
++        setBLINK(temp_10);
++        gen_set_label(done_3);
++    }
++    TCGLabel *done_4 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_5, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, done_4);
++    setPC(bta);
++    gen_set_label(done_4);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_11);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * SETEQ
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       p_b = @b;
++ *       p_c = @c;
++ *       take_branch = false;
++ *       if((p_b == p_c))
++ *         {
++ *         }
++ *       else
++ *         {
++ *         };
++ *       if((p_b == p_c))
++ *         {
++ *           @a = true;
++ *         }
++ *       else
++ *         {
++ *           @a = false;
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETEQ(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    TCGLabel *else_3 = gen_new_label();
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_5, p_b, p_c);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_3);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_3);
++    gen_set_label(else_3);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_3);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * BREQ
++ *    Variables: @b, @c, @offset
++ *    Functions: getPCL, shouldExecuteDelaySlot, executeDelaySlot, setPC
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if((p_b == p_c))
++ *     {
++ *       take_branch = true;
++ *     }
++ *   else
++ *     {
++ *     };
++ *   bta = (getPCL () + @offset);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((p_b == p_c))
++ *     {
++ *       setPC (bta);
++ *     }
++ *   else
++ *     {
++ *     };
++ * }
++ */
++
++int
++arc_gen_BREQ(DisasCtxt *ctx, TCGv b, TCGv c, TCGv offset)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    getPCL(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_add_tl(bta, temp_5, offset);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    setPC(bta);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * SETNE
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       p_b = @b;
++ *       p_c = @c;
++ *       take_branch = false;
++ *       if((p_b != p_c))
++ *         {
++ *         }
++ *       else
++ *         {
++ *         };
++ *       if((p_b != p_c))
++ *         {
++ *           @a = true;
++ *         }
++ *       else
++ *         {
++ *           @a = false;
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETNE(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_NE, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    TCGLabel *else_3 = gen_new_label();
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_NE, temp_5, p_b, p_c);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_3);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_3);
++    gen_set_label(else_3);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_3);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * BRNE
++ *    Variables: @b, @c, @offset
++ *    Functions: getPCL, shouldExecuteDelaySlot, executeDelaySlot, setPC
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if((p_b != p_c))
++ *     {
++ *       take_branch = true;
++ *     }
++ *   else
++ *     {
++ *     };
++ *   bta = (getPCL () + @offset);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((p_b != p_c))
++ *     {
++ *       setPC (bta);
++ *     }
++ *   else
++ *     {
++ *     };
++ * }
++ */
++
++int
++arc_gen_BRNE(DisasCtxt *ctx, TCGv b, TCGv c, TCGv offset)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_NE, temp_1, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    getPCL(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_add_tl(bta, temp_5, offset);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_NE, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    setPC(bta);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * SETLT
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       p_b = @b;
++ *       p_c = @c;
++ *       take_branch = false;
++ *       if((p_b < p_c))
++ *         {
++ *         }
++ *       else
++ *         {
++ *         };
++ *       if((p_b < p_c))
++ *         {
++ *           @a = true;
++ *         }
++ *       else
++ *         {
++ *           @a = false;
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETLT(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LT, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    TCGLabel *else_3 = gen_new_label();
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LT, temp_5, p_b, p_c);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_3);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_3);
++    gen_set_label(else_3);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_3);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * BRLT
++ *    Variables: @b, @c, @offset
++ *    Functions: getPCL, shouldExecuteDelaySlot, executeDelaySlot, setPC
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if((p_b < p_c))
++ *     {
++ *       take_branch = true;
++ *     }
++ *   else
++ *     {
++ *     };
++ *   bta = (getPCL () + @offset);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((p_b < p_c))
++ *     {
++ *       setPC (bta);
++ *     }
++ *   else
++ *     {
++ *     };
++ * }
++ */
++
++int
++arc_gen_BRLT(DisasCtxt *ctx, TCGv b, TCGv c, TCGv offset)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LT, temp_1, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    getPCL(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_add_tl(bta, temp_5, offset);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LT, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    setPC(bta);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * SETGE
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       p_b = @b;
++ *       p_c = @c;
++ *       take_branch = false;
++ *       if((p_b >= p_c))
++ *         {
++ *         }
++ *       else
++ *         {
++ *         };
++ *       if((p_b >= p_c))
++ *         {
++ *           @a = true;
++ *         }
++ *       else
++ *         {
++ *           @a = false;
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETGE(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GE, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    TCGLabel *else_3 = gen_new_label();
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GE, temp_5, p_b, p_c);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_3);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_3);
++    gen_set_label(else_3);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_3);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * BRGE
++ *    Variables: @b, @c, @offset
++ *    Functions: getPCL, shouldExecuteDelaySlot, executeDelaySlot, setPC
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if((p_b >= p_c))
++ *     {
++ *       take_branch = true;
++ *     }
++ *   else
++ *     {
++ *     };
++ *   bta = (getPCL () + @offset);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if((p_b >= p_c))
++ *     {
++ *       setPC (bta);
++ *     }
++ *   else
++ *     {
++ *     };
++ * }
++ */
++
++int
++arc_gen_BRGE(DisasCtxt *ctx, TCGv b, TCGv c, TCGv offset)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GE, temp_1, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    getPCL(temp_6);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_add_tl(bta, temp_5, offset);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GE, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    setPC(bta);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * SETLE
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       p_b = @b;
++ *       p_c = @c;
++ *       take_branch = false;
++ *       if((p_b <= p_c))
++ *         {
++ *         }
++ *       else
++ *         {
++ *         };
++ *       if((p_b <= p_c))
++ *         {
++ *           @a = true;
++ *         }
++ *       else
++ *         {
++ *           @a = false;
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETLE(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LE, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    TCGLabel *else_3 = gen_new_label();
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_LE, temp_5, p_b, p_c);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_3);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_3);
++    gen_set_label(else_3);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_3);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * SETGT
++ *    Variables: @b, @c, @a
++ *    Functions: getCCFlag
++ * --- code ---
++ * {
++ *   cc_flag = getCCFlag ();
++ *   if((cc_flag == true))
++ *     {
++ *       p_b = @b;
++ *       p_c = @c;
++ *       take_branch = false;
++ *       if((p_b > p_c))
++ *         {
++ *         }
++ *       else
++ *         {
++ *         };
++ *       if((p_b > p_c))
++ *         {
++ *           @a = true;
++ *         }
++ *       else
++ *         {
++ *           @a = false;
++ *         };
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETGT(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv cc_flag = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getCCFlag(temp_7);
++    tcg_gen_mov_tl(cc_flag, temp_7);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, cc_flag, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GT, temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_4, temp_3, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_4, arc_true, else_2);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    TCGLabel *else_3 = gen_new_label();
++    TCGLabel *done_3 = gen_new_label();
++    tcg_gen_setcond_tl(TCG_COND_GT, temp_5, p_b, p_c);
++    tcg_gen_xori_tl(temp_6, temp_5, 1);
++    tcg_gen_andi_tl(temp_6, temp_6, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_6, arc_true, else_3);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_3);
++    gen_set_label(else_3);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_3);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(cc_flag);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * BRLO
++ *    Variables: @b, @c, @offset
++ *    Functions: unsignedLT, getPCL, shouldExecuteDelaySlot, executeDelaySlot,
++ *               setPC
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if(unsignedLT (p_b, p_c))
++ *     {
++ *       take_branch = true;
++ *     }
++ *   else
++ *     {
++ *     };
++ *   bta = (getPCL () + @offset);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if(unsignedLT (p_b, p_c))
++ *     {
++ *       setPC (bta);
++ *     }
++ *   else
++ *     {
++ *     };
++ * }
++ */
++
++int
++arc_gen_BRLO(DisasCtxt *ctx, TCGv b, TCGv c, TCGv offset)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    unsignedLT(temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_1, temp_3, 1);
++    tcg_gen_andi_tl(temp_1, temp_1, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_1, arc_true, else_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    getPCL(temp_5);
++    tcg_gen_mov_tl(temp_4, temp_5);
++    tcg_gen_add_tl(bta, temp_4, offset);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    unsignedLT(temp_6, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_6, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_2);
++    setPC(bta);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * SETLO
++ *    Variables: @b, @c, @a
++ *    Functions: unsignedLT
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if(unsignedLT (p_b, p_c))
++ *     {
++ *     }
++ *   else
++ *     {
++ *     };
++ *   if(unsignedLT (p_b, p_c))
++ *     {
++ *       @a = true;
++ *     }
++ *   else
++ *     {
++ *       @a = false;
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETLO(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    unsignedLT(temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_1, temp_3, 1);
++    tcg_gen_andi_tl(temp_1, temp_1, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_1, arc_true, else_1);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    unsignedLT(temp_4, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_4, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_2);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * BRHS
++ *    Variables: @b, @c, @offset
++ *    Functions: unsignedGE, getPCL, shouldExecuteDelaySlot, executeDelaySlot,
++ *               setPC
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if(unsignedGE (p_b, p_c))
++ *     {
++ *       take_branch = true;
++ *     }
++ *   else
++ *     {
++ *     };
++ *   bta = (getPCL () + @offset);
++ *   if((shouldExecuteDelaySlot () == 1))
++ *     {
++ *       executeDelaySlot (bta, take_branch);
++ *     };
++ *   if(unsignedGE (p_b, p_c))
++ *     {
++ *       setPC (bta);
++ *     }
++ *   else
++ *     {
++ *     };
++ * }
++ */
++
++int
++arc_gen_BRHS(DisasCtxt *ctx, TCGv b, TCGv c, TCGv offset)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv bta = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    unsignedGE(temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_1, temp_3, 1);
++    tcg_gen_andi_tl(temp_1, temp_1, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_1, arc_true, else_1);
++    tcg_gen_mov_tl(take_branch, arc_true);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    getPCL(temp_5);
++    tcg_gen_mov_tl(temp_4, temp_5);
++    tcg_gen_add_tl(bta, temp_4, offset);
++    if ((shouldExecuteDelaySlot () == 1)) {
++        executeDelaySlot(bta, take_branch);
++    }
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    unsignedGE(temp_6, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_6, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_2);
++    setPC(bta);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(bta);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * SETHS
++ *    Variables: @b, @c, @a
++ *    Functions: unsignedGE
++ * --- code ---
++ * {
++ *   p_b = @b;
++ *   p_c = @c;
++ *   take_branch = false;
++ *   if(unsignedGE (p_b, p_c))
++ *     {
++ *     }
++ *   else
++ *     {
++ *     };
++ *   if(unsignedGE (p_b, p_c))
++ *     {
++ *       @a = true;
++ *     }
++ *   else
++ *     {
++ *       @a = false;
++ *     };
++ * }
++ */
++
++int
++arc_gen_SETHS(DisasCtxt *ctx, TCGv b, TCGv c, TCGv a)
++{
++    int ret = DISAS_NEXT;
++    TCGv p_b = tcg_temp_local_new();
++    TCGv p_c = tcg_temp_local_new();
++    TCGv take_branch = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    tcg_gen_mov_tl(p_b, b);
++    tcg_gen_mov_tl(p_c, c);
++    tcg_gen_mov_tl(take_branch, arc_false);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    unsignedGE(temp_3, p_b, p_c);
++    tcg_gen_xori_tl(temp_1, temp_3, 1);
++    tcg_gen_andi_tl(temp_1, temp_1, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_1, arc_true, else_1);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    gen_set_label(done_1);
++    TCGLabel *else_2 = gen_new_label();
++    TCGLabel *done_2 = gen_new_label();
++    unsignedGE(temp_4, p_b, p_c);
++    tcg_gen_xori_tl(temp_2, temp_4, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_2);
++    tcg_gen_mov_tl(a, arc_true);
++    tcg_gen_br(done_2);
++    gen_set_label(else_2);
++    tcg_gen_mov_tl(a, arc_false);
++    gen_set_label(done_2);
++    tcg_temp_free(p_b);
++    tcg_temp_free(p_c);
++    tcg_temp_free(take_branch);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * EX
++ *    Variables: @b, @c
++ *    Functions: getMemory, setMemory
++ * --- code ---
++ * {
++ *   temp = @b;
++ *   @b = getMemory (@c, LONG);
++ *   setMemory (@c, LONG, temp);
++ * }
++ */
++
++int
++arc_gen_EX(DisasCtxt *ctx, TCGv b, TCGv c)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    tcg_gen_mov_tl(temp, b);
++    getMemory(temp_1, c, LONG);
++    tcg_gen_mov_tl(b, temp_1);
++    setMemory(c, LONG, temp);
++    tcg_temp_free(temp);
++    tcg_temp_free(temp_1);
++
++    return ret;
++}
++
++
++/*
++ * LLOCK
++ *    Variables: @dest, @src
++ *    Functions: getMemory, setLF
++ * --- code ---
++ * {
++ *   @dest = getMemory (@src, LONG);
++ *   setLF (1);
++ * }
++ */
++
++int
++arc_gen_LLOCK(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    getMemory(temp_1, src, LONG);
++    tcg_gen_mov_tl(dest, temp_1);
++    tcg_gen_movi_tl(temp_2, 1);
++    setLF(temp_2);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * LLOCKD
++ *    Variables: @dest, @src
++ *    Functions: getMemory, nextReg, setLF
++ * --- code ---
++ * {
++ *   @dest = getMemory (@src, LONG);
++ *   pair = nextReg (dest);
++ *   pair = getMemory ((@src + 4), LONG);
++ *   setLF (1);
++ * }
++ */
++
++int
++arc_gen_LLOCKD(DisasCtxt *ctx, TCGv dest, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv pair = NULL;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    getMemory(temp_1, src, LONG);
++    tcg_gen_mov_tl(dest, temp_1);
++    pair = nextReg (dest);
++    tcg_gen_addi_tl(temp_3, src, 4);
++    getMemory(temp_2, temp_3, LONG);
++    tcg_gen_mov_tl(pair, temp_2);
++    tcg_gen_movi_tl(temp_4, 1);
++    setLF(temp_4);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * SCOND
++ *    Variables: @src, @dest
++ *    Functions: getLF, setMemory, setZFlag, setLF
++ * --- code ---
++ * {
++ *   lf = getLF ();
++ *   if((lf == 1))
++ *     {
++ *       setMemory (@src, LONG, @dest);
++ *     };
++ *   setZFlag (!lf);
++ *   setLF (0);
++ * }
++ */
++
++int
++arc_gen_SCOND(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv lf = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    getLF(temp_3);
++    tcg_gen_mov_tl(lf, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_1, lf, 1);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    setMemory(src, LONG, dest);
++    gen_set_label(done_1);
++    tcg_gen_xori_tl(temp_4, lf, 1);
++    tcg_gen_andi_tl(temp_4, temp_4, 1);
++    setZFlag(temp_4);
++    tcg_gen_movi_tl(temp_5, 0);
++    setLF(temp_5);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(lf);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++
++    return ret;
++}
++
++
++/*
++ * SCONDD
++ *    Variables: @src, @dest
++ *    Functions: getLF, setMemory, nextReg, setZFlag, setLF
++ * --- code ---
++ * {
++ *   lf = getLF ();
++ *   if((lf == 1))
++ *     {
++ *       setMemory (@src, LONG, @dest);
++ *       pair = nextReg (dest);
++ *       setMemory ((@src + 4), LONG, pair);
++ *     };
++ *   setZFlag (!lf);
++ *   setLF (0);
++ * }
++ */
++
++int
++arc_gen_SCONDD(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv lf = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv pair = NULL;
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    getLF(temp_3);
++    tcg_gen_mov_tl(lf, temp_3);
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_1, lf, 1);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++    setMemory(src, LONG, dest);
++    pair = nextReg (dest);
++    tcg_gen_addi_tl(temp_4, src, 4);
++    setMemory(temp_4, LONG, pair);
++    gen_set_label(done_1);
++    tcg_gen_xori_tl(temp_5, lf, 1);
++    tcg_gen_andi_tl(temp_5, temp_5, 1);
++    setZFlag(temp_5);
++    tcg_gen_movi_tl(temp_6, 0);
++    setLF(temp_6);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(lf);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_6);
++
++    return ret;
++}
++
++
++/*
++ * DMB
++ *    Variables: @a
++ *    Functions:
++ * --- code ---
++ * {
++ *   @a = @a;
++ * }
++ */
++
++int
++arc_gen_DMB(DisasCtxt *ctx, TCGv a)
++{
++    int ret = DISAS_NEXT;
++
++    return ret;
++}
++
++
++/*
++ * LD
++ *    Variables: @src1, @src2, @dest
++ *    Functions: getAAFlag, getZZFlag, setDebugLD, getMemory, getFlagX,
++ *               SignExtend, NoFurtherLoadsPending
++ * --- code ---
++ * {
++ *   AA = getAAFlag ();
++ *   ZZ = getZZFlag ();
++ *   address = 0;
++ *   if(((AA == 0) || (AA == 1)))
++ *     {
++ *       address = (@src1 + @src2);
++ *     };
++ *   if((AA == 2))
++ *     {
++ *       address = @src1;
++ *     };
++ *   if(((AA == 3) && ((ZZ == 0) || (ZZ == 3))))
++ *     {
++ *       address = (@src1 + (@src2 << 2));
++ *     };
++ *   if(((AA == 3) && (ZZ == 2)))
++ *     {
++ *       address = (@src1 + (@src2 << 1));
++ *     };
++ *   l_src1 = @src1;
++ *   l_src2 = @src2;
++ *   setDebugLD (1);
++ *   new_dest = getMemory (address, ZZ);
++ *   if(((AA == 1) || (AA == 2)))
++ *     {
++ *       @src1 = (l_src1 + l_src2);
++ *     };
++ *   if((getFlagX () == 1))
++ *     {
++ *       new_dest = SignExtend (new_dest, ZZ);
++ *     };
++ *   if(NoFurtherLoadsPending ())
++ *     {
++ *       setDebugLD (0);
++ *     };
++ *   @dest = new_dest;
++ * }
++ */
++
++int
++arc_gen_LD(DisasCtxt *ctx, TCGv src1, TCGv src2, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    int AA;
++    int ZZ;
++    TCGv address = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv l_src1 = tcg_temp_local_new();
++    TCGv l_src2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv new_dest = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    AA = getAAFlag ();
++    ZZ = getZZFlag ();
++    tcg_gen_movi_tl(address, 0);
++    if (((AA == 0) || (AA == 1))) {
++        tcg_gen_add_tl(address, src1, src2);
++    }
++    if ((AA == 2)) {
++        tcg_gen_mov_tl(address, src1);
++    }
++    if (((AA == 3) && ((ZZ == 0) || (ZZ == 3)))) {
++        tcg_gen_shli_tl(temp_2, src2, 2);
++        tcg_gen_add_tl(address, src1, temp_2);
++    }
++    if (((AA == 3) && (ZZ == 2))) {
++        tcg_gen_shli_tl(temp_3, src2, 1);
++        tcg_gen_add_tl(address, src1, temp_3);
++    }
++    tcg_gen_mov_tl(l_src1, src1);
++    tcg_gen_mov_tl(l_src2, src2);
++    tcg_gen_movi_tl(temp_4, 1);
++    setDebugLD(temp_4);
++    getMemory(temp_5, address, ZZ);
++    tcg_gen_mov_tl(new_dest, temp_5);
++    if (((AA == 1) || (AA == 2))) {
++        tcg_gen_add_tl(src1, l_src1, l_src2);
++    }
++    if ((getFlagX () == 1)) {
++        new_dest = SignExtend (new_dest, ZZ);
++    }
++    TCGLabel *done_1 = gen_new_label();
++    NoFurtherLoadsPending(temp_6);
++    tcg_gen_xori_tl(temp_1, temp_6, 1);
++    tcg_gen_andi_tl(temp_1, temp_1, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_1, arc_true, done_1);
++    tcg_gen_movi_tl(temp_7, 0);
++    setDebugLD(temp_7);
++    gen_set_label(done_1);
++    tcg_gen_mov_tl(dest, new_dest);
++    tcg_temp_free(address);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(l_src1);
++    tcg_temp_free(l_src2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(new_dest);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_7);
++
++    return ret;
++}
++
++
++/*
++ * LDD
++ *    Variables: @src1, @src2, @dest
++ *    Functions: getAAFlag, getZZFlag, setDebugLD, getMemory, nextReg,
++ *               NoFurtherLoadsPending
++ * --- code ---
++ * {
++ *   AA = getAAFlag ();
++ *   ZZ = getZZFlag ();
++ *   address = 0;
++ *   if(((AA == 0) || (AA == 1)))
++ *     {
++ *       address = (@src1 + @src2);
++ *     };
++ *   if((AA == 2))
++ *     {
++ *       address = @src1;
++ *     };
++ *   if(((AA == 3) && ((ZZ == 0) || (ZZ == 3))))
++ *     {
++ *       address = (@src1 + (@src2 << 2));
++ *     };
++ *   if(((AA == 3) && (ZZ == 2)))
++ *     {
++ *       address = (@src1 + (@src2 << 1));
++ *     };
++ *   l_src1 = @src1;
++ *   l_src2 = @src2;
++ *   setDebugLD (1);
++ *   new_dest = getMemory (address, LONG);
++ *   pair = nextReg (dest);
++ *   pair = getMemory ((address + 4), LONG);
++ *   if(((AA == 1) || (AA == 2)))
++ *     {
++ *       @src1 = (l_src1 + l_src2);
++ *     };
++ *   if(NoFurtherLoadsPending ())
++ *     {
++ *       setDebugLD (0);
++ *     };
++ *   @dest = new_dest;
++ * }
++ */
++
++int
++arc_gen_LDD(DisasCtxt *ctx, TCGv src1, TCGv src2, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    int AA;
++    int ZZ;
++    TCGv address = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv l_src1 = tcg_temp_local_new();
++    TCGv l_src2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv new_dest = tcg_temp_local_new();
++    TCGv pair = NULL;
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    AA = getAAFlag ();
++    ZZ = getZZFlag ();
++    tcg_gen_movi_tl(address, 0);
++    if (((AA == 0) || (AA == 1))) {
++        tcg_gen_add_tl(address, src1, src2);
++    }
++    if ((AA == 2)) {
++        tcg_gen_mov_tl(address, src1);
++    }
++    if (((AA == 3) && ((ZZ == 0) || (ZZ == 3)))) {
++        tcg_gen_shli_tl(temp_2, src2, 2);
++        tcg_gen_add_tl(address, src1, temp_2);
++    }
++    if (((AA == 3) && (ZZ == 2))) {
++        tcg_gen_shli_tl(temp_3, src2, 1);
++        tcg_gen_add_tl(address, src1, temp_3);
++    }
++    tcg_gen_mov_tl(l_src1, src1);
++    tcg_gen_mov_tl(l_src2, src2);
++    tcg_gen_movi_tl(temp_4, 1);
++    setDebugLD(temp_4);
++    getMemory(temp_5, address, LONG);
++    tcg_gen_mov_tl(new_dest, temp_5);
++    pair = nextReg (dest);
++    tcg_gen_addi_tl(temp_7, address, 4);
++    getMemory(temp_6, temp_7, LONG);
++    tcg_gen_mov_tl(pair, temp_6);
++    if (((AA == 1) || (AA == 2))) {
++        tcg_gen_add_tl(src1, l_src1, l_src2);
++    }
++    TCGLabel *done_1 = gen_new_label();
++    NoFurtherLoadsPending(temp_8);
++    tcg_gen_xori_tl(temp_1, temp_8, 1);
++    tcg_gen_andi_tl(temp_1, temp_1, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_1, arc_true, done_1);
++    tcg_gen_movi_tl(temp_9, 0);
++    setDebugLD(temp_9);
++    gen_set_label(done_1);
++    tcg_gen_mov_tl(dest, new_dest);
++    tcg_temp_free(address);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(l_src1);
++    tcg_temp_free(l_src2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(new_dest);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_9);
++
++    return ret;
++}
++
++
++/*
++ * ST
++ *    Variables: @src1, @src2, @dest
++ *    Functions: getAAFlag, getZZFlag, setMemory
++ * --- code ---
++ * {
++ *   AA = getAAFlag ();
++ *   ZZ = getZZFlag ();
++ *   address = 0;
++ *   if(((AA == 0) || (AA == 1)))
++ *     {
++ *       address = (@src1 + @src2);
++ *     };
++ *   if((AA == 2))
++ *     {
++ *       address = @src1;
++ *     };
++ *   if(((AA == 3) && ((ZZ == 0) || (ZZ == 3))))
++ *     {
++ *       address = (@src1 + (@src2 << 2));
++ *     };
++ *   if(((AA == 3) && (ZZ == 2)))
++ *     {
++ *       address = (@src1 + (@src2 << 1));
++ *     };
++ *   setMemory (address, ZZ, @dest);
++ *   if(((AA == 1) || (AA == 2)))
++ *     {
++ *       @src1 = (@src1 + @src2);
++ *     };
++ * }
++ */
++
++int
++arc_gen_ST(DisasCtxt *ctx, TCGv src1, TCGv src2, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    int AA;
++    int ZZ;
++    TCGv address = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    AA = getAAFlag ();
++    ZZ = getZZFlag ();
++    tcg_gen_movi_tl(address, 0);
++    if (((AA == 0) || (AA == 1))) {
++        tcg_gen_add_tl(address, src1, src2);
++    }
++    if ((AA == 2)) {
++        tcg_gen_mov_tl(address, src1);
++    }
++    if (((AA == 3) && ((ZZ == 0) || (ZZ == 3)))) {
++        tcg_gen_shli_tl(temp_1, src2, 2);
++        tcg_gen_add_tl(address, src1, temp_1);
++    }
++    if (((AA == 3) && (ZZ == 2))) {
++        tcg_gen_shli_tl(temp_2, src2, 1);
++        tcg_gen_add_tl(address, src1, temp_2);
++    }
++    setMemory(address, ZZ, dest);
++    if (((AA == 1) || (AA == 2))) {
++        tcg_gen_add_tl(src1, src1, src2);
++    }
++    tcg_temp_free(address);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++
++    return ret;
++}
++
++
++/*
++ * STD
++ *    Variables: @src1, @src2, @dest
++ *    Functions: getAAFlag, getZZFlag, setMemory,
++ *               instructionHasRegisterOperandIn, nextReg, getBit
++ * --- code ---
++ * {
++ *   AA = getAAFlag ();
++ *   ZZ = getZZFlag ();
++ *   address = 0;
++ *   if(((AA == 0) || (AA == 1)))
++ *     {
++ *       address = (@src1 + @src2);
++ *     };
++ *   if((AA == 2))
++ *     {
++ *       address = @src1;
++ *     };
++ *   if(((AA == 3) && ((ZZ == 0) || (ZZ == 3))))
++ *     {
++ *       address = (@src1 + (@src2 << 2));
++ *     };
++ *   if(((AA == 3) && (ZZ == 2)))
++ *     {
++ *       address = (@src1 + (@src2 << 1));
++ *     };
++ *   setMemory (address, LONG, @dest);
++ *   if(instructionHasRegisterOperandIn (0))
++ *     {
++ *       pair = nextReg (dest);
++ *       setMemory ((address + 4), LONG, pair);
++ *     }
++ *   else
++ *     {
++ *       tmp = 0;
++ *       if(getBit (@dest, 31) == 1)
++ *         {
++ *           tmp = 4294967295;
++ *         }
++ *       setMemory ((address + 4), LONG, tmp);
++ *     };
++ *   if(((AA == 1) || (AA == 2)))
++ *     {
++ *       @src1 = (@src1 + @src2);
++ *     };
++ * }
++ */
++
++int
++arc_gen_STD(DisasCtxt *ctx, TCGv src1, TCGv src2, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    int AA;
++    int ZZ;
++    TCGv address = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv pair = NULL;
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv tmp = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    AA = getAAFlag ();
++    ZZ = getZZFlag ();
++    tcg_gen_movi_tl(address, 0);
++    if (((AA == 0) || (AA == 1))) {
++        tcg_gen_add_tl(address, src1, src2);
++    }
++    if ((AA == 2)) {
++        tcg_gen_mov_tl(address, src1);
++    }
++    if (((AA == 3) && ((ZZ == 0) || (ZZ == 3)))) {
++        tcg_gen_shli_tl(temp_3, src2, 2);
++        tcg_gen_add_tl(address, src1, temp_3);
++    }
++    if (((AA == 3) && (ZZ == 2))) {
++        tcg_gen_shli_tl(temp_4, src2, 1);
++        tcg_gen_add_tl(address, src1, temp_4);
++    }
++    setMemory(address, LONG, dest);
++    if (instructionHasRegisterOperandIn (0)) {
++        pair = nextReg (dest);
++        tcg_gen_addi_tl(temp_5, address, 4);
++        setMemory(temp_5, LONG, pair);
++    } else {
++        tcg_gen_movi_tl(tmp, 0);
++        TCGLabel *done_1 = gen_new_label();
++        tcg_gen_movi_tl(temp_7, 31);
++        getBit(temp_6, dest, temp_7);
++        tcg_gen_setcondi_tl(TCG_COND_EQ, temp_1, temp_6, 1);
++        tcg_gen_xori_tl(temp_2, temp_1, 1);
++        tcg_gen_andi_tl(temp_2, temp_2, 1);
++        tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, done_1);
++        tcg_gen_movi_tl(tmp, 4294967295);
++        gen_set_label(done_1);
++        tcg_gen_addi_tl(temp_8, address, 4);
++        setMemory(temp_8, LONG, tmp);
++    }
++    if (((AA == 1) || (AA == 2))) {
++        tcg_gen_add_tl(src1, src1, src2);
++    }
++    tcg_temp_free(address);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(tmp);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_8);
++
++    return ret;
++}
++
++
++/*
++ * POP
++ *    Variables: @dest
++ *    Functions: getMemory, getRegister, setRegister
++ * --- code ---
++ * {
++ *   new_dest = getMemory (getRegister (R_SP), LONG);
++ *   setRegister (R_SP, (getRegister (R_SP) + 4));
++ *   @dest = new_dest;
++ * }
++ */
++
++int
++arc_gen_POP(DisasCtxt *ctx, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv new_dest = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    getRegister(temp_3, R_SP);
++    tcg_gen_mov_tl(temp_2, temp_3);
++    getMemory(temp_1, temp_2, LONG);
++    tcg_gen_mov_tl(new_dest, temp_1);
++    getRegister(temp_6, R_SP);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_addi_tl(temp_4, temp_5, 4);
++    setRegister(R_SP, temp_4);
++    tcg_gen_mov_tl(dest, new_dest);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(new_dest);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * PUSH
++ *    Variables: @src
++ *    Functions: setMemory, getRegister, setRegister
++ * --- code ---
++ * {
++ *   local_src = @src;
++ *   setMemory ((getRegister (R_SP) - 4), LONG, local_src);
++ *   setRegister (R_SP, (getRegister (R_SP) - 4));
++ * }
++ */
++
++int
++arc_gen_PUSH(DisasCtxt *ctx, TCGv src)
++{
++    int ret = DISAS_NEXT;
++    TCGv local_src = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    tcg_gen_mov_tl(local_src, src);
++    getRegister(temp_3, R_SP);
++    tcg_gen_mov_tl(temp_2, temp_3);
++    tcg_gen_subi_tl(temp_1, temp_2, 4);
++    setMemory(temp_1, LONG, local_src);
++    getRegister(temp_6, R_SP);
++    tcg_gen_mov_tl(temp_5, temp_6);
++    tcg_gen_subi_tl(temp_4, temp_5, 4);
++    setRegister(R_SP, temp_4);
++    tcg_temp_free(local_src);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++
++    return ret;
++}
++
++
++/*
++ * LP
++ *    Variables: @rd
++ *    Functions: getCCFlag, getRegIndex, writeAuxReg, nextInsnAddress, getPCL,
++ *               setPC
++ * --- code ---
++ * {
++ *   if((getCCFlag () == true))
++ *     {
++ *       lp_start_index = getRegIndex (LP_START);
++ *       lp_end_index = getRegIndex (LP_END);
++ *       writeAuxReg (lp_start_index, nextInsnAddress ());
++ *       writeAuxReg (lp_end_index, (getPCL () + @rd));
++ *     }
++ *   else
++ *     {
++ *       setPC ((getPCL () + @rd));
++ *     };
++ * }
++ */
++
++int
++arc_gen_LP(DisasCtxt *ctx, TCGv rd)
++{
++    int ret = DISAS_NEXT;
++    TCGv temp_3 = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv lp_start_index = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv lp_end_index = tcg_temp_local_new();
++    TCGv temp_7 = tcg_temp_local_new();
++    TCGv temp_6 = tcg_temp_local_new();
++    TCGv temp_10 = tcg_temp_local_new();
++    TCGv temp_9 = tcg_temp_local_new();
++    TCGv temp_8 = tcg_temp_local_new();
++    TCGv temp_13 = tcg_temp_local_new();
++    TCGv temp_12 = tcg_temp_local_new();
++    TCGv temp_11 = tcg_temp_local_new();
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    getCCFlag(temp_3);
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp_1, temp_3, arc_true);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    getRegIndex(temp_4, LP_START);
++    tcg_gen_mov_tl(lp_start_index, temp_4);
++    getRegIndex(temp_5, LP_END);
++    tcg_gen_mov_tl(lp_end_index, temp_5);
++    nextInsnAddress(temp_7);
++    tcg_gen_mov_tl(temp_6, temp_7);
++    writeAuxReg(lp_start_index, temp_6);
++    getPCL(temp_10);
++    tcg_gen_mov_tl(temp_9, temp_10);
++    tcg_gen_add_tl(temp_8, temp_9, rd);
++    writeAuxReg(lp_end_index, temp_8);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    getPCL(temp_13);
++    tcg_gen_mov_tl(temp_12, temp_13);
++    tcg_gen_add_tl(temp_11, temp_12, rd);
++    setPC(temp_11);
++    gen_set_label(done_1);
++    tcg_temp_free(temp_3);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(lp_start_index);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(lp_end_index);
++    tcg_temp_free(temp_7);
++    tcg_temp_free(temp_6);
++    tcg_temp_free(temp_10);
++    tcg_temp_free(temp_9);
++    tcg_temp_free(temp_8);
++    tcg_temp_free(temp_13);
++    tcg_temp_free(temp_12);
++    tcg_temp_free(temp_11);
++
++    return ret;
++}
++
++
++/*
++ * NORM
++ *    Variables: @src, @dest
++ *    Functions: CRLSB, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   psrc = @src;
++ *   @dest = CRLSB (psrc);
++ *   if((getFFlag () == true))
++ *     {
++ *       setZFlag (psrc);
++ *       setNFlag (psrc);
++ *     };
++ * }
++ */
++
++int
++arc_gen_NORM(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv psrc = tcg_temp_local_new();
++    tcg_gen_mov_tl(psrc, src);
++    tcg_gen_clrsb_tl(dest, psrc);
++    if ((getFFlag () == true)) {
++        setZFlag(psrc);
++        setNFlag(psrc);
++    }
++    tcg_temp_free(psrc);
++
++    return ret;
++}
++
++
++/*
++ * NORMH
++ *    Variables: @src, @dest
++ *    Functions: SignExtend16to32, CRLSB, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   psrc = (@src & 65535);
++ *   psrc = SignExtend16to32 (psrc);
++ *   @dest = CRLSB (psrc);
++ *   @dest = (@dest - 16);
++ *   if((getFFlag () == true))
++ *     {
++ *       setZFlag (psrc);
++ *       setNFlag (psrc);
++ *     };
++ * }
++ */
++
++int
++arc_gen_NORMH(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv psrc = tcg_temp_local_new();
++    tcg_gen_andi_tl(psrc, src, 65535);
++    tcg_gen_ext16s_tl(psrc, psrc);
++    tcg_gen_clrsb_tl(dest, psrc);
++    tcg_gen_subi_tl(dest, dest, 16);
++    if ((getFFlag () == true)) {
++        setZFlag(psrc);
++        setNFlag(psrc);
++    }
++    tcg_temp_free(psrc);
++
++    return ret;
++}
++
++
++/*
++ * FLS
++ *    Variables: @src, @dest
++ *    Functions: CLZ, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   psrc = @src;
++ *   if((psrc == 0))
++ *     {
++ *       @dest = 0;
++ *     }
++ *   else
++ *     {
++ *       @dest = 31 - CLZ (psrc, 32);
++ *     };
++ *   if((getFFlag () == true))
++ *     {
++ *       setZFlag (psrc);
++ *       setNFlag (psrc);
++ *     };
++ * }
++ */
++
++int
++arc_gen_FLS(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv psrc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_5 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    tcg_gen_mov_tl(psrc, src);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_1, psrc, 0);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_movi_tl(dest, 0);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    tcg_gen_movi_tl(temp_5, 32);
++    tcg_gen_clz_tl(temp_4, psrc, temp_5);
++    tcg_gen_mov_tl(temp_3, temp_4);
++    tcg_gen_subfi_tl(dest, 31, temp_3);
++    gen_set_label(done_1);
++    if ((getFFlag () == true)) {
++        setZFlag(psrc);
++        setNFlag(psrc);
++    }
++    tcg_temp_free(psrc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_5);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_3);
++
++    return ret;
++}
++
++
++/*
++ * FFS
++ *    Variables: @src, @dest
++ *    Functions: CTZ, getFFlag, setZFlag, setNFlag
++ * --- code ---
++ * {
++ *   psrc = @src;
++ *   if((psrc == 0))
++ *     {
++ *       @dest = 31;
++ *     }
++ *   else
++ *     {
++ *       @dest = CTZ (psrc, 32);
++ *     };
++ *   if((getFFlag () == true))
++ *     {
++ *       setZFlag (psrc);
++ *       setNFlag (psrc);
++ *     };
++ * }
++ */
++
++int
++arc_gen_FFS(DisasCtxt *ctx, TCGv src, TCGv dest)
++{
++    int ret = DISAS_NEXT;
++    TCGv psrc = tcg_temp_local_new();
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_2 = tcg_temp_local_new();
++    TCGv temp_4 = tcg_temp_local_new();
++    TCGv temp_3 = tcg_temp_local_new();
++    tcg_gen_mov_tl(psrc, src);
++    TCGLabel *else_1 = gen_new_label();
++    TCGLabel *done_1 = gen_new_label();
++    tcg_gen_setcondi_tl(TCG_COND_EQ, temp_1, psrc, 0);
++    tcg_gen_xori_tl(temp_2, temp_1, 1);
++    tcg_gen_andi_tl(temp_2, temp_2, 1);
++    tcg_gen_brcond_tl(TCG_COND_EQ, temp_2, arc_true, else_1);
++    tcg_gen_movi_tl(dest, 31);
++    tcg_gen_br(done_1);
++    gen_set_label(else_1);
++    tcg_gen_movi_tl(temp_4, 32);
++    tcg_gen_ctz_tl(temp_3, psrc, temp_4);
++    tcg_gen_mov_tl(dest, temp_3);
++    gen_set_label(done_1);
++    if ((getFFlag () == true)) {
++        setZFlag(psrc);
++        setNFlag(psrc);
++    }
++    tcg_temp_free(psrc);
++    tcg_temp_free(temp_1);
++    tcg_temp_free(temp_2);
++    tcg_temp_free(temp_4);
++    tcg_temp_free(temp_3);
++
++    return ret;
++}
++
++
+diff --git a/target/arc/semfunc.h b/target/arc/semfunc.h
+new file mode 100644
+index 0000000000..4b12f97285
+--- /dev/null
++++ b/target/arc/semfunc.h
+@@ -0,0 +1,63 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synppsys Inc.
++ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#ifndef __ARC_SEMFUNC_H__
++#define __ARC_SEMFUNC_H__
++
++#include "translate.h"
++#include "semfunc-helper.h"
++
++/* TODO (issue #62): these must be removed */
++#define arc_false   (ctx->zero)
++#define arc_true    (ctx->one)
++
++#define LONG 0
++#define BYTE 1
++#define WORD 2
++
++#define SEMANTIC_FUNCTION_PROTOTYPE_0(NAME) \
++    int arc_gen_##NAME(DisasCtxt *);
++#define SEMANTIC_FUNCTION_PROTOTYPE_1(NAME) \
++    int arc_gen_##NAME(DisasCtxt *, TCGv);
++#define SEMANTIC_FUNCTION_PROTOTYPE_2(NAME) \
++    int arc_gen_##NAME(DisasCtxt *, TCGv, TCGv);
++#define SEMANTIC_FUNCTION_PROTOTYPE_3(NAME) \
++    int arc_gen_##NAME(DisasCtxt *, TCGv, TCGv, TCGv);
++#define SEMANTIC_FUNCTION_PROTOTYPE_4(NAME) \
++    int arc_gen_##NAME(DisasCtxt *, TCGv, TCGv, TCGv, TCGv);
++
++#define MAPPING(MNEMONIC, NAME, NOPS, ...)
++#define CONSTANT(...)
++#define SEMANTIC_FUNCTION(NAME, NOPS) \
++    SEMANTIC_FUNCTION_PROTOTYPE_##NOPS(NAME)
++
++#include "target/arc/semfunc_mapping.def"
++#include "target/arc/extra_mapping.def"
++
++#undef MAPPING
++#undef CONSTANT
++#undef SEMANTIC_FUNCTION_PROTOTYPE_0
++#undef SEMANTIC_FUNCTION_PROTOTYPE_1
++#undef SEMANTIC_FUNCTION_PROTOTYPE_2
++#undef SEMANTIC_FUNCTION_PROTOTYPE_3
++#undef SEMANTIC_FUNCTION
++
++#endif /* __ARC_SEMFUNC_H__ */
 -- 
 2.20.1
 
