@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968AC3542E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:38:08 +0200 (CEST)
-Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488CA354300
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:49:54 +0200 (CEST)
+Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTQMh-0005Pj-J6
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42174)
+	id 1lTQY5-0006Mz-B2
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQHA-0001Ba-Rh
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:24 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37803)
+ id 1lTQHC-0001EG-9n
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:26 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQH6-0001iQ-W8
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:24 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- f22-20020a7bc8d60000b029010c024a1407so7681086wml.2
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:19 -0700 (PDT)
+ id 1lTQH7-0001iX-0D
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:26 -0400
+Received: by mail-wr1-x436.google.com with SMTP id f6so5004979wrv.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ne5CzDA1fzWbf8pAEALTVl8gNjy5JmBvAw+Zn97Dbag=;
- b=Y001oOET/ZEpsWRX8bYsjhIPELmaJOjpOTvd7nnwlROIIlwb+9yzpjh0mRA5KKXfzs
- LBtk2zNjPMvYMaNfZaITaVPTx4OVzle/8overCG+ClGxiBbzf2DUtuug5iYF8b2A+yzg
- j0RVCPS8xVM6GNJlmwBVP9tIfr7FtcR2OPzI+oxsmurEYmT2z2aef7JFAfSj+Rk1OYTU
- YYtb1N28KdtB/5WiFeOdBPO1AFi+eRa2Jahn8cRmA3zWCHKPepb6uVEwkqpmgvwBuYvM
- ZI8MsUwXH+b+JDZMCMpSl3j0ixyAbp2etsrmOHPGL7V6/sMZiG0a5mkB8eVJZuxxZaTT
- ZiAw==
+ bh=ToNNgg6JLL2rAewZ/Xvewi+HQJZVTtU16eSaF9PKH+k=;
+ b=c3gfB9uu6fDdb1wOAVPSlzh8ZzNAhgoXEEd64TBCsa2HOLhvECExDbZ/EDglvptUMy
+ RQAATCXF89JL3jzALNd1SXePdJ6XsHGH6iSLUGntBHDOooX5WsM+f4Vth3hQoTBB/xyj
+ BA7D50Dq3o2lMTHaJBd1bOdcySZy1bVhyngbcCpMbtRjMxgpXHa3tFYdT+w3egpA1/5t
+ 7cs9SWmf+dWRQj486ghf0sCwPtVWi2acLsHOCRAqfiJmJJo642/QcKkUPWmyXNC3J5gc
+ OscBggCXBN6NxIc0gSzXL0m8XE4nLJZsrZK8ZLOIgdyPJqibcCAs9/fGMtb4cpzlWcu6
+ B0Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ne5CzDA1fzWbf8pAEALTVl8gNjy5JmBvAw+Zn97Dbag=;
- b=BtZlGhoKLQwK1yEXqEmu3stjJzxI4CKY/OGeiwQxFWzhX1QOZnGCQGWkg06WtztFaZ
- 9sge6VsXje7cF0qRpW6sTZU2bnT8ydtWBhK+4niWiaASF3HT0q29UoPdKzIDUSQeA+Im
- uWIrp+E9TYjys86t3pwwVTwurOtuZdibU/vbopEkmS/Jqw29trakcjwlGPVv5pAbrYsF
- iPjn97/KGMwM1WB7yoJXI6LXxVJTlcZYwL4dLxWwiAVvHD3x2qo69G795fcuy3Btk9id
- 9ilfGkewEeUOPctXhGEwQeKQWsBipeA4WxbO82jNthRQBeQoCVHr9AAN8uCPDx4hxPok
- p4QQ==
-X-Gm-Message-State: AOAM532rPl35gs1m+VFpeZts+uWEfdYcvbTAl7GbTPU3B9Uxi/f+Vd2W
- BkXVuB2MTALjDP34RZxZ9OFWfY+XlJwuoA==
-X-Google-Smtp-Source: ABdhPJzQgxF36aZZUz862dTSqloZGTmfWWNb4eayoTHMI3T8m9KOAJNZli5j0BamqzFpvb42cLynEA==
-X-Received: by 2002:a1c:b0c4:: with SMTP id z187mr24906136wme.81.1617633137910; 
- Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
+ bh=ToNNgg6JLL2rAewZ/Xvewi+HQJZVTtU16eSaF9PKH+k=;
+ b=NRj8j+VrFBJwcIoeD9ypZr9m+QpRmaXpzJDew5Y/SZKpJjzgPiJM5JGfStk9gAteT8
+ jdMjcF1TuPpUUKw+ToPYg9vlQ5TLZqeBUSwLSzk341exVJooGbvDBYnThc7G1f3Dumhs
+ g2U0IducVSGbWoYQx4fGXywOV3XxIkyJZ58qrZkFt9jfS01LtMq7g6sR4DehCPtRGvst
+ tzisbEOQlZVc5Y1ImzZQgqzJEdAQvui/in5jJFxEkHNFB0fv8D+tQgISGCrQvQodlBrm
+ +WG0Hmxp11QNtH0bAgCksaqEdnw9mcMhk1JnF+nocDOq9sJZDXMOwcJ5eC0cu+/fy6PL
+ xmXw==
+X-Gm-Message-State: AOAM532KXESyP9hKTUsHvuTL7YeFCk9BCCU1NOnDxTXMAS9CtVq+Ldjk
+ Swpg0G2ncHmg3FyzfpJy9igVUN7TpV4PiA==
+X-Google-Smtp-Source: ABdhPJzfCks6wkXjlhEzYrWREJOUxyeUqE87vS8iXzHqUNPpZTiXHngx4EmcWV4k7UvLjFlbBuzSqg==
+X-Received: by 2002:a5d:4e01:: with SMTP id p1mr10726873wrt.128.1617633138991; 
+ Mon, 05 Apr 2021 07:32:18 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
  by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:18 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/27] arc: Add memory management unit (MMU) support
-Date: Mon,  5 Apr 2021 15:31:21 +0100
-Message-Id: <20210405143138.17016-11-cupertinomiranda@gmail.com>
+Subject: [PATCH 11/27] arc: Add memory protection unit (MPU) support
+Date: Mon,  5 Apr 2021 15:31:22 +0100
+Message-Id: <20210405143138.17016-12-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=cupertinomiranda@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,30 +88,31 @@ Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cupertino Miranda <cmiranda@synopsys.com>
+From: Shahab Vahedi <shahab@synopsys.com>
 
-Add Synopsys ARC MMU version 4 support. The implementation is
-restricted to 8K page size support.
+Add memory implementation for Synopsys MPU unit version 3.
+Synopsys MPU allows to create memory regions against unauthorized
+execution/read/writes accesses.
 
-Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
 ---
- target/arc/mmu.c | 805 +++++++++++++++++++++++++++++++++++++++++++++++
- target/arc/mmu.h | 148 +++++++++
- 2 files changed, 953 insertions(+)
- create mode 100644 target/arc/mmu.c
- create mode 100644 target/arc/mmu.h
+ target/arc/mpu.c | 656 +++++++++++++++++++++++++++++++++++++++++++++++
+ target/arc/mpu.h | 133 ++++++++++
+ 2 files changed, 789 insertions(+)
+ create mode 100644 target/arc/mpu.c
+ create mode 100644 target/arc/mpu.h
 
-diff --git a/target/arc/mmu.c b/target/arc/mmu.c
+diff --git a/target/arc/mpu.c b/target/arc/mpu.c
 new file mode 100644
-index 0000000000..f79c910d80
+index 0000000000..256ff12bfc
 --- /dev/null
-+++ b/target/arc/mmu.c
-@@ -0,0 +1,805 @@
++++ b/target/arc/mpu.c
+@@ -0,0 +1,656 @@
 +/*
 + * QEMU ARC CPU
 + *
 + * Copyright (c) 2020 Synppsys Inc.
-+ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
++ * Contributed by Shahab Vahedi (Synopsys)
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -130,800 +130,651 @@ index 0000000000..f79c910d80
 + */
 +
 +#include "qemu/osdep.h"
-+#include "mmu.h"
-+#include "target/arc/regs.h"
-+#include "qemu/osdep.h"
++#include "mpu.h"
 +#include "cpu.h"
 +#include "exec/exec-all.h"
++#include "mmu.h"
 +
-+target_ulong
-+arc_mmu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
++/*
++ * In case of exception, this signals the effective region
++ * was the default one
++ */
++#define MPU_DEFAULT_REGION_NR 0xff
++
++/* Defines used by in-house functions */
++#define MPU_EN_EN_BIT   30
++#define MPU_EN_KR_BIT    8
++#define MPU_EN_KW_BIT    7
++#define MPU_EN_KE_BIT    6
++#define MPU_EN_UR_BIT    5
++#define MPU_EN_UW_BIT    4
++#define MPU_EN_UE_BIT    3
++
++#define MPU_ECR_EC_CODE_BIT 16
++#define MPU_ECR_VT_BIT       8
++
++#define MPU_BASE_ADDR_MASK  0xffffffe0  /* ignore least 5 bits */
++#define MPU_BASE_VALID_MASK 0x00000001  /* bit #0 */
++
++/*
++ * Given a number of bits as width, calc the mask to
++ * "and" with. e.g.: 3 bits --> 8 - 1 --> 7 (111b)
++ */
++#define MPU_WIDTH_TO_MASK(w) ((1 << (w)) - 1)
++#define MPU_PERMS_REG_LOWER_SIZE_WIDTH  2
++#define MPU_PERMS_REG_HIGHER_SIZE_WIDTH 3
++#define MPU_PERMS_REG_HIGHER_SIZE_POS   9
++
++/*
++ * After knowing the operating mode (user/kernel),
++ * this struct represents the effective permissions.
++ */
++typedef struct MPUEffectPerm {
++    bool read;
++    bool write;
++    bool exec;
++} MPUEffectPerm;
++
++/* Packer and unpackers (local to this translation unit) */
++static inline uint32_t pack_enable(const bool ena)
 +{
-+    CPUARCState *env = (CPUARCState *) data;
-+    struct arc_mmu *mmu = &env->mmu;
++    return ena << MPU_EN_EN_BIT;
++}
++
++static inline void unpack_enable(bool *enabled, uint32_t value)
++{
++    *enabled = (value >> MPU_EN_EN_BIT) & 1;
++}
++
++static inline uint32_t pack_permissions(const MPUPermissions *perms)
++{
++    return perms->KR << MPU_EN_KR_BIT |
++           perms->KW << MPU_EN_KW_BIT |
++           perms->KE << MPU_EN_KE_BIT |
++           perms->UR << MPU_EN_UR_BIT |
++           perms->UW << MPU_EN_UW_BIT |
++           perms->UE << MPU_EN_UE_BIT;
++}
++
++static inline void unpack_permissions(MPUPermissions *perms, uint32_t value)
++{
++    perms->KR = (value >> MPU_EN_KR_BIT) & 1;
++    perms->KW = (value >> MPU_EN_KW_BIT) & 1;
++    perms->KE = (value >> MPU_EN_KE_BIT) & 1;
++    perms->UR = (value >> MPU_EN_UR_BIT) & 1;
++    perms->UW = (value >> MPU_EN_UW_BIT) & 1;
++    perms->UE = (value >> MPU_EN_UE_BIT) & 1;
++}
++
++static inline uint32_t pack_enable_reg(const MPUEnableReg *mpuen)
++{
++    return pack_enable(mpuen->enabled) |
++           pack_permissions(&mpuen->permission);
++}
++
++static inline void unpack_enable_reg(MPUEnableReg *mpuen, uint32_t value)
++{
++    unpack_enable(&mpuen->enabled, value);
++    unpack_permissions(&mpuen->permission, value);
++}
++
++static inline uint32_t pack_ecr(const MPUECR *mpuecr)
++{
++    return ARC_MPU_ECR_VEC_NUM     << MPU_ECR_EC_CODE_BIT |
++           (mpuecr->violation & 3) << MPU_ECR_VT_BIT      |
++           mpuecr->region;
++}
++
++static inline uint32_t pack_base_reg(const MPUBaseReg *mpurdb)
++{
++    return mpurdb->addr | mpurdb->valid;
++}
++
++static inline void unpack_base_reg(MPUBaseReg *mpurdb, uint32_t value)
++{
++    mpurdb->addr  = value & MPU_BASE_ADDR_MASK;
++    mpurdb->valid = value & MPU_BASE_VALID_MASK;
++}
++
++
++/*
++ * Break the "size" field into "higher" and "lower" parts
++ * e.g.: a b c d e --> a b c . . . d e
++ *                     higher     lower
++ */
++static uint32_t pack_region_size_bits(uint8_t size_bits)
++{
++    uint32_t lower =
++        size_bits & MPU_WIDTH_TO_MASK(MPU_PERMS_REG_LOWER_SIZE_WIDTH);
++    uint32_t higher = size_bits >> MPU_PERMS_REG_LOWER_SIZE_WIDTH;
++    higher &= MPU_WIDTH_TO_MASK(MPU_PERMS_REG_HIGHER_SIZE_WIDTH);
++    return (higher << MPU_PERMS_REG_HIGHER_SIZE_POS) | lower;
++}
++
++/*
++ * Put the higher and lower parts of "size" field together
++ * e.g.: a b c . . . d e ---> abcde
++ *       higher     lower
++ */
++static void unpack_region_size_bits(uint8_t *size_bits, uint32_t value)
++{
++    uint8_t lower =
++        value & MPU_WIDTH_TO_MASK(MPU_PERMS_REG_LOWER_SIZE_WIDTH);
++    uint8_t higher = value >> MPU_PERMS_REG_HIGHER_SIZE_POS;
++    higher &= MPU_WIDTH_TO_MASK(MPU_PERMS_REG_HIGHER_SIZE_WIDTH);
++    *size_bits = (higher << MPU_PERMS_REG_LOWER_SIZE_WIDTH) | lower;
++}
++
++static void set_region_mask(uint32_t *mask, uint8_t size_bits)
++{
++    uint32_t region_offset_mask = 0;
++    /*
++     * size_bits: 00100b (4)  --> 32 bytes --> least 5  bits are 0
++     * size_bits: 00101b (5)  --> 64 bytes --> least 6  bits are 0
++     * ...
++     * size_bits: 11111b (31) --> 4 gb     --> least 32 bits are 0
++     */
++    if (size_bits >= 4 && size_bits < 31) {
++        region_offset_mask = (2 << size_bits) - 1;
++    } else if (size_bits == 31) {
++        region_offset_mask = 0xffffffff;
++    } else {
++      qemu_log_mask(LOG_GUEST_ERROR, "[MPU] %hu as size of a region is "
++                                     "undefined behaviour.\n", size_bits);
++    }
++    *mask = ~region_offset_mask;
++}
++
++static inline uint32_t pack_perm_reg(const MPUPermReg *mpurdp)
++{
++    return pack_region_size_bits(mpurdp->size_bits) |
++           pack_permissions(&mpurdp->permission);
++}
++
++static void unpack_perm_reg(MPUPermReg *mpurdp, uint32_t value)
++{
++    unpack_region_size_bits(&mpurdp->size_bits, value);
++    /* size_bits of below 4 are undefined --> Assuming min region size. */
++    mpurdp->size = (mpurdp->size_bits < 4) ? 32 : (2ul << mpurdp->size_bits);
++    unpack_permissions(&mpurdp->permission, value);
++    /* The mask is a facilitator to find the corresponding region easier */
++    set_region_mask(&mpurdp->mask, mpurdp->size_bits);
++}
++
++
++/* Extern function: To be called at reset() */
++void arc_mpu_init(struct ARCCPU *cpu)
++{
++    static const MPUPermissions INITIAL_PERMS = {0};
++    ARCMPU *mpu = &cpu->env.mpu;
++    size_t idx = 0;
++
++    /* Maybe the version must be determinded also based on CPU type */
++    mpu->reg_bcr.version = cpu->cfg.has_mpu ? ARC_MPU_VERSION : 0;
++    mpu->reg_bcr.regions = cpu->cfg.has_mpu ? cpu->cfg.mpu_num_regions : 0;
++    switch (mpu->reg_bcr.regions) {
++    case 0 ... 2:
++    case 4:
++    case 8:
++    case 16:
++        break;
++    default:
++        assert(!"Invalid number of MPU regions.");
++    }
++
++    /*
++     * We use this flag to determine if MPU is in motion or not.
++     * This is most of the time the same as reg_enable.enabled,
++     * However, in case of a double exception (Machine Check)
++     * this becomes false while reg_enable.enabled holds its
++     * value. As a result, there is no MPU anymore after a
++     * Machine Check is raised.
++     */
++    mpu->enabled = false;
++
++    mpu->reg_enable.enabled    = false;
++    mpu->reg_enable.permission = INITIAL_PERMS;
++
++    mpu->reg_ecr.region    = 0;
++    mpu->reg_ecr.violation = 0;
++    mpu->exception.number  = ARC_MPU_ECR_VEC_NUM;
++    mpu->exception.code    = 0;
++    mpu->exception.param   = ARC_MPU_ECR_PARAM;
++
++    for (idx = 0; idx < ARC_MPU_MAX_NR_REGIONS; ++idx) {
++        mpu->reg_base[idx].valid = false;
++        mpu->reg_base[idx].addr  = 0;
++
++        mpu->reg_perm[idx].size_bits  = 0;
++        mpu->reg_perm[idx].mask       = 0xffffffff;
++        mpu->reg_perm[idx].permission = INITIAL_PERMS;
++    }
++}
++
++/* Checking the sanity of situation before accessing MPU registers */
++static void validate_mpu_regs_access(CPUARCState *env)
++{
++    /* MPU registers are only accessible in kernel mode */
++    if (is_user_mode(env)) {
++        arc_raise_exception(env, EXCP_PRIVILEGEV);
++    }
++    /* No MPU, no getting any */
++    else if ((env_archcpu(env))->cfg.has_mpu == false) {
++        arc_raise_exception(env, EXCP_INST_ERROR);
++    }
++}
++
++/* If 'rgn' is higher than configured region number, throw an exception */
++static inline void validate_region_number(const ARCMPU *mpu, uint8_t rgn)
++{
++    if (!(rgn < mpu->reg_bcr.regions)) {
++        arc_raise_exception(container_of(mpu, CPUARCState, mpu), /* env */
++                                         EXCP_INST_ERROR);
++    }
++}
++
++/* Extern function: Getter for MPU registers */
++target_ulong
++arc_mpu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
++{
++    validate_mpu_regs_access((CPUARCState *) data);
++    ARCMPU *mpu = &(((CPUARCState *) data)->mpu);
 +    uint32_t reg = 0;
 +
 +    switch (aux_reg_detail->id) {
-+    case AUX_ID_mmu_build:
-+        /*
-+         * For now hardcode the TLB geometry and canonical page sizes
-+         * MMUv4: 2M Super Page, 8k Page, 4 way set associative,
-+         *        1K entries (256x4), 4 uITLB, 8 uDTLB
-+         */
-+        reg = 0x04e21a4a;
++    case AUX_ID_mpu_build:
++        reg = (mpu->reg_bcr.regions << 8) | mpu->reg_bcr.version;
 +        break;
-+    case AUX_ID_tlbindex:
-+        reg = mmu->tlbindex;
++    case AUX_ID_mpuen:
++        reg = pack_enable_reg(&mpu->reg_enable);
 +        break;
-+    case AUX_ID_tlbpd0:
-+        reg = mmu->tlbpd0;
++    case AUX_ID_mpuic:
++        reg = pack_ecr(&mpu->reg_ecr);
 +        break;
-+    case AUX_ID_tlbpd1:
-+        reg = mmu->tlbpd1;
-+        break;
-+    case AUX_ID_tlbpd1_hi:
-+        reg = mmu->tlbpd1_hi;
-+        break;
-+    case AUX_ID_scratch_data0:
-+        reg = mmu->scratch_data0;
-+        break;
-+    case AUX_ID_tlbcommand:
-+        reg = mmu->tlbcmd;
-+        break;
-+    case AUX_ID_pid:
-+        reg = (mmu->enabled << 31) | mmu->pid_asid;
-+        break;
-+    case AUX_ID_sasid0:
-+        reg = mmu->sasid0;
-+        break;
-+    case AUX_ID_sasid1:
-+        reg = mmu->sasid1;
-+        break;
-+    default:
++    case AUX_ID_mpurdb0 ... AUX_ID_mpurdb15: {
++        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdb0;
++        validate_region_number(mpu, rgn);
++        reg = pack_base_reg(&mpu->reg_base[rgn]);
 +        break;
 +    }
-+
-+    return reg;
-+}
-+
-+void
-+arc_mmu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                target_ulong val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    CPUState *cs = env_cpu(env);
-+    struct arc_mmu *mmu = &env->mmu;
-+
-+    switch (aux_reg_detail->id) {
-+    /* AUX_ID_tlbcommand is more involved and handled seperately */
-+    case AUX_ID_tlbindex:
-+        mmu->tlbindex = val;
-+        break;
-+    case AUX_ID_tlbpd0:
-+        mmu->tlbpd0 = val;
-+        break;
-+    case AUX_ID_tlbpd1:
-+        mmu->tlbpd1 = val;
-+        break;
-+    case AUX_ID_tlbpd1_hi:
-+        mmu->tlbpd1_hi = val;
-+        break;
-+    case AUX_ID_scratch_data0:
-+        mmu->scratch_data0 = val;
-+        break;
-+    case AUX_ID_pid:
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] Writing PID_ASID with value 0x" TARGET_FMT_lx
-+                      " at 0x" TARGET_FMT_lx "\n",
-+                      val, env->pc);
-+        mmu->enabled = (val >> 31);
-+        mmu->pid_asid = val & 0xff;
-+        tlb_flush(cs);
-+        break;
-+    case AUX_ID_sasid0:
-+        mmu->sasid0 = val;
-+        break;
-+    case AUX_ID_sasid1:
-+        mmu->sasid1 = val;
-+        break;
-+    default:
++    case AUX_ID_mpurdp0 ... AUX_ID_mpurdp15: {
++        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdp0;
++        validate_region_number(mpu, rgn);
++        reg = pack_perm_reg(&mpu->reg_perm[rgn]);
 +        break;
 +    }
-+}
-+
-+/* vaddr can't have top bit */
-+#define VPN(addr) ((addr) & (PAGE_MASK & (~0x80000000)))
-+#define PFN(addr) ((addr) & PAGE_MASK)
-+
-+static void
-+arc_mmu_debug_tlb_for_set(CPUARCState *env, int set)
-+{
-+    int j;
-+    bool set_printed = false;
-+
-+    for (j = 0; j < N_WAYS; j++) {
-+        struct arc_tlb_e *tlb = &env->mmu.nTLB[set][j];
-+
-+        if ((tlb->pd0 & PD0_V) != 0) {
-+            if (set_printed == false) {
-+                printf("set %d\n", set);
-+                set_printed = true;
-+            }
-+            if (set_printed == true) {
-+                printf(" way %d\n", j);
-+            }
-+            printf("  tlppd0: %08x: vaddr=\t%08x %s %s%s asid=%02x\n",
-+                   tlb->pd0, VPN(tlb->pd0),
-+                   (char *) ((tlb->pd0 & PD0_SZ) != 0 ? "sz1" : "sz0"),
-+                   (char *) ((tlb->pd0 & PD0_V) != 0 ? "V" : ""),
-+                   (char *) ((tlb->pd0 & PD0_G) != 0 ? "g" : ""),
-+                   tlb->pd0 & PD0_ASID);
-+
-+            printf("  tlppd1: %08x: paddr=\t%08x k:%s%s%s u:%s%s%s f:%s\n",
-+                   (unsigned int) tlb->pd1, (unsigned int) PFN(tlb->pd1),
-+                   (char *) ((tlb->pd1 & PD1_RK) != 0 ? "R" : "r"),
-+                   (char *) ((tlb->pd1 & PD1_WK) != 0 ? "W" : "w"),
-+                   (char *) ((tlb->pd1 & PD1_XK) != 0 ? "X" : "x"),
-+                   (char *) ((tlb->pd1 & PD1_RU) != 0 ? "R" : "r"),
-+                   (char *) ((tlb->pd1 & PD1_WU) != 0 ? "W" : "w"),
-+                   (char *) ((tlb->pd1 & PD1_XU) != 0 ? "X" : "x"),
-+                   (char *) ((tlb->pd1 & PD1_FC) != 0 ? "C" : "c"));
-+        }
-+    }
-+}
-+
-+void
-+arc_mmu_debug_tlb(CPUARCState *env)
-+{
-+    int i;
-+
-+    for (i = 0; i < N_SETS; i++) {
-+        arc_mmu_debug_tlb_for_set(env, i);
-+    }
-+}
-+
-+void
-+arc_mmu_debug_tlb_for_vaddr(CPUARCState *env, uint32_t vaddr)
-+{
-+    uint32_t set = (vaddr >> PAGE_SHIFT) & (N_SETS - 1);
-+    arc_mmu_debug_tlb_for_set(env, set);
-+}
-+
-+
-+static struct arc_tlb_e *
-+arc_mmu_get_tlb_at_index(uint32_t index, struct arc_mmu *mmu)
-+{
-+    uint32_t set = index / N_WAYS;
-+    uint32_t bank = index % N_WAYS;
-+    return &mmu->nTLB[set][bank];
-+}
-+
-+static inline bool
-+match_sasid(struct arc_tlb_e *tlb, struct arc_mmu *mmu)
-+{
-+    /* Match to a shared library. */
-+    uint8_t position = tlb->pd0 & PD0_ASID_MATCH;
-+    uint64_t pos = 1ULL << position;
-+    uint64_t sasid = ((uint64_t) mmu->sasid1 << 32) | mmu->sasid0;
-+    if ((pos & sasid) == 0) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static struct arc_tlb_e *
-+arc_mmu_lookup_tlb(uint32_t vaddr, uint32_t compare_mask, struct arc_mmu *mmu,
-+                   int *num_finds, uint32_t *index)
-+{
-+    struct arc_tlb_e *ret = NULL;
-+    uint32_t set = (vaddr >> PAGE_SHIFT) & (N_SETS - 1);
-+    struct arc_tlb_e *tlb = &mmu->nTLB[set][0];
-+    int w;
-+
-+    if (num_finds != NULL) {
-+        *num_finds = 0;
-+    }
-+
-+    bool general_match = true;
-+    for (w = 0; w < N_WAYS; w++, tlb++) {
-+        uint32_t match = vaddr & compare_mask;
-+        uint32_t final_compare_mask = compare_mask;
-+
-+        if ((tlb->pd0 & PD0_G) == 0) {
-+            if ((tlb->pd0 & PD0_S) != 0) {
-+                /* Match to a shared library. */
-+                if (match_sasid(tlb, mmu) == false) {
-+                    general_match = false;
-+                }
-+            } else {
-+                /* Match to a process. */
-+                match |= mmu->pid_asid & PD0_PID_MATCH;
-+                final_compare_mask |= PD0_PID_MATCH;
-+            }
-+        }
-+
-+        if (match == (tlb->pd0 & final_compare_mask) && general_match) {
-+            ret = tlb;
-+            if (num_finds != NULL) {
-+                *num_finds += 1;
-+            }
-+            if (index != NULL) {
-+                *index = (set * N_WAYS) + w;
-+            }
-+        }
-+    }
-+
-+    if (ret == NULL) {
-+        uint32_t way = mmu->way_sel[set];
-+        ret = &mmu->nTLB[set][way];
-+
-+        /* TODO: Replace by something more significant. */
-+        if (index != NULL) {
-+            *index = (set * N_WAYS) + way;
-+        }
-+
-+        mmu->way_sel[set] = (mmu->way_sel[set] + 1) & (N_WAYS - 1);
-+    }
-+
-+    return ret;
-+}
-+
-+/*
-+ * TLB Insert/Delete triggered by writing the cmd to TLBCommand Aux
-+ *  - Requires PD0 and PD1 be setup apriori
-+ */
-+void
-+arc_mmu_aux_set_tlbcmd(const struct arc_aux_reg_detail *aux_reg_detail,
-+                       target_ulong val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    CPUState *cs = env_cpu(env);
-+    struct arc_mmu *mmu = &env->mmu;
-+    uint32_t pd0 = mmu->tlbpd0;
-+    uint32_t pd1 = mmu->tlbpd1;
-+    int num_finds = 4;
-+    uint32_t index;
-+    struct arc_tlb_e *tlb;
-+
-+    mmu->tlbcmd = val;
-+    uint32_t matching_mask = (PD0_VPN | PD0_SZ | PD0_G | PD0_S | PD0_ASID);
-+
-+    if ((pd0 & PD0_G) != 0) {
-+        /*
-+         * When Global do not check for asid match.
-+         */
-+        matching_mask &= ~(PD0_S | PD0_ASID);
-+    }
-+
-+    /*
-+     * NOTE: Write and WriteNI commands are the same because we do not model
-+     * uTLBs in QEMU.
-+     */
-+    if (val == TLB_CMD_WRITE || val == TLB_CMD_WRITENI) {
-+        /*
-+         * TODO: Include index verification. We are always clearing the index as
-+         * we assume it is always valid.
-+         */
-+        tlb = arc_mmu_get_tlb_at_index(mmu->tlbindex & TLBINDEX_INDEX, mmu);
-+        tlb->pd0 = mmu->tlbpd0;
-+        tlb->pd1 = mmu->tlbpd1;
-+
-+        /*
-+         * don't try to optimize this: upon ASID rollover the entire TLB is
-+         * unconditionally flushed for any ASID
-+         */
-+        tlb_flush(cs);
-+    }
-+    if (val == TLB_CMD_READ) {
-+        /*
-+         * TODO: Include index verification. We are always clearing the index as
-+         * we assume it is always valid.
-+         */
-+
-+        tlb = arc_mmu_get_tlb_at_index(mmu->tlbindex & TLBINDEX_INDEX, mmu);
-+        mmu->tlbpd0 = tlb->pd0;
-+        mmu->tlbpd1 = tlb->pd1;
-+
-+        mmu->tlbindex &= ~(TLBINDEX_E | TLBINDEX_RC);
-+    }
-+    if (val == TLB_CMD_DELETE || val == TLB_CMD_INSERT) {
-+        tlb_flush_page_by_mmuidx(cs, VPN(pd0), 3);
-+
-+        if ((pd0 & PD0_G) != 0) {
-+            /*
-+             * When Global do not check for asid match.
-+             */
-+            matching_mask &= ~(PD0_S | PD0_ASID);
-+        }
-+
-+        matching_mask &= (VPN(PD0_VPN) | (~PD0_VPN)) ;
-+        tlb = arc_mmu_lookup_tlb(pd0,
-+                                 matching_mask | PD0_V,
-+                                 &env->mmu, &num_finds, &index);
-+
-+        if (num_finds == 0) {
-+            mmu->tlbindex = 0x80000000; /* No entry to delete */
-+        } else if (num_finds == 1) {
-+            mmu->tlbindex = index; /* Entry is deleted set index */
-+            tlb->pd0 &= ~PD0_V;
-+            num_finds--;
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Delete at 0x" TARGET_FMT_lx
-+                          ", pd0 = 0x%08x, pd1 = 0x%08x\n",
-+                          env->pc, tlb->pd0, tlb->pd1);
-+        } else {
-+            while (num_finds > 0) {
-+                tlb->pd0 &= ~PD0_V;
-+                qemu_log_mask(CPU_LOG_MMU,
-+                              "[MMU] Delete at 0x" TARGET_FMT_lx
-+                              ", pd0 = 0x%08x, pd1 = 0x%08x\n",
-+                              env->pc, tlb->pd0, tlb->pd1);
-+                tlb = arc_mmu_lookup_tlb(pd0,
-+                                         (VPN(PD0_VPN) | PD0_V
-+                                          | PD0_SZ | PD0_G | PD0_S),
-+                                         mmu, &num_finds, NULL);
-+            }
-+        }
-+    }
-+
-+    if (val == TLB_CMD_INSERT) {
-+        if ((pd0 & PD0_V) == 0) {
-+            mmu->tlbindex = 0x80000000;
-+        } else {
-+            tlb->pd0 = pd0;
-+            tlb->pd1 = pd1;
-+
-+            /* Set index for latest inserted element. */
-+            mmu->tlbindex |= index;
-+
-+            /* TODO: More verifications needed. */
-+
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Insert at 0x" TARGET_FMT_lx
-+                          ", PID = %d, VPN = 0x%08x, "
-+                          "PFN = 0x%08x, pd0 = 0x%08x, pd1 = 0x%08x\n",
-+                          env->pc,
-+                          pd0 & 0xff,
-+                          VPN(pd0), PFN(pd1),
-+                          pd0, pd1);
-+        }
-+    }
-+
-+    /* NOTE: We do not implement IVUTLB as we do not model uTLBs. */
-+    assert(val == TLB_CMD_INSERT
-+           || val == TLB_CMD_DELETE
-+           || val == TLB_CMD_WRITE
-+           || val == TLB_CMD_READ
-+           || val == TLB_CMD_WRITENI
-+           || val == TLB_CMD_IVUTLB
-+           );
-+}
-+
-+/* Function to verify if we have permission to use MMU TLB entry. */
-+static bool
-+arc_mmu_have_permission(CPUARCState *env,
-+                        struct arc_tlb_e *tlb,
-+                        enum mmu_access_type type)
-+{
-+    bool ret = false;
-+    /* Read status for user mode. */
-+    bool in_kernel_mode = !GET_STATUS_BIT(env->stat, Uf);
-+    switch (type) {
-+    case MMU_MEM_READ:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_RK : tlb->pd1 & PD1_RU;
-+        break;
-+    case MMU_MEM_WRITE:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_WK : tlb->pd1 & PD1_WU;
-+        break;
-+    case MMU_MEM_FETCH:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_XK : tlb->pd1 & PD1_XU;
-+        break;
-+    case MMU_MEM_ATTOMIC:
-+        ret = in_kernel_mode ? tlb->pd1 & PD1_RK : tlb->pd1 & PD1_RU;
-+        ret = ret & (in_kernel_mode ? tlb->pd1 & PD1_WK : tlb->pd1 & PD1_WU);
-+        break;
-+    case MMU_MEM_IRRELEVANT_TYPE:
-+        ret = true;
-+        break;
-+    }
-+
-+    return ret;
-+}
-+
-+#define SET_MMU_EXCEPTION(ENV, N, C, P) { \
-+  ENV->mmu.exception.number = N; \
-+  ENV->mmu.exception.causecode = C; \
-+  ENV->mmu.exception.parameter = P; \
-+}
-+
-+/* Translation function to get physical address from virtual address. */
-+static uint32_t
-+arc_mmu_translate(struct CPUARCState *env,
-+                  uint32_t vaddr, enum mmu_access_type rwe,
-+                  uint32_t *index)
-+{
-+    struct arc_mmu *mmu = &(env->mmu);
-+    struct arc_tlb_e *tlb = NULL;
-+    int num_matching_tlb = 0;
-+
-+    SET_MMU_EXCEPTION(env, EXCP_NO_EXCEPTION, 0, 0);
-+
-+    if (rwe != MMU_MEM_IRRELEVANT_TYPE
-+        && GET_STATUS_BIT(env->stat, Uf) != 0 && vaddr >= 0x80000000) {
-+        goto protv_exception;
-+    }
-+
-+    /*
-+     * Check that we are not addressing an address above 0x80000000.
-+     * Return the same address in that case.
-+     */
-+    if ((vaddr >= 0x80000000) || mmu->enabled == false) {
-+        return vaddr;
-+    }
-+
-+    if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] Translate at 0x" TARGET_FMT_lx
-+                      ", vaddr 0x%08x, pid %d, rwe = %s\n",
-+                      env->pc, vaddr, mmu->pid_asid, RWE_STRING(rwe));
-+    }
-+
-+    uint32_t match_pd0 = (VPN(vaddr) | PD0_V);
-+    tlb = arc_mmu_lookup_tlb(match_pd0, (VPN(PD0_VPN) | PD0_V), mmu,
-+                              &num_matching_tlb, index);
-+
-+    /*
-+     * Check for multiple matches in nTLB, and return machine check
-+     *  exception.
-+     */
-+    if (num_matching_tlb > 1) {
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] Machine Check exception. num_matching_tlb = %d\n",
-+                      num_matching_tlb);
-+        SET_MMU_EXCEPTION(env, EXCP_MACHINE_CHECK, 0x01, 0x00);
-+        return 0;
-+    }
-+
-+
-+    bool match = true;
-+
-+    if (num_matching_tlb == 0) {
-+        match = false;
-+    }
-+
-+    /* Check if entry if related to this address */
-+    if (VPN(vaddr) != VPN(tlb->pd0) || (tlb->pd0 & PD0_V) == 0) {
-+        /* Call the interrupt. */
-+        match = false;
-+    }
-+
-+    if (match == true) {
-+        if ((tlb->pd0 & PD0_G) == 0) {
-+            if ((tlb->pd0 & PD0_S) != 0) {
-+                /* Match to a shared library. */
-+                if (match_sasid(tlb, mmu) == false) {
-+                    match = false;
-+                }
-+            } else if ((tlb->pd0 & PD0_PID_MATCH) !=
-+                       (mmu->pid_asid & PD0_PID_MATCH)) {
-+                /* Match to a process. */
-+                      match = false;
-+            }
-+        }
-+    }
-+
-+    if (match == true && !arc_mmu_have_permission(env, tlb, rwe)) {
-+  protv_exception:
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "[MMU] ProtV exception at 0x" TARGET_FMT_lx
-+                      " for 0x%08x. rwe = %s, "
-+                      "tlb->pd0 = %08x, tlb->pd1 = %08x\n",
-+                      env->pc,
-+                      vaddr,
-+                      RWE_STRING(rwe),
-+                      tlb->pd0, tlb->pd1);
-+
-+        SET_MMU_EXCEPTION(env, EXCP_PROTV, CAUSE_CODE(rwe), 0x08);
-+        return 0;
-+    }
-+
-+    if (match == true) {
-+        if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Translated to 0x%08x, pd0=0x%08x, pd1=0x%08x\n",
-+                          (tlb->pd1 & PAGE_MASK) | (vaddr & (~PAGE_MASK)),
-+                          tlb->pd0, tlb->pd1);
-+        }
-+        return (tlb->pd1 & PAGE_MASK) | (vaddr & (~PAGE_MASK));
-+    } else {
-+        if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+            /* To remove eventually, just fail safe to check kernel. */
-+            if (mmu->sasid0 != 0 || mmu->sasid1 != 0) {
-+                assert(0);
-+            } else {
-+                mmu->tlbpd0 = (vaddr & (VPN(PD0_VPN)))
-+                              | PD0_V | (mmu->pid_asid & PD0_ASID);
-+            }
-+            if (rwe == MMU_MEM_FETCH) {
-+                qemu_log_mask(CPU_LOG_MMU,
-+                              "[MMU] TLB_MissI exception at 0x"
-+                              TARGET_FMT_lx ". rwe = %s, "
-+                              "vaddr = %08x, tlb->pd0 = %08x, tlb->pd1 = %08x\n",
-+                              env->pc,
-+                              RWE_STRING(rwe),
-+                              vaddr, tlb->pd0, tlb->pd1);
-+                SET_MMU_EXCEPTION(env, EXCP_TLB_MISS_I, 0x00, 0x00);
-+            } else {
-+                qemu_log_mask(CPU_LOG_MMU,
-+                              "[MMU] TLB_MissD exception at 0x" TARGET_FMT_lx
-+                              ". rwe = %s, "
-+                              "vaddr = %08x, tlb->pd0 = %08x, tlb->pd1 = %08x\n",
-+                              env->pc,
-+                              RWE_STRING(rwe),
-+                              vaddr, tlb->pd0, tlb->pd1);
-+                SET_MMU_EXCEPTION(env, EXCP_TLB_MISS_D, CAUSE_CODE(rwe),
-+                                  0x00);
-+            }
-+        } else if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
-+            qemu_log_mask(CPU_LOG_MMU,
-+                          "[MMU] Failed to translate to 0x%08x\n",
-+                          vaddr);
-+        }
-+        return 0;
-+    }
-+}
-+
-+uint32_t arc_mmu_page_address_for(uint32_t vaddr)
-+{
-+    uint32_t ret = VPN(vaddr);
-+    if (vaddr >= 0x80000000) {
-+        ret |= 0x80000000;
-+    }
-+    return ret;
-+}
-+
-+static int
-+arc_mmu_get_prot_for_index(uint32_t index, CPUARCState *env)
-+{
-+    struct arc_tlb_e *tlb;
-+    int ret = 0;
-+    /* Read status for user mode. */
-+    bool in_kernel_mode = !GET_STATUS_BIT(env->stat, Uf);
-+
-+    tlb = arc_mmu_get_tlb_at_index(
-+            index,
-+            &env->mmu);
-+
-+    if ((in_kernel_mode && (tlb->pd1 & PD1_RK) != 0)
-+       || (!in_kernel_mode && (tlb->pd1 & PD1_RU) != 0)) {
-+        ret |= PAGE_READ;
-+    }
-+
-+    if ((in_kernel_mode && (tlb->pd1 & PD1_WK) != 0)
-+       || (!in_kernel_mode && (tlb->pd1 & PD1_WU) != 0)) {
-+        ret |= PAGE_WRITE;
-+    }
-+
-+    if ((in_kernel_mode && (tlb->pd1 & PD1_XK) != 0)
-+       || (!in_kernel_mode && (tlb->pd1 & PD1_XU) != 0)) {
-+        ret |= PAGE_EXEC;
-+    }
-+
-+    return ret;
-+}
-+
-+static void QEMU_NORETURN raise_mem_exception(
-+        CPUState *cs, target_ulong addr, uintptr_t host_pc,
-+        int32_t excp_idx, uint8_t excp_cause_code, uint8_t excp_param)
-+{
-+    CPUARCState *env = &(ARC_CPU(cs)->env);
-+    if (excp_idx != EXCP_TLB_MISS_I) {
-+        cpu_restore_state(cs, host_pc, true);
-+    }
-+
-+    env->efa = addr;
-+    env->eret = env->pc;
-+    env->erbta = env->bta;
-+
-+    cs->exception_index = excp_idx;
-+    env->causecode = excp_cause_code;
-+    env->param = excp_param;
-+    cpu_loop_exit(cs);
-+}
-+
-+/* MMU range */
-+static const uint32_t MMU_VA_START = 0x00000000;  /* inclusive */
-+static const uint32_t MMU_VA_END = 0x80000000;    /* exclusive */
-+
-+typedef enum {
-+    DIRECT_ACTION,
-+    MPU_ACTION,
-+    MMU_ACTION,
-+    EXCEPTION_ACTION
-+} ACTION;
-+
-+/*
-+ * Applying the following logic
-+ * ,-----.-----.-----------.---------.---------------.
-+ * | MMU | MPU | MMU range | mmu_idx |     action    |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | dis | dis |     x     |    x    | phys = virt   |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | dis | ena |     x     |    x    | mpu_translate |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | dis |   true    |    x    | mmu_translate |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | dis |   false   |    0    | phys = virt   |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | dis |   false   |    1    | exception     |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | ena |   false   |    x    | mpu_translate |
-+ * |-----+-----+-----------+---------+---------------|
-+ * | ena | ena |   true    |    x    | mmu_translate |
-+ * `-----^-----^-----------^---------^---------------'
-+ */
-+static int decide_action(const CPUARCState *env,
-+                         target_ulong       addr,
-+                         int                mmu_idx)
-+{
-+    static ACTION table[2][2][2][2] = { };
-+    static bool is_initialized;
-+    const bool is_user = (mmu_idx == 1);
-+    const bool is_mmu_range = ((addr >= MMU_VA_START) && (addr < MMU_VA_END));
-+
-+    if (!is_initialized) {
-+        /* Both MMU and MPU disabled */
-+#define T true
-+#define F false
-+
-+        table[F][F][F][F] = DIRECT_ACTION;
-+        table[F][F][F][T] = DIRECT_ACTION;
-+        table[F][F][T][F] = DIRECT_ACTION;
-+        table[F][F][T][T] = DIRECT_ACTION;
-+
-+        /* Only MPU */
-+        table[F][T][F][F] = MPU_ACTION;
-+        table[F][T][F][T] = MPU_ACTION;
-+        table[F][T][T][F] = MPU_ACTION;
-+        table[F][T][T][T] = MPU_ACTION;
-+
-+        /* Only MMU; non-mmu range; kernel access */
-+        table[T][F][F][F] = DIRECT_ACTION;
-+        /* Only MMU; non-mmu range; user access */
-+        table[T][F][F][T] = EXCEPTION_ACTION;
-+
-+        /* Only MMU; mmu range; both modes access */
-+        table[T][F][T][F] = MMU_ACTION;
-+        table[T][F][T][T] = MMU_ACTION;
-+
-+        /* Both MMU and MPU enabled; non-mmu range */
-+        table[T][T][F][F] = MPU_ACTION;
-+        table[T][T][F][T] = MPU_ACTION;
-+
-+        /* Both MMU and MPU enabled; mmu range */
-+        table[T][T][T][F] = MMU_ACTION;
-+        table[T][T][T][T] = MMU_ACTION;
-+
-+#undef T
-+#undef F
-+
-+        is_initialized = true;
-+    }
-+
-+    return table[env->mmu.enabled][env->mpu.enabled][is_mmu_range][is_user];
-+}
-+
-+void arc_mmu_init(CPUARCState *env)
-+{
-+    env->mmu.enabled = 0;
-+    env->mmu.pid_asid = 0;
-+    env->mmu.sasid0 = 0;
-+    env->mmu.sasid1 = 0;
-+
-+    env->mmu.tlbpd0 = 0;
-+    env->mmu.tlbpd1 = 0;
-+    env->mmu.tlbpd1_hi = 0;
-+    env->mmu.tlbindex = 0;
-+    env->mmu.tlbcmd = 0;
-+    env->mmu.scratch_data0 = 0;
-+
-+    memset(env->mmu.nTLB, 0, sizeof(env->mmu.nTLB));
-+}
-+
-+
-+#ifndef CONFIG_USER_ONLY
-+/* Softmmu support function for MMU. */
-+bool arc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr)
-+{
-+    /* TODO: this rwe should go away when the TODO below is done */
-+    enum mmu_access_type rwe = (char) access_type;
-+    CPUARCState *env = &((ARC_CPU(cs))->env);
-+    int action = decide_action(env, address, mmu_idx);
-+
-+    switch (action) {
-+    case DIRECT_ACTION:
-+        tlb_set_page(cs, address & PAGE_MASK, address & PAGE_MASK,
-+                     PAGE_READ | PAGE_WRITE | PAGE_EXEC,
-+                     mmu_idx, TARGET_PAGE_SIZE);
-+        break;
-+    case MPU_ACTION:
-+        if (arc_mpu_translate(env, address, access_type, mmu_idx)) {
-+            if (probe) {
-+                return false;
-+            }
-+            MPUException *mpu_excp = &env->mpu.exception;
-+            raise_mem_exception(cs, address, retaddr,
-+                    mpu_excp->number, mpu_excp->code, mpu_excp->param);
-+        }
-+        break;
-+    case MMU_ACTION: {
-+        /*
-+         * TODO: these lines must go inside arc_mmu_translate and it
-+         * should only signal a failure or success --> generate an
-+         * exception or not
-+         */
-+        uint32_t index;
-+        target_ulong paddr = arc_mmu_translate(env, address, rwe, &index);
-+        if ((enum exception_code_list) env->mmu.exception.number !=
-+                EXCP_NO_EXCEPTION) {
-+            if (probe) {
-+                return false;
-+            }
-+            const struct mmu_exception *mmu_excp = &env->mmu.exception;
-+            raise_mem_exception(cs, address, retaddr,
-+                    mmu_excp->number, mmu_excp->causecode, mmu_excp->parameter);
-+        } else {
-+            int prot = arc_mmu_get_prot_for_index(index, env);
-+            address = arc_mmu_page_address_for(address);
-+            tlb_set_page(cs, address, paddr & PAGE_MASK, prot,
-+                         mmu_idx, TARGET_PAGE_SIZE);
-+        }
-+        break;
-+    }
-+    case EXCEPTION_ACTION:
-+        if (probe) {
-+            return false;
-+        }
-+        /* TODO: like TODO above, this must move inside mmu */
-+        qemu_log_mask(CPU_LOG_MMU, "[MMU_TLB_FILL] ProtV "
-+                      "exception at 0x" TARGET_FMT_lx ". rwe = %s\n",
-+                      env->pc, RWE_STRING(rwe));
-+        raise_mem_exception(cs, address, retaddr,
-+                            EXCP_PROTV, CAUSE_CODE(rwe), 0x08);
-+        break;
 +    default:
 +        g_assert_not_reached();
 +    }
++    return reg;
++}
 +
++/* Log the MPU sensitive information */
++static void log_mpu_data(const ARCMPU *mpu)
++{
++    char suffix[4] = " B";
++    uint32_t size;
++    /* Log header */
++    qemu_log_mask(CPU_LOG_MMU,
++            "[MPU] ,--------.-------.------------.--------.---"
++            "--------------------.--------------.------------.\n");
++    qemu_log_mask(CPU_LOG_MMU,
++            "[MPU] | region | valid |  address   |  size  |   "
++            "effective address   | kernel perm. | user perm. |\n");
++    qemu_log_mask(CPU_LOG_MMU,
++            "[MPU] |--------+-------+------------+--------+---"
++            "--------------------+--------------+------------|\n");
++    /* Now its every regions turn */
++    for (uint8_t r = 0; r < mpu->reg_bcr.regions; ++r) {
++        const MPUBaseReg *rb = &mpu->reg_base[r];
++        const MPUPermReg *rp = &mpu->reg_perm[r];
++        const MPUPermissions *p = &rp->permission;
++        if (rp->size >= 0x40000000) {
++            suffix[0] = 'G';
++            size = rp->size >> 30;
++        } else if (rp->size >= 0x00100000) {
++            suffix[0] = 'M';
++            size = rp->size >> 20;
++        } else if (rp->size >= 0x00000400) {
++            suffix[0] = 'K';
++            size = rp->size >> 10;
++        } else {
++            suffix[0] = ' ';
++            size = rp->size & 0x3FF;
++        }
++        qemu_log_mask(CPU_LOG_MMU,
++                "[MPU] |   %02u   | %s | 0x%08x | %3u %s | 0x%08x-0x%08x "
++                "|     %c%c%c      |    %c%c%c     |\n",
++                r, rb->valid ? "true " : "false", rb->addr, size, suffix,
++                rb->addr & rp->mask,
++                (rb->addr & rp->mask) + ((uint32_t) rp->size),
++                p->KR ? 'r' : '-', p->KW ? 'w' : '-', p->KE ? 'x' : '-',
++                p->UR ? 'r' : '-', p->UW ? 'w' : '-', p->UE ? 'x' : '-');
++    }
++    /* Default region */
++    const MPUPermissions *defp = &mpu->reg_enable.permission;
++    qemu_log_mask(CPU_LOG_MMU,
++            "[MPU] |  def.  |       |            |        |          "
++            "             |     %c%c%c      |    %c%c%c     |\n",
++            defp->KR ? 'r' : '-', defp->KW ? 'w' : '-', defp->KE ? 'x' : '-',
++            defp->UR ? 'r' : '-', defp->UW ? 'w' : '-', defp->UE ? 'x' : '-');
++    /* Wrap it up */
++    qemu_log_mask(CPU_LOG_MMU,
++            "[MPU] `--------^-------^------------^--------^---"
++            "--------------------^--------------^------------'\n");
++}
++
++/* Extern function: Setter for MPU registers */
++void
++arc_mpu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
++                const target_ulong value, void *data)
++{
++    validate_mpu_regs_access((CPUARCState *) data);
++    ARCMPU *mpu = &(((CPUARCState *) data)->mpu);
++
++    switch (aux_reg_detail->id) {
++    case AUX_ID_mpuen:
++        unpack_enable_reg(&mpu->reg_enable, value);
++        mpu->enabled = mpu->reg_enable.enabled;
++        break;
++    case AUX_ID_mpurdb0 ... AUX_ID_mpurdb15: {
++        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdb0;
++        validate_region_number(mpu, rgn);
++        unpack_base_reg(&mpu->reg_base[rgn], value);
++        break;
++    }
++    case AUX_ID_mpurdp0 ... AUX_ID_mpurdp15: {
++        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdp0;
++        validate_region_number(mpu, rgn);
++        unpack_perm_reg(&mpu->reg_perm[rgn], value);
++        break;
++    }
++    default:
++        g_assert_not_reached();
++    }
++    /* Invalidate the entries in qemu's translation buffer */
++    tlb_flush(env_cpu((CPUARCState *) data));
++    /* If MPU is enabled, log its data */
++    if (mpu->enabled) {
++        log_mpu_data(mpu);
++    }
++}
++
++/*
++ * If user mode, return the user permission only.
++ * If kernel mode, return the aggregation of both permissions.
++ */
++static void get_effective_rwe(const MPUPermissions *perm,
++                              bool user_mode, MPUEffectPerm *effective)
++{
++    effective->read  = user_mode ? perm->UR : perm->KR | perm->UR;
++    effective->write = user_mode ? perm->UW : perm->KW | perm->UW;
++    effective->exec  = user_mode ? perm->UE : perm->KE | perm->UE;
++}
++
++/* Translate internal QEMU's access type to an MPU violation type */
++static inline uint8_t qemu_access_to_violation(MMUAccessType access)
++{
++    uint8_t vt = 0;
++    switch (access) {
++    case MMU_INST_FETCH:
++        vt = MPU_CAUSE_FETCH;
++        break;
++    case MMU_DATA_LOAD:
++        vt = MPU_CAUSE_READ;
++        break;
++    case MMU_DATA_STORE:
++        vt = MPU_CAUSE_WRITE;
++        break;
++    /* TODO: there must be an MPU_CAUSE_RW as well, but how? */
++    default:
++        g_assert_not_reached();
++    }
++    return vt;
++}
++
++/* Translate MPU's permission to QEMU's tlb permission */
++static inline uint8_t mpu_permission_to_qemu(const MPUPermissions *perm,
++                                             bool user_mode)
++{
++    MPUEffectPerm effective = { };
++    get_effective_rwe(perm, user_mode, &effective);
++    return (effective.read  ? PAGE_READ  : 0) |
++           (effective.write ? PAGE_WRITE : 0) |
++           (effective.exec  ? PAGE_EXEC  : 0);
++}
++
++/*
++ * Check if the 'access' is according to 'perm'ission.
++ * Note that a user mode permission is also implied for kernel.
++ */
++static bool allowed(MMUAccessType access, bool user_mode,
++                    const MPUPermissions *perm)
++{
++    MPUEffectPerm effective_perm = { };
++    get_effective_rwe(perm, user_mode, &effective_perm);
++
++    switch (access) {
++    case MMU_INST_FETCH:
++        return effective_perm.exec;
++    case MMU_DATA_LOAD:
++        return effective_perm.read;
++    case MMU_DATA_STORE:
++        return effective_perm.write;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++/* Used for logging purposes */
++static inline const char *log_violation_to_str(uint8_t violation)
++{
++    return (violation == MPU_CAUSE_FETCH) ? "fetch"      :
++           (violation == MPU_CAUSE_READ)  ? "read"       :
++           (violation == MPU_CAUSE_WRITE) ? "write"      :
++           (violation == MPU_CAUSE_RW)    ? "read-write" :
++           "unknown";
++}
++
++/* Sets the exception data */
++static void set_exception(CPUARCState *env, uint32_t addr,
++                          uint8_t region, MMUAccessType access)
++{
++    MPUECR *ecr = &env->mpu.reg_ecr;
++    ecr->violation = qemu_access_to_violation(access);
++    ecr->region = region;
++
++    /* this info is used by the caller to trigger the exception */
++    MPUException *excp = &env->mpu.exception;
++    excp->number = EXCP_PROTV;
++    excp->code = ecr->violation;
++    excp->param = ARC_MPU_ECR_PARAM;
++
++    qemu_log_mask(CPU_LOG_MMU,
++            "[MPU] exception: region=%hu, addr=0x%08x, violation=%s\n",
++            region, addr, log_violation_to_str(ecr->violation));
++}
++
++/*
++ * Given an 'addr', finds the region it belongs to. If no match
++ * is found, then it signals this by returning MPU_DEFAULT_REGION_NR.
++ * Since regions with lower index has higher priority, the first match
++ * is the correct one even if there is overlap among regions.
++ */
++static uint8_t get_matching_region(const ARCMPU *mpu, uint32_t addr)
++{
++    qemu_log_mask(CPU_LOG_MMU, "[MPU] looking up: addr=0x%08x\n", addr);
++    for (uint8_t r = 0; r < mpu->reg_bcr.regions; ++r) {
++        if (!mpu->reg_base[r].valid) {
++            continue;
++        }
++        const uint32_t mask = mpu->reg_perm[r].mask;
++        /* 'addr' falls under the current region? */
++        if ((mpu->reg_base[r].addr & mask) == (addr & mask)) {
++            qemu_log_mask(CPU_LOG_MMU,
++                    "[MPU] region match: region=%u, base=0x%08x\n",
++                    r, mpu->reg_base[r].addr);
++            return r;
++        }
++    }
++    /* If we are here, then no corresponding region is found */
++    qemu_log_mask(CPU_LOG_MMU, "[MPU] default region will be used.\n");
++    return MPU_DEFAULT_REGION_NR;
++}
++
++/*
++ * Returns the corresponding permission for the given 'region'.
++ * If 'region' is MPU_DEFAULT_REGION_NR, then the default permission
++ * from MPU_EN register is returned.
++ */
++static const MPUPermissions *get_permission(const ARCMPU *mpu,
++                                            uint8_t region)
++{
++    if (region < mpu->reg_bcr.regions) {
++        return &mpu->reg_perm[region].permission;
++    } else if (region == MPU_DEFAULT_REGION_NR) {
++        return &mpu->reg_enable.permission;
++    }
++    g_assert_not_reached();
++}
++
++/*
++ * Have the following example in mind:
++ * ,------------.
++ * | region 5   |
++ * |            |
++ * |            | first page of region 5
++ * |            |
++ * |............|
++ * |            |
++ * |,----------.| second page of region 5
++ * || region 4 ||
++ * |`----------'|
++ * `------------'
++ * Here region four's size is half a page size.
++ *
++ * This function checks if the page that the address belongs to,
++ * overlaps with another higher priority region. regions with lower
++ * priority don't matter because they cannot influence the permission.
++ *
++ * The logic is to check if any of the valid regions is contained in
++ * the page that 'addr' belongs to.
++ */
++static bool is_overlap_free(const ARCMPU *mpu, target_ulong addr,
++                            uint8_t current_region)
++{
++    /* Nothing has higher priority than region 0 */
++    if (current_region == 0) {
++        return true;
++    } else if (current_region == MPU_DEFAULT_REGION_NR) {
++        /* Make the "default region number" fit in this function */
++        current_region = mpu->reg_bcr.regions;
++    }
++
++    assert(current_region <= mpu->reg_bcr.regions);
++
++    target_ulong page_addr = addr & PAGE_MASK;
++    /*
++     * Going through every region that has higher priority than
++     * the current one.
++     */
++    for (uint8_t r = 0; r < current_region; ++r) {
++        if (mpu->reg_base[r].valid &&
++            page_addr == (mpu->reg_base[r].addr & PAGE_MASK)) {
++            return false;
++        }
++    }
++    /* No overlap with a higher priority region */
 +    return true;
 +}
 +
-+hwaddr arc_mmu_debug_translate(CPUARCState *env, vaddr addr)
++/*
++ * Update QEMU's TLB with region's permission.
++ * One thing to remember is that if the region size
++ * is smaller than TARGET_PAGE_SIZE, QEMU will always
++ * consult tlb_fill() for any access to that region.
++ * So there is no point in fine tunning TLB entry sizes
++ * to reflect the real region size. On the other hand,
++ * if the region size is big ( > TARGET_PAGE_SIZE), we
++ * still go with TARGET_PAGE_SIZE, because it can be
++ * memory demanding for host process.
++ */
++static void update_tlb_page(CPUARCState *env, uint8_t region,
++                            target_ulong addr, int mmu_idx)
 +{
-+   return arc_mmu_translate(env, addr, MMU_MEM_IRRELEVANT_TYPE,
-+                            NULL);
++    CPUState *cs = env_cpu(env);
++    /* By default, only add entry for 'addr' */
++    target_ulong tlb_addr = addr;
++    target_ulong tlb_size = 1;
++    bool check_for_overlap = true;
++    int prot = 0;
++
++    if (region != MPU_DEFAULT_REGION_NR) {
++        MPUPermReg *perm = &env->mpu.reg_perm[region];
++        prot = mpu_permission_to_qemu(
++                &perm->permission, is_user_mode(env));
++        /*
++         * If the region's size is big enough, we'll check for overlap.
++         * Later if we find no overlap, then we add the permission for
++         * the whole page to qemu's tlb.
++         */
++        check_for_overlap = (perm->size >= TARGET_PAGE_SIZE);
++    }
++    /* Default region */
++    else {
++        prot = mpu_permission_to_qemu(
++                &env->mpu.reg_enable.permission, is_user_mode(env));
++    }
++
++    /*
++     * If the region completely covers the 'page' that 'addr'
++     * belongs to, _and_ is not overlapping with any other region
++     * then add a 'page'wise entry.
++     */
++    if (check_for_overlap &&
++        is_overlap_free(&env->mpu, addr, region)) {
++        tlb_addr = addr & PAGE_MASK;
++        tlb_size = TARGET_PAGE_SIZE;
++    }
++
++    tlb_set_page(cs, tlb_addr, tlb_addr, prot, mmu_idx, tlb_size);
++    qemu_log_mask(CPU_LOG_MMU, "[MPU] TLB update: addr=0x" TARGET_FMT_lx ", "
++            "prot=%c%c%c, mmu_idx=%u, page_size=" TARGET_FMT_lu "\n", tlb_addr,
++            (prot & PAGE_READ) ? 'r' : '-', (prot & PAGE_WRITE) ? 'w' : '-',
++            (prot & PAGE_EXEC) ? 'x' : '-', mmu_idx, tlb_size);
 +}
 +
-+
-+#endif /* ifndef CONFIG_USER_ONLY */
-+
-+void arc_mmu_disable(CPUARCState *env)
++/* The MPU entry point for any memory access */
++int
++arc_mpu_translate(CPUARCState *env, target_ulong addr,
++                  MMUAccessType access, int mmu_idx)
 +{
-+    env->mmu.enabled = false;
++    ARCMPU *mpu = &env->mpu;
++
++    uint8_t region = get_matching_region(mpu, addr);
++    const MPUPermissions *perms = get_permission(mpu, region);
++    if (!allowed(access, is_user_mode(env), perms)) {
++        set_exception(env, addr, region, access);
++        return MPU_FAULT;
++    }
++    update_tlb_page(env, region, addr, mmu_idx);
++
++    return MPU_SUCCESS;
 +}
-diff --git a/target/arc/mmu.h b/target/arc/mmu.h
++
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/target/arc/mpu.h b/target/arc/mpu.h
 new file mode 100644
-index 0000000000..00a26e828c
+index 0000000000..5894221197
 --- /dev/null
-+++ b/target/arc/mmu.h
-@@ -0,0 +1,148 @@
++++ b/target/arc/mpu.h
+@@ -0,0 +1,133 @@
 +/*
 + * QEMU ARC CPU
 + *
 + * Copyright (c) 2020 Synppsys Inc.
-+ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
++ * Contributed by Shahab Vahedi (Synopsys)
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -940,133 +791,118 @@ index 0000000000..00a26e828c
 + * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#ifndef ARC_MMU_H
-+#define ARC_MMU_H
++#ifndef ARC_MPU_H
++#define ARC_MPU_H
 +
 +#include "target/arc/regs.h"
++#include "cpu-qom.h"
 +
-+/* PD0 flags */
-+#define PD0_VPN 0x7ffff000
-+#define PD0_ASID 0x000000ff
-+#define PD0_G   0x00000100      /* Global */
-+#define PD0_V   0x00000200      /* Valid */
-+#define PD0_SZ  0x00000400      /* Size: Normal or Super Page */
-+#define PD0_L   0x00000800      /* Lock */
-+#define PD0_S   0x80000000      /* Shared Library ASID */
-+#define PD0_FLG (PD0_G | PD0_V | PD0_SZ | PD0_L)
++/* These values are based on ARCv2 ISA PRM for ARC HS processors */
++#define ARC_MPU_VERSION         0x03    /* MPU version supported          */
++#define ARC_MPU_MAX_NR_REGIONS  16      /* Number of regions to protect   */
++#define ARC_MPU_ECR_VEC_NUM     0x06    /* EV_ProtV: Protection Violation */
++#define ARC_MPU_ECR_PARAM       0x04    /* MPU (as opposed to MMU, ...)   */
 +
-+#define PD0_ASID_MATCH 0x0000003f
-+#define PD0_PID_MATCH  0x000000ff
++/* MPU Build Configuration Register */
++typedef struct MPUBCR {
++    uint8_t version; /* 0 (disabled), 0x03 */
++    uint8_t regions; /* 0, 1, 2, 4, 8, 16  */
++} MPUBCR;
 +
-+/* PD1 permission bits */
-+#define PD1_PPN 0xfffff000      /* Cached */
-+#define PD1_FC  0x00000001      /* Cached */
-+#define PD1_XU  0x00000002      /* User Execute */
-+#define PD1_WU  0x00000004      /* User Write */
-+#define PD1_RU  0x00000008      /* User Read */
-+#define PD1_XK  0x00000010      /* Kernel Execute */
-+#define PD1_WK  0x00000020      /* Kernel Write */
-+#define PD1_RK  0x00000040      /* Kernel Read */
-+#define PD1_FLG (PD1_FC | PD1_XU | PD1_WU | PD1_RU | PD1_XK | PD1_WK | PD1_RK)
++typedef struct MPUPermissions {
++    bool     KR;    /* Kernel read    */
++    bool     KW;    /* Kernel write   */
++    bool     KE;    /* Kernel execute */
++    bool     UR;    /* User   read    */
++    bool     UW;    /* User   write   */
++    bool     UE;    /* User   execute */
++} MPUPermissions;
 +
-+#define TLBINDEX_INDEX  0x00001fff
-+#define TLBINDEX_E      0x80000000
-+#define TLBINDEX_RC        0x70000000
++/* MPU Enable Register */
++typedef struct MPUEnableReg {
++    bool           enabled;     /* Is MPU enabled? */
++    MPUPermissions permission;  /* Default region permissions */
++} MPUEnableReg;
 +
-+#define TLB_CMD_WRITE   0x1
-+#define TLB_CMD_WRITENI 0x5
-+#define TLB_CMD_READ    0x2
-+#define TLB_CMD_INSERT  0x7
-+#define TLB_CMD_DELETE  0x8
-+#define TLB_CMD_IVUTLB  0x6
-+
-+#define N_SETS          256
-+#define N_WAYS          4
-+#define TLB_ENTRIES     (N_SETS * N_WAYS)
-+
-+#define PAGE_SHIFT      TARGET_PAGE_BITS
-+#define PAGE_SIZE       (1 << PAGE_SHIFT)
-+#define PAGE_MASK       (~(PAGE_SIZE - 1))
-+
-+/* NOTE: Do not reorder, this is casted in tbl_fill function. */
-+enum mmu_access_type {
-+    MMU_MEM_READ = 0,
-+    MMU_MEM_WRITE,
-+    MMU_MEM_FETCH,  /* Read for execution. */
-+    MMU_MEM_ATTOMIC,
-+    MMU_MEM_IRRELEVANT_TYPE,
++/* Determines during which type of operation a violation occurred */
++enum MPUCauseCode {
++    MPU_CAUSE_FETCH = 0x00,
++    MPU_CAUSE_READ  = 0x01,
++    MPU_CAUSE_WRITE = 0x02,
++    MPU_CAUSE_RW    = 0x03
 +};
 +
-+#define RWE_STRING(RWE) \
-+    (RWE == MMU_MEM_READ ? "MEM_READ" : \
-+     (RWE == MMU_MEM_WRITE ? "MEM_WRITE" : \
-+      (RWE == MMU_MEM_ATTOMIC ? "MEM_ATTOMIC" : \
-+       (RWE == MMU_MEM_FETCH ? "MEM_FETCH" : \
-+        (RWE == MMU_MEM_IRRELEVANT_TYPE ? "MEM_IRRELEVANT" \
-+         : "NOT_VALID_RWE")))))
++/* The exception to be set */
++typedef struct MPUException {
++    uint8_t number;     /* Exception vector number: 0x06 -> EV_ProtV  */
++    uint8_t code;       /* Cause code: fetch, read, write, read/write */
++    uint8_t param;      /* Always 0x04 to represent MPU               */
++} MPUException;
 +
++/* MPU Exception Cause Register */
++typedef struct MPUECR {
++    uint8_t region;
++    uint8_t violation; /* Fetch, read, write, read/write */
++} MPUECR;
 +
-+#define CAUSE_CODE(ENUM) \
-+    ((ENUM == MMU_MEM_FETCH) ? 0 : \
-+     ((ENUM == MMU_MEM_READ) ? 1 : \
-+       ((ENUM == MMU_MEM_WRITE) ? 2 : 3)))
++/* MPU Region Descriptor Base Register */
++typedef struct MPUBaseReg {
++    bool     valid; /* Is this region valid? */
++    uint32_t addr;  /* Minimum size is 32 bytes --> bits[4:0] are 0 */
++} MPUBaseReg;
 +
-+
-+struct arc_tlb_e {
++/* MPU Region Descriptor Permissions Register */
++typedef struct MPUPermReg {
++    /* size_bits: 00100b ... 11111b */
++    uint8_t        size_bits;
 +    /*
-+     * TLB entry is {PD0,PD1} tuple, kept "unpacked" to avoid bit fiddling
-+     * flags includes both PD0 flags and PD1 permissions.
++     * We need normal notation of size to set qemu's tlb page size later.
++     * Region's size: 32 bytes, 64 bytes,  ..., 4 gigabytes
 +     */
-+    uint32_t pd0, pd1;
-+};
-+
-+#define RAISE_MMU_EXCEPTION(ENV) { \
-+    do_exception_no_delayslot(ENV, \
-+                              ENV->mmu.exception.number, \
-+                              ENV->mmu.exception.causecode, \
-+                              ENV->mmu.exception.parameter); \
-+}
-+
-+struct arc_mmu {
-+    uint32_t enabled;
-+    struct mmu_exception {
-+      int32_t number;
-+      uint8_t causecode;
-+      uint8_t parameter;
-+    } exception;
-+
-+    struct arc_tlb_e nTLB[N_SETS][N_WAYS];
-+
-+    /* insert uses vaddr to find set; way selection could be random/rr/lru */
-+    uint32_t way_sel[N_SETS];
-+
++    uint64_t       size;   /* 2 << size_bits */
 +    /*
-+     * Current Address Space ID (in whose context mmu lookups done)
-+     * Note that it is actually present in AUX PID reg, which we don't
-+     * explicitly maintain, but {re,de}construct as needed by LR/SR insns
-+     * respectively.
++     * Region offset: 0x1f, 0x3f, ..., 0xffffffff
++     * Hence region mask: 0xffffffe0, 0xfffffc0, ..., 0x00000000
 +     */
-+    uint32_t pid_asid;
-+    uint32_t sasid0;
-+    uint32_t sasid1;
++    uint32_t       mask;
++    MPUPermissions permission; /* region's permissions */
++} MPUPermReg;
 +
-+    uint32_t tlbpd0;
-+    uint32_t tlbpd1;
-+    uint32_t tlbpd1_hi;
-+    uint32_t tlbindex;
-+    uint32_t tlbcmd;
-+    uint32_t scratch_data0;
++typedef struct ARCMPU {
++    bool         enabled;
++
++    MPUBCR       reg_bcr;
++    MPUEnableReg reg_enable;
++    MPUECR       reg_ecr;
++    /* Base and permission registers are paired */
++    MPUBaseReg   reg_base[ARC_MPU_MAX_NR_REGIONS];
++    MPUPermReg   reg_perm[ARC_MPU_MAX_NR_REGIONS];
++
++    MPUException exception;
++} ARCMPU;
++
++enum ARCMPUVerifyRet {
++  MPU_SUCCESS,
++  MPU_FAULT
 +};
 +
-+
++struct ARCCPU;
 +struct CPUARCState;
 +
-+void arc_mmu_debug_tlb(struct CPUARCState *env);
-+void arc_mmu_debug_tlb_for_vaddr(struct CPUARCState *env, uint32_t vaddr);
++/* Used during a reset */
++extern void arc_mpu_init(struct ARCCPU *cpu);
 +
-+uint32_t arc_mmu_page_address_for(uint32_t vaddr);
++/*
++ * Verifies if 'access' to 'addr' is allowed or not.
++ * possible return values:
++ * MPU_SUCCESS - allowed; 'prot' holds permissions
++ * MPU_FAULT   - not allowed; corresponding exception parameters are set
++ */
++extern int
++arc_mpu_translate(struct CPUARCState *env, target_ulong addr,
++                  MMUAccessType access, int mmu_idx);
 +
-+#endif /* ARC_MMU_H */
++#endif /* ARC_MPU_H */
 -- 
 2.20.1
 
