@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FC5353D5B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 11:41:41 +0200 (CEST)
-Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41281353D6A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 12:32:13 +0200 (CEST)
+Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTLjo-0007aH-6h
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 05:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50504)
+	id 1lTMWh-00010V-Uw
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 06:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lTLha-0006lE-S5
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 05:39:23 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:43843)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTMVR-0000W0-Sn
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 06:30:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1lTLhS-0004ji-Sv
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 05:39:19 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- x21-20020a17090a5315b029012c4a622e4aso5565390pjh.2
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 02:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=xRFSLtTUkJNS/kRSzVb05Og1owsa1qLWiyLY9jSwweE=;
- b=cCIcghUvZnoL9RjOfssMAmu3265mBtxTMHF9RhKTcOarPFf1vkNWTVsd4YnlItgjCL
- 95zsPp2iJTWbD2YADWF61jSryAlvO79FyBDuAC/s3Ivr+7jV3gF+eOS8YPQEtYT2TGAt
- rUdZmsp7KlaLWAw+RU8HtaD1l9uR/NG8gD6+PEHIsbhxlkKl8GudfGquGLAbRU1/KvYC
- hDH0GPjTXJZaD6g0zLwQQkyU+zl7XGvEgB8DISu7D8HFR9jDK/mDk+95xOKudkk10QhL
- bBnRrnfU4zI6anydZrJWzwwGNkS3JCznhYHNBqprZ085v78DkNklOqET+IhyqGHufVhD
- spOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=xRFSLtTUkJNS/kRSzVb05Og1owsa1qLWiyLY9jSwweE=;
- b=JQps0YM2dqJ19g21cDlA0/jGHkUfMC9H5BSHTZ1X0ZHt4JcErokJmiLIirV+eqrZqb
- nOSX17Z9zi4X/EkJadUwfUZKVWwGr+fnpXI1k2rWIGt6db2A/bSDMtISI8mjrdse+CMq
- kQoauNtXXyJmlKGb2ivNTkO/grWUl4mRyvobPSbfAPd8NXknMl6dQU/BP3E2TafC7lC0
- 5NBA9b2R+G2UjjcchM/EHRnQkRcSbgO8mSb6+Tx7geia0a6RPOkQ1BsuTuzZ3Lp0QXtW
- woAChQNLx1rsr8hPSNjRRFwJvfn5aZAc7ZEEe3YQNzzFTMlcb/U+I+TH6xgnjIHMmBe+
- blPg==
-X-Gm-Message-State: AOAM530on3fhuZtndyxS1fcLT26rs4Lj+MXBW6m3WLoors5gzge/a4vJ
- EaEdJ8xDDCncAfLYNwGSzX2yYg==
-X-Google-Smtp-Source: ABdhPJz8v4zzCUjZBGqBFLZx/+LvEjhaFClOs667XykBQlKy0FfrEiC5djCfSpUkgzZgGd+gHrHklw==
-X-Received: by 2002:a17:90a:5d09:: with SMTP id
- s9mr25428794pji.228.1617615551903; 
- Mon, 05 Apr 2021 02:39:11 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
- by smtp.gmail.com with ESMTPSA id w79sm15342395pfc.87.2021.04.05.02.39.10
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 05 Apr 2021 02:39:11 -0700 (PDT)
-Date: Mon, 5 Apr 2021 15:09:09 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH V2 4/6] tools/vhost-user-i2c: Add backend driver
-Message-ID: <20210405093909.rn6xlcmj3tpfjgh4@vireshk-i7>
-References: <cover.1617278395.git.viresh.kumar@linaro.org>
- <e0adcd9552cee4de0ee844f6b3c87fb2b2f2357c.1617278395.git.viresh.kumar@linaro.org>
- <87eefu13c4.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTMVP-0000x6-6J
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 06:30:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lTMVJ-0006qQ-EX
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 10:30:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6B3312E8026
+ for <qemu-devel@nongnu.org>; Mon,  5 Apr 2021 10:30:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87eefu13c4.fsf@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 05 Apr 2021 10:23:40 -0000
+From: Mark Cave-Ayland <1921635@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hp mark-cave-ayland
+X-Launchpad-Bug-Reporter: Hein-PietervanBraam (hp)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
+References: <161695258717.25953.1383463253951082358.malonedeb@wampee.canonical.com>
+Message-Id: <161761822079.18133.9922501482394382678.malone@soybean.canonical.com>
+Subject: [Bug 1921635] Re: ESP SCSI adapter not working with DOS ASPI drivers
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: f043272d5e65cd93b2185b334991a959343efae1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,23 +69,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
- Bill Mills <bill.mills@linaro.org>, qemu-devel@nongnu.org,
- Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Reply-To: Bug 1921635 <1921635@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01-04-21, 14:43, Alex Bennée wrote:
-> > +        /* Parse clients <client_addr>[:<client_addr>] entries one by
-> > one */
-> 
-> Then this would be:
-> 
->      **dev = g_strsplit(cp[i], ":", 2);
+I've had a look at your am53c974 boot floppy with PcSCSI drivers and I'm
+fairly sure that disabling INT13 support isn't helping here. With your
+custom SeaBIOS I see a hang issuing the first SCSI command: without your
+custom SeaBIOS I can see that the default SeaBIOS issues several
+successful commands to the SCSI bus before booting from the floppy.
 
-There can be any number of client devices present for a bus, not just 2.
+Dropping the -bios option and booting your floppy here I see the
+following sequence with -trace 'scsi*' -trace 'esp*' after the BIOS has
+initialised:
 
--- 
-viresh
+
+esp_mem_writeb reg[3]: 0x42 -> 0x02
+esp_mem_writeb_cmd_reset Chip reset (0x02)
+esp_mem_writeb reg[3]: 0x02 -> 0x80
+esp_mem_writeb_cmd_nop NOP (0x80)
+esp_mem_writeb reg[11]: 0x00 -> 0x40
+esp_mem_readb reg[14]: 0x12
+esp_pci_sbac_read sbac: 0x00000000
+esp_pci_sbac_write sbac: 0x00000000 -> 0x02000000
+esp_mem_writeb reg[3]: 0x80 -> 0x02
+esp_mem_writeb_cmd_reset Chip reset (0x02)
+esp_mem_writeb reg[3]: 0x02 -> 0x80
+esp_mem_writeb_cmd_nop NOP (0x80)
+esp_mem_writeb reg[8]: 0x00 -> 0x17
+esp_mem_writeb reg[12]: 0x00 -> 0x88
+esp_mem_writeb reg[13]: 0x00 -> 0x40
+esp_mem_writeb reg[11]: 0x00 -> 0x40
+esp_mem_writeb reg[9]: 0x00 -> 0x07
+esp_mem_writeb reg[5]: 0x00 -> 0x8d
+esp_mem_writeb reg[5]: 0x8d -> 0x02
+esp_mem_readb reg[8]: 0x17
+esp_mem_writeb reg[8]: 0x17 -> 0x07
+esp_mem_writeb reg[4]: 0x00 -> 0x00
+esp_mem_writeb reg[3]: 0x80 -> 0x01
+esp_mem_writeb_cmd_flush Flush FIFO (0x01)
+esp_mem_writeb reg[2]: 0x00 -> 0x00
+esp_mem_writeb reg[2]: 0x00 -> 0x00
+esp_mem_writeb reg[2]: 0x00 -> 0x00
+esp_mem_writeb reg[2]: 0x00 -> 0x00
+esp_mem_writeb reg[2]: 0x00 -> 0x00
+esp_mem_writeb reg[2]: 0x00 -> 0x00
+esp_mem_writeb reg[3]: 0x01 -> 0x41
+esp_mem_writeb_cmd_sel Select without ATN (0x41)
+esp_get_cmd len 6 target 0
+esp_do_busid_cmd busid 0x0
+scsi_req_parsed target 0 lun 0 tag 0 command 0 dir 0 length 0
+scsi_req_parsed_lba target 0 lun 0 tag 0 command 0 lba 0
+scsi_req_alloc target 0 lun 0 tag 0
+scsi_disk_new_request Command: lun=3D0 tag=3D0x0 data=3D 0x00 0x00 0x00 0x0=
+0 0x00 0x00
+scsi_test_unit_ready target 0 lun 0 tag 0
+scsi_req_dequeue target 0 lun 0 tag 0
+esp_command_complete SCSI Command complete
+esp_raise_irq Raise IRQ
+esp_lower_drq Lower DREQ
+
+******
+esp_pci_dma_read reg[5]: 0x00000018
+esp_mem_readb reg[4]: 0x93
+esp_mem_readb reg[6]: 0x00
+esp_lower_irq Lower IRQ
+esp_mem_readb reg[5]: 0x18
+esp_mem_readb reg[8]: 0x07
+esp_mem_writeb reg[8]: 0x07 -> 0x47
+esp_mem_writeb reg[3]: 0x41 -> 0x03
+esp_mem_writeb_cmd_bus_reset Bus reset (0x03)
+******
+
+
+The loading of the "test unit ready" command and execution look fine to me:=
+ QEMU's SCSI layer is executing the command (indicating success) and raises=
+ the ESP IRQ. However at this point in the section marked by "******" the A=
+SPI driver seems not be happy with the RSTAT/RINTR register contents or the=
+ 0x18 read back from the PCI DMA registers, issues a bus reset and stops.
+
+What is interesting here is that the "Select without ATN (0x41)" command
+issued is a non-DMA command so I wouldn't expect it to affect the ESP
+PCI DMA register state, but I suspect you'll need to have a look what
+the driver is doing using a disassembler/gdbstub and the am53c974
+datasheet to try and understand what is happening here.
+
+Finally it may be worth checking the IRQ routing with -trace 'pci*' to
+see if SeaBIOS updates the PCI "Interrupt Pin" register indicating where
+it thinks the IRQ should be routed, and stepping through the
+esp_raise_irq() in QEMU for the final test unit ready command to ensure
+that all of QEMU, SeaBIOS and AMSIDA.SYS all agree on what IRQ is being
+used.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921635
+
+Title:
+  ESP SCSI adapter not working with DOS ASPI drivers
+
+Status in QEMU:
+  New
+
+Bug description:
+  I have been trying to install the DOS ASPI drivers for the ESP scsi
+  card. Both in am53c974 and dc390 modes. Neither works but they don't
+  work in different ways.
+
+  The following things appear to be problematic:
+
+  * The am53c974 should work with the PcSCSI drivers (AMSIDA.SYS) but the A=
+SPI driver never manages to get past initializing the card. The VM never co=
+ntinues.
+  * The dc390 ASPI driver fares a little better. The ASPI driver loads and =
+is semi-functional but the drivers for the peripherals don't work.
+   - ASPI.SYS (creative name) loads
+   - TRMDISK.SYS fails to load when a cd-drive is attached and will crashs =
+scanning the scsi-id where the cd drive is attached
+   - TRMDISK.SYS loads without a CD drive attached but fails to read any sc=
+si-hd devices attached. The TFDISK.EXE formatter crashes.
+   - TRMCD.SYS loads, but can not detect any CD drives.
+
+  The various permutations:
+  am53c974 hang on ASPI driver load: (CD only attached)
+
+  ~/src/qemu/build/qemu-system-i386 -m 64 -device am53c974,id=3Dscsi0
+  -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=
+=3D0
+  -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddrive0 -=
+vga
+  cirrus -fda am53c974_aspi.img -bios /home/hp/src/seabios/out/bios.bin
+  -boot a  -trace 'scsi*' -trace 'esp*' -D log
+
+  dc390 crash because of CDROM attachment and loading TRMDISK.SYS (Only CD =
+attached)
+  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=
+=3D0 -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,l=
+un=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddri=
+ve0 -vga cirrus -fda dc390_all.img  -bios /home/hp/src/seabios/out/bios.bin=
+ -boot a  -trace 'scsi*' -trace 'esp*' -D log
+
+  dc390 successful boot, but TRMDISK.SYS not working (TFDISK.EXE will crash)
+  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0 -device =
+scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,logica=
+l_block_size=3D512 -drive file=3Dsmall.qcow2,if=3Dnone,id=3Ddrive0 -vga cir=
+rus -fda dc390_all.img -bios /home/hp/src/seabios/out/bios.bin -boot a  -tr=
+ace 'scsi*' -trace 'esp*' -D log
+
+  dc390 successful boot, TRMDISK.SYS not loaded, only TRMCD.SYS. CDROM not =
+detected
+  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=
+=3D0 -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,l=
+un=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddri=
+ve0 -vga cirrus -fda dc390_cd.img  -bios /home/hp/src/seabios/out/bios.bin =
+-boot a  -trace 'scsi*' -trace 'esp*' -D log
+
+  All of these tests were done on
+  7b9a3c9f94bcac23c534bc9f42a9e914b433b299 as well as the 'esp-next'
+  branch found here: https://github.com/mcayland/qemu/tree/esp-next
+
+  The bios file is a seabios master with all int13 support disabled.
+  With it enabled even less works but I figured this would be a seabios
+  bug and not a qemu one.
+
+  The actual iso and qcow2 files used don't appear the matter. the
+  'small.qcow2' is an empty drive of 100MB. I have also tried other ISOs
+  in the CD drives, or even not put any cd in the drives with the same
+  results.
+
+  I will attach all of the above images.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1921635/+subscriptions
 
