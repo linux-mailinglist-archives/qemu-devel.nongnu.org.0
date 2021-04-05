@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89052354629
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 19:42:22 +0200 (CEST)
-Received: from localhost ([::1]:59562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DEC354671
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 20:00:44 +0200 (CEST)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTTEx-0005r3-Fy
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 13:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
+	id 1lTTWl-0003X0-1P
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 14:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTT7u-0004bp-Bg; Mon, 05 Apr 2021 13:35:02 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:60333)
+ id 1lTTRE-000109-Fh; Mon, 05 Apr 2021 13:55:00 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:56605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTT7e-00014v-3T; Mon, 05 Apr 2021 13:35:01 -0400
+ id 1lTTRC-0000G2-TH; Mon, 05 Apr 2021 13:55:00 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 472A65C00E8;
- Mon,  5 Apr 2021 13:34:45 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:34:45 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id 9417C5C00D6;
+ Mon,  5 Apr 2021 13:54:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:54:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=qQSn4qZrcN7Pg
- OW+0g4MaabmZlGAce9keeJ8TpfIV1k=; b=PH20GZ/KlWAlF6KQ/0D87imPMcQMH
- 2S5MsrNpv9EAOxFbvCTRCrR/9b8tJbD+FcLXw9JheysGYEkyvr+1wplalBDa2OBp
- Gfwzm/wgC1c35+q57tnVjVK/9qAHomYm2k3q/dJHaothFK8/jnIYtCC3qHMi5GFM
- FvlTrnAbn3K8jCYS50UGjc0bRw9b7c+WomN2C78Gb2ktT3rZhU6af3M4yGlHjyOF
- o4nsU8BaYe/0EFX3KAkmhD3Beet2aGqVWYr7KUg3iFvKYV7zKUogknbGLYP2w/+D
- w1LX30yTFskIrQPT3fSJH9ZAUKKcaPredEVCTaEheed8Nvn3cXowdBXUw==
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=Yob5OoC+ZULXg7k+iWlEd59MoQ
+ Ka4tMIf/Uo8lFz9RA=; b=aQdHYaGWneB+lGw191tu0320hVZiFKorHRY16PprQy
+ ib1livELOctf0+1pDi7/d9RdndwWIZBerUG4gWdSWPNniRqRa9MjLa7f0T0yjDgQ
+ FeK298KstWMlhSy1iT3EzxUqOjtTXToCcrbBJS8gC8ozKa0OeV3dYsDnVra7R0R0
+ XZO9/FNMTlg0eCgdeaTbCYK5uOYbBTLUJ/O1SeitJOfaRxdmUQykVVMR7pj6nAWV
+ qClSWmuhmt6FlWkMKriZESHmIbRZjAtcbJVGh6E1AR3jQmCgsJoDjsVTDteUPxJ0
+ 4xmqjEDAXhLrg9dNjPpx75bMp1+C1+HuugWy+LPZhlsw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=qQSn4qZrcN7PgOW+0g4MaabmZlGAce9keeJ8TpfIV1k=; b=KHRFMozX
- RS7S8KsSimLN7NwLx+VYrS54g7kgjGk6Ho9Dbmp9m0bqFFPcAohBRi8YYFJYs0YL
- V/hzV+w+4ieVsdehpfG67q7BDO14IpsKwwJT5IXjGHHkn0y+V8ur/rZh2BY9Icya
- lh6rR7e6Gc6/23axTPsy62SCpJ4ypsyRuVdmcKzpDp/ri+FyUCeVAA7w9RsFIPKs
- 9wNJudvi7rCP5dP12NEwP5bGE34O7hi4YFeD7zOKWp7r7r7X0VMT3XZ11z2nseT+
- cyjVr0FxcgAfiprJpMXfX7NK7nQY32NF0C95KPqS8tp9VNZXBv1fOwxmr0qIfYZ/
- rrdYNSGE7vVB7w==
-X-ME-Sender: <xms:NUprYDLguvLpA3d6ZI6sSy1HK7T2UUTSU5BAAQ1oHfIcOVkR32IHiA>
- <xme:NUprYHJ9DJHnNCpyUgTewOsaZn7_giSsWYQ-sujDcpPeQQhLoFTw_e66PqE5dN5Iv
- 3jkDU3wp83uKw1RAd8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejvddgudduiecutefuodetggdotefrod
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Yob5Oo
+ C+ZULXg7k+iWlEd59MoQKa4tMIf/Uo8lFz9RA=; b=j0rbJ6BudA+dVF5/NP/M6z
+ yC400xec6wf8GjY/421g+uy0Skx0knhjvAnvVkSdRWwpcwlO97e36KIRF4Ccs6Oh
+ Uu+F3VNPgVQc1q4ppAwEDL4tP0r8A0qq7Za9dItJ+aJ9QsPgs4mJvR7rAx96Buwl
+ htx8fbVPKUvTCGOTdl/kMVlbQ1YzKNOyMy8HcG4usn3+WL6DgEiUkmRygpfbfJTR
+ u6Jl08WfjR1/hGqwqf7a2JRZHwp4ead5kPowphiwREUPhMSNkr7pwVwiWI+jJd4d
+ CjoicnFCmBcDnED0vjYJ7H2gdiaT0I/MesAYcxV/ii9SGftzmywP9craXaTmD7Ew
+ ==
+X-ME-Sender: <xms:8E5rYCRT7s8MlB7Q3Flqi5-zD5gOPBEthyJi1MrtF8g8LnawYZ54Kw>
+ <xme:8E5rYHzaUcxyqTczh4dt8pH-ptvj2I-pZMXeXzUIo15IVv38BsAVRYqGNwZCprE1R
+ b_P9zZtmK7dDdxaUAo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejvddguddvtdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:NUprYLstfnOdaNraoLXwZV3SIDrTPITRlGGmic3QlRFkqn2s8nXD2A>
- <xmx:NUprYMbmFiF0tz54C7oID-TH0h6pubkcdymnyBK52mlU9ek98vWSIg>
- <xmx:NUprYKbq4Vjh3DcNtqShNh95cl_G-2e6JA69P5WdiGeFztzc8ZVKcQ>
- <xmx:NUprYPO1SBnrhBdrFZcl7-QhVhrgZO_ySoiYzoHZatvMvaDPB4pKrQ>
+ enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeg
+ hfenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:8E5rYP3G1XKk_gol23kj8vbtm4WKx6RYFlMiBvyfB_jgfSBgmGhH6A>
+ <xmx:8E5rYOBz7BEagH-ByXex1VHLDQ4sbB7FdZcvAxMsUWHMdRKQdV0mBQ>
+ <xmx:8E5rYLhajGDmBhITWIRowQAhW7nbvMhV-RxrHCMySv3ksgSlXRFNKQ>
+ <xmx:8U5rYGXJ5n958wGSi6dkVmhgrojkvVL1MAPSbTvHoGfGYWy5yYsKeA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id EDB711080068;
- Mon,  5 Apr 2021 13:34:42 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 635FD24005C;
+ Mon,  5 Apr 2021 13:54:54 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL for-6.0 2/2] hw/block/nvme: expose 'bootindex' property
-Date: Mon,  5 Apr 2021 19:34:35 +0200
-Message-Id: <20210405173435.36486-3-its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.0 v2 0/8] hw/block/nvme: misc fixes
+Date: Mon,  5 Apr 2021 19:54:44 +0200
+Message-Id: <20210405175452.37578-1-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210405173435.36486-1-its@irrelevant.dk>
-References: <20210405173435.36486-1-its@irrelevant.dk>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -93,45 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Joelle van Dyne <j@getutm.app>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joelle van Dyne <j@getutm.app>
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-The check for `n->namespace.blkconf.blk` always fails because
-this is in the initialization function.
-
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 08c204d46c43..7244534a89e9 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -6328,11 +6328,9 @@ static void nvme_instance_init(Object *obj)
- {
-     NvmeCtrl *n = NVME(obj);
- 
--    if (n->namespace.blkconf.blk) {
--        device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
--                                      "bootindex", "/namespace@1,0",
--                                      DEVICE(obj));
--    }
-+    device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
-+                                  "bootindex", "/namespace@1,0",
-+                                  DEVICE(obj));
- 
-     object_property_add(obj, "smart_critical_warning", "uint8",
-                         nvme_get_smart_warning,
--- 
-2.31.1
-
+Various fixes for 6.0.=0D
+=0D
+v2:=0D
+  - "hw/block/nvme: fix handling of private namespaces"=0D
+    update documentation (Gollu)=0D
+  - add a patch for missing copyright headers=0D
+=0D
+Klaus Jensen (8):=0D
+  hw/block/nvme: fix pi constraint check=0D
+  hw/block/nvme: fix missing string representation for ns attachment=0D
+  hw/block/nvme: fix the nsid 'invalid' value=0D
+  hw/block/nvme: fix controller namespaces array indexing=0D
+  hw/block/nvme: fix warning about legacy namespace configuration=0D
+  hw/block/nvme: update dmsrl limit on namespace detachment=0D
+  hw/block/nvme: fix handling of private namespaces=0D
+  hw/block/nvme: add missing copyright headers=0D
+=0D
+ hw/block/nvme-dif.h    |  10 +++=0D
+ hw/block/nvme-ns.h     |  12 ++--=0D
+ hw/block/nvme-subsys.h |   7 +-=0D
+ hw/block/nvme.h        |  45 ++-----------=0D
+ include/block/nvme.h   |   1 +=0D
+ hw/block/nvme-dif.c    |  10 +++=0D
+ hw/block/nvme-ns.c     |  76 ++++++++++++++++++----=0D
+ hw/block/nvme-subsys.c |  28 --------=0D
+ hw/block/nvme.c        | 142 +++++++++++++++++------------------------=0D
+ hw/block/trace-events  |   1 -=0D
+ 10 files changed, 156 insertions(+), 176 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
