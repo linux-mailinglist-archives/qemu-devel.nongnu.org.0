@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B74935464A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 19:51:03 +0200 (CEST)
-Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89052354629
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 19:42:22 +0200 (CEST)
+Received: from localhost ([::1]:59562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTTNN-0008T5-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 13:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58434)
+	id 1lTTEx-0005r3-Fy
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 13:42:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTT8k-0004sf-4b; Mon, 05 Apr 2021 13:35:54 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:52949)
+ id 1lTT7u-0004bp-Bg; Mon, 05 Apr 2021 13:35:02 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:60333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTT7b-00014d-PC; Mon, 05 Apr 2021 13:35:53 -0400
+ id 1lTT7e-00014v-3T; Mon, 05 Apr 2021 13:35:01 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 17A775C00D9;
- Mon,  5 Apr 2021 13:34:43 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 472A65C00E8;
+ Mon,  5 Apr 2021 13:34:45 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:34:43 -0400
+ by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:34:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=20DvQ3WH5QWQR
- 0UjiWykqS7FkDOIGVYlA50nzpdE8Y4=; b=WB/z525JmpuHYVkuP+igZAjDMyJO0
- 8g5ijnlCUAuUYnqpjs/Lw2Devn92skGJIRevedAA1TaRf5lRTy8/joV/aL5l9vm+
- B1d0SiKuRVDv7bEn5lMZtLucadDrwk/NKukGAJmu+L6ZNDEt7umAcqWL9biIwqHh
- O0bTzOWSGm2AGJNUP2JzIVA0uAG6/KLWDLomk1JDyhjq2PjBZFjh3Z/a71JwiAv4
- /5XQYLPydtZRGwe5xle3VIHwbk6YALTGzZcj9SGQeA+Q+0cX7/+t4Zz2oEyQU43h
- I3rYKLkUf0aORj2J46W6sxr2jeCgX/5xlBAL0KrzaRU/k+Ujf+cdleAdw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=qQSn4qZrcN7Pg
+ OW+0g4MaabmZlGAce9keeJ8TpfIV1k=; b=PH20GZ/KlWAlF6KQ/0D87imPMcQMH
+ 2S5MsrNpv9EAOxFbvCTRCrR/9b8tJbD+FcLXw9JheysGYEkyvr+1wplalBDa2OBp
+ Gfwzm/wgC1c35+q57tnVjVK/9qAHomYm2k3q/dJHaothFK8/jnIYtCC3qHMi5GFM
+ FvlTrnAbn3K8jCYS50UGjc0bRw9b7c+WomN2C78Gb2ktT3rZhU6af3M4yGlHjyOF
+ o4nsU8BaYe/0EFX3KAkmhD3Beet2aGqVWYr7KUg3iFvKYV7zKUogknbGLYP2w/+D
+ w1LX30yTFskIrQPT3fSJH9ZAUKKcaPredEVCTaEheed8Nvn3cXowdBXUw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=20DvQ3WH5QWQR0UjiWykqS7FkDOIGVYlA50nzpdE8Y4=; b=RwQaPIIj
- 5BYhbZ65NEPH3l92u477qtIXKbbLivJXcFpqty9j3hCM7llA6p/cXxYVpGl90wJQ
- hZej0rju75w8MkdrAXm9TC/tO8SBqDZJPcZf+CTd61fLU3JnIkFGT+Dxjci1BP0z
- 0x9hh4sTk/tVsNoezLoCwIcqXpFQVtcLdxoB0jDorDW9xeMUXL5QYSzaK4kcpspj
- uZGcFLoXkTZovNlicpns67IZnuE7TjuJcMDZnuxcvczDJ9Mrjko3HAIy62PLXqYK
- 9DJlBEcg9XG8XLjgOh74tWJhcibyKKl3wm2JmA4s/wzXYM7oNInBx4iVVmfQntVo
- s1uHdvv6mAi4yg==
-X-ME-Sender: <xms:MkprYGbRWB8ua4VySU4swc4nSki918AoBw0IL8wdf-yGXdWVSG6CrQ>
- <xme:MkprYJbo8OoMynRA1rvUP9H0evF4zgU6aE3C0RI6NIi4ypVLKq62AcxAj4U5eGKLx
- ztfw8mlS6Pn2J2cGJM>
+ fm2; bh=qQSn4qZrcN7PgOW+0g4MaabmZlGAce9keeJ8TpfIV1k=; b=KHRFMozX
+ RS7S8KsSimLN7NwLx+VYrS54g7kgjGk6Ho9Dbmp9m0bqFFPcAohBRi8YYFJYs0YL
+ V/hzV+w+4ieVsdehpfG67q7BDO14IpsKwwJT5IXjGHHkn0y+V8ur/rZh2BY9Icya
+ lh6rR7e6Gc6/23axTPsy62SCpJ4ypsyRuVdmcKzpDp/ri+FyUCeVAA7w9RsFIPKs
+ 9wNJudvi7rCP5dP12NEwP5bGE34O7hi4YFeD7zOKWp7r7r7X0VMT3XZ11z2nseT+
+ cyjVr0FxcgAfiprJpMXfX7NK7nQY32NF0C95KPqS8tp9VNZXBv1fOwxmr0qIfYZ/
+ rrdYNSGE7vVB7w==
+X-ME-Sender: <xms:NUprYDLguvLpA3d6ZI6sSy1HK7T2UUTSU5BAAQ1oHfIcOVkR32IHiA>
+ <xme:NUprYHJ9DJHnNCpyUgTewOsaZn7_giSsWYQ-sujDcpPeQQhLoFTw_e66PqE5dN5Iv
+ 3jkDU3wp83uKw1RAd8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejvddgudduiecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:MkprYA8kMu_nSAnnQSvB4_VFp1MpiMnPKsrXlyrgSCUxcOBnHFEDAA>
- <xmx:MkprYIpAdmlPUGr-Yh7i4z1GrRJWvq0O7QlcDgcDut4Xl-nRu0PHvw>
- <xmx:MkprYBo70YykMbTQoyqFgFAKuL1-ZXbZ4sUq1ST63R_N76rzOfv9Kw>
- <xmx:M0prYCdc1XTlemzBAV1tajG-7PRcQDRB-pynVaS8d0UbmBiJwpaybQ>
+X-ME-Proxy: <xmx:NUprYLstfnOdaNraoLXwZV3SIDrTPITRlGGmic3QlRFkqn2s8nXD2A>
+ <xmx:NUprYMbmFiF0tz54C7oID-TH0h6pubkcdymnyBK52mlU9ek98vWSIg>
+ <xmx:NUprYKbq4Vjh3DcNtqShNh95cl_G-2e6JA69P5WdiGeFztzc8ZVKcQ>
+ <xmx:NUprYPO1SBnrhBdrFZcl7-QhVhrgZO_ySoiYzoHZatvMvaDPB4pKrQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B51781080054;
- Mon,  5 Apr 2021 13:34:40 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id EDB711080068;
+ Mon,  5 Apr 2021 13:34:42 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL for-6.0 1/2] hw/block/nvme: remove description for
- zoned.append_size_limit
-Date: Mon,  5 Apr 2021 19:34:34 +0200
-Message-Id: <20210405173435.36486-2-its@irrelevant.dk>
+Subject: [PULL for-6.0 2/2] hw/block/nvme: expose 'bootindex' property
+Date: Mon,  5 Apr 2021 19:34:35 +0200
+Message-Id: <20210405173435.36486-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210405173435.36486-1-its@irrelevant.dk>
 References: <20210405173435.36486-1-its@irrelevant.dk>
@@ -94,50 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Joelle van Dyne <j@getutm.app>,
  Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Niklas Cassel <niklas.cassel@wdc.com>
+From: Joelle van Dyne <j@getutm.app>
 
-The description was originally removed in commit 578d914b263c
-("hw/block/nvme: align zoned.zasl with mdts") together with the removal
-of the zoned.append_size_limit parameter itself.
+The check for `n->namespace.blkconf.blk` always fails because
+this is in the initialization function.
 
-However, it was (most likely accidentally), re-added in commit
-f7dcd31885cb ("hw/block/nvme: add non-mdts command size limit for verify").
-
-Remove the description again, since the parameter it describes,
-zoned.append_size_limit, no longer exists.
-
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 8 --------
- 1 file changed, 8 deletions(-)
+ hw/block/nvme.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c54ec3c9523c..08c204d46c43 100644
+index 08c204d46c43..7244534a89e9 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -91,14 +91,6 @@
-  *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
-  *   defaulting to the value of `mdts`).
-  *
-- * - `zoned.append_size_limit`
-- *   The maximum I/O size in bytes that is allowed in Zone Append command.
-- *   The default is 128KiB. Since internally this this value is maintained as
-- *   ZASL = log2(<maximum append size> / <page size>), some values assigned
-- *   to this property may be rounded down and result in a lower maximum ZA
-- *   data size being in effect. By setting this property to 0, users can make
-- *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
-- *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * - `subsys`
+@@ -6328,11 +6328,9 @@ static void nvme_instance_init(Object *obj)
+ {
+     NvmeCtrl *n = NVME(obj);
+ 
+-    if (n->namespace.blkconf.blk) {
+-        device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
+-                                      "bootindex", "/namespace@1,0",
+-                                      DEVICE(obj));
+-    }
++    device_add_bootindex_property(obj, &n->namespace.blkconf.bootindex,
++                                  "bootindex", "/namespace@1,0",
++                                  DEVICE(obj));
+ 
+     object_property_add(obj, "smart_critical_warning", "uint8",
+                         nvme_get_smart_warning,
 -- 
 2.31.1
 
