@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5F4354642
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 19:43:11 +0200 (CEST)
-Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B74935464A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 19:51:03 +0200 (CEST)
+Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTTFm-000677-7w
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 13:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
+	id 1lTTNN-0008T5-Jd
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 13:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTT8h-0004rJ-0C; Mon, 05 Apr 2021 13:35:52 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34069)
+ id 1lTT8k-0004sf-4b; Mon, 05 Apr 2021 13:35:54 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:52949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lTT7a-00014S-UN; Mon, 05 Apr 2021 13:35:50 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id BA75C5C00B3;
- Mon,  5 Apr 2021 13:34:41 -0400 (EDT)
+ id 1lTT7b-00014d-PC; Mon, 05 Apr 2021 13:35:53 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 17A775C00D9;
+ Mon,  5 Apr 2021 13:34:43 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 05 Apr 2021 13:34:41 -0400
+ by compute4.internal (MEProxy); Mon, 05 Apr 2021 13:34:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=ZwhF10FDYxX4gf7wwnO9zyIQpH
- qb5aysGiFxj+LAeZU=; b=PgTBpN9JaoQknzE15KwcYHfpDGnbLvtdJ0qQ7s3CbJ
- rzXrohy/Y7BN3L8RxqKc6P3gpGfwMaWP4/4nM2731fyZ3RMpx7XZSKA8+EFT0inW
- K8adApxfMSi/RBCSDFTr2njojfi9XcH5xuD0tI2qpc7WgS/S5AqY/tT6cVIV/oDi
- rve9kw108TNe49vhrAEha/YtZZSDl5mTJqIdLMhnlP9cEkvlGZ0LJX1KMpjTRSLR
- PrTK8G3KjQbHtTRxZZe4dn1y0y7G3fa/8ydEoCMIl+WWq6roM6DaNjaaYb9+DmAQ
- bgrHWXW4eINdQA/ugCoiTBZjoerLEYOyfvL7gb38xfEw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=20DvQ3WH5QWQR
+ 0UjiWykqS7FkDOIGVYlA50nzpdE8Y4=; b=WB/z525JmpuHYVkuP+igZAjDMyJO0
+ 8g5ijnlCUAuUYnqpjs/Lw2Devn92skGJIRevedAA1TaRf5lRTy8/joV/aL5l9vm+
+ B1d0SiKuRVDv7bEn5lMZtLucadDrwk/NKukGAJmu+L6ZNDEt7umAcqWL9biIwqHh
+ O0bTzOWSGm2AGJNUP2JzIVA0uAG6/KLWDLomk1JDyhjq2PjBZFjh3Z/a71JwiAv4
+ /5XQYLPydtZRGwe5xle3VIHwbk6YALTGzZcj9SGQeA+Q+0cX7/+t4Zz2oEyQU43h
+ I3rYKLkUf0aORj2J46W6sxr2jeCgX/5xlBAL0KrzaRU/k+Ujf+cdleAdw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZwhF10
- FDYxX4gf7wwnO9zyIQpHqb5aysGiFxj+LAeZU=; b=ZF4Ox9l5sZdu7+AcYxvr3a
- vpvOlQSQqKpItdymZ17oV4qAAAdiDUl5empqh7MrDdE611KTf6dd4YMJkc0w2eZo
- 6JhL8eH0lL6WjpBJWyvnbUjRDMw+vAayjedP0TPEa9VjDFxSrJUBwvCts8f0sK5e
- z2402dmzJsANhnouzqFJTKM3Iv6g9WOOF6hYvjBWUI/5tzs4m/3XLcG0c3xQtZSY
- MUqVOY0ySWgkt1bmecNgAT19sP8rsVGTTUQuXhONIxo682kLMfMJdi+REGgEywN3
- V9vh+ux48qx6AIBHgVLDlHhGpjTnzp1UNQkwbwvwrTnK7Noh+ec9jO9kNmhUjDBw
- ==
-X-ME-Sender: <xms:MEprYJHlWh1rmjvme4wcTG0jMJXqsd91WFNIEgvAiZ5xcWYkR2r1RQ>
- <xme:MEprYFz8cTugkcq2GZKt3rG0r-RrWaSr0Jm8LJOyY8BgSCYfnoaSkzOle51SwdFez
- Cc0jAAzYm42AWhgYmk>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=20DvQ3WH5QWQR0UjiWykqS7FkDOIGVYlA50nzpdE8Y4=; b=RwQaPIIj
+ 5BYhbZ65NEPH3l92u477qtIXKbbLivJXcFpqty9j3hCM7llA6p/cXxYVpGl90wJQ
+ hZej0rju75w8MkdrAXm9TC/tO8SBqDZJPcZf+CTd61fLU3JnIkFGT+Dxjci1BP0z
+ 0x9hh4sTk/tVsNoezLoCwIcqXpFQVtcLdxoB0jDorDW9xeMUXL5QYSzaK4kcpspj
+ uZGcFLoXkTZovNlicpns67IZnuE7TjuJcMDZnuxcvczDJ9Mrjko3HAIy62PLXqYK
+ 9DJlBEcg9XG8XLjgOh74tWJhcibyKKl3wm2JmA4s/wzXYM7oNInBx4iVVmfQntVo
+ s1uHdvv6mAi4yg==
+X-ME-Sender: <xms:MkprYGbRWB8ua4VySU4swc4nSki918AoBw0IL8wdf-yGXdWVSG6CrQ>
+ <xme:MkprYJbo8OoMynRA1rvUP9H0evF4zgU6aE3C0RI6NIi4ypVLKq62AcxAj4U5eGKLx
+ ztfw8mlS6Pn2J2cGJM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejvddgudduiecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefgveffkefgfedvteejtddugfefffefgeejgedvgeekueeggfdvleduueehvdev
- veenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucfkphepkedtrdduieejrd
- elkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:MEprYIgjkVleUIyCtJzbhFkgE6hq3tG322RAyWr5GTrgljnS1V02oQ>
- <xmx:MEprYIzU4iJoc8gxvJrF_m6WKn81tSKmYY_peDv_2ZyYFGUUrnatvg>
- <xmx:MEprYDLD-2g3LWiSXrd7wwNQROTcM96LyXswsQEjOCV9emekA8yL9A>
- <xmx:MUprYAqxkL6btIb_Jr4mKKkr9ttxckupy3YrEx5XXHesa-_TDwsDLA>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:MkprYA8kMu_nSAnnQSvB4_VFp1MpiMnPKsrXlyrgSCUxcOBnHFEDAA>
+ <xmx:MkprYIpAdmlPUGr-Yh7i4z1GrRJWvq0O7QlcDgcDut4Xl-nRu0PHvw>
+ <xmx:MkprYBo70YykMbTQoyqFgFAKuL1-ZXbZ4sUq1ST63R_N76rzOfv9Kw>
+ <xmx:M0prYCdc1XTlemzBAV1tajG-7PRcQDRB-pynVaS8d0UbmBiJwpaybQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7225C1080063;
- Mon,  5 Apr 2021 13:34:38 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B51781080054;
+ Mon,  5 Apr 2021 13:34:40 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL for-6.0 0/2] emulated nvme fixes
-Date: Mon,  5 Apr 2021 19:34:33 +0200
-Message-Id: <20210405173435.36486-1-its@irrelevant.dk>
+Subject: [PULL for-6.0 1/2] hw/block/nvme: remove description for
+ zoned.append_size_limit
+Date: Mon,  5 Apr 2021 19:34:34 +0200
+Message-Id: <20210405173435.36486-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210405173435.36486-1-its@irrelevant.dk>
+References: <20210405173435.36486-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -93,46 +94,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-Hi Peter,=0D
-=0D
-The following changes since commit 25d75c99b2e5941c67049ee776efdb226414f4c6=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/xtensa/tags/20210403-xtensa' into s=
-taging (2021-04-04 21:48:45 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.infradead.org/qemu-nvme.git tags/nvme-fixes-for-6.0-pull-reques=
-t=0D
-=0D
-for you to fetch changes up to 498114b37bc99fddcfc24b92bff7f1323fb32672:=0D
-=0D
-  hw/block/nvme: expose 'bootindex' property (2021-04-05 19:33:04 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-emulated nvme fixes=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Joelle van Dyne (1):=0D
-  hw/block/nvme: expose 'bootindex' property=0D
-=0D
-Niklas Cassel (1):=0D
-  hw/block/nvme: remove description for zoned.append_size_limit=0D
-=0D
- hw/block/nvme.c | 16 +++-------------=0D
- 1 file changed, 3 insertions(+), 13 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+The description was originally removed in commit 578d914b263c
+("hw/block/nvme: align zoned.zasl with mdts") together with the removal
+of the zoned.append_size_limit parameter itself.
+
+However, it was (most likely accidentally), re-added in commit
+f7dcd31885cb ("hw/block/nvme: add non-mdts command size limit for verify").
+
+Remove the description again, since the parameter it describes,
+zoned.append_size_limit, no longer exists.
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index c54ec3c9523c..08c204d46c43 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -91,14 +91,6 @@
+  *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
+  *   defaulting to the value of `mdts`).
+  *
+- * - `zoned.append_size_limit`
+- *   The maximum I/O size in bytes that is allowed in Zone Append command.
+- *   The default is 128KiB. Since internally this this value is maintained as
+- *   ZASL = log2(<maximum append size> / <page size>), some values assigned
+- *   to this property may be rounded down and result in a lower maximum ZA
+- *   data size being in effect. By setting this property to 0, users can make
+- *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
+- *
+  * nvme namespace device parameters
+  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  * - `subsys`
+-- 
+2.31.1
+
 
