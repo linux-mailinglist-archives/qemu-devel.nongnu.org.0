@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AE23542E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:35:59 +0200 (CEST)
-Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EC73542EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:41:11 +0200 (CEST)
+Received: from localhost ([::1]:42516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTQKc-0003iv-5l
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
+	id 1lTQPe-0007rc-Gd
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQH7-00015e-Bd
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:21 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:42649)
+ id 1lTQH9-00018f-8a
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:23 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQGz-0001ee-4p
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:21 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5-20020a05600c0245b029011a8273f85eso1600559wmj.1
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:12 -0700 (PDT)
+ id 1lTQH0-0001fw-MA
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:22 -0400
+Received: by mail-wm1-x335.google.com with SMTP id 12so5801151wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DQzvBFeWhvKvIkJdxBA81jOzJjQOZ8kAoP8n1T0jsyc=;
- b=OIB4su6LhoWkep3GSsaGQn1nVYPACaMK0RvF+KRcLxZkoJ0PckQbCZ3noryR/8zMdD
- 0ZyOwTe+hLohW3RQCaBRhedVn2aHjvNrRIzi1hK5E2NbwSIV5z5SHs50yjd1Saq+7ISq
- EnJtfWsdj7x0w/0zo7GjcYGDRlv+ImCVFkw+SF8HcCUWwlNVYwZOxtNCd9QBwqG70BEN
- LrNhhZBS9ZFC/D3MW1qya/IgLSwb1OY3UFz+LeLZgaZGSj+sitjs8aNgEVFTL5xAo2VZ
- 2/Md6y0So+FAuryfZ8tRl6NkidpJp7TKumk8dKkFknZcE8XyLJ+R8/wX43vk/LIqWV+J
- CKIg==
+ bh=SG74GiBS5r/N3BwhObXJ4zAILzTJ2oJc5X3K+vMokDU=;
+ b=RpLjgKNqIC3wtiOZmhwJUh9zzu+dSK+vjyVBIiOYbCsrnp36R79HUo83n/gEPyjs9L
+ GlU/7JAXrtiVxDn2Gy3fENLFuwIKdHpkcONgjY5RGDN1ovXnf6/LFjKAC2rEL1GiutPn
+ 2+cwO6DfSK1WrZqqBfrKtgG8JbjkeNY3cvsVpY1hnXELsQ3FY7GAx9M5/RfY7+DndNxW
+ Qn3ceTjW00ZRnGOptDLkvGrdvvH5Ug8xqYHIH8Hn1dCxu4MF1/4Ww17NYefCtp0e8Dl6
+ L9qF7ozPdePvIkq5bfI7w5/A2sUnxuS166V1xHROMQitHw6u+n7gfjFMf9PX/t2ngKuU
+ 0i3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DQzvBFeWhvKvIkJdxBA81jOzJjQOZ8kAoP8n1T0jsyc=;
- b=uRscjjrmsQI5BQoCwJ7yz6nSEaVdmHT8p8HnKuELYyGTM6F2USCNxbq0Dc+wsrJven
- gumMUS5LmVcpT51Oj+f1lxgvM0XpXzW8OuWxRf5RuDSm57zgi8u2Ib4f4s1l/d93d+tf
- RrVd22pXcn2J/I1RgFo/PncDuefT2UBN43bnXsIGlt8JHsaNWbvLfoQkdVEslnxZmC/q
- 22SfWFbuseYnGwnKpw5yQ5fsloVe00kuP4bNdVzYEHTyguiibSzJe/vS9f0UX7CiVAZa
- P7Wv4HjQb4Fii8TbNYOwcTgrxNjingLFFQ+N3dtcU493ZQ7ftrI1jeSY3elSp6IFiPx6
- 40DA==
-X-Gm-Message-State: AOAM5306dIQ7t6xu8YCi0PuXIMEME/awNsJgpexOakIq0R9a+0u8lHuS
- fGAWFYZ5aAxyhsyHCEPFW0Vx5GnLjcXZJA==
-X-Google-Smtp-Source: ABdhPJwO9+xzDOYdsHp7y26sG+VVGmVKlYV7zLIB3aMjf/f4XS2GTYVgqWbsmsCPVyMXMaeTE6u7kQ==
-X-Received: by 2002:a05:600c:2145:: with SMTP id
- v5mr25813635wml.65.1617633131572; 
- Mon, 05 Apr 2021 07:32:11 -0700 (PDT)
+ bh=SG74GiBS5r/N3BwhObXJ4zAILzTJ2oJc5X3K+vMokDU=;
+ b=PMy4XalYN6k3jxJdSYHD+tpQTJIH1OJhGtJwT9dRWGGexPeuv+TnibAS1nOGjkrceS
+ nLGiCur283Lz1uDmVdHkTGmATIb88Ne5XEHYSwIQs29fIdsaHgJXW5hnScXMc4BD6v0b
+ UVqJpoZaIwYxBx6/qcQyvDS6vSwH66pWN59UD2tUZS+FcmKsWnSP5Gs5kKpI5V85WrfZ
+ pH277PKrWHFQumufxXd/3DgPcqxtrLqPuQtQWiIlHcFN7SEZul5L5UhvGvxh4F76aBti
+ 8qSxYlOFIDL1sibnV2BvRtwttEJeQjSaKJRnOtNZxIUaVdZGUh3TRkPnZw9OvTMchTzT
+ CISA==
+X-Gm-Message-State: AOAM530JyZA0AkUgo9eodOBfzKYyaKzdcCGjQhVLI3lxXAhGKZz213nL
+ sDcHjZ7SoySf9fFsIIMfrVblyRt4qaaOdw==
+X-Google-Smtp-Source: ABdhPJyLcI34OID9s6I9/5Eoc9Ecna+U01HtacCIvYcTctjV/JGjPXQzdKcS7309L+PTqapF3umr3Q==
+X-Received: by 2002:a1c:e2d7:: with SMTP id z206mr6377901wmg.85.1617633132710; 
+ Mon, 05 Apr 2021 07:32:12 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
- by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.10
+ by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:10 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:12 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/27] arc: TCG and decoder glue code and helpers
-Date: Mon,  5 Apr 2021 15:31:15 +0100
-Message-Id: <20210405143138.17016-5-cupertinomiranda@gmail.com>
+Subject: [PATCH 05/27] arc: TCG instruction generator and hand-definitions
+Date: Mon,  5 Apr 2021 15:31:16 +0100
+Message-Id: <20210405143138.17016-6-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,95 +90,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cupertino Miranda <cmiranda@synopsys.com>
 
-Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
----
- target/arc/extra_mapping.def   |  63 +++++
- target/arc/helper.c            | 281 +++++++++++++++++++++++
- target/arc/helper.h            |  39 ++++
- target/arc/op_helper.c         | 406 +++++++++++++++++++++++++++++++++
- target/arc/semfunc_mapping.def | 321 ++++++++++++++++++++++++++
- 5 files changed, 1110 insertions(+)
- create mode 100644 target/arc/extra_mapping.def
- create mode 100644 target/arc/helper.c
- create mode 100644 target/arc/helper.h
- create mode 100644 target/arc/op_helper.c
- create mode 100644 target/arc/semfunc_mapping.def
+Add the most generic parts of TCG constructions. It contains the
+basic infrastructure for fundamental ARC features, such as
+ZOL (zero overhead loops) and delay-slots.
+Also includes hand crafted TCG for more intricate instructions, such
+as vector instructions.
 
-diff --git a/target/arc/extra_mapping.def b/target/arc/extra_mapping.def
+Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
+---
+ target/arc/translate.c | 1530 ++++++++++++++++++++++++++++++++++++++++
+ target/arc/translate.h |  168 +++++
+ 2 files changed, 1698 insertions(+)
+ create mode 100644 target/arc/translate.c
+ create mode 100644 target/arc/translate.h
+
+diff --git a/target/arc/translate.c b/target/arc/translate.c
 new file mode 100644
-index 0000000000..50517f058e
+index 0000000000..1712fcc9c3
 --- /dev/null
-+++ b/target/arc/extra_mapping.def
-@@ -0,0 +1,63 @@
-+/*
-+ * QEMU ARC EXTRA MAPPING
-+ *
-+ * Copyright (c) 2020 Synopsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+SEMANTIC_FUNCTION(ENTER, 0)
-+SEMANTIC_FUNCTION(LEAVE, 0)
-+MAPPING(enter_s, ENTER, 0)
-+MAPPING(leave_s, LEAVE, 0)
-+
-+SEMANTIC_FUNCTION(SR, 2)
-+SEMANTIC_FUNCTION(SRL, 2)
-+SEMANTIC_FUNCTION(SYNC, 0)
-+MAPPING(sr, SR, 2, 1, 0)
-+MAPPING(srl, SRL, 2, 1, 0)
-+MAPPING(sync, SYNC, 0)
-+
-+SEMANTIC_FUNCTION(TRAP, 1)
-+SEMANTIC_FUNCTION(RTIE, 0)
-+SEMANTIC_FUNCTION(SLEEP, 1)
-+MAPPING(trap_s, TRAP, 1, 0)
-+MAPPING(rtie, RTIE, 0)
-+MAPPING(sleep, SLEEP, 1, 0)
-+
-+SEMANTIC_FUNCTION(SWI, 1)
-+CONSTANT(SWI, swi, 0, 0)
-+MAPPING(swi, SWI, 1, 0)
-+CONSTANT(SWI, swi_s, 0, 0)
-+MAPPING(swi_s, SWI, 1, 0)
-+
-+SEMANTIC_FUNCTION(VADD2, 3)
-+SEMANTIC_FUNCTION(VADD2H, 3)
-+SEMANTIC_FUNCTION(VADD4H, 3)
-+SEMANTIC_FUNCTION(VSUB2, 3)
-+SEMANTIC_FUNCTION(VSUB2H, 3)
-+SEMANTIC_FUNCTION(VSUB4H, 3)
-+SEMANTIC_FUNCTION(MPYD, 3)
-+SEMANTIC_FUNCTION(MPYDU, 3)
-+
-+
-+MAPPING(vadd2, VADD2, 3, 0, 1, 2)
-+MAPPING(vadd2h, VADD2H, 3, 0, 1, 2)
-+MAPPING(vadd4h, VADD4H, 3, 0, 1, 2)
-+MAPPING(vsub2, VSUB2, 3, 0, 1, 2)
-+MAPPING(vsub2h, VSUB2H, 3, 0, 1, 2)
-+MAPPING(vsub4h, VSUB4H, 3, 0, 1, 2)
-+MAPPING(mpyd, MPYD, 3, 0, 1, 2)
-+MAPPING(mpydu, MPYDU, 3, 0, 1, 2)
-diff --git a/target/arc/helper.c b/target/arc/helper.c
-new file mode 100644
-index 0000000000..e11d21d576
---- /dev/null
-+++ b/target/arc/helper.c
-@@ -0,0 +1,281 @@
++++ b/target/arc/translate.c
+@@ -0,0 +1,1530 @@
 +/*
 + * QEMU ARC CPU
 + *
@@ -202,276 +131,1525 @@ index 0000000000..e11d21d576
 + */
 +
 +#include "qemu/osdep.h"
-+
-+#include "cpu.h"
-+#include "hw/irq.h"
-+#include "include/hw/sysbus.h"
-+#include "include/sysemu/sysemu.h"
++#include "translate.h"
 +#include "qemu/qemu-print.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "qemu/host-utils.h"
-+#include "exec/helper-proto.h"
-+#include "irq.h"
++#include "tcg/tcg-op-gvec.h"
++#include "target/arc/semfunc.h"
++#include "target/arc/arc-common.h"
 +
-+void arc_cpu_do_interrupt(CPUState *cs)
++/* Globals */
++TCGv    cpu_S1f;
++TCGv    cpu_S2f;
++TCGv    cpu_CSf;
++
++TCGv    cpu_Ef;
++TCGv    cpu_IEf;
++TCGv    cpu_Vf;
++TCGv    cpu_Cf;
++TCGv    cpu_Nf;
++TCGv    cpu_Zf;
++TCGv    cpu_DEf;
++
++TCGv    cpu_is_delay_slot_instruction;
++
++TCGv    cpu_l1_Ef;
++TCGv    cpu_l1_Vf;
++TCGv    cpu_l1_Cf;
++TCGv    cpu_l1_Nf;
++TCGv    cpu_l1_Zf;
++TCGv    cpu_l1_DEf;
++
++TCGv    cpu_l2_Ef;
++TCGv    cpu_l2_Vf;
++TCGv    cpu_l2_Cf;
++TCGv    cpu_l2_Nf;
++TCGv    cpu_l2_Zf;
++TCGv    cpu_l2_DEf;
++
++TCGv    cpu_er_Ef;
++TCGv    cpu_er_Vf;
++TCGv    cpu_er_Cf;
++TCGv    cpu_er_Nf;
++TCGv    cpu_er_Zf;
++TCGv    cpu_er_DEf;
++
++TCGv    cpu_eret;
++TCGv    cpu_erbta;
++TCGv    cpu_ecr;
++TCGv    cpu_efa;
++
++TCGv    cpu_bta;
++TCGv    cpu_bta_l1;
++TCGv    cpu_bta_l2;
++
++TCGv    cpu_pc;
++/* replaced by AUX_REG array */
++TCGv    cpu_lps;
++TCGv    cpu_lpe;
++
++TCGv    cpu_r[64];
++
++TCGv    cpu_intvec;
++
++TCGv    cpu_lock_lf_var;
++
++/* NOTE: Pseudo register required for comparison with lp_end */
++TCGv    cpu_npc;
++
++/* Macros */
++
++#include "exec/gen-icount.h"
++#define REG(x)  (cpu_r[x])
++
++/* macro used to fix middle-endianess. */
++#define ARRANGE_ENDIAN(endianess, buf)                  \
++    ((endianess) ? ror32(buf, 16) : bswap32(buf))
++
++static inline bool use_goto_tb(const DisasContext *dc, target_ulong dest)
 +{
-+    ARCCPU      *cpu    = ARC_CPU(cs);
-+    CPUARCState *env    = &cpu->env;
-+    uint32_t     offset = 0;
-+    uint32_t     vectno;
-+    const char  *name;
-+    MemTxResult txres;
++    if (unlikely(dc->base.singlestep_enabled)) {
++        return false;
++    }
++#ifndef CONFIG_USER_ONLY
++    return (dc->base.tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
++#else
++    return true;
++#endif
++}
++
++void gen_goto_tb(const DisasContext *ctx, int n, TCGv dest)
++{
++    tcg_gen_mov_tl(cpu_pc, dest);
++    tcg_gen_andi_tl(cpu_pcl, dest, ~((target_ulong) 3));
++    if (ctx->base.singlestep_enabled) {
++        gen_helper_debug(cpu_env);
++    } else {
++        tcg_gen_exit_tb(NULL, 0);
++    }
++}
++
++static void gen_gotoi_tb(const DisasContext *ctx, int n, target_ulong dest)
++{
++    if (use_goto_tb(ctx, dest)) {
++        tcg_gen_goto_tb(n);
++        tcg_gen_movi_tl(cpu_pc, dest);
++        tcg_gen_movi_tl(cpu_pcl, dest & (~((target_ulong) 3)));
++        tcg_gen_exit_tb(ctx->base.tb, n);
++    } else {
++        tcg_gen_movi_tl(cpu_pc, dest);
++        tcg_gen_movi_tl(cpu_pcl, dest & (~((target_ulong) 3)));
++        if (ctx->base.singlestep_enabled) {
++            gen_helper_debug(cpu_env);
++        }
++        tcg_gen_exit_tb(NULL, 0);
++    }
++}
++
++void arc_translate_init(void)
++{
++    int i;
++#define ARC_REG_OFFS(x) offsetof(CPUARCState, x)
++
++#define NEW_ARC_REG(TCGV, FIELD) \
++        { &TCGV, offsetof(CPUARCState, FIELD), #FIELD },
++
++    static const struct { TCGv *ptr; int off; const char *name; } r32[] = {
++        NEW_ARC_REG(cpu_S1f, macmod.S1)
++        NEW_ARC_REG(cpu_S2f, macmod.S2)
++        NEW_ARC_REG(cpu_CSf, macmod.CS)
++
++        NEW_ARC_REG(cpu_Zf, stat.Zf)
++        NEW_ARC_REG(cpu_Nf, stat.Nf)
++        NEW_ARC_REG(cpu_Cf, stat.Cf)
++        NEW_ARC_REG(cpu_Vf, stat.Vf)
++        NEW_ARC_REG(cpu_DEf, stat.DEf)
++        NEW_ARC_REG(cpu_Ef, stat.Ef)
++        NEW_ARC_REG(cpu_IEf, stat.IEf)
++
++        NEW_ARC_REG(cpu_l1_Zf, stat_l1.Zf)
++        NEW_ARC_REG(cpu_l1_Nf, stat_l1.Nf)
++        NEW_ARC_REG(cpu_l1_Cf, stat_l1.Cf)
++        NEW_ARC_REG(cpu_l1_Vf, stat_l1.Vf)
++        NEW_ARC_REG(cpu_l1_DEf, stat_l1.DEf)
++
++        NEW_ARC_REG(cpu_er_Zf, stat_er.Zf)
++        NEW_ARC_REG(cpu_er_Nf, stat_er.Nf)
++        NEW_ARC_REG(cpu_er_Cf, stat_er.Cf)
++        NEW_ARC_REG(cpu_er_Vf, stat_er.Vf)
++        NEW_ARC_REG(cpu_er_DEf, stat_er.DEf)
++
++        NEW_ARC_REG(cpu_eret, eret)
++        NEW_ARC_REG(cpu_erbta, erbta)
++        NEW_ARC_REG(cpu_ecr, ecr)
++        NEW_ARC_REG(cpu_efa, efa)
++        NEW_ARC_REG(cpu_bta, bta)
++        NEW_ARC_REG(cpu_lps, lps)
++        NEW_ARC_REG(cpu_lpe, lpe)
++        NEW_ARC_REG(cpu_pc , pc)
++        NEW_ARC_REG(cpu_npc, npc)
++
++        NEW_ARC_REG(cpu_bta_l1, bta_l1)
++        NEW_ARC_REG(cpu_bta_l2, bta_l2)
++
++        NEW_ARC_REG(cpu_intvec, intvec)
++
++        NEW_ARC_REG(cpu_is_delay_slot_instruction,
++                    stat.is_delay_slot_instruction)
++
++        NEW_ARC_REG(cpu_lock_lf_var, lock_lf_var)
++    };
++
++
++    for (i = 0; i < ARRAY_SIZE(r32); ++i) {
++        *r32[i].ptr = tcg_global_mem_new(cpu_env, r32[i].off, r32[i].name);
++    }
++
++
++    for (i = 0; i < 64; i++) {
++        char name[16];
++
++        sprintf(name, "r[%d]", i);
++        cpu_r[i] = tcg_global_mem_new(cpu_env,
++                                      ARC_REG_OFFS(r[i]),
++                                      strdup(name));
++    }
++
++#undef ARC_REG_OFFS
++#undef NEW_ARC_REG
++}
++
++static void arc_tr_init_disas_context(DisasContextBase *dcbase,
++                                      CPUState *cs)
++{
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
++
++    dc->base.is_jmp = DISAS_NEXT;
++    dc->mem_idx = dc->base.tb->flags & 1;
++    dc->in_delay_slot = false;
++}
++static void arc_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
++{
++    /* place holder for now */
++}
++
++static void arc_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
++{
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
++
++
++    tcg_gen_insn_start(dc->base.pc_next);
++    dc->cpc = dc->base.pc_next;
++
++    if (dc->base.num_insns == dc->base.max_insns &&
++        (dc->base.tb->cflags & CF_LAST_IO)) {
++        gen_io_start();
++    }
++}
++
++static bool arc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
++                                    const CPUBreakpoint *bp)
++{
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
++
++    tcg_gen_movi_tl(cpu_pc, dc->cpc);
++    dc->base.is_jmp = DISAS_NORETURN;
++    gen_helper_debug(cpu_env);
++    dc->base.pc_next += 2;
++    return true;
++}
++
++static int arc_gen_INVALID(const DisasContext *ctx)
++{
++    qemu_log_mask(LOG_UNIMP,
++                  "invalid inst @:%08x\n", ctx->cpc);
++    return DISAS_NEXT;
++}
++
++/*
++ * Giving a CTX, decode it into an valid OPCODE_P if it
++ * exists. Returns TRUE if successfully.
++ */
++static bool read_and_decode_context(DisasContext *ctx,
++                                    const struct arc_opcode **opcode_p)
++{
++    uint16_t buffer[2];
++    uint8_t length;
++    uint64_t insn;
++    ARCCPU *cpu = env_archcpu(ctx->env);
++
++    /* Read the first 16 bits, figure it out what kind of instruction it is. */
++    buffer[0] = cpu_lduw_code(ctx->env, ctx->cpc);
++    length = arc_insn_length(buffer[0], cpu->family);
++
++    switch (length) {
++    case 2:
++        /* 16-bit instructions. */
++        insn = (uint64_t) buffer[0];
++        break;
++    case 4:
++        /* 32-bit instructions. */
++        buffer[1] = cpu_lduw_code(ctx->env, ctx->cpc + 2);
++        uint32_t buf = (buffer[0] << 16) | buffer[1];
++        insn = buf;
++        break;
++    default:
++        g_assert_not_reached();
++    }
 +
 +    /*
-+     * NOTE: Special LP_END exception. Immediately return code execution to
-+     * lp_start.
-+     * Now also used for delayslot MissI cases.
-+     * This special exception should not execute any of the exception
-+     * handling code. Instead it returns immediately after setting PC to the
-+     * address passed as exception parameter.
++     * Now, we have read the entire opcode, decode it and place the
++     * relevant info into opcode and ctx->insn.
 +     */
-+    if (cs->exception_index == EXCP_LPEND_REACHED
-+        || cs->exception_index == EXCP_FAKE) {
-+        env->pc = env->param;
-+        CPU_PCL(env) = env->pc & 0xfffffffe;
++    *opcode_p = arc_find_format(&ctx->insn, insn, length, cpu->family);
++
++    if (*opcode_p == NULL) {
++        return false;
++    }
++
++    /*
++     * If the instruction requires long immediate, read the extra 4
++     * bytes and initialize the relevant fields.
++     */
++    if (ctx->insn.limm_p) {
++        ctx->insn.limm = ARRANGE_ENDIAN(true,
++                                        cpu_ldl_code(ctx->env,
++                                        ctx->cpc + length));
++        length += 4;
++    } else {
++        ctx->insn.limm = 0;
++    }
++
++    /* Update context. */
++    ctx->insn.len = length;
++    ctx->npc = ctx->cpc + length;
++    ctx->pcl = ctx->cpc & (~((target_ulong) 3));
++
++    return true;
++}
++
++/* Check if OPR is a register _and_ an odd numbered one. */
++static inline bool is_odd_numbered_register(const operand_t opr)
++{
++   return (opr.type & ARC_OPERAND_IR) && (opr.value & 1);
++}
++
++enum arc_opcode_map {
++    MAP_NONE = -1,
++#define SEMANTIC_FUNCTION(...)
++#define CONSTANT(...)
++#define MAPPING(MNEMONIC, NAME, NOPS, ...) MAP_##MNEMONIC##_##NAME,
++#include "target/arc/semfunc_mapping.def"
++#include "target/arc/extra_mapping.def"
++#undef MAPPING
++#undef CONSTANT
++#undef SEMANTIC_FUNCTION
++    /* Add some include to generated files */
++    MAP_LAST
++};
++
++const char number_of_ops_semfunc[MAP_LAST + 1] = {
++#define SEMANTIC_FUNCTION(...)
++#define CONSTANT(...)
++#define MAPPING(MNEMONIC, NAME, NOPS, ...) NOPS,
++#include "target/arc/semfunc_mapping.def"
++#include "target/arc/extra_mapping.def"
++#undef MAPPING
++#undef CONSTANT
++#undef SEMANTIC_FUNCTION
++    2
++};
++
++static enum arc_opcode_map arc_map_opcode(const struct arc_opcode *opcode)
++{
++#define SEMANTIC_FUNCTION(...)
++#define CONSTANT(...)
++#define MAPPING(MNEMONIC, NAME, ...)         \
++    if (strcmp(opcode->name, #MNEMONIC) == 0) \
++        return MAP_##MNEMONIC##_##NAME;
++#include "target/arc/semfunc_mapping.def"
++#include "target/arc/extra_mapping.def"
++#undef MAPPING
++#undef CONSTANT
++#undef SEMANTIC_FUNCTION
++
++    return MAP_NONE;
++}
++
++/* Code support for constant values coming from semantic function mapping. */
++struct constant_operands {
++    uint8_t operand_number;
++    uint32_t default_value;
++    struct constant_operands *next;
++};
++
++struct constant_operands *map_constant_operands[MAP_LAST];
++
++static void add_constant_operand(enum arc_opcode_map mapping,
++                                 uint8_t operand_number,
++                                 uint32_t value)
++{
++    struct constant_operands **t = &(map_constant_operands[mapping]);
++    while (*t != NULL) {
++        t = &((*t)->next);
++    }
++    *t = (struct constant_operands *) g_new(struct constant_operands, 1);
++
++    (*t)->operand_number = operand_number;
++    (*t)->default_value = value;
++    (*t)->next = NULL;
++}
++
++static struct constant_operands *
++constant_entry_for(enum arc_opcode_map mapping,
++                   uint8_t operand_number)
++{
++    struct constant_operands *t = map_constant_operands[mapping];
++    while (t != NULL) {
++        if (t->operand_number == operand_number) {
++            return t;
++        }
++        t = t->next;
++    }
++    return NULL;
++}
++
++static void init_constants(void)
++{
++#define SEMANTIC_FUNCTION(...)
++#define MAPPING(...)
++#define CONSTANT(NAME, MNEMONIC, OP_NUM, VALUE) \
++  add_constant_operand(MAP_##MNEMONIC##_##NAME, OP_NUM, VALUE);
++#include "target/arc/semfunc_mapping.def"
++#include "target/arc/extra_mapping.def"
++#undef MAPPING
++#undef CONSTANT
++#undef SEMANTIC_FUNCTION
++}
++
++static void arc_debug_opcode(const struct arc_opcode *opcode,
++                             DisasContext *ctx,
++                             const char *msg)
++{
++    qemu_log_mask(LOG_UNIMP,
++                  "%s for %s at pc=0x%08x\n",
++                  msg, opcode->name, ctx->cpc);
++}
++
++static TCGv arc_decode_operand(const struct arc_opcode *opcode,
++                               DisasContext *ctx,
++                               unsigned char nop,
++                               enum arc_opcode_map mapping)
++{
++    TCGv ret;
++
++    if (nop >= ctx->insn.n_ops) {
++        struct constant_operands *co = constant_entry_for(mapping, nop);
++        assert(co != NULL);
++        ret = tcg_const_local_tl(co->default_value);
++        return ret;
++    } else {
++        operand_t operand = ctx->insn.operands[nop];
++
++        if (operand.type & ARC_OPERAND_IR) {
++            ret = cpu_r[operand.value];
++            if (operand.value == 63) {
++                tcg_gen_movi_tl(cpu_pcl, ctx->pcl);
++            }
++        } else {
++            int64_t limm = operand.value;
++            if (operand.type & ARC_OPERAND_LIMM) {
++                limm = ctx->insn.limm;
++                tcg_gen_movi_tl(cpu_limm, limm);
++                ret = cpu_r[62];
++            } else {
++                ret = tcg_const_local_tl(limm);
++            }
++        }
++      }
++
++  return ret;
++}
++
++/* See translate.h. */
++void arc_gen_excp(const DisasCtxt *ctx,
++                  uint32_t index,
++                  uint32_t causecode,
++                  uint32_t param)
++{
++    TCGv tcg_index = tcg_const_tl(index);
++    TCGv tcg_cause = tcg_const_tl(causecode);
++    TCGv tcg_param = tcg_const_tl(param);
++
++    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
++    tcg_gen_movi_tl(cpu_eret, ctx->cpc);
++    tcg_gen_movi_tl(cpu_erbta, ctx->npc);
++
++    gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, tcg_param);
++
++    tcg_temp_free(tcg_index);
++    tcg_temp_free(tcg_cause);
++    tcg_temp_free(tcg_param);
++}
++
++/* Wrapper around tcg_gen_exit_tb that handles single stepping */
++static void exit_tb(const DisasContext *ctx)
++{
++    if (ctx->base.singlestep_enabled) {
++        gen_helper_debug(cpu_env);
++    } else {
++        tcg_gen_exit_tb(NULL, 0);
++    }
++}
++
++/*
++ * throw "illegal instruction" exception if more than available
++ * registers are asked to be saved/restore.
++ */
++static bool check_enter_leave_nr_regs(const DisasCtxt *ctx,
++                                      uint8_t      regs)
++{
++    const uint8_t rgf_num_regs = env_archcpu(ctx->env)->cfg.rgf_num_regs;
++    if ((rgf_num_regs == 32 && regs > 14) ||
++        (rgf_num_regs == 16 && regs >  3)) {
++
++        TCGv tcg_index = tcg_const_tl(EXCP_INST_ERROR);
++        TCGv tcg_cause = tcg_const_tl(0);
++        TCGv tcg_param = tcg_const_tl(0);
++
++        tcg_gen_movi_tl(cpu_eret, ctx->cpc);
++        tcg_gen_movi_tl(cpu_erbta, ctx->npc);
++
++        gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, tcg_param);
++
++        tcg_temp_free(tcg_index);
++        tcg_temp_free(tcg_cause);
++        tcg_temp_free(tcg_param);
++        return false;
++    }
++    return true;
++}
++
++/*
++ * throw "illegal instruction sequence" exception if we are in a
++ * delay/execution slot.
++ */
++static bool check_delay_or_execution_slot(const DisasCtxt *ctx)
++{
++    if (ctx->in_delay_slot) {
++        TCGv tcg_index = tcg_const_tl(EXCP_INST_ERROR);
++        TCGv tcg_cause = tcg_const_tl(0x1);
++        TCGv tcg_param = tcg_const_tl(0x0);
++
++        tcg_gen_mov_tl(cpu_eret, cpu_pc);
++        tcg_gen_mov_tl(cpu_erbta, cpu_bta);
++
++        gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, tcg_param);
++
++        tcg_temp_free(tcg_index);
++        tcg_temp_free(tcg_cause);
++        tcg_temp_free(tcg_param);
++        return false;
++    }
++    return true;
++}
++
++/*
++ * Throw "misaligned" exception if 'addr' is not 32-bit aligned.
++ * This check is done irrelevant of status32.AD bit.
++ */
++static void check_addr_is_word_aligned(const DisasCtxt *ctx,
++                                       TCGv addr)
++{
++    TCGLabel *l1 = gen_new_label();
++    TCGv tmp = tcg_temp_local_new();
++
++    tcg_gen_andi_tl(tmp, addr, 0x3);
++    tcg_gen_brcondi_tl(TCG_COND_EQ, tmp, 0, l1);
++
++    tcg_gen_mov_tl(cpu_efa, addr);
++    tcg_gen_movi_tl(cpu_eret, ctx->cpc);
++    tcg_gen_mov_tl(cpu_erbta, cpu_bta);
++
++    TCGv tcg_index = tcg_const_tl(EXCP_MISALIGNED);
++    TCGv tcg_cause = tcg_const_tl(0x0);
++    TCGv tcg_param = tcg_const_tl(0x0);
++
++    gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, tcg_param);
++
++    gen_set_label(l1);
++
++    tcg_temp_free(tcg_index);
++    tcg_temp_free(tcg_cause);
++    tcg_temp_free(tcg_param);
++    tcg_temp_free(tmp);
++}
++
++
++
++/*
++ * enter_s instruction.
++ * after we are done, stack layout would be:
++ * ,- top -.
++ * | blink |
++ * | r13   |
++ * | r14   |
++ * | ...   |
++ * | r26   |
++ * | fp    |
++ * `-------'
++ */
++int arc_gen_ENTER(DisasContext *ctx)
++{
++    int ret = DISAS_NEXT;
++    uint32_t u6 = ctx->insn.operands[0].value;
++
++    if (!u6) {
++        return ret;
++    }
++
++    uint8_t regs       = u6 & 0x0f; /* u[3:0] determines registers to save */
++    bool    save_fp    = u6 & 0x10; /* u[4] indicates if fp must be saved  */
++    bool    save_blink = u6 & 0x20; /* u[5] indicates saving of blink      */
++    uint8_t stack_size = 4 * (regs + save_fp + save_blink);
++
++    /* number of regs to be saved must be sane */
++    if (!check_enter_leave_nr_regs(ctx, regs)) {
++        return ret;
++    }
++
++    /* this cannot be executed in a delay/execution slot */
++    if (!check_delay_or_execution_slot(ctx)) {
++        return ret;
++    }
++
++    TCGv temp_1 = tcg_temp_local_new();
++    TCGv temp_sp = tcg_temp_local_new();
++
++    /* stack must be a multiple of 4 (32 bit aligned) */
++    tcg_gen_subi_tl(temp_1, cpu_sp, stack_size);
++    check_addr_is_word_aligned(ctx, temp_1);
++
++    /*
++     * Backup SP. SP should only be written in the end of the execution to
++     * allow to correctly recover from exceptions the might happen in the
++     * middle of the instruction execution.
++     */
++    tcg_gen_mov_tl(temp_sp, cpu_sp);
++
++    if (save_fp) {
++        tcg_gen_subi_tl(temp_sp, temp_sp, 4);
++        tcg_gen_qemu_st_tl(cpu_fp, temp_sp, ctx->mem_idx, MO_UL);
++    }
++
++    for (uint8_t gpr = regs; gpr >= 1; --gpr) {
++        tcg_gen_subi_tl(temp_sp, temp_sp, 4);
++        tcg_gen_qemu_st_tl(cpu_r[13 + gpr - 1], temp_sp, ctx->mem_idx, MO_UL);
++    }
++
++    if (save_blink) {
++        tcg_gen_subi_tl(temp_sp, temp_sp, 4);
++        tcg_gen_qemu_st_tl(cpu_blink, temp_sp, ctx->mem_idx, MO_UL);
++    }
++
++    tcg_gen_mov_tl(cpu_sp, temp_sp);
++
++    /* now that sp has been allocated, shall we write it to fp? */
++    if (save_fp) {
++        tcg_gen_mov_tl(cpu_fp, cpu_sp);
++    }
++
++    tcg_temp_free(temp_sp);
++    tcg_temp_free(temp_1);
++
++    return ret;
++}
++
++/*
++ * helper for leave_s instruction.
++ * a stack layout of below is assumed:
++ * ,- top -.
++ * | blink |
++ * | r13   |
++ * | r14   |
++ * | ...   |
++ * | r26   |
++ * | fp    |
++ * `-------'
++ */
++int arc_gen_LEAVE(DisasContext *ctx)
++{
++    int ret = DISAS_NEXT;
++    uint32_t u7 = ctx->insn.operands[0].value;
++
++    /* nothing to do? then bye-bye! */
++    if (!u7) {
++        return ret;
++    }
++
++    uint8_t regs       = u7 & 0x0f; /* u[3:0] determines registers to save */
++    bool restore_fp    = u7 & 0x10; /* u[4] indicates if fp must be saved  */
++    bool restore_blink = u7 & 0x20; /* u[5] indicates saving of blink      */
++    bool jump_to_blink = u7 & 0x40; /* u[6] should we jump to blink?       */
++
++    /* number of regs to be saved must be sane */
++    if (!check_enter_leave_nr_regs(ctx, regs)) {
++        return ret;
++    }
++
++    /* this cannot be executed in a delay/execution slot */
++    if (!check_delay_or_execution_slot(ctx)) {
++        return ret;
++    }
++
++    TCGv temp_1 = tcg_temp_local_new();
++    /*
++     * stack must be a multiple of 4 (32 bit aligned). we must take into
++     * account if sp is going to use fp's value or not.
++     */
++    if (restore_fp) {
++        tcg_gen_mov_tl(temp_1, cpu_fp);
++    } else {
++        tcg_gen_mov_tl(temp_1, cpu_sp);
++    }
++    check_addr_is_word_aligned(ctx, temp_1);
++
++    TCGv temp_sp = tcg_temp_local_new();
++    /*
++     * if fp is in the picture, then first we have to use the current
++     * fp as the stack pointer for restoring.
++     */
++    if (restore_fp) {
++        tcg_gen_mov_tl(cpu_sp, cpu_fp);
++    }
++
++    tcg_gen_mov_tl(temp_sp, cpu_sp);
++
++    if (restore_blink) {
++        tcg_gen_qemu_ld_tl(cpu_blink, temp_sp, ctx->mem_idx, MO_UL);
++        tcg_gen_addi_tl(temp_sp, temp_sp, 4);
++    }
++
++    for (uint8_t gpr = 0; gpr < regs; ++gpr) {
++        tcg_gen_qemu_ld_tl(cpu_r[13 + gpr], temp_sp, ctx->mem_idx, MO_UL);
++        tcg_gen_addi_tl(temp_sp, temp_sp, 4);
++    }
++
++    if (restore_fp) {
++        tcg_gen_qemu_ld_tl(cpu_fp, temp_sp, ctx->mem_idx, MO_UL);
++        tcg_gen_addi_tl(temp_sp, temp_sp, 4);
++    }
++
++    tcg_gen_mov_tl(cpu_sp, temp_sp);
++
++    /* now that we are done, should we jump to blink? */
++    if (jump_to_blink) {
++        gen_goto_tb(ctx, 1, cpu_blink);
++        ret = DISAS_NORETURN;
++    }
++
++    tcg_temp_free(temp_sp);
++    tcg_temp_free(temp_1);
++
++    return ret;
++}
++
++/* SR tcg translator */
++int
++arc_gen_SR(DisasCtxt *ctx, TCGv src2, TCGv src1)
++{
++    int ret = DISAS_NEXT;
++
++    writeAuxReg(src2, src1);
++    return ret;
++}
++int
++arc_gen_SRL(DisasCtxt *ctx, TCGv src2, TCGv src1)
++{
++    int ret = DISAS_NEXT;
++
++    writeAuxReg(src2, src1);
++    return ret;
++}
++
++/* SYNC tcg translator */
++int
++arc_gen_SYNC(DisasCtxt *ctx)
++{
++    int ret = DISAS_NEXT;
++
++    syncReturnDisasUpdate();
++    return ret;
++}
++
++
++/*
++ * Function to add boiler plate code for conditional execution.
++ * It will add tcg_gen codes only if there is a condition to
++ * be checked (ctx->insn.cc != 0).
++ * Remember to pair it with gen_cc_epilogue(ctx) macro.
++ */
++static void gen_cc_prologue(DisasCtxt *ctx)
++{
++    ctx->tmp_reg = tcg_temp_local_new();
++    ctx->label = gen_new_label();
++    if (ctx->insn.cc) {
++        arc_gen_verifyCCFlag(ctx, ctx->tmp_reg);
++        tcg_gen_brcondi_tl(TCG_COND_NE, ctx->tmp_reg, 1, ctx->label);
++    }
++}
++
++/*
++ * The finishing counter part of gen_cc_prologue. This is supposed
++ * to be put at the end of the function using it.
++ */
++static void gen_cc_epilogue(const DisasCtxt *ctx)
++{
++    if (ctx->insn.cc) {
++        gen_set_label(ctx->label);
++    }
++    tcg_temp_free(ctx->tmp_reg);
++}
++
++/*
++ * Verifies if the destination operand (operand 0) is a register
++ * then it is an even numbered one. Else, an exception is put in
++ * the generated code and FALSE is returned.
++ */
++static bool verify_dest_reg_is_even(const DisasCtxt *ctx)
++{
++    if (is_odd_numbered_register(ctx->insn.operands[0])) {
++        arc_gen_excp(ctx, EXCP_INST_ERROR, 0, 0);
++        return false;
++    }
++    return true;
++}
++
++
++/* accumulator = b32 * c32 (signed multiplication). */
++int
++arc_gen_MPYD(DisasCtxt *ctx, TCGv_i32 dest,
++              TCGv_i32 b32, TCGv_i32 c32)
++{
++    if (verify_dest_reg_is_even(ctx)) {
++        gen_cc_prologue(ctx);
++        tcg_gen_muls2_i32(cpu_acclo, cpu_acchi, b32, c32);
++        if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
++            tcg_gen_mov_tl(arc_gen_next_reg(ctx, dest), cpu_acchi);
++            tcg_gen_mov_tl(dest, cpu_acclo);
++        }
++        if (ctx->insn.f) {
++            setNFlag(cpu_acchi);
++            tcg_gen_movi_tl(cpu_Vf, 0);
++        }
++        gen_cc_epilogue(ctx);
++    }
++    return DISAS_NEXT;
++}
++
++/* accumulator = b32 * c32 (unsigned multiplication). */
++int
++arc_gen_MPYDU(DisasCtxt *ctx, TCGv_i32 dest,
++              TCGv_i32 b32, TCGv_i32 c32)
++{
++    if (verify_dest_reg_is_even(ctx)) {
++        gen_cc_prologue(ctx);
++        tcg_gen_mulu2_i32(cpu_acclo, cpu_acchi, b32, c32);
++        if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
++            tcg_gen_mov_tl(arc_gen_next_reg(ctx, dest), cpu_acchi);
++            tcg_gen_mov_tl(dest, cpu_acclo);
++        }
++        if (ctx->insn.f) {
++            tcg_gen_movi_tl(cpu_Vf, 0);
++        }
++        gen_cc_epilogue(ctx);
++    }
++    return DISAS_NEXT;
++}
++
++/*
++ * Populates a 64-bit vector with register pair:
++ *   vec64=(REGn+1,REGn)=(REGn+1_hi,REGn+1_lo,REGn_hi,REGn_lo)
++ * REG must be refering to an even numbered register.
++ * Do not forget to free the returned TCGv_i64 when done!
++ */
++static TCGv_i64 pair_reg_to_i64(const DisasCtxt *ctx, TCGv_i32 reg)
++{
++    TCGv_i64 vec64 = tcg_temp_new_i64();
++    tcg_gen_concat_i32_i64(vec64, reg, arc_gen_next_reg(ctx, reg));
++    return vec64;
++}
++
++/*
++ * Populates a 32-bit vector with repeating SHIMM:
++ *   vec32=(0000000000u6,0000000000u6)
++ *   vec32=(sssss12,sssss12)
++ * It's crucial that the s12 part of an encoding is in signed
++ * integer form while passed along in SHIMM, e.g:
++ *   s12 = -125 (0xf803) --> 0xfffff803
++ * Do not forget to free the returned TCGv_i32 when done!
++ */
++static TCGv_i32 dup_shimm_to_i32(int16_t shimm)
++{
++    TCGv_i32 vec32 = tcg_temp_new_i32();
++    int32_t val = shimm;
++    val = ((val << 16) & 0xffff0000) | (val & 0xffff);
++    tcg_gen_movi_i32(vec32, val);
++    return vec32;
++}
++
++/*
++ * Populates a 64-bit vector with repeating LIMM:
++ *   vec64=(limm,limm)=(limm_hi,limm_lo,limm_hi,limm_lo)
++ * Do not forget to free the returned TCGv_i64 when done!
++ */
++static TCGv_i64 dup_limm_to_i64(int32_t limm)
++{
++    TCGv_i64 vec64 = tcg_temp_new_i64();
++    int64_t val = limm;
++    val = (val << 32) | (val & 0xffffffff);
++    tcg_gen_movi_i64(vec64, val);
++    return vec64;
++}
++
++/*
++ * Populates a 64-bit vector with four SHIMM (u6 or s12):
++ *   vec64=(0000000000u6,0000000000u6,0000000000u6,0000000000u6)
++ *   vec64=(sssss12,sssss12,sssss12,sssss12)
++ * It's crucial that the s12 part of an encoding is in signed
++ * integer form while passed along in SHIMM, e.g:
++ *   s12 = -125 (0xf803) --> 0xfffff803
++ * Do not forget to free the returned TCGv_i64 when done!
++ */
++static TCGv_i64 quad_shimm_to_i64(int16_t shimm)
++{
++    TCGv_i64 vec64 = tcg_temp_new_i64();
++    int64_t val = shimm;
++    val = (val << 48) | ((val << 32) & 0x0000ffff00000000) |
++          ((val << 16) & 0x00000000ffff0000) | (val & 0xffff);
++    tcg_gen_movi_i64(vec64, val);
++    return vec64;
++}
++
++/*
++ * gen_vec_op2 emits instructions to perform the desired operation,
++ * defined by OP, on the inputs (B32 and C32) and returns the
++ * result in DEST.
++ *
++ * vector size:     64-bit
++ * vector elements: 2
++ * element size:    32-bit
++ *
++ * (A1, A0) = (B1, B0) op (C1, C0)
++ */
++static void gen_vec_op2(const DisasCtxt *ctx,
++                        void (*OP)(TCGv_i64, TCGv_i64, TCGv_i64),
++                        TCGv_i32 dest,
++                        TCGv_i32 b32,
++                        TCGv_i32 c32)
++{
++    TCGv_i64 d64, b64, c64;
++
++    /* If no real register for result, then this a nop. Bail out! */
++    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
 +        return;
 +    }
 +
-+    /* If we take an exception within an exception => fatal Machine Check. */
-+    if (GET_STATUS_BIT(env->stat, AEf) == 1) {
-+        cs->exception_index = EXCP_MACHINE_CHECK;
-+        env->causecode = 0;
-+        env->param = 0;
-+        arc_mmu_disable(env);
-+        env->mpu.enabled = false;     /* no more MPU */
++    /* Extend B32 to B64 based on its type: {reg, limm}. */
++    if (ctx->insn.operands[1].type & ARC_OPERAND_IR) {
++        b64 = pair_reg_to_i64(ctx, b32);
++    } else if (ctx->insn.operands[1].type & ARC_OPERAND_LIMM) {
++        b64 = dup_limm_to_i64(ctx->insn.limm);
++    } else {
++        g_assert_not_reached();
 +    }
-+    vectno = cs->exception_index & 0x0F;
-+    offset = OFFSET_FOR_VECTOR(vectno);
++    /* Extend C32 to C64 based on its type: {reg, limm, shimm}. */
++    if (ctx->insn.operands[2].type & ARC_OPERAND_IR) {
++        c64 = pair_reg_to_i64(ctx, c32);
++    } else if (ctx->insn.operands[2].type & ARC_OPERAND_LIMM) {
++        c64 = dup_limm_to_i64(ctx->insn.limm);
++    } else if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
++        /* At this point SHIMM is extended like LIMM. */
++        c64 = dup_limm_to_i64(ctx->insn.operands[2].value);
++    } else {
++        g_assert_not_reached();
++    }
++    d64 = tcg_temp_new_i64();
 +
-+    /* Generic computation for exceptions. */
-+    switch (cs->exception_index) {
-+    case EXCP_RESET:
-+        name = "Reset";
-+        break;
-+    case EXCP_MEMORY_ERROR:
-+        name = "Memory Error";
-+        break;
-+    case EXCP_INST_ERROR:
-+        name = "Instruction Error";
-+        break;
-+    case EXCP_MACHINE_CHECK:
-+        name = "Machine Check";
-+        break;
-+    case EXCP_TLB_MISS_I:
-+        name = "TLB Miss Instruction";
-+        break;
-+    case EXCP_TLB_MISS_D:
-+        name = "TLB Miss Data";
-+        break;
-+    case EXCP_PROTV:
-+        name = "Protection Violation";
-+        break;
-+    case EXCP_PRIVILEGEV:
-+        name = "Privilege Violation";
-+        break;
-+    case EXCP_SWI:
-+        name = "SWI";
-+        break;
-+    case EXCP_TRAP:
-+        name = "Trap";
-+        break;
-+    case EXCP_EXTENSION:
-+        name = "Extension";
-+        break;
-+    case EXCP_DIVZERO:
-+        name = "DIV by Zero";
-+        break;
-+    case EXCP_DCERROR:
-+        name = "DCError";
-+        break;
-+    case EXCP_MISALIGNED:
-+        name = "Misaligned";
-+        break;
-+    case EXCP_IRQ:
-+    default:
-+        cpu_abort(cs, "unhandled exception/irq type=%d\n",
-+                  cs->exception_index);
-+        break;
++    (*OP)(d64, b64, c64);
++    tcg_gen_extrl_i64_i32(dest, d64);
++    tcg_gen_extrh_i64_i32(arc_gen_next_reg(ctx, dest), d64);
++
++    tcg_temp_free_i64(d64);
++    tcg_temp_free_i64(c64);
++    tcg_temp_free_i64(b64);
++    return;
++}
++
++/*
++ * gen_vec_op2h emits instructions to perform the desired operation,
++ * defined by OP, on the inputs (B32 and C32) and returns the
++ * result in DEST.
++ *
++ * vector size:     32-bit
++ * vector elements: 2
++ * element size:    16-bit
++ *
++ * (a1, a0) = (b1, b0) op (c1, c0)
++ */
++static void gen_vec_op2h(const DisasCtxt *ctx,
++                         void (*OP)(TCGv, TCGv, TCGv),
++                         TCGv_i32 dest,
++                         TCGv_i32 b32,
++                         TCGv_i32 c32)
++{
++    TCGv_i32 t0, t1;
++
++    /* If no real register for result, then this a nop. Bail out! */
++    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
++        return;
 +    }
 +
-+    qemu_log_mask(CPU_LOG_INT, "[EXCP] exception %d (%s) at pc=0x"
-+                  TARGET_FMT_lx "\n",
-+                  cs->exception_index, name, env->pc);
-+
++    t0 = tcg_temp_new();
++    tcg_gen_mov_i32(t0, b32);
 +    /*
-+     * 3. exception status register is loaded with the contents
-+     * of STATUS32.
++     * If the last operand is a u6/s12, say 63, there is no "HI" in it.
++     * Instead, it must be duplicated to form a pair; e.g.: (63, 63).
 +     */
-+    env->stat_er = env->stat;
++    if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
++        t1 = dup_shimm_to_i32(ctx->insn.operands[2].value);
++    } else {
++        t1 = tcg_temp_new();
++        tcg_gen_mov_i32(t1, c32);
++    }
 +
-+    /* 4. exception return branch target address register. */
-+    env->erbta = env->bta;
++    (*OP)(dest, t0, t1);
 +
-+    /*
-+     * 5. eception cause register is loaded with a code to indicate
-+     * the cause of the exception.
-+     */
-+    env->ecr = (vectno & 0xFF) << 16;
-+    env->ecr |= (env->causecode & 0xFF) << 8;
-+    env->ecr |= (env->param & 0xFF);
++    tcg_temp_free(t1);
++    tcg_temp_free(t0);
++}
 +
-+    /* 6. Set the EFA if available. */
-+    if (cpu->cfg.has_mmu || cpu->cfg.has_mpu) {
-+        switch (cs->exception_index) {
-+        case EXCP_DCERROR:
-+        case EXCP_DIVZERO:
-+        case EXCP_EXTENSION:
-+        case EXCP_TRAP:
-+        case EXCP_SWI:
-+        case EXCP_PRIVILEGEV:
-+        case EXCP_MACHINE_CHECK:
-+        case EXCP_INST_ERROR:
-+        case EXCP_RESET:
-+            /* TODO: this should move to the place raising the exception */
-+            env->efa  = env->pc;
-+            break;
++
++/*
++ * gen_vec_op4h emits instructions to perform the desired operation,
++ * defined by OP, on the inputs (B32 and C32) and returns the
++ * result in DEST.
++ *
++ * vector size:     64-bit
++ * vector elements: 4
++ * element size:    16-bit
++ *
++ * (a3, a2, a1, a0) = (b3, b2, b1, b0) op (c3, c2, c1, c0)
++ */
++static void gen_vec_op4h(const DisasCtxt *ctx,
++                         void (*op)(TCGv_i64, TCGv_i64, TCGv_i64),
++                         TCGv_i32 dest,
++                         TCGv_i32 b32,
++                         TCGv_i32 c32)
++{
++    TCGv_i64 d64, b64, c64;
++
++    /* If no real register for result, then this a nop. Bail out! */
++    if (!(ctx->insn.operands[0].type & ARC_OPERAND_IR)) {
++        return;
++    }
++
++    /* Extend B32 to B64 based on its type: {reg, limm}. */
++    if (ctx->insn.operands[1].type & ARC_OPERAND_IR) {
++        b64 = pair_reg_to_i64(ctx, b32);
++    } else if (ctx->insn.operands[1].type & ARC_OPERAND_LIMM) {
++        b64 = dup_limm_to_i64(ctx->insn.limm);
++    } else {
++        g_assert_not_reached();
++    }
++    /* Extend C32 to C64 based on its type: {reg, limm, shimm}. */
++    if (ctx->insn.operands[2].type & ARC_OPERAND_IR) {
++        c64 = pair_reg_to_i64(ctx, c32);
++    } else if (ctx->insn.operands[2].type & ARC_OPERAND_LIMM) {
++        c64 = dup_limm_to_i64(ctx->insn.limm);
++    } else if (ctx->insn.operands[2].type & ARC_OPERAND_SHIMM) {
++        c64 = quad_shimm_to_i64(ctx->insn.operands[2].value);
++    } else {
++        g_assert_not_reached();
++    }
++    d64 = tcg_temp_new_i64();
++
++    (*op)(d64, b64, c64);
++    tcg_gen_extrl_i64_i32(dest, d64);
++    tcg_gen_extrh_i64_i32(arc_gen_next_reg(ctx, dest), d64);
++
++    tcg_temp_free_i64(d64);
++    tcg_temp_free_i64(c64);
++    tcg_temp_free_i64(b64);
++    return;
++}
++
++/*
++ * To use a 32-bit adder to sum two 16-bit numbers:
++ * 1) Mask out the 16th bit in both operands to cause no carry.
++ * 2) Add the numbers.
++ * 3) Put back the 16th bit sum: T0[15] ^ T1[15] ^ CARRY[14]
++ *    (ignoring the possible carry generated)
++ * T0 and T1 values will change. Use temporary ones.
++ */
++static void gen_add16(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
++{
++    TCGv_i32 tmp = tcg_temp_new_i32();
++    tcg_gen_xor_i32(tmp, t0, t1);
++    tcg_gen_andi_i32(tmp, tmp, 0x8000);
++    tcg_gen_andi_i32(t0, t0, ~0x8000);
++    tcg_gen_andi_i32(t1, t1, ~0x8000);
++    tcg_gen_add_i32(t0, t0, t1);
++    tcg_gen_xor_i32(dest, t0, tmp);
++    tcg_temp_free_i32(tmp);
++}
++
++/*
++ * To use a 32-bit subtracter to subtract two 16-bit numbers:
++ * 0) Record how T0[15]-T1[15] would result without other bits.
++ * 1) Make the 16th bit for the first operand 1 and the second
++ *    operand 0. This combination of (1 - 0) will absorb any
++ *    possible borrow that may come from the 15th bit.
++ * 2) Subtract the numbers.
++ * 3) Correct the 16th bit result (1 - 0 - B):
++ *    If the 16th bit is 1 --> no borrow was asked.
++ *    If the 16th bit is 0 --> a  borrow was asked.
++ *    and if a borrow was asked, the result of step 0 must be
++ *    inverted (0 -> 1 and 1 -> 0). If not, the result of step
++ *    0 can be used readily:
++ *     STEP2[15] | T0[15]-T1[15] | DEST[15]
++ *     ----------+---------------+---------
++ *         0     |       0       |    1
++ *         0     |       1       |    0
++ *         1     |       0       |    0
++ *         1     |       1       |    1
++ *    This is a truth table for XNOR(a,b):
++ *      NOT(XOR(a,b))=XOR(XOR(a,b),1)
++ * This approach might seem pedantic, but it generates one less
++ * instruction than the obvious mask-and-sub approach and requires
++ * two less TCG variables.
++ * T0 and T1 values will change. Use temporary ones.
++ */
++static void gen_sub16(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
++{
++    TCGv_i32 tmp = tcg_temp_new_i32();
++    tcg_gen_xor_i32(tmp, t0, t1);          /* step 0 */
++    tcg_gen_andi_i32(tmp, tmp, 0x8000);    /* step 0 */
++    tcg_gen_ori_i32(t0, t0, 0x8000);       /* step 1 */
++    tcg_gen_andi_i32(t1, t1, ~0x8000);     /* step 1 */
++    tcg_gen_sub_i32(t0, t0, t1);           /* step 2 */
++    tcg_gen_xor_i32(dest, t0, tmp);        /* step 3 */
++    tcg_gen_xori_i32(dest, dest, 0x8000);  /* step 3 */
++    tcg_temp_free_i32(tmp);
++}
++
++/*
++ * Going through every operand, if any of those is a register
++ * it is verified to be an even numbered register. Else, an
++ * exception is put in the generated code and FALSE is returned.
++ */
++static bool verify_all_regs_are_even(const DisasCtxt *ctx)
++{
++    for (int nop = 0; nop < ctx->insn.n_ops; ++nop) {
++        if (is_odd_numbered_register(ctx->insn.operands[nop])) {
++            arc_gen_excp(ctx, EXCP_INST_ERROR, 0, 0);
++            return false;
++        }
++    }
++    return true;
++}
++
++
++int
++arc_gen_VADD2(DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
++{
++    if (verify_all_regs_are_even(ctx)) {
++        gen_cc_prologue(ctx);
++        gen_vec_op2(ctx, tcg_gen_vec_add32_i64, dest, b, c);
++        gen_cc_epilogue(ctx);
++    }
++    return DISAS_NEXT;
++}
++
++int
++arc_gen_VADD2H(DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
++{
++    gen_cc_prologue(ctx);
++    gen_vec_op2h(ctx, gen_add16, dest, b, c);
++    gen_cc_epilogue(ctx);
++    return DISAS_NEXT;
++}
++
++int
++arc_gen_VADD4H(DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
++{
++    if (verify_all_regs_are_even(ctx)) {
++        gen_cc_prologue(ctx);
++        gen_vec_op4h(ctx, tcg_gen_vec_add16_i64, dest, b, c);
++        gen_cc_epilogue(ctx);
++    }
++    return DISAS_NEXT;
++}
++
++int
++arc_gen_VSUB2(DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
++{
++    if (verify_all_regs_are_even(ctx)) {
++        gen_cc_prologue(ctx);
++        gen_vec_op2(ctx, tcg_gen_vec_sub32_i64, dest, b, c);
++        gen_cc_epilogue(ctx);
++    }
++    return DISAS_NEXT;
++}
++
++int
++arc_gen_VSUB2H(DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
++{
++    gen_cc_prologue(ctx);
++    gen_vec_op2h(ctx, gen_sub16, dest, b, c);
++    gen_cc_epilogue(ctx);
++    return DISAS_NEXT;
++}
++
++int
++arc_gen_VSUB4H(DisasCtxt *ctx, TCGv dest, TCGv_i32 b, TCGv_i32 c)
++{
++    if (verify_all_regs_are_even(ctx)) {
++        gen_cc_prologue(ctx);
++        gen_vec_op4h(ctx, tcg_gen_vec_sub16_i64, dest, b, c);
++        gen_cc_epilogue(ctx);
++    }
++    return DISAS_NEXT;
++}
++
++int
++arc_gen_SWI(DisasCtxt *ctx, TCGv a)
++{
++    TCGv tcg_index = tcg_const_tl(EXCP_SWI);
++    TCGv tcg_cause = tcg_const_tl(0);
++
++    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
++    tcg_gen_movi_tl(cpu_eret, ctx->cpc);
++    tcg_gen_movi_tl(cpu_erbta, ctx->npc);
++
++    gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, a);
++
++    tcg_temp_free(tcg_index);
++    tcg_temp_free(tcg_cause);
++    return DISAS_NEXT;
++}
++int
++arc_gen_TRAP(DisasCtxt *ctx, TCGv a)
++{
++    TCGv tcg_index = tcg_const_tl(EXCP_TRAP);
++    TCGv tcg_cause = tcg_const_tl(0);
++
++    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
++    tcg_gen_movi_tl(cpu_eret, ctx->npc);
++    tcg_gen_mov_tl(cpu_erbta, cpu_bta);
++
++    gen_helper_raise_exception(cpu_env, tcg_index, tcg_cause, a);
++
++    tcg_temp_free(tcg_index);
++    tcg_temp_free(tcg_cause);
++
++    return DISAS_NORETURN;
++}
++int
++arc_gen_RTIE(DisasCtxt *ctx)
++{
++    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
++    gen_helper_rtie(cpu_env);
++    tcg_gen_mov_tl(cpu_pc, cpu_pcl);
++    exit_tb(ctx); /* no chaining */
++    return DISAS_NORETURN;
++}
++
++/* Generate sleep insn. */
++int
++arc_gen_SLEEP(DisasCtxt *ctx, TCGv a)
++{
++    uint32_t param = 0;
++
++    if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
++        TCGv tmp3 = tcg_temp_local_new();
++        TCGLabel *done_L = gen_new_label();
++
++        tcg_gen_andi_tl(tmp3, a, 0x10);
++        tcg_gen_brcondi_tl(TCG_COND_NE, tmp3, 0x10, done_L);
++        tcg_gen_andi_tl(cpu_Ef, a, 0x0f);
++        tcg_gen_movi_tl(cpu_IEf, 1);
++        gen_set_label(done_L);
++
++        tcg_temp_free(tmp3);
++    } else {
++        param = ctx->insn.operands[0].value;
++        if (param & 0x10) {
++            tcg_gen_movi_tl(cpu_IEf, 1);
++            tcg_gen_movi_tl(cpu_Ef, param & 0x0f);
++        }
++    }
++    /* FIXME: setup debug registers as well. */
++
++    TCGv npc = tcg_temp_local_new();
++    tcg_gen_movi_tl(npc, ctx->npc);
++    gen_helper_halt(cpu_env, npc);
++    tcg_temp_free(npc);
++    return DISAS_NEXT;
++}
++
++/* Given a CTX, generate the relevant TCG code for the given opcode. */
++static int arc_decode(DisasContext *ctx, const struct arc_opcode *opcode)
++{
++    int ret = DISAS_NEXT;
++    enum arc_opcode_map mapping;
++    static bool initialized;
++
++    if (initialized == false) {
++        init_constants();
++        initialized = true;
++    }
++
++    /* Do the mapping. */
++    mapping = arc_map_opcode(opcode);
++    if (mapping != MAP_NONE) {
++        TCGv ops[10];
++        int i;
++        for (i = 0; i < number_of_ops_semfunc[mapping]; i++) {
++            ops[i] = arc_decode_operand(opcode, ctx, i, mapping);
++        }
++
++        /*
++         * Store some elements statically to implement less dynamic
++         * features of instructions.  Started by the need to keep a
++         * static reference to LP_START and LP_END.
++         */
++
++#define SEMANTIC_FUNCTION_CALL_0(NAME, A)       \
++            arc_gen_##NAME(ctx);
++#define SEMANTIC_FUNCTION_CALL_1(NAME, A)       \
++            arc_gen_##NAME(ctx, ops[A]);
++#define SEMANTIC_FUNCTION_CALL_2(NAME, A, B)            \
++            arc_gen_##NAME(ctx, ops[A], ops[B]);
++#define SEMANTIC_FUNCTION_CALL_3(NAME, A, B, C)                 \
++            arc_gen_##NAME(ctx, ops[A], ops[B], ops[C]);
++#define SEMANTIC_FUNCTION_CALL_4(NAME, A, B, C, D)                      \
++            arc_gen_##NAME(ctx, ops[A], ops[B], ops[C], ops[D]);
++
++#define SEMANTIC_FUNCTION(...)
++#define CONSTANT(...)
++#define MAPPING(MNEMONIC, NAME, NOPS, ...)                              \
++            case MAP_##MNEMONIC##_##NAME:                               \
++                ret = SEMANTIC_FUNCTION_CALL_##NOPS(NAME, __VA_ARGS__); \
++                break;
++        switch (mapping) {
++#include "target/arc/semfunc_mapping.def"
++#include "target/arc/extra_mapping.def"
++
 +        default:
-+            break;
++            arc_debug_opcode(opcode, ctx, "No handle for map opcode");
++            g_assert(!"Semantic not handled: Use -d unimp to list it.");
++        }
++#undef MAPPING
++#undef CONSTANT
++#undef SEMANTIC_FUNCTION
++#undef SEMANTIC_FUNCTION_CALL_0
++#undef SEMANTIC_FUNCTION_CALL_1
++#undef SEMANTIC_FUNCTION_CALL_2
++#undef SEMANTIC_FUNCTION_CALL_3
++
++        for (i = 0; i < number_of_ops_semfunc[mapping]; i++) {
++            operand_t operand = ctx->insn.operands[i];
++            if (!(operand.type & ARC_OPERAND_LIMM) &&
++                !(operand.type & ARC_OPERAND_IR)) {
++                tcg_temp_free(ops[i]);
++            }
++        }
++
++    } else {
++        arc_debug_opcode(opcode, ctx, "No mapping for opcode");
++        g_assert(!"Semantic not found: Use -d unimp to list it.");
++    }
++
++    return ret;
++}
++
++void decode_opc(CPUARCState *env, DisasContext *ctx)
++{
++    ctx->env = env;
++
++    env->enabled_interrupts = false;
++
++    const struct arc_opcode *opcode = NULL;
++    if (!read_and_decode_context(ctx, &opcode)) {
++        ctx->base.is_jmp = arc_gen_INVALID(ctx);
++        return;
++    }
++
++    ctx->base.is_jmp = arc_decode(ctx, opcode);
++
++    TCGv npc = tcg_const_local_tl(ctx->npc);
++    gen_helper_zol_verify(cpu_env, npc);
++    tcg_temp_free(npc);
++
++    env->enabled_interrupts = true;
++}
++
++static void arc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
++{
++    bool in_a_delayslot_instruction = false;
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
++    CPUARCState *env = cpu->env_ptr;
++
++    /* TODO (issue #62): these must be removed */
++    dc->zero = tcg_const_local_tl(0);
++    dc->one  = tcg_const_local_tl(1);
++
++    if (env->stat.is_delay_slot_instruction == 1) {
++        in_a_delayslot_instruction = true;
++    }
++
++    dc->cpc = dc->base.pc_next;
++    decode_opc(env, dc);
++
++    dc->base.pc_next = dc->npc;
++    tcg_gen_movi_tl(cpu_npc, dc->npc);
++
++    if (in_a_delayslot_instruction == true) {
++        dc->base.is_jmp = DISAS_NORETURN;
++
++        /* Post execution delayslot logic. */
++        TCGLabel *DEf_not_set_label1 = gen_new_label();
++        tcg_gen_brcondi_tl(TCG_COND_NE, cpu_DEf, 1, DEf_not_set_label1);
++        tcg_gen_movi_tl(cpu_DEf, 0);
++        gen_goto_tb(dc, 1, cpu_bta);
++        gen_set_label(DEf_not_set_label1);
++        env->stat.is_delay_slot_instruction = 0;
++    }
++
++    if (dc->base.is_jmp == DISAS_NORETURN) {
++        gen_gotoi_tb(dc, 0, dc->npc);
++    } else if (dc->base.is_jmp == DISAS_NEXT) {
++        target_ulong page_start;
++
++        page_start = dc->base.pc_first & TARGET_PAGE_MASK;
++        if (dc->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
++            dc->base.is_jmp = DISAS_TOO_MANY;
 +        }
 +    }
 +
-+    /* 7. CPU is switched to kernel mode. */
-+    SET_STATUS_BIT(env->stat, Uf, 0);
++    /* TODO (issue #62): these must be removed. */
++    tcg_temp_free(dc->zero);
++    tcg_temp_free(dc->one);
 +
-+    if (GET_STATUS_BIT(env->stat_er, Uf)) {
-+        switchSP(env);
-+    }
-+
-+    /* 8. Interrupts are disabled. */
-+    env->stat.IEf = 0;
-+
-+    /* 9. The active exception flag is set. */
-+    SET_STATUS_BIT(env->stat, AEf, 1);
-+
-+    /* 10-14. Other flags sets. */
-+    env->stat.Zf  = GET_STATUS_BIT(env->stat_er, Uf);
-+    SET_STATUS_BIT(env->stat, Lf, 1);
-+    env->stat.DEf = 0;
-+    SET_STATUS_BIT(env->stat, ESf, 0);
-+    SET_STATUS_BIT(env->stat, DZf, 0);
-+    SET_STATUS_BIT(env->stat, SCf, 0);
-+
-+    /* 15. The PC is set with the appropriate exception vector. */
-+    env->pc = address_space_ldl(cs->as, env->intvec + offset,
-+                                MEMTXATTRS_UNSPECIFIED, &txres);
-+    assert(txres == MEMTX_OK);
-+    CPU_PCL(env) = env->pc & 0xfffffffe;
-+
-+    qemu_log_mask(CPU_LOG_INT, "[EXCP] isr=0x" TARGET_FMT_lx
-+                  " vec=0x%x ecr=0x" TARGET_FMT_lx "\n",
-+                  env->pc, offset, env->ecr);
-+
-+    /* Make sure that exception code decodes corectly */
-+    env->stat.is_delay_slot_instruction = 0;
-+
-+    cs->exception_index = -1;
++    /* verify if there is any TCG temporaries leakge */
++    translator_loop_temp_check(dcbase);
 +}
 +
-+static gint arc_cpu_list_compare(gconstpointer a, gconstpointer b)
++static void arc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
 +{
-+    ObjectClass *class_a = (ObjectClass *)a;
-+    ObjectClass *class_b = (ObjectClass *)b;
-+    const char *name_a;
-+    const char *name_b;
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
 +
-+    name_a = object_class_get_name(class_a);
-+    name_b = object_class_get_name(class_b);
-+    if (strcmp(name_a, "any-" TYPE_ARC_CPU) == 0) {
-+        return 1;
-+    } else if (strcmp(name_b, "any-" TYPE_ARC_CPU) == 0) {
-+        return -1;
-+    } else {
-+        return strcmp(name_a, name_b);
++    switch (dc->base.is_jmp) {
++    case DISAS_TOO_MANY:
++    case DISAS_UPDATE:
++        gen_gotoi_tb(dc, 0, dc->base.pc_next);
++        break;
++    case DISAS_BRANCH_IN_DELAYSLOT:
++    case DISAS_NORETURN:
++        break;
++    default:
++         g_assert_not_reached();
++    }
++
++    if (dc->base.num_insns == dc->base.max_insns &&
++        (dc->base.tb->cflags & CF_LAST_IO)) {
++        gen_io_end();
 +    }
 +}
 +
-+static void arc_cpu_list_entry(gpointer data, gpointer user_data)
++static void arc_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
 +{
-+    ObjectClass *oc = data;
-+    const char *typename;
-+    char *name;
++    DisasContext *dc = container_of(dcbase, DisasContext, base);
 +
-+    typename = object_class_get_name(oc);
-+    name = g_strndup(typename, strlen(typename) - strlen("-" TYPE_ARC_CPU));
-+    qemu_printf("  %s\n", name);
-+    g_free(name);
++    qemu_log("IN: %s\n", lookup_symbol(dc->base.pc_first));
++    log_target_disas(cpu, dc->base.pc_first, dc->base.tb->size);
 +}
 +
-+void arc_cpu_list(void)
-+{
-+    GSList *list;
 +
-+    list = object_class_get_list(TYPE_ARC_CPU, false);
-+    list = g_slist_sort(list, arc_cpu_list_compare);
-+    qemu_printf("Available CPUs:\n");
-+    g_slist_foreach(list, arc_cpu_list_entry, NULL);
-+    g_slist_free(list);
++static const TranslatorOps arc_translator_ops = {
++    .init_disas_context = arc_tr_init_disas_context,
++    .tb_start           = arc_tr_tb_start,
++    .insn_start         = arc_tr_insn_start,
++    .breakpoint_check   = arc_tr_breakpoint_check,
++    .translate_insn     = arc_tr_translate_insn,
++    .tb_stop            = arc_tr_tb_stop,
++    .disas_log          = arc_tr_disas_log,
++};
++
++/* generate intermediate code for basic block 'tb'. */
++void gen_intermediate_code(CPUState *cpu,
++                           TranslationBlock *tb,
++                           int max_insns)
++{
++    DisasContext dc;
++    const TranslatorOps *ops = &arc_translator_ops;
++    translator_loop(ops, &dc.base, cpu, tb, max_insns);
 +}
 +
-+int arc_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
-+                            int len, bool is_write)
++void restore_state_to_opc(CPUARCState *env,
++                          TranslationBlock *tb,
++                          target_ulong *data)
 +{
-+    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
++    env->pc = data[0];
 +}
 +
-+hwaddr arc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++void arc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 +{
 +    ARCCPU *cpu = ARC_CPU(cs);
 +    CPUARCState *env = &cpu->env;
++    int i;
 +
-+    return arc_mmu_debug_translate(env, addr);
++
++    qemu_fprintf(f,
++                 "STATUS:  [ %c %c %c %c %c %c %s %s %s %s %s %s %c]\n",
++                 GET_STATUS_BIT(env->stat, Lf)  ? 'L' : '-',
++                 env->stat.Zf ? 'Z' : '-',
++                 env->stat.Nf ? 'N' : '-',
++                 env->stat.Cf ? 'C' : '-',
++                 env->stat.Vf ? 'V' : '-',
++                 GET_STATUS_BIT(env->stat, Uf)  ? 'U' : '-',
++                 env->stat.DEf ? "DE" : "--",
++                 GET_STATUS_BIT(env->stat, AEf) ? "AE" : "--",
++                 env->stat.Ef  ? "E" : "--",
++                 GET_STATUS_BIT(env->stat, DZf) ? "DZ" : "--",
++                 GET_STATUS_BIT(env->stat, SCf) ? "SC" : "--",
++                 env->stat.IEf ? "IE" : "--",
++                 GET_STATUS_BIT(env->stat, Hf)  ? 'H' : '-'
++                 );
++
++    qemu_fprintf(f, "\n");
++    for (i = 0; i < ARRAY_SIZE(env->r); i++) {
++        qemu_fprintf(f, "R[%02d]:  " TARGET_FMT_lx "   ", i, env->r[i]);
++
++        if ((i % 8) == 7) {
++            qemu_fprintf(f, "\n");
++        }
++    }
 +}
 +
-+void helper_debug(CPUARCState *env)
-+{
-+   CPUState *cs = env_cpu(env);
 +
-+   cs->exception_index = EXCP_DEBUG;
-+   cpu_loop_exit(cs);
-+}
-+
-+/*
-+ * raises a simple exception with causecode and parameter set to 0.
-+ * it also considers "pc" as the exception return address. this is
-+ * not true for a software trap.
-+ * it is very important that "env->host_pc" holds the recent value,
-+ * else the cpu_restore_state() will not be helpful and we end up
-+ * with incorrect registers in env.
-+ */
-+void QEMU_NORETURN arc_raise_exception(CPUARCState *env, int32_t excp_idx)
-+{
-+    CPUState *cs = env_cpu(env);
-+    cpu_restore_state(cs, env->host_pc, true);
-+    cs->exception_index = excp_idx;
-+    env->causecode = env->param = 0x0;
-+    env->eret  = env->pc;
-+    env->erbta = env->bta;
-+    cpu_loop_exit(cs);
-+}
-+
-+
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
 +/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/helper.h b/target/arc/helper.h
+diff --git a/target/arc/translate.h b/target/arc/translate.h
 new file mode 100644
-index 0000000000..1929c1682f
+index 0000000000..3986c2298e
 --- /dev/null
-+++ b/target/arc/helper.h
-@@ -0,0 +1,39 @@
++++ b/target/arc/translate.h
+@@ -0,0 +1,168 @@
 +/*
 + * QEMU ARC CPU
 + *
-+ * Copyright (c) 2020 Synopsys Inc.
++ * Copyright (c) 2020 Synppsys Inc.
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -485,767 +1663,157 @@ index 0000000000..1929c1682f
 + *
 + * You should have received a copy of the GNU Lesser General Public
 + * License along with this library; if not, see
-+ * href="http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+DEF_HELPER_1(debug, void, env)
-+DEF_HELPER_2(lr, tl, env, tl)
-+DEF_HELPER_3(sr, void, env, tl, tl)
-+DEF_HELPER_2(halt, noreturn, env, tl)
-+DEF_HELPER_1(rtie, void, env)
-+DEF_HELPER_1(flush, void, env)
-+DEF_HELPER_4(raise_exception, noreturn, env, tl, tl, tl)
-+DEF_HELPER_2(zol_verify, void, env, tl)
-+DEF_HELPER_2(fake_exception, void, env, tl)
-+DEF_HELPER_2(set_status32, void, env, tl)
-+DEF_HELPER_1(get_status32, tl, env)
-+DEF_HELPER_3(set_status32_bit, void, env, tl, tl)
-+
-+DEF_HELPER_FLAGS_3(carry_add_flag, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(overflow_add_flag, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(overflow_sub_flag, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(mpymu, TCG_CALL_NO_RWG_SE, tl, env, tl, tl)
-+DEF_HELPER_FLAGS_3(mpym, TCG_CALL_NO_RWG_SE, tl, env, tl, tl)
-+DEF_HELPER_FLAGS_3(repl_mask, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-diff --git a/target/arc/op_helper.c b/target/arc/op_helper.c
-new file mode 100644
-index 0000000000..1124541993
---- /dev/null
-+++ b/target/arc/op_helper.c
-@@ -0,0 +1,406 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synopsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
 + * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
++#ifndef ARC_TRANSLATE_H_
++#define ARC_TRANSLATE_H_
++
++
++#include "arc-common.h"
++
++#include "tcg/tcg.h"
 +#include "cpu.h"
-+#include "sysemu/runstate.h"
-+#include "exec/helper-proto.h"
-+#include "exec/cpu_ldst.h"
-+#include "exec/ioport.h"
-+#include "target/arc/regs.h"
-+#include "mmu.h"
-+#include "hw/arc/cpudevs.h"
-+#include "qemu/main-loop.h"
-+#include "irq.h"
-+#include "sysemu/sysemu.h"
 +#include "exec/exec-all.h"
++#include "disas/disas.h"
++#include "tcg/tcg-op.h"
++#include "exec/cpu_ldst.h"
++
++#include "exec/helper-proto.h"
++#include "exec/helper-gen.h"
++#include "exec/log.h"
++
++#include "exec/translator.h"
++
++/* signaling the end of translation block */
++#define DISAS_UPDATE        DISAS_TARGET_0
++#define DISAS_BRANCH_IN_DELAYSLOT DISAS_TARGET_1
++
++typedef struct DisasContext {
++    DisasContextBase base;
++
++    uint32_t cpc;   /*  current pc      */
++    uint32_t npc;   /*  next pc         */
++    uint32_t dpc;   /*  next next pc    */
++    uint32_t pcl;
++    uint32_t lpe;
++    uint32_t lps;
++
++    unsigned ds;    /*  we are within ds*/
++
++    /* TODO (issue #62): these must be removed */
++    TCGv     zero;  /*  0x00000000      */
++    TCGv     one;   /*  0x00000001      */
++
++    insn_t insn;
++
++    CPUARCState *env;
++
++    uint16_t buffer[2];
++    uint8_t  mem_idx;
++
++    bool in_delay_slot;
++
++    TCGv     tmp_reg;
++    TCGLabel *label;
++
++} DisasContext;
 +
 +
-+static target_ulong get_status32(CPUARCState *env)
-+{
-+    target_ulong value = pack_status32(&env->stat);
++#define cpu_gp     (cpu_r[26])
++#define cpu_fp     (cpu_r[27])
++#define cpu_sp     (cpu_r[28])
++#define cpu_ilink1 (cpu_r[29])
++#define cpu_ilink2 (cpu_r[30])
++#define cpu_blink  (cpu_r[31])
++#define cpu_acclo  (cpu_r[58])
++#define cpu_acchi  (cpu_r[59])
++#define cpu_lpc    (cpu_r[60])
++#define cpu_pcl    (cpu_r[63])
++#define cpu_limm   (cpu_r[62])
 +
-+    /* TODO: Implement debug mode */
-+    if (GET_STATUS_BIT(env->stat, Uf) == 1) {
-+        value &= 0x00000f00;
-+    }
++extern TCGv     cpu_S1f;
++extern TCGv     cpu_S2f;
++extern TCGv     cpu_CSf;
 +
-+    if (env->stopped) {
-+        value |= BIT(0);
-+    }
++extern TCGv     cpu_Ef;
++extern TCGv     cpu_IEf;
++extern TCGv     cpu_Vf;
++extern TCGv     cpu_Cf;
++extern TCGv     cpu_Nf;
++extern TCGv     cpu_Zf;
++extern TCGv     cpu_DEf;
 +
-+    return value;
-+}
++extern TCGv     cpu_is_delay_slot_instruction;
 +
-+static void set_status32(CPUARCState *env, target_ulong value)
-+{
-+    /* TODO: Implement debug mode. */
-+    bool debug_mode = false;
-+    if (GET_STATUS_BIT(env->stat, Uf) == 1) {
-+        value &= 0x00000f00;
-+    } else if (!debug_mode) {
-+        value &= 0xffff6f3f;
-+    }
++extern TCGv     cpu_l1_Ef;
++extern TCGv     cpu_l1_Vf;
++extern TCGv     cpu_l1_Cf;
++extern TCGv     cpu_l1_Nf;
++extern TCGv     cpu_l1_Zf;
++extern TCGv     cpu_l1_DEf;
 +
-+    if (GET_STATUS_BIT(env->stat, Uf) != ((value >> 7)  & 0x1)) {
-+        tlb_flush(env_cpu(env));
-+    }
++extern TCGv     cpu_l2_Ef;
++extern TCGv     cpu_l2_Vf;
++extern TCGv     cpu_l2_Cf;
++extern TCGv     cpu_l2_Nf;
++extern TCGv     cpu_l2_Zf;
++extern TCGv     cpu_l2_DEf;
 +
-+    unpack_status32(&env->stat, value);
++extern TCGv     cpu_er_Ef;
++extern TCGv     cpu_er_Vf;
++extern TCGv     cpu_er_Cf;
++extern TCGv     cpu_er_Nf;
++extern TCGv     cpu_er_Zf;
++extern TCGv     cpu_er_DEf;
 +
-+    /* Implement HALT functionality.  */
-+    if (value & 0x01) {
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+    }
-+}
++extern TCGv     cpu_eret;
++extern TCGv     cpu_erbta;
++extern TCGv     cpu_ecr;
++extern TCGv     cpu_efa;
 +
-+static void report_aux_reg_error(target_ulong aux)
-+{
-+    if (((aux >= ARC_BCR1_START) && (aux <= ARC_BCR1_END)) ||
-+        ((aux >= ARC_BCR2_START) && (aux <= ARC_BCR2_END))) {
-+        qemu_log_mask(LOG_UNIMP, "Undefined BCR 0x" TARGET_FMT_lx "\n", aux);
-+    }
++extern TCGv     cpu_pc;
++extern TCGv     cpu_lps;
++extern TCGv     cpu_lpe;
 +
-+    qemu_log_mask(LOG_UNIMP, "Undefined aux register with id 0x" TARGET_FMT_lx
-+                  "\n", aux);
-+}
++extern TCGv     cpu_npc;
 +
-+void helper_sr(CPUARCState *env, target_ulong val, target_ulong aux)
-+{
-+    /* saving return address in case an exception must be raised later */
-+    env->host_pc = GETPC();
-+    ARCCPU *cpu = env_archcpu(env);
-+    struct arc_aux_reg_detail *aux_reg_detail =
-+        arc_aux_reg_struct_for_address(aux, cpu->family);
++extern TCGv     cpu_bta;
++extern TCGv     cpu_bta_l1;
++extern TCGv     cpu_bta_l2;
 +
-+    g_assert(aux_reg_detail != NULL);
-+    if (aux_reg_detail == NULL) {
-+        report_aux_reg_error(aux);
-+        arc_raise_exception(env, EXCP_INST_ERROR);
-+    }
++extern TCGv     cpu_r[64];
 +
-+    if (aux_reg_detail->aux_reg->set_func != NULL) {
-+        aux_reg_detail->aux_reg->set_func(aux_reg_detail, val,
-+                                          (void *) env);
-+    } else {
-+        arc_raise_exception(env, EXCP_INST_ERROR);
-+    }
-+    cpu_outl(aux, val);
-+}
++extern TCGv     cpu_intvec;
++
++extern TCGv     cpu_lock_lf_var;
++
++extern TCGv     cpu_exception_delay_slot_address;
 +
 +
-+target_ulong helper_lr(CPUARCState *env, target_ulong aux)
-+{
-+    ARCCPU *cpu = env_archcpu(env);
-+    target_ulong result = 0;
++/* TODO: Remove DisasCtxt.  */
++typedef struct DisasContext DisasCtxt;
 +
-+    /* saving return address in case an exception must be raised later */
-+    env->host_pc = GETPC();
++void gen_goto_tb(const DisasContext *ctx, int n, TCGv dest);
 +
-+    struct arc_aux_reg_detail *aux_reg_detail =
-+        arc_aux_reg_struct_for_address(aux, cpu->family);
-+
-+    if (aux_reg_detail == NULL) {
-+        report_aux_reg_error(aux);
-+        arc_raise_exception(env, EXCP_INST_ERROR);
-+    }
-+
-+    if (aux_reg_detail->aux_reg->get_func != NULL) {
-+        result = aux_reg_detail->aux_reg->get_func(aux_reg_detail,
-+                                                   (void *) env);
-+    } else {
-+        arc_raise_exception(env, EXCP_INST_ERROR);
-+    }
-+
-+    return result;
-+}
-+
-+void QEMU_NORETURN helper_halt(CPUARCState *env, target_ulong npc)
-+{
-+    CPUState *cs = env_cpu(env);
-+    if (GET_STATUS_BIT(env->stat, Uf)) {
-+        cs->exception_index = EXCP_PRIVILEGEV;
-+        env->causecode = 0;
-+        env->param = 0;
-+         /* Restore PC such that we point at the faulty instruction.  */
-+        env->eret = env->pc;
-+    } else {
-+        env->pc = npc;
-+        cs->halted = 1;
-+        cs->exception_index = EXCP_HLT;
-+    }
-+    cpu_loop_exit(cs);
-+}
-+
-+void helper_rtie(CPUARCState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    if (GET_STATUS_BIT(env->stat, Uf)) {
-+        cs->exception_index = EXCP_PRIVILEGEV;
-+        env->causecode = 0;
-+        env->param = 0;
-+         /* Restore PC such that we point at the faulty instruction.  */
-+        env->eret = env->pc;
-+        cpu_loop_exit(cs);
-+        return;
-+    }
-+
-+    if (GET_STATUS_BIT(env->stat, AEf) || (env->aux_irq_act & 0xFFFF) == 0) {
-+        assert(GET_STATUS_BIT(env->stat, Uf) == 0);
-+
-+        CPU_PCL(env) = env->eret;
-+        env->pc = env->eret;
-+
-+        env->stat = env->stat_er;
-+        env->bta = env->erbta;
-+
-+        /* If returning to userland, restore SP.  */
-+        if (GET_STATUS_BIT(env->stat, Uf)) {
-+            switchSP(env);
-+        }
-+
-+        qemu_log_mask(CPU_LOG_INT, "[EXCP] RTIE @0x" TARGET_FMT_lx
-+                      " ECR:0x" TARGET_FMT_lx "\n",
-+                      (target_ulong) env->r[63], (target_ulong) env->ecr);
-+    } else {
-+        arc_rtie_interrupts(env);
-+        qemu_log_mask(CPU_LOG_INT, "[IRQ] RTIE @0x" TARGET_FMT_lx
-+                      " STATUS32:0x" TARGET_FMT_lx "\n",
-+                      (target_ulong) env->r[63],
-+                      (target_ulong) pack_status32(&env->stat));
-+    }
-+
-+    helper_zol_verify(env, env->pc);
-+}
-+
-+void helper_flush(CPUARCState *env)
-+{
-+    tb_flush((CPUState *) env_cpu(env));
-+}
++void decode_opc(CPUARCState *env, DisasContext *ctx);
 +
 +/*
-+ * This should only be called from translate, via gen_raise_exception.
-+ * We expect that ENV->PC has already been updated.
++ * Helper function to glue "rasing an exception" in the generated TCGs.
++ *
++ * ctx:         Disassembling context
++ * index:       ECR's index field
++ * causecode:   ECR's cause code filed
++ * param:       ECR's parameter field
 + */
++void arc_gen_excp(const DisasCtxt *ctx, uint32_t index,
++                  uint32_t causecode, uint32_t param);
 +
-+void QEMU_NORETURN helper_raise_exception(CPUARCState *env,
-+                                          target_ulong index,
-+                                          target_ulong causecode,
-+                                          target_ulong param)
-+{
-+    CPUState *cs = env_cpu(env);
-+    cs->exception_index = index;
-+    env->causecode = causecode;
-+    env->param = param;
-+    cpu_loop_exit(cs);
-+}
++#endif
 +
-+void helper_zol_verify(CPUARCState *env, target_ulong npc)
-+{
-+    CPUState *cs = env_cpu(env);
-+    if (npc == env->lpe) {
-+        if (env->r[60] > 1) {
-+            env->r[60] -= 1;
-+
-+            /*
-+             * Raise exception in case where Zero-overhead-loops needs
-+             * to jump.
-+             */
-+            cs->exception_index = EXCP_LPEND_REACHED;
-+            env->causecode = 0;
-+            env->param = env->lps;
-+            cpu_loop_exit(cs);
-+        } else {
-+            env->r[60] = 0;
-+        }
-+    }
-+}
-+void helper_fake_exception(CPUARCState *env, target_ulong pc)
-+{
-+    helper_raise_exception(env, (target_ulong) EXCP_FAKE, 0, pc);
-+}
-+
-+target_ulong helper_get_status32(CPUARCState *env)
-+{
-+    return get_status32(env);
-+}
-+
-+void helper_set_status32(CPUARCState *env, target_ulong value)
-+{
-+    set_status32(env, value);
-+}
-+
-+void helper_set_status32_bit(CPUARCState *env, target_ulong bit,
-+                             target_ulong value)
-+{
-+    target_ulong bit_mask = (1 << bit);
-+    /* Verify i changing bit is in pstate. Assert otherwise. */
-+    assert((bit_mask & PSTATE_MASK) == 0);
-+
-+    env->stat.pstate &= ~bit_mask;
-+    env->stat.pstate |= (value << bit);
-+}
-+
-+static inline target_ulong
-+carry_add_flag(target_ulong dest, target_ulong b, target_ulong c, uint8_t size)
-+{
-+    target_ulong t1, t2, t3;
-+
-+    t1 = b & c;
-+    t2 = b & (~dest);
-+    t3 = c & (~dest);
-+    t1 = t1 | t2 | t3;
-+    return (t1 >> (size - 1)) & 1;
-+}
-+
-+target_ulong helper_carry_add_flag(target_ulong dest, target_ulong b,
-+                                   target_ulong c) {
-+    return carry_add_flag(dest, b, c, TARGET_LONG_BITS);
-+}
-+
-+static inline target_ulong
-+overflow_add_flag(target_ulong dest, target_ulong b, target_ulong c,
-+                  uint8_t size)
-+{
-+    dest >>= (size - 1);
-+    b >>= (size - 1);
-+    c >>= (size - 1);
-+    if ((dest == 0 && b == 1 && c == 1)
-+        || (dest == 1 && b == 0 && c == 0)) {
-+        return 1;
-+    } else {
-+        return 0;
-+    }
-+}
-+target_ulong helper_overflow_add_flag(target_ulong dest, target_ulong b,
-+                                      target_ulong c) {
-+    return overflow_add_flag(dest, b, c, TARGET_LONG_BITS);
-+}
-+
-+static inline target_ulong
-+overflow_sub_flag(target_ulong dest, target_ulong b, target_ulong c,
-+                  uint8_t size)
-+{
-+    dest >>= (size - 1);
-+    b >>= (size - 1);
-+    c >>= (size - 1);
-+    if ((dest == 1 && b == 0 && c == 1)
-+        || (dest == 0 && b == 1 && c == 0)) {
-+        return 1;
-+    } else {
-+        return 0;
-+    }
-+}
-+target_ulong helper_overflow_sub_flag(target_ulong dest, target_ulong b,
-+                                      target_ulong c) {
-+    return overflow_sub_flag(dest, b, c, TARGET_LONG_BITS);
-+}
-+
-+target_ulong helper_repl_mask(target_ulong dest, target_ulong src,
-+                              target_ulong mask)
-+{
-+    target_ulong ret = dest & (~mask);
-+    ret |= (src & mask);
-+
-+    return ret;
-+}
-+
-+target_ulong helper_mpymu(CPUARCState *env, target_ulong b, target_ulong c)
-+{
-+    uint64_t _b = (uint64_t) b;
-+    uint64_t _c = (uint64_t) c;
-+
-+    return (uint32_t) ((_b * _c) >> 32);
-+}
-+
-+target_ulong helper_mpym(CPUARCState *env, target_ulong b, target_ulong c)
-+{
-+    int64_t _b = (int64_t) ((int32_t) b);
-+    int64_t _c = (int64_t) ((int32_t) c);
-+
-+    /*
-+     * fprintf(stderr, "B = 0x%llx, C = 0x%llx, result = 0x%llx\n",
-+     *         _b, _c, _b * _c);
-+     */
-+    return (_b * _c) >> 32;
-+}
-+
-+target_ulong
-+arc_status_regs_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                    void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    target_ulong reg = 0;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_status32:
-+        reg = get_status32(env);
-+        break;
-+
-+    case AUX_ID_erstatus:
-+        if (is_user_mode(env)) {
-+            arc_raise_exception(env, EXCP_PRIVILEGEV);
-+        }
-+        reg = pack_status32(&env->stat_er);
-+        break;
-+
-+    default:
-+        break;
-+    }
-+
-+    return reg;
-+}
-+
-+void
-+arc_status_regs_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                    target_ulong val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+
-+    switch (aux_reg_detail->id) {
-+
-+    case AUX_ID_status32:
-+        set_status32(env, val);
-+        break;
-+
-+    case AUX_ID_erstatus:
-+        unpack_status32(&env->stat_er, val);
-+        break;
-+
-+    default:
-+        break;
-+    }
-+}
-+
-+/*
-+ * uint32_t lf_variable = 0;
-+ * uint32_t helper_get_lf(void)
-+ * {
-+ *   return lf_variable;
-+ * }
-+ * void helper_set_lf(uint32_t v)
-+ * {
-+ *   lf_variable = v;
-+ * }
-+ */
 +
 +/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
 +/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/semfunc_mapping.def b/target/arc/semfunc_mapping.def
-new file mode 100644
-index 0000000000..ab8d9ff123
---- /dev/null
-+++ b/target/arc/semfunc_mapping.def
-@@ -0,0 +1,321 @@
-+/*
-+ * QEMU ARC SEMANTIC MAPPING.
-+ *
-+ * Copyright (c) 2020 Synopsys, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+SEMANTIC_FUNCTION(FLAG, 1)
-+SEMANTIC_FUNCTION(KFLAG, 1)
-+SEMANTIC_FUNCTION(ADD, 3)
-+SEMANTIC_FUNCTION(ADD1, 3)
-+SEMANTIC_FUNCTION(ADD2, 3)
-+SEMANTIC_FUNCTION(ADD3, 3)
-+SEMANTIC_FUNCTION(ADC, 3)
-+SEMANTIC_FUNCTION(SBC, 3)
-+SEMANTIC_FUNCTION(NEG, 2)
-+SEMANTIC_FUNCTION(SUB, 3)
-+SEMANTIC_FUNCTION(SUB1, 3)
-+SEMANTIC_FUNCTION(SUB2, 3)
-+SEMANTIC_FUNCTION(SUB3, 3)
-+SEMANTIC_FUNCTION(MAX, 3)
-+SEMANTIC_FUNCTION(MIN, 3)
-+SEMANTIC_FUNCTION(CMP, 2)
-+SEMANTIC_FUNCTION(AND, 3)
-+SEMANTIC_FUNCTION(OR, 3)
-+SEMANTIC_FUNCTION(XOR, 3)
-+SEMANTIC_FUNCTION(MOV, 2)
-+SEMANTIC_FUNCTION(ASL, 3)
-+SEMANTIC_FUNCTION(ASR, 3)
-+SEMANTIC_FUNCTION(ASR8, 2)
-+SEMANTIC_FUNCTION(ASR16, 2)
-+SEMANTIC_FUNCTION(LSL16, 2)
-+SEMANTIC_FUNCTION(LSL8, 2)
-+SEMANTIC_FUNCTION(LSR, 3)
-+SEMANTIC_FUNCTION(LSR16, 2)
-+SEMANTIC_FUNCTION(LSR8, 2)
-+SEMANTIC_FUNCTION(BIC, 3)
-+SEMANTIC_FUNCTION(BCLR, 3)
-+SEMANTIC_FUNCTION(BMSK, 3)
-+SEMANTIC_FUNCTION(BMSKN, 3)
-+SEMANTIC_FUNCTION(BSET, 3)
-+SEMANTIC_FUNCTION(BXOR, 3)
-+SEMANTIC_FUNCTION(ROL, 2)
-+SEMANTIC_FUNCTION(ROL8, 2)
-+SEMANTIC_FUNCTION(ROR, 3)
-+SEMANTIC_FUNCTION(ROR8, 2)
-+SEMANTIC_FUNCTION(RLC, 2)
-+SEMANTIC_FUNCTION(RRC, 2)
-+SEMANTIC_FUNCTION(SEXB, 2)
-+SEMANTIC_FUNCTION(SEXH, 2)
-+SEMANTIC_FUNCTION(EXTB, 2)
-+SEMANTIC_FUNCTION(EXTH, 2)
-+SEMANTIC_FUNCTION(BTST, 2)
-+SEMANTIC_FUNCTION(TST, 2)
-+SEMANTIC_FUNCTION(XBFU, 3)
-+SEMANTIC_FUNCTION(AEX, 2)
-+SEMANTIC_FUNCTION(LR, 2)
-+SEMANTIC_FUNCTION(CLRI, 1)
-+SEMANTIC_FUNCTION(SETI, 1)
-+SEMANTIC_FUNCTION(NOP, 0)
-+SEMANTIC_FUNCTION(PREALLOC, 0)
-+SEMANTIC_FUNCTION(PREFETCH, 2)
-+SEMANTIC_FUNCTION(MPY, 3)
-+SEMANTIC_FUNCTION(MPYMU, 3)
-+SEMANTIC_FUNCTION(MPYM, 3)
-+SEMANTIC_FUNCTION(MPYU, 3)
-+SEMANTIC_FUNCTION(MPYUW, 3)
-+SEMANTIC_FUNCTION(MPYW, 3)
-+SEMANTIC_FUNCTION(DIV, 3)
-+SEMANTIC_FUNCTION(DIVU, 3)
-+SEMANTIC_FUNCTION(REM, 3)
-+SEMANTIC_FUNCTION(REMU, 3)
-+SEMANTIC_FUNCTION(MAC, 3)
-+SEMANTIC_FUNCTION(MACU, 3)
-+SEMANTIC_FUNCTION(MACD, 3)
-+SEMANTIC_FUNCTION(MACDU, 3)
-+SEMANTIC_FUNCTION(ABS, 2)
-+SEMANTIC_FUNCTION(SWAP, 2)
-+SEMANTIC_FUNCTION(SWAPE, 2)
-+SEMANTIC_FUNCTION(NOT, 2)
-+SEMANTIC_FUNCTION(BI, 1)
-+SEMANTIC_FUNCTION(BIH, 1)
-+SEMANTIC_FUNCTION(B, 1)
-+SEMANTIC_FUNCTION(B_S, 1)
-+SEMANTIC_FUNCTION(BBIT0, 3)
-+SEMANTIC_FUNCTION(BBIT1, 3)
-+SEMANTIC_FUNCTION(BL, 1)
-+SEMANTIC_FUNCTION(J, 1)
-+SEMANTIC_FUNCTION(JL, 1)
-+SEMANTIC_FUNCTION(SETEQ, 3)
-+SEMANTIC_FUNCTION(BREQ, 3)
-+SEMANTIC_FUNCTION(SETNE, 3)
-+SEMANTIC_FUNCTION(BRNE, 3)
-+SEMANTIC_FUNCTION(SETLT, 3)
-+SEMANTIC_FUNCTION(BRLT, 3)
-+SEMANTIC_FUNCTION(SETGE, 3)
-+SEMANTIC_FUNCTION(BRGE, 3)
-+SEMANTIC_FUNCTION(SETLE, 3)
-+SEMANTIC_FUNCTION(SETGT, 3)
-+SEMANTIC_FUNCTION(BRLO, 3)
-+SEMANTIC_FUNCTION(SETLO, 3)
-+SEMANTIC_FUNCTION(BRHS, 3)
-+SEMANTIC_FUNCTION(SETHS, 3)
-+SEMANTIC_FUNCTION(EX, 2)
-+SEMANTIC_FUNCTION(LLOCK, 2)
-+SEMANTIC_FUNCTION(LLOCKD, 2)
-+SEMANTIC_FUNCTION(SCOND, 2)
-+SEMANTIC_FUNCTION(SCONDD, 2)
-+SEMANTIC_FUNCTION(DMB, 1)
-+SEMANTIC_FUNCTION(LD, 3)
-+SEMANTIC_FUNCTION(LDD, 3)
-+SEMANTIC_FUNCTION(ST, 3)
-+SEMANTIC_FUNCTION(STD, 3)
-+SEMANTIC_FUNCTION(POP, 1)
-+SEMANTIC_FUNCTION(PUSH, 1)
-+SEMANTIC_FUNCTION(LP, 1)
-+SEMANTIC_FUNCTION(NORM, 2)
-+SEMANTIC_FUNCTION(NORMH, 2)
-+SEMANTIC_FUNCTION(FLS, 2)
-+SEMANTIC_FUNCTION(FFS, 2)
-+
-+
-+MAPPING(flag, FLAG, 1, 0)
-+MAPPING(kflag, KFLAG, 1, 0)
-+MAPPING(add, ADD, 3, 1, 2, 0)
-+MAPPING(add_s, ADD, 3, 1, 2, 0)
-+MAPPING(add1, ADD1, 3, 1, 2, 0)
-+MAPPING(add1_s, ADD1, 3, 1, 2, 0)
-+MAPPING(add2, ADD2, 3, 1, 2, 0)
-+MAPPING(add2_s, ADD2, 3, 1, 2, 0)
-+MAPPING(add3, ADD3, 3, 1, 2, 0)
-+MAPPING(add3_s, ADD3, 3, 1, 2, 0)
-+MAPPING(adc, ADC, 3, 1, 2, 0)
-+MAPPING(sbc, SBC, 3, 1, 2, 0)
-+MAPPING(neg, NEG, 2, 1, 0)
-+MAPPING(neg_s, NEG, 2, 1, 0)
-+MAPPING(sub, SUB, 3, 1, 2, 0)
-+MAPPING(sub_s, SUB, 3, 1, 2, 0)
-+MAPPING(rsub, SUB, 3, 2, 1, 0)
-+MAPPING(sub1, SUB1, 3, 1, 2, 0)
-+MAPPING(sub2, SUB2, 3, 1, 2, 0)
-+MAPPING(sub3, SUB3, 3, 1, 2, 0)
-+MAPPING(max, MAX, 3, 1, 2, 0)
-+MAPPING(min, MIN, 3, 1, 2, 0)
-+MAPPING(cmp, CMP, 2, 0, 1)
-+MAPPING(cmp_s, CMP, 2, 0, 1)
-+MAPPING(rcmp, CMP, 2, 1, 0)
-+MAPPING(and, AND, 3, 1, 2, 0)
-+MAPPING(and_s, AND, 3, 1, 2, 0)
-+MAPPING(or, OR, 3, 1, 2, 0)
-+MAPPING(or_s, OR, 3, 1, 2, 0)
-+MAPPING(xor, XOR, 3, 1, 2, 0)
-+MAPPING(xor_s, XOR, 3, 1, 2, 0)
-+MAPPING(mov, MOV, 2, 1, 0)
-+MAPPING(mov_s, MOV, 2, 1, 0)
-+CONSTANT(ASL, asl, 2, 268435457) /* For variable @c */
-+MAPPING(asl, ASL, 3, 1, 2, 0)
-+CONSTANT(ASL, asl_s, 2, 268435457) /* For variable @c */
-+MAPPING(asl_s, ASL, 3, 1, 2, 0)
-+CONSTANT(ASR, asr, 2, 1) /* For variable @c */
-+MAPPING(asr, ASR, 3, 1, 2, 0)
-+CONSTANT(ASR, asr_s, 2, 1) /* For variable @c */
-+MAPPING(asr_s, ASR, 3, 1, 2, 0)
-+MAPPING(asr8, ASR8, 2, 1, 0)
-+MAPPING(asr16, ASR16, 2, 1, 0)
-+MAPPING(lsl16, LSL16, 2, 1, 0)
-+MAPPING(lsl8, LSL8, 2, 1, 0)
-+CONSTANT(LSR, lsr, 2, 1) /* For variable @c */
-+MAPPING(lsr, LSR, 3, 1, 2, 0)
-+CONSTANT(LSR, lsr_s, 2, 1) /* For variable @c */
-+MAPPING(lsr_s, LSR, 3, 1, 2, 0)
-+MAPPING(lsr16, LSR16, 2, 1, 0)
-+MAPPING(lsr8, LSR8, 2, 1, 0)
-+MAPPING(bic, BIC, 3, 1, 2, 0)
-+MAPPING(bic_s, BIC, 3, 1, 2, 0)
-+MAPPING(bclr, BCLR, 3, 2, 1, 0)
-+MAPPING(bclr_s, BCLR, 3, 2, 1, 0)
-+MAPPING(bmsk, BMSK, 3, 2, 1, 0)
-+MAPPING(bmsk_s, BMSK, 3, 2, 1, 0)
-+MAPPING(bmskn, BMSKN, 3, 2, 1, 0)
-+MAPPING(bset, BSET, 3, 2, 1, 0)
-+MAPPING(bset_s, BSET, 3, 2, 1, 0)
-+MAPPING(bxor, BXOR, 3, 2, 1, 0)
-+MAPPING(rol, ROL, 2, 1, 0)
-+MAPPING(rol8, ROL8, 2, 1, 0)
-+CONSTANT(ROR, ror, 2, 1) /* For variable @n */
-+MAPPING(ror, ROR, 3, 1, 2, 0)
-+MAPPING(ror8, ROR8, 2, 1, 0)
-+MAPPING(rlc, RLC, 2, 1, 0)
-+MAPPING(rrc, RRC, 2, 1, 0)
-+MAPPING(sexb, SEXB, 2, 0, 1)
-+MAPPING(sexb_s, SEXB, 2, 0, 1)
-+MAPPING(sexh, SEXH, 2, 0, 1)
-+MAPPING(sexh_s, SEXH, 2, 0, 1)
-+MAPPING(extb, EXTB, 2, 0, 1)
-+MAPPING(extb_s, EXTB, 2, 0, 1)
-+MAPPING(exth, EXTH, 2, 0, 1)
-+MAPPING(exth_s, EXTH, 2, 0, 1)
-+MAPPING(btst, BTST, 2, 1, 0)
-+MAPPING(btst_s, BTST, 2, 1, 0)
-+MAPPING(tst, TST, 2, 0, 1)
-+MAPPING(tst_s, TST, 2, 0, 1)
-+MAPPING(xbfu, XBFU, 3, 2, 1, 0)
-+MAPPING(aex, AEX, 2, 1, 0)
-+MAPPING(lr, LR, 2, 0, 1)
-+MAPPING(clri, CLRI, 1, 0)
-+MAPPING(seti, SETI, 1, 0)
-+MAPPING(nop, NOP, 0)
-+MAPPING(nop_s, NOP, 0)
-+MAPPING(prealloc, PREALLOC, 0)
-+CONSTANT(PREFETCH, prefetch, 1, 0) /* For variable @src2 */
-+MAPPING(prefetch, PREFETCH, 2, 0, 1)
-+CONSTANT(PREFETCH, prefetchw, 1, 0) /* For variable @src2 */
-+MAPPING(prefetchw, PREFETCH, 2, 0, 1)
-+MAPPING(mpy, MPY, 3, 1, 2, 0)
-+MAPPING(mpy_s, MPY, 3, 1, 2, 0)
-+MAPPING(mpymu, MPYMU, 3, 0, 1, 2)
-+MAPPING(mpym, MPYM, 3, 0, 1, 2)
-+MAPPING(mpyu, MPYU, 3, 1, 2, 0)
-+MAPPING(mpyuw, MPYUW, 3, 0, 1, 2)
-+MAPPING(mpyuw_s, MPYUW, 3, 0, 1, 2)
-+MAPPING(mpyw, MPYW, 3, 0, 1, 2)
-+MAPPING(mpyw_s, MPYW, 3, 0, 1, 2)
-+MAPPING(div, DIV, 3, 2, 1, 0)
-+MAPPING(divu, DIVU, 3, 2, 0, 1)
-+MAPPING(rem, REM, 3, 2, 1, 0)
-+MAPPING(remu, REMU, 3, 2, 0, 1)
-+MAPPING(mac, MAC, 3, 1, 2, 0)
-+MAPPING(macu, MACU, 3, 1, 2, 0)
-+MAPPING(macd, MACD, 3, 1, 2, 0)
-+MAPPING(macdu, MACDU, 3, 1, 2, 0)
-+MAPPING(abs, ABS, 2, 1, 0)
-+MAPPING(abs_s, ABS, 2, 1, 0)
-+MAPPING(swap, SWAP, 2, 1, 0)
-+MAPPING(swape, SWAPE, 2, 1, 0)
-+MAPPING(not, NOT, 2, 0, 1)
-+MAPPING(not_s, NOT, 2, 0, 1)
-+MAPPING(bi, BI, 1, 0)
-+MAPPING(bih, BIH, 1, 0)
-+MAPPING(b, B, 1, 0)
-+MAPPING(beq_s, B_S, 1, 0)
-+MAPPING(bne_s, B_S, 1, 0)
-+MAPPING(bgt_s, B_S, 1, 0)
-+MAPPING(bge_s, B_S, 1, 0)
-+MAPPING(blt_s, B_S, 1, 0)
-+MAPPING(ble_s, B_S, 1, 0)
-+MAPPING(bhi_s, B_S, 1, 0)
-+MAPPING(bhs_s, B_S, 1, 0)
-+MAPPING(blo_s, B_S, 1, 0)
-+MAPPING(bls_s, B_S, 1, 0)
-+MAPPING(b_s, B_S, 1, 0)
-+MAPPING(bbit0, BBIT0, 3, 0, 1, 2)
-+MAPPING(bbit1, BBIT1, 3, 0, 1, 2)
-+MAPPING(bl, BL, 1, 0)
-+MAPPING(bl_s, BL, 1, 0)
-+MAPPING(j, J, 1, 0)
-+MAPPING(j_s, J, 1, 0)
-+MAPPING(jeq_s, J, 1, 0)
-+MAPPING(jne_s, J, 1, 0)
-+MAPPING(jl, JL, 1, 0)
-+MAPPING(jl_s, JL, 1, 0)
-+MAPPING(seteq, SETEQ, 3, 1, 2, 0)
-+MAPPING(breq, BREQ, 3, 0, 1, 2)
-+MAPPING(breq_s, BREQ, 3, 0, 1, 2)
-+MAPPING(setne, SETNE, 3, 1, 2, 0)
-+MAPPING(brne, BRNE, 3, 0, 1, 2)
-+MAPPING(brne_s, BRNE, 3, 0, 1, 2)
-+MAPPING(setlt, SETLT, 3, 1, 2, 0)
-+MAPPING(brlt, BRLT, 3, 0, 1, 2)
-+MAPPING(setge, SETGE, 3, 1, 2, 0)
-+MAPPING(brge, BRGE, 3, 0, 1, 2)
-+MAPPING(setle, SETLE, 3, 1, 2, 0)
-+MAPPING(setgt, SETGT, 3, 1, 2, 0)
-+MAPPING(brlo, BRLO, 3, 0, 1, 2)
-+MAPPING(setlo, SETLO, 3, 1, 2, 0)
-+MAPPING(brhs, BRHS, 3, 0, 1, 2)
-+MAPPING(seths, SETHS, 3, 1, 2, 0)
-+MAPPING(ex, EX, 2, 0, 1)
-+MAPPING(llock, LLOCK, 2, 0, 1)
-+MAPPING(llockd, LLOCKD, 2, 0, 1)
-+MAPPING(scond, SCOND, 2, 1, 0)
-+MAPPING(scondd, SCONDD, 2, 1, 0)
-+MAPPING(dmb, DMB, 1, 0)
-+CONSTANT(LD, ld, 2, 0) /* For variable @src2 */
-+MAPPING(ld, LD, 3, 1, 2, 0)
-+MAPPING(ld_s, LD, 3, 1, 2, 0)
-+MAPPING(ldb_s, LD, 3, 1, 2, 0)
-+MAPPING(ldh_s, LD, 3, 1, 2, 0)
-+MAPPING(ldw_s, LD, 3, 1, 2, 0)
-+CONSTANT(LD, ldi, 2, 0) /* For variable @src2 */
-+MAPPING(ldi, LD, 3, 1, 2, 0)
-+CONSTANT(LD, ldi_s, 2, 0) /* For variable @src2 */
-+MAPPING(ldi_s, LD, 3, 1, 2, 0)
-+CONSTANT(LDD, ldd, 2, 0) /* For variable @src2 */
-+MAPPING(ldd, LDD, 3, 1, 2, 0)
-+CONSTANT(ST, st, 2, 0) /* For variable @src2 */
-+MAPPING(st, ST, 3, 1, 2, 0)
-+MAPPING(st_s, ST, 3, 1, 2, 0)
-+MAPPING(stb_s, ST, 3, 1, 2, 0)
-+MAPPING(sth_s, ST, 3, 1, 2, 0)
-+MAPPING(stw_s, ST, 3, 1, 2, 0)
-+CONSTANT(STD, std, 2, 0) /* For variable @src2 */
-+MAPPING(std, STD, 3, 1, 2, 0)
-+MAPPING(pop_s, POP, 1, 0)
-+MAPPING(push_s, PUSH, 1, 0)
-+MAPPING(lp, LP, 1, 0)
-+MAPPING(norm, NORM, 2, 1, 0)
-+MAPPING(normh, NORMH, 2, 1, 0)
-+MAPPING(fls, FLS, 2, 1, 0)
-+MAPPING(ffs, FFS, 2, 1, 0)
 -- 
 2.20.1
 
