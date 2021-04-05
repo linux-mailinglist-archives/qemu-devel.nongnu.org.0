@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092F0354305
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:52:58 +0200 (CEST)
-Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5C13542F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:47:17 +0200 (CEST)
+Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTQb3-0001fo-2W
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:52:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42248)
+	id 1lTQVY-00037B-Gz
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQHF-0001Js-6u
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:29 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:46843)
+ id 1lTQHB-0001Ca-Ed
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:25 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:41809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQH6-0001i0-W9
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:28 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- z6-20020a1c4c060000b029010f13694ba2so5715418wmf.5
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
+ id 1lTQH6-0001iN-Vt
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:25 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ t5-20020a1c77050000b029010e62cea9deso5737190wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YhFi6ew9ebUXbfHws9ooiwmIKtVdpr9l/XiieRbA20w=;
- b=WpOZTRZrUrfzk1RZk2UOU7+v1P//HetAzEkW2XZgcE66EMQb6HVcPlP2qxNEiAjqUn
- u5vQ5OKhQo84Y1/4uosep3jnnwsns1YzK899Wi57xUnmj52AXmO32pN5iPQKRjgKjjue
- c1+7g69sDatwX8P7Y60Jwg2ntaGzFLhglYG7EqPOaYPmEQCsP7qi9i+JiWVeAAAOpv3E
- 6/ze2xSBixdGuES3/JvkF9SZXG2HOs/ngx6aE5MhhI3aMkkG52TLL0eyaE2zSvSDMN68
- 1XBW2atxdrPbcJfJedx8dWfBwVOTe29TzYunYPIwkcszBTJR/+qwsKePQhgGES5S4Kb/
- lJoA==
+ bh=nVm4SS8WVxKQiMgAE8qFuS0IjamCmWJyqE18TyAYMbg=;
+ b=ptyHyofH7S0oxjg86v5cSJAYztZDff2RFbHn+/EoBOpu86Q8BWNktedOVzbYuTXlsd
+ qGCFV7O7cL/oLkHHxckhkMPcD6w29NlQ4lVjQWx8tD2kRmgviIznqpbHCgSqUijJzWhV
+ z/D1LYokZMkfcwo906e/Ha1e684ywWMOQG9KzdMXvh4L754UlTJREcB+7sdNsRNW+WY3
+ yxpIbogCkbhWbb/m1VEtzfv3BEwZA5lCFO1Eq6iuZyUvRggb0o9S+Beo3D5QnkE/Ce5T
+ Lz592I06RqTf50HsdOu8eE2vg+ZAJafRmS1n/cWEGXGsmjCfixJM6KhUG/L6vbpr2OGp
+ yz4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YhFi6ew9ebUXbfHws9ooiwmIKtVdpr9l/XiieRbA20w=;
- b=eEd+zg7voAaYapyee0VY4FFfsCO1kyxbjfeggzAeUba9ZrOvCb+nk/FdM3uWMbXh6X
- 2peedQ3gQV/47fvd9GoOFZUyAe0vLCpLyyA8C0CGjBPd5riG5fOguLlIHLmff9TADaIG
- vOOkf+IlpmG62avF1WpjdRpvq5te2o6pyhjHe8Aqx4hbtuwTWzAVEML2GqyzUxwb1zmM
- GfidVTfQDEVWpVj4HGbENGGN7T6a7cF4ErFtwMUmALcNvaamTq+od7DgbZtAHxyUZP2y
- S5vjwGq/pGYu9qGZl62MFp24YERYEA7Rf1h6pORisU8sKWe0Kuzq6QAOJKItl2NU8K/f
- NcKQ==
-X-Gm-Message-State: AOAM5330bYw3riJZxjP5oMYXM/nI2L9oRDFCC6oACtTMC9eYU7tZDGeD
- OgodkLY6NrXv+Tim2N9erRK3/7iPMQo/kw==
-X-Google-Smtp-Source: ABdhPJwe9nKtqM3S7I7qfdGh3raSrQLhpklXzkQuSvFoYNMCXCEYHhmmrGcG7kWgo4kjOS2R/jhT5Q==
-X-Received: by 2002:a1c:b683:: with SMTP id g125mr2476237wmf.53.1617633136098; 
- Mon, 05 Apr 2021 07:32:16 -0700 (PDT)
+ bh=nVm4SS8WVxKQiMgAE8qFuS0IjamCmWJyqE18TyAYMbg=;
+ b=mmUAXpE2i14U64PvVVbOnSVj/g9qcsESWX10gsM7YCdwbRICeDzabjX9blrq3IPMGT
+ 9Ms40AKKpwDj/BtxDwC5aBUWcNGcnF2AK0gyzKa2AYEJlBH9v2itKmHD00Gf9FQ1EDxs
+ 3eqFt/d5h+h8IZPPZZ8XUJPUVZ6iM2UTFoTUOr+Sx/j6KDEpAktrcawbcBDlZrYJ/+zC
+ Y+Bs71rt+SA9zVQku2lniNdXtd4Z3rnD2/OI7XXhIIyvrp835K+rXD6lVXqUWbTrsuV3
+ EnBrwq97iB7SqySEp1lTtr5hCjI4bK/n3UfSYAKwRPRIXrRZfQVu7Hvqevirbhvs+e2e
+ v14Q==
+X-Gm-Message-State: AOAM533ps0dbu15/N5IlQXcrdPgUX27wHlq3RnqKDQRMZ/O6mS9P6Y0D
+ PDgVgv2xi+3oKKWJ2Tmyf8QW6VBzpHtuZQ==
+X-Google-Smtp-Source: ABdhPJwVoJTTWNiHw7ZqcjOPQtU5WMskRhxblP8PVrO0Io5WmSed8syRjnoD9wqOAAimNL2u61a/qA==
+X-Received: by 2002:a1c:1fcb:: with SMTP id f194mr7336090wmf.79.1617633137058; 
+ Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
- by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.15
+ by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:15 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:16 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/27] arc: Add BCR and AUX registers implementation
-Date: Mon,  5 Apr 2021 15:31:19 +0100
-Message-Id: <20210405143138.17016-9-cupertinomiranda@gmail.com>
+Subject: [PATCH 09/27] arc: Add IRQ and timer subsystem support
+Date: Mon,  5 Apr 2021 15:31:20 +0100
+Message-Id: <20210405143138.17016-10-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,821 +89,35 @@ Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cupertino Miranda <cmiranda@synopsys.com>
+From: Claudiu Zissulescu <claziss@synopsys.com>
 
-Add the infrastructure to define build configuration (BCR) and auxiliary
-registers allowing independent modules (MMU, MPU, etc.) to use and extend
-them.
-
-Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
+Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
 ---
- target/arc/cache.c         | 182 +++++++++++++
- target/arc/cache.h         |  36 +++
- target/arc/regs-detail.def | 540 +++++++++++++++++++++++++++++++++++++
- target/arc/regs-impl.c     | 181 +++++++++++++
- target/arc/regs.c          | 183 +++++++++++++
- target/arc/regs.def        | 412 ++++++++++++++++++++++++++++
- target/arc/regs.h          | 139 ++++++++++
- 7 files changed, 1673 insertions(+)
- create mode 100644 target/arc/cache.c
- create mode 100644 target/arc/cache.h
- create mode 100644 target/arc/regs-detail.def
- create mode 100644 target/arc/regs-impl.c
- create mode 100644 target/arc/regs.c
- create mode 100644 target/arc/regs.def
- create mode 100644 target/arc/regs.h
+ target/arc/irq.c   | 680 +++++++++++++++++++++++++++++++++++++++++++++
+ target/arc/irq.h   |  37 +++
+ target/arc/timer.c | 459 ++++++++++++++++++++++++++++++
+ target/arc/timer.h |  27 ++
+ 4 files changed, 1203 insertions(+)
+ create mode 100644 target/arc/irq.c
+ create mode 100644 target/arc/irq.h
+ create mode 100644 target/arc/timer.c
+ create mode 100644 target/arc/timer.h
 
-diff --git a/target/arc/cache.c b/target/arc/cache.c
+diff --git a/target/arc/irq.c b/target/arc/irq.c
 new file mode 100644
-index 0000000000..86fae84ccb
+index 0000000000..75111a87a8
 --- /dev/null
-+++ b/target/arc/cache.c
-@@ -0,0 +1,182 @@
++++ b/target/arc/irq.c
+@@ -0,0 +1,680 @@
 +/*
-+ * QEMU ARC CPU
++ * QEMU ARC CPU - IRQ subsystem
 + *
-+ * Copyright (c) 2020 Synppsys Inc.
++ * Copyright (c) 2020 Synopsys Inc.
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
 + * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/hw.h"
-+#include "cpu.h"
-+#include "target/arc/regs.h"
-+#include "target/arc/cache.h"
-+
-+void arc_cache_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                       target_ulong val, void *data)
-+{
-+
-+    CPUARCState *env = (CPUARCState *) data;
-+    struct arc_cache *cache = &env->cache;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_ic_ivic:
-+    case AUX_ID_ic_ivil:
-+    case AUX_ID_dc_ivdc:
-+    case AUX_ID_dc_ivdl:
-+    case AUX_ID_dc_flsh:
-+    case AUX_ID_dc_fldl:
-+    case AUX_ID_dc_startr:
-+       /* Do nothing as we don't simulate cache memories */
-+       break;
-+
-+    case AUX_ID_ic_ctrl:
-+        cache->ic_disabled = val & 1;
-+        break;
-+
-+    case AUX_ID_ic_ivir:
-+        cache->ic_ivir = val & 0xffffff00;
-+        break;
-+
-+    case AUX_ID_ic_endr:
-+        cache->ic_endr = val & 0xffffff00;
-+        break;
-+
-+    case AUX_ID_ic_ptag:
-+        cache->ic_ptag = val;
-+        break;
-+
-+    case AUX_ID_ic_ptag_hi:
-+        cache->ic_ptag_hi = val & 0xff;
-+        break;
-+
-+/*
-+ * Description of the register content in order:
-+ *   DC - Disable Cache: Enables/Disables the cache: 0 - Enabled, 1 - Disabled
-+ *   IM - Invalidate Mode: Selects the invalidate type
-+ */
-+    case AUX_ID_dc_ctrl:
-+        cache->dc_disabled = val & 1; /* DC */
-+        cache->dc_inv_mode = (val >> 6) & 1; /* IM */
-+        break;
-+
-+    case AUX_ID_dc_endr:
-+        cache->dc_endr = val & 0xffffff00;
-+        break;
-+
-+    case AUX_ID_dc_ptag_hi:
-+        cache->dc_ptag_hi = val & 0xff;
-+        break;
-+
-+    default:
-+        hw_error("%s@%d: Attempt to write read-only register 0x%02x!\n",
-+                 __func__, __LINE__, (unsigned int)aux_reg_detail->id);
-+        break;
-+    }
-+
-+    return;
-+}
-+
-+target_ulong arc_cache_aux_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                               void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    struct arc_cache *cache = &env->cache;
-+    uint32_t reg = 0;
-+
-+    switch (aux_reg_detail->id) {
-+/*
-+ * Description of the register content in order.
-+ * Layout:  -------- -DFFBBBB CCCCAAAA VVVVVVVV
-+ *   D - indicates that IC is disabled on reset
-+ *   FL - Feature level: 10b - line lock, invalidate, advanced debug features
-+ *   BSize - indicates the cache block size in bytes: 0011b - 64 bytes
-+ *   Cache capacity: 0111b - 64 Kbytes
-+ *   Cache Associativiy: 0010b - Four-way set associative
-+ *   Version number: 4 - ARCv2
-+ */
-+    case AUX_ID_i_cache_build:
-+        reg = (0 << 22) | /* D */
-+              (2 << 20) | /* FL */
-+              (3 << 16) | /* BBSixe*/
-+              (7 << 12) | /* Cache capacity */
-+              (2 << 8)  | /* Cache Associativiy */
-+              (4 << 0);   /* Version Number */
-+        break;
-+
-+    case AUX_ID_ic_ctrl:
-+        reg = cache->ic_disabled & 1;
-+        break;
-+
-+    case AUX_ID_ic_ivir:
-+        reg = cache->ic_ivir;
-+        break;
-+
-+    case AUX_ID_ic_endr:
-+        reg = cache->ic_endr;
-+        break;
-+
-+    case AUX_ID_ic_ptag:
-+        reg = cache->ic_ptag;
-+        break;
-+
-+    case AUX_ID_ic_ptag_hi:
-+        reg = cache->ic_ptag_hi;
-+        break;
-+
-+/*
-+ * Description of the register content in order:
-+ *   FL - Feature level: 10b - line lock, invalidate, advanced debug features
-+ *   BSize - indicates the cache block size in bytes: 0010b - 64 bytes
-+ *   Cache capacity: 0111b - 64 Kbytes
-+ *   Cache Associativiy: 0001b - Two-way set associative
-+ *   Version number: 4 - ARCv2 with fixed number of cycles
-+ */
-+    case AUX_ID_d_cache_build:
-+        reg = (2 << 20) | /* FL */
-+              (2 << 16) | /* BSize */
-+              (7 << 12) | /* Cache capacity */
-+              (1 << 8)  | /* Cache Associativiy */
-+              (4 << 0);   /* Version number */
-+        break;
-+
-+/*
-+ * Description of the register content in order:
-+ *   DC - Disable Cache: Enables/Disables the cache: 0 - Enabled, 1 - Disabled
-+ *   SB - Success Bit: of last cache operation: 1 - succeded (immediately)
-+ *   IM - Invalidate Mode: Selects the invalidate type
-+ */
-+    case AUX_ID_dc_ctrl:
-+       reg = (cache->dc_disabled & 1) << 0 |  /* DC */
-+             (1 << 2) |                       /* SB */
-+             (cache->dc_inv_mode & 1) << 6;   /* IM */
-+        break;
-+
-+    case AUX_ID_dc_endr:
-+        reg = cache->dc_endr;
-+        break;
-+
-+    case AUX_ID_dc_ptag_hi:
-+        reg = cache->dc_ptag_hi;
-+        break;
-+
-+    default:
-+        hw_error("%s@%d: Attempt to read write-only register 0x%02x!\n",
-+                 __func__, __LINE__, (unsigned int)aux_reg_detail->id);
-+        break;
-+    }
-+
-+    return reg;
-+}
-diff --git a/target/arc/cache.h b/target/arc/cache.h
-new file mode 100644
-index 0000000000..a1af909fa3
---- /dev/null
-+++ b/target/arc/cache.h
-@@ -0,0 +1,36 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2019 Synopsys, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program. If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef __ARC_CACHE_H__
-+#define __ARC_CACHE_H__
-+
-+#include "target/arc/regs.h"
-+
-+struct arc_cache {
-+    bool ic_disabled;
-+    bool dc_disabled;
-+    bool dc_inv_mode;
-+    uint32_t ic_ivir;
-+    uint32_t ic_endr;
-+    uint32_t ic_ptag;
-+    uint32_t ic_ptag_hi;
-+    uint32_t dc_endr;
-+    uint32_t dc_ptag_hi;
-+};
-+
-+#endif /* __ARC_CACHE_H__ */
-diff --git a/target/arc/regs-detail.def b/target/arc/regs-detail.def
-new file mode 100644
-index 0000000000..6f0cc94809
---- /dev/null
-+++ b/target/arc/regs-detail.def
-@@ -0,0 +1,540 @@
-+/*
-+ * QEMU ARC Auxiliary register definitions
-+ *
-+ * Copyright (c) 2020 Synopsys, Inc.
-+ * Contributed by Claudiu Zissulescu (claziss@synopsys.com)
-+ * Contributed by Cupertino Miranda (cmiranda@synopsys.com)
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program. If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/* INFO: this list must be kept ordered by address to allow
-+ * binary search of register information based on address.
-+ */
-+
-+DEF(0xffff,ARC_OPCODE_ARCALL,  NONE, unimp_bcr)
-+DEF(0x1,   ARC_OPCODE_ARCV1,   NONE, semaphore)
-+DEF(0x2,   ARC_OPCODE_ARCALL,  NONE, lp_start)
-+DEF(0x3,   ARC_OPCODE_ARCALL,  NONE, lp_end)
-+DEF(0x4,   ARC_OPCODE_ARCALL,  NONE, identity)
-+DEF(0x5,   ARC_OPCODE_ARCALL,  NONE, debug)
-+DEF(0x6,   ARC_OPCODE_ARCALL,  NONE, pc)
-+DEF(0x7,   ARC_OPCODE_ARCv2HS, NONE, memseg)
-+DEF(0x7,   ARC_OPCODE_ARCV1,   NONE, adcr)
-+DEF(0x8,   ARC_OPCODE_ARCV1,   NONE, apcr)
-+DEF(0x8,   ARC_OPCODE_ARCv2HS, NONE, exec_ctrl)
-+DEF(0x9,   ARC_OPCODE_ARCV1,   NONE, acr)
-+DEF(0x9,   ARC_OPCODE_ARCv2EM, NONE, sec_stat)
-+DEF(0xa,   ARC_OPCODE_ARCALL,  NONE, status32)
-+DEF(0xb,   ARC_OPCODE_ARCV2,   NONE, status32_p0)
-+DEF(0xc,   ARC_OPCODE_ARCv2EM, NONE, sec_extra)
-+DEF(0xd,   ARC_OPCODE_ARCV2,   NONE, aux_user_sp)
-+DEF(0xe,   ARC_OPCODE_ARC700,  NONE, clk_enable)
-+DEF(0xe,   ARC_OPCODE_ARCV2,   NONE, aux_irq_ctrl)
-+DEF(0xf,   ARC_OPCODE_ARC700,  NONE, bpu_flush)
-+DEF(0xf,   ARC_OPCODE_ARCv2HS, NONE, debugi)
-+DEF(0x10,  ARC_OPCODE_ARCV1,   NONE, ivic)
-+DEF(0x10,  ARC_OPCODE_ARCALL,  NONE, ic_ivic)
-+DEF(0x11,  ARC_OPCODE_ARCV1,   NONE, che_mode)
-+DEF(0x11,  ARC_OPCODE_ARCALL,  NONE, ic_ctrl)
-+DEF(0x12,  ARC_OPCODE_ARC600,  NONE, mulhi)
-+DEF(0x12,  ARC_OPCODE_ARCv2HS, NONE, ic_startr)
-+DEF(0x13,  ARC_OPCODE_ARCV1,   NONE, lockline)
-+DEF(0x13,  ARC_OPCODE_ARCV2,   NONE, ic_lil)
-+DEF(0x14,  ARC_OPCODE_ARC600,  NONE, dmc_code_ram)
-+DEF(0x15,  ARC_OPCODE_ARCV1,   NONE, tag_addr_mask)
-+DEF(0x16,  ARC_OPCODE_ARCV1,   NONE, tag_data_mask)
-+DEF(0x16,  ARC_OPCODE_ARCv2HS, NONE, ic_ivir)
-+DEF(0x17,  ARC_OPCODE_ARCV1,   NONE, line_length_mask)
-+DEF(0x17,  ARC_OPCODE_ARCv2HS, NONE, ic_endr)
-+DEF(0x18,  ARC_OPCODE_ARC600,  NONE, aux_ldst_ram)
-+DEF(0x18,  ARC_OPCODE_NONE,    NONE, aux_dccm)
-+DEF(0x19,  ARC_OPCODE_ARCV1,   NONE, unlockline)
-+DEF(0x19,  ARC_OPCODE_ARCALL,  NONE, ic_ivil)
-+DEF(0x1a,  ARC_OPCODE_ARCALL,  NONE, ic_ram_address)
-+DEF(0x1b,  ARC_OPCODE_ARCALL,  NONE, ic_tag)
-+DEF(0x1c,  ARC_OPCODE_ARCALL,  NONE, ic_wp)
-+DEF(0x1d,  ARC_OPCODE_ARCALL,  NONE, ic_data)
-+DEF(0x1e,  ARC_OPCODE_ARCALL,  NONE, ic_ptag)
-+DEF(0x1f,  ARC_OPCODE_ARCv2EM, NONE, debugi)
-+DEF(0x1f,  ARC_OPCODE_ARCv2HS, NONE, ic_ptag_hi)
-+DEF(0x20,  ARC_OPCODE_ARC600,  NONE, sram_seq)
-+DEF(0x21,  ARC_OPCODE_ARCALL,  NONE, count0)
-+DEF(0x22,  ARC_OPCODE_ARCALL,  NONE, control0)
-+DEF(0x23,  ARC_OPCODE_ARCALL,  NONE, limit0)
-+DEF(0x24,  ARC_OPCODE_ARCV1,   NONE, pcport)
-+DEF(0x25,  ARC_OPCODE_ARC700,  NONE, int_vector_base)
-+DEF(0x25,  ARC_OPCODE_ARCV2,   NONE, int_vector_base)
-+DEF(0x26,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_mode)
-+DEF(0x27,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_bm0)
-+DEF(0x28,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_bm1)
-+DEF(0x29,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_accu)
-+DEF(0x2a,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_ofst)
-+DEF(0x2b,  ARC_OPCODE_ARC600,  NONE, aux_vbfdw_intstat)
-+DEF(0x2c,  ARC_OPCODE_ARC600,  NONE, aux_xmac0_24)
-+DEF(0x2d,  ARC_OPCODE_ARC600,  NONE, aux_xmac1_24)
-+DEF(0x2e,  ARC_OPCODE_ARC600,  NONE, aux_xmac2_24)
-+DEF(0x2f,  ARC_OPCODE_ARC600,  NONE, aux_fbf_store_16)
-+DEF(0x30,  ARC_OPCODE_ARCv2EM, NONE, acg_ctrl)
-+DEF(0x30,  ARC_OPCODE_NONE,    NONE, ax0)
-+DEF(0x31,  ARC_OPCODE_NONE,    NONE, ax1)
-+DEF(0x32,  ARC_OPCODE_NONE,    NONE, aux_crc_poly)
-+DEF(0x33,  ARC_OPCODE_NONE,    NONE, aux_crc_mode)
-+DEF(0x34,  ARC_OPCODE_NONE,    NONE, mx0)
-+DEF(0x35,  ARC_OPCODE_NONE,    NONE, mx1)
-+DEF(0x36,  ARC_OPCODE_NONE,    NONE, my0)
-+DEF(0x37,  ARC_OPCODE_NONE,    NONE, my1)
-+DEF(0x38,  ARC_OPCODE_NONE,    NONE, xyconfig)
-+DEF(0x38,  ARC_OPCODE_ARCv2EM, NONE, aux_kernel_sp)
-+DEF(0x39,  ARC_OPCODE_NONE,    NONE, scratch_a)
-+DEF(0x39,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_u_sp)
-+/* TODO: The commented lines are repeated for specific configurations. */
-+/*
-+DEF (0x3a,  ARC_OPCODE_NONE,    NONE, burstsys)
-+DEF (0x3a,  ARC_OPCODE_NONE,    NONE, tsch)
-+*/
-+DEF(0x3a,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_k_sp)
-+DEF(0x3b,  ARC_OPCODE_NONE,    NONE, burstxym)
-+DEF(0x3c,  ARC_OPCODE_NONE,    NONE, burstsz)
-+DEF(0x3d,  ARC_OPCODE_NONE,    NONE, burstval)
-+DEF(0x3e,  ARC_OPCODE_ARCv2EM, NONE, aux_sec_ctrl)
-+DEF(0x3f,  ARC_OPCODE_ARCv2EM, NONE, erp_control)
-+DEF(0x40,  ARC_OPCODE_ARCv2EM, NONE, rferp_status0)
-+DEF(0x41,  ARC_OPCODE_ARCv2EM, NONE, rferp_status1)
-+DEF(0x40,  ARC_OPCODE_ARC600,  NONE, xtp_newval)
-+DEF(0x41,  ARC_OPCODE_ARCV1,   NONE, aux_macmode)
-+DEF(0x42,  ARC_OPCODE_ARC600,  NONE, lsp_newval)
-+DEF(0x43,  ARC_OPCODE_ARCV1,   NONE, aux_irq_lv12)
-+DEF(0x43,  ARC_OPCODE_ARCV2,   NONE, aux_irq_act)
-+DEF(0x44,  ARC_OPCODE_ARCV1,   NONE, aux_xmac0)
-+DEF(0x45,  ARC_OPCODE_ARCV1,   NONE, aux_xmac1)
-+DEF(0x46,  ARC_OPCODE_ARCV1,   NONE, aux_xmac2)
-+DEF(0x47,  ARC_OPCODE_ARCALL,  NONE, dc_ivdc)
-+DEF(0x48,  ARC_OPCODE_ARCALL,  NONE, dc_ctrl)
-+DEF(0x49,  ARC_OPCODE_ARCALL,  NONE, dc_ldl)
-+DEF(0x4a,  ARC_OPCODE_ARCALL,  NONE, dc_ivdl)
-+DEF(0x4b,  ARC_OPCODE_ARCALL,  NONE, dc_flsh)
-+DEF(0x4c,  ARC_OPCODE_ARCALL,  NONE, dc_fldl)
-+DEF(0x4d,  ARC_OPCODE_ARCV2,   NONE, dc_startr)
-+DEF(0x4e,  ARC_OPCODE_ARCV2,   NONE, dc_endr)
-+DEF(0x50,  ARC_OPCODE_NONE,    NONE, hexdata)
-+DEF(0x51,  ARC_OPCODE_NONE,    NONE, hexctrl)
-+DEF(0x52,  ARC_OPCODE_NONE,    NONE, led)
-+DEF(0x56,  ARC_OPCODE_NONE,    NONE, dilstat)
-+DEF(0x57,  ARC_OPCODE_ARC600,  NONE, swstat)
-+DEF(0x58,  ARC_OPCODE_ARCALL,  NONE, dc_ram_addr)
-+DEF(0x59,  ARC_OPCODE_ARCALL,  NONE, dc_tag)
-+DEF(0x5a,  ARC_OPCODE_ARCALL,  NONE, dc_wp)
-+DEF(0x5b,  ARC_OPCODE_ARCALL,  NONE, dc_data)
-+DEF(0x5c,  ARC_OPCODE_ARCALL,  NONE, dc_ptag)
-+DEF(0x5e,  ARC_OPCODE_ARCv2HS, NONE, aux_volatile)
-+DEF(0x5f,  ARC_OPCODE_ARCv2HS, NONE, dc_ptag_hi)
-+DEF(0x80,  ARC_OPCODE_ARCALL,  NONE, ax0)
-+DEF(0x81,  ARC_OPCODE_ARCALL,  NONE, ax1)
-+DEF(0x82,  ARC_OPCODE_ARCALL,  NONE, ax2)
-+DEF(0x83,  ARC_OPCODE_ARCALL,  NONE, ax3)
-+DEF(0x84,  ARC_OPCODE_ARCALL,  NONE, ay0)
-+DEF(0x85,  ARC_OPCODE_ARCALL,  NONE, ay1)
-+DEF(0x86,  ARC_OPCODE_ARCALL,  NONE, ay2)
-+DEF(0x87,  ARC_OPCODE_ARCALL,  NONE, ay3)
-+DEF(0x88,  ARC_OPCODE_ARCALL,  NONE, mx00)
-+DEF(0x89,  ARC_OPCODE_ARCALL,  NONE, mx01)
-+DEF(0x8a,  ARC_OPCODE_ARCALL,  NONE, mx10)
-+DEF(0x8b,  ARC_OPCODE_ARCALL,  NONE, mx11)
-+DEF(0x8c,  ARC_OPCODE_ARCALL,  NONE, mx20)
-+DEF(0x8d,  ARC_OPCODE_ARCALL,  NONE, mx21)
-+DEF(0x8e,  ARC_OPCODE_ARCALL,  NONE, mx30)
-+DEF(0x8f,  ARC_OPCODE_ARCALL,  NONE, mx31)
-+DEF(0x90,  ARC_OPCODE_ARCALL,  NONE, my00)
-+DEF(0x91,  ARC_OPCODE_ARCALL,  NONE, my01)
-+DEF(0x92,  ARC_OPCODE_ARCALL,  NONE, my10)
-+DEF(0x93,  ARC_OPCODE_ARCALL,  NONE, my11)
-+DEF(0x94,  ARC_OPCODE_ARCALL,  NONE, my20)
-+DEF(0x95,  ARC_OPCODE_ARCALL,  NONE, my21)
-+DEF(0x96,  ARC_OPCODE_ARCALL,  NONE, my30)
-+DEF(0x97,  ARC_OPCODE_ARCALL,  NONE, my31)
-+DEF(0x98,  ARC_OPCODE_ARCALL,  NONE, xyconfig)
-+DEF(0x99,  ARC_OPCODE_ARCALL,  NONE, burstsys)
-+DEF(0x9a,  ARC_OPCODE_ARCALL,  NONE, burstxym)
-+DEF(0x9b,  ARC_OPCODE_ARCALL,  NONE, burstsz)
-+DEF(0x9c,  ARC_OPCODE_ARCALL,  NONE, burstval)
-+DEF(0x9d,  ARC_OPCODE_ARCALL,  NONE, xylsbasex)
-+DEF(0x9e,  ARC_OPCODE_ARCALL,  NONE, xylsbasey)
-+DEF(0x9f,  ARC_OPCODE_ARCALL,  NONE, aux_xmaclw_h)
-+DEF(0xa0,  ARC_OPCODE_ARCALL,  NONE, aux_xmaclw_l)
-+DEF(0xa1,  ARC_OPCODE_ARCALL,  NONE, se_ctrl)
-+DEF(0xa2,  ARC_OPCODE_ARCALL,  NONE, se_stat)
-+DEF(0xa3,  ARC_OPCODE_ARCALL,  NONE, se_err)
-+DEF(0xa4,  ARC_OPCODE_ARCALL,  NONE, se_eadr)
-+DEF(0xa5,  ARC_OPCODE_ARCALL,  NONE, se_spc)
-+DEF(0xa6,  ARC_OPCODE_ARCALL,  NONE, sdm_base)
-+DEF(0xa7,  ARC_OPCODE_ARCALL,  NONE, scm_base)
-+DEF(0xa8,  ARC_OPCODE_ARCALL,  NONE, se_dbg_ctrl)
-+DEF(0xa9,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data0)
-+DEF(0xaa,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data1)
-+DEF(0xab,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data2)
-+DEF(0xac,  ARC_OPCODE_ARCALL,  NONE, se_dbg_data3)
-+DEF(0xad,  ARC_OPCODE_ARCALL,  NONE, se_watch)
-+DEF(0xc1,  ARC_OPCODE_ARC600,  NONE, arc600_build_config)
-+DEF(0xc1,  ARC_OPCODE_ARCALL,  NONE, isa_config)
-+DEF(0x100, ARC_OPCODE_ARCALL,  NONE, count1)
-+DEF(0x101, ARC_OPCODE_ARCALL,  NONE, control1)
-+DEF(0x102, ARC_OPCODE_ARCALL,  NONE, limit1)
-+DEF(0x103, ARC_OPCODE_ARCV2,   NONE, aux_rtc_ctrl)
-+DEF(0x104, ARC_OPCODE_ARCV2,   NONE, aux_rtc_low)
-+DEF(0x105, ARC_OPCODE_ARCV2,   NONE, aux_rtc_high)
-+DEF(0x200, ARC_OPCODE_ARCV1,   NONE, aux_irq_lev)
-+DEF(0x200, ARC_OPCODE_ARCV2,   NONE, irq_priority_pending)
-+DEF(0x201, ARC_OPCODE_ARCALL,  NONE, aux_irq_hint)
-+DEF(0x202, ARC_OPCODE_ARC600,  NONE, aux_inter_core_interrupt)
-+DEF(0x206, ARC_OPCODE_ARCV2,   NONE, irq_priority)
-+DEF(0x210, ARC_OPCODE_ARC700,  NONE, aes_aux_0)
-+DEF(0x211, ARC_OPCODE_ARC700,  NONE, aes_aux_1)
-+DEF(0x212, ARC_OPCODE_ARC700,  NONE, aes_aux_2)
-+DEF(0x213, ARC_OPCODE_ARC700,  NONE, aes_crypt_mode)
-+DEF(0x214, ARC_OPCODE_ARC700,  NONE, aes_auxs)
-+DEF(0x215, ARC_OPCODE_ARC700,  NONE, aes_auxi)
-+DEF(0x216, ARC_OPCODE_ARC700,  NONE, aes_aux_3)
-+DEF(0x217, ARC_OPCODE_ARC700,  NONE, aes_aux_4)
-+DEF(0x218, ARC_OPCODE_ARC700,  NONE, arith_ctl_aux)
-+DEF(0x219, ARC_OPCODE_ARC700,  NONE, des_aux)
-+DEF(0x220, ARC_OPCODE_ARCALL,  NONE, ap_amv0)
-+DEF(0x221, ARC_OPCODE_ARCALL,  NONE, ap_amm0)
-+DEF(0x222, ARC_OPCODE_ARCALL,  NONE, ap_ac0)
-+DEF(0x223, ARC_OPCODE_ARCALL,  NONE, ap_amv1)
-+DEF(0x224, ARC_OPCODE_ARCALL,  NONE, ap_amm1)
-+DEF(0x225, ARC_OPCODE_ARCALL,  NONE, ap_ac1)
-+DEF(0x226, ARC_OPCODE_ARCALL,  NONE, ap_amv2)
-+DEF(0x227, ARC_OPCODE_ARCALL,  NONE, ap_amm2)
-+DEF(0x228, ARC_OPCODE_ARCALL,  NONE, ap_ac2)
-+DEF(0x229, ARC_OPCODE_ARCALL,  NONE, ap_amv3)
-+DEF(0x22a, ARC_OPCODE_ARCALL,  NONE, ap_amm3)
-+DEF(0x22b, ARC_OPCODE_ARCALL,  NONE, ap_ac3)
-+DEF(0x22c, ARC_OPCODE_ARCALL,  NONE, ap_amv4)
-+DEF(0x22d, ARC_OPCODE_ARCALL,  NONE, ap_amm4)
-+DEF(0x22e, ARC_OPCODE_ARCALL,  NONE, ap_ac4)
-+DEF(0x22f, ARC_OPCODE_ARCALL,  NONE, ap_amv5)
-+DEF(0x230, ARC_OPCODE_ARCALL,  NONE, ap_amm5)
-+DEF(0x231, ARC_OPCODE_ARCALL,  NONE, ap_ac5)
-+DEF(0x232, ARC_OPCODE_ARCALL,  NONE, ap_amv6)
-+DEF(0x233, ARC_OPCODE_ARCALL,  NONE, ap_amm6)
-+DEF(0x234, ARC_OPCODE_ARCALL,  NONE, ap_ac6)
-+DEF(0x235, ARC_OPCODE_ARCALL,  NONE, ap_amv7)
-+DEF(0x236, ARC_OPCODE_ARCALL,  NONE, ap_amm7)
-+DEF(0x237, ARC_OPCODE_ARCALL,  NONE, ap_ac7)
-+DEF(0x268, ARC_OPCODE_ARCv2EM, NONE, nsc_table_top)
-+DEF(0x269, ARC_OPCODE_ARCv2EM, NONE, nsc_table_base)
-+DEF(0x290, ARC_OPCODE_ARCV2,   NONE, jli_base)
-+DEF(0x291, ARC_OPCODE_ARCV2,   NONE, ldi_base)
-+DEF(0x292, ARC_OPCODE_ARCV2,   NONE, ei_base)
-+DEF(0x300, ARC_OPCODE_ARCFPX,  DPX,  fp_status)
-+/*
-+DEF (0x301, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp1l)
-+DEF (0x301, ARC_OPCODE_ARCFPX,  DPX,  d1l)
-+*/
-+/*
-+DEF (0x302, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp1h)
-+DEF (0x302, ARC_OPCODE_ARCFPX,  DPX,  d1h)
-+*/
-+DEF(0x302, ARC_OPCODE_ARCv2EM, DPA,  d1l)
-+/*
-+DEF (0x303, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp2l)
-+DEF (0x303, ARC_OPCODE_ARCFPX,  DPX,  d2l)
-+*/
-+DEF(0x303, ARC_OPCODE_ARCv2EM, DPA,  d1h)
-+/*
-+DEF (0x304, ARC_OPCODE_ARCFPX,  DPX,  aux_dpfp2h)
-+DEF (0x304, ARC_OPCODE_ARCFPX,  DPX,  d2h)
-+*/
-+DEF(0x304, ARC_OPCODE_ARCv2EM, DPA,  d2l)
-+DEF(0x305, ARC_OPCODE_ARCFPX,  DPX,  dpfp_status)
-+DEF(0x305, ARC_OPCODE_ARCv2EM, DPA,  d2h)
-+DEF(0x400, ARC_OPCODE_ARCALL,  NONE, eret)
-+DEF(0x401, ARC_OPCODE_ARCALL,  NONE, erbta)
-+DEF(0x402, ARC_OPCODE_ARCALL,  NONE, erstatus)
-+DEF(0x403, ARC_OPCODE_ARCALL,  NONE, ecr)
-+DEF(0x404, ARC_OPCODE_ARCALL,  NONE, efa)
-+DEF(0x405, ARC_OPCODE_ARC700,  NONE, tlbpd0)
-+DEF(0x406, ARC_OPCODE_ARC700,  NONE, tlbpd1)
-+DEF(0x406, ARC_OPCODE_ARCv2EM, NONE, ersec_stat)
-+DEF(0x407, ARC_OPCODE_ARCv2EM, NONE, aux_sec_except)
-+DEF(0x407, ARC_OPCODE_ARC700,  NONE, tlbindex)
-+DEF(0x408, ARC_OPCODE_ARC700,  NONE, tlbcommand)
-+DEF(0x409, ARC_OPCODE_ARC700,  NONE, pid)
-+DEF(0x409, ARC_OPCODE_ARCALL,  NONE, mpuen)
-+DEF(0x40a, ARC_OPCODE_ARCV2,   NONE, icause)
-+DEF(0x40b, ARC_OPCODE_ARCV2,   NONE, irq_select)
-+DEF(0x40c, ARC_OPCODE_ARCV2,   NONE, irq_enable)
-+DEF(0x40d, ARC_OPCODE_ARCV2,   NONE, irq_trigger)
-+DEF(0x40f, ARC_OPCODE_ARCV2,   NONE, irq_status)
-+DEF(0x410, ARC_OPCODE_ARCALL,  NONE, xpu)
-+DEF(0x412, ARC_OPCODE_ARCALL,  NONE, bta)
-+DEF(0x413, ARC_OPCODE_ARC700,  NONE, bta_l1)
-+DEF(0x414, ARC_OPCODE_ARC700,  NONE, bta_l2)
-+DEF(0x415, ARC_OPCODE_ARCV2,   NONE, irq_pulse_cancel)
-+DEF(0x416, ARC_OPCODE_ARCV2,   NONE, irq_pending)
-+DEF(0x418, ARC_OPCODE_ARC700,  NONE, scratch_data0)
-+DEF(0x420, ARC_OPCODE_ARCALL,  NONE, mpuic)
-+DEF(0x421, ARC_OPCODE_ARCALL,  NONE, mpufa)
-+DEF(0x422, ARC_OPCODE_ARCALL,  NONE, mpurdb0)
-+DEF(0x423, ARC_OPCODE_ARCALL,  NONE, mpurdp0)
-+DEF(0x424, ARC_OPCODE_ARCALL,  NONE, mpurdb1)
-+DEF(0x425, ARC_OPCODE_ARCALL,  NONE, mpurdp1)
-+DEF(0x426, ARC_OPCODE_ARCALL,  NONE, mpurdb2)
-+DEF(0x427, ARC_OPCODE_ARCALL,  NONE, mpurdp2)
-+DEF(0x428, ARC_OPCODE_ARCALL,  NONE, mpurdb3)
-+DEF(0x429, ARC_OPCODE_ARCALL,  NONE, mpurdp3)
-+DEF(0x42a, ARC_OPCODE_ARCALL,  NONE, mpurdb4)
-+DEF(0x42b, ARC_OPCODE_ARCALL,  NONE, mpurdp4)
-+DEF(0x42c, ARC_OPCODE_ARCALL,  NONE, mpurdb5)
-+DEF(0x42d, ARC_OPCODE_ARCALL,  NONE, mpurdp5)
-+DEF(0x42e, ARC_OPCODE_ARCALL,  NONE, mpurdb6)
-+DEF(0x42f, ARC_OPCODE_ARCALL,  NONE, mpurdp6)
-+DEF(0x430, ARC_OPCODE_ARCALL,  NONE, mpurdb7)
-+DEF(0x431, ARC_OPCODE_ARCALL,  NONE, mpurdp7)
-+DEF(0x432, ARC_OPCODE_ARCALL,  NONE, mpurdb8)
-+DEF(0x433, ARC_OPCODE_ARCALL,  NONE, mpurdp8)
-+DEF(0x434, ARC_OPCODE_ARCALL,  NONE, mpurdb9)
-+DEF(0x435, ARC_OPCODE_ARCALL,  NONE, mpurdp9)
-+DEF(0x436, ARC_OPCODE_ARCALL,  NONE, mpurdb10)
-+DEF(0x437, ARC_OPCODE_ARCALL,  NONE, mpurdp10)
-+DEF(0x438, ARC_OPCODE_ARCALL,  NONE, mpurdb11)
-+DEF(0x439, ARC_OPCODE_ARCALL,  NONE, mpurdp11)
-+DEF(0x43a, ARC_OPCODE_ARCALL,  NONE, mpurdb12)
-+DEF(0x43b, ARC_OPCODE_ARCALL,  NONE, mpurdp12)
-+DEF(0x43c, ARC_OPCODE_ARCALL,  NONE, mpurdb13)
-+DEF(0x43d, ARC_OPCODE_ARCALL,  NONE, mpurdp13)
-+DEF(0x43e, ARC_OPCODE_ARCALL,  NONE, mpurdb14)
-+DEF(0x43f, ARC_OPCODE_ARCALL,  NONE, mpurdp14)
-+DEF(0x440, ARC_OPCODE_ARCALL,  NONE, mpurdb15)
-+DEF(0x441, ARC_OPCODE_ARCALL,  NONE, mpurdp15)
-+DEF(0x450, ARC_OPCODE_ARC600,  NONE, pm_status)
-+DEF(0x451, ARC_OPCODE_ARC600,  NONE, wake)
-+DEF(0x452, ARC_OPCODE_ARC600,  NONE, dvfs_performance)
-+DEF(0x453, ARC_OPCODE_ARC600,  NONE, pwr_ctrl)
-+DEF(0x460, ARC_OPCODE_ARCv2HS, NONE, tlbpd0)
-+DEF(0x461, ARC_OPCODE_ARCv2HS, NONE, tlbpd1)
-+DEF(0x463, ARC_OPCODE_ARCv2HS, NONE, tlbpd1_hi)
-+DEF(0x464, ARC_OPCODE_ARCv2HS, NONE, tlbindex)
-+DEF(0x465, ARC_OPCODE_ARCv2HS, NONE, tlbcommand)
-+DEF(0x468, ARC_OPCODE_ARCv2HS, NONE, pid)
-+DEF(0x46a, ARC_OPCODE_ARCv2HS, NONE, sasid0)
-+DEF(0x46b, ARC_OPCODE_ARCv2HS, NONE, sasid1)
-+DEF(0x46c, ARC_OPCODE_ARCv2HS, NONE, scratch_data0)
-+DEF(0x500, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_idx)
-+DEF(0x501, ARC_OPCODE_ARC700,  NONE, aux_vlc_read_buf)
-+DEF(0x502, ARC_OPCODE_ARC700,  NONE, aux_vlc_valid_bits)
-+DEF(0x503, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_in)
-+DEF(0x504, ARC_OPCODE_ARC700,  NONE, aux_vlc_buf_free)
-+DEF(0x505, ARC_OPCODE_ARC700,  NONE, aux_vlc_ibuf_status)
-+DEF(0x506, ARC_OPCODE_ARC700,  NONE, aux_vlc_setup)
-+DEF(0x507, ARC_OPCODE_ARC700,  NONE, aux_vlc_bits)
-+DEF(0x508, ARC_OPCODE_ARC700,  NONE, aux_vlc_table)
-+DEF(0x509, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_symbol)
-+DEF(0x50a, ARC_OPCODE_ARC700,  NONE, aux_vlc_read_symbol)
-+DEF(0x510, ARC_OPCODE_ARC700,  NONE, aux_ucavlc_setup)
-+DEF(0x511, ARC_OPCODE_ARC700,  NONE, aux_ucavlc_state)
-+DEF(0x512, ARC_OPCODE_ARC700,  NONE, aux_cavlc_zero_left)
-+DEF(0x514, ARC_OPCODE_ARC700,  NONE, aux_uvlc_i_state)
-+DEF(0x51c, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_ptr)
-+DEF(0x51d, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_end)
-+DEF(0x51e, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_esc)
-+DEF(0x51f, ARC_OPCODE_ARC700,  NONE, aux_vlc_dma_ctrl)
-+DEF(0x520, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_0bit)
-+DEF(0x521, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_1bit)
-+DEF(0x522, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_2bit)
-+DEF(0x523, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_3bit)
-+DEF(0x524, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_4bit)
-+DEF(0x525, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_5bit)
-+DEF(0x526, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_6bit)
-+DEF(0x527, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_7bit)
-+DEF(0x528, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_8bit)
-+DEF(0x529, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_9bit)
-+DEF(0x52a, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_10bit)
-+DEF(0x52b, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_11bit)
-+DEF(0x52c, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_12bit)
-+DEF(0x52d, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_13bit)
-+DEF(0x52e, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_14bit)
-+DEF(0x52f, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_15bit)
-+DEF(0x530, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_16bit)
-+DEF(0x531, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_17bit)
-+DEF(0x532, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_18bit)
-+DEF(0x533, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_19bit)
-+DEF(0x534, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_20bit)
-+DEF(0x535, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_21bit)
-+DEF(0x536, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_22bit)
-+DEF(0x537, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_23bit)
-+DEF(0x538, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_24bit)
-+DEF(0x539, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_25bit)
-+DEF(0x53a, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_26bit)
-+DEF(0x53b, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_27bit)
-+DEF(0x53c, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_28bit)
-+DEF(0x53d, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_29bit)
-+DEF(0x53e, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_30bit)
-+DEF(0x53f, ARC_OPCODE_ARC700,  NONE, aux_vlc_get_31bit)
-+DEF(0x540, ARC_OPCODE_ARC700,  NONE, aux_cabac_ctrl)
-+DEF(0x541, ARC_OPCODE_ARC700,  NONE, aux_cabac_ctx_state)
-+DEF(0x542, ARC_OPCODE_ARC700,  NONE, aux_cabac_cod_param)
-+DEF(0x543, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc0)
-+DEF(0x544, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc1)
-+DEF(0x545, ARC_OPCODE_ARC700,  NONE, aux_cabac_misc2)
-+DEF(0x700, ARC_OPCODE_ARCALL,  NONE, smart_control)
-+/*
-+DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_0)
-+DEF (0x701, ARC_OPCODE_ARC600,  NONE, smart_data)
-+DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_2)
-+DEF (0x701, ARC_OPCODE_ARC700,  NONE, smart_data_3)
-+*/
-+
-+
-+/* BCR aux registers */
-+DEF(0x60, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x61, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x62, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x63, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x64, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x65, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x66, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x67, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x68, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x69, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6a, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6b, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6c, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6d, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6e, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x6f, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x70, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x71, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x72, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x73, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x74, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x75, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x76, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x77, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x78, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x79, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7a, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7c, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7d, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7e, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0x7f, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xc9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xca, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xce, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xcf, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xd9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xda, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xde, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xdf, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xe9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xea, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xeb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xec, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xed, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xee, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xef, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf0, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf1, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf2, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf3, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf4, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf5, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf6, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf7, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf8, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xf9, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfa, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfb, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfc, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfd, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xfe, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+DEF(0xff, ARC_OPCODE_DEFAULT,  NONE, unimp_bcr)
-+
-+/* Actual BCR implementations */
-+
-+DEF(0x6d, ARC_OPCODE_ARCv2HS, NONE, mpu_build)
-+DEF(0x6f, ARC_OPCODE_ARCv2HS, NONE, mmu_build)
-+DEF(0x75, ARC_OPCODE_ARCALL, NONE, timer_build)
-+DEF(0xf3, ARC_OPCODE_ARCV2,  NONE, irq_build)
-+DEF(0x72, ARC_OPCODE_ARCV2,  NONE, d_cache_build)
-+DEF(0x77, ARC_OPCODE_ARCV2,  NONE, i_cache_build)
-+DEF(0x7b, ARC_OPCODE_ARCV2,  NONE, mpy_build)
-+
-+/* OLD BCR definitions */
-+/*
-+DEF (0x61,  ARC_OPCODE_ARCALL,  NONE, dccm_base_build)
-+DEF (0x63,  ARC_OPCODE_ARCALL,  NONE, bta_link_build)
-+DEF (0x64,  ARC_OPCODE_ARCALL,  NONE, vbfdw_build)
-+DEF (0x65,  ARC_OPCODE_ARCALL,  NONE, ea_build)
-+DEF (0x66,  ARC_OPCODE_ARCALL,  NONE, dataspace)
-+DEF (0x67,  ARC_OPCODE_ARCALL,  NONE, memsubsys)
-+DEF (0x68,  ARC_OPCODE_ARCALL,  NONE, vecbase_ac_build)
-+DEF (0x69,  ARC_OPCODE_ARCALL,  NONE, p_base_addr)
-+DEF (0x6a,  ARC_OPCODE_ARCALL,  NONE, data_uncached_build)
-+DEF (0x6b,  ARC_OPCODE_ARCALL,  NONE, fp_build)
-+DEF (0x6c,  ARC_OPCODE_ARCALL,  NONE, dpfp_build)
-+DEF (0x6d,  ARC_OPCODE_ARCALL,  NONE, mpu_build)
-+DEF (0x6e,  ARC_OPCODE_ARCALL,  NONE, rf_build)
-+DEF (0x6f,  ARC_OPCODE_ARCALL,  NONE, mmu_build)
-+DEF (0x70,  ARC_OPCODE_ARCv2EM, NONE, sec_vecbase_build)
-+DEF (0x71,  ARC_OPCODE_ARCALL,  NONE, vecbase_build)
-+DEF (0x73,  ARC_OPCODE_ARCALL,  NONE, madi_build)
-+
-+DEF (0xc1,  ARC_OPCODE_ARC600,  NONE, arc600_build_config)
-+DEF (0xc2,  ARC_OPCODE_ARCALL,  NONE, isa_config)
-+DEF (0xf4,  ARC_OPCODE_ARCALL,  NONE, hwp_build)
-+DEF (0xf5,  ARC_OPCODE_ARCALL,  NONE, pct_build)
-+DEF (0xf6,  ARC_OPCODE_ARCALL,  NONE, cc_build)
-+DEF (0xf7,  ARC_OPCODE_ARCALL,  NONE, pm_bcr)
-+DEF (0xf8,  ARC_OPCODE_ARCALL,  NONE, scq_switch_build)
-+DEF (0xf9,  ARC_OPCODE_ARCALL,  NONE, vraptor_build)
-+DEF (0xfa,  ARC_OPCODE_ARCALL,  NONE, dma_config)
-+DEF (0xfb,  ARC_OPCODE_ARCALL,  NONE, simd_config)
-+DEF (0xfc,  ARC_OPCODE_ARCALL,  NONE, vlc_build)
-+DEF (0xfd,  ARC_OPCODE_ARCALL,  NONE, simd_dma_build)
-+DEF (0xfe,  ARC_OPCODE_ARCALL,  NONE, ifetch_queue_build)
-+*/
-diff --git a/target/arc/regs-impl.c b/target/arc/regs-impl.c
-new file mode 100644
-index 0000000000..18a307fdc4
---- /dev/null
-+++ b/target/arc/regs-impl.c
-@@ -0,0 +1,181 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
++ * version 2.1 of the License) any later version.
 + *
 + * This library is distributed in the hope that it will be useful,
 + * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -918,170 +132,712 @@ index 0000000000..18a307fdc4
 +#include "qemu/osdep.h"
 +#include "qemu/log.h"
 +#include "qemu/error-report.h"
-+#include "target/arc/regs.h"
-+#include "target/arc/mmu.h"
-+#include "target/arc/mpu.h"
-+#include "target/arc/irq.h"
-+#include "target/arc/timer.h"
-+#include "target/arc/cache.h"
++#include "hw/irq.h"
++#include "cpu.h"
++#include "qemu/main-loop.h"
++#include "irq.h"
++#include "exec/cpu_ldst.h"
++#include "translate.h"
++#include "qemu/host-utils.h"
 +
-+static target_ulong get_identity(CPUARCState *env)
++#define CACHE_ENTRY_SIZE (TARGET_LONG_BITS / 8)
++#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldl_data(ENV, ADDR)
++#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stl_data(ENV, ADDR, VALUE)
++
++/* Static functions and variables. */
++
++static uint32_t save_reg_pair_32[] = {
++    0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
++};
++
++static uint32_t save_reg_pair_16[] = {
++    0, 2, 10, 12, 14, 26, 28, 30
++};
++
++/* Given a struct STATUS_R, pack it to 32 bit. */
++uint32_t pack_status32(ARCStatus *status_r)
 +{
-+    target_ulong chipid = 0xffff, arcnum = 0, arcver, res;
-+    ARCCPU *cpu = env_archcpu(env);
++    uint32_t res = 0x0;
 +
-+    switch (cpu->family) {
-+    case ARC_OPCODE_ARC700:
-+        arcver = 0x34;
-+        break;
++    res |= status_r->pstate & PSTATE_MASK;
++    res |= (status_r->RBf & ((1 << RBf_bS)-1)) << RBf_b;
++    res |= (status_r->Zf & ((1 << Zf_bS)-1)) << Zf_b;
++    res |= (status_r->Nf & ((1 << Nf_bS)-1)) << Nf_b;
++    res |= (status_r->Cf & ((1 << Cf_bS)-1)) << Cf_b;
++    res |= (status_r->Vf & ((1 << Vf_bS)-1)) << Vf_b;
++    res |= (status_r->DEf & ((1 << DEf_bS)-1)) << DEf_b;
++    res |= (status_r->Ef  & ((1 << Ef_bS)-1)) << Ef_b;
++    res |= (status_r->IEf & ((1 << IEf_bS)-1)) << IEf_b;
 +
-+    case ARC_OPCODE_ARCv2EM:
-+        arcver = 0x44;
-+        break;
++    /* For debug purposes only. */
++    /*
++     * assert((status_r->pstate & ~PSTATE_MASK) == 0);
++     * assert((status_r->RBf & (~((1 << RBf_bS) - 1))) == 0);
++     * assert((status_r->Zf  & (~((1 << Zf_bS)  - 1))) == 0);
++     * assert((status_r->Nf  & (~((1 << Cf_bS)  - 1))) == 0);
++     * assert((status_r->Cf  & (~((1 << Cf_bS)  - 1))) == 0);
++     * assert((status_r->Vf  & (~((1 << Vf_bS)  - 1))) == 0);
++     * assert((status_r->DEf & (~((1 << DEf_bS) - 1))) == 0);
++     * assert((status_r->Ef  & (~((1 << Ef_bS)  - 1))) == 0);
++     * assert((status_r->IEf & (~((1 << IEf_bS) - 1))) == 0);
++     */
 +
-+    case ARC_OPCODE_ARCv2HS:
-+        arcver = 0x54;
-+        break;
-+
-+    default:
-+        arcver = 0;
-+
-+    }
-+
-+    /* TODO: in SMP, arcnum depends on the cpu instance. */
-+    res = ((chipid & 0xFFFF) << 16) | ((arcnum & 0xFF) << 8) | (arcver & 0xFF);
 +    return res;
 +}
 +
-+target_ulong
-+arc_general_regs_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                          void *data)
++/* Reverse of the above function. */
++void unpack_status32(ARCStatus *status_r, uint32_t value)
++{
++    status_r->pstate = value;
++    status_r->RBf = ((value >> RBf_b)&((1 << RBf_bS)-1));
++    status_r->Zf  = ((value >> Zf_b)&((1 << Zf_bS)-1));
++    status_r->Nf  = ((value >> Nf_b)&((1 << Nf_bS)-1));
++    status_r->Cf  = ((value >> Cf_b)&((1 << Cf_bS)-1));
++    status_r->Vf  = ((value >> Vf_b)&((1 << Vf_bS)-1));
++    status_r->DEf = ((value >> DEf_b)&((1 << DEf_bS)-1));
++    status_r->Ef  = ((value >> Ef_b)&((1 << Ef_bS)-1));
++    status_r->IEf = ((value >> IEf_b)&((1 << IEf_bS)-1));
++}
++
++/* Return from fast interrupts. */
++
++static void arc_rtie_firq(CPUARCState *env)
++{
++    assert(GET_STATUS_BIT(env->stat, AEf) == 0);
++
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] exit firq: U=" TARGET_FMT_ld
++                  ", AUX_IRQ_ACT.U=%d\n",
++                  GET_STATUS_BIT(env->stat, Uf), env->aux_irq_act >> 31);
++
++    /* Clear currently active interrupt. */
++    env->aux_irq_act &= (~1);
++
++    /* Check if we need to restore userland SP. */
++    if (((env->aux_irq_act & 0xFFFF) == 0) && (env->aux_irq_act & 0x80000000)) {
++        switchSP(env);
++    }
++
++    env->stat = env->stat_l1; /* FIXME use status32_p0 reg. */
++    /* Keep U-bit in sync. */
++    env->aux_irq_act &= ~(GET_STATUS_BIT(env->stat, Uf) << 31);
++
++    /* FIXME! fix current reg bank if RB bit is changed. */
++
++    CPU_PCL(env) = CPU_ILINK(env);
++    env->pc = CPU_ILINK(env);
++}
++
++/* Implements a pop operation from the CPU stack. */
++static target_ulong irq_pop(CPUARCState *env, const char *str)
++{
++    target_ulong rval;
++    rval = TARGET_LONG_LOAD(env, CPU_SP(env));
++
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] Pop [SP:0x" TARGET_FMT_lx
++                  "] => 0x" TARGET_FMT_lx " (%s)\n",
++                  CPU_SP(env), rval, str ? str : "unk");
++    CPU_SP(env) += CACHE_ENTRY_SIZE;
++    return rval;
++}
++
++/* Return from regular interrupts. */
++
++static void arc_rtie_irq(CPUARCState *env)
++{
++    uint32_t tmp;
++    ARCCPU *cpu = env_archcpu(env);
++
++    assert((env->aux_irq_act & 0xFFFF) != 0);
++    assert(GET_STATUS_BIT(env->stat, AEf) == 0);
++
++    /* Clear currently active interrupt. */
++    tmp = ctz32(env->aux_irq_act & 0xffff);
++
++    qemu_log_mask(CPU_LOG_INT,
++                  "[IRQ] exit irq:%d IRQ_ACT:0x%08x PRIO:%d\n",
++                  env->icause[tmp], env->aux_irq_act, tmp);
++
++    /*
++     * FIXME! I assume the current active interrupt is the one which is
++     * the highest in the aux_irq_act register.
++     */
++    env->aux_irq_act &= ~(1 << tmp);
++
++    qemu_log_mask(CPU_LOG_INT,
++                  "[IRQ] exit irq:%d U:" TARGET_FMT_ld " AE:" TARGET_FMT_ld
++                  " IE:" TARGET_FMT_ld " E:" TARGET_FMT_ld " IRQ_ACT:0x%08x\n",
++                  env->icause[tmp], GET_STATUS_BIT(env->stat, Uf),
++                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
++                  env->stat.Ef, env->aux_irq_act);
++
++    if (((env->aux_irq_act & 0xffff) == 0) &&
++        (env->aux_irq_act & 0x80000000) && (env->aux_irq_ctrl & (1 << 11))) {
++        switchSP(env);
++    }
++
++    /* Pop requested number of registers. */
++    /* FIXME! select rf16 when needed. */
++    uint32_t *save_reg_pair = save_reg_pair_32;
++    char regname[6];
++    uint32_t i;
++    for (i = 0; i < (env->aux_irq_ctrl & 0x1F); ++i) {
++        sprintf(regname, "r%d", save_reg_pair[i]);
++        env->r[save_reg_pair[i]] = irq_pop(env, (const char *) regname);
++        sprintf(regname, "r%d", save_reg_pair[i] + 1);
++        env->r[save_reg_pair[i] + 1] = irq_pop(env, (const char *) regname);
++    }
++
++    /* Pop BLINK */
++    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
++        CPU_BLINK(env) = irq_pop(env, "blink");
++    }
++
++    /* Pop lp_end, lp_start, lp_count if aux_irq_ctrl.l bit is set. */
++    if (env->aux_irq_ctrl & (1 << 10)) {
++        env->lpe = irq_pop(env, "LP_END");
++        env->lps = irq_pop(env, "LP_START");
++        CPU_LP(env) = irq_pop(env, "lp");
++    }
++
++    /*
++     * Pop EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
++     * Density feature is enabled. FIXME!
++     */
++    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
++        /* FIXME! env->aux_ei_base  = irq_pop(env); */
++        /* FIXME! env->aux_ldi_base = irq_pop(env); */
++        /* FIXME! env->aux_jli_base = irq_pop(env); */
++        irq_pop(env, "dummy EI_BASE");
++        irq_pop(env, "dummy LDI_BASE");
++        irq_pop(env, "dummy JLI_BASE");
++    }
++
++    CPU_ILINK(env) = irq_pop(env, "PC"); /* CPU PC*/
++    uint32_t tmp_stat = irq_pop(env, "STATUS32"); /* status. */
++    unpack_status32(&env->stat, tmp_stat);
++
++    /* Late switch to Kernel SP if previously in User thread. */
++    if (((env->aux_irq_act & 0xffff) == 0)
++        && GET_STATUS_BIT(env->stat, Uf) && !(env->aux_irq_ctrl & (1 << 11))) {
++        switchSP(env);
++    }
++
++    /* Keep U-bit in sync. */
++    env->aux_irq_act &= ~(GET_STATUS_BIT(env->stat, Uf) << 31);
++    CPU_PCL(env) = CPU_ILINK(env);
++    env->pc = CPU_ILINK(env);
++}
++
++/* Helper, implements entering in a fast irq. */
++static void arc_enter_firq(ARCCPU *cpu, uint32_t vector)
++{
++    CPUARCState *env = &cpu->env;
++
++    assert(env->stat.DEf == 0);
++    assert(env->stat.is_delay_slot_instruction == 0);
++
++    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
++    qemu_log_mask(CPU_LOG_INT,
++                  "[IRQ] enter firq:%d U:" TARGET_FMT_ld " AE:" TARGET_FMT_ld
++                  " IE:" TARGET_FMT_ld " E:" TARGET_FMT_ld "\n",
++                  vector, GET_STATUS_BIT(env->stat, Uf),
++                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
++                  env->stat.Ef);
++
++    /* Switch SP with AUX_SP. */
++    if (GET_STATUS_BIT(env->stat, Uf)) {
++        switchSP(env);
++    }
++
++    /* Clobber ILINK with address of interrupting instruction. */
++    CPU_ILINK(env) = env->pc;
++    assert((env->pc & 0x1) == 0);
++    env->stat_l1 = env->stat;
++
++    /* Set stat {Z = U; U = 0; L = 1; ES = 0; DZ = 0; DE = 0;} */
++    SET_STATUS_BIT(env->stat, Lf, 1);
++    env->stat.Zf = GET_STATUS_BIT(env->stat, Uf); /* Old User/Kernel bit. */
++    SET_STATUS_BIT(env->stat, Uf, 0);
++    SET_STATUS_BIT(env->stat, ESf, 0);
++    SET_STATUS_BIT(env->stat, DZf, 0);
++    env->stat.DEf = 0;
++    env->stat.is_delay_slot_instruction = 0;
++
++    /* Set .RB to 1 if additional register banks are specified. */
++    if (cpu->cfg.rgf_num_banks > 0) {
++        env->stat.RBf = 1;
++        /* FIXME! Switch to first register bank. */
++    }
++}
++
++/* Implements a push operation to the CPU stack. */
++static void irq_push(CPUARCState *env, target_ulong regval, const char *str)
++{
++    CPU_SP(env) -= CACHE_ENTRY_SIZE;
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] Push [SP:0x" TARGET_FMT_lx
++                  "] <= 0x" TARGET_FMT_lx " (%s)\n",
++                  CPU_SP(env), regval, str ? str : "unk");
++    uint32_t uf = GET_STATUS_BIT(env->stat, Uf);
++    SET_STATUS_BIT(env->stat, Uf, 0);
++    TARGET_LONG_STORE(env, CPU_SP(env), regval);
++    SET_STATUS_BIT(env->stat, Uf, uf);
++}
++
++/* Helper, implements the steps required to enter a simple interrupt. */
++static void arc_enter_irq(ARCCPU *cpu, uint32_t vector)
++{
++    CPUARCState *env = &cpu->env;
++
++    assert(env->stat.DEf == 0);
++    assert(env->stat.is_delay_slot_instruction == 0);
++
++    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] enter irq:%d U:" TARGET_FMT_ld
++                  " AE:" TARGET_FMT_ld " IE:" TARGET_FMT_ld
++                  " E:" TARGET_FMT_ld "\n",
++                  vector, GET_STATUS_BIT(env->stat, Uf),
++                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
++                  env->stat.Ef);
++
++    /* Early switch to kernel sp if previously in user thread */
++    if (GET_STATUS_BIT(env->stat, Uf) && !(env->aux_irq_ctrl & (1 << 11))) {
++        switchSP(env);
++    }
++
++    /* Clobber ILINK with address of interrupting instruction. */
++    CPU_ILINK(env) = env->pc;
++
++    /* Start pushing regs and stat. */
++    irq_push(env, pack_status32(&env->stat), "STATUS32");
++    irq_push(env, env->pc, "PC");
++
++    /*
++     * Push EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
++     * Density feature is enabled.
++     */
++    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
++        /* FIXME! irq_push(env, env->aux_jli_base, "JLI_BASE"); */
++        /* FIXME! irq_push(env, env->aux_ldi_base, "LDI_BASE""); */
++        /* FIXME! irq_push(env, env->aux_ei_base, "EI_BASE"); */
++        irq_push(env, 0xdeadbeef, "dummy JLI_BASE");
++        irq_push(env, 0xdeadbeef, "dummy LDI_BASE");
++        irq_push(env, 0xdeadbeef, "dummy EI_BASE");
++    }
++
++    /* Push LP_COUNT, LP_START, LP_END registers if required. */
++    if (env->aux_irq_ctrl & (1 << 10)) {
++        irq_push(env, CPU_LP(env), "lp");
++        irq_push(env, env->lps, "LP_START");
++        irq_push(env, env->lpe, "LP_END");
++    }
++
++    /* Push BLINK register if required */
++    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
++        irq_push(env, CPU_BLINK(env), "blink");
++    }
++
++    /* Push selected AUX_IRQ_CTRL.NR of registers onto stack. */
++    uint32_t *save_reg_pair = cpu->cfg.rgf_num_regs == 32 ?
++        save_reg_pair_32 : save_reg_pair_16;
++    const uint32_t regspair = (cpu->cfg.rgf_num_regs == 32 ? 16 : 8);
++    const uint32_t upperlimit = (env->aux_irq_ctrl & 0x1F) < regspair ?
++        env->aux_irq_ctrl & 0x1F : regspair;
++    char regname[6];
++    uint32_t i;
++
++    for (i = upperlimit; i > 0; --i) {
++        sprintf(regname, "r%d", save_reg_pair[i - 1] + 1);
++        irq_push(env, env->r[save_reg_pair[i - 1] + 1], (const char *) regname);
++        sprintf(regname, "r%d", save_reg_pair[i - 1]);
++        irq_push(env, env->r[save_reg_pair[i - 1]], (const char *) regname);
++    }
++
++    /* Late switch to Kernel SP if previously in User thread. */
++    if (GET_STATUS_BIT(env->stat, Uf) && (env->aux_irq_ctrl & (1 << 11))) {
++        switchSP(env);
++    }
++
++    /* Set STATUS bits */
++    env->stat.Zf = GET_STATUS_BIT(env->stat, Uf); /* Old User/Kernel mode. */
++    SET_STATUS_BIT(env->stat, Lf, 1);
++    SET_STATUS_BIT(env->stat, ESf, 0);
++    SET_STATUS_BIT(env->stat, DZf, 0);
++    env->stat.DEf  = 0;
++    SET_STATUS_BIT(env->stat, Uf, 0);
++}
++
++/* Function implementation for reading the IRQ related aux regs. */
++target_ulong aux_irq_get(const struct arc_aux_reg_detail *aux_reg_detail,
++                     void *data)
 +{
 +    CPUARCState *env = (CPUARCState *) data;
 +    ARCCPU *cpu = env_archcpu(env);
-+    target_ulong reg = 0;
++    uint32_t tmp;
++
++    /* extract selected IRQ. */
++    const uint32_t irq = env->irq_select;
++    const ARCIrq *irq_bank = &env->irq_bank[irq];
 +
 +    switch (aux_reg_detail->id) {
-+    case AUX_ID_aux_volatile:
-+        reg = 0xc0000000;
++    case AUX_ID_irq_pending:
++        return irq_bank->pending | (irq > 15 ? (env->aux_irq_hint == irq) : 0);
++
++    case AUX_ID_irq_select:
++        return env->irq_select;
++
++    case AUX_ID_irq_priority:
++        return irq_bank->priority;
++
++    case AUX_ID_irq_trigger:
++        return irq_bank->trigger;
++
++    case AUX_ID_irq_status:
++        return (irq_bank->priority
++                | irq_bank->enable << 4
++                | irq_bank->trigger << 5
++                | (irq_bank->pending
++                   | (irq > 15 ? ((env->aux_irq_hint == irq) << 31) : 0)));
++
++    case AUX_ID_aux_irq_act:
++        return env->aux_irq_act;
++
++    case AUX_ID_aux_irq_ctrl:
++        return env->aux_irq_ctrl;
++
++    case AUX_ID_icause:
++        if ((env->aux_irq_act & 0xffff) == 0) {
++            return 0;
++        }
++        tmp = ctz32(env->aux_irq_act & 0xffff);
++        return env->icause[tmp];
++
++    case AUX_ID_irq_build:
++        return cpu->irq_build;
++
++    case AUX_ID_int_vector_base:
++        return env->intvec;
++
++    case AUX_ID_vecbase_ac_build:
++        return cpu->vecbase_build;
 +        break;
 +
-+    case AUX_ID_lp_start:
-+        reg = env->lps;
-+        break;
++    case AUX_ID_aux_user_sp:
++        return env->aux_user_sp;
 +
-+    case AUX_ID_lp_end:
-+        reg = env->lpe;
-+        break;
-+
-+    case AUX_ID_identity:
-+        reg = get_identity(env);
-+        break;
-+
-+    case AUX_ID_exec_ctrl:
-+        reg = 0;
-+        break;
-+
-+    case AUX_ID_debug:
-+        reg = 0;
-+        break;
-+
-+    case AUX_ID_pc:
-+        reg = env->pc & 0xfffffffe;
-+        break;
-+
-+    case AUX_ID_mpy_build:
-+        reg = cpu->mpy_build;
-+        break;
-+
-+    case AUX_ID_isa_config:
-+        reg = cpu->isa_config;
-+        break;
-+
-+    case AUX_ID_eret:
-+        reg = env->eret;
-+        break;
-+
-+    case AUX_ID_erbta:
-+        reg = env->erbta;
-+        break;
-+
-+    case AUX_ID_ecr:
-+        reg = env->ecr;
-+        break;
-+
-+    case AUX_ID_efa:
-+        reg = env->efa;
-+        break;
-+
-+    case AUX_ID_bta:
-+        reg = env->bta;
-+        break;
-+
-+    case AUX_ID_bta_l1:
-+        reg = env->bta_l1;
-+        break;
-+
-+    case AUX_ID_bta_l2:
-+        reg = env->bta_l2;
-+        break;
-+
-+    case AUX_ID_unimp_bcr:
-+        reg = 0;
-+        break;
++    case AUX_ID_aux_irq_hint:
++        return env->aux_irq_hint;
 +
 +    default:
 +        break;
 +    }
-+
-+    return reg;
++    return 0;
 +}
 +
-+void
-+arc_general_regs_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                     target_ulong val, void *data)
++/* Function implementation for writing the IRQ related aux regs. */
++void aux_irq_set(const struct arc_aux_reg_detail *aux_reg_detail,
++                 target_ulong val, void *data)
 +{
 +    CPUARCState *env = (CPUARCState *) data;
++    ARCCPU *cpu = env_archcpu(env);
++    const uint32_t irq = env->irq_select;
++    ARCIrq *irq_bank = &env->irq_bank[irq];
++
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] set aux_reg: %s, with 0x"
++                  TARGET_FMT_lx "\n",
++                  arc_aux_reg_name[aux_reg_detail->id],
++                  val);
++
 +
 +    switch (aux_reg_detail->id) {
-+    case AUX_ID_lp_start:
-+        env->lps = val;
++    case AUX_ID_irq_select:
++        if (val <= (16 + ((cpu->irq_build >> 8) & 0xff)))
++            env->irq_select = val;
++        else
++            qemu_log_mask(LOG_UNIMP,
++                          "[IRQ] Invalid write 0x" TARGET_FMT_lx
++                          " to IRQ_SELECT aux reg.\n",
++                          val);
 +        break;
 +
-+    case AUX_ID_lp_end:
-+        env->lpe = val;
++    case AUX_ID_aux_irq_hint:
++        qemu_mutex_lock_iothread();
++        if (val == 0) {
++            qemu_irq_lower(env->irq[env->aux_irq_hint]);
++        } else if (val >= 16) {
++            qemu_irq_raise(env->irq[val]);
++            env->aux_irq_hint = val;
++        }
++        qemu_mutex_unlock_iothread();
 +        break;
 +
-+    case AUX_ID_eret:
-+        env->eret = val;
++    case AUX_ID_irq_pulse_cancel:
++        irq_bank->pending = irq_bank->trigger ? (val & 0x01) : 0;
 +        break;
 +
-+    case AUX_ID_erbta:
-+        env->erbta = val;
++    case AUX_ID_irq_trigger:
++        irq_bank->trigger = val & 0x01;
 +        break;
 +
-+    case AUX_ID_bta:
-+        env->bta = val;
++    case AUX_ID_irq_priority:
++        if (val <= ((cpu->irq_build >> 24) & 0x0f)) {
++            irq_bank->priority = val & 0x0f;
++        } else {
++            qemu_log_mask(LOG_UNIMP,
++                          "[IRQ] Invalid write 0x" TARGET_FMT_lx
++                          " to IRQ_PRIORITY aux reg.\n",
++                          val);
++        }
 +        break;
 +
-+    case AUX_ID_ecr:
-+        env->ecr = val;
++    case AUX_ID_aux_irq_ctrl:
++        env->aux_irq_ctrl = val & 0x2e1f;
 +        break;
 +
-+    case AUX_ID_efa:
-+        env->efa = val;
++    case AUX_ID_irq_enable:
++        irq_bank->enable = val & 0x01;
++        break;
++
++    case AUX_ID_aux_irq_act:
++        env->aux_irq_act = val & 0x8000ffff;
++        break;
++
++    case AUX_ID_int_vector_base:
++        env->intvec = val;
++        break;
++
++    case AUX_ID_aux_user_sp:
++        env->aux_user_sp = val;
 +        break;
 +
 +    default:
 +        break;
 +    }
 +}
-diff --git a/target/arc/regs.c b/target/arc/regs.c
++
++/* Check if we can interrupt the cpu. */
++
++bool arc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++{
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
++    bool found = false;
++    uint32_t vectno = 0;
++    uint32_t offset, priority;
++
++    /* Check if we should execute this interrupt. */
++    if (GET_STATUS_BIT(env->stat, Hf)
++        /* The interrupts are enabled. */
++        || env->stat.IEf == 0
++        /* We are not in an exception. */
++        || GET_STATUS_BIT(env->stat, AEf)
++        /* Disable interrupts to happen after MissI exceptions. */
++        || env->enabled_interrupts == false
++        /* In a delay slot of branch */
++        || env->stat.is_delay_slot_instruction
++        || env->stat.DEf
++        || (!(interrupt_request & CPU_INTERRUPT_HARD))) {
++        return false;
++    }
++
++    /* Check if any interrupts are pending. */
++    if (!env->irq_priority_pending
++        /* Or we are serving at the same priority level. */
++        || (ctz32(env->irq_priority_pending) >= ctz32(env->aux_irq_act))) {
++        return false;
++    }
++
++    /* Find the first IRQ to serve. */
++    priority = 0;
++    do {
++        for (vectno = 0;
++             vectno < cpu->cfg.number_of_interrupts; vectno++) {
++            if (env->irq_bank[16 + vectno].priority == priority
++                && env->irq_bank[16 + vectno].enable
++                && env->irq_bank[16 + vectno].pending) {
++                found = true;
++                break;
++            }
++        }
++    } while (!found && ((++priority) <= env->stat.Ef));
++
++    /* No valid interrupt has been found. */
++    if (!found) {
++        return false;
++    }
++
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] interrupt at pc=0x" TARGET_FMT_lx
++                  "\n", env->pc);
++
++    /* Adjust vector number. */
++    vectno += 16;
++
++    /* Set the AUX_IRQ_ACT. */
++    if ((env->aux_irq_act & 0xffff) == 0) {
++        env->aux_irq_act |= GET_STATUS_BIT(env->stat, Uf) << 31;
++    }
++    env->aux_irq_act |= 1 << priority;
++
++    /* Set ICAUSE register. */
++    env->icause[priority] = vectno;
++
++    /* Do FIRQ if possible. */
++    if (cpu->cfg.firq_option && priority == 0) {
++        arc_enter_firq(cpu, vectno);
++    } else {
++        arc_enter_irq(cpu, vectno);
++    }
++
++    /* XX. The PC is set with the appropriate exception vector. */
++    offset = OFFSET_FOR_VECTOR(vectno);
++    env->pc = TARGET_LONG_LOAD(env, env->intvec + offset);
++    CPU_PCL(env) = env->pc & (~1);
++
++    qemu_log_mask(CPU_LOG_INT, "[IRQ] isr=0x" TARGET_FMT_lx
++                  " vec=0x%08x, priority=0x%04x\n",
++                  env->pc, offset, priority);
++
++    return true;
++}
++
++/* To be called in the RTIE helper. */
++
++bool arc_rtie_interrupts(CPUARCState *env)
++{
++    ARCCPU *cpu = env_archcpu(env);
++
++    if (GET_STATUS_BIT(env->stat, AEf) || ((env->aux_irq_act & 0xffff) == 0)) {
++        return false;
++    }
++
++    /* FIXME! Reset RTC state. */
++
++    if ((env->aux_irq_act & 0xffff) == 1 && cpu->cfg.firq_option) {
++        arc_rtie_firq(env);
++    } else {
++        arc_rtie_irq(env);
++    }
++    return true;
++}
++
++/* Switch between AUX USER SP and CPU's SP. */
++void switchSP(CPUARCState *env)
++{
++    uint32_t tmp;
++    qemu_log_mask(CPU_LOG_INT,
++                  "[%s] swap: r28 = 0x" TARGET_FMT_lx
++                  "  AUX_USER_SP = 0x%08x\n",
++                  (env->aux_irq_act & 0xFFFF) ? "IRQ" : "EXCP",
++                  CPU_SP(env), env->aux_user_sp);
++
++    tmp = env->aux_user_sp;
++    env->aux_user_sp = CPU_SP(env);
++    CPU_SP(env) = tmp;
++    /*
++     * TODO: maybe we need to flush the tcg buffer to switch into
++     * kernel mode.
++     */
++}
++
++/* Reset the IRQ subsytem. */
++void arc_resetIRQ(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++    uint32_t i;
++
++    if (!cpu->cfg.has_interrupts) {
++        return;
++    }
++
++    for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
++        env->irq_bank[16 + i].enable = 1;
++    }
++
++    if (cpu->cfg.has_timer_0) {
++        /* FIXME! add build default timer0 priority. */
++        env->irq_bank[16].priority = 0;
++    }
++
++    if (cpu->cfg.has_timer_1) {
++        /* FIXME! add build default timer1 priority. */
++        env->irq_bank[17].priority = 0;
++    }
++
++    qemu_log_mask(CPU_LOG_RESET, "[IRQ] Reset the IRQ subsystem.");
++}
++
++/* Initializing the IRQ subsystem. */
++void arc_initializeIRQ(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++    uint32_t i;
++
++    if (cpu->cfg.has_interrupts) {
++        /* FIXME! add N (NMI) bit. */
++        cpu->irq_build = 0x01 | ((cpu->cfg.number_of_interrupts & 0xff) << 8) |
++            ((cpu->cfg.external_interrupts & 0xff) << 16) |
++            ((cpu->cfg.number_of_levels & 0x0f) << 24) |
++            (cpu->cfg.firq_option ? (1 << 28) : 0);
++
++        for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
++            env->irq_bank[16 + i].enable = 1;
++        }
++
++        cpu->vecbase_build = (cpu->cfg.intvbase_preset & (~0x3ffff))
++            | (0x04 << 2);
++        env->intvec = cpu->cfg.intvbase_preset & (~0x3ffff);
++    } else {
++        cpu->irq_build = 0;
++    }
++}
+diff --git a/target/arc/irq.h b/target/arc/irq.h
 new file mode 100644
-index 0000000000..5374a93f62
+index 0000000000..d450126b76
 --- /dev/null
-+++ b/target/arc/regs.c
-@@ -0,0 +1,183 @@
++++ b/target/arc/irq.h
+@@ -0,0 +1,37 @@
++/*
++ * QEMU ARC CPU
++ *
++ * Copyright (c) 2020 Synopsys Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
++ */
++
++#ifndef __IRQ_H__
++#define __IRQ_H__
++
++#include "target/arc/regs.h"
++#include "cpu.h"
++
++bool arc_cpu_exec_interrupt(CPUState *, int);
++bool arc_rtie_interrupts(CPUARCState *);
++void switchSP(CPUARCState *);
++void arc_initializeIRQ(ARCCPU *);
++void arc_resetIRQ(ARCCPU *);
++uint32_t pack_status32(ARCStatus *);
++void unpack_status32(ARCStatus *, uint32_t);
++
++#define OFFSET_FOR_VECTOR(VECNO) (VECNO << 2)
++
++#endif
+diff --git a/target/arc/timer.c b/target/arc/timer.c
+new file mode 100644
+index 0000000000..43caf3b5a1
+--- /dev/null
++++ b/target/arc/timer.c
+@@ -0,0 +1,459 @@
 +/*
 + * QEMU ARC CPU
 + *
@@ -1103,592 +859,450 @@ index 0000000000..5374a93f62
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "target/arc/regs.h"
-+#include "target/arc/mmu.h"
-+#include "target/arc/mpu.h"
-+#include "target/arc/irq.h"
-+#include "target/arc/timer.h"
-+#include "target/arc/cache.h"
++#include "qemu/timer.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "hw/irq.h"
++#include "hw/arc/cpudevs.h"
++#include "timer.h"
++#include "qemu/main-loop.h"
 +
-+struct arc_aux_reg_detail arc_aux_regs_detail[ARC_AUX_REGS_DETAIL_LAST] = {
-+#define DEF(NUM, CPU, SUB, NAME) \
-+  { \
-+    NUM, \
-+    (CPU), \
-+    SUB, \
-+    AUX_ID_##NAME, \
-+    #NAME, \
-+    sizeof(#NAME) - 1, \
-+    NULL, \
-+    NULL, \
-+  },
-+#include "target/arc/regs-detail.def"
-+#undef DEF
-+};
++#define TIMER_PERIOD(hz) (1000000000LL / (hz))
++#define TIMEOUT_LIMIT 1000000
 +
-+struct arc_aux_reg arc_aux_regs[ARC_AUX_REGS_LAST] = {
-+#define AUX_REG_GETTER(GET_FUNC)
-+#define AUX_REG_SETTER(SET_FUNC)
-+#define AUX_REG(NAME, GET_FUNC, SET_FUNC) \
-+  { \
-+    NULL, \
-+    GET_FUNC, \
-+    SET_FUNC \
-+  },
-+#include "target/arc/regs.def"
-+#undef AUX_REG
-+#undef AUX_REG_GETTER
-+#undef AUX_REG_SETTER
-+};
++#define FREQ_HZ (env_archcpu(env)->freq_hz)
++#define T_PERIOD (TIMER_PERIOD(FREQ_HZ))
++#define T_COUNT(T)                                                      \
++    ((uint32_t) ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -               \
++                  env->timer[T].last_clk) / T_PERIOD))
 +
-+const char *arc_aux_reg_name[ARC_AUX_REGS_DETAIL_LAST] = {
-+#define AUX_REG_GETTER(GET_FUNC)
-+#define AUX_REG_SETTER(SET_FUNC)
-+#define AUX_REG(NAME, GET, SET) #NAME,
-+#include "target/arc/regs.def"
-+#undef AUX_REG
-+#undef AUX_REG_GETTER
-+#undef AUX_REG_SETTER
-+  "last_invalid_aux_reg"
-+};
-+
-+
-+void arc_aux_regs_init(void)
++/* Update the next timeout time as difference between Count and Limit */
++static void cpu_arc_timer_update(CPUARCState *env, uint32_t timer)
 +{
-+    int i;
++    uint32_t delta;
++    uint32_t t_count = T_COUNT(timer);
++    uint64_t now =
++        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
++    uint32_t period = T_PERIOD;
 +
-+    for (i = 0; i < ARC_AUX_REGS_DETAIL_LAST; i++) {
-+        enum arc_aux_reg_enum id = arc_aux_regs_detail[i].id;
-+        struct arc_aux_reg_detail *next = arc_aux_regs[id].first;
-+        arc_aux_regs_detail[i].next = next;
-+        arc_aux_regs_detail[i].aux_reg = &(arc_aux_regs[id]);
-+        arc_aux_regs[id].first = &(arc_aux_regs_detail[i]);
++    delta = env->timer[timer].T_Limit - t_count - 1;
++
++    /*
++     * Artificially limit timeout rate to something achievable under
++     * QEMU. Otherwise, QEMU spends all its time generating timer
++     * interrupts, and there is no forward progress. About ten
++     * microseconds is the fastest that really works on the current
++     * generation of host machines.
++     */
++    if ((delta * period) < TIMEOUT_LIMIT) {
++        delta = TIMEOUT_LIMIT / period;
++    }
++
++    timer_mod(env->cpu_timer[timer], now + ((uint64_t)delta * period));
++
++    qemu_log_mask(LOG_UNIMP,
++                  "[TMR%d] Timer update in 0x" TARGET_FMT_lx
++                  " - 0x%08x = 0x%08x (ctrl:0x" TARGET_FMT_lx
++                  " @ %d Hz)\n",
++                  timer, env->timer[timer].T_Limit,
++                  t_count, delta, env->timer[timer].T_Cntrl, FREQ_HZ);
++}
++
++/* Expire the timer function. Rise an interrupt if required. */
++
++static void cpu_arc_timer_expire(CPUARCState *env, uint32_t timer)
++{
++    assert(timer == 1 || timer == 0);
++    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer expired\n", timer);
++
++    uint32_t overflow = env->timer[timer].T_Cntrl & TMR_IP;
++    /* Set the IP bit. */
++
++    bool unlocked = !qemu_mutex_iothread_locked();
++    if (unlocked) {
++        qemu_mutex_lock_iothread();
++    }
++    env->timer[timer].T_Cntrl |= TMR_IP;
++    env->timer[timer].last_clk =
++        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
++    if (unlocked) {
++        qemu_mutex_unlock_iothread();
++    }
++
++    /* Raise an interrupt if enabled. */
++    if ((env->timer[timer].T_Cntrl & TMR_IE) && !overflow) {
++        qemu_log_mask(CPU_LOG_INT, "[TMR%d] Rising IRQ\n", timer);
++        qemu_irq_raise(env->irq[TIMER0_IRQ + (timer & 0x01)]);
 +    }
 +}
 +
-+int
-+arc_aux_reg_address_for(enum arc_aux_reg_enum aux_reg_def,
-+                        int isa_mask)
-+{
-+    /* TODO: This must validate for CPU. */
-+    struct arc_aux_reg_detail *detail = arc_aux_regs[aux_reg_def].first;
-+    while (detail != NULL) {
-+        if ((detail->cpu & isa_mask) != 0) {
-+            return detail->address;
-+        }
-+        detail = detail->next;
-+    }
-+    assert(0);
++/*
++ * This callback should occur when the counter is exactly equal to the
++ * limit value. Offset the count by one to avoid immediately
++ * retriggering the callback before any virtual time has passed.
++ */
 +
-+    /* We never get here but to accommodate -Werror ... */
++static void arc_timer0_cb(void *opaque)
++{
++    CPUARCState *env = (CPUARCState *) opaque;
++
++    if (!(env_archcpu(env)->timer_build & TB_T0)) {
++        return;
++    }
++
++    cpu_arc_timer_expire(env, 0);
++    cpu_arc_timer_update(env, 0);
++}
++
++/* Like the above function but for TIMER1. */
++static void arc_timer1_cb(void *opaque)
++{
++    CPUARCState *env = (CPUARCState *) opaque;
++
++    if (!(env_archcpu(env)->timer_build & TB_T1)) {
++        return;
++    }
++
++    cpu_arc_timer_expire(env, 1);
++    cpu_arc_timer_update(env, 1);
++}
++
++/* RTC counter update. */
++static void cpu_rtc_count_update(CPUARCState *env)
++{
++    uint64_t now;
++    uint64_t llreg;
++
++    assert((env_archcpu(env)->timer_build & TB_RTC) && env->cpu_rtc);
++    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++
++    if (!(env->aux_rtc_ctrl & 0x01)) {
++        return;
++    }
++
++    llreg = ((now - env->last_clk_rtc) / TIMER_PERIOD(FREQ_HZ));
++    llreg += env->aux_rtc_low + ((uint64_t)env->aux_rtc_high << 32);
++    env->aux_rtc_high = llreg >> 32;
++    env->aux_rtc_low = (uint32_t) llreg;
++
++    env->last_clk_rtc = now;
++    qemu_log_mask(LOG_UNIMP, "[RTC] RTC count-regs update\n");
++}
++
++/* Update the next timeout time as difference between Count and Limit */
++static void cpu_rtc_update(CPUARCState *env)
++{
++    uint64_t wait = 0;
++    uint64_t now, next, period;
++
++    assert(env->cpu_rtc);
++    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++
++    if (!(env->aux_rtc_ctrl & 0x01)) {
++        return;
++    }
++
++    period = TIMER_PERIOD(FREQ_HZ);
++    wait = UINT64_MAX - ((((uint64_t) env->aux_rtc_high) << 32)
++                       + env->aux_rtc_low);
++    wait -= (now - env->last_clk_rtc) / period;
++
++    /* Limit timeout rate. */
++    if ((wait * period) < TIMEOUT_LIMIT) {
++        period = TIMEOUT_LIMIT / wait;
++    }
++
++    next = now + (uint64_t) wait * period;
++    timer_mod(env->cpu_rtc, next);
++    qemu_log_mask(LOG_UNIMP, "[RTC] RTC update\n");
++}
++
++/* RTC call back routine. */
++static void arc_rtc_cb(void *opaque)
++{
++    CPUARCState *env = (CPUARCState *) opaque;
++
++    if (!(env_archcpu(env)->timer_build & TB_RTC)) {
++        return;
++    }
++
++    qemu_log_mask(LOG_UNIMP, "[RTC] RTC expired\n");
++
++    env->aux_rtc_high = 0;
++    env->aux_rtc_low = 0;
++    env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    cpu_rtc_update(env);
++}
++
++/* Helper used when resetting the system. */
++static void cpu_arc_count_reset(CPUARCState *env, uint32_t timer)
++{
++    assert(timer == 0 || timer == 1);
++    env->timer[timer].T_Cntrl = 0;
++    env->timer[timer].T_Limit = 0x00ffffff;
++}
++
++/* Get the counter value. */
++static uint32_t cpu_arc_count_get(CPUARCState *env, uint32_t timer)
++{
++    uint32_t count = T_COUNT(timer);
++    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer count %d.\n", timer, count);
++    return count;
++}
++
++/* Set the counter value. */
++static void cpu_arc_count_set(CPUARCState *env, uint32_t timer, uint32_t val)
++{
++    assert(timer == 0 || timer == 1);
++    bool unlocked = !qemu_mutex_iothread_locked();
++    if (unlocked) {
++        qemu_mutex_lock_iothread();
++    }
++    env->timer[timer].last_clk =
++        ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) + val) * T_PERIOD;
++    cpu_arc_timer_update(env, timer);
++    if (unlocked) {
++        qemu_mutex_unlock_iothread();
++    }
++}
++
++/* Store the counter limit. */
++static void cpu_arc_store_limit(CPUARCState *env,
++                                uint32_t timer, uint32_t value)
++{
++    switch (timer) {
++    case 0:
++        if (!(env_archcpu(env)->timer_build & TB_T0)) {
++            return;
++        }
++        break;
++    case 1:
++        if (!(env_archcpu(env)->timer_build & TB_T1)) {
++            return;
++        }
++        break;
++    default:
++        break;
++    }
++    env->timer[timer].T_Limit = value;
++    cpu_arc_timer_update(env, timer);
++}
++
++/* Set the timer control bits. */
++static void cpu_arc_control_set(CPUARCState *env,
++                                uint32_t timer, uint32_t value)
++{
++    assert(timer == 1 || timer == 0);
++    bool unlocked = !qemu_mutex_iothread_locked();
++    if (unlocked) {
++        qemu_mutex_lock_iothread();
++    }
++    if ((env->timer[timer].T_Cntrl & TMR_IP) && !(value & TMR_IP)) {
++        qemu_irq_lower(env->irq[TIMER0_IRQ + (timer)]);
++    }
++    env->timer[timer].T_Cntrl = value & 0x1f;
++    if (unlocked) {
++        qemu_mutex_unlock_iothread();
++    }
++}
++
++/* Get The RTC count value. */
++static uint32_t arc_rtc_count_get(CPUARCState *env, bool lower)
++{
++    cpu_rtc_count_update(env);
++    return lower ? env->aux_rtc_low : env->aux_rtc_high;
++}
++
++/* Set the RTC control bits. */
++static void arc_rtc_ctrl_set(CPUARCState *env, uint32_t val)
++{
++    assert(GET_STATUS_BIT(env->stat, Uf) == 0);
++
++    if (val & 0x02) {
++        env->aux_rtc_low = 0;
++        env->aux_rtc_high = 0;
++        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    }
++    if (!(val & 0x01)) {
++        timer_del(env->cpu_rtc);
++    }
++
++    /* Restart RTC, update last clock. */
++    if ((env->aux_rtc_ctrl & 0x01) == 0 && (val & 0x01)) {
++        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    }
++
++    env->aux_rtc_ctrl = 0xc0000000 | (val & 0x01);
++    cpu_rtc_update(env);
++}
++
++/* Init procedure, called in platform. */
++
++void
++cpu_arc_clock_init(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++
++    if (env_archcpu(env)->timer_build & TB_T0) {
++        env->cpu_timer[0] =
++            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer0_cb, env);
++    }
++
++    if (env_archcpu(env)->timer_build & TB_T1) {
++        env->cpu_timer[1] =
++            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer1_cb, env);
++    }
++
++    if (env_archcpu(env)->timer_build & TB_RTC) {
++        env->cpu_rtc =
++            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_rtc_cb, env);
++    }
++
++    env->timer[0].last_clk =
++        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
++    env->timer[1].last_clk =
++        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
++}
++
++void
++arc_initializeTIMER(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++
++    /* FIXME! add default timer priorities. */
++    env_archcpu(env)->timer_build = 0x04 | (cpu->cfg.has_timer_0 ? TB_T0 : 0) |
++                       (cpu->cfg.has_timer_1 ? TB_T1 : 0) |
++                       (cpu->cfg.rtc_option ? TB_RTC : 0);
++}
++
++void
++arc_resetTIMER(ARCCPU *cpu)
++{
++    CPUARCState *env = &cpu->env;
++
++    if (env_archcpu(env)->timer_build & TB_T0) {
++        cpu_arc_count_reset(env, 0);
++    }
++
++    if (env_archcpu(env)->timer_build & TB_T1) {
++        cpu_arc_count_reset(env, 1);
++    }
++}
++
++/* Function implementation for reading/writing aux regs. */
++target_ulong
++aux_timer_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
++{
++    CPUARCState *env = (CPUARCState *) data;
++
++    switch (aux_reg_detail->id) {
++    case AUX_ID_control0:
++        return env->timer[0].T_Cntrl;
++        break;
++
++    case AUX_ID_control1:
++        return env->timer[1].T_Cntrl;
++        break;
++
++    case AUX_ID_count0:
++        return cpu_arc_count_get(env, 0);
++        break;
++
++    case AUX_ID_count1:
++        return cpu_arc_count_get(env, 1);
++        break;
++
++    case AUX_ID_limit0:
++        return env->timer[0].T_Limit;
++        break;
++
++    case AUX_ID_limit1:
++        return env->timer[1].T_Limit;
++        break;
++
++    case AUX_ID_timer_build:
++        return env_archcpu(env)->timer_build;
++        break;
++
++    case AUX_ID_aux_rtc_low:
++        return arc_rtc_count_get(env, true);
++        break;
++
++    case AUX_ID_aux_rtc_high:
++        return arc_rtc_count_get(env, false);
++        break;
++
++    case AUX_ID_aux_rtc_ctrl:
++        return env->aux_rtc_ctrl;
++        break;
++
++    default:
++        break;
++    }
 +    return 0;
 +}
 +
-+struct arc_aux_reg_detail *
-+arc_aux_reg_struct_for_address(int address, int isa_mask)
++void aux_timer_set(const struct arc_aux_reg_detail *aux_reg_detail,
++                   target_ulong val, void *data)
 +{
-+    int i;
-+    bool has_default = false;
-+    struct arc_aux_reg_detail *default_ret = NULL;
++    CPUARCState *env = (CPUARCState *) data;
 +
-+    /* TODO: Make this a binary search or something faster. */
-+    for (i = 0; i < ARC_AUX_REGS_DETAIL_LAST; i++) {
-+        if (arc_aux_regs_detail[i].address == address) {
-+            if (arc_aux_regs_detail[i].cpu == ARC_OPCODE_DEFAULT) {
-+                has_default = true;
-+                default_ret = &(arc_aux_regs_detail[i]);
-+            } else if ((arc_aux_regs_detail[i].cpu & isa_mask) != 0) {
-+                return &(arc_aux_regs_detail[i]);
-+            }
++    qemu_log_mask(LOG_UNIMP, "[TMRx] AUX[%s] <= 0x" TARGET_FMT_lx "\n",
++                  aux_reg_detail->name, val);
++
++    qemu_mutex_lock_iothread();
++    switch (aux_reg_detail->id) {
++    case AUX_ID_control0:
++        if (env_archcpu(env)->timer_build & TB_T0) {
++            cpu_arc_control_set(env, 0, val);
 +        }
-+    }
++        break;
 +
-+    if (has_default == true) {
-+        return default_ret;
-+    }
++    case AUX_ID_control1:
++        if (env_archcpu(env)->timer_build & TB_T1) {
++            cpu_arc_control_set(env, 1, val);
++        }
++        break;
 +
-+    return NULL;
++    case AUX_ID_count0:
++        if (env_archcpu(env)->timer_build & TB_T0) {
++            cpu_arc_count_set(env, 0, val);
++        }
++        break;
++
++    case AUX_ID_count1:
++        if (env_archcpu(env)->timer_build & TB_T1) {
++            cpu_arc_count_set(env, 1, val);
++        }
++        break;
++
++    case AUX_ID_limit0:
++        cpu_arc_store_limit(env, 0, val);
++        break;
++
++    case AUX_ID_limit1:
++        cpu_arc_store_limit(env, 1, val);
++        break;
++
++    case AUX_ID_aux_rtc_ctrl:
++        arc_rtc_ctrl_set(env, val);
++        break;
++
++    default:
++        break;
++    }
++    qemu_mutex_unlock_iothread();
 +}
 +
-+const char *get_auxreg(const struct arc_opcode *opcode,
-+                       int value,
-+                       unsigned isa_mask)
-+{
-+    unsigned int i;
-+    const struct arc_aux_reg_detail *auxr = &arc_aux_regs_detail[0];
 +
-+    if (opcode->insn_class != AUXREG) {
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < ARRAY_SIZE(arc_aux_regs); i++, auxr++) {
-+        if (!(auxr->cpu & isa_mask)) {
-+            continue;
-+        }
-+
-+        if (auxr->subclass != NONE) {
-+            return NULL;
-+        }
-+
-+        if (auxr->address == value) {
-+            return auxr->name;
-+        }
-+    }
-+    return NULL;
-+}
-+
-+target_ulong __not_implemented_getter(
-+            const struct arc_aux_reg_detail *aux_reg_detail ATTRIBUTE_UNUSED,
-+            void *data ATTRIBUTE_UNUSED) {
-+       assert("SOME AUX_REG_GETTER NOT IMPLEMENTED " == 0);
-+}
-+void __not_implemented_setter(
-+            const struct arc_aux_reg_detail *aux_reg_detail ATTRIBUTE_UNUSED,
-+            target_ulong value ATTRIBUTE_UNUSED,
-+            void *data ATTRIBUTE_UNUSED) {
-+  assert("SOME AUX_REG_SETTER NOT IMPLEMENTED " == 0);
-+}
-+
-+#define AUX_REG_GETTER(GET_FUNC) \
-+    target_ulong GET_FUNC(const struct arc_aux_reg_detail *a, void *b) \
-+         __attribute__ ((weak, alias("__not_implemented_getter")));
-+#define AUX_REG_SETTER(SET_FUNC) \
-+    void SET_FUNC(const struct arc_aux_reg_detail *a, target_ulong b, \
-+                   void *c) \
-+                   __attribute__ ((weak, alias("__not_implemented_setter")));
-+#define AUX_REG(NAME, GET, SET)
-+
-+#include "target/arc/regs.def"
-+
-+#undef AUX_REG
-+#undef AUX_REG_GETTER
-+#undef AUX_REG_SETTER
-diff --git a/target/arc/regs.def b/target/arc/regs.def
++/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
++/* vim: set ts=4 sw=4 et: */
+diff --git a/target/arc/timer.h b/target/arc/timer.h
 new file mode 100644
-index 0000000000..5dc3764266
+index 0000000000..01baf73d37
 --- /dev/null
-+++ b/target/arc/regs.def
-@@ -0,0 +1,412 @@
-+/*
-+ * QEMU ARC Auxiliary register definitions
-+ *
-+ * Copyright (c) 2020 Synppsys Inc.
-+ * Contributed by Claudiu Zissulescu (claziss@synopsys.com)
-+ * Contributed by Cupertino Miranda (cmiranda@synopsys.com)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+AUX_REG_GETTER(arc_general_regs_get)
-+AUX_REG_SETTER(arc_general_regs_set)
-+AUX_REG_GETTER(arc_status_regs_get)
-+AUX_REG_SETTER(arc_status_regs_set)
-+AUX_REG_GETTER(aux_irq_get)
-+AUX_REG_SETTER(aux_irq_set)
-+AUX_REG_GETTER(aux_timer_get)
-+AUX_REG_SETTER(aux_timer_set)
-+AUX_REG_GETTER(arc_cache_aux_get)
-+AUX_REG_SETTER(arc_cache_aux_set)
-+AUX_REG_GETTER(arc_mpu_aux_get)
-+AUX_REG_SETTER(arc_mpu_aux_set)
-+AUX_REG_GETTER(arc_mmu_aux_get)
-+AUX_REG_SETTER(arc_mmu_aux_set)
-+AUX_REG_SETTER(arc_mmu_aux_set_tlbcmd)
-+
-+AUX_REG (unimp_bcr, arc_general_regs_get, NULL)
-+AUX_REG (acg_ctrl, NULL, NULL)
-+AUX_REG (acr, NULL, NULL)
-+AUX_REG (adcr, NULL, NULL)
-+AUX_REG (aes_aux_0, NULL, NULL)
-+AUX_REG (aes_aux_1, NULL, NULL)
-+AUX_REG (aes_aux_2, NULL, NULL)
-+AUX_REG (aes_aux_3, NULL, NULL)
-+AUX_REG (aes_aux_4, NULL, NULL)
-+AUX_REG (aes_auxi, NULL, NULL)
-+AUX_REG (aes_auxs, NULL, NULL)
-+AUX_REG (aes_crypt_mode, NULL, NULL)
-+AUX_REG (ap_ac0, NULL, NULL)
-+AUX_REG (ap_ac1, NULL, NULL)
-+AUX_REG (ap_ac2, NULL, NULL)
-+AUX_REG (ap_ac3, NULL, NULL)
-+AUX_REG (ap_ac4, NULL, NULL)
-+AUX_REG (ap_ac5, NULL, NULL)
-+AUX_REG (ap_ac6, NULL, NULL)
-+AUX_REG (ap_ac7, NULL, NULL)
-+AUX_REG (ap_amm0, NULL, NULL)
-+AUX_REG (ap_amm1, NULL, NULL)
-+AUX_REG (ap_amm2, NULL, NULL)
-+AUX_REG (ap_amm3, NULL, NULL)
-+AUX_REG (ap_amm4, NULL, NULL)
-+AUX_REG (ap_amm5, NULL, NULL)
-+AUX_REG (ap_amm6, NULL, NULL)
-+AUX_REG (ap_amm7, NULL, NULL)
-+AUX_REG (ap_amv0, NULL, NULL)
-+AUX_REG (ap_amv1, NULL, NULL)
-+AUX_REG (ap_amv2, NULL, NULL)
-+AUX_REG (ap_amv3, NULL, NULL)
-+AUX_REG (ap_amv4, NULL, NULL)
-+AUX_REG (ap_amv5, NULL, NULL)
-+AUX_REG (ap_amv6, NULL, NULL)
-+AUX_REG (ap_amv7, NULL, NULL)
-+AUX_REG (apcr, NULL, NULL)
-+AUX_REG (arc600_build_config, NULL, NULL)
-+AUX_REG (arith_ctl_aux, NULL, NULL)
-+AUX_REG (aux_cabac_cod_param, NULL, NULL)
-+AUX_REG (aux_cabac_ctrl, NULL, NULL)
-+AUX_REG (aux_cabac_ctx_state, NULL, NULL)
-+AUX_REG (aux_cabac_misc0, NULL, NULL)
-+AUX_REG (aux_cabac_misc1, NULL, NULL)
-+AUX_REG (aux_cabac_misc2, NULL, NULL)
-+AUX_REG (aux_cavlc_zero_left, NULL, NULL)
-+AUX_REG (aux_crc_mode, NULL, NULL)
-+AUX_REG (aux_crc_poly, NULL, NULL)
-+AUX_REG (aux_dccm, NULL, NULL)
-+AUX_REG (aux_dpfp1h, NULL, NULL)
-+AUX_REG (aux_dpfp1l, NULL, NULL)
-+AUX_REG (aux_dpfp2h, NULL, NULL)
-+AUX_REG (aux_dpfp2l, NULL, NULL)
-+AUX_REG (aux_fbf_store_16, NULL, NULL)
-+AUX_REG (aux_inter_core_interrupt, NULL, NULL)
-+AUX_REG (irq_priority, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_irq_act, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_irq_hint, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_irq_lev, NULL, NULL)
-+AUX_REG (aux_irq_lv12, NULL, NULL)
-+AUX_REG (irq_pending, aux_irq_get, NULL)
-+AUX_REG (irq_pulse_cancel, NULL, aux_irq_set)
-+AUX_REG (aux_irq_ctrl, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_kernel_sp, NULL, NULL)
-+AUX_REG (aux_ldst_ram, NULL, NULL)
-+AUX_REG (aux_macmode, NULL, NULL)
-+AUX_REG (aux_sec_ctrl, NULL, NULL)
-+AUX_REG (aux_sec_except, NULL, NULL)
-+AUX_REG (aux_sec_k_sp, NULL, NULL)
-+AUX_REG (aux_sec_u_sp, NULL, NULL)
-+AUX_REG (aux_ucavlc_setup, NULL, NULL)
-+AUX_REG (aux_ucavlc_state, NULL, NULL)
-+AUX_REG (aux_user_sp, aux_irq_get, aux_irq_set)
-+AUX_REG (aux_uvlc_i_state, NULL, NULL)
-+AUX_REG (aux_vbfdw_accu, NULL, NULL)
-+AUX_REG (aux_vbfdw_bm0, NULL, NULL)
-+AUX_REG (aux_vbfdw_bm1, NULL, NULL)
-+AUX_REG (aux_vbfdw_intstat, NULL, NULL)
-+AUX_REG (aux_vbfdw_mode, NULL, NULL)
-+AUX_REG (aux_vbfdw_ofst, NULL, NULL)
-+AUX_REG (aux_volatile, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (aux_vlc_bits, NULL, NULL)
-+AUX_REG (aux_vlc_buf_free, NULL, NULL)
-+AUX_REG (aux_vlc_buf_idx, NULL, NULL)
-+AUX_REG (aux_vlc_buf_in, NULL, NULL)
-+AUX_REG (aux_vlc_dma_ctrl, NULL, NULL)
-+AUX_REG (aux_vlc_dma_end, NULL, NULL)
-+AUX_REG (aux_vlc_dma_esc, NULL, NULL)
-+AUX_REG (aux_vlc_dma_ptr, NULL, NULL)
-+AUX_REG (aux_vlc_get_0bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_10bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_11bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_12bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_13bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_14bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_15bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_16bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_17bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_18bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_19bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_1bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_20bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_21bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_22bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_23bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_24bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_25bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_26bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_27bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_28bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_29bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_2bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_30bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_31bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_3bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_4bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_5bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_6bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_7bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_8bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_9bit, NULL, NULL)
-+AUX_REG (aux_vlc_get_symbol, NULL, NULL)
-+AUX_REG (aux_vlc_ibuf_status, NULL, NULL)
-+AUX_REG (aux_vlc_read_buf, NULL, NULL)
-+AUX_REG (aux_vlc_read_symbol, NULL, NULL)
-+AUX_REG (aux_vlc_setup, NULL, NULL)
-+AUX_REG (aux_vlc_table, NULL, NULL)
-+AUX_REG (aux_vlc_valid_bits, NULL, NULL)
-+AUX_REG (aux_xmac0_24, NULL, NULL)
-+AUX_REG (aux_xmac0, NULL, NULL)
-+AUX_REG (aux_xmac1_24, NULL, NULL)
-+AUX_REG (aux_xmac1, NULL, NULL)
-+AUX_REG (aux_xmac2_24, NULL, NULL)
-+AUX_REG (aux_xmac2, NULL, NULL)
-+AUX_REG (aux_xmaclw_h, NULL, NULL)
-+AUX_REG (aux_xmaclw_l, NULL, NULL)
-+AUX_REG (ax0, NULL, NULL)
-+AUX_REG (ax1, NULL, NULL)
-+AUX_REG (ax2, NULL, NULL)
-+AUX_REG (ax3, NULL, NULL)
-+AUX_REG (ay0, NULL, NULL)
-+AUX_REG (ay1, NULL, NULL)
-+AUX_REG (ay2, NULL, NULL)
-+AUX_REG (ay3, NULL, NULL)
-+AUX_REG (bpu_flush, NULL, NULL)
-+AUX_REG (bta_l1, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (bta_l2, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (bta_link_build, NULL, NULL)
-+AUX_REG (bta, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (burstsys, NULL, NULL)
-+AUX_REG (burstsz, NULL, NULL)
-+AUX_REG (burstval, NULL, NULL)
-+AUX_REG (burstxym, NULL, NULL)
-+AUX_REG (cc_build, NULL, NULL)
-+AUX_REG (che_mode, NULL, NULL)
-+AUX_REG (clk_enable, NULL, NULL)
-+AUX_REG (control0, aux_timer_get, aux_timer_set)
-+AUX_REG (control1, aux_timer_get, aux_timer_set)
-+AUX_REG (count0, aux_timer_get, aux_timer_set)
-+AUX_REG (count1, aux_timer_get, aux_timer_set)
-+AUX_REG (d1h, NULL, NULL)
-+AUX_REG (d1l, NULL, NULL)
-+AUX_REG (d2h, NULL, NULL)
-+AUX_REG (d2l, NULL, NULL)
-+AUX_REG (dataspace, NULL, NULL)
-+AUX_REG (data_uncached_build, NULL, NULL)
-+AUX_REG (dccm_base_build, NULL, NULL)
-+AUX_REG (d_cache_build, arc_cache_aux_get, NULL)
-+AUX_REG (dc_ctrl, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (dc_data, NULL, NULL)
-+AUX_REG (dc_fldl, NULL, arc_cache_aux_set)
-+AUX_REG (dc_flsh, NULL, arc_cache_aux_set)
-+AUX_REG (dc_ivdc, NULL, arc_cache_aux_set)
-+AUX_REG (dc_ivdl, NULL, arc_cache_aux_set)
-+AUX_REG (dc_ldl, NULL, NULL)
-+AUX_REG (dc_startr, NULL, arc_cache_aux_set)
-+AUX_REG (dc_endr, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (dc_ptag, NULL, NULL)
-+AUX_REG (dc_ptag_hi, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (dc_ram_addr, NULL, NULL)
-+AUX_REG (dc_tag, NULL, NULL)
-+AUX_REG (dc_wp, NULL, NULL)
-+AUX_REG (debugi, NULL, NULL)
-+AUX_REG (debug, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (des_aux, NULL, NULL)
-+AUX_REG (dilstat, NULL, NULL)
-+AUX_REG (dma_config, NULL, NULL)
-+AUX_REG (dmc_code_ram, NULL, NULL)
-+AUX_REG (dpfp_build, NULL, NULL)
-+AUX_REG (dpfp_status, NULL, NULL)
-+AUX_REG (dvfs_performance, NULL, NULL)
-+AUX_REG (ea_build, NULL, NULL)
-+AUX_REG (ecr, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (efa, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (ei_base, NULL, NULL)
-+AUX_REG (erbta, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (eret, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (erp_control, NULL, NULL)
-+AUX_REG (ersec_stat, NULL, NULL)
-+AUX_REG (erstatus, arc_status_regs_get, arc_status_regs_set)
-+AUX_REG (exec_ctrl, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (fp_build, NULL, NULL)
-+AUX_REG (fp_status, NULL, NULL)
-+AUX_REG (hexctrl, NULL, NULL)
-+AUX_REG (hexdata, NULL, NULL)
-+AUX_REG (hwp_build, NULL, NULL)
-+AUX_REG (icause, aux_irq_get, NULL)
-+AUX_REG (irq_select, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_enable, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_trigger, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_status, aux_irq_get, NULL)
-+AUX_REG (i_cache_build, arc_cache_aux_get, NULL)
-+AUX_REG (ic_ctrl, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_data, NULL, NULL)
-+AUX_REG (ic_startr, NULL, arc_cache_aux_set)
-+AUX_REG (ic_endr, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_ivic, NULL, arc_cache_aux_set)
-+AUX_REG (ic_ivil, NULL, arc_cache_aux_set)
-+AUX_REG (ic_ivir, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_lil, NULL, NULL)
-+AUX_REG (ic_ptag, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_ptag_hi, arc_cache_aux_get, arc_cache_aux_set)
-+AUX_REG (ic_ram_address, NULL, NULL)
-+AUX_REG (ic_tag, NULL, NULL)
-+AUX_REG (ic_wp, NULL, NULL)
-+AUX_REG (identity, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (ifetch_queue_build, NULL, NULL)
-+AUX_REG (int_vector_base, aux_irq_get, aux_irq_set)
-+AUX_REG (irq_build, aux_irq_get, NULL)
-+AUX_REG (irq_priority_pending, NULL, NULL)
-+AUX_REG (isa_config, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (ivic, NULL, NULL)
-+AUX_REG (jli_base, NULL, NULL)
-+AUX_REG (ldi_base, NULL, NULL)
-+AUX_REG (led, NULL, NULL)
-+AUX_REG (limit0, aux_timer_get, aux_timer_set)
-+AUX_REG (limit1, aux_timer_get, aux_timer_set)
-+AUX_REG (line_length_mask, NULL, NULL)
-+AUX_REG (lockline, NULL, NULL)
-+AUX_REG (lp_end, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (lp_start, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (lsp_newval, NULL, NULL)
-+AUX_REG (madi_build, NULL, NULL)
-+AUX_REG (memseg, NULL, NULL)
-+AUX_REG (memsubsys, NULL, NULL)
-+AUX_REG (mmu_build, arc_mmu_aux_get, NULL)
-+AUX_REG (mpu_build, arc_mpu_aux_get, NULL)
-+AUX_REG (mpuen, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpufa, NULL, NULL)
-+AUX_REG (mpuic, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb0, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb1, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb2, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb3, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb4, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb5, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb6, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb7, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb8, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb9, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb10, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb11, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb12, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb13, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb14, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdb15, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp0, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp1, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp2, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp3, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp4, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp5, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp6, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp7, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp8, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp9, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp10, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp11, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp12, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp13, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp14, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpurdp15, arc_mpu_aux_get, arc_mpu_aux_set)
-+AUX_REG (mpy_build, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (mulhi, NULL, NULL)
-+AUX_REG (mx00, NULL, NULL)
-+AUX_REG (mx01, NULL, NULL)
-+AUX_REG (mx0, NULL, NULL)
-+AUX_REG (mx10, NULL, NULL)
-+AUX_REG (mx11, NULL, NULL)
-+AUX_REG (mx1, NULL, NULL)
-+AUX_REG (mx20, NULL, NULL)
-+AUX_REG (mx21, NULL, NULL)
-+AUX_REG (mx30, NULL, NULL)
-+AUX_REG (mx31, NULL, NULL)
-+AUX_REG (my00, NULL, NULL)
-+AUX_REG (my01, NULL, NULL)
-+AUX_REG (my0, NULL, NULL)
-+AUX_REG (my10, NULL, NULL)
-+AUX_REG (my11, NULL, NULL)
-+AUX_REG (my1, NULL, NULL)
-+AUX_REG (my20, NULL, NULL)
-+AUX_REG (my21, NULL, NULL)
-+AUX_REG (my30, NULL, NULL)
-+AUX_REG (my31, NULL, NULL)
-+AUX_REG (nsc_table_base, NULL, NULL)
-+AUX_REG (nsc_table_top, NULL, NULL)
-+AUX_REG (p_base_addr, NULL, NULL)
-+AUX_REG (pc, arc_general_regs_get, arc_general_regs_set)
-+AUX_REG (pcport, NULL, NULL)
-+AUX_REG (pct_build, NULL, NULL)
-+AUX_REG (pid,    arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (sasid0, arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (sasid1, arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (pm_bcr, NULL, NULL)
-+AUX_REG (pm_status, NULL, NULL)
-+AUX_REG (pwr_ctrl, NULL, NULL)
-+AUX_REG (rf_build, NULL, NULL)
-+AUX_REG (rferp_status0, NULL, NULL)
-+AUX_REG (rferp_status1, NULL, NULL)
-+AUX_REG (scm_base, NULL, NULL)
-+AUX_REG (scq_switch_build, NULL, NULL)
-+AUX_REG (scratch_a, NULL, NULL)
-+AUX_REG (scratch_data0, arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (sdm_base, NULL, NULL)
-+AUX_REG (sec_extra, NULL, NULL)
-+AUX_REG (sec_stat, NULL, NULL)
-+AUX_REG (se_ctrl, NULL, NULL)
-+AUX_REG (sec_vecbase_build, NULL, NULL)
-+AUX_REG (se_dbg_ctrl, NULL, NULL)
-+AUX_REG (se_dbg_data0, NULL, NULL)
-+AUX_REG (se_dbg_data1, NULL, NULL)
-+AUX_REG (se_dbg_data2, NULL, NULL)
-+AUX_REG (se_dbg_data3, NULL, NULL)
-+AUX_REG (se_eadr, NULL, NULL)
-+AUX_REG (se_err, NULL, NULL)
-+AUX_REG (semaphore, NULL, NULL)
-+AUX_REG (se_spc, NULL, NULL)
-+AUX_REG (se_stat, NULL, NULL)
-+AUX_REG (se_watch, NULL, NULL)
-+AUX_REG (simd_config, NULL, NULL)
-+AUX_REG (simd_dma_build, NULL, NULL)
-+AUX_REG (smart_control, NULL, NULL)
-+AUX_REG (smart_data_0, NULL, NULL)
-+AUX_REG (smart_data_2, NULL, NULL)
-+AUX_REG (smart_data_3, NULL, NULL)
-+AUX_REG (smart_data, NULL, NULL)
-+AUX_REG (sram_seq, NULL, NULL)
-+AUX_REG (status32, arc_status_regs_get, arc_status_regs_set)
-+AUX_REG (status32_p0, NULL, NULL)
-+AUX_REG (swstat, NULL, NULL)
-+AUX_REG (tag_addr_mask, NULL, NULL)
-+AUX_REG (tag_data_mask, NULL, NULL)
-+AUX_REG (timer_build, aux_timer_get, NULL)
-+AUX_REG (tlbcommand,  arc_mmu_aux_get, arc_mmu_aux_set_tlbcmd)
-+AUX_REG (tlbindex,    arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tlbpd0,      arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tlbpd1_hi,   arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tlbpd1,      arc_mmu_aux_get, arc_mmu_aux_set)
-+AUX_REG (tsch, NULL, NULL)
-+AUX_REG (unlockline, NULL, NULL)
-+AUX_REG (vbfdw_build, NULL, NULL)
-+AUX_REG (vecbase_ac_build, aux_irq_get, NULL)
-+AUX_REG (vecbase_build, NULL, NULL)
-+AUX_REG (vlc_build, NULL, NULL)
-+AUX_REG (vraptor_build, NULL, NULL)
-+AUX_REG (wake, NULL, NULL)
-+AUX_REG (xpu, NULL, NULL)
-+AUX_REG (xtp_newval, NULL, NULL)
-+AUX_REG (xyconfig, NULL, NULL)
-+AUX_REG (xylsbasex, NULL, NULL)
-+AUX_REG (xylsbasey, NULL, NULL)
-+AUX_REG (aux_rtc_ctrl, aux_timer_get, aux_timer_set)
-+AUX_REG (aux_rtc_low, aux_timer_get, aux_timer_set)
-+AUX_REG (aux_rtc_high, aux_timer_get, aux_timer_set)
-diff --git a/target/arc/regs.h b/target/arc/regs.h
-new file mode 100644
-index 0000000000..a71bf9b724
---- /dev/null
-+++ b/target/arc/regs.h
-@@ -0,0 +1,139 @@
++++ b/target/arc/timer.h
+@@ -0,0 +1,27 @@
 +/*
 + * QEMU ARC CPU
 + *
@@ -1709,125 +1323,13 @@ index 0000000000..a71bf9b724
 + * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#ifndef ARC_REGS_H
-+#define ARC_REGS_H
++#ifndef __ARC_TIMER_H__
++#define __ARC_TIMER_H__
 +
-+#include "exec/cpu-defs.h"
-+#include "target/arc/decoder.h"
++void arc_initializeTIMER(ARCCPU *);
++void arc_resetTIMER(ARCCPU *);
 +
-+/*
-+ * BCRs (Build configuration registers) are very special AUX regs
-+ * as they are always readable even if corresponding HW module is absent.
-+ * Thus we may always safely read them and learn what HW we have.
-+ * All other AUX regs outside of 2 BCR areas are only readable if their
-+ * HW is really implemented, otherwise "Instruction error" exception
-+ * is raised by the CPU.
-+ */
-+
-+/* First BCR region. */
-+#define ARC_BCR1_START          0x60
-+#define ARC_BCR1_END            0x7f
-+/* Second BCR region. */
-+#define ARC_BCR2_START          0xc0
-+#define ARC_BCR2_END            0xff
-+
-+enum arc_aux_reg_enum {
-+    ARC_AUX_REGS_INVALID = -1,
-+#define AUX_REG_GETTER(GET_FUNC)
-+#define AUX_REG_SETTER(SET_FUNC)
-+#define AUX_REG(NAME, GET, SET) AUX_ID_##NAME,
-+#include "target/arc/regs.def"
-+#undef AUX_REG
-+#undef AUX_REG_GETTER
-+#undef AUX_REG_SETTER
-+    ARC_AUX_REGS_LAST
-+};
-+
-+enum arc_aux_reg_detail_enum {
-+    ARC_AUX_REGS_DETAIL_INVALID = -1,
-+#define DEF(NUM, CPU, SUB, NAME) CPU##_##NUM,
-+#include "target/arc/regs-detail.def"
-+#undef DEF
-+    ARC_AUX_REGS_DETAIL_LAST
-+};
-+
-+struct arc_aux_regs_data;
-+struct arc_aux_reg_detail {
-+    /* Register address. */
-+    int address;
-+
-+    /*
-+     * One bit flags for the opcode. These are primarily used to
-+     * indicate specific processors and environments support the
-+     * instructions.
-+     */
-+    enum arc_cpu_family cpu;
-+
-+    /* AUX register subclass. */
-+    insn_subclass_t subclass;
-+
-+    /* Enum for aux-reg. */
-+    enum arc_aux_reg_enum id;
-+
-+    /* Register name. */
-+    const char *name;
-+
-+    /* Size of the string. */
-+    size_t length;
-+
-+    /* pointer to the first element in the list. */
-+    struct arc_aux_reg_detail *next;
-+
-+    /* pointer to the first element in the list. */
-+    struct arc_aux_reg *aux_reg;
-+};
-+
-+typedef void (*aux_reg_set_func)(const struct arc_aux_reg_detail *aux_reg,
-+                                 target_ulong val, void *data);
-+typedef target_ulong (*aux_reg_get_func)(
-+                                    const struct arc_aux_reg_detail *aux_reg,
-+                                    void *data);
-+
-+struct arc_aux_reg {
-+    /* pointer to the first element in the list. */
-+    struct arc_aux_reg_detail *first;
-+
-+    /* get and set function for lr and sr helpers */
-+    aux_reg_get_func get_func;
-+    aux_reg_set_func set_func;
-+};
-+
-+extern struct arc_aux_reg_detail arc_aux_regs_detail[ARC_AUX_REGS_DETAIL_LAST];
-+extern struct arc_aux_reg arc_aux_regs[ARC_AUX_REGS_LAST];
-+extern const char *arc_aux_reg_name[ARC_AUX_REGS_DETAIL_LAST];
-+
-+void arc_aux_regs_init(void);
-+int arc_aux_reg_address_for(enum arc_aux_reg_enum, int);
-+struct arc_aux_reg_detail *arc_aux_reg_struct_for_address(int, int);
-+
-+const char *get_auxreg(const struct arc_opcode *opcode,
-+                       int value,
-+                       unsigned isa_mask);
-+
-+target_ulong __not_implemented_getter(const struct arc_aux_reg_detail *,
-+                                      void *);
-+void __not_implemented_setter(const struct arc_aux_reg_detail *, target_ulong,
-+                              void *);
-+
-+#define AUX_REG_GETTER(GET_FUNC) \
-+     target_ulong GET_FUNC(const struct arc_aux_reg_detail *a, void *b);
-+#define AUX_REG_SETTER(SET_FUNC) \
-+     void SET_FUNC(const struct arc_aux_reg_detail *a, target_ulong b, void *c);
-+#define AUX_REG(NAME, GET, SET)
-+
-+#include "target/arc/regs.def"
-+
-+#undef AUX_REG
-+#undef AUX_REG_GETTER
-+#undef AUX_REG_SETTER
-+
-+
-+#endif /* ARC_REGS_H */
++#endif
 -- 
 2.20.1
 
