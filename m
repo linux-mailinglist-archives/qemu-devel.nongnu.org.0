@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C661935424D
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 15:16:46 +0200 (CEST)
-Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E1335424F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 15:16:48 +0200 (CEST)
+Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTP5x-00087d-7X
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 09:16:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45790)
+	id 1lTP5z-0008Ch-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 09:16:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <basil@daynix.com>) id 1lTP3q-0006n9-Vh
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 09:14:34 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41833)
+ (Exim 4.90_1) (envelope-from <basil@daynix.com>) id 1lTP3t-0006np-F0
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 09:14:37 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <basil@daynix.com>) id 1lTP3p-0005xd-Gb
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 09:14:34 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id a6so4886146wrw.8
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 06:14:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <basil@daynix.com>) id 1lTP3p-0005yZ-UR
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 09:14:37 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id a76so2496140wme.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 06:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=fqiLovYvQuOlZXvGJXZzmuyGnZzzgfjs0PbRWtRKh/k=;
- b=POL4DjmXJ4nEV6PMgwiUxR3n2YiryPPzc5S83LnXmp6anQ4E8muozz20m8XgTWoftj
- cE77HW2o9jDbOYAr6cTR5X4uP8qBcqDdWT6Qg9XX8aT5aDi/AlVEjpoYDPCutkues+vp
- I1GF81nLgNPSbgdZ8HO73EjdPbov/QjF0Ly8u1nZo0iX1sJkOWESUKiANVBtd8MPSsya
- epzC9qaynlYmTpHzkZjE6PvO08NYazwxPJhrFCeMK+wJXOF6p0QzkmTPh6WwATeFzXZz
- J5qUE2TOO9lHwWePAvrezqJ6aFWX5rSrUrz74PfGHwmvMbxLtmW6uNqPx8dOrpd/AaCi
- PkLw==
+ bh=mbyQp3khJuO+uC4dNzZJaaNxfsygnlYnxyi5g7TNEwQ=;
+ b=BSmiNRSPJ/62EcOpPZWCFRakuczpp7+Axdst0iTO/Eq96OIiEoqNGcgWpVdRaEfKZa
+ kgXl4PEe4/HBGcxuzFcs0uHJaDUuMSlHMWlWb1GS4dSMjUKQWyHs+UxDqU/c99RPDcdf
+ o6gwKvBzqSrtLJV06F27iwKCfS1gmZ6rKiLQAFC1QRndjO/4lURisRccSn9hZMcysdhm
+ k0fY54jxSkrR+dpB8Tq8+Pk+SvmxiCsbKtoSQc0imnw5OvjShYZ1nSG2hl9mYFE7iW8T
+ KqO23EShONbKSvEDiC9pwmIdiTsJUMF1gZKvtwORr2uYES+XwUOqwLWofxyBRGOmpWi0
+ UcBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=fqiLovYvQuOlZXvGJXZzmuyGnZzzgfjs0PbRWtRKh/k=;
- b=puGCNctDpL/Um4rrufeyhk6uYui3C5gziLKetAmZpxlNzJ08guRMOEBoxD5KEqisOR
- yDt+HpJUZdFrHMuGiXf79F5+tPOeR+zwrww6C/a4woFJQ687DPhLS8TYelwz/Bh0hp4A
- IOoSHhqtcLGIu1wSxycTSp7QHydBbR/Zk1oEYVuH914Igv649yfQVT5Z1meIHF+ybA/1
- UW3m/emM4rXhlkWdCPQch8pltsrvBCzKicJXcBYpgYZ0m06UUdX6P8ycbQTexNqYFj3n
- jDMIQwsoRINqyhAgMArgn3+EyYvmd8SNrbOCYb8YZDU19qrsDKP9x0p+R6vo8cNXcIcB
- u7Og==
-X-Gm-Message-State: AOAM530BcpeUSkRSgGkFaxX4GNJDi65ox0OmjsYjGLalFZdQFQVurXwO
- mSHi7j/dhdCoJDz6C5vH6+JAPTPABXFTDA==
-X-Google-Smtp-Source: ABdhPJyiK+t94mJrHo83ZcAaX4kP3srNoclJNU6go6uyayIdEhbAL0kG/J2Jm+lgYNRZxkoimyy+Tw==
-X-Received: by 2002:a5d:6048:: with SMTP id j8mr30169640wrt.115.1617628471556; 
- Mon, 05 Apr 2021 06:14:31 -0700 (PDT)
+ bh=mbyQp3khJuO+uC4dNzZJaaNxfsygnlYnxyi5g7TNEwQ=;
+ b=YwtpoiGek4ux5mhx+F4Azq78Nfviu54UA+f+7wJHQW1369BtjP01TrR12HKtKeabjb
+ XfWYQFnSu8NjNQe16AUcB6IZtu6f7T8QLMX78Fyz6VY6+4DqotyXNwClvywXbolMcQ8U
+ c35EERJEzeUU/abIZXXiZs8FEbYMEE2PN44cUMUTBUkiNtepZxFaO3WT5JJWsGrESOSC
+ /cfrVzQTIsuYTzUht+e2SVYrN9pRC4e9vIBxv7mxCBtYppnGFyiOhq42MLBsEll2UB+t
+ 0oKoVe52MyIQw/Oj8oWJPweaUH30ysPHN08klP92rrW1YSOVU0ldqtoZG4WdTXKQG+xI
+ v60g==
+X-Gm-Message-State: AOAM533QXWJL5eMF8FKpM+jXCLx0ETeiR64J7qy13ZIKc/Q6xNJoNpGq
+ hh2jwktF92mwzXN2+8Hu35k/BBa5Ou4qhw==
+X-Google-Smtp-Source: ABdhPJwjvFld8u+crzfurmXDGaeg/2Fr1Er37XN/CDBdB82jIFoBJZr239AtATv6JXKuYLxN8E8uTA==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr6646196wmh.105.1617628472442; 
+ Mon, 05 Apr 2021 06:14:32 -0700 (PDT)
 Received: from localhost.localdomain (bzq-84-110-34-91.static-ip.bezeqint.net.
  [84.110.34.91])
- by smtp.gmail.com with ESMTPSA id e9sm12661542wrv.92.2021.04.05.06.14.30
+ by smtp.gmail.com with ESMTPSA id e9sm12661542wrv.92.2021.04.05.06.14.31
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 05 Apr 2021 06:14:31 -0700 (PDT)
+ Mon, 05 Apr 2021 06:14:32 -0700 (PDT)
 From: Basil Salman <basil@daynix.com>
 To: qemu-devel@nongnu.org,
 	Michael Roth <michael.roth@amd.com>
-Subject: [PATCH 2/3] qga-win: Fix build_guest_fsinfo() close of nonexistent
- handle
-Date: Mon,  5 Apr 2021 16:14:19 +0300
-Message-Id: <20210405131420.598273-2-basil@daynix.com>
+Subject: [PATCH 3/3] qga-win: Fix handle leak in ga_get_win_product_name()
+Date: Mon,  5 Apr 2021 16:14:20 +0300
+Message-Id: <20210405131420.598273-3-basil@daynix.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20210405131420.598273-1-basil@daynix.com>
 References: <20210405131420.598273-1-basil@daynix.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::42b;
- envelope-from=basil@daynix.com; helo=mail-wr1-x42b.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::32b;
+ envelope-from=basil@daynix.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,40 +83,54 @@ Cc: Yan Vugenfirer <yan@daynix.com>, Kostiantyn Kostiuk <konstantin@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the current error path of build_guest_fsinfo(), a non existent
-handle is passed to CloseHandle().
-This patch add initialization of hLocalDiskHandle to INVALID_HANDLE_VALUE,
-and checks for handle validity before the handle is closed.
+In ga_get_win_product_name() a handle to Registry key was open
+but not closed.
+In this patch the handle is closed as part of the free routine.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1929144
 
 Signed-off-by: Basil Salman <basil@daynix.com>
-Signed-off-by: Basil Salman <basil@redhat.com>
+Signed-off-by: Basil Salman <bsalman@redhat.com>
 ---
- qga/commands-win32.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ qga/commands-win32.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 27baf17d6c..d51833ef15 100644
+index d51833ef15..8cea3ec0f8 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -1091,7 +1091,7 @@ static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
-     size_t len;
-     uint64_t i64FreeBytesToCaller, i64TotalBytes, i64FreeBytes;
-     GuestFilesystemInfo *fs = NULL;
--    HANDLE hLocalDiskHandle = NULL;
-+    HANDLE hLocalDiskHandle = INVALID_HANDLE_VALUE;
+@@ -2229,7 +2229,7 @@ static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool id)
  
-     GetVolumePathNamesForVolumeName(guid, (LPCH)&mnt, 0, &info_size);
-     if (GetLastError() != ERROR_MORE_DATA) {
-@@ -1149,7 +1149,8 @@ static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
-     fs->type = g_strdup(fs_name);
-     fs->disk = build_guest_disk_info(guid, errp);
- free:
--    CloseHandle(hLocalDiskHandle);
-+    if (hLocalDiskHandle != INVALID_HANDLE_VALUE) {
-+        CloseHandle(hLocalDiskHandle);
+ static char *ga_get_win_product_name(Error **errp)
+ {
+-    HKEY key = NULL;
++    HKEY key = INVALID_HANDLE_VALUE;
+     DWORD size = 128;
+     char *result = g_malloc0(size);
+     LONG err = ERROR_SUCCESS;
+@@ -2239,7 +2239,8 @@ static char *ga_get_win_product_name(Error **errp)
+                       &key);
+     if (err != ERROR_SUCCESS) {
+         error_setg_win32(errp, err, "failed to open registry key");
+-        goto fail;
++        g_free(result);
++        return NULL;
+     }
+ 
+     err = RegQueryValueExA(key, "ProductName", NULL, NULL,
+@@ -2260,9 +2261,12 @@ static char *ga_get_win_product_name(Error **errp)
+         goto fail;
+     }
+ 
++    RegCloseKey(key);
+     return result;
+ 
+ fail:
++    if (key != INVALID_HANDLE_VALUE) {
++        RegCloseKey(key);
 +    }
-     g_free(mnt_point);
-     return fs;
+     g_free(result);
+     return NULL;
  }
 -- 
 2.17.2
