@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC76353BEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 07:51:23 +0200 (CEST)
-Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C3F353BFC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 07:52:32 +0200 (CEST)
+Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTI8v-0007DG-T2
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 01:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46922)
+	id 1lTIA3-00085P-5R
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 01:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lTI86-0006m9-CM
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 01:50:30 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:37296)
+ id 1lTI8C-0006nW-14
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 01:50:36 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:37326)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lTI82-0000np-QZ
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 01:50:30 -0400
+ id 1lTI8A-0000u8-8O
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 01:50:35 -0400
 Received: from [192.168.0.92] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id B913640755D3;
- Mon,  5 Apr 2021 05:50:19 +0000 (UTC)
-Subject: Re: [PATCH] target/alpha: fix icount handling for timer instructions
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <161700373035.1135822.16451510827008616793.stgit@pasha-ThinkPad-X280>
+ by mail.ispras.ru (Postfix) with ESMTPSA id 4A9E640755D3;
+ Mon,  5 Apr 2021 05:50:31 +0000 (UTC)
+Subject: Re: [PATCH] hw/virtio: enable ioeventfd configuring for mmio
+To: qemu-devel@nongnu.org
+References: <161700379211.1135943.8859209566937991305.stgit@pasha-ThinkPad-X280>
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <d86c92c4-13ee-be15-8da5-c66701ed2b9a@ispras.ru>
-Date: Mon, 5 Apr 2021 08:50:19 +0300
+Message-ID: <d5119624-9658-2cbb-e1c7-9e85bd22b532@ispras.ru>
+Date: Mon, 5 Apr 2021 08:50:31 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <161700373035.1135822.16451510827008616793.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <161700379211.1135943.8859209566937991305.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -54,63 +54,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+ping
 
-On 29.03.2021 10:42, Pavel Dovgalyuk wrote:
-> This patch handles icount mode for timer read/write instructions,
-> because it is required to call gen_io_start in such cases.
+On 29.03.2021 10:43, Pavel Dovgalyuk wrote:
+> This patch adds ioeventfd flag for virtio-mmio configuration.
+> It allows switching ioeventfd on and off.
 > 
-> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > ---
->   target/alpha/translate.c |    9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+>   hw/virtio/virtio-mmio.c         |   11 ++++++++++-
+>   include/hw/virtio/virtio-mmio.h |    5 +++++
+>   2 files changed, 15 insertions(+), 1 deletion(-)
 > 
-> diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-> index a02b4e70b7..f454adea5e 100644
-> --- a/target/alpha/translate.c
-> +++ b/target/alpha/translate.c
-> @@ -1330,7 +1330,7 @@ static DisasJumpType gen_mfpr(DisasContext *ctx, TCGv va, int regno)
->       case 249: /* VMTIME */
->           helper = gen_helper_get_vmtime;
->       do_helper:
-> -        if (icount_enabled()) {
-> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
->               gen_io_start();
->               helper(va);
->               return DISAS_PC_STALE;
-> @@ -1366,6 +1366,7 @@ static DisasJumpType gen_mfpr(DisasContext *ctx, TCGv va, int regno)
->   static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
+> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+> index 342c918ea7..5952471b38 100644
+> --- a/hw/virtio/virtio-mmio.c
+> +++ b/hw/virtio/virtio-mmio.c
+> @@ -36,7 +36,9 @@
+>   
+>   static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
 >   {
->       int data;
-> +    DisasJumpType ret = DISAS_NEXT;
->   
->       switch (regno) {
->       case 255:
-> @@ -1395,6 +1396,10 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
->   
->       case 251:
->           /* ALARM */
-> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +            gen_io_start();
-> +            ret = DISAS_PC_STALE;
-> +        }
->           gen_helper_set_alarm(cpu_env, vb);
->           break;
->   
-> @@ -1434,7 +1439,7 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
->           break;
->       }
->   
-> -    return DISAS_NEXT;
-> +    return ret;
+> -    return kvm_eventfds_enabled();
+> +    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
+> +
+> +    return (proxy->flags & VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD) != 0;
 >   }
->   #endif /* !USER_ONLY*/
 >   
+>   static int virtio_mmio_ioeventfd_assign(DeviceState *d,
+> @@ -720,6 +722,8 @@ static Property virtio_mmio_properties[] = {
+>       DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
+>                        format_transport_address, true),
+>       DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
+> +    DEFINE_PROP_BIT("ioeventfd", VirtIOMMIOProxy, flags,
+> +                    VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT, true),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> @@ -731,6 +735,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
+>       qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
+>                           d, NULL);
+>       sysbus_init_irq(sbd, &proxy->irq);
+> +
+> +    if (!kvm_eventfds_enabled()) {
+> +        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
+> +    }
+> +
+>       if (proxy->legacy) {
+>           memory_region_init_io(&proxy->iomem, OBJECT(d),
+>                                 &virtio_legacy_mem_ops, proxy,
+> diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
+> index d4c4c386ab..090f7730e7 100644
+> --- a/include/hw/virtio/virtio-mmio.h
+> +++ b/include/hw/virtio/virtio-mmio.h
+> @@ -49,12 +49,17 @@ typedef struct VirtIOMMIOQueue {
+>       uint32_t used[2];
+>   } VirtIOMMIOQueue;
+>   
+> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT 1
+> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD \
+> +        (1 << VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT)
+> +
+>   struct VirtIOMMIOProxy {
+>       /* Generic */
+>       SysBusDevice parent_obj;
+>       MemoryRegion iomem;
+>       qemu_irq irq;
+>       bool legacy;
+> +    uint32_t flags;
+>       /* Guest accessible state needing migration and reset */
+>       uint32_t host_features_sel;
+>       uint32_t guest_features_sel;
 > 
 
 
