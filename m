@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5C13542F4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:47:17 +0200 (CEST)
-Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968AC3542E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 16:38:08 +0200 (CEST)
+Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTQVY-00037B-Gz
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
+	id 1lTQMh-0005Pj-J6
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 10:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQHB-0001Ca-Ed
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:25 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:41809)
+ id 1lTQHA-0001Ba-Rh
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:24 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1lTQH6-0001iN-Vt
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:25 -0400
+ id 1lTQH6-0001iQ-W8
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 10:32:24 -0400
 Received: by mail-wm1-x32a.google.com with SMTP id
- t5-20020a1c77050000b029010e62cea9deso5737190wmi.0
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:18 -0700 (PDT)
+ f22-20020a7bc8d60000b029010c024a1407so7681086wml.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 07:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nVm4SS8WVxKQiMgAE8qFuS0IjamCmWJyqE18TyAYMbg=;
- b=ptyHyofH7S0oxjg86v5cSJAYztZDff2RFbHn+/EoBOpu86Q8BWNktedOVzbYuTXlsd
- qGCFV7O7cL/oLkHHxckhkMPcD6w29NlQ4lVjQWx8tD2kRmgviIznqpbHCgSqUijJzWhV
- z/D1LYokZMkfcwo906e/Ha1e684ywWMOQG9KzdMXvh4L754UlTJREcB+7sdNsRNW+WY3
- yxpIbogCkbhWbb/m1VEtzfv3BEwZA5lCFO1Eq6iuZyUvRggb0o9S+Beo3D5QnkE/Ce5T
- Lz592I06RqTf50HsdOu8eE2vg+ZAJafRmS1n/cWEGXGsmjCfixJM6KhUG/L6vbpr2OGp
- yz4A==
+ bh=ne5CzDA1fzWbf8pAEALTVl8gNjy5JmBvAw+Zn97Dbag=;
+ b=Y001oOET/ZEpsWRX8bYsjhIPELmaJOjpOTvd7nnwlROIIlwb+9yzpjh0mRA5KKXfzs
+ LBtk2zNjPMvYMaNfZaITaVPTx4OVzle/8overCG+ClGxiBbzf2DUtuug5iYF8b2A+yzg
+ j0RVCPS8xVM6GNJlmwBVP9tIfr7FtcR2OPzI+oxsmurEYmT2z2aef7JFAfSj+Rk1OYTU
+ YYtb1N28KdtB/5WiFeOdBPO1AFi+eRa2Jahn8cRmA3zWCHKPepb6uVEwkqpmgvwBuYvM
+ ZI8MsUwXH+b+JDZMCMpSl3j0ixyAbp2etsrmOHPGL7V6/sMZiG0a5mkB8eVJZuxxZaTT
+ ZiAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nVm4SS8WVxKQiMgAE8qFuS0IjamCmWJyqE18TyAYMbg=;
- b=mmUAXpE2i14U64PvVVbOnSVj/g9qcsESWX10gsM7YCdwbRICeDzabjX9blrq3IPMGT
- 9Ms40AKKpwDj/BtxDwC5aBUWcNGcnF2AK0gyzKa2AYEJlBH9v2itKmHD00Gf9FQ1EDxs
- 3eqFt/d5h+h8IZPPZZ8XUJPUVZ6iM2UTFoTUOr+Sx/j6KDEpAktrcawbcBDlZrYJ/+zC
- Y+Bs71rt+SA9zVQku2lniNdXtd4Z3rnD2/OI7XXhIIyvrp835K+rXD6lVXqUWbTrsuV3
- EnBrwq97iB7SqySEp1lTtr5hCjI4bK/n3UfSYAKwRPRIXrRZfQVu7Hvqevirbhvs+e2e
- v14Q==
-X-Gm-Message-State: AOAM533ps0dbu15/N5IlQXcrdPgUX27wHlq3RnqKDQRMZ/O6mS9P6Y0D
- PDgVgv2xi+3oKKWJ2Tmyf8QW6VBzpHtuZQ==
-X-Google-Smtp-Source: ABdhPJwVoJTTWNiHw7ZqcjOPQtU5WMskRhxblP8PVrO0Io5WmSed8syRjnoD9wqOAAimNL2u61a/qA==
-X-Received: by 2002:a1c:1fcb:: with SMTP id f194mr7336090wmf.79.1617633137058; 
+ bh=ne5CzDA1fzWbf8pAEALTVl8gNjy5JmBvAw+Zn97Dbag=;
+ b=BtZlGhoKLQwK1yEXqEmu3stjJzxI4CKY/OGeiwQxFWzhX1QOZnGCQGWkg06WtztFaZ
+ 9sge6VsXje7cF0qRpW6sTZU2bnT8ydtWBhK+4niWiaASF3HT0q29UoPdKzIDUSQeA+Im
+ uWIrp+E9TYjys86t3pwwVTwurOtuZdibU/vbopEkmS/Jqw29trakcjwlGPVv5pAbrYsF
+ iPjn97/KGMwM1WB7yoJXI6LXxVJTlcZYwL4dLxWwiAVvHD3x2qo69G795fcuy3Btk9id
+ 9ilfGkewEeUOPctXhGEwQeKQWsBipeA4WxbO82jNthRQBeQoCVHr9AAN8uCPDx4hxPok
+ p4QQ==
+X-Gm-Message-State: AOAM532rPl35gs1m+VFpeZts+uWEfdYcvbTAl7GbTPU3B9Uxi/f+Vd2W
+ BkXVuB2MTALjDP34RZxZ9OFWfY+XlJwuoA==
+X-Google-Smtp-Source: ABdhPJzQgxF36aZZUz862dTSqloZGTmfWWNb4eayoTHMI3T8m9KOAJNZli5j0BamqzFpvb42cLynEA==
+X-Received: by 2002:a1c:b0c4:: with SMTP id z187mr24906136wme.81.1617633137910; 
  Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain (bl15-158-218.dsl.telepac.pt.
  [188.80.158.218])
- by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.16
+ by smtp.gmail.com with ESMTPSA id k3sm8231552wrc.67.2021.04.05.07.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Apr 2021 07:32:16 -0700 (PDT)
+ Mon, 05 Apr 2021 07:32:17 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/27] arc: Add IRQ and timer subsystem support
-Date: Mon,  5 Apr 2021 15:31:20 +0100
-Message-Id: <20210405143138.17016-10-cupertinomiranda@gmail.com>
+Subject: [PATCH 10/27] arc: Add memory management unit (MMU) support
+Date: Mon,  5 Apr 2021 15:31:21 +0100
+Message-Id: <20210405143138.17016-11-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210405143138.17016-1-cupertinomiranda@gmail.com>
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
@@ -89,759 +89,30 @@ Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Claudiu Zissulescu <claziss@synopsys.com>
+From: Cupertino Miranda <cmiranda@synopsys.com>
 
-Signed-off-by: Claudiu Zissulescu <claziss@synopsys.com>
+Add Synopsys ARC MMU version 4 support. The implementation is
+restricted to 8K page size support.
+
+Signed-off-by: Cupertino Miranda <cmiranda@synopsys.com>
 ---
- target/arc/irq.c   | 680 +++++++++++++++++++++++++++++++++++++++++++++
- target/arc/irq.h   |  37 +++
- target/arc/timer.c | 459 ++++++++++++++++++++++++++++++
- target/arc/timer.h |  27 ++
- 4 files changed, 1203 insertions(+)
- create mode 100644 target/arc/irq.c
- create mode 100644 target/arc/irq.h
- create mode 100644 target/arc/timer.c
- create mode 100644 target/arc/timer.h
+ target/arc/mmu.c | 805 +++++++++++++++++++++++++++++++++++++++++++++++
+ target/arc/mmu.h | 148 +++++++++
+ 2 files changed, 953 insertions(+)
+ create mode 100644 target/arc/mmu.c
+ create mode 100644 target/arc/mmu.h
 
-diff --git a/target/arc/irq.c b/target/arc/irq.c
+diff --git a/target/arc/mmu.c b/target/arc/mmu.c
 new file mode 100644
-index 0000000000..75111a87a8
+index 0000000000..f79c910d80
 --- /dev/null
-+++ b/target/arc/irq.c
-@@ -0,0 +1,680 @@
-+/*
-+ * QEMU ARC CPU - IRQ subsystem
-+ *
-+ * Copyright (c) 2020 Synopsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "hw/irq.h"
-+#include "cpu.h"
-+#include "qemu/main-loop.h"
-+#include "irq.h"
-+#include "exec/cpu_ldst.h"
-+#include "translate.h"
-+#include "qemu/host-utils.h"
-+
-+#define CACHE_ENTRY_SIZE (TARGET_LONG_BITS / 8)
-+#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldl_data(ENV, ADDR)
-+#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stl_data(ENV, ADDR, VALUE)
-+
-+/* Static functions and variables. */
-+
-+static uint32_t save_reg_pair_32[] = {
-+    0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
-+};
-+
-+static uint32_t save_reg_pair_16[] = {
-+    0, 2, 10, 12, 14, 26, 28, 30
-+};
-+
-+/* Given a struct STATUS_R, pack it to 32 bit. */
-+uint32_t pack_status32(ARCStatus *status_r)
-+{
-+    uint32_t res = 0x0;
-+
-+    res |= status_r->pstate & PSTATE_MASK;
-+    res |= (status_r->RBf & ((1 << RBf_bS)-1)) << RBf_b;
-+    res |= (status_r->Zf & ((1 << Zf_bS)-1)) << Zf_b;
-+    res |= (status_r->Nf & ((1 << Nf_bS)-1)) << Nf_b;
-+    res |= (status_r->Cf & ((1 << Cf_bS)-1)) << Cf_b;
-+    res |= (status_r->Vf & ((1 << Vf_bS)-1)) << Vf_b;
-+    res |= (status_r->DEf & ((1 << DEf_bS)-1)) << DEf_b;
-+    res |= (status_r->Ef  & ((1 << Ef_bS)-1)) << Ef_b;
-+    res |= (status_r->IEf & ((1 << IEf_bS)-1)) << IEf_b;
-+
-+    /* For debug purposes only. */
-+    /*
-+     * assert((status_r->pstate & ~PSTATE_MASK) == 0);
-+     * assert((status_r->RBf & (~((1 << RBf_bS) - 1))) == 0);
-+     * assert((status_r->Zf  & (~((1 << Zf_bS)  - 1))) == 0);
-+     * assert((status_r->Nf  & (~((1 << Cf_bS)  - 1))) == 0);
-+     * assert((status_r->Cf  & (~((1 << Cf_bS)  - 1))) == 0);
-+     * assert((status_r->Vf  & (~((1 << Vf_bS)  - 1))) == 0);
-+     * assert((status_r->DEf & (~((1 << DEf_bS) - 1))) == 0);
-+     * assert((status_r->Ef  & (~((1 << Ef_bS)  - 1))) == 0);
-+     * assert((status_r->IEf & (~((1 << IEf_bS) - 1))) == 0);
-+     */
-+
-+    return res;
-+}
-+
-+/* Reverse of the above function. */
-+void unpack_status32(ARCStatus *status_r, uint32_t value)
-+{
-+    status_r->pstate = value;
-+    status_r->RBf = ((value >> RBf_b)&((1 << RBf_bS)-1));
-+    status_r->Zf  = ((value >> Zf_b)&((1 << Zf_bS)-1));
-+    status_r->Nf  = ((value >> Nf_b)&((1 << Nf_bS)-1));
-+    status_r->Cf  = ((value >> Cf_b)&((1 << Cf_bS)-1));
-+    status_r->Vf  = ((value >> Vf_b)&((1 << Vf_bS)-1));
-+    status_r->DEf = ((value >> DEf_b)&((1 << DEf_bS)-1));
-+    status_r->Ef  = ((value >> Ef_b)&((1 << Ef_bS)-1));
-+    status_r->IEf = ((value >> IEf_b)&((1 << IEf_bS)-1));
-+}
-+
-+/* Return from fast interrupts. */
-+
-+static void arc_rtie_firq(CPUARCState *env)
-+{
-+    assert(GET_STATUS_BIT(env->stat, AEf) == 0);
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] exit firq: U=" TARGET_FMT_ld
-+                  ", AUX_IRQ_ACT.U=%d\n",
-+                  GET_STATUS_BIT(env->stat, Uf), env->aux_irq_act >> 31);
-+
-+    /* Clear currently active interrupt. */
-+    env->aux_irq_act &= (~1);
-+
-+    /* Check if we need to restore userland SP. */
-+    if (((env->aux_irq_act & 0xFFFF) == 0) && (env->aux_irq_act & 0x80000000)) {
-+        switchSP(env);
-+    }
-+
-+    env->stat = env->stat_l1; /* FIXME use status32_p0 reg. */
-+    /* Keep U-bit in sync. */
-+    env->aux_irq_act &= ~(GET_STATUS_BIT(env->stat, Uf) << 31);
-+
-+    /* FIXME! fix current reg bank if RB bit is changed. */
-+
-+    CPU_PCL(env) = CPU_ILINK(env);
-+    env->pc = CPU_ILINK(env);
-+}
-+
-+/* Implements a pop operation from the CPU stack. */
-+static target_ulong irq_pop(CPUARCState *env, const char *str)
-+{
-+    target_ulong rval;
-+    rval = TARGET_LONG_LOAD(env, CPU_SP(env));
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] Pop [SP:0x" TARGET_FMT_lx
-+                  "] => 0x" TARGET_FMT_lx " (%s)\n",
-+                  CPU_SP(env), rval, str ? str : "unk");
-+    CPU_SP(env) += CACHE_ENTRY_SIZE;
-+    return rval;
-+}
-+
-+/* Return from regular interrupts. */
-+
-+static void arc_rtie_irq(CPUARCState *env)
-+{
-+    uint32_t tmp;
-+    ARCCPU *cpu = env_archcpu(env);
-+
-+    assert((env->aux_irq_act & 0xFFFF) != 0);
-+    assert(GET_STATUS_BIT(env->stat, AEf) == 0);
-+
-+    /* Clear currently active interrupt. */
-+    tmp = ctz32(env->aux_irq_act & 0xffff);
-+
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] exit irq:%d IRQ_ACT:0x%08x PRIO:%d\n",
-+                  env->icause[tmp], env->aux_irq_act, tmp);
-+
-+    /*
-+     * FIXME! I assume the current active interrupt is the one which is
-+     * the highest in the aux_irq_act register.
-+     */
-+    env->aux_irq_act &= ~(1 << tmp);
-+
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] exit irq:%d U:" TARGET_FMT_ld " AE:" TARGET_FMT_ld
-+                  " IE:" TARGET_FMT_ld " E:" TARGET_FMT_ld " IRQ_ACT:0x%08x\n",
-+                  env->icause[tmp], GET_STATUS_BIT(env->stat, Uf),
-+                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
-+                  env->stat.Ef, env->aux_irq_act);
-+
-+    if (((env->aux_irq_act & 0xffff) == 0) &&
-+        (env->aux_irq_act & 0x80000000) && (env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Pop requested number of registers. */
-+    /* FIXME! select rf16 when needed. */
-+    uint32_t *save_reg_pair = save_reg_pair_32;
-+    char regname[6];
-+    uint32_t i;
-+    for (i = 0; i < (env->aux_irq_ctrl & 0x1F); ++i) {
-+        sprintf(regname, "r%d", save_reg_pair[i]);
-+        env->r[save_reg_pair[i]] = irq_pop(env, (const char *) regname);
-+        sprintf(regname, "r%d", save_reg_pair[i] + 1);
-+        env->r[save_reg_pair[i] + 1] = irq_pop(env, (const char *) regname);
-+    }
-+
-+    /* Pop BLINK */
-+    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
-+        CPU_BLINK(env) = irq_pop(env, "blink");
-+    }
-+
-+    /* Pop lp_end, lp_start, lp_count if aux_irq_ctrl.l bit is set. */
-+    if (env->aux_irq_ctrl & (1 << 10)) {
-+        env->lpe = irq_pop(env, "LP_END");
-+        env->lps = irq_pop(env, "LP_START");
-+        CPU_LP(env) = irq_pop(env, "lp");
-+    }
-+
-+    /*
-+     * Pop EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
-+     * Density feature is enabled. FIXME!
-+     */
-+    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
-+        /* FIXME! env->aux_ei_base  = irq_pop(env); */
-+        /* FIXME! env->aux_ldi_base = irq_pop(env); */
-+        /* FIXME! env->aux_jli_base = irq_pop(env); */
-+        irq_pop(env, "dummy EI_BASE");
-+        irq_pop(env, "dummy LDI_BASE");
-+        irq_pop(env, "dummy JLI_BASE");
-+    }
-+
-+    CPU_ILINK(env) = irq_pop(env, "PC"); /* CPU PC*/
-+    uint32_t tmp_stat = irq_pop(env, "STATUS32"); /* status. */
-+    unpack_status32(&env->stat, tmp_stat);
-+
-+    /* Late switch to Kernel SP if previously in User thread. */
-+    if (((env->aux_irq_act & 0xffff) == 0)
-+        && GET_STATUS_BIT(env->stat, Uf) && !(env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Keep U-bit in sync. */
-+    env->aux_irq_act &= ~(GET_STATUS_BIT(env->stat, Uf) << 31);
-+    CPU_PCL(env) = CPU_ILINK(env);
-+    env->pc = CPU_ILINK(env);
-+}
-+
-+/* Helper, implements entering in a fast irq. */
-+static void arc_enter_firq(ARCCPU *cpu, uint32_t vector)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    assert(env->stat.DEf == 0);
-+    assert(env->stat.is_delay_slot_instruction == 0);
-+
-+    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[IRQ] enter firq:%d U:" TARGET_FMT_ld " AE:" TARGET_FMT_ld
-+                  " IE:" TARGET_FMT_ld " E:" TARGET_FMT_ld "\n",
-+                  vector, GET_STATUS_BIT(env->stat, Uf),
-+                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
-+                  env->stat.Ef);
-+
-+    /* Switch SP with AUX_SP. */
-+    if (GET_STATUS_BIT(env->stat, Uf)) {
-+        switchSP(env);
-+    }
-+
-+    /* Clobber ILINK with address of interrupting instruction. */
-+    CPU_ILINK(env) = env->pc;
-+    assert((env->pc & 0x1) == 0);
-+    env->stat_l1 = env->stat;
-+
-+    /* Set stat {Z = U; U = 0; L = 1; ES = 0; DZ = 0; DE = 0;} */
-+    SET_STATUS_BIT(env->stat, Lf, 1);
-+    env->stat.Zf = GET_STATUS_BIT(env->stat, Uf); /* Old User/Kernel bit. */
-+    SET_STATUS_BIT(env->stat, Uf, 0);
-+    SET_STATUS_BIT(env->stat, ESf, 0);
-+    SET_STATUS_BIT(env->stat, DZf, 0);
-+    env->stat.DEf = 0;
-+    env->stat.is_delay_slot_instruction = 0;
-+
-+    /* Set .RB to 1 if additional register banks are specified. */
-+    if (cpu->cfg.rgf_num_banks > 0) {
-+        env->stat.RBf = 1;
-+        /* FIXME! Switch to first register bank. */
-+    }
-+}
-+
-+/* Implements a push operation to the CPU stack. */
-+static void irq_push(CPUARCState *env, target_ulong regval, const char *str)
-+{
-+    CPU_SP(env) -= CACHE_ENTRY_SIZE;
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] Push [SP:0x" TARGET_FMT_lx
-+                  "] <= 0x" TARGET_FMT_lx " (%s)\n",
-+                  CPU_SP(env), regval, str ? str : "unk");
-+    uint32_t uf = GET_STATUS_BIT(env->stat, Uf);
-+    SET_STATUS_BIT(env->stat, Uf, 0);
-+    TARGET_LONG_STORE(env, CPU_SP(env), regval);
-+    SET_STATUS_BIT(env->stat, Uf, uf);
-+}
-+
-+/* Helper, implements the steps required to enter a simple interrupt. */
-+static void arc_enter_irq(ARCCPU *cpu, uint32_t vector)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    assert(env->stat.DEf == 0);
-+    assert(env->stat.is_delay_slot_instruction == 0);
-+
-+    /* Reset RTC state machine -> AUX_RTC_CTRL &= 0x3fffffff */
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] enter irq:%d U:" TARGET_FMT_ld
-+                  " AE:" TARGET_FMT_ld " IE:" TARGET_FMT_ld
-+                  " E:" TARGET_FMT_ld "\n",
-+                  vector, GET_STATUS_BIT(env->stat, Uf),
-+                  GET_STATUS_BIT(env->stat, AEf), env->stat.IEf,
-+                  env->stat.Ef);
-+
-+    /* Early switch to kernel sp if previously in user thread */
-+    if (GET_STATUS_BIT(env->stat, Uf) && !(env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Clobber ILINK with address of interrupting instruction. */
-+    CPU_ILINK(env) = env->pc;
-+
-+    /* Start pushing regs and stat. */
-+    irq_push(env, pack_status32(&env->stat), "STATUS32");
-+    irq_push(env, env->pc, "PC");
-+
-+    /*
-+     * Push EI_BASE, JLI_BASE, LDI_BASE if LP bit is set and Code
-+     * Density feature is enabled.
-+     */
-+    if (cpu->cfg.code_density && (env->aux_irq_ctrl & (1 << 13))) {
-+        /* FIXME! irq_push(env, env->aux_jli_base, "JLI_BASE"); */
-+        /* FIXME! irq_push(env, env->aux_ldi_base, "LDI_BASE""); */
-+        /* FIXME! irq_push(env, env->aux_ei_base, "EI_BASE"); */
-+        irq_push(env, 0xdeadbeef, "dummy JLI_BASE");
-+        irq_push(env, 0xdeadbeef, "dummy LDI_BASE");
-+        irq_push(env, 0xdeadbeef, "dummy EI_BASE");
-+    }
-+
-+    /* Push LP_COUNT, LP_START, LP_END registers if required. */
-+    if (env->aux_irq_ctrl & (1 << 10)) {
-+        irq_push(env, CPU_LP(env), "lp");
-+        irq_push(env, env->lps, "LP_START");
-+        irq_push(env, env->lpe, "LP_END");
-+    }
-+
-+    /* Push BLINK register if required */
-+    if (env->aux_irq_ctrl & (1 << 9) && ((env->aux_irq_ctrl & 0x1F) != 16)) {
-+        irq_push(env, CPU_BLINK(env), "blink");
-+    }
-+
-+    /* Push selected AUX_IRQ_CTRL.NR of registers onto stack. */
-+    uint32_t *save_reg_pair = cpu->cfg.rgf_num_regs == 32 ?
-+        save_reg_pair_32 : save_reg_pair_16;
-+    const uint32_t regspair = (cpu->cfg.rgf_num_regs == 32 ? 16 : 8);
-+    const uint32_t upperlimit = (env->aux_irq_ctrl & 0x1F) < regspair ?
-+        env->aux_irq_ctrl & 0x1F : regspair;
-+    char regname[6];
-+    uint32_t i;
-+
-+    for (i = upperlimit; i > 0; --i) {
-+        sprintf(regname, "r%d", save_reg_pair[i - 1] + 1);
-+        irq_push(env, env->r[save_reg_pair[i - 1] + 1], (const char *) regname);
-+        sprintf(regname, "r%d", save_reg_pair[i - 1]);
-+        irq_push(env, env->r[save_reg_pair[i - 1]], (const char *) regname);
-+    }
-+
-+    /* Late switch to Kernel SP if previously in User thread. */
-+    if (GET_STATUS_BIT(env->stat, Uf) && (env->aux_irq_ctrl & (1 << 11))) {
-+        switchSP(env);
-+    }
-+
-+    /* Set STATUS bits */
-+    env->stat.Zf = GET_STATUS_BIT(env->stat, Uf); /* Old User/Kernel mode. */
-+    SET_STATUS_BIT(env->stat, Lf, 1);
-+    SET_STATUS_BIT(env->stat, ESf, 0);
-+    SET_STATUS_BIT(env->stat, DZf, 0);
-+    env->stat.DEf  = 0;
-+    SET_STATUS_BIT(env->stat, Uf, 0);
-+}
-+
-+/* Function implementation for reading the IRQ related aux regs. */
-+target_ulong aux_irq_get(const struct arc_aux_reg_detail *aux_reg_detail,
-+                     void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    ARCCPU *cpu = env_archcpu(env);
-+    uint32_t tmp;
-+
-+    /* extract selected IRQ. */
-+    const uint32_t irq = env->irq_select;
-+    const ARCIrq *irq_bank = &env->irq_bank[irq];
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_irq_pending:
-+        return irq_bank->pending | (irq > 15 ? (env->aux_irq_hint == irq) : 0);
-+
-+    case AUX_ID_irq_select:
-+        return env->irq_select;
-+
-+    case AUX_ID_irq_priority:
-+        return irq_bank->priority;
-+
-+    case AUX_ID_irq_trigger:
-+        return irq_bank->trigger;
-+
-+    case AUX_ID_irq_status:
-+        return (irq_bank->priority
-+                | irq_bank->enable << 4
-+                | irq_bank->trigger << 5
-+                | (irq_bank->pending
-+                   | (irq > 15 ? ((env->aux_irq_hint == irq) << 31) : 0)));
-+
-+    case AUX_ID_aux_irq_act:
-+        return env->aux_irq_act;
-+
-+    case AUX_ID_aux_irq_ctrl:
-+        return env->aux_irq_ctrl;
-+
-+    case AUX_ID_icause:
-+        if ((env->aux_irq_act & 0xffff) == 0) {
-+            return 0;
-+        }
-+        tmp = ctz32(env->aux_irq_act & 0xffff);
-+        return env->icause[tmp];
-+
-+    case AUX_ID_irq_build:
-+        return cpu->irq_build;
-+
-+    case AUX_ID_int_vector_base:
-+        return env->intvec;
-+
-+    case AUX_ID_vecbase_ac_build:
-+        return cpu->vecbase_build;
-+        break;
-+
-+    case AUX_ID_aux_user_sp:
-+        return env->aux_user_sp;
-+
-+    case AUX_ID_aux_irq_hint:
-+        return env->aux_irq_hint;
-+
-+    default:
-+        break;
-+    }
-+    return 0;
-+}
-+
-+/* Function implementation for writing the IRQ related aux regs. */
-+void aux_irq_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                 target_ulong val, void *data)
-+{
-+    CPUARCState *env = (CPUARCState *) data;
-+    ARCCPU *cpu = env_archcpu(env);
-+    const uint32_t irq = env->irq_select;
-+    ARCIrq *irq_bank = &env->irq_bank[irq];
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] set aux_reg: %s, with 0x"
-+                  TARGET_FMT_lx "\n",
-+                  arc_aux_reg_name[aux_reg_detail->id],
-+                  val);
-+
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_irq_select:
-+        if (val <= (16 + ((cpu->irq_build >> 8) & 0xff)))
-+            env->irq_select = val;
-+        else
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[IRQ] Invalid write 0x" TARGET_FMT_lx
-+                          " to IRQ_SELECT aux reg.\n",
-+                          val);
-+        break;
-+
-+    case AUX_ID_aux_irq_hint:
-+        qemu_mutex_lock_iothread();
-+        if (val == 0) {
-+            qemu_irq_lower(env->irq[env->aux_irq_hint]);
-+        } else if (val >= 16) {
-+            qemu_irq_raise(env->irq[val]);
-+            env->aux_irq_hint = val;
-+        }
-+        qemu_mutex_unlock_iothread();
-+        break;
-+
-+    case AUX_ID_irq_pulse_cancel:
-+        irq_bank->pending = irq_bank->trigger ? (val & 0x01) : 0;
-+        break;
-+
-+    case AUX_ID_irq_trigger:
-+        irq_bank->trigger = val & 0x01;
-+        break;
-+
-+    case AUX_ID_irq_priority:
-+        if (val <= ((cpu->irq_build >> 24) & 0x0f)) {
-+            irq_bank->priority = val & 0x0f;
-+        } else {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[IRQ] Invalid write 0x" TARGET_FMT_lx
-+                          " to IRQ_PRIORITY aux reg.\n",
-+                          val);
-+        }
-+        break;
-+
-+    case AUX_ID_aux_irq_ctrl:
-+        env->aux_irq_ctrl = val & 0x2e1f;
-+        break;
-+
-+    case AUX_ID_irq_enable:
-+        irq_bank->enable = val & 0x01;
-+        break;
-+
-+    case AUX_ID_aux_irq_act:
-+        env->aux_irq_act = val & 0x8000ffff;
-+        break;
-+
-+    case AUX_ID_int_vector_base:
-+        env->intvec = val;
-+        break;
-+
-+    case AUX_ID_aux_user_sp:
-+        env->aux_user_sp = val;
-+        break;
-+
-+    default:
-+        break;
-+    }
-+}
-+
-+/* Check if we can interrupt the cpu. */
-+
-+bool arc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-+{
-+    ARCCPU *cpu = ARC_CPU(cs);
-+    CPUARCState *env = &cpu->env;
-+    bool found = false;
-+    uint32_t vectno = 0;
-+    uint32_t offset, priority;
-+
-+    /* Check if we should execute this interrupt. */
-+    if (GET_STATUS_BIT(env->stat, Hf)
-+        /* The interrupts are enabled. */
-+        || env->stat.IEf == 0
-+        /* We are not in an exception. */
-+        || GET_STATUS_BIT(env->stat, AEf)
-+        /* Disable interrupts to happen after MissI exceptions. */
-+        || env->enabled_interrupts == false
-+        /* In a delay slot of branch */
-+        || env->stat.is_delay_slot_instruction
-+        || env->stat.DEf
-+        || (!(interrupt_request & CPU_INTERRUPT_HARD))) {
-+        return false;
-+    }
-+
-+    /* Check if any interrupts are pending. */
-+    if (!env->irq_priority_pending
-+        /* Or we are serving at the same priority level. */
-+        || (ctz32(env->irq_priority_pending) >= ctz32(env->aux_irq_act))) {
-+        return false;
-+    }
-+
-+    /* Find the first IRQ to serve. */
-+    priority = 0;
-+    do {
-+        for (vectno = 0;
-+             vectno < cpu->cfg.number_of_interrupts; vectno++) {
-+            if (env->irq_bank[16 + vectno].priority == priority
-+                && env->irq_bank[16 + vectno].enable
-+                && env->irq_bank[16 + vectno].pending) {
-+                found = true;
-+                break;
-+            }
-+        }
-+    } while (!found && ((++priority) <= env->stat.Ef));
-+
-+    /* No valid interrupt has been found. */
-+    if (!found) {
-+        return false;
-+    }
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] interrupt at pc=0x" TARGET_FMT_lx
-+                  "\n", env->pc);
-+
-+    /* Adjust vector number. */
-+    vectno += 16;
-+
-+    /* Set the AUX_IRQ_ACT. */
-+    if ((env->aux_irq_act & 0xffff) == 0) {
-+        env->aux_irq_act |= GET_STATUS_BIT(env->stat, Uf) << 31;
-+    }
-+    env->aux_irq_act |= 1 << priority;
-+
-+    /* Set ICAUSE register. */
-+    env->icause[priority] = vectno;
-+
-+    /* Do FIRQ if possible. */
-+    if (cpu->cfg.firq_option && priority == 0) {
-+        arc_enter_firq(cpu, vectno);
-+    } else {
-+        arc_enter_irq(cpu, vectno);
-+    }
-+
-+    /* XX. The PC is set with the appropriate exception vector. */
-+    offset = OFFSET_FOR_VECTOR(vectno);
-+    env->pc = TARGET_LONG_LOAD(env, env->intvec + offset);
-+    CPU_PCL(env) = env->pc & (~1);
-+
-+    qemu_log_mask(CPU_LOG_INT, "[IRQ] isr=0x" TARGET_FMT_lx
-+                  " vec=0x%08x, priority=0x%04x\n",
-+                  env->pc, offset, priority);
-+
-+    return true;
-+}
-+
-+/* To be called in the RTIE helper. */
-+
-+bool arc_rtie_interrupts(CPUARCState *env)
-+{
-+    ARCCPU *cpu = env_archcpu(env);
-+
-+    if (GET_STATUS_BIT(env->stat, AEf) || ((env->aux_irq_act & 0xffff) == 0)) {
-+        return false;
-+    }
-+
-+    /* FIXME! Reset RTC state. */
-+
-+    if ((env->aux_irq_act & 0xffff) == 1 && cpu->cfg.firq_option) {
-+        arc_rtie_firq(env);
-+    } else {
-+        arc_rtie_irq(env);
-+    }
-+    return true;
-+}
-+
-+/* Switch between AUX USER SP and CPU's SP. */
-+void switchSP(CPUARCState *env)
-+{
-+    uint32_t tmp;
-+    qemu_log_mask(CPU_LOG_INT,
-+                  "[%s] swap: r28 = 0x" TARGET_FMT_lx
-+                  "  AUX_USER_SP = 0x%08x\n",
-+                  (env->aux_irq_act & 0xFFFF) ? "IRQ" : "EXCP",
-+                  CPU_SP(env), env->aux_user_sp);
-+
-+    tmp = env->aux_user_sp;
-+    env->aux_user_sp = CPU_SP(env);
-+    CPU_SP(env) = tmp;
-+    /*
-+     * TODO: maybe we need to flush the tcg buffer to switch into
-+     * kernel mode.
-+     */
-+}
-+
-+/* Reset the IRQ subsytem. */
-+void arc_resetIRQ(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+    uint32_t i;
-+
-+    if (!cpu->cfg.has_interrupts) {
-+        return;
-+    }
-+
-+    for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
-+        env->irq_bank[16 + i].enable = 1;
-+    }
-+
-+    if (cpu->cfg.has_timer_0) {
-+        /* FIXME! add build default timer0 priority. */
-+        env->irq_bank[16].priority = 0;
-+    }
-+
-+    if (cpu->cfg.has_timer_1) {
-+        /* FIXME! add build default timer1 priority. */
-+        env->irq_bank[17].priority = 0;
-+    }
-+
-+    qemu_log_mask(CPU_LOG_RESET, "[IRQ] Reset the IRQ subsystem.");
-+}
-+
-+/* Initializing the IRQ subsystem. */
-+void arc_initializeIRQ(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+    uint32_t i;
-+
-+    if (cpu->cfg.has_interrupts) {
-+        /* FIXME! add N (NMI) bit. */
-+        cpu->irq_build = 0x01 | ((cpu->cfg.number_of_interrupts & 0xff) << 8) |
-+            ((cpu->cfg.external_interrupts & 0xff) << 16) |
-+            ((cpu->cfg.number_of_levels & 0x0f) << 24) |
-+            (cpu->cfg.firq_option ? (1 << 28) : 0);
-+
-+        for (i = 0; i < (cpu->cfg.number_of_interrupts & 0xff); i++) {
-+            env->irq_bank[16 + i].enable = 1;
-+        }
-+
-+        cpu->vecbase_build = (cpu->cfg.intvbase_preset & (~0x3ffff))
-+            | (0x04 << 2);
-+        env->intvec = cpu->cfg.intvbase_preset & (~0x3ffff);
-+    } else {
-+        cpu->irq_build = 0;
-+    }
-+}
-diff --git a/target/arc/irq.h b/target/arc/irq.h
-new file mode 100644
-index 0000000000..d450126b76
---- /dev/null
-+++ b/target/arc/irq.h
-@@ -0,0 +1,37 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Synopsys Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * http://www.gnu.org/licenses/lgpl-2.1.html
-+ */
-+
-+#ifndef __IRQ_H__
-+#define __IRQ_H__
-+
-+#include "target/arc/regs.h"
-+#include "cpu.h"
-+
-+bool arc_cpu_exec_interrupt(CPUState *, int);
-+bool arc_rtie_interrupts(CPUARCState *);
-+void switchSP(CPUARCState *);
-+void arc_initializeIRQ(ARCCPU *);
-+void arc_resetIRQ(ARCCPU *);
-+uint32_t pack_status32(ARCStatus *);
-+void unpack_status32(ARCStatus *, uint32_t);
-+
-+#define OFFSET_FOR_VECTOR(VECNO) (VECNO << 2)
-+
-+#endif
-diff --git a/target/arc/timer.c b/target/arc/timer.c
-new file mode 100644
-index 0000000000..43caf3b5a1
---- /dev/null
-+++ b/target/arc/timer.c
-@@ -0,0 +1,459 @@
++++ b/target/arc/mmu.c
+@@ -0,0 +1,805 @@
 +/*
 + * QEMU ARC CPU
 + *
 + * Copyright (c) 2020 Synppsys Inc.
++ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -859,454 +130,800 @@ index 0000000000..43caf3b5a1
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/timer.h"
++#include "mmu.h"
++#include "target/arc/regs.h"
++#include "qemu/osdep.h"
 +#include "cpu.h"
 +#include "exec/exec-all.h"
-+#include "hw/irq.h"
-+#include "hw/arc/cpudevs.h"
-+#include "timer.h"
-+#include "qemu/main-loop.h"
 +
-+#define TIMER_PERIOD(hz) (1000000000LL / (hz))
-+#define TIMEOUT_LIMIT 1000000
-+
-+#define FREQ_HZ (env_archcpu(env)->freq_hz)
-+#define T_PERIOD (TIMER_PERIOD(FREQ_HZ))
-+#define T_COUNT(T)                                                      \
-+    ((uint32_t) ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -               \
-+                  env->timer[T].last_clk) / T_PERIOD))
-+
-+/* Update the next timeout time as difference between Count and Limit */
-+static void cpu_arc_timer_update(CPUARCState *env, uint32_t timer)
++target_ulong
++arc_mmu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
 +{
-+    uint32_t delta;
-+    uint32_t t_count = T_COUNT(timer);
-+    uint64_t now =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    uint32_t period = T_PERIOD;
++    CPUARCState *env = (CPUARCState *) data;
++    struct arc_mmu *mmu = &env->mmu;
++    uint32_t reg = 0;
 +
-+    delta = env->timer[timer].T_Limit - t_count - 1;
-+
-+    /*
-+     * Artificially limit timeout rate to something achievable under
-+     * QEMU. Otherwise, QEMU spends all its time generating timer
-+     * interrupts, and there is no forward progress. About ten
-+     * microseconds is the fastest that really works on the current
-+     * generation of host machines.
-+     */
-+    if ((delta * period) < TIMEOUT_LIMIT) {
-+        delta = TIMEOUT_LIMIT / period;
++    switch (aux_reg_detail->id) {
++    case AUX_ID_mmu_build:
++        /*
++         * For now hardcode the TLB geometry and canonical page sizes
++         * MMUv4: 2M Super Page, 8k Page, 4 way set associative,
++         *        1K entries (256x4), 4 uITLB, 8 uDTLB
++         */
++        reg = 0x04e21a4a;
++        break;
++    case AUX_ID_tlbindex:
++        reg = mmu->tlbindex;
++        break;
++    case AUX_ID_tlbpd0:
++        reg = mmu->tlbpd0;
++        break;
++    case AUX_ID_tlbpd1:
++        reg = mmu->tlbpd1;
++        break;
++    case AUX_ID_tlbpd1_hi:
++        reg = mmu->tlbpd1_hi;
++        break;
++    case AUX_ID_scratch_data0:
++        reg = mmu->scratch_data0;
++        break;
++    case AUX_ID_tlbcommand:
++        reg = mmu->tlbcmd;
++        break;
++    case AUX_ID_pid:
++        reg = (mmu->enabled << 31) | mmu->pid_asid;
++        break;
++    case AUX_ID_sasid0:
++        reg = mmu->sasid0;
++        break;
++    case AUX_ID_sasid1:
++        reg = mmu->sasid1;
++        break;
++    default:
++        break;
 +    }
 +
-+    timer_mod(env->cpu_timer[timer], now + ((uint64_t)delta * period));
-+
-+    qemu_log_mask(LOG_UNIMP,
-+                  "[TMR%d] Timer update in 0x" TARGET_FMT_lx
-+                  " - 0x%08x = 0x%08x (ctrl:0x" TARGET_FMT_lx
-+                  " @ %d Hz)\n",
-+                  timer, env->timer[timer].T_Limit,
-+                  t_count, delta, env->timer[timer].T_Cntrl, FREQ_HZ);
++    return reg;
 +}
 +
-+/* Expire the timer function. Rise an interrupt if required. */
-+
-+static void cpu_arc_timer_expire(CPUARCState *env, uint32_t timer)
++void
++arc_mmu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
++                target_ulong val, void *data)
 +{
-+    assert(timer == 1 || timer == 0);
-+    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer expired\n", timer);
++    CPUARCState *env = (CPUARCState *) data;
++    CPUState *cs = env_cpu(env);
++    struct arc_mmu *mmu = &env->mmu;
 +
-+    uint32_t overflow = env->timer[timer].T_Cntrl & TMR_IP;
-+    /* Set the IP bit. */
++    switch (aux_reg_detail->id) {
++    /* AUX_ID_tlbcommand is more involved and handled seperately */
++    case AUX_ID_tlbindex:
++        mmu->tlbindex = val;
++        break;
++    case AUX_ID_tlbpd0:
++        mmu->tlbpd0 = val;
++        break;
++    case AUX_ID_tlbpd1:
++        mmu->tlbpd1 = val;
++        break;
++    case AUX_ID_tlbpd1_hi:
++        mmu->tlbpd1_hi = val;
++        break;
++    case AUX_ID_scratch_data0:
++        mmu->scratch_data0 = val;
++        break;
++    case AUX_ID_pid:
++        qemu_log_mask(CPU_LOG_MMU,
++                      "[MMU] Writing PID_ASID with value 0x" TARGET_FMT_lx
++                      " at 0x" TARGET_FMT_lx "\n",
++                      val, env->pc);
++        mmu->enabled = (val >> 31);
++        mmu->pid_asid = val & 0xff;
++        tlb_flush(cs);
++        break;
++    case AUX_ID_sasid0:
++        mmu->sasid0 = val;
++        break;
++    case AUX_ID_sasid1:
++        mmu->sasid1 = val;
++        break;
++    default:
++        break;
++    }
++}
 +
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
++/* vaddr can't have top bit */
++#define VPN(addr) ((addr) & (PAGE_MASK & (~0x80000000)))
++#define PFN(addr) ((addr) & PAGE_MASK)
++
++static void
++arc_mmu_debug_tlb_for_set(CPUARCState *env, int set)
++{
++    int j;
++    bool set_printed = false;
++
++    for (j = 0; j < N_WAYS; j++) {
++        struct arc_tlb_e *tlb = &env->mmu.nTLB[set][j];
++
++        if ((tlb->pd0 & PD0_V) != 0) {
++            if (set_printed == false) {
++                printf("set %d\n", set);
++                set_printed = true;
++            }
++            if (set_printed == true) {
++                printf(" way %d\n", j);
++            }
++            printf("  tlppd0: %08x: vaddr=\t%08x %s %s%s asid=%02x\n",
++                   tlb->pd0, VPN(tlb->pd0),
++                   (char *) ((tlb->pd0 & PD0_SZ) != 0 ? "sz1" : "sz0"),
++                   (char *) ((tlb->pd0 & PD0_V) != 0 ? "V" : ""),
++                   (char *) ((tlb->pd0 & PD0_G) != 0 ? "g" : ""),
++                   tlb->pd0 & PD0_ASID);
++
++            printf("  tlppd1: %08x: paddr=\t%08x k:%s%s%s u:%s%s%s f:%s\n",
++                   (unsigned int) tlb->pd1, (unsigned int) PFN(tlb->pd1),
++                   (char *) ((tlb->pd1 & PD1_RK) != 0 ? "R" : "r"),
++                   (char *) ((tlb->pd1 & PD1_WK) != 0 ? "W" : "w"),
++                   (char *) ((tlb->pd1 & PD1_XK) != 0 ? "X" : "x"),
++                   (char *) ((tlb->pd1 & PD1_RU) != 0 ? "R" : "r"),
++                   (char *) ((tlb->pd1 & PD1_WU) != 0 ? "W" : "w"),
++                   (char *) ((tlb->pd1 & PD1_XU) != 0 ? "X" : "x"),
++                   (char *) ((tlb->pd1 & PD1_FC) != 0 ? "C" : "c"));
++        }
 +    }
-+    env->timer[timer].T_Cntrl |= TMR_IP;
-+    env->timer[timer].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
++}
++
++void
++arc_mmu_debug_tlb(CPUARCState *env)
++{
++    int i;
++
++    for (i = 0; i < N_SETS; i++) {
++        arc_mmu_debug_tlb_for_set(env, i);
++    }
++}
++
++void
++arc_mmu_debug_tlb_for_vaddr(CPUARCState *env, uint32_t vaddr)
++{
++    uint32_t set = (vaddr >> PAGE_SHIFT) & (N_SETS - 1);
++    arc_mmu_debug_tlb_for_set(env, set);
++}
++
++
++static struct arc_tlb_e *
++arc_mmu_get_tlb_at_index(uint32_t index, struct arc_mmu *mmu)
++{
++    uint32_t set = index / N_WAYS;
++    uint32_t bank = index % N_WAYS;
++    return &mmu->nTLB[set][bank];
++}
++
++static inline bool
++match_sasid(struct arc_tlb_e *tlb, struct arc_mmu *mmu)
++{
++    /* Match to a shared library. */
++    uint8_t position = tlb->pd0 & PD0_ASID_MATCH;
++    uint64_t pos = 1ULL << position;
++    uint64_t sasid = ((uint64_t) mmu->sasid1 << 32) | mmu->sasid0;
++    if ((pos & sasid) == 0) {
++        return false;
++    }
++    return true;
++}
++
++static struct arc_tlb_e *
++arc_mmu_lookup_tlb(uint32_t vaddr, uint32_t compare_mask, struct arc_mmu *mmu,
++                   int *num_finds, uint32_t *index)
++{
++    struct arc_tlb_e *ret = NULL;
++    uint32_t set = (vaddr >> PAGE_SHIFT) & (N_SETS - 1);
++    struct arc_tlb_e *tlb = &mmu->nTLB[set][0];
++    int w;
++
++    if (num_finds != NULL) {
++        *num_finds = 0;
 +    }
 +
-+    /* Raise an interrupt if enabled. */
-+    if ((env->timer[timer].T_Cntrl & TMR_IE) && !overflow) {
-+        qemu_log_mask(CPU_LOG_INT, "[TMR%d] Rising IRQ\n", timer);
-+        qemu_irq_raise(env->irq[TIMER0_IRQ + (timer & 0x01)]);
++    bool general_match = true;
++    for (w = 0; w < N_WAYS; w++, tlb++) {
++        uint32_t match = vaddr & compare_mask;
++        uint32_t final_compare_mask = compare_mask;
++
++        if ((tlb->pd0 & PD0_G) == 0) {
++            if ((tlb->pd0 & PD0_S) != 0) {
++                /* Match to a shared library. */
++                if (match_sasid(tlb, mmu) == false) {
++                    general_match = false;
++                }
++            } else {
++                /* Match to a process. */
++                match |= mmu->pid_asid & PD0_PID_MATCH;
++                final_compare_mask |= PD0_PID_MATCH;
++            }
++        }
++
++        if (match == (tlb->pd0 & final_compare_mask) && general_match) {
++            ret = tlb;
++            if (num_finds != NULL) {
++                *num_finds += 1;
++            }
++            if (index != NULL) {
++                *index = (set * N_WAYS) + w;
++            }
++        }
 +    }
++
++    if (ret == NULL) {
++        uint32_t way = mmu->way_sel[set];
++        ret = &mmu->nTLB[set][way];
++
++        /* TODO: Replace by something more significant. */
++        if (index != NULL) {
++            *index = (set * N_WAYS) + way;
++        }
++
++        mmu->way_sel[set] = (mmu->way_sel[set] + 1) & (N_WAYS - 1);
++    }
++
++    return ret;
 +}
 +
 +/*
-+ * This callback should occur when the counter is exactly equal to the
-+ * limit value. Offset the count by one to avoid immediately
-+ * retriggering the callback before any virtual time has passed.
++ * TLB Insert/Delete triggered by writing the cmd to TLBCommand Aux
++ *  - Requires PD0 and PD1 be setup apriori
 + */
-+
-+static void arc_timer0_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env_archcpu(env)->timer_build & TB_T0)) {
-+        return;
-+    }
-+
-+    cpu_arc_timer_expire(env, 0);
-+    cpu_arc_timer_update(env, 0);
-+}
-+
-+/* Like the above function but for TIMER1. */
-+static void arc_timer1_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env_archcpu(env)->timer_build & TB_T1)) {
-+        return;
-+    }
-+
-+    cpu_arc_timer_expire(env, 1);
-+    cpu_arc_timer_update(env, 1);
-+}
-+
-+/* RTC counter update. */
-+static void cpu_rtc_count_update(CPUARCState *env)
-+{
-+    uint64_t now;
-+    uint64_t llreg;
-+
-+    assert((env_archcpu(env)->timer_build & TB_RTC) && env->cpu_rtc);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (!(env->aux_rtc_ctrl & 0x01)) {
-+        return;
-+    }
-+
-+    llreg = ((now - env->last_clk_rtc) / TIMER_PERIOD(FREQ_HZ));
-+    llreg += env->aux_rtc_low + ((uint64_t)env->aux_rtc_high << 32);
-+    env->aux_rtc_high = llreg >> 32;
-+    env->aux_rtc_low = (uint32_t) llreg;
-+
-+    env->last_clk_rtc = now;
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC count-regs update\n");
-+}
-+
-+/* Update the next timeout time as difference between Count and Limit */
-+static void cpu_rtc_update(CPUARCState *env)
-+{
-+    uint64_t wait = 0;
-+    uint64_t now, next, period;
-+
-+    assert(env->cpu_rtc);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+
-+    if (!(env->aux_rtc_ctrl & 0x01)) {
-+        return;
-+    }
-+
-+    period = TIMER_PERIOD(FREQ_HZ);
-+    wait = UINT64_MAX - ((((uint64_t) env->aux_rtc_high) << 32)
-+                       + env->aux_rtc_low);
-+    wait -= (now - env->last_clk_rtc) / period;
-+
-+    /* Limit timeout rate. */
-+    if ((wait * period) < TIMEOUT_LIMIT) {
-+        period = TIMEOUT_LIMIT / wait;
-+    }
-+
-+    next = now + (uint64_t) wait * period;
-+    timer_mod(env->cpu_rtc, next);
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC update\n");
-+}
-+
-+/* RTC call back routine. */
-+static void arc_rtc_cb(void *opaque)
-+{
-+    CPUARCState *env = (CPUARCState *) opaque;
-+
-+    if (!(env_archcpu(env)->timer_build & TB_RTC)) {
-+        return;
-+    }
-+
-+    qemu_log_mask(LOG_UNIMP, "[RTC] RTC expired\n");
-+
-+    env->aux_rtc_high = 0;
-+    env->aux_rtc_low = 0;
-+    env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    cpu_rtc_update(env);
-+}
-+
-+/* Helper used when resetting the system. */
-+static void cpu_arc_count_reset(CPUARCState *env, uint32_t timer)
-+{
-+    assert(timer == 0 || timer == 1);
-+    env->timer[timer].T_Cntrl = 0;
-+    env->timer[timer].T_Limit = 0x00ffffff;
-+}
-+
-+/* Get the counter value. */
-+static uint32_t cpu_arc_count_get(CPUARCState *env, uint32_t timer)
-+{
-+    uint32_t count = T_COUNT(timer);
-+    qemu_log_mask(LOG_UNIMP, "[TMR%d] Timer count %d.\n", timer, count);
-+    return count;
-+}
-+
-+/* Set the counter value. */
-+static void cpu_arc_count_set(CPUARCState *env, uint32_t timer, uint32_t val)
-+{
-+    assert(timer == 0 || timer == 1);
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    env->timer[timer].last_clk =
-+        ((qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) + val) * T_PERIOD;
-+    cpu_arc_timer_update(env, timer);
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+/* Store the counter limit. */
-+static void cpu_arc_store_limit(CPUARCState *env,
-+                                uint32_t timer, uint32_t value)
-+{
-+    switch (timer) {
-+    case 0:
-+        if (!(env_archcpu(env)->timer_build & TB_T0)) {
-+            return;
-+        }
-+        break;
-+    case 1:
-+        if (!(env_archcpu(env)->timer_build & TB_T1)) {
-+            return;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+    env->timer[timer].T_Limit = value;
-+    cpu_arc_timer_update(env, timer);
-+}
-+
-+/* Set the timer control bits. */
-+static void cpu_arc_control_set(CPUARCState *env,
-+                                uint32_t timer, uint32_t value)
-+{
-+    assert(timer == 1 || timer == 0);
-+    bool unlocked = !qemu_mutex_iothread_locked();
-+    if (unlocked) {
-+        qemu_mutex_lock_iothread();
-+    }
-+    if ((env->timer[timer].T_Cntrl & TMR_IP) && !(value & TMR_IP)) {
-+        qemu_irq_lower(env->irq[TIMER0_IRQ + (timer)]);
-+    }
-+    env->timer[timer].T_Cntrl = value & 0x1f;
-+    if (unlocked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+/* Get The RTC count value. */
-+static uint32_t arc_rtc_count_get(CPUARCState *env, bool lower)
-+{
-+    cpu_rtc_count_update(env);
-+    return lower ? env->aux_rtc_low : env->aux_rtc_high;
-+}
-+
-+/* Set the RTC control bits. */
-+static void arc_rtc_ctrl_set(CPUARCState *env, uint32_t val)
-+{
-+    assert(GET_STATUS_BIT(env->stat, Uf) == 0);
-+
-+    if (val & 0x02) {
-+        env->aux_rtc_low = 0;
-+        env->aux_rtc_high = 0;
-+        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+    if (!(val & 0x01)) {
-+        timer_del(env->cpu_rtc);
-+    }
-+
-+    /* Restart RTC, update last clock. */
-+    if ((env->aux_rtc_ctrl & 0x01) == 0 && (val & 0x01)) {
-+        env->last_clk_rtc = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+
-+    env->aux_rtc_ctrl = 0xc0000000 | (val & 0x01);
-+    cpu_rtc_update(env);
-+}
-+
-+/* Init procedure, called in platform. */
-+
 +void
-+cpu_arc_clock_init(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    if (env_archcpu(env)->timer_build & TB_T0) {
-+        env->cpu_timer[0] =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer0_cb, env);
-+    }
-+
-+    if (env_archcpu(env)->timer_build & TB_T1) {
-+        env->cpu_timer[1] =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_timer1_cb, env);
-+    }
-+
-+    if (env_archcpu(env)->timer_build & TB_RTC) {
-+        env->cpu_rtc =
-+            timer_new_ns(QEMU_CLOCK_VIRTUAL, &arc_rtc_cb, env);
-+    }
-+
-+    env->timer[0].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+    env->timer[1].last_clk =
-+        (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / T_PERIOD) * T_PERIOD;
-+}
-+
-+void
-+arc_initializeTIMER(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    /* FIXME! add default timer priorities. */
-+    env_archcpu(env)->timer_build = 0x04 | (cpu->cfg.has_timer_0 ? TB_T0 : 0) |
-+                       (cpu->cfg.has_timer_1 ? TB_T1 : 0) |
-+                       (cpu->cfg.rtc_option ? TB_RTC : 0);
-+}
-+
-+void
-+arc_resetTIMER(ARCCPU *cpu)
-+{
-+    CPUARCState *env = &cpu->env;
-+
-+    if (env_archcpu(env)->timer_build & TB_T0) {
-+        cpu_arc_count_reset(env, 0);
-+    }
-+
-+    if (env_archcpu(env)->timer_build & TB_T1) {
-+        cpu_arc_count_reset(env, 1);
-+    }
-+}
-+
-+/* Function implementation for reading/writing aux regs. */
-+target_ulong
-+aux_timer_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
++arc_mmu_aux_set_tlbcmd(const struct arc_aux_reg_detail *aux_reg_detail,
++                       target_ulong val, void *data)
 +{
 +    CPUARCState *env = (CPUARCState *) data;
++    CPUState *cs = env_cpu(env);
++    struct arc_mmu *mmu = &env->mmu;
++    uint32_t pd0 = mmu->tlbpd0;
++    uint32_t pd1 = mmu->tlbpd1;
++    int num_finds = 4;
++    uint32_t index;
++    struct arc_tlb_e *tlb;
 +
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_control0:
-+        return env->timer[0].T_Cntrl;
-+        break;
++    mmu->tlbcmd = val;
++    uint32_t matching_mask = (PD0_VPN | PD0_SZ | PD0_G | PD0_S | PD0_ASID);
 +
-+    case AUX_ID_control1:
-+        return env->timer[1].T_Cntrl;
-+        break;
-+
-+    case AUX_ID_count0:
-+        return cpu_arc_count_get(env, 0);
-+        break;
-+
-+    case AUX_ID_count1:
-+        return cpu_arc_count_get(env, 1);
-+        break;
-+
-+    case AUX_ID_limit0:
-+        return env->timer[0].T_Limit;
-+        break;
-+
-+    case AUX_ID_limit1:
-+        return env->timer[1].T_Limit;
-+        break;
-+
-+    case AUX_ID_timer_build:
-+        return env_archcpu(env)->timer_build;
-+        break;
-+
-+    case AUX_ID_aux_rtc_low:
-+        return arc_rtc_count_get(env, true);
-+        break;
-+
-+    case AUX_ID_aux_rtc_high:
-+        return arc_rtc_count_get(env, false);
-+        break;
-+
-+    case AUX_ID_aux_rtc_ctrl:
-+        return env->aux_rtc_ctrl;
-+        break;
-+
-+    default:
-+        break;
++    if ((pd0 & PD0_G) != 0) {
++        /*
++         * When Global do not check for asid match.
++         */
++        matching_mask &= ~(PD0_S | PD0_ASID);
 +    }
-+    return 0;
++
++    /*
++     * NOTE: Write and WriteNI commands are the same because we do not model
++     * uTLBs in QEMU.
++     */
++    if (val == TLB_CMD_WRITE || val == TLB_CMD_WRITENI) {
++        /*
++         * TODO: Include index verification. We are always clearing the index as
++         * we assume it is always valid.
++         */
++        tlb = arc_mmu_get_tlb_at_index(mmu->tlbindex & TLBINDEX_INDEX, mmu);
++        tlb->pd0 = mmu->tlbpd0;
++        tlb->pd1 = mmu->tlbpd1;
++
++        /*
++         * don't try to optimize this: upon ASID rollover the entire TLB is
++         * unconditionally flushed for any ASID
++         */
++        tlb_flush(cs);
++    }
++    if (val == TLB_CMD_READ) {
++        /*
++         * TODO: Include index verification. We are always clearing the index as
++         * we assume it is always valid.
++         */
++
++        tlb = arc_mmu_get_tlb_at_index(mmu->tlbindex & TLBINDEX_INDEX, mmu);
++        mmu->tlbpd0 = tlb->pd0;
++        mmu->tlbpd1 = tlb->pd1;
++
++        mmu->tlbindex &= ~(TLBINDEX_E | TLBINDEX_RC);
++    }
++    if (val == TLB_CMD_DELETE || val == TLB_CMD_INSERT) {
++        tlb_flush_page_by_mmuidx(cs, VPN(pd0), 3);
++
++        if ((pd0 & PD0_G) != 0) {
++            /*
++             * When Global do not check for asid match.
++             */
++            matching_mask &= ~(PD0_S | PD0_ASID);
++        }
++
++        matching_mask &= (VPN(PD0_VPN) | (~PD0_VPN)) ;
++        tlb = arc_mmu_lookup_tlb(pd0,
++                                 matching_mask | PD0_V,
++                                 &env->mmu, &num_finds, &index);
++
++        if (num_finds == 0) {
++            mmu->tlbindex = 0x80000000; /* No entry to delete */
++        } else if (num_finds == 1) {
++            mmu->tlbindex = index; /* Entry is deleted set index */
++            tlb->pd0 &= ~PD0_V;
++            num_finds--;
++            qemu_log_mask(CPU_LOG_MMU,
++                          "[MMU] Delete at 0x" TARGET_FMT_lx
++                          ", pd0 = 0x%08x, pd1 = 0x%08x\n",
++                          env->pc, tlb->pd0, tlb->pd1);
++        } else {
++            while (num_finds > 0) {
++                tlb->pd0 &= ~PD0_V;
++                qemu_log_mask(CPU_LOG_MMU,
++                              "[MMU] Delete at 0x" TARGET_FMT_lx
++                              ", pd0 = 0x%08x, pd1 = 0x%08x\n",
++                              env->pc, tlb->pd0, tlb->pd1);
++                tlb = arc_mmu_lookup_tlb(pd0,
++                                         (VPN(PD0_VPN) | PD0_V
++                                          | PD0_SZ | PD0_G | PD0_S),
++                                         mmu, &num_finds, NULL);
++            }
++        }
++    }
++
++    if (val == TLB_CMD_INSERT) {
++        if ((pd0 & PD0_V) == 0) {
++            mmu->tlbindex = 0x80000000;
++        } else {
++            tlb->pd0 = pd0;
++            tlb->pd1 = pd1;
++
++            /* Set index for latest inserted element. */
++            mmu->tlbindex |= index;
++
++            /* TODO: More verifications needed. */
++
++            qemu_log_mask(CPU_LOG_MMU,
++                          "[MMU] Insert at 0x" TARGET_FMT_lx
++                          ", PID = %d, VPN = 0x%08x, "
++                          "PFN = 0x%08x, pd0 = 0x%08x, pd1 = 0x%08x\n",
++                          env->pc,
++                          pd0 & 0xff,
++                          VPN(pd0), PFN(pd1),
++                          pd0, pd1);
++        }
++    }
++
++    /* NOTE: We do not implement IVUTLB as we do not model uTLBs. */
++    assert(val == TLB_CMD_INSERT
++           || val == TLB_CMD_DELETE
++           || val == TLB_CMD_WRITE
++           || val == TLB_CMD_READ
++           || val == TLB_CMD_WRITENI
++           || val == TLB_CMD_IVUTLB
++           );
 +}
 +
-+void aux_timer_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                   target_ulong val, void *data)
++/* Function to verify if we have permission to use MMU TLB entry. */
++static bool
++arc_mmu_have_permission(CPUARCState *env,
++                        struct arc_tlb_e *tlb,
++                        enum mmu_access_type type)
 +{
-+    CPUARCState *env = (CPUARCState *) data;
-+
-+    qemu_log_mask(LOG_UNIMP, "[TMRx] AUX[%s] <= 0x" TARGET_FMT_lx "\n",
-+                  aux_reg_detail->name, val);
-+
-+    qemu_mutex_lock_iothread();
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_control0:
-+        if (env_archcpu(env)->timer_build & TB_T0) {
-+            cpu_arc_control_set(env, 0, val);
-+        }
++    bool ret = false;
++    /* Read status for user mode. */
++    bool in_kernel_mode = !GET_STATUS_BIT(env->stat, Uf);
++    switch (type) {
++    case MMU_MEM_READ:
++        ret = in_kernel_mode ? tlb->pd1 & PD1_RK : tlb->pd1 & PD1_RU;
 +        break;
-+
-+    case AUX_ID_control1:
-+        if (env_archcpu(env)->timer_build & TB_T1) {
-+            cpu_arc_control_set(env, 1, val);
-+        }
++    case MMU_MEM_WRITE:
++        ret = in_kernel_mode ? tlb->pd1 & PD1_WK : tlb->pd1 & PD1_WU;
 +        break;
-+
-+    case AUX_ID_count0:
-+        if (env_archcpu(env)->timer_build & TB_T0) {
-+            cpu_arc_count_set(env, 0, val);
-+        }
++    case MMU_MEM_FETCH:
++        ret = in_kernel_mode ? tlb->pd1 & PD1_XK : tlb->pd1 & PD1_XU;
 +        break;
-+
-+    case AUX_ID_count1:
-+        if (env_archcpu(env)->timer_build & TB_T1) {
-+            cpu_arc_count_set(env, 1, val);
-+        }
++    case MMU_MEM_ATTOMIC:
++        ret = in_kernel_mode ? tlb->pd1 & PD1_RK : tlb->pd1 & PD1_RU;
++        ret = ret & (in_kernel_mode ? tlb->pd1 & PD1_WK : tlb->pd1 & PD1_WU);
 +        break;
-+
-+    case AUX_ID_limit0:
-+        cpu_arc_store_limit(env, 0, val);
-+        break;
-+
-+    case AUX_ID_limit1:
-+        cpu_arc_store_limit(env, 1, val);
-+        break;
-+
-+    case AUX_ID_aux_rtc_ctrl:
-+        arc_rtc_ctrl_set(env, val);
-+        break;
-+
-+    default:
++    case MMU_MEM_IRRELEVANT_TYPE:
++        ret = true;
 +        break;
 +    }
-+    qemu_mutex_unlock_iothread();
++
++    return ret;
++}
++
++#define SET_MMU_EXCEPTION(ENV, N, C, P) { \
++  ENV->mmu.exception.number = N; \
++  ENV->mmu.exception.causecode = C; \
++  ENV->mmu.exception.parameter = P; \
++}
++
++/* Translation function to get physical address from virtual address. */
++static uint32_t
++arc_mmu_translate(struct CPUARCState *env,
++                  uint32_t vaddr, enum mmu_access_type rwe,
++                  uint32_t *index)
++{
++    struct arc_mmu *mmu = &(env->mmu);
++    struct arc_tlb_e *tlb = NULL;
++    int num_matching_tlb = 0;
++
++    SET_MMU_EXCEPTION(env, EXCP_NO_EXCEPTION, 0, 0);
++
++    if (rwe != MMU_MEM_IRRELEVANT_TYPE
++        && GET_STATUS_BIT(env->stat, Uf) != 0 && vaddr >= 0x80000000) {
++        goto protv_exception;
++    }
++
++    /*
++     * Check that we are not addressing an address above 0x80000000.
++     * Return the same address in that case.
++     */
++    if ((vaddr >= 0x80000000) || mmu->enabled == false) {
++        return vaddr;
++    }
++
++    if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
++        qemu_log_mask(CPU_LOG_MMU,
++                      "[MMU] Translate at 0x" TARGET_FMT_lx
++                      ", vaddr 0x%08x, pid %d, rwe = %s\n",
++                      env->pc, vaddr, mmu->pid_asid, RWE_STRING(rwe));
++    }
++
++    uint32_t match_pd0 = (VPN(vaddr) | PD0_V);
++    tlb = arc_mmu_lookup_tlb(match_pd0, (VPN(PD0_VPN) | PD0_V), mmu,
++                              &num_matching_tlb, index);
++
++    /*
++     * Check for multiple matches in nTLB, and return machine check
++     *  exception.
++     */
++    if (num_matching_tlb > 1) {
++        qemu_log_mask(CPU_LOG_MMU,
++                      "[MMU] Machine Check exception. num_matching_tlb = %d\n",
++                      num_matching_tlb);
++        SET_MMU_EXCEPTION(env, EXCP_MACHINE_CHECK, 0x01, 0x00);
++        return 0;
++    }
++
++
++    bool match = true;
++
++    if (num_matching_tlb == 0) {
++        match = false;
++    }
++
++    /* Check if entry if related to this address */
++    if (VPN(vaddr) != VPN(tlb->pd0) || (tlb->pd0 & PD0_V) == 0) {
++        /* Call the interrupt. */
++        match = false;
++    }
++
++    if (match == true) {
++        if ((tlb->pd0 & PD0_G) == 0) {
++            if ((tlb->pd0 & PD0_S) != 0) {
++                /* Match to a shared library. */
++                if (match_sasid(tlb, mmu) == false) {
++                    match = false;
++                }
++            } else if ((tlb->pd0 & PD0_PID_MATCH) !=
++                       (mmu->pid_asid & PD0_PID_MATCH)) {
++                /* Match to a process. */
++                      match = false;
++            }
++        }
++    }
++
++    if (match == true && !arc_mmu_have_permission(env, tlb, rwe)) {
++  protv_exception:
++        qemu_log_mask(CPU_LOG_MMU,
++                      "[MMU] ProtV exception at 0x" TARGET_FMT_lx
++                      " for 0x%08x. rwe = %s, "
++                      "tlb->pd0 = %08x, tlb->pd1 = %08x\n",
++                      env->pc,
++                      vaddr,
++                      RWE_STRING(rwe),
++                      tlb->pd0, tlb->pd1);
++
++        SET_MMU_EXCEPTION(env, EXCP_PROTV, CAUSE_CODE(rwe), 0x08);
++        return 0;
++    }
++
++    if (match == true) {
++        if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
++            qemu_log_mask(CPU_LOG_MMU,
++                          "[MMU] Translated to 0x%08x, pd0=0x%08x, pd1=0x%08x\n",
++                          (tlb->pd1 & PAGE_MASK) | (vaddr & (~PAGE_MASK)),
++                          tlb->pd0, tlb->pd1);
++        }
++        return (tlb->pd1 & PAGE_MASK) | (vaddr & (~PAGE_MASK));
++    } else {
++        if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
++            /* To remove eventually, just fail safe to check kernel. */
++            if (mmu->sasid0 != 0 || mmu->sasid1 != 0) {
++                assert(0);
++            } else {
++                mmu->tlbpd0 = (vaddr & (VPN(PD0_VPN)))
++                              | PD0_V | (mmu->pid_asid & PD0_ASID);
++            }
++            if (rwe == MMU_MEM_FETCH) {
++                qemu_log_mask(CPU_LOG_MMU,
++                              "[MMU] TLB_MissI exception at 0x"
++                              TARGET_FMT_lx ". rwe = %s, "
++                              "vaddr = %08x, tlb->pd0 = %08x, tlb->pd1 = %08x\n",
++                              env->pc,
++                              RWE_STRING(rwe),
++                              vaddr, tlb->pd0, tlb->pd1);
++                SET_MMU_EXCEPTION(env, EXCP_TLB_MISS_I, 0x00, 0x00);
++            } else {
++                qemu_log_mask(CPU_LOG_MMU,
++                              "[MMU] TLB_MissD exception at 0x" TARGET_FMT_lx
++                              ". rwe = %s, "
++                              "vaddr = %08x, tlb->pd0 = %08x, tlb->pd1 = %08x\n",
++                              env->pc,
++                              RWE_STRING(rwe),
++                              vaddr, tlb->pd0, tlb->pd1);
++                SET_MMU_EXCEPTION(env, EXCP_TLB_MISS_D, CAUSE_CODE(rwe),
++                                  0x00);
++            }
++        } else if (rwe != MMU_MEM_IRRELEVANT_TYPE) {
++            qemu_log_mask(CPU_LOG_MMU,
++                          "[MMU] Failed to translate to 0x%08x\n",
++                          vaddr);
++        }
++        return 0;
++    }
++}
++
++uint32_t arc_mmu_page_address_for(uint32_t vaddr)
++{
++    uint32_t ret = VPN(vaddr);
++    if (vaddr >= 0x80000000) {
++        ret |= 0x80000000;
++    }
++    return ret;
++}
++
++static int
++arc_mmu_get_prot_for_index(uint32_t index, CPUARCState *env)
++{
++    struct arc_tlb_e *tlb;
++    int ret = 0;
++    /* Read status for user mode. */
++    bool in_kernel_mode = !GET_STATUS_BIT(env->stat, Uf);
++
++    tlb = arc_mmu_get_tlb_at_index(
++            index,
++            &env->mmu);
++
++    if ((in_kernel_mode && (tlb->pd1 & PD1_RK) != 0)
++       || (!in_kernel_mode && (tlb->pd1 & PD1_RU) != 0)) {
++        ret |= PAGE_READ;
++    }
++
++    if ((in_kernel_mode && (tlb->pd1 & PD1_WK) != 0)
++       || (!in_kernel_mode && (tlb->pd1 & PD1_WU) != 0)) {
++        ret |= PAGE_WRITE;
++    }
++
++    if ((in_kernel_mode && (tlb->pd1 & PD1_XK) != 0)
++       || (!in_kernel_mode && (tlb->pd1 & PD1_XU) != 0)) {
++        ret |= PAGE_EXEC;
++    }
++
++    return ret;
++}
++
++static void QEMU_NORETURN raise_mem_exception(
++        CPUState *cs, target_ulong addr, uintptr_t host_pc,
++        int32_t excp_idx, uint8_t excp_cause_code, uint8_t excp_param)
++{
++    CPUARCState *env = &(ARC_CPU(cs)->env);
++    if (excp_idx != EXCP_TLB_MISS_I) {
++        cpu_restore_state(cs, host_pc, true);
++    }
++
++    env->efa = addr;
++    env->eret = env->pc;
++    env->erbta = env->bta;
++
++    cs->exception_index = excp_idx;
++    env->causecode = excp_cause_code;
++    env->param = excp_param;
++    cpu_loop_exit(cs);
++}
++
++/* MMU range */
++static const uint32_t MMU_VA_START = 0x00000000;  /* inclusive */
++static const uint32_t MMU_VA_END = 0x80000000;    /* exclusive */
++
++typedef enum {
++    DIRECT_ACTION,
++    MPU_ACTION,
++    MMU_ACTION,
++    EXCEPTION_ACTION
++} ACTION;
++
++/*
++ * Applying the following logic
++ * ,-----.-----.-----------.---------.---------------.
++ * | MMU | MPU | MMU range | mmu_idx |     action    |
++ * |-----+-----+-----------+---------+---------------|
++ * | dis | dis |     x     |    x    | phys = virt   |
++ * |-----+-----+-----------+---------+---------------|
++ * | dis | ena |     x     |    x    | mpu_translate |
++ * |-----+-----+-----------+---------+---------------|
++ * | ena | dis |   true    |    x    | mmu_translate |
++ * |-----+-----+-----------+---------+---------------|
++ * | ena | dis |   false   |    0    | phys = virt   |
++ * |-----+-----+-----------+---------+---------------|
++ * | ena | dis |   false   |    1    | exception     |
++ * |-----+-----+-----------+---------+---------------|
++ * | ena | ena |   false   |    x    | mpu_translate |
++ * |-----+-----+-----------+---------+---------------|
++ * | ena | ena |   true    |    x    | mmu_translate |
++ * `-----^-----^-----------^---------^---------------'
++ */
++static int decide_action(const CPUARCState *env,
++                         target_ulong       addr,
++                         int                mmu_idx)
++{
++    static ACTION table[2][2][2][2] = { };
++    static bool is_initialized;
++    const bool is_user = (mmu_idx == 1);
++    const bool is_mmu_range = ((addr >= MMU_VA_START) && (addr < MMU_VA_END));
++
++    if (!is_initialized) {
++        /* Both MMU and MPU disabled */
++#define T true
++#define F false
++
++        table[F][F][F][F] = DIRECT_ACTION;
++        table[F][F][F][T] = DIRECT_ACTION;
++        table[F][F][T][F] = DIRECT_ACTION;
++        table[F][F][T][T] = DIRECT_ACTION;
++
++        /* Only MPU */
++        table[F][T][F][F] = MPU_ACTION;
++        table[F][T][F][T] = MPU_ACTION;
++        table[F][T][T][F] = MPU_ACTION;
++        table[F][T][T][T] = MPU_ACTION;
++
++        /* Only MMU; non-mmu range; kernel access */
++        table[T][F][F][F] = DIRECT_ACTION;
++        /* Only MMU; non-mmu range; user access */
++        table[T][F][F][T] = EXCEPTION_ACTION;
++
++        /* Only MMU; mmu range; both modes access */
++        table[T][F][T][F] = MMU_ACTION;
++        table[T][F][T][T] = MMU_ACTION;
++
++        /* Both MMU and MPU enabled; non-mmu range */
++        table[T][T][F][F] = MPU_ACTION;
++        table[T][T][F][T] = MPU_ACTION;
++
++        /* Both MMU and MPU enabled; mmu range */
++        table[T][T][T][F] = MMU_ACTION;
++        table[T][T][T][T] = MMU_ACTION;
++
++#undef T
++#undef F
++
++        is_initialized = true;
++    }
++
++    return table[env->mmu.enabled][env->mpu.enabled][is_mmu_range][is_user];
++}
++
++void arc_mmu_init(CPUARCState *env)
++{
++    env->mmu.enabled = 0;
++    env->mmu.pid_asid = 0;
++    env->mmu.sasid0 = 0;
++    env->mmu.sasid1 = 0;
++
++    env->mmu.tlbpd0 = 0;
++    env->mmu.tlbpd1 = 0;
++    env->mmu.tlbpd1_hi = 0;
++    env->mmu.tlbindex = 0;
++    env->mmu.tlbcmd = 0;
++    env->mmu.scratch_data0 = 0;
++
++    memset(env->mmu.nTLB, 0, sizeof(env->mmu.nTLB));
 +}
 +
 +
-+/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-+/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/timer.h b/target/arc/timer.h
++#ifndef CONFIG_USER_ONLY
++/* Softmmu support function for MMU. */
++bool arc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool probe, uintptr_t retaddr)
++{
++    /* TODO: this rwe should go away when the TODO below is done */
++    enum mmu_access_type rwe = (char) access_type;
++    CPUARCState *env = &((ARC_CPU(cs))->env);
++    int action = decide_action(env, address, mmu_idx);
++
++    switch (action) {
++    case DIRECT_ACTION:
++        tlb_set_page(cs, address & PAGE_MASK, address & PAGE_MASK,
++                     PAGE_READ | PAGE_WRITE | PAGE_EXEC,
++                     mmu_idx, TARGET_PAGE_SIZE);
++        break;
++    case MPU_ACTION:
++        if (arc_mpu_translate(env, address, access_type, mmu_idx)) {
++            if (probe) {
++                return false;
++            }
++            MPUException *mpu_excp = &env->mpu.exception;
++            raise_mem_exception(cs, address, retaddr,
++                    mpu_excp->number, mpu_excp->code, mpu_excp->param);
++        }
++        break;
++    case MMU_ACTION: {
++        /*
++         * TODO: these lines must go inside arc_mmu_translate and it
++         * should only signal a failure or success --> generate an
++         * exception or not
++         */
++        uint32_t index;
++        target_ulong paddr = arc_mmu_translate(env, address, rwe, &index);
++        if ((enum exception_code_list) env->mmu.exception.number !=
++                EXCP_NO_EXCEPTION) {
++            if (probe) {
++                return false;
++            }
++            const struct mmu_exception *mmu_excp = &env->mmu.exception;
++            raise_mem_exception(cs, address, retaddr,
++                    mmu_excp->number, mmu_excp->causecode, mmu_excp->parameter);
++        } else {
++            int prot = arc_mmu_get_prot_for_index(index, env);
++            address = arc_mmu_page_address_for(address);
++            tlb_set_page(cs, address, paddr & PAGE_MASK, prot,
++                         mmu_idx, TARGET_PAGE_SIZE);
++        }
++        break;
++    }
++    case EXCEPTION_ACTION:
++        if (probe) {
++            return false;
++        }
++        /* TODO: like TODO above, this must move inside mmu */
++        qemu_log_mask(CPU_LOG_MMU, "[MMU_TLB_FILL] ProtV "
++                      "exception at 0x" TARGET_FMT_lx ". rwe = %s\n",
++                      env->pc, RWE_STRING(rwe));
++        raise_mem_exception(cs, address, retaddr,
++                            EXCP_PROTV, CAUSE_CODE(rwe), 0x08);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    return true;
++}
++
++hwaddr arc_mmu_debug_translate(CPUARCState *env, vaddr addr)
++{
++   return arc_mmu_translate(env, addr, MMU_MEM_IRRELEVANT_TYPE,
++                            NULL);
++}
++
++
++#endif /* ifndef CONFIG_USER_ONLY */
++
++void arc_mmu_disable(CPUARCState *env)
++{
++    env->mmu.enabled = false;
++}
+diff --git a/target/arc/mmu.h b/target/arc/mmu.h
 new file mode 100644
-index 0000000000..01baf73d37
+index 0000000000..00a26e828c
 --- /dev/null
-+++ b/target/arc/timer.h
-@@ -0,0 +1,27 @@
++++ b/target/arc/mmu.h
+@@ -0,0 +1,148 @@
 +/*
 + * QEMU ARC CPU
 + *
 + * Copyright (c) 2020 Synppsys Inc.
++ * Contributed by Cupertino Miranda <cmiranda@synopsys.com>
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -1323,13 +940,133 @@ index 0000000000..01baf73d37
 + * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#ifndef __ARC_TIMER_H__
-+#define __ARC_TIMER_H__
++#ifndef ARC_MMU_H
++#define ARC_MMU_H
 +
-+void arc_initializeTIMER(ARCCPU *);
-+void arc_resetTIMER(ARCCPU *);
++#include "target/arc/regs.h"
 +
-+#endif
++/* PD0 flags */
++#define PD0_VPN 0x7ffff000
++#define PD0_ASID 0x000000ff
++#define PD0_G   0x00000100      /* Global */
++#define PD0_V   0x00000200      /* Valid */
++#define PD0_SZ  0x00000400      /* Size: Normal or Super Page */
++#define PD0_L   0x00000800      /* Lock */
++#define PD0_S   0x80000000      /* Shared Library ASID */
++#define PD0_FLG (PD0_G | PD0_V | PD0_SZ | PD0_L)
++
++#define PD0_ASID_MATCH 0x0000003f
++#define PD0_PID_MATCH  0x000000ff
++
++/* PD1 permission bits */
++#define PD1_PPN 0xfffff000      /* Cached */
++#define PD1_FC  0x00000001      /* Cached */
++#define PD1_XU  0x00000002      /* User Execute */
++#define PD1_WU  0x00000004      /* User Write */
++#define PD1_RU  0x00000008      /* User Read */
++#define PD1_XK  0x00000010      /* Kernel Execute */
++#define PD1_WK  0x00000020      /* Kernel Write */
++#define PD1_RK  0x00000040      /* Kernel Read */
++#define PD1_FLG (PD1_FC | PD1_XU | PD1_WU | PD1_RU | PD1_XK | PD1_WK | PD1_RK)
++
++#define TLBINDEX_INDEX  0x00001fff
++#define TLBINDEX_E      0x80000000
++#define TLBINDEX_RC        0x70000000
++
++#define TLB_CMD_WRITE   0x1
++#define TLB_CMD_WRITENI 0x5
++#define TLB_CMD_READ    0x2
++#define TLB_CMD_INSERT  0x7
++#define TLB_CMD_DELETE  0x8
++#define TLB_CMD_IVUTLB  0x6
++
++#define N_SETS          256
++#define N_WAYS          4
++#define TLB_ENTRIES     (N_SETS * N_WAYS)
++
++#define PAGE_SHIFT      TARGET_PAGE_BITS
++#define PAGE_SIZE       (1 << PAGE_SHIFT)
++#define PAGE_MASK       (~(PAGE_SIZE - 1))
++
++/* NOTE: Do not reorder, this is casted in tbl_fill function. */
++enum mmu_access_type {
++    MMU_MEM_READ = 0,
++    MMU_MEM_WRITE,
++    MMU_MEM_FETCH,  /* Read for execution. */
++    MMU_MEM_ATTOMIC,
++    MMU_MEM_IRRELEVANT_TYPE,
++};
++
++#define RWE_STRING(RWE) \
++    (RWE == MMU_MEM_READ ? "MEM_READ" : \
++     (RWE == MMU_MEM_WRITE ? "MEM_WRITE" : \
++      (RWE == MMU_MEM_ATTOMIC ? "MEM_ATTOMIC" : \
++       (RWE == MMU_MEM_FETCH ? "MEM_FETCH" : \
++        (RWE == MMU_MEM_IRRELEVANT_TYPE ? "MEM_IRRELEVANT" \
++         : "NOT_VALID_RWE")))))
++
++
++#define CAUSE_CODE(ENUM) \
++    ((ENUM == MMU_MEM_FETCH) ? 0 : \
++     ((ENUM == MMU_MEM_READ) ? 1 : \
++       ((ENUM == MMU_MEM_WRITE) ? 2 : 3)))
++
++
++struct arc_tlb_e {
++    /*
++     * TLB entry is {PD0,PD1} tuple, kept "unpacked" to avoid bit fiddling
++     * flags includes both PD0 flags and PD1 permissions.
++     */
++    uint32_t pd0, pd1;
++};
++
++#define RAISE_MMU_EXCEPTION(ENV) { \
++    do_exception_no_delayslot(ENV, \
++                              ENV->mmu.exception.number, \
++                              ENV->mmu.exception.causecode, \
++                              ENV->mmu.exception.parameter); \
++}
++
++struct arc_mmu {
++    uint32_t enabled;
++    struct mmu_exception {
++      int32_t number;
++      uint8_t causecode;
++      uint8_t parameter;
++    } exception;
++
++    struct arc_tlb_e nTLB[N_SETS][N_WAYS];
++
++    /* insert uses vaddr to find set; way selection could be random/rr/lru */
++    uint32_t way_sel[N_SETS];
++
++    /*
++     * Current Address Space ID (in whose context mmu lookups done)
++     * Note that it is actually present in AUX PID reg, which we don't
++     * explicitly maintain, but {re,de}construct as needed by LR/SR insns
++     * respectively.
++     */
++    uint32_t pid_asid;
++    uint32_t sasid0;
++    uint32_t sasid1;
++
++    uint32_t tlbpd0;
++    uint32_t tlbpd1;
++    uint32_t tlbpd1_hi;
++    uint32_t tlbindex;
++    uint32_t tlbcmd;
++    uint32_t scratch_data0;
++};
++
++
++struct CPUARCState;
++
++void arc_mmu_debug_tlb(struct CPUARCState *env);
++void arc_mmu_debug_tlb_for_vaddr(struct CPUARCState *env, uint32_t vaddr);
++
++uint32_t arc_mmu_page_address_for(uint32_t vaddr);
++
++#endif /* ARC_MMU_H */
 -- 
 2.20.1
 
