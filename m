@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378C7354342
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 17:18:33 +0200 (CEST)
-Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7BA354361
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Apr 2021 17:20:28 +0200 (CEST)
+Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTQzo-0007ai-8e
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 11:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54138)
+	id 1lTR1f-0001oe-Rd
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 11:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTQx9-0006FP-JK
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 11:15:47 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34603)
+ id 1lTQxL-0006RO-IB
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 11:16:00 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTQx6-00010U-Ts
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 11:15:47 -0400
-Received: by mail-pg1-x533.google.com with SMTP id z16so919303pga.1
- for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 08:15:44 -0700 (PDT)
+ id 1lTQxG-0001B9-Ol
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 11:15:59 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ ot17-20020a17090b3b51b0290109c9ac3c34so7991997pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 05 Apr 2021 08:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VExPqRq3TEPygX8i01cVht4GCh4XaMyzf19uAPmHB6E=;
- b=d447L2XghmJNVuDqlkw0M7bEQq96mU1T113Kwbp3mFib31JOW6eeFXpap/k8X9pVrq
- 7p2ReQTAgEdG1IJdZdJaKxH49XLDu7sdPb8uYnow+p9YlKN0DDDtCHrRhaor/52Tf/xb
- E7AGAcS6bJ3/TY5xcmWNR2u1kIHvJLRzPtT9K/wy/NSrfLa2Eq44e12XwIgwHX0YXpN3
- CifQ8WslEYopfPGe0Zy9FXcwCO3nvEe/YrrFXtQLTcG69WMoC2oD2BMAVpUKifSFdCtz
- hF9KJoZfMpQ7rGTOtyLTVYWeHg+v0eLmIKw4JhybpQDuL6XNyagijk2L3SKdGOAotGRm
- XOPg==
+ bh=mZEs4tSQPamJhbgW31vFNoCTY2NVA38obnapLMRs08A=;
+ b=AAnd7PCUJ8en1rTdEDx1pHall0ZLyAXO4CpR4aXnbskmofWYDoX1cIC7+DikWw+8Mw
+ HmGjyQiH4K5nAzrN4NGVOLYxZQwR5hCVBtxQPVQ1VQmivlSh8hfFzNPCHcgw2BFDp1v+
+ 0i+EApWnX81vtuH2YU7OtMOWewhfouvsNmRcHIFZ/Vd+/KuPMDqy/lMdbSHtotkqKcfX
+ NmHFLPAD5ZB2ooxYvoJ0mmUJNUSPfngdedtcnrtARuWbtfyYlhBfYt8643n0InXEtDcx
+ Rrow8pN8ZPrLv3MT0qrEsuqE4OrsnTfHFzYEs01RzUuUvbA4AHBvuiCnLPKiXCe9lUrM
+ +UnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VExPqRq3TEPygX8i01cVht4GCh4XaMyzf19uAPmHB6E=;
- b=NxaL6/AMwg4NIPrU8zb6nAOuEfNM417EkeSYpfANbZQpMDDwxBaK/nwAijAQGfUhty
- 35MUS6FqrXIlT56UAZrIcmB8J/oU6NTPE9rXmT7Tvb/2LBKE+luf5bPDLPX1LhUruu2A
- QnrDnjgKDC5ea334topHCvAIbptf6mRqDHQAcd1I0/ClT6Bz3Jy4OYmZ/fUUSZQS4qEg
- ojsh7Hk6V6DVh9fFB132gJAcyjUg4uGRJGfhYOHrD1yBR5BLuXL/1rYcxpUulSzQG1Gn
- H11brvvspBnMa/tMrGNG9zPqIqe7bcvs1Nd/nQImUA/L+KQdtmDthrz6Cg6Pq358M2+S
- pyCQ==
-X-Gm-Message-State: AOAM532Fyg3/UDd4tn+4uhb8K+aKmC53m+msHT1U8H3heL3gUD8SoY2/
- /lAOFJuhvA/a5DQrhYi8V6SquQ==
-X-Google-Smtp-Source: ABdhPJxyGVjYnK9HbPQhx93dnPfyuzrvVUxdERSdwbBt83/2UcQ5rRhxDgfJX/WcVSNwrMKI7vTDHg==
-X-Received: by 2002:a63:f443:: with SMTP id p3mr23272726pgk.378.1617635743589; 
- Mon, 05 Apr 2021 08:15:43 -0700 (PDT)
+ bh=mZEs4tSQPamJhbgW31vFNoCTY2NVA38obnapLMRs08A=;
+ b=i/1dI8cSNV2px/OoIuf0KR71yx/fvCGjhNa8s01hX3FwQREXoMl9Zx6L7+tZVus552
+ 40KI+Yn8yaFzdM5UCZbmoBLfQNmFreVowoF6Hv0N4JHmKmizsNUfpz/2AuaZzhtj33mp
+ XlE5n7XFgKWNXWR4VF4K9tHUCoVgOtKWmxXWxx4eTl8d6mQWX0WBtpSJRLg6/CP9Tept
+ G6FmXUvE+Rc/PdZ8QlabQzOetmGRzEPRYpPT0PYGGSJSy7hyDKZXfKAh00i10gOwIJsi
+ trEl9jekzIdhWh7eRDN/DnNOvGFphOHoj6l9Uu6bzeq8Ofh9aXspB4zBoZej4Nl/3hdY
+ zo7g==
+X-Gm-Message-State: AOAM531/i5ELojfh2oNHjDHTqmgaMpBw4mHtW43ZWuak1CgX+PAUeQmo
+ YyQPB4YbwfbrS2psD2BTnOZRBA==
+X-Google-Smtp-Source: ABdhPJyu3u1h6oJ2WopUfpZCHDbXqaDHVIMji45Q0L0rkptYtkSXmevSzK/50HrRxgRkFCUm99Gq/w==
+X-Received: by 2002:a17:902:6ac3:b029:e6:c6a3:a697 with SMTP id
+ i3-20020a1709026ac3b02900e6c6a3a697mr25148536plt.2.1617635753278; 
+ Mon, 05 Apr 2021 08:15:53 -0700 (PDT)
 Received: from [192.168.73.67] (50-200-230-211-static.hfc.comcastbusiness.net.
  [50.200.230.211])
- by smtp.gmail.com with ESMTPSA id x1sm16224490pje.40.2021.04.05.08.15.42
+ by smtp.gmail.com with ESMTPSA id l18sm8851804pjq.33.2021.04.05.08.15.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Apr 2021 08:15:43 -0700 (PDT)
-Subject: Re: [PATCH v1 6/8] target/riscv: Remove the unused HSTATUS_WPRI macro
+ Mon, 05 Apr 2021 08:15:52 -0700 (PDT)
+Subject: Re: [PATCH v1 7/8] target/riscv: Remove an unused CASE_OP_32_64 macro
 To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <cover.1617393702.git.alistair.francis@wdc.com>
- <f9d643f4f0bf3b84aca49fb0373bb050f7d401a4.1617393702.git.alistair.francis@wdc.com>
+ <aebf46ff114a04335f26cf7a2aae83be66dd5b42.1617393702.git.alistair.francis@wdc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9332239e-aa20-acce-54cf-424d963e9ebb@linaro.org>
-Date: Mon, 5 Apr 2021 08:15:41 -0700
+Message-ID: <1cd5c386-a7ed-71e1-6d77-9aba47d4b9da@linaro.org>
+Date: Mon, 5 Apr 2021 08:15:50 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <f9d643f4f0bf3b84aca49fb0373bb050f7d401a4.1617393702.git.alistair.francis@wdc.com>
+In-Reply-To: <aebf46ff114a04335f26cf7a2aae83be66dd5b42.1617393702.git.alistair.francis@wdc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,7 +98,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/2/21 1:02 PM, Alistair Francis wrote:
 > Signed-off-by: Alistair Francis<alistair.francis@wdc.com>
 > ---
->   target/riscv/cpu_bits.h | 6 ------
+>   target/riscv/translate.c | 6 ------
 >   1 file changed, 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
