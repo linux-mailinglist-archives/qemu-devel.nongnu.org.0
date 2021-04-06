@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C67354E3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 10:04:11 +0200 (CEST)
-Received: from localhost ([::1]:46234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A272354E5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 10:17:05 +0200 (CEST)
+Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTgh0-0001CY-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 04:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
+	id 1lTgtU-0005dg-7B
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 04:17:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lTgei-0007wx-Cq
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 04:01:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lTgeg-0004D5-BT
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 04:01:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617696105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yx/0yaO36khW0VZuC3D4J71nRl1ugzpY0V2ZYDkaOiA=;
- b=bRQmIXEnPpzRoJ/95kJSkjvaNm21wspdhWsnUDBLSCrK7Q/JtYCPiKfWO/Vas7qmSbeJVk
- IZaNrRbVCJDf5K7bLIFQC+kdRz5cjt5SKxGMejMK+hKhzSq6KNzxWcEWktNXS0uObTcDty
- i+pJ6hc6gJX0nfZnWAHvFqrtYQV5cu0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-sPD1GBXkMMWEKvEPAmudIg-1; Tue, 06 Apr 2021 04:01:43 -0400
-X-MC-Unique: sPD1GBXkMMWEKvEPAmudIg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C33FB107B7C3;
- Tue,  6 Apr 2021 08:01:42 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-79.ams2.redhat.com [10.36.113.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F204F100239A;
- Tue,  6 Apr 2021 08:01:40 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 v1 3/3] softmmu/physmem: Fix qemu_ram_remap() to
- handle shared anonymous memory
-Date: Tue,  6 Apr 2021 10:01:26 +0200
-Message-Id: <20210406080126.24010-4-david@redhat.com>
-In-Reply-To: <20210406080126.24010-1-david@redhat.com>
-References: <20210406080126.24010-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lTgs3-0004QN-1r; Tue, 06 Apr 2021 04:15:35 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lTgs1-0003vR-4c; Tue, 06 Apr 2021 04:15:34 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id o19so15449289edc.3;
+ Tue, 06 Apr 2021 01:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EzXKNGO3cu89Ok3LHUuFc0KVg/611pb2Gmfj3dDVKwI=;
+ b=aDsG8JmN0Jhvfkp6gbizyxt10Nss2/5IAfa7zICFysKgRgC7q5mvq7v5bS8/31JBzp
+ KSfLMA/IlzqLIiAOBZIOleViNWBcIHtP18cE56+woWTnMmAy71txGTSpAnnRP6Nnxx3f
+ tc2zR6ImCL0SxAmioR8UHv/vIl+zdjmwF9J7jzjVGopuN/DV4V9aeLk9OB3bAwORECbB
+ D5FBDbb4huZIRWYsNgz/wAQyveA1CnZXx9iJVhgBHMf+RAhZ/QPE8RxyG4jkqvNngF1L
+ S4XK1lrZwPdTZAGR9Uzb6QuN/dA5/q7TnEESOhtwZi7ucPuQV42SH4yDCx3/tS2UTcag
+ M54Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EzXKNGO3cu89Ok3LHUuFc0KVg/611pb2Gmfj3dDVKwI=;
+ b=gNM1eZfiWFuW7oNd6Zr1ur1XiKMbcFjGErlUek7fVz/RLewJRA0i5TfG2tQEiboDw3
+ O5yhYlOagv2i5RZI7L4Xk90d380KQL41NYqJ1UZSDnWXMgA2jmknHE6eJgVH0rxGqcIt
+ LeXg5y8FSzO6tzTaLWZwXEgz76cBsRqEfzvVwd8kILwEneexg2b0aJFnNwt/hGskHXUV
+ YwOy1PPNadw1eR3+MoqA7YgKhH09mThZIrtvH5ZNAeQ0Z5DqMepym+Osbdu5rGc3TB+/
+ FxNqQOlfz4jMF/vyP+LK4t/qbp/J2Flzxub2X/cu7peBVBpLjjpAMnLCg99bJnMLinn2
+ AS/w==
+X-Gm-Message-State: AOAM531FV7rqREWEdcmLVzPRamKDCsv3gZTxjJqUQDEbWzB55X0pZp64
+ b6gOyEFr5k5UTDBcsITXmJMvtr7OohM=
+X-Google-Smtp-Source: ABdhPJzHsbhYHwwEFRRtjoKHQ2uUTu95hX8g+d40DHRQthT73tzdK3vWWN0R+aRTMy60L3P8Wg/6Yw==
+X-Received: by 2002:aa7:c89a:: with SMTP id p26mr15616321eds.206.1617696930785; 
+ Tue, 06 Apr 2021 01:15:30 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id h23sm2455213ejd.103.2021.04.06.01.15.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 01:15:30 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: [for-6.0 PATCH 0/3] ppc: e500: Bump ppce500 u-boot to v2021.04
+Date: Tue,  6 Apr 2021 16:15:10 +0800
+Message-Id: <20210406081513.1013372-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,46 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RAM_SHARED now also properly indicates shared anonymous memory. Let's check
-that flag for anonymous memory as well, to restore the proper mapping.
+This series bumps the u-boot.e500 to v2021.04, which fixed a long
+overdue broken pci issue caused by QEMU changes since Nov 2014.
 
-Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- softmmu/physmem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+While we are here, add a reST documentation for the ppce500 machine.
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index afff96a6dc..cc59f05593 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2222,13 +2222,13 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
-                 abort();
-             } else {
-                 flags = MAP_FIXED;
-+                flags |= block->flags & RAM_SHARED ?
-+                         MAP_SHARED : MAP_PRIVATE;
-                 if (block->fd >= 0) {
--                    flags |= (block->flags & RAM_SHARED ?
--                              MAP_SHARED : MAP_PRIVATE);
-                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
-                                 flags, block->fd, offset);
-                 } else {
--                    flags |= MAP_PRIVATE | MAP_ANONYMOUS;
-+                    flags |= MAP_ANONYMOUS;
-                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
-                                 flags, -1, 0);
-                 }
+Please pull the full contents (binary) from https://github.com/lbmeng/qemu/
+ppc branch.
+
+
+Bin Meng (3):
+  roms/Makefile: Update ppce500 u-boot build directory name
+  roms/u-boot: Bump ppce500 u-boot to v2021.04 to fix broken pci support
+  docs/system: ppc: Add documentation for ppce500 machine
+
+ docs/system/ppc/ppce500.rst | 156 ++++++++++++++++++++++++++++++++++++
+ docs/system/target-ppc.rst  |   1 +
+ pc-bios/u-boot.e500         | Bin 349148 -> 406920 bytes
+ roms/Makefile               |   8 +-
+ roms/u-boot                 |   2 +-
+ 5 files changed, 162 insertions(+), 5 deletions(-)
+ create mode 100644 docs/system/ppc/ppce500.rst
+
 -- 
-2.30.2
+2.25.1
 
 
