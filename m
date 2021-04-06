@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6677355772
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:12:28 +0200 (CEST)
-Received: from localhost ([::1]:53946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603913557A9
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:23:45 +0200 (CEST)
+Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTnNT-0001MN-Rw
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51388)
+	id 1lTnYO-0002Uc-GS
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTnCW-0006bl-DT
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:01:08 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45778)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTnM2-0008GN-TJ
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:10:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTnCT-0005Ei-T0
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:01:08 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id f6so8494513wrv.12
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 08:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jnnC1v+YTFoDpFZg5HWtfvD0JLh97HNGIKTj56XCIFM=;
- b=dvhFkV8CvZP/GI6rea5ysh3E8PMOS5POxmyU5OFV2IGxG/FGjdmjBAqWlhoEStquuC
- jfTfQBiRPRncQspgn0MV7VzmEDP2AbmasKiO9r9rqpczl4b3OzAkwOsAdRdtkAszO7NJ
- LZVSDIVH4NZRKY6Y/VxTlDF2+FlYqD+tL2JJW5ESjT8uoi3iiKumg6psc0Pw2JKsPNnz
- GZCNadKMW3skpwx31HN8BvWu6+Vf5YBesGRfhxGv5/kIS4eJAETJ/2PqufJnB7FUb+nd
- sc/jkV0cy1HkKwgm72YQc4kTJov1UnzNx6KeRqTDo0I/Ws7WP9LADHMXuW3K5IBBKkjA
- kxKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jnnC1v+YTFoDpFZg5HWtfvD0JLh97HNGIKTj56XCIFM=;
- b=uHH5oXP699iEUms7griJcY8pAbiD809TlalcIBY2fDwtW8aT15dsexGW8icPjSrOWT
- e53mG/G3PnYcXcMcTpMii41UnYso0Bn2GLg2EVkFn8d9P+Ou0Re7+aUs8DZjO5WksYMX
- WUhdA6QGNP99dxhQ/Kf4S23wyeckRoACZXRtDvaxbdQfVpjtZ9tzAdeaIX+ANUjti1hE
- 5V6GZLKTL8y2KZUPNVAweO2IZywz+tTz/cHCDCpYGx8cj23/aBoTZRQIj2cejG8lf3bF
- YpNOXgXrduI0rp66A/ciWSfqbVw4Hu/SE+Ud44HN2s+kWHkWw6l37uxOWcu/cHJ07kBe
- 4mDw==
-X-Gm-Message-State: AOAM530eaybMLm80WsSBBw6h45+4UsmNdyRtBOrgcmEly65fW9/RZZy7
- i+aEBJJoK9lMY6u+wMROb+Iwgw==
-X-Google-Smtp-Source: ABdhPJxmap4LLfP89NWHbZEz1WM8GULDOJnZJHvWPkXiuMlZrZrzW8K82Rccy8NY5HYvgecQLCBFvQ==
-X-Received: by 2002:a05:6000:1789:: with SMTP id
- e9mr35979591wrg.237.1617721264488; 
- Tue, 06 Apr 2021 08:01:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u63sm3238131wmg.24.2021.04.06.08.00.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 08:00:51 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0CAEE1FF9A;
- Tue,  6 Apr 2021 16:00:43 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 11/11] gitlab-ci.yml: Test the dtrace backend in one of the jobs
-Date: Tue,  6 Apr 2021 16:00:41 +0100
-Message-Id: <20210406150041.28753-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210406150041.28753-1-alex.bennee@linaro.org>
-References: <20210406150041.28753-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTnLt-0002Z1-5J
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:10:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lTnLr-0004KD-9D
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 15:10:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3FECF2E8162
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 15:10:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 06 Apr 2021 15:01:51 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1922625@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: z-launchpad-d
+X-Launchpad-Bug-Reporter: Ryan Schmidt (z-launchpad-d)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161767663708.22881.10337193368132621406.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161772131186.17610.15325949055359334112.launchpad@soybean.canonical.com>
+Subject: [Bug 1922625] Re: qemu 5.2.0 configure script explodes when in read
+ only directory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: ee1761daaed268b19f14c519da364f1aae6a9649
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,51 +72,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1922625 <1922625@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-We are using the dtrace backend in downstream RHEL, so testing this
-in the CentOS 8 task seems to be a good fit.
+-- =
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210331160351.3071279-1-thuth@redhat.com>
-Message-Id: <20210401102530.12030-12-alex.bennee@linaro.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922625
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 85b8e10b84..52d65d6c04 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -223,7 +223,7 @@ build-system-centos:
-   variables:
-     IMAGE: centos8
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
--                    --enable-modules
-+                    --enable-modules --enable-trace-backends=dtrace
-     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
-     MAKE_CHECK_ARGS: check-build
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index a763d55730..a8c6c528b0 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -29,6 +29,7 @@ ENV PACKAGES \
-     rdma-core-devel \
-     spice-glib-devel \
-     spice-server \
-+    systemtap-sdt-devel \
-     tar \
-     zlib-devel
- 
--- 
-2.20.1
+Title:
+  qemu 5.2.0 configure script explodes when in read only directory
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  I extracted the qemu 5.2.0 source as one user, and then tried to run
+  `./configure --help` in that directory as a different user. Normal
+  autoconf configure scripts have no problem with this but yours goes
+  into an infinite loop printing nonsense:
+
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  ./configure: line 37: GNUmakefile: Permission denied
+  ./configure: line 59: cd: build: No such file or directory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+
+  etc.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922625/+subscriptions
 
