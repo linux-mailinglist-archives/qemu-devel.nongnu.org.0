@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D91135529D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 13:44:53 +0200 (CEST)
-Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5084235537B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 14:18:28 +0200 (CEST)
+Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTk8Z-0008Tn-Nx
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 07:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
+	id 1lTkf4-0007pM-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 08:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lTk6V-00080q-LH
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 07:42:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49505)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lTkd7-0007LN-Gl
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:16:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lTk6S-0005Fg-1A
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 07:42:42 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lTkd2-0000DG-9l
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:16:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617709359;
+ s=mimecast20190719; t=1617711378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y0gP63Prjx9tLG78Y6QTJBjHDnGy4bjNR6vl/qmKtb8=;
- b=CVfV6L7Hje43PssKsVwjBDs/v0j10eBEkXG76iS1yYcPRLOjsHMU7DV5mzc2XFc9HC2vkq
- pGnbekPZRK5R4urpRorRwDEkjJI4XP7AINiBbl9Mg1SL8jvPbIJAX8lsRzam0Z9rA0zURZ
- RjsXRA3t/qSGm0mR4rBtBcDOVud0n0o=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-2VwjCgdSPoeF8AgFDmB4uA-1; Tue, 06 Apr 2021 07:42:37 -0400
-X-MC-Unique: 2VwjCgdSPoeF8AgFDmB4uA-1
-Received: by mail-ed1-f69.google.com with SMTP id i12so10324483edu.23
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 04:42:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=y0gP63Prjx9tLG78Y6QTJBjHDnGy4bjNR6vl/qmKtb8=;
- b=NoFcV48GHJvIgT1zDJloekBYJ7bp/PFlKIk6DFlUyJe0WLHTQX/WVd8N6ainFQeaG/
- qZSIOD4b7KndjuCXY4vcFuBVDEFWWREI8if9uQcIiKJjsrNDfpDX/kCykAHhnWEuhxwB
- r86buvTkf3fo5NwsYb8i1xSiTBwHY59egOwC3PIyjmDogYRN6zmNFoBoLQ+h31XBG2I/
- dEIVmuqVzzSq7SRHXxoa461zPQh86FCHVPt5TMHEOPwTUFNicS2dO/dKDPG+hDmK4qqd
- FFFFxxWf5a9dizsmosNgsD7mW+HcbrO8prQkN/o/L+FWP/tzE/Q3HTeOTSieOAEUdwLr
- PnYQ==
-X-Gm-Message-State: AOAM531+IZFulqMFU86FeGk3YybcRTqxRJLF1N5ib+Jl9p9orri0KTf3
- elTwUpCjuU0VMoTjymvInYKT8leEWvE3UjSpC5UTQ+5ofipX3+wp1cqcRlsj32d9mcI4DgEmGyX
- 11syug2lbc2SGGdw=
-X-Received: by 2002:a17:906:32d1:: with SMTP id
- k17mr33649393ejk.94.1617709356456; 
- Tue, 06 Apr 2021 04:42:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0D6EGpw4bPmUClp/c7yj8UXebdE/geD4+GBfSjXpugWFaGynPUSIKznssHlcZINGDz4VKIg==
-X-Received: by 2002:a17:906:32d1:: with SMTP id
- k17mr33649385ejk.94.1617709356289; 
- Tue, 06 Apr 2021 04:42:36 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id p24sm13811998edt.5.2021.04.06.04.42.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 04:42:35 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] i386: Fix interrupt based Async PF enablement
-In-Reply-To: <ea3fc380-332f-b9e5-aa31-3540916cfc33@redhat.com>
-References: <20210401151957.408028-1-vkuznets@redhat.com>
- <ea3fc380-332f-b9e5-aa31-3540916cfc33@redhat.com>
-Date: Tue, 06 Apr 2021 13:42:35 +0200
-Message-ID: <87sg43d4gk.fsf@vitty.brq.redhat.com>
+ bh=/LUXCyQZo7GCiqs+p6jpeoAM8orGXhZe5yO/1GN64ac=;
+ b=I4Ty9L2iXAi4vELgh03Ve8NML1o7YlM2h5/SamGRbRWFX5WYOd+FEbYAfnD4F2CswifdMQ
+ pPBniiqhyS+eCptJI49VwN1gG0WTDPrON/lPyJbL/xh46T9qhTX5dXl5DfbA6/JtbIweZj
+ 713Yp6pA+p/b+CvcDVxlSglB2J5q/f0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-_kDW8ZnPOWOCGdSLPsW-pw-1; Tue, 06 Apr 2021 08:16:17 -0400
+X-MC-Unique: _kDW8ZnPOWOCGdSLPsW-pw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E86A1084D69
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 12:16:16 +0000 (UTC)
+Received: from work-vm (ovpn-114-244.ams2.redhat.com [10.36.114.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D87305D9D0;
+ Tue,  6 Apr 2021 12:16:08 +0000 (UTC)
+Date: Tue, 6 Apr 2021 13:16:05 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Connor Kuehl <ckuehl@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Fix security.capability comparison
+Message-ID: <YGxRBQebSJJCX/46@work-vm>
+References: <20210401145845.78445-1-dgilbert@redhat.com>
+ <041f5453-cd97-e31f-2855-7083ba6614fc@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <041f5453-cd97-e31f-2855-7083ba6614fc@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -94,51 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+* Connor Kuehl (ckuehl@redhat.com) wrote:
+> On 4/1/21 9:58 AM, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > My security fix for the security.capability remap has a silly early
+> > segfault in a simple case where there is an xattrmapping but it doesn't
+> > remap the securty.capability.
+> 
+> s/securty/security
 
-> On 01/04/21 17:19, Vitaly Kuznetsov wrote:
->> I noticed two issues with 'kvm-asyncpf-int' enablement:
->> 1) We forgot to add to to kvm_default_props[] so it doesn't get enabled
->>   automatically (unless '-cpu host' is used or the feature is enabled
->>   manually on the command line)
->> 2) We forgot to disable it for older machine types to preserve migration.
->>   This went unnoticed because of 1) I believe.
->> 
->> Vitaly Kuznetsov (2):
->>    i386: Add 'kvm-asyncpf-int' to kvm_default_props array
->>    i386: Disable 'kvm-asyncpf-int' feature for machine types <= 5.1
->> 
->>   hw/i386/pc.c      | 1 +
->>   target/i386/cpu.c | 1 +
->>   2 files changed, 2 insertions(+)
->> 
->
-> Wasn't this intentional to avoid requiring a new kernel version?
+Queued, with that typo fixed
 
-I think I forgot the initial plan :-( The problem is that after we
-disabled the original APF (#PF based) almost nobody is using the feature
-as it needs to be enabled explicitly on the command line.
-
-Several considerations regarding the default: if your kernel doesn't
-support the feature you get as much as a warning:
-
-qemu-system-x86_64: warning: host doesn't support requested feature:
-CPUID.40000001H:EAX.kvm-asyncpf-int [bit 14]
-
-older machine types are still available (I disable it for <= 5.1 but we
-can consider disabling it for 5.2 too). The feature is upstream since
-Linux 5.8, I know that QEMU supports much older kernels but this doesn't
-probably mean that we can't enable new KVM PV features unless all
-supported kernels have it, we'd have to wait many years otherwise. 
-
+> > 
+> > Fixes: e586edcb41054 ("virtiofs: drop remapped security.capability xattr as needed")
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+> 
+> > ---
+> >   tools/virtiofsd/passthrough_ll.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index b144320e48..1553d2ef45 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -2636,7 +2636,8 @@ static void parse_xattrmap(struct lo_data *lo)
+> >                   strerror(ret));
+> >           exit(1);
+> >       }
+> > -    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
+> > +    if (!lo->xattr_security_capability ||
+> > +        !strcmp(lo->xattr_security_capability, "security.capability")) {
+> >           /* 1-1 mapping, don't need to do anything */
+> >           free(lo->xattr_security_capability);
+> >           lo->xattr_security_capability = NULL;
+> > 
+> 
+> 
 -- 
-Vitaly
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
