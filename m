@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA651355681
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:22:04 +0200 (CEST)
-Received: from localhost ([::1]:55822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C671355684
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:22:26 +0200 (CEST)
+Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTmah-0006bt-QJ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
+	id 1lTmb3-0006r2-8M
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lTmYE-0003ya-KE
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:19:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44490)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lTmZR-0005hR-4O
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:20:45 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lTmYB-0005qZ-Rl
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:19:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617718766;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b+uw4DxZje8+TCNOdEo1GWeYc5HmwDH6lDHqSAbWO70=;
- b=Png3rAtUOEfCAOXuGSVbuEe5QyHbgGUmELvRnme1lsZZrvssoG02wlvLsDJ6HRso6Lt/zu
- IrRQ0SwMNO8aNMCSRk9UXlqZ2gb5b3H3uhgseyktAsG47h1Z/Mi2P+YxUmMUbKDRlG5Hci
- WkYr5m9rgWhyFN/Z022JXBHR061Xong=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-tINWHbtyNfqi_Hn2BuZofg-1; Tue, 06 Apr 2021 10:19:23 -0400
-X-MC-Unique: tINWHbtyNfqi_Hn2BuZofg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5347A0BC3;
- Tue,  6 Apr 2021 14:19:11 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 325395D6DC;
- Tue,  6 Apr 2021 14:19:11 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] sphinx: qapidoc: Wrap "If" section body in a paragraph
- node
-Date: Tue,  6 Apr 2021 10:19:09 -0400
-Message-Id: <20210406141909.1992225-2-jsnow@redhat.com>
-In-Reply-To: <20210406141909.1992225-1-jsnow@redhat.com>
-References: <20210406141909.1992225-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lTmZM-0006d4-O8
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:20:44 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0FA7374581E;
+ Tue,  6 Apr 2021 16:20:37 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E53F67456E3; Tue,  6 Apr 2021 16:20:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E3DB57456B4;
+ Tue,  6 Apr 2021 16:20:36 +0200 (CEST)
+Date: Tue, 6 Apr 2021 16:20:36 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+Subject: Re: Mac OS real USB device support issue
+In-Reply-To: <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
+Message-ID: <97cddc56-1b13-dab4-33d8-5fdaeae575d7@eik.bme.hu>
+References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
+ <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,70 +57,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Programmingkid <programmingkidx@gmail.com>,
+ QEMU devel list <qemu-devel@nongnu.org>, gerd@kraxel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These sections need to be wrapped in a block-level element, such as
-Paragraph in order for them to be rendered into Texinfo correctly.
+On Tue, 6 Apr 2021, Howard Spoelstra wrote:
+> On Tue, Apr 6, 2021 at 3:44 PM Programmingkid <programmingkidx@gmail.com> wrote:
+>>
+>> Hi Gerd,
+>>
+>> I was wondering if you had access to a Mac OS 10 or Mac OS 11 machine to test USB support. I am on Mac OS 11.1 and cannot make USB devices work with any of my guests. So far these are the guests I have tested with:
+>>
+>> - Windows 7
+>> - Mac OS 9.2
+>> - Windows 2000
+>>
+>> I have tried using USB flash drives, USB sound cards, and an USB headset. They all show up under 'info usb', but cannot be used in the guest. My setup does use a USB-C hub so I'm not sure if this is a bug with QEMU or an issue with the hub. Would you have any information on this issue?
+>
+> Hi John,
+>
+> As far as the Mac OS 9.2 guest is concerned on a mac OS host, it does
+> not support USB 2.0. I was successful only in passing through a USB
+> flash drive that was forced into USB 1.1 mode by connecting it to a
+> real USB 1.1 hub and unloading the kext it used.
 
-Before (e.g.):
+I think USB passthorugh works in VirtualBox on macOS so maybe you could 
+check how that works there and what might need to be done for it. Although 
+I'm not sure if it's in the open source part or in the non-free extensions 
+so may not be that easy to find out what's needed if the sources for it 
+are not available.
 
-<section ids="qapidoc-713">
-  <title>If</title>
-  <literal>defined(CONFIG_REPLICATION)</literal>
-</section>
-
-became:
-
-  .SS If
-  \fBdefined(CONFIG_REPLICATION)\fP.SS \fBBlockdevOptionsReplication\fP (Object)
-  ...
-
-
-After:
-
-<section ids="qapidoc-713">
-  <title>If</title>
-  <paragraph>
-    <literal>defined(CONFIG_REPLICATION)</literal>
-  </paragraph>
-</section>
-
-becomes:
-
-  .SS If
-  .sp
-  \fBdefined(CONFIG_REPLICATION)\fP
-  .SS \fBBlockdevOptionsReplication\fP (Object)
-  ...
-
-
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Tested-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- docs/sphinx/qapidoc.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index b7b86b5dff..b7a2d39c10 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -278,7 +278,9 @@ def _nodes_for_if_section(self, ifcond):
-         nodelist = []
-         if ifcond:
-             snode = self._make_section('If')
--            snode += self._nodes_for_ifcond(ifcond, with_if=False)
-+            snode += nodes.paragraph(
-+                '', '', *self._nodes_for_ifcond(ifcond, with_if=False)
-+            )
-             nodelist.append(snode)
-         return nodelist
- 
--- 
-2.30.2
-
+Regards.
+BALATON Zoltan
 
