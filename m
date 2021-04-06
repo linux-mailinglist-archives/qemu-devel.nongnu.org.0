@@ -2,96 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166323557AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:24:15 +0200 (CEST)
-Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F586355822
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:37:31 +0200 (CEST)
+Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTnYs-0002vn-5o
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
+	id 1lTnlh-0001Dy-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTnX0-0001wS-Ee
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:22:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTnWv-0007KO-Nr
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:22:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617722531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IbfXLqtOBQg7xDbuPYV9p74an8hsFJgTN2FmRjxjqbY=;
- b=FSLQyBx8kFgWVchANWqLCEtEkaY2qvQguHCe5xGs14RUq5CLM8yNxlTHVXJq+bmadZo4uS
- k4Xr6kBMrIOjFc5h2nKAiWBlyn3H1vmwc8TBF0NmBhd6rAAey/NfJXoxoay382S+uCt9k2
- g2wxok2eFOCPokayZk37N3+7k4G50CM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-P1gB1e7vMYqFbqQqwy9wcA-1; Tue, 06 Apr 2021 11:22:09 -0400
-X-MC-Unique: P1gB1e7vMYqFbqQqwy9wcA-1
-Received: by mail-ed1-f69.google.com with SMTP id f9so10578324edd.13
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 08:22:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IbfXLqtOBQg7xDbuPYV9p74an8hsFJgTN2FmRjxjqbY=;
- b=B207ee/+642sUpQI+I6Vt1STgfjCk062l2gWFGLSgRbIERHQbFpq4V6p6WyOk3f+2M
- O+rX/et496L8/v4cSYNFgeIAJtn1Qze9kXZhVwG7X89DVKA1sa+LS6MF29rlnt+oFizY
- M3mtA/P9/viofYoBQow6HdjMZqBC5T0rwoUCAg9mkMxEzx55d/S3O1X9p5V2izJVMlXX
- rM5LC5xq3k2ZXKeDLKDb0QODt+U8VQQ92Az2FanXodwruxv6zIL6CBBomsPUlhS/oFXs
- QYjomHNFEKTZ7D5SlsqHxJ1rvmfvUWmKMnI5XHm4f5T5AaU3BhhF6dfPuyCMmO9fzIOI
- fMWw==
-X-Gm-Message-State: AOAM533Bxno3V2k34z4MdjUxbG9CYR+NLA1L+WeC9Hha3HvLEG0mtSlS
- xRjmGCp7EL+lTzmteiB7SAlY66/siiFTtUFzkmttQCkUXArR47ZC1LNebU3q0Up56DiwJKi8eZr
- N96figQJqkaBxc7NFISrxADheDqnCQrF/jamPvaLEu9F84grhEqddBrWPUaARj/cy
-X-Received: by 2002:a17:907:2bf6:: with SMTP id
- gv54mr35202191ejc.514.1617722528094; 
- Tue, 06 Apr 2021 08:22:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+xdljJIKQth9gOBGnKQSqpfEFS6IpO7/60Qm8Um82QHWj4GsXzsre0+3skSw6SPUAAEBWLw==
-X-Received: by 2002:a17:907:2bf6:: with SMTP id
- gv54mr35202165ejc.514.1617722527893; 
- Tue, 06 Apr 2021 08:22:07 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id yk8sm11331074ejb.123.2021.04.06.08.22.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 08:22:06 -0700 (PDT)
-Subject: Re: [PATCH] tests/acceptance: Add a 'virt_kvm' test using the GICv3
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200929224857.1225107-1-philmd@redhat.com>
- <87eefvnx3s.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7a720701-a34f-ccf4-d116-a0f0703b5f83@redhat.com>
-Date: Tue, 6 Apr 2021 17:22:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTnjp-0008QP-AJ
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:35:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTnjm-0004PW-QO
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:35:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lTnjk-0007Ut-0v
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 15:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 054B32E804C
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 15:35:28 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87eefvnx3s.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 06 Apr 2021 15:28:38 -0000
+From: Richard Henderson <1922617@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier nathanchance philmd pmaydell rth
+X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <161767088471.29958.926730188235259416.malonedeb@gac.canonical.com>
+Message-Id: <161772291879.22741.8025906230413243220.malone@chaenomeles.canonical.com>
+Subject: [Bug 1922617] Re: qemu-aarch64-static "Illegal instruction" with
+ debootstrap
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: 66625be5cf70b22b91103e7614f25c33114f91a1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,95 +71,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1922617 <1922617@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/21 5:45 PM, Alex Bennée wrote:
-> 
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> 
->> The current 'virt_kvm' test is restricted to GICv2, but can also
->> work with a GICv3. Duplicate it but add a GICv3 test which can be
->> tested on some hardware.
->>
->> Noticed while running:
->>
->>  $ avocado --show=app run -t machine:virt tests/acceptance/
->>  ...
->>  (2/6) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm: ERROR: Unexpected empty reply from server (1.82 s)
->>
->> The job.log content is:
->>
->>   L0351 DEBUG| Output: 'qemu-system-aarch64: host does not support in-kernel GICv2 emulation\n'
->>
->> With this patch:
->>
->>  $ avocado --show=app run -t device:gicv3 tests/acceptance/
->>  (1/1)
->>  tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gicv3:
->>  PASS (55.10 s)
-> 
-> On the new aarch64 machine which is GICv3 I get the following:
-> 
->  (006/142) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gicv2: ERROR: Unexpected empty reply from server (0.47 s)
-> 
-> which it shouldn't have run. However:
-> 
->   ./tests/venv/bin/avocado --show=app run -t device:gic3 tests/acceptance/
->   Test Suite could not be create. No test references provided nor any other arguments resolved into tests
-> 
-> Is this something that has regressed or am I doing it wrong?
+The fix that Phil links would only pertain if debootstrap were
+actively using MTE.  I think we can safely disregard that.
 
-Typo in the tag: "device:gic3" -> "device:gicv3"
+I don't believe that the bisect has worked.  There is nothing in
+that 3 line patch that would affect *anything*, as the PAGE_ANON
+value is not used at this point.
 
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  tests/acceptance/boot_linux.py | 17 ++++++++++++++++-
->>  1 file changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
->> index 0055dc7cee..c743e231f4 100644
->> --- a/tests/acceptance/boot_linux.py
->> +++ b/tests/acceptance/boot_linux.py
->> @@ -182,10 +182,11 @@ def test_virt_tcg(self):
->>          self.add_common_args()
->>          self.launch_and_wait()
->>  
->> -    def test_virt_kvm(self):
->> +    def test_virt_kvm_gicv2(self):
->>          """
->>          :avocado: tags=accel:kvm
->>          :avocado: tags=cpu:host
->> +        :avocado: tags=device:gicv2
->>          """
->>          if not kvm_available(self.arch, self.qemu_bin):
->>              self.cancel(KVM_NOT_AVAILABLE)
->> @@ -195,6 +196,20 @@ def test_virt_kvm(self):
->>          self.add_common_args()
->>          self.launch_and_wait()
->>  
->> +    def test_virt_kvm_gicv3(self):
->> +        """
->> +        :avocado: tags=accel:kvm
->> +        :avocado: tags=cpu:host
->> +        :avocado: tags=device:gicv3
->> +        """
->> +        if not kvm_available(self.arch, self.qemu_bin):
->> +            self.cancel(KVM_NOT_AVAILABLE)
->> +        self.vm.add_args("-accel", "kvm")
->> +        self.vm.add_args("-cpu", "host")
->> +        self.vm.add_args("-machine", "virt,gic-version=3")
->> +        self.add_common_args()
->> +        self.launch_and_wait()
->> +
->>  
->>  class BootLinuxPPC64(BootLinux):
->>      """
-> 
-> 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922617
+
+Title:
+  qemu-aarch64-static "Illegal instruction" with debootstrap
+
+Status in QEMU:
+  New
+
+Bug description:
+  This is reproducible against QEMU master. I apologize for the long
+  reproduction steps, I tried to distill it down as much as possible.
+
+  System info:
+
+  # qemu-aarch64-static --version
+  qemu-aarch64 version 5.2.91 (v6.0.0-rc1-68-gee82c086ba)
+  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+
+  # cat /etc/os-release
+  PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
+  NAME=3D"Debian GNU/Linux"
+  VERSION_ID=3D"10"
+  VERSION=3D"10 (buster)"
+  VERSION_CODENAME=3Dbuster
+  ID=3Ddebian
+  HOME_URL=3D"https://www.debian.org/"
+  SUPPORT_URL=3D"https://www.debian.org/support"
+  BUG_REPORT_URL=3D"https://bugs.debian.org/"
+
+  # head -n 26 /proc/cpuinfo
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 85
+  model name      : Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
+  stepping        : 7
+  microcode       : 0x5002f01
+  cpu MHz         : 1000.716
+  cache size      : 22528 KB
+  physical id     : 0
+  siblings        : 32
+  core id         : 0
+  cpu cores       : 16
+  apicid          : 0
+  initial apicid  : 0
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 22
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
+a cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx=
+ pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xto=
+pology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx=
+ smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic mo=
+vbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpr=
+efetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single intel_ppin ssbd mba ibr=
+s ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsg=
+sbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm mpx rdt_a avx512f avx=
+512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl x=
+saveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_l=
+ocal dtherm ida arat pln pts pku ospke avx512_vnni md_clear flush_l1d arch_=
+capabilities
+  bugs            : spectre_v1 spectre_v2 spec_store_bypass swapgs taa itlb=
+_multihit
+  bogomips        : 4600.00
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 46 bits physical, 48 bits virtual
+  power management:
+
+  My reproduction steps:
+
+  # apt-get install --no-install-recommends -y \
+      build-essential \
+      ca-certificates \
+      debootstrap \
+      git \
+      libglib2.0-dev \
+      libpixman-1-dev \
+      ninja-build \
+      pkg-config \
+      python3 \
+      zstd
+
+  # git clone https://github.com/qemu/qemu
+
+  # mkdir qemu/build
+
+  # cd qemu/build
+
+  # ../configure \
+      --enable-debug \
+      --enable-linux-user \
+      --disable-bsd-user \
+      --disable-werror \
+      --disable-system \
+      --disable-tools \
+      --disable-docs \
+      --disable-gtk \
+      --disable-gnutls \
+      --disable-nettle \
+      --disable-gcrypt \
+      --disable-glusterfs \
+      --disable-libnfs \
+      --disable-libiscsi \
+      --disable-vnc \
+      --disable-kvm \
+      --disable-libssh \
+      --disable-libxml2 \
+      --disable-vde \
+      --disable-sdl \
+      --disable-opengl \
+      --disable-xen \
+      --disable-fdt \
+      --disable-vhost-net \
+      --disable-vhost-crypto \
+      --disable-vhost-user \
+      --disable-vhost-vsock \
+      --disable-vhost-scsi \
+      --disable-tpm \
+      --disable-qom-cast-debug \
+      --disable-capstone \
+      --disable-zstd \
+      --disable-linux-io-uring \
+      --static \
+      --target-list-exclude=3Dhexagon-linux-user
+
+  # ninja qemu-aarch64
+
+  # install -Dm755 qemu-aarch64 /usr/local/bin/qemu-aarch64-static
+
+  # cat <<'EOF' >/proc/sys/fs/binfmt_misc/register
+  :qemu-aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\=
+x02\x00\xb7:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xf=
+f\xfe\xff\xff:/usr/local/bin/qemu-aarch64-static:CF
+  EOF
+
+  # debootstrap --arch arm64 --foreign buster debian-rootfs
+
+  # chroot debian-rootfs /debootstrap/debootstrap --second-stage
+  Illegal instruction
+
+  This prevents me from building an arm64 Debian image on x86_64. If I
+  am doing something wrong, please let me know. The binary has been
+  uploaded for your convenience.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922617/+subscriptions
 
