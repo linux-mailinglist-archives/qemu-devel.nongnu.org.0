@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B282B3556F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:48:35 +0200 (CEST)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2042355712
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:56:07 +0200 (CEST)
+Received: from localhost ([::1]:51248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTn0M-00073L-N3
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
+	id 1lTn7e-00042f-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lTmy5-0005lY-5x
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:46:13 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:46473)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lTn6M-0003c6-3B
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:54:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lTmy3-0004pK-D4
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:46:12 -0400
-Received: from [192.168.100.1] ([82.142.14.126]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MK3eC-1l9NUu351K-00LVVU; Tue, 06 Apr 2021 16:46:06 +0200
-Subject: Re: [PATCH v2] linux-user: strace now handles unshare syscall args
- correctly
-To: Matus Kysel <mkysel@tachyum.com>
-References: <20210406144203.1020598-1-mkysel@tachyum.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <a5930034-94bc-80e9-0bee-d2f33cb8f6fc@vivier.eu>
-Date: Tue, 6 Apr 2021 16:46:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lTn6I-0001T5-Il
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:54:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617720881;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=u1ikcF8cTS1wp43o4tsUhk/V/I11SrjUSElGBKcfcIE=;
+ b=ORqhnAUjUl+KjSpVyr7DY7e+ufVHFxOOvihD38n+2yh92TZ0MDTcG5YUbhSFChzgRfULfJ
+ K9AlqUDsZJrVeM8anqEy/STg9y7t3qBVKZy/ZzALrkTdLtfXZto6BSUjaRzWOSRdUDFmLo
+ fqVkPUsgLJYTQUxm9rhzynOCqLO6Oaw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-GniFi8z6OZiMpEWd5ef3nA-1; Tue, 06 Apr 2021 10:54:29 -0400
+X-MC-Unique: GniFi8z6OZiMpEWd5ef3nA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 175BBA0C04;
+ Tue,  6 Apr 2021 14:54:28 +0000 (UTC)
+Received: from redhat.com (ovpn-114-172.ams2.redhat.com [10.36.114.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E256760854;
+ Tue,  6 Apr 2021 14:54:26 +0000 (UTC)
+Date: Tue, 6 Apr 2021 15:54:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
+Message-ID: <YGx2IFN3mJisOR1w@redhat.com>
+References: <20210322225907.541943-1-mst@redhat.com>
+ <20210322225907.541943-12-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210406144203.1020598-1-mkysel@tachyum.com>
+In-Reply-To: <20210322225907.541943-12-mst@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:655ucsW/sdcUEZWCEIXPi/gxR/OTlsb4zIhAoHcwk39i/6203le
- u0H7g8GAlAAk4lnr1xoCqxEBILZsjvMZAQo1v400i9v9zpYrkDYZEKNKnAKlSbIGuX+e8pb
- GParRfhycwFjlG2vueZha2p3Tyzw5PGW//Zijzjs4+D5X8FmkNDQFckYAx/0dpD+M/B9UNl
- e9D3LrrfZ7eFQP6hiBw8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JKD52o91dfM=:54GVswMmhIOMhe57VR4bih
- 7AmqzWGRdYnYJZtTJOR3fLn/JyY+XF9t/STpXbX/f2fXOh0AGUKpZmCc4PBtnuFhLKtEINmeT
- YwObaMhzuvd1130rID+iLbLsE55nFtLMHEanEV/KFrprvPR+XUA693VPDWxdtaVL7zNNECV/2
- F+nrUobincBqTtiuRyn16yk0DmtmRb5JCapbPE06QUgs43IqD/Q+iWNuX7BpdtHVfygzHvsSm
- I0qwgcwLgEqqAptqlHgNcB1H6AStFgsmFn9sFSTyLqCu9Hpw51cwjIHWDlHckqSdeUyBw6SPk
- sYYKp44g4dTOUVxp5YsYYR7kkFTflfwJfcRn5dDhU3VdxCBDXrkKwEFTTxnfgy0wz5ybR9W6j
- RoBHvW4jGdodwkq3gYo74JmMRgcmnm8dbOiQUleYU/PPwl7sA2rhaOVp9r4IKaNNattIh8qu0
- sjZb0IogaAH3gb+dGjCYqY6a1D+Zrxty8RYw5KpjtjhuC+imQ71s
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,73 +79,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/04/2021 à 16:42, Matus Kysel a écrit :
-> Syscall unshare did not have custom print function for strace, but it's argument is same as flags in clone syscall, so it can be easily implemented.
-> Also updated missing flags from clone_flags.
+On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote:
+> From: Igor Mammedov <imammedo@redhat.com>
 > 
-> Signed-off-by: Matus Kysel <mkysel@tachyum.com>
+> it helps to avoid device naming conflicts when guest OS is
+> configured to use acpi-index for naming.
+> Spec ialso says so:
+> 
+> PCI Firmware Specification Revision 3.2
+> 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
+> "
+> Instance number must be unique under \_SB scope. This instance number does not have to
+> be sequential in a given system configuration.
+> "
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
->  linux-user/strace.c    | 18 ++++++++++++++++++
->  linux-user/strace.list |  2 +-
->  2 files changed, 19 insertions(+), 1 deletion(-)
+>  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
 > 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index e969121b6c..1cadb6d50f 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -1109,6 +1109,12 @@ UNUSED static struct flags clone_flags[] = {
->  #if defined(CLONE_NEWNET)
->      FLAG_GENERIC(CLONE_NEWNET),
->  #endif
-> +#if defined(CLONE_NEWCGROUP)
-> +    FLAG_GENERIC(CLONE_NEWCGROUP),
-> +#endif
-> +#if defined(CLONE_NEWTIME)
-> +    FLAG_GENERIC(CLONE_NEWTIME),
-> +#endif
->  #if defined(CLONE_IO)
->      FLAG_GENERIC(CLONE_IO),
->  #endif
-> @@ -3467,6 +3473,18 @@ print_unlinkat(void *cpu_env, const struct syscallname *name,
->  }
->  #endif
-> 
-> +#ifdef TARGET_NR_unshare
-> +static void
-> +print_unshare(void *cpu_env, const struct syscallname *name,
-> +              abi_long arg0, abi_long arg1, abi_long arg2,
-> +              abi_long arg3, abi_long arg4, abi_long arg5)
+> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> index ceab287bd3..f4cb3c979d 100644
+> --- a/hw/acpi/pcihp.c
+> +++ b/hw/acpi/pcihp.c
+> @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
+>      PCIBus *bus;
+>  } AcpiPciHpFind;
+>  
+> +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
 > +{
-> +    print_syscall_prologue(name);
-> +    print_flags(clone_flags, arg0, 1);
-> +    print_syscall_epilogue(name);
+> +    return a - b;
 > +}
-> +#endif
 > +
->  #ifdef TARGET_NR_utime
->  static void
->  print_utime(void *cpu_env, const struct syscallname *name,
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 084048ab96..3b7c15578c 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -1573,7 +1573,7 @@
->  { TARGET_NR_unlinkat, "unlinkat" , NULL, print_unlinkat, NULL },
->  #endif
->  #ifdef TARGET_NR_unshare
-> -{ TARGET_NR_unshare, "unshare" , NULL, NULL, NULL },
-> +{ TARGET_NR_unshare, "unshare" , NULL, print_unshare, NULL },
->  #endif
->  #ifdef TARGET_NR_userfaultfd
->  { TARGET_NR_userfaultfd, "userfaultfd" , NULL, NULL, NULL },
-> --
-> 2.25.1
-> 
-> 
+> +static GSequence *pci_acpi_index_list(void)
+> +{
+> +    static GSequence *used_acpi_index_list;
+> +
+> +    if (!used_acpi_index_list) {
+> +        used_acpi_index_list = g_sequence_new(NULL);
+> +    }
+> +    return used_acpi_index_list;
+> +}
+> +
+>  static int acpi_pcihp_get_bsel(PCIBus *bus)
+>  {
+>      Error *local_err = NULL;
+> @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>                     ONBOARD_INDEX_MAX);
+>          return;
+>      }
+> +
+> +    /*
+> +     * make sure that acpi-index is unique across all present PCI devices
+> +     */
+> +    if (pdev->acpi_index) {
+> +        GSequence *used_indexes = pci_acpi_index_list();
+> +
+> +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
+> +                              g_cmp_uint32, NULL)) {
+> +            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
+> +                       " already exist", pdev->acpi_index);
+> +            return;
+> +        }
+> +        g_sequence_insert_sorted(used_indexes,
+> +                                 GINT_TO_POINTER(pdev->acpi_index),
+> +                                 g_cmp_uint32, NULL);
+> +    }
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+This doesn't appear to ensure uniqueness when using PCIe topologies:
+
+$ ./build/x86_64-softmmu/qemu-system-x86_64 \
+     -device virtio-net,acpi-index=100 \
+     -device virtio-net,acpi-index=100
+qemu-system-x86_64: -device virtio-net,acpi-index=100: a PCI device with acpi-index = 100 already exist
+
+$ ./build/x86_64-softmmu/qemu-system-x86_64 \
+     -M q35 \
+     -device virtio-net,acpi-index=100
+     -device virtio-net,acpi-index=100
+....happily running....
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
