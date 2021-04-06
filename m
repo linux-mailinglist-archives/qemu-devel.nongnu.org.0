@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B74354AF6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 04:39:55 +0200 (CEST)
-Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A536354B08
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 04:47:30 +0200 (CEST)
+Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTbdC-0001iG-4q
-	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 22:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59942)
+	id 1lTbkX-0003s9-3v
+	for lists+qemu-devel@lfdr.de; Mon, 05 Apr 2021 22:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lTbaV-0000pX-Vo
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 22:37:08 -0400
-Received: from mga06.intel.com ([134.134.136.31]:62837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lTbaR-00022N-U4
- for qemu-devel@nongnu.org; Mon, 05 Apr 2021 22:37:07 -0400
-IronPort-SDR: A8EuBcWjxc6tzUWIG7gfIaUxHoP5h51IQb8HTuPGrOGWajDFKZGWcwWE770AqnaO9M4siFBWd2
- wwI0JdfSDzEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="254300013"
-X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; d="scan'208";a="254300013"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2021 19:36:56 -0700
-IronPort-SDR: HfbcOsrte4aTyNUjwDviJjf+gLlZUPOdmhsaxNuUhGJLRnoc12mvR7jxfVrz1X2lgspM4pv+KQ
- GH77gXKVmvug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; d="scan'208";a="380743556"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga006.jf.intel.com with ESMTP; 05 Apr 2021 19:36:54 -0700
-Message-ID: <5d31c441a2318c6dd969da8ddcff81e083c48e80.camel@linux.intel.com>
-Subject: Re: [PATCH v4] i386/cpu_dump: support AVX512 ZMM regs dump
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com
-Date: Tue, 06 Apr 2021 10:36:53 +0800
-In-Reply-To: <c31c1d0033d1cdf7aee6dc20cb3c4c27ec754222.camel@linux.intel.com>
-References: <1616770469-36979-1-git-send-email-robert.hu@linux.intel.com>
- <c31c1d0033d1cdf7aee6dc20cb3c4c27ec754222.camel@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-8.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=robert.hu@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTbin-0003K0-SV
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 22:45:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43200)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lTbil-0006uh-Ja
+ for qemu-devel@nongnu.org; Mon, 05 Apr 2021 22:45:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lTbij-0001NB-FF
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 02:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 68DAC2E8163
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 02:45:37 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 06 Apr 2021 02:37:16 -0000
+From: Ryan Schmidt <1922625@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: z-launchpad-d
+X-Launchpad-Bug-Reporter: Ryan Schmidt (z-launchpad-d)
+X-Launchpad-Bug-Modifier: Ryan Schmidt (z-launchpad-d)
+Message-Id: <161767663708.22881.10337193368132621406.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1922625] [NEW] qemu 5.2.0 configure script explodes when in read
+ only directory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: 1ec6996650043b18f67d1fbca9765a498d72146b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,138 +69,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1922625 <1922625@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Public bug reported:
 
-Ping...
+I extracted the qemu 5.2.0 source as one user, and then tried to run
+`./configure --help` in that directory as a different user. Normal
+autoconf configure scripts have no problem with this but yours goes into
+an infinite loop printing nonsense:
 
-Thanks
+Using './build' as the directory for build output
+mkdir: build: Permission denied
+touch: build/auto-created-by-configure: No such file or directory
+./configure: line 37: GNUmakefile: Permission denied
+./configure: line 59: cd: build: No such file or directory
+Using './build' as the directory for build output
+mkdir: build: Permission denied
+touch: build/auto-created-by-configure: No such file or directory
+/path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+/path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or directory
+Using './build' as the directory for build output
+mkdir: build: Permission denied
+touch: build/auto-created-by-configure: No such file or directory
+/path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+/path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or directory
+Using './build' as the directory for build output
+mkdir: build: Permission denied
+touch: build/auto-created-by-configure: No such file or directory
+/path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+/path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or directory
+Using './build' as the directory for build output
+mkdir: build: Permission denied
+touch: build/auto-created-by-configure: No such file or directory
+/path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+/path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or directory
+Using './build' as the directory for build output
+mkdir: build: Permission denied
 
-On Fri, 2021-03-26 at 23:01 +0800, Robert Hoo wrote:
-> On Fri, 2021-03-26 at 22:54 +0800, Robert Hoo wrote:
-> > Since commit fa4518741e (target-i386: Rename struct XMMReg to
-> > ZMMReg),
-> > CPUX86State.xmm_regs[] has already been extended to 512bit to
-> > support
-> > AVX512.
-> > Also, other qemu level supports for AVX512 registers are there for
-> > years.
-> > But in x86_cpu_dump_state(), still only dump XMM registers no
-> > matter
-> > YMM/ZMM is enabled.
-> > This patch is to complement this, let it dump XMM/YMM/ZMM
-> > accordingly.
-> > 
-> > Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> > ---
-> > Changelog:
-> > v4: stringent AVX512 case and AVX case judgement criteria
-> > v3: fix some coding style issue.
-> > v2: dump XMM/YMM/ZMM according to XSAVE state-components
-> > enablement.
-> > 
-> >  target/i386/cpu-dump.c | 62 ++++++++++++++++++++++++++++++++++++++
-> > ------------
-> >  1 file changed, 47 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-> > index aac21f1..dea4564 100644
-> > --- a/target/i386/cpu-dump.c
-> > +++ b/target/i386/cpu-dump.c
-> > @@ -478,6 +478,11 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f,
-> > int flags)
-> >      qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
-> >      if (flags & CPU_DUMP_FPU) {
-> >          int fptag;
-> > +        const uint64_t avx512_mask = XSTATE_OPMASK_MASK | \
-> > +                                     XSTATE_ZMM_Hi256_MASK | \
-> > +                                     XSTATE_Hi16_ZMM_MASK | \
-> > +                                     XSTATE_YMM_MASK |
-> > XSTATE_SSE_MASK,
-> > +                       avx_mask = XSTATE_YMM_MASK |
-> > XSTATE_SSE_MASK;
-> >          fptag = 0;
-> >          for(i = 0; i < 8; i++) {
-> >              fptag |= ((!env->fptags[i]) << i);
-> > @@ -499,21 +504,48 @@ void x86_cpu_dump_state(CPUState *cs, FILE
-> > *f,
-> > int flags)
-> >              else
-> >                  qemu_fprintf(f, " ");
-> >          }
-> > -        if (env->hflags & HF_CS64_MASK)
-> > -            nb = 16;
-> > -        else
-> > -            nb = 8;
-> > -        for(i=0;i<nb;i++) {
-> > -            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
-> > -                         i,
-> > -                         env->xmm_regs[i].ZMM_L(3),
-> > -                         env->xmm_regs[i].ZMM_L(2),
-> > -                         env->xmm_regs[i].ZMM_L(1),
-> > -                         env->xmm_regs[i].ZMM_L(0));
-> > -            if ((i & 1) == 1)
-> > -                qemu_fprintf(f, "\n");
-> > -            else
-> > -                qemu_fprintf(f, " ");
-> > +
-> > +        if ((env->xcr0 & avx512_mask) == avx512_mask) {
-> > +            /* XSAVE enabled AVX512 */
-> > +            for (i = 0; i < NB_OPMASK_REGS; i++) {
-> > +                qemu_fprintf(f, "Opmask%02d=%016lx%s", i, env-
-> > > opmask_regs[i],
-> > 
-> > +                    ((i & 3) == 3) ? "\n" : " ");
-> > +            }
-> > +
-> > +            nb = (env->hflags & HF_CS64_MASK) ? 32 : 8;
-> > +            for (i = 0; i < nb; i++) {
-> > +                qemu_fprintf(f, "ZMM%02d=%016lx %016lx %016lx
-> > %016lx
-> > %016lx "
-> > +                                "%016lx %016lx %016lx\n",
-> > +                             i,
-> > +                             env->xmm_regs[i].ZMM_Q(7),
-> > +                             env->xmm_regs[i].ZMM_Q(6),
-> > +                             env->xmm_regs[i].ZMM_Q(5),
-> > +                             env->xmm_regs[i].ZMM_Q(4),
-> > +                             env->xmm_regs[i].ZMM_Q(3),
-> > +                             env->xmm_regs[i].ZMM_Q(2),
-> > +                             env->xmm_regs[i].ZMM_Q(1),
-> > +                             env->xmm_regs[i].ZMM_Q(0));
-> > +            }
-> > +        } else if (env->xcr0 & avx_mask) {
-> 
-> Here should be
-> 	     else if ((env->xcr0 & avx_mask) == avx_mask)
-> 
-> Sorry about my sleepy head.
-> 
-> > +            /* XSAVE enabled AVX */
-> > +            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-> > +            for (i = 0; i < nb; i++) {
-> > +                qemu_fprintf(f, "YMM%02d=%016lx %016lx %016lx
-> > %016lx\n",
-> > +                             i,
-> > +                             env->xmm_regs[i].ZMM_Q(3),
-> > +                             env->xmm_regs[i].ZMM_Q(2),
-> > +                             env->xmm_regs[i].ZMM_Q(1),
-> > +                             env->xmm_regs[i].ZMM_Q(0));
-> > +            }
-> > +        } else { /* SSE and below cases */
-> > +            nb = env->hflags & HF_CS64_MASK ? 16 : 8;
-> > +            for (i = 0; i < nb; i++) {
-> > +                qemu_fprintf(f, "XMM%02d=%016lx %016lx%s",
-> > +                             i,
-> > +                             env->xmm_regs[i].ZMM_Q(1),
-> > +                             env->xmm_regs[i].ZMM_Q(0),
-> > +                             (i & 1) ? "\n" : " ");
-> > +            }
-> >          }
-> >      }
-> >      if (flags & CPU_DUMP_CODE) {
+etc.
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922625
+
+Title:
+  qemu 5.2.0 configure script explodes when in read only directory
+
+Status in QEMU:
+  New
+
+Bug description:
+  I extracted the qemu 5.2.0 source as one user, and then tried to run
+  `./configure --help` in that directory as a different user. Normal
+  autoconf configure scripts have no problem with this but yours goes
+  into an infinite loop printing nonsense:
+
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  ./configure: line 37: GNUmakefile: Permission denied
+  ./configure: line 59: cd: build: No such file or directory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+  touch: build/auto-created-by-configure: No such file or directory
+  /path/to/qemu-5.2.0/configure: line 37: GNUmakefile: Permission denied
+  /path/to/qemu-5.2.0/configure: line 59: cd: build: No such file or direct=
+ory
+  Using './build' as the directory for build output
+  mkdir: build: Permission denied
+
+  etc.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922625/+subscriptions
 
