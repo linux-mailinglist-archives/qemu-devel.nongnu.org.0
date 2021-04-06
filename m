@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF667355EA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 00:14:15 +0200 (CEST)
-Received: from localhost ([::1]:42924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F40355EBB
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 00:23:16 +0200 (CEST)
+Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTtxe-00019C-Qq
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 18:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53088)
+	id 1lTu6N-00045h-8k
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 18:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTtwd-0000cc-04
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 18:13:11 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41895)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lTu4q-0002zx-S5
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 18:21:41 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:41491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTtwb-0007sM-8v
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 18:13:10 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id l123so9938924pfl.8
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 15:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=G009djQjMftplOha1xrOlaDXhdqRL9Ry1Ceq/lr1Huw=;
- b=JAY1Cn4cCgN031gnN56g2SVdMpmYf2UGtXtMTsNLKZKBK3jgFCG/gW6dRla8Lgo+j7
- 9DdtNbsY2+4UIXo89gf3qeaTGx8BW7Y9IsfAtzis4BuJOaKXki00S6YSzWXizgPOJQD5
- juFfFyhZFk/Nrp0yXZU43W4E+xmYcCjBUE+DWIVbjXqJeFlXbQRPWmRReQ/b5EMCENVv
- TeVFDwI1KrvTJH86Vy1Rx/Oj3MZJa2tt/LqrtAFFsnRZ8UB6W7yR0/JPXeZPzZdnecj3
- SJzt7uhib6FyQLfpxCX9JX8BhV6rKgZbiQNedMd5JEIrXqnRz7yHjyogiBi5o8rdjJNC
- Gq6g==
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lTu4h-0003XT-Kn
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 18:21:40 -0400
+Received: by mail-qk1-x730.google.com with SMTP id v70so16739185qkb.8
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 15:21:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mOOs9B24dquaTw9u7ucAlJx0xIUpDacBR/EZbefXg+4=;
+ b=gKMjCCv4OmKAAEOetsJcVaZhjOoHEyUaronzmJ+JOeZNGHJhssJN94iRC9DoxoTr32
+ yoDDXEg4r67a6sU3D5pQSGxHhadnNKyig/rPIbvnGn6MdBRNnUKi2x+P0ri/yxg7u0JI
+ SDEGlgWk+ci1b8xaGEqSOF7vT3l/8ONpy7OUe8NWwidBQ7/v4wX5EeiHbYfL1DhhN137
+ 2kM+nRXjUGJRfcrWo2iJ3CgpbF/K2WH84Rz3yrWTBSD6NpYaYbVb00xbR8HcE6gaqB1z
+ BPXnLLA0UeAL6IYGn/PQuH0MjVh/M7ViLRa3XaQQEofhFpybPDApRFp2U4+lAmK9IgBs
+ B5rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G009djQjMftplOha1xrOlaDXhdqRL9Ry1Ceq/lr1Huw=;
- b=PWu4XIYHppsEhud/fsxWdj+LRhvIzyNsT1ZpRhAY1b0+MdHTamdoVf9PfUVh0XxHdZ
- +XDJlZiXIKVbbFZDaGw2MGZd6SW2QE55jADc9Q2MuE6HbwlggzDD8YP4cnlM9SoBND/k
- kyCCEwpcyDn8c58Pm4MXISj9asUPRgly6TVvmakYhYHJLBIF9uchUgIlZyNF57hsNB1I
- MfHs793pALNWhIqgbths1enQQ5G8uGH0Vj9Acz7h8EMU2O/e+HnNHN1K74lbjk4O4qFG
- 5+PNAjIHVsB3XR5qcUzAZPenAm4I6Fs/WjJ9L2Ikp92bEwQG9yPrYpvBvcW33/T4Yihl
- R84Q==
-X-Gm-Message-State: AOAM533Uxyqxt3CIlOJssP/ARJFeEC+3Zp6SMW7EZgVqTlUr9vQdF+Ul
- o+eEzX9Earog525+oU8r7lvasw==
-X-Google-Smtp-Source: ABdhPJxUciVcBDJwVZax8uRt/5Dlt0G91VLH9OXVchbNfcfnEyQpjfUvW4nBN+3q+o63SQdTbMiQMQ==
-X-Received: by 2002:a63:3752:: with SMTP id g18mr293571pgn.388.1617747187657; 
- Tue, 06 Apr 2021 15:13:07 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id j10sm3200193pjs.11.2021.04.06.15.13.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 15:13:07 -0700 (PDT)
-Subject: Re: [PATCH v2 12/21] Hexagon (target/hexagon) add F2_sfrecipa
- instruction
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1617249213-22667-1-git-send-email-tsimpson@quicinc.com>
- <1617249213-22667-13-git-send-email-tsimpson@quicinc.com>
- <13945cfa-a211-8d4d-df64-3df7b8304b04@linaro.org>
- <BYAPR02MB48869FD9CE8F128EC50F668EDE769@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <47ba8288-f6c9-976e-67ac-9d48a29ce676@linaro.org>
-Date: Tue, 6 Apr 2021 15:13:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mOOs9B24dquaTw9u7ucAlJx0xIUpDacBR/EZbefXg+4=;
+ b=YDk57N+IR0vAKwEonlC1GSQIReCYz8kCCT77OSGA7i97GlM6K3d5hU1UVEUPQD0HUH
+ VkiW2fvzMyO0m8+ZGhe+geKXxY0hIi06gh+GAIhnUA3GiWlqomK03B7z5dumJYof0/cE
+ sDl8/7mm72mzaMO8iDpTVpeqplII02X497xzRsSMOIJmNfypESPzyApKMpXdfb2Qgqxd
+ 83rZP+Qnay5u7TgTYF1uYNba8Ln0ZwGq65HwSpAT/F2Lha/Np/gEWz8TdDfde0wLJsf5
+ rEJJkIfKF6y0tKhdJRtmTuFQL6Tpz6v/bDeIfkLmoqZr4BSpdB658aVh67+MBwzbugl0
+ QcWw==
+X-Gm-Message-State: AOAM533rlNNDFXMXAW/G37pkzYosDhDNxXTeO8EX8IBS+vRwkcISdOWu
+ 1Njb6IYPkN8sJXi3oSSM28sROWep3DJBI33gkkAG9w==
+X-Google-Smtp-Source: ABdhPJy3EO6xX/G6Eka1l5nTW4NBBE0cPlbcvh2p6l8Mwicu3J+QbJVTr6wV2CHly7zJS8C7jVgGWo6DJJF6Rt9aAy4=
+X-Received: by 2002:a37:b103:: with SMTP id a3mr123514qkf.261.1617747689113;
+ Tue, 06 Apr 2021 15:21:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB48869FD9CE8F128EC50F668EDE769@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210403222810.3481372-1-venture@google.com>
+ <20210405195834.GF7167@minyard.net>
+ <CAO=notzJbWTn-KNurHs6HdzoLkFQRaKeNSdzBmufSu-eViRfww@mail.gmail.com>
+ <CAO=notyrcWX59UqVP4=jueUvenx9b4NiTzk-wifa1s7wPypJsQ@mail.gmail.com>
+ <20210406183601.GB7166@minyard.net>
+In-Reply-To: <20210406183601.GB7166@minyard.net>
+From: Patrick Venture <venture@google.com>
+Date: Tue, 6 Apr 2021 15:21:18 -0700
+Message-ID: <CAO=notyM82Xzco4gdpmJBJQxV_CkgH=9i8A_OXaksDdei8HebQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] hw/i2c: Adds pca954x i2c mux switch device
+To: Corey Minyard <minyard@acm.org>
+Cc: Corey Minyard <cminyard@mvista.com>, Hao Wu <wuhaotsh@google.com>, 
+ Havard Skinnemoen <hskinnemoen@google.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=venture@google.com; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,58 +84,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/21 2:55 PM, Taylor Simpson wrote:
-> 
->> -----Original Message-----
->> From: Richard Henderson <richard.henderson@linaro.org>
->> Sent: Tuesday, April 6, 2021 3:46 PM
->> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
->> Cc: philmd@redhat.com; ale@rev.ng; Brian Cain <bcain@quicinc.com>
->> Subject: Re: [PATCH v2 12/21] Hexagon (target/hexagon) add F2_sfrecipa
->> instruction
->>
->> On 3/31/21 8:53 PM, Taylor Simpson wrote:
->>> +int arch_recip_lookup(int index)
->>> +{
->>> +    index &= 0x7f;
->>> +    const uint8_t roundrom[128] = {
->>> +        0x0fe, 0x0fa, 0x0f6, 0x0f2, 0x0ef, 0x0eb, 0x0e7, 0x0e4,
->>> +        0x0e0, 0x0dd, 0x0d9, 0x0d6, 0x0d2, 0x0cf, 0x0cc, 0x0c9,
->>> +        0x0c6, 0x0c2, 0x0bf, 0x0bc, 0x0b9, 0x0b6, 0x0b3, 0x0b1,
->>> +        0x0ae, 0x0ab, 0x0a8, 0x0a5, 0x0a3, 0x0a0, 0x09d, 0x09b,
->>> +        0x098, 0x096, 0x093, 0x091, 0x08e, 0x08c, 0x08a, 0x087,
->>> +        0x085, 0x083, 0x080, 0x07e, 0x07c, 0x07a, 0x078, 0x075,
->>> +        0x073, 0x071, 0x06f, 0x06d, 0x06b, 0x069, 0x067, 0x065,
->>> +        0x063, 0x061, 0x05f, 0x05e, 0x05c, 0x05a, 0x058, 0x056,
->>> +        0x054, 0x053, 0x051, 0x04f, 0x04e, 0x04c, 0x04a, 0x049,
->>> +        0x047, 0x045, 0x044, 0x042, 0x040, 0x03f, 0x03d, 0x03c,
->>> +        0x03a, 0x039, 0x037, 0x036, 0x034, 0x033, 0x032, 0x030,
->>> +        0x02f, 0x02d, 0x02c, 0x02b, 0x029, 0x028, 0x027, 0x025,
->>> +        0x024, 0x023, 0x021, 0x020, 0x01f, 0x01e, 0x01c, 0x01b,
->>> +        0x01a, 0x019, 0x017, 0x016, 0x015, 0x014, 0x013, 0x012,
->>> +        0x011, 0x00f, 0x00e, 0x00d, 0x00c, 0x00b, 0x00a, 0x009,
->>> +        0x008, 0x007, 0x006, 0x005, 0x004, 0x003, 0x002, 0x000,
->>> +    };
->>> +    return roundrom[index];
->> ...
->>> +    if (arch_sf_recip_common(&RsV, &RtV, &RdV, &adjust, &env-
->>> fp_status)) {
->>> +        PeV = adjust;
->>> +        idx = (RtV >> 16) & 0x7f;
->>> +        mant = (arch_recip_lookup(idx) << 15) | 1;
->>
->> Why not just export the table and not the function?
->> You're already masking the index at the single use.
-> 
-> I'll do that for both.  I assume you are still OK giving your Reviewed-by from the previous two emails.
+On Tue, Apr 6, 2021 at 11:36 AM Corey Minyard <minyard@acm.org> wrote:
+>
+> On Tue, Apr 06, 2021 at 08:55:14AM -0700, Patrick Venture wrote:
+> > On Tue, Apr 6, 2021 at 8:41 AM Patrick Venture <venture@google.com> wrote:
+> > >
+> > > On Mon, Apr 5, 2021 at 12:58 PM Corey Minyard <cminyard@mvista.com> wrote:
+> > > >
+> > > > On Sat, Apr 03, 2021 at 03:28:08PM -0700, Patrick Venture wrote:
+> > > > > The i2c mux device pca954x implements two devices:
+> > > > >  - the pca9546 and pca9548.
+> > > > >
+> > > > > Patrick Venture (2):
+> > > > >   hw/i2c/core: add reachable state boolean
+> > > > >   hw/i2c: add pca954x i2c-mux switch
+> > > >
+> > > > Looking this over, the code looks good, but I have a few general
+> > > > questions:
+> > > >
+> > > > * Can you register the same slave address on different channels?  That's
+> > > >   something you could do with real hardware and might be required at
+> > > >   some time.  It looks like to me that you can't with this patch set,
+> > > >   but maybe I'm missing something.
+> > >
+> > > If I understand the hardware's implementation properly you can have
+> > > collisions, and this allows for collisions.  I'm not sure what you
+> > > mean by having both accessible.  For instance, on hardware you can
+> > > have a switch with N channels, and on two of the channels there is an
+> > > eeprom at 50.  But you're unable to talk to both eeproms at the same
+> > > time, because the addresses collide -- so how would the hardware know
+> > > which you're talking to?  My understanding of the behavior in this
+> > > collision case is that it just talks to the first one that responds
+> > > and can lead to unexpected things.
+> > >
+> > > There is a board, the quanta-q71l where we had to set the
+> > > idle-disconnect because there were two muxes on the same bus, with
+> > > conflicting addresses, and so we had to use idle disconnect explicitly
+> > > to make the software happy talking to the hardware -- not ideal as
+> > > having two devices behind different channels, but ultimately it's the
+> > > same idea because the devices are conflicting.
+> > >
+> > > >
+> > > > * Can you add devices to the secondary I2C busses on the mux using the
+> > > >   standard QEMU device model, or is the function call required?
+> > >
+> > > I added the function call because I didn't see a clean way to bridge
+> > > the issue as well as, the quasi-arbitrary bus numbering used by the
+> > > kernel isn't how the hardware truly behaves, and my goal was to
+> > > implement closer to the hardware.  I thought about adding an I2cBus to
+> > > the device and then you'd be able to access it, but wasn't sure of a
+> > > nice clean way to plumb that through -- I considered adding/removing
+> > > devices from the parent i2c bus instead of the boolean reachable, but
+> > > that seemed way less clean - although do-able.
+> > >
+> > > >
+> > > > I ask because I did a pca9540 and pca9541 device, but I've never
+> > > > submitted it because I didn't think it would ever be needed.  It takes a
+> > > > different tack on the problem; it creates the secondary busses as
+> > > > standard QEMU I2C busses and bridges them.  You can see it at
+> > > >
+> > > >    github.com:cminyard/qemu.git master-i2c-rebase
+> > > >
+> > >
+> > > I'll have to take a look at your approach, but the idea that it
+> > > wouldn't be needed sounds bizarre to me as nearly all BMC-based qemu
+> > > boards leverage i2c muxes to handle their PCIe slot i2c routing.
+> > >
+> > > > If you design can do the things I ask, then it's better.  If not, then
+> > > > I'm not sure.
+> >
+> > Corey,
+> >
+> > looking at your design, I should be able to do something similar with
+> > a small tweak.
+> >
+> > I think my design follows the hardware where there can be conflicts,
+> > etc, but what I didn't know how to do was add the faux I2cBuses in a
+> > useful way -- but if I add the I2cBuses to the device, and then on
+> > add/remove it registers the device on the parent bus -- i can still
+> > use the reachable boolean to control whether it's present.  The faux
+> > I2cBuses would be a simplification for adding/removing i2c devices --
+> > and would act as the device list in my object.  So then setting the
+> > channels would change to walking the devices held by the bus that
+> > corresponds with the bit -- but _still_ using the reachable boolean.
+> >
+> > If you'd like, I can update my patchset to use an i2cbus for the
+> > purpose above, then it would satisfy the requirement of leveraging the
+> > normal device process and no longer require the special function call.
+>
+> That sounds reasonable.  Your implementation is quite a bit simpler than
+> mine, which is a bonus.
 
-Yep.
+Corey;
 
-r~
+I will send out the updated patches tomorrow, but I had to cherry-pick
+your patch: https://github.com/cminyard/qemu/commit/c7f696d09af2d55f221a5c22900c8f71bc2244be
+so that I can get the callbacks for the bus actions, in this case, did
+you want to send that patch to the mailing list ahead?  Otherwise,
+I'll try to incorporate it as a predecessor patch.
 
+Patrick
+
+>
+> -corey
+>
+> >
+> > Patrick
+> >
+> > > >
+> > > > -corey
+> > > >
+> > > > >
+> > > > >  MAINTAINERS                      |   6 +
+> > > > >  hw/i2c/Kconfig                   |   4 +
+> > > > >  hw/i2c/core.c                    |   6 +
+> > > > >  hw/i2c/i2c_mux_pca954x.c         | 182 +++++++++++++++++++++++++++++++
+> > > > >  hw/i2c/meson.build               |   1 +
+> > > > >  hw/i2c/trace-events              |   5 +
+> > > > >  include/hw/i2c/i2c.h             |   3 +
+> > > > >  include/hw/i2c/i2c_mux_pca954x.h |  60 ++++++++++
+> > > > >  8 files changed, 267 insertions(+)
+> > > > >  create mode 100644 hw/i2c/i2c_mux_pca954x.c
+> > > > >  create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
+> > > > >
+> > > > > --
+> > > > > 2.31.0.208.g409f899ff0-goog
+> > > > >
+> >
 
