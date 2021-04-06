@@ -2,50 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EDD3559D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 18:57:29 +0200 (CEST)
-Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 755AF3559D2
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 18:59:25 +0200 (CEST)
+Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTp16-0005yx-U4
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 12:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54002)
+	id 1lTp2y-0008Fg-IO
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 12:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lToxW-0004Mr-DN
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:53:47 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:25713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lToxS-00077P-W8
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:53:45 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B110D7456E3;
- Tue,  6 Apr 2021 18:53:37 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8F0807456B7; Tue,  6 Apr 2021 18:53:37 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8D6F77456B4;
- Tue,  6 Apr 2021 18:53:37 +0200 (CEST)
-Date: Tue, 6 Apr 2021 18:53:37 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Programmingkid <programmingkidx@gmail.com>
-Subject: Re: Mac OS real USB device support issue
-In-Reply-To: <967C172F-B708-40A2-862E-9948F0844133@gmail.com>
-Message-ID: <ace05be8-a256-788f-b896-45398d752d3@eik.bme.hu>
-References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
- <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
- <967C172F-B708-40A2-862E-9948F0844133@gmail.com>
+ (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
+ id 1lToyI-0004xS-2t
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:54:40 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:38906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
+ id 1lToyF-0007R8-Ee
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:54:33 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id v25so15796098oic.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 09:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mvista-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=bkUvZWewauEtfTfJhWzPiL1KDisLndnu5nx9k4Ba8J4=;
+ b=lUG896dknIvIBzkp6HAuNXW87nlVoq48+QanVq5BGyzTPjrDx84nS7xw9433NVWMUr
+ 7Eg3GVR9ixHZzJ3F/VX8YAxl7Pcz7iw0R0+ajZddDzt5nhRTYI3qbsWMYG1eD5w6M0wz
+ risqowUU0N8gI/qvqK8VAfyS0b9EobRUtQChaBU5OaRAGavNQYLURx1zgGSmnI3MuBq7
+ AYZrwBBviFUZYyqNgtA3qvagkDTJJVtPnnNLeS67IeIVkpA25rg7eNT+BNkb0NNYk6am
+ qo5A9maJBKqrxgznRLz6RJVR6pKafR2tBmTFJtgDaoBV+zQoxTsE4Kyp9AJ9k/8IQn5O
+ n3lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=bkUvZWewauEtfTfJhWzPiL1KDisLndnu5nx9k4Ba8J4=;
+ b=Qms/DBtK8uSrDBdq3ZgqlV/2XtW19bun3tDPyfFVJ4Syu5yj6ZoX4D4XtUF2tboTiW
+ VW1tPOIOMZas0FONFpWYdlzlLW4f4I8Tir9SCAgrlaUXvtXZrH86Y8cPIrNNfiHYe2l+
+ 4zIUTSp10bSljKN9STQO3tCDJaLfzosxyk6wnFVQ5UbjKsoZSVV0h+bIsjEO2Rkby6bf
+ J3NSD8oGrCJ9TQ9rJ7mM17XJ8/FUralkSIj2WEajr/+TjK5hdhsj/lwFx20dTG4Ex2DD
+ Qj6g4+spkzrrVapF2NT1e9zD6tTSKzDuSdlBqD8id055A2P65bhP/Vuc7chdKpwOE/12
+ zq/A==
+X-Gm-Message-State: AOAM532nPp4WLW31Y8nT7pLVJGB9vgBQB/AKFWLOHFuSxxH/wVEyioRR
+ gJeko1vZsdS1SonTDOqh36jVdw==
+X-Google-Smtp-Source: ABdhPJxS6iJS7nPG76cfJbLMbGqD0wgTFMwiY17lVcHaKDigz2WQeiIHiHNf8jGBwUG9N7feHD9hvg==
+X-Received: by 2002:aca:75c6:: with SMTP id q189mr4020432oic.29.1617728069509; 
+ Tue, 06 Apr 2021 09:54:29 -0700 (PDT)
+Received: from minyard.net ([2001:470:b8f6:1b:f584:ff80:e7e9:e850])
+ by smtp.gmail.com with ESMTPSA id u8sm4242041oot.24.2021.04.06.09.54.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 09:54:29 -0700 (PDT)
+Date: Tue, 6 Apr 2021 11:54:27 -0500
+From: Corey Minyard <cminyard@mvista.com>
+To: Patrick Venture <venture@google.com>
+Subject: Re: IPMI Smbus
+Message-ID: <20210406165427.GQ7167@minyard.net>
+References: <CAO=noty9JPU7L8XXKs48TEC9SrJ6j44boA=6ZQP4b_4Z3oy4Kw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO=noty9JPU7L8XXKs48TEC9SrJ6j44boA=6ZQP4b_4Z3oy4Kw@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=cminyard@mvista.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,58 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU devel list <qemu-devel@nongnu.org>, gerd@kraxel.org,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Reply-To: cminyard@mvista.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Apr 2021, Programmingkid wrote:
->> On Apr 6, 2021, at 10:01 AM, Howard Spoelstra <hsp.cat7@gmail.com> wrote:
->> On Tue, Apr 6, 2021 at 3:44 PM Programmingkid <programmingkidx@gmail.com> wrote:
->>>
->>> Hi Gerd,
->>>
->>> I was wondering if you had access to a Mac OS 10 or Mac OS 11 machine to test USB support. I am on Mac OS 11.1 and cannot make USB devices work with any of my guests. So far these are the guests I have tested with:
->>>
->>> - Windows 7
->>> - Mac OS 9.2
->>> - Windows 2000
->>>
->>> I have tried using USB flash drives, USB sound cards, and an USB headset. They all show up under 'info usb', but cannot be used in the guest. My setup does use a USB-C hub so I'm not sure if this is a bug with QEMU or an issue with the hub. Would you have any information on this issue?
->>
->> Hi John,
->>
->> As far as the Mac OS 9.2 guest is concerned on a mac OS host, it does
->> not support USB 2.0. I was successful only in passing through a USB
->> flash drive that was forced into USB 1.1 mode by connecting it to a
->> real USB 1.1 hub and unloading the kext it used.
->>
->> Best,
->> Howard
->
-> Hi Howard, I was actually thinking about CC'ing you for this email. Glad 
-> you found it. Unloading kext files does not sound pleasant. Maybe there 
-> is some better way of doing it.
+On Tue, Apr 06, 2021 at 09:04:35AM -0700, Patrick Venture wrote:
+> Corey;
+> 
+> I saw you have a branch that is working on adding smbus IPMI support
+> (the ssif approach).
+> 
+> Can you provide details on the status of this work?
 
-In any case, until you make sure nothing tries to drive the device on the 
-host, passing it to a guest likely will fail because then two drivers from 
-two OSes would try to access it simultaneously which likely creates a mess 
-as the device and drivers don't expect this. So you can't just pass a 
-device through that the host has recognised and is driving without somehow 
-getting the host to leave it alone first before you can pass it through. 
-Unloading the driver is one way to do that (although it probably breaks 
-all other similar devices too). Maybe there's another way to unbind a 
-device from the host such as ejecting it first but then I'm not sure if 
-the low level USB needed for accessing the device still works after that 
-or it's completely forgotten. There's probably a doc somewhere that 
-describes how it works and how can you plug a device without also getting 
-higher level drivers to load or if there's no official ways for that then 
-you'll need to do some configuration on the host to avoid it grabbing 
-devices that you want to pass through. On Linux you can add an udev rule 
-to ignore the device (maybe also adding TAG+="uaccess" to allow console 
-users to use it without needing root access) but not sure how USB works on 
-macOS.
+There is already an SMBus BMC device that can sit on the I2C bus.  It's
+in mainstream qemu now.
 
-Regards,
-BALATON Zoltan
+It does not have smbus alert support, though.  I have patches for that,
+but qemu doesn't have a flexibly general interrupt infrastructure, so I
+hacked something in, and it's likely to be contentious.  The trouble is
+that the interrupt is disconnected from any real device, and qemu
+doesn't handle that very well.  And like the other things, I really only
+created it for my testing.
+
+For doing what you are trying to do, I don't think you need any special
+support on either side for SSIF to work.
+
+-corey
+
+> 
+> Patrick
 
