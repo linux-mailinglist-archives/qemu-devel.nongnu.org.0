@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD5D35549A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 15:11:38 +0200 (CEST)
-Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD85C3554F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 15:23:22 +0200 (CEST)
+Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTlUX-00033g-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 09:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53084)
+	id 1lTlft-0000Ay-UV
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 09:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@jade.fyi>)
- id 1lTjvj-0006N8-8t; Tue, 06 Apr 2021 07:31:36 -0400
-Received: from out2.migadu.com ([2001:41d0:2:aacc::]:15902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@jade.fyi>)
- id 1lTjva-0007Ce-4e; Tue, 06 Apr 2021 07:31:33 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jade.fyi; s=key1;
- t=1617708676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=MpAayDMbblMybCul2Z9h8sgj2liMBXeXs0+0sRI2suM=;
- b=uxv8Ky/dSJFMd6EEnLIGKp5S3Bb0HmfUdLmaErJqKuv/dhADSGLrlojs5MPBEiNk27BJBL
- kBRfn8kS9UtW3V7R4I7ZxMXfmQ+RhcKGjDyZ/lfKjdccac3gglzdDya2+iISvOnYwv5cJ5
- Dhmf1w7rJmyq33b1u7ujKNA8P5+WP1M=
-From: Jade Fink <qemu@jade.fyi>
-To: qemu-devel@nongnu.org
-Cc: Jade Fink <qemu@jade.fyi>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
-Subject: [PATCH] riscv: don't look at SUM when accessing memory from a
- debugger context
-Date: Tue,  6 Apr 2021 04:31:09 -0700
-Message-Id: <20210406113109.1031033-1-qemu@jade.fyi>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lTlet-0007kl-J3
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 09:22:19 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42663)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lTler-0005Jj-NF
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 09:22:19 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id q26so8528658wrz.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 06:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=user-agent:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2yixALfjuWq/IIUfyxety+jGeFdLGfLBhcO/I7wN+JA=;
+ b=oKCg0RUgWol2tmaBEPHjGuBDaCrLH0ySedE8+xjU2FU9Xit0hKAXB7p+NeTt2Q6gBH
+ S8MvxZ7W/JjQIbyTC4/aWi/K43XfY0G3OoXDpp5jex0IAiNBQ0IHbxvyd+I+1Ui7FZSK
+ mRWWhwPCuK9+YYr5sbkbL38zFSIUhHQ7Z1bwG34RNA/cN20XLX3OswT/agR7yfTrWiyc
+ vzUXEKNIKWWZIk1MDh1G6Mws6jRU5HHUw1VfXm09LTGDJuJmEL5j6txnMInA0FztBQq5
+ ACOzN+8RTseUEanYndFqdyBIPjPQGow8rQroEFowDdVFlARpkAf3uXRnnnsUvxDyCslb
+ 3mMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=2yixALfjuWq/IIUfyxety+jGeFdLGfLBhcO/I7wN+JA=;
+ b=WeNBLdzmc5YX7k086CpksUnGBrxzNZzf3ujxsZF7rShKGtCerhilvBmLKbudVaKDaJ
+ aaaDVRpSUZk2yqoBZLf07v4XZyEhXY5ZWf5Xe1r6UhOJc5D6xULKIu1aUeV9n68TG2oT
+ uGt8edp7pgqzYBNPfIG+2LMLdvXV/Yjwo6W9gyk0SUssyD9g53+lL5JIDr0nmgZX3tzT
+ phti2yMJOE8NV1k1G/hJaLPILwATjhj6vTePRRUjs2TiN0Z8wgOawbnFyLujk0z7kz0Z
+ Yryaq5Y4rBg/upH6dyrAYjPnh/W8pEcmNCanJuH5iT6S0XfjNSfHM9tSTVygRW0xRVDO
+ E43A==
+X-Gm-Message-State: AOAM532NS0pSLOJT0I2xVcFrZEfXcKLMSlhU2fw6B2+WhOyCTFc+sggD
+ +5Z9V9YOH0b2BoBZssHDMGATKQ==
+X-Google-Smtp-Source: ABdhPJyeNKHiyGqZuNvGwTaR2771q4WfVfOt/hTNuv6alqClTbACNbBMMPkt9qExi76pBZ1Eb15wSQ==
+X-Received: by 2002:a5d:58e5:: with SMTP id f5mr21316640wrd.131.1617715336254; 
+ Tue, 06 Apr 2021 06:22:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g189sm953896wmf.14.2021.04.06.06.22.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 06:22:15 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AEE001FF7E;
+ Tue,  6 Apr 2021 14:22:13 +0100 (BST)
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Could we document exact steps for loongson3-virt in the manual?
+Date: Tue, 06 Apr 2021 14:06:57 +0100
+Message-ID: <87mtubwnsq.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: i@jade.fyi
-Received-SPF: pass client-ip=2001:41d0:2:aacc::; envelope-from=qemu@jade.fyi;
- helo=out2.migadu.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 06 Apr 2021 09:10:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,102 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously the qemu monitor and gdbstub looked at SUM and refused to
-perform accesses to user memory if it is off, which was an impediment to
-debugging.
+Hi,
 
-Signed-off-by: Jade Fink <qemu@jade.fyi>
----
- target/riscv/cpu_helper.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+I was trying to bootstrap a Loongson3 Debian image but ran into some
+roadblocks. Philippe pointed me at:
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 83a6bcfad0..18ea2cba57 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -299,12 +299,14 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-  * @first_stage: Are we in first stage translation?
-  *               Second stage is used for hypervisor guest translation
-  * @two_stage: Are we going to perform two stage translation
-+ * @is_debug: Is this access from a debugger or the monitor?
-  */
- static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-                                 int *prot, target_ulong addr,
-                                 target_ulong *fault_pte_addr,
-                                 int access_type, int mmu_idx,
--                                bool first_stage, bool two_stage)
-+                                bool first_stage, bool two_stage,
-+                                bool is_debug)
- {
-     /* NOTE: the env->pc value visible here will not be
-      * correct, but the value visible to the exception handler
-@@ -369,7 +371,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         widened = 2;
-     }
-     /* status.SUM will be ignored if execute on background */
--    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background;
-+    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background || is_debug;
-     switch (vm) {
-     case VM_1_10_SV32:
-       levels = 2; ptidxbits = 10; ptesize = 4; break;
-@@ -428,7 +430,8 @@ restart:
-             /* Do the second stage translation on the base PTE address. */
-             int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
-                                                  base, NULL, MMU_DATA_LOAD,
--                                                 mmu_idx, false, true);
-+                                                 mmu_idx, false, true,
-+                                                 is_debug);
- 
-             if (vbase_ret != TRANSLATE_SUCCESS) {
-                 if (fault_pte_addr) {
-@@ -616,13 +619,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     int mmu_idx = cpu_mmu_index(&cpu->env, false);
- 
-     if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
--                             true, riscv_cpu_virt_enabled(env))) {
-+                             true, riscv_cpu_virt_enabled(env), true)) {
-         return -1;
-     }
- 
-     if (riscv_cpu_virt_enabled(env)) {
-         if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
--                                 0, mmu_idx, false, true)) {
-+                                 0, mmu_idx, false, true, true)) {
-             return -1;
-         }
-     }
-@@ -714,7 +717,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         /* Two stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address,
-                                    &env->guest_phys_fault_addr, access_type,
--                                   mmu_idx, true, true);
-+                                   mmu_idx, true, true, false);
- 
-         /*
-          * A G-stage exception may be triggered during two state lookup.
-@@ -736,7 +739,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-             im_address = pa;
- 
-             ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
--                                       access_type, mmu_idx, false, true);
-+                                       access_type, mmu_idx, false, true,
-+                                       false);
- 
-             qemu_log_mask(CPU_LOG_MMU,
-                     "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
-@@ -765,7 +769,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else {
-         /* Single stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address, NULL,
--                                   access_type, mmu_idx, true, false);
-+                                   access_type, mmu_idx, true, false, false);
- 
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s address=%" VADDR_PRIx " ret %d physical "
--- 
-2.31.1
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg768848.html
 
+which gives a bit of detail but elides over details such as how to
+handle block devices. AFAICT it should support virtio-blk although maybe
+Debian bullseye doesn't support the target, it's hard to say:
+
+  ./qemu-system-mips64el -M loongson3-virt -m 4096 -nographic -blockdev dri=
+ver=3Draw,node-name=3Dhd0,discard=3Dunmap,file.driver=3Dhost_device,file.fi=
+lename=3D/dev/zvol/hackpool-0/debian-bullseye-mips64le -device virtio-blk,d=
+rive=3Dhd0 -kernel ./vmlinuz-5.9.0-4-loongson-3 -initrd initrd.gz -append "=
+root=3D/dev/sda1 console=3Dtty0 nokaslr"
+
+Gets as far as:
+
+[    0.008641] printk: console [tty0] enabled
+[    0.009507] printk: bootconsole [early0] disabled
+
+and then just goes silent. It would be nice if we could add enough
+detail to the appropriate target-mips.rst to:
+
+ - give guidance on the best model to use for general purpose distros
+ - describe a common command line for such
+ - detail bootstraping a modern kernel
+
+In the ARM section there is a nice "Choosing a board model" which
+discusses what you want (probably "virt") and then we have varying
+levels of detail for the various myriad zoo of ARM machines that are
+emulated. I recently added sections to the versatile and vexpress
+sections after going through similar pain trying to get those up and
+running.
+
+--=20
+Alex Benn=C3=A9e
 
