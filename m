@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F313550BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 12:22:12 +0200 (CEST)
-Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E7B3550F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 12:32:45 +0200 (CEST)
+Received: from localhost ([::1]:54468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTiqW-0004Cg-Lp
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 06:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59382)
+	id 1lTj0n-0007Bg-15
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 06:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTipR-0003Fu-7D
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:21:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54574)
+ id 1lTiz7-0006Jv-Tt
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:31:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTipO-0002DN-K9
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:21:00 -0400
+ id 1lTiz5-0000RB-HY
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:31:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lTipM-0001sh-5b
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 10:20:56 +0000
+ id 1lTiz3-0002Xn-4E
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 10:30:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2585C2E8167
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 10:20:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1B8192E8166
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 10:30:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Apr 2021 10:14:15 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1922391@bugs.launchpad.net>
+Date: Tue, 06 Apr 2021 10:22:56 -0000
+From: Laurent Vivier <1922617@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: he-uninett philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161739653585.29688.16825149829487531908.malonedeb@gac.canonical.com>
-Message-Id: <161770405563.29904.7426346704085987857.malone@gac.canonical.com>
-Subject: [Bug 1922391] Re: qemu-system-ppc assertion "!mr->container" failed
+X-Launchpad-Bug-Commenters: nathanchance pmaydell
+X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <161767088471.29958.926730188235259416.malonedeb@gac.canonical.com>
+Message-Id: <161770457735.22829.14761191221801722599.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1922617] Re: qemu-aarch64-static "Illegal instruction" with
+ debootstrap
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 6eb90cb61f9c48f970a49b1db2776266e725a44d
+X-Launchpad-Hash: 1f20a63277b086bd3bf190c7bdc734bd6be3824f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,129 +71,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922391 <1922391@bugs.launchpad.net>
+Reply-To: Bug 1922617 <1922617@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Proposed fix:
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00570.html
+** Tags added: linux-user
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922391
+https://bugs.launchpad.net/bugs/1922617
 
 Title:
-  qemu-system-ppc assertion "!mr->container" failed
+  qemu-aarch64-static "Illegal instruction" with debootstrap
 
 Status in QEMU:
-  Confirmed
+  New
 
 Bug description:
-  Hi,
+  This is reproducible against QEMU master. I apologize for the long
+  reproduction steps, I tried to distill it down as much as possible.
 
-  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
-n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
-  quite a bit into the "unpacking sets" part of the installation procedure,
-  unpacking from the install iso image.
+  System info:
 
-  Qemu is run on a NetBSD/amd64 9.1 host system.
+  # qemu-aarch64-static --version
+  qemu-aarch64 version 5.2.91 (v6.0.0-rc1-68-gee82c086ba)
+  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
 
-  The asert message from qemu is
+  # cat /etc/os-release
+  PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
+  NAME=3D"Debian GNU/Linux"
+  VERSION_ID=3D"10"
+  VERSION=3D"10 (buster)"
+  VERSION_CODENAME=3Dbuster
+  ID=3Ddebian
+  HOME_URL=3D"https://www.debian.org/"
+  SUPPORT_URL=3D"https://www.debian.org/support"
+  BUG_REPORT_URL=3D"https://bugs.debian.org/"
 
-  assertion "!mr->container" failed: file "../softmmu/memory.c", line
-  1739, function "memory_region_finalize"
+  # head -n 26 /proc/cpuinfo
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 85
+  model name      : Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
+  stepping        : 7
+  microcode       : 0x5002f01
+  cpu MHz         : 1000.716
+  cache size      : 22528 KB
+  physical id     : 0
+  siblings        : 32
+  core id         : 0
+  cpu cores       : 16
+  apicid          : 0
+  initial apicid  : 0
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 22
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
+a cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx=
+ pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xto=
+pology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx=
+ smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic mo=
+vbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpr=
+efetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single intel_ppin ssbd mba ibr=
+s ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsg=
+sbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm mpx rdt_a avx512f avx=
+512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl x=
+saveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_l=
+ocal dtherm ida arat pln pts pku ospke avx512_vnni md_clear flush_l1d arch_=
+capabilities
+  bugs            : spectre_v1 spectre_v2 spec_store_bypass swapgs taa itlb=
+_multihit
+  bogomips        : 4600.00
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 46 bits physical, 48 bits virtual
+  power management:
 
-  The stack backtrace from the core file (when built with debug symbols)
-  is
+  My reproduction steps:
 
-  Core was generated by `qemu-system-ppc'.
-  Program terminated with signal SIGABRT, Aborted.
-  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  [Current thread is 1 (process 1)]
-  (gdb) where
-  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
-  #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
-  #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
-      at ../softmmu/memory.c:1739
-  #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
+  # apt-get install --no-install-recommends -y \
+      build-essential \
+      ca-certificates \
+      debootstrap \
+      git \
+      libglib2.0-dev \
+      libpixman-1-dev \
+      ninja-build \
+      pkg-config \
+      python3 \
+      zstd
 
-      obj=3D<optimized out>) at ../qom/object.c:671
-  #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
-  #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
-  #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
-      at ../qom/object.c:623
-  #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
-  #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
-  #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
-      at ../softmmu/memory.c:1787
-  #11 0x000000003e7d8eb4 in address_space_unmap (
-      as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
-d out>, =
+  # git clone https://github.com/qemu/qemu
 
-      len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
-mized out>)
-      at ../softmmu/physmem.c:3222
-  #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
+  # mkdir qemu/build
 
-      dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
->, =
+  # cd qemu/build
 
-      as=3D<optimized out>)
-      at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
-  #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
- out>)
-      at ../hw/ide/macio.c:122
-  #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
-      at ../softmmu/dma-helpers.c:120
-  #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
-rs.c:138
-  #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
-      at ../block/block-backend.c:1412
-  #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
+  # ../configure \
+      --enable-debug \
+      --enable-linux-user \
+      --disable-bsd-user \
+      --disable-werror \
+      --disable-system \
+      --disable-tools \
+      --disable-docs \
+      --disable-gtk \
+      --disable-gnutls \
+      --disable-nettle \
+      --disable-gcrypt \
+      --disable-glusterfs \
+      --disable-libnfs \
+      --disable-libiscsi \
+      --disable-vnc \
+      --disable-kvm \
+      --disable-libssh \
+      --disable-libxml2 \
+      --disable-vde \
+      --disable-sdl \
+      --disable-opengl \
+      --disable-xen \
+      --disable-fdt \
+      --disable-vhost-net \
+      --disable-vhost-crypto \
+      --disable-vhost-user \
+      --disable-vhost-vsock \
+      --disable-vhost-scsi \
+      --disable-tpm \
+      --disable-qom-cast-debug \
+      --disable-capstone \
+      --disable-zstd \
+      --disable-linux-io-uring \
+      --static \
+      --target-list-exclude=3Dhexagon-linux-user
 
-      i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
-  #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
-  Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
-  (gdb) =
+  # ninja qemu-aarch64
 
+  # install -Dm755 qemu-aarch64 /usr/local/bin/qemu-aarch64-static
 
-  =
+  # cat <<'EOF' >/proc/sys/fs/binfmt_misc/register
+  :qemu-aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\=
+x02\x00\xb7:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xf=
+f\xfe\xff\xff:/usr/local/bin/qemu-aarch64-static:CF
+  EOF
 
-  I start qemu with this small script:
+  # debootstrap --arch arm64 --foreign buster debian-rootfs
 
-  ---
-  #!/bin/sh
+  # chroot debian-rootfs /debootstrap/debootstrap --second-stage
+  Illegal instruction
 
-  MEM=3D3g
-  qemu-system-ppc \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
-raw,file=3Ddisk.img \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
-stfwd=3Dtcp::2223-:22,ipv6=3Doff \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
-netdev=3Dnet0 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
-iso
-  ---
-
-  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
-  to replicate this I can provide more detailed instructions to repeat the
-  procedure I used to start the install.
-
-  Any hints about what more to look for?
-
-  Regards,
-
-  - H=C3=A5vard
+  This prevents me from building an arm64 Debian image on x86_64. If I
+  am doing something wrong, please let me know. The binary has been
+  uploaded for your convenience.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922391/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1922617/+subscriptions
 
