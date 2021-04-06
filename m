@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE331354E1B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 09:44:06 +0200 (CEST)
-Received: from localhost ([::1]:53928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC39354E22
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 09:47:21 +0200 (CEST)
+Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTgNa-0000Ng-12
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 03:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53576)
+	id 1lTgQi-00027O-Hc
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 03:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lTgMg-0008PH-BP
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:43:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20011)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1lTgNv-0000u8-26; Tue, 06 Apr 2021 03:44:27 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lTgMb-0001Ah-1a
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:43:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617694983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EiOcDTrfgpK+jQgn3PuHpM1oXHL1YBatLEvJfpgcdP4=;
- b=NhzVbKfULctxkF2WiGb3+DNKQHcCC2HTXIMLU9KV3WQ1mtIw3cCWa9a/s1cdecNM+DDI72
- hVeG+HfGFEyGnj9fYeOaVw9RXeMwnNkA3j6a3YgiyIc+C+8fbLn11W9kkFgUcvuOyN0eaR
- iX1eU0sqn12+VV21QE+13bP9X0CdKZA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-o41ys7x8O_OH86Oz6CME3w-1; Tue, 06 Apr 2021 03:42:59 -0400
-X-MC-Unique: o41ys7x8O_OH86Oz6CME3w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B677F5704F;
- Tue,  6 Apr 2021 07:42:58 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.193.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79BD2100239A;
- Tue,  6 Apr 2021 07:42:53 +0000 (UTC)
-Date: Tue, 6 Apr 2021 09:42:50 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3] hw/smbios: support for type 41 (onboard devices
- extended information)
-Message-ID: <20210406074250.hsmm5yrzhfxdwjs4@kamzik.brq.redhat.com>
-References: <20210401122658.37842-1-vincent@bernat.ch>
- <20210401225846.411ebd76@redhat.com> <m37dllk939.fsf@bernat.ch>
- <20210401233225.16e572e4@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20210401233225.16e572e4@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1lTgNs-0001w9-Mq; Tue, 06 Apr 2021 03:44:26 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1367WwRH147137; Tue, 6 Apr 2021 03:44:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=lu25V2SGdtz38GOZ0LlVT2V7dYxrzmlNDns0o3wacic=;
+ b=nJiLF7viAXyCxdV/dcSyOol3AW1dJ0/aq9piVviVrc6PWmfL2iYxg1qG9v1oyPv/mnP2
+ PcNN2iXv1RIEs+Ycusq78HFP7+j7KeF/uuKrR3s4WJL4RM4F2vJf5hYCPonHmVzk0USl
+ FXNCpke7oEPo5rjXYPLPboIemco8dUU6l2lUHyuWo1ixJDOHpQh93wJbQUE2p8JsDXqg
+ aRg83p74QYn9Q5tvXTlTvpSKvc0WpBWddZoEAcKk+9k1woDO39HwVqVGig4wgu13XIMc
+ nV2TZ0jvQEOZC++jZ/7Ys06xX08vbtLteGZ+S2JhD2XF2WTvCB/ZKws22qyfmV1lD5wp 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37q5eassud-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Apr 2021 03:44:20 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1367X1mX147322;
+ Tue, 6 Apr 2021 03:44:20 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37q5eassth-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Apr 2021 03:44:20 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1367h0sL001446;
+ Tue, 6 Apr 2021 07:44:17 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 37q2q5hx1a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Apr 2021 07:44:17 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1367iFnj35914120
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Apr 2021 07:44:15 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0D60B11C05B;
+ Tue,  6 Apr 2021 07:44:15 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8F48A11C050;
+ Tue,  6 Apr 2021 07:44:14 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.42.152])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Apr 2021 07:44:14 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/1] s390x: css: report errors from ccw_dstream_read/write
+Date: Tue,  6 Apr 2021 09:44:12 +0200
+Message-Id: <1617695053-7328-1-git-send-email-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5VF-xTvRPWj7oOm8sxA2nx5r15GgPcQj
+X-Proofpoint-ORIG-GUID: xVZ_XC5CUFFBEC-d22PHT-Eu5EoXuuL7
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-04-06_01:2021-04-01,
+ 2021-04-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 spamscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104030000 definitions=main-2104060050
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,55 +102,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Vincent Bernat <vincent@bernat.ch>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mst@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, imbrenda@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 01, 2021 at 11:32:25PM +0200, Igor Mammedov wrote:
-> On Thu, 01 Apr 2021 23:07:06 +0200
-> Vincent Bernat <vincent@bernat.ch> wrote:
-> 
-> >  ❦  1 avril 2021 22:58 +02, Igor Mammedov:
-> > 
-> > >> This can be invoked with:
-> > >> 
-> > >>     $QEMU -netdev user,id=internet
-> > >>           -device virtio-net-pci,mac=50:54:00:00:00:42,netdev=internet,id=internet-dev \
-> > >>           -smbios type=41,designation='Onboard LAN',instance=1,kind=ethernet,pcidev=internet-dev  
-> > >
-> > > an ACPI alternative was merged recently (current master).
-> > > assigning 'designation=' wasn't implemented there, but important part
-> > > of giving users control over PCI devices 'eno' index is implemented.
-> > >
-> > > When I looked into the issue, smbios way was a bit over-kill for the task
-> > > and didn't really work if hotplug were used.
-> > >
-> > > See, for example how to use new feature:
-> > >  https://www.mail-archive.com/qemu-devel@nongnu.org/msg794164.html  
-> > 
-> > It seems simpler this way. I don't think my patch is needed then.
-> 
-> SMBIOS ways is fine for static configs where no hot-plug is involved.
-> Also potentially SMBIOS way may be used by arm/virt board,
-> since acpi-index shares a lot with ACPI PCI hotplug infrastructure
-> and we haven't ported that to arm/virt impl. yet.
-> 
-> It also won't work for Q35 at the moment, but Julia is working
-> on adding support for ACPI PCI hotplug to it, and once it arrives
-> acpi-index will become available there.
-> 
-> Perhaps we should also add support for ACPI PCI hotplug to virt/arm,
-> along with Q35.
->
+By checking the results of errors on SSCH in the kvm-unit-tests
+We noticed that no error was reported when a SSCH is started
+to access addresses not existing in the guest.
+For exemple accessing 3G on a guest with 1G memory.
 
-What's required of the guest kernel for ACPI PCI hotplug? If there are
-arch-specific aspects to that, then do we know if Linux for AArch64
-has the support?
+If we look at QEMU ccw_dstream_write/write functions we see that they
+are often not checked for error in various places.
+  
+It follows that accessing an invalid address does not trigger a
+subchannel status program check to the guest as it should.
 
-Thanks,
-drew
+Regards,
+Pierre
+ 
+
+Pierre Morel (1):
+  s390x: css: report errors from ccw_dstream_read/write
+
+ hw/char/terminal3270.c | 11 +++++--
+ hw/s390x/3270-ccw.c    |  3 ++
+ hw/s390x/css.c         | 16 +++++-----
+ hw/s390x/virtio-ccw.c  | 66 ++++++++++++++++++++++++++++++------------
+ 4 files changed, 69 insertions(+), 27 deletions(-)
+
+-- 
+2.17.1
 
 
