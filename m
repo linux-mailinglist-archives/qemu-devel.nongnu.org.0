@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E28355693
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:26:08 +0200 (CEST)
-Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DFB35569D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:28:23 +0200 (CEST)
+Received: from localhost ([::1]:40556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTmed-0000wS-VY
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41208)
+	id 1lTmgn-0003rY-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lTmdO-0008O0-GT
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:24:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45885)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTmfm-0002s8-FT
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:27:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lTmdL-0000cL-RB
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:24:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTmfi-0002CV-AR
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:27:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617719085;
+ s=mimecast20190719; t=1617719233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IqDIYISWYBOorDobsTgKcwUBhbKATYdUXcLnNEy5fGg=;
- b=OMPtSVE3Li7P8xQOxicXnmgkPOr4FD8BqzwMzt0o2HM5rHyHBjpKoBXBVMVr8aRkhRPGhG
- opzHubbVczQr8kQEYwWo2x9hvlY+RudRTtoh6cDVHO+ZDPUiXm+BMEf46b7h8YNx+ySqOw
- 0gVoq5RgUnR/IGX2BTv5yTBGROVR914=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-8w891s8HOeeG__pk82Xc8Q-1; Tue, 06 Apr 2021 10:24:43 -0400
-X-MC-Unique: 8w891s8HOeeG__pk82Xc8Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CAB8839A42;
- Tue,  6 Apr 2021 14:24:42 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-169.ams2.redhat.com
- [10.36.113.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 527F718A79;
- Tue,  6 Apr 2021 14:24:37 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] block/rbd: Add an escape-aware strchr helper
-To: Connor Kuehl <ckuehl@redhat.com>, qemu-block@nongnu.org
-References: <20210401210150.2127670-1-ckuehl@redhat.com>
- <20210401210150.2127670-3-ckuehl@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <bc5865f8-bb7f-58b5-5f1c-9ec3e5c09ad9@redhat.com>
-Date: Tue, 6 Apr 2021 16:24:36 +0200
+ bh=WK/+Q636j9NbcjKaUJ90ilbbbJkCMwCKcdTntGnBjDU=;
+ b=EDJcuCL+8T9ztnKCEF6FLEfl6OA053nsYxw/lf1Myx04umfAABertBZbbTkUv1rDdozaiY
+ NYluq7M2YNBCIf3g50uRZP4Ee7Xv0wJKK+cmlqAzNv0jI5vD39md+JJ8a4iGo36bmbkyCx
+ /5Qa8Y2jOXoVTDj3DHOHhshRb9e017o=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-En0XvupUO_-TVeM-4cwUsA-1; Tue, 06 Apr 2021 10:27:10 -0400
+X-MC-Unique: En0XvupUO_-TVeM-4cwUsA-1
+Received: by mail-ej1-f70.google.com with SMTP id a22so5509267ejx.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 07:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WK/+Q636j9NbcjKaUJ90ilbbbJkCMwCKcdTntGnBjDU=;
+ b=iMpseYxGdM4KzdoVQgV5XAqTC3WB4FAIHSJx+StsUqdvVuWP10RZzM/iDyYnE8AwPA
+ sBRURLGLWOT4E9nx0lepfwzG+mZGeSomJSFfiqcmJNQxljsuxrO0MY9O1/q/Znh7RwPz
+ pKrd+uJLGCKFouZBtAnrH/zALR2ddaXH2hcqV0iOAMOLWBplRou6EXsdA7rT1JY4MWqS
+ oN4hLniPzMhNXQp5nDq94WMlypvKht1DOfZC1bip4/Kf61bgQZJ/810f6joYpohNMEi0
+ VW4JhcPeEZfQPlw6YmplYTxrmNirz4YQKA9m/Kv8JAcrrr2LtmheiKeByO2o7ypk63qT
+ yS+w==
+X-Gm-Message-State: AOAM530hsLQX05wbage/3GUJVWcb15eSq7Wvug8ZEmB2Ks9qSHx2t8wF
+ VZ8NEKTY0HEm/yhXNw0Z6KOc2IUknJiD4lWtBKwkKtpaddXihdS3FfG1Wf77kUwUgyttG5+Mbxh
+ lgGpsy+Ro9OboU4I=
+X-Received: by 2002:a17:906:1f89:: with SMTP id
+ t9mr5727142ejr.144.1617719229107; 
+ Tue, 06 Apr 2021 07:27:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1KmlGhBb8gxPTr5JvaWzdM/WDrrSe1REYlo9tM/odf6In/q8uqL5lTJZtEntgRWjhKykvvw==
+X-Received: by 2002:a17:906:1f89:: with SMTP id
+ t9mr5727120ejr.144.1617719228860; 
+ Tue, 06 Apr 2021 07:27:08 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id t15sm14132064edw.84.2021.04.06.07.27.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Apr 2021 07:27:08 -0700 (PDT)
+Subject: Re: [PATCH-for-6.0 1/2] disas/arm-a64.cc: Fix build error
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org,
+ Eric Blake <eblake@redhat.com>
+References: <20210320041854.68668-1-gshan@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <06a9d6c3-b0e6-9aac-0d97-979ef319d353@redhat.com>
+Date: Tue, 6 Apr 2021 16:27:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210401210150.2127670-3-ckuehl@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210320041854.68668-1-gshan@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,83 +100,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Kamil Rytarowski <kamil@netbsd.org>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.04.21 23:01, Connor Kuehl wrote:
-> Sometimes the parser needs to further split a token it has collected
-> from the token input stream. Right now, it does a cursory check to see
-> if the relevant characters appear in the token to determine if it should
-> break it down further.
+Still worth 6.0 IMO.
+
+On 3/20/21 5:18 AM, Gavin Shan wrote:
+> This fixes the following build error with gcc v11.0.0:
 > 
-> However, qemu_rbd_next_tok() will escape characters as it removes tokens
-> from the token stream and plain strchr() won't. This can make the
-> initial strchr() check slightly misleading since it implies
-> qemu_rbd_next_tok() will find the token and split on it, except the
-> reality is that qemu_rbd_next_tok() will pass over it if it is escaped.
+>   # gcc --version
+>   gcc (GCC) 11.0.0 20210210 (Red Hat 11.0.0-0)
 > 
-> Use a custom strchr to avoid mixing escaped and unescaped string
-> operations.
+>   [969/2604] Compiling C++ object libcommon.fa.p/disas_arm-a64.cc.o
+>   FAILED: libcommon.fa.p/disas_arm-a64.cc.o
+>     :
+>   In file included from /usr/include/glib-2.0/glib/gmacros.h:241,
+>                    from /usr/lib64/glib-2.0/include/glibconfig.h:9,
+>                    from /usr/include/glib-2.0/glib/gtypes.h:32,
+>                    from /usr/include/glib-2.0/glib/galloca.h:32,
+>                    from /usr/include/glib-2.0/glib.h:30,
+>                    from /home/gavin/sandbox/qemu.main/include/glib-compat.h:32,
+>                    from /home/gavin/sandbox/qemu.main/include/qemu/osdep.h:126,
+>                    from ../disas/arm-a64.cc:21:
+>   /usr/include/c++/11/type_traits:56:3: error: template with C linkage
+>      56 |   template<typename _Tp, _Tp __v>
+>         |   ^~~~~~~~
+>   ../disas/arm-a64.cc:20:1: note: ‘extern "C"’ linkage started here
+>      20 | extern "C" {
+>         | ^~~~~~~~~~
+
++Kamil & Eric for:
+
+https://lists.nongnu.org/archive/html/qemu-devel/2017-05/msg03321.html
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg450478.html
+
 > 
-> Reported-by: Han Han <hhan@redhat.com>
-> Fixes: https://bugzilla.redhat.com/1873913
-> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
 > ---
->   block/rbd.c                | 20 ++++++++++++++++++--
->   tests/qemu-iotests/231     |  4 ++++
->   tests/qemu-iotests/231.out |  3 +++
->   3 files changed, 25 insertions(+), 2 deletions(-)
+>  disas/arm-a64.cc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 9071a00e3f..c0e4d4a952 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -134,6 +134,22 @@ static char *qemu_rbd_next_tok(char *src, char delim, char **p)
->       return src;
->   }
->   
-> +static char *qemu_rbd_strchr(char *src, char delim)
-> +{
-> +    char *p;
+> diff --git a/disas/arm-a64.cc b/disas/arm-a64.cc
+> index 9fa779e175..8545c04038 100644
+> --- a/disas/arm-a64.cc
+> +++ b/disas/arm-a64.cc
+> @@ -17,13 +17,13 @@
+>   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>   */
+>  
+> +#include "vixl/a64/disasm-a64.h"
 > +
-> +    for (p = src; *p; ++p) {
-> +        if (*p == delim) {
-> +            return p;
-> +        }
-> +        if (*p == '\\') {
-> +            ++p;
-> +        }
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-
-So I thought you could make qemu_rbd_do_next_tok() to do this.  (I 
-didn’t say you should, but bear with me.)  That would be possible by 
-giving it a new parameter (e.g. @find), and if that is set, return @end 
-if *end == delim after the loop, and NULL otherwise.
-
-Now, if you add wrapper functions to make it nice, there’s not much more 
-difference in lines added compared to just adding a new function, but it 
-does mean your function should basically be the same as 
-qemu_rbd_next_tok(), except that no splitting happens, that there is no 
-*p, and that @end is returned instead of @src.
-
-So there is one difference, and that is that qemu_rbd_next_tok() has 
-this condition to skip escaped characters:
-
-     if (*end == '\\' && end[1] != '\0') {
-
-where qemu_rbd_strchr() has only:
-
-     if (*p == '\\') {
-
-And I think qemu_rbd_next_tok() is right; if the string in question has 
-a trailing backslash, qemu_rbd_strchr() will ignore the final NUL and 
-continue searching past the end of the string.
-
-Max
+>  extern "C" {
+>  #include "qemu/osdep.h"
+>  #include "disas/dis-asm.h"
+>  }
+>  
+> -#include "vixl/a64/disasm-a64.h"
+> -
+>  using namespace vixl;
+>  
+>  static Decoder *vixl_decoder = NULL;
+> 
 
 
