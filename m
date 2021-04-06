@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432D1355544
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 15:35:03 +0200 (CEST)
-Received: from localhost ([::1]:43314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C305E355571
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 15:41:42 +0200 (CEST)
+Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTlrC-0003Vu-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 09:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1lTlxd-0006FU-S1
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 09:41:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lTlqF-00035k-6b
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 09:34:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31216)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTlvt-0005XG-V7
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 09:39:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lTlqA-00043t-45
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 09:34:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTlvr-0007o9-I9
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 09:39:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617716037;
+ s=mimecast20190719; t=1617716390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9MUZKNhYKuUAS2y5O/s5ysx1yl4uTxh/QEWeP0/76D0=;
- b=I6usdVTkXnlmxXB/7PouUCCHe4b7SxRjbNrMcTDk5qd25AvsOXb6GRRP+n6Rjm2MnAQxLE
- FwMTbhxgWZPuMIj7I+3lavnDBKU5T2SDs0fl9CtcKUhxnSq8s4WaV+0l2ShswRI4kL4Qqg
- Ok45KrblRAt/K9Pou//ToRVeuTkqoS4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-xiuKW16QMvSyXgi1NKpC8g-1; Tue, 06 Apr 2021 09:33:55 -0400
-X-MC-Unique: xiuKW16QMvSyXgi1NKpC8g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2DCE5B365;
- Tue,  6 Apr 2021 13:33:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2983160937;
- Tue,  6 Apr 2021 13:33:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9ADF2113865F; Tue,  6 Apr 2021 15:33:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: docs/qemu-qmp-ref.7 markup messed up
-References: <87v99engjp.fsf@dusky.pond.sub.org>
- <e8e981b4-871c-23c3-8af1-4411b053e4d9@redhat.com>
-Date: Tue, 06 Apr 2021 15:33:39 +0200
-In-Reply-To: <e8e981b4-871c-23c3-8af1-4411b053e4d9@redhat.com> (John Snow's
- message of "Fri, 26 Mar 2021 16:40:31 -0400")
-Message-ID: <87blar7d1o.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PIo2bUtEV+ltcwMSsfh85ITODKunH+9eCcWMQh7XGFg=;
+ b=EJmYlm0m/ucFEcxMhb591ZhkVfmTAyNFWwpJVQJNtdpvl5KN6daXqZQEQ1/CG11wVv1ffd
+ ibDUgC7UQG1ccp/rBvffQ8Zg85SmE45CmO855dM1YeXCaMOduZgoyfsdjvOm9wOAs1w22v
+ W2L0ysg+arMRYqSFaFDTb4nXMaFRuIU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-tQi2CWWENASvbmOZdD_GVw-1; Tue, 06 Apr 2021 09:39:48 -0400
+X-MC-Unique: tQi2CWWENASvbmOZdD_GVw-1
+Received: by mail-ed1-f71.google.com with SMTP id a2so10416368edx.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 06:39:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PIo2bUtEV+ltcwMSsfh85ITODKunH+9eCcWMQh7XGFg=;
+ b=BoSsnaiK0hi2h04UiX63scf9qvc7EBzJmlQYceDkVXuQ9y4ehSUC7ZQr1zLgtyBU0m
+ PC+tV/cPhSTTsU4G+Uy4g3JCJ4VrjMAAbe3W7QhGGAI2MKIYQeVPD6yXMTUReDc6kGko
+ kPZNqOtSm0Rp65KxQ9k0uDPj+XPWv1qfjltKZnXfozTDPe5Ihm/x6OsUTZa9ijbRHMNR
+ ufuj+PJ+cd6tap44NyFkff21srA/Jo5wBLjWjl+Nd+clWXY+swKFn4rmOTiaDfppqA4N
+ tnxdI2cTM2LqlIFGiwbvM/tqcbBBYbvJCeXgfPSL9fMwUTvMrWpaKYEaD31TsrDhcjSA
+ TQag==
+X-Gm-Message-State: AOAM530COudq9VLFv95Lm4aqpo+wbY475V4uyx+6DrHxQQMBadR2rr2Y
+ LY2bo8sLFLMyX4VJF5Q79PJAG18FwTnLBNA4am448Be1M/9X95rmaeF6GEeqyNPbnjINCXI2tCV
+ l2tyQuvavNi6pmLMwWlDVucIhV3DcLKCTz5K9NdlNQrNb8TsTpvOiOWoQ9j6gQIMu
+X-Received: by 2002:a17:906:813:: with SMTP id
+ e19mr7653615ejd.359.1617716387174; 
+ Tue, 06 Apr 2021 06:39:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlkugmCZ0VE57OMRrehrcS/E6dae4qJaTK5g2g9DfSSI4E592kgrVfaAt4/eu95N1KaDETXw==
+X-Received: by 2002:a17:906:813:: with SMTP id
+ e19mr7653579ejd.359.1617716386896; 
+ Tue, 06 Apr 2021 06:39:46 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id jt18sm4883029ejc.96.2021.04.06.06.39.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 06:39:46 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.0] hw/mem/meson: Fix linking sparse-mem device with
+ fuzzer
+Date: Tue,  6 Apr 2021 15:39:44 +0200
+Message-Id: <20210406133944.4193691-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,122 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Darren Kenny <darren.kenny@oracle.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+sparse-mem.c is added to the 'mem_ss' source set, which itself
+is conditionally added to softmmu_ss if CONFIG_MEM_DEVICE is
+selected.
+But if CONFIG_MEM_DEVICE isn't selected, we get a link failure
+even if CONFIG_FUZZ is selected:
 
-> On 3/26/21 10:19 AM, Markus Armbruster wrote:
->> When I look at docs/qemu-qmp-ref.7 with less -R, I see
->>     ReplicationMode (Enum)
->>         An enumeration of replication modes.
->>     Values
->>         primary
->>                Primary mode, the vm's state will be sent to secondary QEMU.
->>         secondary
->>                Secondary mode, receive the vm's state from primary QEMU.
->>     Since
->>         2.9
->>     If
->> -->    defined(CONFIG_REPLICATION).SS BlockdevOptionsReplication (Object)
->>         Driver specific block device options for replication
->>     Members
->>         mode: ReplicationMode
->>                the replication mode
->> The line I marked with --> is bad.  It should instead look like
->>     If
->>         defined(CONFIG_REPLICATION)
->>     BlockdevOptionsReplication (Object)
->>         Driver specific block device options for replication
->> Unformatted code:
->>      .SS \fBReplicationMode\fP (Enum)
->>      .sp
->>      An enumeration of replication modes.
->>      .SS Values
->>      .INDENT 0.0
->>      .TP
->>      .B \fBprimary\fP
->>      Primary mode, the vm\(aqs state will be sent to secondary QEMU.
->>      .TP
->>      .B \fBsecondary\fP
->>      Secondary mode, receive the vm\(aqs state from primary QEMU.
->>      .UNINDENT
->>      .SS Since
->>      .sp
->>      2.9
->>      .SS If
->> --> \fBdefined(CONFIG_REPLICATION)\fP.SS \fBBlockdevOptionsReplication\fP (Object)
->>      .sp
->>      Driver specific block device options for replication
->>      .SS Members
->>      .INDENT 0.0
->>      .TP
->>      .B \fBmode\fP: \fBReplicationMode\fP
->>      the replication mode
->>      .TP
->> I believe line I marked with --> should be broken before .SS.
->> I'm using sphinx-build-3 2.2.2.
->> I checked with the merge commit that switched QAPI doc generation to
->> Sphinx (commit e344ffe73b), same result.
->> 
->
-> It looks like that's consistent for every case I can see for
-> "defined(...)", where the .SS bit comes immediately on the same line.
->
-> _nodes_for_if_section seems to handle the docutil tree creation for
-> the stuff in question, here, I think?
->
-> I changed the heading to "IfZ" to make it nicer to grep, and then If I
-> pepper in some prints (mercifully docutils has very nice __str__ 
-> methods!) I can see this type of stuff:
->
-> <section
-> ids="qapidoc-713"><title>IfZ</title><literal>defined(CONFIG_REPLICATION)</literal></section>
-> <section
-> ids="qapidoc-717"><title>IfZ</title><literal>defined(CONFIG_REPLICATION)</literal></section>
->
-> Hm, I think <literal> is not a block-level element, and maybe there's
-> a bug/intentional-design-choice/bug where it can't handle a non-block 
-> child of a section correctly?
->
-> Let me try wrapping it in a PARAGRAPH node...
->
-> .SS IfZ
-> .sp
-> \fBdefined(CONFIG_REPLICATION)\fP
-> .SS \fBBlockdevOptionsReplication\fP (Object)
-> .sp
->
->
-> That looks better, I think.
->
->
-> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-> index b7b86b5dff..b7a2d39c10 100644
-> --- a/docs/sphinx/qapidoc.py
-> +++ b/docs/sphinx/qapidoc.py
-> @@ -278,7 +278,9 @@ def _nodes_for_if_section(self, ifcond):
->          nodelist = []
->          if ifcond:
->              snode = self._make_section('If')
-> -            snode += self._nodes_for_ifcond(ifcond, with_if=False)
-> +            snode += nodes.paragraph(
-> +                '', '', *self._nodes_for_ifcond(ifcond, with_if=False)
-> +            )
->              nodelist.append(snode)
->          return nodelist
->
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> --js
+  /usr/bin/ld: tests_qtest_fuzz_generic_fuzz.c.o: in function `generic_pre_fuzz':
+  tests/qtest/fuzz/generic_fuzz.c:826: undefined reference to `sparse_mem_init'
+  clang-10: error: linker command failed with exit code 1 (use -v to see invocation)
 
-Fixes the issue for me, thanks!
+Fix by adding sparse-mem.c directly to the softmmu_ss set.
 
-Tested-by: Markus Armbruster <armbru@redhat.com>
+Fixes: 230376d285b ("memory: add a sparse memory device for fuzzing")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/mem/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Please post as a proper patch.
+diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+index ef79e046787..3c8fdef9f9e 100644
+--- a/hw/mem/meson.build
++++ b/hw/mem/meson.build
+@@ -1,8 +1,9 @@
+ mem_ss = ss.source_set()
+ mem_ss.add(files('memory-device.c'))
+-mem_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
+ mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
+ mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
+ mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+ 
+ softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
++
++softmmu_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
+-- 
+2.26.3
 
 
