@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C2F355766
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:10:45 +0200 (CEST)
-Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6677355772
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:12:28 +0200 (CEST)
+Received: from localhost ([::1]:53946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTnLo-0006fM-6C
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51342)
+	id 1lTnNT-0001MN-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTnCR-0006Vl-4v
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:01:03 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33410)
+ id 1lTnCW-0006bl-DT
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:01:08 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTnCP-00058y-8x
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:01:02 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f12so8600752wro.0
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 08:01:00 -0700 (PDT)
+ id 1lTnCT-0005Ei-T0
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:01:08 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id f6so8494513wrv.12
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 08:01:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PJghT1u+mp84Ea7Ui7/AalITSsrw07UnoILstoAi4rE=;
- b=n0/p/XQ4vjcT7+oDY4e63rldkC8hu3gwPeD0KqKDy2ZNJ86FjeVXvtoslvh29oztc8
- K4EOkBISVPNcqXoRwlirW37vgZYgdDkQLbXYMyhBoGtZdh2dw3IPQkXyCVxiA2RZN4Vy
- QtmODggwefvw80bBpkmif8N7I/zJlUFibor9w6DBrpmI3dfaSV257k8geP9JwPKQyBb7
- orHpm8C2avASVhN7iCPOF5y5jUtox5P0jeYeVvHPm55WLWzR56jRu0ASpusWwir3bKOA
- TI5wL0luLMOGnRboG4rWJOksIcV81W4Wgto3xu+XiNRz8lMqIOqsssZSO3Wu2Vb/AV5B
- J7Sg==
+ bh=jnnC1v+YTFoDpFZg5HWtfvD0JLh97HNGIKTj56XCIFM=;
+ b=dvhFkV8CvZP/GI6rea5ysh3E8PMOS5POxmyU5OFV2IGxG/FGjdmjBAqWlhoEStquuC
+ jfTfQBiRPRncQspgn0MV7VzmEDP2AbmasKiO9r9rqpczl4b3OzAkwOsAdRdtkAszO7NJ
+ LZVSDIVH4NZRKY6Y/VxTlDF2+FlYqD+tL2JJW5ESjT8uoi3iiKumg6psc0Pw2JKsPNnz
+ GZCNadKMW3skpwx31HN8BvWu6+Vf5YBesGRfhxGv5/kIS4eJAETJ/2PqufJnB7FUb+nd
+ sc/jkV0cy1HkKwgm72YQc4kTJov1UnzNx6KeRqTDo0I/Ws7WP9LADHMXuW3K5IBBKkjA
+ kxKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PJghT1u+mp84Ea7Ui7/AalITSsrw07UnoILstoAi4rE=;
- b=kz0Le4dpQ1Hy6f69vvvmfHo9sUzRdGJplTNaru7LQtjk4WXRrJltzf1JIQwawZCsGM
- DgqwW/cLrFWBs9ndxOPDCz1JvSgQiD+eLvFu/NHFoYvBSBsaCn1bzlwHp50rLLjXxhGC
- 3eOE2lmFP4fhIbK3RnSIczgL1n06jljg80qjFAZpX77UC0feqZwuTWwGHtvspanQ614c
- N494oU0Kp/LLGrEkNG2idM9CALblFQRMoHSAFDPDxeEOEDZ4rN4Y4d/5KmBAYOpIWDGz
- 3ruKClakDeJl9Ng5kG8z6KhdBMqEEOgBrTt+HAgduMLS8rAKId9ZSlNVoAffZD9M3x2n
- aDZw==
-X-Gm-Message-State: AOAM5326C6tgKMOrpDzigz8Ac5FcoOCmjEWYWcmBwyUcgUwanA2RkVQU
- QKKp7E97IVCnK77BIhl1kSMOoA==
-X-Google-Smtp-Source: ABdhPJybz5jk1RVobOmiFupQu912qPlt156tV9tbMeXfJuLQ5kA7u8wkKDEJ2lw2eh2Kon11T2PNQA==
-X-Received: by 2002:adf:a15e:: with SMTP id r30mr17287378wrr.101.1617721259931; 
- Tue, 06 Apr 2021 08:00:59 -0700 (PDT)
+ bh=jnnC1v+YTFoDpFZg5HWtfvD0JLh97HNGIKTj56XCIFM=;
+ b=uHH5oXP699iEUms7griJcY8pAbiD809TlalcIBY2fDwtW8aT15dsexGW8icPjSrOWT
+ e53mG/G3PnYcXcMcTpMii41UnYso0Bn2GLg2EVkFn8d9P+Ou0Re7+aUs8DZjO5WksYMX
+ WUhdA6QGNP99dxhQ/Kf4S23wyeckRoACZXRtDvaxbdQfVpjtZ9tzAdeaIX+ANUjti1hE
+ 5V6GZLKTL8y2KZUPNVAweO2IZywz+tTz/cHCDCpYGx8cj23/aBoTZRQIj2cejG8lf3bF
+ YpNOXgXrduI0rp66A/ciWSfqbVw4Hu/SE+Ud44HN2s+kWHkWw6l37uxOWcu/cHJ07kBe
+ 4mDw==
+X-Gm-Message-State: AOAM530eaybMLm80WsSBBw6h45+4UsmNdyRtBOrgcmEly65fW9/RZZy7
+ i+aEBJJoK9lMY6u+wMROb+Iwgw==
+X-Google-Smtp-Source: ABdhPJxmap4LLfP89NWHbZEz1WM8GULDOJnZJHvWPkXiuMlZrZrzW8K82Rccy8NY5HYvgecQLCBFvQ==
+X-Received: by 2002:a05:6000:1789:: with SMTP id
+ e9mr35979591wrg.237.1617721264488; 
+ Tue, 06 Apr 2021 08:01:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g5sm33210970wrq.30.2021.04.06.08.00.48
+ by smtp.gmail.com with ESMTPSA id u63sm3238131wmg.24.2021.04.06.08.00.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Apr 2021 08:00:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E9A8B1FF99;
- Tue,  6 Apr 2021 16:00:42 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0CAEE1FF9A;
+ Tue,  6 Apr 2021 16:00:43 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/11] gitlab-ci.yml: Fix the filtering for the git submodules
-Date: Tue,  6 Apr 2021 16:00:40 +0100
-Message-Id: <20210406150041.28753-11-alex.bennee@linaro.org>
+Subject: [PULL 11/11] gitlab-ci.yml: Test the dtrace backend in one of the jobs
+Date: Tue,  6 Apr 2021 16:00:41 +0100
+Message-Id: <20210406150041.28753-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210406150041.28753-1-alex.bennee@linaro.org>
 References: <20210406150041.28753-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,34 +97,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Commit 7d7dbf9dc15be6e introduced a new line starting with
-"GIT_SUBMODULES_ACTION=" in the config-host.mak file. The grep that
-tries to determine the submodules in the gitlab-ci.yml file matches
-this new line, too, causing a warning message when updating the modules:
-
- warn: ignoring non-existent submodule GIT_SUBMODULES_ACTION=update
-
-Fix it by matching the "GIT_SUBMODULES=..." line only.
+We are using the dtrace backend in downstream RHEL, so testing this
+in the CentOS 8 task seems to be a good fit.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210331073316.2965928-1-thuth@redhat.com>
-Message-Id: <20210401102530.12030-11-alex.bennee@linaro.org>
+Message-Id: <20210331160351.3071279-1-thuth@redhat.com>
+Message-Id: <20210401102530.12030-12-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 3480d79db3..85b8e10b84 100644
+index 85b8e10b84..52d65d6c04 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -42,7 +42,7 @@ include:
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   script:
-     - scripts/git-submodule.sh update
--        $(grep GIT_SUBMODULES build/config-host.mak | sed 's/GIT_SUBMODULES=//')
-+        $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
-     - cd build
-     - find . -type f -exec touch {} +
-     # Avoid recompiling by hiding ninja with NINJA=":"
+@@ -223,7 +223,7 @@ build-system-centos:
+   variables:
+     IMAGE: centos8
+     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
+-                    --enable-modules
++                    --enable-modules --enable-trace-backends=dtrace
+     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
+       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
+     MAKE_CHECK_ARGS: check-build
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index a763d55730..a8c6c528b0 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -29,6 +29,7 @@ ENV PACKAGES \
+     rdma-core-devel \
+     spice-glib-devel \
+     spice-server \
++    systemtap-sdt-devel \
+     tar \
+     zlib-devel
+ 
 -- 
 2.20.1
 
