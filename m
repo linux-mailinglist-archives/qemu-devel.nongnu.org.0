@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E36D355A2A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 19:18:43 +0200 (CEST)
-Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923C5355A05
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 19:09:18 +0200 (CEST)
+Received: from localhost ([::1]:43306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTpLe-0008RN-5M
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 13:18:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
+	id 1lTpCX-0003rv-7i
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 13:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTpIR-00072s-Jw
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:15:24 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTpIE-0007v9-CK
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:15:14 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id b9so7155795wrs.1
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 10:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=user-agent:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NYpQr/0loJZsY6NjE8VW+WSByt6uiaPkmGftFbmj8io=;
- b=lk8DE3P7uB6tgqIuEnQk5rXv8RxGHFNXEymQV6sP3dJN85NVVzANgPRaeKe4DLQTxd
- +y2I6Db56atzmTrUwSeg3aHieJEKmnNYcjQJGjiyRBjWMebIAz/TBDf1gCken9y3EfgZ
- lluJ18e38DN0nSOiYBl31mhVBTZdBfeE36QaL09JzeEhS3am8VCQbJlHaUga8WSzqR8M
- grcOfSSRsI4hLtzv83NpKgaDF+Z2/GbZuY8jfpAlTprCTFGBMxKRreHlL7deC0JKGslE
- /yCvyUg4KSvH+WxXCkko/i3CJ9N83o5QEw5T1c2/ct9q9yFWhtpGqx6hDWjr1dWX6og6
- vOUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=NYpQr/0loJZsY6NjE8VW+WSByt6uiaPkmGftFbmj8io=;
- b=K2whOkXB1Ckj4ot+9RjI0B8MIIhO30bTOH8aKYesjHU1mxEwqa5wB76ct50j0YGTpQ
- aX2JOFBsZakPfVzYWsAQd3TLFBPtxCB1Zc9rGi7DK74xTvBhMZU7+Ph4k8+RSXVi4fpq
- zzDQ+Q0ZMsn4wECoc8bNz+lYkr3zVjMhKudDs8VswiB45ctyiJZrvMapHKBa09u/nUiw
- WOV98d3gdfBubtM59Z0DIHCqSnVg+FHVsNUpF1BhtgQeC6dEOiknplHsE8FkIsKe+HZM
- sZtylTeIOvHd4blj4iUcN5UUiJp6K6SnODV0rbov3mgij86S069zuufarEmflKR7zE2k
- eDbg==
-X-Gm-Message-State: AOAM530fMsDIhimBrumg8HJTVGuYi/uGWV/ovc1qenkTZye+fTQXAFFc
- EMJLEygcpA+ZKCoPAuykvDlwgCx5hRZzJw==
-X-Google-Smtp-Source: ABdhPJy8mJoI1K3aa9BKOvMDqgpjn8SWf/NQsRUt6812Tt/tISnBNITCpNNeh7s3ZhH99fbGjhpCCA==
-X-Received: by 2002:adf:fb42:: with SMTP id c2mr36511321wrs.83.1617729308817; 
- Tue, 06 Apr 2021 10:15:08 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i127sm3962688wma.6.2021.04.06.10.15.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 10:15:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B750C1FF7E;
- Tue,  6 Apr 2021 18:15:06 +0100 (BST)
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>, =?utf-8?Q?Llu=C3=ADs?= Vilanova
- <vilanova@ac.upc.edu>
-Subject: trace_FOO_tcg bit-rotted?
-Date: Tue, 06 Apr 2021 17:00:20 +0100
-Message-ID: <87eefnwd0l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lTp9Y-0002vc-0k
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:06:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lTp9V-00049E-0A
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:06:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617728764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v0poFtPT5w2NFWt06yQPNVrMANGchEIWbHYJbX57C9g=;
+ b=CkQPD6cdTNrHuYgPmuntCEytMnr8QiURnePdNBLEWPgMgtDFrFbAEBDrYO5H0bA0MiOO7V
+ /qc0re7PmgM48egp76v4JdUiQGbPlKvG3OpMaKOYpOnhLe9i+r0ECzEDNWDCZ9TWqj8gs0
+ bMBG0uBbczfV8Med3fUwTDMZ9nN+nQ0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189--MADt71WMSKGmn7tOE6xxw-1; Tue, 06 Apr 2021 13:06:03 -0400
+X-MC-Unique: -MADt71WMSKGmn7tOE6xxw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 025411018F75;
+ Tue,  6 Apr 2021 17:06:02 +0000 (UTC)
+Received: from work-vm (ovpn-114-244.ams2.redhat.com [10.36.114.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 154131002EF0;
+ Tue,  6 Apr 2021 17:05:57 +0000 (UTC)
+Date: Tue, 6 Apr 2021 18:05:55 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH] tests/migration: fix parameter of auto-converge migration
+Message-ID: <YGyU8+7YzYM67u1w@work-vm>
+References: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
+In-Reply-To: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,93 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+* huangy81@chinatelecom.cn (huangy81@chinatelecom.cn) wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> when execute the following test command:
+> $ ./guestperf-batch.py --auto-converge \
+>     --auto-converge-step {percent} ...
+> test aborts and error message be throwed as the following:
+> "Parameter 'x-cpu-throttle-increment' is unexpected"
+> 
+> The reason is that 'x-cpu-throttle-increment' has been
+> deprecated and 'cpu-throttle-increment' was introduced
+> Since v2.7. Use the new parameter instead.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-It's been awhile since I last played with this but I think we are
-suffering from not having some test cases for tracing code
-generation/execution in the tree. I tried adding a simple trace point to
-see if I could track ERET calls:
+Queued
 
---8<---------------cut here---------------start------------->8---
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 0b42e53500..0d643f78fe 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -36,6 +36,7 @@
- #include "exec/log.h"
-=20
- #include "trace-tcg.h"
-+#include "trace.h"
- #include "translate-a64.h"
- #include "qemu/atomic128.h"
-=20
-@@ -2302,6 +2303,9 @@ static void disas_uncond_b_reg(DisasContext *s, uint3=
-2_t insn)
-         default:
-             goto do_unallocated;
-         }
-+
-+        trace_eret_tcg(s->current_el, dst);
-+
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-         }
-diff --git a/target/arm/trace-events b/target/arm/trace-events
-index 41c63d7570..2d4fca16a1 100644
---- a/target/arm/trace-events
-+++ b/target/arm/trace-events
-@@ -1,5 +1,10 @@
- # See docs/devel/tracing.txt for syntax documentation.
-=20
-+# translate-a64.c
-+# Mode: softmmu
-+# Targets: TCG(aarch64-softmmu)
-+tcg eret(int current_el, TCGv target_el) "trans_eret: from EL%d", "exec_er=
-et: EL%d to EL%"PRId64
-+
- # helper.c
- arm_gt_recalc(int timer, int irqstate, uint64_t nexttick) "gt recalc: time=
-r %d irqstate %d next tick 0x%" PRIx64
- arm_gt_recalc_disabled(int timer) "gt recalc: timer %d irqstate 0 timer di=
-sabled"
---8<---------------cut here---------------end--------------->8---
+> ---
+>  tests/migration/guestperf/engine.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+> index e399447..6b49aed 100644
+> --- a/tests/migration/guestperf/engine.py
+> +++ b/tests/migration/guestperf/engine.py
+> @@ -102,7 +102,7 @@ def _migrate_progress(self, vm):
+>              info.get("downtime", 0),
+>              info.get("expected-downtime", 0),
+>              info.get("setup-time", 0),
+> -            info.get("x-cpu-throttle-percentage", 0),
+> +            info.get("cpu-throttle-percentage", 0),
+>          )
+> 
+>      def _migrate(self, hardware, scenario, src, dst, connect_uri):
+> @@ -135,7 +135,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+>                                       "state": True }
+>                                 ])
+>              resp = src.command("migrate-set-parameters",
+> -                               x_cpu_throttle_increment=scenario._auto_converge_step)
+> +                               cpu_throttle_increment=scenario._auto_converge_step)
+> 
+>          if scenario._post_copy:
+>              resp = src.command("migrate-set-capabilities",
+> --
+> 1.8.3.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-According to the tracing docs I the:
-
-  trace_eret_tcg(s->current_el, dst);
-
-Should:
-
-  Instead of using these two events, you should instead use the function
-  "trace_<eventname>_tcg" during translation (TCG code generation). This fu=
-nction
-  will automatically call "trace_<eventname>_trans", and will generate the
-  necessary TCG code to call "trace_<eventname>_exec" during guest code exe=
-cution.
-
-But it falls down with the following:
-
-  ../../target/arm/translate-a64.c: In function =E2=80=98disas_uncond_b_reg=
-=E2=80=99:
-  ../../target/arm/translate-a64.c:2307:9: error: implicit declaration of f=
-unction =E2=80=98trace_eret_tcg=E2=80=99; did you mean =E2=80=98trace_eret_=
-exec=E2=80=99? [-Werror=3Dimplicit-function-declaration]
-           trace_eret_tcg(s->current_el, dst);
-           ^~~~~~~~~~~~~~
-           trace_eret_exec
-  ../../target/arm/translate-a64.c:2307:9: error: nested extern declaration=
- of =E2=80=98trace_eret_tcg=E2=80=99 [-Werror=3Dnested-externs]
-  cc1: all warnings being treated as errors
-  ninja: build stopped: subcommand failed.
-
-So I'm wondering what needs to be done to fix this? Given the one other
-tracepoint is in the general tcg-op.c is this just some build stuff to
-do with how the tracepoint segments are generated?
-
---=20
-Alex Benn=C3=A9e
 
