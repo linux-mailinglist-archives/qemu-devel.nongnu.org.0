@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AC2355A8F
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 19:41:22 +0200 (CEST)
-Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89847355A96
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 19:42:32 +0200 (CEST)
+Received: from localhost ([::1]:47984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTphZ-0001Qs-NI
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 13:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
+	id 1lTpih-0003Lx-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 13:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lTpfF-0000BQ-4o
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:38:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lTpet-000585-AS
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:38:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617730712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QNRBdFbZEPEE65rl8n1mcVOKay8iZdkqzMvztGsXuxU=;
- b=dh+RMYLGEqt3L7JI3MgB478rkdm4r+1CtJeLIFIC4+QvfQLM2xe6j4wDdMaML4vKtiTkSL
- 2h+ITyr8cU8xTpONE3baMmUbhLTDYQr0PWhT9ttuBjZbgZ0Zsx/KvXqjydpiy+cb5pnol3
- J/jkUK53HBvCiCGKzYNCdy952h4XxxE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-M4fBGncAP7icfvAx0gTbkg-1; Tue, 06 Apr 2021 13:38:31 -0400
-X-MC-Unique: M4fBGncAP7icfvAx0gTbkg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 412B587A826
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 17:38:30 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CF7B10023B2;
- Tue,  6 Apr 2021 17:38:18 +0000 (UTC)
-Date: Tue, 6 Apr 2021 19:38:17 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH 2/6] pci: introduce apci-index property for PCI device
-Message-ID: <20210406193817.728bb52a@redhat.com>
-In-Reply-To: <YGwuIF69gi4a0fbo@redhat.com>
-References: <20210315180102.3008391-1-imammedo@redhat.com>
- <20210315180102.3008391-3-imammedo@redhat.com>
- <YGwuIF69gi4a0fbo@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lTpgr-0001Yl-LK
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:40:37 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36429)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lTpgo-0006HZ-Vk
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:40:37 -0400
+Received: by mail-pf1-x435.google.com with SMTP id g15so10965142pfq.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 10:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sKk73qUHSFNSDZq2+y4JQIWdiK15wkPN1fPW2vJPnP0=;
+ b=HsQVOWdwW1HuzpU7ldowYPinKfP+e6RBzG8OIcrmL0TJ9er3r/AAxGGC1aXRnJWOxu
+ NU7BucZj7d3KQOxw0IJqZ2uGhE1G2coYTKcuRxoGE2rfrZGrhscS1Z87NFozqyOCB7E4
+ m/IbIM232ltno2dESrRdJ4DV9s36zvzpf4n0i3M8yVdTeZw38tQDMd31I9yZ9h1mXdCp
+ XAOpuznHkR0fQ+OuUMA/WpPj1gR1f5GiV0aWcdEI49CQBbMjMQGCQZa+buyNY7sx7L0S
+ odvMmTI5dtrEspiLfg2JSicH4ENcdNngWNj8H5q7awrwGR8kmlj1VLflDZXItVkpNx1x
+ s05Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sKk73qUHSFNSDZq2+y4JQIWdiK15wkPN1fPW2vJPnP0=;
+ b=f+kwFAyRTDfQFq8UbtBp2YvlJvtKTRY1VJQYA9tAZSKor9k329i16tCuP0WUfFJ2qW
+ WXxaWJShi6LW1ijC7DEvwf27r7k4gS3b4SNKZeOGL9eFAEwa27czRAyk0xbNeZkApWf6
+ IBUvu5RGe9oOP2JFfjClNDEEY5x8fdeBgO4igycOaCQZGFIeBOs+TjwgB+6IKQ+zzheL
+ MmPogIbtHSth4/WRr6DKEEsbGeOtEKYizOWmmelquOdn6aXY2hn07cBinzr3lKjNEwK+
+ FTeiM33A75k0Vihkxh0z5S0iXR3UJLOmYRRja+ajiAs8Ly6yOq1CxUTXhmyWEpYEpXAt
+ vIwg==
+X-Gm-Message-State: AOAM530tL1Cs/fCH+ZnK6KKFcXaaCmUQEonuqTfqccT0CrjfjU8T+5XR
+ VP/Zx7varJeMwBNMZ7a0nmP1vRsdgjTlAg==
+X-Google-Smtp-Source: ABdhPJz7FvQHw9dAT2yk7kutg3/vRUbEaR79gGos1UWNJNiwBrpXCruRWwb6J+ZZO1JeEpiVbpNlCg==
+X-Received: by 2002:a63:c90c:: with SMTP id o12mr28539223pgg.210.1617730833352; 
+ Tue, 06 Apr 2021 10:40:33 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id h15sm19148056pfo.20.2021.04.06.10.40.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 10:40:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/12] target/arm mte fixes
+Date: Tue,  6 Apr 2021 10:40:19 -0700
+Message-Id: <20210406174031.64299-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,71 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, mst@redhat.com
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Apr 2021 10:47:12 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+Changes for v4:
+  * Fix tag count computation error in mte_checkN, which when used
+    by mte_check1 in patch 5, caused all sorts of KASAN failures.
+  * Fix PAGE_ANON / PAGE_TARGET_1 overlap.
 
-> On Mon, Mar 15, 2021 at 02:00:58PM -0400, Igor Mammedov wrote:
-> > In x86/ACPI world, linux distros are using predictable
-> > network interface naming since systemd v197. Which on
-> > QEMU based VMs results into path based naming scheme,
-> > that names network interfaces based on PCI topology.
-> >=20
-> > With itm on has to plug NIC in exactly the same bus/slot,
-> > which was used when disk image was first provisioned/configured
-> > or one risks to loose network configuration due to NIC being
-> > renamed to actually used topology.
-> > That also restricts freedom to reshape PCI configuration of
-> > VM without need to reconfigure used guest image.
-> >=20
-> > systemd also offers "onboard" naming scheme which is
-> > preferred over PCI slot/topology one, provided that
-> > firmware implements:
-> >     "
-> >     PCI Firmware Specification 3.1
-> >     4.6.7.  DSM for Naming a PCI or PCI Express Device Under
-> >             Operating Systems
-> >     "
-> > that allows to assign user defined index to PCI device,
-> > which systemd will use to name NIC. For example, using
-> >   -device e1000,acpi-index=3D100
-> > guest will rename NIC to 'eno100', where 'eno' is default
-> > prefix for "onboard" naming scheme. This doesn't require
-> > any advance configuration on guest side to com in effect
-> > at 'onboard' scheme takes priority over path based naming.
-> >=20
-> > Hope is that 'acpi-index' it will be easier to consume by
-> > management layer, compared to forcing specific PCI topology
-> > and/or having several disk image templates for different
-> > topologies and will help to simplify process of spawning
-> > VM from the same template without need to reconfigure
-> > guest NIC.
-> >=20
-> > This patch adds, 'acpi-index'* property and wires up
-> > a 32bit register on top of pci hotplug register block
-> > to pass index value to AML code at runtime.
-> > Following patch will add corresponding _DSM code and
-> > wire it up to PCI devices described in ACPI. =20
->=20
-> You've illustrated usage & benefits with NICs, but IIUC, this
-> feature is wired up for any PCI device. Are you aware of any
-> usage of this feature for non-NIC devices ?
 
-I'm not aware of anything else that might currently use it.
+r~
 
-It might be useful for virtio-win (HDDs/NICs) (as we saw recently
-breakage due to PCI root bus UID change, where devices installed
-on old QEMU enumerated as new instances breaking network config or
-causing boot issues)
 
-As Lane mentioned, it would be really useful if we could add acpi-index
-as some meta data to qcow2 image so that new guest could import it
-at creation time.
+Richard Henderson (12):
+  accel/tcg: Preserve PAGE_ANON when changing page permissions
+  target/arm: Check PAGE_WRITE_ORG for MTE writeability
+  target/arm: Fix mte_checkN
+  target/arm: Split out mte_probe_int
+  target/arm: Fix unaligned checks for mte_check1, mte_probe1
+  test/tcg/aarch64: Add mte-5
+  target/arm: Replace MTEDESC ESIZE+TSIZE with SIZEM1
+  target/arm: Merge mte_check1, mte_checkN
+  target/arm: Rename mte_probe1 to mte_probe
+  target/arm: Simplify sve mte checking
+  target/arm: Remove log2_esize parameter to gen_mte_checkN
+  exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1
 
-> Regards,
-> Daniel
+ include/exec/cpu-all.h            |   4 +-
+ target/arm/helper-a64.h           |   3 +-
+ target/arm/internals.h            |  11 +-
+ target/arm/translate-a64.h        |   2 +-
+ tests/tcg/aarch64/mte.h           |   3 +-
+ accel/tcg/translate-all.c         |   9 +-
+ target/arm/mte_helper.c           | 185 ++++++++++++------------------
+ target/arm/sve_helper.c           | 100 ++++++----------
+ target/arm/translate-a64.c        |  22 ++--
+ target/arm/translate-sve.c        |   9 +-
+ tests/tcg/aarch64/mte-5.c         |  44 +++++++
+ tests/tcg/aarch64/mte-6.c         |  43 +++++++
+ tests/tcg/aarch64/Makefile.target |   2 +-
+ 13 files changed, 227 insertions(+), 210 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-5.c
+ create mode 100644 tests/tcg/aarch64/mte-6.c
+
+-- 
+2.25.1
 
 
