@@ -2,49 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C671355684
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:22:26 +0200 (CEST)
-Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB0035568F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:25:29 +0200 (CEST)
+Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTmb3-0006r2-8M
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40062)
+	id 1lTme0-0008Kv-F8
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lTmZR-0005hR-4O
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:20:45 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31093)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lTmcY-0007nR-Fb
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:23:58 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:50851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lTmZM-0006d4-O8
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:20:44 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0FA7374581E;
- Tue,  6 Apr 2021 16:20:37 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E53F67456E3; Tue,  6 Apr 2021 16:20:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E3DB57456B4;
- Tue,  6 Apr 2021 16:20:36 +0200 (CEST)
-Date: Tue, 6 Apr 2021 16:20:36 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: Mac OS real USB device support issue
-In-Reply-To: <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
-Message-ID: <97cddc56-1b13-dab4-33d8-5fdaeae575d7@eik.bme.hu>
-References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
- <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lTmcW-000081-LW
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:23:58 -0400
+Received: from [192.168.100.1] ([82.142.14.126]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MPXlM-1lH51A0a7G-00MdwN; Tue, 06 Apr 2021 16:23:50 +0200
+Subject: Re: [PATCH] linux-user: strace now handles unshare syscall args
+ correctly
+To: Matus Kysel <mkysel@tachyum.com>
+References: <20210406141113.922634-1-mkysel@tachyum.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <0705f55b-8346-ddef-4d1d-4cfd232b15a4@vivier.eu>
+Date: Tue, 6 Apr 2021 16:23:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+In-Reply-To: <20210406141113.922634-1-mkysel@tachyum.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:iQj2Q1jMGAG1qalazWo6jcEmHU2n+qDWtmrT5AAR8n4Dv4OW3hl
+ gYPjdXXazGFqEEXXgftZfMTOl9xRuIOEbqSayGkleKIsQObycYntxaHAUgV4wf1WIxzIdCX
+ AUqqjvQdTP6Sh3hCp48g7Pn0AtbKB8fzb+PMxhWVSXLCnl4D2NdRhCltS4ZCmXXSCx9R5ee
+ soAREWt+E/atxDmjLH1aA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kupQpRqJwFg=:oS3g/arEjJE4i+9Lr2TRiA
+ dSDRCH0vi1XsRUaojBOzjm49CtynlPh4ZhQwmE14K6iqKl+KT9TJuFJE1XLKmf621kIACXVQI
+ v2rfJXCYfuE7DwSH6eqGlre80zMF2G8iyVqgJSJZVtcCHMQu4V6sMdLXOUqg25zg7JkxiZgsl
+ wFzkQVbm18Z6LGZxBukRWFXN6uiYu/IAb6p5BsEmtqqpl7yy4Ryfz7db9TMIdidYbMRCM76AG
+ FvP3yjKBMCctv4WKK0G6jzPNLbl/l2YUrYZJ5D+nAI3W1s3HKcHCjVKKoJw1Y32ErmMUTcQmm
+ BLterWfW2zmgkNO8p06WuPOkisDf1t2HO0we3lm2WK0vQjdkrDVsDu0hu2N5lS+8nCVv5TMxK
+ iv+sx00jXTsz67O6cBimUuIIbWiAHyNdTzZQKxjjyEXxHjpYIHxDNnbWnKQVfT0iV/8KiPHyR
+ GNUlTnS38j3C+O+1paWWT0Yqr8XtuavtnjOLj/rZ/NTa73XR+4FR
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,37 +66,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Programmingkid <programmingkidx@gmail.com>,
- QEMU devel list <qemu-devel@nongnu.org>, gerd@kraxel.org
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Apr 2021, Howard Spoelstra wrote:
-> On Tue, Apr 6, 2021 at 3:44 PM Programmingkid <programmingkidx@gmail.com> wrote:
->>
->> Hi Gerd,
->>
->> I was wondering if you had access to a Mac OS 10 or Mac OS 11 machine to test USB support. I am on Mac OS 11.1 and cannot make USB devices work with any of my guests. So far these are the guests I have tested with:
->>
->> - Windows 7
->> - Mac OS 9.2
->> - Windows 2000
->>
->> I have tried using USB flash drives, USB sound cards, and an USB headset. They all show up under 'info usb', but cannot be used in the guest. My setup does use a USB-C hub so I'm not sure if this is a bug with QEMU or an issue with the hub. Would you have any information on this issue?
->
-> Hi John,
->
-> As far as the Mac OS 9.2 guest is concerned on a mac OS host, it does
-> not support USB 2.0. I was successful only in passing through a USB
-> flash drive that was forced into USB 1.1 mode by connecting it to a
-> real USB 1.1 hub and unloading the kext it used.
+Le 06/04/2021 à 16:11, Matus Kysel a écrit :
+> Syscall unshare did not have custom print function for strace, but it's argument is same as flags in clone syscall, so it can be easily implemented.
+> 
+> Signed-off-by: Matus Kysel <mkysel@tachyum.com>
+> ---
+>  linux-user/strace.c    | 12 ++++++++++++
+>  linux-user/strace.list |  2 +-
+>  2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index e969121b6c..d48df8c1a9 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -3467,6 +3467,18 @@ print_unlinkat(void *cpu_env, const struct syscallname *name,
+>  }
+>  #endif
+> 
+> +#ifdef TARGET_NR_unshare
+> +static void
+> +print_unshare(void *cpu_env, const struct syscallname *name,
+> +              abi_long arg0, abi_long arg1, abi_long arg2,
+> +              abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_flags(clone_flags, arg0, 1);
+> +    print_syscall_epilogue(name);
+> +}
+> +#endif
+> +
+>  #ifdef TARGET_NR_utime
+>  static void
+>  print_utime(void *cpu_env, const struct syscallname *name,
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index 084048ab96..3b7c15578c 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -1573,7 +1573,7 @@
+>  { TARGET_NR_unlinkat, "unlinkat" , NULL, print_unlinkat, NULL },
+>  #endif
+>  #ifdef TARGET_NR_unshare
+> -{ TARGET_NR_unshare, "unshare" , NULL, NULL, NULL },
+> +{ TARGET_NR_unshare, "unshare" , NULL, print_unshare, NULL },
+>  #endif
+>  #ifdef TARGET_NR_userfaultfd
+>  { TARGET_NR_userfaultfd, "userfaultfd" , NULL, NULL, NULL },
+> --
+> 2.25.1
+> 
 
-I think USB passthorugh works in VirtualBox on macOS so maybe you could 
-check how that works there and what might need to be done for it. Although 
-I'm not sure if it's in the open source part or in the non-free extensions 
-so may not be that easy to find out what's needed if the sources for it 
-are not available.
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-Regards.
-BALATON Zoltan
+While you are at it, you can also update the clone_flags list
+(at least CLONE_NEWTIME and CLONE_NEWCGROUP are missing)
+
+Thansk,
+Laurent
+
 
