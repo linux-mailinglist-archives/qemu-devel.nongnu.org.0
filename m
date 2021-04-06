@@ -2,125 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D72F35588C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:54:12 +0200 (CEST)
-Received: from localhost ([::1]:52332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CB1355899
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:57:16 +0200 (CEST)
+Received: from localhost ([::1]:55186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTo1r-0000lD-B0
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36104)
+	id 1lTo4p-000251-2x
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lTnzg-0007su-Cq; Tue, 06 Apr 2021 11:51:56 -0400
-Received: from mail-eopbgr150125.outbound.protection.outlook.com
- ([40.107.15.125]:48587 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lTnzd-0003MG-Mi; Tue, 06 Apr 2021 11:51:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aXJaTZUajui2Au5kXSQ7thk6894Ko15v2FNhPUWLE2yXFj4jx5inFsRUk/rMLZ3rw0VkAghEbFBq/yWmSS14Qxw64qsFSPGqlzrjGAe48cQVmF4aFDLr7wCQYi7D60AW590t88jtyaEh1j4tprShX2bX0ZZrPd2ALJLrO/HNsebpmCR82V6SbPaN0j8cOGqo/0HAYKOWx8jel0UtuUR8Z81lmIXM+/lUFj4gTiUQZeVvz/unPWZC6QT17zt8G4ZcNhyEXL+Fbua8mrcWZ8D8ZCMQwzR/dRHZQiGd0+zJ2wbgS/JI7rIGoL8hf2QFf7ITMbmxUn2xSfhUdtKD9swLVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m1JWoyRsxpTCoMV+Peb02hC5oiS5imX2pWI906RZjZU=;
- b=DdrPmISIGqNTiO7e+VBsyTWkLYhDagnSxIO8EEQTW0AygnL7c0aZFoR+ERuzYso+7MSshNCCl/sJeNRBC7CkUO1lCYWwRcD3Hjx4RG+Q3y+opEPYkTqUOHDaYXGEh5cOEzVPkPaPh7kF4SyA5gZ0iVxchsj2MqOvD/SqAP4Oeq48xAboH6qBqPtKSOkyMCL62pynbwfbem5Hf1Up99exuodk8q31sU5TJbc4wee40tkvPxMmSlf3uJqxZ5lzbsIhqbnDi/2IuscU8NFdXSeyA38CVFzCod6syuwM+h6n8PLoRKX1+ETyDhJTIuYVXOHNgDuXY9jmvGYgkbNaQu913g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m1JWoyRsxpTCoMV+Peb02hC5oiS5imX2pWI906RZjZU=;
- b=VKHN5R0iYx+V/Wa6gfnfqaoXNqZtjThoTX9L6m/+Nr30aNhjSu5pfB3qmjlwb1zirZcW6kWX4dp/z4D2/dvy6NNPz/PcWWOjGBlEaj2VeaNYqhWsG2LINp6PephlwP2A7ige5hcDlsSrAbGMfwBuNu646mRVPkCbp2TMdiJcrOU=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6437.eurprd08.prod.outlook.com (2603:10a6:20b:33b::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Tue, 6 Apr
- 2021 15:51:45 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%6]) with mapi id 15.20.3999.032; Tue, 6 Apr 2021
- 15:51:45 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
- vsementsov@virtuozzo.com, eblake@redhat.com, rvkagan@yandex-team.ru
-Subject: [PATCH for-6.0] block/nbd: fix possible use after free of
- s->connect_thread
-Date: Tue,  6 Apr 2021 18:51:14 +0300
-Message-Id: <20210406155114.1057355-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.206]
-X-ClientProxiedBy: HE1P189CA0011.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::24)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lTo3H-0001MB-Sg
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:55:41 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:38613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lTo35-0004yJ-2a
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:55:36 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id j7so11510349qtx.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 08:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/kJjfFyy+TViyLsITNqhXdvX+WwoV8Nmp32W10Ldurg=;
+ b=qstyIVdREm4lYZvH6wM8lG3ISiIwQnzg2SRDGcqYJEQr8D2S4bfP03KdeE0Yk3abvx
+ 4JER222FlhzKZMd4ZrXa2f2eLrOVyxsorGogL64K02XNLty0CqAUDgVEq8a6n9+R6YDe
+ eQ+7qVRXII2EHhpFGwHwYAvdzoai+qHC0PPK58o0WaYxMrmaN9vBiGNuwQstGHA7mQpU
+ fw1i2zSHgESSEFx7ZW/FM0PvOtXy9eI0z2VbNdMv0tVnAZe3+YYsTO1i3QIw+q/Yzn8N
+ FpUwfZ9AmIvi47S4Nb4Mekn6W9YJexfyzvUNz155QTeiDv5iPmE1MqjImhbCfSiPg8It
+ rRFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/kJjfFyy+TViyLsITNqhXdvX+WwoV8Nmp32W10Ldurg=;
+ b=jJJ4Xpwxf3vaSyOOZzjdnv+i3O5JvcJ78JuRGiGRHcUjCiVTJILrkIg0bFcfF+Kf7X
+ rYPQyACIJl6op8MziPvUL4xniWZ3KeSfhtPDFIibVffj+SCZiJow2XGJkRwPza4gI8A/
+ TfasGxAVVCxbx6LX5O6/Ajw8oUnLpU57mFJnT5lhlr77D0hUuiBAW4IwRKbMJmmYi/T5
+ 9YaBU3ZI3HxSSdLPLIPt+glUmUosmnjnaTCPuU5qgPJLsvzb+EmpgxbpWUP4pwtGGBUZ
+ 8B5yPdmk+RW+wA00008nDw3eKoGJLVFVijCKp4aj0KLlTd7iMkYN3cUE37HC+Qc4t73P
+ ZAPQ==
+X-Gm-Message-State: AOAM5306RxQtsnBdjloeEIcz+oDYwHHUzjK0wxWWE6xp0S5Y63eLlSlK
+ tEFHZ+6mX3XO0gcHbBLW80WnCSZV1meJmyuCRABrMA==
+X-Google-Smtp-Source: ABdhPJwVZD6SsBDgYOEoz1dLBjhz6wibzkcwVQs93qw0vFAxKgswVG2AY5PybkHRuoIdWpIHvzLZgqxNqYEiXNM4r/U=
+X-Received: by 2002:ac8:5451:: with SMTP id d17mr27875379qtq.193.1617724525650; 
+ Tue, 06 Apr 2021 08:55:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.206) by
- HE1P189CA0011.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3999.27 via Frontend Transport; Tue, 6 Apr 2021 15:51:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e2d91e41-197b-43e4-a5f3-08d8f913e14e
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6437:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB64373909B773B6A2485A8717C1769@AS8PR08MB6437.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uWmgr+Qa7YaKe/7Q+U3kgxppou2/qrYdyRf3LxddLpBlL+wUc4oTa09iVN4tTN9WQIQRr/p+QUWyDeMG1kj3F0xeo8KhIO4oyj0GJOQL4Bzr1SkJMNUvpQvrnUUyv7fK5ewSWgHUMJ9s3yX0ZIaPjlqKa0+NBaAWIK8DeNd40Nf675PVDjUpn3WG614cu4glrOpiqGyK40syudC5pRXfjVhTs2RrSWUZ08Rl9dxPmIYzvIcbzhMFonysriS0QaorlijgLS6vg8Qp2598zE5eZP/qkfZyj08AwauyTXiWYlaP1cIs9am2wcoeMUJArmKKaAJVfNLPoCE19ijegO2Xod32GhNg6Bqe0B1yj8dz19OrVWnCE7hu5gq3cAfBlhFPBuyJq7aYDTQDQ+3taV0QjWCfIHEvQgFX3lkoftvblIRxWhSnU3U67Dl3eeYsMMr/IRbXH5yAIOwFWA844ZBBKR/kWFxD1lpyv0y5Dkqd8wInbEbxyd09I3yy6U8S28jZ9G1328UOgiXpQiBCLEH/rb9Nmz/qCgItQizFoa4I8EbrCVqpAhFUVCH3HQoejSS9TwUSC7e+0qmY7JBLc71zY7y0rBLjRUav79Yt0XTO9svvRooz07zHJpFGVS77G7X+IFimBw6rj4jdCxXrSnhxDT65WF1DHk6AHj9lUFSuK5ksL9tsaS3gp71edplj2J9eiN2b/SWUn1JeVmWW5S9A39VxCyuDfwvkBAPDaG1aUQU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(39840400004)(346002)(366004)(136003)(8936002)(6506007)(2906002)(16526019)(83380400001)(6512007)(38350700001)(38100700001)(86362001)(6916009)(5660300002)(69590400012)(26005)(4326008)(956004)(66556008)(66476007)(66946007)(2616005)(8676002)(6486002)(6666004)(186003)(1076003)(316002)(36756003)(52116002)(478600001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?qWmo6AM67pqw4Rh2wDJkyiSwK7oDajMI9Py9n/gYmTpzxw+xplCQY6AU9Fg8?=
- =?us-ascii?Q?nlIWyvAtJ5naUSeVp1KqIJwTjmxvC/Jpc47eHD9lGVQc9p1gXf0cq6D1Oj3g?=
- =?us-ascii?Q?EQdORfqqHGftaP7jt/Zgua1J3R0tVI1oVO49PN+qRV/OIx8ca3hHAJ4z/hvH?=
- =?us-ascii?Q?dRKfjon1EQE/ag0UdK/kQnE+f6OoDzbHmWSW52YApVCWoA2fVKcdFSQPzCBT?=
- =?us-ascii?Q?F/bJNLBqX5YoqnQWAYRL8cq8+0sty1IFTMoKwDNg749kEb0jqlRbqZvs3Mef?=
- =?us-ascii?Q?sgNNrqzpTKqfK94yNvUc0qaxi+Idd9oqDggI4hDpek7hoCezlqIyvgfl4waB?=
- =?us-ascii?Q?fDIZvTBd2zPDcYATI6hd/TLj2TAS6BecWTscMnLORLHZmEdXwXP3yp0+7Tk7?=
- =?us-ascii?Q?M4McgE9ArjXuMqgWXHVrV3Ht+mDLYwu1xNPAGNrkn2IP77Shvid4SJjUmJON?=
- =?us-ascii?Q?9htMvISD2QycQd+xl1J9zcQljlga/C8ZjcK4hKJVu9DYKy+FuTCBd8096I1Y?=
- =?us-ascii?Q?+rWTz6Fka85+qetbJ6sz16MTtm6RiVe98PSGPJIe6Wwy4B53kbkrwd2xH1yz?=
- =?us-ascii?Q?4GYB6KLpynleNUM2uzOoT0vmDBRbgdXehJ8p6p1Cr7OMg25PP2Q0GA7hcodp?=
- =?us-ascii?Q?bCDINp5ramc9O8cndl4R95SbyVFvrP7uGtl0c5dbqWyesPVnTbHmAqToQRE4?=
- =?us-ascii?Q?XrKjNd5WFcXSftSflFHsUb+UOHN5qptO1izYKIzQPYA6f/osyOvXEGGeKoE1?=
- =?us-ascii?Q?m+hpeN5ZG8RCwPtA9Sg7oj7v6H9hN8qxaxCSWfG7HeVvY/D3UAcEryM0NFA5?=
- =?us-ascii?Q?Hrdi4U66X6RYUGvbpPlBfKkyGpaGduIEgaTipVh32huSkp4KfhI+FMQRbWw2?=
- =?us-ascii?Q?aph3ckarJa5R7r63oa2Ef0bToMy5yWTpVov4cXIy7+RBBKnqBpFaLeN0TTZF?=
- =?us-ascii?Q?sUYnat6VzWOWFeoKPdx6otu9jrY42b+RNjgVISIVSmILzaPYK3WRy4ahXtin?=
- =?us-ascii?Q?qh2LbES+5hmiZkjLxTOpz9HwIU/GrOZoeGsRlB+AjJksUj213KLuHFopiVGd?=
- =?us-ascii?Q?GQuYH/8T+ahFfgj06idIqRnGUVPTwRT71s5J5AE5wfcfFPxC+fJSDX+mv1B7?=
- =?us-ascii?Q?IByn9u/OZKhv76kJ9afx3SmL2BgeHvWf3vx5MMmAgpYinhNi9Ovo/GVNY6d2?=
- =?us-ascii?Q?pmD3Rlw7tTk9PrE4/epH3ZqnZxkw5cPcaFsI+Uxyy7KOLBVErx+WVRmMCmku?=
- =?us-ascii?Q?vcgBWezWj/zi5C3vLIbrPFdtJBsNc39MO6E7stvl5Z9B6ZNSaSNXZNxmDNJa?=
- =?us-ascii?Q?2hgvQilusgg5zJwxsfn6uXoP?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2d91e41-197b-43e4-a5f3-08d8f913e14e
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2021 15:51:45.5196 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gk2duL1xGDakOtMwfFI4ktoJJzeeeAfJ9hWsalnUwIBeaLPsCYlPxbImjM/wjDVaApGpmhCx0VFr1KPo+IobMXbe6OYq/Rz4tmzqpq4CWJs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6437
-Received-SPF: pass client-ip=40.107.15.125;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210403222810.3481372-1-venture@google.com>
+ <20210405195834.GF7167@minyard.net>
+ <CAO=notzJbWTn-KNurHs6HdzoLkFQRaKeNSdzBmufSu-eViRfww@mail.gmail.com>
+In-Reply-To: <CAO=notzJbWTn-KNurHs6HdzoLkFQRaKeNSdzBmufSu-eViRfww@mail.gmail.com>
+From: Patrick Venture <venture@google.com>
+Date: Tue, 6 Apr 2021 08:55:14 -0700
+Message-ID: <CAO=notyrcWX59UqVP4=jueUvenx9b4NiTzk-wifa1s7wPypJsQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] hw/i2c: Adds pca954x i2c mux switch device
+To: cminyard@mvista.com
+Cc: Hao Wu <wuhaotsh@google.com>, Havard Skinnemoen <hskinnemoen@google.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=venture@google.com; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,73 +84,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If on nbd_close() we detach the thread (in
-nbd_co_establish_connection_cancel() thr->state becomes
-CONNECT_THREAD_RUNNING_DETACHED), after that point we should not use
-s->connect_thread (which is set to NULL), as running thread may free it
-at any time.
+On Tue, Apr 6, 2021 at 8:41 AM Patrick Venture <venture@google.com> wrote:
+>
+> On Mon, Apr 5, 2021 at 12:58 PM Corey Minyard <cminyard@mvista.com> wrote:
+> >
+> > On Sat, Apr 03, 2021 at 03:28:08PM -0700, Patrick Venture wrote:
+> > > The i2c mux device pca954x implements two devices:
+> > >  - the pca9546 and pca9548.
+> > >
+> > > Patrick Venture (2):
+> > >   hw/i2c/core: add reachable state boolean
+> > >   hw/i2c: add pca954x i2c-mux switch
+> >
+> > Looking this over, the code looks good, but I have a few general
+> > questions:
+> >
+> > * Can you register the same slave address on different channels?  That's
+> >   something you could do with real hardware and might be required at
+> >   some time.  It looks like to me that you can't with this patch set,
+> >   but maybe I'm missing something.
+>
+> If I understand the hardware's implementation properly you can have
+> collisions, and this allows for collisions.  I'm not sure what you
+> mean by having both accessible.  For instance, on hardware you can
+> have a switch with N channels, and on two of the channels there is an
+> eeprom at 50.  But you're unable to talk to both eeproms at the same
+> time, because the addresses collide -- so how would the hardware know
+> which you're talking to?  My understanding of the behavior in this
+> collision case is that it just talks to the first one that responds
+> and can lead to unexpected things.
+>
+> There is a board, the quanta-q71l where we had to set the
+> idle-disconnect because there were two muxes on the same bus, with
+> conflicting addresses, and so we had to use idle disconnect explicitly
+> to make the software happy talking to the hardware -- not ideal as
+> having two devices behind different channels, but ultimately it's the
+> same idea because the devices are conflicting.
+>
+> >
+> > * Can you add devices to the secondary I2C busses on the mux using the
+> >   standard QEMU device model, or is the function call required?
+>
+> I added the function call because I didn't see a clean way to bridge
+> the issue as well as, the quasi-arbitrary bus numbering used by the
+> kernel isn't how the hardware truly behaves, and my goal was to
+> implement closer to the hardware.  I thought about adding an I2cBus to
+> the device and then you'd be able to access it, but wasn't sure of a
+> nice clean way to plumb that through -- I considered adding/removing
+> devices from the parent i2c bus instead of the boolean reachable, but
+> that seemed way less clean - although do-able.
+>
+> >
+> > I ask because I did a pca9540 and pca9541 device, but I've never
+> > submitted it because I didn't think it would ever be needed.  It takes a
+> > different tack on the problem; it creates the secondary busses as
+> > standard QEMU I2C busses and bridges them.  You can see it at
+> >
+> >    github.com:cminyard/qemu.git master-i2c-rebase
+> >
+>
+> I'll have to take a look at your approach, but the idea that it
+> wouldn't be needed sounds bizarre to me as nearly all BMC-based qemu
+> boards leverage i2c muxes to handle their PCIe slot i2c routing.
+>
+> > If you design can do the things I ask, then it's better.  If not, then
+> > I'm not sure.
 
-Still nbd_co_establish_connection() does exactly this: it saves
-s->connect_thread to local variable (just for better code style) and
-use it even after yield point, when thread may be already detached.
+Corey,
 
-Fix that. Also check thr to be non-NULL on
-nbd_co_establish_connection() start for safety.
+looking at your design, I should be able to do something similar with
+a small tweak.
 
-After this patch "case CONNECT_THREAD_RUNNING_DETACHED" becomes
-impossible in the second switch in nbd_co_establish_connection().
-Still, don't add extra abort() just before the release. If it somehow
-possible to reach this "case:" it won't hurt. Anyway, good refactoring
-of all this reconnect mess will come soon.
+I think my design follows the hardware where there can be conflicts,
+etc, but what I didn't know how to do was add the faux I2cBuses in a
+useful way -- but if I add the I2cBuses to the device, and then on
+add/remove it registers the device on the parent bus -- i can still
+use the reachable boolean to control whether it's present.  The faux
+I2cBuses would be a simplification for adding/removing i2c devices --
+and would act as the device list in my object.  So then setting the
+channels would change to walking the devices held by the bus that
+corresponds with the bit -- but _still_ using the reachable boolean.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
+If you'd like, I can update my patchset to use an i2cbus for the
+purpose above, then it would satisfy the requirement of leveraging the
+normal device process and no longer require the special function call.
 
-Hi all! I faced a crash, just running 277 iotest in a loop. I can't
-reproduce it on master, it reproduces only on my branch with nbd
-reconnect refactorings.
+Patrick
 
-Still, it seems very possible that it may crash under some conditions.
-So I propose this patch for 6.0. It's written so that it's obvious that
-it will not hurt:
-
- pre-patch, on first hunk we'll just crash if thr is NULL,
- on second hunk it's safe to return -1, and using thr when
- s->connect_thread is already zeroed is obviously wrong.
-
- block/nbd.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/block/nbd.c b/block/nbd.c
-index c26dc5a54f..1d4668d42d 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -443,6 +443,11 @@ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
-     BDRVNBDState *s = bs->opaque;
-     NBDConnectThread *thr = s->connect_thread;
- 
-+    if (!thr) {
-+        /* detached */
-+        return -1;
-+    }
-+
-     qemu_mutex_lock(&thr->mutex);
- 
-     switch (thr->state) {
-@@ -486,6 +491,12 @@ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
-     s->wait_connect = true;
-     qemu_coroutine_yield();
- 
-+    if (!s->connect_thread) {
-+        /* detached */
-+        return -1;
-+    }
-+    assert(thr == s->connect_thread);
-+
-     qemu_mutex_lock(&thr->mutex);
- 
-     switch (thr->state) {
--- 
-2.29.2
-
+> >
+> > -corey
+> >
+> > >
+> > >  MAINTAINERS                      |   6 +
+> > >  hw/i2c/Kconfig                   |   4 +
+> > >  hw/i2c/core.c                    |   6 +
+> > >  hw/i2c/i2c_mux_pca954x.c         | 182 +++++++++++++++++++++++++++++++
+> > >  hw/i2c/meson.build               |   1 +
+> > >  hw/i2c/trace-events              |   5 +
+> > >  include/hw/i2c/i2c.h             |   3 +
+> > >  include/hw/i2c/i2c_mux_pca954x.h |  60 ++++++++++
+> > >  8 files changed, 267 insertions(+)
+> > >  create mode 100644 hw/i2c/i2c_mux_pca954x.c
+> > >  create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
+> > >
+> > > --
+> > > 2.31.0.208.g409f899ff0-goog
+> > >
 
