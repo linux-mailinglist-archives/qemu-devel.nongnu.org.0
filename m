@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02083556E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:44:02 +0200 (CEST)
-Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E385B3556EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:44:58 +0200 (CEST)
+Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTmvx-0002Nm-Qs
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45546)
+	id 1lTmwr-000498-VR
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTmu0-0001D0-Ol
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:42:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36998)
+ id 1lTmvZ-0002rE-Pn
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:43:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTmty-00026q-9r
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:42:00 -0400
+ id 1lTmvQ-0002zJ-76
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:43:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lTmtu-0002l7-9B
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 14:41:54 +0000
+ id 1lTmvL-0005xC-Vv
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 14:43:24 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6DA832E8283
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 14:41:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 609132E81BB
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 14:43:18 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Apr 2021 13:51:02 -0000
-From: Laurent Vivier <1922617@bugs.launchpad.net>
+Date: Tue, 06 Apr 2021 14:07:59 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1915063@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-collected focal
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier nathanchance pmaydell
-X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <161767088471.29958.926730188235259416.malonedeb@gac.canonical.com>
-Message-Id: <161771706219.17322.9097877401738993351.malone@soybean.canonical.com>
-Subject: [Bug 1922617] Re: qemu-aarch64-static "Illegal instruction" with
- debootstrap
+X-Launchpad-Bug-Commenters: dober60 markrhpearson paelzer sergiodj
+ ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
+Message-Id: <161771807940.23668.16574938836562961591.malone@chaenomeles.canonical.com>
+Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: fee1f47b39f2923cf748e681015ebb93758d2c95
+X-Launchpad-Hash: d7c52bfb9a22518789f0445c7a9d888507283d65
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,189 +74,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922617 <1922617@bugs.launchpad.net>
+Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bisected to
+Ok, so you should be able to drop these lines one by one:
 
-commit 26bab757d41b853ea84cb52a10fafc9c10069658
-Author: Richard Henderson <richard.henderson@linaro.org>
-Date:   Fri Feb 12 10:48:33 2021 -0800
+      <feature policy=3D'require' name=3D'x2apic'/>
+      <feature policy=3D'require' name=3D'tsc-deadline'/>
+      <feature policy=3D'require' name=3D'hypervisor'/>
+      <feature policy=3D'require' name=3D'tsc_adjust'/>
+      <feature policy=3D'require' name=3D'stibp'/>
+      <feature policy=3D'require' name=3D'arch-capabilities'/>
+      <feature policy=3D'require' name=3D'ssbd'/>
+      <feature policy=3D'require' name=3D'xsaves'/>
+      <feature policy=3D'require' name=3D'cmp_legacy'/>
+      <feature policy=3D'require' name=3D'invtsc'/>
+      <feature policy=3D'require' name=3D'amd-ssbd'/>
+      <feature policy=3D'require' name=3D'virt-ssbd'/>
+      <feature policy=3D'require' name=3D'rdctl-no'/>
+      <feature policy=3D'require' name=3D'skip-l1dfl-vmentry'/>
+      <feature policy=3D'require' name=3D'mds-no'/>
+      <feature policy=3D'require' name=3D'pschange-mc-no'/>
 
-    linux-user: Introduce PAGE_ANON
-    =
+If that does not yet make it work, add those one by one (removing the featu=
+res of the named type)
+    <feature policy=3D'disable' name=3D'3dnowprefetch'/>
+    <feature policy=3D'disable' name=3D'abm'/>
+    <feature policy=3D'disable' name=3D'adx'/>
+    <feature policy=3D'disable' name=3D'aes'/>
+    <feature policy=3D'disable' name=3D'amd-stibp'/>
+    <feature policy=3D'disable' name=3D'apic'/>
+    <feature policy=3D'disable' name=3D'arat'/>
+    <feature policy=3D'disable' name=3D'avx'/>
+    <feature policy=3D'disable' name=3D'avx2'/>
+    <feature policy=3D'disable' name=3D'bmi1'/>
+    <feature policy=3D'disable' name=3D'bmi2'/>
+    <feature policy=3D'disable' name=3D'clflush'/>
+    <feature policy=3D'disable' name=3D'clflushopt'/>
+    <feature policy=3D'disable' name=3D'clwb'/>
+    <feature policy=3D'disable' name=3D'clzero'/>
+    <feature policy=3D'disable' name=3D'cmov'/>
+    <feature policy=3D'disable' name=3D'cr8legacy'/>
+    <feature policy=3D'disable' name=3D'cx16'/>
+    <feature policy=3D'disable' name=3D'cx8'/>
+    <feature policy=3D'disable' name=3D'de'/>
+    <feature policy=3D'disable' name=3D'f16c'/>
+    <feature policy=3D'disable' name=3D'fma'/>
+    <feature policy=3D'disable' name=3D'fpu'/>
+    <feature policy=3D'disable' name=3D'fsgsbase'/>
+    <feature policy=3D'disable' name=3D'fxsr'/>
+    <feature policy=3D'disable' name=3D'fxsr_opt'/>
+    <feature policy=3D'disable' name=3D'ibpb'/>
+    <feature policy=3D'disable' name=3D'lahf_lm'/>
+    <feature policy=3D'disable' name=3D'lm'/>
+    <feature policy=3D'disable' name=3D'mca'/>
+    <feature policy=3D'disable' name=3D'mce'/>
+    <feature policy=3D'disable' name=3D'misalignsse'/>
+    <feature policy=3D'disable' name=3D'mmx'/>
+    <feature policy=3D'disable' name=3D'mmxext'/>
+    <feature policy=3D'disable' name=3D'movbe'/>
+    <feature policy=3D'disable' name=3D'msr'/>
+    <feature policy=3D'disable' name=3D'mtrr'/>
+    <feature policy=3D'disable' name=3D'npt'/>
+    <feature policy=3D'disable' name=3D'nrip-save'/>
+    <feature policy=3D'disable' name=3D'nx'/>
+    <feature policy=3D'disable' name=3D'osvw'/>
+    <feature policy=3D'disable' name=3D'pae'/>
+    <feature policy=3D'disable' name=3D'pat'/>
+    <feature policy=3D'disable' name=3D'pclmuldq'/>
+    <feature policy=3D'disable' name=3D'pdpe1gb'/>
+    <feature policy=3D'disable' name=3D'perfctr_core'/>
+    <feature policy=3D'disable' name=3D'pge'/>
+    <feature policy=3D'disable' name=3D'pni'/>
+    <feature policy=3D'disable' name=3D'popcnt'/>
+    <feature policy=3D'disable' name=3D'pse'/>
+    <feature policy=3D'disable' name=3D'pse36'/>
+    <feature policy=3D'disable' name=3D'rdpid'/>
+    <feature policy=3D'disable' name=3D'rdrand'/>
+    <feature policy=3D'disable' name=3D'rdseed'/>
+    <feature policy=3D'disable' name=3D'rdtscp'/>
+    <feature policy=3D'disable' name=3D'sep'/>
+    <feature policy=3D'disable' name=3D'sha-ni'/>
+    <feature policy=3D'disable' name=3D'smap'/>
+    <feature policy=3D'disable' name=3D'smep'/>
+    <feature policy=3D'disable' name=3D'sse'/>
+    <feature policy=3D'disable' name=3D'sse2'/>
+    <feature policy=3D'disable' name=3D'sse4.1'/>
+    <feature policy=3D'disable' name=3D'sse4.2'/>
+    <feature policy=3D'disable' name=3D'sse4a'/>
+    <feature policy=3D'disable' name=3D'ssse3'/>
+    <feature policy=3D'disable' name=3D'svm'/>
+    <feature policy=3D'disable' name=3D'syscall'/>
+    <feature policy=3D'disable' name=3D'tsc'/>
+    <feature policy=3D'disable' name=3D'umip'/>
+    <feature policy=3D'disable' name=3D'vme'/>
+    <feature policy=3D'disable' name=3D'wbnoinvd'/>
+    <feature policy=3D'disable' name=3D'xgetbv1'/>
+    <feature policy=3D'disable' name=3D'xsave'/>
+    <feature policy=3D'disable' name=3D'xsavec'/>
+    <feature policy=3D'disable' name=3D'xsaveerptr'/>
+    <feature policy=3D'disable' name=3D'xsaveopt'/>
 
-    Record whether the backing page is anonymous, or if it has file
-    backing.  This will allow us to get close to the Linux AArch64
-    ABI for MTE, which allows tag memory only on ram-backed VMAs.
-    =
-
-    The real ABI allows tag memory on files, when those files are
-    on ram-backed filesystems, such as tmpfs.  We will not be able
-    to implement that in QEMU linux-user.
-    =
-
-    Thankfully, anonymous memory for malloc arenas is the primary
-    consumer of this feature, so this restricted version should
-    still be of use.
-    =
-
-    Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-    Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-    Message-id: 20210212184902.1251044-3-richard.henderson@linaro.org
-    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Eventually I'd hope you identify one feature (re add everything but this
+to verify) that breaks it. Any chance to do this iterative test? You
+could also "bisect" this list if you want to save some time.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922617
+https://bugs.launchpad.net/bugs/1915063
 
 Title:
-  qemu-aarch64-static "Illegal instruction" with debootstrap
+  Windows 10 wil not install using qemu-system-x86_64
 
 Status in QEMU:
   New
+Status in qemu package in Ubuntu:
+  Confirmed
 
 Bug description:
-  This is reproducible against QEMU master. I apologize for the long
-  reproduction steps, I tried to distill it down as much as possible.
+  Steps to reproduce
+  install virt-manager and ovmf if nopt already there
+  copy windows and virtio iso files to /var/lib/libvirt/images
 
-  System info:
+  Use virt-manager from local machine to create your VMs with the disk, CPU=
+s and memory required
+      Select customize configuration then select OVMF(UEFI) instead of seab=
+ios
+      set first CDROM to the windows installation iso (enable in boot optio=
+ns)
+      add a second CDROM and load with the virtio iso
+  	change spice display to VNC
 
-  # qemu-aarch64-static --version
-  qemu-aarch64 version 5.2.91 (v6.0.0-rc1-68-gee82c086ba)
-  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+    Always get a security error from windows and it fails to launch the ins=
+taller (works on RHEL and Fedora)
+  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
+ of no help
+  --- =
 
-  # cat /etc/os-release
-  PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
-  NAME=3D"Debian GNU/Linux"
-  VERSION_ID=3D"10"
-  VERSION=3D"10 (buster)"
-  VERSION_CODENAME=3Dbuster
-  ID=3Ddebian
-  HOME_URL=3D"https://www.debian.org/"
-  SUPPORT_URL=3D"https://www.debian.org/support"
-  BUG_REPORT_URL=3D"https://bugs.debian.org/"
+  ProblemType: Bug
+  ApportVersion: 2.20.11-0ubuntu27.14
+  Architecture: amd64
+  CasperMD5CheckResult: skip
+  CurrentDesktop: ubuntu:GNOME
+  DistributionChannelDescriptor:
+   # This is the distribution channel descriptor for the OEM CDs
+   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
+criptor
+   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
+d64+X00
+  DistroRelease: Ubuntu 20.04
+  InstallationDate: Installed on 2021-01-20 (19 days ago)
+  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
+0-14:39
+  MachineType: LENOVO 30E102Z
+  NonfreeKernelModules: nvidia_modeset nvidia
+  Package: linux (not installed)
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcFB: 0 EFI VGA
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
+=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
+andoff=3D7
+  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
+  RelatedPackageVersions:
+   linux-restricted-modules-5.6.0-1042-oem N/A
+   linux-backports-modules-5.6.0-1042-oem  N/A
+   linux-firmware                          1.187.8
+  RfKill:
+   =
 
-  # head -n 26 /proc/cpuinfo
-  processor       : 0
-  vendor_id       : GenuineIntel
-  cpu family      : 6
-  model           : 85
-  model name      : Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
-  stepping        : 7
-  microcode       : 0x5002f01
-  cpu MHz         : 1000.716
-  cache size      : 22528 KB
-  physical id     : 0
-  siblings        : 32
-  core id         : 0
-  cpu cores       : 16
-  apicid          : 0
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 22
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx=
- pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xto=
-pology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx=
- smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic mo=
-vbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpr=
-efetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single intel_ppin ssbd mba ibr=
-s ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsg=
-sbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm mpx rdt_a avx512f avx=
-512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl x=
-saveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_l=
-ocal dtherm ida arat pln pts pku ospke avx512_vnni md_clear flush_l1d arch_=
-capabilities
-  bugs            : spectre_v1 spectre_v2 spec_store_bypass swapgs taa itlb=
-_multihit
-  bogomips        : 4600.00
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 46 bits physical, 48 bits virtual
-  power management:
-
-  My reproduction steps:
-
-  # apt-get install --no-install-recommends -y \
-      build-essential \
-      ca-certificates \
-      debootstrap \
-      git \
-      libglib2.0-dev \
-      libpixman-1-dev \
-      ninja-build \
-      pkg-config \
-      python3 \
-      zstd
-
-  # git clone https://github.com/qemu/qemu
-
-  # mkdir qemu/build
-
-  # cd qemu/build
-
-  # ../configure \
-      --enable-debug \
-      --enable-linux-user \
-      --disable-bsd-user \
-      --disable-werror \
-      --disable-system \
-      --disable-tools \
-      --disable-docs \
-      --disable-gtk \
-      --disable-gnutls \
-      --disable-nettle \
-      --disable-gcrypt \
-      --disable-glusterfs \
-      --disable-libnfs \
-      --disable-libiscsi \
-      --disable-vnc \
-      --disable-kvm \
-      --disable-libssh \
-      --disable-libxml2 \
-      --disable-vde \
-      --disable-sdl \
-      --disable-opengl \
-      --disable-xen \
-      --disable-fdt \
-      --disable-vhost-net \
-      --disable-vhost-crypto \
-      --disable-vhost-user \
-      --disable-vhost-vsock \
-      --disable-vhost-scsi \
-      --disable-tpm \
-      --disable-qom-cast-debug \
-      --disable-capstone \
-      --disable-zstd \
-      --disable-linux-io-uring \
-      --static \
-      --target-list-exclude=3Dhexagon-linux-user
-
-  # ninja qemu-aarch64
-
-  # install -Dm755 qemu-aarch64 /usr/local/bin/qemu-aarch64-static
-
-  # cat <<'EOF' >/proc/sys/fs/binfmt_misc/register
-  :qemu-aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\=
-x02\x00\xb7:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xf=
-f\xfe\xff\xff:/usr/local/bin/qemu-aarch64-static:CF
-  EOF
-
-  # debootstrap --arch arm64 --foreign buster debian-rootfs
-
-  # chroot debian-rootfs /debootstrap/debootstrap --second-stage
-  Illegal instruction
-
-  This prevents me from building an arm64 Debian image on x86_64. If I
-  am doing something wrong, please let me know. The binary has been
-  uploaded for your convenience.
+  Tags:  focal
+  Uname: Linux 5.6.0-1042-oem x86_64
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
+udo
+  _MarkForUpload: True
+  dmi.bios.date: 07/29/2020
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: S07KT08A
+  dmi.board.name: 1046
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Defined
+  dmi.chassis.type: 3
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: None
+  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
+pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
+  dmi.product.family: INVALID
+  dmi.product.name: 30E102Z
+  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
+  dmi.product.version: ThinkStation P620
+  dmi.sys.vendor: LENOVO
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922617/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
