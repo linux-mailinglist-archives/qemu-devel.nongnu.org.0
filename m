@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235D4354EC8
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 10:37:39 +0200 (CEST)
-Received: from localhost ([::1]:53204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B653C354EC9
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 10:38:04 +0200 (CEST)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lThDO-0000CT-61
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 04:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
+	id 1lThDn-0000JY-Nv
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 04:38:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lThAg-0007Ab-5c; Tue, 06 Apr 2021 04:34:50 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:34579)
+ id 1lThAi-0007B3-Ol; Tue, 06 Apr 2021 04:34:52 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:46775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lThAc-0007Ij-TU; Tue, 06 Apr 2021 04:34:49 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id i144so15336794ybg.1;
- Tue, 06 Apr 2021 01:34:46 -0700 (PDT)
+ id 1lThAf-0007K0-Gr; Tue, 06 Apr 2021 04:34:52 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id e188so4297997ybb.13;
+ Tue, 06 Apr 2021 01:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rQ/uB+s94WRIijxf+2GVfA0+Zw4N3fOgZAlfGP3RR9U=;
- b=KKmZPCqt27uVufOKb5BlTGQ5PCXDsA8Gknz1Lz/oVTpgLVw2vSZlKPzBGavWB447gc
- rVkx4HWm7zLDWahMqGsEqMYifoq/qeideCAPcSx1aEreMJMftURWlljFtdDS7ofLWHlE
- SwkThxJz5wVKAj5we9uZa6Wqqgj5ToA/SsjxpmlQpseKzRhLBTqhIhNiZ7C2934igZmC
- Fyf5LWeuXEa67FE8iHpJtPEjoUV5itMuaSC6hXy676Sj8uweS7m3MlIWJ5aCN67Qrh4N
- pZLlxUv9VOFebUtDz7D1hFhlpvAQuTZd3PqClrIlg/0p+JjufcU0YqfHrV+rERCYCUAS
- a5iw==
+ :cc; bh=OlyjwHKRNMDKF4168ciH3tJQxNybjZ+zyXKXQiTIjEo=;
+ b=JMPQZSGJ2obuT66cPC0eDyF/RmJSixrDRNljqrQbowWbWBkrriEDnXGWIr2Jx/pCIH
+ sNeRH4t7PJsTqn67/YSJ4YyrF9bVu3voeNcpwLnIzd7qnzSwIxAcLpnD61TrQHjO562h
+ gcgycaGNXDJwEL4YGMIjjpJzoS9l842ZQJQCI0SZQvNwGoaWtjqB60pCeC/mod0Nzekp
+ 60uf/zwNkiTQNf/BBy2d0xeZ1TmbmPjiHGVQ/KI1VScuLLYA7tSXyTipcdPMtR+EABwk
+ IlWomASSNtV8QW1znJufE88Z39Z+SbQCSrScWKo7v81Wd7NXvCK5wsYdtZyGScUdWbGz
+ eCaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rQ/uB+s94WRIijxf+2GVfA0+Zw4N3fOgZAlfGP3RR9U=;
- b=ehe0WkuxPSNuFTRUuhoh9uBfVvxy5PF3uTsDVCHE+vSRjSmf3s36WacwpxMAPmfytO
- XzRYIfoTtXbHmn79cMJ3YLS+aw616kz/OM5Euw37BRK1RkKEssHyX85u01+ZmnQH5Xls
- UhXX9tthaRhj6hVXQqZ21fo/a9ILOwfndpGnIrbpwMOa+NXgQB0prFOGGn2nQcdyeYmo
- pA9GsC5cIzanshlwIikJRkwogE4Co8c1zZ6bmAi/M6O4H9NPv9pHZovGy+RtCM4RqO4Q
- CVvOe63thdaLHkqP5t8mklpZgb7tjwvrtjb/CxEzXl4iWLdsjpFQJK7NOiE/oJsdr0lj
- pm7g==
-X-Gm-Message-State: AOAM533BRjFVZImbFvpqYL26gUd8IJs0ZF2QMFJ4gP9bahmi9NMJFSAs
- ohY7aHQ+9P1+S3TDawURqAYGOWSO18H6vdWMDVS57aLg
-X-Google-Smtp-Source: ABdhPJyIvaoLOIFC5fyacK9HVBP4wMjj4FgmdyAVriTpbQvkNGIy2tnqLxWO8QJCwK0jtFzVatNk+B0uacTmWR6GlWA=
-X-Received: by 2002:a25:4154:: with SMTP id o81mr25792817yba.239.1617698085649; 
- Tue, 06 Apr 2021 01:34:45 -0700 (PDT)
+ bh=OlyjwHKRNMDKF4168ciH3tJQxNybjZ+zyXKXQiTIjEo=;
+ b=pjNlk5YjmBQaTQYYsgMrHaPE0cLVJiEGK0TTqG6B4GpR7qaSzxVHNVuI34udn6LdI5
+ s5Wlrxsjy8hp9TY06tUsKrPuyMdxf6VKX+7I9mrmaMDwBWecE2Z6xmJXZ8w/sXHPJLN1
+ 2PIbytRKxLYg5Fq6ODdQJcnRfNaO6NjxrRHXf9CeBtuJTv9tSn983Z03iilLlOFPucD0
+ zK8oRBlw4VoGVJXIFWxvlpPafz446neuJoPsX+8YZWI9CWd/Tif4J+LyOeEe91KgHQvf
+ w254YEqJ7vwYK5p7CjXDTLE+F3LGZlGZ1Py/ndx9eRy3QHY+DthVwsBU0adTDBUhsHzd
+ rF5A==
+X-Gm-Message-State: AOAM530mZ5ZzoIr1Yjwk4XKpewCpW/W7YpD7moKJPvl40so6XRjwS3yT
+ 41MJ1zT6js6M2+JIXkLaX8bFCRTmWaLrX6rERgq0U6mX
+X-Google-Smtp-Source: ABdhPJzUfXo1DU+zDrdcg/y29U+C0gXdiYjIH8yKPe+MCHymsV681L17liKpNFzwHmW/ENRWfpj2XdNGBmNaVWFi6bU=
+X-Received: by 2002:a25:e04c:: with SMTP id x73mr36128926ybg.387.1617698088264; 
+ Tue, 06 Apr 2021 01:34:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1617290165.git.alistair.francis@wdc.com>
- <187261fa671c3a77cf5aa482adb2a558c02a7cad.1617290165.git.alistair.francis@wdc.com>
-In-Reply-To: <187261fa671c3a77cf5aa482adb2a558c02a7cad.1617290165.git.alistair.francis@wdc.com>
+ <cb1ef2061547dc9028ce3cf4f6622588f9c09149.1617290165.git.alistair.francis@wdc.com>
+In-Reply-To: <cb1ef2061547dc9028ce3cf4f6622588f9c09149.1617290165.git.alistair.francis@wdc.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 6 Apr 2021 16:34:34 +0800
-Message-ID: <CAEUhbmV6EAeK5L8TgidV-oRCRZDRd+hKa+ak6C8M=cscsx2NWw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] target/riscv: Use the RISCVException enum for CSR
- predicates
+Date: Tue, 6 Apr 2021 16:34:37 +0800
+Message-ID: <CAEUhbmW__1NR10=BFEc31TTBYVLhHpm0j-5okw_LsVqb9-B-Qw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] target/riscv: Fix 32-bit HS mode access permissions
 To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,9 +87,8 @@ On Thu, Apr 1, 2021 at 11:19 PM Alistair Francis
 >
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  target/riscv/cpu.h |  3 +-
->  target/riscv/csr.c | 80 +++++++++++++++++++++++++---------------------
->  2 files changed, 46 insertions(+), 37 deletions(-)
+>  target/riscv/csr.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
