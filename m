@@ -2,57 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FCC355111
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 12:38:54 +0200 (CEST)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C7A355115
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 12:40:56 +0200 (CEST)
+Received: from localhost ([::1]:59178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTj6j-000060-Nr
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 06:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35186)
+	id 1lTj8h-00013U-C6
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 06:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lTj4t-00085V-Ca
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:37:00 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:47254)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lTj76-0000bg-RR; Tue, 06 Apr 2021 06:39:16 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lTj4l-0003hF-8Y
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:36:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zfZNFWeNSZ789aFZw6ZFyEW7pP5Z+83bgMxoqcNHMwU=; b=MR7MgnL81CBGRBkPBul8l1oYEg
- bZDlrNajTANOXpRISyT9adSJC0fEew0XJ7EBIosYG9MePzOZ+OXML8fFXNdrYzR+aPw+zQ3TheWgU
- dzAfHmiwsJDAZn+9dDGBCFo1ZwTESq+WNN6tnpLrWqxbXtZOiGTFGh/P79DdqzVEUhlk=;
-Date: Tue, 6 Apr 2021 12:36:43 +0200
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 00/15] tests/tcg: Add TriCore tests
-Message-ID: <20210406103643.xutdwigf6kg446qo@schnipp-desktop>
-References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lTj6v-0004im-DD; Tue, 06 Apr 2021 06:39:16 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 14AC37462E0;
+ Tue,  6 Apr 2021 12:38:59 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E71A674581E; Tue,  6 Apr 2021 12:38:58 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E55B17456E3;
+ Tue,  6 Apr 2021 12:38:58 +0200 (CEST)
+Date: Tue, 6 Apr 2021 12:38:58 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-6.0] hw/ppc/mac_newworld: Restrict RAM to 2 GiB
+In-Reply-To: <20210406084842.2859664-1-f4bug@amsat.org>
+Message-ID: <bef58e2b-eeb3-426f-169d-f44d5423abe@eik.bme.hu>
+References: <20210406084842.2859664-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
-X-IMT-Spam-Score: 0.0 ()
-X-Sophos-SenderHistory: ip=95.222.26.40, fs=41553652, da=105314469, mc=58,
- sc=35, hc=23, sp=60, fso=41553652, re=0, sd=0, hd=0
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2021.4.6.102716, AntiVirus-Engine: 5.82.0,
- AntiVirus-Data: 2021.4.6.5820000
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
-Received-SPF: pass client-ip=2001:638:502:c003::15;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1745056200-1617705538=:13819"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,26 +55,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?ISO-8859-15?Q?H=E5vard_Eidnes?= <he@NetBSD.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 05, 2021 at 06:00:30PM +0100, Bastian Koppelmann wrote:
-> Hi Alex,
-> 
-> after a long while and thanks to Thomas reminder, I finally came back to this
-> series. I addressed most of your comments except for the timeout --foreground
-> problem (see https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00921.html). 
-> I just couldn't figure out why QEMU hangs when run from the Makefile.
-> 
-> You can find the full tree here:
-> https://github.com/bkoppelmann/qemu/tree/tricore-tcg-tests2
-> 
-> Cheers,
-> Bastian
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-ping?
+--3866299591-1745056200-1617705538=:13819
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Cheers,
-Bastian
+On Tue, 6 Apr 2021, Philippe Mathieu-Daudé wrote:
+> On Mac99 and newer machines, the Uninorth PCI host bridge maps
+> the PCI hole region at 2GiB, so the RAM area beside 2GiB is not
+> accessible by the CPU. Restrict the memory to 2GiB to avoid
+> problems such the one reported in the buglink.
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1922391
+> Reported-by: Håvard Eidnes <he@NetBSD.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+> ---
+> hw/ppc/mac_newworld.c | 4 ++++
+> 1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 21759628466..d88b38e9258 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -157,6 +157,10 @@ static void ppc_core99_init(MachineState *machine)
+>     }
+>
+>     /* allocate RAM */
+> +    if (machine->ram_size > 2 * GiB) {
+> +        error_report("RAM size more than 2 GiB is not supported");
+> +        exit(1);
+> +    }
+>     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+>
+>     /* allocate and load firmware ROM */
+>
+--3866299591-1745056200-1617705538=:13819--
 
