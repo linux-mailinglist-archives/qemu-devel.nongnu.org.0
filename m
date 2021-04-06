@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0B63556AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:32:30 +0200 (CEST)
-Received: from localhost ([::1]:44342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8C3556B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:34:58 +0200 (CEST)
+Received: from localhost ([::1]:46624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTmkn-0005bC-5G
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43096)
+	id 1lTmms-0006aJ-4T
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lTmjc-0005BD-BZ
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:31:16 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:36650)
+ id 1lTmlc-0006BK-1a
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:33:20 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:44947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lTmja-0004fY-Lu
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:31:16 -0400
-Received: by mail-qt1-x836.google.com with SMTP id h7so11291347qtx.3
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 07:31:13 -0700 (PDT)
+ id 1lTmla-0005uu-Fj
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:33:19 -0400
+Received: by mail-qt1-x833.google.com with SMTP id y12so11264494qtx.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 07:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=jHvGxyieXBqQTKBYzTPDEVQuk74DOrsUq4R/fvXoj9k=;
- b=mvSvwXIwhsqoRNGnQskoMm7c7mhUXLL91hXiJ+NJbskMK0fyed41Ou/Dw32YsQ5DjS
- 1LZ5loSouRHvqcHkEGUIgh2UYX2QOVuSpuaLJLmpv4XpUSU7LIWXO6Q/EHCwqF2/I5Aw
- jHBgtZHPRv3s+0ASLW8str0mcL5yT006GSmnwulM50Fl0Z+G07HrxHq9frQ6tejiw4Dz
- Zf1/IbeY/TnrIZIKwQbuQzQE6JVqhkU4KJ2N6mlkb2KfkKYIcP84Vw1OPpd6H6meq/Ra
- TlRFHol7N4TlQI63U+PiWnKSzOQ/TNtdtHJbhFv0Dt7gG2Ahds/FA5zsbiVButb4UGpy
- bLjQ==
+ bh=fINe4mBEKqvmhM8WH5QAcUcpBxaIoiUz/XmsfBdYNsI=;
+ b=r9dl88MqbZfSdru+lpDMQ+XkoOt/5sPw7pPoBhg4ULWJCBqGklOFyEAucXEb1GGlF2
+ GGVFIyJPJTcEaBu+At4dVfJuYdBuuYEZQR5jRMZ/3QUvqj/DpPvZPp9Q89bFCGckcRXB
+ NaFSYxLfJefj2CiZiCPljqPoYPeI9CU4aKJ1DqfJaqrSH4PFIP0VMuB1sEQw9aoSfUz2
+ ZbODvUpkwWswKc0xkxa4KJ6wo5ZDQP9fF4FqReU4o40W91DPERmbIrwyo/eE3zGs+ymc
+ /GINHBmewa8bKrCtJ7pCKMBDAt7W8usZODms3XKDO6pPmBDfPQhuk14+xYJpEoR4pfFf
+ s7mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=jHvGxyieXBqQTKBYzTPDEVQuk74DOrsUq4R/fvXoj9k=;
- b=WY4VlO0wJcTwOTkYvR6UGBKQEH4NMwZ6IAshCLSn3xAJwOzMC19a2uu5QXSuX0TjyM
- jUKiXtINnI04cnUWo+u22V/rhnVBCerFouXaIAGTQd07im/qb9e9PcUEz7Q13mPV92AP
- eoLz4O8yl2oHGCCmcFmCwD1Md7hZdx4vxpok3hV/dQoQsZvg1alzyadHPyVP1zxtJXoE
- 6Zbr7uRRjofxdLnu3ar2HJzfo9Y+vITmL5j/qP+EOs/+s5rNz7Tbh4u7aJtwJNdPwCK/
- NeqEnuWdQpsy8R9ARpJzY0k2Cy8BY7fCccsPuC35dp3SuLe+KU5kM1dTzT40Jox9PBLY
- ZGAA==
-X-Gm-Message-State: AOAM530dE7Pc+420sZ8j7F9ouM51w23UXS+SBCHs1gAd6UrCqrWHrtAS
- 80lad4GmCiRqVT1I9D000KM=
-X-Google-Smtp-Source: ABdhPJzCaVLstKQL9kA5Jscs21mENtBTRTVtP5pahWiQ2TV/DQFOBBqBidZgEWTuswyq9wc2nZdb2Q==
-X-Received: by 2002:ac8:424d:: with SMTP id r13mr27165180qtm.196.1617719473221; 
- Tue, 06 Apr 2021 07:31:13 -0700 (PDT)
+ bh=fINe4mBEKqvmhM8WH5QAcUcpBxaIoiUz/XmsfBdYNsI=;
+ b=Z7gwp8QGWzmyZBqkEVRKYrvm/0rrEEbMWa9QZ4kkY3hR6qYVg8BNBMNBepE0haCUAx
+ 09+vhhotMCi2gHej8LDvpkQiPlBgIt8YFYAttN3p5hsYvjIu8IBTfdeSL5Uil0TpUy3v
+ H+olLV0HWuWNh0J8m07j14XqA29ScciyNfIPBqXyrXBXBYFZ2TZxsswIdlkcMq46hG1J
+ PsZTxpSjoK1gP1Gr+txJ+WRo+GWx8w+sY9P9Y0182TlqPaRhcNAuX6mVtxKMwygx46xY
+ c+HQ+o0J7vaVzDK4ZuLt8H1iYFG3g6sUgYBAtP2568e4e+zl2s1QRNthrKe0f50wokq1
+ uVDQ==
+X-Gm-Message-State: AOAM533xpQjlUEwnw+lnlHyTnCdvYZZ3AnCdtuCLwdJXiCjpYbfCoPOv
+ EQomj9/iszCB12AS5Gc/DaI=
+X-Google-Smtp-Source: ABdhPJyHjPziU+EGkqaR+HSeX6ID5OnkekdLKBXN+HlO0dWlM24Y2BPEasWMpg/rymjhwz//eKHdyQ==
+X-Received: by 2002:ac8:5142:: with SMTP id h2mr10461920qtn.166.1617719597462; 
+ Tue, 06 Apr 2021 07:33:17 -0700 (PDT)
 Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
  [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id m25sm14810247qtq.59.2021.04.06.07.31.12
+ by smtp.gmail.com with ESMTPSA id z17sm5544983qtf.10.2021.04.06.07.33.16
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 06 Apr 2021 07:31:12 -0700 (PDT)
+ Tue, 06 Apr 2021 07:33:16 -0700 (PDT)
 Content-Type: text/plain;
 	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
 Subject: Re: Mac OS real USB device support issue
 From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
-Date: Tue, 6 Apr 2021 10:31:11 -0400
+In-Reply-To: <97cddc56-1b13-dab4-33d8-5fdaeae575d7@eik.bme.hu>
+Date: Tue, 6 Apr 2021 10:33:15 -0400
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <967C172F-B708-40A2-862E-9948F0844133@gmail.com>
+Message-Id: <36BCBE7F-7369-4893-BBC7-CD0AFBC9F510@gmail.com>
 References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
  <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
+ <97cddc56-1b13-dab4-33d8-5fdaeae575d7@eik.bme.hu>
+To: BALATON Zoltan <balaton@eik.bme.hu>
 X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x836.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x833.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,52 +87,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU devel list <qemu-devel@nongnu.org>, gerd@kraxel.org
+Cc: QEMU devel list <qemu-devel@nongnu.org>, gerd@kraxel.org,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> On Apr 6, 2021, at 10:01 AM, Howard Spoelstra <hsp.cat7@gmail.com> =
+> On Apr 6, 2021, at 10:20 AM, BALATON Zoltan <balaton@eik.bme.hu> =
 wrote:
 >=20
-> On Tue, Apr 6, 2021 at 3:44 PM Programmingkid =
+> On Tue, 6 Apr 2021, Howard Spoelstra wrote:
+>> On Tue, Apr 6, 2021 at 3:44 PM Programmingkid =
 <programmingkidx@gmail.com> wrote:
->>=20
->> Hi Gerd,
->>=20
->> I was wondering if you had access to a Mac OS 10 or Mac OS 11 machine =
-to test USB support. I am on Mac OS 11.1 and cannot make USB devices =
-work with any of my guests. So far these are the guests I have tested =
-with:
->>=20
->> - Windows 7
->> - Mac OS 9.2
->> - Windows 2000
->>=20
->> I have tried using USB flash drives, USB sound cards, and an USB =
+>>>=20
+>>> Hi Gerd,
+>>>=20
+>>> I was wondering if you had access to a Mac OS 10 or Mac OS 11 =
+machine to test USB support. I am on Mac OS 11.1 and cannot make USB =
+devices work with any of my guests. So far these are the guests I have =
+tested with:
+>>>=20
+>>> - Windows 7
+>>> - Mac OS 9.2
+>>> - Windows 2000
+>>>=20
+>>> I have tried using USB flash drives, USB sound cards, and an USB =
 headset. They all show up under 'info usb', but cannot be used in the =
 guest. My setup does use a USB-C hub so I'm not sure if this is a bug =
 with QEMU or an issue with the hub. Would you have any information on =
 this issue?
+>>=20
+>> Hi John,
+>>=20
+>> As far as the Mac OS 9.2 guest is concerned on a mac OS host, it does
+>> not support USB 2.0. I was successful only in passing through a USB
+>> flash drive that was forced into USB 1.1 mode by connecting it to a
+>> real USB 1.1 hub and unloading the kext it used.
 >=20
-> Hi John,
+> I think USB passthorugh works in VirtualBox on macOS so maybe you =
+could check how that works there and what might need to be done for it. =
+Although I'm not sure if it's in the open source part or in the non-free =
+extensions so may not be that easy to find out what's needed if the =
+sources for it are not available.
 >=20
-> As far as the Mac OS 9.2 guest is concerned on a mac OS host, it does
-> not support USB 2.0. I was successful only in passing through a USB
-> flash drive that was forced into USB 1.1 mode by connecting it to a
-> real USB 1.1 hub and unloading the kext it used.
->=20
-> Best,
-> Howard
+> Regards.
+> BALATON Zoltan
 
-Hi Howard, I was actually thinking about CC'ing you for this email. Glad =
-you found it. Unloading kext files does not sound pleasant. Maybe there =
-is some better way of doing it.=20
+Excellent idea.
 
-Thanks.
-
-Currently there doesn't appear to be a single page with info on how to =
-use USB devices in QEMU with a Mac OS host. Hopefully when I have =
-collected enough information I can make one.=
 
