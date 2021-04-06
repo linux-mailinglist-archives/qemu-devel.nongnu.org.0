@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FA2354DA9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 09:18:00 +0200 (CEST)
-Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5848A354DCA
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 09:23:06 +0200 (CEST)
+Received: from localhost ([::1]:38612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTfyI-00007k-SF
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 03:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47102)
+	id 1lTg3E-0001WT-Vk
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 03:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTfwI-0007gT-Ho
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:15:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46863)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lTfxO-0008TD-A5; Tue, 06 Apr 2021 03:17:02 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:35215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lTfwE-0001YB-L2
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:15:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617693349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qvrdDlvKu22uXUziqHM55JUoTZw4apRfqlu8ewC5drg=;
- b=T6ed6wnI9SNW984r+4R5rlHcFI0WnGwzMPxmX8MUFUmxz3vuhE4rLf6Nha03VWZIu521HN
- 4tKSTfzCrgr+zgupv/n/7To/SKO5bxBkmU7Ymz/Q07zt5hLq6jSNrTl6uP6+86xdwKfqbA
- ZgfzamtF622AQNw9i0VfCoPJwV+9ZBQ=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-js1NnkGLOWamDPdi9TrRpg-1; Tue, 06 Apr 2021 03:15:46 -0400
-X-MC-Unique: js1NnkGLOWamDPdi9TrRpg-1
-Received: by mail-ej1-f71.google.com with SMTP id gn30so5077195ejc.3
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 00:15:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qvrdDlvKu22uXUziqHM55JUoTZw4apRfqlu8ewC5drg=;
- b=qfJSP78/AqACgxViYAVP+c0XvbjdGtTmKZ1Jnw8fk3MFOQ8oKre3kF8IeJtuHUh4wa
- czChjMZHHvoqo7D1adpUnrgZTs9e0cK2Wbn53kmNsGcajPTkR9fs2GX7Y8OVCz11MF7u
- 3bQ02anDnoj4GVmxbqnDWvmNN4VYa3y8pYZ2lKysD0F1GwEpim/JzASO86Z3abbYMtlw
- 4wYLYpw1PMwBFpgyy4VzfYZz6zsVeKUUMTie4L0d3z+qzcbA2a4mB0HJqRwg4bZ+AWvd
- Dy4tcWhMFRU3s2J3qh3vhLq19p9H1oy3ZqSsV+AM9uEtSf+XH+udyLsTzH3zczg/4t6h
- mOjQ==
-X-Gm-Message-State: AOAM5336X+osEdErvOPLw2RMXToT/NbmiiQCWLWv+wy2KfSEkOxZGngk
- ch5+1O6P+IuFYBB3x9zwGMIStB+lHsuEKTNT7zfaCsPRv0FaWcCrVA+XU0x5NyXFRGCfG5APrne
- +yZ6zU4bNnK3lsUw=
-X-Received: by 2002:a05:6402:3593:: with SMTP id
- y19mr36007157edc.317.1617693345871; 
- Tue, 06 Apr 2021 00:15:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKNySVhjZhoKLGbBWjRkE1aDp9mOSbj0gvKY+O19nPlHYsH6tO/QUWXaXJirvA01IIzr5TVw==
-X-Received: by 2002:a05:6402:3593:: with SMTP id
- y19mr36007143edc.317.1617693345695; 
- Tue, 06 Apr 2021 00:15:45 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id q2sm10484051eje.24.2021.04.06.00.15.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 00:15:45 -0700 (PDT)
-Subject: Re: [PATCH] i386/cpu: Expose AVX_VNNI instruction to guset
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20210406015757.25718-1-yang.zhong@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <35eb247d-55be-981a-8818-16aceb84cf82@redhat.com>
-Date: Tue, 6 Apr 2021 09:15:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lTfxK-0002Fa-Qh; Tue, 06 Apr 2021 03:17:01 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 536CC58043E;
+ Tue,  6 Apr 2021 03:16:57 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Tue, 06 Apr 2021 03:16:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=oesuBYTOkQ1O177pF9q1C8TooxA
+ dx0HlDYGjImTz1xc=; b=uTQUpdhwD72WXhw+eawoS86TM8TnDj5p8L7gYKMyuUM
+ 6Hd/WWenohHduxNnpVq5AnyofihXafEjZaTUHGqPwJFYfhEaH0vDqtA8aZLHwmZS
+ KOkoMpNyCnPvODkeaXbXs9vw9104IhXFhwpYn14orvCfg2dHC5gJtT9D1zPi7hxo
+ 8Qg+9o8dJznRhc4IZ7LEIuUmL70ldC8l808mikaetdA8LWftnJtGB1LQaHdUuTyq
+ e3sFAHfwkgRF0RcuLvkKZgIhXmkfVT5iC1FzIZO31ZGVzTZB+RO21WTCOpufd21S
+ zxpOQyKQZyttMXCCRDAYibGPmn0oAd4vTZ1rYLJC60A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=oesuBY
+ TOkQ1O177pF9q1C8TooxAdx0HlDYGjImTz1xc=; b=pZejU/eNZ4t6UA/hxjMqs7
+ SkECikvqAED/H3uMtnpzcoV/a6C5p/0cVXGWLGVDOJ2YPvd5Wfz7AnQsnf1PVFoD
+ k0ZK5o/i6eNbYCnGOMH0yJ4jIcLtntXv9BxS5k+epqugLnCkdLumY0TmDhhyij6c
+ pWh0qV+WHUYTSHqDY4t07U4nVNsXlWymZkHA+kbXFgDIJR9LZOctjM/5Y4lWLEJh
+ g0O39xbqcG8rglTJAEPR62V9uVvocq/oi9keOM5iOeJk5yMIO4X9yTGDJgAZfVrM
+ Q9FDGXBE/ODIwzwFRnsglRbtUhkoUArpniv33n/jM1sw6fgpbfpC9e3TnxfVF0tg
+ ==
+X-ME-Sender: <xms:5wpsYDN9rACOiY441ns2ojoZyJYjxigpYHgoKVxSKZx0bgrSLO9g3Q>
+ <xme:5wpsYBpiYt6H6_335r4bfvAp817tylF-9KUj6IgiKl0oaZaP5FQWxIkiXdPQNzlaj
+ 67KPTfF9G9se0rTs9Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejfedguddulecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:5wpsYMF7wlgfR7DCfgBRVrCt2WvZzduqVW_fatk7SaR7Qy3o7izCOA>
+ <xmx:5wpsYOqG191V1MdoKKxPeEQzJHIEAMr4a3LppAvstiGZLOxa6TRYUQ>
+ <xmx:5wpsYNZ8KMr0iSNXYB2NhEp4i9gFKhnEJYq7TdKoduc9o55RZ5e7zg>
+ <xmx:6QpsYDK9HhbTJ7-oxVkbRMJdgJMrsJs0Gq73uk5SlE6BI3aRu8PUXw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7D71F108006C;
+ Tue,  6 Apr 2021 03:16:54 -0400 (EDT)
+Date: Tue, 6 Apr 2021 09:16:51 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH for-6.0 v2 3/8] hw/block/nvme: fix the nsid 'invalid' value
+Message-ID: <YGwK4zjLjNXUNA+f@apples.localdomain>
+References: <20210405175452.37578-1-its@irrelevant.dk>
+ <20210405175452.37578-4-its@irrelevant.dk>
+ <3b061ab5-573c-0c67-3990-8087aa385ddb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210406015757.25718-1-yang.zhong@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PdArzzbKM13UVi9e"
+Content-Disposition: inline
+In-Reply-To: <3b061ab5-573c-0c67-3990-8087aa385ddb@redhat.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,72 +95,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bonzini@gnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Typo "guest" in subject.
 
-On 4/6/21 3:57 AM, Yang Zhong wrote:
-> Expose AVX (VEX-encoded) versions of the Vector Neural Network
-> Instructions to guest.>
-> The bit definition:
-> CPUID.(EAX=7,ECX=1):EAX[bit 4] AVX_VNNI
-> 
-> The following instructions are available when this feature is
-> present in the guest.
->   1. VPDPBUS: Multiply and Add Unsigned and Signed Bytes
->   2. VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
->   3. VPDPWSSD: Multiply and Add Signed Word Integers
->   4. VPDPWSSDS: Multiply and Add Signed Integers with Saturation
-> 
-> As for the kvm related code, please reference Linux commit id 1085a6b585d7.
-> 
-> The release document ref below link:
-> https://software.intel.com/content/www/us/en/develop/download/\
-> intel-architecture-instruction-set-extensions-programming-reference.html
-> 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> ---
->  target/i386/cpu.c | 4 ++--
->  target/i386/cpu.h | 2 ++
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 6b3e9467f1..f0c48f06a2 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -996,7 +996,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->          .type = CPUID_FEATURE_WORD,
->          .feat_names = {
->              NULL, NULL, NULL, NULL,
-> -            NULL, "avx512-bf16", NULL, NULL,
-> +            "avx-vnni", "avx512-bf16", NULL, NULL,
->              NULL, NULL, NULL, NULL,
->              NULL, NULL, NULL, NULL,
->              NULL, NULL, NULL, NULL,
-> @@ -3273,7 +3273,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
->              MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
->              MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
->          .features[FEAT_7_1_EAX] =
-> -            CPUID_7_1_EAX_AVX512_BF16,
-> +            CPUID_7_1_EAX_AVX_VNNI | CPUID_7_1_EAX_AVX512_BF16,
->          /*
->           * Missing: XSAVES (not supported by some Linux versions,
->           * including v4.1 to v4.12).
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 570f916878..edc8984448 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -804,6 +804,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
->  /* Speculative Store Bypass Disable */
->  #define CPUID_7_0_EDX_SPEC_CTRL_SSBD    (1U << 31)
->  
-> +/* AVX VNNI Instruction */
-> +#define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
->  /* AVX512 BFloat16 Instruction */
->  #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
->  
-> 
+--PdArzzbKM13UVi9e
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Apr  6 08:53, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Klaus,
+>=20
+> On 4/5/21 7:54 PM, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > The `nvme_nsid()` function returns '-1' (FFFFFFFFh) when the given
+> > namespace is NULL. Since FFFFFFFFh is actually a valid namespace
+> > identifier (the "broadcast" value), change this to be '0' since that
+> > actually *is* the invalid value.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> > ---
+> >  hw/block/nvme-ns.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+> > index 9ab7894fc83e..82340c4b2574 100644
+> > --- a/hw/block/nvme-ns.h
+> > +++ b/hw/block/nvme-ns.h
+> > @@ -96,7 +96,7 @@ static inline uint32_t nvme_nsid(NvmeNamespace *ns)
+> >          return ns->params.nsid;
+> >      }
+> > =20
+> > -    return -1;
+> > +    return 0;
+>=20
+> For 6.1 can you add a NVME_NSID_INVALID definition along
+> NVME_NSID_BROADCAST and use it here?
+>=20
+
+Good idea Philippe, I'll write that up, thanks!
+
+--PdArzzbKM13UVi9e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBsCt8ACgkQTeGvMW1P
+DelAGgf/VBQXzlpMpnfVak9b4lpigtPC31A/MQGW1tPXB7/gx8xTOrE66nZnTcSs
+DikoBT8Jp1EJptCoJrznC14u1KGqS2zxXJkLEp2NOngv9hmef8XnO5kfJEwuve9a
+zkCh6vDswUdd9QRtJgEUUQK9fZA3PV1SsQ9mfYKgQmDqc6sdG/tTZ9gVG+pF+9Ii
+J0ipdyMYqHDozcu3eMaQ+sHlc0cI7RvGF2jfMnQpv5Bvz2QvKCBJZX8Ejl17bLvZ
+N4R6wo6wP5kJjut2tBjC1qEcvbaadoLm3n4kiYVEFfLkQc5JY1uKhRZt2vP8Rkfx
+ktyjlgmSrRO/NheXhZJnfu05SElaBg==
+=D81J
+-----END PGP SIGNATURE-----
+
+--PdArzzbKM13UVi9e--
 
