@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAFF354EB7
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 10:33:19 +0200 (CEST)
-Received: from localhost ([::1]:46214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609F6354EBC
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 10:35:35 +0200 (CEST)
+Received: from localhost ([::1]:49470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTh9C-0005Yt-Bc
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 04:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35520)
+	id 1lThBO-0006xU-Be
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 04:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lTh7M-0004gw-8i
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 04:31:24 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:40776)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lTh8C-0005Xk-Or; Tue, 06 Apr 2021 04:32:16 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:43853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lTh7G-0005N5-8K
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 04:31:24 -0400
-Received: by mail-lf1-x132.google.com with SMTP id d13so21408316lfg.7
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 01:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=9ueQKvoLuNhoEksxpmj2aVeAjTizW1VfZGuKUcKL2W4=;
- b=QxEJwFguhS1e3Q1dLsTQqBRW4zqZZnnUedebvyDLu3bR/NDBwK5qVrc0QWK6ZoK4Ch
- YF23zyHS2o64Ebnn3XvDlYNCks1qdERGbtgLvmUNacSxtgopYLJk5yKSUwwDFrh411xD
- tcLIxMRRl8W7RjQ2hPW7NSu0bwJSZSytpVBeDNmiYAjIbWAib3Yl2DiQ56MbX0Ma730p
- Dd6/4yxmWeX9btrHJqg6HdNPNbeMlRPW3uk8Pyi6/6BNfldrt7tkBkfgwnalv4yAlEes
- kTI6hSw7ZbyYaTl4PLHfBAGvKLYg8CFo725tIniqsuyCNbjaIt6TA9yijxf+HpsnGSsF
- zbWQ==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lTh8B-0005z3-2x; Tue, 06 Apr 2021 04:32:16 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id i143so7245801yba.10;
+ Tue, 06 Apr 2021 01:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VrmbqjDy2RIRuHvd8EdwzjlxX1J1dGVamCx0jO6lFjU=;
+ b=d7KV8Vm/mu/QMqlPI9IsuljPKj/6ErPcSOsBc7eyUcOReUcoNcyqQ6hqzsW/kChV5U
+ VB6umfawv7sZuEq0t9Y03f9bGsm0CFgasZ96D23TenJ1qMOD7Xeb37mkl/YHgQ12eS/1
+ ZtyQx4LD+RTZTxiwktdu8Sc1pi7yJWwnNpuRsXvpxUhk+t5kU6O3nPbiGZccLEOR5Hry
+ t9nrvjhAUlxyjHtaG59q+S+0FgsL+ffYR69OCrvgvcVJb9Pf7Es1nIatHX4kzpaWdGHa
+ lkUKN/Z0zMF/QeYtRlqyDf+xNJjCMwwOAMNaqi5umfAE1qinu8Ny3DDb/y0bvSkQtzaK
+ ywhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9ueQKvoLuNhoEksxpmj2aVeAjTizW1VfZGuKUcKL2W4=;
- b=f3sZKxm9iWO1MGKhB4dIgeinzA6Sk7JhrtK3F76wiabi1uFW9WVElmcNWViHFSVRFP
- w5OtAgezENhZE7Y5rrsisr4neVnk0AuQ0Qlv3nd4+P388iLRZzj5kkyLmViFBbt9IsI9
- sh1omU5vjOlNurE4H4WWDjkymyqePPyAbuIPOyxXPDK39an/179vuOm0MRbBK3lYDVQZ
- 76UnPtYPROQgO/8Omu69bGEij5pPiLtijoGq09yg9dIf9Fdv6mp1FTB9C8dpI2aMLgUb
- ZtHK3HzcqHOYnPZLV7egrtNeka40tPu8JpVp9TOWVoBIGViadBWS/Nd6739YPHWUYFmw
- HGPw==
-X-Gm-Message-State: AOAM531VHV1jK6nisTo/WD7315LmK2OCrwPwrqrfvsePBidz7T18pFKQ
- ZOu/M4pd4GIzVxFavcUcCAmh/Q==
-X-Google-Smtp-Source: ABdhPJx0PolJIV0kYB7WaO10oMqpDNXh6NjPpdeHExzyv4YNvlwhFnSJFUtJVnZafPUiMsNDQfxqJg==
-X-Received: by 2002:a05:6512:3091:: with SMTP id
- z17mr20401486lfd.84.1617697875298; 
- Tue, 06 Apr 2021 01:31:15 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id d22sm2124533lfg.160.2021.04.06.01.31.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 01:31:14 -0700 (PDT)
-From: Andrew Melnychenko <andrew@daynix.com>
-To: alex.bennee@linaro.org, f4bug@amsat.org, thuth@redhat.com,
- wainersm@redhat.com, willianr@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 1/1] tests/docker: Added libbpf library to the docker files.
-Date: Tue,  6 Apr 2021 11:29:47 +0300
-Message-Id: <20210406082947.672708-2-andrew@daynix.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210406082947.672708-1-andrew@daynix.com>
-References: <20210406082947.672708-1-andrew@daynix.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VrmbqjDy2RIRuHvd8EdwzjlxX1J1dGVamCx0jO6lFjU=;
+ b=dlnjLY9fC2s8AoWsSKVHlr8EmiOkD1ynQSuMEDUoPqyeYbILmLBbSy8oT4FKSqMfNP
+ MUEyMIN5d2evM8mM23+Svc0VEvEUo60JQOeXlx07+X/GL7u7XOAnOZW//D/S72nSE6Vz
+ CG6eVpoTsgCj7dJN8NcsM8HjEeVdXWIA1zhRhFyT22PjFzcT4gpfWRA6VFOSUkdzdMWK
+ 5BuAmkfWm0lZFWhfSA/Nl858U9ytWNoshGUY8762jjuFn1IhxaKJH+IsHoJzwxJBzdHX
+ vh5dxh4YU+lhUTpLniKZ5MypKXHsm/mpdibwIuXPTPo6vOkifoN8KEDmMe+qTut1ayMe
+ No1A==
+X-Gm-Message-State: AOAM532HvoJKqf2CTl7vDCztXw3KOPS5ujcO4XqM9+gOlYcRwdYL19L+
+ NWMNf0ei0XyF+TIsAEPfEjhTlzSxTFmkB1GvV2E=
+X-Google-Smtp-Source: ABdhPJyHctZAsyztdGAxaJumhOP8MJaHBdLRLCwF+CHt7C5jV3Jq6AIwUGXJQnHocFE26yqEoHv5yLIRTbwDzcX5c0g=
+X-Received: by 2002:a25:5146:: with SMTP id f67mr40964654ybb.332.1617697933657; 
+ Tue, 06 Apr 2021 01:32:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::132;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x132.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <e92b696f1809c9fa4410da2e9f23c414db5a6960.1617202791.git.alistair.francis@wdc.com>
+In-Reply-To: <e92b696f1809c9fa4410da2e9f23c414db5a6960.1617202791.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 6 Apr 2021 16:32:02 +0800
+Message-ID: <CAEUhbmXLHVck3ee1v_DR4WCNxjW7Uhw4VKQ4jv9U37aBtqTySw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] hw/opentitan: Update the interrupt layout
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +74,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The series of patches for eBPF RSS adds libbpf dependency for qemu.
-https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08887.html
+On Wed, Mar 31, 2021 at 11:02 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> Update the OpenTitan interrupt layout to match the latest OpenTitan
+> bitstreams. This involves changing the Ibex PLIC memory layout and the
+> UART interrupts.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  include/hw/riscv/opentitan.h | 16 ++++++++--------
+>  hw/intc/ibex_plic.c          | 20 ++++++++++----------
+>  hw/riscv/opentitan.c         |  8 ++++----
+>  3 files changed, 22 insertions(+), 22 deletions(-)
+>
 
-With this patch, libbpf added:
-  Alpine - added libbpf-dev
-  Centos 8 - added libbpf-devel
-  Fedora - added libbpf-devel
+LGTM
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- tests/docker/dockerfiles/alpine.docker  | 1 +
- tests/docker/dockerfiles/centos8.docker | 1 +
- tests/docker/dockerfiles/fedora.docker  | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index d63a269aef..998a7584ed 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -19,6 +19,7 @@ ENV PACKAGES \
- 	gnutls-dev \
- 	gtk+3.0-dev \
- 	libaio-dev \
-+	libbpf-dev \
- 	libcap-ng-dev \
- 	libjpeg-turbo-dev \
- 	libnfs-dev \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index a763d55730..8c77ce87d3 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -14,6 +14,7 @@ ENV PACKAGES \
-     git \
-     glib2-devel \
-     libaio-devel \
-+    libbpf-devel \
-     libepoxy-devel \
-     libfdt-devel \
-     libgcrypt-devel \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 915fdc1845..483f2d9f83 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -32,6 +32,7 @@ ENV PACKAGES \
-     libcurl-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libbpf-devel \
-     libiscsi-devel \
-     libjpeg-devel \
-     libpmem-devel \
--- 
-2.31.0
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
