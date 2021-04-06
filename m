@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DF1355075
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 12:04:52 +0200 (CEST)
-Received: from localhost ([::1]:40162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE60355097
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 12:12:13 +0200 (CEST)
+Received: from localhost ([::1]:43588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTiZn-0008Dq-3j
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 06:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54896)
+	id 1lTigu-0001Y2-8A
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 06:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lTiYF-0007Yy-EX
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:03:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38359)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lTifV-0000g6-QQ
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:10:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lTiY8-0008Mk-3Q
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:03:14 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lTifP-0004Cn-EG
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 06:10:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617703384;
+ s=mimecast20190719; t=1617703837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zH6Wn8OepDQOpjJzXqayUaUaTBuDolvCmcEssIWrgas=;
- b=OqSaec4yJEWoAV3E3cgxqxECNhbePFYK/SHshYB0/nfMSgqMErZ4HheRr7oqik/9e2CKRl
- H7X/86/D4fnRWoEQ0ZGsmoUyC8H66CJFKPhsKkgXbT2XCNtFCs45Axgn7pK2JLJSJIqFYK
- rz1kEdbFbaK+yW9rU751k69IycyZijU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-QoC7Zm2TNeKz8FeXi2vldA-1; Tue, 06 Apr 2021 06:03:02 -0400
-X-MC-Unique: QoC7Zm2TNeKz8FeXi2vldA-1
-Received: by mail-wr1-f70.google.com with SMTP id t2so1676732wrr.1
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 03:03:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zH6Wn8OepDQOpjJzXqayUaUaTBuDolvCmcEssIWrgas=;
- b=a2JstR1j4CTvBQjmoWiTO0D0G43vqQwXeFGR7S1X5rtrHPRb/KH7EqEmtwEUdwUGIg
- fCGtnwX04B2T3RksEsSDPAzBAzs7/yW17kQCTKoEhCK7VZNajQZj4W99nY2x5CMrcl9s
- 73Nwif3CHDhGzNTlDOfO55XxT7U77sky1DvcyddWiIydqvDo/IsIoY7OJzbMC/4rQQzt
- rqhnHnv9rkOQuA2/YuooPfC9RkYeSvY1JvViLd1fTKCLgPs2c2IqNR5bxLYwKd+gLyQd
- XH1OJskzfkS+EIKKHPpE57lXFw9LJX3fRM2eRMSD598rIl1+sJZhZC5MOpU2Wv81eimX
- PDeQ==
-X-Gm-Message-State: AOAM530m6uTzCsby/Bd4NmJlNvzhYvuEjO+wpOsFE+cdw6281Zk4K9hw
- eK2TdrZbUZgfH63g/x1mLCIlB0bGbv+kzGaRDg/VoArfCJZnUsQzliu6SeD8kZ8yr3kiet/m9Yy
- 6HGa8izKzTu9dr/w=
-X-Received: by 2002:a05:600c:228d:: with SMTP id
- 13mr3425644wmf.49.1617703381392; 
- Tue, 06 Apr 2021 03:03:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCyvfjwJyfpH2vFy5NUD4bEIvnMp81mc3URP5MnmJAh/g7xsDENU7oOGWvHCHMTnI8UmNMew==
-X-Received: by 2002:a05:600c:228d:: with SMTP id
- 13mr3425616wmf.49.1617703381134; 
- Tue, 06 Apr 2021 03:03:01 -0700 (PDT)
-Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id o15sm32346843wra.93.2021.04.06.03.02.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 03:03:00 -0700 (PDT)
-Date: Tue, 6 Apr 2021 06:02:57 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH] hw/virtio: enable ioeventfd configuring for mmio
-Message-ID: <20210406054157-mutt-send-email-mst@kernel.org>
-References: <161700379211.1135943.8859209566937991305.stgit@pasha-ThinkPad-X280>
- <d5119624-9658-2cbb-e1c7-9e85bd22b532@ispras.ru>
+ bh=usulfOE0AzadG2EB/NS+SRJi/oO/areE8EYPHgELqrY=;
+ b=c/UBhEtU7YK2HB43PFcHeGa5NwTtoSHoOgA5co+f90SzjHNXW8k1xXYZbRsprXcCG6rd0N
+ rzQSV0pRGl8iBr7qDr0vzLdvPdFg18iUjo5dp5CrzhcRyksBO9t9fycaXpuIV1EtUUXqHB
+ S1ys3hCo0/+pvvGKw7oKE2pc/vtss3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-5PsT0Gt0ORCwHr--Z3m7Iw-1; Tue, 06 Apr 2021 06:10:33 -0400
+X-MC-Unique: 5PsT0Gt0ORCwHr--Z3m7Iw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1CF0802B40;
+ Tue,  6 Apr 2021 10:10:31 +0000 (UTC)
+Received: from [10.36.112.13] (ovpn-112-13.ams2.redhat.com [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D219E19C45;
+ Tue,  6 Apr 2021 10:10:29 +0000 (UTC)
+Subject: Re: [PATCH] hw/arm/virt-acpi-build: Fix GSIV values of the {GERR,
+ Sync} interrupts
+To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, prem.mallappa@broadcom.com,
+ shannon.zhaosl@gmail.com
+References: <20210402084731.93-1-yuzenghui@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <7f42bc9f-3fb8-d24d-d9e4-9b93784504a6@redhat.com>
+Date: Tue, 6 Apr 2021 12:10:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <d5119624-9658-2cbb-e1c7-9e85bd22b532@ispras.ru>
+In-Reply-To: <20210402084731.93-1-yuzenghui@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,81 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-i tagged it for 6.1
-pls remind me after release so it's not lost
+Hi Zenghui,
 
-
-On Mon, Apr 05, 2021 at 08:50:31AM +0300, Pavel Dovgalyuk wrote:
-> ping
+On 4/2/21 10:47 AM, Zenghui Yu wrote:
+> The GSIV values in SMMUv3 IORT node are not correct as they don't match
+> the SMMUIrq enumeration, which describes the IRQ<->PIN mapping used by
+> our emulated vSMMU.
 > 
-> On 29.03.2021 10:43, Pavel Dovgalyuk wrote:
-> > This patch adds ioeventfd flag for virtio-mmio configuration.
-> > It allows switching ioeventfd on and off.
-> > 
-> > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> > ---
-> >   hw/virtio/virtio-mmio.c         |   11 ++++++++++-
-> >   include/hw/virtio/virtio-mmio.h |    5 +++++
-> >   2 files changed, 15 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> > index 342c918ea7..5952471b38 100644
-> > --- a/hw/virtio/virtio-mmio.c
-> > +++ b/hw/virtio/virtio-mmio.c
-> > @@ -36,7 +36,9 @@
-> >   static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
-> >   {
-> > -    return kvm_eventfds_enabled();
-> > +    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-> > +
-> > +    return (proxy->flags & VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD) != 0;
-> >   }
-> >   static int virtio_mmio_ioeventfd_assign(DeviceState *d,
-> > @@ -720,6 +722,8 @@ static Property virtio_mmio_properties[] = {
-> >       DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
-> >                        format_transport_address, true),
-> >       DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
-> > +    DEFINE_PROP_BIT("ioeventfd", VirtIOMMIOProxy, flags,
-> > +                    VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT, true),
-> >       DEFINE_PROP_END_OF_LIST(),
-> >   };
-> > @@ -731,6 +735,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
-> >       qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
-> >                           d, NULL);
-> >       sysbus_init_irq(sbd, &proxy->irq);
-> > +
-> > +    if (!kvm_eventfds_enabled()) {
-> > +        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
-> > +    }
-> > +
-> >       if (proxy->legacy) {
-> >           memory_region_init_io(&proxy->iomem, OBJECT(d),
-> >                                 &virtio_legacy_mem_ops, proxy,
-> > diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
-> > index d4c4c386ab..090f7730e7 100644
-> > --- a/include/hw/virtio/virtio-mmio.h
-> > +++ b/include/hw/virtio/virtio-mmio.h
-> > @@ -49,12 +49,17 @@ typedef struct VirtIOMMIOQueue {
-> >       uint32_t used[2];
-> >   } VirtIOMMIOQueue;
-> > +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT 1
-> > +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD \
-> > +        (1 << VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT)
-> > +
-> >   struct VirtIOMMIOProxy {
-> >       /* Generic */
-> >       SysBusDevice parent_obj;
-> >       MemoryRegion iomem;
-> >       qemu_irq irq;
-> >       bool legacy;
-> > +    uint32_t flags;
-> >       /* Guest accessible state needing migration and reset */
-> >       uint32_t host_features_sel;
-> >       uint32_t guest_features_sel;
-> > 
+> Fixes: a703b4f6c1ee ("hw/arm/virt-acpi-build: Add smmuv3 node in IORT table")
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Acked-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks!
+
+Eric
+> ---
+>  hw/arm/virt-acpi-build.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index f5a2b2d4cb..60fe2e65a7 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -292,8 +292,8 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>          smmu->flags = cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE);
+>          smmu->event_gsiv = cpu_to_le32(irq);
+>          smmu->pri_gsiv = cpu_to_le32(irq + 1);
+> -        smmu->gerr_gsiv = cpu_to_le32(irq + 2);
+> -        smmu->sync_gsiv = cpu_to_le32(irq + 3);
+> +        smmu->sync_gsiv = cpu_to_le32(irq + 2);
+> +        smmu->gerr_gsiv = cpu_to_le32(irq + 3);
+>  
+>          /* Identity RID mapping covering the whole input RID range */
+>          idmap = &smmu->id_mapping_array[0];
+> 
 
 
