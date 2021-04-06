@@ -2,58 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5C1355C3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 21:37:41 +0200 (CEST)
-Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C79C355C52
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 21:39:44 +0200 (CEST)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTrW7-00010V-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 15:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46602)
+	id 1lTrY7-0001zS-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 15:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lTrUv-0000SM-DW; Tue, 06 Apr 2021 15:36:25 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:36535)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lTrWw-0001Ym-Nb
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 15:38:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lTrUs-0003vF-JB; Tue, 06 Apr 2021 15:36:25 -0400
-Received: from [192.168.100.1] ([82.142.14.126]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MGhds-1lPxjd1Wa2-00DqfF; Tue, 06 Apr 2021 21:36:19 +0200
-Subject: Re: [PATCH v4 12/12] exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210406174031.64299-1-richard.henderson@linaro.org>
- <20210406174031.64299-13-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <ebfb8a08-4b8e-6215-6520-89e44523da70@vivier.eu>
-Date: Tue, 6 Apr 2021 21:36:18 +0200
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lTrWu-00057b-H0
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 15:38:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617737907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UqJPnwt26nhU9NhH+HCfrds3J0CVgI8fs0HDe4vqdsA=;
+ b=ZGlyE5JjRz7gLM+YhQOYutE6eaz94g5IdA8uhBuUxJsr0uZF9S9QWTHhLpNkkocZsIInvW
+ Oa2uVMrVB1D/yKmLOAqySFKXAwNBgz8twhKp+Wyx63cYTpjPZR2/TJFPtVMpvbqsEpduvC
+ 2kJpJsamWvGuMMdHJ/JH+Hby6U0WIUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-A2P6lLaYNeqb_1PRuR0CpQ-1; Tue, 06 Apr 2021 15:38:24 -0400
+X-MC-Unique: A2P6lLaYNeqb_1PRuR0CpQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FAA4107ACCD;
+ Tue,  6 Apr 2021 19:38:23 +0000 (UTC)
+Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 106BE19D80;
+ Tue,  6 Apr 2021 19:38:22 +0000 (UTC)
+Subject: Re: dectree.py uses env python3 rather than configured python
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, tsimpson@quicinc.com
+References: <YGys2+lETQO5havV@work-vm>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <55e804a2-c709-6b2e-699a-ef89f1941250@redhat.com>
+Date: Tue, 6 Apr 2021 15:38:22 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210406174031.64299-13-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kJQ0SBbJFlOqp3o7w8Fqf4Sql1sLEIMFyfNMyIuTUB0XevRzpDy
- BwJxLtkn6XfH3C3078OdSe6gzbt7B5cRy18Yd5z1jNh4sFtbzQDW3BlYdutSeuSdh+WwjJK
- rMjYP8rOjeDz59nrBNqrPGYbng54VNkW7bmQdxjRpphbws7hYOZpqhzGhFXG8QroIeEAIh9
- eR4WDWzi9KxA1tLw2flUg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JUygBdQN6J0=:dUfaEpqWnWAjY6lFdnzzJ1
- V1GwwVyc0N6+fFCT+yFp3VeoI9reFbYJApFVR2Nh9wJiM+cDXjAZ89a5XsjlQzAJJVhqWuFjQ
- aOM9KcG6o2SXhTI9Tth9kvBr1f6slhpsrEU8kTuAo7LkOsERwZyATigoW4Hu9Ffg7mG8AQlc/
- aoZOzEAzQB8MvyNgCaXqHDwtnATJrviFIoOSwt2z/ow0bNM5PSkF9GS/jUYUqkfZMkRyM8dXQ
- SSL6krBqL/6mVTCSOWWUTKa5vJGO2lokbepb6eRtPrrOiCwB3qCU72XwrGPeKI5t4RvpmlMAT
- or2JflC1eG1VuQg2nf/PY9CI/pBgos7GJKTrxDhHzAGiAC/h539P+8cJbZYWm4skfvyNf5z/3
- adiTB6mvDJ05AmgmEujcib1ZOlgMsylNPHggxt8PXgH+ZWeT1X85maaATgusNqUMXWge6v879
- NGUORIapuik6/OziZ5MTuME+gfsUni2NiQ2AC8LaZgDN05vy/mUZ
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YGys2+lETQO5havV@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,39 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/04/2021 à 19:40, Richard Henderson a écrit :
-> Unfortuately, the elements of PAGE_* were not in numerical
-> order and so PAGE_ANON was added to an "unused" bit.
-> As an arbitrary choice, move PAGE_TARGET_{1,2} together.
+On 4/6/21 2:50 PM, Dr. David Alan Gilbert wrote:
+> Hi Taylor,
+>    I tripped over dectree.py using 'env python3'; the qemu configure
+> script lets you specify a python with e.g.:
+>      --with-python=/usr/libexec/platform-python
 > 
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Fixes: 26bab757d41b ("linux-user: Introduce PAGE_ANON")
-> Buglink: https://bugs.launchpad.net/bugs/1922617
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/cpu-all.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> and I think everywhere else in qemu uses the configured python.
+> (This host, like most standard rhel8, doesn't have a python3 binary out
+> of the box)
 > 
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index d76b0b9e02..32cfb634c6 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -268,8 +268,8 @@ extern intptr_t qemu_host_page_mask;
->  #define PAGE_RESERVED  0x0100
->  #endif
->  /* Target-specific bits that will be used via page_get_flags().  */
-> -#define PAGE_TARGET_1  0x0080
-> -#define PAGE_TARGET_2  0x0200
-> +#define PAGE_TARGET_1  0x0200
-> +#define PAGE_TARGET_2  0x0400
->  
->  #if defined(CONFIG_USER_ONLY)
->  void page_dump(FILE *f);
+> Dave
 > 
 
-Tested-by: Laurent Vivier <laurent@vivier.eu>
+Hi,
+
+Instead of allowing meson to invoke this script directly (and have the 
+shebang be processed by the shell), meson ought to be taught to invoke 
+it directly using the user's configured python interpreter.
+
+The shebang "#!/usr/bin/env python3" is otherwise the correct one to 
+use, and should (probably) be left alone.
+
+--js
+
 
