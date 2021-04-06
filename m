@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF682355B82
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 20:37:05 +0200 (CEST)
-Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B613355B83
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 20:37:42 +0200 (CEST)
+Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTqZU-0007m2-W8
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 14:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
+	id 1lTqa5-0008OS-2y
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 14:37:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1lTqYb-00077v-8f; Tue, 06 Apr 2021 14:36:09 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:35371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1lTqYY-00039w-7Z; Tue, 06 Apr 2021 14:36:08 -0400
-Received: by mail-oi1-x230.google.com with SMTP id x2so16141526oiv.2;
- Tue, 06 Apr 2021 11:36:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=3IS0GqaJSzAj4m16iIli26RhfNK+rV7qKAAnWkRlDcg=;
- b=XKIKaiWSQaD1P3OVmCV5wYhk11BvrURT62OMWW4tCFc6dE9VIJexBF/Lqq3ZSdEYs/
- Tzuo2OcAfBri6eREkjiCn1T2MovDpTHO/DhTDlbLBIskHAygtJhk978jt1bgVqo/6CSJ
- E8dEDj3nYd49E7KRyohCQeZULsbtrCGZQOAS8yeMHwDNZ3QQ7wZzpaF5SJyqhO/v1aNG
- l6IsdSRyMZI68C5wcGca78XCz0xonRpcBKtZb61iW+hrHcTfTbLxrbiTbJjblb2mt/6a
- o7u592B0OkcVUncpMZfacsbWOvIKMF+hb42yYFC2d4U2DMNj4cCvvsWmyUO07QF7UcY9
- wkjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=3IS0GqaJSzAj4m16iIli26RhfNK+rV7qKAAnWkRlDcg=;
- b=kKndriqicYjeG8TLaS+1DLLobkgnti270mwjrd8BxHS+BjaZgiLTabD5hR6B/Lm+Os
- p+WdcbeHZiNL7mwm2MGrB3rdolUR4sdSwUAV53ZiCJliexuPIYGg+/rbIWP9ScPYebJ9
- arWPupF8u7M2K87XxkWNxZHqtSIkNk5aKcFBfOy3VFzxAaz8NPx9TzkVJmapJFxZlyzl
- piWgBcoqoV82pEUDfvSO+esrh1hoPCb9baDy+u918JfZ+vl8K0/MUtStIRv/iQsuQzU2
- 3zK1E2JcwW9tujWqwD0AL7TVvdnbu6frKARslYOc+MOrU1SNNfzq9fS7bnjAL/28d7Ei
- 7I+g==
-X-Gm-Message-State: AOAM530lLTLvNo9n0VdfTg3oQTDaesdJogvXXml8kbWG9SOuhIxQ+jOw
- UyCClIvNjC8izKh3fxoT7Q==
-X-Google-Smtp-Source: ABdhPJx/jSWmbMfCu0DuWtHtDtMZutA0BAHXp/mQAKEvL8Q9unOPAqYI7inVJTNqACDaT3uskiZH+g==
-X-Received: by 2002:aca:1a19:: with SMTP id a25mr4249475oia.167.1617734164307; 
- Tue, 06 Apr 2021 11:36:04 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id a128sm3845275oib.7.2021.04.06.11.36.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 11:36:03 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:f584:ff80:e7e9:e850])
- by serve.minyard.net (Postfix) with ESMTPSA id D00FE180052;
- Tue,  6 Apr 2021 18:36:02 +0000 (UTC)
-Date: Tue, 6 Apr 2021 13:36:01 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Patrick Venture <venture@google.com>
-Subject: Re: [PATCH 0/2] hw/i2c: Adds pca954x i2c mux switch device
-Message-ID: <20210406183601.GB7166@minyard.net>
-References: <20210403222810.3481372-1-venture@google.com>
- <20210405195834.GF7167@minyard.net>
- <CAO=notzJbWTn-KNurHs6HdzoLkFQRaKeNSdzBmufSu-eViRfww@mail.gmail.com>
- <CAO=notyrcWX59UqVP4=jueUvenx9b4NiTzk-wifa1s7wPypJsQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lTqYx-0007Z3-RJ
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:36:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lTqYs-0003Mz-W0
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:36:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617734185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MX+Jp42J4gjcObfF4//n/OvS9S0NO5UVHQR/wiak9sQ=;
+ b=NYXojCdUvw/0DsI3xOIemphWuKF4DjaS+epTybZg/ZBt2eEyre6ugMoc9g4BNY8Pcu3o57
+ FjU4HD/vHMsAjsvRo6iYq0UEyIsHvhfF6e/VJBpdJWdIOyk8O1+q4TT4SxDPwcFg6prg2D
+ USMfL8awtuIIJRue1nrQ2MPZqJofBlI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-WOyNwjOJMx26fVe2VOShCg-1; Tue, 06 Apr 2021 14:36:22 -0400
+X-MC-Unique: WOyNwjOJMx26fVe2VOShCg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C0198030A1;
+ Tue,  6 Apr 2021 18:36:21 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D62B65D72E;
+ Tue,  6 Apr 2021 18:36:15 +0000 (UTC)
+Date: Tue, 6 Apr 2021 20:36:13 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH v3] hw/smbios: support for type 41 (onboard devices
+ extended information)
+Message-ID: <20210406203613.01cdf294@redhat.com>
+In-Reply-To: <20210406074250.hsmm5yrzhfxdwjs4@kamzik.brq.redhat.com>
+References: <20210401122658.37842-1-vincent@bernat.ch>
+ <20210401225846.411ebd76@redhat.com> <m37dllk939.fsf@bernat.ch>
+ <20210401233225.16e572e4@redhat.com>
+ <20210406074250.hsmm5yrzhfxdwjs4@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO=notyrcWX59UqVP4=jueUvenx9b4NiTzk-wifa1s7wPypJsQ@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=tcminyard@gmail.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,124 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Hao Wu <wuhaotsh@google.com>, cminyard@mvista.com, qemu-arm@nongnu.org,
- Havard Skinnemoen <hskinnemoen@google.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Vincent Bernat <vincent@bernat.ch>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 06, 2021 at 08:55:14AM -0700, Patrick Venture wrote:
-> On Tue, Apr 6, 2021 at 8:41 AM Patrick Venture <venture@google.com> wrote:
-> >
-> > On Mon, Apr 5, 2021 at 12:58 PM Corey Minyard <cminyard@mvista.com> wrote:
-> > >
-> > > On Sat, Apr 03, 2021 at 03:28:08PM -0700, Patrick Venture wrote:
-> > > > The i2c mux device pca954x implements two devices:
-> > > >  - the pca9546 and pca9548.
-> > > >
-> > > > Patrick Venture (2):
-> > > >   hw/i2c/core: add reachable state boolean
-> > > >   hw/i2c: add pca954x i2c-mux switch
-> > >
-> > > Looking this over, the code looks good, but I have a few general
-> > > questions:
-> > >
-> > > * Can you register the same slave address on different channels?  That's
-> > >   something you could do with real hardware and might be required at
-> > >   some time.  It looks like to me that you can't with this patch set,
-> > >   but maybe I'm missing something.
-> >
-> > If I understand the hardware's implementation properly you can have
-> > collisions, and this allows for collisions.  I'm not sure what you
-> > mean by having both accessible.  For instance, on hardware you can
-> > have a switch with N channels, and on two of the channels there is an
-> > eeprom at 50.  But you're unable to talk to both eeproms at the same
-> > time, because the addresses collide -- so how would the hardware know
-> > which you're talking to?  My understanding of the behavior in this
-> > collision case is that it just talks to the first one that responds
-> > and can lead to unexpected things.
-> >
-> > There is a board, the quanta-q71l where we had to set the
-> > idle-disconnect because there were two muxes on the same bus, with
-> > conflicting addresses, and so we had to use idle disconnect explicitly
-> > to make the software happy talking to the hardware -- not ideal as
-> > having two devices behind different channels, but ultimately it's the
-> > same idea because the devices are conflicting.
-> >
-> > >
-> > > * Can you add devices to the secondary I2C busses on the mux using the
-> > >   standard QEMU device model, or is the function call required?
-> >
-> > I added the function call because I didn't see a clean way to bridge
-> > the issue as well as, the quasi-arbitrary bus numbering used by the
-> > kernel isn't how the hardware truly behaves, and my goal was to
-> > implement closer to the hardware.  I thought about adding an I2cBus to
-> > the device and then you'd be able to access it, but wasn't sure of a
-> > nice clean way to plumb that through -- I considered adding/removing
-> > devices from the parent i2c bus instead of the boolean reachable, but
-> > that seemed way less clean - although do-able.
-> >
-> > >
-> > > I ask because I did a pca9540 and pca9541 device, but I've never
-> > > submitted it because I didn't think it would ever be needed.  It takes a
-> > > different tack on the problem; it creates the secondary busses as
-> > > standard QEMU I2C busses and bridges them.  You can see it at
-> > >
-> > >    github.com:cminyard/qemu.git master-i2c-rebase
-> > >
-> >
-> > I'll have to take a look at your approach, but the idea that it
-> > wouldn't be needed sounds bizarre to me as nearly all BMC-based qemu
-> > boards leverage i2c muxes to handle their PCIe slot i2c routing.
-> >
-> > > If you design can do the things I ask, then it's better.  If not, then
-> > > I'm not sure.
-> 
-> Corey,
-> 
-> looking at your design, I should be able to do something similar with
-> a small tweak.
-> 
-> I think my design follows the hardware where there can be conflicts,
-> etc, but what I didn't know how to do was add the faux I2cBuses in a
-> useful way -- but if I add the I2cBuses to the device, and then on
-> add/remove it registers the device on the parent bus -- i can still
-> use the reachable boolean to control whether it's present.  The faux
-> I2cBuses would be a simplification for adding/removing i2c devices --
-> and would act as the device list in my object.  So then setting the
-> channels would change to walking the devices held by the bus that
-> corresponds with the bit -- but _still_ using the reachable boolean.
-> 
-> If you'd like, I can update my patchset to use an i2cbus for the
-> purpose above, then it would satisfy the requirement of leveraging the
-> normal device process and no longer require the special function call.
+On Tue, 6 Apr 2021 09:42:50 +0200
+Andrew Jones <drjones@redhat.com> wrote:
 
-That sounds reasonable.  Your implementation is quite a bit simpler than
-mine, which is a bonus.
+> On Thu, Apr 01, 2021 at 11:32:25PM +0200, Igor Mammedov wrote:
+> > On Thu, 01 Apr 2021 23:07:06 +0200
+> > Vincent Bernat <vincent@bernat.ch> wrote:
+> >  =20
+> > >  =E2=9D=A6  1 avril 2021 22:58 +02, Igor Mammedov:
+> > >  =20
+> > > >> This can be invoked with:
+> > > >>=20
+> > > >>     $QEMU -netdev user,id=3Dinternet
+> > > >>           -device virtio-net-pci,mac=3D50:54:00:00:00:42,netdev=3D=
+internet,id=3Dinternet-dev \
+> > > >>           -smbios type=3D41,designation=3D'Onboard LAN',instance=
+=3D1,kind=3Dethernet,pcidev=3Dinternet-dev   =20
+> > > >
+> > > > an ACPI alternative was merged recently (current master).
+> > > > assigning 'designation=3D' wasn't implemented there, but important =
+part
+> > > > of giving users control over PCI devices 'eno' index is implemented=
+.
+> > > >
+> > > > When I looked into the issue, smbios way was a bit over-kill for th=
+e task
+> > > > and didn't really work if hotplug were used.
+> > > >
+> > > > See, for example how to use new feature:
+> > > >  https://www.mail-archive.com/qemu-devel@nongnu.org/msg794164.html =
+  =20
+> > >=20
+> > > It seems simpler this way. I don't think my patch is needed then. =20
+> >=20
+> > SMBIOS ways is fine for static configs where no hot-plug is involved.
+> > Also potentially SMBIOS way may be used by arm/virt board,
+> > since acpi-index shares a lot with ACPI PCI hotplug infrastructure
+> > and we haven't ported that to arm/virt impl. yet.
+> >=20
+> > It also won't work for Q35 at the moment, but Julia is working
+> > on adding support for ACPI PCI hotplug to it, and once it arrives
+> > acpi-index will become available there.
+> >=20
+> > Perhaps we should also add support for ACPI PCI hotplug to virt/arm,
+> > along with Q35.
+> > =20
+>=20
+> What's required of the guest kernel for ACPI PCI hotplug? If there are
+> arch-specific aspects to that, then do we know if Linux for AArch64
+> has the support?
 
--corey
+I could only guess, it could be just a matter turning on HOTPLUG_PCI_ACPI
+in Kconfig.
 
-> 
-> Patrick
-> 
-> > >
-> > > -corey
-> > >
-> > > >
-> > > >  MAINTAINERS                      |   6 +
-> > > >  hw/i2c/Kconfig                   |   4 +
-> > > >  hw/i2c/core.c                    |   6 +
-> > > >  hw/i2c/i2c_mux_pca954x.c         | 182 +++++++++++++++++++++++++++++++
-> > > >  hw/i2c/meson.build               |   1 +
-> > > >  hw/i2c/trace-events              |   5 +
-> > > >  include/hw/i2c/i2c.h             |   3 +
-> > > >  include/hw/i2c/i2c_mux_pca954x.h |  60 ++++++++++
-> > > >  8 files changed, 267 insertions(+)
-> > > >  create mode 100644 hw/i2c/i2c_mux_pca954x.c
-> > > >  create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
-> > > >
-> > > > --
-> > > > 2.31.0.208.g409f899ff0-goog
-> > > >
-> 
+
+>=20
+> Thanks,
+> drew
+
 
