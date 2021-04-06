@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DBC355B26
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 20:18:17 +0200 (CEST)
-Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0FC355B4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 20:26:22 +0200 (CEST)
+Received: from localhost ([::1]:49326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTqHH-0001OD-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 14:18:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
+	id 1lTqP6-0003PL-QE
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 14:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lTqFM-0000mW-1c
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:16:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60750)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lTqKX-0002Tw-9c; Tue, 06 Apr 2021 14:21:37 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:42293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lTqF7-0008Qv-Kg
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617732958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JhLvoSY5Sh66vEo0NEMAfZfphoGBOrDUAggJ1006W2U=;
- b=X1e6RcwZ5a4kIhDh352NAXDAd89M/txOdPACsU46sJI4eJByaHeNjUYBaKRbqYpsTjyRTr
- 0/Pc64ib44Mxp7FAbxHwH/aqEme3HQdR8nU+XDqDfzLPSyob2js7jyNxDof3f3Kb/lCl5a
- TgO+h9PJ/YX/Xv1yF4NEQ8+W0aUbDWo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-C05Eiu7yNaWpYNIi4TluwA-1; Tue, 06 Apr 2021 14:15:56 -0400
-X-MC-Unique: C05Eiu7yNaWpYNIi4TluwA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02033E99C0;
- Tue,  6 Apr 2021 18:15:56 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49ED550F70;
- Tue,  6 Apr 2021 18:15:48 +0000 (UTC)
-Date: Tue, 6 Apr 2021 20:15:46 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
-Message-ID: <20210406201546.2377830e@redhat.com>
-In-Reply-To: <YGx5LRiqkKRmO4aJ@redhat.com>
-References: <20210322225907.541943-1-mst@redhat.com>
- <20210322225907.541943-12-mst@redhat.com>
- <YGx2IFN3mJisOR1w@redhat.com> <YGx5LRiqkKRmO4aJ@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lTqKS-00030j-7L; Tue, 06 Apr 2021 14:21:36 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 87B011644;
+ Tue,  6 Apr 2021 14:21:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 06 Apr 2021 14:21:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=rGmNsrOLKwAG6I9kWymDW0cLzMB
+ o+9y/+exZ0W0XxtM=; b=qTMFDWVsiJPZHqJdWysIQ9uOa48enEM6hdjfgVsp9rr
+ 2JCZ7pNiPOQZRdNVZa4mdM7FhfV4o9gTeLMQhIBM1noyO6UDSEpLaHXrsAxM0dd/
+ 2u81lNZlAF8rMyzfbKUZ/C37cTiSDYZ5/sOKwVaTrN0e3pmNK3+wmhgR2uPc/Qab
+ uBEi7hQv/SwsuZ0zwrKPgh97pk6aXQ9wiQh9nIK21zA6DrnB0rejglRy2vtx8x5p
+ 3Z828RA/rXSv/b/eUXioVkWCXMbCPvKiK8Pu8CpEZ+ETjP03fzxrUeWGD5UeqyYe
+ +U6pLQEBhdyMoSWMW4zITYWF0nMaqjCpcR6obuNWubw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=rGmNsr
+ OLKwAG6I9kWymDW0cLzMBo+9y/+exZ0W0XxtM=; b=qnE98M9XF4O7idU2ggpuli
+ WFN2DJL/ZarGziRw5Zt1NNxgNJLtNnolL/4GoYIlyKi3Pm4ZWITpOmoLqWBKl9u8
+ IdYnNEdx5bDKoW/2RpThwwTVpH0WI+TDsY+d8aowe6K1+h9FmFXvDgPu0kayuPYF
+ TSz1ZD6poM+GkYjNqATpSCt8PrBR79iaWMJvC67yutpbBDJUouq4HDkiS2DWnqO3
+ 8oBdrxi5S8WpXfZiFMKz2qnV2jRJ0cE/gJ+1v7b98UmIvCv7SghA6IUuJ9AW/uX2
+ 2VmlnepamNmqvJxodqW+9gdK2E50bl0CulLtPJPgojXSzjvtoCjgcUHzmOyX2NXA
+ ==
+X-ME-Sender: <xms:paZsYF-fwcwAPClUR_QXYgDWhZ3FyokQkuex21XrNDBUwsCb-w3Shw>
+ <xme:paZsYBe5_lkS8jy1IhjdFszW2BslVI10c3lZI_trYbMPjCDfeeWfCAbCgg3IwvgxL
+ vYlC_teLKOIaucpqkE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejhedgjedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:paZsYGH0VCnEllLeZ-l88LN2QloMijryBWZ_FKNLVpByLggxwt8UiQ>
+ <xmx:paZsYHe0uF4iV3A3xpoWdC6J_YPtlGqvGxluJm5e_bA6XOCx1X-fjg>
+ <xmx:paZsYIHKTkS0FQW7EqSwC7_W0aK3q6nO6BN3fTFKZqKkipb_TXNm_w>
+ <xmx:pqZsYANcCWQHvys2-Kab2uX3I1o3wRzvtkti4UkXINvsj48rTGWV2ligMb8>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4604E240065;
+ Tue,  6 Apr 2021 14:21:24 -0400 (EDT)
+Date: Tue, 6 Apr 2021 20:21:22 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH for-6.0 v2 4/8] hw/block/nvme: fix controller namespaces
+ array indexing
+Message-ID: <YGymog1yYgf+9Txk@apples.localdomain>
+References: <20210405175452.37578-1-its@irrelevant.dk>
+ <20210405175452.37578-5-its@irrelevant.dk>
+ <e9f266a2-f12e-6dca-805e-4f70a4ffc248@redhat.com>
+ <YGwNipvKFR94iUvq@apples.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ovFx9f6KActqLu7m"
+Content-Disposition: inline
+In-Reply-To: <YGwNipvKFR94iUvq@apples.localdomain>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,123 +97,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Apr 2021 16:07:25 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-> On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote: =20
-> > > From: Igor Mammedov <imammedo@redhat.com>
+--ovFx9f6KActqLu7m
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Apr  6 09:28, Klaus Jensen wrote:
+> On Apr  6 09:01, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 4/5/21 7:54 PM, Klaus Jensen wrote:
+> > > From: Klaus Jensen <k.jensen@samsung.com>
 > > >=20
-> > > it helps to avoid device naming conflicts when guest OS is
-> > > configured to use acpi-index for naming.
-> > > Spec ialso says so:
-> > >=20
-> > > PCI Firmware Specification Revision 3.2
-> > > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating S=
-ystems
-> > > "
-> > > Instance number must be unique under \_SB scope. This instance number=
- does not have to
-> > > be sequential in a given system configuration.
-> > > "
-> > >=20
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 46 insertions(+)
-> > >=20
-> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > > index ceab287bd3..f4cb3c979d 100644
-> > > --- a/hw/acpi/pcihp.c
-> > > +++ b/hw/acpi/pcihp.c
-> > > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
-> > >      PCIBus *bus;
-> > >  } AcpiPciHpFind;
-> > > =20
-> > > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer =
-user_data)
-> > > +{
-> > > +    return a - b;
-> > > +}
-> > > +
-> > > +static GSequence *pci_acpi_index_list(void)
-> > > +{
-> > > +    static GSequence *used_acpi_index_list;
-> > > +
-> > > +    if (!used_acpi_index_list) {
-> > > +        used_acpi_index_list =3D g_sequence_new(NULL);
-> > > +    }
-> > > +    return used_acpi_index_list;
-> > > +}
-> > > +
-> > >  static int acpi_pcihp_get_bsel(PCIBus *bus)
-> > >  {
-> > >      Error *local_err =3D NULL;
-> > > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandle=
-r *hotplug_dev,
-> > >                     ONBOARD_INDEX_MAX);
-> > >          return;
-> > >      }
-> > > +
-> > > +    /*
-> > > +     * make sure that acpi-index is unique across all present PCI de=
-vices
-> > > +     */
-> > > +    if (pdev->acpi_index) {
-> > > +        GSequence *used_indexes =3D pci_acpi_index_list();
-> > > +
-> > > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->ac=
-pi_index),
-> > > +                              g_cmp_uint32, NULL)) {
-> > > +            error_setg(errp, "a PCI device with acpi-index =3D %" PR=
-Iu32
-> > > +                       " already exist", pdev->acpi_index);
-> > > +            return;
-> > > +        }
-> > > +        g_sequence_insert_sorted(used_indexes,
-> > > +                                 GINT_TO_POINTER(pdev->acpi_index),
-> > > +                                 g_cmp_uint32, NULL);
-> > > +    } =20
+> > > The controller namespaces array being 0-indexed requires 'nsid - 1'
+> > > everywhere. Something that is easy to miss. Align the controller
+> > > namespaces array with the subsystem namespaces array such that both a=
+re
+> > > 1-indexed.
 > >=20
-> > This doesn't appear to ensure uniqueness when using PCIe topologies:
+> > TBH I don't understand the justification.
+>=20
+> Justification is mostly to align with the subsystem device. I like the
+> '1-indexed' approach better. And the -1 causes Coverity to complain
+> before the assert was added.
+>=20
+> > Assuming you hit a
+> > bug and try to protect yourself, maybe now you should also
+> > check for
 > >=20
-> > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-> >      -device virtio-net,acpi-index=3D100 \
-> >      -device virtio-net,acpi-index=3D100
-> > qemu-system-x86_64: -device virtio-net,acpi-index=3D100: a PCI device w=
-ith acpi-index =3D 100 already exist
+> >   assert(n->namespaces[0] =3D=3D NULL);
 > >=20
-> > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-> >      -M q35 \
-> >      -device virtio-net,acpi-index=3D100
-> >      -device virtio-net,acpi-index=3D100
-> > ....happily running.... =20
+> > somewhere. In nvme_ns() maybe?
+> >=20
 >=20
-> In fact the entire concept doesn't appear to work with Q35 at all as
-> implemented.
+> That is definitely a state that should always hold, I guess we can do
+> that, but we do already guard all "insertions" into the namespace array
+> by an assert on the nsid. Then again, asserting here makes sure that we
+> don't introduce something else that inserts on this invalid position.
 >=20
-> The 'acpi_index' file in the guest OS never gets created and the NICs
-> are still called 'eth0', 'eth1'
+> So, good point, I'll add it.
 >=20
-> Only with i440fx can I can the "enoNNN" based naming to work with
-> acpi-index set from QEMU
 
-It is not supported on Q35 yet as it depends on ACPI PCI hotplug infrastruc=
-ture.
-Once Julia is done with porting it to Q35, acpi-index will be pulled along =
-with it.
+Then again again.
 
+I don't see the reason for the assert. Even if something ends up there=20
+by mistake we will never return it. If something ends up there due to=20
+new code, that nvme_ns() will always return NULL when nsid is zero and=20
+that should weed out the bug easily.
 
-> Regards,
-> Daniel
+I'll update the commit message to make it clear that this is about=20
+making both the subsystem and controller namespaces arrays 1-indexed.=20
+Them being indexed differently is a recipe for disaster I'd say.
 
+In anycase, I it actually a stretch to call this a bug fix, so I'll drop=20
+it and queue it up for v6.1.
+
+--ovFx9f6KActqLu7m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBspqAACgkQTeGvMW1P
+DemBrQf+JfbyX4WrIFkGfgaXdH6u73lBUpgQBFMWN2PAQrZRU5iBkY3HJQkHjvZC
+AMEfxX8ad031ft3t3P1h+TL4Y5DxN1ICEGOsLFLPOMyZKJSWcIl7cZi9Mh8Rkdww
+JyKsoJX6v8NLGcPsui20dkO0e5JNM97hV4QlNGRs+uIrV2zxboRtx2Q7zrp1hTS4
+avD3HqeXI3HH/pmREQhwJQVGGxPmBlrgcUsSk8WNbHAXORLjbjr4Xr72znYsH2kW
+J9M1kTXiUH9+HQ2Y8+PEHhh2CL0a33NZppqMkS9yZ1VBMI0Tjq/wvDYsXWV0Bh4F
+I2fecNrO7P9S8KAE30Y0xxlMdGv9tA==
+=Dx/c
+-----END PGP SIGNATURE-----
+
+--ovFx9f6KActqLu7m--
 
