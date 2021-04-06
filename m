@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7775F3555F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:03:01 +0200 (CEST)
-Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0C53555FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 16:04:45 +0200 (CEST)
+Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTmIF-0005hA-O3
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33692)
+	id 1lTmJw-0007SI-8D
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 10:04:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1lTmFu-0004eX-D6; Tue, 06 Apr 2021 10:00:34 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1lTmFs-0003F8-3T; Tue, 06 Apr 2021 10:00:34 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FF8Hd2dmrz19KlP;
- Tue,  6 Apr 2021 21:58:05 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 6 Apr 2021 22:00:06 +0800
-Subject: Re: [PATCH v3] multi-process: Initialize variables declared with
- g_auto*
-To: <elena.ufimtseva@oracle.com>, <jag.raman@oracle.com>,
- <john.g.johnson@oracle.com>, <stefanha@redhat.com>
-References: <20210312112143.1369-1-yuzenghui@huawei.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <d4a03c50-12db-f44c-7d6a-d2baba77f164@huawei.com>
-Date: Tue, 6 Apr 2021 22:00:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lTmHV-0005kp-Ky
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:02:13 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:38625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lTmHO-0004CC-45
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 10:02:13 -0400
+Received: by mail-ot1-x332.google.com with SMTP id
+ w21-20020a9d63950000b02901ce7b8c45b4so14699592otk.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 07:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WmwSMhHfR5G0aFIKrjWe4NH6wMebup7jfqgCAlpNYdc=;
+ b=ob94e6AABPtkTQaqqKMCnUNOxAPpL4ZcNS6DV8p/EtCpmSYregSuzASyD217XrGy7z
+ 2Fe6yb+MAe/8W3GsmyQrFd0yj+3+D8PFefVFwzoMdyuQmCExQkNN8eWgfbtyDK00OypV
+ ONidvraX3LN2UZ8QAMI6p0QHTUjD2ybnmwVIBl5yox2caOGN6A38AlWAJdMIH5SDxIZW
+ 0cBFEUCQmblMjSLPe+0wMHZdt4Eg3oJg/t7N3FSOmLSFcPcdMfFplnfcUW1viWE1kJVi
+ I9ZRGbZcvkqUaPYxSGzTagU0oXXVYZSshhL5DOrMXuP2ajTCvBMmha+LE+bS3WVRi7Gz
+ 3dXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WmwSMhHfR5G0aFIKrjWe4NH6wMebup7jfqgCAlpNYdc=;
+ b=gNJ7KM6oa8O9uZ4+ZcZz8X365MmddYgrTfsC1HDEP4/nNngjeJLfvixyVV31n1GCbC
+ FSG8ICjTDOyTC8sGnVSrljWbr9czBY46CBvEhF3OLvtt4JFqs6Rv73wWardrJfwI3QS+
+ 8V0Z2b8KTDrO7PXfeGErHdkf2YkRrUkDM/0XAk37ymwwjjbCcfJtjxpVWHpZYE6wWZnf
+ 4FwJCjxmXgi/3lBT+9MiCO/wguBzkyO23kOutn9fE0iXFxzh1xKFk55PYOLjVXAzlZiB
+ PuUkuguHriGPdcBBW84iV5CExpT6ayPlWFKzDKB+DyrkB3TwAZAmv+sh9MGlGvtIXZd4
+ p83Q==
+X-Gm-Message-State: AOAM533cMxPMG1B/rozwsFJsqO4wXG08FsIE6GLqKNRbnBKeyG2CMeo7
+ frHqPC4KVbLpdV7OqaYY0ztVa6hRkMYi5tDWyk4=
+X-Google-Smtp-Source: ABdhPJwIptVJOIS8AeR746qn7t8hTTKA0WupuafdMtJPlW4YlxOb/MG8REK+0XfEYd3w+dceah/v0NAKPoGHMCOSlFA=
+X-Received: by 2002:a9d:5508:: with SMTP id l8mr27126189oth.233.1617717724189; 
+ Tue, 06 Apr 2021 07:02:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210312112143.1369-1-yuzenghui@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.185.179]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=yuzenghui@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
+In-Reply-To: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Tue, 6 Apr 2021 16:01:52 +0200
+Message-ID: <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
+Subject: Re: Mac OS real USB device support issue
+To: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-ot1-x332.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,36 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-trivial@nongnu.org, mjt@tls.msk.ru,
- qemu-devel@nongnu.org, laurent@vivier.eu, wanghaibin.wang@huawei.com,
- philmd@redhat.com
+Cc: QEMU devel list <qemu-devel@nongnu.org>, gerd@kraxel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[+Stefan]
+On Tue, Apr 6, 2021 at 3:44 PM Programmingkid <programmingkidx@gmail.com> w=
+rote:
+>
+> Hi Gerd,
+>
+> I was wondering if you had access to a Mac OS 10 or Mac OS 11 machine to =
+test USB support. I am on Mac OS 11.1 and cannot make USB devices work with=
+ any of my guests. So far these are the guests I have tested with:
+>
+> - Windows 7
+> - Mac OS 9.2
+> - Windows 2000
+>
+> I have tried using USB flash drives, USB sound cards, and an USB headset.=
+ They all show up under 'info usb', but cannot be used in the guest. My set=
+up does use a USB-C hub so I'm not sure if this is a bug with QEMU or an is=
+sue with the hub. Would you have any information on this issue?
 
-On 2021/3/12 19:21, Zenghui Yu wrote:
-> Quote docs/devel/style.rst (section "Automatic memory deallocation"):
-> 
-> * Variables declared with g_auto* MUST always be initialized,
->    otherwise the cleanup function will use uninitialized stack memory
-> 
-> Initialize @name properly to get rid of the compilation error (using
-> gcc-7.3.0 on CentOS):
-> 
-> ../hw/remote/proxy.c: In function 'pci_proxy_dev_realize':
-> /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: 'name' may be used uninitialized in this function [-Werror=maybe-uninitialized]
->     g_free (*pp);
->     ^~~~~~~~~~~~
-> ../hw/remote/proxy.c:350:30: note: 'name' was declared here
->               g_autofree char *name;
->                                ^~~~
-> 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-> Reviewed-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Hi John,
 
-Message-Id: <20210312112143.1369-1-yuzenghui@huawei.com>
+As far as the Mac OS 9.2 guest is concerned on a mac OS host, it does
+not support USB 2.0. I was successful only in passing through a USB
+flash drive that was forced into USB 1.1 mode by connecting it to a
+real USB 1.1 hub and unloading the kext it used.
 
-Ping for 6.0, thanks.
+Best,
+Howard
 
