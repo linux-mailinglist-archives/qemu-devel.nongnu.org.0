@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779A7355B0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 20:13:44 +0200 (CEST)
-Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DBC355B26
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 20:18:17 +0200 (CEST)
+Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTqCt-0008EG-4O
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 14:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53622)
+	id 1lTqHH-0001OD-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 14:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lTqBJ-0007Xy-M1
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:12:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28065)
+ id 1lTqFM-0000mW-1c
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:16:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lTqB9-0006GK-Lf
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:12:03 -0400
+ id 1lTqF7-0008Qv-Kg
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 14:16:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617732713;
+ s=mimecast20190719; t=1617732958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3eoCtf/rZMCSv/gP01seOWgAV4/lNvLbaGvufNf6sjc=;
- b=SVtnPWlncNV9cAQ4+pArFGoq6GWY1AO64fOp2BWZWTbzgQ/K+NXxSRTU/L+j0sUQ3IXnLL
- 3SYP425MLMu32AuXJ82iPxTXEh9NUWdFlVSaggPrAv/SYUVEQ7lgfpqTqroge4TY+KXjZJ
- npx5hKIhGROEFXkwI9WqEss1mmAmnlE=
+ bh=JhLvoSY5Sh66vEo0NEMAfZfphoGBOrDUAggJ1006W2U=;
+ b=X1e6RcwZ5a4kIhDh352NAXDAd89M/txOdPACsU46sJI4eJByaHeNjUYBaKRbqYpsTjyRTr
+ 0/Pc64ib44Mxp7FAbxHwH/aqEme3HQdR8nU+XDqDfzLPSyob2js7jyNxDof3f3Kb/lCl5a
+ TgO+h9PJ/YX/Xv1yF4NEQ8+W0aUbDWo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-2TaKlarQOEK1v_1ahfO44g-1; Tue, 06 Apr 2021 14:11:49 -0400
-X-MC-Unique: 2TaKlarQOEK1v_1ahfO44g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-404-C05Eiu7yNaWpYNIi4TluwA-1; Tue, 06 Apr 2021 14:15:56 -0400
+X-MC-Unique: C05Eiu7yNaWpYNIi4TluwA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E262107ACCA;
- Tue,  6 Apr 2021 18:11:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02033E99C0;
+ Tue,  6 Apr 2021 18:15:56 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94EAB5D743;
- Tue,  6 Apr 2021 18:11:45 +0000 (UTC)
-Date: Tue, 6 Apr 2021 20:11:43 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49ED550F70;
+ Tue,  6 Apr 2021 18:15:48 +0000 (UTC)
+Date: Tue, 6 Apr 2021 20:15:46 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: Ben Widawsky <ben@bwidawsk.net>
-Subject: Re: CXL 2.0 memory device design
-Message-ID: <20210406201143.667e1b63@redhat.com>
-In-Reply-To: <20210319174513.zenql3qcboftahhk@mail.bwidawsk.net>
-References: <20210317214045.4xrwlhfvyczhxvc5@mail.bwidawsk.net>
- <20210319180705.6ede9091@redhat.com>
- <20210319174513.zenql3qcboftahhk@mail.bwidawsk.net>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
+Message-ID: <20210406201546.2377830e@redhat.com>
+In-Reply-To: <YGx5LRiqkKRmO4aJ@redhat.com>
+References: <20210322225907.541943-1-mst@redhat.com>
+ <20210322225907.541943-12-mst@redhat.com>
+ <YGx2IFN3mJisOR1w@redhat.com> <YGx5LRiqkKRmO4aJ@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,163 +80,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Dan Williams <dan.j.williams@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Mar 2021 10:47:11 -0700
-Ben Widawsky <ben@bwidawsk.net> wrote:
+On Tue, 6 Apr 2021 16:07:25 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-> On 21-03-19 18:07:05, Igor Mammedov wrote:
-> > On Wed, 17 Mar 2021 14:40:58 -0700
-> > Ben Widawsky <ben@bwidawsk.net> wrote:
-> >   
-> > > Phil, Igor, Markus
-> > > 
-> > > TL;DR: What to do about multiple capacities in a single device, and what to do
-> > > about interleave?
-> > > 
-> > > I've hacked together a basic CXL 2.0 implementation which exposes a CXL "Type 3"
-> > > memory device (CXL 2.0 Chapter 2.3). For what we were trying to do this was
-> > > sufficient. There are two main capabilities that CXL spec exposes which I've not
-> > > implemented that I'd like to start working toward and am realizing that I what I
-> > > have so far might not be able to carry forward to that next milestone.
-> > > 
-> > > Capability 1. A CXL memory device may have both a volatile, and a persistent
-> > > 	      capacity. https://bwidawsk.net/HDM_decoders.svg (lower right
-> > > 	      side). The current work only supports a single persistent
-> > > 	      capacity.
-> > > Capability 2. CXL topologies can be interleaved. Basic example:
-> > >               https://bwidawsk.net/HDM_decoders.svg (lower left side)
-> > > 
-> > > Memory regions are configured via a CXL spec defined HDM decoder. The HDM
-> > > decoder which is minimally implemented supports all the functionality mentioned
-> > > above (base, size, interleave, type, etc.). A CXL component may have up to 10
-> > > HDMs.
-> > > 
-> > > What I have today: https://bwidawsk.net/QEMU_objects.svg
-> > > There's a single memory backend device for each host bridge. That backend is
-> > > passed to any CXL component that is part of the hierarchy underneath that
-> > > hostbridge. In the case of a Type 3 device memory capacity a subregion is
-> > > created for that capacity from within the main backend. The device itself
-> > > implements the TYPE_MEMORY_DEVICE interface. This allows me to utilize the
-> > > existing memory region code to determine the next free address, and warn on
-> > > overlaps. It hopefully will help when I'm ready to support hotplug.  
-> > 
-> > As was mentioned on IRC (and maybe on my first attempt to review your patches)
-> > 
-> > Backends are for managing host resource (RAM/file/fd) and its properties.
-> > A backend should match a corresponding device model (frontend/emulated hw, i.e. CXL type 3 device),
-> > the later should manage how it looks to guest.
-> > 
-> > i.e. in CXL case I'd imagine CLI adding memory look like:
-> > 
-> > -machine cxl=on \
-> > -device cxl-host-bridge,id=foo \
-> > -device cxl-rp,id=rp0,bus="foo" ]
-> > -object memory-backend-file,mem-path=somefile,id=mem1 \
-> > -device cxl-mem,backend=mem1[,bus=rp0]
-> > 
-> > if you need to add CXL memory you add pair memory-backend-file + cxl-mem
-> > (which practically reflects what would happen on real hw)  
-> 
-> Conceptually this is fine with me and I agree it more accurately reflects real
-> hardware. The issue has been more around how to implement that model.
-> 
-> > 
-> > Sharing a single backend between several CXL devices as a means to implement
-> > interleaving, looks to me as abusing backend concept.
-> > (that's not how it's done on real hw, memory chips (backend) that belong to a CXL memory
-> > card are not shared with other CXL devices). It's probably address space
-> > that gets partitioned in small chunks to map them to one or another CXL memory dev.  
-> 
-> Yes, it is an address space that gets partitioned. Is the recommendation then to
-> create a new address space for each of these regions?
-> 
-> > 
-> > I'd suggest to forget about interleaving for now and implement
-> > a simplified variant without it.  
-> 
-> That's fine for me, I'm just hoping if we ever get to the point of implementing
-> interleave, we don't have to start entirely over.
-> 
-> >   
-> > > Where I've gotten stuck: A Memory Device expects only to have one region of
-> > > memory. Trying to add a second breaks pretty much everything.  
-> > 
-> > Memory device has very simplistic rules to map devices in address space
-> > (we basically open-coded part of 'memory controller' into machine code
-> > to do address allocation/mapping, due to PC machine historically not having
-> > it implemented properly).
-> >   
-> > > I'm hoping to start the discussion about what the right way to emulate this in
-> > > QEMU. Ideally something upstreamable would be great. I think adding a secondary
-> > > (or more) capacity to a memory class device is doable, but probably not the
-> > > right approach.  
-> > 
-> > Also earlier you mentioned that it's guest who programs where CXL memory is mapped,
-> > that isn't compatible with simplistic Memory device interface where guest
-> > has no say where memory is mapped, in Memory Device case, machine code picks
-> > the next free gap in fixed hotplug region and maps it there.  
-> 
-> Right so this works currently exactly because of the design I've used so far.
-> The "address space" as you describe above is fixed and cannot move, only the
-> device addresses within that window can move. As a result, mdc->set_addr does
-> work for this.
-> 
-> I'm not proposing this is the right solution, I'm just explaining that I believe
-> it does work the way it's currently implemented.
-> 
-> > 
-> > So I would not use Memory Device interface in CXL case, but rather implement CXL
-> > own interfaces that work as spec declares. Somewhere in hierarchy there will
-> > be a device that manages mapping memory into address space (maybe host-bridge
-> > or a dedicated memory controller above it). And BIOS will program window for mapping
-> > as it's done on real hw.
-> > PS:
-> > I don't we hardcode in QEMU PCI device initialization, usually it's done by BIOS,
-> > probably the same should apply to CXL.  
-> 
-> BIOS will not program persistent memory device capacity. It is expected to do
-> volatile capacity. I am doing this in QEMU as a workaround for not having a BIOS
-> that comprehends CXL available yet. Eventually, I'd like to not to this.
-> 
-> I'm fine to add a new CXL interface, but I don't have enough knowledge to figure
-> out how to utilize the interfaces at the highest levels. Should I just be wiring
-> it in to memory-device.c, if it's mdc, do old thing, if it's cdc, do new thing?
-> Any advice on where I need to begin hooking in the new interface would be great.
+> On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote: =20
+> > > From: Igor Mammedov <imammedo@redhat.com>
+> > >=20
+> > > it helps to avoid device naming conflicts when guest OS is
+> > > configured to use acpi-index for naming.
+> > > Spec ialso says so:
+> > >=20
+> > > PCI Firmware Specification Revision 3.2
+> > > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating S=
+ystems
+> > > "
+> > > Instance number must be unique under \_SB scope. This instance number=
+ does not have to
+> > > be sequential in a given system configuration.
+> > > "
+> > >=20
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > ---
+> > >  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 46 insertions(+)
+> > >=20
+> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > index ceab287bd3..f4cb3c979d 100644
+> > > --- a/hw/acpi/pcihp.c
+> > > +++ b/hw/acpi/pcihp.c
+> > > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
+> > >      PCIBus *bus;
+> > >  } AcpiPciHpFind;
+> > > =20
+> > > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer =
+user_data)
+> > > +{
+> > > +    return a - b;
+> > > +}
+> > > +
+> > > +static GSequence *pci_acpi_index_list(void)
+> > > +{
+> > > +    static GSequence *used_acpi_index_list;
+> > > +
+> > > +    if (!used_acpi_index_list) {
+> > > +        used_acpi_index_list =3D g_sequence_new(NULL);
+> > > +    }
+> > > +    return used_acpi_index_list;
+> > > +}
+> > > +
+> > >  static int acpi_pcihp_get_bsel(PCIBus *bus)
+> > >  {
+> > >      Error *local_err =3D NULL;
+> > > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandle=
+r *hotplug_dev,
+> > >                     ONBOARD_INDEX_MAX);
+> > >          return;
+> > >      }
+> > > +
+> > > +    /*
+> > > +     * make sure that acpi-index is unique across all present PCI de=
+vices
+> > > +     */
+> > > +    if (pdev->acpi_index) {
+> > > +        GSequence *used_indexes =3D pci_acpi_index_list();
+> > > +
+> > > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->ac=
+pi_index),
+> > > +                              g_cmp_uint32, NULL)) {
+> > > +            error_setg(errp, "a PCI device with acpi-index =3D %" PR=
+Iu32
+> > > +                       " already exist", pdev->acpi_index);
+> > > +            return;
+> > > +        }
+> > > +        g_sequence_insert_sorted(used_indexes,
+> > > +                                 GINT_TO_POINTER(pdev->acpi_index),
+> > > +                                 g_cmp_uint32, NULL);
+> > > +    } =20
+> >=20
+> > This doesn't appear to ensure uniqueness when using PCIe topologies:
+> >=20
+> > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> >      -device virtio-net,acpi-index=3D100 \
+> >      -device virtio-net,acpi-index=3D100
+> > qemu-system-x86_64: -device virtio-net,acpi-index=3D100: a PCI device w=
+ith acpi-index =3D 100 already exist
+> >=20
+> > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> >      -M q35 \
+> >      -device virtio-net,acpi-index=3D100
+> >      -device virtio-net,acpi-index=3D100
+> > ....happily running.... =20
+>=20
+> In fact the entire concept doesn't appear to work with Q35 at all as
+> implemented.
+>=20
+> The 'acpi_index' file in the guest OS never gets created and the NICs
+> are still called 'eth0', 'eth1'
+>=20
+> Only with i440fx can I can the "enoNNN" based naming to work with
+> acpi-index set from QEMU
 
-I'd try to mimic what we do for PCI devices.
-More exactly, make BIOS enumerate and assign GPA to CXL devices
-SeaBIOS could be used for POC, basically mimic what it does for PCI devices
-enumeration and BAR assignment, just use CXL provided interfaces (guest visible side)
-to map CXL memory at some free addresses.
-
-In that case you probably won't need to worry about implementing some kind of
-memory controller on QEMU side (guest will decide where memory should be mapped).
-And on QEMU side you should be able reuse PCI BAR interfaces to map memory.
-
-For reference see: 
-SeaBIOS: src/fw/pciinit.c 
-QEMU: pci_update_mappings() - place where QEMU maps BARs into address space
+It is not supported on Q35 yet as it depends on ACPI PCI hotplug infrastruc=
+ture.
+Once Julia is done with porting it to Q35, acpi-index will be pulled along =
+with it.
 
 
-> 
-> > 
-> > In case of secondary volatile region, I'd add the second backend to cxl device.
-> >   
-> > > For context, I've posted v3 previously. Here's a link to v4 which has some minor
-> > > changes as well as moving back to using subregions instead of aliases:
-> > > https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v4
-> > > 
-> > > Thanks.
-> > > Ben
-> > >   
-> >   
-> 
-> 
+> Regards,
+> Daniel
 
 
