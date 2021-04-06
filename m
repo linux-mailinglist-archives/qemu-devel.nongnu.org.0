@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B474B35598D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 18:48:37 +0200 (CEST)
-Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C835135598C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 18:48:25 +0200 (CEST)
+Received: from localhost ([::1]:43700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTosW-0008A2-Od
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 12:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50582)
+	id 1lTosJ-0007re-Da
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 12:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lToq8-0006rA-HY
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:46:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53138)
+ id 1lToqD-0006sq-81
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:46:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lToq4-0003wC-NC
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:46:08 -0400
+ id 1lToq4-0003wH-Pk
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 12:46:12 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lTopy-00014C-Hh
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 16:45:58 +0000
+ id 1lTopz-00011k-3M
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 16:45:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 77C592E816D
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 16:45:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 437F02E8173
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 16:45:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Apr 2021 16:29:42 -0000
+Date: Tue, 06 Apr 2021 16:32:56 -0000
 From: Laurent Vivier <1922617@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: laurent-vivier nathanchance philmd pmaydell rth
 X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
 References: <161767088471.29958.926730188235259416.malonedeb@gac.canonical.com>
-Message-Id: <161772658244.23273.6326078398192414006.malone@chaenomeles.canonical.com>
+Message-Id: <161772677626.17381.15607563797468638612.malone@soybean.canonical.com>
 Subject: [Bug 1922617] Re: qemu-aarch64-static "Illegal instruction" with
  debootstrap
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: e7bd024fef1543543d3c37f9467b2cdc536ab306
+X-Launchpad-Hash: 11fb8b6c87d366db9ffe9cec8c8ddd7cd7ba7eb8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,13 +75,59 @@ Reply-To: Bug 1922617 <1922617@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perhaps the reason is:
+commit be5d6f4884021208ae0e73379c83e51500ad3a8d
+Author: Richard Henderson <richard.henderson@linaro.org>
+Date:   Wed Oct 21 10:37:39 2020 -0700
 
-include/exec/cpu-all.h
+    linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
+    =
 
-#define PAGE_ANON      0x0080
+    Transform the prot bit to a qemu internal page bit, and save
+    it in the page tables.
+    =
+
+    Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+    Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+    Message-id: 20201021173749.111103-3-richard.henderson@linaro.org
+    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ...
-#define PAGE_TARGET_1  0x0080
+
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 49cd5cabcf2a..c18a91676656 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3445,6 +3445,11 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTx=
+Attrs *x)
+ #define arm_tlb_bti_gp(x) (typecheck_memtxattrs(x)->target_tlb_bit0)
+ #define arm_tlb_mte_tagged(x) (typecheck_memtxattrs(x)->target_tlb_bit1)
+ =
+
++/*
++ * AArch64 usage of the PAGE_TARGET_* bits for linux-user.
++ */
++#define PAGE_BTI  PAGE_TARGET_1
++
+ /*
+  * Naming convention for isar_feature functions:
+  * Functions which test 32-bit ID registers should have _aa32_ in
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 71888083417d..072754fa24d4 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14507,10 +14507,10 @@ static void disas_data_proc_simd_fp(DisasContext =
+*s, uint32_t insn)
+  */
+ static bool is_guarded_page(CPUARMState *env, DisasContext *s)
+ {
++    uint64_t addr =3D s->base.pc_first;
+ #ifdef CONFIG_USER_ONLY
+-    return false;  /* FIXME */
++    return page_get_flags(addr) & PAGE_BTI;
+ #else
+-    uint64_t addr =3D s->base.pc_first;
+     int mmu_idx =3D arm_to_core_mmu_idx(s->mmu_idx);
+     unsigned int index =3D tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
 
 -- =
 
