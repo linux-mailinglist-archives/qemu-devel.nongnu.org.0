@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5076354E27
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 09:52:14 +0200 (CEST)
-Received: from localhost ([::1]:37406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE331354E1B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 09:44:06 +0200 (CEST)
+Received: from localhost ([::1]:53928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTgVR-0005Wy-GW
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 03:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54720)
+	id 1lTgNa-0000Ng-12
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 03:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTgU4-0004cN-8B
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:50:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44128)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTgTz-0005Wn-Uc
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:50:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lTgTx-00053v-1L
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 07:50:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 008722E8162
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 07:50:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lTgMg-0008PH-BP
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:43:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lTgMb-0001Ah-1a
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 03:43:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617694983;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EiOcDTrfgpK+jQgn3PuHpM1oXHL1YBatLEvJfpgcdP4=;
+ b=NhzVbKfULctxkF2WiGb3+DNKQHcCC2HTXIMLU9KV3WQ1mtIw3cCWa9a/s1cdecNM+DDI72
+ hVeG+HfGFEyGnj9fYeOaVw9RXeMwnNkA3j6a3YgiyIc+C+8fbLn11W9kkFgUcvuOyN0eaR
+ iX1eU0sqn12+VV21QE+13bP9X0CdKZA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-o41ys7x8O_OH86Oz6CME3w-1; Tue, 06 Apr 2021 03:42:59 -0400
+X-MC-Unique: o41ys7x8O_OH86Oz6CME3w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B677F5704F;
+ Tue,  6 Apr 2021 07:42:58 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79BD2100239A;
+ Tue,  6 Apr 2021 07:42:53 +0000 (UTC)
+Date: Tue, 6 Apr 2021 09:42:50 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3] hw/smbios: support for type 41 (onboard devices
+ extended information)
+Message-ID: <20210406074250.hsmm5yrzhfxdwjs4@kamzik.brq.redhat.com>
+References: <20210401122658.37842-1-vincent@bernat.ch>
+ <20210401225846.411ebd76@redhat.com> <m37dllk939.fsf@bernat.ch>
+ <20210401233225.16e572e4@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Apr 2021 07:39:04 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1922391@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: he-uninett philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161739653585.29688.16825149829487531908.malonedeb@gac.canonical.com>
-Message-Id: <161769474493.29904.6480671452143398519.malone@gac.canonical.com>
-Subject: [Bug 1922391] Re: qemu-system-ppc assertion "!mr->container" failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 611ea3e2dd8e87f6d953a21a746d5a47e1b67e4f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210401233225.16e572e4@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,134 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922391 <1922391@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Vincent Bernat <vincent@bernat.ch>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the machine can not support more than 2GB, QEMU should report an error w=
-hen the user tries to assign too many memory, not crash and let it figure o=
-ut.
-Setting the bug status to confirmed.
+On Thu, Apr 01, 2021 at 11:32:25PM +0200, Igor Mammedov wrote:
+> On Thu, 01 Apr 2021 23:07:06 +0200
+> Vincent Bernat <vincent@bernat.ch> wrote:
+> 
+> >  ❦  1 avril 2021 22:58 +02, Igor Mammedov:
+> > 
+> > >> This can be invoked with:
+> > >> 
+> > >>     $QEMU -netdev user,id=internet
+> > >>           -device virtio-net-pci,mac=50:54:00:00:00:42,netdev=internet,id=internet-dev \
+> > >>           -smbios type=41,designation='Onboard LAN',instance=1,kind=ethernet,pcidev=internet-dev  
+> > >
+> > > an ACPI alternative was merged recently (current master).
+> > > assigning 'designation=' wasn't implemented there, but important part
+> > > of giving users control over PCI devices 'eno' index is implemented.
+> > >
+> > > When I looked into the issue, smbios way was a bit over-kill for the task
+> > > and didn't really work if hotplug were used.
+> > >
+> > > See, for example how to use new feature:
+> > >  https://www.mail-archive.com/qemu-devel@nongnu.org/msg794164.html  
+> > 
+> > It seems simpler this way. I don't think my patch is needed then.
+> 
+> SMBIOS ways is fine for static configs where no hot-plug is involved.
+> Also potentially SMBIOS way may be used by arm/virt board,
+> since acpi-index shares a lot with ACPI PCI hotplug infrastructure
+> and we haven't ported that to arm/virt impl. yet.
+> 
+> It also won't work for Q35 at the moment, but Julia is working
+> on adding support for ACPI PCI hotplug to it, and once it arrives
+> acpi-index will become available there.
+> 
+> Perhaps we should also add support for ACPI PCI hotplug to virt/arm,
+> along with Q35.
+>
 
-** Changed in: qemu
-       Status: Invalid =3D> Confirmed
+What's required of the guest kernel for ACPI PCI hotplug? If there are
+arch-specific aspects to that, then do we know if Linux for AArch64
+has the support?
 
--- =
+Thanks,
+drew
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922391
-
-Title:
-  qemu-system-ppc assertion "!mr->container" failed
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Hi,
-
-  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
-n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
-  quite a bit into the "unpacking sets" part of the installation procedure,
-  unpacking from the install iso image.
-
-  Qemu is run on a NetBSD/amd64 9.1 host system.
-
-  The asert message from qemu is
-
-  assertion "!mr->container" failed: file "../softmmu/memory.c", line
-  1739, function "memory_region_finalize"
-
-  The stack backtrace from the core file (when built with debug symbols)
-  is
-
-  Core was generated by `qemu-system-ppc'.
-  Program terminated with signal SIGABRT, Aborted.
-  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  [Current thread is 1 (process 1)]
-  (gdb) where
-  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
-  #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
-  #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
-  #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
-      at ../softmmu/memory.c:1739
-  #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
-
-      obj=3D<optimized out>) at ../qom/object.c:671
-  #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
-  #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
-  #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
-      at ../qom/object.c:623
-  #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
-  #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
-  #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
-      at ../softmmu/memory.c:1787
-  #11 0x000000003e7d8eb4 in address_space_unmap (
-      as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
-d out>, =
-
-      len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
-mized out>)
-      at ../softmmu/physmem.c:3222
-  #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
-
-      dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
->, =
-
-      as=3D<optimized out>)
-      at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
-  #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
- out>)
-      at ../hw/ide/macio.c:122
-  #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
-      at ../softmmu/dma-helpers.c:120
-  #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
-rs.c:138
-  #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
-      at ../block/block-backend.c:1412
-  #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
-
-      i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
-  #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
-  Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
-  (gdb) =
-
-
-  =
-
-  I start qemu with this small script:
-
-  ---
-  #!/bin/sh
-
-  MEM=3D3g
-  qemu-system-ppc \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
-raw,file=3Ddisk.img \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
-stfwd=3Dtcp::2223-:22,ipv6=3Doff \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
-netdev=3Dnet0 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
-iso
-  ---
-
-  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
-  to replicate this I can provide more detailed instructions to repeat the
-  procedure I used to start the install.
-
-  Any hints about what more to look for?
-
-  Regards,
-
-  - H=C3=A5vard
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922391/+subscriptions
 
