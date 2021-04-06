@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A4935540F
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 14:37:30 +0200 (CEST)
-Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D5735541A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 14:42:13 +0200 (CEST)
+Received: from localhost ([::1]:37450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTkxV-0005pj-00
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 08:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
+	id 1lTl24-0003H8-CX
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 08:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lTkqV-0000PW-MB
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:30:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27462)
+ id 1lTkru-0001PM-61
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:31:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lTkqR-0007dh-Ni
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:30:15 -0400
+ id 1lTkrq-0008Qb-GX
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:31:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617712210;
+ s=mimecast20190719; t=1617712296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5EYG7pGfWfl6mXVrE3UfRvWcJepIDvac+taNuQJjyPQ=;
- b=XL52AIXp5FVYVf5pFbv3qIK7XwlR7OiLuk7ZwWr3/TkQ99fkIe5mhFBNWrn3H1iNYGYER9
- WMV8LAvCbiVqGzEdMytWNM7w2BSfo6GJhnN135vs1iiwc2ClWawAdUmyQozDsqsTMT2NEg
- RJU8kVjR19vYXiKLyPYGaucPBRRzqCk=
+ bh=4ObujcMHLNN7xCptFhTiQPW+rXAvTk6GPSAdXU6OkNQ=;
+ b=iN+iAXgbxX5xjM4ud1OL1RjMJxA4JVkjxQBiiOOdvLgX5KxIbYxm+5h2IUBs9RUesn8305
+ RHJX/X9ucXwFOb7sh6LSINBN2N1WaKhUopLy3oLjc/TdVUy9gOkBKIXauipHomQxwd87vh
+ 0qUmIMaVuSh9yuzCK4kVesLgPbUrxFI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-ByhgLHF3OPm_kIM7AWZfQw-1; Tue, 06 Apr 2021 08:30:08 -0400
-X-MC-Unique: ByhgLHF3OPm_kIM7AWZfQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-284-Ililw4cpM6-x_bf8FXqT9g-1; Tue, 06 Apr 2021 08:31:34 -0400
+X-MC-Unique: Ililw4cpM6-x_bf8FXqT9g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31B6610ABCC4;
- Tue,  6 Apr 2021 12:29:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 429F4920C81;
+ Tue,  6 Apr 2021 12:31:23 +0000 (UTC)
 Received: from work-vm (ovpn-114-244.ams2.redhat.com [10.36.114.244])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C0615D6DC;
- Tue,  6 Apr 2021 12:29:33 +0000 (UTC)
-Date: Tue, 6 Apr 2021 13:29:30 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9F8F67891;
+ Tue,  6 Apr 2021 12:30:59 +0000 (UTC)
+Date: Tue, 6 Apr 2021 13:30:57 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH for-6.0 v1 1/4] migration: Fix missing qemu_fflush() on
- buffer file in bg_migration_thread
-Message-ID: <YGxUKvsO+Qw6MnMX@work-vm>
+Subject: Re: [PATCH for-6.0 v1 4/4] migration: Rename 'bs' to 'block' in
+ background snapshot code
+Message-ID: <YGxUgTTrLyH+VojI@work-vm>
 References: <20210401092226.102804-1-andrey.gruzdev@virtuozzo.com>
- <20210401092226.102804-2-andrey.gruzdev@virtuozzo.com>
+ <20210401092226.102804-5-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210401092226.102804-2-andrey.gruzdev@virtuozzo.com>
+In-Reply-To: <20210401092226.102804-5-andrey.gruzdev@virtuozzo.com>
 User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,49 +88,228 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
-> Added missing qemu_fflush() on buffer file holding precopy device state.
-> Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
-> Typical configurations often require >200KB for device state and VMDESC.
+> Rename 'bs' to commonly used 'block' in migration/ram.c background
+> snapshot code.
 > 
-> Fixes: 8518278a6af589ccc401f06e35f171b1e6fae800 (migration: implementation
->   of background snapshot thread)
 > Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> Reported-by: David Hildenbrand <david@redhat.com>
+
+Thanks,
+
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-OK, but in future, please keep separate things separate - the buffer
-size increase in particular.
-
 > ---
->  migration/migration.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  migration/ram.c | 86 +++++++++++++++++++++++++------------------------
+>  1 file changed, 44 insertions(+), 42 deletions(-)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index ca8b97baa5..00e13f9d58 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
->       * with vCPUs running and, finally, write stashed non-RAM part of
->       * the vmstate from the buffer to the migration stream.
->       */
-> -    s->bioc = qio_channel_buffer_new(128 * 1024);
-> +    s->bioc = qio_channel_buffer_new(512 * 1024);
->      qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
->      fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
->      object_unref(OBJECT(s->bioc));
-> @@ -3866,6 +3866,12 @@ static void *bg_migration_thread(void *opaque)
->      if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
->          goto fail;
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 7e2bc0fdd3..4682f3625c 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1455,7 +1455,7 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
+>  {
+>      struct uffd_msg uffd_msg;
+>      void *page_address;
+> -    RAMBlock *bs;
+> +    RAMBlock *block;
+>      int res;
+>  
+>      if (!migrate_background_snapshot()) {
+> @@ -1468,9 +1468,9 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
 >      }
-> +    /*
-> +     * Since we are going to get non-iterable state data directly
-> +     * from s->bioc->data, explicit flush is needed here.
-> +     */
-> +    qemu_fflush(fb);
-> +
->      /* Now initialize UFFD context and start tracking RAM writes */
->      if (ram_write_tracking_start()) {
->          goto fail;
+>  
+>      page_address = (void *)(uintptr_t) uffd_msg.arg.pagefault.address;
+> -    bs = qemu_ram_block_from_host(page_address, false, offset);
+> -    assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
+> -    return bs;
+> +    block = qemu_ram_block_from_host(page_address, false, offset);
+> +    assert(block && (block->flags & RAM_UF_WRITEPROTECT) != 0);
+> +    return block;
+>  }
+>  
+>  /**
+> @@ -1526,7 +1526,7 @@ bool ram_write_tracking_compatible(void)
+>  {
+>      const uint64_t uffd_ioctls_mask = BIT(_UFFDIO_WRITEPROTECT);
+>      int uffd_fd;
+> -    RAMBlock *bs;
+> +    RAMBlock *block;
+>      bool ret = false;
+>  
+>      /* Open UFFD file descriptor */
+> @@ -1537,15 +1537,15 @@ bool ram_write_tracking_compatible(void)
+>  
+>      RCU_READ_LOCK_GUARD();
+>  
+> -    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>          uint64_t uffd_ioctls;
+>  
+>          /* Nothing to do with read-only and MMIO-writable regions */
+> -        if (bs->mr->readonly || bs->mr->rom_device) {
+> +        if (block->mr->readonly || block->mr->rom_device) {
+>              continue;
+>          }
+>          /* Try to register block memory via UFFD-IO to track writes */
+> -        if (uffd_register_memory(uffd_fd, bs->host, bs->max_length,
+> +        if (uffd_register_memory(uffd_fd, block->host, block->max_length,
+>                  UFFDIO_REGISTER_MODE_WP, &uffd_ioctls)) {
+>              goto out;
+>          }
+> @@ -1567,13 +1567,13 @@ out:
+>   * Since it's solely used for userfault_fd WP feature, here we just
+>   *   hardcode page size to qemu_real_host_page_size.
+>   *
+> - * @bs: RAM block to populate
+> + * @block: RAM block to populate
+>   */
+> -static void ram_block_populate_pages(RAMBlock *bs)
+> +static void ram_block_populate_pages(RAMBlock *block)
+>  {
+> -    char *ptr = (char *) bs->host;
+> +    char *ptr = (char *) block->host;
+>  
+> -    for (ram_addr_t offset = 0; offset < bs->used_length;
+> +    for (ram_addr_t offset = 0; offset < block->used_length;
+>              offset += qemu_real_host_page_size) {
+>          char tmp = *(ptr + offset);
+>  
+> @@ -1587,13 +1587,13 @@ static void ram_block_populate_pages(RAMBlock *bs)
+>   */
+>  void ram_write_tracking_prepare(void)
+>  {
+> -    RAMBlock *bs;
+> +    RAMBlock *block;
+>  
+>      RCU_READ_LOCK_GUARD();
+>  
+> -    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>          /* Nothing to do with read-only and MMIO-writable regions */
+> -        if (bs->mr->readonly || bs->mr->rom_device) {
+> +        if (block->mr->readonly || block->mr->rom_device) {
+>              continue;
+>          }
+>  
+> @@ -1605,7 +1605,7 @@ void ram_write_tracking_prepare(void)
+>           * UFFDIO_WRITEPROTECT_MODE_WP mode setting would silently skip
+>           * pages with pte_none() entries in page table.
+>           */
+> -        ram_block_populate_pages(bs);
+> +        ram_block_populate_pages(block);
+>      }
+>  }
+>  
+> @@ -1618,7 +1618,7 @@ int ram_write_tracking_start(void)
+>  {
+>      int uffd_fd;
+>      RAMState *rs = ram_state;
+> -    RAMBlock *bs;
+> +    RAMBlock *block;
+>  
+>      /* Open UFFD file descriptor */
+>      uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, true);
+> @@ -1629,27 +1629,27 @@ int ram_write_tracking_start(void)
+>  
+>      RCU_READ_LOCK_GUARD();
+>  
+> -    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>          /* Nothing to do with read-only and MMIO-writable regions */
+> -        if (bs->mr->readonly || bs->mr->rom_device) {
+> +        if (block->mr->readonly || block->mr->rom_device) {
+>              continue;
+>          }
+>  
+>          /* Register block memory with UFFD to track writes */
+> -        if (uffd_register_memory(rs->uffdio_fd, bs->host,
+> -                bs->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
+> +        if (uffd_register_memory(rs->uffdio_fd, block->host,
+> +                block->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
+>              goto fail;
+>          }
+>          /* Apply UFFD write protection to the block memory range */
+> -        if (uffd_change_protection(rs->uffdio_fd, bs->host,
+> -                bs->max_length, true, false)) {
+> +        if (uffd_change_protection(rs->uffdio_fd, block->host,
+> +                block->max_length, true, false)) {
+>              goto fail;
+>          }
+> -        bs->flags |= RAM_UF_WRITEPROTECT;
+> -        memory_region_ref(bs->mr);
+> +        block->flags |= RAM_UF_WRITEPROTECT;
+> +        memory_region_ref(block->mr);
+>  
+> -        trace_ram_write_tracking_ramblock_start(bs->idstr, bs->page_size,
+> -                bs->host, bs->max_length);
+> +        trace_ram_write_tracking_ramblock_start(block->idstr, block->page_size,
+> +                block->host, block->max_length);
+>      }
+>  
+>      return 0;
+> @@ -1657,19 +1657,20 @@ int ram_write_tracking_start(void)
+>  fail:
+>      error_report("ram_write_tracking_start() failed: restoring initial memory state");
+>  
+> -    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> -        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+> +        if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
+>              continue;
+>          }
+>          /*
+>           * In case some memory block failed to be write-protected
+>           * remove protection and unregister all succeeded RAM blocks
+>           */
+> -        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
+> -        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
+> +        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
+> +                false, false);
+> +        uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
+>          /* Cleanup flags and remove reference */
+> -        bs->flags &= ~RAM_UF_WRITEPROTECT;
+> -        memory_region_unref(bs->mr);
+> +        block->flags &= ~RAM_UF_WRITEPROTECT;
+> +        memory_region_unref(block->mr);
+>      }
+>  
+>      uffd_close_fd(uffd_fd);
+> @@ -1683,24 +1684,25 @@ fail:
+>  void ram_write_tracking_stop(void)
+>  {
+>      RAMState *rs = ram_state;
+> -    RAMBlock *bs;
+> +    RAMBlock *block;
+>  
+>      RCU_READ_LOCK_GUARD();
+>  
+> -    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> -        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+> +        if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
+>              continue;
+>          }
+>          /* Remove protection and unregister all affected RAM blocks */
+> -        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
+> -        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
+> +        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
+> +                false, false);
+> +        uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
+>  
+> -        trace_ram_write_tracking_ramblock_stop(bs->idstr, bs->page_size,
+> -                bs->host, bs->max_length);
+> +        trace_ram_write_tracking_ramblock_stop(block->idstr, block->page_size,
+> +                block->host, block->max_length);
+>  
+>          /* Cleanup flags and remove reference */
+> -        bs->flags &= ~RAM_UF_WRITEPROTECT;
+> -        memory_region_unref(bs->mr);
+> +        block->flags &= ~RAM_UF_WRITEPROTECT;
+> +        memory_region_unref(block->mr);
+>      }
+>  
+>      /* Finally close UFFD file descriptor */
 > -- 
 > 2.27.0
 > 
