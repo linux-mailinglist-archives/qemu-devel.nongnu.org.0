@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C683553CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 14:26:26 +0200 (CEST)
-Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300C53553E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 14:30:50 +0200 (CEST)
+Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTkmm-0002ti-NA
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 08:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
+	id 1lTkr3-0007vt-4v
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 08:30:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lTkjm-0001Tl-95
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:23:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lTkjh-0003jQ-Pq
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617711791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+UBKrxXh0Nojghvd8aiZzxVJTbhnNDkgbxPPyzy+/bk=;
- b=M+V2A8s2ox/afozJbqdzUM/0LA61S4Mrv55FMgDtm5MjGSx0Kr2/B/B399XI/doUhYPEWG
- JtBG0wOU/IQ/04DaXZS6tWwmyRI31YjaF77d0vYfHenKQx9Ri7s9lKvnokUXHnv4J6hp1M
- aXLYMfhYg3Dcwzbmf9rAjf0mBm8tmGI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-v2lkSJZ-NHacShHfqIgLIw-1; Tue, 06 Apr 2021 08:23:08 -0400
-X-MC-Unique: v2lkSJZ-NHacShHfqIgLIw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58FE48B5DFD;
- Tue,  6 Apr 2021 12:22:52 +0000 (UTC)
-Received: from [10.36.112.13] (ovpn-112-13.ams2.redhat.com [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7EC25C890;
- Tue,  6 Apr 2021 12:22:50 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm/virt-acpi-build: Fix GSIV values of the {GERR,
- Sync} interrupts
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210402084731.93-1-yuzenghui@huawei.com>
- <7f42bc9f-3fb8-d24d-d9e4-9b93784504a6@redhat.com>
- <CAFEAcA-87+rOJa6kBZU2J2ACO07h1DDZe6MTcBCUrx_Zwp3UHg@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <24c077d2-0e0e-02bc-0f92-4086be7e8982@redhat.com>
-Date: Tue, 6 Apr 2021 14:22:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lTknn-0005AJ-EV
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:27:28 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40791)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lTkn2-0005ky-5C
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 08:27:25 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id v11so13998727wro.7
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 05:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=17XfflfUlGVHU6RbDSkYhvFuXhDahwD01JFccu5xxNc=;
+ b=jnHJ2O3/JTwxGFz3/r/sMeOWs0iNNc3hh4icSpHG9ptLu+uKxFnvblSOUA2flCniqm
+ et2RxxZsUYOghsC2WkpWfd0Adr7nYhq8gRgJE7DlVy7VOthKT+qrXGPqasfaFaf08YHP
+ gZm2lQlYSxWiCV+V7fs70XpfgGpEp20eMyCnDisU9upyVNVLJnpVRTtAVPzTOS17OWPc
+ WofEywGxqd6YQ1AcENXxOm+kCqs7zNzkG6lcxMhdRH2mb9o9psCn2UtSveLIk+ZjDlrL
+ fvE4Ssj8flrKMU/yNgL8/W/rwkUdbu4DufO1Nx1mYdfxQLKaopENaPGTxSD3TN4VVI3U
+ OGKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=17XfflfUlGVHU6RbDSkYhvFuXhDahwD01JFccu5xxNc=;
+ b=TGyp1W0BED8w11gTgg5KoTu6ooGzc3q4/Q5Grte1m7HkdEBixQJS9ibxQ79l158ajv
+ yGJ2YpRQhjULim+deuqxbusv4o8giN88Po3/2YDcZz3sPQ6cUKwCP68M0uUNZw2GvFyJ
+ F3xgJIreA2z6nN1wQiiXRYq3LcONqekoU9bmkKf5z27jKO01OH+g8b0G2Im7QIjG3bwP
+ R2jXutdfc0Bs9mTkgrxNa4fexC6itwXsLsQ7UNl+q3rHXDXeezYgMDi2Pw2UVuQBVVHO
+ joi9xJFktNVjtg7DiKqI+uDqe0j/IinEaU4RimuLe4AdUMlWCWq368Mm5mlRGlhkgFe7
+ qANg==
+X-Gm-Message-State: AOAM533lpSTwQ3m5E59RCnRxpfB9W2IzelFpBTE+ecq1oyacAo3IjEZY
+ BfsTAGZNb28bKaAAzckb7c7k0z8XcG0EFaeJ
+X-Google-Smtp-Source: ABdhPJxav+tah0SN9ysHgiLHURtgA6INquKfMj56BwqZfKi2FwKJKhkH7fR4TlyaJWJ2+eHJZmfBpQ==
+X-Received: by 2002:adf:e482:: with SMTP id i2mr34531523wrm.392.1617711998761; 
+ Tue, 06 Apr 2021 05:26:38 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l6sm31160252wrt.56.2021.04.06.05.26.38
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Apr 2021 05:26:38 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 2/6] machine: Provide a function to check the dynamic sysbus
+ allowlist
+Date: Tue,  6 Apr 2021 13:26:31 +0100
+Message-Id: <20210406122635.28268-3-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210406122635.28268-1-peter.maydell@linaro.org>
+References: <20210406122635.28268-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-87+rOJa6kBZU2J2ACO07h1DDZe6MTcBCUrx_Zwp3UHg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,50 +84,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Prem Mallappa <prem.mallappa@broadcom.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Provide a new function dynamic_sysbus_dev_allowed() which checks the
+per-machine list of permitted dynamic sysbus devices and returns a
+boolean result indicating whether the device is allowed.  We can use
+this in the implementation of validate_sysbus_device(), but we will
+also need it so that machine hotplug callbacks can validate devices
+rather than assuming that any sysbus device might be hotpluggable
+into the platform bus.
 
-On 4/6/21 12:44 PM, Peter Maydell wrote:
-> On Tue, 6 Apr 2021 at 11:10, Auger Eric <eric.auger@redhat.com> wrote:
->>
->> Hi Zenghui,
->>
->> On 4/2/21 10:47 AM, Zenghui Yu wrote:
->>> The GSIV values in SMMUv3 IORT node are not correct as they don't match
->>> the SMMUIrq enumeration, which describes the IRQ<->PIN mapping used by
->>> our emulated vSMMU.
->>>
->>> Fixes: a703b4f6c1ee ("hw/arm/virt-acpi-build: Add smmuv3 node in IORT table")
->>> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
->> Acked-by: Eric Auger <eric.auger@redhat.com>
-> 
-> Eric, when you send an acked-by tag do you mean to say that you've
-> reviewed the patch, or merely that you think it's basically the
-> right thing but you haven't actually looked at the details?
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20210325153310.9131-3-peter.maydell@linaro.org
+---
+ include/hw/boards.h | 24 ++++++++++++++++++++++++
+ hw/core/machine.c   | 21 ++++++++++++++++-----
+ 2 files changed, 40 insertions(+), 5 deletions(-)
 
-I mean I have reviewed the patch carefully and I think it is good to go.
-I thought that as a maintainer for the arm smmu component I was supposed
-to send an A-b instead of an R-b.
-> 
-> (I ask because if the former I can just put this in target-arm.next,
-> but if the latter then I need to dig out the SMMU spec and review
-> the patch myself :-))
-
-Yes that's rather the former but obviously if you have some cycles /
-interest in the topic I am more than happy to get your opinion too!
-
-Thanks
-
-Eric
-> 
-> thanks
-> -- PMM
-> 
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6fc5cefcec5..ad6c8fd5376 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -52,6 +52,30 @@ void machine_set_cpu_numa_node(MachineState *machine,
+  */
+ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
+ 
++/**
++ * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
++ * @mc: Machine class
++ * @dev: device to check
++ *
++ * Returns: true if @dev is a sysbus device on the machine's list
++ * of dynamically pluggable sysbus devices; otherwise false.
++ *
++ * This function checks whether @dev is a valid dynamic sysbus device,
++ * by first confirming that it is a sysbus device and then checking it
++ * against the list of permitted dynamic sysbus devices which has been
++ * set up by the machine using machine_class_allow_dynamic_sysbus_dev().
++ *
++ * It is valid to call this with something that is not a subclass of
++ * TYPE_SYS_BUS_DEVICE; the function will return false in this case.
++ * This allows hotplug callback functions to be written as:
++ *     if (device_is_dynamic_sysbus(mc, dev)) {
++ *         handle dynamic sysbus case;
++ *     } else if (some other kind of hotplug) {
++ *         handle that;
++ *     }
++ */
++bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev);
++
+ /*
+  * Checks that backend isn't used, preps it for exclusive usage and
+  * returns migratable MemoryRegion provided by backend.
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 9935c6ddd56..8d97094736a 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -529,20 +529,31 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
+     QAPI_LIST_PREPEND(mc->allowed_dynamic_sysbus_devices, g_strdup(type));
+ }
+ 
+-static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
++bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
+ {
+-    MachineState *machine = opaque;
+-    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     bool allowed = false;
+     strList *wl;
++    Object *obj = OBJECT(dev);
++
++    if (!object_dynamic_cast(obj, TYPE_SYS_BUS_DEVICE)) {
++        return false;
++    }
+ 
+     for (wl = mc->allowed_dynamic_sysbus_devices;
+          !allowed && wl;
+          wl = wl->next) {
+-        allowed |= !!object_dynamic_cast(OBJECT(sbdev), wl->value);
++        allowed |= !!object_dynamic_cast(obj, wl->value);
+     }
+ 
+-    if (!allowed) {
++    return allowed;
++}
++
++static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
++{
++    MachineState *machine = opaque;
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
++
++    if (!device_is_dynamic_sysbus(mc, DEVICE(sbdev))) {
+         error_report("Option '-device %s' cannot be handled by this machine",
+                      object_class_get_name(object_get_class(OBJECT(sbdev))));
+         exit(1);
+-- 
+2.20.1
 
 
