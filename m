@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1CF355054
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 11:50:02 +0200 (CEST)
-Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0232E355055
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 11:50:05 +0200 (CEST)
+Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTiLR-0002Vm-CQ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 05:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51008)
+	id 1lTiLU-0002WH-3U
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 05:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTiJB-0001dD-5H
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lTiJF-0001dY-7g
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 05:47:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lTiJ4-0008RW-6z
  for qemu-devel@nongnu.org; Tue, 06 Apr 2021 05:47:44 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lTiJ6-0008Rj-AF
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 05:47:40 -0400
-Received: by mail-wr1-x432.google.com with SMTP id e12so431438wro.11
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 02:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=hen3fO/t2WIHIOL+w73o3JKtH8tV4ZvxCsESPVNlhGQ=;
- b=ZWSubRjG1f2zcUB6IYNmyLNcj5ZpzK5kum/2UFB+9K2gVWaRW3O2nmMYtw5poegwLu
- bgifcDRrRCMgWytKYJoN/vvELZ8OePMp4qvwieE7Mw2su5b0JvKtpHjeq16/A1QGuqYI
- bqbE+AlyvlxcVZvOyWz+r/KFfLhBuefOYoiF1bUI2uvJbV88+Dj2wPprJOYgixytrs79
- pn2Pwl69tqUE7+6PRD3o0O6t429GzTTJ2k7mIJ/5qJI4EA/gv73gJVZMLUNVkiI6wOqH
- DmqfymC8CeQNAVrsmPUq/G71k8X4zX9yP9WA5Euw6i2/kMvTaGuXvkZlXfTs5XWo2A9T
- GH5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=hen3fO/t2WIHIOL+w73o3JKtH8tV4ZvxCsESPVNlhGQ=;
- b=ZZuHu+d3QXTvq/KFgiiEFkMWeRVKueDLSf/I5lXz8Vd+ZwVyJ3vnkjyBOIhucTXjF/
- Uwxpq71w++njJNcmZc8Gr1vTT6QmK5STtSrHaG7rJ1qjxIuEU+UMkhy2WoCJ2horiNfx
- yKX8KnVC3yAJfICyJJGdhD8Q71PV1aqdHL33APArAn4j5Pk1x9ZlJ69DW5zxNWllOQWS
- aMuw/uzYC0vxl8Su51B6TmGWmLVPJdS5c0rMaUb/BE3wPw9DXvzRUJsDOzj/P95HTK4l
- 5YXPtrzhuK2IpuZBgc686oEuW4OJUV/KvKDDIPcC3qQbvKUqofjuPahUVN8V6MG6iffF
- zBWg==
-X-Gm-Message-State: AOAM530+1nxifrxMyjSjFnQVO5ixoFbOELX8h+ypRbg589qsIUSL6fTs
- Fne58HQjRBl2F+De+S7gDHTXAg==
-X-Google-Smtp-Source: ABdhPJy3A5dRG12q7FuMMhM2Cv2eaKjfkiL9Nop+pH0db3jFUmfvfkmz0li2T2U2knQatc1Fi70GBQ==
-X-Received: by 2002:adf:9043:: with SMTP id h61mr33859477wrh.216.1617702453154; 
- Tue, 06 Apr 2021 02:47:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w7sm6408039wrt.15.2021.04.06.02.47.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Apr 2021 02:47:32 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27EDD1FF7E;
- Tue,  6 Apr 2021 10:47:31 +0100 (BST)
-References: <20210401102530.12030-1-alex.bennee@linaro.org>
- <20210401102530.12030-5-alex.bennee@linaro.org>
- <1b119958-38ec-3b61-8957-bd8a1113994c@linaro.org>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/11] tests/tcg/configure.sh: make sure we pick up
- x86_64 cross compilers
-Date: Tue, 06 Apr 2021 10:46:01 +0100
-In-reply-to: <1b119958-38ec-3b61-8957-bd8a1113994c@linaro.org>
-Message-ID: <87sg43wxqk.fsf@linaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617702451;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=PNvaWNPL2Y1WPPsqporgBhyuhMu+0f6ltnCNLMWNAYg=;
+ b=cKOitJm50YeIdxS2VIeyzSFndxiE1XNk86Jj0pWHLlPYwvM3P51uqEk2EzY0KmSa3RgN4L
+ A0eUe1FN1tVV4tsUI8la0Vk5DuPVFCxACgZ4MLyi/dGPaY59IgsTkFfZjNWKKXZS2KLm4O
+ VY62NG3kYjqh9aez+MgIeGdb0Z4vbmA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-GcLkASTEMr-wqxfzpKz5aQ-1; Tue, 06 Apr 2021 05:47:27 -0400
+X-MC-Unique: GcLkASTEMr-wqxfzpKz5aQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C500783DD22
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 09:47:26 +0000 (UTC)
+Received: from redhat.com (ovpn-114-172.ams2.redhat.com [10.36.114.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8894019635;
+ Tue,  6 Apr 2021 09:47:15 +0000 (UTC)
+Date: Tue, 6 Apr 2021 10:47:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 2/6] pci: introduce apci-index property for PCI device
+Message-ID: <YGwuIF69gi4a0fbo@redhat.com>
+References: <20210315180102.3008391-1-imammedo@redhat.com>
+ <20210315180102.3008391-3-imammedo@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210315180102.3008391-3-imammedo@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,38 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 15, 2021 at 02:00:58PM -0400, Igor Mammedov wrote:
+> In x86/ACPI world, linux distros are using predictable
+> network interface naming since systemd v197. Which on
+> QEMU based VMs results into path based naming scheme,
+> that names network interfaces based on PCI topology.
+> 
+> With itm on has to plug NIC in exactly the same bus/slot,
+> which was used when disk image was first provisioned/configured
+> or one risks to loose network configuration due to NIC being
+> renamed to actually used topology.
+> That also restricts freedom to reshape PCI configuration of
+> VM without need to reconfigure used guest image.
+> 
+> systemd also offers "onboard" naming scheme which is
+> preferred over PCI slot/topology one, provided that
+> firmware implements:
+>     "
+>     PCI Firmware Specification 3.1
+>     4.6.7.  DSM for Naming a PCI or PCI Express Device Under
+>             Operating Systems
+>     "
+> that allows to assign user defined index to PCI device,
+> which systemd will use to name NIC. For example, using
+>   -device e1000,acpi-index=100
+> guest will rename NIC to 'eno100', where 'eno' is default
+> prefix for "onboard" naming scheme. This doesn't require
+> any advance configuration on guest side to com in effect
+> at 'onboard' scheme takes priority over path based naming.
+> 
+> Hope is that 'acpi-index' it will be easier to consume by
+> management layer, compared to forcing specific PCI topology
+> and/or having several disk image templates for different
+> topologies and will help to simplify process of spawning
+> VM from the same template without need to reconfigure
+> guest NIC.
+> 
+> This patch adds, 'acpi-index'* property and wires up
+> a 32bit register on top of pci hotplug register block
+> to pass index value to AML code at runtime.
+> Following patch will add corresponding _DSM code and
+> wire it up to PCI devices described in ACPI.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+You've illustrated usage & benefits with NICs, but IIUC, this
+feature is wired up for any PCI device. Are you aware of any
+usage of this feature for non-NIC devices ?
 
-> On 4/1/21 3:25 AM, Alex Benn=C3=A9e wrote:
->> While it's hard to find cross compilers packaged for arches other than
->> x86_64 the same cannot be said for the x86_64 compiler which is
->> available on Debians i386, arm64 and ppc64el release architectures.
->> Signed-off-by: Alex Benn=C3=A9e<alex.bennee@linaro.org>
->> ---
->>   tests/tcg/configure.sh | 5 +++++
->>   1 file changed, 5 insertions(+)
->
-> Dunno why only these 3 hosts, but what you have matches the data in
-> packages.debian.org.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-I did try and convince the packagers to build all the cross gcc's for
-all the arches but they did point out (reasonably) that it would be
-quite an explosion of binary size in the repos. But at least mainline
-arches are getting better support in other mainline arches.
-
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> r~
-
-
---=20
-Alex Benn=C3=A9e
 
