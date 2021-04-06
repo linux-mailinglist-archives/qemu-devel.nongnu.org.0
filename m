@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4982F3557B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:25:53 +0200 (CEST)
-Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98051355796
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 17:21:05 +0200 (CEST)
+Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTnaS-00045X-Ay
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1lTnVo-0000Vv-EP
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 11:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTnQc-0005Dh-7V
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:15:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTnQZ-0004hp-HP
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:15:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lTnQX-0005Yr-Nw
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 15:15:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B00B82E8050
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 15:15:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lTnJM-0005PS-T3
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:08:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57188)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lTnJI-0000oF-4b
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 11:08:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617721687;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TKsNzzMuohctfFO/avnN4KNnzjNXmgyIqLXRL4UEPwI=;
+ b=SmhJJs74+fEvtuxYweErvAKczSZEIhAkNwamUdGAzKVZgCyeTzh4AzERbs1319WZSGrQIq
+ +YytyHbkcpcP3GUQbctF3Seji7kJK14eu3nHgWwDQV8ZmoPO/ViMx0Iog5q07t6Lk+H9Ym
+ Sy2DBz4pOfBShrLzn/sBJ8WQBch9yk8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-yiuu9XH-O--YU_ZHH6UmGg-1; Tue, 06 Apr 2021 11:07:33 -0400
+X-MC-Unique: yiuu9XH-O--YU_ZHH6UmGg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0749618C8C20;
+ Tue,  6 Apr 2021 15:07:33 +0000 (UTC)
+Received: from redhat.com (ovpn-114-172.ams2.redhat.com [10.36.114.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE3B05D9D0;
+ Tue,  6 Apr 2021 15:07:28 +0000 (UTC)
+Date: Tue, 6 Apr 2021 16:07:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
+Message-ID: <YGx5LRiqkKRmO4aJ@redhat.com>
+References: <20210322225907.541943-1-mst@redhat.com>
+ <20210322225907.541943-12-mst@redhat.com>
+ <YGx2IFN3mJisOR1w@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Apr 2021 15:05:54 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1922617@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier nathanchance philmd pmaydell
-X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161767088471.29958.926730188235259416.malonedeb@gac.canonical.com>
-Message-Id: <161772155479.27460.9152575111672238854.malone@wampee.canonical.com>
-Subject: [Bug 1922617] Re: qemu-aarch64-static "Illegal instruction" with
- debootstrap
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 0abac84c1856b96426442b203406d36d6cb3cd4b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YGx2IFN3mJisOR1w@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,163 +85,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922617 <1922617@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Possible fix:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg796781.html
+On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrangé wrote:
+> On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote:
+> > From: Igor Mammedov <imammedo@redhat.com>
+> > 
+> > it helps to avoid device naming conflicts when guest OS is
+> > configured to use acpi-index for naming.
+> > Spec ialso says so:
+> > 
+> > PCI Firmware Specification Revision 3.2
+> > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
+> > "
+> > Instance number must be unique under \_SB scope. This instance number does not have to
+> > be sequential in a given system configuration.
+> > "
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 46 insertions(+)
+> > 
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index ceab287bd3..f4cb3c979d 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
+> >      PCIBus *bus;
+> >  } AcpiPciHpFind;
+> >  
+> > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
+> > +{
+> > +    return a - b;
+> > +}
+> > +
+> > +static GSequence *pci_acpi_index_list(void)
+> > +{
+> > +    static GSequence *used_acpi_index_list;
+> > +
+> > +    if (!used_acpi_index_list) {
+> > +        used_acpi_index_list = g_sequence_new(NULL);
+> > +    }
+> > +    return used_acpi_index_list;
+> > +}
+> > +
+> >  static int acpi_pcihp_get_bsel(PCIBus *bus)
+> >  {
+> >      Error *local_err = NULL;
+> > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+> >                     ONBOARD_INDEX_MAX);
+> >          return;
+> >      }
+> > +
+> > +    /*
+> > +     * make sure that acpi-index is unique across all present PCI devices
+> > +     */
+> > +    if (pdev->acpi_index) {
+> > +        GSequence *used_indexes = pci_acpi_index_list();
+> > +
+> > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
+> > +                              g_cmp_uint32, NULL)) {
+> > +            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
+> > +                       " already exist", pdev->acpi_index);
+> > +            return;
+> > +        }
+> > +        g_sequence_insert_sorted(used_indexes,
+> > +                                 GINT_TO_POINTER(pdev->acpi_index),
+> > +                                 g_cmp_uint32, NULL);
+> > +    }
+> 
+> This doesn't appear to ensure uniqueness when using PCIe topologies:
+> 
+> $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+>      -device virtio-net,acpi-index=100 \
+>      -device virtio-net,acpi-index=100
+> qemu-system-x86_64: -device virtio-net,acpi-index=100: a PCI device with acpi-index = 100 already exist
+> 
+> $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+>      -M q35 \
+>      -device virtio-net,acpi-index=100
+>      -device virtio-net,acpi-index=100
+> ....happily running....
 
--- =
+In fact the entire concept doesn't appear to work with Q35 at all as
+implemented.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922617
+The 'acpi_index' file in the guest OS never gets created and the NICs
+are still called 'eth0', 'eth1'
 
-Title:
-  qemu-aarch64-static "Illegal instruction" with debootstrap
+Only with i440fx can I can the "enoNNN" based naming to work with
+acpi-index set from QEMU
 
-Status in QEMU:
-  New
 
-Bug description:
-  This is reproducible against QEMU master. I apologize for the long
-  reproduction steps, I tried to distill it down as much as possible.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-  System info:
-
-  # qemu-aarch64-static --version
-  qemu-aarch64 version 5.2.91 (v6.0.0-rc1-68-gee82c086ba)
-  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
-
-  # cat /etc/os-release
-  PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
-  NAME=3D"Debian GNU/Linux"
-  VERSION_ID=3D"10"
-  VERSION=3D"10 (buster)"
-  VERSION_CODENAME=3Dbuster
-  ID=3Ddebian
-  HOME_URL=3D"https://www.debian.org/"
-  SUPPORT_URL=3D"https://www.debian.org/support"
-  BUG_REPORT_URL=3D"https://bugs.debian.org/"
-
-  # head -n 26 /proc/cpuinfo
-  processor       : 0
-  vendor_id       : GenuineIntel
-  cpu family      : 6
-  model           : 85
-  model name      : Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
-  stepping        : 7
-  microcode       : 0x5002f01
-  cpu MHz         : 1000.716
-  cache size      : 22528 KB
-  physical id     : 0
-  siblings        : 32
-  core id         : 0
-  cpu cores       : 16
-  apicid          : 0
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 22
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx=
- pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xto=
-pology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx=
- smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic mo=
-vbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpr=
-efetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single intel_ppin ssbd mba ibr=
-s ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsg=
-sbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm mpx rdt_a avx512f avx=
-512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl x=
-saveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_l=
-ocal dtherm ida arat pln pts pku ospke avx512_vnni md_clear flush_l1d arch_=
-capabilities
-  bugs            : spectre_v1 spectre_v2 spec_store_bypass swapgs taa itlb=
-_multihit
-  bogomips        : 4600.00
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 46 bits physical, 48 bits virtual
-  power management:
-
-  My reproduction steps:
-
-  # apt-get install --no-install-recommends -y \
-      build-essential \
-      ca-certificates \
-      debootstrap \
-      git \
-      libglib2.0-dev \
-      libpixman-1-dev \
-      ninja-build \
-      pkg-config \
-      python3 \
-      zstd
-
-  # git clone https://github.com/qemu/qemu
-
-  # mkdir qemu/build
-
-  # cd qemu/build
-
-  # ../configure \
-      --enable-debug \
-      --enable-linux-user \
-      --disable-bsd-user \
-      --disable-werror \
-      --disable-system \
-      --disable-tools \
-      --disable-docs \
-      --disable-gtk \
-      --disable-gnutls \
-      --disable-nettle \
-      --disable-gcrypt \
-      --disable-glusterfs \
-      --disable-libnfs \
-      --disable-libiscsi \
-      --disable-vnc \
-      --disable-kvm \
-      --disable-libssh \
-      --disable-libxml2 \
-      --disable-vde \
-      --disable-sdl \
-      --disable-opengl \
-      --disable-xen \
-      --disable-fdt \
-      --disable-vhost-net \
-      --disable-vhost-crypto \
-      --disable-vhost-user \
-      --disable-vhost-vsock \
-      --disable-vhost-scsi \
-      --disable-tpm \
-      --disable-qom-cast-debug \
-      --disable-capstone \
-      --disable-zstd \
-      --disable-linux-io-uring \
-      --static \
-      --target-list-exclude=3Dhexagon-linux-user
-
-  # ninja qemu-aarch64
-
-  # install -Dm755 qemu-aarch64 /usr/local/bin/qemu-aarch64-static
-
-  # cat <<'EOF' >/proc/sys/fs/binfmt_misc/register
-  :qemu-aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\=
-x02\x00\xb7:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xf=
-f\xfe\xff\xff:/usr/local/bin/qemu-aarch64-static:CF
-  EOF
-
-  # debootstrap --arch arm64 --foreign buster debian-rootfs
-
-  # chroot debian-rootfs /debootstrap/debootstrap --second-stage
-  Illegal instruction
-
-  This prevents me from building an arm64 Debian image on x86_64. If I
-  am doing something wrong, please let me know. The binary has been
-  uploaded for your convenience.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922617/+subscriptions
 
