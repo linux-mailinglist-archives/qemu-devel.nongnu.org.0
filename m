@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB3F355A90
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 19:41:30 +0200 (CEST)
-Received: from localhost ([::1]:43766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AC2355A8F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 19:41:22 +0200 (CEST)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTphh-0001Ve-Ma
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 13:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
+	id 1lTphZ-0001Qs-NI
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 13:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lTpfI-0000DI-R5
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:39:00 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:44754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lTpeu-00059a-Pb
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:39:00 -0400
-Received: by mail-ej1-x632.google.com with SMTP id e14so23237360ejz.11
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 10:38:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OdXIPwAKiW6hhAY0dr3OS6Usv9e+z5miiR6SirzjP9Q=;
- b=jF6ML0Y8ao6Kf9e5U9yTtUR4D0l7p0DWv73KCxWbCVmmjxHwHkwpRXs8rujOliJYty
- h451iok/NVZU4JF4kEtNMJtTdEFO3c+OLZkxJ2WSY+wPb8m+ZXaG0tyq8DyLzLHm/76r
- InxNqjy2QuC5vyqOXLykQeVWfcg0ZSHgbsdtP0poZtV2mHh9Ig4EMpTiM5PWdv9/+cPX
- LsJW1WDe0GOT8eG4WJYPZathubJTwF5jmsDpw9kFgI/oucyknV+pB1oGRlaICYzjGvmK
- BkJckR9V729/s3N2ziuBc9xhYQVjectRSJdNwFt7nh3/orLCxv4maGVWTA2UkJR2v1C/
- qUuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OdXIPwAKiW6hhAY0dr3OS6Usv9e+z5miiR6SirzjP9Q=;
- b=CKUuxN0zoGeknUWOWF8dGglhs5L1syzi7jerSh70Tjh2mUBL/btYm3CmjbSoDhJYFO
- 8sXTmmA2FUvM6UhRGsWYTkLdQHEnTzpH9AIaEqqveG6AXYuvhh4be070KD2ALzkBJ8uH
- ouKzaNiyXgftVUM+61eMEfl0YLyGQxcXRQBxxitA1xl+AoIW7+63iLq7OHsVwSBy9iwU
- MNHEA1flzTwVO6hDJn/T95Ta7+1tIugSxzBIEyjIviwZr/y/kCRzISZMeiBuUS4ddWJO
- X2TLrUhAOwEMQQJaQkwZkZudIcO8LNWa9ouUL2sf8YRIXsRacY4A//vHU6V3vuOXz+ji
- pq7Q==
-X-Gm-Message-State: AOAM531n1JDtwG38cviyyy856cFi5y2lychSfoVrRxevfTduUVQyobeQ
- iRHHXH59OvqGay9iub2mChTlcREhMJI1hz/fkrdGjQ==
-X-Google-Smtp-Source: ABdhPJyPtvW6q098I8wc6nda/KqlpLsczaXj+8/dnf1jMb/i3nyDK32fux5yjAg/Z25u2WneFH4DSgT7bB1QCicO9I0=
-X-Received: by 2002:a17:906:c301:: with SMTP id
- s1mr34621724ejz.382.1617730713208; 
- Tue, 06 Apr 2021 10:38:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lTpfF-0000BQ-4o
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:38:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lTpet-000585-AS
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 13:38:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617730712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QNRBdFbZEPEE65rl8n1mcVOKay8iZdkqzMvztGsXuxU=;
+ b=dh+RMYLGEqt3L7JI3MgB478rkdm4r+1CtJeLIFIC4+QvfQLM2xe6j4wDdMaML4vKtiTkSL
+ 2h+ITyr8cU8xTpONE3baMmUbhLTDYQr0PWhT9ttuBjZbgZ0Zsx/KvXqjydpiy+cb5pnol3
+ J/jkUK53HBvCiCGKzYNCdy952h4XxxE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-M4fBGncAP7icfvAx0gTbkg-1; Tue, 06 Apr 2021 13:38:31 -0400
+X-MC-Unique: M4fBGncAP7icfvAx0gTbkg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 412B587A826
+ for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 17:38:30 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CF7B10023B2;
+ Tue,  6 Apr 2021 17:38:18 +0000 (UTC)
+Date: Tue, 6 Apr 2021 19:38:17 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH 2/6] pci: introduce apci-index property for PCI device
+Message-ID: <20210406193817.728bb52a@redhat.com>
+In-Reply-To: <YGwuIF69gi4a0fbo@redhat.com>
+References: <20210315180102.3008391-1-imammedo@redhat.com>
+ <20210315180102.3008391-3-imammedo@redhat.com>
+ <YGwuIF69gi4a0fbo@redhat.com>
 MIME-Version: 1.0
-References: <20210406150041.28753-1-alex.bennee@linaro.org>
-In-Reply-To: <20210406150041.28753-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 6 Apr 2021 17:37:54 +0000
-Message-ID: <CAFEAcA9c24M3NA8LzbDEUU==Y51LwRH5nR9bopiFNwQTwoE7cg@mail.gmail.com>
-Subject: Re: [PULL 00/11] rc2 fixes (check-tcg, gitlab, gdbstub)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Apr 2021 at 16:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> The following changes since commit 109918d24a3bb9ed3d05beb34ea4ac6be443c1=
-38:
->
->   Merge remote-tracking branch 'remotes/nvme/tags/nvme-fixes-for-6.0-pull=
--request' into staging (2021-04-05 22:15:38 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-6.0-rc2-fixes-060421-1
->
-> for you to fetch changes up to a2e5bbf0c407a572d9b687adaecf9995f66b4cd9:
->
->   gitlab-ci.yml: Test the dtrace backend in one of the jobs (2021-04-06 1=
-5:04:50 +0100)
->
-> ----------------------------------------------------------------
-> Testing updates:
->
->   - fix x86_64 cross compilers
->   - don't use registry for non-x86 containers
->   - add valid host types for given cross compile containers
->   - clean up i386 code16 test with explicit -no-pie
->   - relax sha1.py gdbstub test
->   - add more gdbstub documentation
->   - remove annoying warning on gitlab
->   - test dtrace backend in gitlab
->
-> ----------------------------------------------------------------
+On Tue, 6 Apr 2021 10:47:12 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-The merge for this failed in gitlab CI with a weird state:
+> On Mon, Mar 15, 2021 at 02:00:58PM -0400, Igor Mammedov wrote:
+> > In x86/ACPI world, linux distros are using predictable
+> > network interface naming since systemd v197. Which on
+> > QEMU based VMs results into path based naming scheme,
+> > that names network interfaces based on PCI topology.
+> >=20
+> > With itm on has to plug NIC in exactly the same bus/slot,
+> > which was used when disk image was first provisioned/configured
+> > or one risks to loose network configuration due to NIC being
+> > renamed to actually used topology.
+> > That also restricts freedom to reshape PCI configuration of
+> > VM without need to reconfigure used guest image.
+> >=20
+> > systemd also offers "onboard" naming scheme which is
+> > preferred over PCI slot/topology one, provided that
+> > firmware implements:
+> >     "
+> >     PCI Firmware Specification 3.1
+> >     4.6.7.  DSM for Naming a PCI or PCI Express Device Under
+> >             Operating Systems
+> >     "
+> > that allows to assign user defined index to PCI device,
+> > which systemd will use to name NIC. For example, using
+> >   -device e1000,acpi-index=3D100
+> > guest will rename NIC to 'eno100', where 'eno' is default
+> > prefix for "onboard" naming scheme. This doesn't require
+> > any advance configuration on guest side to com in effect
+> > at 'onboard' scheme takes priority over path based naming.
+> >=20
+> > Hope is that 'acpi-index' it will be easier to consume by
+> > management layer, compared to forcing specific PCI topology
+> > and/or having several disk image templates for different
+> > topologies and will help to simplify process of spawning
+> > VM from the same template without need to reconfigure
+> > guest NIC.
+> >=20
+> > This patch adds, 'acpi-index'* property and wires up
+> > a 32bit register on top of pci hotplug register block
+> > to pass index value to AML code at runtime.
+> > Following patch will add corresponding _DSM code and
+> > wire it up to PCI devices described in ACPI. =20
+>=20
+> You've illustrated usage & benefits with NICs, but IIUC, this
+> feature is wired up for any PCI device. Are you aware of any
+> usage of this feature for non-NIC devices ?
 
-https://gitlab.com/qemu-project/qemu/-/pipelines/282228325
+I'm not aware of anything else that might currently use it.
 
- * marked "failed"
- * but has a "cancel" button
- * has no "retry" button
- * has an "error" tag whose hover-over text reads "Pipeline job activity
-   limit exceeded!"
+It might be useful for virtio-win (HDDs/NICs) (as we saw recently
+breakage due to PCI root bus UID change, where devices installed
+on old QEMU enumerated as new instances breaking network config or
+causing boot issues)
 
-Not being sure whether this is gitlab CI being flaky again or a problem
-with something in the pullreq, I've not applied it for rc2; we can
-figure out what happened and maybe try again for rc3.
+As Lane mentioned, it would be really useful if we could add acpi-index
+as some meta data to qcow2 image so that new guest could import it
+at creation time.
 
-thanks
--- PMM
+> Regards,
+> Daniel
+
 
