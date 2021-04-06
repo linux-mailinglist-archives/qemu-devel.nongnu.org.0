@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04626355D9E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 23:05:45 +0200 (CEST)
-Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E1A355D5F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Apr 2021 23:01:34 +0200 (CEST)
+Received: from localhost ([::1]:54032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTstM-0007AR-4H
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 17:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34108)
+	id 1lTspJ-0003mw-Jm
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 17:01:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTsbN-0002Xe-Fj
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 16:47:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lTsbL-0001i4-4j
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 16:47:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lTsbI-0008DV-3t
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 20:47:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0A2F62E8187
- for <qemu-devel@nongnu.org>; Tue,  6 Apr 2021 20:47:03 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lTsaz-0002CQ-EZ; Tue, 06 Apr 2021 16:46:45 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:60679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lTsau-0001Ym-K2; Tue, 06 Apr 2021 16:46:45 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id 179461407;
+ Tue,  6 Apr 2021 16:46:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 06 Apr 2021 16:46:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=weMSRVXTf60n3
+ ESV7JtZnQQPeh6az/lUiqnAZxFrNPQ=; b=kx5iUaYeCjCFnInu5MZGmmx3Ij32F
+ F99vnrNcaeb7zfKskruS+SY/utBoYOb8GxT4Hdl/DtF4ssFEvJlgtEDtYtv2N1Go
+ 92tSSu4vmzFR3ntDiw+Fu4UOe1PsA/GvU5QJvLhYvfjrTj2AWEFppAtYNQRi6W1Q
+ MirecKr+iepZNmYFQIOBV8K/yNpcmUn3KV5fmw7tJL5PYGdoibCP+gqILVPZ+AsV
+ OlMCvJpH7FGBkk45kzJU184TNIznPyhHLWhqzIbYynLLRf9/CrpStPX5xwVZLl0I
+ pHcmfV4JaoDbOzpTFfoCvec0jo4taQWXrvEeGGmg85BnPQU59xVc9lBxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=weMSRVXTf60n3ESV7JtZnQQPeh6az/lUiqnAZxFrNPQ=; b=qHO45h07
+ 7QkJl3UPhqUnJyAB4570C08uxli/9+WZRVfuJzSWAKloIpvL4WynjpF3PvjCkn8h
+ //AnRZzHBbQDTrmhcRdlMURxEETSnmg0ye6LKHusFXoapWCOQrWlNY7k0cIwkhLl
+ QIoKAUsRHBAfiJPkLwOqNvfqP1fvGchOhL9YGt7Wqn1W5PpP5Ms/8shThv2UL3AY
+ S2mBTbmPzn1fS6C19+D9BjxfTJRnJamzGC/6AF1nK4KEgL1zuXDHN6J47nc0Rqo6
+ tlNdMzH2P+0wNtonODC9uQjXuD6jHzNUSVesMf5vqf+pNZLQTyqFjcv78Y+evuiX
+ XxWfyVMq3Ni/ww==
+X-ME-Sender: <xms:rchsYFhImmTUEH40W7bFXJ2miSlyg91mHatuTPWxhXzVXYqY3rUmnQ>
+ <xme:rchsYA87s4jsrwIFplEaoCGMIw0r2bS_upIN0Sin89y5KyZbtbe4Z3g_gaab6cjA-
+ ZxGdB_lc7UuI0dxprA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejhedguddtudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:rchsYKLxImHMTM37pz46vhcP85zFQtZPTurqBBO0z0ahYAfRDCI0cQ>
+ <xmx:rchsYBamBiPi2MtD5lnn1IZvNbajj_3MBdpZZeFb8zdG_XxTPov1rg>
+ <xmx:rchsYNhvsy0FzsbpP2cRz8mx-_iIvwj2JvJKVh8KVBnAzNSSgDwn2Q>
+ <xmx:rchsYB6wWhL-3QF8rkn7a22YPCfc5uzUYNP6OvFOuIllah_gCqgx3nQFM2c>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 39C1824005B;
+ Tue,  6 Apr 2021 16:46:36 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL for-6.0 4/7] hw/block/nvme: fix warning about legacy namespace
+ configuration
+Date: Tue,  6 Apr 2021 22:46:24 +0200
+Message-Id: <20210406204627.140812-5-its@irrelevant.dk>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210406204627.140812-1-its@irrelevant.dk>
+References: <20210406204627.140812-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Apr 2021 18:53:07 -0000
-From: Igor <1915063@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-collected focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dober60 imammedo markrhpearson paelzer sergiodj
- ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: David Ober (dober60)
-X-Launchpad-Bug-Modifier: Igor (imammedo)
-References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
- <161746873353.29047.7907960307448967364.malone@gac.canonical.com>
-Message-Id: <20210406205307.755aec52@redhat.com>
-Subject: Re: [Bug 1915063] Re: Windows 10 wil not install using
- qemu-system-x86_64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 7d9b8eb7bfdec383e38834a37e8ace79bd98ac94
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,166 +94,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 03 Apr 2021 16:52:13 -0000
-Christian Ehrhardt =EE=83=BF <1915063@bugs.launchpad.net> wrote:
+From: Klaus Jensen <k.jensen@samsung.com>
 
-> That is awesome David,
-> qemu64 is like a very low common denominator with only very basic CPU fea=
-tures.
-> While "copy host" means "enable all you can".
+Remove the unused BlockConf from the controller structure and fix the
+constraint checking to actually check the right BlockConf and issue the
+warning.
 
-Also it's worth to try setting real CPU topology for if EPYC cpu model is u=
-sed.
-i.e. use -smp with options that resemble a real EPYC cpu
-(for number of core complexes is configured with 'dies' option in QEMU)
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ hw/block/nvme.h | 1 -
+ hw/block/nvme.c | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 9edc86d79e98..8d1806cc942f 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -166,7 +166,6 @@ typedef struct NvmeCtrl {
+     NvmeBar      bar;
+     NvmeParams   params;
+     NvmeBus      bus;
+-    BlockConf    conf;
+ 
+     uint16_t    cntlid;
+     bool        qs_created;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 7244534a89e9..09c38fb35e0d 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -5805,7 +5805,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+         params->max_ioqpairs = params->num_queues - 1;
+     }
+ 
+-    if (n->conf.blk) {
++    if (n->namespace.blkconf.blk) {
+         warn_report("drive property is deprecated; "
+                     "please use an nvme-ns device instead");
+     }
+-- 
+2.31.1
 
-> We can surely work with that a bit, but until I get access to the same
-> HW I need you to do it.
-> =
-
->
-> If you run in a console `$virsh domcapabilities` it will spew some XML at=
- you. One of the sections will be for "host-model". In my case that looks l=
-ike
-> =
-
->     <mode name=3D'host-model' supported=3D'yes'>
->       <model fallback=3D'forbid'>Skylake-Client-IBRS</model>
->       <vendor>Intel</vendor>
->       <feature policy=3D'require' name=3D'ss'/>
->       <feature policy=3D'require' name=3D'vmx'/>
->       <feature policy=3D'require' name=3D'hypervisor'/>
-> ...
->     </mode>
-> =
-
-> =
-
-> That means a names CPU type (the one that is closest to what you have) an=
-d some feature additionally enabled/disabled.
-> =
-
-> If you could please post the full output you have, that can be useful.
-> >From there you could go two steps.  =
-
-> 1. as you see in my example it will list some cpu features on top of the =
-named type.
->    If you remove them one by one you might be able to identify the single=
--cpu featute
->    that breaks in your case.
-> 2. The named CPU that you have also has a representation, it can be found=
- in
->    /usr/share/libvirt/cpu_map...
->    That ill list all the CPU features that make up the named type.
->    If #1 wasn't sufficient, you can now add those to your guest definitio=
-n one by one in disabled =
-
->    state, example
->     <feature policy=3D'disable' name=3D'ss'/>
-> =
-
-> A description of the underlying mechanism is here
-> https://libvirt.org/formatdomain.html#cpu-model-and-topology
->
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915063
-
-Title:
-  Windows 10 wil not install using qemu-system-x86_64
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  Steps to reproduce
-  install virt-manager and ovmf if nopt already there
-  copy windows and virtio iso files to /var/lib/libvirt/images
-
-  Use virt-manager from local machine to create your VMs with the disk, CPU=
-s and memory required
-      Select customize configuration then select OVMF(UEFI) instead of seab=
-ios
-      set first CDROM to the windows installation iso (enable in boot optio=
-ns)
-      add a second CDROM and load with the virtio iso
-  	change spice display to VNC
-
-    Always get a security error from windows and it fails to launch the ins=
-taller (works on RHEL and Fedora)
-  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
- of no help
-  --- =
-
-  ProblemType: Bug
-  ApportVersion: 2.20.11-0ubuntu27.14
-  Architecture: amd64
-  CasperMD5CheckResult: skip
-  CurrentDesktop: ubuntu:GNOME
-  DistributionChannelDescriptor:
-   # This is the distribution channel descriptor for the OEM CDs
-   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
-criptor
-   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
-d64+X00
-  DistroRelease: Ubuntu 20.04
-  InstallationDate: Installed on 2021-01-20 (19 days ago)
-  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
-0-14:39
-  MachineType: LENOVO 30E102Z
-  NonfreeKernelModules: nvidia_modeset nvidia
-  Package: linux (not installed)
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcFB: 0 EFI VGA
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
-=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
-andoff=3D7
-  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
-  RelatedPackageVersions:
-   linux-restricted-modules-5.6.0-1042-oem N/A
-   linux-backports-modules-5.6.0-1042-oem  N/A
-   linux-firmware                          1.187.8
-  RfKill:
-   =
-
-  Tags:  focal
-  Uname: Linux 5.6.0-1042-oem x86_64
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
-udo
-  _MarkForUpload: True
-  dmi.bios.date: 07/29/2020
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: S07KT08A
-  dmi.board.name: 1046
-  dmi.board.vendor: LENOVO
-  dmi.board.version: Not Defined
-  dmi.chassis.type: 3
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: None
-  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
-pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
-  dmi.product.family: INVALID
-  dmi.product.name: 30E102Z
-  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
-  dmi.product.version: ThinkStation P620
-  dmi.sys.vendor: LENOVO
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
