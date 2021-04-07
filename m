@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB46356EFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:42:06 +0200 (CEST)
-Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934B4356EE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:37:14 +0200 (CEST)
+Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU9Nd-0007l6-U5
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:42:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
+	id 1lU9Iv-0001mu-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9Gy-0008FT-SY
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:12 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:60315)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9H0-0008JG-RW
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:14 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:60230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9Gx-0006MY-4V
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:12 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9Gz-0006NS-7H
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:14 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-QgOBYmJVMcm-khQXL7kLKw-1; Wed, 07 Apr 2021 10:35:08 -0400
-X-MC-Unique: QgOBYmJVMcm-khQXL7kLKw-1
+ us-mta-64-qTzJfcA9OsaiRgafA9kwKQ-1; Wed, 07 Apr 2021 10:35:10 -0400
+X-MC-Unique: qTzJfcA9OsaiRgafA9kwKQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63FB581426D;
- Wed,  7 Apr 2021 14:35:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2ABB801814;
+ Wed,  7 Apr 2021 14:35:09 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-114-100.ams2.redhat.com [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D31DA5D9CA;
- Wed,  7 Apr 2021 14:35:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1F4E5D9CA;
+ Wed,  7 Apr 2021 14:35:07 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [for-6.1 1/4] virtio-blk: Fix rollback path in
- virtio_blk_data_plane_start()
-Date: Wed,  7 Apr 2021 16:34:58 +0200
-Message-Id: <20210407143501.244343-2-groug@kaod.org>
+Subject: [for-6.1 2/4] virtio-blk: Configure all host notifiers in a single MR
+ transaction
+Date: Wed,  7 Apr 2021 16:34:59 +0200
+Message-Id: <20210407143501.244343-3-groug@kaod.org>
 In-Reply-To: <20210407143501.244343-1-groug@kaod.org>
 References: <20210407143501.244343-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
@@ -71,65 +73,90 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dataplane multiqueue support was added in QEMU 2.7, the path
-that would rollback guest notifiers assignment in case of error
-simply got dropped.
+This allows the virtio-blk-pci device to batch the setup of all its
+host notifiers. This significantly improves boot time of VMs with a
+high number of vCPUs, e.g. from 3m26.186s down to 0m58.023s for a
+pseries machine with 384 vCPUs.
 
-Later on, when Error was added to blk_set_aio_context() in QEMU 4.1,
-another error path was introduced, but it ommits to rollback both
-host and guest notifiers.
+Note that memory_region_transaction_commit() must be called before
+virtio_bus_cleanup_host_notifier() because the latter might close
+ioeventfds that the transaction still assumes to be around when it
+commits.
 
-It seems cleaner to fix the rollback path in one go. The patch is
-simple enough that it can be adjusted if backported to a pre-4.1
-QEMU.
-
-Fixes: 51b04ac5c6a6 ("virtio-blk: dataplane multiqueue support")
-Cc: stefanha@redhat.com
-Fixes: 97896a4887a0 ("block: Add Error to blk_set_aio_context()")
-Cc: kwolf@redhat.com
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/block/dataplane/virtio-blk.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/block/dataplane/virtio-blk.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-bl=
 k.c
-index e9050c8987e7..d7b5c95d26d9 100644
+index d7b5c95d26d9..cd81893d1d01 100644
 --- a/hw/block/dataplane/virtio-blk.c
 +++ b/hw/block/dataplane/virtio-blk.c
-@@ -207,7 +207,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+@@ -198,19 +198,30 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+         goto fail_guest_notifiers;
+     }
+=20
++    memory_region_transaction_begin();
++
+     /* Set up virtqueue notify */
+     for (i =3D 0; i < nvqs; i++) {
+         r =3D virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, true);
+         if (r !=3D 0) {
++            int j =3D i;
++
+             fprintf(stderr, "virtio-blk failed to set host notifier (%d)\n=
+", r);
+             while (i--) {
                  virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
++            }
++
++            memory_region_transaction_commit();
++
++            while (j--) {
                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
              }
--            goto fail_guest_notifiers;
-+            goto fail_host_notifiers;
+             goto fail_host_notifiers;
          }
      }
 =20
-@@ -221,7 +221,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     aio_context_release(old_context);
-     if (r < 0) {
-         error_report_err(local_err);
--        goto fail_guest_notifiers;
-+        goto fail_aio_context;
-     }
-=20
-     /* Process queued requests before the ones in vring */
-@@ -245,6 +245,13 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     aio_context_release(s->ctx);
++    memory_region_transaction_commit();
++
+     s->starting =3D false;
+     vblk->dataplane_started =3D true;
+     trace_virtio_blk_data_plane_start(s);
+@@ -246,8 +257,15 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
      return 0;
 =20
-+  fail_aio_context:
-+    for (i =3D 0; i < nvqs; i++) {
-+        virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-+        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+   fail_aio_context:
++    memory_region_transaction_begin();
++
+     for (i =3D 0; i < nvqs; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
 +    }
-+  fail_host_notifiers:
-+    k->set_guest_notifiers(qbus->parent, nvqs, false);
-   fail_guest_notifiers:
-     /*
-      * If we failed to set up the guest notifiers queued requests will be
++
++    memory_region_transaction_commit();
++
++    for (i =3D 0; i < nvqs; i++) {
+         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+     }
+   fail_host_notifiers:
+@@ -312,8 +330,15 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
+=20
+     aio_context_release(s->ctx);
+=20
++    memory_region_transaction_begin();
++
+     for (i =3D 0; i < nvqs; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
++    }
++
++    memory_region_transaction_commit();
++
++    for (i =3D 0; i < nvqs; i++) {
+         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+     }
+=20
 --=20
 2.26.3
 
