@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23995357379
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:48:43 +0200 (CEST)
-Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07AB35738D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:50:55 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUCIE-0000PB-6I
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
+	id 1lUCKM-0004UD-PA
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lUC8n-0001f7-D9; Wed, 07 Apr 2021 13:38:58 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:35729)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lUCGK-0007TM-TE; Wed, 07 Apr 2021 13:46:45 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:56421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lUC8j-00072p-Vf; Wed, 07 Apr 2021 13:38:57 -0400
-Received: by mail-il1-x12b.google.com with SMTP id c3so8802503ils.2;
- Wed, 07 Apr 2021 10:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zF8MahqpSHuNCU/Vb40PI3wP1SoF/nqZHW/Z5QW+ay4=;
- b=hPCn1I+5Voon1qVOShPBOdRWkCpXgphPkPSC8JjInKHcTU+iIZQvqXe9XCKLSVCGPR
- 938AZAAZ9rlnS2Tt8nKUCQEh6AfheKd4fctcUgXLjxA4sghe8WgJdeuI2BoyxpTKRfMJ
- K40rC0BVZ3Lv7AJlSAXsw38M0JnJDkcuOMRyIextJH2UI5gNUsLzr1pv/xlRrTVsTXIx
- DrhnKOSM9A2FHXT7nPsAR/hEH2KxATPaCl13K/Ymyhx0nE2K9uWeq42Uen+wnvaZthPi
- 39F0a/vWNiQeqnyyyBBwDpD8aaupHAFsIKFxJliW4V/egRI0RmmMl4Dnn5rPJZyjTQV3
- Y2qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zF8MahqpSHuNCU/Vb40PI3wP1SoF/nqZHW/Z5QW+ay4=;
- b=Vr08bT10KOh6uYSFNRW0r/WaTIVH11DVlnNQGzdntciCF2/9eR3/mJDrdqfB0mB20D
- JCQSI4k/lS2k8vr9B0WQmWkUdXgftZom68uMDTcsx5Z3mxH7btWfUUiOINMLF1ekVA95
- GMj/DVC1N4XTcbLxB+wuT3XAyxgnPi9+ABA/XgMzStMA50m4srLjDTOmNDdXpABIQb00
- GkWqwQzC7GGFaO7i8zIw/Hpy66HSp9TLuXgscnEkOin5K2MDKjy2Xcl2tSS8zk7rDTZH
- FmVmqOFDcREV3lpYy5AfLOoLEvc1So/q0dG9fM5ZqX4E78MiKX3srMP1cf9m8/RwDzDN
- WjFQ==
-X-Gm-Message-State: AOAM533Ra9X+/+Wkh5UcA7eUhRw5CaFxyr0qpuB0DWiLow2MbwqQpdwX
- lhBDGtMtrzTRZ5bzHVkxJ5owxQqkD2MbNKh1pDHw8dyukDo=
-X-Google-Smtp-Source: ABdhPJy2kMBdSDcnti5hNU7PmkUJnNTFOhueGD70pipUIsxRR/9f3oUcL0JSU8mDWaCZEQ8LufPucdta/Y5+vCzNIBY=
-X-Received: by 2002:a92:d383:: with SMTP id o3mr3493534ilo.131.1617817132522; 
- Wed, 07 Apr 2021 10:38:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lUCGI-0001kT-Ff; Wed, 07 Apr 2021 13:46:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=RkYJkqWf4kpjmao3EfEJ1Mc35ixuoGLsrI4zEr8+QrM=; 
+ b=ZYFHn+t8zZYhDath+qck5SF4sp9TH6Z4ui97x69QKlMxrJNf0Ls5svevy3FS0YLuWGKlXfd48FHlFyeZU1E7Lp/VpkrGxphz/iKvh8gp67pMm5arE8yiGjw8hzehTdgcyJpBvXozmhIrZmhRni/WlEbCeEETWkb9vK+wpn7kcTCQo9/v15D/FKP3cbihGKMSMvi6ePwfw5/xo/ET2J9VA4vXHmaFImRDwaVjuNhYtWkEb6n7GYj2GcSr9Dtue8Hn0O4UOPHMkx1+zFSq/87/fIr1EXFyY7ht80e6Izsqg3cSjgDh9Bw2HBvtuxSqItMKO4fu+ZuF6Wse3bNaxvf2wQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1lUCGF-0006LP-3z; Wed, 07 Apr 2021 19:46:39 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1lUCGE-0004s4-Qd; Wed, 07 Apr 2021 19:46:38 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v3 04/36] block: bdrv_append(): don't consume reference
+In-Reply-To: <20210317143529.615584-5-vsementsov@virtuozzo.com>
+References: <20210317143529.615584-1-vsementsov@virtuozzo.com>
+ <20210317143529.615584-5-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 07 Apr 2021 19:46:38 +0200
+Message-ID: <w51o8eqasxt.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-22-clg@kaod.org>
-In-Reply-To: <20210407171637.777743-22-clg@kaod.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 7 Apr 2021 13:36:32 -0400
-Message-ID: <CAKmqyKPjASNO4R7DchGyf+2LE8JuJ06bXi7N8O7FrfEu3VkJMg@mail.gmail.com>
-Subject: Re: [PATCH 21/24] hw/block: m25p80: Add support for mt25qu02g
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,50 +61,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com,
+ mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 7, 2021 at 1:35 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Wed 17 Mar 2021 03:34:57 PM CET, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> We have too much comments for this feature. It seems better just don't
+> do it. Most of real users (tests don't count) have to create additional
+> reference.
 >
-> The Micron mt25qu02g is a 3V 2Gb serial NOR flash memory supporting
-> dual I/O and quad I/O, 4KB, 32KB, 64KB sector erase. It also supports
-> 4B opcodes.
+> Drop also comment in external_snapshot_prepare:
+>  - bdrv_append doesn't "remove" old bs in common sense, it sounds
+>    strange
+>  - the fact that bdrv_append can fail is obvious from the context
+>  - the fact that we must rollback all changes in transaction abort is
+>    known (it's the direct role of abort)
 >
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
-Alistair
+> @@ -4645,36 +4640,22 @@ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+>   * bs_new must not be attached to a BlockBackend.
+>   *
+>   * This function does not create any image files.
+> - *
+> - * bdrv_append() takes ownership of a bs_new reference and unrefs it because
+> - * that's what the callers commonly need. bs_new will be referenced by the old
+> - * parents of bs_top after bdrv_append() returns. If the caller needs to keep a
+> - * reference of its own, it must call bdrv_ref().
+>   */
+>  int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+>                  Error **errp)
 
-> ---
->  hw/block/m25p80.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 183d3f44c259..2afb939ae28e 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -259,6 +259,7 @@ static const FlashPartInfo known_devices[] =3D {
->      { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K,=
- 4) },
->      { INFO_STACKED("mt25ql01g", 0x20ba21, 0x1040, 64 << 10, 2048, ER_4K,=
- 2) },
->      { INFO_STACKED("mt25qu01g", 0x20bb21, 0x1040, 64 << 10, 2048, ER_4K,=
- 2) },
-> +    { INFO_STACKED("mt25qu02g", 0x20ba22, 0x1040, 64 << 10, 4096, ER_4K,=
- 2) },
->
->      /* Spansion -- single (large) sector size only, at least
->       * for the chips listed here (without boot sectors).
-> --
-> 2.26.3
->
->
+You could still mention explicitly that the old parents of @bs_top will
+add a new reference to @bs_new.
+
+Berto
 
