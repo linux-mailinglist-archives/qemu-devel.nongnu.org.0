@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869BC357679
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:06:47 +0200 (CEST)
-Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8A53576C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:27:28 +0200 (CEST)
+Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUFNs-0002Hm-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41922)
+	id 1lUFhv-0001Xq-Rf
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUFN7-0001pJ-7L
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:05:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58310)
+ id 1lUFgA-0008Cj-Av
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUFMy-0005PG-Q9
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:05:57 -0400
+ id 1lUFg7-0000dy-SC
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lUFMw-0004tr-Qr
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 21:05:46 +0000
+ id 1lUFg5-0006b4-UB
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 21:25:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A95062E8165
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 21:05:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E33652E8157
+ for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 21:25:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 20:58:04 -0000
-From: Andrey Konovalov <1921948@bugs.launchpad.net>
+Date: Wed, 07 Apr 2021 21:19:11 -0000
+From: Richard Henderson <1921948@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ajbennee pcc-goog rth xairy
 X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: Andrey Konovalov (xairy)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
 References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <161782908442.29743.17585290508436200821.malone@gac.canonical.com>
+Message-Id: <161783035164.18133.10104623573188441365.malone@soybean.canonical.com>
 Subject: [Bug 1921948] Re: MTE tags not checked properly for unaligned
  accesses at EL1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: ba940b61af24c697961afc3cd1ee3a58f345ed39
+X-Launchpad-Hash: 2dc03bcfb0e11584b49c247b877ce674fbfd976f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,11 +75,12 @@ Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is this with QEMU master without the patches mentioned in this bug?
+Re comments #8 and #10, I don't replicate that.
+I get full pass on KASAN_UNIT_TEST with
+and without virtualization enabled.
 
-Which kernel version do you use?
-
-Could you share your kernel config?
+Re comment #9, if there are bugs suspected in qemu, they
+need to be reported, or we'll never hear about them.
 
 -- =
 
