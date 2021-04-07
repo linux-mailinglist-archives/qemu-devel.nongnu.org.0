@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E759D356074
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 02:48:53 +0200 (CEST)
-Received: from localhost ([::1]:47394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470643560C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 03:26:49 +0200 (CEST)
+Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTwNI-00025r-IG
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 20:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
+	id 1lTwxz-0000GH-Qd
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 21:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTwLz-0001PZ-Qd
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 20:47:31 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:36561)
+ id 1lTwwQ-0008CH-7J
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 21:25:10 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:39698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTwLx-0003U8-SE
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 20:47:31 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id ay2so8469334plb.3
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 17:47:29 -0700 (PDT)
+ id 1lTwwO-0003u5-MO
+ for qemu-devel@nongnu.org; Tue, 06 Apr 2021 21:25:09 -0400
+Received: by mail-pg1-x531.google.com with SMTP id l76so11754739pga.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 18:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6GP4A6CS6rduBLbEHxveqUx9q0razU3Sl2h9NupMPh0=;
- b=L2vkXYPSpcfaoscLNwSVYz8r5JROHAuuHViMQc/bKmIzCVUG0SvTZueL5q0PW2GvNM
- iWwLiRCY0K98wANOxMD8LJiIO9n2ChIEQIwa9YpljnsL3kfE6nPy5i+1vIBQhdvp9z5O
- 4WqgH8gLiRq5vXmVAgmwrIHaH0qtJmAOBRwVyoyLY1U2OgEWDKalMYyYGNsAnAMWkCl7
- 5rAzAQ7qzdAY1ijxY0mJPYgqbGLUdAGSs33tPsuypa/ttYWCTu/RBPVaHwQx/fUbtXZ0
- 2mYOAGFL1P/0Pls1pBDyv9dOTDmAu1KDmQv+pDB+RPNIo4mh4Yt4nfou+DQQQAJniQVT
- T77A==
+ bh=mv7Dn7oK37cuoJGyv5zyHnEoTysH1d7ZsbYbLl3FjFw=;
+ b=UpCulVkHKKR29ZyEDm0lI8qU4JEnqCQBPlExvYWbAhFI7K3FzUfS7CVqeoxa7OjV8R
+ nyTVvAWkA6MdOROZy0lJAQqBygjUnhV/ANRVOL5n7JgqgjdLNY5Q2UcISkdV+mmWFk1b
+ OW51G1LLzvF6NSlj+D0pmGvBUo4tlAwdpEQQl+Dv7ZMDRcq33M8EGnxhQ2yRL7vpCRIW
+ 1lxQIHFJA/3uAmxNE2hP3Sccv2M9lMxDppImW9eb3tvPKyK/RxdP7S+5h2pkQ7/bKJAK
+ 11nPA8VR6Eyf/AcUHgkwwWDfsFu86wKMix+nBhhyBAGlvCmRz1WUTLWiBR1tqjj4bMvm
+ TrYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6GP4A6CS6rduBLbEHxveqUx9q0razU3Sl2h9NupMPh0=;
- b=sKBqkJjXb+D7eVcf4VNucO7DUF/ashbQ3Uq6NDPGpkHZPNT5xfMdcm9xutadfFdhoN
- t5xzrvDrKAryitHaCWjVNISKQIhp/7+Y6jST+R0CuUgGqLhjO7XQqoMr+VlG4b4nZPfQ
- qm6lR9Q5iTqkv7loRT6XPHBTaJvaKLQPHS9BLhDvC4CHbaHcPBnr0wlJLzDWKZWyIoOp
- 3Hnsj0HuLVa8Npgiox2WRjjfIhuk3rsGrWBzeOt0IIfCrTIVsLGPK9pt94egkPExORxA
- YSpt93yY130btSVW/wFR2ze80Gmf6MWlH+nUX2v28GyMvHpXM8dn/ywmdf7ifGTUBcXp
- kSaA==
-X-Gm-Message-State: AOAM531p435EPHFb7ivwFbW/X/m93C0UgWwN8qLB4s2oxawSxdFzBDZc
- eP9trSy3XrHpz/DjjhZTecXagA==
-X-Google-Smtp-Source: ABdhPJzIqsBh7bm9Tg7WxplVkNoRx5v+NOGxBcdpdpgGu5n/T7y2dtldL4wRFrxeXOoErGTn9wMd9w==
-X-Received: by 2002:a17:902:c613:b029:e9:5291:2cff with SMTP id
- r19-20020a170902c613b02900e952912cffmr755989plr.43.1617756448223; 
- Tue, 06 Apr 2021 17:47:28 -0700 (PDT)
+ bh=mv7Dn7oK37cuoJGyv5zyHnEoTysH1d7ZsbYbLl3FjFw=;
+ b=WWXcTghmYKsGpiKDTXvAgBZG1at/9tPh1BOEywwh9qGmIIZ8o0thHs5HDAQe3a6Qex
+ 2CVOn8/tz8gZWqLa3gC7NXWpht4XRH5o8hBIgnZ40JBTdDj7WKSuz55uSF9mz39T8eTq
+ HJ1WbersSrlIkuwxJx0a+HViLsrV+oQzPkKGx0PNkCH2eo0ENqEOgcf/sPjMcKV0mCvL
+ mkM23T5hn9F+g+vn45vvkcKMBdGvOOrAgqA0I4ucIQGi0SM49pac9OAB9QUExrGP2alg
+ p/SBBOtNW8uREK3KaLzDm7vvxuQoz9//dZdw/KUMQKHBf9W2FHEFFLgxMHCDFBGe5onq
+ GZxg==
+X-Gm-Message-State: AOAM530ZsRxWOh/rFJoXzDD+BLOc0ZTTEWRfh3NTI0RfXixFgcKOMEKD
+ 1kTDtgYSVqcvzvgpazGVJQHZXw==
+X-Google-Smtp-Source: ABdhPJwsPqDlFMTF0ABDGUdmqZ8fqSj5N37QopR4nIwe5FxOyMXuUjZbFf4gBBXi7l7Z+M6kOjdSDA==
+X-Received: by 2002:aa7:8187:0:b029:213:d43b:4782 with SMTP id
+ g7-20020aa781870000b0290213d43b4782mr761213pfi.26.1617758706992; 
+ Tue, 06 Apr 2021 18:25:06 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id t16sm53965pfc.94.2021.04.06.17.47.27
+ by smtp.gmail.com with ESMTPSA id j1sm3001239pjn.26.2021.04.06.18.25.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 17:47:27 -0700 (PDT)
-Subject: Re: [PATCH 01/27] arc: Add initial core cpu files
+ Tue, 06 Apr 2021 18:25:06 -0700 (PDT)
+Subject: Re: [PATCH 02/27] arc: Decoder code
 To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
- <20210405143138.17016-2-cupertinomiranda@gmail.com>
+ <20210405143138.17016-3-cupertinomiranda@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e94289ec-924e-1c3b-f4f2-a267f14e4510@linaro.org>
-Date: Tue, 6 Apr 2021 17:47:25 -0700
+Message-ID: <44722d06-8fe2-0d9b-9b42-1442c5625aa0@linaro.org>
+Date: Tue, 6 Apr 2021 18:25:04 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210405143138.17016-2-cupertinomiranda@gmail.com>
+In-Reply-To: <20210405143138.17016-3-cupertinomiranda@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,159 +94,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/5/21 7:31 AM, cupertinomiranda@gmail.com wrote:
-> +    DEFINE_PROP_BOOL("byte-order", ARCCPU, cfg.byte_order, false),
+> +static long long int
+> +extract_uimm6_20(unsigned long long insn ATTRIBUTE_UNUSED,
 
-"byte-order" makes no sense as a bool.
-"little-endian" or "big-endian" would.
+global replace long long int with int64_t,
+and unsigned long long int with uint64_t.
 
-> +    info->endian = BFD_ENDIAN_LITTLE;
 
-Not using the setting?
-
-> +/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
-> +/* vim: set ts=4 sw=4 et: */
-
-Should be redundant with .editorconfig.
-
-> +#define CPU_GP(env)     ((env)->r[26])
-> +#define CPU_FP(env)     ((env)->r[27])
-> +#define CPU_SP(env)     ((env)->r[28])
-> +#define CPU_ILINK(env)  ((env)->r[29])
-> +#define CPU_ILINK1(env) ((env)->r[29])
-> +#define CPU_ILINK2(env) ((env)->r[30])
-> +#define CPU_BLINK(env)  ((env)->r[31])
-> +#define CPU_LP(env)     ((env)->r[60])
-> +#define CPU_IMM(env)    ((env)->r[62])
-> +#define CPU_PCL(env)    ((env)->r[63])
-
-Surely this is better as a enum of regnos?
-
-I'm not especially keen on lvalue macros like this, especially when you can't 
-reuse the enum for e.g. the tcg globals.
-
-> +/* Flags in pstate */
-> +#define Hf_b  (0)
-> +#define AEf_b (5)
-> +#define Uf_b  (7)
-> +#define Lf_b  (12)
-> +#define DZf_b (13)
-> +#define SCf_b (14)
-> +#define ESf_b (15)
-> +#define ADf_b (19)
-> +#define USf_b (20)
+> +{
+> +  unsigned value = 0;
 > +
-> +/* Flags with their on fields */
-> +#define IEf_b   (31)
-> +#define IEf_bS  (1)
+> +  value |= ((insn >> 6) & 0x003f) << 0;
 > +
-> +#define Ef_b    (1)
-> +#define Ef_bS   (4)
-> +
-> +#define DEf_b   (6)
-> +#define DEf_bS  (1)
-> +
-> +#define Vf_b    (8)
-> +#define Vf_bS   (1)
-> +#define Cf_b    (9)
-> +#define Cf_bS   (1)
-> +#define Nf_b    (10)
-> +#define Nf_bS   (1)
-> +#define Zf_b    (11)
-> +#define Zf_bS   (1)
-> +
-> +#define RBf_b   (16)
-> +#define RBf_bS  (3)
-
-We have include/hw/registerfields.h that's a bit better at defining, 
-extracting, and setting fields.
-
-> +#define SET_STATUS_BIT(STAT, BIT, VALUE) { \
-> +    STAT.pstate &= ~(1 << BIT##_b); \
-> +    STAT.pstate |= (VALUE << BIT##_b); \
+> +  return value;
 > +}
 
-do {
-     (STAT).pstate = deposit32((STAT).pstate, BIT, 1, VALUE);
-} while (0)
+return extract64(insn, 6, 6);
 
-> +typedef struct {
-> +    target_ulong pstate;
-> +
-> +    target_ulong RBf;
-> +    target_ulong Ef;     /* irq priority treshold. */
-> +    target_ulong Vf;     /*  overflow                */
-> +    target_ulong Cf;     /*  carry                   */
-> +    target_ulong Nf;     /*  negative                */
-> +    target_ulong Zf;     /*  zero                    */
-> +    target_ulong DEf;
-> +    target_ulong IEf;
+and so forth.  Please minimize the by-hand bit manipulation.
 
-I understand why the 4 arithmetic flags are split out, but why are the others? 
-  Surely they are not nearly so performance sensitive.
-
-> +/* ARC PIC interrupt bancked regs. */
-> +typedef struct {
-> +    target_ulong priority;
-> +    target_ulong trigger;
-> +    target_ulong pulse_cancel;
-> +    target_ulong enable;
-> +    target_ulong pending;
-> +    target_ulong status;
-> +} ARCIrq;
-
-This is cpu.h.  The PIC is not the cpu, so this should be elsewhere.
-
-> +typedef struct CPUARCState {
-> +    target_ulong        r[64];
-> +
-> +    ARCStatus stat, stat_l1, stat_er;
-> +
-> +    struct {
-> +        target_ulong    S2;
-> +        target_ulong    S1;
-> +        target_ulong    CS;
-> +    } macmod;
-> +
-> +    target_ulong intvec;
-> +
-> +    target_ulong eret;
-> +    target_ulong erbta;
-> +    target_ulong ecr;
-> +    target_ulong efa;
-> +    target_ulong bta;
-> +    target_ulong bta_l1;
-> +    target_ulong bta_l2;
-> +
-> +    target_ulong pc;     /*  program counter         */
-
-What is this and why is it different from PCL, aka r[63]?
-
-> +    /* used for propagatinng "hostpc/return address" to sub-functions */
-> +    uintptr_t host_pc;
-
-Not a fan.  Subfunctions should have the retaddr passed down directly, so that 
-it's obvious that the value is not stale.
-
-> +static inline int cpu_mmu_index(const CPUARCState *env, bool ifetch)
+> +static const struct arc_opcode *find_format(insn_t *pinsn,
+> +                                            uint64_t insn,
+> +                                            uint8_t insn_len,
+> +                                            uint32_t isa_mask)
 > +{
-> +    return GET_STATUS_BIT(env->stat, Uf) != 0 ? 1 : 0;
-> +}
-
-A very complicated way to just return GET_STATUS_BIT.
-Or even GET_STATUS_BIT != 0, come to that.
-
+> +    uint32_t i = 0;
+> +    const struct arc_opcode *opcode = NULL;
+> +    const uint8_t *opidx;
+> +    const uint8_t *flgidx;
+> +    bool has_limm = false;
 > +
-> +static inline void cpu_get_tb_cpu_state(CPUARCState *env, target_ulong *pc,
-> +                                        target_ulong *cs_base,
-> +                                        uint32_t *pflags)
-> +{
-> +    *pc = env->pc;
-> +    *cs_base = 0;
-> +#ifdef CONFIG_USER_ONLY
-> +    assert(0); /* Not really supported at the moment. */
+> +    do {
+> +        bool invalid = false;
+> +        uint32_t noperands = 0;
+> +
+> +        opcode = &arc_opcodes[i++];
+> +        memset(pinsn, 0, sizeof(*pinsn));
+> +
+> +        if (!(opcode->cpu & isa_mask)) {
+> +            continue;
+> +        }
+> +
+> +        if (arc_opcode_len(opcode) != (int) insn_len) {
+> +            continue;
+> +        }
+> +
+> +        if ((insn & opcode->mask) != opcode->opcode) {
+> +            continue;
+> +        }
 
-g_assert_not_reached() is our canonical "can't get here".
-Though #error would be better in this instance.
+A linear search through the entire opcode table, really?
+You can do better.
+
+Before you re-invent the wheel, please first have a look at 
+docs/devel/decodetree.rst.  I see no reason why you can't take those tables 
+that you import your tables from binutils, as you're doing now, and then have a 
+small program that converts to decodetree at build-time.
 
 
 r~
