@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665C73574AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:57:39 +0200 (CEST)
-Received: from localhost ([::1]:49302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D4E357497
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:55:06 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUDMw-0008UQ-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36312)
+	id 1lUDKS-0007AT-QE
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUDLH-0007mZ-EN
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:55:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35736)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUDJL-0006KP-7U
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:53:55 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUDL5-0001dL-CA
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:55:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lUDL2-0007cy-5q
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 18:55:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 244C12E8157
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 18:55:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUDJI-0000dV-Q5
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:53:54 -0400
+Received: by mail-wr1-x431.google.com with SMTP id f12so13082352wro.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 11:53:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=mLGGcPfkV8Pn4msloxgDpKeRWj15up7XwOfp4utPj1g=;
+ b=zXcRcb/1f5kC1DpRKVn51hIu4zcCYcjughTvOehz9zvTevvoUTMWrposmaRy0WxNgT
+ 7nMK5BiJUfG0aE/En2VzHrxzngd7vWF1Mcxnmbz3kLtMPZgQ5h948VmBrZDv5s2Vuyzs
+ QuIt2h3HBnTnCinSnYxlh1GzpzBzZohmVwCVsywTF5so8BXWLq1q6Qp2ylkLpjQZrAZy
+ /zmpK68B0u8KvJ23h6JVymskNoYwXLOKQV7IzYDYsObY/778hfg7/jpf7cZxIiJmbFQJ
+ 3+EuZGhTWRWXWMfBBAGOW/cCGXPCohHR912s95LlxqqOpMGU/ld9Su71/ocowKBFhx6f
+ Wh1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=mLGGcPfkV8Pn4msloxgDpKeRWj15up7XwOfp4utPj1g=;
+ b=YkkP3kE4yMkRob5wSorndAbUmq6Zk59bcPBKmEQjY1kvhZSnSJ/OTufDsXJYRBEKiX
+ 8cvE8a3tht36GD0ZdAbYtGq6+S9sFePHn01WhkTiWQBu85uMtQK/Tl+RqoI7MYqMODOh
+ GFw2k/NPBuO+hGUTHRnIaHP51vBRRaB0NJc42fS3bSV/V+q/ZJQCWphs5tIF9ey+JON1
+ ClgW0g++4rntPFuH5gbukZ8IBLJL2xzChSXn70tj9NXlrmE5HyqAkZlizZmqJcUtFiR/
+ 2VxDskpYtiJmx3PTU7ukrndkF2WL246K0UtIYS3+tMqfREn0G+9YjshL9eEt1iji/KQE
+ UpOA==
+X-Gm-Message-State: AOAM530HUcfqzzFJHmeDNaIUK4wFjT/q93I8ha1eEfqHcoh0lF5I7L0z
+ 0lPaKYfjkjEpuV1CRazk4I4vvg==
+X-Google-Smtp-Source: ABdhPJzUqmgh7FIDe9B4PPseN+JqG7CKCtnMlvZ40VAOKlFo3VWxLvNk6Cx8y7XVw4CQyZJDlKGUpg==
+X-Received: by 2002:adf:f403:: with SMTP id g3mr5936144wro.367.1617821630854; 
+ Wed, 07 Apr 2021 11:53:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j30sm45241976wrj.62.2021.04.07.11.53.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Apr 2021 11:53:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DE7741FF7E;
+ Wed,  7 Apr 2021 19:53:48 +0100 (BST)
+References: <20210406174031.64299-1-richard.henderson@linaro.org>
+ <20210406174031.64299-4-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 03/12] target/arm: Fix mte_checkN
+Date: Wed, 07 Apr 2021 19:39:29 +0100
+In-reply-to: <20210406174031.64299-4-richard.henderson@linaro.org>
+Message-ID: <877dleuds3.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 18:39:29 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1921948@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee pcc-goog rth xairy
-X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <877dleuds3.fsf@linaro.org>
-Subject: [Bug 1921948] Re: [PATCH v4 03/12] target/arm: Fix mte_checkN
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 2da74cff7b4c01743ebd37ed25992aff83948a07
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,9 +87,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
+Cc: 1921948@bugs.launchpad.net, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
@@ -192,25 +210,21 @@ with them.
 > +    uint32_t total, tag_count, tag_size, n, c;
 >      uint8_t *mem1, *mem2;
 >      MMUAccessType type;
->  =
-
+>=20=20
 > @@ -779,29 +779,27 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
->  =
-
+>=20=20
 >      mmu_idx =3D FIELD_EX32(desc, MTEDESC, MIDX);
 >      type =3D FIELD_EX32(desc, MTEDESC, WRITE) ? MMU_DATA_STORE : MMU_DAT=
 A_LOAD;
 > -    esize =3D FIELD_EX32(desc, MTEDESC, ESIZE);
 >      total =3D FIELD_EX32(desc, MTEDESC, TSIZE);
->  =
-
+>=20=20
 >      /* Find the addr of the end of the access, and of the last element. =
 */
 > -    ptr_end =3D ptr + total;
 > -    ptr_last =3D ptr_end - esize;
 > +    ptr_last =3D ptr + total - 1;
->  =
-
+>=20=20
 >      /* Round the bounds to the tag granule, and compute the number of ta=
 gs. */
 >      tag_first =3D QEMU_ALIGN_DOWN(ptr, TAG_GRANULE);
@@ -218,20 +232,17 @@ gs. */
 > -    tag_count =3D (tag_end - tag_first) / TAG_GRANULE;
 > +    tag_last =3D QEMU_ALIGN_DOWN(ptr_last, TAG_GRANULE);
 > +    tag_count =3D ((tag_last - tag_first) / TAG_GRANULE) + 1;
->  =
-
+>=20=20
 >      /* Round the bounds to twice the tag granule, and compute the bytes.=
  */
 >      tag_byte_first =3D QEMU_ALIGN_DOWN(ptr, 2 * TAG_GRANULE);
 > -    tag_byte_end =3D QEMU_ALIGN_UP(ptr_last, 2 * TAG_GRANULE);
 > +    tag_byte_last =3D QEMU_ALIGN_DOWN(ptr_last, 2 * TAG_GRANULE);
->  =
-
+>=20=20
 >      /* Locate the page boundaries. */
 >      prev_page =3D ptr & TARGET_PAGE_MASK;
 >      next_page =3D prev_page + TARGET_PAGE_SIZE;
->  =
-
+>=20=20
 > -    if (likely(tag_end - prev_page <=3D TARGET_PAGE_SIZE)) {
 > +    if (likely(tag_last - prev_page <=3D TARGET_PAGE_SIZE)) {
 >          /* Memory access stays on one page. */
@@ -245,8 +256,7 @@ E)) + 1;
 >          mem1 =3D allocation_tag_mem(env, mmu_idx, ptr, type, next_page -=
  ptr,
 >                                    MMU_DATA_LOAD, tag_size, ra);
->  =
-
+>=20=20
 > -        tag_size =3D (tag_byte_end - next_page) / (2 * TAG_GRANULE);
 > +        tag_size =3D ((tag_byte_last - next_page) / (2 * TAG_GRANULE)) +=
  1;
@@ -254,13 +264,11 @@ E)) + 1;
 > -                                  ptr_end - next_page,
 > +                                  ptr_last - next_page + 1,
 >                                    MMU_DATA_LOAD, tag_size, ra);
->  =
-
+>=20=20
 >          /*
 > @@ -838,15 +836,13 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
 >      }
->  =
-
+>=20=20
 >      /*
 > -     * If we failed, we know which granule.  Compute the element that
 > -     * is first in that granule, and signal failure on that element.
@@ -278,78 +286,10 @@ E)) + 1;
 LE);
 > +        mte_check_fail(env, desc, fault, ra);
 >      }
->  =
-
+>=20=20
 >   done:
 
 
--- =
-
+--=20
 Alex Benn=C3=A9e
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921948
-
-Title:
-  MTE tags not checked properly for unaligned accesses at EL1
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  For kernel memory accesses that span across two memory granules,
-  QEMU's MTE implementation only checks the tag of the first granule but
-  not of the second one.
-
-  To reproduce this, build the Linux kernel with CONFIG_KASAN_HW_TAGS
-  enabled, apply the patch below, and boot the kernel:
-
-  diff --git a/sound/last.c b/sound/last.c
-  index f0bb98780e70..04745cb30b74 100644
-  --- a/sound/last.c
-  +++ b/sound/last.c
-  @@ -5,12 +5,18 @@
-    */
-   =
-
-   #include <linux/init.h>
-  +#include <linux/slab.h>
-   #include <sound/core.h>
-   =
-
-   static int __init alsa_sound_last_init(void)
-   {
-          struct snd_card *card;
-          int idx, ok =3D 0;
-  +
-  +       char *ptr =3D kmalloc(128, GFP_KERNEL);
-  +       pr_err("KASAN report should follow:\n");
-  +       *(volatile unsigned long *)(ptr + 124);
-  +       kfree(ptr);
-          =
-
-          printk(KERN_INFO "ALSA device list:\n");
-          for (idx =3D 0; idx < SNDRV_CARDS; idx++) {
-
-  KASAN tags the 128 allocated bytes with the same tag as the returned
-  pointer. The memory granule that follows the 128 allocated bytes has a
-  different tag (with 1/15 probability).
-
-  Expected result: a tag fault is detected and a KASAN report is printed wh=
-en accessing bytes [124, 130).
-  Observed result: no tag fault is detected and no KASAN report is printed.
-
-  Here are the flags that I use to run QEMU if they matter:
-
-  qemu-system-aarch64 -s -machine virt,mte=3Don -cpu max -m 2G -smp 2 -net
-  user,host=3D10.0.2.10,hostfwd=3Dtcp:127.0.0.1:10021-:22 -net nic
-  -nographic -kernel ./Image -append "console=3DttyAMA0 root=3D/dev/vda
-  earlyprintk=3Dserial" -drive file=3D./fs.img,format=3Draw,if=3Dvirtio -no-
-  shutdown -no-reboot
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921948/+subscriptions
 
