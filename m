@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A402D357558
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 21:59:32 +0200 (CEST)
-Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3135755B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 22:00:44 +0200 (CEST)
+Received: from localhost ([::1]:44936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUEKp-0007HO-NX
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 15:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51452)
+	id 1lUELz-0008WN-5M
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 16:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lUEJa-0006bu-Vb
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:14 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37712
+ id 1lUEJz-0006wF-JR
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:39 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37752
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lUEJY-00076s-Vl
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:14 -0400
+ id 1lUEJv-0007JA-Uv
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:39 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lUEJf-00073W-5C; Wed, 07 Apr 2021 20:58:25 +0100
+ id 1lUEK3-00073W-6K; Wed, 07 Apr 2021 20:58:49 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, alxndr@bu.edu, laurent@vivier.eu,
  pbonzini@redhat.com
-Date: Wed,  7 Apr 2021 20:57:49 +0100
-Message-Id: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  7 Apr 2021 20:57:53 +0100
+Message-Id: <20210407195801.685-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
+References: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 for-6.0 00/12] esp: fix asserts/segfaults discovered by
- fuzzer
+Subject: [PATCH v4 for-6.0 04/12] esp: consolidate esp_cmdfifo_pop() into
+ esp_fifo_pop()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,82 +65,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently there have been a number of issues raised on Launchpad as a result of
-fuzzing the am53c974 (ESP) device. I spent some time over the past couple of
-days checking to see if anything had improved since my last patchset: from
-what I can tell the issues are still present, but the cmdfifo related failures
-now assert rather than corrupting memory.
+Each FIFO currently has its own pop functions with the only difference being
+the capacity check. The original reason for this was that the fifo8
+implementation doesn't have a formal API for retrieving the FIFO capacity,
+however there are multiple examples within QEMU where the capacity field is
+accessed directly.
 
-This patchset applied to master passes my local tests using the qtest fuzz test
-cases added by Alexander for the following Launchpad bugs:
-
-  https://bugs.launchpad.net/qemu/+bug/1919035
-  https://bugs.launchpad.net/qemu/+bug/1919036
-  https://bugs.launchpad.net/qemu/+bug/1910723
-  https://bugs.launchpad.net/qemu/+bug/1909247
-  
-I'm posting this now just before soft freeze since I see that some of the issues
-have recently been allocated CVEs and so it could be argued that even though
-they have existed for some time, it is worth fixing them for 6.0.
+Change esp_fifo_pop() to access the FIFO capacity directly and then consolidate
+esp_cmdfifo_pop() into esp_fifo_pop().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ hw/scsi/esp.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-v4:
-- Rebase onto master
-- Add R-B tags from Phil
-- Fix accidental line space removal in patch 3 discovered by Phil
-- Change spelling of sanitiser -> sanitizer in patch 5 as suggested by Phil
-- Fix up cmdfifo length checks in patch 8
-- Add T-B tags from Alex
-- Add patch 11 to handle additional assert discovered by Alex during fuzzing
-
-v3:
-- Rebase onto master
-- Rearrange patch ordering (move patch 5 to the front) to help reduce cross-talk
-  between the regression tests
-- Introduce patch 2 to remove unnecessary FIFO usage
-- Introduce patches 3-4 to consolidate esp_fifo_pop()/esp_fifo_push() wrapper
-  functions to avoid having to introduce 2 variants of esp_fifo_pop_buf()
-- Introduce esp_fifo_pop_buf() in patch 5 to prevent callers from overflowing
-  the array used to model the FIFO
-- Introduce patch 10 to clarify cancellation logic should all occur in the .cancel
-  SCSI callback rather than at the site of the caller
-- Add extra qtests in patch 11 to cover addition test cases provided on LP
-
-v2:
-- Add Alexander's R-B tag for patch 2 and Phil's R-B for patch 3
-- Add patch 4 for additional testcase provided in Alexander's patch 1 comment
-- Move current_req NULL checks forward in DMA functions (fixes ASAN bug reported
-  at https://bugs.launchpad.net/qemu/+bug/1909247/comments/6) in patch 3
-- Add qtest for am53c974 containing a basic set of regression tests using the
-  automatic test cases generated by the fuzzer as requested by Paolo
-
-
-Mark Cave-Ayland (12):
-  esp: always check current_req is not NULL before use in DMA callbacks
-  esp: rework write_response() to avoid using the FIFO for DMA
-    transactions
-  esp: consolidate esp_cmdfifo_push() into esp_fifo_push()
-  esp: consolidate esp_cmdfifo_pop() into esp_fifo_pop()
-  esp: introduce esp_fifo_pop_buf() and use it instead of
-    fifo8_pop_buf()
-  esp: ensure cmdfifo is not empty and current_dev is non-NULL
-  esp: don't underflow cmdfifo in do_cmd()
-  esp: don't overflow cmdfifo in get_cmd()
-  esp: don't overflow cmdfifo if TC is larger than the cmdfifo size
-  esp: don't reset async_len directly in esp_select() if cancelling
-    request
-  esp: ensure that do_cmd is set to zero before submitting an ESP select
-    command
-  tests/qtest: add tests for am53c974 device
-
- MAINTAINERS                 |   1 +
- hw/scsi/esp.c               | 119 +++++++++++---------
- tests/qtest/am53c974-test.c | 216 ++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build     |   1 +
- 4 files changed, 285 insertions(+), 52 deletions(-)
- create mode 100644 tests/qtest/am53c974-test.c
-
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 16aaf8be93..ff8fa73de9 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -107,22 +107,14 @@ static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
+ 
+     fifo8_push(fifo, val);
+ }
+-static uint8_t esp_fifo_pop(ESPState *s)
+-{
+-    if (fifo8_is_empty(&s->fifo)) {
+-        return 0;
+-    }
+-
+-    return fifo8_pop(&s->fifo);
+-}
+ 
+-static uint8_t esp_cmdfifo_pop(ESPState *s)
++static uint8_t esp_fifo_pop(Fifo8 *fifo)
+ {
+-    if (fifo8_is_empty(&s->cmdfifo)) {
++    if (fifo8_is_empty(fifo)) {
+         return 0;
+     }
+ 
+-    return fifo8_pop(&s->cmdfifo);
++    return fifo8_pop(fifo);
+ }
+ 
+ static uint32_t esp_get_tc(ESPState *s)
+@@ -159,9 +151,9 @@ static uint8_t esp_pdma_read(ESPState *s)
+     uint8_t val;
+ 
+     if (s->do_cmd) {
+-        val = esp_cmdfifo_pop(s);
++        val = esp_fifo_pop(&s->cmdfifo);
+     } else {
+-        val = esp_fifo_pop(s);
++        val = esp_fifo_pop(&s->fifo);
+     }
+ 
+     return val;
+@@ -887,7 +879,7 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+             qemu_log_mask(LOG_UNIMP, "esp: PIO data read not implemented\n");
+             s->rregs[ESP_FIFO] = 0;
+         } else {
+-            s->rregs[ESP_FIFO] = esp_fifo_pop(s);
++            s->rregs[ESP_FIFO] = esp_fifo_pop(&s->fifo);
+         }
+         val = s->rregs[ESP_FIFO];
+         break;
 -- 
 2.20.1
 
