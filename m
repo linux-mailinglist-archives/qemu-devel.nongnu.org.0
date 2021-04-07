@@ -2,68 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5413C356A1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:46:31 +0200 (CEST)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EE4356A38
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:49:24 +0200 (CEST)
+Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU5hd-0004nw-Ub
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57960)
+	id 1lU5kS-0006v9-05
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lU5ga-0004I2-Jc
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:45:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36466)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lU5iA-0005HI-Mn; Wed, 07 Apr 2021 06:47:02 -0400
+Received: from mail-vi1eur05on2103.outbound.protection.outlook.com
+ ([40.107.21.103]:59841 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lU5gX-0000FB-NN
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:45:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617792319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4yYs4XGWfQPgVs/65PGKUB1sHYl5p2m+qxRYzu3svUs=;
- b=i0ReozbcB3/0xKe7uR2qjVncWOje45VAUD4hDzt8Q/gmaUxCCVZ1jkZrrBqCD0G4MI13DN
- 4ZfvIc1rqV1gDS4jUIwARTCHMYZxCq8F3ON0c5rwBPHASx1iFu2f03g1do1N7TeV0g2xoH
- 1KjO6mzUh8g2vljZJmsU0DODbBFx1hc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-xjjukNEpO6KupC80cXQIgQ-1; Wed, 07 Apr 2021 06:45:18 -0400
-X-MC-Unique: xjjukNEpO6KupC80cXQIgQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 167186D4E0;
- Wed,  7 Apr 2021 10:45:17 +0000 (UTC)
-Received: from localhost (ovpn-114-86.ams2.redhat.com [10.36.114.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A41614108;
- Wed,  7 Apr 2021 10:45:12 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] libqtest: refuse QTEST_QEMU_BINARY=qemu-kvm
-Date: Wed,  7 Apr 2021 11:45:11 +0100
-Message-Id: <20210407104511.343061-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lU5i7-0001Lp-Iw; Wed, 07 Apr 2021 06:47:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xn5ng5x48lMdk5EGC3yJ+RfKN7HSaYI1nJE3v83SuHNXz7a9NleRK9thaMzYmBnMxCFS4iBsaL7JU7MoE2XXo7hQ2ulnPuBmzy/aYaY6Zzes7Z5j+wG57w5h/VjBE5DhMGql5Y90Sr9OTz4POCGXcMgcuGlbTSkzR/QNk5iVISiEcnUNCRRj79b9tswBuTbxSEqgBXH+nfhgmHGJAgdDvXZUvX+DhW2KPLyUMEEVH9MOrmZ+kr0m7aqPaEPPPsuVWjHO+S4S3ObXQJrPWZDTFnxhj7uEJ4VRPOXvMCi6vv1vOYnRjh/FZc00KY7nbrM7q6vZ8hRBhPOyIAJ6mZ1flA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QPGvt5xlYnV97TH5vUO9DmcVbNdtop0b2HSnPkZnJzU=;
+ b=QKuFHxT2lBtvhcDRA/11EDBrNbxUPakGKiJvXC90d4KzZRxJ778piXwca8g56LK6dncP/+a8aSQpJn63+FQvPVktVwQyibM1u9fKdB5pmAHWld/EF+zdIWFKIT7/mi0qn7vev7y6N1tk9g+ZIhvRz8u6XFrJ9H+0hRVgb4wc3LdgZvFZ7FfnqBzrmRo8CHoPD0upS/YDsqMVi68UPMAAICWzIpWWIeCrxAAeogn5bbgd0yie4xjYHjJQrE2G0Fd0qGLaCnlEP9ibKX/StaqW6nmhJMMER28ei/vI+YgaQKpGVXExwbtUC3h/bJyx0UyyIMvE2V9g2kBPwIc0Ym1sRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QPGvt5xlYnV97TH5vUO9DmcVbNdtop0b2HSnPkZnJzU=;
+ b=pcwpcvzwsCYlIad40sFsYXHovsqYp/E40iHVWkJsUAqtlvlqe4zDejPejwoEgn1E/HyGQkMziqDEYYBUrV/oT6UqIx2Z2C6Ch+qhBBI1nb3BZjXk/BI3iYaxinsnv4gLVMfANANeuu1YRK6TPVelc4rybXqFxkg5vt5h6jzebq4=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6376.eurprd08.prod.outlook.com (2603:10a6:20b:33e::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.32; Wed, 7 Apr
+ 2021 10:46:56 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4020.017; Wed, 7 Apr 2021
+ 10:46:56 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, eblake@redhat.com, rvkagan@yandex-team.ru,
+ den@openvz.org
+Subject: [PATCH 00/14] nbd: move reconnect-thread to separate file
+Date: Wed,  7 Apr 2021 13:46:23 +0300
+Message-Id: <20210407104637.36033-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.206]
+X-ClientProxiedBy: HE1PR0902CA0021.eurprd09.prod.outlook.com
+ (2603:10a6:3:e5::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.206) by
+ HE1PR0902CA0021.eurprd09.prod.outlook.com (2603:10a6:3:e5::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.17 via Frontend Transport; Wed, 7 Apr 2021 10:46:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2f9f6c17-ed08-4040-92e7-08d8f9b27682
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6376:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6376DC2ECAC7FE88E3D30F09C1759@AS8PR08MB6376.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FY3cnnYAdS3g48Yu1kSEsbqWpQK15dYn38Q869eSVUCIUmM7molIRuq1utwWsULoPOPtietUF8JkIr4D+ReeO69K1wvSp46nv0pS+dV3RUXmySCfRZ/nlQIwdofI+kd0Auia4tccETYLbJZCS0mFcGCoVOd0GJKAAoB/EmWZrlJsbRIk1zx50t+WIqpFBwfO1Z+pnrnl2N6l7UgpjSGVqV5eERs4uYuMkoNDhhCDB3z5EGOcF3eGgeX9ntHRl6CogzAZ1uB0tute/YpXmrzCfag0M/1PvbLuXwm07Mz9NnD3TTKyz5IN8wwBuhfI88NOCNlT3c9wRtU4GncHgBpgloMcEMAzxfp/Rsy5AJexkJ23Fh1dBJc0zaueayHZevS+LtceHuaEEsJ3tCkWLvIyNqneEgvVinR/kdCPWNg6y4waTAF7/Kukiiphj1+9gmcl33cpCwP64SLnCxKPhZKjfrWd9m4JERnxLltHqmo19/QPfvaBQyoB9X3awoKCenOYMGjl4w4n3YX0Sx2jSt0/iMExdSM7TypQkWBWzJRaA6GB9rz7HTniIMEPiMpjbqfAsMHcVaSPZFGAwJ+rRibq4fTP6eH0a7SF8F/0ZoxjHavU+fjKvPCNmo3m6oBMxbwOdN7CPZj0G3cKwH8MTR95KyXss0i030JGMQOJGDrV5K3wYkGiou8XrruZeyVZdWAgDAxpH/pBYZbfzSq+9Wb/eUiXCz3de5+8odxI7yci5jo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39840400004)(366004)(376002)(396003)(346002)(107886003)(69590400012)(83380400001)(6506007)(6666004)(66946007)(6512007)(38350700001)(8936002)(6916009)(316002)(16526019)(4326008)(186003)(8676002)(52116002)(956004)(26005)(5660300002)(38100700001)(6486002)(2616005)(36756003)(66556008)(66476007)(86362001)(2906002)(478600001)(1076003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Ic8r01cAuKu1z4wfcwzu805RzVkk/nOVjaIzKpVzIfRaLFfKEz99GdJZMyI5?=
+ =?us-ascii?Q?elXQefbF+TLSJtxHNTzto5CKHSMSRscTLvs8LZzcOxFPBfJ8sTur9T0k6q1G?=
+ =?us-ascii?Q?csP2Kfwww9rmwV9UIxSHhL4Wu8uq1fyMii5/iY6FpdhcoaBOnIuiUSqIjGgk?=
+ =?us-ascii?Q?1F5HdCS3HPiCx7mw+AZOWY7/bblS7fjd4YwdlbaIkDKZfcdrayputS4KAVCv?=
+ =?us-ascii?Q?TjAEi7gH4MXx1kCmUOTFSUkOzYNosvTtrYcjSES+Dh7dkiVvj1U09/kOw5oi?=
+ =?us-ascii?Q?OyJycwyeEbOia7Kg1kCbglb3QYvBqvuJhd6A0slPRsM4ZPASyJWUF25XdFXO?=
+ =?us-ascii?Q?DsYEgUQ7JAIJYlbXI2Ov2WCUX9EqmfwNT/IJ1YYE6KaZ+FDXmcgqMsOuD3LR?=
+ =?us-ascii?Q?45J2c1AdC05B96rblt6Xsl9cIN46cblPioI2p2VMicvlelT5eLOId+0XoZaZ?=
+ =?us-ascii?Q?UNIFWmJgtteZCbbWc7FHDFnueb1FTaeZj2GzULchQep3q5uvJEULhfn4sGlW?=
+ =?us-ascii?Q?6eS3qbtjG7Q9VNnjIIz5sv32nm1j05JHr8c1eprReSe8xFIpGU+uWKzO6icm?=
+ =?us-ascii?Q?xkXhAb+MA8pEqCdv3fyzBCzU0mstL0E87HYvr4Ef5nSP5qqRoYfj6tSkejrd?=
+ =?us-ascii?Q?TmVFW1Zi9zAH1s8Yr+bMtM5/Q5wRfFeaJBtyxuVuwYp2VLslm/pQlISF8wco?=
+ =?us-ascii?Q?mbQdMYbPZw/LAEPS67eHY8dA+r3rBMkTE9pP9IdrsNYqnUZ6yfN9ZUNn1AGq?=
+ =?us-ascii?Q?EKYnGHu/CQw571zKD3f9NGDUjGOiBSHSBEGMR/5/rn8m0EwcyrPnEPXIqsnm?=
+ =?us-ascii?Q?svqTOLNu4LI3QLg0WIc11MzTOcakrO4t0OpisgytC1WWzE52tevWKOEtaFDn?=
+ =?us-ascii?Q?CNqMoSjX5gHfmawWGkC0RrGSXuZpkBJDHxf9hqR9kOX5w/sXYfQL+2v8k3QW?=
+ =?us-ascii?Q?RxFFcPlOjW0/RWnb6ERKVGML/ysG49RVyDiTWQwhg+zm5lrw80mVmFwlENAr?=
+ =?us-ascii?Q?7e7GutZeZ9pJLRMN2NCMn9dKGNm9iI4srVr/dx4TvM6/OHMyvjzLY1JQJeVV?=
+ =?us-ascii?Q?NeaStiacmJ+Zhm7zAgs12RyoqvlsnAAqZYKK41hMMrX9NXOE3wfOzx8R5l9n?=
+ =?us-ascii?Q?ee9wL9f0uibcy83PFFsGuaMb12C1XxGuUIxgnaN3X8YZcrp1oJM8FpU7iuad?=
+ =?us-ascii?Q?bKxSvHiJ05Ctzq5UKIVOahEVeQ6dtoQ6YopINdSOWpHfRjbCU7OYgsarg3K4?=
+ =?us-ascii?Q?9jjMn77/bfPWKTIqBuwrfXzB7V6BT1JUJHFBlAHOzhW1zblTSZO2n9RjE5VO?=
+ =?us-ascii?Q?HeO3dCBpYE+QagWCYqaSuH4o?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f9f6c17-ed08-4040-92e7-08d8f9b27682
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 10:46:56.2311 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x2UKd+crWfsSgF82ZU18FQfSu0Rwi6vaBCwqtGVc1hnuJ6sZnLjh7ZW3Tt3X4v4GZiA2ZLEKP5EIOpCPXMveRg5A4yBpCHjS8ao+yQPhU7Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6376
+Received-SPF: pass client-ip=40.107.21.103;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,36 +133,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qin Wang <qinwang@rehdat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U29tZSBkb3duc3RyZWFtcyByZW5hbWUgdGhlIFFFTVUgYmluYXJ5IHRvICJxZW11LWt2bSIuIFRo
-aXMgYnJlYWtzCnF0ZXN0X2dldF9hcmNoKCksIHdoaWNoIGF0dGVtcHRzIHRvIHBhcnNlIHRoZSB0
-YXJnZXQgYXJjaGl0ZWN0dXJlIGZyb20KdGhlIFFURVNUX1FFTVVfQklOQVJZIGVudmlyb25tZW50
-IHZhcmlhYmxlLgoKUHJpbnQgYW4gZXJyb3IgaW5zdGVhZCBvZiByZXR1cm5pbmcgdGhlIGFyY2hp
-dGVjdHVyZSAia3ZtIi4gVGhpbmdzIGZhaWwKaW4gd2VpcmQgd2F5cyB3aGVuIHRoZSBhcmNoaXRl
-Y3R1cmUgc3RyaW5nIGlzIGJvZ3VzLgoKQXJndWFibHkgcXRlc3RzIHNob3VsZCBhbHdheXMgYmUg
-cnVuIGluIGEgYnVpbGQgZGlyZWN0b3J5IGluc3RlYWQgb2YKYWdhaW5zdCBhbiBpbnN0YWxsZWQg
-UUVNVS4gSW4gYW55IGNhc2UsIHByaW50aW5nIGEgY2xlYXIgZXJyb3Igd2hlbiB0aGlzCmhhcHBl
-bnMgaXMgaGVscGZ1bC4KClJlcG9ydGVkLWJ5OiBRaW4gV2FuZyA8cWlud2FuZ0ByZWhkYXQuY29t
-PgpDYzogRW1hbnVlbGUgR2l1c2VwcGUgRXNwb3NpdG8gPGVlc3Bvc2l0QHJlZGhhdC5jb20+ClNp
-Z25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiB0
-ZXN0cy9xdGVzdC9saWJxdGVzdC5jIHwgOCArKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDggaW5z
-ZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmMgYi90ZXN0cy9x
-dGVzdC9saWJxdGVzdC5jCmluZGV4IDcxZTM1OWVmY2QuLjJmYzI0OWMwYjUgMTAwNjQ0Ci0tLSBh
-L3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmMKKysrIGIvdGVzdHMvcXRlc3QvbGlicXRlc3QuYwpAQCAt
-OTEwLDYgKzkxMCwxNCBAQCBjb25zdCBjaGFyICpxdGVzdF9nZXRfYXJjaCh2b2lkKQogICAgICAg
-ICBhYm9ydCgpOwogICAgIH0KIAorICAgIGlmIChzdHJjbXAoZW5kICsgMSwgImt2bSIpID09IDAp
-IHsKKyAgICAgICAgZnByaW50ZihzdGRlcnIsICJRVEVTVF9RRU1VX0JJTkFSWSBtdXN0IGVuZCB3
-aXRoICotPGFyY2g+LiBJZiB5b3UgYXJlICIKKyAgICAgICAgICAgICAgICAgICAgICAgICJ1c2lu
-ZyBxZW11LWt2bSwgcGxlYXNlIGNyZWF0ZSBhIHN5bWxpbmsgbGlrZSBsbiAtcyAiCisgICAgICAg
-ICAgICAgICAgICAgICAgICAicGF0aC90by9xZW11LWt2bSBxZW11LXN5c3RlbS14ODZfNjQgYW5k
-IHVzZSB0aGF0ICIKKyAgICAgICAgICAgICAgICAgICAgICAgICJpbnN0ZWFkLlxuIik7CisgICAg
-ICAgIGFib3J0KCk7CisgICAgfQorCiAgICAgcmV0dXJuIGVuZCArIDE7CiB9CiAKLS0gCjIuMzAu
-MgoK
+Hi all!
+
+There are problems with nbd driver:
+
+ - nbd reconnect is cancelled on drain, which is bad as Roman describes
+   in his "[PATCH 0/7] block/nbd: decouple reconnect from drain"
+ - nbd driver is too complicated around drained sections and aio context
+   switch. It's nearly impossible to follow all the logic, including
+   abuse of bs->in_flight, which is temporary decreased in some places
+   (like nbd_read_eof()). Additional reconnect thread and two different
+   state machines (we have BDRVNBDState::state and
+   BDRVNBDState::connect_thread->state) doesn't make things simpler :)
+
+So, I have a plan:
+
+1. Move nbd negotiation to connect_thread
+
+2. Do receive NBD replies in request coroutines, not in connection_co
+  
+   At this point we can drop connection_co, and when we don't have
+   endless running coroutine, NBD driver becomes a usual block driver,
+   and we can drop abuse of bs->in_flight, and probably drop most of
+   complicated logic around drained section and aio context switch in
+   nbd driver.
+
+3. Still, as Roman describes, with [2] we loose a possibility to
+   reconnect immediately when connection breaks (with current code we
+   have endless read in reconnect_co, but actually for this to work
+   keep-alive should be setup correctly). So, we'll need to reinvent it,
+   checking connection periodically by timeout, with help of getsockopt
+   or just sending a kind of PING request (zero-length READ or something
+   like this).
+
+And this series a kind of preparation. The main point of it is moving
+connect-thread to a separate file.
+
+This series may crash on iotest 277. So, it's based on corresponding
+fix: "[PATCH 1/7] block/nbd: avoid touching freed connect_thread":
+
+Based-on: <20210315060611.2989049-2-rvkagan@yandex-team.ru>
+
+Vladimir Sementsov-Ogievskiy (14):
+  block/nbd: BDRVNBDState: drop unused connect_err
+  block/nbd: nbd_co_establish_connection(): drop unused errp
+  block/nbd: drop unused NBDConnectThread::err field
+  block/nbd: split connect_thread_cb() out of connect_thread_func()
+  block/nbd: rename NBDConnectThread to NBDConnectCB
+  block/nbd: further segregation of connect-thread
+  block/nbd: drop nbd_free_connect_thread()
+  block/nbd: move nbd connect-thread to nbd/client-connect.c
+  block/nbd: NBDConnectCB: drop bh_* fields
+  block/nbd: move wait_connect field under mutex protection
+  block/nbd: refactor connect_bh()
+  block/nbd: refactor nbd_co_establish_connection
+  block/nbd: nbd_co_establish_connection_cancel(): rename wake to
+    do_wake
+  block/nbd: drop thr->state
+
+ include/block/nbd.h  |   6 +
+ block/nbd.c          | 266 ++++++++++++++-----------------------------
+ nbd/client-connect.c |  72 ++++++++++++
+ nbd/meson.build      |   1 +
+ 4 files changed, 162 insertions(+), 183 deletions(-)
+ create mode 100644 nbd/client-connect.c
+
+-- 
+2.29.2
 
 
