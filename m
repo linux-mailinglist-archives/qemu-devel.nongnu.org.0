@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B7835756B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 22:07:11 +0200 (CEST)
-Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7C4357588
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 22:08:43 +0200 (CEST)
+Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUESE-0005fM-4h
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 16:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51542)
+	id 1lUETi-0008Mp-7V
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 16:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lUEJn-0006mo-6z
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:27 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37730
+ id 1lUEJr-0006rB-1s
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:31 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37740
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lUEJl-0007DY-Oz
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:26 -0400
+ id 1lUEJp-0007FR-Ei
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:58:30 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lUEJr-00073W-Dg; Wed, 07 Apr 2021 20:58:37 +0100
+ id 1lUEJy-00073W-6V; Wed, 07 Apr 2021 20:58:43 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, alxndr@bu.edu, laurent@vivier.eu,
  pbonzini@redhat.com
-Date: Wed,  7 Apr 2021 20:57:51 +0100
-Message-Id: <20210407195801.685-3-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  7 Apr 2021 20:57:52 +0100
+Message-Id: <20210407195801.685-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
 References: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 for-6.0 02/12] esp: rework write_response() to avoid using
- the FIFO for DMA transactions
+Subject: [PATCH v4 for-6.0 03/12] esp: consolidate esp_cmdfifo_push() into
+ esp_fifo_push()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,54 +65,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code for write_response() has always used the FIFO to store the data for
-the status/message in phases, even for DMA transactions. Switch to using a
-separate buffer that can be used directly for DMA transactions and restrict
-the FIFO use to the non-DMA case.
+Each FIFO currently has its own push functions with the only difference being
+the capacity check. The original reason for this was that the fifo8
+implementation doesn't have a formal API for retrieving the FIFO capacity,
+however there are multiple examples within QEMU where the capacity field is
+accessed directly.
+
+Change esp_fifo_push() to access the FIFO capacity directly and then consolidate
+esp_cmdfifo_push() into esp_fifo_push().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- hw/scsi/esp.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ hw/scsi/esp.c | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index bafea0d4e6..26fe1dcb9d 100644
+index 26fe1dcb9d..16aaf8be93 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -445,18 +445,16 @@ static void write_response_pdma_cb(ESPState *s)
- 
- static void write_response(ESPState *s)
- {
--    uint32_t n;
-+    uint8_t buf[2];
- 
-     trace_esp_write_response(s->status);
- 
--    fifo8_reset(&s->fifo);
--    esp_fifo_push(s, s->status);
--    esp_fifo_push(s, 0);
-+    buf[0] = s->status;
-+    buf[1] = 0;
- 
-     if (s->dma) {
-         if (s->dma_memory_write) {
--            s->dma_memory_write(s->dma_opaque,
--                                (uint8_t *)fifo8_pop_buf(&s->fifo, 2, &n), 2);
-+            s->dma_memory_write(s->dma_opaque, buf, 2);
-             s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
-             s->rregs[ESP_RINTR] |= INTR_BS | INTR_FC;
-             s->rregs[ESP_RSEQ] = SEQ_CD;
-@@ -466,7 +464,8 @@ static void write_response(ESPState *s)
-             return;
-         }
-     } else {
--        s->ti_size = 2;
-+        fifo8_reset(&s->fifo);
-+        fifo8_push_all(&s->fifo, buf, 2);
-         s->rregs[ESP_RFLAGS] = 2;
+@@ -98,16 +98,15 @@ void esp_request_cancelled(SCSIRequest *req)
      }
-     esp_raise_irq(s);
+ }
+ 
+-static void esp_fifo_push(ESPState *s, uint8_t val)
++static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
+ {
+-    if (fifo8_num_used(&s->fifo) == ESP_FIFO_SZ) {
++    if (fifo8_num_used(fifo) == fifo->capacity) {
+         trace_esp_error_fifo_overrun();
+         return;
+     }
+ 
+-    fifo8_push(&s->fifo, val);
++    fifo8_push(fifo, val);
+ }
+-
+ static uint8_t esp_fifo_pop(ESPState *s)
+ {
+     if (fifo8_is_empty(&s->fifo)) {
+@@ -117,16 +116,6 @@ static uint8_t esp_fifo_pop(ESPState *s)
+     return fifo8_pop(&s->fifo);
+ }
+ 
+-static void esp_cmdfifo_push(ESPState *s, uint8_t val)
+-{
+-    if (fifo8_num_used(&s->cmdfifo) == ESP_CMDFIFO_SZ) {
+-        trace_esp_error_fifo_overrun();
+-        return;
+-    }
+-
+-    fifo8_push(&s->cmdfifo, val);
+-}
+-
+ static uint8_t esp_cmdfifo_pop(ESPState *s)
+ {
+     if (fifo8_is_empty(&s->cmdfifo)) {
+@@ -187,9 +176,9 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+     }
+ 
+     if (s->do_cmd) {
+-        esp_cmdfifo_push(s, val);
++        esp_fifo_push(&s->cmdfifo, val);
+     } else {
+-        esp_fifo_push(s, val);
++        esp_fifo_push(&s->fifo, val);
+     }
+ 
+     dmalen--;
+@@ -645,7 +634,7 @@ static void esp_do_dma(ESPState *s)
+              */
+             if (len < esp_get_tc(s) && esp_get_tc(s) <= ESP_FIFO_SZ) {
+                 while (fifo8_num_used(&s->fifo) < ESP_FIFO_SZ) {
+-                    esp_fifo_push(s, 0);
++                    esp_fifo_push(&s->fifo, 0);
+                     len++;
+                 }
+             }
+@@ -947,9 +936,9 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
+         break;
+     case ESP_FIFO:
+         if (s->do_cmd) {
+-            esp_cmdfifo_push(s, val);
++            esp_fifo_push(&s->cmdfifo, val);
+         } else {
+-            esp_fifo_push(s, val);
++            esp_fifo_push(&s->fifo, val);
+         }
+ 
+         /* Non-DMA transfers raise an interrupt after every byte */
 -- 
 2.20.1
 
