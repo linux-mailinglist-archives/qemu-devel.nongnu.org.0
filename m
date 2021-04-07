@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16681356963
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:22:31 +0200 (CEST)
-Received: from localhost ([::1]:48572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6BE35699D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:27:51 +0200 (CEST)
+Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU5KQ-0001DB-54
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
+	id 1lU5Pb-0005UG-14
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lU5IR-00005Z-Dh
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:28 -0400
-Received: from foss.arm.com ([217.140.110.172]:47446)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lU5ID-0002Oj-HO
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:24 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CAA01FB;
- Wed,  7 Apr 2021 03:20:10 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E77E23F694;
- Wed,  7 Apr 2021 03:20:07 -0700 (PDT)
-Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
-To: Catalin Marinas <catalin.marinas@arm.com>
-References: <20210312151902.17853-1-steven.price@arm.com>
- <20210312151902.17853-3-steven.price@arm.com>
- <20210327152324.GA28167@arm.com> <20210328122131.GB17535@arm.com>
- <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
- <20210330103013.GD18075@arm.com>
- <8977120b-841d-4882-2472-6e403bc9c797@redhat.com>
- <20210331092109.GA21921@arm.com>
- <d545a051-a02a-4c3a-0afe-66612839ba32@redhat.com>
- <86a968c8-7a0e-44a4-28c3-bac62c2b7d65@arm.com>
- <20210331184311.GA10737@arm.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <e2612bd8-b356-a9cd-cfdf-26f4aa813578@arm.com>
-Date: Wed, 7 Apr 2021 11:20:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lU5Iw-0000N9-Qv
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lU5Iq-0002lS-EV
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617790851;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8tHcG1iLARm+Z6cj4YZZpuAORcWH6iImHa9JOW/M2Jo=;
+ b=HdT5TUe4W3+ezFykjZWz4AwX0whI/0kBJcum0tgLBKM7wG57KkirfkHe5WGr1IyukhCHjn
+ EYASibozYVkxoPXBtx6ATHGNKi9pQWdByBJSQPvJS+h7GRA44FHa4pXuYBuguhzKflj5A+
+ MyOZAjxTatIwy63mSCo0cTc0oiLy9CA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-9ZDIZFtrO6CB3bJ1u-Yqjg-1; Wed, 07 Apr 2021 06:20:32 -0400
+X-MC-Unique: 9ZDIZFtrO6CB3bJ1u-Yqjg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2BA883DEA7;
+ Wed,  7 Apr 2021 10:20:30 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-115-14.ams2.redhat.com
+ [10.36.115.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7B45100F49F;
+ Wed,  7 Apr 2021 10:20:29 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com,
+ huangy81@chinatelecom.cn
+Subject: [PULL 4/6] migration: Pre-fault memory before starting background
+ snasphot
+Date: Wed,  7 Apr 2021 11:20:19 +0100
+Message-Id: <20210407102021.95225-5-dgilbert@redhat.com>
+In-Reply-To: <20210407102021.95225-1-dgilbert@redhat.com>
+References: <20210407102021.95225-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210331184311.GA10737@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,161 +81,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Haibo Xu <Haibo.Xu@arm.com>, David Hildenbrand <david@redhat.com>,
- Marc Zyngier <maz@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
- Thomas Gleixner <tglx@linutronix.de>,
- Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
- Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/2021 19:43, Catalin Marinas wrote:
-> On Wed, Mar 31, 2021 at 11:41:20AM +0100, Steven Price wrote:
->> On 31/03/2021 10:32, David Hildenbrand wrote:
->>> On 31.03.21 11:21, Catalin Marinas wrote:
->>>> On Wed, Mar 31, 2021 at 09:34:44AM +0200, David Hildenbrand wrote:
->>>>> On 30.03.21 12:30, Catalin Marinas wrote:
->>>>>> On Mon, Mar 29, 2021 at 05:06:51PM +0100, Steven Price wrote:
->>>>>>> On 28/03/2021 13:21, Catalin Marinas wrote:
->>>>>>>> However, the bigger issue is that Stage 2 cannot disable
->>>>>>>> tagging for Stage 1 unless the memory is Non-cacheable or
->>>>>>>> Device at S2. Is there a way to detect what gets mapped in
->>>>>>>> the guest as Normal Cacheable memory and make sure it's
->>>>>>>> only early memory or hotplug but no ZONE_DEVICE (or
->>>>>>>> something else like on-chip memory)?ï¿½ If we can't
->>>>>>>> guarantee that all Cacheable memory given to a guest
->>>>>>>> supports tags, we should disable the feature altogether.
->>>>>>>
->>>>>>> In stage 2 I believe we only have two types of mapping -
->>>>>>> 'normal' or DEVICE_nGnRE (see stage2_map_set_prot_attr()).
->>>>>>> Filtering out the latter is a case of checking the 'device'
->>>>>>> variable, and makes sense to avoid the overhead you
->>>>>>> describe.
->>>>>>>
->>>>>>> This should also guarantee that all stage-2 cacheable
->>>>>>> memory supports tags,
->>>>>>> as kvm_is_device_pfn() is simply !pfn_valid(), and
->>>>>>> pfn_valid() should only
->>>>>>> be true for memory that Linux considers "normal".
->>>>>
->>>>> If you think "normal" == "normal System RAM", that's wrong; see
->>>>> below.
->>>>
->>>> By "normal" I think both Steven and I meant the Normal Cacheable memory
->>>> attribute (another being the Device memory attribute).
->>
->> Sadly there's no good standardised terminology here. Aarch64 provides the
->> "normal (cacheable)" definition. Memory which is mapped as "Normal
->> Cacheable" is implicitly MTE capable when shared with a guest (because the
->> stage 2 mappings don't allow restricting MTE other than mapping it as Device
->> memory).
->>
->> So MTE also forces us to have a definition of memory which is "bog standard
->> memory"[1] separate from the mapping attributes. This is the main memory
->> which fully supports MTE.
->>
->> Separate from the "bog standard" we have the "special"[1] memory, e.g.
->> ZONE_DEVICE memory may be mapped as "Normal Cacheable" at stage 1 but that
->> memory may not support MTE tags. This memory can only be safely shared with
->> a guest in the following situations:
->>
->>   1. MTE is completely disabled for the guest
->>
->>   2. The stage 2 mappings are 'device' (e.g. DEVICE_nGnRE)
->>
->>   3. We have some guarantee that guest MTE access are in some way safe.
->>
->> (1) is the situation today (without this patch series). But it prevents the
->> guest from using MTE in any form.
->>
->> (2) is pretty terrible for general memory, but is the get-out clause for
->> mapping devices into the guest.
->>
->> (3) isn't something we have any architectural way of discovering. We'd need
->> to know what the device did with the MTE accesses (and any caches between
->> the CPU and the device) to ensure there aren't any side-channels or h/w
->> lockup issues. We'd also need some way of describing this memory to the
->> guest.
->>
->> So at least for the time being the approach is to avoid letting a guest with
->> MTE enabled have access to this sort of memory.
-> 
-> When a slot is added by the VMM, if it asked MTE in guest (I guess
-> that's an opt-in by the VMM, haven't checked the other patches), can we
-> reject it if it's is going to be mapped as Normal Cacheable but it is a
-> ZONE_DEVICE (i.e. !kvm_is_device_pfn() + one of David's suggestions to
-> check for ZONE_DEVICE)? This way we don't need to do more expensive
-> checks in set_pte_at().
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 
-The problem is that KVM allows the VMM to change the memory backing a 
-slot while the guest is running. This is obviously useful for the likes 
-of migration, but ultimately means that even if you were to do checks at 
-the time of slot creation, you would need to repeat the checks at 
-set_pte_at() time to ensure a mischievous VMM didn't swap the page for a 
-problematic one.
+This commit solves the issue with userfault_fd WP feature that
+background snapshot is based on. For any never poluated or discarded
+memory page, the UFFDIO_WRITEPROTECT ioctl() would skip updating
+PTE for that page, thereby loosing WP setting for it.
 
-> We could simplify the set_pte_at() further if we require that the VMM
-> has a PROT_MTE mapping. This does not mean it cannot have two mappings,
-> the other without PROT_MTE. But at least we get a set_pte_at() when
-> swapping in which has PROT_MTE.
+So we need to pre-fault pages for each RAM block to be protected
+before making a userfault_fd wr-protect ioctl().
 
-That is certainly an option - but from what I've seen of trying to 
-implement a VMM to support MTE, the PROT_MTE mapping is not what you 
-actually want in user space. Two mappings is possible but is likely to 
-complicate the VMM.
+Fixes: 278e2f551a095b234de74dca9c214d5502a1f72c (migration: support
+  UFFD write fault processing in ram_save_iterate())
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Reported-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210401092226.102804-4-andrey.gruzdev@virtuozzo.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ migration/migration.c |  6 ++++++
+ migration/ram.c       | 49 +++++++++++++++++++++++++++++++++++++++++++
+ migration/ram.h       |  1 +
+ 3 files changed, 56 insertions(+)
 
-> We could add another PROT_TAGGED or something which means PG_mte_tagged
-> set but still mapped as Normal Untagged. It's just that we are short of
-> pte bits for another flag.
+diff --git a/migration/migration.c b/migration/migration.c
+index be4729e7c8..71bce15a1b 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3827,6 +3827,12 @@ static void *bg_migration_thread(void *opaque)
+ 
+     update_iteration_initial_status(s);
+ 
++    /*
++     * Prepare for tracking memory writes with UFFD-WP - populate
++     * RAM pages before protecting.
++     */
++    ram_write_tracking_prepare();
++
+     qemu_savevm_state_header(s->to_dst_file);
+     qemu_savevm_state_setup(s->to_dst_file);
+ 
+diff --git a/migration/ram.c b/migration/ram.c
+index 40e78952ad..7e2bc0fdd3 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1560,6 +1560,55 @@ out:
+     return ret;
+ }
+ 
++/*
++ * ram_block_populate_pages: populate memory in the RAM block by reading
++ *   an integer from the beginning of each page.
++ *
++ * Since it's solely used for userfault_fd WP feature, here we just
++ *   hardcode page size to qemu_real_host_page_size.
++ *
++ * @bs: RAM block to populate
++ */
++static void ram_block_populate_pages(RAMBlock *bs)
++{
++    char *ptr = (char *) bs->host;
++
++    for (ram_addr_t offset = 0; offset < bs->used_length;
++            offset += qemu_real_host_page_size) {
++        char tmp = *(ptr + offset);
++
++        /* Don't optimize the read out */
++        asm volatile("" : "+r" (tmp));
++    }
++}
++
++/*
++ * ram_write_tracking_prepare: prepare for UFFD-WP memory tracking
++ */
++void ram_write_tracking_prepare(void)
++{
++    RAMBlock *bs;
++
++    RCU_READ_LOCK_GUARD();
++
++    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
++        /* Nothing to do with read-only and MMIO-writable regions */
++        if (bs->mr->readonly || bs->mr->rom_device) {
++            continue;
++        }
++
++        /*
++         * Populate pages of the RAM block before enabling userfault_fd
++         * write protection.
++         *
++         * This stage is required since ioctl(UFFDIO_WRITEPROTECT) with
++         * UFFDIO_WRITEPROTECT_MODE_WP mode setting would silently skip
++         * pages with pte_none() entries in page table.
++         */
++        ram_block_populate_pages(bs);
++    }
++}
++
+ /*
+  * ram_write_tracking_start: start UFFD-WP memory tracking
+  *
+diff --git a/migration/ram.h b/migration/ram.h
+index 6378bb3ebc..4833e9fd5b 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -82,6 +82,7 @@ void colo_incoming_start_dirty_log(void);
+ /* Background snapshot */
+ bool ram_write_tracking_available(void);
+ bool ram_write_tracking_compatible(void);
++void ram_write_tracking_prepare(void);
+ int ram_write_tracking_start(void);
+ void ram_write_tracking_stop(void);
+ 
+-- 
+2.31.1
 
-That could help here - although it's slightly odd as you're asking the 
-kernel to track the tags, but not allowing user space (direct) access to 
-them. Like you say using us the precious bits for this seems like it 
-might be short-sighted.
-
-> Can we somehow identify when the S2 pte is set and can we get access to
-> the prior swap pte? This way we could avoid changes to set_pte_at() for
-> S2 faults.
-> 
-
-Unless I'm misunderstanding the code the swap information is (only) 
-stored in the stage 1 user-space VMM PTE. When we get a stage 2 fault 
-this triggers a corresponding access attempt to the VMM's address space. 
-It's at this point when populating the VMM's page tables that the swap 
-information is discovered.
-
-The problem at the moment is a mismatch regarding whether the page needs 
-tags or not. The VMM's mapping can (currently) be !PROT_MTE which means 
-we wouldn't normally require restoring/zeroing the tags. However the 
-stage 2 access requires that the tags be preserved. Requiring PROT_MTE 
-(or PROT_TAGGED as above) would certainly simplify the handling in the 
-kernel.
-
-Of course I did propose the 'requiring PROT_MTE' approach before which 
-led to a conversation[1] ending with a conclusion[2] that:
-
-    I'd much rather the kernel just
-    provided us with an API for what we want, which is (1) the guest
-    RAM as just RAM with no tag checking and separately (2) some
-    mechanism yet-to-be-designed which lets us bulk copy a page's
-    worth of tags for migration.
-
-Which is what I've implemented ;)
-
-Do you think it's worth investigating the PROT_TAGGED approach as a 
-middle ground? My gut feeling is that it's a waste of a VM flag, but I 
-agree it would certainly make the code cleaner.
-
-Steve
-
-[1] 
-https://lore.kernel.org/kvmarm/CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com/
-[2] 
-https://lore.kernel.org/kvmarm/CAFEAcA_K47jKSp46DFK-AKWv6MD1pkrEB6FNz=HNGdxmBDCSbw@mail.gmail.com/
 
