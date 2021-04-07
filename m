@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4D5356381
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 07:51:48 +0200 (CEST)
-Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0C0356385
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 07:55:28 +0200 (CEST)
+Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU16R-0004CZ-N5
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 01:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
+	id 1lU19z-0006Ve-4a
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 01:55:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU11Z-00028Q-Sw; Wed, 07 Apr 2021 01:46:46 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:51555)
+ id 1lU11a-00028f-Lc; Wed, 07 Apr 2021 01:46:46 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:59643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU11W-00050j-Rz; Wed, 07 Apr 2021 01:46:45 -0400
+ id 1lU11Y-00051P-7a; Wed, 07 Apr 2021 01:46:46 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1308D5C00EC;
- Wed,  7 Apr 2021 01:46:42 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 74C905C00F3;
+ Wed,  7 Apr 2021 01:46:43 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 07 Apr 2021 01:46:42 -0400
+ by compute4.internal (MEProxy); Wed, 07 Apr 2021 01:46:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Ehl9uwxhCdQZ3
- X9GgRyTHcKkodPcs+CwbWNeqBnyNNU=; b=F/ppx1GcYZLEB7roQVVQfnpo4V8Cp
- 6jZQ31S8Tl502O98w+jtt9K9cYsavH0q7NXAb0WKEmJ0qEyq//I2yqrbxFP4kzck
- ZE1mZUdovftjX9Px7q+iCM9YGvpUNI0rkv0Ye1u1zg5LOkGd9z5Bml19xLrsgMS5
- hIu0BkMhtA3S0iuYCvVeftOW02WTbejjPmIR+IK9l/5IaFCsGH1p3W044J8sSy+/
- wLaNalNIvifMzT2WvPSYedHkg70l75BH1Hp1/WWSEE8Z+myKTv+z+V/8jSJSHLx/
- o/VFosim3hrYwpHhNV7MgkxlXlx4fDsnGdy7ddMJ+Y9GWJlVNfhvpqj2g==
+ :mime-version:content-transfer-encoding; s=fm2; bh=Crc5lY8+8kAgy
+ fg0VFPjqfXIPSIUBFx9BFUoUUZKTVo=; b=Jk0fa0zBANtWbQf+9CxAIZHFDPJmQ
+ qYhuUFcEKikNWb1p+DwzxG5bSmtjZ720osjNKfmYFmp1nEcUp1SHzquiHqNfcQy4
+ ctofaOZPjN8fsMBOfg4MCSlUychW8Bszy5fcRB0e8gQRwXE6hdSAnC5xfWBTumEx
+ DO2t6EnU4cWPt6thO6r295tlwlG1LfpMQeul2+55INFHXz4X1JKDajAvVELl1b/h
+ yyJr/UJy1KPSarh3P+HRxPceugNj0TJbIx27W3oFf/iQkgAf3WENMCAXi2+v1MU0
+ kI/Usyl1B4+Hdob7GqNcndwVWbPkN15fmQrCL7RbTUf1wqWJDIoGEGPsw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Ehl9uwxhCdQZ3X9GgRyTHcKkodPcs+CwbWNeqBnyNNU=; b=KJruq+uA
- QEwUg0gxkSBAwTjt9u3X20FHjV6Yx28o0BHXHLr+BZ1TJ9Iewt/Vgj3K1Jww4cLf
- o2FJHxJASQLuK2iCRlII9tYNGqQEuHRKdaNVs8SpiTcYjFndMUnJwud0YZfgBViA
- dWXINtEHDw3NhbqkHgd5yNMXCvwzbZOrOp2LZIE2xj+7ZpiV7KpEDeQKScDvcM6Z
- 2HVw4BH5BYupc5jL3DIa86TUGU9d4vwa4wEyOH6OXzneJ8YnCGzVUZY4/EftwdAx
- kJU+UAHlP8Bh86w/JoT3vivloNWw+BK7/rSFyNykGbIfl6NjZuOg9dP0rN2Jyxlb
- B2/6zG8PJPstiQ==
-X-ME-Sender: <xms:QUdtYFlLIbwitq0WrcbXGPuSQu4cHXJAGK6azgUPArRsT6sjqMhFGg>
- <xme:QUdtYA0n4e-rF_6SbwSwAwSc1lmdRUj4_9S14HirdqUXRGrpy5SnROZYhie5u5oMj
- CKh6TinJykzKkmGf9o>
+ fm2; bh=Crc5lY8+8kAgyfg0VFPjqfXIPSIUBFx9BFUoUUZKTVo=; b=P2/D8Nw4
+ FmL16sKU5bpgrBkQ84i4Ln8lMYxK/EcYBUnfEu24JTkN8GEbY8/Dnk0YzbmGyX/B
+ 9WGKp9CHQcbRYRoA7g+MK9FtNSy/31FTJjL2fVP7GAc7+BVG3ao6422MBUxiahqs
+ tDpeaNt6STiV+DkvU+U0L/n6+NconcLnT0kqHLu+QSdsUsX3prsDeIA9X370uK26
+ n0rBzQmz8v0pSlj7U8N8P+1pO60lCuJzUMmFlVvktiICB96BZqp8SQ9SdnTVN1a9
+ IyXdFa2c6FoXvL+icWRUBrBKR0w8cwR2PcQxDX51E/TDKdkd0/fBOpYv44yVl162
+ sCpxHqU9bSstoQ==
+X-ME-Sender: <xms:Q0dtYKt8jaxyqwlOssSVhq6zhIcLtdzlXMGdC1x-coFZuFO_vmBC-Q>
+ <xme:Q0dtYI7sJHuVmuKYe1aAY3e-XcHJ7yVQU8qRojle4I_Rk1lhGS0tHYYM7dyVuwOI9
+ yj7ha8ML5acYIPnhuo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejiedguddttdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:QUdtYLqmT6kliuefzw4cE4m6R7P15xDK7LpL9TDNQTslwNxN_XarqA>
- <xmx:QUdtYFmFEOtkx0T1dRmguTlssSEhmNhtXmfa7Dcdorlno8Vw_dx1Lg>
- <xmx:QUdtYD2BJkbYQcLGXn9Nw0dBOT7kQqm8sYxZ6ev7FY5-rt9l9BnCcg>
- <xmx:QkdtYImOxi5fVb1GoV5o6pFW1zxnmGGeGxgAiMoBBbdhAf7f6_WzcA>
+X-ME-Proxy: <xmx:Q0dtYFWaviABFxJrKQbh8JXt527DlXVw1EWLDa1JDtCDyjtgoEPb1w>
+ <xmx:Q0dtYK8nF7TML4PII9u0AK-95I7hyGBFKm25QOmuNHOO8vA7o_cL4A>
+ <xmx:Q0dtYBkGBO6X3tzotjV74F-XLl-KZyh0bLIVw1DUsx1BRXMWytk97g>
+ <xmx:Q0dtYII5Ncj1mhKlj1CBE_nCEek0yqwU1TOSuzMqo-SYm8eqk5h_lg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id A1CC9108005F;
- Wed,  7 Apr 2021 01:46:40 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2650D108005F;
+ Wed,  7 Apr 2021 01:46:42 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-6.0 v2 02/10] hw/block/nvme: fix missing string
- representation for ns attachment
-Date: Wed,  7 Apr 2021 07:46:27 +0200
-Message-Id: <20210407054635.189440-3-its@irrelevant.dk>
+Subject: [PULL for-6.0 v2 03/10] hw/block/nvme: fix the nsid 'invalid' value
+Date: Wed,  7 Apr 2021 07:46:28 +0200
+Message-Id: <20210407054635.189440-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210407054635.189440-1-its@irrelevant.dk>
 References: <20210407054635.189440-1-its@irrelevant.dk>
@@ -103,28 +102,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add the missing nvme_adm_opc_str entry for the Namespace Attachment
-command.
+The `nvme_nsid()` function returns '-1' (FFFFFFFFh) when the given
+namespace is NULL. Since FFFFFFFFh is actually a valid namespace
+identifier (the "broadcast" value), change this to be '0' since that
+actually *is* the invalid value.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.h | 1 +
- 1 file changed, 1 insertion(+)
+ hw/block/nvme-ns.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 5b0031b11db2..9edc86d79e98 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -86,6 +86,7 @@ static inline const char *nvme_adm_opc_str(uint8_t opc)
-     case NVME_ADM_CMD_SET_FEATURES:     return "NVME_ADM_CMD_SET_FEATURES";
-     case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
-     case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
-+    case NVME_ADM_CMD_NS_ATTACHMENT:    return "NVME_ADM_CMD_NS_ATTACHMENT";
-     case NVME_ADM_CMD_FORMAT_NVM:       return "NVME_ADM_CMD_FORMAT_NVM";
-     default:                            return "NVME_ADM_CMD_UNKNOWN";
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index 9ab7894fc83e..82340c4b2574 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -96,7 +96,7 @@ static inline uint32_t nvme_nsid(NvmeNamespace *ns)
+         return ns->params.nsid;
      }
+ 
+-    return -1;
++    return 0;
+ }
+ 
+ static inline bool nvme_ns_shared(NvmeNamespace *ns)
 -- 
 2.31.1
 
