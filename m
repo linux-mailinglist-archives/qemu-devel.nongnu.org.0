@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8A53576C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:27:28 +0200 (CEST)
-Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E4C3576C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:23:54 +0200 (CEST)
+Received: from localhost ([::1]:42966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUFhv-0001Xq-Rf
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
+	id 1lUFeT-0006Ej-0i
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUFgA-0008Cj-Av
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60996)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUFd8-0005cD-ID; Wed, 07 Apr 2021 17:22:30 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:39534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUFg7-0000dy-SC
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lUFg5-0006b4-UB
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 21:25:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E33652E8157
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 21:25:33 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUFd7-0007Cl-2m; Wed, 07 Apr 2021 17:22:30 -0400
+Received: by mail-ej1-x634.google.com with SMTP id qo10so19624376ejb.6;
+ Wed, 07 Apr 2021 14:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bxSRo5Lz05Q2oAUlevfKffQ7CI3Qlu00OtRTpMt4uQk=;
+ b=Y3OBmh1N0eU0CkwjVex+NKlE3szvHjV9qreKyWAgR7B7Cvz2bBIH5gUUy7C5Jgsuf2
+ 1pw9p/ZPSls6iiK3Rwz4j5YXAMiS00UfkiDClzzkeyZfBQt0nQUP2+x6kgtDY7E/uV/7
+ j/1U00dy/NZqNUoE+QSv9akD0o7b96sDj0QNoxLJBf4OVIA6denXW2AvP9h/4LetMFyV
+ 6xwtlIO/XuMdTLkYB8aR5HQ+kMgwzOGYFGP3j65NGXMAvsCCnl3mX1zfxuQhWPLpZ0oX
+ 6TD7oPWO0MfWQEiudwD4nhReVPkuIn7PnoernnmSdvN9XEE3oLwrJCZvyFp3nypKAU8w
+ 1QQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bxSRo5Lz05Q2oAUlevfKffQ7CI3Qlu00OtRTpMt4uQk=;
+ b=kDSbMOctFUVvlRb5NM8Go+4IJBhf4z/C8UrNcP3ytLJbD5wp+SmraeSEhKI2n8T/Ve
+ FD++GmWNZRcU4SRfK+PvzV1vLBm57QqpW0yKdSgns9iI7HzLoUUtXbCC0gQDxVxsIdQn
+ 0HYAhmP2offZxkFLUH7bZHrICnvEJmrKpyyepqW44hzOOG+HNJZ8HPUU5iF6/yUnMX4N
+ Tsm/J6g/ffpZm+JFeteu+zgqb6YWGjlNCy8SxmuG2iZjRtgWitHNUQBosp1yIy9OZCDt
+ Hz9kFQ7wGKb2QdtWQaq0fGXirE/E3DPbqU+53PgSrpiHTrFLN/SDawYBRaxHjN2cYYg4
+ i2Tw==
+X-Gm-Message-State: AOAM533qK6rP5aRN0desscX+ghjOioBtK6e1wESfXV21vrvLd0UqLTb9
+ GaJPzmOdZ/t67a5mP939rZUIP5Eu3GHsLw==
+X-Google-Smtp-Source: ABdhPJwuHnEbjoI2AiAUOZgIVDYN6vYYfD8I+ipuVhFgB0lA+AUai1cWZbCBtJqUqR61+Uo7aYNY7A==
+X-Received: by 2002:a17:906:8a65:: with SMTP id
+ hy5mr6258106ejc.250.1617830547328; 
+ Wed, 07 Apr 2021 14:22:27 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id v5sm8531043eds.69.2021.04.07.14.22.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Apr 2021 14:22:26 -0700 (PDT)
+Subject: Re: [PATCH 03/24] aspeed/i2c: Fix DMA address mask
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210407171637.777743-1-clg@kaod.org>
+ <20210407171637.777743-4-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <aeee3229-19fc-1bbb-19b4-a72be1c454c6@amsat.org>
+Date: Wed, 7 Apr 2021 23:22:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 21:19:11 -0000
-From: Richard Henderson <1921948@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee pcc-goog rth xairy
-X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <161783035164.18133.10104623573188441365.malone@soybean.canonical.com>
-Subject: [Bug 1921948] Re: MTE tags not checked properly for unaligned
- accesses at EL1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 2dc03bcfb0e11584b49c247b877ce674fbfd976f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210407171637.777743-4-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,80 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Re comments #8 and #10, I don't replicate that.
-I get full pass on KASAN_UNIT_TEST with
-and without virtualization enabled.
+Hi Cédric,
 
-Re comment #9, if there are bugs suspected in qemu, they
-need to be reported, or we'll never hear about them.
+On 4/7/21 7:16 PM, Cédric Le Goater wrote:
+> The RAM memory region is now used for DMAs accesses instead of the
+> memory address space region. Mask off the top bits of the DMA address
+> to reflect this change.
+> 
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>  hw/i2c/aspeed_i2c.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> index 518a3f5c6f9d..e7133528899f 100644
+> --- a/hw/i2c/aspeed_i2c.c
+> +++ b/hw/i2c/aspeed_i2c.c
+> @@ -601,7 +601,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>              break;
+>          }
+>  
+> -        bus->dma_addr = value & 0xfffffffc;
+> +        bus->dma_addr = value & 0x3ffffffc;
 
--- =
+This field is migrated (aspeed_i2c_bus_vmstate).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921948
-
-Title:
-  MTE tags not checked properly for unaligned accesses at EL1
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  For kernel memory accesses that span across two memory granules,
-  QEMU's MTE implementation only checks the tag of the first granule but
-  not of the second one.
-
-  To reproduce this, build the Linux kernel with CONFIG_KASAN_HW_TAGS
-  enabled, apply the patch below, and boot the kernel:
-
-  diff --git a/sound/last.c b/sound/last.c
-  index f0bb98780e70..04745cb30b74 100644
-  --- a/sound/last.c
-  +++ b/sound/last.c
-  @@ -5,12 +5,18 @@
-    */
-   =
-
-   #include <linux/init.h>
-  +#include <linux/slab.h>
-   #include <sound/core.h>
-   =
-
-   static int __init alsa_sound_last_init(void)
-   {
-          struct snd_card *card;
-          int idx, ok =3D 0;
-  +
-  +       char *ptr =3D kmalloc(128, GFP_KERNEL);
-  +       pr_err("KASAN report should follow:\n");
-  +       *(volatile unsigned long *)(ptr + 124);
-  +       kfree(ptr);
-          =
-
-          printk(KERN_INFO "ALSA device list:\n");
-          for (idx =3D 0; idx < SNDRV_CARDS; idx++) {
-
-  KASAN tags the 128 allocated bytes with the same tag as the returned
-  pointer. The memory granule that follows the 128 allocated bytes has a
-  different tag (with 1/15 probability).
-
-  Expected result: a tag fault is detected and a KASAN report is printed wh=
-en accessing bytes [124, 130).
-  Observed result: no tag fault is detected and no KASAN report is printed.
-
-  Here are the flags that I use to run QEMU if they matter:
-
-  qemu-system-aarch64 -s -machine virt,mte=3Don -cpu max -m 2G -smp 2 -net
-  user,host=3D10.0.2.10,hostfwd=3Dtcp:127.0.0.1:10021-:22 -net nic
-  -nographic -kernel ./Image -append "console=3DttyAMA0 root=3D/dev/vda
-  earlyprintk=3Dserial" -drive file=3D./fs.img,format=3Draw,if=3Dvirtio -no-
-  shutdown -no-reboot
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921948/+subscriptions
+Does the first patch "aspeed/smc: Use the RAM memory region for DMAs"
+break the migration?
 
