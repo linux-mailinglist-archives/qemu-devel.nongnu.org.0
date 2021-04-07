@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2A835782B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 01:02:09 +0200 (CEST)
-Received: from localhost ([::1]:39058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BE235782C
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 01:02:10 +0200 (CEST)
+Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUHBY-0002xe-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 19:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34464)
+	id 1lUHBZ-0002yb-82
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 19:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUH92-0000yP-OT
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 18:59:32 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:43667)
+ id 1lUHA5-0001mT-1s
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 19:00:37 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUH8y-0001Ap-5D
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 18:59:32 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id v8so23173plz.10
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 15:59:27 -0700 (PDT)
+ id 1lUH9s-0001tt-Fh
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 19:00:36 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ ot17-20020a17090b3b51b0290109c9ac3c34so2095625pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 16:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6EkxbiY+NIoyu8xdhMte+HJ7xOFHbxj6pBXNu28kt48=;
- b=LKO9vjsVdQ0v8Gz7VEC+P74kiMgEH+XJlQj3vztHihAHXQ/Wu2+0j5KnIvtwhvqAgu
- PhLiSiDmaXcPK28rcQCz58hj+7HWSuzNd859fembOUjbIAnus9hII5MpBUcDtc7b7tNP
- bYqVWYfUSW+qhVyvMbFVz0WDWILEZgQ7+gX+30581F3X0kHdjh6Msjvq8544vZeC73kf
- kISAIWE6RFnVygqYcl18krqrDqhdA0u1swiWtabeQB1xy5Bf37L+MX7D8ut8cbVE1Y3w
- sshPBKowdeeZOUnVjLwrEHSUspb7PgCzv8MABSCneDd4PrCdtdcIi38T5rwjveDkTeOt
- QmVg==
+ bh=sThgSVqDBHRrV8oXjZfSIrlOk0k2q29EOdiAGf0rjTU=;
+ b=w60U0Ucc4h3XwaH2oDWn6MghT1GjaW4h/bgQqrHrYGb5xPdDkSaG1OCZ+J2fFZO6YE
+ yswHinMN8id8Mk9ILcwGtj2K/kh05HzxDP3CT3YR5Jkx8iN0p18BzsKUk2Yt/niH/yMj
+ Rnw5ZFJnvkHuaxije0PCVGJZAQP8q8ggvEHv+1f4yUSWXGdo99l5hdsOZW8s7NFcFR3G
+ fP+oH4PHB6AOB4U6C+EGHOsp5DHn9yWGEL4u2syHIKOxqhSMEnAtrd75L7btMDjb45tq
+ IBU946rRoaO0k5dfxvJZVFFBad94WcppxkLhs2CzDLF+Bzf6u6P4J+G0fiwzQyE7+5S0
+ HBtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6EkxbiY+NIoyu8xdhMte+HJ7xOFHbxj6pBXNu28kt48=;
- b=f0brH5B1ft1rjNK/YZ1bdb/aPYEhBLuVZ8zll/AGrZ5yKQzM/asWG38ehtfZjEiwVE
- SxxZUTjl3I7x0GrkNmxG5QhdG6l+Yq0Xb9MGa4T8dtwrij0TfpOZyFZ3l9csh4+Gij3t
- JCdvJYzOGyzSFKNANCrhiZzxadx71s+M8NGWt0q+19/tW9wm8u2ybsyg53Ko7HEHxztE
- 62WtLNjJXVeQngCWJ31HE19VeEeV0miPgCDO39RrY46ZkH2RJSuSlsgRbd7tE7jzJ/I8
- EJU+5/fbChEY8yE+ShcS4+JUoiQRSYBJA4WNBD/EKVkSHCk7a2QKWW925eLziVgu7mRE
- deZg==
-X-Gm-Message-State: AOAM533x0zUR8OAWq4TQ7aj4a4c04TAdtflIPn2drN2vtCIhVkohOEfI
- 3PQp6vyzfWs5eQexnpurFvhF+w==
-X-Google-Smtp-Source: ABdhPJx4PNKd/TTR+cb+8fIvNndgVDZhcfRNOWQz//3R2SrfdKRKphAa6eeoQD5Co+mgvjNAeY6tmA==
-X-Received: by 2002:a17:902:e886:b029:e7:386b:1b30 with SMTP id
- w6-20020a170902e886b02900e7386b1b30mr5126132plg.42.1617836366625; 
- Wed, 07 Apr 2021 15:59:26 -0700 (PDT)
+ bh=sThgSVqDBHRrV8oXjZfSIrlOk0k2q29EOdiAGf0rjTU=;
+ b=AhV/v+FG85nzCPS9WaCCgJSoR0gviTS8lcyctgRiuGBkXgic5dv2wIHCjb6bKlV5J9
+ /CgyPVHmxpqBj4iKmVL/oaLKed9RztNxtQMH/KLHI+VZIY+fNKaQQaUHDB2CEx1CGQpp
+ +qzh7wm9WD4VedSnKxHMcRWjagIDQEHDdi51rB6K9VQgPh6DkP7PF2HUlCOp6RkRKOwc
+ 8iRk08f66xKil6lcdQH9YppthF8xgQ/PEm+Tq/N32z4l+VN5s/79oH50QhEhQgJ03Q3g
+ LGx7IJEvtaYkamJuW/Ivt0ln4/ffn+1Cx15cC1Xp/YQ3+cqEnui0zYF5uu+ltD1rrlTD
+ RTkA==
+X-Gm-Message-State: AOAM532WNJgWqhC9vzu+BIdfNjUM40ppVpU/QkZM+TYriJgGh4Nt3z0n
+ /l0VYxX3Ho46kqn1oq5kEQfj2g==
+X-Google-Smtp-Source: ABdhPJxFuNXXhQvdSHd1oa7Bjd6I1ykpxVMfcWyEOK2h9Vsxa+Ms8jYAyZUPjxQrl9RFUtD4VtaqDg==
+X-Received: by 2002:a17:90a:fa7:: with SMTP id 36mr5281211pjz.80.1617836421738; 
+ Wed, 07 Apr 2021 16:00:21 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id z23sm22927819pgn.88.2021.04.07.15.59.25
+ by smtp.gmail.com with ESMTPSA id x22sm22459031pfc.163.2021.04.07.16.00.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Apr 2021 15:59:26 -0700 (PDT)
-Subject: Re: [PATCH-for-6.0?] hw/arm/imx25_pdk: Fix error message for invalid
- RAM size
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210407225608.1882855-1-f4bug@amsat.org>
+ Wed, 07 Apr 2021 16:00:21 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] decodetree: Add support for 64-bit instructions
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <CP2PR80MB3668E123E2EFDB0ACD3A46F1DA759@CP2PR80MB3668.lamprd80.prod.outlook.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <98c04529-d9a3-1a1b-65e1-a0b51da90081@linaro.org>
-Date: Wed, 7 Apr 2021 15:59:24 -0700
+Message-ID: <17641089-f0f6-558b-191b-4ce662e846aa@linaro.org>
+Date: Wed, 7 Apr 2021 16:00:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210407225608.1882855-1-f4bug@amsat.org>
+In-Reply-To: <CP2PR80MB3668E123E2EFDB0ACD3A46F1DA759@CP2PR80MB3668.lamprd80.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,33 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/21 3:56 PM, Philippe Mathieu-Daudé wrote:
-> The i.MX25 PDK board has 2 banks for SDRAM, each can
-> address up to 256 MiB. So the total RAM usable for this
-> board is 512M. When we ask for more we get a misleading
-> error message:
+On 4/7/21 3:18 PM, Luis Fernando Fujita Pires wrote:
+> Allow '64' to be specified for the instruction width command line params
+> and use the appropriate insn/field data types, mask, extract and deposit
+> functions in that case.
 > 
->    $ qemu-system-arm -M imx25-pdk -m 513M
->    qemu-system-arm: Invalid RAM size, should be 128 MiB
+> This will be used to implement the new 64-bit Power ISA 3.1 instructions.
 > 
-> Update the error message to better match the reality:
-> 
->    $ qemu-system-arm -M imx25-pdk -m 513M
->    qemu-system-arm: RAM size more than 512 MiB is not supported
-> 
-> Fixes: bf350daae02 ("arm/imx25_pdk: drop RAM size fixup")
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
 > ---
->   hw/arm/imx25_pdk.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   docs/devel/decodetree.rst |  5 +++--
+>   scripts/decodetree.py     | 25 ++++++++++++++++++++-----
+>   2 files changed, 23 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Queued for 6.1.
+
 
 r~
 
