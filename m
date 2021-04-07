@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F05C357322
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:26:31 +0200 (CEST)
-Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE43357311
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:23:48 +0200 (CEST)
+Received: from localhost ([::1]:37296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUBwk-00020N-6z
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38922)
+	id 1lUBu7-0006IF-8j
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lUBnh-0007Tx-4X; Wed, 07 Apr 2021 13:17:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52750)
+ id 1lUBnj-0007a5-Dn; Wed, 07 Apr 2021 13:17:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52142
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lUBnc-0006jz-SK; Wed, 07 Apr 2021 13:17:08 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 137H40sK118993; Wed, 7 Apr 2021 13:16:55 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rvm0h8sb-1
+ id 1lUBnf-0006nV-Mb; Wed, 07 Apr 2021 13:17:11 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 137H8oZ2145520; Wed, 7 Apr 2021 13:16:57 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37rw07p5xy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 13:16:55 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137HDiX6002161;
- Wed, 7 Apr 2021 17:16:53 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 37rvbw8w5k-1
+ Wed, 07 Apr 2021 13:16:57 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137HCBwA023097;
+ Wed, 7 Apr 2021 17:16:55 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03fra.de.ibm.com with ESMTP id 37rvc1gfyf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 17:16:53 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 137HGoWc21692814
+ Wed, 07 Apr 2021 17:16:55 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 137HGrbi42664200
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Apr 2021 17:16:51 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D53A64204D;
- Wed,  7 Apr 2021 17:16:50 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9808B4203F;
- Wed,  7 Apr 2021 17:16:50 +0000 (GMT)
+ Wed, 7 Apr 2021 17:16:53 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 164A74C044;
+ Wed,  7 Apr 2021 17:16:53 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD4994C04E;
+ Wed,  7 Apr 2021 17:16:52 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  7 Apr 2021 17:16:50 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed,  7 Apr 2021 17:16:52 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.70.229])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id F0C36220190;
- Wed,  7 Apr 2021 19:16:49 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 308B7220190;
+ Wed,  7 Apr 2021 19:16:52 +0200 (CEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 13/24] hw/misc/aspeed_xdma: Add AST2600 support
-Date: Wed,  7 Apr 2021 19:16:26 +0200
-Message-Id: <20210407171637.777743-14-clg@kaod.org>
+Subject: [PATCH 17/24] aspeed: Remove swift-bmc machine
+Date: Wed,  7 Apr 2021 19:16:30 +0200
+Message-Id: <20210407171637.777743-18-clg@kaod.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407171637.777743-1-clg@kaod.org>
 References: <20210407171637.777743-1-clg@kaod.org>
@@ -63,18 +64,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9r7pVFu0r4BDsPaqi08afsyLPsVO_0QB
-X-Proofpoint-ORIG-GUID: 9r7pVFu0r4BDsPaqi08afsyLPsVO_0QB
+X-Proofpoint-ORIG-GUID: M9oQgShtZh8qby_NctxNli5o97ud9wvN
+X-Proofpoint-GUID: M9oQgShtZh8qby_NctxNli5o97ud9wvN
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-07_09:2021-04-07,
  2021-04-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 priorityscore=1501 clxscore=1034 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104070116
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ adultscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 malwarescore=0 clxscore=1034 impostorscore=0 mlxlogscore=860
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104070116
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -94,301 +95,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
+Cc: Andrew Jeffery <andrew@aj.id.au>, Adriana Kobylak <anoo@us.ibm.com>,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we introduced support for the AST2600 SoC, the XDMA controller
-was forgotten. It went unnoticed because it's not used under emulation.
-But the register layout being different, the reset procedure is bogus
-and this breaks kexec.
+The SWIFT machine never came out of the lab and we already have enough
+AST2500 based OpenPower machines. Remove it.
 
-Add a AspeedXDMAClass to take into account the register differences.
-
-Cc: Eddie James <eajames@linux.ibm.com>
+Cc: Adriana Kobylak <anoo@us.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/misc/aspeed_xdma.h |  17 ++++-
- hw/arm/aspeed_ast2600.c       |   3 +-
- hw/arm/aspeed_soc.c           |   3 +-
- hw/misc/aspeed_xdma.c         | 124 +++++++++++++++++++++++++++-------
- 4 files changed, 121 insertions(+), 26 deletions(-)
+ hw/arm/aspeed.c | 61 -------------------------------------------------
+ 1 file changed, 61 deletions(-)
 
-diff --git a/include/hw/misc/aspeed_xdma.h b/include/hw/misc/aspeed_xdma.=
-h
-index a2dea96984f3..b1478fd1c681 100644
---- a/include/hw/misc/aspeed_xdma.h
-+++ b/include/hw/misc/aspeed_xdma.h
-@@ -13,7 +13,10 @@
- #include "qom/object.h"
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 1cf5a15c8098..97dcca74feb4 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -110,17 +110,6 @@ struct AspeedMachineState {
+         SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       =
+\
+         SCU_AST2500_HW_STRAP_RESERVED1)
 =20
- #define TYPE_ASPEED_XDMA "aspeed.xdma"
--OBJECT_DECLARE_SIMPLE_TYPE(AspeedXDMAState, ASPEED_XDMA)
-+#define TYPE_ASPEED_2400_XDMA TYPE_ASPEED_XDMA "-ast2400"
-+#define TYPE_ASPEED_2500_XDMA TYPE_ASPEED_XDMA "-ast2500"
-+#define TYPE_ASPEED_2600_XDMA TYPE_ASPEED_XDMA "-ast2600"
-+OBJECT_DECLARE_TYPE(AspeedXDMAState, AspeedXDMAClass, ASPEED_XDMA)
-=20
- #define ASPEED_XDMA_NUM_REGS (ASPEED_XDMA_REG_SIZE / sizeof(uint32_t))
- #define ASPEED_XDMA_REG_SIZE 0x7C
-@@ -28,4 +31,16 @@ struct AspeedXDMAState {
-     uint32_t regs[ASPEED_XDMA_NUM_REGS];
- };
-=20
-+struct AspeedXDMAClass {
-+    SysBusDeviceClass parent_class;
-+
-+    uint8_t cmdq_endp;
-+    uint8_t cmdq_wrp;
-+    uint8_t cmdq_rdp;
-+    uint8_t intr_ctrl;
-+    uint32_t intr_ctrl_mask;
-+    uint8_t intr_status;
-+    uint32_t intr_complete;
-+};
-+
- #endif /* ASPEED_XDMA_H */
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index e0fbb020c770..c60824bfeecb 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -187,7 +187,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
-         object_initialize_child(obj, "mii[*]", &s->mii[i], TYPE_ASPEED_M=
-II);
-     }
-=20
--    object_initialize_child(obj, "xdma", &s->xdma, TYPE_ASPEED_XDMA);
-+    snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname=
-);
-+    object_initialize_child(obj, "xdma", &s->xdma, typename);
-=20
-     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
-     object_initialize_child(obj, "gpio", &s->gpio, typename);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 8ed29113f79f..4a95d27d9d63 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -199,7 +199,8 @@ static void aspeed_soc_init(Object *obj)
-                                 TYPE_FTGMAC100);
-     }
-=20
--    object_initialize_child(obj, "xdma", &s->xdma, TYPE_ASPEED_XDMA);
-+    snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname=
-);
-+    object_initialize_child(obj, "xdma", &s->xdma, typename);
-=20
-     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
-     object_initialize_child(obj, "gpio", &s->gpio, typename);
-diff --git a/hw/misc/aspeed_xdma.c b/hw/misc/aspeed_xdma.c
-index 533d237e3ce2..1c21577c98c9 100644
---- a/hw/misc/aspeed_xdma.c
-+++ b/hw/misc/aspeed_xdma.c
-@@ -30,6 +30,19 @@
- #define  XDMA_IRQ_ENG_STAT_US_COMP BIT(4)
- #define  XDMA_IRQ_ENG_STAT_DS_COMP BIT(5)
- #define  XDMA_IRQ_ENG_STAT_RESET   0xF8000000
-+
-+#define XDMA_AST2600_BMC_CMDQ_ADDR   0x14
-+#define XDMA_AST2600_BMC_CMDQ_ENDP   0x18
-+#define XDMA_AST2600_BMC_CMDQ_WRP    0x1c
-+#define XDMA_AST2600_BMC_CMDQ_RDP    0x20
-+#define XDMA_AST2600_IRQ_CTRL        0x38
-+#define  XDMA_AST2600_IRQ_CTRL_US_COMP    BIT(16)
-+#define  XDMA_AST2600_IRQ_CTRL_DS_COMP    BIT(17)
-+#define  XDMA_AST2600_IRQ_CTRL_W_MASK     0x017003FF
-+#define XDMA_AST2600_IRQ_STATUS      0x3c
-+#define  XDMA_AST2600_IRQ_STATUS_US_COMP  BIT(16)
-+#define  XDMA_AST2600_IRQ_STATUS_DS_COMP  BIT(17)
-+
- #define XDMA_MEM_SIZE              0x1000
-=20
- #define TO_REG(addr) ((addr) / sizeof(uint32_t))
-@@ -52,56 +65,48 @@ static void aspeed_xdma_write(void *opaque, hwaddr ad=
-dr, uint64_t val,
-     unsigned int idx;
-     uint32_t val32 =3D (uint32_t)val;
-     AspeedXDMAState *xdma =3D opaque;
-+    AspeedXDMAClass *axc =3D ASPEED_XDMA_GET_CLASS(xdma);
-=20
-     if (addr >=3D ASPEED_XDMA_REG_SIZE) {
-         return;
-     }
-=20
--    switch (addr) {
--    case XDMA_BMC_CMDQ_ENDP:
-+    if (addr =3D=3D axc->cmdq_endp) {
-         xdma->regs[TO_REG(addr)] =3D val32 & XDMA_BMC_CMDQ_W_MASK;
--        break;
--    case XDMA_BMC_CMDQ_WRP:
-+    } else if (addr =3D=3D axc->cmdq_wrp) {
-         idx =3D TO_REG(addr);
-         xdma->regs[idx] =3D val32 & XDMA_BMC_CMDQ_W_MASK;
--        xdma->regs[TO_REG(XDMA_BMC_CMDQ_RDP)] =3D xdma->regs[idx];
-+        xdma->regs[TO_REG(axc->cmdq_rdp)] =3D xdma->regs[idx];
-=20
-         trace_aspeed_xdma_write(addr, val);
-=20
-         if (xdma->bmc_cmdq_readp_set) {
-             xdma->bmc_cmdq_readp_set =3D 0;
-         } else {
--            xdma->regs[TO_REG(XDMA_IRQ_ENG_STAT)] |=3D
--                XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_COMP;
-+            xdma->regs[TO_REG(axc->intr_status)] |=3D axc->intr_complete=
-;
-=20
--            if (xdma->regs[TO_REG(XDMA_IRQ_ENG_CTRL)] &
--                (XDMA_IRQ_ENG_CTRL_US_COMP | XDMA_IRQ_ENG_CTRL_DS_COMP))
-+            if (xdma->regs[TO_REG(axc->intr_ctrl)] & axc->intr_complete)=
- {
-                 qemu_irq_raise(xdma->irq);
-+            }
-         }
--        break;
--    case XDMA_BMC_CMDQ_RDP:
-+    } else if (addr =3D=3D axc->cmdq_rdp) {
-         trace_aspeed_xdma_write(addr, val);
-=20
-         if (val32 =3D=3D XDMA_BMC_CMDQ_RDP_MAGIC) {
-             xdma->bmc_cmdq_readp_set =3D 1;
-         }
--        break;
--    case XDMA_IRQ_ENG_CTRL:
--        xdma->regs[TO_REG(addr)] =3D val32 & XDMA_IRQ_ENG_CTRL_W_MASK;
--        break;
--    case XDMA_IRQ_ENG_STAT:
-+    } else if (addr =3D=3D axc->intr_ctrl) {
-+        xdma->regs[TO_REG(addr)] =3D val32 & axc->intr_ctrl_mask;
-+    } else if (addr =3D=3D axc->intr_status) {
-         trace_aspeed_xdma_write(addr, val);
-=20
-         idx =3D TO_REG(addr);
--        if (val32 & (XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_CO=
-MP)) {
--            xdma->regs[idx] &=3D
--                ~(XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_COMP)=
-;
-+        if (val32 & axc->intr_complete) {
-+            xdma->regs[idx] &=3D ~axc->intr_complete;
-             qemu_irq_lower(xdma->irq);
-         }
--        break;
--    default:
-+    } else {
-         xdma->regs[TO_REG(addr)] =3D val32;
--        break;
-     }
+-/* Swift hardware value: 0xF11AD206 */
+-#define SWIFT_BMC_HW_STRAP1 (                                           =
+\
+-        AST2500_HW_STRAP1_DEFAULTS |                                    =
+\
+-        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     =
+\
+-        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        =
+\
+-        SCU_AST2500_HW_STRAP_UART_DEBUG |                               =
+\
+-        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              =
+\
+-        SCU_H_PLL_BYPASS_EN |                                           =
+\
+-        SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              =
+\
+-        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
+-
+ #define G220A_BMC_HW_STRAP1 (                                      \
+         SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     =
+\
+         SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        =
+\
+@@ -465,35 +454,6 @@ static void romulus_bmc_i2c_init(AspeedMachineState =
+*bmc)
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338",=
+ 0x32);
  }
 =20
-@@ -127,10 +132,11 @@ static void aspeed_xdma_realize(DeviceState *dev, E=
-rror **errp)
- static void aspeed_xdma_reset(DeviceState *dev)
+-static void swift_bmc_i2c_init(AspeedMachineState *bmc)
+-{
+-    AspeedSoCState *soc =3D &bmc->soc;
+-
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3), "pca9552",=
+ 0x60);
+-
+-    /* The swift board expects a TMP275 but a TMP105 is compatible */
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "tmp105", =
+0x48);
+-    /* The swift board expects a pca9551 but a pca9552 is compatible */
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
+ 0x60);
+-
+-    /* The swift board expects an Epson RX8900 RTC but a ds1338 is compa=
+tible */
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "ds1338", =
+0x32);
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552",=
+ 0x60);
+-
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "tmp423", =
+0x4c);
+-    /* The swift board expects a pca9539 but a pca9552 is compatible */
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 9), "pca9552",=
+ 0x74);
+-
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 10), "tmp423",=
+ 0x4c);
+-    /* The swift board expects a pca9539 but a pca9552 is compatible */
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 10), "pca9552"=
+,
+-                     0x74);
+-
+-    /* The swift board expects a TMP275 but a TMP105 is compatible */
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 12), "tmp105",=
+ 0x48);
+-    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 12), "tmp105",=
+ 0x4a);
+-}
+-
+ static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
  {
-     AspeedXDMAState *xdma =3D ASPEED_XDMA(dev);
-+    AspeedXDMAClass *axc =3D ASPEED_XDMA_GET_CLASS(xdma);
-=20
-     xdma->bmc_cmdq_readp_set =3D 0;
-     memset(xdma->regs, 0, ASPEED_XDMA_REG_SIZE);
--    xdma->regs[TO_REG(XDMA_IRQ_ENG_STAT)] =3D XDMA_IRQ_ENG_STAT_RESET;
-+    xdma->regs[TO_REG(axc->intr_status)] =3D XDMA_IRQ_ENG_STAT_RESET;
-=20
-     qemu_irq_lower(xdma->irq);
- }
-@@ -144,6 +150,73 @@ static const VMStateDescription aspeed_xdma_vmstate =
-=3D {
-     },
+     AspeedSoCState *soc =3D &bmc->soc;
+@@ -796,23 +756,6 @@ static void aspeed_machine_sonorapass_class_init(Obj=
+ectClass *oc, void *data)
+         aspeed_soc_num_cpus(amc->soc_name);
  };
 =20
-+static void aspeed_2600_xdma_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedXDMAClass *axc =3D ASPEED_XDMA_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2600 XDMA Controller";
-+
-+    axc->cmdq_endp =3D XDMA_AST2600_BMC_CMDQ_ENDP;
-+    axc->cmdq_wrp =3D XDMA_AST2600_BMC_CMDQ_WRP;
-+    axc->cmdq_rdp =3D XDMA_AST2600_BMC_CMDQ_RDP;
-+    axc->intr_ctrl =3D XDMA_AST2600_IRQ_CTRL;
-+    axc->intr_ctrl_mask =3D XDMA_AST2600_IRQ_CTRL_W_MASK;
-+    axc->intr_status =3D XDMA_AST2600_IRQ_STATUS;
-+    axc->intr_complete =3D XDMA_AST2600_IRQ_STATUS_US_COMP |
-+        XDMA_AST2600_IRQ_STATUS_DS_COMP;
-+}
-+
-+static const TypeInfo aspeed_2600_xdma_info =3D {
-+    .name =3D TYPE_ASPEED_2600_XDMA,
-+    .parent =3D TYPE_ASPEED_XDMA,
-+    .class_init =3D aspeed_2600_xdma_class_init,
-+};
-+
-+static void aspeed_2500_xdma_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedXDMAClass *axc =3D ASPEED_XDMA_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2500 XDMA Controller";
-+
-+    axc->cmdq_endp =3D XDMA_BMC_CMDQ_ENDP;
-+    axc->cmdq_wrp =3D XDMA_BMC_CMDQ_WRP;
-+    axc->cmdq_rdp =3D XDMA_BMC_CMDQ_RDP;
-+    axc->intr_ctrl =3D XDMA_IRQ_ENG_CTRL;
-+    axc->intr_ctrl_mask =3D XDMA_IRQ_ENG_CTRL_W_MASK;
-+    axc->intr_status =3D XDMA_IRQ_ENG_STAT;
-+    axc->intr_complete =3D XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT=
-_DS_COMP;
-+};
-+
-+static const TypeInfo aspeed_2500_xdma_info =3D {
-+    .name =3D TYPE_ASPEED_2500_XDMA,
-+    .parent =3D TYPE_ASPEED_XDMA,
-+    .class_init =3D aspeed_2500_xdma_class_init,
-+};
-+
-+static void aspeed_2400_xdma_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedXDMAClass *axc =3D ASPEED_XDMA_CLASS(klass);
-+
-+    dc->desc =3D "ASPEED 2400 XDMA Controller";
-+
-+    axc->cmdq_endp =3D XDMA_BMC_CMDQ_ENDP;
-+    axc->cmdq_wrp =3D XDMA_BMC_CMDQ_WRP;
-+    axc->cmdq_rdp =3D XDMA_BMC_CMDQ_RDP;
-+    axc->intr_ctrl =3D XDMA_IRQ_ENG_CTRL;
-+    axc->intr_ctrl_mask =3D XDMA_IRQ_ENG_CTRL_W_MASK;
-+    axc->intr_status =3D XDMA_IRQ_ENG_STAT;
-+    axc->intr_complete =3D XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT=
-_DS_COMP;
-+};
-+
-+static const TypeInfo aspeed_2400_xdma_info =3D {
-+    .name =3D TYPE_ASPEED_2400_XDMA,
-+    .parent =3D TYPE_ASPEED_XDMA,
-+    .class_init =3D aspeed_2400_xdma_class_init,
-+};
-+
- static void aspeed_xdma_class_init(ObjectClass *classp, void *data)
+-static void aspeed_machine_swift_class_init(ObjectClass *oc, void *data)
+-{
+-    MachineClass *mc =3D MACHINE_CLASS(oc);
+-    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
+-
+-    mc->desc       =3D "OpenPOWER Swift BMC (ARM1176)";
+-    amc->soc_name  =3D "ast2500-a1";
+-    amc->hw_strap1 =3D SWIFT_BMC_HW_STRAP1;
+-    amc->fmc_model =3D "mx66l1g45g";
+-    amc->spi_model =3D "mx66l1g45g";
+-    amc->num_cs    =3D 2;
+-    amc->i2c_init  =3D swift_bmc_i2c_init;
+-    mc->default_ram_size       =3D 512 * MiB;
+-    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
+-        aspeed_soc_num_cpus(amc->soc_name);
+-};
+-
+ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void =
+*data)
  {
-     DeviceClass *dc =3D DEVICE_CLASS(classp);
-@@ -158,10 +231,15 @@ static const TypeInfo aspeed_xdma_info =3D {
-     .parent        =3D TYPE_SYS_BUS_DEVICE,
-     .instance_size =3D sizeof(AspeedXDMAState),
-     .class_init    =3D aspeed_xdma_class_init,
-+    .class_size    =3D sizeof(AspeedXDMAClass),
-+    .abstract      =3D true,
- };
-=20
- static void aspeed_xdma_register_type(void)
- {
-     type_register_static(&aspeed_xdma_info);
-+    type_register_static(&aspeed_2400_xdma_info);
-+    type_register_static(&aspeed_2500_xdma_info);
-+    type_register_static(&aspeed_2600_xdma_info);
- }
- type_init(aspeed_xdma_register_type);
+     MachineClass *mc =3D MACHINE_CLASS(oc);
+@@ -903,10 +846,6 @@ static const TypeInfo aspeed_machine_types[] =3D {
+         .name          =3D MACHINE_TYPE_NAME("romulus-bmc"),
+         .parent        =3D TYPE_ASPEED_MACHINE,
+         .class_init    =3D aspeed_machine_romulus_class_init,
+-    }, {
+-        .name          =3D MACHINE_TYPE_NAME("swift-bmc"),
+-        .parent        =3D TYPE_ASPEED_MACHINE,
+-        .class_init    =3D aspeed_machine_swift_class_init,
+     }, {
+         .name          =3D MACHINE_TYPE_NAME("sonorapass-bmc"),
+         .parent        =3D TYPE_ASPEED_MACHINE,
 --=20
 2.26.3
 
