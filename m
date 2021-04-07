@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470643560C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 03:26:49 +0200 (CEST)
-Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A063560DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 03:42:30 +0200 (CEST)
+Received: from localhost ([::1]:35296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lTwxz-0000GH-Qd
-	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 21:26:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
+	id 1lTxDB-0003zt-1y
+	for lists+qemu-devel@lfdr.de; Tue, 06 Apr 2021 21:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTwwQ-0008CH-7J
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 21:25:10 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:39698)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lTxBf-0003Rl-Ci; Tue, 06 Apr 2021 21:40:55 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:38784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lTwwO-0003u5-MO
- for qemu-devel@nongnu.org; Tue, 06 Apr 2021 21:25:09 -0400
-Received: by mail-pg1-x531.google.com with SMTP id l76so11754739pga.6
- for <qemu-devel@nongnu.org>; Tue, 06 Apr 2021 18:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mv7Dn7oK37cuoJGyv5zyHnEoTysH1d7ZsbYbLl3FjFw=;
- b=UpCulVkHKKR29ZyEDm0lI8qU4JEnqCQBPlExvYWbAhFI7K3FzUfS7CVqeoxa7OjV8R
- nyTVvAWkA6MdOROZy0lJAQqBygjUnhV/ANRVOL5n7JgqgjdLNY5Q2UcISkdV+mmWFk1b
- OW51G1LLzvF6NSlj+D0pmGvBUo4tlAwdpEQQl+Dv7ZMDRcq33M8EGnxhQ2yRL7vpCRIW
- 1lxQIHFJA/3uAmxNE2hP3Sccv2M9lMxDppImW9eb3tvPKyK/RxdP7S+5h2pkQ7/bKJAK
- 11nPA8VR6Eyf/AcUHgkwwWDfsFu86wKMix+nBhhyBAGlvCmRz1WUTLWiBR1tqjj4bMvm
- TrYA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lTxBb-0002Zj-Pa; Tue, 06 Apr 2021 21:40:55 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id x189so18363327ybg.5;
+ Tue, 06 Apr 2021 18:40:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=52jJF6Sv8CGcjLK1vk9YyrciSwFTNzCyxcy+4M8ExZc=;
+ b=fL5HyavCWhKZQGjfi3LKlo9ZtKitAhw1nRhf/cjZH3D6Af5KVNo8bC2wt3lW0HXc9W
+ nvfGBo66Ab7jf6aTqXuyenqaiSsOUVlZBAzkgbOuWhQdoqGNGj4649UTqL6T6CfQS7Mj
+ WOC4nXKeF3M1G/3qvt9CQ1KdHShFsS4+TExMox/pIBthw5tOVz83uk9ykFjF8g5yC0rK
+ spjfofPo8Nc1nw83oomhzVTY+Qraeay79kp963F5L/5OW0cvuiSkTsVQ+eL0ADsukFI8
+ UrX29r2WZJmcEP38ITjPHQuqta/b/mgtZIuZhcR534D/InFYJIQ3+7g5NjtuH0CgwINO
+ jx3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mv7Dn7oK37cuoJGyv5zyHnEoTysH1d7ZsbYbLl3FjFw=;
- b=WWXcTghmYKsGpiKDTXvAgBZG1at/9tPh1BOEywwh9qGmIIZ8o0thHs5HDAQe3a6Qex
- 2CVOn8/tz8gZWqLa3gC7NXWpht4XRH5o8hBIgnZ40JBTdDj7WKSuz55uSF9mz39T8eTq
- HJ1WbersSrlIkuwxJx0a+HViLsrV+oQzPkKGx0PNkCH2eo0ENqEOgcf/sPjMcKV0mCvL
- mkM23T5hn9F+g+vn45vvkcKMBdGvOOrAgqA0I4ucIQGi0SM49pac9OAB9QUExrGP2alg
- p/SBBOtNW8uREK3KaLzDm7vvxuQoz9//dZdw/KUMQKHBf9W2FHEFFLgxMHCDFBGe5onq
- GZxg==
-X-Gm-Message-State: AOAM530ZsRxWOh/rFJoXzDD+BLOc0ZTTEWRfh3NTI0RfXixFgcKOMEKD
- 1kTDtgYSVqcvzvgpazGVJQHZXw==
-X-Google-Smtp-Source: ABdhPJwsPqDlFMTF0ABDGUdmqZ8fqSj5N37QopR4nIwe5FxOyMXuUjZbFf4gBBXi7l7Z+M6kOjdSDA==
-X-Received: by 2002:aa7:8187:0:b029:213:d43b:4782 with SMTP id
- g7-20020aa781870000b0290213d43b4782mr761213pfi.26.1617758706992; 
- Tue, 06 Apr 2021 18:25:06 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id j1sm3001239pjn.26.2021.04.06.18.25.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Apr 2021 18:25:06 -0700 (PDT)
-Subject: Re: [PATCH 02/27] arc: Decoder code
-To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
-References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
- <20210405143138.17016-3-cupertinomiranda@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <44722d06-8fe2-0d9b-9b42-1442c5625aa0@linaro.org>
-Date: Tue, 6 Apr 2021 18:25:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=52jJF6Sv8CGcjLK1vk9YyrciSwFTNzCyxcy+4M8ExZc=;
+ b=QdRvbaiCrnN2RGrJGJNgr9CKDlM2XfdYgLkYsNA6MgCfOKICL/3T755kOVGPDHlugc
+ 9jM+/SNu7WKdPUvfpmhEVc4uBCl05B8bBtIvGOX0oEDE3ow7mB5ky91p7YRfQgoe9xcr
+ lRpMEk2Lb/LyNAcJgkHCj+irtHKriTa019MVPHBerHzKhTlM6sL4DAXwIf4c4gkH5UOt
+ PPslrJvcEP2x5/nsgO4wrOLfVfeg/kz7SWtpy8IL6CESb5Z+f5jlUv2jiyKL0Z2KIGr+
+ s0r6kpqeu3ItjIM/VF6u4bcFggYuYalTNZ/cyyhKAoKvCxWK1a5eh3WuSv9IsxuNLWZy
+ RDNw==
+X-Gm-Message-State: AOAM530YPJZKIEPWr78lgrbulmxzRcgdC8xmQUUVrEtnyFH626ZB7M0V
+ N1C5Rj1NRGFMNltujkVt2XJKUawk8GfDeUKgTV0=
+X-Google-Smtp-Source: ABdhPJwR52fNHVu6fBu7sXmEgLNYbqW0Ay4i+R+AeLSP5+TnSIqu8/pqdX58yFlrdAoNlFfZgajZtLsJJVc2jbppbKE=
+X-Received: by 2002:a25:e04c:: with SMTP id x73mr1269101ybg.387.1617759646800; 
+ Tue, 06 Apr 2021 18:40:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210405143138.17016-3-cupertinomiranda@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+References: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
+In-Reply-To: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 7 Apr 2021 09:40:35 +0800
+Message-ID: <CAEUhbmVMcn63My=7RMVWAEgsqrX6=O5X+C-RyPRNaGSQB5BNtA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] MAINTAINERS: Update the RISC-V CPU Maintainers
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,69 +74,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
- claziss@synopsys.com, cmiranda@synopsys.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/5/21 7:31 AM, cupertinomiranda@gmail.com wrote:
-> +static long long int
-> +extract_uimm6_20(unsigned long long insn ATTRIBUTE_UNUSED,
+On Wed, Apr 7, 2021 at 6:51 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> Update the RISC-V maintainers by removing Sagar and Bastian who haven't
+> been involved recently.
+>
+> Also add Bin who has been helping with reviews.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> I have run this by all of the people involved and they are all ok with
+> the change.
+>
+>  MAINTAINERS | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
 
-global replace long long int with int64_t,
-and unsigned long long int with uint64_t.
-
-
-> +{
-> +  unsigned value = 0;
-> +
-> +  value |= ((insn >> 6) & 0x003f) << 0;
-> +
-> +  return value;
-> +}
-
-return extract64(insn, 6, 6);
-
-and so forth.  Please minimize the by-hand bit manipulation.
-
-> +static const struct arc_opcode *find_format(insn_t *pinsn,
-> +                                            uint64_t insn,
-> +                                            uint8_t insn_len,
-> +                                            uint32_t isa_mask)
-> +{
-> +    uint32_t i = 0;
-> +    const struct arc_opcode *opcode = NULL;
-> +    const uint8_t *opidx;
-> +    const uint8_t *flgidx;
-> +    bool has_limm = false;
-> +
-> +    do {
-> +        bool invalid = false;
-> +        uint32_t noperands = 0;
-> +
-> +        opcode = &arc_opcodes[i++];
-> +        memset(pinsn, 0, sizeof(*pinsn));
-> +
-> +        if (!(opcode->cpu & isa_mask)) {
-> +            continue;
-> +        }
-> +
-> +        if (arc_opcode_len(opcode) != (int) insn_len) {
-> +            continue;
-> +        }
-> +
-> +        if ((insn & opcode->mask) != opcode->opcode) {
-> +            continue;
-> +        }
-
-A linear search through the entire opcode table, really?
-You can do better.
-
-Before you re-invent the wheel, please first have a look at 
-docs/devel/decodetree.rst.  I see no reason why you can't take those tables 
-that you import your tables from binutils, as you're doing now, and then have a 
-small program that converts to decodetree at build-time.
-
-
-r~
+Acked-by: Bin Meng <bin.meng@windriver.com>
 
