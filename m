@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B633563AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 08:01:22 +0200 (CEST)
-Received: from localhost ([::1]:58010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884083563C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 08:10:58 +0200 (CEST)
+Received: from localhost ([::1]:37794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU1Fh-0001Vm-7y
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 02:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45044)
+	id 1lU1Oz-0005KX-FT
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 02:10:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU11i-0002Da-N2; Wed, 07 Apr 2021 01:46:54 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:60053)
+ id 1lU11j-0002EH-6X; Wed, 07 Apr 2021 01:46:55 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:46047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU11g-00056C-2O; Wed, 07 Apr 2021 01:46:54 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8BD015C00E1;
- Wed,  7 Apr 2021 01:46:49 -0400 (EDT)
+ id 1lU11g-00057S-5y; Wed, 07 Apr 2021 01:46:54 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 022205C0117;
+ Wed,  7 Apr 2021 01:46:51 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 07 Apr 2021 01:46:49 -0400
+ by compute1.internal (MEProxy); Wed, 07 Apr 2021 01:46:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=vTFPlL7TkOoOy
- 4lt5fLjax8HOg2qO6MjMNotMBL4pf4=; b=DWf5trVzC/IOYsY/u84h03ICxLAyL
- 4LZMK2HEpIKNu0QMZnuakLSRXP9D83/CQCTAmKIfdRpGY/Xsd4SeXZmqdPiqIJNi
- /YLSDwbH2NPtbxDNsIhaofxTMuqy4hJXCWY47ZgIjq6xpjOiEaOBPVjd3zNmKJ06
- HckYIKdS+azjV/cHl+G2PxqaBvDcy3YnzAoKDkaJbE6h6GOysJ6qg0LZ2EkOFgCZ
- Qot1gp0K8/VJO1dENQtMuYKGJnMiKrE48GK+VyRoMAaPMEFr1R+pLWdxRKMfcTKB
- 1ejcO0ZWypstgu2oAcMgYixB0iGzSZb9EJYGqP1TfOmvdZQcfXUQolMUQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=m4zssAaPDs4gc
+ Hy6p0aY+ZOL0+f4nd8B7oTmX+tpuM0=; b=I1QoRYLScsN6uArxZP6k4XXQwWOMU
+ zQTWdpwGOg1NjYz13yvRi8PWALxJ/C72H0JYS4rJZyaPIN9U53fMbZ4k5gZbH8ng
+ D1I3nKNXJ6HnQQWLqIW3sWil+4rmKMGgLw7uzfggKn0e7vPE02VijIw2qOHUWy7+
+ UHu/9/EUDRs33fnBd+jX2CY2E5HbjOe6lgeJ8cuqjUf16tTDevemGZpbUiBy0gMI
+ cBOrBaK7fn9hA3oFTk8NAGHHbuZSt4jZDw42KZdtEwb+aYcnDSKJKneDsgpFeGKo
+ +ORn09ymIbc7Sv2T2gY7JR6b/cnxMLHbTap4tIfU5oyVgzXIq/pPGc9jQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=vTFPlL7TkOoOy4lt5fLjax8HOg2qO6MjMNotMBL4pf4=; b=sZg8Turq
- nHfBXyetKlMonOVhpIM6Oqh0UcmXs8zonfKbQ+Y2G4K3baIqAl040u9J7ULLW4MN
- jb7OL/3Ts84QQ4HYFV2d8ZZfuYSDyk5/ZWlH+bSojmqgXPKkaxSOp/tOSFGVZHtS
- RELayixukd+icaMZFAspy8N1J4hu9JPvf+NHzJHoe55q4iyTKFOY+VWCVB14hgeK
- CXs9lrlSBx4YJhy4a/oXf6elrAYY1fFtIVUKrSQN2gHH1LXLVF3kNCtDp4s/hs8Z
- t7LYW5bYcKti7LejDLBY3lBycrY4Vapza3mCyXB9N9h73ctANS29HEpcifHQdUjN
- SUOmNq+Z8O9m4Q==
-X-ME-Sender: <xms:SUdtYFbvtr_6z2CEBA29ebIhIXkbK9k4tzJkXOYcdm5dnb94f4TuQg>
- <xme:SUdtYOaWVa9RNvpZ0e9mvglEfCPinEddRp2SVppd3oF4DM9cw04RszwE7RA2I7bOf
- QTGEIJAoi40sC0fVsw>
+ fm2; bh=m4zssAaPDs4gcHy6p0aY+ZOL0+f4nd8B7oTmX+tpuM0=; b=CV2mpk7N
+ CPctKjBjQ/dcahiMXbyjbsOPPDIrRU4G1u2p0Ur477Gh3ZbiCJDCEa9MtezkVJfA
+ XewNs65tW0goZXh2uJIzsdo+Ax9AQ6hkTSC3BD2X+inQ5Pyw5h99baQCPpfO2YYt
+ K/YzMVJodZ+xSyPqgmlQmkDTwSF1D1BLlVqpH6jsR1C9rZ0NFnvYPumzdZz7DjCY
+ ImxVZKVqy3EqjT/YfRXhmNOP82fW40CXCSrrGGzUYOMGWJqziqLtrve4Z/AIDtOh
+ cuQMauXy2k0POGNwb5rsMLXII2s4kU6inLvg/lK88QFopIrL4Z26uIpkkBgOv0UA
+ A1L1X/El2a+o2A==
+X-ME-Sender: <xms:SkdtYGlcGpdRVpCBLPh40GWek4kij7owIGbp572mrrBTg5K8VcvprA>
+ <xme:SkdtYMOYfpcEOdq3R3tkQuDmGsMyx0RnvOduqzFF_kDhp6HKwgK2rOgA0QnY-PZng
+ 3p5WyGsD_89c-RVprg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejiedguddttdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepfe
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:SUdtYBVlgYW83CXDyQjjXRFGG9RJv1VmgSUMg3wsqwMhdSXYQtKS7Q>
- <xmx:SUdtYF3daR-M45rN8AgCI6YDLXy6gVUOYRkk0CXDRBb5f90mZ-8VpA>
- <xmx:SUdtYIa7W_YtajdSmuD4sVWiqkHP_8gRN_sfXQtKN2779as7AiNADA>
- <xmx:SUdtYGkaMsW_Qs7o2CEfaaUjWTIcXGlpM5PoDE5oAIzI9xyT5j6hig>
+X-ME-Proxy: <xmx:SkdtYAr2VadLCgA-kBtZfRoE7HlJ2_4_sC1b2htT60vbmamAjyY3Gw>
+ <xmx:SkdtYNtUOrhDhphIJ1sz_8jgLmK6sRcS7co3J5pfhqNn5EdufsOJng>
+ <xmx:SkdtYM4EwQbz9uIrjc8zvyMMakGJMoSSFJOGrBC-ls3sVUD60lZppg>
+ <xmx:SkdtYOTyvMmDVDdRahAxmk69quHKbAckptDsdge_O4Bb3c67D_xFyw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3FFCD1080068;
- Wed,  7 Apr 2021 01:46:48 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id A059E1080063;
+ Wed,  7 Apr 2021 01:46:49 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-6.0 v2 07/10] hw/block/nvme: add missing copyright headers
-Date: Wed,  7 Apr 2021 07:46:32 +0200
-Message-Id: <20210407054635.189440-8-its@irrelevant.dk>
+Subject: [PULL for-6.0 v2 08/10] hw/block/nvme: fix ns attachment
+ out-of-bounds read
+Date: Wed,  7 Apr 2021 07:46:33 +0200
+Message-Id: <20210407054635.189440-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210407054635.189440-1-its@irrelevant.dk>
 References: <20210407054635.189440-1-its@irrelevant.dk>
@@ -95,57 +96,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add missing license/copyright headers to the nvme-dif.{c,h} files.
+nvme_ns_attachment() does not verify the contents of the host-supplied
+16 bit "Number of Identifiers" field in the command payload.
 
+Make sure the value is capped at 2047 and fix the out-of-bounds read.
+
+Fixes: 645ce1a70cb6 ("hw/block/nvme: support namespace attachment command")
+Cc: Minwoo Im <minwoo.im.dev@gmail.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/nvme-dif.h | 10 ++++++++++
- hw/block/nvme-dif.c | 10 ++++++++++
- 2 files changed, 20 insertions(+)
+ hw/block/nvme.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/block/nvme-dif.h b/hw/block/nvme-dif.h
-index 5a8e37c8525b..524faffbd7a0 100644
---- a/hw/block/nvme-dif.h
-+++ b/hw/block/nvme-dif.h
-@@ -1,3 +1,13 @@
-+/*
-+ * QEMU NVM Express End-to-End Data Protection support
-+ *
-+ * Copyright (c) 2021 Samsung Electronics Co., Ltd.
-+ *
-+ * Authors:
-+ *   Klaus Jensen           <k.jensen@samsung.com>
-+ *   Gollu Appalanaidu      <anaidu.gollu@samsung.com>
-+ */
-+
- #ifndef HW_NVME_DIF_H
- #define HW_NVME_DIF_H
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index d2dd82496790..87891d4d0f3b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -4920,6 +4920,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+     }
  
-diff --git a/hw/block/nvme-dif.c b/hw/block/nvme-dif.c
-index e6f04faafb5f..81b0a4cb1382 100644
---- a/hw/block/nvme-dif.c
-+++ b/hw/block/nvme-dif.c
-@@ -1,3 +1,13 @@
-+/*
-+ * QEMU NVM Express End-to-End Data Protection support
-+ *
-+ * Copyright (c) 2021 Samsung Electronics Co., Ltd.
-+ *
-+ * Authors:
-+ *   Klaus Jensen           <k.jensen@samsung.com>
-+ *   Gollu Appalanaidu      <anaidu.gollu@samsung.com>
-+ */
-+
- #include "qemu/osdep.h"
- #include "hw/block/block.h"
- #include "sysemu/dma.h"
++    *nr_ids = MIN(*nr_ids, NVME_CONTROLLER_LIST_SIZE - 1);
+     for (i = 0; i < *nr_ids; i++) {
+         ctrl = nvme_subsys_ctrl(n->subsys, ids[i]);
+         if (!ctrl) {
 -- 
 2.31.1
 
