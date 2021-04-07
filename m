@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AB5356E15
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:03:32 +0200 (CEST)
-Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB46356E99
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:28:46 +0200 (CEST)
+Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU8mI-00010N-PV
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
+	id 1lU9Ak-0007Av-0E
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lU8hA-00055k-UL; Wed, 07 Apr 2021 09:58:12 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:41585)
+ id 1lU98Y-0005cW-Gp; Wed, 07 Apr 2021 10:26:31 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:46752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lU8gy-0001ka-Hd; Wed, 07 Apr 2021 09:58:12 -0400
-Received: by mail-il1-x130.google.com with SMTP id n4so9468397ili.8;
- Wed, 07 Apr 2021 06:57:59 -0700 (PDT)
+ id 1lU98N-00010V-JW; Wed, 07 Apr 2021 10:26:30 -0400
+Received: by mail-il1-x12f.google.com with SMTP id p8so12004668ilm.13;
+ Wed, 07 Apr 2021 07:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Du6uP5XeSa960AupAu2v3JIOFbV9ah0z+BgNYDZjZBM=;
- b=gpWvK7oBkSkQK2mOz/TFFC6/D6irtFmhHl1zwnxgOlz8yAtVsAHYHydPIxCk7z51kw
- 3YISucyPxdNdFguFqU8I6M4H2BxcFvbPsyMN7ZQi8moZZItZLbhFtpr+1wfIOl16iZsC
- y2xUkyut2M2OJpTuA+45fspHqiVJSVw86MFa9uH9f1PDh83J/ooLr4OI+JUTCAo9Duai
- GPGb8Cz1+HC5DG9Z/77lJAutPqpJm0awBJfZmw+ErJ+AVgCfnqW3gET/G8Aj6Jk8I4Pn
- IOdhUJhBakRVAJdFGP0OzH/CCqoEiHACIgxw+/7lbQ4x7/2inWZwJAgc8DbqH6xzvyxM
- VFvA==
+ :cc; bh=Acf9CiAzaFeH8eLeZ5du5p1Kh8sUSQ3gzUGdD30l1NM=;
+ b=AGwR+KmYxXagDXyMggYDEwLfrXTb70/vkDl0v8Nmqt0BpvGfzMjNXfHXNyBppgQkTY
+ TFaQ/BdEBTZH8CS5CZWy9XVKtpUWWqq6BQhrvckARu6gSk1HlYUZt9BznONxjJTd8ojb
+ 4IsgOqmmV4w8a2GhVMWUE1X6lRt3KTJDW42dJRUEB5JhDEXLvMXSUprxcXsAb0ES/23w
+ FTmvNRCDb7dYPmHPM6myWUOHlXHzT5Mc+REWtKFCJR8rK3wxKlwoU4aCD7CYmSnbbtdD
+ ciStx10i/08ppJaTRXYxMXmLsaQIqRPS2ip8gcK2rIiqwSJiZSiD2CPWIVeqXCq/6JZe
+ ScgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Du6uP5XeSa960AupAu2v3JIOFbV9ah0z+BgNYDZjZBM=;
- b=UO9NSaEBymFap14AVkRYzKw5gXNx13cEoNttiG989efq0Jqof8Mn8WNQJrfgJLr2YP
- Njw/hvMIs1qT8ztqz/gF+kpPPk4odNfZQO5ZPP4hqXF8qnHjBx43UVzwEdWTWs7IXWFC
- Hbbd9sC1I9QNm0pbTx/iSb31+PEWtMtQ5ebBL/yyrhZRaGZyFTuWgMT+NXlxo8CT2gtn
- zVi9jNkawa7oej/V01Uh6tIaEdsfpRH+JUibtlPEXjEQi0Y+HOcsZWJxHSuR4aoeUEwN
- 1psL5UCpd1LHbL1hIze+AGwQmcm/h6onmmpdHASB35+IIcyVnSLrxnQSuDCUwASOJsbB
- TXsw==
-X-Gm-Message-State: AOAM533ChRR7m+3q2AMSF17BVixj/XnuBbtSqGnrWvvBJc6N+Y15EF+X
- iEaaq8JVpQKUTHS3VwNiiI+l2wsKAC57DFhamOw=
-X-Google-Smtp-Source: ABdhPJxqOWut/uNQ8CZAxEIgLlvhunAPEX1lz7TSFZJytFFvFD+0zJLyf8SM4o2iPja/vki/nRr2wF2A9U7dSwuqJRM=
-X-Received: by 2002:a92:d6cb:: with SMTP id z11mr2796500ilp.227.1617803878393; 
- Wed, 07 Apr 2021 06:57:58 -0700 (PDT)
+ bh=Acf9CiAzaFeH8eLeZ5du5p1Kh8sUSQ3gzUGdD30l1NM=;
+ b=DNQqQcLlkDYi5Ich2Ip+lwxwIyyP+hB8TZQyOpNe+LTwtARqu9CrP1vz3yRmsW9lar
+ AQd4hNa5Zgo55JGqYkxnY+jlJPxd9J4H+lWZmJoL0TdIuI2WQZq3AC9shA+r/c5eSKaG
+ hZbv2O1srvUtjXgVE1SH+ti5FQjwrXDHNVQULVDZwwIwAwtI4tH5HYetTvvWR2ZnqQmW
+ 65nS8tueog6yBahUIltgB+PVFitONPCleT/mlXpI7uN9uEu/gsfn2riXu2s/7TvzILhP
+ njLJDE5O+mA9Mz5NUGXSHgMZINunNTiAstauMTbiK5Ox3Phn7RK0F8Gc8z088DO0oQlG
+ 8whA==
+X-Gm-Message-State: AOAM530Hadnv+qvUR4jxoF0vFm7kgSlChLo4f7iBGvlzWHaiGqV8zuZQ
+ 9EIkrXGkAv1Y1GvTylNdH8/pxhrl8Wew0VKi49Q=
+X-Google-Smtp-Source: ABdhPJxbN7EQGTgDdIELhWYxvhXKhYLSnNwoZ6qFtiQZp59gtiXbEN9TBSSicrUSbWaY2O68X+Iwfykq2ecnG7jY5n0=
+X-Received: by 2002:a05:6e02:1989:: with SMTP id
+ g9mr2977298ilf.40.1617805571754; 
+ Wed, 07 Apr 2021 07:26:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1617290165.git.alistair.francis@wdc.com>
-In-Reply-To: <cover.1617290165.git.alistair.francis@wdc.com>
+References: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
+In-Reply-To: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 7 Apr 2021 09:55:37 -0400
-Message-ID: <CAKmqyKNDVPzteeWyeb+mnNaxfH9R9Ej12xY-wo7uO26oqiDcEg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] RISC-V: Convert the CSR access functions to use
+Date: Wed, 7 Apr 2021 10:23:51 -0400
+Message-ID: <CAKmqyKPX_7F2-nsS0Ea1oimJC9jKe3RfvFH-yG91dVXhy3PzSA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] MAINTAINERS: Update the RISC-V CPU Maintainers
 To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -75,26 +76,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 1, 2021 at 11:19 AM Alistair Francis
+On Tue, Apr 6, 2021 at 6:51 PM Alistair Francis
 <alistair.francis@wdc.com> wrote:
 >
-> V2:
->      - Renmae the enum
->      - Rebase on master
->      - Fix a few incorrect returns
+> Update the RISC-V maintainers by removing Sagar and Bastian who haven't
+> been involved recently.
 >
-> Alistair Francis (5):
->   target/riscv: Convert the RISC-V exceptions to an enum
->   target/riscv: Use the RISCVException enum for CSR predicates
->   target/riscv: Fix 32-bit HS mode access permissions
->   target/riscv: Use the RISCVException enum for CSR operations
->   target/riscv: Use RISCVException enum for CSR access
+> Also add Bin who has been helping with reviews.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
 Thanks!
 
@@ -102,16 +100,29 @@ Applied to riscv-to-apply.next
 
 Alistair
 
+> ---
+> I have run this by all of the people involved and they are all ok with
+> the change.
 >
->  target/riscv/cpu.h        |  28 +-
->  target/riscv/cpu_bits.h   |  44 +--
->  target/riscv/cpu.c        |   2 +-
->  target/riscv/cpu_helper.c |   4 +-
->  target/riscv/csr.c        | 740 ++++++++++++++++++++++----------------
->  target/riscv/gdbstub.c    |   8 +-
->  target/riscv/op_helper.c  |  18 +-
->  7 files changed, 492 insertions(+), 352 deletions(-)
+>  MAINTAINERS | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 69003cdc3c..541bd264b2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -295,9 +295,8 @@ F: tests/acceptance/machine_ppc.py
+>
+>  RISC-V TCG CPUs
+>  M: Palmer Dabbelt <palmer@dabbelt.com>
+> -M: Alistair Francis <Alistair.Francis@wdc.com>
+> -M: Sagar Karandikar <sagark@eecs.berkeley.edu>
+> -M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> +M: Alistair Francis <alistair.francis@wdc.com>
+> +M: Bin Meng <bin.meng@windriver.com>
+>  L: qemu-riscv@nongnu.org
+>  S: Supported
+>  F: target/riscv/
 > --
 > 2.31.0
 >
