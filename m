@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F3F356609
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:05:53 +0200 (CEST)
-Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BC8356624
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:11:49 +0200 (CEST)
+Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU3CC-0006Lj-W5
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
+	id 1lU3Hw-0007p7-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:11:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lU3AV-0005pd-K0
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:04:08 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:38403)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lU3AN-0005jh-H5
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:04:07 -0400
-Received: by mail-ej1-x630.google.com with SMTP id r12so26135727ejr.5
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 01:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1g+ABtK5yFN7G2RyTfOuomOrLvYsPyF7UpJp+L1JJ4A=;
- b=Whl+MoT1QskzF6qzZV92nyIftDwLiKGaB+wtoORfByJX9reaxjl6rKGCloUUD6G+CU
- uWgFrn2HmExTbC1Oo5gC3AeLF3DIN4TsdQgN8qtaXDK5JP9e171wy650XrPq60eh05Lf
- vK1+oiGs7270L2Gq3Pl1blBC4Qw+s/IeSYxoypISG0dx7H4QPG0CcpM8QfIMa30vRjfb
- JQz5zvLSg3EhCUbk1ghtVzxpmxr9Re/xAfw4GeZlUeK+R8yXwAgXR7cwuZa5BkuZ/jdv
- Dy9zreHgpbnA65nefwAAw8pQWEvDdkRSqMaf6ZpKVohNIZFvHY03H2h9rG7XNbOv2kFT
- h51Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1g+ABtK5yFN7G2RyTfOuomOrLvYsPyF7UpJp+L1JJ4A=;
- b=qdo7BnesxPOtDM8YJPb4DQonxMsYtzKBhkQjmr5PfnoEcsF52ZtmklqvK1rW3oSJKU
- R2yaVtOLtZq2UKNWa40iAJBFlug0XcZMSVFRQBfIMne/rhW53bNhed75HTC/RVuCWoU9
- 5eSTQ4MfMFAT036Eb5VAvCRmkq0itITNcERG4OT63cy/S4+bisRPpa6QEEk+gKZGcA7l
- 0HbsmYb+v+tjRBOxBGah0eWl8qpREhMZtNtvKAvUvnMSSSXbZ/TtVBNoKa0hszH+Gmim
- xQL+8WGvmeUapIWz4+BPXhULhDwarPj1MNrDAFKQkXlk+zAZP0Gg2l1Hpy/Nb2w6UV7e
- vHWA==
-X-Gm-Message-State: AOAM531n4zEUPe3NbiVTm0D5apJxPQXyhmisPlJi1jW9YVJxQth8RsII
- BcWv7TMe9OgFfi+UTvvNEtaLdMDqReQ7RJAP2CfdWA==
-X-Google-Smtp-Source: ABdhPJyRSkbmKFFhgwliC7G8FQYe/ihad32lr9yEwr0YLuL1DJ6rA/f54p9tUXLywgKHVoCQSzmt5PBmTdTvMEFvjso=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr2290056ejg.482.1617782636929; 
- Wed, 07 Apr 2021 01:03:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lU3H4-0007PJ-DM; Wed, 07 Apr 2021 04:10:54 -0400
+Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:33598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lU3Gz-000179-Fm; Wed, 07 Apr 2021 04:10:54 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.107])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 121D327B782;
+ Wed,  7 Apr 2021 10:10:43 +0200 (CEST)
+Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 7 Apr 2021
+ 10:10:43 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001caa75e40-ab9b-412b-a8f7-e43df4ff1168,
+ 14E8A29DAE054FFFC15D378747E0F684EF09551A) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 7 Apr 2021 10:10:41 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+Subject: Re: [PATCH v4 3/3] ppc: Enable 2nd DAWR support on p10
+Message-ID: <20210407101041.1a884af7@bahia.lan>
+In-Reply-To: <20210406053833.282907-4-ravi.bangoria@linux.ibm.com>
+References: <20210406053833.282907-1-ravi.bangoria@linux.ibm.com>
+ <20210406053833.282907-4-ravi.bangoria@linux.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210407054635.189440-1-its@irrelevant.dk>
-In-Reply-To: <20210407054635.189440-1-its@irrelevant.dk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Apr 2021 08:03:17 +0000
-Message-ID: <CAFEAcA9HsqCJOUsL9HwNHqr5MEkRfCw4i6fc1T2hkN7t4QgpdQ@mail.gmail.com>
-Subject: Re: [PULL for-6.0 v2 00/10] emulated nvme fixes for -rc3
-To: Klaus Jensen <its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 0805a225-2d82-4b7b-bda9-73e7c18b3bf0
+X-Ovh-Tracer-Id: 7566891799312308728
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudejjedgtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=groug@kaod.org;
+ helo=9.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,67 +68,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
+ mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, paulus@samba.org,
+ clg@kaod.org, pbonzini@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Apr 2021 at 06:51, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> From: Klaus Jensen <k.jensen@samsung.com>
->
-> Hi Peter,
->
-> My apologies that these didn't make it for -rc2!
->
-> I botched v1, so please pull this v2 instead.
->
->
-> The following changes since commit d0d3dd401b70168a353450e031727affee828527:
->
->   Update version for v6.0.0-rc2 release (2021-04-06 18:34:34 +0100)
->
-> are available in the Git repository at:
->
->   git://git.infradead.org/qemu-nvme.git tags/nvme-fixes-2021-04-07-pull-request
->
-> for you to fetch changes up to 5dd79300df47f07d0e9d6a7bda43b23ff26001dc:
->
->   hw/block/nvme: fix out-of-bounds read in nvme_subsys_ctrl (2021-04-07 07:27:09 +0200)
->
-> ----------------------------------------------------------------
-> emulated nvme fixes for -rc3
->
-> v2:
->   - added missing patches
->
-> ----------------------------------------------------------------
+On Tue,  6 Apr 2021 11:08:33 +0530
+Ravi Bangoria <ravi.bangoria@linux.ibm.com> wrote:
 
-Hi; this semes to generate a bunch of new warnings during 'make check'
-(not sure exactly which test is producing these, due to the usual
-interleaving when using -j8):
+> As per the PAPR, bit 0 of byte 64 in pa-features property indicates
+> availability of 2nd DAWR registers. i.e. If this bit is set, 2nd
+> DAWR is present, otherwise not. Use KVM_CAP_PPC_DAWR1 capability to
+> find whether kvm supports 2nd DAWR or not. If it's supported, allow
+> user to set the pa-feature bit in guest DT using cap-dawr1 machine
+> capability. Though, watchpoint on powerpc TCG guest is not supported
+> and thus 2nd DAWR is not enabled for TCG mode.
+> 
+> Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+> ---
+>  hw/ppc/spapr.c                  |  7 ++++++-
+>  hw/ppc/spapr_caps.c             | 32 ++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h          |  6 +++++-
+>  target/ppc/cpu.h                |  2 ++
+>  target/ppc/kvm.c                | 12 ++++++++++++
+>  target/ppc/kvm_ppc.h            | 12 ++++++++++++
+>  target/ppc/translate_init.c.inc | 15 +++++++++++++++
+>  7 files changed, 84 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 73a06df3b1..6317fad973 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -238,7 +238,7 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
+>          0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 48 - 53 */
+>          /* 54: DecFP, 56: DecI, 58: SHA */
+>          0x80, 0x00, 0x80, 0x00, 0x80, 0x00, /* 54 - 59 */
+> -        /* 60: NM atomic, 62: RNG */
+> +        /* 60: NM atomic, 62: RNG, 64: DAWR1 (ISA 3.1) */
+>          0x80, 0x00, 0x80, 0x00, 0x00, 0x00, /* 60 - 65 */
+>      };
+>      uint8_t *pa_features = NULL;
+> @@ -279,6 +279,9 @@ static void spapr_dt_pa_features(SpaprMachineState *spapr,
+>           * in pa-features. So hide it from them. */
+>          pa_features[40 + 2] &= ~0x80; /* Radix MMU */
+>      }
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_DAWR1)) {
+> +        pa_features[66] |= 0x80;
+> +    }
+>  
+>      _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_size)));
+>  }
+> @@ -2003,6 +2006,7 @@ static const VMStateDescription vmstate_spapr = {
+>          &vmstate_spapr_cap_ccf_assist,
+>          &vmstate_spapr_cap_fwnmi,
+>          &vmstate_spapr_fwnmi,
+> +        &vmstate_spapr_cap_dawr1,
+>          NULL
+>      }
+>  };
+> @@ -4542,6 +4546,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
+> +    smc->default_caps.caps[SPAPR_CAP_DAWR1] = SPAPR_CAP_OFF;
+>      spapr_caps_add_properties(smc);
+>      smc->irq = &spapr_irq_dual;
+>      smc->dr_phb_enabled = true;
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 9ea7ddd1e9..b2770f73c5 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -523,6 +523,28 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
+>      }
+>  }
+>  
+> +static void cap_dawr1_apply(SpaprMachineState *spapr, uint8_t val,
+> +                               Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    if (!val) {
+> +        return; /* Disable by default */
+> +    }
+> +
+> +    if (tcg_enabled()) {
+> +        error_setg(errp, "DAWR1 not supported in TCG.");
+> +        error_append_hint(errp, "Try appending -machine cap-dawr1=off\n");
+> +    } else if (kvm_enabled()) {
+> +        if (!kvmppc_has_cap_dawr1()) {
+> +            error_setg(errp, "DAWR1 not supported by KVM.");
+> +            error_append_hint(errp, "Try appending -machine cap-dawr1=off\n");
+> +        } else if (kvmppc_set_cap_dawr1(val) < 0) {
+> +            error_setg(errp, "DAWR1 not supported by KVM.");
 
-qemu-system-i386: -device nvme,addr=04.0,drive=drv0,serial=foo:
-warning: drive property is deprecated; please use an nvme-ns device
-instead
-qemu-system-i386: -device
-nvme,addr=04.0,drive=drv0,serial=foo,cmb_size_mb=2: warning: drive
-property is deprecated; please use an nvme-ns device instead
-qemu-system-ppc64: -device nvme,addr=04.0,drive=drv0,serial=foo:
-warning: drive property is deprecated; please use an nvme-ns device
-instead
-qemu-system-ppc64: -device
-nvme,addr=04.0,drive=drv0,serial=foo,cmb_size_mb=2: warning: drive
-property is deprecated; please use an nvme-ns device instead
-qemu-system-x86_64: -device nvme,addr=04.0,drive=drv0,serial=foo:
-warning: drive property is deprecated; please use an nvme-ns device
-instead
-qemu-system-x86_64: -device
-nvme,addr=04.0,drive=drv0,serial=foo,cmb_size_mb=2: warning: drive
-property is deprecated; please use an nvme-ns device instead
+Well... technically KVM does support DAWR1 but something went wrong when
+trying to enable it. In case you need to repost, maybe change the error
+message in this path, e.g. like in cap_nested_kvm_hv_apply().
 
-thanks
--- PMM
+Apart from that, LGTM.
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> +            error_append_hint(errp, "Try appending -machine cap-dawr1=off\n");
+> +        }
+> +    }
+> +}
+> +
+>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+>      [SPAPR_CAP_HTM] = {
+>          .name = "htm",
+> @@ -631,6 +653,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+>          .type = "bool",
+>          .apply = cap_fwnmi_apply,
+>      },
+> +    [SPAPR_CAP_DAWR1] = {
+> +        .name = "dawr1",
+> +        .description = "Allow 2nd Data Address Watchpoint Register (DAWR1)",
+> +        .index = SPAPR_CAP_DAWR1,
+> +        .get = spapr_cap_get_bool,
+> +        .set = spapr_cap_set_bool,
+> +        .type = "bool",
+> +        .apply = cap_dawr1_apply,
+> +    },
+>  };
+>  
+>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
+> @@ -771,6 +802,7 @@ SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+>  SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
+> +SPAPR_CAP_MIG_STATE(dawr1, SPAPR_CAP_DAWR1);
+>  
+>  void spapr_caps_init(SpaprMachineState *spapr)
+>  {
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 5f90bb26d5..51202b7c90 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -74,8 +74,10 @@ typedef enum {
+>  #define SPAPR_CAP_CCF_ASSIST            0x09
+>  /* Implements PAPR FWNMI option */
+>  #define SPAPR_CAP_FWNMI                 0x0A
+> +/* DAWR1 */
+> +#define SPAPR_CAP_DAWR1                 0x0B
+>  /* Num Caps */
+> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
+> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_DAWR1 + 1)
+>  
+>  /*
+>   * Capability Values
+> @@ -366,6 +368,7 @@ struct SpaprMachineState {
+>  #define H_SET_MODE_RESOURCE_SET_DAWR0           2
+>  #define H_SET_MODE_RESOURCE_ADDR_TRANS_MODE     3
+>  #define H_SET_MODE_RESOURCE_LE                  4
+> +#define H_SET_MODE_RESOURCE_SET_DAWR1           5
+>  
+>  /* Flags for H_SET_MODE_RESOURCE_LE */
+>  #define H_SET_MODE_ENDIAN_BIG    0
+> @@ -921,6 +924,7 @@ extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
+>  extern const VMStateDescription vmstate_spapr_cap_large_decr;
+>  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+>  extern const VMStateDescription vmstate_spapr_cap_fwnmi;
+> +extern const VMStateDescription vmstate_spapr_cap_dawr1;
+>  
+>  static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
+>  {
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index cd02d65303..6a60416559 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1460,9 +1460,11 @@ typedef PowerPCCPU ArchCPU;
+>  #define SPR_PSPB              (0x09F)
+>  #define SPR_DPDES             (0x0B0)
+>  #define SPR_DAWR0             (0x0B4)
+> +#define SPR_DAWR1             (0x0B5)
+>  #define SPR_RPR               (0x0BA)
+>  #define SPR_CIABR             (0x0BB)
+>  #define SPR_DAWRX0            (0x0BC)
+> +#define SPR_DAWRX1            (0x0BD)
+>  #define SPR_HFSCR             (0x0BE)
+>  #define SPR_VRSAVE            (0x100)
+>  #define SPR_USPRG0            (0x100)
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 104a308abb..fe3e8a13bb 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -89,6 +89,7 @@ static int cap_ppc_count_cache_flush_assist;
+>  static int cap_ppc_nested_kvm_hv;
+>  static int cap_large_decr;
+>  static int cap_fwnmi;
+> +static int cap_dawr1;
+>  
+>  static uint32_t debug_inst_opcode;
+>  
+> @@ -138,6 +139,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>      cap_ppc_nested_kvm_hv = kvm_vm_check_extension(s, KVM_CAP_PPC_NESTED_HV);
+>      cap_large_decr = kvmppc_get_dec_bits();
+>      cap_fwnmi = kvm_vm_check_extension(s, KVM_CAP_PPC_FWNMI);
+> +    cap_dawr1 = kvm_vm_check_extension(s, KVM_CAP_PPC_DAWR1);
+>      /*
+>       * Note: setting it to false because there is not such capability
+>       * in KVM at this moment.
+> @@ -2091,6 +2093,16 @@ int kvmppc_set_fwnmi(PowerPCCPU *cpu)
+>      return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
+>  }
+>  
+> +bool kvmppc_has_cap_dawr1(void)
+> +{
+> +    return !!cap_dawr1;
+> +}
+> +
+> +int kvmppc_set_cap_dawr1(int enable)
+> +{
+> +    return kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_DAWR1, 0, enable);
+> +}
+> +
+>  int kvmppc_smt_threads(void)
+>  {
+>      return cap_ppc_smt ? cap_ppc_smt : 1;
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 989f61ace0..47248fbbfd 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -63,6 +63,8 @@ bool kvmppc_has_cap_htm(void);
+>  bool kvmppc_has_cap_mmu_radix(void);
+>  bool kvmppc_has_cap_mmu_hash_v3(void);
+>  bool kvmppc_has_cap_xive(void);
+> +bool kvmppc_has_cap_dawr1(void);
+> +int kvmppc_set_cap_dawr1(int enable);
+>  int kvmppc_get_cap_safe_cache(void);
+>  int kvmppc_get_cap_safe_bounds_check(void);
+>  int kvmppc_get_cap_safe_indirect_branch(void);
+> @@ -341,6 +343,16 @@ static inline bool kvmppc_has_cap_xive(void)
+>      return false;
+>  }
+>  
+> +static inline bool kvmppc_has_cap_dawr1(void)
+> +{
+> +    return false;
+> +}
+> +
+> +static inline int kvmppc_set_cap_dawr1(int enable)
+> +{
+> +    abort();
+> +}
+> +
+>  static inline int kvmppc_get_cap_safe_cache(void)
+>  {
+>      return 0;
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+> index 879e6df217..8b76e191f1 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -7765,6 +7765,20 @@ static void gen_spr_book3s_207_dbg(CPUPPCState *env)
+>                          KVM_REG_PPC_CIABR, 0x00000000);
+>  }
+>  
+> +static void gen_spr_book3s_310_dbg(CPUPPCState *env)
+> +{
+> +    spr_register_kvm_hv(env, SPR_DAWR1, "DAWR1",
+> +                        SPR_NOACCESS, SPR_NOACCESS,
+> +                        SPR_NOACCESS, SPR_NOACCESS,
+> +                        &spr_read_generic, &spr_write_generic,
+> +                        KVM_REG_PPC_DAWR1, 0x00000000);
+> +    spr_register_kvm_hv(env, SPR_DAWRX1, "DAWRX1",
+> +                        SPR_NOACCESS, SPR_NOACCESS,
+> +                        SPR_NOACCESS, SPR_NOACCESS,
+> +                        &spr_read_generic, &spr_write_generic,
+> +                        KVM_REG_PPC_DAWRX1, 0x00000000);
+> +}
+> +
+>  static void gen_spr_970_dbg(CPUPPCState *env)
+>  {
+>      /* Breakpoints */
+> @@ -9142,6 +9156,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+>      /* Common Registers */
+>      init_proc_book3s_common(env);
+>      gen_spr_book3s_207_dbg(env);
+> +    gen_spr_book3s_310_dbg(env);
+>  
+>      /* POWER8 Specific Registers */
+>      gen_spr_book3s_ids(env);
+
 
