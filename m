@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0553566C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:26:26 +0200 (CEST)
-Received: from localhost ([::1]:45618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728973566DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:32:10 +0200 (CEST)
+Received: from localhost ([::1]:49878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU3W4-00034r-I0
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53244)
+	id 1lU3bd-0005CD-1R
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lU3Uj-0002A0-M8
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:25:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33974)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lU3Zi-0004XE-EG
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:30:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lU3Uh-0001c1-O0
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:25:01 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lU3Ze-0004qK-Vx
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:30:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617783898;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1617784205;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6ZcQgw5XguEHmXoXGID1KIq7ajQ474IJffTEJwyERVg=;
- b=IL01BOJ7YG0wTCGPumUC2H8Yx76ZFLh3eo2jvNUBqthgmLOtn5Wdey272M3Ys9zN7CamD3
- R4LkMaYwGwZA4LzlPNQVZVTBe9FlvjCnTWPp3eEpH+ACWGBkV9ItdIp5PoKwr4tIxljcLQ
- l+GE7dhJCByuFtf1qekfEJunz6JJVSI=
+ bh=rWvrVPKrlR0eZL7Dmqcjx3TzNpNYPqpYDhLF9YU9jes=;
+ b=jQ20u+ZatO7m9L3av4vSceLCSl1dkqGevjIRacy9XK6CJ+d3HkbGsEkS38lWGlQuXLar20
+ NgeEzlNXDFYVxyXS3+U48/CqvIa6wdw0lTz1P7B46b6/kahunJUERfiEyPr4HPtcSPgKWI
+ 6e6lLRKFCOyWKmZty+F9b7ELS5DD3jY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-xPGJ8kD4NGOmYonvUscnSw-1; Wed, 07 Apr 2021 04:24:57 -0400
-X-MC-Unique: xPGJ8kD4NGOmYonvUscnSw-1
+ us-mta-523-tm_hZna7NbiI6345CAeZ1Q-1; Wed, 07 Apr 2021 04:29:56 -0400
+X-MC-Unique: tm_hZna7NbiI6345CAeZ1Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4950783DD24;
- Wed,  7 Apr 2021 08:24:56 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-236.pek2.redhat.com
- [10.72.13.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D88A1000358;
- Wed,  7 Apr 2021 08:24:47 +0000 (UTC)
-Subject: Re: [PATCH V2] virtio-pci: compat page aligned ATS
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210406040330.11306-1-jasowang@redhat.com>
- <YGwsQXOiBZOG1S44@work-vm>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <3537aa98-f6fc-bf99-cbc6-3c90f1387dc5@redhat.com>
-Date: Wed, 7 Apr 2021 16:24:45 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6C711922962;
+ Wed,  7 Apr 2021 08:29:55 +0000 (UTC)
+Received: from redhat.com (ovpn-115-28.ams2.redhat.com [10.36.115.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31167100239A;
+ Wed,  7 Apr 2021 08:29:47 +0000 (UTC)
+Date: Wed, 7 Apr 2021 09:29:45 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
+Message-ID: <YG1teaGjOvee87Rj@redhat.com>
+References: <20210322225907.541943-1-mst@redhat.com>
+ <20210322225907.541943-12-mst@redhat.com>
+ <YGx2IFN3mJisOR1w@redhat.com> <YGx5LRiqkKRmO4aJ@redhat.com>
+ <20210406201546.2377830e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YGwsQXOiBZOG1S44@work-vm>
+In-Reply-To: <20210406201546.2377830e@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,163 +84,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, ehabkost@redhat.com,
- peterx@redhat.com, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Apr 06, 2021 at 08:15:46PM +0200, Igor Mammedov wrote:
+> On Tue, 6 Apr 2021 16:07:25 +0100
+> Daniel P. Berrang√© <berrange@redhat.com> wrote:
+> 
+> > On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrang√© wrote:
+> > > On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote:  
+> > > > From: Igor Mammedov <imammedo@redhat.com>
+> > > > 
+> > > > it helps to avoid device naming conflicts when guest OS is
+> > > > configured to use acpi-index for naming.
+> > > > Spec ialso says so:
+> > > > 
+> > > > PCI Firmware Specification Revision 3.2
+> > > > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
+> > > > "
+> > > > Instance number must be unique under \_SB scope. This instance number does not have to
+> > > > be sequential in a given system configuration.
+> > > > "
+> > > > 
+> > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > > > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+> > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > ---
+> > > >  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 46 insertions(+)
+> > > > 
+> > > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > > index ceab287bd3..f4cb3c979d 100644
+> > > > --- a/hw/acpi/pcihp.c
+> > > > +++ b/hw/acpi/pcihp.c
+> > > > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
+> > > >      PCIBus *bus;
+> > > >  } AcpiPciHpFind;
+> > > >  
+> > > > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
+> > > > +{
+> > > > +    return a - b;
+> > > > +}
+> > > > +
+> > > > +static GSequence *pci_acpi_index_list(void)
+> > > > +{
+> > > > +    static GSequence *used_acpi_index_list;
+> > > > +
+> > > > +    if (!used_acpi_index_list) {
+> > > > +        used_acpi_index_list = g_sequence_new(NULL);
+> > > > +    }
+> > > > +    return used_acpi_index_list;
+> > > > +}
+> > > > +
+> > > >  static int acpi_pcihp_get_bsel(PCIBus *bus)
+> > > >  {
+> > > >      Error *local_err = NULL;
+> > > > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+> > > >                     ONBOARD_INDEX_MAX);
+> > > >          return;
+> > > >      }
+> > > > +
+> > > > +    /*
+> > > > +     * make sure that acpi-index is unique across all present PCI devices
+> > > > +     */
+> > > > +    if (pdev->acpi_index) {
+> > > > +        GSequence *used_indexes = pci_acpi_index_list();
+> > > > +
+> > > > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
+> > > > +                              g_cmp_uint32, NULL)) {
+> > > > +            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
+> > > > +                       " already exist", pdev->acpi_index);
+> > > > +            return;
+> > > > +        }
+> > > > +        g_sequence_insert_sorted(used_indexes,
+> > > > +                                 GINT_TO_POINTER(pdev->acpi_index),
+> > > > +                                 g_cmp_uint32, NULL);
+> > > > +    }  
+> > > 
+> > > This doesn't appear to ensure uniqueness when using PCIe topologies:
+> > > 
+> > > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> > >      -device virtio-net,acpi-index=100 \
+> > >      -device virtio-net,acpi-index=100
+> > > qemu-system-x86_64: -device virtio-net,acpi-index=100: a PCI device with acpi-index = 100 already exist
+> > > 
+> > > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> > >      -M q35 \
+> > >      -device virtio-net,acpi-index=100
+> > >      -device virtio-net,acpi-index=100
+> > > ....happily running....  
+> > 
+> > In fact the entire concept doesn't appear to work with Q35 at all as
+> > implemented.
+> > 
+> > The 'acpi_index' file in the guest OS never gets created and the NICs
+> > are still called 'eth0', 'eth1'
+> > 
+> > Only with i440fx can I can the "enoNNN" based naming to work with
+> > acpi-index set from QEMU
+> 
+> It is not supported on Q35 yet as it depends on ACPI PCI hotplug infrastructure.
+> Once Julia is done with porting it to Q35, acpi-index will be pulled along with it.
 
-‘⁄ 2021/4/6 œ¬ŒÁ5:39, Dr. David Alan Gilbert –¥µ¿:
-> * Jason Wang (jasowang@redhat.com) wrote:
->> Commit 4c70875372b8 ("pci: advertise a page aligned ATS") advertises
->> the page aligned via ATS capability (RO) to unbrek recent Linux IOMMU
->> drivers since 5.2. But it forgot the compat the capability which
->> breaks the migration from old machine type:
->>
->> (qemu) qemu-kvm: get_pci_config_device: Bad config data: i=0x104 read:
->> 0 device: 20 cmask: ff wmask: 0 w1cmask:0
->>
->> This patch introduces a new parameter "x-ats-page-aligned" for
->> virtio-pci device and turns it on for machine type which is newer than
->> 5.1.
-> I don't know the IOMMU code, but from the property/hw_compat I think
-> this is OK.
-> It's a bit tricky; since this was broken in 5.2, changing the
-> hw_compat_5_1 means that there are exisitng 5.2 users who will be broken
-> - howeer, the original 4c70875372b8 patch was sent to qemu-stable
-> which I think means there are other versions that are inconsistent as
-> well.
+Will the PCI hotplug support work in the same way
 
+Looking at this doc I see two options:
 
-Good point. It's not an easy task, we need to choose to break migration 
-or virtio with vIOMMU.
+  https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
 
-This patch chooes to do the latter, or is there any other better way to 
-solve this?
+ 1. Names incorporating Firmware/BIOS provided index numbers for on-board devices (example: eno1)
+ 2. Names incorporating Firmware/BIOS provided PCI Express hotplug slot index numbers (example: ens1) 
 
-Thanks
+Is the stuff Julia is implementing for Q35 going to end up
+triggering scenario (1) still, or will it trigger scenario two
+which mentions "hotplug slot index" as a distinct concept from
+the ACPI index we're setting for i440fx ?
 
-
->
-> Dave
->
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: qemu-stable@nongnu.org
->> Fixes: 4c70875372b8 ("pci: advertise a page aligned ATS")
->> Signed-off-by: Jason Wang <jasowang@redhat.com>
->> ---
->> Changes since V1:
->> - switch to use "x-ats-page-aligned" instead
->> ---
->>   hw/core/machine.c      |  1 +
->>   hw/pci/pcie.c          | 10 ++++++----
->>   hw/virtio/virtio-pci.c |  5 ++++-
->>   hw/virtio/virtio-pci.h |  5 +++++
->>   include/hw/pci/pcie.h  |  2 +-
->>   5 files changed, 17 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 9935c6ddd5..a50f2d5f0a 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -53,6 +53,7 @@ GlobalProperty hw_compat_5_1[] = {
->>       { "nvme", "use-intel-id", "on"},
->>       { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
->>       { "pl011", "migrate-clk", "off" },
->> +    { "virtio-pci", "x-ats-page-aligned", "off"},
->>   };
->>   const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
->>   
->> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
->> index a733e2fb87..fd0fa157e8 100644
->> --- a/hw/pci/pcie.c
->> +++ b/hw/pci/pcie.c
->> @@ -963,16 +963,18 @@ void pcie_dev_ser_num_init(PCIDevice *dev, uint16_t offset, uint64_t ser_num)
->>       pci_set_quad(dev->config + offset + pci_dsn_cap, ser_num);
->>   }
->>   
->> -void pcie_ats_init(PCIDevice *dev, uint16_t offset)
->> +void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned)
->>   {
->>       pcie_add_capability(dev, PCI_EXT_CAP_ID_ATS, 0x1,
->>                           offset, PCI_EXT_CAP_ATS_SIZEOF);
->>   
->>       dev->exp.ats_cap = offset;
->>   
->> -    /* Invalidate Queue Depth 0, Page Aligned Request 1 */
->> -    pci_set_word(dev->config + offset + PCI_ATS_CAP,
->> -                 PCI_ATS_CAP_PAGE_ALIGNED);
->> +    /* Invalidate Queue Depth 0 */
->> +    if (aligned) {
->> +        pci_set_word(dev->config + offset + PCI_ATS_CAP,
->> +                     PCI_ATS_CAP_PAGE_ALIGNED);
->> +    }
->>       /* STU 0, Disabled by default */
->>       pci_set_word(dev->config + offset + PCI_ATS_CTRL, 0);
->>   
->> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->> index 883045a223..2b7142a21e 100644
->> --- a/hw/virtio/virtio-pci.c
->> +++ b/hw/virtio/virtio-pci.c
->> @@ -1848,7 +1848,8 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
->>           }
->>   
->>           if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
->> -            pcie_ats_init(pci_dev, last_pcie_cap_offset);
->> +            pcie_ats_init(pci_dev, last_pcie_cap_offset,
->> +                          proxy->flags & VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED);
->>               last_pcie_cap_offset += PCI_EXT_CAP_ATS_SIZEOF;
->>           }
->>   
->> @@ -1925,6 +1926,8 @@ static Property virtio_pci_properties[] = {
->>                        ignore_backend_features, false),
->>       DEFINE_PROP_BIT("ats", VirtIOPCIProxy, flags,
->>                       VIRTIO_PCI_FLAG_ATS_BIT, false),
->> +    DEFINE_PROP_BIT("x-ats-page-aligned", VirtIOPCIProxy, flags,
->> +                    VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT, true),
->>       DEFINE_PROP_BIT("x-pcie-deverr-init", VirtIOPCIProxy, flags,
->>                       VIRTIO_PCI_FLAG_INIT_DEVERR_BIT, true),
->>       DEFINE_PROP_BIT("x-pcie-lnkctl-init", VirtIOPCIProxy, flags,
->> diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
->> index d7d5d403a9..2446dcd9ae 100644
->> --- a/hw/virtio/virtio-pci.h
->> +++ b/hw/virtio/virtio-pci.h
->> @@ -42,6 +42,7 @@ enum {
->>       VIRTIO_PCI_FLAG_INIT_PM_BIT,
->>       VIRTIO_PCI_FLAG_INIT_FLR_BIT,
->>       VIRTIO_PCI_FLAG_AER_BIT,
->> +    VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT,
->>   };
->>   
->>   /* Need to activate work-arounds for buggy guests at vmstate load. */
->> @@ -84,6 +85,10 @@ enum {
->>   /* Advanced Error Reporting capability */
->>   #define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
->>   
->> +/* Page Aligned Address space Translation Service */
->> +#define VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED \
->> +  (1 << VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT)
->> +
->>   typedef struct {
->>       MSIMessage msg;
->>       int virq;
->> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
->> index 14c58ebdb6..6063bee0ec 100644
->> --- a/include/hw/pci/pcie.h
->> +++ b/include/hw/pci/pcie.h
->> @@ -137,7 +137,7 @@ void pcie_acs_reset(PCIDevice *dev);
->>   
->>   void pcie_ari_init(PCIDevice *dev, uint16_t offset, uint16_t nextfn);
->>   void pcie_dev_ser_num_init(PCIDevice *dev, uint16_t offset, uint64_t ser_num);
->> -void pcie_ats_init(PCIDevice *dev, uint16_t offset);
->> +void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned);
->>   
->>   void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->>                                  Error **errp);
->> -- 
->> 2.24.3 (Apple Git-128)
->>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
