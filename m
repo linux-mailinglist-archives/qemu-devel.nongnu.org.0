@@ -2,81 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CB6357482
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:44:55 +0200 (CEST)
-Received: from localhost ([::1]:37262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB6A3574E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 21:24:10 +0200 (CEST)
+Received: from localhost ([::1]:33978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUDAd-0002iY-0G
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33152)
+	id 1lUDmb-0007VG-6z
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 15:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lUD88-0001gD-Nx
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:42:20 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lUD84-0002G2-CF
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:42:20 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id f6so12952788wrv.12
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 11:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ZEQnT3/F6NZXU1d/5mQRG9KZUC7kVJdRW1oP7E3bCwY=;
- b=HQy7z2GwddnGPkw6PnrfkWo3vWjKpkVrE15KbNn/ZaiFiN8ws2kx0L+8NSi3X/yDlM
- 4IuVYdLdXcS6Pn33AqEl8yerUhi6GyM1OgIpfq8DuJRGW8fhxb1JFPm1mqT0e2sE7C4j
- Rtkm4AtNQR/3Ug8PyarH3sxWxcOPGx3oZ7v8sAULOIoQ3XLfnpYhaBmEfw3q6SNBgoY8
- jsbbNzOgz/hCvesiK/udB7auXIjX06d3ugVFsmFb3Fgzs1kNYZh/D0q4rEUNnZHai+3+
- tE0f5COLOiX2ffuOWP1JqnDyAjPbasWvGCPrRSVvyu7Exh4BZAUXSPLvKlm1ssvoKcXb
- L8XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZEQnT3/F6NZXU1d/5mQRG9KZUC7kVJdRW1oP7E3bCwY=;
- b=aC2aT3nPkA/WobQqBor4rMrdmwGNkowB0vxA2JhJpFJg/A6+r+k5muf4LIWiu8/cJ3
- PK3d6mpha+YctpW57lmqDjcL9cR0gNC3rtvxHg9+LbMAGzpFfJElMqPe9ZdHgRuSR82U
- +arAc25p3ZjtYLIbv9gK6Babio+8XonjitX2b4Jv3dAGOMj3W7iyjKgQ/XcYKPYeqVgr
- etfk81N42gxgI1FC+td6ESVqPg0d0xl/8kRxlCDJ13EdouaI5rb8Vhz+uaYx/1C+UAUq
- 2VxdKZGnbAjrrA8EIA7iwNfoQHNWm8OGEZfFgWa4FZICcaxtO/HZcisRD+gwt42PoFRn
- mm0Q==
-X-Gm-Message-State: AOAM531qA55HgcQwibsK5WWHWeQ6R2X0+wXcZCjewD6Di5OH0uJAsPdS
- b6w+v3/CJlHT/IJ8ZmAkyY/oWQ==
-X-Google-Smtp-Source: ABdhPJymmGQ5CUy4bc6t9cB/sssl/4ZbnFnQSXiCUx1oBIZ8+7oT57ZiN1/xTody11jYLZ6MTTQObA==
-X-Received: by 2002:adf:f60c:: with SMTP id t12mr6096048wrp.38.1617820932644; 
- Wed, 07 Apr 2021 11:42:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm16946226wrs.84.2021.04.07.11.42.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Apr 2021 11:42:12 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 377191FF7E;
- Wed,  7 Apr 2021 19:42:11 +0100 (BST)
-References: <20210406150041.28753-1-alex.bennee@linaro.org>
- <CAFEAcA9c24M3NA8LzbDEUU==Y51LwRH5nR9bopiFNwQTwoE7cg@mail.gmail.com>
- <87czv6uhtr.fsf@linaro.org>
- <CAFEAcA_6AEcUkpZY3d602OXybnH1iVM+8pQuktUWkScd02W4Kw@mail.gmail.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/11] rc2 fixes (check-tcg, gitlab, gdbstub)
-Date: Wed, 07 Apr 2021 19:41:32 +0100
-In-reply-to: <CAFEAcA_6AEcUkpZY3d602OXybnH1iVM+8pQuktUWkScd02W4Kw@mail.gmail.com>
-Message-ID: <87a6qauebg.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
+ id 1lUDlB-0006YC-UG; Wed, 07 Apr 2021 15:22:41 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
+ id 1lUDl9-0001UF-Ko; Wed, 07 Apr 2021 15:22:41 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 137J3nvi092780; Wed, 7 Apr 2021 15:22:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=xuMKxekLP2HfZee202lrBxLdP9quDbPymDl8AVGhBsY=;
+ b=GGs6JDhKnVZe0a0sEmQ8mWt0emSOviWq8I/AZFx6zectbJedyCvWu8vCGors8Tsy6avh
+ x0lD8RhQthjcuuO85iwl3327akwK1HVp74Y5INHRyVMHnykhREremd+w9oSe3uLtYrJv
+ 8yGvTUEkEjEfc1tmQ1jW7vIb4rUYdUMMjcSbieKzL7ms09dqFA/1dBN+zvpaL6qYj8xB
+ ytBKkGzO9AuwGmVlahjxmSm5LgQ/Qls84jis62RPHfX2QTufCg/Ee7434RpAif0MGcJX
+ iAf7NA01qmCdhEoKFempe1PvABX9H1BRCRpwSjIUFgWvHrguXFhmlHuxfdPGj0Dj8UXt Og== 
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37rvpgkbb0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Apr 2021 15:22:30 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137JHlmp005788;
+ Wed, 7 Apr 2021 19:22:29 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 37rvc41p1y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Apr 2021 19:22:29 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 137JMSd316974084
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 Apr 2021 19:22:28 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 427CA7805E;
+ Wed,  7 Apr 2021 19:22:28 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 85BD078060;
+ Wed,  7 Apr 2021 19:22:26 +0000 (GMT)
+Received: from [9.80.221.20] (unknown [9.80.221.20])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  7 Apr 2021 19:22:26 +0000 (GMT)
+Subject: Re: [PATCH 07/24] aspeed: Integrate HACE
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210407171637.777743-1-clg@kaod.org>
+ <20210407171637.777743-8-clg@kaod.org>
+From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Message-ID: <e4375f12-e736-b381-1a89-0d30ebecd434@linux.vnet.ibm.com>
+Date: Wed, 7 Apr 2021 16:22:25 -0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210407171637.777743-8-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: lJiIPERbJQAIyKf6nLICMi-kkeMWkUwB
+X-Proofpoint-GUID: lJiIPERbJQAIyKf6nLICMi-kkeMWkUwB
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-07_10:2021-04-07,
+ 2021-04-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 priorityscore=1501 clxscore=1011 malwarescore=0
+ suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104070130
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=klaus@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,86 +106,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Wed, 7 Apr 2021 at 18:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->>
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > On Tue, 6 Apr 2021 at 16:00, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->> >>
->> >> The following changes since commit 109918d24a3bb9ed3d05beb34ea4ac6be4=
-43c138:
->> >>
->> >>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-fixes-for-6.0-=
-pull-request' into staging (2021-04-05 22:15:38 +0100)
->> >>
->> >> are available in the Git repository at:
->> >>
->> >>   https://github.com/stsquad/qemu.git tags/pull-6.0-rc2-fixes-060421-1
->> >>
->> >> for you to fetch changes up to a2e5bbf0c407a572d9b687adaecf9995f66b4c=
-d9:
->> >>
->> >>   gitlab-ci.yml: Test the dtrace backend in one of the jobs (2021-04-=
-06 15:04:50 +0100)
->> >>
->> >> ----------------------------------------------------------------
->> >> Testing updates:
->> >>
->> >>   - fix x86_64 cross compilers
->> >>   - don't use registry for non-x86 containers
->> >>   - add valid host types for given cross compile containers
->> >>   - clean up i386 code16 test with explicit -no-pie
->> >>   - relax sha1.py gdbstub test
->> >>   - add more gdbstub documentation
->> >>   - remove annoying warning on gitlab
->> >>   - test dtrace backend in gitlab
->> >>
->> >> ----------------------------------------------------------------
->> >
->> > The merge for this failed in gitlab CI with a weird state:
->> >
->> > https://gitlab.com/qemu-project/qemu/-/pipelines/282228325
->> >
->> >  * marked "failed"
->> >  * but has a "cancel" button
->> >  * has no "retry" button
->> >  * has an "error" tag whose hover-over text reads "Pipeline job activi=
-ty
->> >    limit exceeded!"
->> >
->> > Not being sure whether this is gitlab CI being flaky again or a problem
->> > with something in the pullreq, I've not applied it for rc2; we can
->> > figure out what happened and maybe try again for rc3.
->>
->> I think it's GitLab going nuts because:
->>
->>   https://gitlab.com/stsquad/qemu/-/pipelines/282304522 is all green
->>   https://gitlab.com/stsquad/qemu/-/pipelines/282619235 is a dumpster fi=
-re
->>
->> And they are both the same commit (pull-6.0-rc2-fixes-070421-2)
->
-> Should I retry a merge of this pullreq (which is -1), or are you going to
-> submit a new one ?
+On 4/7/2021 2:16 PM, Cédric Le Goater wrote:
+> From: Joel Stanley <joel@jms.id.au>
+> 
+> Add the hash and crypto engine model to the Aspeed socs.
+> 
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Message-Id: <20210324070955.125941-3-joel@jms.id.au>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-I think either is good, the -2 tag was simply a re-base and has at least
-one clean run before everything went weird.
+Reviewed-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
 
->
-> thanks
-> -- PMM
+> ---
+>   docs/system/arm/aspeed.rst  |  2 +-
+>   include/hw/arm/aspeed_soc.h |  3 +++
+>   hw/arm/aspeed_ast2600.c     | 15 +++++++++++++++
+>   hw/arm/aspeed_soc.c         | 16 ++++++++++++++++
+>   4 files changed, 35 insertions(+), 1 deletion(-)
+> 
+> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+> index d1fb8f25b39c..f9466e6d8245 100644
+> --- a/docs/system/arm/aspeed.rst
+> +++ b/docs/system/arm/aspeed.rst
+> @@ -49,6 +49,7 @@ Supported devices
+>    * Ethernet controllers
+>    * Front LEDs (PCA9552 on I2C bus)
+>    * LPC Peripheral Controller (a subset of subdevices are supported)
+> + * Hash/Crypto Engine (HACE) - Hash support only, no scatter-gather
+>   
+>   
+>   Missing devices
+> @@ -59,7 +60,6 @@ Missing devices
+>    * PWM and Fan Controller
+>    * Slave GPIO Controller
+>    * Super I/O Controller
+> - * Hash/Crypto Engine
+>    * PCI-Express 1 Controller
+>    * Graphic Display Controller
+>    * PECI Controller
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 9359d6da336d..d9161d26d645 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -21,6 +21,7 @@
+>   #include "hw/rtc/aspeed_rtc.h"
+>   #include "hw/i2c/aspeed_i2c.h"
+>   #include "hw/ssi/aspeed_smc.h"
+> +#include "hw/misc/aspeed_hace.h"
+>   #include "hw/watchdog/wdt_aspeed.h"
+>   #include "hw/net/ftgmac100.h"
+>   #include "target/arm/cpu.h"
+> @@ -50,6 +51,7 @@ struct AspeedSoCState {
+>       AspeedTimerCtrlState timerctrl;
+>       AspeedI2CState i2c;
+>       AspeedSCUState scu;
+> +    AspeedHACEState hace;
+>       AspeedXDMAState xdma;
+>       AspeedSMCState fmc;
+>       AspeedSMCState spi[ASPEED_SPIS_NUM];
+> @@ -133,6 +135,7 @@ enum {
+>       ASPEED_DEV_XDMA,
+>       ASPEED_DEV_EMMC,
+>       ASPEED_DEV_KCS,
+> +    ASPEED_DEV_HACE,
+>   };
+>   
+>   #endif /* ASPEED_SOC_H */
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index 2a1255b6a042..e0fbb020c770 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -42,6 +42,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>       [ASPEED_DEV_ETH2]      = 0x1E680000,
+>       [ASPEED_DEV_ETH4]      = 0x1E690000,
+>       [ASPEED_DEV_VIC]       = 0x1E6C0000,
+> +    [ASPEED_DEV_HACE]      = 0x1E6D0000,
+>       [ASPEED_DEV_SDMC]      = 0x1E6E0000,
+>       [ASPEED_DEV_SCU]       = 0x1E6E2000,
+>       [ASPEED_DEV_XDMA]      = 0x1E6E7000,
+> @@ -102,6 +103,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+>       [ASPEED_DEV_I2C]       = 110,   /* 110 -> 125 */
+>       [ASPEED_DEV_ETH1]      = 2,
+>       [ASPEED_DEV_ETH2]      = 3,
+> +    [ASPEED_DEV_HACE]      = 4,
+>       [ASPEED_DEV_ETH3]      = 32,
+>       [ASPEED_DEV_ETH4]      = 33,
+>       [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
+> @@ -213,6 +215,9 @@ static void aspeed_soc_ast2600_init(Object *obj)
+>                               TYPE_SYSBUS_SDHCI);
+>   
+>       object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+> +
+> +    snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
+> +    object_initialize_child(obj, "hace", &s->hace, typename);
+>   }
+>   
+>   /*
+> @@ -494,6 +499,16 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_kcs_4,
+>                          qdev_get_gpio_in(DEVICE(&s->a7mpcore),
+>                                   sc->irqmap[ASPEED_DEV_KCS] + aspeed_lpc_kcs_4));
+> +
+> +    /* HACE */
+> +    object_property_set_link(OBJECT(&s->hace), "dram", OBJECT(s->dram_mr),
+> +                             &error_abort);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->hace), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
+>   }
+>   
+>   static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 817f3ba63dfd..8ed29113f79f 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -34,6 +34,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
+>       [ASPEED_DEV_VIC]    = 0x1E6C0000,
+>       [ASPEED_DEV_SDMC]   = 0x1E6E0000,
+>       [ASPEED_DEV_SCU]    = 0x1E6E2000,
+> +    [ASPEED_DEV_HACE]   = 0x1E6E3000,
+>       [ASPEED_DEV_XDMA]   = 0x1E6E7000,
+>       [ASPEED_DEV_VIDEO]  = 0x1E700000,
+>       [ASPEED_DEV_ADC]    = 0x1E6E9000,
+> @@ -65,6 +66,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
+>       [ASPEED_DEV_VIC]    = 0x1E6C0000,
+>       [ASPEED_DEV_SDMC]   = 0x1E6E0000,
+>       [ASPEED_DEV_SCU]    = 0x1E6E2000,
+> +    [ASPEED_DEV_HACE]   = 0x1E6E3000,
+>       [ASPEED_DEV_XDMA]   = 0x1E6E7000,
+>       [ASPEED_DEV_ADC]    = 0x1E6E9000,
+>       [ASPEED_DEV_VIDEO]  = 0x1E700000,
+> @@ -117,6 +119,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+>       [ASPEED_DEV_ETH2]   = 3,
+>       [ASPEED_DEV_XDMA]   = 6,
+>       [ASPEED_DEV_SDHCI]  = 26,
+> +    [ASPEED_DEV_HACE]   = 4,
+>   };
+>   
+>   #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+> @@ -212,6 +215,9 @@ static void aspeed_soc_init(Object *obj)
+>       }
+>   
+>       object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+> +
+> +    snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
+> +    object_initialize_child(obj, "hace", &s->hace, typename);
+>   }
+>   
+>   static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+> @@ -421,6 +427,16 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>   
+>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_kcs_4,
+>                          qdev_get_gpio_in(DEVICE(&s->lpc), aspeed_lpc_kcs_4));
+> +
+> +    /* HACE */
+> +    object_property_set_link(OBJECT(&s->hace), "dram", OBJECT(s->dram_mr),
+> +                             &error_abort);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->hace), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_HACE]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
+>   }
+>   static Property aspeed_soc_properties[] = {
+>       DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
+> 
 
-
---=20
-Alex Benn=C3=A9e
+-- 
+Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
 
