@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7E4357660
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 22:57:23 +0200 (CEST)
-Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869BC357679
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:06:47 +0200 (CEST)
+Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUFEo-0007hw-1o
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 16:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39468)
+	id 1lUFNs-0002Hm-Fd
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUFDE-00075g-KP
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 16:55:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56600)
+ id 1lUFN7-0001pJ-7L
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:05:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUFDC-0007la-BK
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 16:55:44 -0400
+ id 1lUFMy-0005PG-Q9
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:05:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lUFD9-0003xG-GT
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 20:55:39 +0000
+ id 1lUFMw-0004tr-Qr
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 21:05:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 76CFD2E8047
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 20:55:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A95062E8165
+ for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 21:05:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 20:46:06 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1921948@bugs.launchpad.net>
+Date: Wed, 07 Apr 2021 20:58:04 -0000
+From: Andrey Konovalov <1921948@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ajbennee pcc-goog rth xairy
 X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+X-Launchpad-Bug-Modifier: Andrey Konovalov (xairy)
 References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
-Message-Id: <161782836643.29853.8803756248864736882.malone@gac.canonical.com>
+Message-Id: <161782908442.29743.17585290508436200821.malone@gac.canonical.com>
 Subject: [Bug 1921948] Re: MTE tags not checked properly for unaligned
  accesses at EL1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: f9eaeec4374a7c232c796ae9411d0527c53d1ee8
+X-Launchpad-Hash: ba940b61af24c697961afc3cd1ee3a58f345ed39
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,58 +75,11 @@ Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It gets further without but still spams a lot of failure messages:
+Is this with QEMU master without the patches mentioned in this bug?
 
-The buggy address belongs to the object at ffffff80036a2200
- which belongs to the cache kmalloc-128 of size 128
-The buggy address is located 11 bytes to the right of
- 128-byte region [ffffff80036a2200, ffffff80036a2280)
-The buggy address belongs to the page:
-page:0000000046e01872 refcount:1 mapcount:0 mapping:0000000000000000 index:=
-0x0 pfn:0x436a2
-flags: 0x3fc0000000000200(slab)
-raw: 3fc0000000000200 dead000000000100 dead000000000122 f9ffff8001c01e00
-raw: 0000000000000000 0000000080100010 00000001ffffffff f3ffff80036a2401
-page dumped because: kasan: bad access detected
-pages's memcg:f3ffff80036a2401
+Which kernel version do you use?
 
-Memory state around the buggy address:
- ffffff80036a2000: f6 f6 f6 f6 f6 f6 f6 f6 fe fe fe fe fe fe fe fe
- ffffff80036a2100: fa fa fa fa fe fe fe fe fe fe fe fe fe fe fe fe
->ffffff80036a2200: f9 f9 f9 f9 f9 f9 f9 f9 fe fe fe fe fe fe fe fe
-                                           ^
- ffffff80036a2300: fc fc fc fc fe fe fe fe fe fe fe fe fe fe fe fe
- ffffff80036a2400: f3 f3 f3 f3 f3 f3 f3 f3 fe fe fe fe fe fe fe fe
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Disabling lock debugging due to kernel taint
-    # kmalloc_oob_right: EXPECTATION FAILED at lib/test_kasan.c:86
-    Expected fail_data.report_expected =3D=3D fail_data.report_found, but
-        fail_data.report_expected =3D=3D 1
-        fail_data.report_found =3D=3D 0
-    not ok 1 - kmalloc_oob_right
-    # kmalloc_oob_left: EXPECTATION FAILED at lib/test_kasan.c:98
-    Expected fail_data.report_expected =3D=3D fail_data.report_found, but
-        fail_data.report_expected =3D=3D 1
-        fail_data.report_found =3D=3D 0
-    not ok 2 - kmalloc_oob_left
-    # kmalloc_node_oob_right: EXPECTATION FAILED at lib/test_kasan.c:110
-    Expected fail_data.report_expected =3D=3D fail_data.report_found, but
-        fail_data.report_expected =3D=3D 1
-        fail_data.report_found =3D=3D 0
-    not ok 3 - kmalloc_node_oob_right
-    # kmalloc_pagealloc_oob_right: EXPECTATION FAILED at lib/test_kasan.c:1=
-30
-    Expected fail_data.report_expected =3D=3D fail_data.report_found, but
-        fail_data.report_expected =3D=3D 1
-        fail_data.report_found =3D=3D 0
-    not ok 4 - kmalloc_pagealloc_oob_right
-    # kmalloc_pagealloc_uaf: EXPECTATION FAILED at lib/test_kasan.c:148
-    Expected fail_data.report_expected =3D=3D fail_data.report_found, but
-        fail_data.report_expected =3D=3D 1
-        fail_data.report_found =3D=3D 0
-    not ok 5 - kmalloc_pagealloc_uaf
+Could you share your kernel config?
 
 -- =
 
