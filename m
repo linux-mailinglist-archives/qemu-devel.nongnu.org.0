@@ -2,84 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DBA3563B4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 08:07:37 +0200 (CEST)
-Received: from localhost ([::1]:35180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2055356544
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 09:33:40 +0200 (CEST)
+Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU1Lk-00042x-QJ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 02:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45066)
+	id 1lU2h1-0005RW-C5
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 03:33:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU11k-0002GN-Af; Wed, 07 Apr 2021 01:46:56 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:47971)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU2g8-00051v-Kq
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:32:44 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU11i-00058U-Px; Wed, 07 Apr 2021 01:46:56 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 101295C00EC;
- Wed,  7 Apr 2021 01:46:54 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 07 Apr 2021 01:46:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=wP0e4oiBcmbpZ
- 2/CJUbzOJTfvUrQHGu1I7DHqbyh2sQ=; b=Kf+6ftevwQJaggnGgebt/KNyv7tfF
- 0Mi+dViLhy3cVev6wnEUsLuQXupVICA6CAeexeQd9hwHxEZLH3+LVONxMDvO8f+a
- rDdD9zK1MDTO/V6XuMByBdrC3iXOnb3krxwtPxPvtb1wY5uCNEiFOYFlon/ZHDyb
- UQkq+f3c6dt17yJs5U00burzqN87WPtWse8BNqXx446ombeFc3CG4qPAS0D1+hJF
- 9i3dmlStKiiSbKoX9AhzbMYOaXDHIvh9YAuEBsZWpLKnI9N0UWiSuU7q6a7z3v+3
- oPo5MzfYsUly24pZL1qSjqAq7x61/M0xtK8vgp6aVgsL6vtbhdQV597UQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=wP0e4oiBcmbpZ2/CJUbzOJTfvUrQHGu1I7DHqbyh2sQ=; b=OHhCQvME
- Hryu9OzIIY+SAG+RDoFgx7UTW7EMDT9U5mQ+qDl4lWzfLDXcve30XcF+L+xTf4AR
- qbo8ocJuYgTf4fm78UbIgDF/T5iAYaAcnCpEQ51s3992+NW6JgCpjWXp3JeAWU4s
- 1bemaiEonZVhq6YkRYVG1MOELNQN9F0fD7O7iHbpi8bEfwq7xU6BkPtwLWQp7CqA
- /rCURL4gkzJ47ba3me18S+ImigknPfUjN++T3L/amN0twZ0TpvjVyXsUpvPGX4je
- WjJgdS0Xoo4BdsvL9kfyysvNvFnqb3i75NoXeIUYapHAoIvE9ncf4IqW4BKC5WYl
- XiIffbU8243xpQ==
-X-ME-Sender: <xms:TUdtYLaRk6tABQPCCSG1Dnr_R7PFt00BPVBFHSjTAeRUlJeZeMMurg>
- <xme:TUdtYKUP_DKlGMx6S1pyzfXdQQ-JJT3yT0RfWmwI_N5TITLrKc1BTu8MR7jhgkWGp
- Q3HURiQsKH_ELOohp4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejiedguddttdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepud
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:TUdtYK3coU74qB5D9tyJYRgX0sx1BM-X1HRuASlFmtux3nhz87s6Rg>
- <xmx:TUdtYJZQVR5efM24ggIP_7SVtk5PStwV3WiBaAsq2E9byHBCjUGH4A>
- <xmx:TUdtYFodAf525tN9pqYK8e9o6a03qoyLP0GL8qxBEBZU9WKhSMq5EA>
- <xmx:TkdtYFeS10JPV4k39Qy-KK7zfVLToxgJ2t4sr65dbxbFXjlDrLjhcQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9F5BE1080063;
- Wed,  7 Apr 2021 01:46:52 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PULL for-6.0 v2 10/10] hw/block/nvme: fix out-of-bounds read in
- nvme_subsys_ctrl
-Date: Wed,  7 Apr 2021 07:46:35 +0200
-Message-Id: <20210407054635.189440-11-its@irrelevant.dk>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210407054635.189440-1-its@irrelevant.dk>
-References: <20210407054635.189440-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU2g6-00021G-Hz
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:32:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.249])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 042FC97C9221;
+ Wed,  7 Apr 2021 09:32:31 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 7 Apr 2021
+ 09:32:31 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G00349945f9e-a0ec-4544-a811-b14d99f08777,
+ 14E8A29DAE054FFFC15D378747E0F684EF09551A) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 7 Apr 2021 09:32:30 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 0/4] add in-tree 9pfs developers documentation
+Message-ID: <20210407093230.5b172a8a@bahia.lan>
+In-Reply-To: <3541529.Jmkro1RegT@silver>
+References: <cover.1616528420.git.qemu_oss@crudebyte.com>
+ <3541529.Jmkro1RegT@silver>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c593d76c-49ae-4308-ac34-9f3eebd636e0
+X-Ovh-Tracer-Id: 6921751153251555808
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudejiedguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudfhueffjeeitdffkeefvddvheeuleefjeehudfhtdetkeeiieekhfeiffeliefhnecuffhomhgrihhnpehqvghmuhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,43 +68,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, Peter
+ Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Tue, 06 Apr 2021 14:27:41 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-nvme_subsys_ctrl() is used in contexts where the given controller
-identifier is from an untrusted source. Like its friends nvme_ns() and
-nvme_subsys_ns(), nvme_subsys_ctrl() should just return NULL if an
-invalid identifier is given.
+> On Dienstag, 23. M=C3=A4rz 2021 20:40:20 CEST Christian Schoenebeck wrote:
+> > The original source for the QEMU 9p developers documentation is:
+> >=20
+> >   https://wiki.qemu.org/Documentation/9p
+> >=20
+> > This patch set adds it as in-tree .rst file along with its pictures to =
+the
+> > QEMU source tree. The 9p.rst file has been auto generated by 'pandoc'.
+> >=20
+> > Preview of generated 9p.rst file with pictures:
+> >=20
+> > =20
+> > https://github.com/cschoenebeck/qemu/blob/bbc74655d54f2fa9c3eabf485e87f=
+9952
+> > 53b8cfd/docs/devel/9p.rst
+> >=20
+> > Picture binary files (omitted as binary blobs from patch 2):
+> >=20
+> > =20
+> > https://github.com/cschoenebeck/qemu/tree/bbc74655d54f2fa9c3eabf485e87f=
+9952
+> > 53b8cfd/docs/devel/img
+> >=20
+> > Or simply access my '9p.experimental' branch on github.
+> >=20
+> > I have no idea if that fits into the current sphinx/meson concept in th=
+is
+> > form and way. I hope either Peter or Paolo might tell.
+> >=20
+> > The individual patches could also be squashed, I kept them split for no=
+w to
+> > show what pandoc actually did and what I manually adjusted afterwards.
+> >=20
+> > Christian Schoenebeck (4):
+> >   docs/devel: add 9p.rst
+> >   docs/devel: add directory for pictures
+> >   docs/devel/9p: fix references to pictures
+> >   MAINTAINERS: add responsibility for docs/devel/9p.rst
+>=20
+> Ping
+>=20
+> Anyone? On doubt I just leave the 9p developer docs solely on the wiki si=
+te.
+>=20
 
-Fixes: 645ce1a70cb6 ("hw/block/nvme: support namespace attachment command")
-Cc: Minwoo Im <minwoo.im.dev@gmail.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- hw/block/nvme-subsys.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Christian,
 
-diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index 1cbcad9be23e..7d7ef5f7f12b 100644
---- a/hw/block/nvme-subsys.h
-+++ b/hw/block/nvme-subsys.h
-@@ -36,7 +36,7 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
- static inline NvmeCtrl *nvme_subsys_ctrl(NvmeSubsystem *subsys,
-         uint32_t cntlid)
- {
--    if (!subsys) {
-+    if (!subsys || cntlid >= NVME_SUBSYS_MAX_CTRLS) {
-         return NULL;
-     }
- 
--- 
-2.31.1
+Sorry for the delay... well, it is probably handy to have some
+in-tree documentation. This being said I can't really tell if
+it makes sense to have an exact copy of the wiki... or if this
+should simply replace the wiki.
+
+Also, do we want to host the png files ? It seems that other
+in-tree documentation rather relies on ASCII-art, which
+provides a more terminal-friendly experience.
+
+Cheers,
+
+--
+Greg
+
+> >=20
+> >  MAINTAINERS                          |   1 +
+> >  docs/devel/9p.rst                    | 544 +++++++++++++++++++++++++++
+> >  docs/devel/img/9pfs_control_flow.png | Bin 0 -> 156560 bytes
+> >  docs/devel/img/9pfs_topology.png     | Bin 0 -> 51529 bytes
+> >  docs/devel/img/Coroutines_stacks.png | Bin 0 -> 87204 bytes
+> >  5 files changed, 545 insertions(+)
+> >  create mode 100644 docs/devel/9p.rst
+> >  create mode 100644 docs/devel/img/9pfs_control_flow.png
+> >  create mode 100644 docs/devel/img/9pfs_topology.png
+> >  create mode 100644 docs/devel/img/Coroutines_stacks.png
+>=20
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
 
 
