@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF71356CF2
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 15:08:41 +0200 (CEST)
-Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAF3356CFE
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 15:12:09 +0200 (CEST)
+Received: from localhost ([::1]:47134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU7vE-0002GQ-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 09:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35650)
+	id 1lU7ya-0003hd-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 09:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lU7sZ-000849-Ad
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:05:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38604)
+ id 1lU7xF-00039N-P2
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:10:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lU7sV-0005WL-EP
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:05:55 -0400
+ id 1lU7xD-0008QJ-Ls
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:10:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lU7sO-0001NL-Sn
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 13:05:44 +0000
+ id 1lU7xC-0002DR-D5
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 13:10:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C5EA42E816B
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 13:05:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 60AAE2E80F9
+ for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 13:10:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 13:00:23 -0000
-From: David Ober <1915063@bugs.launchpad.net>
+Date: Wed, 07 Apr 2021 13:01:42 -0000
+From: Mark Cave-Ayland <1922611@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Tags: acceptance sparc test
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dober60 imammedo markrhpearson paelzer sergiodj
- ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: David Ober (dober60)
-X-Launchpad-Bug-Modifier: David Ober (dober60)
-References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
-Message-Id: <161780042380.29247.4415481924442945799.malone@gac.canonical.com>
-Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+X-Launchpad-Bug-Commenters: cleber-gnu mark-cave-ayland philmd
+X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
+X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
+References: <161766836712.29624.11290531043933796860.malonedeb@gac.canonical.com>
+Message-Id: <161780050272.23762.14122719053434957583.malone@chaenomeles.canonical.com>
+Subject: [Bug 1922611] Re: Acceptance Tests: migration fails on sparc target
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 1039a9a5f849a9b9109c8f2c0d7e6ca092421c5b
+X-Launchpad-Hash: 937a8c5c0ea2362fd553be23978e2b3843d21903
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -61,7 +58,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,109 +70,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
+Reply-To: Bug 1922611 <1922611@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have not done any of what you are asking so not exactly sure how to
-change those values, been looking and reading but not finding what I
-want so thought it might be better to just ask how to do what yo are
-asking. I did try CPU type EPYC and that did get past the error I am
-seeing on install
+This should be fixed by the following patch:
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00860.html
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915063
+https://bugs.launchpad.net/bugs/1922611
 
 Title:
-  Windows 10 wil not install using qemu-system-x86_64
+  Acceptance Tests: migration fails on sparc target
 
 Status in QEMU:
   New
-Status in qemu package in Ubuntu:
-  Confirmed
 
 Bug description:
-  Steps to reproduce
-  install virt-manager and ovmf if nopt already there
-  copy windows and virtio iso files to /var/lib/libvirt/images
+  QEMU fails migration when using a sparc target.
 
-  Use virt-manager from local machine to create your VMs with the disk, CPU=
-s and memory required
-      Select customize configuration then select OVMF(UEFI) instead of seab=
-ios
-      set first CDROM to the windows installation iso (enable in boot optio=
-ns)
-      add a second CDROM and load with the virtio iso
-  	change spice display to VNC
+  This cab be verified/reproduced with the
+  `tests/acceptance/migration.py` test.  Running it with:
 
-    Always get a security error from windows and it fails to launch the ins=
-taller (works on RHEL and Fedora)
-  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
- of no help
-  --- =
+   $ make check-venv
+   $ ./tests/venv/bin/avocado --show=3Dtest run -p qemu_bin=3D./qemu-system=
+-sparc tests/acceptance/migration.py:Migration.test_migration_with_tcp_loca=
+lhost
 
-  ProblemType: Bug
-  ApportVersion: 2.20.11-0ubuntu27.14
-  Architecture: amd64
-  CasperMD5CheckResult: skip
-  CurrentDesktop: ubuntu:GNOME
-  DistributionChannelDescriptor:
-   # This is the distribution channel descriptor for the OEM CDs
-   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
-criptor
-   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
-d64+X00
-  DistroRelease: Ubuntu 20.04
-  InstallationDate: Installed on 2021-01-20 (19 days ago)
-  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
-0-14:39
-  MachineType: LENOVO 30E102Z
-  NonfreeKernelModules: nvidia_modeset nvidia
-  Package: linux (not installed)
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcFB: 0 EFI VGA
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
-=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
-andoff=3D7
-  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
-  RelatedPackageVersions:
-   linux-restricted-modules-5.6.0-1042-oem N/A
-   linux-backports-modules-5.6.0-1042-oem  N/A
-   linux-firmware                          1.187.8
-  RfKill:
-   =
+  Right after a QMP `query-migrate` is executed, communication with the
+  monitor is lost:
 
-  Tags:  focal
-  Uname: Linux 5.6.0-1042-oem x86_64
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
-udo
-  _MarkForUpload: True
-  dmi.bios.date: 07/29/2020
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: S07KT08A
-  dmi.board.name: 1046
-  dmi.board.vendor: LENOVO
-  dmi.board.version: Not Defined
-  dmi.chassis.type: 3
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: None
-  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
-pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
-  dmi.product.family: INVALID
-  dmi.product.name: 30E102Z
-  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
-  dmi.product.version: ThinkStation P620
-  dmi.sys.vendor: LENOVO
+  >>> {'execute': 'query-migrate'}
+  <<< {'timestamp': {'seconds': 1617667984, 'microseconds': 330282}, 'event=
+': 'STOP'}
+  <<< {'return': {'blocked': False, 'status': 'completed', 'setup-time': 0,=
+ 'downtime': 1, 'total-time': 15, 'ram': {'total': 135274496, 'postcopy-req=
+uests': 0, 'dirty-sync-count': 2, 'multifd-bytes': 0, 'pages-per-second': 0=
+, 'page-size': 4096, 'remaining': 0, 'mbps': 301.2234666666667, 'transferre=
+d': 528703, 'duplicate': 33202, 'dirty-pages-rate': 0, 'skipped': 0, 'norma=
+l-bytes': 229376, 'normal': 56}}}
+  >>> {'execute': 'query-migrate'}
+
+  Reproduced traceback from: /var/lib/users/cleber/build/qemu/tests/venv/li=
+b64/python3.7/site-packages/avocado/core/test.py:756
+  Traceback (most recent call last):
+    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
+line 80, in test_migration_with_tcp_localhost
+      self.do_migrate(dest_uri)
+    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
+line 69, in do_migrate
+      self.assert_migration(source_vm, dest_vm)
+    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
+line 41, in assert_migration
+      args=3D(dst_vm,))
+    File "/var/lib/users/cleber/build/qemu/tests/venv/lib64/python3.7/site-=
+packages/avocado/utils/wait.py", line 34, in wait_for
+      output =3D func(*args, **kwargs)
+    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
+line 31, in migration_finished
+      return vm.command('query-migrate')['status'] in ('completed', 'failed=
+')
+    File "/home/cleber/src/qemu/python/qemu/machine.py", line 572, in comma=
+nd
+      return self._qmp.command(cmd, **qmp_args)
+    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 284, in command
+      ret =3D self.cmd(cmd, kwds)
+    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 278, in cmd
+      return self.cmd_obj(qmp_cmd)
+    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 256, in cmd_obj
+      self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+  BrokenPipeError: [Errno 32] Broken pipe =
+
+
+  The qemu-system-sparc binary outputs:
+
+   qemu-system-sparc: warning: nic lance.0 has no peer
+   qemu-system-sparc: Missing section footer for sysbusespscsi
+   qemu-system-sparc: load of migration failed: Invalid argument
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1922611/+subscriptions
 
