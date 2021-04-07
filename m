@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB46356E99
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:28:46 +0200 (CEST)
-Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A33356E80
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:27:14 +0200 (CEST)
+Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU9Ak-0007Av-0E
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36920)
+	id 1lU99F-0005M9-AK
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lU98Y-0005cW-Gp; Wed, 07 Apr 2021 10:26:31 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:46752)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lU96m-0003rw-RT; Wed, 07 Apr 2021 10:24:40 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:42542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lU98N-00010V-JW; Wed, 07 Apr 2021 10:26:30 -0400
-Received: by mail-il1-x12f.google.com with SMTP id p8so12004668ilm.13;
- Wed, 07 Apr 2021 07:26:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lU96g-0008K8-Vq; Wed, 07 Apr 2021 10:24:40 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id c195so20309983ybf.9;
+ Wed, 07 Apr 2021 07:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Acf9CiAzaFeH8eLeZ5du5p1Kh8sUSQ3gzUGdD30l1NM=;
- b=AGwR+KmYxXagDXyMggYDEwLfrXTb70/vkDl0v8Nmqt0BpvGfzMjNXfHXNyBppgQkTY
- TFaQ/BdEBTZH8CS5CZWy9XVKtpUWWqq6BQhrvckARu6gSk1HlYUZt9BznONxjJTd8ojb
- 4IsgOqmmV4w8a2GhVMWUE1X6lRt3KTJDW42dJRUEB5JhDEXLvMXSUprxcXsAb0ES/23w
- FTmvNRCDb7dYPmHPM6myWUOHlXHzT5Mc+REWtKFCJR8rK3wxKlwoU4aCD7CYmSnbbtdD
- ciStx10i/08ppJaTRXYxMXmLsaQIqRPS2ip8gcK2rIiqwSJiZSiD2CPWIVeqXCq/6JZe
- ScgQ==
+ :cc; bh=qD4JmBSc3QWTzz5uaLSh7Ol8TnQeutrarHi/EctpLf8=;
+ b=DQJR+8POs7rQNBjp0ryVCHZyqv5f6JorlEA8oNvbHKgaw74Jrwg9JLILBKazw7iBaS
+ alZZ9UDVhRb93WmD5SI0Rv/fdIHX5j5uqNoFH8tY59S20tkIyHP59CBKDaNb5vVz24Of
+ 58OnAwy+SjfKGLYQsb/cnHtc1jfuhjrFKnNTlsnfb92BYTE5HcoEZdroow6NydATN4v5
+ YBG3ftc84JXcxUKEwfo5fdFYtAZMCd5406zDI93WAzGIVx98bSQ+i9ApG1DEARoHems9
+ 4+GELvw/cPbmKXgcnNPXRKWO5KwGHNoLlIo/yQ1T8qIfPh1i5Zl7F31C+wtLr2pYsEvc
+ tMyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Acf9CiAzaFeH8eLeZ5du5p1Kh8sUSQ3gzUGdD30l1NM=;
- b=DNQqQcLlkDYi5Ich2Ip+lwxwIyyP+hB8TZQyOpNe+LTwtARqu9CrP1vz3yRmsW9lar
- AQd4hNa5Zgo55JGqYkxnY+jlJPxd9J4H+lWZmJoL0TdIuI2WQZq3AC9shA+r/c5eSKaG
- hZbv2O1srvUtjXgVE1SH+ti5FQjwrXDHNVQULVDZwwIwAwtI4tH5HYetTvvWR2ZnqQmW
- 65nS8tueog6yBahUIltgB+PVFitONPCleT/mlXpI7uN9uEu/gsfn2riXu2s/7TvzILhP
- njLJDE5O+mA9Mz5NUGXSHgMZINunNTiAstauMTbiK5Ox3Phn7RK0F8Gc8z088DO0oQlG
- 8whA==
-X-Gm-Message-State: AOAM530Hadnv+qvUR4jxoF0vFm7kgSlChLo4f7iBGvlzWHaiGqV8zuZQ
- 9EIkrXGkAv1Y1GvTylNdH8/pxhrl8Wew0VKi49Q=
-X-Google-Smtp-Source: ABdhPJxbN7EQGTgDdIELhWYxvhXKhYLSnNwoZ6qFtiQZp59gtiXbEN9TBSSicrUSbWaY2O68X+Iwfykq2ecnG7jY5n0=
-X-Received: by 2002:a05:6e02:1989:: with SMTP id
- g9mr2977298ilf.40.1617805571754; 
- Wed, 07 Apr 2021 07:26:11 -0700 (PDT)
+ bh=qD4JmBSc3QWTzz5uaLSh7Ol8TnQeutrarHi/EctpLf8=;
+ b=O+n7WJscUPSXrOk8Y2qk3nYYTatZy6Lyr5rhApy7FWrI5a2+qukcGD/xulld83V79S
+ QIXtyZyku6ODN16LT/I2CZ6oeJpwWUc+5mMbmU7Xhg4cyNcR4ehSqbCxodNwhDRzArnE
+ 8FymTY/5DPP4YhIV4QkV9h+ZPxdOVRgHrfHSBQ7AQATDLDd0TjbEF10ocHFKz5az3AZ5
+ W7qD9xmCut10xah8gAoZdZ0ldlXUXwr8f1zs9B/R9CVujJI0y0Ti/r8naBNHYWcohdAb
+ 41LHcDiXw0SZKVn9RCTh9n8V4wypTEMPLdmOAmNqnszPEilxUlJR3fuUxpIgnL1ONaNK
+ kN6g==
+X-Gm-Message-State: AOAM53124f/jRuGxHUJkuQPgYUqmv/HcQTbwstZ4jfAe97Nzd5AE5m5Y
+ zmeTJJxh//TIgy0bNV0AmZGjYkzRqS26F6ib0ZA=
+X-Google-Smtp-Source: ABdhPJza+QH7yOOvMgtlrEaaeDGNOOKkZG3RMV1kAmt3ssovtXXs7CtjTnZgrlWCX480p4RDxW4UcncDHzPSbm1Yqx4=
+X-Received: by 2002:a25:afca:: with SMTP id d10mr4439334ybj.517.1617805473688; 
+ Wed, 07 Apr 2021 07:24:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
-In-Reply-To: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 7 Apr 2021 10:23:51 -0400
-Message-ID: <CAKmqyKPX_7F2-nsS0Ea1oimJC9jKe3RfvFH-yG91dVXhy3PzSA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] MAINTAINERS: Update the RISC-V CPU Maintainers
+References: <cover.1617367533.git.alistair.francis@wdc.com>
+ <5bf4e802b52fc4f8e57c8c03346cec716ea3ce32.1617367533.git.alistair.francis@wdc.com>
+In-Reply-To: <5bf4e802b52fc4f8e57c8c03346cec716ea3ce32.1617367533.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 7 Apr 2021 22:24:22 +0800
+Message-ID: <CAEUhbmXyyQYAL3fxE0tO094BO-Ry+BO0GW4nZX9fS9jLri_x7A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/8] target/riscv: Define ePMP mseccfg
 To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,54 +75,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+Cc: weiying_hou@outlook.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Ethan.Lee.QNL@gmail.com,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+ Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
+ camiyoru@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 6, 2021 at 6:51 PM Alistair Francis
+On Fri, Apr 2, 2021 at 8:49 PM Alistair Francis
 <alistair.francis@wdc.com> wrote:
 >
-> Update the RISC-V maintainers by removing Sagar and Bastian who haven't
-> been involved recently.
+> From: Hou Weiying <weiying_hou@outlook.com>
 >
-> Also add Bin who has been helping with reviews.
+> Use address  0x390 and 0x391 for the ePMP CSRs.
+
+nits: remove one space before 0x390
+
 >
+> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Message-Id: <SG2PR02MB2634D85E5DF0C2BB540AE1BB93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
+> [ Changes by AF:
+>  - Tidy up commit message
+> ]
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
 > ---
-> I have run this by all of the people involved and they are all ok with
-> the change.
+>  target/riscv/cpu_bits.h | 3 +++
+>  1 file changed, 3 insertions(+)
 >
->  MAINTAINERS | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index caf4599207..32e1ee92dc 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -232,6 +232,9 @@
+>  #define CSR_MTINST          0x34a
+>  #define CSR_MTVAL2          0x34b
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 69003cdc3c..541bd264b2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -295,9 +295,8 @@ F: tests/acceptance/machine_ppc.py
->
->  RISC-V TCG CPUs
->  M: Palmer Dabbelt <palmer@dabbelt.com>
-> -M: Alistair Francis <Alistair.Francis@wdc.com>
-> -M: Sagar Karandikar <sagark@eecs.berkeley.edu>
-> -M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> +M: Alistair Francis <alistair.francis@wdc.com>
-> +M: Bin Meng <bin.meng@windriver.com>
->  L: qemu-riscv@nongnu.org
->  S: Supported
->  F: target/riscv/
-> --
-> 2.31.0
->
+> +/* Enhanced PMP */
+
+nits: Enhanced Physical Memory Protection ?
+
+> +#define CSR_MSECCFG         0x390
+> +#define CSR_MSECCFGH        0x391
+>  /* Physical Memory Protection */
+>  #define CSR_PMPCFG0         0x3a0
+>  #define CSR_PMPCFG1         0x3a1
+
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+
+Regards,
+Bin
 
