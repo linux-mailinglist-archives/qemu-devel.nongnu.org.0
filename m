@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A1635789F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 01:38:07 +0200 (CEST)
-Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E063578A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 01:45:51 +0200 (CEST)
+Received: from localhost ([::1]:38760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUHkM-0006q1-34
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 19:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
+	id 1lUHrq-00086T-Qr
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 19:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUHiy-0006Pp-S7
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 19:36:41 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43747)
+ id 1lUHq5-0007ZK-Vb
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 19:44:02 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:36427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUHiw-0007mL-Vc
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 19:36:40 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id p12so16789pgj.10
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 16:36:38 -0700 (PDT)
+ id 1lUHq4-00036Z-8i
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 19:44:01 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ f2-20020a17090a4a82b02900c67bf8dc69so2152083pjh.1
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 16:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=61sqYPeeEgbD6wjgBardHLMqr1lFVMAMkGpymqf/7jQ=;
- b=OXdajk0n7a2zyaI+a91cF0Qe2zX2/AdOv7asBMtLqbMQRORHXVUu0UieQSHcEdpXIT
- CPethGucGgQ8q3oOGtgw1KQ5XexVhFM98RS52g+49P/CpiG0x22dvUAq5k/5adlKgwTT
- iESo4PF9NPzHK0DsIuH2PREjOcCBKyyIeNMGZ6utoX9PiCCltif/Tkhd3EqvTRVNLN7k
- GeCYpECE3gTSpzgirAnNC7ijNiY1f6jDndezwUE71+hELAc10L6/4Ch37/LHsUO8kPXu
- K6izejGKhNgk93o7tICG8peAEfbB0Ce89Vk0sDRY+W3vjj/FkjN1eiqSj7uoMQBcy6sp
- iG9Q==
+ bh=9XQC+A6oqoZrIx8iiiFjBbPpyOIWQZGhH2JcX5VRnyU=;
+ b=gb6NtwB8b2IJZQrgOT/FcLOjbm/KQ9BzvI2waNZBzervUsHazjqgCQBrr9WmKyVbW/
+ K6YXO3+JrvTrHnz3yCGJ3zCNaoCLF/KN4Vwrqfrn6698h/W8e2DhW75A5RFhR4FDhdTZ
+ SAKpLwagjNJjhrq/SXCN01FkMWZL6QUBa6A6EDAssSAfFN74EegHJWK8BtTugY9qdUr4
+ +oo9vEwaRsAS+r8FzyK8Szz8YepHa5t6tWE0qUjVJTX9Gn+eXZ43uBpHUHadF5av3sNe
+ H5Ik1ZvELbqYvosW+f+dfsJb4VsADu84C4S2XAoh3kkCKkwVwev+BQ72e20pNYoSw6Fx
+ YfHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=61sqYPeeEgbD6wjgBardHLMqr1lFVMAMkGpymqf/7jQ=;
- b=q5BWapOTzYW935+dZoHTwwjeSbP5C3ahW4lciOItrEOJuRtKMJNCsBdx/FQY8+NQEz
- OpcEkrsChCeR1Ew1i6J6auANRLt0potbyw3LvWrbgiFpenYJW0QWwQmfEhxSrF3Hq4a+
- P/FC8DtYP+Cq5vKwIXLRvu20qTYFx3ssEnJk70H6TxU4Q5tOPxc74DxLsujIvqQ/Oa1r
- qYeIGN2yZj8qBR3jwxkkEQObcpbfAKhVVGnQ4tQD9chKHfpIGN8ZkFtc7YOIrmy3E7Jg
- 7RYZuyleu2xy3e8e19EfzNO2xs6BcbvLq1smwFCjbcik7Wd92SunZ4axFCCHP8P1oQTP
- TMdw==
-X-Gm-Message-State: AOAM533yDjLXdKIMbVFWk3NGB5wYcssc899/IqjrihSo5NHpEunIJ71G
- 1K+CO09DRat+ARoUekm+sUiNIA==
-X-Google-Smtp-Source: ABdhPJwloxvQReN6PfTa93d2H/9mV2QSWPkKB9GzlW9h37yXkf5Vmb5GGKswvUk0F3FXKJVZqQ3qwQ==
-X-Received: by 2002:a65:6907:: with SMTP id s7mr5461654pgq.296.1617838597138; 
- Wed, 07 Apr 2021 16:36:37 -0700 (PDT)
+ bh=9XQC+A6oqoZrIx8iiiFjBbPpyOIWQZGhH2JcX5VRnyU=;
+ b=abomlP4d/6rQ2i1BB0hiEvupqZpOISMnhW5uEIEiZTacnsLkSC4o3dJUo74i0EFUHc
+ PUS7cxelt+J6OvvxKC7UcRartkfDZvEMNoTV6haK8QRAmS4+KklpnKoV1X1PVOThvlb/
+ GZnTiN6knFIPtepYsOln+VoxcQgE1HGOi0YkrEG7a8URv5bXkIb8NGGs6G0oiix7rd7P
+ myC++xf5TYzeMj8Hx6VR/9bAsevN770+l0gRumWjuxoyC8UvpoVgMZ8WseHCmRvaKED5
+ 8ZGx+FqtkQI0XXm9b+xjm17EeTyJnt/umCQSiGCYKc2VrTz1O7FDzZShRZYii/R8Hr2/
+ up1w==
+X-Gm-Message-State: AOAM532JXtHLEXa7hAnhMcfgdBfWPZIDOdnUL3B9FZbmmuF8IpM1t6UM
+ meNQ3+PgyrxchlVOddw/fqXVpg==
+X-Google-Smtp-Source: ABdhPJwQUhZ4ABGLdoLtp+zgpW8UvZ7b1XU76++nu1Wq3Pdht8Rk15hT+ZZiKcsUsycBd/cS6lUn9w==
+X-Received: by 2002:a17:90b:608:: with SMTP id
+ gb8mr5526975pjb.121.1617839038742; 
+ Wed, 07 Apr 2021 16:43:58 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id x125sm21858236pfd.124.2021.04.07.16.36.36
+ by smtp.gmail.com with ESMTPSA id r1sm6354859pjo.26.2021.04.07.16.43.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Apr 2021 16:36:36 -0700 (PDT)
-Subject: Re: [PATCH 20/27] arcv3: TCG, decoder glue code and helper changes
+ Wed, 07 Apr 2021 16:43:58 -0700 (PDT)
+Subject: Re: [PATCH 21/27] arcv3: TCG instruction generator changes
 To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
 References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
- <20210405143138.17016-21-cupertinomiranda@gmail.com>
+ <20210405143138.17016-22-cupertinomiranda@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <129d4614-0970-04c6-35b4-3dcadcf619c2@linaro.org>
-Date: Wed, 7 Apr 2021 16:36:34 -0700
+Message-ID: <97eb498e-b696-8d3b-3473-9d7bd86701f6@linaro.org>
+Date: Wed, 7 Apr 2021 16:43:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210405143138.17016-21-cupertinomiranda@gmail.com>
+In-Reply-To: <20210405143138.17016-22-cupertinomiranda@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,125 +95,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/5/21 7:31 AM, cupertinomiranda@gmail.com wrote:
-> +uint64_t helper_carry_add_flag32(uint64_t dest, uint64_t b, uint64_t c) {
-> +    return carry_add_flag(dest, b, c, 32);
-> +}
-> +
-> +target_ulong helper_overflow_add_flag32(target_ulong dest, target_ulong b, target_ulong c) {
-> +    return overflow_add_flag(dest, b, c, 32);
-> +}
-> +
-> +target_ulong helper_overflow_sub_flag32(target_ulong dest, target_ulong b, target_ulong c) {
-> +    dest = dest & 0xffffffff;
-> +    b = b & 0xffffffff;
-> +    c = c & 0xffffffff;
-> +    return overflow_sub_flag(dest, b, c, 32);
-> +}
+> +        if(ctx->insn.limm & 0x80000000)
+> +          ctx->insn.limm += 0xffffffff00000000;
 
-You shouldn't need to replicate these functions.  Use the correct types and 
-masking in the first place.
+(1) bad braces, but
+(2) use an unconditional cast to int32_t.
 
+Qemu forces the compiler to use standard 2's compliment arithmetic. We don't 
+have to go out of our way to work around the ISO-C lunacy of "undefined values" 
+that for no good reason still allows sign-magnitude and 1's compliment arithmetic.
 
-> +uint64_t helper_rotate_left32(uint64_t orig, uint64_t n)
-> +{
-> +    uint64_t t;
-> +    uint64_t dest = (orig << n) & ((0xffffffff << n) & 0xffffffff);
-> +
-> +    t = (orig >> (32 - n)) & ((1 << n) - 1);
-> +    dest |= t;
-> +
-> +    return dest;
-> +}
-> +
-> +uint64_t helper_rotate_right32(uint64_t orig, uint64_t n)
-> +{
-> +    uint64_t t;
-> +    uint64_t dest = (orig >> n) & (0xffffffff >> n);
-> +
-> +    t = ((orig & ((1 << n) - 1)) << (32 - n));
-> +    dest |= t;
-> +
-> +    return dest;
-> +}
-
-rol32 and ror32.
-
-> +uint64_t helper_asr_32(uint64_t b, uint64_t c)
-> +{
-> +  uint64_t t;
-> +  c = c & 31;
-> +  t = b;
-> +  for(int i = 0; i < c; i++) {
-> +    t >>= 1;
-> +    if((b & 0x80000000) != 0)
-> +      t |= 0x80000000;
-> +  }
-> +      //t |= ((1 << (c+1)) - 1) << (32 - c);
-> +
-> +  return t;
-
-Really?  I can't imagine what lead you to write this.
-Who writes a simple shift operation with a loop?
-
-Perhaps no helper at all and
-
-   tcg_gen_sra_tl(ret, b, c);
-   tcg_gen_ext32s_tl(ret, ret);
-
-
-> +target_ulong helper_ffs32(CPUARCState *env, uint64_t src)
-> +{
-> +    int i;
-> +    if (src == 0) {
-> +      return 31;
+> +    if (ctx->insn.cc) {
+> +        TCGv cc = tcg_temp_local_new();
+> +        arc_gen_verifyCCFlag(ctx, cc);
+> +        tcg_gen_brcondi_tl(TCG_COND_NE, cc, 1, done);
+> +        tcg_temp_free(cc);
 > +    }
-> +    for (i = 0; i <= 31; i++) {
-> +      if (((src >> i) & 1) != 0) {
-> +        break;
-> +      }
-> +    }
-> +    return i;
-> +}
+> +
 
-tcg_gen_ori_tl(ret, src, MAKE_64BIT_MASK(32, 32));
-tcg_gen_ctzi_tl(ret, ret, 31);
-
-Though I really wonder if you've got that function correct, as it's not the 
-*normal* definition of ffs...
-
-
-> +target_ulong helper_norml(CPUARCState *env, uint64_t src1)
-> +{
-> +    int i;
-> +    int64_t tmp = (int64_t) src1;
-> +    if (tmp == 0 || tmp == -1) {
-> +      return 0;
-> +    }
-> +    for (i = 0; i <= 63; i++) {
-> +      if ((tmp >> i) == 0) {
-> +          break;
-> +      }
-> +      if ((tmp >> i) == -1) {
-> +          break;
-> +      }
-> +    }
-> +    return i;
-> +}
-
-This is some cognate of count-leading-repititions-of-sign-bit, 
-tcg_gen_clrsb_tl.  A decent computation should be like
-
-   tcg_gen_clrsb_i64(ret, src);
-   tcg_gen_subfi_i64(ret, 63, ret);
-
-
-> diff --git a/target/arc/semfunc-v2_mapping.def b/target/arc/semfunc-v2_mapping.def
-> new file mode 100644
-> index 0000000000..ab8d9ff123
-> --- /dev/null
-> +++ b/target/arc/semfunc-v2_mapping.def
-
-You could have named this properly to start.
+Lots of non-uses of gen_cc_prologue/epilogue.
 
 
 r~
