@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB2335673C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:54:23 +0200 (CEST)
-Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D9C35678C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 11:02:14 +0200 (CEST)
+Received: from localhost ([::1]:45208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU3x8-0004uw-A1
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59918)
+	id 1lU44j-0000XM-Cj
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 05:02:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lU3vy-000467-JJ
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:53:10 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:39825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lU3vw-0001Mu-E7
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:53:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=p3cyy6JD8fANw3oaunjybaLD1iLjfQOVAUIN8gwlUyw=; b=MSLvP41mTw+daOtBEf6U+KhFHS
- eHi7cF3Tw8qfnOu9PISGDmqDWA4Sn1Y+qZ8yFTjxkwKcYY50LsgrJkjDvnlivkg2PSgICbmiEf2Z4
- fsrdAGblHEL5vmqltFmjOd/LiP6A5hkjDvojNTkrpsg4gELf797b5DzS0XqCEL0YDMJN2HkKUyC6f
- UcUM+17DhBVCaMzPSEul8EYBMlxKJ9D3ZsNFYvE7eFzxGGnLoQwJb34YAFAH5obDPDVNZjPHOiI85
- nJ4kX3xCROFTunON3HMgipaHBwTv9db5MP7EhCNW2BptXzPsoannZmvyuxHlZcuxtZowNyDRJRzHB
- jYaZvWpJskOCOo66WiR+xvwrbWATp1k49zkKwa1k4YM+YMdXk3ROMDTr3mJyNw0D+gPE9Iz2DddDr
- eaacAxcA5lmGMBSWenONYePs/LfWgRJqeX3sxrPRNX+mZHPkNWXrzkmFVWpYvEM3C8qA7ha97ntRM
- +CduW1qN62sfdsch6DSNANpbXinN86VRwxHLGn6IEc8v46HE+AmWTzDCxiQ86mimCQaoc0RJskHQr
- GKyByhZ+1v1RTRdS3MNIWH3GxGmVjzqDaHGVp1fWbU4Kt757L4356UfqCao66AMbg6of17iyxhjOw
- 6++eOuLwV0LILByiESR3KkI6/ciT9jM/NV+PgKW98=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 0/4] add in-tree 9pfs developers documentation
-Date: Wed, 07 Apr 2021 10:52:59 +0200
-Message-ID: <2001177.cHeAXU27Kk@silver>
-In-Reply-To: <20210407093230.5b172a8a@bahia.lan>
-References: <cover.1616528420.git.qemu_oss@crudebyte.com>
- <3541529.Jmkro1RegT@silver> <20210407093230.5b172a8a@bahia.lan>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lU43V-0008K6-2m
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 05:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47418)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lU43R-0006JO-U9
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 05:00:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lU43O-0004tq-EP
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 09:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 628F92E8010
+ for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 09:00:50 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Wed, 07 Apr 2021 08:53:58 -0000
+From: Peter Maydell <1922887@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: muhui
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161778201158.26656.2798489764705445614.malonedeb@wampee.canonical.com>
+Message-Id: <161778563931.29743.5263018292652812742.launchpad@gac.canonical.com>
+Subject: [Bug 1922887] Re: STR in Thumb 32 decode problem
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: 8167066ba15158ace433e912021edc3c8a1aaa40
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,113 +70,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1922887 <1922887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 7. April 2021 09:32:30 CEST Greg Kurz wrote:
-> On Tue, 06 Apr 2021 14:27:41 +0200
->=20
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Dienstag, 23. M=E4rz 2021 20:40:20 CEST Christian Schoenebeck wrote:
-> > > The original source for the QEMU 9p developers documentation is:
-> > >   https://wiki.qemu.org/Documentation/9p
-> > >=20
-> > > This patch set adds it as in-tree .rst file along with its pictures to
-> > > the
-> > > QEMU source tree. The 9p.rst file has been auto generated by 'pandoc'.
-> > >=20
-> > > Preview of generated 9p.rst file with pictures:
-> > >=20
-> > >=20
-> > > https://github.com/cschoenebeck/qemu/blob/bbc74655d54f2fa9c3eabf485e8=
-7f9
-> > > 952
-> > > 53b8cfd/docs/devel/9p.rst
-> > >=20
-> > > Picture binary files (omitted as binary blobs from patch 2):
-> > >=20
-> > >=20
-> > > https://github.com/cschoenebeck/qemu/tree/bbc74655d54f2fa9c3eabf485e8=
-7f9
-> > > 952
-> > > 53b8cfd/docs/devel/img
-> > >=20
-> > > Or simply access my '9p.experimental' branch on github.
-> > >=20
-> > > I have no idea if that fits into the current sphinx/meson concept in
-> > > this
-> > > form and way. I hope either Peter or Paolo might tell.
-> > >=20
-> > > The individual patches could also be squashed, I kept them split for =
-now
-> > > to
-> > > show what pandoc actually did and what I manually adjusted afterwards.
-> > >=20
-> > > Christian Schoenebeck (4):
-> > >   docs/devel: add 9p.rst
-> > >   docs/devel: add directory for pictures
-> > >   docs/devel/9p: fix references to pictures
-> > >   MAINTAINERS: add responsibility for docs/devel/9p.rst
-> >=20
-> > Ping
-> >=20
-> > Anyone? On doubt I just leave the 9p developer docs solely on the wiki
-> > site.
-> Hi Christian,
->=20
-> Sorry for the delay... well, it is probably handy to have some
-> in-tree documentation. This being said I can't really tell if
-> it makes sense to have an exact copy of the wiki... or if this
-> should simply replace the wiki.
+** Tags added: arm
 
-The idea was to keep the wiki page as primary copy and only sync the in-tre=
-e=20
-=2Erst file by auto conversion tool (e.g. pandoc) once in a while. Because =
-it is=20
-easier, quicker and more convenient to quickly change docs by wiki IMO.
+-- =
 
-> Also, do we want to host the png files ? It seems that other
-> in-tree documentation rather relies on ASCII-art, which
-> provides a more terminal-friendly experience.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922887
 
-Right, that's a matter of taste / opinion. I assume a small minority of peo=
-ple=20
-want to be able to view illustrations from a text terminal nowadays, and th=
-at=20
-the vast majority rather prefers a graphical representation. The lack of co=
-lor=20
-alone would already be too counter intuitive in my opinion, and automatic=20
-ascii art conversion tools never worked for me well enough.
+Title:
+  STR in Thumb 32 decode problem
 
-Given the fact that we can only spend small times slices on 9p, I would lik=
-e=20
-to avoid maintaining 2 completely separate documentation versions manually.
+Status in QEMU:
+  New
 
-So personally I would suggest, if either auto conversion and/or images is n=
-ot=20
-appropriate for an in-tree version, to just keep the wiki page for now.=20
+Bug description:
+  Hi
 
->=20
-> Cheers,
->=20
-> --
-> Greg
->=20
-> > >  MAINTAINERS                          |   1 +
-> > >  docs/devel/9p.rst                    | 544 +++++++++++++++++++++++++=
-++
-> > >  docs/devel/img/9pfs_control_flow.png | Bin 0 -> 156560 bytes
-> > >  docs/devel/img/9pfs_topology.png     | Bin 0 -> 51529 bytes
-> > >  docs/devel/img/Coroutines_stacks.png | Bin 0 -> 87204 bytes
-> > >  5 files changed, 545 insertions(+)
-> > >  create mode 100644 docs/devel/9p.rst
-> > >  create mode 100644 docs/devel/img/9pfs_control_flow.png
-> > >  create mode 100644 docs/devel/img/9pfs_topology.png
-> > >  create mode 100644 docs/devel/img/Coroutines_stacks.png
-> >=20
-> > Best regards,
-> > Christian Schoenebeck
+  It seems that QEMU does not have a proper check on the STR instruction
+  in Thumb32 mode.
 
+  Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 1=
+111 0000 1101 1101 1101. =
 
+  This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
 
+  The symbols is
+
+  Rn =3D 1111
+  Rt =3D 0000
+  P =3D 1
+  U =3D 0
+  W =3D 1
+
+  The decode ASL is below:
+
+  if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=
+=3D =E2=80=980=E2=80=99 then SEE STRT;
+  if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
+=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
+=E2=80=9800000100=E2=80=99 then SEE PUSH;
+  if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W=
+ =3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
+  t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
+  index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
+=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
+  if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
+
+  When Rn =3D=3D 1111, it should be an undefined instruction, which should
+  raise SEGILL signal. However, it seems that QEMU does not check this
+  constraint, which should be a bug. Many thanks
+
+  Regards
+  Muhui
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922887/+subscriptions
 
