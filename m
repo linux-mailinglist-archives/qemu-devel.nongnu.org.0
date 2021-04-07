@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CCD357459
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:29:24 +0200 (CEST)
-Received: from localhost ([::1]:47626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD00835745F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:31:44 +0200 (CEST)
+Received: from localhost ([::1]:50298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUCvb-0003DF-38
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
+	id 1lUCxr-0004Ra-V9
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUCuG-0002mX-TV
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:28:00 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:38804)
+ id 1lUCwA-0003u4-B5
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:29:58 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUCuE-0001XH-VB
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:28:00 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id r12so29279763ejr.5
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 11:27:58 -0700 (PDT)
+ id 1lUCw7-0002ew-7l
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 14:29:58 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id n2so23035531ejy.7
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 11:29:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=V+wydxSYl3zObSAGK5JaMp1SRs/+8b5rTd7m7kpAtys=;
- b=BACtH3Kx3ksmm3MpoX5HTABjG0SIy237Kh2OaeuRmHSo8cJ+ath6hsSfuxZhpj0n1w
- fHUYYu8sg6bticUxT3B+kYxAfUVqEdKlFhYtamL1EUeu4lRYbafBn58xQD2L49NLh6NW
- nw9gRkxUHCA2qZVmrobxoTY1fc5qPtmwCRAELgJD73GZFi0RZ8hFJ0YahoIaAGELeEk0
- 5wUlMUsxJ1eaQDyykzU9kdBDkuWhieNmkgyOATmIXjFwATsD+wfhGxL+iaXcmCBz2cyg
- xiE0GggDo9Uj3Uv405xrhuQ0J5RQemXCMUe6z0IDI8nQIUo022hEH0rNQRMGREQNfAfJ
- eesQ==
+ bh=leELXv5FVxkDo1qW5sohXz8hGCf4cAci2lhWN9QRgDE=;
+ b=yjARTOadfsxoIMq6qdvfqmONogSDMxqJgKoSHOhNoSJtSpJwSeD+HLo6BYVJKnnPLB
+ lKHKmgEqsTOxh4E1NH3CrCEkX/6gZllvzhF91mkJW3FmeJT+IneIxmF92yo032r6SkCp
+ vSNLt3lVjSZhg9hp7yGynUF0Cp47/yfJHnT5QjFtsM6ljMe9iP7Nsdf/zEOR1dg00CGS
+ WX0qZ8ho0kHKX3ByBkGjbWG6XbKEKY6yl84N7+JPQk4Za+jqbIAkVF+5by7sdDl3OYev
+ g+DPrHMYEG18OtaAgIkFicAyaBwfXvwChx2dPbApmXVsU2jUhZJjM5LRMwYbfFvDI45U
+ cSsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=V+wydxSYl3zObSAGK5JaMp1SRs/+8b5rTd7m7kpAtys=;
- b=EOtsxKGoBqNM+dJMJXUfmINR+T//4o+wvFfNbwFKKk2ZUyiYoSnU2JXITm5bd/Y9nm
- iyBNucuPf0Pwxa2kCECP8qSEwWZxaX/XZ+RlnK4cwyTrkwrvOHaf5azB7zkYtkEo0XQT
- 9BQdzAbmt/Qu9GsoRm+8fNzxZZs2BH4XwlkLNhzdN82OlRLgi7XrIKFZvqcDNAlccJ2E
- vyusczda+ianuoYmp243xddoNwYt+Mto5zyet+a+nANpqkilUi17HNgggJH9o0KpXYku
- h66jLzXO1+sflSzH6wwk7miMdiqOlvQxVrdhf1nHZjocv0wfFER9Bdk4QvNIK4bjMLn8
- jzvg==
-X-Gm-Message-State: AOAM530KVRekR7dTznMe/cyASXxc1imbLgesT/cE9e7ZBrgKwLjEb8Wk
- qcf7g7cRwKX2RoQVX6gLCBDsduRbB1oSidXMbwEcpQ==
-X-Google-Smtp-Source: ABdhPJyFOn1W+ETuyvvMaYh6SdTfhGkffvDfU3+GSB5/dTyeDWpP+1bRR7zuC1q3I9mncrUiwZko9enSRVluOwNpl7U=
-X-Received: by 2002:a17:906:bd2:: with SMTP id
- y18mr5316078ejg.482.1617820076971; 
- Wed, 07 Apr 2021 11:27:56 -0700 (PDT)
+ bh=leELXv5FVxkDo1qW5sohXz8hGCf4cAci2lhWN9QRgDE=;
+ b=r5z8kwrCp47fD45uBHjQ39/1OVHzgVyNK8tqPQc+7SngHi/kw9ADyr/x8an61FlVZn
+ PTQyVdfB9jwfOq7BuTwhIOaxm3nd1QbmEUXZyZZH5/xGOw04vBedVV9YWL3/Or5YufyJ
+ 7PdKj0VF5jyayeoBwrF19YBTq3fUyUP/FSS06WSFuzn/6wXIa9kOEYZQO9hMaG2bKGaX
+ pqWy/wvjlaAetHh/h9KiD7JDRVY9VOKvu9ay3m9+hnUhvSlBWF/BR1iOTLiAVxLOxkji
+ 3F64V4oWZdCf/thch0dU9u4TJrn3W+J7HZntJ/OsfGNRnEQvEU4hZJURyrE1ECNUMVKF
+ riJA==
+X-Gm-Message-State: AOAM530iHakAERQSf8oJVtOlhMg+YM/lFhV0N+xpvz8K0FM/UszUZInV
+ b4MKY+TPFzG1ic9WEGD6mQnFTZFf9qNsTIhy2J6gYw==
+X-Google-Smtp-Source: ABdhPJwdxynQ3OA06cQ+b+amxgyYikzkZ1Vg5oqwKcjMWF2coieomkgpRL/RCur8qDGjN7UsoXuUbYmUktXGlio0XDg=
+X-Received: by 2002:a17:906:ce32:: with SMTP id
+ sd18mr5348406ejb.85.1617820193955; 
+ Wed, 07 Apr 2021 11:29:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210406150041.28753-1-alex.bennee@linaro.org>
- <CAFEAcA9c24M3NA8LzbDEUU==Y51LwRH5nR9bopiFNwQTwoE7cg@mail.gmail.com>
- <87czv6uhtr.fsf@linaro.org>
-In-Reply-To: <87czv6uhtr.fsf@linaro.org>
+References: <20210407171637.777743-1-clg@kaod.org>
+ <20210407171637.777743-18-clg@kaod.org>
+In-Reply-To: <20210407171637.777743-18-clg@kaod.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Apr 2021 18:27:17 +0000
-Message-ID: <CAFEAcA_6AEcUkpZY3d602OXybnH1iVM+8pQuktUWkScd02W4Kw@mail.gmail.com>
-Subject: Re: [PULL 00/11] rc2 fixes (check-tcg, gitlab, gdbstub)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Wed, 7 Apr 2021 18:29:14 +0000
+Message-ID: <CAFEAcA9LEO2BzghgCvp5hfFvRx1YyL5XZxY70FHPGwHeHxZZhA@mail.gmail.com>
+Subject: Re: [PATCH 17/24] aspeed: Remove swift-bmc machine
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
@@ -81,74 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Adriana Kobylak <anoo@us.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Apr 2021 at 18:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+On Wed, 7 Apr 2021 at 18:17, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
+> The SWIFT machine never came out of the lab and we already have enough
+> AST2500 based OpenPower machines. Remove it.
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Tue, 6 Apr 2021 at 16:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> >>
-> >> The following changes since commit 109918d24a3bb9ed3d05beb34ea4ac6be44=
-3c138:
-> >>
-> >>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-fixes-for-6.0-p=
-ull-request' into staging (2021-04-05 22:15:38 +0100)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://github.com/stsquad/qemu.git tags/pull-6.0-rc2-fixes-060421-1
-> >>
-> >> for you to fetch changes up to a2e5bbf0c407a572d9b687adaecf9995f66b4cd=
-9:
-> >>
-> >>   gitlab-ci.yml: Test the dtrace backend in one of the jobs (2021-04-0=
-6 15:04:50 +0100)
-> >>
-> >> ----------------------------------------------------------------
-> >> Testing updates:
-> >>
-> >>   - fix x86_64 cross compilers
-> >>   - don't use registry for non-x86 containers
-> >>   - add valid host types for given cross compile containers
-> >>   - clean up i386 code16 test with explicit -no-pie
-> >>   - relax sha1.py gdbstub test
-> >>   - add more gdbstub documentation
-> >>   - remove annoying warning on gitlab
-> >>   - test dtrace backend in gitlab
-> >>
-> >> ----------------------------------------------------------------
-> >
-> > The merge for this failed in gitlab CI with a weird state:
-> >
-> > https://gitlab.com/qemu-project/qemu/-/pipelines/282228325
-> >
-> >  * marked "failed"
-> >  * but has a "cancel" button
-> >  * has no "retry" button
-> >  * has an "error" tag whose hover-over text reads "Pipeline job activit=
-y
-> >    limit exceeded!"
-> >
-> > Not being sure whether this is gitlab CI being flaky again or a problem
-> > with something in the pullreq, I've not applied it for rc2; we can
-> > figure out what happened and maybe try again for rc3.
->
-> I think it's GitLab going nuts because:
->
->   https://gitlab.com/stsquad/qemu/-/pipelines/282304522 is all green
->   https://gitlab.com/stsquad/qemu/-/pipelines/282619235 is a dumpster fir=
-e
->
-> And they are both the same commit (pull-6.0-rc2-fixes-070421-2)
+> Cc: Adriana Kobylak <anoo@us.ibm.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Should I retry a merge of this pullreq (which is -1), or are you going to
-submit a new one ?
+We've had QEMU releases with this machine in them, right?
+If so, then we need to go through the usual deprecate-and-delete
+cycle, we can't just drop it immediately.
 
 thanks
 -- PMM
