@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC41356802
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 11:27:55 +0200 (CEST)
-Received: from localhost ([::1]:53892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A47D35681F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 11:34:19 +0200 (CEST)
+Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU4Ta-0005nB-Up
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 05:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40402)
+	id 1lU4Zm-0007wK-5c
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 05:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lU4SL-0004r0-O5; Wed, 07 Apr 2021 05:26:37 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2072)
+ id 1lU4YS-0007SP-B2
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 05:32:56 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lU4SG-0004NF-Gq; Wed, 07 Apr 2021 05:26:37 -0400
-Received: from DGGEML401-HUB.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FFf9M3CDfzRYg8;
- Wed,  7 Apr 2021 17:24:23 +0800 (CST)
+ id 1lU4YO-0008AJ-4K
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 05:32:55 -0400
+Received: from DGGEML403-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FFfH13Qn7z14D6t;
+ Wed,  7 Apr 2021 17:29:17 +0800 (CST)
 Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEML401-HUB.china.huawei.com (10.3.17.32) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 7 Apr 2021 17:26:24 +0800
+ DGGEML403-HUB.china.huawei.com (10.3.17.33) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Wed, 7 Apr 2021 17:32:46 +0800
 Received: from [10.174.185.210] (10.174.185.210) by
  dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Wed, 7 Apr 2021 17:26:23 +0800
-Subject: Re: A question about the translation granule size supported by the
- vSMMU
-To: Auger Eric <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, <linuc.decode@gmail.com>
-References: <fa696532-5f04-aeeb-1ba3-6427675c6655@huawei.com>
- <4886d8d0-cca6-d4b2-4139-29ad52020f79@redhat.com>
+ 15.1.2106.2; Wed, 7 Apr 2021 17:32:43 +0800
+Subject: Re: [PATCH v4 0/2] Some modification about ram_save_host_page()
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210316125716.1243-1-jiangkunkun@huawei.com>
+ <7e722b03-c6d4-4246-bcb6-d8393fa07a49@huawei.com> <YGyXEhvSxW32uywG@work-vm>
 From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <d4b8b381-0883-4301-8967-d924ccc61ea0@huawei.com>
-Date: Wed, 7 Apr 2021 17:26:12 +0800
+Message-ID: <04961810-a0d0-4bf4-27bd-fc2f3b208a6c@huawei.com>
+Date: Wed, 7 Apr 2021 17:32:31 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <4886d8d0-cca6-d4b2-4139-29ad52020f79@redhat.com>
+In-Reply-To: <YGyXEhvSxW32uywG@work-vm>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
+X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
  dggema765-chm.china.huawei.com (10.1.198.207)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -67,74 +67,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>, Keqian Zhu <zhukeqian1@huawei.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alexey Romko <nevilad@yahoo.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+Hi Dave,
 
-On 2021/4/7 3:50, Auger Eric wrote:
-> Hi Kunkun,
->
-> On 3/27/21 3:24 AM, Kunkun Jiang wrote:
->> Hi all,
+On 2021/4/7 1:14, Dr. David Alan Gilbert wrote:
+> * Kunkun Jiang (jiangkunkun@huawei.com) wrote:
+>> Kindly ping,
 >>
->> Recently, I did some tests on SMMU nested mode. Here is
->> a question about the translation granule size supported by
->> vSMMU.
->>
->> There is such a code in SMMUv3_init_regs():
->>
->>>     /* 4K and 64K granule support */
->>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
->>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
->>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, SMMU_IDR5_OAS); /* 44
->>> bits */
->> Why is the 16K granule not supported? I modified the code
->> to support it and did not encounter any problems in the
->> test. Although 4K and 64K minimal granules are "strongly
->> recommended", I think vSMMU should still support 16K.😉
->> Are there other reasons why 16K is not supported here?
-> no there aren't any. The main reasons were 16KB support is optional and
-> supporting it increases the test matrix. Also it seems quite a few
-> machines I have access to do support 16KB granule. On the others I get
+>> Hi David Alan Gilbert,
+>> Will this series be picked up soon, or is there any other work for me to do?
+> You don't need to do anything, but it did miss the cutoff for soft
+> freeze; since it's an optimisation not a fix; it's still on my list so
+> it'll go in just as soon as 6.1 opens up.
 >
-> "EFI stub: ERROR: This 16 KB granular kernel is not supported by your CPU".
->
-> Nevertheless I am not opposed to support it as it seems to work without
-> trouble. Just need to have an extra look at implied validity checks but
-> there shouldn't be much.
->
-> Thanks
->
-> Eric
-Yes, you are right. In my opinion, it is necessary to check whether pSMMU
-supports 16K to avoid the situation I mentioned below.
-In SMMU nested mode, if vSMMU supports 16K and set pasid table to
-pSMMU, it may get errors when pSMMU does translation table walk if
-pSMMU doesn't support 16K (not tested). Do you think we need to add
-an interface to get some pSMMU info?
+> Dave
+Okay, I see. Thank you.
 
-Maybe my consideration was superfluous.😁
-
-Thanks,
+Best Regards,
 Kunkun Jiang
->> When in SMMU nested mode, it may get errors if pSMMU
->> doesn't support 16K but vSMMU supports 16K. But we
->> can get some settings of pSMMU to avoid this situation.
->> I found some discussions between Eric and Linu about
->> this [1], but this idea does not seem to be implemented.
->>
->> [1] https://lists.gnu.org/archive/html/qemu-arm/2017-09/msg00149.html
->>
->> Best regards,
+>> Best Regards,
 >> Kunkun Jiang
 >>
->
-> .
-
+>> On 2021/3/16 20:57, Kunkun Jiang wrote:
+>>> Hi all,
+>>>
+>>> This series include patches as below:
+>>> Patch 1:
+>>> - reduce unnecessary rate limiting in ram_save_host_page()
+>>>
+>>> Patch 2:
+>>> - optimized ram_save_host_page() by using migration_bitmap_find_dirty() to find
+>>> dirty pages
+>>>
+>>> History:
+>>>
+>>> v3 -> v4:
+>>> - Remove the modification to ram_save_host_page() comment [Peter Xu]
+>>> - Remove the renaming of tmppages
+>>>
+>>> v2 -> v3:
+>>> - Reduce unnecessary rate limiting if nothing is sent in the current iteration [David Edmondson]
+>>> - Invert the body of the loop in ram_save_host_page() [David Edmondson]
+>>>
+>>> v1 -> v2:
+>>> - Modify ram_save_host_page() comment [David Edmondson]
+>>> - Remove 'goto' [David Edmondson]
+>>>
+>>> Kunkun Jiang (2):
+>>>     migration/ram: Reduce unnecessary rate limiting
+>>>     migration/ram: Optimize ram_save_host_page()
+>>>
+>>>    migration/ram.c | 34 +++++++++++++++++++---------------
+>>>    1 file changed, 19 insertions(+), 15 deletions(-)
+>>>
 
 
