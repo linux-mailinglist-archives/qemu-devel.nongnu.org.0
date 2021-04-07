@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D34356EB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:31:36 +0200 (CEST)
-Received: from localhost ([::1]:41122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEB3356EE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:37:11 +0200 (CEST)
+Received: from localhost ([::1]:59626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU9DR-00025O-V2
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38830)
+	id 1lU9It-0001jC-0Z
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lU9As-0008TV-Nb; Wed, 07 Apr 2021 10:28:58 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:36568)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lU9Ar-0002TD-6t; Wed, 07 Apr 2021 10:28:54 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id 185so14780577ybf.3;
- Wed, 07 Apr 2021 07:28:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dTXlqBakMi7TrH7e1LM2SCr9TWwjf8PIiilBJeHHu5g=;
- b=rA+Cb82nSy9+h6BXsX0GksxnBvyIjDpfdkFQ8VnZ2gvNP2yDAyHAFs5iK9BwawmTb5
- JdfzPcDUT0PzcaQZpXbAfPsgX401mNAXaJ794Ul63dGDCo8+tYsi/aDDPhbV2TVvuGGN
- /ZIP/+lgUIBIDmiHvHYXi2d4QXlEUXvmHctU023VNvGyUuYSKFzMG8ScAjOISC6ehF2N
- zykNZarm4vn/yVxTNKFS+CUgCjyqYSMy14Wpb8Lu94ozniH5KiURw83fnX2kMllmcWP6
- PduD2pVBfnYnfFT28cdBuNgQ1KwYt885CNenQYvLbaOAyuzIHuIeaniDsL0+aSWl8y0y
- kv0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dTXlqBakMi7TrH7e1LM2SCr9TWwjf8PIiilBJeHHu5g=;
- b=lllMMbrkQ9/38Gl/4yibVIZP8ohbkNk0xKHotpahXzUtbLGHRdFMoQ1fdv18jK+Z6c
- tneczzSeqvH2A8ayZfw2iifieiwgUnDl1dh14U0ykDw6yaAZ5XwVz5HBkyQQFz5Aur7v
- Yvkjy2h1/6vlP6+5JTIZrOFauGkolQQbBDm8YVx8S0DaQX3EGkIPzZU8OakCW/caSqzu
- Vw9hE4iqfi+ntak59mO+DQu4gHd9YrBchSbvUyZQ/69E/nxljW1oJ8iPgZmWAskiRy/p
- LXRoADe5aybHEVdhF3x4ZFFuCVFGkrUMHgJVCAi0ZlfRnnX1UZbueNnwvqtoLiZK7gVu
- 8VBA==
-X-Gm-Message-State: AOAM5314hyfqiHzEXDPicYZ1HNsQYF9zF/IPNYgVIAwOEN02IK9YsQii
- q6Rt6B3gXqaJE65BJnnrdsuWTzyfc0vne4E5nJY=
-X-Google-Smtp-Source: ABdhPJznE5dcKIU9VrnkXsFeMprm0XqyHsTgLohtXmpkMtz5B2MYVhhirsHkRvVLGQozIkN4tqZhQAODG+qVGVoG6hQ=
-X-Received: by 2002:a25:afca:: with SMTP id d10mr4464367ybj.517.1617805731881; 
- Wed, 07 Apr 2021 07:28:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9Gx-0008D7-HD
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:11 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:44302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9Gv-0006KW-EH
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:11 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-pRVf_xofMXy_5rPOdC94Rg-1; Wed, 07 Apr 2021 10:35:05 -0400
+X-MC-Unique: pRVf_xofMXy_5rPOdC94Rg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83C0679EC3;
+ Wed,  7 Apr 2021 14:35:04 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-114-100.ams2.redhat.com [10.36.114.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 075BA5D9D0;
+ Wed,  7 Apr 2021 14:35:01 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [for-6.1 0/4] virtio: Improve boot time of virtio-scsi-pci and
+ virtio-blk-pci
+Date: Wed,  7 Apr 2021 16:34:57 +0200
+Message-Id: <20210407143501.244343-1-groug@kaod.org>
 MIME-Version: 1.0
-References: <cover.1617367533.git.alistair.francis@wdc.com>
- <169e1a3c65731c9ee5be4d0c394d53d0d8b2655d.1617367533.git.alistair.francis@wdc.com>
-In-Reply-To: <169e1a3c65731c9ee5be4d0c394d53d0d8b2655d.1617367533.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 7 Apr 2021 22:28:40 +0800
-Message-ID: <CAEUhbmWimBzPZswfOhNe4s7-68xEJbC6GmEoq6M73tgcES2mOg@mail.gmail.com>
-Subject: Re: [PATCH v1 8/8] target/riscv: Add ePMP support for the Ibex CPU
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,25 +63,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: weiying_hou@outlook.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Ethan.Lee.QNL@gmail.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
- camiyoru@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 2, 2021 at 8:50 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> The physical Ibex CPU has ePMP support and it's enabled for the
-> OpenTitan machine so let's enable ePMP support for the Ibex CPU in QEMU.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.c | 1 +
->  1 file changed, 1 insertion(+)
->
+Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,=0D
+a serious slow down may be observed on setups with a big enough number=0D
+of vCPUs.=0D
+=0D
+Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threads):=
+=0D
+=0D
+              virtio-scsi      virtio-blk=0D
+=0D
+1=09=090m20.922s=090m21.346s=0D
+2=09=090m21.230s=090m20.350s=0D
+4=09=090m21.761s=090m20.997s=0D
+8=09=090m22.770s=090m20.051s=0D
+16=09=090m22.038s=090m19.994s=0D
+32=09=090m22.928s=090m20.803s=0D
+64=09=090m26.583s=090m22.953s=0D
+128=09=090m41.273s=090m32.333s=0D
+256=09=092m4.727s =091m16.924s=0D
+384=09=096m5.563s =093m26.186s=0D
+=0D
+Both perf and gprof indicate that QEMU is hogging CPUs when setting up=0D
+the ioeventfds:=0D
+=0D
+ 67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable=0D
+  9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single=0D
+  8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable=0D
+=3D>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioeventfd_b=
+efore=0D
+=3D>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_ioev=
+entfds=0D
+  0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single=0D
+=0D
+address_space_update_ioeventfds() is called when committing an MR=0D
+transaction, i.e. for each ioeventfd with the current code base,=0D
+and it internally loops on all ioventfds:=0D
+=0D
+static void address_space_update_ioeventfds(AddressSpace *as)=0D
+{=0D
+[...]=0D
+    FOR_EACH_FLAT_RANGE(fr, view) {=0D
+        for (i =3D 0; i < fr->mr->ioeventfd_nb; ++i) {=0D
+=0D
+This means that the setup of ioeventfds for these devices has=0D
+quadratic time complexity.=0D
+=0D
+This series simply changes the device models to extend the transaction=0D
+to all virtqueueues, like already done in the past in the generic=0D
+code with 710fccf80d78 ("virtio: improve virtio devices initialization=0D
+time").=0D
+=0D
+Only virtio-scsi and virtio-blk are covered here, but a similar change=0D
+might also be beneficial to other device types such as host-scsi-pci,=0D
+vhost-user-scsi-pci and vhost-user-blk-pci.=0D
+=0D
+              virtio-scsi      virtio-blk=0D
+=0D
+1=09=090m21.271s=090m22.076s=0D
+2=09=090m20.912s=090m19.716s=0D
+4=09=090m20.508s=090m19.310s=0D
+8=09=090m21.374s=090m20.273s=0D
+16=09=090m21.559s=090m21.374s=0D
+32=09=090m22.532s=090m21.271s=0D
+64=09=090m26.550s=090m22.007s=0D
+128=09=090m29.115s=090m27.446s=0D
+256=09=090m44.752s=090m41.004s=0D
+384=09=091m2.884s=090m58.023s=0D
+=0D
+This should fix https://bugzilla.redhat.com/show_bug.cgi?id=3D1927108=0D
+which reported the issue for virtio-scsi-pci.=0D
+=0D
+Changes since RFC:=0D
+=0D
+As suggested by Stefan, splimplify the code by directly beginning and=0D
+committing the memory transaction from the device model, without all=0D
+the virtio specific proxying code and no changes needed in the memory=0D
+subsystem.=0D
+=0D
+Greg Kurz (4):=0D
+  virtio-blk: Fix rollback path in virtio_blk_data_plane_start()=0D
+  virtio-blk: Configure all host notifiers in a single MR transaction=0D
+  virtio-scsi: Set host notifiers and callbacks separately=0D
+  virtio-scsi: Configure all host notifiers in a single MR transaction=0D
+=0D
+ hw/block/dataplane/virtio-blk.c | 36 +++++++++++++++++++--=0D
+ hw/scsi/virtio-scsi-dataplane.c | 56 ++++++++++++++++++++++-----------=0D
+ 2 files changed, 72 insertions(+), 20 deletions(-)=0D
+=0D
+--=20=0D
+2.26.3=0D
+=0D
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
