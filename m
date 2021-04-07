@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0293572FE
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:21:33 +0200 (CEST)
-Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E793E3572F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:19:10 +0200 (CEST)
+Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUBrv-0003EW-4q
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
+	id 1lUBpd-00014N-TH
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lUBni-0007Wl-4w; Wed, 07 Apr 2021 13:17:10 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20478
- helo=mx0a-001b2d01.pphosted.com)
+ id 1lUBng-0007SW-IG; Wed, 07 Apr 2021 13:17:08 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lUBne-0006hn-BF; Wed, 07 Apr 2021 13:17:09 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 137H3tfw125105; Wed, 7 Apr 2021 13:16:46 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37rvm4rksh-1
+ id 1lUBnc-0006gn-TR; Wed, 07 Apr 2021 13:17:08 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 137H3LQt072099; Wed, 7 Apr 2021 13:16:46 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37rw6kgn0m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 13:16:45 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137HDSue013339;
+ Wed, 07 Apr 2021 13:16:46 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137HD83e029748;
  Wed, 7 Apr 2021 17:16:44 GMT
 Received: from b06cxnps4075.portsmouth.uk.ibm.com
  (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma05fra.de.ibm.com with ESMTP id 37rvbvgg0e-1
+ by ppma03ams.nl.ibm.com with ESMTP id 37rvbqgwc2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 17:16:43 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
+ Wed, 07 Apr 2021 17:16:44 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
  by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 137HGfXg65274250
+ 137HGg0F63635890
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Apr 2021 17:16:41 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8845F4C040;
- Wed,  7 Apr 2021 17:16:41 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4EC184C046;
+ Wed, 7 Apr 2021 17:16:42 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1B1D311C04C;
+ Wed,  7 Apr 2021 17:16:42 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D3F0911C04A;
  Wed,  7 Apr 2021 17:16:41 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Wed,  7 Apr 2021 17:16:41 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.70.229])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A19C52200C7;
- Wed,  7 Apr 2021 19:16:40 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 39B68220190;
+ Wed,  7 Apr 2021 19:16:41 +0200 (CEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 00/24] aspeed: fixes and extensions
-Date: Wed,  7 Apr 2021 19:16:13 +0200
-Message-Id: <20210407171637.777743-1-clg@kaod.org>
+Subject: [PATCH 01/24] aspeed/smc: Use the RAM memory region for DMAs
+Date: Wed,  7 Apr 2021 19:16:14 +0200
+Message-Id: <20210407171637.777743-2-clg@kaod.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210407171637.777743-1-clg@kaod.org>
+References: <20210407171637.777743-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: J-GtpgTh63IzQpo-0pFBAgIeI092JZ_d
-X-Proofpoint-ORIG-GUID: J-GtpgTh63IzQpo-0pFBAgIeI092JZ_d
+X-Proofpoint-GUID: YsvJYSNmCVCT_L6pmrrVp0WQMB2q2ZAC
+X-Proofpoint-ORIG-GUID: YsvJYSNmCVCT_L6pmrrVp0WQMB2q2ZAC
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-07_09:2021-04-07,
  2021-04-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- spamscore=0 phishscore=0 adultscore=0 mlxscore=0 clxscore=1034
- impostorscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104070116
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ adultscore=0 impostorscore=0
+ bulkscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 mlxlogscore=548
+ clxscore=1034 phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104070116
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -94,107 +95,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Instead of passing the memory address space region, simply use the RAM
+memory region instead. This simplifies RAM accesses.
 
-This is a 6.1 series of changes I have been collecting for the Aspeed
-machines.
+Fixes: c4e1f0b48322 ("aspeed/smc: Add support for DMAs")
+Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/arm/aspeed.c     | 2 +-
+ hw/ssi/aspeed_smc.c | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-We were passing the memory address space region to the I2C and SMC
-controller for DMAs. Passing the RAM memory region simplifies the
-models. Thanks to Philippe.
-
-Then, we have a model for the HACE (Hash And Crypto Engine) device of
-the Aspeed SoC from Joel plus extensions from Klaus. These should be
-ready but I lack a firmware image to check. An extra review would be
-nice to have.
-
-Follow acceptance tests for all SoCs (AST2400, AST2500 and AST2600), a
-fix (kexec) for the XDMA model on the AST2600, an extra feature for
-the SMC model which is required by a SPI driver Aspeed is working on,
-a new machine, the AST2600 rainier-bmc, and the iBT device model that
-I have been keeping for while (2016). It is ready for review now that
-the LPC model (Andrew) is merged.
-
-Finally, a new model from Joel for the DPS310 sensor device which can
-be found on the witherspoon and rainier boards.
-
-Thanks,
-
-C.
-
-C=C3=A9dric Le Goater (12):
-  aspeed/smc: Use the RAM memory region for DMAs
-  aspeed/smc: Remove unused "sdram-base" property
-  aspeed/i2c: Fix DMA address mask
-  aspeed/i2c: Rename DMA address space
-  hw/misc/aspeed_xdma: Add AST2600 support
-  aspeed/smc: Add a 'features' attribute to the object class
-  aspeed/smc: Add extra controls to request DMA
-  tests/qtest: Rename m25p80 test in aspeed_smc test
-  aspeed: Remove swift-bmc machine
-  aspeed: Add support for the rainier-bmc board
-  hw/misc: Add an iBT device model
-  hw/block: m25p80: Add support for mt25qu02g
-
-Joel Stanley (9):
-  hw: Model ASPEED's Hash and Crypto Engine
-  aspeed: Integrate HACE
-  tests/qtest: Add test for Aspeed HACE
-  tests/acceptance: Test ast2400 and ast2500 machines
-  tests/acceptance: Test ast2600 machine
-  aspeed: Emulate the AST2600A3
-  hw/misc: Add Infineon DPS310 sensor model
-  arm/aspeed: Add DPS310 to rainier
-  arm/aspeed: Add DPS310 to witherspoon
-
-Klaus Heinrich Kiwi (2):
-  aspeed: Add Scater-Gather support for HACE Hash
-  tests: Aspeed HACE Scatter-Gather tests
-
-Philippe Mathieu-Daud=C3=A9 (1):
-  hw/arm/aspeed: Do not sysbus-map mmio flash region directly, use alias
-
- docs/system/arm/aspeed.rst                    |   2 +-
- include/hw/arm/aspeed_soc.h                   |   5 +
- include/hw/misc/aspeed_hace.h                 |  43 ++
- include/hw/misc/aspeed_ibt.h                  |  47 ++
- include/hw/misc/aspeed_scu.h                  |   2 +
- include/hw/misc/aspeed_xdma.h                 |  17 +-
- include/hw/ssi/aspeed_smc.h                   |   7 +-
- hw/arm/aspeed.c                               | 144 +++--
- hw/arm/aspeed_ast2600.c                       |  36 +-
- hw/arm/aspeed_soc.c                           |  35 +-
- hw/block/m25p80.c                             |   1 +
- hw/i2c/aspeed_i2c.c                           |   5 +-
- hw/misc/aspeed_hace.c                         | 480 ++++++++++++++
- hw/misc/aspeed_ibt.c                          | 596 ++++++++++++++++++
- hw/misc/aspeed_scu.c                          |  32 +-
- hw/misc/aspeed_xdma.c                         | 124 +++-
- hw/misc/dps310.c                              | 339 ++++++++++
- hw/ssi/aspeed_smc.c                           | 119 +++-
- tests/qtest/aspeed_hace-test.c                | 469 ++++++++++++++
- .../{m25p80-test.c =3D> aspeed_smc-test.c}      |  12 +-
- MAINTAINERS                                   |   1 +
- hw/arm/Kconfig                                |   1 +
- hw/misc/Kconfig                               |   4 +
- hw/misc/meson.build                           |   3 +
- hw/misc/trace-events                          |   7 +
- tests/acceptance/boot_linux_console.py        |  68 ++
- tests/qtest/meson.build                       |   5 +-
- 27 files changed, 2458 insertions(+), 146 deletions(-)
- create mode 100644 include/hw/misc/aspeed_hace.h
- create mode 100644 include/hw/misc/aspeed_ibt.h
- create mode 100644 hw/misc/aspeed_hace.c
- create mode 100644 hw/misc/aspeed_ibt.c
- create mode 100644 hw/misc/dps310.c
- create mode 100644 tests/qtest/aspeed_hace-test.c
- rename tests/qtest/{m25p80-test.c =3D> aspeed_smc-test.c} (96%)
-
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a17b75f4940a..1cf5a15c8098 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -327,7 +327,7 @@ static void aspeed_machine_init(MachineState *machine=
+)
+     object_property_set_int(OBJECT(&bmc->soc), "num-cs", amc->num_cs,
+                             &error_abort);
+     object_property_set_link(OBJECT(&bmc->soc), "dram",
+-                             OBJECT(&bmc->ram_container), &error_abort);
++                             OBJECT(machine->ram), &error_abort);
+     if (machine->kernel_filename) {
+         /*
+          * When booting with a -kernel command line there is no u-boot
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 16addee4dc8d..6f72fb028e59 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -178,8 +178,7 @@
+  *   0: 4 bytes
+  *   0x7FFFFF: 32M bytes
+  */
+-#define DMA_DRAM_ADDR(s, val)   ((s)->sdram_base | \
+-                                 ((val) & (s)->ctrl->dma_dram_mask))
++#define DMA_DRAM_ADDR(s, val)   ((val) & (s)->ctrl->dma_dram_mask)
+ #define DMA_FLASH_ADDR(s, val)  ((s)->ctrl->flash_window_base | \
+                                 ((val) & (s)->ctrl->dma_flash_mask))
+ #define DMA_LENGTH(val)         ((val) & 0x01FFFFFC)
 --=20
 2.26.3
 
