@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AE235734B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:36:13 +0200 (CEST)
-Received: from localhost ([::1]:49608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC3D357355
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:40:14 +0200 (CEST)
+Received: from localhost ([::1]:58212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUC68-0006GP-UP
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42344)
+	id 1lUCA1-0001OT-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:40:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUC2h-0002y1-IQ; Wed, 07 Apr 2021 13:32:39 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39927)
+ id 1lUC2v-0003A6-Dc; Wed, 07 Apr 2021 13:32:57 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUC2g-0004Ws-05; Wed, 07 Apr 2021 13:32:39 -0400
-Received: by mail-ed1-x532.google.com with SMTP id k8so14437873edn.6;
- Wed, 07 Apr 2021 10:32:36 -0700 (PDT)
+ id 1lUC2t-0004cW-38; Wed, 07 Apr 2021 13:32:52 -0400
+Received: by mail-ed1-x532.google.com with SMTP id w23so10607241edx.7;
+ Wed, 07 Apr 2021 10:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n/8NFr3CO5ikP/M+M9fMssrRA/jFiaLPQrSEIVwPoX8=;
- b=EVV8BsU3ftn9Sy9gun0QZOo1DbtAQXooQsKO1ZIuVrKwcRrjP67NA+1lOrRAREUiyX
- m09Rt4IsZiJsKwoEFcK+7+TY7zEf+pWe50TPIrIcGVDIV9jfrjQtdTwaEMU5why0s3Jd
- qRnlPlPDLD+lqDnBBAYccgrcG+Ugl8a8l7w9fIsCPdup+JGhKCuv/Vvl1vwoCdcrXJg0
- bruseXRhSp/hXjjUmzw12BecEiJlajczHIKqg+DaWolQmYOiR689oR+enqL+gtISzXaj
- ZIJ4pl0OiiyQ3pbs5ZIdNvkx1sT8zV0DgFZnVNMGoJewKTqIG8Iybgi2abwmaqJjcBVC
- 1PUg==
+ bh=xv9Ro4ygY+tuYEqxruStLz1EJjOtv0k8UpWInlUBG20=;
+ b=MP+tx2XSbTkouzEqUo19rYS9N93DDP0k+0OMiYbJOakjUK4sCUkBJ6/gqRBGEco1bh
+ 0XeX15x3/PPqLEt4mnu3NcWsBalEBaf58FmYZJWaZvwgibQF+IvszLJvO4cPJVgrm/hb
+ sqRLh3CIteITOUFdMd4q62DkDb7ca4d6ruiVWSxYHb1MfUe+yd/gcDcE/RsWAx8Me5CX
+ p9euvvmzfxc970vm9PMe0t0y9Y2rVLxo/VOw5uOPHrTrXwDGm1NPUZqXE8h8/PqrNvSx
+ SGEh+stefG8pmSy2QSamfhE1O0G2pt78ZYkjgamDGwit2VKW6pcLv+PGDH+Ap7JV9/fx
+ Ra5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n/8NFr3CO5ikP/M+M9fMssrRA/jFiaLPQrSEIVwPoX8=;
- b=beU581SKWLxk8WxF87psPLFY12Vuie6onre7czqeNQzu0eoYrSwwpvyFz/JDjsvxCl
- bswYmwEv/6phL7F/dMRaN0fGWJJ3EBP3TI/Xd/izNHTCJ6H2SrG7Nn5ueMv2jrE3VpyZ
- L5gDOa4ZjNms7ycHSpvwIgBK/UTJ2ARr/9EvBJlTJf736JMd2j+DDNzgJXtLPcDDMmNO
- FPN4I4xjkuYqCi0KbhDs5oS7wPsIRAbLLnFUbmoy7G3U40rGFi7iXlLW4aTvJVwIIQuc
- zGybwMZsHWUSEqiQ0kTbLbeUMHJ+J9worT1ctky0CA/T3Cibz8hs64s8RwRa2OW6pEt6
- rr0w==
-X-Gm-Message-State: AOAM531ov7sQa4HxHj6buu8EPOZgPzHM80+qaZa26808NIT88/IoBpQY
- jgqH9eXqVunNgOjJaEtEeMc=
-X-Google-Smtp-Source: ABdhPJzj6QHmjTbbcfUf401et/hQ/fyE2qaSxLOHa2imd2A34zD93uMunWkDnrB7XsXjPXWrkWXSyA==
-X-Received: by 2002:a05:6402:280f:: with SMTP id
- h15mr2290050ede.150.1617816755769; 
- Wed, 07 Apr 2021 10:32:35 -0700 (PDT)
+ bh=xv9Ro4ygY+tuYEqxruStLz1EJjOtv0k8UpWInlUBG20=;
+ b=A2tTbLhYubq0mcI4z9eE1boEnReRkJxVeXYIcfJFNSe/XHieWImTpp56+ahJtbGhAK
+ TLMDgkArSQ4GFMTbXSs9C+yBfiN1ZpPVFSwsaEICBJfe6vezmyBcF7zs/CLIBBCsZA84
+ 86GtrCJeAYmwsUkqSeNVOkbmqNt6/tAuGr7QbwG15DA2Em6HMnooZ/NImNZaQDkdBcqa
+ WkNroe/zr7zTA4cnapRkZ+QhedmZFRDLyFEb+hGqKVWZX1FZtDDmYAcAMUWMKx2b3JHW
+ NzcBWx2PDADz39Tgr1Vbg9dIEL8GvRQMXQlZe/qKvsrbA4VIZiu9l7VPjniL/HF+kZ6Q
+ CjQw==
+X-Gm-Message-State: AOAM530NXdDzeJUzxVr8t/ceq0YyZVAygvT6TSeyjlVvNjMhjAw64dy4
+ ZeITiyQglh6SHowvrwuJfrM=
+X-Google-Smtp-Source: ABdhPJxHTTN23jXnQ4wBlqRc2QRzvlAENjlAJGND47+4RFXtj8GNvjK7BRfXNqeNEzQvbXTmXD9Bkg==
+X-Received: by 2002:aa7:d60f:: with SMTP id c15mr5810989edr.88.1617816769444; 
+ Wed, 07 Apr 2021 10:32:49 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id df8sm6604754edb.4.2021.04.07.10.32.34
+ by smtp.gmail.com with ESMTPSA id x18sm9247092ejb.45.2021.04.07.10.32.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Apr 2021 10:32:35 -0700 (PDT)
-Subject: Re: [PATCH 01/24] aspeed/smc: Use the RAM memory region for DMAs
+ Wed, 07 Apr 2021 10:32:48 -0700 (PDT)
+Subject: Re: [PATCH 02/24] aspeed/smc: Remove unused "sdram-base" property
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-2-clg@kaod.org>
+ <20210407171637.777743-3-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <df3e45cb-667f-c440-fdf7-a66d03c6ef54@amsat.org>
-Date: Wed, 7 Apr 2021 19:32:33 +0200
+Message-ID: <567cc487-e27c-895e-dbf5-e0466ccf6b9a@amsat.org>
+Date: Wed, 7 Apr 2021 19:32:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210407171637.777743-2-clg@kaod.org>
+In-Reply-To: <20210407171637.777743-3-clg@kaod.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -95,16 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/7/21 7:16 PM, Cédric Le Goater wrote:
-> Instead of passing the memory address space region, simply use the RAM
-> memory region instead. This simplifies RAM accesses.
-> 
-> Fixes: c4e1f0b48322 ("aspeed/smc: Add support for DMAs")
 > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/arm/aspeed.c     | 2 +-
->  hw/ssi/aspeed_smc.c | 3 +--
->  2 files changed, 2 insertions(+), 3 deletions(-)
+>  include/hw/ssi/aspeed_smc.h | 3 ---
+>  hw/arm/aspeed_ast2600.c     | 4 ----
+>  hw/arm/aspeed_soc.c         | 4 ----
+>  hw/ssi/aspeed_smc.c         | 1 -
+>  4 files changed, 12 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
