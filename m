@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027293565C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 09:49:35 +0200 (CEST)
-Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22F93565F3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:02:10 +0200 (CEST)
+Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU2wQ-0002N2-3o
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 03:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43112)
+	id 1lU38b-0004yi-IY
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lU2vL-0001u2-7g
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:48:28 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37610)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lU37R-0004ZL-7g
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lU2vI-0004J5-AZ
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:48:26 -0400
-Received: by mail-ed1-x533.google.com with SMTP id s15so4680223edd.4
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 00:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=v02FlDW9VZ25vjMFoe/JgHQKNpzmymT36sEZ4H/Kv/o=;
- b=FdVlBpeYx7jRFtDkIrWWhS5v4jun1rxidufd7P7/VM3LL4WoV0zkv7gR3AhUj5oMoB
- yyDquVE6efeuT7lC7+A+ehsZH+s8/IX/ZgRaTIn/iynUArcoBAA3si5KZUMWtWawS05m
- n6gIhujWUpUUCJZ1+T/LW9eu9TxE4lS9gQE+F+0VAHDfn7iFRmSN+zy5+X5ODyGzSaKi
- svDEC9cn8+I5/GqlcHfeQMr+4m1mAFMKqxvcbl1i/PvV+hd4pdLFmS+3e7ZTUjG6NTt0
- y6OQU9IpcRfo1oxPihzHZOPB5V5wIK7Y7spgmwXJ3o7l3RrcnvnfY+1Yek10BBrsAo0/
- 0uMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=v02FlDW9VZ25vjMFoe/JgHQKNpzmymT36sEZ4H/Kv/o=;
- b=e0Kl3uf98UKWBELzanej+yupDfJbk7OiRa+WwtvSYUyt39uzbedegnT6bUVqfc6E9c
- JrtYQPz87hI0wsYP+bHCZ+SL4cHjr5smxgvHvrWEAaaZzJ4HSLpISz/K7I538P+2jIVk
- c6p+pk6rVzu9vsHxURB9yugWJxniF4st0N6OkRLDjUMNEIegIbgXcTCrXECcnMt8tslV
- iRqpKVTJM+zel/z0nmu87owuhEw7UwImIfig0VwXVVFxkxB9/Vj3KOAZ1SMJGYMpVKI9
- 3vZQmpq4LrI8XFrA1AaiMCqnL0h2yHocDIKy/VyS2SzLWBOCPxLf11gLE/wspYWrAWu5
- osdA==
-X-Gm-Message-State: AOAM533DyGdvotdvgg9lFxLGoriZkp/Up6CktZ1/UTvV1Zeu1JA/Dqc0
- /6f5zly2MkU0CrsB8bOlho+fhY2ns77LEc8kCAcmQw==
-X-Google-Smtp-Source: ABdhPJw8YhGedFO+dpcmt+VfBOIV15cHUtUPjmZiFX/2q7pOLZQLTgoRGyVdEqCwItC9Qch/tdfNbCQ9ZC87kMXET2s=
-X-Received: by 2002:a05:6402:2746:: with SMTP id
- z6mr2865259edd.146.1617781702680; 
- Wed, 07 Apr 2021 00:48:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lU37O-0003ml-Rh
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:00:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lU37L-0008Fg-Qk
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 08:00:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B5CBC2E8026
+ for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 08:00:51 +0000 (UTC)
 MIME-Version: 1.0
-References: <87mtubwnsq.fsf@linaro.org>
-In-Reply-To: <87mtubwnsq.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Apr 2021 07:47:43 +0000
-Message-ID: <CAFEAcA8V94ac+UNcP6nKfNJQAxSzeY_dbpZx1tKa0xnXHhekEA@mail.gmail.com>
-Subject: Re: Could we document exact steps for loongson3-virt in the manual?
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Wed, 07 Apr 2021 07:53:31 -0000
+From: JIANG Muhui <1922887@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: muhui
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
+Message-Id: <161778201158.26656.2798489764705445614.malonedeb@wampee.canonical.com>
+Subject: [Bug 1922887] [NEW] STR in Thumb 32 decode problem
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: d87e1e5ff44add8cfc5c161883785d0cff0834dc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,52 +68,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1922887 <1922887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Apr 2021 at 14:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> Hi,
->
-> I was trying to bootstrap a Loongson3 Debian image but ran into some
-> roadblocks. Philippe pointed me at:
->
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg768848.html
->
-> which gives a bit of detail but elides over details such as how to
-> handle block devices. AFAICT it should support virtio-blk although maybe
-> Debian bullseye doesn't support the target, it's hard to say:
->
->   ./qemu-system-mips64el -M loongson3-virt -m 4096 -nographic -blockdev d=
-river=3Draw,node-name=3Dhd0,discard=3Dunmap,file.driver=3Dhost_device,file.=
-filename=3D/dev/zvol/hackpool-0/debian-bullseye-mips64le -device virtio-blk=
-,drive=3Dhd0 -kernel ./vmlinuz-5.9.0-4-loongson-3 -initrd initrd.gz -append=
- "root=3D/dev/sda1 console=3Dtty0 nokaslr"
->
-> Gets as far as:
->
-> [    0.008641] printk: console [tty0] enabled
-> [    0.009507] printk: bootconsole [early0] disabled
->
-> and then just goes silent.
+Public bug reported:
 
-Oddly enough somebody on stackoverflow had the same problem for
-a different board (malta) the other day:
-https://stackoverflow.com/questions/66904366/qemu-system-mips-stuck-after-c=
-onsole-tty0-enabled/66910192
+Hi
 
-As Jiaxun says, the problem is that your kernel command line says "send the
-console output to the virtual console on the graphics device (tty0)" but yo=
-ur
-QEMU command line is using a serial console and not trying to use graphics.
-So as soon as the kernel gets to the point where it can honour your request
-it disables the early-boot console and enables tty0 and then you don't
-see anything any more :-)
+It seems that QEMU does not have a proper check on the STR instruction
+in Thumb32 mode.
 
-thanks
--- PMM
+Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 111=
+1 0000 1101 1101 1101. =
+
+This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
+
+The symbols is
+
+Rn =3D 1111
+Rt =3D 0000
+P =3D 1
+U =3D 0
+W =3D 1
+
+The decode ASL is below:
+
+if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=3D=
+ =E2=80=980=E2=80=99 then SEE STRT;
+if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
+=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
+=E2=80=9800000100=E2=80=99 then SEE PUSH;
+if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W =
+=3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
+t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
+index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
+=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
+if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
+
+When Rn =3D=3D 1111, it should be an undefined instruction, which should
+raise SEGILL signal. However, it seems that QEMU does not check this
+constraint, which should be a bug. Many thanks
+
+Regards
+Muhui
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922887
+
+Title:
+  STR in Thumb 32 decode problem
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi
+
+  It seems that QEMU does not have a proper check on the STR instruction
+  in Thumb32 mode.
+
+  Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 1=
+111 0000 1101 1101 1101. =
+
+  This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
+
+  The symbols is
+
+  Rn =3D 1111
+  Rt =3D 0000
+  P =3D 1
+  U =3D 0
+  W =3D 1
+
+  The decode ASL is below:
+
+  if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=
+=3D =E2=80=980=E2=80=99 then SEE STRT;
+  if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
+=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
+=E2=80=9800000100=E2=80=99 then SEE PUSH;
+  if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W=
+ =3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
+  t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
+  index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
+=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
+  if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
+
+  When Rn =3D=3D 1111, it should be an undefined instruction, which should
+  raise SEGILL signal. However, it seems that QEMU does not check this
+  constraint, which should be a bug. Many thanks
+
+  Regards
+  Muhui
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922887/+subscriptions
 
