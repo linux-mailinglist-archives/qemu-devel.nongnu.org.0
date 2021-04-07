@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F51E3576C8
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:27:34 +0200 (CEST)
-Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AF93576D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:29:20 +0200 (CEST)
+Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUFi1-0001iB-EU
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45870)
+	id 1lUFjj-0004Lk-LH
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUFgD-0008J4-IH
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:41 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41608)
+ id 1lUFho-0002U7-In
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:27:20 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUFgC-0000gg-1b
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:41 -0400
-Received: by mail-ed1-x535.google.com with SMTP id z1so22585383edb.8
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 14:25:39 -0700 (PDT)
+ id 1lUFhn-0001hI-0j
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:27:20 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id w18so22666677edc.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 14:27:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gxo+t0Ft9qmN4LKsu2j/lcMf/U2E33U/D6dWxJ44tG8=;
- b=IEixdz0RqAFcN+C9CQqHgwnjzXXxhECGcCmFMqWh7+RKZygBkfZPJqmawdSQsyES6R
- GRe52XADOJQKSJsWCh/1Tp9521ddB6EXqnM3jaHeUJNA2XsfZn0eAZ0WWq3XSNussMJy
- vxRs1vPs0jMVf/JhpSgo34Zdx0RzywGDCbW5lnyYD2kXHnG4G1tdI32RSKVytcEtswdL
- sQwC/jKuRADu8Bx72+qcmgHb2GiYGRSNLcDPjycFt/vV8I58r/2WO5HebzG8Iw4F3LVc
- QHD8OO0Jf8oa5nESn0IcAmBsuJA7JhceqvwAcxL+Smr6MRdxJ1uMkU41E6PypTBS5IUp
- IHXA==
+ bh=LkRsEFSWEtw6jU5h34hS1nEXV09WhbmAsEHGHMrjMUw=;
+ b=L3XVABJOkDQR8iKTD1j8rmNpN94wUuBqk9yqLReB6Fa6jLAdgu2wnNCoCaHXa8cAgc
+ HafV74gkhEP7Pelsxs9DJen37+F5CcKSnbKRtW3GSvxGk7fIlyd9oXbCG2y5MLwnuCOk
+ 7mM4WdZHd21I6fGsY/kDKBUVg21QK+QznqShTrWeYOaXsN/U8okUe5nO3kFJccH1tWUN
+ 0+qTQGlUvEIhmGWbWcecoDMEr3Cq0K3hsKy+Nluwm1SL2q/cNQl7eeLcUCcITtEueGEs
+ lR2lugtBC24g07JVoIewhHk9a6PBHfxeKjFq6AXkGiba5unr7hE4xrQFSX6Prk2uoq3S
+ VVvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gxo+t0Ft9qmN4LKsu2j/lcMf/U2E33U/D6dWxJ44tG8=;
- b=sJn/KpdQL8p4b2Nj4jOeEiDQmQDYdghppPLlDgk7fddFCAsIBPONeiuoX8v92fIOMM
- q0KgEh7tXR7T7WRn5Nm1CJwNC8HqA/xYCn1Y6sfs/zz+MulGJWkAEsiBc1da8Jek0pEr
- pbYfaPQfxNxdHaqO3/YMUf+3pavpeFmLO3gzuTjXwpGdzXbKIKbRnUDMVaLgDRUMLtt2
- YdsVHdM2HmEMQnVxc5e2OwWJxnxrEZlH+8I9mpbHRF2n6i22CWEq3l42AP8tCUouLAnk
- HHRp7vHAipbOY5J3u70ebjZ96HbMLoUShMNgjINeLnSvfRYVc/udlt3bklKNS8AN2gvA
- Wu6A==
-X-Gm-Message-State: AOAM533LOP3/GjwGiCb2KG30rTE2hPbrqWQyLrP1uW9+VH0PPmMuToDF
- OMya0MswoQI1db5v5s7E+X4=
-X-Google-Smtp-Source: ABdhPJwUNQPuKxtwai1MA/gNNxKs9VcgQ+4e2TIEYV4MA+iW5GbTWtHZBOYW894+XVHXMUYoqKn4Vg==
-X-Received: by 2002:a05:6402:280c:: with SMTP id
- h12mr6702281ede.332.1617830737668; 
- Wed, 07 Apr 2021 14:25:37 -0700 (PDT)
+ bh=LkRsEFSWEtw6jU5h34hS1nEXV09WhbmAsEHGHMrjMUw=;
+ b=XsfOgZxXWZSZvD4g2tVE5D1wUGEblTahe/UDoZPks6auFWACIK1/VVOpJh/h4CLlJY
+ weapdPgqG0XHNjQnHX3TCV9CZKk1K927IbbLWBeotTxvVy3Ceq8M8Qt50+TSmIZUleto
+ uhPIDRdESWP/0pkbKxBEIA7FRX9IqXrwBYuWCmqCpv80RF64xcEuteichCm9L2lPBEKR
+ f3/e/PYL/7O2i0/2Dxj3t2Y2E58IXNXVTjPV2Q6hkb6z6ab2zKgNBy04tGpwGKGWL5Dq
+ lrouA7cqZrDfx+kQiyOnR8TPvPDwrpt75cnfu3fPIDVmkzGHFPI9469M9BXQM6C8fTPJ
+ OAew==
+X-Gm-Message-State: AOAM532gvGjzajrS9ht4yJDCKitVjVXNRk3fqBxcLF8r/JUd9Lv1yBvm
+ QO2yiMyHFD9kyJKEGRT2bxE=
+X-Google-Smtp-Source: ABdhPJyGxQ03AlkRuV9C6uyzsgU6sAhvDWJhUEEl2liefz7HAPyu+Zol+AXwm3gKjmn6HD987wGlCw==
+X-Received: by 2002:a05:6402:382:: with SMTP id
+ o2mr7148651edv.238.1617830837615; 
+ Wed, 07 Apr 2021 14:27:17 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id w1sm8478502edt.89.2021.04.07.14.25.36
+ by smtp.gmail.com with ESMTPSA id y7sm8099604edq.88.2021.04.07.14.27.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Apr 2021 14:25:37 -0700 (PDT)
-Subject: Re: [PATCH v4 for-6.0 10/12] esp: don't reset async_len directly in
- esp_select() if cancelling request
+ Wed, 07 Apr 2021 14:27:17 -0700 (PDT)
+Subject: Re: [PATCH v4 for-6.0 02/12] esp: rework write_response() to avoid
+ using the FIFO for DMA transactions
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
 References: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
- <20210407195801.685-11-mark.cave-ayland@ilande.co.uk>
+ <20210407195801.685-3-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f41433db-68e8-407d-379e-f541d54211f2@amsat.org>
-Date: Wed, 7 Apr 2021 23:25:36 +0200
+Message-ID: <1299d629-fb26-5639-d337-e6f126dfb3d8@amsat.org>
+Date: Wed, 7 Apr 2021 23:27:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210407195801.685-11-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210407195801.685-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,14 +96,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/7/21 9:57 PM, Mark Cave-Ayland wrote:
-> Instead let the SCSI layer invoke the .cancel callback itself to cancel and
-> reset the request state.
+> The code for write_response() has always used the FIFO to store the data for
+> the status/message in phases, even for DMA transactions. Switch to using a
+> separate buffer that can be used directly for DMA transactions and restrict
+> the FIFO use to the non-DMA case.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Tested-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
->  hw/scsi/esp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/scsi/esp.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
