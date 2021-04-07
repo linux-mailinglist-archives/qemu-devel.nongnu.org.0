@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2055356544
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 09:33:40 +0200 (CEST)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA094356599
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 09:40:48 +0200 (CEST)
+Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU2h1-0005RW-C5
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 03:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
+	id 1lU2nr-0007Wx-VG
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 03:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU2g8-00051v-Kq
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:32:44 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU2g6-00021G-Hz
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:32:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.249])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 042FC97C9221;
- Wed,  7 Apr 2021 09:32:31 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 7 Apr 2021
- 09:32:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00349945f9e-a0ec-4544-a811-b14d99f08777,
- 14E8A29DAE054FFFC15D378747E0F684EF09551A) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 7 Apr 2021 09:32:30 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 0/4] add in-tree 9pfs developers documentation
-Message-ID: <20210407093230.5b172a8a@bahia.lan>
-In-Reply-To: <3541529.Jmkro1RegT@silver>
-References: <cover.1616528420.git.qemu_oss@crudebyte.com>
- <3541529.Jmkro1RegT@silver>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lU2mT-0006fz-3M
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:39:17 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lU2mQ-0006Ul-KY
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 03:39:16 -0400
+Received: by mail-ej1-x636.google.com with SMTP id w3so26019269ejc.4
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 00:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=15qO1vg8nCc0Pnz1fGixlajvjVxS2/akFygKEONtAk0=;
+ b=LxACFvLWNkjqD4sI6/dYDzEbIetFCjEgurcsq41l46QEsdb04Gz9A/zcLrysZPpMXI
+ bQTSZU4WA/kEmmOHC7f4G3E24K7eGtj2mgXc/CFCzvb9FKDZzzCw759/bPqq52vw1x9B
+ k5LmEaZS+npSFxXlYKYKuehZytc9dHY2ZqSOdI2DWbyQUsNWZ3HtrLPubNLJ/b1qKwry
+ 13Cp98FfEJ3yOdEoNZEL9Px5HAE706hu38e/RQ5+Eh4pTl3W3p2aMaxFEhtae4MTZOtp
+ B+cKHSdOraHQhd1IKSO7M9QZ19u6MB6pZJbp6VmsTGdnErfH1xTpBrlXkj0rrr5Xc+jB
+ sMSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=15qO1vg8nCc0Pnz1fGixlajvjVxS2/akFygKEONtAk0=;
+ b=DxnodBQ9Vty90wkmCZvIjbvIuT7/1hjiz+4/5oBmNAiv+zULKMQVbGByD5k/xywfH6
+ KDe3X3XD3Tk0c2pkNZs3gBqaSBo3h1hsv0pAJK0MYi24JA7MgdBzw5BFB/ss4KVUfydJ
+ 53+GFzRU8E6sHgTs84ghvnpWJHmUuNdPuUGApMuOqdldX9QVWvJaxmuFHztpqLNRnPkg
+ KnnxjU1vLgxV8X7yAPy4tmax16tHgsEtc88ACQD8om8aoVmTwu+gVOiv02iuDG9B/BtX
+ 9TYU46y4237gYGCV0vF2cBu9hyW8rQrzhBvw6QiTcGiTVy1huH3jMdIArvnK13j8hl1j
+ jGUQ==
+X-Gm-Message-State: AOAM531WzYo7hYZX/YVA+uuGbCVL9eGZxUyJTRPMzBYYmhvep2Q6Bygy
+ xA3ZoPfoe42niwoH9LaqVphLqWBjyDo2jFPJR6DRcw==
+X-Google-Smtp-Source: ABdhPJwPRvMhDuKciGSzKJC65iAQp03SSVwpakGEvmVIS8ZLiaLlcZl7cn4jZwZAgh+KYIwWMad5nPIEU/6QEnKlIHw=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr2222158ejh.4.1617781151928; 
+ Wed, 07 Apr 2021 00:39:11 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210407040100.9933-1-gshan@redhat.com>
+ <20210407040100.9933-2-gshan@redhat.com>
+In-Reply-To: <20210407040100.9933-2-gshan@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Apr 2021 07:38:32 +0000
+Message-ID: <CAFEAcA_-cmCFDgaqVsZEFT5w56g0LLr3aCzjCf1Od4iov6eWiA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/arm: Initlaize PMU feature for scratch vcpu
+To: Gavin Shan <gshan@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: c593d76c-49ae-4308-ac34-9f3eebd636e0
-X-Ovh-Tracer-Id: 6921751153251555808
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudejiedguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudfhueffjeeitdffkeefvddvheeuleefjeehudfhtdetkeeiieekhfeiffeliefhnecuffhomhgrihhnpehqvghmuhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,90 +78,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, Peter
- Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 06 Apr 2021 14:27:41 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Wed, 7 Apr 2021 at 03:01, Gavin Shan <gshan@redhat.com> wrote:
+>
+> If the scratch vCPU is initialized without PMU feature, we receive
+> error on reading PMCR_EL0 as it's invisible in this case. It leads
+> to host probing failure.
+>
+> This fixes the issue by initializing the scratch vcpu with the PMU
+> feature enabled and reading PMCR_EL0 from host. Otherwise, its value
+> is set according to the detected target.
+>
+> Fixes: f7fb73b8cdd3 ("target/arm: Make number of counters in PMCR follow the CPU")
 
-> On Dienstag, 23. M=C3=A4rz 2021 20:40:20 CEST Christian Schoenebeck wrote:
-> > The original source for the QEMU 9p developers documentation is:
-> >=20
-> >   https://wiki.qemu.org/Documentation/9p
-> >=20
-> > This patch set adds it as in-tree .rst file along with its pictures to =
-the
-> > QEMU source tree. The 9p.rst file has been auto generated by 'pandoc'.
-> >=20
-> > Preview of generated 9p.rst file with pictures:
-> >=20
-> > =20
-> > https://github.com/cschoenebeck/qemu/blob/bbc74655d54f2fa9c3eabf485e87f=
-9952
-> > 53b8cfd/docs/devel/9p.rst
-> >=20
-> > Picture binary files (omitted as binary blobs from patch 2):
-> >=20
-> > =20
-> > https://github.com/cschoenebeck/qemu/tree/bbc74655d54f2fa9c3eabf485e87f=
-9952
-> > 53b8cfd/docs/devel/img
-> >=20
-> > Or simply access my '9p.experimental' branch on github.
-> >=20
-> > I have no idea if that fits into the current sphinx/meson concept in th=
-is
-> > form and way. I hope either Peter or Paolo might tell.
-> >=20
-> > The individual patches could also be squashed, I kept them split for no=
-w to
-> > show what pandoc actually did and what I manually adjusted afterwards.
-> >=20
-> > Christian Schoenebeck (4):
-> >   docs/devel: add 9p.rst
-> >   docs/devel: add directory for pictures
-> >   docs/devel/9p: fix references to pictures
-> >   MAINTAINERS: add responsibility for docs/devel/9p.rst
->=20
-> Ping
->=20
-> Anyone? On doubt I just leave the 9p developer docs solely on the wiki si=
-te.
->=20
+This commit has been reverted...
 
-Hi Christian,
+I couldn't find a cover letter for these patches, so it's
+hard to tell what you're aiming to do with them. Could you
+make sure you always send a cover letter with a multiple-patch
+series, please ? This also helps with our automated tooling.
 
-Sorry for the delay... well, it is probably handy to have some
-in-tree documentation. This being said I can't really tell if
-it makes sense to have an exact copy of the wiki... or if this
-should simply replace the wiki.
-
-Also, do we want to host the png files ? It seems that other
-in-tree documentation rather relies on ASCII-art, which
-provides a more terminal-friendly experience.
-
-Cheers,
-
---
-Greg
-
-> >=20
-> >  MAINTAINERS                          |   1 +
-> >  docs/devel/9p.rst                    | 544 +++++++++++++++++++++++++++
-> >  docs/devel/img/9pfs_control_flow.png | Bin 0 -> 156560 bytes
-> >  docs/devel/img/9pfs_topology.png     | Bin 0 -> 51529 bytes
-> >  docs/devel/img/Coroutines_stacks.png | Bin 0 -> 87204 bytes
-> >  5 files changed, 545 insertions(+)
-> >  create mode 100644 docs/devel/9p.rst
-> >  create mode 100644 docs/devel/img/9pfs_control_flow.png
-> >  create mode 100644 docs/devel/img/9pfs_topology.png
-> >  create mode 100644 docs/devel/img/Coroutines_stacks.png
->=20
-> Best regards,
-> Christian Schoenebeck
->=20
->=20
-
+thanks
+-- PMM
 
