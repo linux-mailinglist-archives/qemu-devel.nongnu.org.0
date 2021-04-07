@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22F93565F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:02:10 +0200 (CEST)
-Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F3F356609
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:05:53 +0200 (CEST)
+Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU38b-0004yi-IY
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:02:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
+	id 1lU3CC-0006Lj-W5
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lU37R-0004ZL-7g
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:00:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40550)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lU3AV-0005pd-K0
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:04:08 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:38403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lU37O-0003ml-Rh
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:00:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lU37L-0008Fg-Qk
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 08:00:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B5CBC2E8026
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 08:00:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lU3AN-0005jh-H5
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:04:07 -0400
+Received: by mail-ej1-x630.google.com with SMTP id r12so26135727ejr.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 01:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1g+ABtK5yFN7G2RyTfOuomOrLvYsPyF7UpJp+L1JJ4A=;
+ b=Whl+MoT1QskzF6qzZV92nyIftDwLiKGaB+wtoORfByJX9reaxjl6rKGCloUUD6G+CU
+ uWgFrn2HmExTbC1Oo5gC3AeLF3DIN4TsdQgN8qtaXDK5JP9e171wy650XrPq60eh05Lf
+ vK1+oiGs7270L2Gq3Pl1blBC4Qw+s/IeSYxoypISG0dx7H4QPG0CcpM8QfIMa30vRjfb
+ JQz5zvLSg3EhCUbk1ghtVzxpmxr9Re/xAfw4GeZlUeK+R8yXwAgXR7cwuZa5BkuZ/jdv
+ Dy9zreHgpbnA65nefwAAw8pQWEvDdkRSqMaf6ZpKVohNIZFvHY03H2h9rG7XNbOv2kFT
+ h51Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1g+ABtK5yFN7G2RyTfOuomOrLvYsPyF7UpJp+L1JJ4A=;
+ b=qdo7BnesxPOtDM8YJPb4DQonxMsYtzKBhkQjmr5PfnoEcsF52ZtmklqvK1rW3oSJKU
+ R2yaVtOLtZq2UKNWa40iAJBFlug0XcZMSVFRQBfIMne/rhW53bNhed75HTC/RVuCWoU9
+ 5eSTQ4MfMFAT036Eb5VAvCRmkq0itITNcERG4OT63cy/S4+bisRPpa6QEEk+gKZGcA7l
+ 0HbsmYb+v+tjRBOxBGah0eWl8qpREhMZtNtvKAvUvnMSSSXbZ/TtVBNoKa0hszH+Gmim
+ xQL+8WGvmeUapIWz4+BPXhULhDwarPj1MNrDAFKQkXlk+zAZP0Gg2l1Hpy/Nb2w6UV7e
+ vHWA==
+X-Gm-Message-State: AOAM531n4zEUPe3NbiVTm0D5apJxPQXyhmisPlJi1jW9YVJxQth8RsII
+ BcWv7TMe9OgFfi+UTvvNEtaLdMDqReQ7RJAP2CfdWA==
+X-Google-Smtp-Source: ABdhPJyRSkbmKFFhgwliC7G8FQYe/ihad32lr9yEwr0YLuL1DJ6rA/f54p9tUXLywgKHVoCQSzmt5PBmTdTvMEFvjso=
+X-Received: by 2002:a17:906:bd2:: with SMTP id
+ y18mr2290056ejg.482.1617782636929; 
+ Wed, 07 Apr 2021 01:03:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 07:53:31 -0000
-From: JIANG Muhui <1922887@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
-Message-Id: <161778201158.26656.2798489764705445614.malonedeb@wampee.canonical.com>
-Subject: [Bug 1922887] [NEW] STR in Thumb 32 decode problem
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: d87e1e5ff44add8cfc5c161883785d0cff0834dc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210407054635.189440-1-its@irrelevant.dk>
+In-Reply-To: <20210407054635.189440-1-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Apr 2021 08:03:17 +0000
+Message-ID: <CAFEAcA9HsqCJOUsL9HwNHqr5MEkRfCw4i6fc1T2hkN7t4QgpdQ@mail.gmail.com>
+Subject: Re: [PULL for-6.0 v2 00/10] emulated nvme fixes for -rc3
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,107 +77,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922887 <1922887@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Wed, 7 Apr 2021 at 06:51, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Hi Peter,
+>
+> My apologies that these didn't make it for -rc2!
+>
+> I botched v1, so please pull this v2 instead.
+>
+>
+> The following changes since commit d0d3dd401b70168a353450e031727affee828527:
+>
+>   Update version for v6.0.0-rc2 release (2021-04-06 18:34:34 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.infradead.org/qemu-nvme.git tags/nvme-fixes-2021-04-07-pull-request
+>
+> for you to fetch changes up to 5dd79300df47f07d0e9d6a7bda43b23ff26001dc:
+>
+>   hw/block/nvme: fix out-of-bounds read in nvme_subsys_ctrl (2021-04-07 07:27:09 +0200)
+>
+> ----------------------------------------------------------------
+> emulated nvme fixes for -rc3
+>
+> v2:
+>   - added missing patches
+>
+> ----------------------------------------------------------------
 
-Hi
+Hi; this semes to generate a bunch of new warnings during 'make check'
+(not sure exactly which test is producing these, due to the usual
+interleaving when using -j8):
 
-It seems that QEMU does not have a proper check on the STR instruction
-in Thumb32 mode.
+qemu-system-i386: -device nvme,addr=04.0,drive=drv0,serial=foo:
+warning: drive property is deprecated; please use an nvme-ns device
+instead
+qemu-system-i386: -device
+nvme,addr=04.0,drive=drv0,serial=foo,cmb_size_mb=2: warning: drive
+property is deprecated; please use an nvme-ns device instead
+qemu-system-ppc64: -device nvme,addr=04.0,drive=drv0,serial=foo:
+warning: drive property is deprecated; please use an nvme-ns device
+instead
+qemu-system-ppc64: -device
+nvme,addr=04.0,drive=drv0,serial=foo,cmb_size_mb=2: warning: drive
+property is deprecated; please use an nvme-ns device instead
+qemu-system-x86_64: -device nvme,addr=04.0,drive=drv0,serial=foo:
+warning: drive property is deprecated; please use an nvme-ns device
+instead
+qemu-system-x86_64: -device
+nvme,addr=04.0,drive=drv0,serial=foo,cmb_size_mb=2: warning: drive
+property is deprecated; please use an nvme-ns device instead
 
-Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 111=
-1 0000 1101 1101 1101. =
-
-This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
-
-The symbols is
-
-Rn =3D 1111
-Rt =3D 0000
-P =3D 1
-U =3D 0
-W =3D 1
-
-The decode ASL is below:
-
-if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=3D=
- =E2=80=980=E2=80=99 then SEE STRT;
-if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
-=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
-=E2=80=9800000100=E2=80=99 then SEE PUSH;
-if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W =
-=3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
-t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
-index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
-=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
-if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
-
-When Rn =3D=3D 1111, it should be an undefined instruction, which should
-raise SEGILL signal. However, it seems that QEMU does not check this
-constraint, which should be a bug. Many thanks
-
-Regards
-Muhui
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922887
-
-Title:
-  STR in Thumb 32 decode problem
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi
-
-  It seems that QEMU does not have a proper check on the STR instruction
-  in Thumb32 mode.
-
-  Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 1=
-111 0000 1101 1101 1101. =
-
-  This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
-
-  The symbols is
-
-  Rn =3D 1111
-  Rt =3D 0000
-  P =3D 1
-  U =3D 0
-  W =3D 1
-
-  The decode ASL is below:
-
-  if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=
-=3D =E2=80=980=E2=80=99 then SEE STRT;
-  if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
-=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
-=E2=80=9800000100=E2=80=99 then SEE PUSH;
-  if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W=
- =3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
-  t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
-  index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
-=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
-  if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
-
-  When Rn =3D=3D 1111, it should be an undefined instruction, which should
-  raise SEGILL signal. However, it seems that QEMU does not check this
-  constraint, which should be a bug. Many thanks
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922887/+subscriptions
+thanks
+-- PMM
 
