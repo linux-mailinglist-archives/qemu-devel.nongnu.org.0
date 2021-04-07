@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55328356BF6
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 14:19:08 +0200 (CEST)
-Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEAC356C98
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 14:50:46 +0200 (CEST)
+Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU79H-00083d-DF
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 08:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
+	id 1lU7dr-00016N-D5
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 08:50:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lU75Y-0006tf-PZ; Wed, 07 Apr 2021 08:15:16 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lU75X-0002Yh-7y; Wed, 07 Apr 2021 08:15:16 -0400
-Received: by mail-ej1-x633.google.com with SMTP id w3so27284464ejc.4;
- Wed, 07 Apr 2021 05:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mg6tSTSa9/1fVvAJzVuw1qYpElpuw3kReNDOFrLamWc=;
- b=WavwiXRFNIVm8HqIF2tqzlRmdbP3PSYRyFzn5Wd65EvAQyx7guF1Xtvf3QixVXNUuG
- 83pJnjnJtcas3OEXliDPgIB8WMBQFRqLxDunvPKmu3LBkbWpvy7S7NeGmpatVXStl9cc
- 3vBMoienEkXw7ECPd/SUj90+fRsiB8bOsVezVJo0vPt4d+TDueGoCjL6xkuXfeXdId2f
- gDOf+xSPKUnvsLs9z01bowXjesdxbFQozpeJW66gHbRtXOJ5g3TpQ6teitggDg2S/PnP
- F1ue2xH5wA+S4+aCyKlbFkpbDu+9QbSN0E7RE0WLTnoDuHtHMNvPQ8rXVAKURIw2xmt/
- 7bVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mg6tSTSa9/1fVvAJzVuw1qYpElpuw3kReNDOFrLamWc=;
- b=MXjhgWZvKbec/JtFZ6ko4beC+hZVV1/QNQjypbjxNbIqPgskEXm+abgndFqjSsXMUq
- kqm0H71+UNg4DE0aidXxpTD4SksrfLnPhUULfodT93l3pP0NJPCHaQ0SZiGZhp67E4OI
- q8Fe2IjXF+iR1ejLlq+Pl1vyBXexoxbjUrjNuYN6plLpq7zBOuzstP1Qj8/NscoJbtwq
- N+XM6WcUeev0ktg6tJP2oj4dzf6Y4VFNfksNlQLT3HZs2VKY3fE120UAQm3X2Bifvgp2
- fSPL01/xetBb6cHJq6nAezPMcAAEWSH+oG1yzhzi4/7DgVX2mZnufO8oJD/4C97nF397
- iVGg==
-X-Gm-Message-State: AOAM533hUtwKES5HT6bZAi6MTeFYvjwc5atelV+YmrbF56X4zES8W11M
- cvcCie9xdEepxXhRo2cSCFg=
-X-Google-Smtp-Source: ABdhPJwEFlosE1r7KRVb8Bvin+UuNNMMm2xSoID1OhII2yY5DWxnmN3uHaSFOwjjZNqBmr1N3/vK4w==
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr3395314ejh.4.1617797712697; 
- Wed, 07 Apr 2021 05:15:12 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id r26sm4194091edc.43.2021.04.07.05.15.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Apr 2021 05:15:12 -0700 (PDT)
-Subject: Re: [PATCH v1 1/1] MAINTAINERS: Update the RISC-V CPU Maintainers
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2bee9999-d0ba-3b7d-ca59-c6e17021ac1e@amsat.org>
-Date: Wed, 7 Apr 2021 14:15:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lU7c9-0000gr-JZ
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 08:48:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35934
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lU7c6-0004oX-5b
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 08:48:57 -0400
+Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
+ helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1lU7cD-0003MI-39
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:49:06 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org
+Date: Wed,  7 Apr 2021 13:48:42 +0100
+Message-Id: <20210407124842.32695-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-SA-Exim-Connect-IP: 86.148.103.9
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH for-6.0] esp: fix setting of ESPState mig_version_id when
+ launching QEMU with -S option
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,25 +58,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbastian@mail.uni-paderborn.de, bmeng.cn@gmail.com, palmer@dabbelt.com,
- sagark@eecs.berkeley.edu, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/21 12:48 AM, Alistair Francis wrote:
-> Update the RISC-V maintainers by removing Sagar and Bastian who haven't
-> been involved recently.
-> 
-> Also add Bin who has been helping with reviews.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> I have run this by all of the people involved and they are all ok with
-> the change.
-> 
->  MAINTAINERS | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+If QEMU is launched with the -S option then the ESPState mig_version_id property
+is left unset due to the ordering of the VMState fields in the VMStateDescription
+for sysbusespscsi and pciespscsi. If the VM is migrated and restored in this
+stopped state, the version tests in the vmstate_esp VMStateDescription and
+esp_post_load() become confused causing the migration to fail.
 
-FWIW
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fix the ordering problem by moving the setting of mig_version_id to a common
+esp_pre_save() function which is invoked first by both sysbusespscsi and
+pciespscsi rather than at the point where ESPState is itself serialised into the
+migration stream.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1922611
+Fixes: 0bd005be78 ("esp: add vmstate_esp version to embedded ESPState")
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/scsi/esp-pci.c     | 1 +
+ hw/scsi/esp.c         | 7 ++++---
+ include/hw/scsi/esp.h | 1 +
+ 3 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+index c3d3dab05e..9db10b1a48 100644
+--- a/hw/scsi/esp-pci.c
++++ b/hw/scsi/esp-pci.c
+@@ -332,6 +332,7 @@ static const VMStateDescription vmstate_esp_pci_scsi = {
+     .name = "pciespscsi",
+     .version_id = 2,
+     .minimum_version_id = 1,
++    .pre_save = esp_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_PCI_DEVICE(parent_obj, PCIESPState),
+         VMSTATE_BUFFER_UNSAFE(dma_regs, PCIESPState, 0, 8 * sizeof(uint32_t)),
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 3b9037e4f4..0037197bdb 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -1089,9 +1089,10 @@ static bool esp_is_version_5(void *opaque, int version_id)
+     return version_id == 5;
+ }
+ 
+-static int esp_pre_save(void *opaque)
++int esp_pre_save(void *opaque)
+ {
+-    ESPState *s = ESP(opaque);
++    ESPState *s = ESP(object_resolve_path_component(
++                      OBJECT(opaque), "esp"));
+ 
+     s->mig_version_id = vmstate_esp.version_id;
+     return 0;
+@@ -1127,7 +1128,6 @@ const VMStateDescription vmstate_esp = {
+     .name = "esp",
+     .version_id = 5,
+     .minimum_version_id = 3,
+-    .pre_save = esp_pre_save,
+     .post_load = esp_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_BUFFER(rregs, ESPState),
+@@ -1317,6 +1317,7 @@ static const VMStateDescription vmstate_sysbus_esp_scsi = {
+     .name = "sysbusespscsi",
+     .version_id = 2,
+     .minimum_version_id = 1,
++    .pre_save = esp_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8_V(esp.mig_version_id, SysBusESPState, 2),
+         VMSTATE_STRUCT(esp, SysBusESPState, 0, vmstate_esp, ESPState),
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index 95088490aa..aada3680b7 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -157,5 +157,6 @@ void esp_hard_reset(ESPState *s);
+ uint64_t esp_reg_read(ESPState *s, uint32_t saddr);
+ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val);
+ extern const VMStateDescription vmstate_esp;
++int esp_pre_save(void *opaque);
+ 
+ #endif
+-- 
+2.20.1
+
 
