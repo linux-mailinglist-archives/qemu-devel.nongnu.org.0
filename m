@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934B4356EE1
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:37:14 +0200 (CEST)
-Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6D2356F14
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 16:43:59 +0200 (CEST)
+Received: from localhost ([::1]:50218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU9Iv-0001mu-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42902)
+	id 1lU9PS-0001Al-CE
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 10:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9H0-0008JG-RW
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:14 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:60230)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9H3-0008NN-6F
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:17 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:50698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9Gz-0006NS-7H
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:14 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lU9H1-0006QY-Gs
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 10:35:16 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-qTzJfcA9OsaiRgafA9kwKQ-1; Wed, 07 Apr 2021 10:35:10 -0400
-X-MC-Unique: qTzJfcA9OsaiRgafA9kwKQ-1
+ us-mta-398--6mxb72hNdOeyyGRhDgAaA-1; Wed, 07 Apr 2021 10:35:13 -0400
+X-MC-Unique: -6mxb72hNdOeyyGRhDgAaA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2ABB801814;
- Wed,  7 Apr 2021 14:35:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12B59100A911;
+ Wed,  7 Apr 2021 14:35:12 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-114-100.ams2.redhat.com [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1F4E5D9CA;
- Wed,  7 Apr 2021 14:35:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08BDE5D9CA;
+ Wed,  7 Apr 2021 14:35:09 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [for-6.1 2/4] virtio-blk: Configure all host notifiers in a single MR
- transaction
-Date: Wed,  7 Apr 2021 16:34:59 +0200
-Message-Id: <20210407143501.244343-3-groug@kaod.org>
+Subject: [for-6.1 3/4] virtio-scsi: Set host notifiers and callbacks separately
+Date: Wed,  7 Apr 2021 16:35:00 +0200
+Message-Id: <20210407143501.244343-4-groug@kaod.org>
 In-Reply-To: <20210407143501.244343-1-groug@kaod.org>
 References: <20210407143501.244343-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -73,90 +72,112 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the virtio-blk-pci device to batch the setup of all its
-host notifiers. This significantly improves boot time of VMs with a
-high number of vCPUs, e.g. from 3m26.186s down to 0m58.023s for a
-pseries machine with 384 vCPUs.
+Host notifiers are guaranteed to be idle until the callbacks are
+hooked up with virtio_queue_aio_set_host_notifier_handler(). They
+thus don't need to be set or unset with the AioContext lock held.
 
-Note that memory_region_transaction_commit() must be called before
-virtio_bus_cleanup_host_notifier() because the latter might close
-ioeventfds that the transaction still assumes to be around when it
-commits.
+Do this outside the critical section, like virtio-blk already
+does : basically downgrading virtio_scsi_vring_init() to only
+setup the host notifier and set the callback in the caller.
+
+This will allow to batch addition/deletion of ioeventds in
+a single memory transaction, which is expected to greatly
+improve initialization time.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/block/dataplane/virtio-blk.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hw/scsi/virtio-scsi-dataplane.c | 40 ++++++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-bl=
-k.c
-index d7b5c95d26d9..cd81893d1d01 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -198,19 +198,30 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplan=
+e.c
+index 4ad879340645..b2cb3d9dcc64 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -94,8 +94,7 @@ static bool virtio_scsi_data_plane_handle_event(VirtIODev=
+ice *vdev,
+     return progress;
+ }
+=20
+-static int virtio_scsi_vring_init(VirtIOSCSI *s, VirtQueue *vq, int n,
+-                                  VirtIOHandleAIOOutput fn)
++static int virtio_scsi_set_host_notifier(VirtIOSCSI *s, VirtQueue *vq, int=
+ n)
+ {
+     BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(s)));
+     int rc;
+@@ -109,7 +108,6 @@ static int virtio_scsi_vring_init(VirtIOSCSI *s, VirtQu=
+eue *vq, int n,
+         return rc;
+     }
+=20
+-    virtio_queue_aio_set_host_notifier_handler(vq, s->ctx, fn);
+     return 0;
+ }
+=20
+@@ -154,38 +152,44 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
          goto fail_guest_notifiers;
      }
 =20
-+    memory_region_transaction_begin();
-+
-     /* Set up virtqueue notify */
-     for (i =3D 0; i < nvqs; i++) {
-         r =3D virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, true);
-         if (r !=3D 0) {
-+            int j =3D i;
-+
-             fprintf(stderr, "virtio-blk failed to set host notifier (%d)\n=
-", r);
-             while (i--) {
-                 virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-+            }
-+
-+            memory_region_transaction_commit();
-+
-+            while (j--) {
-                 virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-             }
-             goto fail_host_notifiers;
-         }
+-    aio_context_acquire(s->ctx);
+-    rc =3D virtio_scsi_vring_init(s, vs->ctrl_vq, 0,
+-                                virtio_scsi_data_plane_handle_ctrl);
+-    if (rc) {
+-        goto fail_vrings;
++    rc =3D virtio_scsi_set_host_notifier(s, vs->ctrl_vq, 0);
++    if (rc !=3D 0) {
++        goto fail_host_notifiers;
      }
 =20
-+    memory_region_transaction_commit();
+     vq_init_count++;
+-    rc =3D virtio_scsi_vring_init(s, vs->event_vq, 1,
+-                                virtio_scsi_data_plane_handle_event);
+-    if (rc) {
+-        goto fail_vrings;
++    rc =3D virtio_scsi_set_host_notifier(s, vs->event_vq, 1);
++    if (rc !=3D 0) {
++        goto fail_host_notifiers;
+     }
+=20
+     vq_init_count++;
 +
-     s->starting =3D false;
-     vblk->dataplane_started =3D true;
-     trace_virtio_blk_data_plane_start(s);
-@@ -246,8 +257,15 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+     for (i =3D 0; i < vs->conf.num_queues; i++) {
+-        rc =3D virtio_scsi_vring_init(s, vs->cmd_vqs[i], i + 2,
+-                                    virtio_scsi_data_plane_handle_cmd);
++        rc =3D virtio_scsi_set_host_notifier(s, vs->cmd_vqs[i], i + 2);
+         if (rc) {
+-            goto fail_vrings;
++            goto fail_host_notifiers;
+         }
+         vq_init_count++;
+     }
+=20
++    aio_context_acquire(s->ctx);
++    virtio_queue_aio_set_host_notifier_handler(vs->ctrl_vq, s->ctx,
++                                            virtio_scsi_data_plane_handle_=
+ctrl);
++    virtio_queue_aio_set_host_notifier_handler(vs->event_vq, s->ctx,
++                                           virtio_scsi_data_plane_handle_e=
+vent);
++
++    for (i =3D 0; i < vs->conf.num_queues; i++) {
++        virtio_queue_aio_set_host_notifier_handler(vs->cmd_vqs[i], s->ctx,
++                                             virtio_scsi_data_plane_handle=
+_cmd);
++    }
++
+     s->dataplane_starting =3D false;
+     s->dataplane_started =3D true;
+     aio_context_release(s->ctx);
      return 0;
 =20
-   fail_aio_context:
-+    memory_region_transaction_begin();
-+
-     for (i =3D 0; i < nvqs; i++) {
+-fail_vrings:
+-    aio_wait_bh_oneshot(s->ctx, virtio_scsi_dataplane_stop_bh, s);
+-    aio_context_release(s->ctx);
++fail_host_notifiers:
+     for (i =3D 0; i < vq_init_count; i++) {
          virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-+    }
-+
-+    memory_region_transaction_commit();
-+
-+    for (i =3D 0; i < nvqs; i++) {
          virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-     }
-   fail_host_notifiers:
-@@ -312,8 +330,15 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
-=20
-     aio_context_release(s->ctx);
-=20
-+    memory_region_transaction_begin();
-+
-     for (i =3D 0; i < nvqs; i++) {
-         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-+    }
-+
-+    memory_region_transaction_commit();
-+
-+    for (i =3D 0; i < nvqs; i++) {
-         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-     }
-=20
 --=20
 2.26.3
 
