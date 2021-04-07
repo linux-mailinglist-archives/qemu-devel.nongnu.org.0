@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8798D35673B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:53:38 +0200 (CEST)
-Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB2335673C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:54:23 +0200 (CEST)
+Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU3wP-0003xp-K8
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:53:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
+	id 1lU3x8-0004uw-A1
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU3u0-000381-Kk
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:51:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24003)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lU3vy-000467-JJ
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:53:10 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:39825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU3ty-0008VG-26
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:51:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617785464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I903UQZcC6mzYgGobXbRugjFXHq29ZXls1L9jyuwmPc=;
- b=VbDmZD3/oM10W8GRlW57gX34TWCe/5gM9ceKbO3YO+8dPZanDexQXPQKGDuzS6bMvItP6y
- 3Pz6rxNnz5yhGRxBeq7oMVdr2Fyg2HIKyqYfZCctLhSSPfoZ7WrsPSjJzeRn3+JN4ZLc72
- EVU8pgPIxN1P0sItsv1+CUD4z9EyL90=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-TXSkLaD6P-uhPMhgL8O0mw-1; Wed, 07 Apr 2021 04:51:02 -0400
-X-MC-Unique: TXSkLaD6P-uhPMhgL8O0mw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B3D8189DE;
- Wed,  7 Apr 2021 08:51:01 +0000 (UTC)
-Received: from work-vm (ovpn-115-14.ams2.redhat.com [10.36.115.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4690B60854;
- Wed,  7 Apr 2021 08:50:53 +0000 (UTC)
-Date: Wed, 7 Apr 2021 09:50:50 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V2] virtio-pci: compat page aligned ATS
-Message-ID: <YG1yam6UlqWosWvv@work-vm>
-References: <20210406040330.11306-1-jasowang@redhat.com>
- <YGwsQXOiBZOG1S44@work-vm>
- <3537aa98-f6fc-bf99-cbc6-3c90f1387dc5@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lU3vw-0001Mu-E7
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:53:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=p3cyy6JD8fANw3oaunjybaLD1iLjfQOVAUIN8gwlUyw=; b=MSLvP41mTw+daOtBEf6U+KhFHS
+ eHi7cF3Tw8qfnOu9PISGDmqDWA4Sn1Y+qZ8yFTjxkwKcYY50LsgrJkjDvnlivkg2PSgICbmiEf2Z4
+ fsrdAGblHEL5vmqltFmjOd/LiP6A5hkjDvojNTkrpsg4gELf797b5DzS0XqCEL0YDMJN2HkKUyC6f
+ UcUM+17DhBVCaMzPSEul8EYBMlxKJ9D3ZsNFYvE7eFzxGGnLoQwJb34YAFAH5obDPDVNZjPHOiI85
+ nJ4kX3xCROFTunON3HMgipaHBwTv9db5MP7EhCNW2BptXzPsoannZmvyuxHlZcuxtZowNyDRJRzHB
+ jYaZvWpJskOCOo66WiR+xvwrbWATp1k49zkKwa1k4YM+YMdXk3ROMDTr3mJyNw0D+gPE9Iz2DddDr
+ eaacAxcA5lmGMBSWenONYePs/LfWgRJqeX3sxrPRNX+mZHPkNWXrzkmFVWpYvEM3C8qA7ha97ntRM
+ +CduW1qN62sfdsch6DSNANpbXinN86VRwxHLGn6IEc8v46HE+AmWTzDCxiQ86mimCQaoc0RJskHQr
+ GKyByhZ+1v1RTRdS3MNIWH3GxGmVjzqDaHGVp1fWbU4Kt757L4356UfqCao66AMbg6of17iyxhjOw
+ 6++eOuLwV0LILByiESR3KkI6/ciT9jM/NV+PgKW98=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 0/4] add in-tree 9pfs developers documentation
+Date: Wed, 07 Apr 2021 10:52:59 +0200
+Message-ID: <2001177.cHeAXU27Kk@silver>
+In-Reply-To: <20210407093230.5b172a8a@bahia.lan>
+References: <cover.1616528420.git.qemu_oss@crudebyte.com>
+ <3541529.Jmkro1RegT@silver> <20210407093230.5b172a8a@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <3537aa98-f6fc-bf99-cbc6-3c90f1387dc5@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,159 +66,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, ehabkost@redhat.com,
- peterx@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jason Wang (jasowang@redhat.com) wrote:
-> 
-> 在 2021/4/6 下午5:39, Dr. David Alan Gilbert 写道:
-> > * Jason Wang (jasowang@redhat.com) wrote:
-> > > Commit 4c70875372b8 ("pci: advertise a page aligned ATS") advertises
-> > > the page aligned via ATS capability (RO) to unbrek recent Linux IOMMU
-> > > drivers since 5.2. But it forgot the compat the capability which
-> > > breaks the migration from old machine type:
-> > > 
-> > > (qemu) qemu-kvm: get_pci_config_device: Bad config data: i=0x104 read:
-> > > 0 device: 20 cmask: ff wmask: 0 w1cmask:0
-> > > 
-> > > This patch introduces a new parameter "x-ats-page-aligned" for
-> > > virtio-pci device and turns it on for machine type which is newer than
-> > > 5.1.
-> > I don't know the IOMMU code, but from the property/hw_compat I think
-> > this is OK.
-> > It's a bit tricky; since this was broken in 5.2, changing the
-> > hw_compat_5_1 means that there are exisitng 5.2 users who will be broken
-> > - howeer, the original 4c70875372b8 patch was sent to qemu-stable
-> > which I think means there are other versions that are inconsistent as
-> > well.
-> 
-> 
-> Good point. It's not an easy task, we need to choose to break migration or
-> virtio with vIOMMU.
-> 
-> This patch chooes to do the latter, or is there any other better way to
-> solve this?
+On Mittwoch, 7. April 2021 09:32:30 CEST Greg Kurz wrote:
+> On Tue, 06 Apr 2021 14:27:41 +0200
+>=20
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Dienstag, 23. M=E4rz 2021 20:40:20 CEST Christian Schoenebeck wrote:
+> > > The original source for the QEMU 9p developers documentation is:
+> > >   https://wiki.qemu.org/Documentation/9p
+> > >=20
+> > > This patch set adds it as in-tree .rst file along with its pictures to
+> > > the
+> > > QEMU source tree. The 9p.rst file has been auto generated by 'pandoc'.
+> > >=20
+> > > Preview of generated 9p.rst file with pictures:
+> > >=20
+> > >=20
+> > > https://github.com/cschoenebeck/qemu/blob/bbc74655d54f2fa9c3eabf485e8=
+7f9
+> > > 952
+> > > 53b8cfd/docs/devel/9p.rst
+> > >=20
+> > > Picture binary files (omitted as binary blobs from patch 2):
+> > >=20
+> > >=20
+> > > https://github.com/cschoenebeck/qemu/tree/bbc74655d54f2fa9c3eabf485e8=
+7f9
+> > > 952
+> > > 53b8cfd/docs/devel/img
+> > >=20
+> > > Or simply access my '9p.experimental' branch on github.
+> > >=20
+> > > I have no idea if that fits into the current sphinx/meson concept in
+> > > this
+> > > form and way. I hope either Peter or Paolo might tell.
+> > >=20
+> > > The individual patches could also be squashed, I kept them split for =
+now
+> > > to
+> > > show what pandoc actually did and what I manually adjusted afterwards.
+> > >=20
+> > > Christian Schoenebeck (4):
+> > >   docs/devel: add 9p.rst
+> > >   docs/devel: add directory for pictures
+> > >   docs/devel/9p: fix references to pictures
+> > >   MAINTAINERS: add responsibility for docs/devel/9p.rst
+> >=20
+> > Ping
+> >=20
+> > Anyone? On doubt I just leave the 9p developer docs solely on the wiki
+> > site.
+> Hi Christian,
+>=20
+> Sorry for the delay... well, it is probably handy to have some
+> in-tree documentation. This being said I can't really tell if
+> it makes sense to have an exact copy of the wiki... or if this
+> should simply replace the wiki.
 
-Not that I can think of.
+The idea was to keep the wiki page as primary copy and only sync the in-tre=
+e=20
+=2Erst file by auto conversion tool (e.g. pandoc) once in a while. Because =
+it is=20
+easier, quicker and more convenient to quickly change docs by wiki IMO.
 
-Dave
+> Also, do we want to host the png files ? It seems that other
+> in-tree documentation rather relies on ASCII-art, which
+> provides a more terminal-friendly experience.
 
-> Thanks
-> 
-> 
-> > 
-> > Dave
-> > 
-> > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > Cc: Peter Xu <peterx@redhat.com>
-> > > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > Cc: qemu-stable@nongnu.org
-> > > Fixes: 4c70875372b8 ("pci: advertise a page aligned ATS")
-> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > ---
-> > > Changes since V1:
-> > > - switch to use "x-ats-page-aligned" instead
-> > > ---
-> > >   hw/core/machine.c      |  1 +
-> > >   hw/pci/pcie.c          | 10 ++++++----
-> > >   hw/virtio/virtio-pci.c |  5 ++++-
-> > >   hw/virtio/virtio-pci.h |  5 +++++
-> > >   include/hw/pci/pcie.h  |  2 +-
-> > >   5 files changed, 17 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > index 9935c6ddd5..a50f2d5f0a 100644
-> > > --- a/hw/core/machine.c
-> > > +++ b/hw/core/machine.c
-> > > @@ -53,6 +53,7 @@ GlobalProperty hw_compat_5_1[] = {
-> > >       { "nvme", "use-intel-id", "on"},
-> > >       { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
-> > >       { "pl011", "migrate-clk", "off" },
-> > > +    { "virtio-pci", "x-ats-page-aligned", "off"},
-> > >   };
-> > >   const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
-> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > > index a733e2fb87..fd0fa157e8 100644
-> > > --- a/hw/pci/pcie.c
-> > > +++ b/hw/pci/pcie.c
-> > > @@ -963,16 +963,18 @@ void pcie_dev_ser_num_init(PCIDevice *dev, uint16_t offset, uint64_t ser_num)
-> > >       pci_set_quad(dev->config + offset + pci_dsn_cap, ser_num);
-> > >   }
-> > > -void pcie_ats_init(PCIDevice *dev, uint16_t offset)
-> > > +void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned)
-> > >   {
-> > >       pcie_add_capability(dev, PCI_EXT_CAP_ID_ATS, 0x1,
-> > >                           offset, PCI_EXT_CAP_ATS_SIZEOF);
-> > >       dev->exp.ats_cap = offset;
-> > > -    /* Invalidate Queue Depth 0, Page Aligned Request 1 */
-> > > -    pci_set_word(dev->config + offset + PCI_ATS_CAP,
-> > > -                 PCI_ATS_CAP_PAGE_ALIGNED);
-> > > +    /* Invalidate Queue Depth 0 */
-> > > +    if (aligned) {
-> > > +        pci_set_word(dev->config + offset + PCI_ATS_CAP,
-> > > +                     PCI_ATS_CAP_PAGE_ALIGNED);
-> > > +    }
-> > >       /* STU 0, Disabled by default */
-> > >       pci_set_word(dev->config + offset + PCI_ATS_CTRL, 0);
-> > > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > > index 883045a223..2b7142a21e 100644
-> > > --- a/hw/virtio/virtio-pci.c
-> > > +++ b/hw/virtio/virtio-pci.c
-> > > @@ -1848,7 +1848,8 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-> > >           }
-> > >           if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
-> > > -            pcie_ats_init(pci_dev, last_pcie_cap_offset);
-> > > +            pcie_ats_init(pci_dev, last_pcie_cap_offset,
-> > > +                          proxy->flags & VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED);
-> > >               last_pcie_cap_offset += PCI_EXT_CAP_ATS_SIZEOF;
-> > >           }
-> > > @@ -1925,6 +1926,8 @@ static Property virtio_pci_properties[] = {
-> > >                        ignore_backend_features, false),
-> > >       DEFINE_PROP_BIT("ats", VirtIOPCIProxy, flags,
-> > >                       VIRTIO_PCI_FLAG_ATS_BIT, false),
-> > > +    DEFINE_PROP_BIT("x-ats-page-aligned", VirtIOPCIProxy, flags,
-> > > +                    VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT, true),
-> > >       DEFINE_PROP_BIT("x-pcie-deverr-init", VirtIOPCIProxy, flags,
-> > >                       VIRTIO_PCI_FLAG_INIT_DEVERR_BIT, true),
-> > >       DEFINE_PROP_BIT("x-pcie-lnkctl-init", VirtIOPCIProxy, flags,
-> > > diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> > > index d7d5d403a9..2446dcd9ae 100644
-> > > --- a/hw/virtio/virtio-pci.h
-> > > +++ b/hw/virtio/virtio-pci.h
-> > > @@ -42,6 +42,7 @@ enum {
-> > >       VIRTIO_PCI_FLAG_INIT_PM_BIT,
-> > >       VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-> > >       VIRTIO_PCI_FLAG_AER_BIT,
-> > > +    VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT,
-> > >   };
-> > >   /* Need to activate work-arounds for buggy guests at vmstate load. */
-> > > @@ -84,6 +85,10 @@ enum {
-> > >   /* Advanced Error Reporting capability */
-> > >   #define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-> > > +/* Page Aligned Address space Translation Service */
-> > > +#define VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED \
-> > > +  (1 << VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT)
-> > > +
-> > >   typedef struct {
-> > >       MSIMessage msg;
-> > >       int virq;
-> > > diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> > > index 14c58ebdb6..6063bee0ec 100644
-> > > --- a/include/hw/pci/pcie.h
-> > > +++ b/include/hw/pci/pcie.h
-> > > @@ -137,7 +137,7 @@ void pcie_acs_reset(PCIDevice *dev);
-> > >   void pcie_ari_init(PCIDevice *dev, uint16_t offset, uint16_t nextfn);
-> > >   void pcie_dev_ser_num_init(PCIDevice *dev, uint16_t offset, uint64_t ser_num);
-> > > -void pcie_ats_init(PCIDevice *dev, uint16_t offset);
-> > > +void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned);
-> > >   void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > >                                  Error **errp);
-> > > -- 
-> > > 2.24.3 (Apple Git-128)
-> > > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Right, that's a matter of taste / opinion. I assume a small minority of peo=
+ple=20
+want to be able to view illustrations from a text terminal nowadays, and th=
+at=20
+the vast majority rather prefers a graphical representation. The lack of co=
+lor=20
+alone would already be too counter intuitive in my opinion, and automatic=20
+ascii art conversion tools never worked for me well enough.
+
+Given the fact that we can only spend small times slices on 9p, I would lik=
+e=20
+to avoid maintaining 2 completely separate documentation versions manually.
+
+So personally I would suggest, if either auto conversion and/or images is n=
+ot=20
+appropriate for an in-tree version, to just keep the wiki page for now.=20
+
+>=20
+> Cheers,
+>=20
+> --
+> Greg
+>=20
+> > >  MAINTAINERS                          |   1 +
+> > >  docs/devel/9p.rst                    | 544 +++++++++++++++++++++++++=
+++
+> > >  docs/devel/img/9pfs_control_flow.png | Bin 0 -> 156560 bytes
+> > >  docs/devel/img/9pfs_topology.png     | Bin 0 -> 51529 bytes
+> > >  docs/devel/img/Coroutines_stacks.png | Bin 0 -> 87204 bytes
+> > >  5 files changed, 545 insertions(+)
+> > >  create mode 100644 docs/devel/9p.rst
+> > >  create mode 100644 docs/devel/img/9pfs_control_flow.png
+> > >  create mode 100644 docs/devel/img/9pfs_topology.png
+> > >  create mode 100644 docs/devel/img/Coroutines_stacks.png
+> >=20
+> > Best regards,
+> > Christian Schoenebeck
+
+
 
 
