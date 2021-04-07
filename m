@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B897635721A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 18:26:01 +0200 (CEST)
-Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602F835723A
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 18:36:47 +0200 (CEST)
+Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUB0C-0000jd-It
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 12:26:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51388)
+	id 1lUBAc-0006y7-Bx
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 12:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1lUArP-0004AQ-HL
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 12:16:56 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:65423
+ id 1lUArR-0004BA-8d
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 12:16:58 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:65421
  helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1lUArL-0000oN-M2
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 12:16:54 -0400
+ (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1lUArN-0000p1-FV
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 12:16:55 -0400
 Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
- id A13A82FF0795; Wed,  7 Apr 2021 16:16:45 +0000 (UTC)
+ id A40E22FF0796; Wed,  7 Apr 2021 16:16:45 +0000 (UTC)
 From: Reinoud Zandijk <reinoud@NetBSD.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 3/4] Add NVMM accelerator: acceleration enlightenments
-Date: Wed,  7 Apr 2021 16:16:30 +0000
-Message-Id: <20210407161631.1780-4-reinoud@NetBSD.org>
+Subject: [PATCH v8 4/4] Add NVMM Accelerator: add maintainers for NetBSD/NVMM
+Date: Wed,  7 Apr 2021 16:16:31 +0000
+Message-Id: <20210407161631.1780-5-reinoud@NetBSD.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210407161631.1780-1-reinoud@NetBSD.org>
 References: <20210407161631.1780-1-reinoud@NetBSD.org>
@@ -61,69 +61,38 @@ Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
 Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
 
 ---
- include/sysemu/hw_accel.h |  1 +
- include/sysemu/nvmm.h     | 26 ++++++++++++++++++++++++++
- target/i386/helper.c      |  2 +-
- 3 files changed, 28 insertions(+), 1 deletion(-)
- create mode 100644 include/sysemu/nvmm.h
+ MAINTAINERS | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 61672f9b32..01b5ebf442 100644
---- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -16,6 +16,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 554be84b32..cf9d81ea7c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -510,6 +510,15 @@ F: accel/stubs/hax-stub.c
+ F: include/sysemu/hax.h
+ F: target/i386/hax/
  
- void cpu_synchronize_state(CPUState *cpu);
- void cpu_synchronize_post_reset(CPUState *cpu);
-diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
-new file mode 100644
-index 0000000000..6d216599b0
---- /dev/null
-+++ b/include/sysemu/nvmm.h
-@@ -0,0 +1,26 @@
-+/*
-+ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
-+ *
-+ * NetBSD Virtual Machine Monitor (NVMM) accelerator support.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
++Guest CPU Cores (NVMM)
++----------------------
++NetBSD Virtual Machine Monitor (NVMM) CPU support
++M: Kamil Rytarowski <kamil@netbsd.org>
++M: Reinoud Zandijk <reinoud@netbsd.org>
++S: Maintained
++F: include/sysemu/nvmm.h
++F: target/i386/nvmm/
 +
-+#ifndef QEMU_NVMM_H
-+#define QEMU_NVMM_H
-+
-+#include "config-host.h"
-+#include "qemu-common.h"
-+
-+#ifdef CONFIG_NVMM
-+
-+int nvmm_enabled(void);
-+
-+#else /* CONFIG_NVMM */
-+
-+#define nvmm_enabled() (0)
-+
-+#endif /* CONFIG_NVMM */
-+
-+#endif /* CONFIG_NVMM */
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 618ad1c409..8c180b5b2b 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -495,7 +495,7 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access)
-     X86CPU *cpu = env_archcpu(env);
-     CPUState *cs = env_cpu(env);
+ Hosts
+ -----
+ LINUX
+@@ -530,6 +539,8 @@ F: include/qemu/*posix*.h
  
--    if (kvm_enabled() || whpx_enabled()) {
-+    if (kvm_enabled() || whpx_enabled() || nvmm_enabled()) {
-         env->tpr_access_type = access;
+ NETBSD
+ M: Kamil Rytarowski <kamil@netbsd.org>
++M: Reinoud Zandijk <reinoud@netbsd.org>
++M: Ryo ONODERA <ryoon@netbsd.org>
+ S: Maintained
+ K: ^Subject:.*(?i)NetBSD
  
-         cpu_interrupt(cs, CPU_INTERRUPT_TPR);
 -- 
 2.31.1
 
