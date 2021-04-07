@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B6A3576C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:27:39 +0200 (CEST)
-Received: from localhost ([::1]:51964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F51E3576C8
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 23:27:34 +0200 (CEST)
+Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUFi6-0001vx-MC
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45902)
+	id 1lUFi1-0001iB-EU
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 17:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lUFgK-0008RN-RK
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44609)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lUFgI-0000kB-Ir
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617830744;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I/RvME+9U5dt/9u40HYrG3PxY+rIFX/d4QGP7Iqra6k=;
- b=K6kwwhVrCrEJY0TQx5WPRL6RgaUoC8kelxXLjt0HfWhPLskuAuBQKbb+hC5gdmxTyejXVy
- UnQ83mAz5Fz5bdd/Un41CoRoMf91i96a7tTLJ1X7WYc6xInijGz1GJGFHgCwSlfLi1xbKV
- TXK3llNV8GiaNc8ig1+kiNkUPvWosdc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-7XLV-58aPr6NVCKaVhtspA-1; Wed, 07 Apr 2021 17:25:41 -0400
-X-MC-Unique: 7XLV-58aPr6NVCKaVhtspA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A3B4107ACE3;
- Wed,  7 Apr 2021 21:25:40 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0683B39A5F;
- Wed,  7 Apr 2021 21:25:31 +0000 (UTC)
-Date: Wed, 7 Apr 2021 23:25:30 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
-Message-ID: <20210407232530.79088fc2@redhat.com>
-In-Reply-To: <YG1teaGjOvee87Rj@redhat.com>
-References: <20210322225907.541943-1-mst@redhat.com>
- <20210322225907.541943-12-mst@redhat.com>
- <YGx2IFN3mJisOR1w@redhat.com> <YGx5LRiqkKRmO4aJ@redhat.com>
- <20210406201546.2377830e@redhat.com> <YG1teaGjOvee87Rj@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUFgD-0008J4-IH
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:41 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUFgC-0000gg-1b
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 17:25:41 -0400
+Received: by mail-ed1-x535.google.com with SMTP id z1so22585383edb.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 14:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gxo+t0Ft9qmN4LKsu2j/lcMf/U2E33U/D6dWxJ44tG8=;
+ b=IEixdz0RqAFcN+C9CQqHgwnjzXXxhECGcCmFMqWh7+RKZygBkfZPJqmawdSQsyES6R
+ GRe52XADOJQKSJsWCh/1Tp9521ddB6EXqnM3jaHeUJNA2XsfZn0eAZ0WWq3XSNussMJy
+ vxRs1vPs0jMVf/JhpSgo34Zdx0RzywGDCbW5lnyYD2kXHnG4G1tdI32RSKVytcEtswdL
+ sQwC/jKuRADu8Bx72+qcmgHb2GiYGRSNLcDPjycFt/vV8I58r/2WO5HebzG8Iw4F3LVc
+ QHD8OO0Jf8oa5nESn0IcAmBsuJA7JhceqvwAcxL+Smr6MRdxJ1uMkU41E6PypTBS5IUp
+ IHXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gxo+t0Ft9qmN4LKsu2j/lcMf/U2E33U/D6dWxJ44tG8=;
+ b=sJn/KpdQL8p4b2Nj4jOeEiDQmQDYdghppPLlDgk7fddFCAsIBPONeiuoX8v92fIOMM
+ q0KgEh7tXR7T7WRn5Nm1CJwNC8HqA/xYCn1Y6sfs/zz+MulGJWkAEsiBc1da8Jek0pEr
+ pbYfaPQfxNxdHaqO3/YMUf+3pavpeFmLO3gzuTjXwpGdzXbKIKbRnUDMVaLgDRUMLtt2
+ YdsVHdM2HmEMQnVxc5e2OwWJxnxrEZlH+8I9mpbHRF2n6i22CWEq3l42AP8tCUouLAnk
+ HHRp7vHAipbOY5J3u70ebjZ96HbMLoUShMNgjINeLnSvfRYVc/udlt3bklKNS8AN2gvA
+ Wu6A==
+X-Gm-Message-State: AOAM533LOP3/GjwGiCb2KG30rTE2hPbrqWQyLrP1uW9+VH0PPmMuToDF
+ OMya0MswoQI1db5v5s7E+X4=
+X-Google-Smtp-Source: ABdhPJwUNQPuKxtwai1MA/gNNxKs9VcgQ+4e2TIEYV4MA+iW5GbTWtHZBOYW894+XVHXMUYoqKn4Vg==
+X-Received: by 2002:a05:6402:280c:: with SMTP id
+ h12mr6702281ede.332.1617830737668; 
+ Wed, 07 Apr 2021 14:25:37 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id w1sm8478502edt.89.2021.04.07.14.25.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Apr 2021 14:25:37 -0700 (PDT)
+Subject: Re: [PATCH v4 for-6.0 10/12] esp: don't reset async_len directly in
+ esp_select() if cancelling request
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
+References: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
+ <20210407195801.685-11-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f41433db-68e8-407d-379e-f541d54211f2@amsat.org>
+Date: Wed, 7 Apr 2021 23:25:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210407195801.685-11-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,151 +92,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Apr 2021 09:29:45 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On 4/7/21 9:57 PM, Mark Cave-Ayland wrote:
+> Instead let the SCSI layer invoke the .cancel callback itself to cancel and
+> reset the request state.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  hw/scsi/esp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Tue, Apr 06, 2021 at 08:15:46PM +0200, Igor Mammedov wrote:
-> > On Tue, 6 Apr 2021 16:07:25 +0100
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >  =20
-> > > On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrang=C3=A9 wro=
-te: =20
-> > > > On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote:=
-   =20
-> > > > > From: Igor Mammedov <imammedo@redhat.com>
-> > > > >=20
-> > > > > it helps to avoid device naming conflicts when guest OS is
-> > > > > configured to use acpi-index for naming.
-> > > > > Spec ialso says so:
-> > > > >=20
-> > > > > PCI Firmware Specification Revision 3.2
-> > > > > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operati=
-ng Systems
-> > > > > "
-> > > > > Instance number must be unique under \_SB scope. This instance nu=
-mber does not have to
-> > > > > be sequential in a given system configuration.
-> > > > > "
-> > > > >=20
-> > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > > > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
-> > > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > ---
-> > > > >  hw/acpi/pcihp.c | 46 +++++++++++++++++++++++++++++++++++++++++++=
-+++
-> > > > >  1 file changed, 46 insertions(+)
-> > > > >=20
-> > > > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > > > > index ceab287bd3..f4cb3c979d 100644
-> > > > > --- a/hw/acpi/pcihp.c
-> > > > > +++ b/hw/acpi/pcihp.c
-> > > > > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
-> > > > >      PCIBus *bus;
-> > > > >  } AcpiPciHpFind;
-> > > > > =20
-> > > > > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpoin=
-ter user_data)
-> > > > > +{
-> > > > > +    return a - b;
-> > > > > +}
-> > > > > +
-> > > > > +static GSequence *pci_acpi_index_list(void)
-> > > > > +{
-> > > > > +    static GSequence *used_acpi_index_list;
-> > > > > +
-> > > > > +    if (!used_acpi_index_list) {
-> > > > > +        used_acpi_index_list =3D g_sequence_new(NULL);
-> > > > > +    }
-> > > > > +    return used_acpi_index_list;
-> > > > > +}
-> > > > > +
-> > > > >  static int acpi_pcihp_get_bsel(PCIBus *bus)
-> > > > >  {
-> > > > >      Error *local_err =3D NULL;
-> > > > > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHa=
-ndler *hotplug_dev,
-> > > > >                     ONBOARD_INDEX_MAX);
-> > > > >          return;
-> > > > >      }
-> > > > > +
-> > > > > +    /*
-> > > > > +     * make sure that acpi-index is unique across all present PC=
-I devices
-> > > > > +     */
-> > > > > +    if (pdev->acpi_index) {
-> > > > > +        GSequence *used_indexes =3D pci_acpi_index_list();
-> > > > > +
-> > > > > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev=
-->acpi_index),
-> > > > > +                              g_cmp_uint32, NULL)) {
-> > > > > +            error_setg(errp, "a PCI device with acpi-index =3D %=
-" PRIu32
-> > > > > +                       " already exist", pdev->acpi_index);
-> > > > > +            return;
-> > > > > +        }
-> > > > > +        g_sequence_insert_sorted(used_indexes,
-> > > > > +                                 GINT_TO_POINTER(pdev->acpi_inde=
-x),
-> > > > > +                                 g_cmp_uint32, NULL);
-> > > > > +    }   =20
-> > > >=20
-> > > > This doesn't appear to ensure uniqueness when using PCIe topologies=
-:
-> > > >=20
-> > > > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-> > > >      -device virtio-net,acpi-index=3D100 \
-> > > >      -device virtio-net,acpi-index=3D100
-> > > > qemu-system-x86_64: -device virtio-net,acpi-index=3D100: a PCI devi=
-ce with acpi-index =3D 100 already exist
-> > > >=20
-> > > > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-> > > >      -M q35 \
-> > > >      -device virtio-net,acpi-index=3D100
-> > > >      -device virtio-net,acpi-index=3D100
-> > > > ....happily running....   =20
-> > >=20
-> > > In fact the entire concept doesn't appear to work with Q35 at all as
-> > > implemented.
-> > >=20
-> > > The 'acpi_index' file in the guest OS never gets created and the NICs
-> > > are still called 'eth0', 'eth1'
-> > >=20
-> > > Only with i440fx can I can the "enoNNN" based naming to work with
-> > > acpi-index set from QEMU =20
-> >=20
-> > It is not supported on Q35 yet as it depends on ACPI PCI hotplug infras=
-tructure.
-> > Once Julia is done with porting it to Q35, acpi-index will be pulled al=
-ong with it. =20
->=20
-> Will the PCI hotplug support work in the same way
->=20
-> Looking at this doc I see two options:
->=20
->   https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInt=
-erfaceNames/
->=20
->  1. Names incorporating Firmware/BIOS provided index numbers for on-board=
- devices (example: eno1)
->  2. Names incorporating Firmware/BIOS provided PCI Express hotplug slot i=
-ndex numbers (example: ens1)=20
->=20
-> Is the stuff Julia is implementing for Q35 going to end up
-> triggering scenario (1) still, or will it trigger scenario two
-> which mentions "hotplug slot index" as a distinct concept from
-> the ACPI index we're setting for i440fx ?
-
-it will trigger (1) unless she adds code to disable acpi-index machinery
-
->=20
-> Regards,
-> Daniel
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
