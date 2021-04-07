@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74286356737
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:51:13 +0200 (CEST)
-Received: from localhost ([::1]:60868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8798D35673B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 10:53:38 +0200 (CEST)
+Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU3u4-0002a8-8L
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57864)
+	id 1lU3wP-0003xp-K8
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 04:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU3oK-0001dx-Ir; Wed, 07 Apr 2021 04:45:16 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:53511)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lU3u0-000381-Kk
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:51:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lU3oE-0005Ea-L6; Wed, 07 Apr 2021 04:45:16 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 2EA9B5C0032;
- Wed,  7 Apr 2021 04:45:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 07 Apr 2021 04:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=ZKcEZhIDitoMFe9ykSx9SLx8KZP
- kiWLos2Rb5Mdm5nw=; b=LimLYQaXKe9dd4KwaCljpsstAD8qhe9hn1I4J/wf0tg
- bR4b8xMk/3VcI/NXWvdhUsX7Q8SmgqSu65LtCXFNulMCcOp0M/G16X3PsreW+0tG
- n9I9hsEXFmt8AQyLnMg9p+Mp2t8SA786/keosZaCF9V7Jsd0BSwiVUf7/nbcpKrw
- tQDYB0Q/Ppjwi4ZvXvdE2n5e0/7DmvVf9nsLJcs7Ps0qaZ7ugS5XXL2/xACOAca4
- hPlr7/WQGQCAavsxMb6E5QsbTEKle4WmyjM3iMr3Va96N1AHD6R/8biS/sxIDYtl
- v3Dn110N8O5blkV+EmJrDK5SW5YbTWU04EjP4cCqaPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZKcEZh
- IDitoMFe9ykSx9SLx8KZPkiWLos2Rb5Mdm5nw=; b=fptU5CeRBdUWV6NITtTOkP
- O1u5nepksO9fcfEsEjhQ2d/BCA0EGbK1pGQePMcDQdM0673DvRIf+0TubfWtWPRB
- ZujsPHFUIv6p6Xd7mLEBxYIxF+xf2cAPnqSKTXghjiptDMRt7FS2Rw1w24TmC5FS
- Q2v7MQgIjz2f31hqazV/DTcKTges7bN9C+jecU0n3ihAFVLrcQkui3jLyWwmIOiF
- sLEhruMj4YYUppHNgF2jzQAi6Jz4G98cxfKcmztKQax9oPIDxaQPJ1ht8mcIDk5S
- p6i2Glo91YlxjIZIiSl48Qnu7oE4G1AudMRhlwY/o0VsS2vITWYUGxYA4grkV8eg
- ==
-X-ME-Sender: <xms:E3FtYHgvJynd6ZHUcIy7B2vEwl2yFiwGJTeVT473rvP91g36c8KJ1w>
- <xme:E3FtYGBxFwmrZwJAsk3HdNN6dGNs6uwm-v8ldmGf1SfPvhfJDIc5CUH3cZPIUzGB0
- laDk8i3y_kBkRvAJUY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejjedgtdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedutdehleelvdetvdefueehgeevhfejueeliefhudfhiefffffhuddtkeekieek
- feenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucfkphepkedtrdduieejrd
- elkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:E3FtYAcHzRuaobIl1hlxPIz2ZMIoppjTXlKlPA6kw6WZGSXEJw5Kbw>
- <xmx:E3FtYGc9NTj65xhR-atbR-Tr1UbwRDtNA6wuYIeX7OZqx4iRjAImIA>
- <xmx:E3FtYMibdHLlISTSFoWlxnCLWVbyIEg9ulZtbyoX75H41cW8svh08g>
- <xmx:FXFtYIUL5NsSjfS16tycNePGDBi9vS_AyAwnoTZ0g9qb4U4LUhB8hg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7210F1080063;
- Wed,  7 Apr 2021 04:45:06 -0400 (EDT)
-Date: Wed, 7 Apr 2021 10:45:04 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL for-6.0 v2 00/10] emulated nvme fixes for -rc3
-Message-ID: <YG1xEH2BWGAAxQuT@apples.localdomain>
-References: <20210407054635.189440-1-its@irrelevant.dk>
- <CAFEAcA9HsqCJOUsL9HwNHqr5MEkRfCw4i6fc1T2hkN7t4QgpdQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lU3ty-0008VG-26
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 04:51:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617785464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I903UQZcC6mzYgGobXbRugjFXHq29ZXls1L9jyuwmPc=;
+ b=VbDmZD3/oM10W8GRlW57gX34TWCe/5gM9ceKbO3YO+8dPZanDexQXPQKGDuzS6bMvItP6y
+ 3Pz6rxNnz5yhGRxBeq7oMVdr2Fyg2HIKyqYfZCctLhSSPfoZ7WrsPSjJzeRn3+JN4ZLc72
+ EVU8pgPIxN1P0sItsv1+CUD4z9EyL90=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-TXSkLaD6P-uhPMhgL8O0mw-1; Wed, 07 Apr 2021 04:51:02 -0400
+X-MC-Unique: TXSkLaD6P-uhPMhgL8O0mw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B3D8189DE;
+ Wed,  7 Apr 2021 08:51:01 +0000 (UTC)
+Received: from work-vm (ovpn-115-14.ams2.redhat.com [10.36.115.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4690B60854;
+ Wed,  7 Apr 2021 08:50:53 +0000 (UTC)
+Date: Wed, 7 Apr 2021 09:50:50 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V2] virtio-pci: compat page aligned ATS
+Message-ID: <YG1yam6UlqWosWvv@work-vm>
+References: <20210406040330.11306-1-jasowang@redhat.com>
+ <YGwsQXOiBZOG1S44@work-vm>
+ <3537aa98-f6fc-bf99-cbc6-3c90f1387dc5@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FLC2qia1ALz1p62k"
+In-Reply-To: <3537aa98-f6fc-bf99-cbc6-3c90f1387dc5@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA9HsqCJOUsL9HwNHqr5MEkRfCw4i6fc1T2hkN7t4QgpdQ@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,105 +82,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Qemu-block <qemu-block@nongnu.org>, Klaus Jensen <k.jensen@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, ehabkost@redhat.com,
+ peterx@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Jason Wang (jasowang@redhat.com) wrote:
+> 
+> 在 2021/4/6 下午5:39, Dr. David Alan Gilbert 写道:
+> > * Jason Wang (jasowang@redhat.com) wrote:
+> > > Commit 4c70875372b8 ("pci: advertise a page aligned ATS") advertises
+> > > the page aligned via ATS capability (RO) to unbrek recent Linux IOMMU
+> > > drivers since 5.2. But it forgot the compat the capability which
+> > > breaks the migration from old machine type:
+> > > 
+> > > (qemu) qemu-kvm: get_pci_config_device: Bad config data: i=0x104 read:
+> > > 0 device: 20 cmask: ff wmask: 0 w1cmask:0
+> > > 
+> > > This patch introduces a new parameter "x-ats-page-aligned" for
+> > > virtio-pci device and turns it on for machine type which is newer than
+> > > 5.1.
+> > I don't know the IOMMU code, but from the property/hw_compat I think
+> > this is OK.
+> > It's a bit tricky; since this was broken in 5.2, changing the
+> > hw_compat_5_1 means that there are exisitng 5.2 users who will be broken
+> > - howeer, the original 4c70875372b8 patch was sent to qemu-stable
+> > which I think means there are other versions that are inconsistent as
+> > well.
+> 
+> 
+> Good point. It's not an easy task, we need to choose to break migration or
+> virtio with vIOMMU.
+> 
+> This patch chooes to do the latter, or is there any other better way to
+> solve this?
 
---FLC2qia1ALz1p62k
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Not that I can think of.
 
-On Apr  7 08:03, Peter Maydell wrote:
->On Wed, 7 Apr 2021 at 06:51, Klaus Jensen <its@irrelevant.dk> wrote:
->>
->> From: Klaus Jensen <k.jensen@samsung.com>
->>
->> Hi Peter,
->>
->> My apologies that these didn't make it for -rc2!
->>
->> I botched v1, so please pull this v2 instead.
->>
->>
->> The following changes since commit d0d3dd401b70168a353450e031727affee828=
-527:
->>
->>   Update version for v6.0.0-rc2 release (2021-04-06 18:34:34 +0100)
->>
->> are available in the Git repository at:
->>
->>   git://git.infradead.org/qemu-nvme.git tags/nvme-fixes-2021-04-07-pull-=
-request
->>
->> for you to fetch changes up to 5dd79300df47f07d0e9d6a7bda43b23ff26001dc:
->>
->>   hw/block/nvme: fix out-of-bounds read in nvme_subsys_ctrl (2021-04-07 =
-07:27:09 +0200)
->>
->> ----------------------------------------------------------------
->> emulated nvme fixes for -rc3
->>
->> v2:
->>   - added missing patches
->>
->> ----------------------------------------------------------------
->
->Hi; this semes to generate a bunch of new warnings during 'make check'
->(not sure exactly which test is producing these, due to the usual
->interleaving when using -j8):
->
->qemu-system-i386: -device nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo:
->warning: drive property is deprecated; please use an nvme-ns device
->instead
->qemu-system-i386: -device
->nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo,cmb_size_mb=3D2: warning: drive
->property is deprecated; please use an nvme-ns device instead
->qemu-system-ppc64: -device nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo:
->warning: drive property is deprecated; please use an nvme-ns device
->instead
->qemu-system-ppc64: -device
->nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo,cmb_size_mb=3D2: warning: drive
->property is deprecated; please use an nvme-ns device instead
->qemu-system-x86_64: -device nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo:
->warning: drive property is deprecated; please use an nvme-ns device
->instead
->qemu-system-x86_64: -device
->nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo,cmb_size_mb=3D2: warning: drive
->property is deprecated; please use an nvme-ns device instead
->
->thanks
->-- PMM
->
+Dave
 
-Hi Peter,
+> Thanks
+> 
+> 
+> > 
+> > Dave
+> > 
+> > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > Cc: Peter Xu <peterx@redhat.com>
+> > > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > Cc: qemu-stable@nongnu.org
+> > > Fixes: 4c70875372b8 ("pci: advertise a page aligned ATS")
+> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > ---
+> > > Changes since V1:
+> > > - switch to use "x-ats-page-aligned" instead
+> > > ---
+> > >   hw/core/machine.c      |  1 +
+> > >   hw/pci/pcie.c          | 10 ++++++----
+> > >   hw/virtio/virtio-pci.c |  5 ++++-
+> > >   hw/virtio/virtio-pci.h |  5 +++++
+> > >   include/hw/pci/pcie.h  |  2 +-
+> > >   5 files changed, 17 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > index 9935c6ddd5..a50f2d5f0a 100644
+> > > --- a/hw/core/machine.c
+> > > +++ b/hw/core/machine.c
+> > > @@ -53,6 +53,7 @@ GlobalProperty hw_compat_5_1[] = {
+> > >       { "nvme", "use-intel-id", "on"},
+> > >       { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
+> > >       { "pl011", "migrate-clk", "off" },
+> > > +    { "virtio-pci", "x-ats-page-aligned", "off"},
+> > >   };
+> > >   const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
+> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > > index a733e2fb87..fd0fa157e8 100644
+> > > --- a/hw/pci/pcie.c
+> > > +++ b/hw/pci/pcie.c
+> > > @@ -963,16 +963,18 @@ void pcie_dev_ser_num_init(PCIDevice *dev, uint16_t offset, uint64_t ser_num)
+> > >       pci_set_quad(dev->config + offset + pci_dsn_cap, ser_num);
+> > >   }
+> > > -void pcie_ats_init(PCIDevice *dev, uint16_t offset)
+> > > +void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned)
+> > >   {
+> > >       pcie_add_capability(dev, PCI_EXT_CAP_ID_ATS, 0x1,
+> > >                           offset, PCI_EXT_CAP_ATS_SIZEOF);
+> > >       dev->exp.ats_cap = offset;
+> > > -    /* Invalidate Queue Depth 0, Page Aligned Request 1 */
+> > > -    pci_set_word(dev->config + offset + PCI_ATS_CAP,
+> > > -                 PCI_ATS_CAP_PAGE_ALIGNED);
+> > > +    /* Invalidate Queue Depth 0 */
+> > > +    if (aligned) {
+> > > +        pci_set_word(dev->config + offset + PCI_ATS_CAP,
+> > > +                     PCI_ATS_CAP_PAGE_ALIGNED);
+> > > +    }
+> > >       /* STU 0, Disabled by default */
+> > >       pci_set_word(dev->config + offset + PCI_ATS_CTRL, 0);
+> > > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> > > index 883045a223..2b7142a21e 100644
+> > > --- a/hw/virtio/virtio-pci.c
+> > > +++ b/hw/virtio/virtio-pci.c
+> > > @@ -1848,7 +1848,8 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+> > >           }
+> > >           if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
+> > > -            pcie_ats_init(pci_dev, last_pcie_cap_offset);
+> > > +            pcie_ats_init(pci_dev, last_pcie_cap_offset,
+> > > +                          proxy->flags & VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED);
+> > >               last_pcie_cap_offset += PCI_EXT_CAP_ATS_SIZEOF;
+> > >           }
+> > > @@ -1925,6 +1926,8 @@ static Property virtio_pci_properties[] = {
+> > >                        ignore_backend_features, false),
+> > >       DEFINE_PROP_BIT("ats", VirtIOPCIProxy, flags,
+> > >                       VIRTIO_PCI_FLAG_ATS_BIT, false),
+> > > +    DEFINE_PROP_BIT("x-ats-page-aligned", VirtIOPCIProxy, flags,
+> > > +                    VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT, true),
+> > >       DEFINE_PROP_BIT("x-pcie-deverr-init", VirtIOPCIProxy, flags,
+> > >                       VIRTIO_PCI_FLAG_INIT_DEVERR_BIT, true),
+> > >       DEFINE_PROP_BIT("x-pcie-lnkctl-init", VirtIOPCIProxy, flags,
+> > > diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+> > > index d7d5d403a9..2446dcd9ae 100644
+> > > --- a/hw/virtio/virtio-pci.h
+> > > +++ b/hw/virtio/virtio-pci.h
+> > > @@ -42,6 +42,7 @@ enum {
+> > >       VIRTIO_PCI_FLAG_INIT_PM_BIT,
+> > >       VIRTIO_PCI_FLAG_INIT_FLR_BIT,
+> > >       VIRTIO_PCI_FLAG_AER_BIT,
+> > > +    VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT,
+> > >   };
+> > >   /* Need to activate work-arounds for buggy guests at vmstate load. */
+> > > @@ -84,6 +85,10 @@ enum {
+> > >   /* Advanced Error Reporting capability */
+> > >   #define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
+> > > +/* Page Aligned Address space Translation Service */
+> > > +#define VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED \
+> > > +  (1 << VIRTIO_PCI_FLAG_ATS_PAGE_ALIGNED_BIT)
+> > > +
+> > >   typedef struct {
+> > >       MSIMessage msg;
+> > >       int virq;
+> > > diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+> > > index 14c58ebdb6..6063bee0ec 100644
+> > > --- a/include/hw/pci/pcie.h
+> > > +++ b/include/hw/pci/pcie.h
+> > > @@ -137,7 +137,7 @@ void pcie_acs_reset(PCIDevice *dev);
+> > >   void pcie_ari_init(PCIDevice *dev, uint16_t offset, uint16_t nextfn);
+> > >   void pcie_dev_ser_num_init(PCIDevice *dev, uint16_t offset, uint64_t ser_num);
+> > > -void pcie_ats_init(PCIDevice *dev, uint16_t offset);
+> > > +void pcie_ats_init(PCIDevice *dev, uint16_t offset, bool aligned);
+> > >   void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+> > >                                  Error **errp);
+> > > -- 
+> > > 2.24.3 (Apple Git-128)
+> > > 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-tests/qtest/nvme-test.c is generating these warnings.
-
-We didn't deprecate this formally, so I will remove the warning for now.=20
-The device works just fine with both "legacy" and "new-style" nvme-ns=20
-namespace definitions.
-
-I'll do a v3.
-
---FLC2qia1ALz1p62k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBtcQ4ACgkQTeGvMW1P
-DenYKgf/S8PBbcGvI5QJYFyk3VGHnGJ7xXB4EqHT4ljMuynzgtK0iURSyJ3PEGme
-OFw3Z6nbG1ApQqRFhMBI+JVxmRMTVpK3bJ+EDK4WlCwqpy+yD3KHjJfvUpFSyLH6
-C1KsjxjcfKt20g7h1NePwkhM5GnOAMTZmdv80D6H3D98nYd5G2sn/O35i5/0zY75
-FdjW6wHWQJdjwUKdG8Cpmo2ytej0wr+P8qnTDNpC3RhgfcPiA479zHiJq7/bT++w
-ejzSxqnG3mKNBJYV5mRVmlel6K1YG8o6F4CcyzTkJeucljpwudlj86ZAdtdpoW7K
-B8v80DfvH7sQe9BP7HoEAjd+ll1XXA==
-=fgnD
------END PGP SIGNATURE-----
-
---FLC2qia1ALz1p62k--
 
