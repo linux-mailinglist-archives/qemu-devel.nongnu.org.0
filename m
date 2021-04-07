@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A1D356BDE
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 14:15:16 +0200 (CEST)
-Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55328356BF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 14:19:08 +0200 (CEST)
+Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU75W-0006Ua-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 08:15:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52142)
+	id 1lU79H-00083d-DF
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 08:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lU74Q-0005vd-Uw; Wed, 07 Apr 2021 08:14:08 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:40875)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lU75Y-0006tf-PZ; Wed, 07 Apr 2021 08:15:16 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lU74M-0001p9-BB; Wed, 07 Apr 2021 08:14:06 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id 82so9283599yby.7;
- Wed, 07 Apr 2021 05:14:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lU75X-0002Yh-7y; Wed, 07 Apr 2021 08:15:16 -0400
+Received: by mail-ej1-x633.google.com with SMTP id w3so27284464ejc.4;
+ Wed, 07 Apr 2021 05:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DgOzSJc2Deh7khhf5ekqHRxj62tX7qQhU5j+XRynfPM=;
- b=dMoPBs2oOhc+MSUnBOOfgUmo500QNEgt/XkShkpM2YjOA2RWhDHRzqtz0KXaQVky6S
- k3A5KgvG9fEcWQM5Da36z1cWO+/5IcJiorJBgg1M1xdzF0YmTprHbo4mzFP9YLN1h306
- So5HiabZ0u2cdMrFJjkpIWVTTvYKGaujC0GgKeqpv+/hfWdkpnymj3J6FNWs20yTaQ2W
- n1gyxhuZAg4MdcxWONxjYh51EJxvhKda2syYcGsWoWZa1fZIdkEoPRAZmAZFcAtNXDjW
- fVTVBsC1EdV5JT0bnU98COSg2+apWnlg6Jzgs9Viz2EThu6RMW3WwIKKbL8xdJFVrN4Z
- QpBg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mg6tSTSa9/1fVvAJzVuw1qYpElpuw3kReNDOFrLamWc=;
+ b=WavwiXRFNIVm8HqIF2tqzlRmdbP3PSYRyFzn5Wd65EvAQyx7guF1Xtvf3QixVXNUuG
+ 83pJnjnJtcas3OEXliDPgIB8WMBQFRqLxDunvPKmu3LBkbWpvy7S7NeGmpatVXStl9cc
+ 3vBMoienEkXw7ECPd/SUj90+fRsiB8bOsVezVJo0vPt4d+TDueGoCjL6xkuXfeXdId2f
+ gDOf+xSPKUnvsLs9z01bowXjesdxbFQozpeJW66gHbRtXOJ5g3TpQ6teitggDg2S/PnP
+ F1ue2xH5wA+S4+aCyKlbFkpbDu+9QbSN0E7RE0WLTnoDuHtHMNvPQ8rXVAKURIw2xmt/
+ 7bVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DgOzSJc2Deh7khhf5ekqHRxj62tX7qQhU5j+XRynfPM=;
- b=M0SLSzg8sCwE+kXmEdugIk0q9iXf0SerUj+J5NJmuVHCwmrJvWsspQwBYWVqI71onu
- RExQ9/yJE2cCWaKGXMyappcT9GxtTqWrPSyAGW6KcaVhx4oDf/GkoK9+W6zqq/rZPOZu
- a1daFt9cM/DQNuocKvh8ATTwmUwlv7hxDCp/s3KrvqD53CT+Xx7eqHKjnsPkMBbhUmaQ
- nTcU9MbI/lRG76/RMrcH/tNcU5sJE44+lWvRy/Rdm4We7fx0o8YdZKHTWgVBg20Obfi3
- c+UDU+09uUf42/B20+NepnVQZdXvSAai87bYoEfnBIhNOWAKgLvVi1dGazeyo01NgOY5
- guRA==
-X-Gm-Message-State: AOAM5337LknH69jZR9GcyeVg/fHBUAa217zBWUbnuqccwYtJ5PdUj5kt
- Mn/oDbWGSA+X9ooi5FF8sWk7Ibyz0V1ImzSKHN0=
-X-Google-Smtp-Source: ABdhPJyxIiYNzn5fA+Xs1LElRb2p1E49UT6UYWBZ59aR3sLYig7HOkFKt4IIgIP/kKTu1z7n87fc+/1/HKUYvaPRLIQ=
-X-Received: by 2002:a25:4154:: with SMTP id o81mr4200085yba.239.1617797640298; 
- Wed, 07 Apr 2021 05:14:00 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mg6tSTSa9/1fVvAJzVuw1qYpElpuw3kReNDOFrLamWc=;
+ b=MXjhgWZvKbec/JtFZ6ko4beC+hZVV1/QNQjypbjxNbIqPgskEXm+abgndFqjSsXMUq
+ kqm0H71+UNg4DE0aidXxpTD4SksrfLnPhUULfodT93l3pP0NJPCHaQ0SZiGZhp67E4OI
+ q8Fe2IjXF+iR1ejLlq+Pl1vyBXexoxbjUrjNuYN6plLpq7zBOuzstP1Qj8/NscoJbtwq
+ N+XM6WcUeev0ktg6tJP2oj4dzf6Y4VFNfksNlQLT3HZs2VKY3fE120UAQm3X2Bifvgp2
+ fSPL01/xetBb6cHJq6nAezPMcAAEWSH+oG1yzhzi4/7DgVX2mZnufO8oJD/4C97nF397
+ iVGg==
+X-Gm-Message-State: AOAM533hUtwKES5HT6bZAi6MTeFYvjwc5atelV+YmrbF56X4zES8W11M
+ cvcCie9xdEepxXhRo2cSCFg=
+X-Google-Smtp-Source: ABdhPJwEFlosE1r7KRVb8Bvin+UuNNMMm2xSoID1OhII2yY5DWxnmN3uHaSFOwjjZNqBmr1N3/vK4w==
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr3395314ejh.4.1617797712697; 
+ Wed, 07 Apr 2021 05:15:12 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id r26sm4194091edc.43.2021.04.07.05.15.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Apr 2021 05:15:12 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] MAINTAINERS: Update the RISC-V CPU Maintainers
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <2bee9999-d0ba-3b7d-ca59-c6e17021ac1e@amsat.org>
+Date: Wed, 7 Apr 2021 14:15:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210326062140.367861-1-bmeng.cn@gmail.com>
- <CAEUhbmW-RaG-yy_YmL_cFQ-vUS=9_Mw3CmvBCTrkTAiKi8Y2TA@mail.gmail.com>
- <ce9214bb-d68b-defe-8af1-84373727b396@weilnetz.de>
- <cc5220ec-f694-3302-92c4-0107fd5af500@vivier.eu>
-In-Reply-To: <cc5220ec-f694-3302-92c4-0107fd5af500@vivier.eu>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 7 Apr 2021 20:13:49 +0800
-Message-ID: <CAEUhbmX9+=6+J1a0vyzTCWXfrQqjf205W0S=+UZCaxVz+URXRA@mail.gmail.com>
-Subject: Re: [PATCH] nsis: Install *.elf images
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,64 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: kbastian@mail.uni-paderborn.de, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ sagark@eecs.berkeley.edu, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+On 4/7/21 12:48 AM, Alistair Francis wrote:
+> Update the RISC-V maintainers by removing Sagar and Bastian who haven't
+> been involved recently.
+> 
+> Also add Bin who has been helping with reviews.
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> I have run this by all of the people involved and they are all ok with
+> the change.
+> 
+>  MAINTAINERS | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 
-On Wed, Apr 7, 2021 at 8:06 PM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 06/04/2021 =C3=A0 11:28, Stefan Weil a =C3=A9crit :
-> > Am 06.04.21 um 11:04 schrieb Bin Meng:
-> >
-> >> On Fri, Mar 26, 2021 at 2:22 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>> As of today, the QEMU Windows installer does not include the
-> >>> following two RISC-V BIOS images:
-> >>>
-> >>> - opensbi-riscv64-generic-fw_dynamic.elf
-> >>> - opensbi-riscv32-generic-fw_dynamic.elf
-> >>>
-> >>> Update the installer script to include them.
-> >>>
-> >>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> >>>
-> >>> ---
-> >>> Based on:
-> >>> https://repo.or.cz/qemu/ar7.git/commit/657a6a90b69da971afdc71501c3027=
-5ba307ff6c
-> >>>
-> >>> The above commit does not land on QEMU master. I am not sure what
-> >>> the process is, sending it here for comments.
-> >>>
-> >>>   qemu.nsi | 2 ++
-> >>>   1 file changed, 2 insertions(+)
-> >> Ping?
-> >
-> >
-> > Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> >
-> > This is a small uncritical fix which can be merged via QEMU trivial.
->
-> If it is merged via QEMU trivial, it will be after the 6.0 release.
-> If it's needed for 6.0 it's better to go via the maintainer tree (W32,W64=
-) [1]
-
-I think this should go in 6.0.
-
-But as I mentioned that the patch is based on
-https://repo.or.cz/qemu/ar7.git/commit/657a6a90b69da971afdc71501c30275ba307=
-ff6c
-
-which is not in the QEMU mainline yet.
-
-Is QEMU Windows installer fork (https://repo.or.cz/qemu/ar7.git/) not
-supposed to merge back to QEMU mainline?
-
-Regards,
-Bin
+FWIW
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
