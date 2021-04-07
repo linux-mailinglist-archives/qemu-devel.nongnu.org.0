@@ -2,105 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1A635753D
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 21:55:23 +0200 (CEST)
-Received: from localhost ([::1]:35074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019DE357531
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 21:51:43 +0200 (CEST)
+Received: from localhost ([::1]:53786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUEGo-0004I0-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 15:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
+	id 1lUEDG-0008TD-1K
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 15:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
- id 1lUEFY-0003Kq-9i; Wed, 07 Apr 2021 15:54:06 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <klaus@linux.vnet.ibm.com>)
- id 1lUEFO-0004H8-UH; Wed, 07 Apr 2021 15:54:02 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 137JXkuH100009; Wed, 7 Apr 2021 15:33:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Zp1al0kAQteWh2w/T/o0a3gyD9cx2S5X9xxCigfB48I=;
- b=mMJl/E3qjVdErzuCsYFV1+fE8R6uSYuNqZmm3bMMuOn1maPEcERF4xQSUgoICcb9YryF
- guSMT5gq6IPTRS5qtxwsbqsNl/YYubTec5q9iaO7HhAhhqhzKdThiu8GS2XvXehAIuL3
- hsPUTdcMiL/lm4I/K71ROLxH1YUXtPWHhntbNmLLwhYCDdLAdDUV6XPy5V3M0C0J/tpY
- YL9pG3b+cJix955eS4/MYDc1SQqIWWf8hKS8uUPCEfPw0s4auTXs0YhLj3p8PDBhL7nO
- /KgPSchk6LXjCIi//k4WAgRsgve4YAY6s3RkHXVQC6YVvmg7qUBjGRtL0Han/XjjVxXk KA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rw7juejk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 15:33:48 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 137JXmrZ100159;
- Wed, 7 Apr 2021 15:33:48 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rw7juebg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 15:33:48 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137JRXV1022927;
- Wed, 7 Apr 2021 19:33:08 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04wdc.us.ibm.com with ESMTP id 37rvu1ynb2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 19:33:08 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 137JX7iu17498378
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Apr 2021 19:33:08 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B3C7278063;
- Wed,  7 Apr 2021 19:33:07 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BA94378077;
- Wed,  7 Apr 2021 19:33:05 +0000 (GMT)
-Received: from [9.80.221.20] (unknown [9.80.221.20])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  7 Apr 2021 19:33:05 +0000 (GMT)
-Subject: Re: [PATCH 08/24] tests/qtest: Add test for Aspeed HACE
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-9-clg@kaod.org>
-From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
-Message-ID: <96574978-a20e-2bb0-7b4d-77ae3327ce4c@linux.vnet.ibm.com>
-Date: Wed, 7 Apr 2021 16:33:04 -0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lUE7i-0004Qz-BY
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:45:58 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:36527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lUE7e-0007xV-PK
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 15:45:57 -0400
+Received: by mail-il1-x12c.google.com with SMTP id t14so17251763ilu.3
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 12:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZhLAkL4pLMrL1XoezZqsWova6weUhcUsYNTv3NPpou4=;
+ b=aacN0/JE6r6E3ww9dRn5EQF60vWsJ9x48Px2uWVrAUmG+yOhXvN+D8+nmJXCdeYsHF
+ nUXGtKFj9Qkl+i7DfN5DAF2tKBQT0MVId30SOP1HY5hCeQV3iFAtrki12iYiAxWC+eHT
+ zawdO4FfZtpx23o/eEI/zbWmguvw0t9RphTJnFVvxK2aRIsZwh5WMb+/ftzHjuVKTk8V
+ 9pfPCWyRj/4+2V6ARh5jluyHryacCBE4hz8eZZbexRCG0Dfrxh0lGIfammYhujae6eT0
+ reZ90om8cotBBBcl4vqw5Jwr1aMYmdfrtUdEeaJWy54ZJ0A+OEM6XtKmNWppz8YMcDJ3
+ xM+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZhLAkL4pLMrL1XoezZqsWova6weUhcUsYNTv3NPpou4=;
+ b=dXpcoDkFeSX1s/dubnffUg+3CBsCHaF7OkXUffLZBf01Q6wdhaKivCygFcE01ytZmw
+ /hHGZltf7xJIgqRs6ZxFMS7ebRXB+0Ve99bCxzvB3jpf3huUfphrDQ3d56MzKqSvQMjb
+ Io17e153uh5u5T033/OgwDhFvsZP49smHOcDO1FsJTw7JTMAIjJAw9JcLAXPTOWAArL6
+ 0MfR7o+OHB8VhmI5hrUv+Lo6TjZ8OfIvgaffFLHJFLHYkQd7atPXWwfi8PYGFAGz7cJ5
+ Qk/L9Po5yVw03E8jMfFk8HUwt1ijWFH04uOz/uDXhj4yWQjAXPbszLFQx/JbLI+m0qly
+ 6SpQ==
+X-Gm-Message-State: AOAM532hC48GWKydmNfRu6s/212HOgb9zDCu/RsMvkHMxH1o3neltf3V
+ Xf0e7Y8aRao0xOLH1nKR/Al2Rom2XiOePA==
+X-Google-Smtp-Source: ABdhPJwnGzqRM0XZJgUtn7xQjbuX9BgQihvoXCQKKeACZw5aa6ZFEEw1COe9jhoza9BvBoobG005Jg==
+X-Received: by 2002:a63:1266:: with SMTP id 38mr4785914pgs.427.1617824299715; 
+ Wed, 07 Apr 2021 12:38:19 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id e7sm5316390pfv.107.2021.04.07.12.38.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Apr 2021 12:38:19 -0700 (PDT)
+Subject: Re: [PATCH 07/27] arc: TCG instruction definitions
+To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
+References: <20210405143138.17016-1-cupertinomiranda@gmail.com>
+ <20210405143138.17016-8-cupertinomiranda@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d477c4a9-3ade-1536-19b2-dcae76f54d93@linaro.org>
+Date: Wed, 7 Apr 2021 12:38:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210407171637.777743-9-clg@kaod.org>
+In-Reply-To: <20210405143138.17016-8-cupertinomiranda@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LcyfG98n9BpU2v90z_pTOny4Pcb5cVb2
-X-Proofpoint-ORIG-GUID: qMglkTyVQLTD8MRgKgdxOBIxg0fiBmxA
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-07_10:2021-04-07,
- 2021-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 adultscore=0 priorityscore=1501 spamscore=0 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104070135
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=klaus@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,401 +87,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Thomas Huth <thuth@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: shahab@synopsys.com, linux-snps-arc@lists.infradead.org,
+ claziss@synopsys.com, cmiranda@synopsys.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 4/5/21 7:31 AM, cupertinomiranda@gmail.com wrote:
+> +void arc_gen_verifyCCFlag(const DisasCtxt *ctx, TCGv ret)
+
+Why "verify"?  I don't see anything that verifies here...
+
+I'll note that this can be done better, if you expose the actual comparison 
+rather than a simple boolean.  This could remove 2-3 insns from gen_cc_prologue().
+
+See e.g. disas_jcc and DisasCompare from target/s390x.
 
 
-On 4/7/2021 2:16 PM, Cédric Le Goater wrote:
-> From: Joel Stanley <joel@jms.id.au>
-> 
-> This adds a test for the Aspeed Hash and Crypto (HACE) engine. It tests
-> the currently implemented behavior of the hash functionality.
-> 
-> The tests are similar, but are cut/pasted instead of broken out into a
-> common function so the assert machinery produces useful output when a
-> test fails.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> [ clg: - qtest_quit() fix ]
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> Message-Id: <20210324070955.125941-4-joel@jms.id.au>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> +    { MO_UL, MO_UB, MO_UW }, /* non sign-extended */
 
-Reviewed-by: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+"non sign-extended" => "zero-extended".
 
-> ---
->   tests/qtest/aspeed_hace-test.c | 321 +++++++++++++++++++++++++++++++++
->   MAINTAINERS                    |   1 +
->   tests/qtest/meson.build        |   3 +
->   3 files changed, 325 insertions(+)
->   create mode 100644 tests/qtest/aspeed_hace-test.c
-> 
-> diff --git a/tests/qtest/aspeed_hace-test.c b/tests/qtest/aspeed_hace-test.c
-> new file mode 100644
-> index 000000000000..675774e96eb9
-> --- /dev/null
-> +++ b/tests/qtest/aspeed_hace-test.c
-> @@ -0,0 +1,321 @@
-> +/*
-> + * QTest testcase for the ASPEED Hash and Crypto Engine
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + * Copyright 2021 IBM Corp.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "libqos/libqtest.h"
-> +#include "qemu-common.h"
-> +#include "qemu/bitops.h"
-> +
-> +#define HACE_CMD                 0x10
-> +#define  HACE_SHA_BE_EN          BIT(3)
-> +#define  HACE_MD5_LE_EN          BIT(2)
-> +#define  HACE_ALGO_MD5           0
-> +#define  HACE_ALGO_SHA1          BIT(5)
-> +#define  HACE_ALGO_SHA224        BIT(6)
-> +#define  HACE_ALGO_SHA256        (BIT(4) | BIT(6))
-> +#define  HACE_ALGO_SHA512        (BIT(5) | BIT(6))
-> +#define  HACE_ALGO_SHA384        (BIT(5) | BIT(6) | BIT(10))
-> +#define  HACE_SG_EN              BIT(18)
-> +
-> +#define HACE_STS                 0x1c
-> +#define  HACE_RSA_ISR            BIT(13)
-> +#define  HACE_CRYPTO_ISR         BIT(12)
-> +#define  HACE_HASH_ISR           BIT(9)
-> +#define  HACE_RSA_BUSY           BIT(2)
-> +#define  HACE_CRYPTO_BUSY        BIT(1)
-> +#define  HACE_HASH_BUSY          BIT(0)
-> +#define HACE_HASH_SRC            0x20
-> +#define HACE_HASH_DIGEST         0x24
-> +#define HACE_HASH_KEY_BUFF       0x28
-> +#define HACE_HASH_DATA_LEN       0x2c
-> +#define HACE_HASH_CMD            0x30
-> +
-> +/*
-> + * Test vector is the ascii "abc"
-> + *
-> + * Expected results were generated using command line utitiles:
-> + *
-> + *  echo -n -e 'abc' | dd of=/tmp/test
-> + *  for hash in sha512sum sha256sum md5sum; do $hash /tmp/test; done
-> + *
-> + */
-> +static const uint8_t test_vector[] = {0x61, 0x62, 0x63};
-> +
-> +static const uint8_t test_result_sha512[] = {
-> +    0xdd, 0xaf, 0x35, 0xa1, 0x93, 0x61, 0x7a, 0xba, 0xcc, 0x41, 0x73, 0x49,
-> +    0xae, 0x20, 0x41, 0x31, 0x12, 0xe6, 0xfa, 0x4e, 0x89, 0xa9, 0x7e, 0xa2,
-> +    0x0a, 0x9e, 0xee, 0xe6, 0x4b, 0x55, 0xd3, 0x9a, 0x21, 0x92, 0x99, 0x2a,
-> +    0x27, 0x4f, 0xc1, 0xa8, 0x36, 0xba, 0x3c, 0x23, 0xa3, 0xfe, 0xeb, 0xbd,
-> +    0x45, 0x4d, 0x44, 0x23, 0x64, 0x3c, 0xe8, 0x0e, 0x2a, 0x9a, 0xc9, 0x4f,
-> +    0xa5, 0x4c, 0xa4, 0x9f};
-> +
-> +static const uint8_t test_result_sha256[] = {
-> +    0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea, 0x41, 0x41, 0x40, 0xde,
-> +    0x5d, 0xae, 0x22, 0x23, 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c,
-> +    0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad};
-> +
-> +static const uint8_t test_result_md5[] = {
-> +    0x90, 0x01, 0x50, 0x98, 0x3c, 0xd2, 0x4f, 0xb0, 0xd6, 0x96, 0x3f, 0x7d,
-> +    0x28, 0xe1, 0x7f, 0x72};
-> +
-> +
-> +static void write_regs(QTestState *s, uint32_t base, uint32_t src,
-> +                       uint32_t length, uint32_t out, uint32_t method)
+> +void arc_gen_no_further_loads_pending(const DisasCtxt *ctx, TCGv ret)
 > +{
-> +        qtest_writel(s, base + HACE_HASH_SRC, src);
-> +        qtest_writel(s, base + HACE_HASH_DIGEST, out);
-> +        qtest_writel(s, base + HACE_HASH_DATA_LEN, length);
-> +        qtest_writel(s, base + HACE_HASH_CMD, HACE_SHA_BE_EN | method);
+> +    /* TODO: To complete on SMP support. */
+> +    tcg_gen_movi_tl(ret, 1);
 > +}
 > +
-> +static void test_md5(const char *machine, const uint32_t base,
-> +                     const uint32_t src_addr)
-> +
+> +void arc_gen_set_debug(const DisasCtxt *ctx, bool value)
 > +{
-> +    QTestState *s = qtest_init(machine);
-> +
-> +    uint32_t digest_addr = src_addr + 0x01000000;
-> +    uint8_t digest[16] = {0};
-> +
-> +    /* Check engine is idle, no busy or irq bits set */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Write test vector into memory */
-> +    qtest_memwrite(s, src_addr, test_vector, sizeof(test_vector));
-> +
-> +    write_regs(s, base, src_addr, sizeof(test_vector), digest_addr, HACE_ALGO_MD5);
-> +
-> +    /* Check hash IRQ status is asserted */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-> +
-> +    /* Clear IRQ status and check status is deasserted */
-> +    qtest_writel(s, base + HACE_STS, 0x00000200);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Read computed digest from memory */
-> +    qtest_memread(s, digest_addr, digest, sizeof(digest));
-> +
-> +    /* Check result of computation */
-> +    g_assert_cmpmem(digest, sizeof(digest),
-> +                    test_result_md5, sizeof(digest));
-> +
-> +    qtest_quit(s);
+> +    /* TODO: Could not find a reson to set this. */
 > +}
-> +
-> +static void test_sha256(const char *machine, const uint32_t base,
-> +                        const uint32_t src_addr)
+
+What's the point of these within the semantics?  It seems like some sort of 
+in-chip debugging thing that tcg should ignore?
+
+> +void
+> +arc_gen_execute_delayslot(DisasCtxt *ctx, TCGv bta, TCGv take_branch)
 > +{
-> +    QTestState *s = qtest_init(machine);
+> +    assert(ctx->insn.limm_p == 0 && !ctx->in_delay_slot);
 > +
-> +    const uint32_t digest_addr = src_addr + 0x1000000;
-> +    uint8_t digest[32] = {0};
+> +    ctx->in_delay_slot = true;
+> +    uint32_t cpc = ctx->cpc;
+> +    uint32_t pcl = ctx->pcl;
+> +    insn_t insn = ctx->insn;
 > +
-> +    /* Check engine is idle, no busy or irq bits set */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
+> +    ctx->cpc = ctx->npc;
+> +    ctx->pcl = ctx->cpc & ((target_ulong) 0xfffffffffffffffc);
 > +
-> +    /* Write test vector into memory */
-> +    qtest_memwrite(s, src_addr, test_vector, sizeof(test_vector));
+> +    ++ctx->ds;
 > +
-> +    write_regs(s, base, src_addr, sizeof(test_vector), digest_addr, HACE_ALGO_SHA256);
-> +
-> +    /* Check hash IRQ status is asserted */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-> +
-> +    /* Clear IRQ status and check status is deasserted */
-> +    qtest_writel(s, base + HACE_STS, 0x00000200);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Read computed digest from memory */
-> +    qtest_memread(s, digest_addr, digest, sizeof(digest));
-> +
-> +    /* Check result of computation */
-> +    g_assert_cmpmem(digest, sizeof(digest),
-> +                    test_result_sha256, sizeof(digest));
-> +
-> +    qtest_quit(s);
-> +}
-> +
-> +static void test_sha512(const char *machine, const uint32_t base,
-> +                        const uint32_t src_addr)
-> +{
-> +    QTestState *s = qtest_init(machine);
-> +
-> +    const uint32_t digest_addr = src_addr + 0x1000000;
-> +    uint8_t digest[64] = {0};
-> +
-> +    /* Check engine is idle, no busy or irq bits set */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Write test vector into memory */
-> +    qtest_memwrite(s, src_addr, test_vector, sizeof(test_vector));
-> +
-> +    write_regs(s, base, src_addr, sizeof(test_vector), digest_addr, HACE_ALGO_SHA512);
-> +
-> +    /* Check hash IRQ status is asserted */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-> +
-> +    /* Clear IRQ status and check status is deasserted */
-> +    qtest_writel(s, base + HACE_STS, 0x00000200);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Read computed digest from memory */
-> +    qtest_memread(s, digest_addr, digest, sizeof(digest));
-> +
-> +    /* Check result of computation */
-> +    g_assert_cmpmem(digest, sizeof(digest),
-> +                    test_result_sha512, sizeof(digest));
-> +
-> +    qtest_quit(s);
-> +}
-> +
-> +struct masks {
-> +    uint32_t src;
-> +    uint32_t dest;
-> +    uint32_t len;
-> +};
-> +
-> +static const struct masks ast2600_masks = {
-> +    .src  = 0x7fffffff,
-> +    .dest = 0x7ffffff8,
-> +    .len  = 0x0fffffff,
-> +};
-> +
-> +static const struct masks ast2500_masks = {
-> +    .src  = 0x3fffffff,
-> +    .dest = 0x3ffffff8,
-> +    .len  = 0x0fffffff,
-> +};
-> +
-> +static const struct masks ast2400_masks = {
-> +    .src  = 0x0fffffff,
-> +    .dest = 0x0ffffff8,
-> +    .len  = 0x0fffffff,
-> +};
-> +
-> +static void test_addresses(const char *machine, const uint32_t base,
-> +                           const struct masks *expected)
-> +{
-> +    QTestState *s = qtest_init(machine);
-> +
+> +    TCGLabel *do_not_set_bta_and_de = gen_new_label();
+> +    tcg_gen_brcondi_tl(TCG_COND_NE, take_branch, 1, do_not_set_bta_and_de);
 > +    /*
-> +     * Check command mode is zero, meaning engine is in direct access mode,
-> +     * as this affects the masking behavior of the HASH_SRC register.
+> +     * In case an exception should be raised during the execution
+> +     * of delay slot, bta value is used to set erbta.
 > +     */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_CMD), ==, 0);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_SRC), ==, 0);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DIGEST), ==, 0);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DATA_LEN), ==, 0);
+> +    tcg_gen_mov_tl(cpu_bta, bta);
+> +    /* We are in a delay slot */
+> +    tcg_gen_mov_tl(cpu_DEf, take_branch);
+> +    gen_set_label(do_not_set_bta_and_de);
 > +
+> +    tcg_gen_movi_tl(cpu_is_delay_slot_instruction, 1);
 > +
-> +    /* Check that the address masking is correct */
-> +    qtest_writel(s, base + HACE_HASH_SRC, 0xffffffff);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_SRC), ==, expected->src);
-> +
-> +    qtest_writel(s, base + HACE_HASH_DIGEST, 0xffffffff);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DIGEST), ==, expected->dest);
-> +
-> +    qtest_writel(s, base + HACE_HASH_DATA_LEN, 0xffffffff);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DATA_LEN), ==, expected->len);
-> +
-> +    /* Reset to zero */
-> +    qtest_writel(s, base + HACE_HASH_SRC, 0);
-> +    qtest_writel(s, base + HACE_HASH_DIGEST, 0);
-> +    qtest_writel(s, base + HACE_HASH_DATA_LEN, 0);
-> +
-> +    /* Check that all bits are now zero */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_SRC), ==, 0);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DIGEST), ==, 0);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_HASH_DATA_LEN), ==, 0);
-> +
-> +    qtest_quit(s);
-> +}
-> +
-> +/* ast2600 */
-> +static void test_md5_ast2600(void)
-> +{
-> +    test_md5("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-> +}
-> +
-> +static void test_sha256_ast2600(void)
-> +{
-> +    test_sha256("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-> +}
-> +
-> +static void test_sha512_ast2600(void)
-> +{
-> +    test_sha512("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-> +}
-> +
-> +static void test_addresses_ast2600(void)
-> +{
-> +    test_addresses("-machine ast2600-evb", 0x1e6d0000, &ast2600_masks);
-> +}
-> +
-> +/* ast2500 */
-> +static void test_md5_ast2500(void)
-> +{
-> +    test_md5("-machine ast2500-evb", 0x1e6e3000, 0x80000000);
-> +}
-> +
-> +static void test_sha256_ast2500(void)
-> +{
-> +    test_sha256("-machine ast2500-evb", 0x1e6e3000, 0x80000000);
-> +}
-> +
-> +static void test_sha512_ast2500(void)
-> +{
-> +    test_sha512("-machine ast2500-evb", 0x1e6e3000, 0x80000000);
-> +}
-> +
-> +static void test_addresses_ast2500(void)
-> +{
-> +    test_addresses("-machine ast2500-evb", 0x1e6e3000, &ast2500_masks);
-> +}
-> +
-> +/* ast2400 */
-> +static void test_md5_ast2400(void)
-> +{
-> +    test_md5("-machine palmetto-bmc", 0x1e6e3000, 0x40000000);
-> +}
-> +
-> +static void test_sha256_ast2400(void)
-> +{
-> +    test_sha256("-machine palmetto-bmc", 0x1e6e3000, 0x40000000);
-> +}
-> +
-> +static void test_sha512_ast2400(void)
-> +{
-> +    test_sha512("-machine palmetto-bmc", 0x1e6e3000, 0x40000000);
-> +}
-> +
-> +static void test_addresses_ast2400(void)
-> +{
-> +    test_addresses("-machine palmetto-bmc", 0x1e6e3000, &ast2400_masks);
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    qtest_add_func("ast2600/hace/addresses", test_addresses_ast2600);
-> +    qtest_add_func("ast2600/hace/sha512", test_sha512_ast2600);
-> +    qtest_add_func("ast2600/hace/sha256", test_sha256_ast2600);
-> +    qtest_add_func("ast2600/hace/md5", test_md5_ast2600);
-> +
-> +    qtest_add_func("ast2500/hace/addresses", test_addresses_ast2500);
-> +    qtest_add_func("ast2500/hace/sha512", test_sha512_ast2500);
-> +    qtest_add_func("ast2500/hace/sha256", test_sha256_ast2500);
-> +    qtest_add_func("ast2500/hace/md5", test_md5_ast2500);
-> +
-> +    qtest_add_func("ast2400/hace/addresses", test_addresses_ast2400);
-> +    qtest_add_func("ast2400/hace/sha512", test_sha512_ast2400);
-> +    qtest_add_func("ast2400/hace/sha256", test_sha256_ast2400);
-> +    qtest_add_func("ast2400/hace/md5", test_md5_ast2400);
-> +
-> +    return g_test_run();
-> +}
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58f342108e9e..63c050ddc84a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1026,6 +1026,7 @@ F: include/hw/misc/pca9552*.h
->   F: hw/net/ftgmac100.c
->   F: include/hw/net/ftgmac100.h
->   F: docs/system/arm/aspeed.rst
-> +F: tests/qtest/*aspeed*
->   
->   NRF51
->   M: Joel Stanley <joel@jms.id.au>
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 902cfef7cb2f..84b3219c15c6 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -163,12 +163,15 @@ qtests_npcm7xx = \
->      'npcm7xx_timer-test',
->      'npcm7xx_watchdog_timer-test'] + \
->      (slirp.found() ? ['npcm7xx_emc-test'] : [])
-> +qtests_aspeed = \
-> +  ['aspeed_hace-test']
->   qtests_arm = \
->     (config_all_devices.has_key('CONFIG_MPS2') ? ['sse-timer-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-dualtimer-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_CMSDK_APB_TIMER') ? ['cmsdk-apb-timer-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_CMSDK_APB_WATCHDOG') ? ['cmsdk-apb-watchdog-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
-> +  (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
->     (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
->     ['arm-cpu-features',
->      'microbit-test',
-> 
+> +    /* Set the pc to the next pc */
+> +    tcg_gen_movi_tl(cpu_pc, ctx->npc);
+> +    /* Necessary for the likely call to restore_state_to_opc() */
+> +    tcg_gen_insn_start(ctx->npc);
 
--- 
-Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+This is unlikely to work reliably.
+I suspect it does not work at all with icount.
+
+> +    ctx->env->enabled_interrupts = false;
+
+Illegal, as mentioned before.
+
+> +    /*
+> +     * In case we might be in a situation where the delayslot is in a
+> +     * different MMU page. Make a fake exception to interrupt
+> +     * delayslot execution in the context of the branch.
+> +     * The delayslot will then be re-executed in isolation after the
+> +     * branch code has set bta and DEf status flag.
+> +     */
+> +    if ((cpc & PAGE_MASK) < 0x80000000 &&
+> +        (cpc & PAGE_MASK) != (ctx->cpc & PAGE_MASK)) {
+> +        ctx->in_delay_slot = false;
+> +        TCGv dpc = tcg_const_local_tl(ctx->npc);
+> +        tcg_gen_mov_tl(cpu_pc, dpc);
+> +        gen_helper_fake_exception(cpu_env, dpc);
+
+I think you should *always* execute the delay slot separately.  That's the only 
+way the instruction count will be done right.
+
+I'm pretty sure I asked you before to have a look at some of the other targets 
+that implement delay slots for ideas on how to do this correctly.
+
+
+> +void arc_gen_get_bit(TCGv ret, TCGv a, TCGv pos)
+> +{
+> +    tcg_gen_rotr_tl(ret, a, pos);
+> +    tcg_gen_andi_tl(ret, ret, 1);
+> +}
+
+Should be a plain shift, not a rotate, surely.
+
+> +void arc_gen_extract_bits(TCGv ret, TCGv a, TCGv start, TCGv end)
+> +{
+> +    TCGv tmp1 = tcg_temp_new();
+> +
+> +    tcg_gen_shr_tl(ret, a, end);
+> +
+> +    tcg_gen_sub_tl(tmp1, start, end);
+> +    tcg_gen_addi_tl(tmp1, tmp1, 1);
+> +    tcg_gen_shlfi_tl(tmp1, 1, tmp1);
+> +    tcg_gen_subi_tl(tmp1, tmp1, 1);
+> +
+> +    tcg_gen_and_tl(ret, ret, tmp1);
+
+Doesn't work for start == 31, end = 0,
+due to shift count of 32.
+
+You could rewrite this to
+
+   t = 31 - start;
+   ret = a << t;
+   t = 31 - end;
+   ret = ret >> t;
+
+Amusingly, there's exactly one instance of extractBits that doesn't use 
+constant arguments, and that's in ROR.  And there, the extract *would* use 
+constant arguments if the extract was from @dest instead of from lsrc.  At 
+which point you could just use tcg_gen_extract_tl.
+
+
+> +TCGv arc_gen_next_reg(const DisasCtxt *ctx, TCGv reg)
+> +{
+> +    int i;
+> +    for (i = 0; i < 64; i += 2) {
+> +        if (reg == cpu_r[i]) {
+> +            return cpu_r[i + 1];
+> +        }
+> +    }
+> +    /* Check if REG is an odd register. */
+> +    for (i = 1; i < 64; i += 2) {
+> +        /* If so, that is unsanctioned. */
+> +        if (reg == cpu_r[i]) {
+> +            arc_gen_excp(ctx, EXCP_INST_ERROR, 0, 0);
+> +            return NULL;
+> +        }
+> +    }
+
+This is really ugly.  Surely you can do something better.
+
+Perhaps not resolving regno to TCGv quite so early, so that it's easy to simply 
+add one and index.
+
+> +void arc_gen_verifyCCFlag(const DisasCtxt *ctx, TCGv ret);
+> +#define getCCFlag(R)    arc_gen_verifyCCFlag(ctx, R)
+
+I wonder if it would be clearer if the ruby translator simply added the context 
+parameter itself, rather than have 99 macros to do the same.
+
+> +#define getNFlag(R)     cpu_Nf
+> +#define setNFlag(ELEM)  tcg_gen_shri_tl(cpu_Nf, ELEM, (TARGET_LONG_BITS - 1))
+
+I'll note that setting of flags happens much more often than checking of flags. 
+  Therefore it is a win if the setter does less work than the getter.
+
+That's why we normally store the N and V flags in-place, in the high bit (see 
+arm, s390x, etc).  This makes the setter a simple move, and the getter either a 
+shift or TCG_COND_LT.
+
+> +#define setZFlag(ELEM)  \
+> +    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, ELEM, 0);
+
+Similarly, the Z flag can be set with a simple move, and the get can use the 
+setcond.
+
+> +#define nextInsnAddressAfterDelaySlot(R) \
+> +  { \
+> +    ARCCPU *cpu = env_archcpu(ctx->env); \
+> +    uint16_t delayslot_buffer[2]; \
+> +    uint8_t delayslot_length; \
+> +    ctx->env->pc = ctx->cpc; \
+> +    ctx->env->stat.is_delay_slot_instruction = 1; \
+
+Again, illegal to read or write env.
+
+> +#define setPC(NEW_PC)                                   \
+> +    do {                                                \
+> +        gen_goto_tb(ctx, 1, NEW_PC);                    \
+> +        ret = ret == DISAS_NEXT ? DISAS_NORETURN : ret; \
+> +    } while (0)
+
+Why is this not unconditionally DISAS_NORETURN?
+Because gen_goto_tb always exits.
+
+> +/*
+> + * An enter_s may change code like below:
+> + * ----
+> + * r13 .. r26 <== shell opcodes
+> + * sp <= pc+56
+> + * enter_s
+> + * ---
+> + * It's not that we are promoting these type of instructions.
+> + * nevertheless we must be able to emulate them. Hence, once
+> + * again: ret = DISAS_UPDATE
+> + */
+> +#define helperEnter(U6)                 \
+> +    do {                                \
+> +        gen_helper_enter(cpu_env, U6);  \
+> +        ret = DISAS_UPDATE;             \
+> +    } while (0)
+
+Macro not used?
+
+> +/* A leave_s may jump to blink, hence the DISAS_UPDATE */
+> +#define helperLeave(U7)                                           \
+
+Likewise.
+
+
+r~
 
