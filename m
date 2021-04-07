@@ -2,101 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D1C35737B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:49:06 +0200 (CEST)
-Received: from localhost ([::1]:49704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11733573B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:56:31 +0200 (CEST)
+Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUCIb-0001FP-Nw
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46394)
+	id 1lUCPm-0003ry-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lUCGz-0007wl-BO; Wed, 07 Apr 2021 13:47:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lUCGw-00028m-J5; Wed, 07 Apr 2021 13:47:25 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 137HXLiG010665; Wed, 7 Apr 2021 13:47:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=eHRfPDd4g7MtMgDTUJmmHQPbHSpFJnO2G9F3Y8wu6TM=;
- b=qAGlKKXM+GsBFsO4Ml90JuePEAF1F3nxGfG85JJxxU6egdtaylaHyfNuyO4KRdLoSZR3
- H5CsruJd3paLa9ocGbKSpJBvRxwQwG020pEYQYoMutVVNSP9GvlMOSlTIQMSgAwgQxrT
- cCTzfs5VxFb6QGgDlAhybZrbfB9qr9alPYhmvEFKL4Og9KN7JhS7yk4Y6qAiBgRSTkTG
- z3/us41zErsKljgHaHHmHlDj92tx+3dFkrkMZylWoaAZn95XLKcC9wQc3v35nRjNvxBd
- DIQZEX+s13H0A+ZEtfcz9y/51SKc1dDqBZn4FT8epaDB23SS4FgaG+WjbtUeeDhBEKGL Bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rw6khcv6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 13:47:19 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 137HXcVv011216;
- Wed, 7 Apr 2021 13:47:19 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rw6khcud-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 13:47:19 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137HlGeM007580;
- Wed, 7 Apr 2021 17:47:17 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 37rvbw8wpx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Apr 2021 17:47:16 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 137HlEZr38797812
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Apr 2021 17:47:14 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1D90252059;
- Wed,  7 Apr 2021 17:47:14 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.56.50])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 1C7E452052; 
- Wed,  7 Apr 2021 17:47:13 +0000 (GMT)
-Date: Wed, 7 Apr 2021 19:47:11 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>
-Subject: Re: [PATCH v1 1/1] s390x: css: report errors from
- ccw_dstream_read/write
-Message-ID: <20210407194711.459176c3.pasic@linux.ibm.com>
-In-Reply-To: <1617695053-7328-2-git-send-email-pmorel@linux.ibm.com>
-References: <1617695053-7328-1-git-send-email-pmorel@linux.ibm.com>
- <1617695053-7328-2-git-send-email-pmorel@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUCMa-00005h-IT
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:12 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:33555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUCMX-0004vO-Ll
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:11 -0400
+Received: by mail-ed1-x533.google.com with SMTP id w18so22009165edc.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 10:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C+NXK95Ubk+Qdf8OIvF/Q1CrZUK72+FRoW8OlnM+5rk=;
+ b=OY0hoXK+3uSgj+vJ1nt3Y6pl3opgxtmwmeKiChNPbrKzWeS+lCnJ4MsskgVAyzlSwi
+ IUKuIaS4BGT3CpOYa6YbImSOpUMvHRKcMJ3wlaFOvfr38jewg+61VVtWNIuUMFyfdpsI
+ 2Zv0tF/ArawFPTafdk8JTUEBLF1WDl8i2d4R/ouOGUBOlQLIIsYEps34qpYp5ceyhWZ4
+ C8yZOGJQboOVXntqYEIKcj2Z/RRtQyoguBDdT3UYEaHe3bxOeSdrTIh8AnBBBhFVuf76
+ btfypxHGeUoT7xQT3LVa7GiW5A+cqELFv+HylHvfdA0SzzKV2/GNOnFI3S8ekD/IQdpW
+ y6JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=C+NXK95Ubk+Qdf8OIvF/Q1CrZUK72+FRoW8OlnM+5rk=;
+ b=S8x0jVr6PHMCnz5+GdoFA+gxJQzA3OMiGz83Dx8HMKyN4VZs4KGPrtpsFU3s9uvLeE
+ 8SHNZqR4wMWT+EJGMDJ3OAGFDzeGYjjIcY1kpg8F1a4R7sk18y9731ml1wE81FcYKomc
+ 7WHBKGP7l5dbV7NOxF1oxq3JQCFmCB/FW36nhxPJI14m39aMhe+I+t+ZC0a6GDP+ZrGj
+ tDtDIONE3lVMWNRaXMEAXY/w06phBZRJHR4BAx3DdBNyJGvuFrY++/+XJlTLFtWYEdzg
+ q7hOxF3kehf0erjqWlRKTpbztslK/9RfGelm+0LHom1o2c41zfjNzdoPezCJjC6g1r1l
+ 7UEA==
+X-Gm-Message-State: AOAM530r4EzzXM+CB48pIviT/mxsIjbhUMvWBuPH2EwL9VV/g0xJow7W
+ eJE5p8bzhrEMmaAhbYG+zcAuoF8Kmm0Xdg==
+X-Google-Smtp-Source: ABdhPJymzpq22WcldeUrdbZyIjIlSDxZKQDLix2Yw+C/hFyd2m4nZlhbJR+s2zGYSTf6nC1gmBZliA==
+X-Received: by 2002:aa7:dd98:: with SMTP id g24mr5929369edv.75.1617817987440; 
+ Wed, 07 Apr 2021 10:53:07 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id ka11sm4812567ejb.43.2021.04.07.10.53.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Apr 2021 10:53:06 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.1 0/3] hw/sparc/sun4m: Introduce Sun4mMachineClass to
+ access sun4m_hwdefs
+Date: Wed,  7 Apr 2021 19:53:02 +0200
+Message-Id: <20210407175305.1771069-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uyZk2lLG4k85uzbhcEeZJoCknhlxCOEv
-X-Proofpoint-ORIG-GUID: x_OiCVar_TH6aUe-I-bOS9MSl4-4lDWj
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-07_09:2021-04-07,
- 2021-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- bulkscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 mlxlogscore=999
- clxscore=1015 phishscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104070120
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,73 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mst@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, imbrenda@linux.ibm.com
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  6 Apr 2021 09:44:13 +0200
-Pierre Morel <pmorel@linux.ibm.com> wrote:
-
-> ccw_dstream_read/write functions returned values are sometime
-> not taking into account and reported back to the upper level
-> of interpretation of CCW instructions.
-
-
-The return values of ccw_dstream_write/read were intentionally ignored
-in commit f57ba05823 ("virtio-ccw: use ccw data stream") to avoid
-changes in behavior that wound not contribute to the objective of the
-patch-set, like silently doing more error checking and handling.
-
-If we consider the first hunk:
-
-
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -289,49 +289,19 @@ static int virtio_ccw_handle_set_vq(SubchDev *sch, CCW1 ccw, bool check_len,
-         return -EFAULT;
-     }
-     if (is_legacy) {
--        linfo.queue = address_space_ldq_be(&address_space_memory, ccw.cda,
--                                           MEMTXATTRS_UNSPECIFIED, NULL);
--        linfo.align = address_space_ldl_be(&address_space_memory,
--                                           ccw.cda + sizeof(linfo.queue),
--                                           MEMTXATTRS_UNSPECIFIED,
--                                           NULL);
--        linfo.index = address_space_lduw_be(&address_space_memory,
--                                            ccw.cda + sizeof(linfo.queue)
--                                            + sizeof(linfo.align),
--                                            MEMTXATTRS_UNSPECIFIED,
--                                            NULL);
--        linfo.num = address_space_lduw_be(&address_space_memory,
--                                          ccw.cda + sizeof(linfo.queue)
--                                          + sizeof(linfo.align)
--                                          + sizeof(linfo.index),
--                                          MEMTXATTRS_UNSPECIFIED,
--                                          NULL);
-+        ccw_dstream_read(&sch->cds, linfo);
-+        be64_to_cpus(&linfo.queue);
-+        be32_to_cpus(&linfo.align);
-+        be16_to_cpus(&linfo.index);
-+        be16_to_cpus(&linfo.num);
-
-we can see, that the original code did not contain any error checking regarding
-the invalidity of the guest physical address.
-
-What was the behavior there? The last argument of address_space_* where we pass
-the NULL is actually an optional pointer to the MemTxResult, which would tell
-us if the operation succeeded or failed. Passing NULL there means, we don't care.
-
-My guess is that when those loads fail (or the read fails) we will just carry on
-with the garbage we found on the stack.
-
-So this begs the question, do we need this fixed for old releases as well?
-
-My answer is yes we do. Conny what do you think?
-
-Regards,
-Halil
-
+Hi Mark,=0D
+=0D
+This series QOM'ify a bit more the sun4m machines.=0D
+I need it for a further memory maxsize check.=0D
+It is mostly code movement (and the diff-stat is good).=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/sparc/sun4m: Introduce TYPE_SUN4M_MACHINE and Sun4mMachineClass=0D
+  hw/sparc/sun4m: Factor out sun4m_machine_class_common_init()=0D
+  hw/sparc/sun4m: Make sun4m_hwdefs a Sun4mMachineClass field=0D
+=0D
+ hw/sparc/sun4m.c | 178 ++++++++++++++++++-----------------------------=0D
+ 1 file changed, 69 insertions(+), 109 deletions(-)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
