@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAF3356CFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 15:12:09 +0200 (CEST)
-Received: from localhost ([::1]:47134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EA4356CEB
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 15:07:27 +0200 (CEST)
+Received: from localhost ([::1]:39996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU7ya-0003hd-Qg
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 09:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36850)
+	id 1lU7u2-0000WT-C4
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 09:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lU7xF-00039N-P2
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:10:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40320)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lU7xD-0008QJ-Ls
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:10:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lU7xC-0002DR-D5
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 13:10:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 60AAE2E80F9
- for <qemu-devel@nongnu.org>; Wed,  7 Apr 2021 13:10:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lU7ru-0007Sx-Cj
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:05:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35962
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lU7rp-000582-MQ
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:05:14 -0400
+Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lU7rs-0003V3-Bj; Wed, 07 Apr 2021 14:05:17 +0100
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <bb30a76c-c758-6829-d3fe-3e2d01cf55b6@ilande.co.uk>
+ <20210402162052.264952-1-alxndr@bu.edu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <0c024eae-533b-f3fa-8878-9f90d283eef9@ilande.co.uk>
+Date: Wed, 7 Apr 2021 14:04:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Apr 2021 13:01:42 -0000
-From: Mark Cave-Ayland <1922611@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: acceptance sparc test
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu mark-cave-ayland philmd
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
-References: <161766836712.29624.11290531043933796860.malonedeb@gac.canonical.com>
-Message-Id: <161780050272.23762.14122719053434957583.malone@chaenomeles.canonical.com>
-Subject: [Bug 1922611] Re: Acceptance Tests: migration fails on sparc target
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 937a8c5c0ea2362fd553be23978e2b3843d21903
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210402162052.264952-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.148.103.9
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] tests/qtest: add one more test for the am53c974
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,88 +63,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922611 <1922611@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should be fixed by the following patch:
+On 02/04/2021 17:20, Alexander Bulekov wrote:
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00860.html
+> Original crash:
+> qemu-fuzz-i386: ../hw/scsi/esp.c:791: void esp_transfer_data(SCSIRequest *, uint32_t): Assertion `!s->do_cmd' failed.
+> ==257532== ERROR: libFuzzer: deadly signal
+> __assert_fail assert/assert.c:101:3
+> esp_transfer_data hw/scsi/esp.c:791:5
+> scsi_req_data hw/scsi/scsi-bus.c:1412:9
+> scsi_disk_emulate_read_data hw/scsi/scsi-disk.c:1407:9
+> scsi_req_continue hw/scsi/scsi-bus.c:1394:9
+> do_busid_cmd hw/scsi/esp.c:317:9
+> handle_s_without_atn hw/scsi/esp.c:393:9
+> esp_reg_write hw/scsi/esp.c:1029:13
+> esp_pci_io_write hw/scsi/esp-pci.c:215:9
+> memory_region_write_accessor softmmu/memory.c:491:5
+> access_with_adjusted_size softmmu/memory.c:552:18
+> memory_region_dispatch_write softmmu/memory.c:1502:16
+> flatview_write_continue softmmu/physmem.c:2746:23
+> flatview_write softmmu/physmem.c:2786:14
+> address_space_write softmmu/physmem.c:2878:18
+> cpu_outl softmmu/ioport.c:80:5
+> 
+> Based-on: <20210401074933.9923-1-mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   tests/qtest/am53c974-test.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> The patch took care of the handle_satn_stop assert. Here's a test case
+> for the other assert.
 
--- =
+Even though I can't reproduce the assert() here, looking at the code I think I can 
+see how do_cmd is not being reset when a DMA command is issued. Does the following 
+solve the outstanding fuzzer asserts?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922611
-
-Title:
-  Acceptance Tests: migration fails on sparc target
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU fails migration when using a sparc target.
-
-  This cab be verified/reproduced with the
-  `tests/acceptance/migration.py` test.  Running it with:
-
-   $ make check-venv
-   $ ./tests/venv/bin/avocado --show=3Dtest run -p qemu_bin=3D./qemu-system=
--sparc tests/acceptance/migration.py:Migration.test_migration_with_tcp_loca=
-lhost
-
-  Right after a QMP `query-migrate` is executed, communication with the
-  monitor is lost:
-
-  >>> {'execute': 'query-migrate'}
-  <<< {'timestamp': {'seconds': 1617667984, 'microseconds': 330282}, 'event=
-': 'STOP'}
-  <<< {'return': {'blocked': False, 'status': 'completed', 'setup-time': 0,=
- 'downtime': 1, 'total-time': 15, 'ram': {'total': 135274496, 'postcopy-req=
-uests': 0, 'dirty-sync-count': 2, 'multifd-bytes': 0, 'pages-per-second': 0=
-, 'page-size': 4096, 'remaining': 0, 'mbps': 301.2234666666667, 'transferre=
-d': 528703, 'duplicate': 33202, 'dirty-pages-rate': 0, 'skipped': 0, 'norma=
-l-bytes': 229376, 'normal': 56}}}
-  >>> {'execute': 'query-migrate'}
-
-  Reproduced traceback from: /var/lib/users/cleber/build/qemu/tests/venv/li=
-b64/python3.7/site-packages/avocado/core/test.py:756
-  Traceback (most recent call last):
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 80, in test_migration_with_tcp_localhost
-      self.do_migrate(dest_uri)
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 69, in do_migrate
-      self.assert_migration(source_vm, dest_vm)
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 41, in assert_migration
-      args=3D(dst_vm,))
-    File "/var/lib/users/cleber/build/qemu/tests/venv/lib64/python3.7/site-=
-packages/avocado/utils/wait.py", line 34, in wait_for
-      output =3D func(*args, **kwargs)
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 31, in migration_finished
-      return vm.command('query-migrate')['status'] in ('completed', 'failed=
-')
-    File "/home/cleber/src/qemu/python/qemu/machine.py", line 572, in comma=
-nd
-      return self._qmp.command(cmd, **qmp_args)
-    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 284, in command
-      ret =3D self.cmd(cmd, kwds)
-    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 278, in cmd
-      return self.cmd_obj(qmp_cmd)
-    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 256, in cmd_obj
-      self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
-  BrokenPipeError: [Errno 32] Broken pipe =
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 0037197bdb..b668acef82 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -357,6 +357,7 @@ static void handle_satn(ESPState *s)
+      cmdlen = get_cmd(s, ESP_CMDFIFO_SZ);
+      if (cmdlen > 0) {
+          s->cmdfifo_cdb_offset = 1;
++        s->do_cmd = 0;
+          do_cmd(s);
+      } else if (cmdlen == 0) {
+          s->do_cmd = 1;
+@@ -390,6 +391,7 @@ static void handle_s_without_atn(ESPState *s)
+      cmdlen = get_cmd(s, ESP_CMDFIFO_SZ);
+      if (cmdlen > 0) {
+          s->cmdfifo_cdb_offset = 0;
++        s->do_cmd = 0;
+          do_busid_cmd(s, 0);
+      } else if (cmdlen == 0) {
+          s->do_cmd = 1;
 
 
-  The qemu-system-sparc binary outputs:
+ATB,
 
-   qemu-system-sparc: warning: nic lance.0 has no peer
-   qemu-system-sparc: Missing section footer for sysbusespscsi
-   qemu-system-sparc: load of migration failed: Invalid argument
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922611/+subscriptions
+Mark.
 
