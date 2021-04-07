@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1313569A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:29:05 +0200 (CEST)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9403A3569A2
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:28:58 +0200 (CEST)
+Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU5Qm-0007Xs-MK
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52400)
+	id 1lU5Qf-0007Kj-Lu
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU5Ie-0000I5-KL
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31637)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lU5Lo-0003q3-L6
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:23:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU5Ic-0002e7-W9
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:40 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lU5Ln-0004NS-5o
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:23:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617790838;
+ s=mimecast20190719; t=1617791034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ObZ2vlQK97CMHKkNw/SiRADijpH8mwk57xEQkdO/b8k=;
- b=FZiUwsV9ZUhy2/Eai4eJNWU+uV+IIcsK8zmNIPxVZK2Gq+TNmS1w2kNj6OE4exd1GzTqY0
- TiRuLFfSncQWLVUiemKj37QCvTXIj1cjWcVKgbsLYhjLb431EbKh0HPcq8cCDdvQ+LVxyY
- rX3v6DKuc83lq/2HaLzDe9nnaDj6sYY=
+ bh=NX7kwtXtKSA9HSRY+js4kr9sneO7pQLFTylqPP2ZJZU=;
+ b=VfCMLH+6z2PI/8mZbcUV54qhnrtJvHbhAcWjPF6AmQ7cJNDfB69QJY7a2vbxUrGkzOcayO
+ dpe1lLTWdrpgMEtV2xnxsYzj0SLopbFs+rZl3ZqPLzKwOHJroL8FLYIjkv+A5MiSShWv+K
+ kShApj18w3nD34NndDbp9SYyYSc8CT8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-MDtY5fsTNralKfw1RdAHbw-1; Wed, 07 Apr 2021 06:20:34 -0400
-X-MC-Unique: MDtY5fsTNralKfw1RdAHbw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-196-d5pg8-GFNdqalheCnUw0_w-1; Wed, 07 Apr 2021 06:23:50 -0400
+X-MC-Unique: d5pg8-GFNdqalheCnUw0_w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49DE3CC621;
- Wed,  7 Apr 2021 10:20:33 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-14.ams2.redhat.com
- [10.36.115.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70A4E100F49F;
- Wed,  7 Apr 2021 10:20:32 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com,
- huangy81@chinatelecom.cn
-Subject: [PULL 6/6] tests/migration: fix parameter of auto-converge migration
-Date: Wed,  7 Apr 2021 11:20:21 +0100
-Message-Id: <20210407102021.95225-7-dgilbert@redhat.com>
-In-Reply-To: <20210407102021.95225-1-dgilbert@redhat.com>
-References: <20210407102021.95225-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 953D981746B;
+ Wed,  7 Apr 2021 10:23:49 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A89AD1C4;
+ Wed,  7 Apr 2021 10:23:41 +0000 (UTC)
+Date: Wed, 7 Apr 2021 12:23:40 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
+ Policy document
+Message-ID: <YG2ILNrmn0+vVVKJ@merkur.fritz.box>
+References: <20210331150527.14857-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210331150527.14857-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,52 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ berrange@redhat.com, qemu-devel@nongnu.org, agraf@csgraf.de,
+ stefanha@redhat.com, alex.bennee@linaro.org, afaerber@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Am 31.03.2021 um 17:05 hat Paolo Bonzini geschrieben:
+> +respectful.  Examples of unacceptable behavior by participants include:
+> +
+> +* The use of sexualized language or imagery
+> +
+> +* Personal attacks
+> +
+> +* Trolling or insulting/derogatory comments
+> +
+> +* Public or private harassment
+> +
+> +* Publishing other's private information, such as physical or electronic
+> +addresses, without explicit permission
 
-when execute the following test command:
-$ ./guestperf-batch.py --auto-converge \
-    --auto-converge-step {percent} ...
-test aborts and error message be throwed as the following:
-"Parameter 'x-cpu-throttle-increment' is unexpected"
+"Electronic addresses"? No more Cc: in emails without asking for
+explicit permission first in each case, especially when looping in
+people who are not subscribed to the list? And the same for attribution
+in commits (turning informal statements into Reported-by, Acked-by
+etc.)? Links to git repositories of other people?
 
-The reason is that 'x-cpu-throttle-increment' has been
-deprecated and 'cpu-throttle-increment' was introduced
-Since v2.7. Use the new parameter instead.
+I'm sure that this is not what was intended, but it's pretty clearly the
+implication of what is written here.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Message-Id: <0195d34a317ce3cc417b3efd275e30cad35a7618.1616513998.git.huangy81@chinatelecom.cn>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tests/migration/guestperf/engine.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+(This kind of "bugs" is one of the reasons why I'm not a huge fan of
+written rules instead of trusting the judgement of community leaders.
+In the communities I am involved in, I can't remember many cases where
+they actually helped to resolve conflicts, but I can remember many
+unproductive discussions about how to interpret the written text and
+what it does and doesn't cover.)
 
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index e399447940..6b49aed579 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -102,7 +102,7 @@ def _migrate_progress(self, vm):
-             info.get("downtime", 0),
-             info.get("expected-downtime", 0),
-             info.get("setup-time", 0),
--            info.get("x-cpu-throttle-percentage", 0),
-+            info.get("cpu-throttle-percentage", 0),
-         )
- 
-     def _migrate(self, hardware, scenario, src, dst, connect_uri):
-@@ -135,7 +135,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                      "state": True }
-                                ])
-             resp = src.command("migrate-set-parameters",
--                               x_cpu_throttle_increment=scenario._auto_converge_step)
-+                               cpu_throttle_increment=scenario._auto_converge_step)
- 
-         if scenario._post_copy:
-             resp = src.command("migrate-set-capabilities",
--- 
-2.31.1
+Kevin
 
 
