@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEBB35699E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:28:02 +0200 (CEST)
-Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B103435697E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:24:37 +0200 (CEST)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU5Pl-0005ku-Al
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52398)
+	id 1lU5MS-0003ii-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU5Ie-0000HI-8f
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35392)
+ id 1lU5Id-0000G4-49
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU5IX-0002bO-5a
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:39 -0400
+ id 1lU5IX-0002bZ-AO
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617790831;
+ s=mimecast20190719; t=1617790832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UirJB2TY5uZjh5FGig/cYbwwdZRpiZlC0hJj63uQjrg=;
- b=IMTakPhE7rODeE96h/yezux3ROidQvgAE9ewOmVEsNKagEaFPsDST4puaCCOnHcH8gd9Kd
- tiiSBGGokPjLODgcByweQ3oWKJCv1pEge3Y55LxXMNew5Ry6dxCfZn7ecbAQkZRTkgsqVA
- pr5Pkd06uGucLpbR1FzyODv2pRCNB4k=
+ bh=CApt4YVZe8dalznNHwV9qgpeG5mlB6qk179DmDj0bLU=;
+ b=QssSsOJ7LWpHNwvZRDZ6l/OcbuB5rhBb1a2ya7cwWrFv8Y7vbEQElzCm5TI5CyZiUnjM1p
+ e5D+MgCi0tRIKuS0AngieZLmwt+edkpfxkn8314lfFFHUgsUYHjNFTbQ69Sg706mPDXGab
+ jdwSFt/cCP61Ywt1eAe7T9Pnrybp7i4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-VaC4asAzPMGCSnv-L8vYrA-1; Wed, 07 Apr 2021 06:20:29 -0400
-X-MC-Unique: VaC4asAzPMGCSnv-L8vYrA-1
+ us-mta-231-f0yNukDdOnq_QAu8B4-W8w-1; Wed, 07 Apr 2021 06:20:30 -0400
+X-MC-Unique: f0yNukDdOnq_QAu8B4-W8w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BEC51008060;
- Wed,  7 Apr 2021 10:20:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D1A38030A0;
+ Wed,  7 Apr 2021 10:20:29 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-14.ams2.redhat.com
  [10.36.115.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9282C100F49F;
- Wed,  7 Apr 2021 10:20:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6BB0100F49F;
+ Wed,  7 Apr 2021 10:20:28 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 2/6] migration: Fix missing qemu_fflush() on buffer file in
- bg_migration_thread
-Date: Wed,  7 Apr 2021 11:20:17 +0100
-Message-Id: <20210407102021.95225-3-dgilbert@redhat.com>
+Subject: [PULL 3/6] migration: Inhibit virtio-balloon for the duration of
+ background snapshot
+Date: Wed,  7 Apr 2021 11:20:18 +0100
+Message-Id: <20210407102021.95225-4-dgilbert@redhat.com>
 In-Reply-To: <20210407102021.95225-1-dgilbert@redhat.com>
 References: <20210407102021.95225-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,46 +86,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 
-Added missing qemu_fflush() on buffer file holding precopy device state.
-Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
-Typical configurations often require >200KB for device state and VMDESC.
+The same thing as for incoming postcopy - we cannot deal with concurrent
+RAM discards when using background snapshot feature in outgoing migration.
 
 Fixes: 8518278a6af589ccc401f06e35f171b1e6fae800 (migration: implementation
   of background snapshot thread)
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-Id: <20210401092226.102804-2-andrey.gruzdev@virtuozzo.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reported-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210401092226.102804-3-andrey.gruzdev@virtuozzo.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-balloon.c | 8 ++++++--
+ include/migration/misc.h   | 2 ++
+ migration/migration.c      | 8 ++++++++
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index e770955176..d120bf8f43 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -66,8 +66,12 @@ static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
+ 
+ static bool virtio_balloon_inhibited(void)
+ {
+-    /* Postcopy cannot deal with concurrent discards, so it's special. */
+-    return ram_block_discard_is_disabled() || migration_in_incoming_postcopy();
++    /*
++     * Postcopy cannot deal with concurrent discards,
++     * so it's special, as well as background snapshots.
++     */
++    return ram_block_discard_is_disabled() || migration_in_incoming_postcopy() ||
++            migration_in_bg_snapshot();
+ }
+ 
+ static void balloon_inflate_page(VirtIOBalloon *balloon,
+diff --git a/include/migration/misc.h b/include/migration/misc.h
+index bccc1b6b44..738675ef52 100644
+--- a/include/migration/misc.h
++++ b/include/migration/misc.h
+@@ -70,6 +70,8 @@ bool migration_in_postcopy_after_devices(MigrationState *);
+ void migration_global_dump(Monitor *mon);
+ /* True if incomming migration entered POSTCOPY_INCOMING_DISCARD */
+ bool migration_in_incoming_postcopy(void);
++/* True if background snapshot is active */
++bool migration_in_bg_snapshot(void);
+ 
+ /* migration/block-dirty-bitmap.c */
+ void dirty_bitmap_mig_init(void);
 diff --git a/migration/migration.c b/migration/migration.c
-index ca8b97baa5..00e13f9d58 100644
+index 00e13f9d58..be4729e7c8 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
-      * with vCPUs running and, finally, write stashed non-RAM part of
-      * the vmstate from the buffer to the migration stream.
-      */
--    s->bioc = qio_channel_buffer_new(128 * 1024);
-+    s->bioc = qio_channel_buffer_new(512 * 1024);
-     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
-     fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
-     object_unref(OBJECT(s->bioc));
-@@ -3866,6 +3866,12 @@ static void *bg_migration_thread(void *opaque)
-     if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-         goto fail;
-     }
-+    /*
-+     * Since we are going to get non-iterable state data directly
-+     * from s->bioc->data, explicit flush is needed here.
-+     */
-+    qemu_fflush(fb);
+@@ -1976,6 +1976,14 @@ bool migration_in_incoming_postcopy(void)
+     return ps >= POSTCOPY_INCOMING_DISCARD && ps < POSTCOPY_INCOMING_END;
+ }
+ 
++bool migration_in_bg_snapshot(void)
++{
++    MigrationState *s = migrate_get_current();
 +
-     /* Now initialize UFFD context and start tracking RAM writes */
-     if (ram_write_tracking_start()) {
-         goto fail;
++    return migrate_background_snapshot() &&
++            migration_is_setup_or_active(s->state);
++}
++
+ bool migration_is_idle(void)
+ {
+     MigrationState *s = current_migration;
 -- 
 2.31.1
 
