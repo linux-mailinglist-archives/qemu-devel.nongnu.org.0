@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232563573AA
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:55:07 +0200 (CEST)
-Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D65A3573B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 19:56:05 +0200 (CEST)
+Received: from localhost ([::1]:45984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUCOQ-0001lL-4K
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:55:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48484)
+	id 1lUCPM-00036m-EP
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 13:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUCMg-00009C-2n
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:18 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44731)
+ id 1lUCMj-0000Be-RX
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:22 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUCMc-0004xz-Dt
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:17 -0400
-Received: by mail-ed1-x534.google.com with SMTP id f8so17905585edd.11
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 10:53:14 -0700 (PDT)
+ id 1lUCMh-0004zn-O9
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:21 -0400
+Received: by mail-ed1-x532.google.com with SMTP id r22so9415324edq.9
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 10:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xckbXOAUz4gEWTqUWQhhtwYLH97HX8wVamKgf16jiqI=;
- b=ggZyGL6UYGt9XCFFhigw2XFxzz54RtGMesmQTO7s3QrzQizfM/+yleec64u3RMN7vA
- UQEvh+364DsdDsMcvIGpwtRX7g4cSH0j9Qi/22i3QUpLJZvC1xLMFt0OEuGWp6kVzSZJ
- VTBhARUPOQ5E63pYqO4YmusdTskEk9MQF775FVSr5vddFd4gtSwx38mLKoE6uIpULIh4
- ODnKLsbqqfULv/TueRV7bGPROqioZH66oj51nm5/OxumrHvhByRF5DcqgNqkw6+Kd3JR
- ZjOW5ZvN0sQKmv75FM4zK5gf2tgv3vFbc6Sg3GBAGaFfC+3E86iaRLoEhDYNM5e6ML/A
- x0Yg==
+ bh=EyWTFFAUlShQplxLUre4Wbxf2t/EIZLRggDuT70Acx8=;
+ b=lyHGb6/UuQi4hGlzeeHz7pzT9VcLaijPTSnx6yQ/03L+5LAoDJiW9z0b2gI4CurBKt
+ VkfrX35KB7TAXa1OXepL/qSr19x7lHxQApPEJ2gLlx1kYA3b7+PU4lFYtf4zf4Hf0vqv
+ jOTx+AwjHgBE11NYUBfm1tBiL589a8GA3JgGxXq3D2ilnO/TKB0RdJgNX31jYMita66O
+ BolB9X5EiP1OIkl3KedSaKGarz8zkaU8Oat9IoSYboycqj0QXsAiZupN6i0UlSQlNfLD
+ ij4dpYGPnW2NWQrefjP1zUxXx7q9foJ39zgnCz5dfy8wy91YXey1SVaogS805xakFm3N
+ p2WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xckbXOAUz4gEWTqUWQhhtwYLH97HX8wVamKgf16jiqI=;
- b=kVNIvVfYIEGeIqxgns55a710IF5GLnUBvu52/hrXyDPqv1vaOcIv4rrnf4FVBXOsXM
- 25gVQ4MYVv5dtYmeEXwBg1zXLF+bPilXl5B3WSQRttNOtEjByUUFnoPQVNETmwEMlFs2
- 5rjxa5iVI/c1js6A+QdQneS3vqJpdaQWraxx7FaKzAUF6IHzrHqOL1QzwYKCoXu52+0w
- SLo+30VUhx2f/6sFC1jNAugY9aOLON5i1SgLj4Gqe6rkNPMcT83RntVBM72BGaesqMhc
- y0UVdj2x7Ww0opVAQNDH521kT/dA9rO+gitDpa3Bgb/nSc2ntwaarCL9weTXd2dQySUy
- w+Vw==
-X-Gm-Message-State: AOAM533Ly8bDuke/b2yvqv0m3OQZF+tZL8Ajo/miAZ5twMwTUWe52YD9
- //slhD4Uog+PBzN0Q2a16Yc1xvY+awua4w==
-X-Google-Smtp-Source: ABdhPJz3QPeCXZovw/QFaH+4jnkmKVnUXw1rxjewj5gYcIk1vgsWzVxz1ywLfboNEAZzuKgXwcN3+g==
-X-Received: by 2002:a05:6402:42d1:: with SMTP id
- i17mr5717278edc.131.1617817992555; 
- Wed, 07 Apr 2021 10:53:12 -0700 (PDT)
+ bh=EyWTFFAUlShQplxLUre4Wbxf2t/EIZLRggDuT70Acx8=;
+ b=JujDX+b6VGIIMoJKaJ806AHhWUwsqpihRujlLPyv+wKHzUsBfF6qQ0A9vl0yMzOVVE
+ 9/Ocm6O/+6lKG5ophbuy0ZdN4Ta5b6r5gczT44etBAwgJDW/prNbyT2GwDsc+zM3kQRh
+ Bggr/Je2WhvXBqjfGoEa47w79EQDFM9eZsoXIgMoThnrGwxWPdSfnVs2vUuNn5gLquJD
+ xMKLy+wsKU6jsIuu1BTp6iVBOsjRn2XoZVPWj5dq8p/wUOPYNyPTEovBWAVzQNMmp5Qv
+ aF+9aI0IP5/kANW0OBhGMVGySFbtl7UufMAe40Vc72yPMKEUSjgPvPs1s6TkLnAJnXs6
+ OSVg==
+X-Gm-Message-State: AOAM530rzpNJzlsrCt0KIeFyargU5g+jwkhdppyA29Eoj0/wrdDgaSD3
+ VCxl8PBVYToemqI8opnrJcG1km40T0jUOA==
+X-Google-Smtp-Source: ABdhPJzLmfF8+SCYnSaxcZ/rVN/L78sDPm7fpTi/X9rkVvyK7kO/vaDvWfryYAqNg2YCBEX+/xTIBw==
+X-Received: by 2002:a05:6402:5113:: with SMTP id
+ m19mr6053058edd.78.1617817997660; 
+ Wed, 07 Apr 2021 10:53:17 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id r17sm16492760edx.1.2021.04.07.10.53.11
+ by smtp.gmail.com with ESMTPSA id r19sm12921180ejr.55.2021.04.07.10.53.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Apr 2021 10:53:12 -0700 (PDT)
+ Wed, 07 Apr 2021 10:53:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1 1/3] hw/sparc/sun4m: Introduce TYPE_SUN4M_MACHINE and
- Sun4mMachineClass
-Date: Wed,  7 Apr 2021 19:53:03 +0200
-Message-Id: <20210407175305.1771069-2-f4bug@amsat.org>
+Subject: [PATCH-for-6.1 2/3] hw/sparc/sun4m: Factor out
+ sun4m_machine_class_common_init()
+Date: Wed,  7 Apr 2021 19:53:04 +0200
+Message-Id: <20210407175305.1771069-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407175305.1771069-1-f4bug@amsat.org>
 References: <20210407175305.1771069-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,134 +93,154 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All sun4m machines use a const sun4m_hwdef structure entry.
-We want to have the common machine code to access this const
-entry. The QOM way is to have it in the MachineClass.
-
-Introduce the Sun4mMachineClass which expands MachineClass.
-All sun4m machines inherit the TYPE_SUN4M_MACHINE.
+Some MachineClass fields are common to all sun4m machines.
+Factor setting these fields out in a common helper:
+sun4m_machine_class_common_init().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sparc/sun4m.c | 37 ++++++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
+ hw/sparc/sun4m.c | 53 ++++++++++++++++--------------------------------
+ 1 file changed, 17 insertions(+), 36 deletions(-)
 
 diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 1a00816d9a8..543a52a8fc8 100644
+index 543a52a8fc8..a0d0624e41b 100644
 --- a/hw/sparc/sun4m.c
 +++ b/hw/sparc/sun4m.c
-@@ -107,6 +107,16 @@ struct sun4m_hwdef {
-     uint8_t nvram_machine_id;
- };
+@@ -1427,18 +1427,23 @@ static void sbook_init(MachineState *machine)
+     sun4m_hw_init(&sun4m_hwdefs[8], machine);
+ }
  
-+struct Sun4mMachineClass {
-+    /*< private >*/
-+    MachineClass parent_obj;
-+    /*< public >*/
-+};
-+typedef struct Sun4mMachineClass Sun4mMachineClass;
++static void sun4m_machine_class_common_init(MachineClass *mc)
++{
++    mc->block_default_type = IF_SCSI;
++    mc->default_boot_order = "c";
++    mc->default_display = "tcx";
++    mc->default_ram_id = "sun4m.ram";
++}
 +
-+#define TYPE_SUN4M_MACHINE MACHINE_TYPE_NAME("sun4m-common")
-+DECLARE_CLASS_CHECKERS(Sun4mMachineClass, SUN4M_MACHINE, TYPE_SUN4M_MACHINE)
-+
- const char *fw_cfg_arch_key_name(uint16_t key)
+ static void ss5_class_init(ObjectClass *oc, void *data)
  {
-     static const struct {
-@@ -1433,7 +1443,7 @@ static void ss5_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCstation 5";
+     mc->init = ss5_init;
+-    mc->block_default_type = IF_SCSI;
+     mc->is_default = true;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo ss5_type = {
-     .name = MACHINE_TYPE_NAME("SS-5"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = ss5_class_init,
- };
+@@ -1453,12 +1458,9 @@ static void ss10_class_init(ObjectClass *oc, void *data)
  
-@@ -1453,7 +1463,7 @@ static void ss10_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCstation 10";
+     mc->init = ss10_init;
+-    mc->block_default_type = IF_SCSI;
+     mc->max_cpus = 4;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo ss10_type = {
-     .name = MACHINE_TYPE_NAME("SS-10"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = ss10_class_init,
- };
+@@ -1473,12 +1475,9 @@ static void ss600mp_class_init(ObjectClass *oc, void *data)
  
-@@ -1473,7 +1483,7 @@ static void ss600mp_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCserver 600MP";
+     mc->init = ss600mp_init;
+-    mc->block_default_type = IF_SCSI;
+     mc->max_cpus = 4;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo ss600mp_type = {
-     .name = MACHINE_TYPE_NAME("SS-600MP"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = ss600mp_class_init,
- };
+@@ -1493,12 +1492,9 @@ static void ss20_class_init(ObjectClass *oc, void *data)
  
-@@ -1493,7 +1503,7 @@ static void ss20_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCstation 20";
+     mc->init = ss20_init;
+-    mc->block_default_type = IF_SCSI;
+     mc->max_cpus = 4;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo ss20_type = {
-     .name = MACHINE_TYPE_NAME("SS-20"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = ss20_class_init,
- };
+@@ -1513,11 +1509,8 @@ static void voyager_class_init(ObjectClass *oc, void *data)
  
-@@ -1512,7 +1522,7 @@ static void voyager_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCstation Voyager";
+     mc->init = vger_init;
+-    mc->block_default_type = IF_SCSI;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo voyager_type = {
-     .name = MACHINE_TYPE_NAME("Voyager"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = voyager_class_init,
- };
+@@ -1532,11 +1525,8 @@ static void ss_lx_class_init(ObjectClass *oc, void *data)
  
-@@ -1531,7 +1541,7 @@ static void ss_lx_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCstation LX";
+     mc->init = ss_lx_init;
+-    mc->block_default_type = IF_SCSI;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo ss_lx_type = {
-     .name = MACHINE_TYPE_NAME("LX"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = ss_lx_class_init,
- };
+@@ -1551,11 +1541,8 @@ static void ss4_class_init(ObjectClass *oc, void *data)
  
-@@ -1550,7 +1560,7 @@ static void ss4_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCstation 4";
+     mc->init = ss4_init;
+-    mc->block_default_type = IF_SCSI;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo ss4_type = {
-     .name = MACHINE_TYPE_NAME("SS-4"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = ss4_class_init,
- };
+@@ -1570,11 +1557,8 @@ static void scls_class_init(ObjectClass *oc, void *data)
  
-@@ -1569,7 +1579,7 @@ static void scls_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCClassic";
+     mc->init = scls_init;
+-    mc->block_default_type = IF_SCSI;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo scls_type = {
-     .name = MACHINE_TYPE_NAME("SPARCClassic"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = scls_class_init,
- };
+@@ -1589,11 +1573,8 @@ static void sbook_class_init(ObjectClass *oc, void *data)
  
-@@ -1588,12 +1598,21 @@ static void sbook_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Sun4m platform, SPARCbook";
+     mc->init = sbook_init;
+-    mc->block_default_type = IF_SCSI;
+-    mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
+-    mc->default_display = "tcx";
+-    mc->default_ram_id = "sun4m.ram";
++    sun4m_machine_class_common_init(mc);
+ }
  
  static const TypeInfo sbook_type = {
-     .name = MACHINE_TYPE_NAME("SPARCbook"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_SUN4M_MACHINE,
-     .class_init = sbook_class_init,
- };
- 
-+static const TypeInfo sun4m_typeinfo = {
-+    .name = TYPE_SUN4M_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .class_size     = sizeof(Sun4mMachineClass),
-+    .abstract       = true,
-+};
-+
- static void sun4m_register_types(void)
- {
-+    type_register_static(&sun4m_typeinfo);
-+
-     type_register_static(&idreg_info);
-     type_register_static(&afx_info);
-     type_register_static(&prom_info);
 -- 
 2.26.3
 
