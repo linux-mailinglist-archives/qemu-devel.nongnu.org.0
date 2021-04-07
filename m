@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505093573C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:00:05 +0200 (CEST)
-Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED2D3573E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 20:05:50 +0200 (CEST)
+Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUCTE-0001l6-0E
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:00:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48994)
+	id 1lUCYn-0005sT-J6
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 14:05:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lUCNt-0002Ie-AG
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:54:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lUCNr-0005XX-8P
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:54:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617818070;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1Fvg4XJbhkURkN0ZGS3cdPHZEZSLnyf8pMDA1DK8gXg=;
- b=ijOCldrr1vezFHlEeAe0LYNpseZNdhL7pVnroGAedUKhD89KAAX1NblscPffjjympfdYgr
- P1+lO8FyPJGj8KSUR2uwcp8wZ2Fkx6UR05n9rN3Fy4Xm66CbV7PqJUkUOlE5F92oVSzFOL
- sJCfnjl/dHaI5jXrpdo6hHvdCTrZ+o0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-E_A3y3WnMRecP7bYWBItxg-1; Wed, 07 Apr 2021 13:54:26 -0400
-X-MC-Unique: E_A3y3WnMRecP7bYWBItxg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A5F1922961;
- Wed,  7 Apr 2021 17:54:25 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-14.ams2.redhat.com
- [10.36.115.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D1D410013D7;
- Wed,  7 Apr 2021 17:54:24 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com,
- huangy81@chinatelecom.cn
-Subject: [PULL 5/6] migration: Rename 'bs' to 'block' in background snapshot
- code
-Date: Wed,  7 Apr 2021 18:54:15 +0100
-Message-Id: <20210407175416.201555-6-dgilbert@redhat.com>
-In-Reply-To: <20210407175416.201555-1-dgilbert@redhat.com>
-References: <20210407175416.201555-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUCMo-0000Ja-WB
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:27 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUCMm-000527-JU
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 13:53:26 -0400
+Received: by mail-ed1-x536.google.com with SMTP id m3so12101129edv.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 10:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oWpLJfHMn2RAtJSkAT5BHTjoDVB9WH4yRIEO9hGAFkc=;
+ b=XsAQRNuF2lEv9a+QlVnPxPAoFoxk3xIePfvVYdE1kqz8S8+s+mqTzSF48kBeUP1VUi
+ NLYAkahUKTOuifazBkFiOp3NV/SZb1DRz1pP7Q7Al9sklhEOfKAk3LIyXSl6zKOB5/AG
+ z/CjsWSqw2+iGlfi/AT+Wf9dj9GimlRpNc+cUB+XSbnoX/ZAczoUxWVdsML8DL3edKh6
+ iBY2I6vfMui3q8RrYNzOzZtCkXNWlmTcNp8hGqI/K5y7EqmAYUGX2phZ95rlqxRaVcGQ
+ h1HYeWhZ2JyuQ1TmbGTHsWJ3u/qfm4HUg1YproyP97QiHXCsZbgRwAZa/p3EcR5Ok7ME
+ vO1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=oWpLJfHMn2RAtJSkAT5BHTjoDVB9WH4yRIEO9hGAFkc=;
+ b=oHRLobvFBikaZNw8RLE2/PfSeYknRm0h/6LGrL1aM4+RrUt55dcC4sjpPlJsLm1Zyf
+ xrsIv3svo/2kFnfZc+ebBCSDyFazxh4h2Go9BuoYmlC275btK0J7W9BetC7LukdJOaLB
+ +YwgKv+/qGeVgyun72O5l1BJhHRtXGoFsx/W1aJbYAzndxvo9LCDCrWemy7AIIhj+0FB
+ VdjZguK8x71Z69Zk1LXMXUuGbIS+x9y47+GUI272oM2BlDGMZz0ovNF09yqO2hUDdi9z
+ D2332u3d6Et26lTBYWQkiuyEARG2rfceMg+Zssgq4f9/Ld4sJgRxgUfMmNhGQKVTsu6k
+ twGA==
+X-Gm-Message-State: AOAM532g3x/tNEqJBjOyPwAy4BtqYBH0UisoBDqAu1g5IjZUe2o9DEV6
+ d0Dum3SYCk/Rg0LlPboF9UwJDBTCu2d1cQ==
+X-Google-Smtp-Source: ABdhPJywUpd61LjoEuKCDbbK5OorXnJ+j+o48e0zCUE4odQ1ASqdweTTpR1rFufp073X819uBFiT4w==
+X-Received: by 2002:a50:a699:: with SMTP id e25mr5887263edc.276.1617818002816; 
+ Wed, 07 Apr 2021 10:53:22 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id um13sm6551324ejb.84.2021.04.07.10.53.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Apr 2021 10:53:22 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.1 3/3] hw/sparc/sun4m: Make sun4m_hwdefs a
+ Sun4mMachineClass field
+Date: Wed,  7 Apr 2021 19:53:05 +0200
+Message-Id: <20210407175305.1771069-4-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210407175305.1771069-1-f4bug@amsat.org>
+References: <20210407175305.1771069-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,231 +86,282 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Add a reference to sun4m_hwdefs in Sun4mMachineClass.
+Set this new field in sun4m_machine_class_common_init(),
+our QOM class_init() handler.
 
-Rename 'bs' to commonly used 'block' in migration/ram.c background
-snapshot code.
+Since sun4m_hwdefs is now accessible from the MachineState,
+we can simplify sun4m_hw_init() which become our unique
+machine class_init().
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Reported-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210401092226.102804-5-andrey.gruzdev@virtuozzo.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- migration/ram.c | 86 +++++++++++++++++++++++++------------------------
- 1 file changed, 44 insertions(+), 42 deletions(-)
+ hw/sparc/sun4m.c | 108 +++++++++++++++--------------------------------
+ 1 file changed, 34 insertions(+), 74 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 7e2bc0fdd3..4682f3625c 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1455,7 +1455,7 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index a0d0624e41b..fab56ab3e56 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -111,6 +111,7 @@ struct Sun4mMachineClass {
+     /*< private >*/
+     MachineClass parent_obj;
+     /*< public >*/
++    const struct sun4m_hwdef *hwdef;
+ };
+ typedef struct Sun4mMachineClass Sun4mMachineClass;
+ 
+@@ -847,9 +848,9 @@ static void dummy_fdc_tc(void *opaque, int irq, int level)
  {
-     struct uffd_msg uffd_msg;
-     void *page_address;
--    RAMBlock *bs;
-+    RAMBlock *block;
-     int res;
- 
-     if (!migrate_background_snapshot()) {
-@@ -1468,9 +1468,9 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
-     }
- 
-     page_address = (void *)(uintptr_t) uffd_msg.arg.pagefault.address;
--    bs = qemu_ram_block_from_host(page_address, false, offset);
--    assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
--    return bs;
-+    block = qemu_ram_block_from_host(page_address, false, offset);
-+    assert(block && (block->flags & RAM_UF_WRITEPROTECT) != 0);
-+    return block;
  }
  
- /**
-@@ -1526,7 +1526,7 @@ bool ram_write_tracking_compatible(void)
+-static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+-                          MachineState *machine)
++static void sun4m_hw_init(MachineState *machine)
  {
-     const uint64_t uffd_ioctls_mask = BIT(_UFFDIO_WRITEPROTECT);
-     int uffd_fd;
--    RAMBlock *bs;
-+    RAMBlock *block;
-     bool ret = false;
++    const struct sun4m_hwdef *hwdef = SUN4M_MACHINE_GET_CLASS(machine)->hwdef;
+     DeviceState *slavio_intctl;
+     unsigned int i;
+     Nvram *nvram;
+@@ -1373,77 +1374,28 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+     },
+ };
  
-     /* Open UFFD file descriptor */
-@@ -1537,15 +1537,15 @@ bool ram_write_tracking_compatible(void)
- 
-     RCU_READ_LOCK_GUARD();
- 
--    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         uint64_t uffd_ioctls;
- 
-         /* Nothing to do with read-only and MMIO-writable regions */
--        if (bs->mr->readonly || bs->mr->rom_device) {
-+        if (block->mr->readonly || block->mr->rom_device) {
-             continue;
-         }
-         /* Try to register block memory via UFFD-IO to track writes */
--        if (uffd_register_memory(uffd_fd, bs->host, bs->max_length,
-+        if (uffd_register_memory(uffd_fd, block->host, block->max_length,
-                 UFFDIO_REGISTER_MODE_WP, &uffd_ioctls)) {
-             goto out;
-         }
-@@ -1567,13 +1567,13 @@ out:
-  * Since it's solely used for userfault_fd WP feature, here we just
-  *   hardcode page size to qemu_real_host_page_size.
-  *
-- * @bs: RAM block to populate
-+ * @block: RAM block to populate
-  */
--static void ram_block_populate_pages(RAMBlock *bs)
-+static void ram_block_populate_pages(RAMBlock *block)
+-/* SPARCstation 5 hardware initialisation */
+-static void ss5_init(MachineState *machine)
++static void sun4m_machine_class_common_init(MachineClass *mc,
++                                            const struct sun4m_hwdef *hwdef)
  {
--    char *ptr = (char *) bs->host;
-+    char *ptr = (char *) block->host;
+-    sun4m_hw_init(&sun4m_hwdefs[0], machine);
+-}
++    Sun4mMachineClass *smc = SUN4M_MACHINE_CLASS(mc);
  
--    for (ram_addr_t offset = 0; offset < bs->used_length;
-+    for (ram_addr_t offset = 0; offset < block->used_length;
-             offset += qemu_real_host_page_size) {
-         char tmp = *(ptr + offset);
- 
-@@ -1587,13 +1587,13 @@ static void ram_block_populate_pages(RAMBlock *bs)
-  */
- void ram_write_tracking_prepare(void)
- {
--    RAMBlock *bs;
-+    RAMBlock *block;
- 
-     RCU_READ_LOCK_GUARD();
- 
--    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         /* Nothing to do with read-only and MMIO-writable regions */
--        if (bs->mr->readonly || bs->mr->rom_device) {
-+        if (block->mr->readonly || block->mr->rom_device) {
-             continue;
-         }
- 
-@@ -1605,7 +1605,7 @@ void ram_write_tracking_prepare(void)
-          * UFFDIO_WRITEPROTECT_MODE_WP mode setting would silently skip
-          * pages with pte_none() entries in page table.
-          */
--        ram_block_populate_pages(bs);
-+        ram_block_populate_pages(block);
-     }
+-/* SPARCstation 10 hardware initialisation */
+-static void ss10_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[1], machine);
+-}
+-
+-/* SPARCserver 600MP hardware initialisation */
+-static void ss600mp_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[2], machine);
+-}
+-
+-/* SPARCstation 20 hardware initialisation */
+-static void ss20_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[3], machine);
+-}
+-
+-/* SPARCstation Voyager hardware initialisation */
+-static void vger_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[4], machine);
+-}
+-
+-/* SPARCstation LX hardware initialisation */
+-static void ss_lx_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[5], machine);
+-}
+-
+-/* SPARCstation 4 hardware initialisation */
+-static void ss4_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[6], machine);
+-}
+-
+-/* SPARCClassic hardware initialisation */
+-static void scls_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[7], machine);
+-}
+-
+-/* SPARCbook hardware initialisation */
+-static void sbook_init(MachineState *machine)
+-{
+-    sun4m_hw_init(&sun4m_hwdefs[8], machine);
+-}
+-
+-static void sun4m_machine_class_common_init(MachineClass *mc)
+-{
++    mc->init = sun4m_hw_init;
+     mc->block_default_type = IF_SCSI;
+     mc->default_boot_order = "c";
+     mc->default_display = "tcx";
+     mc->default_ram_id = "sun4m.ram";
++    smc->hwdef = hwdef;
  }
  
-@@ -1618,7 +1618,7 @@ int ram_write_tracking_start(void)
++/* SPARCstation 5 hardware initialisation */
+ static void ss5_class_init(ObjectClass *oc, void *data)
  {
-     int uffd_fd;
-     RAMState *rs = ram_state;
--    RAMBlock *bs;
-+    RAMBlock *block;
+     MachineClass *mc = MACHINE_CLASS(oc);
  
-     /* Open UFFD file descriptor */
-     uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, true);
-@@ -1629,27 +1629,27 @@ int ram_write_tracking_start(void)
+     mc->desc = "Sun4m platform, SPARCstation 5";
+-    mc->init = ss5_init;
+     mc->is_default = true;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[0]);
+ }
  
-     RCU_READ_LOCK_GUARD();
+ static const TypeInfo ss5_type = {
+@@ -1452,15 +1404,16 @@ static const TypeInfo ss5_type = {
+     .class_init = ss5_class_init,
+ };
  
--    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         /* Nothing to do with read-only and MMIO-writable regions */
--        if (bs->mr->readonly || bs->mr->rom_device) {
-+        if (block->mr->readonly || block->mr->rom_device) {
-             continue;
-         }
- 
-         /* Register block memory with UFFD to track writes */
--        if (uffd_register_memory(rs->uffdio_fd, bs->host,
--                bs->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
-+        if (uffd_register_memory(rs->uffdio_fd, block->host,
-+                block->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
-             goto fail;
-         }
-         /* Apply UFFD write protection to the block memory range */
--        if (uffd_change_protection(rs->uffdio_fd, bs->host,
--                bs->max_length, true, false)) {
-+        if (uffd_change_protection(rs->uffdio_fd, block->host,
-+                block->max_length, true, false)) {
-             goto fail;
-         }
--        bs->flags |= RAM_UF_WRITEPROTECT;
--        memory_region_ref(bs->mr);
-+        block->flags |= RAM_UF_WRITEPROTECT;
-+        memory_region_ref(block->mr);
- 
--        trace_ram_write_tracking_ramblock_start(bs->idstr, bs->page_size,
--                bs->host, bs->max_length);
-+        trace_ram_write_tracking_ramblock_start(block->idstr, block->page_size,
-+                block->host, block->max_length);
-     }
- 
-     return 0;
-@@ -1657,19 +1657,20 @@ int ram_write_tracking_start(void)
- fail:
-     error_report("ram_write_tracking_start() failed: restoring initial memory state");
- 
--    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
--        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+        if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
-             continue;
-         }
-         /*
-          * In case some memory block failed to be write-protected
-          * remove protection and unregister all succeeded RAM blocks
-          */
--        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
--        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
-+        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
-+                false, false);
-+        uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
-         /* Cleanup flags and remove reference */
--        bs->flags &= ~RAM_UF_WRITEPROTECT;
--        memory_region_unref(bs->mr);
-+        block->flags &= ~RAM_UF_WRITEPROTECT;
-+        memory_region_unref(block->mr);
-     }
- 
-     uffd_close_fd(uffd_fd);
-@@ -1683,24 +1684,25 @@ fail:
- void ram_write_tracking_stop(void)
++/* SPARCstation 10 hardware initialisation */
++
+ static void ss10_class_init(ObjectClass *oc, void *data)
  {
-     RAMState *rs = ram_state;
--    RAMBlock *bs;
-+    RAMBlock *block;
+     MachineClass *mc = MACHINE_CLASS(oc);
  
-     RCU_READ_LOCK_GUARD();
+     mc->desc = "Sun4m platform, SPARCstation 10";
+-    mc->init = ss10_init;
+     mc->max_cpus = 4;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[1]);
+ }
  
--    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
--        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-+    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+        if ((block->flags & RAM_UF_WRITEPROTECT) == 0) {
-             continue;
-         }
-         /* Remove protection and unregister all affected RAM blocks */
--        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
--        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
-+        uffd_change_protection(rs->uffdio_fd, block->host, block->max_length,
-+                false, false);
-+        uffd_unregister_memory(rs->uffdio_fd, block->host, block->max_length);
+ static const TypeInfo ss10_type = {
+@@ -1469,15 +1422,16 @@ static const TypeInfo ss10_type = {
+     .class_init = ss10_class_init,
+ };
  
--        trace_ram_write_tracking_ramblock_stop(bs->idstr, bs->page_size,
--                bs->host, bs->max_length);
-+        trace_ram_write_tracking_ramblock_stop(block->idstr, block->page_size,
-+                block->host, block->max_length);
++/* SPARCserver 600MP hardware initialisation */
++
+ static void ss600mp_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
  
-         /* Cleanup flags and remove reference */
--        bs->flags &= ~RAM_UF_WRITEPROTECT;
--        memory_region_unref(bs->mr);
-+        block->flags &= ~RAM_UF_WRITEPROTECT;
-+        memory_region_unref(block->mr);
-     }
+     mc->desc = "Sun4m platform, SPARCserver 600MP";
+-    mc->init = ss600mp_init;
+     mc->max_cpus = 4;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[2]);
+ }
  
-     /* Finally close UFFD file descriptor */
+ static const TypeInfo ss600mp_type = {
+@@ -1486,15 +1440,16 @@ static const TypeInfo ss600mp_type = {
+     .class_init = ss600mp_class_init,
+ };
+ 
++/* SPARCstation 20 hardware initialisation */
++
+ static void ss20_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCstation 20";
+-    mc->init = ss20_init;
+     mc->max_cpus = 4;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-SuperSparc-II");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[3]);
+ }
+ 
+ static const TypeInfo ss20_type = {
+@@ -1503,14 +1458,15 @@ static const TypeInfo ss20_type = {
+     .class_init = ss20_class_init,
+ };
+ 
++/* SPARCstation Voyager hardware initialisation */
++
+ static void voyager_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCstation Voyager";
+-    mc->init = vger_init;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[4]);
+ }
+ 
+ static const TypeInfo voyager_type = {
+@@ -1519,14 +1475,15 @@ static const TypeInfo voyager_type = {
+     .class_init = voyager_class_init,
+ };
+ 
++/* SPARCstation LX hardware initialisation */
++
+ static void ss_lx_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCstation LX";
+-    mc->init = ss_lx_init;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[5]);
+ }
+ 
+ static const TypeInfo ss_lx_type = {
+@@ -1535,14 +1492,15 @@ static const TypeInfo ss_lx_type = {
+     .class_init = ss_lx_class_init,
+ };
+ 
++/* SPARCstation 4 hardware initialisation */
++
+ static void ss4_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCstation 4";
+-    mc->init = ss4_init;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Fujitsu-MB86904");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[6]);
+ }
+ 
+ static const TypeInfo ss4_type = {
+@@ -1551,14 +1509,15 @@ static const TypeInfo ss4_type = {
+     .class_init = ss4_class_init,
+ };
+ 
++/* SPARCClassic hardware initialisation */
++
+ static void scls_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCClassic";
+-    mc->init = scls_init;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[7]);
+ }
+ 
+ static const TypeInfo scls_type = {
+@@ -1567,14 +1526,15 @@ static const TypeInfo scls_type = {
+     .class_init = scls_class_init,
+ };
+ 
++/* SPARCbook hardware initialisation */
++
+ static void sbook_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+ 
+     mc->desc = "Sun4m platform, SPARCbook";
+-    mc->init = sbook_init;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-MicroSparc-I");
+-    sun4m_machine_class_common_init(mc);
++    sun4m_machine_class_common_init(mc, &sun4m_hwdefs[8]);
+ }
+ 
+ static const TypeInfo sbook_type = {
 -- 
-2.31.1
+2.26.3
 
 
