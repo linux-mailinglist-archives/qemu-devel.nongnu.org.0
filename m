@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A31C356D4C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 15:28:51 +0200 (CEST)
-Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9935356D51
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 15:30:49 +0200 (CEST)
+Received: from localhost ([::1]:33596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU8Ek-0001Jv-AO
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 09:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
+	id 1lU8Ge-0002H0-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 09:30:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lU8Du-0000kP-PY
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:27:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24434)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lU8FP-0001pc-Qs
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:29:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lU8Ds-0000vh-3R
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:27:58 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lU8FO-0001uX-52
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 09:29:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617802072;
+ s=mimecast20190719; t=1617802169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZNWbI9fC0FjafKF2ydEJ83d2gErccYJQi3MSyoFf30=;
- b=e+2GcMgW1TttUu3mxt7VWHRU41KCVNrjUDu3J2gmQiC4GXjKVH41C5s79cXdA40BydnuZk
- eYBlCzfZ7jHEd9+WYcX1aYik4QD15Cr59jC1U66WhhDzvIrYYtvv0ZtgxQtJJ8L/67YIwa
- L7e7PDLV1Ja+HdfiNUhIq00AC6CT7+s=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-esussP3RNQS_w1JnaMzH8A-1; Wed, 07 Apr 2021 09:27:50 -0400
-X-MC-Unique: esussP3RNQS_w1JnaMzH8A-1
-Received: by mail-wr1-f71.google.com with SMTP id x18so123938wrt.12
- for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 06:27:49 -0700 (PDT)
+ bh=YimiFQC5+EwfE56oJLWW8KHEsdgt1spky94zvPmNszU=;
+ b=A9BmXxR6fNOGS2spxNthvPUoPh2kar0WjwkWGJHIoC71EDkR2m3LF3TwLNBFjoA3uE9gtm
+ e7uIGxyC4fDATI2thf6lg4aY9KLl1mUWJnHDG3OZhsWqpL5y/mqhiRrUS7T2jgk/JVAPeR
+ QA8wbw1Nm2GpU9oo2ZI6qgam4luY9ME=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-dCTvllSENF6VaRggsyS0Vw-1; Wed, 07 Apr 2021 09:29:26 -0400
+X-MC-Unique: dCTvllSENF6VaRggsyS0Vw-1
+Received: by mail-wr1-f69.google.com with SMTP id p2so2010532wrq.18
+ for <qemu-devel@nongnu.org>; Wed, 07 Apr 2021 06:29:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=NZNWbI9fC0FjafKF2ydEJ83d2gErccYJQi3MSyoFf30=;
- b=Tvq76r1Pzze+7ftl9G1xGs/Ube3e3ID4gc2vjTj0HNa8di4/tJAp+QMKChzZLdKCo+
- f6GAkYgXhj3sp+BGPXoGT6y+SwuVsDppBMs4ij0H2SKbn3M0E4pT2hQxLVx9OytCkm9p
- JgCZlMrqsnhWv7xPQj7hZpKIpvM/MhfMtA8VmMzYaTo2dtud5IRoru7wWfBmN1qm/38z
- Xhswr8f6Rt6CC64bs2oNJ16oU9VOnzAdCFuKkdUqWWzZ4kiCasL9WKm5I5HZg/cNmA2G
- 2yRxnMvRz2EC0Xm3zlmFWTss8sUN8YW5H+EmYBl4sMjpEXteKOu2tEF4JFnvApiwQXmV
- zrOw==
-X-Gm-Message-State: AOAM530vn04u8NmR1w1OJBoaE6Yy/Ekmfa29ks9EH6k9Yp71pPjYEAkM
- 0Jn5mVK4Y4fjJw7M1K1J9o0bGCD5Ybr0BqAKsZhdOf5CxrtdpCa59sfO9I+Ms25Z5lJpVEaAKD4
- F6VwrvJ2nVmKer0Q=
-X-Received: by 2002:a05:600c:2310:: with SMTP id
- 16mr2231215wmo.28.1617802068286; 
- Wed, 07 Apr 2021 06:27:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHU06erjdPRTnkXN12wn3HU8w1UT8ZCuYUvwnDYBIlfbjP2QkQRG2KGR2C7PtQxx1vdyaNKA==
-X-Received: by 2002:a05:600c:2310:: with SMTP id
- 16mr2231203wmo.28.1617802068123; 
- Wed, 07 Apr 2021 06:27:48 -0700 (PDT)
+ bh=YimiFQC5+EwfE56oJLWW8KHEsdgt1spky94zvPmNszU=;
+ b=MjQ5KIzeyI0wvsYWb8EWFaapp19rcmU8dQ7PLSZSsKWdRcHpdFMTbKT7TlTM2r77e1
+ XBPIhA5mjH72IztM2Y3OB65k6UEE09rEO4FlvDk/Il59bk20RiHMoDWrKYL3B6Ds+WuS
+ bde4XGApJSLS7N5L7x/b2M+b26IXV0+NwD3z6BQxWyeJ0cy+yj3392blF5wKYJ9rZS1z
+ p5VXhWpLJkkO5bjxKwcu4TbJBOw/4KTcsuUfE8b7TjEolJbarRhbi6LXnr88nmXeU6mt
+ k8naIy8yeGQnjsJS7HZAU8yOE7J/UE/66ifyToP6o+lIQA/qs01TTvtMXT1XMLk5qrFe
+ szDA==
+X-Gm-Message-State: AOAM531DwamtNGPf6Z8mi2ELa9WCBN2oISEgbjcNaAquZfpTQGSm8L60
+ XU0xoIHwybnzq0qpaefWZBi1DjnLRt8WLNJ8mgzkWEeYijriJaxfO6LgZ733N35VG5uIz0J8Eeo
+ hSjMqs4DwktgROe0=
+X-Received: by 2002:a7b:cc84:: with SMTP id p4mr3147221wma.10.1617802165329;
+ Wed, 07 Apr 2021 06:29:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwh4NGcQu4Apjey5xGwuER4awO50xfIt3Gy8+pbEp6t51lLPqB7f6NtMqf1pfuZhEFHNaU83A==
+X-Received: by 2002:a7b:cc84:: with SMTP id p4mr3147210wma.10.1617802165161;
+ Wed, 07 Apr 2021 06:29:25 -0700 (PDT)
 Received: from redhat.com ([2a10:800e:f0d3:0:b69b:9fb8:3947:5636])
- by smtp.gmail.com with ESMTPSA id o8sm9004158wrv.49.2021.04.07.06.27.45
+ by smtp.gmail.com with ESMTPSA id k7sm31090849wrd.24.2021.04.07.06.29.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Apr 2021 06:27:46 -0700 (PDT)
-Date: Wed, 7 Apr 2021 09:27:43 -0400
+ Wed, 07 Apr 2021 06:29:24 -0700 (PDT)
+Date: Wed, 7 Apr 2021 09:29:22 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
 Subject: Re: [PULL v2 11/19] pci: acpi: ensure that acpi-index is unique
-Message-ID: <20210407092606-mutt-send-email-mst@kernel.org>
+Message-ID: <20210407092759-mutt-send-email-mst@kernel.org>
 References: <20210322225907.541943-1-mst@redhat.com>
  <20210322225907.541943-12-mst@redhat.com>
  <YGx2IFN3mJisOR1w@redhat.com> <YGx5LRiqkKRmO4aJ@redhat.com>
+ <20210406201546.2377830e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YGx5LRiqkKRmO4aJ@redhat.com>
+In-Reply-To: <20210406201546.2377830e@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,7 +75,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,119 +96,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Julia Suvorova <jusual@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 06, 2021 at 04:07:25PM +0100, Daniel P. Berrangé wrote:
-> On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrangé wrote:
-> > On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote:
-> > > From: Igor Mammedov <imammedo@redhat.com>
+On Tue, Apr 06, 2021 at 08:15:46PM +0200, Igor Mammedov wrote:
+> On Tue, 6 Apr 2021 16:07:25 +0100
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
+> 
+> > On Tue, Apr 06, 2021 at 03:54:24PM +0100, Daniel P. Berrangé wrote:
+> > > On Mon, Mar 22, 2021 at 07:00:18PM -0400, Michael S. Tsirkin wrote:  
+> > > > From: Igor Mammedov <imammedo@redhat.com>
+> > > > 
+> > > > it helps to avoid device naming conflicts when guest OS is
+> > > > configured to use acpi-index for naming.
+> > > > Spec ialso says so:
+> > > > 
+> > > > PCI Firmware Specification Revision 3.2
+> > > > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
+> > > > "
+> > > > Instance number must be unique under \_SB scope. This instance number does not have to
+> > > > be sequential in a given system configuration.
+> > > > "
+> > > > 
+> > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > > > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
+> > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > ---
+> > > >  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 46 insertions(+)
+> > > > 
+> > > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > > index ceab287bd3..f4cb3c979d 100644
+> > > > --- a/hw/acpi/pcihp.c
+> > > > +++ b/hw/acpi/pcihp.c
+> > > > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
+> > > >      PCIBus *bus;
+> > > >  } AcpiPciHpFind;
+> > > >  
+> > > > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
+> > > > +{
+> > > > +    return a - b;
+> > > > +}
+> > > > +
+> > > > +static GSequence *pci_acpi_index_list(void)
+> > > > +{
+> > > > +    static GSequence *used_acpi_index_list;
+> > > > +
+> > > > +    if (!used_acpi_index_list) {
+> > > > +        used_acpi_index_list = g_sequence_new(NULL);
+> > > > +    }
+> > > > +    return used_acpi_index_list;
+> > > > +}
+> > > > +
+> > > >  static int acpi_pcihp_get_bsel(PCIBus *bus)
+> > > >  {
+> > > >      Error *local_err = NULL;
+> > > > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+> > > >                     ONBOARD_INDEX_MAX);
+> > > >          return;
+> > > >      }
+> > > > +
+> > > > +    /*
+> > > > +     * make sure that acpi-index is unique across all present PCI devices
+> > > > +     */
+> > > > +    if (pdev->acpi_index) {
+> > > > +        GSequence *used_indexes = pci_acpi_index_list();
+> > > > +
+> > > > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
+> > > > +                              g_cmp_uint32, NULL)) {
+> > > > +            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
+> > > > +                       " already exist", pdev->acpi_index);
+> > > > +            return;
+> > > > +        }
+> > > > +        g_sequence_insert_sorted(used_indexes,
+> > > > +                                 GINT_TO_POINTER(pdev->acpi_index),
+> > > > +                                 g_cmp_uint32, NULL);
+> > > > +    }  
 > > > 
-> > > it helps to avoid device naming conflicts when guest OS is
-> > > configured to use acpi-index for naming.
-> > > Spec ialso says so:
+> > > This doesn't appear to ensure uniqueness when using PCIe topologies:
 > > > 
-> > > PCI Firmware Specification Revision 3.2
-> > > 4.6.7.  _DSM for Naming a PCI or PCI Express Device Under Operating Systems
-> > > "
-> > > Instance number must be unique under \_SB scope. This instance number does not have to
-> > > be sequential in a given system configuration.
-> > > "
+> > > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> > >      -device virtio-net,acpi-index=100 \
+> > >      -device virtio-net,acpi-index=100
+> > > qemu-system-x86_64: -device virtio-net,acpi-index=100: a PCI device with acpi-index = 100 already exist
 > > > 
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > Message-Id: <20210315180102.3008391-4-imammedo@redhat.com>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  hw/acpi/pcihp.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 46 insertions(+)
-> > > 
-> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > > index ceab287bd3..f4cb3c979d 100644
-> > > --- a/hw/acpi/pcihp.c
-> > > +++ b/hw/acpi/pcihp.c
-> > > @@ -52,6 +52,21 @@ typedef struct AcpiPciHpFind {
-> > >      PCIBus *bus;
-> > >  } AcpiPciHpFind;
-> > >  
-> > > +static gint g_cmp_uint32(gconstpointer a, gconstpointer b, gpointer user_data)
-> > > +{
-> > > +    return a - b;
-> > > +}
-> > > +
-> > > +static GSequence *pci_acpi_index_list(void)
-> > > +{
-> > > +    static GSequence *used_acpi_index_list;
-> > > +
-> > > +    if (!used_acpi_index_list) {
-> > > +        used_acpi_index_list = g_sequence_new(NULL);
-> > > +    }
-> > > +    return used_acpi_index_list;
-> > > +}
-> > > +
-> > >  static int acpi_pcihp_get_bsel(PCIBus *bus)
-> > >  {
-> > >      Error *local_err = NULL;
-> > > @@ -277,6 +292,23 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-> > >                     ONBOARD_INDEX_MAX);
-> > >          return;
-> > >      }
-> > > +
-> > > +    /*
-> > > +     * make sure that acpi-index is unique across all present PCI devices
-> > > +     */
-> > > +    if (pdev->acpi_index) {
-> > > +        GSequence *used_indexes = pci_acpi_index_list();
-> > > +
-> > > +        if (g_sequence_lookup(used_indexes, GINT_TO_POINTER(pdev->acpi_index),
-> > > +                              g_cmp_uint32, NULL)) {
-> > > +            error_setg(errp, "a PCI device with acpi-index = %" PRIu32
-> > > +                       " already exist", pdev->acpi_index);
-> > > +            return;
-> > > +        }
-> > > +        g_sequence_insert_sorted(used_indexes,
-> > > +                                 GINT_TO_POINTER(pdev->acpi_index),
-> > > +                                 g_cmp_uint32, NULL);
-> > > +    }
+> > > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
+> > >      -M q35 \
+> > >      -device virtio-net,acpi-index=100
+> > >      -device virtio-net,acpi-index=100
+> > > ....happily running....  
 > > 
-> > This doesn't appear to ensure uniqueness when using PCIe topologies:
+> > In fact the entire concept doesn't appear to work with Q35 at all as
+> > implemented.
 > > 
-> > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-> >      -device virtio-net,acpi-index=100 \
-> >      -device virtio-net,acpi-index=100
-> > qemu-system-x86_64: -device virtio-net,acpi-index=100: a PCI device with acpi-index = 100 already exist
+> > The 'acpi_index' file in the guest OS never gets created and the NICs
+> > are still called 'eth0', 'eth1'
 > > 
-> > $ ./build/x86_64-softmmu/qemu-system-x86_64 \
-> >      -M q35 \
-> >      -device virtio-net,acpi-index=100
-> >      -device virtio-net,acpi-index=100
-> > ....happily running....
+> > Only with i440fx can I can the "enoNNN" based naming to work with
+> > acpi-index set from QEMU
 > 
-> In fact the entire concept doesn't appear to work with Q35 at all as
-> implemented.
-> 
-> The 'acpi_index' file in the guest OS never gets created and the NICs
-> are still called 'eth0', 'eth1'
-> 
-> Only with i440fx can I can the "enoNNN" based naming to work with
-> acpi-index set from QEMU
-
-Good point, this I think is due to the fact that q35 does not
-have ACPI description of PCI devices ATM.
-It would be nice if this aborted instead of failing silently.
-Similar for hotplug.
-
-Igor?
+> It is not supported on Q35 yet as it depends on ACPI PCI hotplug infrastructure.
+> Once Julia is done with porting it to Q35, acpi-index will be pulled along with it.
 
 
+Right. But for now, should we make it fail instead of being ignored silently?
+If we don't how will managament find out it's not really supported?
+And if we make it fail how will management then find out when it's finally
+supported?
+
 > 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > Regards,
+> > Daniel
 
 
