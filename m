@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0638B356971
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:24:29 +0200 (CEST)
-Received: from localhost ([::1]:54212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEBB35699E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Apr 2021 12:28:02 +0200 (CEST)
+Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lU5MG-0003US-6G
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:24:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
+	id 1lU5Pl-0005ku-Al
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 06:28:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU5Ib-0000EF-Pz
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30991)
+ id 1lU5Ie-0000HI-8f
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lU5IW-0002ai-SM
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:37 -0400
+ id 1lU5IX-0002bO-5a
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 06:20:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617790830;
+ s=mimecast20190719; t=1617790831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jnCAkOcfGszri20i0852EFJ2ThU9LkMIEdv7NlyJnp0=;
- b=EfT5/ukhMp2MX9dQfISuxqL4UvRaXeGuLVKBMDJuUtxqry1Td+rd5+q244BaIWG4nUKvmG
- rC/7LKhriOCsyGo9WOA1VV4NurCCiVH3cVJSCsBG6iBhG1iWJxiuVZ3qGJ9iUCE49iiIiD
- /kQSdU/Z3mnXNMEZvLQB+2lGCjJq3WM=
+ bh=UirJB2TY5uZjh5FGig/cYbwwdZRpiZlC0hJj63uQjrg=;
+ b=IMTakPhE7rODeE96h/yezux3ROidQvgAE9ewOmVEsNKagEaFPsDST4puaCCOnHcH8gd9Kd
+ tiiSBGGokPjLODgcByweQ3oWKJCv1pEge3Y55LxXMNew5Ry6dxCfZn7ecbAQkZRTkgsqVA
+ pr5Pkd06uGucLpbR1FzyODv2pRCNB4k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486--0hQ_oIEN4i1tEQJyVTb1g-1; Wed, 07 Apr 2021 06:20:28 -0400
-X-MC-Unique: -0hQ_oIEN4i1tEQJyVTb1g-1
+ us-mta-510-VaC4asAzPMGCSnv-L8vYrA-1; Wed, 07 Apr 2021 06:20:29 -0400
+X-MC-Unique: VaC4asAzPMGCSnv-L8vYrA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45CF5189C440;
- Wed,  7 Apr 2021 10:20:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BEC51008060;
+ Wed,  7 Apr 2021 10:20:28 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-14.ams2.redhat.com
  [10.36.115.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FA5B10023AC;
- Wed,  7 Apr 2021 10:20:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9282C100F49F;
+ Wed,  7 Apr 2021 10:20:27 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 1/6] virtiofsd: Fix security.capability comparison
-Date: Wed,  7 Apr 2021 11:20:16 +0100
-Message-Id: <20210407102021.95225-2-dgilbert@redhat.com>
+Subject: [PULL 2/6] migration: Fix missing qemu_fflush() on buffer file in
+ bg_migration_thread
+Date: Wed,  7 Apr 2021 11:20:17 +0100
+Message-Id: <20210407102021.95225-3-dgilbert@redhat.com>
 In-Reply-To: <20210407102021.95225-1-dgilbert@redhat.com>
 References: <20210407102021.95225-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -83,35 +84,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 
-My security fix for the security.capability remap has a silly early
-segfault in a simple case where there is an xattrmapping but it doesn't
-remap the security.capability.
+Added missing qemu_fflush() on buffer file holding precopy device state.
+Increased initial QIOChannelBuffer allocation to 512KB to avoid reallocs.
+Typical configurations often require >200KB for device state and VMDESC.
 
-Fixes: e586edcb41054 ("virtiofs: drop remapped security.capability xattr as needed")
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210401145845.78445-1-dgilbert@redhat.com>
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Fixes: 8518278a6af589ccc401f06e35f171b1e6fae800 (migration: implementation
+  of background snapshot thread)
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-Id: <20210401092226.102804-2-andrey.gruzdev@virtuozzo.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ migration/migration.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index b144320e48..1553d2ef45 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2636,7 +2636,8 @@ static void parse_xattrmap(struct lo_data *lo)
-                 strerror(ret));
-         exit(1);
+diff --git a/migration/migration.c b/migration/migration.c
+index ca8b97baa5..00e13f9d58 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3812,7 +3812,7 @@ static void *bg_migration_thread(void *opaque)
+      * with vCPUs running and, finally, write stashed non-RAM part of
+      * the vmstate from the buffer to the migration stream.
+      */
+-    s->bioc = qio_channel_buffer_new(128 * 1024);
++    s->bioc = qio_channel_buffer_new(512 * 1024);
+     qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
+     fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
+     object_unref(OBJECT(s->bioc));
+@@ -3866,6 +3866,12 @@ static void *bg_migration_thread(void *opaque)
+     if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+         goto fail;
      }
--    if (!strcmp(lo->xattr_security_capability, "security.capability")) {
-+    if (!lo->xattr_security_capability ||
-+        !strcmp(lo->xattr_security_capability, "security.capability")) {
-         /* 1-1 mapping, don't need to do anything */
-         free(lo->xattr_security_capability);
-         lo->xattr_security_capability = NULL;
++    /*
++     * Since we are going to get non-iterable state data directly
++     * from s->bioc->data, explicit flush is needed here.
++     */
++    qemu_fflush(fb);
++
+     /* Now initialize UFFD context and start tracking RAM writes */
+     if (ram_write_tracking_start()) {
+         goto fail;
 -- 
 2.31.1
 
