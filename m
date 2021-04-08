@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC4B357D9F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 09:51:27 +0200 (CEST)
-Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C1F357DAF
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 09:56:10 +0200 (CEST)
+Received: from localhost ([::1]:37312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUPRl-0002po-Ml
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 03:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
+	id 1lUPWL-0004BQ-1e
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 03:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lUPQJ-00022m-W0
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:49:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31994)
+ id 1lUPV7-0003iw-7s
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:54:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lUPQG-0000b2-UC
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:49:55 -0400
+ id 1lUPV4-0003bs-TY
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:54:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617868192;
+ s=mimecast20190719; t=1617868490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JQN7p/mvgr92DHYNIoKpLKG4omPiwLER183pTHq1OWg=;
- b=QNJWgBE/bbzVZL6i27qV52Vy5P5aPqJmY1+0D9+I+ckasgARnk2uc7eB3miArBSnr1TgGx
- 3p1kY8C8b5n9C3ynhc/s8d8+cBnyNZ9G9R8vdvL1Sek5kcZP2Nat3WJmrngnHoAQ3Km+E3
- YL6eZIQ/WXc4XAMg8yMHBQfjirfnKcQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-vI8ipS59Naaua-rYQKRqjg-1; Thu, 08 Apr 2021 03:49:50 -0400
-X-MC-Unique: vI8ipS59Naaua-rYQKRqjg-1
-Received: by mail-ej1-f72.google.com with SMTP id bg7so467876ejb.12
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 00:49:50 -0700 (PDT)
+ bh=xMbR4bRL8enGsR81t+jYaZGq44eXz5MkNFDQWGxQf8A=;
+ b=TcM+I0REth08Df3I0mdarQ2voZ8SkhlUt47XWNzowXvd9UHmn6aKCyxx8HX6gMhobYaoY/
+ av94jv6+Ef6qJhLyw/wfDoFoCIYN/FgArCWd71vNH2NQtkCfI8Cx389BCA4WXqzH7qKndI
+ S4qYaiuie1FvwIepfwmRWrsDncO9aQs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-2nAGBOtuNWalo0cKRK9K6A-1; Thu, 08 Apr 2021 03:54:46 -0400
+X-MC-Unique: 2nAGBOtuNWalo0cKRK9K6A-1
+Received: by mail-ed1-f72.google.com with SMTP id r6so625332edh.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 00:54:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JQN7p/mvgr92DHYNIoKpLKG4omPiwLER183pTHq1OWg=;
- b=gyGC4j0jH/qLLwYwtLKwpRu7CzUWf3SO6Frak5LveK9MAdtCPgEy+2j4G5tgYjt22b
- dQsyN9r+sml4E212a9F9+XLvdYjuO9bAMQ4RWB+t2Mds4ZX63Vx3Ioz+8jS4zTZ2aPg9
- TTjietKvBzWS4q1Q1lwjoS7kox/6k0eldNBrERbj6OKVZE43CA4/yzXwzkiOASafeMyD
- DldVcasruWoiQ9Dzu2gSieJ5P/ABglENtzkDK5W1V/r4zJatRxImeUk74gFoIp8vXBjJ
- zvAoObHOrDgEWW/BVpPAE9IuaGY2Dw8Vy9KNx7v/wD7bZRF/2LgULsRgdA3CVl045eg4
- o8AA==
-X-Gm-Message-State: AOAM530Xql8YwYRVjfXU+wpmMs1zv5g8gEtUSGidZIjn86rKudQwXJbo
- yzV5tUxk6tH5o/EaCxpZc3y3FJFI4s09oVFrFBUQLUotEDPI+j8cdCQhRcXZl7pJREpSFY6S99f
- wtXojTOezTPX4tic=
-X-Received: by 2002:aa7:df81:: with SMTP id b1mr9680981edy.1.1617868189611;
- Thu, 08 Apr 2021 00:49:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMdqM9HXHJbmdiLZXPBdXascSOwn8hc/APtS8GqVkxv53UuEbP9TG7ZzJDaBvU8AemFoXOtQ==
-X-Received: by 2002:aa7:df81:: with SMTP id b1mr9680964edy.1.1617868189433;
- Thu, 08 Apr 2021 00:49:49 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xMbR4bRL8enGsR81t+jYaZGq44eXz5MkNFDQWGxQf8A=;
+ b=XqrQuZiWLQn6iVHy4vnzMhiPPyVcCxC8B/FhCkglwatcBcuINe4Fth+bSX3Rs5gYGE
+ LmzPV6Mx0ZrdN5yksUHiVlVvGdYV9KcksdA+I/fD3IXfMkH/8c6ep5+jg5/sXyIcYyN/
+ Q9xoPl8SJNcPhmv4y9cDs/Xm1wC5sDXTjZrkPX2azbq0JxCimoPhEQdlqWZYwbEk/x6c
+ g/e9tHvuOHx2cCtBA/TXfSOF77neMYZe6QspjMXjXiHNBixwJFrjUDIbWOfX1NMa7Kne
+ 81j6MUTuv3e0ADkojwdNv50MEmteogxl6PTJOQb+zTggEilxC6sb2VtOv4H8myuQ8BQI
+ zziQ==
+X-Gm-Message-State: AOAM533b8mFZ8iIhYG3q2bFoNJv1SABckYhB/jsPPc/BnAzpnybhpy3I
+ /VXlu6Iks+0l1dF3lWUccu05UYlwdElvzNofl2wRHsNrsLCMOJPL4E33CbZrMKnfkCIBPwLTMeO
+ uoGSPZ3Lh0DIb5ew=
+X-Received: by 2002:a17:907:3e12:: with SMTP id
+ hp18mr8600111ejc.366.1617868482809; 
+ Thu, 08 Apr 2021 00:54:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXYZk9Tc/zAm4UdMqdBkIKtxCpXEBrG1ChwHFn1Cwt25sF1lABFHkf5rufSncwNWnwzeD52w==
+X-Received: by 2002:a17:907:3e12:: with SMTP id
+ hp18mr8600101ejc.366.1617868482668; 
+ Thu, 08 Apr 2021 00:54:42 -0700 (PDT)
 Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
  [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id q16sm17239397edv.61.2021.04.08.00.49.48
+ by smtp.gmail.com with ESMTPSA id z4sm4163680edb.97.2021.04.08.00.54.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 00:49:49 -0700 (PDT)
-Date: Thu, 8 Apr 2021 09:49:46 +0200
+ Thu, 08 Apr 2021 00:54:42 -0700 (PDT)
+Date: Thu, 8 Apr 2021 09:54:39 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/2] block/rbd: fix memory leak in qemu_rbd_connect()
-Message-ID: <20210408074946.kllbenurvccvy67z@steredhat>
+To: Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 0/2] block/rbd: fix memory leaks
+Message-ID: <20210408075439.qon4qf62542mrzoc@steredhat>
 References: <20210329150129.121182-1-sgarzare@redhat.com>
- <20210329150129.121182-2-sgarzare@redhat.com>
- <87im4zddq1.fsf@dusky.pond.sub.org>
+ <b6c205ab-356a-ed3c-0442-105668db19d9@redhat.com>
+ <87y2duzb7a.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <87im4zddq1.fsf@dusky.pond.sub.org>
+In-Reply-To: <87y2duzb7a.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -82,7 +87,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,48 +102,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Florian Florensa <fflorensa@online.net>,
- Jason Dillaman <dillaman@redhat.com>
+ Florian Florensa <fflorensa@online.net>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 06, 2021 at 10:22:30AM +0200, Markus Armbruster wrote:
->Stefano Garzarella <sgarzare@redhat.com> writes:
+On Wed, Apr 07, 2021 at 11:38:17AM +0200, Markus Armbruster wrote:
+>Max Reitz <mreitz@redhat.com> writes:
 >
->> In qemu_rbd_connect(), 'mon_host' is allocated by qemu_rbd_mon_host()
->> using g_strjoinv(), but it's only freed in the error path, leaking
->> memory in the success path as reported by valgrind:
+>> On 29.03.21 17:01, Stefano Garzarella wrote:
+>>> This series fixes two memory leaks, found through valgrind, in the
+>>> rbd driver.
+>>> Stefano Garzarella (2):
+>>>    block/rbd: fix memory leak in qemu_rbd_connect()
+>>>    block/rbd: fix memory leak in qemu_rbd_co_create_opts()
+>>>   block/rbd.c | 10 ++++++----
+>>>   1 file changed, 6 insertions(+), 4 deletions(-)
 >>
->>   80 bytes in 4 blocks are definitely lost in loss record 5,028 of 6,516
->>      at 0x4839809: malloc (vg_replace_malloc.c:307)
->>      by 0x5315BB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->>      by 0x532B6FF: g_strjoinv (in /usr/lib64/libglib-2.0.so.0.6600.8)
->>      by 0x87D07E: qemu_rbd_mon_host (rbd.c:538)
->>      by 0x87D07E: qemu_rbd_connect (rbd.c:562)
->>      by 0x87E1CE: qemu_rbd_open (rbd.c:740)
->>      by 0x840EB1: bdrv_open_driver (block.c:1528)
->>      by 0x8453A9: bdrv_open_common (block.c:1802)
->>      by 0x8453A9: bdrv_open_inherit (block.c:3444)
->>      by 0x8464C2: bdrv_open (block.c:3537)
->>      by 0x8108CD: qmp_blockdev_add (blockdev.c:3569)
->>      by 0x8EA61B: qmp_marshal_blockdev_add (qapi-commands-block-core.c:1086)
->>      by 0x90B528: do_qmp_dispatch_bh (qmp-dispatch.c:131)
->>      by 0x907EA4: aio_bh_poll (async.c:164)
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
 >>
->> Fix freeing 'mon_host' also when qemu_rbd_connect() ends correctly.
->>
->> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>> I’m not quite sure whether this is fit for 6.0...  I think it’s too
+>> late for rc2, so I don’t know.
 >
->I believe this
->Fixes: 0a55679b4a5061f4d74bdb1a0e81611ba3390b00
-
-Yep :-)
-
+>This the maintainers' call to make.
 >
->Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>* PATCH 1:
+>
+>  CON: Old bug, probably 2.9, i.e. four years
+>
+>  PRO: The fix is straightforward
+>
+>* PATCH 2:
+>
+>  NEUTRAL: Not recent from upstream's point of view (5.0), but
+>  downstreams may have different ideas
+>
+>  PRO: The fix is trivial
+>
+>I encourage you to take at least PATCH 2.
 >
 
-Thanks,
+Kevin queued them up, thank you both for the review,
 Stefano
 
 
