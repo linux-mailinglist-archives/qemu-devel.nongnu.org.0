@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FF53583B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 14:51:42 +0200 (CEST)
-Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01ADE3583F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 14:59:13 +0200 (CEST)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUU8L-0004zw-1o
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 08:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48280)
+	id 1lUUFb-0000zH-KB
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 08:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUU5z-0003Za-8D
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 08:49:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUU5w-000806-Td
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 08:49:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617886151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fOlSwm+26bFhmayJERO08hpul/Mw9HV+pNET1iY1YG4=;
- b=gYV6xsytckjHZSPmKybUBGvE3hPKZwlYj7Gljue4q15L4W0zaJHN8IDIuBOOaKS0UeqRvp
- U1seidIi410dE7rZZitUYuwrVt1O7fGMlVEOFlQi3zX7XXTHRFGshVrkxxrmTJd9uZzVCZ
- ZsmXM69DvujCVT7Q+68uma4ctsNxDSM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-1DAIm4KXNOmjWxp1wR9cmA-1; Thu, 08 Apr 2021 08:49:09 -0400
-X-MC-Unique: 1DAIm4KXNOmjWxp1wR9cmA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF7910054F6;
- Thu,  8 Apr 2021 12:49:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2370D5C1C4;
- Thu,  8 Apr 2021 12:49:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 86ADF1132D66; Thu,  8 Apr 2021 14:49:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-References: <20210322154024.15011-1-s.reiter@proxmox.com>
- <YG2xUD5M7RCuIe+X@merkur.fritz.box>
- <87lf9tces9.fsf@dusky.pond.sub.org>
- <YG7akVvfY30Q7Cj1@merkur.fritz.box>
-Date: Thu, 08 Apr 2021 14:49:02 +0200
-In-Reply-To: <YG7akVvfY30Q7Cj1@merkur.fritz.box> (Kevin Wolf's message of
- "Thu, 8 Apr 2021 12:27:29 +0200")
-Message-ID: <871rblaqm9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lUUED-0008O3-4Z; Thu, 08 Apr 2021 08:57:45 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:34493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lUUE7-0004Cy-EY; Thu, 08 Apr 2021 08:57:44 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id v3so217120ybi.1;
+ Thu, 08 Apr 2021 05:57:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r//7tcx0xlmshnf883CSDQJNDU8B0gd6TUykawSoQjQ=;
+ b=uGjkxSt0ZoOLfP19uIQ7u4Mf+Sssl91ed4u1ziVa2r5vDfLcG/3vaT7IP9Md+9exj0
+ 43ca2ZvWluhpeVruupFnDwvWZRcAtsGP+brEN2akG5s2bRQjSGR9UJKl9JL1G9uZ3jmR
+ 1/LIgFriBiN53ne79B8leKXDXRPqZCsez0nu+UMAjLdDkdYUjXC9NR0XLOa5PNrmUB1y
+ ppqcZComqerfDskhLGzRwcuAxjnBnC1dblhhXEKrrOk+Qq12bYAdD4mBz5pR714lvOPw
+ UX5NJQq6LwLfV2gZHaeAm6IkmZf/khwQNnMl4d1uenbc3l81FgjoB6yIAMyk2GTf1Bgo
+ ph5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r//7tcx0xlmshnf883CSDQJNDU8B0gd6TUykawSoQjQ=;
+ b=ryMFDgpMioTHzR8YXwu4KRH7OZ+yvVZvRVOScdb20qc/qHFCySgRHaw8DkJ+5bFpXo
+ WQwZvV59ArqucpOe9btJBmf6KAdHcWmVLoiydxvmFi9dWwQgLXvwwi7TFiR/Prsl9kz1
+ y3qUNWcYhDBEbaWgKgsxD09mZSYvHnINskoeBnEUAD/Cz/CJVMyBoiRdXCYzNgMFYMlA
+ usyQqZVW4hLGTPn/PBUN43FVd76NNbjdYylyTnFf3HvGmm4hPw0FRAh3SzHf2dERrKeW
+ bR/T+gnd6BJNum4WEbGm7P05KRbGo5XniHaFCKYrIheVeSQaUrj6t44hULNgCfVpCEOv
+ XiiA==
+X-Gm-Message-State: AOAM531yYDEHRN8kYCP6U66IwDGRT53r/AsTPikWSAtSweRyOQ9XV1g+
+ +epMZ+rzcK65Ct/32GcyYixDjUG3+BVST7coW9o=
+X-Google-Smtp-Source: ABdhPJz4osEZebQ723Ma8FubFhOIzASvi37wb2FSfxy1xpNLRBHDEyehdS49JE6weyYkZsQnZKugBEVT6s5b4aVnKUk=
+X-Received: by 2002:a25:afca:: with SMTP id d10mr10612469ybj.517.1617886653066; 
+ Thu, 08 Apr 2021 05:57:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <cover.1617367533.git.alistair.francis@wdc.com>
+ <8c6c6c2e9feb7709b5d23eee57d96e322ac8e5a7.1617367533.git.alistair.francis@wdc.com>
+In-Reply-To: <8c6c6c2e9feb7709b5d23eee57d96e322ac8e5a7.1617367533.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 8 Apr 2021 20:57:21 +0800
+Message-ID: <CAEUhbmX6LCmkyLt2Ae95J6mhGpk3AGD+PNV7TuWAV1K58+4KCQ@mail.gmail.com>
+Subject: Re: [PATCH v1 4/8] target/riscv: Add ePMP CSR access functions
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,65 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>, qemu-devel@nongnu.org,
- Wolfgang Bumiller <w.bumiller@proxmox.com>
+Cc: weiying_hou@outlook.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Ethan.Lee.QNL@gmail.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
+ camiyoru@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> Am 08.04.2021 um 11:21 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->> 
->> > Am 22.03.2021 um 16:40 hat Stefan Reiter geschrieben:
->> >> The QMP dispatcher coroutine holds the qmp_queue_lock over a yield
->> >> point, where it expects to be rescheduled from the main context. If a
->> >> CHR_EVENT_CLOSED event is received just then, it can race and block the
->> >> main thread on the mutex in monitor_qmp_cleanup_queue_and_resume.
->> >> 
->> >> monitor_resume does not need to be called from main context, so we can
->> >> call it immediately after popping a request from the queue, which allows
->> >> us to drop the qmp_queue_lock mutex before yielding.
->> >> 
->> >> Suggested-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
->> >> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->> >> ---
->> >> v2:
->> >> * different approach: move everything that needs the qmp_queue_lock mutex before
->> >>   the yield point, instead of moving the event handling to a different context
->> >
->> > The interesting new case here seems to be that new requests could be
->> > queued and the dispatcher coroutine could be kicked before yielding.
->> > This is safe because &qmp_dispatcher_co_busy is accessed with atomics
->> > on both sides.
->> >
->> > The important part is just that the first (conditional) yield stays
->> > first, so that the aio_co_wake() in handle_qmp_command() won't reenter
->> > the coroutine while it is expecting to be reentered from somewhere else.
->> > This is still the case after the patch.
->> >
->> > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
->> 
->> Thanks for saving me from an ugly review headache.
->> 
->> Should this go into 6.0?
+On Fri, Apr 2, 2021 at 8:50 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
-> This is something that the responsible maintainer needs to decide.
+> From: Hou Weiying <weiying_hou@outlook.com>
+>
+> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+> Message-Id: <SG2PR02MB26348FDC30678B3177B5CF3893450@SG2PR02MB2634.apcprd02.prod.outlook.com>
+> [ Changes by AF:
+>  - Rebase on master
+>  - Fix build errors
+>  - Fix some style issues
+> ]
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu.h        |  1 +
+>  target/riscv/pmp.h        | 14 ++++++++++++++
+>  target/riscv/csr.c        | 22 ++++++++++++++++++++++
+>  target/riscv/pmp.c        | 34 ++++++++++++++++++++++++++++++++++
+>  target/riscv/trace-events |  3 +++
+>  5 files changed, 74 insertions(+)
+>
 
-Yes, and that's me.  I'm soliciting opinions.
-
-> If it helps you with the decision, and if I understand correctly, it is
-> a regression from 5.1, but was already broken in 5.2.
-
-It helps.
-
-Even more helpful would be a risk assessment: what's the risk of
-applying this patch now vs. delaying it?
-
-If I understand Stefan correctly, Proxmox observed VM hangs.  How
-frequent are these hangs?  Did they result in data corruption?
-
-How confident do we feel about the fix?
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
