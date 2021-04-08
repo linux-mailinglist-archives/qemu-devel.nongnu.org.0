@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A9C358C1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 20:23:17 +0200 (CEST)
-Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D586358CC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 20:36:08 +0200 (CEST)
+Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUZJE-0003hq-LP
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 14:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49922)
+	id 1lUZVe-0008V2-SA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 14:36:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lUZHQ-00032B-J2
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:21:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lUZHN-0003Kz-Ll
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:21:24 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B5F561130;
- Thu,  8 Apr 2021 18:21:15 +0000 (UTC)
-Date: Thu, 8 Apr 2021 19:21:12 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
-Message-ID: <20210408182112.GC7676@arm.com>
-References: <8977120b-841d-4882-2472-6e403bc9c797@redhat.com>
- <20210331092109.GA21921@arm.com>
- <d545a051-a02a-4c3a-0afe-66612839ba32@redhat.com>
- <86a968c8-7a0e-44a4-28c3-bac62c2b7d65@arm.com>
- <20210331184311.GA10737@arm.com>
- <e2612bd8-b356-a9cd-cfdf-26f4aa813578@arm.com>
- <20210407151458.GC21451@arm.com>
- <5e5bf772-1e4d-ca59-a9d8-058a72dfad4f@arm.com>
- <20210408141853.GA7676@arm.com>
- <bfcd1c41-92fb-d4ee-34b1-7beb6b6c9fd8@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lUZTF-00074N-SU
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:33:37 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:33301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lUZTA-0001pI-H1
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:33:37 -0400
+Received: by mail-pg1-x531.google.com with SMTP id t22so2042543pgu.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 11:33:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WgwC6+hFz+TB3NYM6gJhEjKyEs4qCMPETynqq+oMI90=;
+ b=EmSSTWyRhagPmB4HheTS5kAyfM6XI24okBFT+svJ8KELdW+JEjHHc9xryV4VQukJhV
+ 4YwCppmm/KLoG2CVBwz2FTlwv5//Sai+H4Cdj5ItdY3ibLPTKiW0TOxLc0DoHn3+ajdZ
+ 8VMj6JFTpHhjdnG195ZEHjBksIwND8XGMfH18RV73RwqjPCwovhYP6Q9kOjPTZZpED63
+ MnQfqQXrksG56RW5m81nfefRhQjPz7Kf+k5TD+DHEv6V7jhkofgolzmVtpI9TCXuLXtp
+ WLXcIbXIuFgxlfECAixzQfMTaDPIpjZ+sb1Leue5VdCS0btraxvp5B8iThtxWIGHs6of
+ FA6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WgwC6+hFz+TB3NYM6gJhEjKyEs4qCMPETynqq+oMI90=;
+ b=WyhA/5CeVq4FkRMPAMD2RucJNutq/9CO8GoU2UszbOW8ZamJsDuJVRPR9ce7xL7FEk
+ id32zn/Uej+WQeW/TcwxVg0A4gqxP6FdLmDpeHy0Pixs2iHBti05Ff0DAAc0NS6NIjV8
+ B7DZBSq4zCj4+g6cWFapGQ8g39SkriXfwGDxiW5VDBSJkANe0O8FdPZdg8lRM2TPHP2q
+ GkEyusgL9/iQoiESbq1rVMr4hJ8+QNYW/o+R+oTo2R4WeeC0Ef2R2yJPSJumTkv3xfLB
+ SRzSDhmXdd7tmkU/q//Yos9p6prl5xbeHgwwse4jjOn1C2CBF6X7wbNo1CNGdHrnXvmA
+ pbXQ==
+X-Gm-Message-State: AOAM532ybniZLgXBGcOLZ4wJsOvGtdUvfxmiamucjEn1wIKDLFvFs93u
+ eHpkkTPAHV6EcThsmNgZYzFiig==
+X-Google-Smtp-Source: ABdhPJwtjUcHE1s2tBeINH5eFatV/aZtDToNEE6YmWCtXBNlgo37UTQgvDcOWFIUDYX1i7OxS3DGTw==
+X-Received: by 2002:a63:eb50:: with SMTP id b16mr9127532pgk.270.1617906810785; 
+ Thu, 08 Apr 2021 11:33:30 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id w134sm168281pfd.173.2021.04.08.11.33.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Apr 2021 11:33:30 -0700 (PDT)
+Subject: Re: [PATCH] vmstate: Constify some VMStateDescriptions
+To: Keqian Zhu <zhukeqian1@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, qemu-trivial@nongnu.org
+References: <20210408140706.23412-1-zhukeqian1@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <65ecfe1d-4a88-e432-7689-390c76e64d45@linaro.org>
+Date: Thu, 8 Apr 2021 11:33:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bfcd1c41-92fb-d4ee-34b1-7beb6b6c9fd8@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210408140706.23412-1-zhukeqian1@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,72 +87,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- qemu-devel@nongnu.org, Marc Zyngier <maz@kernel.org>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
- Thomas Gleixner <tglx@linutronix.de>,
- Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
- Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 08, 2021 at 08:16:17PM +0200, David Hildenbrand wrote:
-> On 08.04.21 16:18, Catalin Marinas wrote:
-> > On Wed, Apr 07, 2021 at 04:52:54PM +0100, Steven Price wrote:
-> > > On 07/04/2021 16:14, Catalin Marinas wrote:
-> > > > On Wed, Apr 07, 2021 at 11:20:18AM +0100, Steven Price wrote:
-> > > > > On 31/03/2021 19:43, Catalin Marinas wrote:
-> > > > > > When a slot is added by the VMM, if it asked for MTE in guest (I guess
-> > > > > > that's an opt-in by the VMM, haven't checked the other patches), can we
-> > > > > > reject it if it's is going to be mapped as Normal Cacheable but it is a
-> > > > > > ZONE_DEVICE (i.e. !kvm_is_device_pfn() + one of David's suggestions to
-> > > > > > check for ZONE_DEVICE)? This way we don't need to do more expensive
-> > > > > > checks in set_pte_at().
-> > > > > 
-> > > > > The problem is that KVM allows the VMM to change the memory backing a slot
-> > > > > while the guest is running. This is obviously useful for the likes of
-> > > > > migration, but ultimately means that even if you were to do checks at the
-> > > > > time of slot creation, you would need to repeat the checks at set_pte_at()
-> > > > > time to ensure a mischievous VMM didn't swap the page for a problematic one.
-> > > > 
-> > > > Does changing the slot require some KVM API call? Can we intercept it
-> > > > and do the checks there?
-> > > 
-> > > As David has already replied - KVM uses MMU notifiers, so there's not really
-> > > a good place to intercept this before the fault.
-> > > 
-> > > > Maybe a better alternative for the time being is to add a new
-> > > > kvm_is_zone_device_pfn() and force KVM_PGTABLE_PROT_DEVICE if it returns
-> > > > true _and_ the VMM asked for MTE in guest. We can then only set
-> > > > PG_mte_tagged if !device.
-> > > 
-> > > KVM already has a kvm_is_device_pfn(), and yes I agree restricting the MTE
-> > > checks to only !kvm_is_device_pfn() makes sense (I have the fix in my branch
-> > > locally).
-> > 
-> > Indeed, you can skip it if kvm_is_device_pfn(). In addition, with MTE,
-> > I'd also mark a pfn as 'device' in user_mem_abort() if
-> > pfn_to_online_page() is NULL as we don't want to map it as Cacheable in
-> > Stage 2. It's unlikely that we'll trip over this path but just in case.
-> > 
-> > (can we have a ZONE_DEVICE _online_ pfn or by definition they are
-> > considered offline?)
+On 4/8/21 7:07 AM, Keqian Zhu wrote:
+> Constify vmstate_ecc_state and vmstate_x86_cpu.
 > 
-> By definition (and implementation) offline. When you get a page =
-> pfn_to_online_page() with page != NULL, that one should never be ZONE_DEVICE
-> (otherwise it would be a BUG).
-> 
-> As I said, things are different when exposing dax memory via dax/kmem to the
-> buddy. But then, we are no longer talking about ZONE_DEVICE.
+> Signed-off-by: Keqian Zhu<zhukeqian1@huawei.com>
+> ---
+>   hw/block/ecc.c           | 2 +-
+>   include/hw/block/flash.h | 2 +-
+>   target/i386/cpu.h        | 2 +-
+>   target/i386/machine.c    | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
 
-Thanks David, it's clear now.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Catalin
+r~
 
