@@ -2,106 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC7D3583A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 14:51:12 +0200 (CEST)
-Received: from localhost ([::1]:56194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1DF3583B4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 14:51:42 +0200 (CEST)
+Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUU7r-0004O8-OG
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 08:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46458)
+	id 1lUU8L-0004yI-FP
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 08:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lUTxG-0006Ky-0w; Thu, 08 Apr 2021 08:40:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22620)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lUU3E-0001n8-PK
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 08:46:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lUTxD-00035o-QY; Thu, 08 Apr 2021 08:40:13 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 138CY5Gn013901; Thu, 8 Apr 2021 08:40:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=H90tHts+tegsG6nD7ATKuW8WsRhqsYZ+Gr9XsG6//og=;
- b=ixKdTzwdsWsBwJtquedm8QIhJ8R4Bum3QuFD/VBWMCNd/NAYUB18iLoN/e8p8fx5BS6e
- 4mXuKbGFD98f5V+dkYpAmwCTRtSe97fVj0OohPI6fnt4IN41RL8S6DG4GLrkb/gVr92b
- K2TNPUQe4v4Yh75yX/MY2AjOPjyE0XQIGyQpfXaai4LKVqi2sEnqXQY6eCJWm9eFbi1R
- JAQYIgLQQZ1obD5a1qB3hau43KhOJASPici2RF1bCmD2UDStl1sYpRSI7dvdHSZXD7Ix
- s4Sj2Yx1xnCVo16TATjT2ss3I57y3hTPkA0qc53sX02j6GFyIhnMAysSlQVjy+KYtlSL XA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rvph8f9j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Apr 2021 08:40:10 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 138CYFOr014461;
- Thu, 8 Apr 2021 08:40:09 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37rvph8f8t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Apr 2021 08:40:09 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 138CWffB009492;
- Thu, 8 Apr 2021 12:40:07 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04fra.de.ibm.com with ESMTP id 37rvc5guju-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Apr 2021 12:40:07 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 138Ce2o928246426
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 8 Apr 2021 12:40:02 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 65960A4040;
- Thu,  8 Apr 2021 12:40:02 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 65EB3A4053;
- Thu,  8 Apr 2021 12:40:01 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.29.249])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu,  8 Apr 2021 12:40:01 +0000 (GMT)
-Date: Thu, 8 Apr 2021 14:39:59 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v1 1/1] s390x: css: report errors from
- ccw_dstream_read/write
-Message-ID: <20210408143959.7b6a0fc3.pasic@linux.ibm.com>
-In-Reply-To: <20210408110232.2bf02df4.cohuck@redhat.com>
-References: <1617695053-7328-1-git-send-email-pmorel@linux.ibm.com>
- <1617695053-7328-2-git-send-email-pmorel@linux.ibm.com>
- <20210407194711.459176c3.pasic@linux.ibm.com>
- <20210408110232.2bf02df4.cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lUU38-0006U1-4v
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 08:46:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617885977;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ss0cujC4ewjbQ9nAMsM8ZdeNN+or1B8xI2Jf6sy9lNk=;
+ b=YoFJui4jGVBlrbxhzhDT+Tqh/wNdWUN7HhR6amC6KjifYrf9OjgS1F0Ewh562f6UKuFQvH
+ fkCUpm1aiF5YLKyh2WUT+8WUZzoGdRAU5ZE0jKpudpUgP67KqDIaIS9O/U/NttkuE8wZhe
+ QiUzpdizyjjJOLqBJYdJ0YRkZWRNX7Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-lzmEjWZvMIqkM0oMr8U2yA-1; Thu, 08 Apr 2021 08:46:11 -0400
+X-MC-Unique: lzmEjWZvMIqkM0oMr8U2yA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E1FC81746A
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 12:46:11 +0000 (UTC)
+Received: from redhat.com (ovpn-115-81.ams2.redhat.com [10.36.115.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CEA3810013D7;
+ Thu,  8 Apr 2021 12:46:09 +0000 (UTC)
+Date: Thu, 8 Apr 2021 13:46:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: QMP introspecting device props common to a bus type
+Message-ID: <YG77DnwTyCVPL3nw@redhat.com>
+References: <YG23ILea4H36TllU@redhat.com> <87pmz5at1v.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <87pmz5at1v.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: k5uDrhgpyTtSlveRkUA6MdWJ-mfS2cZU
-X-Proofpoint-GUID: e5iuqivAGI3rY3sT5zNqPH3VEHx0Z7Yu
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-08_03:2021-04-08,
- 2021-04-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 priorityscore=1501 clxscore=1015 malwarescore=0
- suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104080087
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,44 +81,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com,
- Pierre Morel <pmorel@linux.ibm.com>, david@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- imbrenda@linux.ibm.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Apr 2021 11:02:32 +0200
-Cornelia Huck <cohuck@redhat.com> wrote:
-
-> On Wed, 7 Apr 2021 19:47:11 +0200
-> Halil Pasic <pasic@linux.ibm.com> wrote:
+On Thu, Apr 08, 2021 at 01:56:28PM +0200, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> > So this begs the question, do we need this fixed for old releases as well?
-> > 
-> > My answer is yes we do. Conny what do you think?  
+> > When introspecting properties for devices, libvirt issues a sequence of
+> > QMP  'device-list-properties' commands, one for each device type we
+> > need info for.  The result of this command tells us about all properties
+> > possible on that specific device, which is generally just fine.
+> >
+> > Every now and then though, there are properties that are inherited from
+> > / defined by the parent class, usually props that are common to all
+> > devices attached to a given bus type.
+> >
+> > The current case in point is the "acpi-index" property that was added to
+> > the "PCI" bus type, that is a parent for any type that is a PCI dev.
+> >
+> > Generally when libvirt adds support for a property, it will enable it
+> > across all devices that can support the property. So we're enabling use
+> > of "acpi-index" across all PCI devices.
+> >
+> > The question thus becomes how should we probe for existence of the
+> > "acpi-index" property. The qemu-system-x86_64 emulator has somewhere
+> > around 150 user creatable PCI devices according to "-device help".
+> >
+> > The existance of a class hierarchy is explicitly not exposed in QMP
+> > because we consider that an internal impl detail, so we can't just
+> > query "acpi-index" on the "PCI" parent type. 
 > 
-> What do you mean with "old releases"? The dstream rework was in 2.11,
-> and I doubt that anyone is using anything older, or a downstream
-> release that is based on pre-2.11.
+> Not true.
 > 
-> If you mean "include in stable", then yes, we can do that; if we want
-> the commit in 6.0, I need the final version soon.
+> qapi/qom.json:
+> 
+>     ##
+>     # @ObjectTypeInfo:
+>     #
+>     # This structure describes a search result from @qom-list-types
+>     #
+>     # @name: the type name found in the search
+>     #
+>     # @abstract: the type is abstract and can't be directly instantiated.
+>     #            Omitted if false. (since 2.10)
+>     #
+>     # @parent: Name of parent type, if any (since 2.10)
+>     #
+>     # Since: 1.1
+>     ##
+>     { 'struct': 'ObjectTypeInfo',
+>       'data': { 'name': 'str', '*abstract': 'bool', '*parent': 'str' } }
+> 
+>     ##
+>     # @qom-list-types:
+>     #
+>     # This command will return a list of types given search parameters
+>     #
+>     # @implements: if specified, only return types that implement this type name
+>     #
+>     # @abstract: if true, include abstract types in the results
+>     #
+>     # Returns: a list of @ObjectTypeInfo or an empty list if no results are found
+>     #
+>     # Since: 1.1
+>     ##
+>     { 'command': 'qom-list-types',
+>       'data': { '*implements': 'str', '*abstract': 'bool' },
+>       'returns': [ 'ObjectTypeInfo' ],
+>       'allow-preconfig': true }
+> 
+> Example 1:
+> 
+>     {"execute": "qom-list-types", "arguments": {"abstract": true}}
+> 
+> returns all type names with their parent type names.
 
-With old releases, I wanted to say any QEMU that is still supported by
-us ;). For upstream it is backport to the stable versions currently in
-support.
+Ah, libvirt isn't setting abstract=true when listing types during its
+probing of QEMU capabilities, which is why I didn't see the parents.
 
-The commit message does not tell us if this is an enhancement or a
-bugfix, stable is not mentioned, and neither do we get the information
-since when is this problem existent. I simply wanted to have that
-discussion.
 
-Would it make sense to split this up into a virtio-ccw a css and a 3270
-patch? That way if there was a problem with let's say 3270, we could
-still keep the other two?
+> > We certainly don't want to issue 'device-list-properties' over and
+> > over for all 147 devices.
+> >
+> > If we just pick one device type, say virtio-blk-pci, and query that
+> > for "acpi-index", then our code is fragile because anyone can make
+> > a QEMU build that compiles-out a specific device. This is fairly
+> > unlikely for virtio devices, but never say never.
+> >
+> > For PCI, i'm tending towards probing for the "acpi-index" property on
+> > both "pci-bridge" and "pcie-root-port", as it seems unlikely that both
+> > of those will be compiled out of QEMU while still retaining PCI support.
+> >
+> > I'm wondering if QEMU maintainers have a view on "best practice" to
+> > probe for device props that are common to specific bus types ?
+> 
+> The obvious
+> 
+>     {"execute": "device-list-properties",
+>      "arguments": {"typename": "pci-device"}}
+> 
+> fails with "Parameter 'typename' expects a non-abstract device type".
+> But its cousin qom-list-properties works:
+> 
+>     {"execute": "qom-list-properties",
+>      "arguments": {"typename": "pci-device"}}
+>     {"return": [
+>      {"name": "type", "type": "string"},
+>      {"name": "parent_bus", "type": "link<bus>"},
+>      {"name": "realized", "type": "bool"},
+>      {"name": "hotplugged", "type": "bool"},
+>      {"name": "hotpluggable", "type": "bool"},
+>      {"name": "failover_pair_id", "type": "str"},
+>      {"name": "romfile", "type": "str"},
+>      {"name": "addr", "description": "Slot and optional function number, example: 06.0 or 06", "type": "int32"},
+>      {"name": "romsize", "type": "uint32"},
+>      {"name": "x-pcie-lnksta-dllla", "description": "on/off", "type": "bool"},
+>      {"name": "rombar", "type": "uint32"},
+>      {"name": "x-pcie-extcap-init", "description": "on/off", "type": "bool"},
+>      {"name": "acpi-index", "type": "uint32"},
+>      {"name": "multifunction", "description": "on/off", "type": "bool"},
+>      {"name": "legacy-addr", "type": "str"}]}
+> 
+> Does this help?
+
+Yes, its good.
+
+Is there any reason to use 'device-list-properties' at all, given that
+'qom-list-properties' exists and works for all types ?
+
 
 Regards,
-Halil
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
