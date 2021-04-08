@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D92B357D56
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 09:28:50 +0200 (CEST)
-Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CAC357D83
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 09:41:42 +0200 (CEST)
+Received: from localhost ([::1]:58296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUP5s-0005sn-BS
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 03:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60228)
+	id 1lUPIJ-00005K-Uv
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 03:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lUP4z-0005Li-DU
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46109)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lUPHL-0007pP-QF
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:40:39 -0400
+Received: from 5.mo51.mail-out.ovh.net ([188.165.49.213]:52656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lUP4v-0003it-J0
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:27:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617866867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qNj70kud8fNI4ZH8HL0d7dCtnVhpt46oZF7wMQg9hWo=;
- b=EYgdNPsYVaPdSTGWzbKTZ0KxZMf2m7d0M/aHEQFbfXQv4kijKYH29OMRcsv5LVGLzX7dyt
- e8pdhmdL7STLMZ/aT63KdPXGTKFGqgoWm3r/9mUO+ME8P55Yed2dKVUwO9obALz/8nt+Z6
- y/JFMpVlmyuPg94GGQeFFzfQqI/41io=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-LkKIH64dPeyi2jX5P54Ruw-1; Thu, 08 Apr 2021 03:27:42 -0400
-X-MC-Unique: LkKIH64dPeyi2jX5P54Ruw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE126107ACC7;
- Thu,  8 Apr 2021 07:27:40 +0000 (UTC)
-Received: from [10.36.113.184] (ovpn-113-184.ams2.redhat.com [10.36.113.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D8191724D;
- Thu,  8 Apr 2021 07:27:38 +0000 (UTC)
-Subject: Re: A question about the translation granule size supported by the
- vSMMU
-To: Kunkun Jiang <jiangkunkun@huawei.com>,
- Peter Maydell <peter.maydell@linaro.org>, linuc.decode@gmail.com
-References: <fa696532-5f04-aeeb-1ba3-6427675c6655@huawei.com>
- <4886d8d0-cca6-d4b2-4139-29ad52020f79@redhat.com>
- <d4b8b381-0883-4301-8967-d924ccc61ea0@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <0a3ae73c-af3a-9d80-2f30-55424a07d104@redhat.com>
-Date: Thu, 8 Apr 2021 09:27:36 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lUPHJ-0003Oh-SJ
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 03:40:39 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.148])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id B100427C9E9;
+ Thu,  8 Apr 2021 09:40:25 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 8 Apr 2021
+ 09:40:21 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0037ac3072b-0b78-4921-ad8d-45f17b3bb2be,
+ A36169EE3079FEED08DC2049B229DAFE10CEC3BC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 88.167.138.64
+Subject: Re: [PATCH 17/24] aspeed: Remove swift-bmc machine
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210407171637.777743-1-clg@kaod.org>
+ <20210407171637.777743-18-clg@kaod.org>
+ <CAFEAcA9LEO2BzghgCvp5hfFvRx1YyL5XZxY70FHPGwHeHxZZhA@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <016cb78c-ece3-15b6-20ed-29436595f621@kaod.org>
+Date: Thu, 8 Apr 2021 09:40:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <d4b8b381-0883-4301-8967-d924ccc61ea0@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA9LEO2BzghgCvp5hfFvRx1YyL5XZxY70FHPGwHeHxZZhA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d5065776-0c58-4d82-8057-4d3977946e52
+X-Ovh-Tracer-Id: 12926738306315488038
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudejkedguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,90 +71,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>, Keqian Zhu <zhukeqian1@huawei.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Adriana Kobylak <anoo@us.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kunkun,
-
-On 4/7/21 11:26 AM, Kunkun Jiang wrote:
-> Hi Eric,
+On 4/7/21 8:29 PM, Peter Maydell wrote:
+> On Wed, 7 Apr 2021 at 18:17, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> The SWIFT machine never came out of the lab and we already have enough
+>> AST2500 based OpenPower machines. Remove it.
+>>
+>> Cc: Adriana Kobylak <anoo@us.ibm.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > 
-> On 2021/4/7 3:50, Auger Eric wrote:
->> Hi Kunkun,
->>
->> On 3/27/21 3:24 AM, Kunkun Jiang wrote:
->>> Hi all,
->>>
->>> Recently, I did some tests on SMMU nested mode. Here is
->>> a question about the translation granule size supported by
->>> vSMMU.
->>>
->>> There is such a code in SMMUv3_init_regs():
->>>
->>>>     /* 4K and 64K granule support */
->>>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
->>>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
->>>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, SMMU_IDR5_OAS); /* 44
->>>> bits */
->>> Why is the 16K granule not supported? I modified the code
->>> to support it and did not encounter any problems in the
->>> test. Although 4K and 64K minimal granules are "strongly
->>> recommended", I think vSMMU should still support 16K.😉
->>> Are there other reasons why 16K is not supported here?
->> no there aren't any. The main reasons were 16KB support is optional and
->> supporting it increases the test matrix. Also it seems quite a few
->> machines I have access to do support 16KB granule. On the others I get
->>
->> "EFI stub: ERROR: This 16 KB granular kernel is not supported by your
->> CPU".
->>
->> Nevertheless I am not opposed to support it as it seems to work without
->> trouble. Just need to have an extra look at implied validity checks but
->> there shouldn't be much.
->>
->> Thanks
->>
->> Eric
-> Yes, you are right. In my opinion, it is necessary to check whether pSMMU
-> supports 16K to avoid the situation I mentioned below.
-> In SMMU nested mode, if vSMMU supports 16K and set pasid table to
-> pSMMU, it may get errors when pSMMU does translation table walk if
-> pSMMU doesn't support 16K (not tested). Do you think we need to add
-> an interface to get some pSMMU info?>
-> Maybe my consideration was superfluous.😁
-No it is not. At qemu level we have
-memory_region_iommu_set_page_size_mask() that is called from the VFIO
-device. It allows to pass such info to the IOMMU device (qemu
-b91774984249).
+> We've had QEMU releases with this machine in them, right?
+> If so, then we need to go through the usual deprecate-and-delete
+> cycle, we can't just drop it immediately.
 
-iommu_set_page_size_mask() cb needs to be implemented at SMMU QEMU
-device level. Also [PATCH 0/2] Domain nesting info for arm-smmu may
-allow to return other constraints from the pSMMU.
+You are right. Instead, I will add : 
 
-Thanks
+    mc->deprecation_reason = "redundant system. Please use a similar "
+        "OpenPOWER BMC, Witherspoon or Romulus.";
 
-Eric
-> 
-> Thanks,
-> Kunkun Jiang
->>> When in SMMU nested mode, it may get errors if pSMMU
->>> doesn't support 16K but vSMMU supports 16K. But we
->>> can get some settings of pSMMU to avoid this situation.
->>> I found some discussions between Eric and Linu about
->>> this [1], but this idea does not seem to be implemented.
->>>
->>> [1] https://lists.gnu.org/archive/html/qemu-arm/2017-09/msg00149.html
->>>
->>> Best regards,
->>> Kunkun Jiang
->>>
->>
->> .
-> 
-> 
+And we will drop the swift machine in QEMU 6.3
 
+Thanks,
+
+C.
 
