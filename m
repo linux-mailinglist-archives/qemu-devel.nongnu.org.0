@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7E3357F76
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:37:56 +0200 (CEST)
-Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB69357F7E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:41:12 +0200 (CEST)
+Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUR6p-0005oS-CC
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58906)
+	id 1lUR9z-0007mf-MU
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUR4B-0004Gp-R8
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:35:13 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:37413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUR44-00025y-3N
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:35:10 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id s15so1586672edd.4
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 02:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9fr384F81qEzKYWkp9qk5hm7AyIcUmksTmvWTPcHgO0=;
- b=YEhDysH1i4QP75ZWTdGRWjHF3n/huONBfBk1gtyx/U37knWsscbT8F0j6kTs8+swix
- p4u6BzXE9lZ9wU06k1vqbHkhgzJLMYCja0XX/k1IZyCM55NRFFPb2+uvQW+Pak824sZh
- +tAdq462uqOehswddqHTaaSNGV2jkwHzl5lORZ2HsmqaK4a+Z0buntRpov9Y1ElVgjKA
- fKilkYVua2fHPe88al5DUxeDyu9vjrpHsotIFRmovJ/ulb0WI079ogMIwD9AIoUI4r7m
- L2gT2FWfbR5dheNlhppvU5RMRWOWvE1JVx6vNQ7AsYUHMl68pT2xdnwCW4xxZeIX5MRM
- O8Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9fr384F81qEzKYWkp9qk5hm7AyIcUmksTmvWTPcHgO0=;
- b=GSE4GVWKU5hDpGDIufgF+XlknbpNQJ+qMPckUfzwUrm2fSuZl+Gtbgo2CoEvO/Gm8W
- 3FC3owQuALASa+VdLyRF4x1qOkW4QDJaOToPXM/jqiVm84NlwdJlgUmWBVxGw7jmq4DX
- tjIucoJcyjgQ/X/oSVMbtbCqHK2C7fAd4mZl/Y3igyyKlFhAY3tLq5lw1PT5UYfjL+EB
- EtGZZit0MwJV6TUnf4tGYwNhw6LsI46cUtM5G3AHbkjaYFbVfIFBG2G6QIlw1pwQTDZT
- zgBD6cPypluh6taD3+vyNlRdQSBEMYuy2K6imA60K/KTBw1RrDUskWNn7B6olTnF6ELn
- fcjA==
-X-Gm-Message-State: AOAM533ovNYJx1oo/w7Kjd6Bl7jL+inmu8yW3qROAkTKAXKOKwbIoq4a
- PxzFbN5tzrV+jyvd7hMsrrjzC4MCudgcb3mHrmQZIQ==
-X-Google-Smtp-Source: ABdhPJz8A5JUGlnEHyCtdIvO1SO4FH0wwH4afA9NG2ntKEfXTYHF7dcMKFLF1hZQvDGVUZwy0n9ZU8DGyIA9RcItVQM=
-X-Received: by 2002:a05:6402:2746:: with SMTP id
- z6mr10186765edd.146.1617874502688; 
- Thu, 08 Apr 2021 02:35:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUR7R-0006Zm-CI
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:38:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUR7G-00047p-2r
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:38:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617874700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AI+rRgCFbYnX2FjobTqeo/QFZfz1KDGogsYXPAXWCTk=;
+ b=F5ni9V060bkSRnyf/3glD8BGQscP0Gw0ph+5KWic7/72jfNZTxqcL3AfDobjeUZNtu86wY
+ cess+iz1tUk8YgcabeA4Mr/TPlda1DYbgOt0eszKH6o4F/pX4NbXLMC28UydR3YEoZhTbo
+ sj8X/E3CCRsJSPbpJ/XOK/ov4oEkplI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-h9onpz09NLuyl8HqhZpiRg-1; Thu, 08 Apr 2021 05:38:18 -0400
+X-MC-Unique: h9onpz09NLuyl8HqhZpiRg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0B18802B40;
+ Thu,  8 Apr 2021 09:38:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5439A60C0F;
+ Thu,  8 Apr 2021 09:38:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BE9D5113865F; Thu,  8 Apr 2021 11:38:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH-for-6.0?] hw/block/fdc: Fix 'fallback' property on
+ sysbus floppy disk controllers
+References: <20210407133742.1680424-1-f4bug@amsat.org>
+Date: Thu, 08 Apr 2021 11:38:15 +0200
+In-Reply-To: <20210407133742.1680424-1-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 7 Apr 2021 15:37:42
+ +0200")
+Message-ID: <87ft01ce0o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210402084731.93-1-yuzenghui@huawei.com>
-In-Reply-To: <20210402084731.93-1-yuzenghui@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Apr 2021 09:34:22 +0000
-Message-ID: <CAFEAcA9Bisg-2u9Pc1vqUY6F5rUEQTd-sEgy_a5DiLoMAy=5+A@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt-acpi-build: Fix GSIV values of the {GERR,
- Sync} interrupts
-To: Zenghui Yu <yuzenghui@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,45 +83,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shannon Zhao <shannon.zhaosl@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, wanghaibin.wang@huawei.com,
- Prem Mallappa <prem.mallappa@broadcom.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2 Apr 2021 at 09:48, Zenghui Yu <yuzenghui@huawei.com> wrote:
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+
+> Setting the 'fallback' property corrupts the QOM instance state
+> (FDCtrlSysBus) because it accesses an incorrect offset (it uses
+> the offset of the FDCtrlISABus state).
 >
-> The GSIV values in SMMUv3 IORT node are not correct as they don't match
-> the SMMUIrq enumeration, which describes the IRQ<->PIN mapping used by
-> our emulated vSMMU.
->
-> Fixes: a703b4f6c1ee ("hw/arm/virt-acpi-build: Add smmuv3 node in IORT table")
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> Fixes: a73275dd6fc ("fdc: Add fallback option")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/arm/virt-acpi-build.c | 4 ++--
+>  hw/block/fdc.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index f5a2b2d4cb..60fe2e65a7 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -292,8 +292,8 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->          smmu->flags = cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE);
->          smmu->event_gsiv = cpu_to_le32(irq);
->          smmu->pri_gsiv = cpu_to_le32(irq + 1);
-> -        smmu->gerr_gsiv = cpu_to_le32(irq + 2);
-> -        smmu->sync_gsiv = cpu_to_le32(irq + 3);
-> +        smmu->sync_gsiv = cpu_to_le32(irq + 2);
-> +        smmu->gerr_gsiv = cpu_to_le32(irq + 3);
->
->          /* Identity RID mapping covering the whole input RID range */
->          idmap = &smmu->id_mapping_array[0];
-> --
+> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+> index 82afda7f3a7..a825c2acbae 100644
+> --- a/hw/block/fdc.c
+> +++ b/hw/block/fdc.c
+> @@ -2893,7 +2893,7 @@ static Property sysbus_fdc_properties[] =3D {
+>      DEFINE_PROP_SIGNED("fdtypeB", FDCtrlSysBus, state.qdev_for_drives[1]=
+.type,
+>                          FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type=
+,
+>                          FloppyDriveType),
+> -    DEFINE_PROP_SIGNED("fallback", FDCtrlISABus, state.fallback,
+> +    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
+>                          FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
+>                          FloppyDriveType),
+>      DEFINE_PROP_END_OF_LIST(),
+> @@ -2918,7 +2918,7 @@ static Property sun4m_fdc_properties[] =3D {
+>      DEFINE_PROP_SIGNED("fdtype", FDCtrlSysBus, state.qdev_for_drives[0].=
+type,
+>                          FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type=
+,
+>                          FloppyDriveType),
+> -    DEFINE_PROP_SIGNED("fallback", FDCtrlISABus, state.fallback,
+> +    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
+>                          FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
+>                          FloppyDriveType),
+>      DEFINE_PROP_END_OF_LIST(),
 
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
+On whether to pick this into 6.0...
 
-Applied to target-arm.next, thanks.
+The patch has no effect unless someone or something uses "fallback" with
+a non-ISA FDC.  There it fixes a bug.  The bug's exact impact is
+unknown.  I figure I could find out, but it doesn't seem to be worth the
+bother.
 
--- PMM
+Commit a73275dd6fc:
+
+    Currently, QEMU chooses a drive type automatically based on the inserte=
+d
+    media. If there is no disk inserted, it chooses a 1.44MB drive type.
+   =20
+    Change this behavior to be configurable, but leave it defaulted to 1.44=
+.
+   =20
+    This is not earnestly intended to be used by a user or a management
+    library, but rather exists so that pre-2.6 board types can configure it
+    to be a legacy value.
+
+We do so only for "isa-fdc", in hw/core/machine.c.
+
+I don't understand why we don't for the other devices, but that's
+outside this patch's scope.
+
+Downstreams could do it, but it wouldn't work.  They need this commit to
+make it work.
+
+Users (human or management application) should not use it, but of course
+they might anyway.  This commit makes such (unadvisable) usage safe.
+
+The reward is low, but so is the risk.  If I was the maintainer, I'd be
+tempted to take it up to rc3.
+
 
