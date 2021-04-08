@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4E335867A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:14:10 +0200 (CEST)
-Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95BE35871B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:24:55 +0200 (CEST)
+Received: from localhost ([::1]:46244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUVQ9-0002oN-3B
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40716)
+	id 1lUVaY-0003cr-Sf
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUVN0-0007jK-Ao
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:10:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUVMn-0001wc-9R
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:10:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617891039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u3/zusNK5SRbMrDodIu2zj2+HWUbx98GJ00vRCsH0us=;
- b=VZ1xTN1H3MEmSIEnvHC3t7ApmEJJmzvZV6QibZGWRcCtEK4+6d8Rum8h8FoCHZq0FFQMkJ
- ZBkzB6Nn/NMjJCH3IgCfOpf+G6HwTL1lCRXB+2cPKVyzZEtOGTmJC0zwnri7iWMJtwh8Z7
- prqY5ysVH7tEZY5A4oU6rvUFGhN2MEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-vz0dkep6O8mdt0hsa4Wa8A-1; Thu, 08 Apr 2021 10:10:35 -0400
-X-MC-Unique: vz0dkep6O8mdt0hsa4Wa8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B664C73A4;
- Thu,  8 Apr 2021 14:10:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 186D310016F4;
- Thu,  8 Apr 2021 14:10:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8E639113525D; Thu,  8 Apr 2021 16:10:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH v2] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-References: <20210322154024.15011-1-s.reiter@proxmox.com>
- <YG2xUD5M7RCuIe+X@merkur.fritz.box>
- <87lf9tces9.fsf@dusky.pond.sub.org>
- <YG7akVvfY30Q7Cj1@merkur.fritz.box>
- <871rblaqm9.fsf@dusky.pond.sub.org>
- <1f326b87-b568-5aa5-011e-057e046c0717@proxmox.com>
-Date: Thu, 08 Apr 2021 16:10:31 +0200
-In-Reply-To: <1f326b87-b568-5aa5-011e-057e046c0717@proxmox.com> (Thomas
- Lamprecht's message of "Thu, 8 Apr 2021 15:27:51 +0200")
-Message-ID: <87tuog98a0.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lUVWi-0000DU-2n
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:20:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lUVWf-0007QY-Nk
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:20:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lUVWc-0002lt-9S
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 14:20:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 416042E8163
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 14:20:50 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 08 Apr 2021 14:11:22 -0000
+From: Babu Moger <1915063@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger dober60 imammedo markrhpearson paelzer
+ sergiodj ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Modifier: Babu Moger (babumoger)
+References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
+Message-Id: <161789108297.29345.9555788699258406579.malone@gac.canonical.com>
+Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: 9af02428832edb5ae707d1e6d412f565fb69063f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,87 +73,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
- Wolfgang Bumiller <w.bumiller@proxmox.com>
+Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Lamprecht <t.lamprecht@proxmox.com> writes:
+@Christian,
+Yes. This following patch fixes the problem
+ https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg01020.html
+ =
 
-> On 08.04.21 14:49, Markus Armbruster wrote:
->> Kevin Wolf <kwolf@redhat.com> writes:
->>> Am 08.04.2021 um 11:21 hat Markus Armbruster geschrieben:
->>>> Should this go into 6.0?
->>>
->>> This is something that the responsible maintainer needs to decide.
->> 
->> Yes, and that's me.  I'm soliciting opinions.
->> 
->>> If it helps you with the decision, and if I understand correctly, it is
->>> a regression from 5.1, but was already broken in 5.2.
->> 
->> It helps.
->> 
->> Even more helpful would be a risk assessment: what's the risk of
->> applying this patch now vs. delaying it?
->
-> Stefan is on vacation this week, but I can share some information, maybe it
-> helps.
->
->> 
->> If I understand Stefan correctly, Proxmox observed VM hangs.  How
->> frequent are these hangs?  Did they result in data corruption?
->
->
-> They were not highly frequent, but frequent enough to get roughly a bit over a
-> dozen of reports in our forum, which normally means something is off but its
-> limited to certain HW, storage-tech used or load patterns.
->
-> We had initially a hard time to reproduce this, but a user finally could send
-> us a backtrace of a hanging VM and with that information we could pin it enough
-> down and Stefan came up with a good reproducer (see v1 of this patch).
+I saw your ping on the patch. I am not sure why it is not picked up. I am g=
+oing ping them today.
 
-Excellent work, props!
+>If I might ask - how does the kernel fix you referenced interact with this=
+ proposed qemu change?
+>Assumptions (please correct me):
+Problem seem to happen when guest tries to access the SPEC_CTRL register to=
+ with the wrong settings. The kernel fix avoids writing those values and av=
+oids #GP fault.
+  =
 
-> We didn't got any report of actual data corruption due to this, but the VM
-> hangs completely, so a user killing it may produce that theoretical; but only
-> for those program running in the guest that where not made power-loss safe
-> anyway...
->
->> 
->> How confident do we feel about the fix?
->> 
->
-> Cannot comment from a technical POV, but can share the feedback we got with it.
->
-> Some context about reach:
-> We have rolled the fix out to all repository stages which had already a build of
-> 5.2, that has a reach of about 100k to 300k installations, albeit we only have
-> some rough stats about the sites that accesses the repository daily, cannot really
-> tell who actually updated to the new versions, but there are some quite update-happy
-> people in the community, so with that in mind and my experience of the feedback
-> loop of rolling out updates, I'd figure a lower bound one can assume without going
-> out on a limb is ~25k.
->
-> Positive feedback from users:
-> We got some positive feedback from people which ran into this at least once per
-> week about the issue being fixed with that. In total almost a dozen user reported
-> improvements, a good chunk of those which reported the problem in the first place.
->
-> Mixed feedback:
-> We had one user which reported still getting QMP timeouts, but that their VMs did
-> not hang anymore (could be high load or the like). Only one user reported that it
-> did not help, still investigating there, they have quite high CPU pressure stats
-> and it actually may also be another issue, cannot tell for sure yet though.
->
-> Negative feedback:
-> We had no new users reporting of new/worse problems in that direction, at least
-> from what I'm aware off.
->
-> Note, we do not use OOB currently, so above does not speak for the OOB case at
-> all.
+>1. with the qemu change and using that Rome-v2 it would ask to expose both=
+ features and no more crash (even >on unfixed kernels)
+Yes. With Qemu patch EPYC-Rome v2 this issue will be fixed.
 
-Thanks!
+>2. with the kernel fix it will no more crash, even with an unfixed qemu?
+Yes, That is correct. We need at lease one of these patches to fix this pro=
+blem.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915063
+
+Title:
+  Windows 10 wil not install using qemu-system-x86_64
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  Steps to reproduce
+  install virt-manager and ovmf if nopt already there
+  copy windows and virtio iso files to /var/lib/libvirt/images
+
+  Use virt-manager from local machine to create your VMs with the disk, CPU=
+s and memory required
+      Select customize configuration then select OVMF(UEFI) instead of seab=
+ios
+      set first CDROM to the windows installation iso (enable in boot optio=
+ns)
+      add a second CDROM and load with the virtio iso
+  	change spice display to VNC
+
+    Always get a security error from windows and it fails to launch the ins=
+taller (works on RHEL and Fedora)
+  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
+ of no help
+  --- =
+
+  ProblemType: Bug
+  ApportVersion: 2.20.11-0ubuntu27.14
+  Architecture: amd64
+  CasperMD5CheckResult: skip
+  CurrentDesktop: ubuntu:GNOME
+  DistributionChannelDescriptor:
+   # This is the distribution channel descriptor for the OEM CDs
+   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
+criptor
+   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
+d64+X00
+  DistroRelease: Ubuntu 20.04
+  InstallationDate: Installed on 2021-01-20 (19 days ago)
+  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
+0-14:39
+  MachineType: LENOVO 30E102Z
+  NonfreeKernelModules: nvidia_modeset nvidia
+  Package: linux (not installed)
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcFB: 0 EFI VGA
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
+=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
+andoff=3D7
+  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
+  RelatedPackageVersions:
+   linux-restricted-modules-5.6.0-1042-oem N/A
+   linux-backports-modules-5.6.0-1042-oem  N/A
+   linux-firmware                          1.187.8
+  RfKill:
+   =
+
+  Tags:  focal
+  Uname: Linux 5.6.0-1042-oem x86_64
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
+udo
+  _MarkForUpload: True
+  dmi.bios.date: 07/29/2020
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: S07KT08A
+  dmi.board.name: 1046
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Defined
+  dmi.chassis.type: 3
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: None
+  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
+pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
+  dmi.product.family: INVALID
+  dmi.product.name: 30E102Z
+  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
+  dmi.product.version: ThinkStation P620
+  dmi.sys.vendor: LENOVO
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
