@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60873358EA1
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:43:30 +0200 (CEST)
-Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41730358EA2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:43:45 +0200 (CEST)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUbUv-00014r-07
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
+	id 1lUbVA-0001HE-Al
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lUbSt-0000DL-9k; Thu, 08 Apr 2021 16:41:23 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:44611)
+ id 1lUbSu-0000DX-CX; Thu, 08 Apr 2021 16:41:24 -0400
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:46921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lUbSq-0008GY-AL; Thu, 08 Apr 2021 16:41:22 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id x11so3669744qkp.11;
- Thu, 08 Apr 2021 13:41:18 -0700 (PDT)
+ id 1lUbSs-0008IF-0S; Thu, 08 Apr 2021 16:41:24 -0400
+Received: by mail-qv1-xf35.google.com with SMTP id h3so842452qve.13;
+ Thu, 08 Apr 2021 13:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dYq9oaMx6xD8QMoKxvwl3U0NlfSmEiS/pLEdVaHlhjc=;
- b=t1ZyczgP5AgSLlitfqmRzQZKR7u7oguRRyukWZY54zjRMzx4abQJGw2NwNPk2Y0ZrU
- 1EkO9e/u1ITJmNlW6iHp+yi2/SFQq9/dS5SgQl94pxXcwaFotw99HF2DLANXM1t0pQF7
- VLfiSGx1Er2uaVcFBK2WcPje9NcuOiYsYDbw9Ff8g2biehXhUCe6Pu5U3Gphlj82V34G
- /3WbwVB3q+cC760GIO8gKWHkSHCvGeLfuN11n9yfPeAnUHLP2+oy+np2qzx2vseNZC6s
- XDOtDb4b0CW6MRaErkRNuZF165iocQdeyxHv4VsaPMzMXsgeZDYWCXhWLcrtexdMsRL9
- uPAQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZVC3LuUH2bV9ilia5mspPV3C9n9h2mSjnUSfIXfLg0Y=;
+ b=F8fqBaV8iswWAqxJkuHiIHYe/BbpbWH42f1du8ElAci4grVycNYu0tYeUkY2g2BolI
+ tofFrG2SXAV24nwcdLM7yrZt83Ew2zvnrBlqtfHx8yKik+stgIFFn9QFQUNiiwq+AoEJ
+ JUD7U112T8Ipsedyco6X8lNhXiedqsCdMK14AlrHVc39xNaYpTvu882TofJXeta1R8LT
+ 14UPou3lGhCHYPtTrI7QgzlQAB9AIG+UsO+d9vybI/QZC+gNg/IqMdwDBcZA26aFgI1T
+ pEosrDrhVcU3EkJ7INiSXvoptsxVyQUOBCsFkgVoCYlWa4lWWn9DJI5c2h48ZahsbxiK
+ ipkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dYq9oaMx6xD8QMoKxvwl3U0NlfSmEiS/pLEdVaHlhjc=;
- b=SAViKze7WDG9AiJL4qB6P9uzXcnY0dGNkbRia1sj3yqi/9Z/c2U8f5s3ystiujMc48
- 3qmAPnmt1I7qmBlmKd4q0FmnATUxU1tZVFaFIuMiorolnrFjxI+Z8+HCxTL+SbRmMRf9
- fQrJYtlrYpbHHR5lysqosWKEH8KhXzah6FjSAIYGv2Kl1LQkm9X0im+uvFOYR7ilCPrk
- PuLT836cd7NoLp8ZjjtfeLNXf0gf5QwfhOF35cvsym0S6CHoxAh2Zvaw1KrK19AeRRHX
- nJOagV7KTOOi1X2PBogINBRbpuktCqoWb1/JNAhu+5aDOlIy+hMdjlse4TT6ctpH/WhR
- HzBw==
-X-Gm-Message-State: AOAM530+pTKYbtqaVHo8MpuaBMxyA82pVSFpSVJsZ5wR5k4iGbQTJCEd
- WwYpVj/XhJzDM7jgWrJydpJCZGH7exhqNw==
-X-Google-Smtp-Source: ABdhPJzecQYY7E3K+kwlI4YRI7qlRKRnCRQ5rhByDYskAMFDQbQEsXbDhoWrdfsdoCbTAuAI3oC9Mg==
-X-Received: by 2002:a05:620a:16b0:: with SMTP id
- s16mr10393571qkj.115.1617914478034; 
- Thu, 08 Apr 2021 13:41:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZVC3LuUH2bV9ilia5mspPV3C9n9h2mSjnUSfIXfLg0Y=;
+ b=i1eY7HkKkiPYAC+h+wp3JWf+wWhdH/KWbhLxe16MPRDl6ypCCudCUFSTGSEYm8fVi5
+ XlShkzyPl9U5Yacraw3pr3IMGULKspE9cnfaHmWM6mhKy1R4DBGUtUUfmGllHFOvoX8M
+ /dtrD9h+vFVzpm6Spdtq98RpF8bP03Thhccl228ztw1h7UFOAV2dlCwMSzHxOq+g9pOC
+ FZdQ5/08BWFwitndlINkarkqTsXO3+6BZgAGBQJk58c7FCpIOcVT1xbvvyVDbmy1DC+2
+ +OpHmF6SCzeJDzWcKL9J1gyv77Uy7yVr5J7I8iQWFwVnTRtGOi5bd0kL1QDnGZYkey9A
+ saaQ==
+X-Gm-Message-State: AOAM533AA3NMK+TSl6yohEwkKoz/z65jOs2df3AnStsdiGxr0Zw7/qKy
+ 2nYR3xOsYvZidRnhqGb9WOsSIFEwo3NC4A==
+X-Google-Smtp-Source: ABdhPJwG2gMLKANUEVYpzgciQcoARnJWLMul4tRsDR/K4fE0+i+bqR/9JCR4/q8IidXu+j2MeLps/A==
+X-Received: by 2002:a0c:9cc2:: with SMTP id j2mr11005289qvf.2.1617914480388;
+ Thu, 08 Apr 2021 13:41:20 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:92e9:c7f0:1492:45b3:f90e])
- by smtp.gmail.com with ESMTPSA id a207sm327104qkc.135.2021.04.08.13.41.15
+ by smtp.gmail.com with ESMTPSA id a207sm327104qkc.135.2021.04.08.13.41.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 13:41:17 -0700 (PDT)
+ Thu, 08 Apr 2021 13:41:20 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] ppc64: do not use MachineClass::max_cpus to limit CPUs
-Date: Thu,  8 Apr 2021 17:40:47 -0300
-Message-Id: <20210408204049.221802-1-danielhb413@gmail.com>
+Subject: [PATCH 1/2] spapr.c: do not use MachineClass::max_cpus to limit CPUs
+Date: Thu,  8 Apr 2021 17:40:48 -0300
+Message-Id: <20210408204049.221802-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210408204049.221802-1-danielhb413@gmail.com>
+References: <20210408204049.221802-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf35.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,23 +86,69 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Up to this patch, 'max_cpus' value is hardcoded to 1024 (commit
+6244bb7e5811). In theory this patch would simply bump it to 2048, since
+it's the default NR_CPUS kernel setting for ppc64 servers nowadays, but
+the whole mechanic of MachineClass:max_cpus is flawed for the pSeries
+machine. The two supported accelerators, KVM and TCG, can live without
+it.
 
-After having to change hardcoded values to launch a 2048 KVM
-pSeries guests I decided to post these upstream because, at
-least for me, the current max_cpus usage is lackluster for
-pSeries. More info in patch 01.
+TCG guests don't have a theoretical limit. The user must be free to
+emulate as many CPUs as the hardware is capable of. And even if there
+were a limit, max_cpus is not the proper way to report it since it's a
+common value checked by SMP code in machine_smp_parse() for KVM as well.
 
-Patch 02 is a trivial follow-up to increase the FDT size.
+For KVM guests, the proper way to limit KVM CPUs is by host
+configuration via NR_CPUS, not a QEMU hardcoded value. There is no
+technical reason for a pSeries QEMU guest to forcefully stay below
+NR_CPUS.
 
-Daniel Henrique Barboza (2):
-  spapr.c: do not use MachineClass::max_cpus to limit CPUs
-  spapr.h: increase FDT_MAX_SIZE
+This hardcoded value also disregard hosts that might have a lower
+NR_CPUS limit, say 512. In this case, machine.c:machine_smp_parse() will
+allow a 1024 value to pass, but then kvm_init() will complain about it
+because it will exceed NR_CPUS:
 
- hw/ppc/spapr.c         | 11 ++++++++++-
- include/hw/ppc/spapr.h |  2 +-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+Number of SMP cpus requested (1024) exceeds the maximum cpus supported
+by KVM (512)
 
+A better 'max_cpus' value would consider host settings, but
+MachineClass::max_cpus is defined well before machine_init() and
+kvm_init(). We can't check for KVM limits because it's too soon, so we
+end up making a guess.
+
+This patch makes MachineClass:max_cpus settings innocuous by setting it
+to INT32_MAX. machine.c:machine_smp_parse() will not fail the
+verification based on max_cpus, letting kvm_init() do the checking with
+actual host settings. And TCG guests get to do whatever the hardware is
+capable of emulating.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 73a06df3b1..d6a67da21f 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4482,7 +4482,16 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = spapr_machine_init;
+     mc->reset = spapr_machine_reset;
+     mc->block_default_type = IF_SCSI;
+-    mc->max_cpus = 1024;
++
++    /*
++     * Setting max_cpus to INT32_MAX. Both KVM and TCG max_cpus values
++     * should be limited by the host capability instead of hardcoded.
++     * max_cpus for KVM guests will be checked in kvm_init(), and TCG
++     * guests are welcome to have as many CPUs as the host are capable
++     * of emulate.
++     */
++    mc->max_cpus = INT32_MAX;
++
+     mc->no_parallel = 1;
+     mc->default_boot_order = "";
+     mc->default_ram_size = 512 * MiB;
 -- 
 2.30.2
 
