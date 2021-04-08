@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DF8358B0B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 19:12:46 +0200 (CEST)
-Received: from localhost ([::1]:45834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049D9358B2F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 19:18:03 +0200 (CEST)
+Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUYCz-00009Y-IT
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 13:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
+	id 1lUYI5-00035A-BV
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 13:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lUYAQ-0007D0-4j
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 13:10:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37215)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lUYGQ-00027b-B4; Thu, 08 Apr 2021 13:16:18 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:55840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lUYAM-0006C9-JB
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 13:10:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617901799;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W11x5c1ITjWsD9FI4nDOu4GIpFre8z+6O526LFFrFEM=;
- b=FXfq6k4BpuDuq/Qoc2u6B8PXZe1WAG0B9khbyDN5hx/F7HQuSreyWgFB249ARXN0ctUR6j
- ZEAoco+7n4Rd9rNbR9hsP+nZ58rK3CMEsKu+njKZStjN9JOCI2Ljw9bylyz+opO9xqVh1Q
- 66dc3DYR21EHoN4oIyEz3ZpdD1MdUBM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-9Keqc4gCPuaED_YUoSVaPg-1; Thu, 08 Apr 2021 13:09:57 -0400
-X-MC-Unique: 9Keqc4gCPuaED_YUoSVaPg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5482195D561;
- Thu,  8 Apr 2021 17:09:56 +0000 (UTC)
-Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1269794A0;
- Thu,  8 Apr 2021 17:09:55 +0000 (UTC)
-Subject: Re: [PATCH for-6.0? 0/3] job: Add job_wait_unpaused() for
- block-job-complete
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210408162039.242670-1-mreitz@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <250ce24c-6f0d-e534-f0bd-2966a60dc827@redhat.com>
-Date: Thu, 8 Apr 2021 13:09:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lUYGL-000190-EB; Thu, 08 Apr 2021 13:16:16 -0400
+Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
+ (sas1-ec30c78b6c5b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 76F762E1515;
+ Thu,  8 Apr 2021 20:16:07 +0300 (MSK)
+Received: from sas1-9d43635d01d6.qloud-c.yandex.net
+ (sas1-9d43635d01d6.qloud-c.yandex.net [2a02:6b8:c08:793:0:640:9d43:635d])
+ by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ wJZMJiZNPn-G60e9uHH; Thu, 08 Apr 2021 20:16:07 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1617902167; bh=o0CFIyuLjzTT9DEV9YXn3DVquKAoDsput6oNacbs4mI=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=mwGMLn1al/kJmosG+9BzMLOG6ZAYxbAf5KFnTzvSn0edTuv/XbWB0Seni9CoMznoR
+ /XJyV8Yj7QOofsS36sGB4kTEQxHLv3EXAlPUynE+AT2J7CnwZa0pWEzhKCxYVnemkF
+ Xc+mCrdPMeU+UMyfWImogGbaAaWSPx507INDjlUU=
+Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
+ [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by sas1-9d43635d01d6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ yUn0yWZDIH-G6oi25H5; Thu, 08 Apr 2021 20:16:06 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Thu, 8 Apr 2021 20:16:02 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 00/10] block/nbd: move connection code to separate file
+Message-ID: <YG86Up9+3vkZQK/H@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, fam@euphon.net,
+ stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
+ eblake@redhat.com
+References: <20210408140827.332915-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210408162039.242670-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210408140827.332915-1-vsementsov@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 12:20 PM, Max Reitz wrote:
-> Hi,
+On Thu, Apr 08, 2021 at 05:08:17PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> See patch 1 for a detailed explanation of the problem.
+> This substitutes "[PATCH 00/14] nbd: move reconnect-thread to separate file"
+> Supersedes: <20210407104637.36033-1-vsementsov@virtuozzo.com>
 > 
-> The gist is: Draining a READY job makes it transition to STANDBY, and
-> jobs on STANDBY cannot be completed.  Ending the drained section will
-> schedule the job (so it is then resumed), but not wait until it is
-> actually running again.
+> I want to simplify block/nbd.c which is overcomplicated now. First step
+> is splitting out what could be split.
 > 
-> Therefore, it can happen that issuing block-job-complete fails when you
-> issue it right after some draining operation.
+> These series creates new file nbd/client-connection.c and part of
+> block/nbd.c is refactored and moved.
 > 
-> I tried to come up with an iotest reproducer, but in the end I only got
-> something that reproduced the issue like 2/10 times, and it required
-> heavy I/O, so it is nothing I would like to have as part of the iotests.
-> Instead, I opted for a unit test, which allows me to cheat a bit
-> (specifically, locking the job IO thread before ending the drained
-> section).
+> v2 is mostly rewritten. I decided move larger part, otherwise it doesn't
+> make real sense.
 > 
+> Note also that v2 is based on master. Patch 01 actually solves same
+> problem as
+> "[PATCH for-6.0] block/nbd: fix possible use after free of s->connect_thread" [*]
+> in a smarter way. So, if [*] goes first, this will be rebased to undo
+> [*].
 > 
-> Max Reitz (3):
->    job: Add job_wait_unpaused() for block-job-complete
->    test-blockjob: Test job_wait_unpaused()
->    iotests/041: block-job-complete on user-paused job
+> Vladimir Sementsov-Ogievskiy (10):
+>   block/nbd: introduce NBDConnectThread reference counter
+>   block/nbd: BDRVNBDState: drop unused connect_err and connect_status
+>   util/async: aio_co_enter(): do aio_co_schedule in general case
+>   block/nbd: simplify waking of nbd_co_establish_connection()
+>   block/nbd: drop thr->state
+>   block/nbd: bs-independent interface for nbd_co_establish_connection()
+>   block/nbd: make nbd_co_establish_connection_cancel() bs-independent
+>   block/nbd: rename NBDConnectThread to NBDClientConnection
+>   block/nbd: introduce nbd_client_connection_new()
+>   nbd: move connection code from block/nbd to nbd/client-connection
 > 
->   include/qemu/job.h         |  15 ++++
->   blockdev.c                 |   3 +
->   job.c                      |  42 +++++++++++
->   tests/unit/test-blockjob.c | 140 +++++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/041     |  13 +++-
->   5 files changed, 212 insertions(+), 1 deletion(-)
-> 
+>  include/block/nbd.h     |  11 ++
+>  block/nbd.c             | 288 ++--------------------------------------
+>  nbd/client-connection.c | 192 +++++++++++++++++++++++++++
+>  util/async.c            |  11 +-
+>  nbd/meson.build         |   1 +
+>  5 files changed, 218 insertions(+), 285 deletions(-)
+>  create mode 100644 nbd/client-connection.c
 
-Left comments and review on #1, skimmed 2/3. Not sure if it's 
-appropriate for 6.0 yet, that might depend on the responses to my 
-comments and other reviewers and so on.
+I think this is a nice cleanup overall, and makes the logic in
+block/nbd.c much easier to reason about.
 
-Acked-by: John Snow <jsnow@redhat.com>
+I guess it's 6.1 material though, as it looks somewhat too big for 6.0,
+and the only serious bug it actually fixes can be addressed with a
+band-aid mentioned above.
 
+The problem I originally came across with, that of the requests being
+canceled on drain despite reconnect, still remains, but I think the fix
+for it should build up on this series (and thus probably wait till after
+6.0).
+
+Thanks,
+Roman.
 
