@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6E4357F11
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:24:28 +0200 (CEST)
-Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6A7357F19
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:27:21 +0200 (CEST)
+Received: from localhost ([::1]:34772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUQtm-0007bE-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55406)
+	id 1lUQwa-0000Wl-Vr
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUQrM-0006dM-2B
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:21:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUQrJ-0002vY-1I
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:21:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617873711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HyjOR8ymtCieNfnVX0qTVO8lSPdEWmnIjxYyug8wBjc=;
- b=h0tkokKMqU0276/n8MYH/TEIYE+FOd+HeYn0/YYhqyCAbtZaYoDzwKCu+nxMvM365mIzMe
- a3WJrXBBsQedYcfrjGP95QBkQl2nRBAgHibxL9uOSWe4RhLwLtPAK6MDnVQqr13hqpr8Pk
- EpaSP2hgBgMrcq4jPuT+gsrUmHLvdvk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-XTE6MtQvOwamxc-u7FNytw-1; Thu, 08 Apr 2021 05:21:47 -0400
-X-MC-Unique: XTE6MtQvOwamxc-u7FNytw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E029107ACE8;
- Thu,  8 Apr 2021 09:21:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1F6C6B8DD;
- Thu,  8 Apr 2021 09:21:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2E0F2113865F; Thu,  8 Apr 2021 11:21:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-References: <20210322154024.15011-1-s.reiter@proxmox.com>
- <YG2xUD5M7RCuIe+X@merkur.fritz.box>
-Date: Thu, 08 Apr 2021 11:21:42 +0200
-In-Reply-To: <YG2xUD5M7RCuIe+X@merkur.fritz.box> (Kevin Wolf's message of
- "Wed, 7 Apr 2021 15:19:12 +0200")
-Message-ID: <87lf9tces9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lUQvL-0008UZ-1a; Thu, 08 Apr 2021 05:26:03 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:42701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lUQvJ-00052u-0d; Thu, 08 Apr 2021 05:26:02 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id c195so1893364ybf.9;
+ Thu, 08 Apr 2021 02:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kL6259XroHkSoz6VrN39UuA3jRA5YPBCapzPEg3T+S8=;
+ b=XGualytqsS+b3MYchlnhLKAJYXe7ohRqRd4qmDriHWrMW8/dyHdUsSGmQu0q6DCIAa
+ AbBaBwWsxKNnJpokn74E158eGa1lh7eGP+oIA2EeIn5HiBg/vfqqroSaCeLOVfWG8+vD
+ y4Gs35AkcoGTT9dPuqWggKmYZlg692JsPtcpd+DntD9NDXKVQubnCD2uICutBjYTUwhE
+ O7V9kB0hO15Dbi+N5WIvMqmXcIFWOl6+ei05LSTI+gKl+eaAk48zML3FyVtf82bgR2aA
+ 4S9ErM3qNR1rbuhf+axnj2uBt245W4Ts/+b5F5D0Q3W/wF5viLZgaPdktuAGvv6ypFEZ
+ o8jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kL6259XroHkSoz6VrN39UuA3jRA5YPBCapzPEg3T+S8=;
+ b=GEcBoSbamCcbXzOxZwMF3eo8GYpJ8Iewn42KCZVT5f+B3UtuMMa+qR4/W8K4cxtZ1Z
+ v9C/hX4KOR8qoVLBw41sWMBWie38K+hJN807UPfrxzevtY1EpMVHBQo0EefD1SjJ2qJ/
+ qD+gcuM7tHBK03tBtUU4Ygaq5rFwjpphAzSGpbnz7E0/dyXg1S8rcIGJ6X8eX6MSVg9L
+ GjIMJtRfgUUa6E0b8/n/sTmRKcf0Rt2COf6rYbogx4pjMf1lddtqpbkZUZbDigbNR4TE
+ tW74qcWJCRbE41np0Fc5RkJQGRpChH+lw4Nu7QvziZc4O2Jp4WDJPblSbZu6I/rvfYBC
+ 0dRQ==
+X-Gm-Message-State: AOAM533kOCiUN4+4StezvAtYqrLXEERnQyUJ9dgZ6htT5UNcE6ieOYFt
+ sUateA8ut5l+IPcFzvk4goNCEoZRJOKzAmfZrnA=
+X-Google-Smtp-Source: ABdhPJwMj4K+udphQ7AMac+XM7ikvqgjyi4hVrIZCAqi/hxyAsxO1d4aIHWRHc/ophLwSuueYl9g/VEr79pPHH9Mxsk=
+X-Received: by 2002:a25:3f07:: with SMTP id m7mr8397585yba.314.1617873959251; 
+ Thu, 08 Apr 2021 02:25:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <cover.1617367533.git.alistair.francis@wdc.com>
+ <4123032daa32329ded1b4c7690dd0886d5ffe135.1617367533.git.alistair.francis@wdc.com>
+In-Reply-To: <4123032daa32329ded1b4c7690dd0886d5ffe135.1617367533.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 8 Apr 2021 17:25:47 +0800
+Message-ID: <CAEUhbmXgCrW72JbnUK+OWOCEFbfoMC_9burnoZNnBjGcicUu9A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/8] target/riscv: Fix the PMP is locked check when
+ using TOR
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +76,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
- qemu-devel@nongnu.org, Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: weiying_hou@outlook.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Ethan.Lee.QNL@gmail.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
+ camiyoru@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> Am 22.03.2021 um 16:40 hat Stefan Reiter geschrieben:
->> The QMP dispatcher coroutine holds the qmp_queue_lock over a yield
->> point, where it expects to be rescheduled from the main context. If a
->> CHR_EVENT_CLOSED event is received just then, it can race and block the
->> main thread on the mutex in monitor_qmp_cleanup_queue_and_resume.
->> 
->> monitor_resume does not need to be called from main context, so we can
->> call it immediately after popping a request from the queue, which allows
->> us to drop the qmp_queue_lock mutex before yielding.
->> 
->> Suggested-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
->> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->> ---
->> v2:
->> * different approach: move everything that needs the qmp_queue_lock mutex before
->>   the yield point, instead of moving the event handling to a different context
+On Fri, Apr 2, 2021 at 8:49 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
-> The interesting new case here seems to be that new requests could be
-> queued and the dispatcher coroutine could be kicked before yielding.
-> This is safe because &qmp_dispatcher_co_busy is accessed with atomics
-> on both sides.
+> The RISC-V spec says:
+>     if PMP entry i is locked and pmpicfg.A is set to TOR, writes to
+>     pmpaddri-1 are ignored.
 >
-> The important part is just that the first (conditional) yield stays
-> first, so that the aio_co_wake() in handle_qmp_command() won't reenter
-> the coroutine while it is expecting to be reentered from somewhere else.
-> This is still the case after the patch.
+> The current QEMU code ignores accesses to pmpaddri-1 and pmpcfgi-1 which
+> is incorrect.
 >
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> Update the pmp_is_locked() function to not check the suppording fields
 
-Thanks for saving me from an ugly review headache.
+typo: supported?
 
-Should this go into 6.0?
+> and instaed enforce the lock functionality in the pmpaddr write operation.
 
+typo: instead
+
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/pmp.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index cff020122a..6141d0f8f9 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -59,16 +59,6 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
+>          return 0;
+>      }
+>
+> -    /* In TOR mode, need to check the lock bit of the next pmp
+> -     * (if there is a next)
+> -     */
+> -    const uint8_t a_field =
+> -        pmp_get_a_field(env->pmp_state.pmp[pmp_index + 1].cfg_reg);
+> -    if ((env->pmp_state.pmp[pmp_index + 1u].cfg_reg & PMP_LOCK) &&
+> -         (PMP_AMATCH_TOR == a_field)) {
+> -        return 1;
+> -    }
+> -
+>      return 0;
+>  }
+>
+> @@ -380,7 +370,22 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+>      target_ulong val)
+>  {
+>      trace_pmpaddr_csr_write(env->mhartid, addr_index, val);
+> +
+>      if (addr_index < MAX_RISCV_PMPS) {
+> +        /* In TOR mode, need to check the lock bit of the next pmp
+
+nits: should use correct multi-line comment block format
+
+> +         * (if there is a next).
+> +         */
+> +        if (addr_index + 1 < MAX_RISCV_PMPS) {
+> +            uint8_t pmp_cfg = env->pmp_state.pmp[addr_index + 1].cfg_reg;
+> +
+> +            if (pmp_cfg & PMP_LOCK &&
+> +                PMP_AMATCH_TOR == pmp_get_a_field(pmp_cfg)) {
+> +                qemu_log_mask(LOG_GUEST_ERROR,
+> +                              "ignoring pmpaddr write - pmpcfg + 1 locked\n");
+> +                return;
+> +            }
+> +        }
+> +
+>          if (!pmp_is_locked(env, addr_index)) {
+>              env->pmp_state.pmp[addr_index].addr_reg = val;
+>              pmp_update_rule(env, addr_index);
+> --
+
+Otherwise,
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
