@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0574A358759
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:44:25 +0200 (CEST)
-Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21310358770
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:49:29 +0200 (CEST)
+Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUVtP-0003j9-WC
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48780)
+	id 1lUVyK-0006Ud-0c
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lUVrn-0003Ep-4W
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:42:43 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42756)
+ id 1lUVwQ-0005Rn-PU
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:47:30 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lUVrl-0002Qg-Da
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:42:42 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id q26so2411346wrz.9
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 07:42:40 -0700 (PDT)
+ id 1lUVwP-0005B0-8e
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:47:30 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id f12so2478732wro.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 07:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=RiO1qM7CtzrBrBEhHjQMyie+PHrmSqk1n8gxVD5Y3RA=;
- b=IaKwl9rHK38RJ9iE3kopb5DhnkfBe5A+79PFqT5TuGnXzMEZGEjtyNOt5fVC8FASBE
- DWyuZXozeLyug/aCd8x1W0svMP4Cm+bsOlj1Hft6b2CnVgABy78sj2if79KbehizUtO0
- 3rvEG4dSh29C3liDxLUR1g2nDShdP0PC5VWjqhUI8y/MMFjaMZbT3uE7XJl/u+zkeb8M
- opMfyYJwtCzWFe6CGpDI9+ZyUYieqYY9zKjBcWbCNFwgrytNg7utq6r+5OcVeyIO9qnE
- 8VtjCM3TRVBdsFTqd1YdGxnlU8LogEgbq2I+kplzWFnmQZObc5a+99PucHcFlU7BvLUQ
- Hohw==
+ bh=ZzeC+Nc93bMKMzvriAa38Vlbs9Cq/svZ4x3EkpnBR/c=;
+ b=EMLD/Qy2F4B1R0hLIC2tmIj1JXF+8ZO8XUPHrejuadj1mLv0cDGeU7SarLzrB90E9v
+ 9GOVfihE+aUOBEtnqK8ysn6da2+7CPYHyVbkuahhsHw8LzPDuhllvABXa1R8ynrXbUL/
+ af+pxGkfATqOIt1d5EHHUTQbhu5hUGWTbYJrsOdWHh8sbIcjETFXEXTKTX5A7XRoB7s/
+ ZpNc/mOTr+k2SKoKYc0XNXF0a/oj/+F+bftv6BZM248NnbR4PVrNZ+lGWm12mfdaEL6R
+ 9einlP7hWpAqQ6rqqb2blVhzWZN1X/SX4bViVE2CXuscv2vbwnI0wBCfm5T8pXuj1QTb
+ BFjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=RiO1qM7CtzrBrBEhHjQMyie+PHrmSqk1n8gxVD5Y3RA=;
- b=nDrzlaaoIaI0m3VwKvPgIv4PwSsYgJdqPXqcYWfshkbtl6WtO6MU8IP29myfQ3Hxn/
- 8yRukob0gw0QQBhix3+I28UPmqis1413HixZHZPJ+Y/r9Hkt+wTmklXi9Z5hOWteb3zn
- Sg1A+EychdrUN66VgdHnkAuFmkKvEQ93WU34HtkgQASrxs+uXzMvmzfmDfBagTPCnnR8
- CWLOYnpZqhfhgIp8G1qMbCyns6IQ514PWGIK/xqphyInxoYaaiTCiI6OZ6d47tt6hNWx
- 43sE37S4NuHfREq4SH21rq+m794pbPoV8ySzraBxp7m8YCooMam5rEZ6x4OdGkkWtqCf
- FmEA==
-X-Gm-Message-State: AOAM530wagtkaPhlwTGePzcPLNIMue5hQCRnGO6UK7lTUdNSrec9jwT+
- NfDHm3dkXHXho7BnlfIyEkRaTQ==
-X-Google-Smtp-Source: ABdhPJwl5D73eiJU1nkR8y/Kk6SF/pJ1Rh9pQ+bn4zHwM7xDDMbZVNbwwqSiduLOqP356fU0BntZrw==
-X-Received: by 2002:adf:b358:: with SMTP id k24mr11768026wrd.187.1617892959764; 
- Thu, 08 Apr 2021 07:42:39 -0700 (PDT)
+ bh=ZzeC+Nc93bMKMzvriAa38Vlbs9Cq/svZ4x3EkpnBR/c=;
+ b=KT1dbfuBh2bpzcI0hYPzaIA+7sof5Qp11ojKqZd5cM5mWemuY0SFAFUpsaUKHn6STh
+ 6vG9EbjxepNZcbJJwwVzorf3n9hEc/1hyy+vrtiNjO3dogu9gm13h5NEaP5eNkbhDVpB
+ 6PMDxIK68mg89oCdS2UbDqFMpLFLu0PQ6mDLXnuzSlc0u0g4i5XBukm5z/cOz3I01nLg
+ Zz+vUbfqaKSilbw7u1BfStkdGYqCmLic4bnTr9LwoPY31+K5LvRfSblL+AROCtbZ0UVk
+ wSJD6D+xUsze8K0PEZXeJBwNB1bcjMeh31wm4K3T24OFmsiRtYfWyBnSVVyxbaVX6GmB
+ O+gA==
+X-Gm-Message-State: AOAM5338aeVmuUjOSrb0IjQeD5aRQbEflBXtQPyacrNMZHHZzKHhsSYi
+ AV80TiwfbtbwkFSepmN3RS81eg==
+X-Google-Smtp-Source: ABdhPJzeXeHe8d+DQL8uovISMwdrkuFrIv0N6St5FlQ/ZVnE78YZ+ojWm0k43CnGFQPplGnFC0/Vlg==
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr619205wrp.115.1617893247248; 
+ Thu, 08 Apr 2021 07:47:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y124sm2182404wmg.41.2021.04.08.07.42.38
+ by smtp.gmail.com with ESMTPSA id g124sm15398642wme.41.2021.04.08.07.47.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 07:42:38 -0700 (PDT)
+ Thu, 08 Apr 2021 07:47:26 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 335141FF7E;
- Thu,  8 Apr 2021 15:42:38 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id B39A61FF7E;
+ Thu,  8 Apr 2021 15:47:25 +0100 (BST)
 References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-6-cfontana@suse.de>
+ <20210326193701.5981-7-cfontana@suse.de>
 User-agent: mu4e 1.5.11; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v12 05/65] target/arm: tcg: split mte_helper user-only and
- sysemu code
-Date: Thu, 08 Apr 2021 15:41:57 +0100
-In-reply-to: <20210326193701.5981-6-cfontana@suse.de>
-Message-ID: <87zgy8suqp.fsf@linaro.org>
+Subject: Re: [RFC v12 06/65] target/arm: tcg: move sysemu-only parts of
+ debug_helper
+Date: Thu, 08 Apr 2021 15:47:21 +0100
+In-reply-to: <20210326193701.5981-7-cfontana@suse.de>
+Message-ID: <87wntcsuiq.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,15 +99,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Claudio Fontana <cfontana@suse.de> writes:
 
-> allocation_tag_mem has a different implementation for
-> user-only and sysemu, so move the two implementations into
-> the dedicated subdirs.
+> move sysemu-only parts of debug_helper to sysemu/
 >
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-be aware rth has some MTE fixes in flight which will likely conflict
-when merged - probably this cycle as they are fixes.
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
