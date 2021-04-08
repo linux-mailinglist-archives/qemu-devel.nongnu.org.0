@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD2835882D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 17:23:41 +0200 (CEST)
-Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0E83587B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 17:01:54 +0200 (CEST)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUWVO-0003cv-Pv
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 11:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
+	id 1lUWAF-0003Q5-H8
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 11:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victorlee0321@163.com>)
- id 1lUV9i-00009n-DV
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:57:10 -0400
-Received: from m1381.mail.163.com ([220.181.13.81]:44632)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <victorlee0321@163.com>)
- id 1lUV9b-0005C7-Dd
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:57:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=93zrY
- PnHouSiMkxnWl3SZ49kYEmPURynXtqVAJJRRYQ=; b=hk4ugvHj46B5Ur2h04zc5
- e6RvyEuDxwIkv2sNN+2dabMiBItUZ/E2wvRc7KWwsZ0YS2JWM9lSsDhA8eJ/4rJi
- nxPA46VkyFi850trh9sO4xj/VrIO9DxpASRu4vwKB988j5Q0qeLPfkca1wwDg4r4
- uFBcIjyvbGXLU42Mp782eo=
-Received: from victorlee0321$163.com ( [14.146.92.46] ) by
- ajax-webmail-wmsvr81 (Coremail) ; Thu, 8 Apr 2021 21:41:26 +0800 (CST)
-X-Originating-IP: [14.146.92.46]
-Date: Thu, 8 Apr 2021 21:41:26 +0800 (CST)
-From: =?GBK?B?wO7D9+7I?= <victorlee0321@163.com>
-To: qemu-devel@nongnu.org
-Subject: qemu-img convert rbd volumes between different ceph clusters
- accelerate
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
- Copyright (c) 2002-2021 www.mailtech.cn 163com
-X-CM-CTRLDATA: HBGSLmZvb3Rlcl9odG09MTE5MDk6NTY=
-Content-Type: multipart/alternative; 
- boundary="----=_Part_105716_1017872299.1617889286653"
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUW8M-0002ry-5k
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:59:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUW8K-0004f8-0w
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:59:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617893986;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bbSqOKADp2yp4p3ZnV1awT6pukbvxSAU+uljeYu6tGA=;
+ b=dOZEaDlh7TRcLAuncRF/uEwb/P3+Y1QiKYGJH5DQJOHR2iRS4k7bTm6sIBvXWFtNRs8c4e
+ NjvHBLS3xk11h5jI6HK0GkPx5TvSI+j4icD8CcPbvVKUeMXcW9CEwLCuU6wIXKOXrpBUvf
+ Vk+tVhyzS9Uk0avCYqmtbuIgOTJCjGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-444-6xLo2yKRMTazsJe_FGArZw-1; Thu, 08 Apr 2021 10:59:44 -0400
+X-MC-Unique: 6xLo2yKRMTazsJe_FGArZw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257046D4E3
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 14:59:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE8D110016FD;
+ Thu,  8 Apr 2021 14:59:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 18A00113525D; Thu,  8 Apr 2021 16:59:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: QMP introspecting device props common to a bus type
+References: <YG23ILea4H36TllU@redhat.com> <87pmz5at1v.fsf@dusky.pond.sub.org>
+ <YG77DnwTyCVPL3nw@redhat.com>
+Date: Thu, 08 Apr 2021 16:59:34 +0200
+In-Reply-To: <YG77DnwTyCVPL3nw@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 8 Apr 2021 13:46:06 +0100")
+Message-ID: <87o8eo9609.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Message-ID: <6cea3850.7237.178b1b759fe.Coremail.victorlee0321@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: UcGowACnEOQGCG9gHbPTAA--.37189W
-X-CM-SenderInfo: xylf30puohviqtsrqiywtou0bp/1tbipQZuOFUMdTPZuAAAsL
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.81; envelope-from=victorlee0321@163.com;
- helo=m1381.mail.163.com
-X-Spam_score_int: 47
-X-Spam_score: 4.7
-X-Spam_bar: ++++
-X-Spam_report: (4.7 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_REMOTE_IMAGE=0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 08 Apr 2021 11:21:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,248 +83,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_105716_1017872299.1617889286653
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-RGVhciBlbmdpbmVlcnM6CgoKSXMgdGhlcmUgYW4gZWxlZ2FudCB3YXkgdG8gY29weSBhbiBSQkQg
-dm9sdW1lIHRvIGFub3RoZXIgQ2VwaCBjbHVzdGVyPwoKSSBjYWxjdWxhdGUgdGhlIGNvbnZlcnQg
-dGltZSB3aXRoIHFlbXUtaW1nIDIuNSB2ZXJzaW9uIG9yIHFlbXUtaW1nIDYuMCB2ZXJzaW9uLCBi
-eSBjb3B5aW5nIGEgdm9sdW1lKGNhcGFiaWxpdHkgaXMgMi41VCBhbmQgMThHIG9ubHkgdXNlZCkg
-dG8gYW5vdGhlciBDZXBoIGNsdXN0ZXIuCgpxZW11LWltZyBbMi41IG9yIDYuMF0gY29udmVydCAt
-cCAtZiByYXcgcmJkOnBvb2xfMS92b2x1bWUtb3JpZ19pZDppZD1jaW5kZXI6Y29uZj0xX2NlcGgu
-Y29uZjprZXlyaW5nPTFfY2VwaC5jbGllbnQuY2luZGVyLmtleXJpbmcgLU8gcmF3IHJiZDpwb29s
-XzIvdm9sdW1lLW5ld19pZDppZD1jaW5kZXI6Y29uZj0yX2NlcGguY29uZjprZXlyaW5nPTJfY2Vw
-aC5jbGllbnQuY2luZGVyLmtleXJpbmcgWy1uIC1tIDE2IC1XIC1TIDRrXQoKClRlc3QgcWVtdS1p
-bWcgY29udmVydCByZXN1bHQ6CgpxZW11LWltZyAyLjUgc3BlbmQgMiBob3VycyBhbmQgNDAgbWlu
-dXRlcyB3aXRoIG5vIG9wdGlvbiBwYXJhbWV0ZXI6CgpxZW11LWltZyA2LjAgc3BlbmQgMyBob3Vy
-cyBhbmQgMyBtaW51dGVzIHdpdGggb3B0aW9uIHBhcmFtZXRlciAoLW0gMTYgLVcgLVMgNGspOgoK
-UXVlc3Rpb25zOgoKMSwgd2h5IDIuNSB2ZXJzaW9uIHdyaXRlIG9ubHkgdXNlZCBkaXNrIGNhcGFi
-aWxpdHkoMThHKSwgYnV0IDYuMCB2ZXJzaW9uIHdyaXRlIHRoZSBob2xlIGRpc2sgMi41VD8KCjIs
-IGhvdyB0byB1c2UgcWVtdS1pbWcgKDIuNSBvciA2LjAgdmVyc2lvbikgYWNjZWxlcmF0aW5nIGNv
-bnZlcnQgUkJEIHZvbHVtZSB0byBhbm90aGVyIENlcGggY2x1c3RlciBvciB0aGVyZSBpcyBzb21l
-IG90aGVyIHdheXMgdG8gYXBwcm9hY2g/CgoKVGhpcyBxdWVzdGlvbiBpbiBzdGFjayBvdmVyIGZs
-b3cgYnV0IG5vYm9keSBjYW4gaGVscCBtZS4gVGhlIGxpbms6aHR0cHM6Ly9zdGFja292ZXJmbG93
-LmNvbS9xdWVzdGlvbnMvNjcwMDAzNzcvcWVtdS1pbWctY29udmVydC1yYmQtdm9sdW1lcy1iZXR3
-ZWVuLWRpZmZlcmVudC1jZXBoLWNsdXN0ZXJzLWFjY2VsZXJhdGUKSG9wZSBmb3IgeW91ciByZXBs
-eSwgVEhYLgpZb3VycyBTaW5jZXJlbHksClZpY3RvciBMZWU=
-------=_Part_105716_1017872299.1617889286653
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+> On Thu, Apr 08, 2021 at 01:56:28PM +0200, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > When introspecting properties for devices, libvirt issues a sequence o=
+f
+>> > QMP  'device-list-properties' commands, one for each device type we
+>> > need info for.  The result of this command tells us about all properti=
+es
+>> > possible on that specific device, which is generally just fine.
+>> >
+>> > Every now and then though, there are properties that are inherited fro=
+m
+>> > / defined by the parent class, usually props that are common to all
+>> > devices attached to a given bus type.
+>> >
+>> > The current case in point is the "acpi-index" property that was added =
+to
+>> > the "PCI" bus type, that is a parent for any type that is a PCI dev.
+>> >
+>> > Generally when libvirt adds support for a property, it will enable it
+>> > across all devices that can support the property. So we're enabling us=
+e
+>> > of "acpi-index" across all PCI devices.
+>> >
+>> > The question thus becomes how should we probe for existence of the
+>> > "acpi-index" property. The qemu-system-x86_64 emulator has somewhere
+>> > around 150 user creatable PCI devices according to "-device help".
+>> >
+>> > The existance of a class hierarchy is explicitly not exposed in QMP
+>> > because we consider that an internal impl detail, so we can't just
+>> > query "acpi-index" on the "PCI" parent type.=20
+>>=20
+>> Not true.
+>>=20
+>> qapi/qom.json:
+>>=20
+>>     ##
+>>     # @ObjectTypeInfo:
+>>     #
+>>     # This structure describes a search result from @qom-list-types
+>>     #
+>>     # @name: the type name found in the search
+>>     #
+>>     # @abstract: the type is abstract and can't be directly instantiated=
+.
+>>     #            Omitted if false. (since 2.10)
+>>     #
+>>     # @parent: Name of parent type, if any (since 2.10)
+>>     #
+>>     # Since: 1.1
+>>     ##
+>>     { 'struct': 'ObjectTypeInfo',
+>>       'data': { 'name': 'str', '*abstract': 'bool', '*parent': 'str' } }
+>>=20
+>>     ##
+>>     # @qom-list-types:
+>>     #
+>>     # This command will return a list of types given search parameters
+>>     #
+>>     # @implements: if specified, only return types that implement this t=
+ype name
+>>     #
+>>     # @abstract: if true, include abstract types in the results
+>>     #
+>>     # Returns: a list of @ObjectTypeInfo or an empty list if no results =
+are found
+>>     #
+>>     # Since: 1.1
+>>     ##
+>>     { 'command': 'qom-list-types',
+>>       'data': { '*implements': 'str', '*abstract': 'bool' },
+>>       'returns': [ 'ObjectTypeInfo' ],
+>>       'allow-preconfig': true }
+>>=20
+>> Example 1:
+>>=20
+>>     {"execute": "qom-list-types", "arguments": {"abstract": true}}
+>>=20
+>> returns all type names with their parent type names.
+>
+> Ah, libvirt isn't setting abstract=3Dtrue when listing types during its
+> probing of QEMU capabilities, which is why I didn't see the parents.
+>
+>
+>> > We certainly don't want to issue 'device-list-properties' over and
+>> > over for all 147 devices.
+>> >
+>> > If we just pick one device type, say virtio-blk-pci, and query that
+>> > for "acpi-index", then our code is fragile because anyone can make
+>> > a QEMU build that compiles-out a specific device. This is fairly
+>> > unlikely for virtio devices, but never say never.
+>> >
+>> > For PCI, i'm tending towards probing for the "acpi-index" property on
+>> > both "pci-bridge" and "pcie-root-port", as it seems unlikely that both
+>> > of those will be compiled out of QEMU while still retaining PCI suppor=
+t.
+>> >
+>> > I'm wondering if QEMU maintainers have a view on "best practice" to
+>> > probe for device props that are common to specific bus types ?
+>>=20
+>> The obvious
+>>=20
+>>     {"execute": "device-list-properties",
+>>      "arguments": {"typename": "pci-device"}}
+>>=20
+>> fails with "Parameter 'typename' expects a non-abstract device type".
+>> But its cousin qom-list-properties works:
+>>=20
+>>     {"execute": "qom-list-properties",
+>>      "arguments": {"typename": "pci-device"}}
+>>     {"return": [
+>>      {"name": "type", "type": "string"},
+>>      {"name": "parent_bus", "type": "link<bus>"},
+>>      {"name": "realized", "type": "bool"},
+>>      {"name": "hotplugged", "type": "bool"},
+>>      {"name": "hotpluggable", "type": "bool"},
+>>      {"name": "failover_pair_id", "type": "str"},
+>>      {"name": "romfile", "type": "str"},
+>>      {"name": "addr", "description": "Slot and optional function number,=
+ example: 06.0 or 06", "type": "int32"},
+>>      {"name": "romsize", "type": "uint32"},
+>>      {"name": "x-pcie-lnksta-dllla", "description": "on/off", "type": "b=
+ool"},
+>>      {"name": "rombar", "type": "uint32"},
+>>      {"name": "x-pcie-extcap-init", "description": "on/off", "type": "bo=
+ol"},
+>>      {"name": "acpi-index", "type": "uint32"},
+>>      {"name": "multifunction", "description": "on/off", "type": "bool"},
+>>      {"name": "legacy-addr", "type": "str"}]}
+>>=20
+>> Does this help?
+>
+> Yes, its good.
+>
+> Is there any reason to use 'device-list-properties' at all, given that
+> 'qom-list-properties' exists and works for all types ?
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbi10b3A6IDBweDsgbWFyZ2luLXJp
-Z2h0OiAwcHg7IG1hcmdpbi1ib3R0b206IHZhcigtLXMtcHJvc2Utc3BhY2luZyk7IG1hcmdpbi1s
-ZWZ0OiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1lcmlj
-OiBpbmhlcml0OyBmb250LXZhcmlhbnQtZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJldGNo
-OiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAmcXVv
-dDtIZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6
-IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgY2xl
-YXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5LCA0MSk7Ij5EZWFyIGVuZ2luZWVyczo8L2Rpdj48
-ZGl2IHN0eWxlPSJtYXJnaW4tdG9wOiAwcHg7IG1hcmdpbi1yaWdodDogMHB4OyBtYXJnaW4tYm90
-dG9tOiB2YXIoLS1zLXByb3NlLXNwYWNpbmcpOyBtYXJnaW4tbGVmdDogMHB4OyBwYWRkaW5nOiAw
-cHg7IGJvcmRlcjogMHB4OyBmb250LXZhcmlhbnQtbnVtZXJpYzogaW5oZXJpdDsgZm9udC12YXJp
-YW50LWVhc3QtYXNpYW46IGluaGVyaXQ7IGZvbnQtc3RyZXRjaDogaW5oZXJpdDsgbGluZS1oZWln
-aHQ6IGluaGVyaXQ7IGZvbnQtZmFtaWx5OiBBcmlhbCwgJnF1b3Q7SGVsdmV0aWNhIE5ldWUmcXVv
-dDssIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxNXB4OyB2ZXJ0aWNhbC1hbGln
-bjogYmFzZWxpbmU7IGJveC1zaXppbmc6IGluaGVyaXQ7IGNsZWFyOiBib3RoOyBjb2xvcjogcmdi
-KDM2LCAzOSwgNDEpOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbi10b3A6IDBweDsgbWFy
-Z2luLXJpZ2h0OiAwcHg7IG1hcmdpbi1ib3R0b206IHZhcigtLXMtcHJvc2Utc3BhY2luZyk7IG1h
-cmdpbi1sZWZ0OiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1u
-dW1lcmljOiBpbmhlcml0OyBmb250LXZhcmlhbnQtZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1z
-dHJldGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFs
-LCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250
-LXNpemU6IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJp
-dDsgY2xlYXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5LCA0MSk7Ij5JcyB0aGVyZSBhbiBlbGVn
-YW50IHdheSB0byBjb3B5IGFuIFJCRCB2b2x1bWUgdG8gYW5vdGhlciBDZXBoIGNsdXN0ZXI/PC9k
-aXY+PHAgc3R5bGU9Im1hcmdpbi10b3A6IDBweDsgbWFyZ2luLXJpZ2h0OiAwcHg7IG1hcmdpbi1i
-b3R0b206IHZhcigtLXMtcHJvc2Utc3BhY2luZyk7IG1hcmdpbi1sZWZ0OiAwcHg7IHBhZGRpbmc6
-IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1lcmljOiBpbmhlcml0OyBmb250LXZh
-cmlhbnQtZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJldGNoOiBpbmhlcml0OyBsaW5lLWhl
-aWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZx
-dW90OywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE1cHg7IHZlcnRpY2FsLWFs
-aWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgY2xlYXI6IGJvdGg7IGNvbG9yOiBy
-Z2IoMzYsIDM5LCA0MSk7Ij5JIGNhbGN1bGF0ZSB0aGUgY29udmVydCB0aW1lIHdpdGggcWVtdS1p
-bWcgMi41IHZlcnNpb24gb3IgcWVtdS1pbWcgNi4wIHZlcnNpb24sIGJ5IGNvcHlpbmcgYSB2b2x1
-bWUoY2FwYWJpbGl0eSBpcyAyLjVUIGFuZCAxOEcgb25seSB1c2VkKSB0byBhbm90aGVyIENlcGgg
-Y2x1c3Rlci48L3A+PHByZSBzdHlsZT0ibWFyZ2luLXRvcDogMHB4OyBtYXJnaW4tYm90dG9tOiBj
-YWxjKHZhcigtLXMtcHJvc2Utc3BhY2luZykgKyAwLjRlbSk7IHBhZGRpbmc6IDEycHg7IGJvcmRl
-cjogMHB4OyBmb250LXZhcmlhbnQtbnVtZXJpYzogaW5oZXJpdDsgZm9udC12YXJpYW50LWVhc3Qt
-YXNpYW46IGluaGVyaXQ7IGZvbnQtc3RyZXRjaDogaW5oZXJpdDsgbGluZS1oZWlnaHQ6IDEuMzA3
-Njk7IGZvbnQtZmFtaWx5OiBDb25zb2xhcywgTWVubG8sIE1vbmFjbywgJnF1b3Q7THVjaWRhIENv
-bnNvbGUmcXVvdDssICZxdW90O0xpYmVyYXRpb24gTW9ubyZxdW90OywgJnF1b3Q7RGVqYVZ1IFNh
-bnMgTW9ubyZxdW90OywgJnF1b3Q7Qml0c3RyZWFtIFZlcmEgU2FucyBNb25vJnF1b3Q7LCAmcXVv
-dDtDb3VyaWVyIE5ldyZxdW90OywgbW9ub3NwYWNlLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEz
-cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgd2lkdGg6
-IGF1dG87IG1heC1oZWlnaHQ6IDYwMHB4OyBvdmVyZmxvdzogYXV0bzsgYmFja2dyb3VuZC1jb2xv
-cjogdmFyKC0taGlnaGxpZ2h0LWJnKTsgYm9yZGVyLXJhZGl1czogNXB4OyBvdmVyZmxvdy13cmFw
-OiBub3JtYWw7IGNvbG9yOiB2YXIoLS1oaWdobGlnaHQtY29sb3IpOyI+PGNvZGUgc3R5bGU9Im1h
-cmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IGJvcmRlcjogMHB4OyBmb250LXN0eWxlOiBpbmhlcml0
-OyBmb250LXZhcmlhbnQ6IGluaGVyaXQ7IGZvbnQtd2VpZ2h0OiBpbmhlcml0OyBmb250LXN0cmV0
-Y2g6IGluaGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogQ29uc29sYXMs
-IE1lbmxvLCBNb25hY28sICZxdW90O0x1Y2lkYSBDb25zb2xlJnF1b3Q7LCAmcXVvdDtMaWJlcmF0
-aW9uIE1vbm8mcXVvdDssICZxdW90O0RlamFWdSBTYW5zIE1vbm8mcXVvdDssICZxdW90O0JpdHN0
-cmVhbSBWZXJhIFNhbnMgTW9ubyZxdW90OywgJnF1b3Q7Q291cmllciBOZXcmcXVvdDssIG1vbm9z
-cGFjZSwgc2Fucy1zZXJpZjsgdmVydGljYWwtYWxpZ246IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBp
-bmhlcml0OyBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsgd2hpdGUtc3BhY2U6IGluaGVy
-aXQ7IGNvbG9yOiB2YXIoLS1ibGFjay04MDApOyBib3JkZXItcmFkaXVzOiAwcHg7Ij5xZW11LWlt
-ZyBbMi41IG9yIDYuMF0gY29udmVydCAtcCAtZiByYXcgcmJkOnBvb2xfMS92b2x1bWUtb3JpZ19p
-ZDppZD1jaW5kZXI6Y29uZj0xX2NlcGguY29uZjprZXlyaW5nPTFfY2VwaC5jbGllbnQuY2luZGVy
-LmtleXJpbmcgLU8gcmF3IHJiZDpwb29sXzIvdm9sdW1lLW5ld19pZDppZD1jaW5kZXI6Y29uZj0y
-X2NlcGguY29uZjprZXlyaW5nPTJfY2VwaC5jbGllbnQuY2luZGVyLmtleXJpbmcgWy1uIC1tIDE2
-IC1XIC1TIDRrXQo8L2NvZGU+PC9wcmU+PHAgc3R5bGU9Im1hcmdpbi10b3A6IDBweDsgbWFyZ2lu
-LXJpZ2h0OiAwcHg7IG1hcmdpbi1ib3R0b206IHZhcigtLXMtcHJvc2Utc3BhY2luZyk7IG1hcmdp
-bi1sZWZ0OiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1l
-cmljOiBpbmhlcml0OyBmb250LXZhcmlhbnQtZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJl
-dGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAm
-cXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNp
-emU6IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsg
-Y2xlYXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5LCA0MSk7Ij5UZXN0Jm5ic3A7PGNvZGUgc3R5
-bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAycHggNHB4OyBib3JkZXI6IDBweDsgZm9udC1zdHls
-ZTogaW5oZXJpdDsgZm9udC12YXJpYW50OiBpbmhlcml0OyBmb250LXdlaWdodDogaW5oZXJpdDsg
-Zm9udC1zdHJldGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6
-IENvbnNvbGFzLCBNZW5sbywgTW9uYWNvLCAmcXVvdDtMdWNpZGEgQ29uc29sZSZxdW90OywgJnF1
-b3Q7TGliZXJhdGlvbiBNb25vJnF1b3Q7LCAmcXVvdDtEZWphVnUgU2FucyBNb25vJnF1b3Q7LCAm
-cXVvdDtCaXRzdHJlYW0gVmVyYSBTYW5zIE1vbm8mcXVvdDssICZxdW90O0NvdXJpZXIgTmV3JnF1
-b3Q7LCBtb25vc3BhY2UsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTNweDsgdmVydGljYWwtYWxp
-Z246IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBpbmhlcml0OyBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIo
-LS1ibGFjay0wNzUpOyB3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGNvbG9yOiB2YXIoLS1ibGFjay04
-MDApOyBib3JkZXItcmFkaXVzOiAzcHg7Ij5xZW11LWltZyBjb252ZXJ0PC9jb2RlPiZuYnNwO3Jl
-c3VsdDo8L3A+PHAgc3R5bGU9Im1hcmdpbi10b3A6IDBweDsgbWFyZ2luLXJpZ2h0OiAwcHg7IG1h
-cmdpbi1ib3R0b206IHZhcigtLXMtcHJvc2Utc3BhY2luZyk7IG1hcmdpbi1sZWZ0OiAwcHg7IHBh
-ZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1lcmljOiBpbmhlcml0OyBm
-b250LXZhcmlhbnQtZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJldGNoOiBpbmhlcml0OyBs
-aW5lLWhlaWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtIZWx2ZXRpY2Eg
-TmV1ZSZxdW90OywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE1cHg7IHZlcnRp
-Y2FsLWFsaWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgY2xlYXI6IGJvdGg7IGNv
-bG9yOiByZ2IoMzYsIDM5LCA0MSk7Ij5xZW11LWltZyAyLjUgc3BlbmQmbmJzcDs8c3Ryb25nIHN0
-eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBib3JkZXI6IDBweDsgZm9udC1zdHlsZTog
-aW5oZXJpdDsgZm9udC12YXJpYW50OiBpbmhlcml0OyBmb250LXN0cmV0Y2g6IGluaGVyaXQ7IGxp
-bmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogaW5oZXJpdDsgdmVydGljYWwtYWxpZ246
-IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBpbmhlcml0OyI+MiBob3VycyBhbmQgNDAgbWludXRlczwv
-c3Ryb25nPiZuYnNwO3dpdGggbm8gb3B0aW9uIHBhcmFtZXRlcjo8L3A+PHAgc3R5bGU9Im1hcmdp
-bi10b3A6IDBweDsgbWFyZ2luLXJpZ2h0OiAwcHg7IG1hcmdpbi1ib3R0b206IHZhcigtLXMtcHJv
-c2Utc3BhY2luZyk7IG1hcmdpbi1sZWZ0OiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7
-IGZvbnQtdmFyaWFudC1udW1lcmljOiBpbmhlcml0OyBmb250LXZhcmlhbnQtZWFzdC1hc2lhbjog
-aW5oZXJpdDsgZm9udC1zdHJldGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsgZm9u
-dC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVsdmV0aWNhLCBz
-YW5zLXNlcmlmOyBmb250LXNpemU6IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsgYm94
-LXNpemluZzogaW5oZXJpdDsgY2xlYXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5LCA0MSk7Ij48
-YSBocmVmPSJodHRwczovL2kuc3RhY2suaW1ndXIuY29tL1VlTDBVLnBuZyIgcmVsPSJub2ZvbGxv
-dyBub3JlZmVycmVyIiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAw
-cHg7IGZvbnQtc3R5bGU6IGluaGVyaXQ7IGZvbnQtdmFyaWFudDogaW5oZXJpdDsgZm9udC13ZWln
-aHQ6IGluaGVyaXQ7IGZvbnQtc3RyZXRjaDogaW5oZXJpdDsgbGluZS1oZWlnaHQ6IGluaGVyaXQ7
-IGZvbnQtZmFtaWx5OiBpbmhlcml0OyB2ZXJ0aWNhbC1hbGlnbjogYmFzZWxpbmU7IGJveC1zaXpp
-bmc6IGluaGVyaXQ7IGN1cnNvcjogcG9pbnRlcjsgdXNlci1zZWxlY3Q6IGF1dG87Ij48aW1nIHNy
-Yz0iaHR0cHM6Ly9pLnN0YWNrLmltZ3VyLmNvbS9VZUwwVS5wbmciIGFsdD0iZW50ZXIgaW1hZ2Ug
-ZGVzY3JpcHRpb24gaGVyZSIgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IGJvcmRl
-cjogMHB4OyBmb250LXN0eWxlOiBpbmhlcml0OyBmb250LXZhcmlhbnQ6IGluaGVyaXQ7IGZvbnQt
-d2VpZ2h0OiBpbmhlcml0OyBmb250LXN0cmV0Y2g6IGluaGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhl
-cml0OyBmb250LWZhbWlseTogaW5oZXJpdDsgdmVydGljYWwtYWxpZ246IGJvdHRvbTsgYm94LXNp
-emluZzogaW5oZXJpdDsgbWF4LXdpZHRoOiAxMDAlOyI+PC9hPjwvcD48cCBzdHlsZT0ibWFyZ2lu
-LXRvcDogMHB4OyBtYXJnaW4tcmlnaHQ6IDBweDsgbWFyZ2luLWJvdHRvbTogdmFyKC0tcy1wcm9z
-ZS1zcGFjaW5nKTsgbWFyZ2luLWxlZnQ6IDBweDsgcGFkZGluZzogMHB4OyBib3JkZXI6IDBweDsg
-Zm9udC12YXJpYW50LW51bWVyaWM6IGluaGVyaXQ7IGZvbnQtdmFyaWFudC1lYXN0LWFzaWFuOiBp
-bmhlcml0OyBmb250LXN0cmV0Y2g6IGluaGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250
-LWZhbWlseTogQXJpYWwsICZxdW90O0hlbHZldGljYSBOZXVlJnF1b3Q7LCBIZWx2ZXRpY2EsIHNh
-bnMtc2VyaWY7IGZvbnQtc2l6ZTogMTVweDsgdmVydGljYWwtYWxpZ246IGJhc2VsaW5lOyBib3gt
-c2l6aW5nOiBpbmhlcml0OyBjbGVhcjogYm90aDsgY29sb3I6IHJnYigzNiwgMzksIDQxKTsiPnFl
-bXUtaW1nIDYuMCBzcGVuZCZuYnNwOzxzdHJvbmcgc3R5bGU9Im1hcmdpbjogMHB4OyBwYWRkaW5n
-OiAwcHg7IGJvcmRlcjogMHB4OyBmb250LXN0eWxlOiBpbmhlcml0OyBmb250LXZhcmlhbnQ6IGlu
-aGVyaXQ7IGZvbnQtc3RyZXRjaDogaW5oZXJpdDsgbGluZS1oZWlnaHQ6IGluaGVyaXQ7IGZvbnQt
-ZmFtaWx5OiBpbmhlcml0OyB2ZXJ0aWNhbC1hbGlnbjogYmFzZWxpbmU7IGJveC1zaXppbmc6IGlu
-aGVyaXQ7Ij4zIGhvdXJzIGFuZCAzIG1pbnV0ZXM8L3N0cm9uZz4mbmJzcDt3aXRoIG9wdGlvbiBw
-YXJhbWV0ZXIgKDxlbSBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAw
-cHg7IGZvbnQtdmFyaWFudDogaW5oZXJpdDsgZm9udC13ZWlnaHQ6IGluaGVyaXQ7IGZvbnQtc3Ry
-ZXRjaDogaW5oZXJpdDsgbGluZS1oZWlnaHQ6IGluaGVyaXQ7IGZvbnQtZmFtaWx5OiBpbmhlcml0
-OyB2ZXJ0aWNhbC1hbGlnbjogYmFzZWxpbmU7IGJveC1zaXppbmc6IGluaGVyaXQ7Ij4tbSAxNiAt
-VyAtUyA0azwvZW0+KTo8L3A+PHAgc3R5bGU9Im1hcmdpbi10b3A6IDBweDsgbWFyZ2luLXJpZ2h0
-OiAwcHg7IG1hcmdpbi1ib3R0b206IHZhcigtLXMtcHJvc2Utc3BhY2luZyk7IG1hcmdpbi1sZWZ0
-OiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1lcmljOiBp
-bmhlcml0OyBmb250LXZhcmlhbnQtZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJldGNoOiBp
-bmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtI
-ZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE1
-cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgY2xlYXI6
-IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5LCA0MSk7Ij48YSBocmVmPSJodHRwczovL2kuc3RhY2su
-aW1ndXIuY29tL0VMTmZxLnBuZyIgcmVsPSJub2ZvbGxvdyBub3JlZmVycmVyIiBzdHlsZT0ibWFy
-Z2luOiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAwcHg7IGZvbnQtc3R5bGU6IGluaGVyaXQ7
-IGZvbnQtdmFyaWFudDogaW5oZXJpdDsgZm9udC13ZWlnaHQ6IGluaGVyaXQ7IGZvbnQtc3RyZXRj
-aDogaW5oZXJpdDsgbGluZS1oZWlnaHQ6IGluaGVyaXQ7IGZvbnQtZmFtaWx5OiBpbmhlcml0OyB2
-ZXJ0aWNhbC1hbGlnbjogYmFzZWxpbmU7IGJveC1zaXppbmc6IGluaGVyaXQ7IGN1cnNvcjogcG9p
-bnRlcjsgdXNlci1zZWxlY3Q6IGF1dG87Ij48aW1nIHNyYz0iaHR0cHM6Ly9pLnN0YWNrLmltZ3Vy
-LmNvbS9FTE5mcS5wbmciIGFsdD0iZW50ZXIgaW1hZ2UgZGVzY3JpcHRpb24gaGVyZSIgc3R5bGU9
-Im1hcmdpbjogMHB4OyBwYWRkaW5nOiAwcHg7IGJvcmRlcjogMHB4OyBmb250LXN0eWxlOiBpbmhl
-cml0OyBmb250LXZhcmlhbnQ6IGluaGVyaXQ7IGZvbnQtd2VpZ2h0OiBpbmhlcml0OyBmb250LXN0
-cmV0Y2g6IGluaGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogaW5oZXJp
-dDsgdmVydGljYWwtYWxpZ246IGJvdHRvbTsgYm94LXNpemluZzogaW5oZXJpdDsgbWF4LXdpZHRo
-OiAxMDAlOyI+PC9hPjwvcD48cCBzdHlsZT0ibWFyZ2luLXRvcDogMHB4OyBtYXJnaW4tcmlnaHQ6
-IDBweDsgbWFyZ2luLWJvdHRvbTogdmFyKC0tcy1wcm9zZS1zcGFjaW5nKTsgbWFyZ2luLWxlZnQ6
-IDBweDsgcGFkZGluZzogMHB4OyBib3JkZXI6IDBweDsgZm9udC12YXJpYW50LW51bWVyaWM6IGlu
-aGVyaXQ7IGZvbnQtdmFyaWFudC1lYXN0LWFzaWFuOiBpbmhlcml0OyBmb250LXN0cmV0Y2g6IGlu
-aGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogQXJpYWwsICZxdW90O0hl
-bHZldGljYSBOZXVlJnF1b3Q7LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTVw
-eDsgdmVydGljYWwtYWxpZ246IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBpbmhlcml0OyBjbGVhcjog
-Ym90aDsgY29sb3I6IHJnYigzNiwgMzksIDQxKTsiPlF1ZXN0aW9uczo8L3A+PHAgc3R5bGU9Im1h
-cmdpbi10b3A6IDBweDsgbWFyZ2luLXJpZ2h0OiAwcHg7IG1hcmdpbi1ib3R0b206IHZhcigtLXMt
-cHJvc2Utc3BhY2luZyk7IG1hcmdpbi1sZWZ0OiAwcHg7IHBhZGRpbmc6IDBweDsgYm9yZGVyOiAw
-cHg7IGZvbnQtdmFyaWFudC1udW1lcmljOiBpbmhlcml0OyBmb250LXZhcmlhbnQtZWFzdC1hc2lh
-bjogaW5oZXJpdDsgZm9udC1zdHJldGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5oZXJpdDsg
-Zm9udC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVsdmV0aWNh
-LCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNlbGluZTsg
-Ym94LXNpemluZzogaW5oZXJpdDsgY2xlYXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5LCA0MSk7
-Ij4xLCB3aHkgMi41IHZlcnNpb24gd3JpdGUgb25seSB1c2VkIGRpc2sgY2FwYWJpbGl0eSgxOEcp
-LCBidXQgNi4wIHZlcnNpb24gd3JpdGUgdGhlIGhvbGUgZGlzayAyLjVUPzwvcD48ZGl2IHN0eWxl
-PSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBib3JkZXI6IDBweDsgZm9udC12YXJpYW50LW51
-bWVyaWM6IGluaGVyaXQ7IGZvbnQtdmFyaWFudC1lYXN0LWFzaWFuOiBpbmhlcml0OyBmb250LXN0
-cmV0Y2g6IGluaGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogQXJpYWws
-ICZxdW90O0hlbHZldGljYSBOZXVlJnF1b3Q7LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQt
-c2l6ZTogMTVweDsgdmVydGljYWwtYWxpZ246IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBpbmhlcml0
-OyBjbGVhcjogYm90aDsgY29sb3I6IHJnYigzNiwgMzksIDQxKTsiPjIsIGhvdyB0byB1c2UgcWVt
-dS1pbWcgKDIuNSBvciA2LjAgdmVyc2lvbikgYWNjZWxlcmF0aW5nIGNvbnZlcnQgUkJEIHZvbHVt
-ZSB0byBhbm90aGVyIENlcGggY2x1c3RlciBvciB0aGVyZSBpcyBzb21lIG90aGVyIHdheXMgdG8g
-YXBwcm9hY2g/PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsgYm9y
-ZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1lcmljOiBpbmhlcml0OyBmb250LXZhcmlhbnQtZWFz
-dC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJldGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDogaW5o
-ZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90OywgSGVs
-dmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBiYXNl
-bGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgY2xlYXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYsIDM5
-LCA0MSk7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwcHg7IHBhZGRpbmc6IDBweDsg
-Ym9yZGVyOiAwcHg7IGZvbnQtdmFyaWFudC1udW1lcmljOiBpbmhlcml0OyBmb250LXZhcmlhbnQt
-ZWFzdC1hc2lhbjogaW5oZXJpdDsgZm9udC1zdHJldGNoOiBpbmhlcml0OyBsaW5lLWhlaWdodDog
-aW5oZXJpdDsgZm9udC1mYW1pbHk6IEFyaWFsLCAmcXVvdDtIZWx2ZXRpY2EgTmV1ZSZxdW90Oywg
-SGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE1cHg7IHZlcnRpY2FsLWFsaWduOiBi
-YXNlbGluZTsgYm94LXNpemluZzogaW5oZXJpdDsgY2xlYXI6IGJvdGg7IGNvbG9yOiByZ2IoMzYs
-IDM5LCA0MSk7Ij5UaGlzIHF1ZXN0aW9uIGluIHN0YWNrIG92ZXIgZmxvdyBidXQgbm9ib2R5IGNh
-biBoZWxwIG1lLiBUaGUgbGluazo8YSBocmVmPSJodHRwczovL3N0YWNrb3ZlcmZsb3cuY29tL3F1
-ZXN0aW9ucy82NzAwMDM3Ny9xZW11LWltZy1jb252ZXJ0LXJiZC12b2x1bWVzLWJldHdlZW4tZGlm
-ZmVyZW50LWNlcGgtY2x1c3RlcnMtYWNjZWxlcmF0ZSIgX3NyYz0iaHR0cHM6Ly9zdGFja292ZXJm
-bG93LmNvbS9xdWVzdGlvbnMvNjcwMDAzNzcvcWVtdS1pbWctY29udmVydC1yYmQtdm9sdW1lcy1i
-ZXR3ZWVuLWRpZmZlcmVudC1jZXBoLWNsdXN0ZXJzLWFjY2VsZXJhdGUiPmh0dHBzOi8vc3RhY2tv
-dmVyZmxvdy5jb20vcXVlc3Rpb25zLzY3MDAwMzc3L3FlbXUtaW1nLWNvbnZlcnQtcmJkLXZvbHVt
-ZXMtYmV0d2Vlbi1kaWZmZXJlbnQtY2VwaC1jbHVzdGVycy1hY2NlbGVyYXRlPC9hPiA8L2Rpdj48
-ZGl2IHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzogMHB4OyBib3JkZXI6IDBweDsgZm9udC12
-YXJpYW50LW51bWVyaWM6IGluaGVyaXQ7IGZvbnQtdmFyaWFudC1lYXN0LWFzaWFuOiBpbmhlcml0
-OyBmb250LXN0cmV0Y2g6IGluaGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWls
-eTogQXJpYWwsICZxdW90O0hlbHZldGljYSBOZXVlJnF1b3Q7LCBIZWx2ZXRpY2EsIHNhbnMtc2Vy
-aWY7IGZvbnQtc2l6ZTogMTVweDsgdmVydGljYWwtYWxpZ246IGJhc2VsaW5lOyBib3gtc2l6aW5n
-OiBpbmhlcml0OyBjbGVhcjogYm90aDsgY29sb3I6IHJnYigzNiwgMzksIDQxKTsiPkhvcGUgZm9y
-IHlvdXIgcmVwbHksIFRIWC48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDBweDsgcGFkZGluZzog
-MHB4OyBib3JkZXI6IDBweDsgZm9udC12YXJpYW50LW51bWVyaWM6IGluaGVyaXQ7IGZvbnQtdmFy
-aWFudC1lYXN0LWFzaWFuOiBpbmhlcml0OyBmb250LXN0cmV0Y2g6IGluaGVyaXQ7IGxpbmUtaGVp
-Z2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogQXJpYWwsICZxdW90O0hlbHZldGljYSBOZXVlJnF1
-b3Q7LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTVweDsgdmVydGljYWwtYWxp
-Z246IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBpbmhlcml0OyBjbGVhcjogYm90aDsgY29sb3I6IHJn
-YigzNiwgMzksIDQxKTsiPllvdXJzIFNpbmNlcmVseSw8L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDBweDsgcGFkZGluZzogMHB4OyBib3JkZXI6IDBweDsgZm9udC12YXJpYW50LW51bWVyaWM6IGlu
-aGVyaXQ7IGZvbnQtdmFyaWFudC1lYXN0LWFzaWFuOiBpbmhlcml0OyBmb250LXN0cmV0Y2g6IGlu
-aGVyaXQ7IGxpbmUtaGVpZ2h0OiBpbmhlcml0OyBmb250LWZhbWlseTogQXJpYWwsICZxdW90O0hl
-bHZldGljYSBOZXVlJnF1b3Q7LCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTVw
-eDsgdmVydGljYWwtYWxpZ246IGJhc2VsaW5lOyBib3gtc2l6aW5nOiBpbmhlcml0OyBjbGVhcjog
-Ym90aDsgY29sb3I6IHJnYigzNiwgMzksIDQxKTsiPlZpY3RvciBMZWU8L2Rpdj48L2Rpdj48YnI+
-PGJyPjxzcGFuIHRpdGxlPSJuZXRlYXNlZm9vdGVyIj48cD4mbmJzcDs8L3A+PC9zcGFuPg==
-------=_Part_105716_1017872299.1617889286653--
+Good question.
+
+device-list-properties uses module_object_class_by_name(), requires the
+result to be a concrete device type, iterates over QOM properties with
+object_property_iter_init() / object_property_iter_next(), skipping
+properties named "type", "realized", "hotpluggable", "hotplugged",
+"parent_bus", and any whose starts with "legacy-".
+
+Paolo, can you remind us why we skip the "legacy-FOO" properties?
+
+qom-list-properties uses object_class_by_name(), requires an object type
+(an interface won't do).  If it's abstract, it iterates with
+object_class_property_iter_init() / object_property_iter_next(), else
+with object_property_iter_init() / object_property_iter_next().  It
+doesn't skip properties.
+
+Looks like device-list-properties has become[*] pretty much redundant
+*except* for the difference between module_object_class_by_name() and
+object_class_by_name().
+
+Gerd, you changed device-list-properties from object_class_by_name() to
+module_object_class_by_name() in commit 7ab6e7fcce.  Should
+qom-list-properties be changed, too?  If yes, is there any reason to use
+object_class_by_name() for looking up user-provided type names in QMP
+commands?
+
+
+[*] "has become" because they used to be more different, if memory
+serves.
 
 
