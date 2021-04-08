@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD765358394
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 14:47:36 +0200 (CEST)
-Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DC8358384
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 14:44:09 +0200 (CEST)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUU4N-0000Gd-RA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 08:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
+	id 1lUU11-0007Wl-IE
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 08:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lUTwn-00062E-HW; Thu, 08 Apr 2021 08:39:45 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:42961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lUTwl-0002mG-GM; Thu, 08 Apr 2021 08:39:45 -0400
-Received: by mail-qt1-x831.google.com with SMTP id m16so602363qtx.9;
- Thu, 08 Apr 2021 05:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jXr9V7WZuQ1MQUo2L7X8W6+mjxPifB+3LUpeKSURTkM=;
- b=QevFCNexcJh5kchGAQRMSj63OU8eZQ+88KMQZenqaDdqgBvnZ+DDQLzsdLF4mN5rBh
- UZgxkcGKXzi+7SyskyDAiz/S0A0sRup/gxbC55g2v+4wptqeQs+vg8x193k/gC3gCSoF
- yqmu9Idu08U8B+Xol19NFYGzjvLXJc4Pq9bRg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jXr9V7WZuQ1MQUo2L7X8W6+mjxPifB+3LUpeKSURTkM=;
- b=npUXGIzJepIKO7PrS3rrf/O1T4w7eLtbJ0fXiIXGbmSjax0bN0kXUS8WLJjLXD2Wtk
- YldWMbrdku9bX7NFyTY2YzCtMV0/kTwt8mx1kzui/q4Jq4hSr+WAI/wGDgOjpneVlmdi
- oUjpzJAC3t0d4dPhyr/hDIeNOaZ+l7PRLdmM3HWunnc+FYId7//asTZjo61DC7/v76BF
- DQqmSHhh4SJbJIiySKzSl9Erzj69szjNN4Spv1JXHEhWABY4qrdZLDRAiSEDoQMax2a2
- rwKt1w6LJah57PECj8tn2hOwfc4Qg1Vw7oow8WXFQyipkITG8AGYNC8VCYQZUtQwqG0C
- 2Lcg==
-X-Gm-Message-State: AOAM532M10BCjNkm/sfZMAOLCP3uGFCbQYkJq0jxHMSUUkAVBFty0KGz
- bIo9qR3ZvsKFCtWMZatHOYJGeTl/xjrz9e4p51M=
-X-Google-Smtp-Source: ABdhPJx+sPoqNS9eBgRb4eRSaY14ButGHYshjjBDd6YfRGcKeoCrFjLHrGf7PhorFdZ/okk0XBS+qHjFp7dHvoVogBE=
-X-Received: by 2002:ac8:5f87:: with SMTP id j7mr7010838qta.135.1617885581443; 
- Thu, 08 Apr 2021 05:39:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUTwx-00066a-NS
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 08:39:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUTwu-0002rv-88
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 08:39:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617885590;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eLGmKoAhpOIqUZ562hxhQQkQAt6nuqREzQ8HKOHdAN0=;
+ b=KO12CdPqkoasZjzuXko7qsLqmH6tGRH245Ak5doxRSOS6T2gmeQIDEdrAmUSEZgo/xxR8D
+ by8zAzVa94ur+5LYY0gfh5XsYy7cdomaW1Ij1Y05yZMS9hsJV7verCIFfqyzQjam2iOx9l
+ kr/Dx7zjErIIme9rEgLLOYb4p5QTocg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-bwFIs9FiPM2U2kO5-T-Dhg-1; Thu, 08 Apr 2021 08:39:49 -0400
+X-MC-Unique: bwFIs9FiPM2U2kO5-T-Dhg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B9CDBBEE2;
+ Thu,  8 Apr 2021 12:39:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7D1160864;
+ Thu,  8 Apr 2021 12:39:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4E4681132D66; Thu,  8 Apr 2021 14:39:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 00/11] qemu_iotests: improve debugging options
+References: <20210407135021.48330-1-eesposit@redhat.com>
+ <87wntdchbw.fsf@dusky.pond.sub.org>
+ <d580fb77-7e50-7af6-ad03-c28c94cd36f1@redhat.com>
+Date: Thu, 08 Apr 2021 14:39:46 +0200
+In-Reply-To: <d580fb77-7e50-7af6-ad03-c28c94cd36f1@redhat.com> (Emanuele
+ Giuseppe Esposito's message of "Thu, 8 Apr 2021 13:15:12 +0200")
+Message-ID: <875z0xar1p.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-10-clg@kaod.org>
-In-Reply-To: <20210407171637.777743-10-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 8 Apr 2021 12:39:28 +0000
-Message-ID: <CACPK8XfxeVAx9teUBMxcAhOYoN11pngfMW2zxJfLvGhinPpL5Q@mail.gmail.com>
-Subject: Re: [PATCH 09/24] aspeed: Add Scater-Gather support for HACE Hash
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=joel.stan@gmail.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,29 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Klaus,
+Emanuele Giuseppe Esposito <eesposit@redhat.com> writes:
 
-On Wed, 7 Apr 2021 at 17:16, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> On 08/04/2021 10:26, Markus Armbruster wrote:
+>> Emanuele Giuseppe Esposito <eesposit@redhat.com> writes:
+>> 
+>>> This series adds the option to attach gdbserver and valgrind
+>>> to the QEMU binary running in qemu_iotests.
+>>> It also allows to redirect QEMU binaries output of the python tests
+>>> to the stdout, instead of a log file.
+>>>
+>>> Patches 1-6 introduce the -gdb option to both python and bash tests,
+>>> 7-10 extend the already existing -valgrind flag to work also on
+>>> python tests, and patch 11 introduces -p to enable logging to stdout.
+>>>
+>>> In particular, patches 1,2,4,8 focus on extending the QMP socket timers
+>>> when using gdb/valgrind, otherwise the python tests will fail due to
+>>> delays in the QMP responses.
+>>>
+>>> This series is tested on the previous serie
+>>> "qemu-iotests: quality of life improvements"
+>>> but independent from it, so it can be applied separately.
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> 
+>> How discoverable are these goodies for developers with only superficial
+>> knowledge of iotests?
+>> 
 >
-> From: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+> Not really sure what you mean, but
 >
-> Complement the Aspeed HACE support with Scatter-Gather hash support for
-> sha256 and sha512. Scatter-Gather is only supported on AST2600-series.
+> ./check --help now shows:
+>
+>> -p         enable prints
+>> -gdb       start gdbserver with $GDB_QEMU options. Default is localhost:12345
+>
+> Which I guess should be clear enough? Btw two-three weeks ago I didn't 
+> know anything about these tests either.
+>
+> I agree I can make -p more clear, saying "enable qemu binary prints to 
+> stdout", and move -valgrind to the "optional arguments" instead of 
+> "bash-only"
 
-Sorry it's taken some time for me to get to this patch. It looks good.
+Yes, please (this is not a demand).
 
-While spending some time reviewing, I ended up using your ideas to
-rework the do_hash_operation to support both sg and direct modes. It
-results in a smaller patch and shares codepaths for both modes. I'll
-send it out soon for review.
+docs/devel/testing.rst section "QEMU iotests" is the place to explain
+things in more detail than --help, if that's useful.  Right now it
+simply points to check -h.
 
-Cheers,
-
-Joel
 
