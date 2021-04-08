@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAA03587CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 17:07:02 +0200 (CEST)
-Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272FA35883C
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 17:24:46 +0200 (CEST)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUWFH-0005wj-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 11:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55062)
+	id 1lUWWT-0004lm-89
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 11:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUWDs-00058w-KY
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 11:05:32 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:44733)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lUWV4-00042N-NU; Thu, 08 Apr 2021 11:23:18 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:39815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUWDq-0007WI-Sz
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 11:05:32 -0400
-Received: by mail-pl1-x629.google.com with SMTP id d8so1188304plh.11
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 08:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Kp/K36LPcceZnEzoGJm1Ckb4/TJ/49ACoLX/qS7yYwY=;
- b=TPXYJf+wO1vBjBJFnmoqnELjsBSvZ5eAbJRxB3jker6l5iCgrpXXmdYCpXNFjOjV7S
- jxbR22qgmEtFMFe57XhUBVjukl+Tgu1+AyHO7jAwA/QaSSP8ZimBvoBCeLBrrgRHlm9K
- 3bY1+J5UnTc8gZnmlQmKXdhTqA+ZfYMmnAaq+3o7BYbrlHWGWzwezzIuzM6CKGcfN0Ye
- De9EM/giNBQ7Sfemjfr0zSNwIlLJu+dHnASmvtfuRjyBDESYKUTrliHecaxgSYMhLlVL
- A7pb4T5h/7rMNfZwM0RKYnyZ1EsmzTzjO3FW+r8o7sZeUldFjb0b9IwjEK+XnWaRdwuZ
- URfw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lUWV3-0001XM-61; Thu, 08 Apr 2021 11:23:18 -0400
+Received: by mail-il1-x12c.google.com with SMTP id b17so2110385ilh.6;
+ Thu, 08 Apr 2021 08:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Gcd/vsZtjno3B6I1lJLXfrhYz7HPZzQS2ctns6uBjbc=;
+ b=TusA41Hbblxx1lrgxRm8z1hHAmHH41My0n/A2H1l2MZ4L+s8NzDS250WgYX3Nd28UH
+ X2khSN8zr4VIqdxOkjdMXklmxb7XnxRSLXClzePu0/Edi5BklEeqlwOSF+0Ny7SEqG2p
+ lLvb/P0bPY+mQgjwAErPJMP4ULJFP0S9GHEzuk0NSWnZN5tzt6HHRHzdBGvaPuaRkFe8
+ RWVinPtK+Pb9S6NCyoISmnYMhi9FP2IleFRWSaWnCYHLrT6drvRnaqjV8HslodBm4I0d
+ MfFTKagMbvgipAIqz/1/S/ajH5z8gEqld/LrkY9fEGG7TwawUvm0Ivb3tcmUKb92d2R+
+ iW1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Kp/K36LPcceZnEzoGJm1Ckb4/TJ/49ACoLX/qS7yYwY=;
- b=bIhZDMAKl4CUsa+6sdftqoqzwLwBMCZlUpPqUyURUuO2iTqNuXIqu86pkOjMXaAL/L
- zMdfUzuNGHOZKK4cHRLMoU5lYTSytgymRuwo5su33xQGSGpwDC52nXCRLdhZesY6rD9F
- Lf8I7pKrzH7S+F1Ie9aylfPsz4GMYtpR6R2SHRhPhey7YNYSGObN7/HRVDIef1tYpVEi
- EGE5bKudWX8z7qsO4EmEw3WBi4V+3MLEvf0TPQLxoTo3MaJU/fqakCwxecSl2sehrZxs
- lLuue2/7IhNspOrE/DrFL2BfwP37DV4c16BiAA58qpnZ/puXd3OYyFxo0tRzVnVUzCyb
- N3Sg==
-X-Gm-Message-State: AOAM533gzcuzxGu6/+2GW9TyNMVuQu0TWZYudMygmH1UPSYi+OcZXUZM
- CUwFML3My4IFF/QCyiij4ZIw4Q==
-X-Google-Smtp-Source: ABdhPJxSfuPf4WbhSSzLjRO6u+R8F+HNpUNOWlfvlvrIoUkgWZKzX+YfBxSjheYFzmpjs+c6mePaUA==
-X-Received: by 2002:a17:902:a589:b029:e9:21cc:4aac with SMTP id
- az9-20020a170902a589b02900e921cc4aacmr8208462plb.21.1617894326594; 
- Thu, 08 Apr 2021 08:05:26 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id t19sm25762129pfg.38.2021.04.08.08.05.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 08:05:26 -0700 (PDT)
-Subject: Re: [RFC v12 31/65] target/arm: move exception code out of
- tcg/helper.c
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-32-cfontana@suse.de>
- <fe889df8-c11a-8e29-0ef5-84a89b449b36@linaro.org>
- <2e19f3f4-f8cf-645e-1d9d-13e3b208438d@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ad612e6c-6a19-aa17-a0e7-55979017d6a0@linaro.org>
-Date: Thu, 8 Apr 2021 08:05:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Gcd/vsZtjno3B6I1lJLXfrhYz7HPZzQS2ctns6uBjbc=;
+ b=BfRcE2skbFvH8baNlgk/T83vqLbLnYxbsR1JD7eIT40kmaXnJ2s4EwX9rYD3F1i0XI
+ 173wweYmVBgLaW9WbK4+FX6Kt7pPsa9CtSJVjoDumWYhgADT+Erszxn0+/4kordh6IGm
+ I/cT+99MNVisoHEymuuTYTvyX9/t8yRrUS075um29HZ+VYjMPO8IrTgpw3GmHdGTS+nr
+ 9EAwkbJfkDd081a/A1AgkHEbSzasFu2G3QppJ016fpFuWoKJm2cAFZfMt2KL0zuiGbrM
+ CqG5TOQS3OMRgn1WcMpiF8OOfUtZAKVVrWheOxpAhd6Hg+H45LPmLKYxxiIUWX3WRmKb
+ rtww==
+X-Gm-Message-State: AOAM530oPjipEH55gdAtNBYtBbvgAYJMHY5Xs668UrCAfO/72A33Bdoc
+ SBRy1LU1558zfVNxqkro+IlCrXSqF/cCFiSaB0A=
+X-Google-Smtp-Source: ABdhPJwoFMyAq9sNmn0ewKT5R7ZIRGmq/5ZLDj2uKQHZOPkNY2vuNQGJTlGudPETloxiagybc/4l6wkUjJaWW8wXbSE=
+X-Received: by 2002:a05:6e02:5a2:: with SMTP id
+ k2mr7531543ils.177.1617895395162; 
+ Thu, 08 Apr 2021 08:23:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2e19f3f4-f8cf-645e-1d9d-13e3b208438d@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <cover.1617393702.git.alistair.francis@wdc.com>
+ <7efb55362999a5b709ea8e7fa0ea188e740d9c67.1617393702.git.alistair.francis@wdc.com>
+ <81cbeace-c357-1ef3-1a1c-f1b266e66a98@linaro.org>
+In-Reply-To: <81cbeace-c357-1ef3-1a1c-f1b266e66a98@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 8 Apr 2021 11:20:53 -0400
+Message-ID: <CAKmqyKNN7y=WV5=Bqd7zjLrYL620QOzrz=YR0XgdxMe+pLBxcw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/8] target/riscv: Remove the hardcoded MSTATUS_SD macro
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,58 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 3:56 AM, Claudio Fontana wrote:
-> It is a struggle to balance making TCG-only symbols "invisible" to kvm-builds, so one developing for KVM only can forget about them,
-> and keeping TCG things contained,
-> 
-> and on the other side opening up the ability to use tcg_enabled(), which requires those prototypes to be visible.
-> 
-> Where do you see that balance?
+On Mon, Apr 5, 2021 at 11:10 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 4/2/21 1:02 PM, Alistair Francis wrote:
+> > @@ -369,6 +369,9 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+> >   static void mark_fs_dirty(DisasContext *ctx)
+> >   {
+> >       TCGv tmp;
+> > +    CPUState *cpu = ctx->cs;
+> > +    CPURISCVState *env = cpu->env_ptr;
+> > +
+> >       if (ctx->mstatus_fs == MSTATUS_FS) {
+> >           return;
+> >       }
+> > @@ -377,12 +380,24 @@ static void mark_fs_dirty(DisasContext *ctx)
+> >
+> >       tmp = tcg_temp_new();
+> >       tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+> > -    tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | MSTATUS_SD);
+> > +    if (riscv_cpu_is_32bit(env)) {
+>
+> This is less than ideal, and will be incorrect long term.
+> You should check ctx->misa instead.
+>
+> Eventually you'll need to change riscv_tr_init_disas_context to not just copy
+> ctx->misa from env.  At present we flush all translation blocks when misa
+> changes, which works.  But you won't want to do that when the hypervisor is
+> 64-bit and the guest is 32-bit.
+>
+> Anyway, I think it would be a good idea to create a helper local to translate,
+> akin to has_ext().
+>
+> > +        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | MSTATUS32_SD);
+> > +    } else {
+> > +#if defined(TARGET_RISCV64)
+> > +        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | MSTATUS64_SD);
+> > +#endif
+>
+> The ifdefs are ugly.  I presume there's some sort of compiler warning here?
+> Does it go away if you cast to target_ulong?
+>
+> How about
+>
+>      target_ulong sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
 
-The short answer is I'd keep the prototypes available, always.
+It turns out clang doesn't like this, so I might still be stuck with ifdefs.
 
-The longer answer is that I'd make more use of QEMU_ERROR().
+Alistair
 
-I think I described this off-hand before, but let me develop this thought more 
-completely.  Let's put some defines in a handy common header file:
-
-#ifdef CONFIG_TCG
-#define REQUIRE_TCG
-#else
-#define REQUIRE_TCG  QEMU_ERROR("tcg function is reachable")
-#endif
-
-and so on for all of the other accelerators, as well as
-
-#ifdef CONFIG_USER_ONLY
-#define REQUIRE_USER_ONLY
-#define REQUIRE_SYSEMU QEMU_ERROR("sysemu function is reachable")
-#else
-#define REQUIRE_USER_ONLY \
-   QEMU_ERROR("user-only function is reachable")
-#define REQUIRE_SYSEMU
-#endif
-
-Then, in target/foo/bar.h, instead of
-
-#ifdef CONFIG_TCG
-void some_function(...);
-#endif
-
-we write
-
-void some_function(...) REQUIRE_TCG;
-
-which is self-documentary, and also generates a compile error when the function 
-call has not been eliminated by a guard such as tcg_enabled (as opposed to 
-waiting until link time for the missing symbol).
-
-
-r~
+>      tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+>
+>
+> r~
 
