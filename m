@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA906358414
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 15:03:26 +0200 (CEST)
-Received: from localhost ([::1]:45396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B45358472
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 15:17:52 +0200 (CEST)
+Received: from localhost ([::1]:52066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUUJh-0003lC-5m
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 09:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
+	id 1lUUXf-0007Hv-2T
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 09:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUUHN-0002fX-Fb
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:01:01 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:40483)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUUWL-0006q0-5c
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:16:29 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:35586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUUHL-00062Z-6g
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:01:01 -0400
-Received: by mail-ej1-x630.google.com with SMTP id n2so2883408ejy.7
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 06:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NTk+P+OAsqrXTEd8LhBfft1fujtDHhJBJR0zUoXCWoU=;
- b=TSfJZVVgqRc+gpUeRnIsEABdPt0lxqjVNdydbKqBeUkPUHN5no7WWsEJQVDGZJdAMw
- tHR1/jJIZx2055SnPwpg9nnZuD9/30EhCkVnwtDVU+U5ivNRv+SEGL180b3k5yav+6RB
- yR8r896paL6lpDXgynhrzctBca2OYYFqRnX544cwtLHtgZa5UXdYys6vus1FsffOZ/jE
- SYZLJjtph6y+S0NnapouiOCZ5B7JQFrDGrr0+rQ7eo2SLMm2UZOhTt3FioBPl1/O2ScO
- pyTZJXeEDPtek8DaDNbl87as2BXyfhBw0dPkr6tp/6rJaNuqNThfEVnzW/Q9pmXlunTP
- kJ/g==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUUWG-00070Q-0w
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:16:27 -0400
+Received: by mail-ej1-x630.google.com with SMTP id u17so3000505ejk.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 06:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dB/+sv82TjLDQhwtEkzVTNRwtEPw9GBTgQJ2PvHDfKM=;
+ b=fCpP7AmoluZ1xgK/5dU8gfU0V6dMg2TLqFhJkXJPiD1vvpBY3qo+BdwgbS0V60fuBS
+ 4GKIIaXiICb1qNtEKCIZz0F8UzeU02R6+80EmkeOkwzzQzM/x0do/zg59OVM90UcH5NL
+ oGbg41KAPKY6n2fumBE+g2/GuxJiSkGHkTC0ONE3gbRintBjB8Ry0mJAYjvx/uBxXEty
+ 4ecer0qeFnZi57k/4lzIGveRE/qQKWXuDCUIsW2cydxoZKDH+FEUGd+zmkYVTiht2nEb
+ T79dxVHXZnnniPPp2dyT/WHCAFZWAsxyNmppTXjZeplrnwBiHz4+JXwermHfPhIKRxEl
+ t5dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NTk+P+OAsqrXTEd8LhBfft1fujtDHhJBJR0zUoXCWoU=;
- b=h20aQFE2KMmUcQ+kiQfqPu7CQuwLclnfdVJnit2+V4TJOZfoPJ9+PFifJqaGiSSBii
- Ho2GED6jl6MGWn1h3r7vxSknsISc2TKJ4Rfnr/F/xlx8xIMI2bhXVBAY5jiYDGBn63Ce
- nExxOGx/CEzINWiUFgwShw78Kyep0oXjaGkkte9GsfxcfEY9kpuH+IyZhG4cvl4vUU8Q
- RXjPyYm8sqqh7LOIpVlZsJAdGt+k/W6ZoPH9dFQ188ujj7pPVkapU9gxqKaQgn4v3WL1
- tk5bR7pYuhaOadfIhxajUJEvLda48smTkxKo0hlcG6GDvHVWKnIqJXSYKb1WnAXel6Kg
- cVfg==
-X-Gm-Message-State: AOAM532OYtCmTYGDjUsXzCysDz8bUKXj6/zaaYlEGvwKOjHZcte4eowp
- UClUdB6EdeZS2iqdaTFcNBpI0dLmibK5PsFg++5CjQ==
-X-Google-Smtp-Source: ABdhPJw9BcrVNJSpxZlY1sQVobLDAiaMz5wsaD+gqZl9lUf4aKPdlrYgRdfCv/ZC7nI8CZj2YQyNKWtymjQIXBjp3+M=
-X-Received: by 2002:a17:907:629e:: with SMTP id
- nd30mr10226625ejc.407.1617886856959; 
- Thu, 08 Apr 2021 06:00:56 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dB/+sv82TjLDQhwtEkzVTNRwtEPw9GBTgQJ2PvHDfKM=;
+ b=lYvkzG4jG91frSQ/wbNIQFJgaXQ8NSsC13heNqL1/n9QKIOUfDBO/z+YwD+Al0wLPv
+ kPrlEc3bfOu90eDIORAj8y1hVAyI8bramjVYh0YskFJfS4ikpfst1ICnICoSKrHRbyWO
+ dIeXLGH3bWVyjIwFYtJWAZj8GLXBtn6kVA58NaCplu/n2blV3cwJTO+HimwMdDw4hQWZ
+ qoW7UmetIaV4UxSN3d2YErAcOZeiCeSnOgswzFoZHmaMgAGOh4s6sY9JlmdJDBNOrKeu
+ Bz0LM1mmFPkoH495xturV4GhhmKc0YvEduyPMDInNj8/w7eJeVxFhckMH0O6pFqIRNzQ
+ NJ9w==
+X-Gm-Message-State: AOAM532qP1Ibl+TaemCBmy8lA+wP9dqWrQ954sFBAHsPA/Lx2xZ/VJn5
+ sCoiAlqsj1E8ifUjoFJHJsI=
+X-Google-Smtp-Source: ABdhPJzZRZY4hfugrY4Sdt7Su8fOiiVgORctk+Cf4k0tsT3ABY2ZSuucb/O04k7aP813zmATKbdAuw==
+X-Received: by 2002:a17:906:4e82:: with SMTP id
+ v2mr10621982eju.128.1617887781589; 
+ Thu, 08 Apr 2021 06:16:21 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id y6sm3737449ejw.83.2021.04.08.06.16.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Apr 2021 06:16:20 -0700 (PDT)
+Subject: Re: [PATCH-for-6.0? v2] hw/isa/Kconfig: Add missing dependency VIA
+ VT82C686 -> APM
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210316110353.3051738-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <05578055-216d-1cf3-93cc-a2b358374ca2@amsat.org>
+Date: Thu, 8 Apr 2021 15:16:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210406150041.28753-1-alex.bennee@linaro.org>
- <CAFEAcA9c24M3NA8LzbDEUU==Y51LwRH5nR9bopiFNwQTwoE7cg@mail.gmail.com>
- <87czv6uhtr.fsf@linaro.org>
- <CAFEAcA_6AEcUkpZY3d602OXybnH1iVM+8pQuktUWkScd02W4Kw@mail.gmail.com>
- <87a6qauebg.fsf@linaro.org>
-In-Reply-To: <87a6qauebg.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Apr 2021 13:00:16 +0000
-Message-ID: <CAFEAcA8eG=jaiT-XntEMEcAjooLP3TNdxYKFtpe9tSQ0rsZ9Fg@mail.gmail.com>
-Subject: Re: [PULL 00/11] rc2 fixes (check-tcg, gitlab, gdbstub)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210316110353.3051738-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,95 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Apr 2021 at 19:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Wed, 7 Apr 2021 at 18:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> >>
-> >>
-> >> Peter Maydell <peter.maydell@linaro.org> writes:
-> >>
-> >> > On Tue, 6 Apr 2021 at 16:00, Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g> wrote:
-> >> >>
-> >> >> The following changes since commit 109918d24a3bb9ed3d05beb34ea4ac6b=
-e443c138:
-> >> >>
-> >> >>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-fixes-for-6.=
-0-pull-request' into staging (2021-04-05 22:15:38 +0100)
-> >> >>
-> >> >> are available in the Git repository at:
-> >> >>
-> >> >>   https://github.com/stsquad/qemu.git tags/pull-6.0-rc2-fixes-06042=
-1-1
-> >> >>
-> >> >> for you to fetch changes up to a2e5bbf0c407a572d9b687adaecf9995f66b=
-4cd9:
-> >> >>
-> >> >>   gitlab-ci.yml: Test the dtrace backend in one of the jobs (2021-0=
-4-06 15:04:50 +0100)
-> >> >>
-> >> >> ----------------------------------------------------------------
-> >> >> Testing updates:
-> >> >>
-> >> >>   - fix x86_64 cross compilers
-> >> >>   - don't use registry for non-x86 containers
-> >> >>   - add valid host types for given cross compile containers
-> >> >>   - clean up i386 code16 test with explicit -no-pie
-> >> >>   - relax sha1.py gdbstub test
-> >> >>   - add more gdbstub documentation
-> >> >>   - remove annoying warning on gitlab
-> >> >>   - test dtrace backend in gitlab
-> >> >>
-> >> >> ----------------------------------------------------------------
-> >> >
-> >> > The merge for this failed in gitlab CI with a weird state:
-> >> >
-> >> > https://gitlab.com/qemu-project/qemu/-/pipelines/282228325
-> >> >
-> >> >  * marked "failed"
-> >> >  * but has a "cancel" button
-> >> >  * has no "retry" button
-> >> >  * has an "error" tag whose hover-over text reads "Pipeline job acti=
-vity
-> >> >    limit exceeded!"
-> >> >
-> >> > Not being sure whether this is gitlab CI being flaky again or a prob=
-lem
-> >> > with something in the pullreq, I've not applied it for rc2; we can
-> >> > figure out what happened and maybe try again for rc3.
-> >>
-> >> I think it's GitLab going nuts because:
-> >>
-> >>   https://gitlab.com/stsquad/qemu/-/pipelines/282304522 is all green
-> >>   https://gitlab.com/stsquad/qemu/-/pipelines/282619235 is a dumpster =
-fire
-> >>
-> >> And they are both the same commit (pull-6.0-rc2-fixes-070421-2)
-> >
-> > Should I retry a merge of this pullreq (which is -1), or are you going =
-to
-> > submit a new one ?
->
-> I think either is good, the -2 tag was simply a re-base and has at least
-> one clean run before everything went weird.
+This patch apparently got lost.
 
-Yep, it seemed happier on a second run so I've merged this (using the -1
-tag; -2 isn't a signed tag).
-
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
+On 3/16/21 12:03 PM, Philippe Mathieu-Daudé wrote:
+> TYPE_VIA_PM calls apm_init() in via_pm_realize(), so
+> requires APM to be selected.
+> 
+> Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Rebased on usb-20210315-pull-request
+> Based-on: <20210315180240.1597240-1-kraxel@redhat.com>
+> ---
+>  hw/isa/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+> index 2691eae2f0c..55e0003ce40 100644
+> --- a/hw/isa/Kconfig
+> +++ b/hw/isa/Kconfig
+> @@ -48,6 +48,7 @@ config VT82C686
+>      select SERIAL_ISA
+>      select FDC
+>      select USB_UHCI
+> +    select APM
+>  
+>  config SMC37C669
+>      bool
+> 
 
