@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95BE35871B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:24:55 +0200 (CEST)
-Received: from localhost ([::1]:46244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E2035870E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:21:38 +0200 (CEST)
+Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUVaY-0003cr-Sf
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
+	id 1lUVXN-000099-KN
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUVWi-0000DU-2n
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:20:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUVWf-0007QY-Nk
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:20:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lUVWc-0002lt-9S
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 14:20:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 416042E8163
- for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 14:20:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lUVUx-0007L0-Vi
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:19:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lUVUt-0006UB-Al
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:19:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B87866024A;
+ Thu,  8 Apr 2021 14:18:57 +0000 (UTC)
+Date: Thu, 8 Apr 2021 15:18:55 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
+Message-ID: <20210408141853.GA7676@arm.com>
+References: <e0b88560-34e1-dcc4-aaa7-9a7a5b771824@arm.com>
+ <20210330103013.GD18075@arm.com>
+ <8977120b-841d-4882-2472-6e403bc9c797@redhat.com>
+ <20210331092109.GA21921@arm.com>
+ <d545a051-a02a-4c3a-0afe-66612839ba32@redhat.com>
+ <86a968c8-7a0e-44a4-28c3-bac62c2b7d65@arm.com>
+ <20210331184311.GA10737@arm.com>
+ <e2612bd8-b356-a9cd-cfdf-26f4aa813578@arm.com>
+ <20210407151458.GC21451@arm.com>
+ <5e5bf772-1e4d-ca59-a9d8-058a72dfad4f@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Apr 2021 14:11:22 -0000
-From: Babu Moger <1915063@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-collected focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger dober60 imammedo markrhpearson paelzer
- sergiodj ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: David Ober (dober60)
-X-Launchpad-Bug-Modifier: Babu Moger (babumoger)
-References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
-Message-Id: <161789108297.29345.9555788699258406579.malone@gac.canonical.com>
-Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
-X-Launchpad-Hash: 9af02428832edb5ae707d1e6d412f565fb69063f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5e5bf772-1e4d-ca59-a9d8-058a72dfad4f@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
 X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,127 +61,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, David Hildenbrand <david@redhat.com>,
+ Marc Zyngier <maz@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Christian,
-Yes. This following patch fixes the problem
- https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg01020.html
- =
+On Wed, Apr 07, 2021 at 04:52:54PM +0100, Steven Price wrote:
+> On 07/04/2021 16:14, Catalin Marinas wrote:
+> > On Wed, Apr 07, 2021 at 11:20:18AM +0100, Steven Price wrote:
+> > > On 31/03/2021 19:43, Catalin Marinas wrote:
+> > > > When a slot is added by the VMM, if it asked for MTE in guest (I guess
+> > > > that's an opt-in by the VMM, haven't checked the other patches), can we
+> > > > reject it if it's is going to be mapped as Normal Cacheable but it is a
+> > > > ZONE_DEVICE (i.e. !kvm_is_device_pfn() + one of David's suggestions to
+> > > > check for ZONE_DEVICE)? This way we don't need to do more expensive
+> > > > checks in set_pte_at().
+> > > 
+> > > The problem is that KVM allows the VMM to change the memory backing a slot
+> > > while the guest is running. This is obviously useful for the likes of
+> > > migration, but ultimately means that even if you were to do checks at the
+> > > time of slot creation, you would need to repeat the checks at set_pte_at()
+> > > time to ensure a mischievous VMM didn't swap the page for a problematic one.
+> > 
+> > Does changing the slot require some KVM API call? Can we intercept it
+> > and do the checks there?
+> 
+> As David has already replied - KVM uses MMU notifiers, so there's not really
+> a good place to intercept this before the fault.
+> 
+> > Maybe a better alternative for the time being is to add a new
+> > kvm_is_zone_device_pfn() and force KVM_PGTABLE_PROT_DEVICE if it returns
+> > true _and_ the VMM asked for MTE in guest. We can then only set
+> > PG_mte_tagged if !device.
+> 
+> KVM already has a kvm_is_device_pfn(), and yes I agree restricting the MTE
+> checks to only !kvm_is_device_pfn() makes sense (I have the fix in my branch
+> locally).
 
-I saw your ping on the patch. I am not sure why it is not picked up. I am g=
-oing ping them today.
+Indeed, you can skip it if kvm_is_device_pfn(). In addition, with MTE,
+I'd also mark a pfn as 'device' in user_mem_abort() if
+pfn_to_online_page() is NULL as we don't want to map it as Cacheable in
+Stage 2. It's unlikely that we'll trip over this path but just in case.
 
->If I might ask - how does the kernel fix you referenced interact with this=
- proposed qemu change?
->Assumptions (please correct me):
-Problem seem to happen when guest tries to access the SPEC_CTRL register to=
- with the wrong settings. The kernel fix avoids writing those values and av=
-oids #GP fault.
-  =
+(can we have a ZONE_DEVICE _online_ pfn or by definition they are
+considered offline?)
 
->1. with the qemu change and using that Rome-v2 it would ask to expose both=
- features and no more crash (even >on unfixed kernels)
-Yes. With Qemu patch EPYC-Rome v2 this issue will be fixed.
+> > BTW, after a page is restored from swap, how long do we keep the
+> > metadata around? I think we can delete it as soon as it was restored and
+> > PG_mte_tagged was set. Currently it looks like we only do this when the
+> > actual page was freed or swapoff. I haven't convinced myself that it's
+> > safe to do this for swapoff unless it guarantees that all the ptes
+> > sharing a page have been restored.
+> 
+> My initial thought was to free the metadata immediately. However it turns
+> out that the following sequence can happen:
+> 
+>  1. Swap out a page
+>  2. Swap the page in *read only*
+>  3. Discard the page
+>  4. Swap the page in again
+> 
+> So there's no writing of the swap data again before (3). This works nicely
+> with a swap device because after writing a page it stays there forever, so
+> if you know it hasn't been modified it's pointless rewriting it. Sadly it's
+> not quite so ideal with the MTE tags which are currently kept in RAM.
 
->2. with the kernel fix it will no more crash, even with an unfixed qemu?
-Yes, That is correct. We need at lease one of these patches to fix this pro=
-blem.
+I missed this scenario. So we need to keep it around as long as the
+corresponding swap storage is still valid.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915063
-
-Title:
-  Windows 10 wil not install using qemu-system-x86_64
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  Steps to reproduce
-  install virt-manager and ovmf if nopt already there
-  copy windows and virtio iso files to /var/lib/libvirt/images
-
-  Use virt-manager from local machine to create your VMs with the disk, CPU=
-s and memory required
-      Select customize configuration then select OVMF(UEFI) instead of seab=
-ios
-      set first CDROM to the windows installation iso (enable in boot optio=
-ns)
-      add a second CDROM and load with the virtio iso
-  	change spice display to VNC
-
-    Always get a security error from windows and it fails to launch the ins=
-taller (works on RHEL and Fedora)
-  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
- of no help
-  --- =
-
-  ProblemType: Bug
-  ApportVersion: 2.20.11-0ubuntu27.14
-  Architecture: amd64
-  CasperMD5CheckResult: skip
-  CurrentDesktop: ubuntu:GNOME
-  DistributionChannelDescriptor:
-   # This is the distribution channel descriptor for the OEM CDs
-   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
-criptor
-   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
-d64+X00
-  DistroRelease: Ubuntu 20.04
-  InstallationDate: Installed on 2021-01-20 (19 days ago)
-  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
-0-14:39
-  MachineType: LENOVO 30E102Z
-  NonfreeKernelModules: nvidia_modeset nvidia
-  Package: linux (not installed)
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcFB: 0 EFI VGA
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
-=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
-andoff=3D7
-  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
-  RelatedPackageVersions:
-   linux-restricted-modules-5.6.0-1042-oem N/A
-   linux-backports-modules-5.6.0-1042-oem  N/A
-   linux-firmware                          1.187.8
-  RfKill:
-   =
-
-  Tags:  focal
-  Uname: Linux 5.6.0-1042-oem x86_64
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
-udo
-  _MarkForUpload: True
-  dmi.bios.date: 07/29/2020
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: S07KT08A
-  dmi.board.name: 1046
-  dmi.board.vendor: LENOVO
-  dmi.board.version: Not Defined
-  dmi.chassis.type: 3
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: None
-  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
-pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
-  dmi.product.family: INVALID
-  dmi.product.name: 30E102Z
-  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
-  dmi.product.version: ThinkStation P620
-  dmi.sys.vendor: LENOVO
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
+-- 
+Catalin
 
