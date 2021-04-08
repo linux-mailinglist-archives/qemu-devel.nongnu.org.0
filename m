@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6483584A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 15:27:30 +0200 (CEST)
-Received: from localhost ([::1]:38612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6483584B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 15:29:42 +0200 (CEST)
+Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUUgz-0005hm-JW
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 09:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
+	id 1lUUj7-0007SH-Se
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 09:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lUUfQ-0004T2-Ng
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:25:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20297)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lUUg8-0004wd-Ez
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:26:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lUUfO-00046I-RC
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:25:52 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lUUg6-0004Qe-55
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:26:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617888350;
+ s=mimecast20190719; t=1617888392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CalHGNi17Eqii6/q400v+adCnMrmFiYK7k2HM9Paen0=;
- b=JQlOfZGDm3i/6PcpKp37I36T+uto7b+XWh3V5vrm0flWuAUM9sj/MA8h27p8CTICHE4wG2
- 1QVIOBK0irU5As3BkgBivfrESb0i8ghU6luPUPZ7c2L/tzf5Ae9fxJWbZg41n3PrYDudvB
- AH9+o/gbPQYsA02j3/0B5iQxMkVTWYg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-YpeDq_FSP_SQpv14tBMp8g-1; Thu, 08 Apr 2021 09:25:48 -0400
-X-MC-Unique: YpeDq_FSP_SQpv14tBMp8g-1
-Received: by mail-ed1-f72.google.com with SMTP id r19so1035107edv.3
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 06:25:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=CalHGNi17Eqii6/q400v+adCnMrmFiYK7k2HM9Paen0=;
- b=o2/gqWFk/CKSZnvHY+/bkeZifMpFZPQ8iLKbHOo4erzO6owyDtzVMgwCVqAFrszuIp
- 4aGyo7BVimCHFIH420tFUp8Hr1FU9RypIkJM+8QCkgHqqfNsJfUBuIELItiOaeJHQQhU
- zC6DQZTt3PAZciDnxMJ5ZfSOf/9bdcwPjkO/JyncTrAiq/HlolYmbtZ599JeIFuQeIPF
- sFV8jETIBoLcxW+4TC18JFbNn2ZHfZjnE+vJt7BP9ZVvrpD/WtOsW1pQu692L7ZjfET2
- 1qpM9sp7AyHAhDw/8FWa1UkeFfjcFm/suo+HdFWaWbFsV56uXVs+gr56bGcjHaRS8IcB
- i4EA==
-X-Gm-Message-State: AOAM5302VH6YtpXvgCjzxtCIcTbb7vQ/T+0va1I+AsJjXXq4QNLY6maD
- nCy8jr/T9Y67UlIK0Dvv1MCc95f0BvP+Ioo2gehtIvDibZaiM+oT4vRBVieOKNu5+uRY3IVU15L
- 3WKuWUxnMAcrZb9o=
-X-Received: by 2002:a17:906:704a:: with SMTP id
- r10mr10409235ejj.312.1617888347329; 
- Thu, 08 Apr 2021 06:25:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAknoRcjTb94/flXdq07O9xXEaFxFdANkYdd2oe3OMFXEEzQVrN0eA8Q1E0/uztophbDOQEg==
-X-Received: by 2002:a17:906:704a:: with SMTP id
- r10mr10409216ejj.312.1617888347191; 
- Thu, 08 Apr 2021 06:25:47 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id w13sm11079682edc.81.2021.04.08.06.25.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 06:25:46 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Wen Pu <puwen@hygon.cn>
-Subject: Re: [PATCH RFC] target/i386: Add Intel CPU model versions
- supporting 'xsaves'
-In-Reply-To: <e6500701-19e5-d779-0326-376a110c5514@hygon.cn>
-References: <20210407154342.640584-1-vkuznets@redhat.com>
- <e6500701-19e5-d779-0326-376a110c5514@hygon.cn>
-Date: Thu, 08 Apr 2021 15:25:46 +0200
-Message-ID: <875z0w9acl.fsf@vitty.brq.redhat.com>
+ bh=aiQKXiaJZe+L0vNJLElKKdCbPOYoMyrmUDPvQH1iI0M=;
+ b=MH80HXWZZNd+GLAO1wi+Si63/dBJDtI46VRlwCZDzrLmD3qjmRt9KwIvE4jVeyC3+lZx7M
+ UPUZaXaYJvO+sM0BeDdeeN+YbOmCvEAGqWhGEKtowH1pDU47wbiOhlEsvDujkfzlWD8oZb
+ 7T0D7vcrKLUgYD8sjVMVLuA2Ag/EM2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-wM7CyAkIObOnsWApM4gwJA-1; Thu, 08 Apr 2021 09:26:31 -0400
+X-MC-Unique: wM7CyAkIObOnsWApM4gwJA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7737F10053E9;
+ Thu,  8 Apr 2021 13:26:29 +0000 (UTC)
+Received: from gondolin (ovpn-113-52.ams2.redhat.com [10.36.113.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9D4160BF1;
+ Thu,  8 Apr 2021 13:26:16 +0000 (UTC)
+Date: Thu, 8 Apr 2021 15:26:14 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v1 1/1] s390x: css: report errors from
+ ccw_dstream_read/write
+Message-ID: <20210408152614.4e8ee542.cohuck@redhat.com>
+In-Reply-To: <20210408143959.7b6a0fc3.pasic@linux.ibm.com>
+References: <1617695053-7328-1-git-send-email-pmorel@linux.ibm.com>
+ <1617695053-7328-2-git-send-email-pmorel@linux.ibm.com>
+ <20210407194711.459176c3.pasic@linux.ibm.com>
+ <20210408110232.2bf02df4.cohuck@redhat.com>
+ <20210408143959.7b6a0fc3.pasic@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,38 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, "Dr . David Alan
- Gilbert" <dgilbert@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: thuth@redhat.com, frankja@linux.ibm.com,
+ Pierre Morel <pmorel@linux.ibm.com>, david@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ imbrenda@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wen Pu <puwen@hygon.cn> writes:
+On Thu, 8 Apr 2021 14:39:59 +0200
+Halil Pasic <pasic@linux.ibm.com> wrote:
 
-> On 2021/4/7 23:43, Vitaly Kuznetsov wrote:
->> Hyper-V 2016 refuses to boot on Skylake+ CPU models because they lack
->> 'xsaves'/'vmx-xsaves' features and this diverges from real hardware. The
->> same issue emerges with AMD "EPYC" CPU model prior to version 3 which got
->> 'xsaves' added. EPYC-Rome/EPYC-Milan CPU models have 'xsaves' enabled from
->> the very beginning so the comment blaming KVM to explain why Intel CPUs
->> lack 'xsaves' is likely outdated.
->> 
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->> The only CPU model where I keep the original comment and don't add
->> a version supporting 'xsaves' is "Hygon Dhyana" as I don't know much
->> about it.
->
-> Hi Vitaly,
->
-> Hygon Dhyana supports 'xsaves', could you please add a version supporting
-> 'xsaves' for Hygon "Dhyana"?
->
+> On Thu, 8 Apr 2021 11:02:32 +0200
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+> > On Wed, 7 Apr 2021 19:47:11 +0200
+> > Halil Pasic <pasic@linux.ibm.com> wrote:
+> >   
+> > > So this begs the question, do we need this fixed for old releases as well?
+> > > 
+> > > My answer is yes we do. Conny what do you think?    
+> > 
+> > What do you mean with "old releases"? The dstream rework was in 2.11,
+> > and I doubt that anyone is using anything older, or a downstream
+> > release that is based on pre-2.11.
+> > 
+> > If you mean "include in stable", then yes, we can do that; if we want
+> > the commit in 6.0, I need the final version soon.  
+> 
+> With old releases, I wanted to say any QEMU that is still supported by
+> us ;). For upstream it is backport to the stable versions currently in
+> support.
+> 
+> The commit message does not tell us if this is an enhancement or a
+> bugfix, stable is not mentioned, and neither do we get the information
+> since when is this problem existent. I simply wanted to have that
+> discussion.
+> 
+> Would it make sense to split this up into a virtio-ccw a css and a 3270
+> patch? That way if there was a problem with let's say 3270, we could
+> still keep the other two?
 
-Sure, will do! Thanks for the confirmation!
-
--- 
-Vitaly
+I'm not sure that makes sense; it's not too complicated.
 
 
