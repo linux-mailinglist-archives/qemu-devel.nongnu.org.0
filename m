@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A440A358078
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:21:52 +0200 (CEST)
-Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204A8358098
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:27:57 +0200 (CEST)
+Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lURnL-0001jc-Na
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
+	id 1lURtD-0006si-V6
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lURkK-0000Tf-6u
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:18:44 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54219)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lURrA-0005sl-KF
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lURkG-0002w7-TK
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:18:43 -0400
-Received: by mail-wm1-x335.google.com with SMTP id p22so919869wmc.3
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 03:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=43wrP4+h1EJTdD6HNApR30qrDokqb8gGQpSbF/V27Tk=;
- b=oT+otYgjEAYgEI+gBbat6Fo2Q4E3OAETP6i7/qQQwMXJ5jdhRA9LTQ3RmHKq2AP2Ij
- J9XnKLvTwRY9jQtH4xpaYjzoO7Ur/6fkWBe4+vHWjHchdxiE6UIC381FLAuS+4evPRe4
- iJ2nbAtv9KMOgKXj47CJW6EQOc5FcO2JFDj/WCvLwXmkVVpjZXHV7O49FKcmm7PEz79C
- v5jI5yqTO3gAPzo+9pbQYfFVmrhsKFksuyWIG2Ut5WiykU4ryd1iG1d0IHDEPvpc9ZAN
- LTMvHmEDwD2dmlxNewkWFTxD4HYiWibXfVJlz/AEp8aRNHZLUzNDaM8jqkDy9K2DTUNn
- hezw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=43wrP4+h1EJTdD6HNApR30qrDokqb8gGQpSbF/V27Tk=;
- b=AWYdaJ2+2zP5bJ0kOuIirZMzabNtWrZiTEp8mn2GvMrSiw3KXpHa3tVllSEnF6mpjx
- ROjM/OsDuD6f0ee0ziAM7xun6MZrxMCifonsCR85Q6xdmnw5EGTeVFcy/1KKAuUHnDSp
- dByWIOnqpji0eW93uwkiCpUNtymyc55yk3ix65039TrPXSU3BZmMqazd4jy9ANwSh2vo
- /uWFAruISCAdn21n6INBtyJYFj59GhOlC+FurFd99GccgCDWs91PZPk5qhgb8TK+NAPH
- hCFXguisTCAbGwmQZEnOLSanj8Jm6m+E4STKgEEhS3Z3oqMdH8WjpW8dvNVfpLppWba8
- SMFA==
-X-Gm-Message-State: AOAM5320eWl0MH0RU4khfVSJK0eehQkvDrSp77n11KyuuOLtFt/vK6Vu
- kR94cdAEe4B7yyICF/Yw+5D1GQ==
-X-Google-Smtp-Source: ABdhPJyd1v4o9GZGQgoiFgMnLTAoO26QvtQY1g8UpEvDGpxgSnIT/goj1qQ75MICBEOp9XNbafMJLg==
-X-Received: by 2002:a05:600c:154a:: with SMTP id
- f10mr7397793wmg.20.1617877118996; 
- Thu, 08 Apr 2021 03:18:38 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z15sm15222725wrw.38.2021.04.08.03.18.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 03:18:38 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 748681FF7E;
- Thu,  8 Apr 2021 11:18:37 +0100 (BST)
-References: <20210406174031.64299-1-richard.henderson@linaro.org>
- <20210406174031.64299-4-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lURr7-00073m-5E
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:25:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lURr4-0001DV-Pr
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 10:25:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C15272E8165
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 10:25:42 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 08 Apr 2021 10:02:57 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1921948@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee pcc-goog pmaydell rth xairy
+X-Launchpad-Bug-Reporter: Andrey Konovalov (xairy)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <161713286145.25906.15042270704525675392.malonedeb@wampee.canonical.com>
  <877dleuds3.fsf@linaro.org>
  <CAFEAcA9Vc=w9d-3DkwuyY8Vzrj4d=f2zHn4OXauQRc-Vr=oQzQ@mail.gmail.com>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 03/12] target/arm: Fix mte_checkN
-Date: Thu, 08 Apr 2021 11:02:57 +0100
-In-reply-to: <CAFEAcA9Vc=w9d-3DkwuyY8Vzrj4d=f2zHn4OXauQRc-Vr=oQzQ@mail.gmail.com>
-Message-ID: <87k0pdt6yq.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Message-Id: <87k0pdt6yq.fsf@linaro.org>
+Subject: [Bug 1921948] Re: [PATCH v4 03/12] target/arm: Fix mte_checkN
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: 8f23413fb1bfa9896c3647db3b96bf6109e79979
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,12 +72,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 1921948@bugs.launchpad.net, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1921948 <1921948@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
@@ -132,6 +111,73 @@ update the relevant bugs when new series are posted. I only mentioned it
 because the original bug reporters weren't Cc'ed on the patches and lo
 now they know about the iteration they have tested it ;-)
 
---=20
+-- =
+
 Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921948
+
+Title:
+  MTE tags not checked properly for unaligned accesses at EL1
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  For kernel memory accesses that span across two memory granules,
+  QEMU's MTE implementation only checks the tag of the first granule but
+  not of the second one.
+
+  To reproduce this, build the Linux kernel with CONFIG_KASAN_HW_TAGS
+  enabled, apply the patch below, and boot the kernel:
+
+  diff --git a/sound/last.c b/sound/last.c
+  index f0bb98780e70..04745cb30b74 100644
+  --- a/sound/last.c
+  +++ b/sound/last.c
+  @@ -5,12 +5,18 @@
+    */
+   =
+
+   #include <linux/init.h>
+  +#include <linux/slab.h>
+   #include <sound/core.h>
+   =
+
+   static int __init alsa_sound_last_init(void)
+   {
+          struct snd_card *card;
+          int idx, ok =3D 0;
+  +
+  +       char *ptr =3D kmalloc(128, GFP_KERNEL);
+  +       pr_err("KASAN report should follow:\n");
+  +       *(volatile unsigned long *)(ptr + 124);
+  +       kfree(ptr);
+          =
+
+          printk(KERN_INFO "ALSA device list:\n");
+          for (idx =3D 0; idx < SNDRV_CARDS; idx++) {
+
+  KASAN tags the 128 allocated bytes with the same tag as the returned
+  pointer. The memory granule that follows the 128 allocated bytes has a
+  different tag (with 1/15 probability).
+
+  Expected result: a tag fault is detected and a KASAN report is printed wh=
+en accessing bytes [124, 130).
+  Observed result: no tag fault is detected and no KASAN report is printed.
+
+  Here are the flags that I use to run QEMU if they matter:
+
+  qemu-system-aarch64 -s -machine virt,mte=3Don -cpu max -m 2G -smp 2 -net
+  user,host=3D10.0.2.10,hostfwd=3Dtcp:127.0.0.1:10021-:22 -net nic
+  -nographic -kernel ./Image -append "console=3DttyAMA0 root=3D/dev/vda
+  earlyprintk=3Dserial" -drive file=3D./fs.img,format=3Draw,if=3Dvirtio -no-
+  shutdown -no-reboot
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1921948/+subscriptions
 
