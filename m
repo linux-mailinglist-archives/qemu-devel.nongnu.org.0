@@ -2,136 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C48358AA8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 19:02:17 +0200 (CEST)
-Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BC4358B35
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 19:19:59 +0200 (CEST)
+Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUY2p-0000YT-Ez
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 13:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1lUYJy-0004rV-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 13:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lUXzr-00084Y-Ja; Thu, 08 Apr 2021 12:59:12 -0400
-Received: from mail-eopbgr50134.outbound.protection.outlook.com
- ([40.107.5.134]:10055 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <Aleksandar.Rikalo@syrmia.com>)
+ id 1lUYGy-0002ql-M5
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 13:16:52 -0400
+Received: from mail-eopbgr80130.outbound.protection.outlook.com
+ ([40.107.8.130]:11720 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lUXzh-0000Sf-JU; Thu, 08 Apr 2021 12:59:09 -0400
+ (Exim 4.90_1) (envelope-from <Aleksandar.Rikalo@syrmia.com>)
+ id 1lUYGw-0001dI-6a
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 13:16:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l6ZWWidnvT/bRtgqCg0ZOSMF0xcGAevG3v6kFKeeRL/SX4/iBc1O6xTRkkv2aDjsU3bTWnPHZ9eDg1it4gXGvRjS34nL0L7HFowjO9oZ0cAgPOT87NxNGIrLoE8bKdzOqcperRA3m7+2eaCqW/iQWojkef2tFOeXrYs+ayI+/N6OX7ZMVVUNHRPDFifWujHVZvkxvAxVbk9JZcgprO7+EMXP36mUlkriAEm2qNJQypC4tW7NNyXQm7S9Se1pyM0QFVLcAbMmSU2broq6S1SMzaaGPNjrzcHSzb67C1UDvyPiYWpwrl3ZpURqB5EkqAHNsbfWSXAccRZ++QMUnbGYTg==
+ b=W8PPbedam3FD1o9+K4Ie/na0ezDmYehxvqT6q2mSFhoI8dgr0ZNxWzLyAyffoO5A9jiOcVWSbeSbHi2mv5zojjDf6XobPVoN5ni5JqHWQXQv/xa2CuvXI+RqLRwBYRBDvi/LmRXmZ7vWyHoafRckqdAj1YSGxAcOzsRpG53N0uZ6CEy28ehvAls/xrHME6MgkxjXBsz0jpz1SCkzNqR83x7g/R8Lwirdn3Ji2/blaTb1te4lVtBhCLnawYcXLfeBS6/YvCB/cdDeHxvEZ8wYHZ+WmnJ5jOjwi0Wo8l0Tlyg4ki311WFNdSiUItTzdQNTu+HGvdQrSoGPTHFORFlMpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KPgLlkfqSzIAx8L7+bH1+xukS8Ne660EYoGH0fgAhQE=;
- b=bbmDRuUWlUoV94OsN6eYFrfGwJjgDXBbwoTbRqAVLxf2D2YfR67XQISZrfpFVK1AvvHihb93uZZL1/q5drBFAuVLg9Ksr9eaBtNKnyxYy7fayj5XsMx3L7hkni9enw7lLkTjOhxidz3u6YNnnvyHutRUlyDGbWMoIPDKaXdSm1+cCdD8/pIVOiOnq9Evf4Z9XejXN7iBlUpfZPHsRtudE7TnEuppR/uIt03lQgnntOtHzet6hNIeAWEWNDLbT2hHKSkfeqmMqtDonWKZUl17Ve6/aoekrz/f1ilEsgzJk/ef7tNFOc1WE4yoJFHoDIjxLvjYQXJq2oljoOe6kuMcrw==
+ bh=kQHaB9XimnegCtdKrv/l4IpZXyYRyPnSAKsVRzRl2ho=;
+ b=fucWM2zYPIZY9e5tme9v1iYq2dWSKRj62cS9Dp4vXVlETIzLlwV/vSXD2qlMU+g7OvHiH8f5cuZACgfpFaWXghE3xNdDABSpppxur8Y/lLNKEYAWnmKGTubM+jSB4MkA3bGrnwf3vybNxxJBTrrREgqZoxUj8DjyOGniOIevKLWijbmpr5yVGtDeGHzAjaO0o6IfOCIonziWRp5qLjzGIW6LtDMktljK6VE1m/TrpoI0WxDesSPTtu7C17LZEKQv2epsqKX9FzqkilLUTEI9qWVgJK+eyHXtomlYJ0434V2UQ8OR6zjfnEhu5IE5Bo4bf2SeOW1a4WqwM+Ju+xNlSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KPgLlkfqSzIAx8L7+bH1+xukS8Ne660EYoGH0fgAhQE=;
- b=VX3f0klLoaSHgVSgs92vPkc3+3vMnUZdvtuhAnzSyM7ICRDcwkuouvPmaRFyx7LBJbtZJL9kGmy/2n2Jg9lnSqq+d5DiJfYWgn+jOp4nx9kyWbAtDAAXtiGdtyCf/T58ZEasgquQvvTZn/lB/4KRXwfbn+JZPXuSOlyKtDcW/7c=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6504.eurprd08.prod.outlook.com (2603:10a6:20b:336::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16; Thu, 8 Apr
- 2021 16:58:58 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4020.017; Thu, 8 Apr 2021
- 16:58:58 +0000
-Subject: Re: [PATCH for-6.0? 1/3] job: Add job_wait_unpaused() for
- block-job-complete
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <20210408162039.242670-1-mreitz@redhat.com>
- <20210408162039.242670-2-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <505ba75a-996b-0c65-0c49-add50e55e3ce@virtuozzo.com>
-Date: Thu, 8 Apr 2021 19:58:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-In-Reply-To: <20210408162039.242670-2-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ bh=kQHaB9XimnegCtdKrv/l4IpZXyYRyPnSAKsVRzRl2ho=;
+ b=cmn9S0ixBaZ33fZg3Zpj4ree+qmlRqe+ZgiPtGcQZzqvITZtaO1vxA7xI0qReuyaGpCXlzx4hQrcGEjch5wWdlH98UGrN9IGHR2I7zj9ach4dJm+d75+okOz8EGoGm1gJeQmZYdirnd3stekIqud/W7yVf6FE1W3Ttv9Gk8aeaA=
+Received: from VI1PR0302MB3486.eurprd03.prod.outlook.com
+ (2603:10a6:803:1e::32) by AM9PR03MB7284.eurprd03.prod.outlook.com
+ (2603:10a6:20b:271::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Thu, 8 Apr
+ 2021 17:01:42 +0000
+Received: from VI1PR0302MB3486.eurprd03.prod.outlook.com
+ ([fe80::78bc:f514:ba61:78bf]) by VI1PR0302MB3486.eurprd03.prod.outlook.com
+ ([fe80::78bc:f514:ba61:78bf%6]) with mapi id 15.20.3999.032; Thu, 8 Apr 2021
+ 17:01:42 +0000
+From: Aleksandar Rikalo <Aleksandar.Rikalo@syrmia.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "f4bug@amsat.org"
+ <f4bug@amsat.org>
+Subject: [PATCH v2] Revert "target/mips: Deprecate nanoMIPS ISA"
+Thread-Topic: [PATCH v2] Revert "target/mips: Deprecate nanoMIPS ISA"
+Thread-Index: AQHXLFVcDWm9FQ9LmUmRmYmlgVEYZaqq1qRY
+Date: Thu, 8 Apr 2021 17:01:42 +0000
+Message-ID: <VI1PR0302MB34862F042D9B1C72C7E4AD239C749@VI1PR0302MB3486.eurprd03.prod.outlook.com>
+References: <20210408085810.10567-1-Filip.Vidojevic@Syrmia.com>
+In-Reply-To: <20210408085810.10567-1-Filip.Vidojevic@Syrmia.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.206]
-X-ClientProxiedBy: AM0PR10CA0105.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:e6::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.206) by
- AM0PR10CA0105.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4020.16 via Frontend Transport; Thu, 8 Apr 2021 16:58:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aecb4fef-cfe0-4203-69e1-08d8faaf99ff
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6504:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB65047050178E5949BE4F3E48C1749@AS8PR08MB6504.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pEuUrEiQDz/crN+WTP3P6JT7gqdFUl1HgGc1yFLGl409ptuu4FNANu7ORVazfctpoz37DseEEdLZ9QasoZmL+Vg31oQXfN3TgYsNRBPCEdXiDbw1oH8+SwdnIkUTnr7pFRk66sMbCqjULFEJ7UNUqrwkklhLIpsmL2XeF3JVIu7DGTMac4GlkgPZDqXu4OWVlLzdDyO1MUxd3ULZBHXSh5+hMb/VvplXyqdmqBnB+yCWFroooUusF6voDwqS6UznOC+QEKtCODZitVoEgyh7lq1aWgLJyxGbNykBS8PPgTEGhrptJWTi+3ieTakbSsg+aGcj7i7IqPH/JHSwWexuY1qYofSnbabnTKw4DOSa0JG28DR4KbJGHq52wDF1bAD47mfQGaIsBW/oOPt29ZiYMfaPBnK0snEZ10c67JndAxlPKIVylyy9OKu6z/YBnPh0FkmDuAgbePngZybf09CfFnw3EZvdfj9/FTcqVzFm0eofDVBJC14Hde+40AEEu6h4F2CaR0gziF7eBJZbmPoipUnVRGg12lXSuHNARORzPDma+Q/0gj0MGNioKk5Hd3xP6qNewwc5Xr2iK/aammsxMKwiErlunvHzS+jWInk+NlMKm/v8jcSuggNdof9VRtBw+odJOeONwWnVp25eEUpvmLmQ1YpVTIjXfEh6WBl9ENdUATzVg8hA2T7zFJ1+RGoGlMAubWr4v70L3YnAm/Cj7byJWMqo+Lt4VmYgMW2vIIk0D/vSEkogyOLM46jTNKvYlz5GORa+dQolSsaxW71ikbhWS5b+7ziCC1ygHPLuahXsmrea1fJODPSJ6Y4WBtRfyiHeB8//xx6tl7JJH47Drg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(136003)(366004)(39830400003)(346002)(16576012)(8676002)(54906003)(5660300002)(31696002)(8936002)(966005)(316002)(478600001)(31686004)(66556008)(52116002)(186003)(16526019)(38350700001)(6486002)(38100700001)(26005)(86362001)(66476007)(2906002)(2616005)(956004)(83380400001)(4326008)(36756003)(66946007)(45980500001)(43740500002);
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+x-originating-ip: [109.245.34.47]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 048a95e0-c012-450d-29e0-08d8faaffbb0
+x-ms-traffictypediagnostic: AM9PR03MB7284:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM9PR03MB7284AB6387D6A3C4A2DEF6619C749@AM9PR03MB7284.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hshbGlp0jG9waEZPV9e1/KG9KSSVqiCpmliEZMiS6ZWQGiQYVZYQDbPoMbJmfgwBYcsTlvBF32FspSDuggrh6IjcgCvG5e5peuHlW+Ft79ea0OwFP1NzPdk4qfCz5f7KQoOdkJOD931cdMu0p0MZwQhjyUOQ0Gh3z3BCZ891EeWMEXK+Sqy+rpI46huni5F+vYGg9hfhKogFRjgrZv8sUgz3dkkZlueMnc89Zs8AjMLv+fD28uCq/kAkvcqnVldHPzK702VRtji5hntdKMTtZ+tX42bmN3UXUebvDp+pAuA2Y9ViwqpRpLQ37i1Ni/pivTAAYdMLMBk5eFX7SNmiCAXqb8w7NVAnXKUXiJVrJ7qJlUAptEEX/YY4qIY4GKpZrC2JW0FqQBA+WdzhGUwBWaTGJYtf4zep8A7KB/vABQiP3wM3agjjNpwbWO/m/uDiHzt1VpJAHVYW4B2BCHqa890IIrDxW8MtDqiyosavxIn4VbPhoFln8/hZOOIgIz3gseVkQh2k85kr+JH/EHzGPWEyTZfsUClb5Qad/8s9Rm09eswL2Bq5gDtlpcY8W1Og3y12cpDAzTn8/YWyXyFcojZyxhm6xzfbebVQLiThAJLaJcthdD6+k1g5EVDnALBzYS39gE8fPP0qolS+gZtYZ9C4xXeGWacosURTqJiiT5JcwBSfw023a7n4mbwSMcOXsjitxemoSncosPS5tCMa01FtFADG0TJ7yEQXwIPQEHY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0302MB3486.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(136003)(346002)(376002)(39830400003)(396003)(2906002)(52536014)(76116006)(33656002)(7696005)(66556008)(66476007)(64756008)(316002)(66946007)(54906003)(110136005)(66446008)(966005)(4326008)(6506007)(478600001)(107886003)(186003)(8936002)(21615005)(26005)(9686003)(38100700001)(71200400001)(55016002)(19627405001)(8676002)(166002)(83380400001)(5660300002)(86362001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eHUrbXorNFU5Tisvcjd2WndUYmNhUWxidjRXSTVVQlBFK21hclp1azVvUWxj?=
- =?utf-8?B?OGxSaXYwK3Y4NzNjeDIxM0R3TVVQY3V5SzU0Y3JFL242aG1rNW1VVkdiR1hG?=
- =?utf-8?B?K2JTRGUwRS9rTERSblIrYjBFWXN1eU9YNnJrcVUrYmJRdTFHVWZQV2tmOWJL?=
- =?utf-8?B?ZXpHZlZjMkUyL1RKTG85ckpKNlVpQVluQUFEOUhXYUxyaXFtU08zeG8yb205?=
- =?utf-8?B?ZVVEQzBraE9zWlFIOE0yQVNSN2tEekZmY0wrRTkrcWVpbHlOSm5UbDM0S0Yy?=
- =?utf-8?B?WVdQNkpWamt1dDIwd2pobVRsUGtNOEgvRDhhZVBsU2paalFCTlNscnZuUUFD?=
- =?utf-8?B?M3YyMmlmdFd2VWdGUW9TaTRmU1puK01vM3NsNUlCOFEwVjBPY0pabEpXdTNI?=
- =?utf-8?B?cTBmcGtjSG4vcno1SkJsaU5nUDUrK2Mvb1hzVi9zQjJHTHQzUFViOEc0TmU3?=
- =?utf-8?B?dERqOW1USU01Wk1XVGsrK3ZhOUhMYTNCNElmVDJHR3JSTE1qbjZkdmo3cUgy?=
- =?utf-8?B?czBwcktybjgzdzZIZ0hlY1ZEc0VXQVgzd3ZnQzRtSC9LN29IdnZQSEZsV0kv?=
- =?utf-8?B?YjF1VTFZUCthQlc2Ny9rUHBuVFYxdVRBVjZrU3BoNDZpVmtTTzdPMjBTUkVB?=
- =?utf-8?B?eEpXVzR2OTAzNzdqY1FQM1B0aHJGS1NVV3dYSXhSQTdueUhDZjUxM3k5WU55?=
- =?utf-8?B?VUQ5dzZCQXJpU05mbHBickI3aU1kOHZicFNMZW84cG1DWnByMzVKQzl2TkVL?=
- =?utf-8?B?WGMvNXg1VXFybFdZNHJHdW91M1V2VUR2ajlPZnduR1VJdmVzTTJBcFpHMG9i?=
- =?utf-8?B?SDZkZUZySXE4ZkdJWG1ZMzZubGZnRGhoazh1NmsxNGFJWEVDQnNUMVpqNEZk?=
- =?utf-8?B?WEVtWCtGL0FlTVpEZjh0OGhrYUxiSEl3YWdaMHd1ZXhzTU9UVjRrOXZGcytO?=
- =?utf-8?B?T1ZNNmM2SUVPb2ViZHpJdnZ1dzZKZDhhUDVEUlNhbjVqeVpncHhzRG9FRk1Q?=
- =?utf-8?B?NXE2b3ppL3Jma1MyeEtiNmc4S1R1SW8rNjdjS3M2R0RpaW5pbmZnaEpNZ3Jx?=
- =?utf-8?B?SnU4cmJTOW1LRWd0NUtzRlhTc29tOUVyVkk1dngvVFphQnRqUW8rUEJHbEhr?=
- =?utf-8?B?Rk04V1FqNjFIUTd4NDF1VCtjcHc5SlBHVUZjVG5ZYWJCNk5Ma1doK0lETm40?=
- =?utf-8?B?OGxGVTZCSU1mUUhOWWZtOEFRaU8xdnlwVjNhdHhIZi9Ud2czNndFRTlGZW1Z?=
- =?utf-8?B?YzFYbmo3RWdWVmdZd0xrNXhZZ0U0SS9XdWdxNTYvbkxGTWl6bmRPOVVEQ1FU?=
- =?utf-8?B?NC9nSDl0d1drTXRxbWI0cFo5YkFlWExHeWk2b21kUk9SZHRUY3RGcnRsMWxa?=
- =?utf-8?B?akZ1aklSc2pUWG42ZGluU0RUZ1k2S2k1UXZ6a05mT3Bac1JESlRtZ1BVMEM1?=
- =?utf-8?B?V2pvR2ZXNnc2Y2tieW8xdmdGR3IrVDBPR0JkbWVuUkFIU3crVWN4TWM2R1hz?=
- =?utf-8?B?UC9IdzJXa1pyaERwalNuVUpSNmw5UjNaWEwwR0I0RCtwQ29VQmMyUnN5MjVV?=
- =?utf-8?B?WjFKeTZvVUEwOGxmRDBnRVErTnNoa2Y3MHRZTE5QTDlLYnFXMDBJTDJabUxO?=
- =?utf-8?B?ek12MWxQNGhjSFAwbmJSajZaNXJCNDVJQ3pwZ3lwd0VPSGovdm1OTERpYnZG?=
- =?utf-8?B?M2dYbFdRR0JzcFc5bWZ0SEY3SWJZa0RLYlNXOHYwVGtGVUlJbVNCeE45b0dk?=
- =?utf-8?Q?z8h1A+lmy/fw1FDVvV+eGJv2D2Tw39Jcwgoy9/T?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aecb4fef-cfe0-4203-69e1-08d8faaf99ff
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?HFgNpDj1cD/LkLPyKab/hRAxA17c/RVwzNtl20MdUf6WGyo9u2EAV1vlX/?=
+ =?iso-8859-1?Q?KO05xFUTznhrpWQLD+xc4TGMLQ1z3lbm1B2UQ9cKOrOKh+EZOjqAdWgu7f?=
+ =?iso-8859-1?Q?yUnT0SHP+EyH6OjLT7U/DN8FfiJ1YowoYCl0ek4plrb5w211QjDFAHC99u?=
+ =?iso-8859-1?Q?09PxKhv40oZ5JC+/wStyg+SmNPKACjQ2D6JWqcPQb9QkbvDgAK0OZG9sZb?=
+ =?iso-8859-1?Q?SXXGBiDydsPcmzP0gjamrF4+bWamR96ExBW0v7me58gR/O9LpBnT6p7iMo?=
+ =?iso-8859-1?Q?fQi3aHl3A3gdwEA6PedLANveXSDf8VCviNgwEwwjBn05sQx6zV05PzIK+V?=
+ =?iso-8859-1?Q?hEhl8XKjkOH9P+sa01dx+tk6Fj0X0Jz6xgnbwotiOA/07PruM2d1Tz3iZK?=
+ =?iso-8859-1?Q?ZKe2Z3DkFs70YzjYjqnv8/j6IBMFPb0m6eaOiwXNgRm5SShDY7uT39IrZE?=
+ =?iso-8859-1?Q?RpoX4LoLkw/ScldNfxjQHgxp3uIpuwBzbqXdqRyvJFlBXR/2s4JELTgrkC?=
+ =?iso-8859-1?Q?L9OYxbyXxfOhfKQRYaRuJrNrtQrAyViBZjb9IaPpGELuj3WlnEWlV5QKsU?=
+ =?iso-8859-1?Q?WfkDA4drRvo+tZ5FBQPDkoXlu+6d9bVbg75gHcSVcpWODZ++cbt64dqJdD?=
+ =?iso-8859-1?Q?tslZkdwGLi08mGOFsJUPVFNE3vwoDHeX/8BRc7DIpRWcAsVIxg8Aj5trc1?=
+ =?iso-8859-1?Q?CI+17AUXZWxwlqvJfv8WDuK30NdKVRbeRVreKbRUFqVtb6ccOM6L8CWnuA?=
+ =?iso-8859-1?Q?yY/dFKlw+GuBc2CbBA1A/XxdiHWR6LJaIj09n0T/h81yuiOhXbpvWunMFL?=
+ =?iso-8859-1?Q?b/JMoOT6s7bBSYqRZzhc06U37dfK/bDDdoRdvYAbvACwVXq8VOaxxzsBxi?=
+ =?iso-8859-1?Q?K7aWMfn5JO8UMFhczUExkBF/LHSwj5VR7JBrpEzl4PsVjY615m1oi64+rX?=
+ =?iso-8859-1?Q?i8ivyYU3a0NNc60vF086kQXw8y+tRmrGQBqO+FocruNtJUXheax2OZgX0w?=
+ =?iso-8859-1?Q?VEpyw1rdxxOszEoGFRLdVZ/L3s3JOShkdJtO+qKJhw3EJ68cDllRNlWM4W?=
+ =?iso-8859-1?Q?YulXQ4LCGXLEaU4mZcv4FQ3/HZX4HWsVVnnYQ3d0WFYKNXy/3LPDmaCtEM?=
+ =?iso-8859-1?Q?P8WCLU7JMtj+HpT847E9nFM8+rScyRPGjXmeul7cH0pcKon34/6uujjli3?=
+ =?iso-8859-1?Q?FUfBZ9d31soBEo7aFVgKv4vNF4wOPOnv/vHN2X/1bxORDol63LeRq2OkK9?=
+ =?iso-8859-1?Q?bYyFmmS+nvMRhnLFhUFBL9oMGbXJQSwr7rHrJUEdq8cUf717LSGtfEAcSO?=
+ =?iso-8859-1?Q?MskStiQrTVN0vknIPrqAb6Z0MfUi0Yx7TboCTCz2lCmwt0o=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_VI1PR0302MB34862F042D9B1C72C7E4AD239C749VI1PR0302MB3486_"
+MIME-Version: 1.0
+X-OriginatorOrg: syrmia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2021 16:58:58.4421 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lasodVfhZAQgjIFJz28U0qb3Sidz+bBE2DEcvNRTBUFeeLCizB3kvRYOCB0PobXr48ATj6mgX1yiZX5Vi0suZpdkqqQIU+ZUg7DH/oKWGC4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6504
-Received-SPF: pass client-ip=40.107.5.134;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0302MB3486.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 048a95e0-c012-450d-29e0-08d8faaffbb0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2021 17:01:42.0373 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qtWXEPznPa1wRm21vKGDcBtiatPROuTqYgiWG98Bc2fzefaAgcZt4oALs4JYEKCiaJoNwlPIyDTFo9Q4FoX3NEVmFEa5Z2tLBDWDAFp0klo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB7284
+Received-SPF: pass client-ip=40.107.8.130;
+ envelope-from=Aleksandar.Rikalo@syrmia.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,141 +132,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "paulburton@kernel.org" <paulburton@kernel.org>,
+ "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+ Petar Jovanovic <petar.jovanovic@syrmia.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>,
+ Filip Vidojevic <Filip.Vidojevic@Syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-08.04.2021 19:20, Max Reitz wrote:
-> block-job-complete can only be applied when the job is READY, not when
-> it is on STANDBY (ready, but paused).  Draining a job technically pauses
-> it (which makes a READY job enter STANDBY), and ending the drained
-> section does not synchronously resume it, but only schedules the job,
-> which will then be resumed.  So attempting to complete a job immediately
-> after a drained section may sometimes fail.
-> 
-> That is bad at least because users cannot really work nicely around
-> this: A job may be paused and resumed at any time, so waiting for the
-> job to be in the READY state and then issuing a block-job-complete poses
-> a TOCTTOU problem.  The only way around it would be to issue
-> block-job-complete until it no longer fails due to the job being in the
-> STANDBY state, but that would not be nice.
-> 
-> We can solve the problem by allowing block-job-complete to be invoked on
-> jobs that are on STANDBY, if that status is the result of a drained
-> section (not because the user has paused the job), and that section has
-> ended.  That is, if the job is on STANDBY, but scheduled to be resumed.
-> 
-> Perhaps we could actually just directly allow this, seeing that mirror
-> is the only user of ready/complete, and that mirror_complete() could
-> probably work under the given circumstances, but there may be many side
-> effects to consider.
-> 
-> It is simpler to add a function job_wait_unpaused() that waits for the
-> job to be resumed (under said circumstances), and to make
-> qmp_block_job_complete() use it to delay job_complete() until then.
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1945635
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   include/qemu/job.h | 15 +++++++++++++++
->   blockdev.c         |  3 +++
->   job.c              | 42 ++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 60 insertions(+)
-> 
-> diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index efc6fa7544..cf3082b6d7 100644
-> --- a/include/qemu/job.h
-> +++ b/include/qemu/job.h
-> @@ -563,4 +563,19 @@ void job_dismiss(Job **job, Error **errp);
->    */
->   int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp);
->   
-> +/**
-> + * If the job has been paused because of a drained section, and that
-> + * section has ended, wait until the job is resumed.
-> + *
-> + * Return 0 if the job is not paused, or if it has been successfully
-> + * resumed.
-> + * Return an error if the job has been paused in such a way that
-> + * waiting will not resume it, i.e. if it has been paused by the user,
-> + * or if it is still drained.
-> + *
-> + * Callers must be in the home AioContext and hold the AioContext lock
-> + * of job->aio_context.
-> + */
-> +int job_wait_unpaused(Job *job, Error **errp);
-> +
->   #endif
-> diff --git a/blockdev.c b/blockdev.c
-> index a57590aae4..c0cc2fa364 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -3414,6 +3414,9 @@ void qmp_block_job_complete(const char *device, Error **errp)
->           return;
->       }
->   
-> +    if (job_wait_unpaused(&job->job, errp) < 0) {
-> +        return;
-> +    }
->       trace_qmp_block_job_complete(job);
->       job_complete(&job->job, errp);
->       aio_context_release(aio_context);
-> diff --git a/job.c b/job.c
-> index 289edee143..1ea30fd294 100644
-> --- a/job.c
-> +++ b/job.c
-> @@ -1023,3 +1023,45 @@ int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp)
->       job_unref(job);
->       return ret;
->   }
-> +
-> +int job_wait_unpaused(Job *job, Error **errp)
-> +{
-> +    /*
-> +     * Only run this function from the main context, because this is
-> +     * what we need, and this way we do not have to think about what
-> +     * happens if the user concurrently pauses the job from the main
-> +     * monitor.
-> +     */
-> +    assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-> +
-> +    /*
-> +     * Quick path (e.g. so we do not get an error if pause_count > 0
-> +     * but the job is not even paused)
-> +     */
-> +    if (!job->paused) {
-> +        return 0;
-> +    }
-> +
-> +    /* If the user has paused the job, waiting will not help */
-> +    if (job->user_paused) {
-> +        error_setg(errp, "Job '%s' has been paused by the user", job->id);
-> +        return -EBUSY;
-> +    }
-> +
-> +    /* Similarly, if the job is still drained, waiting will not help either */
-> +    if (job->pause_count > 0) {
-> +        error_setg(errp, "Job '%s' is blocked and cannot be unpaused", job->id);
-> +        return -EBUSY;
-> +    }
-> +
-> +    /*
-> +     * This function is specifically for waiting for a job to be
-> +     * resumed after a drained section.  Ending the drained section
-> +     * includes a job_enter(), which schedules the job loop to be run,
-> +     * and once it does, job->paused will be cleared.  Therefore, we
-> +     * do not need to invoke job_enter() here.
-> +     */
-> +    AIO_WAIT_WHILE(job->aio_context, job->paused);
-> +
-> +    return 0;
-> +}
-> 
+--_000_VI1PR0302MB34862F042D9B1C72C7E4AD239C749VI1PR0302MB3486_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Hmm.. It seems that when job->pause_count becomes 0, job_enter is called, and the period when pause_count is 0 but paused is still true should be relatively shot. And patch doesn't help if user call job-complete during drained section. So it looks like the patch will help relatively seldom.. Or I'm missing something?
+NanoMIPS ISA is supported again, since MediaTek is taking over
+nanoMIPS toolchain development (confirmed at
+https://www.spinics.net/linux/fedora/libvir/msg217107.html).
 
-job-complete command is async. Can we instead just add a boolean like job->completion_requested, and set it if job-complete called in STANDBY state, and on job_resume job_complete will be called automatically if this boolean is true?
+New release of the toolchain can be found at
+(https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoM=
+IPS-2021.02-01).
 
--- 
-Best regards,
-Vladimir
+Reverting deprecation of nanoMIPS ISA requires following changes:
+    MAINTAINERS: remove nanoMIPS ISA from orphaned ISAs
+    deprecated.rst: remove nanoMIPS ISA from deprecated ISAs
+
+Signed-off-by: Filip Vidojevic <Filip.Vidojevic@Syrmia.com>
+Signed-off-by: Aleksandar Rikalo <Aleksandar.Rikalo@Syrmia.com>
+---
+ MAINTAINERS                |  4 ----
+ docs/system/deprecated.rst | 20 --------------------
+ 2 files changed, 24 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 69003cdc3c..498dbf0ae4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -254,10 +254,6 @@ F: include/hw/timer/mips_gictimer.h
+ F: tests/tcg/mips/
+ K: ^Subject:.*(?i)mips
+
+-MIPS TCG CPUs (nanoMIPS ISA)
+-S: Orphan
+-F: disas/nanomips.*
+-
+ Moxie TCG CPUs
+ M: Anthony Green <green@moxielogic.com>
+ S: Maintained
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 80cae86252..a25293cb01 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -228,13 +228,6 @@ to build binaries for it.
+ ``Icelake-Client`` CPU Models are deprecated. Use ``Icelake-Server`` CPU
+ Models instead.
+
+-MIPS ``I7200`` CPU Model (since 5.2)
+-''''''''''''''''''''''''''''''''''''
+-
+-The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+-(the ISA has never been upstreamed to a compiler toolchain). Therefore
+-this CPU is also deprecated.
+-
+ System emulator machines
+ ------------------------
+
+@@ -305,13 +298,6 @@ The ``ppc64abi32`` architecture has a number of issues=
+ which regularly
+ trip up our CI testing and is suspected to be quite broken. For that
+ reason the maintainers strongly suspect no one actually uses it.
+
+-MIPS ``I7200`` CPU (since 5.2)
+-''''''''''''''''''''''''''''''
+-
+-The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+-(the ISA has never been upstreamed to a compiler toolchain). Therefore
+-this CPU is also deprecated.
+-
+ Related binaries
+ ----------------
+
+@@ -378,9 +364,3 @@ resolve CPU model aliases before starting a virtual mac=
+hine.
+
+ Guest Emulator ISAs
+ -------------------
+-
+-nanoMIPS ISA
+-''''''''''''
+-
+-The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
+-As it is hard to generate binaries for it, declare it deprecated.
+--
+2.25.1
+
+
+--_000_VI1PR0302MB34862F042D9B1C72C7E4AD239C749VI1PR0302MB3486_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">NanoMIPS ISA is supported again, since MediaTek is=
+ taking over<br>
+nanoMIPS toolchain development (confirmed at<br>
+<a href=3D"https://www.spinics.net/linux/fedora/libvir/msg217107.html">http=
+s://www.spinics.net/linux/fedora/libvir/msg217107.html</a>).<br>
+<br>
+New release of the toolchain can be found at<br>
+(<a href=3D"https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/release=
+s/tag/nanoMIPS-2021.02-01">https://github.com/MediaTek-Labs/nanomips-gnu-to=
+olchain/releases/tag/nanoMIPS-2021.02-01</a>).<br>
+<br>
+Reverting deprecation of nanoMIPS ISA requires following changes:<br>
+&nbsp;&nbsp;&nbsp; MAINTAINERS: remove nanoMIPS ISA from orphaned ISAs<br>
+&nbsp;&nbsp;&nbsp; deprecated.rst: remove nanoMIPS ISA from deprecated ISAs=
+</div>
+<div class=3D"PlainText"><br>
+</div>
+<div class=3D"PlainText"><font size=3D"2"><span style=3D"font-size:11pt">Si=
+gned-off-by: Filip Vidojevic &lt;Filip.Vidojevic@Syrmia.com&gt;</span></fon=
+t><br>
+</div>
+<div class=3D"PlainText">Signed-off-by: Aleksandar Rikalo &lt;Aleksandar.Ri=
+kalo@Syrmia.com&gt;</div>
+<div class=3D"PlainText">---<br>
+&nbsp;MAINTAINERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 4 ----<br>
+&nbsp;docs/system/deprecated.rst | 20 --------------------<br>
+&nbsp;2 files changed, 24 deletions(-)<br>
+<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index 69003cdc3c..498dbf0ae4 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -254,10 +254,6 @@ F: include/hw/timer/mips_gictimer.h<br>
+&nbsp;F: tests/tcg/mips/<br>
+&nbsp;K: ^Subject:.*(?i)mips<br>
+&nbsp;<br>
+-MIPS TCG CPUs (nanoMIPS ISA)<br>
+-S: Orphan<br>
+-F: disas/nanomips.*<br>
+-<br>
+&nbsp;Moxie TCG CPUs<br>
+&nbsp;M: Anthony Green &lt;green@moxielogic.com&gt;<br>
+&nbsp;S: Maintained<br>
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst<br>
+index 80cae86252..a25293cb01 100644<br>
+--- a/docs/system/deprecated.rst<br>
++++ b/docs/system/deprecated.rst<br>
+@@ -228,13 +228,6 @@ to build binaries for it.<br>
+&nbsp;``Icelake-Client`` CPU Models are deprecated. Use ``Icelake-Server`` =
+CPU<br>
+&nbsp;Models instead.<br>
+&nbsp;<br>
+-MIPS ``I7200`` CPU Model (since 5.2)<br>
+-''''''''''''''''''''''''''''''''''''<br>
+-<br>
+-The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated<br=
+>
+-(the ISA has never been upstreamed to a compiler toolchain). Therefore<br>
+-this CPU is also deprecated.<br>
+-<br>
+&nbsp;System emulator machines<br>
+&nbsp;------------------------<br>
+&nbsp;<br>
+@@ -305,13 +298,6 @@ The ``ppc64abi32`` architecture has a number of issues=
+ which regularly<br>
+&nbsp;trip up our CI testing and is suspected to be quite broken. For that<=
+br>
+&nbsp;reason the maintainers strongly suspect no one actually uses it.<br>
+&nbsp;<br>
+-MIPS ``I7200`` CPU (since 5.2)<br>
+-''''''''''''''''''''''''''''''<br>
+-<br>
+-The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated<br=
+>
+-(the ISA has never been upstreamed to a compiler toolchain). Therefore<br>
+-this CPU is also deprecated.<br>
+-<br>
+&nbsp;Related binaries<br>
+&nbsp;----------------<br>
+&nbsp;<br>
+@@ -378,9 +364,3 @@ resolve CPU model aliases before starting a virtual mac=
+hine.<br>
+&nbsp;<br>
+&nbsp;Guest Emulator ISAs<br>
+&nbsp;-------------------<br>
+-<br>
+-nanoMIPS ISA<br>
+-''''''''''''<br>
+-<br>
+-The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.<=
+br>
+-As it is hard to generate binaries for it, declare it deprecated.<br>
+-- <br>
+2.25.1<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_VI1PR0302MB34862F042D9B1C72C7E4AD239C749VI1PR0302MB3486_--
 
