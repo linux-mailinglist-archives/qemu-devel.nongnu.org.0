@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF9F35809B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:28:49 +0200 (CEST)
-Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5773580EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:38:33 +0200 (CEST)
+Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lURu4-0007tW-63
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1lUS3U-0002Xk-2h
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lURt4-0007C7-AB
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:27:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lURt0-0008HB-Av
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:27:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617877659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=giOGbbQZE2vk2OM99MrIexW9pQvFEOVKaAtrbIjJ3mc=;
- b=fJ4xjf/g5OuXCfzrZlnn640+KTpy4HKNUlg8LQCy217R3ok8m36jTkpkIhItXBg2MRJGEo
- bilRsuON9097LeGH8fX0RV3dt6mZtnxJXukL85zDBAV1J6aQOh+WoT64U7OGr+B8/bhiaJ
- kXffNqeamQ6+v1PMsyAScxmaQhrk9Hk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-wFfHSrGBMem6oYsRKa9sGA-1; Thu, 08 Apr 2021 06:27:36 -0400
-X-MC-Unique: wFfHSrGBMem6oYsRKa9sGA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20F49800D53;
- Thu,  8 Apr 2021 10:27:35 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-19.ams2.redhat.com [10.36.115.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ACFE10013D7;
- Thu,  8 Apr 2021 10:27:30 +0000 (UTC)
-Date: Thu, 8 Apr 2021 12:27:29 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-Message-ID: <YG7akVvfY30Q7Cj1@merkur.fritz.box>
-References: <20210322154024.15011-1-s.reiter@proxmox.com>
- <YG2xUD5M7RCuIe+X@merkur.fritz.box>
- <87lf9tces9.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUS1q-0001lp-Jw
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:36:50 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUS1o-0005a7-Py
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:36:50 -0400
+Received: by mail-ed1-x532.google.com with SMTP id w23so1788765edx.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 03:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FZbAxJ2ONLEw7javmCo8rSOkw/pl8pWxbSXi99nEeps=;
+ b=RiXvMnCTBmhC24ylOtSSaZQBInjlejJN7aFoCA8HEn+/EaeJuiw0Fp0tlzkTWVvBfK
+ ouReQC0sV2ARrdChsUBcyzkShL0sJ2v8prjgtR21/zvKw3sRoRdlX9sfI5g76kc74ZZJ
+ gN9Ou4V46F/p6cQrM/4hJz/jz0WMFhQnxG44eXeINScP6KraYOGp7MP9rd4TdZ9Q8KRf
+ Vph9fIbdIigxzXjJiBkwGfnFFZg/ij3X2d0NLG33dF0ec7+rSp1k0i+lIvjcaPHAV0EG
+ EPaNxQ69Ed2upDHSDyGaLKZeMKnIl8Qp3VRfPaTRSKWJPDRmYceUGtO6kGmchrkrieXc
+ Abqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FZbAxJ2ONLEw7javmCo8rSOkw/pl8pWxbSXi99nEeps=;
+ b=J3ik4W/28lLOA0yYcPjMwOQj+0nLHQ5rpHAYu2/6p8IrdAj5S6MyOXBawhnPUyiUbP
+ 6ODjX31YU+R5Gsm1kdO0XIG/kYNwB5ciSyM1HjeVSydXJMa4zeYWljuRSMa/LCVus7O7
+ 8YeQaj985MBZ5iwqp/BPnT/XNVeTJrArPyG/pLTtehWfdoPkOq/iIuyL1yyd2kSRyxW3
+ gLmiCN2NfKu0SP7gWf5rbxcsHZG3sICIgx8/QRWpBOmXryVo89iWyOwNzonLOqAYeDvX
+ dlo48glONwKPbJ4WBc46s//lLg7kL+BLCWGz2SgAyjy6nxDo9BFkICoGEOODIuniPtBd
+ TpuQ==
+X-Gm-Message-State: AOAM530FYP+W7cvJZnVgAI2Xu0YlgjmY495Z53joVpdULLSMs+nnnBbg
+ ofCal7VbK6xAjmXJanfpDGG3A+HJobUx1vFyZH7afA==
+X-Google-Smtp-Source: ABdhPJwydz/RaahPGMRvShVB9aFYVO/HLKYAkillg+iDFNIbACZJgQRzktR5s7INwc7Xh6+mu4LgUgQFXcFAueiD3q0=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr10322005edb.204.1617878205665; 
+ Thu, 08 Apr 2021 03:36:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87lf9tces9.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210326193701.5981-1-cfontana@suse.de>
+ <20210326193701.5981-28-cfontana@suse.de>
+ <e49aa062-0958-1d4e-c682-28d0a2897493@linaro.org>
+ <87e94d27-a1ec-cd6a-8079-0f975121d479@suse.de>
+In-Reply-To: <87e94d27-a1ec-cd6a-8079-0f975121d479@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Apr 2021 10:36:05 +0000
+Message-ID: <CAFEAcA-hqUehQ9chX_H4M9karU9XksirqC=daekRk=ymDRvzwQ@mail.gmail.com>
+Subject: Re: [RFC v12 27/65] target/arm: split a15 cpu model and 32bit class
+ functions to cpu32.c
+To: Claudio Fontana <cfontana@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,53 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
- qemu-devel@nongnu.org, Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.04.2021 um 11:21 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> 
-> > Am 22.03.2021 um 16:40 hat Stefan Reiter geschrieben:
-> >> The QMP dispatcher coroutine holds the qmp_queue_lock over a yield
-> >> point, where it expects to be rescheduled from the main context. If a
-> >> CHR_EVENT_CLOSED event is received just then, it can race and block the
-> >> main thread on the mutex in monitor_qmp_cleanup_queue_and_resume.
-> >> 
-> >> monitor_resume does not need to be called from main context, so we can
-> >> call it immediately after popping a request from the queue, which allows
-> >> us to drop the qmp_queue_lock mutex before yielding.
-> >> 
-> >> Suggested-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
-> >> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> >> ---
-> >> v2:
-> >> * different approach: move everything that needs the qmp_queue_lock mutex before
-> >>   the yield point, instead of moving the event handling to a different context
-> >
-> > The interesting new case here seems to be that new requests could be
-> > queued and the dispatcher coroutine could be kicked before yielding.
-> > This is safe because &qmp_dispatcher_co_busy is accessed with atomics
-> > on both sides.
-> >
-> > The important part is just that the first (conditional) yield stays
-> > first, so that the aio_co_wake() in handle_qmp_command() won't reenter
-> > the coroutine while it is expecting to be reentered from somewhere else.
-> > This is still the case after the patch.
-> >
-> > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> 
-> Thanks for saving me from an ugly review headache.
-> 
-> Should this go into 6.0?
+On Thu, 8 Apr 2021 at 11:23, Claudio Fontana <cfontana@suse.de> wrote:
+> Mainly for this code here a question from my side: is the current code actually already "wrong"?
+>
+> I mean, we unconditionally set the aarch64-capable cpu classes to all use aarch64_gdb_arch_name and gdbstub64,
+> but what about an aarch64-capable cpu running in 32bit mode?
 
-This is something that the responsible maintainer needs to decide.
+This is somewhere between a bug and a missing feature. The 'bug' part is
+that for running a guest on AArch64 KVM with -cpu aarch64=off' (ie a
+32-bit guest) we should be presenting an aarch32 gdb stub, and we don't.
+The 'missing feature' part is that in an ideal world we would support
+mixed aarch64-and-aarch32 guest debugging, and we don't. This needs
+support on the gdb side as well as on our side, AIUI.
 
-If it helps you with the decision, and if I understand correctly, it is
-a regression from 5.1, but was already broken in 5.2.
+> Why don't we have, like tentatively done here for arm_cpu_dump_state,
+>
+> an arm_gdb_arch_name and an arm_cpu_gdb_read_register that check is_a64() and call aaarch32_cpu_gdb_read_register or aarch64_cpu_gdb_read_register accordingly?
 
-Kevin
+Because the gdb on the other end of the gdbstub does not expect the
+target to suddenly change in the middle of execution like that.
+gdb is really a userspace-process debugger at heart, and it only
+negotiates "what are all the register types, what is the debuggee
+architecture, etc" once when it connects. Once we've told gdb
+what the registers are we need to stick to them.
 
+Properly supporting mixed-mode debugging would require support
+for telling gdb "I support both this set of registers for aarch64
+and this other set for aarch32" and notifying it about which mode
+we were in (and support in gdb for understanding this). I don't
+think anybody's ever seriously tried to work out a design for this.
+
+thanks
+-- PMM
 
