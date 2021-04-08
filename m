@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BEA358C11
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 20:20:40 +0200 (CEST)
-Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A9C358C1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 20:23:17 +0200 (CEST)
+Received: from localhost ([::1]:39306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUZGh-0001lk-FE
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 14:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48692)
+	id 1lUZJE-0003hq-LP
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 14:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUZD7-0000RJ-DF
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:16:58 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:43726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUZD3-000118-Ic
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:16:56 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id q5so2435866pfh.10
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 11:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jFnDvdsYrvPQzIpagt1vCGuiGU7ceX29iU9w/+5UU7k=;
- b=PUyc0Ypg6tXc+V48cutN9ZilrntgPkfkYwVDwUZ47ld4IL13f/+Gc/cuYFoBoCKfTr
- mKixkLv8qPmAArK+o3AOSTBwCarcM9jn3UVDs8XKXQbxZLWCAJiFh+3PnQBz+wZD0tJ/
- U/qmw2k/GSlRhdQNyKWBzJyzvXicU29RUMPG0Q2M0d5h98aA/B5mZ9RJ1HAwmM2L+z8x
- cZFaQG+/1MMpc357HGYjYCZ0RZmZIZm7G8KiYF/yeXmCW8eI9w33oVHx7xC4SBV3WxKp
- OykiagAIN5TlgD9DjZmseFVx+itNn17+9Rw5UN7kg5aPmdV/rOOYZv5tHLgPxxClbv1f
- Z28A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jFnDvdsYrvPQzIpagt1vCGuiGU7ceX29iU9w/+5UU7k=;
- b=W87f7X1dqugFHcP7L1OidrmqtU9phfgb3QwK6HKEnWsD6DjrMrsNTYyTMUnf54CikE
- SeJxzVSgz0m8hcTT0LZv1hFettaUPbziFzSf2UT+0jr1KdAU5PAkxz9xuYG+cOhc+pNm
- qV2yowSt26xvcifUC/y3vuuxj4AmaJ4WZlqX2QPI61rgHSeEC/hmAuA1Y5dgEUr42GVA
- oPf9/29Yi1CCLCUcZXI+HcMbyHMHvGHAy/tO7MOwTQp20NWUN7GpiQFqG03qmtfmwI9i
- a0wiN9yuKGscFiirrUY3bG95LzwQvl/A0SGvwndxetwZ+OBNtw4xuW8D683BPklaG3d0
- HE3Q==
-X-Gm-Message-State: AOAM5319XiKr+v4OG51W4AIGIOhfbZiyfHcNPvUCm/SCkNqSHzWajnWR
- 0/AaqNgOgsGjz8fcNaMnKv+ukg==
-X-Google-Smtp-Source: ABdhPJyHULlStf8ccJsvyuaEl3i6Ht1mlAEO8gTi2bdcHAVdYN5YhQtpzhaeIGgYXZ2yI4KCrMx0uA==
-X-Received: by 2002:a65:6415:: with SMTP id a21mr9218018pgv.417.1617905811158; 
- Thu, 08 Apr 2021 11:16:51 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id i10sm77365pgo.75.2021.04.08.11.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 11:16:50 -0700 (PDT)
-Subject: Re: [PATCH v2] Revert "target/mips: Deprecate nanoMIPS ISA"
-To: Aleksandar Rikalo <Aleksandar.Rikalo@syrmia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "f4bug@amsat.org" <f4bug@amsat.org>
-References: <20210408085810.10567-1-Filip.Vidojevic@Syrmia.com>
- <VI1PR0302MB34862F042D9B1C72C7E4AD239C749@VI1PR0302MB3486.eurprd03.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bfe8c0d2-ac10-a302-b364-91df7e0660c1@linaro.org>
-Date: Thu, 8 Apr 2021 11:16:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lUZHQ-00032B-J2
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:21:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lUZHN-0003Kz-Ll
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 14:21:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B5F561130;
+ Thu,  8 Apr 2021 18:21:15 +0000 (UTC)
+Date: Thu, 8 Apr 2021 19:21:12 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v10 2/6] arm64: kvm: Introduce MTE VM feature
+Message-ID: <20210408182112.GC7676@arm.com>
+References: <8977120b-841d-4882-2472-6e403bc9c797@redhat.com>
+ <20210331092109.GA21921@arm.com>
+ <d545a051-a02a-4c3a-0afe-66612839ba32@redhat.com>
+ <86a968c8-7a0e-44a4-28c3-bac62c2b7d65@arm.com>
+ <20210331184311.GA10737@arm.com>
+ <e2612bd8-b356-a9cd-cfdf-26f4aa813578@arm.com>
+ <20210407151458.GC21451@arm.com>
+ <5e5bf772-1e4d-ca59-a9d8-058a72dfad4f@arm.com>
+ <20210408141853.GA7676@arm.com>
+ <bfcd1c41-92fb-d4ee-34b1-7beb6b6c9fd8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <VI1PR0302MB34862F042D9B1C72C7E4AD239C749@VI1PR0302MB3486.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bfcd1c41-92fb-d4ee-34b1-7beb6b6c9fd8@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,41 +61,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Filip Vidojevic <Filip.Vidojevic@Syrmia.com>,
- "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
- "aurelien@aurel32.net" <aurelien@aurel32.net>,
- "paulburton@kernel.org" <paulburton@kernel.org>,
- Petar Jovanovic <petar.jovanovic@syrmia.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ qemu-devel@nongnu.org, Marc Zyngier <maz@kernel.org>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Will Deacon <will@kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, linux-kernel@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 10:01 AM, Aleksandar Rikalo wrote:
-> NanoMIPS ISA is supported again, since MediaTek is taking over
-> nanoMIPS toolchain development (confirmed at
-> https://www.spinics.net/linux/fedora/libvir/msg217107.html 
-> <https://www.spinics.net/linux/fedora/libvir/msg217107.html>).
+On Thu, Apr 08, 2021 at 08:16:17PM +0200, David Hildenbrand wrote:
+> On 08.04.21 16:18, Catalin Marinas wrote:
+> > On Wed, Apr 07, 2021 at 04:52:54PM +0100, Steven Price wrote:
+> > > On 07/04/2021 16:14, Catalin Marinas wrote:
+> > > > On Wed, Apr 07, 2021 at 11:20:18AM +0100, Steven Price wrote:
+> > > > > On 31/03/2021 19:43, Catalin Marinas wrote:
+> > > > > > When a slot is added by the VMM, if it asked for MTE in guest (I guess
+> > > > > > that's an opt-in by the VMM, haven't checked the other patches), can we
+> > > > > > reject it if it's is going to be mapped as Normal Cacheable but it is a
+> > > > > > ZONE_DEVICE (i.e. !kvm_is_device_pfn() + one of David's suggestions to
+> > > > > > check for ZONE_DEVICE)? This way we don't need to do more expensive
+> > > > > > checks in set_pte_at().
+> > > > > 
+> > > > > The problem is that KVM allows the VMM to change the memory backing a slot
+> > > > > while the guest is running. This is obviously useful for the likes of
+> > > > > migration, but ultimately means that even if you were to do checks at the
+> > > > > time of slot creation, you would need to repeat the checks at set_pte_at()
+> > > > > time to ensure a mischievous VMM didn't swap the page for a problematic one.
+> > > > 
+> > > > Does changing the slot require some KVM API call? Can we intercept it
+> > > > and do the checks there?
+> > > 
+> > > As David has already replied - KVM uses MMU notifiers, so there's not really
+> > > a good place to intercept this before the fault.
+> > > 
+> > > > Maybe a better alternative for the time being is to add a new
+> > > > kvm_is_zone_device_pfn() and force KVM_PGTABLE_PROT_DEVICE if it returns
+> > > > true _and_ the VMM asked for MTE in guest. We can then only set
+> > > > PG_mte_tagged if !device.
+> > > 
+> > > KVM already has a kvm_is_device_pfn(), and yes I agree restricting the MTE
+> > > checks to only !kvm_is_device_pfn() makes sense (I have the fix in my branch
+> > > locally).
+> > 
+> > Indeed, you can skip it if kvm_is_device_pfn(). In addition, with MTE,
+> > I'd also mark a pfn as 'device' in user_mem_abort() if
+> > pfn_to_online_page() is NULL as we don't want to map it as Cacheable in
+> > Stage 2. It's unlikely that we'll trip over this path but just in case.
+> > 
+> > (can we have a ZONE_DEVICE _online_ pfn or by definition they are
+> > considered offline?)
 > 
-> New release of the toolchain can be found at
-> (https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01 
-> <https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01>).
+> By definition (and implementation) offline. When you get a page =
+> pfn_to_online_page() with page != NULL, that one should never be ZONE_DEVICE
+> (otherwise it would be a BUG).
 > 
-> Reverting deprecation of nanoMIPS ISA requires following changes:
->      MAINTAINERS: remove nanoMIPS ISA from orphaned ISAs
->      deprecated.rst: remove nanoMIPS ISA from deprecated ISAs
-> 
-> Signed-off-by: Filip Vidojevic <Filip.Vidojevic@Syrmia.com>
-> Signed-off-by: Aleksandar Rikalo <Aleksandar.Rikalo@Syrmia.com>
-> ---
->   MAINTAINERS                |  4 ----
->   docs/system/deprecated.rst | 20 --------------------
->   2 files changed, 24 deletions(-)
+> As I said, things are different when exposing dax memory via dax/kmem to the
+> buddy. But then, we are no longer talking about ZONE_DEVICE.
 
-NACK, for the reasons stated against v1:
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg00663.html
+Thanks David, it's clear now.
 
-We're not going to remove nanomips this cycle, but we're not going to reset the 
-clock on deprecation either.
-
-
-r~
+-- 
+Catalin
 
