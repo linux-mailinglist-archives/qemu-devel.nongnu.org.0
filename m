@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC25B358721
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:27:11 +0200 (CEST)
-Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8128035872D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:29:39 +0200 (CEST)
+Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUVck-0005vM-QG
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:27:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
+	id 1lUVf8-0006ry-Ka
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUVb4-0004tn-8q
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:25:26 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUVb2-0001T6-Kx
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:25:25 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id d8so1125335plh.11
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 07:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZFnbHYILMcI/VEmTPpT71qfojBQq5RkqI/zyNRTGWwE=;
- b=bVsm12VBGDYBAOiNIsFHwGKi128vH4KrJmaH/wPMuTIEMn1Mpg4s8vp1n1qaAgH05K
- xdCjewBu3cS7pXZvwKNW9nV5n0Yj9atXgFlEnjn03ffjqI5lvuJvScBlxAidT8YEzjDU
- KCFgKrC9KZWOqNwNg3iVf6u2/3KBhM+DForWtONsVTWXa9iQdunLox9r6Mi1Juse0Vvr
- LxonAmHVPaUiXNgduG95k/8RJYIBCVGGz/+6n35ZS6CRywNR9x4q3aiSKzNnhGSB8N6Q
- IlqrMH2PvOwfL+IvEgJqo040xTPMRPNa6h7d+IkafWdHFb1B4h9uwgffr8wFQV1DgDoe
- CcWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZFnbHYILMcI/VEmTPpT71qfojBQq5RkqI/zyNRTGWwE=;
- b=rYzs+5dka5aKE/fWB5s/djG/Lyf4zOf4g/ojQpYNFBP4WkWoZk841ImasCB/mNB2Ib
- Pup4X5yuB449+F/V3qrhnCwzVDKcc244pPLSDVn/L8vK7Ftgw0vMFAYq4BTKbMdU2KJH
- 20wCsEg4rfM+D3w9Igcva1tzUY0v+y5UZu3FdOuMwl2Pkazf7Yab7k7MRfVR4TKQsv+Q
- JEC5MrokZ9YaGxC1yIzIsQb3xrMjUv1qz9TbKehvnXOlf7g4e9Gptgxvgztbz0hhXBal
- LTaQjb7EYMLThxOo/KOl/rNDU50thhqGKvivPg94LYBqgW2/BteoLD0au2I884uMC7zY
- yrAA==
-X-Gm-Message-State: AOAM533uEMbJTWqU0uOznd0Z8GUhN5kDQTgwPCh6ExAGGMXS+QmocVap
- c+Bi/hdMMXujuLeOz9JODIYz5g==
-X-Google-Smtp-Source: ABdhPJzupFvfqE5y2taatN7M2OXYrRpQUe2chPpLATGUSidRjxsq7c+vYEV/gKDjtcaY37NkoZQpfg==
-X-Received: by 2002:a17:90a:5407:: with SMTP id
- z7mr8929509pjh.228.1617891922818; 
- Thu, 08 Apr 2021 07:25:22 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id w203sm24151236pfc.188.2021.04.08.07.25.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 07:25:22 -0700 (PDT)
-Subject: Re: [PATCH v4 00/12] target/arm mte fixes
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210406174031.64299-1-richard.henderson@linaro.org>
- <CAFEAcA_9v7i1p59EThNPfuJHxXqwgavupV4otqaZMt9Q5d=SsA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <18c76f1b-cba5-8205-b945-bb908d460bf2@linaro.org>
-Date: Thu, 8 Apr 2021 07:25:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lUVdw-0006RU-4W
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:28:29 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lUVdt-0003OF-UU
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:28:23 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 63620B032;
+ Thu,  8 Apr 2021 14:28:19 +0000 (UTC)
+Subject: Re: [RFC v12 51/65] target/arm: cpu-sve: split TCG and KVM
+ functionality
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210326193701.5981-1-cfontana@suse.de>
+ <20210326193701.5981-52-cfontana@suse.de>
+ <573a18c3-dc67-12f9-9cdb-826cf3c9ec00@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f14daa25-72a8-b9c0-7085-0dfe45167eb3@suse.de>
+Date: Thu, 8 Apr 2021 16:28:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_9v7i1p59EThNPfuJHxXqwgavupV4otqaZMt9Q5d=SsA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <573a18c3-dc67-12f9-9cdb-826cf3c9ec00@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,37 +60,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 5:47 AM, Peter Maydell wrote:
->> Richard Henderson (12):
->>    accel/tcg: Preserve PAGE_ANON when changing page permissions
->>    target/arm: Check PAGE_WRITE_ORG for MTE writeability
->>    target/arm: Fix mte_checkN
->>    target/arm: Split out mte_probe_int
->>    target/arm: Fix unaligned checks for mte_check1, mte_probe1
->>    test/tcg/aarch64: Add mte-5
->>    target/arm: Replace MTEDESC ESIZE+TSIZE with SIZEM1
->>    target/arm: Merge mte_check1, mte_checkN
->>    target/arm: Rename mte_probe1 to mte_probe
->>    target/arm: Simplify sve mte checking
->>    target/arm: Remove log2_esize parameter to gen_mte_checkN
->>    exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1
+On 3/28/21 8:21 PM, Richard Henderson wrote:
+> On 3/26/21 1:36 PM, Claudio Fontana wrote:
+>> +++ b/target/arm/kvm/kvm-sve.h
+>> @@ -0,0 +1,30 @@
+>> +/*
+>> + * QEMU AArch64 CPU SVE KVM interface
+>> + *
+>> + * Copyright 2021 SUSE LLC
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>> + * See the COPYING file in the top-level directory.
+>> + */
+>> +
+>> +#ifndef KVM_SVE_H
+>> +#define KVM_SVE_H
+>> +
+>> +/* note: SVE is an AARCH64-only option, only include this for TARGET_AARCH64 */
 > 
-> So, what should we do with this series for 6.0 ? We'll be at rc3
-> next week, and this big a change seems risky at this point
-> in the cycle. Is there anything in here that's worth extracting
-> as a for-6.0 change? (maybe patches 1, 2, 12?)
-
-Definitely 12, since that broke BTI.
-
-Patches 1 and 2 are certainly simple enough.
-
-Otherwise... the rest would be nice to have.  It's quite isolated to mte=on. 
-If you defer, I guess that's fine too -- the bug report did come in quite late.
+> A pointless comment given that kvm itself is aarch64-only.
+> 
+>> -void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
+>> +bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
+> 
+> The commit message does not mention the interface change here.
 
 
-r~
+Ok, would need the two-steps here too.
+
+
+> 
+> I'm not sure about the rest of this patch.  It saves a miniscule amount of code 
+> in a kvm-only build, but I don't know that it clarifies things at all.
+
+
+I would say that it does, if only by making the code flow easier to follow.
+
+
+> 
+> As yet, the other arm hw accelerators do not support SVE, but I assume that's 
+> only a matter of time.  The ARM Neoverse cpus support SVE, and will require Xen 
+> to have an answer soon.  (Apple will do whatever Apple does, given that it fabs 
+> its own ARM cpus, but I expect they won't delay SVE forever.)
+> 
+> It's not clear to me what bits of the kvm code here is really kvm specific, or 
+> if we'll have to move it back.
+> 
+> I'm tempted to leave it alone for now.
+
+
+But fair enough, if nobody speaks up and finds them useful other than me, I would drop this from the series.
+
+
+> 
+> 
+> r~
+> 
+
 
