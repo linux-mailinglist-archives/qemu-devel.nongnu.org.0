@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C841358DBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 21:51:42 +0200 (CEST)
-Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D6F358DF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 21:59:00 +0200 (CEST)
+Received: from localhost ([::1]:36538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUagn-0008F1-EC
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 15:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43190)
+	id 1lUanr-0004CH-HR
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 15:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lUafb-0007LT-3y
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:50:30 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:47024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lUafQ-0003aQ-Qp
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:50:21 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id z10so3501160qkz.13
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 12:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=V47yEbLv3xAp9IqJzznsq8IHtFICH+vtQBi6BGg9iiw=;
- b=VKLQfE/gRUQemIUWuatcYJxWCehlUSLwGNXql+hSRcXz0mN4qL3MZLhBHkl1h+g2x3
- pZJnGDbUC3BZ9vJ58qlfnBrgfDE0juE+UrgdoLm1jgFYbRuLyaitQvfEOgkHfoSuZN7y
- VuIBoc4dgzqD8g1HXBMczWZjOKoLPElS7nvNUlcXeU4GcAqZLep5MA8exbmEXEME35lT
- C59+S+uDeebPzwp1SjsfAsavXrMokiF6cgvrJvK5Lu1lk/IuTvKmLQRAD6qIdKZlZMQP
- cqy15ZpAW5FH8jmG4RYgChogJ8heaFwASOm7kkrZd5Kb133ZrndOJUZD7ZHkw7/dTCgx
- lvKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=V47yEbLv3xAp9IqJzznsq8IHtFICH+vtQBi6BGg9iiw=;
- b=dLyh+lvxjHyL7dAd2ulLHLrvLTXk2JGIQHa2mNInehIZtHoPSuJr2KBRPHfiF+YExL
- gA2TWcfqTkM7xSW3LKoLcOCiq4Ar/dBpch6SAOQgL+ugT8XlCYmv4F7mqf942b3OlyHX
- 0dBuQEtX8LqCBDQyTWHWCq3oacrrVT5ALXj/s9rDgyJj+qsLIN98al5uF83+XceCbXqV
- o4v9l31e6U4G2qE5X+PuP2O8aBfmc0m3xsoegprwaOKEHQBbQPfF0U/C+3oGEbNzIb9J
- yBXV4JzU0+zgV/gvaGqpeDKvuyt1Bi3SGM7qbwR0jKjmnhD2vChQ+f4fUFMuY0e4RV+f
- dwOQ==
-X-Gm-Message-State: AOAM533Nxhu4A4yL/4CaiecE8/gtZJgU01JQTv0n69HCqOiQLM+JDnGk
- zMS2hhOePac3duk7ee7IZT4=
-X-Google-Smtp-Source: ABdhPJwIQBUxb381Bc6PGp3fyMg/dJzByf9IP9kwrhW9cKDJ00qQ+3OZE+zje6Z1egPJ25uex4GxGA==
-X-Received: by 2002:a37:8107:: with SMTP id c7mr10253096qkd.139.1617911415687; 
- Thu, 08 Apr 2021 12:50:15 -0700 (PDT)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id d26sm319260qtw.72.2021.04.08.12.50.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 08 Apr 2021 12:50:15 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: Mac OS real USB device support issue
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <CABLmASFLSZBapgZCNQuvDd4hvpVe4SSdY7ar+VH0w_ZjquoUKQ@mail.gmail.com>
-Date: Thu, 8 Apr 2021 15:50:14 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0BF93C96-9F20-41F4-88B5-3A96BAE54F2D@gmail.com>
-References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
- <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
- <967C172F-B708-40A2-862E-9948F0844133@gmail.com>
- <ace05be8-a256-788f-b896-45398d752d3@eik.bme.hu>
- <BABF7369-A0AB-4CD4-A46D-19BF1BD04AF8@gmail.com>
- <725920c9-c990-d35a-4958-4df0c45c62@eik.bme.hu>
- <0429B873-DD42-4769-BCDF-25A7720D9C44@gmail.com>
- <20210408110523.eh3i7djynv54cqi2@sirius.home.kraxel.org>
- <CABLmASFLSZBapgZCNQuvDd4hvpVe4SSdY7ar+VH0w_ZjquoUKQ@mail.gmail.com>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lUalg-0002G0-Sy
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:56:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lUale-0007qN-NV
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:56:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617911802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1fS/Z1FFdmd07jbgb4ZLjY2o+dvII0AD4J3fSPJ2ETc=;
+ b=RzpSpKCr80GpbV1AbFnh6RE5J9eVL2JxcRtZVVzSmCNGak+VlImL8LnIlTQPGN1gGE6bEn
+ X3NpLt0NsEuZMoFSMXQSYsDCIRqbYckio01XhakjNUX7EZxFf0IvrF2E4kwXR50nxgiyqd
+ vwusF9FOfLAJwzKEC2mZoXAxrCflAOc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-mIUYRwjGPeOfF66dZ3kT3w-1; Thu, 08 Apr 2021 15:56:38 -0400
+X-MC-Unique: mIUYRwjGPeOfF66dZ3kT3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 126EE146E84;
+ Thu,  8 Apr 2021 19:53:43 +0000 (UTC)
+Received: from wainer-laptop.localdomain.com (ovpn-116-57.gru2.redhat.com
+ [10.97.116.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C7736A042;
+ Thu,  8 Apr 2021 19:53:31 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 4/7] tests/acceptance: Tagging tests with "cpu:VALUE"
+Date: Thu,  8 Apr 2021 16:52:34 -0300
+Message-Id: <20210408195237.3489296-5-wainersm@redhat.com>
+In-Reply-To: <20210408195237.3489296-1-wainersm@redhat.com>
+References: <20210408195237.3489296-1-wainersm@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,52 +79,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU devel list <qemu-devel@nongnu.org>, Gerd Hoffmann <gerd@kraxel.org>
+Cc: wrampazz@redhat.com, philmd@redhat.com, pavel.dovgaluk@ispras.ru,
+ crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The existing tests which are passing "-cpu VALUE" argument to the vm object
+are now properly "cpu:VALUE" tagged, so letting the avocado_qemu framework to
+handle that automatically.
 
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
+ tests/acceptance/boot_linux_console.py   | 16 +++++++++-------
+ tests/acceptance/pc_cpu_hotplug_props.py |  2 +-
+ tests/acceptance/replay_kernel.py        |  9 ++++++---
+ tests/acceptance/virtio-gpu.py           |  4 ++--
+ 4 files changed, 18 insertions(+), 13 deletions(-)
 
-> On Apr 8, 2021, at 12:40 PM, Howard Spoelstra <hsp.cat7@gmail.com> =
-wrote:
->=20
-> On Thu, Apr 8, 2021 at 1:05 PM Gerd Hoffmann <gerd@kraxel.org> wrote:
->>=20
->>  Hi,
->>=20
->>>> Those might be a good place to start. IOKit provides the drivers =
-and
->>>> also the io registry which is probably where you can get if a =
-driver
->>>> is bound to a device and which one is it. How to dissociate the
->>>> driver from the device though I don't know.
->>=20
->>> =
-https://developer.apple.com/library/archive/documentation/DeviceDrivers/Co=
-nceptual/IOKitFundamentals/DeviceRemoval/DeviceRemoval.html
->>=20
->>> According to this article a driver has a stop() and detach() method
->>> that is called by the IOKit to remove a device. I'm thinking QEMU =
-can
->>> be the one that calls these methods for a certain device.
->>=20
->> libusb should do that.  Interfaces exist already (see
->> libusb_detach_kernel_driver & friends) because we have the very same
->> problem on linux.
->>=20
->> take care,
->>  Gerd
->>=20
->=20
-> As far as I understand the patches here
-> https://github.com/libusb/libusb/issues/906 they are internal to
-> libusb, so we would need to build a libusb for use with e.g., brew to
-> build a macOS executable. Or wait for them to be finalised to get
-> included in libusb and then included in brew and then ....
->=20
-> Best,
-> Howard
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 1ca32ecf25..b7a856d871 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -238,6 +238,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+         :avocado: tags=arch:mips64el
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:5KEc
+         """
+         kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+                       'raw/9ad2df38/mips/malta/mips64el/'
+@@ -257,8 +258,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
+                                + 'console=ttyS0 console=tty '
+                                + 'rdinit=/sbin/init noreboot')
+-        self.vm.add_args('-cpu', '5KEc',
+-                         '-kernel', kernel_path,
++        self.vm.add_args('-kernel', kernel_path,
+                          '-initrd', initrd_path,
+                          '-append', kernel_command_line,
+                          '-no-reboot')
+@@ -286,7 +286,6 @@ def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
+                                + 'mem=256m@@0x0 '
+                                + 'console=ttyS0')
+         self.vm.add_args('-no-reboot',
+-                         '-cpu', 'I7200',
+                          '-kernel', kernel_path,
+                          '-append', kernel_command_line)
+         self.vm.launch()
+@@ -298,6 +297,7 @@ def test_mips_malta32el_nanomips_4k(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -310,6 +310,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -322,6 +323,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -333,6 +335,7 @@ def test_aarch64_virt(self):
+         """
+         :avocado: tags=arch:aarch64
+         :avocado: tags=machine:virt
++        :avocado: tags=cpu:cortex-a53
+         """
+         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+                       '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+@@ -343,8 +346,7 @@ def test_aarch64_virt(self):
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+                                'console=ttyAMA0')
+-        self.vm.add_args('-cpu', 'cortex-a53',
+-                         '-kernel', kernel_path,
++        self.vm.add_args('-kernel', kernel_path,
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+@@ -1038,9 +1040,9 @@ def test_ppc64_e500(self):
+         """
+         :avocado: tags=arch:ppc64
+         :avocado: tags=machine:ppce500
++        :avocado: tags=cpu:e5500
+         """
+         tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+-        self.vm.add_args('-cpu', 'e5500')
+         self.do_test_advcal_2018('19', tar_hash, 'uImage')
+ 
+     def test_ppc_g3beige(self):
+@@ -1082,7 +1084,7 @@ def test_xtensa_lx60(self):
+         """
+         :avocado: tags=arch:xtensa
+         :avocado: tags=machine:lx60
++        :avocado: tags=cpu:dc233c
+         """
+         tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
+-        self.vm.add_args('-cpu', 'dc233c')
+         self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf')
+diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
+index f48f68fc6b..2e86d5017a 100644
+--- a/tests/acceptance/pc_cpu_hotplug_props.py
++++ b/tests/acceptance/pc_cpu_hotplug_props.py
+@@ -25,11 +25,11 @@
+ class OmittedCPUProps(Test):
+     """
+     :avocado: tags=arch:x86_64
++    :avocado: tags=cpu:qemu64
+     """
+     def test_no_die_id(self):
+         self.vm.add_args('-nodefaults', '-S')
+         self.vm.add_args('-smp', '1,sockets=2,cores=2,threads=2,maxcpus=8')
+-        self.vm.add_args('-cpu', 'qemu64')
+         self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0')
+         self.vm.launch()
+         self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 75f80506c1..bb32b31240 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -392,6 +392,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
+         :avocado: tags=slowness:high
++        :avocado: tags=cpu:5KEc
+         """
+         kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+                       'raw/9ad2df38/mips/malta/mips64el/'
+@@ -412,7 +413,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+                                'rdinit=/sbin/init noreboot')
+         console_pattern = 'Boot successful.'
+         self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
+-                    args=('-initrd', initrd_path, '-cpu', '5KEc'))
++                    args=('-initrd', initrd_path))
+ 
+     def do_test_mips_malta32el_nanomips(self, kernel_path_xz):
+         kernel_path = self.workdir + "kernel"
+@@ -424,14 +425,14 @@ def do_test_mips_malta32el_nanomips(self, kernel_path_xz):
+                                'mem=256m@@0x0 '
+                                'console=ttyS0')
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
+-                    args=('-cpu', 'I7200'))
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5)
+ 
+     def test_mips_malta32el_nanomips_4k(self):
+         """
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -445,6 +446,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -458,6 +460,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
+index ab18cddbb7..3494297b22 100644
+--- a/tests/acceptance/virtio-gpu.py
++++ b/tests/acceptance/virtio-gpu.py
+@@ -60,6 +60,7 @@ def test_virtio_vga_virgl(self):
+         """
+         :avocado: tags=arch:x86_64
+         :avocado: tags=device:virtio-vga
++        :avocado: tags=cpu:host
+         """
+         kernel_command_line = (
+             self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+@@ -72,7 +73,6 @@ def test_virtio_vga_virgl(self):
+         initrd_path = self.fetch_asset(self.INITRD_URL)
+ 
+         self.vm.set_console()
+-        self.vm.add_args("-cpu", "host")
+         self.vm.add_args("-m", "2G")
+         self.vm.add_args("-machine", "pc,accel=kvm")
+         self.vm.add_args("-device", "virtio-vga,virgl=on")
+@@ -101,6 +101,7 @@ def test_vhost_user_vga_virgl(self):
+         """
+         :avocado: tags=arch:x86_64
+         :avocado: tags=device:vhost-user-vga
++        :avocado: tags=cpu:host
+         """
+         kernel_command_line = (
+             self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+@@ -140,7 +141,6 @@ def test_vhost_user_vga_virgl(self):
+         )
+ 
+         self.vm.set_console()
+-        self.vm.add_args("-cpu", "host")
+         self.vm.add_args("-m", "2G")
+         self.vm.add_args("-object", "memory-backend-memfd,id=mem,size=2G")
+         self.vm.add_args("-machine", "pc,memory-backend=mem,accel=kvm")
+-- 
+2.29.2
 
-We could also consider our own git submodule incase the libusb people =
-fail to fix their issue.=
 
