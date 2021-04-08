@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF1D358A2A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 18:52:50 +0200 (CEST)
-Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E71358A50
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 18:56:56 +0200 (CEST)
+Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUXth-0003nL-9k
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 12:52:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53344)
+	id 1lUXxf-0005TA-6I
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 12:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUXsd-00036V-HO
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 12:51:43 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUXsb-0004Ye-Ns
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 12:51:43 -0400
-Received: by mail-ej1-x631.google.com with SMTP id v6so2947687ejo.6
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 09:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hKITSTaYjCvtrIX0EC/wLz4O0XSwjXoY7dCYriuCzpg=;
- b=hQmIIUm+mSGvRSL5huTf1649ZbHitKUmGwLc93nbJl8E1FsTWGSRO44yvsepuRxaZl
- hD4LUWWtiJbsVTgFe4u7xltkbpPlqTk1gg5TXqtwfbV9IoNAbVocYtBHaPQnz0UIr04S
- wlMHsts8uvG6lgeH34KVanNXEnNhzDqwA2aUQadi+ZujiSN3hiatbTzEFhZ/4ZGPrvXh
- PGuHicSs5EfkYvg59SCSWRRdzhu+H9A4tCyaTGoAszg7Bco8538Dwj9X4jUzHrOcBUSB
- VmIcQoV2UsT4rF6BS68WAr2hQDwnudVeEV+f9TZg9vZaw3NYT6aunU1kfhxIxKN0bS9c
- DR1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hKITSTaYjCvtrIX0EC/wLz4O0XSwjXoY7dCYriuCzpg=;
- b=SsFVtbjNZOFIoGBnR1506K+UO/GFQGdavkvaEfcWuxtNfQvQ+oq7caDZf03nDNGgKQ
- hymlPT0JYzNrL5yZApNB7HAoCrWm+whPm2vOLHwMXGGf/TNWbufDcGcrbcxAcy+Gzriw
- +TPQMl3wY+PcvWyAb8+MkvyWX0zkIlSllrcfYRB78kxfkwTlKWyVGntu/sxQP0c2Za0T
- 4WmkS1ZOu4zjsK2aoEjcDgdNxgYlxGpvYc0QE0r651qp6NVlg7vv0ioYMzueIe0P1VbI
- JvHLYz2el4w/QHWs/E+cEgqk8tKH3yg7q0z1gLD1ZAdjAZAkbc6aBbvwCcb4moQ49nM7
- xmXA==
-X-Gm-Message-State: AOAM532loInF2WF/AmSCNdyft+EIKi8+wtD1h6WFCSlcm9bbfzxqHMbe
- /FXpuoj3Pp1hwY29BWS6R5RYzVwZ2zxntphVawMWFA==
-X-Google-Smtp-Source: ABdhPJxONiefvgpQZ3vPvBrdoT2qjTxZrOC3swpVV8yi/GUMsSkJyKruU0g9w7e7crzsTUQcHf88iiNT8NMjHZY3HuQ=
-X-Received: by 2002:a17:906:8a65:: with SMTP id
- hy5mr11776573ejc.250.1617900699871; 
- Thu, 08 Apr 2021 09:51:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lUXvN-0004YM-14; Thu, 08 Apr 2021 12:54:34 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:40184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lUXvF-00063A-9e; Thu, 08 Apr 2021 12:54:32 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 4940A2E1689;
+ Thu,  8 Apr 2021 19:54:20 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ BLkwvGGf4p-sJ0uNW2h; Thu, 08 Apr 2021 19:54:20 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1617900860; bh=Erq6VkXWo6+epZ2RMeAm4koN7n6BK1lxvtMFhXmEqys=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=L+H9nwBmMjBiIpJhtaepeKmaJ2MMRMTAOOVQIlfmQHSDY/XuXNUhzLsH+Lh1B7Mcx
+ 2hjP/TGkp3JxJLXiEa4+bcP+PYnvBOK5jWvZ0vTysxRxIMr1xhmN9YAmFmm0+js2Wn
+ 4H5acGb+0Mn5j79cVIH6iN1sG8hiXNKJrZPpSUys=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
+ [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ kmg8NatmVm-sJp4flOZ; Thu, 08 Apr 2021 19:54:19 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Thu, 8 Apr 2021 19:54:16 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 08/10] block/nbd: rename NBDConnectThread to
+ NBDClientConnection
+Message-ID: <YG81OIVRe19zZ6ec@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, fam@euphon.net,
+ stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
+ eblake@redhat.com
+References: <20210408140827.332915-1-vsementsov@virtuozzo.com>
+ <20210408140827.332915-9-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210408164610.14229-1-alex.bennee@linaro.org>
-In-Reply-To: <20210408164610.14229-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Apr 2021 17:50:59 +0100
-Message-ID: <CAFEAcA_zfjdajX_A=qAd5noqufx6aqfLmXCZPWFWMPETpOHMjg@mail.gmail.com>
-Subject: Re: [RFC PATCH] scripts/checkpatch: fix uninitialised value check
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210408140827.332915-9-vsementsov@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,32 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Apr 2021 at 17:49, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> This was starting to show up in the check-patch test on gitlab.
->
-> Fixes: d2f1af0e41 ("checkpatch: don't emit warning on newly created acpi =
-data files")
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Isaku Yamahata <isaku.yamahata@intel.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
+On Thu, Apr 08, 2021 at 05:08:25PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to move connection code to own file and want clear names
+> and APIs.
+> 
+> The structure is shared between user and (possibly) several runs of
+> connect-thread. So it's wrong to call it "thread". Let's rename to
+> something more generic.
+> 
+> Appropriately rename connect_thread and thr variables to conn.
+> 
+> connect_thread_state_unref() function gets new appropriate name too
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  scripts/checkpatch.pl | 1 +
->  1 file changed, 1 insertion(+)
+>  block/nbd.c | 127 ++++++++++++++++++++++++++--------------------------
+>  1 file changed, 63 insertions(+), 64 deletions(-)
 
+[To other reviewers: in addition to renaming there's one blank line
+removed, hence the difference between (+) and (-)]
 
-Already submitted by Greg:
-https://patchew.org/QEMU/161786467973.295167.5612704777283969903.stgit@bahi=
-a.lan/
-
-thanks
--- PMM
+Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 
