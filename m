@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3F23579FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 04:00:09 +0200 (CEST)
-Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EFC3579FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 04:00:06 +0200 (CEST)
+Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUJxj-0001Rl-AP
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 22:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37890)
+	id 1lUJxl-0001W8-FC
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 22:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUJvo-00089U-8P
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:06 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:37871)
+ id 1lUJvv-0008Cl-5F
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:11 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:37899)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUJvi-0005yP-Tj
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:03 -0400
+ id 1lUJvr-00061d-Ig
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617847078; x=1649383078;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xBrifRh5r3mZvq9YWhLRcAH69svn9SxJqGUbttTehpQ=;
- b=TSIGCF2tC2E38faTujGru165s0y7iqbWaUb22ZvcBVeS7ZChyKevY4lL
- 4O9PfL/AO9DXvpZf9sSlUjcrboWInV1pT6pA1HzPgBQKegD5vX7dI7uUx
- FZgm41QiASlknfJab2Zm/D2z3grjS311FJYPIJDwdsPpu8EQOFxyVf3w/ k=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Apr 2021 18:57:55 -0700
+ t=1617847087; x=1649383087;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=FxJFdPYquFe04QeSDt7EGv9e1Qf8maYZFLRk5nh3zTg=;
+ b=wIb+K1z+7MQ/oyZnb5D2UZOg24g7CPPBc1KwajY7W0VwQSFAF6mEhdEQ
+ PJwuCOuMcsik5FR/HPR615uFHF7jcmxj/GuGXwpj4U+vwka0agcXDTsET
+ nVk2p2GYjroFJcCLxdYJriw29ZfJUSCZJMOANiuj9kgJv07qZ8FCu07TL I=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Apr 2021 18:57:57 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg05-sd.qualcomm.com with ESMTP; 07 Apr 2021 18:57:54 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP; 07 Apr 2021 18:57:56 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id AC28D50F; Wed,  7 Apr 2021 20:57:54 -0500 (CDT)
+ id BAA1DFF0; Wed,  7 Apr 2021 20:57:54 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/26] Hexagon (target/hexagon) update
-Date: Wed,  7 Apr 2021 20:57:21 -0500
-Message-Id: <1617847067-9867-1-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v3 05/26] Hexagon (target/hexagon) properly generate TB end
+ for DISAS_NORETURN
+Date: Wed,  7 Apr 2021 20:57:26 -0500
+Message-Id: <1617847067-9867-6-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1617847067-9867-1-git-send-email-tsimpson@quicinc.com>
+References: <1617847067-9867-1-git-send-email-tsimpson@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=199.106.114.38;
@@ -72,133 +74,165 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series is a significant update for the Hexagon target
-    The first 16 patches address feedback from Richard Henderson
-    <richard.henderson@linaro.org> and Philippe Mathieu-Daudé <f4bug@amsat.org>
-    The next 10 patches add the remaining instructions for the Hexagon
-    scalar core
+When exiting a TB, generate all the code before returning from
+hexagon_tr_translate_packet so that nothing needs to be done in
+hexagon_tr_tb_stop.
 
-The patches are logically independent but are organized as a series to
-avoid potential confilcts if they are merged out of order.
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+---
+ target/hexagon/translate.c | 62 ++++++++++++++++++++++++----------------------
+ target/hexagon/translate.h |  3 ---
+ 2 files changed, 33 insertions(+), 32 deletions(-)
 
-Note that the new test cases require an update toolchain/container.
-
-
-*** Changes in v3 ***
-Cleanup ternary operators in semantics to make them eaiser for idef-parser
-Cleanup gen_log_predicated_reg_write_pair similar to gen_log_predicated_write
-Cleanup reg_field_info definition (remove {0, 0} entry and include array size)
-Move QEMU_GENERATE to only be on during macros.h
-Compile all debug code so it doesn't bit rot
-Fix circular addressing to handle negative increment
-
-*** Changes in v2 ***
-Address feedback from Richard Henderson <richard.henderson@linaro.org>
-    Break utility function (arch.c) changes into 2 separate patches
-    Change bit-reverse addressing from TCG generation to helper
-    Change loadalign[bh] to use shift+deposit
-    Remove fGET_TCG_tmp
-        Remove unneeded ireg and tmp variables
-    Remove unused one variable from gen_log_predicated_reg_write
-    Rename gen_exception to gen_exception_raw
-    Remove unreachable tcg_gen_exit_tb
-    Remove redundant PC assignment
-    Remove TARGET_HEXAGON code from parts_silence_nan
-    Change roundrom to uint8_t in arch_recip_lookup and arch_invsqrt_lookup
-    Rewrite fGEN_TCG_addp_c/fGEN_TCG_subp_c using tcg_gen_add2_i64
-    Remove gen_carry_from_add64()
-    Break "instructions with multiple definitions" into multiple patches
-    Fix fINSERT_RANGE macro
-
-Expand macros inside GET_EA_pci, GET_EA_pcr
-Change fGEN_TCG_PCR to fGEN_TCG_LOAD_pcr to be consistent with other macros
-Cleanup load and unpack implementation
-Cleanup load into shifted register implementation
-Cleanup brev.c test case
-Change sfinvsqrta/sfrecipa to use a single helper
-Cleanup vacsh helpers
-
-
-
-Taylor Simpson (26):
-  Hexagon (target/hexagon) TCG generation cleanup
-  Hexagon (target/hexagon) cleanup gen_log_predicated_reg_write_pair
-  Hexagon (target/hexagon) remove unnecessary inline directives
-  Hexagon (target/hexagon) use env_archcpu and env_cpu
-  Hexagon (target/hexagon) properly generate TB end for DISAS_NORETURN
-  Hexagon (target/hexagon) decide if pred has been written at TCG gen
-    time
-  Hexagon (target/hexagon) change variables from int to bool when
-    appropriate
-  Hexagon (target/hexagon) remove unused carry_from_add64 function
-  Hexagon (target/hexagon) change type of softfloat_roundingmodes
-  Hexagon (target/hexagon) use softfloat default NaN and tininess
-  Hexagon (target/hexagon) replace float32_mul_pow2 with float32_scalbn
-  Hexagon (target/hexagon) use softfloat for float-to-int conversions
-  Hexagon (target/hexagon) cleanup ternary operators in semantics
-  Hexagon (target/hexagon) cleanup reg_field_info definition
-  Hexagon (target/hexagon) move QEMU_GENERATE to only be on during
-    macros.h
-  Hexagon (target/hexagon) compile all debug code
-  Hexagon (target/hexagon) add F2_sfrecipa instruction
-  Hexagon (target/hexagon) add F2_sfinvsqrta
-  Hexagon (target/hexagon) add A5_ACS (vacsh)
-  Hexagon (target/hexagon) add A6_vminub_RdP
-  Hexagon (target/hexagon) add A4_addp_c/A4_subp_c
-  Hexagon (target/hexagon) circular addressing
-  Hexagon (target/hexagon) bit reverse (brev) addressing
-  Hexagon (target/hexagon) load and unpack bytes instructions
-  Hexagon (target/hexagon) load into shifted register instructions
-  Hexagon (target/hexagon) CABAC decode bin
-
- fpu/softfloat-specialize.c.inc        |   3 +
- linux-user/hexagon/cpu_loop.c         |   2 +-
- target/hexagon/arch.c                 | 181 ++++++++++---
- target/hexagon/arch.h                 |   9 +-
- target/hexagon/conv_emu.c             | 177 -------------
- target/hexagon/conv_emu.h             |  31 ---
- target/hexagon/cpu.c                  |  14 +-
- target/hexagon/cpu.h                  |   5 -
- target/hexagon/cpu_bits.h             |   2 +-
- target/hexagon/decode.c               |  80 +++---
- target/hexagon/fma_emu.c              |  40 +--
- target/hexagon/gen_tcg.h              | 420 ++++++++++++++++++++++++++++-
- target/hexagon/gen_tcg_funcs.py       |   2 +-
- target/hexagon/genptr.c               | 244 ++++++++++++++---
- target/hexagon/helper.h               |  23 +-
- target/hexagon/imported/alu.idef      |  44 +++
- target/hexagon/imported/compare.idef  |  12 +-
- target/hexagon/imported/encode_pp.def |  30 +++
- target/hexagon/imported/float.idef    |  32 +++
- target/hexagon/imported/ldst.idef     |  68 +++++
- target/hexagon/imported/macros.def    |  47 ++++
- target/hexagon/imported/shift.idef    |  47 ++++
- target/hexagon/insn.h                 |  21 +-
- target/hexagon/internal.h             |  11 +-
- target/hexagon/macros.h               | 122 ++++++++-
- target/hexagon/meson.build            |   1 -
- target/hexagon/op_helper.c            | 392 +++++++++++++++++----------
- target/hexagon/reg_fields.c           |   3 +-
- target/hexagon/reg_fields.h           |   4 +-
- target/hexagon/translate.c            | 153 +++++------
- target/hexagon/translate.h            |   9 +-
- tests/tcg/hexagon/Makefile.target     |   6 +
- tests/tcg/hexagon/brev.c              | 190 +++++++++++++
- tests/tcg/hexagon/circ.c              | 486 ++++++++++++++++++++++++++++++++++
- tests/tcg/hexagon/fpstuff.c           | 242 +++++++++++++++++
- tests/tcg/hexagon/load_align.c        | 415 +++++++++++++++++++++++++++++
- tests/tcg/hexagon/load_unpack.c       | 474 +++++++++++++++++++++++++++++++++
- tests/tcg/hexagon/misc.c              |  47 ++++
- tests/tcg/hexagon/multi_result.c      | 282 ++++++++++++++++++++
- 39 files changed, 3758 insertions(+), 613 deletions(-)
- delete mode 100644 target/hexagon/conv_emu.c
- delete mode 100644 target/hexagon/conv_emu.h
- create mode 100644 tests/tcg/hexagon/brev.c
- create mode 100644 tests/tcg/hexagon/circ.c
- create mode 100644 tests/tcg/hexagon/load_align.c
- create mode 100644 tests/tcg/hexagon/load_unpack.c
- create mode 100644 tests/tcg/hexagon/multi_result.c
-
+diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
+index e235fdb..9f2a531 100644
+--- a/target/hexagon/translate.c
++++ b/target/hexagon/translate.c
+@@ -54,16 +54,40 @@ static const char * const hexagon_prednames[] = {
+   "p0", "p1", "p2", "p3"
+ };
+ 
+-void gen_exception(int excp)
++static void gen_exception_raw(int excp)
+ {
+     TCGv_i32 helper_tmp = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, helper_tmp);
+     tcg_temp_free_i32(helper_tmp);
+ }
+ 
+-void gen_exception_debug(void)
++static void gen_exec_counters(DisasContext *ctx)
++{
++    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
++                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
++    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
++                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
++}
++
++static void gen_end_tb(DisasContext *ctx)
+ {
+-    gen_exception(EXCP_DEBUG);
++    gen_exec_counters(ctx);
++    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
++    if (ctx->base.singlestep_enabled) {
++        gen_exception_raw(EXCP_DEBUG);
++    } else {
++        tcg_gen_exit_tb(NULL, 0);
++    }
++    ctx->base.is_jmp = DISAS_NORETURN;
++}
++
++static void gen_exception_end_tb(DisasContext *ctx, int excp)
++{
++    gen_exec_counters(ctx);
++    tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
++    gen_exception_raw(excp);
++    ctx->base.is_jmp = DISAS_NORETURN;
++
+ }
+ 
+ #if HEX_DEBUG
+@@ -225,8 +249,7 @@ static void gen_insn(CPUHexagonState *env, DisasContext *ctx,
+         mark_implicit_writes(ctx, insn);
+         insn->generate(env, ctx, insn, pkt);
+     } else {
+-        gen_exception(HEX_EXCP_INVALID_OPCODE);
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_OPCODE);
+     }
+ }
+ 
+@@ -447,14 +470,6 @@ static void update_exec_counters(DisasContext *ctx, Packet *pkt)
+     ctx->num_insns += num_real_insns;
+ }
+ 
+-static void gen_exec_counters(DisasContext *ctx)
+-{
+-    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
+-                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
+-    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
+-                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
+-}
+-
+ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
+ {
+     gen_reg_writes(ctx);
+@@ -478,7 +493,7 @@ static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
+ #endif
+ 
+     if (pkt->pkt_has_cof) {
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_end_tb(ctx);
+     }
+ }
+ 
+@@ -491,8 +506,7 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
+ 
+     nwords = read_packet_words(env, ctx, words);
+     if (!nwords) {
+-        gen_exception(HEX_EXCP_INVALID_PACKET);
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_PACKET);
+         return;
+     }
+ 
+@@ -505,8 +519,7 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
+         gen_commit_packet(ctx, &pkt);
+         ctx->base.pc_next += pkt.encod_pkt_size_in_bytes;
+     } else {
+-        gen_exception(HEX_EXCP_INVALID_PACKET);
+-        ctx->base.is_jmp = DISAS_NORETURN;
++        gen_exception_end_tb(ctx, HEX_EXCP_INVALID_PACKET);
+     }
+ }
+ 
+@@ -536,9 +549,7 @@ static bool hexagon_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
+-    tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
+-    ctx->base.is_jmp = DISAS_NORETURN;
+-    gen_exception_debug();
++    gen_exception_end_tb(ctx, EXCP_DEBUG);
+     /*
+      * The address covered by the breakpoint must be included in
+      * [tb->pc, tb->pc + tb->size) in order to for it to be
+@@ -601,19 +612,12 @@ static void hexagon_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         gen_exec_counters(ctx);
+         tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
+         if (ctx->base.singlestep_enabled) {
+-            gen_exception_debug();
++            gen_exception_raw(EXCP_DEBUG);
+         } else {
+             tcg_gen_exit_tb(NULL, 0);
+         }
+         break;
+     case DISAS_NORETURN:
+-        gen_exec_counters(ctx);
+-        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
+-        if (ctx->base.singlestep_enabled) {
+-            gen_exception_debug();
+-        } else {
+-            tcg_gen_exit_tb(NULL, 0);
+-        }
+         break;
+     default:
+         g_assert_not_reached();
+diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
+index 938f7fb..12506c8 100644
+--- a/target/hexagon/translate.h
++++ b/target/hexagon/translate.h
+@@ -86,8 +86,5 @@ extern TCGv hex_llsc_addr;
+ extern TCGv hex_llsc_val;
+ extern TCGv_i64 hex_llsc_val_i64;
+ 
+-void gen_exception(int excp);
+-void gen_exception_debug(void);
+-
+ void process_store(DisasContext *ctx, Packet *pkt, int slot_num);
+ #endif
 -- 
 2.7.4
 
