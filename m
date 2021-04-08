@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D8D358065
+	by mail.lfdr.de (Postfix) with ESMTPS id 107A2358064
 	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:16:22 +0200 (CEST)
-Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lURi0-0005Yo-FB
+	id 1lURi0-0005YW-Hl
 	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39500)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lURfG-0003z1-Gu
+ id 1lURfG-0003z0-MX
  for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:13:30 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:44630)
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:42985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1lURfA-0008Lr-Oj
+ id 1lURfC-0008Nz-47
  for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:13:28 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- kk2-20020a17090b4a02b02900c777aa746fso1064030pjb.3
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 03:13:22 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ j6-20020a17090adc86b02900cbfe6f2c96so1077746pjv.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 03:13:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gkruCtQ5S/OZWNWHF1MZHWfdXooksconxayMSeMDdnE=;
- b=gTKDWPprPRv7FM9/v3yPHYCp6bjErrFD5rzYjozkDdsuh9Y5wosT07cyy8JpAtKdNt
- mmMjag+SV87amvRm9Z5qslpis1D0FFF9G1umaRxLjtooDGUWqcNk1B9MDD1LcT2hfPiN
- 5u9zy6osRSpb1O/31lY6JfYwzipUSvTQevOHn85QkKa8wRV0HIt6dCUj8ZlwAxivl2YM
- OYy7WaIQCaqREU2DYxeepaUyHtWTAH8tz6FNR8C3FCdV1yXi4quLPZOsY594dtFpZEZe
- 52HBZPK22knyRq3BIX/sxiCSswTVQMDDOeav29mi0MJ/qtEMFPMzyCYlhWOfj3wqiDJU
- F1QQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dKPwSkTbAVOtr/o4bF4yXTXX7KuGdgrHUmzYU0eZs/U=;
+ b=bB/xANzvL698U0VzO+LulrpQpku29bn/bxAxo6FruQ9/opD/ulJPC9FiNT4Shmifth
+ HazcdjQoUR+7TyCBt/467HRQa7W4DTNu/T4MJLU2s36Z/iJlYOdHHyTrc2fXlVveqNrZ
+ BdONaVo/du8V8g63qeGEpZyNpC4+e79UuDKBDhKkcWEMFU6c0svqPClg/rDRzw+MlW2B
+ i33dGBywxK6RJAQyEDB2tKwu6A2O4p1C8ahvQ2t9CslOAydbWwUkwhQvdAN6anHBi2fP
+ N5Ly1oLuB74p1QMd9vbxttXxNronu0ANRoXOaKZGYFYzC5otTv1oV89g2EMCLDzulVqD
+ 7+LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gkruCtQ5S/OZWNWHF1MZHWfdXooksconxayMSeMDdnE=;
- b=VStoDkCGnDzMC3MzCNuSbUYlSefaUG310CeiEdeshDiqL3RF7Rw4Ldg/ErIognq+uM
- 0uUdcq5O9/WLbxoMF/FxgTtxsHF6H01u4HhwEKzeyffPv2oy7h9Z0kC/en2UY52j/fWu
- nC0u8lgd2lo/lD0KRvsd4OGCawUqOXqqw6ZPnxi7T92xEBBrP/ExNmdgToTg9dW+q1zd
- pe3MQcHisSyO7FLhoM58YxacyxfmrtOeEFX9zHYeHnVbIcZS45zww71sy1R7rkn4KBRL
- wBeRJ3l1CoDLhfR0lTeK3TgH2zGUlfnKFhYE83FmFple/KCjfZ/tVM4tK2xQky3OWHCg
- RgCQ==
-X-Gm-Message-State: AOAM532FtQIs0r9FzJtgvG0vddq1KX1p1B1lh/Jwhlv3enLomFMGx6qp
- RkbJTJwg0kBQqvmg6Ttwly4K
-X-Google-Smtp-Source: ABdhPJxAo/tpp7wwyCuiP42nEOB300F+7Yvui5FG5TgllIRuNT286IY9U/DqExWKh3ZEhRPCGM6pYw==
-X-Received: by 2002:a17:90b:1b4e:: with SMTP id
- nv14mr7730943pjb.115.1617876801108; 
- Thu, 08 Apr 2021 03:13:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dKPwSkTbAVOtr/o4bF4yXTXX7KuGdgrHUmzYU0eZs/U=;
+ b=sAS9izJEq44/q5bdzhf8n6xxnAV0lmbU3ax6WAC+CrHKsD9tttbFoMVCJTUAurciHn
+ 2IXfPAxxRjULQGsSi17vd2X25+qe0pmwA4cj7wHI9hIwZqaSxn1PFCDGswK2/j+Qa2ga
+ 0cKXsW0O1CXrurCtyt8LvA/xEihQPbt8D7yegwqL8ZDEggwDFT+ZlFYQbyv2KVSmU4RP
+ 3UNGRiV70gHezWx5oJKkB3waraw7UEMwerzqi66kUvJ2lnq2a+g8rVe6NqTWu0f5RgHS
+ O/q5l9CQjj03LkDKkAIYAm377DaYSA9m7Gf5QdNc+jWGTBTHtNpEJYvzpjOK5VW+Jbly
+ 7SCQ==
+X-Gm-Message-State: AOAM531jd9KK9AJcOfjpHU3aovGODp38UybRAqIIWTgYtMsQYYXbBYxH
+ 0ocC0MUI9HXhlxmB23tAb4HN
+X-Google-Smtp-Source: ABdhPJy8tGHCPVmi3xVLybX8fL8td6WG5SqwABBBkfHP6rfCwDT5oinbk4ujwABqK4GhaQTQslDdXw==
+X-Received: by 2002:a17:902:ac95:b029:e9:11:5337 with SMTP id
+ h21-20020a170902ac95b02900e900115337mr7079860plr.8.1617876804638; 
+ Thu, 08 Apr 2021 03:13:24 -0700 (PDT)
 Received: from localhost ([139.177.225.243])
- by smtp.gmail.com with ESMTPSA id gm10sm7872154pjb.4.2021.04.08.03.13.20
+ by smtp.gmail.com with ESMTPSA id p5sm7684774pjf.30.2021.04.08.03.13.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 03:13:20 -0700 (PDT)
+ Thu, 08 Apr 2021 03:13:24 -0700 (PDT)
 From: Xie Yongji <xieyongji@bytedance.com>
 To: mst@redhat.com, stefanha@redhat.com, sgarzare@redhat.com,
  raphael.norwitz@nutanix.com, lingshan.zhu@intel.com,
  changpeng.liu@intel.com, jasowang@redhat.com, kwolf@redhat.com,
  mreitz@redhat.com
-Subject: [PATCH 0/3] Introduce vhost-vdpa block device
-Date: Thu,  8 Apr 2021 18:12:49 +0800
-Message-Id: <20210408101252.552-1-xieyongji@bytedance.com>
+Subject: [PATCH 1/3] vhost-vdpa: Remove redundant declaration of
+ address_space_memory
+Date: Thu,  8 Apr 2021 18:12:50 +0800
+Message-Id: <20210408101252.552-2-xieyongji@bytedance.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210408101252.552-1-xieyongji@bytedance.com>
+References: <20210408101252.552-1-xieyongji@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,49 +92,40 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we already have some ways to emulate vDPA block device
-in kernel[1] or userspace[2]. This series tries to introduce a
-new vhost-vdpa block device for that. To use it, we can add
-something like:
+The symbol address_space_memory are already declared in
+include/exec/address-spaces.h. So let's add this header file
+and remove the redundant declaration in include/hw/virtio/vhost-vdpa.h.
 
-qemu-system-x86_64 \
-    -device vhost-vdpa-blk-pci,vdpa-dev=/dev/vhost-vdpa-0
+Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+---
+ hw/virtio/vhost-vdpa.c         | 1 +
+ include/hw/virtio/vhost-vdpa.h | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-You can also get the code and kernel changes from below repositories:
-
-https://github.com/bytedance/qemu/tree/vhost-vdpa-blk
-https://github.com/bytedance/linux/tree/vhost-vdpa-blk
-
-Thank you!
-
-[1] https://lore.kernel.org/kvm/20210315163450.254396-1-sgarzare@redhat.com/
-[2] https://lore.kernel.org/kvm/20210331080519.172-1-xieyongji@bytedance.com/
-
-Xie Yongji (3):
-  Remove redundant declaration of address_space_memory
-  vhost-blk: add vhost-blk-common abstraction
-  vhost-vdpa-blk: Introduce vhost-vdpa-blk host device
-
- hw/block/Kconfig                     |   5 +
- hw/block/meson.build                 |   3 +-
- hw/block/vhost-blk-common.c          | 291 +++++++++++++++++++++++++
- hw/block/vhost-user-blk.c            | 306 +++++----------------------
- hw/block/vhost-vdpa-blk.c            | 227 ++++++++++++++++++++
- hw/virtio/meson.build                |   1 +
- hw/virtio/vhost-user-blk-pci.c       |   7 +-
- hw/virtio/vhost-vdpa-blk-pci.c       | 101 +++++++++
- hw/virtio/vhost-vdpa.c               |   1 +
- include/hw/virtio/vhost-blk-common.h |  50 +++++
- include/hw/virtio/vhost-user-blk.h   |  20 +-
- include/hw/virtio/vhost-vdpa-blk.h   |  30 +++
- include/hw/virtio/vhost-vdpa.h       |   1 -
- 13 files changed, 762 insertions(+), 281 deletions(-)
- create mode 100644 hw/block/vhost-blk-common.c
- create mode 100644 hw/block/vhost-vdpa-blk.c
- create mode 100644 hw/virtio/vhost-vdpa-blk-pci.c
- create mode 100644 include/hw/virtio/vhost-blk-common.h
- create mode 100644 include/hw/virtio/vhost-vdpa-blk.h
-
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 01d2101d09..13de4f94f3 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -18,6 +18,7 @@
+ #include "hw/virtio/vhost-backend.h"
+ #include "hw/virtio/virtio-net.h"
+ #include "hw/virtio/vhost-vdpa.h"
++#include "exec/address-spaces.h"
+ #include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "trace.h"
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index 9b81a409da..eeae6f8c4a 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -21,7 +21,6 @@ typedef struct vhost_vdpa {
+     struct vhost_dev *dev;
+ } VhostVDPA;
+ 
+-extern AddressSpace address_space_memory;
+ extern int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+                                    uint32_t *device_id);
+ #endif
 -- 
 2.25.1
 
