@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E25935856B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 15:58:18 +0200 (CEST)
-Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE323586AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:15:42 +0200 (CEST)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUVAm-0000jB-TA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 09:58:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36996)
+	id 1lUVRd-0004nN-Ca
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lUV9k-0000A2-2f
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:57:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lUV9h-0005QR-GI
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 09:57:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617890228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nAudoOi43np3P4X/YD8NU7B80CeYlNf0J9l3yjLi4T8=;
- b=ZbXcX4zU2SIHScQ7AEN2lbhfdhvEORtL9J9qb8CSf0UIY2hoKcm8HMx+LlW0M3Kg4lU/wi
- 0SS2lCKV3dH/vni/FqF/jaCabmhymhl20dcJTa5YsY5oWSw1RSI0DXRIzctHEe5ImnjwcR
- Wh+bfTTiVsXBzqALQ8e/FOCBH+55jZw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-yaDh5h7aOiqdeP4Dz98Iag-1; Thu, 08 Apr 2021 09:57:05 -0400
-X-MC-Unique: yaDh5h7aOiqdeP4Dz98Iag-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6211A83DD22;
- Thu,  8 Apr 2021 13:57:02 +0000 (UTC)
-Received: from [10.36.114.172] (ovpn-114-172.ams2.redhat.com [10.36.114.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82E8D60BF1;
- Thu,  8 Apr 2021 13:56:55 +0000 (UTC)
-Subject: Re: [RFC PATCH 2/3] vfio: Add vfio_prereg_listener_log_sync in nested
- stage
-To: Kunkun Jiang <jiangkunkun@huawei.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20210219094230.231-1-jiangkunkun@huawei.com>
- <20210219094230.231-3-jiangkunkun@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c6ee5401-ccb6-1259-f7db-c3f97ff39256@redhat.com>
-Date: Thu, 8 Apr 2021 15:56:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lUVNR-00085n-HY
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:11:22 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lUVNK-00024t-5E
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:11:21 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lUVNB-0000XI-BI
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 14:11:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6740E2E818A
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 14:11:04 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210219094230.231-3-jiangkunkun@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 08 Apr 2021 14:03:26 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1915063@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger dober60 imammedo markrhpearson paelzer
+ sergiodj ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
+Message-Id: <161789060631.23926.574690287954460049.malone@chaenomeles.canonical.com>
+Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="57f1f603f707b9cfa764cae8dd0f3999026b4763"; Instance="production"
+X-Launchpad-Hash: a0445a3b0bdafc9de60f9d377bfea2f46e3c0a5e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,84 +74,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>, shameerali.kolothum.thodi@huawei.com
+Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kunkun,
+Finally I'm able to test on a Threadripper myself now.
 
-On 2/19/21 10:42 AM, Kunkun Jiang wrote:
-> On Intel, the DMA mapped through the host single stage. Instead
-> we set up the stage 2 and stage 1 separately in nested mode as there
-> is no "Caching Mode".
+Note: In regard to the commit that Babu identified - I'm on kernel
+5.10.0-1020-oem so that patch would be applied already. I need to find
+an older kernel to retry with that as well
 
-You need to rewrite the above sentences, Missing ARM and also the 1st
-sentences misses a verb.
-> 
-> Legacy vfio_listener_log_sync cannot be used in nested stage as we
-> don't need to pay close attention to stage 1 mapping. This patch adds
-> vfio_prereg_listener_log_sync to mark dirty pages in nested mode.
-> 
-> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
-> ---
->  hw/vfio/common.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 7c50905856..af333e0dee 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1216,6 +1216,22 @@ static int vfio_dma_sync_ram_section_dirty_bitmap(VFIOContainer *container,
->                         int128_get64(section->size), ram_addr);
->  }
->  
-> +static void vfio_prereg_listener_log_sync(MemoryListener *listener,
-> +                                          MemoryRegionSection *section)
-> +{
-> +    VFIOContainer *container =
-> +        container_of(listener, VFIOContainer, prereg_listener);
-> +
-> +    if (!memory_region_is_ram(section->mr) ||
-> +        !container->dirty_pages_supported) {
-> +        return;
-> +    }
-> +
-> +    if (vfio_devices_all_saving(container)) {
-I fail to see where is this defined?
-> +        vfio_dma_sync_ram_section_dirty_bitmap(container, section);
-> +    }
-> +}
-> +
->  typedef struct {
->      IOMMUNotifier n;
->      VFIOGuestIOMMU *giommu;
-> @@ -1260,6 +1276,14 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
->      if (memory_region_is_iommu(section->mr)) {
->          VFIOGuestIOMMU *giommu;
->  
-> +        /*
-> +         * In nested mode, stage 2 and stage 1 are set up separately. We
-> +         * only need to focus on stage 2 mapping when marking dirty pages.
-> +         */
-> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
-> +            return 0;
-> +        }
-> +
->          QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
->              if (MEMORY_REGION(giommu->iommu) == section->mr &&
->                  giommu->n.start == section->offset_within_region) {
-> @@ -1312,6 +1336,7 @@ static const MemoryListener vfio_memory_listener = {
->  static MemoryListener vfio_memory_prereg_listener = {
->      .region_add = vfio_prereg_listener_region_add,
->      .region_del = vfio_prereg_listener_region_del,
-> +    .log_sync = vfio_prereg_listener_log_sync,
->  };
->  
->  static void vfio_listener_release(VFIOContainer *container)
-> 
-Thanks
+(on that new kernel) I did a full Win10 install and it worked fine for
+me.
 
-Eric
+In regard to CPU types (for comparison) I got
 
+qemu 1:4.2-3ubuntu6.15 / libvirt 6.0.0-0ubuntu8.8:
+    <mode name=3D'host-model' supported=3D'yes'>
+      <model fallback=3D'forbid'>EPYC-Rome</model>
+      <vendor>AMD</vendor>
+      <feature policy=3D'require' name=3D'x2apic'/>
+      <feature policy=3D'require' name=3D'tsc-deadline'/>
+      <feature policy=3D'require' name=3D'hypervisor'/>
+      <feature policy=3D'require' name=3D'tsc_adjust'/>
+      <feature policy=3D'require' name=3D'stibp'/>
+      <feature policy=3D'require' name=3D'arch-capabilities'/>
+      <feature policy=3D'require' name=3D'ssbd'/>
+      <feature policy=3D'require' name=3D'xsaves'/>
+      <feature policy=3D'require' name=3D'cmp_legacy'/>
+      <feature policy=3D'require' name=3D'invtsc'/>
+      <feature policy=3D'require' name=3D'amd-ssbd'/>
+      <feature policy=3D'require' name=3D'virt-ssbd'/>
+      <feature policy=3D'require' name=3D'rdctl-no'/>
+      <feature policy=3D'require' name=3D'skip-l1dfl-vmentry'/>
+      <feature policy=3D'require' name=3D'mds-no'/>
+      <feature policy=3D'require' name=3D'pschange-mc-no'/>
+    </mode>
+
+With a more recent qemu/libvirt it isn't much different for this chip
+(there recently were some Milan changes, but those seem not to matter
+for this chip).
+
+qemu  1:5.2+dfsg-9ubuntu1 / libvirt 7.0.0-2ubuntu1
+
+    <mode name=3D'host-model' supported=3D'yes'>
+      <model fallback=3D'forbid'>EPYC-Rome</model>
+      <vendor>AMD</vendor>
+      <feature policy=3D'require' name=3D'x2apic'/>
+      <feature policy=3D'require' name=3D'tsc-deadline'/>
+      <feature policy=3D'require' name=3D'hypervisor'/>
+      <feature policy=3D'require' name=3D'tsc_adjust'/>
+      <feature policy=3D'require' name=3D'stibp'/>
+      <feature policy=3D'require' name=3D'arch-capabilities'/>
+      <feature policy=3D'require' name=3D'ssbd'/>
+      <feature policy=3D'require' name=3D'xsaves'/>
+      <feature policy=3D'require' name=3D'cmp_legacy'/>
+      <feature policy=3D'require' name=3D'invtsc'/>
+      <feature policy=3D'require' name=3D'amd-ssbd'/>
+      <feature policy=3D'require' name=3D'virt-ssbd'/>
+      <feature policy=3D'require' name=3D'rdctl-no'/>
+      <feature policy=3D'require' name=3D'skip-l1dfl-vmentry'/>
+      <feature policy=3D'require' name=3D'mds-no'/>
+      <feature policy=3D'require' name=3D'pschange-mc-no'/>
+    </mode>
+
+
+I wasn't able to crash this setup with an old (18.04) nor a new 21.04) Ubun=
+tu guest.
+Installing Win10 worked fine for a while and didn't break as reported. But =
+the setup I have goes through triple ssh-tunnels and around the globe - tha=
+t slows things down a lot :-/
+This is how far I've got:
+1. start up the install
+2. select no license key -> custom install -> it started copying files
+3. it goes into the first reboot
+
+After this the latency kills me and virt-manager starts to abort the instal=
+lation.
+So far I did not hit (https://launchpadlibrarian.net/529734412/security.png=
+) as reported by David.
+@David - did this already pass the critical step for you, how early or late=
+ in the install did you hit the issues.
+
+
+As I said I'll probably need to find an older kernel anyway (to be before t=
+he commit that Babu referenced)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915063
+
+Title:
+  Windows 10 wil not install using qemu-system-x86_64
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
+
+Bug description:
+  Steps to reproduce
+  install virt-manager and ovmf if nopt already there
+  copy windows and virtio iso files to /var/lib/libvirt/images
+
+  Use virt-manager from local machine to create your VMs with the disk, CPU=
+s and memory required
+      Select customize configuration then select OVMF(UEFI) instead of seab=
+ios
+      set first CDROM to the windows installation iso (enable in boot optio=
+ns)
+      add a second CDROM and load with the virtio iso
+  	change spice display to VNC
+
+    Always get a security error from windows and it fails to launch the ins=
+taller (works on RHEL and Fedora)
+  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
+ of no help
+  --- =
+
+  ProblemType: Bug
+  ApportVersion: 2.20.11-0ubuntu27.14
+  Architecture: amd64
+  CasperMD5CheckResult: skip
+  CurrentDesktop: ubuntu:GNOME
+  DistributionChannelDescriptor:
+   # This is the distribution channel descriptor for the OEM CDs
+   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
+criptor
+   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
+d64+X00
+  DistroRelease: Ubuntu 20.04
+  InstallationDate: Installed on 2021-01-20 (19 days ago)
+  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
+0-14:39
+  MachineType: LENOVO 30E102Z
+  NonfreeKernelModules: nvidia_modeset nvidia
+  Package: linux (not installed)
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcFB: 0 EFI VGA
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
+=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
+andoff=3D7
+  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
+  RelatedPackageVersions:
+   linux-restricted-modules-5.6.0-1042-oem N/A
+   linux-backports-modules-5.6.0-1042-oem  N/A
+   linux-firmware                          1.187.8
+  RfKill:
+   =
+
+  Tags:  focal
+  Uname: Linux 5.6.0-1042-oem x86_64
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
+udo
+  _MarkForUpload: True
+  dmi.bios.date: 07/29/2020
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: S07KT08A
+  dmi.board.name: 1046
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Defined
+  dmi.chassis.type: 3
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: None
+  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
+pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
+  dmi.product.family: INVALID
+  dmi.product.name: 30E102Z
+  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
+  dmi.product.version: ThinkStation P620
+  dmi.sys.vendor: LENOVO
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
