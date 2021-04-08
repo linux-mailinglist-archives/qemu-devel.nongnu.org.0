@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91272358020
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:59:05 +0200 (CEST)
-Received: from localhost ([::1]:33314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C4335802E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:03:49 +0200 (CEST)
+Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lURRI-00071y-MS
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
+	id 1lURVr-0000Gu-3s
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lUROA-0005VE-A8
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:55:50 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lURO7-000654-GT
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:55:50 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D36C0AF95;
- Thu,  8 Apr 2021 09:55:44 +0000 (UTC)
-Subject: Re: [RFC v12 24/65] target/arm: move arm_sctlr away from tcg helpers
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-25-cfontana@suse.de>
- <1ce5eecf-af32-208d-b10f-be7dbb097023@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <c4d56553-e55a-e2e3-6a07-b9d13d1e9edb@suse.de>
-Date: Thu, 8 Apr 2021 11:55:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lURSP-0007uu-89
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:00:13 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:39788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lURSN-0000We-Q5
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 06:00:12 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id g17so896218edm.6
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 03:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=faZu2MOOl146W7I28vHn7vREeB7KrBm0hgMt4wtEg4Q=;
+ b=WghywQgsxc9x7Cq2YBFWCgrAA0D6teES5xOxaI2ebEL2VBLnzYO6Oz2khDtYK/Oh4W
+ gl5kosl5LSCDsLLgUrlayeXxj/Sr2FrbNkIg/U46HjQwO1qtNBTeKzhkRO/xAMOur6sB
+ ZpFlGYTYurumIgSCNayst0POgjfB+rk9Yjf1AvGqUvkl1PQNKv9mCvDFgHb4j43GUx9J
+ bNTz0Wmaqpti6ZQESQtxmiGQl1yGiMPsKetHdnyhOT+65AQtv0/pLq8lQXLm7XSeqUHw
+ +05F+QopfgKIOKqKi7NbkKQHsQy32Y8eh13yRGpGcR8yZvia3WzFLhZL7AvbjN4V09+J
+ h4UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=faZu2MOOl146W7I28vHn7vREeB7KrBm0hgMt4wtEg4Q=;
+ b=sylNWGPXTPE4nnznu0bwsprsun5XObkIFQMyESav50WyD01dyFJrVvFeeJ3qE1Vu1h
+ e69E0iGXkmBM/BQBRG0m6oYL8FMMo2dV2rerpkEas7FVEAYoRkopDkl0rM+jfs1Kp2vr
+ +57u+JPzFV3q0zgMKowiOObZ3gOuZZK9/b/d9UjLw/w3Lbe9qlTEPxuSKWiNSjthkyOs
+ Q9HSFlu+Qw+wlROI+k1J87v0FRyGk4ejIlw80Gupxw4WF0B0sE3zGUwAYZfHXILaAimt
+ DfV83xOFlmIIp/hRtYVCSTcXbhyOs0Kyylo3QhAENqm0PLi4eilSLxojvDVPf/SPo8GG
+ JT/g==
+X-Gm-Message-State: AOAM531VgXLDnkX2XL7WreWfWyw7UTywzPjlvsl1oqkHxsuq62tdBXML
+ RdqFQ28kj96Q98IKLyOQC2VfsPMiNOm0OPohDPEm+A==
+X-Google-Smtp-Source: ABdhPJxz8qeXW26z9aH07frZh7JNsbvzVdId7/DyENBKQ6qd4hJtOtbnwxvtsGWDa5ARWoXvV+nT60Da/xSYTbrjqBw=
+X-Received: by 2002:a05:6402:19a:: with SMTP id
+ r26mr10058791edv.44.1617876007290; 
+ Thu, 08 Apr 2021 03:00:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1ce5eecf-af32-208d-b10f-be7dbb097023@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210408095028.382751-1-its@irrelevant.dk>
+ <YG7S0bU7x0EFGEeE@apples.localdomain>
+In-Reply-To: <YG7S0bU7x0EFGEeE@apples.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Apr 2021 09:59:27 +0000
+Message-ID: <CAFEAcA87FFbEBgR1E=syO3qyU4po4v_SDpS_ejOkdwkjxc=dLw@mail.gmail.com>
+Subject: Re: [PATCH] docs: add nvme emulation documentation
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,60 +78,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/21 6:12 PM, Richard Henderson wrote:
-> On 3/26/21 1:36 PM, Claudio Fontana wrote:
->> this function is used for kvm too, add it to the
->> cpu-common module.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>   target/arm/cpu-common.c | 15 +++++++++++++++
->>   target/arm/tcg/helper.c | 11 -----------
->>   2 files changed, 15 insertions(+), 11 deletions(-)
->>
->> diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
->> index a34f7f19d8..892e075298 100644
->> --- a/target/arm/cpu-common.c
->> +++ b/target/arm/cpu-common.c
->> @@ -342,3 +342,18 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
->>   }
->>   
->>   /* #endif TARGET_AARCH64 , see matching comment above */
->> +
->> +uint64_t arm_sctlr(CPUARMState *env, int el)
->> +{
->> +    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
->> +    if (el == 0) {
->> +#ifdef TARGET_AARCH64
->> +        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
->> +        el = (mmu_idx == ARMMMUIdx_E20_0 || mmu_idx == ARMMMUIdx_SE20_0)
->> +            ? 2 : 1;
->> +#else
->> +        el = 1;
->> +#endif /* TARGET_AARCH64 */
->> +    }
-> 
-> My comment was merely an observation; I'm not sure it's a good idea.  And you 
+On Thu, 8 Apr 2021 at 10:54, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> Hi Peter,
+>
+> Are documentation updates acceptable for -rc3?
 
-I think it is valuable, it made things clearer to me.
+Yes; they're safe changes, generally.
 
-
-> should never make this functional change while moving code.
-
-Will add a separate patch.
-
-> 
-> 
-> r~
-> 
-
-Thanks,
-
-C
+thanks
+-- PMM
 
