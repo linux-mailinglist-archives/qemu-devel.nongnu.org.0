@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A84358DFD
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:02:41 +0200 (CEST)
-Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0581B358E55
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:27:38 +0200 (CEST)
+Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUarQ-0007U1-9O
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45124)
+	id 1lUbFY-0003Hi-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:27:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lUanL-0004Dg-Of
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:58:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59346)
+ id 1lUbEX-0002gA-OA
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:26:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lUanJ-0000Rl-VA
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:58:27 -0400
+ id 1lUbEN-0007Fk-7K
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:26:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617911903;
+ s=mimecast20190719; t=1617913580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HgRhmUllvKBcH+CXsDN0tdx3CaXLmi88a6aEQbJyhDY=;
- b=d6qoevzqVX1oCqVsfYavrVRzg1H0pwYaq7pT+OTTUeMNgQ24JGRjfLjzvI0hxUcdY4gdkr
- 9XsvrDiBns+kEMoG1+iY+fQDS87plttbgR6Gywbj4r2lDC99JdgpkjyMtTXmIg8z+8NiIZ
- l0tJHwfHLAM4lR5TTZNFMy8YHKImwIE=
+ bh=pOvs/SIf1ZJaSBSgFv/P8FxfxoZdPEqMF+5TY5dZUU8=;
+ b=YsepMManHdFe8xDGd6ulEvwRAhYyXxcc/8xitpC6oz3L31HerWELTM+fcfefEoUTMB8T/P
+ TN+hp3PGts/HlQdUFhg8Pz9453+P3w7Ky89LjqVYApbE8xueeroLRzVPUE1CTTpRYs5oFF
+ T4QROhTCg7Q21oEWF393wUV0D+vDEpA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-v8CGXjpcNKuX6VjZIgpnNQ-1; Thu, 08 Apr 2021 15:58:22 -0400
-X-MC-Unique: v8CGXjpcNKuX6VjZIgpnNQ-1
+ us-mta-381-Ncy4q93-MAqdmHJcNWVapg-1; Thu, 08 Apr 2021 16:26:19 -0400
+X-MC-Unique: Ncy4q93-MAqdmHJcNWVapg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8688C1975B84
- for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 19:12:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0C6FA0F1D9
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 19:12:21 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-38.ams2.redhat.com
  [10.36.115.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA4595D9E3;
- Thu,  8 Apr 2021 19:12:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3393D5D9CC;
+ Thu,  8 Apr 2021 19:12:17 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, kraxel@redhat.com,
  eblake@redhat.com, armbru@redhat.com, pabeni@redhat.com
-Subject: [RFC PATCH 1/5] channel-socket: Only set CLOEXEC if we have space for
- fds
-Date: Thu,  8 Apr 2021 20:11:55 +0100
-Message-Id: <20210408191159.133644-2-dgilbert@redhat.com>
+Subject: [RFC PATCH 3/5] migration: Add cleanup hook for inwards migration
+Date: Thu,  8 Apr 2021 20:11:57 +0100
+Message-Id: <20210408191159.133644-4-dgilbert@redhat.com>
 In-Reply-To: <20210408191159.133644-1-dgilbert@redhat.com>
 References: <20210408191159.133644-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,42 +86,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-MSG_CMSG_CLOEXEC cleans up received fd's; it's really only for Unix
-sockets, but currently we enable it for everything; some socket types
-(IP_MPTCP) don't like this.
-
-Only enable it when we're giving the recvmsg room to receive fd's
-anyway.
+Add a cleanup hook for incoming migration that gets called
+at the end as a way for a transport to allow cleanup.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- io/channel-socket.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/migration.c | 3 +++
+ migration/migration.h | 4 ++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index de259f7eed..606ec97cf7 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -487,15 +487,15 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
- 
-     memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
- 
--#ifdef MSG_CMSG_CLOEXEC
--    sflags |= MSG_CMSG_CLOEXEC;
--#endif
--
-     msg.msg_iov = (struct iovec *)iov;
-     msg.msg_iovlen = niov;
-     if (fds && nfds) {
-         msg.msg_control = control;
-         msg.msg_controllen = sizeof(control);
-+#ifdef MSG_CMSG_CLOEXEC
-+        sflags |= MSG_CMSG_CLOEXEC;
-+#endif
-+
+diff --git a/migration/migration.c b/migration/migration.c
+index ca8b97baa5..feaedc382e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -279,6 +279,9 @@ void migration_incoming_state_destroy(void)
+         g_array_free(mis->postcopy_remote_fds, TRUE);
+         mis->postcopy_remote_fds = NULL;
      }
++    if (mis->transport_cleanup) {
++        mis->transport_cleanup(mis->transport_data);
++    }
  
-  retry:
+     qemu_event_reset(&mis->main_thread_load_event);
+ 
+diff --git a/migration/migration.h b/migration/migration.h
+index db6708326b..1b4c5da917 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -49,6 +49,10 @@ struct PostcopyBlocktimeContext;
+ struct MigrationIncomingState {
+     QEMUFile *from_src_file;
+ 
++    /* A hook to allow cleanup at the end of incoming migration */
++    void *transport_data;
++    void (*transport_cleanup)(void *data);
++
+     /*
+      * Free at the start of the main state load, set as the main thread finishes
+      * loading state.
 -- 
 2.31.1
 
