@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6F9357FD4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:47:56 +0200 (CEST)
-Received: from localhost ([::1]:40008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027F2357FF4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:52:22 +0200 (CEST)
+Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lURGV-0006Rj-9w
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59626)
+	id 1lURKn-00043R-2a
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lUR7r-0006wf-8q
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:38:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41195)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lURB8-0001hf-6r
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:42:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lUR7p-0004Si-HN
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:38:59 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lURB6-0006Xd-IE
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:42:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617874737;
+ s=mimecast20190719; t=1617874939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3D5QWsXrt8U2q7hGTy+r4bnjPeVicLH5vwZ7t4sdQw4=;
- b=FWoTSHrrTAV9NKb3oOvCv889z3U0HephAg7Gu+cBAd+UuRoNVz5kZvIJ6+zx39nymbUHQd
- CGrT6fY7ZUIedx2EzAZL6ptOmCJ9YqIJ3+9eufaiGV1PNua7rX3pEHs1Xc6vEqyY7i64O4
- xzgvcO8b5Uf6QMcifT786vWLwtdqe00=
+ to:to:cc:cc:content-type:content-type;
+ bh=KfttdVU+ZOfwfzyVkOu/9A8qZQToirVThRovtIhY48w=;
+ b=FEsmNpz9vrQSK3qqYaKBWGGVZmOVGwFM3p+0ObXdnyxuBJh1rno6I/A9BuZ8eBZe1qPmFW
+ 8OuEj4jVlsOmFlhGQL65fmZtCwmjjjd3fXzBmjCRqwKBT60fhVKnIWrZl2tGXlpZXu1/5k
+ LkUr3/f7z4944o/KjUKD5dwp+NeTeDE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-LnEoei9lPOCk_OT3WNkxtw-1; Thu, 08 Apr 2021 05:38:55 -0400
-X-MC-Unique: LnEoei9lPOCk_OT3WNkxtw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-500-4opfQaCeNrKm6LkKFHWy_w-1; Thu, 08 Apr 2021 05:42:16 -0400
+X-MC-Unique: 4opfQaCeNrKm6LkKFHWy_w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1EAF1006C87
- for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 09:38:54 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-13-72.pek2.redhat.com [10.72.13.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA825D9DC;
- Thu,  8 Apr 2021 09:38:48 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v5 6/6] virtio-pci: add support for configure interrupt
-Date: Thu,  8 Apr 2021 17:38:24 +0800
-Message-Id: <20210408093824.14985-7-lulu@redhat.com>
-In-Reply-To: <20210408093824.14985-1-lulu@redhat.com>
-References: <20210408093824.14985-1-lulu@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 863448030A1;
+ Thu,  8 Apr 2021 09:42:15 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-13-61.pek2.redhat.com
+ [10.72.13.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21F6E10013C1;
+ Thu,  8 Apr 2021 09:42:13 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 0/6] Net patches
+Date: Thu,  8 Apr 2021 17:42:05 +0800
+Message-Id: <1617874931-4437-1-git-send-email-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,177 +74,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for configure interrupt, use kvm_irqfd_assign and set the
-gsi to kernel. When the configure notifier was eventfd_signal by host
-kernel, this will finally inject an msix interrupt to guest
+The following changes since commit d0d3dd401b70168a353450e031727affee828527:
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-pci.c | 91 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 88 insertions(+), 3 deletions(-)
+  Update version for v6.0.0-rc2 release (2021-04-06 18:34:34 +0100)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 481f6e7505..7b02f42c06 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -664,7 +664,6 @@ static uint32_t virtio_read_config(PCIDevice *pci_dev,
- }
- 
- static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
--                                        unsigned int queue_no,
-                                         unsigned int vector)
- {
-     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
-@@ -726,7 +725,7 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-         if (vector >= msix_nr_vectors_allocated(dev)) {
-             continue;
-         }
--        ret = kvm_virtio_pci_vq_vector_use(proxy, queue_no, vector);
-+        ret = kvm_virtio_pci_vq_vector_use(proxy,  vector);
-         if (ret < 0) {
-             goto undo;
-         }
-@@ -760,6 +759,56 @@ undo:
-     }
-     return ret;
- }
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    unsigned int vector;
-+    int ret;
-+    EventNotifier *n = virtio_get_config_notifier(vdev);
-+    vector = vdev->config_vector ;
-+    ret = kvm_virtio_pci_vq_vector_use(proxy, vector);
-+    if (ret < 0) {
-+        goto undo;
-+    }
-+    ret = kvm_virtio_pci_irqfd_use(proxy,  n, vector);
-+    if (ret < 0) {
-+        goto undo;
-+    }
-+    return 0;
-+undo:
-+    kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+    return ret;
-+}
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    PCIDevice *dev = &proxy->pci_dev;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    unsigned int vector;
-+    EventNotifier *n = virtio_get_config_notifier(vdev);
-+    vector = vdev->config_vector ;
-+    if (vector >= msix_nr_vectors_allocated(dev)) {
-+        return;
-+    }
-+    kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+    kvm_virtio_pci_vq_vector_release(proxy, vector);
-+}
-+static int virtio_pci_set_config_notifier(DeviceState *d,  bool assign)
-+{
-+    VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    EventNotifier *notifier = virtio_get_config_notifier(vdev);
-+    int r = 0;
-+    if (assign) {
-+        r = event_notifier_init(notifier, 0);
-+        virtio_set_config_notifier_fd_handler(vdev, true, true);
-+        kvm_virtio_pci_vector_config_use(proxy);
-+    } else {
-+        virtio_set_config_notifier_fd_handler(vdev, false, true);
-+        kvm_virtio_pci_vector_config_release(proxy);
-+        event_notifier_cleanup(notifier);
-+    }
-+    return r;
-+}
- 
- static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
- {
-@@ -858,6 +907,14 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-     EventNotifier *n;
-     int ret, index, unmasked = 0;
- 
-+   if (vdev->use_config_notifier == true) {
-+        n = virtio_get_config_notifier(vdev);
-+        ret = virtio_pci_vq_vector_unmask(proxy, 0, vector, msg,
-+                    VIRTIO_CONFIG_VECTOR, n);
-+        if (ret < 0) {
-+            goto config_undo;
-+       }
-+    }
-     while (vq) {
-         index = virtio_get_queue_index(vq);
-         if (!virtio_queue_get_num(vdev, index)) {
-@@ -889,6 +946,10 @@ undo:
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+ config_undo:
-+            n = virtio_get_config_notifier(vdev);
-+            virtio_pci_vq_vector_mask(proxy, 0, vector,
-+                VIRTIO_CONFIG_VECTOR, n);
-     return ret;
- }
- 
-@@ -900,6 +961,10 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-     EventNotifier *n;
-     int index;
- 
-+   if (vdev->use_config_notifier == true) {
-+        n = virtio_get_config_notifier(vdev);
-+        virtio_pci_vq_vector_mask(proxy, 0, vector, VIRTIO_CONFIG_VECTOR, n);
-+   }
-     while (vq) {
-         index = virtio_get_queue_index(vq);
-          n = virtio_queue_get_guest_notifier(vq);
-@@ -945,6 +1010,21 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-             msix_set_pending(dev, vector);
-         }
-     }
-+   if (vdev->use_config_notifier == true) {
-+        vector = vdev->config_vector;
-+        notifier = virtio_get_config_notifier(vdev);
-+        if (vector < vector_start || vector >= vector_end ||
-+            !msix_is_masked(dev, vector)) {
-+            return;
-+        }
-+        if (k->guest_notifier_pending) {
-+            if (k->guest_notifier_pending(vdev, 0,  VIRTIO_CONFIG_VECTOR)) {
-+                msix_set_pending(dev, vector);
-+            }
-+        } else if (event_notifier_test_and_clear(notifier)) {
-+            msix_set_pending(dev, vector);
-+        }
-+    }
- }
- 
- static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-@@ -1032,6 +1112,10 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-                 goto assign_error;
-             }
-         }
-+            r = virtio_pci_set_config_notifier(d, assign);
-+            if (r < 0) {
-+                goto config_error;
-+         }
-         r = msix_set_vector_notifiers(&proxy->pci_dev,
-                                       virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-@@ -1048,7 +1132,8 @@ notifiers_error:
-         assert(assign);
-         kvm_virtio_pci_vector_release(proxy, nvqs);
-     }
--
-+ config_error:
-+        kvm_virtio_pci_vector_config_release(proxy);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
--- 
-2.21.3
+are available in the git repository at:
+
+  https://github.com/jasowang/qemu.git tags/net-pull-request
+
+for you to fetch changes up to 21df394d9e2ffce9fa308f496d1ae228cf6cdb57:
+
+  tap-win32: correctly recycle buffers (2021-04-08 17:33:59 +0800)
+
+----------------------------------------------------------------
+
+Fixes for rc3:
+
+- query-netdev is reverted (that's why the changeset is huge)
+- fix a regression caused by padding for in TAP for win32
+
+
+----------------------------------------------------------------
+Jason Wang (6):
+      Revert "net: Do not fill legacy info_str for backends"
+      Revert "hmp: Use QAPI NetdevInfo in hmp_info_network"
+      Revert "net: Move NetClientState.info_str to dynamic allocations"
+      Revert "tests: Add tests for query-netdev command"
+      Revert "qapi: net: Add query-netdev command"
+      tap-win32: correctly recycle buffers
+
+ hw/net/xen_nic.c                  |   5 +-
+ include/net/net.h                 |   5 +-
+ include/qapi/hmp-output-visitor.h |  30 ------
+ net/l2tpv3.c                      |   8 +-
+ net/net.c                         |  73 ++------------
+ net/netmap.c                      |   7 --
+ net/slirp.c                       | 124 +-----------------------
+ net/socket.c                      |  92 +++++-------------
+ net/tap-win32.c                   |  16 ++--
+ net/tap.c                         | 107 +++------------------
+ net/vde.c                         |  25 +----
+ net/vhost-user.c                  |  20 +---
+ net/vhost-vdpa.c                  |  15 +--
+ qapi/hmp-output-visitor.c         | 193 --------------------------------------
+ qapi/meson.build                  |   1 -
+ qapi/net.json                     |  80 ----------------
+ tests/qtest/meson.build           |   3 -
+ tests/qtest/test-query-netdev.c   | 120 ------------------------
+ 18 files changed, 66 insertions(+), 858 deletions(-)
+ delete mode 100644 include/qapi/hmp-output-visitor.h
+ delete mode 100644 qapi/hmp-output-visitor.c
+ delete mode 100644 tests/qtest/test-query-netdev.c
+
 
 
