@@ -2,52 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8128035872D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:29:39 +0200 (CEST)
-Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE5E358740
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 16:36:16 +0200 (CEST)
+Received: from localhost ([::1]:56766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUVf8-0006ry-Ka
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45282)
+	id 1lUVlW-0008S0-NF
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 10:36:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lUVdw-0006RU-4W
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:28:29 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lUVdt-0003OF-UU
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:28:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 63620B032;
- Thu,  8 Apr 2021 14:28:19 +0000 (UTC)
-Subject: Re: [RFC v12 51/65] target/arm: cpu-sve: split TCG and KVM
- functionality
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUVjh-0007tH-7Q
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:34:21 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUVjf-0005t0-Jd
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 10:34:20 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x7so2376776wrw.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 07:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=9QU6GyZBYbcEi4MqhTg4sm3sD+ozrc8+kC4uqvLLtMY=;
+ b=d3cH1GmX3PcoXyZkxzObyNHViasRHFDMHEqRix/KDoqWKDRIEG6Noic/2LRU9XNlV7
+ 0ChpHU3EyqtFUFcxgI6u7rChal3cz9uIR4/tUsGcBaGxyD5O91qvkvRxvf62KprkQvII
+ 1/S9jVJ0FlrJK9laxdjnhvUDT9bgjNCm746d9ZDn3ZLJ9TuiFkbv1Mk6J6PxzUvX3FoH
+ l9cK2iBdzm2RM7tRIGWye9rVXQJjuGJdNsUc4sG8pqv+LKazT+ONmpPr0IIECjWtTL/W
+ HjGtgvr/0JTfE3jkffG00iR1MvveVBYORH+Iolz73TpT9f75b48XWVbSA9vOvI6sppBG
+ dY/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=9QU6GyZBYbcEi4MqhTg4sm3sD+ozrc8+kC4uqvLLtMY=;
+ b=UDlkJaHnZbumemqsSBirPJ+MbVWTy5Ew0YLLp6oudal3bNfRYFG1jlEiiKojSrhh3z
+ apolbOM3sr6XTTkTviNgfGMuNldjnlA3JnBrkrcLUYzHA98HL+Pwu8H7AWxaEs2/19yo
+ CXgPEbbchFqvbVRbWwwt9+ACHbSpbD4/cVpODz1LxV82h/v2qOwjtT/vplFXvlpMd5ml
+ mQuvorWJV+jOSOShURRO2YAcuwfpohKniLfDN3RJ8opLrjdsIsrxGdpl7C6h+XJO3BQH
+ IuZRjJrMLAkNySitB4NWwmlFzo6s48cnGtpJ36Nm+h86rswRWwsge7YqAl+wWvCkBV29
+ FBDQ==
+X-Gm-Message-State: AOAM532ietZ6llriuGm49zgbQLhkxSD0RZe4/tXOb9rX68pti+A1fUaM
+ Q+DGcqP0Bfwp6GHpG6OCB119/w==
+X-Google-Smtp-Source: ABdhPJx6UW9qdrCx/FD4uvlFbGN79Uu+f7m05xhd01uLVXXFh7UQY2VNdFVBFY45VYC6yq7iTLzdjA==
+X-Received: by 2002:a5d:61c7:: with SMTP id q7mr11881852wrv.215.1617892457452; 
+ Thu, 08 Apr 2021 07:34:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d2sm9083795wrq.26.2021.04.08.07.34.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 07:34:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 191581FF7E;
+ Thu,  8 Apr 2021 15:34:16 +0100 (BST)
 References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-52-cfontana@suse.de>
- <573a18c3-dc67-12f9-9cdb-826cf3c9ec00@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <f14daa25-72a8-b9c0-7085-0dfe45167eb3@suse.de>
-Date: Thu, 8 Apr 2021 16:28:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <20210326193701.5981-8-cfontana@suse.de>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v12 07/65] target/arm: tcg: split tlb_helper user-only and
+ sysemu-only parts
+Date: Thu, 08 Apr 2021 15:20:05 +0100
+In-reply-to: <20210326193701.5981-8-cfontana@suse.de>
+Message-ID: <8735w0u9p3.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <573a18c3-dc67-12f9-9cdb-826cf3c9ec00@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,67 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/21 8:21 PM, Richard Henderson wrote:
-> On 3/26/21 1:36 PM, Claudio Fontana wrote:
->> +++ b/target/arm/kvm/kvm-sve.h
->> @@ -0,0 +1,30 @@
->> +/*
->> + * QEMU AArch64 CPU SVE KVM interface
->> + *
->> + * Copyright 2021 SUSE LLC
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#ifndef KVM_SVE_H
->> +#define KVM_SVE_H
->> +
->> +/* note: SVE is an AARCH64-only option, only include this for TARGET_AARCH64 */
-> 
-> A pointless comment given that kvm itself is aarch64-only.
-> 
->> -void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
->> +bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-> 
-> The commit message does not mention the interface change here.
+
+Claudio Fontana <cfontana@suse.de> writes:
+
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+<snip>
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "internals.h"
+> +#include "exec/exec-all.h"
+> +#include "tcg/tlb_helper.h"
+> +
+> +bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                      MMUAccessType access_type, int mmu_idx,
+> +                      bool probe, uintptr_t retaddr)
+> +{
+> +    ARMCPU *cpu =3D ARM_CPU(cs);
+> +    ARMMMUFaultInfo fi =3D {};
+> +
+> +    int flags =3D page_get_flags(useronly_clean_ptr(address));
+> +    if (flags & PAGE_VALID) {
+> +        fi.type =3D ARMFault_Permission;
+> +    } else {
+> +        fi.type =3D ARMFault_Translation;
+> +    }
+
+Minor merge conflict caused by dad90de78e (target/arm: Set
+ARMMMUFaultInfo.level in user-only arm_cpu_tlb_fill)
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 
-Ok, would need the two-steps here too.
-
-
-> 
-> I'm not sure about the rest of this patch.  It saves a miniscule amount of code 
-> in a kvm-only build, but I don't know that it clarifies things at all.
-
-
-I would say that it does, if only by making the code flow easier to follow.
-
-
-> 
-> As yet, the other arm hw accelerators do not support SVE, but I assume that's 
-> only a matter of time.  The ARM Neoverse cpus support SVE, and will require Xen 
-> to have an answer soon.  (Apple will do whatever Apple does, given that it fabs 
-> its own ARM cpus, but I expect they won't delay SVE forever.)
-> 
-> It's not clear to me what bits of the kvm code here is really kvm specific, or 
-> if we'll have to move it back.
-> 
-> I'm tempted to leave it alone for now.
-
-
-But fair enough, if nobody speaks up and finds them useful other than me, I would drop this from the series.
-
-
-> 
-> 
-> r~
-> 
-
+--=20
+Alex Benn=C3=A9e
 
