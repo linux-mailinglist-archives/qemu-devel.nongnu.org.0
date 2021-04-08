@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7847F358E6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:31:44 +0200 (CEST)
-Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AB0358E7F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:33:08 +0200 (CEST)
+Received: from localhost ([::1]:52044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUbJX-00063e-J3
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
+	id 1lUbKs-00079x-V5
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lUbIQ-0005Vy-RR
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:30:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54177)
+ id 1lUbIr-0005k3-SL
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:31:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lUbIK-0001SR-El
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:30:34 -0400
+ id 1lUbIq-0001mn-DD
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:31:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617913826;
+ s=mimecast20190719; t=1617913859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+jx7UZ9DkhQdQdY9crfTz96Mm5K6EIeFfcPjsV+jkik=;
- b=IXeJZwmQDfQMcV4zr9zn03ClCK3wNLlvlPj8MUnJPeqp/u2m07ZbwTHVp8qjurExaNNXhE
- Lv8JeKpDwDfAOKhceWPnTV0UTVyVa0AjTPSXhlbgPJ09ChfCzODczMYJmiaeEomCCo2MQY
- IFxl3r2cFjGpBUKtZgFcMDGMFDXLZHk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GISUZiqcjF8zCPUJdNpDTcmIK6UAeROkndh6d5zb6Co=;
+ b=ebzWFwV3M6p5Lri0zXVn2wVZQ7xBzhMIFs73hivdBF0n3cPQbG8rDDzPHy/12cJNiTs9yY
+ Uv+loDv4n+WbgH84f5mTyQLomF1A3ljOMCLaJCmZyMYf3wjfQAYRCoop/q86V3fIjZh9eA
+ u4SiCBSu5DLKV2X9AFmNspaj4fE4CS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-joe_Kyp7NDSMF_wJVtqO_w-1; Thu, 08 Apr 2021 16:30:24 -0400
-X-MC-Unique: joe_Kyp7NDSMF_wJVtqO_w-1
+ us-mta-193-n6gNPVrDNLyKqwMyn6z7Dg-1; Thu, 08 Apr 2021 16:30:57 -0400
+X-MC-Unique: n6gNPVrDNLyKqwMyn6z7Dg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 747981CBD20
- for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 19:12:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE04519A809F
+ for <qemu-devel@nongnu.org>; Thu,  8 Apr 2021 19:12:17 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-38.ams2.redhat.com
  [10.36.115.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 956715D9CC;
- Thu,  8 Apr 2021 19:12:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F26805D9F2;
+ Thu,  8 Apr 2021 19:12:13 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, berrange@redhat.com, kraxel@redhat.com,
  eblake@redhat.com, armbru@redhat.com, pabeni@redhat.com
-Subject: [RFC PATCH 0/5] mptcp support
-Date: Thu,  8 Apr 2021 20:11:54 +0100
-Message-Id: <20210408191159.133644-1-dgilbert@redhat.com>
+Subject: [RFC PATCH 2/5] io/net-listener: Call the notifier during finalize
+Date: Thu,  8 Apr 2021 20:11:56 +0100
+Message-Id: <20210408191159.133644-3-dgilbert@redhat.com>
+In-Reply-To: <20210408191159.133644-1-dgilbert@redhat.com>
+References: <20210408191159.133644-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -83,52 +86,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Hi,
-  This RFC set adds support for multipath TCP (mptcp),
-in particular on the migration path - but should be extensible
-to other users.
+Call the notifier during finalize; it's currently only called
+if we change it, which is not the intent.
 
-  Multipath-tcp is a bit like bonding, but at L3; you can use
-it to handle failure, but can also use it to split traffic across
-multiple interfaces.
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ io/net-listener.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  Using a pair of 10Gb interfaces, I've managed to get 19Gbps
-(with the only tuning being using huge pages and turning the MTU up).
-
-  It needs a bleeding-edge Linux kernel (in some older ones you get
-false accept messages for the subflows), and a C lib that has the
-constants defined (as current glibc does).
-
-  To use it you just need to append ,mptcp to an address;
-
-  -incoming tcp:0:4444,mptcp
-  migrate -d tcp:192.168.11.20:4444,mptcp
-
-  I had a quick go at trying NBD as well, but I think it needs
-some work with the parsing of NBD addresses.
-
-  All comments welcome.
-
-Dave
-
-Dr. David Alan Gilbert (5):
-  channel-socket: Only set CLOEXEC if we have space for fds
-  io/net-listener: Call the notifier during finalize
-  migration: Add cleanup hook for inwards migration
-  migration/socket: Close the listener at the end
-  sockets: Support multipath TCP
-
- io/channel-socket.c   |  8 ++++----
- io/dns-resolver.c     |  2 ++
- io/net-listener.c     |  3 +++
- migration/migration.c |  3 +++
- migration/migration.h |  4 ++++
- migration/multifd.c   |  5 +++++
- migration/socket.c    | 24 ++++++++++++++++++------
- qapi/sockets.json     |  5 ++++-
- util/qemu-sockets.c   | 34 ++++++++++++++++++++++++++++++++++
- 9 files changed, 77 insertions(+), 11 deletions(-)
-
+diff --git a/io/net-listener.c b/io/net-listener.c
+index 46c2643d00..1c984d69c6 100644
+--- a/io/net-listener.c
++++ b/io/net-listener.c
+@@ -292,6 +292,9 @@ static void qio_net_listener_finalize(Object *obj)
+     QIONetListener *listener = QIO_NET_LISTENER(obj);
+     size_t i;
+ 
++    if (listener->io_notify) {
++        listener->io_notify(listener->io_data);
++    }
+     qio_net_listener_disconnect(listener);
+ 
+     for (i = 0; i < listener->nsioc; i++) {
 -- 
 2.31.1
 
