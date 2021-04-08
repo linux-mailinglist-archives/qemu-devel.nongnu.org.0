@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ADB357A05
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 04:04:54 +0200 (CEST)
-Received: from localhost ([::1]:41900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3DE357A2E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 04:11:38 +0200 (CEST)
+Received: from localhost ([::1]:60664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUK2P-0007qF-WF
-	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 22:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
+	id 1lUK8v-0007G0-TY
+	for lists+qemu-devel@lfdr.de; Wed, 07 Apr 2021 22:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUJw6-0008Oz-1R
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:22 -0400
+ id 1lUJw2-0008GR-Tu
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:18 -0400
 Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:35674)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUJw3-000638-7F
- for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:21 -0400
+ id 1lUJvu-000638-Fb
+ for qemu-devel@nongnu.org; Wed, 07 Apr 2021 21:58:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617847099; x=1649383099;
+ t=1617847090; x=1649383090;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vyFd2jp4uMFIVxiu21tjmrmqThXD/WtJ5JPJW/a2xN4=;
- b=hnCMmmWwmMv0nfqG6MRl/ilXC0EovJDG2HSWzHjF0S8SFgztqKDfyQMy
- KZ8i5FbcJZSrw3MmHxcPWDqiFKSsaDTNdCe33ghy7fzmfvpjjeA8J0mGc
- STsddn7tQqTVTfO1HuvkT4YNutzBrSubF0u/iSnuN+XAg+x5zy3Jm+7lk g=;
+ bh=b22/gs/pA6tE+BjwxUlHlrrHb/C3cgtxRm8y3AN8sdA=;
+ b=vRsu5FshWSmX8l+3YPypEBN+AarvLkhX/GusejhNyuFMzaoo/90q2KCd
+ agrwCQOEolCD4Pfh4rh0MA1apGetrlygOIEkrLETKtWM30fFSZY+0RQZR
+ 4OsVvQQ/I0Y3fZ0mZP1+rD+mZ2gCMJLEQaxn9PdQvmnr/SKCx3BJcYU9v M=;
 Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
  by alexa-out-sd-02.qualcomm.com with ESMTP; 07 Apr 2021 18:57:56 -0700
 X-QCInternal: smtphost
@@ -35,12 +35,13 @@ Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
  by ironmsg04-sd.qualcomm.com with ESMTP; 07 Apr 2021 18:57:55 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id B027C4A0; Wed,  7 Apr 2021 20:57:54 -0500 (CDT)
+ id B101C6FB; Wed,  7 Apr 2021 20:57:54 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/26] Hexagon (target/hexagon) TCG generation cleanup
-Date: Wed,  7 Apr 2021 20:57:22 -0500
-Message-Id: <1617847067-9867-2-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v3 02/26] Hexagon (target/hexagon) cleanup
+ gen_log_predicated_reg_write_pair
+Date: Wed,  7 Apr 2021 20:57:23 -0500
+Message-Id: <1617847067-9867-3-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617847067-9867-1-git-send-email-tsimpson@quicinc.com>
 References: <1617847067-9867-1-git-send-email-tsimpson@quicinc.com>
@@ -73,34 +74,49 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify TCG generation of hex_reg_written
+Similar to previous cleanup of gen_log_predicated_reg_write
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/genptr.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ target/hexagon/genptr.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
 diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-index 7481f4c..87f5d92 100644
+index 87f5d92..07d970f 100644
 --- a/target/hexagon/genptr.c
 +++ b/target/hexagon/genptr.c
-@@ -35,7 +35,6 @@ static inline TCGv gen_read_preg(TCGv pred, uint8_t num)
- 
- static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
+@@ -69,36 +69,35 @@ static inline void gen_log_reg_write(int rnum, TCGv val)
+ static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val, int slot)
  {
+     TCGv val32 = tcg_temp_new();
 -    TCGv one = tcg_const_tl(1);
      TCGv zero = tcg_const_tl(0);
      TCGv slot_mask = tcg_temp_new();
  
-@@ -43,12 +42,17 @@ static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
-     tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum], slot_mask, zero,
-                            val, hex_new_value[rnum]);
+     tcg_gen_andi_tl(slot_mask, hex_slot_cancelled, 1 << slot);
+     /* Low word */
+     tcg_gen_extrl_i64_i32(val32, val);
+-    tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum], slot_mask, zero,
+-                       val32, hex_new_value[rnum]);
+-#if HEX_DEBUG
+-    /* Do this so HELPER(debug_commit_end) will know */
+-    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum],
++    tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum],
+                        slot_mask, zero,
+-                       one, hex_reg_written[rnum]);
+-#endif
+-
++                       val32, hex_new_value[rnum]);
+     /* High word */
+     tcg_gen_extrh_i64_i32(val32, val);
+     tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum + 1],
+                        slot_mask, zero,
+                        val32, hex_new_value[rnum + 1]);
  #if HEX_DEBUG
 -    /* Do this so HELPER(debug_commit_end) will know */
--    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum], slot_mask, zero,
--                       one, hex_reg_written[rnum]);
+-    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum + 1],
+-                       slot_mask, zero,
+-                       one, hex_reg_written[rnum + 1]);
 +    /*
 +     * Do this so HELPER(debug_commit_end) will know
 +     *
@@ -110,8 +126,11 @@ index 7481f4c..87f5d92 100644
 +     */
 +    tcg_gen_setcond_tl(TCG_COND_EQ, slot_mask, slot_mask, zero);
 +    tcg_gen_or_tl(hex_reg_written[rnum], hex_reg_written[rnum], slot_mask);
++    tcg_gen_or_tl(hex_reg_written[rnum + 1], hex_reg_written[rnum + 1],
++                  slot_mask);
  #endif
  
+     tcg_temp_free(val32);
 -    tcg_temp_free(one);
      tcg_temp_free(zero);
      tcg_temp_free(slot_mask);
