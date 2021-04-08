@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA36357EA0
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:01:29 +0200 (CEST)
-Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E8C357EB3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 11:07:03 +0200 (CEST)
+Received: from localhost ([::1]:40348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUQXY-0001pS-Bn
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1lUQcw-0006n7-Se
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 05:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lUQUg-0000nX-KH
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 04:58:30 -0400
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:39761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lUQUe-0006Fq-NS
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 04:58:30 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 469BD25AC68;
- Thu,  8 Apr 2021 10:58:23 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 8 Apr 2021
- 10:58:23 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0054fefcc1c-32c4-4bd0-a769-8359aec65141,
- A36169EE3079FEED08DC2049B229DAFE10CEC3BC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 88.167.138.64
-Subject: Re: [PATCH 03/24] aspeed/i2c: Fix DMA address mask
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-4-clg@kaod.org>
- <aeee3229-19fc-1bbb-19b4-a72be1c454c6@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <544318aa-f737-e3da-35d7-5d98b6d78611@kaod.org>
-Date: Thu, 8 Apr 2021 10:58:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUQab-0005s5-QQ
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:04:37 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUQaZ-0001Mi-Le
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 05:04:37 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id x15so1284966wrq.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 02:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Dtqd6W8O9vCxSdmsz3CClJlyAyCflKDDHPIyhUPfA40=;
+ b=AbYR+Pore0M46E5oLVwrQbTPGrimYJ07Rj2+Nap2KbVtdztI80GOJVGJZcuHnr2qie
+ Annj662wnSmLvxIo8qwGv9WzYwMy9GB+sh8IVZLqTYSPV9Ct5jTT9h7hh9V1C4+DqELR
+ +pM4wJLZmp89CAdW5ceuH98bcqo7sJC5S6DzR7OcUVNANARwndfLyuzW8lF5457iKb9v
+ qcFArWMtwfqi0xlo91EeprYf6G6x4UDcNGMlBOGBoQrG5dJj3SgyUpsXUnGhBvlJUiNi
+ Pm8YVs8WZFSy51oH6r8PXQIgD42i2bNDf7Zg4etpGpVvgxABow69+yOdvkIiLgwrDDKR
+ ZIBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Dtqd6W8O9vCxSdmsz3CClJlyAyCflKDDHPIyhUPfA40=;
+ b=YmV226IJ/HJzoz9MH6YpXCwoKeWSPlqNmr/50pW0myx5KYxEbpPtbgZVOtfmsaBXA8
+ Bi9Pqd6+rWxZn8TTXM3fMX2RsjnyW3htfimEV162MpvBX5PuyQYs6WrVuSeQQJu1snfp
+ iQCleIJ7vOAiPRp8fRUWweXLnHv4JZXoEVVyy+zfxiYvSmFY9NrALv6IzNRSvJ7ro7NU
+ 5wu60w/0RA9j9m7EoJmZmko9nJFpjw3VggI1E1T+psZb45pzMvcz+V3h8L4nNpskmQrP
+ SGdM38pP2AOcKgoB1MtSCJDIKq84uNn2JExUvxWHjLCM9Rc+7N/QgkxV9+sjJgKLdxWz
+ 1Nmg==
+X-Gm-Message-State: AOAM5315PgaYEya0t+xtisf83Qn0s8uUq+ZXUBOwnYb0oOR24hoHQhd4
+ Rbi0AiQJ67VcblV8OpdtJLr/dA==
+X-Google-Smtp-Source: ABdhPJxYms6J7m5Qj00Jf+T7rpWKrZTfPspaR7TzJhEiCcl8eiH1rwZXsWaormX95yF5HST40oTZOA==
+X-Received: by 2002:a5d:5256:: with SMTP id k22mr9975138wrc.168.1617872674161; 
+ Thu, 08 Apr 2021 02:04:34 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g13sm3136830wrr.9.2021.04.08.02.04.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 02:04:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D2771FF7E;
+ Thu,  8 Apr 2021 10:04:32 +0100 (BST)
+References: <20210406174031.64299-1-richard.henderson@linaro.org>
+ <20210406174031.64299-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 04/12] target/arm: Split out mte_probe_int
+Date: Thu, 08 Apr 2021 10:01:39 +0100
+In-reply-to: <20210406174031.64299-5-richard.henderson@linaro.org>
+Message-ID: <87v98xtae7.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <aeee3229-19fc-1bbb-19b4-a72be1c454c6@amsat.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3b0503ca-dd32-49a9-9849-c370e80d47b7
-X-Ovh-Tracer-Id: 14244604149084490534
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudejledgudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehfgegsuhhgsegrmhhsrghtrdhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,48 +87,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/21 11:22 PM, Philippe Mathieu-Daudé wrote:
-> Hi Cédric,
-> 
-> On 4/7/21 7:16 PM, Cédric Le Goater wrote:
->> The RAM memory region is now used for DMAs accesses instead of the
->> memory address space region. Mask off the top bits of the DMA address
->> to reflect this change.
->>
->> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  hw/i2c/aspeed_i2c.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
->> index 518a3f5c6f9d..e7133528899f 100644
->> --- a/hw/i2c/aspeed_i2c.c
->> +++ b/hw/i2c/aspeed_i2c.c
->> @@ -601,7 +601,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
->>              break;
->>          }
->>  
->> -        bus->dma_addr = value & 0xfffffffc;
->> +        bus->dma_addr = value & 0x3ffffffc;
-> 
-> This field is migrated (aspeed_i2c_bus_vmstate).
 
-yes.
-> Does the first patch "aspeed/smc: Use the RAM memory region for DMAs"
-> break the migration?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-You are right it does. Maintaining migration compatibility is overkill 
-for this machine, but I should mention the first patch is breaking it.
+> Split out a helper function from mte_checkN to perform
+> all of the checking and address manpulation.  So far,
+> just use this in mte_checkN itself.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/mte_helper.c | 52 +++++++++++++++++++++++++++++++----------
+>  1 file changed, 40 insertions(+), 12 deletions(-)
+>
+> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+> index c87717127c..144bfa4a51 100644
+> --- a/target/arm/mte_helper.c
+> +++ b/target/arm/mte_helper.c
+> @@ -753,33 +753,45 @@ static int checkN(uint8_t *mem, int odd, int cmp, i=
+nt count)
+>      return n;
+>  }
+>=20=20
+> -uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
+> -                    uint64_t ptr, uintptr_t ra)
+> +/*
+> + * mte_probe_int:
 
-Thanks,
+nit: you might as well go full kernel-doc here as you are documenting
+the helper:
 
-C.
- 
+/**
+ * mte_probe_int() - helper for mte_probe and mte_check
 
+> + * @env: CPU environment
+> + * @desc: MTEDESC descriptor
+> + * @ptr: virtual address of the base of the access
+> + * @fault: return virtual address of the first check failure
+> + *
+> + * Internal routine for both mte_probe and mte_check.
+> + * Return zero on failure, filling in *fault.
+> + * Return negative on trivial success for tbi disabled.
+> + * Return positive on success with tbi enabled.
+> + */
+> +static int mte_probe_int(CPUARMState *env, uint32_t desc, uint64_t ptr,
+> +                         uintptr_t ra, uint32_t total, uint64_t *fault)
+>  {
+>      int mmu_idx, ptr_tag, bit55;
+>      uint64_t ptr_last, prev_page, next_page;
+>      uint64_t tag_first, tag_last;
+>      uint64_t tag_byte_first, tag_byte_last;
+> -    uint32_t total, tag_count, tag_size, n, c;
+> +    uint32_t tag_count, tag_size, n, c;
+>      uint8_t *mem1, *mem2;
+>      MMUAccessType type;
+>=20=20
+>      bit55 =3D extract64(ptr, 55, 1);
+> +    *fault =3D ptr;
+>=20=20
+>      /* If TBI is disabled, the access is unchecked, and ptr is not dirty=
+. */
+>      if (unlikely(!tbi_check(desc, bit55))) {
+> -        return ptr;
+> +        return -1;
+>      }
+>=20=20
+>      ptr_tag =3D allocation_tag_from_addr(ptr);
+>=20=20
+>      if (tcma_check(desc, bit55, ptr_tag)) {
+> -        goto done;
+> +        return 1;
+>      }
+>=20=20
+>      mmu_idx =3D FIELD_EX32(desc, MTEDESC, MIDX);
+>      type =3D FIELD_EX32(desc, MTEDESC, WRITE) ? MMU_DATA_STORE : MMU_DAT=
+A_LOAD;
+> -    total =3D FIELD_EX32(desc, MTEDESC, TSIZE);
+>=20=20
+>      /* Find the addr of the end of the access, and of the last element. =
+*/
+>      ptr_last =3D ptr + total - 1;
+> @@ -803,7 +815,7 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
+>          mem1 =3D allocation_tag_mem(env, mmu_idx, ptr, type, total,
+>                                    MMU_DATA_LOAD, tag_size, ra);
+>          if (!mem1) {
+> -            goto done;
+> +            return 1;
+>          }
+>          /* Perform all of the comparisons. */
+>          n =3D checkN(mem1, ptr & TAG_GRANULE, ptr_tag, tag_count);
+> @@ -829,23 +841,39 @@ uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
+>          }
+>          if (n =3D=3D c) {
+>              if (!mem2) {
+> -                goto done;
+> +                return 1;
+>              }
+>              n +=3D checkN(mem2, 0, ptr_tag, tag_count - c);
+>          }
+>      }
+>=20=20
+> +    if (likely(n =3D=3D tag_count)) {
+> +        return 1;
+> +    }
+> +
+>      /*
+>       * If we failed, we know which granule.  For the first granule, the
+>       * failure address is @ptr, the first byte accessed.  Otherwise the
+>       * failure address is the first byte of the nth granule.
+>       */
+> -    if (unlikely(n < tag_count)) {
+> -        uint64_t fault =3D (n =3D=3D 0 ? ptr : tag_first + n * TAG_GRANU=
+LE);
+> -        mte_check_fail(env, desc, fault, ra);
+> +    if (n > 0) {
+> +        *fault =3D tag_first + n * TAG_GRANULE;
+>      }
+> +    return 0;
+> +}
+>=20=20
+> - done:
+> +uint64_t mte_checkN(CPUARMState *env, uint32_t desc,
+> +                    uint64_t ptr, uintptr_t ra)
+> +{
+> +    uint64_t fault;
+> +    uint32_t total =3D FIELD_EX32(desc, MTEDESC, TSIZE);
+> +    int ret =3D mte_probe_int(env, desc, ptr, ra, total, &fault);
+> +
+> +    if (unlikely(ret =3D=3D 0)) {
+> +        mte_check_fail(env, desc, fault, ra);
+> +    } else if (ret < 0) {
+> +        return ptr;
+> +    }
+>      return useronly_clean_ptr(ptr);
+>  }
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
