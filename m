@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7EB358E00
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:04:22 +0200 (CEST)
-Received: from localhost ([::1]:48034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AED358E21
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 22:09:30 +0200 (CEST)
+Received: from localhost ([::1]:33182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUat2-0000iL-6w
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
+	id 1lUay1-0006MR-TO
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 16:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lUart-0008OE-6B
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:03:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49500)
+ id 1lUatz-0001Vp-AE
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:05:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lUarp-0003AS-Om
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:03:08 -0400
+ id 1lUatt-0004Lj-GF
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 16:05:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617912184;
+ s=mimecast20190719; t=1617912312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JFRgKxGH5NTpCtdAvzCYo5JEqzCCKwdBjkCyhW28bUU=;
- b=Mg6EM8K/qQqpxHgwm+Ad/EHHFB/Duu/Wm0niS9H0N1xYFaCIaW32bZoCywqLzWcFK2lBf4
- vU3ts2BrKDDuHJmEfwB2R21/Sc9FKcmBbYVSWDpnMexexQtrM3efntpm7ouqwX7aP3LCnz
- pfmQzV3R08m2++xb1N7+TCwzpOjWnFc=
+ bh=O4BOOaXPe8Kuzccz1aS2grvfaVdsqyBeB/wA3uOnaqk=;
+ b=RYIMCpyqtsdLmfB488vdRsqlj3Bb1L/34KyavNodnsrIPwzWZvRC3NkoxfBtcHaT2qtBeD
+ llh0eKD2xWfU4UcWj1vVN1GaCVsZuzbDI2auiPt3/OocRgHpY14WJvbCSROD0rIrQyKMxq
+ hjul0QUDu+JEIBRuvJ17mk/WQrBsLTg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-x0l4MlphPmOmc8DV46sJtw-1; Thu, 08 Apr 2021 16:03:03 -0400
-X-MC-Unique: x0l4MlphPmOmc8DV46sJtw-1
+ us-mta-210-ene0py8UNYy6eeSM96RXOA-1; Thu, 08 Apr 2021 16:05:10 -0400
+X-MC-Unique: ene0py8UNYy6eeSM96RXOA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CB881B86ECE;
- Thu,  8 Apr 2021 19:53:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53E9514B779F;
+ Thu,  8 Apr 2021 19:54:20 +0000 (UTC)
 Received: from wainer-laptop.localdomain.com (ovpn-116-57.gru2.redhat.com
  [10.97.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2105560853;
- Thu,  8 Apr 2021 19:53:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E83A018EC5;
+ Thu,  8 Apr 2021 19:54:08 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] python/qemu: Add args property to the QEMUMachine class
-Date: Thu,  8 Apr 2021 16:52:35 -0300
-Message-Id: <20210408195237.3489296-6-wainersm@redhat.com>
+Subject: [PATCH v2 7/7] tests/acceptance: Handle cpu tag on
+ x86_cpu_model_versions tests
+Date: Thu,  8 Apr 2021 16:52:37 -0300
+Message-Id: <20210408195237.3489296-8-wainersm@redhat.com>
 In-Reply-To: <20210408195237.3489296-1-wainersm@redhat.com>
 References: <20210408195237.3489296-1-wainersm@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,31 +86,136 @@ Cc: wrampazz@redhat.com, philmd@redhat.com, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This added the args property to QEMUMachine so that users of the class
-can access and handle the list of arguments to be given to the QEMU
-binary.
+Some test cases on x86_cpu_model_versions.py are corner cases because they
+need to pass extra options to the -cpu argument. Once the avocado_qemu
+framework will set -cpu automatically, the value should be reset. This changed
+those tests so to call set_vm_arg() to overwrite the -cpu value.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- python/qemu/machine.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ tests/acceptance/x86_cpu_model_versions.py | 40 +++++++++++++++++-----
+ 1 file changed, 32 insertions(+), 8 deletions(-)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 6e44bda337..1c30bde99d 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -302,6 +302,11 @@ def _base_args(self) -> List[str]:
-                 args.extend(['-device', device])
-         return args
- 
-+    @property
-+    def args(self) -> List[str]:
-+        """Returns the list of arguments given to the QEMU binary."""
-+        return self._args
-+
-     def _pre_launch(self) -> None:
-         self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
-                                           dir=self._test_dir)
+diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
+index 77ed8597a4..0e9feda62d 100644
+--- a/tests/acceptance/x86_cpu_model_versions.py
++++ b/tests/acceptance/x86_cpu_model_versions.py
+@@ -252,10 +252,13 @@ def get_cpu_prop(self, prop):
+     def test_4_1(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.1
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         # machine-type only:
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server,x-force-features=on,check=off,'
++                        'enforce=off')
+         self.vm.launch()
+         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+                          'pc-i440fx-4.1 + Cascadelake-Server should not have arch-capabilities')
+@@ -263,9 +266,12 @@ def test_4_1(self):
+     def test_4_0(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.0
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server,x-force-features=on,check=off,'
++                        'enforce=off')
+         self.vm.launch()
+         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+                          'pc-i440fx-4.0 + Cascadelake-Server should not have arch-capabilities')
+@@ -273,10 +279,13 @@ def test_4_0(self):
+     def test_set_4_0(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.0
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         # command line must override machine-type if CPU model is not versioned:
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,+arch-capabilities')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server,x-force-features=on,check=off,'
++                        'enforce=off,+arch-capabilities')
+         self.vm.launch()
+         self.assertTrue(self.get_cpu_prop('arch-capabilities'),
+                         'pc-i440fx-4.0 + Cascadelake-Server,+arch-capabilities should have arch-capabilities')
+@@ -284,9 +293,12 @@ def test_set_4_0(self):
+     def test_unset_4_1(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.1
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,-arch-capabilities')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server,x-force-features=on,check=off,'
++                        'enforce=off,-arch-capabilities')
+         self.vm.launch()
+         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+                          'pc-i440fx-4.1 + Cascadelake-Server,-arch-capabilities should not have arch-capabilities')
+@@ -294,10 +306,13 @@ def test_unset_4_1(self):
+     def test_v1_4_0(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.0
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         # versioned CPU model overrides machine-type:
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=on,check=off,enforce=off')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server-v1,x-force-features=on,check=off,'
++                        'enforce=off')
+         self.vm.launch()
+         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+                          'pc-i440fx-4.0 + Cascadelake-Server-v1 should not have arch-capabilities')
+@@ -305,9 +320,12 @@ def test_v1_4_0(self):
+     def test_v2_4_0(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.0
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=on,check=off,enforce=off')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server-v2,x-force-features=on,check=off,'
++                        'enforce=off')
+         self.vm.launch()
+         self.assertTrue(self.get_cpu_prop('arch-capabilities'),
+                         'pc-i440fx-4.0 + Cascadelake-Server-v2 should have arch-capabilities')
+@@ -315,10 +333,13 @@ def test_v2_4_0(self):
+     def test_v1_set_4_0(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.0
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         # command line must override machine-type and versioned CPU model:
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=on,check=off,enforce=off,+arch-capabilities')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server-v1,x-force-features=on,check=off,'
++                        'enforce=off,+arch-capabilities')
+         self.vm.launch()
+         self.assertTrue(self.get_cpu_prop('arch-capabilities'),
+                         'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-capabilities should have arch-capabilities')
+@@ -326,9 +347,12 @@ def test_v1_set_4_0(self):
+     def test_v2_unset_4_1(self):
+         """
+         :avocado: tags=machine:pc-i440fx-4.1
++        :avocado: tags=cpu:Cascadelake-Server
+         """
+         self.vm.add_args('-S')
+-        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=on,check=off,enforce=off,-arch-capabilities')
++        self.set_vm_arg('-cpu',
++                        'Cascadelake-Server-v2,x-force-features=on,check=off,'
++                        'enforce=off,-arch-capabilities')
+         self.vm.launch()
+         self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+                          'pc-i440fx-4.1 + Cascadelake-Server-v2,-arch-capabilities should not have arch-capabilities')
 -- 
 2.29.2
 
