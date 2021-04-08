@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E0E358D98
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 21:42:20 +0200 (CEST)
-Received: from localhost ([::1]:43732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A015358DAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 21:47:32 +0200 (CEST)
+Received: from localhost ([::1]:48660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUaXi-0002qx-Hl
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 15:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
+	id 1lUacl-000567-6G
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 15:47:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lUaSu-0001WY-41; Thu, 08 Apr 2021 15:37:20 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:55181)
+ id 1lUaSu-0001Wa-8V; Thu, 08 Apr 2021 15:37:20 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:33257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lUaSr-0004hj-E8; Thu, 08 Apr 2021 15:37:19 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id AC5C05C0069;
- Thu,  8 Apr 2021 15:37:14 -0400 (EDT)
+ id 1lUaSr-0004hx-E9; Thu, 08 Apr 2021 15:37:20 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 5EAB45C0114;
+ Thu,  8 Apr 2021 15:37:16 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 08 Apr 2021 15:37:14 -0400
+ by compute4.internal (MEProxy); Thu, 08 Apr 2021 15:37:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=+dJNjl2llgVUS+I1mrTb1Spx6C
- fe8NsqxYmQ243Wchw=; b=0/+/Rp3buM+ihVlJivrzo1hUK+mSKimuS09h/dPGxG
- fEE5bq1yGY7LI4oMkFVJWpChQtg9aa9auc44i67ZwNXmCJvi2AV/QIvsBJfj2oFp
- tZ1gTwsNXucWns9QVY04//BZz53p9hw7IGMMSccsx3tu9j+jhGafFvvJIo7y4tNW
- m8WH+YOkSqE5svZKvV6Vc352OGE7Wv616AQVtF9Z6kK67IroRDmQfRbbSa3Rvlna
- +dNiJA0XbO+LQCWbPnTIyO/J4i4TUB+vOxuaNzzLNFNt2/j6aSCHodtIfUccu46k
- N3ZMQ71CxO7l/fpD3fXtU+8rFpJg07ntkKhIKffFLjug==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=WqfbdgGajSBzv
+ VknFlJCVClKavQRLg//HWbdfVracZI=; b=BrpVKy2wQpBg1hTAdQShrniTi9VRz
+ 744lDNmVDlQnDMpxDRXasLBwjTbfuxb0wTBkVj/v47BCzfzMXAaOUK4vxn6c4GUN
+ ePeHVFoRKmu1Kh3DZza9iP/XbMGMM6OUoLqFcC6EYOQcdCUeAfbI91tQYKV6oeZu
+ MrAOy1FaMTKZBkFC/pS+Iqn1jMWMYLbCJzgb0AvzmP1EH+337iGfPGSuu1Z/cFz7
+ pUKACgv8JiICJCIcEcxglw3K5n694+lmC4V6i26Dy9MZNoYkMBz4my4Fa34+LXAy
+ 4OlO87Bx2dVP17d3a9mhVs7/QUirG2OZd7a1yxwB+Jbv5unEHoZ20a6Cw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+dJNjl2llgVUS+I1m
- rTb1Spx6Cfe8NsqxYmQ243Wchw=; b=Q9gnot51igJ3aewW8gaQ7I7M3pRZ8CV0K
- 46nDzmvwqwDakMngvNa0IstdfGF0aOOyndPkahwTZe59zBSMXxMYmf6AIUMUgrNk
- mg8GK92RFBKP+U1asHDbfFPmRO+YpzaTwVJEGEVxMrBpJ9ujT8g9BsX3tQxEaa3E
- wzKa5Mpfj5yjPQkws75DRKmpM92WegSuTPxPoBpfdyqU+NSHGTY9ri6GVogqVrvL
- AYmnSUw9Eg1NqIOqftFmF9PcJV709VYG7oPameTPuVUDoISlwV8NNO9QkTZUhnP/
- oG+na6lpqT0ASPycLgGlaygN+Y3bEgRH5GN8qJoK6komoTSF7f9JQ==
-X-ME-Sender: <xms:aVtvYJQispAf5gugwRt0PmVi1s8c6Zo_QhQiRbDPA5c0bxfj9xdNQg>
- <xme:aVtvYP5tbxSYK1SSqPZj5lTmfY74GJgmWrXiFg4DRPXVt_mD0pob9zs64WMNX0uet
- nB3toN3z6V7cSvFWno>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=WqfbdgGajSBzvVknFlJCVClKavQRLg//HWbdfVracZI=; b=Cw5A2CWB
+ 2TeDLHi+yfbXKMspTSwrF7o7tOoJRcdr9vhC5oFd4XTw3YcVjdZLksN3ktozFrEO
+ RmHxC2Vazqcfro13lsQoO3txPsv5ggy5o0N1XohE3qPc+d07ibIsC9DYEgAnejoV
+ tn/8y3+DmRZ1G6b9bsYRRtkIGJU+pbh8qjUNOITdw0DvY0Ll54G7h6TAgyByu4c/
+ W1/cd4tSJ+5DpWxkJWUHCto/IvEkL+xLwLjNeQn5tWEoC/g+AzD30VJn92V7oplf
+ gTw16BWHYfBCx0T7PcmC7a3AqyGirEHB7my8nhKpSo0yBBOPx+eIxaX/xcPmvlq9
+ bnp/D1SuBle4aQ==
+X-ME-Sender: <xms:a1tvYNV4hGXOvOrL8QtQgi3WUBr4UydPoMoTATnYfA1D8ShP9RsKzA>
+ <xme:a1tvYNnsSKDqMVangZhaS2tA9SDjXmAnmIg2Pkmv7Vcgs3TPAjcU9t4uMlVy-2xgT
+ VOEtfGscDjcfKwBlIo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejledgudegudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteeh
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:aVtvYN1iaH7EtSVNLXhhoPq_RI8d6TrIe_uYFqoolZ0qqjqOpwmFIw>
- <xmx:aVtvYCDuObvdYP49S1t7ssSaFxNy8k8Zq_GbyBraCS6wSQzzzzZU0A>
- <xmx:aVtvYANljABLLc0njKTAtloZu3c18HU1Yg2AkJ2hhzeC_F2jkzFCVA>
- <xmx:altvYLSI4H4WSFoiXZGuzLLGEDdlIZCSbcIoNfQbyMzmzqxm64yG1g>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:bFtvYJYmREF655zVBQYU3mH9JIKjNflI6ZLfWs0XFSdEhHawFH79_Q>
+ <xmx:bFtvYAWe2u9IMD8A3BIQVz6lVeoQU3VYtQTK97-EMErC8GS6O_M5vg>
+ <xmx:bFtvYHmK7ciBVQpdZoWMbCetsiqk1B87_Sx3CZfJ_oVl-QHx7yv5eQ>
+ <xmx:bFtvYFa9hRtDL9y63qsPRqmW8VnMvR_rQ-r9meUcZ-4I9KOgew3IEA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 74BAB24005C;
- Thu,  8 Apr 2021 15:37:11 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id AFA5F24005B;
+ Thu,  8 Apr 2021 15:37:13 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/block/nvme: store aiocb in compare
-Date: Thu,  8 Apr 2021 21:37:08 +0200
-Message-Id: <20210408193709.435939-1-its@irrelevant.dk>
+Subject: [PATCH 2/2] hw/block/nvme: drain namespaces on sq deletion
+Date: Thu,  8 Apr 2021 21:37:09 +0200
+Message-Id: <20210408193709.435939-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210408193709.435939-1-its@irrelevant.dk>
+References: <20210408193709.435939-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
@@ -92,36 +95,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>,
  Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Minwoo Im <minwoo.im@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-nvme_compare() fails to store the aiocb from the blk_aio_preadv() call.
-Fix this.
+For most commands, when issuing an AIO, the BlockAIOCB is stored in the
+NvmeRequest aiocb pointer when the AIO is issued. The main use of this
+is cancelling AIOs when deleting submission queues (it is currently not
+used for Abort).
 
-Fixes: 0a384f923f51 ("hw/block/nvme: add compare command")
+However, some commands like Dataset Management Zone Management Send
+(zone reset) may involve more than one AIO and here the AIOs are issued
+without saving a reference to the BlockAIOCB. This is a problem since
+nvme_del_sq() will attempt to cancel outstanding AIOs, potentially with
+an invalid BlockAIOCB since the aiocb pointer is not NULL'ed when the
+request structure is recycled.
+
+Fix this by
+
+  1. making sure the aiocb pointer is NULL'ed when requests are recycled
+  2. only attempt to cancel the AIO if the aiocb is non-NULL
+  3. if any AIOs could not be cancelled, drain all aio as a last resort.
+
+Fixes: dc04d25e2f3f ("hw/block/nvme: add support for the format nvm command")
+Fixes: c94973288cd9 ("hw/block/nvme: add broadcast nsid support flush command")
+Fixes: e4e430b3d6ba ("hw/block/nvme: add simple copy command")
+Fixes: 5f5dc4c6a942 ("hw/block/nvme: zero out zones on reset")
+Fixes: 2605257a26b8 ("hw/block/nvme: add the dataset management command")
 Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Cc: Minwoo Im <minwoo.im@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6b1f056a0ebc..94bc373260be 100644
+index 94bc373260be..3c4297e38a52 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2837,7 +2837,8 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
- 
-     block_acct_start(blk_get_stats(blk), &req->acct, data_len,
-                      BLOCK_ACCT_READ);
--    blk_aio_preadv(blk, offset, &ctx->data.iov, 0, nvme_compare_data_cb, req);
-+    req->aiocb = blk_aio_preadv(blk, offset, &ctx->data.iov, 0,
-+                                nvme_compare_data_cb, req);
- 
-     return NVME_NO_COMPLETE;
+@@ -470,6 +470,7 @@ static void nvme_req_clear(NvmeRequest *req)
+ {
+     req->ns = NULL;
+     req->opaque = NULL;
++    req->aiocb = NULL;
+     memset(&req->cqe, 0x0, sizeof(req->cqe));
+     req->status = NVME_SUCCESS;
  }
+@@ -3681,6 +3682,7 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
+     NvmeSQueue *sq;
+     NvmeCQueue *cq;
+     uint16_t qid = le16_to_cpu(c->qid);
++    int nsid;
+ 
+     if (unlikely(!qid || nvme_check_sqid(n, qid))) {
+         trace_pci_nvme_err_invalid_del_sq(qid);
+@@ -3692,9 +3694,26 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
+     sq = n->sq[qid];
+     while (!QTAILQ_EMPTY(&sq->out_req_list)) {
+         r = QTAILQ_FIRST(&sq->out_req_list);
+-        assert(r->aiocb);
+-        blk_aio_cancel(r->aiocb);
++        if (r->aiocb) {
++            blk_aio_cancel(r->aiocb);
++        }
+     }
++
++    /*
++     * Drain all namespaces if there are still outstanding requests that we
++     * could not cancel explicitly.
++     */
++    if (!QTAILQ_EMPTY(&sq->out_req_list)) {
++        for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
++            NvmeNamespace *ns = nvme_ns(n, nsid);
++            if (ns) {
++                nvme_ns_drain(ns);
++            }
++        }
++    }
++
++    assert(QTAILQ_EMPTY(&sq->out_req_list));
++
+     if (!nvme_check_cqid(n, sq->cqid)) {
+         cq = n->cq[sq->cqid];
+         QTAILQ_REMOVE(&cq->sq_list, sq, entry);
 -- 
 2.31.1
 
