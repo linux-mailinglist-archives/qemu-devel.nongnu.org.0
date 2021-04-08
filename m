@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA43357E4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 10:41:51 +0200 (CEST)
-Received: from localhost ([::1]:37986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E801357E6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 10:51:13 +0200 (CEST)
+Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUQEV-0001fE-VP
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 04:41:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46082)
+	id 1lUQNa-0003Pl-7R
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 04:51:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lUQDH-0000t9-IV
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 04:40:32 -0400
-Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:57874)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lUQLM-0002Xs-Uf
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 04:48:52 -0400
+Received: from mga17.intel.com ([192.55.52.151]:49863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lUQDA-0004sQ-6A
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 04:40:31 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 9555F279366;
- Thu,  8 Apr 2021 10:40:20 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 8 Apr 2021
- 10:40:19 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00265e66e6e-5b18-4d82-b2c7-1478fe1fda68,
- A36169EE3079FEED08DC2049B229DAFE10CEC3BC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 88.167.138.64
-Subject: Re: [PATCH 21/24] hw/block: m25p80: Add support for mt25qu02g
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-22-clg@kaod.org>
- <20210408080001.2r4gxygjsuorvaxs@debian>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <0d5e9101-7ae9-8892-cc00-d83f958ffca8@kaod.org>
-Date: Thu, 8 Apr 2021 10:40:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210408080001.2r4gxygjsuorvaxs@debian>
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1lUQLE-0000yd-Ky
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 04:48:52 -0400
+IronPort-SDR: PdNp9r3JTOruEOufyWuPt8GADlad4qnslExb2xsuxVZdlbXZwknS5Z1QVb84VmRR/bDzgdM34m
+ dOwsUCZpzBrA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9947"; a="173573835"
+X-IronPort-AV: E=Sophos;i="5.82,205,1613462400"; d="scan'208";a="173573835"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2021 01:48:37 -0700
+IronPort-SDR: gXBAdlwymzL4xtAwgZr0CQYFU9wuADOnErRs5KAylDja8LbXTXkcVhIbYedyfdrQ7KdevPBOvF
+ zdg/33cmBuMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,205,1613462400"; d="scan'208";a="422144891"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga008.jf.intel.com with ESMTP; 08 Apr 2021 01:48:36 -0700
+Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 8 Apr 2021 01:48:35 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 8 Apr 2021 16:48:34 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
+ Thu, 8 Apr 2021 16:48:33 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: "Rao, Lei" <lei.rao@intel.com>, "lizhijian@cn.fujitsu.com"
+ <lizhijian@cn.fujitsu.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, "dgilbert@redhat.com"
+ <dgilbert@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "lukasstraub2@web.de" <lukasstraub2@web.de>
+Subject: RE: [PATCH v5 06/10] Add the function of colo_compare_cleanup
+Thread-Topic: [PATCH v5 06/10] Add the function of colo_compare_cleanup
+Thread-Index: AQHXJs6K36+J1rVfTEq3HFzc2UzMCKqqWefg
+Date: Thu, 8 Apr 2021 08:48:33 +0000
+Message-ID: <50a163a2045b4099a2a8b22732f58cf4@intel.com>
+References: <1617263249-54501-1-git-send-email-lei.rao@intel.com>
+ <1617263249-54501-7-git-send-email-lei.rao@intel.com>
+In-Reply-To: <1617263249-54501-7-git-send-email-lei.rao@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3bc86a52-8722-4f06-871b-9f9f6454aee3
-X-Ovh-Tracer-Id: 13939766749553855337
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudejledgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieejgeeggfeileehjeeihedvffeffefhjeejteejvddvkefgvedthfdvtdejfeejnecuffhomhgrihhnpehihhhsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhhrrghntghishgtohdrihhglhgvshhirghsseigihhlihhngidrtghomh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,77 +87,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 10:00 AM, Francisco Iglesias wrote:
-> Hello Cedric!
-> 
-> On Wed, Apr 07, 2021 at 07:16:34PM +0200, Cédric Le Goater wrote:
->> The Micron mt25qu02g is a 3V 2Gb serial NOR flash memory supporting
->> dual I/O and quad I/O, 4KB, 32KB, 64KB sector erase. It also supports
->> 4B opcodes.
->>
->> Cc: Alistair Francis <alistair.francis@wdc.com>
->> Cc: Francisco Iglesias <francisco.iglesias@xilinx.com>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  hw/block/m25p80.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->> index 183d3f44c259..2afb939ae28e 100644
->> --- a/hw/block/m25p80.c
->> +++ b/hw/block/m25p80.c
->> @@ -259,6 +259,7 @@ static const FlashPartInfo known_devices[] = {
->>      { INFO_STACKED("n25q00a",   0x20bb21, 0x1000, 64 << 10, 2048, ER_4K, 4) },
->>      { INFO_STACKED("mt25ql01g", 0x20ba21, 0x1040, 64 << 10, 2048, ER_4K, 2) },
->>      { INFO_STACKED("mt25qu01g", 0x20bb21, 0x1040, 64 << 10, 2048, ER_4K, 2) },
->> +    { INFO_STACKED("mt25qu02g", 0x20ba22, 0x1040, 64 << 10, 4096, ER_4K, 2) },
-> 
-> Is it possible it should be as below instead?
-> 
-> { INFO_STACKED("mt25qu02g", 0x20bb22, 0x1040, 64 << 10, 4096, ER_4K | ER_32K, 2) },
-> 
-> 's/0x20ba22/0x20bb22/' (or 's/mt25qu02g/mt25ql02g/') since 'u' looks to stand
-> for 1.7-2.0 V and 'bb' for 1.8 V (see page 2 and 32 in [1]).
-
-Here is what I am seeing : 
-
- mt25ql02g 0x20ba22 3V
- mt25qu02g 0x20bb22 1.8V
-
-Do we agree ? 
-
-> s/ER_4K/ER_4K | ER_32K/ since ERASE_32K is supported (see page 36). 
-
-yes. I should have added that ! 
- 
-> If you find above changes ok and go with them please add:
-> 
-> Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-
-Sure,
-
-Thanks,
-
-C.
 
 
-> Best regards,
-> Francisco Iglesias
-> 
-> [1] Micron Serial NOR Flash Memory 1.8V, Multiple I/O, 64KB Sector Erase MT25QU02GCBB
->     https://4donline.ihs.com/images/VipMasterIC/IC/MICT/MICT-S-A0008500026/MICT-S-A0008511423-1.pdf?hkey=52A5661711E402568146F3353EA87419
-> 
->>  
->>      /* Spansion -- single (large) sector size only, at least
->>       * for the chips listed here (without boot sectors).
->> -- 
->> 2.26.3
->>
+> -----Original Message-----
+> From: Rao, Lei <lei.rao@intel.com>
+> Sent: Thursday, April 1, 2021 3:47 PM
+> To: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com;
+> jasowang@redhat.com; quintela@redhat.com; dgilbert@redhat.com;
+> pbonzini@redhat.com; lukasstraub2@web.de
+> Cc: qemu-devel@nongnu.org; Rao, Lei <lei.rao@intel.com>
+> Subject: [PATCH v5 06/10] Add the function of colo_compare_cleanup
+>=20
+> From: "Rao, Lei" <lei.rao@intel.com>
+>=20
+> This patch fixes the following:
+>     #0  __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linux/ra=
+ise.c:50
+>     #1  0x00007f6ae4559859 in __GI_abort () at abort.c:79
+>     #2  0x0000559aaa386720 in error_exit (err=3D16, msg=3D0x559aaa5973d0
+> <__func__.16227> "qemu_mutex_destroy") at util/qemu-thread-posix.c:36
+>     #3  0x0000559aaa3868c5 in qemu_mutex_destroy (mutex=3D0x559aabffe828)
+> at util/qemu-thread-posix.c:69
+>     #4  0x0000559aaa2f93a8 in char_finalize (obj=3D0x559aabffe800) at
+> chardev/char.c:285
+>     #5  0x0000559aaa23318a in object_deinit (obj=3D0x559aabffe800,
+> type=3D0x559aabfd7d20) at qom/object.c:606
+>     #6  0x0000559aaa2331b8 in object_deinit (obj=3D0x559aabffe800,
+> type=3D0x559aabfd9060) at qom/object.c:610
+>     #7  0x0000559aaa233200 in object_finalize (data=3D0x559aabffe800) at
+> qom/object.c:620
+>     #8  0x0000559aaa234202 in object_unref (obj=3D0x559aabffe800) at
+> qom/object.c:1074
+>     #9  0x0000559aaa2356b6 in object_finalize_child_property
+> (obj=3D0x559aac0dac10, name=3D0x559aac778760 "compare0-0",
+> opaque=3D0x559aabffe800) at qom/object.c:1584
+>     #10 0x0000559aaa232f70 in object_property_del_all (obj=3D0x559aac0dac=
+10)
+> at qom/object.c:557
+>     #11 0x0000559aaa2331ed in object_finalize (data=3D0x559aac0dac10) at
+> qom/object.c:619
+>     #12 0x0000559aaa234202 in object_unref (obj=3D0x559aac0dac10) at
+> qom/object.c:1074
+>     #13 0x0000559aaa2356b6 in object_finalize_child_property
+> (obj=3D0x559aac0c75c0, name=3D0x559aac0dadc0 "chardevs",
+> opaque=3D0x559aac0dac10) at qom/object.c:1584
+>     #14 0x0000559aaa233071 in object_property_del_child
+> (obj=3D0x559aac0c75c0, child=3D0x559aac0dac10, errp=3D0x0) at qom/object.=
+c:580
+>     #15 0x0000559aaa233155 in object_unparent (obj=3D0x559aac0dac10) at
+> qom/object.c:599
+>     #16 0x0000559aaa2fb721 in qemu_chr_cleanup () at chardev/char.c:1159
+>     #17 0x0000559aa9f9b110 in main (argc=3D54, argv=3D0x7ffeb62fa998,
+> envp=3D0x7ffeb62fab50) at vl.c:4539
+>=20
+> When chardev is cleaned up, chr_write_lock needs to be destroyed. But the
+> colo-compare module is not cleaned up normally before it when the guest
+> poweroff. It is holding chr_write_lock at this time. This will cause qemu
+> crash.So we add the function of colo_compare_cleanup() before
+> qemu_chr_cleanup() to fix the bug.
+>=20
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+
+Thanks
+Chen
+
+> ---
+>  net/colo-compare.c | 10 ++++++++++
+>  net/colo-compare.h |  1 +
+>  net/net.c          |  4 ++++
+>  3 files changed, 15 insertions(+)
+>=20
+> diff --git a/net/colo-compare.c b/net/colo-compare.c index c142c08..5b538=
+f4
+> 100644
+> --- a/net/colo-compare.c
+> +++ b/net/colo-compare.c
+> @@ -1402,6 +1402,16 @@ static void colo_compare_init(Object *obj)
+>                               compare_set_vnet_hdr);  }
+>=20
+> +void colo_compare_cleanup(void)
+> +{
+> +    CompareState *tmp =3D NULL;
+> +    CompareState *n =3D NULL;
+> +
+> +    QTAILQ_FOREACH_SAFE(tmp, &net_compares, next, n) {
+> +        object_unparent(OBJECT(tmp));
+> +    }
+> +}
+> +
+>  static void colo_compare_finalize(Object *obj)  {
+>      CompareState *s =3D COLO_COMPARE(obj); diff --git a/net/colo-compare=
+.h
+> b/net/colo-compare.h index 22ddd51..b055270 100644
+> --- a/net/colo-compare.h
+> +++ b/net/colo-compare.h
+> @@ -20,5 +20,6 @@
+>  void colo_notify_compares_event(void *opaque, int event, Error **errp);
+> void colo_compare_register_notifier(Notifier *notify);  void
+> colo_compare_unregister_notifier(Notifier *notify);
+> +void colo_compare_cleanup(void);
+>=20
+>  #endif /* QEMU_COLO_COMPARE_H */
+> diff --git a/net/net.c b/net/net.c
+> index 725a4e1..8fcb2e7 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -53,6 +53,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/sysemu.h"
+> +#include "net/colo-compare.h"
+>  #include "net/filter.h"
+>  #include "qapi/string-output-visitor.h"
+>  #include "qapi/hmp-output-visitor.h"
+> @@ -1463,6 +1464,9 @@ void net_cleanup(void)  {
+>      NetClientState *nc;
+>=20
+> +    /*cleanup colo compare module for COLO*/
+> +    colo_compare_cleanup();
+> +
+>      /* We may del multiple entries during qemu_del_net_client(),
+>       * so QTAILQ_FOREACH_SAFE() is also not safe here.
+>       */
+> --
+> 1.8.3.1
 
 
