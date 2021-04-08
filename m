@@ -2,83 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D36358033
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:05:01 +0200 (CEST)
-Received: from localhost ([::1]:39802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA02358043
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 12:06:05 +0200 (CEST)
+Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lURX2-0001Y8-9D
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
+	id 1lURY4-00029b-FA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 06:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lURVM-0000gb-Np; Thu, 08 Apr 2021 06:03:16 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lURVK-00022C-TF; Thu, 08 Apr 2021 06:03:16 -0400
-Received: by mail-ed1-x536.google.com with SMTP id x4so1690453edd.2;
- Thu, 08 Apr 2021 03:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MaV1shj6dulcJD9GKaTSpKN2ejMx8BpghaOG/stPIsA=;
- b=Ji/TOJGQX4qgRAQmMETPGe3lbdgrNzNVkEtrv+6L3fFYA++lOnnFQ9VK/Eh4LjxcQQ
- W5CoI/JJiAKc99H7zrKyhcTf6ZfOf02YdicVqZACK8DYRM8vtezE11EtDkNnWRQffk7U
- ViOOw9uh5sCu/mhvxjd6tAw++7ogqIgP5jNYSjEaRIPvupZ+VjW2XXrnOQwVyHWmNgXM
- SW38Inoxnd5tZHi3BS3FP0t3abAmDFNMpK+QPCseBHPZwt1uI2i8bcyj3tsNGMPRIGAa
- U723VcnwaqipP5/q3VIrGFW4je+1LfpCg1vSoeUvOTVchQMg80a3cuboAXZ6MSoPr5lE
- eLBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MaV1shj6dulcJD9GKaTSpKN2ejMx8BpghaOG/stPIsA=;
- b=IX2UVNKRoJwMPhOzzmt5qVdtS1af/BvsfCZ1C7sl5dKQrcA86hK3RVp8w4cvYy17rc
- xVQPQu/5ATCED/+oqxP+XTa2xxyLSYmHO7RODrNa1UyqFiar+JIVanfc0rLwtPUjcenH
- iAOGH2haT9KfOJyb5SvnFcsH7SRM6wjxjHiCJ9eB+FjhUkwdMwCcQEneSQ2ZBnmfMo8B
- BQNwhHkYwp2PlAuUiKGe/tMLcIz7A0XbfJertRCl5Aqn3iZk+d3q5GqitxOIht3JjUAx
- IIgzuQ8H/bvwSTTw4rXUkqZHh6EHPSe1Ksvfn58nrQuned6Y+PQ9cMcEiIzASjg+f6KD
- AyqQ==
-X-Gm-Message-State: AOAM533CPLQL+9DgLd+vfXJfMEvNi+jEbEwzSale6apZutmhjWIGN3xp
- fF5OB0Y+PXVIfTeSF+7rfHg=
-X-Google-Smtp-Source: ABdhPJyfzJ1ws2XIK8aiEfmXjqjpNdwoOpzFW6P/aXXW2ESe14UlmzdHVxtKwrTeXtiPBIBSGf7JJg==
-X-Received: by 2002:a05:6402:2070:: with SMTP id
- bd16mr10066016edb.133.1617876193172; 
- Thu, 08 Apr 2021 03:03:13 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id g20sm17025117edb.7.2021.04.08.03.03.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 03:03:12 -0700 (PDT)
-Subject: Re: [PATCH-for-6.0?] hw/block/fdc: Fix 'fallback' property on sysbus
- floppy disk controllers
-To: Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20210407133742.1680424-1-f4bug@amsat.org>
- <87ft01ce0o.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6aaad65e-c4a1-5565-97f6-9c47b13c68cc@amsat.org>
-Date: Thu, 8 Apr 2021 12:03:11 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lURW9-0001B5-H8; Thu, 08 Apr 2021 06:04:05 -0400
+Received: from mail-he1eur04on071f.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0d::71f]:42471
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lURW5-0002RL-RG; Thu, 08 Apr 2021 06:04:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gw3hlfm7Xgn/VkBEXnPpPxM6zVKuy4njDczLnYgJ9WH/zSey7oZbXFzdGxezAoORQiJYSJ0X4h6udwXwHATNpumfk5CMhJwjbBSH9TZp93Ytqs9ZQrklYtAoTSfYnAuC7sNlVivU+qT16njXU3VWXXbx4rcd5QIibUj6UZowozKz1ZRqslRtiarIFDj7/90kCDHg74M3p/eUGpbku3ItTiM+j/lst4Q1DJi7FhIxffosac+VKg/IfJXojVQ6cZOwFzsOInfwVs9Zk+r4MKtXAX1BIc5swq9k2iY8UNC1mSdA1GLoAkIC1bhMB8mETBwExjer+NE43Qw1bDUgOX0v7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r4iFK+URcc0feD4+6rO0UQrMSN8p43wrOWcSmF5nquU=;
+ b=emhaKh9DnuWVKm3zbFDq8gFqokFWJHGGfeYPAqsxZXOjVSMzNQJHw+oVoIFttlFf3DUIpaRCSTiqxdDsNcy2Giw2EexyWz18Zt9lHg3MWBChBcTrga+g3zwpsKFRNqgeHbWTa5WPq+JzQ/UElzLwTTqd3/FoH6lTa4ydvONnlWwwAvewBE5cFIjIvdv/lKCOkIf0SWL2ev7IWyTfrTls4CFGTXy803esxjiYV4rhIeBWsyStNLPCWoKPzKquBDrhehVWWCWQnYP6HDb+87d7XWkDLxp3Q05YbBtcRDtzDSHa/N8YuYBPFygPTglVpWYL7oFKW/uDfaWCigTLpacPYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r4iFK+URcc0feD4+6rO0UQrMSN8p43wrOWcSmF5nquU=;
+ b=iq03Hm5vochNRiVeth73WXj4TaueRn3bkvlqUk10D9vsaUUx7RGAux/68wMfwEtDo/z9uobmPAOKZ9PrTY+5hsU/IgevxEgSx+IhAay8GaiLbD5iTaTHIc95orPJ76OwLvID5C0e34GGDdnQ58T1msiU1WJGejMPfTmlh58fNqE=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6870.eurprd08.prod.outlook.com (2603:10a6:20b:39a::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Thu, 8 Apr
+ 2021 10:03:58 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4020.017; Thu, 8 Apr 2021
+ 10:03:58 +0000
+Subject: DROP THIS Re: [PATCH 00/14] nbd: move reconnect-thread to separate
+ file
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ eblake@redhat.com, rvkagan@yandex-team.ru, den@openvz.org
+References: <20210407104637.36033-1-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <13074b0f-3b83-8db5-2ef4-a5e0060d15cc@virtuozzo.com>
+Date: Thu, 8 Apr 2021 13:03:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <87ft01ce0o.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/78.9.0
+In-Reply-To: <20210407104637.36033-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.206]
+X-ClientProxiedBy: ZR0P278CA0032.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.206) by
+ ZR0P278CA0032.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.18 via Frontend Transport; Thu, 8 Apr 2021 10:03:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 68b2d162-f0e8-4641-c268-08d8fa75a052
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6870:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6870C38C1EF222D36DE11603C1749@AS8PR08MB6870.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0Adhu2+PC+GQO13IGfRYKwFA6KXoMbcjhJl8ZErtNmCClec0yvqIhlU2IOeaPoVlX1mr1MbeVDucExvL+haor0YZR9oVHC3+QcbI9mVidhv4wym0DVMNhwWo7Ozs1rXdljnE64OGyjzbQWZ3jurdNIAtxEV2owKoxUHfE1Q2q3eTuqAzDwZvIonYxVi7qfEsqXewcyA96/Gth66TH96DGjK7uyKkZhFCd0Ahp17VkA2/Vy8poIauIY2zXp54zxKiRa9TmCnGySrxeiWghStoW50xFvZQdyaB50lH/A3Lg3cG+jFJUyqqMq0OoxPqYddwWSRXXbOCELP8x9QaFyJr9cp7HvF+UaAezRjuREkcRAOAILAYqMFFO+lnZy0bVUxpW5BCDHJQlqgYLkL25NrwAkKhWGQ3vx5BNxX/chrXZwoFfVA+R9/r187pIjBMI0eVnFnyA7kjCw3Z9SW8gv1PcV1DbUq+QGT8f6GNU35UTwxp3b8hjTysjpgWtGv5elk+q2mLKlrtRk/yIO8Ho22rfsOLQx2atQO1tyMkWU5Ygog5bcDiwfuar9gLYGGsZYLdS85hY3RiMkmhru2QN5sAFk+14ltML0prPln8hoRqlEewtpqh4E1kuNdmEgY2Hpj94tNsu4vfeQLGbseADTuN4YvtVfqYuF5xlWaNIVpZO38i0X90BFtDGn18kJmXXKg4L7bqupX2BWU5gDkVNiMgIfjKMQiYmORdXYTDTNEZWgFJdgIol5HB8gdGuohRaCDs
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(39840400004)(396003)(366004)(136003)(52116002)(186003)(31696002)(38100700001)(478600001)(316002)(86362001)(16576012)(16526019)(26005)(2906002)(38350700001)(956004)(66946007)(2616005)(8676002)(8936002)(36756003)(5660300002)(66476007)(66556008)(6916009)(4326008)(107886003)(6486002)(31686004)(83380400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?T1drcjN4OVlZS1lEdXFleGtRWWxlZDJHTUFJOXg5dERPRjlSQ0ZYK3hZNGpL?=
+ =?utf-8?B?RWVEQXdxQm1PVVJkZUF6dmdXYjhNMjFLby9nZG9mT1dXUmVBYStqc3pBbUZH?=
+ =?utf-8?B?c2lqYkZCT01TOEpHaXFOL3Y2UmN1NkFDOG5rYkJBVk5NZ2lpdzF4aFJZVG5L?=
+ =?utf-8?B?YzBHc3YvMWVLYk5SeWtSNXkvR1pDVklNQWFOVWtNOTVpMFkvNVNuTUJ1bTRn?=
+ =?utf-8?B?ZGhnV29XYnJKcUFnSW4rSGwzNGFrbmZLRFZRd0lTeTZ3aHFQZ3N3cWVoaGRI?=
+ =?utf-8?B?bG5qaTNFUktIdkQ3WnRZNnVxd1MwYUZCRGpuYWxxS0RkZDZLQ2dNb0VxM0sw?=
+ =?utf-8?B?VnZ0QmgwMXpjZFVudmNOd0Rwc1laZGxwdXVLWHcya2JqRmdXVld6YUJUTEcw?=
+ =?utf-8?B?TERkQTIxS0tHQnpHZlNkS0lKYmZRYThmSjc0ZXRQRlJmSHBMMjhJTW9xWWRs?=
+ =?utf-8?B?NkhnWHdwRnhGZHFIVStIWitNV3EzVDFJNEtUVDJURytGUUowZkdsS3R1V0NM?=
+ =?utf-8?B?aFpvS1UrVXM2ZHBqRTdEQ20yZXVrN3BOakRBelVBZzJUbzZtNkMwRjBEU1Nz?=
+ =?utf-8?B?L3pMcEpGRG9VYTZnNmw1SUlZZGM2dHhZNVl0MTgydEVsVTFWcGYvT29kWnZq?=
+ =?utf-8?B?akN0aUlmZEhldy85aVVyOEJVWWtYak9tak9CV0ZJbjEybjdiQUJpYXE4cUVX?=
+ =?utf-8?B?Mks0REQxcnNrRnd0UVYranRPck9PenFVa2pCM0xVT3FJMDN5aDdtem52YTBR?=
+ =?utf-8?B?Y3FXNkEyVjMxYlRrb3RrV0l2bjJFK1QvY2hBditnUExmU3pwb0J3MGRUYzZX?=
+ =?utf-8?B?UGQ4dnJGWVZHWTMvNVp3NE92RzVTL0NaMTZwSUI0dktCdVNNTnpyYlNvNTMw?=
+ =?utf-8?B?ZGlKakFCK2I4TWtZeFNqZGtWMnpQeTNrdEh6clVabXVnei9BTVBhWDhjS0c2?=
+ =?utf-8?B?TTRiZzZBM0t3azRPUE81RFN3amt5M2xjRTdtWlB2S0FBNkhzWmNCT0dyUm1T?=
+ =?utf-8?B?NG50L2xzeUQ0dTJzcXV4U2FBazFoQmxrQkJJbnRteUI3RnR2SGMvTjFDNkVR?=
+ =?utf-8?B?ZnhPakdtdkcyYk4yWjJhK0ZDMm9iTGphUFdWUlpSUTRHM3pHcXdZaDJkTnh5?=
+ =?utf-8?B?QUMybFk5eWFma1V3M1hhb1VJVnY2SUg3ZG1SWVBQSmdlSHFWU0VIQkVwMjg3?=
+ =?utf-8?B?Y1RVMUM5M0ZzUWZwSFlyR1VhR0ZPM2p2bXd0OW5UbEpzMDRXK1RScmhEMitI?=
+ =?utf-8?B?Q1BBZnZScTFxQTlqVjlmYnUrZFVTYlhjRTBFR29kREZSZ2pRV3ppKzVkYWsw?=
+ =?utf-8?B?S21PS1NVSWhkOCs5d080MU9wQm5acFIzUUk1Zk5JTFpZb0VrVG1YYTJFbTFJ?=
+ =?utf-8?B?aGVYbE52NnA4blIzQkIxMDNVNnRIaS9IVzN3bzBxT3V5dG9wNTNsSHlTTFpY?=
+ =?utf-8?B?RjlhU0FHUi9LQkpocmNsTnIvOUw1QTFIa3hpR2FqQ0xnWlZOWHBhejhFanJr?=
+ =?utf-8?B?TlVDd2xGbFJTZm91MWw5TEo1Sk9aRW5BWXRoL1JwT0Zva2lGOGVPNXNiakQ5?=
+ =?utf-8?B?MncrNFdUK2dDRG4xT0lIaXd5bHdWVEh6ZnhzMXNjeFBjRXRTWHNBbTFuZVdk?=
+ =?utf-8?B?aVNIdU4rRGowTnNrMGFjTkN6ZkVhOXV1dUtoRzJ4QWIzOTBRTVR2QWZVS3hn?=
+ =?utf-8?B?ZlZwYmlGaVVBL0NhVjFvcjRieEs4RHFJRW5HOG90MHFRUms1Z3VoNVI4VE42?=
+ =?utf-8?Q?VWkxLGb9xNRU2NKa0M45Q5+u2pCvw0NaluDNL6l?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68b2d162-f0e8-4641-c268-08d8fa75a052
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2021 10:03:58.2692 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VYCDqYMUX/0nOrDp2mLWXEiqdFAS+jAAdq3htBsIONBYRMsXd8IHWRzHLWBHXncv7DxpDCvCRmBa2txpzX+ebmFOmm/qQJqcfhfnN30pc2o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6870
+Received-SPF: pass client-ip=2a01:111:f400:fe0d::71f;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,87 +145,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 11:38 AM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+07.04.2021 13:46, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
->> Setting the 'fallback' property corrupts the QOM instance state
->> (FDCtrlSysBus) because it accesses an incorrect offset (it uses
->> the offset of the FDCtrlISABus state).
->>
->> Fixes: a73275dd6fc ("fdc: Add fallback option")
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/block/fdc.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
->> index 82afda7f3a7..a825c2acbae 100644
->> --- a/hw/block/fdc.c
->> +++ b/hw/block/fdc.c
->> @@ -2893,7 +2893,7 @@ static Property sysbus_fdc_properties[] = {
->>      DEFINE_PROP_SIGNED("fdtypeB", FDCtrlSysBus, state.qdev_for_drives[1].type,
->>                          FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
->>                          FloppyDriveType),
->> -    DEFINE_PROP_SIGNED("fallback", FDCtrlISABus, state.fallback,
->> +    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
->>                          FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
->>                          FloppyDriveType),
->>      DEFINE_PROP_END_OF_LIST(),
->> @@ -2918,7 +2918,7 @@ static Property sun4m_fdc_properties[] = {
->>      DEFINE_PROP_SIGNED("fdtype", FDCtrlSysBus, state.qdev_for_drives[0].type,
->>                          FLOPPY_DRIVE_TYPE_AUTO, qdev_prop_fdc_drive_type,
->>                          FloppyDriveType),
->> -    DEFINE_PROP_SIGNED("fallback", FDCtrlISABus, state.fallback,
->> +    DEFINE_PROP_SIGNED("fallback", FDCtrlSysBus, state.fallback,
->>                          FLOPPY_DRIVE_TYPE_144, qdev_prop_fdc_drive_type,
->>                          FloppyDriveType),
->>      DEFINE_PROP_END_OF_LIST(),
+> There are problems with nbd driver:
 > 
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>   - nbd reconnect is cancelled on drain, which is bad as Roman describes
+>     in his "[PATCH 0/7] block/nbd: decouple reconnect from drain"
+>   - nbd driver is too complicated around drained sections and aio context
+>     switch. It's nearly impossible to follow all the logic, including
+>     abuse of bs->in_flight, which is temporary decreased in some places
+>     (like nbd_read_eof()). Additional reconnect thread and two different
+>     state machines (we have BDRVNBDState::state and
+>     BDRVNBDState::connect_thread->state) doesn't make things simpler :)
 > 
-> On whether to pick this into 6.0...
+> So, I have a plan:
 > 
-> The patch has no effect unless someone or something uses "fallback" with
-> a non-ISA FDC.  There it fixes a bug.  The bug's exact impact is
-> unknown.  I figure I could find out, but it doesn't seem to be worth the
-> bother.
+> 1. Move nbd negotiation to connect_thread
+> 
+> 2. Do receive NBD replies in request coroutines, not in connection_co
+>    
+>     At this point we can drop connection_co, and when we don't have
+>     endless running coroutine, NBD driver becomes a usual block driver,
+>     and we can drop abuse of bs->in_flight, and probably drop most of
+>     complicated logic around drained section and aio context switch in
+>     nbd driver.
+> 
+> 3. Still, as Roman describes, with [2] we loose a possibility to
+>     reconnect immediately when connection breaks (with current code we
+>     have endless read in reconnect_co, but actually for this to work
+>     keep-alive should be setup correctly). So, we'll need to reinvent it,
+>     checking connection periodically by timeout, with help of getsockopt
+>     or just sending a kind of PING request (zero-length READ or something
+>     like this).
+> 
+> And this series a kind of preparation. The main point of it is moving
+> connect-thread to a separate file.
+> 
 
-non-ISA FDC is only used on MIPS/SPARC.
 
-> Commit a73275dd6fc:
-> 
->     Currently, QEMU chooses a drive type automatically based on the inserted
->     media. If there is no disk inserted, it chooses a 1.44MB drive type.
->     
->     Change this behavior to be configurable, but leave it defaulted to 1.44.
->     
->     This is not earnestly intended to be used by a user or a management
->     library, but rather exists so that pre-2.6 board types can configure it
->     to be a legacy value.
-> 
-> We do so only for "isa-fdc", in hw/core/machine.c.
-> 
-> I don't understand why we don't for the other devices, but that's
-> outside this patch's scope.
-> 
-> Downstreams could do it, but it wouldn't work.  They need this commit to
-> make it work.
-> 
-> Users (human or management application) should not use it, but of course
-> they might anyway.  This commit makes such (unadvisable) usage safe.
-> 
-> The reward is low, but so is the risk.  If I was the maintainer, I'd be
-> tempted to take it up to rc3.
+Finally I don't like it. I'm in progress of creating new series to substitute this one, so don't waste your time on review.
 
-Thanks for the impact analysis.
 
-The fix seems harmless to me, but I'm fine having it fixed in 6.1
-(this is an old bug, so not critical to have it fixed for 6.0).
-
-Phil.
+-- 
+Best regards,
+Vladimir
 
