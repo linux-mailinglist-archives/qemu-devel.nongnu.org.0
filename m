@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F22358D66
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 21:19:13 +0200 (CEST)
-Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D32358D68
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 21:19:49 +0200 (CEST)
+Received: from localhost ([::1]:44284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUaBL-0006Px-To
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 15:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34830)
+	id 1lUaBw-0007IH-6M
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 15:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUaAP-0005lA-33
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:18:13 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:36720)
+ id 1lUaAv-0006Oz-HX
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:18:45 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:33765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lUaA7-0001mg-En
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:18:12 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id ay2so1561348plb.3
- for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 12:17:52 -0700 (PDT)
+ id 1lUaAt-0002CA-UQ
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 15:18:45 -0400
+Received: by mail-pf1-x436.google.com with SMTP id a85so2126544pfa.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 12:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dzovaKG6uonXinAnvD5Vxj7OJ9md4MeXE26sdrsytfc=;
- b=W9EpwCqs3K6mia3mcFM+1qU/BzULzApsSdRh31Qp2ihLqFmwAUFe7I/IscOxbrTRyJ
- uqfeKVDVuysvLtZpG9ylXB7rkfxAN4hNEUyNSi1guMaY4gPZdqbgwhGLABPdiqYQdd/+
- dJQwRLXKzKPOIsux1XKLCTYBeLeyBj7zhd6mbmoyHC0K0xXgAinoUPgCpy/6w8WfiVUW
- nNIm4OFPNh8vkkUGHR0JYAfcamIZofKStnnBHyg2JzZ6BG03L/AuWd4HU8JWTOClli4p
- /h4DIpAHL3KRpyD8QHojIINQ3YiWSgq4M5244iMgf2796p8QbRL8hgBO80Qrk2bYNWu3
- 88lw==
+ bh=f3QCBZHMRVFsvW/v4/UWZ5PLRyeXrymVvTpZXoQa6MQ=;
+ b=Ljm/LuTZcGK59gaMuPbIBYGUnGdD4urKd21t9PRqd52exfow2VERv4pC6CofzQCEr6
+ FUMNDpvvq8szn6vdkxE3g0pMCgI2CgWKjiqG3dpCcUEEBkWt7w052n9cpXKUfdMuDcjY
+ H30mL8Qr+8E8CC/oW4Y2LlJotBSjeMghGzCmX6H+OX6E8oERaI/2umkLyiAJI2Dh0C57
+ QBmaUGJKoj42RgIRDqA/x+2A6MB37vl7sHe/UWAukwo88+WngLSJ6tVt54qc7RogWaJf
+ 1hFR2hGDcKVuovbZVBDNIHy/dqPSo2Z2YaNySFaiwYlitDcHimak9ACFgjL6gy0AKgXd
+ lIJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dzovaKG6uonXinAnvD5Vxj7OJ9md4MeXE26sdrsytfc=;
- b=PXLmbgANT0zohTAolvNrZ5sdF2KNntfzN/ZM7yZciUj4jJulStfvYiqWpjxZmFN6ab
- R2Ldn2aatXh0r317gu0ms5u1J7HzXTw9iRwTAYWk2WFHAruJV6VBRGdeC8KqL1mSornD
- ZOW7H0Sh7KooHCTmYtDPFgzXvM8NpkPMn1T9xbaRasNoOESkXm62lf9Wl9K2VNk4255/
- vphPtEQdLG+R+cus95rPRnYliRVZODRkVcqBZe1Ws2A7ECeKky2atBoSVBVu+JRoVjFW
- 7yP7xnun2xQa3A4G1lRcXe3lkyiL76Hz1lgLQSii0kI4wwCDm8mgPLLLiNWZ6RwtGIOQ
- aI5g==
-X-Gm-Message-State: AOAM531zQ4bGgehIaIaIqhnbSfE6KoZEgjxipeW6NQYuS4DNNk+ZTN74
- /RCgolP2FW6pq42efzHZl7dMpg==
-X-Google-Smtp-Source: ABdhPJwrShy2LlgRc0dS+Pu7Z0TtTgGRP+rtFixKibkpAbxaQOQ2QipRrsisZWJFJrVnMAWyvcA6DQ==
-X-Received: by 2002:a17:902:24:b029:e9:3f8f:9af9 with SMTP id
- 33-20020a1709020024b02900e93f8f9af9mr9466706pla.34.1617909471482; 
- Thu, 08 Apr 2021 12:17:51 -0700 (PDT)
+ bh=f3QCBZHMRVFsvW/v4/UWZ5PLRyeXrymVvTpZXoQa6MQ=;
+ b=cSoII3sKTOGtiS0XLYCwu3gg1YjLBiZwzb6ZuzbZmiVTiSVvV2+Rc7g11Pd41zVbT3
+ Z+2AcS0PHBKZ7sukTGxcQKnVH+wcTbHGEbEuQGnTNsC5PtAyVz1a7skTrqKws43g2Hpu
+ bCo/sY/BW2cvzXNcvQK5alYE3HPYfxarVvbMbVNxCKAvCX9UurlPeTBy01STL7CWiMTh
+ NMpUX2EJfoUcKteAFydKGSZytCqeRBMuuov2L9jj5MJ23ziIOWtrE7al66e8m8WsmNMc
+ gSY/KfoRLu4t0iV7FKcqPaxHNQ7darj+157TCriGfcny7gIo7/JD5lnVHuVfErdnczn8
+ aEJA==
+X-Gm-Message-State: AOAM531GhLvqoNk76sFt+2YCbyMCOeAqs4Y9t5brqLHZ4vTV3/JJbsB8
+ k/+lUMDuoQXzQXFYaVvt8KNpqw==
+X-Google-Smtp-Source: ABdhPJzaxOoe9ICULvua9OmiF41BjEPOO+sxIDoYur8vAD+8LYh1zRwhgt6aeLiVmAGwp12S+mVW2w==
+X-Received: by 2002:a62:9253:0:b029:242:2150:f98a with SMTP id
+ o80-20020a6292530000b02902422150f98amr8465873pfd.24.1617909522422; 
+ Thu, 08 Apr 2021 12:18:42 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id o23sm136238pgm.74.2021.04.08.12.17.50
+ by smtp.gmail.com with ESMTPSA id a13sm187523pjd.6.2021.04.08.12.18.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Apr 2021 12:17:51 -0700 (PDT)
-Subject: Re: [PATCH v3 13/26] Hexagon (target/hexagon) cleanup ternary
- operators in semantics
+ Thu, 08 Apr 2021 12:18:42 -0700 (PDT)
+Subject: Re: [PATCH v3 14/26] Hexagon (target/hexagon) cleanup reg_field_info
+ definition
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1617847067-9867-1-git-send-email-tsimpson@quicinc.com>
- <1617847067-9867-14-git-send-email-tsimpson@quicinc.com>
+ <1617847067-9867-15-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <83937de0-b24a-8d64-b248-2e8063bd2bd9@linaro.org>
-Date: Thu, 8 Apr 2021 12:17:49 -0700
+Message-ID: <705bab8b-208d-3f70-9878-8f0a71757e88@linaro.org>
+Date: Thu, 8 Apr 2021 12:18:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <1617847067-9867-14-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1617847067-9867-15-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,25 +94,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/7/21 6:57 PM, Taylor Simpson wrote:
-> Change  (cond ? (res = x) : (res = y)) to res = (cond ? x : y)
+> Include size in declaration
+> Remove {0, 0} entry
 > 
-> This makes the semnatics easier to for idef-parser to deal with
-> 
-> The following instructions are impacted
->      C2_any8
->      C2_all8
->      C2_mux
->      C2_muxii
->      C2_muxir
->      C2_muxri
-> 
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
 > ---
->   target/hexagon/imported/compare.idef | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-
-I presume this change has also been made in the upstream Qualcomm source, so 
-that the next import does not revert it?  Anyway,
+>   target/hexagon/reg_fields.c | 3 +--
+>   target/hexagon/reg_fields.h | 4 ++--
+>   2 files changed, 3 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
