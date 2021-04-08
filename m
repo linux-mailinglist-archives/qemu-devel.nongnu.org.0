@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F77358152
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 13:07:11 +0200 (CEST)
-Received: from localhost ([::1]:45544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0D9358160
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Apr 2021 13:09:57 +0200 (CEST)
+Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUSVC-0004L8-DJ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 07:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50672)
+	id 1lUSXs-0005WJ-SI
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 07:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUSTi-0003r2-8l
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 07:05:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUSTf-0005fA-Fg
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 07:05:37 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-f83ERDirPFOg-rfZo8T46g-1; Thu, 08 Apr 2021 07:05:27 -0400
-X-MC-Unique: f83ERDirPFOg-rfZo8T46g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44DBE8749BC;
- Thu,  8 Apr 2021 11:05:26 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-165.ams2.redhat.com
- [10.36.114.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA7325C1C4;
- Thu,  8 Apr 2021 11:05:25 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BF5D11800604; Thu,  8 Apr 2021 13:05:23 +0200 (CEST)
-Date: Thu, 8 Apr 2021 13:05:23 +0200
-From: Gerd Hoffmann <gerd@kraxel.org>
-To: Programmingkid <programmingkidx@gmail.com>
-Subject: Re: Mac OS real USB device support issue
-Message-ID: <20210408110523.eh3i7djynv54cqi2@sirius.home.kraxel.org>
-References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
- <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
- <967C172F-B708-40A2-862E-9948F0844133@gmail.com>
- <ace05be8-a256-788f-b896-45398d752d3@eik.bme.hu>
- <BABF7369-A0AB-4CD4-A46D-19BF1BD04AF8@gmail.com>
- <725920c9-c990-d35a-4958-4df0c45c62@eik.bme.hu>
- <0429B873-DD42-4769-BCDF-25A7720D9C44@gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUSWL-000546-FE
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 07:08:22 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35649)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUSWI-0007Fw-Tz
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 07:08:20 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id a4so1687948wrr.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Apr 2021 04:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VXMVZW25q5cLpaW4xOWV9wTmVFGoEG6XlOF0lA7fhpI=;
+ b=D7GIJkKZQtDGupMbcxi+EdOHd29UD+qfrPwWtMuuzF2dyPbL7UNroX5hMi7csymsEv
+ L+n7OBf43iXw4n7IstuKAUYsIgtixIhMgPb8n2D9QuMk6VGPeG32LFJgDK2EJ/UpeNf+
+ hhlgqguIEz2lFHjjpoiq1SStKUDTVnyMgNnjB5k5NomwB4k5qiUYJ/PPQt5CYrHbn++s
+ RCTJjTYOPZ+eV/oHzhdo8EoGxgYKyeDXc5/YcW4Tee8I1D7z6clZ+HO0AVRAISyUSX/Q
+ fLG7CiOmC4rVwqAephGOXKBDyMqojlbzB+kKuyfSyrUGo4RLWas9ysk+Tw3yQNlnEGB+
+ QbFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=VXMVZW25q5cLpaW4xOWV9wTmVFGoEG6XlOF0lA7fhpI=;
+ b=O4BDQyNoW0JyRkNLnru2gWUq0Wlp5v8vxUisKYPKi71ve03pfOjJTL/sMehNQ3DSNL
+ TCV1ddIMKhBjX5AmEmwopIJ3ylba+45/Ls7oYGapU0sAOEs6ci2jkGEuruvoiQFRBWVi
+ hq9KnG5/ScGV5h5u0Audy4qt+H/CbIN+rOQDebPlogE1oml3j4fIRt4ntXSdSImp+yyY
+ hs0QyhQwtQep25WbvkdE2hSfGy5Rbind0GYXvOMFvjzFiO4qRfGbgkpSyUXSQ1H+NyMW
+ z75dQmAtH0sb04k8dqDfcGoFawCHlbBQlWChaVRZiCLvSKQtjPK16Hn2jt8I1sIU9+9h
+ A+Sg==
+X-Gm-Message-State: AOAM530XWDPQ2Le288wVYFSd/J+qpxXBbu/3jaEuTSeAQ6Uo8P9WD5Q8
+ vfI9v5jtgdyaXCVUJlwUF6FuWQ==
+X-Google-Smtp-Source: ABdhPJweO4z0HLJuP1su+zm8kHhP221jlkecwIcbVfm1D/TBTXJK3oN5f1pNcBCtpNEpnryv88BZ6w==
+X-Received: by 2002:a5d:55d2:: with SMTP id i18mr1722201wrw.280.1617880097478; 
+ Thu, 08 Apr 2021 04:08:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w7sm21119952wru.74.2021.04.08.04.08.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 04:08:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B23301FF7E;
+ Thu,  8 Apr 2021 12:08:15 +0100 (BST)
+References: <20210406174031.64299-1-richard.henderson@linaro.org>
+ <20210406174031.64299-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 07/12] target/arm: Replace MTEDESC ESIZE+TSIZE with
+ SIZEM1
+Date: Thu, 08 Apr 2021 12:08:10 +0100
+In-reply-to: <20210406174031.64299-8-richard.henderson@linaro.org>
+Message-ID: <87h7kht4o0.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <0429B873-DD42-4769-BCDF-25A7720D9C44@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,29 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- QEMU devel list <qemu-devel@nongnu.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
 
-> > Those might be a good place to start. IOKit provides the drivers and
-> > also the io registry which is probably where you can get if a driver
-> > is bound to a device and which one is it. How to dissociate the
-> > driver from the device though I don't know.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/IOKitFundamentals/DeviceRemoval/DeviceRemoval.html
+> After recent changes, mte_checkN does not use ESIZE,
+> and mte_check1 never used TSIZE.  We can combine the
+> two into a single field: SIZEM1.
+>
+> Choose to pass size - 1 because size =3D=3D 0 is never used,
+> our immediate need in mte_probe_int is for the address
+> of the last byte (ptr + size - 1), and since almost all
+> operations are powers of 2, this makes the immediate
+> constant one bit smaller.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> According to this article a driver has a stop() and detach() method
-> that is called by the IOKit to remove a device. I'm thinking QEMU can
-> be the one that calls these methods for a certain device.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-libusb should do that.  Interfaces exist already (see
-libusb_detach_kernel_driver & friends) because we have the very same
-problem on linux.
-
-take care,
-  Gerd
-
+--=20
+Alex Benn=C3=A9e
 
