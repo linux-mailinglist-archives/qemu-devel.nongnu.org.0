@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A893359950
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 11:36:06 +0200 (CEST)
-Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E02359954
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 11:37:00 +0200 (CEST)
+Received: from localhost ([::1]:43584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUnYb-0006tl-86
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 05:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34514)
+	id 1lUnZT-0007RO-4X
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 05:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUnWo-0006Ee-4C
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:34:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50937)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lUnXK-0006X5-8B
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:34:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUnWd-0001D1-RU
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:34:13 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lUnXI-0001as-Dp
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:34:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617960841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PPthS+tjLnK/dpUmrwnUfVql7JLcM2BbaK4Rshpta9M=;
- b=S08Fbub0lP6VkRzQA0vop0I/Nr3rhIBcxXypdf0vW7ge09bDpVmh3/SAD6Alp1fhWThtvq
- gm0IcrG46veUL+WU1NKuPVsR5r8kfXAPtX1ux2PohU/mKdrvz8zypVCQqBUEp4ZLeOaw3/
- NC9WSQDz/3Yq6bssvZR79RnmGfZKkdI=
+ s=mimecast20190719; t=1617960883;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=uAxFqIZ2fexvD4xRuweQzZXbA2GpUbOamoHrcE++5ic=;
+ b=cz/B3ABVPIHLTrQkOVcFPVDlGyZw3dNOj8OkIWKIpj5+Ba1LWQ+0CIgTSB8911ySWWTVdq
+ s1AtB8+J3gHzd2r7NnVtUcH7bZMxbtgCJHaB0QP9dBQrgihK1j8eHwd4Jjzm2Yhff54OGL
+ VUGm/IKS4YXjp6ipOjp46OGCFYW+dbc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-P1gFoShCNqeUlyW0jMqbsA-1; Fri, 09 Apr 2021 05:33:59 -0400
-X-MC-Unique: P1gFoShCNqeUlyW0jMqbsA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-481-kBTaRN1hP1KgzRL8iIoV2w-1; Fri, 09 Apr 2021 05:34:39 -0400
+X-MC-Unique: kBTaRN1hP1KgzRL8iIoV2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BA05107ACCA;
- Fri,  9 Apr 2021 09:33:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C97B26E406;
- Fri,  9 Apr 2021 09:33:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 48826113525D; Fri,  9 Apr 2021 11:33:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for
- comments and docstrings
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-3-jsnow@redhat.com>
- <877dlvs1gp.fsf@dusky.pond.sub.org>
- <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com>
- <871rc277mm.fsf@dusky.pond.sub.org>
- <33866c5d-1eab-739c-f2e8-a35f4a0b0f55@redhat.com>
- <CAFEAcA8f-d7fPzrisUVkjkvpD0CCdQFBso3GiFmAPJ6gj-P_mg@mail.gmail.com>
- <YG7FpVcY72KhQbBJ@redhat.com>
-Date: Fri, 09 Apr 2021 11:33:56 +0200
-In-Reply-To: <YG7FpVcY72KhQbBJ@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 8 Apr 2021 09:58:13 +0100")
-Message-ID: <87lf9r3ipn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4A1F1020C20
+ for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 09:34:38 +0000 (UTC)
+Received: from redhat.com (ovpn-115-36.ams2.redhat.com [10.36.115.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DBC5510013C1;
+ Fri,  9 Apr 2021 09:34:33 +0000 (UTC)
+Date: Fri, 9 Apr 2021 10:34:30 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [RFC PATCH 0/5] mptcp support
+Message-ID: <YHAfpndcY5GRUYgN@redhat.com>
+References: <20210408191159.133644-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210408191159.133644-1-dgilbert@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,114 +78,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, pabeni@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On Thu, Apr 08, 2021 at 08:11:54PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Hi,
+>   This RFC set adds support for multipath TCP (mptcp),
+> in particular on the migration path - but should be extensible
+> to other users.
+> 
+>   Multipath-tcp is a bit like bonding, but at L3; you can use
+> it to handle failure, but can also use it to split traffic across
+> multiple interfaces.
+> 
+>   Using a pair of 10Gb interfaces, I've managed to get 19Gbps
+> (with the only tuning being using huge pages and turning the MTU up).
+> 
+>   It needs a bleeding-edge Linux kernel (in some older ones you get
+> false accept messages for the subflows), and a C lib that has the
+> constants defined (as current glibc does).
+> 
+>   To use it you just need to append ,mptcp to an address;
+> 
+>   -incoming tcp:0:4444,mptcp
+>   migrate -d tcp:192.168.11.20:4444,mptcp
 
-> On Fri, Mar 26, 2021 at 04:44:25PM +0000, Peter Maydell wrote:
->> On Fri, 26 Mar 2021 at 16:33, John Snow <jsnow@redhat.com> wrote:
->> > Being less terse about it: Mostly, I don't like how it enforces this
->> > column width even for indented structures. Generally, we claim that 72
->> > columns is "comfortable to read" and I agree.
->> >
->> >                                     However, when we start in a margin=
-, I
->> >                                     am not convinced that this is
->> >                                     actually more readable than the
->> >                                     alternative. We aren't using our f=
-ull
->> >                                     72 characters here.
->>=20
->> I agree, and I don't see any strong reason to hold our Python
->> code to a different standard to the rest of our codebase as
->> regards line length and comment standards.
->
-> There's one small difference with python vs the rest of the codebase when
-> it comes to API doc strings specifically. eg we have a docstring API comm=
-ent
-> in python/qemu/machine.py:
->
-> class QEMUMachine:
->     """
->     A QEMU VM.
->
->     Use this object as a context manager to ensure
->     the QEMU process terminates::
->
->         with VM(binary) as vm:
->             ...
->         # vm is guaranteed to be shut down here
->     """
->
-> This formatting, including line breaks, is preserved as-is when a user
-> requests viewing of the help:
->
->>>> print(help(qemu.machine.QEMUMachine))
->
-> Help on class QEMUMachine in module qemu.machine:
->
-> class QEMUMachine(builtins.object)
->  |  QEMUMachine(binary: str, args: Sequence[str] =3D (), wrapper: Sequenc=
-e[str] =3D (), name: Optional[str] =3D None, test_dir: str =3D '/var/tmp', =
-monitor_address: Union[Tuple[str, str], str, NoneType] =3D None, socket_scm=
-_helper: Optional[str] =3D None, sock_dir: Optional[str] =3D None, drain_co=
-nsole: bool =3D False, console_log: Optional[str] =3D None)
->  | =20
->  |  A QEMU VM.
->  | =20
->  |  Use this object as a context manager to ensure
->  |  the QEMU process terminates::
->  | =20
->  |      with VM(binary) as vm:
->  |          ...
->  |      # vm is guaranteed to be shut down here
->  | =20
->  |  Methods defined here:
->  | =20
->
->
-> IOW, while we as QEMU maintainers may not care about keeping to a narrow
-> line width, with API docstrings, we're also declaring that none of the
-> users of the python APIs can care either. These docstrings are never
-> reflowed, so they can end up wrapping if the user's terminal is narrow
-> which looks very ugly.
->
->
-> So this python API docstring scenario is slightly different from our
-> main codebase, where majority of comments are only ever going to be seen
-> by QEMU maintainers, and where C API doc strings don't preserve formattin=
-g,
-> because they're turned into HTML and re-flowed.
->
-> Having said all that, I still don't think we need to restrict ourselves
-> to 72 characters. This is not the 1980's with people using text terminals
-> with physical size constraints. I think it is fine if we let python
-> docstrings get larger - especially if the docstrings are already indented
-> 4/8/12 spaces due to the code indent context, because the code indent is
-> removed when comments are displayed. I think a 100 char line limit would
-> be fine and still not cause wrapping when using python live help().
+What happens if you only enable mptcp flag on one side of the
+stream (whether client or server), does it degrade to boring
+old single path TCP, or does it result in an error ?
 
-The trouble with long lines is not text terminals, it's humans.  Humans
-tend to have trouble following long lines with their eyes (I sure do).
-Typographic manuals suggest to limit columns to roughly 60 characters
-for exactly that reason[*].
+>   I had a quick go at trying NBD as well, but I think it needs
+> some work with the parsing of NBD addresses.
 
-Most doc strings are indented once (classes, functions) or twice
-(methods).  72 - 8 is roughly 60.
+In theory this is applicable to anywhere that we use sockets.
+Anywhere that is configured with the QAPI  SocketAddress /
+SocketAddressLegacy type will get it for free AFAICT.
 
-With nesting, doc strings can become indented more.  Nesting sufficient
-to squeeze the doc string width to column 72 under roughly 60 is pretty
-rare.  Going beyond 72 colums to keep such doc strings readable is
-exactly what PEP 8 wants you to do.
+Anywhere that is configured via QemuOpts will need an enhancement.
 
-Again, I see no reason to deviate from PEP 8.
+IOW, I would think NBD already works if you configure NBD via
+QMP with nbd-server-start, or block-export-add.  qemu-nbd will
+need cli options added.
+
+The block layer clients for NBD, Gluster, Sheepdog and SSH also
+all get it for free when configured va QMP, or -blockdev AFAICT
+
+Legacy blocklayer filename syntax would need extra parsing, or
+we can just not bother and say if you want new features, use
+blockdev.
 
 
-[*] https://en.wikipedia.org/wiki/Column_(typography)#Typographic_style
+Overall this is impressively simple.
+
+It feels like it obsoletes the multifd migration code, at least
+if you assume Linux platform and new enough kernel ?
+
+Except TLS... We already bottleneck on TLS encryption with
+a single FD, since userspace encryption is limited to a
+single thread.
+
+There is the KTLS feature which offloads TLS encryption/decryption
+to the kernel. This benefits even regular single FD performance,
+because the encrytion work can be done by the kernel in a separate
+thread from the userspace IO syscalls.
+
+Any idea if KTLS is fully compatible with MPTCP ?  If so, then that
+would look like it makes it a full replacementfor multifd on Linux.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
