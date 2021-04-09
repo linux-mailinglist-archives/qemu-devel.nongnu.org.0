@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492AA35A2B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:10:34 +0200 (CEST)
-Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E6135A2BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:10:52 +0200 (CEST)
+Received: from localhost ([::1]:33754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtiL-0006xm-Ba
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46690)
+	id 1lUtid-0007Ud-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:10:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lUtcN-0001hU-H6; Fri, 09 Apr 2021 12:04:23 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:34758)
+ id 1lUtcN-0001ha-Dc; Fri, 09 Apr 2021 12:04:23 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:52854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lUtcF-0006I6-58; Fri, 09 Apr 2021 12:04:21 -0400
+ id 1lUtcF-0006Id-3J; Fri, 09 Apr 2021 12:04:21 -0400
 Received: from iva8-d077482f1536.qloud-c.yandex.net
  (iva8-d077482f1536.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id F2F452E168B;
- Fri,  9 Apr 2021 19:04:07 +0300 (MSK)
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id BED702E1A93;
+ Fri,  9 Apr 2021 19:04:08 +0300 (MSK)
 Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
  (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
  by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- ogMa9Xokzp-470aZ7I8; Fri, 09 Apr 2021 19:04:07 +0300
+ iR9BYIEsDS-480W0v17; Fri, 09 Apr 2021 19:04:08 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1617984247; bh=vJrqGmDpIAeIpte6wIjg7cqgDp3+26F+RkKZu1i7+qI=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=JULbDVi/zEE+dTW8MJACSd5elKZVKJbiVsQJGJqa9AJY//um8ly4gzxjU6HHTGQMk
- vtd/OsmzzFMyIUxvwTCC13sbmc3qu8GSeO0XvK3xQwdwud7yEWHg3y7OVndmipWbIi
- dbpsw6KJHxOQH8C2oMy4xz4wY1M0qcu8rYgO/aOw=
+ t=1617984248; bh=Omb0dVDNPA6u4nSQafyqDHEybVHGCcmblraURTu0yeE=;
+ h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
+ b=O+HTsHqmKcWvSpLQNBo8rexyDa4Hyu6DGEz3rtZgVhP/f+pi+yf0WnbaiI7aZtrkW
+ SSYGRdpg5ChHfrHQ8pd4wt9AYlOLi9WSbclhLpHbR/qMs+6lMoJvgffaJXneGDT1yI
+ dTkthmj2LHvXfE9YG1QSuuwvMSI/JYSdxf+IqQ8M=
 Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
  [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
  by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- QZcMcvrvJz-47oSbOIU; Fri, 09 Apr 2021 19:04:07 +0300
+ QZcMcvrvJz-48oSai1H; Fri, 09 Apr 2021 19:04:08 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 0/2] block/nbd: assorted bugfixes
-Date: Fri,  9 Apr 2021 19:04:04 +0300
-Message-Id: <20210409160406.1800272-1-rvkagan@yandex-team.ru>
+Subject: [PATCH for-6.0 1/2] block/nbd: fix channel object leak
+Date: Fri,  9 Apr 2021 19:04:05 +0300
+Message-Id: <20210409160406.1800272-2-rvkagan@yandex-team.ru>
 X-Mailer: git-send-email 2.30.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210409160406.1800272-1-rvkagan@yandex-team.ru>
+References: <20210409160406.1800272-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,16 +77,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A couple of bugfixes to block/nbd that look appropriate for 6.0.=0D
-=0D
-Roman Kagan (2):=0D
-  block/nbd: fix channel object leak=0D
-  block/nbd: ensure ->connection_thread is always valid=0D
-=0D
- block/nbd.c | 59 +++++++++++++++++++++++++++--------------------------=0D
- 1 file changed, 30 insertions(+), 29 deletions(-)=0D
-=0D
--- =0D
-2.30.2=0D
-=0D
+nbd_free_connect_thread leaks the channel object if it hasn't been
+stolen.
+
+Unref it and fix the leak.
+
+Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+---
+ block/nbd.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/block/nbd.c b/block/nbd.c
+index c26dc5a54f..d86df3afcb 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -385,6 +385,7 @@ static void nbd_free_connect_thread(NBDConnectThread *thr)
+ {
+     if (thr->sioc) {
+         qio_channel_close(QIO_CHANNEL(thr->sioc), NULL);
++        object_unref(OBJECT(thr->sioc));
+     }
+     error_free(thr->err);
+     qapi_free_SocketAddress(thr->saddr);
+-- 
+2.30.2
+
 
