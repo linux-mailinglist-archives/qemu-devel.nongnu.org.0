@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01A035A0A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:06:21 +0200 (CEST)
-Received: from localhost ([::1]:39896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5249935A0AA
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:06:53 +0200 (CEST)
+Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUrm8-0007u2-RD
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
+	id 1lUrme-0008Kw-Dp
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUrkX-00079o-GI
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:04:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33173)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUrlO-0007Uh-Mb
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:05:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUrkQ-0001Y1-55
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:04:39 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUrlB-0001oH-Dh
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:05:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617977072;
+ s=mimecast20190719; t=1617977119;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y+ExAtLK4DB5ZNYsQdtarksWFCC+P5nVFywv1oMdaPo=;
- b=CYCNaen2sK/vLHlXXRyTXDsxhBex1Bqmp07puP/bMGPn9BqkmltfhvAC1Bvm3r1bygdDCU
- ISvQcnM6yg+YVoNWGda9giVxsRMzaj169vsrGFKmpwZSlvDY8GeyP4z8dl4bNSFD5kcrFT
- qp3N0dk0baYwMu4c+mIzvA8W6KKyUZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-pWT4mKoyPhmltggEI2L_Eg-1; Fri, 09 Apr 2021 10:04:29 -0400
-X-MC-Unique: pWT4mKoyPhmltggEI2L_Eg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF70E100A690
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 14:04:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8124C50F1A;
- Fri,  9 Apr 2021 14:04:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C1F6B113525D; Fri,  9 Apr 2021 16:04:03 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: QMP introspecting device props common to a bus type
-References: <YG23ILea4H36TllU@redhat.com> <87pmz5at1v.fsf@dusky.pond.sub.org>
- <YG77DnwTyCVPL3nw@redhat.com> <87o8eo9609.fsf@dusky.pond.sub.org>
- <20210409064642.ah2tz5vjz2ngfiyo@sirius.home.kraxel.org>
- <87czv34xzh.fsf@dusky.pond.sub.org> <YHAhQWdX15V54U8G@redhat.com>
-Date: Fri, 09 Apr 2021 16:04:03 +0200
-In-Reply-To: <YHAhQWdX15V54U8G@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Fri, 9 Apr 2021 10:41:21 +0100")
-Message-ID: <87r1jjy2p8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=6J+cb+EktczcAw0/qELrNQhW9zS46QV9wdRfeWiJVb4=;
+ b=SVtnR3qqFNL7tPJuUg5hTF6dkt8z6t+zY6CZ3yKC8dyLAkBdL9wjtgtZIEIt/LB146MCxD
+ WYmEOZt8P3byt9879WSUK6M9jsJCUq8hYNVionCnE/7CspBoVlu8TGTz06+aavRv1veQBE
+ xQ9kNsE5IG2QIZqjKpoyF1Hp6VYNXgo=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-cZxHThAPP4K5StXPfnzk4Q-1; Fri, 09 Apr 2021 10:05:17 -0400
+X-MC-Unique: cZxHThAPP4K5StXPfnzk4Q-1
+Received: by mail-oi1-f200.google.com with SMTP id h2so214967oih.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 07:05:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6J+cb+EktczcAw0/qELrNQhW9zS46QV9wdRfeWiJVb4=;
+ b=TeD6c8tNgv91Te6QFavsJF/SbtpumnrrkyC51rcjUqNGdbSn/s21eseqty9FmOJKqj
+ w5NCLfUqwV1XHvn+yurS8rPP39Zg404XVO2J/t3mAu87bwSiX9tHu98WKFzrjm7bxSYN
+ NscvwQY/UgiJ1/udoxk6ElEyMrO5xQ9JYOxpTS8HiKEobWLyJNxjSriSFxmImWhV6WGm
+ UMFn6pDEK4ZslGbkTCjSle822pNvzhWhlV6koH+iVXEfsUiUJvHa7H4K1Eiq2SPG7xzM
+ cetzGV/a6k2OxNXW14ZgaX/flaX32bv0hcwJNodYCkISMIMvTgkeAFFB8bDIUrLywIb0
+ UwGA==
+X-Gm-Message-State: AOAM532zzyhILfwlLN/iYkg3aCM9oshPBA1h5HYp25k4Py5PrikBjWXd
+ Wc65wFcQ9DqAy8kbe17azWpzDrRL4QwkYRj5KvQ83f8gNLsfAtigopsLVS+whDGl7sfsVq5zncd
+ M2X8xTMlT/oaQq4s=
+X-Received: by 2002:a54:4586:: with SMTP id z6mr1088454oib.159.1617977116588; 
+ Fri, 09 Apr 2021 07:05:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyRT/o3q9ydNWjEyzlUqbE1RNAfPPL6LT6x2LNEFFb38YjNhceXbZmDKQc2jz0ag0GcjgUdg==
+X-Received: by 2002:a54:4586:: with SMTP id z6mr1088443oib.159.1617977116378; 
+ Fri, 09 Apr 2021 07:05:16 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ w2sm539667oov.23.2021.04.09.07.05.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Apr 2021 07:05:16 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] block/rbd: Add an escape-aware strchr helper
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210401210150.2127670-1-ckuehl@redhat.com>
+ <20210401210150.2127670-3-ckuehl@redhat.com>
+ <bc5865f8-bb7f-58b5-5f1c-9ec3e5c09ad9@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <ad6beb34-7e80-3e60-7c2d-faa2836febf9@redhat.com>
+Date: Fri, 9 Apr 2021 09:05:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <bc5865f8-bb7f-58b5-5f1c-9ec3e5c09ad9@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,75 +99,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 4/6/21 9:24 AM, Max Reitz wrote:
+> On 01.04.21 23:01, Connor Kuehl wrote:
+>> [..]
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index 9071a00e3f..c0e4d4a952 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -134,6 +134,22 @@ static char *qemu_rbd_next_tok(char *src, char 
+>> delim, char **p)
+>>       return src;
+>>   }
+>> +static char *qemu_rbd_strchr(char *src, char delim)
+>> +{
+>> +    char *p;
+>> +
+>> +    for (p = src; *p; ++p) {
+>> +        if (*p == delim) {
+>> +            return p;
+>> +        }
+>> +        if (*p == '\\') {
+>> +            ++p;
+>> +        }
+>> +    }
+>> +
+>> +    return NULL;
+>> +}
+>> +
+> 
+> So I thought you could make qemu_rbd_do_next_tok() to do this.  (I 
+> didn’t say you should, but bear with me.)  That would be possible by 
+> giving it a new parameter (e.g. @find), and if that is set, return @end 
+> if *end == delim after the loop, and NULL otherwise.
+> 
+> Now, if you add wrapper functions to make it nice, there’s not much more 
+> difference in lines added compared to just adding a new function, but it 
+> does mean your function should basically be the same as 
+> qemu_rbd_next_tok(), except that no splitting happens, that there is no 
+> *p, and that @end is returned instead of @src.
 
-> On Fri, Apr 09, 2021 at 11:18:42AM +0200, Markus Armbruster wrote:
->> Gerd Hoffmann <kraxel@redhat.com> writes:
-[...]
->> >> Gerd, you changed device-list-properties from object_class_by_name() =
-to
->> >> module_object_class_by_name() in commit 7ab6e7fcce.  Should
->> >> qom-list-properties be changed, too?
->> >
->> > Makes sense.  We already have non-device modular objects
->> > (some chardevs).
->> >
->> >> If yes, is there any reason to use
->> >> object_class_by_name() for looking up user-provided type names in QMP
->> >> commands?
->> >
->> > I've tried to be conservative and call module_object_class_by_name()
->> > only in places where it is actually needed.  Reason one being the extr=
-a
->> > overhead.  But maybe this isn't too bad given the extra module code ru=
-ns
->> > only on lookup failures.  Reason two is to avoid modules being loaded =
-by
->> > accident even when not needed.  This needs checking when you try drop
->> > object_class_by_name().  A VM without --for example -- qxl device shou=
-ld
->> > not load the qxl module.
->>=20
->> Yes, module load should be reasonably explicit, to avoid accidental
->> loading.
->>=20
->> Automatic load on use is explicit enough.
->>=20
->> Automatic load on introspection could perhaps be surprising.  I figure
->> it depends on how the introspection request is phrased.  Loading X on
->> "tell me more about X" feels okay.  Loading X on "show me all the X that
->> satisfy Y" feels iffy.
->
-> IIUC, the intention is that as designed today, the existance of modules
-> is supposed to be transparent to mgmt application.
->
-> IOW, to a mgmt app "qemu + installed qxl module" should behaviour
-> identically to "qemu + statically linked qxl".
->
-> Conversely "qemu + uninstalled qxl module" should behaviour identically
-> to "qemu + qxl disabled at buld time".
->
-> This implies that when a mgmt app introspects QEMU for features, then
-> QEMU must auto-load all modules that are needed to ensure introspection
-> results match those that would be reported in non-modular build.
+Do you have a strong preference for this? I agree that 
+qemu_rbd_next_tok() could grow this functionality, but I think it'd be 
+simpler to keep it separate in the form of qemu_rbd_strchr().
 
-Since this is not the only possible design for module behavior, I'd
-recomend we spell out the behavior we want in a suitable place, to avoid
-misunderstandings.  Maybe we already did; if yes, pointer, please.
+> 
+> So there is one difference, and that is that qemu_rbd_next_tok() has 
+> this condition to skip escaped characters:
+> 
+>      if (*end == '\\' && end[1] != '\0') {
+> 
+> where qemu_rbd_strchr() has only:
+> 
+>      if (*p == '\\') {
+> 
+> And I think qemu_rbd_next_tok() is right; if the string in question has 
+> a trailing backslash, qemu_rbd_strchr() will ignore the final NUL and 
+> continue searching past the end of the string.
 
-> If we not going to make introspetion results equivalent, then we may
-> need to make modules be an explicit concept so mgmt apps can find out
-> when introspection is incomplete and force loading when they need it.
+Aha, good catch. I'll fix this up.
 
-They are not equivalent now.  Case in point: qom-list-properties does
-not load modules.  Thus:
+Thank you,
 
->> A systematic review of object_class_by_name() and
->> module_object_class_by_name() use might be advisable.
+Connor
 
 
