@@ -2,94 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC02035A767
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 21:50:01 +0200 (CEST)
-Received: from localhost ([::1]:40066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE4235A791
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:05:57 +0200 (CEST)
+Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUx8i-0001Mx-1b
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 15:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
+	id 1lUxO8-00044H-3f
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lUx7d-0000pY-0e; Fri, 09 Apr 2021 15:48:53 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51260
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lUxMH-0003dk-LI
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:04:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lUx7a-0001hl-MK; Fri, 09 Apr 2021 15:48:52 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 139JXeOu045700; Fri, 9 Apr 2021 15:48:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=tCe42SR/4LWbPi9nJa9KPh2b/2qEUFjRpQLp7yoNj9g=;
- b=gr2cDHIz78LO5df4W+eEpLEx+lZPopNlj5QCSWyT/DnB1Q1CIPaGb1T95GKNSS1B9lz+
- DvKXCLy1WttXgYKRK4Ka6sUgdQC9qPR21bPXy5ODn/4czli/p4PCzmxcGpf7jkQWDIC4
- kTAGL8+oqM6kReS3ElwTnajP3Cy+6NOK17J1EqBGBBDUPOZZTG+w57HDT833+2Hd+Ts5
- 5IuMYHHNN3UtifkQ/E+BJCq+jBtr0IOVRaCT+InkWg1JaA/Q4/8v/52pelMrr/3iiFiL
- 4iPmYo5pBO8xasd0wx4tsuf8EMWMtcTiPFj2BKO4ad0AluZi7wFdgpDlczFs8rd6k8tx 2A== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37trdqgn6u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Apr 2021 15:48:45 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 139Jj14x028955;
- Fri, 9 Apr 2021 19:48:45 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02wdc.us.ibm.com with ESMTP id 37ryqcne0r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Apr 2021 19:48:45 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 139Jmi3615073734
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 9 Apr 2021 19:48:44 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0B1E07805C;
- Fri,  9 Apr 2021 19:48:44 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5B8387805E;
- Fri,  9 Apr 2021 19:48:43 +0000 (GMT)
-Received: from localhost (unknown [9.211.99.145])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Fri,  9 Apr 2021 19:48:42 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/4] target/ppc: Code motion required to build disabling
- tcg
-In-Reply-To: <20210409151916.97326-2-bruno.larsen@eldorado.org.br>
-References: <20210409151916.97326-1-bruno.larsen@eldorado.org.br>
- <20210409151916.97326-2-bruno.larsen@eldorado.org.br>
-Date: Fri, 09 Apr 2021 16:48:41 -0300
-Message-ID: <87h7kf5jdy.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lUxME-0002am-P7
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:04:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617998637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2kJa9Vuhe2kkCif28VgoIxNkRVQMLZiImTsqnstPWGs=;
+ b=acRow46MsdRU/Jf5y5cJ8MWMFF94JdvfK4exgSFm6jmHoHD6Twac9oYzG9zeXbvR68YEJ+
+ 7CBSV0xi5sGdIRl46cOZi4QtrRGbJTBiIsSA9zxELxLCMRPFAdkBC1qVoAuoslhiZiYhei
+ Ihsg2OlrU2jXaNwnYaDjTdmd6BWxf2Q=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-7aUbpk7SMNi110RbpTLj3Q-1; Fri, 09 Apr 2021 16:03:54 -0400
+X-MC-Unique: 7aUbpk7SMNi110RbpTLj3Q-1
+Received: by mail-ej1-f69.google.com with SMTP id d25so2147979ejb.14
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 13:03:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2kJa9Vuhe2kkCif28VgoIxNkRVQMLZiImTsqnstPWGs=;
+ b=r1MFDWf4wZ+KsUWJsCh+XekidBZmMSsFtkY7qCsMCxwmIcj1MkK8dv6U048BkemTcT
+ Ky0iyAstUlR/+tX1bBhSHDGiaowHOfUZEQPi7ekhA/snYVKYJIp6p84/SZQqpRGKiTJC
+ 2nr/V8h+ZPW9fQwpnaEYWBZ5mbwnaunb8B6B0aB7AR9VhDoFseSFLZHMjD/+qVmxjVLW
+ ERIdDdXmr4X05jSjUXbfGztnP+hWLiGiHnZGMTrUarbp0MB+sjZydFX7X1mYsgN8XDf4
+ 1bAeQB3ymQcvDsF1VW4wzom1JuBpIvZKErp8JM0S+48zrIDBe19a+SioMr4YhL1hqVrl
+ d7eA==
+X-Gm-Message-State: AOAM530k+OUMP3CR1ByovIA4/Qv2YcZEPDaY3X216b7imtT0EZY+60pH
+ s57zgpSQ0xIH4tlfThBMOy4bhbjcYiJPdKy6IJT2ZppSnFeFR2XR8Pq9K+hX67UDAQHp5XGe6if
+ fYUjxIj8i76tL4Sg=
+X-Received: by 2002:a05:6402:42c8:: with SMTP id
+ i8mr19155437edc.386.1617998633287; 
+ Fri, 09 Apr 2021 13:03:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyOSsuTEKINqEkM9k6y+zQO9l4e6DYHneIuhY9ry8Rw5dsyK9z/Texf7YFOpyvU9MDpF+YSvg==
+X-Received: by 2002:a05:6402:42c8:: with SMTP id
+ i8mr19155411edc.386.1617998633055; 
+ Fri, 09 Apr 2021 13:03:53 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id ml13sm1242352ejb.7.2021.04.09.13.03.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Apr 2021 13:03:52 -0700 (PDT)
+Subject: Re: [PATCH 1/2] libqos/qgraph: fix "UNAVAILBLE" typo
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210409190109.476167-1-stefanha@redhat.com>
+ <20210409190109.476167-2-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0effacbb-19b6-cd95-cfe7-1dbb037ba508@redhat.com>
+Date: Fri, 9 Apr 2021 22:03:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: hbQhZql6rvduE7uUsd6a3NzEL14t6Wr5
-X-Proofpoint-GUID: hbQhZql6rvduE7uUsd6a3NzEL14t6Wr5
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-09_07:2021-04-09,
- 2021-04-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- bulkscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- mlxscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=955
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104090141
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <20210409190109.476167-2-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,42 +100,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.pires@eldorado.org.br, andre.silva@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, lagarcia@br.ibm.com, "Bruno Larsen
- \(billionai\)" <bruno.larsen@eldorado.org.br>, matheus.ferst@eldorado.org.br
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> writes:
+On 4/9/21 9:01 PM, Stefan Hajnoczi wrote:
+> Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tests/qtest/libqos/qgraph.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-A general advice for this whole series is: make sure you add in some
-words explaining why you decided to make a particular change. It will be
-much easier to review if we know what were the logical steps leading to
-the change.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> This commit does the necessary code motion from translate_init.c.inc
-
-For instance, I don't immediately see why these changes are necessary. I
-see that translate_init.c.inc already has some `#ifdef CONFIG_TCG`, so
-why do we need to move a bunch of code into cpu.c instead of just adding
-more code under ifdef CONFIG_TCG? (I'm not saying it's wrong, just trying to
-understand the reasoning).
-
-Is translate_init.c.inc intended to be TCG only? But then I see you
-moved TCG-only functions out of it (ppc_fixup_cpu) and left not TCG-only
-functions (gen_spr_generic).
-
-> This moves all functions that start with gdb_* into target/ppc/gdbstub.c
-> and creates a new function that calls those and is called by ppc_cpu_realize
-
-This looks like it makes sense regardless of disable-tcg, could we have
-it in a standalone patch?
-
-> All functions related to realizing the cpu have been moved to cpu.c, which
-> may call functions from gdbstub or translate_init
-
-Again, I don't disagree with this, but at first sight it doesn't seem
-entirely related to disabling TCG.
 
 
