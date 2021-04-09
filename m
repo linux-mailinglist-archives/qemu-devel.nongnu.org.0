@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0C7359B88
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:12:55 +0200 (CEST)
-Received: from localhost ([::1]:42934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE8F359BCF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:19:17 +0200 (CEST)
+Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUo8E-0007RO-Ay
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44414)
+	id 1lUoEO-0000u7-6Z
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lUo6e-0006tk-JN
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:11:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41814)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUoD1-0000L9-KR
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:17:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lUo6a-0006XC-DK
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:11:16 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUoCz-0002L6-NK
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:17:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617963070;
+ s=mimecast20190719; t=1617963468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XUpQDsTMb/oHY4xBicBJNvtamr+ypiMEZhegbXXdGcg=;
- b=d52B8kh6mkZGka2T2lmBDjKjmmiUCo65jFG/app3FJAyPq4XZcbk5li72SwRalKG7hXdio
- i47iysqMDh+c7yDcY4xsEulWnWOGa5nR94qfp92a0JaBfaDGXt/8VBj7/NDv45Zs3AFMRs
- OKGNVCpLvZ9AFWKQts4jZfmEPgRuBYE=
+ bh=A9BnOuuybkl0tot4kLuqpEzdzkOGKE+9CtPHdJ24ISc=;
+ b=PRwsYb3zz7aJ+o2gUWjNFn1l/JjFMtD8ZuRkmPMNgN5Z16Of6QtjHdcwYDllvIeJOcrSlb
+ 6SwWa4KbMPTaGq95/CG4w/loQOfDMYuJevkLfRQFZTHfcSi+eABMnmASRzrzh1UqluMXdC
+ R+WQm91AHRik8U+jizuBaM62iMpKG5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-va-xHHSwP0GD2hByVt2Q5w-1; Fri, 09 Apr 2021 06:11:09 -0400
-X-MC-Unique: va-xHHSwP0GD2hByVt2Q5w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-400-lF7gJD9uNS-YTaCNQvirZw-1; Fri, 09 Apr 2021 06:17:47 -0400
+X-MC-Unique: lF7gJD9uNS-YTaCNQvirZw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C276618B9F7A;
- Fri,  9 Apr 2021 10:11:07 +0000 (UTC)
-Received: from gondolin (ovpn-113-112.ams2.redhat.com [10.36.113.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF309627DC;
- Fri,  9 Apr 2021 10:11:04 +0000 (UTC)
-Date: Fri, 9 Apr 2021 12:11:02 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Pierre Morel <pmorel@linux.ibm.com>
-Subject: Re: [PATCH v2 1/1] s390x: css: report errors from
- ccw_dstream_read/write
-Message-ID: <20210409121102.2e7da357.cohuck@redhat.com>
-In-Reply-To: <7fe88dbf-7d0e-41bd-94f7-0f14bdae92b9@linux.ibm.com>
-References: <1617899529-9329-1-git-send-email-pmorel@linux.ibm.com>
- <1617899529-9329-2-git-send-email-pmorel@linux.ibm.com>
- <20210409103837.135e994e.pasic@linux.ibm.com>
- <20210409104938.465b81de.cohuck@redhat.com>
- <7fe88dbf-7d0e-41bd-94f7-0f14bdae92b9@linux.ibm.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B0CB1020C22;
+ Fri,  9 Apr 2021 10:17:46 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-63.ams2.redhat.com [10.36.115.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE27D5C3E0;
+ Fri,  9 Apr 2021 10:17:44 +0000 (UTC)
+Date: Fri, 9 Apr 2021 12:17:43 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH for-6.0? 1/3] job: Add job_wait_unpaused() for
+ block-job-complete
+Message-ID: <YHApxxGsM69c8zKo@merkur.fritz.box>
+References: <20210408162039.242670-1-mreitz@redhat.com>
+ <20210408162039.242670-2-mreitz@redhat.com>
+ <f9827dc5-d154-8995-e505-3481fa3e482f@redhat.com>
+ <a043ce77-2d6f-dd80-ac21-2dd78539221b@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <a043ce77-2d6f-dd80-ac21-2dd78539221b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -69,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,146 +81,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- imbrenda@linux.ibm.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Apr 2021 11:55:56 +0200
-Pierre Morel <pmorel@linux.ibm.com> wrote:
-
-> On 4/9/21 10:49 AM, Cornelia Huck wrote:
-> > On Fri, 9 Apr 2021 10:38:37 +0200
-> > Halil Pasic <pasic@linux.ibm.com> wrote:
-> >   
-> >> On Thu,  8 Apr 2021 18:32:09 +0200
-> >> Pierre Morel <pmorel@linux.ibm.com> wrote:
-> >>  
-> >>> ccw_dstream_read/write functions returned values are sometime
-> >>> not taking into account and reported back to the upper level
-> >>> of interpretation of CCW instructions.
-> >>>
-> >>> It follows that accessing an invalid address does not trigger
-> >>> a subchannel status program check to the guest as it should.
-> >>>
-> >>> Let's test the return values of ccw_dstream_write[_buf] and
-> >>> ccw_dstream_read[_buf] and report it to the caller.
-> >>>
-> >>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>  
-> >>
-> >> Acked-by: Halil Pasic <pasic@linux.ibm.com>
-> >>
-> >> I did not look into the whole scsw.count stuff or into wether
-> >> your changes to 3270 (look form <mark></mark> in the diff part) affect
-> >> more than just ccw_dstream_*.
-> >>
-> >> I would have preferred this patch split up based on the intended effect
-> >> and thus also subsystem (css, virtio-ccw, 3270), but I've alluded to
-> >> that before, and since we are in a hurry I can live with it as is.
-> >>
-> >> Regards,
-> >> Halil
-> >>  
-> >>> ---
-> >>>   hw/char/terminal3270.c | 11 +++++--
-> >>>   hw/s390x/3270-ccw.c    |  5 +++-
-> >>>   hw/s390x/css.c         | 14 +++++----
-> >>>   hw/s390x/virtio-ccw.c  | 66 ++++++++++++++++++++++++++++++------------
-> >>>   4 files changed, 69 insertions(+), 27 deletions(-)
-> >>>
-> >>> diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
-> >>> index a9a46c8ed3..82e85fac2e 100644
-> >>> --- a/hw/char/terminal3270.c
-> >>> +++ b/hw/char/terminal3270.c
-> >>> @@ -200,9 +200,13 @@ static int read_payload_3270(EmulatedCcw3270Device *dev)
-> >>>   {
-> >>>       Terminal3270 *t = TERMINAL_3270(dev);
-> >>>       int len;
-> >>> +    int ret;
-> >>>   
-> >>>       len = MIN(ccw_dstream_avail(get_cds(t)), t->in_len);
-> >>> -    ccw_dstream_write_buf(get_cds(t), t->inv, len);
-> >>> +    ret = ccw_dstream_write_buf(get_cds(t), t->inv, len);
-> >>> +    if (ret < 0) {
-> >>> +        return ret;
-> >>> +    }
-> >>>       t->in_len -= len;
-> >>>   
-> >>>       return len;
-> >>> @@ -260,7 +264,10 @@ static int write_payload_3270(EmulatedCcw3270Device *dev, uint8_t cmd)
-> >>>   
-> >>>       t->outv[out_len++] = cmd;
-> >>>       do {
-> >>> -        ccw_dstream_read_buf(get_cds(t), &t->outv[out_len], len);
-> >>> +        retval = ccw_dstream_read_buf(get_cds(t), &t->outv[out_len], len);
-> >>> +        if (retval < 0) {
-> >>> +            return retval;
-> >>> +        }
-> >>>           count = ccw_dstream_avail(get_cds(t));
-> >>>           out_len += len;
-> >>>   
-> >>> diff --git a/hw/s390x/3270-ccw.c b/hw/s390x/3270-ccw.c
-> >>> index 821319eee6..f3e7342b1e 100644
-> >>> --- a/hw/s390x/3270-ccw.c
-> >>> +++ b/hw/s390x/3270-ccw.c
-> >>> @@ -31,6 +31,9 @@ static int handle_payload_3270_read(EmulatedCcw3270Device *dev, CCW1 *ccw)
-> >>>       }
-> >>>   
-> >>>       len = ck->read_payload_3270(dev);  
-> >>
-> >> <mark>
-> >>  
-> >>> +    if (len < 0) {
-> >>> +        return len;
-> >>> +    }
-> >>>       ccw_dev->sch->curr_status.scsw.count = ccw->count - len;
-> >>>       
-> >>
-> >> </mark>
-> >>
-> >> Do we eventually update scsw.count?  
+Am 09.04.2021 um 11:31 hat Max Reitz geschrieben:
+> On 08.04.21 18:55, John Snow wrote:
+> > On 4/8/21 12:20 PM, Max Reitz wrote:
+> > > +    /* Similarly, if the job is still drained, waiting will not
+> > > help either */
+> > > +    if (job->pause_count > 0) {
+> > > +        error_setg(errp, "Job '%s' is blocked and cannot be
+> > > unpaused", job->id);
+> > > +        return -EBUSY;
+> > > +    }
+> > > +
 > > 
-> > I think we can consider the contents of scsw.count 'unpredictable', no?  
+> > This leaks an internal state detail out to the caller. In which
+> > circumstances does this happen?
 > 
-> I think so, the (len < 0) here will trigger a program check and the POP 
-> specifies the count as "not meaningful" in case of a program check.
+> Hm.  Now that you ask it.
+> 
+> The circumstance would be a concurrent drain in some other IO thread.
+> Probably the IO thread the job runs in?  I don’t know any other thread that
+> could concurrently drain, because this function runs in the main thread, and
+> there shouldn’t be any drain in the background.
+> 
+> If it is another IO thread, waiting would indeed help, so there would not be
+> a need to error out.
+> 
+> Perhaps it’s possible to have a background drain in the main thread?  I
+> don’t think so, though...
 
-Yes, that's what I meant.
+Hm... Maybe like this:
 
-> 
-> 
-> >   
-> >>  
-> >>>       return 0;
-> >>> @@ -50,7 +53,7 @@ static int handle_payload_3270_write(EmulatedCcw3270Device *dev, CCW1 *ccw)
-> >>>       len = ck->write_payload_3270(dev, ccw->cmd_code);
-> >>>   
-> >>>       if (len <= 0) {  
-> >>
-> >> <mark>  
-> >>> -        return -EIO;
-> >>> +        return len ? len : -EIO;  
-> >>
-> >> </mark>  
-> 
-> Here we do not change the previous behavior.
-> This problem, if it is one, is not related to not checking the dstream 
-> read/write functions.
+1. bdrv_do_drained_begin() in the main thread
+2. BDRV_POLL_WHILE() reenters the QMP dispatcher coroutine
+3. qmp_job_complete()
+4. Deadlock because we poll here until the job is undrained
 
-I agree.
+This is why nested event loops are evil...
 
+I guess a way to fix this would be making qmp_job_complete() a coroutine
+handler and yielding instead of actively polling. Then job_pause_point()
+would have to wake the waiting coroutine rather than calling
+aio_wait_kick().
+
+On the other hand, this fix would be a lot more complex for -rc3 than
+what you posted here.
+
+So maybe take this one for -rc3 and do the coroutine thing for 6.1?
+
+> > Looks about right to me, but you'll want Kevin's look-see for the finer
+> > details, of course.
+> > 
+> > My concern is that this adds a wait of an indefinite period to the
+> > job_complete command. We mitigate this by checking for some other
+> > internal state criteria first, and then by process of elimination deduce
+> > that it's safe to wait, as it will (likely) be very quick.
+> > 
+> > Do we open the door for ourselves to get into trouble here, either by a
+> > state we are forgetting to rule out (You'd have added it if you know the
+> > answer to this) or a hypothetical future change where we forget to
+> > update this function?
 > 
-> >>  
-> >>>       }
-> >>>   
-> >>>       ccw_dev->sch->curr_status.scsw.count = ccw->count - len;
-> >>> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-> >>> index fe47751df4..4149b8e5a7 100644  
-> >>  
-> >   
+> Well.  Who knows.
 > 
+> The alternatives I see are:
+> 
+> (A) Let drained_end wait for the block jobs to be resumed.  There are some
+> details to consider there, I had some discussion around this with Kevin on
+> Tuesday.  For example, should every drained_end wait for all jobs involved
+> to be resumed?  (That would mean waiting for concurrent drained_ends, too.)
+> Would the drained_end_counter be the right tool for the job?  (None of this
+> is unsolvable, I guess, but it would mean having another discussion.)
+
+The advantage there would be that you don't have to deal with new nested
+event loops.
+
+I think the problem you brought up was that we can't wait for the job
+resuming if it is at the same time paused externally. But we could just
+check that and not increase the drained_end_counter in this case.
+
+This would probably result in a fix that is simple enough for -rc3.
+
+> It would also mean that you basically just move the wait to wherever the
+> drained_end occurs, for example to qmp_transaction().  Now, every
+> drained_end is preceded by a drained_begin that always has to wait, so it
+> probably isn’t bad.  OTOH, if qmp_transaction() would be allowed to wait for
+> a job to be resumed, I think we can allow the same for
+> qmp_block_job_complete().
+> (And there’s the fact that most of the time not having the block job running
+> after drained_end poses no problem.  This is the first time I’m aware of a
+> problem, so I think it would be preferable to wait only on the rare occasion
+> where we have to.)
+
+Yeah, I can see your point, but on the other hand, waiting in
+drained_end until we can be sure that the effect of drained_begin has
+been undone is a single place that covers all occasions.
+
+I'm not overly confident that we would catch all occasions where we have
+to if we try attacking them one by one. As you noticed, this is not some
+simple case where things just fail all the time when you get it wrong,
+but results in race conditions that are hard to reproduce.
+
+> (B) Have block-job-complete be kind of asynchronous.  We talked about that
+> on IRC yesterday, and the main problem seems to be that we don’t know what
+> we’d do with errors.  We could only emit them via an event, or let the whole
+> job fail, both of which seem like bad solutions.
+
+I guess my suggestion to make it a coroutine QMP handlers is similar,
+except that it blocks QMP, so you could still deliver an error.
+
+On the other hand, this wouldn't be able to address the concern that we
+might be waiting for too long (but I'm not convinced that this is a
+problem anyway).
+
+> (C) Perhaps mirror’s completion function works just fine when the job is
+> paused (we just would have to skip the job_enter()).  I don’t know. Someone™
+> would need to find out.
+
+Who knows. Apart from Someone™, of course.
+
+Kevin
 
 
