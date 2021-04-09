@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B017F35A0EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:21:39 +0200 (CEST)
-Received: from localhost ([::1]:49300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBA135A10B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:29:34 +0200 (CEST)
+Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUs0w-0003nt-Nu
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48100)
+	id 1lUs8b-0006sm-EM
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUrzb-0002yI-7X; Fri, 09 Apr 2021 10:20:16 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUrzZ-0002WX-JI; Fri, 09 Apr 2021 10:20:15 -0400
-Received: by mail-ej1-x631.google.com with SMTP id a7so8970111eju.1;
- Fri, 09 Apr 2021 07:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NH/cjoXYRUZyazvxOW3X1Jw44bHUe/QtVRn6gwVv2ZY=;
- b=epKZy9W9uShiXIJBuQ9fqmkQem84pRtUPVU2xSGz3PX32xHiEHQGKzaQHrI7r7uC/m
- ie6nphFOPl30zjpZWznTWMliTxyVXSqbGYgvj3fx6oSK0+t6y9Q2NEQ/Wrn59siBgTB2
- fhaM/NClwUWXgke7NrZZh19ekEVHXWfY1qxhE3WdJHVsQD6ipF7u5x6qKFKwZgYUKPA4
- qtNS0xpNz5cz49f8QQEXEhECv6vsISWvDPBRuRZOvq/pZnrvDiBNbzB3o7F4Rgmdhpn6
- D7y/E3Gdc566BoqgevWUqeRda4pFBvsYOCCHvbcgxY39E/Upkox4eNvyT+6BOiu0LmL/
- fxcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NH/cjoXYRUZyazvxOW3X1Jw44bHUe/QtVRn6gwVv2ZY=;
- b=DCQhJv7v3sOrGBOWOxbBmFtLFTNKx5mAl91BRakd01gY7ylaFV4V75Xx2tqnOeQZz5
- Xkf5faq5ThHWzf2JDdZsBv55IkEgjBqBzTAJi1/85YNcijo/lcH9sv4jqt+ajhwoaNG0
- fg0AGmyq2IRBMDXKzz67nRQAEiPzAtuRu5RhknUGtGodqgPMV1aiWgIPX6WzNOM0ZNYr
- WvIJpVdQAnObJFnFPHL7vDxh4+NtuKa9LwjmCWxBj08wiHakj6HGvpXZWFOM/9riuleM
- ZuO8s3F6h9lFZ/coSBPDp3dp2ghU9v4umtfHG4nPnt1ekGY+xK9VDSvM+EN5wvmW7gqg
- dVlw==
-X-Gm-Message-State: AOAM5325NJhQithTQbjKErHaYTxXzMNMl4LmFM1RUi8R3hs7z72N5rSa
- g/GgV4H/2Hm7aFGrbeyvLh4=
-X-Google-Smtp-Source: ABdhPJw26RgvtWlVthdiKXOSPqdw1/uJ/iekPRZ4ME3A2ZiWlIqMQHr5b1gfRggRQmmDMq7UjMFuJw==
-X-Received: by 2002:a17:907:3d8a:: with SMTP id
- he10mr16579118ejc.184.1617978011591; 
- Fri, 09 Apr 2021 07:20:11 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id y2sm1298176ejf.30.2021.04.09.07.20.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Apr 2021 07:20:10 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
- clock propagation
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-References: <20210409062401.2350436-1-f4bug@amsat.org>
- <774acc32-2d5a-298e-f47b-df763f86ad2d@amsat.org>
- <08698b00-e867-2e40-440b-89d303cbefef@amsat.org>
-Message-ID: <ada13057-a1d7-936a-fc2a-de07b2708210@amsat.org>
-Date: Fri, 9 Apr 2021 16:20:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUs7N-0006HQ-Ct
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:28:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUs7K-0007Ui-OY
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:28:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617978493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u8S3x64IDF7H4p86QZPHjFSJ65nPhCOF84cucx8kzlU=;
+ b=FuVSs6riuZapXDmUesi0seLzESOCSXVsW+fPEptOk9rSu5017UuvkH8jpfF+UKGe3MFsCx
+ 4+P22D55hib2S5WbQ1/2Fq+SPDTRHsJA9dcAebdK3pZK3j/be85wVEPnPRYjhVcajPvAUQ
+ odNrJJhT1uV7+f491Ys4EqKmqCPkNeY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-BaN0AzFTPhmvxlWdUyYM4g-1; Fri, 09 Apr 2021 10:28:11 -0400
+X-MC-Unique: BaN0AzFTPhmvxlWdUyYM4g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7931D101521E;
+ Fri,  9 Apr 2021 14:27:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 041E460BE5;
+ Fri,  9 Apr 2021 14:27:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 58561113525D; Fri,  9 Apr 2021 16:27:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Connor Kuehl <ckuehl@redhat.com>
+Subject: Re: General question about parsing an rbd filename
+References: <b0c867e5-6ad7-f5e4-ecff-676b3b235995@redhat.com>
+Date: Fri, 09 Apr 2021 16:27:46 +0200
+In-Reply-To: <b0c867e5-6ad7-f5e4-ecff-676b3b235995@redhat.com> (Connor Kuehl's
+ message of "Thu, 1 Apr 2021 16:10:27 -0500")
+Message-ID: <87wntbfs7x.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <08698b00-e867-2e40-440b-89d303cbefef@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,130 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/9/21 4:11 PM, Philippe Mathieu-Daudé wrote:
-> On 4/9/21 3:12 PM, Philippe Mathieu-Daudé wrote:
->> On 4/9/21 8:23 AM, Philippe Mathieu-Daudé wrote:
->>> Hi Damian, Luc, Peter.
->>>
->>> I've been debugging some odd issue with the clocks:
->>> a clock created in the machine (IOW, not a qdev clock) isn't
->>> always resetted, thus propagating its value.
->>> "not always" is the odd part. In the MPS2 board, the machine
->>> clock is propagated. Apparently because the peripherals are
->>> created directly in the machine_init() handler. When moving
->>> them out in a SoC QOM container, the clock isn't... I'm still
->>> having hard time to understand what is going on.
->>>
->>> Alternatively I tried to strengthen the clock API by reducing
->>> the clock creation in 2 cases: machine/device. This way clocks
->>> aren't left dangling around alone. The qdev clocks are properly
->>> resetted, and for the machine clocks I register a generic reset
->>> handler. This way is safer, but I don't think we want to keep
->>> adding generic reset handlers, instead we'd like to remove them.
->>>
->>> I'll keep debugging to understand. Meanwhile posting this series
->>> as RFC to get feedback on the approach and start discussing on
->>> this issue.
->>
->> I wonder if this could be the culprit:
-> 
-> No (same reverting it) :(
-> 
->>   commit 96250eab904261b31d9d1ac3abbdb36737635ffa
->>   Author: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>   Date:   Fri Aug 28 10:02:44 2020 +0100
->>
->>       hw/clock: Only propagate clock changes if the clock is changed
->>
->>       Avoid propagating the clock change when the clock does not change.
->>
->>   diff --git a/include/hw/clock.h b/include/hw/clock.h
->>   index d85af45c967..9ecd78b2c30 100644
->>   --- a/include/hw/clock.h
->>   +++ b/include/hw/clock.h
->>   @@ -165,8 +165,9 @@ void clock_propagate(Clock *clk);
->>     */
->>    static inline void clock_update(Clock *clk, uint64_t value)
->>    {
->>   -    clock_set(clk, value);
->>   -    clock_propagate(clk);
->>   +    if (clock_set(clk, value)) {
->>   +        clock_propagate(clk);
->>   +    }
->>    }
->>
->> I.e.:
->>
->> - first use clock_set() to set the new period
->> - then call clock_update() with the same "new period"
->>
->> -> the clock parent already has the new period, so the
->>    children are not updated.
-> 
-> This is actually what clock_set_source() does:
-> 
->   void clock_set_source(Clock *clk, Clock *src)
->   {
->       ...
-> 
->       clk->period = src->period; // <------------------------------
->       QLIST_INSERT_HEAD(&src->children, clk, sibling);
->       clk->source = src;
->       clock_propagate_period(clk, false);
->   }
-> 
-> So indeed if we use qdev_connect_clock_in() in DeviceRealize(),
-> it calls clock_set_source() and set the period, does not propagate,
-> then later when clock_propagate_period() is called:
-> 
-> static void clock_propagate_period(Clock *clk, bool call_callbacks)
-> {
->     ...
->     QLIST_FOREACH(child, &clk->children, sibling) {
->         if (child->period != clk->period) {
->             //           ^^^^ this condition is false
->             ...
->             clock_propagate_period(child, call_callbacks);
->             // ^^^ children never get clock propagated
->         }
->     }
-> }
-> 
-> Does it make sense?
+Connor Kuehl <ckuehl@redhat.com> writes:
 
-FWIW this fixes the problem I'm having:
+> Hi,
+>
+> block/rbd.c hints that:
+>
+>>  * Configuration values containing :, @, or = can be escaped with a
+>>  * leading "\".
+>
+> Right now, much of the parsing code will allow anyone to escape
+> _anything_ so long as it's preceded by '\'.
+>
+> Is this the intended behavior? Or should the parser be updated to
+> allow escaping only certain sequences.
 
--- >8 --
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index 23c0c372b5d..4ecb51b1465 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -87,7 +87,7 @@ static void clock_propagate_period(Clock *clk, bool
-call_callbacks)
-                                        CLOCK_PERIOD_TO_HZ(clk->period),
-                                        CLOCK_PATH(child),
-                                        CLOCK_PERIOD_TO_HZ(child->period));
--        if (child->period != clk->period) {
-+        if (1) {//child->period != clk->period) {
-             if (call_callbacks) {
-                 clock_call_callback(child, ClockPreUpdate);
-             }
----
+I can't answer this question, but perhaps I can get us a bit closer to
+an answer.
 
-At least this confirm my hypothesis and reduces the scope of
-the problem.
+The commend you quoted in part is about "rbd:" pseudo-filenames.
 
-I'm not sure what is the best way to fix this (yet?) so I'll
-wait here for feedback. At least I can keep going :)
+By "parsing code", you probably mean qemu_rbd_parse_filename().  It uses
+qemu_rbd_next_tok() to split off one part after the other, stopping at a
+special delimiter character, and qemu_rbd_unescape() to unescape most,
+but not all parts.
 
-Regards,
+Both treat '\' followed by a character other than '\0' specially.
+qemu_rbd_next_tok() doesn't stop at an escaped delimiter character.
+qemu_rbd_unescape() unescapes escaped characters.
 
-Phil.
+I believe the comment you quoted is basically trying to say "to use a
+character that would normally be a delimiter, escape it with '\'".  It
+doesn't say these are the only characters you may escape.
+
+Not unescaping some parts feels iffy to me.
+
 
