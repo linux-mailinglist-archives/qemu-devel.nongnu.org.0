@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB2935A212
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:33:27 +0200 (CEST)
-Received: from localhost ([::1]:37646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9AB35A21B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:37:31 +0200 (CEST)
+Received: from localhost ([::1]:41486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUt8Q-00085P-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1lUtCM-0001Yb-Rs
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUt6i-00074Q-BV
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:31:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25363)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lUtAP-0000kr-Ng; Fri, 09 Apr 2021 11:35:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUt6f-0008Lf-Ht
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:31:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617982296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nTpxTTdAK2TsqlUNMUZD+t3srj1+Fr3Ltih04iGjQUk=;
- b=PRgSPYn2JkyLOSRWJ6cfxAScEWePNMJWZlxb/ALiiG33iE+5sfEuCilkGPdLk5wygVhwgX
- kg1vmQtPBI2h54OG4FYs9WXYBXZp8SgZsOWlencVuXz2wbp6XU1ay6H32KCtbSjmH2MvYt
- 9QcD/DcPyaKfRVXcyC+VkMmn1zsUJO0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-kmuzRUhpPLmwCV3kD8cmqg-1; Fri, 09 Apr 2021 11:31:34 -0400
-X-MC-Unique: kmuzRUhpPLmwCV3kD8cmqg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F0585ADC1;
- Fri,  9 Apr 2021 15:30:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D744E5C1A1;
- Fri,  9 Apr 2021 15:30:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 52610113525D; Fri,  9 Apr 2021 17:30:34 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v2] monitor/qmp: fix race on CHR_EVENT_CLOSED without OOB
-References: <20210322154024.15011-1-s.reiter@proxmox.com>
-Date: Fri, 09 Apr 2021 17:30:34 +0200
-In-Reply-To: <20210322154024.15011-1-s.reiter@proxmox.com> (Stefan Reiter's
- message of "Mon, 22 Mar 2021 16:40:24 +0100")
-Message-ID: <877dlbfpb9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lUtAO-0001fh-8C; Fri, 09 Apr 2021 11:35:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F04D61028;
+ Fri,  9 Apr 2021 15:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617982526;
+ bh=7oedXhgvlnDiKkamDo1pu/THCxT9ZajkAPgDQTWQ89g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dz0ecwRmYtCWB5A6Eezx/Ho9lPQOce76bgFJq6T0FxAbu3hMpL7TKwMom5Ij1apbI
+ I/aQ6zeDHYBV6kNukKd5US3+eaTposi9dhXaNqq8FDzBjzO4okyUk+XT/vz3sQResv
+ 03HzeXt8MxlEYEBnyPhJxzICkSMnyqrYH/28uNhrDZd3u15QNvXxXsJAOK6fkIk9fo
+ oES8Gf6fb34kcrIBrEIWzzs5TJ7oInEsQZMjm03QBIlCZQzjoKrEAtfqfBXNRspoDI
+ 2i865+fKWMxmnOQR+yUfNzFjygzw3880M+GUXq9BY4PCrpVOJH4JJjcQE1KYsFVOrd
+ oFV7TuSCbsSkw==
+Date: Sat, 10 Apr 2021 00:35:20 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH v3] hw/block/nvme: add device self test command support
+Message-ID: <20210409153520.GC32304@redsun51.ssa.fujisawa.hgst.com>
+References: <CGME20210331092753epcas5p33ef9360c0c8c6b6310108d2da9aa2687@epcas5p3.samsung.com>
+ <20210331092427.13545-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210331092427.13545-1-anaidu.gollu@samsung.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,15 +62,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Thomas Lamprecht <t.lamprecht@proxmox.com>,
- Wolfgang Bumiller <w.bumiller@proxmox.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ its@irrelevant.dk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I considered this for 6.0, but decided not to rock the boat at this late
-stage.
+On Wed, Mar 31, 2021 at 02:54:27PM +0530, Gollu Appalanaidu wrote:
+> This is to add support for Device Self Test Command (DST) and
+> DST Log Page. Refer NVM Express specification 1.4b section 5.8
+> ("Device Self-test command")
 
-Queued for 6.1, thanks!
-
+Please don't write change logs that just say what you did. I can read
+the code to see that. Explain why this is useful because this frankly
+looks like another useless feature. We don't need to implement every
+optional spec feature here. There should be a real value proposition.
 
