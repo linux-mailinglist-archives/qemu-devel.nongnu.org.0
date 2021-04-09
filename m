@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236DD35A2D6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:18:52 +0200 (CEST)
-Received: from localhost ([::1]:56712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BC335A2E0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:19:21 +0200 (CEST)
+Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtqN-000161-5n
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
+	id 1lUtqq-0002gO-Th
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnf-0007L7-34
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26512)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnh-0007Qh-BV
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnd-0003Hk-At
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:02 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnf-0003Jl-LM
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617984960;
+ s=mimecast20190719; t=1617984962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FSOm/+ZhEOPq25HnbSriniCqN0u1/TmE5wbcPo/m8Bw=;
- b=DSajuTe+ctNYxv5Df693TKcmGIrsfGqgCDiB3R0ljfpJ9bAmO4ZOQn+SDpVV45z5HQcL/G
- nALT6iMHYMWULr6L11yjDhZoeKOrYAf/3RS7Ax987rEmvCuS604g9/pqJrV7BwyTUPy+Eq
- Q0+h/hIN+7hLgPamjIDeTWJNx6IGvPY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5xWuU0hBtpAwHuQvWGIwrd39FN93VworOtiulnbrtDI=;
+ b=aulmUSAVYrYbe5s/tOvp95G/vjvK2yD1Mm6pS5DrYNKUoPRiX2Jx6HqsYGcgxD6VZD9sSo
+ qnaNxVhQ6v2pE2DAb7RQOlBfLegsiZxgMhEai3d4kP7tdogQPXfBNBEMm1QI8nOoeLQrHM
+ +ASwLyIu/pIo/s5ir+W7/Nt6w929OJk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-9SNwFDidPU-6EJIZfnJfiQ-1; Fri, 09 Apr 2021 12:15:59 -0400
-X-MC-Unique: 9SNwFDidPU-6EJIZfnJfiQ-1
+ us-mta-249-eieJM6hNPCKiqK3uOXuqNA-1; Fri, 09 Apr 2021 12:16:00 -0400
+X-MC-Unique: eieJM6hNPCKiqK3uOXuqNA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A69F801FCE;
- Fri,  9 Apr 2021 16:15:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73B1A10CE780;
+ Fri,  9 Apr 2021 16:15:59 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-115-63.ams2.redhat.com [10.36.115.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3823B5D6A1;
- Fri,  9 Apr 2021 16:15:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 712665D6A1;
+ Fri,  9 Apr 2021 16:15:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 00/10] Block layer fixes for 6.0-rc3
-Date: Fri,  9 Apr 2021 18:15:38 +0200
-Message-Id: <20210409161548.341297-1-kwolf@redhat.com>
+Subject: [PULL 01/10] block/rbd: fix memory leak in qemu_rbd_connect()
+Date: Fri,  9 Apr 2021 18:15:39 +0200
+Message-Id: <20210409161548.341297-2-kwolf@redhat.com>
+In-Reply-To: <20210409161548.341297-1-kwolf@redhat.com>
+References: <20210409161548.341297-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,60 +80,76 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit ce69aa92d71e13db9c3702a8e8305e8d2463aeb8:
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-04-08 16:45:31 +0100)
+In qemu_rbd_connect(), 'mon_host' is allocated by qemu_rbd_mon_host()
+using g_strjoinv(), but it's only freed in the error path, leaking
+memory in the success path as reported by valgrind:
 
-are available in the Git repository at:
+  80 bytes in 4 blocks are definitely lost in loss record 5,028 of 6,516
+     at 0x4839809: malloc (vg_replace_malloc.c:307)
+     by 0x5315BB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
+     by 0x532B6FF: g_strjoinv (in /usr/lib64/libglib-2.0.so.0.6600.8)
+     by 0x87D07E: qemu_rbd_mon_host (rbd.c:538)
+     by 0x87D07E: qemu_rbd_connect (rbd.c:562)
+     by 0x87E1CE: qemu_rbd_open (rbd.c:740)
+     by 0x840EB1: bdrv_open_driver (block.c:1528)
+     by 0x8453A9: bdrv_open_common (block.c:1802)
+     by 0x8453A9: bdrv_open_inherit (block.c:3444)
+     by 0x8464C2: bdrv_open (block.c:3537)
+     by 0x8108CD: qmp_blockdev_add (blockdev.c:3569)
+     by 0x8EA61B: qmp_marshal_blockdev_add (qapi-commands-block-core.c:1086)
+     by 0x90B528: do_qmp_dispatch_bh (qmp-dispatch.c:131)
+     by 0x907EA4: aio_bh_poll (async.c:164)
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+Fix freeing 'mon_host' also when qemu_rbd_connect() ends correctly.
 
-for you to fetch changes up to c2c731a4d35062295cd3260e66b3754588a2fad4:
+Fixes: 0a55679b4a5061f4d74bdb1a0e81611ba3390b00
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20210329150129.121182-2-sgarzare@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/rbd.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-  test-blockjob: Test job_wait_unpaused() (2021-04-09 18:00:29 +0200)
-
-----------------------------------------------------------------
-Block layer fixes
-
-- mirror: Fix job-complete race condition causing unexpected errors
-- fdc: Fix 'fallback' property on sysbus floppy disk controllers
-- rbd: Fix memory leaks
-- iotest improvements
-
-----------------------------------------------------------------
-Max Reitz (6):
-      iotests/qsd-jobs: Filter events in the first test
-      iotests: Test mirror-top filter permissions
-      mirror: Move open_backing_file to exit_common
-      mirror: Do not enter a paused job on completion
-      job: Allow complete for jobs on standby
-      test-blockjob: Test job_wait_unpaused()
-
-Philippe Mathieu-Daudé (1):
-      hw/block/fdc: Fix 'fallback' property on sysbus floppy disk controllers
-
-Stefano Garzarella (2):
-      block/rbd: fix memory leak in qemu_rbd_connect()
-      block/rbd: fix memory leak in qemu_rbd_co_create_opts()
-
-Vladimir Sementsov-Ogievskiy (1):
-      iotests: add test for removing persistent bitmap from backing file
-
- block/mirror.c                                     |  28 +++--
- block/rbd.c                                        |  10 +-
- hw/block/fdc.c                                     |   4 +-
- job.c                                              |   4 +-
- tests/unit/test-blockjob.c                         | 121 +++++++++++++++++++++
- tests/qemu-iotests/tests/mirror-top-perms          | 121 +++++++++++++++++++++
- tests/qemu-iotests/tests/mirror-top-perms.out      |   5 +
- tests/qemu-iotests/tests/qsd-jobs                  |   5 +-
- tests/qemu-iotests/tests/qsd-jobs.out              |  10 --
- .../qemu-iotests/tests/remove-bitmap-from-backing  |  69 ++++++++++++
- .../tests/remove-bitmap-from-backing.out           |   6 +
- 11 files changed, 349 insertions(+), 34 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/mirror-top-perms
- create mode 100644 tests/qemu-iotests/tests/mirror-top-perms.out
- create mode 100755 tests/qemu-iotests/tests/remove-bitmap-from-backing
- create mode 100644 tests/qemu-iotests/tests/remove-bitmap-from-backing.out
+diff --git a/block/rbd.c b/block/rbd.c
+index 9071a00e3f..24cefcd0dc 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -563,13 +563,13 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+     if (local_err) {
+         error_propagate(errp, local_err);
+         r = -EINVAL;
+-        goto failed_opts;
++        goto out;
+     }
+ 
+     r = rados_create(cluster, opts->user);
+     if (r < 0) {
+         error_setg_errno(errp, -r, "error initializing");
+-        goto failed_opts;
++        goto out;
+     }
+ 
+     /* try default location when conf=NULL, but ignore failure */
+@@ -626,11 +626,12 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+      */
+     rados_ioctx_set_namespace(*io_ctx, opts->q_namespace);
+ 
+-    return 0;
++    r = 0;
++    goto out;
+ 
+ failed_shutdown:
+     rados_shutdown(*cluster);
+-failed_opts:
++out:
+     g_free(mon_host);
+     return r;
+ }
+-- 
+2.30.2
 
 
