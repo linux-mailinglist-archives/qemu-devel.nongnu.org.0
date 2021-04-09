@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524C735959D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 08:36:51 +0200 (CEST)
-Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDDB35958F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 08:34:14 +0200 (CEST)
+Received: from localhost ([::1]:48092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUkl8-0007NG-ET
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 02:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48020)
+	id 1lUkib-0004xz-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 02:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUkZM-0004ff-0c; Fri, 09 Apr 2021 02:24:40 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46053)
+ id 1lUkZQ-0004ho-T7; Fri, 09 Apr 2021 02:24:47 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUkZJ-0001bZ-Rr; Fri, 09 Apr 2021 02:24:39 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id mh7so6822290ejb.12;
- Thu, 08 Apr 2021 23:24:36 -0700 (PDT)
+ id 1lUkZN-0001eo-VY; Fri, 09 Apr 2021 02:24:44 -0400
+Received: by mail-ej1-x633.google.com with SMTP id u17so6874201ejk.2;
+ Thu, 08 Apr 2021 23:24:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/OEqLEQHCmytseRt1FhXxp+Rob399wNsde0XeRnkGgQ=;
- b=ltZ+3820lLw6oC8xOjK05tEQA2ZV7Fjzd8OCarI9OfHsTY+NUKyaoYnOxRPhtsSRQm
- 8uGBBx3oMvSTowr3SN33+jgx5Wp+bCKEKx4LqgyNCmlQISba3rl04LV+cot9vw8rNO92
- NobHeCeMMbo9VZFaZZl3Foopgh42a555jALD5/rqJ1fO7k8VwVdoQ3IRh/30Mcwor4l6
- sRCR2ONs8ovaSJGtwNawSnhFxVgd9K4ZdP3FI1t/ZDtpy9z4m8mhy5kkFLr5YpwoaJeF
- Cbd9OTiZCfRkCWBGki4i8JE31x093/IQUIwLmvu/PnzjT6F4BSZwXsK+8KVHL+wHyCBQ
- EHCg==
+ bh=Ge+UwN7N+4mN3C6ng3RtkaVCXw7LRu2ISOzslpilhag=;
+ b=sqI6xGXAI0n0K+8BjBLgH9G7oD1OPFoSjYfbLCqgasErypf378fdNteeFfrbYbaryn
+ fe6HJhebGQQmAU+PKCfWAIhDwL5DnOpLx0Jglp52aGcNoLE6YxpzcjtuNY03p7LISz6v
+ cBI4GmOcXbCywe/Jh77OjuGR/4ilEYSoZgld+e8D8/ZBmU8Cwd4eXiyvjv1Wmh3/Mcw+
+ 5vzCNTpLC7yZ/ocK2pxYeufZXCjqLzcrRf28eEWspmV9rhHUYXwOop6t4WgdX6yebilW
+ Lbt18y9/DhknaRcb3TOobaL0srBo+IzheDZfL1rO5glGqs13PdVWp3Gkm7smuR+MTVSl
+ v3cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/OEqLEQHCmytseRt1FhXxp+Rob399wNsde0XeRnkGgQ=;
- b=WMkVUPNypia5wYXssGgnQKJugGjE7XUurjxu74acreS70t9nTBrRLWZabwP4G7I0bm
- IoQCxpD8T3Y2V5vpnW/L4sYOUMETj0QZ4UGSEfvBQpLGEby9V5Jr6THlaXDloPk8Lvl7
- okLtYThEujMisblNYaWNo2lOsbQ2YWwVFzk11p1syXqd+rVeJOw+HKkgGOXXV0wJjHp7
- wzyafrXnrNN5SsCbXWtkqhWveOGv8gNwgwRdO7/7OzXklzv73L8NtYpS+m1v7yjfXBLN
- oSEiFB8jouCwhcVBL9xykSZZGnNzgvjVUl4eAZbvv2z5FGELkW5PiUHF5WtHOkQxuGtu
- F5ww==
-X-Gm-Message-State: AOAM530dypJuvtEwn80wHsqMFxgTWCrkKXI/81k+hKpxC5vI0UoyhVhl
- 9gy2h1rGrappENpXXE2MmuAF2cBlWey2EA==
-X-Google-Smtp-Source: ABdhPJyXnHdzktWS6AwWRoja1N2Z48ZZJD7qGZxm922GmRaCtBWzMTSguBD/9KCt+SZT4bgDl6OVMg==
-X-Received: by 2002:a17:906:170d:: with SMTP id
- c13mr14302431eje.491.1617949474885; 
- Thu, 08 Apr 2021 23:24:34 -0700 (PDT)
+ bh=Ge+UwN7N+4mN3C6ng3RtkaVCXw7LRu2ISOzslpilhag=;
+ b=FAg75yKF1gg5gX+tNDEH1lhBfo+Nd0UHNV2d1MT6Ncppk+01T5zKRtbnTIwYe1BEyY
+ +QjWs0RlPTi30uKDl0kD3Vs1ojx7l9N8zLDwC4I8UO4sVJrHVFeYmjD48mgmegAWzTWn
+ N7TqmPalXwA9C9bAVui5Ed5ocJDX11mFz9mSuv43s+7jNdrO5X6UPWdNTQSnkJmzHfH1
+ 5SNYPkEB0FD+aNlr6R5chGIcwQ0yE1Ec1fUxGa48RvvVn5xyM7qUqzQBD1DVxrEjoQH4
+ +Mr8wgQlxlfTa5yt+qAFUyByHZwU1oP1qcA6e0fNxbtjkpxybAZbbCitQBTi1nY62Fck
+ R3WQ==
+X-Gm-Message-State: AOAM533LeNX2jUkNO/kUopcHM+yeeIMtNEmL8smNuw70XQljmFntZBXb
+ XxGuStGY/mzAjlRTAQRZvo6hhp9mN0PKqg==
+X-Google-Smtp-Source: ABdhPJyDUfeN6H/klQeGg95tmYz3oRaFLhxDxpus26sJoIAX5Ug2xbEEgp9xVqR8PaYzAT4NjQo3Kg==
+X-Received: by 2002:a17:907:93a:: with SMTP id
+ au26mr14718110ejc.47.1617949480146; 
+ Thu, 08 Apr 2021 23:24:40 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id ay3sm845372edb.2.2021.04.08.23.24.33
+ by smtp.gmail.com with ESMTPSA id g26sm705658ejz.70.2021.04.08.23.24.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 23:24:34 -0700 (PDT)
+ Thu, 08 Apr 2021 23:24:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-6.1 6/9] hw/misc/bcm2835_cprman: Use
- qdev_ground_clock() helper
-Date: Fri,  9 Apr 2021 08:23:58 +0200
-Message-Id: <20210409062401.2350436-7-f4bug@amsat.org>
+Subject: [RFC PATCH-for-6.1 7/9] hw/misc/bcm2835_cprman: Feed 'xosc' from the
+ board
+Date: Fri,  9 Apr 2021 08:23:59 +0200
+Message-Id: <20210409062401.2350436-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210409062401.2350436-1-f4bug@amsat.org>
 References: <20210409062401.2350436-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,60 +94,115 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ground clock isn't really an internal component of the CPRMAN
-peripheral. Use the qdev_ground_clock() helper to access the board
-ground plane.
+The XOsc signal isn't a part of the CPRMAN, but comes from a
+crystal oscillator external to the SoC.
+
+Create the oscillator on the board, and propagate it to the
+CPRMAN.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  include/hw/misc/bcm2835_cprman.h | 1 -
- hw/misc/bcm2835_cprman.c         | 7 ++-----
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/arm/bcm2835_peripherals.c     | 1 +
+ hw/arm/bcm2836.c                 | 1 +
+ hw/arm/raspi.c                   | 4 ++++
+ hw/misc/bcm2835_cprman.c         | 5 +----
+ 5 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/include/hw/misc/bcm2835_cprman.h b/include/hw/misc/bcm2835_cprman.h
-index 3df4ceedd2e..2996ccb4632 100644
+index 2996ccb4632..52f76489f36 100644
 --- a/include/hw/misc/bcm2835_cprman.h
 +++ b/include/hw/misc/bcm2835_cprman.h
-@@ -204,7 +204,6 @@ struct BCM2835CprmanState {
-     uint32_t xosc_freq;
+@@ -201,7 +201,6 @@ struct BCM2835CprmanState {
+     CprmanDsi0HsckMuxState dsi0hsck_mux;
+ 
+     uint32_t regs[CPRMAN_NUM_REGS];
+-    uint32_t xosc_freq;
  
      Clock *xosc;
--    Clock *gnd;
  };
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index dcff13433e5..a82f2b42f5a 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -123,6 +123,7 @@ static void bcm2835_peripherals_init(Object *obj)
  
- #endif
+     /* CPRMAN clock manager */
+     object_initialize_child(obj, "cprman", &s->cprman, TYPE_BCM2835_CPRMAN);
++    qdev_alias_clock(DEVICE(&s->cprman), "xosc-in", DEVICE(s), "xosc-in");
+ 
+     object_property_add_const_link(OBJECT(&s->dwc2), "dma-mr",
+                                    OBJECT(&s->gpu_bus_mr));
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index de7ade2878e..6c238ecb949 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -63,6 +63,7 @@ static void bcm2836_init(Object *obj)
+                               "board-rev");
+     object_property_add_alias(obj, "vcram-size", OBJECT(&s->peripherals),
+                               "vcram-size");
++    qdev_alias_clock(DEVICE(&s->peripherals), "xosc-in", DEVICE(s), "xosc-in");
+ }
+ 
+ static bool bcm283x_common_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 990509d3852..a89f7e17c3a 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -40,6 +40,7 @@ struct RaspiMachineState {
+     /*< private >*/
+     MachineState parent_obj;
+     /*< public >*/
++    Clock *xosc;
+     BCM283XState soc;
+     struct arm_boot_info binfo;
+ };
+@@ -277,12 +278,15 @@ static void raspi_machine_init(MachineState *machine)
+     memory_region_add_subregion_overlap(get_system_memory(), 0,
+                                         machine->ram, 0);
+ 
++    s->xosc = machine_create_constant_clock(machine, "xosc", 19200000);
++
+     /* Setup the SOC */
+     object_initialize_child(OBJECT(machine), "soc", &s->soc,
+                             board_soc_type(board_rev));
+     object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(machine->ram));
+     object_property_set_int(OBJECT(&s->soc), "board-rev", board_rev,
+                             &error_abort);
++    qdev_connect_clock_in(DEVICE(&s->soc), "xosc-in", s->xosc);
+     qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+ 
+     /* Create and plug in the SD cards */
 diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-index 75e6c574d46..5039b7632b4 100644
+index 5039b7632b4..33f15d99f63 100644
 --- a/hw/misc/bcm2835_cprman.c
 +++ b/hw/misc/bcm2835_cprman.c
-@@ -678,9 +678,6 @@ static void cprman_init(Object *obj)
+@@ -637,8 +637,6 @@ static void cprman_reset(DeviceState *dev)
+     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
+         device_cold_reset(DEVICE(&s->clock_muxes[i]));
+     }
+-
+-    clock_update_hz(s->xosc, s->xosc_freq);
+ }
+ 
+ static void cprman_init(Object *obj)
+@@ -677,7 +675,7 @@ static void cprman_init(Object *obj)
+         g_free(alias);
      }
  
-     s->xosc = clock_new(obj, "xosc");
--    s->gnd = clock_new(obj, "gnd");
--
--    clock_set(s->gnd, 0);
+-    s->xosc = clock_new(obj, "xosc");
++    s->xosc = qdev_init_clock_in(DEVICE(obj), "xosc-in", NULL, s, ClockUpdate);
  
      memory_region_init_io(&s->iomem, obj, &cprman_ops,
                            s, "bcm2835-cprman", 0x2000);
-@@ -697,7 +694,7 @@ static void connect_mux_sources(BCM2835CprmanState *s,
+@@ -776,7 +774,6 @@ static const VMStateDescription cprman_vmstate = {
+ };
  
-     /* For sources from 0 to 3. Source 4 to 9 are mux specific */
-     Clock * const CLK_SRC_MAPPING[] = {
--        [CPRMAN_CLOCK_SRC_GND] = s->gnd,
-+        [CPRMAN_CLOCK_SRC_GND] = qdev_ground_clock(),
-         [CPRMAN_CLOCK_SRC_XOSC] = s->xosc,
-         [CPRMAN_CLOCK_SRC_TD0] = td0,
-         [CPRMAN_CLOCK_SRC_TD1] = td1,
-@@ -708,7 +705,7 @@ static void connect_mux_sources(BCM2835CprmanState *s,
-         Clock *src;
+ static Property cprman_properties[] = {
+-    DEFINE_PROP_UINT32("xosc-freq-hz", BCM2835CprmanState, xosc_freq, 19200000),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
-         if (mapping == CPRMAN_CLOCK_SRC_FORCE_GROUND) {
--            src = s->gnd;
-+            src = qdev_ground_clock();
-         } else if (mapping == CPRMAN_CLOCK_SRC_DSI0HSCK) {
-             src = s->dsi0hsck_mux.out;
-         } else if (i < CPRMAN_CLOCK_SRC_PLLA) {
 -- 
 2.26.3
 
