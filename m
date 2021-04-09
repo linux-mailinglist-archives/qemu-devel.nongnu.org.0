@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583A73596BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 09:51:36 +0200 (CEST)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45753596C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 09:51:42 +0200 (CEST)
+Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUlvT-000482-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 03:51:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37558)
+	id 1lUlvU-00047C-2O
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 03:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lUlte-0002H7-QM; Fri, 09 Apr 2021 03:49:42 -0400
-Received: from mail142-34.mail.alibaba.com ([198.11.142.34]:65454)
+ id 1lUltg-0002I8-1l; Fri, 09 Apr 2021 03:49:44 -0400
+Received: from mail142-33.mail.alibaba.com ([198.11.142.33]:4122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lUlta-0003hh-UU; Fri, 09 Apr 2021 03:49:42 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08305461|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.082169-0.00153044-0.916301;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.JxL3BOG_1617954563; 
+ id 1lUlta-0003iE-Uq; Fri, 09 Apr 2021 03:49:43 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1349344|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_alarm|0.0245098-0.000202005-0.975288; FP=0|0|0|0|0|-1|-1|-1;
+ HT=ay29a033018047192; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
+ TI=SMTPD_---.JxL3BOG_1617954563; 
 Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.JxL3BOG_1617954563) by smtp.aliyun-inc.com(10.147.40.7);
  Fri, 09 Apr 2021 15:49:25 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC PATCH 05/11] target/riscv: Update CSR xip in CLIC mode
-Date: Fri,  9 Apr 2021 15:48:51 +0800
-Message-Id: <20210409074857.166082-6-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 06/11] target/riscv: Update CSR xtvec in CLIC mode
+Date: Fri,  9 Apr 2021 15:48:52 +0800
+Message-Id: <20210409074857.166082-7-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
 References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=198.11.142.34; envelope-from=zhiwei_liu@c-sky.com;
- helo=mail142-34.mail.alibaba.com
+Received-SPF: none client-ip=198.11.142.33; envelope-from=zhiwei_liu@c-sky.com;
+ helo=mail142-33.mail.alibaba.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -60,42 +60,57 @@ Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The xip CSR appears hardwired to zero in CLIC mode, replaced by separate
-memory-mapped interrupt pendings (clicintip[i]). Writes to xip will be
-ignored and will not trap (i.e., no access faults).
+The new CLIC interrupt-handling mode is encoded as a new state in the
+existing WARL xtvec register, where the low two bits of are 11.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- target/riscv/csr.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/riscv/csr.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 74bc7a08aa..f6c84b9fe4 100644
+index f6c84b9fe4..39ff72041a 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -735,6 +735,11 @@ static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-     target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
-     uint32_t old_mip;
+@@ -637,9 +637,18 @@ static int read_mtvec(CPURISCVState *env, int csrno, target_ulong *val)
  
-+     /* The xip CSR appears hardwired to zero in CLIC mode. (Section 4.3) */
-+    if (riscv_clic_is_clic_mode(env)) {
-+        *ret_value = 0;
-+        return 0;
-+    }
-     if (mask) {
-         old_mip = riscv_cpu_update_mip(cpu, mask, (new_value & mask));
+ static int write_mtvec(CPURISCVState *env, int csrno, target_ulong val)
+ {
+-    /* bits [1:0] encode mode; 0 = direct, 1 = vectored, 2 >= reserved */
++    /*
++     * bits [1:0] encode mode; 0 = direct, 1 = vectored, 3 = CLIC,
++     * others reserved
++     */
+     if ((val & 3) < 2) {
+         env->mtvec = val;
++    } else if ((val & 1) && env->clic) {
++        /*
++         * If only CLIC mode is supported, writes to bit 1 are also ignored and
++         * it is always set to one. CLIC mode hardwires xtvec bits 2-5 to zero.
++         */
++        env->mtvec = ((val & ~0x3f) << 6) | (0b000011);
      } else {
-@@ -922,6 +927,11 @@ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-     if (riscv_cpu_virt_enabled(env)) {
-         ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
+         qemu_log_mask(LOG_UNIMP, "CSR_MTVEC: reserved mode not supported\n");
+     }
+@@ -837,9 +846,18 @@ static int read_stvec(CPURISCVState *env, int csrno, target_ulong *val)
+ 
+ static int write_stvec(CPURISCVState *env, int csrno, target_ulong val)
+ {
+-    /* bits [1:0] encode mode; 0 = direct, 1 = vectored, 2 >= reserved */
++    /*
++     * bits [1:0] encode mode; 0 = direct, 1 = vectored, 3 = CLIC,
++     * others reserved
++     */
+     if ((val & 3) < 2) {
+         env->stvec = val;
++    } else if ((val & 1) && env->clic) {
++        /*
++         * If only CLIC mode is supported, writes to bit 1 are also ignored and
++         * it is always set to one. CLIC mode hardwires xtvec bits 2-5 to zero.
++         */
++        env->stvec = ((val & ~0x3f) << 6) | (0b000011);
      } else {
-+        /* The xip CSR appears hardwired to zero in CLIC mode. (Section 4.3) */
-+        if (riscv_clic_is_clic_mode(env)) {
-+            *ret_value = 0;
-+            return 0;
-+        }
-         ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
-                       write_mask & env->mideleg & sip_writable_mask);
+         qemu_log_mask(LOG_UNIMP, "CSR_STVEC: reserved mode not supported\n");
      }
 -- 
 2.25.1
