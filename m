@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984A1359FE2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:35:02 +0200 (CEST)
-Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E775B359FDE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:33:32 +0200 (CEST)
+Received: from localhost ([::1]:53650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUrHp-00081Y-Jo
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
+	id 1lUrGN-0005mW-UX
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUrDM-00035D-Ng
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52290)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lUrDX-00037a-Dx
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUrD9-0006Rm-5e
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:21 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lUrDF-0006SB-VJ
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617975010;
+ s=mimecast20190719; t=1617975011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1srMCU2bYhO+BsWlK/xCgdMlVZmHB88CcU9bByF1iPo=;
- b=I5Cxoh9MC5w4MDwxbRWMteSN9Ev+eBmBT8So9tReOSmHK/AHuM0r2gXy+1MtqJA8q4I0gY
- rXwHjgrsK1c5edMSpOG6W1i1vpwc9sHaHAfVYw6g/8wjWEHP0YiDmczBimrxmMGRjveEIG
- exi6iyUBJq77+JRk3kT1omKr1LxAyms=
+ bh=FLwwh2iBnnSqAkADEoECbYwn1f8BinBaw0zvDIBN2ug=;
+ b=E5noi6o3M4D+K/aCrpFvrm3QqLzJgEMZxZLP4mKYcva50X4wRMca//rbqVhTxmcXXXNuSQ
+ NgozxS1wsZhvYRuDqNXhBwJObWmoXc21Ltt0mvvxNz3/8ViHu2LnsxRCGCup5uzi6dNX7g
+ 43Hv81KFdzVanNC17NvHXcUuDm7HT4k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-TA8hswJ2NDmeRi8kRyi5HA-1; Fri, 09 Apr 2021 09:30:01 -0400
-X-MC-Unique: TA8hswJ2NDmeRi8kRyi5HA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-364-Q3uRp-PjPwuzNbztJb6ZmA-1; Fri, 09 Apr 2021 09:30:09 -0400
+X-MC-Unique: Q3uRp-PjPwuzNbztJb6ZmA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC0F2100A8FD;
- Fri,  9 Apr 2021 13:30:00 +0000 (UTC)
-Received: from localhost (ovpn-114-67.ams2.redhat.com [10.36.114.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FC8010016FE;
- Fri,  9 Apr 2021 13:30:00 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 4/3] iotests: Test completion immediately after drain
-Date: Fri,  9 Apr 2021 15:29:48 +0200
-Message-Id: <20210409132948.195511-5-mreitz@redhat.com>
-In-Reply-To: <20210409132948.195511-1-mreitz@redhat.com>
-References: <20210409132948.195511-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D54984B9A1;
+ Fri,  9 Apr 2021 13:30:07 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-67.rdu2.redhat.com [10.10.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66C765C1A1;
+ Fri,  9 Apr 2021 13:30:07 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id EEDB822054F; Fri,  9 Apr 2021 09:30:06 -0400 (EDT)
+Date: Fri, 9 Apr 2021 09:30:06 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Fix side-effect in assert()
+Message-ID: <20210409133006.GC1111800@redhat.com>
+References: <20210409100627.451573-1-groug@kaod.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210409100627.451573-1-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -63,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,144 +77,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test what happens when you have multiple busy block jobs, drain all (via
-an empty transaction), and immediately issue a block-job-complete on one
-of the jobs.
+On Fri, Apr 09, 2021 at 12:06:27PM +0200, Greg Kurz wrote:
+> It is bad practice to put an expression with a side-effect in
+> assert() because the side-effect won't happen if the code is
+> compiled with -DNDEBUG.
+> 
+> Use an intermediate variable. Consolidate this in an macro to
+> have proper line numbers when the assertion is hit.
+> 
+> virtiofsd: ../../tools/virtiofsd/passthrough_ll.c:2797: lo_getxattr:
+>  Assertion `fchdir_res == 0' failed.
+> Aborted
+> 
+>   2796          /* fchdir should not fail here */
+> =>2797          FCHDIR_NOFAIL(lo->proc_self_fd);
+>   2798          ret = getxattr(procname, name, value, size);
+>   2799          FCHDIR_NOFAIL(lo->root.fd);
+> 
+> Fixes: bdfd66788349 ("virtiofsd: Fix xattr operations")
+> Cc: misono.tomohiro@jp.fujitsu.com
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Sometimes it will still be in STANDBY, in which case block-job-complete
-used to fail.  It should not.
+Looks good to me.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- .../tests/mirror-complete-after-drain         | 89 +++++++++++++++++++
- .../tests/mirror-complete-after-drain.out     | 14 +++
- 2 files changed, 103 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/mirror-complete-after-drain
- create mode 100644 tests/qemu-iotests/tests/mirror-complete-after-drain.out
+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
 
-diff --git a/tests/qemu-iotests/tests/mirror-complete-after-drain b/tests/qemu-iotests/tests/mirror-complete-after-drain
-new file mode 100755
-index 0000000000..b096ffbcb4
---- /dev/null
-+++ b/tests/qemu-iotests/tests/mirror-complete-after-drain
-@@ -0,0 +1,89 @@
-+#!/usr/bin/env python3
-+# group: rw
-+#
-+# Tests for block-job-complete immediately after a drain
-+#
-+# Copyright (c) 2021 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+
-+iotests.script_initialize(supported_fmts=['raw'])
-+
-+DISK_JOBS = 4
-+NULL_JOBS = 1
-+
-+
-+# We cannot auto-generate these in a loop because the files are
-+# deleted when their scope ends
-+src_imgs = iotests.file_path('src0', 'src1', 'src2', 'src3')
-+dst_imgs = iotests.file_path('dst0', 'dst1', 'dst2', 'dst3')
-+
-+assert len(src_imgs) == DISK_JOBS
-+assert len(dst_imgs) == DISK_JOBS
-+
-+
-+for i in range(DISK_JOBS):
-+    ret = iotests.qemu_img('create', '-f', iotests.imgfmt, src_imgs[i], '128M')
-+    assert ret == 0
-+
-+    ret = iotests.qemu_img('create', '-f', iotests.imgfmt, dst_imgs[i], '128M')
-+    assert ret == 0
-+
-+with iotests.VM() as vm:
-+    vm.add_object('iothread,id=iothr0')
-+    vm.add_device('virtio-scsi,iothread=iothr0')
-+
-+    for i in range(DISK_JOBS):
-+        vm.add_blockdev(f'file,node-name=source-disk-{i},'
-+                        f'filename={src_imgs[i]}')
-+
-+        vm.add_blockdev(f'file,node-name=target-disk-{i},'
-+                        f'filename={dst_imgs[i]}')
-+
-+        vm.add_device(f'scsi-hd,id=device-disk-{i},drive=source-disk-{i}')
-+
-+    for i in range(NULL_JOBS):
-+        vm.add_blockdev(f'null-co,node-name=source-null-{i},read-zeroes=on')
-+        vm.add_blockdev(f'null-co,node-name=target-null-{i},read-zeroes=on')
-+        vm.add_device(f'scsi-hd,id=device-null-{i},drive=source-null-{i}')
-+
-+    vm.launch()
-+
-+    for i in range(DISK_JOBS):
-+        vm.qmp_log('blockdev-mirror',
-+                   job_id=f'mirror-disk-{i}',
-+                   device=f'source-disk-{i}',
-+                   target=f'target-disk-{i}',
-+                   sync='full',
-+                   granularity=1048576,
-+                   buf_size=(16 * 1048576))
-+
-+    for i in range(NULL_JOBS):
-+        vm.qmp_log('blockdev-mirror',
-+                   job_id=f'mirror-null-{i}',
-+                   device=f'source-null-{i}',
-+                   target=f'target-null-{i}',
-+                   sync='full')
-+
-+    for i in range(DISK_JOBS + NULL_JOBS):
-+        vm.event_wait('BLOCK_JOB_READY')
-+
-+    for i in range(DISK_JOBS):
-+        vm.hmp(f'qemu-io -d device-disk-{i} "write 0 128M"')
-+
-+    vm.qmp_log('transaction', actions=[])
-+    vm.qmp_log('block-job-complete', device='mirror-null-0')
-diff --git a/tests/qemu-iotests/tests/mirror-complete-after-drain.out b/tests/qemu-iotests/tests/mirror-complete-after-drain.out
-new file mode 100644
-index 0000000000..4d9d0529fe
---- /dev/null
-+++ b/tests/qemu-iotests/tests/mirror-complete-after-drain.out
-@@ -0,0 +1,14 @@
-+{"execute": "blockdev-mirror", "arguments": {"buf-size": 16777216, "device": "source-disk-0", "granularity": 1048576, "job-id": "mirror-disk-0", "sync": "full", "target": "target-disk-0"}}
-+{"return": {}}
-+{"execute": "blockdev-mirror", "arguments": {"buf-size": 16777216, "device": "source-disk-1", "granularity": 1048576, "job-id": "mirror-disk-1", "sync": "full", "target": "target-disk-1"}}
-+{"return": {}}
-+{"execute": "blockdev-mirror", "arguments": {"buf-size": 16777216, "device": "source-disk-2", "granularity": 1048576, "job-id": "mirror-disk-2", "sync": "full", "target": "target-disk-2"}}
-+{"return": {}}
-+{"execute": "blockdev-mirror", "arguments": {"buf-size": 16777216, "device": "source-disk-3", "granularity": 1048576, "job-id": "mirror-disk-3", "sync": "full", "target": "target-disk-3"}}
-+{"return": {}}
-+{"execute": "blockdev-mirror", "arguments": {"device": "source-null-0", "job-id": "mirror-null-0", "sync": "full", "target": "target-null-0"}}
-+{"return": {}}
-+{"execute": "transaction", "arguments": {"actions": []}}
-+{"return": {}}
-+{"execute": "block-job-complete", "arguments": {"device": "mirror-null-0"}}
-+{"return": {}}
--- 
-2.29.2
+Vivek
+
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 1553d2ef454f..6592f96f685e 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -2723,6 +2723,11 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
+>      return -ENODATA;
+>  }
+>  
+> +#define FCHDIR_NOFAIL(fd) do {                         \
+> +        int fchdir_res = fchdir(fd);                   \
+> +        assert(fchdir_res == 0);                       \
+> +    } while (0)
+> +
+>  static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+>                          size_t size)
+>  {
+> @@ -2789,9 +2794,9 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+>          ret = fgetxattr(fd, name, value, size);
+>      } else {
+>          /* fchdir should not fail here */
+> -        assert(fchdir(lo->proc_self_fd) == 0);
+> +        FCHDIR_NOFAIL(lo->proc_self_fd);
+>          ret = getxattr(procname, name, value, size);
+> -        assert(fchdir(lo->root.fd) == 0);
+> +        FCHDIR_NOFAIL(lo->root.fd);
+>      }
+>  
+>      if (ret == -1) {
+> @@ -2864,9 +2869,9 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+>          ret = flistxattr(fd, value, size);
+>      } else {
+>          /* fchdir should not fail here */
+> -        assert(fchdir(lo->proc_self_fd) == 0);
+> +        FCHDIR_NOFAIL(lo->proc_self_fd);
+>          ret = listxattr(procname, value, size);
+> -        assert(fchdir(lo->root.fd) == 0);
+> +        FCHDIR_NOFAIL(lo->root.fd);
+>      }
+>  
+>      if (ret == -1) {
+> @@ -3000,9 +3005,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+>          ret = fsetxattr(fd, name, value, size, flags);
+>      } else {
+>          /* fchdir should not fail here */
+> -        assert(fchdir(lo->proc_self_fd) == 0);
+> +        FCHDIR_NOFAIL(lo->proc_self_fd);
+>          ret = setxattr(procname, name, value, size, flags);
+> -        assert(fchdir(lo->root.fd) == 0);
+> +        FCHDIR_NOFAIL(lo->root.fd);
+>      }
+>  
+>      saverr = ret == -1 ? errno : 0;
+> @@ -3066,9 +3071,9 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
+>          ret = fremovexattr(fd, name);
+>      } else {
+>          /* fchdir should not fail here */
+> -        assert(fchdir(lo->proc_self_fd) == 0);
+> +        FCHDIR_NOFAIL(lo->proc_self_fd);
+>          ret = removexattr(procname, name);
+> -        assert(fchdir(lo->root.fd) == 0);
+> +        FCHDIR_NOFAIL(lo->root.fd);
+>      }
+>  
+>      saverr = ret == -1 ? errno : 0;
+> -- 
+> 2.26.3
+> 
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://listman.redhat.com/mailman/listinfo/virtio-fs
 
 
