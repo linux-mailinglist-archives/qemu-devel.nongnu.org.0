@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3546635A155
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:42:07 +0200 (CEST)
-Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E687635A153
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:41:30 +0200 (CEST)
+Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUsKk-0006rI-9P
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1lUsK9-0005TX-UR
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUsHp-00044I-HO
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:39:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30018)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUsHn-00040T-7E
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:39:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUsHk-0005sP-6V
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:39:05 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUsHk-0005sM-5r
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:39:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1617979138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=e860xFWVNMiE4rKQEIlyWbc++w/9s6DvQOl8eIkXLK0=;
- b=TN7MfHzjxXZItovfVi7V7xaN1ChUbe6A2jbynsLtL7NYC9gKIpyMmoK5SwlAw1RkSBc1Rs
- ovnNXQRwp1tlP/UJqYT8FBG+5bf1WQGjO9CpJlhVNxQKTkHTyiGXLLiL0IicDz0Nq54Ggf
- agRWBngB+h9JqTlHYEUevqBWbFxoFB0=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-eIiYM0HIPmu5LUgAyKQrAw-1; Fri, 09 Apr 2021 10:38:56 -0400
-X-MC-Unique: eIiYM0HIPmu5LUgAyKQrAw-1
-Received: by mail-oi1-f199.google.com with SMTP id t186so1397908oih.1
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 07:38:56 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8/1Z1a79pHxMi8z+7raQlUIxCpa+oJP3YPAHEpVIdDI=;
+ b=BfzCF+AWSgcEwtyP2ACBaXKA7fmr78qKgaZW/8yjts9agj9+A9Se1rbYiPScU7JRuaMCNd
+ uuu7CX9Y/CmiGeGQ/SveOtiTF1DjmFWKTIFL7rpu9fYF7387toOb5A+5sZPCkyy51fISjX
+ FgcJeZQfHCWzTb7sa4DzgglefTtllg0=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-YFoKeeNYNJiJmrZRljglEA-1; Fri, 09 Apr 2021 10:38:57 -0400
+X-MC-Unique: YFoKeeNYNJiJmrZRljglEA-1
+Received: by mail-ot1-f70.google.com with SMTP id a20so2726499otd.21
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 07:38:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e860xFWVNMiE4rKQEIlyWbc++w/9s6DvQOl8eIkXLK0=;
- b=Yh3SNEhHI6NMnI1Id3tDDbGoaINpElQz/BfUU/GE6xF5L2fIYb603oggExtZp0Vz77
- XMb8CCSaVni4aWMH596noefOmcdVdAmDvNTGTXumtRNNKYu4ukH616oQqbu9P/ka7Caa
- gPrySe9SBv5YjUDZsSNq1aOzgJnlzk5wf+vgzkJ3b0EkmFNrwWUYrmM7QrzaDDzsRBPB
- 4MM/TAYFuFu8IqzNG5O61MCQS0Cf0rgJeU1sTqQeC4l/rUdpFkXMH9n0M9lxvYmgv3Db
- SyrIWvGJsyrIQ/PpPsdlefLag88d8vkc7Ki6GKm0fL68dTDEFklp2qroJ+VGBRnfuxk7
- 9TUg==
-X-Gm-Message-State: AOAM533nbkLLNiH2Xp+Zc6/J6LVwKz+U5zXdo3Hm7PfhSVJGo0Co+2bX
- csBiWH5OBOczJeuhuAMJQRMppaMNdBzgS+yN6RNTMOO8aPxPuu3D/tcJFp1KM5TcG48PdC68p7i
- TmvJ6wte2BatdiOA=
-X-Received: by 2002:aca:37c1:: with SMTP id e184mr4755992oia.136.1617979135950; 
- Fri, 09 Apr 2021 07:38:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+5yvVLvI7UesXFqPUdyvFTR22lZUM5bUeXQxNgFKsZX4y7edLZ9y8z7H4OIZ55A17DlQejg==
-X-Received: by 2002:aca:37c1:: with SMTP id e184mr4755983oia.136.1617979135824; 
- Fri, 09 Apr 2021 07:38:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8/1Z1a79pHxMi8z+7raQlUIxCpa+oJP3YPAHEpVIdDI=;
+ b=fM5dmVqluzjWB91wAS6NZ4AW9z97ObsMGGJTQ67a4dk9gPwJ9bTkJR9t6tYfALn+4L
+ itB5UI+woXFw+yx5G4vnXPXwHAjTgZoClgD3KRyiqoYWJNSI3Z3FaPvfdrSkCRGmYGMm
+ awidxSQ4IW4UFlh1xEjcBpaz4NaL9DM/fvotA1+gFlKNk4KZhBTOpUZuVt/QMgsMMF26
+ SKWjSuHWZeg5ZUmzzpm86tIHZSv0AUXN3tFqwk0EMbczIuJMV+dOI/sgVhYDVipVfI+n
+ ha8IHteT6zMzMoY58x8FbtqtB8s/MYfNMEJYvDDurFYazsIggsLvs8IsjpFcOppSRyHr
+ koIg==
+X-Gm-Message-State: AOAM5327XMQam44yiUeEsvqZjwr6Zj++dZ0YWS7tXZg7J/LPY3xsFb8G
+ 2H0kvidluzxilbH28RDcT+j4gHlGl9E8xCYi5txw317+6hUTohlrWMzdR8iVk9TT8PNTMrwKzS1
+ JNZcKZleTdsPU2lM=
+X-Received: by 2002:a9d:66c8:: with SMTP id t8mr12138553otm.173.1617979136819; 
+ Fri, 09 Apr 2021 07:38:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTYKauvZXRpQEvHgcwpMLOue6K/Yhr80n14S1k1o8Aq7e7kkxW4PgcKA9GFFlfcI0nnDThgw==
+X-Received: by 2002:a9d:66c8:: with SMTP id t8mr12138540otm.173.1617979136635; 
+ Fri, 09 Apr 2021 07:38:56 -0700 (PDT)
 Received: from redhat.redhat.com (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
  by smtp.gmail.com with ESMTPSA id e18sm647053otf.2.2021.04.09.07.38.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 07:38:55 -0700 (PDT)
+ Fri, 09 Apr 2021 07:38:56 -0700 (PDT)
 From: Connor Kuehl <ckuehl@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 0/2] Fix segfault in qemu_rbd_parse_filename
-Date: Fri,  9 Apr 2021 09:38:52 -0500
-Message-Id: <20210409143854.138177-1-ckuehl@redhat.com>
+Subject: [PATCH v3 1/2] iotests/231: Update expected deprecation message
+Date: Fri,  9 Apr 2021 09:38:53 -0500
+Message-Id: <20210409143854.138177-2-ckuehl@redhat.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210409143854.138177-1-ckuehl@redhat.com>
+References: <20210409143854.138177-1-ckuehl@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
@@ -68,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ckuehl@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,15 +97,31 @@ Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connor Kuehl (2):
-  iotests/231: Update expected deprecation message
-  block/rbd: Add an escape-aware strchr helper
+The deprecation message in the expected output has technically been
+wrong since the wrong version of a patch was applied to it. Because of
+this, the test fails. Correct the expected output so that it passes.
 
- block/rbd.c                | 20 ++++++++++++++++++--
- tests/qemu-iotests/231     |  4 ++++
- tests/qemu-iotests/231.out |  7 ++++---
- 3 files changed, 26 insertions(+), 5 deletions(-)
+Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/231.out | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/tests/qemu-iotests/231.out b/tests/qemu-iotests/231.out
+index 579ba11c16..747dd221bb 100644
+--- a/tests/qemu-iotests/231.out
++++ b/tests/qemu-iotests/231.out
+@@ -1,9 +1,7 @@
+ QA output created by 231
+-qemu-img: RBD options encoded in the filename as keyvalue pairs is deprecated.  Future versions may cease to parse these options in the future.
++qemu-img: warning: RBD options encoded in the filename as keyvalue pairs is deprecated
+ unable to get monitor info from DNS SRV with service name: ceph-mon
+-no monitors specified to connect to.
+ qemu-img: Could not open 'json:{'file.driver':'rbd','file.filename':'rbd:rbd/bogus:conf=BOGUS_CONF'}': error connecting: No such file or directory
+ unable to get monitor info from DNS SRV with service name: ceph-mon
+-no monitors specified to connect to.
+ qemu-img: Could not open 'json:{'file.driver':'rbd','file.pool':'rbd','file.image':'bogus','file.conf':'BOGUS_CONF'}': error connecting: No such file or directory
+ *** done
 -- 
 2.30.2
 
