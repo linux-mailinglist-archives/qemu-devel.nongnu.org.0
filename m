@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC16359C4B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:41:02 +0200 (CEST)
-Received: from localhost ([::1]:40296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81777359C85
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 13:00:24 +0200 (CEST)
+Received: from localhost ([::1]:55824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUoZQ-0003YL-TY
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:41:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51360)
+	id 1lUosB-0003MB-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 07:00:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUoYL-00036i-DQ
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:39:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25540)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUoqM-0002nv-E2
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:58:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUoYI-0007sN-IT
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:39:51 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUoqG-0002B2-3E
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:58:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617964788;
+ s=mimecast20190719; t=1617965901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=3pMJ7hmjlE/xlyhraOCf3BJtgxCanyotf9XTSzKhnA0=;
- b=UB2FfvVOEsvra02qhCb+Ev1DUYJEyZaikC4fsQ0QqxhsxU5vW7yq3cB1+FtVFgESzlBeSN
- vqxesWUIysV9juu9zyC/oIOQL4BFXLQ5e0Ahf9oapkFHpgGPijyFiQcFtExbWJPRdVAV/c
- Nse4R4UXOOWupipbd0dVvk7M+h9Q500=
+ bh=rslm5yc8I1k4SNmho/Dv/Y0uCjwL7HICN2RClJ7Sjbc=;
+ b=eXRarbT8cvJIAFChOllpzZVf3v0xCUBrIEd6E9hMtQTYUp+axTSVtNVqnh8wP9dVrWvC4a
+ xIG11nBG0eOvvSxMuUaAS4X7AMzbOj8JOEwA87nSg/VzzBEpvH2boqBKxm/Xsde3gBtwFV
+ FWC0JqEXfheOUuu16LbbLMPALppkwzU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-i8uKhoKhNziiYVXbaZhYjw-1; Fri, 09 Apr 2021 06:39:46 -0400
-X-MC-Unique: i8uKhoKhNziiYVXbaZhYjw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-552-XEQhgQAhPZaRXq9CIGzxDQ-1; Fri, 09 Apr 2021 06:58:20 -0400
+X-MC-Unique: XEQhgQAhPZaRXq9CIGzxDQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A434107ACC7
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 10:39:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FF56100A616
+ for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 10:58:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-165.ams2.redhat.com
  [10.36.114.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B3410023BE;
- Fri,  9 Apr 2021 10:39:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D85045D9E3;
+ Fri,  9 Apr 2021 10:58:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6E69018003A3; Fri,  9 Apr 2021 12:39:36 +0200 (CEST)
+ id 9574618000AB; Fri,  9 Apr 2021 12:58:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-trace-stap: changing SYSTEMTAP_TAPSET considered harmful.
-Date: Fri,  9 Apr 2021 12:39:36 +0200
-Message-Id: <20210409103936.369354-1-kraxel@redhat.com>
+Subject: [PATCH v2] qemu-trace-stap: changing SYSTEMTAP_TAPSET considered
+ harmful.
+Date: Fri,  9 Apr 2021 12:58:10 +0200
+Message-Id: <20210409105810.374976-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,11 +94,11 @@ Fix that by using the "-I $tapsetdir" command line switch instead.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- scripts/qemu-trace-stap | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ scripts/qemu-trace-stap | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/scripts/qemu-trace-stap b/scripts/qemu-trace-stap
-index 90527eb974f4..0d0011cf396e 100755
+index 90527eb974f4..eb6e951ff235 100755
 --- a/scripts/qemu-trace-stap
 +++ b/scripts/qemu-trace-stap
 @@ -55,11 +55,6 @@ def tapset_dir(binary):
@@ -126,6 +127,19 @@ index 90527eb974f4..0d0011cf396e 100755
  
  
  def cmd_list(args):
+@@ -101,10 +96,9 @@ def cmd_list(args):
+ 
+         if verbose:
+             print("Listing probes with name '%s'" % script)
+-        proc = subprocess.Popen(["stap", "-l", script],
++        proc = subprocess.Popen(["stap", "-I", tapsets, "-l", script],
+                                 stdout=subprocess.PIPE,
+-                                universal_newlines=True,
+-                                env=tapset_env(tapsets))
++                                universal_newlines=True)
+         out, err = proc.communicate()
+         if proc.returncode != 0:
+             print("No probes found, are the tapsets installed in %s" % tapset_dir(args.binary))
 -- 
 2.30.2
 
