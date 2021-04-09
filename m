@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D0535A1B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:08:07 +0200 (CEST)
-Received: from localhost ([::1]:51618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0085335A1BF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:12:12 +0200 (CEST)
+Received: from localhost ([::1]:56514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUsju-0005Bx-TM
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:08:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60224)
+	id 1lUsnr-0007td-2G
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUshT-0002b2-4n
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:35 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43837)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUsmi-0007Dg-93
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:11:00 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUshR-0004TU-Ed
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:34 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id x7so5943629wrw.10
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 08:05:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lUsmg-0007Tr-LD
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:10:59 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id 12so5986631wrz.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 08:10:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=reJEPf1Ear5sT/gFdxp/wDkAg24YTHHfbcML4QVdPq8=;
- b=yxbsFrt4Rh/ZBiGQX4zsAuiagmjzYX5B3PzpupcWwaPlG2bOkU7aFuiP4F5DqOzN7h
- 7+vih3S/9oQAyLiyZMy61SyVGaLHYfYMM4NGJHFJ/mo+xgFIr4O6v/a3f5TfJm2GdQy9
- Rcdat3JtW2lbenyVOtQbZrSFEELq51tMbOjCswh0NbtZBumgUVYP3yP1pqpKbHVOWN74
- 4SH/PjPTJEXji/PHcV06ceFWN9DdGJxIr1shMNu7Pfn8SX1/zi5uclZs/KVls9cMLN+B
- NkZK97vyVF6I5eiiQjx2scnl6cRnmcMe9wgJeYv0yRykEgCnXwz3iORYauOzxPOCC/zv
- +o7w==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KvlcLyPxllBKYpGw/pdmV71S54E9KWRF31eNolIjnrU=;
+ b=jaFScpZDc3Y872jEPRaTP7qQT94FRuvsrViunoXdeGyw9Yyp0kB0mz8dEeGFuYagnJ
+ HRXyQaDlGeUtrPGMDAUs2s/S1in8YlCgIULwikbciGqGMZP+fO4o5UV1W1ZepoC+M6nn
+ l2LK/dIMlOeGyhTMRi9IbIdWQ/LS3SALxhx7szrHMMl95cX4F5lZx8nOKTgaeNo3wsn6
+ t5kSCi9eHRbrdoTg8SlvRe7dcZZrtD51SKwoWDo1ZRWf3DbYz5CQVbjEX4Yk8hp7rmE3
+ 1GjiFuGX9et7LnsWY58Bl5y771eeZ+vpow8nUUx0BATeYG3zPKgpDFcfYj3mQTdlECyW
+ QPgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=reJEPf1Ear5sT/gFdxp/wDkAg24YTHHfbcML4QVdPq8=;
- b=JP53nOdRz8MggrWuQ7EjYcFWsWQCZwmxzURPVTOq/l/HTgnTdOcTfq/4j05J5/i1b4
- 5+Ynsjirh7o/XakJ0Fk4N/E9M1pqmI0yhoDoXRIsHcd6F4we9dzJPgASYM0stTViHLCT
- ccDylK65YVljk5iKi5ZPeLmWSeMM/Rx81L5CyKvutGq/+T/Rn2b+qBAMmLEvjUjnkiRf
- Kfp4FiZuC7W77a9HRt5Fg1n+hEDXz6OjgX3nbv6bF7NOvhRBQ03jnqlKQsn1AvIQrlgM
- PXcFfB/6hGLvpHhElC058sDWXWcMR1rwXpFRKowNCyDLgJWUf2+CFa46v0SM+aLTrwRg
- /CXg==
-X-Gm-Message-State: AOAM530Qk3HVwK/nf4f8ZyOdqte0qSUP2YmJa78xmTWLXAjih7JgVvCV
- ERT4AS35jfmvx3+t/QiK0KZsxj5lmLSIn9KY
-X-Google-Smtp-Source: ABdhPJzrnDg7CKpf6ovTGvGILLA+zPR2yCueeO8Ao9cKBPwQfbuyIIY6hlDR9/T01m8Mmcx8aHTQ6w==
-X-Received: by 2002:a5d:4579:: with SMTP id a25mr9947609wrc.160.1617980732166; 
- Fri, 09 Apr 2021 08:05:32 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm5048094wrp.33.2021.04.09.08.05.30
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=KvlcLyPxllBKYpGw/pdmV71S54E9KWRF31eNolIjnrU=;
+ b=G7cPsYEfV6T2yeoox34Wc2vsQo0W8dfHnBkKYoWKpYBhI4agluAwad7O4HZDm3z2V3
+ OVXqpxErjTazQec3DGXBXpZWrE7B5X0aDwZd5nxZcx4R36NL/RaS4/fcAQIIOlDa5sKq
+ StEyUw0CDyR1L47oQHre1ebvpIQaOikDc5TDFkDM/K84TjTybvUj+tv1Hu7lUkTw8JzW
+ dIeDhM+6MgnXycgxZHJnLiDrjD5S79EctmwL3YegWNbIstT+pDTNLfrrAtZkOPNU/kS9
+ nKC8WUygi8XJpCAE5dm3KLxncQT+r9PLzuqUAr5Xcq0ZpA+mWlPIrEHLpwyu41wmZefK
+ VJXQ==
+X-Gm-Message-State: AOAM531BmNtKVS604P/9dTjWJwRpasvCoSopey0Z3Kt+5Ts/rKEqw4F0
+ mIsf9sV3W/nkiE6qsHvw32rcsQ==
+X-Google-Smtp-Source: ABdhPJwv4PRghhhL8qsIFKgHUzaFMw8ZH85hRV6HTLWIzCxFUlt3nQlhAWqgQkPzHN2D0LnLD4abhw==
+X-Received: by 2002:adf:e0c8:: with SMTP id m8mr18473196wri.349.1617981057119; 
+ Fri, 09 Apr 2021 08:10:57 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v185sm4247257wmb.25.2021.04.09.08.10.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 08:05:30 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 2/2] hw/arm/mps2-tz: Assert if more than one RAM is
- attached to an MPC
-Date: Fri,  9 Apr 2021 16:05:27 +0100
-Message-Id: <20210409150527.15053-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210409150527.15053-1-peter.maydell@linaro.org>
-References: <20210409150527.15053-1-peter.maydell@linaro.org>
+ Fri, 09 Apr 2021 08:10:55 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E65231FF7E;
+ Fri,  9 Apr 2021 16:10:54 +0100 (BST)
+References: <161786467973.295167.5612704777283969903.stgit@bahia.lan>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] checkpatch: Fix use of uninitialized value
+Date: Fri, 09 Apr 2021 16:08:51 +0100
+In-reply-to: <161786467973.295167.5612704777283969903.stgit@bahia.lan>
+Message-ID: <87fszzsdc1.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,51 +86,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: isaku.yamahata@intel.com, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each board in mps2-tz.c specifies a RAMInfo[] array providing
-information about each RAM in the board.  The .mpc field of the
-RAMInfo struct specifies which MPC, if any, the RAM is attached to.
-We already assert if the array doesn't have any entry for an MPC, but
-we don't diagnose the error of using the same MPC number twice (which
-is quite easy to do by accident if copy-and-pasting structure
-entries).
 
-Enhance find_raminfo_for_mpc() so that it detects multiple entries
-for the MPC as well as missing entries.
+Greg Kurz <groug@kaod.org> writes:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/mps2-tz.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+> checkfilename() doesn't always set $acpi_testexpected. Fix the following
+> warning:
+>
+> Use of uninitialized value $acpi_testexpected in string eq at
+>  ./scripts/checkpatch.pl line 1529.
+>
+> Fixes: d2f1af0e4120 ("checkpatch: don't emit warning on newly created acp=
+i data files")
+> Cc: isaku.yamahata@intel.com
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 5ebd671bf83..25016e464d9 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -306,14 +306,18 @@ static const RAMInfo *find_raminfo_for_mpc(MPS2TZMachineState *mms, int mpc)
- {
-     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
-     const RAMInfo *p;
-+    const RAMInfo *found = NULL;
- 
-     for (p = mmc->raminfo; p->name; p++) {
-         if (p->mpc == mpc && !(p->flags & IS_ALIAS)) {
--            return p;
-+            /* There should only be one entry in the array for this MPC */
-+            g_assert(!found);
-+            found = p;
-         }
-     }
-     /* if raminfo array doesn't have an entry for each MPC this is a bug */
--    g_assert_not_reached();
-+    assert(found);
-+    return found;
- }
- 
- static MemoryRegion *mr_for_raminfo(MPS2TZMachineState *mms,
--- 
-2.20.1
+jinx ;-)
+=20
+  Subject: [RFC PATCH] scripts/checkpatch: fix uninitialised value check
+  Date: Thu,  8 Apr 2021 17:46:10 +0100
+  Message-Id: <20210408164610.14229-1-alex.bennee@linaro.org>
 
+but as I failed to check the list first have a:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  scripts/checkpatch.pl |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 8f7053ec9b26..3d185cceac94 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -1532,6 +1532,7 @@ sub process {
+>  		     ($line =3D~ /\{\s*([\w\/\.\-]*)\s*\=3D\>\s*([\w\/\.\-]*)\s*\}/ &&
+>  		      (defined($1) || defined($2)))) &&
+>                        !(($realfile ne '') &&
+> +                        defined($acpi_testexpected) &&
+>                          ($realfile eq $acpi_testexpected))) {
+>  			$reported_maintainer_file =3D 1;
+>  			WARN("added, moved or deleted file(s), does MAINTAINERS need updating=
+?\n" . $herecurr);
+
+
+--=20
+Alex Benn=C3=A9e
 
