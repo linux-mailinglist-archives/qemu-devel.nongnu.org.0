@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D5835A123
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:35:10 +0200 (CEST)
-Received: from localhost ([::1]:33144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BD235A147
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:39:34 +0200 (CEST)
+Received: from localhost ([::1]:39394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUsDz-0001Ct-6G
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1lUsIG-0003v5-JN
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lUsCL-0008Js-KZ; Fri, 09 Apr 2021 10:33:25 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:39563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lUsCK-0002La-4i; Fri, 09 Apr 2021 10:33:25 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id z1so6807017ybf.6;
- Fri, 09 Apr 2021 07:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B0n6LANtvak/N9owEyHwdtcMow+1UzXHdOQV8K8iTSU=;
- b=No1EkXJma183GA3zjjeJUJWnXBu8sC1YTxbyly1S+q7/NX54GcdhmnRtMp86U+DHq8
- 55IMjTthC0FgaHCmS4ONEMF/RR9tb8KAjbkanjxFkx3b9y8sPrDDsupCzGBVP6/FQyUu
- hYi7WRXiBpXgA6c2eEycWv1ocTFOVw9MbUVTsLtGlvt2UsfZdJHtQOjYy+3xZEaSOAa9
- uDM7kkdzB3+kpnShUJ/WeoFR58lYUjrtk1LKR+tOhV/9VrsCwk9l1+LTxfwElA8nzDiK
- YONpz1wcSqS2SxgQDpGIIyhX5yebvFp3gq+mtLrd1uXkQimRMhgzawpjmTnx0IuQ0ss0
- 44GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B0n6LANtvak/N9owEyHwdtcMow+1UzXHdOQV8K8iTSU=;
- b=OuZ9NV43ZzSQ7J7L0O4buh9aM5PWm8aIk++KXJTg2fNonVDmiac9Pc38HQ0ZvJP0k7
- ejuU28k/TE5YG06FYc3Ed+V+OAZA5k0HTg4NO5Zy5+itxVMnvZRRmpiU1bz410dFqoHc
- Z3c8+i9Tq8nOjXIwi8oeJiraaKluHAvmIQyBgrLcT3bPkMcwNb4oiGg7UcFYunkjKasH
- OYH6InFzWrHx1GrrZQknzPRjHtG8V3+HOhBZIYND8BTb9mliVoUB0qTpH0VmCvvQi2Vl
- akFP3k6ymp6Rp4JVWTOZawOxLQ9+c5rB9/be0A/rTPrXlr1Yky+UVOMvZ2fXx1ZzwYOC
- x8bA==
-X-Gm-Message-State: AOAM532NqgXMqdbgQZDhgZb9ORJIMcv6BShBeUrxfjAzHMGpIh+4c4NO
- GJS7wnuEu12odqmN8ek7F+RH8A0NK6MmfJBRkYI=
-X-Google-Smtp-Source: ABdhPJwySw9i9O28LFW0es/gWVxKfoI/huneP0koRy4T2kLBBK+46efrYnoGGfIHkZJgoGVdTJBX2HSDI2vSmtgD0tU=
-X-Received: by 2002:a25:e04c:: with SMTP id x73mr20680924ybg.387.1617978802246; 
- Fri, 09 Apr 2021 07:33:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lUsH9-00033C-1c; Fri, 09 Apr 2021 10:38:23 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:47356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lUsH1-0005Mx-7q; Fri, 09 Apr 2021 10:38:20 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 88C102E168B;
+ Fri,  9 Apr 2021 17:38:06 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ RRVrLVRJuz-c608ub5l; Fri, 09 Apr 2021 17:38:06 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1617979086; bh=196pV6BGNQR7tAH9Nhj/sw2xg+Jj+aD1Ow4VjOERN6w=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=JUNloouatcARaKv/xDfOEWCZ3edwP13zTfwgMdauBIp+s14MNqvipyGKZjurq2oV9
+ MpQKUrUOSaNvaFkfkVyATwkWBwZrMMsR4g87KO3JRJQTWOuTGye483vo6Cqbx8VXVE
+ YmcobTYia/NXBEt74EfdcVFtHjrmzni8wrG6E/zA=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
+ [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ iC5OLSH5G8-c5oq7Fha; Fri, 09 Apr 2021 17:38:05 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Fri, 9 Apr 2021 17:38:00 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 03/10] util/async: aio_co_enter(): do aio_co_schedule
+ in general case
+Message-ID: <YHBmyJ8atP4tzh/C@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
+References: <20210408140827.332915-1-vsementsov@virtuozzo.com>
+ <20210408140827.332915-4-vsementsov@virtuozzo.com>
+ <YG8nNsQE+AQQj8gZ@rvkaganb.lan>
 MIME-Version: 1.0
-References: <cover.1617970729.git.alistair.francis@wdc.com>
- <3f4a8b1fa0cd5deed00beb585010d6b1cc59efb6.1617970729.git.alistair.francis@wdc.com>
-In-Reply-To: <3f4a8b1fa0cd5deed00beb585010d6b1cc59efb6.1617970729.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 9 Apr 2021 22:33:11 +0800
-Message-ID: <CAEUhbmWgOcma-uHBU0Zb8BhDpvt6D06Qg1_ACNzGGzXV_L=MBw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] target/riscv: Implementation of enhanced PMP (ePMP)
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YG8nNsQE+AQQj8gZ@rvkaganb.lan>
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,43 +79,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+On Thu, Apr 08, 2021 at 06:54:30PM +0300, Roman Kagan wrote:
+> On Thu, Apr 08, 2021 at 05:08:20PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> > With the following patch we want to call aio_co_wake() from thread.
+> > And it works bad.
+> > Assume we have no iothreads.
+> > Assume we have a coroutine A, which waits in the yield point for external
+> > aio_co_wake(), and no progress can be done until it happen.
+> > Main thread is in blocking aio_poll() (for example, in blk_read()).
+> > 
+> > Now, in a separate thread we do aio_co_wake(). It calls  aio_co_enter(),
+> > which goes through last "else" branch and do aio_context_acquire(ctx).
+> > 
+> > Now we have a deadlock, as aio_poll() will not release the context lock
+> > until some progress is done, and progress can't be done until
+> > aio_co_wake() wake the coroutine A. And it can't because it wait for
+> > aio_context_acquire().
+> > 
+> > Still, aio_co_schedule() works well in parallel with blocking
+> > aio_poll(). So let's use it in generic case and drop
+> > aio_context_acquire/aio_context_release branch from aio_co_enter().
+> > 
+> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > ---
+> >  util/async.c | 11 ++---------
+> >  1 file changed, 2 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/util/async.c b/util/async.c
+> > index 674dbefb7c..f05b883a39 100644
+> > --- a/util/async.c
+> > +++ b/util/async.c
+> > @@ -614,19 +614,12 @@ void aio_co_wake(struct Coroutine *co)
+> >  
+> >  void aio_co_enter(AioContext *ctx, struct Coroutine *co)
+> >  {
+> > -    if (ctx != qemu_get_current_aio_context()) {
+> > -        aio_co_schedule(ctx, co);
+> > -        return;
+> > -    }
+> > -
+> > -    if (qemu_in_coroutine()) {
+> > +    if (ctx == qemu_get_current_aio_context() && qemu_in_coroutine()) {
+> >          Coroutine *self = qemu_coroutine_self();
+> >          assert(self != co);
+> >          QSIMPLEQ_INSERT_TAIL(&self->co_queue_wakeup, co, co_queue_next);
+> >      } else {
+> > -        aio_context_acquire(ctx);
+> > -        qemu_aio_coroutine_enter(ctx, co);
+> > -        aio_context_release(ctx);
+> > +        aio_co_schedule(ctx, co);
+> >      }
+> >  }
+> 
+> I'm fine with the change, but I find the log message to be a bit
+> confusing (although correct).  AFAICS the problem is that calling
+> aio_co_enter from a thread which has no associated aio_context works
+> differently compared to calling it from a proper iothread: if the target
+> context was qemu_aio_context, an iothread would just schedule the
+> coroutine there, while a "dumb" thread would try lock the context
+> potentially resulting in a deadlock.  This patch makes "dumb" threads
+> and iothreads behave identically when entering a coroutine on a foreign
+> context.
+> 
+> You may want to rephrase the log message to that end.
+> 
+> Anyway
+> 
+> Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 
-On Fri, Apr 9, 2021 at 8:23 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> From: Hou Weiying <weiying_hou@outlook.com>
->
-> This commit adds support for ePMP v0.9.1.
->
-> The ePMP spec can be found in:
-> https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
->
-> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
-> Message-Id: <SG2PR02MB263462CCDBCBBAD36983C2CD93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
-> [ Changes by AF:
->  - Rebase on master
->  - Update to latest spec
->  - Use a switch case to handle ePMP MML permissions
->  - Fix a few bugs
-> ]
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/pmp.c | 165 +++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 153 insertions(+), 12 deletions(-)
->
+I was too quick to reply.  Turns out this patch breaks a lot of stuff;
+apparently the original behavior is relied upon somewhere.
+In particular, in iotest 008 basic checks with '--aio threads' fail due
+to the device being closed before the operation is performed, so the
+latter returns with -ENOMEDIUM:
 
-It looks like the v1 comments are not addressed?
+# .../qemu-io --cache writeback --aio threads -f qcow2 \
+	-c 'aio_read -P 0xa 0 128M' .../scratch/t.qcow2 -T blk_\*
+blk_root_attach child 0x560e9fb65a70 blk 0x560e9fb647b0 bs 0x560e9fb5f4b0
+blk_root_detach child 0x560e9fb65a70 blk 0x560e9fb647b0 bs 0x560e9fb5f4b0
+blk_root_attach child 0x560e9fb65a70 blk 0x560e9fb4c420 bs 0x560e9fb581a0
+blk_root_detach child 0x560e9fb65a70 blk 0x560e9fb4c420 bs 0x560e9fb581a0
+blk_co_preadv blk 0x560e9fb4c420 bs (nil) offset 0 bytes 134217728 flags 0x0
+readv failed: No medium found
 
-Regards,
-Bin
+Let's drop this and get back to the original scheme with wakeup via BH.
+It'll look just as nice, but won't touch the generic infrastructure with
+unpredictable consequences.
+
+Thanks,
+Roman.
 
