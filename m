@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B5359FAC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:18:53 +0200 (CEST)
-Received: from localhost ([::1]:33150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C32359FB9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:23:30 +0200 (CEST)
+Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUr2B-0004qh-Oz
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60760)
+	id 1lUr6e-0007pL-Mp
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lUr0t-00047Q-Tk
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:17:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lUr0s-0007B0-0W
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:17:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617974248;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=A1ouyzQKnUr2utf/6Nnn5FjjKKc2rPOATB0AKULEaSY=;
- b=Pmz40QF+BVYN5UWJpN/ILUlU4TMghwBg4Fbuil+HINJlYKiNcWXHxnjzAHzF2HXaLwbBS9
- 7m9j+Kz5gFNz3PHDOH0zfgL5CY3InMxvKZtLTkx5IvanEiohTkIdlpui/qReY8wNDlBhGf
- O5ikI+X95Zct1S1ARA8jArFIT26NNo0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-CpM_PmI6MEKi1XFFZnPQxA-1; Fri, 09 Apr 2021 09:17:25 -0400
-X-MC-Unique: CpM_PmI6MEKi1XFFZnPQxA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17EBD64149
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 13:17:24 +0000 (UTC)
-Received: from redhat.com (ovpn-115-36.ams2.redhat.com [10.36.115.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 952016064B;
- Fri,  9 Apr 2021 13:17:16 +0000 (UTC)
-Date: Fri, 9 Apr 2021 14:17:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
-Message-ID: <YHBT2ZLdIesZOR4Q@redhat.com>
-References: <20210121125028.3247190-1-kraxel@redhat.com>
- <20210203163202.GF241524@stefanha-x1.localdomain>
- <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
- <YFiHnr/uguP8/Vtz@redhat.com>
- <20210409131245.oqeu4ooueazqfcir@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUr5J-00071b-EG
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:22:05 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:45612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUr5H-0001WD-Mr
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:22:05 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id mh7so8605085ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 06:22:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=olhipoDb5NpUygru0wfH3tpgHasRg0ZESXy3C6XX/0U=;
+ b=xU6YmGP9Tg3h8Oa0Co45B09fCbJmy/93Vl8k4K2Ysa1tw3t0Lwb0ckU36iNRKENv1A
+ jiJlST5xRxZyC4RBDKldhITLkCGpWaCmQJtSjkGF3pxiPEKQ1P2NUaHF+PeW8IgRvEWr
+ HDxyleWzprIOJtkprA33pqt20RDgon85PdF3mnIvHdVQ60emnkt8aF/ec3pn9P1YaK4P
+ myXetQ1aZt+b06hhhMoXygL1MyIZmg3ZoVBbvQSI+2sdfP+IQKCMKUkr0M0pRN6fzilm
+ jhQ86eefAEnnRODgopypk4f6DJVsn5Xk7CG/rRc7S3zHeK9fO29EFzk4PzXAYvExtiFY
+ +6/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=olhipoDb5NpUygru0wfH3tpgHasRg0ZESXy3C6XX/0U=;
+ b=bQJlQ2DtDbGiLYkHFXqqbVDh/LIcIN0XEwFzdeS3NxQx68BZ7t6BLWDajeOiLivUK5
+ oN9hKejmFlF3bgFK6KkJ69j4hQRtrrJLpgodgEpD8GDBJHGlmOhCwQl3QeP9mnwlSwrb
+ 7iwY6IGSbelhN5CLx8JNPzspVaLX0XtlO1bcL/mxDG1h9SXQg55ccqILExGS4wusW0wD
+ 0M+RB9s5ZtD8VOJfMKa1HbJxpVth+kABXM7rSMu32pjhuG4APeUC/CQrqOez+3Lx572x
+ JpvCoPwBwe14SW8NADM0bmlErLVBUNoaS4PYA557GFgD2x1Qf0FmGr4zKo4zQ0RVmGvX
+ fwMg==
+X-Gm-Message-State: AOAM532WwwW9o4Zi6IkGzAAEaoPpqmhRJUdecwqKtDw2ymSvMwJkzQN2
+ XsYnDXNRKU7uZrEt5Mf6ohbYBC1noGhUQAOOZVR4TQ==
+X-Google-Smtp-Source: ABdhPJyEPA186LebwA6sqtjkkrRfyx+JEQDnQ2p19mBHg4jKdc7wdd5Fze18QzN+LpwQ3F3MK9iEjINWlUxSUC48oW0=
+X-Received: by 2002:a17:906:bd2:: with SMTP id
+ y18mr16236652ejg.482.1617974521839; 
+ Fri, 09 Apr 2021 06:22:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210409131245.oqeu4ooueazqfcir@sirius.home.kraxel.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <1617874931-4437-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1617874931-4437-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Apr 2021 14:21:20 +0100
+Message-ID: <CAFEAcA8Y2GetY=LU1ZQ5m5qCutHk-kK17tHCwygo_r2aEyTXbg@mail.gmail.com>
+Subject: Re: [PULL 0/6] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 09, 2021 at 03:12:45PM +0200, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > eg a trace point "dma_map_wait" gets mapped to probes in many
-> > .stp files, once per target, because we need to match based on
-> > the executable path:
-> > 
-> >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
-> 
-> So, that changes with modules, we need the module name now, i.e.
-> 
->     probe qemu.system.x86_64.qxl_soft_reset = \
-> 	process("/home/kraxel/qemu-install/lib/qemu/hw-display-qxl.so").mark("qxl_soft_reset")
-> 
-> We could repeat that in every qemu-system-$arch.stp file.
+On Thu, 8 Apr 2021 at 10:42, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit d0d3dd401b70168a353450e031727affee828527:
+>
+>   Update version for v6.0.0-rc2 release (2021-04-06 18:34:34 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to 21df394d9e2ffce9fa308f496d1ae228cf6cdb57:
+>
+>   tap-win32: correctly recycle buffers (2021-04-08 17:33:59 +0800)
+>
+> ----------------------------------------------------------------
+>
+> Fixes for rc3:
+>
+> - query-netdev is reverted (that's why the changeset is huge)
+> - fix a regression caused by padding for in TAP for win32
+>
+>
+> ----------------------------------------------------------------
+> Jason Wang (6):
+>       Revert "net: Do not fill legacy info_str for backends"
+>       Revert "hmp: Use QAPI NetdevInfo in hmp_info_network"
+>       Revert "net: Move NetClientState.info_str to dynamic allocations"
+>       Revert "tests: Add tests for query-netdev command"
+>       Revert "qapi: net: Add query-netdev command"
+>       tap-win32: correctly recycle buffers
 
-This would have the surprise the 'qemu.system.x86_64.qxl_soft_reset'
-probes will fire even for qemu-system-ppc64 / qemu-system-xxxxx etc
-because we've not restricted the scope as the original probe did.
 
-If we can't fix that, then we must use the second option to avoid
-the surprise IMHO
+Applied, thanks.
 
-> We could also have one stp file per module, with probes like this:
-> 
->     probe qemu.modules.qxl_soft_reset = \
->         process("/home/kraxel/qemu-install/lib/qemu/hw-display-qxl.so").mark("qxl_soft_reset")
-> 
-> The later looks like a better fit to me, but has the drawback that the
-> tracepoints have different names in modular and non-modular builds ...
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
