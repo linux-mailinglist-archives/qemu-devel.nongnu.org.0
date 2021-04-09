@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34974359152
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 03:22:52 +0200 (CEST)
-Received: from localhost ([::1]:48358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20911359142
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 03:16:43 +0200 (CEST)
+Received: from localhost ([::1]:56878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUfrH-0007VG-9N
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 21:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52912)
+	id 1lUflK-0007kv-2x
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 21:16:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUfdV-0006Tc-HA
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:37 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:6278)
+ id 1lUfdX-0006YS-AH
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:39 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:6275)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUfdT-0001Fw-AK
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:37 -0400
+ id 1lUfdV-0001F4-71
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617930515; x=1649466515;
+ t=1617930517; x=1649466517;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=69f8YWIy5WdL4Ymu/L1T9JzgLHiclhBDpFlfVM0IGto=;
- b=Ida6kD0HSK4Wv5TWwUzcu0krmA2lso00qv0wp4dT/nukJIvSJHn30UHF
- 870kRg7iUp7U6bTQutnAY8Aph0w2aOwiD+mNa9twPTa8oeoiZoBd9TYdT
- XmlBf+1/hrscNROIt3rmKZchPmBr89YXjJXCZb2aFctAuU4Iv3srYesF5 M=;
+ bh=6NoCeIa//Kvq62CeI5mq63zgzz/NC9qlSqY9bYcN30c=;
+ b=PznFcomNLAGd7BZamE5VxHfxX9JHN1kWKBWIke1Sh17Ihrar9PXSvmkB
+ CNrTv8vrczsQcMFuzF2LcVle4eweOzhrfyKzjZZ4RtzPtnXFOFrhPZO+S
+ cMNwjlEs6j8ABdawmNxQlDCeG6zmXlHFeq2P5DzzOUuzWypwIs8WooW5d E=;
 Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
  by alexa-out-sd-02.qualcomm.com with ESMTP; 08 Apr 2021 18:07:58 -0700
 X-QCInternal: smtphost
@@ -35,12 +35,12 @@ Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
  by ironmsg-SD-alpha.qualcomm.com with ESMTP; 08 Apr 2021 18:07:58 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 8C1C0167B; Thu,  8 Apr 2021 20:07:56 -0500 (CDT)
+ id 8EB4C168B; Thu,  8 Apr 2021 20:07:56 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/26] Hexagon (target/hexagon) add F2_sfinvsqrta
-Date: Thu,  8 Apr 2021 20:07:46 -0500
-Message-Id: <1617930474-31979-19-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v4 19/26] Hexagon (target/hexagon) add A5_ACS (vacsh)
+Date: Thu,  8 Apr 2021 20:07:47 -0500
+Message-Id: <1617930474-31979-20-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
 References: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
@@ -73,266 +73,227 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rd32,Pe4 = sfinvsqrta(Rs32)
-    Square root approx
-
-The helper packs the 2 32-bit results into a 64-bit value,
-and the fGEN_TCG override unpacks them into the proper results.
+Rxx32,Pe4 = vacsh(Rss32, Rtt32)
+    Add compare and select elements of two vectors
 
 Test cases in tests/tcg/hexagon/multi_result.c
-FP exception tests added to tests/tcg/hexagon/fpstuff.c
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/arch.c                 | 21 ++++++++++++++++++++-
- target/hexagon/arch.h                 |  2 ++
- target/hexagon/gen_tcg.h              | 16 ++++++++++++++++
- target/hexagon/helper.h               |  1 +
+ target/hexagon/gen_tcg.h              |  5 +++
+ target/hexagon/helper.h               |  2 +
+ target/hexagon/imported/alu.idef      | 19 ++++++++++
  target/hexagon/imported/encode_pp.def |  1 +
- target/hexagon/imported/float.idef    | 16 ++++++++++++++++
- target/hexagon/op_helper.c            | 21 +++++++++++++++++++++
- tests/tcg/hexagon/fpstuff.c           | 15 +++++++++++++++
- tests/tcg/hexagon/multi_result.c      | 29 +++++++++++++++++++++++++++++
- 9 files changed, 121 insertions(+), 1 deletion(-)
+ target/hexagon/op_helper.c            | 33 +++++++++++++++++
+ tests/tcg/hexagon/multi_result.c      | 69 +++++++++++++++++++++++++++++++++++
+ 6 files changed, 129 insertions(+)
 
-diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index 46edf45..dee852e 100644
---- a/target/hexagon/arch.c
-+++ b/target/hexagon/arch.c
-@@ -247,7 +247,7 @@ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
-     int r_exp;
-     int ret = 0;
-     RsV = *Rs;
--    if (float32_is_infinity(RsV)) {
-+    if (float32_is_any_nan(RsV)) {
-         if (extract32(RsV, 22, 1) == 0) {
-             float_raise(float_flag_invalid, fp_status);
-         }
-@@ -299,3 +299,22 @@ const uint8_t recip_lookup_table[128] = {
-     0x011, 0x00f, 0x00e, 0x00d, 0x00c, 0x00b, 0x00a, 0x009,
-     0x008, 0x007, 0x006, 0x005, 0x004, 0x003, 0x002, 0x000,
- };
-+
-+const uint8_t invsqrt_lookup_table[128] = {
-+    0x069, 0x066, 0x063, 0x061, 0x05e, 0x05b, 0x059, 0x057,
-+    0x054, 0x052, 0x050, 0x04d, 0x04b, 0x049, 0x047, 0x045,
-+    0x043, 0x041, 0x03f, 0x03d, 0x03b, 0x039, 0x037, 0x036,
-+    0x034, 0x032, 0x030, 0x02f, 0x02d, 0x02c, 0x02a, 0x028,
-+    0x027, 0x025, 0x024, 0x022, 0x021, 0x01f, 0x01e, 0x01d,
-+    0x01b, 0x01a, 0x019, 0x017, 0x016, 0x015, 0x014, 0x012,
-+    0x011, 0x010, 0x00f, 0x00d, 0x00c, 0x00b, 0x00a, 0x009,
-+    0x008, 0x007, 0x006, 0x005, 0x004, 0x003, 0x002, 0x001,
-+    0x0fe, 0x0fa, 0x0f6, 0x0f3, 0x0ef, 0x0eb, 0x0e8, 0x0e4,
-+    0x0e1, 0x0de, 0x0db, 0x0d7, 0x0d4, 0x0d1, 0x0ce, 0x0cb,
-+    0x0c9, 0x0c6, 0x0c3, 0x0c0, 0x0be, 0x0bb, 0x0b8, 0x0b6,
-+    0x0b3, 0x0b1, 0x0af, 0x0ac, 0x0aa, 0x0a8, 0x0a5, 0x0a3,
-+    0x0a1, 0x09f, 0x09d, 0x09b, 0x099, 0x097, 0x095, 0x093,
-+    0x091, 0x08f, 0x08d, 0x08b, 0x089, 0x087, 0x086, 0x084,
-+    0x082, 0x080, 0x07f, 0x07d, 0x07b, 0x07a, 0x078, 0x077,
-+    0x075, 0x074, 0x072, 0x071, 0x06f, 0x06e, 0x06c, 0x06b,
-+};
-diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
-index b6634e9..3e0c334 100644
---- a/target/hexagon/arch.h
-+++ b/target/hexagon/arch.h
-@@ -32,4 +32,6 @@ int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
- 
- extern const uint8_t recip_lookup_table[128];
- 
-+extern const uint8_t invsqrt_lookup_table[128];
-+
- #endif
 diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h
-index 428a670..d78e7b8 100644
+index d78e7b8..93310c5 100644
 --- a/target/hexagon/gen_tcg.h
 +++ b/target/hexagon/gen_tcg.h
-@@ -216,6 +216,22 @@
-         tcg_temp_free_i64(tmp); \
-     } while (0)
- 
-+/*
-+ * Approximation of the reciprocal square root
-+ * r1,p0 = sfinvsqrta(r0)
-+ *
-+ * The helper packs the 2 32-bit results into a 64-bit value,
-+ * so unpack them into the proper results.
-+ */
-+#define fGEN_TCG_F2_sfinvsqrta(SHORTCODE) \
+@@ -199,6 +199,11 @@
+  * Mathematical operations with more than one definition require
+  * special handling
+  */
++#define fGEN_TCG_A5_ACS(SHORTCODE) \
 +    do { \
-+        TCGv_i64 tmp = tcg_temp_new_i64(); \
-+        gen_helper_sfinvsqrta(tmp, cpu_env, RsV); \
-+        tcg_gen_extrh_i64_i32(RdV, tmp); \
-+        tcg_gen_extrl_i64_i32(PeV, tmp); \
-+        tcg_temp_free_i64(tmp); \
++        gen_helper_vacsh_pred(PeV, cpu_env, RxxV, RssV, RttV); \
++        gen_helper_vacsh_val(RxxV, cpu_env, RxxV, RssV, RttV); \
 +    } while (0)
-+
- /* Floating point */
- #define fGEN_TCG_F2_conv_sf2df(SHORTCODE) \
-     gen_helper_conv_sf2df(RddV, cpu_env, RsV)
+ 
+ /*
+  * Approximate reciprocal
 diff --git a/target/hexagon/helper.h b/target/hexagon/helper.h
-index b377293..cb7508f 100644
+index cb7508f..3824ae0 100644
 --- a/target/hexagon/helper.h
 +++ b/target/hexagon/helper.h
-@@ -25,6 +25,7 @@ DEF_HELPER_FLAGS_3(debug_commit_end, TCG_CALL_NO_WG, void, env, int, int)
- DEF_HELPER_2(commit_store, void, env, int)
+@@ -26,6 +26,8 @@ DEF_HELPER_2(commit_store, void, env, int)
  DEF_HELPER_FLAGS_4(fcircadd, TCG_CALL_NO_RWG_SE, s32, s32, s32, s32, s32)
  DEF_HELPER_3(sfrecipa, i64, env, f32, f32)
-+DEF_HELPER_2(sfinvsqrta, i64, env, f32)
+ DEF_HELPER_2(sfinvsqrta, i64, env, f32)
++DEF_HELPER_4(vacsh_val, s64, env, s64, s64, s64)
++DEF_HELPER_FLAGS_4(vacsh_pred, TCG_CALL_NO_RWG_SE, s32, env, s64, s64, s64)
  
  /* Floating point */
  DEF_HELPER_2(conv_sf2df, f64, env, f32)
-diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
-index b01b4d7..18fe45d 100644
---- a/target/hexagon/imported/encode_pp.def
-+++ b/target/hexagon/imported/encode_pp.def
-@@ -1642,6 +1642,7 @@ SH2_RR_ENC(F2_conv_sf2w,          "1011","100","-","000","ddddd")
- SH2_RR_ENC(F2_conv_sf2uw_chop,    "1011","011","-","001","ddddd")
- SH2_RR_ENC(F2_conv_sf2w_chop,     "1011","100","-","001","ddddd")
- SH2_RR_ENC(F2_sffixupr,           "1011","101","-","000","ddddd")
-+SH2_RR_ENC(F2_sfinvsqrta,         "1011","111","-","0ee","ddddd")
+diff --git a/target/hexagon/imported/alu.idef b/target/hexagon/imported/alu.idef
+index 45cc529..e8cc52c 100644
+--- a/target/hexagon/imported/alu.idef
++++ b/target/hexagon/imported/alu.idef
+@@ -1240,6 +1240,25 @@ MINMAX(uw,WORD,UWORD,2)
+ #undef VMINORMAX3
  
  
- DEF_FIELDROW_DESC32(ICLASS_S2op"      1100 -------- PP------ --------","[#12] Rd=(Rs,#u6)")
-diff --git a/target/hexagon/imported/float.idef b/target/hexagon/imported/float.idef
-index eb54158..3e75bc4 100644
---- a/target/hexagon/imported/float.idef
-+++ b/target/hexagon/imported/float.idef
-@@ -178,6 +178,22 @@ Q6INSN(F2_sffixupd,"Rd32=sffixupd(Rs32,Rt32)",ATTRIBS(),
-     RdV = RtV;
- })
- 
-+Q6INSN(F2_sfinvsqrta,"Rd32,Pe4=sfinvsqrta(Rs32)",ATTRIBS(),
-+"Reciprocal Square Root Approximation",
++Q6INSN(A5_ACS,"Rxx32,Pe4=vacsh(Rss32,Rtt32)",ATTRIBS(),
++"Add Compare and Select elements of two vectors, record the maximums and the decisions ",
 +{
-+    fHIDE(int idx;)
-+    fHIDE(int adjust;)
-+    fHIDE(int mant;)
-+    fHIDE(int exp;)
-+    if (fSF_INVSQRT_COMMON(RsV,RdV,adjust)) {
-+        PeV = adjust;
-+        idx = (RsV >> 17) & 0x7f;
-+        mant = (fSF_INVSQRT_LOOKUP(idx) << 15);
-+        exp = fSF_BIAS() - ((fSF_GETEXP(RsV) - fSF_BIAS()) >> 1) - 1;
-+        RdV = fMAKESF(fGETBIT(31,RsV),exp,mant);
-+    }
++        fHIDE(int i;)
++        fHIDE(int xv;)
++        fHIDE(int sv;)
++        fHIDE(int tv;)
++        for (i = 0; i < 4; i++) {
++                xv = (int) fGETHALF(i,RxxV);
++                sv = (int) fGETHALF(i,RssV);
++                tv = (int) fGETHALF(i,RttV);
++                xv = xv + tv;           //assumes 17bit datapath
++                sv = sv - tv;           //assumes 17bit datapath
++                fSETBIT(i*2,  PeV,  (xv > sv));
++                fSETBIT(i*2+1,PeV,  (xv > sv));
++                fSETHALF(i,   RxxV, fSATH(fMAX(xv,sv)));
++        }
 +})
 +
- Q6INSN(F2_sffixupr,"Rd32=sffixupr(Rs32)",ATTRIBS(),
- "Fix Up Radicand",
- {
+ /**********************************************/
+ /* Vector Min/Max                             */
+ /**********************************************/
+diff --git a/target/hexagon/imported/encode_pp.def b/target/hexagon/imported/encode_pp.def
+index 18fe45d..87e0426 100644
+--- a/target/hexagon/imported/encode_pp.def
++++ b/target/hexagon/imported/encode_pp.def
+@@ -1017,6 +1017,7 @@ MPY_ENC(M7_dcmpyiwc_acc,     "1010","xxxxx","1","0","1","0","10")
+ 
+ 
+ 
++MPY_ENC(A5_ACS,              "1010","xxxxx","0","1","0","1","ee")
+ /*
+ */
+ 
 diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-index 75861e2..a25fb98 100644
+index a25fb98..f9fb655 100644
 --- a/target/hexagon/op_helper.c
 +++ b/target/hexagon/op_helper.c
-@@ -326,6 +326,27 @@ uint64_t HELPER(sfrecipa)(CPUHexagonState *env, float32 RsV, float32 RtV)
+@@ -347,6 +347,39 @@ uint64_t HELPER(sfinvsqrta)(CPUHexagonState *env, float32 RsV)
      return ((uint64_t)RdV << 32) | PeV;
  }
  
-+uint64_t HELPER(sfinvsqrta)(CPUHexagonState *env, float32 RsV)
++int64_t HELPER(vacsh_val)(CPUHexagonState *env,
++                           int64_t RxxV, int64_t RssV, int64_t RttV)
 +{
-+    int PeV = 0;
-+    float32 RdV;
-+    int idx;
-+    int adjust;
-+    int mant;
-+    int exp;
-+
-+    arch_fpop_start(env);
-+    if (arch_sf_invsqrt_common(&RsV, &RdV, &adjust, &env->fp_status)) {
-+        PeV = adjust;
-+        idx = (RsV >> 17) & 0x7f;
-+        mant = (invsqrt_lookup_table[idx] << 15);
-+        exp = SF_BIAS - ((float32_getexp(RsV) - SF_BIAS) >> 1) - 1;
-+        RdV = build_float32(extract32(RsV, 31, 1), exp, mant);
++    for (int i = 0; i < 4; i++) {
++        int xv = sextract64(RxxV, i * 16, 16);
++        int sv = sextract64(RssV, i * 16, 16);
++        int tv = sextract64(RttV, i * 16, 16);
++        int max;
++        xv = xv + tv;
++        sv = sv - tv;
++        max = xv > sv ? xv : sv;
++        /* Note that fSATH can set the OVF bit in usr */
++        RxxV = deposit64(RxxV, i * 16, 16, fSATH(max));
 +    }
-+    arch_fpop_end(env);
-+    return ((uint64_t)RdV << 32) | PeV;
++    return RxxV;
++}
++
++int32_t HELPER(vacsh_pred)(CPUHexagonState *env,
++                           int64_t RxxV, int64_t RssV, int64_t RttV)
++{
++    int32_t PeV = 0;
++    for (int i = 0; i < 4; i++) {
++        int xv = sextract64(RxxV, i * 16, 16);
++        int sv = sextract64(RssV, i * 16, 16);
++        int tv = sextract64(RttV, i * 16, 16);
++        xv = xv + tv;
++        sv = sv - tv;
++        PeV = deposit32(PeV, i * 2, 1, (xv > sv));
++        PeV = deposit32(PeV, i * 2 + 1, 1, (xv > sv));
++    }
++    return PeV;
 +}
 +
  /*
   * mem_noshuf
   * Section 5.5 of the Hexagon V67 Programmer's Reference Manual
-diff --git a/tests/tcg/hexagon/fpstuff.c b/tests/tcg/hexagon/fpstuff.c
-index 8e3ba78..0dff429 100644
---- a/tests/tcg/hexagon/fpstuff.c
-+++ b/tests/tcg/hexagon/fpstuff.c
-@@ -441,6 +441,20 @@ static void check_canonical_NaN(void)
-     check_fpstatus(usr, 0);
- }
- 
-+static void check_invsqrta(void)
-+{
-+    int result;
-+    int predval;
-+
-+    asm volatile("%0,p0 = sfinvsqrta(%2)\n\t"
-+                 "%1 = p0\n\t"
-+                 : "+r"(result), "=r"(predval)
-+                 : "r"(0x7f800000)
-+                 : "p0");
-+    check32(result, 0xff800000);
-+    check32(predval, 0x0);
-+}
-+
- static void check_float2int_convs()
- {
-     int res32;
-@@ -590,6 +604,7 @@ int main()
-     check_dfminmax();
-     check_recip_exception();
-     check_canonical_NaN();
-+    check_invsqrta();
-     check_float2int_convs();
- 
-     puts(err ? "FAIL" : "PASS");
 diff --git a/tests/tcg/hexagon/multi_result.c b/tests/tcg/hexagon/multi_result.c
-index cb7dd31..67aa462 100644
+index 67aa462..c21148f 100644
 --- a/tests/tcg/hexagon/multi_result.c
 +++ b/tests/tcg/hexagon/multi_result.c
-@@ -31,6 +31,20 @@ static int sfrecipa(int Rs, int Rt, int *pred_result)
+@@ -45,8 +45,41 @@ static int sfinvsqrta(int Rs, int *pred_result)
    return result;
  }
  
-+static int sfinvsqrta(int Rs, int *pred_result)
++static long long vacsh(long long Rxx, long long Rss, long long Rtt,
++                       int *pred_result, int *ovf_result)
 +{
-+  int result;
++  long long result = Rxx;
 +  int predval;
++  int usr;
 +
-+  asm volatile("%0,p0 = sfinvsqrta(%2)\n\t"
++  /*
++   * This instruction can set bit 0 (OVF/overflow) in usr
++   * Clear the bit first, then return that bit to the caller
++   */
++  asm volatile("r2 = usr\n\t"
++               "r2 = clrbit(r2, #0)\n\t"        /* clear overflow bit */
++               "usr = r2\n\t"
++               "%0,p0 = vacsh(%3, %4)\n\t"
 +               "%1 = p0\n\t"
-+               : "+r"(result), "=r"(predval)
-+               : "r"(Rs)
-+               : "p0");
++               "%2 = usr\n\t"
++               : "+r"(result), "=r"(predval), "=r"(usr)
++               : "r"(Rss), "r"(Rtt)
++               : "r2", "p0", "usr");
 +  *pred_result = predval;
++  *ovf_result = (usr & 1);
 +  return result;
 +}
 +
  int err;
  
++static void check_ll(long long val, long long expect)
++{
++    if (val != expect) {
++        printf("ERROR: 0x%016llx != 0x%016llx\n", val, expect);
++        err++;
++    }
++}
++
  static void check(int val, int expect)
-@@ -59,9 +73,24 @@ static void test_sfrecipa()
-     check_p(pred_result, 0x00);
+ {
+     if (val != expect) {
+@@ -87,10 +120,46 @@ static void test_sfinvsqrta()
+     check_p(pred_result, 0x0);
  }
  
-+static void test_sfinvsqrta()
++static void test_vacsh()
 +{
-+    int res;
++    long long res64;
 +    int pred_result;
++    int ovf_result;
 +
-+    res = sfinvsqrta(0x04030201, &pred_result);
-+    check(res, 0x4d330000);
-+    check_p(pred_result, 0xe0);
++    res64 = vacsh(0x0004000300020001LL,
++                  0x0001000200030004LL,
++                  0x0000000000000000LL, &pred_result, &ovf_result);
++    check_ll(res64, 0x0004000300030004LL);
++    check_p(pred_result, 0xf0);
++    check(ovf_result, 0);
 +
-+    res = sfinvsqrta(0x0, &pred_result);
-+    check(res, 0x3f800000);
-+    check_p(pred_result, 0x0);
++    res64 = vacsh(0x0004000300020001LL,
++                  0x0001000200030004LL,
++                  0x000affff000d0000LL, &pred_result, &ovf_result);
++    check_ll(res64, 0x000e0003000f0004LL);
++    check_p(pred_result, 0xcc);
++    check(ovf_result, 0);
++
++    res64 = vacsh(0x00047fff00020001LL,
++                  0x00017fff00030004LL,
++                  0x000a0fff000d0000LL, &pred_result, &ovf_result);
++    check_ll(res64, 0x000e7fff000f0004LL);
++    check_p(pred_result, 0xfc);
++    check(ovf_result, 1);
++
++    res64 = vacsh(0x0004000300020001LL,
++                  0x0001000200030009LL,
++                  0x000affff000d0001LL, &pred_result, &ovf_result);
++    check_ll(res64, 0x000e0003000f0008LL);
++    check_p(pred_result, 0xcc);
++    check(ovf_result, 0);
 +}
 +
  int main()
  {
      test_sfrecipa();
-+    test_sfinvsqrta();
+     test_sfinvsqrta();
++    test_vacsh();
  
      puts(err ? "FAIL" : "PASS");
      return err;
