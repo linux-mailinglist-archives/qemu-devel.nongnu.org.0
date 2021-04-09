@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6007C359129
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 03:12:05 +0200 (CEST)
-Received: from localhost ([::1]:44656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4142359132
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 03:14:04 +0200 (CEST)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUfgq-0002Zn-DY
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 21:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
+	id 1lUfil-0004Xi-ON
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 21:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUfcy-0005m1-Qj
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:04 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:6259)
+ id 1lUfd2-0005qK-1n
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:08 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:6278)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUfcx-0001DR-B5
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:04 -0400
+ id 1lUfcz-0001Fw-Mf
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617930483; x=1649466483;
+ t=1617930485; x=1649466485;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=C6aPgyv0HI8Qqyqx7C1C+01qGuDywdCVFbp7ibehpDs=;
- b=e8qDjDwvJKjInK2xsUH8n/OS6vIuHJEO5Npas6oW2F4tMwEmSohcfo76
- lqa+h/gJvPfO74PYL4Qxxac9WzvuIHoAiVnSPy9DDDVEroqfNZix/0ZKk
- t6SGDmCWgJGcLG+Gr+PAxjR3AN+0Od8/NMCieQSTdW1zfA2Ufg52Te0vQ Y=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 08 Apr 2021 18:07:57 -0700
+ bh=tP+rhRUHUQoxHxpgyj8/VTyVDYepYv23nqIfPtDTns0=;
+ b=F4PvN1+bduHanWGw8pys6Vh+FqQSRpxQOmmLYju2RDgtuTZlVV5ae0vD
+ 9fnZG5uoU2ssTcOTpSIgIhj7Wyln0j4MjAG9hdv6fBiw+BB2hYNdaNMkh
+ iA21cnD2dKsM5nRFWfMm79G9p4mNUWXB0IAJg7Wx6vhl/PygfETNHyRFn 4=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 08 Apr 2021 18:07:58 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg02-sd.qualcomm.com with ESMTP; 08 Apr 2021 18:07:56 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP; 08 Apr 2021 18:07:57 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 484F0852; Thu,  8 Apr 2021 20:07:56 -0500 (CDT)
+ id 68C43FA6; Thu,  8 Apr 2021 20:07:56 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/26] Hexagon (target/hexagon) change type of
- softfloat_roundingmodes
-Date: Thu,  8 Apr 2021 20:07:37 -0500
-Message-Id: <1617930474-31979-10-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v4 10/26] Hexagon (target/hexagon) use softfloat default NaN
+ and tininess
+Date: Thu,  8 Apr 2021 20:07:38 -0500
+Message-Id: <1617930474-31979-11-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
 References: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
@@ -78,22 +78,295 @@ Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/arch.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fpu/softfloat-specialize.c.inc |  3 +++
+ target/hexagon/cpu.c           |  5 +++++
+ target/hexagon/op_helper.c     | 47 ------------------------------------------
+ 3 files changed, 8 insertions(+), 47 deletions(-)
 
-diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-index 699e2cf..bb51f19 100644
---- a/target/hexagon/arch.c
-+++ b/target/hexagon/arch.c
-@@ -95,7 +95,7 @@ int32_t conv_round(int32_t a, int n)
+diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+index c2f87ad..9ea318f 100644
+--- a/fpu/softfloat-specialize.c.inc
++++ b/fpu/softfloat-specialize.c.inc
+@@ -145,6 +145,9 @@ static FloatParts parts_default_nan(float_status *status)
+ #elif defined(TARGET_HPPA)
+     /* snan_bit_is_one, set msb-1.  */
+     frac = 1ULL << (DECOMPOSED_BINARY_POINT - 2);
++#elif defined(TARGET_HEXAGON)
++    sign = 1;
++    frac = ~0ULL;
+ #else
+     /* This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
+      * S390, SH4, TriCore, and Xtensa.  I cannot find documentation
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index f044506..ff44fd6 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -23,6 +23,7 @@
+ #include "exec/exec-all.h"
+ #include "qapi/error.h"
+ #include "hw/qdev-properties.h"
++#include "fpu/softfloat-helpers.h"
  
- /* Floating Point Stuff */
+ static void hexagon_v67_cpu_init(Object *obj)
+ {
+@@ -205,8 +206,12 @@ static void hexagon_cpu_reset(DeviceState *dev)
+     CPUState *cs = CPU(dev);
+     HexagonCPU *cpu = HEXAGON_CPU(cs);
+     HexagonCPUClass *mcc = HEXAGON_CPU_GET_CLASS(cpu);
++    CPUHexagonState *env = &cpu->env;
  
--static const int softfloat_roundingmodes[] = {
-+static const FloatRoundMode softfloat_roundingmodes[] = {
-     float_round_nearest_even,
-     float_round_to_zero,
-     float_round_down,
+     mcc->parent_reset(dev);
++
++    set_default_nan_mode(1, &env->fp_status);
++    set_float_detect_tininess(float_tininess_before_rounding, &env->fp_status);
+ }
+ 
+ static void hexagon_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
+index 1d91fa2..478421d 100644
+--- a/target/hexagon/op_helper.c
++++ b/target/hexagon/op_helper.c
+@@ -297,26 +297,6 @@ int32_t HELPER(fcircadd)(int32_t RxV, int32_t offset, int32_t M, int32_t CS)
+ }
+ 
+ /*
+- * Hexagon FP operations return ~0 instead of NaN
+- * The hex_check_sfnan/hex_check_dfnan functions perform this check
+- */
+-static float32 hex_check_sfnan(float32 x)
+-{
+-    if (float32_is_any_nan(x)) {
+-        return make_float32(0xFFFFFFFFU);
+-    }
+-    return x;
+-}
+-
+-static float64 hex_check_dfnan(float64 x)
+-{
+-    if (float64_is_any_nan(x)) {
+-        return make_float64(0xFFFFFFFFFFFFFFFFULL);
+-    }
+-    return x;
+-}
+-
+-/*
+  * mem_noshuf
+  * Section 5.5 of the Hexagon V67 Programmer's Reference Manual
+  *
+@@ -373,7 +353,6 @@ float64 HELPER(conv_sf2df)(CPUHexagonState *env, float32 RsV)
+     float64 out_f64;
+     arch_fpop_start(env);
+     out_f64 = float32_to_float64(RsV, &env->fp_status);
+-    out_f64 = hex_check_dfnan(out_f64);
+     arch_fpop_end(env);
+     return out_f64;
+ }
+@@ -383,7 +362,6 @@ float32 HELPER(conv_df2sf)(CPUHexagonState *env, float64 RssV)
+     float32 out_f32;
+     arch_fpop_start(env);
+     out_f32 = float64_to_float32(RssV, &env->fp_status);
+-    out_f32 = hex_check_sfnan(out_f32);
+     arch_fpop_end(env);
+     return out_f32;
+ }
+@@ -393,7 +371,6 @@ float32 HELPER(conv_uw2sf)(CPUHexagonState *env, int32_t RsV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = uint32_to_float32(RsV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -403,7 +380,6 @@ float64 HELPER(conv_uw2df)(CPUHexagonState *env, int32_t RsV)
+     float64 RddV;
+     arch_fpop_start(env);
+     RddV = uint32_to_float64(RsV, &env->fp_status);
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -413,7 +389,6 @@ float32 HELPER(conv_w2sf)(CPUHexagonState *env, int32_t RsV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = int32_to_float32(RsV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -423,7 +398,6 @@ float64 HELPER(conv_w2df)(CPUHexagonState *env, int32_t RsV)
+     float64 RddV;
+     arch_fpop_start(env);
+     RddV = int32_to_float64(RsV, &env->fp_status);
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -433,7 +407,6 @@ float32 HELPER(conv_ud2sf)(CPUHexagonState *env, int64_t RssV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = uint64_to_float32(RssV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -443,7 +416,6 @@ float64 HELPER(conv_ud2df)(CPUHexagonState *env, int64_t RssV)
+     float64 RddV;
+     arch_fpop_start(env);
+     RddV = uint64_to_float64(RssV, &env->fp_status);
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -453,7 +425,6 @@ float32 HELPER(conv_d2sf)(CPUHexagonState *env, int64_t RssV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = int64_to_float32(RssV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -463,7 +434,6 @@ float64 HELPER(conv_d2df)(CPUHexagonState *env, int64_t RssV)
+     float64 RddV;
+     arch_fpop_start(env);
+     RddV = int64_to_float64(RssV, &env->fp_status);
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -625,7 +595,6 @@ float32 HELPER(sfadd)(CPUHexagonState *env, float32 RsV, float32 RtV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = float32_add(RsV, RtV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -635,7 +604,6 @@ float32 HELPER(sfsub)(CPUHexagonState *env, float32 RsV, float32 RtV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = float32_sub(RsV, RtV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -687,7 +655,6 @@ float32 HELPER(sfmax)(CPUHexagonState *env, float32 RsV, float32 RtV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = float32_maxnum(RsV, RtV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -697,7 +664,6 @@ float32 HELPER(sfmin)(CPUHexagonState *env, float32 RsV, float32 RtV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = float32_minnum(RsV, RtV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -764,7 +730,6 @@ float64 HELPER(dfadd)(CPUHexagonState *env, float64 RssV, float64 RttV)
+     float64 RddV;
+     arch_fpop_start(env);
+     RddV = float64_add(RssV, RttV, &env->fp_status);
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -774,7 +739,6 @@ float64 HELPER(dfsub)(CPUHexagonState *env, float64 RssV, float64 RttV)
+     float64 RddV;
+     arch_fpop_start(env);
+     RddV = float64_sub(RssV, RttV, &env->fp_status);
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -787,7 +751,6 @@ float64 HELPER(dfmax)(CPUHexagonState *env, float64 RssV, float64 RttV)
+     if (float64_is_any_nan(RssV) || float64_is_any_nan(RttV)) {
+         float_raise(float_flag_invalid, &env->fp_status);
+     }
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -800,7 +763,6 @@ float64 HELPER(dfmin)(CPUHexagonState *env, float64 RssV, float64 RttV)
+     if (float64_is_any_nan(RssV) || float64_is_any_nan(RttV)) {
+         float_raise(float_flag_invalid, &env->fp_status);
+     }
+-    RddV = hex_check_dfnan(RddV);
+     arch_fpop_end(env);
+     return RddV;
+ }
+@@ -876,7 +838,6 @@ float32 HELPER(sfmpy)(CPUHexagonState *env, float32 RsV, float32 RtV)
+     float32 RdV;
+     arch_fpop_start(env);
+     RdV = internal_mpyf(RsV, RtV, &env->fp_status);
+-    RdV = hex_check_sfnan(RdV);
+     arch_fpop_end(env);
+     return RdV;
+ }
+@@ -886,7 +847,6 @@ float32 HELPER(sffma)(CPUHexagonState *env, float32 RxV,
+ {
+     arch_fpop_start(env);
+     RxV = internal_fmafx(RsV, RtV, RxV, 0, &env->fp_status);
+-    RxV = hex_check_sfnan(RxV);
+     arch_fpop_end(env);
+     return RxV;
+ }
+@@ -918,7 +878,6 @@ float32 HELPER(sffma_sc)(CPUHexagonState *env, float32 RxV,
+     RxV = check_nan(RxV, RsV, &env->fp_status);
+     RxV = check_nan(RxV, RtV, &env->fp_status);
+     tmp = internal_fmafx(RsV, RtV, RxV, fSXTN(8, 64, PuV), &env->fp_status);
+-    tmp = hex_check_sfnan(tmp);
+     if (!(float32_is_zero(RxV) && is_zero_prod(RsV, RtV))) {
+         RxV = tmp;
+     }
+@@ -933,7 +892,6 @@ float32 HELPER(sffms)(CPUHexagonState *env, float32 RxV,
+     arch_fpop_start(env);
+     neg_RsV = float32_sub(float32_zero, RsV, &env->fp_status);
+     RxV = internal_fmafx(neg_RsV, RtV, RxV, 0, &env->fp_status);
+-    RxV = hex_check_sfnan(RxV);
+     arch_fpop_end(env);
+     return RxV;
+ }
+@@ -964,7 +922,6 @@ float32 HELPER(sffma_lib)(CPUHexagonState *env, float32 RxV,
+     RxV = check_nan(RxV, RsV, &env->fp_status);
+     RxV = check_nan(RxV, RtV, &env->fp_status);
+     tmp = internal_fmafx(RsV, RtV, RxV, 0, &env->fp_status);
+-    tmp = hex_check_sfnan(tmp);
+     if (!(float32_is_zero(RxV) && is_zero_prod(RsV, RtV))) {
+         RxV = tmp;
+     }
+@@ -999,7 +956,6 @@ float32 HELPER(sffms_lib)(CPUHexagonState *env, float32 RxV,
+     RxV = check_nan(RxV, RtV, &env->fp_status);
+     float32 minus_RsV = float32_sub(float32_zero, RsV, &env->fp_status);
+     tmp = internal_fmafx(minus_RsV, RtV, RxV, 0, &env->fp_status);
+-    tmp = hex_check_sfnan(tmp);
+     if (!(float32_is_zero(RxV) && is_zero_prod(RsV, RtV))) {
+         RxV = tmp;
+     }
+@@ -1023,13 +979,11 @@ float64 HELPER(dfmpyfix)(CPUHexagonState *env, float64 RssV, float64 RttV)
+         float64_is_normal(RttV)) {
+         RddV = float64_mul(RssV, make_float64(0x4330000000000000),
+                            &env->fp_status);
+-        RddV = hex_check_dfnan(RddV);
+     } else if (float64_is_denormal(RttV) &&
+                (float64_getexp(RssV) >= 512) &&
+                float64_is_normal(RssV)) {
+         RddV = float64_mul(RssV, make_float64(0x3cb0000000000000),
+                            &env->fp_status);
+-        RddV = hex_check_dfnan(RddV);
+     } else {
+         RddV = RssV;
+     }
+@@ -1042,7 +996,6 @@ float64 HELPER(dfmpyhh)(CPUHexagonState *env, float64 RxxV,
+ {
+     arch_fpop_start(env);
+     RxxV = internal_mpyhh(RssV, RttV, RxxV, &env->fp_status);
+-    RxxV = hex_check_dfnan(RxxV);
+     arch_fpop_end(env);
+     return RxxV;
+ }
 -- 
 2.7.4
 
