@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF68435A368
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:31:09 +0200 (CEST)
-Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2445535A374
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:33:31 +0200 (CEST)
+Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUu2G-0002D7-Q8
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:31:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52488)
+	id 1lUu4X-0004co-Tk
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3E4BwYAcKCt4VENTUREGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--venture.bounces.google.com>)
- id 1lUtxL-0005Ir-CQ
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:26:03 -0400
-Received: from mail-qt1-x84a.google.com ([2607:f8b0:4864:20::84a]:56198)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3E4BwYAcKCt4VENTUREGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--venture.bounces.google.com>)
- id 1lUtxI-0007Rh-1U
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:26:03 -0400
-Received: by mail-qt1-x84a.google.com with SMTP id f8so3370703qtv.22
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 09:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=38uiuJ3QJKBXotFg87dlcM88G9yDApKLBBvLmJGZZCE=;
- b=ZBn49z+s38lRSLFPTBjx7y7reVOP5OjuKrdvbWA9tn7abKsAeB9isRgh4NBJscTVc3
- yVebGjhcZ3i1wmG9J6s5AfucHvkgFeMHnK5xGIIW4Y2W2p6kK32MBIpd3QeZGunzPw6t
- LwSsMKwhi2HhObiccaKppzNvKDDKNQjLk3iLTWvohBHDbJ3i44y7LQrU76yiUJlKbqS8
- BiGFcN6imb8bND5X2yyPx0jzUvc5FU/B4s/5KspI7Qhi89pwGyL1cWCyXxIe/3PXYOXH
- aA3/95e0dCuouDQY8LTS4An4m05KN84amK3gTawMXEHGQSfLsmsfT4k5hCsTl4F7wYXm
- NOYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=38uiuJ3QJKBXotFg87dlcM88G9yDApKLBBvLmJGZZCE=;
- b=Wa6F5+3WUTcM0LCBwKos33RI3kWFUPvLYBg4ii7r7gniX5h7c0oWEPqXw/yhXoEavX
- XZ4ShE/rl+nf15tnw+v2yHGNkPjAg0co4X3UUHD2h0ShjHc9k8Wr2qJyxMN4lUDFAV+4
- lQum7lRT/SDaJ6k2+hQuvi66xhrS6sIlRZXaR/SWl8wd9Mzn/AjN6nJxqTJ6KekWOT+P
- TsHEjKBG/obaVpJZQqiie1dSzhDD1qAPj+UKWlribgFvobBQNz3O1nQqdEq5TqIkaLy8
- x2Er3dIWzxeVpjRH6/U1EfRZCpWYXWChGpHBRWfXJY6AeTnB+N/G6tN2nt4BXYmIZDUZ
- /tgA==
-X-Gm-Message-State: AOAM5310y4XP45BRSkuVVcOQPOI+aNXLA+u7r1/WAMhBjr+D7RcHWYPV
- jnVNAthpnDUUVtnkHSeVW34w9EOl2gYS
-X-Google-Smtp-Source: ABdhPJz+rsqcwUxEPRLG3v5PkbanwC118eDKXaZ5FHzpfUaPy/8UT9KmKFZ8/bus/8lxSLuCtiFPABalaj6J
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:6985:9b01:e10b:b119])
- (user=venture job=sendgmr) by 2002:a0c:c3cd:: with SMTP id
- p13mr15159951qvi.4.1617985555670; Fri, 09 Apr 2021 09:25:55 -0700 (PDT)
-Date: Fri,  9 Apr 2021 09:25:41 -0700
-Message-Id: <20210409162545.3705962-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH v2 0/4] hw/i2c: Adds pca954x i2c mux switch device
-From: Patrick Venture <venture@google.com>
-To: cminyard@mvista.com, wuhaotsh@google.com, hskinnemoen@google.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::84a;
- envelope-from=3E4BwYAcKCt4VENTUREGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--venture.bounces.google.com;
- helo=mail-qt1-x84a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnt-0007mI-Th
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnq-0003Nf-NN
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617984969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CAw/IADhNh/BttxkT1Kn1aKYF2k8HdTDwkIzAeO6v2k=;
+ b=LiZ+5bfJpOJ27TGl+jqCob2JlNpccudNdoUWFHG+1jkP7zfADkty4tK/htzl9k4Adje/T2
+ eTcNMgb7XTifiRzcVPkEKhiWtRSHowhYdAeTrLRNDMX/cP+lvQjbqHdwSGmItZeLVxtMdj
+ M4otkLKVJc/QfLYzlKrAsOijR5ifzos=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-uFtxCuYyOzeXmhF4P2hggg-1; Fri, 09 Apr 2021 12:16:07 -0400
+X-MC-Unique: uFtxCuYyOzeXmhF4P2hggg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA59987A826;
+ Fri,  9 Apr 2021 16:16:06 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-63.ams2.redhat.com [10.36.115.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8CD65D6A1;
+ Fri,  9 Apr 2021 16:16:05 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 07/10] mirror: Move open_backing_file to exit_common
+Date: Fri,  9 Apr 2021 18:15:45 +0200
+Message-Id: <20210409161548.341297-8-kwolf@redhat.com>
+In-Reply-To: <20210409161548.341297-1-kwolf@redhat.com>
+References: <20210409161548.341297-1-kwolf@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,39 +76,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The i2c mux device pca954x implements two devices:
- - the pca9546 and pca9548.
+From: Max Reitz <mreitz@redhat.com>
 
-v2:
- - the core i2c bus now calls a match method on each i2c child, which
- by default will only check for a match against itself.
- - the pca954x device overrides the i2c device match method to search
- the children for each of its buses that are active.
- - the pca954x device now owns an i2c bus for each channel, allowing
- the normal device model to attach devices to the channels.
+This is a graph change and therefore should be done in job-finalize
+(which is what invokes mirror_exit_common()).
 
-Patrick Venture (4):
-  hw/i2c: name I2CNode list in I2CBus
-  hw/i2c: add match method for device search
-  hw/i2c: move search to i2c_scan_bus method
-  hw/i2c: add pca954x i2c-mux switch
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20210409120422.144040-2-mreitz@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/mirror.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
- MAINTAINERS                      |   6 +
- hw/i2c/Kconfig                   |   4 +
- hw/i2c/core.c                    |  55 ++++--
- hw/i2c/i2c_mux_pca954x.c         | 290 +++++++++++++++++++++++++++++++
- hw/i2c/meson.build               |   1 +
- hw/i2c/trace-events              |   5 +
- include/hw/i2c/i2c.h             |  16 +-
- include/hw/i2c/i2c_mux_pca954x.h |  19 ++
- 8 files changed, 382 insertions(+), 14 deletions(-)
- create mode 100644 hw/i2c/i2c_mux_pca954x.c
- create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
-
+diff --git a/block/mirror.c b/block/mirror.c
+index d7e54c0ff7..f1f936bf1a 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -689,6 +689,14 @@ static int mirror_exit_common(Job *job)
+                 ret = -EPERM;
+             }
+         }
++    } else if (!abort && s->backing_mode == MIRROR_OPEN_BACKING_CHAIN) {
++        assert(!bdrv_backing_chain_next(target_bs));
++        ret = bdrv_open_backing_file(bdrv_skip_filters(target_bs), NULL,
++                                     "backing", &local_err);
++        if (ret < 0) {
++            error_report_err(local_err);
++            local_err = NULL;
++        }
+     }
+ 
+     if (s->to_replace) {
+@@ -1107,9 +1115,6 @@ immediate_exit:
+ static void mirror_complete(Job *job, Error **errp)
+ {
+     MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
+-    BlockDriverState *target;
+-
+-    target = blk_bs(s->target);
+ 
+     if (!s->synced) {
+         error_setg(errp, "The active block job '%s' cannot be completed",
+@@ -1117,17 +1122,6 @@ static void mirror_complete(Job *job, Error **errp)
+         return;
+     }
+ 
+-    if (s->backing_mode == MIRROR_OPEN_BACKING_CHAIN) {
+-        int ret;
+-
+-        assert(!bdrv_backing_chain_next(target));
+-        ret = bdrv_open_backing_file(bdrv_skip_filters(target), NULL,
+-                                     "backing", errp);
+-        if (ret < 0) {
+-            return;
+-        }
+-    }
+-
+     /* block all operations on to_replace bs */
+     if (s->replaces) {
+         AioContext *replace_aio_context;
 -- 
-2.31.1.295.g9ea45b61b8-goog
+2.30.2
 
 
