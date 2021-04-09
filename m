@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C033A35935F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:46:38 +0200 (CEST)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653B7359347
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:44:59 +0200 (CEST)
+Received: from localhost ([::1]:40584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUi6P-0007tq-Re
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52038)
+	id 1lUi4o-0005JA-E3
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2n-0003a4-CJ
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:53 -0400
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2s-0003fO-BP
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:43:00 -0400
 Received: from mga05.intel.com ([192.55.52.43]:12420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2l-0007T4-L6
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:53 -0400
-IronPort-SDR: 6o8rLchXohsKCWSJkmEbkG8Oy7j93VxbujKB1A0qd8jJZxCvILwqYLrIr7j6f1wzj2alfYGT3X
- xTuHIi1cPA7Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957356"
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957356"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2p-0007T4-KB
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:58 -0400
+IronPort-SDR: fmsJs6bfNwy0wqZfGWrfq3EXQto5puMGdD4tyNSqYhd/1Fmjb4kM8K3jh9IREzsIDC2e2JFkKO
+ PCrVZKebiJzg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957370"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957370"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2021 20:42:51 -0700
-IronPort-SDR: HE+EyU4nCCBPg0WgRjene2detCeELippOgYGuGHu0XTT8DLgEMZ2w4TjXQIzrFpwqcab1bHzuT
- uuiGCKvszi6Q==
+ 08 Apr 2021 20:42:55 -0700
+IronPort-SDR: vvuZ+A8Vq+LlWFR6A+2atACfpWSjlVJhde3R+f48B2/FvbFuGBskyCRj8jmCkySl4G2XV3EXXS
+ L+OtHXNalrSQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081143"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081168"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:48 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:52 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v6 08/10] Reduce the PVM stop time during Checkpoint
-Date: Thu,  8 Apr 2021 23:20:54 -0400
-Message-Id: <1617938456-315058-9-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v6 09/10] Add the function of colo_bitmap_clear_dirty
+Date: Thu,  8 Apr 2021 23:20:55 -0400
+Message-Id: <1617938456-315058-10-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
 References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
@@ -66,94 +66,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-When flushing memory from ram cache to ram during every checkpoint
-on secondary VM, we can copy continuous chunks of memory instead of
-4096 bytes per time to reduce the time of VM stop during checkpoint.
+When we use continuous dirty memory copy for flushing ram cache on
+secondary VM, we can also clean up the bitmap of contiguous dirty
+page memory. This also can reduce the VM stop time during checkpoint.
+
+The performance test for COLO as follow:
+
+Server configuraton:
+CPU :Intel(R) Xeon(R) Gold 6140 CPU @ 2.30GHz
+MEM :251G(type:DDR4 Speed:2666 MT/s)
+SSD :Intel 730 and DC S35x0/3610/3700 Series SSDs
+
+dirty pages:3189376  migration_bitmap_clear_dirty time consuming(ns):105194000
+dirty pages:3189784  migration_bitmap_clear_dirty time consuming(ns):105297000
+dirty pages:3190501  migration_bitmap_clear_dirty time consuming(ns):105410000
+dirty pages:3188734  migration_bitmap_clear_dirty time consuming(ns):105138000
+dirty pages:3189464  migration_bitmap_clear_dirty time consuming(ns):111736000
+dirty pages:3188558  migration_bitmap_clear_dirty time consuming(ns):105079000
+dirty pages:3239489  migration_bitmap_clear_dirty time consuming(ns):106761000
+
+dirty pages:3190240  colo_bitmap_clear_dirty time consuming(ns):8369000
+dirty pages:3189293  colo_bitmap_clear_dirty time consuming(ns):8388000
+dirty pages:3189171  colo_bitmap_clear_dirty time consuming(ns):8641000
+dirty pages:3189099  colo_bitmap_clear_dirty time consuming(ns):8280000
+dirty pages:3189974  colo_bitmap_clear_dirty time consuming(ns):8352000
+dirty pages:3189471  colo_bitmap_clear_dirty time consuming(ns):8348000
+dirty pages:3189681  colo_bitmap_clear_dirty time consuming(ns):8426000
+
+it can be seen from the data that colo_bitmap_clear_dirty is more
+efficient.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/ram.c | 48 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 3 deletions(-)
+ migration/ram.c | 36 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 31 insertions(+), 5 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index f9d60f0..8661d82 100644
+index 8661d82..11275cd 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -822,6 +822,41 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-     return next;
+@@ -857,6 +857,36 @@ unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+     return first;
  }
  
-+/*
-+ * colo_bitmap_find_diry:find contiguous dirty pages from start
-+ *
-+ * Returns the page offset within memory region of the start of the contiguout
-+ * dirty page
-+ *
-+ * @rs: current RAM state
-+ * @rb: RAMBlock where to search for dirty pages
-+ * @start: page where we start the search
-+ * @num: the number of contiguous dirty pages
++/**
++ * colo_bitmap_clear_dirty:when we flush ram cache to ram, we will use
++ * continuous memory copy, so we can also clean up the bitmap of contiguous
++ * dirty memory.
 + */
-+static inline
-+unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-+                                     unsigned long start, unsigned long *num)
++static inline bool colo_bitmap_clear_dirty(RAMState *rs,
++                                           RAMBlock *rb,
++                                           unsigned long start,
++                                           unsigned long num)
 +{
-+    unsigned long size = rb->used_length >> TARGET_PAGE_BITS;
-+    unsigned long *bitmap = rb->bmap;
-+    unsigned long first, next;
++    bool ret;
++    unsigned long i = 0;
 +
-+    *num = 0;
-+
-+    if (ramblock_is_ignored(rb)) {
-+        return size;
++    /*
++     * Since flush ram cache to ram can only happen on Secondary VM.
++     * and the clear bitmap always is NULL on destination side.
++     * Therefore, there is unnecessary to judge whether the
++     * clear_bitmap needs clear.
++     */
++    QEMU_LOCK_GUARD(&rs->bitmap_mutex);
++    for (i = 0; i < num; i++) {
++        ret = test_and_clear_bit(start + i, rb->bmap);
++        if (ret) {
++            rs->migration_dirty_pages--;
++        }
 +    }
 +
-+    first = find_next_bit(bitmap, size, start);
-+    if (first >= size) {
-+        return first;
-+    }
-+    next = find_next_zero_bit(bitmap, size, first + 1);
-+    assert(next >= first);
-+    *num = next - first;
-+    return first;
++    return ret;
 +}
 +
  static inline bool migration_bitmap_clear_dirty(RAMState *rs,
                                                  RAMBlock *rb,
                                                  unsigned long page)
-@@ -3730,19 +3765,26 @@ void colo_flush_ram_cache(void)
-         block = QLIST_FIRST_RCU(&ram_list.blocks);
- 
-         while (block) {
--            offset = migration_bitmap_find_dirty(ram_state, block, offset);
-+            unsigned long num = 0;
- 
-+            offset = colo_bitmap_find_dirty(ram_state, block, offset, &num);
-             if (((ram_addr_t)offset) << TARGET_PAGE_BITS
-                 >= block->used_length) {
-                 offset = 0;
-+                num = 0;
+@@ -3774,11 +3804,7 @@ void colo_flush_ram_cache(void)
+                 num = 0;
                  block = QLIST_NEXT_RCU(block, next);
              } else {
--                migration_bitmap_clear_dirty(ram_state, block, offset);
-+                unsigned long i = 0;
-+
-+                for (i = 0; i < num; i++) {
-+                    migration_bitmap_clear_dirty(ram_state, block, offset + i);
-+                }
+-                unsigned long i = 0;
+-
+-                for (i = 0; i < num; i++) {
+-                    migration_bitmap_clear_dirty(ram_state, block, offset + i);
+-                }
++                colo_bitmap_clear_dirty(ram_state, block, offset, num);
                  dst_host = block->host
                           + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
                  src_host = block->colo_cache
-                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
--                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-+                memcpy(dst_host, src_host, TARGET_PAGE_SIZE * num);
-+                offset += num;
-             }
-         }
-     }
 -- 
 1.8.3.1
 
