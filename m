@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE2B359EA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:27:54 +0200 (CEST)
-Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352E2359EAC
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:29:08 +0200 (CEST)
+Received: from localhost ([::1]:39906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUqEr-0005cB-JB
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48136)
+	id 1lUqG3-0007JY-A8
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=726c96411=alistair.francis@wdc.com>)
- id 1lUq9h-0000hi-4O; Fri, 09 Apr 2021 08:22:33 -0400
+ id 1lUq9o-0000jZ-Ns; Fri, 09 Apr 2021 08:22:41 -0400
 Received: from esa3.hgst.iphmx.com ([216.71.153.141]:60740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=726c96411=alistair.francis@wdc.com>)
- id 1lUq9b-0000sV-B0; Fri, 09 Apr 2021 08:22:32 -0400
+ id 1lUq9j-0000sV-ES; Fri, 09 Apr 2021 08:22:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1617970947; x=1649506947;
+ t=1617970955; x=1649506955;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ws0b7a5WkhdGJvZZ22fSs/KjBI0Z5b9RUY9KQomBeRM=;
- b=PKhkZU45mz+NLPW3UZeHEdWm9WlHqL1ub5Y1auU3VcpMNpaOk9/v/04/
- 0wwc8NWBxQcVa/ymc4sOM7Si1oNC2KyZg7351dcrPWs1c2cFKvYK+Oh/V
- KEhNugEyv7Ww3Ba5T31H9uI4G6lt6cng+MShSonL99u9TwTLXvFavtDKT
- GP+M5+gCzEhPesc2plW0exWvvLCff8eDJQnO+OhhzRToMvcnzW41Ha9S0
- Yg6myN3diy4M2n7cpSlPi0oTaY74QVC7gLRY+AOK2X3vv7xiDyL7DLXHd
- C45Gp3E2SD1fKRCoTmUvwO7JFPkwM2924Q+8sSJSZdq6+PS2VJ3AD4TfG w==;
-IronPort-SDR: /MoAe8+4+T3tdQg8/WaznYyyvFGJNpCtD/rIzq4HsqFfhyfNhVMNuJxOUyueCY/SeqYY6iurkP
- O1PVB6wK9R4IAlOXeyN2Xjp+VELdKFcb/zPD1SLzYx6fCLSRbnZiKn6SisuAYj3PUWmePWCYJD
- 7FryQeRoLXNAGbD9Hf1jOE8BQO0McN09ZKi9eyAv2rXApgcELmvKnbdZBtXdDv5SRoMb+ynU9N
- c96jKmAx/tKBcC1F4Ocj1tebQOWgcWoWA0X1cBZpk+J7Hs3hBMWxpznIi3UKzuJXQ8YpkEYpKw
- nm4=
-X-IronPort-AV: E=Sophos;i="5.82,209,1613404800"; d="scan'208";a="168803610"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 09 Apr 2021 20:22:25 +0800
-IronPort-SDR: S9R4jRgdcaswR9XQGwVgeiou1ucQKGH45ifZRxLzbIf+qEuYpwLVcIJcxBL5EjhPnt0FNaI1r3
- b1pMQp2RhVXJZTXCLv5a2huBG/AyeWv7YSTYSmHjPxCEocwr0tXGZKKg4U9kTZwwLVJ13qeR4Y
- iCTeyP6MQfbLlN2kZoQB2EjK17O8bSC1b8qQ7zFsCSEwU33zStwB0J0H600wngrbzPwrZsm1su
- 95PoPVRHkdJmgTGGSAO8t0ySDxi4uUlu3O6sBHAk7sx47xyYRHXxnS0tleSoK6HNvguMcOAkSj
- nEdiqjMU/8zUtDqEyQVBQH/u
+ bh=XMpWji7VLRiH7hFzuP+S4zuKmFdTXmWKPHOjZfDOFMU=;
+ b=Ps9OwVHTU1vgxDxv0ktl2ufrcfoD5ayZ3ZQRuUFeQttjqLBS9kvhG8LW
+ Ief25KguXUlnsdjSWwz3q1bqH9Bshz5ivOhezxtZjDqB8hy1MzM7RZ+8H
+ WIOJQLpQODfkfLMNG2rRyaTkMDrAFdadEqIMNC3P1Mx7sXh63SzdgYB87
+ lMZBf6km9a/nBsFLAWZectlnt9xXRFnSE7NhNFxitKeEHqQfXMnx8AWux
+ lDUO3JMsaHPM/eotwmVbr4X6qV1w7wzl7UgboHGYkVxq1aWoBELtyUpEh
+ ExdjbbzK69dr+/0SKUD1sMxq5VPr9AzpvS09WCD28S5mOwXY2ix123kj9 w==;
+IronPort-SDR: sKEMKZYFNqcRmSIGVy+WQXh8+ip7/iPdDvu+uJLgHJNy0uArRx6wYCbXjddtLz2YyTp3oxd9B7
+ BSi2HIvNnlVx1wyfgsgugqCwSa0Djuqnntt8kwW2QvjUkzdUTjodgVS231/OgF8ca/ipKW98FX
+ 2sPFsm+9Yu/ijiamAIyiJr99qcRR2I829TNqZXamxgjq4wj+Cl95BLglLWM4Jt2RrQ6iSAg+wQ
+ vNJJKChlcgzQ6uicOnvX6ffuggOQ4HFqBgrF9xC4CJrTwD8klRqbizxSdhhegVC+As51rDIG4S
+ lTs=
+X-IronPort-AV: E=Sophos;i="5.82,209,1613404800"; d="scan'208";a="168803621"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Apr 2021 20:22:34 +0800
+IronPort-SDR: cFrr6/dj3IbJuRolSUe4Oefa4QHdK++JxZkywBZSe3iVR8rObZqtb/10D+5gpfBBOW9OkpIqPh
+ ShUyp/p0uVvOOpeaoxFZRvyZVe2/2wA9X4HB94+1bmPCg16s4Ot3oo0las1LNsayqCHtnScVOm
+ iIsjPghEOSPqj0+WbRi3OvL8QQk5WB0ywF7IEn85gulXev43zW5pIjUKISHMzTnPF3cDN+nEia
+ X17bLynhuTrcY45h6Ymw6bmHU7JcSCkEiBFzQivjgXbsf66Sl/mN+lFcr5YEp5EbEUPQtu6N/b
+ 98D7BaU23zPQ9w24w5KCL8Al
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2021 05:03:35 -0700
-IronPort-SDR: AeVp0T15jvseLbOw/8YpXk/VpYAWWiYCpbN1RiREcOzpnQ9VoOYc6NxkrwT+iGv0ukDRZxDiIl
- Bcsrpah2DrJHBApMTkw9SoVh1BPp+IWapkJefVFjlzKtGAB1qjM3L4nCBDoq6ODwqMegni+XRv
- WcPk+QO9r0UVcQ0FIFW6kDKJuNwGPRwvvt2OPUbkexbIJXW/U85YDV152c2pz/g7mB3stv+0M4
- zvwULnrz04xvXCOgLvnEjVqkQJ5zdxYRdzeURlXwGzAVF5fbl8JfX3w2AuNauzbsqESuhDuwFe
- 0Eg=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2021 05:02:09 -0700
+IronPort-SDR: olGKs3GSl6JTs6YNn7ZPUMOz7aHx4pstA9Eye+vHu1Zke+8rC3a2AZwF0sTG4pkSIHtiqLhW1H
+ 465F9iNMv4cAbz4wITjacwEH3Tcgb5/RcCJpMlnSJ1Ulgq+Oip41J+7iTNr6E2/Ih0TRSpe9YJ
+ UrVBibqNXpqlTt60CQQHOY8VX3SZZc0+LiYNbLrm6YwXHfjLcslmJZLTxx3kLfeRizXsgRKXWs
+ z3JIY2Bg/xoXFVqNaHWMsIev3CpAXSlKwZ92+rMhkH1DTNKz+ppMIvP0ZTuAc4baDOpHYcfj9H
+ BeY=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.167.98])
- by uls-op-cesaip02.wdc.com with ESMTP; 09 Apr 2021 05:22:24 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 09 Apr 2021 05:22:33 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 4/8] target/riscv: Add ePMP CSR access functions
-Date: Fri,  9 Apr 2021 08:20:23 -0400
-Message-Id: <fc539c45286020ebef530662330dc4c1d06d65a2.1617970729.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 5/8] target/riscv: Implementation of enhanced PMP (ePMP)
+Date: Fri,  9 Apr 2021 08:20:32 -0400
+Message-Id: <3f4a8b1fa0cd5deed00beb585010d6b1cc59efb6.1617970729.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <cover.1617970729.git.alistair.francis@wdc.com>
 References: <cover.1617970729.git.alistair.francis@wdc.com>
@@ -96,179 +96,227 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hou Weiying <weiying_hou@outlook.com>
 
+This commit adds support for ePMP v0.9.1.
+
+The ePMP spec can be found in:
+https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
+
 Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
 Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
 Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
-Message-Id: <SG2PR02MB26348FDC30678B3177B5CF3893450@SG2PR02MB2634.apcprd02.prod.outlook.com>
+Message-Id: <SG2PR02MB263462CCDBCBBAD36983C2CD93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
 [ Changes by AF:
  - Rebase on master
- - Fix build errors
- - Fix some style issues
+ - Update to latest spec
+ - Use a switch case to handle ePMP MML permissions
+ - Fix a few bugs
 ]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- target/riscv/cpu.h        |  1 +
- target/riscv/pmp.h        | 14 ++++++++++++++
- target/riscv/csr.c        | 24 ++++++++++++++++++++++++
- target/riscv/pmp.c        | 34 ++++++++++++++++++++++++++++++++++
- target/riscv/trace-events |  3 +++
- 5 files changed, 76 insertions(+)
+ target/riscv/pmp.c | 165 +++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 153 insertions(+), 12 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 13a08b86f6..83b315e0b2 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -230,6 +230,7 @@ struct CPURISCVState {
- 
-     /* physical memory protection */
-     pmp_table_t pmp_state;
-+    target_ulong mseccfg;
- 
-     /* machine specific rdtime callback */
-     uint64_t (*rdtime_fn)(uint32_t);
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index b82a30f0d5..a9a0b363a7 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -36,6 +36,12 @@ typedef enum {
-     PMP_AMATCH_NAPOT /* Naturally aligned power-of-two region */
- } pmp_am_t;
- 
-+typedef enum {
-+    MSECCFG_MML  = 1 << 0,
-+    MSECCFG_MMWP = 1 << 1,
-+    MSECCFG_RLB  = 1 << 2
-+} mseccfg_field_t;
-+
- typedef struct {
-     target_ulong addr_reg;
-     uint8_t  cfg_reg;
-@@ -55,6 +61,10 @@ typedef struct {
- void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
-     target_ulong val);
- target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index);
-+
-+void mseccfg_csr_write(CPURISCVState *env, target_ulong val);
-+target_ulong mseccfg_csr_read(CPURISCVState *env);
-+
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-     target_ulong val);
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
-@@ -68,4 +78,8 @@ void pmp_update_rule_nums(CPURISCVState *env);
- uint32_t pmp_get_num_rules(CPURISCVState *env);
- int pmp_priv_to_page_prot(pmp_priv_t pmp_priv);
- 
-+#define MSECCFG_MML_ISSET(env) get_field(env->mseccfg, MSECCFG_MML)
-+#define MSECCFG_MMWP_ISSET(env) get_field(env->mseccfg, MSECCFG_MMWP)
-+#define MSECCFG_RLB_ISSET(env) get_field(env->mseccfg, MSECCFG_RLB)
-+
- #endif
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index f0a74f0eb8..97ceff718f 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -200,6 +200,15 @@ static RISCVException pmp(CPURISCVState *env, int csrno)
- 
-     return RISCV_EXCP_ILLEGAL_INST;
- }
-+
-+static RISCVException epmp(CPURISCVState *env, int csrno)
-+{
-+    if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    return RISCV_EXCP_ILLEGAL_INST;
-+}
- #endif
- 
- /* User Floating-Point CSRs */
-@@ -1343,6 +1352,20 @@ static RISCVException write_mtinst(CPURISCVState *env, int csrno,
- }
- 
- /* Physical Memory Protection */
-+static RISCVException read_mseccfg(CPURISCVState *env, int csrno,
-+                                   target_ulong *val)
-+{
-+    *val = mseccfg_csr_read(env);
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
-+                         target_ulong val)
-+{
-+    mseccfg_csr_write(env, val);
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_pmpcfg(CPURISCVState *env, int csrno,
-                                   target_ulong *val)
- {
-@@ -1581,6 +1604,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MTINST]      = { "mtinst",      hmode,   read_mtinst,      write_mtinst      },
- 
-     /* Physical Memory Protection */
-+    [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg },
-     [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg,  write_pmpcfg  },
-     [CSR_PMPCFG1]    = { "pmpcfg1",   pmp, read_pmpcfg,  write_pmpcfg  },
-     [CSR_PMPCFG2]    = { "pmpcfg2",   pmp, read_pmpcfg,  write_pmpcfg  },
 diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index a3b253bb15..e35988eec2 100644
+index e35988eec2..cd44d81eba 100644
 --- a/target/riscv/pmp.c
 +++ b/target/riscv/pmp.c
-@@ -419,6 +419,40 @@ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
-     return val;
- }
- 
-+/*
-+ * Handle a write to a mseccfg CSR
-+ */
-+void mseccfg_csr_write(CPURISCVState *env, target_ulong val)
-+{
-+    int i;
+@@ -90,11 +90,42 @@ static inline uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t pmp_index)
+ static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
+ {
+     if (pmp_index < MAX_RISCV_PMPS) {
+-        if (!pmp_is_locked(env, pmp_index)) {
+-            env->pmp_state.pmp[pmp_index].cfg_reg = val;
+-            pmp_update_rule(env, pmp_index);
++        bool locked = true;
 +
-+    trace_mseccfg_csr_write(env->mhartid, val);
-+
-+    /* RLB cannot be enabled if it's already 0 and if any regions are locked */
-+    if (!MSECCFG_RLB_ISSET(env)) {
-+        for (i = 0; i < MAX_RISCV_PMPS; i++) {
-+            if (pmp_is_locked(env, i)) {
-+                val &= ~MSECCFG_RLB;
-+                break;
++        if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
++            /* mseccfg.RLB is set */
++            if (MSECCFG_RLB_ISSET(env)) {
++                locked = false;
 +            }
++
++            /* mseccfg.MML is not set */
++            if (!MSECCFG_MML_ISSET(env) && !pmp_is_locked(env, pmp_index)) {
++                locked = false;
++            }
++
++            /* mseccfg.MML is set */
++            if (MSECCFG_MML_ISSET(env)) {
++                /* not adding execute bit */
++                if ((val & PMP_LOCK) != 0 && (val & PMP_EXEC) != PMP_EXEC) {
++                    locked = false;
++                }
++                 /* shared region and not adding X bit*/
++                if ((val & PMP_LOCK) != PMP_LOCK &&
++                    (val & 0x7) != (PMP_WRITE | PMP_EXEC)) {
++                    locked = false;
++                }
++            }
+         } else {
++            if (!pmp_is_locked(env, pmp_index)) {
++                locked = false;
++            }
++        }
++
++        if (locked) {
+             qemu_log_mask(LOG_GUEST_ERROR, "ignoring pmpcfg write - locked\n");
++        } else {
++            env->pmp_state.pmp[pmp_index].cfg_reg = val;
++            pmp_update_rule(env, pmp_index);
+         }
+     } else {
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -217,6 +248,33 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+ {
+     bool ret;
+ 
++    if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
++        if (MSECCFG_MMWP_ISSET(env)) {
++            /*
++             * The Machine Mode Whitelist Policy (mseccfg.MMWP) is set
++             * so we default to deny all, even for M mode.
++             */
++            *allowed_privs = 0;
++            return false;
++        } else if (MSECCFG_MML_ISSET(env)) {
++            /*
++             * The Machine Mode Lockdown (mseccfg.MML) bit is set
++             * so we can only execute code in M mode with an applicable
++             * rule.
++             * Other modes are disabled.
++             */
++            if (mode == PRV_M && !(privs & PMP_EXEC)) {
++                ret = true;
++                *allowed_privs = PMP_READ | PMP_WRITE;
++            } else {
++                ret = false;
++                *allowed_privs = 0;
++            }
++
++            return ret;
 +        }
 +    }
 +
-+    /* Sticky bits */
-+    val |= (env->mseccfg & (MSECCFG_MMWP | MSECCFG_MML));
+     if ((!riscv_feature(env, RISCV_FEATURE_PMP)) || (mode == PRV_M)) {
+         /*
+          * Privileged spec v1.10 states if HW doesn't implement any PMP entry
+@@ -294,13 +352,94 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+             pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
+ 
+         /*
+-         * If the PMP entry is not off and the address is in range, do the priv
+-         * check
++         * Convert the PMP permissions to match the truth table in the
++         * ePMP spec.
+          */
++        const uint8_t epmp_operation =
++            ((env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) >> 4) |
++            ((env->pmp_state.pmp[i].cfg_reg & PMP_READ) << 2) |
++            (env->pmp_state.pmp[i].cfg_reg & PMP_WRITE) |
++            ((env->pmp_state.pmp[i].cfg_reg & PMP_EXEC) >> 2);
 +
-+    env->mseccfg = val;
-+}
-+
-+/*
-+ * Handle a read from a mseccfg CSR
-+ */
-+target_ulong mseccfg_csr_read(CPURISCVState *env)
-+{
-+    trace_mseccfg_csr_read(env->mhartid, env->mseccfg);
-+    return env->mseccfg;
-+}
-+
- /*
-  * Calculate the TLB size if the start address or the end address of
-  * PMP entry is presented in thie TLB page.
-diff --git a/target/riscv/trace-events b/target/riscv/trace-events
-index b7e371ee97..49ec4d3b7d 100644
---- a/target/riscv/trace-events
-+++ b/target/riscv/trace-events
-@@ -6,3 +6,6 @@ pmpcfg_csr_read(uint64_t mhartid, uint32_t reg_index, uint64_t val) "hart %" PRI
- pmpcfg_csr_write(uint64_t mhartid, uint32_t reg_index, uint64_t val) "hart %" PRIu64 ": write reg%" PRIu32", val: 0x%" PRIx64
- pmpaddr_csr_read(uint64_t mhartid, uint32_t addr_index, uint64_t val) "hart %" PRIu64 ": read addr%" PRIu32", val: 0x%" PRIx64
- pmpaddr_csr_write(uint64_t mhartid, uint32_t addr_index, uint64_t val) "hart %" PRIu64 ": write addr%" PRIu32", val: 0x%" PRIx64
-+
-+mseccfg_csr_read(uint64_t mhartid, uint64_t val) "hart %" PRIu64 ": read mseccfg, val: 0x%" PRIx64
-+mseccfg_csr_write(uint64_t mhartid, uint64_t val) "hart %" PRIu64 ": write mseccfg, val: 0x%" PRIx64
+         if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
+-            *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+-            if ((mode != PRV_M) || pmp_is_locked(env, i)) {
+-                *allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
++            /*
++             * If the PMP entry is not off and the address is in range,
++             * do the priv check
++             */
++            if (!MSECCFG_MML_ISSET(env)) {
++                /*
++                 * If mseccfg.MML Bit is not set, do pmp priv check
++                 * This will always apply to regular PMP.
++                 */
++                *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
++                if ((mode != PRV_M) || pmp_is_locked(env, i)) {
++                    *allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
++                }
++            } else {
++                /*
++                 * If mseccfg.MML Bit set, do the enhanced pmp priv check
++                 */
++                if (mode == PRV_M) {
++                    switch (epmp_operation) {
++                    case 0:
++                    case 1:
++                    case 4:
++                    case 5:
++                    case 6:
++                    case 7:
++                    case 8:
++                        *allowed_privs = 0;
++                        break;
++                    case 2:
++                    case 3:
++                    case 14:
++                        *allowed_privs = PMP_READ | PMP_WRITE;
++                        break;
++                    case 9:
++                    case 10:
++                        *allowed_privs = PMP_EXEC;
++                        break;
++                    case 11:
++                    case 13:
++                        *allowed_privs = PMP_READ | PMP_EXEC;
++                        break;
++                    case 12:
++                    case 15:
++                        *allowed_privs = PMP_READ;
++                        break;
++                    }
++                } else {
++                    switch (epmp_operation) {
++                    case 0:
++                    case 8:
++                    case 9:
++                    case 12:
++                    case 13:
++                    case 14:
++                        *allowed_privs = 0;
++                        break;
++                    case 1:
++                    case 10:
++                    case 11:
++                        *allowed_privs = PMP_EXEC;
++                        break;
++                    case 2:
++                    case 4:
++                    case 15:
++                        *allowed_privs = PMP_READ;
++                        break;
++                    case 3:
++                    case 6:
++                        *allowed_privs = PMP_READ | PMP_WRITE;
++                        break;
++                    case 5:
++                        *allowed_privs = PMP_READ | PMP_EXEC;
++                        break;
++                    case 7:
++                        *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
++                        break;
++                    }
++                }
+             }
+ 
+             ret = ((privs & *allowed_privs) == privs);
+@@ -328,10 +467,12 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+ 
+     trace_pmpcfg_csr_write(env->mhartid, reg_index, val);
+ 
+-    if ((reg_index & 1) && (sizeof(target_ulong) == 8)) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "ignoring pmpcfg write - incorrect address\n");
+-        return;
++    if (!riscv_feature(env, RISCV_FEATURE_EPMP) || !MSECCFG_RLB_ISSET(env)) {
++        if ((reg_index & 1) && (sizeof(target_ulong) == 8)) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "ignoring pmpcfg write - incorrect address\n");
++            return;
++        }
+     }
+ 
+     for (i = 0; i < sizeof(target_ulong); i++) {
 -- 
 2.31.0
 
