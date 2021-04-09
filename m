@@ -2,68 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D76635A2BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:12:36 +0200 (CEST)
-Received: from localhost ([::1]:41400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABA835A2D5
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:18:47 +0200 (CEST)
+Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtkJ-0002KN-AU
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46700)
+	id 1lUtqI-0000tj-FE
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:18:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lUtcV-0001n0-Bo; Fri, 09 Apr 2021 12:04:31 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:52858)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lUtfu-0005bZ-Sg
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:08:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lUtcF-0006Ig-6S; Fri, 09 Apr 2021 12:04:31 -0400
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 5A1892E1AA8;
- Fri,  9 Apr 2021 19:04:09 +0300 (MSK)
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- mdBZILfQ2X-490KlTwQ; Fri, 09 Apr 2021 19:04:09 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1617984249; bh=CAE/t9u5Q78GmpaAw3gIOVLp+C2NgXWIkRKdb2x0B8o=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=lXnYUOVGcIhnD03GPjSfEOVEA8Xfy/2Kfko0U8eoB6Oj8hNWPdwl7XOrcJ0rYLUbs
- W50zCv8O3rVONZwIpzEwToYdDZXSxSitP/FGMeXW6MeWy7P+r6fxSZkZCtYoaRqP+U
- WbQ9wYz0Hh/rsV3qujlUPeXixzTU+rJ71WmngsHg=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
- [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- QZcMcvrvJz-48oSrJU4; Fri, 09 Apr 2021 19:04:08 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 2/2] block/nbd: ensure ->connection_thread is always
- valid
-Date: Fri,  9 Apr 2021 19:04:06 +0300
-Message-Id: <20210409160406.1800272-3-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210409160406.1800272-1-rvkagan@yandex-team.ru>
-References: <20210409160406.1800272-1-rvkagan@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lUtfs-0007zU-G9
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:08:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617984478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rtBgoY4QF8YDYvgzpngZq6F4FxVO/gsNXeya9hiC84w=;
+ b=SfmyzHPgYLKsVgpLXNKTHCB9sBJfq4Dv10et6wqxALdqICUqB79DXoygMdb2xYttnMWnOj
+ oOKAnxdnhm/bW5MekmczLqfPp2xqC8czx9U6CIMdrtwtbDygrnR3t6TeqIK0oO/Zrlfaxd
+ 6Q7ivnOWkzk8m0vxWwDAW2ZNDhxN8o8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-ZyPypmBePoGEhzsYb0HEPw-1; Fri, 09 Apr 2021 12:07:57 -0400
+X-MC-Unique: ZyPypmBePoGEhzsYb0HEPw-1
+Received: by mail-ed1-f69.google.com with SMTP id l11so2884759edb.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 09:07:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rtBgoY4QF8YDYvgzpngZq6F4FxVO/gsNXeya9hiC84w=;
+ b=MO9ZMSK8rGEBb9FiHATxgaRmEGZJDoa9TGXXj7IeDyc1CpHyuVgsjYREX72WzaHYWc
+ 2k/o8q7Dyt01cTwVmS/Z03Uaa2qt6UJRzZbZim73hXu/C7yXz2xw52wTfcDDGIoxKrbq
+ XgvuHGnw6r35Sx+II6gsIPxjzEHB+a5s9SvA4go+8lzeXevNzERtjJHMRGX0qNuYUVZV
+ dhoSC0kjvQvsXB+qrYTCRAbq5GICmVCd6JHfTl9xRhOEfPw9MTtP+4vTTHIxwx47wYVA
+ TslU6IS1sb6N/CkeD37zxC9BNwCHYI+NTLKH0aq/npvaQSGLEw7Tj3kMXdHXRy74HWVL
+ UWLw==
+X-Gm-Message-State: AOAM533iZrvGnitxsEqknn83WuqhZiHbGJAh4PpDGcxQwwQ5OQOX002p
+ xzoHxSNVAEx5JRdVdSeL2cdj6ImgfVe+bPOC/kJawn6gSSGczL+t8CwhReKVKapewrfX6iNFy71
+ 4imWmPjXFB4JoHAKVV/DTRGKHRf/RGoFvhb39gyU3K7n8umcS4xbIPSQLp/Cc4vUrV/g=
+X-Received: by 2002:a17:906:2a0f:: with SMTP id
+ j15mr14405938eje.159.1617984475613; 
+ Fri, 09 Apr 2021 09:07:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuYlh/gF+uEM14A1XjHW2NbgL1YWUg7Y2eXECdFcx/TiPoq72Ko1d8IhIwfYsMC2rLbGzA3A==
+X-Received: by 2002:a17:906:2a0f:: with SMTP id
+ j15mr14405913eje.159.1617984475354; 
+ Fri, 09 Apr 2021 09:07:55 -0700 (PDT)
+Received: from localhost.localdomain ([194.230.155.173])
+ by smtp.gmail.com with ESMTPSA id y7sm1686532edq.88.2021.04.09.09.07.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Apr 2021 09:07:54 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 02/11] python: qemu: pass the wrapper field from
+ QEMUQtestmachine to QEMUMachine
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+References: <20210407135021.48330-1-eesposit@redhat.com>
+ <20210407135021.48330-3-eesposit@redhat.com>
+ <4d920857-c398-3527-d71e-1f0f79be9034@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <4a63b9bd-0716-b059-2ef0-a51e6e3d2328@redhat.com>
+Date: Fri, 9 Apr 2021 18:07:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <4d920857-c398-3527-d71e-1f0f79be9034@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,167 +103,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, yc-core@yandex-team.ru
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify lifetime management of BDRVNBDState->connection_thread by
-delaying the possible cleanup of it until the BDRVNBDState itself goes
-away.
 
-This also fixes possible use-after-free in nbd_co_establish_connection
-when it races with nbd_co_establish_connection_cancel.
+>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+>> index c721e07d63..18d32ebe45 100644
+>> --- a/python/qemu/machine.py
+>> +++ b/python/qemu/machine.py
+>> @@ -109,7 +109,7 @@ def __init__(self,
+>>           self._binary = binary
+>>           self._args = list(args)
+>> -        self._wrapper = wrapper
+>> +        self._wrapper = list(wrapper)
+>>
+> 
+> Unrelated change?
+> 
+> (I'm assuming you want to copy the user's input to explicitly avoid 
+> sharing state. Commit message blurb for this would be good.)
 
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
-This is a more future-proof version of the fix for use-after-free but
-less intrusive than Vladimir's series so that it can go in 6.0.
+Yes, unrelated change. I do not see the benefit of copying the user 
+state. I will drop it.
 
- block/nbd.c | 58 ++++++++++++++++++++++++++---------------------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+>>
+> 
+> ACK
 
-diff --git a/block/nbd.c b/block/nbd.c
-index d86df3afcb..6e3879c0c5 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -144,16 +144,31 @@ typedef struct BDRVNBDState {
-     NBDConnectThread *connect_thread;
- } BDRVNBDState;
- 
-+static void nbd_free_connect_thread(NBDConnectThread *thr);
- static int nbd_establish_connection(BlockDriverState *bs, SocketAddress *saddr,
-                                     Error **errp);
- static int nbd_co_establish_connection(BlockDriverState *bs, Error **errp);
--static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
--                                               bool detach);
-+static void nbd_co_establish_connection_cancel(BlockDriverState *bs);
- static int nbd_client_handshake(BlockDriverState *bs, Error **errp);
- static void nbd_yank(void *opaque);
- 
- static void nbd_clear_bdrvstate(BDRVNBDState *s)
- {
-+    NBDConnectThread *thr = s->connect_thread;
-+    bool thr_running;
-+
-+    qemu_mutex_lock(&thr->mutex);
-+    thr_running = thr->state == CONNECT_THREAD_RUNNING;
-+    if (thr_running) {
-+        thr->state = CONNECT_THREAD_RUNNING_DETACHED;
-+    }
-+    qemu_mutex_unlock(&thr->mutex);
-+
-+    /* the runaway thread will clean it up itself */
-+    if (!thr_running) {
-+        nbd_free_connect_thread(thr);
-+    }
-+
-     object_unref(OBJECT(s->tlscreds));
-     qapi_free_SocketAddress(s->saddr);
-     s->saddr = NULL;
-@@ -293,7 +308,7 @@ static void coroutine_fn nbd_client_co_drain_begin(BlockDriverState *bs)
-         qemu_co_sleep_wake(s->connection_co_sleep_ns_state);
-     }
- 
--    nbd_co_establish_connection_cancel(bs, false);
-+    nbd_co_establish_connection_cancel(bs);
- 
-     reconnect_delay_timer_del(s);
- 
-@@ -333,7 +348,7 @@ static void nbd_teardown_connection(BlockDriverState *bs)
-         if (s->connection_co_sleep_ns_state) {
-             qemu_co_sleep_wake(s->connection_co_sleep_ns_state);
-         }
--        nbd_co_establish_connection_cancel(bs, true);
-+        nbd_co_establish_connection_cancel(bs);
-     }
-     if (qemu_in_coroutine()) {
-         s->teardown_co = qemu_coroutine_self();
-@@ -534,18 +549,12 @@ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
-  * nbd_co_establish_connection_cancel
-  * Cancel nbd_co_establish_connection asynchronously: it will finish soon, to
-  * allow drained section to begin.
-- *
-- * If detach is true, also cleanup the state (or if thread is running, move it
-- * to CONNECT_THREAD_RUNNING_DETACHED state). s->connect_thread becomes NULL if
-- * detach is true.
-  */
--static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
--                                               bool detach)
-+static void nbd_co_establish_connection_cancel(BlockDriverState *bs)
- {
-     BDRVNBDState *s = bs->opaque;
-     NBDConnectThread *thr = s->connect_thread;
-     bool wake = false;
--    bool do_free = false;
- 
-     qemu_mutex_lock(&thr->mutex);
- 
-@@ -556,21 +565,10 @@ static void nbd_co_establish_connection_cancel(BlockDriverState *bs,
-             s->wait_connect = false;
-             wake = true;
-         }
--        if (detach) {
--            thr->state = CONNECT_THREAD_RUNNING_DETACHED;
--            s->connect_thread = NULL;
--        }
--    } else if (detach) {
--        do_free = true;
-     }
- 
-     qemu_mutex_unlock(&thr->mutex);
- 
--    if (do_free) {
--        nbd_free_connect_thread(thr);
--        s->connect_thread = NULL;
--    }
--
-     if (wake) {
-         aio_co_wake(s->connection_co);
-     }
-@@ -2294,31 +2292,33 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
-         return -EEXIST;
-     }
- 
-+    nbd_init_connect_thread(s);
-+
-     /*
-      * establish TCP connection, return error if it fails
-      * TODO: Configurable retry-until-timeout behaviour.
-      */
-     if (nbd_establish_connection(bs, s->saddr, errp) < 0) {
--        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
--        return -ECONNREFUSED;
-+        ret = -ECONNREFUSED;
-+        goto fail;
-     }
- 
-     ret = nbd_client_handshake(bs, errp);
-     if (ret < 0) {
--        yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
--        nbd_clear_bdrvstate(s);
--        return ret;
-+        goto fail;
-     }
-     /* successfully connected */
-     s->state = NBD_CLIENT_CONNECTED;
- 
--    nbd_init_connect_thread(s);
--
-     s->connection_co = qemu_coroutine_create(nbd_connection_entry, s);
-     bdrv_inc_in_flight(bs);
-     aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
- 
-     return 0;
-+fail:
-+    yank_unregister_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name));
-+    nbd_clear_bdrvstate(s);
-+    return ret;
- }
- 
- static int nbd_co_flush(BlockDriverState *bs)
--- 
-2.30.2
+(Apologies for the ignorance, is this an Acked-by?)
+
+Emanuele
 
 
