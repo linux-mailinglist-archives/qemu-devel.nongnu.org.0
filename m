@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0475635935E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:46:38 +0200 (CEST)
-Received: from localhost ([::1]:46702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D52359363
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:48:11 +0200 (CEST)
+Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUi6P-0007r0-2y
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1lUi7u-0001ky-Pb
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2f-0003IK-Tk
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:45 -0400
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2k-0003Tp-UV
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:50 -0400
 Received: from mga05.intel.com ([192.55.52.43]:12420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2e-0007T4-3u
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:45 -0400
-IronPort-SDR: GKD2L64tI7xJmfXjrG6031+yG4ePEzT1vgUaqKU6+QM82NltIVWC4sx+Xx2XhL7MiIcUpSHq1J
- /QTceGtQplvg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957339"
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957339"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2i-0007T4-Ew
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:50 -0400
+IronPort-SDR: uVkaCUTywj4LSQu2+NHz1Me/T9wopNd7btKs2GZQw9TXyyyzSm8Kw2b1DRbSOynST8OXH1xszG
+ 3Rfdhv86J2UQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957347"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957347"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2021 20:42:43 -0700
-IronPort-SDR: k5aBjMyvY9i8vcf//axDYa3ZNCGgofr/3VTAy4oUFgsyjVOzcDrN1yQWEJ7eO+hZPj0FUrbQ37
- vmIe8tYiZ6PQ==
+ 08 Apr 2021 20:42:47 -0700
+IronPort-SDR: F7mdidMqOUK9Gy8QdljmJLkGsObHGdaNnp6IE0kbngQe9FhucgkSJd21jT1qaTNTH6bVoiPKTY
+ sxWkuCZh3t1Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081095"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081128"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:41 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:45 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v6 06/10] Add the function of colo_compare_cleanup
-Date: Thu,  8 Apr 2021 23:20:52 -0400
-Message-Id: <1617938456-315058-7-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v6 07/10] Reset the auto-converge counter at every checkpoint.
+Date: Thu,  8 Apr 2021 23:20:53 -0400
+Message-Id: <1617938456-315058-8-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
 References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
@@ -66,96 +66,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-This patch fixes the following:
-    #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-    #1  0x00007f6ae4559859 in __GI_abort () at abort.c:79
-    #2  0x0000559aaa386720 in error_exit (err=16, msg=0x559aaa5973d0 <__func__.16227> "qemu_mutex_destroy") at util/qemu-thread-posix.c:36
-    #3  0x0000559aaa3868c5 in qemu_mutex_destroy (mutex=0x559aabffe828) at util/qemu-thread-posix.c:69
-    #4  0x0000559aaa2f93a8 in char_finalize (obj=0x559aabffe800) at chardev/char.c:285
-    #5  0x0000559aaa23318a in object_deinit (obj=0x559aabffe800, type=0x559aabfd7d20) at qom/object.c:606
-    #6  0x0000559aaa2331b8 in object_deinit (obj=0x559aabffe800, type=0x559aabfd9060) at qom/object.c:610
-    #7  0x0000559aaa233200 in object_finalize (data=0x559aabffe800) at qom/object.c:620
-    #8  0x0000559aaa234202 in object_unref (obj=0x559aabffe800) at qom/object.c:1074
-    #9  0x0000559aaa2356b6 in object_finalize_child_property (obj=0x559aac0dac10, name=0x559aac778760 "compare0-0", opaque=0x559aabffe800) at qom/object.c:1584
-    #10 0x0000559aaa232f70 in object_property_del_all (obj=0x559aac0dac10) at qom/object.c:557
-    #11 0x0000559aaa2331ed in object_finalize (data=0x559aac0dac10) at qom/object.c:619
-    #12 0x0000559aaa234202 in object_unref (obj=0x559aac0dac10) at qom/object.c:1074
-    #13 0x0000559aaa2356b6 in object_finalize_child_property (obj=0x559aac0c75c0, name=0x559aac0dadc0 "chardevs", opaque=0x559aac0dac10) at qom/object.c:1584
-    #14 0x0000559aaa233071 in object_property_del_child (obj=0x559aac0c75c0, child=0x559aac0dac10, errp=0x0) at qom/object.c:580
-    #15 0x0000559aaa233155 in object_unparent (obj=0x559aac0dac10) at qom/object.c:599
-    #16 0x0000559aaa2fb721 in qemu_chr_cleanup () at chardev/char.c:1159
-    #17 0x0000559aa9f9b110 in main (argc=54, argv=0x7ffeb62fa998, envp=0x7ffeb62fab50) at vl.c:4539
-
-When chardev is cleaned up, chr_write_lock needs to be destroyed. But
-the colo-compare module is not cleaned up normally before it when the
-guest poweroff. It is holding chr_write_lock at this time. This will
-cause qemu crash.So we add the function of colo_compare_cleanup() before
-qemu_chr_cleanup() to fix the bug.
+if we don't reset the auto-converge counter,
+it will continue to run with COLO running,
+and eventually the system will hang due to the
+CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
 ---
- net/colo-compare.c | 10 ++++++++++
- net/colo-compare.h |  1 +
- net/net.c          |  4 ++++
- 3 files changed, 15 insertions(+)
+ migration/colo.c | 4 ++++
+ migration/ram.c  | 9 +++++++++
+ migration/ram.h  | 1 +
+ 3 files changed, 14 insertions(+)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index c142c08..5b538f4 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1402,6 +1402,16 @@ static void colo_compare_init(Object *obj)
-                              compare_set_vnet_hdr);
+diff --git a/migration/colo.c b/migration/colo.c
+index 1aaf316..723ffb8 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -459,6 +459,10 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+     if (ret < 0) {
+         goto out;
+     }
++
++    if (migrate_auto_converge()) {
++        mig_throttle_counter_reset();
++    }
+     /*
+      * Only save VM's live state, which not including device state.
+      * TODO: We may need a timeout mechanism to prevent COLO process
+diff --git a/migration/ram.c b/migration/ram.c
+index 4682f36..f9d60f0 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -652,6 +652,15 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
+     }
  }
  
-+void colo_compare_cleanup(void)
++void mig_throttle_counter_reset(void)
 +{
-+    CompareState *tmp = NULL;
-+    CompareState *n = NULL;
++    RAMState *rs = ram_state;
 +
-+    QTAILQ_FOREACH_SAFE(tmp, &net_compares, next, n) {
-+        object_unparent(OBJECT(tmp));
-+    }
++    rs->time_last_bitmap_sync = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    rs->num_dirty_pages_period = 0;
++    rs->bytes_xfer_prev = ram_counters.transferred;
 +}
 +
- static void colo_compare_finalize(Object *obj)
- {
-     CompareState *s = COLO_COMPARE(obj);
-diff --git a/net/colo-compare.h b/net/colo-compare.h
-index 22ddd51..b055270 100644
---- a/net/colo-compare.h
-+++ b/net/colo-compare.h
-@@ -20,5 +20,6 @@
- void colo_notify_compares_event(void *opaque, int event, Error **errp);
- void colo_compare_register_notifier(Notifier *notify);
- void colo_compare_unregister_notifier(Notifier *notify);
-+void colo_compare_cleanup(void);
+ /**
+  * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
+  *
+diff --git a/migration/ram.h b/migration/ram.h
+index 4833e9f..cb6f58a 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -50,6 +50,7 @@ bool ramblock_is_ignored(RAMBlock *block);
+ int xbzrle_cache_resize(uint64_t new_size, Error **errp);
+ uint64_t ram_bytes_remaining(void);
+ uint64_t ram_bytes_total(void);
++void mig_throttle_counter_reset(void);
  
- #endif /* QEMU_COLO_COMPARE_H */
-diff --git a/net/net.c b/net/net.c
-index 725a4e1..8fcb2e7 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -53,6 +53,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-+#include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
- #include "qapi/hmp-output-visitor.h"
-@@ -1463,6 +1464,9 @@ void net_cleanup(void)
- {
-     NetClientState *nc;
- 
-+    /*cleanup colo compare module for COLO*/
-+    colo_compare_cleanup();
-+
-     /* We may del multiple entries during qemu_del_net_client(),
-      * so QTAILQ_FOREACH_SAFE() is also not safe here.
-      */
+ uint64_t ram_pagesize_summary(void);
+ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
 -- 
 1.8.3.1
 
