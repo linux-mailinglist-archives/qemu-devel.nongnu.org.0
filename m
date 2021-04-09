@@ -2,88 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284CA359E1E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 13:59:41 +0200 (CEST)
-Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF86359E51
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:08:20 +0200 (CEST)
+Received: from localhost ([::1]:35534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUpnX-0004Ln-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 07:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40514)
+	id 1lUpvn-0001Jg-OC
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lUpjG-0003G2-8s; Fri, 09 Apr 2021 07:55:14 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:52571)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUpsO-00081C-O5
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 08:04:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lUpjE-0002HX-6a; Fri, 09 Apr 2021 07:55:13 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 43CAA16CF;
- Fri,  9 Apr 2021 07:55:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 09 Apr 2021 07:55:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=61Ck27LmV5uwV4i+X3DMjUKu5aQ
- akcEqlGKDto5tzkk=; b=OWHHfXjKvIGKfVni/E3wQ6YK5aeN9xtrmMHkFjKBuPX
- Eod9+eloy1UrExRzJEXfICgj4ujHEFm5JExtsD+6zZt0Y3U1pJao/VRs/dlJibaB
- 952FFPL2UPHPoD+gnJ3JjkRcl5tgYaMf0XEZL8TdbH0wKRFsZNtEJdJG0T0PuO0y
- EAJl5OO8eIXSJs/4miL7XLLWgtxHbz13nDxn2xH/qQ9dceE1qLvVw7nxSKvwxiXX
- TnDEtTTC3VRnl+1CPIVeFW41qoZdjzXkTi7pkYR6Jk9iPnEM4S+jzT/JzHiL0mx/
- jA8qDjfqGEyVy3Q5b1BHdzCwLpspf71nVx6UdTEfMFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=61Ck27
- LmV5uwV4i+X3DMjUKu5aQakcEqlGKDto5tzkk=; b=h1DwjIHhH6yZJRTpoIW2k2
- RHHO3+iCQZCtGClkA1WHzKB3nmTAj/Nj6H3hWoKA+kxquGpW4oEIxyfnHWLa7Doj
- U+WyQBy5be6kyQ8ScQ6SmyGz9XWk/jY4awauyr2lcxqPo1I6N17Qqx14hDcvAUUQ
- ej62SN5/onv3tsu5yKYOhioEyJRbypZocvLAby76WLUhD1pxUxQQxwxAU4CDs+sW
- 0kQJDMUPs1ciqCbZeUCdR47bl3e//Kjb7gpkEK4LXlAM0ijsc0QdkMqgLomfoa0H
- G0JRCqFjbClaPT0G0OWXYPvZ72fgsigsBdb0bGDBWr0+nt+V4N3Uprh7hrF/yIgw
- ==
-X-ME-Sender: <xms:mUBwYH-hyUOQ1xv8MLMNgEGPqGhfCEj7MzB3PEx-Z4pkd7E-9ZxR1Q>
- <xme:mUBwYFtIKINiCy0yDOJ9mocSZKXjC3BNGL8IUClVduHZLe7BeC2T7R36o6xCM5Uyq
- VbhWWz_hoglne3uOu0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekuddggeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
- ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
- vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjeegudffueeiteekieelkedvueelte
- evjeduieeludfffeejgeffhfduvdduffeknecukfhppeektddrudeijedrleekrdduledt
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:mUBwYOYRgg8nMausZfKPFvTZTigxXshSc0KSQY3iekP4LJQCWhpkRQ>
- <xmx:mUBwYFo4ows2IMKkJQktoKnxloF3SnDi2p6wzVGlosHQHjC5we6L3Q>
- <xmx:mUBwYD_Hwlm12acdxtNyJIa-lPX5M-tUPfyLGttwEsSYJYJP2MRzfg>
- <xmx:mkBwYECXlIXxTBAjoaroS2Xs8fhe0CG7VKHPRadTYaVfBMj8jihEzA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id D4DE5240067;
- Fri,  9 Apr 2021 07:55:03 -0400 (EDT)
-Date: Fri, 9 Apr 2021 13:55:01 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH] hw/block/nvme: slba equal to nsze is out of bounds if
- nlb is 1-based
-Message-ID: <YHBAlXnRdYTU1m1P@apples.localdomain>
-References: <CGME20210409074451epcas5p391e5b072e6245b8fe691d67bb42fb234@epcas5p3.samsung.com>
- <20210409074402.7342-1-anaidu.gollu@samsung.com>
- <20210409110518.GC2085@localhost>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUpsF-0008CE-Ma
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 08:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617969869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Z6dLvZ8YP+Yl+xW3bdVREH4U8xj5aHz8eyD0h5XkWh8=;
+ b=IMk/5ixriCtzFQvOHAHMXY4v5uMpGBoxYfl2sU80X/JVadiqSfn63jWeQHAXs+0JoU2bQH
+ rrQvAwP1N0pxtl6gS+wXY/iTuZLptEfnptq60pDT7NdMOjcetbJhD9j9bY/cmtmoTzurPK
+ FBFVpwsAVMk6SFBAE9fwJam6iVIHtMg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-lyrdwzGFNW6sLkvmx_WVBw-1; Fri, 09 Apr 2021 08:04:25 -0400
+X-MC-Unique: lyrdwzGFNW6sLkvmx_WVBw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B18E018B62A3;
+ Fri,  9 Apr 2021 12:04:24 +0000 (UTC)
+Received: from localhost (ovpn-114-67.ams2.redhat.com [10.36.114.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EF441001B2C;
+ Fri,  9 Apr 2021 12:04:24 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/4] job: Allow complete for jobs on standby
+Date: Fri,  9 Apr 2021 14:04:17 +0200
+Message-Id: <20210409120422.144040-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JTtEX0YPsHWvI05w"
-Content-Disposition: inline
-In-Reply-To: <20210409110518.GC2085@localhost>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,67 +73,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, kbusch@kernel.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---JTtEX0YPsHWvI05w
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We sometimes have a problem with jobs remaining on STANDBY after a drain
+(for a short duration), so if the user immediately issues a
+block-job-complete, that will fail.
 
-On Apr  9 20:05, Minwoo Im wrote:
->On 21-04-09 13:14:02, Gollu Appalanaidu wrote:
->> NSZE is the total size of the namespace in logical blocks. So the max
->> addressable logical block is NLB minus 1. So your starting logical
->> block is equal to NSZE it is a out of range.
->>
->> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->> ---
->>  hw/block/nvme.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
->> index 953ec64729..be9edb1158 100644
->> --- a/hw/block/nvme.c
->> +++ b/hw/block/nvme.c
->> @@ -2527,7 +2527,7 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest =
-*req)
->>              uint64_t slba =3D le64_to_cpu(range[i].slba);
->>              uint32_t nlb =3D le32_to_cpu(range[i].nlb);
->>
->> -            if (nvme_check_bounds(ns, slba, nlb)) {
->> +            if (nvme_check_bounds(ns, slba, nlb) || slba =3D=3D ns->id_=
-ns.nsze) {
->
->This patch also looks like check the boundary about slba.  Should it be
->also checked inside of nvme_check_bounds() ?
+(See also
+https://lists.nongnu.org/archive/html/qemu-block/2021-04/msg00215.html,
+which this series is an alternative for.)
 
-The catch here is that DSM is like the only command where the number of=20
-logical blocks is a 1s-based value. Otherwise we always have nlb > 0,=20
-which means that nvme_check_bounds() will always "do the right thing".
+Looking at the only implementation of .complete(), which is
+mirror_complete(), it looks like there is basically nothing that would
+prevent it from being run while mirror is paused.  Really only the
+job_enter() at the end, which we should not and need not do when the job
+is paused.
 
-My main gripe here is that (in my mind), by definition, a "zero length=20
-range" does not reference any LBAs at all. So how can it result in LBA=20
-Out of Range?
+So make that conditional (patch 2), clean up the function on the way
+(patch 1, which moves one of its blocks to mirror_exit_common()), and
+then we can allow job_complete() on jobs that are on standby (patch 3).
 
---JTtEX0YPsHWvI05w
-Content-Type: application/pgp-signature; name="signature.asc"
+Patch 4 is basically the same test as in
+https://lists.nongnu.org/archive/html/qemu-block/2021-04/msg00214.html,
+except some comments are different and, well, job_complete() just works
+on STANDBY jobs.
 
------BEGIN PGP SIGNATURE-----
+Patch 5 is an iotest that may or may not show the problem for you.  I’ve
+tuned the numbers so that on my machine, it fails about 50/50 without
+this series (i.e., the job is still on STANDBY and job_complete()
+refuses to do anything).
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBwQJMACgkQTeGvMW1P
-DekWtQf8Dp4XH7QHtB3LfWB24sB6PGJeQD0gPFRTX2RRSn8h+bxtORYhzSMQL265
-bOmBK5/lE76/rkO/pa2wOLEUM1nRqkf4WL0/CJB2krxd0kvdBrdnmXtSvZ4wIfcA
-awI5VB/arGj9D04fEkYK+LN6Pb+epH2jmW2rG0AoMywaBywykGOo52I4+OhFDPEd
-uUrbsdtQCY1UEIOmTkUSJlHa23Y1r56zBl1s6lsCUzOkx72kfMeQYbgh59b9k8ML
-i+kdb67LW1CG8ScSux8ZNJKzrpH6lqXteFHSzEoOrtxeKMdz+eDYTuaMtAmvGGFj
-YcExUOalaQrJjEgYr0jELkrrgABEJg==
-=yKs/
------END PGP SIGNATURE-----
+I’m not sure we want that iotest, because it does quite a bit of I/O and
+it’s unreliable, and I don’t think there’s anything I can do to make it
+reliable.
 
---JTtEX0YPsHWvI05w--
+
+Max Reitz (5):
+  mirror: Move open_backing_file to exit_common
+  mirror: Do not enter a paused job on completion
+  job: Allow complete for jobs on standby
+  test-blockjob: Test job_wait_unpaused()
+  iotests: Test completion immediately after drain
+
+ block/mirror.c                                |  28 ++--
+ job.c                                         |   4 +-
+ tests/unit/test-blockjob.c                    | 121 ++++++++++++++++++
+ .../tests/mirror-complete-after-drain         |  89 +++++++++++++
+ .../tests/mirror-complete-after-drain.out     |  14 ++
+ 5 files changed, 239 insertions(+), 17 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/mirror-complete-after-drain
+ create mode 100644 tests/qemu-iotests/tests/mirror-complete-after-drain.out
+
+-- 
+2.29.2
+
 
