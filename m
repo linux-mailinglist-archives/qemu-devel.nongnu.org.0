@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001F1359335
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:44:08 +0200 (CEST)
-Received: from localhost ([::1]:38236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BD035935D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:46:33 +0200 (CEST)
+Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUi3y-0004Lb-60
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51832)
+	id 1lUi6K-0007gz-DN
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:46:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2Q-0002zS-FR
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:30 -0400
-Received: from mga05.intel.com ([192.55.52.43]:12390)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2S-0002zb-2P
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:32 -0400
+Received: from mga05.intel.com ([192.55.52.43]:12397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2N-0007GF-4u
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:30 -0400
-IronPort-SDR: K+MKXHOyBZj4aNIFB9Oi/pfm43jyOxuJ3VrPPacArFXTIDauWsEcsZjXu1mAn9eqlDaOKNP0Ri
- ZpYwdi/6/Ntg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957306"
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957306"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2P-0007Ip-DP
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:31 -0400
+IronPort-SDR: z40Z3hcN69QzkGqmmYn7v8Spc2txo0Mxm/UJKo38/0CknJQTtxnkl3jZQqpKaQv//L5+MDwVRg
+ BjgNl8Bt+5/w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957315"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957315"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2021 20:42:22 -0700
-IronPort-SDR: Y70QUAEt3dJoFXhwkNREvKhowjfVJAabo7D64k5x6EfAWjUhK8PW0jYJS1G9llpfBGANEM3hLT
- /ntZt9qq8XSw==
+ 08 Apr 2021 20:42:26 -0700
+IronPort-SDR: 9cFeHY+ajijbdYbPlK67UgHI5j8HlxhEQQ8BNYLRsb9ODA5wbBbg/+zE2WaLxcuuEtPw744mg+
+ rZmT4hVdQT8g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416080977"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416080999"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:19 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:24 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v6 00/10] Fixed some bugs and optimized some codes for COLO
-Date: Thu,  8 Apr 2021 23:20:46 -0400
-Message-Id: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v6 01/10] Remove some duplicate trace code.
+Date: Thu,  8 Apr 2021 23:20:47 -0400
+Message-Id: <1617938456-315058-2-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
+References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
 Received-SPF: pass client-ip=192.55.52.43; envelope-from=lei.rao@intel.com;
  helo=mga05.intel.com
 X-Spam_score_int: -41
@@ -62,58 +64,43 @@ Cc: "Rao, Lei" <lei.rao@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rao, Lei <lei.rao@intel.com>
+From: "Rao, Lei" <lei.rao@intel.com>
 
-Changes since v5:
-        --Replaced g_slice_new calls with g_slice_new0.
+There is the same trace code in the colo_compare_packet_payload.
 
-Changes since v4:
-        --Replaced qemu_mutex_lock calls with QEMU_LOCK_GUARD in colo_bitmap_clear_dirty.
-        --Modify some minor issues about variable definition.
-        --Add some performance test data in the commit message.
+Signed-off-by: Lei Rao <lei.rao@intel.com>
+Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+Tested-by: Lukas Straub <lukasstraub2@web.de>
+---
+ net/colo-compare.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-Changes since v3:
-        --Remove cpu_throttle_stop from mig_throttle_counter_reset.
-
-Changes since v2:
-        --Add a function named packet_new_nocopy.
-        --Continue to optimize the function of colo_flush_ram_cache.
-
-Changes since v1:
-        --Reset the state of the auto-converge counters at every checkpoint instead of directly disabling.
-        --Treat the filter_send function returning zero as a normal case.
-
-The series of patches include:
-        Fixed some bugs of qemu crash.
-        Optimized some code to reduce the time of checkpoint.
-        Remove some unnecessary code to improve COLO.
-
-Rao, Lei (10):
-  Remove some duplicate trace code.
-  Fix the qemu crash when guest shutdown during checkpoint
-  Optimize the function of filter_send
-  Remove migrate_set_block_enabled in checkpoint
-  Add a function named packet_new_nocopy for COLO.
-  Add the function of colo_compare_cleanup
-  Reset the auto-converge counter at every checkpoint.
-  Reduce the PVM stop time during Checkpoint
-  Add the function of colo_bitmap_clear_dirty
-  Fixed calculation error of pkt->header_size in fill_pkt_tcp_info()
-
- migration/colo.c      | 10 +++----
- migration/migration.c |  4 +++
- migration/ram.c       | 83 +++++++++++++++++++++++++++++++++++++++++++++++++--
- migration/ram.h       |  1 +
- net/colo-compare.c    | 25 +++++++---------
- net/colo-compare.h    |  1 +
- net/colo.c            | 25 +++++++++++-----
- net/colo.h            |  1 +
- net/filter-mirror.c   |  8 ++---
- net/filter-rewriter.c |  3 +-
- net/net.c             |  4 +++
- softmmu/runstate.c    |  1 +
- 12 files changed, 129 insertions(+), 37 deletions(-)
-
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 9d1ad99..c142c08 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -590,19 +590,6 @@ static int colo_packet_compare_other(Packet *spkt, Packet *ppkt)
+     uint16_t offset = ppkt->vnet_hdr_len;
+ 
+     trace_colo_compare_main("compare other");
+-    if (trace_event_get_state_backends(TRACE_COLO_COMPARE_IP_INFO)) {
+-        char pri_ip_src[20], pri_ip_dst[20], sec_ip_src[20], sec_ip_dst[20];
+-
+-        strcpy(pri_ip_src, inet_ntoa(ppkt->ip->ip_src));
+-        strcpy(pri_ip_dst, inet_ntoa(ppkt->ip->ip_dst));
+-        strcpy(sec_ip_src, inet_ntoa(spkt->ip->ip_src));
+-        strcpy(sec_ip_dst, inet_ntoa(spkt->ip->ip_dst));
+-
+-        trace_colo_compare_ip_info(ppkt->size, pri_ip_src,
+-                                   pri_ip_dst, spkt->size,
+-                                   sec_ip_src, sec_ip_dst);
+-    }
+-
+     if (ppkt->size != spkt->size) {
+         trace_colo_compare_main("Other: payload size of packets are different");
+         return -1;
 -- 
 1.8.3.1
 
