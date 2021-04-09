@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDAAF359752
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 10:11:56 +0200 (CEST)
-Received: from localhost ([::1]:38386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECB7359761
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 10:14:31 +0200 (CEST)
+Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUmFA-0001Uq-26
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 04:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
+	id 1lUmHe-0002WN-7X
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 04:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lUmE6-0000uK-1C; Fri, 09 Apr 2021 04:10:50 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lUmE3-00086M-1Y; Fri, 09 Apr 2021 04:10:49 -0400
-Received: from dggeml405-hub.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FGrMC1LZRzWPqR;
- Fri,  9 Apr 2021 16:07:03 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggeml405-hub.china.huawei.com (10.3.17.49) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Fri, 9 Apr 2021 16:10:34 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Fri, 9 Apr 2021 16:10:34 +0800
-Subject: Re: A question about the translation granule size supported by the
- vSMMU
-To: Auger Eric <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, <linuc.decode@gmail.com>
-References: <fa696532-5f04-aeeb-1ba3-6427675c6655@huawei.com>
- <4886d8d0-cca6-d4b2-4139-29ad52020f79@redhat.com>
- <d4b8b381-0883-4301-8967-d924ccc61ea0@huawei.com>
- <0a3ae73c-af3a-9d80-2f30-55424a07d104@redhat.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <15ec88f2-b44b-866b-432a-071e0986d072@huawei.com>
-Date: Fri, 9 Apr 2021 16:10:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <kernellwp@gmail.com>)
+ id 1lUmGU-000245-BY
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 04:13:18 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:44919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kernellwp@gmail.com>)
+ id 1lUmGS-0001H0-Dw
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 04:13:18 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id a8so4966718oic.11
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 01:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9XgqiPdxg3C4zte8wS8+mM+7OjQRzCoU6HQWbEd64Rc=;
+ b=d2VzegrnqSBitwwpXVkKHUnfxmVPU9yfkTMt0uoPWmHo36MlD2KHUV+A5nlxrAcspR
+ mv3eUsCG27kNUVSyP4SQ8ZenL6hdD3lU2sVtMlW4vtW03NI4afTAYnsZ68bpZD8Jhxm4
+ i7ZS7sNN9o0KPqZ5HozT3wysIXLnabqb76mlcuO1bmDUb/jGvNyRiwtFQ8uBwhtFJunX
+ aRNWaEWq8cIqe2eYxDWFdafGPL7qFUIkuyU5IUQan8R3TFKggyJl44jZbMysaMOzZk1s
+ 3PrU56qwdmtqY4yVGEfswQhNj4ZeYwgkTukf+rVFSJ5EWZpnhk6vfa9LaZmckzv+rhrN
+ L1DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9XgqiPdxg3C4zte8wS8+mM+7OjQRzCoU6HQWbEd64Rc=;
+ b=Y2c34ef5/pB0bjC9I2ANtBCtwxqryvQQWYlsIxLcmWWiu1hj2d/AT9GmmkttDIpupv
+ 4SjiCJv0dMkjd4FUR0dAoLLsny1wpa7R9I1g1mBHmsP6Y1X8IwFfrBLMVCLK5HzGbPpo
+ H9edZbdlYttIBQCahawRzf76mDSiIsYf/YpSAt+gOyBfWIJsmf4+pTupd+/mwa/xNtRr
+ u3cdc7iw0u1sPzh4CgSAUABEdVrkH7tCfxKcFZXbGZpRBs20FiA6IfFc1jALdxdBZJ2t
+ n7EnzzdqBcShmAivZKJlD8jwYioFhRlrlvS1QIER43EIlrbw/A+MnhAsPBzJv8OBbHnb
+ 65OA==
+X-Gm-Message-State: AOAM533A8yrq++eJSr6DXMJVaoUArwZTqbRzeIOM0xSACuphRsaK5fek
+ QSmKC0VtOo+NbEWNG/xY4YRdpcNQipvsHdSWuJk=
+X-Google-Smtp-Source: ABdhPJwcKn8CHlQHDj9Prp5Fk47MB9U6BhYvTAVDoFYyjaxFaAyVk0bezbe0pSxeU6takauUtp9YErRkYY/yykWvKm8=
+X-Received: by 2002:aca:1a01:: with SMTP id a1mr9157785oia.33.1617955994619;
+ Fri, 09 Apr 2021 01:13:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0a3ae73c-af3a-9d80-2f30-55424a07d104@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <YGzW/Pa/p7svg5Rr@google.com>
+ <874kgg29uo.ffs@nanos.tec.linutronix.de>
+In-Reply-To: <874kgg29uo.ffs@nanos.tec.linutronix.de>
+From: Wanpeng Li <kernellwp@gmail.com>
+Date: Fri, 9 Apr 2021 16:13:03 +0800
+Message-ID: <CANRm+CwgvAPOvCxmuEDb+L5kvjBcpWE03Ps70qpqKntHuPxpaA@mail.gmail.com>
+Subject: Re: Commit "x86/kvm: Move context tracking where it belongs" broke
+ guest time accounting
+To: Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=kernellwp@gmail.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,97 +78,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>, Keqian Zhu <zhukeqian1@huawei.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Sean Christopherson <seanjc@google.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ kvm <kvm@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
-
-On 2021/4/8 15:27, Auger Eric wrote:
-> Hi Kunkun,
+On Thu, 8 Apr 2021 at 21:19, Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> On 4/7/21 11:26 AM, Kunkun Jiang wrote:
->> Hi Eric,
->>
->> On 2021/4/7 3:50, Auger Eric wrote:
->>> Hi Kunkun,
->>>
->>> On 3/27/21 3:24 AM, Kunkun Jiang wrote:
->>>> Hi all,
->>>>
->>>> Recently, I did some tests on SMMU nested mode. Here is
->>>> a question about the translation granule size supported by
->>>> vSMMU.
->>>>
->>>> There is such a code in SMMUv3_init_regs():
->>>>
->>>>>      /* 4K and 64K granule support */
->>>>>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
->>>>>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
->>>>>       s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, SMMU_IDR5_OAS); /* 44
->>>>> bits */
->>>> Why is the 16K granule not supported? I modified the code
->>>> to support it and did not encounter any problems in the
->>>> test. Although 4K and 64K minimal granules are "strongly
->>>> recommended", I think vSMMU should still support 16K.😉
->>>> Are there other reasons why 16K is not supported here?
->>> no there aren't any. The main reasons were 16KB support is optional and
->>> supporting it increases the test matrix. Also it seems quite a few
->>> machines I have access to do support 16KB granule. On the others I get
->>>
->>> "EFI stub: ERROR: This 16 KB granular kernel is not supported by your
->>> CPU".
->>>
->>> Nevertheless I am not opposed to support it as it seems to work without
->>> trouble. Just need to have an extra look at implied validity checks but
->>> there shouldn't be much.
->>>
->>> Thanks
->>>
->>> Eric
->> Yes, you are right. In my opinion, it is necessary to check whether pSMMU
->> supports 16K to avoid the situation I mentioned below.
->> In SMMU nested mode, if vSMMU supports 16K and set pasid table to
->> pSMMU, it may get errors when pSMMU does translation table walk if
->> pSMMU doesn't support 16K (not tested). Do you think we need to add
->> an interface to get some pSMMU info?>
->> Maybe my consideration was superfluous.😁
-> No it is not. At qemu level we have
-> memory_region_iommu_set_page_size_mask() that is called from the VFIO
-> device. It allows to pass such info to the IOMMU device (qemu
-> b91774984249).
+> On Tue, Apr 06 2021 at 21:47, Sean Christopherson wrote:
+> > On Tue, Apr 06, 2021, Michael Tokarev wrote:
+> >> broke kvm guest cpu time accounting - after this commit, when running
+> >> qemu-system-x86_64 -enable-kvm, the guest time (in /proc/stat and
+> >> elsewhere) is always 0.
+> >>
+> >> I dunno why it happened, but it happened, and all kernels after 5.9
+> >> are affected by this.
+> >>
+> >> This commit is found in a (painful) git bisect between kernel 5.8 and 5.10.
+> >
+> > Yes :-(
+> >
+> > There's a bugzilla[1] and two proposed fixes[2][3].  I don't particularly like
+> > either of the fixes, but an elegant solution hasn't presented itself.
+> >
+> > Thomas/Paolo, can you please weigh in?
+> >
+> > [1] https://bugzilla.kernel.org/show_bug.cgi?id=209831
+> > [2] https://lkml.kernel.org/r/1617011036-11734-1-git-send-email-wanpengli@tencent.com
+> > [3] https://lkml.kernel.org/r/20210206004218.312023-1-seanjc@google.com
 >
-> iommu_set_page_size_mask() cb needs to be implemented at SMMU QEMU
-> device level. Also [PATCH 0/2] Domain nesting info for arm-smmu may
-> allow to return other constraints from the pSMMU.
+> All of the solutions I looked at so far are ugly as hell. The problem is
+> that the accounting is plumbed into the context tracking and moving
+> context tracking around to a different place is just wrong.
 >
-> Thanks
->
-> Eric
-Ok, it makes sense to me.
-I am glad to test them if these patches are ready.
+> I think the right solution is to seperate the time accounting logic out
+> from guest_enter/exit_irqoff() and have virt time specific helpers which
+> can be placed at the proper spots in kvm.
 
-Thanks,
-Kunkun Jiang
->> Thanks,
->> Kunkun Jiang
->>>> When in SMMU nested mode, it may get errors if pSMMU
->>>> doesn't support 16K but vSMMU supports 16K. But we
->>>> can get some settings of pSMMU to avoid this situation.
->>>> I found some discussions between Eric and Linu about
->>>> this [1], but this idea does not seem to be implemented.
->>>>
->>>> [1] https://lists.gnu.org/archive/html/qemu-arm/2017-09/msg00149.html
->>>>
->>>> Best regards,
->>>> Kunkun Jiang
->>>>
->>> .
->>
-> .
+For x86 part, how about something like below:
+
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 48b396f3..7aeb724 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -3730,6 +3730,7 @@ static noinstr void svm_vcpu_enter_exit(struct
+kvm_vcpu *vcpu)
+     lockdep_hardirqs_on_prepare(CALLER_ADDR0);
+     instrumentation_end();
+
++    account_guest_enter();
+     guest_enter_irqoff();
+     lockdep_hardirqs_on(CALLER_ADDR0);
+
+@@ -3759,6 +3760,8 @@ static noinstr void svm_vcpu_enter_exit(struct
+kvm_vcpu *vcpu)
+      */
+     lockdep_hardirqs_off(CALLER_ADDR0);
+     guest_exit_irqoff();
++    if (vtime_accounting_enabled_this_cpu())
++        account_guest_exit();
+
+     instrumentation_begin();
+     trace_hardirqs_off_finish();
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index c05e6e2..5f6c30c 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -6617,6 +6617,7 @@ static noinstr void vmx_vcpu_enter_exit(struct
+kvm_vcpu *vcpu,
+     lockdep_hardirqs_on_prepare(CALLER_ADDR0);
+     instrumentation_end();
+
++    account_guest_enter();
+     guest_enter_irqoff();
+     lockdep_hardirqs_on(CALLER_ADDR0);
+
+@@ -6648,6 +6649,8 @@ static noinstr void vmx_vcpu_enter_exit(struct
+kvm_vcpu *vcpu,
+      */
+     lockdep_hardirqs_off(CALLER_ADDR0);
+     guest_exit_irqoff();
++    if (vtime_accounting_enabled_this_cpu())
++        account_guest_exit();
+
+     instrumentation_begin();
+     trace_hardirqs_off_finish();
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 16fb395..33422c0 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -9229,6 +9229,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+     ++vcpu->stat.exits;
+     local_irq_disable();
+     kvm_after_interrupt(vcpu);
++    if (!vtime_accounting_enabled_this_cpu())
++        account_guest_exit();
+
+     if (lapic_in_kernel(vcpu)) {
+         s64 delta = vcpu->arch.apic->lapic_timer.advance_expire_delta;
+diff --git a/include/linux/context_tracking.h b/include/linux/context_tracking.h
+index bceb064..ff70229 100644
+--- a/include/linux/context_tracking.h
++++ b/include/linux/context_tracking.h
+@@ -104,8 +104,7 @@ static inline void context_tracking_init(void) { }
 
 
+ #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
+-/* must be called with irqs disabled */
+-static __always_inline void guest_enter_irqoff(void)
++static __always_inline void account_guest_enter(void)
+ {
+     instrumentation_begin();
+     if (vtime_accounting_enabled_this_cpu())
+@@ -113,7 +112,11 @@ static __always_inline void guest_enter_irqoff(void)
+     else
+         current->flags |= PF_VCPU;
+     instrumentation_end();
++}
+
++/* must be called with irqs disabled */
++static __always_inline void guest_enter_irqoff(void)
++{
+     if (context_tracking_enabled())
+         __context_tracking_enter(CONTEXT_GUEST);
+
+@@ -131,11 +134,8 @@ static __always_inline void guest_enter_irqoff(void)
+     }
+ }
+
+-static __always_inline void guest_exit_irqoff(void)
++static __always_inline void account_guest_exit(void)
+ {
+-    if (context_tracking_enabled())
+-        __context_tracking_exit(CONTEXT_GUEST);
+-
+     instrumentation_begin();
+     if (vtime_accounting_enabled_this_cpu())
+         vtime_guest_exit(current);
+@@ -144,8 +144,14 @@ static __always_inline void guest_exit_irqoff(void)
+     instrumentation_end();
+ }
+
++static __always_inline void guest_exit_irqoff(void)
++{
++    if (context_tracking_enabled())
++        __context_tracking_exit(CONTEXT_GUEST);
++}
++
+ #else
+-static __always_inline void guest_enter_irqoff(void)
++static __always_inline void account_guest_enter(void)
+ {
+     /*
+      * This is running in ioctl context so its safe
+@@ -155,11 +161,17 @@ static __always_inline void guest_enter_irqoff(void)
+     instrumentation_begin();
+     vtime_account_kernel(current);
+     current->flags |= PF_VCPU;
++    instrumentation_end();
++}
++
++static __always_inline void guest_enter_irqoff(void)
++{
++    instrumentation_begin();
+     rcu_virt_note_context_switch(smp_processor_id());
+     instrumentation_end();
+ }
+
+-static __always_inline void guest_exit_irqoff(void)
++static __always_inline void account_guest_exit(void)
+ {
+     instrumentation_begin();
+     /* Flush the guest cputime we spent on the guest */
+@@ -167,6 +179,11 @@ static __always_inline void guest_exit_irqoff(void)
+     current->flags &= ~PF_VCPU;
+     instrumentation_end();
+ }
++
++static __always_inline void guest_exit_irqoff(void)
++{
++
++}
+ #endif /* CONFIG_VIRT_CPU_ACCOUNTING_GEN */
+
+ static inline void guest_exit(void)
 
