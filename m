@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE8F359BCF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:19:17 +0200 (CEST)
-Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C44359BD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:20:16 +0200 (CEST)
+Received: from localhost ([::1]:48654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUoEO-0000u7-6Z
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45998)
+	id 1lUoFM-00022N-0f
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUoD1-0000L9-KR
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:17:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41776)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUoE1-00016T-CU
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:18:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUoCz-0002L6-NK
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:17:51 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUoDx-0002zg-Nj
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:18:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617963468;
+ s=mimecast20190719; t=1617963528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A9BnOuuybkl0tot4kLuqpEzdzkOGKE+9CtPHdJ24ISc=;
- b=PRwsYb3zz7aJ+o2gUWjNFn1l/JjFMtD8ZuRkmPMNgN5Z16Of6QtjHdcwYDllvIeJOcrSlb
- 6SwWa4KbMPTaGq95/CG4w/loQOfDMYuJevkLfRQFZTHfcSi+eABMnmASRzrzh1UqluMXdC
- R+WQm91AHRik8U+jizuBaM62iMpKG5Q=
+ bh=Vfj1TqpRE5xD9SpKqnmo2DVYb8DHJd497FHdLkOzeMw=;
+ b=SATFKJJJwwiz1EHse/Ee84emRyvJIP2Y/SASp9sEzytDeVFr8p94e2vRoqYIBQtUk2PLlK
+ lKChW74b/2sF+y0gvCdgAGzZfU+kyN3e78OJkp/eczmV52rXjqUVyxHllB10dqYt7vNMcA
+ /wce1Smh/C79BLo9stQxELJNIQ1zYgg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-lF7gJD9uNS-YTaCNQvirZw-1; Fri, 09 Apr 2021 06:17:47 -0400
-X-MC-Unique: lF7gJD9uNS-YTaCNQvirZw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-104-GhzGxypdOFyDtFMW0nenzA-1; Fri, 09 Apr 2021 06:18:46 -0400
+X-MC-Unique: GhzGxypdOFyDtFMW0nenzA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B0CB1020C22;
- Fri,  9 Apr 2021 10:17:46 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-63.ams2.redhat.com [10.36.115.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE27D5C3E0;
- Fri,  9 Apr 2021 10:17:44 +0000 (UTC)
-Date: Fri, 9 Apr 2021 12:17:43 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76FFF107ACC7;
+ Fri,  9 Apr 2021 10:18:45 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-67.ams2.redhat.com
+ [10.36.114.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 044AF6F965;
+ Fri,  9 Apr 2021 10:18:43 +0000 (UTC)
 Subject: Re: [PATCH for-6.0? 1/3] job: Add job_wait_unpaused() for
  block-job-complete
-Message-ID: <YHApxxGsM69c8zKo@merkur.fritz.box>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 References: <20210408162039.242670-1-mreitz@redhat.com>
  <20210408162039.242670-2-mreitz@redhat.com>
- <f9827dc5-d154-8995-e505-3481fa3e482f@redhat.com>
- <a043ce77-2d6f-dd80-ac21-2dd78539221b@redhat.com>
+ <505ba75a-996b-0c65-0c49-add50e55e3ce@virtuozzo.com>
+ <66c60724-d3b5-383b-7a19-9e9498e1c132@redhat.com>
+ <ad98de4b-a51f-1cce-c44d-a80110712a42@virtuozzo.com>
+ <da048f58-43a6-6811-6ad2-0d7899737a23@redhat.com>
+ <43b679be-5b06-5b29-755b-76966915a5dc@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <417fd780-520c-40b7-eb22-0a851b10c682@redhat.com>
+Date: Fri, 9 Apr 2021 12:18:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <a043ce77-2d6f-dd80-ac21-2dd78539221b@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <43b679be-5b06-5b29-755b-76966915a5dc@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,129 +89,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.04.2021 um 11:31 hat Max Reitz geschrieben:
-> On 08.04.21 18:55, John Snow wrote:
-> > On 4/8/21 12:20 PM, Max Reitz wrote:
-> > > +    /* Similarly, if the job is still drained, waiting will not
-> > > help either */
-> > > +    if (job->pause_count > 0) {
-> > > +        error_setg(errp, "Job '%s' is blocked and cannot be
-> > > unpaused", job->id);
-> > > +        return -EBUSY;
-> > > +    }
-> > > +
-> > 
-> > This leaks an internal state detail out to the caller. In which
-> > circumstances does this happen?
+On 09.04.21 12:07, Vladimir Sementsov-Ogievskiy wrote:
+> 09.04.2021 12:51, Max Reitz wrote:
+>> On 08.04.21 19:26, Vladimir Sementsov-Ogievskiy wrote:
+>>> 08.04.2021 20:04, John Snow wrote:
+>>>> On 4/8/21 12:58 PM, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> job-complete command is async. Can we instead just add a boolean 
+>>>>> like job->completion_requested, and set it if job-complete called 
+>>>>> in STANDBY state, and on job_resume job_complete will be called 
+>>>>> automatically if this boolean is true?
+>>>>
+>>>> job_complete has a synchronous setup, though -- we lose out on a lot 
+>>>> of synchronous error checking in that circumstance.
+>>>
+>>> yes, that's a problem..
+>>>
+>>>>
+>>>> I was not able to audit it to determine that it'd be safe to attempt 
+>>>> that setup during a drained section -- I imagine it won't work and 
+>>>> will fail, though.
+>>>>
+>>>> So I thought we'd have to signal completion and run the setup 
+>>>> *later*, but what do we do if we get an error then? Does the entire 
+>>>> job fail? Do we emit some new event? ("BLOCK_JOB_COMPLETION_FAILED" 
+>>>> ?) Is it recoverable?
+>>>>
+>>>
+>>> Isn't it possible even now, that after successful job-complete job 
+>>> still fails and we report BLOCK_JOB_COMPLETED with error?
+>>>
+>>> And actually, how much benefit user get from the fact that 
+>>> job-complete may fail?
+>>>
+>>> We can make job-complete a simple always-success boolean flag setter 
+>>> like job-pause.
+>>
+>> I wanted to say the following:
+>>
+>>   But job-pause does always succeed, in contrast to block-job-complete.
+>>
+>>   block-job-complete is more akin to job-finalize, which too is a
+>>   synchronous operation.
+>>
+>> But when I wrote that last sentence, I asked myself whether what 
+>> mirror_complete() does isn’t actually a remnant of what we had to do 
+>> when we didn’t have job-finalize yet.  Shouldn’t that all be in 
+>> mirror_exit_common()?  What’s the advantage of opening the backing 
+>> chain or putting blockers on the to-replace node in 
+>> block-job-complete? Aren’t that all graph-changing operation, 
+>> basically, i.e. stuff that should be done in job-finalize?
+>>
+>> If we move everything to mirror_exit_common(), all that remains to do 
+>> is basically set some should_complete flag (could even be part of the 
+>> Job struct), and then the whole problem disappears.
+>>
+>> Thoughts?
+>>
 > 
-> Hm.  Now that you ask it.
-> 
-> The circumstance would be a concurrent drain in some other IO thread.
-> Probably the IO thread the job runs in?  I don’t know any other thread that
-> could concurrently drain, because this function runs in the main thread, and
-> there shouldn’t be any drain in the background.
-> 
-> If it is another IO thread, waiting would indeed help, so there would not be
-> a need to error out.
-> 
-> Perhaps it’s possible to have a background drain in the main thread?  I
-> don’t think so, though...
+> Sounds good.. ButI want to understand first one simple thing: can job 
+> fail even after block-job-complete succeeded?
 
-Hm... Maybe like this:
+Sure, if you get an I/O error afterwards.
 
-1. bdrv_do_drained_begin() in the main thread
-2. BDRV_POLL_WHILE() reenters the QMP dispatcher coroutine
-3. qmp_job_complete()
-4. Deadlock because we poll here until the job is undrained
+> As I understand current users think that it can't. And 
+> block-job-complete is documented as "This command completes an active 
+> background block operation synchronously". So it's assumed that if 
+> block-job-complete succeeded we are totally done.
 
-This is why nested event loops are evil...
+I think the only thing that block-job-complete does is signal to the job 
+it should exit once source and target have converged again.  (The READY 
+event just says that source and target have converged once already.)
 
-I guess a way to fix this would be making qmp_job_complete() a coroutine
-handler and yielding instead of actively polling. Then job_pause_point()
-would have to wake the waiting coroutine rather than calling
-aio_wait_kick().
+(Only in write-blocking copy mode is there a guarantee of source and 
+target remaining converged after READY.)
 
-On the other hand, this fix would be a lot more complex for -rc3 than
-what you posted here.
+Well, and of course mirror_complete() also does a couple of stuff that 
+prepares replacing the source by the target.
 
-So maybe take this one for -rc3 and do the coroutine thing for 6.1?
+> But maybe, it's wrong? Can mirror_prepare fail after mirror_complete 
+> success?
 
-> > Looks about right to me, but you'll want Kevin's look-see for the finer
-> > details, of course.
-> > 
-> > My concern is that this adds a wait of an indefinite period to the
-> > job_complete command. We mitigate this by checking for some other
-> > internal state criteria first, and then by process of elimination deduce
-> > that it's safe to wait, as it will (likely) be very quick.
-> > 
-> > Do we open the door for ourselves to get into trouble here, either by a
-> > state we are forgetting to rule out (You'd have added it if you know the
-> > answer to this) or a hypothetical future change where we forget to
-> > update this function?
-> 
-> Well.  Who knows.
-> 
-> The alternatives I see are:
-> 
-> (A) Let drained_end wait for the block jobs to be resumed.  There are some
-> details to consider there, I had some discussion around this with Kevin on
-> Tuesday.  For example, should every drained_end wait for all jobs involved
-> to be resumed?  (That would mean waiting for concurrent drained_ends, too.)
-> Would the drained_end_counter be the right tool for the job?  (None of this
-> is unsolvable, I guess, but it would mean having another discussion.)
+Oh definitely.  For example, mirror_prepare replaces the source by the 
+target, which can definitely fail.  (See mirror_exit_common().)
 
-The advantage there would be that you don't have to deal with new nested
-event loops.
+> And user must check job status after job is finalized? Or check 
+> error in BLOCK_JOB_COMPLETED event?
 
-I think the problem you brought up was that we can't wait for the job
-resuming if it is at the same time paused externally. But we could just
-check that and not increase the drained_end_counter in this case.
+If the BLOCK_JOB_COMPLETED event shows an error, then the job doesn’t 
+even try to complete.  If there is an error on job-finalize, source and 
+target have converged (so the target is consistent), but the source most 
+likely couldn’t be replaced by the target.
 
-This would probably result in a fix that is simple enough for -rc3.
+I suppose in practice if anything goes wrong libvirt just shows an error 
+and that’s it.  No matter where the error occurs exactly.
 
-> It would also mean that you basically just move the wait to wherever the
-> drained_end occurs, for example to qmp_transaction().  Now, every
-> drained_end is preceded by a drained_begin that always has to wait, so it
-> probably isn’t bad.  OTOH, if qmp_transaction() would be allowed to wait for
-> a job to be resumed, I think we can allow the same for
-> qmp_block_job_complete().
-> (And there’s the fact that most of the time not having the block job running
-> after drained_end poses no problem.  This is the first time I’m aware of a
-> problem, so I think it would be preferable to wait only on the rare occasion
-> where we have to.)
-
-Yeah, I can see your point, but on the other hand, waiting in
-drained_end until we can be sure that the effect of drained_begin has
-been undone is a single place that covers all occasions.
-
-I'm not overly confident that we would catch all occasions where we have
-to if we try attacking them one by one. As you noticed, this is not some
-simple case where things just fail all the time when you get it wrong,
-but results in race conditions that are hard to reproduce.
-
-> (B) Have block-job-complete be kind of asynchronous.  We talked about that
-> on IRC yesterday, and the main problem seems to be that we don’t know what
-> we’d do with errors.  We could only emit them via an event, or let the whole
-> job fail, both of which seem like bad solutions.
-
-I guess my suggestion to make it a coroutine QMP handlers is similar,
-except that it blocks QMP, so you could still deliver an error.
-
-On the other hand, this wouldn't be able to address the concern that we
-might be waiting for too long (but I'm not convinced that this is a
-problem anyway).
-
-> (C) Perhaps mirror’s completion function works just fine when the job is
-> paused (we just would have to skip the job_enter()).  I don’t know. Someone™
-> would need to find out.
-
-Who knows. Apart from Someone™, of course.
-
-Kevin
+Max
 
 
