@@ -2,44 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4136C35A22C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:41:36 +0200 (CEST)
-Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E4035A20F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:32:58 +0200 (CEST)
+Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtGJ-0003sD-8K
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40062)
+	id 1lUt7x-0007Ei-Hd
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:32:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lUtCg-0002Xa-M1; Fri, 09 Apr 2021 11:37:50 -0400
-Received: from [201.28.113.2] (port=41884 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lUtCf-0002YS-Bx; Fri, 09 Apr 2021 11:37:50 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 9 Apr 2021 12:19:21 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 94227800172;
- Fri,  9 Apr 2021 12:19:21 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/ppc: updated build rules for disable-tcg option
-Date: Fri,  9 Apr 2021 12:19:16 -0300
-Message-Id: <20210409151916.97326-5-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210409151916.97326-1-bruno.larsen@eldorado.org.br>
-References: <20210409151916.97326-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 09 Apr 2021 15:19:21.0767 (UTC)
- FILETIME=[B7AAAB70:01D72D53]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lUt5U-0005vv-CV; Fri, 09 Apr 2021 11:30:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lUt5S-0007iU-Ex; Fri, 09 Apr 2021 11:30:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C0B8610E5;
+ Fri,  9 Apr 2021 15:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617982220;
+ bh=iUau2GXF6zbdbTyXjG5SQ8atb90nW4e9RQrfxnV2nLs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LNWCOFWV2qaZpqXr5W5XoKZFWz/0GiTZka+kuOiHfGRHGsjmDvrzPVI/3//VTDqa4
+ LMjWk5g3HCX73WasD25Rl8IW9pjevSNfRACTo/XO+LWv5BZqievPmJtxRJ7ZK1kh0Y
+ TiuYlOAdkD1iTAWJCkK94iAtn5Rj9KqnLiHkUlZOVLCdPHIiAvZB+V0/fgJ43/9yob
+ mGvdzT4zthOnq9P1/UfDDiijrTRkgB2O6O850u7b6IxbS7DLAGDISJsQIa37FKG5KP
+ gLLEpCYDbjHR0TJQbDIEKrUrd+YTdqAmfShgZvTYd+I8JW0+NahGT9lZtMsaoQ8Y2M
+ ZsqsJW8QPr4jQ==
+Date: Sat, 10 Apr 2021 00:30:17 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH] hw/block/nvme: slba equal to nsze is out of bounds if
+ nlb is 1-based
+Message-ID: <20210409153017.GB32304@redsun51.ssa.fujisawa.hgst.com>
+References: <CGME20210409074451epcas5p391e5b072e6245b8fe691d67bb42fb234@epcas5p3.samsung.com>
+ <20210409074402.7342-1-anaidu.gollu@samsung.com>
+ <20210409110518.GC2085@localhost>
+ <YHBAlXnRdYTU1m1P@apples.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHBAlXnRdYTU1m1P@apples.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,75 +65,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.araujo@eldorado.org.br, lagarcia@br.ibm.com,
- luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, andre.silva@eldorado.org.br,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ mreitz@redhat.com, Minwoo Im <minwoo.im.dev@gmail.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-updated the meson file to respect the disable-tcg option and only add
-relevant files to the build process
+On Fri, Apr 09, 2021 at 01:55:01PM +0200, Klaus Jensen wrote:
+> On Apr  9 20:05, Minwoo Im wrote:
+> > On 21-04-09 13:14:02, Gollu Appalanaidu wrote:
+> > > NSZE is the total size of the namespace in logical blocks. So the max
+> > > addressable logical block is NLB minus 1. So your starting logical
+> > > block is equal to NSZE it is a out of range.
+> > > 
+> > > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> > > ---
+> > >  hw/block/nvme.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index 953ec64729..be9edb1158 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -2527,7 +2527,7 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+> > >              uint64_t slba = le64_to_cpu(range[i].slba);
+> > >              uint32_t nlb = le32_to_cpu(range[i].nlb);
+> > > 
+> > > -            if (nvme_check_bounds(ns, slba, nlb)) {
+> > > +            if (nvme_check_bounds(ns, slba, nlb) || slba == ns->id_ns.nsze) {
+> > 
+> > This patch also looks like check the boundary about slba.  Should it be
+> > also checked inside of nvme_check_bounds() ?
+> 
+> The catch here is that DSM is like the only command where the number of
+> logical blocks is a 1s-based value. Otherwise we always have nlb > 0, which
+> means that nvme_check_bounds() will always "do the right thing".
+> 
+> My main gripe here is that (in my mind), by definition, a "zero length
+> range" does not reference any LBAs at all. So how can it result in LBA Out
+> of Range?
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
----
- target/ppc/meson.build | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-index bbfef90e08..23f9346a6e 100644
---- a/target/ppc/meson.build
-+++ b/target/ppc/meson.build
-@@ -2,32 +2,40 @@ ppc_ss = ss.source_set()
- ppc_ss.add(files(
-   'cpu-models.c',
-   'cpu.c',
-+  'gdbstub.c',
-+))
-+
-+ppc_ss.add(libdecnumber)
-+
-+ppc_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
-+ppc_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user_only_helper.c'))
-+ppc_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'dfp_helper.c',
-   'excp_helper.c',
-   'fpu_helper.c',
--  'gdbstub.c',
-   'int_helper.c',
-   'mem_helper.c',
-   'misc_helper.c',
-   'timebase_helper.c',
-   'translate.c',
--))
-+), if_false: files('tcg-stub.c'))
- 
--ppc_ss.add(libdecnumber)
--
--ppc_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
--ppc_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user_only_helper.c'))
- 
- ppc_softmmu_ss = ss.source_set()
- ppc_softmmu_ss.add(files(
-   'arch_dump.c',
-   'machine.c',
-+  'monitor.c',
-+))
-+ppc_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'mmu-hash32.c',
-   'mmu_helper.c',
--  'monitor.c',
- ))
-+
- ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
-   'compat.c',
-+))
-+ppc_softmmu_ss.add(when: ['TARGET_PPC64', 'CONFIG_TCG'], if_true: files(
-   'mmu-book3s-v3.c',
-   'mmu-hash64.c',
-   'mmu-radix64.c',
--- 
-2.17.1
-
+So what's the problem? If the request is to discard 0 blocks starting
+from the last block, then that's valid. Is this patch actually fixing
+anything?
 
