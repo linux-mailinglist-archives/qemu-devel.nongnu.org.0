@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC84C3598F0
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 11:13:08 +0200 (CEST)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF443598F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 11:13:16 +0200 (CEST)
+Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUnCN-0006PR-U5
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 05:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56306)
+	id 1lUnCV-0006Vk-UQ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 05:13:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lUn9v-00046n-1N
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:10:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43870)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUn9w-00049D-AQ
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:10:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lUn9n-0002mw-BS
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:10:34 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lUn9u-0002pz-PT
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:10:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617959426;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1617959433;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NtfvK9Wh/UYUrzTJjO5FGGnknAjv1q1/gE+jZkBdJ2A=;
- b=CQD289m8PcJScly0mSQRj3c4HyT6WP26KZl7OdcByfw/1EUtz9q8H89mmjiyY6aPZpzipi
- yap4uSINY8FeEAQBqXBmEYJuVe9WVdmaJ4gtWE3+/kymrSQZ+RMyp/c4L9joK2u6JHzGYG
- F7bV5SzMuaQ47ROw4zsL+ixzVCvzwEc=
+ bh=NkZ9H95RYjrI1dMGeKVkrC7byv2jvAg6O4OLlkJVpFQ=;
+ b=hE4MkOGwYn+IpdQrFIPPyfLSLuSccUIAxTeGs2kp0mNqQvdv5hB4o2mASJTcwY3BEdad+H
+ VUs7nxUkDb3T3lOznxLG1sqQc1EV7h57WDQgKo3TfKin95e3RXjFhZ/khLQHpUZlaF31/k
+ eVN4zDQLUrHHCbLKN4ji6c9HCq5jiXI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-zYEiyl4LNpen2DjuPFKMbQ-1; Fri, 09 Apr 2021 05:10:24 -0400
-X-MC-Unique: zYEiyl4LNpen2DjuPFKMbQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-119-imwdUcpgNoi_95GvNQcZSQ-1; Fri, 09 Apr 2021 05:10:28 -0400
+X-MC-Unique: imwdUcpgNoi_95GvNQcZSQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5376D10054F6
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 09:10:23 +0000 (UTC)
-Received: from redhat.com (ovpn-115-36.ams2.redhat.com [10.36.115.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FB7D5D9E3;
- Fri,  9 Apr 2021 09:10:21 +0000 (UTC)
-Date: Fri, 9 Apr 2021 10:10:18 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [RFC PATCH 4/5] migration/socket: Close the listener at the end
-Message-ID: <YHAZ+mT8Y7qkz2dn@redhat.com>
-References: <20210408191159.133644-1-dgilbert@redhat.com>
- <20210408191159.133644-5-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4592F107ACF3
+ for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 09:10:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-165.ams2.redhat.com
+ [10.36.114.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E0A460BE5;
+ Fri,  9 Apr 2021 09:10:27 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9A624180039C; Fri,  9 Apr 2021 11:10:25 +0200 (CEST)
+Date: Fri, 9 Apr 2021 11:10:25 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
+Message-ID: <20210409091025.sht464kryv22cf3h@sirius.home.kraxel.org>
+References: <20210121125028.3247190-1-kraxel@redhat.com>
+ <20210203163202.GF241524@stefanha-x1.localdomain>
+ <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
+ <YFiHnr/uguP8/Vtz@redhat.com>
+ <20210326124700.taujcpo2xqbn2pzj@sirius.home.kraxel.org>
+ <YGGcnmLvFHEkX4ot@redhat.com>
+ <20210329094818.q4xtejd6labmb5gr@sirius.home.kraxel.org>
+ <YGGlo0C/JqlyQLMV@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210408191159.133644-5-dgilbert@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <YGGlo0C/JqlyQLMV@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,39 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pabeni@redhat.com
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 08, 2021 at 08:11:58PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Delay closing the listener until the cleanup hook at the end; mptcp
-> needs the listener to stay open while the other paths come in.
+  Hi,
 
-So you're saying that when the 'accept(2)' call returns, we are only
-guaranteed to have 1 single path accepted, and the other paths
-will be accepted by the kernel asynchronously ? Hence we need to
-keep listening, even though we're not going to call accept(2) again
-ourselves ?
+> > semantic error: unresolved function pid: identifier 'pid' at /home/kraxel/qemu-install/share/systemtap/tapset/qemu-system-x86_64-log.stp:5451:41
+> >         source:     printf("%d@%d qxl_soft_reset %d\n", pid(), gettimeofday_ns(), qid)
 
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  migration/multifd.c |  5 +++++
->  migration/socket.c  | 24 ++++++++++++++++++------
->  2 files changed, 23 insertions(+), 6 deletions(-)
+> Hmm, strange, makes me think we have a bug causing it to not pull in
+> global functions.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Yep.  qemu-trace-stap sets SYSTEMTAP_TAPSET to
+/home/kraxel/qemu-install/share/systemtap/tapset.  Which makes stap use
+that exclusively and ignore /usr/share/systemtap/tapset.  Which in turn
+makes pid() disappear because that apparently is defined somewhere in
+those tapsets.
 
+IOW: It's broken for any $prefix != "/usr".
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Using stap -I /home/kraxel/qemu-install/share/systemtap/tapset seems to
+work fine, I guess qemu-trace-stap should use that instead ...
+
+take care,
+  Gerd
 
 
