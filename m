@@ -2,115 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A224359C66
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:55:04 +0200 (CEST)
-Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC31D359C2A
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 12:32:51 +0200 (CEST)
+Received: from localhost ([::1]:33298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUon0-0001Tw-UA
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54512)
+	id 1lUoRW-0008PJ-Tb
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 06:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lUomC-0000zq-RK
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:54:12 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:44515)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lUoQQ-0007mx-NF
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:31:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lUom9-0007vk-0Q
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:54:12 -0400
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20210409105359epoutp03fc62c83d92a2a610b0beb2a5631eb409~0Ky1AWJIT3242432424epoutp03P
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 10:53:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20210409105359epoutp03fc62c83d92a2a610b0beb2a5631eb409~0Ky1AWJIT3242432424epoutp03P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1617965639;
- bh=Nr9GzAsnLm/AZYr5F+rbWFEF/62aFQLur39V9qWJ8eQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=tuEk79Sp2/YXpc9G834yFOoHl8kehQtXpa5lCSMu9DH/hR89WSi9SAnDEdzUUPk5X
- myI0DLuhV3EfdmZ+Nd/2jdPrXr5jfF1djjKlM9sHztaoeUkbwRXe1xpwZw0aOMpqhz
- XfZhyDyOXTyPyAuEdPCjSTfqE3M7fZfqSATVtpxg=
-Received: from epsmges5p2new.samsung.com (unknown [182.195.42.74]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20210409105358epcas5p2443169b0f4dac67ab3bed4af0f05c3dd~0Ky0e40G10657906579epcas5p2I;
- Fri,  9 Apr 2021 10:53:58 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 22.1D.39068.64230706; Fri,  9 Apr 2021 19:53:58 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20210409085110epcas5p3ffa5c8e29551822c0a28093af48540c4~0JHl6erB52243022430epcas5p37;
- Fri,  9 Apr 2021 08:51:10 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210409085110epsmtrp2c4d912eedc1931b13ee1ec0389820562~0JHl5zdvt2340523405epsmtrp2O;
- Fri,  9 Apr 2021 08:51:10 +0000 (GMT)
-X-AuditID: b6c32a4a-625ff7000000989c-40-60703246e734
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 33.EB.08745.E7510706; Fri,  9 Apr 2021 17:51:10 +0900 (KST)
-Received: from 2030045822 (unknown [107.99.42.33]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20210409085109epsmtip1f35ef60a43156701182bc8d1a841521c~0JHktwjJi2653626536epsmtip1T;
- Fri,  9 Apr 2021 08:51:08 +0000 (GMT)
-Date: Fri, 9 Apr 2021 14:18:13 +0530
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 1/2] hw/block/nvme: store aiocb in compare
-Message-ID: <20210409084813.GA6083@2030045822>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lUoQN-0002vO-UC
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 06:31:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1617964299;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gvxzrqfd8U4cOb7W7+fvoF/MGbYoBMyEFlAPygX/qEM=;
+ b=UO4AljPV5r9biyIryZu9Jp6XYA3qwmJ9FWtGVkTfuB6RdkzKxSP1zZqcj4OE+9JCw1tu7i
+ PCkXuWETKmcOhjfTQecoMrDSDhLtz8jOb3RWVYmGJ3pAzsBliGSgNvshzebbeF5fpCT+76
+ OXj2UPJkIt5UkqqNFcAYWCz6OIsoePw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-rBcmHxcUM-6p3VEmE2Atjg-1; Fri, 09 Apr 2021 06:31:33 -0400
+X-MC-Unique: rBcmHxcUM-6p3VEmE2Atjg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20C038030BB;
+ Fri,  9 Apr 2021 10:31:32 +0000 (UTC)
+Received: from redhat.com (ovpn-115-36.ams2.redhat.com [10.36.115.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65CD219C71;
+ Fri,  9 Apr 2021 10:31:30 +0000 (UTC)
+Date: Fri, 9 Apr 2021 11:31:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: iotests 041 intermittent failure (netbsd)
+Message-ID: <YHAs/+BEnkuPgWkO@redhat.com>
+References: <CAFEAcA_-ARyPM0gB2Y_FKdUp9DYRNbz1GFU1AzFE9UZgjWNazQ@mail.gmail.com>
+ <6cf410f9-6566-5921-fecc-6adaafbce068@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210408193709.435939-1-its@irrelevant.dk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHKsWRmVeSWpSXmKPExsWy7bCmuq6bUUGCwcqDJhb7D35jtTjZuIfV
- YtKha4wWSy6mWsy7pWwx6107m8Xx3h0sDuwe53acZ/fYtKqTzePJtc1MHu/3XWXz6NuyijGA
- NYrLJiU1J7MstUjfLoEr49WdP6wFa7kretbaNDDu4Oxi5OSQEDCRmN/wlqmLkYtDSGA3o8Sr
- hudsEM4nRokPpxpYIJzPjBLL5x5gh2l58nM7O0RiF6PE6/+HmUESQgLPGSWmvw8EsVkEVCSm
- /r7LCGKzCRhJzH77BswWAYo//beXBcRmFtgBtG8VWFxYwE5ix8wOJhCbV0BPYsKCNYwQtqDE
- yZlPwOo5BSwkbs49B2aLCihLHNh2HOxuCYGf7BLXbh9igrjORWLr78MsELawxKvjW6CulpL4
- /G4v0G/sQHa1xOEiiNYORoljlzewQZTYS/x7No0R4rYMicu/7kDFZSWmnlrHBBHnk+j9/QRq
- Fa/EjnkwtprEglvfoVbJSMz8c5sVwvaQmLJ8FzR8uxklDn99wTqBUX4Wkt9mIdkHYVtJdH5o
- Yp3FyAFkS0ss/8cBYWpKrN+lv4CRdRWjZGpBcW56arFpgVFearlecWJucWleul5yfu4mRnAS
- 0vLawfjwwQe9Q4xMHIyHGCU4mJVEeJub8xOEeFMSK6tSi/Lji0pzUosPMUpzsCiJ8+4weBAv
- JJCeWJKanZpakFoEk2Xi4JRqYPKTVbvCU7ive//PyqWfz5VxH11+XvV42YXYq5M2zspaI7ex
- 029KHXcrp8f926W5D3/3dJjNSpDc2zuR+/D2jNdZl9jCOhLnKc1aVMe3O3nFyo1nvZ+ez/zw
- o161iLnJLEPpx/1PC/Tj0j7NuDY79jn393PTNM8YZvCcZF6VNf8Un4zKrfN3DEJ83NNilWL9
- N07yrv63tXXHwezPH410YtQuJVwquto3pXDhXo4bCSv+muz5qFub1a3Jb1iSqX/bb9PvrIOV
- pvUGz/+0ptgry2rdag45sX4qn+bLib3SNvx5oqsy2LPW3Ctk6RVIrmKIr5S1ijDY9m37l1f/
- eiOU9S5nrjj4RmT3movajG7NM5RYijMSDbWYi4oTAVMluJmxAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsWy7bCSnG6daEGCwcVFnBb7D35jtTjZuIfV
- YtKha4wWSy6mWsy7pWwx6107m8Xx3h0sDuwe53acZ/fYtKqTzePJtc1MHu/3XWXz6NuyijGA
- NYrLJiU1J7MstUjfLoEr4825fsaC+xwVD5Y8YW5gbGHvYuTkkBAwkXjyczuQzcUhJLCDUWLi
- 3FuMEAkZiV+npjJD2MISK/89hyp6yijxYm8HG0iCRUBFYurvu2ANbAJGErPfvgGzRYDiT//t
- ZQFpYAaZurH/MStIQljATmLHzA4mEJtXQE9iwoI1YA1CAuYS6y+fhYoLSpyc+YQFxGYWMJOY
- t/kh0BUcQLa0xPJ/HCBhTgELiZtzz4GViAooSxzYdpxpAqPgLCTds5B0z0LoXsDIvIpRMrWg
- ODc9t9iwwCgvtVyvODG3uDQvXS85P3cTIzgGtLR2MO5Z9UHvECMTB+MhRgkOZiUR3ubm/AQh
- 3pTEyqrUovz4otKc1OJDjNIcLErivBe6TsYLCaQnlqRmp6YWpBbBZJk4OKUamDY6HF5cppKd
- wfhj/s05xidX1VRbXDb8LjhFzUxgR+/hf8nX3iz67T1Rete9Q//myDe/eBwYLZXx9q7bhaWR
- G9SidxS0VIbaKYpMvMq6/ETJ4Vf8rw75avSdEgu9MWnCp5DvdavWFJ7eZ8voUHx+bkP3g+jT
- jPPF1m1y27/VftkdMY983oAK/uvPpF9Oq6r7ojxpX9zp3vtTmyyu+jJJffo8PUfn35FtmYI/
- npWoP9p6WKhLcIeYkP+j2Bq/s6fEniWLiL9LXC3AfaP63aX5otWsc3Pfl8mrfZpkfn+xX2ix
- R3bP49R8NfvgmodNchOqHzZe+xEYUHXbPJC9aZn0xPjqGJVXW+91Xys6bLnl1EclluKMREMt
- 5qLiRADOL7i98AIAAA==
-X-CMS-MailID: 20210409085110epcas5p3ffa5c8e29551822c0a28093af48540c4
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_65d0d_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210409085110epcas5p3ffa5c8e29551822c0a28093af48540c4
-References: <20210408193709.435939-1-its@irrelevant.dk>
- <CGME20210409085110epcas5p3ffa5c8e29551822c0a28093af48540c4@epcas5p3.samsung.com>
-Received-SPF: pass client-ip=203.254.224.33;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout3.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <6cf410f9-6566-5921-fecc-6adaafbce068@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,54 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_65d0d_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On Fri, Apr 09, 2021 at 12:22:26PM +0200, Philippe Mathieu-Daudé wrote:
+> On 4/9/21 11:43 AM, Peter Maydell wrote:
+> > Just hit this (presumably intermittent) 041 failure running
+> > the build-and-test on the tests/vm netbsd setup. Does it look
+> > familiar to anybody?
+> 
+> This one is known as the mysterious failure:
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg73321.html
 
-On Thu, Apr 08, 2021 at 09:37:08PM +0200, Klaus Jensen wrote:
->From: Klaus Jensen <k.jensen@samsung.com>
->
->nvme_compare() fails to store the aiocb from the blk_aio_preadv() call.
->Fix this.
->
->Fixes: 0a384f923f51 ("hw/block/nvme: add compare command")
->Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->---
-> hw/block/nvme.c | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
->
->diff --git a/hw/block/nvme.c b/hw/block/nvme.c
->index 6b1f056a0ebc..94bc373260be 100644
->--- a/hw/block/nvme.c
->+++ b/hw/block/nvme.c
->@@ -2837,7 +2837,8 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
->
->     block_acct_start(blk_get_stats(blk), &req->acct, data_len,
->                      BLOCK_ACCT_READ);
->-    blk_aio_preadv(blk, offset, &ctx->data.iov, 0, nvme_compare_data_cb, req);
->+    req->aiocb = blk_aio_preadv(blk, offset, &ctx->data.iov, 0,
->+                                nvme_compare_data_cb, req);
->
->     return NVME_NO_COMPLETE;
-> }
->--
+If the test has been flakey with no confirmed fix since Sept 2020,
+then it is well overdue to be switched to disabled by default, at
+least on the platforms it is known to be flakey on.
 
-Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-
->2.31.1
->
->
-
-------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_65d0d_
-Content-Type: text/plain; charset="utf-8"
+Non-determinsitic failures accumulate until you find yourself in
+a situation where its impossible to get CI to pass. We must be
+aggressive in either (a) fixing non-deterministic failures promptly,
+or (b) disabling the test until someone has time to work on a fix.
 
 
-------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_65d0d_--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
