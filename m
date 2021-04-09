@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200FD35A7CD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:24:53 +0200 (CEST)
-Received: from localhost ([::1]:46058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0207935A7DB
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:29:49 +0200 (CEST)
+Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUxgS-0001Iv-4D
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52584)
+	id 1lUxlD-0005z4-Mg
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:29:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lUxeb-0008Vy-MS
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:22:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52994)
+ id 1lUxee-00005Z-Ae
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:23:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lUxeZ-0004A1-KH
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:22:56 -0400
+ id 1lUxeb-0004BK-B3
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:23:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617999774;
+ s=mimecast20190719; t=1617999775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NmQcB7+MoBLJbm1S6XdCvLUei0NPo8rvOPVBayKp2is=;
- b=Q/9MBQTFMIiXHJxoSc5xZPdj1LRGGUXqA1aXw6lxIwWuQEiZAUCM40CjCG1f+L+yjpPtNA
- 9HKLfofO1a0AWZEcjSCU/9Nt93bGSzvg6q74PXn2aWLDESgffCxgIVC6uUVwO5tKZhUJhr
- AlnptBsh+DWTGdGMy90rWHjfU2plo/k=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=liB2Vx01UETRmR85jAnvUN5jWJXLjBT8ZS9U0KHp2kw=;
+ b=UKr9XIueSL6paZF3XE9PngrJJn67QikJQJvNsNpdvUZn+D+FUMutBRBwLx467JOx59WgOJ
+ sFq3zloy+MhAQ9hi+pfRljk5xKt/uPwBPngveT2SH3MUIkgwYENnQtkpoV3ZV1Z36x5+OY
+ H3ldBMbmfTnflraJEKhWCZLS6S+6zgU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-s0HsAuGpPPGkmHYDY6HMgg-1; Fri, 09 Apr 2021 16:22:52 -0400
-X-MC-Unique: s0HsAuGpPPGkmHYDY6HMgg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-145-CELbe1VpNaaFzGi-ieajaQ-1; Fri, 09 Apr 2021 16:22:53 -0400
+X-MC-Unique: CELbe1VpNaaFzGi-ieajaQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BD26107ACCA;
- Fri,  9 Apr 2021 20:22:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B8A1107ACCD;
+ Fri,  9 Apr 2021 20:22:52 +0000 (UTC)
 Received: from localhost (ovpn-118-57.rdu2.redhat.com [10.10.118.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5561460C05;
- Fri,  9 Apr 2021 20:22:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32ADC5D6AD;
+ Fri,  9 Apr 2021 20:22:52 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/2] x86 and CPU bug fixes for 6.0-rc3
-Date: Fri,  9 Apr 2021 16:22:44 -0400
-Message-Id: <20210409202246.1857179-1-ehabkost@redhat.com>
+Subject: [PULL 1/2] i386: Add missing cpu feature bits in EPYC-Rome model
+Date: Fri,  9 Apr 2021 16:22:45 -0400
+Message-Id: <20210409202246.1857179-2-ehabkost@redhat.com>
+In-Reply-To: <20210409202246.1857179-1-ehabkost@redhat.com>
+References: <20210409202246.1857179-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,47 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+ David Edmondson <david.edmondson@oracle.com>, Babu Moger <babu.moger@amd.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 471387aa1446e2583f372f79327cc0a8c802b4b4=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210409' =
-into staging (2021-04-09 17:21:18 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/ehabkost/qemu.git tags/x86-next-pull-request=0D
-=0D
-for you to fetch changes up to 0b47ec4b95ad1952e55e639711d442f8ec6e1345:=0D
-=0D
-  cpu/core: Fix "help" of CPU core device types (2021-04-09 16:05:16 -0400)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-x86 and CPU bug fixes for 6.0-rc3=0D
-=0D
-* Add missing features to EPYC-Rome CPU model (Babu Moger)=0D
-* Fix crash with "-device ...-cpu-core,help" (Greg Kurz)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Babu Moger (1):=0D
-  i386: Add missing cpu feature bits in EPYC-Rome model=0D
-=0D
-Greg Kurz (1):=0D
-  cpu/core: Fix "help" of CPU core device types=0D
-=0D
- hw/cpu/core.c     | 10 ++++++++--=0D
- target/i386/cpu.c | 12 ++++++++++++=0D
- 2 files changed, 20 insertions(+), 2 deletions(-)=0D
-=0D
---=20=0D
-2.30.2=0D
-=0D
+From: Babu Moger <babu.moger@amd.com>
+
+Found the following cpu feature bits missing from EPYC-Rome model.
+ibrs    : Indirect Branch Restricted Speculation
+ssbd    : Speculative Store Bypass Disable
+
+These new features will be added in EPYC-Rome-v2. The -cpu help output
+after the change.
+
+x86 EPYC-Rome             (alias configured by machine type)
+x86 EPYC-Rome-v1          AMD EPYC-Rome Processor
+x86 EPYC-Rome-v2          AMD EPYC-Rome Processor
+
+Reported-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+Signed-off-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <161478622280.16275.6399866734509127420.stgit@bmoger-ubuntu>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/cpu.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6b3e9467f17..ad99cad0e7c 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4179,6 +4179,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .xlevel = 0x8000001E,
+         .model_id = "AMD EPYC-Rome Processor",
+         .cache_info = &epyc_rome_cache_info,
++        .versions = (X86CPUVersionDefinition[]) {
++            { .version = 1 },
++            {
++                .version = 2,
++                .props = (PropValue[]) {
++                    { "ibrs", "on" },
++                    { "amd-ssbd", "on" },
++                    { /* end of list */ }
++                }
++            },
++            { /* end of list */ }
++        }
+     },
+     {
+         .name = "EPYC-Milan",
+-- 
+2.30.2
 
 
