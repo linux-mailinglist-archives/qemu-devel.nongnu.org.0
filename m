@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C55035A2FB
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:23:33 +0200 (CEST)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3B035A339
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:26:31 +0200 (CEST)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtuu-0000Ui-DB
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50150)
+	id 1lUtxm-0004jP-AI
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnr-0007gS-IH
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53618)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnu-0007mS-0w
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnj-0003Lo-7M
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:15 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnq-0003NZ-IH
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617984966;
+ s=mimecast20190719; t=1617984969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZSXeO8oZCR3bRAXAIlADUmJrrUFAZHUJqPzVBpHGJ3Y=;
- b=htp9XgFgu1YDBz2kfqw4A0XUawYXIPmKY1K7xr8WcV9z0ldgHAJ/vDY2pVr6fCFrEuoo/g
- 1Mwc6nEK9IhbiHH1+KkfqOO8gcH1S94asDZoqTE7YSFywRgF1rMNwTYdj0NMAmfPBOU4WP
- xANCc9fARnvM3Y+2dcUlB5EU8j4yP3I=
+ bh=HwlkFMWL4rMNLHBkKMTTS+lHDYZorJX/JWzqXUBTAFk=;
+ b=BLaQfxmR1sfM6zefeGD0N4v3MXX4CZhZ/1vDHqxVwddG4qUnjoRrQ3Qll8iLvSVhlWvh3r
+ tTABmZMdjDQq82lDy73juHm2kYDx5f2/IWpoTVTA25bD/HrBLKbfeRIhjLrASWDR5uj1c9
+ C3KfWfZVI4aafoWs0hMfzzjldVrwa/o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-5TmMWFBgMzGuQNqnmOHCag-1; Fri, 09 Apr 2021 12:16:04 -0400
-X-MC-Unique: 5TmMWFBgMzGuQNqnmOHCag-1
+ us-mta-160-xZcls_N5MIyyCJ87S8FirQ-1; Fri, 09 Apr 2021 12:16:05 -0400
+X-MC-Unique: xZcls_N5MIyyCJ87S8FirQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C40E188352C;
- Fri,  9 Apr 2021 16:16:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 556DD5B38C;
+ Fri,  9 Apr 2021 16:16:04 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-115-63.ams2.redhat.com [10.36.115.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A4385D6A1;
- Fri,  9 Apr 2021 16:16:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6460D5D6A1;
+ Fri,  9 Apr 2021 16:16:03 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/10] iotests: add test for removing persistent bitmap from
- backing file
-Date: Fri,  9 Apr 2021 18:15:42 +0200
-Message-Id: <20210409161548.341297-5-kwolf@redhat.com>
+Subject: [PULL 05/10] iotests: Test mirror-top filter permissions
+Date: Fri,  9 Apr 2021 18:15:43 +0200
+Message-Id: <20210409161548.341297-6-kwolf@redhat.com>
 In-Reply-To: <20210409161548.341297-1-kwolf@redhat.com>
 References: <20210409161548.341297-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,34 +80,35 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
 
-Just demonstrate one of x-blockdev-reopen usecases. We can't simply
-remove persistent bitmap from RO node (for example from backing file),
-as we need to remove it from the image too. So, we should reopen the
-node first.
+Add a test accompanying commit 53431b9086b2832ca1aeff0c55e186e9ed79bd11
+("block/mirror: Fix mirror_top's permissions").
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210401161522.8001-1-vsementsov@virtuozzo.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20210331122815.51491-1-mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- .../tests/remove-bitmap-from-backing          | 69 +++++++++++++++++++
- .../tests/remove-bitmap-from-backing.out      |  6 ++
- 2 files changed, 75 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/remove-bitmap-from-backing
- create mode 100644 tests/qemu-iotests/tests/remove-bitmap-from-backing.out
+ tests/qemu-iotests/tests/mirror-top-perms     | 121 ++++++++++++++++++
+ tests/qemu-iotests/tests/mirror-top-perms.out |   5 +
+ 2 files changed, 126 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/mirror-top-perms
+ create mode 100644 tests/qemu-iotests/tests/mirror-top-perms.out
 
-diff --git a/tests/qemu-iotests/tests/remove-bitmap-from-backing b/tests/qemu-iotests/tests/remove-bitmap-from-backing
+diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
 new file mode 100755
-index 0000000000..0ea4c36507
+index 0000000000..451a0666f8
 --- /dev/null
-+++ b/tests/qemu-iotests/tests/remove-bitmap-from-backing
-@@ -0,0 +1,69 @@
++++ b/tests/qemu-iotests/tests/mirror-top-perms
+@@ -0,0 +1,121 @@
 +#!/usr/bin/env python3
++# group: rw
 +#
-+# Test removing persistent bitmap from backing
++# Test permissions taken by the mirror-top filter
 +#
-+# Copyright (c) 2021 Virtuozzo International GmbH.
++# Copyright (C) 2021 Red Hat, Inc.
 +#
 +# This program is free software; you can redistribute it and/or modify
 +# it under the terms of the GNU General Public License as published by
@@ -124,67 +124,117 @@ index 0000000000..0ea4c36507
 +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 +#
 +
++import os
 +import iotests
-+from iotests import log, qemu_img_create, qemu_img, qemu_img_pipe
++from iotests import qemu_img
 +
-+iotests.script_initialize(supported_fmts=['qcow2'])
++# Import qemu after iotests.py has amended sys.path
++# pylint: disable=wrong-import-order
++import qemu
 +
-+top, base = iotests.file_path('top', 'base')
-+size = '1M'
 +
-+assert qemu_img_create('-f', iotests.imgfmt, base, size) == 0
-+assert qemu_img_create('-f', iotests.imgfmt, '-b', base,
-+                       '-F', iotests.imgfmt, top, size) == 0
++image_size = 1 * 1024 * 1024
++source = os.path.join(iotests.test_dir, 'source.img')
 +
-+assert qemu_img('bitmap', '--add', base, 'bitmap0') == 0
-+# Just assert that our method of checking bitmaps in the image works.
-+assert 'bitmaps' in qemu_img_pipe('info', base)
 +
-+vm = iotests.VM().add_drive(top, 'backing.node-name=base')
-+vm.launch()
++class TestMirrorTopPerms(iotests.QMPTestCase):
++    def setUp(self):
++        assert qemu_img('create', '-f', iotests.imgfmt, source,
++                        str(image_size)) == 0
++        self.vm = iotests.VM()
++        self.vm.add_drive(source)
++        self.vm.add_blockdev(f'null-co,node-name=null,size={image_size}')
++        self.vm.launch()
 +
-+log('Trying to remove persistent bitmap from r-o base node, should fail:')
-+vm.qmp_log('block-dirty-bitmap-remove', node='base', name='bitmap0')
++        # Will be created by the test function itself
++        self.vm_b = None
 +
-+new_base_opts = {
-+    'node-name': 'base',
-+    'driver': 'qcow2',
-+    'file': {
-+        'driver': 'file',
-+        'filename':  base
-+    },
-+    'read-only': False
-+}
++    def tearDown(self):
++        try:
++            self.vm.shutdown()
++        except qemu.machine.AbnormalShutdown:
++            pass
 +
-+# Don't want to bother with filtering qmp_log for reopen command
-+result = vm.qmp('x-blockdev-reopen', **new_base_opts)
-+if result != {'return': {}}:
-+    log('Failed to reopen: ' + str(result))
++        if self.vm_b is not None:
++            self.vm_b.shutdown()
 +
-+log('Remove persistent bitmap from base node reopened to RW:')
-+vm.qmp_log('block-dirty-bitmap-remove', node='base', name='bitmap0')
++        os.remove(source)
 +
-+new_base_opts['read-only'] = True
-+result = vm.qmp('x-blockdev-reopen', **new_base_opts)
-+if result != {'return': {}}:
-+    log('Failed to reopen: ' + str(result))
++    def test_cancel(self):
++        """
++        Before commit 53431b9086b28, mirror-top used to not take any
++        permissions but WRITE and share all permissions.  Because it
++        is inserted between the source's original parents and the
++        source, there generally was no parent that would have taken or
++        unshared any permissions on the source, which means that an
++        external process could access the image unhindered by locks.
++        (Unless there was a parent above the protocol node that would
++        take its own locks, e.g. a format driver.)
++        This is bad enough, but if the mirror job is then cancelled,
++        the mirroring VM tries to take back the image, restores the
++        original permissions taken and unshared, and assumes this must
++        just work.  But it will not, and so the VM aborts.
 +
-+vm.shutdown()
++        Commit 53431b9086b28 made mirror keep the original permissions
++        and so no other process can "steal" the image.
 +
-+if 'bitmaps' in qemu_img_pipe('info', base):
-+    log('ERROR: Bitmap is still in the base image')
-diff --git a/tests/qemu-iotests/tests/remove-bitmap-from-backing.out b/tests/qemu-iotests/tests/remove-bitmap-from-backing.out
++        (Note that you cannot really do the same with the target image
++        and then completing the job, because the mirror job always
++        took/unshared the correct permissions on the target.  For
++        example, it does not share READ_CONSISTENT, which makes it
++        difficult to let some other qemu process open the image.)
++        """
++
++        result = self.vm.qmp('blockdev-mirror',
++                             job_id='mirror',
++                             device='drive0',
++                             target='null',
++                             sync='full')
++        self.assert_qmp(result, 'return', {})
++
++        self.vm.event_wait('BLOCK_JOB_READY')
++
++        # We want this to fail because the image cannot be locked.
++        # If it does not fail, continue still and see what happens.
++        self.vm_b = iotests.VM(path_suffix='b')
++        # Must use -blockdev -device so we can use share-rw.
++        # (And we need share-rw=on because mirror-top was always
++        # forced to take the WRITE permission so it can write to the
++        # source image.)
++        self.vm_b.add_blockdev(f'file,node-name=drive0,filename={source}')
++        self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
++        try:
++            self.vm_b.launch()
++            print('ERROR: VM B launched successfully, this should not have '
++                  'happened')
++        except qemu.qmp.QMPConnectError:
++            assert 'Is another process using the image' in self.vm_b.get_log()
++
++        result = self.vm.qmp('block-job-cancel',
++                             device='mirror')
++        self.assert_qmp(result, 'return', {})
++
++        self.vm.event_wait('BLOCK_JOB_COMPLETED')
++
++
++if __name__ == '__main__':
++    # No metadata format driver supported, because they would for
++    # example always unshare the WRITE permission.  The raw driver
++    # just passes through the permissions from the guest device, and
++    # those are the permissions that we want to test.
++    iotests.main(supported_fmts=['raw'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/mirror-top-perms.out b/tests/qemu-iotests/tests/mirror-top-perms.out
 new file mode 100644
-index 0000000000..c28af82c75
+index 0000000000..ae1213e6f8
 --- /dev/null
-+++ b/tests/qemu-iotests/tests/remove-bitmap-from-backing.out
-@@ -0,0 +1,6 @@
-+Trying to remove persistent bitmap from r-o base node, should fail:
-+{"execute": "block-dirty-bitmap-remove", "arguments": {"name": "bitmap0", "node": "base"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap 'bitmap0' is readonly and cannot be modified"}}
-+Remove persistent bitmap from base node reopened to RW:
-+{"execute": "block-dirty-bitmap-remove", "arguments": {"name": "bitmap0", "node": "base"}}
-+{"return": {}}
++++ b/tests/qemu-iotests/tests/mirror-top-perms.out
+@@ -0,0 +1,5 @@
++.
++----------------------------------------------------------------------
++Ran 1 tests
++
++OK
 -- 
 2.30.2
 
