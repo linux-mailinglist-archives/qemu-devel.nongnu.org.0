@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6266635A4D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 19:42:55 +0200 (CEST)
-Received: from localhost ([::1]:45942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606E035A51C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 19:58:20 +0200 (CEST)
+Received: from localhost ([::1]:33056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUv9i-0001Hd-0M
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 13:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
+	id 1lUvOc-0008MS-Vd
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 13:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lUv6z-0008U3-SF
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:40:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lUv6x-0001SW-5K
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:40:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617990001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pg4wZU8Bu5FDhB6xggtLCL5SeOGAvL4zYYZS6SHcgS8=;
- b=AOjSjU5cB/BYfk3217cScbjisSbl+le5sKz3KmNchLgNT9HhjMOlTCyZ8ErM7K1nsb/PQC
- mnjAIZuAjGEidmA1l1LU612szrqzy/NLPcyqKQub8YgxgTjyEHuDiGxD/wuC0GcUjl5+0j
- wfGmwBadHEudcz4CJwf7qEFAJjZ5EaA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-HwdDnjcfPoi7C6dDh4el0w-1; Fri, 09 Apr 2021 13:39:56 -0400
-X-MC-Unique: HwdDnjcfPoi7C6dDh4el0w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DBB31922960;
- Fri,  9 Apr 2021 17:39:54 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5848160BE5;
- Fri,  9 Apr 2021 17:39:47 +0000 (UTC)
-Subject: Re: [PATCH for-6.0 v2 6/8] hw/block/nvme: update dmsrl limit on
- namespace detachment
-To: Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20210405175452.37578-1-its@irrelevant.dk>
- <20210405175452.37578-7-its@irrelevant.dk>
- <fa06244b-b4d9-9edb-0fef-495a477bbe71@redhat.com>
- <YGwMx5n2MzBkG8pQ@apples.localdomain>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <726df2a1-6e56-145f-9fa5-c5c94ec3b635@redhat.com>
-Date: Fri, 9 Apr 2021 19:39:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1lUvNW-0007ut-I9
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:57:11 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:44021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1lUvNT-00017l-9Z
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:57:10 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ x21-20020a17090a5315b029012c4a622e4aso3582329pjh.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 10:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JCXs8G8k/P/VUzD2FIP2qjuzYjeDR3xbVJNiYhuk2Q4=;
+ b=cnCtL1NHYOFnS308NhM6xOndrh/pCddKQ6ONHZ4BWy91qf/PuekOFpem5NaK2lKeF8
+ FYFzjkxccU2dzos3LQl1mTe8e+bnti5PrCgqJEU9QZQQajsa9behqmZugig9TJfVQDzp
+ WSKBT9WSNULXm/7Ud0iULm+ZMw4rabANmb1n1YiSMjvSJBJpjeEdApwXKVXFCc03G8iL
+ CwPENN/EV3LE2HKtORerIc5WyxZA8rpCHA4ha5SB1jRt9Jf9DMh0KsB6QMaQiNea9PAi
+ s38fIaA49WDZSk2usuIHqwL69Y38hwU0yQF8dAaRj2womOrh20p4zGnd4jpxcEQ7Mp35
+ kSag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JCXs8G8k/P/VUzD2FIP2qjuzYjeDR3xbVJNiYhuk2Q4=;
+ b=XvRMJEWhvruI2ZNMzSLiQWO+Q3DHxrqCEtIi9SmZV+fPDfbM8otQhSsLAPAcMaOUBf
+ wbiRiefuNP3wOUN5Ixhf+8XR8Si0f8Qy8/avSL/R4ubhKM03PKWoC66ui5vzRXCIbKgt
+ y4SlYUkYZv6YkFXs7FeOV+iDM/1fCdFWz+rjBo/bo5B1UnUFBZ22izPJWqd9qZ/G1X7z
+ 7L289nQGEfeSB/yIDNgK24mKOrB78I8xlhAkb7BxSx7UwZ2TynyN+fUx+Z8ExCHXVyST
+ RvQe3t4FxnmRmDtAYmMdHb5GdO+gA0dYco8NyHq5mUJ+OeQkPdglF2vGGx1C+T2b+ydq
+ FD4g==
+X-Gm-Message-State: AOAM530ZyVa0o4Ajg/WsiYE3MkWEgOlpOQngkHWjUxmv12fE6dRB9WMg
+ v9M9tcKItfMTVCziyHigbe0=
+X-Google-Smtp-Source: ABdhPJwgxO0paXbQQI72U9XuQM0I/47Xxsfp1ZcbJRLF8yDurdnTF2GHr1zLmy7oVvAifFqZ1sFD+A==
+X-Received: by 2002:a17:90b:ecc:: with SMTP id
+ gz12mr14801433pjb.79.1617991025245; 
+ Fri, 09 Apr 2021 10:57:05 -0700 (PDT)
+Received: from localhost ([192.55.55.43])
+ by smtp.gmail.com with ESMTPSA id x1sm2811611pje.40.2021.04.09.10.57.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Apr 2021 10:57:04 -0700 (PDT)
+Date: Fri, 9 Apr 2021 10:55:12 -0700
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] checkpatch: Fix use of uninitialized value
+Message-ID: <20210409175512.GB218869@ls>
+References: <161786467973.295167.5612704777283969903.stgit@bahia.lan>
+ <20210408174913.GA218869@ls> <20210409074011.12ea4ed2@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <YGwMx5n2MzBkG8pQ@apples.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409074011.12ea4ed2@bahia.lan>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,113 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: isaku.yamahata@intel.com, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Isaku Yamahata <isaku.yamahata@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/04/2021 09.24, Klaus Jensen wrote:
-> On Apr  6 09:10, Philippe Mathieu-Daudé wrote:
->> On 4/5/21 7:54 PM, Klaus Jensen wrote:
->>> From: Klaus Jensen <k.jensen@samsung.com>
->>>
->>> The Non-MDTS DMSRL limit must be recomputed when namespaces are
->>> detached.
->>>
->>> Fixes: 645ce1a70cb6 ("hw/block/nvme: support namespace attachment command")
->>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>> Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->>> ---
->>>   hw/block/nvme.c | 17 +++++++++++++++++
->>>   1 file changed, 17 insertions(+)
->>>
->>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
->>> index de0e726dfdd8..3dc51f407671 100644
->>> --- a/hw/block/nvme.c
->>> +++ b/hw/block/nvme.c
->>> @@ -4876,6 +4876,21 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest *req)
->>>       return NVME_NO_COMPLETE;
->>>   }
->>>   
->>> +static void __nvme_update_dmrsl(NvmeCtrl *n)
->>> +{
->>> +    int nsid;
->>> +
->>> +    for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
->>> +        NvmeNamespace *ns = nvme_ns(n, nsid);
->>> +        if (!ns) {
->>> +            continue;
->>> +        }
->>> +
->>> +        n->dmrsl = MIN_NON_ZERO(n->dmrsl,
->>> +                                BDRV_REQUEST_MAX_BYTES / nvme_l2b(ns, 1));
->>> +    }
->>> +}
->>> +
->>>   static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
->>>   static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
->>>   {
->>> @@ -4925,6 +4940,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
->>>               }
->>>   
->>>               nvme_ns_detach(ctrl, ns);
->>> +
->>> +            __nvme_update_dmrsl(ctrl);
->>>           }
->>
->> Why the '__' prefix? It doesn't seem clearer (I'm not sure there is
->> a convention, it makes me think of a internal macro expansion use
->> for preprocessor).
->>
->> There are very few uses of this prefix:
->>
->> hw/9pfs/cofs.c:21:static ssize_t __readlink(V9fsState *s, V9fsPath
->> *path, V9fsString *buf)
->> hw/block/nvme.c:1683:static uint16_t __nvme_zrm_open(NvmeNamespace *ns,
->> NvmeZone *zone,
->> hw/block/nvme.c:1742:static void __nvme_advance_zone_wp(NvmeNamespace
->> *ns, NvmeZone *zone,
->> hw/block/nvme.c:5213:static void __nvme_select_ns_iocs(NvmeCtrl *n,
->> NvmeNamespace *ns)
->> hw/i386/amd_iommu.c:1160:static int __amdvi_int_remap_msi(AMDVIState *iommu,
->> hw/intc/s390_flic_kvm.c:255:static int __get_all_irqs(KVMS390FLICState
->> *flic,
->> hw/net/rocker/rocker_desc.c:199:static bool
->> __desc_ring_post_desc(DescRing *ring, int err)
->> hw/net/sungem.c:766:static uint16_t __sungem_mii_read(SunGEMState *s,
->> uint8_t phy_addr,
->> hw/ppc/ppc.c:867:static void __cpu_ppc_store_decr(PowerPCCPU *cpu,
->> uint64_t *nextp,
->> hw/s390x/pv.c:25:static int __s390_pv_cmd(uint32_t cmd, const char
->> *cmdname, void *data)
->> pc-bios/s390-ccw/cio.c:315:static int __do_cio(SubChannelId schid,
->> uint32_t ccw_addr, int fmt, Irb *irb)
->> target/ppc/mmu-hash64.c:170:static void __helper_slbie(CPUPPCState *env,
->> target_ulong addr,
->>
->> Thomas, Eric, is it worth cleaning these and updating the
->> 'CODESTYLE.rst'?
->>
+On Fri, Apr 09, 2021 at 07:40:11AM +0200,
+Greg Kurz <groug@kaod.org> wrote:
+
+> On Thu, 8 Apr 2021 10:49:13 -0700
+> Isaku Yamahata <isaku.yamahata@gmail.com> wrote:
 > 
-> Yeah ok, I think you are right that there is no clear convention on when
-> to use this or not. I typically just use it for functions that are
-> normally not supposed to be called directly.
+> > 
+> > How about initializing them explicitly as follows?
+> > ($realfile ne '') prevents the case realfile eq '' && acpi_testexpted eq ''.
+> > Anyway your patch also should fix it. So
+> > Reviewed-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> > 
+> > 
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > index 8f7053ec9b..2eb894a628 100755
+> > --- a/scripts/checkpatch.pl
+> > +++ b/scripts/checkpatch.pl
+> > @@ -1325,8 +1325,8 @@ sub process {
+> >  	my %suppress_whiletrailers;
+> >  	my %suppress_export;
+> >  
+> > -        my $acpi_testexpected;
+> > -        my $acpi_nontestexpected;
+> > +        my $acpi_testexpected = '';
+> > +        my $acpi_nontestexpected = '';
+> >  
 > 
-> But I don't even think its consistent in the nvme device. For my sake,
-> we can clean it up, I'll drop it in this case since there is no good
-> reason for it other than my own idea of "style".
+> Hmm... I haven't tried but I believe this will break when these are
+> passed to checkfilename() :
+> 
+> sub checkfilename {
+>         my ($name, $acpi_testexpected, $acpi_nontestexpected) = @_;
+> [...]
+>         if (defined $$acpi_testexpected and defined $$acpi_nontestexpected) {
+>                 ERROR("Do not add expected files together with tests, " .
+> 
+> 
+> >  	# Pre-scan the patch sanitizing the lines.
 
-IIRC all identifiers that start with two underscores are reserved by the C 
-standard:
+Oops. You're right. I scratch it.
 
-  https://busybox.net/~landley/c99-draft.html#7.1.3
-
-Thus you should not use two underscores at the beginning here at all.
-
-  HTH,
-   Thomas
-
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
