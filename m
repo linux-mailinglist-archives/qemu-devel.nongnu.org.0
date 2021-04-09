@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A193596D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 09:54:15 +0200 (CEST)
-Received: from localhost ([::1]:42356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F963596EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 09:56:05 +0200 (CEST)
+Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUly3-0007RZ-1w
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 03:54:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37552)
+	id 1lUlzn-00022j-QU
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 03:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lUlte-0002H1-Ij; Fri, 09 Apr 2021 03:49:42 -0400
-Received: from mail142-31.mail.alibaba.com ([198.11.142.31]:13317)
+ id 1lUlti-0002Pk-PU; Fri, 09 Apr 2021 03:49:46 -0400
+Received: from mail142-22.mail.alibaba.com ([198.11.142.22]:31561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lUlta-0003hc-Ms; Fri, 09 Apr 2021 03:49:42 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07439654|-1; CH=green;
+ id 1lUltb-0003hJ-2R; Fri, 09 Apr 2021 03:49:46 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07452568|-1; CH=green;
  DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.14363-0.000421398-0.855948;
- FP=8842789452891429954|1|1|1|0|-1|-1|-1; HT=ay29a033018047190;
- MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
- TI=SMTPD_---.JxL3BOG_1617954563; 
+ DS=CONTINUE|ham_system_inform|0.246224-0.00021039-0.753566;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.JxL3BOG_1617954563; 
 Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.JxL3BOG_1617954563) by smtp.aliyun-inc.com(10.147.40.7);
  Fri, 09 Apr 2021 15:49:24 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC PATCH 01/11] target/riscv: Add CLIC CSR mintstatus
-Date: Fri,  9 Apr 2021 15:48:47 +0800
-Message-Id: <20210409074857.166082-2-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 02/11] target/riscv: Update CSR xintthresh in CLIC mode
+Date: Fri,  9 Apr 2021 15:48:48 +0800
+Message-Id: <20210409074857.166082-3-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
 References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=198.11.142.31; envelope-from=zhiwei_liu@c-sky.com;
- helo=mail142-31.mail.alibaba.com
+Received-SPF: none client-ip=198.11.142.22; envelope-from=zhiwei_liu@c-sky.com;
+ helo=mail142-22.mail.alibaba.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -62,128 +61,113 @@ Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CSR mintstatus holds the active interrupt level for each supported
-privilege mode. sintstatus, and user, uintstatus, provide restricted
-views of mintstatus.
+The interrupt-level threshold (xintthresh) CSR holds an 8-bit field
+for the threshold level of the associated privilege mode.
+
+For horizontal interrupts, only the ones with higher interrupt levels
+than the threshold level are allowed to preempt.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
  target/riscv/cpu.h      |  2 ++
- target/riscv/cpu_bits.h | 11 +++++++++++
- target/riscv/csr.c      | 26 ++++++++++++++++++++++++++
- 3 files changed, 39 insertions(+)
+ target/riscv/cpu_bits.h |  2 ++
+ target/riscv/csr.c      | 28 ++++++++++++++++++++++++++++
+ 3 files changed, 32 insertions(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0a33d387ba..1a44ca62c7 100644
+index 1a44ca62c7..a5eab26a69 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -159,6 +159,7 @@ struct CPURISCVState {
-     target_ulong mip;
+@@ -160,6 +160,7 @@ struct CPURISCVState {
  
      uint32_t miclaim;
-+    uint32_t mintstatus; /* clic-spec */
+     uint32_t mintstatus; /* clic-spec */
++    target_ulong mintthresh; /* clic-spec */
  
      target_ulong mie;
      target_ulong mideleg;
-@@ -243,6 +244,7 @@ struct CPURISCVState {
+@@ -173,6 +174,7 @@ struct CPURISCVState {
+     target_ulong stvec;
+     target_ulong sepc;
+     target_ulong scause;
++    target_ulong sintthresh; /* clic-spec */
  
-     /* Fields from here on are preserved across CPU reset. */
-     QEMUTimer *timer; /* Internal timer */
-+    void *clic;       /* clic interrupt controller */
- };
- 
- OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+     target_ulong mtvec;
+     target_ulong mepc;
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index caf4599207..c4ce6ec3d9 100644
+index c4ce6ec3d9..9447801d22 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -165,6 +165,7 @@
- #define CSR_MCAUSE          0x342
+@@ -166,6 +166,7 @@
  #define CSR_MTVAL           0x343
  #define CSR_MIP             0x344
-+#define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
+ #define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
++#define CSR_MINTTHRESH      0x347 /* clic-spec-draft */
  
  /* Legacy Machine Trap Handling (priv v1.9.1) */
  #define CSR_MBADADDR        0x343
-@@ -183,6 +184,7 @@
- #define CSR_SCAUSE          0x142
+@@ -185,6 +186,7 @@
  #define CSR_STVAL           0x143
  #define CSR_SIP             0x144
-+#define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
+ #define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
++#define CSR_SINTTHRESH      0x147 /* clic-spec-draft */
  
  /* Legacy Supervisor Trap Handling (priv v1.9.1) */
  #define CSR_SBADADDR        0x143
-@@ -585,6 +587,15 @@
- #define SIP_STIP                           MIP_STIP
- #define SIP_SEIP                           MIP_SEIP
- 
-+/* mintstatus */
-+#define MINTSTATUS_MIL                     0xff000000 /* mil[7:0] */
-+#define MINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
-+#define MINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
-+
-+/* sintstatus */
-+#define SINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
-+#define SINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
-+
- /* MIE masks */
- #define MIE_SEIE                           (1 << IRQ_S_EXT)
- #define MIE_UEIE                           (1 << IRQ_U_EXT)
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d2585395bf..320b18ab60 100644
+index 320b18ab60..4c31364967 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -188,6 +188,12 @@ static int pmp(CPURISCVState *env, int csrno)
- {
-     return -!riscv_feature(env, RISCV_FEATURE_PMP);
- }
-+
-+static int clic(CPURISCVState *env, int csrno)
-+{
-+    return !!env->clic;
-+}
-+
- #endif
- 
- /* User Floating-Point CSRs */
-@@ -734,6 +740,12 @@ static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+@@ -746,6 +746,18 @@ static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong *val)
      return 0;
  }
  
-+static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong *val)
++static int read_mintthresh(CPURISCVState *env, int csrno, target_ulong *val)
 +{
-+    *val = env->mintstatus;
++    *val = env->mintthresh;
++    return 0;
++}
++
++static int write_mintthresh(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->mintthresh = val;
 +    return 0;
 +}
 +
  /* Supervisor Trap Setup */
  static int read_sstatus(CPURISCVState *env, int csrno, target_ulong *val)
  {
-@@ -893,6 +905,13 @@ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-     return ret;
+@@ -912,6 +924,18 @@ static int read_sintstatus(CPURISCVState *env, int csrno, target_ulong *val)
+     return 0;
  }
  
-+static int read_sintstatus(CPURISCVState *env, int csrno, target_ulong *val)
++static int read_sintthresh(CPURISCVState *env, int csrno, target_ulong *val)
 +{
-+    target_ulong mask = SINTSTATUS_SIL | SINTSTATUS_UIL;
-+    *val = env->mintstatus & mask;
++    *val = env->sintthresh;
++    return 0;
++}
++
++static int write_sintthresh(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->sintthresh = val;
 +    return 0;
 +}
 +
  /* Supervisor Protection and Translation */
  static int read_satp(CPURISCVState *env, int csrno, target_ulong *val)
  {
-@@ -1644,5 +1663,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MHPMCOUNTER29H] = { "mhpmcounter29h", any32,  read_zero },
-     [CSR_MHPMCOUNTER30H] = { "mhpmcounter30h", any32,  read_zero },
-     [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", any32,  read_zero },
-+
-+    /* Machine Mode Core Level Interrupt Controller */
-+    [CSR_MINTSTATUS] = { "mintstatus", clic,  read_mintstatus },
-+
-+    /* Supervisor Mode Core Level Interrupt Controller */
-+    [CSR_SINTSTATUS] = { "sintstatus", clic,  read_sintstatus },
-+
+@@ -1666,9 +1690,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+ 
+     /* Machine Mode Core Level Interrupt Controller */
+     [CSR_MINTSTATUS] = { "mintstatus", clic,  read_mintstatus },
++    [CSR_MINTTHRESH] = { "mintthresh", clic,  read_mintthresh,
++                         write_mintthresh },
+ 
+     /* Supervisor Mode Core Level Interrupt Controller */
+     [CSR_SINTSTATUS] = { "sintstatus", clic,  read_sintstatus },
++    [CSR_SINTTHRESH] = { "sintthresh", clic,  read_sintthresh,
++                         write_sintthresh },
+ 
  #endif /* !CONFIG_USER_ONLY */
  };
 -- 
