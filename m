@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBA135A10B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:29:34 +0200 (CEST)
-Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D5835A123
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:35:10 +0200 (CEST)
+Received: from localhost ([::1]:33144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUs8b-0006sm-EM
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
+	id 1lUsDz-0001Ct-6G
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUs7N-0006HQ-Ct
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:28:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41834)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lUs7K-0007Ui-OY
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:28:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617978493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u8S3x64IDF7H4p86QZPHjFSJ65nPhCOF84cucx8kzlU=;
- b=FuVSs6riuZapXDmUesi0seLzESOCSXVsW+fPEptOk9rSu5017UuvkH8jpfF+UKGe3MFsCx
- 4+P22D55hib2S5WbQ1/2Fq+SPDTRHsJA9dcAebdK3pZK3j/be85wVEPnPRYjhVcajPvAUQ
- odNrJJhT1uV7+f491Ys4EqKmqCPkNeY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-BaN0AzFTPhmvxlWdUyYM4g-1; Fri, 09 Apr 2021 10:28:11 -0400
-X-MC-Unique: BaN0AzFTPhmvxlWdUyYM4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7931D101521E;
- Fri,  9 Apr 2021 14:27:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 041E460BE5;
- Fri,  9 Apr 2021 14:27:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 58561113525D; Fri,  9 Apr 2021 16:27:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Connor Kuehl <ckuehl@redhat.com>
-Subject: Re: General question about parsing an rbd filename
-References: <b0c867e5-6ad7-f5e4-ecff-676b3b235995@redhat.com>
-Date: Fri, 09 Apr 2021 16:27:46 +0200
-In-Reply-To: <b0c867e5-6ad7-f5e4-ecff-676b3b235995@redhat.com> (Connor Kuehl's
- message of "Thu, 1 Apr 2021 16:10:27 -0500")
-Message-ID: <87wntbfs7x.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lUsCL-0008Js-KZ; Fri, 09 Apr 2021 10:33:25 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:39563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lUsCK-0002La-4i; Fri, 09 Apr 2021 10:33:25 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id z1so6807017ybf.6;
+ Fri, 09 Apr 2021 07:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B0n6LANtvak/N9owEyHwdtcMow+1UzXHdOQV8K8iTSU=;
+ b=No1EkXJma183GA3zjjeJUJWnXBu8sC1YTxbyly1S+q7/NX54GcdhmnRtMp86U+DHq8
+ 55IMjTthC0FgaHCmS4ONEMF/RR9tb8KAjbkanjxFkx3b9y8sPrDDsupCzGBVP6/FQyUu
+ hYi7WRXiBpXgA6c2eEycWv1ocTFOVw9MbUVTsLtGlvt2UsfZdJHtQOjYy+3xZEaSOAa9
+ uDM7kkdzB3+kpnShUJ/WeoFR58lYUjrtk1LKR+tOhV/9VrsCwk9l1+LTxfwElA8nzDiK
+ YONpz1wcSqS2SxgQDpGIIyhX5yebvFp3gq+mtLrd1uXkQimRMhgzawpjmTnx0IuQ0ss0
+ 44GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B0n6LANtvak/N9owEyHwdtcMow+1UzXHdOQV8K8iTSU=;
+ b=OuZ9NV43ZzSQ7J7L0O4buh9aM5PWm8aIk++KXJTg2fNonVDmiac9Pc38HQ0ZvJP0k7
+ ejuU28k/TE5YG06FYc3Ed+V+OAZA5k0HTg4NO5Zy5+itxVMnvZRRmpiU1bz410dFqoHc
+ Z3c8+i9Tq8nOjXIwi8oeJiraaKluHAvmIQyBgrLcT3bPkMcwNb4oiGg7UcFYunkjKasH
+ OYH6InFzWrHx1GrrZQknzPRjHtG8V3+HOhBZIYND8BTb9mliVoUB0qTpH0VmCvvQi2Vl
+ akFP3k6ymp6Rp4JVWTOZawOxLQ9+c5rB9/be0A/rTPrXlr1Yky+UVOMvZ2fXx1ZzwYOC
+ x8bA==
+X-Gm-Message-State: AOAM532NqgXMqdbgQZDhgZb9ORJIMcv6BShBeUrxfjAzHMGpIh+4c4NO
+ GJS7wnuEu12odqmN8ek7F+RH8A0NK6MmfJBRkYI=
+X-Google-Smtp-Source: ABdhPJwySw9i9O28LFW0es/gWVxKfoI/huneP0koRy4T2kLBBK+46efrYnoGGfIHkZJgoGVdTJBX2HSDI2vSmtgD0tU=
+X-Received: by 2002:a25:e04c:: with SMTP id x73mr20680924ybg.387.1617978802246; 
+ Fri, 09 Apr 2021 07:33:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <cover.1617970729.git.alistair.francis@wdc.com>
+ <3f4a8b1fa0cd5deed00beb585010d6b1cc59efb6.1617970729.git.alistair.francis@wdc.com>
+In-Reply-To: <3f4a8b1fa0cd5deed00beb585010d6b1cc59efb6.1617970729.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 9 Apr 2021 22:33:11 +0800
+Message-ID: <CAEUhbmWgOcma-uHBU0Zb8BhDpvt6D06Qg1_ACNzGGzXV_L=MBw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/8] target/riscv: Implementation of enhanced PMP (ePMP)
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connor Kuehl <ckuehl@redhat.com> writes:
+Hi Alistair,
 
-> Hi,
+On Fri, Apr 9, 2021 at 8:23 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
-> block/rbd.c hints that:
+> From: Hou Weiying <weiying_hou@outlook.com>
 >
->>  * Configuration values containing :, @, or = can be escaped with a
->>  * leading "\".
+> This commit adds support for ePMP v0.9.1.
 >
-> Right now, much of the parsing code will allow anyone to escape
-> _anything_ so long as it's preceded by '\'.
+> The ePMP spec can be found in:
+> https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
 >
-> Is this the intended behavior? Or should the parser be updated to
-> allow escaping only certain sequences.
+> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+> Message-Id: <SG2PR02MB263462CCDBCBBAD36983C2CD93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
+> [ Changes by AF:
+>  - Rebase on master
+>  - Update to latest spec
+>  - Use a switch case to handle ePMP MML permissions
+>  - Fix a few bugs
+> ]
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/pmp.c | 165 +++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 153 insertions(+), 12 deletions(-)
+>
 
-I can't answer this question, but perhaps I can get us a bit closer to
-an answer.
+It looks like the v1 comments are not addressed?
 
-The commend you quoted in part is about "rbd:" pseudo-filenames.
-
-By "parsing code", you probably mean qemu_rbd_parse_filename().  It uses
-qemu_rbd_next_tok() to split off one part after the other, stopping at a
-special delimiter character, and qemu_rbd_unescape() to unescape most,
-but not all parts.
-
-Both treat '\' followed by a character other than '\0' specially.
-qemu_rbd_next_tok() doesn't stop at an escaped delimiter character.
-qemu_rbd_unescape() unescapes escaped characters.
-
-I believe the comment you quoted is basically trying to say "to use a
-character that would normally be a delimiter, escape it with '\'".  It
-doesn't say these are the only characters you may escape.
-
-Not unescaping some parts feels iffy to me.
-
+Regards,
+Bin
 
