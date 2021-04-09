@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E052C35A467
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 19:11:37 +0200 (CEST)
-Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEF335A491
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 19:22:50 +0200 (CEST)
+Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUufQ-0006EV-EH
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 13:11:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34876)
+	id 1lUuqG-0001tf-Vb
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 13:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lUucw-0004wb-2c
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:09:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lUucu-0005mP-1U
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:09:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617988139;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/u6bAD+eGUgSkEqrMV91+7OQLmKrLJLQh+boZUe5+nc=;
- b=hxQGvfpnzl5x2LNkRuzZyy3iDkvqNkn41BeOnN1DDZiO+v4uebIWbHV0nhUmPNx+UKEAP5
- hqkuuaGRPey+VtS6tpoLIjYxxrFfGth58JOTb55szxBtSCaDV5DQNt71kooa3u6F5ixvM4
- 1ncQWvvdLi1/PlX69oMbXzrSHMF36qs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-wJbKVFNUMIyrJbxqdly0Zg-1; Fri, 09 Apr 2021 13:08:56 -0400
-X-MC-Unique: wJbKVFNUMIyrJbxqdly0Zg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66D2110054F6;
- Fri,  9 Apr 2021 17:08:55 +0000 (UTC)
-Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9BFB5D6AD;
- Fri,  9 Apr 2021 17:08:54 +0000 (UTC)
-Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for comments
- and docstrings
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-3-jsnow@redhat.com>
- <877dlvs1gp.fsf@dusky.pond.sub.org>
- <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com>
- <871rc277mm.fsf@dusky.pond.sub.org>
- <33866c5d-1eab-739c-f2e8-a35f4a0b0f55@redhat.com>
- <CAFEAcA8f-d7fPzrisUVkjkvpD0CCdQFBso3GiFmAPJ6gj-P_mg@mail.gmail.com>
- <YG7FpVcY72KhQbBJ@redhat.com> <87lf9r3ipn.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <46069b93-1a44-74f5-ef18-c3138200ebe9@redhat.com>
-Date: Fri, 9 Apr 2021 13:08:54 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lUuoy-0000tZ-Hn
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:21:28 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:40842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lUuov-0001se-Lo
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:21:28 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id 7so6556478qka.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 10:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=hzmajchtVFCmXOpBshjeixJ9hUel8QSTHSuBEmd6hzs=;
+ b=pgBzsnENr97CpLiUAqLGPjUeSiXvYjpvpGbcod/jhz1hAQes9LPonXrsC84J1FfL1m
+ gnPl7gffEPugFxDsFOrmKgbWwpnqd0CuGEIR3huWKY2MH01Q4FbOj14xVWvv/ahyHicl
+ WqGQhL+BVRQd/dwDlW3STr0fZwOYq5GOdOmAk+GXpP4X9Q1vLV7YUwHmVn3MfE5j8y+K
+ JSQv5EkzHXdvk/dP7x+D3mtUPx1c7sjBVwJSlLP46Y7AF7nKMMWTlc34mdXw1W0sANPi
+ XxQ9M3hTWDx6jMmzB0FNK9XCmycr6O8VTR86no1YJgmlpi1rqU4K0hvLZsnRCiSecfsr
+ mKgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hzmajchtVFCmXOpBshjeixJ9hUel8QSTHSuBEmd6hzs=;
+ b=BqtHRTJdDNAQsTvxl8V4SnHxQI3By7hbXXYvagHQ0lA2AgD1B+AR+zRrwIsamR7FmP
+ Uf69lf+SdolnqT0ZsAwvXxOs7EedvOK8GXk8e1NsQBsm5/Ti4+q7zxm43rNlgKlBT6lV
+ dUcNYdHrerQbGW/0cEumqIMdlKtmoqpK23XRfOqSjmQyhK/lX6nVbzGOwkcMIyNiF9ez
+ UKItEcicJf2En8DXdci5w8BfWZNZ7StbOnUDLbfYWkQx0Om7Jv/ZI7YBt1NOlIjFcHi3
+ ErU3EU/0AwW36nTahlxYcNfPl7zi3bdF3wNZV7wVNTGg0TXATzDsw+Xkdh7pmE0TIlUR
+ E16Q==
+X-Gm-Message-State: AOAM531fQni6RCUAajFZTUSjoG33PcvNH+VNIsjDgHwGL9yvElNjr1Ku
+ oZyDg1Xz28LLMQp2Q6SdxLNYxqPF8lUPqdiV7QJDwA==
+X-Google-Smtp-Source: ABdhPJy11DFWRXOoLhsclYvRe9ps8yP+2lKydAHPxC5nxdHZW75VN5wNUk6BdKf5S5Q67DuI9Ozl6K2U1LHiOZ2P2HI=
+X-Received: by 2002:a37:8c1:: with SMTP id 184mr15374733qki.472.1617988883301; 
+ Fri, 09 Apr 2021 10:21:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87lf9r3ipn.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20210409162545.3705962-1-venture@google.com>
+ <20210409162545.3705962-5-venture@google.com>
+ <01f6f4c7-9f08-45f5-3e0c-b692c77dc4a5@amsat.org>
+In-Reply-To: <01f6f4c7-9f08-45f5-3e0c-b692c77dc4a5@amsat.org>
+From: Patrick Venture <venture@google.com>
+Date: Fri, 9 Apr 2021 10:21:12 -0700
+Message-ID: <CAO=notxOYxSyVDA9J-uOBio7d0PByvGLgn40GHbU-yQRpic1Jw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] hw/i2c: add pca954x i2c-mux switch
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Corey Minyard <cminyard@mvista.com>, Hao Wu <wuhaotsh@google.com>, 
+ Havard Skinnemoen <hskinnemoen@google.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=venture@google.com; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,134 +84,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/9/21 5:33 AM, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
->> On Fri, Mar 26, 2021 at 04:44:25PM +0000, Peter Maydell wrote:
->>> On Fri, 26 Mar 2021 at 16:33, John Snow <jsnow@redhat.com> wrote:
->>>> Being less terse about it: Mostly, I don't like how it enforces this
->>>> column width even for indented structures. Generally, we claim that 72
->>>> columns is "comfortable to read" and I agree.
->>>>
->>>>                                      However, when we start in a margin, I
->>>>                                      am not convinced that this is
->>>>                                      actually more readable than the
->>>>                                      alternative. We aren't using our full
->>>>                                      72 characters here.
->>>
->>> I agree, and I don't see any strong reason to hold our Python
->>> code to a different standard to the rest of our codebase as
->>> regards line length and comment standards.
->>
->> There's one small difference with python vs the rest of the codebase when
->> it comes to API doc strings specifically. eg we have a docstring API comment
->> in python/qemu/machine.py:
->>
->> class QEMUMachine:
->>      """
->>      A QEMU VM.
->>
->>      Use this object as a context manager to ensure
->>      the QEMU process terminates::
->>
->>          with VM(binary) as vm:
->>              ...
->>          # vm is guaranteed to be shut down here
->>      """
->>
->> This formatting, including line breaks, is preserved as-is when a user
->> requests viewing of the help:
->>
->>>>> print(help(qemu.machine.QEMUMachine))
->>
->> Help on class QEMUMachine in module qemu.machine:
->>
->> class QEMUMachine(builtins.object)
->>   |  QEMUMachine(binary: str, args: Sequence[str] = (), wrapper: Sequence[str] = (), name: Optional[str] = None, test_dir: str = '/var/tmp', monitor_address: Union[Tuple[str, str], str, NoneType] = None, socket_scm_helper: Optional[str] = None, sock_dir: Optional[str] = None, drain_console: bool = False, console_log: Optional[str] = None)
->>   |
->>   |  A QEMU VM.
->>   |
->>   |  Use this object as a context manager to ensure
->>   |  the QEMU process terminates::
->>   |
->>   |      with VM(binary) as vm:
->>   |          ...
->>   |      # vm is guaranteed to be shut down here
->>   |
->>   |  Methods defined here:
->>   |
->>
->>
->> IOW, while we as QEMU maintainers may not care about keeping to a narrow
->> line width, with API docstrings, we're also declaring that none of the
->> users of the python APIs can care either. These docstrings are never
->> reflowed, so they can end up wrapping if the user's terminal is narrow
->> which looks very ugly.
->>
->>
->> So this python API docstring scenario is slightly different from our
->> main codebase, where majority of comments are only ever going to be seen
->> by QEMU maintainers, and where C API doc strings don't preserve formatting,
->> because they're turned into HTML and re-flowed.
->>
->> Having said all that, I still don't think we need to restrict ourselves
->> to 72 characters. This is not the 1980's with people using text terminals
->> with physical size constraints. I think it is fine if we let python
->> docstrings get larger - especially if the docstrings are already indented
->> 4/8/12 spaces due to the code indent context, because the code indent is
->> removed when comments are displayed. I think a 100 char line limit would
->> be fine and still not cause wrapping when using python live help().
-> 
-> The trouble with long lines is not text terminals, it's humans.  Humans
-> tend to have trouble following long lines with their eyes (I sure do).
-> Typographic manuals suggest to limit columns to roughly 60 characters
-> for exactly that reason[*].
-> 
-> Most doc strings are indented once (classes, functions) or twice
-> (methods).  72 - 8 is roughly 60.
-> 
+On Fri, Apr 9, 2021 at 9:51 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> Hi Patrick,
+>
+> On 4/9/21 6:25 PM, Patrick Venture wrote:
+> > The pca954x is an i2c mux, and this adds support for two variants of
+> > this device: the pca9546 and pca9548.
+> >
+> > This device is very common on BMCs to route a different channel to each
+> > PCIe i2c bus downstream from the BMC.
+> >
+> > Signed-off-by: Patrick Venture <venture@google.com>
+> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> > Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> > ---
+> >  MAINTAINERS                      |   6 +
+> >  hw/i2c/Kconfig                   |   4 +
+> >  hw/i2c/i2c_mux_pca954x.c         | 290 +++++++++++++++++++++++++++++++
+> >  hw/i2c/meson.build               |   1 +
+> >  hw/i2c/trace-events              |   5 +
+> >  include/hw/i2c/i2c_mux_pca954x.h |  19 ++
+> >  6 files changed, 325 insertions(+)
+> >  create mode 100644 hw/i2c/i2c_mux_pca954x.c
+> >  create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
+>
+> > diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+> > index 09642a6dcb..8d120a25d5 100644
+> > --- a/hw/i2c/Kconfig
+> > +++ b/hw/i2c/Kconfig
+> > @@ -28,3 +28,7 @@ config IMX_I2C
+> >  config MPC_I2C
+> >      bool
+> >      select I2C
+> > +
+> > +config PCA954X
+> > +    bool
+> > +    select I2C
+>
+> Do you have a circular dependency when also using:
+>
+>        depends on I2C
+>
+> ?
 
-My problem with this patch isn't actually the docstrings -- it's 
-one-line comments.
+I'm somewhat new to qemu -- I don't know what you mean, since I2C
+doesn't depend on pca954x, I don't imagine there could be a circular
+dependency.
 
-If you can teach flake8 to allow this:
+>
+> > +static void pca954x_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    Pca954xState *s =3D PCA954X(dev);
+> > +    Pca954xClass *c =3D PCA954X_GET_CLASS(s);
+> > +    int i;
+> > +
+> > +    /* SMBus modules. Cannot fail. */
+> > +    for (i =3D 0; i < c->nchans; i++) {
+> > +        Object *obj =3D OBJECT(&s->channel[i]);
+> > +        sysbus_realize(SYS_BUS_DEVICE(obj), &error_abort);
+>
+> No need to cast to Object:
+>
+>            sysbus_realize(SYS_BUS_DEVICE(&s->channel[i]), &error_abort);
+>
 
-# Pretend this is a single-line comment that's 73 chars
+Ack, will fix in v3.
 
-but disallow this:
-
-# Pretend this is a two-line comment that's 73 chars,
-# and continues to a new line that's also pretty long,
-# and maybe keeps going, too.
-
-I will happily accept that patch. Without the ability to enforce the 
-style though, I am reluctant to pretend that it's even a preference that 
-we have. I think it's a waste to hunt down and re-flow single-line 
-comments that just barely squeak over a limit. They look worse.
-
-We can discuss this more when we go to propose a style guide for the 
-Python folder; I think it's maybe a misprioritization of our energies in 
-the present context.
-
-(I still have the style guide on my TODO list, and even began writing a 
-draft at one point, but I think we'd both like to press forward on the 
-Typing bits first.)
-
-> With nesting, doc strings can become indented more.  Nesting sufficient
-> to squeeze the doc string width to column 72 under roughly 60 is pretty
-> rare.  Going beyond 72 colums to keep such doc strings readable is
-> exactly what PEP 8 wants you to do.
-> 
-> Again, I see no reason to deviate from PEP 8.
-> 
-> 
-> [*] https://en.wikipedia.org/wiki/Column_(typography)#Typographic_style
-> 
-
+> > +    }
+> > +}
 
