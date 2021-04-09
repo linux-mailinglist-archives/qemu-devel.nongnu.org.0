@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F85359D15
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 13:18:36 +0200 (CEST)
-Received: from localhost ([::1]:48162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331B9359D4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 13:26:50 +0200 (CEST)
+Received: from localhost ([::1]:54986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUp9n-0004ix-5R
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 07:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1lUpHk-00081T-OF
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 07:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lUp92-0004JQ-I3
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 07:17:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lUp8z-0005cP-91
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 07:17:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617967064;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=EgnU/iXIKZMb+LzIC+MUlOgWLqUG3VBQfnnFHbr3QdE=;
- b=OV/qxEWuPC2qBqtEygbS/FNANwO1QLrEeP0IsZJYQvnc4cRsZZkNA0QqAOiVnJTacX/L8N
- 7oi2mbRMF5aqbfO5GmEZ/JBi7lNFbAow9gKiaxbIxtoSkka8y+RbFUpLe5mYo1GlYZl8mZ
- 82tocpS5bxk45zjcUTjFaYH32VRjyEo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-ZNExKzJiPe2RZtZea0IFvg-1; Fri, 09 Apr 2021 07:17:39 -0400
-X-MC-Unique: ZNExKzJiPe2RZtZea0IFvg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23A07107ACE4
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 11:17:39 +0000 (UTC)
-Received: from redhat.com (ovpn-115-36.ams2.redhat.com [10.36.115.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FAE060BE5;
- Fri,  9 Apr 2021 11:17:30 +0000 (UTC)
-Date: Fri, 9 Apr 2021 12:17:28 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2] qemu-trace-stap: changing SYSTEMTAP_TAPSET considered
- harmful.
-Message-ID: <YHA3yGYQ9xSbbB+M@redhat.com>
-References: <20210409105810.374976-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUpGz-0007an-0j
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 07:26:01 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:45954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUpGx-0001u6-8D
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 07:26:00 -0400
+Received: by mail-ed1-x536.google.com with SMTP id bx20so4971333edb.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 04:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CaZ7A0hHP0vUQuh/pjacnc6RxmQkfaLdFlcQIeergRI=;
+ b=W/Et8jOVXXhQIWsObP1zJCIPcxDNCSZ/7Dllqdx/EUMp9zDBKymymB5oii+QUCYGi/
+ +CwDZ8/7oowByqEKL+ikWXA56y/eTjo68bOOTnI1GZdUoPMwb7HHtNOAgE8vAtE44lt5
+ Q0w+0/BEi/R4GpVV77RzT63+0ROO4gdPFdx9unQapum8vKM2829rS8DsynELDIN2m5Wr
+ cKYb0ih6JiyLQJ/5NA8KhjmuDoJ/U87evGVR09RKNEH6hKHm9o3XK0jzl2XniE5qPgOu
+ hYLaP086r9yrcascnCCVl/hJQ3n7XzI6H3C0v4ooXS+e3VfQFGg1gdjhp/RNmHW80bnh
+ DHKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CaZ7A0hHP0vUQuh/pjacnc6RxmQkfaLdFlcQIeergRI=;
+ b=mCipeW4I8ovNT9BKgl4ULV+7VaM/d+w3BGxPLxqfRcevg6z3V7oNIVhH9922zpBNsq
+ 2lFieSDSscB+aaj0GkZBqcILLvXB/b0Dg8I4OXHxI/3EP1+UcpFba9qOzEQ9uwQ4CZ9T
+ UMK2iU6fvOCrodFGDnJHHWHsqSotJrWQkWqUMv7FerPzyPzVBNKbvOsPCjUTywWhTFm2
+ y6sjvpUEiS59VqvULUR7UqtjaP1xPHQOaW+YYy3aPEOGnT37q4fI7c70uNW7f17PXrKV
+ TkH/pfQD46fc+9EM2mCduHi7dF4WbKg6ywGNDWaA+Om04s+7KCdn+9G9Rp7qGnD7bw11
+ 5aqA==
+X-Gm-Message-State: AOAM531f2q4nXkTYxJJSKLq6xCtPot1a8U0cZzrRHnxAbpZbSp8h42Sf
+ uWVNw8st4wE12Yc4XqhStzAPffr0X1G+0w==
+X-Google-Smtp-Source: ABdhPJz0mJQEiDNq+NxwwfrDQm7EK3tVDg34Z1cq9fb5ZMcRMH8rZupV7LIMi0dJiNnYGpgtaDrzWQ==
+X-Received: by 2002:a05:6402:212:: with SMTP id
+ t18mr17107096edv.165.1617967557449; 
+ Fri, 09 Apr 2021 04:25:57 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id w2sm1065553eju.71.2021.04.09.04.25.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Apr 2021 04:25:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.1] hw/avr/atmega: Convert to QDev Clock API
+Date: Fri,  9 Apr 2021 13:25:55 +0200
+Message-Id: <20210409112555.2430933-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210409105810.374976-1-kraxel@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +84,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Luc Michel <luc@lmichel.fr>, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 09, 2021 at 12:58:10PM +0200, Gerd Hoffmann wrote:
-> Setting SYSTEMTAP_TAPSET to some value other than
-> /usr/share/systemtap/tapsets results in systemtap not finding the
-> standard tapset library any more, which in turn breaks tracing because
-> pid() and other standard systemtap functions are not available any more.
-> 
-> So using SYSTEMTAP_TAPSET to point systemtap to the qemu probes will
-> only work for the prefix=/usr installs because both qemu and system
-> tapsets in the same directory then.  All other prefixes are broken.
-> 
-> Fix that by using the "-I $tapsetdir" command line switch instead.
+Create the oscillator object on the board, and propagate its
+clock to the ATMega MCU. Wire this clock to the timers.
 
-Do you know if "-I tapsetdir" appends or prepends to the search path ?
+Properties are remplaced by clocks.
 
-We need it to prepend to ensure that we override any QEMU stp files
-that might be already present in /usr/share from an RPM provided
-QEMU binary.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Based-on: <20210409062401.2350436-1-f4bug@amsat.org>
 
+TODO: Add corresponding vmstates for migration,
+      but these devices don't have any, so keep
+      this for later.
+---
+ hw/avr/atmega.h                |  3 ++-
+ include/hw/timer/avr_timer16.h |  4 +++-
+ hw/avr/arduino.c               |  8 ++++++--
+ hw/avr/atmega.c                | 20 +++++++++++---------
+ hw/timer/avr_timer16.c         | 20 ++++++++++++--------
+ 5 files changed, 34 insertions(+), 21 deletions(-)
 
-Regards,
-Daniel
+diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+index a99ee15c7e1..12e856386b6 100644
+--- a/hw/avr/atmega.h
++++ b/hw/avr/atmega.h
+@@ -11,6 +11,7 @@
+ #ifndef HW_AVR_ATMEGA_H
+ #define HW_AVR_ATMEGA_H
+ 
++#include "hw/clock.h"
+ #include "hw/char/avr_usart.h"
+ #include "hw/timer/avr_timer16.h"
+ #include "hw/misc/avr_power.h"
+@@ -41,11 +42,11 @@ struct AtmegaMcuState {
+     MemoryRegion flash;
+     MemoryRegion eeprom;
+     MemoryRegion sram;
++    Clock *xtal_clkin;
+     DeviceState *io;
+     AVRMaskState pwr[POWER_MAX];
+     AVRUsartState usart[USART_MAX];
+     AVRTimer16State timer[TIMER_MAX];
+-    uint64_t xtal_freq_hz;
+ };
+ 
+ #endif /* HW_AVR_ATMEGA_H */
+diff --git a/include/hw/timer/avr_timer16.h b/include/hw/timer/avr_timer16.h
+index 05362543378..86dc9e98d95 100644
+--- a/include/hw/timer/avr_timer16.h
++++ b/include/hw/timer/avr_timer16.h
+@@ -28,6 +28,7 @@
+ #ifndef HW_TIMER_AVR_TIMER16_H
+ #define HW_TIMER_AVR_TIMER16_H
+ 
++#include "hw/clock.h"
+ #include "hw/sysbus.h"
+ #include "qemu/timer.h"
+ #include "hw/hw.h"
+@@ -84,7 +85,8 @@ struct AVRTimer16State {
+     uint8_t ifr;
+ 
+     uint8_t id;
+-    uint64_t cpu_freq_hz;
++    Clock *io_clkin;
++
+     uint64_t freq_hz;
+     uint64_t period_ns;
+     uint64_t reset_time_ns;
+diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
+index 3ff31492fa6..71e69823c07 100644
+--- a/hw/avr/arduino.c
++++ b/hw/avr/arduino.c
+@@ -12,7 +12,9 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "hw/clock.h"
+ #include "hw/boards.h"
++#include "hw/qdev-clock.h"
+ #include "atmega.h"
+ #include "boot.h"
+ #include "qom/object.h"
+@@ -21,6 +23,7 @@ struct ArduinoMachineState {
+     /*< private >*/
+     MachineState parent_obj;
+     /*< public >*/
++    Clock *xtal;
+     AtmegaMcuState mcu;
+ };
+ typedef struct ArduinoMachineState ArduinoMachineState;
+@@ -44,9 +47,10 @@ static void arduino_machine_init(MachineState *machine)
+     ArduinoMachineClass *amc = ARDUINO_MACHINE_GET_CLASS(machine);
+     ArduinoMachineState *ams = ARDUINO_MACHINE(machine);
+ 
++    ams->xtal = machine_create_constant_clock(machine, "osc", amc->xtal_hz);
++
+     object_initialize_child(OBJECT(machine), "mcu", &ams->mcu, amc->mcu_type);
+-    object_property_set_uint(OBJECT(&ams->mcu), "xtal-frequency-hz",
+-                             amc->xtal_hz, &error_abort);
++    qdev_connect_clock_in(DEVICE(&ams->mcu), "osc-in", ams->xtal);
+     sysbus_realize(SYS_BUS_DEVICE(&ams->mcu), &error_abort);
+ 
+     if (machine->firmware) {
+diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+index 44c6afebbb6..b8a11965435 100644
+--- a/hw/avr/atmega.c
++++ b/hw/avr/atmega.c
+@@ -15,6 +15,7 @@
+ #include "exec/memory.h"
+ #include "exec/address-spaces.h"
+ #include "sysemu/sysemu.h"
++#include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+ #include "qom/object.h"
+@@ -216,6 +217,14 @@ static void connect_power_reduction_gpio(AtmegaMcuState *s,
+                        qdev_get_gpio_in(cpu, 0));
+ }
+ 
++static void atmega_init(Object *obj)
++{
++    AtmegaMcuState *s = ATMEGA_MCU(obj);
++
++    s->xtal_clkin = qdev_init_clock_in(DEVICE(obj), "osc-in",
++                                       NULL, NULL, ClockUpdate);
++}
++
+ static void atmega_realize(DeviceState *dev, Error **errp)
+ {
+     AtmegaMcuState *s = ATMEGA_MCU(dev);
+@@ -227,11 +236,6 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+ 
+     assert(mc->io_size <= 0x200);
+ 
+-    if (!s->xtal_freq_hz) {
+-        error_setg(errp, "\"xtal-frequency-hz\" property must be provided.");
+-        return;
+-    }
+-
+     /* CPU */
+     object_initialize_child(OBJECT(dev), "cpu", &s->cpu, mc->cpu_type);
+     object_property_set_bool(OBJECT(&s->cpu), "realized", true, &error_abort);
+@@ -328,8 +332,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+         devname = g_strdup_printf("timer%zu", i);
+         object_initialize_child(OBJECT(dev), devname, &s->timer[i],
+                                 TYPE_AVR_TIMER16);
+-        object_property_set_uint(OBJECT(&s->timer[i]), "cpu-frequency-hz",
+-                                 s->xtal_freq_hz, &error_abort);
++        qdev_connect_clock_in(DEVICE(&s->timer[i]), "io-clk", s->xtal_clkin);
+         sbd = SYS_BUS_DEVICE(&s->timer[i]);
+         sysbus_realize(sbd, &error_abort);
+         sysbus_mmio_map(sbd, 0, OFFSET_DATA + mc->dev[idx].addr);
+@@ -353,8 +356,6 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+ }
+ 
+ static Property atmega_props[] = {
+-    DEFINE_PROP_UINT64("xtal-frequency-hz", AtmegaMcuState,
+-                       xtal_freq_hz, 0),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+@@ -449,6 +450,7 @@ static const TypeInfo atmega_mcu_types[] = {
+         .name           = TYPE_ATMEGA_MCU,
+         .parent         = TYPE_SYS_BUS_DEVICE,
+         .instance_size  = sizeof(AtmegaMcuState),
++        .instance_init  = atmega_init,
+         .class_size     = sizeof(AtmegaMcuClass),
+         .class_init     = atmega_class_init,
+         .abstract       = true,
+diff --git a/hw/timer/avr_timer16.c b/hw/timer/avr_timer16.c
+index c48555da525..7092023d616 100644
+--- a/hw/timer/avr_timer16.c
++++ b/hw/timer/avr_timer16.c
+@@ -35,6 +35,7 @@
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "hw/irq.h"
++#include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/timer/avr_timer16.h"
+ #include "trace.h"
+@@ -167,7 +168,7 @@ static void avr_timer16_clksrc_update(AVRTimer16State *t16)
+         break;
+     }
+     if (divider) {
+-        t16->freq_hz = t16->cpu_freq_hz / divider;
++        t16->freq_hz = clock_get_hz(t16->io_clkin) / divider;
+         t16->period_ns = NANOSECONDS_PER_SECOND / t16->freq_hz;
+         trace_avr_timer16_clksrc_update(t16->freq_hz, t16->period_ns,
+                                         (uint64_t)(1e6 / t16->freq_hz));
+@@ -544,8 +545,6 @@ static const MemoryRegionOps avr_timer16_ifr_ops = {
+ 
+ static Property avr_timer16_properties[] = {
+     DEFINE_PROP_UINT8("id", struct AVRTimer16State, id, 0),
+-    DEFINE_PROP_UINT64("cpu-frequency-hz", struct AVRTimer16State,
+-                       cpu_freq_hz, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -560,10 +559,20 @@ static void avr_timer16_pr(void *opaque, int irq, int level)
+     }
+ }
+ 
++static void avr_timer16_clock_update(void *opaque, ClockEvent event)
++{
++    AVRTimer16State *s = opaque;
++
++    avr_timer16_clksrc_update(s);
++}
++
+ static void avr_timer16_init(Object *obj)
+ {
+     AVRTimer16State *s = AVR_TIMER16(obj);
+ 
++    s->io_clkin = qdev_init_clock_in(DEVICE(obj), "io-clk",
++                                     avr_timer16_clock_update, s, ClockUpdate);
++
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->capt_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compa_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compb_irq);
+@@ -587,11 +596,6 @@ static void avr_timer16_realize(DeviceState *dev, Error **errp)
+ {
+     AVRTimer16State *s = AVR_TIMER16(dev);
+ 
+-    if (s->cpu_freq_hz == 0) {
+-        error_setg(errp, "AVR timer16: cpu-frequency-hz property must be set");
+-        return;
+-    }
+-
+     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, avr_timer16_interrupt, s);
+     s->enabled = true;
+ }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.26.3
 
 
