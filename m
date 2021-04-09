@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A91D359337
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:44:21 +0200 (CEST)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C7D359366
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:49:28 +0200 (CEST)
+Received: from localhost ([::1]:55438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUi4C-0004a0-5C
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51910)
+	id 1lUi99-00036T-7G
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2Z-00034L-Jv
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:39 -0400
-Received: from mga05.intel.com ([192.55.52.43]:12409)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2d-0003DA-Lo
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:43 -0400
+Received: from mga05.intel.com ([192.55.52.43]:12420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2X-0007NR-SX
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:39 -0400
-IronPort-SDR: 9KMicSLLzLfteZsclOXu5J89HhcUKc+eTE9divWgCczw0TzQ/jmi2g0KHjIFKb3Uf7g69uId/Y
- iv6YkBJGJQRA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957326"
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957326"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2b-0007T4-Eh
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:43 -0400
+IronPort-SDR: pr8pH6sEk04IaP+9r4Ct4Jken3UJ3SgtxCBhwdnZqa0JyC/uQd1GgjEDbkZHaW8nUaYUSTB095
+ zeWIniLZ6uqQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957331"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957331"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2021 20:42:37 -0700
-IronPort-SDR: zb8u+B0G5QYE0VKirgTusnXQpn5Ra+ZUEfoxGt+6gkxX5FgQcfcvYakYpSxPxivqbj4MM+LKIK
- xxixhNG+2KyA==
+ 08 Apr 2021 20:42:40 -0700
+IronPort-SDR: mO/f90HndSGxdclSIquutWVxKbgESKrNeluVTW0skAaWISld8orvHQFRpJ4dJswTC9KZLiED9/
+ u0wZ53zxQDNg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081062"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081077"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:34 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:37 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v6 04/10] Remove migrate_set_block_enabled in checkpoint
-Date: Thu,  8 Apr 2021 23:20:50 -0400
-Message-Id: <1617938456-315058-5-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v6 05/10] Add a function named packet_new_nocopy for COLO.
+Date: Thu,  8 Apr 2021 23:20:51 -0400
+Message-Id: <1617938456-315058-6-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
 References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
@@ -66,53 +66,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-We can detect disk migration in migrate_prepare, if disk migration
-is enabled in COLO mode, we can directly report an error.and there
-is no need to disable block migration at every checkpoint.
+Use the packet_new_nocopy instead of packet_new in the
+filter-rewriter module. There will be one less memory
+copy in the processing of each network packet.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/colo.c      | 6 ------
- migration/migration.c | 4 ++++
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ net/colo.c            | 25 +++++++++++++++++--------
+ net/colo.h            |  1 +
+ net/filter-rewriter.c |  3 +--
+ 3 files changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index de27662..1aaf316 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -435,12 +435,6 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
-     if (failover_get_state() != FAILOVER_STATUS_NONE) {
-         goto out;
-     }
--
--    /* Disable block migration */
--    migrate_set_block_enabled(false, &local_err);
--    if (local_err) {
--        goto out;
--    }
-     qemu_mutex_lock_iothread();
+diff --git a/net/colo.c b/net/colo.c
+index ef00609..3a3e6e8 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -157,19 +157,28 @@ void connection_destroy(void *opaque)
  
- #ifdef CONFIG_REPLICATION
-diff --git a/migration/migration.c b/migration/migration.c
-index 8ca0341..c85b926 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2227,6 +2227,10 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+ Packet *packet_new(const void *data, int size, int vnet_hdr_len)
+ {
+-    Packet *pkt = g_slice_new(Packet);
++    Packet *pkt = g_slice_new0(Packet);
+ 
+     pkt->data = g_memdup(data, size);
+     pkt->size = size;
+     pkt->creation_ms = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+     pkt->vnet_hdr_len = vnet_hdr_len;
+-    pkt->tcp_seq = 0;
+-    pkt->tcp_ack = 0;
+-    pkt->seq_end = 0;
+-    pkt->header_size = 0;
+-    pkt->payload_size = 0;
+-    pkt->offset = 0;
+-    pkt->flags = 0;
++
++    return pkt;
++}
++
++/*
++ * packet_new_nocopy will not copy data, so the caller can't release
++ * the data. And it will be released in packet_destroy.
++ */
++Packet *packet_new_nocopy(void *data, int size, int vnet_hdr_len)
++{
++    Packet *pkt = g_slice_new0(Packet);
++
++    pkt->data = data;
++    pkt->size = size;
++    pkt->creation_ms = qemu_clock_get_ms(QEMU_CLOCK_HOST);
++    pkt->vnet_hdr_len = vnet_hdr_len;
+ 
+     return pkt;
+ }
+diff --git a/net/colo.h b/net/colo.h
+index 573ab91..d91cd24 100644
+--- a/net/colo.h
++++ b/net/colo.h
+@@ -101,6 +101,7 @@ bool connection_has_tracked(GHashTable *connection_track_table,
+                             ConnectionKey *key);
+ void connection_hashtable_reset(GHashTable *connection_track_table);
+ Packet *packet_new(const void *data, int size, int vnet_hdr_len);
++Packet *packet_new_nocopy(void *data, int size, int vnet_hdr_len);
+ void packet_destroy(void *opaque, void *user_data);
+ void packet_destroy_partial(void *opaque, void *user_data);
+ 
+diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+index 10fe393..cb3a96c 100644
+--- a/net/filter-rewriter.c
++++ b/net/filter-rewriter.c
+@@ -270,8 +270,7 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
+         vnet_hdr_len = nf->netdev->vnet_hdr_len;
      }
  
-     if (blk || blk_inc) {
-+        if (migrate_colo_enabled()) {
-+            error_setg(errp, "No disk migration is required in COLO mode");
-+            return false;
-+        }
-         if (migrate_use_block() || migrate_use_block_incremental()) {
-             error_setg(errp, "Command options are incompatible with "
-                        "current migration capabilities");
+-    pkt = packet_new(buf, size, vnet_hdr_len);
+-    g_free(buf);
++    pkt = packet_new_nocopy(buf, size, vnet_hdr_len);
+ 
+     /*
+      * if we get tcp packet
 -- 
 1.8.3.1
 
