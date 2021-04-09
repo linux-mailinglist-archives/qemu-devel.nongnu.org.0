@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E5635A5D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 20:32:49 +0200 (CEST)
-Received: from localhost ([::1]:50186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E673635A5E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 20:35:32 +0200 (CEST)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUvw0-0000Zz-3n
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 14:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
+	id 1lUvye-00020T-0I
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 14:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1lUvuc-00080X-8i
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 14:31:26 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:35587)
+ id 1lUvxI-0001SA-Mo
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 14:34:08 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:42672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1lUvua-0007Ct-Fv
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 14:31:21 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id x2so6714534oiv.2
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 11:31:17 -0700 (PDT)
+ id 1lUvxF-0000Ky-Sv
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 14:34:08 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ 101-20020a9d0d6e0000b02902816815ff62so726925oti.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 11:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mvista-com.20150623.gappssmtp.com; s=20150623;
  h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
  :content-disposition:in-reply-to;
- bh=Qqac6+aH4uhjP9YK4h95DF0MHcvTH/SZ25/HubAq0lg=;
- b=wqn7eqEBiNiQVrbdNYw0XWCgr/CL643GPFstyRrt7LyG9GbuyuWNUs1wifOIcaPqnd
- GdVvEl91lyW2W3WCFZrDH3PeI06FSOlPNCzSpV3xug4rWyEdWPQ4gnleRahka7cdRF9A
- HIEpbrJjQ0HY8cdY0kIwoZKXGPt+sGMsavaNngR50TCTkbqQm+nBWJNxyjA0v4PoeNTe
- UCyvVAuRov4tVgKs8xpGsxmIQohwJzL+WJM/EbFDAlb1KHMVBZ7FZgk0cxtacmEiH6ih
- 9lMzci1il2kTYw52OVnQ/93sK6LEo5nuUTUVWJNXUp5o8RdEZy4DaWFXi8SQQ06IFCk5
- QHMQ==
+ bh=ev4DjR0d+AyMfi8cw7HHzcIkcusYP2b+wWQwYeXIo28=;
+ b=WTXEx57keAAwILVrQOW6ZasejuPw3VaEGE1MePJJwXTpufAc2VLZ7NOI+qfLWyefr/
+ ZdIvkcJ6O+eISZD6SnisOmpzRQoml3Bpbg9tbgPxCjWWhXbHfwrf2sF7/wsq3U9kbtDX
+ P+Db2tQ8b5qsJjrFipoHPt8tg8ULRTR0A7GpfKse2PeIRfZI6GpzaS7tQQzv4b4XDWP3
+ /Zuy1Sdx5mJ0v3BWuoub5Rpax+d8R5Fg2LinwsBbnJPXao/7/P7CPdXXh2zJI5fT/Go4
+ cD/J8MvmlVpkrfPmYtB0mo+hsN6AxE5mI3HBYx6Nr55MmfKgGC+8YVVMo60FMfHnK0Xs
+ CxiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
  :references:mime-version:content-disposition:in-reply-to;
- bh=Qqac6+aH4uhjP9YK4h95DF0MHcvTH/SZ25/HubAq0lg=;
- b=Qx+vP6mxHZFXRbs/rdV5wDWqQR64Tcw7ZHH3GE02ScIcJ+lXEhT1s7A3mtYRxTq22J
- hZ8WCiOYRaJBKIbea+GREc9FFyl+fSJMTe3dsBkHjIXDMObrwDUPzmXfcabsUdL5ARzP
- knTLc3I3g9e6VMZkFO0O/xCfHZDcXvIbn4NDVZHEPLrqLZ97UdaeytDRDFFz/rtnXl5E
- 3VG1uXsu1HryCD32GR2yNrhTMkl8RTbeFsg7AxOwW1zP8ByG7L8eiakMhjijhSB/VgXA
- hmyT+UeglLzUzK/9jc7gx3h6sBzWVa3TBYSUUTKPLKwImDKBllep7Cf1xez7U5ObFGF0
- o6sw==
-X-Gm-Message-State: AOAM5314RaEq7vtjHLUPbRzuXIaeg8N4XHRIA8/VxuOuU11+GMnbt2Jz
- 29ykwGzHBuHqEsCOXNOACWGSVQ==
-X-Google-Smtp-Source: ABdhPJxlwO4dGhCmYh6z1GHN3axPT5Xuuk0j2gYFgKFgdxrHU73LaffS/8zrfDtSj24vtH/vpR4gMw==
-X-Received: by 2002:aca:d907:: with SMTP id q7mr10884706oig.17.1617993076270; 
- Fri, 09 Apr 2021 11:31:16 -0700 (PDT)
+ bh=ev4DjR0d+AyMfi8cw7HHzcIkcusYP2b+wWQwYeXIo28=;
+ b=iJIrBwDaHcDyObcc1KRuZbgemHyz23Wk8sKV5WVpdEt8ENE29YqY7jL3I5x0uTpGrh
+ U+qHpSg757gELSuxgzartBq9ce2/mapwrVChFUIHd9ep+7QMJemHjEfkOltgLz1yMwKb
+ rB3nKq+OcjcVMVLf2x/l2ERy4gGTBojhAXnsAmwAZLXhEzaHfMW543p1bSLpIvA1VQFG
+ 8K3DyWS3qzvH7XvBzYjZtU95F4+ilMba1zCLNdDX7rYM1nPUgd5Vy1XvponT9qKWhwSM
+ d5jau4BnxVx9Jpt8fVJ3HBar50EsmozwLaNFfB0iTsMLCHahwzB31h4Snu8mjVQ3UNRY
+ LDxg==
+X-Gm-Message-State: AOAM532VEfCAYudXouyCPhRh2AlnAMY9shnolmTuRuXGiDgg8+0Xg2cs
+ uJ4Z9u4eSUSQdT/8FI57XG6IpA==
+X-Google-Smtp-Source: ABdhPJwzfN99E4I/tpzYF/K1SSRjnwr4C3goJnN+gKxMZdn8L6IXcwA0BcqPjcWVV4ffpuKgSGV8qA==
+X-Received: by 2002:a9d:6b13:: with SMTP id g19mr13150903otp.185.1617993243581; 
+ Fri, 09 Apr 2021 11:34:03 -0700 (PDT)
 Received: from minyard.net ([2001:470:b8f6:1b:485a:30a4:59bf:2a09])
- by smtp.gmail.com with ESMTPSA id m129sm659863oif.34.2021.04.09.11.31.15
+ by smtp.gmail.com with ESMTPSA id 18sm638951oix.46.2021.04.09.11.34.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 11:31:15 -0700 (PDT)
-Date: Fri, 9 Apr 2021 13:31:14 -0500
+ Fri, 09 Apr 2021 11:34:03 -0700 (PDT)
+Date: Fri, 9 Apr 2021 13:34:01 -0500
 From: Corey Minyard <cminyard@mvista.com>
 To: Patrick Venture <venture@google.com>
-Subject: Re: [PATCH v2 0/4] hw/i2c: Adds pca954x i2c mux switch device
-Message-ID: <20210409183114.GW7167@minyard.net>
+Subject: Re: [PATCH v2 4/4] hw/i2c: add pca954x i2c-mux switch
+Message-ID: <20210409183401.GX7167@minyard.net>
 References: <20210409162545.3705962-1-venture@google.com>
+ <20210409162545.3705962-5-venture@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210409162545.3705962-1-venture@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=cminyard@mvista.com; helo=mail-oi1-x22e.google.com
+In-Reply-To: <20210409162545.3705962-5-venture@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=cminyard@mvista.com; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,50 +90,411 @@ Cc: wuhaotsh@google.com, qemu-arm@nongnu.org, hskinnemoen@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 09, 2021 at 09:25:41AM -0700, Patrick Venture wrote:
-> The i2c mux device pca954x implements two devices:
->  - the pca9546 and pca9548.
+On Fri, Apr 09, 2021 at 09:25:45AM -0700, Patrick Venture wrote:
+> The pca954x is an i2c mux, and this adds support for two variants of
+> this device: the pca9546 and pca9548.
 > 
-> v2:
->  - the core i2c bus now calls a match method on each i2c child, which
->  by default will only check for a match against itself.
->  - the pca954x device overrides the i2c device match method to search
->  the children for each of its buses that are active.
->  - the pca954x device now owns an i2c bus for each channel, allowing
->  the normal device model to attach devices to the channels.
-
-I like this design.  Avoiding hacking into the bus code is a bonus.
-
-Can these devices really have multiple channels enabled at the same
-time?  That seems strange, but I guess that could be useful.
-
-I'm not sure if you need to add a vmstate structure for this.  In
-general most new devices have them; if it's ever included on an x86
-system (or a system with vmstate transfer capability, probably more than
-x86) that will become an issue.  I'm not sure what the expectations are,
-though.
-
--corey
-
+> This device is very common on BMCs to route a different channel to each
+> PCIe i2c bus downstream from the BMC.
 > 
-> Patrick Venture (4):
->   hw/i2c: name I2CNode list in I2CBus
->   hw/i2c: add match method for device search
->   hw/i2c: move search to i2c_scan_bus method
->   hw/i2c: add pca954x i2c-mux switch
-> 
+> Signed-off-by: Patrick Venture <venture@google.com>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> ---
 >  MAINTAINERS                      |   6 +
 >  hw/i2c/Kconfig                   |   4 +
->  hw/i2c/core.c                    |  55 ++++--
 >  hw/i2c/i2c_mux_pca954x.c         | 290 +++++++++++++++++++++++++++++++
 >  hw/i2c/meson.build               |   1 +
 >  hw/i2c/trace-events              |   5 +
->  include/hw/i2c/i2c.h             |  16 +-
 >  include/hw/i2c/i2c_mux_pca954x.h |  19 ++
->  8 files changed, 382 insertions(+), 14 deletions(-)
+>  6 files changed, 325 insertions(+)
 >  create mode 100644 hw/i2c/i2c_mux_pca954x.c
 >  create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 58f342108e..5ea0b60b8a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2039,6 +2039,12 @@ S: Maintained
+>  F: hw/net/tulip.c
+>  F: hw/net/tulip.h
+>  
+> +pca954x
+> +M: Patrick Venture <venture@google.com>
+> +S: Maintained
+> +F: hw/i2c/i2c_mux_pca954x.c
+> +F: include/hw/i2c/i2c_mux_pca954x.h
+> +
+>  Generic Loader
+>  M: Alistair Francis <alistair@alistair23.me>
+>  S: Maintained
+> diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+> index 09642a6dcb..8d120a25d5 100644
+> --- a/hw/i2c/Kconfig
+> +++ b/hw/i2c/Kconfig
+> @@ -28,3 +28,7 @@ config IMX_I2C
+>  config MPC_I2C
+>      bool
+>      select I2C
+> +
+> +config PCA954X
+> +    bool
+> +    select I2C
+> diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+> new file mode 100644
+> index 0000000000..9aa1a8872f
+> --- /dev/null
+> +++ b/hw/i2c/i2c_mux_pca954x.c
+> @@ -0,0 +1,290 @@
+> +/*
+> + * I2C multiplexer for PCA954x series of I2C multiplexer/switch chips.
+> + *
+> + * Copyright 2021 Google LLC
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms of the GNU General Public License as published by the
+> + * Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+> + * for more details.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/i2c/i2c.h"
+> +#include "hw/i2c/i2c_mux_pca954x.h"
+> +#include "hw/i2c/smbus_slave.h"
+> +#include "hw/qdev-core.h"
+> +#include "hw/sysbus.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "qemu/queue.h"
+> +#include "qom/object.h"
+> +#include "trace.h"
+> +
+> +#define PCA9548_CHANNEL_COUNT 8
+> +#define PCA9546_CHANNEL_COUNT 4
+> +
+> +/*
+> + * struct Pca954xChannel - The i2c mux device will have N of these states
+> + * that own the i2c channel bus.
+> + * @bus: The owned channel bus.
+> + * @enabled: Is this channel active?
+> + */
+> +typedef struct Pca954xChannel {
+> +    SysBusDevice parent;
+> +
+> +    I2CBus       *bus;
+> +
+> +    bool         enabled;
+> +} Pca954xChannel;
+> +
+> +#define TYPE_PCA954X_CHANNEL "pca954x-channel"
+> +#define PCA954X_CHANNEL(obj) \
+> +    OBJECT_CHECK(Pca954xChannel, (obj), TYPE_PCA954X_CHANNEL)
+> +
+> +/*
+> + * struct Pca954xState - The pca954x state object.
+> + * @control: The value written to the mux control.
+> + * @channel: The set of i2c channel buses that act as channels which own the
+> + * i2c children.
+> + */
+> +typedef struct Pca954xState {
+> +    SMBusDevice parent;
+> +
+> +    uint8_t control;
+> +
+> +    /* The channel i2c buses. */
+> +    Pca954xChannel channel[PCA9548_CHANNEL_COUNT];
+> +} Pca954xState;
+> +
+> +/*
+> + * struct Pca954xClass - The pca954x class object.
+> + * @nchans: The number of i2c channels this device has.
+> + */
+> +typedef struct Pca954xClass {
+> +    SMBusDeviceClass parent;
+> +
+> +    uint8_t nchans;
+> +} Pca954xClass;
+> +
+> +#define TYPE_PCA954X "pca954x"
+> +OBJECT_DECLARE_TYPE(Pca954xState, Pca954xClass, PCA954X)
+> +
+> +/*
+> + * For each channel, if it's enabled, recursively call match on those children.
+> + */
+> +static bool pca954x_match(I2CSlave *candidate, uint8_t address,
+> +                          bool broadcast,
+> +                          I2CNodeList *current_devs)
+> +{
+> +    Pca954xState *mux = PCA954X(candidate);
+> +    Pca954xClass *mc = PCA954X_GET_CLASS(mux);
+> +    int i;
+> +
+> +    /* They are talking to the mux itself (or all devices enabled. */
+
+Missing close paren in the comment above.  Really minor nit :)
+
+> +    if ((candidate->address == address) || broadcast) {
+> +        I2CNode *node = g_malloc(sizeof(struct I2CNode));
+> +        node->elt = candidate;
+> +        QLIST_INSERT_HEAD(current_devs, node, next);
+> +        if (!broadcast) {
+> +            return true;
+> +        }
+> +    }
+> +
+> +    for (i = 0; i < mc->nchans; i++) {
+> +        if (!mux->channel[i].enabled) {
+> +            continue;
+> +        }
+> +
+> +        if (i2c_scan_bus(mux->channel[i].bus, address, broadcast)) {
+> +            if (!broadcast) {
+> +                return true;
+> +            }
+> +        }
+> +    }
+> +
+> +    /* If we arrived here we didn't find a match, return broadcast. */
+> +    return broadcast;
+> +}
+> +
+> +static void pca954x_enable_channel(Pca954xState *s, uint8_t enable_mask)
+> +{
+> +    Pca954xClass *mc = PCA954X_GET_CLASS(s);
+> +    int i;
+> +
+> +    /*
+> +     * For each channel, check if their bit is set in enable_mask and if yes,
+> +     * enable it, otherwise disable, hide it.
+> +     */
+> +    for (i = 0; i < mc->nchans; i++) {
+> +        if (enable_mask & (1 << i)) {
+> +            s->channel[i].enabled = true;
+> +        } else {
+> +            s->channel[i].enabled = false;
+> +        }
+> +    }
+> +}
+> +
+> +static void pca954x_write(Pca954xState *s, uint8_t data)
+> +{
+> +    s->control = data;
+> +    pca954x_enable_channel(s, data);
+> +
+> +    trace_pca954x_write_bytes(data);
+> +}
+> +
+> +static int pca954x_write_data(SMBusDevice *d, uint8_t *buf, uint8_t len)
+> +{
+> +    Pca954xState *s = PCA954X(d);
+> +
+> +    if (len == 0) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: writing empty data\n", __func__);
+> +        return -1;
+> +    }
+> +
+> +    /*
+> +     * len should be 1, because they write one byte to enable/disable channels.
+> +     */
+> +    if (len > 1) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +            "%s: extra data after channel selection mask\n",
+> +            __func__);
+> +        return -1;
+> +    }
+> +
+> +    pca954x_write(s, buf[0]);
+> +    return 0;
+> +}
+> +
+> +static uint8_t pca954x_read_byte(SMBusDevice *d)
+> +{
+> +    Pca954xState *s = PCA954X(d);
+> +    uint8_t data = s->control;
+> +    trace_pca954x_read_data(data);
+> +    return data;
+> +}
+> +
+> +static void pca954x_enter_reset(Object *obj, ResetType type)
+> +{
+> +    Pca954xState *s = PCA954X(obj);
+> +    /* Reset will disable all channels. */
+> +    pca954x_write(s, 0);
+> +}
+> +
+> +I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
+> +{
+> +    Pca954xClass *pc = PCA954X_GET_CLASS(mux);
+> +    Pca954xState *pca954x = PCA954X(mux);
+> +
+> +    g_assert(channel < pc->nchans);
+> +    return I2C_BUS(qdev_get_child_bus(DEVICE(&pca954x->channel[channel]),
+> +                                      "i2c-bus"));
+> +}
+> +
+> +static void pca954x_smbus_init(Object *obj)
+> +{
+> +    Pca954xChannel *s = PCA954X_CHANNEL(obj);
+> +    s->bus = i2c_init_bus(DEVICE(s), "i2c-bus");
+> +
+> +    /* Start all channels as disabled. */
+> +    s->enabled = false;
+> +}
+> +
+> +static void pca954x_channel_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    dc->desc = "Pca954x Channel";
+> +}
+> +
+> +static void pca9546_class_init(ObjectClass *klass, void *data)
+> +{
+> +    Pca954xClass *s = PCA954X_CLASS(klass);
+> +    s->nchans = PCA9546_CHANNEL_COUNT;
+> +}
+> +
+> +static void pca9548_class_init(ObjectClass *oc, void *data)
+> +{
+> +    Pca954xClass *s = PCA954X_CLASS(oc);
+> +    s->nchans = PCA9548_CHANNEL_COUNT;
+> +}
+> +
+> +static void pca954x_realize(DeviceState *dev, Error **errp)
+> +{
+> +    Pca954xState *s = PCA954X(dev);
+> +    Pca954xClass *c = PCA954X_GET_CLASS(s);
+> +    int i;
+> +
+> +    /* SMBus modules. Cannot fail. */
+> +    for (i = 0; i < c->nchans; i++) {
+> +        Object *obj = OBJECT(&s->channel[i]);
+> +        sysbus_realize(SYS_BUS_DEVICE(obj), &error_abort);
+> +    }
+> +}
+> +
+> +static void pca954x_init(Object *obj)
+> +{
+> +    int i;
+> +    Pca954xState *s = PCA954X(obj);
+> +    Pca954xClass *c = PCA954X_GET_CLASS(obj);
+> +
+> +    /* Only initialize the children we expect. */
+> +    for (i = 0; i < c->nchans; i++) {
+> +        object_initialize_child(obj, "channel[*]", &s->channel[i],
+> +                                TYPE_PCA954X_CHANNEL);
+> +    }
+> +}
+> +
+> +static void pca954x_class_init(ObjectClass *klass, void *data)
+> +{
+> +    I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
+> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    SMBusDeviceClass *k = SMBUS_DEVICE_CLASS(klass);
+> +
+> +    sc->match_and_add = pca954x_match;
+> +
+> +    rc->phases.enter = pca954x_enter_reset;
+> +
+> +    dc->desc = "Pca954x i2c-mux";
+> +    dc->realize = pca954x_realize;
+> +
+> +    k->write_data = pca954x_write_data;
+> +    k->receive_byte = pca954x_read_byte;
+> +}
+> +
+> +static const TypeInfo pca954x_info[] = {
+> +    {
+> +        .name          = TYPE_PCA954X,
+> +        .parent        = TYPE_SMBUS_DEVICE,
+> +        .instance_size = sizeof(Pca954xState),
+> +        .instance_init = pca954x_init,
+> +        .class_size    = sizeof(Pca954xClass),
+> +        .class_init    = pca954x_class_init,
+> +        .abstract      = true,
+> +    },
+> +    {
+> +        .name          = TYPE_PCA9546,
+> +        .parent        = TYPE_PCA954X,
+> +        .class_init    = pca9546_class_init,
+> +    },
+> +    {
+> +        .name          = TYPE_PCA9548,
+> +        .parent        = TYPE_PCA954X,
+> +        .class_init    = pca9548_class_init,
+> +    },
+> +    {
+> +        .name = TYPE_PCA954X_CHANNEL,
+> +        .parent = TYPE_SYS_BUS_DEVICE,
+> +        .class_init = pca954x_channel_class_init,
+> +        .instance_size = sizeof(Pca954xChannel),
+> +        .instance_init = pca954x_smbus_init,
+> +    }
+> +};
+> +
+> +DEFINE_TYPES(pca954x_info)
+> diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
+> index cdcd694a7f..dd3aef02b2 100644
+> --- a/hw/i2c/meson.build
+> +++ b/hw/i2c/meson.build
+> @@ -14,4 +14,5 @@ i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
+>  i2c_ss.add(when: 'CONFIG_VERSATILE_I2C', if_true: files('versatile_i2c.c'))
+>  i2c_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_i2c.c'))
+>  i2c_ss.add(when: 'CONFIG_PPC4XX', if_true: files('ppc4xx_i2c.c'))
+> +i2c_ss.add(when: 'CONFIG_PCA954X', if_true: files('i2c_mux_pca954x.c'))
+>  softmmu_ss.add_all(when: 'CONFIG_I2C', if_true: i2c_ss)
+> diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+> index 82fe6f965f..82f19e6a2d 100644
+> --- a/hw/i2c/trace-events
+> +++ b/hw/i2c/trace-events
+> @@ -26,3 +26,8 @@ npcm7xx_smbus_recv_byte(const char *id, uint8_t value) "%s recv byte: 0x%02x"
+>  npcm7xx_smbus_stop(const char *id) "%s stopping"
+>  npcm7xx_smbus_nack(const char *id) "%s nacking"
+>  npcm7xx_smbus_recv_fifo(const char *id, uint8_t received, uint8_t expected) "%s recv fifo: received %u, expected %u"
+> +
+> +# i2c-mux-pca954x.c
+> +
+> +pca954x_write_bytes(uint8_t value) "PCA954X write data: 0x%02x"
+> +pca954x_read_data(uint8_t value) "PCA954X read data: 0x%02x"
+> diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
+> new file mode 100644
+> index 0000000000..8aaf9bbc39
+> --- /dev/null
+> +++ b/include/hw/i2c/i2c_mux_pca954x.h
+> @@ -0,0 +1,19 @@
+> +#ifndef QEMU_I2C_MUX_PCA954X
+> +#define QEMU_I2C_MUX_PCA954X
+> +
+> +#include "hw/i2c/i2c.h"
+> +
+> +#define TYPE_PCA9546 "pca9546"
+> +#define TYPE_PCA9548 "pca9548"
+> +
+> +/**
+> + * Retrieves the i2c bus associated with the specified channel on this i2c
+> + * mux.
+> + * @mux: an i2c mux device.
+> + * @channel: the i2c channel requested
+> + *
+> + * Returns: a pointer to the associated i2c bus.
+> + */
+> +I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel);
+
+I assume your machine-specific code will be referencing this, which is
+the way it should work.
+
+I'm happy with this.
+
+-corey
+
+> +
+> +#endif
 > -- 
 > 2.31.1.295.g9ea45b61b8-goog
 > 
