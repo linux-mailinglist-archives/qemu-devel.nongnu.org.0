@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3CC3599DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 11:53:27 +0200 (CEST)
-Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6205F3599F9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 11:55:00 +0200 (CEST)
+Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUnpO-0006DD-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 05:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39018)
+	id 1lUnqt-0007L9-G4
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 05:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUno5-0005Rk-4B
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:52:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUno2-00032d-1z
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:52:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617961920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=axJYE2TZSFVxsQ3wBEWFmhDHoMQ/L/pSkZ2xR9P1brg=;
- b=YkQiLXj1ELznkpb2fmAZd2hO0FEBj8cS/J03xfKZwydWWl4NHZaqVFmDfrmm7ROfb+KFt9
- lABeeYmZ0yVXmhUBbwnNmEaiGlV4Br+OLi0pXIkLABDScgaT4y4pIPO/yN798qPlRCLHzq
- 7dE1XxrmKVbp5jh2tR/iKkG02NrfM+Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-0JBEh7CaNsyXqZ9K33MATg-1; Fri, 09 Apr 2021 05:51:59 -0400
-X-MC-Unique: 0JBEh7CaNsyXqZ9K33MATg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1435310053E8;
- Fri,  9 Apr 2021 09:51:58 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-67.ams2.redhat.com
- [10.36.114.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05BD219C66;
- Fri,  9 Apr 2021 09:51:56 +0000 (UTC)
-Subject: Re: [PATCH for-6.0? 1/3] job: Add job_wait_unpaused() for
- block-job-complete
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-References: <20210408162039.242670-1-mreitz@redhat.com>
- <20210408162039.242670-2-mreitz@redhat.com>
- <505ba75a-996b-0c65-0c49-add50e55e3ce@virtuozzo.com>
- <66c60724-d3b5-383b-7a19-9e9498e1c132@redhat.com>
- <ad98de4b-a51f-1cce-c44d-a80110712a42@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <da048f58-43a6-6811-6ad2-0d7899737a23@redhat.com>
-Date: Fri, 9 Apr 2021 11:51:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUnpt-0006ov-9M
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:53:57 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUnpr-00048s-Gl
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 05:53:57 -0400
+Received: by mail-ed1-x530.google.com with SMTP id e7so5806835edu.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 02:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RxV8qs/mL9BEswU9raH+M466WwQsxLw5LjXS7KMR0uE=;
+ b=lkBXASXFJCUtt2G6vDr80mjMIooYXUBgjqoRMlGNss9B2iy56zigC6Xxi9fNCnY6f8
+ I4fKeStDNGbZMcWUKNsmvYdV4BVy+T13dK/Foo0XAO4YHfFInqkCUUF9t8nCD6ngqfw4
+ aVojCzUzr59M0l9+QE7EXZeA2lpbl4jYS1D15OlawS/fEFVe8CuMv6lwFFHv+ywttDpf
+ zsBjSaf3IDLDNCF47bVBhmwAwb7sxmhEwpVJ8mqoKbFCrxPcjj0NhSIi1/Cj7Pi4YUs7
+ GHTp4g7XMZ6YZ62T4U/8oY23xYa3hTeDUcjcxFIgReOwQFngD9Cqse/HgZiwUBiOa1u2
+ jLtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RxV8qs/mL9BEswU9raH+M466WwQsxLw5LjXS7KMR0uE=;
+ b=CrUuqEi6IpnfbCadkL7fyvCE/kiIjhsthk39oyQG2ku6SdnGs24DSbzrOxcaff3ku3
+ xN1oIR3EDWShoCtdS61/g3RG27VpjUGGhVNp7/CQYq+xI0sC8jlpCd6Rc3ZHo7m6xXI0
+ B0jvegqzbxR1AvpA0JPazmxiKBEJzJZ8t+/+zB+ZnFlCtO7SA3blK9n2t3ksCOKbEFgI
+ 9OST62+GbB5CKAOIUp2HwBFLNkGMldDoAhpSDdUHC3II7fVEvySd1KUf3hB55DsbWDaP
+ zYm4U7N1vA9QW9gnluN012kV5TRkYfG6h4MqPW8qdgp1GEfqms3AOARM81EkigGqqSqN
+ OFLg==
+X-Gm-Message-State: AOAM53041yhTPyIkZMzawuwUF8gRZLJhufuLLz/rDrihuZnl8c9bicMK
+ hsjXxWfMYlirLN4txUCCatPnd+emUt46pRs/MJXGNw==
+X-Google-Smtp-Source: ABdhPJwUVwfWVNPxu/TV7VHuI7M93X70OrRLkqAg6qU5zbfZse9UV6Tt/SlJEVKjlCTkqpM6tIY9Gz0sRXbZ22UrYQc=
+X-Received: by 2002:aa7:d843:: with SMTP id f3mr11104483eds.52.1617962033914; 
+ Fri, 09 Apr 2021 02:53:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ad98de4b-a51f-1cce-c44d-a80110712a42@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210406174031.64299-1-richard.henderson@linaro.org>
+ <CAFEAcA_9v7i1p59EThNPfuJHxXqwgavupV4otqaZMt9Q5d=SsA@mail.gmail.com>
+ <18c76f1b-cba5-8205-b945-bb908d460bf2@linaro.org>
+In-Reply-To: <18c76f1b-cba5-8205-b945-bb908d460bf2@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Apr 2021 10:53:12 +0100
+Message-ID: <CAFEAcA-RztdFMwVvR2NsH0RF9sSMKk0AJPN7xMox0uoFFwvtpg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/12] target/arm mte fixes
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,70 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.04.21 19:26, Vladimir Sementsov-Ogievskiy wrote:
-> 08.04.2021 20:04, John Snow wrote:
->> On 4/8/21 12:58 PM, Vladimir Sementsov-Ogievskiy wrote:
->>> job-complete command is async. Can we instead just add a boolean like 
->>> job->completion_requested, and set it if job-complete called in 
->>> STANDBY state, and on job_resume job_complete will be called 
->>> automatically if this boolean is true?
->>
->> job_complete has a synchronous setup, though -- we lose out on a lot 
->> of synchronous error checking in that circumstance.
-> 
-> yes, that's a problem..
-> 
->>
->> I was not able to audit it to determine that it'd be safe to attempt 
->> that setup during a drained section -- I imagine it won't work and 
->> will fail, though.
->>
->> So I thought we'd have to signal completion and run the setup *later*, 
->> but what do we do if we get an error then? Does the entire job fail? 
->> Do we emit some new event? ("BLOCK_JOB_COMPLETION_FAILED" ?) Is it 
->> recoverable?
->>
-> 
-> Isn't it possible even now, that after successful job-complete job still 
-> fails and we report BLOCK_JOB_COMPLETED with error?
-> 
-> And actually, how much benefit user get from the fact that job-complete 
-> may fail?
-> 
-> We can make job-complete a simple always-success boolean flag setter 
-> like job-pause.
+On Thu, 8 Apr 2021 at 15:25, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 4/8/21 5:47 AM, Peter Maydell wrote:
+> >> Richard Henderson (12):
+> >>    accel/tcg: Preserve PAGE_ANON when changing page permissions
+> >>    target/arm: Check PAGE_WRITE_ORG for MTE writeability
+> >>    target/arm: Fix mte_checkN
+> >>    target/arm: Split out mte_probe_int
+> >>    target/arm: Fix unaligned checks for mte_check1, mte_probe1
+> >>    test/tcg/aarch64: Add mte-5
+> >>    target/arm: Replace MTEDESC ESIZE+TSIZE with SIZEM1
+> >>    target/arm: Merge mte_check1, mte_checkN
+> >>    target/arm: Rename mte_probe1 to mte_probe
+> >>    target/arm: Simplify sve mte checking
+> >>    target/arm: Remove log2_esize parameter to gen_mte_checkN
+> >>    exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1
+> >
+> > So, what should we do with this series for 6.0 ? We'll be at rc3
+> > next week, and this big a change seems risky at this point
+> > in the cycle. Is there anything in here that's worth extracting
+> > as a for-6.0 change? (maybe patches 1, 2, 12?)
+>
+> Definitely 12, since that broke BTI.
+>
+> Patches 1 and 2 are certainly simple enough.
+>
+> Otherwise... the rest would be nice to have.  It's quite isolated to mte=on.
+> If you defer, I guess that's fine too -- the bug report did come in quite late.
 
-I wanted to say the following:
+OK, I'm going to take 1, 2 and 12 into target-arm.next for 6.0, and we'll
+defer the rest. AIUI the bug fixed by the remaining patches is basically
+"we didn't do some tag checks we should have done in a corner case of
+misaligned accesses that span two differently tagged regions", and I think
+that's not a terrible bug to leave in 6.0, compared to the risk of breaking
+MTE more seriously while fixing it.
 
-   But job-pause does always succeed, in contrast to block-job-complete.
-
-   block-job-complete is more akin to job-finalize, which too is a
-   synchronous operation.
-
-But when I wrote that last sentence, I asked myself whether what 
-mirror_complete() does isn’t actually a remnant of what we had to do 
-when we didn’t have job-finalize yet.  Shouldn’t that all be in 
-mirror_exit_common()?  What’s the advantage of opening the backing chain 
-or putting blockers on the to-replace node in block-job-complete? 
-Aren’t that all graph-changing operation, basically, i.e. stuff that 
-should be done in job-finalize?
-
-If we move everything to mirror_exit_common(), all that remains to do is 
-basically set some should_complete flag (could even be part of the Job 
-struct), and then the whole problem disappears.
-
-Thoughts?
-
-Max
-
-> And actual completion will be done in background, when possible. And if 
-> it fail, job just fails, like it does for any background io error. And 
-> user have to check error/success status of final BLOCK_JOB_COMPLETED 
-> anyway.
-> 
-
+thanks
+-- PMM
 
