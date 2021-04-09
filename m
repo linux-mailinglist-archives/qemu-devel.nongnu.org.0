@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF4D35A1A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:07:30 +0200 (CEST)
-Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A09935A1B3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:08:50 +0200 (CEST)
+Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUsjI-00042r-Si
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:07:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60176)
+	id 1lUska-0006B5-8U
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUshR-0002Za-5n
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:33 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41921)
+ id 1lUshS-0002Zp-B0
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:34 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lUshP-0004Qf-Eb
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:32 -0400
-Received: by mail-wr1-x429.google.com with SMTP id a6so5952848wrw.8
+ id 1lUshP-0004Qv-Ry
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:34 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id w4so2216638wrt.5
  for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 08:05:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=86r6ZcxyKLSRFnboIa/RjDv32mKauqu0t/J5jJyk3oI=;
- b=vOG27fmjmsNLbtNiK8+8r/gMNMz9dqk1iAAmFaCJVWItDNGQmmARXqKkJs6nMk+mBb
- 2qh6oRPox3jjIY3zAA63vic9u9iOqT4W/Jr/wo3Qr6MnqbnODPp0b7+MR8AC1wk+gR3F
- fgSmex/teDF0I6XK0VeKxjjbHYQwEDusSJsguA5gUX5skJnCMXBfBZW7TKYDT2Bc1wpg
- BHjQEBsHihQlsGL4jtrSfVakglTfSPLYhxjR+YCUnr1mHFpf0+s5BqflWHIfk6ZAspSE
- jJIThEb5CT+UgnsMV8kL2N6TZmOt62d44MPjz6BSckXSLETTRP4WHBdy/mzpuI9TLw94
- Mrdg==
+ bh=ZLG8bwrpw0+l/goPl94UIiaUdFIfsALImfUpgHbYc3M=;
+ b=Dn3GJHLhS9rwcgNusmHMGrbzTyjMON/VJsK32/EmRUYIBaMMRiQ13Pwngspnkb2oVi
+ EmTlvFSyFMR4Zd6Zga6CoCEBPV66JyizLoK4YQPP+FfaR73xtzTwljRlbyBo0ef9fTSe
+ u66xLMFc3uXUqkmVQ/eLa+ftqUUUcBI47V7fkwQ31BG9e0UFFKoit3GBTuTFgZJV9Cri
+ lHzpz3CNHpT2d1hgXFtsOiNvxdbmeL8FI+/6TmPw8fNVxSy7Jb7C4t4GKF9djqASYQ0u
+ OeBdUSstbzxxydIo4juPkPqb63iGRcx81q+f6qkqjJt/evzvNr11o+RkicO5D/t519Vs
+ K9EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=86r6ZcxyKLSRFnboIa/RjDv32mKauqu0t/J5jJyk3oI=;
- b=p2ilUZN/0RMe8FWjP6BQDvtfbmjkS1dZDE3SN/cy+3WMjoSLLiQjzwRiL9jRK0phub
- Bte/fJorUKCvlSYCK4fdsBwwM5OatLTsxcMP5XJSE9nCUsfUfiGz9r6U09icEEzzrrPh
- ZQrZgSESqIvECJlivi5z9Vqz6VgULd/lGVT86taKlWqm9jTPPM5oClQC7qY9XZuCSFD2
- l/Pm87+k6NLnGq7rTQSke/VyBeuQMJfiZ7+U1wMaeMv3B5Y5DJ6H11QQgqUbti9unLvK
- 9IpWAgGSzW/jd9bIZQh+oqtw4YKqcOGM8OJkSMe2C69YW57Y5rne7XlvNvuPoAEorykF
- 98TQ==
-X-Gm-Message-State: AOAM532Ca4s/R5b/COm+kv+tPI2sWfPmIZI0ip8MkwQlyAuZ8jxfMy/+
- WrFKBD6Y+BZExSfFKlqsD+K9/nrB2lshs2wr
-X-Google-Smtp-Source: ABdhPJyo0+2NPQO1so+vhIWOBIF92Tqu03grevhknvu/KuPCWXhhf4c26u2Hvge9U6G9EsZY2u0whw==
-X-Received: by 2002:adf:f3cd:: with SMTP id g13mr18595955wrp.286.1617980729613; 
- Fri, 09 Apr 2021 08:05:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZLG8bwrpw0+l/goPl94UIiaUdFIfsALImfUpgHbYc3M=;
+ b=Zj4ekLDYJjusy5pdI3NUnvMPWFMk5VpJQsEWczDYe1O09CJToZyFcf5Z3woGYWHD7c
+ 2HAX6gsIEVzKklWJNyrSSiGTm3HS1TNtCs0nGY3hUm831pxYXOYInV/djV7q2u6WomOc
+ ij041zZXkB7/j9Vbitsq/u5TZZlEQ5d5FW+O/05n41rxZebEoQZxgR1CzqlxZvXlPGmd
+ /ZPUoqkqxnbh5UtkqQjlFBlzM4zIXAR7SY9S35CppWvynowpJMf1QVWo3c+BTFLM6XrD
+ hKaFdgtB5qfUT56wIdXCPFYfuqgvO2jrxCHAloezWpnMjJ2qkmCUNgHLkPE0vIMazvjk
+ WMjg==
+X-Gm-Message-State: AOAM531MSQQQHd4CIyvG3h+8uzI9yDdko/H61zkjPDBU+C8TzhBqYPmi
+ BsjlXfAcPVjFnfNCHsiMmpHGhxDi8WKYaY5H
+X-Google-Smtp-Source: ABdhPJzx3QOfdu0YIw/vkjzXULia26dv2thKa1OaMYX1zc65ao9rvuFZClur3kGq8wpDQ7dGoEcj6g==
+X-Received: by 2002:adf:ee03:: with SMTP id y3mr17549843wrn.323.1617980730383; 
+ Fri, 09 Apr 2021 08:05:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm5048094wrp.33.2021.04.09.08.05.28
+ by smtp.gmail.com with ESMTPSA id c18sm5048094wrp.33.2021.04.09.08.05.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 08:05:28 -0700 (PDT)
+ Fri, 09 Apr 2021 08:05:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.0 0/2] mps3-an524: Fix MPC setting for SRAM block
-Date: Fri,  9 Apr 2021 16:05:25 +0100
-Message-Id: <20210409150527.15053-1-peter.maydell@linaro.org>
+Subject: [PATCH for-6.0 1/2] hw/arm/mps2-tz: Fix MPC setting for AN524 SRAM
+ block
+Date: Fri,  9 Apr 2021 16:05:26 +0100
+Message-Id: <20210409150527.15053-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210409150527.15053-1-peter.maydell@linaro.org>
+References: <20210409150527.15053-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,31 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN524 FPGA image has three MPCs: one for the BRAM, one for
-the QSPI flash, and one for the DDR. In the an524_raminfo[] array
-that defines the various RAM blocks on the board, we incorrectly
-set the .mpc field for the SRAM to 1 as well as for the QSPI flash.
-The effect of this was to cause the QSPI flash not to be mapped
-at all (because when we mapped the 'upstream' end of each MPC,
-we found the incorrectly marked SRAM entry before the QSPI one
-when scanning through the raminfo array, and so put the upstream
-end of MPC1 at the SRAM address).
+The AN524 has three MPCs: one for the BRAM, one for the QSPI flash,
+and one for the DDR.  We incorrectly set the .mpc field in the
+RAMInfo struct for the SRAM block to 1, giving it the same MPC we are
+using for the QSPI.  The effect of this was that the QSPI didn't get
+mapped into the system address space at all, via an MPC or otherwise,
+and guest programs which tried to read from the QSPI would get a bus
+error.  Correct the SRAM RAMInfo to indicate that it does not have an
+associated MPC.
 
-Patch 1 fixes the SRAM block to use '.mpc = -1' indicating that
-there is no associated MPC. Patch 2 adds an assert() that would
-have caught this programming error (which is quite easy to make
-if you're constructing the raminfo array for a new board by
-copying and modifying entries from existing boards).
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/mps2-tz.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think this makes sense to put into 6.0, it's a pretty safe change.
-
-Peter Maydell (2):
-  hw/arm/mps2-tz: Fix MPC setting for AN524 SRAM block
-  hw/arm/mps2-tz: Assert if more than one RAM is attached to an MPC
-
- hw/arm/mps2-tz.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 3fbe3d29f95..5ebd671bf83 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -238,7 +238,7 @@ static const RAMInfo an524_raminfo[] = { {
+         .name = "sram",
+         .base = 0x20000000,
+         .size = 32 * 4 * KiB,
+-        .mpc = 1,
++        .mpc = -1,
+         .mrindex = 1,
+     }, {
+         /* We don't model QSPI flash yet; for now expose it as simple ROM */
 -- 
 2.20.1
+
 
