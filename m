@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BC335A2E0
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:19:21 +0200 (CEST)
-Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D515735A34B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:28:08 +0200 (CEST)
+Received: from localhost ([::1]:33992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtqq-0002gO-Th
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
+	id 1lUtzL-00072F-TA
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnh-0007Qh-BV
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44006)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnk-0007aV-Ka
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtnf-0003Jl-LM
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:05 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lUtni-0003Le-NB
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:16:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617984962;
+ s=mimecast20190719; t=1617984965;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5xWuU0hBtpAwHuQvWGIwrd39FN93VworOtiulnbrtDI=;
- b=aulmUSAVYrYbe5s/tOvp95G/vjvK2yD1Mm6pS5DrYNKUoPRiX2Jx6HqsYGcgxD6VZD9sSo
- qnaNxVhQ6v2pE2DAb7RQOlBfLegsiZxgMhEai3d4kP7tdogQPXfBNBEMm1QI8nOoeLQrHM
- +ASwLyIu/pIo/s5ir+W7/Nt6w929OJk=
+ bh=A4rs2GIunkVXTiERjt/BtjkxPnrk2e2igFzTgpneroE=;
+ b=FFqSNVArzb6KQ62DSWddcddQNVef4zuK9u9LfREDp9JzL2ndE32zR0UJlgvavQ00g+5x6E
+ XQX1bKgvarxp1vDbWVyIJK7dOjCVrdXgvrEIM6bBqO59c07NsOWvKPjQ7z+EN/eh7gW32p
+ x+Gdp0Ze6ZRtbp8NkjEQuLGVvrwl4wQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-eieJM6hNPCKiqK3uOXuqNA-1; Fri, 09 Apr 2021 12:16:00 -0400
-X-MC-Unique: eieJM6hNPCKiqK3uOXuqNA-1
+ us-mta-524-P-D5wflCOdewDmrD-SKG1g-1; Fri, 09 Apr 2021 12:16:01 -0400
+X-MC-Unique: P-D5wflCOdewDmrD-SKG1g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73B1A10CE780;
- Fri,  9 Apr 2021 16:15:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 999631883522;
+ Fri,  9 Apr 2021 16:16:00 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-115-63.ams2.redhat.com [10.36.115.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 712665D6A1;
- Fri,  9 Apr 2021 16:15:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A871B5D6A1;
+ Fri,  9 Apr 2021 16:15:59 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/10] block/rbd: fix memory leak in qemu_rbd_connect()
-Date: Fri,  9 Apr 2021 18:15:39 +0200
-Message-Id: <20210409161548.341297-2-kwolf@redhat.com>
+Subject: [PULL 02/10] block/rbd: fix memory leak in qemu_rbd_co_create_opts()
+Date: Fri,  9 Apr 2021 18:15:40 +0200
+Message-Id: <20210409161548.341297-3-kwolf@redhat.com>
 In-Reply-To: <20210409161548.341297-1-kwolf@redhat.com>
 References: <20210409161548.341297-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,73 +82,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Garzarella <sgarzare@redhat.com>
 
-In qemu_rbd_connect(), 'mon_host' is allocated by qemu_rbd_mon_host()
-using g_strjoinv(), but it's only freed in the error path, leaking
-memory in the success path as reported by valgrind:
+When we allocate 'q_namespace', we forgot to set 'has_q_namespace'
+to true. This can cause several issues, including a memory leak,
+since qapi_free_BlockdevCreateOptions() does not deallocate that
+memory, as reported by valgrind:
 
-  80 bytes in 4 blocks are definitely lost in loss record 5,028 of 6,516
+  13 bytes in 1 blocks are definitely lost in loss record 7 of 96
      at 0x4839809: malloc (vg_replace_malloc.c:307)
-     by 0x5315BB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
-     by 0x532B6FF: g_strjoinv (in /usr/lib64/libglib-2.0.so.0.6600.8)
-     by 0x87D07E: qemu_rbd_mon_host (rbd.c:538)
-     by 0x87D07E: qemu_rbd_connect (rbd.c:562)
-     by 0x87E1CE: qemu_rbd_open (rbd.c:740)
-     by 0x840EB1: bdrv_open_driver (block.c:1528)
-     by 0x8453A9: bdrv_open_common (block.c:1802)
-     by 0x8453A9: bdrv_open_inherit (block.c:3444)
-     by 0x8464C2: bdrv_open (block.c:3537)
-     by 0x8108CD: qmp_blockdev_add (blockdev.c:3569)
-     by 0x8EA61B: qmp_marshal_blockdev_add (qapi-commands-block-core.c:1086)
-     by 0x90B528: do_qmp_dispatch_bh (qmp-dispatch.c:131)
-     by 0x907EA4: aio_bh_poll (async.c:164)
+     by 0x48CEBB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
+     by 0x48E3FE3: g_strdup (in /usr/lib64/libglib-2.0.so.0.6600.8)
+     by 0x180010: qemu_rbd_co_create_opts (rbd.c:446)
+     by 0x1AE72C: bdrv_create_co_entry (block.c:492)
+     by 0x241902: coroutine_trampoline (coroutine-ucontext.c:173)
+     by 0x57530AF: ??? (in /usr/lib64/libc-2.32.so)
+     by 0x1FFEFFFA6F: ???
 
-Fix freeing 'mon_host' also when qemu_rbd_connect() ends correctly.
+Fix setting 'has_q_namespace' to true when we allocate 'q_namespace'.
 
-Fixes: 0a55679b4a5061f4d74bdb1a0e81611ba3390b00
+Fixes: 19ae9ae014 ("block/rbd: Add support for ceph namespaces")
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20210329150129.121182-2-sgarzare@redhat.com>
+Message-Id: <20210329150129.121182-3-sgarzare@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/rbd.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ block/rbd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/block/rbd.c b/block/rbd.c
-index 9071a00e3f..24cefcd0dc 100644
+index 24cefcd0dc..f098a89c7b 100644
 --- a/block/rbd.c
 +++ b/block/rbd.c
-@@ -563,13 +563,13 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-     if (local_err) {
-         error_propagate(errp, local_err);
-         r = -EINVAL;
--        goto failed_opts;
-+        goto out;
-     }
+@@ -444,6 +444,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
+     loc->user        = g_strdup(qdict_get_try_str(options, "user"));
+     loc->has_user    = !!loc->user;
+     loc->q_namespace = g_strdup(qdict_get_try_str(options, "namespace"));
++    loc->has_q_namespace = !!loc->q_namespace;
+     loc->image       = g_strdup(qdict_get_try_str(options, "image"));
+     keypairs         = qdict_get_try_str(options, "=keyvalue-pairs");
  
-     r = rados_create(cluster, opts->user);
-     if (r < 0) {
-         error_setg_errno(errp, -r, "error initializing");
--        goto failed_opts;
-+        goto out;
-     }
- 
-     /* try default location when conf=NULL, but ignore failure */
-@@ -626,11 +626,12 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-      */
-     rados_ioctx_set_namespace(*io_ctx, opts->q_namespace);
- 
--    return 0;
-+    r = 0;
-+    goto out;
- 
- failed_shutdown:
-     rados_shutdown(*cluster);
--failed_opts:
-+out:
-     g_free(mon_host);
-     return r;
- }
 -- 
 2.30.2
 
