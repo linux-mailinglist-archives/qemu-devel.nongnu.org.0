@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3E135A1C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:12:41 +0200 (CEST)
-Received: from localhost ([::1]:58526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF4D35A1A9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 17:07:30 +0200 (CEST)
+Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUsoK-0000Lk-In
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:12:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33134)
+	id 1lUsjI-00042r-Si
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 11:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUsn3-0007aQ-25
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:11:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41710)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUshR-0002Za-5n
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:33 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lUsn0-0007Zi-Rh
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:11:20 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lUsmy-0000Rz-Fm
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 15:11:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5D72E2E816A
- for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 15:11:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lUshP-0004Qf-Eb
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 11:05:32 -0400
+Received: by mail-wr1-x429.google.com with SMTP id a6so5952848wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 08:05:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=86r6ZcxyKLSRFnboIa/RjDv32mKauqu0t/J5jJyk3oI=;
+ b=vOG27fmjmsNLbtNiK8+8r/gMNMz9dqk1iAAmFaCJVWItDNGQmmARXqKkJs6nMk+mBb
+ 2qh6oRPox3jjIY3zAA63vic9u9iOqT4W/Jr/wo3Qr6MnqbnODPp0b7+MR8AC1wk+gR3F
+ fgSmex/teDF0I6XK0VeKxjjbHYQwEDusSJsguA5gUX5skJnCMXBfBZW7TKYDT2Bc1wpg
+ BHjQEBsHihQlsGL4jtrSfVakglTfSPLYhxjR+YCUnr1mHFpf0+s5BqflWHIfk6ZAspSE
+ jJIThEb5CT+UgnsMV8kL2N6TZmOt62d44MPjz6BSckXSLETTRP4WHBdy/mzpuI9TLw94
+ Mrdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=86r6ZcxyKLSRFnboIa/RjDv32mKauqu0t/J5jJyk3oI=;
+ b=p2ilUZN/0RMe8FWjP6BQDvtfbmjkS1dZDE3SN/cy+3WMjoSLLiQjzwRiL9jRK0phub
+ Bte/fJorUKCvlSYCK4fdsBwwM5OatLTsxcMP5XJSE9nCUsfUfiGz9r6U09icEEzzrrPh
+ ZQrZgSESqIvECJlivi5z9Vqz6VgULd/lGVT86taKlWqm9jTPPM5oClQC7qY9XZuCSFD2
+ l/Pm87+k6NLnGq7rTQSke/VyBeuQMJfiZ7+U1wMaeMv3B5Y5DJ6H11QQgqUbti9unLvK
+ 9IpWAgGSzW/jd9bIZQh+oqtw4YKqcOGM8OJkSMe2C69YW57Y5rne7XlvNvuPoAEorykF
+ 98TQ==
+X-Gm-Message-State: AOAM532Ca4s/R5b/COm+kv+tPI2sWfPmIZI0ip8MkwQlyAuZ8jxfMy/+
+ WrFKBD6Y+BZExSfFKlqsD+K9/nrB2lshs2wr
+X-Google-Smtp-Source: ABdhPJyo0+2NPQO1so+vhIWOBIF92Tqu03grevhknvu/KuPCWXhhf4c26u2Hvge9U6G9EsZY2u0whw==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr18595955wrp.286.1617980729613; 
+ Fri, 09 Apr 2021 08:05:29 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c18sm5048094wrp.33.2021.04.09.08.05.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Apr 2021 08:05:28 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-6.0 0/2] mps3-an524: Fix MPC setting for SRAM block
+Date: Fri,  9 Apr 2021 16:05:25 +0100
+Message-Id: <20210409150527.15053-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Apr 2021 15:03:27 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1893040@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user s390x tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange davidhildenbrand gsalgaon nthorat
-X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
-Message-Id: <161798060736.31307.16916380186318695965.launchpad@gac.canonical.com>
-Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
- appears to have checksum and ECDSA verification issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
-X-Launchpad-Hash: f95fd577fa5baa8dc0b23d68bb9506b2e474bd7a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,60 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: s390x
+The AN524 FPGA image has three MPCs: one for the BRAM, one for
+the QSPI flash, and one for the DDR. In the an524_raminfo[] array
+that defines the various RAM blocks on the board, we incorrectly
+set the .mpc field for the SRAM to 1 as well as for the QSPI flash.
+The effect of this was to cause the QSPI flash not to be mapped
+at all (because when we mapped the 'upstream' end of each MPC,
+we found the incorrectly marked SRAM entry before the QSPI one
+when scanning through the raminfo array, and so put the upstream
+end of MPC1 at the SRAM address).
 
-** Tags added: tcg
+Patch 1 fixes the SRAM block to use '.mpc = -1' indicating that
+there is no associated MPC. Patch 2 adds an assert() that would
+have caught this programming error (which is quite easy to make
+if you're constructing the raminfo array for a new board by
+copying and modifying entries from existing boards).
 
--- =
+I think this makes sense to put into 6.0, it's a pretty safe change.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893040
+Peter Maydell (2):
+  hw/arm/mps2-tz: Fix MPC setting for AN524 SRAM block
+  hw/arm/mps2-tz: Assert if more than one RAM is attached to an MPC
 
-Title:
-   External modules retreval using Go1.15 on s390x appears to have
-  checksum and ECDSA verification issues
+ hw/arm/mps2-tz.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Status in QEMU:
-  New
-
-Bug description:
-  We are observing issue while building go-runner image and we suspect it i=
-s due to QEMU version being used. As referred in below issue:
-  https://github.com/golang/go/issues/40949
-
-  We tried to build go-runner image using go1.15 and register QEMU
-  (docker run --rm --privileged multiarch/qemu-user-
-  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
-b2af4
-  --reset -p yes) as mentioned in PR
-  https://github.com/kubernetes/release/pull/1499. We observed below
-  failure during build:
-
-  -------------------------------------------------------------------------=
---------
-  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
-OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
-ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
-ully
-  ------
-  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
-   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
-nner .:
-  ------
-  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
-ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
- -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
-age}]: buildkit-runc did not terminate successfully
-  Makefile:52: recipe for target 'container' failed
-  make: *** [container] Error 1
-  -------------------------------------------------------------------------=
---------
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
+-- 
+2.20.1
 
