@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3381359578
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 08:28:25 +0200 (CEST)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B4A35958E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 08:33:42 +0200 (CEST)
+Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUkcy-0007el-Ly
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 02:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
+	id 1lUki5-00046I-LB
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 02:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUkZX-0004me-CK; Fri, 09 Apr 2021 02:24:51 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44935)
+ id 1lUkZA-0004aD-3T; Fri, 09 Apr 2021 02:24:29 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lUkZT-0001hJ-PY; Fri, 09 Apr 2021 02:24:50 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id e14so6828213ejz.11;
- Thu, 08 Apr 2021 23:24:46 -0700 (PDT)
+ id 1lUkZ8-0001W1-Jr; Fri, 09 Apr 2021 02:24:27 -0400
+Received: by mail-ed1-x533.google.com with SMTP id e7so5168244edu.10;
+ Thu, 08 Apr 2021 23:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nDFbUJf+zSiSog/LYin0LAf7wyvK1G5JKV9wmLaTU9M=;
- b=uuS4Pk/VAJDOp6Pwxln8iW/mJ4KnaTDRn50NXb+1N5XW12GifvULQ/vjj0op//bMN7
- LkAj7c+hNguynBubJgAGCMtSqcXeqwzU8Lmv/GvTxql7KWHFodLx6pLXHBGM2+1PPuZR
- bfp/fDE5JrTqZ4cznaVDktC2aFy763BbFLvHcOWIMY29k+RvphJ3OEO5fDrfUJsvmMHm
- /I/IlUxBd8J6ts3c2rxPitHPTCXyogm2DpZ7HKnnQpI9PT1iI/T9d+iwsFtWI9bdU5aV
- 0kDhAi9dMXLgqAFr03CWuSNjEy2us7nTo42cd+/iYlWT/3AD2MVabsaqyxhyxKfeKB/w
- 714Q==
+ bh=zRoQYNlkLYyE9AlFcEvCS75qivi0ECZWMEXZijy0geo=;
+ b=jZtsq9FagTXfsvqDf7W34eslAdCA4mGEvi2srm/7/nc6zymz7fBhbd7tT+4090WqQ7
+ RNVKiEaLFwYUqEOOGDgwwzEVTB/qgNKRNnqHO/UJyiNiiQHOiL9h+El+jVjh75LrEAXg
+ oPaDjM51orhXfYGwrQUnzsINS7hPjwfyaHv+m7Ox2qefMSheSaGUUstZHZXZoKbQPJR+
+ 6g/elCbzJpocQoUSiady8qamz0sFai1WheOpOjBGb5tYv8p0Td4pe2YZr67HM4VNf45z
+ rYk4nQqsGZPs0uLXF2xuErE75GsuwSEDXrVr8TzLA/ym5ScTillo03rkbMgNO4ExKQwO
+ ilPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nDFbUJf+zSiSog/LYin0LAf7wyvK1G5JKV9wmLaTU9M=;
- b=PqQYJzJnhidbsAxLEU+0f3LK/MDUTk1VE/xCX+PM0lhIL+5roZZT4vgsPZHTxup+m+
- FBbZEkoMoGE1841F0eos7G5vncCKCh26S5kFzhZ4VWAtwPz22EnsRp4VvZ3uID5tAUnP
- VJ+Dk34sVS0WkGLvK3GO7tI1fejtkWEXCtwdJ//W0fG+AXGk+tErhM+9ApRlSJTESQtz
- q3MKMIZ0SP3AA17DKdzUq3PvyAnawQOoQxnkq3NI18fvgHE51sl5q0TAVk9egNLuV30h
- BbtFbGtLpYQ8e0hVVvrmWa3FtJoIcfxw1z3dIXJ5QnsWQ6q5jOHw/fPFBbr5VQTgUqZy
- o5VQ==
-X-Gm-Message-State: AOAM53053BwLNk2dwH8ZXyASsjZzDwcmH1nUuxJzaOX2hXCDjEB9ncVr
- Hewi1oqQiRZkrHHPHvqn6S/dyswYwCW9Gw==
-X-Google-Smtp-Source: ABdhPJxo+77+8B6ZlCyBZlhyE6lnabwzE/4mu9v6/6AQ6+Trohef5kPe/Q2tCvpfrpxcUzPkBATJUg==
-X-Received: by 2002:a17:906:e0b:: with SMTP id
- l11mr14989236eji.111.1617949485397; 
- Thu, 08 Apr 2021 23:24:45 -0700 (PDT)
+ bh=zRoQYNlkLYyE9AlFcEvCS75qivi0ECZWMEXZijy0geo=;
+ b=LBSYwbYR9fCFT6pfyRrWC3bI66KvxQz2+2BwwNjtYb9hrr3Ee35ITyr3EQDHECt4Sv
+ IvYcwwXtTyPK8kogoZFI4NyY1hKvSaREQ6S5OLoYTeXLw+yq7LKYg2OiTXGddblxsZ5H
+ xHWfy0e47iltyYLz9LBGbuaUQLHCsE350+FIJg1vMJBevtydhtfjmvv5GVQCFf+6y9fg
+ QAwj1UKhp0Cd5fJNLTXKwuvj3chmi+OU6lMfxMqRb7L3VYeP8w9Qv01RAReTKBWbs0qA
+ hbBOFPzI5115E/pokcbQZy/H9EyaWOSYHbzEhWnu0H0FRoU8K7U19l44n8aa4d1q7tor
+ Vf9g==
+X-Gm-Message-State: AOAM532MjIJwouHgbjOgIJ0lxzZcjAkenk2fj4C+yZfehQjhLcFLq4o2
+ DS6ufwREbl7Ym9n35itozoreOsB8kHfTrg==
+X-Google-Smtp-Source: ABdhPJycFP3DeWWCiB4FHpmElahwDBNZmZFiZYI0x7QKzBFgxbcU9Ri82gmB1RG/SGZ237kKc9X3IQ==
+X-Received: by 2002:a05:6402:26c9:: with SMTP id
+ x9mr15630569edd.322.1617949464597; 
+ Thu, 08 Apr 2021 23:24:24 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id b21sm711872ejz.123.2021.04.08.23.24.44
+ by smtp.gmail.com with ESMTPSA id 28sm816854edw.82.2021.04.08.23.24.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 23:24:44 -0700 (PDT)
+ Thu, 08 Apr 2021 23:24:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-6.1 8/9] hw/clock: Declare clock_new() internally
-Date: Fri,  9 Apr 2021 08:24:00 +0200
-Message-Id: <20210409062401.2350436-9-f4bug@amsat.org>
+Subject: [RFC PATCH-for-6.1 4/9] hw/mips: Use new
+ machine_create_constant_clock() helper
+Date: Fri,  9 Apr 2021 08:23:56 +0200
+Message-Id: <20210409062401.2350436-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210409062401.2350436-1-f4bug@amsat.org>
 References: <20210409062401.2350436-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,146 +86,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
- Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Luc Michel <luc@lmichel.fr>,
+ Eduardo Habkost <ehabkost@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm@nongnu.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To enforce correct API usage, restrict the clock creation to
-hw/core/. The only possible ways to create a clock are:
-
-- Constant clock at the board level
-  Using machine_create_constant_clock() in machine_init()
-
-- Propagated clock in QDev
-  Using qdev_init_clock_in() or qdev_init_clock_out() in
-  TYPE_DEVICE instance_init().
+Use the newly added machine_create_constant_clock() helper
+to create the CPU reference clocks.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/core/clock-internal.h | 32 ++++++++++++++++++++++++++++++++
- include/hw/clock.h       | 13 -------------
- hw/core/clock.c          |  1 +
- hw/core/machine.c        |  1 +
- hw/core/qdev-clock.c     |  1 +
- MAINTAINERS              |  1 +
- 6 files changed, 36 insertions(+), 13 deletions(-)
- create mode 100644 hw/core/clock-internal.h
+ hw/mips/fuloong2e.c      | 4 ++--
+ hw/mips/jazz.c           | 6 +++---
+ hw/mips/loongson3_virt.c | 4 ++--
+ hw/mips/mipssim.c        | 7 ++++---
+ 4 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/hw/core/clock-internal.h b/hw/core/clock-internal.h
-new file mode 100644
-index 00000000000..2207be74c0f
---- /dev/null
-+++ b/hw/core/clock-internal.h
-@@ -0,0 +1,32 @@
-+/*
-+ * Hardware Clocks
-+ *
-+ * Copyright GreenSocs 2016-2020
-+ *
-+ * Authors:
-+ *  Frederic Konrad
-+ *  Damien Hedde
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_HW_CLOCK_INTERNAL_H
-+#define QEMU_HW_CLOCK_INTERNAL_H
-+
-+#include "hw/clock.h"
-+
-+/**
-+ * clock_new:
-+ * @parent: the clock parent
-+ * @name: the clock object name
-+ *
-+ * Helper function to create a new clock and parent it to @parent. There is no
-+ * need to call clock_setup_canonical_path on the returned clock as it is done
-+ * by this function.
-+ *
-+ * @return the newly created clock
-+ */
-+Clock *clock_new(Object *parent, const char *name);
-+
-+#endif
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index a7187eab95e..47cb65edb32 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -109,19 +109,6 @@ extern const VMStateDescription vmstate_clock;
-  */
- void clock_setup_canonical_path(Clock *clk);
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 4f61f2c873b..72dc5702727 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -259,8 +259,8 @@ static void mips_fuloong2e_init(MachineState *machine)
+     CPUMIPSState *env;
+     DeviceState *dev;
  
--/**
-- * clock_new:
-- * @parent: the clock parent
-- * @name: the clock object name
-- *
-- * Helper function to create a new clock and parent it to @parent. There is no
-- * need to call clock_setup_canonical_path on the returned clock as it is done
-- * by this function.
-- *
-- * @return the newly created clock
-- */
--Clock *clock_new(Object *parent, const char *name);
--
- /**
-  * clock_set_callback:
-  * @clk: the clock to register the callback into
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index a42dc3c3d29..bfa54ca0a93 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
- #include "hw/clock.h"
-+#include "clock-internal.h"
- #include "trace.h"
+-    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
+-    clock_set_hz(cpuclk, 533080000); /* ~533 MHz */
++    cpuclk = machine_create_constant_clock(machine, "cpu-refclk",
++                                           533080000); /* ~533 MHz */
  
- #define CLOCK_PATH(_clk) (_clk->canonical_path)
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 41baf80559d..e8bdcd10854 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -35,6 +35,7 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
-+#include "clock-internal.h"
+     /* init CPUs */
+     cpu = mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 1a0888a0fd5..3c220b4df6b 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -185,9 +185,9 @@ static void mips_jazz_init(MachineState *machine,
+         exit(EXIT_FAILURE);
+     }
  
- GlobalProperty hw_compat_5_2[] = {
-     { "ICH9-LPC", "smm-compat", "on"},
-diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
-index a46384a84b7..09e14009fcd 100644
---- a/hw/core/qdev-clock.c
-+++ b/hw/core/qdev-clock.c
-@@ -16,6 +16,7 @@
- #include "hw/qdev-clock.h"
- #include "hw/qdev-core.h"
- #include "qapi/error.h"
-+#include "clock-internal.h"
+-    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
+-    clock_set_hz(cpuclk, ext_clk[jazz_model].freq_hz
+-                         * ext_clk[jazz_model].pll_mult);
++    cpuclk = machine_create_constant_clock(machine, "cpu-refclk",
++                                           ext_clk[jazz_model].freq_hz
++                                           * ext_clk[jazz_model].pll_mult);
  
- /*
-  * qdev_init_clocklist:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 58f342108e9..2b10744169c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2925,6 +2925,7 @@ S: Maintained
- F: include/hw/clock.h
- F: include/hw/qdev-clock.h
- F: hw/core/clock.c
-+F: hw/core/clock-internal.h
- F: hw/core/clock-vmstate.c
- F: hw/core/qdev-clock.c
- F: docs/devel/clocks.rst
+     /* init CPUs */
+     cpu = mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
+diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
+index b15071defc6..b9f18ecd911 100644
+--- a/hw/mips/loongson3_virt.c
++++ b/hw/mips/loongson3_virt.c
+@@ -530,8 +530,8 @@ static void mips_loongson3_virt_init(MachineState *machine)
+     sysbus_create_simple("goldfish_rtc", virt_memmap[VIRT_RTC].base,
+                          qdev_get_gpio_in(liointc, RTC_IRQ));
+ 
+-    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
+-    clock_set_hz(cpuclk, DEF_LOONGSON3_FREQ);
++    cpuclk = machine_create_constant_clock(machine, "cpu-refclk",
++                                           DEF_LOONGSON3_FREQ);
+ 
+     for (i = 0; i < machine->smp.cpus; i++) {
+         int ip;
+diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
+index f5d0da05aa1..af11cf9ac25 100644
+--- a/hw/mips/mipssim.c
++++ b/hw/mips/mipssim.c
+@@ -153,11 +153,12 @@ mips_mipssim_init(MachineState *machine)
+     ResetData *reset_info;
+     int bios_size;
+ 
+-    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
+ #ifdef TARGET_MIPS64
+-    clock_set_hz(cpuclk, 6000000); /* 6 MHz */
++    cpuclk = machine_create_constant_clock(machine, "cpu-refclk",
++                                           6000000); /* 6 MHz */
+ #else
+-    clock_set_hz(cpuclk, 12000000); /* 12 MHz */
++    cpuclk = machine_create_constant_clock(machine, "cpu-refclk",
++                                           12000000); /* 12 MHz */
+ #endif
+ 
+     /* Init CPUs. */
 -- 
 2.26.3
 
