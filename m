@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775B359FDE
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:33:32 +0200 (CEST)
-Received: from localhost ([::1]:53650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322E035A030
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:42:38 +0200 (CEST)
+Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUrGN-0005mW-UX
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35358)
+	id 1lUrPB-0005vV-9H
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lUrDX-00037a-Dx
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23335)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lUrOM-0005DE-5W
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:41:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lUrDF-0006SB-VJ
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lUrOH-0004qW-86
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:41:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617975011;
+ s=mimecast20190719; t=1617975699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FLwwh2iBnnSqAkADEoECbYwn1f8BinBaw0zvDIBN2ug=;
- b=E5noi6o3M4D+K/aCrpFvrm3QqLzJgEMZxZLP4mKYcva50X4wRMca//rbqVhTxmcXXXNuSQ
- NgozxS1wsZhvYRuDqNXhBwJObWmoXc21Ltt0mvvxNz3/8ViHu2LnsxRCGCup5uzi6dNX7g
- 43Hv81KFdzVanNC17NvHXcUuDm7HT4k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-Q3uRp-PjPwuzNbztJb6ZmA-1; Fri, 09 Apr 2021 09:30:09 -0400
-X-MC-Unique: Q3uRp-PjPwuzNbztJb6ZmA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D54984B9A1;
- Fri,  9 Apr 2021 13:30:07 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-67.rdu2.redhat.com [10.10.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66C765C1A1;
- Fri,  9 Apr 2021 13:30:07 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id EEDB822054F; Fri,  9 Apr 2021 09:30:06 -0400 (EDT)
-Date: Fri, 9 Apr 2021 09:30:06 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Fix side-effect in assert()
-Message-ID: <20210409133006.GC1111800@redhat.com>
-References: <20210409100627.451573-1-groug@kaod.org>
+ bh=vfimQGaRoRh0VUSPUb6eOiV9emGOWTPcbfhbj7jqM44=;
+ b=ahMKtIrdHYL+m2Fxp41AVROSO42TsO7/iR4amG9Lq7tt1o9j3P94hkVCyVAcNPBSKWGqNC
+ ccBjkjhC6Ajo3Tw3+0RWvUW6sfMkt4Fk8RlrZZTl+Yby62dUR6uIrr7tni348ZCpBVV1zL
+ Xj///dAk3npRnx0JIoWr3sMcyOKT/EI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-xvuYuxU8PoCA-l6r2BQEtA-1; Fri, 09 Apr 2021 09:41:37 -0400
+X-MC-Unique: xvuYuxU8PoCA-l6r2BQEtA-1
+Received: by mail-ej1-f70.google.com with SMTP id h19so2211693ejk.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 06:41:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vfimQGaRoRh0VUSPUb6eOiV9emGOWTPcbfhbj7jqM44=;
+ b=JzUQXaGL+NdhRnZupLRp9q4UfSe7e3GAk0hDljuVcSwZu+/Iuy/lhsyJbOUnN9NuQx
+ 4Vghd/055O95yraqsrERK5mOGZs930ibk906ZhfnsSZx0gEuU48/0MqHCxzamxrFoHZZ
+ PZvTEYVGh8W2XXQfIBpe2ygZY8+JlWRqDkkk+O9ydprjehl0YoE2bVMxWlfNTdGlBSY9
+ ckUSImts5B1bMIJMY7CVX/wv8yQNU2fRMprXQvsSVETOOGawQAOEIjWX0IcQb7bnDNDO
+ QgdFPgqlTgS01xi7+wo7roILqRwbPsMFLPtOkHBsim3FiZ5cvuUqhz6MZDHhj6ttkhkb
+ qj3w==
+X-Gm-Message-State: AOAM530Lhr9XzYFhNDe1+mWbBCgVRU457SA9jnEKiGOdJT798JSRzdIJ
+ kt7tRuN000UfgF3EqrekHEPrmygqMWR5O+At72FnZCPCoE4vKa4fvYpTSkWEYqeuWUVE8PLNT1x
+ XQstF67qlij6VNwo=
+X-Received: by 2002:a50:eb92:: with SMTP id y18mr9753845edr.230.1617975696388; 
+ Fri, 09 Apr 2021 06:41:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrhjeO6e67JIzOvfCHl3nws2wT7SjVq7yMM5wtveDcU2X/Q6FwLNlmCMYkPQ7C6eXK0vdmlA==
+X-Received: by 2002:a50:eb92:: with SMTP id y18mr9753829edr.230.1617975696160; 
+ Fri, 09 Apr 2021 06:41:36 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id hz24sm1241115ejc.119.2021.04.09.06.41.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Apr 2021 06:41:35 -0700 (PDT)
+Subject: Re: iotests 041 intermittent failure (netbsd)
+To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <CAFEAcA_-ARyPM0gB2Y_FKdUp9DYRNbz1GFU1AzFE9UZgjWNazQ@mail.gmail.com>
+ <6cf410f9-6566-5921-fecc-6adaafbce068@redhat.com>
+ <YHAs/+BEnkuPgWkO@redhat.com> <YHA8eZwYOkeGjnY+@merkur.fritz.box>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6839ed3d-dc79-8317-c373-0f7fd08c128e@redhat.com>
+Date: Fri, 9 Apr 2021 15:41:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210409100627.451573-1-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <YHA8eZwYOkeGjnY+@merkur.fritz.box>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,111 +100,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 09, 2021 at 12:06:27PM +0200, Greg Kurz wrote:
-> It is bad practice to put an expression with a side-effect in
-> assert() because the side-effect won't happen if the code is
-> compiled with -DNDEBUG.
+On 4/9/21 1:37 PM, Kevin Wolf wrote:
+> Am 09.04.2021 um 12:31 hat Daniel P. Berrangé geschrieben:
+>> On Fri, Apr 09, 2021 at 12:22:26PM +0200, Philippe Mathieu-Daudé wrote:
+>>> On 4/9/21 11:43 AM, Peter Maydell wrote:
+>>>> Just hit this (presumably intermittent) 041 failure running
+>>>> the build-and-test on the tests/vm netbsd setup. Does it look
+>>>> familiar to anybody?
+>>>
+>>> This one is known as the mysterious failure:
+>>> https://www.mail-archive.com/qemu-block@nongnu.org/msg73321.html
+>>
+>> If the test has been flakey with no confirmed fix since Sept 2020,
+>> then it is well overdue to be switched to disabled by default, at
+>> least on the platforms it is known to be flakey on.
 > 
-> Use an intermediate variable. Consolidate this in an macro to
-> have proper line numbers when the assertion is hit.
-> 
-> virtiofsd: ../../tools/virtiofsd/passthrough_ll.c:2797: lo_getxattr:
->  Assertion `fchdir_res == 0' failed.
-> Aborted
-> 
->   2796          /* fchdir should not fail here */
-> =>2797          FCHDIR_NOFAIL(lo->proc_self_fd);
->   2798          ret = getxattr(procname, name, value, size);
->   2799          FCHDIR_NOFAIL(lo->root.fd);
-> 
-> Fixes: bdfd66788349 ("virtiofsd: Fix xattr operations")
-> Cc: misono.tomohiro@jp.fujitsu.com
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Why do you think this is the same problem? It is a completely different
+> error message, happening in a different test function. The problems
+> reported in September were fixed in the next version of the pull
+> request.
 
-Looks good to me.
+Oops my bad, I thought this was the same, sorry.
 
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-
-Vivek
-
-> ---
->  tools/virtiofsd/passthrough_ll.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
+> What Peter is reporting here is probably unrelated to NetBSD, but to
+> overloaded test hosts. QMPTestCase.pause_wait() uses a timeout of
+> 3 seconds until it decides that the job probably has just failed to
+> pause at all, so that the test case wouldn't hang indefinitely on
+> failure.
 > 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 1553d2ef454f..6592f96f685e 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -2723,6 +2723,11 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
->      return -ENODATA;
->  }
->  
-> +#define FCHDIR_NOFAIL(fd) do {                         \
-> +        int fchdir_res = fchdir(fd);                   \
-> +        assert(fchdir_res == 0);                       \
-> +    } while (0)
-> +
->  static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->                          size_t size)
->  {
-> @@ -2789,9 +2794,9 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->          ret = fgetxattr(fd, name, value, size);
->      } else {
->          /* fchdir should not fail here */
-> -        assert(fchdir(lo->proc_self_fd) == 0);
-> +        FCHDIR_NOFAIL(lo->proc_self_fd);
->          ret = getxattr(procname, name, value, size);
-> -        assert(fchdir(lo->root.fd) == 0);
-> +        FCHDIR_NOFAIL(lo->root.fd);
->      }
->  
->      if (ret == -1) {
-> @@ -2864,9 +2869,9 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
->          ret = flistxattr(fd, value, size);
->      } else {
->          /* fchdir should not fail here */
-> -        assert(fchdir(lo->proc_self_fd) == 0);
-> +        FCHDIR_NOFAIL(lo->proc_self_fd);
->          ret = listxattr(procname, value, size);
-> -        assert(fchdir(lo->root.fd) == 0);
-> +        FCHDIR_NOFAIL(lo->root.fd);
->      }
->  
->      if (ret == -1) {
-> @@ -3000,9 +3005,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->          ret = fsetxattr(fd, name, value, size, flags);
->      } else {
->          /* fchdir should not fail here */
-> -        assert(fchdir(lo->proc_self_fd) == 0);
-> +        FCHDIR_NOFAIL(lo->proc_self_fd);
->          ret = setxattr(procname, name, value, size, flags);
-> -        assert(fchdir(lo->root.fd) == 0);
-> +        FCHDIR_NOFAIL(lo->root.fd);
->      }
->  
->      saverr = ret == -1 ? errno : 0;
-> @@ -3066,9 +3071,9 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
->          ret = fremovexattr(fd, name);
->      } else {
->          /* fchdir should not fail here */
-> -        assert(fchdir(lo->proc_self_fd) == 0);
-> +        FCHDIR_NOFAIL(lo->proc_self_fd);
->          ret = removexattr(procname, name);
-> -        assert(fchdir(lo->root.fd) == 0);
-> +        FCHDIR_NOFAIL(lo->root.fd);
->      }
->  
->      saverr = ret == -1 ? errno : 0;
-> -- 
-> 2.26.3
+> We can increase the timeout, but of course, that doesn't guarantee that
+> we'll never hit it again on very slow test hosts.
 > 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
+> Kevin
+> 
 
 
