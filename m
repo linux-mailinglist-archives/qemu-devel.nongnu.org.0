@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B460359FDC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:32:55 +0200 (CEST)
-Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9291359FE1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:35:01 +0200 (CEST)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUrFm-0005DS-6Q
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
+	id 1lUrHo-00080k-Ny
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUrD4-00033o-C9
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42798)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUrD4-00033a-2I
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUrCx-0006JO-Ie
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:06 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUrD1-0006Mr-Be
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:30:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617974998;
+ s=mimecast20190719; t=1617975002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ozyvUMwTUWB5EMkecsm7lCgbLvNzDma8A7uIYIHcNGo=;
- b=Wo56f6qlAhaV7P3IBRNWPftPS6HD/I3Obt/0UAfLGb298nsnCpF10dmcRrt5QDe08OhGJ/
- yyp0UozYS0K5tT4eE/0fFUehmC3XzYAh7IkLUrmnZfC1bAJOBYe/nS2MAbaoKF/eWz3nSr
- orXMnqgcWLDP6rvefd6FVkYTmtCq1zg=
+ bh=joSw4jwTLU8DYiFScDGknK1n4nE5TiMPrAyJTZ43A0M=;
+ b=PwcV5uYNBS+iHVguCOWIk1+M4IEnZzqAJYGpzxo4JSSlXN/RzXtmzwc26uTXNSMx5d4rxk
+ 9SaW7y2fgs6Mzh7dLB2veiHpbycCZAcJ7t5UzcCMeBuobGtMGWGCWynAZkJqBTaATBOs8r
+ 4F/BWExk91pDOqf07alri/NRpuLzzYo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-gavCH29WOE67-6mpD8EMfg-1; Fri, 09 Apr 2021 09:29:57 -0400
-X-MC-Unique: gavCH29WOE67-6mpD8EMfg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-282-PlGxF8EROSCIjNYndxGvfw-1; Fri, 09 Apr 2021 09:29:59 -0400
+X-MC-Unique: PlGxF8EROSCIjNYndxGvfw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C218030A1;
- Fri,  9 Apr 2021 13:29:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E2AE100A8FF;
+ Fri,  9 Apr 2021 13:29:58 +0000 (UTC)
 Received: from localhost (ovpn-114-67.ams2.redhat.com [10.36.114.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AB6910016FE;
- Fri,  9 Apr 2021 13:29:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 024E560C05;
+ Fri,  9 Apr 2021 13:29:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/3] test-blockjob: Test job_wait_unpaused()
-Date: Fri,  9 Apr 2021 15:29:46 +0200
-Message-Id: <20210409132948.195511-3-mreitz@redhat.com>
+Subject: [PATCH v2 3/3] iotests/041: block-job-complete on user-paused job
+Date: Fri,  9 Apr 2021 15:29:47 +0200
+Message-Id: <20210409132948.195511-4-mreitz@redhat.com>
 In-Reply-To: <20210409132948.195511-1-mreitz@redhat.com>
 References: <20210409132948.195511-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,178 +83,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a job that remains on STANDBY after a drained section, and see
-that invoking job_wait_unpaused() will get it unstuck.
+Expand test_pause() to check what happens when issuing
+block-job-complete on a job that is on STANDBY because it has been
+paused by the user.  (This should be an error, and in particular not
+hang job_wait_unpaused().)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/unit/test-blockjob.c | 140 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 140 insertions(+)
+ tests/qemu-iotests/041 | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
-index 7519847912..b7736e298d 100644
---- a/tests/unit/test-blockjob.c
-+++ b/tests/unit/test-blockjob.c
-@@ -16,6 +16,7 @@
- #include "block/blockjob_int.h"
- #include "sysemu/block-backend.h"
- #include "qapi/qmp/qdict.h"
-+#include "iothread.h"
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 5cc02b24fc..d2c9669741 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -120,7 +120,18 @@ class TestSingleDrive(iotests.QMPTestCase):
+         result = self.vm.qmp('block-job-resume', device='drive0')
+         self.assert_qmp(result, 'return', {})
  
- static const BlockJobDriver test_block_job_driver = {
-     .job_driver = {
-@@ -375,6 +376,144 @@ static void test_cancel_concluded(void)
-     cancel_common(s);
- }
- 
-+/* (See test_yielding_driver for the job description) */
-+typedef struct YieldingJob {
-+    BlockJob common;
-+    bool should_complete;
-+} YieldingJob;
+-        self.complete_and_wait()
++        self.wait_ready()
 +
-+static void yielding_job_complete(Job *job, Error **errp)
-+{
-+    YieldingJob *s = container_of(job, YieldingJob, common.job);
-+    s->should_complete = true;
-+    job_enter(job);
-+}
++        # Check that a job on STANDBY cannot be completed
++        self.pause_job('drive0')
++        result = self.vm.qmp('block-job-complete', device='drive0')
++        self.assert_qmp(result, 'error/desc',
++                        "Job 'drive0' has been paused by the user")
 +
-+static int coroutine_fn yielding_job_run(Job *job, Error **errp)
-+{
-+    YieldingJob *s = container_of(job, YieldingJob, common.job);
++        result = self.vm.qmp('block-job-resume', device='drive0')
++        self.assert_qmp(result, 'return', {})
 +
-+    job_transition_to_ready(job);
-+
-+    while (!s->should_complete) {
-+        job_yield(job);
-+    }
-+
-+    return 0;
-+}
-+
-+/*
-+ * This job transitions immediately to the READY state, and then
-+ * yields until it is to complete.
-+ */
-+static const BlockJobDriver test_yielding_driver = {
-+    .job_driver = {
-+        .instance_size  = sizeof(YieldingJob),
-+        .free           = block_job_free,
-+        .user_resume    = block_job_user_resume,
-+        .run            = yielding_job_run,
-+        .complete       = yielding_job_complete,
-+    },
-+};
-+
-+/*
-+ * Test that job_wait_unpaused() can get jobs from a paused state to
-+ * a running state so that job_complete() can be applied (assuming the
-+ * pause occurred due to a drain that has already been lifted).
-+ * (This is what QMP's block-job-complete does so it can be executed
-+ * even immediately after some other operation instated and lifted a
-+ * drain.)
-+ *
-+ * To do this, run YieldingJob in an IO thread, get it into the READY
-+ * state, then have a drained section.  Before ending the section,
-+ * acquire the context so the job will not be entered and will thus
-+ * remain on STANDBY.
-+ *
-+ * Invoking job_complete() then will fail.
-+ *
-+ * However, job_wait_unpaused() should see the job is to be resumed,
-+ * wait for it to be resumed, and then we can invoke job_complete()
-+ * without error.
-+ *
-+ * Note that on the QMP interface, it is impossible to lock an IO
-+ * thread before a drained section ends.  In practice, the
-+ * bdrv_drain_all_end() and the aio_context_acquire() will be
-+ * reversed.  However, that makes for worse reproducibility here:
-+ * Sometimes, the job would no longer be in STANDBY then but already
-+ * be started.  We cannot prevent that, because the IO thread runs
-+ * concurrently.  We can only prevent it by taking the lock before
-+ * ending the drained section, so we do that.
-+ *
-+ * (You can reverse the order of operations and most of the time the
-+ * test will pass, but sometimes the assert(status == STANDBY) will
-+ * fail.)
-+ */
-+static void test_complete_in_standby(void)
-+{
-+    BlockBackend *blk;
-+    IOThread *iothread;
-+    AioContext *ctx;
-+    Job *job;
-+    BlockJob *bjob;
-+    Error *local_err = NULL;
-+
-+    /* Create a test drive, move it to an IO thread */
-+    blk = create_blk(NULL);
-+    iothread = iothread_new();
-+
-+    ctx = iothread_get_aio_context(iothread);
-+    blk_set_aio_context(blk, ctx, &error_abort);
-+
-+    /* Create our test job */
-+    bjob = mk_job(blk, "job", &test_yielding_driver, true,
-+                  JOB_MANUAL_FINALIZE | JOB_MANUAL_DISMISS);
-+    job = &bjob->job;
-+    assert(job->status == JOB_STATUS_CREATED);
-+
-+    /* Wait for the job to become READY */
-+    job_start(job);
-+    aio_context_acquire(ctx);
-+    AIO_WAIT_WHILE(ctx, job->status != JOB_STATUS_READY);
-+    aio_context_release(ctx);
-+
-+    /* Begin the drained section, pausing the job */
-+    bdrv_drain_all_begin();
-+    assert(job->status == JOB_STATUS_STANDBY);
-+    /* Lock the IO thread to prevent the job from being run */
-+    aio_context_acquire(ctx);
-+    /* This will schedule the job to resume it */
-+    bdrv_drain_all_end();
-+
-+    /* But the job cannot run, so it will remain on standby */
-+    assert(job->status == JOB_STATUS_STANDBY);
-+
-+    /* A job on standby cannot be completed */
-+    job_complete(job, &local_err);
-+    assert(local_err != NULL);
-+    error_free(local_err);
-+    local_err = NULL;
-+
-+    /*
-+     * But waiting for it and then completing it should work.
-+     * (This is what qmp_block_job_complete() does.)
-+     */
-+    job_wait_unpaused(job, &error_abort);
-+    job_complete(job, &error_abort);
-+
-+    /* The test is done now, clean up. */
-+    job_finish_sync(job, NULL, &error_abort);
-+    assert(job->status == JOB_STATUS_PENDING);
-+
-+    job_finalize(job, &error_abort);
-+    assert(job->status == JOB_STATUS_CONCLUDED);
-+
-+    job_dismiss(&job, &error_abort);
-+
-+    destroy_blk(blk);
-+    aio_context_release(ctx);
-+    iothread_join(iothread);
-+}
-+
- int main(int argc, char **argv)
- {
-     qemu_init_main_loop(&error_abort);
-@@ -389,5 +528,6 @@ int main(int argc, char **argv)
-     g_test_add_func("/blockjob/cancel/standby", test_cancel_standby);
-     g_test_add_func("/blockjob/cancel/pending", test_cancel_pending);
-     g_test_add_func("/blockjob/cancel/concluded", test_cancel_concluded);
-+    g_test_add_func("/blockjob/complete_in_standby", test_complete_in_standby);
-     return g_test_run();
- }
++        self.complete_and_wait(wait_ready=False)
+         self.vm.shutdown()
+         self.assertTrue(iotests.compare_images(test_img, target_img),
+                         'target image does not match source after mirroring')
 -- 
 2.29.2
 
