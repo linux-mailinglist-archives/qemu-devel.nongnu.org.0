@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674C8359362
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:48:08 +0200 (CEST)
-Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0014359336
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 05:44:19 +0200 (CEST)
+Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUi7r-0001ee-ED
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
+	id 1lUi4A-0004XM-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 23:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2U-000304-3x
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:34 -0400
-Received: from mga05.intel.com ([192.55.52.43]:12390)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2Y-000331-GF
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:38 -0400
+Received: from mga05.intel.com ([192.55.52.43]:12408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2R-0007GF-SF
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:33 -0400
-IronPort-SDR: vYsFMx5aLhhmO92xHUl8/7jlSrwZeRfo9oRubhPF/JlsqSkw4VxM6wC3IMSahVa2wQ+PRDUlQ7
- z55QhUIo9ZXQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957319"
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957319"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1lUi2V-0007NQ-Id
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 23:42:38 -0400
+IronPort-SDR: KkPXgQCQNwk9Og5hGv/L/QaYlcthTEZl2JE191dfOI8ZEavdBbr/zrKY6/kjap30UPZ37+GMuv
+ eOEHn8dbscyA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="278957325"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="278957325"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2021 20:42:31 -0700
-IronPort-SDR: TOqLop/HCOpVXTli4kd84cqrlaXzll6CJDlU0ptLjF9ZAB6iO9GOkWgNLxDpTzCNtnNcWUfgj9
- HmdcnQGzEv9w==
+ 08 Apr 2021 20:42:34 -0700
+IronPort-SDR: AVvrWFvmXzaTnhaCZefXkB45hExWge1BIuQV9/PRvmRFyNfAkaofrRd1SeB5f3TzmR0AWR6h/k
+ lxKOIV5ScPQg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081035"
+X-IronPort-AV: E=Sophos;i="5.82,208,1613462400"; d="scan'208";a="416081051"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:28 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2021 20:42:31 -0700
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH v6 02/10] Fix the qemu crash when guest shutdown during
- checkpoint
-Date: Thu,  8 Apr 2021 23:20:48 -0400
-Message-Id: <1617938456-315058-3-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v6 03/10] Optimize the function of filter_send
+Date: Thu,  8 Apr 2021 23:20:49 -0400
+Message-Id: <1617938456-315058-4-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
 References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
@@ -67,9 +66,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-This patch fixes the following:
-    qemu-system-x86_64: invalid runstate transition: 'colo' ->'shutdown'
-    Aborted (core dumped)
+The iov_size has been calculated in filter_send(). we can directly
+return the size.In this way, this is no need to repeat calculations
+in filter_redirector_receive_iov();
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
@@ -77,21 +76,44 @@ Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
 ---
- softmmu/runstate.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/filter-mirror.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index ce8977c..1564057 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -126,6 +126,7 @@ static const RunStateTransition runstate_transitions_def[] = {
-     { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
+diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+index f8e6500..f20240c 100644
+--- a/net/filter-mirror.c
++++ b/net/filter-mirror.c
+@@ -88,7 +88,7 @@ static int filter_send(MirrorState *s,
+         goto err;
+     }
  
-     { RUN_STATE_COLO, RUN_STATE_RUNNING },
-+    { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
+-    return 0;
++    return size;
  
-     { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
-     { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
+ err:
+     return ret < 0 ? ret : -EIO;
+@@ -159,7 +159,7 @@ static ssize_t filter_mirror_receive_iov(NetFilterState *nf,
+     int ret;
+ 
+     ret = filter_send(s, iov, iovcnt);
+-    if (ret) {
++    if (ret < 0) {
+         error_report("filter mirror send failed(%s)", strerror(-ret));
+     }
+ 
+@@ -182,10 +182,10 @@ static ssize_t filter_redirector_receive_iov(NetFilterState *nf,
+ 
+     if (qemu_chr_fe_backend_connected(&s->chr_out)) {
+         ret = filter_send(s, iov, iovcnt);
+-        if (ret) {
++        if (ret < 0) {
+             error_report("filter redirector send failed(%s)", strerror(-ret));
+         }
+-        return iov_size(iov, iovcnt);
++        return ret;
+     } else {
+         return 0;
+     }
 -- 
 1.8.3.1
 
