@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA0335A462
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 19:08:13 +0200 (CEST)
-Received: from localhost ([::1]:46372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E052C35A467
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 19:11:37 +0200 (CEST)
+Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUuc8-0003tq-GP
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 13:08:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34494)
+	id 1lUufQ-0006EV-EH
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 13:11:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUuaw-0003ER-BV
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:06:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31166)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lUucw-0004wb-2c
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:09:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lUuat-00056u-Pn
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:06:57 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lUucu-0005mP-1U
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 13:09:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617988014;
+ s=mimecast20190719; t=1617988139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XJT12KVw9rziZuqAJt0aP4r3C5VAodzDdHQMFcHp6fw=;
- b=b31oeq4Tp5soJHeouXoxR9/FJ0zvv2rPAHnd3sA3bIiJsdLUtJhdD83SNllOEVcIjFRjZy
- 8nVwW4c9yBKCAH0EZK0yPFcbQpOzCXUd0jtigtu0K+Kc9VdWtZ0BWkpJsA9/aETzkxdWzU
- f5sOUGQnoDE5UzcfU4qTM4nmZGhBiLg=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-rmQByYG8OLCN8CcDH_-OPQ-1; Fri, 09 Apr 2021 13:06:52 -0400
-X-MC-Unique: rmQByYG8OLCN8CcDH_-OPQ-1
-Received: by mail-oo1-f70.google.com with SMTP id p23so2736061oov.9
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 10:06:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XJT12KVw9rziZuqAJt0aP4r3C5VAodzDdHQMFcHp6fw=;
- b=ZFnEkBNgX9UKhGbmlCWaGRnXP9N46Np1Ire0dS1MnIMs08EnvK77EhFmTx2Fdyb0hY
- 8Fnom6U/boCChLvW8Clvd6zFD631cl0q4FBttRh1YCJsqtqII/HI7D1Js6HrlyXngiJW
- wTSH128WdPnDhvHYT/6XCgkY4OIpMhws/aAghU88rsBEiOCgzKcfNwroHrGlWlBi559p
- O3e89IhBFFvT3pnqqEIKiuMrVDIyVe0/+/j8nDHtQiXglRyGqrV+O/d0LLI47rrxOOvL
- 1WuBYG90LMPH3fc2/q5yKzMbJonw0szbGZUN9JH/8dhIYXbiUP5jA1c5cCsAn3KOpYLy
- pVfg==
-X-Gm-Message-State: AOAM530WSdfvC24ThaACZwfh3x7kGDBtVlV4DTAEchzrIq2HkWR9B2aq
- bwDabsuv+zLDlOmi90LYKQZRjNt1kouubGv91pImd3I1bbCOgAb/d3fame1ulZyYSm9mRM5A8uQ
- j23Lqfml+fw/dVcU=
-X-Received: by 2002:a4a:304a:: with SMTP id z10mr12791412ooz.26.1617988012001; 
- Fri, 09 Apr 2021 10:06:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4nH1zKBg69P+Cxp0tKURCRITQqacNSbsr3Cj420nH9fY00O5kZMe6xYs6HVc/+2rMCZGaHw==
-X-Received: by 2002:a4a:304a:: with SMTP id z10mr12791396ooz.26.1617988011800; 
- Fri, 09 Apr 2021 10:06:51 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- v195sm628243oia.38.2021.04.09.10.06.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Apr 2021 10:06:51 -0700 (PDT)
-Subject: Re: General question about parsing an rbd filename
-To: Markus Armbruster <armbru@redhat.com>
-References: <b0c867e5-6ad7-f5e4-ecff-676b3b235995@redhat.com>
- <87wntbfs7x.fsf@dusky.pond.sub.org>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <41af7fc7-a9d5-a299-199e-ec789f7ad47c@redhat.com>
-Date: Fri, 9 Apr 2021 12:06:50 -0500
+ bh=/u6bAD+eGUgSkEqrMV91+7OQLmKrLJLQh+boZUe5+nc=;
+ b=hxQGvfpnzl5x2LNkRuzZyy3iDkvqNkn41BeOnN1DDZiO+v4uebIWbHV0nhUmPNx+UKEAP5
+ hqkuuaGRPey+VtS6tpoLIjYxxrFfGth58JOTb55szxBtSCaDV5DQNt71kooa3u6F5ixvM4
+ 1ncQWvvdLi1/PlX69oMbXzrSHMF36qs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-wJbKVFNUMIyrJbxqdly0Zg-1; Fri, 09 Apr 2021 13:08:56 -0400
+X-MC-Unique: wJbKVFNUMIyrJbxqdly0Zg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66D2110054F6;
+ Fri,  9 Apr 2021 17:08:55 +0000 (UTC)
+Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9BFB5D6AD;
+ Fri,  9 Apr 2021 17:08:54 +0000 (UTC)
+Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for comments
+ and docstrings
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-3-jsnow@redhat.com>
+ <877dlvs1gp.fsf@dusky.pond.sub.org>
+ <ed5134b3-bff9-947e-f370-239e5c31a512@redhat.com>
+ <871rc277mm.fsf@dusky.pond.sub.org>
+ <33866c5d-1eab-739c-f2e8-a35f4a0b0f55@redhat.com>
+ <CAFEAcA8f-d7fPzrisUVkjkvpD0CCdQFBso3GiFmAPJ6gj-P_mg@mail.gmail.com>
+ <YG7FpVcY72KhQbBJ@redhat.com> <87lf9r3ipn.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <46069b93-1a44-74f5-ef18-c3138200ebe9@redhat.com>
+Date: Fri, 9 Apr 2021 13:08:54 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87wntbfs7x.fsf@dusky.pond.sub.org>
+In-Reply-To: <87lf9r3ipn.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -98,52 +89,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/9/21 9:27 AM, Markus Armbruster wrote:
-> Connor Kuehl <ckuehl@redhat.com> writes:
->> block/rbd.c hints that:
+On 4/9/21 5:33 AM, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+>> On Fri, Mar 26, 2021 at 04:44:25PM +0000, Peter Maydell wrote:
+>>> On Fri, 26 Mar 2021 at 16:33, John Snow <jsnow@redhat.com> wrote:
+>>>> Being less terse about it: Mostly, I don't like how it enforces this
+>>>> column width even for indented structures. Generally, we claim that 72
+>>>> columns is "comfortable to read" and I agree.
+>>>>
+>>>>                                      However, when we start in a margin, I
+>>>>                                      am not convinced that this is
+>>>>                                      actually more readable than the
+>>>>                                      alternative. We aren't using our full
+>>>>                                      72 characters here.
+>>>
+>>> I agree, and I don't see any strong reason to hold our Python
+>>> code to a different standard to the rest of our codebase as
+>>> regards line length and comment standards.
 >>
->>>   * Configuration values containing :, @, or = can be escaped with a
->>>   * leading "\".
+>> There's one small difference with python vs the rest of the codebase when
+>> it comes to API doc strings specifically. eg we have a docstring API comment
+>> in python/qemu/machine.py:
 >>
->> Right now, much of the parsing code will allow anyone to escape
->> _anything_ so long as it's preceded by '\'.
+>> class QEMUMachine:
+>>      """
+>>      A QEMU VM.
 >>
->> Is this the intended behavior? Or should the parser be updated to
->> allow escaping only certain sequences.
+>>      Use this object as a context manager to ensure
+>>      the QEMU process terminates::
+>>
+>>          with VM(binary) as vm:
+>>              ...
+>>          # vm is guaranteed to be shut down here
+>>      """
+>>
+>> This formatting, including line breaks, is preserved as-is when a user
+>> requests viewing of the help:
+>>
+>>>>> print(help(qemu.machine.QEMUMachine))
+>>
+>> Help on class QEMUMachine in module qemu.machine:
+>>
+>> class QEMUMachine(builtins.object)
+>>   |  QEMUMachine(binary: str, args: Sequence[str] = (), wrapper: Sequence[str] = (), name: Optional[str] = None, test_dir: str = '/var/tmp', monitor_address: Union[Tuple[str, str], str, NoneType] = None, socket_scm_helper: Optional[str] = None, sock_dir: Optional[str] = None, drain_console: bool = False, console_log: Optional[str] = None)
+>>   |
+>>   |  A QEMU VM.
+>>   |
+>>   |  Use this object as a context manager to ensure
+>>   |  the QEMU process terminates::
+>>   |
+>>   |      with VM(binary) as vm:
+>>   |          ...
+>>   |      # vm is guaranteed to be shut down here
+>>   |
+>>   |  Methods defined here:
+>>   |
+>>
+>>
+>> IOW, while we as QEMU maintainers may not care about keeping to a narrow
+>> line width, with API docstrings, we're also declaring that none of the
+>> users of the python APIs can care either. These docstrings are never
+>> reflowed, so they can end up wrapping if the user's terminal is narrow
+>> which looks very ugly.
+>>
+>>
+>> So this python API docstring scenario is slightly different from our
+>> main codebase, where majority of comments are only ever going to be seen
+>> by QEMU maintainers, and where C API doc strings don't preserve formatting,
+>> because they're turned into HTML and re-flowed.
+>>
+>> Having said all that, I still don't think we need to restrict ourselves
+>> to 72 characters. This is not the 1980's with people using text terminals
+>> with physical size constraints. I think it is fine if we let python
+>> docstrings get larger - especially if the docstrings are already indented
+>> 4/8/12 spaces due to the code indent context, because the code indent is
+>> removed when comments are displayed. I think a 100 char line limit would
+>> be fine and still not cause wrapping when using python live help().
 > 
-> I can't answer this question, but perhaps I can get us a bit closer to
-> an answer.
+> The trouble with long lines is not text terminals, it's humans.  Humans
+> tend to have trouble following long lines with their eyes (I sure do).
+> Typographic manuals suggest to limit columns to roughly 60 characters
+> for exactly that reason[*].
 > 
-> The commend you quoted in part is about "rbd:" pseudo-filenames.
+> Most doc strings are indented once (classes, functions) or twice
+> (methods).  72 - 8 is roughly 60.
 > 
-> By "parsing code", you probably mean qemu_rbd_parse_filename().  It uses
-> qemu_rbd_next_tok() to split off one part after the other, stopping at a
-> special delimiter character, and qemu_rbd_unescape() to unescape most,
-> but not all parts.
+
+My problem with this patch isn't actually the docstrings -- it's 
+one-line comments.
+
+If you can teach flake8 to allow this:
+
+# Pretend this is a single-line comment that's 73 chars
+
+but disallow this:
+
+# Pretend this is a two-line comment that's 73 chars,
+# and continues to a new line that's also pretty long,
+# and maybe keeps going, too.
+
+I will happily accept that patch. Without the ability to enforce the 
+style though, I am reluctant to pretend that it's even a preference that 
+we have. I think it's a waste to hunt down and re-flow single-line 
+comments that just barely squeak over a limit. They look worse.
+
+We can discuss this more when we go to propose a style guide for the 
+Python folder; I think it's maybe a misprioritization of our energies in 
+the present context.
+
+(I still have the style guide on my TODO list, and even began writing a 
+draft at one point, but I think we'd both like to press forward on the 
+Typing bits first.)
+
+> With nesting, doc strings can become indented more.  Nesting sufficient
+> to squeeze the doc string width to column 72 under roughly 60 is pretty
+> rare.  Going beyond 72 colums to keep such doc strings readable is
+> exactly what PEP 8 wants you to do.
 > 
-> Both treat '\' followed by a character other than '\0' specially.
-> qemu_rbd_next_tok() doesn't stop at an escaped delimiter character.
-> qemu_rbd_unescape() unescapes escaped characters.
+> Again, I see no reason to deviate from PEP 8.
 > 
-> I believe the comment you quoted is basically trying to say "to use a
-> character that would normally be a delimiter, escape it with '\'".  It
-> doesn't say these are the only characters you may escape.
-
-I agree with your interpretation here.
-
-> Not unescaping some parts feels iffy to me.
-
-I wonder if my reading of it placed too much emphasis on the 
-"Configuration values" part of it, which I understand to be the optional 
-key,value pairs that come after the image name.
-
-Thank you,
-
-Connor
+> 
+> [*] https://en.wikipedia.org/wiki/Column_(typography)#Typographic_style
+> 
 
 
