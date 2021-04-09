@@ -2,96 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322E035A030
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:42:38 +0200 (CEST)
-Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDE935A061
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:52:34 +0200 (CEST)
+Received: from localhost ([::1]:54224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUrPB-0005vV-9H
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
+	id 1lUrYl-0001Ic-PR
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lUrOM-0005DE-5W
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:41:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lUrOH-0004qW-86
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:41:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617975699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vfimQGaRoRh0VUSPUb6eOiV9emGOWTPcbfhbj7jqM44=;
- b=ahMKtIrdHYL+m2Fxp41AVROSO42TsO7/iR4amG9Lq7tt1o9j3P94hkVCyVAcNPBSKWGqNC
- ccBjkjhC6Ajo3Tw3+0RWvUW6sfMkt4Fk8RlrZZTl+Yby62dUR6uIrr7tni348ZCpBVV1zL
- Xj///dAk3npRnx0JIoWr3sMcyOKT/EI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-xvuYuxU8PoCA-l6r2BQEtA-1; Fri, 09 Apr 2021 09:41:37 -0400
-X-MC-Unique: xvuYuxU8PoCA-l6r2BQEtA-1
-Received: by mail-ej1-f70.google.com with SMTP id h19so2211693ejk.8
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 06:41:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vfimQGaRoRh0VUSPUb6eOiV9emGOWTPcbfhbj7jqM44=;
- b=JzUQXaGL+NdhRnZupLRp9q4UfSe7e3GAk0hDljuVcSwZu+/Iuy/lhsyJbOUnN9NuQx
- 4Vghd/055O95yraqsrERK5mOGZs930ibk906ZhfnsSZx0gEuU48/0MqHCxzamxrFoHZZ
- PZvTEYVGh8W2XXQfIBpe2ygZY8+JlWRqDkkk+O9ydprjehl0YoE2bVMxWlfNTdGlBSY9
- ckUSImts5B1bMIJMY7CVX/wv8yQNU2fRMprXQvsSVETOOGawQAOEIjWX0IcQb7bnDNDO
- QgdFPgqlTgS01xi7+wo7roILqRwbPsMFLPtOkHBsim3FiZ5cvuUqhz6MZDHhj6ttkhkb
- qj3w==
-X-Gm-Message-State: AOAM530Lhr9XzYFhNDe1+mWbBCgVRU457SA9jnEKiGOdJT798JSRzdIJ
- kt7tRuN000UfgF3EqrekHEPrmygqMWR5O+At72FnZCPCoE4vKa4fvYpTSkWEYqeuWUVE8PLNT1x
- XQstF67qlij6VNwo=
-X-Received: by 2002:a50:eb92:: with SMTP id y18mr9753845edr.230.1617975696388; 
- Fri, 09 Apr 2021 06:41:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrhjeO6e67JIzOvfCHl3nws2wT7SjVq7yMM5wtveDcU2X/Q6FwLNlmCMYkPQ7C6eXK0vdmlA==
-X-Received: by 2002:a50:eb92:: with SMTP id y18mr9753829edr.230.1617975696160; 
- Fri, 09 Apr 2021 06:41:36 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id hz24sm1241115ejc.119.2021.04.09.06.41.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Apr 2021 06:41:35 -0700 (PDT)
-Subject: Re: iotests 041 intermittent failure (netbsd)
-To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <CAFEAcA_-ARyPM0gB2Y_FKdUp9DYRNbz1GFU1AzFE9UZgjWNazQ@mail.gmail.com>
- <6cf410f9-6566-5921-fecc-6adaafbce068@redhat.com>
- <YHAs/+BEnkuPgWkO@redhat.com> <YHA8eZwYOkeGjnY+@merkur.fritz.box>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6839ed3d-dc79-8317-c373-0f7fd08c128e@redhat.com>
-Date: Fri, 9 Apr 2021 15:41:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lUrXf-0000mD-SM
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:51:23 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lUrXd-0002RL-Kg
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:51:23 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lUrXY-00023l-M6
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 13:51:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EE0172E819E
+ for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 13:51:07 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YHA8eZwYOkeGjnY+@merkur.fritz.box>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 09 Apr 2021 13:43:23 -0000
+From: JIANG Muhui <1922887@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: muhui pmaydell
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
+References: <161778201158.26656.2798489764705445614.malonedeb@wampee.canonical.com>
+Message-Id: <161797580370.10546.7952411292990401088.malone@soybean.canonical.com>
+Subject: [Bug 1922887] Re: STR in Thumb 32 decode problem
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
+X-Launchpad-Hash: e79adf4de354e9adb943f94dff3ce82c2226f6e0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,44 +71,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1922887 <1922887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/9/21 1:37 PM, Kevin Wolf wrote:
-> Am 09.04.2021 um 12:31 hat Daniel P. Berrangé geschrieben:
->> On Fri, Apr 09, 2021 at 12:22:26PM +0200, Philippe Mathieu-Daudé wrote:
->>> On 4/9/21 11:43 AM, Peter Maydell wrote:
->>>> Just hit this (presumably intermittent) 041 failure running
->>>> the build-and-test on the tests/vm netbsd setup. Does it look
->>>> familiar to anybody?
->>>
->>> This one is known as the mysterious failure:
->>> https://www.mail-archive.com/qemu-block@nongnu.org/msg73321.html
->>
->> If the test has been flakey with no confirmed fix since Sept 2020,
->> then it is well overdue to be switched to disabled by default, at
->> least on the platforms it is known to be flakey on.
-> 
-> Why do you think this is the same problem? It is a completely different
-> error message, happening in a different test function. The problems
-> reported in September were fixed in the next version of the pull
-> request.
+We just test the patched version. It looks well. Now QEMU would raise
+SEGILL signals, which should be the right behavior.
 
-Oops my bad, I thought this was the same, sorry.
+We are not checking should-UNDEF cases in particular. This is a case we
+observed and checked manually when doing a research project with QEMU.
 
-> What Peter is reporting here is probably unrelated to NetBSD, but to
-> overloaded test hosts. QMPTestCase.pause_wait() uses a timeout of
-> 3 seconds until it decides that the job probably has just failed to
-> pause at all, so that the test case wouldn't hang indefinitely on
-> failure.
-> 
-> We can increase the timeout, but of course, that doesn't guarantee that
-> we'll never hit it again on very slow test hosts.
-> 
-> Kevin
-> 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922887
+
+Title:
+  STR in Thumb 32 decode problem
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi
+
+  It seems that QEMU does not have a proper check on the STR instruction
+  in Thumb32 mode.
+
+  Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 1=
+111 0000 1101 1101 1101. =
+
+  This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
+
+  The symbols is
+
+  Rn =3D 1111
+  Rt =3D 0000
+  P =3D 1
+  U =3D 0
+  W =3D 1
+
+  The decode ASL is below:
+
+  if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=
+=3D =E2=80=980=E2=80=99 then SEE STRT;
+  if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
+=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
+=E2=80=9800000100=E2=80=99 then SEE PUSH;
+  if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W=
+ =3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
+  t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
+  index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
+=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
+  if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
+
+  When Rn =3D=3D 1111, it should be an undefined instruction, which should
+  raise SEGILL signal. However, it seems that QEMU does not check this
+  constraint, which should be a bug. Many thanks
+
+  Regards
+  Muhui
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922887/+subscriptions
 
