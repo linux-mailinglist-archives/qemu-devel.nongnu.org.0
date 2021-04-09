@@ -2,54 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFF7359F92
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:11:43 +0200 (CEST)
-Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7352C359F9C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:13:24 +0200 (CEST)
+Received: from localhost ([::1]:54640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUqvG-0008Dr-Or
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
+	id 1lUqwt-0001x0-GT
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lUqtK-00077f-Mt
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:09:44 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:39045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lUqtI-0002TX-DP
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:09:42 -0400
-Received: from localhost.localdomain ([82.142.18.94]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Ma1D8-1l16hn0huu-00Vu27; Fri, 09 Apr 2021 15:09:35 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUqvg-0001Nr-8g; Fri, 09 Apr 2021 09:12:08 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:40829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lUqve-0003vm-KV; Fri, 09 Apr 2021 09:12:08 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id n2so8576605ejy.7;
+ Fri, 09 Apr 2021 06:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vWFIXKcEBxh6L87kP1/H3Yx9SNZerDqwgMEtpKvSZgQ=;
+ b=gGjz4M3f962pFQSmv8b31toQf6VAOMnj4NCHAGxbzC3MK7MBn0G7xaktH1vWhHL5KJ
+ CDlxT0FhuOW5NfjdFUETwBc35Xw7scfRynVm1h3oy3cpbyyBq/4FKUHoZUUeJtWuHs9C
+ mLAlA5TqzB95PS1CBA2ofAENBguni70ITAHqmkzXffM5eg/DR4n1QC/qUGgNLDr4JwrU
+ GaQRyX3mrnk4V4kmlV+SkmWdoxNGEe2X9qKnt6Lrqguv73q3/NUO1ckVfvdY1cYCVvd9
+ SGWxDE2Lylld3iRz7836B43rleYEaWPMv/TRhPXT8zvGQC65fuEQnt8byWFb2u+if9Ab
+ V+5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vWFIXKcEBxh6L87kP1/H3Yx9SNZerDqwgMEtpKvSZgQ=;
+ b=Gw1eme4d551QJIvdxwghYEb5oCFvxeINBoZ3WY9EetsUTxlZiObAe+yU8mjf9j6PSV
+ rY01BZtSSabodBwACvMbxi4HiAeoDsW93+mSte5m9vG9GCV7/WxZAaKgob+BNj4wYiBM
+ /fmBh5EIVfItbBLgTfyk7MoBdwhiPNIQn/SH35J/yW2nIAtSj2LT2BJW258mEkzy918S
+ 2h0WanlThnvBSF9mM8DobzH683GiI7ncz/OCe+3FoF+dVmWa8IUyLWjwACaW2JDfVEkR
+ RmKdIgz/fuC4rXkRASym5ojC384gOjtaSG/MhHhtHlNuGVcWLbEzCq20U78ubduEFcJL
+ 78BQ==
+X-Gm-Message-State: AOAM533Ej7vlAC6F8hHKGMW58EaTTNL08tBTaVqGzGgJcOKptehwdUJv
+ nDJPbK2nVzsakGtMANNqm6A=
+X-Google-Smtp-Source: ABdhPJwT537UZ1dwV4vW9QvA+WiaqeACJdfVyFO4VzY8YY8UbyxdvzrCOOZm/KGZUUnR/E2tVWGcFg==
+X-Received: by 2002:a17:906:39c3:: with SMTP id
+ i3mr15943939eje.377.1617973924871; 
+ Fri, 09 Apr 2021 06:12:04 -0700 (PDT)
+Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.17])
+ by smtp.gmail.com with ESMTPSA id e5sm1407073edr.64.2021.04.09.06.12.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Apr 2021 06:12:03 -0700 (PDT)
+Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
+ clock propagation
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] linux-user: Use signed lengths in uaccess.c
-Date: Fri,  9 Apr 2021 15:09:31 +0200
-Message-Id: <20210409130931.382887-2-laurent@vivier.eu>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210409130931.382887-1-laurent@vivier.eu>
-References: <20210409130931.382887-1-laurent@vivier.eu>
+References: <20210409062401.2350436-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <774acc32-2d5a-298e-f47b-df763f86ad2d@amsat.org>
+Date: Fri, 9 Apr 2021 15:12:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210409062401.2350436-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:14RCEMsWGYmT6btiYmyHUgJHs6icoawS3iuqva5Z1kDFgIjcAwu
- GDnnw0g4lgczb55EjKdjo5S+Gq9xwI+MvBToGD/avZy00T+ip14/Fr6DVWwU2g9nux6p/kr
- CrKOlBn6/ShVaZi0+7moF5TOEbgrl1T2cAZ8EqVf3vcOYDCnXspRvCRSWnubT5PHwIu6fFx
- 8rtSIsoeeH/wrXtseZ6Uw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YFLv/vX0vbs=:9stfelHvIrT9CJQuCozAke
- hh3Kfnk2f+XuN9Nv5wHIkl+rCUM3psc6TXvo8y+4fQjzJbYWRwTChqQE0vh75dLd66HeQ4Rxw
- kC9p5sNEtS9CZzt7IFMp2kM/51CwbI2fzxpeQgXgzNQA8VKGevix5avstecHlfUKHUXb31VYB
- 8gIhH/kokVA60GOdUrypsq+C1Lk6EFMfGopDfIklDFS97U5EOBGfHe22OUV9H4gZDSbi5KH0g
- J+0ZPtuGeRz34VjnG5WSPqtJfSjgzN1Fhnv/EjYkNebhGRupaLcRL4YALzPjuzMdHzU0Ym6EB
- u4XfS0Nv47kbd0Fqg1myyKQDoYnwn2MyJYbi3Z/VW8sBd3dV1c0y7Jt8JhaeGeF0Ymq2R2e4L
- +fJZ5vXM7QgToZjclXgUQAncuVM8HkKRTgj/BspPbFHCHIW8ix+YWwlH9dNsh6v0/6VYQuVyp
- dV0LEzXu6/oltxmaHcqDJhBZQT5AtV/UFfTuLD3Gm0B3zzUeu9mI
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,126 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 4/9/21 8:23 AM, Philippe Mathieu-Daudé wrote:
+> Hi Damian, Luc, Peter.
+> 
+> I've been debugging some odd issue with the clocks:
+> a clock created in the machine (IOW, not a qdev clock) isn't
+> always resetted, thus propagating its value.
+> "not always" is the odd part. In the MPS2 board, the machine
+> clock is propagated. Apparently because the peripherals are
+> created directly in the machine_init() handler. When moving
+> them out in a SoC QOM container, the clock isn't... I'm still
+> having hard time to understand what is going on.
+> 
+> Alternatively I tried to strengthen the clock API by reducing
+> the clock creation in 2 cases: machine/device. This way clocks
+> aren't left dangling around alone. The qdev clocks are properly
+> resetted, and for the machine clocks I register a generic reset
+> handler. This way is safer, but I don't think we want to keep
+> adding generic reset handlers, instead we'd like to remove them.
+> 
+> I'll keep debugging to understand. Meanwhile posting this series
+> as RFC to get feedback on the approach and start discussing on
+> this issue.
 
-Partially revert 09f679b62dff, but only for the length arguments.
-Instead of reverting to long, use ssize_t.  Reinstate the > 0 check
-in unlock_user.
+I wonder if this could be the culprit:
 
-Fixes: 09f679b62dff
-Reported-by: Coverity (CID 1446711)
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210315204004.2025219-1-richard.henderson@linaro.org>
-[lv: remove superfluous semicolon]
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/qemu.h    | 15 +++++++++------
- linux-user/uaccess.c | 12 ++++++------
- 2 files changed, 15 insertions(+), 12 deletions(-)
+  commit 96250eab904261b31d9d1ac3abbdb36737635ffa
+  Author: Philippe Mathieu-Daudé <f4bug@amsat.org>
+  Date:   Fri Aug 28 10:02:44 2020 +0100
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 52c981710b4c..74e06e7121c5 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -627,8 +627,8 @@ static inline bool access_ok(CPUState *cpu, int type,
-  * buffers between the target and host.  These internally perform
-  * locking/unlocking of the memory.
-  */
--int copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
--int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
-+int copy_from_user(void *hptr, abi_ulong gaddr, ssize_t len);
-+int copy_to_user(abi_ulong gaddr, void *hptr, ssize_t len);
- 
- /* Functions for accessing guest memory.  The tget and tput functions
-    read/write single values, byteswapping as necessary.  The lock_user function
-@@ -638,16 +638,19 @@ int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
- 
- /* Lock an area of guest memory into the host.  If copy is true then the
-    host area will have the same contents as the guest.  */
--void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy);
-+void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy);
- 
- /* Unlock an area of guest memory.  The first LEN bytes must be
-    flushed back to guest memory. host_ptr = NULL is explicitly
-    allowed and does nothing. */
- #ifndef DEBUG_REMAP
--static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
--{ }
-+static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
-+                               ssize_t len)
-+{
-+    /* no-op */
-+}
- #else
--void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
-+void unlock_user(void *host_ptr, abi_ulong guest_addr, ssize_t len);
- #endif
- 
- /* Return the length of a string in target memory or -TARGET_EFAULT if
-diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-index c69691301637..6a5b029607c6 100644
---- a/linux-user/uaccess.c
-+++ b/linux-user/uaccess.c
-@@ -4,7 +4,7 @@
- 
- #include "qemu.h"
- 
--void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
-+void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy)
- {
-     void *host_addr;
- 
-@@ -24,7 +24,7 @@ void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
- }
- 
- #ifdef DEBUG_REMAP
--void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
-+void unlock_user(void *host_ptr, abi_ulong guest_addr, ssize_t len)
- {
-     void *host_ptr_conv;
- 
-@@ -35,7 +35,7 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
-     if (host_ptr == host_ptr_conv) {
-         return;
-     }
--    if (len != 0) {
-+    if (len > 0) {
-         memcpy(host_ptr_conv, host_ptr, len);
-     }
-     g_free(host_ptr);
-@@ -48,14 +48,14 @@ void *lock_user_string(abi_ulong guest_addr)
-     if (len < 0) {
-         return NULL;
-     }
--    return lock_user(VERIFY_READ, guest_addr, (size_t)len + 1, 1);
-+    return lock_user(VERIFY_READ, guest_addr, len + 1, 1);
- }
- 
- /* copy_from_user() and copy_to_user() are usually used to copy data
-  * buffers between the target and host.  These internally perform
-  * locking/unlocking of the memory.
-  */
--int copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
-+int copy_from_user(void *hptr, abi_ulong gaddr, ssize_t len)
- {
-     int ret = 0;
-     void *ghptr = lock_user(VERIFY_READ, gaddr, len, 1);
-@@ -69,7 +69,7 @@ int copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
-     return ret;
- }
- 
--int copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
-+int copy_to_user(abi_ulong gaddr, void *hptr, ssize_t len)
- {
-     int ret = 0;
-     void *ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0);
--- 
-2.30.2
+      hw/clock: Only propagate clock changes if the clock is changed
 
+      Avoid propagating the clock change when the clock does not change.
+
+  diff --git a/include/hw/clock.h b/include/hw/clock.h
+  index d85af45c967..9ecd78b2c30 100644
+  --- a/include/hw/clock.h
+  +++ b/include/hw/clock.h
+  @@ -165,8 +165,9 @@ void clock_propagate(Clock *clk);
+    */
+   static inline void clock_update(Clock *clk, uint64_t value)
+   {
+  -    clock_set(clk, value);
+  -    clock_propagate(clk);
+  +    if (clock_set(clk, value)) {
+  +        clock_propagate(clk);
+  +    }
+   }
+
+I.e.:
+
+- first use clock_set() to set the new period
+- then call clock_update() with the same "new period"
+
+-> the clock parent already has the new period, so the
+   children are not updated.
 
