@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB2D359EB6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:31:28 +0200 (CEST)
-Received: from localhost ([::1]:47094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E78D359ED9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:35:44 +0200 (CEST)
+Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUqIJ-0001nF-5r
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:31:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48272)
+	id 1lUqMR-0005jp-7M
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=726c96411=alistair.francis@wdc.com>)
- id 1lUqAC-00014Z-Rm; Fri, 09 Apr 2021 08:23:04 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:34671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=726c96411=alistair.francis@wdc.com>)
- id 1lUqAB-00019E-0n; Fri, 09 Apr 2021 08:23:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1617970983; x=1649506983;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=KkDjpKvdbSqWZYz4gimKn3z3IypB+PZxsPks2j19z+M=;
- b=FLMKfYSEjgxNHkjChurFrlg0RoB6XfuToAH/4GFKAyEIHQgBmQ897iGF
- RNV0rxLzciRmNp9njUJUtArFXDqCGmBP3qhoEudJPV5D089F0IYG3dLRI
- vRUmTXBXiDlpQnave+Jq8jD4FGLuaVuu7rcQR3SdQOuL2+fdFvCn+lgjj
- Tp4427oR/Bb47XYvk7I9ZOVW3M2OdRsiqkXFnt2U+ObSDFdS2gv9YRYYN
- iWqKhOJHYI57LbcMsZ952nB2HlPvNBVaygK+EvhsZ1cY+ofqAX3XNBqVc
- H3uKRoSIUirUKs2sTOD3HK0ZXBBGIpl5Xn9D1hQCAP2eIoWGYR9oUzwOh Q==;
-IronPort-SDR: ncPC17b466AKcz+ZGktNSVpXVsuxJ8GFgO8Sxj0VTB64z+RUM8DiWCjNP04j1LW6Tno5c+d79Z
- aI/XwVCC9S19MczlW0JMRNdvnzg+nn9s66kzAny2WrBBFVJnA8WVRiWvvvmqiYbSz8X9b2plCb
- aNETpC3Rlb+9B6mYG0tXcQk94aD5BUZ1na6fE6rRLoCrpWoJcGWhFMrxJ+Nz8PTVQ/7P6HJzyo
- R60QBBCfIm2GV3GmrmSGNjxeS0ptr0IRF3pen+3RQchZ9xFNJfsf0xqDLERTmj0F3mnCTocBh0
- F4s=
-X-IronPort-AV: E=Sophos;i="5.82,209,1613404800"; d="scan'208";a="275175998"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 09 Apr 2021 20:23:01 +0800
-IronPort-SDR: pzePf3DuZ4MVLcfdGfrHSho59VzxcCzq/Z62xeBU/wVUI7HFHeL8L8a/TGFS0C3UmYoaC9ptPT
- TBHXblwBdtopbjDsx2gmX+d/6al8KPcsL48Q24Jb9LEvkO39oLSi80erjlJF2Qg8l4R+pEX+6O
- Ps6hhWOGxsn01XIefp/bDuwu5myjFDoB5kjRFNQwB3SLkG88NkdSPCgciKYf58gmLL1XPOKc6w
- 4YHn8/IfPWcfCBBmzWApHllrj7RxKak0NwTrdX7YOciZrWkVNkJnO8hdos9hBBSaF+8vnWLrSU
- e5oQj2AuSkFSivEdzttCbyvA
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2021 05:02:36 -0700
-IronPort-SDR: 557gYMeZ0DEp43yQ6v+cbOk3TQNl5y7VKhBFJQiPEkeWBmShyEG4/fK1ZNDon+h5Br7jPcH86T
- W90eaPuuQsNaR9CnXg1jp3YTm8WSYQkAW/cDmqWmp8av+kFqmP734nAnl2+8G5q8/a5RHODYdB
- 7B/lNgem7zk2lqsy0JEs5wIYd7RLuvT/pL7ceHNA8F+9o4QDJOxOyVX3A9vq8dDfi3mvc+wCww
- wBENuj8PG3WfmA1Yn0dKck/MoUhANVlCbMygbz38bEavdGhyeuyngk7MvkXPWPdlXCfeMeIL/0
- M6Q=
-WDCIronportException: Internal
-Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.167.98])
- by uls-op-cesaip01.wdc.com with ESMTP; 09 Apr 2021 05:23:00 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 8/8] target/riscv: Add ePMP support for the Ibex CPU
-Date: Fri,  9 Apr 2021 08:20:58 -0400
-Message-Id: <9bb6c290fe33b23bb7ff5e650661c74fbb38d90e.1617970729.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <cover.1617970729.git.alistair.francis@wdc.com>
-References: <cover.1617970729.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lUqID-0002Ps-Tx; Fri, 09 Apr 2021 08:31:21 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:38556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lUqIC-0005il-5c; Fri, 09 Apr 2021 08:31:21 -0400
+Received: by mail-pg1-x533.google.com with SMTP id w10so3791984pgh.5;
+ Fri, 09 Apr 2021 05:31:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=V/MEUL4p5cmiEjYvhiillfBRUDcxzwONZbAaZ9BJjpg=;
+ b=QmwD+SxYAI1WUz9smK58o005iCgXMe+0omjYjarcTB9Gp822l8VUYIdihWaYzcqRwp
+ nXFL+Bp06UfIsvU0w+6atjcEtb4Af6CvyqJsrzdPO9OTkVDBnOvR33ah92e6eo1uj6Pj
+ FdbTPe1hXWZMN+p+qbz8SsozFP46VrvB+LoKpgjQYFqMGP+r55aRWWFJ514Oy0Fsda9h
+ bMaDZ6ZxRCPjWq8/tirT/TA/ywZ8+l0+6fFpP40Ke8uhOlPFRFuQL5QlXy6Ll/Ymdg2t
+ 6GOZ9l934bt1nrlp9QypyaxQV0ctMaH4zzu0iz/wfusJqOe3qOBiAbvjBL9jqrpY64lE
+ iI1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=V/MEUL4p5cmiEjYvhiillfBRUDcxzwONZbAaZ9BJjpg=;
+ b=LmjHlALlaUKbPezA9hxxAL0rEzjl1K+w8eIKupEbrORYXw9f6ztCnpWUClmfGEAWPC
+ Gb7tNzFsu9hUt3CqP2qVjZBD863j5UR5k7P+JTEQbqa1geai3dDDO6q6nq9zrYIPEXbD
+ 50eJNEn1Oc8551NAVKzZ1nppdAZi6xJ2t3ROZKy6aX3yn2wfjk1yCHMNXJ1fOqQ2ew2M
+ VryHl0mETgLOfdnkBCQwK5IWuAxlHP+pZJ2I2wbi13Z/X00fFbeVliQkOlP6DuY0nrEO
+ UGl5CzCXJwzo2WXOTktOTMMY9RuasnxdU1kDyoVYHbyM5Y4FlXdBGXXrdQfzdINzegwB
+ mWCw==
+X-Gm-Message-State: AOAM531d263fLqYmuRlJ2eM2RmBmsp2d5LzC5HKWjIkCkquPsJ02n+WG
+ mBBWYgd/Mx/jS/77BOnB4Ak=
+X-Google-Smtp-Source: ABdhPJyihwtGR/UMuI5XwQ1PCoEm6bqczFJeB2XXcBgt1duOXBMkNhgqbY4XCb2Z41s+fzzetlHiUw==
+X-Received: by 2002:a63:4924:: with SMTP id w36mr13131040pga.212.1617971478220; 
+ Fri, 09 Apr 2021 05:31:18 -0700 (PDT)
+Received: from localhost ([58.127.46.74])
+ by smtp.gmail.com with ESMTPSA id z195sm1416246pfc.146.2021.04.09.05.31.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Apr 2021 05:31:17 -0700 (PDT)
+Date: Fri, 9 Apr 2021 21:31:15 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH] hw/block/nvme: slba equal to nsze is out of bounds if
+ nlb is 1-based
+Message-ID: <20210409123115.GG2085@localhost>
+References: <CGME20210409074451epcas5p391e5b072e6245b8fe691d67bb42fb234@epcas5p3.samsung.com>
+ <20210409074402.7342-1-anaidu.gollu@samsung.com>
+ <20210409110518.GC2085@localhost>
+ <YHBAlXnRdYTU1m1P@apples.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=726c96411=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YHBAlXnRdYTU1m1P@apples.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,33 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The physical Ibex CPU has ePMP support and it's enabled for the
-OpenTitan machine so let's enable ePMP support for the Ibex CPU in QEMU.
+On 21-04-09 13:55:01, Klaus Jensen wrote:
+> On Apr  9 20:05, Minwoo Im wrote:
+> > On 21-04-09 13:14:02, Gollu Appalanaidu wrote:
+> > > NSZE is the total size of the namespace in logical blocks. So the max
+> > > addressable logical block is NLB minus 1. So your starting logical
+> > > block is equal to NSZE it is a out of range.
+> > > 
+> > > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> > > ---
+> > >  hw/block/nvme.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index 953ec64729..be9edb1158 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -2527,7 +2527,7 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+> > >              uint64_t slba = le64_to_cpu(range[i].slba);
+> > >              uint32_t nlb = le32_to_cpu(range[i].nlb);
+> > > 
+> > > -            if (nvme_check_bounds(ns, slba, nlb)) {
+> > > +            if (nvme_check_bounds(ns, slba, nlb) || slba == ns->id_ns.nsze) {
+> > 
+> > This patch also looks like check the boundary about slba.  Should it be
+> > also checked inside of nvme_check_bounds() ?
+> 
+> The catch here is that DSM is like the only command where the number of
+> logical blocks is a 1s-based value. Otherwise we always have nlb > 0, which
+> means that nvme_check_bounds() will always "do the right thing".
+> 
+> My main gripe here is that (in my mind), by definition, a "zero length
+> range" does not reference any LBAs at all. So how can it result in LBA Out
+> of Range?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+Even if this is not the LBA out of range case which is currently what
+nvme_check_bounds() checking, but I thought the function checks the
+bounds so that we can add one more check inside of that function like:
+(If SLBA is 0-based or not, slba should not be nsze, isn't it ?)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 66787d019c..4bf6a00636 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -202,6 +202,7 @@ static void rv32_ibex_cpu_init(Object *obj)
-     set_misa(env, RV32 | RVI | RVM | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
-+    qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
- }
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 7244534a89e9..25a7db5ecbd8 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1415,6 +1415,10 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
+ {
+     uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
  
- static void rv32_imafcu_nommu_cpu_init(Object *obj)
--- 
-2.31.0
++    if (slba == nsze) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
+     if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
+         return NVME_LBA_RANGE | NVME_DNR;
+     }
 
+Or am I missing something here ;) ?
 
