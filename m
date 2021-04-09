@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96C835914D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 03:21:08 +0200 (CEST)
-Received: from localhost ([::1]:41754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8375635915D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 03:24:15 +0200 (CEST)
+Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUfpb-0004fr-US
-	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 21:21:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52860)
+	id 1lUfsc-0000Xx-7U
+	for lists+qemu-devel@lfdr.de; Thu, 08 Apr 2021 21:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUfdL-00062e-T6
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:27 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:6254)
+ id 1lUfdW-0006XM-Ta
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:38 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:6259)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1lUfdD-0001Cp-Nc
- for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:27 -0400
+ id 1lUfdV-0001DR-4R
+ for qemu-devel@nongnu.org; Thu, 08 Apr 2021 21:08:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1617930499; x=1649466499;
+ t=1617930517; x=1649466517;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OCp23wWDg8WaOnEtfyBkfbvmgY5MUWJzXwO+Ml3VVpg=;
- b=k1x4CXzEhbwPTzybWCnBmcul9bvsRiqT9O3NvXL0n0TefCX1+81IfQkU
- /ZJesMk7oVsNb4dO0PMJlW+D8nFW0hcEGvRpvhu93lh94cqmc7MMHwwj0
- iAqfhwedhyljATJDDTT+iea71M5IcV7r4uxjXw9kIZ+wo2oUnSjdMrDV6 g=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ bh=ED/WXV/vDcybZkRJKhvSY84juapDoZ5oCSBTBaK0Bds=;
+ b=F1FG2ZT1peQHGElGPxjT5mJsHdZ3tjzHGPiiImYvNld/SeZBi6Zcd/2V
+ 8oWUV4X3+BPOoFWLfoRg0j1AIWRf5uW/qyWxAZDeU5/Z4TP70Wu0tDGdL
+ RWLCTz2Xz7uwhdI1wWRzIIyU4p3j34hM1OLFMDn8opCiMQjYqlaGJCPLF c=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
  by alexa-out-sd-02.qualcomm.com with ESMTP; 08 Apr 2021 18:07:58 -0700
 X-QCInternal: smtphost
 Received: from vu-tsimpson-aus.qualcomm.com (HELO
  vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP; 08 Apr 2021 18:07:57 -0700
+ by ironmsg05-sd.qualcomm.com with ESMTP; 08 Apr 2021 18:07:58 -0700
 Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 6DEA7166E; Thu,  8 Apr 2021 20:07:56 -0500 (CDT)
+ id 887E4156E; Thu,  8 Apr 2021 20:07:56 -0500 (CDT)
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/26] Hexagon (target/hexagon) cleanup ternary operators
- in semantics
-Date: Thu,  8 Apr 2021 20:07:41 -0500
-Message-Id: <1617930474-31979-14-git-send-email-tsimpson@quicinc.com>
+Subject: [PATCH v4 14/26] Hexagon (target/hexagon) cleanup reg_field_info
+ definition
+Date: Thu,  8 Apr 2021 20:07:42 -0500
+Message-Id: <1617930474-31979-15-git-send-email-tsimpson@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
 References: <1617930474-31979-1-git-send-email-tsimpson@quicinc.com>
@@ -74,73 +74,53 @@ Cc: ale@rev.ng, philmd@redhat.com, tsimpson@quicinc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change  (cond ? (res = x) : (res = y)) to res = (cond ? x : y)
+Include size in declaration
+Remove {0, 0} entry
 
-This makes the semnatics easier to for idef-parser to deal with
-
-The following instructions are impacted
-    C2_any8
-    C2_all8
-    C2_mux
-    C2_muxii
-    C2_muxir
-    C2_muxri
-
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/imported/compare.idef | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ target/hexagon/reg_fields.c | 3 +--
+ target/hexagon/reg_fields.h | 4 ++--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/hexagon/imported/compare.idef b/target/hexagon/imported/compare.idef
-index 3551467..abd016f 100644
---- a/target/hexagon/imported/compare.idef
-+++ b/target/hexagon/imported/compare.idef
-@@ -198,11 +198,11 @@ Q6INSN(C4_or_orn,"Pd4=or(Ps4,or(Pt4,!Pu4))",ATTRIBS(A_CRSLOT23),
+diff --git a/target/hexagon/reg_fields.c b/target/hexagon/reg_fields.c
+index bdcab79..6713203 100644
+--- a/target/hexagon/reg_fields.c
++++ b/target/hexagon/reg_fields.c
+@@ -18,10 +18,9 @@
+ #include "qemu/osdep.h"
+ #include "reg_fields.h"
  
- Q6INSN(C2_any8,"Pd4=any8(Ps4)",ATTRIBS(A_CRSLOT23),
- "Logical ANY of low 8 predicate bits",
--{ PsV ? (PdV=0xff) : (PdV=0x00); })
-+{ PdV = (PsV ? 0xff : 0x00); })
+-const RegField reg_field_info[] = {
++const RegField reg_field_info[NUM_REG_FIELDS] = {
+ #define DEF_REG_FIELD(TAG, START, WIDTH)    \
+       { START, WIDTH },
+ #include "reg_fields_def.h.inc"
+-      { 0, 0 }
+ #undef DEF_REG_FIELD
+ };
+diff --git a/target/hexagon/reg_fields.h b/target/hexagon/reg_fields.h
+index d3c86c9..9e2ad5d 100644
+--- a/target/hexagon/reg_fields.h
++++ b/target/hexagon/reg_fields.h
+@@ -23,8 +23,6 @@ typedef struct {
+     int width;
+ } RegField;
  
- Q6INSN(C2_all8,"Pd4=all8(Ps4)",ATTRIBS(A_CRSLOT23),
- "Logical ALL of low 8 predicate bits",
--{ (PsV==0xff) ? (PdV=0xff) : (PdV=0x00); })
-+{ PdV = (PsV == 0xff ? 0xff : 0x00); })
+-extern const RegField reg_field_info[];
+-
+ enum {
+ #define DEF_REG_FIELD(TAG, START, WIDTH) \
+     TAG,
+@@ -33,4 +31,6 @@ enum {
+ #undef DEF_REG_FIELD
+ };
  
- Q6INSN(C2_vitpack,"Rd32=vitpack(Ps4,Pt4)",ATTRIBS(),
- "Pack the odd and even bits of two predicate registers",
-@@ -212,7 +212,7 @@ Q6INSN(C2_vitpack,"Rd32=vitpack(Ps4,Pt4)",ATTRIBS(),
- 
- Q6INSN(C2_mux,"Rd32=mux(Pu4,Rs32,Rt32)",ATTRIBS(),
- "Scalar MUX",
--{ (fLSBOLD(PuV)) ? (RdV=RsV):(RdV=RtV); })
-+{ RdV = (fLSBOLD(PuV) ? RsV : RtV); })
- 
- 
- Q6INSN(C2_cmovenewit,"if (Pu4.new) Rd32=#s12",ATTRIBS(A_ARCHV2),
-@@ -269,18 +269,18 @@ Q6INSN(C2_ccombinewf,"if (!Pu4) Rdd32=combine(Rs32,Rt32)",ATTRIBS(A_ARCHV2),
- 
- Q6INSN(C2_muxii,"Rd32=mux(Pu4,#s8,#S8)",ATTRIBS(A_ARCHV2),
- "Scalar MUX immediates",
--{ fIMMEXT(siV); (fLSBOLD(PuV)) ? (RdV=siV):(RdV=SiV); })
-+{ fIMMEXT(siV); RdV = (fLSBOLD(PuV) ? siV : SiV); })
- 
- 
- 
- Q6INSN(C2_muxir,"Rd32=mux(Pu4,Rs32,#s8)",ATTRIBS(A_ARCHV2),
- "Scalar MUX register immediate",
--{ fIMMEXT(siV); (fLSBOLD(PuV)) ? (RdV=RsV):(RdV=siV); })
-+{ fIMMEXT(siV); RdV = (fLSBOLD(PuV) ? RsV : siV); })
- 
- 
- Q6INSN(C2_muxri,"Rd32=mux(Pu4,#s8,Rs32)",ATTRIBS(A_ARCHV2),
- "Scalar MUX register immediate",
--{ fIMMEXT(siV); (fLSBOLD(PuV)) ? (RdV=siV):(RdV=RsV); })
-+{ fIMMEXT(siV); RdV = (fLSBOLD(PuV) ? siV : RsV); })
- 
- 
- 
++extern const RegField reg_field_info[NUM_REG_FIELDS];
++
+ #endif
 -- 
 2.7.4
 
