@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0224359CC4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 13:13:02 +0200 (CEST)
-Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A8F359CA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 13:07:04 +0200 (CEST)
+Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUp4P-0001XH-NY
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 07:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
+	id 1lUoya-0005Qc-Ul
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 07:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lUp2a-0000Oi-Qa
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 07:11:09 -0400
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:48534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lUp2W-0001RE-KT
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 07:11:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1617966664;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=mV5wkRhTj1XR3mr5lXH6PkobsVTQTCIQ/d/jDKmZOig=;
- b=b5gffxWf/VvfcUQEZ18E/skJ6gpn1QNWvlHLkUFPNHnidvzr5fLwWhcS
- 4Yo77L+kIFyN6O5sRCJ4HteRgJsETIdeZmXEuApEMLpp22DmcyCqytdL7
- 76QojRbYoV4V0EjWy1umoniY+Sa4bBzMa3oj/WhqTtPqwEozjDnF2SImg Q=;
-Authentication-Results: esa1.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: vi7MDkjMAv45IhMxTjeXx6J/XnIDuVRnuvgfs9sclh/X1K0sxSyeF4THxvdboaly+NMvFwrPki
- dnGu6GyF93xTdCLg7VWslQRkD1WiCMTW9a7pYgVlUhow7iLrsh/z7gF8zzAJyRRSmVAMllbbAu
- 7yQPv0jmwC05HFzSIHPOP/Q1nruI8AqFtGOa+Fg/vmTG9KmFktzDkGfbyuzx6gxoFSY+F0MrJi
- zi4MpFK4eTVZ/UNhxvb8djCmry/JJD0/vIUKvq7fZg397UmZO7Pkg8/ZhevMbLFBvsxClxO6Os
- N0U=
-X-SBRS: 4.0
-X-MesageID: 41637793
-X-Ironport-Server: esa1.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-IronPort-HdrOrdr: A9a23:N7TN/61kQmel9KuES08l1AqjBAIkLtp033Aq2lEZdDV+WKWj9v
- yGtvIdyBPylXI9WGs4n8qBJamHRhrnhPlIyKMWOqqvWxSjhXChK5ts4ZCn7zrrHSD/8eA179
- YHT4FVDtrsAV9myfvr+QXQKadF/PCr+L2l7N2z815DVgdvApsO0y5YDUKhHlRyVE16A/MCZe
- Ohz+5mgxblRngNdMS8ARA+Lo3+jvnGjojvbxJDJzNP0njssRqS5LT3EweV034lOlslq9of2F
- PInADj6qKov+vT8G6/60bp44lLg9yk89NfBaW3+7AoAw/xgQWlbpkJYd2/lQ0yydvA1GoX
-X-IronPort-AV: E=Sophos;i="5.82,209,1613451600"; d="scan'208";a="41637793"
-Date: Fri, 9 Apr 2021 11:59:14 +0100
-To: George Dunlap <George.Dunlap@citrix.com>
-CC: Stefano Garzarella <sgarzare@redhat.com>, John Simpson
- <ttr9droid@gmail.com>, xen-devel <xen-devel@lists.xenproject.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: An error due to installation that require binutils package
-Message-ID: <YHAzgmeVXHUZrgwd@perard>
-References: <CAKqicRBsCxFY=A=RD6kHaZa7bFag+hmUkwAJc-LSYy8XvsbGPg@mail.gmail.com>
- <889B1827-1FEB-4AC0-9002-278337D19ED5@citrix.com>
- <CAKqicRCiahd5bt1Qo=Mdh4DYRQbGWf410gF=CG51J9AD=4YwmA@mail.gmail.com>
- <20210330124646.jl4re5srmbzhkipm@steredhat>
- <2BBB0D5A-87FA-49A7-AA75-08CB20078D49@citrix.com>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lUox5-0004Vw-F6; Fri, 09 Apr 2021 07:05:27 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:46781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lUox2-00069z-5b; Fri, 09 Apr 2021 07:05:27 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ q6-20020a17090a4306b02900c42a012202so2989333pjg.5; 
+ Fri, 09 Apr 2021 04:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=mvfskGBMn+giMd72llWWOMby99isjyjFIhNPFY9sLRk=;
+ b=iiBor9w1+yK1pMNVg+7G3Vmi879FAQjnhRABksYg/68Eaa6qSKIp8zO0VaDUjVG4jG
+ JIM3L8GRGTWZvDWs6HPTgMNRenzio3lgLuxBal3Q1jhbKTrCyX8m2fA/XS5I8sTJIEbZ
+ bX237Jkn+lLocA6nPS9tgz8gYqdVeFv9vqReIfuFLNuWuV3QMT9531ZhrBZLvSCrtnEz
+ aRcGeVB1nf3GOsFn/irp3r5tslRgDq7HgaE27m2Im6o5cL4MCbxUbB4kMPD1mfixnGEn
+ jVOVxYTbfxy0pf5kE/MxHZX/kCg9nB2CSITwwEv+FPMFtGcmse/TffCA8V95kwkuXDEa
+ KUig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mvfskGBMn+giMd72llWWOMby99isjyjFIhNPFY9sLRk=;
+ b=nwM+3SsYHdqcfbudRykNbZNBDBMg3nauDkhncM6EdgFe42MKD0uTVOSdSuS0MoMl2E
+ RbHa9nurXYOMVhLo948gtlQ3iPNEgVBjKJ5e9IoCB0BrH/rwzWMhNOfrq7BG74es197I
+ d3DL7JAd54tHhLVY8d8HWZ5ZF0B6cohf/zy30ihPETFsdvMLNdqVBbZeqjUjdckLc4Jx
+ vJgCGvzx2rIdxCYfq1G6L4u9JTCunABFVmYsQ6FP9TSBhAdI/22IZFGDI0DQi892k2cJ
+ KML8UwJOgy67SLMRuu8UwFyohjORS7Yy8Sliv5RwvfRmN4t+GpZc/c/lJxfp/OjSbUx0
+ vw9A==
+X-Gm-Message-State: AOAM533+eastvT41afvrtQHF5UOULimeU9YtxyFMP2Bvrnexvb4TTUAI
+ XxnH8Hs6nYZ/iyc0+4GHAcg=
+X-Google-Smtp-Source: ABdhPJyKSnPDh6jD3NqsZteu4uJPEZcrpYbwrBYdIpaQ/JUh9HpgC7qDl9wHmYMo5RwKSj5HTWXS/g==
+X-Received: by 2002:a17:90b:b08:: with SMTP id
+ bf8mr13391374pjb.116.1617966321100; 
+ Fri, 09 Apr 2021 04:05:21 -0700 (PDT)
+Received: from localhost ([58.127.46.74])
+ by smtp.gmail.com with ESMTPSA id b7sm1984814pfd.55.2021.04.09.04.05.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Apr 2021 04:05:20 -0700 (PDT)
+Date: Fri, 9 Apr 2021 20:05:18 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH] hw/block/nvme: slba equal to nsze is out of bounds if
+ nlb is 1-based
+Message-ID: <20210409110518.GC2085@localhost>
+References: <CGME20210409074451epcas5p391e5b072e6245b8fe691d67bb42fb234@epcas5p3.samsung.com>
+ <20210409074402.7342-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2BBB0D5A-87FA-49A7-AA75-08CB20078D49@citrix.com>
-Received-SPF: pass client-ip=216.71.145.142;
- envelope-from=anthony.perard@citrix.com; helo=esa1.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210409074402.7342-1-anaidu.gollu@samsung.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,37 +85,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kbusch@kernel.org,
+ stefanha@redhat.com, its@irrelevant.dk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Wed, Mar 31, 2021 at 11:03:55AM +0100, George Dunlap wrote:
-> [Dropping some irrelevant cc’s]
+On 21-04-09 13:14:02, Gollu Appalanaidu wrote:
+> NSZE is the total size of the namespace in logical blocks. So the max
+> addressable logical block is NLB minus 1. So your starting logical
+> block is equal to NSZE it is a out of range.
 > 
-> > On Mar 30, 2021, at 1:46 PM, Stefano Garzarella <sgarzare@redhat.com> wrote:
-> > 
-> > Hi John,
-> > 
-> > On Mon, Mar 29, 2021 at 09:46:49PM +0300, John Simpson wrote:
-> >> Hello,
-> >> 
-> >> Kindly ask you to have a look at this bug.
-> >> Thank you for your replies.
-> > 
-> > It's already fixed in QEMU upstream and the fix will be released with the 6.0 version next month (the rc0 is already available):
-> > https://gitlab.com/qemu-project/qemu/-/commit/bbd2d5a8120771ec59b86a80a1f51884e0a26e53
-> > 
-> > I guess xen-4.14.1 is using an older version, so if you want you can backport that patch in your version, the change should be simple.
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> ---
+>  hw/block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Anthony,
-> 
-> Is this the kind of thing we could / should cherry-pick onto our qemu-upstream branches (both 4.14 and 4.15)?
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 953ec64729..be9edb1158 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -2527,7 +2527,7 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+>              uint64_t slba = le64_to_cpu(range[i].slba);
+>              uint32_t nlb = le32_to_cpu(range[i].nlb);
+>  
+> -            if (nvme_check_bounds(ns, slba, nlb)) {
+> +            if (nvme_check_bounds(ns, slba, nlb) || slba == ns->id_ns.nsze) {
 
-Done, I've backport the build fix to both staging branch.
-
-Thanks,
-
--- 
-Anthony PERARD
+This patch also looks like check the boundary about slba.  Should it be
+also checked inside of nvme_check_bounds() ?
 
