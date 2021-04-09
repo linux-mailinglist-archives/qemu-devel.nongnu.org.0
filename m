@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF86359E51
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:08:20 +0200 (CEST)
-Received: from localhost ([::1]:35534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988EF359E52
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:08:33 +0200 (CEST)
+Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUpvn-0001Jg-OC
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
+	id 1lUpw8-0001Mp-Kv
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUpsO-00081C-O5
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUpsO-000811-F7
  for qemu-devel@nongnu.org; Fri, 09 Apr 2021 08:04:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49220)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUpsF-0008CE-Ma
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 08:04:40 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lUpsF-0008CF-Mj
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 08:04:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1617969869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Z6dLvZ8YP+Yl+xW3bdVREH4U8xj5aHz8eyD0h5XkWh8=;
- b=IMk/5ixriCtzFQvOHAHMXY4v5uMpGBoxYfl2sU80X/JVadiqSfn63jWeQHAXs+0JoU2bQH
- rrQvAwP1N0pxtl6gS+wXY/iTuZLptEfnptq60pDT7NdMOjcetbJhD9j9bY/cmtmoTzurPK
- FBFVpwsAVMk6SFBAE9fwJam6iVIHtMg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FkZP2zq258xND6bWKPiyXr/bfL8VH+g2g0DWI6QgFA4=;
+ b=fWmHzQhatw6vxrt3JPypHbZMkJytXFPe49V4KpWxOUNCvkU/9IeNjp26Z4/3AyvNgMs3gD
+ RjQzbRO2jcjDgPwXc94KX41SSuvTWONvNOt1d0TwnYe979VtWWFvF8ZMLXiAqv7kCrmm4E
+ zfwhBuA8mHbIqHV3kcHsAvHL3LLYmtw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-lyrdwzGFNW6sLkvmx_WVBw-1; Fri, 09 Apr 2021 08:04:25 -0400
-X-MC-Unique: lyrdwzGFNW6sLkvmx_WVBw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-459-tJd3-XtOPLeQwOR22hC_3Q-1; Fri, 09 Apr 2021 08:04:27 -0400
+X-MC-Unique: tJd3-XtOPLeQwOR22hC_3Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B18E018B62A3;
- Fri,  9 Apr 2021 12:04:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF7C08030B5;
+ Fri,  9 Apr 2021 12:04:26 +0000 (UTC)
 Received: from localhost (ovpn-114-67.ams2.redhat.com [10.36.114.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EF441001B2C;
- Fri,  9 Apr 2021 12:04:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A13719C71;
+ Fri,  9 Apr 2021 12:04:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/4] job: Allow complete for jobs on standby
-Date: Fri,  9 Apr 2021 14:04:17 +0200
-Message-Id: <20210409120422.144040-1-mreitz@redhat.com>
+Subject: [PATCH 1/4] mirror: Move open_backing_file to exit_common
+Date: Fri,  9 Apr 2021 14:04:18 +0200
+Message-Id: <20210409120422.144040-2-mreitz@redhat.com>
+In-Reply-To: <20210409120422.144040-1-mreitz@redhat.com>
+References: <20210409120422.144040-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -80,57 +83,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This is a graph change and therefore should be done in job-finalize
+(which is what invokes mirror_exit_common()).
 
-We sometimes have a problem with jobs remaining on STANDBY after a drain
-(for a short duration), so if the user immediately issues a
-block-job-complete, that will fail.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/mirror.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-(See also
-https://lists.nongnu.org/archive/html/qemu-block/2021-04/msg00215.html,
-which this series is an alternative for.)
-
-Looking at the only implementation of .complete(), which is
-mirror_complete(), it looks like there is basically nothing that would
-prevent it from being run while mirror is paused.  Really only the
-job_enter() at the end, which we should not and need not do when the job
-is paused.
-
-So make that conditional (patch 2), clean up the function on the way
-(patch 1, which moves one of its blocks to mirror_exit_common()), and
-then we can allow job_complete() on jobs that are on standby (patch 3).
-
-Patch 4 is basically the same test as in
-https://lists.nongnu.org/archive/html/qemu-block/2021-04/msg00214.html,
-except some comments are different and, well, job_complete() just works
-on STANDBY jobs.
-
-Patch 5 is an iotest that may or may not show the problem for you.  I’ve
-tuned the numbers so that on my machine, it fails about 50/50 without
-this series (i.e., the job is still on STANDBY and job_complete()
-refuses to do anything).
-
-I’m not sure we want that iotest, because it does quite a bit of I/O and
-it’s unreliable, and I don’t think there’s anything I can do to make it
-reliable.
-
-
-Max Reitz (5):
-  mirror: Move open_backing_file to exit_common
-  mirror: Do not enter a paused job on completion
-  job: Allow complete for jobs on standby
-  test-blockjob: Test job_wait_unpaused()
-  iotests: Test completion immediately after drain
-
- block/mirror.c                                |  28 ++--
- job.c                                         |   4 +-
- tests/unit/test-blockjob.c                    | 121 ++++++++++++++++++
- .../tests/mirror-complete-after-drain         |  89 +++++++++++++
- .../tests/mirror-complete-after-drain.out     |  14 ++
- 5 files changed, 239 insertions(+), 17 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/mirror-complete-after-drain
- create mode 100644 tests/qemu-iotests/tests/mirror-complete-after-drain.out
-
+diff --git a/block/mirror.c b/block/mirror.c
+index d7e54c0ff7..f1f936bf1a 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -689,6 +689,14 @@ static int mirror_exit_common(Job *job)
+                 ret = -EPERM;
+             }
+         }
++    } else if (!abort && s->backing_mode == MIRROR_OPEN_BACKING_CHAIN) {
++        assert(!bdrv_backing_chain_next(target_bs));
++        ret = bdrv_open_backing_file(bdrv_skip_filters(target_bs), NULL,
++                                     "backing", &local_err);
++        if (ret < 0) {
++            error_report_err(local_err);
++            local_err = NULL;
++        }
+     }
+ 
+     if (s->to_replace) {
+@@ -1107,9 +1115,6 @@ immediate_exit:
+ static void mirror_complete(Job *job, Error **errp)
+ {
+     MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
+-    BlockDriverState *target;
+-
+-    target = blk_bs(s->target);
+ 
+     if (!s->synced) {
+         error_setg(errp, "The active block job '%s' cannot be completed",
+@@ -1117,17 +1122,6 @@ static void mirror_complete(Job *job, Error **errp)
+         return;
+     }
+ 
+-    if (s->backing_mode == MIRROR_OPEN_BACKING_CHAIN) {
+-        int ret;
+-
+-        assert(!bdrv_backing_chain_next(target));
+-        ret = bdrv_open_backing_file(bdrv_skip_filters(target), NULL,
+-                                     "backing", errp);
+-        if (ret < 0) {
+-            return;
+-        }
+-    }
+-
+     /* block all operations on to_replace bs */
+     if (s->replaces) {
+         AioContext *replace_aio_context;
 -- 
 2.29.2
 
