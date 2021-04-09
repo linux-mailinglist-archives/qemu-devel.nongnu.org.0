@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0207935A7DB
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:29:49 +0200 (CEST)
-Received: from localhost ([::1]:56856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B3A35A7D0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:27:03 +0200 (CEST)
+Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUxlD-0005z4-Mg
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52626)
+	id 1lUxiY-00038Z-1c
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lUxee-00005Z-Ae
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:23:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25725)
+ id 1lUxec-0008WO-UK
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:22:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lUxeb-0004BK-B3
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:23:00 -0400
+ id 1lUxeb-0004BM-8u
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:22:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617999775;
+ s=mimecast20190719; t=1617999776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=liB2Vx01UETRmR85jAnvUN5jWJXLjBT8ZS9U0KHp2kw=;
- b=UKr9XIueSL6paZF3XE9PngrJJn67QikJQJvNsNpdvUZn+D+FUMutBRBwLx467JOx59WgOJ
- sFq3zloy+MhAQ9hi+pfRljk5xKt/uPwBPngveT2SH3MUIkgwYENnQtkpoV3ZV1Z36x5+OY
- H3ldBMbmfTnflraJEKhWCZLS6S+6zgU=
+ bh=A831zHdvpuQd0VH2Tp3eQkFBYyVatf0BAWnK+8L2BNA=;
+ b=AuTBFNk+/PHhQodcMwrrQ1VlvMv4FQsTwcOYA6wSp7nTBq9KAv1NPuVuLBlG7RojV18L/7
+ cU+hsrQnpd6OH0kJH4J/VNVDqAejVaEA4W9//iO1j0CABC8x8pbXj/1D53dGcrQpWwgqwe
+ S5T24MCWGo2Wq/7p+YzH/5HYNdv6sXo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-CELbe1VpNaaFzGi-ieajaQ-1; Fri, 09 Apr 2021 16:22:53 -0400
-X-MC-Unique: CELbe1VpNaaFzGi-ieajaQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-234-BjolE5WMMvuo7ykW875xQA-1; Fri, 09 Apr 2021 16:22:54 -0400
+X-MC-Unique: BjolE5WMMvuo7ykW875xQA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B8A1107ACCD;
- Fri,  9 Apr 2021 20:22:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A83018B614E;
+ Fri,  9 Apr 2021 20:22:53 +0000 (UTC)
 Received: from localhost (ovpn-118-57.rdu2.redhat.com [10.10.118.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32ADC5D6AD;
- Fri,  9 Apr 2021 20:22:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24C2E60916;
+ Fri,  9 Apr 2021 20:22:53 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/2] i386: Add missing cpu feature bits in EPYC-Rome model
-Date: Fri,  9 Apr 2021 16:22:45 -0400
-Message-Id: <20210409202246.1857179-2-ehabkost@redhat.com>
+Subject: [PULL 2/2] cpu/core: Fix "help" of CPU core device types
+Date: Fri,  9 Apr 2021 16:22:46 -0400
+Message-Id: <20210409202246.1857179-3-ehabkost@redhat.com>
 In-Reply-To: <20210409202246.1857179-1-ehabkost@redhat.com>
 References: <20210409202246.1857179-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,61 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Edmondson <david.edmondson@oracle.com>, Babu Moger <babu.moger@amd.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Babu Moger <babu.moger@amd.com>
+From: Greg Kurz <groug@kaod.org>
 
-Found the following cpu feature bits missing from EPYC-Rome model.
-ibrs    : Indirect Branch Restricted Speculation
-ssbd    : Speculative Store Bypass Disable
+Calling qdev_get_machine() from a QOM instance_init function is
+fragile because we can't be sure the machine object actually
+exists. And this happens to break when passing ",help" on the
+command line to get the list of properties for a CPU core
+device types :
 
-These new features will be added in EPYC-Rome-v2. The -cpu help output
-after the change.
+$ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
+qemu-system-ppc64: ../../hw/core/machine.c:1290:
+ qdev_get_machine: Assertion `machine != NULL' failed.
+Aborted (core dumped)
 
-x86 EPYC-Rome             (alias configured by machine type)
-x86 EPYC-Rome-v1          AMD EPYC-Rome Processor
-x86 EPYC-Rome-v2          AMD EPYC-Rome Processor
+This used to work before QEMU 5.0, but commit 3df261b6676b
+unwillingly introduced a subtle regression : the above command
+line needs to create an instance but the instance_init function
+of the base class calls qdev_get_machine() before
+qemu_create_machine() has been called, which is a programming bug.
 
-Reported-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Signed-off-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <161478622280.16275.6399866734509127420.stgit@bmoger-ubuntu>
+Use current_machine instead. It is okay to skip the setting of
+nr_thread in this case since only its type is displayed.
+
+Fixes: 3df261b6676b ("softmmu/vl.c: Handle '-cpu help' and '-device help' before 'no default machine'")
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Cc: peter.maydell@linaro.org
+Message-Id: <20210409160339.500167-3-groug@kaod.org>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/cpu/core.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b3e9467f17..ad99cad0e7c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4179,6 +4179,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .xlevel = 0x8000001E,
-         .model_id = "AMD EPYC-Rome Processor",
-         .cache_info = &epyc_rome_cache_info,
-+        .versions = (X86CPUVersionDefinition[]) {
-+            { .version = 1 },
-+            {
-+                .version = 2,
-+                .props = (PropValue[]) {
-+                    { "ibrs", "on" },
-+                    { "amd-ssbd", "on" },
-+                    { /* end of list */ }
-+                }
-+            },
-+            { /* end of list */ }
-+        }
-     },
-     {
-         .name = "EPYC-Milan",
+diff --git a/hw/cpu/core.c b/hw/cpu/core.c
+index 92d3b2fbad6..98760751557 100644
+--- a/hw/cpu/core.c
++++ b/hw/cpu/core.c
+@@ -66,10 +66,16 @@ static void core_prop_set_nr_threads(Object *obj, Visitor *v, const char *name,
+ 
+ static void cpu_core_instance_init(Object *obj)
+ {
+-    MachineState *ms = MACHINE(qdev_get_machine());
+     CPUCore *core = CPU_CORE(obj);
+ 
+-    core->nr_threads = ms->smp.threads;
++    /*
++     * Only '-device something-cpu-core,help' can get us there before
++     * the machine has been created. We don't care to set nr_threads
++     * in this case since it isn't used afterwards.
++     */
++    if (current_machine) {
++        core->nr_threads = current_machine->smp.threads;
++    }
+ }
+ 
+ static void cpu_core_class_init(ObjectClass *oc, void *data)
 -- 
 2.30.2
 
