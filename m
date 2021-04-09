@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C44E35A799
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:08:23 +0200 (CEST)
-Received: from localhost ([::1]:46018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916AD35A7C5
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 22:21:37 +0200 (CEST)
+Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUxQU-0005BU-EB
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
+	id 1lUxdI-0004xV-J2
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 16:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lUxN7-0004CP-J2
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:04:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lUxN3-00033M-Jy
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617998688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=R9LK2CvoUi19n2YcHYjSja0IZ31QzQN4HTtLZeaY6yI=;
- b=SKlRHPltHpIResNOa2V+gg3NDRETRgkYDdSC4bJc/bA17q7eWmejX+t0uMx8kWDJtPzaiv
- pOomzCq7I+A+vw6YB99d8icjxcX/reu7znni4No9Dl/GGBoTj4JRcAfZXs2cdZobxNsib+
- QxXus8yc4nkz+Enc18zLk0e+5+0Y22U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-plo05MDRMSOPVTFuDER2gw-1; Fri, 09 Apr 2021 16:04:44 -0400
-X-MC-Unique: plo05MDRMSOPVTFuDER2gw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A582B107ACCA;
- Fri,  9 Apr 2021 20:04:43 +0000 (UTC)
-Received: from localhost (ovpn-118-57.rdu2.redhat.com [10.10.118.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C82E5C1D5;
- Fri,  9 Apr 2021 20:04:43 +0000 (UTC)
-Date: Fri, 9 Apr 2021 16:04:42 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/2] cpu/core: Fix "help" of CPU core device types
-Message-ID: <20210409200442.ls2jzd6drgy2l7dn@habkost.net>
-References: <20210409160339.500167-1-groug@kaod.org>
- <20210409160339.500167-3-groug@kaod.org>
-MIME-Version: 1.0
-In-Reply-To: <20210409160339.500167-3-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from
+ <3u7VwYAcKCvIpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com>)
+ id 1lUxWu-0008OC-2x
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:15:00 -0400
+Received: from mail-qk1-x74a.google.com ([2607:f8b0:4864:20::74a]:37911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3u7VwYAcKCvIpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com>)
+ id 1lUxWq-0000EQ-F8
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 16:14:59 -0400
+Received: by mail-qk1-x74a.google.com with SMTP id k188so4074190qkb.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 13:14:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=Fzzl4rCkNO9vRv+OpxpwcwxkFHE7+hBWsSGwCKZGktM=;
+ b=vr8lOFqxAx2TUDdnYEQljEPB2Ir44MLgO4/q/dh/SEQUeyLhNBQ2yEsNbBsEC0bsK0
+ pfRd6ihYhdq3ny4uvsEEQipaYiR3OEnqq2fnBA8GmbJ8zEQw5g2B57oqffifq3L5nCPh
+ ervFVjSEOZ+9q1vUosruUxFFpWQi0M7SQ2Z1o75vHECveZEOnv2s5N7A5S5n1lDAki3V
+ m6eW+JGBh7JJn6/m5FYeoI7KP/FsHBhKgLPG80RrLZGWCaOPPt8C60cTClNDBAuEShnD
+ pLac3APGmLfLKVfstOXL4QgKjRugFwHvBsI1fVD7c8Mo0hifM4wi/GosIbLCJfYqBTCJ
+ Ppcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=Fzzl4rCkNO9vRv+OpxpwcwxkFHE7+hBWsSGwCKZGktM=;
+ b=KhbePgrRYSeb8fUNOgnv0EZCrebf0Eia1Ipc9MMXqlJig44K2sVs12rs2FWY5USykE
+ FlkX0pWm25AKBu8ZSdTJC2fXLDQwLuMmqe4vIWcuYsnKC0HOsXUjxgSGWlZtv+Jh6/P/
+ BdnyGYgZ7WBOcGlPZ/iZGD3V3zrHCyatYyw0H95z16wW1uCtEycyfcEYDsMU7RYLXWhn
+ NtKbDvVjPERMcVRQeSnUnH6j7zXYE3A35FDFIfkVko4sILOQnhx758Z1XLZdJ1/xpYcr
+ HhkI8LUHT50thkMAfEfx1/YJXMAOM0tTwdRb9qzYQ+1MQGU2O1nzyvCCARuO+FekR2vp
+ /k/A==
+X-Gm-Message-State: AOAM531RCmbzM2Wt8JaozrJ7M0VrMube67i2MtoujdUuZ6NRicmkRC05
+ MMBunwdVYKbZfjEFwLALSTQH5UXblLuI
+X-Google-Smtp-Source: ABdhPJxC2FDt5icAJQYq4DzRdVtjSo/wSsZjmOtHufBgrHfhm2niywfhOjJzV96K3Jnob3CYjnxlr00pYvue
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:ec3:6619:183b:36d8])
+ (user=venture job=sendgmr) by 2002:a0c:e88a:: with SMTP id
+ b10mr15969844qvo.21.1617999291042; Fri, 09 Apr 2021 13:14:51 -0700 (PDT)
+Date: Fri,  9 Apr 2021 13:14:39 -0700
+Message-Id: <20210409201443.111197-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
+Subject: [PATCH v3 0/4] hw/i2c: Adds pca954x i2c mux switch device
+From: Patrick Venture <venture@google.com>
+To: cminyard@mvista.com, wuhaotsh@google.com, hskinnemoen@google.com, 
+ f4bug@amsat.org
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::74a;
+ envelope-from=3u7VwYAcKCvIpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com;
+ helo=mail-qk1-x74a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 09, 2021 at 06:03:39PM +0200, Greg Kurz wrote:
-> Calling qdev_get_machine() from a QOM instance_init function is
-> fragile because we can't be sure the machine object actually
-> exists. And this happens to break when passing ",help" on the
-> command line to get the list of properties for a CPU core
-> device types :
-> 
-> $ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
-> qemu-system-ppc64: ../../hw/core/machine.c:1290:
->  qdev_get_machine: Assertion `machine != NULL' failed.
-> Aborted (core dumped)
-> 
-> This used to work before QEMU 5.0, but commit 3df261b6676b
-> unwillingly introduced a subtle regression : the above command
-> line needs to create an instance but the instance_init function
-> of the base class calls qdev_get_machine() before
-> qemu_create_machine() has been called, which is a programming bug.
-> 
-> Use current_machine instead. It is okay to skip the setting of
-> nr_thread in this case since only its type is displayed.
-> 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Fixes: 3df261b6676b ("softmmu/vl.c: Handle '-cpu help' and '-device help' before 'no default machine'")
-> Cc: peter.maydell@linaro.org
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+The i2c mux device pca954x implements two devices:
+ - the pca9546 and pca9548.
 
-Thanks!  I'm queueing this one (without patch 1/2) for QEMU 6.0.
+v3:
+ - fixup comment with missing end parenthesis.
+ - removed superfluous object cast.
+
+v2:
+ - the core i2c bus now calls a match method on each i2c child, which
+ by default will only check for a match against itself.
+ - the pca954x device overrides the i2c device match method to search
+ the children for each of its buses that are active.
+ - the pca954x device now owns an i2c bus for each channel, allowing
+ the normal device model to attach devices to the channels.
+
+Patrick Venture (4):
+  hw/i2c: name I2CNode list in I2CBus
+  hw/i2c: add match method for device search
+  hw/i2c: move search to i2c_scan_bus method
+  hw/i2c: add pca954x i2c-mux switch
+
+ MAINTAINERS                      |   6 +
+ hw/i2c/Kconfig                   |   4 +
+ hw/i2c/core.c                    |  55 ++++--
+ hw/i2c/i2c_mux_pca954x.c         | 289 +++++++++++++++++++++++++++++++
+ hw/i2c/meson.build               |   1 +
+ hw/i2c/trace-events              |   5 +
+ include/hw/i2c/i2c.h             |  16 +-
+ include/hw/i2c/i2c_mux_pca954x.h |  19 ++
+ 8 files changed, 381 insertions(+), 14 deletions(-)
+ create mode 100644 hw/i2c/i2c_mux_pca954x.c
+ create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
 
 -- 
-Eduardo
+2.31.1.295.g9ea45b61b8-goog
 
 
