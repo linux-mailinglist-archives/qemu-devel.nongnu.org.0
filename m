@@ -2,80 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0500E359F42
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 14:51:12 +0200 (CEST)
-Received: from localhost ([::1]:39390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B85359F83
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 15:06:24 +0200 (CEST)
+Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUqbM-0002l2-28
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 08:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54348)
+	id 1lUqq7-0006AH-K6
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 09:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lUqZG-0001TY-IR; Fri, 09 Apr 2021 08:48:58 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lUqZE-0007G4-FW; Fri, 09 Apr 2021 08:48:58 -0400
-Received: by mail-pf1-x429.google.com with SMTP id m11so4162255pfc.11;
- Fri, 09 Apr 2021 05:48:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=S9UsGb+ECXzsLCw72XVuLK3RsABVnWcsKixLg4LxuOo=;
- b=FgOzt6dtKN7GnS0RPCMwDbm+4qEf+hmyRpMmvSwUXMuj5eHbtn7qcIyIWZqkLrK9xs
- 01XQhp6egP+U9dG0oPKuwI3KQlpP3pyBgbIsW7Sr5sMQVvy2KcmaDT0YrraLeWO/EtuY
- FcikVlM/2kTEaxkCkO5MPPgvYZNYcWDMS4J4AVj/BqZGsvSmFkWYZqpaW8K4RBpkVvrX
- /fJLz2yPU6YvdKbVZtoaYs2TcguQIrUdkH3JPiNzM2I29BRnounRRovFqh3kgk/ml9ab
- teHvzEZvZzVLiRRJN1ZMcXrWJt3ke7NPmiGpDTM1Awo8AAoCvPCg/w/+87HAAH8WlPIi
- Wrzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=S9UsGb+ECXzsLCw72XVuLK3RsABVnWcsKixLg4LxuOo=;
- b=V283L0NF5xFYsnqCosl3lCt+/BAmUcK0p6G5oMYfKbmSTzlU+sCA5bu9q5Iep/G8mb
- U0TxwVHHtoqSTkHPExSlaEYqwzniP7TXIWDtFiGSCAviVWF9oFJMoQIr6SHMQWzMQmWm
- r5Gnfv1DA7LYSRZOQ+b639bpG6TeAsggnUIKo3rZLBlQus2oiPCj6YfJdG9C+9AnyNs1
- iJY78q55H2eNHVNwoMkbvdAahzm5JzNZRqdUt0ZwDM2/dz1tNUsMF3lULfzM1t8Kt0O3
- RUfiY+P/5NZ8Ickf+OhNNdTbLOC9OdbF9R07I6+dbA3Lev9c7/WZLqbO8ZHdcutpizRP
- 3Ltw==
-X-Gm-Message-State: AOAM5303Ai70LFHCcU0TfYOtwfy0vjqNf6QKjnTnNgJjhSvuGWHSk+TA
- CirbARaZqQaypZUaw3GBiwk=
-X-Google-Smtp-Source: ABdhPJyZM9u7MBLfZRmGZdNyv1weMivG7ricSWtohRuSTb2nQ6yYp/7+4ohLO2kSJ6KsEPfRZAGAXw==
-X-Received: by 2002:a05:6a00:1384:b029:242:9979:b1d with SMTP id
- t4-20020a056a001384b029024299790b1dmr11378332pfg.63.1617972534600; 
- Fri, 09 Apr 2021 05:48:54 -0700 (PDT)
-Received: from localhost ([58.127.46.74])
- by smtp.gmail.com with ESMTPSA id f6sm2953417pgd.61.2021.04.09.05.48.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Apr 2021 05:48:54 -0700 (PDT)
-Date: Fri, 9 Apr 2021 21:48:51 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lUqp4-0005W2-H0
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:05:18 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:11818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lUqou-0008Mz-CE
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 09:05:18 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210409130459epoutp01596206e136d9a30915586bfcba5b32f5~0MlNNbJuQ2215122151epoutp01-
+ for <qemu-devel@nongnu.org>; Fri,  9 Apr 2021 13:04:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210409130459epoutp01596206e136d9a30915586bfcba5b32f5~0MlNNbJuQ2215122151epoutp01-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1617973499;
+ bh=Cx+mxVVTF39g+ykJuXI+6S25Mpa8vKLlNKLsIeRAWQc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fT/8X2o7tEayOWan18l+GIqsWKneKLOhZs1kWjvR8QabTwsJjbabIZ7GUy7Ua+IhH
+ MjhFousok5FhG03aFlf8KKOOTF7v5CsEzaLtAzBQTMzJe/JYTf3+41pADQZVAfGTye
+ 4dRv4mmqsRA4/gmDkBPtfcQeZ1+tzgpuq/WhjMJ8=
+Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+ 20210409130459epcas5p3ce724aa7fe2af834857b4badf0622dfc~0MlM_OhTH2838628386epcas5p3D;
+ Fri,  9 Apr 2021 13:04:59 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 3B.B5.41008.BF050706; Fri,  9 Apr 2021 22:04:59 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20210409115515epcas5p4104bffd6a4072e61d976387915747182~0LoULhM--2160621606epcas5p4g;
+ Fri,  9 Apr 2021 11:55:15 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210409115515epsmtrp133c4a3733501519cfc1e4e34d55523ae~0LoUKqlsO0636506365epsmtrp1b;
+ Fri,  9 Apr 2021 11:55:15 +0000 (GMT)
+X-AuditID: b6c32a4b-661ff7000001a030-ed-607050fb3dbe
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B8.C8.08745.2A040706; Fri,  9 Apr 2021 20:55:14 +0900 (KST)
+Received: from 2030045822 (unknown [107.99.42.33]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20210409115513epsmtip15bdffcaeb871151a5089c06fa3627908~0LoSyNFJL3220432204epsmtip1t;
+ Fri,  9 Apr 2021 11:55:13 +0000 (GMT)
+Date: Fri, 9 Apr 2021 17:22:17 +0530
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH] hw/block/nvme: slba equal to nsze is out of bounds if
- nlb is 1-based
-Message-ID: <20210409124851.GH2085@localhost>
-References: <CGME20210409074451epcas5p391e5b072e6245b8fe691d67bb42fb234@epcas5p3.samsung.com>
- <20210409074402.7342-1-anaidu.gollu@samsung.com>
- <20210409110518.GC2085@localhost>
- <YHBAlXnRdYTU1m1P@apples.localdomain>
- <20210409123115.GG2085@localhost>
- <YHBKQwhAR8RcLTTD@apples.localdomain>
+Subject: Re: [PATCH 2/2] hw/block/nvme: drain namespaces on sq deletion
+Message-ID: <20210409115217.GA8587@2030045822>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YHBKQwhAR8RcLTTD@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210408193709.435939-2-its@irrelevant.dk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsWy7bCmlu7vgIIEg8WnOSz2H/zGanGycQ+r
+ xaRD1xgtllxMtXh2+gCzxbxbyhaz3rWzWRzv3cHiwOFxbsd5do9NqzrZPJ5c28zk8X7fVTaP
+ vi2rGANYo7hsUlJzMstSi/TtErgybjdXFJyWqWh5doqxgfGSWBcjJ4eEgIlEx5zDbF2MXBxC
+ ArsZJZ4d7mWCcD4xSsxv+AeV+cwo0X63lRGm5djrJlaIxC5Gic41d5khnOeMErcXTQJq4eBg
+ EVCRmHkpHKSBTcBIYvbbN2DNIkDhp//2soDUMwvcZZQ4OekOE0hCWMBd4k/XCmYQm1dAT2Ld
+ p5nsELagxMmZT1hAbE4BC4kbj1+xgtiiAsoSB7YdB7tVQqCVQ6L37AlWiPNcJB4sWwRlC0u8
+ Or6FHcKWknjZ3wZkswPZ1RKHiyBaOxgljl3ewAZRYi/x79k0sEOZBTIkVs88CdUqKzH11Dom
+ iDifRO/vJ0wQcV6JHfNgbDWJBbe+Q9XLSMz8c5sVFA4SAh4SG3+zQMJnJ6PEyq1/mScwys9C
+ 8tosJOsgbCuJzg9NrLOA2pkFpCWW/+OAMDUl1u/SX8DIuopRMrWgODc9tdi0wDgvtVyvODG3
+ uDQvXS85P3cTIzgdaXnvYHz04IPeIUYmDsZDjBIczEoivM3N+QlCvCmJlVWpRfnxRaU5qcWH
+ GKU5WJTEeXcYPIgXEkhPLEnNTk0tSC2CyTJxcEo1MN1lj4rW/iU5e3b7PuMPK24dYP3c87Ra
+ XVZo6q+E41wzn9XOWhV2y05xV2eE5ibu3nXzS65uv/jC/lziWs19LLeqvB+9OGVXtkhK/vqE
+ uX3xi3ZIHYle8uv6TdaH6tePKV7wVqyddiXZbWdU3IKVn783X576LDr1SP6GJktloQdmzPJr
+ M60XLqjcIrQkbJWUUr55UtLEU4dC9y6/1syoZh+d7W11WepYo9WJQJWVP3TUC+WY/1eH361l
+ v//x1QvhTdVSi7dcsfY4ekRz4yc1tfDMpStrCvevz/Ka+rXgxv4z/11W/i0rYJ1+oX7SK83P
+ B/v5Zx2wvqjdNmul9+Ypy+rn2/i2zPfbWnq1Q4R/mcAMJZbijERDLeai4kQAZZ+iT7YDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrALMWRmVeSWpSXmKPExsWy7bCSnO4ih4IEg/MNlhb7D35jtTjZuIfV
+ YtKha4wWSy6mWjw7fYDZYt4tZYtZ79rZLI737mBx4PA4t+M8u8emVZ1sHk+ubWbyeL/vKptH
+ 35ZVjAGsUVw2Kak5mWWpRfp2CVwZszrtCv5KVpx7f42xgXGeSBcjJ4eEgInEsddNrF2MXBxC
+ AjsYJRY+WckGkZCR+HVqKjOELSyx8t9zdoiip4wSDd+PAhVxcLAIqEjMvBQOUsMmYCQx++0b
+ RhBbBCj89N9eFpB6ZoG7jBI3uzeAJYQF3CX+dK0AG8oroCex7tNMdhBbSCBV4mbvP3aIuKDE
+ yZlPWEBsZgEziXmbHzKD7GIWkJZY/o8DJMwpYCFx4/ErVhBbVEBZ4sC240wTGAVnIemehaR7
+ FkL3AkbmVYySqQXFuem5xYYFRnmp5XrFibnFpXnpesn5uZsYwZGgpbWDcc+qD3qHGJk4GA8x
+ SnAwK4nwNjfnJwjxpiRWVqUW5ccXleakFh9ilOZgURLnvdB1Ml5IID2xJDU7NbUgtQgmy8TB
+ KdXAtKyr6muOpcqWkxcW1Kx41Z1dYe/wxPXliXaFJV6Xpxls6purIS+62Ucz9n6ekcajnb8C
+ LsywXdJy0vmpxuc/pSEPP++d05f5/sD53BjtFxGWGX68Ji/y/zK2hm3bwbdu8eOdMn5SP8OW
+ VqXsu+R7d+Nu0erL3zf7yVXuPV2p/f/J+7oW6VrP1wyl+5gUG5l5jh01dmS3i4ja0moao2ex
+ sav1q+1ixxs3V9RNZd41a83N4vWmRY2pT9SqX7UlX54wZ/KS7/PlzpddPNOQldZsU+vNdESW
+ 83HMI+YTDc79V7rddpiKcLtZZhl+11ra7HPC/ZeZXOeb7umbPI90zNC8rJxnIz3N3H/9Cvut
+ bwKZlViKMxINtZiLihMBspf6CPMCAAA=
+X-CMS-MailID: 20210409115515epcas5p4104bffd6a4072e61d976387915747182
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----Q-msIrZUiOdgFIXW25bFqaDApMD6FguveSXWgTQzG2RiKNeM=_667aa_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210409115515epcas5p4104bffd6a4072e61d976387915747182
+References: <20210408193709.435939-1-its@irrelevant.dk>
+ <20210408193709.435939-2-its@irrelevant.dk>
+ <CGME20210409115515epcas5p4104bffd6a4072e61d976387915747182@epcas5p4.samsung.com>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,81 +124,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, kbusch@kernel.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Minwoo Im <minwoo.im@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-04-09 14:36:19, Klaus Jensen wrote:
-> On Apr  9 21:31, Minwoo Im wrote:
-> > On 21-04-09 13:55:01, Klaus Jensen wrote:
-> > > On Apr  9 20:05, Minwoo Im wrote:
-> > > > On 21-04-09 13:14:02, Gollu Appalanaidu wrote:
-> > > > > NSZE is the total size of the namespace in logical blocks. So the max
-> > > > > addressable logical block is NLB minus 1. So your starting logical
-> > > > > block is equal to NSZE it is a out of range.
-> > > > >
-> > > > > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> > > > > ---
-> > > > >  hw/block/nvme.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > > > > index 953ec64729..be9edb1158 100644
-> > > > > --- a/hw/block/nvme.c
-> > > > > +++ b/hw/block/nvme.c
-> > > > > @@ -2527,7 +2527,7 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-> > > > >              uint64_t slba = le64_to_cpu(range[i].slba);
-> > > > >              uint32_t nlb = le32_to_cpu(range[i].nlb);
-> > > > >
-> > > > > -            if (nvme_check_bounds(ns, slba, nlb)) {
-> > > > > +            if (nvme_check_bounds(ns, slba, nlb) || slba == ns->id_ns.nsze) {
-> > > >
-> > > > This patch also looks like check the boundary about slba.  Should it be
-> > > > also checked inside of nvme_check_bounds() ?
-> > > 
-> > > The catch here is that DSM is like the only command where the number of
-> > > logical blocks is a 1s-based value. Otherwise we always have nlb > 0, which
-> > > means that nvme_check_bounds() will always "do the right thing".
-> > > 
-> > > My main gripe here is that (in my mind), by definition, a "zero length
-> > > range" does not reference any LBAs at all. So how can it result in LBA Out
-> > > of Range?
-> > 
-> > Even if this is not the LBA out of range case which is currently what
-> > nvme_check_bounds() checking, but I thought the function checks the
-> > bounds so that we can add one more check inside of that function like:
-> > (If SLBA is 0-based or not, slba should not be nsze, isn't it ?)
-> > 
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index 7244534a89e9..25a7db5ecbd8 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -1415,6 +1415,10 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
-> > {
-> >     uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
-> > 
-> > +    if (slba == nsze) {
-> > +        return NVME_INVALID_FIELD | NVME_DNR;
-> > +    }
-> > +
-> >     if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
-> >         return NVME_LBA_RANGE | NVME_DNR;
-> >     }
-> > 
-> > Or am I missing something here ;) ?
-> 
-> No, not at all, it's just that this additional check is never needed for any
-> other command than DSM since, as far as I remember, DSM is the only command
-> with the 1s-based NLB value fuckup.
-> 
-> This means that nlb will always be at least 1, so slba + 1 > nsze will be
-> false if slba == nsze.
+------Q-msIrZUiOdgFIXW25bFqaDApMD6FguveSXWgTQzG2RiKNeM=_667aa_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Understood :)
+On Thu, Apr 08, 2021 at 09:37:09PM +0200, Klaus Jensen wrote:
+>From: Klaus Jensen <k.jensen@samsung.com>
+>
+>For most commands, when issuing an AIO, the BlockAIOCB is stored in the
+>NvmeRequest aiocb pointer when the AIO is issued. The main use of this
+>is cancelling AIOs when deleting submission queues (it is currently not
+>used for Abort).
+>
+>However, some commands like Dataset Management Zone Management Send
+>(zone reset) may involve more than one AIO and here the AIOs are issued
+>without saving a reference to the BlockAIOCB. This is a problem since
+>nvme_del_sq() will attempt to cancel outstanding AIOs, potentially with
+>an invalid BlockAIOCB since the aiocb pointer is not NULL'ed when the
+>request structure is recycled.
+>
+>Fix this by
+>
+>  1. making sure the aiocb pointer is NULL'ed when requests are recycled
+>  2. only attempt to cancel the AIO if the aiocb is non-NULL
+>  3. if any AIOs could not be cancelled, drain all aio as a last resort.
+>
+>Fixes: dc04d25e2f3f ("hw/block/nvme: add support for the format nvm command")
+>Fixes: c94973288cd9 ("hw/block/nvme: add broadcast nsid support flush command")
+>Fixes: e4e430b3d6ba ("hw/block/nvme: add simple copy command")
+>Fixes: 5f5dc4c6a942 ("hw/block/nvme: zero out zones on reset")
+>Fixes: 2605257a26b8 ("hw/block/nvme: add the dataset management command")
+>Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>Cc: Minwoo Im <minwoo.im@samsung.com>
+>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>---
+> hw/block/nvme.c | 23 +++++++++++++++++++++--
+> 1 file changed, 21 insertions(+), 2 deletions(-)
+>
+>diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>index 94bc373260be..3c4297e38a52 100644
+>--- a/hw/block/nvme.c
+>+++ b/hw/block/nvme.c
+>@@ -470,6 +470,7 @@ static void nvme_req_clear(NvmeRequest *req)
+> {
+>     req->ns = NULL;
+>     req->opaque = NULL;
+>+    req->aiocb = NULL;
+>     memset(&req->cqe, 0x0, sizeof(req->cqe));
+>     req->status = NVME_SUCCESS;
+> }
+>@@ -3681,6 +3682,7 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
+>     NvmeSQueue *sq;
+>     NvmeCQueue *cq;
+>     uint16_t qid = le16_to_cpu(c->qid);
+>+    int nsid;
+>
+>     if (unlikely(!qid || nvme_check_sqid(n, qid))) {
+>         trace_pci_nvme_err_invalid_del_sq(qid);
+>@@ -3692,9 +3694,26 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
+>     sq = n->sq[qid];
+>     while (!QTAILQ_EMPTY(&sq->out_req_list)) {
+>         r = QTAILQ_FIRST(&sq->out_req_list);
+>-        assert(r->aiocb);
+>-        blk_aio_cancel(r->aiocb);
+>+        if (r->aiocb) {
+>+            blk_aio_cancel(r->aiocb);
+>+        }
+>     }
+>+
+>+    /*
+>+     * Drain all namespaces if there are still outstanding requests that we
+>+     * could not cancel explicitly.
+>+     */
+>+    if (!QTAILQ_EMPTY(&sq->out_req_list)) {
+>+        for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
+>+            NvmeNamespace *ns = nvme_ns(n, nsid);
+>+            if (ns) {
+>+                nvme_ns_drain(ns);
+>+            }
+>+        }
+>+    }
+>+
+>+    assert(QTAILQ_EMPTY(&sq->out_req_list));
+>+
+>     if (!nvme_check_cqid(n, sq->cqid)) {
+>         cq = n->cq[sq->cqid];
+>         QTAILQ_REMOVE(&cq->sq_list, sq, entry);
+>--
 
-Please have:
+LTM.
+Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+>2.31.1
+>
+>
+
+------Q-msIrZUiOdgFIXW25bFqaDApMD6FguveSXWgTQzG2RiKNeM=_667aa_
+Content-Type: text/plain; charset="utf-8"
+
+
+------Q-msIrZUiOdgFIXW25bFqaDApMD6FguveSXWgTQzG2RiKNeM=_667aa_--
 
