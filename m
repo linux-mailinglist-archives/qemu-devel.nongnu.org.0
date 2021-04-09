@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABA835A2D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:18:47 +0200 (CEST)
-Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF09C35A2CF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 18:16:53 +0200 (CEST)
+Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUtqI-0000tj-FE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47754)
+	id 1lUtoS-0006oO-7K
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 12:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lUtfu-0005bZ-Sg
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:08:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51457)
+ id 1lUtlD-00040c-E8
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:13:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lUtfs-0007zU-G9
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:08:02 -0400
+ id 1lUtl9-00021q-FF
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 12:13:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617984478;
+ s=mimecast20190719; t=1617984805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rtBgoY4QF8YDYvgzpngZq6F4FxVO/gsNXeya9hiC84w=;
- b=SfmyzHPgYLKsVgpLXNKTHCB9sBJfq4Dv10et6wqxALdqICUqB79DXoygMdb2xYttnMWnOj
- oOKAnxdnhm/bW5MekmczLqfPp2xqC8czx9U6CIMdrtwtbDygrnR3t6TeqIK0oO/Zrlfaxd
- 6Q7ivnOWkzk8m0vxWwDAW2ZNDhxN8o8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-ZyPypmBePoGEhzsYb0HEPw-1; Fri, 09 Apr 2021 12:07:57 -0400
-X-MC-Unique: ZyPypmBePoGEhzsYb0HEPw-1
-Received: by mail-ed1-f69.google.com with SMTP id l11so2884759edb.2
- for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 09:07:56 -0700 (PDT)
+ bh=0Ve4nVg8s2s1QT7OA4YuNADg2QlgbN7iU4fcag6o8IQ=;
+ b=imfWyLm+vJ3Ceui+WAFw/a7KeW8zN3R+87R5ZzXoXrCeNO0RX13zu86KCZbyi+pxYUaJxP
+ qZkZimBwKTrNYYyRss7aqpQGzMpzk84kgV5x7+TLzxZ4qMFmy0QItjumRe7P+ajilSxtHL
+ D4QV2f5SQrdNeGuTZzcH70OcPqjJ7Lg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-vgZq0QPsNTuWNLo8KqxL2g-1; Fri, 09 Apr 2021 12:13:22 -0400
+X-MC-Unique: vgZq0QPsNTuWNLo8KqxL2g-1
+Received: by mail-wr1-f71.google.com with SMTP id a15so2484492wrf.19
+ for <qemu-devel@nongnu.org>; Fri, 09 Apr 2021 09:13:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rtBgoY4QF8YDYvgzpngZq6F4FxVO/gsNXeya9hiC84w=;
- b=MO9ZMSK8rGEBb9FiHATxgaRmEGZJDoa9TGXXj7IeDyc1CpHyuVgsjYREX72WzaHYWc
- 2k/o8q7Dyt01cTwVmS/Z03Uaa2qt6UJRzZbZim73hXu/C7yXz2xw52wTfcDDGIoxKrbq
- XgvuHGnw6r35Sx+II6gsIPxjzEHB+a5s9SvA4go+8lzeXevNzERtjJHMRGX0qNuYUVZV
- dhoSC0kjvQvsXB+qrYTCRAbq5GICmVCd6JHfTl9xRhOEfPw9MTtP+4vTTHIxwx47wYVA
- TslU6IS1sb6N/CkeD37zxC9BNwCHYI+NTLKH0aq/npvaQSGLEw7Tj3kMXdHXRy74HWVL
- UWLw==
-X-Gm-Message-State: AOAM533iZrvGnitxsEqknn83WuqhZiHbGJAh4PpDGcxQwwQ5OQOX002p
- xzoHxSNVAEx5JRdVdSeL2cdj6ImgfVe+bPOC/kJawn6gSSGczL+t8CwhReKVKapewrfX6iNFy71
- 4imWmPjXFB4JoHAKVV/DTRGKHRf/RGoFvhb39gyU3K7n8umcS4xbIPSQLp/Cc4vUrV/g=
-X-Received: by 2002:a17:906:2a0f:: with SMTP id
- j15mr14405938eje.159.1617984475613; 
- Fri, 09 Apr 2021 09:07:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuYlh/gF+uEM14A1XjHW2NbgL1YWUg7Y2eXECdFcx/TiPoq72Ko1d8IhIwfYsMC2rLbGzA3A==
-X-Received: by 2002:a17:906:2a0f:: with SMTP id
- j15mr14405913eje.159.1617984475354; 
- Fri, 09 Apr 2021 09:07:55 -0700 (PDT)
+ bh=0Ve4nVg8s2s1QT7OA4YuNADg2QlgbN7iU4fcag6o8IQ=;
+ b=pOJ12Jbpjk444yKA0xvZOU0JcwTaWQ/uM4j4ApSm17Qau2Dkys7eF3JoKMnk7kj2SL
+ gkrUYIBm2nwEX4AnShLg5z627QM8+c8oociUrXWiIudTwrRH0eS5skbYVFKGcCvAQpI4
+ znamQz3gtlh4dg2DQ3dfSW3RrLcO4nLywkPqicOgSvnHXAQjEFJEoHtFA9WkETawRNzF
+ ApPycNyw6oHS7OIMQXcCf/7a1bljB7DdjWddqzGRutBEgVQb1JqG3H4HmH2MpBgK80Ev
+ EBeqzay1Uj8AQVE6bVN46lYEQ4d+ZHAW+bQtr1s4uEKBXOuHfuHJHoRQPYyphro71enu
+ /TeA==
+X-Gm-Message-State: AOAM533ImgmSyIOQl2lAFwWbXwQyU6ynH0d8MuKvDeFWS6eH3IrtXN2V
+ gh/R5UBL2JamUmTRRVDDM0q6QLJgtUYoJF+lFhabvbG66eyfYpo4HDvd80ijrS+liGT7XtQjkT9
+ C3hCK9vQ0bl7pYoY=
+X-Received: by 2002:adf:eec8:: with SMTP id a8mr10073603wrp.382.1617984801313; 
+ Fri, 09 Apr 2021 09:13:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFn4aiCVfr7PHlymozWNHL5wZzUxKjkjEQtYngHBh8+Hy3Vx0chqOqBJsIbSlpk+Wq/2phSg==
+X-Received: by 2002:adf:eec8:: with SMTP id a8mr10073581wrp.382.1617984801105; 
+ Fri, 09 Apr 2021 09:13:21 -0700 (PDT)
 Received: from localhost.localdomain ([194.230.155.173])
- by smtp.gmail.com with ESMTPSA id y7sm1686532edq.88.2021.04.09.09.07.54
+ by smtp.gmail.com with ESMTPSA id m5sm4973617wrx.83.2021.04.09.09.13.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Apr 2021 09:07:54 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 02/11] python: qemu: pass the wrapper field from
- QEMUQtestmachine to QEMUMachine
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+ Fri, 09 Apr 2021 09:13:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 04/11] qemu-iotests: delay QMP socket timers
+To: Paolo Bonzini <pbonzini@redhat.com>
 References: <20210407135021.48330-1-eesposit@redhat.com>
- <20210407135021.48330-3-eesposit@redhat.com>
- <4d920857-c398-3527-d71e-1f0f79be9034@redhat.com>
+ <20210407135021.48330-5-eesposit@redhat.com>
+ <ac7c35c0-8597-5450-e80a-cb8adac5d85f@redhat.com>
+ <ef103aa2-d585-22ce-0aaf-45a6e190d2ef@redhat.com>
+ <CABgObfad1g5n=Ya5+b9m0v_gVbFF1Tbg8Zo+iCuNWsJwiD6oNQ@mail.gmail.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <4a63b9bd-0716-b059-2ef0-a51e6e3d2328@redhat.com>
-Date: Fri, 9 Apr 2021 18:07:53 +0200
+Message-ID: <754ab22c-6432-4713-e375-353361d31f41@redhat.com>
+Date: Fri, 9 Apr 2021 18:13:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <4d920857-c398-3527-d71e-1f0f79be9034@redhat.com>
+In-Reply-To: <CABgObfad1g5n=Ya5+b9m0v_gVbFF1Tbg8Zo+iCuNWsJwiD6oNQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,7 +89,7 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,36 +103,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
->> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->> index c721e07d63..18d32ebe45 100644
->> --- a/python/qemu/machine.py
->> +++ b/python/qemu/machine.py
->> @@ -109,7 +109,7 @@ def __init__(self,
->>           self._binary = binary
->>           self._args = list(args)
->> -        self._wrapper = wrapper
->> +        self._wrapper = list(wrapper)
->>
-> 
-> Unrelated change?
-> 
-> (I'm assuming you want to copy the user's input to explicitly avoid 
-> sharing state. Commit message blurb for this would be good.)
 
-Yes, unrelated change. I do not see the benefit of copying the user 
-state. I will drop it.
-
->>
+On 08/04/2021 21:03, Paolo Bonzini wrote:
 > 
-> ACK
+> 
+> Il gio 8 apr 2021, 18:06 Emanuele Giuseppe Esposito <eesposit@redhat.com 
+> <mailto:eesposit@redhat.com>> ha scritto:
+> 
+> 
+> 
+>     On 08/04/2021 17:40, Paolo Bonzini wrote:
+>      > On 07/04/21 15:50, Emanuele Giuseppe Esposito wrote:
+>      >>       def get_qmp_events_filtered(self, wait=60.0):
+>      >>           result = []
+>      >> -        for ev in self.get_qmp_events(wait=wait):
+>      >> +        qmp_wait = wait
+>      >> +        if qemu_gdb:
+>      >> +            qmp_wait = 0.0
+>      >> +        for ev in self.get_qmp_events(wait=qmp_wait):
+>      >>               result.append(filter_qmp_event(ev))
+>      >>           return result
+>      >
+>      > Should this be handled in get_qmp_events instead, since you're
+>     basically
+>      > changing all the callers?
+> 
+>     get_qmp_events is in python/machine.py, which as I understand might be
+>     used also by some other scripts, so I want to keep the changes there to
+>     the minimum. Also, machine.py has no access to qemu_gdb or
+>     qemu_valgrind, so passing a boolean or something to delay the timer
+>     would still require to add a similar check in all sections.
+> 
+>     Or do you have a cleaner way to do this?
+> 
+> 
+> Maybe a subclass IotestsMachine?
+> 
 
-(Apologies for the ignorance, is this an Acked-by?)
+I actually figured that I could override get_qmp_events and put the 
+check there. Something like (simplified):
+
+class VM(qtest.QEMUQtestMachine):
+
+	...
+
+	def get_qmp_events(self, wait)
+		if qemu_gdb or qemu_valgrind:
+			wait = 0.0
+		return super().get_qmp_events(wait)
 
 Emanuele
 
