@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FD635A17C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:50:39 +0200 (CEST)
-Received: from localhost ([::1]:57460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D5D35A180
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Apr 2021 16:52:33 +0200 (CEST)
+Received: from localhost ([::1]:60592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lUsT0-0003EC-W3
-	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1lUsUq-0004am-F4
+	for lists+qemu-devel@lfdr.de; Fri, 09 Apr 2021 10:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lUsRh-0002ER-AG
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:49:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44547)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lUsTn-0004AF-0U
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:51:27 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lUsRf-0002tR-A5
- for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:49:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617979754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GuLDHHwsryU84PcykETQjs0XfFbQveBk0BRUTIGm8BM=;
- b=X7RY2tIMpcBrP1Ks748ChwD69nxd0tb9hc8u19BGoqT24SZEkRTy0d5itNt1gmKJE+KVwI
- l5xdbQp+6E9UhU+/tJb61QP9knOdY3N21GZWef1ysO7RDhrRuPMAku0THX/2adkvL2QVtx
- lIydI2wLFy5lQ8hLZEwt/alsF9hCMtk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-Yuu5SmOyPZi9MLf1TPbPUQ-1; Fri, 09 Apr 2021 10:49:12 -0400
-X-MC-Unique: Yuu5SmOyPZi9MLf1TPbPUQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FA7B8030A1;
- Fri,  9 Apr 2021 14:49:11 +0000 (UTC)
-Received: from gondolin.redhat.com (ovpn-113-112.ams2.redhat.com
- [10.36.113.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C52DD5C1D5;
- Fri,  9 Apr 2021 14:49:06 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL for-6.0 1/1] s390x: css: report errors from
- ccw_dstream_read/write
-Date: Fri,  9 Apr 2021 16:48:58 +0200
-Message-Id: <20210409144858.278553-2-cohuck@redhat.com>
-In-Reply-To: <20210409144858.278553-1-cohuck@redhat.com>
-References: <20210409144858.278553-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lUsTj-0004BG-61
+ for qemu-devel@nongnu.org; Fri, 09 Apr 2021 10:51:26 -0400
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FH16Q1g8Bz686xF;
+ Fri,  9 Apr 2021 22:41:34 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 9 Apr 2021 16:51:10 +0200
+Received: from localhost (10.47.90.233) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 9 Apr 2021
+ 15:51:09 +0100
+Date: Fri, 9 Apr 2021 15:49:45 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Chris Browy <cbrowy@avery-design.com>
+Subject: Re: [PATCH v4 cxl-2.0-doe 1/3] PCIe Data Object Exchange
+ implementation
+Message-ID: <20210409154945.00001e3f@Huawei.com>
+In-Reply-To: <1617208595-3443-1-git-send-email-cbrowy@avery-design.com>
+References: <1617207125-1138-1-git-send-email-cbrowy@avery-design.com>
+ <1617208595-3443-1-git-send-email-cbrowy@avery-design.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.90.233]
+X-ClientProxiedBy: lhreml751-chm.china.huawei.com (10.201.108.201) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,277 +68,661 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: ben.widawsky@intel.com, jgroves@micron.com, david@redhat.com,
+ qemu-devel@nongnu.org, vishal.l.verma@intel.com, mst@redhat.com,
+ armbru@redhat.com, linux-cxl@vger.kernel.org, f4bug@amsat.org,
+ hchkuo@avery-design.com.tw, tyshao@avery-design.com.tw, imammedo@redhat.com,
+ dan.j.williams@intel.com, ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pierre Morel <pmorel@linux.ibm.com>
+On Wed, 31 Mar 2021 12:36:35 -0400
+Chris Browy <cbrowy@avery-design.com> wrote:
 
-ccw_dstream_read/write functions returned values are sometime
-not taking into account and reported back to the upper level
-of interpretation of CCW instructions.
+> From: hchkuo <hchkuo@avery-design.com.tw>
+> 
 
-It follows that accessing an invalid address does not trigger
-a subchannel status program check to the guest as it should.
+Description needed.  No patch is going to get applied with out something
+to say what it actually does.  For this one, useful to have links to the
+specs etc in the description plus a very quick intro to what it is for etc.
 
-Let's test the return values of ccw_dstream_write[_buf] and
-ccw_dstream_read[_buf] and report it to the caller.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
-Message-Id: <1617899529-9329-2-git-send-email-pmorel@linux.ibm.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- hw/char/terminal3270.c | 11 +++++--
- hw/s390x/3270-ccw.c    |  5 +++-
- hw/s390x/css.c         | 14 +++++----
- hw/s390x/virtio-ccw.c  | 66 ++++++++++++++++++++++++++++++------------
- 4 files changed, 69 insertions(+), 27 deletions(-)
+> Signed-off-by: hchkuo <hchkuo@avery-design.com.tw>
 
-diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
-index a9a46c8ed39f..82e85fac2e68 100644
---- a/hw/char/terminal3270.c
-+++ b/hw/char/terminal3270.c
-@@ -200,9 +200,13 @@ static int read_payload_3270(EmulatedCcw3270Device *dev)
- {
-     Terminal3270 *t = TERMINAL_3270(dev);
-     int len;
-+    int ret;
- 
-     len = MIN(ccw_dstream_avail(get_cds(t)), t->in_len);
--    ccw_dstream_write_buf(get_cds(t), t->inv, len);
-+    ret = ccw_dstream_write_buf(get_cds(t), t->inv, len);
-+    if (ret < 0) {
-+        return ret;
-+    }
-     t->in_len -= len;
- 
-     return len;
-@@ -260,7 +264,10 @@ static int write_payload_3270(EmulatedCcw3270Device *dev, uint8_t cmd)
- 
-     t->outv[out_len++] = cmd;
-     do {
--        ccw_dstream_read_buf(get_cds(t), &t->outv[out_len], len);
-+        retval = ccw_dstream_read_buf(get_cds(t), &t->outv[out_len], len);
-+        if (retval < 0) {
-+            return retval;
-+        }
-         count = ccw_dstream_avail(get_cds(t));
-         out_len += len;
- 
-diff --git a/hw/s390x/3270-ccw.c b/hw/s390x/3270-ccw.c
-index 821319eee6d1..f3e7342b1e8e 100644
---- a/hw/s390x/3270-ccw.c
-+++ b/hw/s390x/3270-ccw.c
-@@ -31,6 +31,9 @@ static int handle_payload_3270_read(EmulatedCcw3270Device *dev, CCW1 *ccw)
-     }
- 
-     len = ck->read_payload_3270(dev);
-+    if (len < 0) {
-+        return len;
-+    }
-     ccw_dev->sch->curr_status.scsw.count = ccw->count - len;
- 
-     return 0;
-@@ -50,7 +53,7 @@ static int handle_payload_3270_write(EmulatedCcw3270Device *dev, CCW1 *ccw)
-     len = ck->write_payload_3270(dev, ccw->cmd_code);
- 
-     if (len <= 0) {
--        return -EIO;
-+        return len ? len : -EIO;
-     }
- 
-     ccw_dev->sch->curr_status.scsw.count = ccw->count - len;
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index fe47751df444..4149b8e5a79c 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -1055,10 +1055,11 @@ static int css_interpret_ccw(SubchDev *sch, hwaddr ccw_addr,
-             }
-         }
-         len = MIN(ccw.count, sizeof(sch->sense_data));
--        ccw_dstream_write_buf(&sch->cds, sch->sense_data, len);
-+        ret = ccw_dstream_write_buf(&sch->cds, sch->sense_data, len);
-         sch->curr_status.scsw.count = ccw_dstream_residual_count(&sch->cds);
--        memset(sch->sense_data, 0, sizeof(sch->sense_data));
--        ret = 0;
-+        if (!ret) {
-+            memset(sch->sense_data, 0, sizeof(sch->sense_data));
-+        }
-         break;
-     case CCW_CMD_SENSE_ID:
-     {
-@@ -1083,9 +1084,10 @@ static int css_interpret_ccw(SubchDev *sch, hwaddr ccw_addr,
-         } else {
-             sense_id[0] = 0;
-         }
--        ccw_dstream_write_buf(&sch->cds, sense_id, len);
--        sch->curr_status.scsw.count = ccw_dstream_residual_count(&sch->cds);
--        ret = 0;
-+        ret = ccw_dstream_write_buf(&sch->cds, sense_id, len);
-+        if (!ret) {
-+            sch->curr_status.scsw.count = ccw_dstream_residual_count(&sch->cds);
-+        }
-         break;
-     }
-     case CCW_CMD_TIC:
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 314ed7b24566..8195f3546e43 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -288,14 +288,20 @@ static int virtio_ccw_handle_set_vq(SubchDev *sch, CCW1 ccw, bool check_len,
-         return -EFAULT;
-     }
-     if (is_legacy) {
--        ccw_dstream_read(&sch->cds, linfo);
-+        ret = ccw_dstream_read(&sch->cds, linfo);
-+        if (ret) {
-+            return ret;
-+        }
-         linfo.queue = be64_to_cpu(linfo.queue);
-         linfo.align = be32_to_cpu(linfo.align);
-         linfo.index = be16_to_cpu(linfo.index);
-         linfo.num = be16_to_cpu(linfo.num);
-         ret = virtio_ccw_set_vqs(sch, NULL, &linfo);
-     } else {
--        ccw_dstream_read(&sch->cds, info);
-+        ret = ccw_dstream_read(&sch->cds, info);
-+        if (ret) {
-+            return ret;
-+        }
-         info.desc = be64_to_cpu(info.desc);
-         info.index = be16_to_cpu(info.index);
-         info.num = be16_to_cpu(info.num);
-@@ -371,7 +377,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-             VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
- 
-             ccw_dstream_advance(&sch->cds, sizeof(features.features));
--            ccw_dstream_read(&sch->cds, features.index);
-+            ret = ccw_dstream_read(&sch->cds, features.index);
-+            if (ret) {
-+                break;
-+            }
-             if (features.index == 0) {
-                 if (dev->revision >= 1) {
-                     /* Don't offer legacy features for modern devices. */
-@@ -392,9 +401,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-             }
-             ccw_dstream_rewind(&sch->cds);
-             features.features = cpu_to_le32(features.features);
--            ccw_dstream_write(&sch->cds, features.features);
--            sch->curr_status.scsw.count = ccw.count - sizeof(features);
--            ret = 0;
-+            ret = ccw_dstream_write(&sch->cds, features.features);
-+            if (!ret) {
-+                sch->curr_status.scsw.count = ccw.count - sizeof(features);
-+            }
-         }
-         break;
-     case CCW_CMD_WRITE_FEAT:
-@@ -411,7 +421,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-         if (!ccw.cda) {
-             ret = -EFAULT;
-         } else {
--            ccw_dstream_read(&sch->cds, features);
-+            ret = ccw_dstream_read(&sch->cds, features);
-+            if (ret) {
-+                break;
-+            }
-             features.features = le32_to_cpu(features.features);
-             if (features.index == 0) {
-                 virtio_set_features(vdev,
-@@ -454,9 +467,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-             ret = -EFAULT;
-         } else {
-             virtio_bus_get_vdev_config(&dev->bus, vdev->config);
--            ccw_dstream_write_buf(&sch->cds, vdev->config, len);
--            sch->curr_status.scsw.count = ccw.count - len;
--            ret = 0;
-+            ret = ccw_dstream_write_buf(&sch->cds, vdev->config, len);
-+            if (ret) {
-+                sch->curr_status.scsw.count = ccw.count - len;
-+            }
-         }
-         break;
-     case CCW_CMD_WRITE_CONF:
-@@ -511,7 +525,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-         if (!ccw.cda) {
-             ret = -EFAULT;
-         } else {
--            ccw_dstream_read(&sch->cds, status);
-+            ret = ccw_dstream_read(&sch->cds, status);
-+            if (ret) {
-+                break;
-+            }
-             if (!(status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-                 virtio_ccw_stop_ioeventfd(dev);
-             }
-@@ -554,7 +571,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-         if (!ccw.cda) {
-             ret = -EFAULT;
-         } else {
--            ccw_dstream_read(&sch->cds, indicators);
-+            ret = ccw_dstream_read(&sch->cds, indicators);
-+            if (ret) {
-+                break;
-+            }
-             indicators = be64_to_cpu(indicators);
-             dev->indicators = get_indicator(indicators, sizeof(uint64_t));
-             sch->curr_status.scsw.count = ccw.count - sizeof(indicators);
-@@ -575,7 +595,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-         if (!ccw.cda) {
-             ret = -EFAULT;
-         } else {
--            ccw_dstream_read(&sch->cds, indicators);
-+            ret = ccw_dstream_read(&sch->cds, indicators);
-+            if (ret) {
-+                break;
-+            }
-             indicators = be64_to_cpu(indicators);
-             dev->indicators2 = get_indicator(indicators, sizeof(uint64_t));
-             sch->curr_status.scsw.count = ccw.count - sizeof(indicators);
-@@ -596,7 +619,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-         if (!ccw.cda) {
-             ret = -EFAULT;
-         } else {
--            ccw_dstream_read(&sch->cds, vq_config.index);
-+            ret = ccw_dstream_read(&sch->cds, vq_config.index);
-+            if (ret) {
-+                break;
-+            }
-             vq_config.index = be16_to_cpu(vq_config.index);
-             if (vq_config.index >= VIRTIO_QUEUE_MAX) {
-                 ret = -EINVAL;
-@@ -605,9 +631,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-             vq_config.num_max = virtio_queue_get_num(vdev,
-                                                      vq_config.index);
-             vq_config.num_max = cpu_to_be16(vq_config.num_max);
--            ccw_dstream_write(&sch->cds, vq_config.num_max);
--            sch->curr_status.scsw.count = ccw.count - sizeof(vq_config);
--            ret = 0;
-+            ret = ccw_dstream_write(&sch->cds, vq_config.num_max);
-+            if (!ret) {
-+                sch->curr_status.scsw.count = ccw.count - sizeof(vq_config);
-+            }
-         }
-         break;
-     case CCW_CMD_SET_IND_ADAPTER:
-@@ -664,7 +691,10 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
-             ret = -EFAULT;
-             break;
-         }
--        ccw_dstream_read_buf(&sch->cds, &revinfo, 4);
-+        ret = ccw_dstream_read_buf(&sch->cds, &revinfo, 4);
-+        if (ret < 0) {
-+            break;
-+        }
-         revinfo.revision = be16_to_cpu(revinfo.revision);
-         revinfo.length = be16_to_cpu(revinfo.length);
-         if (ccw.count < len + revinfo.length ||
--- 
-2.26.3
+Process wise, if you are sending the emails Chris, you need to be part of the DCO
+chain, which means you should also sign-off on the patches. That confirms that
+to the best of your knowledge hchkuo and copyright holders are legally fine with
+them being included in Qemu etc.
+https://wiki.qemu.org/Contribute/SubmitAPatch (follow like to kernel policy that talks
+more about this)
+
+Comments below are mostly minor stylistic things.  There is just
+enough here that I want to take a look at v5 before giving a Reviewed-by tag.
+
+Thanks,
+
+Jonathan
+
+
+> ---
+>  MAINTAINERS               |   7 +
+>  hw/pci/meson.build        |   1 +
+>  hw/pci/pcie_doe.c         | 356 ++++++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/pci/pcie.h     |   1 +
+>  include/hw/pci/pcie_doe.h | 123 ++++++++++++++++
+>  5 files changed, 488 insertions(+)
+>  create mode 100644 hw/pci/pcie_doe.c
+>  create mode 100644 include/hw/pci/pcie_doe.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f9097ed..e77e989 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1681,6 +1681,13 @@ F: docs/pci*
+>  F: docs/specs/*pci*
+>  F: default-configs/pci.mak
+>  
+> +PCIE DOE
+> +M: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
+> +M: Chris Browy <cbrowy@avery-design.com>
+> +S: Supported
+> +F: include/hw/pci/pcie_doe.h
+> +F: hw/pci/pcie_doe.c
+> +
+>  ACPI/SMBIOS
+>  M: Michael S. Tsirkin <mst@redhat.com>
+>  M: Igor Mammedov <imammedo@redhat.com>
+> diff --git a/hw/pci/meson.build b/hw/pci/meson.build
+> index 5c4bbac..115e502 100644
+> --- a/hw/pci/meson.build
+> +++ b/hw/pci/meson.build
+> @@ -12,6 +12,7 @@ pci_ss.add(files(
+>  # allow plugging PCIe devices into PCI buses, include them even if
+>  # CONFIG_PCI_EXPRESS=n.
+>  pci_ss.add(files('pcie.c', 'pcie_aer.c'))
+> +pci_ss.add(files('pcie_doe.c'))
+>  softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
+>  softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
+>  
+> diff --git a/hw/pci/pcie_doe.c b/hw/pci/pcie_doe.c
+> new file mode 100644
+> index 0000000..ec937ac
+> --- /dev/null
+> +++ b/hw/pci/pcie_doe.c
+> @@ -0,0 +1,356 @@
+> +/*
+> + * PCIe Data Object Exchange
+> + *
+> + * Copyright (C) 2021 Avery Design Systems, Inc.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +#include "qemu/range.h"
+> +#include "hw/pci/pci.h"
+> +#include "hw/pci/pcie.h"
+> +#include "hw/pci/pcie_doe.h"
+> +#include "hw/pci/msi.h"
+> +#include "hw/pci/msix.h"
+> +
+> +/* Discovery Request Object */
+if you are going to use _rsp for response I'd
+suggest _req for request.
+
+With that naming it should be clear enough what these are that
+you could also just drop the comments if you want to.
+
+> +struct doe_discovery {
+> +    DOEHeader header;
+> +    uint8_t index;
+> +    uint8_t reserved[3];
+> +} QEMU_PACKED;
+> +
+> +/* Discovery Response Object */
+> +struct doe_discovery_rsp {
+> +    DOEHeader header;
+> +    uint16_t vendor_id;
+> +    uint8_t data_obj_type;
+> +    uint8_t next_index;
+> +} QEMU_PACKED;
+> +
+> +static bool pcie_doe_discovery_rsp(DOECap *doe_cap)
+> +{
+> +    struct doe_discovery *req = pcie_doe_get_req(doe_cap);
+> +    struct doe_discovery_rsp rsp;
+> +    uint8_t index = req->index;
+> +    DOEProtocol *prot;
+> +
+> +    /* Request length mismatch, discard */
+
+Might be worth a comment here to say that we don't need to explicitly handle
+the 1DW case on the basis, if that happens the second DW will be meset to 0
+anyway, so this check will fail.  Took me a few minutes to figure out why
+a request that isn't large enough to actually say how large it is, was not
+a problem!
+
+> +    if (pcie_doe_get_obj_len(req) <
+> +        DIV_ROUND_UP(sizeof(struct doe_discovery), 4)) {
+> +        return false;
+> +    }
+> +
+> +    rsp.header = (DOEHeader) {
+> +        .vendor_id = PCI_VENDOR_ID_PCI_SIG,
+> +        .data_obj_type = PCI_SIG_DOE_DISCOVERY,
+> +        .length = DIV_ROUND_UP(sizeof(struct doe_discovery_rsp), 4),
+
+sizeof(uint32_t) so we are consistent everywhere on that being how we get
+to bytes in a DW.
+
+> +    };
+> +
+> +    /* Point to the requested protocol, index 0 must be Discovery */
+> +    if (index == 0) {
+> +        rsp.vendor_id = PCI_VENDOR_ID_PCI_SIG;
+> +        rsp.data_obj_type = PCI_SIG_DOE_DISCOVERY;
+> +    } else {
+> +        if (index < doe_cap->protocol_num) {
+> +            prot = &doe_cap->protocols[index - 1];
+> +        } else {
+> +            prot = NULL;
+Given you don't use prot for anything beyond this block, perhaps this
+would be clearer as
+
+           if (index < doe_cap->protocol_num) {
+               DOEProtocol *prot = &doe_cap->protocols[index - 1];
+               rsp.vendor_id = prot->vendor_id;
+               rsp.data_object_type = prot->data_obj_type;
+	   } else
+               rsp.vendor_id = 0xFFFF;
+               rsp.data_object_type = 0xFF;
+> +        }
+> +
+> +        rsp.vendor_id = (prot) ? prot->vendor_id : 0xFFFF;
+> +        rsp.data_obj_type = (prot) ? prot->data_obj_type : 0xFF;
+> +    }
+> +
+> +    rsp.next_index = (index + 1) % doe_cap->protocol_num,
+
+, ?
+
+While the maths here might be technically true, I'd suggest it would
+be clearer to just use an if statement to set it to 0 as appropriate.
+
+> +
+> +    pcie_doe_set_rsp(doe_cap, &rsp);
+> +
+> +    return true;
+> +}
+> +
+> +static void pcie_doe_reset_mbox(DOECap *st)
+> +{
+> +    st->read_mbox_idx = 0;
+> +    st->read_mbox_len = 0;
+> +    st->write_mbox_len = 0;
+> +
+> +    memset(st->read_mbox, 0, PCI_DOE_MAX_DW_SIZE * sizeof(uint32_t));
+> +    memset(st->write_mbox, 0, PCI_DOE_MAX_DW_SIZE * sizeof(uint32_t));
+> +}
+> +
+> +/*
+> + * Add DOE cap to a device
+> + * Initialize its protocol.
+> + */
+> +void pcie_doe_init(PCIDevice *dev, DOECap *doe_cap, uint16_t offset,
+> +                   DOEProtocol *protocols, bool intr, uint16_t vec)
+> +{
+> +    pcie_add_capability(dev, PCI_EXT_CAP_ID_DOE, 0x1, offset,
+> +                        PCI_DOE_SIZEOF);
+> +
+> +    doe_cap->pdev = dev;
+> +    doe_cap->offset = offset;
+> +
+> +    /* Configure MSI/MSI-X */
+> +    if (intr && (msi_present(dev) || msix_present(dev))) {
+> +        doe_cap->cap.intr = intr;
+> +        doe_cap->cap.vec = vec;
+> +    }
+> +
+> +    doe_cap->write_mbox = g_malloc0(PCI_DOE_MAX_DW_SIZE * sizeof(uint32_t));
+> +    doe_cap->read_mbox = g_malloc0(PCI_DOE_MAX_DW_SIZE * sizeof(uint32_t));
+> +
+> +    pcie_doe_reset_mbox(doe_cap);
+> +
+> +    /* Register default discovery protocol */
+
+Is this comment accurate? It seems to be registering all other protocols
+except the discovery protocol.
+
+> +    doe_cap->protocols = protocols;
+> +    for (; protocols->vendor_id; protocols++) {
+> +        doe_cap->protocol_num++;
+> +    }
+> +    assert(doe_cap->protocol_num < PCI_DOE_PROTOCOL_MAX);
+> +
+> +    doe_cap->protocol_num++;
+
+Why the extra?  Add a comment perhaps.
+
+> +}
+> +
+> +void pcie_doe_fini(DOECap *doe_cap)
+> +{
+> +    g_free(doe_cap->read_mbox);
+> +    g_free(doe_cap->write_mbox);
+> +    g_free(doe_cap);
+> +}
+> +
+> +uint32_t pcie_doe_build_protocol(DOEProtocol *p)
+> +{
+> +    return DATA_OBJ_BUILD_HEADER1(p->vendor_id, p->data_obj_type);
+> +}
+> +
+> +/* Return the pointer of DOE request in write mailbox buffer */
+> +void *pcie_doe_get_req(DOECap *doe_cap)
+This is a bit oddly named.  I kind of expected it to return a copy
+of the request rather that a pointer to the write mailbox buffer.
+
+pcie_doe_write_buffer() or something like that perhaps?
+
+> +{
+> +    return doe_cap->write_mbox;
+> +}
+> +
+> +/* Copy the response to read mailbox buffer */
+> +void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp)
+> +{
+> +    uint32_t len = pcie_doe_get_obj_len(rsp);
+> +
+> +    memcpy(doe_cap->read_mbox + doe_cap->read_mbox_len,
+> +           rsp, len * sizeof(uint32_t));
+> +    doe_cap->read_mbox_len += len;
+> +}
+> +
+> +uint32_t pcie_doe_get_obj_len(void *obj)
+> +{
+> +    uint32_t len = (obj) ? ((DOEHeader *)obj)->length : 0;
+> +
+> +    return len & (PCI_DOE_MAX_DW_SIZE - 1);
+
+Masking doesn't feel right here. Also, isn't a 1MB length
+technically allowed?
+
+> +}
+> +
+> +static void pcie_doe_write_mbox(DOECap *doe_cap, uint32_t val)
+> +{
+> +    doe_cap->write_mbox[doe_cap->write_mbox_len] = val;
+> +    doe_cap->write_mbox_len++;
+
+As mentioned below, this doesn't feel like it's worth encapsulating
+in a separate function.
+
+> +}
+> +
+> +static void pcie_doe_irq_assert(DOECap *doe_cap)
+> +{
+> +    PCIDevice *dev = doe_cap->pdev;
+> +
+> +    if (doe_cap->cap.intr && doe_cap->ctrl.intr) {
+> +        if (doe_cap->status.intr) {
+> +            return;
+> +        }
+> +        doe_cap->status.intr = 1;
+> +
+> +        /* Notifies interrupt, legacy IRQ is not supported */
+> +        if (msix_enabled(dev)) {
+> +            msix_notify(dev, doe_cap->cap.vec);
+> +        } else if (msi_enabled(dev)) {
+> +            msi_notify(dev, doe_cap->cap.vec);
+> +        }
+> +    }
+> +}
+> +
+> +static void pcie_doe_set_ready(DOECap *doe_cap, bool rdy)
+> +{
+> +    doe_cap->status.ready = rdy;
+> +
+> +    if (rdy) {
+> +        pcie_doe_irq_assert(doe_cap);
+> +    }
+> +}
+> +
+> +static void pcie_doe_set_error(DOECap *doe_cap, bool err)
+> +{
+> +    doe_cap->status.error = err;
+> +
+> +    if (err) {
+> +        pcie_doe_irq_assert(doe_cap);
+> +    }
+> +}
+> +
+> +/*
+> + * Check incoming request in write_mbox for protocol format and
+> + * memcopy the correponding reponse to read_mbox
+> + */
+> +static void pcie_doe_prepare_rsp(DOECap *doe_cap)
+> +{
+> +    bool success = false;
+> +    int p;
+> +
+> +    if (doe_cap->status.error) {
+> +        return;
+> +    }
+> +
+> +    if (doe_cap->write_mbox[0] ==
+> +        DATA_OBJ_BUILD_HEADER1(PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_DISCOVERY)) {
+> +        success = pcie_doe_discovery_rsp(doe_cap);
+> +    } else {
+> +        for (p = 0; p < doe_cap->protocol_num - 1; p++) {
+> +            if (doe_cap->write_mbox[0] ==
+> +                pcie_doe_build_protocol(&doe_cap->protocols[p])) {
+> +                /*
+> +                 * DOE ECN 6.xx.1:
+> +                 * If the number of DW transferred does not match the
+> +                 * indicated Length for a data object, then the
+> +                 * data object must be silently discarded.
+> +                 */
+> +                if (doe_cap->write_mbox_len ==
+> +                    pcie_doe_get_obj_len(pcie_doe_get_req(doe_cap))) {
+> +                    success = doe_cap->protocols[p].set_rsp(doe_cap);
+> +                }
+> +                break;
+> +            }
+> +        }
+> +    }
+> +
+> +    if (success) {
+> +        pcie_doe_set_ready(doe_cap, 1);
+> +    } else {
+> +        pcie_doe_reset_mbox(doe_cap);
+> +    }
+> +}
+> +
+> +/*
+> + * Read from DOE config space.
+> + * Return false if the address doesn't hit the range.
+> + */
+> +bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
+> +                          uint32_t *buf)
+> +{
+> +    uint32_t shift, mask = 0xFFFFFFFF;
+> +    uint16_t doe_offset = doe_cap->offset;
+> +
+> +    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
+> +                           PCI_DOE_SIZEOF - 4, addr)) {
+> +        return false;
+> +    }
+> +
+> +    addr -= doe_offset;
+> +    *buf = 0;
+> +
+> +    if (range_covers_byte(PCI_EXP_DOE_CAP, sizeof(uint32_t), addr)) {
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, INTR_SUPP,
+> +                          doe_cap->cap.intr);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM,
+> +                          doe_cap->cap.vec);
+> +    } else if (range_covers_byte(PCI_EXP_DOE_CTRL, sizeof(uint32_t), addr)) {
+> +        /* Must return ABORT=0 and GO=0 */
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_CONTROL, DOE_INTR_EN,
+> +                          doe_cap->ctrl.intr);
+> +    } else if (range_covers_byte(PCI_EXP_DOE_STATUS, sizeof(uint32_t), addr)) {
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_BUSY,
+> +                          doe_cap->status.busy);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS,
+> +                          doe_cap->status.intr);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_ERROR,
+> +                          doe_cap->status.error);
+> +        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DATA_OBJ_RDY,
+> +                          doe_cap->status.ready);
+> +    } else if (range_covers_byte(PCI_EXP_DOE_RD_DATA_MBOX, sizeof(uint32_t),
+> +                                 addr)) {
+> +        if (doe_cap->status.ready && !doe_cap->status.error) {
+> +            *buf = doe_cap->read_mbox[doe_cap->read_mbox_idx];
+> +        }
+> +    }
+> +
+> +    /* Alignment */
+> +    shift = addr % sizeof(uint32_t);
+> +    *buf >>= shift * 8;
+> +    mask >>= (sizeof(uint32_t) - size) * 8;
+> +    *buf &= mask;
+> +
+> +    return true;
+> +}
+> +
+> +/*
+> + * Write to DOE config space.
+> + * Early return if the address doesn't hit the range or receives an abort signal
+> + */
+> +void pcie_doe_write_config(DOECap *doe_cap,
+> +                           uint32_t addr, uint32_t val, int size)
+> +{
+> +    uint16_t doe_offset = doe_cap->offset;
+> +    uint32_t shift;
+> +
+> +    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
+> +                           PCI_DOE_SIZEOF - 4, addr)) {
+> +        return;
+> +    }
+> +
+> +    /* Alignment */
+> +    shift = addr % sizeof(uint32_t);
+> +    addr -= (doe_offset + shift);
+> +    val <<= shift * 8;
+> +
+> +    switch (addr) {
+> +    case PCI_EXP_DOE_CTRL:
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_ABORT)) {
+> +            pcie_doe_set_ready(doe_cap, 0);
+> +            pcie_doe_set_error(doe_cap, 0);
+> +            pcie_doe_reset_mbox(doe_cap);
+> +            return;
+> +        }
+> +
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_GO)) {
+> +            pcie_doe_prepare_rsp(doe_cap);
+> +        }
+> +
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_INTR_EN)) {
+> +            doe_cap->ctrl.intr = 1;
+> +        /* Clear interrupt bit located within the first byte */
+> +        } else if (shift == 0) {
+> +            doe_cap->ctrl.intr = 0;
+> +        }
+> +        break;
+> +    case PCI_EXP_DOE_STATUS:
+> +        if (FIELD_EX32(val, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS)) {
+> +            doe_cap->status.intr = 0;
+> +        }
+> +        break;
+> +    case PCI_EXP_DOE_RD_DATA_MBOX:
+
+Should we protect this register and the WR one against any accesses
+that are not the full DW?  I've had a good read of the spec and can't
+actually figure out what would happen if we did partial reads and
+writes.  The implementation note says to do full DW so lets go with that
+as being a requirement.
+
+> +        doe_cap->read_mbox_idx += 1;
+> +        if (doe_cap->read_mbox_idx == doe_cap->read_mbox_len) {
+> +            pcie_doe_reset_mbox(doe_cap);
+> +            pcie_doe_set_ready(doe_cap, 0);
+> +        } else if (doe_cap->read_mbox_idx > doe_cap->read_mbox_len) {
+> +            /* Underflow */
+> +            pcie_doe_set_error(doe_cap, 1);
+> +        }
+> +        break;
+> +    case PCI_EXP_DOE_WR_DATA_MBOX:
+> +        pcie_doe_write_mbox(doe_cap, val);
+
+Why have a function for write_mbox?  It seems to be doing very little
+so just put the code inline here.
+
+> +        break;
+> +    case PCI_EXP_DOE_CAP:
+> +        /* fallthrough */
+> +    default:
+> +        break;
+> +    }
+> +}
+> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+> index 14c58eb..47d6f66 100644
+> --- a/include/hw/pci/pcie.h
+> +++ b/include/hw/pci/pcie.h
+> @@ -25,6 +25,7 @@
+>  #include "hw/pci/pcie_regs.h"
+>  #include "hw/pci/pcie_aer.h"
+>  #include "hw/hotplug.h"
+> +#include "hw/pci/pcie_doe.h"
+>  
+>  typedef enum {
+>      /* for attention and power indicator */
+> diff --git a/include/hw/pci/pcie_doe.h b/include/hw/pci/pcie_doe.h
+> new file mode 100644
+> index 0000000..64a7dba
+> --- /dev/null
+> +++ b/include/hw/pci/pcie_doe.h
+> @@ -0,0 +1,123 @@
+> +/*
+> + * PCIe Data Object Exchange
+> + *
+> + * Copyright (C) 2021 Avery Design Systems, Inc.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef PCIE_DOE_H
+> +#define PCIE_DOE_H
+> +
+> +#include "qemu/range.h"
+> +#include "qemu/typedefs.h"
+> +#include "hw/register.h"
+> +
+> +/*
+> + * Referene:
+> + * PCIe Data Object Exchange (DOE) ECN, March 12, 2020
+> + */
+> +/* Capabilities Register - 7.9.xx.2 */
+> +#define PCI_EXP_DOE_CAP             0x04
+> +REG32(PCI_DOE_CAP_REG, 0)
+> +    FIELD(PCI_DOE_CAP_REG, INTR_SUPP, 0, 1)
+> +    FIELD(PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM, 1, 11)
+> +
+> +/* Control Register - 7.9.xx.3 */
+> +#define PCI_EXP_DOE_CTRL            0x08
+> +REG32(PCI_DOE_CAP_CONTROL, 0)
+> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_ABORT, 0, 1)
+> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_INTR_EN, 1, 1)
+> +    FIELD(PCI_DOE_CAP_CONTROL, DOE_GO, 31, 1)
+> +
+> +/* Status Register - 7.9.xx.4 */
+> +#define PCI_EXP_DOE_STATUS          0x0c
+> +REG32(PCI_DOE_CAP_STATUS, 0)
+> +    FIELD(PCI_DOE_CAP_STATUS, DOE_BUSY, 0, 1)
+> +    FIELD(PCI_DOE_CAP_STATUS, DOE_INTR_STATUS, 1, 1)
+> +    FIELD(PCI_DOE_CAP_STATUS, DOE_ERROR, 2, 1)
+> +    FIELD(PCI_DOE_CAP_STATUS, DATA_OBJ_RDY, 31, 1)
+> +
+> +/* Write Data Mailbox Register - 7.9.xx.5 */
+> +#define PCI_EXP_DOE_WR_DATA_MBOX    0x10
+> +
+> +/* Read Data Mailbox Register - 7.9.xx.6 */
+> +#define PCI_EXP_DOE_RD_DATA_MBOX    0x14
+> +
+> +/* PCI-SIG defined Data Object Types - Table 7-x2 */
+> +#define PCI_SIG_DOE_DISCOVERY       0x00
+> +#define PCI_SIG_DOE_CMA             0x01
+
+Introduce CMA define only when introducing support for it.
+
+> +
+> +#define DATA_OBJ_BUILD_HEADER1(v, p)  ((p << 16) | v)
+> +
+> +#define PCI_DOE_MAX_DW_SIZE (1 << 18)
+> +#define PCI_DOE_PROTOCOL_MAX 256
+
+Isn't that one more than the maximum accepted value?
+I would expect MAX to mean the maximum value inclusive.
+
+
+> +
+> +typedef struct DOEHeader DOEHeader;
+> +typedef struct DOEProtocol DOEProtocol;
+> +typedef struct DOECap DOECap;
+> +
+> +struct DOEHeader {
+> +    uint16_t vendor_id;
+> +    uint8_t data_obj_type;
+> +    uint8_t reserved;
+> +    uint32_t length;
+> +} QEMU_PACKED;
+> +
+> +/* Protocol infos and rsp function callback */
+> +struct DOEProtocol {
+> +    uint16_t vendor_id;
+> +    uint8_t data_obj_type;
+> +    bool (*set_rsp)(DOECap *);
+I wonder if this is the best name.  It does set the response
+but it also does a bunch of other stuff (like parsing the request).
+
+handle_request() might be more accurate?
+
+> +};
+> +
+> +struct DOECap {
+> +    /* Owner */
+> +    PCIDevice *pdev;
+> +
+> +    uint16_t offset;
+> +
+> +    struct {
+> +        bool intr;
+> +        uint16_t vec;
+> +    } cap;
+> +
+> +    struct {
+> +        bool abort;
+> +        bool intr;
+> +        bool go;
+> +    } ctrl;
+> +
+> +    struct {
+> +        bool busy;
+> +        bool intr;
+> +        bool error;
+> +        bool ready;
+> +    } status;
+> +
+> +    uint32_t *write_mbox;
+> +    uint32_t *read_mbox;
+> +
+> +    /* Mailbox position indicator */
+> +    uint32_t read_mbox_idx;
+> +    uint32_t read_mbox_len;
+> +    uint32_t write_mbox_len;
+> +
+> +    /* Protocols and its callback response */
+> +    DOEProtocol *protocols;
+> +    uint16_t protocol_num;
+> +};
+> +
+> +void pcie_doe_init(PCIDevice *pdev, DOECap *doe_cap, uint16_t offset,
+> +                   DOEProtocol *protocols, bool intr, uint16_t vec);
+> +void pcie_doe_fini(DOECap *doe_cap);
+> +bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
+> +                          uint32_t *buf);
+> +void pcie_doe_write_config(DOECap *doe_cap, uint32_t addr,
+> +                           uint32_t val, int size);
+> +uint32_t pcie_doe_build_protocol(DOEProtocol *p);
+> +void *pcie_doe_get_req(DOECap *doe_cap);
+> +void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp);
+> +uint32_t pcie_doe_get_obj_len(void *obj);
+> +#endif /* PCIE_DOE_H */
 
 
