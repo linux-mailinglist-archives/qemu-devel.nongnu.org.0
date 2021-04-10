@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A4C35AB98
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 09:10:08 +0200 (CEST)
-Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9002735ABA6
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 09:29:40 +0200 (CEST)
+Received: from localhost ([::1]:33874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lV7kt-00074q-Hw
-	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 03:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53256)
+	id 1lV83n-0000lr-2z
+	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 03:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lV7jy-0006aa-2W
- for qemu-devel@nongnu.org; Sat, 10 Apr 2021 03:09:10 -0400
-Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:47971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lV7jv-0001Fe-Gn
- for qemu-devel@nongnu.org; Sat, 10 Apr 2021 03:09:09 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.132])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 6F5F428007D;
- Sat, 10 Apr 2021 09:08:55 +0200 (CEST)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Sat, 10 Apr
- 2021 09:08:54 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004b771e90f-ffea-4338-bbb6-79aa8dbdce18,
- 7DB109D73D331EFE6E6D278AF4DA1FCDEB920233) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 92.136.227.33
-Subject: Re: [PATCH 15/24] aspeed/smc: Add extra controls to request DMA
-To: Joel Stanley <joel@jms.id.au>
-References: <20210407171637.777743-1-clg@kaod.org>
- <20210407171637.777743-16-clg@kaod.org>
- <CACPK8Xfk9dPXdtr=BZq+9yTrFSYg_pyTX+Gk8JbcomjwVpTmjw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <ba185653-d351-05eb-0b56-92e5fb00e77a@kaod.org>
-Date: Sat, 10 Apr 2021 09:08:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lV82X-0008Jr-7B
+ for qemu-devel@nongnu.org; Sat, 10 Apr 2021 03:28:21 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:33407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lV82U-0005HJ-K4
+ for qemu-devel@nongnu.org; Sat, 10 Apr 2021 03:28:20 -0400
+Received: by mail-oi1-x230.google.com with SMTP id l131so3127281oih.0
+ for <qemu-devel@nongnu.org>; Sat, 10 Apr 2021 00:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iyoOXifb1Pp7ksqEtCJXc/qPsHz3d8rgnxXnn5CeOLs=;
+ b=bGMY0OjmEwmSN26HTeSk8qW05Qn7XFhcAfs80IEhVp/4XOb8LtYpxzOrLctK2pFDRi
+ c5DkJXVKss73GnlZiVpBVdQHjThxYKA2QBlGlE9TYavch7685NwpriHkocEqnkP5pwbC
+ eCmLiDm7Tun+UBneUpgda4VSC7TIPiNdSD3X3NdRZAg/YVx6BcMBU5UecFzXC3EfXKHW
+ 5lR9hNfsYBrTOgspPxod7menXvchw/UGjzO1VM1OPOKaU71cKF/v4FxtrnYu7ysPT0x/
+ AMFL3pl+6jsD7h3yr5cFtp2AL9/tvxCjxpQJDamL8zbwxLAj7F66JFvYqSLge04pp/VX
+ 6K0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iyoOXifb1Pp7ksqEtCJXc/qPsHz3d8rgnxXnn5CeOLs=;
+ b=NrZVc07AKxBpf0i514YM0he4lDSBWX9qfy2sxrEp+mtealREhWxTdAAVKIzRfirq+N
+ 8h704YlDwbif1ZKbhQwH0TKW5lViCW6KbqMnyxNey7BJasIS1Sum7gfkKgMLPp+y9OLE
+ ca8iMYd5c753dolGxcP8XS014EunIEdywWRX8MYcjfhFjyKxFQrlldXyuPbnZBqicv41
+ VinbyeD71NcN4lCdbjhgiLsNw1vxpf0EcKZ32jSUwHoLsR9sXhtPN0C3Bs9rqmSkcX+1
+ umPrgNUnwv+cWFSSCu1hfdKhOifK+3i6akropmPEwUg87QcUhvKJSwBwum4aSKHHZQz9
+ 7tiQ==
+X-Gm-Message-State: AOAM530/xOYlZqASqOdcLjJ0Y/ZW/H79ytJrxkK/K1IjhiwkJFmN9X2q
+ /eTyrwMIDPdkIxJ2NMS7VRWsW2PLNG8nSZbLOLk=
+X-Google-Smtp-Source: ABdhPJyIVulbVNCnO6sN4g/qiJXcWWZeE/ZKAAtItSugh2xcFGFrfe5+8CgKoBt4qUS2fkmT3Y18rzWNK+JxNajEjz4=
+X-Received: by 2002:a05:6808:b3b:: with SMTP id
+ t27mr12518474oij.131.1618039696700; 
+ Sat, 10 Apr 2021 00:28:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACPK8Xfk9dPXdtr=BZq+9yTrFSYg_pyTX+Gk8JbcomjwVpTmjw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 49d78a87-a920-4233-8b50-769d4d3ff1f8
-X-Ovh-Tracer-Id: 5694238781912091430
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudekvddgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghu
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <E1BE68CE-DC60-4FC1-B42D-B38B923FB19E@gmail.com>
+ <CABLmASGQHzmYnefJ4uDrbNQ-zRwzyWDTXPVRL_qtpM1GOsM0eQ@mail.gmail.com>
+ <967C172F-B708-40A2-862E-9948F0844133@gmail.com>
+ <ace05be8-a256-788f-b896-45398d752d3@eik.bme.hu>
+ <BABF7369-A0AB-4CD4-A46D-19BF1BD04AF8@gmail.com>
+ <725920c9-c990-d35a-4958-4df0c45c62@eik.bme.hu>
+ <0429B873-DD42-4769-BCDF-25A7720D9C44@gmail.com>
+ <CABLmASFvmdSBP=z8L=_wrfz1FO2T08+Q+A8C4=WmhhaQTu9R3Q@mail.gmail.com>
+ <CABLmASEDhvb1Z3YhLoxF4D0BFrcxmE7tNafei0RJ5KwVM+rj9A@mail.gmail.com>
+ <F6C716CC-E058-4C70-A06F-FC0655516A1D@gmail.com>
+In-Reply-To: <F6C716CC-E058-4C70-A06F-FC0655516A1D@gmail.com>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Sat, 10 Apr 2021 09:28:04 +0200
+Message-ID: <CABLmASEPFVDejmfJw-Ak1_veREySYv8F-+ZKW_S2cDsEbfu7Gg@mail.gmail.com>
+Subject: Re: Mac OS real USB device support issue
+To: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,250 +89,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU devel list <qemu-devel@nongnu.org>, Gerd Hoffmann <gerd@kraxel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/9/21 8:54 AM, Joel Stanley wrote:
-> On Wed, 7 Apr 2021 at 17:17, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> The AST2600 SPI controllers have a set of bits to request/grant DMA
->> access. Add a new SMC feature for these controllers and use it to
->> check access to the DMA registers.
-> 
-> Ah this is why you added the features mask. Makes sense.
+On Fri, Apr 9, 2021 at 9:37 PM Programmingkid <programmingkidx@gmail.com> w=
+rote:
+>
+>
+>
+> > On Apr 7, 2021, at 1:28 AM, Howard Spoelstra <hsp.cat7@gmail.com> wrote=
+:
+> >
+> > On Wed, Apr 7, 2021 at 7:26 AM Howard Spoelstra <hsp.cat7@gmail.com> wr=
+ote:
+> >>
+> >> On Wed, Apr 7, 2021 at 3:53 AM Programmingkid <programmingkidx@gmail.c=
+om> wrote:
+> >>>
+> >>>
+> >>>
+> >>>> On Apr 6, 2021, at 7:18 PM, BALATON Zoltan <balaton@eik.bme.hu> wrot=
+e:
+> >>>>
+> >>>> On Tue, 6 Apr 2021, Programmingkid wrote:
+> >>>>>> On Apr 6, 2021, at 12:53 PM, BALATON Zoltan <balaton@eik.bme.hu> w=
+rote:
+> >>>>>> On Tue, 6 Apr 2021, Programmingkid wrote:
+> >>>>>>>> On Apr 6, 2021, at 10:01 AM, Howard Spoelstra <hsp.cat7@gmail.co=
+m> wrote:
+> >>>>>>>> On Tue, Apr 6, 2021 at 3:44 PM Programmingkid <programmingkidx@g=
+mail.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> Hi Gerd,
+> >>>>>>>>>
+> >>>>>>>>> I was wondering if you had access to a Mac OS 10 or Mac OS 11 m=
+achine to test USB support. I am on Mac OS 11.1 and cannot make USB devices=
+ work with any of my guests. So far these are the guests I have tested with=
+:
+> >>>>>>>>>
+> >>>>>>>>> - Windows 7
+> >>>>>>>>> - Mac OS 9.2
+> >>>>>>>>> - Windows 2000
+> >>>>>>>>>
+> >>>>>>>>> I have tried using USB flash drives, USB sound cards, and an US=
+B headset. They all show up under 'info usb', but cannot be used in the gue=
+st. My setup does use a USB-C hub so I'm not sure if this is a bug with QEM=
+U or an issue with the hub. Would you have any information on this issue?
+> >>>>>>>>
+> >>>>>>>> Hi John,
+> >>>>>>>>
+> >>>>>>>> As far as the Mac OS 9.2 guest is concerned on a mac OS host, it=
+ does
+> >>>>>>>> not support USB 2.0. I was successful only in passing through a =
+USB
+> >>>>>>>> flash drive that was forced into USB 1.1 mode by connecting it t=
+o a
+> >>>>>>>> real USB 1.1 hub and unloading the kext it used.
+> >>>>>>>>
+> >>>>>>>> Best,
+> >>>>>>>> Howard
+> >>>>>>>
+> >>>>>>> Hi Howard, I was actually thinking about CC'ing you for this emai=
+l. Glad you found it. Unloading kext files does not sound pleasant. Maybe t=
+here is some better way of doing it.
+> >>>>>>
+> >>>>>> In any case, until you make sure nothing tries to drive the device=
+ on the host, passing it to a guest likely will fail because then two drive=
+rs from two OSes would try to access it simultaneously which likely creates=
+ a mess as the device and drivers don't expect this. So you can't just pass=
+ a device through that the host has recognised and is driving without someh=
+ow getting the host to leave it alone first before you can pass it through.=
+ Unloading the driver is one way to do that (although it probably breaks al=
+l other similar devices too). Maybe there's another way to unbind a device =
+from the host such as ejecting it first but then I'm not sure if the low le=
+vel USB needed for accessing the device still works after that or it's comp=
+letely forgotten. There's probably a doc somewhere that describes how it wo=
+rks and how can you plug a device without also getting higher level drivers=
+ to load or if there's no official ways for that then you'll need to do som=
+e configuration on the host t
+> >>>> o avoid it grabbing devices that you want to pass through. On Linux =
+you can add an udev rule to ignore the device (maybe also adding TAG+=3D"ua=
+ccess" to allow console users to use it without needing root access) but no=
+t sure how USB works on macOS.
+> >>>>>>
+> >>>>>> Regards,
+> >>>>>> BALATON Zoltan
+> >>>>>
+> >>>>> Being able to dissociate a real USB device from its Mac OS driver w=
+ould be very useful in this situation. IOKit might be one place to look for=
+ such a feature. The Mach kernel documentation is another place that might =
+have what we want.
+> >>>>
+> >>>> Those might be a good place to start. IOKit provides the drivers and=
+ also the io registry which is probably where you can get if a driver is bo=
+und to a device and which one is it. How to dissociate the driver from the =
+device though I don't know.
+> >>>
+> >>> https://developer.apple.com/library/archive/documentation/DeviceDrive=
+rs/Conceptual/IOKitFundamentals/DeviceRemoval/DeviceRemoval.html
+> >>> According to this article a driver has a stop() and detach() method t=
+hat is called by the IOKit to remove a device. I'm thinking QEMU can be the=
+ one that calls these methods for a certain device.
+> >>>
+> >>>>
+> >>>>> I have one theory. What if we introduce a middleman. A pseudo-USB d=
+evice that the guest operating system could apply its configuration data to=
+ and will also talk directly with to the real USB device.
+> >>>>> So this:
+> >>>>>
+> >>>>> USB device <-> Host <-> QEMU USB middleman <-> Guest
+> >>>>
+> >>>> Isn't this middleman the QEMU usb-host device that we already have?
+> >>>
+> >>> It could be. I need to research this issue some more.
+> >>>
+> >>>>
+> >>>>> This could make USB 2.0 and 3.0 flash drives compatible with an old=
+er operating system like Mac OS 9. The USB middleman could fully accept Mac=
+ OS 9's configuration and make it think it is talking to a USB 1.1 device. =
+Parameters like data packet payload size would no longer be a problem. Host=
+ driver unloading would no longer be needed (in theory).
+> >>>>
+> >>>> However I think you're mixing up a few things here. The idea of pass=
+ing through USB devices is to let the guest handle it with its own drivers =
+like it was connected directly to the virtual machine and not to emulate a =
+USB device using host resources. If you want the latter then use usb-storag=
+e, usb-audio or similar. All that usb-host does is just forwarding the pack=
+ets from guest to the physical device and let it talk to it and drive it wi=
+thout help from the host. (I may be wrong about the details, I haven't chec=
+ked actual code but at least conceptually this should be the case.) If you =
+have this scenario then you can easily see that both the host and guest dri=
+ving the same USB device will not work. You should not try to mount a USB d=
+rive in guest that's already mounted by the host or you can't send audio fr=
+om both the guest and the host at the same time without totally confusing t=
+he device and both drivers that don't expect this to ever happen. So for pa=
+ssing through the device you have to make sure the host does not try to acc=
+ess it while it's used by the guest.
+> >>>
+> >>> This clarifies things on my part.
+> >>>
+> >>>>
+> >>>> If your guest does not have drivers for the device that you want to =
+pass through that's a different problem. With pass through the guest is exc=
+lusively given the task of driving the device so it should have a driver fo=
+r it. If the device does not work with the guest if you plug it in a physic=
+al machine then it won't work with pass through either. But the problem her=
+e is probably not that but the disagreement between USB speed between host =
+and guest. If the guest does not have USB 2.0 then you can't pass through U=
+SB 2.0 devices unless downgrading them on the host as well in some way. So =
+you either connect them to an USB 1 hub to match the emulated USB hardware =
+in the guest or you need to emulate an USB 2 card in the guest and connect =
+passed through devices to that. Did USB 2 cards exist for older G3/G4 Macs?
+> >>>
+> >>> Yes. I upgraded a friend's PowerMac G4 with such a card.
+> >>>
+> >>>> Some PowerBooks had USB 2 ports, what hardware did those use?
+> >>>
+> >>> I'm assuming it was the G4 PowerBooks.
+> >>>
+> >>>> Could those be emulated in QEMU?
+> >>>
+> >>> The PowerMac already is.
+> >>>
+> >>>> These are separate problems though from getting the device freed fro=
+m host drivers to avoid the problems with both guest and host accessing the=
+ device.
+> >>>
+> >>> Thank you again for the help.
+> >>>
+> >>> I think a simple algorithm would be
+> >>> 1) find out if a host driver is already using a real USB device.
+> >>> 2) If it is call that driver's stop() and detach() methods for only t=
+hat USB device (other devices should not be effected).
+> >>> 3) Let the guest start using the USB device.
+> >>>
+> >>>
+> >>
+> >> This is what Gerd wrote about the USB 1.1 -> USB 2.0 issue:
+> >>
+> >> "Problem is when the device is plugged into a usb2 port you can't quer=
+y
+> >> the usb1 descriptors.  So qemu presents the wrong descriptors to the
+> >> guest in case host and guest use different usb speeds.  That may or ma=
+y
+> >> not work ...
+> >>
+> >> The other way around is less problematic, when plugging a usb2 device
+> >> into a usb3-capable (xhci) port I can tell the guest "this is a usb2
+> >> device".  But reporting "this is a usb2 device" via ohci isn't going t=
+o
+> >> fly for obvious reasons ..."
+> >>
+> >> So then I forced my device it into USB 1.1 mode by attaching it to a
+> >> real 1.1 hub. The qemu hub will not do this for you. Mac OS and Mac OS
+> >> X guests up to 10.2.8 do not have USB 2.0 support, but from 10.2.8
+> >> upwards you can use the ehci hub. This works for a simple usb storage
+> >> device that uses the usbstorage kext in macOS. Indeed, as Zoltan
+> >> wrote, unloading a kext for a device that has its class driver loaded,
+> >> one looses access to other devices that match too. Reboot time ;-)
+> >>
+> >> There used to be a solution by creating an empty kext that loaded with
+> >> higher priority compared to the standard kexts. I don't know whether
+> >> that solution could still work with Apple putting new requirements on
+> >> kext loading. I believe unloading a kext requires disabling SIP. Sudo
+> >> won't do anymore from Catalina upwards.
+> >>
+> >> I gather Qemu is currenty relying on libusb to do the heavy lifting.
+> >> For Linux that seems OK together with perhaps first unbinding a
+> >> driver, but for macOS and Windows hosts the unbinding does not work.
+> >>
+> >> Here is some discussion on how to create an empty kext:
+> >> https://github.com/libusb/libusb/issues/158#issuecomment-190582178
+> >>
+> >> Best,
+> >> Howard
+> >
+> > And this:
+> > https://github.com/libusb/libusb/issues/906
+>
+> Have you tried the proposed changes yet for libusb?
+>
 
-Yes. It's a bit redundant with the dma_ctrl() handler but it looks cleaner. 
+Hi,
 
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+Yes, I experimented with the current libusb from brew, the latest
+libusb code from github and a patched version based on that. I
+couldn't get a flash drive passed through with any of them. Running as
+root made no difference. My Mojave host doesn't allow unloading the
+kext loaded for the flash drive where Sierra allowed that, but then
+that should be handled by the patches.
 
+I'll link to the latest libusb and the patched version plus the
+patches. I guess it will not work on your host, but you might be able
+to persuade qemu to use them by using
+install_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib
+@executable_path/libusb-1.0.0-latest.dylib qemu-system-ppc
 
-Thanks,
+I'll also include the patches, libusb is easily built.
+https://surfdrive.surf.nl/files/index.php/s/Qs0rtTVe2qIudw4/download
 
-C.
-
-
->>
->> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  include/hw/ssi/aspeed_smc.h |  1 +
->>  hw/ssi/aspeed_smc.c         | 74 +++++++++++++++++++++++++++++++++----
->>  2 files changed, 68 insertions(+), 7 deletions(-)
->>
->> diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
->> index 07879fd1c4a7..cdaf165300b6 100644
->> --- a/include/hw/ssi/aspeed_smc.h
->> +++ b/include/hw/ssi/aspeed_smc.h
->> @@ -55,6 +55,7 @@ typedef struct AspeedSMCController {
->>                                 const AspeedSegments *seg);
->>      void (*reg_to_segment)(const struct AspeedSMCState *s, uint32_t reg,
->>                             AspeedSegments *seg);
->> +    void (*dma_ctrl)(struct AspeedSMCState *s, uint32_t value);
->>  } AspeedSMCController;
->>
->>  typedef struct AspeedSMCFlash {
->> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
->> index 4521bbd4864e..189b35637c77 100644
->> --- a/hw/ssi/aspeed_smc.c
->> +++ b/hw/ssi/aspeed_smc.c
->> @@ -127,6 +127,8 @@
->>
->>  /* DMA Control/Status Register */
->>  #define R_DMA_CTRL        (0x80 / 4)
->> +#define   DMA_CTRL_REQUEST      (1 << 31)
->> +#define   DMA_CTRL_GRANT        (1 << 30)
->>  #define   DMA_CTRL_DELAY_MASK   0xf
->>  #define   DMA_CTRL_DELAY_SHIFT  8
->>  #define   DMA_CTRL_FREQ_MASK    0xf
->> @@ -228,6 +230,7 @@ static uint32_t aspeed_smc_segment_to_reg(const AspeedSMCState *s,
->>                                            const AspeedSegments *seg);
->>  static void aspeed_smc_reg_to_segment(const AspeedSMCState *s, uint32_t reg,
->>                                        AspeedSegments *seg);
->> +static void aspeed_smc_dma_ctrl(AspeedSMCState *s, uint32_t value);
->>
->>  /*
->>   * AST2600 definitions
->> @@ -257,7 +260,10 @@ static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSMCState *s,
->>                                                 const AspeedSegments *seg);
->>  static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
->>                                             uint32_t reg, AspeedSegments *seg);
->> +static void aspeed_2600_smc_dma_ctrl(AspeedSMCState *s, uint32_t value);
->> +
->>  #define ASPEED_SMC_FEATURE_DMA       0x1
->> +#define ASPEED_SMC_FEATURE_DMA_GRANT 0x2
->>
->>  static inline bool aspeed_smc_has_dma(const AspeedSMCState *s)
->>  {
->> @@ -281,6 +287,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_SMC_MAX,
->>          .segment_to_reg    = aspeed_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.fmc-ast2400",
->>          .r_conf            = R_CONF,
->> @@ -299,6 +306,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.spi1-ast2400",
->>          .r_conf            = R_SPI_CONF,
->> @@ -315,6 +323,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_SPI_MAX,
->>          .segment_to_reg    = aspeed_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.fmc-ast2500",
->>          .r_conf            = R_CONF,
->> @@ -333,6 +342,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.spi1-ast2500",
->>          .r_conf            = R_CONF,
->> @@ -349,6 +359,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.spi2-ast2500",
->>          .r_conf            = R_CONF,
->> @@ -365,6 +376,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.fmc-ast2600",
->>          .r_conf            = R_CONF,
->> @@ -383,6 +395,7 @@ static const AspeedSMCController controllers[] = {
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_2600_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_2600_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_2600_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.spi1-ast2600",
->>          .r_conf            = R_CONF,
->> @@ -395,12 +408,14 @@ static const AspeedSMCController controllers[] = {
->>          .segments          = aspeed_segments_ast2600_spi1,
->>          .flash_window_base = ASPEED26_SOC_SPI_FLASH_BASE,
->>          .flash_window_size = 0x10000000,
->> -        .features          = ASPEED_SMC_FEATURE_DMA,
->> +        .features          = ASPEED_SMC_FEATURE_DMA |
->> +                             ASPEED_SMC_FEATURE_DMA_GRANT,
->>          .dma_flash_mask    = 0x0FFFFFFC,
->>          .dma_dram_mask     = 0x3FFFFFFC,
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_2600_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_2600_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_2600_smc_dma_ctrl,
->>      }, {
->>          .name              = "aspeed.spi2-ast2600",
->>          .r_conf            = R_CONF,
->> @@ -413,12 +428,14 @@ static const AspeedSMCController controllers[] = {
->>          .segments          = aspeed_segments_ast2600_spi2,
->>          .flash_window_base = ASPEED26_SOC_SPI2_FLASH_BASE,
->>          .flash_window_size = 0x10000000,
->> -        .features          = ASPEED_SMC_FEATURE_DMA,
->> +        .features          = ASPEED_SMC_FEATURE_DMA |
->> +                             ASPEED_SMC_FEATURE_DMA_GRANT,
->>          .dma_flash_mask    = 0x0FFFFFFC,
->>          .dma_dram_mask     = 0x3FFFFFFC,
->>          .nregs             = ASPEED_SMC_R_MAX,
->>          .segment_to_reg    = aspeed_2600_smc_segment_to_reg,
->>          .reg_to_segment    = aspeed_2600_smc_reg_to_segment,
->> +        .dma_ctrl          = aspeed_2600_smc_dma_ctrl,
->>      },
->>  };
->>
->> @@ -1240,7 +1257,7 @@ static void aspeed_smc_dma_done(AspeedSMCState *s)
->>      }
->>  }
->>
->> -static void aspeed_smc_dma_ctrl(AspeedSMCState *s, uint64_t dma_ctrl)
->> +static void aspeed_smc_dma_ctrl(AspeedSMCState *s, uint32_t dma_ctrl)
->>  {
->>      if (!(dma_ctrl & DMA_CTRL_ENABLE)) {
->>          s->regs[R_DMA_CTRL] = dma_ctrl;
->> @@ -1265,6 +1282,46 @@ static void aspeed_smc_dma_ctrl(AspeedSMCState *s, uint64_t dma_ctrl)
->>      aspeed_smc_dma_done(s);
->>  }
->>
->> +static inline bool aspeed_smc_dma_granted(AspeedSMCState *s)
->> +{
->> +    if (!(s->ctrl->features & ASPEED_SMC_FEATURE_DMA_GRANT)) {
->> +        return true;
->> +    }
->> +
->> +    if (!(s->regs[R_DMA_CTRL] & DMA_CTRL_GRANT)) {
->> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: DMA not granted\n",  __func__);
->> +        return false;
->> +    }
->> +
->> +    return true;
->> +}
->> +
->> +static void aspeed_2600_smc_dma_ctrl(AspeedSMCState *s, uint32_t dma_ctrl)
->> +{
->> +    /* Preserve DMA bits  */
->> +    dma_ctrl |= s->regs[R_DMA_CTRL] & (DMA_CTRL_REQUEST | DMA_CTRL_GRANT);
->> +
->> +    if (dma_ctrl == 0xAEED0000) {
->> +        /* automatically grant request */
->> +        s->regs[R_DMA_CTRL] |= (DMA_CTRL_REQUEST | DMA_CTRL_GRANT);
->> +        return;
->> +    }
->> +
->> +    /* clear request */
->> +    if (dma_ctrl == 0xDEEA0000) {
->> +        s->regs[R_DMA_CTRL] &= ~(DMA_CTRL_REQUEST | DMA_CTRL_GRANT);
->> +        return;
->> +    }
->> +
->> +    if (!aspeed_smc_dma_granted(s)) {
->> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: DMA not granted\n",  __func__);
->> +        return;
->> +    }
->> +
->> +    aspeed_smc_dma_ctrl(s, dma_ctrl);
->> +    s->regs[R_DMA_CTRL] &= ~(DMA_CTRL_REQUEST | DMA_CTRL_GRANT);
->> +}
->> +
->>  static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
->>                               unsigned int size)
->>  {
->> @@ -1297,12 +1354,15 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
->>      } else if (addr == R_INTR_CTRL) {
->>          s->regs[addr] = value;
->>      } else if (aspeed_smc_has_dma(s) && addr == R_DMA_CTRL) {
->> -        aspeed_smc_dma_ctrl(s, value);
->> -    } else if (aspeed_smc_has_dma(s) && addr == R_DMA_DRAM_ADDR) {
->> +        s->ctrl->dma_ctrl(s, value);
->> +    } else if (aspeed_smc_has_dma(s) && addr == R_DMA_DRAM_ADDR &&
->> +               aspeed_smc_dma_granted(s)) {
->>          s->regs[addr] = DMA_DRAM_ADDR(s, value);
->> -    } else if (aspeed_smc_has_dma(s) && addr == R_DMA_FLASH_ADDR) {
->> +    } else if (aspeed_smc_has_dma(s) && addr == R_DMA_FLASH_ADDR &&
->> +               aspeed_smc_dma_granted(s)) {
->>          s->regs[addr] = DMA_FLASH_ADDR(s, value);
->> -    } else if (aspeed_smc_has_dma(s) && addr == R_DMA_LEN) {
->> +    } else if (aspeed_smc_has_dma(s) && addr == R_DMA_LEN &&
->> +               aspeed_smc_dma_granted(s)) {
->>          s->regs[addr] = DMA_LENGTH(value);
->>      } else {
->>          qemu_log_mask(LOG_UNIMP, "%s: not implemented: 0x%" HWADDR_PRIx "\n",
->> --
->> 2.26.3
->>
-
+Best,
+Howard
 
