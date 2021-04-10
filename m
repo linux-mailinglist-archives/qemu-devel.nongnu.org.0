@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9307B35ADD3
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 15:55:08 +0200 (CEST)
-Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8703535ADE0
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 15:59:24 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVE4j-0003Gj-RQ
-	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 09:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
+	id 1lVE8x-00055s-KB
+	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 09:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lVE3S-0002ej-1l; Sat, 10 Apr 2021 09:53:42 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42627)
+ id 1lVE85-0004Ye-5E; Sat, 10 Apr 2021 09:58:29 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lVE3Q-00021i-Fi; Sat, 10 Apr 2021 09:53:41 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- 5-20020a05600c0245b029011a8273f85eso4400794wmj.1; 
- Sat, 10 Apr 2021 06:53:39 -0700 (PDT)
+ id 1lVE7y-0004fI-TO; Sat, 10 Apr 2021 09:58:25 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ n11-20020a05600c4f8bb029010e5cf86347so6423255wmq.1; 
+ Sat, 10 Apr 2021 06:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UeZFIhM++2FYLJLIE0k1TTzDzyVMoFh04CbgRPL6Q9o=;
- b=HAy3bw8wgau/OSVn9VqtDeYXB6ntOiSEABws+T6PISQwtMrZXXBmd7fnGt+ob7nt1+
- rbNRFGztqEkY5SvOoMA5M7ptasKjShChRWK/4l8pSoEaZBOyxMLUa1OqBnbJRdeP/r9F
- CrUKGIJe8Kw36JOQYRX8h7RZ354FluYd5L+Pmf9h2K2gERqNUI5n0g23LsNYNdZoYelI
- FieSzz5a/NIfe0rSL4pIzvvjIhJkslI4QDy0eYeJ8qZSRxM4U5cdSh6GPM3rE5MEKqho
- rDsPTShx48PWMJgy98d/igDsUon2Cnsphc1H1P+EbkTAhCLINW9788ttWyIyxeblTFDL
- cR6A==
+ bh=U7sYieoZDePJPROblq1TH5YHbyZIX5uFuIVOJIr4+wY=;
+ b=ed5bWRENJFuWaFDafjIeIhECVefLbDRx0FQTtUE0bmomQfTDiQBycCsJAICp3252Y6
+ X+xeWKslnDLSgEJbAc8TXSQ/sScLcaTUkmsL9WgzdaKG+GKxTOUCM+EDVXjvzQoJ4mT1
+ a2NCcy8cD5Aw7TL9XqR0UsokjV078NEsJgRBiXrWZ7b2khYNFCk63VDir1OWYyM8GVwd
+ 2xKR4nZayDZsEPq8EP4/SECENywyxZ1e8bDYvKrfUfmPXWLR/DfD4y6aw121PDpI+fgV
+ pVtD9AaX2i1ZbnTrvEC8UD74Y1tUlayLkYWxnHF273vfHeNJDRz1hQJ1syUUbb6O2Sdv
+ SD2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UeZFIhM++2FYLJLIE0k1TTzDzyVMoFh04CbgRPL6Q9o=;
- b=SzV+HLE73CkA0Ow79Py3O/Ozn5Q/97dijgJwIXt+gcUJKOqZBpqTsTV9wxN9XwqGFb
- 78mZWvpNVfjSD/06VEWYtm25hHdXmK8nsuHBT4j4EqBuTUa5WY/EVPxqwnTm5d5dy2wo
- ZJ6JUegrYNYRgRYf9RQKUFwnJcwZgDrlTe8yvKJ178hYNtRSt79cJnIQzHfxMTWPTQNl
- +aNmvYA80czfhbvX464XZM6VoNLdUxTOTgvRQ2nPNwTXqC8uR5NK5EuBkPZZK7zA3uzh
- Yv/FVS1gvEhSv8GbDN+1w+yhEY5s3bacvd15KbannrF6LWiUdwJ2FuNq9XsCzECHVOFV
- 8DBQ==
-X-Gm-Message-State: AOAM531R56z6aoKfTPTcZy3jkDWk+vK7cdNFthVVl8EwM27D463rqvDo
- I5uBoR6sN9xHZNjxAHjwpYk=
-X-Google-Smtp-Source: ABdhPJz7kZQvi+mYGjcYckTaRyusXfB3DGL9rTTjvvnvB0DIy0nvx9ADWXsal4JoIuTkA1NlvydNoQ==
-X-Received: by 2002:a1c:4102:: with SMTP id o2mr18343585wma.177.1618062818325; 
- Sat, 10 Apr 2021 06:53:38 -0700 (PDT)
+ bh=U7sYieoZDePJPROblq1TH5YHbyZIX5uFuIVOJIr4+wY=;
+ b=ucdz0qfn8kw/ksuzo91gxpDrVfCBxv8bJu1OdbuIQgjNpKzrGQVmuE185UoF+OC3BL
+ 1lEzUxRmf+uvsApN/v5AvvaEsiLqquTLAYq5WpU9XLwr1KKl1tCgUA1IKfer1w3SqmLC
+ xkNGePMST+TrBXU1ait3oqdNhLN1/EfRHr03HZ43Ha6ZMs+Z77igYNGF5BTzI2E9LcR6
+ uGwCxxRN0QXKcDF9W4zgKTtZ90iNGC7qyqzSIb0uA1Fohx1aXAQrMkJjmV0hCoCLPMep
+ 2q4OU+kJx0WgVJiMn7iF1oM94/O1h3HxFBcXMrt4fZ/HsHv32xlALUf3U0QE8VuP0nv1
+ fKGw==
+X-Gm-Message-State: AOAM530SlQZy3EkXEZGAOnAKV6inas+C/OA5bp2lh1iRttw+iVypmBQW
+ CKVXbtIsWFnMPiZF6XaQumdnPLTqdX0QUQ==
+X-Google-Smtp-Source: ABdhPJxTU0hi90ygd1TS7uNSrF4B5FtF8bpy7qXkVdM22KYQ4uFnoBuHvqQQx3alBvnYoaUAIfvj8Q==
+X-Received: by 2002:a05:600c:4103:: with SMTP id
+ j3mr18347062wmi.175.1618063099974; 
+ Sat, 10 Apr 2021 06:58:19 -0700 (PDT)
 Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id y2sm6836998wmi.20.2021.04.10.06.53.37
+ by smtp.gmail.com with ESMTPSA id o12sm9567455wrj.34.2021.04.10.06.58.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Apr 2021 06:53:37 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
- clock propagation
-To: Luc Michel <luc@lmichel.fr>
-References: <20210409062401.2350436-1-f4bug@amsat.org>
- <20210410131932.i6no5tvvaldyomvp@sekoia-pc.home.lmichel.fr>
+ Sat, 10 Apr 2021 06:58:19 -0700 (PDT)
+Subject: Re: [PATCH for-6.0] esp: fix setting of ESPState mig_version_id when
+ launching QEMU with -S option
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, David Alan Gilbert
+ <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210407124842.32695-1-mark.cave-ayland@ilande.co.uk>
+ <0cadef46-d80c-6f09-bc36-9b8872fc9009@redhat.com>
+ <94bdaba6-2a2e-13c3-297b-5312cbdcb455@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
-Date: Sat, 10 Apr 2021 15:53:36 +0200
+Message-ID: <f20f0dcb-f7e8-93a8-0698-41c0b30ca0be@amsat.org>
+Date: Sat, 10 Apr 2021 15:58:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210410131932.i6no5tvvaldyomvp@sekoia-pc.home.lmichel.fr>
+In-Reply-To: <94bdaba6-2a2e-13c3-297b-5312cbdcb455@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,70 +94,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Luc,
-
-On 4/10/21 3:19 PM, Luc Michel wrote:
-> On 08:23 Fri 09 Apr     , Philippe Mathieu-Daudé wrote:
->> I've been debugging some odd issue with the clocks:
->> a clock created in the machine (IOW, not a qdev clock) isn't
->> always resetted, thus propagating its value.
->> "not always" is the odd part. In the MPS2 board, the machine
->> clock is propagated. Apparently because the peripherals are
->> created directly in the machine_init() handler. When moving
->> them out in a SoC QOM container, the clock isn't... I'm still
->> having hard time to understand what is going on.
+On 4/10/21 10:31 AM, Mark Cave-Ayland wrote:
+> On 10/04/2021 06:56, Thomas Huth wrote:
 > 
-> I think there is a misunderstanding on how the clock API works. If I
-> understand correctly your issue, you expect the callback of an input
-> clock connected to your constant "main oscillator" clock to be called on
-> machine reset.
+>> On 07/04/2021 14.48, Mark Cave-Ayland wrote:
+>>> If QEMU is launched with the -S option then the ESPState
+>>> mig_version_id property
+>>> is left unset due to the ordering of the VMState fields in the
+>>> VMStateDescription
+>>> for sysbusespscsi and pciespscsi. If the VM is migrated and restored
+>>> in this
+>>> stopped state, the version tests in the vmstate_esp
+>>> VMStateDescription and
+>>> esp_post_load() become confused causing the migration to fail.
+>>>
+>>> Fix the ordering problem by moving the setting of mig_version_id to a
+>>> common
+>>> esp_pre_save() function which is invoked first by both sysbusespscsi and
+>>> pciespscsi rather than at the point where ESPState is itself
+>>> serialised into the
+>>> migration stream.
+>>>
+>>> Buglink: https://bugs.launchpad.net/qemu/+bug/1922611
+>>> Fixes: 0bd005be78 ("esp: add vmstate_esp version to embedded ESPState")
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hw/scsi/esp-pci.c     | 1 +
+>>>   hw/scsi/esp.c         | 7 ++++---
+>>>   include/hw/scsi/esp.h | 1 +
+>>>   3 files changed, 6 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+>>> index c3d3dab05e..9db10b1a48 100644
+>>> --- a/hw/scsi/esp-pci.c
+>>> +++ b/hw/scsi/esp-pci.c
+>>> @@ -332,6 +332,7 @@ static const VMStateDescription
+>>> vmstate_esp_pci_scsi = {
+>>>       .name = "pciespscsi",
+>>>       .version_id = 2,
+>>>       .minimum_version_id = 1,
+>>> +    .pre_save = esp_pre_save,
+>>>       .fields = (VMStateField[]) {
+>>>           VMSTATE_PCI_DEVICE(parent_obj, PCIESPState),
+>>>           VMSTATE_BUFFER_UNSAFE(dma_regs, PCIESPState, 0, 8 *
+>>> sizeof(uint32_t)),
+>>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+>>> index 3b9037e4f4..0037197bdb 100644
+>>> --- a/hw/scsi/esp.c
+>>> +++ b/hw/scsi/esp.c
+>>> @@ -1089,9 +1089,10 @@ static bool esp_is_version_5(void *opaque, int
+>>> version_id)
+>>>       return version_id == 5;
+>>>   }
+>>> -static int esp_pre_save(void *opaque)
+>>> +int esp_pre_save(void *opaque)
+>>>   {
+>>> -    ESPState *s = ESP(opaque);
+>>> +    ESPState *s = ESP(object_resolve_path_component(
+>>> +                      OBJECT(opaque), "esp"));
+>>>       s->mig_version_id = vmstate_esp.version_id;
+>>>       return 0;
+>>> @@ -1127,7 +1128,6 @@ const VMStateDescription vmstate_esp = {
+>>>       .name = "esp",
+>>>       .version_id = 5,
+>>>       .minimum_version_id = 3,
+>>> -    .pre_save = esp_pre_save,
+>>>       .post_load = esp_post_load,
+>>>       .fields = (VMStateField[]) {
+>>>           VMSTATE_BUFFER(rregs, ESPState),
+>>> @@ -1317,6 +1317,7 @@ static const VMStateDescription
+>>> vmstate_sysbus_esp_scsi = {
+>>>       .name = "sysbusespscsi",
+>>>       .version_id = 2,
+>>>       .minimum_version_id = 1,
+>>> +    .pre_save = esp_pre_save,
+>>>       .fields = (VMStateField[]) {
+>>>           VMSTATE_UINT8_V(esp.mig_version_id, SysBusESPState, 2),
+>>>           VMSTATE_STRUCT(esp, SysBusESPState, 0, vmstate_esp, ESPState),
+>>> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+>>> index 95088490aa..aada3680b7 100644
+>>> --- a/include/hw/scsi/esp.h
+>>> +++ b/include/hw/scsi/esp.h
+>>> @@ -157,5 +157,6 @@ void esp_hard_reset(ESPState *s);
+>>>   uint64_t esp_reg_read(ESPState *s, uint32_t saddr);
+>>>   void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val);
+>>>   extern const VMStateDescription vmstate_esp;
+>>> +int esp_pre_save(void *opaque);
+>>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>
+>> Which tree should this patch go through? Your Sparc tree? Migration?
+>> Scsi? Trivial?
 > 
-> If I'm not mistaken this is not the way the API has been designed. The
-> callback is called only when the clock period changes. A constant clock
-> does not change on reset, so the callback of child clocks should not be
-> called.
-
-They why the children of a clock tree fed with constant clock stay with
-a clock of 0? Who is responsible of setting their clock to the constant
-value?
-
-> However devices that care about this clock value (e.g. a device that
-> has a clock input connected to this constant clock) should see their
-> standard reset callback called during reset. And they can effectively read
-> the clock value here and do what they need to do.
+> Previously I've considered the ESP patches to be SCSI, although the
+> large ESP patchset was given approval to go via another tree which is
+> why that was eventually merged via qemu-sparc.
 > 
-> Note that clock propagation during reset has always been a complicated
-> problem. Calling clock_propagate is forbidden during the reset's enter
-> phase because of the side effects it can introduce.
-
-Ah... Maybe this is related to the generic reset problem in QEMU :(
-
->> Alternatively I tried to strengthen the clock API by reducing
->> the clock creation in 2 cases: machine/device. This way clocks
->> aren't left dangling around alone. The qdev clocks are properly
->> resetted, and for the machine clocks I register a generic reset
->> handler. This way is safer, but I don't think we want to keep
->> adding generic reset handlers, instead we'd like to remove them.
+> I don't mind doing the same again although I'm still waiting for the
+> final nod for this and the ESP security fixes for 6.0 (see
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01479.html).
 > 
-> I find your API modification a bit restrictive. I think creating a
-> standalone clock can be useful, e.g. in complicated devices that may
-> want to use internal "intermediate" clocks. I would not remove this
-> possibility to the API users.
+> Thoughts/other ideas?
 
-Well, this is the point. I can't see a justification to have a clock
-on a non-qdev object. We should be able to model complicated devices
-with qdev.
+It makes sense to have this go via the SCSI tree, but the maintainers
+are pretty busy (you forgot to Cc Fam in both series). Maybe with an Ack
+from them you could take the ESP patches via the SPARC tree?
 
-We are having various problems with the CPUs which are non-qdev devices,
-or recently even with the LED model...:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg798031.html
+Regards,
 
 Phil.
 
