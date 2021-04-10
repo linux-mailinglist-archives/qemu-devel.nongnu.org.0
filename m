@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC6D35AF37
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 19:26:58 +0200 (CEST)
-Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944C835B023
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 21:42:20 +0200 (CEST)
+Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVHNo-0004dz-Rb
-	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 13:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
+	id 1lVJUo-0005D2-AX
+	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 15:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lVHMY-00048G-V0
- for qemu-devel@nongnu.org; Sat, 10 Apr 2021 13:25:38 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:46979)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1lVJTk-0004ie-6h; Sat, 10 Apr 2021 15:41:12 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lVHMW-0002QZ-5D
- for qemu-devel@nongnu.org; Sat, 10 Apr 2021 13:25:38 -0400
-Received: by mail-qt1-x830.google.com with SMTP id y2so6704071qtw.13
- for <qemu-devel@nongnu.org>; Sat, 10 Apr 2021 10:25:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1lVJTf-0000fE-Gv; Sat, 10 Apr 2021 15:41:11 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so6448859wmy.5; 
+ Sat, 10 Apr 2021 12:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FhWdJcUvYArl4ufemnrHLSWp2ykYKM3EriEj7kdojIs=;
- b=b6j5JrJIOUyDq5Sr40A5cdisYzoHJw0nUaxa1RYPok1SO4v1REq7UlGD6MFG4h/Tka
- Yi4djvW8Vwl2yGRF+a5ornT2TZBhqNXgPXUJbM8+3X8B7OtLlUL0AAXKholmFZdfN/rP
- 2OU7+zTvXxlQEJl741qvPW1jUKBF0KbXiu45E4cgx/lqpqRKBYWUXThRjV1H3tpwnL8O
- INW4oPakDFZ9IHZZla5Px4Z4kpVBRS0VSOaxYECijeBpzi+6acJMJf0B7cDEIoqOD3k/
- RD+Md0y4hA81AR57pd6CGYYX0++xnJfwKOH6J2Cb8rmk20CNQiKITZaNk8NRKT50yZi5
- klZQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PPzEuTEXwPCJ8Ue9hXYvxzIXF9aaFZNriJ3MI6Vi9bw=;
+ b=vMIYCP1vykKYo8t8cvTYvG55AMGYg4jX+2CcNyysS72by2Ic2UURw2IsYQH8AgMbDG
+ WsRHQuphbBszUA92kSNYJ1b9f273/dqjEYmWbhtLDfhJDAZz1GURNh8Tcku+/kp4ByOy
+ rUaYpPa7rVnWFYoidfpMqudf/YEHXHfJDhigrLxKGEvTNYyRFGieV6vf7JyZ2JtFXNCW
+ MUnLTvAkltlwGX+9e9MXLrk+/TqCihdmKo5Hw7QiBeBeTy1nkuga1YqpI5qdtuqDl1eI
+ qW2XF5+qyEiqwpefxPFUFPywuOJdqt+u/puddl/IMF7aCn9xhwqtL9ygOyFD81EAd2o1
+ /f6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FhWdJcUvYArl4ufemnrHLSWp2ykYKM3EriEj7kdojIs=;
- b=WhR6297UddtTABqVPCn7Hl1WSxZLVkrChQZksgt0flSziSOhcCiBAZ+T+rhmFoAFBe
- TCOTz/Ni6sCZGtMcr4yKJHQWP+BOurmbLMC82jj/J9iYQ5fvQtOTjJSaYKfshyHdgP5I
- W1aIkXX8yPwcEM8d8iBO7rKl9Zh/gFYdH0Tdo0t3IC6F0Y/yTCgmuJMh6zvq8Yfr1nh4
- NgrP1FXwj/4WSuIMxZqGUouX8EM0bdp8TZB17skXcA5hAIzYSVDC4L7JDF4iLlPgr0b3
- uS3ZhvkrE3GaLWv/naCJMOQnTYHiCAmv9PwjBKBldlAAPbuetuxz5g4BD6UJLM8D6vI8
- h9ig==
-X-Gm-Message-State: AOAM533EA5TxGkSPQKYzW0i3TxthK6i/ta6ISQZa1bqwLWPEz0/duVfA
- lgWAVJ2EcB6A7oIn4XpLthVMvIUMo7b+df3237c=
-X-Google-Smtp-Source: ABdhPJyVsBKSXr0X56t8Bd1kBDBcJn7/r9V4BPBBYblVVQ7Tlba0Y/Igeuqmhp6CDZYrhhuwDYGHLQE1pnvXn9NfNMQ=
-X-Received: by 2002:ac8:7a63:: with SMTP id w3mr11862130qtt.371.1618075534199; 
- Sat, 10 Apr 2021 10:25:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PPzEuTEXwPCJ8Ue9hXYvxzIXF9aaFZNriJ3MI6Vi9bw=;
+ b=Sfp6Eb9N0kSL3PdHX/pkpVLi6uuk4hPUsrLdQgkPXVK5Vpdoddy9vsdbokxb3BGMni
+ dmpWwqSR1pYIiAU2cFcq236P543tSoABwabp4B6r0yir6f3DrpBdf5o0+0b4PT/GXwai
+ GQXi0GOpDI8vfGziLnRcwKzPqOKfL9DxS3f9AfCDf9uKA8LRl3DmF9GQXR+VwjpoIA5Z
+ NpMH5BnZjMc2Q03PYdHWLQ436GIoDO5ylGIDPbOx+/cYCjvX65ZfZqpwy3E6B6m4ao65
+ 8TUIceY/steI1treRe7OprXdl8ed5ho80DkzGmsE+iSZ6O2oPOkQ/uOwhXyd3YwSrdpK
+ jEUQ==
+X-Gm-Message-State: AOAM532Sw1vB3K545A1bJfEXGqDonqxcqH2zYeJVxOsSMDydN69Pc9GB
+ IdCbRTnYVAmZWCDZngDSs6Q6bCSPhXbgh7bd
+X-Google-Smtp-Source: ABdhPJyOG+VnuB8lNCAOFMMgO4IV7uEI4DuEf8LlVVyHP/6EM23JV0SXq9fzj3WfJSFz0r3uupqL3A==
+X-Received: by 2002:a1c:f004:: with SMTP id a4mr19128408wmb.169.1618083664585; 
+ Sat, 10 Apr 2021 12:41:04 -0700 (PDT)
+Received: from localhost.localdomain (a89-152-76-22.cpe.netcabo.pt.
+ [89.152.76.22])
+ by smtp.gmail.com with ESMTPSA id o15sm10229299wra.93.2021.04.10.12.41.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Apr 2021 12:41:04 -0700 (PDT)
+From: Jose Martins <josemartins90@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/riscv: fix wfi exception behavior
+Date: Sat, 10 Apr 2021 20:40:47 +0100
+Message-Id: <20210410194047.559189-1-josemartins90@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210320220949.40965-1-mrolnik@gmail.com>
- <20210320220949.40965-2-mrolnik@gmail.com>
- <YFnjLbU9+itpbvsf@work-vm>
- <CAK4993iuteYNiM3acyGPNb5guwkfr3fKxJDecqcwKRdFTgG0sw@mail.gmail.com>
- <CAK4993gND7R1RBfimMdJXpJDvFdZiULdE2WKPKH+UnNaFm0iww@mail.gmail.com>
-In-Reply-To: <CAK4993gND7R1RBfimMdJXpJDvFdZiULdE2WKPKH+UnNaFm0iww@mail.gmail.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Sat, 10 Apr 2021 20:24:56 +0300
-Message-ID: <CAK4993iPwu2ESggMx05C0USrnSigHJq=-iP=BU-FhDXDcRH5gw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Set TARGET_PAGE_BITS to be 10 instead of 8 bits
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006f900805bfa19133"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=mrolnik@gmail.com; helo=mail-qt1-x830.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=josemartins90@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,198 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Jose Martins <josemartins90@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006f900805bfa19133
-Content-Type: text/plain; charset="UTF-8"
+The wfi exception trigger behavior was not taking into account the fact
+that user mode is not allowed to execute wfi instructions or the effect
+of the hstatus.vtw bit. It was also always generating virtual instruction
+exceptions when this should only happen when the wfi instruction is
+executed when the virtualization mode is enabled:
 
-Please review.
+- when a wfi instruction is executed, an illegal exception should be triggered
+if either the current mode is user or the mode is supervisor and mstatus.tw is
+set.
 
-On Tue, Mar 23, 2021 at 10:28 PM Michael Rolnik <mrolnik@gmail.com> wrote:
+- a virtual instruction exception should be raised when a wfi is executed from
+virtual-user or virtual-supervisor and hstatus.vtw is set.
 
-> If I set TARGET_PAGE_BITS to 12 this *assert assert(v_l2_levels >= 0);*
-> will fail (page_table_config_init function) because
-> TARGET_PHYS_ADDR_SPACE_BITS is 24 bits, because AVR has 24 is the longest
-> pointer AVR has. I can set TARGET_PHYS_ADDR_SPACE_BITS to 32 and
-> TARGET_PAGE_BITS to 12 and everything will work fine.
-> What do you think?
->
-> btw, wrote the original comment, you David referred to, when I did not
-> know that QEMU could map several regions to the same page, which is not
-> true. That's why I could change 8 to 10.
->
-> On Tue, Mar 23, 2021 at 10:11 PM Michael Rolnik <mrolnik@gmail.com> wrote:
->
->> how long?
->>
->> On Tue, Mar 23, 2021 at 2:46 PM Dr. David Alan Gilbert <
->> dgilbert@redhat.com> wrote:
->>
->>> * Michael Rolnik (mrolnik@gmail.com) wrote:
->>> > Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
->>> > ---
->>> >  target/avr/cpu-param.h | 8 +-------
->>> >  target/avr/helper.c    | 2 --
->>> >  2 files changed, 1 insertion(+), 9 deletions(-)
->>> >
->>> > diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h
->>> > index 7ef4e7c679..9765a9d0db 100644
->>> > --- a/target/avr/cpu-param.h
->>> > +++ b/target/avr/cpu-param.h
->>> > @@ -22,13 +22,7 @@
->>> >  #define AVR_CPU_PARAM_H
->>> >
->>> >  #define TARGET_LONG_BITS 32
->>> > -/*
->>> > - * TARGET_PAGE_BITS cannot be more than 8 bits because
->>> > - * 1.  all IO registers occupy [0x0000 .. 0x00ff] address range, and
->>> they
->>> > - *     should be implemented as a device and not memory
->>> > - * 2.  SRAM starts at the address 0x0100
->>>
->>> I don't know AVR; but that seems to say why you can't make it any larger
->>> - how do you solve that?
->>>
->>> Dave
->>>
->>> > -#define TARGET_PAGE_BITS 8
->>> > +#define TARGET_PAGE_BITS 10
->>> >  #define TARGET_PHYS_ADDR_SPACE_BITS 24
->>> >  #define TARGET_VIRT_ADDR_SPACE_BITS 24
->>> >  #define NB_MMU_MODES 2
->>> > diff --git a/target/avr/helper.c b/target/avr/helper.c
->>> > index 35e1019594..da658afed3 100644
->>> > --- a/target/avr/helper.c
->>> > +++ b/target/avr/helper.c
->>> > @@ -111,8 +111,6 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address,
->>> int size,
->>> >      MemTxAttrs attrs = {};
->>> >      uint32_t paddr;
->>> >
->>> > -    address &= TARGET_PAGE_MASK;
->>> > -
->>> >      if (mmu_idx == MMU_CODE_IDX) {
->>> >          /* access to code in flash */
->>> >          paddr = OFFSET_CODE + address;
->>> > --
->>> > 2.25.1
->>> >
->>> --
->>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->>>
->>>
->>
->> --
->> Best Regards,
->> Michael Rolnik
->>
->
->
-> --
-> Best Regards,
-> Michael Rolnik
->
+Signed-off-by: Jose Martins <josemartins90@gmail.com>
+---
+ target/riscv/cpu_bits.h  | 1 +
+ target/riscv/op_helper.c | 8 +++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 24b24c69c5..ed8b97c788 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -436,6 +436,7 @@
+ #define HSTATUS_HU           0x00000200
+ #define HSTATUS_VGEIN        0x0003F000
+ #define HSTATUS_VTVM         0x00100000
++#define HSTATUS_VTW          0x00200000
+ #define HSTATUS_VTSR         0x00400000
+ #if defined(TARGET_RISCV64)
+ #define HSTATUS_VSXL        0x300000000
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d55def76cf..354e39ec26 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -174,9 +174,11 @@ void helper_wfi(CPURISCVState *env)
+ {
+     CPUState *cs = env_cpu(env);
+ 
+-    if ((env->priv == PRV_S &&
+-        get_field(env->mstatus, MSTATUS_TW)) ||
+-        riscv_cpu_virt_enabled(env)) {
++    if ((!riscv_cpu_virt_enabled(env) && env->priv == PRV_U) ||
++        (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TW))) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    } else if (riscv_cpu_virt_enabled(env) && (env->priv == PRV_U ||
++            (env->priv == PRV_S && get_field(env->hstatus, HSTATUS_VTW)))) {
+         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+     } else {
+         cs->halted = 1;
 -- 
-Best Regards,
-Michael Rolnik
+2.25.1
 
---0000000000006f900805bfa19133
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Please review.</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Tue, Mar 23, 2021 at 10:28 PM Michael Rol=
-nik &lt;<a href=3D"mailto:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
-tr"><div dir=3D"ltr">If I set <font face=3D"monospace">TARGET_PAGE_BITS</fo=
-nt> to 12 this=C2=A0<font face=3D"monospace"><b>assert=C2=A0assert(v_l2_lev=
-els &gt;=3D 0);</b></font> will fail (page_table_config_init function) beca=
-use=C2=A0<font face=3D"monospace">TARGET_PHYS_ADDR_SPACE_BITS</font> is 24 =
-bits, because AVR has 24 is the longest pointer AVR has. I can set <font fa=
-ce=3D"monospace">TARGET_PHYS_ADDR_SPACE_BITS</font> to 32 and=C2=A0<font fa=
-ce=3D"monospace">TARGET_PAGE_BITS</font> to 12 and everything will work fin=
-e.=C2=A0</div><div>What do=C2=A0you think?</div><div><br></div><div>btw, wr=
-ote the original comment, you David referred=C2=A0to, when I did not know t=
-hat QEMU could map several regions to the same page, which is not true. Tha=
-t&#39;s why I could change 8 to 10.</div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 23, 2021 at 10:11 PM M=
-ichael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" target=3D"_blank">mr=
-olnik@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex"><div dir=3D"ltr">how long?=C2=A0</div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 23, 2021 at 2:46=
- PM Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com" targe=
-t=3D"_blank">dgilbert@redhat.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">* Michael Rolnik (<a href=3D"mailto:mrolni=
-k@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>) wrote:<br>
-&gt; Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com"=
- target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 target/avr/cpu-param.h | 8 +-------<br>
-&gt;=C2=A0 target/avr/helper.c=C2=A0 =C2=A0 | 2 --<br>
-&gt;=C2=A0 2 files changed, 1 insertion(+), 9 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h<br>
-&gt; index 7ef4e7c679..9765a9d0db 100644<br>
-&gt; --- a/target/avr/cpu-param.h<br>
-&gt; +++ b/target/avr/cpu-param.h<br>
-&gt; @@ -22,13 +22,7 @@<br>
-&gt;=C2=A0 #define AVR_CPU_PARAM_H<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #define TARGET_LONG_BITS 32<br>
-&gt; -/*<br>
-&gt; - * TARGET_PAGE_BITS cannot be more than 8 bits because<br>
-&gt; - * 1.=C2=A0 all IO registers occupy [0x0000 .. 0x00ff] address range,=
- and they<br>
-&gt; - *=C2=A0 =C2=A0 =C2=A0should be implemented as a device and not memor=
-y<br>
-&gt; - * 2.=C2=A0 SRAM starts at the address 0x0100<br>
-<br>
-I don&#39;t know AVR; but that seems to say why you can&#39;t make it any l=
-arger<br>
-- how do you solve that?<br>
-<br>
-Dave<br>
-<br>
-&gt; -#define TARGET_PAGE_BITS 8<br>
-&gt; +#define TARGET_PAGE_BITS 10<br>
-&gt;=C2=A0 #define TARGET_PHYS_ADDR_SPACE_BITS 24<br>
-&gt;=C2=A0 #define TARGET_VIRT_ADDR_SPACE_BITS 24<br>
-&gt;=C2=A0 #define NB_MMU_MODES 2<br>
-&gt; diff --git a/target/avr/helper.c b/target/avr/helper.c<br>
-&gt; index 35e1019594..da658afed3 100644<br>
-&gt; --- a/target/avr/helper.c<br>
-&gt; +++ b/target/avr/helper.c<br>
-&gt; @@ -111,8 +111,6 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address,=
- int size,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 MemTxAttrs attrs =3D {};<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint32_t paddr;<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 address &amp;=3D TARGET_PAGE_MASK;<br>
-&gt; -<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (mmu_idx =3D=3D MMU_CODE_IDX) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* access to code in flash */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 paddr =3D OFFSET_CODE + address;<br>
-&gt; -- <br>
-&gt; 2.25.1<br>
-&gt; <br>
--- <br>
-Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
-blank">dgilbert@redhat.com</a> / Manchester, UK<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
->Best Regards,<br>Michael Rolnik</div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
->Best Regards,<br>Michael Rolnik</div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---0000000000006f900805bfa19133--
 
