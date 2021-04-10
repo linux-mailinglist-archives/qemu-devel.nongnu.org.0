@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B55635ADF6
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 16:07:25 +0200 (CEST)
-Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7C035AEC9
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Apr 2021 17:18:06 +0200 (CEST)
+Received: from localhost ([::1]:33452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVEGh-0007YU-T6
-	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 10:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35100)
+	id 1lVFN7-0005uc-9u
+	for lists+qemu-devel@lfdr.de; Sat, 10 Apr 2021 11:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lVEFJ-0006xS-Ji
- for qemu-devel@nongnu.org; Sat, 10 Apr 2021 10:05:57 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38860)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVFLO-0005Qv-H1
+ for qemu-devel@nongnu.org; Sat, 10 Apr 2021 11:16:18 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lVEFI-00010X-0r
- for qemu-devel@nongnu.org; Sat, 10 Apr 2021 10:05:57 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- y20-20020a1c4b140000b029011f294095d3so6186657wma.3
- for <qemu-devel@nongnu.org>; Sat, 10 Apr 2021 07:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dLeZ86zxH2cnqFYA1YFnHpSgKa+15Hf/oq/gY2EndKk=;
- b=uyRrBCZyM0tQi9Ie0C6K5j9j+fUlSfKoD+d5bOeTbyWJn5Dqw3EnphShFMezQA9A2G
- L0naWf6LPaVlDAHBkUtlry/Pkow12og7bYiiMxfbBlm9Ig4z8YLPxDZ8CD2EplzOLwGd
- QvlkOfPrirpN+e+cJmS9qwdii7pgo/nb23f1z6zhv9U/DUAAfgSA24DPsi+SBUT6+udo
- 0PZL2EyLxBvN3uKMJLfsX+3Fb3IxplSEBVgjYKufjQkfZh3UZBr+nzYpvllFFfnRQEo0
- lsoAEJEbgIY3Lw0PjsMdB8ePm9Tjb8xTylWydR4cCpydQZJx7C1m4egWuJGmWtZn/8me
- kBFw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVFLM-0000V5-Le
+ for qemu-devel@nongnu.org; Sat, 10 Apr 2021 11:16:18 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id w23so9886099edx.7
+ for <qemu-devel@nongnu.org>; Sat, 10 Apr 2021 08:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HJd3Eo4uWc/wrXwLXLN2+q5ZPyNGInFCPTrmmQy9K6Q=;
+ b=uRYeF0k3XDIZy3+0Ss9r7fSgGm8fMCF60xDi9TFVVwAtrE+tPpA9TMnnoCA8qWz886
+ G5hYQU3S982Lcc7pwakyPfIiND9kGLPescKGttmmiHmfwMYTlQHoDC5Qg2nkeSuXBLNv
+ V2Qm8rv9SHcBuHpaxu/yj26JXdxnITCLDNwlRKTBMPtviuhvgaWOi2CapZoM2hlRI0Dk
+ p8fjnaAl9zzadzkI1HwHiBxHtXiUz6Z9kcwfpZCqwJlC8lFG4kiGPw4QNyufOUaasI3W
+ lfqBsrphRzB+GUjtDC5MgT9Y106E7ZmMM5As+6skm99/S9eXrQNXE5Ht9tb21a695at7
+ djrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dLeZ86zxH2cnqFYA1YFnHpSgKa+15Hf/oq/gY2EndKk=;
- b=klA38QyqrqU6wmTTbJ5JwcgvyjfbVpG1RvwQ7ZSzntwvBt2+U+3P9gEcxEmy9Bb0gg
- eFd8wsDXM08J/UQ5gvE1zBthF4C898LSd/cTPHm9dWHMn5a8wi0HBGS2GjZ8O9W12ZEi
- w0pwsFmBH+zOxixqUcuCEWTY5V2Gpdo9owFbxae6rqPsH62VEg6ZZaIQleewZB/d4f9p
- JWa3L6QDnYZk9LDCAYAPlo12s5VdrreqVSjgltR0xON6PgguuzNvtlfEgZ+j88/86owE
- 3EAvbBugqnGOw7Z1LzoOe7VRgSAbJWLwZCeOj5HFIhWNM3Dw95nZ5lKW7vyaoY2n1sFN
- WxmA==
-X-Gm-Message-State: AOAM533aLX38tVzRPHgjB2HllVkbcDmqx6mQ4T+0FaMWgFb3aBheusVx
- I8sTApWizBYsybXGkQlocSs=
-X-Google-Smtp-Source: ABdhPJz3X5xLn1W/42GYiTE92E7ryYQj7iIJut7bi6nLXA7xUwb9JwbCpnGfAX7yqSns2YSrIiMhyA==
-X-Received: by 2002:a7b:cbc4:: with SMTP id n4mr18824890wmi.153.1618063553839; 
- Sat, 10 Apr 2021 07:05:53 -0700 (PDT)
-Received: from [192.168.1.36] (17.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.17])
- by smtp.gmail.com with ESMTPSA id s64sm1977226wmf.2.2021.04.10.07.05.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Apr 2021 07:05:53 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-6.1 v2 6/6] hw/mips/loongson3_virt: Raise CPU
- clock to 2 GHz
-To: Huacai Chen <chenhuacai@kernel.org>
-References: <20210409093623.2402750-1-f4bug@amsat.org>
- <20210409093623.2402750-7-f4bug@amsat.org>
- <CAAhV-H76XQZxvp9b2fE-R-Eq26GViaPR-iC2tG6PYhWtxNasxA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9f07acda-8949-de4e-a00a-192a4b3c6179@amsat.org>
-Date: Sat, 10 Apr 2021 16:05:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HJd3Eo4uWc/wrXwLXLN2+q5ZPyNGInFCPTrmmQy9K6Q=;
+ b=CdBVqvlrT7gKqHuE7JyyaaMlEcq8Dqnk2to/YihAsODsjvHB0Lkd8MhBs5hBVYP7wB
+ outuZGW2XcFBEIYKF6Ta7NfPbnVxWAZezG7jwoPwW5YCyQgN3NN0XXjZ3UGilsnbYM/y
+ +rLOmRqgIghBOaJs3RFcZJr5mIS62I34KCX7IZsiBtUsado02sH8U3B/HCrPEgqGbK+J
+ qZWXGVz8ZYIuJSNzTjPgnzfE0HO6oio5GRPHsR3t00+S8se5JrUCpkJpsD8OKMUNX4KV
+ bbUEnOX164e3Crt5hOZgRh8sCpc/NasqNcig+mt5zvnwG548/R8iMtcHe2RhvH7vMhgu
+ dI7Q==
+X-Gm-Message-State: AOAM532OkTPIFKvKQrbN7W1YItGaPPZWPk61nCRbmxOf3mR1T6NA/PN0
+ PIC41Fmq7Nrp+7ZrN5nByWdh2gPL2M7mNL+pitwCTQ==
+X-Google-Smtp-Source: ABdhPJwBWkeSj2i8JV5BPkK2bF+4GhPG/AQk+7E0gaGc7ZpPpu/09wnQtIFtDHtRfDW3grFxIHe4moMsWJLw1VGo0XU=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr21971655edt.36.1618067774406; 
+ Sat, 10 Apr 2021 08:16:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H76XQZxvp9b2fE-R-Eq26GViaPR-iC2tG6PYhWtxNasxA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20210409062401.2350436-1-f4bug@amsat.org>
+ <20210410131932.i6no5tvvaldyomvp@sekoia-pc.home.lmichel.fr>
+ <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
+In-Reply-To: <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 10 Apr 2021 16:15:31 +0100
+Message-ID: <CAFEAcA9rqx97D_ZN7MzqqJtz9ajFNK=AAeQu9z65+g35SHD_NA@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
+ clock propagation
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,45 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Luc Michel <luc@lmichel.fr>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
+ Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Huacai,
+On Sat, 10 Apr 2021 at 14:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Hi Luc,
+>
+> On 4/10/21 3:19 PM, Luc Michel wrote:
+> > Note that clock propagation during reset has always been a complicated
+> > problem. Calling clock_propagate is forbidden during the reset's enter
+> > phase because of the side effects it can introduce.
+>
+> Ah... Maybe this is related to the generic reset problem in QEMU :(
 
-On 4/10/21 4:43 AM, Huacai Chen wrote:
-> Hi, Philippe,
-> 
-> On Fri, Apr 9, 2021 at 5:36 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Commit cd3a53b727d ("clock: Add clock_ns_to_ticks() function")
->> removed the limitation of using clock with a frequency of 1 GHz
->> or more.
->>
->> The previous commit converted the MIPS CP0 timer to use this
->> new clock_ns_to_ticks() function. We can now use a clock of
->> 2 GHz with the Loongson3 virt board.
-> Yes, we can do this, but why should we do this? I don't think this can
-> bring any advantages.
+I do wonder if we got the clock-propagation-during-reset part of this
+wrong -- it seemed right to me at the time but trying to use the
+clock API recently I did run into some unhelpful-seeming results
+(I forget the details now, though).
 
-IIRC this was how you sent the earlier series, then we had to reduce
-the frequency to <1GHz due to the DIV#0 bug. Now it is fixed I thought
-you'd get this back.
+> > I find your API modification a bit restrictive. I think creating a
+> > standalone clock can be useful, e.g. in complicated devices that may
+> > want to use internal "intermediate" clocks. I would not remove this
+> > possibility to the API users.
+>
+> Well, this is the point. I can't see a justification to have a clock
+> on a non-qdev object. We should be able to model complicated devices
+> with qdev.
 
-I spent time with the R4K timer because it is often used by embedded
-firmwares, and a mismatch with the CPU clock makes firmware not work
-well. I suppose when using Linux guests it is not a real issue, because
-1/ if there is another timer (different peripheral on a system-on-soc)
-Linux will use it first, 2/ Linux does some early check to adapt with
-the tick rate IIRC (it doesn't assume a precise rate).
+The obvious reason is that machine objects are not qdev devices (ie
+TYPE_MACHINE inherits directly from TYPE_OBJECT, not from TYPE_DEVICE),
+but it's a reasonable thing to say "this machine has a fixed frequency
+clock which it connects to the SoC".
 
-I'm fine with the current Loongson3 virt board behavior with TCG,
-so let's disregard this patch.
+I do wonder if the right fix to that would be to make TYPE_MACHINE
+be a subtype of TYPE_DEVICE, though -- machines not being subtypes
+of device has other annoying effects, like their not having reset
+methods or being able to register vmstate structs. There might be
+some unanticipated side effects of making that change, though.
 
-Thanks,
-
-Phil.
+thanks
+-- PMM
 
