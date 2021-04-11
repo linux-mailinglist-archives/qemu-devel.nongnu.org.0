@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5774E35B41B
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 14:24:26 +0200 (CEST)
-Received: from localhost ([::1]:48288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D09835B41E
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 14:28:36 +0200 (CEST)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVZ8b-0001zl-DQ
-	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 08:24:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47796)
+	id 1lVZCc-0005tD-ES
+	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 08:28:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lVYxg-00029B-R5
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:13:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24225)
+ id 1lVYy1-0002XU-VY
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:13:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lVYxc-0003eC-FW
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:13:08 -0400
+ id 1lVYxu-0003lM-EL
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:13:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618143180;
+ s=mimecast20190719; t=1618143201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S4i9Hkh2G74vXTt4W6AodigO60TphxXh0mjmMPlypUQ=;
- b=Yp0qR04PaxI5zZM+Ht3JjtRO+2sJossIa2oC2wl74pKgWQ50/7/zfHLecI1b6mdZE4VY/+
- j8nEEX3DMmS5f61ml4JwGs6w3rN9HOjjs54u9mMZXJTBlbsuSGlyCk8qQkbHmiTZV50+co
- tdhUfguYI3XD7tAT/2CMfzzMb4/lM3Y=
+ bh=tYY2lwJzMVP3dsI9agRJshSGuhbviCWjgh9orvz3pHI=;
+ b=CFa00GEBWuC3nYGAaXTg+S8vGA3bbnlU/dyrAKcE4lNJLkd6UBoR72DEyZzwF923kULykn
+ q4gYfY/tQb3hoqai4xrovqzeg06d53hbAxbkySVqFOwzlZ0xGei5mNTnNFAISPy+Qscp3i
+ ReI2119S0uUJAuso7rP343vQ1CdtGlU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-rhCsI5NxOPu9mtBOh5Vjkg-1; Sun, 11 Apr 2021 08:12:58 -0400
-X-MC-Unique: rhCsI5NxOPu9mtBOh5Vjkg-1
+ us-mta-212-771NO4dHNoe_KqC9uOZ2jA-1; Sun, 11 Apr 2021 08:13:19 -0400
+X-MC-Unique: 771NO4dHNoe_KqC9uOZ2jA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4B4981746A;
- Sun, 11 Apr 2021 12:12:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D574781746A;
+ Sun, 11 Apr 2021 12:13:17 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-112-22.ams2.redhat.com [10.36.112.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AD9010023B2;
- Sun, 11 Apr 2021 12:12:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BB3D10023B2;
+ Sun, 11 Apr 2021 12:13:09 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, alex.williamson@redhat.com
-Subject: [RFC v9 18/29] vfio/pci: Register handler for iommu fault
-Date: Sun, 11 Apr 2021 14:09:01 +0200
-Message-Id: <20210411120912.15770-19-eric.auger@redhat.com>
+Subject: [RFC v9 20/29] vfio/pci: Implement the DMA fault handler
+Date: Sun, 11 Apr 2021 14:09:03 +0200
+Message-Id: <20210411120912.15770-21-eric.auger@redhat.com>
 In-Reply-To: <20210411120912.15770-1-eric.auger@redhat.com>
 References: <20210411120912.15770-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,175 +88,93 @@ Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use the new extended IRQ VFIO_IRQ_TYPE_NESTED type and
-VFIO_IRQ_SUBTYPE_DMA_FAULT subtype to set/unset
-a notifier for physical DMA faults. The associated eventfd is
-triggered, in nested mode, whenever a fault is detected at IOMMU
-physical level.
-
-The actual handler will be implemented in subsequent patches.
+Whenever the eventfd is triggered, we retrieve the DMA fault(s)
+from the mmapped fault region and inject them in the iommu
+memory region.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
-
-v4 -> v5:
-- index_to_str now returns the index name, ie. DMA_FAULT
-- use the extended IRQ
-
-v3 -> v4:
-- check VFIO_PCI_DMA_FAULT_IRQ_INDEX is supported at kernel level
-  before attempting to set signaling for it.
----
- hw/vfio/pci.h |  7 +++++
- hw/vfio/pci.c | 81 ++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 87 insertions(+), 1 deletion(-)
+ hw/vfio/pci.h |  1 +
+ hw/vfio/pci.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
 diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 64777516d1..a8b06737fb 100644
+index eef91065f1..03ac8919ef 100644
 --- a/hw/vfio/pci.h
 +++ b/hw/vfio/pci.h
-@@ -114,6 +114,12 @@ typedef struct VFIOMSIXInfo {
-     unsigned long *pending;
- } VFIOMSIXInfo;
- 
-+typedef struct VFIOPCIExtIRQ {
-+    struct VFIOPCIDevice *vdev;
-+    EventNotifier notifier;
-+    uint32_t index;
-+} VFIOPCIExtIRQ;
-+
- #define TYPE_VFIO_PCI "vfio-pci"
- OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI)
- 
-@@ -138,6 +144,7 @@ struct VFIOPCIDevice {
-     PCIHostDeviceAddress host;
-     EventNotifier err_notifier;
+@@ -146,6 +146,7 @@ struct VFIOPCIDevice {
      EventNotifier req_notifier;
-+    VFIOPCIExtIRQ *ext_irqs;
+     VFIOPCIExtIRQ *ext_irqs;
+     VFIORegion dma_fault_region;
++    uint32_t fault_tail_index;
      int (*resetfn)(struct VFIOPCIDevice *);
      uint32_t vendor_id;
      uint32_t device_id;
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index a49029dfa4..71b411b61c 100644
+index 9d4e020b97..d7e563859f 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -2864,6 +2864,76 @@ static PCIPASIDOps vfio_pci_pasid_ops = {
-     .set_pasid_table = vfio_iommu_set_pasid_table,
- };
+@@ -2929,10 +2929,60 @@ static PCIPASIDOps vfio_pci_pasid_ops = {
+ static void vfio_dma_fault_notifier_handler(void *opaque)
+ {
+     VFIOPCIExtIRQ *ext_irq = opaque;
++    VFIOPCIDevice *vdev = ext_irq->vdev;
++    PCIDevice *pdev = &vdev->pdev;
++    AddressSpace *as = pci_device_iommu_address_space(pdev);
++    IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(as->root);
++    struct vfio_region_dma_fault header;
++    struct iommu_fault *queue;
++    char *queue_buffer = NULL;
++    ssize_t bytes;
  
-+static void vfio_dma_fault_notifier_handler(void *opaque)
-+{
-+    VFIOPCIExtIRQ *ext_irq = opaque;
+     if (!event_notifier_test_and_clear(&ext_irq->notifier)) {
+         return;
+     }
 +
-+    if (!event_notifier_test_and_clear(&ext_irq->notifier)) {
++    bytes = pread(vdev->vbasedev.fd, &header, sizeof(header),
++                  vdev->dma_fault_region.fd_offset);
++    if (bytes != sizeof(header)) {
++        error_report("%s unable to read the fault region header (0x%lx)",
++                     __func__, bytes);
 +        return;
 +    }
-+}
 +
-+static int vfio_register_ext_irq_handler(VFIOPCIDevice *vdev,
-+                                         uint32_t type, uint32_t subtype,
-+                                         IOHandler *handler)
-+{
-+    int32_t fd, ext_irq_index, index;
-+    struct vfio_irq_info *irq_info;
-+    Error *err = NULL;
-+    EventNotifier *n;
-+    int ret;
++    /* Normally the fault queue is mmapped */
++    queue = (struct iommu_fault *)vdev->dma_fault_region.mmaps[0].mmap;
++    if (!queue) {
++        size_t queue_size = header.nb_entries * header.entry_size;
 +
-+    ret = vfio_get_dev_irq_info(&vdev->vbasedev, type, subtype, &irq_info);
-+    if (ret) {
-+        return ret;
-+    }
-+    index = irq_info->index;
-+    ext_irq_index = irq_info->index - VFIO_PCI_NUM_IRQS;
-+    g_free(irq_info);
++        error_report("%s: fault queue not mmapped: slower fault handling",
++                     vdev->vbasedev.name);
 +
-+    vdev->ext_irqs[ext_irq_index].vdev = vdev;
-+    vdev->ext_irqs[ext_irq_index].index = index;
-+    n = &vdev->ext_irqs[ext_irq_index].notifier;
-+
-+    ret = event_notifier_init(n, 0);
-+    if (ret) {
-+        error_report("vfio: Unable to init event notifier for ext irq %d(%d)",
-+                     ext_irq_index, ret);
-+        return ret;
-+    }
-+
-+    fd = event_notifier_get_fd(n);
-+    qemu_set_fd_handler(fd, vfio_dma_fault_notifier_handler, NULL,
-+                        &vdev->ext_irqs[ext_irq_index]);
-+
-+    ret = vfio_set_irq_signaling(&vdev->vbasedev, index, 0,
-+                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err);
-+    if (ret) {
-+        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-+        qemu_set_fd_handler(fd, NULL, NULL, vdev);
-+        event_notifier_cleanup(n);
-+    }
-+    return ret;
-+}
-+
-+static void vfio_unregister_ext_irq_notifiers(VFIOPCIDevice *vdev)
-+{
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-+    Error *err = NULL;
-+    int i;
-+
-+    for (i = 0; i < vbasedev->num_irqs - VFIO_PCI_NUM_IRQS; i++) {
-+        if (vfio_set_irq_signaling(vbasedev, i + VFIO_PCI_NUM_IRQS , 0,
-+                                   VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
-+            error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++        queue_buffer = g_malloc(queue_size);
++        bytes =  pread(vdev->vbasedev.fd, queue_buffer, queue_size,
++                       vdev->dma_fault_region.fd_offset + header.offset);
++        if (bytes != queue_size) {
++            error_report("%s unable to read the fault queue (0x%lx)",
++                         __func__, bytes);
++            return;
 +        }
-+        qemu_set_fd_handler(event_notifier_get_fd(&vdev->ext_irqs[i].notifier),
-+                            NULL, NULL, vdev);
-+        event_notifier_cleanup(&vdev->ext_irqs[i].notifier);
-+    }
-+    g_free(vdev->ext_irqs);
-+}
 +
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
-     VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-@@ -2874,7 +2944,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     ssize_t len;
-     struct stat st;
-     int groupid;
--    int i, ret;
-+    int i, ret, nb_ext_irqs;
-     bool is_mdev;
- 
-     if (!vdev->vbasedev.sysfsdev) {
-@@ -2962,6 +3032,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         goto error;
-     }
- 
-+    nb_ext_irqs = vdev->vbasedev.num_irqs - VFIO_PCI_NUM_IRQS;
-+    if (nb_ext_irqs > 0) {
-+        vdev->ext_irqs = g_new0(VFIOPCIExtIRQ, nb_ext_irqs);
++        queue = (struct iommu_fault *)queue_buffer;
 +    }
 +
-     vfio_populate_device(vdev, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -3173,6 +3248,9 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
++    while (vdev->fault_tail_index != header.head) {
++        memory_region_inject_faults(iommu_mr, 1,
++                                    &queue[vdev->fault_tail_index]);
++        vdev->fault_tail_index =
++            (vdev->fault_tail_index + 1) % header.nb_entries;
++    }
++    bytes = pwrite(vdev->vbasedev.fd, &vdev->fault_tail_index, 4,
++                   vdev->dma_fault_region.fd_offset);
++    if (bytes != 4) {
++        error_report("%s unable to write the fault region tail index (0x%lx)",
++                     __func__, bytes);
++    }
++    g_free(queue_buffer);
+ }
  
-     vfio_register_err_notifier(vdev);
-     vfio_register_req_notifier(vdev);
-+    vfio_register_ext_irq_handler(vdev, VFIO_IRQ_TYPE_NESTED,
-+                                  VFIO_IRQ_SUBTYPE_DMA_FAULT,
-+                                  vfio_dma_fault_notifier_handler);
-     vfio_setup_resetfn_quirk(vdev);
- 
-     pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
-@@ -3215,6 +3293,7 @@ static void vfio_exitfn(PCIDevice *pdev)
- 
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-+    vfio_unregister_ext_irq_notifiers(vdev);
-     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-     if (vdev->irqchip_change_notifier.notify) {
-         kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
+ static int vfio_register_ext_irq_handler(VFIOPCIDevice *vdev,
 -- 
 2.26.3
 
