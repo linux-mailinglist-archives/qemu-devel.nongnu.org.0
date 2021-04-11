@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04FD35B56A
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 15:52:03 +0200 (CEST)
-Received: from localhost ([::1]:36886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D50335B5DB
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 17:14:59 +0200 (CEST)
+Received: from localhost ([::1]:40122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVaVO-0006YP-9A
-	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 09:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38720)
+	id 1lVbnd-0000Go-Kl
+	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 11:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1lVaUE-0005yt-Pu
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 09:50:50 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:33491)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lVbl7-0007CP-7g
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 11:12:21 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1lVaUC-0001Oi-RL
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 09:50:50 -0400
-Received: by mail-il1-x134.google.com with SMTP id 7so7049949ilz.0
- for <qemu-devel@nongnu.org>; Sun, 11 Apr 2021 06:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=aYkxVvCdlER8H/Wy1j81mpVVpnzyrcYNAH5NuM9tkkA=;
- b=F/ncFjc/4deN/VQTKs+45Yki0KXGblOCIrOlGd1IrNhdreR5LjOXWPfwRfTZGehIdG
- IzvqeX8z5Z8NYyYB8NzFsTqwbSASD2THMaF1D/zFLngoDp7hdz3+L3zPTvV7xW7HuWhV
- M3bFswVWCZyFJfw+ukP3FyAu3nBzMxcG5ak/UsPKaOOyzn+pJdDUCYh1uxE/S281TMkf
- rha3mjcmXw09sJbSqNAHg5nD+ECVgaMqP86SYQp9+XUvmJs8gKCIMldzMzOdXhCRurpg
- /A2PGYNCw/l5Mt4hV43YWjF5PhCflQyZwFPKPXa9/x4Lm65+S8GZcuSoO8I6wHAINeEA
- pYig==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lVbl4-0002UB-4F
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 11:12:20 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ ot17-20020a17090b3b51b0290109c9ac3c34so7355316pjb.4
+ for <qemu-devel@nongnu.org>; Sun, 11 Apr 2021 08:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oueEKSaZSnM6Q+qYiSUe7MsgjpSyI2bL0eJcoN80/lQ=;
+ b=thiThM+GBixjqbIo9YYarv4cF4iJG1TNejjbKZZG8/gZunx+Gs9MFClLvwjIxdOTgn
+ a62VBEZaCxKSoIKBzl0HjneFt+oWK0VjwqIfsBQYz3SUaAS+IF7MskFTkK7ghO3F+mDo
+ E8buMYHZg+uP123ZXZ/9JPToUmP1SX7U302PM+47o0mSCiXoWOkOuk8DyKD64JCYz6Rv
+ 5mtD4oI12//To+i7NBxkmURO/9aEj6zkqCEpo4NNLH5v7Ea3hT4z/Sxv7SFLXMM8uJmK
+ dUn4bO6A7jJ8T0YIWCrrF2cO/JM9Tjxo1LDaPO3N2RkWDN0X9XKq4xQOfnBmYtxFPMOo
+ lhrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=aYkxVvCdlER8H/Wy1j81mpVVpnzyrcYNAH5NuM9tkkA=;
- b=s+u/J3pf3VF8xJf1/XvwjX8Hw7mzumDyn2GLuMJ9rrkX4GLw/VLUaWgngg21jQvkUT
- M/MkNvwGfpPScWOKtaV8L4kUuW01w0hyxUOnxuBEsDFnmpVC4BJuBcK1/7JDYPczEGwO
- 3u5VsWO9eu8c+Uuhku4EItQiy/MbbYzOjcNM5Lxseb4cnuNTBmYYsBGB1OgERGfQ8DPG
- ZGmw78eQoDUvUKOWE59Ssb+P6ykPGw0pbw6xNeSp8cPd413L+W+qSoTYOilU3YsK+/Z8
- NiXOYk4IPCaO6mGqPbFOKQzwFvbN2F98qlWYoh23uaPqZNS6WNr+CTmD+i+3scrVnCY8
- z92w==
-X-Gm-Message-State: AOAM531t7aPKLBTS4sekPxwzBx982xlyl/eAUwZoNa0DGRp9teShMDfw
- 6yzlFraMkHn0bNpUUVyF92YluinhqU902Cp6cGxw+oCNoYEzQiIy
-X-Google-Smtp-Source: ABdhPJyXd3pYpzUOxBKeheqtKH1VeBDkQa7WWhWPKFL9UyCumVZF6JgVo9wgi/xa4G0UTU6mQX/dDNDh+wLfK3glhSU=
-X-Received: by 2002:a92:6810:: with SMTP id d16mr20612751ilc.88.1618149046827; 
- Sun, 11 Apr 2021 06:50:46 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oueEKSaZSnM6Q+qYiSUe7MsgjpSyI2bL0eJcoN80/lQ=;
+ b=fn/ETx67HFtlapNUWQf0ZgehAu1KJo9ABe99AvzBdk6WgY2OMiFecmB6mMGn5zELmv
+ 1+EsFr5QLXQJ4eVAEyVCv9Lz1Kkt7R9y0tiH+E6MrAB/YWo/KqeVGgOW3nBVg1eu+0jL
+ aaMXASu1MHCu0esxxvJK/dwD3An3xg6Ptc4s6pL7ZgshUPB+bTw/s/Mss4+l2ww7+Zl8
+ cKQU4Gy+XRF/f5XyHt4n5CQxtJSf+davbAg7WQDUfHdODNUKWzh75Pjbgtn/UMRgH/5H
+ 4jO7+NXWcaBBBYiuQuDLXs9Atc/q+Uij9/danvm8e0n8LBDTtaUy7pVr4OSyTRqDEVbE
+ nEPA==
+X-Gm-Message-State: AOAM532SnMRTiFXp181unxPWSOnr5YY8GjG6RCj0tNgrRQQSo6ZII9wq
+ gVvtF1f8aAzNPU2K2PmMSGerPA==
+X-Google-Smtp-Source: ABdhPJwsY/pkPKC1bSWeLcAmMJtv63TIBQgJzeAMcjfoYY0j+Xy32fLoKjlfTivQfCbcQJC4DYRFCQ==
+X-Received: by 2002:a17:90a:24b:: with SMTP id t11mr2483679pje.0.1618153934527; 
+ Sun, 11 Apr 2021 08:12:14 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id w124sm7347478pfb.73.2021.04.11.08.12.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Apr 2021 08:12:14 -0700 (PDT)
+Subject: Re: [PATCH 1/1] Set TARGET_PAGE_BITS to be 10 instead of 8 bits
+To: Michael Rolnik <mrolnik@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210320220949.40965-1-mrolnik@gmail.com>
+ <20210320220949.40965-2-mrolnik@gmail.com> <YFnjLbU9+itpbvsf@work-vm>
+ <CAK4993iuteYNiM3acyGPNb5guwkfr3fKxJDecqcwKRdFTgG0sw@mail.gmail.com>
+ <CAK4993gND7R1RBfimMdJXpJDvFdZiULdE2WKPKH+UnNaFm0iww@mail.gmail.com>
+ <CAK4993iPwu2ESggMx05C0USrnSigHJq=-iP=BU-FhDXDcRH5gw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a57eed31-78c3-8ea5-579a-cb4edd1afbd3@linaro.org>
+Date: Sun, 11 Apr 2021 08:12:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-From: Chetan <chetan4windows@gmail.com>
-Date: Sun, 11 Apr 2021 19:20:35 +0530
-Message-ID: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
-Subject: Better alternative to strncpy in QEMU.
-To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000213cea05bfb2af2e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=chetan4windows@gmail.com; helo=mail-il1-x134.google.com
+In-Reply-To: <CAK4993iPwu2ESggMx05C0USrnSigHJq=-iP=BU-FhDXDcRH5gw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,184 +92,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000213cea05bfb2af2e
-Content-Type: text/plain; charset="UTF-8"
+On 4/10/21 10:24 AM, Michael Rolnik wrote:
+> Please review.
+
+
+The first 256b is i/o, the next 768b are ram.  But having changed the page 
+size, it should mean that the first 1k are now treated as i/o.
+
+We do have a path by which instructions in i/o pages can be executed.  This 
+happens on some ARM board setups during cold boot.  But we do not save those 
+translations, so they run much much slower than it should.
+
+But perhaps in the case of AVR, "much much slower" really isn't visible?
+
+In general, I think changing the page size is wrong.  I also assume that 
+migration is largely irrelevant to this target.
+
+
+r~
+
+> 
+> On Tue, Mar 23, 2021 at 10:28 PM Michael Rolnik <mrolnik@gmail.com 
+> <mailto:mrolnik@gmail.com>> wrote:
+> 
+>     If I set TARGET_PAGE_BITS to 12 this *assert assert(v_l2_levels >= 0);*
+>     will fail (page_table_config_init function) because
+>     TARGET_PHYS_ADDR_SPACE_BITS is 24 bits, because AVR has 24 is the longest
+>     pointer AVR has. I can set TARGET_PHYS_ADDR_SPACE_BITS to 32 and
+>     TARGET_PAGE_BITS to 12 and everything will work fine.
+>     What do you think?
+> 
+>     btw, wrote the original comment, you David referred to, when I did not know
+>     that QEMU could map several regions to the same page, which is not true.
+>     That's why I could change 8 to 10.
+> 
+>     On Tue, Mar 23, 2021 at 10:11 PM Michael Rolnik <mrolnik@gmail.com
+>     <mailto:mrolnik@gmail.com>> wrote:
+> 
+>         how long?
+> 
+>         On Tue, Mar 23, 2021 at 2:46 PM Dr. David Alan Gilbert
+>         <dgilbert@redhat.com <mailto:dgilbert@redhat.com>> wrote:
+> 
+>             * Michael Rolnik (mrolnik@gmail.com <mailto:mrolnik@gmail.com>) wrote:
+>              > Signed-off-by: Michael Rolnik <mrolnik@gmail.com
+>             <mailto:mrolnik@gmail.com>>
+>              > ---
+>              >  target/avr/cpu-param.h | 8 +-------
+>              >  target/avr/helper.c    | 2 --
+>              >  2 files changed, 1 insertion(+), 9 deletions(-)
+>              >
+>              > diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h
+>              > index 7ef4e7c679..9765a9d0db 100644
+>              > --- a/target/avr/cpu-param.h
+>              > +++ b/target/avr/cpu-param.h
+>              > @@ -22,13 +22,7 @@
+>              >  #define AVR_CPU_PARAM_H
+>              >
+>              >  #define TARGET_LONG_BITS 32
+>              > -/*
+>              > - * TARGET_PAGE_BITS cannot be more than 8 bits because
+>              > - * 1.  all IO registers occupy [0x0000 .. 0x00ff] address
+>             range, and they
+>              > - *     should be implemented as a device and not memory
+>              > - * 2.  SRAM starts at the address 0x0100
+> 
+>             I don't know AVR; but that seems to say why you can't make it any
+>             larger
+>             - how do you solve that?
+> 
+>             Dave
+> 
+>              > -#define TARGET_PAGE_BITS 8
+>              > +#define TARGET_PAGE_BITS 10
+>              >  #define TARGET_PHYS_ADDR_SPACE_BITS 24
+>              >  #define TARGET_VIRT_ADDR_SPACE_BITS 24
+>              >  #define NB_MMU_MODES 2
+>              > diff --git a/target/avr/helper.c b/target/avr/helper.c
+>              > index 35e1019594..da658afed3 100644
+>              > --- a/target/avr/helper.c
+>              > +++ b/target/avr/helper.c
+>              > @@ -111,8 +111,6 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr
+>             address, int size,
+>              >      MemTxAttrs attrs = {};
+>              >      uint32_t paddr;
+>              >
+>              > -    address &= TARGET_PAGE_MASK;
+>              > -
+>              >      if (mmu_idx == MMU_CODE_IDX) {
+>              >          /* access to code in flash */
+>              >          paddr = OFFSET_CODE + address;
+>              > --
+>              > 2.25.1
+>              >
+>             -- 
+>             Dr. David Alan Gilbert / dgilbert@redhat.com
+>             <mailto:dgilbert@redhat.com> / Manchester, UK
+> 
+> 
+> 
+>         -- 
+>         Best Regards,
+>         Michael Rolnik
+> 
+> 
+> 
+>     -- 
+>     Best Regards,
+>     Michael Rolnik
+> 
+> 
+> 
+> -- 
+> Best Regards,
+> Michael Rolnik
 
-Hello All,
-
-This mail is in reference to one of the tasks mentioned in '
-*Contribute/BiteSizedTasks*' in QEMU wiki, under '*API conversion*' which
-states to introduce a better alternative to strncpy function. I've drafted
-and tested below implementation for the same. Before proceeding with any
-changes in QEMU code can you all please go through it and suggest
-changes/corrections if required.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/* This function is introduced in place of strncpy(), it asserts if
-destination * is large enough to fit strlen(source)+1 bytes and guarantees
-null termination * in destination string. * * char source[], is expecting a
-pointer to the source where data should be copied * from. * * char
-destination[], is expecting a pointer to the destination where data
-should * be copied to. * * size_t destination_size, is expecting size of
-destination. * In case of char[], sizeof() function can be used to find the
-size. * In case of char *, provide value which was passed to malloc()
-function for * memory allocation. */char *qemu_strncpy(char destination[],
-char source[], size_t destination_size){    /* Looping through the array
-and copying the characters from     * source to destination.     */    for
-(int i = 0; i < strlen(source); i++) {        destination[i] = source[i];
-      /* Check if value of i is equal to the second last index         * of
-destination array and if condition is true, mark last         * index as
-NULL and break from the loop.         */        if (i == (destination_size
-- 2)) {            destination[destination_size - 1] = '\0';
-break;        }    }    return destination;}/* This function is introduced
-in place of strncpy(), it asserts if destination * is large enough to fit
-strlen(source) bytes and does not guarantee null * termination in
-destination string. * * char source[], is expecting a pointer to the source
-where data should be copied * from. * * char destination[], is expecting a
-pointer to the destination where data should * be copied to. * * size_t
-destination_size, is expecting size of destination. * In case of char[],
-sizeof() function can be used to find the size. * In case of char *,
-provide value which was passed to malloc() function for * memory
-allocation. */char *qemu_strncpy_nonul(char destination[], char source[],
-size_t destination_size){    /* Looping through the array and copying the
-characters from     * source to destination.     */    for (int i = 0; i <
-strlen(source); i++) {        destination[i] = source[i];        /* Check
-if value of i is equal to the last index         * of the destination array
-and if condition is true,         * break from the loop.         */
-if (i == (destination_size - 1)) {            break;        }    }
-return destination;} *
-
-Regards,
-Chetan P.
-
---000000000000213cea05bfb2af2e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello All,</div><div><br></div><div>This mail is in r=
-eference to one of the tasks mentioned in &#39;<i>Contribute/BiteSizedTasks=
-</i>&#39; in QEMU wiki, under &#39;<i>API conversion</i>&#39; which states =
-to introduce a better alternative to strncpy function. I&#39;ve drafted and=
- tested below implementation for the same. Before proceeding with any chang=
-es in QEMU code can you all please go through it and suggest changes/correc=
-tions if required.</div><div><br></div><div>
-<i>/* This function is introduced in place of strncpy(), it asserts if dest=
-ination<br>=C2=A0* is large enough to fit strlen(source)+1 bytes and guaran=
-tees null termination<br>=C2=A0* in destination string.<br>=C2=A0*<br>=C2=
-=A0* char source[], is expecting a pointer to the source where data should =
-be copied<br>=C2=A0* from.<br>=C2=A0*<br>=C2=A0* char destination[], is exp=
-ecting a pointer to the destination where data should<br>=C2=A0* be copied =
-to.<br>=C2=A0*<br>=C2=A0* size_t destination_size, is expecting size of des=
-tination.<br>=C2=A0* In case of char[], sizeof() function can be used to fi=
-nd the size.<br>=C2=A0* In case of char *, provide value which was passed t=
-o malloc() function for<br>=C2=A0* memory allocation.<br>=C2=A0*/<br>char *=
-qemu_strncpy(char destination[], char source[], size_t destination_size)<br=
->{<br>=C2=A0 =C2=A0 /* Looping through the array and copying the characters=
- from<br>=C2=A0 =C2=A0 =C2=A0* source to destination.<br>=C2=A0 =C2=A0 =C2=
-=A0*/<br>=C2=A0 =C2=A0 for (int i =3D 0; i &lt; strlen(source); i++) {<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 destination[i] =3D source[i];<br><br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 /* Check if value of i is equal to the second last index<=
-br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* of destination array and if conditio=
-n is true, mark last<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* index as NULL a=
-nd break from the loop.<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 if (i =3D=3D (destination_size - 2)) {<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 destination[destination_size - 1] =3D &#39;=
-\0&#39;;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 return destination;=
-<br>}<br><br>/* This function is introduced in place of strncpy(), it asser=
-ts if destination<br>=C2=A0* is large enough to fit strlen(source) bytes an=
-d does not guarantee null<br>=C2=A0* termination in destination string.<br>=
-=C2=A0*<br>=C2=A0* char source[], is expecting a pointer to the source wher=
-e data should be copied<br>=C2=A0* from.<br>=C2=A0*<br>=C2=A0* char destina=
-tion[], is expecting a pointer to the destination where data should<br>=C2=
-=A0* be copied to.<br>=C2=A0*<br>=C2=A0* size_t destination_size, is expect=
-ing size of destination.<br>=C2=A0* In case of char[], sizeof() function ca=
-n be used to find the size.<br>=C2=A0* In case of char *, provide value whi=
-ch was passed to malloc() function for<br>=C2=A0* memory allocation.<br>=C2=
-=A0*/<br>char *qemu_strncpy_nonul(char destination[], char source[], size_t=
- destination_size)<br>{<br>=C2=A0 =C2=A0 /* Looping through the array and c=
-opying the characters from<br>=C2=A0 =C2=A0 =C2=A0* source to destination.<=
-br>=C2=A0 =C2=A0 =C2=A0*/<br>=C2=A0 =C2=A0 for (int i =3D 0; i &lt; strlen(=
-source); i++) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 destination[i] =3D source[i]=
-;<br><br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Check if value of i is equal to the=
- last index<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* of the destination array=
- and if condition is true,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* break fro=
-m the loop.<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 if (i =3D=3D (destination_size - 1)) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 break;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 =
-}<br>=C2=A0 =C2=A0 return destination;<br>}
-
-</i></div><div></div><div><br></div><div>Regards,</div><div>Chetan P.<br></=
-div></div>
-
---000000000000213cea05bfb2af2e--
 
