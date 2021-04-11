@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2502B35B297
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 11:20:04 +0200 (CEST)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B1735B3FB
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 14:04:38 +0200 (CEST)
+Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVWGA-0004mz-Pc
-	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 05:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
+	id 1lVYpR-00072h-BC
+	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 08:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vrozenfe@redhat.com>)
- id 1lVWFS-0004N3-5p
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 05:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vrozenfe@redhat.com>)
- id 1lVWFP-0002Yw-S2
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 05:19:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618132753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wDyTNkqTwA1dkkT9F4Mjj3j1hv2SMFGBnBQxiiYuxl4=;
- b=iFGE5uHtGcuMDLmfKCjXA/Ogx0LUNnGkHSInTvIAtMpdpLPPD/gl1Jy/NxhZjKksZ+fT9j
- OHcBwDomyn2vPkWzCJwbefO0jilFKBQ9zr+IB6vVTH8uGXv1huoyZdpwj+EqYDbXywnFoP
- 3bADeAV1Z2jN0DWBgDziu7PFMWv2xjM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-w0dgxgYKObWCuPyqmgrVtA-1; Sun, 11 Apr 2021 05:19:08 -0400
-X-MC-Unique: w0dgxgYKObWCuPyqmgrVtA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA4C38030A0;
- Sun, 11 Apr 2021 09:19:07 +0000 (UTC)
-Received: from vpn2-54-20.bne.redhat.com (vpn2-54-20.bne.redhat.com
- [10.64.54.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01D9D60D01;
- Sun, 11 Apr 2021 09:19:06 +0000 (UTC)
-Message-ID: <0816fe9cd366237982fa5341744ea6832cb0dc4a.camel@redhat.com>
-Subject: Re: [Question] Binaries of virtio-gpu-wddm-dod?
-From: Vadim Rozenfeld <vrozenfe@redhat.com>
-To: Mike Ladouceur <mike.ladouceur@live.com>, qemu-devel@nongnu.org
-Date: Sun, 11 Apr 2021 19:19:05 +1000
-In-Reply-To: <CAHC8f_edLsS0QZhzP6HCEz_bP_pQaVrN7Kw9FBU-bwcCSLybUg@mail.gmail.com>
-References: <CAHC8f_edLsS0QZhzP6HCEz_bP_pQaVrN7Kw9FBU-bwcCSLybUg@mail.gmail.com>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVYmZ-0006Ux-S4
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:01:45 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVYmP-0006ST-4K
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:01:38 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id l4so15604489ejc.10
+ for <qemu-devel@nongnu.org>; Sun, 11 Apr 2021 05:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g6C+HZnToEZy4h61+8gV7QhkQJDWuClSsvdsn3E+FGY=;
+ b=DwPlbZ0gf+Ws6V+ze06nYfzUqXpX9lYftUtZuQL23Ur0rY7kvzC+oszF1zYeWxrgGD
+ biGwVG0g/z7XfM/OYgIgGLH9O/K/02gadbgw+qUlIZR1rdHwiz3IYEp0JJ4MlR9l7OGs
+ 8ksCp6GAVVvcBiIdCpquHmsjIq+qvwb8q7DoDL4MON//EKYg2JNRtfgQAJshvq+OEdTG
+ mpekKL9WdppWvN1onYCKILLnqNG9+qD1UtRsB3Eyi5/5T1ISfcKuyjj4Pxlr9bTkGjf7
+ ZfBybQzAI5/1lrj3Jp4hMfCP3ZTjXI2deuEng4ufBklCfkhT3IZDUwwg6qLQoAJmc988
+ yrgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g6C+HZnToEZy4h61+8gV7QhkQJDWuClSsvdsn3E+FGY=;
+ b=mfLd2rs3ZBrAtjBWubw0efQjq/h0NGTxynPkX25g5kAVbtZseOXXcRD2cj7pIerpM4
+ EBcL1saLBpaiqHME64rdXqfwXV7TgorDCach9ELiRMiRsWhMvS9IVjOpb9tqgl5I6Loc
+ M/U1yEKwrKDd6EpWORIe0Mv5JM8esNsTwK8Ieu9i4+IGtunHppX0EsmRHcHagAi4istN
+ 2XGSHd/xbqUroTCg3TLOPgOTdtgZqBqrrOMzFyheWZYHLGQEx5GEWST+r/fCrcwH/zb1
+ 5Lucn3taLi2bwRgBSP25/v2EwrFIkGMMPr7980UWmp1TXDOUSKjqcFch5LiGQiWf90Ih
+ sQNA==
+X-Gm-Message-State: AOAM53262reGkB5jDx86RNZINhoWjJimOI/3uKLyhUswexn+0GWmMm4I
+ UE4gYcEHl3prtVQL8Sc4dn4uzJaq7p0UOT2T0nFVtA==
+X-Google-Smtp-Source: ABdhPJynDDe60KvuKomFyp1m7Xn8QhvAUiGwnEsxiCFn0Q4hi+GHjD4Al6XlB7qCh185Mj5RJWDB65MdFHsf3Jt/IVM=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr23150283ejh.4.1618142487279; 
+ Sun, 11 Apr 2021 05:01:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vrozenfe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="=-sYTo8trxhvzrDC0jNla+"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vrozenfe@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210409202246.1857179-1-ehabkost@redhat.com>
+In-Reply-To: <20210409202246.1857179-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 11 Apr 2021 13:00:43 +0100
+Message-ID: <CAFEAcA_oOxtB8k5AOrae-i1Lmuyrw92Lv0DVSguLH5LoeHXtyg@mail.gmail.com>
+Subject: Re: [PULL 0/2] x86 and CPU bug fixes for 6.0-rc3
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,47 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-sYTo8trxhvzrDC0jNla+
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+On Fri, 9 Apr 2021 at 21:22, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit 471387aa1446e2583f372f79327cc0a8c802b4b4:
+>
+>   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210409' into staging (2021-04-09 17:21:18 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/ehabkost/qemu.git tags/x86-next-pull-request
+>
+> for you to fetch changes up to 0b47ec4b95ad1952e55e639711d442f8ec6e1345:
+>
+>   cpu/core: Fix "help" of CPU core device types (2021-04-09 16:05:16 -0400)
+>
+> ----------------------------------------------------------------
+> x86 and CPU bug fixes for 6.0-rc3
+>
+> * Add missing features to EPYC-Rome CPU model (Babu Moger)
+> * Fix crash with "-device ...-cpu-core,help" (Greg Kurz)
+>
+> ----------------------------------------------------------------
 
-On Fri, 2021-04-09 at 09:27 -0400, Mike Ladouceur wrote:
-> Hi, I'm wondering where I can find binaries of virtio-gpu-wddm-dod to
-> test? I tried to build but I guess I'm running too new a version of
-> Windows or VS/SDK/WDK? I've seen mention of prewhql ISO's with
-> binaries but there's never any links? I understand it's in
-> development phase. Thanks!
+Applied, thanks.
 
-Hi Mike,
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-I'm going to update 
-https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/
-latest  with build 196 soon.
-
-Best,
-Vadim.
-
---=-sYTo8trxhvzrDC0jNla+
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><div>On Fri, 2021-04-09 at 09:27 -0400, Mike Ladouceur wrote:</div><blo=
-ckquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf s=
-olid;padding-left:1ex"><div dir=3D"ltr">Hi, I'm wondering where I can find =
-binaries of&nbsp;virtio-gpu-wddm-dod to test? I tried to build but I guess =
-I'm running too new a version of Windows or VS/SDK/WDK? I've seen mention o=
-f prewhql ISO's with binaries but there's never any links? I understand it'=
-s in development phase. Thanks!</div>
-</blockquote><div><br></div><div>Hi Mike,</div><div><br></div><div>I'm goin=
-g to update <a href=3D"https://fedorapeople.org/groups/virt/virtio-win/dire=
-ct-downloads/">https://fedorapeople.org/groups/virt/virtio-win/direct-downl=
-oads/</a></div><div>latest  with build 196 soon.</div><div><br></div><div>B=
-est,</div><div>Vadim.</div></body></html>
-
---=-sYTo8trxhvzrDC0jNla+--
-
+-- PMM
 
