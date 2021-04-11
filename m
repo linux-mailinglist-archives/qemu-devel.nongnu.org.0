@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB9E35B424
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 14:29:38 +0200 (CEST)
-Received: from localhost ([::1]:33858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5774E35B41B
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Apr 2021 14:24:26 +0200 (CEST)
+Received: from localhost ([::1]:48288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVZDd-0007ui-QH
-	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 08:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47636)
+	id 1lVZ8b-0001zl-DQ
+	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 08:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lVYwt-0001kz-R5
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:12:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20874)
+ id 1lVYxg-00029B-R5
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:13:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lVYwr-0003K2-9x
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:12:18 -0400
+ id 1lVYxc-0003eC-FW
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 08:13:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618143136;
+ s=mimecast20190719; t=1618143180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GMsg/GSib+qefqYmCMNMqwP9Hs4srtfrw2wvXWd9pXw=;
- b=hMIRDwmxUCXKqwJFWBK6226ApIIRBqAfkauG6+zxBRP9kkvgAJrtDP5rYrEw6GYPfRKKWm
- QoLnWuIfDNUArnbznfXQlUMRm/ozZ8bFskpAUzLkWWc/RKfq3HQrr3Oo4gYKTLlzYrTfIn
- wUej8G1HSR0BbqJYGhc81+mSwmLT+54=
+ bh=S4i9Hkh2G74vXTt4W6AodigO60TphxXh0mjmMPlypUQ=;
+ b=Yp0qR04PaxI5zZM+Ht3JjtRO+2sJossIa2oC2wl74pKgWQ50/7/zfHLecI1b6mdZE4VY/+
+ j8nEEX3DMmS5f61ml4JwGs6w3rN9HOjjs54u9mMZXJTBlbsuSGlyCk8qQkbHmiTZV50+co
+ tdhUfguYI3XD7tAT/2CMfzzMb4/lM3Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-r7Spt1P_NM-kmdzrFkpGBg-1; Sun, 11 Apr 2021 08:12:13 -0400
-X-MC-Unique: r7Spt1P_NM-kmdzrFkpGBg-1
+ us-mta-578-rhCsI5NxOPu9mtBOh5Vjkg-1; Sun, 11 Apr 2021 08:12:58 -0400
+X-MC-Unique: rhCsI5NxOPu9mtBOh5Vjkg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CCE28030A0;
- Sun, 11 Apr 2021 12:12:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4B4981746A;
+ Sun, 11 Apr 2021 12:12:56 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-112-22.ams2.redhat.com [10.36.112.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BFB310023B2;
- Sun, 11 Apr 2021 12:11:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AD9010023B2;
+ Sun, 11 Apr 2021 12:12:47 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, alex.williamson@redhat.com
-Subject: [RFC v9 14/29] vfio: Introduce helpers to DMA map/unmap a RAM section
-Date: Sun, 11 Apr 2021 14:08:57 +0200
-Message-Id: <20210411120912.15770-15-eric.auger@redhat.com>
+Subject: [RFC v9 18/29] vfio/pci: Register handler for iommu fault
+Date: Sun, 11 Apr 2021 14:09:01 +0200
+Message-Id: <20210411120912.15770-19-eric.auger@redhat.com>
 In-Reply-To: <20210411120912.15770-1-eric.auger@redhat.com>
 References: <20210411120912.15770-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -88,279 +88,175 @@ Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's introduce two helpers that allow to DMA map/unmap a RAM
-section. Those helpers will be called for nested stage setup in
-another call site. Also the vfio_listener_region_add/del()
-structure may be clearer.
+We use the new extended IRQ VFIO_IRQ_TYPE_NESTED type and
+VFIO_IRQ_SUBTYPE_DMA_FAULT subtype to set/unset
+a notifier for physical DMA faults. The associated eventfd is
+triggered, in nested mode, whenever a fault is detected at IOMMU
+physical level.
+
+The actual handler will be implemented in subsequent patches.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
 ---
 
-v8 -> v9
-- rebase on top of
-  1eb7f642750c ("vfio: Support host translation granule size")
+v4 -> v5:
+- index_to_str now returns the index name, ie. DMA_FAULT
+- use the extended IRQ
 
-v5 -> v6:
-- add Error **
+v3 -> v4:
+- check VFIO_PCI_DMA_FAULT_IRQ_INDEX is supported at kernel level
+  before attempting to set signaling for it.
 ---
- hw/vfio/common.c     | 199 +++++++++++++++++++++++++------------------
- hw/vfio/trace-events |   4 +-
- 2 files changed, 119 insertions(+), 84 deletions(-)
+ hw/vfio/pci.h |  7 +++++
+ hw/vfio/pci.c | 81 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 87 insertions(+), 1 deletion(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index a8f835328e..0cd7ef2139 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -662,13 +662,126 @@ hostwin_from_range(VFIOContainer *container, hwaddr iova, hwaddr end)
-     return NULL;
- }
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 64777516d1..a8b06737fb 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -114,6 +114,12 @@ typedef struct VFIOMSIXInfo {
+     unsigned long *pending;
+ } VFIOMSIXInfo;
  
-+static int vfio_dma_map_ram_section(VFIOContainer *container,
-+                                    MemoryRegionSection *section, Error **err)
++typedef struct VFIOPCIExtIRQ {
++    struct VFIOPCIDevice *vdev;
++    EventNotifier notifier;
++    uint32_t index;
++} VFIOPCIExtIRQ;
++
+ #define TYPE_VFIO_PCI "vfio-pci"
+ OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI)
+ 
+@@ -138,6 +144,7 @@ struct VFIOPCIDevice {
+     PCIHostDeviceAddress host;
+     EventNotifier err_notifier;
+     EventNotifier req_notifier;
++    VFIOPCIExtIRQ *ext_irqs;
+     int (*resetfn)(struct VFIOPCIDevice *);
+     uint32_t vendor_id;
+     uint32_t device_id;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index a49029dfa4..71b411b61c 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2864,6 +2864,76 @@ static PCIPASIDOps vfio_pci_pasid_ops = {
+     .set_pasid_table = vfio_iommu_set_pasid_table,
+ };
+ 
++static void vfio_dma_fault_notifier_handler(void *opaque)
 +{
-+    VFIOHostDMAWindow *hostwin;
-+    Int128 llend, llsize;
-+    hwaddr iova, end;
-+    void *vaddr;
-+    int ret;
++    VFIOPCIExtIRQ *ext_irq = opaque;
 +
-+    assert(memory_region_is_ram(section->mr));
-+
-+    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-+    llend = int128_make64(section->offset_within_address_space);
-+    llend = int128_add(llend, section->size);
-+    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
-+    end = int128_get64(int128_sub(llend, int128_one()));
-+
-+    vaddr = memory_region_get_ram_ptr(section->mr) +
-+            section->offset_within_region +
-+            (iova - section->offset_within_address_space);
-+
-+    hostwin = hostwin_from_range(container, iova, end);
-+    if (!hostwin) {
-+        error_setg(err, "Container %p can't map guest IOVA region"
-+                   " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx, container, iova, end);
-+        return -EFAULT;
-+    }
-+
-+    trace_vfio_dma_map_ram(iova, end, vaddr);
-+
-+    llsize = int128_sub(llend, int128_make64(iova));
-+
-+    if (memory_region_is_ram_device(section->mr)) {
-+        hwaddr pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
-+
-+        if ((iova & pgmask) || (int128_get64(llsize) & pgmask)) {
-+            trace_vfio_listener_region_add_no_dma_map(
-+                memory_region_name(section->mr),
-+                section->offset_within_address_space,
-+                int128_getlo(section->size),
-+                pgmask + 1);
-+            return 0;
-+        }
-+    }
-+
-+    ret = vfio_dma_map(container, iova, int128_get64(llsize),
-+                       vaddr, section->readonly);
-+    if (ret) {
-+        error_setg(err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
-+                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
-+                   container, iova, int128_get64(llsize), vaddr, ret);
-+        if (memory_region_is_ram_device(section->mr)) {
-+            /* Allow unexpected mappings not to be fatal for RAM devices */
-+            error_report_err(*err);
-+            return 0;
-+        }
-+        return ret;
-+    }
-+    return 0;
-+}
-+
-+static void vfio_dma_unmap_ram_section(VFIOContainer *container,
-+                                       MemoryRegionSection *section)
-+{
-+    Int128 llend, llsize;
-+    hwaddr iova, end;
-+    bool try_unmap = true;
-+    int ret;
-+
-+    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
-+    llend = int128_make64(section->offset_within_address_space);
-+    llend = int128_add(llend, section->size);
-+    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
-+
-+    if (int128_ge(int128_make64(iova), llend)) {
++    if (!event_notifier_test_and_clear(&ext_irq->notifier)) {
 +        return;
 +    }
-+    end = int128_get64(int128_sub(llend, int128_one()));
-+
-+    llsize = int128_sub(llend, int128_make64(iova));
-+
-+    trace_vfio_dma_unmap_ram(iova, end);
-+
-+    if (memory_region_is_ram_device(section->mr)) {
-+        hwaddr pgmask;
-+        VFIOHostDMAWindow *hostwin = hostwin_from_range(container, iova, end);
-+
-+        assert(hostwin); /* or region_add() would have failed */
-+
-+        pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
-+        try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
-+    }
-+
-+    if (try_unmap) {
-+        if (int128_eq(llsize, int128_2_64())) {
-+            /* The unmap ioctl doesn't accept a full 64-bit span. */
-+            llsize = int128_rshift(llsize, 1);
-+            ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-+            if (ret) {
-+                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-+                             "0x%"HWADDR_PRIx") = %d (%m)",
-+                             container, iova, int128_get64(llsize), ret);
-+            }
-+            iova += int128_get64(llsize);
-+        }
-+        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-+        if (ret) {
-+            error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-+                         "0x%"HWADDR_PRIx") = %d (%m)",
-+                         container, iova, int128_get64(llsize), ret);
-+        }
-+    }
 +}
 +
- static void vfio_listener_region_add(MemoryListener *listener,
-                                      MemoryRegionSection *section)
++static int vfio_register_ext_irq_handler(VFIOPCIDevice *vdev,
++                                         uint32_t type, uint32_t subtype,
++                                         IOHandler *handler)
++{
++    int32_t fd, ext_irq_index, index;
++    struct vfio_irq_info *irq_info;
++    Error *err = NULL;
++    EventNotifier *n;
++    int ret;
++
++    ret = vfio_get_dev_irq_info(&vdev->vbasedev, type, subtype, &irq_info);
++    if (ret) {
++        return ret;
++    }
++    index = irq_info->index;
++    ext_irq_index = irq_info->index - VFIO_PCI_NUM_IRQS;
++    g_free(irq_info);
++
++    vdev->ext_irqs[ext_irq_index].vdev = vdev;
++    vdev->ext_irqs[ext_irq_index].index = index;
++    n = &vdev->ext_irqs[ext_irq_index].notifier;
++
++    ret = event_notifier_init(n, 0);
++    if (ret) {
++        error_report("vfio: Unable to init event notifier for ext irq %d(%d)",
++                     ext_irq_index, ret);
++        return ret;
++    }
++
++    fd = event_notifier_get_fd(n);
++    qemu_set_fd_handler(fd, vfio_dma_fault_notifier_handler, NULL,
++                        &vdev->ext_irqs[ext_irq_index]);
++
++    ret = vfio_set_irq_signaling(&vdev->vbasedev, index, 0,
++                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err);
++    if (ret) {
++        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++        qemu_set_fd_handler(fd, NULL, NULL, vdev);
++        event_notifier_cleanup(n);
++    }
++    return ret;
++}
++
++static void vfio_unregister_ext_irq_notifiers(VFIOPCIDevice *vdev)
++{
++    VFIODevice *vbasedev = &vdev->vbasedev;
++    Error *err = NULL;
++    int i;
++
++    for (i = 0; i < vbasedev->num_irqs - VFIO_PCI_NUM_IRQS; i++) {
++        if (vfio_set_irq_signaling(vbasedev, i + VFIO_PCI_NUM_IRQS , 0,
++                                   VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
++            error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++        }
++        qemu_set_fd_handler(event_notifier_get_fd(&vdev->ext_irqs[i].notifier),
++                            NULL, NULL, vdev);
++        event_notifier_cleanup(&vdev->ext_irqs[i].notifier);
++    }
++    g_free(vdev->ext_irqs);
++}
++
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
  {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-     hwaddr iova, end;
--    Int128 llend, llsize;
--    void *vaddr;
-+    Int128 llend;
-     int ret;
-     VFIOHostDMAWindow *hostwin;
-     Error *err = NULL;
-@@ -814,39 +927,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+     VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+@@ -2874,7 +2944,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     ssize_t len;
+     struct stat st;
+     int groupid;
+-    int i, ret;
++    int i, ret, nb_ext_irqs;
+     bool is_mdev;
+ 
+     if (!vdev->vbasedev.sysfsdev) {
+@@ -2962,6 +3032,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         goto error;
      }
  
-     /* Here we assume that memory_region_is_ram(section->mr)==true */
--
--    vaddr = memory_region_get_ram_ptr(section->mr) +
--            section->offset_within_region +
--            (iova - section->offset_within_address_space);
--
--    trace_vfio_listener_region_add_ram(iova, end, vaddr);
--
--    llsize = int128_sub(llend, int128_make64(iova));
--
--    if (memory_region_is_ram_device(section->mr)) {
--        hwaddr pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
--
--        if ((iova & pgmask) || (int128_get64(llsize) & pgmask)) {
--            trace_vfio_listener_region_add_no_dma_map(
--                memory_region_name(section->mr),
--                section->offset_within_address_space,
--                int128_getlo(section->size),
--                pgmask + 1);
--            return;
--        }
--    }
--
--    ret = vfio_dma_map(container, iova, int128_get64(llsize),
--                       vaddr, section->readonly);
--    if (ret) {
--        error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
--                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
--                   container, iova, int128_get64(llsize), vaddr, ret);
--        if (memory_region_is_ram_device(section->mr)) {
--            /* Allow unexpected mappings not to be fatal for RAM devices */
--            error_report_err(err);
--            return;
--        }
-+    if (vfio_dma_map_ram_section(container, section, &err)) {
-         goto fail;
-     }
++    nb_ext_irqs = vdev->vbasedev.num_irqs - VFIO_PCI_NUM_IRQS;
++    if (nb_ext_irqs > 0) {
++        vdev->ext_irqs = g_new0(VFIOPCIExtIRQ, nb_ext_irqs);
++    }
++
+     vfio_populate_device(vdev, &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -3173,6 +3248,9 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
  
-@@ -880,10 +961,6 @@ static void vfio_listener_region_del(MemoryListener *listener,
-                                      MemoryRegionSection *section)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
--    hwaddr iova, end;
--    Int128 llend, llsize;
--    int ret;
--    bool try_unmap = true;
+     vfio_register_err_notifier(vdev);
+     vfio_register_req_notifier(vdev);
++    vfio_register_ext_irq_handler(vdev, VFIO_IRQ_TYPE_NESTED,
++                                  VFIO_IRQ_SUBTYPE_DMA_FAULT,
++                                  vfio_dma_fault_notifier_handler);
+     vfio_setup_resetfn_quirk(vdev);
  
-     if (vfio_listener_skipped_section(section)) {
-         trace_vfio_listener_region_del_skip(
-@@ -923,49 +1000,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
-          */
-     }
+     pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
+@@ -3215,6 +3293,7 @@ static void vfio_exitfn(PCIDevice *pdev)
  
--    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
--    llend = int128_make64(section->offset_within_address_space);
--    llend = int128_add(llend, section->size);
--    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
--
--    if (int128_ge(int128_make64(iova), llend)) {
--        return;
--    }
--    end = int128_get64(int128_sub(llend, int128_one()));
--
--    llsize = int128_sub(llend, int128_make64(iova));
--
--    trace_vfio_listener_region_del(iova, end);
--
--    if (memory_region_is_ram_device(section->mr)) {
--        hwaddr pgmask;
--        VFIOHostDMAWindow *hostwin = hostwin_from_range(container, iova, end);
--
--        assert(hostwin); /* or region_add() would have failed */
--
--        pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
--        try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
--    }
--
--    if (try_unmap) {
--        if (int128_eq(llsize, int128_2_64())) {
--            /* The unmap ioctl doesn't accept a full 64-bit span. */
--            llsize = int128_rshift(llsize, 1);
--            ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
--            if (ret) {
--                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
--                             "0x%"HWADDR_PRIx") = %d (%m)",
--                             container, iova, int128_get64(llsize), ret);
--            }
--            iova += int128_get64(llsize);
--        }
--        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
--        if (ret) {
--            error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
--                         "0x%"HWADDR_PRIx") = %d (%m)",
--                         container, iova, int128_get64(llsize), ret);
--        }
--    }
-+    vfio_dma_unmap_ram_section(container, section);
- 
-     memory_region_unref(section->mr);
- 
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 2a41326c0f..936d29d150 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -99,10 +99,10 @@ vfio_iommu_map_notify(const char *op, uint64_t iova_start, uint64_t iova_end) "i
- vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add 0x%"PRIx64" - 0x%"PRIx64
- vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
- vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
--vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
-+vfio_dma_map_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
- vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
--vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
-+vfio_dma_unmap_ram(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
- vfio_disconnect_container(int fd) "close container->fd=%d"
- vfio_connect_existing_container(int groupid, int container_fd) "group=%d existing container fd=%d"
- vfio_connect_new_container(int groupid, int container_fd) "group=%d new container fd=%d"
+     vfio_unregister_req_notifier(vdev);
+     vfio_unregister_err_notifier(vdev);
++    vfio_unregister_ext_irq_notifiers(vdev);
+     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+     if (vdev->irqchip_change_notifier.notify) {
+         kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
 -- 
 2.26.3
 
