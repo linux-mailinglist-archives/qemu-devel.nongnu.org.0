@@ -2,60 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8F235C7F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:49:57 +0200 (CEST)
-Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A954F35C808
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:58:02 +0200 (CEST)
+Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVwwu-0002hD-7z
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59472)
+	id 1lVx4j-0002Yt-7N
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lVwu4-0008TM-Rw; Mon, 12 Apr 2021 09:47:02 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2739)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lVx3U-000224-10; Mon, 12 Apr 2021 09:56:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lVwu1-0005M0-0j; Mon, 12 Apr 2021 09:47:00 -0400
-Received: from DGGEML401-HUB.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FJqgm0VZ2z14HB9;
- Mon, 12 Apr 2021 21:43:16 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEML401-HUB.china.huawei.com (10.3.17.32) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 12 Apr 2021 21:46:51 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Mon, 12 Apr 2021 21:46:51 +0800
-Subject: Re: [RFC PATCH 0/3] Add migration support for VFIO PCI devices in
- SMMUv3 nested stage mode
-To: Auger Eric <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Alex Williamson <alex.williamson@redhat.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20210219094230.231-1-jiangkunkun@huawei.com>
- <16fd91d3-2bbf-b870-ad36-2cfef54be265@redhat.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <819bfb94-ab19-1fe0-3362-353d8be443a6@huawei.com>
-Date: Mon, 12 Apr 2021 21:46:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lVx3Q-0002gL-Vx; Mon, 12 Apr 2021 09:56:43 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13CDX2GO077958; Mon, 12 Apr 2021 09:56:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=nRH4uMU9POYuIE5B3uCfXNxjMyGw3stt3R/k4+2D7F0=;
+ b=q/IxYdAANwUDLDpLQT6G6LHmR9oJcpns8ZZfglfhKFt1aDHEPyP4Oy7AgvYXSwdCKYae
+ ucJfRP2cf9MYrdiOs0WSKWyOHaPdIzOHcR621i026brXipidti57LQw5bhvBMzixTrYM
+ ak0Wb4m0zk7BK2ig5j8+nrhypRJD6UIUE4RBJUHfGkWtxRC1z6X7fvQ6RJnl8USNKHtH
+ JdNcAs+lBptRB5oBKzIqNxtlhJTJMRhL8uK1Qr7jgHmIsqutIzfouO629H2MMM/vkEib
+ bFnsZdwGVsbQaR5pI1pkYbmwCJpRjhQVS9XZuJL85LLvViNy09IF23O9/YB6+Wdh1tvl Qg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37usk9whxb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Apr 2021 09:56:29 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13CDX36M078031;
+ Mon, 12 Apr 2021 09:56:28 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37usk9whwy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Apr 2021 09:56:28 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13CDpoJh030580;
+ Mon, 12 Apr 2021 13:56:27 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03wdc.us.ibm.com with ESMTP id 37uhcmcths-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Apr 2021 13:56:27 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13CDuQNt26935592
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Apr 2021 13:56:26 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 95379BE04F;
+ Mon, 12 Apr 2021 13:56:26 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA1B6BE053;
+ Mon, 12 Apr 2021 13:56:25 +0000 (GMT)
+Received: from localhost (unknown [9.211.82.34])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Mon, 12 Apr 2021 13:56:25 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, David Gibson
+ <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>
+Subject: RE: [PATCH 1/4] target/ppc: Code motion required to build disabling
+ tcg
+In-Reply-To: <CP2PR80MB44994CEF7BA3C917016749B0C7709@CP2PR80MB4499.lamprd80.prod.outlook.com>
+References: <CP2PR80MB44994CEF7BA3C917016749B0C7709@CP2PR80MB4499.lamprd80.prod.outlook.com>
+Date: Mon, 12 Apr 2021 10:56:23 -0300
+Message-ID: <87a6q361yw.fsf@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <16fd91d3-2bbf-b870-ad36-2cfef54be265@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=jiangkunkun@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: H-NkjP4Q5GNA9Q0BDKpSEROGCWU1L5QS
+X-Proofpoint-GUID: n58cgAYO1YRfuT64EdCVSj8G4Oc9nRAu
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-12_10:2021-04-12,
+ 2021-04-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=999 phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104120091
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,86 +108,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com, Keqian
- Zhu <zhukeqian1@huawei.com>, shameerali.kolothum.thodi@huawei.com
+Cc: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Andre Fernando da Silva <andre.silva@eldorado.org.br>,
+ Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+Bruno Piazera Larsen <bruno.larsen@eldorado.org.br> writes:
 
-On 2021/4/12 16:40, Auger Eric wrote:
-> Hi Kunkun,
+>> > This commit does the necessary code motion from translate_init.c.inc
+>>
+>> For instance, I don't immediately see why these changes are necessary. I
+>> see that translate_init.c.inc already has some `#ifdef CONFIG_TCG`, so
+>> why do we need to move a bunch of code into cpu.c instead of just adding
+>> more code under ifdef CONFIG_TCG? (I'm not saying it's wrong, just trying to
+>> understand the reasoning).
 >
-> On 2/19/21 10:42 AM, Kunkun Jiang wrote:
->> Hi all,
->>
->> Since the SMMUv3's nested translation stages[1] has been introduced by Eric, we
->> need to pay attention to the migration of VFIO PCI devices in SMMUv3 nested stage
->> mode. At present, it is not yet supported in QEMU. There are two problems in the
->> existing framework.
->>
->> First, the current way to get dirty pages is not applicable to nested stage mode.
->> Because of the "Caching Mode", VTD can map the RAM through the host single stage
->> (giova->hpa). "vfio_listener_log_sync" gets dirty pages by transferring "giova"
->> to the kernel for the RAM block section of mapped MMIO region. In nested stage
->> mode, we setup the stage 2 (gpa->hpa) and the stage 1(giova->gpa) separately. So
->> it is inapplicable to get dirty pages by the current way in nested stage mode.
->>
->> Second, it also need to pass stage 1 configurations to the destination host after
->> the migration. In Eric's patch, it passes the stage 1 configuration to the host on
->> each STE update for the devices set the PASID PciOps. The configuration will be
->> applied at physical level. But the data of physical level will not be sent to the
->> destination host. So we have to pass stage 1 configurations to the destination
->> host after the migration.
->>
->> This Patch set includes patches as below:
->> Patch 1-2:
->> - Refactor the vfio_listener_log_sync and added a new function to get dirty pages
->> in nested stage mode.
->>
->> Patch 3:
->> - Added the post_load function to vmstate_smmuv3 for passing stage 1 configuration
->> to the destination host after the migration.
->>
->> @Eric, Could you please add this Patch set to your future version of
->> "vSMMUv3/pSMMUv3 2 stage VFIO integration", if you think this Patch set makes sense? :)
-> First of all, thank you for working on this. As you may have noticed I
-> sent a new RFC version yesterday (without including this). When time
-> allows, you may have a look at the comments I posted on your series. I
-> don't think I can test it at the moment so I may prefer to keep it
-> separate. Also be aware that the QEMU integration of nested has not
-> received much comments yet and is likely to evolve. The priority is to
-> get some R-b's on the kernel pieces, especially the SMMU part. With this
-> dependency resolved, things can't move forward I am afraid.
+> There are 3 main reasons for this decision. The first is kind of
+> silly, but when I read translate.c my mind jumped to translating
+> machine code to TCG, and the amount of TCGv variables at the start
+> reinforced this notion.  The second was that both s390x and i386
+> removed it (translate.c) from compilation, so I had no good reason to
+> doubt it.  The last (and arguably most important) is that translate.c
+> is many thousands of lines long (translate_init.c.inc alone was almost
+> 11k). The whole point of disabling TCG is to speed up compilation and
+> reduce the final file size, so I think it makes sense to remove that
+> big file.  And the final nail in the coffin is that at no point did it
+> cross my mind to keep the init part of translation, but remove the
+> rest
+
+Ok, so whatever you decide to do, make sure you state: "this is where
+TCG functions go", "this file is built on KVM|TCG only", and so on. And
+it's ok in principle to do a partial move for the RFC, but please
+mention that somewhere so we're all in the same page.
+
 >
-> Thanks
+> Also, I'm not a fan of big ifdefs, because it's kinda hard to follow
+> them when viewing code in vim. Adding that to already having a cpu.c
+> file, where it makes sense (to me, at least) to add all CPU related
+> functions, just sounded like a good idea.
+
+My point about ifdefs is that it would be easier to understand if you
+either:
+
+a) wrapped code in ifdefs, got the RCF going and then later moved all
+ifdef'ed code into a new tcg-only file;
+
+or
+
+b) define which is the tcg-only file right away and just move code in
+there.
+
+When you moved code into cpu.c *along with* the ifdefs, you kind of did
+both at the same time, which got confusing; to me at least.
+
+About moving CPU related functions into cpu.c, that's fine. But it is
+not strictly related to disable-tcg, so maybe send that in a separate
+patch that does it explicitly at the start of the series.
+
 >
-> Eric
-Yes, I saw your latest version and comments. Thanks again for your review.
+>> Is translate_init.c.inc intended to be TCG only? But then I see you
+>> moved TCG-only functions out of it (ppc_fixup_cpu) and left not TCG-only
+>> functions (gen_spr_generic).
+>
+> This is me misjudging what is TCG and what is not, mostly. I think
+> that actually moving everything to cpu.c and adding ifdefs, or
+> creating a cpu_tcg.c.inc or similar, would be the most sensible code
+> motion, but every function I removed from translate gave me 3 new
+> errors, at some point I felt like I should leave something behind
+> otherwise we're compiling everything from TCG again, just in different
+> files, so I tried to guess what was TCG and what was not (also, I
+> really wanted the RFC out by the weekend, I _may_ have rushed a few
+> choices).
 
-I will try my best to test your patches and come up with some useful ideas.
-In the future, this series will be updated with your series of nested.
-If conditions permit, I hope you can test it and give me some comments.
+Ok, so you left out some things on purpose to reduce complexity for the
+first RFC. That's fine, we just need to state these kinds of thing more
+clearly.
 
-Best regards,
-Kunkun Jiang
->> Best Regards
->> Kunkun Jiang
+>
+>> > This moves all functions that start with gdb_* into target/ppc/gdbstub.c
+>> > and creates a new function that calls those and is called by ppc_cpu_realize
 >>
->> [1] [RFC,v7,00/26] vSMMUv3/pSMMUv3 2 stage VFIO integration
->> http://patchwork.ozlabs.org/project/qemu-devel/cover/20201116181349.11908-1-eric.auger@redhat.com/
->>
->> Kunkun Jiang (3):
->>    vfio: Introduce helpers to mark dirty pages of a RAM section
->>    vfio: Add vfio_prereg_listener_log_sync in nested stage
->>    hw/arm/smmuv3: Post-load stage 1 configurations to the host
->>
->>   hw/arm/smmuv3.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++
->>   hw/arm/trace-events |  1 +
->>   hw/vfio/common.c    | 47 +++++++++++++++++++++++++++++------
->>   3 files changed, 100 insertions(+), 8 deletions(-)
->>
-> .
+>> This looks like it makes sense regardless of disable-tcg, could we have
+>> it in a standalone patch?
+>
+> Sure, I'll try and get it ready ASAP, and make sure I didn't miss one
+> function before sending. Just a noob question... do I edit the patch
+> manually to have it only contain the gdb code motion, or is there a
+> way to move back to before I actually made the commit without needing
+> to re-do the changes?
 
+You could git rebase -i back into your first patch and then split it in
+two (git reset HEAD~1 and stage + commit each one), one for moving CPU
+code into cpu.c and other for moving GDB code into gdbstub.c.
 
+Or just checkout a new branch, apply the patch on top of it and commit
+just the GDB change.
+
+Feel free to ping me on IRC if you need help.
 
