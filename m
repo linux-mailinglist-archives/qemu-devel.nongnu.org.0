@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFF235BFA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 11:11:41 +0200 (CEST)
-Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191CE35BFC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 11:20:14 +0200 (CEST)
+Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVsbc-0005fM-Br
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 05:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
+	id 1lVsjs-00035g-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 05:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVsYz-0004cy-77
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:08:57 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43782)
+ id 1lVsbH-0006Fg-7y
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:11:23 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVsYj-0001X2-7F
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:08:52 -0400
-Received: by mail-ej1-x631.google.com with SMTP id l4so18983512ejc.10
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 02:08:39 -0700 (PDT)
+ id 1lVsbC-0002tS-62
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:11:19 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id v6so17772063ejo.6
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 02:11:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HkL117L0NGX6ld7vF/27lucS+P6ofJVh50IK/9dVZXg=;
- b=eXjMVVuYHQbvz28PTDJbdHk4axbRiQyc1mu+UL4fxTMGZ7f1CrGHdxoVG7dPv21u10
- XFW2dgK4UDy93LdwTaKJxh7I3oY/EkVc4+eNhXtjvwV8WaqK1QmJlL1Kqyqo9zXrendn
- MygPYsQZl93nSsFSXez4uC+rIYmMXV3F51hAona1mdp4k8noQGKs5SBBtopV+jmMXB/L
- oc5bVUY8SyQlrcYsPLxnEOtYawayXB1+wWR3mNycsSyuF20sjs2gK4aNxtOoJxI1eMqR
- cqMv/59qF4ugzhr0ctc/+GDIuerUdHKfntY0QCVdRLt1COfRy4BefWXGfCTPIhQM0FyX
- srcA==
+ :cc; bh=L+HGPKmSWLTGqW706W8/aYENoI2653t1drLd1dZ2Ww4=;
+ b=G/Jsc39B4Dfmw1dPeiu3yveDpftVxj0HUulnEAhzfjKMHuxm8CTSBQVJ6jCKHnTjHW
+ pNJ64Fyo6HmpFFLzhiWy05qu65UVBslK2PFwXDl0yCjsYx4KoyASBKysvxVDlbBDWzZF
+ qO4hB6t3ptVptS5c+ccAMyeLhN/G8YiEk3wTKzxELxP3WsB3rLzvivWp+UW1nUDMPtg2
+ nnx89r0hgB15eLjbznyrqEabAYHQUmRL0Z+7OSAi5lQ4R3CGUm+DnJagl8IWjL1g9L9B
+ zrCJCZ6wsO3HGiSpeLt4xIIKz5Eg9yMjIotw4VgZ2/FNTre0cCU9jceE9NyLqMdwftOt
+ Wabg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HkL117L0NGX6ld7vF/27lucS+P6ofJVh50IK/9dVZXg=;
- b=W7DIB+pk7V6MEwXvo8HaPui84z4gl3d5vqcLlq7fsctheYz2z+nH5B9rEEnlZEXkTa
- qOXP/LtF/x7aOAvPPLQ6RQeQCbCypjtTIjDT70L5Xss3iBepKfQ+5bwZ/vMnIlymeVox
- LaIDarbYYmkkIL2cgU6ex6c4qkTxPoT95MkQ2hx9Tt52iX1i2xCQkUDHmsGv8jh39Pua
- O04ADEarE3Qz2Vohk+hLrpd634J1Xs2U0tvk5vZZvIrx0MB1NQLufQs0WDM+V1Zei9gf
- TzoHFm9DOvPAAhn7T73DRNteK/FlrCT0U3hCDQ8jpXxYtk+KPIgOCiT26jEjeZmZYg4E
- +vHg==
-X-Gm-Message-State: AOAM531z7HfmHOabIRedFl/VUboaeXCbl2UMVVJegIuf8/ZcetbI35v4
- pgja7ISIlUcvBXSRBk9uDUSJHJ0RLIK+2j8bOGAC2w==
-X-Google-Smtp-Source: ABdhPJxtZ2OWrAp20lT9cXhhGdBrO7E3xfegzrKgmu7/iA+gYaH7QMLu42yi4trTjglsI+TzsmZMGhuLAz7lDHkYIaQ=
-X-Received: by 2002:a17:906:1dd3:: with SMTP id
- v19mr26216693ejh.4.1618218518196; 
- Mon, 12 Apr 2021 02:08:38 -0700 (PDT)
+ bh=L+HGPKmSWLTGqW706W8/aYENoI2653t1drLd1dZ2Ww4=;
+ b=AvBJVeE4TPP9QXsY49JtC42a9lLKQLminLbi2+uyQGqFf/QQWT6ZwNYyY0TGIQVbKf
+ DjrbSSGEPbFw9GGITdeZoGEWp8eE4SCgN/98qWWJnUnhsWkxqDC/uLoX5hcNkH7+9d02
+ Tv/m+Mealc6rm+4D4P6nwAB0hPKD8WvLxZB20r1jSQlr0CZLh4poSDVINL2sZbZ4fSXW
+ e8d9DcJ3Mtf5aVtRJmh8icm74j1nI0DT/qXrIYmOvGP5nT/TKpiSzXOaFmH3FVvLt471
+ WpKONQPnpwLP/HWwEXCkBZwYRkMjk4WzfBk2ern2+pbQPRY41wkFmH5SKfUW8TECXMmH
+ VTXg==
+X-Gm-Message-State: AOAM530shtQpKSU5i0r8kR8Wxs7bRxihIyxfF/hOU2rEwtLUaOeSGj/8
+ MW6afGg5vBJuv/Dzw1P51vbL96das2Bm1wgkSR0iDg==
+X-Google-Smtp-Source: ABdhPJxagGT4Il4oKFrwBCZa9502sn6ci84ZWLMuhTQhF1vSBI9/KQyI9L0ZMOpSNoLJDeUdOn2G0fDtrd6GZ81fdqM=
+X-Received: by 2002:a17:906:c301:: with SMTP id
+ s1mr25817053ejz.382.1618218672861; 
+ Mon, 12 Apr 2021 02:11:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210320220949.40965-1-mrolnik@gmail.com>
- <20210320220949.40965-2-mrolnik@gmail.com>
- <YFnjLbU9+itpbvsf@work-vm>
- <CAK4993iuteYNiM3acyGPNb5guwkfr3fKxJDecqcwKRdFTgG0sw@mail.gmail.com>
- <CAK4993gND7R1RBfimMdJXpJDvFdZiULdE2WKPKH+UnNaFm0iww@mail.gmail.com>
- <CAK4993iPwu2ESggMx05C0USrnSigHJq=-iP=BU-FhDXDcRH5gw@mail.gmail.com>
- <a57eed31-78c3-8ea5-579a-cb4edd1afbd3@linaro.org>
-In-Reply-To: <a57eed31-78c3-8ea5-579a-cb4edd1afbd3@linaro.org>
+References: <20210326193701.5981-1-cfontana@suse.de>
+ <20210326193701.5981-28-cfontana@suse.de>
+ <e49aa062-0958-1d4e-c682-28d0a2897493@linaro.org>
+ <87e94d27-a1ec-cd6a-8079-0f975121d479@suse.de>
+ <CAFEAcA-hqUehQ9chX_H4M9karU9XksirqC=daekRk=ymDRvzwQ@mail.gmail.com>
+ <62c54475-0fe6-042b-cf13-f15490bad525@suse.de>
+In-Reply-To: <62c54475-0fe6-042b-cf13-f15490bad525@suse.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Apr 2021 10:07:54 +0100
-Message-ID: <CAFEAcA-ccgKHzgxvK_Wb8hD4ce=KYu2NbZ-3UGhaW447JTVgAg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Set TARGET_PAGE_BITS to be 10 instead of 8 bits
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Mon, 12 Apr 2021 10:10:28 +0100
+Message-ID: <CAFEAcA9h7D_LkVfTvJom_afZ44b+uyRvbnaQ8t6wiMKOELjwZQ@mail.gmail.com>
+Subject: Re: [RFC v12 27/65] target/arm: split a15 cpu model and 32bit class
+ functions to cpu32.c
+To: Claudio Fontana <cfontana@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>, Michael Rolnik <mrolnik@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 11 Apr 2021 at 16:15, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, 12 Apr 2021 at 10:05, Claudio Fontana <cfontana@suse.de> wrote:
 >
-> On 4/10/21 10:24 AM, Michael Rolnik wrote:
-> > Please review.
+> Hi Peter,
 >
+> On 4/8/21 12:36 PM, Peter Maydell wrote:
+> > On Thu, 8 Apr 2021 at 11:23, Claudio Fontana <cfontana@suse.de> wrote:
+> >> Mainly for this code here a question from my side: is the current code actually already "wrong"?
+> >>
+> >> I mean, we unconditionally set the aarch64-capable cpu classes to all use aarch64_gdb_arch_name and gdbstub64,
+> >> but what about an aarch64-capable cpu running in 32bit mode?
+> >
+> > This is somewhere between a bug and a missing feature. The 'bug' part is
+> > that for running a guest on AArch64 KVM with -cpu aarch64=off' (ie a
+> > 32-bit guest) we should be presenting an aarch32 gdb stub, and we don't.
 >
-> The first 256b is i/o, the next 768b are ram.  But having changed the page
-> size, it should mean that the first 1k are now treated as i/o.
->
-> We do have a path by which instructions in i/o pages can be executed.  This
-> happens on some ARM board setups during cold boot.  But we do not save those
-> translations, so they run much much slower than it should.
->
-> But perhaps in the case of AVR, "much much slower" really isn't visible?
->
-> In general, I think changing the page size is wrong.  I also assume that
-> migration is largely irrelevant to this target.
+> Isn't this "easily" solvable? Probably I am missing something obvious..
 
-Migration is irrelevant, but every target benefits from snapshot
-save-and-restore, and I think that uses the same codepaths ?
+Fairly, yes. That's why I classify it as "bug". It's just nobody's
+written the patch.
 
+> I mean we could dispatch to the one or to the other according to ->is_aa64()?
+
+No, because is_aa64() is the "at runtime, is the CPU currently 32-bit
+or 64 bit?" check. For gdbstub functions, because gdb cannot handle
+runtime switching, the check should be a static one of the "what kind
+of CPU is this?" type. (This is effectively what we do today, except
+that for the special case of "aarch64=off" we make the wrong choice.)
+
+thanks
 -- PMM
 
