@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44A735D314
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:28:37 +0200 (CEST)
-Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBAA35D307
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:25:59 +0200 (CEST)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW52q-00072s-RL
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38502)
+	id 1lW50I-0004hI-Fv
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:25:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vn-0002xe-DT
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:21 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44050
+ id 1lW4vm-0002xG-5U
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44058
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4ve-0002gE-Kc
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:19 -0400
+ id 1lW4vg-0002iB-NT
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:17 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vn-0004Dc-Kg; Mon, 12 Apr 2021 23:21:23 +0100
+ id 1lW4vr-0004Dc-Bk; Mon, 12 Apr 2021 23:21:28 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 12 Apr 2021 23:20:37 +0100
-Message-Id: <20210412222048.22818-3-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 12 Apr 2021 23:20:38 +0100
+Message-Id: <20210412222048.22818-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
 References: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 02/13] esp: always check current_req is not NULL before use in
- DMA callbacks
+Subject: [PULL 03/13] esp: rework write_response() to avoid using the FIFO for
+ DMA transactions
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,72 +65,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After issuing a SCSI command the SCSI layer can call the SCSIBusInfo .cancel
-callback which resets both current_req and current_dev to NULL. If any data
-is left in the transfer buffer (async_len != 0) then the next TI (Transfer
-Information) command will attempt to reference the NULL pointer causing a
-segfault.
+The code for write_response() has always used the FIFO to store the data for
+the status/message in phases, even for DMA transactions. Switch to using a
+separate buffer that can be used directly for DMA transactions and restrict
+the FIFO use to the non-DMA case.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
-Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20210407195801.685-2-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210407195801.685-3-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ hw/scsi/esp.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index d87e1a63db..a79196f3f3 100644
+index a79196f3f3..2584ec6fb1 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -496,6 +496,10 @@ static void do_dma_pdma_cb(ESPState *s)
-         return;
-     }
+@@ -445,18 +445,16 @@ static void write_response_pdma_cb(ESPState *s)
  
-+    if (!s->current_req) {
-+        return;
-+    }
-+
-     if (to_device) {
-         /* Copy FIFO data to device */
-         len = MIN(s->async_len, ESP_FIFO_SZ);
-@@ -527,11 +531,9 @@ static void do_dma_pdma_cb(ESPState *s)
-         return;
-     } else {
-         if (s->async_len == 0) {
--            if (s->current_req) {
--                /* Defer until the scsi layer has completed */
--                scsi_req_continue(s->current_req);
--                s->data_in_ready = false;
--            }
-+            /* Defer until the scsi layer has completed */
-+            scsi_req_continue(s->current_req);
-+            s->data_in_ready = false;
+ static void write_response(ESPState *s)
+ {
+-    uint32_t n;
++    uint8_t buf[2];
+ 
+     trace_esp_write_response(s->status);
+ 
+-    fifo8_reset(&s->fifo);
+-    esp_fifo_push(s, s->status);
+-    esp_fifo_push(s, 0);
++    buf[0] = s->status;
++    buf[1] = 0;
+ 
+     if (s->dma) {
+         if (s->dma_memory_write) {
+-            s->dma_memory_write(s->dma_opaque,
+-                                (uint8_t *)fifo8_pop_buf(&s->fifo, 2, &n), 2);
++            s->dma_memory_write(s->dma_opaque, buf, 2);
+             s->rregs[ESP_RSTAT] = STAT_TC | STAT_ST;
+             s->rregs[ESP_RINTR] |= INTR_BS | INTR_FC;
+             s->rregs[ESP_RSEQ] = SEQ_CD;
+@@ -466,7 +464,8 @@ static void write_response(ESPState *s)
              return;
          }
- 
-@@ -604,6 +606,9 @@ static void esp_do_dma(ESPState *s)
-         }
-         return;
+     } else {
+-        s->ti_size = 2;
++        fifo8_reset(&s->fifo);
++        fifo8_push_all(&s->fifo, buf, 2);
+         s->rregs[ESP_RFLAGS] = 2;
      }
-+    if (!s->current_req) {
-+        return;
-+    }
-     if (s->async_len == 0) {
-         /* Defer until data is available.  */
-         return;
-@@ -713,6 +718,10 @@ static void esp_do_nodma(ESPState *s)
-         return;
-     }
- 
-+    if (!s->current_req) {
-+        return;
-+    }
-+
-     if (s->async_len == 0) {
-         /* Defer until data is available.  */
-         return;
+     esp_raise_irq(s);
 -- 
 2.20.1
 
