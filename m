@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4A935C74A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:13:04 +0200 (CEST)
-Received: from localhost ([::1]:36860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D420735C775
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:22:38 +0200 (CEST)
+Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVwND-00071B-4D
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48956)
+	id 1lVwWT-0002eX-EU
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lVwLG-0006Dm-C7
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:11:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25363)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lVwKy-00019H-QR
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:11:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618233042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SqhJCcsFxAUbQhJYu5UxyNT0UhoZRZ1pZsxwhFvLVlo=;
- b=OG6tKEFR/ffkeOGC3J+EJnWIWqEVUBplOlik8YZ33n1Pu5vEpwsruswtII31yL2S2XG05U
- PGdGz0rn+ABA2NVSXJd4BsZ+Bp68WXHD/efbt9MgYX58dPfJbm2X2QPa0vzVN0bEjjfwr2
- WjaDh2quV3CFkQhQfOuoruHPiy4JbEc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-bvOtUd4pPf6GELDSp7V-Cg-1; Mon, 12 Apr 2021 09:10:39 -0400
-X-MC-Unique: bvOtUd4pPf6GELDSp7V-Cg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 798E1195D562;
- Mon, 12 Apr 2021 13:10:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2DC75D6DC;
- Mon, 12 Apr 2021 13:10:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5B541113525D; Mon, 12 Apr 2021 15:10:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Li Zhang <li.zhang@ionos.com>
-Subject: Re: [PATCH 2/2] Support monitor chardev hotswap with QMP
-References: <20210315170636.704201-1-zhlcindy@gmail.com>
- <20210315170636.704201-2-zhlcindy@gmail.com>
- <CAEM4iGG67hQDPVrKbSsSpsrpbc12+ky=ROh26QUqO5C0+q0jXg@mail.gmail.com>
- <874kgykmgv.fsf@dusky.pond.sub.org>
- <CAEM4iGG4F7eBNXDhjtnFGiy2paJxVuZOm7xYWTMrm9MKEgU8JA@mail.gmail.com>
-Date: Mon, 12 Apr 2021 15:10:32 +0200
-In-Reply-To: <CAEM4iGG4F7eBNXDhjtnFGiy2paJxVuZOm7xYWTMrm9MKEgU8JA@mail.gmail.com>
- (Li Zhang's message of "Mon, 12 Apr 2021 14:41:19 +0200")
-Message-ID: <871rbf7inr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVwUg-0001tE-W7
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:20:47 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVwUf-0006G5-8c
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:20:46 -0400
+Received: by mail-ed1-x533.google.com with SMTP id ba6so15049140edb.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 06:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eNJJVN5MozQSJc1pCT6Xx3yReqmbZTlGPKWkGLkl5fo=;
+ b=Fu1+HnM+4pKdyQ5H5f1vMVR3RaFeiXvfBWjxeFOPB7J4IeqMz4eW8ggczIEjvkI8iM
+ yQvSy8PNnC5VhLelDwEM8n2hgK9ftPrizvbya2er7q5SvMJXqLsP4NHF+mFR2mclrKsm
+ Hr09auVni8HflUooYrn+2z5A9b2qDAL09NH9gyKBiPuop6LvgeCZkhS5ScnyV1yvLJ4c
+ m97PerjJ7FHdi5dyx2qldKhonhOgnpJNeJLShJAZpOsqn5sejIOSEn4U9xFQ6SfwcRQW
+ /vGgIyWcfkYNDd7GKVIGdW0yVPsPvvpahArj0QGPIHYmEif5FVpr4jT5F3E6/FzZeT0X
+ VoSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eNJJVN5MozQSJc1pCT6Xx3yReqmbZTlGPKWkGLkl5fo=;
+ b=YdTZMfbuUuUtaet0Qbq2FRgg1edJd0J/rhvwl1Am2xUVtItZAfEmGm4o7u7KS95uyu
+ kMqY3i/RnbJUagYnIhBjroggxFP0XWfF70j9qpH3EwPysGwkp7ak+QMJ/5YpVKSb4Smx
+ H507PbZOtgVbpno+mItFuowT1KeCC84gGPgQY+3NrDtCi2kmb4KKs0hgT2QNFpBPH0Dx
+ RzKkSEdEKB0HhR+3yT9+p/2cBTrPRIsPc3VC3DKZyIu9MMpqjGMJaUptfZ1EyY4jodCo
+ tyXh+ZUUrps8tWF20PA3VZmAa9bXxprX1aUs+lOfuCjB1/Ab1b3li0O0k31C0n4GuXdp
+ CwQg==
+X-Gm-Message-State: AOAM530NcOUtqc8a2RV0wallSyQl6dmkcEZsOBbBYodsfmSRH2uN2NHu
+ TN14+lGKcy53k9FuK0vwMbmgQEplqn4098fWXrP6PA==
+X-Google-Smtp-Source: ABdhPJyB4JCxyv4UT2IrVPsXgglN2L36cCyrOudZz2v5BZcbY9HLq2dB7Z2RnU69Su82S7m+ND2uL1o5hV6KV3mNL34=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr29045256edt.36.1618233642860; 
+ Mon, 12 Apr 2021 06:20:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
+In-Reply-To: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 12 Apr 2021 14:19:58 +0100
+Message-ID: <CAFEAcA_8ZsHwa+vxz99q52FUP4n7QDTLWpEEh2n_v-Ujiwdu_g@mail.gmail.com>
+Subject: Re: Better alternative to strncpy in QEMU.
+To: Chetan <chetan4windows@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,25 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, alexandr.iarygin@profitbricks.com,
- QEMU <qemu-devel@nongnu.org>, Li Zhang <li.zhang@cloud.ionos.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>, Li Zhang <zhlcindy@gmail.com>,
- marcandre.lureau@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Li Zhang <li.zhang@ionos.com> writes:
-
-> Hi Markus,
+On Sun, 11 Apr 2021 at 14:52, Chetan <chetan4windows@gmail.com> wrote:
+> char *qemu_strncpy(char destination[], char source[], size_t destination_size)
+> {
+>     /* Looping through the array and copying the characters from
+>      * source to destination.
+>      */
+>     for (int i = 0; i < strlen(source); i++) {
+>         destination[i] = source[i];
 >
-> Any suggestions on this patch?
+>         /* Check if value of i is equal to the second last index
+>          * of destination array and if condition is true, mark last
+>          * index as NULL and break from the loop.
+>          */
+>         if (i == (destination_size - 2)) {
+>             destination[destination_size - 1] = '\0';
+>             break;
+>         }
+>     }
+>     return destination;
+> }
 
-I understand PATCH 1/2 got superseded by Lukas's "[PATCH v8 0/4] yank:
-Add chardev tests and fixes".  I trust Marc-Andr=C3=A9 will take care of it
-in due time.
+This implementation is "accidentally quadratic", because it
+calls strlen(source) every time through the loop, and thus
+copying an N byte string will read N*N bytes of memory. (The
+compiler can't pull the "strlen(source)" call up out of the loop
+because it can't guarantee that source and destination don't
+overlap.)
 
-Before I look at the actual patch: does this patch depend on Lukas's fix
-or your "[PATCH 1/2] Fix the segment fault when calling
-yank_register_instance"?
+I think this is a good illustration of why we probably don't want
+to roll our own string operation functions if we can avoid it
+(ie without having a clear view of why we are improving on either
+what libc or glib offer us).
 
+thanks
+-- PMM
 
