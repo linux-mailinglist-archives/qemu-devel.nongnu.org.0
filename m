@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EA735D171
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 21:49:57 +0200 (CEST)
-Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DAC35D170
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 21:49:00 +0200 (CEST)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW2ZI-0002Gk-MG
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 15:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60964)
+	id 1lW2YM-0001O2-Vb
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 15:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3Z6N0YAcKCoo9s1785su22uzs.q204s08-rs9sz121u18.25u@flex--venture.bounces.google.com>)
- id 1lW2VH-0007Vk-CP
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:45:47 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:53447)
+ <3aqN0YAcKCo0Cv4AB8vx55x2v.t537v3B-uvCv2454x4B.58x@flex--venture.bounces.google.com>)
+ id 1lW2VK-0007c0-Jk
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:45:50 -0400
+Received: from mail-qv1-xf4a.google.com ([2607:f8b0:4864:20::f4a]:55685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3Z6N0YAcKCoo9s1785su22uzs.q204s08-rs9sz121u18.25u@flex--venture.bounces.google.com>)
- id 1lW2VF-0006Zz-DE
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:45:47 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id p68so6921379ybg.20
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 12:45:44 -0700 (PDT)
+ <3aqN0YAcKCo0Cv4AB8vx55x2v.t537v3B-uvCv2454x4B.58x@flex--venture.bounces.google.com>)
+ id 1lW2VI-0006c4-KW
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:45:50 -0400
+Received: by mail-qv1-xf4a.google.com with SMTP id c3so1782728qvz.22
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 12:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=O27tGi51CsQG7yDvwmP852qZ1gjQhBSmWisJIHI1BPM=;
- b=cPcq8En8O4DtHmKX/Y+4sJLcO8P0azwCRQmPzVE/kM66u89/vqzpb3B2zY4S8skzFb
- 41GkRq6zzgqvs7r/WpKYqYahtzPlDCGbPMUd/dHhlwjsTriXvOmjceFxwQLHhgnbBAj8
- AZ0ewPdBH5I4pyCpFMl6PAL7XSqqDU2mQnuwdCc77OFAfFm1CEHCkQ7UWXoNb95gVxNk
- s640D+27ycni5jEgkLnBLPKwnmH5vOW3pwuquDXz6tcCNqfvph2Mk20q4UJRWTPNqeEG
- QMZO4/w0OiOakTQuLYaCGc6y5UxG/7vxAP0T7eNtet9yko6qDXOM60NeSRVtNNVv7uZd
- Hkiw==
+ :cc; bh=vTNQZph+mmhx41KVFmqkH1vkW23g4F/59TyxIDVYtpA=;
+ b=eI6gqLjj4kfJh7AW+txjVbqcuLDZU4IASnv7F/HPWGAI1xXDwR7WMhcS5RWNnLNtA/
+ 6vOf56h8EXJ6cnpZhxmOdFU7JzGVwRFHKqVSTuP5TieOvAAd/RLx6vYINHVG0m0bjrsW
+ z7Ua0fsHmuJszs+DT7lSrCunMP7DMsHqShDdqvyXAqbFG7xxnM+SfMV607IEhwmf2RoU
+ 8U6Ck4y2hQ/2GWo4VMS/flT3bbbBh47IT1+I1Bz8YkT0DmcVt3efjS79pdHKYkvRSC8X
+ Xw07HJ2fVu02lqC+1Fy6ZIVTPGZlxPSF3Xy9+wTCxxfz1yxJr8V18y61eHnIGH+NFH74
+ b/cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=O27tGi51CsQG7yDvwmP852qZ1gjQhBSmWisJIHI1BPM=;
- b=EShDi1PxZlYp/iPyA0vKK5/24sDIdQzQ+KtJvLGrVzh9+O1T/nYvSh5mFhWy70x6ZC
- je+6dItqTpggNLkTOtPjypk/WJIVmYgUHTwiun1ugzSSdFGudGiUoqLJWfiTxDH7dIR4
- 9KzhNpnc0zn46cFs4V9JUPnXQ4P2exL2rlpWPLF3AMY9VPeEB57qLz5Eruz6ajwi3wx6
- 05cABr2PN0RsAqPCkdwOe/UDZzyg0azubvsABJcvpRv+QtRYZ6DFqOgMFwiAyFF0XL87
- 1UP+dEyFUn2kVGStOA3WiXW+U34Oue8wkJgicg7MqeWlIFh0gv9EPcCJJWhZGMLthvXB
- 4zaA==
-X-Gm-Message-State: AOAM530nnAu8Teq5SxhAi0Iy520Cr/9hCiKfDpziIk5AI/FrkUhxnZDd
- EV4EoiG9dlk4iOZt/tTefRi5WLAF/WNn
-X-Google-Smtp-Source: ABdhPJwvqJ7ukSxS4smr+KSZj9X+cWzzw7Zdydc2pMFVWoTfsqUeGrARQ65de1SSc7AnrP3ImF9SpEJTJVYP
+ bh=vTNQZph+mmhx41KVFmqkH1vkW23g4F/59TyxIDVYtpA=;
+ b=hl61SA1HYkIqfUtBcmQvmJh9CvwUYOLvcltsJjkpyvqopXncyL8Oq9WEvTITGa/mOr
+ f4AraHBp5XQMdSJX88MCrjlbcjqC24MdwhcE0PMZRHNtxdNfvxUe7fU4XfQ5T1X/j5ts
+ cFGYJAlhcEhB0p/D0iVFTqvU67m0uc9BH7DV8GVdfX2FlXwTdhjmWCEXvsD5vp2CHdiR
+ BIHEQoF3QlwaY83M4sTltyym/6PJQW1mKVPlMA3u/5QW8QNqB8QgQZi/vk0Oiz24sT3D
+ TjI7PCH92NywFAIWV40M8ppZDTM//Pxu2v8USqhBsEGde/bhNeJko8+/v29FxBytRNdG
+ YrHA==
+X-Gm-Message-State: AOAM532eLHriWNr/BYh5Smq/b6ej+CpNoNOS+JlCvs711NVCiJFYbiox
+ 1PO9Scwb3P8ghxjfxcZVc6FnLXdmZ6Tc
+X-Google-Smtp-Source: ABdhPJzhxJ5e0CZurHf3F1cyYJ1Dpih9kwZt/qY1eV+dmSg89lhBQFVQRwjeRmc+yDdCsDpWWhfFZP+vMqX7
 X-Received: from venture.svl.corp.google.com
  ([2620:15c:2a3:200:7285:fb47:eb76:b9a4])
- (user=venture job=sendgmr) by 2002:a25:790d:: with SMTP id
- u13mr39658402ybc.427.1618256743930; Mon, 12 Apr 2021 12:45:43 -0700 (PDT)
-Date: Mon, 12 Apr 2021 12:45:20 -0700
+ (user=venture job=sendgmr) by 2002:a05:6214:ca4:: with SMTP id
+ s4mr29167512qvs.44.1618256746748; Mon, 12 Apr 2021 12:45:46 -0700 (PDT)
+Date: Mon, 12 Apr 2021 12:45:21 -0700
 In-Reply-To: <20210412194522.664594-1-venture@google.com>
-Message-Id: <20210412194522.664594-3-venture@google.com>
+Message-Id: <20210412194522.664594-4-venture@google.com>
 Mime-Version: 1.0
 References: <20210412194522.664594-1-venture@google.com>
 X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH v4 2/4] hw/i2c: add match method for device search
+Subject: [PATCH v4 3/4] hw/i2c: move search to i2c_scan_bus method
 From: Patrick Venture <venture@google.com>
 To: cminyard@mvista.com, wuhaotsh@google.com, hskinnemoen@google.com, 
  f4bug@amsat.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3Z6N0YAcKCoo9s1785su22uzs.q204s08-rs9sz121u18.25u@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f4a;
+ envelope-from=3aqN0YAcKCo0Cv4AB8vx55x2v.t537v3B-uvCv2454x4B.58x@flex--venture.bounces.google.com;
+ helo=mail-qv1-xf4a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -88,11 +88,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the start of an i2c transaction, the i2c bus searches its list of
-children to identify which devices correspond to the address (or
-broadcast).  Now the I2CSlave device has a method "match" that
-encapsulates the lookup behavior. This allows the behavior to be changed
-to support devices, such as i2c muxes.
+Moves the search for matching devices on an i2c bus into a separate
+method.  This allows for an object that owns an I2CBus can avoid
+duplicating this method.
 
 Tested: A BMC firmware was booted to userspace and i2c devices were
 detected.
@@ -100,86 +98,86 @@ detected.
 Signed-off-by: Patrick Venture <venture@google.com>
 Reviewed-by: Hao Wu <wuhaotsh@google.com>
 ---
- hw/i2c/core.c        | 23 +++++++++++++++++++----
- include/hw/i2c/i2c.h | 11 +++++++++++
- 2 files changed, 30 insertions(+), 4 deletions(-)
+ hw/i2c/core.c        | 38 ++++++++++++++++++++++++++------------
+ include/hw/i2c/i2c.h |  2 ++
+ 2 files changed, 28 insertions(+), 12 deletions(-)
 
 diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index 21ec52ac5a..d03b0eea5c 100644
+index d03b0eea5c..3a7bae311d 100644
 --- a/hw/i2c/core.c
 +++ b/hw/i2c/core.c
-@@ -118,10 +118,9 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
-         QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
-             DeviceState *qdev = kid->child;
-             I2CSlave *candidate = I2C_SLAVE(qdev);
--            if ((candidate->address == address) || (bus->broadcast)) {
--                node = g_malloc(sizeof(struct I2CNode));
--                node->elt = candidate;
--                QLIST_INSERT_HEAD(&bus->current_devs, node, next);
-+            sc = I2C_SLAVE_GET_CLASS(candidate);
-+            if (sc->match_and_add(candidate, address, bus->broadcast,
-+                                  &bus->current_devs)) {
-                 if (!bus->broadcast) {
-                     break;
-                 }
-@@ -290,12 +289,28 @@ I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr)
-     return dev;
+@@ -77,6 +77,30 @@ int i2c_bus_busy(I2CBus *bus)
+     return !QLIST_EMPTY(&bus->current_devs);
  }
  
-+static bool i2c_slave_match(I2CSlave *candidate, uint8_t address,
-+                            bool broadcast, I2CNodeList *current_devs)
++bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
++                  I2CNodeList *current_devs)
 +{
-+    if ((candidate->address == address) || (broadcast)) {
-+        I2CNode *node = g_malloc(sizeof(struct I2CNode));
-+        node->elt = candidate;
-+        QLIST_INSERT_HEAD(current_devs, node, next);
-+        return true;
++    BusChild *kid;
++
++    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
++        DeviceState *qdev = kid->child;
++        I2CSlave *candidate = I2C_SLAVE(qdev);
++        I2CSlaveClass *sc = I2C_SLAVE_GET_CLASS(candidate);
++
++        if (sc->match_and_add(candidate, address, broadcast, current_devs)) {
++            if (!broadcast) {
++                return true;
++            }
++        }
 +    }
 +
-+    /* Not found and not broadcast. */
-+    return false;
++    /*
++     * If broadcast was true, and the list was full or empty, return true. If
++     * broadcast was false, return false.
++     */
++    return broadcast;
 +}
 +
- static void i2c_slave_class_init(ObjectClass *klass, void *data)
+ /* TODO: Make this handle multiple masters.  */
+ /*
+  * Start or continue an i2c transaction.  When this is called for the
+@@ -93,7 +117,6 @@ int i2c_bus_busy(I2CBus *bus)
+  */
+ int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
  {
-     DeviceClass *k = DEVICE_CLASS(klass);
-+    I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
-     set_bit(DEVICE_CATEGORY_MISC, k->categories);
-     k->bus_type = TYPE_I2C_BUS;
-     device_class_set_props(k, i2c_props);
-+    sc->match_and_add = i2c_slave_match;
- }
+-    BusChild *kid;
+     I2CSlaveClass *sc;
+     I2CNode *node;
+     bool bus_scanned = false;
+@@ -115,17 +138,8 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
+      * terminating the previous transaction.
+      */
+     if (QLIST_EMPTY(&bus->current_devs)) {
+-        QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
+-            DeviceState *qdev = kid->child;
+-            I2CSlave *candidate = I2C_SLAVE(qdev);
+-            sc = I2C_SLAVE_GET_CLASS(candidate);
+-            if (sc->match_and_add(candidate, address, bus->broadcast,
+-                                  &bus->current_devs)) {
+-                if (!bus->broadcast) {
+-                    break;
+-                }
+-            }
+-        }
++        /* Disregard whether devices were found. */
++        (void)i2c_scan_bus(bus, address, bus->broadcast, &bus->current_devs);
+         bus_scanned = true;
+     }
  
- static const TypeInfo i2c_slave_type_info = {
 diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index 1f7c268c86..9b8b95ff4a 100644
+index 9b8b95ff4a..ff4129ea70 100644
 --- a/include/hw/i2c/i2c.h
 +++ b/include/hw/i2c/i2c.h
-@@ -16,6 +16,7 @@ enum i2c_event {
-     I2C_NACK /* Masker NACKed a receive byte.  */
- };
+@@ -87,6 +87,8 @@ void i2c_nack(I2CBus *bus);
+ int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
++bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
++                  I2CNodeList *current_devs);
  
-+typedef struct I2CNodeList I2CNodeList;
- 
- #define TYPE_I2C_SLAVE "i2c-slave"
- OBJECT_DECLARE_TYPE(I2CSlave, I2CSlaveClass,
-@@ -39,6 +40,16 @@ struct I2CSlaveClass {
-      * return code is not used and should be zero.
-      */
-     int (*event)(I2CSlave *s, enum i2c_event event);
-+
-+    /*
-+     * Check if this device matches the address provided.  Returns bool of
-+     * true if it matches (or broadcast), and updates the device list, false
-+     * otherwise.
-+     *
-+     * If broadcast is true, match should add the device and return true.
-+     */
-+    bool (*match_and_add)(I2CSlave *candidate, uint8_t address, bool broadcast,
-+                          I2CNodeList *current_devs);
- };
- 
- struct I2CSlave {
+ /**
+  * Create an I2C slave device on the heap.
 -- 
 2.31.1.295.g9ea45b61b8-goog
 
