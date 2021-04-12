@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0AE35C7DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:42:55 +0200 (CEST)
-Received: from localhost ([::1]:37646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B689335C7DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:44:41 +0200 (CEST)
+Received: from localhost ([::1]:42480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVwq6-0003aF-3N
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58232)
+	id 1lVwro-0005Y1-PW
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <li.zhang@ionos.com>)
- id 1lVwpK-00030j-Jt
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:42:06 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45779)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVwqa-0004Jy-JA
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:43:24 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <li.zhang@ionos.com>)
- id 1lVwpI-0002bn-HZ
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:42:06 -0400
-Received: by mail-ej1-x633.google.com with SMTP id sd23so11690754ejb.12
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 06:42:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1rR5vrkkT6oBSlYp2FTz7RVix+3FrZUpGB9zV+UmPdk=;
- b=C5J5UdmcD/ALZWQZPATjoMBxfawXtgXoi2P8DZlLjuaCIVBiVrXphG8tB2OKkQCQRn
- aOUeZGNG7fKvqZR+mOs7tR1D8VO4d1pEpyc7mWlNnqWyi7V6or+xB1l4KSK6nbU3FN2F
- DTo/111/+eb7f0cgGKo8aT3ORJm1Rrck7JPFMU9TMMRrFXia1xPT7liiuAXk/C6t/3rZ
- I+BYumTH2/n5UcEGCPaOW09VKHrzXo/OjoS9y+gZyVxZMZFkvOrPpMjQgAuwY8utpLTB
- ChpXKuieC+2bqCgal1Zaz4xD7VxoyEdgYVZXjqyXkUw3towYQZN2NLD699DQRMoa7Fc7
- Gldw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVwqX-0003N3-OA
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 09:43:24 -0400
+Received: by mail-wr1-x436.google.com with SMTP id h4so3966909wrt.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 06:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=coR5qfcj7HbN5UNgt4/UQCpFaRvRt8MSF2O7M15ACS8=;
+ b=BMUfEZPwGnUS8HE7k/U/fh4/0ucrzzjeMHFpoYRDqJoOqkRJMoaJRp6RMRUK47fN3S
+ M/0CZAzeskwp/Kunx0UcRSKJUocnrKmaxwRyRxol5IsbHA8Xu5dMMEqJ2rDE6qu1UoGR
+ 5Junhb83gJzKiVY/ixs/74DIT8jegYMkEDCiLheiG7bgy9h6TgN5sIltBqarIsCiC71w
+ nLT8VYBV4szL7mu+07eoYnkZVscKez4n+sfZGDKxEncNCcQsYizRtRmYo3LJZw/Vekc5
+ Y67u3LLUOxFRSHDl96l759f1xFWgOFwdZKiefCE8IEQG7jvYZabr+8G4eCEwwb6eYfaT
+ iz4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1rR5vrkkT6oBSlYp2FTz7RVix+3FrZUpGB9zV+UmPdk=;
- b=bNHNulJd21df2p6P+tEQxU4mGL6iLmhC7HNvRBzYLhkaZk4t/oQ+dJ1D4h1IiOSwPI
- fTM4K80dVjXRCwtv3YVyGHTBFPfkf2kUfaeyGbhjOcWhkhTctzEG/2UZB5nPb+65u3RV
- 39bkcYYuJW5590tFF/IOng1WzLVuKl0mxK5mnxc4B+vTX9b360bRLQ0m65RDWEnDzJ1t
- dA2QBtvXyglf9wX16CtY9VkXHbCeig189APu342987p8ehFClc+YAHZmbghFxOV7R6BM
- OeicY5gkyfRMjppS2Hylv9XIX6pEW6Ng3iFWmthDsRhp0XIbTUfvM3nkoP/NYa57P6vJ
- f61g==
-X-Gm-Message-State: AOAM530gSVC94qoKiT2PZwUqd0lrHbNC2i4PADqIGTFACe0etmY7KSQ5
- W9FL5wivudX1/nQ8tAmh5sHElhArR09JmdfU9XFOqg==
-X-Google-Smtp-Source: ABdhPJxjjl8muIyztXQt8VsMWQuJvVenCjSAV8s1xES7YRCFjCLFRcg6V7DM/vchfJEmrfFFdy7oBIQw2/yEM7w3WiM=
-X-Received: by 2002:a17:907:3e8c:: with SMTP id
- hs12mr27439137ejc.105.1618234922573; 
- Mon, 12 Apr 2021 06:42:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=coR5qfcj7HbN5UNgt4/UQCpFaRvRt8MSF2O7M15ACS8=;
+ b=lVmyyGOuzRQJCuhcOcrtRa5xpqhdS7NGDYzSXgczRDcu8dkRiYuhSQgVQXjpDDEM/p
+ drByIiXGbR0MX0BX8FiI0EOgHyV/vzwm39xUvTmYzt6TcGMONbeNV70hxSi+btzu7IMz
+ m3EjoxmPG2z66WAHvbnILWeA1Hb6HKbJ5wDQ1/A1cRxI0GyoEar/PqhvB2bx4TK6r5Ov
+ 4udmcKrQHkQt7h0yJjVw+vA60GBhyTqLFSFv6KPJswt2bRmobaycG8d1QZSZTwdi+V5l
+ 37QwDPNMKlIuZNz99s9NvzR9UM+M0s3tei64KaO7wFSljdKPPSgMBBSFkQT1iZcczaWj
+ t2vg==
+X-Gm-Message-State: AOAM530ZzMOMglEUu0wgUUnRlV6N8TXJ0ZscPbqAsEfYDNt6xh8OFsKI
+ TdQFtqBumKH6cV3Ok4gm/2CVAQ==
+X-Google-Smtp-Source: ABdhPJy2Nmx4y7Li9c0axjOF6pteuwTVi1eqh+0L4Q3gh/pxAW3kEmQTpgHsB5dU34AKlFLwSUgiLQ==
+X-Received: by 2002:a05:6000:1102:: with SMTP id
+ z2mr9914770wrw.333.1618235000055; 
+ Mon, 12 Apr 2021 06:43:20 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p16sm19574680wrt.54.2021.04.12.06.43.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 06:43:19 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/3] mps3-an524: support memory remapping
+Date: Mon, 12 Apr 2021 14:43:14 +0100
+Message-Id: <20210412134317.12501-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210315170636.704201-1-zhlcindy@gmail.com>
- <20210315170636.704201-2-zhlcindy@gmail.com>
- <CAEM4iGG67hQDPVrKbSsSpsrpbc12+ky=ROh26QUqO5C0+q0jXg@mail.gmail.com>
- <874kgykmgv.fsf@dusky.pond.sub.org>
- <CAEM4iGG4F7eBNXDhjtnFGiy2paJxVuZOm7xYWTMrm9MKEgU8JA@mail.gmail.com>
- <871rbf7inr.fsf@dusky.pond.sub.org>
-In-Reply-To: <871rbf7inr.fsf@dusky.pond.sub.org>
-From: Li Zhang <li.zhang@ionos.com>
-Date: Mon, 12 Apr 2021 15:41:51 +0200
-Message-ID: <CAEM4iGEs5edKzih6Rq66etDNWoEbxmDdvRuuQLN1mgYEMJ0jgg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Support monitor chardev hotswap with QMP
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b9356605bfc6ad98"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::633;
- envelope-from=li.zhang@ionos.com; helo=mail-ej1-x633.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,82 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, alexandr.iarygin@profitbricks.com,
- QEMU <qemu-devel@nongnu.org>, Li Zhang <li.zhang@cloud.ionos.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>, Li Zhang <zhlcindy@gmail.com>,
- marcandre.lureau@redhat.com
+Cc: Kumar Gala <kumar.gala@linaro.org>,
+ Kevin Townsend <kevin.townsend@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b9356605bfc6ad98
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The AN524 FPGA image supports two memory maps, which differ
+in where the QSPI and BRAM are. In the default map, the BRAM
+is at 0x0000_0000, and the QSPI at 0x2800_0000. In the second
+map, they are the other way around.
 
-Hi Markus,
+In hardware, the initial mapping can be selected by the user
+by writing either "REMAP: BRAM" (the default) or "REMAP: QSPI"
+in the board configuration file. The guest can also dynamically
+change the mapping via the SCC CFG_REG0 register.
 
-[PATCH 1/2] Fix the segment fault when calling yank_register_instance is
-reworked by Lukas.
-And his patches have been merged to master branch of qemu.
-[PATCH 2/2]  Support monitor chardev hotswap with QMP is to change monitor
-backend with chardev-change. It is not implemented yet.
+This patchset adds support for the feature to QEMU's model;
+the user-sets-the-initial-mapping part is a new machine property
+which can be set with "-M remap=QSPI".
 
+This is needed for some guest images -- for instance the
+Arm TF-M binaries -- which assume they have the QSPI layout.
 
-On Mon, Apr 12, 2021 at 3:10 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+Based-on: 20210409150527.15053-1-peter.maydell@linaro.org
+("mps3-an524: Fix MPC setting for SRAM block")
+though any conflict/dependency would be minor and purely textual.
 
-> Li Zhang <li.zhang@ionos.com> writes:
->
-> > Hi Markus,
-> >
-> > Any suggestions on this patch?
->
-> I understand PATCH 1/2 got superseded by Lukas's "[PATCH v8 0/4] yank:
-> Add chardev tests and fixes".  I trust Marc-Andr=C3=A9 will take care of =
-it
-> in due time.
->
-> Before I look at the actual patch: does this patch depend on Lukas's fix
-> or your "[PATCH 1/2] Fix the segment fault when calling
-> yank_register_instance"?
->
->
+thanks
+-- PMM
 
---000000000000b9356605bfc6ad98
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Peter Maydell (3):
+  hw/misc/mps2-scc: Add "QEMU interface" comment
+  hw/misc/mps2-scc: Support using CFG0 bit 0 for remapping
+  hw/arm/mps2-tz: Implement AN524 memory remapping via machine property
 
-<div dir=3D"ltr"><br><div>Hi Markus,=C2=A0</div><div><br></div><div>[PATCH =
-1/2] Fix the segment fault when calling yank_register_instance is reworked =
-by Lukas.=C2=A0</div><div>And his patches have been merged to master branch=
- of qemu.=C2=A0</div><div>[PATCH 2/2]=C2=A0=C2=A0Support monitor chardev ho=
-tswap with QMP is to=C2=A0change monitor backend with chardev-change. It is=
- not implemented yet.=C2=A0=C2=A0</div><div><span style=3D"color:rgb(32,33,=
-36);font-family:&quot;Google Sans&quot;,Roboto,RobotoDraft,Helvetica,Arial,=
-sans-serif;font-size:1.375rem;font-variant-ligatures:no-contextual"></span>=
-</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Apr 12, 2021 at 3:10 PM Markus Armbruster &lt;=
-<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">Li Zhang &lt;<a href=
-=3D"mailto:li.zhang@ionos.com" target=3D"_blank">li.zhang@ionos.com</a>&gt;=
- writes:<br>
-<br>
-&gt; Hi Markus,<br>
-&gt;<br>
-&gt; Any suggestions on this patch?<br>
-<br>
-I understand PATCH 1/2 got superseded by Lukas&#39;s &quot;[PATCH v8 0/4] y=
-ank:<br>
-Add chardev tests and fixes&quot;.=C2=A0 I trust Marc-Andr=C3=A9 will take =
-care of it<br>
-in due time.<br>
-<br>
-Before I look at the actual patch: does this patch depend on Lukas&#39;s fi=
-x<br>
-or your &quot;[PATCH 1/2] Fix the segment fault when calling<br>
-yank_register_instance&quot;?<br>
-<br>
-</blockquote></div>
+ docs/system/arm/mps2.rst   |  10 ++++
+ include/hw/misc/mps2-scc.h |  21 ++++++++
+ hw/arm/mps2-tz.c           | 106 ++++++++++++++++++++++++++++++++++++-
+ hw/misc/mps2-scc.c         |  13 +++--
+ 4 files changed, 146 insertions(+), 4 deletions(-)
 
---000000000000b9356605bfc6ad98--
+-- 
+2.20.1
+
 
