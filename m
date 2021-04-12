@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6203635B8C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 05:03:14 +0200 (CEST)
-Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5980135B8E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 05:23:53 +0200 (CEST)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVmr3-0000GN-9E
-	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 23:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58358)
+	id 1lVnB1-0002sG-RL
+	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 23:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVmo3-00082t-L9
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 23:00:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41164)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVnA2-0002SU-1n
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 23:22:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVmo0-0004Ww-5b
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 23:00:07 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVn9z-0001ab-Jy
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 23:22:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618196402;
+ s=mimecast20190719; t=1618197766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZoCGsmai2+oDDRuOO1+to5d/z5EVTPDJECKkYXEZ4C0=;
- b=KCBxySuHYvT6tdW00tLBCmEd3STjnrB25COIdLAeukbXjIPkh5Tb6iL2k1KJh9VZVp+ID4
- O4k2A89YKdK/nTOe9gpeklY2sRzg35LQHxhbHuBvSSW/I+iVtm0ErCYT1NteWpwHXFW/cP
- YFLpPEN7vnQrktGicBuTqIeyv/iPvxM=
+ bh=2cuoFIDRtx7BlpXwmrqswah/i+1CJBKhvJjFOOsrzL4=;
+ b=Y9MEb6+0sLSNyWRP3OSR7X+IA2WF8P70f/ns9KHCSaT8muXEd5qjnnKwAs5snykti8Gg9H
+ qhCocb7uObBH/y/Qk9r1HitCxlF3l+nn32FMv6LFtGqdvAypUXyLtSuuxwilxkiyQc3Wuh
+ 3v30vwkN2kKSOpNQu2X+KpK2gSy+84o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-shss4yLcOS-04CJPw1qPOQ-1; Sun, 11 Apr 2021 22:59:58 -0400
-X-MC-Unique: shss4yLcOS-04CJPw1qPOQ-1
+ us-mta-30-Y0qGgcXQNBGeVvv34S8vmg-1; Sun, 11 Apr 2021 23:22:44 -0400
+X-MC-Unique: Y0qGgcXQNBGeVvv34S8vmg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF63A87A826;
- Mon, 12 Apr 2021 02:59:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EE5F18397A0;
+ Mon, 12 Apr 2021 03:22:43 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-37.rdu2.redhat.com
  [10.10.113.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBD221A49B;
- Mon, 12 Apr 2021 02:59:45 +0000 (UTC)
-Date: Sun, 11 Apr 2021 22:59:43 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED4C5163CE;
+ Mon, 12 Apr 2021 03:22:30 +0000 (UTC)
+Date: Sun, 11 Apr 2021 23:22:28 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v2 09/10] Acceptance Tests: add basic documentation on
- LinuxTest base class
-Message-ID: <YHO3n4YQzAf8OV0L@localhost.localdomain>
+Subject: Re: [PATCH v2 00/10] Acceptance Test: introduce base class for Linux
+ based tests
+Message-ID: <YHO89BlmaHL1wlhT@localhost.localdomain>
 References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-10-crosa@redhat.com>
- <39066db3-7815-fb8e-eace-f31f74392e8a@redhat.com>
+ <05118984-4a12-6cc5-ab84-a3a4953b535c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <39066db3-7815-fb8e-eace-f31f74392e8a@redhat.com>
+In-Reply-To: <05118984-4a12-6cc5-ab84-a3a4953b535c@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n0nw8gTNXWeBkGCJ"
+ protocol="application/pgp-signature"; boundary="NeyEYfmyLFjwpUn9"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -95,72 +94,84 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---n0nw8gTNXWeBkGCJ
+--NeyEYfmyLFjwpUn9
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 25, 2021 at 03:14:58PM -0300, Wainer dos Santos Moschetta wrote=
+On Thu, Mar 25, 2021 at 04:45:51PM -0300, Wainer dos Santos Moschetta wrote=
 :
 > Hi,
 >=20
 > On 3/23/21 7:15 PM, Cleber Rosa wrote:
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> > ---
-> >   docs/devel/testing.rst | 25 +++++++++++++++++++++++++
-> >   1 file changed, 25 insertions(+)
-> >=20
-> > diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> > index 1da4c4e4c4..ed2a06db28 100644
-> > --- a/docs/devel/testing.rst
-> > +++ b/docs/devel/testing.rst
-> > @@ -810,6 +810,31 @@ and hypothetical example follows:
-> >   At test "tear down", ``avocado_qemu.Test`` handles all the QEMUMachin=
-es
-> >   shutdown.
-> > +The ``avocado_qemu.LinuxTest`` base test class
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +The ``avocado_qemu.LinuxTest`` is further specialization of the
-> > +``avocado_qemu.Test`` class, so it contains all the characteristics of
-> > +the later plus some extra features.
-> > +
-> > +First of all, this base class is intended for tests that need to
-> > +interact with a fully booted and operational Linux guest.  The most
-> > +basic example looks like this:
+> > This introduces a base class for tests that need to interact with a
+> > Linux guest.  It generalizes the "boot_linux.py" code, already been
+> > used by the "virtiofs_submounts.py" and also SSH related code being
+> > used by that and "linux_ssh_mips_malta.py".
 >=20
-> I think it is worth mentioning currently it will boot a Fedora 31 cloud-i=
-nit
-> image.
->
+> I ran the linux_ssh_mips_malta.py tests, they all passed:
+>=20
+> (11/34) tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta=
+32eb_kernel3_2_0:
+> PASS (64.41 s)
+> (12/34) tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta=
+32el_kernel3_2_0:
+> PASS (63.43 s)
+> (13/34) tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta=
+64eb_kernel3_2_0:
+> PASS (63.76 s)
+> (14/34) tests/acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta=
+64el_kernel3_2_0:
+> PASS (62.52 s)
+>=20
+> Then I tried the virtiofs_submounts.py tests, it finishes with error.
+> Something like that fixes it:
+>=20
+> diff --git a/tests/acceptance/virtiofs_submounts.py
+> b/tests/acceptance/virtiofs_submounts.py
+> index d77ee35674..21ad7d792e 100644
+> --- a/tests/acceptance/virtiofs_submounts.py
+> +++ b/tests/acceptance/virtiofs_submounts.py
+> @@ -195,7 +195,7 @@ def setUp(self):
+>=20
+> =A0=A0=A0=A0=A0=A0=A0=A0 self.run(('ssh-keygen', '-N', '', '-t', 'ed25519=
+', '-f',
+> self.ssh_key))
+>=20
+> -=A0=A0=A0=A0=A0=A0=A0 pubkey =3D open(self.ssh_key + '.pub').read()
+> +=A0=A0=A0=A0=A0=A0=A0 pubkey =3D self.ssh_key + '.pub'
+>=20
+> =A0=A0=A0=A0=A0=A0=A0=A0 super(VirtiofsSubmountsTest, self).setUp(pubkey)
+>=20
 
-Sure, makes sense.
+Hi Wainer,
 
-Thanks!
+Yes, thank you so much for catching that and proposing a fix.  I'm
+adding to the v3 of this series.
+
+Thanks again!
 - Cleber.
 
---n0nw8gTNXWeBkGCJ
+--NeyEYfmyLFjwpUn9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBzt50ACgkQZX6NM6Xy
-CfOSUQ/+OHdKAqaW/IqnU00EM8nA6+I+VtPGHml7BL+Q06zgaPOI+d7XihMpUWlh
-rWy0VFCpw3vSra0GbPFjGXLAxGbZ378QL6hT9LY3hyUijqhFznt53oSyanPQ94y5
-FcNv435XOKjPsYXmdu9Q0CDxUyFxHKSIwbo5cXEJt8p7uxdVQzguIis4Xy8HFL7A
-m3SLv8G7+I4rEw10xBmO+5ic25X1XXaZh4X4YhhFmwlXdUS7B7DEuyrSM7GqOEpO
-Yn7hboWLZbrmz4rOv3G+jmVQO4IGspEWt+ogpjdgCdTzstEuOPI7hn0c3Gv/Xp8m
-GqjQ6T0EP+bet7Zj1ctuvHlfEpwYg+fH/2hjKCE0Qo7gG12pyn9T3E8krJzZgRJ6
-HKXItncOOTOSUgDl2vEFo1CLxmlLoFMdZG5HZP/HDpixF2hrOxv2oaGCR9bsqB81
-O8lq+oOERNP4LLF/M/Lhs2pJ/gQG7qRxgfrTQTdUgoX0/ygGNcMkFLKvUaKyDKpI
-WufbDYHY0T4bBk1Xgls9I1lh+hDDzjtxx1mdRk2h7ZUzr7bYDQsQKBEuc7KdJC6I
-L15Rbk+VF1VU40g7Ag29S68SkbgDkGhGNvvlspd3wHpJ4BiG1JZqpoA5PEqaRuwU
-tXLlpvVtAV0w3VwM4vITGZiv1LDpAuk3A9oBKC76lokXRW/w0Pk=
-=0FYP
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBzvPEACgkQZX6NM6Xy
+CfMXyg//QHSJPOH4LmN3uiWh4mwuU6lWPx4iZ3/3TKXpjolpTAh3Zmo/xQBlVAZD
+lJNu+ggf2QaWz51LHU0LSex34bAJSuAqGQD+T9BTzDWnVpMHBgZVP8WS45cvKRA8
+4jlsTskRqZDtZ3WFDJ7sUZIaSOwDOy8QQK0eVmyBT+byA56PYRMqFEqkR+XFDVZE
+oNWXZlg0nF7N6hbuhPlEedqwmQdDu6TBIZ8LDPbXYOsXZiaX7nrVTQDdGRvDHk+f
+KRBZeJuo9CiMhG35EFxrTw6KBRAqVQ/Bi7AJ+4s8Vw4Sr3bhDWCUzzI7PFhCWmn9
+6VMCLmG5kgPtDS9h3F1nq2KYJxgF+9IHpPOdlG72lbOIrV1KMvsESRDhZGItlbDr
+lnkT7GVJBjyTt1Vjo2mS0qjZQ+xEehzrIzmFjNwC+JoZZnK38n+Rr9dSbGkGiE9T
+DXy3Xa1wx7LcY9KoWq8ni/BV4tRmmPCxMbZBHdkb7H8jVzUMR+NQl6RijmTXVquu
+HXZVY74AjGUhHTvUoFVLCFouvFr4yYEAC97tGZr0zlMBLxbulVlKQ9H/Y49RQEhY
+QCYH18J3Lw/ybiaeA85ov6Y9U4k+7SnRa8Odnw5n8K1W2RtoSUQjafD6VeOPm0Wz
+CVFHVyaRJzkAAUgM6lJV1o40vIK7/n7frHM0VkcgAX1X1YmLYd8=
+=9HdB
 -----END PGP SIGNATURE-----
 
---n0nw8gTNXWeBkGCJ--
+--NeyEYfmyLFjwpUn9--
 
 
