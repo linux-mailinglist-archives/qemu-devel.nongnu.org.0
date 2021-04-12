@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A96235BF75
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 11:07:15 +0200 (CEST)
-Received: from localhost ([::1]:41596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32CC35BF80
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 11:09:36 +0200 (CEST)
+Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVsXK-0002ip-0y
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 05:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41524)
+	id 1lVsZb-0004Pi-R1
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 05:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lVsVX-0001wk-Ng
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:05:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39882)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lVsVx-00028Y-7q
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:05:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lVsVV-0007nq-9F
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:05:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 50E97AF38;
- Mon, 12 Apr 2021 09:05:17 +0000 (UTC)
-Subject: Re: [RFC v12 27/65] target/arm: split a15 cpu model and 32bit class
- functions to cpu32.c
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-28-cfontana@suse.de>
- <e49aa062-0958-1d4e-c682-28d0a2897493@linaro.org>
- <87e94d27-a1ec-cd6a-8079-0f975121d479@suse.de>
- <CAFEAcA-hqUehQ9chX_H4M9karU9XksirqC=daekRk=ymDRvzwQ@mail.gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <62c54475-0fe6-042b-cf13-f15490bad525@suse.de>
-Date: Mon, 12 Apr 2021 11:05:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lVsVu-00088S-HY
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:05:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618218345;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=AbdP1rwSpsjgH8HBTGATHrHyyt6/V5lcvLmLXEiM60Q=;
+ b=Mbn0dbivqMNrMLWKplbo+eI+Am1GEQeiDI+CTGt3aWXlmJFingQCKo1y4flf/Y/7nTuzSb
+ xgGh9wNbpUV3HEOYbP00RJ70mNwrlfa+hkQzhKdi//5em/JlKfA0G4VLwQdLkOFB8dFjHI
+ xSc7lme/h7ScD80QktKFD8uwSs6OE3E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-3ECjiiCkNcm2n_S7t1dREg-1; Mon, 12 Apr 2021 05:05:44 -0400
+X-MC-Unique: 3ECjiiCkNcm2n_S7t1dREg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1941C6D246;
+ Mon, 12 Apr 2021 09:05:43 +0000 (UTC)
+Received: from redhat.com (ovpn-115-78.ams2.redhat.com [10.36.115.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43CCB59463;
+ Mon, 12 Apr 2021 09:05:42 +0000 (UTC)
+Date: Mon, 12 Apr 2021 10:05:39 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: gitlab-ci check-dco test
+Message-ID: <YHQNYzydXnzm+ZD+@redhat.com>
+References: <524450fb-2baa-12de-710a-3e05ea1f3f25@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-hqUehQ9chX_H4M9karU9XksirqC=daekRk=ymDRvzwQ@mail.gmail.com>
+In-Reply-To: <524450fb-2baa-12de-710a-3e05ea1f3f25@linaro.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,67 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On 4/8/21 12:36 PM, Peter Maydell wrote:
-> On Thu, 8 Apr 2021 at 11:23, Claudio Fontana <cfontana@suse.de> wrote:
->> Mainly for this code here a question from my side: is the current code actually already "wrong"?
->>
->> I mean, we unconditionally set the aarch64-capable cpu classes to all use aarch64_gdb_arch_name and gdbstub64,
->> but what about an aarch64-capable cpu running in 32bit mode?
+On Fri, Apr 09, 2021 at 07:58:48PM -0700, Richard Henderson wrote:
+> On development branches, it's not uncommon to push
+> temporary --fixup patches, and normally one doesn't
+> sign those.  But then of course one get hate-mail
+> from the gitlab-ci job about the failing test.
 > 
-> This is somewhere between a bug and a missing feature. The 'bug' part is
-> that for running a guest on AArch64 KVM with -cpu aarch64=off' (ie a
-> 32-bit guest) we should be presenting an aarch32 gdb stub, and we don't.
+> Is there a way to make it fatal on staging, but
+> merely a warning on other branches (a-la checkpatch)?
 
-Isn't this "easily" solvable? Probably I am missing something obvious..
+Note,  checkpatch is *never* fatal on any branch because there are always
+scenarios in which checkpatch gives false positives that we have to allow.
 
-I mean we could dispatch to the one or to the other according to ->is_aa64()?
+We can of course set 'allow_failure: true' on the DCO check, on non-staging
+branches, but that loose some of its value. In general I think users should
+see this as a mandatory check, because we don't want them ever sending
+patches without this passing. Your scenario of sometimes needing to push
+temporary fix patches is valid too of course.
 
+So this is a no-win scenario and we have to decide what the least worst
+option is. When I added this check I decided the least worst was to have
+developers see failures when they have temp fixup patches, because I was
+optimizing for the ensuring developers see & fix problems before they
+submit to qemu-devel.
 
-> The 'missing feature' part is that in an ideal world we would support
-> mixed aarch64-and-aarch32 guest debugging, and we don't. This needs
-> support on the gdb side as well as on our side, AIUI.
-> 
->> Why don't we have, like tentatively done here for arm_cpu_dump_state,
->>
->> an arm_gdb_arch_name and an arm_cpu_gdb_read_register that check is_a64() and call aaarch32_cpu_gdb_read_register or aarch64_cpu_gdb_read_register accordingly?
-> 
-> Because the gdb on the other end of the gdbstub does not expect the
-> target to suddenly change in the middle of execution like that.
+In libvirt we have the same check, but we moved it to a separate stage
+in the pipeline "sanity_checks" instead of "build", so developers can
+see at a glance in the UI that the build jobs all passed, and only the
+sanity check(s) failed.
 
-
-Ok, but given the restriction that we can only support one or the other the whole time,
-wouldn't adding this check ensure that at least we would do the right thing with -cpu aarch64=off?
-
-Or is this on the way out, support-wise?
-
-Thanks,
-
-Claudio
-
-> gdb is really a userspace-process debugger at heart, and it only
-> negotiates "what are all the register types, what is the debuggee
-> architecture, etc" once when it connects. Once we've told gdb
-> what the registers are we need to stick to them.
-> 
-> Properly supporting mixed-mode debugging would require support
-> for telling gdb "I support both this set of registers for aarch64
-> and this other set for aarch32" and notifying it about which mode
-> we were in (and support in gdb for understanding this). I don't
-> think anybody's ever seriously tried to work out a design for this.
-> 
-> thanks
-> -- PMM
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
