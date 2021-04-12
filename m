@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659A135B86A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 04:11:42 +0200 (CEST)
-Received: from localhost ([::1]:44972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E02135B878
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 04:20:31 +0200 (CEST)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVm3A-0006ji-Vs
-	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 22:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50958)
+	id 1lVmBh-0001Om-Km
+	for lists+qemu-devel@lfdr.de; Sun, 11 Apr 2021 22:20:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVm1d-00069L-JY
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 22:10:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31543)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVmAW-0000eB-Vp
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 22:19:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVm1a-0002k4-0M
- for qemu-devel@nongnu.org; Sun, 11 Apr 2021 22:10:04 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVmAT-00072U-Jq
+ for qemu-devel@nongnu.org; Sun, 11 Apr 2021 22:19:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618193400;
+ s=mimecast20190719; t=1618193952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sP/2No3W/V5St1B1YyvAbYeHaQrWSyHusQskUjbCsxQ=;
- b=gUdtVe/tNYwpz90kthSB3ZWcVeKBLkVmj0GYlX2DzzAkQotbNZBVYM4NwfxqWTBKVHLSEy
- S8Bd3kblSoMTz6LjIL5mTr5PUWs9XP7OfsnZW735uUqwLDn5zLVMr1/eS02VGQJ8ud09aZ
- Az3kT5pUVdNs55cOzWF2dA9wo+b/d7A=
+ bh=BPq8PQwjuQX7ZtfD3TP7oIjxtKiA9oBz/dplHMNkcrk=;
+ b=C4k9pPHYX72w1y+RAS7enYTUE4nktTvOyd9gGs6qpdK9bRZaY6I8WJfoHC9X2UfwNq5Cy6
+ A4/zANGHs56DJwEiH7ceJDjG85ZvTmTKuRSj8HltbGEfN4swi/f/788up8UyondyGGGP6H
+ QEib6ZniFXXxuZbuOyJ+jncTqtb38cw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-CRG4gsWBNhifAc5PMQ8T5w-1; Sun, 11 Apr 2021 22:09:58 -0400
-X-MC-Unique: CRG4gsWBNhifAc5PMQ8T5w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-205-7nWUzyISOdKiZlxt4t_7PQ-1; Sun, 11 Apr 2021 22:19:09 -0400
+X-MC-Unique: 7nWUzyISOdKiZlxt4t_7PQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3DFC81746B;
- Mon, 12 Apr 2021 02:09:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6379D1006C81;
+ Mon, 12 Apr 2021 02:19:07 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-37.rdu2.redhat.com
  [10.10.113.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA7C95D6D5;
- Mon, 12 Apr 2021 02:09:43 +0000 (UTC)
-Date: Sun, 11 Apr 2021 22:09:40 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3ACF60C5B;
+ Mon, 12 Apr 2021 02:18:52 +0000 (UTC)
+Date: Sun, 11 Apr 2021 22:18:50 -0400
 From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 03/10] Python: add utility function for retrieving
- port redirection
-Message-ID: <YHOr5MEYzj1D/CMt@localhost.localdomain>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 04/10] Acceptance Tests: move useful ssh methods to
+ base class
+Message-ID: <YHOuCp95g5OgnZoq@localhost.localdomain>
 References: <20210323221539.3532660-1-crosa@redhat.com>
- <20210323221539.3532660-4-crosa@redhat.com>
- <285df9a6-479f-dd27-f079-3acc6bdd0ea5@redhat.com>
+ <20210323221539.3532660-5-crosa@redhat.com>
+ <41f58f57-8cc5-f375-943e-0b2d298b8fbd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <285df9a6-479f-dd27-f079-3acc6bdd0ea5@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <41f58f57-8cc5-f375-943e-0b2d298b8fbd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZlO9e2yaOBnfnCl+"
+ protocol="application/pgp-signature"; boundary="hDOzGueSIIh7mDx0"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -67,7 +67,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,7 +88,8 @@ Cc: Fam Zheng <fam@euphon.net>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
  Willian Rampazzo <willianr@redhat.com>, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
  Max Reitz <mreitz@redhat.com>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
@@ -95,131 +97,288 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ZlO9e2yaOBnfnCl+
+--hDOzGueSIIh7mDx0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 25, 2021 at 02:10:19PM -0400, John Snow wrote:
-> On 3/23/21 6:15 PM, Cleber Rosa wrote:
-> > Slightly different versions for the same utility code are currently
-> > present on different locations.  This unifies them all, giving
-> > preference to the version from virtiofs_submounts.py, because of the
-> > last tweaks added to it.
+On Wed, Mar 24, 2021 at 10:07:31AM +0100, Auger Eric wrote:
+> Hi Cleber,
+>=20
+> On 3/23/21 11:15 PM, Cleber Rosa wrote:
+> > Both the virtiofs submounts and the linux ssh mips malta tests
+> > contains useful methods related to ssh that deserve to be made
+> > available to other tests.  Let's move them to the base LinuxTest
+> nit: strictly speaking they are moved to another class which is
+> inherited by LinuxTest, right?
+
+I forgot to address this comment previously.  Yes, you're right.
+I'll reword it.
+
+Thanks!
+- Cleber.
+
+> > class.
 > >=20
-> > While at it, this adds a "qemu.utils" module to host the utility
-> > function and a test.
+> > The method that helps with setting up an ssh connection will now
+> > support both key and password based authentication, defaulting to key
+> > based.
 > >=20
 > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 > > ---
-> >   python/qemu/utils.py                     | 35 +++++++++++++++++++++++=
-+
-> >   tests/acceptance/info_usernet.py         | 29 ++++++++++++++++++++
-> >   tests/acceptance/linux_ssh_mips_malta.py | 16 +++++------
-> >   tests/acceptance/virtiofs_submounts.py   | 21 ++++----------
-> >   tests/vm/basevm.py                       |  7 ++---
-> >   5 files changed, 78 insertions(+), 30 deletions(-)
-> >   create mode 100644 python/qemu/utils.py
-> >   create mode 100644 tests/acceptance/info_usernet.py
+> >  tests/acceptance/avocado_qemu/__init__.py | 48 ++++++++++++++++++++++-
+> >  tests/acceptance/linux_ssh_mips_malta.py  | 38 ++----------------
+> >  tests/acceptance/virtiofs_submounts.py    | 37 -----------------
+> >  3 files changed, 50 insertions(+), 73 deletions(-)
 > >=20
-> > diff --git a/python/qemu/utils.py b/python/qemu/utils.py
-> > new file mode 100644
-> > index 0000000000..89a246ab30
-> > --- /dev/null
-> > +++ b/python/qemu/utils.py
-> > @@ -0,0 +1,35 @@
-> > +"""
-> > +QEMU utility library
+> > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
+ce/avocado_qemu/__init__.py
+> > index 83b1741ec8..67f75f66e5 100644
+> > --- a/tests/acceptance/avocado_qemu/__init__.py
+> > +++ b/tests/acceptance/avocado_qemu/__init__.py
+> > @@ -20,6 +20,7 @@
+> >  from avocado.utils import cloudinit
+> >  from avocado.utils import datadrainer
+> >  from avocado.utils import network
+> > +from avocado.utils import ssh
+> >  from avocado.utils import vmimage
+> >  from avocado.utils.path import find_command
+> > =20
+> > @@ -43,6 +44,8 @@
+> >  from qemu.accel import kvm_available
+> >  from qemu.accel import tcg_available
+> >  from qemu.machine import QEMUMachine
+> > +from qemu.utils import get_info_usernet_hostfwd_port
 > > +
-> > +This offers miscellaneous utility functions, which may not be easily
-> > +distinguishable or numerous to be in their own module.
-> > +"""
+> > =20
+> >  def is_readable_executable_file(path):
+> >      return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+> > @@ -253,7 +256,50 @@ def fetch_asset(self, name,
+> >                          cancel_on_missing=3Dcancel_on_missing)
+> > =20
+> > =20
+> > -class LinuxTest(Test):
+> > +class LinuxSSHMixIn:
+> > +    """Contains utility methods for interacting with a guest via SSH."=
+""
 > > +
-> > +# Copyright (C) 2021 Red Hat Inc.
-> > +#
-> > +# Authors:
-> > +#  Cleber Rosa <crosa@redhat.com>
-> > +#
-> > +# This work is licensed under the terms of the GNU GPL, version 2.  Se=
-e
-> > +# the COPYING file in the top-level directory.
-> > +#
+> > +    def ssh_connect(self, username, credential, credential_is_key=3DTr=
+ue):
+> > +        self.ssh_logger =3D logging.getLogger('ssh')
+> > +        res =3D self.vm.command('human-monitor-command',
+> > +                              command_line=3D'info usernet')
+> > +        port =3D get_info_usernet_hostfwd_port(res)
+> > +        self.assertIsNotNone(port)
+> > +        self.assertGreater(port, 0)
+> > +        self.log.debug('sshd listening on port: %d', port)
+> > +        if credential_is_key:
+> > +            self.ssh_session =3D ssh.Session('127.0.0.1', port=3Dport,
+> > +                                           user=3Dusername, key=3Dcred=
+ential)
+> > +        else:
+> > +            self.ssh_session =3D ssh.Session('127.0.0.1', port=3Dport,
+> > +                                           user=3Dusername, password=
+=3Dcredential)
+> > +        for i in range(10):
+> > +            try:
+> > +                self.ssh_session.connect()
+> > +                return
+> > +            except:
+> > +                time.sleep(4)
+> > +                pass
+> > +        self.fail('ssh connection timeout')
 > > +
-> > +import re
-> > +from typing import Optional
+> > +    def ssh_command(self, command):
+> > +        self.ssh_logger.info(command)
+> > +        result =3D self.ssh_session.cmd(command)
+> > +        stdout_lines =3D [line.rstrip() for line
+> > +                        in result.stdout_text.splitlines()]
+> > +        for line in stdout_lines:
+> > +            self.ssh_logger.info(line)
+> > +        stderr_lines =3D [line.rstrip() for line
+> > +                        in result.stderr_text.splitlines()]
+> > +        for line in stderr_lines:
+> > +            self.ssh_logger.warning(line)
+> > +
+> > +        self.assertEqual(result.exit_status, 0,
+> > +                         f'Guest command failed: {command}')
+> > +        return stdout_lines, stderr_lines
 > > +
 > > +
-> > +def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optiona=
-l[int]:
-> > +    """
-> > +    Returns the port given to the hostfwd parameter via info usernet
-> > +
-> > +    :param info_usernet_output: output generated by hmp command "info =
-usernet"
-> > +    :param info_usernet_output: str
-> > +    :return: the port number allocated by the hostfwd option
-> > +    :rtype: int
+> > +class LinuxTest(Test, LinuxSSHMixIn):
+> >      """Facilitates having a cloud-image Linux based available.
+> > =20
+> >      For tests that indend to interact with guests, this is a better ch=
+oice
+> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptanc=
+e/linux_ssh_mips_malta.py
+> > index 052008f02d..3f590a081f 100644
+> > --- a/tests/acceptance/linux_ssh_mips_malta.py
+> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> > @@ -12,7 +12,7 @@
+> >  import time
+> > =20
+> >  from avocado import skipUnless
+> > -from avocado_qemu import Test
+> > +from avocado_qemu import Test, LinuxSSHMixIn
+> >  from avocado_qemu import wait_for_console_pattern
+> >  from avocado.utils import process
+> >  from avocado.utils import archive
+> > @@ -21,7 +21,7 @@
+> >  from qemu.utils import get_info_usernet_hostfwd_port
+> Can't you remove this now?
+> > =20
+> > =20
+> > -class LinuxSSH(Test):
+> > +class LinuxSSH(Test, LinuxSSHMixIn):
+> out of curiosity why can't it be migrated to a LinuxTest?
+> > =20
+> >      timeout =3D 150 # Not for 'configure --enable-debug --enable-debug=
+-tcg'
+> > =20
+> > @@ -72,41 +72,9 @@ def get_kernel_info(self, endianess, wordsize):
+> >      def setUp(self):
+> >          super(LinuxSSH, self).setUp()
+> > =20
+> > -    def ssh_connect(self, username, password):
+> > -        self.ssh_logger =3D logging.getLogger('ssh')
+> > -        res =3D self.vm.command('human-monitor-command',
+> > -                              command_line=3D'info usernet')
+> > -        port =3D get_info_usernet_hostfwd_port(res)
+> > -        if not port:
+> > -            self.cancel("Failed to retrieve SSH port")
+> > -        self.log.debug("sshd listening on port:" + port)
+> > -        self.ssh_session =3D ssh.Session(self.VM_IP, port=3Dint(port),
+> > -                                       user=3Dusername, password=3Dpas=
+sword)
+> > -        for i in range(10):
+> > -            try:
+> > -                self.ssh_session.connect()
+> > -                return
+> > -            except:
+> > -                time.sleep(4)
+> > -                pass
+> > -        self.fail("ssh connection timeout")
+> > -
+> >      def ssh_disconnect_vm(self):
+> >          self.ssh_session.quit()
+> > =20
+> > -    def ssh_command(self, command, is_root=3DTrue):
+> > -        self.ssh_logger.info(command)
+> > -        result =3D self.ssh_session.cmd(command)
+> > -        stdout_lines =3D [line.rstrip() for line
+> > -                        in result.stdout_text.splitlines()]
+> > -        for line in stdout_lines:
+> > -            self.ssh_logger.info(line)
+> > -        stderr_lines =3D [line.rstrip() for line
+> > -                        in result.stderr_text.splitlines()]
+> > -        for line in stderr_lines:
+> > -            self.ssh_logger.warning(line)
+> > -        return stdout_lines, stderr_lines
+> > -
+> >      def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel=
+_path):
+> >          image_url, image_hash =3D self.get_image_info(endianess)
+> >          image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_=
+hash)
+> > @@ -127,7 +95,7 @@ def boot_debian_wheezy_image_and_ssh_login(self, end=
+ianess, kernel_path):
+> >          wait_for_console_pattern(self, console_pattern, 'Oops')
+> >          self.log.info('sshd ready')
+> > =20
+> > -        self.ssh_connect('root', 'root')
+> > +        self.ssh_connect('root', 'root', False)
+> > =20
+> >      def shutdown_via_ssh(self):
+> >          self.ssh_command('poweroff')
+> > diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/=
+virtiofs_submounts.py
+> > index 57a7047342..bed8ce44df 100644
+> > --- a/tests/acceptance/virtiofs_submounts.py
+> > +++ b/tests/acceptance/virtiofs_submounts.py
+> > @@ -9,8 +9,6 @@
+> >  from avocado_qemu import wait_for_console_pattern
+> >  from avocado.utils import ssh
+> > =20
+> > -from qemu.utils import get_info_usernet_hostfwd_port
+> > -
+> > =20
+> >  def run_cmd(args):
+> >      subp =3D subprocess.Popen(args,
+> > @@ -75,41 +73,6 @@ class VirtiofsSubmountsTest(LinuxTest):
+> >      :avocado: tags=3Daccel:kvm
+> >      """
+> > =20
+> > -    def ssh_connect(self, username, keyfile):
+> > -        self.ssh_logger =3D logging.getLogger('ssh')
+> > -        res =3D self.vm.command('human-monitor-command',
+> > -                              command_line=3D'info usernet')
+> > -        port =3D get_info_usernet_hostfwd_port(res)
+> > -        self.assertIsNotNone(port)
+> > -        self.assertGreater(port, 0)
+> > -        self.log.debug('sshd listening on port: %d', port)
+> > -        self.ssh_session =3D ssh.Session('127.0.0.1', port=3Dport,
+> > -                                       user=3Dusername, key=3Dkeyfile)
+> > -        for i in range(10):
+> > -            try:
+> > -                self.ssh_session.connect()
+> > -                return
+> > -            except:
+> > -                time.sleep(4)
+> > -                pass
+> > -        self.fail('ssh connection timeout')
+> > -
+> > -    def ssh_command(self, command):
+> > -        self.ssh_logger.info(command)
+> > -        result =3D self.ssh_session.cmd(command)
+> > -        stdout_lines =3D [line.rstrip() for line
+> > -                        in result.stdout_text.splitlines()]
+> > -        for line in stdout_lines:
+> > -            self.ssh_logger.info(line)
+> > -        stderr_lines =3D [line.rstrip() for line
+> > -                        in result.stderr_text.splitlines()]
+> > -        for line in stderr_lines:
+> > -            self.ssh_logger.warning(line)
+> > -
+> > -        self.assertEqual(result.exit_status, 0,
+> > -                         f'Guest command failed: {command}')
+> > -        return stdout_lines, stderr_lines
+> > -
+> >      def run(self, args, ignore_error=3DFalse):
+> >          stdout, stderr, ret =3D run_cmd(args)
+> > =20
+> >=20
 >=20
-> I think, unless you know something I don't, that I would prefer to keep t=
-ype
-> information in the "live" annotations where they can be checked against r=
-ot.
+> Besides,
 >=20
-
-No, that's a good point.  No need to have type information defined twice.
-
-> > +    """
-> > +    for line in info_usernet_output.split('\r\n'):
-> > +        regex =3D r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
-> > +        match =3D re.search(regex, line)
-> > +        if match is not None:
-> > +            return int(match[1])
-> > +    return None
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 >=20
-> I wonder if more guest-specific code doesn't belong elsewhere, but I don'=
-t
-> have a strong counter-suggestion, so I would probably ACK this for now.
->
+> Thanks
+>=20
+> Eric
 
-There are multiple users of this pattern, and they go beyond the
-acceptance tests, so I think unifying them is a bit more important
-then having a better location.  Also, like you, I can't think, of a
-better place at this time.
-
-> (Are you okay with the idea that we won't include the utils module in the
-> PyPI upload? I think I would like to avoid shipping something like this
-> outside of our castle walls, but agree that having it in the common code
-> area somewhere for our own use is good.)
->
-
-At this time I don't have a need for it in the PyPI upload, but I
-wonder if this exception is justified.  I mean, what would be gained,
-besides dealing with the exception itself, by not including it?
-
-Thanks for the feedback!
-- Cleber
-
---ZlO9e2yaOBnfnCl+
+--hDOzGueSIIh7mDx0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBzq+EACgkQZX6NM6Xy
-CfNt2Q//eUrEdFqQDut/uuxST1Fwg3LlqwDM1qzVCitSuVXVNcra1VWYGEjb+H+P
-7jOpZwiYhiggyjo9T+h1aZJR/cW03+GQaOyi/gPp5t8ZMYHP3VcSyk8I10/eHdL6
-n86m4Q7Iiy9/90rPl2pvNDct8s2aBhRwf5uG3GaR5AVzY9V1Kq5Xb8E9am0DOiqV
-rIfU+VUej6nziky0baLczPqpmA2xrHjUq974KBoFh0qJRi4DZNxMDwCGUcQXwrZl
-cnozSKm8H1vvVyFL4rTP192SsGCvbtttdGEnEEwsvZMq2nq/REzvWdSRQFhpj4Ku
-iBhmYVRSvXMJ9TIU4bVCdrqzrUc43lNh23u8OdMHbhJVyB+vV11HSmadBXNWjP53
-Bc6Nffyv26dYdoBeRRqr8ZX85eWLm4niEYh6iBGUpRkbIMg/L22rMQywm40ai/to
-9cO091PFmvan93u59kZhu4cuOUa+re2imK/9hmpowe6F2VkOn58/1qbmC8nTcoUA
-0HtNlSocPlNEck52eBaLLQqF6vfjQvcoQZ+gHl3B5TzL/u/D2c9c+25R+Wmv/kfq
-PSNQBvkSwDSuxh0/v9cySgbHVgYk/rlrdv8BuHH+kI3ENyYV4u3Ia/v77CElnBom
-yUOYKjkb8hEQ3Ex82FPQv1ePcLmcsoc6+DT3HhKbM8bNeCdXpMg=
-=2YzM
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmBzrgYACgkQZX6NM6Xy
+CfMWgQ/+NRvUNIGNAZuhjWt4H4aoCladkBzKMwkyw2WCeCjt/BeZrSIfiU8pKIKt
+KPHDFIqlMIsnEW4ZOpfSrMJLha6h2FoZfZ9eEkr31bbANuEIkDS0PJJhTeHyV4Qt
+003l0q8kc6WEhR4Jdo+sML9irIB5E6HpPCOMsVZp20JF8cZ0ucY11YeSj+eXPx+n
+IByke8tsJ0C6MBNmGg93OcN0mDyCbSynvhY345SyhJNFx6A4vzDjruHP14X9ywRN
+MojaAyG0jYBt9Qav1CKSX9T1fqx0kKmTXfip3xWmmkzdSgXHOri3ZRl9a3k0tPnu
+5ncOX7wd3qKOUCb+1qZ9kAIZSfQIeNoKCY8DM64a8gDMCNMNvGQuWskICOFQMfFJ
+H5KEwulDNpio7OOrsUxUJ3f7Ma0bm194krwX795reuGnGbs3RvdLnyZzVu72sbLt
+WTgSGvnXo6NhWJYsQPFwwdLysY4qXqtZn7pRxiaa8W6E27zeZneyHLkGw8iW1IGA
+8V3kHwSRW0Xr2++z8z/BEfF87yUVt1iYWh3Trkr54r/dPY9Kkl8qqMd7qpfrlofg
+O0q837ATqlFKzJcEwnK+6sx9hiM4QiAHrO7Cj/p4pJbKkTpe84dEFTFVqacDuxHe
+iz6JZ33l5DnBeceaeFtzRFOImgLKhMNwR+zye39MI9yDJKz6JDU=
+=9iI/
 -----END PGP SIGNATURE-----
 
---ZlO9e2yaOBnfnCl+--
+--hDOzGueSIIh7mDx0--
 
 
