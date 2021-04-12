@@ -2,75 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7A735BCBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 10:44:50 +0200 (CEST)
-Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D83B35BC57
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 10:39:58 +0200 (CEST)
+Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVsBd-0003nm-LE
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 04:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36256)
+	id 1lVs6v-0008Pe-FK
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 04:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lVs8N-0001Tt-JY
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:41:28 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lVs88-0001IJ-UE
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:41:24 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lVs85-00073O-Sd
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 08:41:09 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B96972E804C
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 08:41:09 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lVs3X-0006yO-UB
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:36:27 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:63599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lVs3R-0006w1-HS
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:36:27 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20210412083605epoutp025007f677d7f02a64a043ecd261304dc8~1D2RngPPR1850218502epoutp02R
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 08:36:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20210412083605epoutp025007f677d7f02a64a043ecd261304dc8~1D2RngPPR1850218502epoutp02R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1618216565;
+ bh=WtksaNVgK33f2jRIDDEhixg3GoTbUBBOGjwXJ4NwP6U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fnCcHBp8vtBsEcpBpQWBJ5PipW5fZ0jdYJSe4zdx6dj+57Vwfu0BlwdNneJo1g/L9
+ mIObnhrha5UrG2b6uD8nCK2Sg1Anh2CtkfV8moFinGlAz0dLzwZQQVoyWSeapl/6M+
+ WZo8qW+ITmjH03X3kJGW1KN+wAOukY31yy6l5USg=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+ 20210412083604epcas5p41a5337565b455ece23418437f385f023~1D2Q5vNT-3261232612epcas5p47;
+ Mon, 12 Apr 2021 08:36:04 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ CE.16.15682.47604706; Mon, 12 Apr 2021 17:36:04 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20210412083540epcas5p4133543caae4e006d7698b37619b79b81~1D16VTxCX3261232612epcas5p4Y;
+ Mon, 12 Apr 2021 08:35:40 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210412083539epsmtrp27330074c9ae7fa34137ed23a9d094e64~1D16UMULa2571125711epsmtrp2n;
+ Mon, 12 Apr 2021 08:35:39 +0000 (GMT)
+X-AuditID: b6c32a49-8bfff70000013d42-ce-6074067422ce
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 2B.10.33967.B5604706; Mon, 12 Apr 2021 17:35:39 +0900 (KST)
+Received: from 2030045822 (unknown [107.99.42.33]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20210412083538epsmtip1da7d2feddb5b32c25bed892dd5b40b8e~1D15FErlb0747207472epsmtip1E;
+ Mon, 12 Apr 2021 08:35:38 +0000 (GMT)
+Date: Mon, 12 Apr 2021 14:02:45 +0530
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v3] hw/block/nvme: add device self test command support
+Message-ID: <20210412083245.GA24260@2030045822>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Apr 2021 08:27:45 -0000
-From: Andy Whitcroft <1915063@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux-oem-5.10;
- component=main; status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux-oem-5.6;
- component=main; status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-collected focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: apw babumoger dober60 imammedo markrhpearson
- paelzer sergiodj ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: David Ober (dober60)
-X-Launchpad-Bug-Modifier: Andy Whitcroft (apw)
-References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
-Message-Id: <161821606521.31106.3659638568785960345.malone@gac.canonical.com>
-Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
-X-Launchpad-Hash: cd42e784a3fff60c8628b55066aa8ab1385ff555
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210412082749.GA24161@2030045822>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsWy7bCmum4JW0mCwfqPLBZX9p9ntNh/8Bur
+ xaRD1xgtllxMtZh3S9li1rt2NovjvTtYLF5P+s/qwOHx41w7m8e5HefZPTat6mTzeHJtM5PH
+ +31X2QJYo7hsUlJzMstSi/TtErgyru9qYy24zV/RuXwCawNjC28XIyeHhICJxLtr3UxdjFwc
+ QgK7GSUeH/0K5XxilHjUOR3K+cYo8eZIMytMy8beHjaIxF5GiZ5n16GqnjNKNPY/YgGpYhFQ
+ lZh96RoTiM0mYCQx++0bRhBbREBZ4u78mawgDcwCExkltmy/zAaSEBbwlvjS9RNsBa+AvsSX
+ VU3MELagxMmZT8CGcgoYSHyd8hisRhRo0IFtx8E2Swi0ckhcObwTqIgDyHGR+PpbDuJUYYlX
+ x7ewQ9hSEp/f7QXaxQ5kV0scLoLo7GCUOHZ5AxtEib3Ev2fTGEGmMAtkSGyfbQgRlpWYemod
+ 2CvMAnwSvb+fMEHEeSV2zIOx1SQW3PoOtUlGYuaf29DA8pC4uvwSMyR8PjJK7O4+zDKBUX4W
+ ks9mIaybBbbCSqLzQxMrRFhaYvk/DghTU2L9Lv0FjKyrGCVTC4pz01OLTQsM81LL9YoTc4tL
+ 89L1kvNzNzGC05GW5w7Guw8+6B1iZOJgPMQowcGsJMKbVFmcIMSbklhZlVqUH19UmpNafIhR
+ moNFSZx3h8GDeCGB9MSS1OzU1ILUIpgsEwenVAOTbizLbUanC+ZzrnC3hJo+kr+bzZedy9Ej
+ 9llq/zvDtfpbpm53+tHiXHVW4TP70e/K/IVXa6rkXcz0XstvVEvuWWUzY47LtpQ5jWXbqj0e
+ LJz+RCX08rmw8r1W0ovSXvxgdp2Xs2p2mWHpJC3uSoGXbznbxR/tV2VZf+SF1pnaVAGzGWKb
+ +Lss4pLMdnYb28z7Kr9O9eHm0PI5B0RDc+bv+bbh++a3zxbEvqqY3rMsRfTmkTkvxNM1zebv
+ aTmwiPlvlGJ357LWqdkKF4zirVVPMwh9k3ebb15QqtXyUHy7s0hFdT6HxeM7a8W9zWWmbd7j
+ fnk/y6mDmmdWtxhUH493Vsy/JXQ4auu1/sjvAceVWIozEg21mIuKEwEn7D+YtgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrELMWRmVeSWpSXmKPExsWy7bCSnG40W0mCwem5ZhZX9p9ntNh/8Bur
+ xaRD1xgtllxMtZh3S9li1rt2NovjvTtYLF5P+s/qwOHx41w7m8e5HefZPTat6mTzeHJtM5PH
+ +31X2QJYo7hsUlJzMstSi/TtErgy/q1uYC3o5a3oer6AqYHxAlcXIyeHhICJxMbeHjYQW0hg
+ N6PEqb2OEHEZiV+npjJD2MISK/89Z+9i5AKqecoo8ejPFFaQBIuAqsTsS9eYQGw2ASOJ2W/f
+ MILYIgLKEnfnz2QFaWAWmMgosWX7ZbANwgLeEl+6foI18wroS3xZ1cQMMfUjo8Tjd/sZIRKC
+ EidnPmEBsZkFzCTmbX4IVMQBZEtLLP/HARLmFDCQ+DrlMdgcUaBlB7YdZ5rAKDgLSfcsJN2z
+ ELoXMDKvYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P3cQIjgYtzR2M21d90DvEyMTBeIhR
+ goNZSYQ3qbI4QYg3JbGyKrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5O
+ qQamDF7WzR5Oe2u15hr+PVissltcwEV4F+elvWJuB1aeVTzllaJRNjtAPU61YHH0jqehW/mE
+ bvE32JzbFfBpla7uZdUTIg841J7k9PQwLdDaaqaw4rnL9K95awtv5a7d/G3LZ+Nt1YZXW38a
+ 3nGJitxX8+eU1FWPrflfhfQkT/TWHK05nn7MoW363ofPI3JFkpym1xfU5BUmb+b8WyL+/eQS
+ t8Xn36yrr1R8GKowvctIZ9+WPXu2p00sOC27uK9hjufbeXNf3N/TtSp3UqGf6vxCu1Xpbwtn
+ GU5ZrecWyr2b0XSNqvm8oMUh8y+WlOy2/Zi7jblu3tPl+/v3vq1ZvD5GpPDnp7qwihftuzTM
+ 7Ux7lViKMxINtZiLihMB7rXos/UCAAA=
+X-CMS-MailID: 20210412083540epcas5p4133543caae4e006d7698b37619b79b81
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210331092753epcas5p33ef9360c0c8c6b6310108d2da9aa2687
+References: <CGME20210331092753epcas5p33ef9360c0c8c6b6310108d2da9aa2687@epcas5p3.samsung.com>
+ <20210331092427.13545-1-anaidu.gollu@samsung.com>
+ <20210409153520.GC32304@redsun51.ssa.fujisawa.hgst.com>
+ <20210412082749.GA24161@2030045822>
+Received-SPF: pass client-ip=203.254.224.25;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout2.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,150 +125,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ its@irrelevant.dk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commit in question is marked for stable:
+------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-  commit 841c2be09fe4f495fe5224952a419bd8c7e5b455
-  Author: Maxim Levitsky <mlevitsk@redhat.com>
-  Date:   Wed Jul 8 14:57:31 2020 +0300
+On Mon, Apr 12, 2021 at 01:57:49PM +0530, Gollu Appalanaidu wrote:
+>On Sat, Apr 10, 2021 at 12:35:20AM +0900, Keith Busch wrote:
+>>On Wed, Mar 31, 2021 at 02:54:27PM +0530, Gollu Appalanaidu wrote:
+>>>This is to add support for Device Self Test Command (DST) and
+>>>DST Log Page. Refer NVM Express specification 1.4b section 5.8
+>>>("Device Self-test command")
+>>
+>>Please don't write change logs that just say what you did. I can read
+>>the code to see that. Explain why this is useful because this frankly
+>>looks like another useless feature. We don't need to implement every
+>>optional spec feature here. There should be a real value proposition.
+>>
+>Hi Keith,
+>It was useful to us to be able to test the feature against qemu - and
+>we wanted to contribute the code, but we understand that features should
+>be more "complete" for upstreaming.
+>
+>New features for SPDK (and nvme-cli) are use-cases for optional features
+>like this, where one might not have physical device available and also users
+>who is going to develop their in house host test tool this would be useful,
+>since we are providing the functional behaviour as per the NVMe protocol.
 
-    kvm: x86: replace kvm_spec_ctrl_test_value with runtime test on the host
-    =
+Hi Keith,
 
-    To avoid complex and in some cases incorrect logic in
-    kvm_spec_ctrl_test_value, just try the guest's given value on the host
-    processor instead, and if it doesn't #GP, allow the guest to set it.
-    =
+It was useful to us to be able to test the feature against qemu - and
+we wanted to contribute the code, but we understand that features should
+be more "complete" for upstreaming.
 
-    One such case is when host CPU supports STIBP mitigation
-    but doesn't support IBRS (as is the case with some Zen2 AMD cpus),
-    and in this case we were giving guest #GP when it tried to use STIBP
-    =
+New features for SPDK (and nvme-cli) are use-cases for optional features
+like this, where one might not have physical device available and also users
+who is going to develop their in house host test tool this would be useful,
+since we are providing the functional behaviour as per the NVMe protocol.
 
-    The reason why can can do the host test is that IA32_SPEC_CTRL msr is
-    passed to the guest, after the guest sets it to a non zero value
-    for the first time (due to performance reasons),
-    and as as result of this, it is pointless to emulate #GP condition on
-    this first access, in a different way than what the host CPU does.
-    =
+------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_
+Content-Type: text/plain; charset="utf-8"
 
-    This is based on a patch from Sean Christopherson, who suggested this i=
-dea.
-    =
 
-    Fixes: 6441fa6178f5 ("KVM: x86: avoid incorrect writes to host MSR_IA32=
-_SPEC_CTRL")
-    Cc: stable@vger.kernel.org
-    Suggested-by: Sean Christopherson <sean.j.christopherson@intel.com>
-    Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-    Message-Id: <20200708115731.180097-1-mlevitsk@redhat.com>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-It appears to be in `v5.4.102` which is currently queued up for the
-cycle following the one just starting.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915063
-
-Title:
-  Windows 10 wil not install using qemu-system-x86_64
-
-Status in QEMU:
-  New
-Status in linux package in Ubuntu:
-  Confirmed
-Status in linux-oem-5.10 package in Ubuntu:
-  Fix Released
-Status in linux-oem-5.6 package in Ubuntu:
-  Confirmed
-Status in qemu package in Ubuntu:
-  Invalid
-
-Bug description:
-  Steps to reproduce
-  install virt-manager and ovmf if nopt already there
-  copy windows and virtio iso files to /var/lib/libvirt/images
-
-  Use virt-manager from local machine to create your VMs with the disk, CPU=
-s and memory required
-      Select customize configuration then select OVMF(UEFI) instead of seab=
-ios
-      set first CDROM to the windows installation iso (enable in boot optio=
-ns)
-      add a second CDROM and load with the virtio iso
-  	change spice display to VNC
-
-    Always get a security error from windows and it fails to launch the ins=
-taller (works on RHEL and Fedora)
-  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
- of no help
-  --- =
-
-  ProblemType: Bug
-  ApportVersion: 2.20.11-0ubuntu27.14
-  Architecture: amd64
-  CasperMD5CheckResult: skip
-  CurrentDesktop: ubuntu:GNOME
-  DistributionChannelDescriptor:
-   # This is the distribution channel descriptor for the OEM CDs
-   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
-criptor
-   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
-d64+X00
-  DistroRelease: Ubuntu 20.04
-  InstallationDate: Installed on 2021-01-20 (19 days ago)
-  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
-0-14:39
-  MachineType: LENOVO 30E102Z
-  NonfreeKernelModules: nvidia_modeset nvidia
-  Package: linux (not installed)
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcFB: 0 EFI VGA
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
-=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
-andoff=3D7
-  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
-  RelatedPackageVersions:
-   linux-restricted-modules-5.6.0-1042-oem N/A
-   linux-backports-modules-5.6.0-1042-oem  N/A
-   linux-firmware                          1.187.8
-  RfKill:
-   =
-
-  Tags:  focal
-  Uname: Linux 5.6.0-1042-oem x86_64
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
-udo
-  _MarkForUpload: True
-  dmi.bios.date: 07/29/2020
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: S07KT08A
-  dmi.board.name: 1046
-  dmi.board.vendor: LENOVO
-  dmi.board.version: Not Defined
-  dmi.chassis.type: 3
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: None
-  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
-pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
-  dmi.product.family: INVALID
-  dmi.product.name: 30E102Z
-  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
-  dmi.product.version: ThinkStation P620
-  dmi.sys.vendor: LENOVO
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
+------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_--
 
