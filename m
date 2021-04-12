@@ -2,51 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D328635D351
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:44:11 +0200 (CEST)
-Received: from localhost ([::1]:48412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFDF35D38F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:59:08 +0200 (CEST)
+Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW5Hu-0001SM-Ui
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:44:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
+	id 1lW5WM-0005MR-QA
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4wb-0003TD-C5
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:22:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44118
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1lW5Uo-0004XF-SU; Mon, 12 Apr 2021 18:57:31 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4wZ-0003Hx-2D
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:22:09 -0400
-Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
- helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4wj-0004Dc-QT; Mon, 12 Apr 2021 23:22:22 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Date: Mon, 12 Apr 2021 23:20:48 +0100
-Message-Id: <20210412222048.22818-14-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
-References: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.103.9
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 13/13] tests/qtest: add tests for am53c974 device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1lW5Uj-0001Hc-V4; Mon, 12 Apr 2021 18:57:30 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id CD20E16BC;
+ Mon, 12 Apr 2021 18:57:20 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Mon, 12 Apr 2021 18:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type:content-transfer-encoding; s=fm2; bh=CCu78
+ nP0OOFi3PiuiZ/cnK6E/3Z+4NIgLnGq+le2i2Y=; b=uPXD3lbinNVKM2lXXBeyM
+ pmXeTOO2mpdfMTOFKNZv4I1JyhcrDM/CbyVlBaZrvZTj6RqhUbxqohNC+j0y5cE6
+ gX5ZcAPs7Ary8MH1EPiaGaHFNWuHzGvJiL53mNoPdFoKWpkFtdcPNRfDLiULpKVX
+ GJ8itEdmh2Qo3h/gViTLkO6X/ySWlfnVUwKSEHdIclhb0U/d5oD+nNDND1qbDgif
+ 87Wv9ByN5Zfe374JQ9S70ZbvoRdECNqUoD29ll0SyV1ga4DcwnqHKOKNlcS4pzoC
+ vzdNc31pXtE7+AuUw5KH/I8WLSb4AUfwMXklcuNDFqeL7cz6VrI/zg5n0Qylz1kP
+ w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=CCu78nP0OOFi3PiuiZ/cnK6E/3Z+4NIgLnGq+le2i
+ 2Y=; b=jNaTJ/M59X1XxxANZjliQ427D6hdsTYWklQOiOeKrbVdOaSdv4WNqzUDq
+ JQBF83VecrdHrr2teD0gOe6l4QVIZwfxlMm4GK6ADtuXXCfLarnW4PKNpEsM1/IX
+ u5rfD7A3ke7wwugsuX6KpG7M5bmHI2hAxw6e87iJCMEYC3vxPb2LUWlV/WI7zLph
+ vH6n8CuJEloAt5JIT4Tm/zVoHBUE3U80+U765RXa3IixVUePScJW7VAC3iI2BwpP
+ YuqNV0YIMeKhQn6+YK39WdFm7+vhmxDpk6ZQUssl0T1KUx+KqvWefkEUIQ0gK0eN
+ wVkWN+XWayBsp0IqRqLSe5/JrEK1w==
+X-ME-Sender: <xms:T9B0YFE9_WR0oZvSXkLZfxO7KhIXm4wVipsloif_b7zh6iqamqFIQA>
+ <xme:T9B0YKX9i5FBrhxnoMGEIP2juQq2fnGlBfvAV_l3mQeCuEde_x7V7PvYZ1umXwl1d
+ u4uzaMnLx4Qic5T1g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekkedgudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
+ kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:T9B0YHKV-Z-bxOR6KTNwEZdabdu9OjxPcR4S-q47Lr6tpyaNoo2DPA>
+ <xmx:T9B0YLF5hD_PLDR68zaE2vRIhvYJRcOav-Ncst7LJ3hkhDtX9Ixfww>
+ <xmx:T9B0YLWaLPqnePdq1QGUxVogjuqN3iJQ6ZuEXOJ8dsuB9Urg05AlxA>
+ <xmx:UNB0YIhpyneXhaUcVbWCHJdxBQ0P0BLl3UMjuAbhqoPy-ZFzDUD5MA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 676C1A00492; Mon, 12 Apr 2021 18:57:19 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
+Mime-Version: 1.0
+Message-Id: <66ef55f5-de03-46b1-ada0-089246e0dad1@www.fastmail.com>
+In-Reply-To: <9c004931-648c-3215-6720-647fe35a50c7@kaod.org>
+References: <20210304124316.164742-1-joel@jms.id.au>
+ <9c004931-648c-3215-6720-647fe35a50c7@kaod.org>
+Date: Tue, 13 Apr 2021 08:26:49 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH] aspeed: Emulate the AST2600A3
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=andrew@aj.id.au;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,271 +95,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Cameron Esfahani via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the autogenerated fuzzer test cases as the basis for a set of am53c974
-regression tests.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20210407195801.685-13-mark.cave-ayland@ilande.co.uk>
----
- MAINTAINERS                 |   1 +
- tests/qtest/am53c974-test.c | 218 ++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build     |   1 +
- 3 files changed, 220 insertions(+)
- create mode 100644 tests/qtest/am53c974-test.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 04beb34e7e..36055f14c5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1772,6 +1772,7 @@ F: include/hw/scsi/*
- F: hw/scsi/*
- F: tests/qtest/virtio-scsi-test.c
- F: tests/qtest/fuzz-virtio-scsi-test.c
-+F: tests/qtest/am53c974-test.c
- T: git https://github.com/bonzini/qemu.git scsi-next
- 
- SSI
-diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
-new file mode 100644
-index 0000000000..d996866cd4
---- /dev/null
-+++ b/tests/qtest/am53c974-test.c
-@@ -0,0 +1,218 @@
-+/*
-+ * QTest testcase for am53c974
-+ *
-+ * Copyright (c) 2021 Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later. See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "libqos/libqtest.h"
-+
-+
-+static void test_cmdfifo_underflow_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xcf8, 0x8000100e);
-+    qtest_outl(s, 0xcfc, 0x8a000000);
-+    qtest_outl(s, 0x8a09, 0x42000000);
-+    qtest_outl(s, 0x8a0d, 0x00);
-+    qtest_outl(s, 0x8a0b, 0x1000);
-+    qtest_quit(s);
-+}
-+
-+/* Reported as crash_1548bd10e7 */
-+static void test_cmdfifo_underflow2_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi -device scsi-hd,drive=disk0 "
-+        "-drive id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outw(s, 0xc00c, 0x41);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x43);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x00);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc006, 0x00);
-+    qtest_outl(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x0800);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outl(s, 0xc006, 0x00);
-+    qtest_outl(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x0800);
-+    qtest_outw(s, 0xc00b, 0x00);
-+    qtest_outw(s, 0xc00b, 0x4100);
-+    qtest_outw(s, 0xc00a, 0x00);
-+    qtest_outl(s, 0xc00a, 0x100000);
-+    qtest_outl(s, 0xc00a, 0x00);
-+    qtest_outw(s, 0xc00c, 0x43);
-+    qtest_outl(s, 0xc00a, 0x100000);
-+    qtest_outl(s, 0xc00a, 0x100000);
-+    qtest_quit(s);
-+}
-+
-+static void test_cmdfifo_overflow_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xcf8, 0x8000100e);
-+    qtest_outl(s, 0xcfc, 0x0e000000);
-+    qtest_outl(s, 0xe40, 0x03);
-+    qtest_outl(s, 0xe0b, 0x4100);
-+    qtest_outl(s, 0xe0b, 0x9000);
-+    qtest_quit(s);
-+}
-+
-+/* Reported as crash_530ff2e211 */
-+static void test_cmdfifo_overflow2_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi -device scsi-hd,drive=disk0 "
-+        "-drive id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xc00b, 0x4100);
-+    qtest_outw(s, 0xc00b, 0xc200);
-+    qtest_outl(s, 0xc03f, 0x0300);
-+    qtest_quit(s);
-+}
-+
-+/* Reported as crash_0900379669 */
-+static void test_fifo_pop_buf(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi -device scsi-hd,drive=disk0 "
-+        "-drive id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outb(s, 0xc000, 0x4);
-+    qtest_outb(s, 0xc008, 0xa0);
-+    qtest_outl(s, 0xc03f, 0x0300);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outw(s, 0xc00b, 0x9000);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outl(s, 0xc00b, 0xc300);
-+    qtest_outw(s, 0xc00b, 0x9000);
-+    qtest_outw(s, 0xc00b, 0x1000);
-+    qtest_quit(s);
-+}
-+
-+static void test_target_selected_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001001);
-+    qtest_outl(s, 0xcfc, 0x01000000);
-+    qtest_outl(s, 0xcf8, 0x8000100e);
-+    qtest_outl(s, 0xcfc, 0xef800000);
-+    qtest_outl(s, 0xef8b, 0x4100);
-+    qtest_outw(s, 0xef80, 0x01);
-+    qtest_outl(s, 0xefc0, 0x03);
-+    qtest_outl(s, 0xef8b, 0xc100);
-+    qtest_outl(s, 0xef8b, 0x9000);
-+    qtest_quit(s);
-+}
-+
-+static void test_fifo_underflow_on_write_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x01);
-+    qtest_outl(s, 0xc008, 0x0a);
-+    qtest_outl(s, 0xc009, 0x41000000);
-+    qtest_outl(s, 0xc009, 0x41000000);
-+    qtest_outl(s, 0xc00b, 0x1000);
-+    qtest_quit(s);
-+}
-+
-+static void test_cancelled_request_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x05);
-+    qtest_outb(s, 0xc046, 0x02);
-+    qtest_outl(s, 0xc00b, 0xc100);
-+    qtest_outl(s, 0xc040, 0x03);
-+    qtest_outl(s, 0xc040, 0x03);
-+    qtest_bufwrite(s, 0x0, "\x41", 0x1);
-+    qtest_outl(s, 0xc00b, 0xc100);
-+    qtest_outw(s, 0xc040, 0x02);
-+    qtest_outw(s, 0xc040, 0x81);
-+    qtest_outl(s, 0xc00b, 0x9000);
-+    qtest_quit(s);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (strcmp(arch, "i386") == 0) {
-+        qtest_add_func("am53c974/test_cmdfifo_underflow_ok",
-+                       test_cmdfifo_underflow_ok);
-+        qtest_add_func("am53c974/test_cmdfifo_underflow2_ok",
-+                       test_cmdfifo_underflow2_ok);
-+        qtest_add_func("am53c974/test_cmdfifo_overflow_ok",
-+                       test_cmdfifo_overflow_ok);
-+        qtest_add_func("am53c974/test_cmdfifo_overflow2_ok",
-+                       test_cmdfifo_overflow2_ok);
-+        qtest_add_func("am53c974/test_fifo_pop_buf",
-+                       test_fifo_pop_buf);
-+        qtest_add_func("am53c974/test_target_selected_ok",
-+                       test_target_selected_ok);
-+        qtest_add_func("am53c974/test_fifo_underflow_on_write_ok",
-+                       test_fifo_underflow_on_write_ok);
-+        qtest_add_func("am53c974/test_cancelled_request_ok",
-+                       test_cancelled_request_ok);
-+    }
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 420cd9986e..0c76738921 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -65,6 +65,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
-+  (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
-   qtests_pci +                                                                              \
-   ['fdc-test',
-    'ide-test',
--- 
-2.20.1
+On Tue, 13 Apr 2021, at 00:57, C=C3=A9dric Le Goater wrote:
+> On 3/4/21 1:43 PM, Joel Stanley wrote:
+> > This is the latest revision of the ASPEED 2600 SoC.
+>=20
+> Should we change all machines to use the new SoC ?=20
+>=20
+> I would prefer if we introduced an "ast2600-a3" Aspeed SoC, that we wo=
+uld=20
+> use for the newer rainier machine, and leave the tacoma-bmc and ast260=
+0-evb=20
+> machines as they are.
 
+I think we just change them all. We're not going to see pre-A3 chips in=20=
+
+production systems.
+
+Andrew
 
