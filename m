@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A0E35D26B
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 23:15:06 +0200 (CEST)
-Received: from localhost ([::1]:53808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647E135D300
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:23:38 +0200 (CEST)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW3tg-0008A3-RR
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 17:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
+	id 1lW4y0-0003S3-RS
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW3sS-0007jG-HP
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 17:13:48 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43952
+ id 1lW4tr-0002SE-Ud
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:19:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44032
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW3sQ-00049v-Cv
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 17:13:48 -0400
+ id 1lW4tl-0001ye-JY
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:19:15 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW3sZ-0003vS-7g; Mon, 12 Apr 2021 22:14:00 +0100
+ id 1lW4ts-0004D5-9c; Mon, 12 Apr 2021 23:19:26 +0100
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
  <dabec806-51e3-5f3c-463b-0ac7f5ba854a@ilande.co.uk>
  <CAFEAcA8=G=O58FCaZBUqpqtFGaAYJT=PsDnEYjHu0qEGL22oBQ@mail.gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <571d68d8-bca3-c51d-f184-3dbee69d2eb7@ilande.co.uk>
-Date: Mon, 12 Apr 2021 22:13:37 +0100
+Message-ID: <8c70d683-0cda-d251-33cd-1255b8a4c909@ilande.co.uk>
+Date: Mon, 12 Apr 2021 23:19:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.9.0
 MIME-Version: 1.0
@@ -70,6 +70,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/04/2021 20:40, Peter Maydell wrote:
 
+> On Mon, 12 Apr 2021 at 19:44, Mark Cave-Ayland
+> <mark.cave-ayland@ilande.co.uk> wrote:
+>>
 >> On 12/04/2021 16:32, Peter Maydell wrote:
 >>
 >>> Last call to note anything we need to fix for 6.0 on
@@ -87,7 +90,8 @@ On 12/04/2021 20:40, Peter Maydell wrote:
 > Yes, please do. If you could add your missing copyright line to
 > the comment in the new file in patch 12 as well that would be great.
 
-Okay, great - just reading over today's thread so should be able to send a PR shortly.
+All done. I've added the copyright to patch 12 (along with yours and Phil's R-B tags) 
+so it will appear in the upcoming PR.
 
 
 ATB,
