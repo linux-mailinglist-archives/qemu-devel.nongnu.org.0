@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC14E35D14A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 21:43:33 +0200 (CEST)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C8C35D16E
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 21:48:34 +0200 (CEST)
+Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW2T6-0006Gw-DH
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 15:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59682)
+	id 1lW2Xw-0000Yn-PO
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 15:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lW2RO-0004az-I6
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:41:46 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34352)
+ (Exim 4.90_1) (envelope-from
+ <3XKN0YAcKCn8yhqwxuhjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--venture.bounces.google.com>)
+ id 1lW2VA-0007Lb-FY
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:45:40 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:52228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lW2RM-0004Fs-O7
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:41:46 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id x12so1422881ejc.1
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 12:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U+5AoYS0fsgXfvOc84zjwO14BzC0IVOQ2UgjEGJ82bM=;
- b=POOhHeJEldDGv85QFaPrOKeMOoUTNvH94OUI1YGhalPsIkGlI3r7UZL20ZZwF0T0yz
- DZoZsxQBQ2VrmZPa58uFUw7qzsinPhuZIqHjO5XnlB+2Z/MdfPBJszVR/jMdy8Wcg1Nx
- NYYduXgcISbrSF6GUp1hlrWvW6noJU8Cg4G3UoFmQ4373OJnYHyAmB4IDE5egq8wLXaH
- gFieTuwVMsfJ5dVbp1o3A57NyxlQGs6kz3llgB4LaWDEaruVrZaAHZCJx2DJZwSIKETj
- wmmJln8Gp663SPnZPJ+xE0pal6EH02sFjGGWXCKukH2MfWH4SjBbeqcpzdH2I1ysH8db
- riGw==
+ (Exim 4.90_1) (envelope-from
+ <3XKN0YAcKCn8yhqwxuhjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--venture.bounces.google.com>)
+ id 1lW2V7-0006TZ-2D
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 15:45:40 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id m189so12231558ybc.19
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 12:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=Wdpm+J2ptFjnLpc4pKG/VlefI/v5cVrerIv9rQO16Ng=;
+ b=dXzqakmRH4nvngQ/1LjDMtDSTUrmw73L71WbCb+Hu8ZgI507k1qrsJWW6P3PaGtMWN
+ FBOoJ1feu7eunmMxSq8yOAKRjuvFqUfTGTJa+Qkk+Uo3GvSbKoV359DkgyIfquBKb2Ue
+ rK/liKUvtJsgpayUVRYnNGWfhxM9VxYgpsLGL50wLitje8ySqy5MoCO419O36q+MbqLL
+ aUJK5avXJ9DKWqt7FbyivKKgU1WoX3pFZwoQ+5kK0lis3excbJM2OJeU3/V8al/IVyQ2
+ TDd08UkGINHs843eOkmnti9wmczos7QnEYyekZipCuee0Hs1l7QPmLbhn+ALzSSfPryG
+ CyfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U+5AoYS0fsgXfvOc84zjwO14BzC0IVOQ2UgjEGJ82bM=;
- b=uoQf+/i/zXfq1ZkAfVoypNyXaLGswY33ediQs/NKH41qUiLGL/YYDteBYCRPyfKadR
- 97j8k/TBjeuMVJItJG9VphnlsrbhP7tdUtzFYXtcZ/D9stLdDmZmrTZmzODsrQm4pJXv
- +B3kb/Foshde4dPyTO5YwatgLC/z/goFvaYWSJNRkTBhaJfAJh7vpmtRIohHJdgkl6UK
- jZ+YXrz/qvzBDWxW411cCAjkOgHylqaqoLJh40rEv609oc9uJhYKcCIxc8vHvoqJypAh
- y55nQfYIBHwvCN/ar4LLNiVR7oapxr6d87eEcjT4qz/W0qhUJndO+gcrlZ4NUsFNJIHT
- UoaQ==
-X-Gm-Message-State: AOAM533ZcCQOPqSoXSLQkA6KG2D3VIypcZQLIzRzB/8VQycFSXVxNbZZ
- OTf8IS+g5r/UAb2p4P2r0sQXFM8hns0VrOynqbILzw==
-X-Google-Smtp-Source: ABdhPJzsuabhHed6zXmfFgHhcoBDTdFCvHl1FtAK4Vt04PU+Zq5AG6+vToyMel5zLtbYErDLgzMkx4qYBvncO9raA2k=
-X-Received: by 2002:a17:906:8303:: with SMTP id
- j3mr9269491ejx.85.1618256502769; 
- Mon, 12 Apr 2021 12:41:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
- <dabec806-51e3-5f3c-463b-0ac7f5ba854a@ilande.co.uk>
-In-Reply-To: <dabec806-51e3-5f3c-463b-0ac7f5ba854a@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Apr 2021 20:40:58 +0100
-Message-ID: <CAFEAcA8=G=O58FCaZBUqpqtFGaAYJT=PsDnEYjHu0qEGL22oBQ@mail.gmail.com>
-Subject: Re: any remaining for-6.0 issues?
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=Wdpm+J2ptFjnLpc4pKG/VlefI/v5cVrerIv9rQO16Ng=;
+ b=gtX7SIwkI7RUPX46mEU9moWAJSM5HkjTUv+jVGrsMrUYhRKOGLsqp5JXXS42JMFNy8
+ FBNuQrbNkVmo06yJUFGr0C6rUI/XfDUbz+SHyP4G9OTXuzLoDpJb0EoMOvD8xe5gLaN9
+ L9LBUpGEpVnw6AvfrKqYwuTkvXwSM0yjCNZ6k4KC/bV6xWnLRqit0AUsD3inlm3nhqlw
+ 5nPWevMV6tX2kXKij2u3tIHJkE0MXWopO7yHq5a16nBXQeWAc1Y/UwCTZ5+NWZbOKJ8c
+ UFTU/L12KemSWeQ9MVKc5SkcEuynC9wYxChSJCXwmrpVFNDL4C0L6HdhJb7KVOXFurJf
+ jWdA==
+X-Gm-Message-State: AOAM531gAQpxLGozA4c/tYdxP/W0xBSZyFwLGqQIIWfxKtywsMu4ae1N
+ ocHxeJC0JyPyZe7BqfXSke7Uzszem4QV
+X-Google-Smtp-Source: ABdhPJzi/XoO78WfAZugVE07gGLJVpRHygteFz96g6gQw+HDhV1SBVOpoxE8mDK1k38Nh3NnRWstJqtsNDPh
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:7285:fb47:eb76:b9a4])
+ (user=venture job=sendgmr) by 2002:a5b:446:: with SMTP id
+ s6mr40590358ybp.317.1618256732318; 
+ Mon, 12 Apr 2021 12:45:32 -0700 (PDT)
+Date: Mon, 12 Apr 2021 12:45:18 -0700
+Message-Id: <20210412194522.664594-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
+Subject: [PATCH v4 0/4] hw/i2c: Adds pca954x i2c mux switch device
+From: Patrick Venture <venture@google.com>
+To: cminyard@mvista.com, wuhaotsh@google.com, hskinnemoen@google.com, 
+ f4bug@amsat.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3XKN0YAcKCn8yhqwxuhjrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,30 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Apr 2021 at 19:44, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> On 12/04/2021 16:32, Peter Maydell wrote:
->
-> > Last call to note anything we need to fix for 6.0 on
-> > https://wiki.qemu.org/Planning/6.0#Known_issues please.
-> > The schedule is to tag rc3 tomorrow, which I would ideally like
-> > to be the last rc before release. After rc3 I will only be taking
-> > fixes for bugs which are absolutely critical...
->
-> Thanks for reviewing one of the patches from the ESP security patchset earlier.
->
-> Should I send a PR for the ESP security patchset and the acceptance test fix?
-> Unfortunately the timing of the holidays has meant that these are missing a review
-> from a SCSI maintainer but IMO both of these are worthy for 6.0.
+The i2c mux device pca954x implements two devices:
+ - the pca9546 and pca9548.
 
-Yes, please do. If you could add your missing copyright line to
-the comment in the new file in patch 12 as well that would be great.
+v4:
+ - Fixed up bug where the i2c_scan_bus wasn't parameterizing the
+ current_devs list.
+ - Minor consistency changes in the i2c mux pca954x.
 
-thanks
--- PMM
+v3:
+ - fixup comment with missing end parenthesis.
+ - removed superfluous object cast.
+
+v2:
+ - the core i2c bus now calls a match method on each i2c child, which
+ by default will only check for a match against itself.
+ - the pca954x device overrides the i2c device match method to search
+ the children for each of its buses that are active.
+ - the pca954x device now owns an i2c bus for each channel, allowing
+ the normal device model to attach devices to the channels.
+
+Patrick Venture (4):
+  hw/i2c: name I2CNode list in I2CBus
+  hw/i2c: add match method for device search
+  hw/i2c: move search to i2c_scan_bus method
+  hw/i2c: add pca954x i2c-mux switch
+
+ MAINTAINERS                      |   6 +
+ hw/i2c/Kconfig                   |   4 +
+ hw/i2c/core.c                    |  55 ++++--
+ hw/i2c/i2c_mux_pca954x.c         | 290 +++++++++++++++++++++++++++++++
+ hw/i2c/meson.build               |   1 +
+ hw/i2c/trace-events              |   5 +
+ include/hw/i2c/i2c.h             |  17 +-
+ include/hw/i2c/i2c_mux_pca954x.h |  19 ++
+ 8 files changed, 383 insertions(+), 14 deletions(-)
+ create mode 100644 hw/i2c/i2c_mux_pca954x.c
+ create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
+
+-- 
+2.31.1.295.g9ea45b61b8-goog
+
 
