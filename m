@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9502C35C410
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:33:55 +0200 (CEST)
-Received: from localhost ([::1]:48666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877CA35C411
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:33:56 +0200 (CEST)
+Received: from localhost ([::1]:48772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVttC-0007qN-Lj
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:33:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34900)
+	id 1lVttD-0007sx-L1
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVtrK-0006cb-DO
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:31:59 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44710)
+ id 1lVtrM-0006dV-1S
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:32:00 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVtrI-0000Fq-60
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:31:58 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- j4-20020a05600c4104b029010c62bc1e20so6555582wmi.3
+ id 1lVtrI-0000GU-B8
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:31:59 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id y204so5095998wmg.2
  for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 03:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Xlfjf/uSOBy2ns+mImu3cJYZVqSzF2h27OuzEQHXbV8=;
- b=TYx5pXp9d3FgrYZ1FMp9MtsKnDOkX5tSR2+v+jPf74Bq9ZXgNH6IGKS4mZ90NhhYoq
- ip2RNeSIjlApNsh1ZRIApF2apx1zTRyFVWUrdFgAdGoLoMcc/Q+DT/PhRJi/H1yA5ap+
- Rcf0TG1jQcq54ox+ClLTDcM+P9i5xrWvIJuXGw1oPGIQiG8ksrZ3ZC4vGMWU+agC6j/0
- ktKNWXPWklx6ZtNwEfnzIkGvTvjN2Gnvu0kFGqV2qAjDTTofitPzbahOClOAjB9cwKR9
- CyGUL+YmTO1kRg5WmMdlgj5/G9K8fRE16B8ZrloghoMLVgUkOk3rDegNE0Auj8ZRP/e6
- 4SVQ==
+ bh=9+bh8eVoMeOAJ6lrKtP7/rJGWDFxQo0M/ATCBKga2/g=;
+ b=yyaHmiiUIpTITKA4nBFBtOrKKVDMiv7KTikHRufqxuLDh7T4+uo6dI+7Lo1UB0g39l
+ sMfn599ARc2Rs3hGd71boUBZJN1qGLkQFHOWL6CIk/hxXJvKWz6eWwJjRS/qGcVuGqmy
+ 7gxUksX2PveHpwLYZ2N0bg+OSnIU/QjqN31Ei9ZuUPnFEoCaxCfEfMG4XFQps17eikBZ
+ hOVFU7F8qeyI+OUeIYhAsvJmecfuSVAZh8t5nY+DRuz9XX0KTnVUpsrI5f5kD0/r7PkL
+ 8wIgxgvQ5yUwTPJNoQOU4wMSsPl4qjWlhdtqIbryYR9eIQyYJxqo3qOnlmx4EG2l1Q9b
+ T7+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Xlfjf/uSOBy2ns+mImu3cJYZVqSzF2h27OuzEQHXbV8=;
- b=k0USeO+W1Ekm52oFqpAFkq8GYvvwwgKHzaTjsBPdhsJU+zapArXKYOqx2TXnM0t+z+
- kI4fpAT6P2yRAbC0Iy4XukjxzrMeY8i6BpnSLxBlMn29V8Tck6ukwUXTrcvxLrm41kLH
- 2YD0TLfIoneaOAoZ6v7EoVR9bF+p6fsO2Z9q6VgbW4UoFdjZNBxVW4jhXWzSUPMiEM6A
- KXLvXs66Omm36PtmjbGG4i6c1+Fr41mbJdonVvtPbPm6giMrCRKjLVqfqXlastBG2LsG
- eGydmopDwUiuLSn/tgzC1c4j/UNKR1sNTiUJLjJOL4ph4m+Cev8NCMWqMD9Z6RUGkeIv
- GKWg==
-X-Gm-Message-State: AOAM533Jg5zxBu0Gl92pCfLbKGKgnevf2GUVH9s4EHPWpFE0V/8c/ctE
- KktsAC4ZqK9ULrH0qdgxd+/Vhb2VRWADQO42
-X-Google-Smtp-Source: ABdhPJzz4yI6utU8kXVd0h39LrTnNfOT78YqowoufeSAC8+P0PZZLxIlFoOQwSdrL8ysZfv2RQOiCA==
-X-Received: by 2002:a7b:c20c:: with SMTP id x12mr11775145wmi.51.1618223514326; 
- Mon, 12 Apr 2021 03:31:54 -0700 (PDT)
+ bh=9+bh8eVoMeOAJ6lrKtP7/rJGWDFxQo0M/ATCBKga2/g=;
+ b=XIHHGneshCPuNxkCUYg3zgLjLFSpDQUdXyS8f0sHUQizooV6Z5hh+kRHfOYkEY/Ebd
+ 6XaUksbidchnuhMqz/HEV8nDHFnfeZphHjCAPYXmorgbHdpli2GWERxGsZvQHrQpDHYH
+ gyCYUSOGRQm2Mu02BWv37Ku5x0BIlVmmFtadUWf/xkeDbaZBJd6wWivRKlukCn5ihgrp
+ cUx06ToSaZItzQNtfWsLMqEGF38MOrlg4IiG62JOUJ9HyBPVXZpCP86EyUpX5WBnSOI4
+ BazhXAKhzLeHcj27hRGXXeoh+PtlyVbfIudG1uzD/5j8hGVLlK3RosO9zl7NkOBV+FmA
+ WtMg==
+X-Gm-Message-State: AOAM532TsRV3h0sWiRgoA2v8MLztPkVH+aP0BF3C/yU41lhVmwqIoQn4
+ SEohbO9kJ+BmzeNziq90xTpV/iG8ruXrq9tX
+X-Google-Smtp-Source: ABdhPJx2ZW1+o1UFMeMdOHlIUFh/nj6AK6FKSqIClsPgnki6VyAjVY9xIP9a04j7RdLGaFH4PcD+LA==
+X-Received: by 2002:a1c:2587:: with SMTP id
+ l129mr25800038wml.135.1618223515098; 
+ Mon, 12 Apr 2021 03:31:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d2sm16878651wrq.26.2021.04.12.03.31.53
+ by smtp.gmail.com with ESMTPSA id d2sm16878651wrq.26.2021.04.12.03.31.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 03:31:53 -0700 (PDT)
+ Mon, 12 Apr 2021 03:31:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] hw/arm/virt-acpi-build: Fix GSIV values of the {GERR,
- Sync} interrupts
-Date: Mon, 12 Apr 2021 11:31:48 +0100
-Message-Id: <20210412103152.28433-2-peter.maydell@linaro.org>
+Subject: [PULL 2/5] hw/arm/smmuv3: Emulate CFGI_STE_RANGE for an aligned range
+ of StreamIDs
+Date: Mon, 12 Apr 2021 11:31:49 +0100
+Message-Id: <20210412103152.28433-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210412103152.28433-1-peter.maydell@linaro.org>
 References: <20210412103152.28433-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,34 +90,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zenghui Yu <yuzenghui@huawei.com>
 
-The GSIV values in SMMUv3 IORT node are not correct as they don't match
-the SMMUIrq enumeration, which describes the IRQ<->PIN mapping used by
-our emulated vSMMU.
+In emulation of the CFGI_STE_RANGE command, we now take StreamID as the
+start of the invalidation range, regardless of whatever the Range is,
+whilst the spec clearly states that
 
-Fixes: a703b4f6c1ee ("hw/arm/virt-acpi-build: Add smmuv3 node in IORT table")
+ - "Invalidation is performed for an *aligned* range of 2^(Range+1)
+    StreamIDs."
+
+ - "The bottom Range+1 bits of the StreamID parameter are IGNORED,
+    aligning the range to its size."
+
+Take CFGI_ALL (where Range == 31) as an example, if there are some random
+bits in the StreamID field, we'll fail to perform the full invalidation but
+get a strange range (e.g., SMMUSIDRange={.start=1, .end=0}) instead. Rework
+the emulation a bit to get rid of the discrepancy with the spec.
+
 Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
 Acked-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20210402084731.93-1-yuzenghui@huawei.com
+Message-id: 20210402100449.528-1-yuzenghui@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt-acpi-build.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/smmuv3.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index f5a2b2d4cb5..60fe2e65a76 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -292,8 +292,8 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         smmu->flags = cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE);
-         smmu->event_gsiv = cpu_to_le32(irq);
-         smmu->pri_gsiv = cpu_to_le32(irq + 1);
--        smmu->gerr_gsiv = cpu_to_le32(irq + 2);
--        smmu->sync_gsiv = cpu_to_le32(irq + 3);
-+        smmu->sync_gsiv = cpu_to_le32(irq + 2);
-+        smmu->gerr_gsiv = cpu_to_le32(irq + 3);
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 3b87324ce22..87056125357 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -980,16 +980,20 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+         }
+         case SMMU_CMD_CFGI_STE_RANGE: /* same as SMMU_CMD_CFGI_ALL */
+         {
+-            uint32_t start = CMD_SID(&cmd);
++            uint32_t sid = CMD_SID(&cmd), mask;
+             uint8_t range = CMD_STE_RANGE(&cmd);
+-            uint64_t end = start + (1ULL << (range + 1)) - 1;
+-            SMMUSIDRange sid_range = {start, end};
++            SMMUSIDRange sid_range;
  
-         /* Identity RID mapping covering the whole input RID range */
-         idmap = &smmu->id_mapping_array[0];
+             if (CMD_SSEC(&cmd)) {
+                 cmd_error = SMMU_CERROR_ILL;
+                 break;
+             }
+-            trace_smmuv3_cmdq_cfgi_ste_range(start, end);
++
++            mask = (1ULL << (range + 1)) - 1;
++            sid_range.start = sid & ~mask;
++            sid_range.end = sid_range.start + mask;
++
++            trace_smmuv3_cmdq_cfgi_ste_range(sid_range.start, sid_range.end);
+             g_hash_table_foreach_remove(bs->configs, smmuv3_invalidate_ste,
+                                         &sid_range);
+             break;
 -- 
 2.20.1
 
