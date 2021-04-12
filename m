@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907AA35C452
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:46:57 +0200 (CEST)
-Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A2E35C456
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:49:11 +0200 (CEST)
+Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVu5o-0007Aj-EJ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37194)
+	id 1lVu7y-0008FK-8N
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVu4F-0006Xy-9r
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:45:19 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39919)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lVu6m-0007g7-5w
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:47:56 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVu4B-0008BI-35
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:45:18 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id g17so13731749edm.6
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 03:45:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mzhlp9f1DfdUDQ5GH5cqdeZ4c1LfOrN3OsZnC2r6D6g=;
- b=ON0Qla+G8fyfqRtUYc5SnUNQVco/wCLx0D5Zo7YbJZVTCOhYFp9csEDL31o1UiPIMU
- IanalNhsM3Kj9XvimaoIkak7C4moBJQ5zKKJ1oG9udD0jLR6phfWTr482GVJLCsgiVBn
- VTcDWEmq8z6UsP6aPEMNlOqbUEDqtdYJwgofMzj3IoD9Sq7LDXFSEWXj9EOdD0HrB1SP
- l35px1byVU34SI3AsfShcbjbvZusLSfrZ5R+weiDusKjHJKNz8rUTlvKsob/5EPMPBhu
- ZxKpaT/1qJxnPTor9q7q+DS4ipp1OjdG+vguIl5+pqzCJnuFqKjNVx3YLjlLhl86crNN
- 8BUQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lVu6k-0001Qc-EX
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:47:55 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id 12so6510754wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 03:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=g7BGOBbLxdqBvtWGkeEHeuFRGYY77sBPkKc6YIDNHrE=;
+ b=DkV3xb7SRM9AQLSUcG3Ehgos/sTx3DyAdfieRn5kf5tqOa0QPvE/oIKiqQzmN4L4/x
+ oDJz4vAEONQLyW5tLN2EVMv6XqzwKWe/jdD2KZoKEu5tB5fPHGZwgfa4rTedycY/nM7w
+ 5AOwxBrivKnL+5dNoS/trELEdk/vmQ1C50q7iLUjfyxDvq3WgBqZ/VYqaAzM/LVsxij/
+ xv2psrYNmt5zFIB+0SsY0OMqxavDfZ3czAgaXrSdtBM6DPH0vuf/FP1o4A6qYPS+gt5D
+ V4dbjox9ljiLKG4iU9Ti9YT7XIkznhX5WhRi6jZ7YDK8jNsTC6HMQpGWxMuY7jfownCQ
+ vIfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mzhlp9f1DfdUDQ5GH5cqdeZ4c1LfOrN3OsZnC2r6D6g=;
- b=ekshqvpuvP8clkGlcKY1Sue2VS5SXwudEbyrvQrPEhsczNOz85UUaiubpovGzhQkX5
- t52R/FiVo6WfmFJk55Utw7S9Fny/fB4OBLB8FtjrKzVxlncDBl1BFHXFVm3UI57vsswI
- nCVF4ltyOHFE7RoarkZF7L4e9ZlQqBApaM/FD7ZSLt3B6tJFA105j0VWwOxTjBnjN6pU
- JMz1U7a9oDKyZAcBqO3N7DFZCZfZRNFMnlN2A1UzB36nvnKgYTGdR8WcqhzzqLwQcxjX
- RgRDhsVBZc7yuKksxp3mgbRKGIuCgOuZ9G4K1qiTvjD0E383yndn3shE+dxpL0SxoMko
- k5wA==
-X-Gm-Message-State: AOAM532fO2E8LRVxcB8qVdBs6STqofbR8DNaPQbD5OEvI7f6AjLuaghl
- xm5STcms/6r7687KgY2+heQQRVwa7khkqNWZW//uVg==
-X-Google-Smtp-Source: ABdhPJxVjI3BcWQG3uttRzPogdXqgFW9GCwlePE39bx2KqPz3a6K9VOXefOuh4gbNZ+BabwTlLEGNFfS2einxR9MTBo=
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr28402698edu.100.1618224313485; 
- Mon, 12 Apr 2021 03:45:13 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=g7BGOBbLxdqBvtWGkeEHeuFRGYY77sBPkKc6YIDNHrE=;
+ b=JucTsjUmq66ILmN0qu27cdiUsZFtEBjX/trq4vLZZzhL54lubfLnqhgsIcuZSGV10v
+ z/SotnCZ2xjPo1QfnMT6btYd5uiSZRIQgmlCPazh5Sc4dmDHrplrQV6Z33qAq6X7m37q
+ KqjBmyROm9jLBEu0ykOAaEU9Y076NV5gUOluBn2fy0u6nU9D83+UkRAT4Pled1F4om49
+ J3QBHFPe2soENGGUFEgQljb4xCKlJyghboFDNWIHkNyvBYfnb2HWZ5ijEtH0ZfdHL+eO
+ ZSjNTpweeqO0M/oAjd78kIQYk7ZV8sd+z5eWY2UtQgmPLvP0JEMB2G27azgbUEagbuIR
+ 2asw==
+X-Gm-Message-State: AOAM530X6txFonZYnERUV0JOWuIvfH0dl0czTxNTEqEcxZTDaD/VLTmd
+ ANjEZq6s3tIdkVLv2RH1Axw=
+X-Google-Smtp-Source: ABdhPJxgK0zAlRLWfpOCluTyqaoLTFifDLaMvRp2oLcAohNGO9y2mi0Q5UVi3yxpdMFduzLOH4xykg==
+X-Received: by 2002:a7b:c098:: with SMTP id r24mr5994526wmh.179.1618224473020; 
+ Mon, 12 Apr 2021 03:47:53 -0700 (PDT)
+Received: from [192.168.1.36] (63.red-83-51-208.dynamicip.rima-tde.net.
+ [83.51.208.63])
+ by smtp.gmail.com with ESMTPSA id c8sm14347292wmb.34.2021.04.12.03.47.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Apr 2021 03:47:52 -0700 (PDT)
+Subject: Re: [PATCH v4 for-6.0 05/12] esp: introduce esp_fifo_pop_buf() and
+ use it instead of fifo8_pop_buf()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ alxndr@bu.edu, laurent@vivier.eu, pbonzini@redhat.com
+References: <20210407195801.685-1-mark.cave-ayland@ilande.co.uk>
+ <20210407195801.685-6-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <06ed2995-d11d-6c85-49dc-aaf1ad7f552f@amsat.org>
+Date: Mon, 12 Apr 2021 12:47:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210409062401.2350436-1-f4bug@amsat.org>
- <20210410131932.i6no5tvvaldyomvp@sekoia-pc.home.lmichel.fr>
- <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
- <CAFEAcA9rqx97D_ZN7MzqqJtz9ajFNK=AAeQu9z65+g35SHD_NA@mail.gmail.com>
- <CAFEAcA-5h5ZjXyX6WbdQ8n=pqNSXTHfrt3fQSQzp6EYJY_zXLg@mail.gmail.com>
- <ab8fcac0-eb15-3f59-1b14-ef6b4cba6e03@amsat.org>
-In-Reply-To: <ab8fcac0-eb15-3f59-1b14-ef6b4cba6e03@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Apr 2021 11:44:29 +0100
-Message-ID: <CAFEAcA-3o2qdssKezXdQY6f5oYSG8MKandXwsBOi1gXuqW2E6Q@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
- clock propagation
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210407195801.685-6-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,25 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Apr 2021 at 11:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
-> TIL MachineClass::reset().
->
-> - hw/hppa/machine.c
-> - hw/i386/pc.c
->
->   Used to reset CPUs manually because CPUs aren't sysbus-reset.
+On 4/7/21 9:57 PM, Mark Cave-Ayland wrote:
+> The const pointer returned by fifo8_pop_buf() lies directly within the array used
+> to model the FIFO. Building with address sanitizers enabled shows that if the
+> caller expects a minimum number of bytes present then if the FIFO is nearly full,
+> the caller may unexpectedly access past the end of the array.
+> 
+> Introduce esp_fifo_pop_buf() which takes a destination buffer and performs a
+> memcpy() in it to guarantee that the caller cannot overwrite the FIFO array and
+> update all callers to use it. Similarly add underflow protection similar to
+> esp_fifo_push() and esp_fifo_pop() so that instead of triggering an assert()
+> the operation becomes a no-op.
+> 
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  hw/scsi/esp.c | 40 ++++++++++++++++++++++++++++------------
+>  1 file changed, 28 insertions(+), 12 deletions(-)
 
-pc_machine_reset() is not resetting the CPUs -- it is
-re-resetting the APIC devices, which looks like it is a
-workaround for a reset-ordering or other problem. I'm not
-sure where the CPUs are being reset...
+Way cleaner/safer.
 
--- PMM
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
