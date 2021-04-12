@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609A735D315
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:29:27 +0200 (CEST)
-Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA0335D308
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:26:00 +0200 (CEST)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW53e-0007oX-Cw
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38398)
+	id 1lW50J-0004jc-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vd-0002wZ-EO
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44042
+ id 1lW4vp-0002yK-IS
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:21 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44046
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vT-0002cC-42
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:02 -0400
+ id 1lW4ve-0002fW-Km
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:21 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vc-0004Dc-H0; Mon, 12 Apr 2021 23:21:14 +0100
+ id 1lW4vi-0004Dc-Jk; Mon, 12 Apr 2021 23:21:19 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 12 Apr 2021 23:20:35 +0100
-Message-Id: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 12 Apr 2021 23:20:36 +0100
+Message-Id: <20210412222048.22818-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
+References: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 00/13] qemu-sparc queue 20210412
+Subject: [PULL 01/13] esp: fix setting of ESPState mig_version_id when
+ launching QEMU with -S option
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,43 +64,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
+If QEMU is launched with the -S option then the ESPState mig_version_id property
+is left unset due to the ordering of the VMState fields in the VMStateDescription
+for sysbusespscsi and pciespscsi. If the VM is migrated and restored in this
+stopped state, the version tests in the vmstate_esp VMStateDescription and
+esp_post_load() become confused causing the migration to fail.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
+Fix the ordering problem by moving the setting of mig_version_id to a common
+esp_pre_save() function which is invoked first by both sysbusespscsi and
+pciespscsi rather than at the point where ESPState is itself serialised into the
+migration stream.
 
-are available in the Git repository at:
+Buglink: https://bugs.launchpad.net/qemu/+bug/1922611
+Fixes: 0bd005be78 ("esp: add vmstate_esp version to embedded ESPState")
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210407124842.32695-1-mark.cave-ayland@ilande.co.uk>
+---
+ hw/scsi/esp-pci.c     | 1 +
+ hw/scsi/esp.c         | 7 ++++---
+ include/hw/scsi/esp.h | 1 +
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-  git://github.com/mcayland/qemu.git tags/qemu-sparc-20210412
+diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+index c3d3dab05e..9db10b1a48 100644
+--- a/hw/scsi/esp-pci.c
++++ b/hw/scsi/esp-pci.c
+@@ -332,6 +332,7 @@ static const VMStateDescription vmstate_esp_pci_scsi = {
+     .name = "pciespscsi",
+     .version_id = 2,
+     .minimum_version_id = 1,
++    .pre_save = esp_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_PCI_DEVICE(parent_obj, PCIESPState),
+         VMSTATE_BUFFER_UNSAFE(dma_regs, PCIESPState, 0, 8 * sizeof(uint32_t)),
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index 507ab363bc..d87e1a63db 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -1076,9 +1076,10 @@ static bool esp_is_version_5(void *opaque, int version_id)
+     return version_id == 5;
+ }
+ 
+-static int esp_pre_save(void *opaque)
++int esp_pre_save(void *opaque)
+ {
+-    ESPState *s = ESP(opaque);
++    ESPState *s = ESP(object_resolve_path_component(
++                      OBJECT(opaque), "esp"));
+ 
+     s->mig_version_id = vmstate_esp.version_id;
+     return 0;
+@@ -1114,7 +1115,6 @@ const VMStateDescription vmstate_esp = {
+     .name = "esp",
+     .version_id = 5,
+     .minimum_version_id = 3,
+-    .pre_save = esp_pre_save,
+     .post_load = esp_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_BUFFER(rregs, ESPState),
+@@ -1304,6 +1304,7 @@ static const VMStateDescription vmstate_sysbus_esp_scsi = {
+     .name = "sysbusespscsi",
+     .version_id = 2,
+     .minimum_version_id = 1,
++    .pre_save = esp_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8_V(esp.mig_version_id, SysBusESPState, 2),
+         VMSTATE_STRUCT(esp, SysBusESPState, 0, vmstate_esp, ESPState),
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index 95088490aa..aada3680b7 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -157,5 +157,6 @@ void esp_hard_reset(ESPState *s);
+ uint64_t esp_reg_read(ESPState *s, uint32_t saddr);
+ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val);
+ extern const VMStateDescription vmstate_esp;
++int esp_pre_save(void *opaque);
+ 
+ #endif
+-- 
+2.20.1
 
-for you to fetch changes up to ce94fa7aa646a18e9b9105a32eea2152b202b431:
-
-  tests/qtest: add tests for am53c974 device (2021-04-12 22:37:11 +0100)
-
-----------------------------------------------------------------
-qemu-sparc queue
-
-----------------------------------------------------------------
-Mark Cave-Ayland (13):
-      esp: fix setting of ESPState mig_version_id when launching QEMU with -S option
-      esp: always check current_req is not NULL before use in DMA callbacks
-      esp: rework write_response() to avoid using the FIFO for DMA transactions
-      esp: consolidate esp_cmdfifo_push() into esp_fifo_push()
-      esp: consolidate esp_cmdfifo_pop() into esp_fifo_pop()
-      esp: introduce esp_fifo_pop_buf() and use it instead of fifo8_pop_buf()
-      esp: ensure cmdfifo is not empty and current_dev is non-NULL
-      esp: don't underflow cmdfifo in do_cmd()
-      esp: don't overflow cmdfifo in get_cmd()
-      esp: don't overflow cmdfifo if TC is larger than the cmdfifo size
-      esp: don't reset async_len directly in esp_select() if cancelling request
-      esp: ensure that do_cmd is set to zero before submitting an ESP select command
-      tests/qtest: add tests for am53c974 device
-
- MAINTAINERS                 |   1 +
- hw/scsi/esp-pci.c           |   1 +
- hw/scsi/esp.c               | 126 ++++++++++++++-----------
- include/hw/scsi/esp.h       |   1 +
- tests/qtest/am53c974-test.c | 218 ++++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build     |   1 +
- 6 files changed, 293 insertions(+), 55 deletions(-)
- create mode 100644 tests/qtest/am53c974-test.c
 
