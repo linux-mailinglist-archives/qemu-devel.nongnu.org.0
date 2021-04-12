@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5964F35C40A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:33:08 +0200 (CEST)
-Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3958835C417
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:35:38 +0200 (CEST)
+Received: from localhost ([::1]:52832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVtsQ-0006z7-RB
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34782)
+	id 1lVtur-00013V-9g
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lVtqt-0006AN-N7; Mon, 12 Apr 2021 06:31:31 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:41568)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVtrK-0006cd-EZ
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:31:59 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lVtqs-0008R7-5C; Mon, 12 Apr 2021 06:31:31 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- t5-20020a1c77050000b029010e62cea9deso6588881wmi.0; 
- Mon, 12 Apr 2021 03:31:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l4pcouo8LIApS4Y4u7W5iJnsHZElBrCJsNPIm7qOCNc=;
- b=GcOfTTEFN0xTdzZalfAcz/Mp+J1rgmzi42ruSTSbP/N3Mb/rJL7X+1dq1Sry+P/Frv
- HHHvmiJACaPrNGSo8/mZOjEs6lD3v1/okd+/JJ72dZ08q/Ch/xSYUz0cVs3dtJ7PHicq
- 90EuggnQNfKYj5wbXKdmgPBw5XH2kVwwrPOfQ001M3EpLf0wb+IzIDgcbi0wo4X38r54
- nRQEIPAKMXB4czVzJGsw6uAVqS3ECth7qezUtaNBrFrIRT65GVBw/fUHd+I3PI+9BLZp
- t7771SuCz4DI0AkWn8Ef5DnVu1udD+tmsUx41Lhc45M1LGvdfUG+uYqiu203N3D3obeW
- t3XA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lVtrI-0000Fm-1G
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:31:58 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a6so12367297wrw.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 03:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5VrOuywLZrAwXy/Rc+b9SRL1LhRcq/fx1CvEgiIrSV4=;
+ b=EYo3VvOHLdzccMfJRoJIql2BT0WvuL9HEfxPQuQ7reQHLu11Wch9meWZIj2AdQiGvW
+ ttwwIc9eGw8FWbBn7kQPTvzfiUO/jwY2ydGFEI3xef5NpSMXNw61gX1c3B2BG8gyhkbi
+ hzjrrqR8Tl97nKv/1yw2gwj5trAuzugtnhSR/a1w6Dg12AsXpxNv93zKN1phP1WeoPe+
+ m75pmycAGpG9TEtIElpBGHJQP9nwDNZS6kiCr8KBqEcWDXhE6CGW8uTODhxuQ27uX7MK
+ IG8uLB1nLr92JJHAMh2zrUmiq5JqJUal0nSFo9DiwGooQLe925QYKfnOAQh0J8nk/qXM
+ HTWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=l4pcouo8LIApS4Y4u7W5iJnsHZElBrCJsNPIm7qOCNc=;
- b=CGWi+FAtwrwjPcaJiutuxhvbzrd0A4SW7ME0A0JRGvZcfcmb2f0TyTJTzxvhjicxjt
- l3qbmRghUptdSXy7+FrnpGStWdc2rRfhZxTZftWx5IoflILoo5PS8e78U1WLP6uksSO4
- 5NlX5qS7vd/6mB1t+Xw1l17Xq36GiHHPOwuFrEygt/o9sFB5jvPlmIEq2gYNSCMO8BYH
- EUtYu/DHcGpm+XblI3jPWWHmGwrraWkm5IX+wbsroA9qHzUmwH9B2BYIraLFYYSZMAvf
- KWXlpuvzc5PExk2gl2FqWsQih9sbxkV6JgqqkTtDsn0eKc9b6lE7gx5ZfwFVkkO8MGLg
- EjSg==
-X-Gm-Message-State: AOAM5328FT2c0Xpkd9aG+JMs0oEruvQuw6ZVBNB6J3NTUY/UTzqP/Tfz
- 3ful9Df//KPrSrH/nK5bJWM=
-X-Google-Smtp-Source: ABdhPJzd/NqPa7AjJKrLx5/bRMe/OatiYJ5m7GOHPmRhwHTdj4DzRLdZB7eFvfLViiqTvogQSedt0A==
-X-Received: by 2002:a05:600c:378c:: with SMTP id
- o12mr26075322wmr.69.1618223487580; 
- Mon, 12 Apr 2021 03:31:27 -0700 (PDT)
-Received: from [192.168.1.36] (63.red-83-51-208.dynamicip.rima-tde.net.
- [83.51.208.63])
- by smtp.gmail.com with ESMTPSA id j30sm17299056wrj.62.2021.04.12.03.31.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Apr 2021 03:31:26 -0700 (PDT)
-Subject: Re: [RFC PATCH-for-6.1 0/9] hw/clock: Strengthen machine (non-qdev)
- clock propagation
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210409062401.2350436-1-f4bug@amsat.org>
- <20210410131932.i6no5tvvaldyomvp@sekoia-pc.home.lmichel.fr>
- <09a63c3e-aa68-0d2d-b447-db9cd84dab09@amsat.org>
- <CAFEAcA9rqx97D_ZN7MzqqJtz9ajFNK=AAeQu9z65+g35SHD_NA@mail.gmail.com>
- <CAFEAcA-5h5ZjXyX6WbdQ8n=pqNSXTHfrt3fQSQzp6EYJY_zXLg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ab8fcac0-eb15-3f59-1b14-ef6b4cba6e03@amsat.org>
-Date: Mon, 12 Apr 2021 12:31:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=5VrOuywLZrAwXy/Rc+b9SRL1LhRcq/fx1CvEgiIrSV4=;
+ b=PUZIfHl5tiz7lX8Ad5izxMZw1aAjYAKZd4SIetQZ5WNkXqu3iCp1jBlJcsti2OV6CS
+ bTh+ymZrhx5pyi+gY5ZDK1XkbXeruV1SkwM9qehg2hwPtrKQIp7PBXxEq2K0pnc1CWXR
+ uMWbGKmLavNKh/foaWlod4evw81TBX9QS/n8gZ3ZYWpjzV7Am/Pq+LUXGercsjQYxQfe
+ Df1Du5IfZGaIpb699Xw/iLudrc1vtqDwbtAuP9ILa8/kt5zbv3yrAQd3Z7JMdGRL9F8B
+ Dl+PxlXZSX9R7tbDBzPDFu2fVY2/CHzN6D9T5x/5PTIRKsP1VRyhP3944Acn0d8yxYVn
+ 9LvA==
+X-Gm-Message-State: AOAM530Wt30z+GJyH6xYqcirm6fOEKkNp5LWwantBseONaBOzGfdO+sJ
+ Q2SEZ4KKlpJLwLr5vNdMRw3WDN1Q1a8kbV62
+X-Google-Smtp-Source: ABdhPJypF1GlJWOsqte7+G6auTkz1V+OxdhFKwAsUFsEr1PnnPuiNB4J1FHt1vfNChyegTnrHDGNSg==
+X-Received: by 2002:a5d:4851:: with SMTP id n17mr9667354wrs.215.1618223513686; 
+ Mon, 12 Apr 2021 03:31:53 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d2sm16878651wrq.26.2021.04.12.03.31.53
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Apr 2021 03:31:53 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] target-arm queue
+Date: Mon, 12 Apr 2021 11:31:47 +0100
+Message-Id: <20210412103152.28433-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-5h5ZjXyX6WbdQ8n=pqNSXTHfrt3fQSQzp6EYJY_zXLg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,60 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Handful of arm fixes for the rc.
 
-On 4/12/21 12:11 PM, Peter Maydell wrote:
-> On Sat, 10 Apr 2021 at 16:15, Peter Maydell <peter.maydell@linaro.org> wrote:
->> I do wonder if the right fix to that would be to make TYPE_MACHINE
->> be a subtype of TYPE_DEVICE, though -- machines not being subtypes
->> of device has other annoying effects, like their not having reset
->> methods or being able to register vmstate structs.
-> 
-> I wasn't quite right about this -- turns out that machines can
-> have a reset method, but it is a weird special case method
-> MachineClass::reset that isn't like device reset. (We use it
-> in a few machine types; if implemented, it is responsible for
-> calling qemu_devices_reset() to kick off device reset. Probably
-> MachineClass ought to implement TYPE_RESETTABLE_INTERFACE
-> instead.)
+The following changes since commit 555249a59e9cdd6b58da103aba5cf3a2d45c899f:
 
-TIL MachineClass::reset().
+  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-04-10 16:58:56 +0100)
 
-- hw/hppa/machine.c
-- hw/i386/pc.c
+are available in the Git repository at:
 
-  Used to reset CPUs manually because CPUs aren't sysbus-reset.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210412
 
-- hw/i386/microvm.c
+for you to fetch changes up to 52c01ada86611136e3122dd139788dbcbc292d86:
 
-  Removing the microvm_fix_kernel_cmdline() call which is suspicious
-  at reset (should be enough once in realize time), the is the same
-  previous "Used to reset CPUs manually ..."
+  exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1 (2021-04-12 11:06:24 +0100)
 
-- hw/ppc/pnv.c
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/virt-acpi-build: Fix GSIV values of the {GERR, Sync} interrupts
+ * hw/arm/smmuv3: Emulate CFGI_STE_RANGE for an aligned range of StreamIDs
+ * accel/tcg: Preserve PAGE_ANON when changing page permissions
+ * target/arm: Check PAGE_WRITE_ORG for MTE writeability
+ * exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1
 
-  "Reset BMC simulator" seems a legitimate case of machine reset.
+----------------------------------------------------------------
+Richard Henderson (3):
+      accel/tcg: Preserve PAGE_ANON when changing page permissions
+      target/arm: Check PAGE_WRITE_ORG for MTE writeability
+      exec: Fix overlap of PAGE_ANON and PAGE_TARGET_1
 
-  Next is 'fdt = pnv_dt_create()'. So guest has changed hardware state
-  and we need to refresh the DT for the next guest boots. Could be.
+Zenghui Yu (2):
+      hw/arm/virt-acpi-build: Fix GSIV values of the {GERR, Sync} interrupts
+      hw/arm/smmuv3: Emulate CFGI_STE_RANGE for an aligned range of StreamIDs
 
-- hw/ppc/spapr.c
-
-  Similar previous "Used to reset CPUs manually ..."
-
-  Similar previous "update DT after hardware physically changed".
-
-
-Am I correct than half of these handlers code is to kludge the fact
-that CPU aren't reset such device reset?
-
-Regards,
-
-Phil.
+ include/exec/cpu-all.h            |  4 ++--
+ tests/tcg/aarch64/mte.h           |  3 ++-
+ accel/tcg/translate-all.c         |  9 ++++++--
+ hw/arm/smmuv3.c                   | 12 +++++++----
+ hw/arm/virt-acpi-build.c          |  4 ++--
+ target/arm/mte_helper.c           |  2 +-
+ tests/tcg/aarch64/mte-6.c         | 43 +++++++++++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  2 +-
+ 8 files changed, 66 insertions(+), 13 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-6.c
 
