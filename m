@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA0335D308
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:26:00 +0200 (CEST)
-Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44A735D314
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:28:37 +0200 (CEST)
+Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW50J-0004jc-Cz
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38520)
+	id 1lW52q-00072s-RL
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vp-0002yK-IS
+ id 1lW4vn-0002xe-DT
  for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:21 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44046
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44050
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4ve-0002fW-Km
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:21 -0400
+ id 1lW4ve-0002gE-Kc
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:19 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vi-0004Dc-Jk; Mon, 12 Apr 2021 23:21:19 +0100
+ id 1lW4vn-0004Dc-Kg; Mon, 12 Apr 2021 23:21:23 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 12 Apr 2021 23:20:36 +0100
-Message-Id: <20210412222048.22818-2-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 12 Apr 2021 23:20:37 +0100
+Message-Id: <20210412222048.22818-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
 References: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 01/13] esp: fix setting of ESPState mig_version_id when
- launching QEMU with -S option
+Subject: [PULL 02/13] esp: always check current_req is not NULL before use in
+ DMA callbacks
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,84 +64,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If QEMU is launched with the -S option then the ESPState mig_version_id property
-is left unset due to the ordering of the VMState fields in the VMStateDescription
-for sysbusespscsi and pciespscsi. If the VM is migrated and restored in this
-stopped state, the version tests in the vmstate_esp VMStateDescription and
-esp_post_load() become confused causing the migration to fail.
+After issuing a SCSI command the SCSI layer can call the SCSIBusInfo .cancel
+callback which resets both current_req and current_dev to NULL. If any data
+is left in the transfer buffer (async_len != 0) then the next TI (Transfer
+Information) command will attempt to reference the NULL pointer causing a
+segfault.
 
-Fix the ordering problem by moving the setting of mig_version_id to a common
-esp_pre_save() function which is invoked first by both sysbusespscsi and
-pciespscsi rather than at the point where ESPState is itself serialised into the
-migration stream.
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1922611
-Fixes: 0bd005be78 ("esp: add vmstate_esp version to embedded ESPState")
+Buglink: https://bugs.launchpad.net/qemu/+bug/1910723
+Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210407124842.32695-1-mark.cave-ayland@ilande.co.uk>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20210407195801.685-2-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp-pci.c     | 1 +
- hw/scsi/esp.c         | 7 ++++---
- include/hw/scsi/esp.h | 1 +
- 3 files changed, 6 insertions(+), 3 deletions(-)
+ hw/scsi/esp.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index c3d3dab05e..9db10b1a48 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -332,6 +332,7 @@ static const VMStateDescription vmstate_esp_pci_scsi = {
-     .name = "pciespscsi",
-     .version_id = 2,
-     .minimum_version_id = 1,
-+    .pre_save = esp_pre_save,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(parent_obj, PCIESPState),
-         VMSTATE_BUFFER_UNSAFE(dma_regs, PCIESPState, 0, 8 * sizeof(uint32_t)),
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 507ab363bc..d87e1a63db 100644
+index d87e1a63db..a79196f3f3 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -1076,9 +1076,10 @@ static bool esp_is_version_5(void *opaque, int version_id)
-     return version_id == 5;
- }
+@@ -496,6 +496,10 @@ static void do_dma_pdma_cb(ESPState *s)
+         return;
+     }
  
--static int esp_pre_save(void *opaque)
-+int esp_pre_save(void *opaque)
- {
--    ESPState *s = ESP(opaque);
-+    ESPState *s = ESP(object_resolve_path_component(
-+                      OBJECT(opaque), "esp"));
++    if (!s->current_req) {
++        return;
++    }
++
+     if (to_device) {
+         /* Copy FIFO data to device */
+         len = MIN(s->async_len, ESP_FIFO_SZ);
+@@ -527,11 +531,9 @@ static void do_dma_pdma_cb(ESPState *s)
+         return;
+     } else {
+         if (s->async_len == 0) {
+-            if (s->current_req) {
+-                /* Defer until the scsi layer has completed */
+-                scsi_req_continue(s->current_req);
+-                s->data_in_ready = false;
+-            }
++            /* Defer until the scsi layer has completed */
++            scsi_req_continue(s->current_req);
++            s->data_in_ready = false;
+             return;
+         }
  
-     s->mig_version_id = vmstate_esp.version_id;
-     return 0;
-@@ -1114,7 +1115,6 @@ const VMStateDescription vmstate_esp = {
-     .name = "esp",
-     .version_id = 5,
-     .minimum_version_id = 3,
--    .pre_save = esp_pre_save,
-     .post_load = esp_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_BUFFER(rregs, ESPState),
-@@ -1304,6 +1304,7 @@ static const VMStateDescription vmstate_sysbus_esp_scsi = {
-     .name = "sysbusespscsi",
-     .version_id = 2,
-     .minimum_version_id = 1,
-+    .pre_save = esp_pre_save,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT8_V(esp.mig_version_id, SysBusESPState, 2),
-         VMSTATE_STRUCT(esp, SysBusESPState, 0, vmstate_esp, ESPState),
-diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-index 95088490aa..aada3680b7 100644
---- a/include/hw/scsi/esp.h
-+++ b/include/hw/scsi/esp.h
-@@ -157,5 +157,6 @@ void esp_hard_reset(ESPState *s);
- uint64_t esp_reg_read(ESPState *s, uint32_t saddr);
- void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val);
- extern const VMStateDescription vmstate_esp;
-+int esp_pre_save(void *opaque);
+@@ -604,6 +606,9 @@ static void esp_do_dma(ESPState *s)
+         }
+         return;
+     }
++    if (!s->current_req) {
++        return;
++    }
+     if (s->async_len == 0) {
+         /* Defer until data is available.  */
+         return;
+@@ -713,6 +718,10 @@ static void esp_do_nodma(ESPState *s)
+         return;
+     }
  
- #endif
++    if (!s->current_req) {
++        return;
++    }
++
+     if (s->async_len == 0) {
+         /* Defer until data is available.  */
+         return;
 -- 
 2.20.1
 
