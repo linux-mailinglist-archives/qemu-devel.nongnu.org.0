@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAD035D330
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:33:16 +0200 (CEST)
-Received: from localhost ([::1]:59560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB6A35D341
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:37:53 +0200 (CEST)
+Received: from localhost ([::1]:38418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW57L-0002I8-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
+	id 1lW5Bo-0005Y3-SG
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vu-000347-09
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:26 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44068
+ id 1lW4w6-00036l-1C
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:45 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44074
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4vs-0002op-8N
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:25 -0400
+ id 1lW4vx-0002ti-VC
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 18:21:36 -0400
 Received: from host86-148-103-9.range86-148.btcentralplus.com ([86.148.103.9]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lW4w1-0004Dc-IH; Mon, 12 Apr 2021 23:21:40 +0100
+ id 1lW4w8-0004Dc-59; Mon, 12 Apr 2021 23:21:44 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 12 Apr 2021 23:20:40 +0100
-Message-Id: <20210412222048.22818-6-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 12 Apr 2021 23:20:41 +0100
+Message-Id: <20210412222048.22818-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
 References: <20210412222048.22818-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.9
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 05/13] esp: consolidate esp_cmdfifo_pop() into esp_fifo_pop()
+Subject: [PULL 06/13] esp: introduce esp_fifo_pop_buf() and use it instead of
+ fifo8_pop_buf()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,74 +65,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each FIFO currently has its own pop functions with the only difference being
-the capacity check. The original reason for this was that the fifo8
-implementation doesn't have a formal API for retrieving the FIFO capacity,
-however there are multiple examples within QEMU where the capacity field is
-accessed directly.
+The const pointer returned by fifo8_pop_buf() lies directly within the array used
+to model the FIFO. Building with address sanitizers enabled shows that if the
+caller expects a minimum number of bytes present then if the FIFO is nearly full,
+the caller may unexpectedly access past the end of the array.
 
-Change esp_fifo_pop() to access the FIFO capacity directly and then consolidate
-esp_cmdfifo_pop() into esp_fifo_pop().
+Introduce esp_fifo_pop_buf() which takes a destination buffer and performs a
+memcpy() in it to guarantee that the caller cannot overwrite the FIFO array and
+update all callers to use it. Similarly add underflow protection similar to
+esp_fifo_push() and esp_fifo_pop() so that instead of triggering an assert()
+the operation becomes a no-op.
 
+Buglink: https://bugs.launchpad.net/qemu/+bug/1909247
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20210407195801.685-5-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210407195801.685-6-mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ hw/scsi/esp.c | 40 ++++++++++++++++++++++++++++------------
+ 1 file changed, 28 insertions(+), 12 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index b3471e0333..89cc795960 100644
+index 89cc795960..bf22785b79 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -107,22 +107,14 @@ static void esp_fifo_push(Fifo8 *fifo, uint8_t val)
- 
-     fifo8_push(fifo, val);
+@@ -117,6 +117,23 @@ static uint8_t esp_fifo_pop(Fifo8 *fifo)
+     return fifo8_pop(fifo);
  }
--static uint8_t esp_fifo_pop(ESPState *s)
--{
--    if (fifo8_is_empty(&s->fifo)) {
--        return 0;
--    }
--
--    return fifo8_pop(&s->fifo);
--}
  
--static uint8_t esp_cmdfifo_pop(ESPState *s)
-+static uint8_t esp_fifo_pop(Fifo8 *fifo)
++static uint32_t esp_fifo_pop_buf(Fifo8 *fifo, uint8_t *dest, int maxlen)
++{
++    const uint8_t *buf;
++    uint32_t n;
++
++    if (maxlen == 0) {
++        return 0;
++    }
++
++    buf = fifo8_pop_buf(fifo, maxlen, &n);
++    if (dest) {
++        memcpy(dest, buf, n);
++    }
++
++    return n;
++}
++
+ static uint32_t esp_get_tc(ESPState *s)
  {
--    if (fifo8_is_empty(&s->cmdfifo)) {
-+    if (fifo8_is_empty(fifo)) {
-         return 0;
+     uint32_t dmalen;
+@@ -241,11 +258,11 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
+         if (dmalen == 0) {
+             return 0;
+         }
+-        memcpy(buf, fifo8_pop_buf(&s->fifo, dmalen, &n), dmalen);
+-        if (dmalen >= 3) {
++        n = esp_fifo_pop_buf(&s->fifo, buf, dmalen);
++        if (n >= 3) {
+             buf[0] = buf[2] >> 5;
+         }
+-        fifo8_push_all(&s->cmdfifo, buf, dmalen);
++        fifo8_push_all(&s->cmdfifo, buf, n);
+     }
+     trace_esp_get_cmd(dmalen, target);
+ 
+@@ -258,16 +275,16 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
+ 
+ static void do_busid_cmd(ESPState *s, uint8_t busid)
+ {
+-    uint32_t n, cmdlen;
++    uint32_t cmdlen;
+     int32_t datalen;
+     int lun;
+     SCSIDevice *current_lun;
+-    uint8_t *buf;
++    uint8_t buf[ESP_CMDFIFO_SZ];
+ 
+     trace_esp_do_busid_cmd(busid);
+     lun = busid & 7;
+     cmdlen = fifo8_num_used(&s->cmdfifo);
+-    buf = (uint8_t *)fifo8_pop_buf(&s->cmdfifo, cmdlen, &n);
++    esp_fifo_pop_buf(&s->cmdfifo, buf, cmdlen);
+ 
+     current_lun = scsi_device_find(&s->bus, 0, s->current_dev->id, lun);
+     s->current_req = scsi_req_new(current_lun, 0, lun, buf, s);
+@@ -300,13 +317,12 @@ static void do_busid_cmd(ESPState *s, uint8_t busid)
+ static void do_cmd(ESPState *s)
+ {
+     uint8_t busid = fifo8_pop(&s->cmdfifo);
+-    uint32_t n;
+ 
+     s->cmdfifo_cdb_offset--;
+ 
+     /* Ignore extended messages for now */
+     if (s->cmdfifo_cdb_offset) {
+-        fifo8_pop_buf(&s->cmdfifo, s->cmdfifo_cdb_offset, &n);
++        esp_fifo_pop_buf(&s->cmdfifo, NULL, s->cmdfifo_cdb_offset);
+         s->cmdfifo_cdb_offset = 0;
      }
  
--    return fifo8_pop(&s->cmdfifo);
-+    return fifo8_pop(fifo);
- }
- 
- static uint32_t esp_get_tc(ESPState *s)
-@@ -159,9 +151,9 @@ static uint8_t esp_pdma_read(ESPState *s)
-     uint8_t val;
+@@ -484,7 +500,7 @@ static void do_dma_pdma_cb(ESPState *s)
+         /* Copy FIFO data to device */
+         len = MIN(s->async_len, ESP_FIFO_SZ);
+         len = MIN(len, fifo8_num_used(&s->fifo));
+-        memcpy(s->async_buf, fifo8_pop_buf(&s->fifo, len, &n), len);
++        n = esp_fifo_pop_buf(&s->fifo, s->async_buf, len);
+         s->async_buf += n;
+         s->async_len -= n;
+         s->ti_size += n;
+@@ -492,7 +508,7 @@ static void do_dma_pdma_cb(ESPState *s)
+         if (n < len) {
+             /* Unaligned accesses can cause FIFO wraparound */
+             len = len - n;
+-            memcpy(s->async_buf, fifo8_pop_buf(&s->fifo, len, &n), len);
++            n = esp_fifo_pop_buf(&s->fifo, s->async_buf, len);
+             s->async_buf += n;
+             s->async_len -= n;
+             s->ti_size += n;
+@@ -668,7 +684,7 @@ static void esp_do_dma(ESPState *s)
+ static void esp_do_nodma(ESPState *s)
+ {
+     int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
+-    uint32_t cmdlen, n;
++    uint32_t cmdlen;
+     int len;
  
      if (s->do_cmd) {
--        val = esp_cmdfifo_pop(s);
-+        val = esp_fifo_pop(&s->cmdfifo);
-     } else {
--        val = esp_fifo_pop(s);
-+        val = esp_fifo_pop(&s->fifo);
-     }
+@@ -709,7 +725,7 @@ static void esp_do_nodma(ESPState *s)
  
-     return val;
-@@ -887,7 +879,7 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
-             qemu_log_mask(LOG_UNIMP, "esp: PIO data read not implemented\n");
-             s->rregs[ESP_FIFO] = 0;
-         } else {
--            s->rregs[ESP_FIFO] = esp_fifo_pop(s);
-+            s->rregs[ESP_FIFO] = esp_fifo_pop(&s->fifo);
-         }
-         val = s->rregs[ESP_FIFO];
-         break;
+     if (to_device) {
+         len = MIN(fifo8_num_used(&s->fifo), ESP_FIFO_SZ);
+-        memcpy(s->async_buf, fifo8_pop_buf(&s->fifo, len, &n), len);
++        esp_fifo_pop_buf(&s->fifo, s->async_buf, len);
+         s->async_buf += len;
+         s->async_len -= len;
+         s->ti_size += len;
 -- 
 2.20.1
 
