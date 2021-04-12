@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25D035C94A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 16:57:37 +0200 (CEST)
-Received: from localhost ([::1]:38738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32CD35C980
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 17:14:10 +0200 (CEST)
+Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVy0O-00041Q-QS
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 10:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
+	id 1lVyGP-00033y-Tj
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 11:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lVxzH-0003AW-37
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 10:56:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lVxzB-0003FT-DL
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 10:56:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618239380;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GaKqEho0w3Cyrd8oqQZ6A6WpZ9tepiqQ03pfFga6bW4=;
- b=a+F5IfmZqIsYeP5jvxnX5bRp2VnsJPsNHGNaObFW85O8/uj5+4tl9x5vJgUSMP6lS5zQPC
- bAPDSXzWShlE92czebxZwv2CPrxJMl6jgHfEP0i1oryMTq49wkYPnAIlW69RR7dqfib/sf
- 6cVzdnm5RGEgOjt8XEiTw0zPdZ2B1Zg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-3hHOS7lsOeu6QAbuq26YjQ-1; Mon, 12 Apr 2021 10:56:18 -0400
-X-MC-Unique: 3hHOS7lsOeu6QAbuq26YjQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FAF4100A609
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 14:56:17 +0000 (UTC)
-Received: from redhat.com (ovpn-115-78.ams2.redhat.com [10.36.115.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 616C519D9D;
- Mon, 12 Apr 2021 14:56:11 +0000 (UTC)
-Date: Mon, 12 Apr 2021 15:56:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [RFC PATCH 0/5] mptcp support
-Message-ID: <YHRfiHiR0D/vvbc2@redhat.com>
-References: <20210408191159.133644-1-dgilbert@redhat.com>
- <YHAfpndcY5GRUYgN@redhat.com> <YHReXk6Hv7qF0Oqz@work-vm>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lVyF1-0002ZR-Do
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 11:12:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lVyEx-00043t-QF
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 11:12:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lVyEv-0003V5-BN
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 15:12:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 396012E8165
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 15:12:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YHReXk6Hv7qF0Oqz@work-vm>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Apr 2021 14:59:58 -0000
+From: Albert Kao <1759522@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: atmgnd dogbertai maro the.netadmin voltagex
+X-Launchpad-Bug-Reporter: Zixuan Wang (the.netadmin)
+X-Launchpad-Bug-Modifier: Albert Kao (dogbertai)
+References: <152222836105.21062.2375148895134658603.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161823959862.29979.14372659933655095391.malone@wampee.canonical.com>
+Subject: [Bug 1759522] Re: windows qemu-img create vpc/vhdx error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
+X-Launchpad-Hash: 1a7d1ede5751a5fac2325d86eef418ec5a9e10fd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,81 +70,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: quintela@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pabeni@redhat.com
+Reply-To: Bug 1759522 <1759522@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 12, 2021 at 03:51:10PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Thu, Apr 08, 2021 at 08:11:54PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > 
-> > > Hi,
-> > >   This RFC set adds support for multipath TCP (mptcp),
-> > > in particular on the migration path - but should be extensible
-> > > to other users.
-> > > 
-> > >   Multipath-tcp is a bit like bonding, but at L3; you can use
-> > > it to handle failure, but can also use it to split traffic across
-> > > multiple interfaces.
-> > > 
-> > >   Using a pair of 10Gb interfaces, I've managed to get 19Gbps
-> > > (with the only tuning being using huge pages and turning the MTU up).
-> > > 
-> > >   It needs a bleeding-edge Linux kernel (in some older ones you get
-> > > false accept messages for the subflows), and a C lib that has the
-> > > constants defined (as current glibc does).
-> > > 
-> > >   To use it you just need to append ,mptcp to an address;
-> > > 
-> > >   -incoming tcp:0:4444,mptcp
-> > >   migrate -d tcp:192.168.11.20:4444,mptcp
-> > 
-> > What happens if you only enable mptcp flag on one side of the
-> > stream (whether client or server), does it degrade to boring
-> > old single path TCP, or does it result in an error ?
-> 
-> I've just tested this and it matches what pabeni said; it seems to just
-> fall back.
-> 
-> > >   I had a quick go at trying NBD as well, but I think it needs
-> > > some work with the parsing of NBD addresses.
-> > 
-> > In theory this is applicable to anywhere that we use sockets.
-> > Anywhere that is configured with the QAPI  SocketAddress /
-> > SocketAddressLegacy type will get it for free AFAICT.
-> 
-> That was my hope.
-> 
-> > Anywhere that is configured via QemuOpts will need an enhancement.
-> > 
-> > IOW, I would think NBD already works if you configure NBD via
-> > QMP with nbd-server-start, or block-export-add.  qemu-nbd will
-> > need cli options added.
-> > 
-> > The block layer clients for NBD, Gluster, Sheepdog and SSH also
-> > all get it for free when configured va QMP, or -blockdev AFAICT
-> 
-> Have you got some examples via QMP?
-> I'd failed trying -drive if=virtio,file=nbd://192.168.11.20:3333,mptcp=on/zero
+I noticed the cloudbase version does NOT have this issue. https://cloudbase=
+.it/qemu-img-windows/
+The weilnetz version DOES have this issue. https://qemu.weilnetz.de/w64/
 
-I never remember the mapping to blockdev QAPI schema, especially
-when using legacy filename syntax with the URI.
+So, I found the source code for each release and compared them.
 
-Try instead
+cloudbase https://repo.or.cz/w/qemu/ar7.git/
+weilnetz https://github.com/cloudbase/qemu
 
- -blockdev driver=nbd,host=192.168.11.20,port=3333,mptcp=on,id=disk0backend
- -device virtio-blk,drive=disk0backend,id=disk0
+git remote add origin git://repo.or.cz/qemu/ar7.git
+git remote add cloudbase https://github.com/cloudbase/qemu.git
+git fetch --all
+git diff v2.3.0 cloudbase/v2.3.0-cloudbase
+
+And I see that the cloudbase version comments out set_sparse(fd).
+
+I think the solution is to remove set_sparse.
+You can find it in block/file-win32.c
 
 
+** Attachment added: "git diff v2.3.0 cloudbase/v2.3.0-cloudbase"
+   https://bugs.launchpad.net/qemu/+bug/1759522/+attachment/5486954/+files/=
+diff%20v2.3.0%20cloudebasev2.3.0-clousebase.txt
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1759522
+
+Title:
+  windows qemu-img create vpc/vhdx error
+
+Status in QEMU:
+  New
+
+Bug description:
+  On windows, using qemu-img (version 2.11.90) to create vpc/vhdx
+  virtual disk tends to fail. Here's the way to reproduce:
+
+  1. Install qemu-w64-setup-20180321.exe
+
+  2. Use `qemu-img create -f vhdx -o subformat=3Dfixed disk.vhdx 512M` to c=
+reate a vhdx:
+     Formatting 'disk.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576=
+ block_size=3D0 subformat=3Dfixed
+
+  3. Execute `qemu-img info disk.vhdx` gives the result, (note the `disk si=
+ze` is incorrect):
+     image: disk.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 1.4M
+     cluster_size: 8388608
+
+  4. On Windows 10 (V1709), double click disk.vhdx gives an error:
+     Make sure the file is in an NTFS volume and isn't in a compressed fold=
+er or volume.
+
+     Using Disk Management -> Action -> Attach VHD gives an error:
+     The requested operation could not be completed due to a virtual disk s=
+ystem limitation. Virtual hard disk files must be uncompressed and uneccryp=
+ted and must not be sparse.
+
+  Comparison with Windows 10 created VHDX:
+
+  1. Using Disk Management -> Action -> Create VHD:
+     File name: win.vhdx
+     Virtual hard disk size: 512MB
+     Virtual hard disk format: VHDX
+     Virtual hard disk type: Fixed size
+
+  2. Detach VHDX
+
+  3. Execute `qemu-img info win.vhdx` gives the result:
+     image: win.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 516M
+     cluster_size: 33554432
+
+  Comparison with qemu-img under Ubuntu:
+
+  1. Version: qemu-img version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.16),
+  Copyright (c) 2004-2008 Fabrice Bellard
+
+  2. qemu-img create -f vhdx -o subformat=3Dfixed lin.vhdx 512M
+     Formatting 'lin.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576 =
+block_size=3D0 subformat=3Dfixed
+
+  3. qemu-img info lin.vhdx
+     image: lin.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 520M
+     cluster_size: 8388608
+
+  4. Load lin.vhdx under Windows 10 is ok
+
+  The same thing happens on `vpc` format with or without
+  `oformat=3Dfixed`, it seems that windows version of qemu-img has some
+  incorrect operation? My guess is that windows version of qemu-img
+  doesn't handle the description field of vpc/vhdx, which leads to an
+  incorrect `disk size` field.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1759522/+subscriptions
 
