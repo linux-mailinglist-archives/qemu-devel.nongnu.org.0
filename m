@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2467835B9AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 06:56:28 +0200 (CEST)
-Received: from localhost ([::1]:41538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F7935B9A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 06:53:13 +0200 (CEST)
+Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVocd-0004bE-5s
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 00:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
+	id 1lVoZT-0000Lo-5z
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 00:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUS-0002ZJ-2S
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28836)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUU-0002fc-Ae
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUQ-0003nM-4i
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:47:59 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUS-0003ok-N4
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618202877;
+ s=mimecast20190719; t=1618202880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LN0xH3C3qMqfLIZmSWiLqVHOmS6YNnB0KuOfm+Qk2WM=;
- b=WJHBEvIJJgXr4hK49w3TbSBrR0nfsiVQIncxb64Ztr4cLuFPmDI5+GIAYihmKEfDKgUge/
- jnYA4X6+wwccF+U2BZtRQ8LzUUhUqNkr1RfwWNWX5R8WyANrxPan8t7jNSfPBz0WqvWTEI
- BOGJLbT0UHeapExqVVQFY1iPBQf32BA=
+ bh=+Yg/S4TEfOTqfq2+7EOjZ9XPtL2XkUQNXvTbMinAUes=;
+ b=T/noi2H3gP7D3anKsOaS0rHhK+DNISN7sxVxe7eUKRXQ/Ixa77mgMmHF0s9y9/lES1tigY
+ qks6Eu5nCZMzxB+VGQUxwfkdvM+JCAIJhtWenbiwrDKYTwzAd7voDvbal7WdTLtMT/sZpf
+ LK/QS499V/dml2gaBm2Je1ZWW5Kigtk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-hRHSJ8r8PXqeSTcBqAUoPQ-1; Mon, 12 Apr 2021 00:47:56 -0400
-X-MC-Unique: hRHSJ8r8PXqeSTcBqAUoPQ-1
+ us-mta-299-mxtLHFRROr6V5qjZGRDd-A-1; Mon, 12 Apr 2021 00:47:58 -0400
+X-MC-Unique: mxtLHFRROr6V5qjZGRDd-A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12E89801814;
- Mon, 12 Apr 2021 04:47:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBBAD18397A7;
+ Mon, 12 Apr 2021 04:47:56 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-108.rdu2.redhat.com
  [10.10.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65C1910016FD;
- Mon, 12 Apr 2021 04:47:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C1091045E81;
+ Mon, 12 Apr 2021 04:47:55 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/11] Acceptance Tests: add basic documentation on
- LinuxTest base class
-Date: Mon, 12 Apr 2021 00:46:42 -0400
-Message-Id: <20210412044644.55083-10-crosa@redhat.com>
+Subject: [PATCH v3 10/11] Acceptance Tests: introduce CPU hotplug test
+Date: Mon, 12 Apr 2021 00:46:43 -0400
+Message-Id: <20210412044644.55083-11-crosa@redhat.com>
 In-Reply-To: <20210412044644.55083-1-crosa@redhat.com>
 References: <20210412044644.55083-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -90,52 +89,66 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Even though there are qtest based tests for hotplugging CPUs (from
+which this test took some inspiration from), this one adds checks
+from a Linux guest point of view.
+
+It should also serve as an example for tests that follow a similar
+pattern and need to interact with QEMU (via qmp) and with the Linux
+guest via SSH.
+
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- docs/devel/testing.rst | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ tests/acceptance/hotplug_cpu.py | 37 +++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 tests/acceptance/hotplug_cpu.py
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 1da4c4e4c4e..4e423928106 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -810,6 +810,32 @@ and hypothetical example follows:
- At test "tear down", ``avocado_qemu.Test`` handles all the QEMUMachines
- shutdown.
- 
-+The ``avocado_qemu.LinuxTest`` base test class
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/tests/acceptance/hotplug_cpu.py b/tests/acceptance/hotplug_cpu.py
+new file mode 100644
+index 00000000000..6374bf1b546
+--- /dev/null
++++ b/tests/acceptance/hotplug_cpu.py
+@@ -0,0 +1,37 @@
++# Functional test that hotplugs a CPU and checks it on a Linux guest
++#
++# Copyright (c) 2021 Red Hat, Inc.
++#
++# Author:
++#  Cleber Rosa <crosa@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+The ``avocado_qemu.LinuxTest`` is further specialization of the
-+``avocado_qemu.Test`` class, so it contains all the characteristics of
-+the later plus some extra features.
-+
-+First of all, this base class is intended for tests that need to
-+interact with a fully booted and operational Linux guest.  At this
-+time, it uses a Fedora 31 guest image.  The most basic example looks
-+like this:
-+
-+.. code::
-+
-+  from avocado_qemu import LinuxTest
++from avocado_qemu import LinuxTest
 +
 +
-+  class SomeTest(LinuxTest):
++class HotPlugCPU(LinuxTest):
 +
-+      def test(self):
-+          self.launch_and_wait()
-+          self.ssh_command('some_command_to_be_run_in_the_guest')
++    def test(self):
++        """
++        :avocado: tags=arch:x86_64
++        :avocado: tags=machine:q35
++        :avocado: tags=accel:kvm
++        """
++        self.require_accelerator('kvm')
++        self.vm.add_args('-accel', 'kvm')
++        self.vm.add_args('-cpu', 'Haswell')
++        self.vm.add_args('-smp', '1,sockets=1,cores=2,threads=1,maxcpus=2')
++        self.launch_and_wait()
 +
-+Please refer to tests that use ``avocado_qemu.LinuxTest`` under
-+``tests/acceptance`` for more examples.
++        self.ssh_command('test -e /sys/devices/system/cpu/cpu0')
++        with self.assertRaises(AssertionError):
++            self.ssh_command('test -e /sys/devices/system/cpu/cpu1')
 +
- QEMUMachine
- ~~~~~~~~~~~
- 
++        self.vm.command('device_add',
++                        driver='Haswell-x86_64-cpu',
++                        socket_id=0,
++                        core_id=1,
++                        thread_id=0)
++        self.ssh_command('test -e /sys/devices/system/cpu/cpu1')
 -- 
 2.30.2
 
