@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A4035C7F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:52:06 +0200 (CEST)
-Received: from localhost ([::1]:33620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0879135C7FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 15:53:56 +0200 (CEST)
+Received: from localhost ([::1]:38322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVwyz-0005Qp-RZ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
+	id 1lVx0l-0007Lp-2n
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 09:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lVwtA-0007XX-Nk; Mon, 12 Apr 2021 09:46:04 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2199)
+ id 1lVwta-0007r7-RO; Mon, 12 Apr 2021 09:46:30 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lVwt3-0004lJ-5f; Mon, 12 Apr 2021 09:46:02 -0400
-Received: from DGGEML403-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FJqgT6z7lz5ptB;
- Mon, 12 Apr 2021 21:43:01 +0800 (CST)
+ id 1lVwtW-0004z8-MS; Mon, 12 Apr 2021 09:46:29 -0400
+Received: from DGGEML402-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FJqgB1sX7zWX8l;
+ Mon, 12 Apr 2021 21:42:46 +0800 (CST)
 Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEML403-HUB.china.huawei.com (10.3.17.33) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 12 Apr 2021 21:45:52 +0800
+ DGGEML402-HUB.china.huawei.com (10.3.17.38) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Mon, 12 Apr 2021 21:46:21 +0800
 Received: from [10.174.185.210] (10.174.185.210) by
  dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Mon, 12 Apr 2021 21:45:52 +0800
-Subject: Re: [RFC PATCH 2/3] vfio: Add vfio_prereg_listener_log_sync in nested
- stage
+ 15.1.2106.2; Mon, 12 Apr 2021 21:46:21 +0800
+Subject: Re: [RFC PATCH 3/3] hw/arm/smmuv3: Post-load stage 1 configurations
+ to the host
 To: Auger Eric <eric.auger@redhat.com>, Peter Maydell
  <peter.maydell@linaro.org>, Alex Williamson <alex.williamson@redhat.com>,
  "open list:ARM SMMU" <qemu-arm@nongnu.org>, "open list:All patches CC here"
  <qemu-devel@nongnu.org>
 References: <20210219094230.231-1-jiangkunkun@huawei.com>
- <20210219094230.231-3-jiangkunkun@huawei.com>
- <c6ee5401-ccb6-1259-f7db-c3f97ff39256@redhat.com>
+ <20210219094230.231-4-jiangkunkun@huawei.com>
+ <dcfa967a-056f-b15c-6a39-0638e6a52a88@redhat.com>
 From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <89bef82f-7ec4-63ea-f0c0-95b45d425c83@huawei.com>
-Date: Mon, 12 Apr 2021 21:45:51 +0800
+Message-ID: <953170e8-faba-79d2-5f13-9b8f224f223b@huawei.com>
+Date: Mon, 12 Apr 2021 21:46:21 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <c6ee5401-ccb6-1259-f7db-c3f97ff39256@redhat.com>
+In-Reply-To: <dcfa967a-056f-b15c-6a39-0638e6a52a88@redhat.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [10.174.185.210]
 X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
  dggema765-chm.china.huawei.com (10.1.198.207)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -77,88 +77,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Eric,
 
-On 2021/4/8 21:56, Auger Eric wrote:
+On 2021/4/12 16:34, Auger Eric wrote:
 > Hi Kunkun,
->
 > On 2/19/21 10:42 AM, Kunkun Jiang wrote:
->> On Intel, the DMA mapped through the host single stage. Instead
->> we set up the stage 2 and stage 1 separately in nested mode as there
->> is no "Caching Mode".
-> You need to rewrite the above sentences, Missing ARM and also the 1st
-> sentences misses a verb.
-Thanks for your review! I will fix it in the next version.
->> Legacy vfio_listener_log_sync cannot be used in nested stage as we
->> don't need to pay close attention to stage 1 mapping. This patch adds
->> vfio_prereg_listener_log_sync to mark dirty pages in nested mode.
+>> In nested mode, we call the set_pasid_table() callback on each STE
+>> update to pass the guest stage 1 configuration to the host and
+>> apply it at physical level.
 >>
+>> In the case of live migration, we need to manual call the
+> s/manual/manually
+You are right.
+>> set_pasid_table() to load the guest stage 1 configurations to the
+>> host. If this operation is fail, the migration is fail.
+> s/If this operation is fail, the migration is fail/If this operation
+> fails, the migration fails.
+Thanks for your careful review.
 >> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 >> ---
->>   hw/vfio/common.c | 25 +++++++++++++++++++++++++
->>   1 file changed, 25 insertions(+)
+>>   hw/arm/smmuv3.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++
+>>   hw/arm/trace-events |  1 +
+>>   2 files changed, 61 insertions(+)
 >>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 7c50905856..af333e0dee 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -1216,6 +1216,22 @@ static int vfio_dma_sync_ram_section_dirty_bitmap(VFIOContainer *container,
->>                          int128_get64(section->size), ram_addr);
+>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+>> index 6c6ed84e78..94ca15375c 100644
+>> --- a/hw/arm/smmuv3.c
+>> +++ b/hw/arm/smmuv3.c
+>> @@ -1473,6 +1473,65 @@ static void smmu_realize(DeviceState *d, Error **errp)
+>>       smmu_init_irq(s, dev);
 >>   }
 >>   
->> +static void vfio_prereg_listener_log_sync(MemoryListener *listener,
->> +                                          MemoryRegionSection *section)
->> +{
->> +    VFIOContainer *container =
->> +        container_of(listener, VFIOContainer, prereg_listener);
->> +
->> +    if (!memory_region_is_ram(section->mr) ||
->> +        !container->dirty_pages_supported) {
->> +        return;
->> +    }
->> +
->> +    if (vfio_devices_all_saving(container)) {
-> I fail to see where is this defined?
-Keqian modified vfio_devices_all_saving to vfio_devices_all_dirty_tracking
-in 758b96b61d5.
+>> +static int smmuv3_manual_set_pci_device_pasid_table(SMMUDevice *sdev)
+> Can't you retrieve the associated sid and then call
+> smmuv3_notify_config_change()
+Agreed. It can reuse the code of smmuv3_notify_config_change().
+I will modify it in the next version.😁
 
-When I posted this series patches, it was vfio_devices_all_saving. In 
-v2[1], I
-have updated it based on the lasted qemu.
-
-[1] 
-https://lore.kernel.org/qemu-devel/20210331101259.2153-3-jiangkunkun@huawei.com/
+But I need a return value to judge whether it is successful, which
+may need to modify the type of smmuv3_notify_config_change().
 
 Thanks,
 Kunkun Jiang
->> +        vfio_dma_sync_ram_section_dirty_bitmap(container, section);
+>> +{
+>> +#ifdef __linux__
+>> +    IOMMUMemoryRegion *mr = &(sdev->iommu);
+>> +    int sid = smmu_get_sid(sdev);
+>> +    SMMUEventInfo event = {.type = SMMU_EVT_NONE, .sid = sid,
+>> +                           .inval_ste_allowed = true};
+>> +    IOMMUConfig iommu_config = {};
+>> +    SMMUTransCfg *cfg;
+>> +    int ret = -1;
+>> +
+>> +    cfg = smmuv3_get_config(sdev, &event);
+>> +    if (!cfg) {
+>> +        return ret;
 >> +    }
+>> +
+>> +    iommu_config.pasid_cfg.argsz = sizeof(struct iommu_pasid_table_config);
+>> +    iommu_config.pasid_cfg.version = PASID_TABLE_CFG_VERSION_1;
+>> +    iommu_config.pasid_cfg.format = IOMMU_PASID_FORMAT_SMMUV3;
+>> +    iommu_config.pasid_cfg.base_ptr = cfg->s1ctxptr;
+>> +    iommu_config.pasid_cfg.pasid_bits = 0;
+>> +    iommu_config.pasid_cfg.vendor_data.smmuv3.version = PASID_TABLE_SMMUV3_CFG_VERSION_1;
+>> +
+>> +    if (cfg->disabled || cfg->bypassed) {
+>> +        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_BYPASS;
+>> +    } else if (cfg->aborted) {
+>> +        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_ABORT;
+>> +    } else {
+>> +        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_TRANSLATE;
+>> +    }
+>> +
+>> +    ret = pci_device_set_pasid_table(sdev->bus, sdev->devfn, &iommu_config);
+>> +    if (ret) {
+>> +        error_report("Failed to pass PASID table to host for iommu mr %s (%m)",
+>> +                     mr->parent_obj.name);
+>> +    }
+>> +
+>> +    return ret;
+>> +#endif
 >> +}
 >> +
->>   typedef struct {
->>       IOMMUNotifier n;
->>       VFIOGuestIOMMU *giommu;
->> @@ -1260,6 +1276,14 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
->>       if (memory_region_is_iommu(section->mr)) {
->>           VFIOGuestIOMMU *giommu;
->>   
->> +        /*
->> +         * In nested mode, stage 2 and stage 1 are set up separately. We
->> +         * only need to focus on stage 2 mapping when marking dirty pages.
->> +         */
->> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->> +            return 0;
->> +        }
+>> +static int smmuv3_post_load(void *opaque, int version_id)
+>> +{
+>> +    SMMUv3State *s3 = opaque;
+>> +    SMMUState *s = &(s3->smmu_state);
+>> +    SMMUDevice *sdev;
+>> +    int ret = 0;
 >> +
->>           QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
->>               if (MEMORY_REGION(giommu->iommu) == section->mr &&
->>                   giommu->n.start == section->offset_within_region) {
->> @@ -1312,6 +1336,7 @@ static const MemoryListener vfio_memory_listener = {
->>   static MemoryListener vfio_memory_prereg_listener = {
->>       .region_add = vfio_prereg_listener_region_add,
->>       .region_del = vfio_prereg_listener_region_del,
->> +    .log_sync = vfio_prereg_listener_log_sync,
->>   };
+>> +    QLIST_FOREACH(sdev, &s->devices_with_notifiers, next) {
+>> +        trace_smmuv3_post_load_sdev(sdev->devfn, sdev->iommu.parent_obj.name);
+>> +        ret = smmuv3_manual_set_pci_device_pasid_table(sdev);
+>> +        if (ret) {
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>>   static const VMStateDescription vmstate_smmuv3_queue = {
+>>       .name = "smmuv3_queue",
+>>       .version_id = 1,
+>> @@ -1491,6 +1550,7 @@ static const VMStateDescription vmstate_smmuv3 = {
+>>       .version_id = 1,
+>>       .minimum_version_id = 1,
+>>       .priority = MIG_PRI_IOMMU,
+>> +    .post_load = smmuv3_post_load,
+>>       .fields = (VMStateField[]) {
+>>           VMSTATE_UINT32(features, SMMUv3State),
+>>           VMSTATE_UINT8(sid_size, SMMUv3State),
+>> diff --git a/hw/arm/trace-events b/hw/arm/trace-events
+>> index 35e562ab74..caa864dd72 100644
+>> --- a/hw/arm/trace-events
+>> +++ b/hw/arm/trace-events
+>> @@ -53,4 +53,5 @@ smmuv3_notify_flag_add(const char *iommu) "ADD SMMUNotifier node for iommu mr=%s
+>>   smmuv3_notify_flag_del(const char *iommu) "DEL SMMUNotifier node for iommu mr=%s"
+>>   smmuv3_inv_notifiers_iova(const char *name, uint16_t asid, uint64_t iova, uint8_t tg, uint64_t num_pages) "iommu mr=%s asid=%d iova=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64
+>>   smmuv3_notify_config_change(const char *name, uint8_t config, uint64_t s1ctxptr) "iommu mr=%s config=%d s1ctxptr=0x%"PRIx64
+>> +smmuv3_post_load_sdev(int devfn, const char *name) "sdev devfn=%d iommu mr=%s"PRIx64
 >>   
->>   static void vfio_listener_release(VFIOContainer *container)
 >>
 > Thanks
 >
