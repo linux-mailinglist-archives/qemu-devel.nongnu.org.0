@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA59535BC3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 10:33:39 +0200 (CEST)
-Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7A735BCBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 10:44:50 +0200 (CEST)
+Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVs0o-0004r0-VA
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 04:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60938)
+	id 1lVsBd-0003nm-LE
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 04:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lVrv6-000754-E9
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:27:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lVrv3-0002MG-93
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:27:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618216059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8/F6U9aDnaryN8IDSgqu6Yd6GDsy7N4pJFGS7Yl27yc=;
- b=X706MjgD/ZYu0Oof59RbP7pEa7gCzCwHNAVGxejtHIK+QWWhNjqaVJ1x4S7iYAAp3A36qV
- 773ix+FF9uhr+RaYo3/zJZMEaQ/2Koujk4FEHEabFwcI7+AvUZ2N12NKFYZNEkVEx/X6GS
- ++vmaCNM1IStr/c1xLGknlpNA7UcIgk=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-GlJpeetyN6yEAYrIOPlPLg-1; Mon, 12 Apr 2021 04:27:38 -0400
-X-MC-Unique: GlJpeetyN6yEAYrIOPlPLg-1
-Received: by mail-pg1-f199.google.com with SMTP id m5so5850212pgm.11
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 01:27:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8/F6U9aDnaryN8IDSgqu6Yd6GDsy7N4pJFGS7Yl27yc=;
- b=e51OqogZ1D2sk2qAu3BCTFQwFG0LA9YvKFbI4Kj9087eJ2Plu5+/gjW9PPaPeC7+SU
- LO1c/vS4891dVaYTvpsfhe8kDlloLwA46tbwV/ij4EsYo7K75zTpn3uaYD7B2cvY6u/+
- d1jWnLVlooCpWJbBtqmBGQadMGAL6vM1VULTMaJ8s8p/26mY82gM3U5LKml8ypBxV2Kj
- o/5lEYI3Hr77n7x5uizWDuNg+UVTlkNf3JfipTtN8lJJ+OYN7WzttUnEbFcHkMK7mvBH
- St9RUM9k7efxWxAjRc2qAQ06wvZfbnpeCq93YDQY/lRMgXBDaODw8zKNqbj3cs6PtlWJ
- mQRQ==
-X-Gm-Message-State: AOAM5339cWGthATc/bo64SF+1WuLrIKFZv6vfUvXFg978XiSyRfPqX4e
- h6BxHDRwXg0hToeskeZcevaKTLSaPkL3DX+cMx6iMA05yLBni8oRWPiv9r9mmPw4Gtsa0zD7Yff
- 4k7XEPTpvMVckt26GLrI22tcl0ChT3LQ=
-X-Received: by 2002:a65:5bca:: with SMTP id o10mr26228624pgr.248.1618216057312; 
- Mon, 12 Apr 2021 01:27:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIGm+FRKbviWc3z2oN31iLDPKwdCmUoIr/Q22RxuFHJsrsC77fapyxcC95DTI38txtqzFhb61E9MPqZGQ9dpE=
-X-Received: by 2002:a65:5bca:: with SMTP id o10mr26228603pgr.248.1618216056999; 
- Mon, 12 Apr 2021 01:27:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lVs8N-0001Tt-JY
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:41:28 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lVs88-0001IJ-UE
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:41:24 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lVs85-00073O-Sd
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 08:41:09 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B96972E804C
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 08:41:09 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210408093824.14985-1-lulu@redhat.com>
- <20210408093824.14985-7-lulu@redhat.com>
- <24719d4b-824b-3f0c-2322-71b53a6e8c3d@redhat.com>
-In-Reply-To: <24719d4b-824b-3f0c-2322-71b53a6e8c3d@redhat.com>
-From: Cindy Lu <lulu@redhat.com>
-Date: Mon, 12 Apr 2021 16:27:00 +0800
-Message-ID: <CACLfguX_swvzuHDihYMAhOh5vALcMZ_g7XdzgpSxp8FF10z+Wg@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] virtio-pci: add support for configure interrupt
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Mon, 12 Apr 2021 08:27:45 -0000
+From: Andy Whitcroft <1915063@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux-oem-5.10;
+ component=main; status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux-oem-5.6;
+ component=main; status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: apw babumoger dober60 imammedo markrhpearson
+ paelzer sergiodj ubuntu-kernel-bot
+X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Modifier: Andy Whitcroft (apw)
+References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
+Message-Id: <161821606521.31106.3659638568785960345.malone@gac.canonical.com>
+Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
+X-Launchpad-Hash: cd42e784a3fff60c8628b55066aa8ab1385ff555
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,240 +79,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 9, 2021 at 3:39 PM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/4/8 =E4=B8=8B=E5=8D=885:38, Cindy Lu =E5=86=99=E9=81=93:
-> > Add support for configure interrupt, use kvm_irqfd_assign and set the
-> > gsi to kernel. When the configure notifier was eventfd_signal by host
-> > kernel, this will finally inject an msix interrupt to guest
-> >
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > ---
-> >   hw/virtio/virtio-pci.c | 91 ++++++++++++++++++++++++++++++++++++++++-=
--
-> >   1 file changed, 88 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > index 481f6e7505..7b02f42c06 100644
-> > --- a/hw/virtio/virtio-pci.c
-> > +++ b/hw/virtio/virtio-pci.c
-> > @@ -664,7 +664,6 @@ static uint32_t virtio_read_config(PCIDevice *pci_d=
-ev,
-> >   }
-> >
-> >   static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
-> > -                                        unsigned int queue_no,
-> >                                           unsigned int vector)
-> >   {
-> >       VirtIOIRQFD *irqfd =3D &proxy->vector_irqfd[vector];
-> > @@ -726,7 +725,7 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy=
- *proxy, int nvqs)
-> >           if (vector >=3D msix_nr_vectors_allocated(dev)) {
-> >               continue;
-> >           }
-> > -        ret =3D kvm_virtio_pci_vq_vector_use(proxy, queue_no, vector);
-> > +        ret =3D kvm_virtio_pci_vq_vector_use(proxy,  vector);
-> >           if (ret < 0) {
-> >               goto undo;
-> >           }
-> > @@ -760,6 +759,56 @@ undo:
-> >       }
-> >       return ret;
-> >   }
-> > +static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-> > +{
-> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
-> > +    unsigned int vector;
-> > +    int ret;
-> > +    EventNotifier *n =3D virtio_get_config_notifier(vdev);
-> > +    vector =3D vdev->config_vector ;
-> > +    ret =3D kvm_virtio_pci_vq_vector_use(proxy, vector);
-> > +    if (ret < 0) {
-> > +        goto undo;
-> > +    }
-> > +    ret =3D kvm_virtio_pci_irqfd_use(proxy,  n, vector);
->
->
-> So the kvm_virtio_pci_vector_use() has the following codes:
->
->          /* If guest supports masking, set up irqfd now.
->           * Otherwise, delay until unmasked in the frontend.
->           */
->          if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
->              vq =3D virtio_get_queue(vdev, queue_no);
->              n =3D virtio_queue_get_guest_notifier(vq);
->              ret =3D kvm_virtio_pci_irqfd_use(proxy, n, vector);
->              if (ret < 0) {
->                  kvm_virtio_pci_vq_vector_release(proxy, vector);
->                  goto undo;
->              }
->          }
->
-> Do we need to check the masking support here as well?
->
-> Btw, I think we can factor out the core logic (decouple the queue_no) of
-> kvm_virtio_pci_vector_user() and let it be reused by config interrupt.
->
-sure , I will rewrite this part
->
-> > +    if (ret < 0) {
-> > +        goto undo;
-> > +    }
-> > +    return 0;
-> > +undo:
-> > +    kvm_virtio_pci_irqfd_release(proxy, n, vector);
-> > +    return ret;
-> > +}
-> > +static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy=
-)
-> > +{
-> > +    PCIDevice *dev =3D &proxy->pci_dev;
-> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
-> > +    unsigned int vector;
-> > +    EventNotifier *n =3D virtio_get_config_notifier(vdev);
-> > +    vector =3D vdev->config_vector ;
-> > +    if (vector >=3D msix_nr_vectors_allocated(dev)) {
-> > +        return;
-> > +    }
-> > +    kvm_virtio_pci_irqfd_release(proxy, n, vector);
-> > +    kvm_virtio_pci_vq_vector_release(proxy, vector);
-> > +}
-> > +static int virtio_pci_set_config_notifier(DeviceState *d,  bool assign=
-)
-> > +{
-> > +    VirtIOPCIProxy *proxy =3D to_virtio_pci_proxy(d);
-> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
-> > +    EventNotifier *notifier =3D virtio_get_config_notifier(vdev);
-> > +    int r =3D 0;
-> > +    if (assign) {
-> > +        r =3D event_notifier_init(notifier, 0);
-> > +        virtio_set_config_notifier_fd_handler(vdev, true, true);
-> > +        kvm_virtio_pci_vector_config_use(proxy);
-> > +    } else {
-> > +        virtio_set_config_notifier_fd_handler(vdev, false, true);
->
->
-> So let's try to unify the codes between this and
-> virtio_queue_set_guest_notifier_fd_handler(). Bascailly it's just
-> decouple virtqueue *.
->
-sure will fix this
->
-> > +        kvm_virtio_pci_vector_config_release(proxy);
-> > +        event_notifier_cleanup(notifier);
-> > +    }
-> > +    return r;
-> > +}
-> >
-> >   static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int =
-nvqs)
-> >   {
-> > @@ -858,6 +907,14 @@ static int virtio_pci_vector_unmask(PCIDevice *dev=
-, unsigned vector,
-> >       EventNotifier *n;
-> >       int ret, index, unmasked =3D 0;
-> >
-> > +   if (vdev->use_config_notifier =3D=3D true) {
-> > +        n =3D virtio_get_config_notifier(vdev);
-> > +        ret =3D virtio_pci_vq_vector_unmask(proxy, 0, vector, msg,
-> > +                    VIRTIO_CONFIG_VECTOR, n);
-> > +        if (ret < 0) {
-> > +            goto config_undo;
-> > +       }
-> > +    }
-> >       while (vq) {
-> >           index =3D virtio_get_queue_index(vq);
-> >           if (!virtio_queue_get_num(vdev, index)) {
-> > @@ -889,6 +946,10 @@ undo:
-> >           }
-> >           vq =3D virtio_vector_next_queue(vq);
-> >       }
-> > + config_undo:
-> > +            n =3D virtio_get_config_notifier(vdev);
-> > +            virtio_pci_vq_vector_mask(proxy, 0, vector,
-> > +                VIRTIO_CONFIG_VECTOR, n);
-> >       return ret;
-> >   }
-> >
-> > @@ -900,6 +961,10 @@ static void virtio_pci_vector_mask(PCIDevice *dev,=
- unsigned vector)
-> >       EventNotifier *n;
-> >       int index;
-> >
-> > +   if (vdev->use_config_notifier =3D=3D true) {
->
->
-> Is this sufficient to know the vector is used by config interrupt?
->
->
-> > +        n =3D virtio_get_config_notifier(vdev);
-> > +        virtio_pci_vq_vector_mask(proxy, 0, vector, VIRTIO_CONFIG_VECT=
-OR, n);
-> > +   }
-> >       while (vq) {
-> >           index =3D virtio_get_queue_index(vq);
-> >            n =3D virtio_queue_get_guest_notifier(vq);
-> > @@ -945,6 +1010,21 @@ static void virtio_pci_vector_poll(PCIDevice *dev=
-,
-> >               msix_set_pending(dev, vector);
-> >           }
-> >       }
-> > +   if (vdev->use_config_notifier =3D=3D true) {
-> > +        vector =3D vdev->config_vector;
-> > +        notifier =3D virtio_get_config_notifier(vdev);
-> > +        if (vector < vector_start || vector >=3D vector_end ||
-> > +            !msix_is_masked(dev, vector)) {
-> > +            return;
-> > +        }
-> > +        if (k->guest_notifier_pending) {
-> > +            if (k->guest_notifier_pending(vdev, 0,  VIRTIO_CONFIG_VECT=
-OR)) {
-> > +                msix_set_pending(dev, vector);
-> > +            }
-> > +        } else if (event_notifier_test_and_clear(notifier)) {
-> > +            msix_set_pending(dev, vector);
-> > +        }
-> > +    }
->
->
-> Let's unify the code here with the code that deal with vq vectors in the
-> loop above.
->
-> Thanks
->
->
-> >   }
-> >
-> >   static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool =
-assign,
-> > @@ -1032,6 +1112,10 @@ static int virtio_pci_set_guest_notifiers(Device=
-State *d, int nvqs, bool assign)
-> >                   goto assign_error;
-> >               }
-> >           }
-> > +            r =3D virtio_pci_set_config_notifier(d, assign);
-> > +            if (r < 0) {
-> > +                goto config_error;
-> > +         }
-> >           r =3D msix_set_vector_notifiers(&proxy->pci_dev,
-> >                                         virtio_pci_vector_unmask,
-> >                                         virtio_pci_vector_mask,
-> > @@ -1048,7 +1132,8 @@ notifiers_error:
-> >           assert(assign);
-> >           kvm_virtio_pci_vector_release(proxy, nvqs);
-> >       }
-> > -
-> > + config_error:
-> > +        kvm_virtio_pci_vector_config_release(proxy);
-> >   assign_error:
-> >       /* We get here on assignment failure. Recover by undoing for VQs =
-0 .. n. */
-> >       assert(assign);
->
+The commit in question is marked for stable:
 
+  commit 841c2be09fe4f495fe5224952a419bd8c7e5b455
+  Author: Maxim Levitsky <mlevitsk@redhat.com>
+  Date:   Wed Jul 8 14:57:31 2020 +0300
+
+    kvm: x86: replace kvm_spec_ctrl_test_value with runtime test on the host
+    =
+
+    To avoid complex and in some cases incorrect logic in
+    kvm_spec_ctrl_test_value, just try the guest's given value on the host
+    processor instead, and if it doesn't #GP, allow the guest to set it.
+    =
+
+    One such case is when host CPU supports STIBP mitigation
+    but doesn't support IBRS (as is the case with some Zen2 AMD cpus),
+    and in this case we were giving guest #GP when it tried to use STIBP
+    =
+
+    The reason why can can do the host test is that IA32_SPEC_CTRL msr is
+    passed to the guest, after the guest sets it to a non zero value
+    for the first time (due to performance reasons),
+    and as as result of this, it is pointless to emulate #GP condition on
+    this first access, in a different way than what the host CPU does.
+    =
+
+    This is based on a patch from Sean Christopherson, who suggested this i=
+dea.
+    =
+
+    Fixes: 6441fa6178f5 ("KVM: x86: avoid incorrect writes to host MSR_IA32=
+_SPEC_CTRL")
+    Cc: stable@vger.kernel.org
+    Suggested-by: Sean Christopherson <sean.j.christopherson@intel.com>
+    Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+    Message-Id: <20200708115731.180097-1-mlevitsk@redhat.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+It appears to be in `v5.4.102` which is currently queued up for the
+cycle following the one just starting.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915063
+
+Title:
+  Windows 10 wil not install using qemu-system-x86_64
+
+Status in QEMU:
+  New
+Status in linux package in Ubuntu:
+  Confirmed
+Status in linux-oem-5.10 package in Ubuntu:
+  Fix Released
+Status in linux-oem-5.6 package in Ubuntu:
+  Confirmed
+Status in qemu package in Ubuntu:
+  Invalid
+
+Bug description:
+  Steps to reproduce
+  install virt-manager and ovmf if nopt already there
+  copy windows and virtio iso files to /var/lib/libvirt/images
+
+  Use virt-manager from local machine to create your VMs with the disk, CPU=
+s and memory required
+      Select customize configuration then select OVMF(UEFI) instead of seab=
+ios
+      set first CDROM to the windows installation iso (enable in boot optio=
+ns)
+      add a second CDROM and load with the virtio iso
+  	change spice display to VNC
+
+    Always get a security error from windows and it fails to launch the ins=
+taller (works on RHEL and Fedora)
+  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
+ of no help
+  --- =
+
+  ProblemType: Bug
+  ApportVersion: 2.20.11-0ubuntu27.14
+  Architecture: amd64
+  CasperMD5CheckResult: skip
+  CurrentDesktop: ubuntu:GNOME
+  DistributionChannelDescriptor:
+   # This is the distribution channel descriptor for the OEM CDs
+   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
+criptor
+   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
+d64+X00
+  DistroRelease: Ubuntu 20.04
+  InstallationDate: Installed on 2021-01-20 (19 days ago)
+  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
+0-14:39
+  MachineType: LENOVO 30E102Z
+  NonfreeKernelModules: nvidia_modeset nvidia
+  Package: linux (not installed)
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcFB: 0 EFI VGA
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
+=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
+andoff=3D7
+  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
+  RelatedPackageVersions:
+   linux-restricted-modules-5.6.0-1042-oem N/A
+   linux-backports-modules-5.6.0-1042-oem  N/A
+   linux-firmware                          1.187.8
+  RfKill:
+   =
+
+  Tags:  focal
+  Uname: Linux 5.6.0-1042-oem x86_64
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
+udo
+  _MarkForUpload: True
+  dmi.bios.date: 07/29/2020
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: S07KT08A
+  dmi.board.name: 1046
+  dmi.board.vendor: LENOVO
+  dmi.board.version: Not Defined
+  dmi.chassis.type: 3
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: None
+  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
+pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
+  dmi.product.family: INVALID
+  dmi.product.name: 30E102Z
+  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
+  dmi.product.version: ThinkStation P620
+  dmi.sys.vendor: LENOVO
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
 
