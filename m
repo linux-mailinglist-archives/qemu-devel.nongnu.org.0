@@ -2,72 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE3B35B9A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 06:56:19 +0200 (CEST)
-Received: from localhost ([::1]:40970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A04535B9CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 07:29:14 +0200 (CEST)
+Received: from localhost ([::1]:57964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVocU-0004Gp-U6
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 00:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45526)
+	id 1lVp8L-0004ZC-Mc
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 01:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lVoYE-0007ov-US
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:51:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38891)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lVp4N-0000ql-Pv; Mon, 12 Apr 2021 01:25:07 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44223 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lVoY9-0006BL-22
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:51:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618203107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QrZ45x1F6WDPkVCBKsw+h2B05yaMjyHiV3BdO2i7jEk=;
- b=dCVdgW+tIjHk/GFJgjZNoHN0pAZeBcKD6nTvC2X4nxisJhFYRJLrRcEMD+wVEwOYx+Q6Tx
- h/4J5a9QHMOTxiEt4Nwf/imJubEus/CkRdUfzzJ4x9DQUCz1QN2ohrf9HhGhsek+eYzBDn
- OolNPysfSe8CgWM0vR+ZQigIAyQQlWE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-NzAgFfnwNdO1xA8qYKD_vA-1; Mon, 12 Apr 2021 00:51:43 -0400
-X-MC-Unique: NzAgFfnwNdO1xA8qYKD_vA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBDAE18397A0;
- Mon, 12 Apr 2021 04:51:42 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-84.ams2.redhat.com [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C8BB10016FD;
- Mon, 12 Apr 2021 04:51:41 +0000 (UTC)
-To: Chetan <chetan4windows@gmail.com>, qemu-devel@nongnu.org
-References: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Better alternative to strncpy in QEMU.
-Message-ID: <162f832d-ea91-a8f4-6f1d-56cda086f481@redhat.com>
-Date: Mon, 12 Apr 2021 06:51:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lVp4M-0000mb-0J; Mon, 12 Apr 2021 01:25:07 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FJccj3MDYz9sW4; Mon, 12 Apr 2021 15:24:53 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1618205093;
+ bh=VLqHunKUnpe9/OHM2mXxI6mfgz08vquBH2TnKFWmAs8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I6Bxl4wHVw1CWZXr9g3Q7ppsvowvVet54pCs97Jef7E5Sj3ev73DitdEWTojrhZL3
+ jWGKB60/gVK6wL+AAQlNTVXEpXSYDixUb+PkdQmQ72gXUveyFP1qUbAug8WSp6Wx5J
+ HT+6+UUBSm9XY7OU8kK3NkYJbmQHB68Q0lLzMaXo=
+Date: Mon, 12 Apr 2021 14:32:21 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [RFC PATCH 0/4] target/ppc: add disable-tcg option
+Message-ID: <YHPNVUlnHWu5rU+I@yekko.fritz.box>
+References: <20210409151916.97326-1-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-In-Reply-To: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="30SGiYMsI+T/OSZq"
+Content-Disposition: inline
+In-Reply-To: <20210409151916.97326-1-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,117 +57,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, andre.silva@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, lagarcia@br.ibm.com, matheus.ferst@eldorado.org.br,
+ luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/04/2021 15.50, Chetan wrote:
-> Hello All,
-> 
-> This mail is in reference to one of the tasks mentioned in 
-> '/Contribute/BiteSizedTasks/' in QEMU wiki, under '/API conversion/' which 
-> states to introduce a better alternative to strncpy function.
 
-Looks like this task has been added by Paolo, so I'm adding him to Cc: now.
+--30SGiYMsI+T/OSZq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-( 
-https://wiki.qemu.org/index.php?title=Contribute/BiteSizedTasks&diff=9130&oldid=9045 
-)
+For future reference, please CC me explicitly on things you'd like me
+to review.  I do scan the qemu-ppc@nongnu.org list, but it makes it
+easier for me to find (and less likely that I'll accidentally overlook
+it) if I'm also CCed directly.
 
-> I've drafted 
-> and tested below implementation for the same. Before proceeding with any 
-> changes in QEMU code can you all please go through it and suggest 
-> changes/corrections if required.
-> 
-> //* This function is introduced in place of strncpy(), it asserts if destination
->   * is large enough to fit strlen(source)+1 bytes and guarantees null 
-> termination
->   * in destination string.
->   *
->   * char source[], is expecting a pointer to the source where data should be 
-> copied
->   * from.
->   *
->   * char destination[], is expecting a pointer to the destination where data 
-> should
->   * be copied to.
->   *
->   * size_t destination_size, is expecting size of destination.
->   * In case of char[], sizeof() function can be used to find the size.
->   * In case of char *, provide value which was passed to malloc() function for
->   * memory allocation.
->   */
-> char *qemu_strncpy(char destination[], char source[], size_t destination_size)
+On Fri, Apr 09, 2021 at 12:19:12PM -0300, Bruno Larsen (billionai) wrote:
+> This patch series aims to add the option to build without TCG for the
+> powerpc target. This RFC shows mostly the strategies employed when
+> dealing with compilation problems, and ask for input on the bits
+> we don't quite understand yet.
+>=20
+> The first patch mostly code motion, as referenced in 2021-04/msg0717.
+> The second patch shows the 2 strategies we've considered, and hope to
+> get feedback on. The third patch contains the stubs we haven't decided
+> on how to deal with yet, but needed to exist to compile the project.
+> The final patch just changes the meson.build rules
+>=20
+> Bruno Larsen (billionai) (4):
+>   target/ppc: Code motion required to build disabling tcg
+>   target/ppc: added solutions for problems encountered when building
+>     with disable-tcg
+>   target/ppc: Add stubs for tcg functions, so it build with disable-tcg
+>   target/ppc: updated build rules for disable-tcg option
+>=20
+>  target/ppc/arch_dump.c          |   17 +
+>  target/ppc/cpu.c                |  859 +++++++++++++++++++++++
+>  target/ppc/cpu.h                |   15 +
+>  target/ppc/gdbstub.c            |  253 +++++++
+>  target/ppc/kvm.c                |   30 +
+>  target/ppc/kvm_ppc.h            |   11 +
+>  target/ppc/machine.c            |   33 +-
+>  target/ppc/meson.build          |   22 +-
+>  target/ppc/tcg-stub.c           |  139 ++++
+>  target/ppc/translate_init.c.inc | 1148 +------------------------------
+>  10 files changed, 1407 insertions(+), 1120 deletions(-)
+>  create mode 100644 target/ppc/tcg-stub.c
+>=20
 
-Please use "*destination" and "*source" instead of "destination[]" and 
-"source[]" here.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> {
->      /* Looping through the array and copying the characters from
->       * source to destination.
->       */
->      for (int i = 0; i < strlen(source); i++) {
->          destination[i] = source[i];
-> 
->          /* Check if value of i is equal to the second last index
->           * of destination array and if condition is true, mark last
->           * index as NULL and break from the loop.
->           */
->          if (i == (destination_size - 2)) {
->              destination[destination_size - 1] = '\0';
->              break;
->          }
->      }
->      return destination;
-> }
+--30SGiYMsI+T/OSZq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I think this is pretty much the same as g_strlcpy() from the glib:
+-----BEGIN PGP SIGNATURE-----
 
-https://developer.gnome.org/glib/2.66/glib-String-Utility-Functions.html#g-strlcpy
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmBzzVUACgkQbDjKyiDZ
+s5IYFw/6A8mWAJZqxXVdOjisyRXAbOreK7Peb/U5CUaEWmnG0nGGMFuzqZqIRMqX
+OJzE+5AVIW3e53e/ewCusrIUb+Ff00LjJFuufYGghD+/w3If3Sf8XBamETTayj2W
+/k2PLXu2vel/04AQuJezFlX8cBDyeNfzjGp33Qsq08EiMy8wO7ypM//XD4HUm0im
+WRVA8R/oAP6Ywa9V0JGEEeZk6nn8/qFsqsewwj0I68YgDWmmQWMkh60T8yAjqAIN
+nXjLNm0+4ksJ0DxZrhxTBrQ54S9CODHguXxOOb9N8M+tWfifxlnikYYcQ8DQojUo
+jdKZfjyB4bdthf9qfELXIvL4zat2lsAs3Dk5w6UV+fpQyOGJ55qR5kQCErM2suRv
+FVEr+1KLvkPQ1rsR/ACmpLVTc4DXDz3hIKgyB6sHpx1a4caEGGqpfWZYk7bwSXO4
+PkUrxRJMtW59FvR9rusnOWUpY/n/BcDljnqMXy+wIx31kLsmp1boniU1ztzFGbI/
+Il+JxjswL/iuuYwdG32NIrc2ynMqEIgxBkd6IomC5CeVcTjqvP3GOpO1K8AkN9zX
+vyBdfJ95onByFD1xWuckB39Dm+l5J9rNP6l6gkAyjohgMUi1RxT2LwmHHPDpwREj
+iLkEwC17lRbrWXR5GrlQvkqknmtYv/0/KACpYdn+kXnLjcvrQdQ=
+=Bl4o
+-----END PGP SIGNATURE-----
 
-So I guess Paolo had something different in mind when adding this task?
-
-> /* This function is introduced in place of strncpy(), it asserts if destination
->   * is large enough to fit strlen(source) bytes and does not guarantee null
->   * termination in destination string.
->   *
->   * char source[], is expecting a pointer to the source where data should be 
-> copied
->   * from.
->   *
->   * char destination[], is expecting a pointer to the destination where data 
-> should
->   * be copied to.
->   *
->   * size_t destination_size, is expecting size of destination.
->   * In case of char[], sizeof() function can be used to find the size.
->   * In case of char *, provide value which was passed to malloc() function for
->   * memory allocation.
->   */
-> char *qemu_strncpy_nonul(char destination[], char source[], size_t 
-> destination_size)
-> {
->      /* Looping through the array and copying the characters from
->       * source to destination.
->       */
->      for (int i = 0; i < strlen(source); i++) {
->          destination[i] = source[i];
-> 
->          /* Check if value of i is equal to the last index
->           * of the destination array and if condition is true,
->           * break from the loop.
->           */
->          if (i == (destination_size - 1)) {
->              break;
->          }
->      }
->      return destination;
-> } /
-
-I'm not sure what's the improvement over strncpy() here? Paolo, could you 
-elaborate?
-(Note that we also have some functions like strpadcpy() in QEMU already, 
-which can be used in similar ways)
-
-  Thomas
-
+--30SGiYMsI+T/OSZq--
 
