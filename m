@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877CA35C411
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:33:56 +0200 (CEST)
-Received: from localhost ([::1]:48772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15C035C427
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:38:54 +0200 (CEST)
+Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVttD-0007sx-L1
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
+	id 1lVty1-0004QY-Ow
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVtrM-0006dV-1S
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:32:00 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52846)
+ id 1lVtrN-0006dq-9S
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:32:01 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVtrI-0000GU-B8
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:31:59 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id y204so5095998wmg.2
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 03:31:55 -0700 (PDT)
+ id 1lVtrJ-0000GX-17
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:32:01 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id p6so5638851wrn.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 03:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9+bh8eVoMeOAJ6lrKtP7/rJGWDFxQo0M/ATCBKga2/g=;
- b=yyaHmiiUIpTITKA4nBFBtOrKKVDMiv7KTikHRufqxuLDh7T4+uo6dI+7Lo1UB0g39l
- sMfn599ARc2Rs3hGd71boUBZJN1qGLkQFHOWL6CIk/hxXJvKWz6eWwJjRS/qGcVuGqmy
- 7gxUksX2PveHpwLYZ2N0bg+OSnIU/QjqN31Ei9ZuUPnFEoCaxCfEfMG4XFQps17eikBZ
- hOVFU7F8qeyI+OUeIYhAsvJmecfuSVAZh8t5nY+DRuz9XX0KTnVUpsrI5f5kD0/r7PkL
- 8wIgxgvQ5yUwTPJNoQOU4wMSsPl4qjWlhdtqIbryYR9eIQyYJxqo3qOnlmx4EG2l1Q9b
- T7+Q==
+ bh=WFLJbGhE1omvnPeejul3ZahtYgEU6PZGKxsRZGCHWNM=;
+ b=pAD706xVHuk+aXwxiv2xa6iyV0rSBlBFOlChgP7eohjTBo8RMvqg5rnYG8EwWtgd7x
+ /LsnvWbCOW7sk2kfEO0NmsKecepfhZxu/IXHwTnd99WWsCEOPfgJAj/IYxyp5JNasLbC
+ OgwLGV6BW8u+XVCQkRRGxVH0CRzwnC4bMNJ8GIOS1DrI4hbhKQ4Dto0VlEUl0ypCEBPv
+ 59DbpUj8tQb+yCIWMGxqQ2pwjot/NSqtZl8od1YmLthDV9l5LXO9do0wkvW1Qpc4ZYk4
+ lB63ZtNqbM1qICT3SFNXmu8O9+gqz6duXlWhd51ei2GD6NCtVKm74NFvc3Lmxml2QdQC
+ /v4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9+bh8eVoMeOAJ6lrKtP7/rJGWDFxQo0M/ATCBKga2/g=;
- b=XIHHGneshCPuNxkCUYg3zgLjLFSpDQUdXyS8f0sHUQizooV6Z5hh+kRHfOYkEY/Ebd
- 6XaUksbidchnuhMqz/HEV8nDHFnfeZphHjCAPYXmorgbHdpli2GWERxGsZvQHrQpDHYH
- gyCYUSOGRQm2Mu02BWv37Ku5x0BIlVmmFtadUWf/xkeDbaZBJd6wWivRKlukCn5ihgrp
- cUx06ToSaZItzQNtfWsLMqEGF38MOrlg4IiG62JOUJ9HyBPVXZpCP86EyUpX5WBnSOI4
- BazhXAKhzLeHcj27hRGXXeoh+PtlyVbfIudG1uzD/5j8hGVLlK3RosO9zl7NkOBV+FmA
- WtMg==
-X-Gm-Message-State: AOAM532TsRV3h0sWiRgoA2v8MLztPkVH+aP0BF3C/yU41lhVmwqIoQn4
- SEohbO9kJ+BmzeNziq90xTpV/iG8ruXrq9tX
-X-Google-Smtp-Source: ABdhPJx2ZW1+o1UFMeMdOHlIUFh/nj6AK6FKSqIClsPgnki6VyAjVY9xIP9a04j7RdLGaFH4PcD+LA==
-X-Received: by 2002:a1c:2587:: with SMTP id
- l129mr25800038wml.135.1618223515098; 
+ bh=WFLJbGhE1omvnPeejul3ZahtYgEU6PZGKxsRZGCHWNM=;
+ b=bosUQ+pvE7ghg5YlvOMjin4Ts6c+qjjsSB1FhRyTeMiallsI7xOLGju/Amz/+JjJAy
+ qzHDPliXXF6k3nU5hzLvsLkIOh4TKfmwQ0U7lflkpiT0imrdbLXxhu7fydIuIBk1aoF9
+ ReLUqkJfQmMOPGIcqFP+Ela3deLph0/sFFl0gnnqE96ZPK9mjnhcvxhbt1r0++eLFgZk
+ NA3qRNWxRpb8UlATLsuYQ9FyJlJwW3gB1QNp5P82+pVvFXqwloMGemahky0C2gXzMEll
+ beg8y2i0ehJKKSMUDSEmVd8w1WH/Df01l01qHKP5sAx/IEahE5goonRHacBOfhLv/XT2
+ cm4Q==
+X-Gm-Message-State: AOAM531RZv/p9m8YUelrHuml11ew86oeEY38HqG34nth/jyd9FQx28Rw
+ DNMINREzsyM7P6SSedk2atyedaksRsXLHPk5
+X-Google-Smtp-Source: ABdhPJw2DVe0bGXFHY95xq/aXhT4e3oaPgrBm2HExgMZ6pGhF2Om1uTEt7NUedq7WorJRCvvqnlh3A==
+X-Received: by 2002:a05:6000:1449:: with SMTP id
+ v9mr7045567wrx.295.1618223515716; 
  Mon, 12 Apr 2021 03:31:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d2sm16878651wrq.26.2021.04.12.03.31.54
+ by smtp.gmail.com with ESMTPSA id d2sm16878651wrq.26.2021.04.12.03.31.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 03:31:54 -0700 (PDT)
+ Mon, 12 Apr 2021 03:31:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] hw/arm/smmuv3: Emulate CFGI_STE_RANGE for an aligned range
- of StreamIDs
-Date: Mon, 12 Apr 2021 11:31:49 +0100
-Message-Id: <20210412103152.28433-3-peter.maydell@linaro.org>
+Subject: [PULL 3/5] accel/tcg: Preserve PAGE_ANON when changing page
+ permissions
+Date: Mon, 12 Apr 2021 11:31:50 +0100
+Message-Id: <20210412103152.28433-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210412103152.28433-1-peter.maydell@linaro.org>
 References: <20210412103152.28433-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,60 +89,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-In emulation of the CFGI_STE_RANGE command, we now take StreamID as the
-start of the invalidation range, regardless of whatever the Range is,
-whilst the spec clearly states that
+Using mprotect() to change PROT_* does not change the MAP_ANON
+previously set with mmap().  Our linux-user version of MTE only
+works with MAP_ANON pages, so losing PAGE_ANON caused MTE to
+stop working.
 
- - "Invalidation is performed for an *aligned* range of 2^(Range+1)
-    StreamIDs."
-
- - "The bottom Range+1 bits of the StreamID parameter are IGNORED,
-    aligning the range to its size."
-
-Take CFGI_ALL (where Range == 31) as an example, if there are some random
-bits in the StreamID field, we'll fail to perform the full invalidation but
-get a strange range (e.g., SMMUSIDRange={.start=1, .end=0}) instead. Rework
-the emulation a bit to get rid of the discrepancy with the spec.
-
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Acked-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20210402100449.528-1-yuzenghui@huawei.com
+Reported-by: Stephen Long <steplong@quicinc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ tests/tcg/aarch64/mte.h           |  3 ++-
+ accel/tcg/translate-all.c         |  9 +++++--
+ tests/tcg/aarch64/mte-6.c         | 43 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  2 +-
+ 4 files changed, 53 insertions(+), 4 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-6.c
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 3b87324ce22..87056125357 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -980,16 +980,20 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
-         }
-         case SMMU_CMD_CFGI_STE_RANGE: /* same as SMMU_CMD_CFGI_ALL */
-         {
--            uint32_t start = CMD_SID(&cmd);
-+            uint32_t sid = CMD_SID(&cmd), mask;
-             uint8_t range = CMD_STE_RANGE(&cmd);
--            uint64_t end = start + (1ULL << (range + 1)) - 1;
--            SMMUSIDRange sid_range = {start, end};
-+            SMMUSIDRange sid_range;
+diff --git a/tests/tcg/aarch64/mte.h b/tests/tcg/aarch64/mte.h
+index 141cef522ce..0805676b116 100644
+--- a/tests/tcg/aarch64/mte.h
++++ b/tests/tcg/aarch64/mte.h
+@@ -48,7 +48,8 @@ static void enable_mte(int tcf)
+     }
+ }
  
-             if (CMD_SSEC(&cmd)) {
-                 cmd_error = SMMU_CERROR_ILL;
-                 break;
-             }
--            trace_smmuv3_cmdq_cfgi_ste_range(start, end);
+-static void *alloc_mte_mem(size_t size)
++static void * alloc_mte_mem(size_t size) __attribute__((unused));
++static void * alloc_mte_mem(size_t size)
+ {
+     void *p = mmap(NULL, size, PROT_READ | PROT_WRITE | PROT_MTE,
+                    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index f32df8b2404..ba6ab09790e 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2714,6 +2714,8 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+        a missing call to h2g_valid.  */
+     assert(end - 1 <= GUEST_ADDR_MAX);
+     assert(start < end);
++    /* Only set PAGE_ANON with new mappings. */
++    assert(!(flags & PAGE_ANON) || (flags & PAGE_RESET));
+     assert_memory_lock();
+ 
+     start = start & TARGET_PAGE_MASK;
+@@ -2737,11 +2739,14 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+             p->first_tb) {
+             tb_invalidate_phys_page(addr, 0);
+         }
+-        if (reset_target_data && p->target_data) {
++        if (reset_target_data) {
+             g_free(p->target_data);
+             p->target_data = NULL;
++            p->flags = flags;
++        } else {
++            /* Using mprotect on a page does not change MAP_ANON. */
++            p->flags = (p->flags & PAGE_ANON) | flags;
+         }
+-        p->flags = flags;
+     }
+ }
+ 
+diff --git a/tests/tcg/aarch64/mte-6.c b/tests/tcg/aarch64/mte-6.c
+new file mode 100644
+index 00000000000..60d51d18be5
+--- /dev/null
++++ b/tests/tcg/aarch64/mte-6.c
+@@ -0,0 +1,43 @@
++#include "mte.h"
 +
-+            mask = (1ULL << (range + 1)) - 1;
-+            sid_range.start = sid & ~mask;
-+            sid_range.end = sid_range.start + mask;
++void pass(int sig, siginfo_t *info, void *uc)
++{
++    assert(info->si_code == SEGV_MTESERR);
++    exit(0);
++}
 +
-+            trace_smmuv3_cmdq_cfgi_ste_range(sid_range.start, sid_range.end);
-             g_hash_table_foreach_remove(bs->configs, smmuv3_invalidate_ste,
-                                         &sid_range);
-             break;
++int main(void)
++{
++    enable_mte(PR_MTE_TCF_SYNC);
++
++    void *brk = sbrk(16);
++    if (brk == (void *)-1) {
++        perror("sbrk");
++        return 2;
++    }
++
++    if (mprotect(brk, 16, PROT_READ | PROT_WRITE | PROT_MTE)) {
++        perror("mprotect");
++        return 2;
++    }
++
++    int *p1, *p2;
++    long excl = 1;
++
++    asm("irg %0,%1,%2" : "=r"(p1) : "r"(brk), "r"(excl));
++    asm("gmi %0,%1,%0" : "+r"(excl) : "r"(p1));
++    asm("irg %0,%1,%2" : "=r"(p2) : "r"(brk), "r"(excl));
++    asm("stg %0,[%0]" : : "r"(p1));
++
++    *p1 = 0;
++
++    struct sigaction sa;
++    memset(&sa, 0, sizeof(sa));
++    sa.sa_sigaction = pass;
++    sa.sa_flags = SA_SIGINFO;
++    sigaction(SIGSEGV, &sa, NULL);
++
++    *p2 = 0;
++
++    abort();
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 56e48f4b34f..05b2622bfc9 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -37,7 +37,7 @@ AARCH64_TESTS += bti-2
+ 
+ # MTE Tests
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
+-AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4
++AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4 mte-6
+ mte-%: CFLAGS += -march=armv8.5-a+memtag
+ endif
+ 
 -- 
 2.20.1
 
