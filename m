@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F7935B9A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 06:53:13 +0200 (CEST)
-Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E53C35B9A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 06:54:14 +0200 (CEST)
+Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVoZT-0000Lo-5z
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 00:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
+	id 1lVoaT-00024h-86
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 00:54:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUU-0002fc-Ae
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47862)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUX-0002nK-6I
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUS-0003ok-N4
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:02 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lVoUV-0003qI-JO
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 00:48:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618202880;
+ s=mimecast20190719; t=1618202882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Yg/S4TEfOTqfq2+7EOjZ9XPtL2XkUQNXvTbMinAUes=;
- b=T/noi2H3gP7D3anKsOaS0rHhK+DNISN7sxVxe7eUKRXQ/Ixa77mgMmHF0s9y9/lES1tigY
- qks6Eu5nCZMzxB+VGQUxwfkdvM+JCAIJhtWenbiwrDKYTwzAd7voDvbal7WdTLtMT/sZpf
- LK/QS499V/dml2gaBm2Je1ZWW5Kigtk=
+ bh=S4WCkBxyZU3cfuKdTFOlr6FcEBFKfNtplswuIubowvo=;
+ b=CfqwEPZDO+Ac1491gx6zKMrfq/uMK4xMZPXSiOEUQfsP6k9DVYz4GXUjD70TduOv4/BpCO
+ EdY+G1NCj84j7cMkYeeyHhdCATF3WVwiAG/LTcIeQ1GHysMpiS6c6kTz6N3MS9qIj7Kfcd
+ qZvIuf+yl+hmS8Yx8mMMoXXSV3ChaT8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-mxtLHFRROr6V5qjZGRDd-A-1; Mon, 12 Apr 2021 00:47:58 -0400
-X-MC-Unique: mxtLHFRROr6V5qjZGRDd-A-1
+ us-mta-384-SqPogXHsNCmQdTZYW70JFQ-1; Mon, 12 Apr 2021 00:47:59 -0400
+X-MC-Unique: SqPogXHsNCmQdTZYW70JFQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBBAD18397A7;
- Mon, 12 Apr 2021 04:47:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756B118397A0;
+ Mon, 12 Apr 2021 04:47:58 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-108.rdu2.redhat.com
  [10.10.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C1091045E81;
- Mon, 12 Apr 2021 04:47:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11F0D10016FD;
+ Mon, 12 Apr 2021 04:47:56 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/11] Acceptance Tests: introduce CPU hotplug test
-Date: Mon, 12 Apr 2021 00:46:43 -0400
-Message-Id: <20210412044644.55083-11-crosa@redhat.com>
+Subject: [PATCH v3 11/11] tests/acceptance/virtiofs_submounts.py: fix setup of
+ SSH pubkey
+Date: Mon, 12 Apr 2021 00:46:44 -0400
+Message-Id: <20210412044644.55083-12-crosa@redhat.com>
 In-Reply-To: <20210412044644.55083-1-crosa@redhat.com>
 References: <20210412044644.55083-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +55,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,75 +81,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- John Snow <jsnow@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even though there are qtest based tests for hotplugging CPUs (from
-which this test took some inspiration from), this one adds checks
-from a Linux guest point of view.
+The public key argument should be a path to a file, and not the
+public key data.
 
-It should also serve as an example for tests that follow a similar
-pattern and need to interact with QEMU (via qmp) and with the Linux
-guest via SSH.
-
+Reported-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
- tests/acceptance/hotplug_cpu.py | 37 +++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 tests/acceptance/hotplug_cpu.py
+ tests/acceptance/virtiofs_submounts.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/hotplug_cpu.py b/tests/acceptance/hotplug_cpu.py
-new file mode 100644
-index 00000000000..6374bf1b546
---- /dev/null
-+++ b/tests/acceptance/hotplug_cpu.py
-@@ -0,0 +1,37 @@
-+# Functional test that hotplugs a CPU and checks it on a Linux guest
-+#
-+# Copyright (c) 2021 Red Hat, Inc.
-+#
-+# Author:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from avocado_qemu import LinuxTest
-+
-+
-+class HotPlugCPU(LinuxTest):
-+
-+    def test(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=machine:q35
-+        :avocado: tags=accel:kvm
-+        """
-+        self.require_accelerator('kvm')
-+        self.vm.add_args('-accel', 'kvm')
-+        self.vm.add_args('-cpu', 'Haswell')
-+        self.vm.add_args('-smp', '1,sockets=1,cores=2,threads=1,maxcpus=2')
-+        self.launch_and_wait()
-+
-+        self.ssh_command('test -e /sys/devices/system/cpu/cpu0')
-+        with self.assertRaises(AssertionError):
-+            self.ssh_command('test -e /sys/devices/system/cpu/cpu1')
-+
-+        self.vm.command('device_add',
-+                        driver='Haswell-x86_64-cpu',
-+                        socket_id=0,
-+                        core_id=1,
-+                        thread_id=0)
-+        self.ssh_command('test -e /sys/devices/system/cpu/cpu1')
+diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
+index d77ee356740..21ad7d792e7 100644
+--- a/tests/acceptance/virtiofs_submounts.py
++++ b/tests/acceptance/virtiofs_submounts.py
+@@ -195,7 +195,7 @@ def setUp(self):
+ 
+         self.run(('ssh-keygen', '-N', '', '-t', 'ed25519', '-f', self.ssh_key))
+ 
+-        pubkey = open(self.ssh_key + '.pub').read()
++        pubkey = self.ssh_key + '.pub'
+ 
+         super(VirtiofsSubmountsTest, self).setUp(pubkey)
+ 
 -- 
 2.30.2
 
