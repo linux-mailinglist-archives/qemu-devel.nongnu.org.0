@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F5E35C1C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 11:52:35 +0200 (CEST)
-Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6198E35C363
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 12:11:57 +0200 (CEST)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVtFB-0004h6-Kf
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 05:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53656)
+	id 1lVtXv-0000mn-TY
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 06:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVtDq-0004F8-Lc
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:51:11 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:33595)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lVtDm-0000qu-Tk
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 05:51:10 -0400
-Received: by mail-ej1-x634.google.com with SMTP id g5so12531529ejx.0
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 02:51:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BVIGGTt1CSdr/2VL7K/FlJDtgKsvD0UqtKIL8DN6zC4=;
- b=R0E+2cGt0/nRb5E49XVWCYwhcK/9wxLX8BWdk5xJXzSYsya38Dm+DiMi/2MSB0W1wD
- KcLeUBg/uMkeKBaBx8yW79GsGObQz7gZsOX1b4sYXnA1pnuaMBF45GGVzJJaF9p4jFOh
- xfJSo9MlOlVaLjVhWp8OC+sQDMrrr6AoHOmChz4tyizmXBdHLRaU0foLA4zMjttvNscb
- NVG6C+UjnZbpbFjqV0eFM/uJUTpwa5PVpB3JCAcHMwrEtB0qRVpCPjKZ2c0Qft13KnUu
- CuoOHzCv4v1eT3jorJIb1RKtibuHs+3SySFNfGvjMtc6lh43qWpAT7rHKn6JEcvSrzem
- JZog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BVIGGTt1CSdr/2VL7K/FlJDtgKsvD0UqtKIL8DN6zC4=;
- b=WgbCELuKZC6x7kGCpVKrXK56H3HrZINXwDH4jHpZPvRMHKXkymE8k5xiEiSCDz2GF0
- aTCsLI4pI9Uvp6Bt0JruhU+PDqaDM0IoMkem9j0rc6uxZkvGaIeOHnD6MzD+q7xWm4dQ
- P9XoGf71HJqaBcv1dWMNGzNR/YbfZU1ZtesF5bh5iNfcMdNOzuu/BJqeycke3xrEUVbr
- ZPR4rcNREORPmbAw2iLA1jCUNZ3M61MfW7LFYR5emYzRZW1CIAeY1Vj1jw08BaP0S5V6
- JeSh9JdhQTUmz64CCyKniRnxjF7CAZqmw5xN9vkmxZi7hEguBFpZr3UVu3Spv+xeIcF3
- P3gw==
-X-Gm-Message-State: AOAM5318Bc8/5Ld5xfL3EhoBE9xOWfPCuIJa5qcdrVKbOx4XDJieNAxy
- ke0/+OwMpGoTSj9ZDlsRTEVBOnAkSfspwfq2y+CXGg==
-X-Google-Smtp-Source: ABdhPJxWUEzVo1NlULRNQzvLV9JZqr3C7XNZocQ66fJHCgCYaJJ0EgiN4bhIewA/SliPoBK/wzJLqj0dOcxzkxeKMD8=
-X-Received: by 2002:a17:906:8303:: with SMTP id
- j3mr7122136ejx.85.1618221065123; 
- Mon, 12 Apr 2021 02:51:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lVtWk-0000Ku-Jj
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lVtWg-0004eg-6O
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 06:10:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618222235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GWO8vlWyT31vGKOspiGjCwX9E4b5Tgoca9yRawvAb+A=;
+ b=alyzJ3aUL8DNi2z8vqAL6xHZDHCPFIL1B7OpAbYkTjVCsh7Fw9DAM60CuPk6BtLf4wq/1n
+ vD4TzWTIQGzcioBEWb+YKiRfpQZQbwv3b33cVh0B+acXcfyDGdCHBtGMko34Zp0C9CJcnf
+ BccjziTmCqV2SJXWoJmWlYGhEhtKHj8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-8U2rcaCLPvOviBHL1NzHog-1; Mon, 12 Apr 2021 06:10:33 -0400
+X-MC-Unique: 8U2rcaCLPvOviBHL1NzHog-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D05D8030B5;
+ Mon, 12 Apr 2021 10:10:32 +0000 (UTC)
+Received: from gondolin (ovpn-113-114.ams2.redhat.com [10.36.113.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0826610A8;
+ Mon, 12 Apr 2021 10:10:25 +0000 (UTC)
+Date: Mon, 12 Apr 2021 12:10:22 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v4 1/1] docs/devel: Add VFIO device migration documentation
+Message-ID: <20210412121022.48a66e07.cohuck@redhat.com>
+In-Reply-To: <20210409134346.16490-1-targupta@nvidia.com>
+References: <20210409134346.16490-1-targupta@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20210412091824.707855-1-stefanha@redhat.com>
- <942ea12a-d187-9533-eba6-298c4eb7d82d@redhat.com>
-In-Reply-To: <942ea12a-d187-9533-eba6-298c4eb7d82d@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Apr 2021 10:50:20 +0100
-Message-ID: <CAFEAcA-y8=pm03apz5JjkuMr8UesWrmB8Ors2dbG0jpqZpJniA@mail.gmail.com>
-Subject: Re: [PATCH v2] libqtest: refuse QTEST_QEMU_BINARY=qemu-kvm
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Qin Wang <qinwang@rehdat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kevin.tian@intel.com, cjia@nvidia.com, quintela@redhat.com,
+ alex.williamson@redhat.com, qemu-devel@nongnu.org, yan.y.zhao@intel.com,
+ lushenming@huawei.com, kwankhede@nvidia.com, dnigam@nvidia.com,
+ berrange@redhat.com, philmd@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Apr 2021 at 10:35, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 12/04/2021 11.18, Stefan Hajnoczi wrote:
-> > Some downstreams rename the QEMU binary to "qemu-kvm". This breaks
-> > qtest_get_arch(), which attempts to parse the target architecture from
-> > the QTEST_QEMU_BINARY environment variable.
-> >
-> > Print an error instead of returning the architecture "kvm". Things fail
-> > in weird ways when the architecture string is bogus.
-> >
-> > Arguably qtests should always be run in a build directory instead of
-> > against an installed QEMU. In any case, printing a clear error when this
-> > happens is helpful.
-> >
-> > Reported-by: Qin Wang <qinwang@rehdat.com>
-> > Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   tests/qtest/libqtest.c | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
-> >
-> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> > index 71e359efcd..7caf20f56b 100644
-> > --- a/tests/qtest/libqtest.c
-> > +++ b/tests/qtest/libqtest.c
-> > @@ -910,6 +910,16 @@ const char *qtest_get_arch(void)
-> >           abort();
-> >       }
-> >
-> > +    if (!strstr(qemu, "-system-")) {
-> > +        fprintf(stderr, "QTEST_QEMU_BINARY must end with *-system-<arch> where "
-> > +                        "'arch' is the target architecture (x86_64, aarch64, "
-> > +                        "etc). If you are using qemu-kvm or another custom "
-> > +                        "name, please create a symlink like ln -s "
-> > +                        "path/to/qemu-kvm qemu-system-x86_64 and use that "
-> > +                        "instead.\n");
->
-> The text is very long ... maybe add some \n to wrap it after 80 columns?
-> (also not sure whether we really need the second part about the symlink...
-> but I also don't mind leaving it in)
+On Fri, 9 Apr 2021 19:13:46 +0530
+Tarun Gupta <targupta@nvidia.com> wrote:
 
-Yeah, anybody who runs into this is doing something weird and can
-be assumed to be able to figure out how to do what they want with
-a name of the right form, I think. You'll never see it if you're
-just running 'make check'.
+> Document interfaces used for VFIO device migration. Added flow of state changes
+> during live migration with VFIO device.
+> 
+> Co-developed-by: Kirti Wankhede <kwankhede@nvidia.com>
 
-thanks
--- PMM
+This still needs Kirti's S-o-b as well (i.e. both tags need to be
+paired.)
+
+> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
+> ---
+> Tested by building docs with new vfio-migration.rst file
+> 
+> v4:
+> - Added info about vfio_listener_log_global_[start|stop]
+> - Added info about `save_state` callback.
+> - Incorporated comments from v3.
+> 
+> v3:
+> - Add introductory line about VM migration in general.
+> - Remove occurcences of vfio_pin_pages() to describe pinning.
+> - Incorporated comments from v2
+> 
+> v2:
+> - Included the new vfio-migration.rst file in index.rst
+> - Updated dirty page tracking section, also added details about
+>   'pre-copy-dirty-page-tracking' opt-out option.
+> - Incorporated comments around wording of doc.
+> 
+
+The change log and the other extra information also need to be followed
+by another '---'.
+
+>  MAINTAINERS                   |   1 +
+>  docs/devel/index.rst          |   1 +
+>  docs/devel/vfio-migration.rst | 150 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 152 insertions(+)
+>  create mode 100644 docs/devel/vfio-migration.rst
+
+Aside from the meta issues above, the patch looks good to me.
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
 
