@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1092435BAAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 09:15:50 +0200 (CEST)
-Received: from localhost ([::1]:32974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4266E35BADD
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 09:32:02 +0200 (CEST)
+Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVqnV-00015o-5M
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 03:15:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44694)
+	id 1lVr3A-0004s6-LI
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 03:32:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lVqmB-0000R9-Bq
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 03:14:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38774)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lVqyC-0004A7-05; Mon, 12 Apr 2021 03:26:52 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:35111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lVqm5-0008PT-4Z
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 03:14:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618211659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n8CC58ThBcckgdad4kxuTQECJOLFEFEFgDS546dumjQ=;
- b=GVRUNONacV6rCSPc2jYJYCOfwkTyKH/ISDQcJXLnwNAsAK2KCVGd2EzR/c5JFYyraGJodn
- 0fefeV7LqI9nkyftRTEoGNX1IXn7Uda20sEwlBpcYAfuSuRoi1p7ztB5ZheNC63+/la7KZ
- Bo+BVHJwpECo2wTXSVyszMIWgKi9VAk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-4IKZpwsNMJS2geheVRM5jA-1; Mon, 12 Apr 2021 03:14:15 -0400
-X-MC-Unique: 4IKZpwsNMJS2geheVRM5jA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88B8683DD21;
- Mon, 12 Apr 2021 07:14:14 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-232.pek2.redhat.com
- [10.72.13.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF8555C5FD;
- Mon, 12 Apr 2021 07:14:03 +0000 (UTC)
-Subject: Re: [PATCH 3/3] vhost-vdpa-blk: Introduce vhost-vdpa-blk host device
-To: Yongji Xie <xieyongji@bytedance.com>
-References: <20210408101252.552-1-xieyongji@bytedance.com>
- <20210408101252.552-4-xieyongji@bytedance.com>
- <bb1af0e4-de0d-fb84-0e8c-d725bfaf921c@redhat.com>
- <CACycT3skMQGoA8+SBMMwTj+SZsBZ7RiEQVo972HT6TBN5HrSuA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <b21f28cf-a36f-11b4-7bf6-bc68d461189d@redhat.com>
-Date: Mon, 12 Apr 2021 15:14:02 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lVqy3-0007gf-6f; Mon, 12 Apr 2021 03:26:49 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0F2BE580836;
+ Mon, 12 Apr 2021 03:26:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 12 Apr 2021 03:26:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=gtxeQUZnVCoyuhSca60DNdY5Fj8
+ ogVNPJXOSdvIFVM4=; b=ZiKG1SitdtLPwgSUqoTNPi5bLecc8RSbMqTLcS/ZptG
+ xszUeEZ0iBXyJTgngrPY6tXbg7FhekapFfWAhbj2vot59UDSq34wKaaROAeumsLb
+ ugYnVUKE7Xw/kE4XK96n8+zIvLrQbEqzLDIHu4PycW4/PKUTaZkwaTLLchWuJmoH
+ tBPZVXxJxxDFT/tN/4iaUo/djiMRiH2zE/RyDGjMdhU/Nl+91POxa/FE63fFaWYJ
+ 6ZT1eHIDyMcWHyvhOC9r/u6WaK0Xx+jnVs36iUF4nhZe3fDPCqhDsclWE5DY7u4J
+ 24lImSwrSRx0yCjVwl5rICyFeG0e6seZ2W40Ms3bmTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=gtxeQU
+ ZnVCoyuhSca60DNdY5Fj8ogVNPJXOSdvIFVM4=; b=vo1YSpwY5Gh7pKRMyT4GqV
+ JL29z5cmJdhPx0dA0rIJ5EM6yYOjYJx2OpefKdgURmBq6sHOtBTGqbD+Z/bDU5vu
+ DgbhLK8ra0f8xH9MdGvXnMYLzGo4kbkvGAomxZSQiM4H10sm6gYelzJeWt+lLd4s
+ t4LQEHB1iM7ZhEX4Mtwzf8IhwUqUYkeNKXSGt6iVRjDtcmmrMTsddFDWqw/qW4D3
+ LOjSBVsQFYLepmTkVywPfB1afQ7cQ9STYfEUZon9bYRuZYLyYoP/angaDzxY7Zdv
+ tRnPgzGHnxqMSc8ZdPtpr8LWMmK2smh83zmUb2wV7GYuSClU5pF4gxmpZ4efHoIw
+ ==
+X-ME-Sender: <xms:MPZzYKOrYogacNGtL-vl7KNS0vWNblztqnddrEzQtk4S84p_cfnd1w>
+ <xme:MPZzYI-icZRcID_hjssvJtZnb_NYV5RkIPDkclb8p0Lx7QzDsLAKYzXwJeALSPDKB
+ 2_tADEsrNSlX9zPDIg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekiedguddukecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhephfefheetfeeffedviefgheelgfehteffuedthfffgeevgeelhfduvdfhveeu
+ udevnecuffhomhgrihhnpegsuhhshigsohigrdhnvghtnecukfhppeektddrudeijedrle
+ ekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:MPZzYBQJoyG6wiaRYDhPznldzXLdOb-8xOnzQ7wogRu-6nySr4FHQw>
+ <xmx:MPZzYKtB5scIQ1u2ovAdTAsWzrKBEyjtTeatVg-cPnUuGekS-ZCwGQ>
+ <xmx:MPZzYCdc8Quer1RSKTj-pYTwWIHoLNix-8e5PR2Ro0g5SehY5flsZQ>
+ <xmx:MvZzYC4ji4y0RdMuulwXyRSq55qw54XX9TKWO_djsz8MfYJBfivzmA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C3468240054;
+ Mon, 12 Apr 2021 03:26:38 -0400 (EDT)
+Date: Mon, 12 Apr 2021 09:26:37 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-6.0 v2 6/8] hw/block/nvme: update dmsrl limit on
+ namespace detachment
+Message-ID: <YHP2LcqxvV7h6HHj@apples.localdomain>
+References: <20210405175452.37578-1-its@irrelevant.dk>
+ <20210405175452.37578-7-its@irrelevant.dk>
+ <fa06244b-b4d9-9edb-0fef-495a477bbe71@redhat.com>
+ <YGwMx5n2MzBkG8pQ@apples.localdomain>
+ <726df2a1-6e56-145f-9fa5-c5c94ec3b635@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CACycT3skMQGoA8+SBMMwTj+SZsBZ7RiEQVo972HT6TBN5HrSuA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nhYFfg4hEvgC6oru"
+Content-Disposition: inline
+In-Reply-To: <726df2a1-6e56-145f-9fa5-c5c94ec3b635@redhat.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,447 +99,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>, mreitz@redhat.com, changpeng.liu@intel.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/4/9 下午4:17, Yongji Xie 写道:
-> On Fri, Apr 9, 2021 at 2:02 PM Jason Wang <jasowang@redhat.com> wrote:
+--nhYFfg4hEvgC6oru
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Apr  9 19:39, Thomas Huth wrote:
+>On 06/04/2021 09.24, Klaus Jensen wrote:
+>>On Apr  6 09:10, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>On 4/5/21 7:54 PM, Klaus Jensen wrote:
+>>>>From: Klaus Jensen <k.jensen@samsung.com>
+>>>>
+>>>>The Non-MDTS DMSRL limit must be recomputed when namespaces are
+>>>>detached.
+>>>>
+>>>>Fixes: 645ce1a70cb6 ("hw/block/nvme: support namespace attachment comma=
+nd")
+>>>>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>>>>Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>>>>---
+>>>>  hw/block/nvme.c | 17 +++++++++++++++++
+>>>>  1 file changed, 17 insertions(+)
+>>>>
+>>>>diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>>>>index de0e726dfdd8..3dc51f407671 100644
+>>>>--- a/hw/block/nvme.c
+>>>>+++ b/hw/block/nvme.c
+>>>>@@ -4876,6 +4876,21 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeReques=
+t *req)
+>>>>      return NVME_NO_COMPLETE;
+>>>>  }
+>>>>+static void __nvme_update_dmrsl(NvmeCtrl *n)
+>>>>+{
+>>>>+    int nsid;
+>>>>+
+>>>>+    for (nsid =3D 1; nsid <=3D NVME_MAX_NAMESPACES; nsid++) {
+>>>>+        NvmeNamespace *ns =3D nvme_ns(n, nsid);
+>>>>+        if (!ns) {
+>>>>+            continue;
+>>>>+        }
+>>>>+
+>>>>+        n->dmrsl =3D MIN_NON_ZERO(n->dmrsl,
+>>>>+                                BDRV_REQUEST_MAX_BYTES / nvme_l2b(ns, =
+1));
+>>>>+    }
+>>>>+}
+>>>>+
+>>>>  static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
+>>>>  static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+>>>>  {
+>>>>@@ -4925,6 +4940,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, N=
+vmeRequest *req)
+>>>>              }
+>>>>              nvme_ns_detach(ctrl, ns);
+>>>>+
+>>>>+            __nvme_update_dmrsl(ctrl);
+>>>>          }
+>>>
+>>>Why the '__' prefix? It doesn't seem clearer (I'm not sure there is
+>>>a convention, it makes me think of a internal macro expansion use
+>>>for preprocessor).
+>>>
+>>>There are very few uses of this prefix:
+>>>
+>>>hw/9pfs/cofs.c:21:static ssize_t __readlink(V9fsState *s, V9fsPath
+>>>*path, V9fsString *buf)
+>>>hw/block/nvme.c:1683:static uint16_t __nvme_zrm_open(NvmeNamespace *ns,
+>>>NvmeZone *zone,
+>>>hw/block/nvme.c:1742:static void __nvme_advance_zone_wp(NvmeNamespace
+>>>*ns, NvmeZone *zone,
+>>>hw/block/nvme.c:5213:static void __nvme_select_ns_iocs(NvmeCtrl *n,
+>>>NvmeNamespace *ns)
+>>>hw/i386/amd_iommu.c:1160:static int __amdvi_int_remap_msi(AMDVIState *io=
+mmu,
+>>>hw/intc/s390_flic_kvm.c:255:static int __get_all_irqs(KVMS390FLICState
+>>>*flic,
+>>>hw/net/rocker/rocker_desc.c:199:static bool
+>>>__desc_ring_post_desc(DescRing *ring, int err)
+>>>hw/net/sungem.c:766:static uint16_t __sungem_mii_read(SunGEMState *s,
+>>>uint8_t phy_addr,
+>>>hw/ppc/ppc.c:867:static void __cpu_ppc_store_decr(PowerPCCPU *cpu,
+>>>uint64_t *nextp,
+>>>hw/s390x/pv.c:25:static int __s390_pv_cmd(uint32_t cmd, const char
+>>>*cmdname, void *data)
+>>>pc-bios/s390-ccw/cio.c:315:static int __do_cio(SubChannelId schid,
+>>>uint32_t ccw_addr, int fmt, Irb *irb)
+>>>target/ppc/mmu-hash64.c:170:static void __helper_slbie(CPUPPCState *env,
+>>>target_ulong addr,
+>>>
+>>>Thomas, Eric, is it worth cleaning these and updating the
+>>>'CODESTYLE.rst'?
+>>>
 >>
->> 在 2021/4/8 下午6:12, Xie Yongji 写道:
->>> This commit introduces a new vhost-vdpa block device, which
->>> will set up a vDPA device specified by a "vdpa-dev" parameter,
->>> something like:
->>>
->>> qemu-system-x86_64 \
->>>       -device vhost-vdpa-blk-pci,vdpa-dev=/dev/vhost-vdpa-0
->>>
->>> Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
->>> ---
->>>    hw/block/Kconfig                   |   5 +
->>>    hw/block/meson.build               |   1 +
->>>    hw/block/vhost-vdpa-blk.c          | 227 +++++++++++++++++++++++++++++
->>>    hw/virtio/meson.build              |   1 +
->>>    hw/virtio/vhost-vdpa-blk-pci.c     | 101 +++++++++++++
->>>    include/hw/virtio/vhost-vdpa-blk.h |  30 ++++
->>>    6 files changed, 365 insertions(+)
->>>    create mode 100644 hw/block/vhost-vdpa-blk.c
->>>    create mode 100644 hw/virtio/vhost-vdpa-blk-pci.c
->>>    create mode 100644 include/hw/virtio/vhost-vdpa-blk.h
->>>
->>> diff --git a/hw/block/Kconfig b/hw/block/Kconfig
->>> index 4fcd152166..4615a2c116 100644
->>> --- a/hw/block/Kconfig
->>> +++ b/hw/block/Kconfig
->>> @@ -41,5 +41,10 @@ config VHOST_USER_BLK
->>>        default y if VIRTIO_PCI
->>>        depends on VIRTIO && VHOST_USER && LINUX
->>>
->>> +config VHOST_VDPA_BLK
->>> +    bool
->>> +    default y if VIRTIO_PCI
->>> +    depends on VIRTIO && VHOST_VDPA && LINUX
->>> +
->>>    config SWIM
->>>        bool
->>> diff --git a/hw/block/meson.build b/hw/block/meson.build
->>> index 5862bda4cb..98f1fc330a 100644
->>> --- a/hw/block/meson.build
->>> +++ b/hw/block/meson.build
->>> @@ -17,5 +17,6 @@ softmmu_ss.add(when: 'CONFIG_NVME_PCI', if_true: files('nvme.c', 'nvme-ns.c', 'n
->>>
->>>    specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
->>>    specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-blk-common.c', 'vhost-user-blk.c'))
->>> +specific_ss.add(when: 'CONFIG_VHOST_VDPA_BLK', if_true: files('vhost-blk-common.c', 'vhost-vdpa-blk.c'))
->>>
->>>    subdir('dataplane')
->>> diff --git a/hw/block/vhost-vdpa-blk.c b/hw/block/vhost-vdpa-blk.c
->>> new file mode 100644
->>> index 0000000000..d5cbbbba10
->>> --- /dev/null
->>> +++ b/hw/block/vhost-vdpa-blk.c
->>> @@ -0,0 +1,227 @@
->>> +/*
->>> + * vhost-vdpa-blk host device
->>> + *
->>> + * Copyright (C) 2021 Bytedance Inc. and/or its affiliates. All rights reserved.
->>> + *
->>> + * Author:
->>> + *   Xie Yongji <xieyongji@bytedance.com>
->>> + *
->>> + * This work is licensed under the terms of the GNU GPL, version 2.  See
->>> + * the COPYING file in the top-level directory.
->>> + *
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "qapi/error.h"
->>> +#include "qemu/error-report.h"
->>> +#include "qemu/cutils.h"
->>> +#include "hw/qdev-core.h"
->>> +#include "hw/qdev-properties.h"
->>> +#include "hw/qdev-properties-system.h"
->>> +#include "hw/virtio/vhost.h"
->>> +#include "hw/virtio/vhost-vdpa-blk.h"
->>> +#include "hw/virtio/virtio.h"
->>> +#include "hw/virtio/virtio-bus.h"
->>> +#include "hw/virtio/virtio-access.h"
->>> +#include "sysemu/sysemu.h"
->>> +#include "sysemu/runstate.h"
->>> +
->>> +static const int vdpa_feature_bits[] = {
->>> +    VIRTIO_BLK_F_SIZE_MAX,
->>> +    VIRTIO_BLK_F_SEG_MAX,
->>> +    VIRTIO_BLK_F_GEOMETRY,
->>> +    VIRTIO_BLK_F_BLK_SIZE,
->>> +    VIRTIO_BLK_F_TOPOLOGY,
->>> +    VIRTIO_BLK_F_MQ,
->>> +    VIRTIO_BLK_F_RO,
->>> +    VIRTIO_BLK_F_FLUSH,
->>> +    VIRTIO_BLK_F_CONFIG_WCE,
->>> +    VIRTIO_BLK_F_DISCARD,
->>> +    VIRTIO_BLK_F_WRITE_ZEROES,
->>> +    VIRTIO_F_VERSION_1,
->>> +    VIRTIO_RING_F_INDIRECT_DESC,
->>> +    VIRTIO_RING_F_EVENT_IDX,
->>> +    VIRTIO_F_NOTIFY_ON_EMPTY,
->>> +    VHOST_INVALID_FEATURE_BIT
->>> +};
->>> +
->>> +static void vhost_vdpa_blk_set_status(VirtIODevice *vdev, uint8_t status)
->>> +{
->>> +    VHostVdpaBlk *s = VHOST_VDPA_BLK(vdev);
->>> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
->>> +    bool should_start = virtio_device_started(vdev, status);
->>> +    int ret;
->>> +
->>> +    if (!vdev->vm_running) {
->>> +        should_start = false;
->>> +    }
->>> +
->>> +    if (vbc->dev.started == should_start) {
->>> +        return;
->>> +    }
->>> +
->>> +    if (should_start) {
->>> +        ret = vhost_blk_common_start(vbc);
->>> +        if (ret < 0) {
->>> +            error_report("vhost-vdpa-blk: vhost start failed: %s",
->>> +                         strerror(-ret));
->>> +        }
->>> +    } else {
->>> +        vhost_blk_common_stop(vbc);
->>> +    }
->>> +
->>> +}
->>> +
->>> +static void vhost_vdpa_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->>> +{
->>> +    VHostVdpaBlk *s = VHOST_VDPA_BLK(vdev);
->>> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
->>> +    int i, ret;
+>>Yeah ok, I think you are right that there is no clear convention on when
+>>to use this or not. I typically just use it for functions that are
+>>normally not supposed to be called directly.
 >>
->> I believe we should never reach here, the backend should poll the
->> notifier and trigger vq handler there after DRIVER_OK?
->>
-> Some legacy virtio-blk driver (virtio 0.9) will do that. Kick before
-> set DRIVER_OK.
-
-
-Ok, I see, but any reason:
-
-1) we need start vhost-blk
-2) the relay is not done per vq but per device?
-
-
+>>But I don't even think its consistent in the nvme device. For my sake,
+>>we can clean it up, I'll drop it in this case since there is no good
+>>reason for it other than my own idea of "style".
 >
->>> +
->>> +    if (!vdev->start_on_kick) {
->>> +        return;
->>> +    }
->>> +
->>> +    if (vbc->dev.started) {
->>> +        return;
->>> +    }
->>> +
->>> +    ret = vhost_blk_common_start(vbc);
->>> +    if (ret < 0) {
->>> +        error_report("vhost-vdpa-blk: vhost start failed: %s",
->>> +                     strerror(-ret));
->>> +        return;
->>> +    }
->>> +
->>> +    /* Kick right away to begin processing requests already in vring */
->>> +    for (i = 0; i < vbc->dev.nvqs; i++) {
->>> +        VirtQueue *kick_vq = virtio_get_queue(vdev, i);
->>> +
->>> +        if (!virtio_queue_get_desc_addr(vdev, i)) {
->>> +            continue;
->>> +        }
->>> +        event_notifier_set(virtio_queue_get_host_notifier(kick_vq));
->>> +    }
->>> +}
->>> +
->>> +static void vhost_vdpa_blk_device_realize(DeviceState *dev, Error **errp)
->>> +{
->>> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->>> +    VHostVdpaBlk *s = VHOST_VDPA_BLK(vdev);
->>> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
->>> +    Error *err = NULL;
->>> +    int ret;
->>> +
->>> +    s->vdpa.device_fd = qemu_open_old(s->vdpa_dev, O_RDWR);
->>> +    if (s->vdpa.device_fd == -1) {
->>> +        error_setg(errp, "vhost-vdpa-blk: open %s failed: %s",
->>> +                   s->vdpa_dev, strerror(errno));
->>> +        return;
->>> +    }
->>> +
->>> +    vhost_blk_common_realize(vbc, vhost_vdpa_blk_handle_output, &err);
->>> +    if (err != NULL) {
->>> +        error_propagate(errp, err);
->>> +        goto blk_err;
->>> +    }
->>> +
->>> +    vbc->vhost_vqs = g_new0(struct vhost_virtqueue, vbc->num_queues);
->>> +    vbc->dev.nvqs = vbc->num_queues;
->>> +    vbc->dev.vqs = vbc->vhost_vqs;
->>> +    vbc->dev.vq_index = 0;
->>> +    vbc->dev.backend_features = 0;
->>> +    vbc->started = false;
->>> +
->>> +    vhost_dev_set_config_notifier(&vbc->dev, &blk_ops);
->>> +
->>> +    ret = vhost_dev_init(&vbc->dev, &s->vdpa, VHOST_BACKEND_TYPE_VDPA, 0);
->>> +    if (ret < 0) {
->>> +        error_setg(errp, "vhost-vdpa-blk: vhost initialization failed: %s",
->>> +                   strerror(-ret));
->>> +        goto init_err;
->>> +    }
->>> +
->>> +    ret = vhost_dev_get_config(&vbc->dev, (uint8_t *)&vbc->blkcfg,
->>> +                               sizeof(struct virtio_blk_config));
->>> +    if (ret < 0) {
->>> +        error_setg(errp, "vhost-vdpa-blk: get block config failed");
->>> +        goto config_err;
->>> +    }
->>> +
->>> +    return;
->>> +config_err:
->>> +    vhost_dev_cleanup(&vbc->dev);
->>> +init_err:
->>> +    vhost_blk_common_unrealize(vbc);
->>> +blk_err:
->>> +    close(s->vdpa.device_fd);
->>> +}
->>> +
->>> +static void vhost_vdpa_blk_device_unrealize(DeviceState *dev)
->>> +{
->>> +    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->>> +    VHostVdpaBlk *s = VHOST_VDPA_BLK(dev);
->>> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(s);
->>> +
->>> +    virtio_set_status(vdev, 0);
->>> +    vhost_dev_cleanup(&vbc->dev);
->>> +    vhost_blk_common_unrealize(vbc);
->>> +    close(s->vdpa.device_fd);
->>> +}
->>> +
->>> +static void vhost_vdpa_blk_instance_init(Object *obj)
->>> +{
->>> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(obj);
->>> +
->>> +    vbc->feature_bits = vdpa_feature_bits;
->>> +
->>> +    device_add_bootindex_property(obj, &vbc->bootindex, "bootindex",
->>> +                                  "/disk@0,0", DEVICE(obj));
->>> +}
->>> +
->>> +static const VMStateDescription vmstate_vhost_vdpa_blk = {
->>> +    .name = "vhost-vdpa-blk",
->>> +    .minimum_version_id = 1,
->>> +    .version_id = 1,
->>> +    .fields = (VMStateField[]) {
->>> +        VMSTATE_VIRTIO_DEVICE,
->>> +        VMSTATE_END_OF_LIST()
->>> +    },
->>> +};
->>> +
->>> +static Property vhost_vdpa_blk_properties[] = {
->>> +    DEFINE_PROP_STRING("vdpa-dev", VHostVdpaBlk, vdpa_dev),
->>> +    DEFINE_PROP_UINT16("num-queues", VHostBlkCommon, num_queues,
->>> +                       VHOST_BLK_AUTO_NUM_QUEUES),
->>> +    DEFINE_PROP_UINT32("queue-size", VHostBlkCommon, queue_size, 256),
->>> +    DEFINE_PROP_BIT("config-wce", VHostBlkCommon, config_wce, 0, true),
->>> +    DEFINE_PROP_END_OF_LIST(),
->>> +};
->>> +
->>> +static void vhost_vdpa_blk_class_init(ObjectClass *klass, void *data)
->>> +{
->>> +    DeviceClass *dc = DEVICE_CLASS(klass);
->>> +    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
->>> +
->>> +    device_class_set_props(dc, vhost_vdpa_blk_properties);
->>> +    dc->vmsd = &vmstate_vhost_vdpa_blk;
->>> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>> +    vdc->realize = vhost_vdpa_blk_device_realize;
->>> +    vdc->unrealize = vhost_vdpa_blk_device_unrealize;
->>> +    vdc->set_status = vhost_vdpa_blk_set_status;
->>> +}
->>> +
->>> +static const TypeInfo vhost_vdpa_blk_info = {
->>> +    .name = TYPE_VHOST_VDPA_BLK,
->>> +    .parent = TYPE_VHOST_BLK_COMMON,
->>> +    .instance_size = sizeof(VHostVdpaBlk),
->>> +    .instance_init = vhost_vdpa_blk_instance_init,
->>> +    .class_init = vhost_vdpa_blk_class_init,
->>> +};
->>> +
->>> +static void virtio_register_types(void)
->>> +{
->>> +    type_register_static(&vhost_vdpa_blk_info);
->>> +}
->>> +
->>> +type_init(virtio_register_types)
->>> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
->>> index fbff9bc9d4..f02bea65a2 100644
->>> --- a/hw/virtio/meson.build
->>> +++ b/hw/virtio/meson.build
->>> @@ -30,6 +30,7 @@ virtio_pci_ss = ss.source_set()
->>>    virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
->>>    virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock-pci.c'))
->>>    virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk-pci.c'))
->>> +virtio_pci_ss.add(when: 'CONFIG_VHOST_VDPA_BLK', if_true: files('vhost-vdpa-blk-pci.c'))
->>>    virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input-pci.c'))
->>>    virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
->>>    virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
->>> diff --git a/hw/virtio/vhost-vdpa-blk-pci.c b/hw/virtio/vhost-vdpa-blk-pci.c
->>> new file mode 100644
->>> index 0000000000..976c47fb4f
->>> --- /dev/null
->>> +++ b/hw/virtio/vhost-vdpa-blk-pci.c
->>> @@ -0,0 +1,101 @@
->>> +/*
->>> + * vhost-vdpa-blk PCI Bindings
->>> + *
->>> + * Copyright (C) 2021 Bytedance Inc. and/or its affiliates. All rights reserved.
->>> + *
->>> + * Author:
->>> + *   Xie Yongji <xieyongji@bytedance.com>
->>> + *
->>> + * This work is licensed under the terms of the GNU GPL, version 2.  See
->>> + * the COPYING file in the top-level directory.
->>> + *
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "standard-headers/linux/virtio_pci.h"
->>> +#include "hw/virtio/virtio.h"
->>> +#include "hw/virtio/vhost-vdpa-blk.h"
->>> +#include "hw/pci/pci.h"
->>> +#include "hw/qdev-properties.h"
->>> +#include "qapi/error.h"
->>> +#include "qemu/error-report.h"
->>> +#include "qemu/module.h"
->>> +#include "virtio-pci.h"
->>> +#include "qom/object.h"
->>> +
->>> +typedef struct VHostVdpaBlkPCI VHostVdpaBlkPCI;
->>> +
->>> +#define TYPE_VHOST_VDPA_BLK_PCI "vhost-vdpa-blk-pci-base"
->>> +DECLARE_INSTANCE_CHECKER(VHostVdpaBlkPCI, VHOST_VDPA_BLK_PCI,
->>> +                         TYPE_VHOST_VDPA_BLK_PCI)
->>> +
->>> +struct VHostVdpaBlkPCI {
->>> +    VirtIOPCIProxy parent_obj;
->>> +    VHostVdpaBlk vdev;
->>> +};
->>> +
->>> +static Property vhost_vdpa_blk_pci_properties[] = {
->>> +    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
->>> +    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
->>> +                       DEV_NVECTORS_UNSPECIFIED),
->>> +    DEFINE_PROP_END_OF_LIST(),
->>> +};
->>> +
->>> +static void vhost_vdpa_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->>> +{
->>> +    VHostVdpaBlkPCI *dev = VHOST_VDPA_BLK_PCI(vpci_dev);
->>> +    DeviceState *vdev = DEVICE(&dev->vdev);
->>> +    VHostBlkCommon *vbc = VHOST_BLK_COMMON(&dev->vdev);
->>> +
->>> +    if (vbc->num_queues == VHOST_BLK_AUTO_NUM_QUEUES) {
->>> +        vbc->num_queues = virtio_pci_optimal_num_queues(0);
->>> +    }
->>> +
->>> +    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
->>> +        vpci_dev->nvectors = vbc->num_queues + 1;
->>> +    }
->>> +
->>> +    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
->>> +}
->>> +
->>> +static void vhost_vdpa_blk_pci_class_init(ObjectClass *klass, void *data)
->>> +{
->>> +    DeviceClass *dc = DEVICE_CLASS(klass);
->>> +    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
->>> +    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
->>> +
->>> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->>> +    device_class_set_props(dc, vhost_vdpa_blk_pci_properties);
->>> +    k->realize = vhost_vdpa_blk_pci_realize;
->>> +    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
->>> +    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BLOCK;
->>> +    pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
->>> +    pcidev_k->class_id = PCI_CLASS_STORAGE_SCSI;
->>> +}
->>> +
->>> +static void vhost_vdpa_blk_pci_instance_init(Object *obj)
->>> +{
->>> +    VHostVdpaBlkPCI *dev = VHOST_VDPA_BLK_PCI(obj);
->>> +
->>> +    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->>> +                                TYPE_VHOST_VDPA_BLK);
->>> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
->>> +                              "bootindex");
->>> +}
->>> +
->>> +static const VirtioPCIDeviceTypeInfo vhost_vdpa_blk_pci_info = {
->>> +    .base_name               = TYPE_VHOST_VDPA_BLK_PCI,
->>> +    .generic_name            = "vhost-vdpa-blk-pci",
->>> +    .transitional_name       = "vhost-vdpa-blk-pci-transitional",
->>> +    .non_transitional_name   = "vhost-vdpa-blk-pci-non-transitional",
->>> +    .instance_size  = sizeof(VHostVdpaBlkPCI),
->>> +    .instance_init  = vhost_vdpa_blk_pci_instance_init,
->>> +    .class_init     = vhost_vdpa_blk_pci_class_init,
->>> +};
->>> +
->>> +static void vhost_vdpa_blk_pci_register(void)
->>> +{
->>> +    virtio_pci_types_register(&vhost_vdpa_blk_pci_info);
->>> +}
->>
->> I wonder how could we use virtio-mmio for vDPA block here.
->>
-> Use something like:
+>IIRC all identifiers that start with two underscores are reserved by=20
+>the C standard:
 >
-> -device vhost-vdpa-blk,vdpa-dev=/dev/vhost-vdpa-0 ?
-
-
-Something like this, making vDPA indepedent for a specific bus is a 
-great advantage.
-
-Thanks
-
-
+> https://busybox.net/~landley/c99-draft.html#7.1.3
 >
-> Thanks,
-> Yongji
+>Thus you should not use two underscores at the beginning here at all.
 >
 
+I'll clean up the remaining double underscores in the next cycle!
+
+--nhYFfg4hEvgC6oru
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmBz9isACgkQTeGvMW1P
+Dem7Owf/XMLxXDKLLbHPf3pV1KlnaSXn+8KMXSPOEw6PlptXO8vGbhUAylpjHRZe
+iF/PP9i9MkI1zm/84XLwlW8fwcx6e2nFK4ebYJ+FN+3+DSXLmWwpLTdBRTgkOJy0
+Ipo+DlmvLUMJFK5QwguJoe+wzRFaNulAPZZvpzmnCNaT3Ybvw/2ZUgBm0Ts1etj0
+/CfAkeljaFQX4FuvR5iRHrItk/eak6eVrfHjcUkgbTK7jXAFDauftyFwyihS0M8V
+rrn0RpQTDcS2iW5VPPCepOC+sBgVRRy6Br4hVL7LDjxJw6YwjdH/bXOQhW31FfEy
+DsIUyMEy4FCfX9eula6nj18DqPQjBg==
+=g82R
+-----END PGP SIGNATURE-----
+
+--nhYFfg4hEvgC6oru--
 
