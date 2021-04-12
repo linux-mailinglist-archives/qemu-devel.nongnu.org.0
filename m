@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF1135BA73
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 08:58:14 +0200 (CEST)
-Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6654135BA6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 08:56:28 +0200 (CEST)
+Received: from localhost ([::1]:50232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVqWT-0004hu-Gg
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 02:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40680)
+	id 1lVqUl-0001OO-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 02:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1lVqSA-0007p6-9X; Mon, 12 Apr 2021 02:53:46 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5015)
+ id 1lVqSG-00088Q-Hx; Mon, 12 Apr 2021 02:53:52 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1lVqS7-0004Ze-R4; Mon, 12 Apr 2021 02:53:45 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FJfXZ2lt0zqTC7;
- Mon, 12 Apr 2021 14:51:26 +0800 (CST)
+ id 1lVqSD-0004cj-Mi; Mon, 12 Apr 2021 02:53:52 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FJfXg3Pn4zqTLc;
+ Mon, 12 Apr 2021 14:51:31 +0800 (CST)
 Received: from huawei.com (10.174.186.236) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Mon, 12 Apr 2021
- 14:53:32 +0800
+ 14:53:35 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC v5 07/12] hw/riscv: PLIC update external interrupt by KVM
- when kvm enabled
-Date: Mon, 12 Apr 2021 14:52:41 +0800
-Message-ID: <20210412065246.1853-8-jiangyifei@huawei.com>
+Subject: [PATCH RFC v5 09/12] target/riscv: Add host cpu type
+Date: Mon, 12 Apr 2021 14:52:43 +0800
+Message-ID: <20210412065246.1853-10-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20210412065246.1853-1-jiangyifei@huawei.com>
 References: <20210412065246.1853-1-jiangyifei@huawei.com>
@@ -66,119 +65,55 @@ Cc: bin.meng@windriver.com, sagark@eecs.berkeley.edu, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only support supervisor external interrupt currently.
+'host' type cpu is set isa to RVXLEN simply, more isa info
+will obtain from KVM in kvm_arch_init_vcpu()
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- hw/intc/sifive_plic.c    | 29 ++++++++++++++++++++---------
- target/riscv/kvm-stub.c  |  5 +++++
- target/riscv/kvm.c       | 20 ++++++++++++++++++++
- target/riscv/kvm_riscv.h |  1 +
- 4 files changed, 46 insertions(+), 9 deletions(-)
+ target/riscv/cpu.c | 9 +++++++++
+ target/riscv/cpu.h | 1 +
+ 2 files changed, 10 insertions(+)
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 97a1a27a9a..2746eb7a05 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -31,6 +31,8 @@
- #include "target/riscv/cpu.h"
- #include "sysemu/sysemu.h"
- #include "migration/vmstate.h"
-+#include "sysemu/kvm.h"
-+#include "kvm_riscv.h"
- 
- #define RISCV_DEBUG_PLIC 0
- 
-@@ -147,15 +149,24 @@ static void sifive_plic_update(SiFivePLICState *plic)
-             continue;
-         }
-         int level = sifive_plic_irqs_pending(plic, addrid);
--        switch (mode) {
--        case PLICMode_M:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
--            break;
--        case PLICMode_S:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
--            break;
--        default:
--            break;
-+        if (kvm_enabled()) {
-+            if (mode == PLICMode_M) {
-+                continue;
-+            }
-+            kvm_riscv_set_irq(RISCV_CPU(cpu), IRQ_S_EXT, level);
-+        } else {
-+            switch (mode) {
-+            case PLICMode_M:
-+                riscv_cpu_update_mip(RISCV_CPU(cpu),
-+                                     MIP_MEIP, BOOL_TO_MASK(level));
-+                break;
-+            case PLICMode_S:
-+                riscv_cpu_update_mip(RISCV_CPU(cpu),
-+                                     MIP_SEIP, BOOL_TO_MASK(level));
-+                break;
-+            default:
-+                break;
-+            }
-         }
-     }
- 
-diff --git a/target/riscv/kvm-stub.c b/target/riscv/kvm-stub.c
-index 39b96fe3f4..4e8fc31a21 100644
---- a/target/riscv/kvm-stub.c
-+++ b/target/riscv/kvm-stub.c
-@@ -23,3 +23,8 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
- {
-     abort();
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index dd34ab4978..8132d35a92 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -216,6 +216,12 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
  }
-+
-+void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
-+{
-+    abort();
-+}
-diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 79c931acb4..da63535812 100644
---- a/target/riscv/kvm.c
-+++ b/target/riscv/kvm.c
-@@ -453,6 +453,26 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
-     env->gpr[11] = cpu->env.fdt_addr;          /* a1 */
- }
- 
-+void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
-+{
-+    int ret;
-+    unsigned virq = level ? KVM_INTERRUPT_SET : KVM_INTERRUPT_UNSET;
-+
-+    if (irq != IRQ_S_EXT) {
-+        return;
-+    }
-+
-+    if (!kvm_enabled()) {
-+        return;
-+    }
-+
-+    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_INTERRUPT, &virq);
-+    if (ret < 0) {
-+        perror("Set irq failed");
-+        abort();
-+    }
-+}
-+
- bool kvm_arch_cpu_check_are_resettable(void)
- {
-     return true;
-diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-index f38c82bf59..ed281bdce0 100644
---- a/target/riscv/kvm_riscv.h
-+++ b/target/riscv/kvm_riscv.h
-@@ -20,5 +20,6 @@
- #define QEMU_KVM_RISCV_H
- 
- void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
-+void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
- 
  #endif
+ 
++static void riscv_host_cpu_init(Object *obj)
++{
++    CPURISCVState *env = &RISCV_CPU(obj)->env;
++    set_misa(env, RVXLEN);
++}
++
+ static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
+ {
+     ObjectClass *oc;
+@@ -706,6 +712,9 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+         .class_init = riscv_cpu_class_init,
+     },
+     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
++#if defined(CONFIG_KVM)
++    DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
++#endif
+ #if defined(TARGET_RISCV32)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index a489d94187..3ca3dad341 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -43,6 +43,7 @@
+ #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+ #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+ #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
++#define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
+ 
+ #if defined(TARGET_RISCV32)
+ # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
 -- 
 2.19.1
 
