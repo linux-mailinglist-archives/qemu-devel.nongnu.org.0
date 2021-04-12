@@ -2,117 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D83B35BC57
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 10:39:58 +0200 (CEST)
-Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D88D35BC51
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Apr 2021 10:38:36 +0200 (CEST)
+Received: from localhost ([::1]:44104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lVs6v-0008Pe-FK
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 04:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35094)
+	id 1lVs5a-0007bi-HJ
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 04:38:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lVs3X-0006yO-UB
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:36:27 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:63599)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lVs2A-0006Ff-Hh
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:35:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lVs3R-0006w1-HS
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:36:27 -0400
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20210412083605epoutp025007f677d7f02a64a043ecd261304dc8~1D2RngPPR1850218502epoutp02R
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 08:36:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20210412083605epoutp025007f677d7f02a64a043ecd261304dc8~1D2RngPPR1850218502epoutp02R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1618216565;
- bh=WtksaNVgK33f2jRIDDEhixg3GoTbUBBOGjwXJ4NwP6U=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fnCcHBp8vtBsEcpBpQWBJ5PipW5fZ0jdYJSe4zdx6dj+57Vwfu0BlwdNneJo1g/L9
- mIObnhrha5UrG2b6uD8nCK2Sg1Anh2CtkfV8moFinGlAz0dLzwZQQVoyWSeapl/6M+
- WZo8qW+ITmjH03X3kJGW1KN+wAOukY31yy6l5USg=
-Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTP id
- 20210412083604epcas5p41a5337565b455ece23418437f385f023~1D2Q5vNT-3261232612epcas5p47;
- Mon, 12 Apr 2021 08:36:04 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- CE.16.15682.47604706; Mon, 12 Apr 2021 17:36:04 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20210412083540epcas5p4133543caae4e006d7698b37619b79b81~1D16VTxCX3261232612epcas5p4Y;
- Mon, 12 Apr 2021 08:35:40 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210412083539epsmtrp27330074c9ae7fa34137ed23a9d094e64~1D16UMULa2571125711epsmtrp2n;
- Mon, 12 Apr 2021 08:35:39 +0000 (GMT)
-X-AuditID: b6c32a49-8bfff70000013d42-ce-6074067422ce
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 2B.10.33967.B5604706; Mon, 12 Apr 2021 17:35:39 +0900 (KST)
-Received: from 2030045822 (unknown [107.99.42.33]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20210412083538epsmtip1da7d2feddb5b32c25bed892dd5b40b8e~1D15FErlb0747207472epsmtip1E;
- Mon, 12 Apr 2021 08:35:38 +0000 (GMT)
-Date: Mon, 12 Apr 2021 14:02:45 +0530
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v3] hw/block/nvme: add device self test command support
-Message-ID: <20210412083245.GA24260@2030045822>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lVs28-0006KO-TL
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 04:35:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618216500;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zEdSEraRB7r3EpYZHabVcSuyjjfJUCkbuzJt9RAFRhI=;
+ b=FFesr6DKukCb7G47Y/YeGRsMyVIWYZ+zF9HFvrwQrj0MuT29dYwqTcwuolhl7wXxL94+No
+ PSmfR94fIrO9TdRjkDD/EX2bGgEKesCYeazkWARIzBrmwCYGobafvMSX8YdOpvJMsmxinY
+ HjYUgjc+E62n1Vsit2xtcPZ7qsEfhX8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-NWacPtahMLe1FM5gFpWusw-1; Mon, 12 Apr 2021 04:34:55 -0400
+X-MC-Unique: NWacPtahMLe1FM5gFpWusw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 481146D241;
+ Mon, 12 Apr 2021 08:34:54 +0000 (UTC)
+Received: from [10.36.113.253] (ovpn-113-253.ams2.redhat.com [10.36.113.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 939BC5D9F0;
+ Mon, 12 Apr 2021 08:34:47 +0000 (UTC)
+Subject: Re: [RFC PATCH 3/3] hw/arm/smmuv3: Post-load stage 1 configurations
+ to the host
+To: Kunkun Jiang <jiangkunkun@huawei.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "open list:ARM SMMU" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20210219094230.231-1-jiangkunkun@huawei.com>
+ <20210219094230.231-4-jiangkunkun@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <dcfa967a-056f-b15c-6a39-0638e6a52a88@redhat.com>
+Date: Mon, 12 Apr 2021 10:34:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <20210412082749.GA24161@2030045822>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsWy7bCmum4JW0mCwfqPLBZX9p9ntNh/8Bur
- xaRD1xgtllxMtZh3S9li1rt2NovjvTtYLF5P+s/qwOHx41w7m8e5HefZPTat6mTzeHJtM5PH
- +31X2QJYo7hsUlJzMstSi/TtErgyru9qYy24zV/RuXwCawNjC28XIyeHhICJxLtr3UxdjFwc
- QgK7GSUeH/0K5XxilHjUOR3K+cYo8eZIMytMy8beHjaIxF5GiZ5n16GqnjNKNPY/YgGpYhFQ
- lZh96RoTiM0mYCQx++0bRhBbREBZ4u78mawgDcwCExkltmy/zAaSEBbwlvjS9RNsBa+AvsSX
- VU3MELagxMmZT8CGcgoYSHyd8hisRhRo0IFtx8E2Swi0ckhcObwTqIgDyHGR+PpbDuJUYYlX
- x7ewQ9hSEp/f7QXaxQ5kV0scLoLo7GCUOHZ5AxtEib3Ev2fTGEGmMAtkSGyfbQgRlpWYemod
- 2CvMAnwSvb+fMEHEeSV2zIOx1SQW3PoOtUlGYuaf29DA8pC4uvwSMyR8PjJK7O4+zDKBUX4W
- ks9mIaybBbbCSqLzQxMrRFhaYvk/DghTU2L9Lv0FjKyrGCVTC4pz01OLTQsM81LL9YoTc4tL
- 89L1kvNzNzGC05GW5w7Guw8+6B1iZOJgPMQowcGsJMKbVFmcIMSbklhZlVqUH19UmpNafIhR
- moNFSZx3h8GDeCGB9MSS1OzU1ILUIpgsEwenVAOTbizLbUanC+ZzrnC3hJo+kr+bzZedy9Ej
- 9llq/zvDtfpbpm53+tHiXHVW4TP70e/K/IVXa6rkXcz0XstvVEvuWWUzY47LtpQ5jWXbqj0e
- LJz+RCX08rmw8r1W0ovSXvxgdp2Xs2p2mWHpJC3uSoGXbznbxR/tV2VZf+SF1pnaVAGzGWKb
- +Lss4pLMdnYb28z7Kr9O9eHm0PI5B0RDc+bv+bbh++a3zxbEvqqY3rMsRfTmkTkvxNM1zebv
- aTmwiPlvlGJ357LWqdkKF4zirVVPMwh9k3ebb15QqtXyUHy7s0hFdT6HxeM7a8W9zWWmbd7j
- fnk/y6mDmmdWtxhUH493Vsy/JXQ4auu1/sjvAceVWIozEg21mIuKEwEn7D+YtgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrELMWRmVeSWpSXmKPExsWy7bCSnG40W0mCwem5ZhZX9p9ntNh/8Bur
- xaRD1xgtllxMtZh3S9li1rt2NovjvTtYLF5P+s/qwOHx41w7m8e5HefZPTat6mTzeHJtM5PH
- +31X2QJYo7hsUlJzMstSi/TtErgy/q1uYC3o5a3oer6AqYHxAlcXIyeHhICJxMbeHjYQW0hg
- N6PEqb2OEHEZiV+npjJD2MISK/89Z+9i5AKqecoo8ejPFFaQBIuAqsTsS9eYQGw2ASOJ2W/f
- MILYIgLKEnfnz2QFaWAWmMgosWX7ZbANwgLeEl+6foI18wroS3xZ1cQMMfUjo8Tjd/sZIRKC
- EidnPmEBsZkFzCTmbX4IVMQBZEtLLP/HARLmFDCQ+DrlMdgcUaBlB7YdZ5rAKDgLSfcsJN2z
- ELoXMDKvYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P3cQIjgYtzR2M21d90DvEyMTBeIhR
- goNZSYQ3qbI4QYg3JbGyKrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5O
- qQamDF7WzR5Oe2u15hr+PVissltcwEV4F+elvWJuB1aeVTzllaJRNjtAPU61YHH0jqehW/mE
- bvE32JzbFfBpla7uZdUTIg841J7k9PQwLdDaaqaw4rnL9K95awtv5a7d/G3LZ+Nt1YZXW38a
- 3nGJitxX8+eU1FWPrflfhfQkT/TWHK05nn7MoW363ofPI3JFkpym1xfU5BUmb+b8WyL+/eQS
- t8Xn36yrr1R8GKowvctIZ9+WPXu2p00sOC27uK9hjufbeXNf3N/TtSp3UqGf6vxCu1Xpbwtn
- GU5ZrecWyr2b0XSNqvm8oMUh8y+WlOy2/Zi7jblu3tPl+/v3vq1ZvD5GpPDnp7qwihftuzTM
- 7Ux7lViKMxINtZiLihMB7rXos/UCAAA=
-X-CMS-MailID: 20210412083540epcas5p4133543caae4e006d7698b37619b79b81
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210331092753epcas5p33ef9360c0c8c6b6310108d2da9aa2687
-References: <CGME20210331092753epcas5p33ef9360c0c8c6b6310108d2da9aa2687@epcas5p3.samsung.com>
- <20210331092427.13545-1-anaidu.gollu@samsung.com>
- <20210409153520.GC32304@redsun51.ssa.fujisawa.hgst.com>
- <20210412082749.GA24161@2030045822>
-Received-SPF: pass client-ip=203.254.224.25;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20210219094230.231-4-jiangkunkun@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,52 +88,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- its@irrelevant.dk
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>, shameerali.kolothum.thodi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Hi Kunkun,
+On 2/19/21 10:42 AM, Kunkun Jiang wrote:
+> In nested mode, we call the set_pasid_table() callback on each STE
+> update to pass the guest stage 1 configuration to the host and
+> apply it at physical level.
+> 
+> In the case of live migration, we need to manual call the
+s/manual/manually
+> set_pasid_table() to load the guest stage 1 configurations to the
+> host. If this operation is fail, the migration is fail.
+s/If this operation is fail, the migration is fail/If this operation
+fails, the migration fails.
+> 
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> ---
+>  hw/arm/smmuv3.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++
+>  hw/arm/trace-events |  1 +
+>  2 files changed, 61 insertions(+)
+> 
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index 6c6ed84e78..94ca15375c 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -1473,6 +1473,65 @@ static void smmu_realize(DeviceState *d, Error **errp)
+>      smmu_init_irq(s, dev);
+>  }
+>  
+> +static int smmuv3_manual_set_pci_device_pasid_table(SMMUDevice *sdev)
+Can't you retrieve the associated sid and then call
+smmuv3_notify_config_change()
+> +{
+> +#ifdef __linux__
+> +    IOMMUMemoryRegion *mr = &(sdev->iommu);
+> +    int sid = smmu_get_sid(sdev);
+> +    SMMUEventInfo event = {.type = SMMU_EVT_NONE, .sid = sid,
+> +                           .inval_ste_allowed = true};
+> +    IOMMUConfig iommu_config = {};
+> +    SMMUTransCfg *cfg;
+> +    int ret = -1;
+> +
+> +    cfg = smmuv3_get_config(sdev, &event);
+> +    if (!cfg) {
+> +        return ret;
+> +    }
+> +
+> +    iommu_config.pasid_cfg.argsz = sizeof(struct iommu_pasid_table_config);
+> +    iommu_config.pasid_cfg.version = PASID_TABLE_CFG_VERSION_1;
+> +    iommu_config.pasid_cfg.format = IOMMU_PASID_FORMAT_SMMUV3;
+> +    iommu_config.pasid_cfg.base_ptr = cfg->s1ctxptr;
+> +    iommu_config.pasid_cfg.pasid_bits = 0;
+> +    iommu_config.pasid_cfg.vendor_data.smmuv3.version = PASID_TABLE_SMMUV3_CFG_VERSION_1;
+> +
+> +    if (cfg->disabled || cfg->bypassed) {
+> +        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_BYPASS;
+> +    } else if (cfg->aborted) {
+> +        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_ABORT;
+> +    } else {
+> +        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_TRANSLATE;
+> +    }
+> +
+> +    ret = pci_device_set_pasid_table(sdev->bus, sdev->devfn, &iommu_config);
+> +    if (ret) {
+> +        error_report("Failed to pass PASID table to host for iommu mr %s (%m)",
+> +                     mr->parent_obj.name);
+> +    }
+> +
+> +    return ret;
+> +#endif
+> +}
+> +
+> +static int smmuv3_post_load(void *opaque, int version_id)
+> +{
+> +    SMMUv3State *s3 = opaque;
+> +    SMMUState *s = &(s3->smmu_state);
+> +    SMMUDevice *sdev;
+> +    int ret = 0;
+> +
+> +    QLIST_FOREACH(sdev, &s->devices_with_notifiers, next) {
+> +        trace_smmuv3_post_load_sdev(sdev->devfn, sdev->iommu.parent_obj.name);
+> +        ret = smmuv3_manual_set_pci_device_pasid_table(sdev);
+> +        if (ret) {
+> +            break;
+> +        }
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static const VMStateDescription vmstate_smmuv3_queue = {
+>      .name = "smmuv3_queue",
+>      .version_id = 1,
+> @@ -1491,6 +1550,7 @@ static const VMStateDescription vmstate_smmuv3 = {
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .priority = MIG_PRI_IOMMU,
+> +    .post_load = smmuv3_post_load,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT32(features, SMMUv3State),
+>          VMSTATE_UINT8(sid_size, SMMUv3State),
+> diff --git a/hw/arm/trace-events b/hw/arm/trace-events
+> index 35e562ab74..caa864dd72 100644
+> --- a/hw/arm/trace-events
+> +++ b/hw/arm/trace-events
+> @@ -53,4 +53,5 @@ smmuv3_notify_flag_add(const char *iommu) "ADD SMMUNotifier node for iommu mr=%s
+>  smmuv3_notify_flag_del(const char *iommu) "DEL SMMUNotifier node for iommu mr=%s"
+>  smmuv3_inv_notifiers_iova(const char *name, uint16_t asid, uint64_t iova, uint8_t tg, uint64_t num_pages) "iommu mr=%s asid=%d iova=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64
+>  smmuv3_notify_config_change(const char *name, uint8_t config, uint64_t s1ctxptr) "iommu mr=%s config=%d s1ctxptr=0x%"PRIx64
+> +smmuv3_post_load_sdev(int devfn, const char *name) "sdev devfn=%d iommu mr=%s"PRIx64
+>  
+> 
+Thanks
 
-On Mon, Apr 12, 2021 at 01:57:49PM +0530, Gollu Appalanaidu wrote:
->On Sat, Apr 10, 2021 at 12:35:20AM +0900, Keith Busch wrote:
->>On Wed, Mar 31, 2021 at 02:54:27PM +0530, Gollu Appalanaidu wrote:
->>>This is to add support for Device Self Test Command (DST) and
->>>DST Log Page. Refer NVM Express specification 1.4b section 5.8
->>>("Device Self-test command")
->>
->>Please don't write change logs that just say what you did. I can read
->>the code to see that. Explain why this is useful because this frankly
->>looks like another useless feature. We don't need to implement every
->>optional spec feature here. There should be a real value proposition.
->>
->Hi Keith,
->It was useful to us to be able to test the feature against qemu - and
->we wanted to contribute the code, but we understand that features should
->be more "complete" for upstreaming.
->
->New features for SPDK (and nvme-cli) are use-cases for optional features
->like this, where one might not have physical device available and also users
->who is going to develop their in house host test tool this would be useful,
->since we are providing the functional behaviour as per the NVMe protocol.
+Eric
 
-Hi Keith,
-
-It was useful to us to be able to test the feature against qemu - and
-we wanted to contribute the code, but we understand that features should
-be more "complete" for upstreaming.
-
-New features for SPDK (and nvme-cli) are use-cases for optional features
-like this, where one might not have physical device available and also users
-who is going to develop their in house host test tool this would be useful,
-since we are providing the functional behaviour as per the NVMe protocol.
-
-------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_
-Content-Type: text/plain; charset="utf-8"
-
-
-------rgEYhHy71ys_9Aik3zA05GggeZdzMrLcIo7_3H64ey3n7nJd=_72ffe_--
 
