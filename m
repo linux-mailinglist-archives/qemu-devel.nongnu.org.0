@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7607F35E2E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:31:19 +0200 (CEST)
-Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7FC35E322
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:48:48 +0200 (CEST)
+Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWL0Y-0001Y8-3K
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58036)
+	id 1lWLHT-0006eL-FR
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:48:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lWKyg-00011a-0I
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:29:22 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:35548)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lWLGd-00066p-85
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:47:55 -0400
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:43597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lWKyb-0000x3-PM
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:29:21 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- il9-20020a17090b1649b0290114bcb0d6c2so10895253pjb.0
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 08:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5GXGdgwwlopyCuqkeNWtEb/GQlWcQcutjkSBSRXRyew=;
- b=NMEdAQJzE7E3C3g2jVOvYeYdvBYFsJIm78mf7uxA8+fOuTxDg0JQ6sAB1dLs4kkBfH
- XL47G8Iqj0fdwkEC8XP6gHzxxfA4hVspFPR9IsWNYgjdi2y7bGPDB00/YD4zvgL3Tj08
- e1a/g+PKg+fFlskNtdMpCoWathBu/RHBTQoDS9kMsUgHM2Y0/HYgcoigfzKvuDujTwGn
- rUq07j7gAf5SNgJdxzChQ2FOs1+eH6pe5TULoylmSJLxtBbB2WPbDDCkkO40bmrvkF8E
- 1S1H8FqaUygym8FEKx4bIYjEeQMEl4lACBpfAUa2Li7VLzbGD3UWuty6il/XUAr3WpIg
- p6Iw==
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1lWLGb-00048I-ND
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:47:54 -0400
+Received: by mail-qv1-xf2c.google.com with SMTP id i11so2757488qvu.10
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 08:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=y7J/fBirApy78iLSgXTfuV1e6gzXBUyIlvX5q0pbZ1E=;
+ b=O2rw5KqLRFWHUGy8vZELNtbKhvdX3uZFaDFiBMZUjvQvrp4Z4aLp6Kqv9C0IVTKwpd
+ GXHOSxkQ+O7GxxTLiStzQ6iPY05vCO2bYOZRG5q+U0qM6FX53MMKR0Hau1UXhq6cClXX
+ 2xMQinSM8E8VPRHxVULfvyUug/YJ9ORXTk8S9e1weWs/Cmy2zCXZsB3SgmYcUkD0M7eR
+ tcndWSU58/qdpL3rgedSj/8r69YOrr1Al7mAuMWRIJkA76Us65NRFZQSZuPV65FytZee
+ EKqiFQ3y8el7nO6+YoJQsaDiUitPQljvQTcWanp1hjv7yNAtA/UiQiHRxihB87DMxFPh
+ qZDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5GXGdgwwlopyCuqkeNWtEb/GQlWcQcutjkSBSRXRyew=;
- b=BMIqFCVdKbBbf6ZJ+dCMClCiaQFuEGXj32PQ6cjSst1fIAxEvi7TqjdF9BrgS0hkRR
- 1SiePyQQf/SUuHohc0uR3Nb0l3BWzgSR8rtROeiZQnUqrt0yvn+sLRxWisbEUPKjINsT
- sFc+5B4p3SNfGPB4HypOWAU694+3sMi2OrbTJ6NUNntX0WCfwiOn5koTmtr5sv7u6Y7V
- L6cwvKlM8CsqgX9auiYn0840PN91WMUCBeLp8jFVE/hHip4/oUIdIDR2ttgzcWpDAkLp
- WF6TC8oRhwTwmdYU7VsGfmrZdrgyIdS3CKI3g289GYTCJCy50eVXED6crFA8p2ZbBF7e
- Cgvg==
-X-Gm-Message-State: AOAM533QSG7hG2oMEAQZNb/5n7XJNuYWFYX4uGkqWEZ+08ZEnxA3+A58
- 9ycQ1lgJ55+/8WY4Gd0R/rMNlw==
-X-Google-Smtp-Source: ABdhPJwdqQZgvGaNxzQekTcSf5bA+PWIF5ulVU5KEEq0w/qYBZpPhjROkrEraNRNwerSDM63TqJRSA==
-X-Received: by 2002:a17:90a:a22:: with SMTP id
- o31mr592913pjo.127.1618327756080; 
- Tue, 13 Apr 2021 08:29:16 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id c11sm14463708pgk.83.2021.04.13.08.29.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 08:29:15 -0700 (PDT)
-Subject: Re: [PATCH] accel/tcg: Fix translation exception on invalid
- instruction
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210413132349.20520-1-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c89ee64c-6aaa-c0e3-5044-f1c507151497@linaro.org>
-Date: Tue, 13 Apr 2021 08:29:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=y7J/fBirApy78iLSgXTfuV1e6gzXBUyIlvX5q0pbZ1E=;
+ b=YK8s40FfOYmAkaVGxvl7+KtfIupT4iA6/mMpU43gNTEnAxXVKJhaiTPzA3yyNn36jw
+ EL9U16bJygv2dF65W0GhEE7QaEuH4uCve9LM/PVSdFtxNv3JYL9WsXGjqTQDdHpjiogH
+ IypVd1MC2KolqthUnfEsisITqYp4fayr3zh+IGu9KsrLuxyrVSjMEWktCc73d+/D6kP2
+ uaxFuOwyGi0cJubD76lc5WqJaTSdVcadYns81bz5nxmPGyNO9HtinQEQliPpqJaShubY
+ JWot0S++kqwT20Y3+U3xRQWob2I7lXeeiiCrabE0qhX8jWKr+Rey+Momm1BfIhIjepSN
+ a1qg==
+X-Gm-Message-State: AOAM531TaOuj7m9lakC85FLuQ1s0TJH7s2oOqllZACiArva8OnvU9Dfn
+ blEOgg82KgxftLJsu64a0ho/NA+DF1nGBKv8GwuQMw==
+X-Google-Smtp-Source: ABdhPJyBDb4uhlRaDXG+Zpkl6C7kJYBjtjnh6Guc6dX5VWv6CnJQWXXdXTZDf3aRdVAIipXX124Q3dhZ3v/69EtZqVg=
+X-Received: by 2002:a0c:8148:: with SMTP id 66mr33766485qvc.55.1618328871536; 
+ Tue, 13 Apr 2021 08:47:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210413132349.20520-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Patrick Venture <venture@google.com>
+Date: Tue, 13 Apr 2021 08:47:40 -0700
+Message-ID: <CAO=notxyM2Xu5e-iYKGHXEhgwWOb+CFmES8XjaBrx7JZcs+4sQ@mail.gmail.com>
+Subject: RFC: Adding new system, quanta-q71l
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, peter.maydell@linaro.org,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=venture@google.com; helo=mail-qv1-xf2c.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,28 +76,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 6:23 AM, Ilya Leoshkevich wrote:
-> * When tb_gen_code() is called on that page, tb->size ends up being 0
+HI;
 
-This is the bug, in target/s390x.  Perhaps we need to add an assert that size 
-!= 0 after translation...
+My team is actively engaged now in producing Qemu support for new
+devices and boards, and I previously worked on the quanta-q71l board
+for OpenBmc.  I'm currently fixing up the configuration to build
+again, and I'd like to introduce a board for it in Aspeed.  The
+palmetto doesn't really represent it, there's only 128MiB of RAM for
+it, for instance, and it has its own idiosyncrasies.
 
+To introduce a new board to the Aspeed Qemu, do I also need to send
+over a firmware for acceptance testing?
 
-> Fix by special-casing tb->size == 0: since there is no useful code, we
-> don't need to link pages in this case.
-
-Yes we do, because we need to link to the page to notice when changes to that 
-page occur.
-
-While this won't happen in the specific case of uretprobe, it affects every 
-other instance of a TB which begins with an illegal instruction.
-
-
-r~
+Thanks,
+Patrick
 
