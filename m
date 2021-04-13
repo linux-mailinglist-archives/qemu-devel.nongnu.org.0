@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F95E35D579
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 04:53:45 +0200 (CEST)
-Received: from localhost ([::1]:42240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A0335D5DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 05:27:31 +0200 (CEST)
+Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW9BQ-0008Gv-EL
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 22:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43180)
+	id 1lW9i5-00052G-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 23:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1lW98b-0006ic-Pd
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 22:50:49 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:40834)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1lW98Z-0004YV-Kj
- for qemu-devel@nongnu.org; Mon, 12 Apr 2021 22:50:49 -0400
-Received: by mail-il1-x134.google.com with SMTP id c18so12862643iln.7
- for <qemu-devel@nongnu.org>; Mon, 12 Apr 2021 19:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VbJWxXR2mnMjX4AE5oWYodcHUPCOUl1ukjY5XJrzwpw=;
- b=UB8kE5T7+SLD0vb3Vx85mhrj2ZmBzymRPvigcaQVeV1JcsejITyA9F0piOgH3d1j4i
- raTygXERETGKFkiCOmU6yyyVQp16hpM160uzBfHFhNwdtcFIwm6w2pIrGu8IoT268JiP
- LNY9icRMnmyv9Q61Te+ErWRHi3gbrmJlSz/BuAEzSdhFQ3dSbRBiBhQfQ2tNEuKdDcaz
- 8BQSWokm8usBP+k/1FIXbNyvTsx1TGIgKPZS7olPItFt7A1wO1YU87gGkrcajGb37Eba
- oPdQ65boTDWLo20z4bkICZNoNHTkTdL2xIekrHcI9UxsAzpLugv/svMPeQgTmvHtJSMX
- j0BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VbJWxXR2mnMjX4AE5oWYodcHUPCOUl1ukjY5XJrzwpw=;
- b=PPZJYvqpKHkDQFVXKcRyGulL97Df4iGGKfD1TE2tfKIeBN1wpuzEaLsLLQIHMm2efv
- TAmcQZPHoNql9kbACeKDaS9p4I8VAksavzcbQoKnC8/r4PWy9Uixs4juYNEbdA7wQhXF
- n+yjVzveGowXhMTdjvGkHqskZdZjb/iNkc5/URfKlU3VU4G1P1gx6CGjpyJpIYz3gt8N
- kmENhaTptKKhVD418TnVXloTr8QkRAyRY234sgQ/wA5PNBOXMRN2UZR9bQBF2LxigHBx
- DrMBSs1vxjlgR56FZUC5akcZL2Nk228lkRhQXsN5ml/bSSa2r0jfY3KJFpY/hIxmPVWR
- eacg==
-X-Gm-Message-State: AOAM531PAW4CtIt1+ulhWf+mTsMXBvscj0AIcivSpkc3jCMYDucI7Qny
- RsnraNKuHhhAcTiI84QELMhY9WD1msrVjZh7QrT8zWh5yj69Ww==
-X-Google-Smtp-Source: ABdhPJwOPREX+sTdYSAaaxrJ4YPhxaH4HoGujqjiukaQ/xt1E2NAj3ol9swItGNO3vo5bmwq9hhKTiPUJg59o21DfKY=
-X-Received: by 2002:a92:8e52:: with SMTP id k18mr24453021ilh.123.1618282245450; 
- Mon, 12 Apr 2021 19:50:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lW9h2-0004UV-Vx; Mon, 12 Apr 2021 23:26:25 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:5028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lW9gy-0000Fh-IK; Mon, 12 Apr 2021 23:26:24 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FK9v355y5zlX2D;
+ Tue, 13 Apr 2021 11:24:15 +0800 (CST)
+Received: from [10.174.185.226] (10.174.185.226) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 13 Apr 2021 11:25:59 +0800
+To: Auger Eric <eric.auger@redhat.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>,
+ <mst@redhat.com>, <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
+ <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
+References: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
+ <1616656965-23328-2-git-send-email-wangxingang5@huawei.com>
+ <6e6a276f-86b2-2f32-f3e0-9552f3d28a21@redhat.com>
+From: Wang Xingang <wangxingang5@huawei.com>
+Subject: Re: [PATCH RFC RESEND v2 1/6] hw/pci/pci_host: Add iommu property for
+ pci host
+Message-ID: <f4f4d975-5e9a-6677-02a4-bc0310e9e0f9@huawei.com>
+Date: Tue, 13 Apr 2021 11:25:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
- <CAFEAcA_8ZsHwa+vxz99q52FUP4n7QDTLWpEEh2n_v-Ujiwdu_g@mail.gmail.com>
-In-Reply-To: <CAFEAcA_8ZsHwa+vxz99q52FUP4n7QDTLWpEEh2n_v-Ujiwdu_g@mail.gmail.com>
-From: Chetan <chetan4windows@gmail.com>
-Date: Tue, 13 Apr 2021 08:20:34 +0530
-Message-ID: <CAPPKfOHOb9C+GceJFSKZwnw+1UCPkDYoL_1eGizQ6JH3GpJRiQ@mail.gmail.com>
-Subject: Re: Better alternative to strncpy in QEMU.
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000062f33c05bfd1b20c"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=chetan4windows@gmail.com; helo=mail-il1-x134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <6e6a276f-86b2-2f32-f3e0-9552f3d28a21@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.185.226]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=wangxingang5@huawei.com; helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,189 +64,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- bruno.larsen@eldorado.org.br
+Cc: xieyingtai@huawei.com, cenjiahui@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000062f33c05bfd1b20c
-Content-Type: text/plain; charset="UTF-8"
+Hi Eric,
 
-Hello All,
+On 2021/4/13 1:36, Auger Eric wrote:
+> Hi Wang,
+> 
+> On 3/25/21 8:22 AM, Wang Xingang wrote:
+>> From: Xingang Wang <wangxingang5@huawei.com>
+>>
+>> The pci host iommu property is useful to check whether
+>> the iommu is enabled on the pci root bus.
+>>
+>> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+>> ---
+>>   hw/pci/pci.c              | 18 +++++++++++++++++-
+>>   hw/pci/pci_host.c         |  2 ++
+>>   include/hw/pci/pci.h      |  1 +
+>>   include/hw/pci/pci_host.h |  1 +
+>>   4 files changed, 21 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>> index ac9a24889c..e17aa9075f 100644
+>> --- a/hw/pci/pci.c
+>> +++ b/hw/pci/pci.c
+>> @@ -417,6 +417,22 @@ const char *pci_root_bus_path(PCIDevice *dev)
+>>       return rootbus->qbus.name;
+>>   }
+>>   
+>> +bool pci_root_bus_has_iommu(PCIBus *bus)
+> "has_iommu" is misleading as it does not mean an IOMMU is actually
+> instantiated but rather that if there is any, it will translate
+> transactions coming from this primary bus
+> 
+> I would rather inverse the logic and have a
+> 
+> "bypass_iommu" property defaulting to false
+> 
+> and this function dubbed something like pci_root_bus_bypass_iommu
+>> +{
+>> +    PCIBus *rootbus = bus;
+>> +    PCIHostState *host_bridge;
+>> +
+>> +    if (!pci_bus_is_root(bus)) {
+>> +        rootbus = pci_device_root_bus(bus->parent_dev);
+>> +    }
+>> +
+>> +    host_bridge = PCI_HOST_BRIDGE(rootbus->qbus.parent);
+>> +
+>> +    assert(host_bridge->bus == rootbus);
+>> +
+>> +    return host_bridge->iommu;
+>> +}
+>> +
 
-> I'm not sure what's the improvement over strncpy() here? Paolo, could you
-> elaborate?
-> (Note that we also have some functions like strpadcpy() in QEMU already,
-> which can be used in similar ways)
+Thanks for your advice, it is misleading, i will replace this.
 
-Ok Thanks, I'll wait for Paolo to clarify if the functions are needed, if
-yes then whether my understanding
-is correct. If not, then I'll drop this and pick another one.
+>>   static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
+>>                                 MemoryRegion *address_space_mem,
+>>                                 MemoryRegion *address_space_io,
+>> @@ -2716,7 +2732,7 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+>>   
+>>           iommu_bus = parent_bus;
+>>       }
+>> -    if (iommu_bus && iommu_bus->iommu_fn) {
+>> +    if (pci_root_bus_has_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
+>>           return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
+>>       }
+>>       return &address_space_memory;
+>> diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+>> index 8ca5fadcbd..92ce213b18 100644
+>> --- a/hw/pci/pci_host.c
+>> +++ b/hw/pci/pci_host.c
+>> @@ -222,6 +222,8 @@ const VMStateDescription vmstate_pcihost = {
+>>   static Property pci_host_properties_common[] = {
+>>       DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
+>>                        mig_enabled, true),
+>> +    DEFINE_PROP_BOOL("pci-host-iommu-enabled", PCIHostState,
+>> +                     iommu, true),
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
+>>   
+>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+>> index 6be4e0c460..718b5a454a 100644
+>> --- a/include/hw/pci/pci.h
+>> +++ b/include/hw/pci/pci.h
+>> @@ -480,6 +480,7 @@ void pci_for_each_bus(PCIBus *bus,
+>>   
+>>   PCIBus *pci_device_root_bus(const PCIDevice *d);
+>>   const char *pci_root_bus_path(PCIDevice *dev);
+>> +bool pci_root_bus_has_iommu(PCIBus *bus);
+>>   PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn);
+>>   int pci_qdev_find_device(const char *id, PCIDevice **pdev);
+>>   void pci_bus_get_w64_range(PCIBus *bus, Range *range);
+>> diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+>> index 52e038c019..64128e3a19 100644
+>> --- a/include/hw/pci/pci_host.h
+>> +++ b/include/hw/pci/pci_host.h
+>> @@ -43,6 +43,7 @@ struct PCIHostState {
+>>       uint32_t config_reg;
+>>       bool mig_enabled;
+>>       PCIBus *bus;
+>> +    bool iommu;
+>>   
+>>       QLIST_ENTRY(PCIHostState) next;
+>>   };
+>>
+> Thanks
+> 
+> Eric
+> 
+> .
+> 
 
-> Please use "*destination" and "*source" instead of "destination[]" and
-> "source[]" here.
+Thanks
 
-@Thomas Thanks for the input, I'll change it accordingly.
+Xingang
 
-> This implementation is "accidentally quadratic", because it
-> calls strlen(source) every time through the loop, and thus
-> copying an N byte string will read N*N bytes of memory. (The
-> compiler can't pull the "strlen(source)" call up out of the loop
-> because it can't guarantee that source and destination don't
-> overlap.)
-
-@Peter Thanks for the input, I'll be using a while loop instead, as Bruno
-suggested. Also, I will only continue with this task after Paolo's input.
-
-> One other optimization that could be done (but is a bigger headache to
-implement correctly) would be to cast the char* into uint64_t* (or
-uint32_t* for 32-bit >systems) and copy more bytes at a time. The headache
-comes from finding a 0 in this longer variable, but you can probably use a
-similar strategy to freebsd's > strlen (
-https://github.com/freebsd/freebsd-src/blob/main/lib/libc/string/strlen.c).
-
-@Bruno Thanks I'll check out freebsd code.
-
-Thanks and Regards,
-Chetan P.
-
-On Mon, Apr 12, 2021 at 6:50 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Sun, 11 Apr 2021 at 14:52, Chetan <chetan4windows@gmail.com> wrote:
-> > char *qemu_strncpy(char destination[], char source[], size_t
-> destination_size)
-> > {
-> >     /* Looping through the array and copying the characters from
-> >      * source to destination.
-> >      */
-> >     for (int i = 0; i < strlen(source); i++) {
-> >         destination[i] = source[i];
-> >
-> >         /* Check if value of i is equal to the second last index
-> >          * of destination array and if condition is true, mark last
-> >          * index as NULL and break from the loop.
-> >          */
-> >         if (i == (destination_size - 2)) {
-> >             destination[destination_size - 1] = '\0';
-> >             break;
-> >         }
-> >     }
-> >     return destination;
-> > }
->
-> This implementation is "accidentally quadratic", because it
-> calls strlen(source) every time through the loop, and thus
-> copying an N byte string will read N*N bytes of memory. (The
-> compiler can't pull the "strlen(source)" call up out of the loop
-> because it can't guarantee that source and destination don't
-> overlap.)
->
-> I think this is a good illustration of why we probably don't want
-> to roll our own string operation functions if we can avoid it
-> (ie without having a clear view of why we are improving on either
-> what libc or glib offer us).
->
-> thanks
-> -- PMM
->
-
---00000000000062f33c05bfd1b20c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello All,</div><div><br></div><div>
-&gt; I&#39;m not sure what&#39;s the improvement over <span>strncpy</span>(=
-) here? Paolo, could you <br>
-&gt; elaborate?<br>
-&gt; (Note that we also have some functions like strpadcpy() in <span>QEMU<=
-/span> already, <br>&gt; which can be used in similar ways)<font color=3D"#=
-888888"><br></font>
-
-</div><div><br></div><div>Ok Thanks, I&#39;ll wait for Paolo to clarify if =
-the functions are needed, if yes then whether my understanding <br></div><d=
-iv>is correct. If not, then I&#39;ll drop this and pick another one.<br></d=
-iv><div><br></div><div>
-<div>&gt; Please use &quot;*destination&quot; and &quot;*source&quot; inste=
-ad of &quot;destination[]&quot; and <br>
-&gt; &quot;source[]&quot; here.<span><br></span></div><div><span><br></span=
-></div><div><span>@Thomas Thanks for the input, I&#39;ll change it accordin=
-gly.=C2=A0 </span></div>
-
-</div><div><br></div><div>
-&gt; This implementation is &quot;accidentally quadratic&quot;, because it<=
-br>
-&gt; calls strlen(source) every time through the loop, and thus<br>
-&gt; copying an N byte string will read N*N bytes of memory. (The<br>
-&gt; compiler can&#39;t pull the &quot;strlen(source)&quot; call up out of =
-the loop<br>
-&gt; because it can&#39;t guarantee that source and destination don&#39;t<b=
-r>
-&gt; overlap.)<br><br></div><div>@Peter Thanks for the input, I&#39;ll be u=
-sing a while loop instead, as Bruno suggested. Also, I will only continue w=
-ith this task after Paolo&#39;s input.<br></div><div><br></div><div>
-&gt; One other optimization that could be done (but is a bigger headache to=
-=20
-implement correctly) would be to cast the char* into uint64_t* (or=20
-uint32_t* for 32-bit &gt;systems) and copy more bytes at a time. The=20
-headache comes from finding a 0 in this longer variable,
- but you can probably use a similar strategy to freebsd&#39;s &gt; strlen (=
-<a href=3D"https://github.com/freebsd/freebsd-src/blob/main/lib/libc/string=
-/strlen.c" id=3D"m_4942893335699796004gmail-m_1386563371306196915LPlnk20646=
-4" target=3D"_blank">https://github.com/freebsd/freebsd-src/blob/main/lib/l=
-ibc/string/strlen.c</a>). <br></div><div><br></div><div>@Bruno Thanks I&#39=
-;ll check out freebsd code.<br></div><div><br></div><div>Thanks and Regards=
-,</div><div>Chetan P.<br></div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Mon, Apr 12, 2021 at 6:50 PM Peter Maydel=
-l &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.m=
-aydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Sun, 11 Apr 2021 at 14:52, Chetan &lt;<a href=3D"mailto=
-:chetan4windows@gmail.com" target=3D"_blank">chetan4windows@gmail.com</a>&g=
-t; wrote:<br>
-&gt; char *qemu_strncpy(char destination[], char source[], size_t destinati=
-on_size)<br>
-&gt; {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0/* Looping through the array and copying the charac=
-ters from<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 * source to destination.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0for (int i =3D 0; i &lt; strlen(source); i++) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0destination[i] =3D source[i];<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Check if value of i is equal to th=
-e second last index<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * of destination array and if condit=
-ion is true, mark last<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * index as NULL and break from the l=
-oop.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (i =3D=3D (destination_size - 2)) =
-{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0destination[destination=
-_size - 1] =3D &#39;\0&#39;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0return destination;<br>
-&gt; }<br>
-<br>
-This implementation is &quot;accidentally quadratic&quot;, because it<br>
-calls strlen(source) every time through the loop, and thus<br>
-copying an N byte string will read N*N bytes of memory. (The<br>
-compiler can&#39;t pull the &quot;strlen(source)&quot; call up out of the l=
-oop<br>
-because it can&#39;t guarantee that source and destination don&#39;t<br>
-overlap.)<br>
-<br>
-I think this is a good illustration of why we probably don&#39;t want<br>
-to roll our own string operation functions if we can avoid it<br>
-(ie without having a clear view of why we are improving on either<br>
-what libc or glib offer us).<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div>
-
---00000000000062f33c05bfd1b20c--
+.
 
