@@ -2,44 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D4D35E217
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 16:59:03 +0200 (CEST)
-Received: from localhost ([::1]:57804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E6435E29C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:22:47 +0200 (CEST)
+Received: from localhost ([::1]:38808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWKVK-0004f1-61
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 10:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
+	id 1lWKsI-0003Bp-A0
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lWKRv-0004B5-Dv
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 10:55:31 -0400
-Received: from [201.28.113.2] (port=30593 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>) id 1lWKRq-0005lK-ER
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 10:55:29 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 13 Apr 2021 11:54:42 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 7A4068011B4;
- Tue, 13 Apr 2021 11:54:42 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/ppc: code motion from translate_init.c.inc to
- gdbstub.c
-Date: Tue, 13 Apr 2021 11:54:27 -0300
-Message-Id: <20210413145427.41749-1-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 13 Apr 2021 14:54:42.0649 (UTC)
- FILETIME=[EFB22C90:01D73074]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lWKr2-0001z7-GF
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:21:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lWKqx-0004MI-Io
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:21:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618327281;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=06C3+D6RZL2iorVFI+3JpAEshv7qYhszSL0lAB9b34s=;
+ b=fAd2fklAYGebnYPOQsFKG4hQzBCItwC+MVx/9agI/uFFkEp/WKDx5GoanMug9fnobu5RmM
+ wSTykruuQmI+SzKVzpyqV2fSzFGdWxaXyCFR1Oijudt8/lzR7J8MttZsM4MafhvXJGU1kn
+ fm81bJAp2IiiLROsCjLghfD17GsCbDY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-gv4KZLuzNKmPIy5PXYQwLQ-1; Tue, 13 Apr 2021 11:21:18 -0400
+X-MC-Unique: gv4KZLuzNKmPIy5PXYQwLQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9807381431F;
+ Tue, 13 Apr 2021 15:21:17 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D52719D9F;
+ Tue, 13 Apr 2021 15:21:11 +0000 (UTC)
+Date: Tue, 13 Apr 2021 17:21:10 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH for-6.0] x86: acpi: use offset instead of pointer when
+ using build_header()
+Message-ID: <20210413172110.25da8cd3@redhat.com>
+In-Reply-To: <20210413095106-mutt-send-email-mst@kernel.org>
+References: <20210413111400.3778820-1-imammedo@redhat.com>
+ <20210413081423-mutt-send-email-mst@kernel.org>
+ <20210413151816.0257b829@redhat.com>
+ <20210413095106-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,594 +82,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, drjones@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, zhaoshenglong@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the code related to gdb has been moved from translate_init.c.inc
-file to the gdbstub.c file, where it makes more sense.
+On Tue, 13 Apr 2021 09:53:17 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Updated version, solving some missing parts of the patch and style choices.
+> On Tue, Apr 13, 2021 at 03:18:16PM +0200, Igor Mammedov wrote:
+> > On Tue, 13 Apr 2021 08:14:56 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Tue, Apr 13, 2021 at 07:14:00AM -0400, Igor Mammedov wrote:  
+> > > > Do the same as in commit
+> > > >  (4d027afeb3a97 Virt: ACPI: fix qemu assert due to re-assigned table data address)  
+> 
+> Format:
+> 
+> commit 4d027afeb3a97 ("Virt: ACPI: fix qemu assert due to re-assigned table data address")
+> 
+> > > > for remaining tables that happen to use saved at
+> > > > the beginning pointer to build header to avoid assert
+> > > > when table_data is relocated due to implicit re-size.
+> > > > 
+> > > > Reported-in: https://bugs.launchpad.net/bugs/1923497    
+> > > 
+> > > Doesn't this fix the bug? If so -
+> > > Isn't this Fixes: ?  
+> > that's buried in history
+> > 
+> > Fixes: 243bdb79fb0b2ed hw/arm/virt-acpi-build: Generate RSDT table
+> > Fixes: cb51ac2ffe3649e hw/arm/virt: generate 64-bit addressable ACPI objects
+> > Fixes: 4338416064303aa acpi: Move build_tpm2() in the generic part
+> > Fixes: 72c194f7e75cb64 i386: ACPI table generation code from seabios
+> > Fixes: 711b20b479aa96e Add ACPI tables for TPM  
+> 
+> 
+> I just mean:
+> 
+>     Buglink: https://bugs.launchpad.net/qemu/+bug/1921138
+> 
+> as opposed to Reported.
+> 
+> Also do we CC stable for this?
+Given it's reported on 5.1, it is a good idea to cc stable.
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Suggested-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/cpu.h                |   6 +
- target/ppc/gdbstub.c            | 258 ++++++++++++++++++++++++++++++++
- target/ppc/translate_init.c.inc | 254 +------------------------------
- 3 files changed, 265 insertions(+), 253 deletions(-)
+Shall I repost with fixed: "Fixes:..."?
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index e73416da68..8017ecb33f 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2612,4 +2612,10 @@ static inline ppc_avr_t *cpu_avr_ptr(CPUPPCState *env, int i)
- void dump_mmu(CPUPPCState *env);
- 
- void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len);
-+
-+/* gdbstub.c */
-+void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
-+gchar *ppc_gdb_arch_name(CPUState *cs);
-+
-+
- #endif /* PPC_CPU_H */
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index c28319fb97..67e8a3175f 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/gdbstub.h"
-+#include "exec/helper-proto.h"
- 
- static int ppc_gdb_register_len_apple(int n)
- {
-@@ -387,3 +388,260 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, const char *xml_name)
-     return NULL;
- }
- #endif
-+
-+static bool avr_need_swap(CPUPPCState *env)
-+{
-+#ifdef HOST_WORDS_BIGENDIAN
-+    return msr_le;
-+#else
-+    return !msr_le;
-+#endif
-+}
-+
-+#if !defined(CONFIG_USER_ONLY)
-+static int gdb_find_spr_idx(CPUPPCState *env, int n)
-+{
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
-+        ppc_spr_t *spr = &env->spr_cb[i];
-+
-+        if (spr->name && spr->gdb_id == n) {
-+            return i;
-+        }
-+    }
-+    return -1;
-+}
-+
-+static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
-+{
-+    int reg;
-+    int len;
-+
-+    reg = gdb_find_spr_idx(env, n);
-+    if (reg < 0) {
-+        return 0;
-+    }
-+
-+    len = TARGET_LONG_SIZE;
-+    gdb_get_regl(buf, env->spr[reg]);
-+    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
-+    return len;
-+}
-+
-+static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
-+{
-+    int reg;
-+    int len;
-+
-+    reg = gdb_find_spr_idx(env, n);
-+    if (reg < 0) {
-+        return 0;
-+    }
-+
-+    len = TARGET_LONG_SIZE;
-+    ppc_maybe_bswap_register(env, mem_buf, len);
-+    env->spr[reg] = ldn_p(mem_buf, len);
-+
-+    return len;
-+}
-+#endif
-+
-+static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
-+{
-+    uint8_t *mem_buf;
-+    if (n < 32) {
-+        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
-+        mem_buf = gdb_get_reg_ptr(buf, 8);
-+        ppc_maybe_bswap_register(env, mem_buf, 8);
-+        return 8;
-+    }
-+    if (n == 32) {
-+        gdb_get_reg32(buf, env->fpscr);
-+        mem_buf = gdb_get_reg_ptr(buf, 4);
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        return 4;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
-+{
-+    if (n < 32) {
-+        ppc_maybe_bswap_register(env, mem_buf, 8);
-+        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
-+        return 8;
-+    }
-+    if (n == 32) {
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
-+        return 4;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
-+{
-+    uint8_t *mem_buf;
-+
-+    if (n < 32) {
-+        ppc_avr_t *avr = cpu_avr_ptr(env, n);
-+        if (!avr_need_swap(env)) {
-+            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
-+        } else {
-+            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
-+        }
-+        mem_buf = gdb_get_reg_ptr(buf, 16);
-+        ppc_maybe_bswap_register(env, mem_buf, 8);
-+        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
-+        return 16;
-+    }
-+    if (n == 32) {
-+        gdb_get_reg32(buf, helper_mfvscr(env));
-+        mem_buf = gdb_get_reg_ptr(buf, 4);
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        return 4;
-+    }
-+    if (n == 33) {
-+        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
-+        mem_buf = gdb_get_reg_ptr(buf, 4);
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        return 4;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
-+{
-+    if (n < 32) {
-+        ppc_avr_t *avr = cpu_avr_ptr(env, n);
-+        ppc_maybe_bswap_register(env, mem_buf, 8);
-+        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
-+        if (!avr_need_swap(env)) {
-+            avr->u64[0] = ldq_p(mem_buf);
-+            avr->u64[1] = ldq_p(mem_buf + 8);
-+        } else {
-+            avr->u64[1] = ldq_p(mem_buf);
-+            avr->u64[0] = ldq_p(mem_buf + 8);
-+        }
-+        return 16;
-+    }
-+    if (n == 32) {
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        helper_mtvscr(env, ldl_p(mem_buf));
-+        return 4;
-+    }
-+    if (n == 33) {
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        env->spr[SPR_VRSAVE] = (target_ulong)ldl_p(mem_buf);
-+        return 4;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
-+{
-+    if (n < 32) {
-+#if defined(TARGET_PPC64)
-+        gdb_get_reg32(buf, env->gpr[n] >> 32);
-+        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
-+#else
-+        gdb_get_reg32(buf, env->gprh[n]);
-+#endif
-+        return 4;
-+    }
-+    if (n == 32) {
-+        gdb_get_reg64(buf, env->spe_acc);
-+        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
-+        return 8;
-+    }
-+    if (n == 33) {
-+        gdb_get_reg32(buf, env->spe_fscr);
-+        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
-+        return 4;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
-+{
-+    if (n < 32) {
-+#if defined(TARGET_PPC64)
-+        target_ulong lo = (uint32_t)env->gpr[n];
-+        target_ulong hi;
-+
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+
-+        hi = (target_ulong)ldl_p(mem_buf) << 32;
-+        env->gpr[n] = lo | hi;
-+#else
-+        env->gprh[n] = ldl_p(mem_buf);
-+#endif
-+        return 4;
-+    }
-+    if (n == 32) {
-+        ppc_maybe_bswap_register(env, mem_buf, 8);
-+        env->spe_acc = ldq_p(mem_buf);
-+        return 8;
-+    }
-+    if (n == 33) {
-+        ppc_maybe_bswap_register(env, mem_buf, 4);
-+        env->spe_fscr = ldl_p(mem_buf);
-+        return 4;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
-+{
-+    if (n < 32) {
-+        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
-+        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
-+        return 8;
-+    }
-+    return 0;
-+}
-+
-+static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
-+{
-+    if (n < 32) {
-+        ppc_maybe_bswap_register(env, mem_buf, 8);
-+        *cpu_vsrl_ptr(env, n) = ldq_p(mem_buf);
-+        return 8;
-+    }
-+    return 0;
-+}
-+
-+gchar *ppc_gdb_arch_name(CPUState *cs)
-+{
-+#if defined(TARGET_PPC64)
-+    return g_strdup("powerpc:common64");
-+#else
-+    return g_strdup("powerpc:common");
-+#endif
-+}
-+
-+void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *pcc)
-+{
-+
-+    if (pcc->insns_flags & PPC_FLOAT) {
-+        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_reg,
-+                                 33, "power-fpu.xml", 0);
-+    }
-+    if (pcc->insns_flags & PPC_ALTIVEC) {
-+        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
-+                                 34, "power-altivec.xml", 0);
-+    }
-+    if (pcc->insns_flags & PPC_SPE) {
-+        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
-+                                 34, "power-spe.xml", 0);
-+    }
-+    if (pcc->insns_flags2 & PPC2_VSX) {
-+        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
-+                                 32, "power-vsx.xml", 0);
-+    }
-+#ifndef CONFIG_USER_ONLY
-+    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
-+                             pcc->gdb_num_sprs, "power-spr.xml", 0);
-+#endif
-+}
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index c03a7c4f52..80fef0b90d 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -9895,230 +9895,6 @@ static void dump_ppc_insns(CPUPPCState *env)
-     }
- }
- #endif
--
--static bool avr_need_swap(CPUPPCState *env)
--{
--#ifdef HOST_WORDS_BIGENDIAN
--    return msr_le;
--#else
--    return !msr_le;
--#endif
--}
--
--#if !defined(CONFIG_USER_ONLY)
--static int gdb_find_spr_idx(CPUPPCState *env, int n)
--{
--    int i;
--
--    for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
--        ppc_spr_t *spr = &env->spr_cb[i];
--
--        if (spr->name && spr->gdb_id == n) {
--            return i;
--        }
--    }
--    return -1;
--}
--
--static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
--{
--    int reg;
--    int len;
--
--    reg = gdb_find_spr_idx(env, n);
--    if (reg < 0) {
--        return 0;
--    }
--
--    len = TARGET_LONG_SIZE;
--    gdb_get_regl(buf, env->spr[reg]);
--    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
--    return len;
--}
--
--static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
--{
--    int reg;
--    int len;
--
--    reg = gdb_find_spr_idx(env, n);
--    if (reg < 0) {
--        return 0;
--    }
--
--    len = TARGET_LONG_SIZE;
--    ppc_maybe_bswap_register(env, mem_buf, len);
--    env->spr[reg] = ldn_p(mem_buf, len);
--
--    return len;
--}
--#endif
--
--static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
--{
--    uint8_t *mem_buf;
--    if (n < 32) {
--        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
--        mem_buf = gdb_get_reg_ptr(buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        return 8;
--    }
--    if (n == 32) {
--        gdb_get_reg32(buf, env->fpscr);
--        mem_buf = gdb_get_reg_ptr(buf, 4);
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        return 4;
--    }
--    return 0;
--}
--
--static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
--{
--    if (n < 32) {
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
--        return 8;
--    }
--    if (n == 32) {
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        helper_store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
--        return 4;
--    }
--    return 0;
--}
--
--static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
--{
--    uint8_t *mem_buf;
--
--    if (n < 32) {
--        ppc_avr_t *avr = cpu_avr_ptr(env, n);
--        if (!avr_need_swap(env)) {
--            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
--        } else {
--            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
--        }
--        mem_buf = gdb_get_reg_ptr(buf, 16);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
--        return 16;
--    }
--    if (n == 32) {
--        gdb_get_reg32(buf, helper_mfvscr(env));
--        mem_buf = gdb_get_reg_ptr(buf, 4);
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        return 4;
--    }
--    if (n == 33) {
--        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
--        mem_buf = gdb_get_reg_ptr(buf, 4);
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        return 4;
--    }
--    return 0;
--}
--
--static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
--{
--    if (n < 32) {
--        ppc_avr_t *avr = cpu_avr_ptr(env, n);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
--        if (!avr_need_swap(env)) {
--            avr->u64[0] = ldq_p(mem_buf);
--            avr->u64[1] = ldq_p(mem_buf + 8);
--        } else {
--            avr->u64[1] = ldq_p(mem_buf);
--            avr->u64[0] = ldq_p(mem_buf + 8);
--        }
--        return 16;
--    }
--    if (n == 32) {
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        helper_mtvscr(env, ldl_p(mem_buf));
--        return 4;
--    }
--    if (n == 33) {
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        env->spr[SPR_VRSAVE] = (target_ulong)ldl_p(mem_buf);
--        return 4;
--    }
--    return 0;
--}
--
--static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
--{
--    if (n < 32) {
--#if defined(TARGET_PPC64)
--        gdb_get_reg32(buf, env->gpr[n] >> 32);
--        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
--#else
--        gdb_get_reg32(buf, env->gprh[n]);
--#endif
--        return 4;
--    }
--    if (n == 32) {
--        gdb_get_reg64(buf, env->spe_acc);
--        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
--        return 8;
--    }
--    if (n == 33) {
--        gdb_get_reg32(buf, env->spe_fscr);
--        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
--        return 4;
--    }
--    return 0;
--}
--
--static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
--{
--    if (n < 32) {
--#if defined(TARGET_PPC64)
--        target_ulong lo = (uint32_t)env->gpr[n];
--        target_ulong hi;
--
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--
--        hi = (target_ulong)ldl_p(mem_buf) << 32;
--        env->gpr[n] = lo | hi;
--#else
--        env->gprh[n] = ldl_p(mem_buf);
--#endif
--        return 4;
--    }
--    if (n == 32) {
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        env->spe_acc = ldq_p(mem_buf);
--        return 8;
--    }
--    if (n == 33) {
--        ppc_maybe_bswap_register(env, mem_buf, 4);
--        env->spe_fscr = ldl_p(mem_buf);
--        return 4;
--    }
--    return 0;
--}
--
--static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
--{
--    if (n < 32) {
--        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
--        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
--        return 8;
--    }
--    return 0;
--}
--
--static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
--{
--    if (n < 32) {
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        *cpu_vsrl_ptr(env, n) = ldq_p(mem_buf);
--        return 8;
--    }
--    return 0;
--}
--
- static int ppc_fixup_cpu(PowerPCCPU *cpu)
- {
-     CPUPPCState *env = &cpu->env;
-@@ -10174,26 +9950,7 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
-     }
-     init_ppc_proc(cpu);
- 
--    if (pcc->insns_flags & PPC_FLOAT) {
--        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_reg,
--                                 33, "power-fpu.xml", 0);
--    }
--    if (pcc->insns_flags & PPC_ALTIVEC) {
--        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
--                                 34, "power-altivec.xml", 0);
--    }
--    if (pcc->insns_flags & PPC_SPE) {
--        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
--                                 34, "power-spe.xml", 0);
--    }
--    if (pcc->insns_flags2 & PPC2_VSX) {
--        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
--                                 32, "power-vsx.xml", 0);
--    }
--#ifndef CONFIG_USER_ONLY
--    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
--                             pcc->gdb_num_sprs, "power-spr.xml", 0);
--#endif
-+    ppc_gdb_init(cs, pcc);
-     qemu_init_vcpu(cs);
- 
-     pcc->parent_realize(dev, errp);
-@@ -10835,15 +10592,6 @@ static bool ppc_pvr_match_default(PowerPCCPUClass *pcc, uint32_t pvr)
-     return pcc->pvr == pvr;
- }
- 
--static gchar *ppc_gdb_arch_name(CPUState *cs)
--{
--#if defined(TARGET_PPC64)
--    return g_strdup("powerpc:common64");
--#else
--    return g_strdup("powerpc:common");
--#endif
--}
--
- static void ppc_disas_set_info(CPUState *cs, disassemble_info *info)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
--- 
-2.17.1
+> 
+> >    
+> > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> 
+> 
+> patch itself ok:
+> 
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> > > > ---
+> > > > PS:
+> > > >  I have build_header() refactoring patch that requires offset
+> > > >  instead of pointer, to make it harder to misuse but it's
+> > > >  a bit intrusive for last minute fixes. So here goes simplified
+> > > >  variant, and I'll post refactoring patch for 6.1. later.
+> > > > ---
+> > > >  hw/acpi/aml-build.c  | 15 +++++++++------
+> > > >  hw/i386/acpi-build.c |  8 ++++++--
+> > > >  2 files changed, 15 insertions(+), 8 deletions(-)
+> > > > 
+> > > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > > > index d33ce8954a..f0035d2b4a 100644
+> > > > --- a/hw/acpi/aml-build.c
+> > > > +++ b/hw/acpi/aml-build.c
+> > > > @@ -1830,6 +1830,7 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+> > > >      int i;
+> > > >      unsigned rsdt_entries_offset;
+> > > >      AcpiRsdtDescriptorRev1 *rsdt;
+> > > > +    int rsdt_start = table_data->len;
+> > > >      const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
+> > > >      const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
+> > > >      const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
+> > > > @@ -1846,7 +1847,8 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+> > > >              ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
+> > > >      }
+> > > >      build_header(linker, table_data,
+> > > > -                 (void *)rsdt, "RSDT", rsdt_len, 1, oem_id, oem_table_id);
+> > > > +                 (void *)(table_data->data + rsdt_start),
+> > > > +                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
+> > > >  }
+> > > >  
+> > > >  /* Build xsdt table */
+> > > > @@ -1857,6 +1859,7 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+> > > >      int i;
+> > > >      unsigned xsdt_entries_offset;
+> > > >      AcpiXsdtDescriptorRev2 *xsdt;
+> > > > +    int xsdt_start = table_data->len;
+> > > >      const unsigned table_data_len = (sizeof(uint64_t) * table_offsets->len);
+> > > >      const unsigned xsdt_entry_size = sizeof(xsdt->table_offset_entry[0]);
+> > > >      const size_t xsdt_len = sizeof(*xsdt) + table_data_len;
+> > > > @@ -1873,7 +1876,8 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+> > > >              ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
+> > > >      }
+> > > >      build_header(linker, table_data,
+> > > > -                 (void *)xsdt, "XSDT", xsdt_len, 1, oem_id, oem_table_id);
+> > > > +                 (void *)(table_data->data + xsdt_start),
+> > > > +                 "XSDT", xsdt_len, 1, oem_id, oem_table_id);
+> > > >  }
+> > > >  
+> > > >  void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+> > > > @@ -2053,10 +2057,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> > > >      uint64_t control_area_start_address;
+> > > >      TPMIf *tpmif = tpm_find();
+> > > >      uint32_t start_method;
+> > > > -    void *tpm2_ptr;
+> > > >  
+> > > >      tpm2_start = table_data->len;
+> > > > -    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> > > > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> > > >  
+> > > >      /* Platform Class */
+> > > >      build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+> > > > @@ -2095,8 +2098,8 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> > > >                                     log_addr_offset, 8,
+> > > >                                     ACPI_BUILD_TPMLOG_FILE, 0);
+> > > >      build_header(linker, table_data,
+> > > > -                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, oem_id,
+> > > > -                 oem_table_id);
+> > > > +                 (void *)(table_data->data + tpm2_start),
+> > > > +                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
+> > > >  }
+> > > >  
+> > > >  Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
+> > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > index de98750aef..daaf8f473e 100644
+> > > > --- a/hw/i386/acpi-build.c
+> > > > +++ b/hw/i386/acpi-build.c
+> > > > @@ -1816,6 +1816,7 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+> > > >             const char *oem_table_id)
+> > > >  {
+> > > >      Acpi20Hpet *hpet;
+> > > > +    int hpet_start = table_data->len;
+> > > >  
+> > > >      hpet = acpi_data_push(table_data, sizeof(*hpet));
+> > > >      /* Note timer_block_id value must be kept in sync with value advertised by
+> > > > @@ -1824,13 +1825,15 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+> > > >      hpet->timer_block_id = cpu_to_le32(0x8086a201);
+> > > >      hpet->addr.address = cpu_to_le64(HPET_BASE);
+> > > >      build_header(linker, table_data,
+> > > > -                 (void *)hpet, "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
+> > > > +                 (void *)(table_data->data + hpet_start),
+> > > > +                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
+> > > >  }
+> > > >  
+> > > >  static void
+> > > >  build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> > > >                 const char *oem_id, const char *oem_table_id)
+> > > >  {
+> > > > +    int tcpa_start = table_data->len;
+> > > >      Acpi20Tcpa *tcpa = acpi_data_push(table_data, sizeof *tcpa);
+> > > >      unsigned log_addr_size = sizeof(tcpa->log_area_start_address);
+> > > >      unsigned log_addr_offset =
+> > > > @@ -1849,7 +1852,8 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> > > >          ACPI_BUILD_TPMLOG_FILE, 0);
+> > > >  
+> > > >      build_header(linker, table_data,
+> > > > -                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
+> > > > +                 (void *)(table_data->data + tcpa_start),
+> > > > +                 "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
+> > > >  }
+> > > >  
+> > > >  #define HOLE_640K_START  (640 * KiB)
+> > > > -- 
+> > > > 2.27.0    
+> > >   
+> 
 
 
