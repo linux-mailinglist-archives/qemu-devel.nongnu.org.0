@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4102035D56A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 04:46:17 +0200 (CEST)
-Received: from localhost ([::1]:55524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDA135D56B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 04:47:51 +0200 (CEST)
+Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW94C-0001oB-Be
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 22:46:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
+	id 1lW95i-0002t8-Ui
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 22:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=730c0c5bd=alistair.francis@wdc.com>)
- id 1lW90N-00064G-GR; Mon, 12 Apr 2021 22:42:19 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:62296)
+ id 1lW90g-0006SN-JI; Mon, 12 Apr 2021 22:42:38 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:62315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=730c0c5bd=alistair.francis@wdc.com>)
- id 1lW90L-00080J-RO; Mon, 12 Apr 2021 22:42:19 -0400
+ id 1lW90e-0008BX-Q2; Mon, 12 Apr 2021 22:42:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1618281737; x=1649817737;
+ t=1618281756; x=1649817756;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6Pem7nn+Ai8i7C1vw/hr6N5V118h5TJ3Ltyh7wyBDJY=;
- b=GqcDKDIPU6tBEfIthYxL3jofElYZ7hrlvtb4J49iVYFU2flz2L15U1Fw
- iieP1RLkVwnGrZrp0Qi+pd3dqVlZ2fGa8cESjpelKcCjJKmGiXXHEeMoP
- CDq3beINXx6xVGER8t5bPBrGNFijPJpzI9ma6Yv9bp6kOELb3qsp/SV1Q
- s+PmTyuCtArijoJ3qJWL85TOboxN9+8nUcSeJzF/6DkVLguYNgFqnfiuX
- Ty3xaJSVihYi98f9zcVeS5VYRp5UkFrvvFDsirgpCgwfke78r4fORGnKN
- g0lrjYSezN5lX56mFR/UjOjWTY50QVwZLQxbvooTtME+TmyjBfm3EAqwW g==;
-IronPort-SDR: ngHH1njyr/ZzbugCbSOVm914JHtwd9w0ulB5AvvzvUUyMTdD0zK6gJUUA0z775ZzxBEx1FqK+8
- F0KjLMY5iapseF0RcRL2nQHBzBvFmr5xNZcTEybP7D9k8BfcYAcKV36tR/rS3G6rD1ihHBAqVq
- 2NKMsdExNSQsFi4+3GiGBWtzOJANy/OFRBQ128G427i2PWbRBVz3l0u5owJJD4+Yg+0GN4lzqt
- 4wWvbvUGYV0TDvYLq/OCUREkjiuUz+PehQ5w1J3hT7xRDcX4MZTpujrhrVBYE3Q6QOt6ZnhCtP
- L88=
-X-IronPort-AV: E=Sophos;i="5.82,216,1613404800"; d="scan'208";a="164190716"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 13 Apr 2021 10:42:09 +0800
-IronPort-SDR: 7TLNaThtfZoWdktZJmwnpU869Kk1YRyNCFPhKIaalGC/wX9bauBIMOSn9CoqESaVUvlXLtcJIV
- DI7RqcdCUA0Rdf/l0TxRtbjMHLBkOKs038FDw3zQRigG/00MbKU1hlJL9w5O4aiZQ8rm4jNmno
- m2qMR2oGsXNSH4tP4BLjZKxknunBhoeCEMyOjbUqL+jaaRcR8VCY3LwwAhvKR0dcOm0kRvYNnb
- fh0QbiuKnsgsAiBu4cljT2dJd8aX9cV+vb0elcm6lHoZw0XwuPsOEWpHcx9Xy4c9K4e/YbHQ9c
- +pq/v7LFi1TOwfaAkMzMucza
+ bh=AEdLUUCBoQL5rEE7QdTBd0JifO8NvjBpCTUmr7NrzuA=;
+ b=WEXs5WTgm2bvIyNo3v02VpP5LY3+Q1v1AU8x1FLxWMwotDKASL20jmbh
+ Fy8Mx/zNt69FD+gB3QusKMlZsXX6rQz+an2Z6cLJfROMj+1v/+B4ZqwI4
+ UwJkhSIt/HYq23XQpLaXMNJHgO5kZgszywaNsbmyhUh20W0ZEmWZP89Yo
+ te75wPP1dP32n55fRmzlL11yKkg3OuQ2/dw5QLtZTrOQO+HI9NAxmv7zF
+ Pj4njabSA5kIgiuxAfZSAWLNKJXEwe9bc4JzOZSgLhoeWoc7Z03E3BSYd
+ mP9E3pmnBZNeipMbz//Ls8bZHa2yP2sLfDGJEexyDVHuruAIJsU5htjpY g==;
+IronPort-SDR: 1S5vBJ+MwQcL570pcM62J44T66tzedzx50hQu91QuJcz40rwL7CDkXLR3HYO6+QYX5JZ190rX+
+ ErSwClwOjfMHyIO35M28lbFB0igCEqp3Oqr2LbKw2Xp+3eDT2vhfjaFijzmYGgY0wqGlmcmlgU
+ 0OD9txBLC1vIU91JFOd6I3OIcHMrSl8OpA3JRmkW6fWg9F23novy9Bk0Qmfgb/lV5UpQRsyVgD
+ EWVZUb3jwYNVoaiiWKMaijXef/cGiBCpJ1x5RmyRxGXdqhq6O3ZEBx/PkVaKHhm/4c3MGCaism
+ csw=
+X-IronPort-AV: E=Sophos;i="5.82,216,1613404800"; d="scan'208";a="164190738"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 13 Apr 2021 10:42:23 +0800
+IronPort-SDR: SYgiMQQd6PSxYSv9iNp8QEAHuNSZM1DW3u82hJz9Hm/AoqCg232RDPgFJ2eOjHek6LfnW4r5fB
+ AUOpAsK50T23+eT9V1tEsFDqyjO5w+iFNJX7sZco3BC9C3FL7at3rVwdnflW/lQ8E8mOxYkUmC
+ 2D7MZPle1QskVTRygTmWTYiDfXMNXRrVK2HLLOnK9gkO7Hmrh0UzuB+ACstIen4To7/iWDbrka
+ Hwa352OALjtqjes1z6Aav2HIgQ9d5yb0NvBMQtH1yzJ8Db4aXDp/isVTJ1rLKMX+8CySmuOVOJ
+ z77yBe+pKHtJA6F8mDlb/MDC
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2021 19:21:35 -0700
-IronPort-SDR: Jf+nuujwPxdHBhrE+j2hmFQJM9v8fN/wL1FP4gTbOvd5R8yEGpENIODXkzUz97fqfZppyQKG74
- CRhRUyxlWB1gfL6wph2yt48Jbl96JxIEiRAGs7pxjSAKrFjS2hP387jC55MM5E2XWs4gUM7u3w
- VdKV3v2qeWVQpDtsLGSlabIgz/WBf16v9bhO5+XiDksVq2vYSxsguBWPICa9y8q+XzNBzuh1QM
- VlKnBfkDuQG925+02l8YaNTJVDZy5WPLVawnykWu8Ktu51IwsUhapSQxSuq19kmdcMKk2xkDt0
- kuk=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2021 19:23:24 -0700
+IronPort-SDR: 4cy/XtgGsOlvE2oddCxjE7SGVFqTX81AVLVEkYJM0Sh0+4blMoj8LF+QWevkkQiYLzeUnao0r+
+ wQJYA/mLUIE1A2Mp40PgJz5GO4wz7UfSz9MRwTR1Yv50MAJLrxKwCkA8k4lPq98XJix2HpjeTq
+ JKjwIYcM4y92spjKFjhOTetUw0DLiRxQF+nCCHDhwxKUS+QxH3ZHjXj3DtDgYFEGy6ac5FyhHn
+ tztUkCZ0Uf7bVr0ULnnCW3r3+E7OIb5Pr6fXDHOQ62c8TkdCQ23aPLc4SphwT2rRf5UtB+NFPQ
+ ptM=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.16])
- by uls-op-cesaip01.wdc.com with ESMTP; 12 Apr 2021 19:42:05 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 12 Apr 2021 19:42:18 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v3 2/8] target/riscv: Define ePMP mseccfg
-Date: Tue, 13 Apr 2021 12:41:55 +1000
-Message-Id: <919a4f45cbfd039545efadd4cfb0cd9ada8cfdb9.1618281655.git.alistair.francis@wdc.com>
+Subject: [PATCH v3 3/8] target/riscv: Add the ePMP feature
+Date: Tue, 13 Apr 2021 12:42:09 +1000
+Message-Id: <3a2615d3f1433a025c7035673f66e4b72cb22878.1618281655.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1618281655.git.alistair.francis@wdc.com>
 References: <cover.1618281655.git.alistair.francis@wdc.com>
@@ -94,38 +94,27 @@ Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hou Weiying <weiying_hou@outlook.com>
+The spec is avaliable at:
+https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
 
-Use address 0x390 and 0x391 for the ePMP CSRs.
-
-Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <SG2PR02MB2634D85E5DF0C2BB540AE1BB93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
-[ Changes by AF:
- - Tidy up commit message
-]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- target/riscv/cpu_bits.h | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8549d77b4f..24d89939a0 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -220,6 +220,9 @@
- #define CSR_MTINST          0x34a
- #define CSR_MTVAL2          0x34b
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 842d3ab810..13a08b86f6 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -81,6 +81,7 @@
+ enum {
+     RISCV_FEATURE_MMU,
+     RISCV_FEATURE_PMP,
++    RISCV_FEATURE_EPMP,
+     RISCV_FEATURE_MISA
+ };
  
-+/* Enhanced Physical Memory Protection (ePMP) */
-+#define CSR_MSECCFG         0x390
-+#define CSR_MSECCFGH        0x391
- /* Physical Memory Protection */
- #define CSR_PMPCFG0         0x3a0
- #define CSR_PMPCFG1         0x3a1
 -- 
 2.31.1
 
