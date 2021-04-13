@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA3735E026
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:34:29 +0200 (CEST)
-Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD48735E02F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:36:42 +0200 (CEST)
+Received: from localhost ([::1]:59506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWJBU-0006kD-Kq
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48810)
+	id 1lWJDd-0000Aj-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWJ9u-0005k9-Me
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:32:50 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWJ9q-0001Tp-Lc
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:32:50 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id m3so19420797edv.5
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 06:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JQMi5apjq4+ZxeLlhEC2Qn0085wWlJdEy0w0zBLJE1A=;
- b=ljDSzTSe6A8KdiqH8gakuHR8OphpveLijNMU9900sm8F29QWIJIn9uehYnEHqtXyGt
- sz5ejt+WyDnbnQZ5JPwlQTcd57uFEND7sEy/MIor56b9GfJ2+DsnSUPOFQvF7LGHe7Jt
- jjGZUGFFEE/rM/OOV4pGRutD67U3V66qfVTQJIZugYPYUMbJY21F6VBDHeOxPC5L9q01
- OI0If+DJ20CRqG9kUlNe8fCnqmzU6O+2CuWlfoBProGj8V4PPy2TUSBhurKI/6mbuHnx
- 5ld83yO9AdqxzbmpU8ao5+jwDzqO8P184dW5/U14cMcvCTdKVreDXjsxrNmNeJzxrCcV
- psiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JQMi5apjq4+ZxeLlhEC2Qn0085wWlJdEy0w0zBLJE1A=;
- b=eEw31a/Q7K5QNRpcuAOKBblssIBOhmtD0GCibOLnAmvIEJuCjTuQM2Gk3t7UmXbIar
- wyw+Df3At5Ksxojdk39gIwy+VyC1RHiZUJ2EV1lCj6oGeE1/uh/hRAtuuEvqKvDm+Qv0
- HVSlrYpuRLoJC35wKpiN4iOkTM0qkeB+IN672ZUbpSbBW3rjH0uO0y6YpKsWBVJRye1c
- ecjNbKoFTtHGGVJg4iD2dEbbIilawXp1Q1N5hVlHbmpar5qkzTSlg9RkVYWuojPGI+gi
- iGcfX4sJVqcXZyR+9Z+htX6Jww/xGXFIVH+8Ae7ug92Eib9zU9I23x/JuMzxTrAdFURI
- K6Vw==
-X-Gm-Message-State: AOAM531ZkH389IygR++9qs7zM0ilkzAzT5/SrPFmAWd7ImIE+YT1TNrh
- oxUOFXZVnpBTpN9GglE65Jj/lv9x8qDotciCYV170g==
-X-Google-Smtp-Source: ABdhPJzTtqbjtmecNimQa/6vymhMvnDN0Jd4wlKD0KFiBT/AYNISuoPA7MB2kOiO6CGe+oP0exIVLyGfE20vWbotwwU=
-X-Received: by 2002:a05:6402:4244:: with SMTP id
- g4mr34690376edb.204.1618320764385; 
- Tue, 13 Apr 2021 06:32:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lWJAS-0006BN-Ny
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:33:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lWJAQ-0001nC-Cz
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:33:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618320801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b26UN0r+T3wLi3xILlngnOJ6FYUScbcVZfM38xUEXg0=;
+ b=TnGOqJtOmI5iK2LVF65pCrLLR8995FgKspUdLeYtd+Ek8ofrgIwNFh5xyLTPWnzWZkEA7D
+ Llyldq6DH6jHQl1oEl4BXwp9oJ5/jvpgkhHaatougK8odHxLLVKFo9ESXj7hVxQiKDec97
+ UyXpUCeaIL0LtbPGKGilHS7EaH8tAcs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-Di8snGT-N4KutdZryhAy4g-1; Tue, 13 Apr 2021 09:33:17 -0400
+X-MC-Unique: Di8snGT-N4KutdZryhAy4g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0332510E174C;
+ Tue, 13 Apr 2021 13:32:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-55.ams2.redhat.com
+ [10.36.114.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B32466267B;
+ Tue, 13 Apr 2021 13:32:40 +0000 (UTC)
+Subject: Re: [PATCH for-6.0] block/nbd: fix possible use after free of
+ s->connect_thread
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210406155114.1057355-1-vsementsov@virtuozzo.com>
+ <eb293b4a-6335-5788-5cf8-7f98d04ccfba@redhat.com>
+ <a8cd91ca-ae7f-49b0-c98a-f5a9b392a7ac@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <38417b0c-497f-1c41-d35e-8167bda0c2f7@redhat.com>
+Date: Tue, 13 Apr 2021 15:32:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210413002648.8281-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20210413002648.8281-1-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Apr 2021 14:31:59 +0100
-Message-ID: <CAFEAcA_2bqGVntsq35ZOPEJGUGKLNf-uJGixCF2MzxShZuSmTg@mail.gmail.com>
-Subject: Re: [PULL 0/2] ppc-for-6.0 queue 20210412
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <a8cd91ca-ae7f-49b0-c98a-f5a9b392a7ac@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,52 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, rvkagan@yandex-team.ru, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Apr 2021 at 01:26, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit 555249a59e9cdd6b58da103aba5cf3a2d45c899f:
->
->   Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-04-10 16:58:56 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210412
->
-> for you to fetch changes up to 2b18fc794f312a91482998bae5ea6c8724200e06:
->
->   spapr.c: always pulse guest IRQ in spapr_core_unplug_request() (2021-04-12 12:27:14 +1000)
->
->
-> Ugh, sorry Peter.  I meant to sent this yesterday, but apparently
-> forgot to execute the last step to actuall send it out.
->
-> ----------------------------------------------------------------
-> ppc patch queue for 2021-04-21
->
-> Here's what I hope is the last ppc related pull request for qemu-6.0.
->
-> The 2 patches here revert a behavioural change that after further
-> discussion we concluded was a bad idea (adding a timeout for
-> possibly-failed hot unplug requests).  Instead it implements a
-> different approach to the original problem: we again let unplug
-> requests the guest doesn't respond to remain pending indefinitely, but
-> no longer allow those to block attempts to retry the same unplug
-> again.
->
-> The change is a bit more complex than I'd like for this late in the
-> freeze.  Nonetheless, I think it's important to merge this for 6.0, so
-> we don't allow a release which has the probably-a-bad-idea timeout
-> behaviour.
+On 13.04.21 14:19, Vladimir Sementsov-Ogievskiy wrote:
+> 13.04.2021 14:53, Max Reitz wrote:
+>> On 06.04.21 17:51, Vladimir Sementsov-Ogievskiy wrote:
+>>> If on nbd_close() we detach the thread (in
+>>> nbd_co_establish_connection_cancel() thr->state becomes
+>>> CONNECT_THREAD_RUNNING_DETACHED), after that point we should not use
+>>> s->connect_thread (which is set to NULL), as running thread may free it
+>>> at any time.
+>>>
+>>> Still nbd_co_establish_connection() does exactly this: it saves
+>>> s->connect_thread to local variable (just for better code style) and
+>>> use it even after yield point, when thread may be already detached.
+>>>
+>>> Fix that. Also check thr to be non-NULL on
+>>> nbd_co_establish_connection() start for safety.
+>>>
+>>> After this patch "case CONNECT_THREAD_RUNNING_DETACHED" becomes
+>>> impossible in the second switch in nbd_co_establish_connection().
+>>> Still, don't add extra abort() just before the release. If it somehow
+>>> possible to reach this "case:" it won't hurt. Anyway, good refactoring
+>>> of all this reconnect mess will come soon.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>
+>>> Hi all! I faced a crash, just running 277 iotest in a loop. I can't
+>>> reproduce it on master, it reproduces only on my branch with nbd
+>>> reconnect refactorings.
+>>>
+>>> Still, it seems very possible that it may crash under some conditions.
+>>> So I propose this patch for 6.0. It's written so that it's obvious that
+>>> it will not hurt:
+>>>
+>>>   pre-patch, on first hunk we'll just crash if thr is NULL,
+>>>   on second hunk it's safe to return -1, and using thr when
+>>>   s->connect_thread is already zeroed is obviously wrong.
+>>>
+>>>   block/nbd.c | 11 +++++++++++
+>>>   1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/block/nbd.c b/block/nbd.c
+>>> index c26dc5a54f..1d4668d42d 100644
+>>> --- a/block/nbd.c
+>>> +++ b/block/nbd.c
+>>> @@ -443,6 +443,11 @@ nbd_co_establish_connection(BlockDriverState 
+>>> *bs, Error **errp)
+>>>       BDRVNBDState *s = bs->opaque;
+>>>       NBDConnectThread *thr = s->connect_thread;
+>>> +    if (!thr) {
+>>> +        /* detached */
+>>> +        return -1;
+>>> +    }
+>>> +
+>>>       qemu_mutex_lock(&thr->mutex);
+>>>       switch (thr->state) {
+>>
+>> First, it is a bit strange not to set *errp in these cases. 
+> 
+> Oops, right! ashamed)
 
+OK, so who cares.  It wouldn’t do anything anyway.
 
-Applied, thanks.
+Apart from that, all the changes do is to turn use after frees or 
+immediate NULL dereferences into clean errors.  I can’t see any 
+resources that should be cleaned up, so I hope Coverity won’t hate me 
+for taking this patch.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+And then we’ll see whether Peter will take the pull request...
 
--- PMM
+Max
+
 
