@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EA335DA77
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:56:15 +0200 (CEST)
-Received: from localhost ([::1]:36186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F0E35DA8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:59:25 +0200 (CEST)
+Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWEqF-0006iz-33
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54918)
+	id 1lWEtI-00083D-IH
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lWEnt-0005wq-T4
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:53:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55148)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lWEsL-0007eO-Ax
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:58:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lWEns-0000LZ-6p
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:53:49 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lWEsJ-0002sC-9d
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:58:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618304027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1618304302;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bvbNGiCRXqN2VqIhzCf4hzcEHO+7DuAu4HAQ5ik1hTc=;
- b=W+InvAWxvZlwexBHy/hs/cl24z4jYhCm1uwseHjpOC7zMKOfhoqKJejg3aMMRhsvrc8l6L
- v3TMSPIN/JrBe0xAED7JPWE1PEPJuSaLQBS36akAWFEDUaDCVthOKKiBLH6r6TepBdZQlG
- H5KMXUnUyTf6TlcD5qCJvsdergzr4hg=
+ bh=7Pwon+f6yZeWGXz1ACEZEg379BeoU0XfKBZXQeRMSs4=;
+ b=SRUJRTQTnOWS8Oqd3MaEGSp0pCvkQI8L3uExtuh4JO2FvoPIdpu8QPrALAfxGvlbg3TU+f
+ JFkPXcfGuDlgTCP0s/l5EwZm5EfVSmgdMxAh9CiToQWayJmFkGw2+DJcxB+iFlp+XG4vt9
+ v8qdG3E3Swihc9elLs6QDB/1Rs6ceGg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-XxjpJGfYNmu_kEVznaDkKA-1; Tue, 13 Apr 2021 04:53:44 -0400
-X-MC-Unique: XxjpJGfYNmu_kEVznaDkKA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-153-YR06YNe1PMWQz_cAwKX3yw-1; Tue, 13 Apr 2021 04:58:11 -0400
+X-MC-Unique: YR06YNe1PMWQz_cAwKX3yw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B7E89F92A;
- Tue, 13 Apr 2021 08:53:43 +0000 (UTC)
-Received: from localhost (ovpn-115-75.ams2.redhat.com [10.36.115.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 451C160CF0;
- Tue, 13 Apr 2021 08:53:36 +0000 (UTC)
-Date: Tue, 13 Apr 2021 09:53:35 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] vhost-user-fs: fix features handling
-Message-ID: <YHVcDwX7bCW6T1B2@stefanha-x1.localdomain>
-References: <20210408195534.647895-1-antonkuchin@yandex-team.ru>
- <20210409155657.GE1111800@redhat.com>
- <14f05a3d-7db6-2c01-7fe0-f83586ff1fd6@yandex-team.ru>
- <20210412184316.GF1184147@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C9EA881276;
+ Tue, 13 Apr 2021 08:58:09 +0000 (UTC)
+Received: from redhat.com (ovpn-114-58.ams2.redhat.com [10.36.114.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43F5439A60;
+ Tue, 13 Apr 2021 08:58:01 +0000 (UTC)
+Date: Tue, 13 Apr 2021 09:57:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 2/2] Support monitor chardev hotswap with QMP
+Message-ID: <YHVdFndkaj0bltcE@redhat.com>
+References: <20210315170636.704201-1-zhlcindy@gmail.com>
+ <20210315170636.704201-2-zhlcindy@gmail.com>
+ <8735vu1ybo.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20210412184316.GF1184147@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <8735vu1ybo.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QSTS3cQwv5Jgiqij"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,112 +83,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: lukasstraub2@web.de, alexandr.iarygin@profitbricks.com,
+ qemu-devel@nongnu.org, Li Zhang <li.zhang@cloud.ionos.com>,
+ pankaj.gupta@cloud.ionos.com, Li Zhang <zhlcindy@gmail.com>,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---QSTS3cQwv5Jgiqij
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 13, 2021 at 08:40:59AM +0200, Markus Armbruster wrote:
+> Li Zhang <zhlcindy@gmail.com> writes:
+> 
+> > From: Li Zhang <li.zhang@cloud.ionos.com>
+> >
+> > For some scenarios, it needs to hot-add a monitor device.
+> > But QEMU doesn't support hotplug yet. It also works by adding
+> > a monitor with null backend by default and then change its
+> > backend to socket by QMP command "chardev-change".
 
-On Mon, Apr 12, 2021 at 02:43:16PM -0400, Vivek Goyal wrote:
-> On Sun, Apr 11, 2021 at 09:21:54AM +0300, Anton Kuchin wrote:
-> >=20
-> > On 09/04/2021 18:56, Vivek Goyal wrote:
-> > > On Thu, Apr 08, 2021 at 10:55:34PM +0300, Anton Kuchin wrote:
-> > > > Make virtio-fs take into account server capabilities.
-> > > >=20
-> > > > Just returning requested features assumes they all of then are impl=
-emented
-> > > > by server and results in setting unsupported configuration if some =
-of them
-> > > > are absent.
-> > > >=20
-> > > > Signed-off-by: Anton Kuchin<antonkuchin@yandex-team.ru>
-> > > [CC stefan and qemu-devel.]
-> > >=20
-> > > Can you give more details of what problem exactly you are facing. Or
-> > > this fix is about avoiding a future problem where device can refuse
-> > > to support a feature qemu is requesting for.
-> >=20
-> > This fixes existing problem that qemu ignores features (un)supported by
-> > backend and this works fine only if backend features match features of =
-qemu.
-> > Otherwise qemu incorrectly assumes that backend suports all of them and
-> > calls vhost_set_features() not taking into account result of previous
-> > vhost_get_features() call. This breaks protocol and can crash server or
-> > cause incorrect behavior.
-> >=20
-> > This is why I hope it to be accepted in time for 6.0 release.
-> >=20
-> > > IIUC, this patch is preparing a list of features vhost-user-fs device
-> > > can support. Then it calls vhost_get_features() which makes sure that
-> > > all these features are support by real vhost-user device (hdev->featu=
-res).
-> > > If not, then corresponding feature is reset and remaining features
-> > > are returned to caller.
-> > When this callback is executed in virtio_bus_device_plugged() list of
-> > features that vhost-backend supports has been already obtained earlier =
-by
-> > vhost_user_get_features() in vuf_device_realize() and stored in
-> > hdev->features.
->=20
-> > vuf_get_features() should return bitmask of features that
-> > are common for vhost backend (hdev->features) and frontend
-> > (vdev->host_features).
->=20
-> But that's not what exactly this patch seems to be doing.
-> IIUC, It only resets some of the features from list passed from
-> the caller. So whatever has been defined in user_feature_bits[],
-> and if these features are not supported by vhost-user backend, then
-> that feature will be reset before returning to caller.
->=20
-> So the question is what are those features which should be in
-> user_feature_bits[]? For example, by default libvhost-user
-> also supports.
->=20
->         /* vhost-user feature bits */
->         1ULL << VHOST_F_LOG_ALL |
->         1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
->=20
-> Should that be in user_feature_bits[] too. So that if a customer
-> vhost-user-fs backend does not support VHOST_F_LOG_ALL or
-> VHOST_USER_F_PROTOCOL_FEATURES, it is reset.
->=20
-> IIUC, your current patch is not going to reset these features if
-> caller passed you those in vuf_get_features(,requested_features).
->=20
-> So to me this becomes more of a question that what are those common
-> features which both the ends of vhost-user device should support for
-> it to work and should be checked in vuf_get_features().=20
+If you need ability to hot-add monitor instances, why not just
+implement that feature directly, instead of pre-creating monitors
+with null backends and then later changing the backend ?
 
-VHOST_F_LOG_ALL and VHOST_USER_F_PROTOCOL_FEATURES are controlled by
-hw/virtio/vhost.c and hw/virtio/vhost-user.c. These feature bits are
-part of the vhost-user protocol and are not involved in guest-visible
-VIRTIO feature negotiation. It's confusing because these bits use the
-same namespace as VIRTIO features but it is correct to omit it from
-user_feature_bits[].
+> >
+> > So this patch is to support monitor chardev hotswap with QMP.
+> >
+> > Signed-off-by: Li Zhang <li.zhang@cloud.ionos.com>
+> 
+> I think what what you're trying to say is that chardev-change does not
+> work when the character device changes is used by a QMP monitor.
+> Correct?
+> 
+> If yes, how exactly does it misbehave?
+> 
+> Does it work with an HMP monitor?
+> 
+> > ---
+> >  monitor/monitor-internal.h |  3 +++
+> >  monitor/monitor.c          |  2 +-
+> >  monitor/qmp.c              | 42 +++++++++++++++++++++++++++++++++++---
+> >  3 files changed, 43 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> > index 40903d6386..2df6dd21de 100644
+> > --- a/monitor/monitor-internal.h
+> > +++ b/monitor/monitor-internal.h
+> > @@ -186,4 +186,7 @@ int hmp_compare_cmd(const char *name, const char *list);
+> >  void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
+> >                                   Error **errp);
+> >  
+> > +gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+> > +                               void *opaque);
+> > +
+> >  #endif
+> > diff --git a/monitor/monitor.c b/monitor/monitor.c
+> > index e94f532cf5..2d255bab18 100644
+> > --- a/monitor/monitor.c
+> > +++ b/monitor/monitor.c
+> > @@ -157,7 +157,7 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
+> >  
+> >  static void monitor_flush_locked(Monitor *mon);
+> >  
+> > -static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+> > +gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+> >                                    void *opaque)
+> >  {
+> >      Monitor *mon = opaque;
+> > diff --git a/monitor/qmp.c b/monitor/qmp.c
+> > index 2326bd7f9b..55cfb230d9 100644
+> > --- a/monitor/qmp.c
+> > +++ b/monitor/qmp.c
+> > @@ -44,6 +44,7 @@ struct QMPRequest {
+> >      Error *err;
+> >  };
+> >  typedef struct QMPRequest QMPRequest;
+> > +static void monitor_qmp_set_handlers_bh(void *opaque);
+> >  
+> >  QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
+> >  
+> > @@ -480,7 +481,35 @@ void monitor_data_destroy_qmp(MonitorQMP *mon)
+> >      g_queue_free(mon->qmp_requests);
+> >  }
+> >  
+> > -static void monitor_qmp_setup_handlers_bh(void *opaque)
+> > +static int monitor_qmp_change(void *opaque)
+> > +{
+> > +    MonitorQMP *mon = opaque;
+> > +
+> > +    mon->common.use_io_thread =
+> > +        qemu_chr_has_feature(mon->common.chr.chr, QEMU_CHAR_FEATURE_GCONTEXT);
+> > +
+> > +    if (mon->common.use_io_thread) {
+> > +        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
+> > +                                monitor_qmp_set_handlers_bh, mon);
+> > +    } else {
+> > +        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
+> > +                                 monitor_qmp_read, monitor_qmp_event,
+> > +                                 monitor_qmp_change, &mon->common, NULL, true);
+> > +    }
+> > +
+> > +    if (mon->common.out_watch) {
+> > +        g_source_remove(mon->common.out_watch);
+> 
+> All other updates of @out_watch are under @mon_lock.  Why not this one?
+> 
+> I have no idea whether g_source_remove() is the right function to call.
+> Its documentation says "You must use g_source_destroy() for sources
+> added to a non-default main context."  The qemu_chr_fe_set_handlers()
+> contract is of no help.
+> 
+> Documentation of g_source_destroy() confuses some more: "This does not
+> unref the GSource: if you still hold a reference, use g_source_unref()
+> to drop it.
+> 
+> Marc-André, can you help?
+> 
+> > +        qemu_mutex_lock(&mon->common.mon_lock);
+> > +        mon->common.out_watch =
+> > +        qemu_chr_fe_add_watch(&mon->common.chr, G_IO_OUT | G_IO_HUP,
+> > +                               monitor_unblocked, &mon->common);
+> 
+> Bad indentation.  Better:
+> 
+>         mon->common.out_watch =
+>             qemu_chr_fe_add_watch(&mon->common.chr, G_IO_OUT | G_IO_HUP,
+>                                    monitor_unblocked, &mon->common);
+> 
+> or
+> 
+>         mon->common.out_watch = qemu_chr_fe_add_watch(&mon->common.chr,
+>                                                       G_IO_OUT | G_IO_HUP,
+>                                                       monitor_unblocked,
+>                                                       &mon->common);
+> 
+> or
+> 
+>         mon->common.out_watch = qemu_chr_fe_add_watch(&mon->common.chr,
+>                                         G_IO_OUT | G_IO_HUP,
+>                                         monitor_unblocked, &mon->common);
+> 
+> > +        qemu_mutex_unlock(&mon->common.mon_lock);
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> 
+> This function copies from monitor_data_init(), monitor_init_qmp(), and
+> monitor_flush_locked().  Feels like a refactoring would be in order.
+> Possibly on top.
+> 
+> > +
+> > +static void monitor_qmp_set_handlers_bh(void *opaque)
+> >  {
+> >      MonitorQMP *mon = opaque;
+> >      GMainContext *context;
+> > @@ -490,7 +519,14 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
+> >      assert(context);
+> >      qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
+> >                               monitor_qmp_read, monitor_qmp_event,
+> > -                             NULL, &mon->common, context, true);
+> > +                             monitor_qmp_change, &mon->common, context, true);
+> > +
+> > +}
+> > +
+> > +static void monitor_qmp_setup_handlers_bh(void *opaque)
+> > +{
+> > +    MonitorQMP *mon = opaque;
+> > +    monitor_qmp_set_handlers_bh(mon);
+> >      monitor_list_append(&mon->common);
+> >  }
+> >  
+> > @@ -531,7 +567,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+> >      } else {
+> >          qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
+> >                                   monitor_qmp_read, monitor_qmp_event,
+> > -                                 NULL, &mon->common, NULL, true);
+> > +                                 monitor_qmp_change, &mon->common, NULL, true);
+> >          monitor_list_append(&mon->common);
+> >      }
+> >  }
+> 
+> 
 
-Stefan
-
---QSTS3cQwv5Jgiqij
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB1XA8ACgkQnKSrs4Gr
-c8g02ggArV+Wj1NH9XK5UCF5iuSo0MOaFnV+MEiTNa8WIdo7AuuLaEj55B7IEwQZ
-dm1x0s0cEEi8DOI8Ru+a3jPqupe3i0BrOFQELdWVgtVCFmkOZBeBo4RDHUWFM9Ay
-g44WLpS0bbwuMdqCTfKsVEA6TlqT7xW+CJlWI+e580/kGFZNUoQkFh+ogf0ySG30
-cuMMXNBw5nzv7sUJiGD4cU6LUvfbhNlGrolFDpSU4HDRKXYpTsYcohOK2Ak+JebK
-gGnNpTnggo/S1VQzGS8NlEtu+7D29h4dQGPSzYj5bsyVSDUjXn1EBICdIrQtBHbk
-XtOP+wqprnkmvaxsN6AldWqw35U/2A==
-=o6ac
------END PGP SIGNATURE-----
-
---QSTS3cQwv5Jgiqij--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
