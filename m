@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DE835E3A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:18:21 +0200 (CEST)
-Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11B435E3A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:19:22 +0200 (CEST)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLk4-00010j-7j
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41854)
+	id 1lWLl3-0002eP-P9
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lWLax-0006zP-Mu
+ id 1lWLax-0006zl-Qf
  for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:55 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:41680)
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lWLav-0007Fr-Fq
+ id 1lWLaw-0007GM-4l
  for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:55 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id mh2so5264314ejb.8
+Received: by mail-ej1-x629.google.com with SMTP id n2so26799483ejy.7
  for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TMjm3yOL3+S+S2Xfiii8KMIk0YlnnQEWdaH7R2RZVQo=;
- b=u59o9dT4QQmFSKuTiJJazzoJgHVnbTsZgspRPPwiwCpqYd4IuYitjJ4G97CxaL5D6E
- SF9gzczSWwf5I1S/H1PwosLBMIb8X1lyk1QG2NcgTAKw1c4S5dbaYG3duUcY3Mh1vcHY
- CpJzPgbx84jooASWuOAhVDlwjq0iC0zf9ltQxUsoBKmuQFKTv7w46lL0rnoVRhgtMYL3
- 1UxM/w1GT+rVAEkTQmQfGpJG4JhI3cYc9D0lX3LiJd/3GDhlkIxHkNjf/ZHfECRhFgg5
- tQbnpNX+SUWZdmzmv94Wqve5GbpkWsF4w4phmtSf2jG7sZVJX4VXZB7zPcYVDQWahMnX
- F99w==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GYYM676T6K8E6MUwjt+OWaC5EYYCUhAjll3beQRTaTY=;
+ b=WlXzZ5OE2Rxl/EDu55R6ZZRknKashJ6rOHBWWR95XFoA+k7E+IPaZkF/pQi0wqHbFB
+ aA0ciGiRfkazG2CGCTtr57pl//rggfIwBFGLv20trSgB/6ZaPpj+M3eCMU4v1FTRlWU9
+ vjHVi071mwoEwEAAfy3x7Te/Zrvh3bgPqxzSsupG8ywdEi/ZJDsWGtEhEtK605CUG8xx
+ ZByxCr/f6239F8TaVCov7lMENoPLAP4flvQSUcd1YHGAjEQXhujbmvV0GybsgDIjkM9n
+ yix7JIPkycFrYzzSaFJqbamYtIc3JCErDU6p4nGVL22wnxrbpXMmd+0lV51GykQFJqow
+ MCuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=TMjm3yOL3+S+S2Xfiii8KMIk0YlnnQEWdaH7R2RZVQo=;
- b=FQifNinu5IUAbhYVjRBpZh+07XfagTW5znkJtEdaAlHkHk/hyMDsxAR2o9fUMCIGZY
- i8QAA0nUfyYwMcNHKqWB71yzEh+x3hD0l6kHD6yMOWgozQvDFRYZVmJJKoGIc+aIWz7/
- eHcZsT0QxE3PBZylXui3SyM4A3LhK2EnFZPIFyPQr8aCSLATtTwI+IykDXO1UdcSrz5U
- mqWsAYiGh5i6+B+OpKMJBddgEuoBJ7C6nToZGo4XPNrokA4ZSLdRjFj2N7zEaXBUmxQ+
- vqqIxb39x47CeDkB6qiXuArNGC/qRjV5cjwsypllq/pULrsyfa3X30Kv+vVIvS4tpcGN
- Ml7w==
-X-Gm-Message-State: AOAM533SbGXVw1ox2j6eoStQ98aV7x9c/qbqPQJ1D7K38J0/pycHTKJc
- RbmaFl7kcfBGIEyT+2+jpytQTn5w++0=
-X-Google-Smtp-Source: ABdhPJziLnvCE6QSmG2GgcAS8EXWA79BeF7OZBfbjTYaaAtDgIhHbXqwkRw7EvSJ+IpfzfwuJSFI/A==
-X-Received: by 2002:a17:907:1b20:: with SMTP id
- mp32mr33135551ejc.495.1618330132150; 
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=GYYM676T6K8E6MUwjt+OWaC5EYYCUhAjll3beQRTaTY=;
+ b=aM8fOoceCop1HgesPWcYOvPUnmwsjFhERNAPqJ7E2RGnxOFYQcq0qOXviaLLffcmh9
+ FBtH3vWA2EGD7QVoC9HDg1Z/PQt5BA+Eed9rSVn2EUBM2fz2hdowkOGoABpwsqsXQDdm
+ Q6wTcV6TTbDQ5/1nJbbgOPbUQtsaL2KeN44vrMp79U4Mvuf0aS9HHfM4/XQ2ettzypZt
+ qwtvrUxa3Xf6gA0jgZv3df3iEg04mav1xLfmTeT+inoqxgC0aLVSB4pmCihUkTpj0t3r
+ yVj62YKmWg8GigezGR3GsvV2YbuDOBhvmCwPNng6/KiKZp4P9zyEMxbRC3q5knR3hFbI
+ vdSQ==
+X-Gm-Message-State: AOAM5332bqvC9UjFnzaTKQdU9UmqM8aQ1DZxETPiKCl6/24zDtzQDWLq
+ 9c/UNjeRf0ZhF16pK0tZIzLXYQ8CItk=
+X-Google-Smtp-Source: ABdhPJwF6eE+IPaNPsOANh7+kGkG6DrRo9BPnSTBnxfypTaZLeI0i1WmgCEPqDG07hkvmO5IuaB4Vg==
+X-Received: by 2002:a17:906:4756:: with SMTP id
+ j22mr5932119ejs.506.1618330132832; 
  Tue, 13 Apr 2021 09:08:52 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- u19sm9897670edy.23.2021.04.13.09.08.51 for <qemu-devel@nongnu.org>
+ u19sm9897670edy.23.2021.04.13.09.08.52 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 09:08:51 -0700 (PDT)
+ Tue, 13 Apr 2021 09:08:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/3] osdep.h + QOM changes for QEMU 6.0-rc3
-Date: Tue, 13 Apr 2021 18:08:47 +0200
-Message-Id: <20210413160850.240064-1-pbonzini@redhat.com>
+Subject: [PULL v2 1/3] osdep: include glib-compat.h before other QEMU headers
+Date: Tue, 13 Apr 2021 18:08:48 +0200
+Message-Id: <20210413160850.240064-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210413160850.240064-1-pbonzini@redhat.com>
+References: <20210413160850.240064-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,36 +88,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
+glib-compat.h is sort of like a system header, and it needs to include
+system headers (glib.h) that may dislike being included under
+'extern "C"'.  Move it right after all system headers and before
+all other QEMU headers.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/qemu/osdep.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 1a0b186eaf3d1ce63dc7bf608d618b9ca62b6241:
-
-  qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code (2021-04-13 18:04:23 +0200)
-
-----------------------------------------------------------------
-* Fix C++ compilation of qemu/osdep.h.
-* Fix -object cryptodev-vhost-user
-
-----------------------------------------------------------------
-Paolo Bonzini (2):
-      osdep: include glib-compat.h before other QEMU headers
-      osdep: protect qemu/osdep.h with extern "C"
-
-Thomas Huth (1):
-      qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code
-
- disas/nanomips.cpp      |  2 +-
- include/qemu/compiler.h |  6 ++++++
- include/qemu/osdep.h    | 13 +++++++++++--
- qapi/qom.json           |  4 ++--
- 4 files changed, 20 insertions(+), 5 deletions(-)
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index ba15be9c56..b67b0a1e8c 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -111,6 +111,8 @@ extern int daemon(int, int);
+ #define WEXITSTATUS(x) (x)
+ #endif
+ 
++#include "glib-compat.h"
++
+ #ifdef _WIN32
+ #include "sysemu/os-win32.h"
+ #endif
+@@ -123,7 +125,6 @@ extern int daemon(int, int);
+ #include <AvailabilityMacros.h>
+ #endif
+ 
+-#include "glib-compat.h"
+ #include "qemu/typedefs.h"
+ 
+ /*
 -- 
 2.30.1
+
 
 
