@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA5335DD90
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 13:16:08 +0200 (CEST)
-Received: from localhost ([::1]:38074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1312235DDDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 13:37:32 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWH1b-0006a6-B8
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 07:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
+	id 1lWHMI-0004nw-NV
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 07:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lWGzz-000678-LC
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:14:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27947)
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lWHKC-0003gd-4c; Tue, 13 Apr 2021 07:35:21 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lWGzq-0008NR-03
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:14:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618312455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fr1bLi40QI+cEUQwDmfwkQ6Koh0p2l2izGFG9vHO+Tc=;
- b=dUto/ma9ZuVdOhzAt9a4u3EOSJRtXPxcns6b8MacL+6tAJcLhzuXC+4MqEFbtlfR/ejXu1
- APB5wwqzRzBEjfjjekYjPM9/a33tPelzwOZ2rOwGU+rqi61B07gSGrCG8nt2oxPtZtNloW
- 4e+9nTThLWbc8p016mTQAVZGbd3X8bU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-pkM9jo8INiWJiGpZwc55ow-1; Tue, 13 Apr 2021 07:14:11 -0400
-X-MC-Unique: pkM9jo8INiWJiGpZwc55ow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8013B83DD22;
- Tue, 13 Apr 2021 11:14:10 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F8FD50DE3;
- Tue, 13 Apr 2021 11:14:02 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0] x86: acpi: use offset instead of pointer when using
- build_header()
-Date: Tue, 13 Apr 2021 07:14:00 -0400
-Message-Id: <20210413111400.3778820-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lWHK6-0003cQ-BU; Tue, 13 Apr 2021 07:35:19 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FKNk66F2hzNvP5;
+ Tue, 13 Apr 2021 19:32:14 +0800 (CST)
+Received: from [10.174.185.226] (10.174.185.226) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 13 Apr 2021 19:35:01 +0800
+To: Auger Eric <eric.auger@redhat.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>,
+ <mst@redhat.com>, <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
+ <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
+References: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
+ <1616656965-23328-4-git-send-email-wangxingang5@huawei.com>
+ <f0cc7d43-70bd-7a65-3cba-213f258c57b4@redhat.com>
+From: Xingang Wang <wangxingang5@huawei.com>
+Subject: Re: [PATCH RFC RESEND v2 3/6] hw/pci: Add pci_root_bus_max_bus
+Message-ID: <a5db10ff-692f-40bd-0800-2d081069ae15@huawei.com>
+Date: Tue, 13 Apr 2021 19:35:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <f0cc7d43-70bd-7a65-3cba-213f258c57b4@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Originating-IP: [10.174.185.226]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangxingang5@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,133 +63,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, zhaoshenglong@huawei.com
+Cc: xieyingtai@huawei.com, cenjiahui@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do the same as in commit
- (4d027afeb3a97 Virt: ACPI: fix qemu assert due to re-assigned table data address)
-for remaining tables that happen to use saved at
-the beginning pointer to build header to avoid assert
-when table_data is relocated due to implicit re-size.
+Hi Eric,
 
-Reported-in: https://bugs.launchpad.net/bugs/1923497
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-PS:
- I have build_header() refactoring patch that requires offset
- instead of pointer, to make it harder to misuse but it's
- a bit intrusive for last minute fixes. So here goes simplified
- variant, and I'll post refactoring patch for 6.1. later.
----
- hw/acpi/aml-build.c  | 15 +++++++++------
- hw/i386/acpi-build.c |  8 ++++++--
- 2 files changed, 15 insertions(+), 8 deletions(-)
+On 2021/4/13 16:05, Auger Eric wrote:
+> Hi Xingang,
+> 
+> On 3/25/21 8:22 AM, Wang Xingang wrote:
+>> From: Xingang Wang <wangxingang5@huawei.com>
+>>
+>> This helps to find max bus number of a root bus.
+> s/max bus number of a root bus/highest bus number of a bridge hierarchy?
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index d33ce8954a..f0035d2b4a 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1830,6 +1830,7 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-     int i;
-     unsigned rsdt_entries_offset;
-     AcpiRsdtDescriptorRev1 *rsdt;
-+    int rsdt_start = table_data->len;
-     const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
-     const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
-     const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
-@@ -1846,7 +1847,8 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
-     }
-     build_header(linker, table_data,
--                 (void *)rsdt, "RSDT", rsdt_len, 1, oem_id, oem_table_id);
-+                 (void *)(table_data->data + rsdt_start),
-+                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
- }
- 
- /* Build xsdt table */
-@@ -1857,6 +1859,7 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-     int i;
-     unsigned xsdt_entries_offset;
-     AcpiXsdtDescriptorRev2 *xsdt;
-+    int xsdt_start = table_data->len;
-     const unsigned table_data_len = (sizeof(uint64_t) * table_offsets->len);
-     const unsigned xsdt_entry_size = sizeof(xsdt->table_offset_entry[0]);
-     const size_t xsdt_len = sizeof(*xsdt) + table_data_len;
-@@ -1873,7 +1876,8 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
-     }
-     build_header(linker, table_data,
--                 (void *)xsdt, "XSDT", xsdt_len, 1, oem_id, oem_table_id);
-+                 (void *)(table_data->data + xsdt_start),
-+                 "XSDT", xsdt_len, 1, oem_id, oem_table_id);
- }
- 
- void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
-@@ -2053,10 +2057,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-     uint64_t control_area_start_address;
-     TPMIf *tpmif = tpm_find();
-     uint32_t start_method;
--    void *tpm2_ptr;
- 
-     tpm2_start = table_data->len;
--    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+    acpi_data_push(table_data, sizeof(AcpiTableHeader));
- 
-     /* Platform Class */
-     build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-@@ -2095,8 +2098,8 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-                                    log_addr_offset, 8,
-                                    ACPI_BUILD_TPMLOG_FILE, 0);
-     build_header(linker, table_data,
--                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, oem_id,
--                 oem_table_id);
-+                 (void *)(table_data->data + tpm2_start),
-+                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
- }
- 
- Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index de98750aef..daaf8f473e 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1816,6 +1816,7 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-            const char *oem_table_id)
- {
-     Acpi20Hpet *hpet;
-+    int hpet_start = table_data->len;
- 
-     hpet = acpi_data_push(table_data, sizeof(*hpet));
-     /* Note timer_block_id value must be kept in sync with value advertised by
-@@ -1824,13 +1825,15 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-     hpet->timer_block_id = cpu_to_le32(0x8086a201);
-     hpet->addr.address = cpu_to_le64(HPET_BASE);
-     build_header(linker, table_data,
--                 (void *)hpet, "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
-+                 (void *)(table_data->data + hpet_start),
-+                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
- }
- 
- static void
- build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-                const char *oem_id, const char *oem_table_id)
- {
-+    int tcpa_start = table_data->len;
-     Acpi20Tcpa *tcpa = acpi_data_push(table_data, sizeof *tcpa);
-     unsigned log_addr_size = sizeof(tcpa->log_area_start_address);
-     unsigned log_addr_offset =
-@@ -1849,7 +1852,8 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-         ACPI_BUILD_TPMLOG_FILE, 0);
- 
-     build_header(linker, table_data,
--                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
-+                 (void *)(table_data->data + tcpa_start),
-+                 "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
- }
- 
- #define HOLE_640K_START  (640 * KiB)
--- 
-2.27.0
+Thanks, I will change the description.
 
+>>
+>> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+>> ---
+>>   hw/pci/pci.c         | 34 ++++++++++++++++++++++++++++++++++
+>>   include/hw/pci/pci.h |  1 +
+>>   2 files changed, 35 insertions(+)
+>>
+>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>> index e17aa9075f..c7957cbf7c 100644
+>> --- a/hw/pci/pci.c
+>> +++ b/hw/pci/pci.c
+>> @@ -538,6 +538,40 @@ int pci_bus_num(PCIBus *s)
+>>       return PCI_BUS_GET_CLASS(s)->bus_num(s);
+>>   }
+>>   
+>> +int pci_root_bus_max_bus(PCIBus *bus)
+>> +{
+>> +    PCIHostState *host;
+>> +    PCIDevice *dev;
+>> +    int max_bus = 0;
+>> +    int type, devfn;
+>> +    uint8_t subordinate;
+>> +
+>> +    if (!pci_bus_is_root(bus)) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    host = PCI_HOST_BRIDGE(BUS(bus)->parent);
+>> +    max_bus = pci_bus_num(host->bus);
+>> +
+>> +    for (devfn = 0; devfn < ARRAY_SIZE(host->bus->devices); devfn++) {
+>> +        dev = host->bus->devices[devfn];
+>> +
+>> +        if (!dev) {
+>> +            continue;
+>> +        }
+>> +
+>> +        type = dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
+> Seems there is PCI_DEVICE_GET_CLASS(dev)->is_bridge (see
+> pci_root_bus_in_range). Can't that be used instead?
+
+Thanks, I will simplify this.
+
+>> +        if (type == PCI_HEADER_TYPE_BRIDGE) {
+>> +            subordinate = dev->config[PCI_SUBORDINATE_BUS];
+>> +            if (subordinate > max_bus) {
+>> +                max_bus = subordinate;
+> what about the secondary bus number, it is always less than the others?
+> 
+
+Thanks, the secondary bus number should be taken into account. Maybe a 
+pci_root_bus_range to get [min_bus, max_bus] would be better.
+
+> Thanks
+> 
+> Eric
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    return max_bus;
+>> +}
+>> +
+>>   int pci_bus_numa_node(PCIBus *bus)
+>>   {
+>>       return PCI_BUS_GET_CLASS(bus)->numa_node(bus);
+>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+>> index 718b5a454a..e0c69534f4 100644
+>> --- a/include/hw/pci/pci.h
+>> +++ b/include/hw/pci/pci.h
+>> @@ -450,6 +450,7 @@ static inline PCIBus *pci_get_bus(const PCIDevice *dev)
+>>       return PCI_BUS(qdev_get_parent_bus(DEVICE(dev)));
+>>   }
+>>   int pci_bus_num(PCIBus *s);
+>> +int pci_root_bus_max_bus(PCIBus *bus);
+>>   static inline int pci_dev_bus_num(const PCIDevice *dev)
+>>   {
+>>       return pci_bus_num(pci_get_bus(dev));
+>>
+> 
+> .
+> 
+
+Xingang
+
+.
 
