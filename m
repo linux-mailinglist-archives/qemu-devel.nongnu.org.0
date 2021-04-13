@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D4E35DE37
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:04:26 +0200 (CEST)
-Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3739835DE43
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:06:40 +0200 (CEST)
+Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWHmK-0005eA-VO
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46698)
+	id 1lWHoV-00085p-Bz
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWHjX-00043Y-RJ
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:01:31 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46847)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lWHlI-0005so-H6
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:03:20 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWHjV-0000wo-TT
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:01:31 -0400
-Received: by mail-ed1-x535.google.com with SMTP id h10so19030048edt.13
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 05:01:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lWHlG-00021i-IC
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:03:20 -0400
+Received: by mail-wr1-x433.google.com with SMTP id m9so3447821wrx.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 05:03:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mxhPNX6ob6J+a1RzWiZuQq3L/tjdCeK1ZCrg1qsbniA=;
- b=hXOyq9FvSAwkxFzS0CebPr0argOEb57eFBCN5j/XPZ/7D/8GCe/WY0ryjHnn1BDPzA
- tiZLM78ydPLHan/a6lldTw3UF+l5Bt7sJN3aadDUZ9l6fhCfiWadKynK22h60Z8rYb7H
- ziam6uzD0zLeEVGhJAN34qXFlO+KGSxHOQ1rW27U+czWHjvXyy5oD8qf5tVBEQamHfcl
- kXr6vHs2/Kd9QAc3Y6qytRnF9qgrcoz/0EREpO7tzKTj3xbJ/n4khj6FyRhzUnIaSlXh
- dqL/PYqOrpxiEdXptQcLH5wlBKn5fZBDYFviNNMf3a9JVsJaInsESRB/AGbp69y+Tvk4
- idxQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=FOs8ZW1e8xrwZKThkRrC+OQIctET2/vrsW4YBYhiUfA=;
+ b=kKSWC4RMc3gcDOYaF1CWywWxKDuDC9wer82OX6Za2QSTGtUhPOV447nuXK9Znc+zxH
+ 8502pVTtgGD4uyxVbxQ4mEtC1rB0QCsyEY7WIH42O8P54buf2ULlcHq2EPiAjennoNJf
+ zovBmxXahcWcatEM4glsRtYJ/lxK9rrDMwviuwr3VsFq831tKmp9FoeilzVv6egoGKfW
+ nbTZ1DVIpSwlnTYB7vKC2LSDl8B+nD+9ICHsRhZJR5Ht/jRfo+CBIL462CpC26E3Kh//
+ AsjHKEQov7NnE7Ab3wmBzctdB1/gg7Gi1IgmbDQMDRk1Hep3aGTFD0uw74p+4ooslL0L
+ fUWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mxhPNX6ob6J+a1RzWiZuQq3L/tjdCeK1ZCrg1qsbniA=;
- b=aIHigw8x4wtfWv3TLr98dkBmBug+5Ta/58lS6aG79G6a1mVMtKOmt8ZhbINNAuaf3O
- wKM8saX3tTsvpl2LI9RuC0bB6V+oSulR9C4dgQrMMGwAGBmyPTfKT0c78OWxmCBu5NTt
- 6yibCUVO/X9MKxQdK2306hiM1EOXJPWxYBKq6uwhUMelBw/+lAevMLP8m6hI5fLI6Cut
- HeOQgaqWPRCQTa0q50W2ooh3vdGTHyRadiTl9YTtyS0D+4dGt9T8FtKRjnJT5BirRtQ/
- 8mCb/yVXIF1BAoN9MiXVMfn2nMG/vndGkusoiJbGsFZ2mL1Mic4BRZ5WkCeYY0tVKnHY
- RGAQ==
-X-Gm-Message-State: AOAM5300CJGHfkP5DqwVX9f5mIOoJOl4JGOdkuYWp3OarI6lojU0uGsG
- +MrE8+r9ZQfmbgBJmTSRjOVsDOQab9sC6+Cy6/DEmg==
-X-Google-Smtp-Source: ABdhPJypcP9GO/Yzb+inUD3cnqADqvQnSRINlnuJ6KFHbUgjDIFo6sEtOh1VWfiXtz4LuCxul4SzDCDo5VUfumTS8x0=
-X-Received: by 2002:a05:6402:c15:: with SMTP id
- co21mr26413192edb.251.1618315288243; 
- Tue, 13 Apr 2021 05:01:28 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=FOs8ZW1e8xrwZKThkRrC+OQIctET2/vrsW4YBYhiUfA=;
+ b=OgW843YMPTYx8wJIw8s/Vz3mhYlDSTh7w95piKJyIxOZSd88brd5o69EjuzKGxiad5
+ hbmpbJjK0q93vA2LxLDTJOnoX4MQEEDJrqMzJIfjbgtXljsYGfFDfveXAZyGGq3yr9HF
+ YffHvunNlhop1EqoQ8H32YBYINz7+Y7UUInH2VIuDLPPIq880fQrTuXPjSi5WA2atSF0
+ ddV73B7CN/6Fu+1xNllioE0AXh9mAbfk9U2s4u2uFXM6jFAtjtOwNJBWC2koRyBIJP4E
+ QzePPujktUpf0kUCNiN3mhlq9cYgrUpq65ZHrmRseN/nr2Ja9eHropbgDrOr2O7HWYQA
+ CBmA==
+X-Gm-Message-State: AOAM533nW+MiMSCw3Ko0gfN+xiCC12nTUiarLjveklaGgW0H6AeQw4d2
+ Flf/t9OAf5MIMhp4NIwXu7QTI/5wYvhXHQ==
+X-Google-Smtp-Source: ABdhPJyU8DYnqK9/AvzqJZhxP4gy1mndg0mx5ATYVsdwoJ+kK2ShW5HSgnBxttHHQu57acV/t1XM0w==
+X-Received: by 2002:a5d:4592:: with SMTP id p18mr38758049wrq.244.1618315396156; 
+ Tue, 13 Apr 2021 05:03:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a3sm21108642wru.40.2021.04.13.05.03.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 05:03:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 79CCE1FF7E;
+ Tue, 13 Apr 2021 13:03:13 +0100 (BST)
+References: <BN7PR02MB4194DF5752EF3BADE858018DB8799@BN7PR02MB4194.namprd02.prod.outlook.com>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Brian Cain <bcain@quicinc.com>
+Subject: Re: testing/next - hexagon toolchain update
+Date: Tue, 13 Apr 2021 13:02:32 +0100
+In-reply-to: <BN7PR02MB4194DF5752EF3BADE858018DB8799@BN7PR02MB4194.namprd02.prod.outlook.com>
+Message-ID: <87czuymlxa.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210413113741.214867-1-pbonzini@redhat.com>
- <20210413113741.214867-3-pbonzini@redhat.com>
-In-Reply-To: <20210413113741.214867-3-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Apr 2021 13:00:42 +0100
-Message-ID: <CAFEAcA9W0WEmFT_wts7oKZD=QnGhnjv8Q+-FJ+snHTRoc-KK3A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] osdep: protect qemu/osdep.h with extern "C"
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,94 +86,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Apr 2021 at 12:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+Brian Cain <bcain@quicinc.com> writes:
+
+> Alex,
 >
-> System headers may include templates if compiled with a C++ compiler,
-> which cause the compiler to complain if qemu/osdep.h is included
-> within a C++ source file's 'extern "C"' block.  Add
-> an 'extern "C"' block directly to qemu/osdep.h, so that
-> system headers can be kept out of it.
+> You are the one maintaining the testing/next tree at
+> https://gitlab.com/stsquad/qemu correct? The current patch series for
+> hexagon under review requires toolchain updates. These changes to
+> llvm/clang landed in the last week or two.
 >
-> There is a stray declaration early in qemu/osdep.h, which needs
-> to be special cased.  Add a definition in qemu/compiler.h to
-> make it look nice.
+> Can you apply this patch?
+
+I've applied to my tree. I didn't get it in this cycle but I'll post a
+new testing/next for review in the next week or so ready for master to
+re-open.
+
 >
-> config-host.h, CONFIG_TARGET, exec/poison.h and qemu/compiler.h
-> are included outside the 'extern "C"' block; that is not
-> an issue because they consist entirely of preprocessor directives.
+> ~~~~
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> From 68547357c895934796e9b4687338bb9e39ac86c5 Mon Sep 17 00:00:00 2001
+> From: Brian Cain mailto:bcain@quicinc.com
+> Date: Thu, 1 Apr 2021 10:32:24 -0500
+> Subject: [PATCH] Update llvm-project commit
+>
+> clang was updated with new inline asm registers for hexagon, this is
+> necessary for QEMU test cases currently under review.
+>
+> Signed-off-by: Brian Cain mailto:bcain@quicinc.com
 > ---
->  disas/nanomips.cpp      |  2 +-
->  include/qemu/compiler.h |  6 ++++++
->  include/qemu/osdep.h    | 10 +++++++++-
->  3 files changed, 16 insertions(+), 2 deletions(-)
+>  tests/docker/dockerfiles/debian-hexagon-cross.docker | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-> index 2b09655271..8ddef897f0 100644
-> --- a/disas/nanomips.cpp
-> +++ b/disas/nanomips.cpp
-> @@ -27,8 +27,8 @@
->   *      Reference Manual", Revision 01.01, April 27, 2018
->   */
+> diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests=
+/docker/dockerfiles/debian-hexagon-cross.docker
+> index b6fb651..1d19e8f 100644
+> --- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+> @@ -24,7 +24,7 @@ RUN apt update && \
+>  ENV TOOLCHAIN_INSTALL /usr/local
+>  ENV ROOTFS /usr/local
 >
-> -extern "C" {
->  #include "qemu/osdep.h"
-> +extern "C" {
->  #include "disas/dis-asm.h"
->  }
+> -ENV LLVM_URL https://github.com/llvm/llvm-project/archive/3d8149c2a12286=
+09fd7d7c91a04681304a2f0ca9.tar.gz
+> +ENV LLVM_URL https://github.com/llvm/llvm-project/archive/bfcd21876adc34=
+98065e4da92799f613e730d475.tar.gz
+>  ENV MUSL_URL https://github.com/quic/musl/archive/aff74b395fbf59cd7e93b3=
+691905aa1af6c0778c.tar.gz
+>  ENV LINUX_URL https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.18.=
+tar.xz
 >
-> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-> index cf28bb2bcd..091c45248b 100644
-> --- a/include/qemu/compiler.h
-> +++ b/include/qemu/compiler.h
-> @@ -11,6 +11,12 @@
->  #define QEMU_STATIC_ANALYSIS 1
->  #endif
->
-> +#ifdef __cplusplus
-> +#define QEMU_EXTERN_C extern "C"
-> +#else
-> +#define QEMU_EXTERN_C extern
-> +#endif
-> +
->  #define QEMU_NORETURN __attribute__ ((__noreturn__))
->
->  #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index b67b0a1e8c..3f8785a471 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -57,7 +57,7 @@
->  #define daemon qemu_fake_daemon_function
->  #include <stdlib.h>
->  #undef daemon
-> -extern int daemon(int, int);
-> +QEMU_EXTERN_C int daemon(int, int);
->  #endif
->
->  #ifdef _WIN32
-> @@ -113,6 +113,10 @@ extern int daemon(int, int);
->
->  #include "glib-compat.h"
->
-> +#ifdef __cplusplus
-> +extern "C" {
-> +#endif
-> +
->  #ifdef _WIN32
->  #include "sysemu/os-win32.h"
->  #endif
+> [2. 0001-Update-llvm-project-commit.patch --- text/x-diff; 0001-Update-ll=
+vm-project-commit.patch]...
 
-There are some system header includes in osdep.h below this point
-(sys/shm.h and sys/uio.h) -- don't they need to be moved up
-to go with the other system includes first ?
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
