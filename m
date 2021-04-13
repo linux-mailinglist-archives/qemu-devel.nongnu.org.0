@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8BE35DE45
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:09:37 +0200 (CEST)
-Received: from localhost ([::1]:38582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDD235DE7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:16:18 +0200 (CEST)
+Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWHrM-0000qu-Gb
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48000)
+	id 1lWHxp-0005hV-To
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWHnK-0007Xq-VC
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:05:29 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWHn5-0002zM-VU
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:05:26 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6FB4BAE20;
- Tue, 13 Apr 2021 12:05:06 +0000 (UTC)
-Subject: Re: [RFC v12 00/65] arm cleanup experiment for kvm-only build
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <a7cb8809-5016-de7d-c9cc-8f1003bc6703@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b5ed14b1-d546-d00e-f7ae-3be8612e411a@suse.de>
-Date: Tue, 13 Apr 2021 14:05:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWHpp-0000U4-C8
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:08:01 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWHpk-0004fh-PG
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:08:01 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ y20-20020a1c4b140000b029011f294095d3so10511975wma.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 05:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gR3NggEWvwtgruchhxovTt2Vf7sHosJIaKlvGCmWoYU=;
+ b=UO2lnV4zt1F/v+sCo/XVntd752G4VCHJ/6eVz+IXPo2zSajhLqzBoP3ZX2BtsOUTnE
+ m75uXnoJyVXFVSA0L6cIrm3GdOcuQOajG1rjOYQQpa8E4Bykz9Fi8XSOjC0ffubUKau7
+ kU/QOR5hIXgwcE/d/mp19DTgwsbZ46OYgQ+nIS2VG6oDQXzR0kKiBRbkVNZaopudVpRQ
+ KcgU2nrNeqAraJRlS8c4jeOTYsYCyOrfPX+Y+vckPJrIU1BsTgoTXs9p6yC718dB5B+d
+ SnI7XSGUcDaGelHtcL9F5r7Rkyfs+kRPMAzPUzf6rj0cTdFLFs3h1dEpaOuW9+vwFwoT
+ K/Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gR3NggEWvwtgruchhxovTt2Vf7sHosJIaKlvGCmWoYU=;
+ b=CQQfGX5dStJF7NvC3SiHrau8bSpTHItvpwdyNvI6Fkt8tCdkYQmpN+CvfoO2mYHGtB
+ CiGPyHHjdh2f1428XQzLUyGa6HgUFIE8f4BSCObCyrdXVlQ3/51ZwVTmmGKiO6Ir9SVB
+ eEXJNGALW8WWPk9eto2JKcGClj5l4kEEaDYaShKMgJuG/405OWF8QGTwqN8Z7ERAjLNH
+ jEtjkmqapteQTtoWe9mbTZLhjHiEOuCkYx0kVw4WK9EaHx21hV5ABihTUrP+2lbWBOJA
+ VhygGGQGemN3hsBaWHD32iGCdYOnRKJU5ZRpt/0/wrUQm1fO7IhSVpMGryNbt1J2AJAS
+ wdmQ==
+X-Gm-Message-State: AOAM530LfQ9hnDCKOO7gYHszaw18knZnzeR98KK8NWz8QjNJm7Bcz9IO
+ rv5hdPY3k6AhXpGQNF9jOicOXgAVJ2fg1xFm
+X-Google-Smtp-Source: ABdhPJzvMQKTw3PKISFWHnwMDk0tPhTctAOkHywvKznUb3h09z+Kh9tF/9R88tY7sX/LdWZlKV51+w==
+X-Received: by 2002:a7b:cc86:: with SMTP id p6mr3823798wma.164.1618315674822; 
+ Tue, 13 Apr 2021 05:07:54 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o2sm2245275wmc.23.2021.04.13.05.07.54
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 05:07:54 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] target-arm queue
+Date: Tue, 13 Apr 2021 13:07:49 +0100
+Message-Id: <20210413120752.18699-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <a7cb8809-5016-de7d-c9cc-8f1003bc6703@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,60 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/28/21 9:27 PM, Richard Henderson wrote:
-> On 3/26/21 1:35 PM, Claudio Fontana wrote:
->> Here a new version of the series that enables kvm-only builds.
->>
->> The goal here is to enable the KVM-only build, but there is
->> some additional cleanup too.
->>
->> In this iteration I mostly fixed existing issues, and added an attempt
->> to put more content in cpu-sve. More splitting still required
->> for both cpu-sve and cpu-auth.
->>
->> Comments welcome, thanks,
-> 
-> My number 1 takeaway is that I don't think we should bother trying so hard to 
-> compile out aarch64-specific code.  The number of ifdefs seems to be quite high 
-> in the end.
-> 
+A few last patches to go in for rc3...
 
-Understand - it turns out to be useful in practice though to go through some effort
-to improve the distinction between aarch64-specific code , aarch32-specific code,
-and code that is common to both, even though we might later decide to just have basically TARGET_AARCH64 be always true (ie removing it)
-in a future series.
+The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
 
-> The cleanup that I think would be better would be to *remove* the 32-bit-only 
-> qemu-system-arm and build it all into a single binary.  That would reduce the 
-> number of build combinations and could in turn simplify or speed up CI.
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
 
-Still, I think it is interesting for the reader of the code, and in trying to debug issues,
-to be mindful about which code is 32bit-only, which code is 64-bit only, which is common.
+are available in the Git repository at:
 
-Not that this series fixes everything in this regard.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210413
 
-> 
-> We probably cannot remove qemu-arm for 32-bit linux-user binaries.  But my 
-> guess is the amount of aarch64-specific code that would leak in is pretty 
-> minimal.  The bulk of the difference is in the set of tcg helpers, which are 
-> segregated already.
-> 
-> The tcg/kvm split is much more interesting, and that part of the patch set 
-> looks pretty good.
-> 
-> 
-> r~
-> 
+for you to fetch changes up to 2d18b4ca023ca1a3aee18064251d6e6e1084f3eb:
 
-Thanks, I'll send a new version momentarily, we can continue from there.
+  sphinx: qapidoc: Wrap "If" section body in a paragraph node (2021-04-13 10:14:58 +0100)
 
-Ciao,
+----------------------------------------------------------------
+target-arm queue:
+ * Fix MPC setting for AN524 SRAM block
+ * sphinx: qapidoc: Wrap "If" section body in a paragraph node
 
-Claudio
+----------------------------------------------------------------
+John Snow (1):
+      sphinx: qapidoc: Wrap "If" section body in a paragraph node
+
+Peter Maydell (2):
+      hw/arm/mps2-tz: Fix MPC setting for AN524 SRAM block
+      hw/arm/mps2-tz: Assert if more than one RAM is attached to an MPC
+
+ docs/sphinx/qapidoc.py |  4 +++-
+ hw/arm/mps2-tz.c       | 10 +++++++---
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
