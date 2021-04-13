@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F3A35DC18
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 12:03:21 +0200 (CEST)
-Received: from localhost ([::1]:40084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7E435DC24
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 12:06:04 +0200 (CEST)
+Received: from localhost ([::1]:51518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWFtA-0004eK-Tk
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 06:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41484)
+	id 1lWFvo-0000mD-04
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 06:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWFpL-0000tf-CX
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:59:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53399)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWFpW-00015n-Md
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:59:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWFpI-0005S6-17
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:59:23 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWFpS-0005aP-LW
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:59:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618307957;
+ s=mimecast20190719; t=1618307970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oT3YapBW4mzPMORsz7SDVTLDP4PZpFbsq/Hdc4/fMP8=;
- b=AFawz1Z/71nYt6OuBZOn6qgihxm2nzdZ6OJ5SXkOFA0agY9daGj8Ug8N5vQoXkM/OzWyb/
- XiEp5bb5yNTufUQUujRdK7K4A2DkA9mqr1YuUj9oV9pMHGnp33M1N/eROYPgV96DldBY11
- C2Q48mlY7RJeTJKC7GG87vMgT01vfW8=
+ bh=cHy/j8hqiVNIkl3GaviDwK2CUCJTLHno49nd7iM3rfI=;
+ b=CLvznuLM/+wQuwIA4EIF/xpNnYfZ/rA8GvhF2TYexvDRrQrj1rFwIOWnS+ZisReHgl23v+
+ 84BSWgpCBTmH9TibO4nN5Xwo5BvWugG81XGl/sYZHp1AGl5G3EUYx5ocaUEdvFql2daw1+
+ xW0dmthoZF/r0zl1H6J/CiKNaqoEo6E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-CxHDTBjYOIixXjyJFn--Jg-1; Tue, 13 Apr 2021 05:59:15 -0400
-X-MC-Unique: CxHDTBjYOIixXjyJFn--Jg-1
+ us-mta-187-T5PLEN33O_-fTA1Rj9nqeA-1; Tue, 13 Apr 2021 05:59:26 -0400
+X-MC-Unique: T5PLEN33O_-fTA1Rj9nqeA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1664107ACCA;
- Tue, 13 Apr 2021 09:59:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3024E9126D;
+ Tue, 13 Apr 2021 09:59:25 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-69.ams2.redhat.com [10.36.115.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A923B5E1A4;
- Tue, 13 Apr 2021 09:59:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 531385C239;
+ Tue, 13 Apr 2021 09:59:15 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v7 10/13] softmmu/physmem: Don't use atomic operations
- in ram_block_discard_(disable|require)
-Date: Tue, 13 Apr 2021 11:55:28 +0200
-Message-Id: <20210413095531.25603-11-david@redhat.com>
+Subject: [PATCH RESEND v7 11/13] softmmu/physmem: Extend
+ ram_block_discard_(require|disable) by two discard types
+Date: Tue, 13 Apr 2021 11:55:29 +0200
+Message-Id: <20210413095531.25603-12-david@redhat.com>
 In-Reply-To: <20210413095531.25603-1-david@redhat.com>
 References: <20210413095531.25603-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,17 +89,10 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have users in migration context that don't hold the BQL (when
-finishing migration). To prepare for further changes, use a dedicated mutex
-instead of atomic operations. Keep using qatomic_read ("READ_ONCE") for the
-functions that only extract the current state (e.g., used by
-virtio-balloon), locking isn't necessary.
+We want to separate the two cases whereby we discard ram
+- uncoordinated: e.g., virito-balloon
+- coordinated: e.g., virtio-mem coordinated via the RamDiscardManager
 
-While at it, split up the counter into two variables to make it easier
-to understand.
-
-Suggested-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -115,108 +108,143 @@ Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- softmmu/physmem.c | 70 ++++++++++++++++++++++++++---------------------
- 1 file changed, 39 insertions(+), 31 deletions(-)
+ include/exec/memory.h | 18 +++++++++++++--
+ softmmu/physmem.c     | 54 ++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 64 insertions(+), 8 deletions(-)
 
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e806d0140e..bba7b6643e 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2873,6 +2873,12 @@ static inline MemOp devend_memop(enum device_endian end)
+  */
+ int ram_block_discard_disable(bool state);
+ 
++/*
++ * See ram_block_discard_disable(): only disable uncoordinated discards,
++ * keeping coordinated discards (via the RamDiscardManager) enabled.
++ */
++int ram_block_uncoordinated_discard_disable(bool state);
++
+ /*
+  * Inhibit technologies that disable discarding of pages in RAM blocks.
+  *
+@@ -2882,12 +2888,20 @@ int ram_block_discard_disable(bool state);
+ int ram_block_discard_require(bool state);
+ 
+ /*
+- * Test if discarding of memory in ram blocks is disabled.
++ * See ram_block_discard_require(): only inhibit technologies that disable
++ * uncoordinated discarding of pages in RAM blocks, allowing co-existance with
++ * technologies that only inhibit uncoordinated discards (via the
++ * RamDiscardManager).
++ */
++int ram_block_coordinated_discard_require(bool state);
++
++/*
++ * Test if any discarding of memory in ram blocks is disabled.
+  */
+ bool ram_block_discard_is_disabled(void);
+ 
+ /*
+- * Test if discarding of memory in ram blocks is required to work reliably.
++ * Test if any discarding of memory in ram blocks is required to work reliably.
+  */
+ bool ram_block_discard_is_required(void);
+ 
 diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 85034d9c11..aaa2b2eb92 100644
+index aaa2b2eb92..ead7b5c429 100644
 --- a/softmmu/physmem.c
 +++ b/softmmu/physmem.c
-@@ -3647,56 +3647,64 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+@@ -3647,8 +3647,14 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
      }
  }
  
--/*
-- * If positive, discarding RAM is disabled. If negative, discarding RAM is
-- * required to work and cannot be disabled.
-- */
--static int ram_block_discard_disabled;
-+static unsigned int ram_block_discard_required_cnt;
-+static unsigned int ram_block_discard_disabled_cnt;
-+static QemuMutex ram_block_discard_disable_mutex;
-+
-+static void ram_block_discard_disable_mutex_lock(void)
-+{
-+    static gsize initialized;
-+
-+    if (g_once_init_enter(&initialized)) {
-+        qemu_mutex_init(&ram_block_discard_disable_mutex);
-+        g_once_init_leave(&initialized, 1);
-+    }
-+    qemu_mutex_lock(&ram_block_discard_disable_mutex);
-+}
-+
-+static void ram_block_discard_disable_mutex_unlock(void)
-+{
-+    qemu_mutex_unlock(&ram_block_discard_disable_mutex);
-+}
++/* Require any discards to work. */
+ static unsigned int ram_block_discard_required_cnt;
++/* Require only coordinated discards to work. */
++static unsigned int ram_block_coordinated_discard_required_cnt;
++/* Disable any discards. */
+ static unsigned int ram_block_discard_disabled_cnt;
++/* Disable only uncoordinated discards. */
++static unsigned int ram_block_uncoordinated_discard_disabled_cnt;
+ static QemuMutex ram_block_discard_disable_mutex;
  
- int ram_block_discard_disable(bool state)
- {
--    int old;
-+    int ret = 0;
- 
-+    ram_block_discard_disable_mutex_lock();
+ static void ram_block_discard_disable_mutex_lock(void)
+@@ -3674,10 +3680,27 @@ int ram_block_discard_disable(bool state)
+     ram_block_discard_disable_mutex_lock();
      if (!state) {
--        qatomic_dec(&ram_block_discard_disabled);
--        return 0;
-+        ram_block_discard_disabled_cnt--;
-+    } else if (!ram_block_discard_required_cnt) {
+         ram_block_discard_disabled_cnt--;
+-    } else if (!ram_block_discard_required_cnt) {
+-        ram_block_discard_disabled_cnt++;
++    } else if (ram_block_discard_required_cnt ||
++               ram_block_coordinated_discard_required_cnt) {
++        ret = -EBUSY;
+     } else {
 +        ram_block_discard_disabled_cnt++;
-+    } else {
-+        ret = -EBUSY;
-     }
--
--    do {
--        old = qatomic_read(&ram_block_discard_disabled);
--        if (old < 0) {
--            return -EBUSY;
--        }
--    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
--                             old, old + 1) != old);
--    return 0;
++    }
 +    ram_block_discard_disable_mutex_unlock();
 +    return ret;
- }
- 
- int ram_block_discard_require(bool state)
- {
--    int old;
++}
++
++int ram_block_uncoordinated_discard_disable(bool state)
++{
 +    int ret = 0;
- 
++
 +    ram_block_discard_disable_mutex_lock();
-     if (!state) {
--        qatomic_inc(&ram_block_discard_disabled);
--        return 0;
-+        ram_block_discard_required_cnt--;
-+    } else if (!ram_block_discard_disabled_cnt) {
-+        ram_block_discard_required_cnt++;
++    if (!state) {
++        ram_block_uncoordinated_discard_disabled_cnt--;
++    } else if (ram_block_discard_required_cnt) {
+         ret = -EBUSY;
 +    } else {
-+        ret = -EBUSY;
++        ram_block_uncoordinated_discard_disabled_cnt++;
      }
--
--    do {
--        old = qatomic_read(&ram_block_discard_disabled);
--        if (old > 0) {
--            return -EBUSY;
--        }
--    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
--                             old, old - 1) != old);
--    return 0;
+     ram_block_discard_disable_mutex_unlock();
+     return ret;
+@@ -3690,10 +3713,27 @@ int ram_block_discard_require(bool state)
+     ram_block_discard_disable_mutex_lock();
+     if (!state) {
+         ram_block_discard_required_cnt--;
+-    } else if (!ram_block_discard_disabled_cnt) {
+-        ram_block_discard_required_cnt++;
++    } else if (ram_block_discard_disabled_cnt ||
++               ram_block_uncoordinated_discard_disabled_cnt) {
++        ret = -EBUSY;
+     } else {
++        ram_block_discard_required_cnt++;
++    }
 +    ram_block_discard_disable_mutex_unlock();
 +    return ret;
- }
++}
++
++int ram_block_coordinated_discard_require(bool state)
++{
++    int ret = 0;
++
++    ram_block_discard_disable_mutex_lock();
++    if (!state) {
++        ram_block_coordinated_discard_required_cnt--;
++    } else if (ram_block_discard_disabled_cnt) {
+         ret = -EBUSY;
++    } else {
++        ram_block_coordinated_discard_required_cnt++;
+     }
+     ram_block_discard_disable_mutex_unlock();
+     return ret;
+@@ -3701,10 +3741,12 @@ int ram_block_discard_require(bool state)
  
  bool ram_block_discard_is_disabled(void)
  {
--    return qatomic_read(&ram_block_discard_disabled) > 0;
-+    return qatomic_read(&ram_block_discard_disabled_cnt);
+-    return qatomic_read(&ram_block_discard_disabled_cnt);
++    return qatomic_read(&ram_block_discard_disabled_cnt) ||
++           qatomic_read(&ram_block_uncoordinated_discard_disabled_cnt);
  }
  
  bool ram_block_discard_is_required(void)
  {
--    return qatomic_read(&ram_block_discard_disabled) < 0;
-+    return qatomic_read(&ram_block_discard_required_cnt);
+-    return qatomic_read(&ram_block_discard_required_cnt);
++    return qatomic_read(&ram_block_discard_required_cnt) ||
++           qatomic_read(&ram_block_coordinated_discard_required_cnt);
  }
 -- 
 2.30.2
