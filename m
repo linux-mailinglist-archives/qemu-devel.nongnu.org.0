@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7FC35E322
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:48:48 +0200 (CEST)
-Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E617135E333
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:53:39 +0200 (CEST)
+Received: from localhost ([::1]:36226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLHT-0006eL-FR
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:48:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
+	id 1lWLMB-0008Dl-2e
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1lWLGd-00066p-85
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:47:55 -0400
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:43597)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWLK8-0007Kw-Vh
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:51:38 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1lWLGb-00048I-ND
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:47:54 -0400
-Received: by mail-qv1-xf2c.google.com with SMTP id i11so2757488qvu.10
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 08:47:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=y7J/fBirApy78iLSgXTfuV1e6gzXBUyIlvX5q0pbZ1E=;
- b=O2rw5KqLRFWHUGy8vZELNtbKhvdX3uZFaDFiBMZUjvQvrp4Z4aLp6Kqv9C0IVTKwpd
- GXHOSxkQ+O7GxxTLiStzQ6iPY05vCO2bYOZRG5q+U0qM6FX53MMKR0Hau1UXhq6cClXX
- 2xMQinSM8E8VPRHxVULfvyUug/YJ9ORXTk8S9e1weWs/Cmy2zCXZsB3SgmYcUkD0M7eR
- tcndWSU58/qdpL3rgedSj/8r69YOrr1Al7mAuMWRIJkA76Us65NRFZQSZuPV65FytZee
- EKqiFQ3y8el7nO6+YoJQsaDiUitPQljvQTcWanp1hjv7yNAtA/UiQiHRxihB87DMxFPh
- qZDw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWLK5-0006CY-0C
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:51:32 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id u21so26712429ejo.13
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 08:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sWHuUM+t6ty1+MYtmPw5s+/V8ltHPHFWLUQK3+/NmOA=;
+ b=zFuBxReEfTYQpglHaHpcrha72lbFUX5JUEPJNR8w1oZd9grGygsIIEBn2s7K7V6Zty
+ D2NvnJnjjztk96+2z57+uRNVp3kmkwo7O3D8XZrp+StPXkvPoRsD2P8OogMiogNwJelA
+ 4jfWZkbqQJYK0Nua2j8YNGyoA3mEBQjAS9qhgI56kQlzbCbiF0x5nkxC0DBu8POTTn05
+ OSYWMVkietl0pw+mMuTshVgLJZ906FcdHD2xHmrmtf0o0mKLDOlQlxVVLcSRiwHngqqy
+ vYkTeaKJNpq0XyHUw01MC50TL1hs4kVB2zaWV/wZkgiI8PCavANIoatwDAMHKq3pARLv
+ oUSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=y7J/fBirApy78iLSgXTfuV1e6gzXBUyIlvX5q0pbZ1E=;
- b=YK8s40FfOYmAkaVGxvl7+KtfIupT4iA6/mMpU43gNTEnAxXVKJhaiTPzA3yyNn36jw
- EL9U16bJygv2dF65W0GhEE7QaEuH4uCve9LM/PVSdFtxNv3JYL9WsXGjqTQDdHpjiogH
- IypVd1MC2KolqthUnfEsisITqYp4fayr3zh+IGu9KsrLuxyrVSjMEWktCc73d+/D6kP2
- uaxFuOwyGi0cJubD76lc5WqJaTSdVcadYns81bz5nxmPGyNO9HtinQEQliPpqJaShubY
- JWot0S++kqwT20Y3+U3xRQWob2I7lXeeiiCrabE0qhX8jWKr+Rey+Momm1BfIhIjepSN
- a1qg==
-X-Gm-Message-State: AOAM531TaOuj7m9lakC85FLuQ1s0TJH7s2oOqllZACiArva8OnvU9Dfn
- blEOgg82KgxftLJsu64a0ho/NA+DF1nGBKv8GwuQMw==
-X-Google-Smtp-Source: ABdhPJyBDb4uhlRaDXG+Zpkl6C7kJYBjtjnh6Guc6dX5VWv6CnJQWXXdXTZDf3aRdVAIipXX124Q3dhZ3v/69EtZqVg=
-X-Received: by 2002:a0c:8148:: with SMTP id 66mr33766485qvc.55.1618328871536; 
- Tue, 13 Apr 2021 08:47:51 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sWHuUM+t6ty1+MYtmPw5s+/V8ltHPHFWLUQK3+/NmOA=;
+ b=BFuz5GxhvoUuRuUZHgLQKLnIyV9HEba5BHDtHxnZPuit9cpm0e67aorxpydb79Q286
+ qNR6j6GbV8cqVxXh9fo8WLXSL899BeAdvnerL3zC3pP4SUqfqbbsQIoC2KlSpoxIwv7r
+ AzPBakDEIMSBt0K49ANi9QrSN+xbE+EOmDPYkMh2Z8F6etsRJDqM21QWUX298j0bfGl0
+ otVOJgxO7u6f0EEm5upMBKHQrCszbLNAYSdDXV1bd4a6ztAW4A+lXUpopN/85ASyHeNC
+ r9Q0fMIcok1u+HbjWAetnTI5/viqgRpib86AT/wNPwG0dUK0YqUz4mzcFuungPV0nutQ
+ 3QuA==
+X-Gm-Message-State: AOAM533GLqEAvUAlpg6IFyq35DrpOxivq2QNT9f5SK5MYjuJvB5jfaYf
+ ldXP4BzVvYf0BEFOtKpfwzz7aICrYxDkxWzUAQ661g==
+X-Google-Smtp-Source: ABdhPJz1t79TfNpl1xOPauM+R2dM3LUR9UrsxCds2Mi0JOnlBvz3UKlvEuVYQ2P/hJ+5zUtROcD2UNaMa6BLgqLVpEg=
+X-Received: by 2002:a17:906:c301:: with SMTP id
+ s1mr32142274ejz.382.1618329086636; 
+ Tue, 13 Apr 2021 08:51:26 -0700 (PDT)
 MIME-Version: 1.0
-From: Patrick Venture <venture@google.com>
-Date: Tue, 13 Apr 2021 08:47:40 -0700
-Message-ID: <CAO=notxyM2Xu5e-iYKGHXEhgwWOb+CFmES8XjaBrx7JZcs+4sQ@mail.gmail.com>
-Subject: RFC: Adding new system, quanta-q71l
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, peter.maydell@linaro.org,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20210413101131.3480173-1-f4bug@amsat.org>
+In-Reply-To: <20210413101131.3480173-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Apr 2021 16:50:41 +0100
+Message-ID: <CAFEAcA8KBocHPPArkZEjJ2UyocGVzzg9EOc9mBRFBdB+J=A5vw@mail.gmail.com>
+Subject: Re: [PULL 0/3] MIPS patches for 2021-04-13
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=venture@google.com; helo=mail-qv1-xf2c.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,21 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HI;
+On Tue, 13 Apr 2021 at 11:13, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece6=
+20:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+10412' into staging (2021-04-12 12:12:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/mips-20210413
+>
+> for you to fetch changes up to f4349ba966abfe39f5d98694abd7c7551d5c8c02:
+>
+>   target/mips: Fix TCG temporary leak in gen_cache_operation() (2021-04-1=
+3 12:07:00 +0200)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Fix invalid Kconfig dependency
+> - Fix missing migrated value
+> - Fix TCG temporary leak
 
-My team is actively engaged now in producing Qemu support for new
-devices and boards, and I previously worked on the quanta-q71l board
-for OpenBmc.  I'm currently fixing up the configuration to build
-again, and I'd like to introduce a board for it in Aspeed.  The
-palmetto doesn't really represent it, there's only 128MiB of RAM for
-it, for instance, and it has its own idiosyncrasies.
 
-To introduce a new board to the Aspeed Qemu, do I also need to send
-over a firmware for acceptance testing?
+Applied, thanks.
 
-Thanks,
-Patrick
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
