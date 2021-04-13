@@ -2,89 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CD435E7DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:58:06 +0200 (CEST)
-Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E8935E7EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:00:11 +0200 (CEST)
+Received: from localhost ([::1]:44784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWQ6n-0007qf-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
+	id 1lWQ8o-0000aw-Jc
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:00:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lWQ56-0007GX-3K; Tue, 13 Apr 2021 16:56:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58456)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lWQ7B-0008KL-VL
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:58:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lWQ52-0005yo-UZ; Tue, 13 Apr 2021 16:56:19 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lWQ74-0007IZ-Uw
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:58:28 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13DKXLFF015497; Tue, 13 Apr 2021 16:56:15 -0400
+ 13DKXPxR137655; Tue, 13 Apr 2021 16:58:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=/mLVgJRlO4VURGg6dQ14sB3fs4hCcX+Kefc6S64V1Hw=;
- b=XJcoa++BxcPUSZ011Ud5cZmBVl0r7txlwZOslzJIx3hNgcjcEhpZIHXV7M4+ZLu2i/GY
- HQJaqgyeaYJOXfz/2fShxmZQUpuSiEQ8mmDUrjkaB8OTWFR5K8raUX/VGm+hLzZ88Bie
- x5nlTRpiVlooCRwpHEeeLUbt8pBa6okuTJ5sPGFL0Kkh2LeTOTB1Egzn4sOSWfgOkrxi
- pPUzPG2sL/5Dry90WXniegDcOb/3TVivkilCxgudDGcwFdw6xcMWpRc5MZBDKwKEfhB3
- AczAV8hVrljOuioNW8DPAKkqdIDfI6HuhR/9044gAriPlOn3m24KBbRwFLxtJ1cTV7+2 tQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37wetsdxkr-1
+ bh=bNdm1EJDCaoPjOjPSr9wHraKM0PU5dmT7/WxyuthDPY=;
+ b=m8b3Fz0f+9hw7D1NyYInjDHr8K3TQi9K5O9/n6i2pr3OGs2D8Si0mjF7jnzApi0z2NAL
+ fcywz0ar9DoFFvAlc/4yjhVbBr9xEoOC7shQcgc74UFdU4SVzKkNc2bTdAdFe0doat8x
+ kH2HgO9Qbre0B0lALsxQ7RWfbPh54R8YPyyBaWH/bsvqKWXDW3RH4X8Lv6FhcovMT+Te
+ qLyxo9vMfXwvPHZM5dUFqgWviI6GDzei7+x1ciBGGUI4aPt+eEo2iMY/oKagVRa375hd
+ Edekf0xJeYZnQzXz7pmRgJ2ab63vfa0reETn9/kmDSW/McvH9X6rgBjyCU70cKOV5+M/ uw== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37vjtup4a7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 16:56:15 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13DKXNEk015623;
- Tue, 13 Apr 2021 16:56:14 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37wetsdxk3-1
+ Tue, 13 Apr 2021 16:58:21 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DKrHC3011623;
+ Tue, 13 Apr 2021 20:58:19 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 37u3n8aw6k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 16:56:14 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DKquPd017964;
- Tue, 13 Apr 2021 20:56:12 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 37u39hjwa8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 20:56:12 +0000
+ Tue, 13 Apr 2021 20:58:19 +0000
 Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
  [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 13DKtlsf20250928
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13DKwHnN44040480
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Apr 2021 20:55:47 GMT
+ Tue, 13 Apr 2021 20:58:17 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B64D74203F;
- Tue, 13 Apr 2021 20:56:09 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id F27BD42049;
+ Tue, 13 Apr 2021 20:58:16 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5042142042;
- Tue, 13 Apr 2021 20:56:09 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A52E042041;
+ Tue, 13 Apr 2021 20:58:16 +0000 (GMT)
 Received: from vm.lan (unknown [9.145.157.105])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 13 Apr 2021 20:56:09 +0000 (GMT)
+ Tue, 13 Apr 2021 20:58:16 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH] linux-user/elfload: add s390x core dumping support
-Date: Tue, 13 Apr 2021 22:56:08 +0200
-Message-Id: <20210413205608.22587-1-iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] linux-user/elfload: fix filling psinfo->pr_psargs
+Date: Tue, 13 Apr 2021 22:58:14 +0200
+Message-Id: <20210413205814.22821-1-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NzZN6irnS7TPX_yLQam9OjXLa7stwJWs
-X-Proofpoint-ORIG-GUID: zuOsAxSzsQ6LW8Bz8wbdrRacE-vvCVjh
+X-Proofpoint-GUID: 5bcOjQipFJe9y1oucx_FjNSgQGjrnzq2
+X-Proofpoint-ORIG-GUID: 5bcOjQipFJe9y1oucx_FjNSgQGjrnzq2
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-13_15:2021-04-13,
  2021-04-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 phishscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- malwarescore=0 mlxlogscore=999 clxscore=1011 bulkscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130137
+ malwarescore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104130137
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -26
@@ -106,68 +98,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide the following definitions required by the common code:
+The current code dumps the memory between arg_start and arg_end,
+which contains the argv pointers. This results in the
 
-* ELF_NREG: with the value of sizeof(s390_regs) / sizeof(long).
-* target_elf_gregset_t: define it like all the other arches do.
-* elf_core_copy_regs(): similar to kernel's s390_regs_get().
-* USE_ELF_CORE_DUMP.
-* ELF_EXEC_PAGESIZE.
+    Core was generated by `<garbage>`
+
+message when opening the core file in GDB. This is because the code is
+supposed to dump the actual arg strings. Fix by using arg_strings and
+env_strings instead of arg_start and arg_end.
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- linux-user/elfload.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ linux-user/elfload.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index c6731013fd..4e45bd1539 100644
+index 4e45bd1539..cffcebfe45 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -1385,6 +1385,39 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
-     regs->gprs[15] = infop->start_stack;
- }
+@@ -3662,10 +3662,10 @@ static int fill_psinfo(struct target_elf_prpsinfo *psinfo, const TaskState *ts)
  
-+/* See linux kernel: arch/s390/include/uapi/asm/ptrace.h (s390_regs).  */
-+#define ELF_NREG 27
-+typedef target_elf_greg_t target_elf_gregset_t[ELF_NREG];
-+
-+enum {
-+    TARGET_REG_PSWM = 0,
-+    TARGET_REG_PSWA = 1,
-+    TARGET_REG_GPRS = 2,
-+    TARGET_REG_ARS = 18,
-+    TARGET_REG_ORIG_R2 = 26,
-+};
-+
-+static void elf_core_copy_regs(target_elf_gregset_t *regs,
-+                               const CPUS390XState *env)
-+{
-+    int i;
-+    uint32_t *aregs;
-+
-+    (*regs)[TARGET_REG_PSWM] = tswapreg(env->psw.mask);
-+    (*regs)[TARGET_REG_PSWA] = tswapreg(env->psw.addr);
-+    for (i = 0; i < 16; i++) {
-+        (*regs)[TARGET_REG_GPRS + i] = tswapreg(env->regs[i]);
-+    }
-+    aregs = (uint32_t *)&((*regs)[TARGET_REG_ARS]);
-+    for (i = 0; i < 16; i++) {
-+        aregs[i] = tswap32(env->aregs[i]);
-+    }
-+    (*regs)[TARGET_REG_ORIG_R2] = 0;
-+}
-+
-+#define USE_ELF_CORE_DUMP
-+#define ELF_EXEC_PAGESIZE 4096
-+
- #endif /* TARGET_S390X */
+     (void) memset(psinfo, 0, sizeof (*psinfo));
  
- #ifdef TARGET_RISCV
+-    len = ts->info->arg_end - ts->info->arg_start;
++    len = ts->info->env_strings - ts->info->arg_strings;
+     if (len >= ELF_PRARGSZ)
+         len = ELF_PRARGSZ - 1;
+-    if (copy_from_user(&psinfo->pr_psargs, ts->info->arg_start, len))
++    if (copy_from_user(&psinfo->pr_psargs, ts->info->arg_strings, len))
+         return -EFAULT;
+     for (i = 0; i < len; i++)
+         if (psinfo->pr_psargs[i] == 0)
 -- 
 2.29.2
 
