@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C078735E3B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:20:07 +0200 (CEST)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E301335E3AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:20:05 +0200 (CEST)
+Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLlm-0004No-KW
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
+	id 1lWLll-0004Ko-0R
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWLaI-00061x-6K
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:14 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55947)
+ id 1lWLaM-00069H-CS
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:18 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWLaG-0006ld-6O
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:13 -0400
-Received: by mail-wm1-x335.google.com with SMTP id 12so9044674wmf.5
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:08:11 -0700 (PDT)
+ id 1lWLaJ-0006q2-7E
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:18 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ w7-20020a1cdf070000b0290125f388fb34so8515157wmg.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Lkn8vbO2lVSIohjSGTPLDGmJoMLFeHQNYDUF+MkHtwE=;
- b=ttpY1qWcHVF6FL4A/LOEd4qfWu9bmB+fC5MMmAZDHIyGqHdoMHjB/l93PkjUSvN+g0
- sfBjn5MAkjzHrHkJPlLW2iQdOMRNgxilrCv9d0lQlEYrTQLI8XF0GfYJLzb2KjNZO5kw
- +RqVLqFt5YY9zDeXtKKxCLdKZr0XClvTOo42fsqQ2G0m/2StKsUAorn3z3Af+yL4OuRA
- VEi4yQ1JXlOZqJLPF57m9Zx0KhxwJT4lH6vRwVnnKwmn7bhntqVhL/J5zjh30Pa0UPLB
- oDIHARyvQG3ebDCUjVSk8a+F3NjviBsuafp6JfB8I1GnoPLVWNjh988d499VWWVxywGB
- m3pg==
+ bh=3A0M0Ns1nfhjoarHwhLsGI4fCWU7EVEJ+MBBeDljsws=;
+ b=gfWgFaKH9oMicYgLyCVGlBcCmoI56vLV/Q2SEx4DmfbKhyMSGXthJUhZTpSWtH49PI
+ RBw6t0PA0Zt339opAxqqCCGmBNLGb7I4i+v1r9wZkkmfkwvijr3EK7PNpOjdsgpWj7Zc
+ GA0nx1h0u/yXaQOYIEO/5G3PgxYYgc9sCcsgBj/39swyjHpFWK43AO0Jvw9O8qpkM5f4
+ 8jbQNg2KIQu9uxaIBVZ5Ll5kfdnS95gklvoBkrX7IQSyN7Dvum6YsyUshhC/d0fMFu5Y
+ A/tMG1lqj85VXijPh+u+ewic2h5EtccRlPbZpfoq6lDCAQsHTpX3Dd/u7qZAP4f8ZCGI
+ cFEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Lkn8vbO2lVSIohjSGTPLDGmJoMLFeHQNYDUF+MkHtwE=;
- b=f4T1NEIjt/dRsyhca+i7sKCmkIjfFRkLUCWezX10QOXMnF4oNQw1/YBYoTAsA6QT5p
- ahyqPsCb1k8SWC1bHqOFNWioDZRSC+CR1lxUjbHinkCov+Ep+uUSRuzZnF/sTJCG8X76
- dC+JR6JSG6ePF+V0aXqIkvfk0KPL/ScGoz7uv1CSC/eNzAalrqSBCQIhf73kGTKlcflZ
- WaeGXWMZm7g0bB8dU5gLGh5wGTzXl7ZPX/GFrQD2P2wxns38ef5CHvKAC65c0m8jpz4L
- dWSlJ4+vJclS2ESofWzOFUfOvfaAtR/V58UlFqkCFhWekMmp2F84cxupd7FrrJ7qLuIt
- xXfQ==
-X-Gm-Message-State: AOAM5325eNlWFlR21TkcVAvZ82ZTHT9LDZSOw+g/dQPc/buOqXTtUvAW
- pg08Ya9x3eQ44d5wD1jL2wQj6Q==
-X-Google-Smtp-Source: ABdhPJygo9zFEq0V99dprqFDvlS4uJR6lRAtfmV9jq3eG+8/Zog0F4cMl36hDB4kaZ1aZOkhOOh7vQ==
-X-Received: by 2002:a1c:2b03:: with SMTP id r3mr661288wmr.173.1618330082162;
- Tue, 13 Apr 2021 09:08:02 -0700 (PDT)
+ bh=3A0M0Ns1nfhjoarHwhLsGI4fCWU7EVEJ+MBBeDljsws=;
+ b=RfztN+URQTIaYkGoID/6ohwcEaJF5X/EEzTW0tOsLDWQmxe+T+ywPdJh/z8/z/rJsz
+ 7F0sPE3HOfGttCEQ9aThLUOKc9ebNV4OU+isKI5WmKUjO04WtupfWG0a+gI6l6SWw2lr
+ Gq3nM4VfbsUXcYST/xrXHoYX+JebHRKtJbGCOwOeCAd6iS4f5U/3uQ4bpvsZ24zBFB3+
+ Y2Mktt296od3Cod/rT7qo/RKf1GSH2Io9zhGePZhO4moGzOfhdXFT8pTlYuEflPLZOQA
+ elU9STRkH8z5YQDre1bDTD0T6Lw7fxO2/4+X2BOus/FGNGz+gYOljn5o9ABXDmQyRpXG
+ +Gmw==
+X-Gm-Message-State: AOAM530ekZ05Kou0Jryvkm8OIVBdOLhbyq/FUPFQg15iNitxXgyAn5uk
+ /0h9BdSC/BfZQS2JiOsMkiO6R8UD0CQ4YpL7
+X-Google-Smtp-Source: ABdhPJxk4k4Dt5jPesxgfl1+/OGosOKGRFWPnuVYHZfi0zc26pf2RzTkpK3xOa/34pXeVFj+IzO8ew==
+X-Received: by 2002:a05:600c:358c:: with SMTP id
+ p12mr705076wmq.19.1618330091497; 
+ Tue, 13 Apr 2021 09:08:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b1sm20810888wru.90.2021.04.13.09.08.01
+ by smtp.gmail.com with ESMTPSA id b1sm20810888wru.90.2021.04.13.09.08.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 09:08:01 -0700 (PDT)
+ Tue, 13 Apr 2021 09:08:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/13] target/arm: Move constant expanders to translate.h
-Date: Tue, 13 Apr 2021 17:07:47 +0100
-Message-Id: <20210413160759.5917-2-peter.maydell@linaro.org>
+Subject: [PATCH 02/13] target/arm: Share unallocated_encoding() and
+ gen_exception_insn()
+Date: Tue, 13 Apr 2021 17:07:48 +0100
+Message-Id: <20210413160759.5917-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210413160759.5917-1-peter.maydell@linaro.org>
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,86 +89,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the constant expanders defined in translate.c are generically
-useful and will be used by the separate C files for VFP and Neon once
-they are created; move the expander definitions to translate.h.
+The unallocated_encoding() function is the same in both
+translate-a64.c and translate.c; make the translate.c function global
+and drop the translate-a64.c version.  To do this we need to also
+share gen_exception_insn(), which currently exists in two slightly
+different versions for A32 and A64: merge those into a single
+function that can work for both.
+
+This will be useful for splitting up translate.c, which will require
+unallocated_encoding() to no longer be file-local.  It's also
+hopefully less confusing to have only one version of the function
+rather than two.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.h | 24 ++++++++++++++++++++++++
- target/arm/translate.c | 24 ------------------------
- 2 files changed, 24 insertions(+), 24 deletions(-)
+ target/arm/translate-a64.h |  2 --
+ target/arm/translate.h     |  3 +++
+ target/arm/translate-a64.c | 15 ---------------
+ target/arm/translate.c     | 14 +++++++++-----
+ 4 files changed, 12 insertions(+), 22 deletions(-)
 
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 3668b671ddb..ee15f084982 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -18,8 +18,6 @@
+ #ifndef TARGET_ARM_TRANSLATE_A64_H
+ #define TARGET_ARM_TRANSLATE_A64_H
+ 
+-void unallocated_encoding(DisasContext *s);
+-
+ #define unsupported_encoding(s, insn)                                    \
+     do {                                                                 \
+         qemu_log_mask(LOG_UNIMP,                                         \
 diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 423b0e08df0..4c0b6e8fc42 100644
+index 4c0b6e8fc42..a9f90e3ed4c 100644
 --- a/target/arm/translate.h
 +++ b/target/arm/translate.h
-@@ -116,6 +116,30 @@ extern TCGv_i32 cpu_NF, cpu_ZF, cpu_CF, cpu_VF;
- extern TCGv_i64 cpu_exclusive_addr;
- extern TCGv_i64 cpu_exclusive_val;
+@@ -226,6 +226,9 @@ void arm_test_cc(DisasCompare *cmp, int cc);
+ void arm_free_cc(DisasCompare *cmp);
+ void arm_jump_cc(DisasCompare *cmp, TCGLabel *label);
+ void arm_gen_test_cc(int cc, TCGLabel *label);
++void unallocated_encoding(DisasContext *s);
++void gen_exception_insn(DisasContext *s, uint64_t pc, int excp,
++                        uint32_t syn, uint32_t target_el);
  
-+/*
-+ * Constant expanders for the decoders.
-+ */
-+
-+static inline int negate(DisasContext *s, int x)
-+{
-+    return -x;
-+}
-+
-+static inline int plus_2(DisasContext *s, int x)
-+{
-+    return x + 2;
-+}
-+
-+static inline int times_2(DisasContext *s, int x)
-+{
-+    return x * 2;
-+}
-+
-+static inline int times_4(DisasContext *s, int x)
-+{
-+    return x * 4;
-+}
-+
- static inline int arm_dc_feature(DisasContext *dc, int feature)
+ /* Return state of Alternate Half-precision flag, caller frees result */
+ static inline TCGv_i32 get_ahp_flag(void)
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 0b42e53500e..4ce28ec54db 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -360,14 +360,6 @@ static void gen_exception_internal_insn(DisasContext *s, uint64_t pc, int excp)
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-static void gen_exception_insn(DisasContext *s, uint64_t pc, int excp,
+-                               uint32_t syndrome, uint32_t target_el)
+-{
+-    gen_a64_set_pc_im(pc);
+-    gen_exception(excp, syndrome, target_el);
+-    s->base.is_jmp = DISAS_NORETURN;
+-}
+-
+ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syndrome)
  {
-     return (dc->features & (1ULL << feature)) != 0;
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 62b1c2081b6..0e30892d54e 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -109,30 +109,6 @@ static void arm_gen_condlabel(DisasContext *s)
+     TCGv_i32 tcg_syn;
+@@ -438,13 +430,6 @@ static inline void gen_goto_tb(DisasContext *s, int n, uint64_t dest)
      }
  }
  
--/*
-- * Constant expanders for the decoders.
-- */
--
--static int negate(DisasContext *s, int x)
+-void unallocated_encoding(DisasContext *s)
 -{
--    return -x;
+-    /* Unallocated and reserved encodings are uncategorized */
+-    gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
+-                       default_exception_el(s));
 -}
 -
--static int plus_2(DisasContext *s, int x)
--{
--    return x + 2;
--}
--
--static int times_2(DisasContext *s, int x)
--{
--    return x * 2;
--}
--
--static int times_4(DisasContext *s, int x)
--{
--    return x * 4;
--}
--
- /* Flags for the disas_set_da_iss info argument:
-  * lower bits hold the Rt register number, higher bits are flags.
-  */
+ static void init_tmp_a64_array(DisasContext *s)
+ {
+ #ifdef CONFIG_DEBUG_TCG
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 0e30892d54e..24f50dea669 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -1042,11 +1042,15 @@ static void gen_exception_internal_insn(DisasContext *s, uint32_t pc, int excp)
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-static void gen_exception_insn(DisasContext *s, uint32_t pc, int excp,
+-                               int syn, uint32_t target_el)
++void gen_exception_insn(DisasContext *s, uint64_t pc, int excp,
++                        uint32_t syn, uint32_t target_el)
+ {
+-    gen_set_condexec(s);
+-    gen_set_pc_im(s, pc);
++    if (s->aarch64) {
++        gen_a64_set_pc_im(pc);
++    } else {
++        gen_set_condexec(s);
++        gen_set_pc_im(s, pc);
++    }
+     gen_exception(excp, syn, target_el);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -1063,7 +1067,7 @@ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-static void unallocated_encoding(DisasContext *s)
++void unallocated_encoding(DisasContext *s)
+ {
+     /* Unallocated and reserved encodings are uncategorized */
+     gen_exception_insn(s, s->pc_curr, EXCP_UDEF, syn_uncategorized(),
 -- 
 2.20.1
 
