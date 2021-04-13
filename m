@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B4935D9C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:14:31 +0200 (CEST)
-Received: from localhost ([::1]:50476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1422A35D9D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:16:08 +0200 (CEST)
+Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWEBq-0003Tq-2Z
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
+	id 1lWEDP-0005IX-5y
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWE7i-0007pe-7C
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:10:14 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWE7g-0007pi-8z
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:10:13 -0400
-Received: by mail-wr1-x432.google.com with SMTP id e7so6497474wrs.11
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 01:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/1LbSlSgHUfCQEcO9y0pv344AB8nCW5zeRWPXmoBzsk=;
- b=HQ3A99Y30/6JDKPT5WJxwM1rDP+A0bvLeu7MIuDyV07He0O3N2kzHx3VXNEOgDyF/v
- 7tlzyaiAWULD8DsbNnaDqoJpt5rkoplB0w4zG83maOmw+OeAJyzL1naOVBA5jlN6WKgC
- Tisph465/wuvfedwezSed9wNpK6AwZOpDsashJQA7mLmNtxGaQKkfR9+YarQQy8a435M
- RyPmJsaUbKJQ9K8HomMhCLIvswL7Nn76WvrGNKVER//D7HCozRxKn/MUJeJvc8OTL+Qc
- VDx+Z/kqfZWvLyP/U4CnnpMt1d34/NL1Hxay0ST9/xWRFh6oJNkYVNJS1iiv7dMshUmr
- FtDw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWEBC-0003dQ-9y
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:13:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWEBA-0001Xh-19
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:13:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618301623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hSNAgrL9wCLyCCNAvxlzdAzmb8DPW9yZBvMY9BopSHc=;
+ b=UV1DackIQkD5YPch/jqkqDZkl8R+7auOGHJs7UEf/BT81X+uWRR3kW1WwEySZUOdMit0qB
+ AudKgsbcxrAGwenE3JhfJyE4+wezHxYIb3Qzp8drIlhBpPk2I+TdKWqCJLxGLes/wykzR9
+ kZ/PU/3otsnFzbXqTjNcKvPR+YslRTc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-kUEVrxGgPtislENJdyKnnQ-1; Tue, 13 Apr 2021 04:13:42 -0400
+X-MC-Unique: kUEVrxGgPtislENJdyKnnQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b20-20020a7bc2540000b029010f7732a35fso534122wmj.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 01:13:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=/1LbSlSgHUfCQEcO9y0pv344AB8nCW5zeRWPXmoBzsk=;
- b=fxsnIKt3UkebxfqsiHaRExMTWDTrHIT4vHtyLULDN2TTUl5a+CqJy4JytV1cLRnQSF
- e/ou84DnPLcFM8+W6D8Ity5G4bqYKmt4MPygfJItlBYkFKwwSURyfR3KufpF9XcIumKQ
- ydOnJs0cxlD/8Mn3n5NxlBkMj08P52bFZAD18W8YJhaQNAwqcJzsremO0SKjn10q1E0Z
- OvYEK/tGWcSIW2MaWmoYaB5R4UQ3pRYvKJw8VKhXVpfqxhDNwJhX6ataVipLTuvj6BLy
- 1z7D+Vrxn4Zgvrf0AS4ktrvaKH6tKAQcuZuRCHrY6E9oYPZyiHNR8T5nmVw2C4aMoBIp
- a+Lg==
-X-Gm-Message-State: AOAM5337Gge0SBA3VtQENHCKL8XtfYDYY8s4IlZ0t0/Y9EbXmn8eajdO
- Lu7A8GGziU2s7rOkMZGCJqbTvngwHNk=
-X-Google-Smtp-Source: ABdhPJyUu3PBguVNIHHWJHKqKvSz/IqI5cSas2UseGis9160MrC436OzguytG6hXre1mGOyOvsetOg==
-X-Received: by 2002:a05:6000:54d:: with SMTP id
- b13mr34835327wrf.417.1618301410444; 
- Tue, 13 Apr 2021 01:10:10 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id u8sm4439645wrp.66.2021.04.13.01.10.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 01:10:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.1] exec: Remove accel/tcg/ from include paths
-Date: Tue, 13 Apr 2021 10:10:08 +0200
-Message-Id: <20210413081008.3409459-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=hSNAgrL9wCLyCCNAvxlzdAzmb8DPW9yZBvMY9BopSHc=;
+ b=qPdivl4433m+EHgFzXv1H1sIZt7ht7CQQQymHZeE25dKpzKf+x54pddSaVnl3LfaKy
+ jtvp5LL3dXp6/cl5iToyo70ldfXDC7pkJVph8t/1Pz9S0ocAXWK3itU9dMoM/AF0n4IA
+ 8/MV9VkuHcr6TsQW3aL/NGMnG5FPNaTRW5+rMiX9dErhOVAyxtXfKWTAaJRMF90e9PYy
+ tdJN1K3eI5doTKVQ7rCuiYM4amzXmOUQ7ZY1TP0FQ4Nf77NwY0VoouXsdCsiKA/6s02C
+ Kp59UOwJLvJAirjhAuWE3FZWItWbd8OGQ9spVKewj8H6+7PTW36tU5fJ+Ayb7Q6duTQW
+ EUuA==
+X-Gm-Message-State: AOAM532JSmcE/b565I1ixdn40xa620/PmH+Ck8WdpH/2FapP0EBOYyg3
+ tIIMPj0cZGyMxS6fLIti+n38qoaDVIC4V0v2kYkCgONvcaQL8G6dUCWnC0j4kuIVTFBndNhhSrg
+ tGNkfnDJmS99pyQ4=
+X-Received: by 2002:adf:c64a:: with SMTP id u10mr35737211wrg.412.1618301620911; 
+ Tue, 13 Apr 2021 01:13:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwj9XUzasICpkGZcZV2idRrHox9RokPqxx6MnegmkLvw1aeY5RpUaQaF1vSAX8sFq+2fObRvg==
+X-Received: by 2002:adf:c64a:: with SMTP id u10mr35737184wrg.412.1618301620655; 
+ Tue, 13 Apr 2021 01:13:40 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c62e9.dip0.t-ipconnect.de. [91.12.98.233])
+ by smtp.gmail.com with ESMTPSA id
+ 24sm1992444wmk.18.2021.04.13.01.13.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Apr 2021 01:13:40 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] qom: move user_creatable_add_opts logic to vl.c
+ and QAPIfy it
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210312173547.1283477-1-pbonzini@redhat.com>
+ <20210312173547.1283477-3-pbonzini@redhat.com>
+ <f0ea67d8-9641-104d-f8ec-5fc343256cc9@redhat.com>
+ <87im4q23v2.fsf@dusky.pond.sub.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <07c08cc3-f3ca-6f7a-e5f7-d2d3ee8de79e@redhat.com>
+Date: Tue, 13 Apr 2021 10:13:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87im4q23v2.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,101 +103,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When TCG is enabled, the accel/tcg/ include path is added to the
-project global include search list. This accel/tcg/ directory
-contains a header named "internal.h" which, while intented to
-be internal to accel/tcg/, is accessible by all files compiled
-when TCG is enabled. This might lead to problem with other
-directories using the same "internal.h" header name:
+On 13.04.21 06:41, Markus Armbruster wrote:
+> David Hildenbrand <david@redhat.com> writes:
+> 
+>> On 12.03.21 18:35, Paolo Bonzini wrote:
+>>> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
+>>> to parse the -object command line option.  This has one extra feature,
+>>> compared to keyval, which is automatic conversion of integers to lists
+>>> as well as support for lists as repeated options:
+>>>     -object
+>>> memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
+>>> So we cannot replace OptsVisitor with keyval right now.  Still, this
+>>> patch moves the user_creatable_add_opts logic to vl.c since it is
+>>> not needed anywhere else, and makes it go through user_creatable_add_qapi.
+>>> In order to minimize code changes, the predicate still takes a
+>>> string.
+>>> This can be changed later to use the ObjectType QAPI enum directly.
+>>>
+>>
+>> Rebasing my "noreserve"[1] series on this, I get weird errors from
+>> QEMU when specifying the new "reserve=off" option for a
+>> memory-backend-ram:
+>>
+>> "Invalid parameter 'reserve'"
+>>
+>> And it looks like this is the case for any new properties. Poking
+>> around, I fail to find what's causing this -- or how to unlock new
+>> properties. What is the magic toggle to make it work?
+>>
+>> Thanks!
+>>
+>> [1] https://lkml.kernel.org/r/20210319101230.21531-1-david@redhat.com
+> 
+> Wild guess: you didn't add your new properties in the QAPI schema.
+> 
+> For a not-so-wild-guess, send us a git-fetch argument for your rebased
+> series.
+> 
 
-  $ git ls-files | fgrep /internal.h
-  accel/tcg/internal.h
-  include/hw/ide/internal.h
-  target/hexagon/internal.h
-  target/mips/internal.h
-  target/ppc/internal.h
-  target/s390x/internal.h
+Oh, there is qapi/qom.json -- maybe that does the trick.
 
-As we don't need to expose accel/tcg/ internals to the rest of
-the code base, simplify by removing it from the include search
-list, and include the accel/tcg/ public headers relative to the
-project root search path (which is already in the generic include
-search path).
+(I have mixed feelings about having to specify the same thing twice at 
+different locations)
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Arguably public accel/tcg/ headers should be exposed under include/.
----
- meson.build                 | 1 -
- include/exec/helper-gen.h   | 4 ++--
- include/exec/helper-proto.h | 4 ++--
- include/exec/helper-tcg.h   | 4 ++--
- 4 files changed, 6 insertions(+), 7 deletions(-)
+I'll have a look if that makes it fly.
 
-diff --git a/meson.build b/meson.build
-index c6f4b0cf5e8..d8bb1ec5aa9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -258,7 +258,6 @@
-     tcg_arch = 'riscv'
-   endif
-   add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
--                        '-iquote', meson.current_source_dir() / 'accel/tcg',
-                         language: ['c', 'cpp', 'objc'])
- 
-   accelerators += 'CONFIG_TCG'
-diff --git a/include/exec/helper-gen.h b/include/exec/helper-gen.h
-index 29c02f85dcc..1c2e7a8ed39 100644
---- a/include/exec/helper-gen.h
-+++ b/include/exec/helper-gen.h
-@@ -81,8 +81,8 @@ static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
- #include "helper.h"
- #include "trace/generated-helpers.h"
- #include "trace/generated-helpers-wrappers.h"
--#include "tcg-runtime.h"
--#include "plugin-helpers.h"
-+#include "accel/tcg/tcg-runtime.h"
-+#include "accel/tcg/plugin-helpers.h"
- 
- #undef DEF_HELPER_FLAGS_0
- #undef DEF_HELPER_FLAGS_1
-diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
-index 659f9298e8f..ba100793a7d 100644
---- a/include/exec/helper-proto.h
-+++ b/include/exec/helper-proto.h
-@@ -39,8 +39,8 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
- 
- #include "helper.h"
- #include "trace/generated-helpers.h"
--#include "tcg-runtime.h"
--#include "plugin-helpers.h"
-+#include "accel/tcg/tcg-runtime.h"
-+#include "accel/tcg/plugin-helpers.h"
- 
- #undef IN_HELPER_PROTO
- 
-diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
-index 27870509a20..68885146355 100644
---- a/include/exec/helper-tcg.h
-+++ b/include/exec/helper-tcg.h
-@@ -60,8 +60,8 @@
- 
- #include "helper.h"
- #include "trace/generated-helpers.h"
--#include "tcg-runtime.h"
--#include "plugin-helpers.h"
-+#include "accel/tcg/tcg-runtime.h"
-+#include "accel/tcg/plugin-helpers.h"
- 
- #undef str
- #undef DEF_HELPER_FLAGS_0
 -- 
-2.26.3
+Thanks,
+
+David / dhildenb
 
 
