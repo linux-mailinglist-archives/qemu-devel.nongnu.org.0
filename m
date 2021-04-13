@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC8735E375
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:06:21 +0200 (CEST)
-Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CE235E374
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:06:04 +0200 (CEST)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLYS-0002O3-Jv
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38436)
+	id 1lWLYB-0002Ct-Hl
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOc-0001TY-F8
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24859)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOd-0001WN-Rt
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOY-0000BT-7p
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:10 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOZ-0000Ba-KD
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618329365;
+ s=mimecast20190719; t=1618329366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XufJ2CLgjzIAubGvoiYCX7qy1kGVUEO3CHR9Ppm6GRY=;
- b=gk0JavkqhuQHwSWAFl/tOfIL0oZtdRiSa+ZPheVghXnh4PTKzMrjj2akjWVH/5/8uIkjC2
- CppRyw3YPzED41hCTrGrFi9GD17tXGo41uvNTr2CiqfKRaaRQPIjcK1YIrvbBpSNOXHjN0
- pNcQoMb8QSk7VgchKyNib1FSdJzCbhc=
+ bh=aIfCrRGZsQcxyjJLMuy+Tn71Ybe8bopsExGO/vtKykY=;
+ b=bgak2QpUS2wL8uOaAP+svWD4Eb93oYsxeEfWHgxXMIZFrJee4wW+qxwfYmQMlzSzzrK/Ko
+ eUE8AzwUv1JaPJd5JIqIVyqUtoI/SY7ZTZjRv4Mys9vNGL3LsyLZRTke4C/pUhLTPrbF2B
+ MLUFizn9SoU4Dvdb/7CVIvznu8vwVao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-f9L2cPjUPwS_iyt-XlwkqA-1; Tue, 13 Apr 2021 11:56:03 -0400
-X-MC-Unique: f9L2cPjUPwS_iyt-XlwkqA-1
+ us-mta-470-r7QJUgH3NouA1pfwAbTTag-1; Tue, 13 Apr 2021 11:56:04 -0400
+X-MC-Unique: r7QJUgH3NouA1pfwAbTTag-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7393B79EC5
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 15:56:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 683E28710F4
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 15:56:03 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4EB06A034;
- Tue, 13 Apr 2021 15:56:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F2BD6A034;
+ Tue, 13 Apr 2021 15:56:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 4/7] message: add QMP Message type
-Date: Tue, 13 Apr 2021 11:55:50 -0400
-Message-Id: <20210413155553.2660523-5-jsnow@redhat.com>
+Subject: [PATCH RFC 5/7] models: Add well-known QMP objects
+Date: Tue, 13 Apr 2021 11:55:51 -0400
+Message-Id: <20210413155553.2660523-6-jsnow@redhat.com>
 In-Reply-To: <20210413155553.2660523-1-jsnow@redhat.com>
 References: <20210413155553.2660523-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -81,224 +81,221 @@ Cc: crosa@redhat.com, John Snow <jsnow@redhat.com>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an abstraction that represents a single message either sent to
-or received from the server. It is used to subclass the
-AsyncProtocol(Generic[T]) type.
+This uses the third-party pydantic library to provide grammatical
+validation of various JSON objects used in the QMP protocol, along with
+documentation that references where these objects are defined.
 
-It was written such that it can be populated by either raw data or by a
-dict, with the other form being generated on-demand, as-needed.
+This is done both to ensure that objects conform to the standard set
+forth in the QMP specification, and to provide a strict type-safe
+interface that can be used to access information sent by the server in a
+type-safe way.
 
-It behaves almost exactly like a dict, but has some extra methods and a
-special constructor. (It should quack fairly convincingly.)
+If you've not run into pydantic before, you define objects by creating
+classes that inherit from BaseModel. Then, similar to Python's own
+@dataclass format, you declare the fields (and their types) that you
+expect to see in this object. Pydantic will then automatically generate
+a parser/validator for this object, and the end result is a strictly
+typed, native Python object that is guaranteed to have the fields
+specified.
+
+NOTE: Pydantic does not, by default, ensure that *extra* fields are not
+present in the model. This is intentional, as it allows backwards
+compatibility if new fields should be added to the specification in the future.
+
+This strictness feature, however, *can* be added. A debug/strict mode
+could be added (but is not present in this RFC) to enable that
+strictness on-demand, but for a general-purpose client it's likely best
+to leave that disabled.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- message.py | 196 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 196 insertions(+)
- create mode 100644 message.py
+ models.py | 177 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 177 insertions(+)
+ create mode 100644 models.py
 
-diff --git a/message.py b/message.py
+diff --git a/models.py b/models.py
 new file mode 100644
-index 0000000..5c7e828
+index 0000000..7c42d47
 --- /dev/null
-+++ b/message.py
-@@ -0,0 +1,196 @@
++++ b/models.py
+@@ -0,0 +1,177 @@
 +"""
-+QMP Message format and errors.
++QMP message models.
 +
-+This module provides the `Message` class, which represents a single QMP
-+message sent to or from the server. Several error-classes that depend on
-+knowing the format of this message are also included here.
++This module provides definitions for several well-defined JSON object
++types that are seen in the QMP wire protocol. Using pydantic, these
++models also handle the parsing and validation of these objects in order
++to provide strict typing guarantees elsewhere in the library.
++
++Notably, it provides these object models:
++
++- `Greeting`: the standard QMP greeting message (and nested children)
++- Three types of server RPC response messages:
++  - `ErrorResponse`: A failed-execution reply. (Application-level failure)
++  - `SuccessResponse`: A successful execution reply.
++  - `ParsingError`: A reply indicating the RPC message was not understood.
++                  (Library-level failure, or worse.)
++- A special pydantic form of the above three; `ServerResponse`,
++  used to parse incoming messages.
++- `AsynchronousEvent`: A generic event message.
 +"""
 +
-+import json
-+from json import JSONDecodeError
 +from typing import (
++    Any,
 +    Dict,
-+    ItemsView,
-+    Iterable,
-+    KeysView,
-+    Optional,
++    List,
++    Type,
++    TypeVar,
 +    Union,
-+    ValuesView,
 +)
 +
-+from error import (
-+    DeserializationError,
-+    ProtocolError,
-+    UnexpectedTypeError,
-+)
++from pydantic import BaseModel, Field, root_validator, ValidationError
 +
 +
-+class Message:
++from message import Message, ObjectTypeError
++
++
++class MessageBase(BaseModel):
 +    """
-+    Represents a single QMP protocol message.
++    An abstract pydantic model that represents any QMP object.
 +
-+    QMP uses JSON objects as its basic communicative unit; so this
-+    object behaves like a MutableMapping. It may be instantiated from
-+    either another mapping (like a dict), or from raw bytes that still
-+    need to be deserialized.
-+
-+    :param value: Initial value, if any.
-+    :param eager: When true, attempt to serialize (or deserialize) the
-+                  initial value immediately, such that conversion exceptions
-+                  are raised during the call to the initialization method.
++    It does not define any fields, so it isn't very useful as a type.
++    However, it provides a strictly typed parsing helper that allows
++    us to convert from a QMP `Message` object into a specific model,
++    so long as that model inherits from this class.
 +    """
-+    # TODO: make Message properly a MutableMapping so it can be typed as such?
-+    def __init__(self,
-+                 value: Union[bytes, Dict[str, object]] = b'', *,
-+                 eager: bool = True):
-+        self._data: Optional[bytes] = None
-+        self._obj: Optional[Dict[str, object]] = None
-+
-+        if isinstance(value, bytes):
-+            self._data = value
-+            if eager:
-+                self._obj = self._deserialize(self._data)
-+        else:
-+            self._obj = value
-+            if eager:
-+                self._data = self._serialize(self._obj)
++    _T = TypeVar('_T', bound='MessageBase')
 +
 +    @classmethod
-+    def _serialize(cls, value: object) -> bytes:
++    def parse_msg(cls: Type[_T], obj: Message) -> _T:
 +        """
-+        Serialize a JSON object as bytes.
++        Convert a `Message` into a strictly typed Python object.
 +
-+        :raises: ValueError, TypeError from the json library.
-+        """
-+        return json.dumps(value, separators=(',', ':')).encode('utf-8')
++        For Messages that do not pass validation, pydantic validation
++        errors are encapsulated using the `ValidationError` class.
 +
-+    @classmethod
-+    def _deserialize(cls, data: bytes) -> Dict[str, object]:
-+        """
-+        Deserialize JSON bytes into a native python dict.
-+
-+        :raises: DeserializationError if JSON deserialization
-+                 fails for any reason.
-+        :raises: UnexpectedTypeError if data does not represent
-+                 a JSON object.
++        :raises: ValidationError when the given Message cannot be
++                 validated (and converted into) as an instance of this class.
 +        """
 +        try:
-+            obj = json.loads(data)
-+        except JSONDecodeError as err:
-+            emsg = "Failed to deserialize QMP message."
-+            raise DeserializationError(emsg, data) from err
-+        if not isinstance(obj, dict):
-+            raise UnexpectedTypeError(
-+                "Incoming QMP message is not a JSON object.",
-+                data
-+            )
-+        return obj
-+
-+    @property
-+    def data(self) -> bytes:
-+        """
-+        bytes representing this QMP message.
-+
-+        Generated on-demand if required.
-+        """
-+        if self._data is None:
-+            self._data = self._serialize(self._obj or {})
-+        return self._data
-+
-+    @property
-+    def _object(self) -> Dict[str, object]:
-+        """
-+        dict representing this QMP message.
-+
-+        Generated on-demand if required; Private because it returns an
-+        object that could be used to validate the internal state of the
-+        Message object.
-+        """
-+        if self._obj is None:
-+            self._obj = self._deserialize(self._data or b'')
-+        return self._obj
-+
-+    def __str__(self) -> str:
-+        """Pretty-printed representation of this QMP message."""
-+        return json.dumps(self._object, indent=2)
-+
-+    def __bytes__(self) -> bytes:
-+        return self.data
-+
-+    def __contains__(self, item: str) -> bool:  # Container, Collection
-+        return item in self._object
-+
-+    def __iter__(self) -> Iterable[str]:  # Iterable, Collection, Mapping
-+        return iter(self._object)
-+
-+    def __len__(self) -> int:  # Sized, Collection, Mapping
-+        return len(self._object)
-+
-+    def __getitem__(self, key: str) -> object:  # Mapping
-+        return self._object[key]
-+
-+    def __setitem__(self, key: str, value: object) -> None:  # MutableMapping
-+        self._object[key] = value
-+        self._data = None
-+
-+    def __delitem__(self, key: str) -> None:  # MutableMapping
-+        del self._object[key]
-+        self._data = None
-+
-+    def keys(self) -> KeysView[str]:
-+        """Return a KeysView object containing all field names."""
-+        return self._object.keys()
-+
-+    def items(self) -> ItemsView[str, object]:
-+        """Return an ItemsView object containing all key:value pairs."""
-+        return self._object.items()
-+
-+    def values(self) -> ValuesView[object]:
-+        """Return a ValuesView object containing all field values."""
-+        return self._object.values()
-+
-+    def get(self, key: str,
-+            default: Optional[object] = None) -> Optional[object]:
-+        """Get the value for a single key."""
-+        return self._object.get(key, default)
++            return cls.parse_obj(obj)
++        except ValidationError as err:
++            raise ObjectTypeError("Message failed validation.", obj) from err
 +
 +
-+class MsgProtocolError(ProtocolError):
-+    """Abstract error class for protocol errors that have a JSON object."""
-+    def __init__(self, error_message: str, msg: Message):
-+        super().__init__(error_message)
-+        self.msg = msg
-+
-+    def __str__(self) -> str:
-+        return "\n".join([
-+            super().__str__(),
-+            f"  Message was: {str(self.msg)}\n",
-+        ])
-+
-+
-+class ObjectTypeError(MsgProtocolError):
++class VersionTriple(BaseModel):
 +    """
-+    Incoming message was a JSON object, but has an unexpected data shape.
-+
-+    e.g.: A malformed greeting may cause this error.
++    Mirrors qapi/control.json VersionTriple structure.
 +    """
++    major: int
++    minor: int
++    micro: int
 +
 +
-+# FIXME: Remove this? Current draft simply trashes these replies.
-+
-+# class OrphanedError(MsgProtocolError):
-+#     """
-+#     Received message, but had no queue to deliver it to.
-+#
-+#     e.g.: A reply arrives from the server, but the ID does not match any
-+#     pending execution requests we are aware of.
-+#     """
-+
-+
-+class ServerParseError(MsgProtocolError):
++class VersionInfo(BaseModel):
 +    """
-+    Server sent a `ParsingError` message.
-+
-+    e.g. A reply arrives from the server, but it is missing the "ID"
-+    field, which indicates a parsing error on behalf of the server.
++    Mirrors qapi/control.json VersionInfo structure.
 +    """
++    qemu: VersionTriple
++    package: str
++
++
++class QMPGreeting(BaseModel):
++    """
++    'QMP' subsection of the protocol greeting.
++
++    Defined in qmp-spec.txt, section 2.2, "Server Greeting".
++    """
++    version: VersionInfo
++    capabilities: List[str]
++
++
++class Greeting(MessageBase):
++    """
++    QMP protocol greeting message.
++
++    Defined in qmp-spec.txt, section 2.2, "Server Greeting".
++    """
++    QMP: QMPGreeting
++
++
++class ErrorInfo(BaseModel):
++    """
++    Error field inside of an error response.
++
++    Defined in qmp-spec.txt, section 2.4.2, "error".
++    """
++    class_: str = Field(None, alias='class')
++    desc: str
++
++
++class ParsingError(MessageBase):
++    """
++    Parsing error from QMP that omits ID due to failure.
++
++    Implicitly defined in qmp-spec.txt, section 2.4.2, "error".
++    """
++    error: ErrorInfo
++
++
++class SuccessResponse(MessageBase):
++    """
++    Successful execution response.
++
++    Defined in qmp-spec.txt, section 2.4.1, "success".
++    """
++    return_: Any = Field(None, alias='return')
++    id: str  # NB: The spec allows ANY object here. AQMP does not!
++
++    @root_validator(pre=True)
++    @classmethod
++    def check_return_value(cls,
++                           values: Dict[str, object]) -> Dict[str, object]:
++        """Enforce that the 'return' key is present, even if it is None."""
++        # To pydantic, 'Any' means 'Optional'; force its presence:
++        if 'return' not in values:
++            raise TypeError("'return' key not present in object.")
++        return values
++
++
++class ErrorResponse(MessageBase):
++    """
++    Unsuccessful execution response.
++
++    Defined in qmp-spec.txt, section 2.4.2, "error".
++    """
++    error: ErrorInfo
++    id: str  # NB: The spec allows ANY object here. AQMP does not!
++
++
++class ServerResponse(MessageBase):
++    """
++    Union type: This object can be any one of the component messages.
++
++    Implicitly defined in qmp-spec.txt, section 2.4, "Commands Responses".
++    """
++    __root__: Union[SuccessResponse, ErrorResponse, ParsingError]
++
++
++class EventTimestamp(BaseModel):
++    """
++    Timestamp field of QMP event, see `AsynchronousEvent`.
++
++    Defined in qmp-spec.txt, section 2.5, "Asynchronous events".
++    """
++    seconds: int
++    microseconds: int
++
++
++class AsynchronousEvent(BaseModel):
++    """
++    Asynchronous event message.
++
++    Defined in qmp-spec.txt, section 2.5, "Asynchronous events".
++    """
++    event: str
++    data: Union[List[Any], Dict[str, Any], str, int, float]
++    timestamp: EventTimestamp
 -- 
 2.30.2
 
