@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A8835DF6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:54:33 +0200 (CEST)
-Received: from localhost ([::1]:54154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29B035DF8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:57:30 +0200 (CEST)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWIYq-0005Wz-Nw
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35494)
+	id 1lWIbi-000855-2w
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWIWP-0004uV-Cp
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:52:01 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:45870)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1lWIZU-0006XJ-23; Tue, 13 Apr 2021 08:55:12 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:39869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWIWJ-0003xJ-Bx
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 08:51:59 -0400
-Received: by mail-ej1-x631.google.com with SMTP id sd23so17079042ejb.12
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 05:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8hfR6pe3ytSWICb39d4NCRDJ5aMNnxG9/9/oP8GJ+jY=;
- b=cODSJSKcUnSANwlxofBWMdsh2lz4FHfJ/r2+koGtbIhCeY4aSf2MtGOx/CSvmgLrJL
- Hk1bSfR4ztLPKegO2B5jAZV573rxuLaXKVwF6lD0GGWJRi8lroo10kynbvhoPuzKtp8l
- cWiItN8jCYmUERFx9R50H/vFZ1hYfPbcHQbdJXhN1Vtt3dFgB4aJ0qB5uo2vJR+KX29N
- 4qT6453ApURSoMQqi54ftnAOWcnQlNmujcypVmUCUr/vN94cCJ3QSmYhie0/Xl83nhw1
- YjkXaCrb8PUPZHO+SZmsK+Cz6BmtxfyJ6rBnXgA+YAB8EDkwatuIFlyMyhd3l/OmSOvT
- al5w==
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1lWIZQ-0005OZ-OC; Tue, 13 Apr 2021 08:55:11 -0400
+Received: by mail-pl1-x630.google.com with SMTP id u7so6351974plr.6;
+ Tue, 13 Apr 2021 05:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LHW53rf2+oqyhXlEHeseRdK6e0I5YuBp7nhEacC0l/E=;
+ b=QWMRGDRrSwLMRMp6hEVQiptYvaZ/WTpTh7+bPN/CbsEszzF/2oErtgWzxpW1gBFz4y
+ ko42ABtGtgiEUBh1ih/cJHbg80N87HZbZvXueE33in/PV4jDAEYGWD3hLtJTUqq3B9GN
+ 60PDEnA+LINkdXVUKuhg873jbSsSdTq3/nDzblDMpkuL91BZn1pCJOmGnf6S5RU7+ZCZ
+ 4NndxFYttLwSAj20h7qE+zyM1QwtftySElbw5agB/gT4JOOoHAQ17oBY43VdYKYmeUjw
+ Zsfej0IK2Vkwlta8uixvwg/ZDS1PhCzvOafXe0oYPNJp02DIor9T3ZbYRiynnt6q7bd4
+ O+gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8hfR6pe3ytSWICb39d4NCRDJ5aMNnxG9/9/oP8GJ+jY=;
- b=YBFAf7NjSL+A9G/aZBXrk4qSKjs4N7iKaNZFjAFDWURfpv95lacKC+R3V+BVKTo3Np
- HrysxGHIyM7YTOKl3S5bEnOUjXGTioROxiL+0VWjOcUhfpJ7qM1tB1TtBl/NrMJSskwK
- 00u3MCen/b0ZwWjdrSvEIr2VE43CdeVog56QljftNgRE9gWo8U1TJqYTumT3O3CMmDBC
- A/C+sSxJ0dfDm0vEacLFEW+yf0hZrC6i13AP4xiNY0WCVhfs4IYSbvjk6hgkvC9zU/cy
- dVQ9FugZL1/57b07QFWNP9XA7GE07N/SXQIzZqwzY9ZSPsqK5e2JnJkCPjpFnidVxV1s
- bTgQ==
-X-Gm-Message-State: AOAM533d2IQ4wdkL856U+SqQoVoYb828E7sGHRGfona43dNLG4MShyUU
- xrNqD+J7z8FrWEcHwyeBUdOG9MTdZvdoGEGKnMooKQ8Bafs=
-X-Google-Smtp-Source: ABdhPJy8uoriNShZCVSyX785F3quRDC6y6f8pbge5vaqf3VYyXMe4BC+74PNBDY5o/RKkFzyYnOGtshZ49N6ZDU8ZVg=
-X-Received: by 2002:a17:906:953:: with SMTP id
- j19mr2567692ejd.56.1618318313763; 
- Tue, 13 Apr 2021 05:51:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LHW53rf2+oqyhXlEHeseRdK6e0I5YuBp7nhEacC0l/E=;
+ b=Ov0MtdRgEap0LdviQuRqwlXSGlMOsbmw4YryIhm6GTVYSCUtAFhEYyMnm27C2oRSyD
+ A7uh9cm6uU0KOpyQuGGopYn8iqnCMfkil3hBZ1xDjyj9iS1wPUCuH1nCFkMb7bv/WdKH
+ MjIW+kqxnHcTAKHHSKqVy7yfMRMPFeHTcpQS+sTUJZ36445dl5+P98oPyQZCbGGxUwCa
+ di6iZfNk30362S1wD0DWrPygfpcwf8BrhFSR4GLQ5n6cKGsmBoIO0RJUTqEBgHnHPZQt
+ aNquUd0IFIh04hq7aoHw9Inyo78Njg/MTGAVrhNnc/POFGExrq2pWSd1LJyw6L7YEHty
+ qufg==
+X-Gm-Message-State: AOAM531VQvwFG6Nn0FRBJP+gfxFGWoruzadNVysSuIkiOaai/0nq4akp
+ ccqxsHZBz/VhgmE3qo6wsHTyQdqYCA8=
+X-Google-Smtp-Source: ABdhPJzGUAVqfBkzUcv6JvDxDaHLunlxtaSreVM01B0c2KnllxbKI9mMROKxxnY0O+M39kpqYlaVxA==
+X-Received: by 2002:a17:902:a589:b029:e9:21cc:4aac with SMTP id
+ az9-20020a170902a589b02900e921cc4aacmr31892623plb.21.1618318503344; 
+ Tue, 13 Apr 2021 05:55:03 -0700 (PDT)
+Received: from bobo.ozlabs.ibm.com (193-116-90-211.tpgi.com.au.
+ [193.116.90.211])
+ by smtp.gmail.com with ESMTPSA id s40sm9627352pfw.133.2021.04.13.05.54.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 05:55:02 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v1 0/3] POWER9/POWER10 exception model fixes
+Date: Tue, 13 Apr 2021 22:54:45 +1000
+Message-Id: <20210413125448.1689545-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20210413124800.216095-1-pbonzini@redhat.com>
-In-Reply-To: <20210413124800.216095-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Apr 2021 13:51:08 +0100
-Message-ID: <CAFEAcA88i+t8MCRwmT=zNGgHpHaSAJ-1cgvE6+-=AN+1SrPNzg@mail.gmail.com>
-Subject: Re: [PULL 0/2] osdep.h changes for QEMU 6.0-rc3
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=npiggin@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,29 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@fr.ibm.com>,
+ qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Apr 2021 at 13:50, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 12763913a3e44d9968a9ab0da01a0880fc7d61df:
->
->   osdep: protect qemu/osdep.h with extern "C" (2021-04-13 13:00:37 +0200)
->
-> ----------------------------------------------------------------
-> Fix C++ compilation of qemu/osdep.h.
+This fixes a powernv9 bug, and several POWER10 bits (which affect
+powernv10 and pseries power10).
 
-I had some unaddressed review comments on patch 2...
+I think I got the logic right but I didn't individually test and
+verify every case, so any glances over it would be appreciated.
 
-thanks
--- PMM
+Thanks,
+Nick
+
+Nicholas Piggin (3):
+  target/ppc: Fix POWER9 radix guest HV interrupt AIL behaviour
+  target/ppc: POWER10 supports scv
+  target/ppc: Add POWER10 exception model
+
+ hw/ppc/spapr_hcall.c            |   5 ++
+ target/ppc/cpu-qom.h            |   2 +
+ target/ppc/cpu.h                |   5 +-
+ target/ppc/excp_helper.c        | 111 ++++++++++++++++++++++++++++----
+ target/ppc/translate.c          |   3 +-
+ target/ppc/translate_init.c.inc |   4 +-
+ 6 files changed, 111 insertions(+), 19 deletions(-)
+
+-- 
+2.23.0
+
 
