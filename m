@@ -2,91 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73E835DE09
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 13:49:54 +0200 (CEST)
-Received: from localhost ([::1]:40594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD61735DE0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 13:50:02 +0200 (CEST)
+Received: from localhost ([::1]:41492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWHYH-0005uJ-Eq
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 07:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42014)
+	id 1lWHYP-0006Gs-Op
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 07:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lWHWQ-0004cO-64
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:47:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59263)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lWHXT-0005SS-Gx
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:49:03 -0400
+Resent-Date: Tue, 13 Apr 2021 07:49:03 -0400
+Resent-Message-Id: <E1lWHXT-0005SS-Gx@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lWHWK-0001y4-Ji
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:47:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618314467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C498OOED4CLcFMaIaqTqhLKEiaZDHSZNm4r57Ii6BYY=;
- b=h0RZK1me0m5MgnUn4tPOkez7mDjFLUxTOGFmHe0nJw142ZZmZHXkT/dPmd1lxEbwyE23rM
- NR8CiieERAPOWQFOhRYkRrgb6ylvfaeY8oP07Y+hkxRoFefAW1QfvQvywZ6FB1LIjgryhV
- 7W8irSRrH4EK+L69saqnpWRFIx4Vc34=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-wrCVXdudOcKrNTfYaRna7w-1; Tue, 13 Apr 2021 07:47:46 -0400
-X-MC-Unique: wrCVXdudOcKrNTfYaRna7w-1
-Received: by mail-ej1-f71.google.com with SMTP id hr38so21334ejc.0
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 04:47:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=C498OOED4CLcFMaIaqTqhLKEiaZDHSZNm4r57Ii6BYY=;
- b=NGXYnZJceqLyMG3FRQD0rh6XPrd4IOJpJx0cEroI19mmaXfNYTdYIQe3IQuCOIOcCE
- S9IP/JHNlRGEEkH+MRpwsipMaMdgBwth93qQ+e8osL4kbQfaiWnAPzMnob9jaOTTQIfd
- +yjn7TflclSKTxPa1gkuqeqhukR248dJ+Z7+XfHz7NM+bg0Ayt7182omyyGCUjSLSS0F
- qx9btvFjpg1jwv/UqGouDgQfDrRbZvfQc45HlpeACwUH95+gjC6X/A/MkIR1gPbEWT09
- 6gr0FKHj/BYjdUE4xJcuLE6+Ca38FVpdJ94pGfrhSuoqmjWNxnzTffMOOJeUFpgEYsmM
- 0Haw==
-X-Gm-Message-State: AOAM5327z4l5poSvFlPMjmB5vUq4mCoi7L3bm9Sb3kxkjmDirE1DLma2
- ZrAcmHIEiFtZyBgOsqZYk7+s9RBOyrcKFBzkAKdSxy8HfZC6rPm+++bcK54/Vj2jZH4IENCycDH
- wWv9O2RMRp/oXyII=
-X-Received: by 2002:a05:6402:382:: with SMTP id
- o2mr35012638edv.238.1618314464942; 
- Tue, 13 Apr 2021 04:47:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLKyk24AN9WoI3VO/bvie9tZmBcb1SLfYsnQ48a3Xb6f2dhZt8tO0jfdQ3DZWOJUVj5tXtUQ==
-X-Received: by 2002:a05:6402:382:: with SMTP id
- o2mr35012620edv.238.1618314464685; 
- Tue, 13 Apr 2021 04:47:44 -0700 (PDT)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id w13sm9600599edx.15.2021.04.13.04.47.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 04:47:44 -0700 (PDT)
-Date: Tue, 13 Apr 2021 13:47:42 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] cutils: fix memory leak in get_relocated_path()
-Message-ID: <20210413114742.i7bu2sc2w6ityjic@steredhat>
-References: <20210412170255.231406-1-sgarzare@redhat.com>
- <22828e2d-2c8e-c753-31e5-7588f9064b10@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lWHXP-0002aB-5y
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:49:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618314528; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=SCJuWTGeVg/tfFQgaqxNzHGzkigjTZ9/mS4VrDH6C2tJl6XsXnnYpPdIlEelL4u78LsrCDqg0d4Ffysn4W+MXxPtEwHJA6cubOCEa/sWqByS5z2aRAvo4RIQ9omRRZQqDAiO/EoMRmS7JJKFVrdHj/DARVmaBj2LX8sKd8+2DkI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618314528;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=BM7EQifwoRzIZWParKHMDMAmEYSYzRwmAbr0+dFLm7s=; 
+ b=CW7/hrmW9Dg5QlcK8mCaZyDQVRGC8gjHfjvDZxG15lHOCBggYBdXRg5NExwfSBONEtRDP5ZlTtcQPvCgkf4lnmk27B1FlNUTylz5s2dpD2yHTZAHQjc6973zMEx4GKdwXVfvB+6PX/oKsu5XcJ6cYx9n4YMqJWb2LQbXlZvOFU4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618314525459258.4922201152983;
+ Tue, 13 Apr 2021 04:48:45 -0700 (PDT)
+In-Reply-To: <20210413113741.214867-1-pbonzini@redhat.com>
+Subject: Re: [PATCH 0/2] osdep: allow including qemu/osdep.h outside extern "C"
+Message-ID: <161831452429.7886.443646829451800922@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <22828e2d-2c8e-c753-31e5-7588f9064b10@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Tue, 13 Apr 2021 04:48:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,59 +67,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 13, 2021 at 12:59:36PM +0200, Philippe Mathieu-Daudé wrote:
->Is this fix aiming at 6.0 release?
-
-The leak is minimal, but the fix is very simple.
-So, I think it can go if someone has a pull request to send with other 
-patches, but I'm not sure with which tree.
-
-Thanks,
-Stefano
-
->
->On 4/12/21 7:02 PM, Stefano Garzarella wrote:
->> get_relocated_path() allocates a GString object and returns the
->> character data (C string) to the caller without freeing the memory
->> allocated for that object as reported by valgrind:
->>
->>   24 bytes in 1 blocks are definitely lost in loss record 2,805 of 6,532
->>      at 0x4839809: malloc (vg_replace_malloc.c:307)
->>      by 0x55AABB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->>      by 0x55C2481: g_slice_alloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->>      by 0x55C4827: g_string_sized_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
->>      by 0x55C4CEA: g_string_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
->>      by 0x906314: get_relocated_path (cutils.c:1036)
->>      by 0x6E1F77: qemu_read_default_config_file (vl.c:2122)
->>      by 0x6E1F77: qemu_init (vl.c:2687)
->>      by 0x3E3AF8: main (main.c:49)
->>
->> Let's use g_string_free(gstring, false) to free only the GString object
->> and transfer the ownership of the character data to the caller.
->>
->> Fixes: f4f5ed2cbd ("cutils: introduce get_relocated_path")
->> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->> ---
->>  util/cutils.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/util/cutils.c b/util/cutils.c
->> index ee908486da..c9b91e7535 100644
->> --- a/util/cutils.c
->> +++ b/util/cutils.c
->> @@ -1055,5 +1055,5 @@ char *get_relocated_path(const char *dir)
->>          assert(G_IS_DIR_SEPARATOR(dir[-1]));
->>          g_string_append(result, dir - 1);
->>      }
->> -    return result->str;
->> +    return g_string_free(result, false);
->>  }
->>
->
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxMzExMzc0MS4yMTQ4
+NjctMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTMxMTM3NDEuMjE0
+ODY3LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8yXSBvc2RlcDogYWxs
+b3cgaW5jbHVkaW5nIHFlbXUvb3NkZXAuaCBvdXRzaWRlIGV4dGVybiAiQyIKCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
+IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
+cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
+Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
+ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
+dC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA0MDgxOTU1MzQuNjQ3ODk1
+LTEtYW50b25rdWNoaW5AeWFuZGV4LXRlYW0ucnUgLT4gcGF0Y2hldy8yMDIxMDQwODE5NTUzNC42
+NDc4OTUtMS1hbnRvbmt1Y2hpbkB5YW5kZXgtdGVhbS5ydQogKiBbbmV3IHRhZ10gICAgICAgICBw
+YXRjaGV3LzIwMjEwNDEzMTEzNzQxLjIxNDg2Ny0xLXBib256aW5pQHJlZGhhdC5jb20gLT4gcGF0
+Y2hldy8yMDIxMDQxMzExMzc0MS4yMTQ4NjctMS1wYm9uemluaUByZWRoYXQuY29tClN3aXRjaGVk
+IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKOTkyZmE1MiBvc2RlcDogcHJvdGVjdCBxZW11L29zZGVw
+Lmggd2l0aCBleHRlcm4gIkMiCmJjMjMxMGYgb3NkZXA6IGluY2x1ZGUgZ2xpYi1jb21wYXQuaCBi
+ZWZvcmUgb3RoZXIgUUVNVSBoZWFkZXJzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzIgQ2hlY2tp
+bmcgY29tbWl0IGJjMjMxMGY3MzFhNSAob3NkZXA6IGluY2x1ZGUgZ2xpYi1jb21wYXQuaCBiZWZv
+cmUgb3RoZXIgUUVNVSBoZWFkZXJzKQoyLzIgQ2hlY2tpbmcgY29tbWl0IDk5MmZhNTJkYTQxMyAo
+b3NkZXA6IHByb3RlY3QgcWVtdS9vc2RlcC5oIHdpdGggZXh0ZXJuICJDIikKV0FSTklORzogYXJj
+aGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzUxOiBGSUxFOiBp
+bmNsdWRlL3FlbXUvY29tcGlsZXIuaDoxNDoKKyNpZmRlZiBfX2NwbHVzcGx1cwoKRVJST1I6IHN0
+b3JhZ2UgY2xhc3Mgc2hvdWxkIGJlIGF0IHRoZSBiZWdpbm5pbmcgb2YgdGhlIGRlY2xhcmF0aW9u
+CiM1MjogRklMRTogaW5jbHVkZS9xZW11L2NvbXBpbGVyLmg6MTU6CisjZGVmaW5lIFFFTVVfRVhU
+RVJOX0MgZXh0ZXJuICJDIgoKRVJST1I6IHN0b3JhZ2UgY2xhc3Mgc2hvdWxkIGJlIGF0IHRoZSBi
+ZWdpbm5pbmcgb2YgdGhlIGRlY2xhcmF0aW9uCiM1NDogRklMRTogaW5jbHVkZS9xZW11L2NvbXBp
+bGVyLmg6MTc6CisjZGVmaW5lIFFFTVVfRVhURVJOX0MgZXh0ZXJuCgpXQVJOSU5HOiBhcmNoaXRl
+Y3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojNzc6IEZJTEU6IGluY2x1
+ZGUvcWVtdS9vc2RlcC5oOjExNjoKKyNpZmRlZiBfX2NwbHVzcGx1cwoKV0FSTklORzogYXJjaGl0
+ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzg4OiBGSUxFOiBpbmNs
+dWRlL3FlbXUvb3NkZXAuaDo3MzA6CisjaWZkZWYgX19jcGx1c3BsdXMKCnRvdGFsOiAyIGVycm9y
+cywgMyB3YXJuaW5ncywgNDcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
+aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
+cmcvbG9ncy8yMDIxMDQxMzExMzc0MS4yMTQ4NjctMS1wYm9uemluaUByZWRoYXQuY29tL3Rlc3Rp
+bmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
+Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
+IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
