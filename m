@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0593535DA3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:43:09 +0200 (CEST)
-Received: from localhost ([::1]:50538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DE435DA31
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:39:01 +0200 (CEST)
+Received: from localhost ([::1]:42778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWEdY-0008RE-4o
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
+	id 1lWEZY-00055g-Qr
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:39:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lWEU7-0001K2-20
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:33:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30916)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWEUL-0001iu-06
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:33:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lWEU3-0005Xw-Kx
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:33:21 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWEUG-0005gD-B4
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:33:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618302798;
+ s=mimecast20190719; t=1618302811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BWifntW60jiyeJq76Iy7n/COMlajPO3QsaaLcaTDJSo=;
- b=MP+FEggMPCMLuZiIBCCZv4yMVlBeEDQU7G8srbzktkGMeGAgAesO9kvupJyN0CEc2NAOJv
- ss6cUIvpogD5Qo8z2JyP2gUls7UWsrxRAAXkbHzAyEGsOcPXH2iV8X+4XQQPvhoBOIySrF
- 1KX7zjFM7grrU/b/QUasUQ28f/dOunE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-uqAkrJ74OFCgOqwqmRiQZw-1; Tue, 13 Apr 2021 04:33:16 -0400
-X-MC-Unique: uqAkrJ74OFCgOqwqmRiQZw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37A9C6D24A;
- Tue, 13 Apr 2021 08:33:14 +0000 (UTC)
-Received: from localhost (ovpn-115-75.ams2.redhat.com [10.36.115.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8860860C5F;
- Tue, 13 Apr 2021 08:33:13 +0000 (UTC)
-Date: Tue, 13 Apr 2021 09:33:12 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: trace_FOO_tcg bit-rotted?
-Message-ID: <YHVXSJs6JpCnSvqw@stefanha-x1.localdomain>
-References: <87eefnwd0l.fsf@linaro.org>
- <032cba5b-1b8a-ef47-dd3d-6e4caef1223b@vivier.eu>
- <87czv3s9i3.fsf@linaro.org>
- <YHRgkuNwPhiRz6vn@stefanha-x1.localdomain>
- <87r1jfmhnr.fsf@linaro.org>
+ bh=laxEWDVu4J/YfzwBw2U8wtXrAVOKiZiO24hb8mLTMjg=;
+ b=SnLpCYCmypxtmSGhSy2Jj/aYwNqR9Lr6Xj7YbxrWvhOLbVwAvXtgDjP0Mii0i4sEyiltfU
+ 5UWmB4MKJ1EUOxA881ybrRkEasDUMEARiGRd3/xHc/bSvO4ZNeVk+vmHxqJFRu9nU+XiDN
+ 09ZTx0QsSeArdBJKsqSYOaMj/Cl95HM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-iwMFTpoJN0iP5AMS1mJ2vg-1; Tue, 13 Apr 2021 04:33:29 -0400
+X-MC-Unique: iwMFTpoJN0iP5AMS1mJ2vg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g144-20020a1c20960000b029012983de0c8fso1437201wmg.7
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 01:33:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=laxEWDVu4J/YfzwBw2U8wtXrAVOKiZiO24hb8mLTMjg=;
+ b=auvo6P+vY2sbMwN5KldbB/zPYKlY3F8FnXCFnCXbjN2VA2IVs3zoVmgHt6blwDMrQA
+ 9GYwqjMX+4ZPahJKZHBREFacsLLnkrOuJDRzJ/VtiQUtr757NoegNjuGbQ2wAg8DqF5/
+ zcNzSgKUAtebNgs5pIo1Tusm9izl/Y5W509NVmncsPp7coz4akrFCgRIX4S9pJ4RFQ7T
+ QHiIivwzLa6OyGSmieVOTzQbP7QGFrZFTqMZZhXiiAVvId1+9O1rgZSc1qIJDKPYHH4u
+ emMPG2IsdVKpf3v403L7PvFX+O5WXpGI/Bt2TYvoZyrVVqVU0i+21P5WGuNEtYWYbfUp
+ 3T8g==
+X-Gm-Message-State: AOAM531bGx52nYVx3G4+hjscypuDGZFKCorbGQC8zZ1RyDdfYU9PhNLw
+ OCPsvhVn49fFN1OhfDSj/ygxHlfEEFK2GVa4Gm9UBMzVUlAjAuLecQLICsrSyApRPsWstshhPbl
+ 0etoxCkdnnxqUXc0=
+X-Received: by 2002:adf:f150:: with SMTP id y16mr9749391wro.186.1618302808271; 
+ Tue, 13 Apr 2021 01:33:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQ/5QoTDA/tAUlcrW14Vbs7XZIf34nou6OOo47EDRpThtCR62PZiGHHGXwiHgxiM3td7e+PA==
+X-Received: by 2002:adf:f150:: with SMTP id y16mr9749372wro.186.1618302808056; 
+ Tue, 13 Apr 2021 01:33:28 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c62e9.dip0.t-ipconnect.de. [91.12.98.233])
+ by smtp.gmail.com with ESMTPSA id
+ i4sm1655960wmq.12.2021.04.13.01.33.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Apr 2021 01:33:27 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] qom: move user_creatable_add_opts logic to vl.c
+ and QAPIfy it
+From: David Hildenbrand <david@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210312173547.1283477-1-pbonzini@redhat.com>
+ <20210312173547.1283477-3-pbonzini@redhat.com>
+ <f0ea67d8-9641-104d-f8ec-5fc343256cc9@redhat.com>
+ <87im4q23v2.fsf@dusky.pond.sub.org>
+ <07c08cc3-f3ca-6f7a-e5f7-d2d3ee8de79e@redhat.com>
+Organization: Red Hat
+Message-ID: <a7e0d25b-dbeb-be1a-3c49-7fbf0bd42b69@redhat.com>
+Date: Tue, 13 Apr 2021 10:33:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87r1jfmhnr.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <07c08cc3-f3ca-6f7a-e5f7-d2d3ee8de79e@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wiRjncqQ6piG0i3g"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,180 +104,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, matheus.ferst@eldorado.org.br,
- Laurent Vivier <laurent@vivier.eu>,
- =?iso-8859-1?Q?Llu=EDs?= Vilanova <vilanova@ac.upc.edu>
+Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---wiRjncqQ6piG0i3g
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 13.04.21 10:13, David Hildenbrand wrote:
+> On 13.04.21 06:41, Markus Armbruster wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>>
+>>> On 12.03.21 18:35, Paolo Bonzini wrote:
+>>>> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
+>>>> to parse the -object command line option.  This has one extra feature,
+>>>> compared to keyval, which is automatic conversion of integers to lists
+>>>> as well as support for lists as repeated options:
+>>>>      -object
+>>>> memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
+>>>> So we cannot replace OptsVisitor with keyval right now.  Still, this
+>>>> patch moves the user_creatable_add_opts logic to vl.c since it is
+>>>> not needed anywhere else, and makes it go through user_creatable_add_qapi.
+>>>> In order to minimize code changes, the predicate still takes a
+>>>> string.
+>>>> This can be changed later to use the ObjectType QAPI enum directly.
+>>>>
+>>>
+>>> Rebasing my "noreserve"[1] series on this, I get weird errors from
+>>> QEMU when specifying the new "reserve=off" option for a
+>>> memory-backend-ram:
+>>>
+>>> "Invalid parameter 'reserve'"
+>>>
+>>> And it looks like this is the case for any new properties. Poking
+>>> around, I fail to find what's causing this -- or how to unlock new
+>>> properties. What is the magic toggle to make it work?
+>>>
+>>> Thanks!
+>>>
+>>> [1] https://lkml.kernel.org/r/20210319101230.21531-1-david@redhat.com
+>>
+>> Wild guess: you didn't add your new properties in the QAPI schema.
+>>
+>> For a not-so-wild-guess, send us a git-fetch argument for your rebased
+>> series.
+>>
+> 
+> Oh, there is qapi/qom.json -- maybe that does the trick.
+> 
+> (I have mixed feelings about having to specify the same thing twice at
+> different locations)
+> 
+> I'll have a look if that makes it fly.
 
-On Mon, Apr 12, 2021 at 08:06:57PM +0100, Alex Benn=E9e wrote:
->=20
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->=20
-> > On Fri, Apr 09, 2021 at 05:29:08PM +0100, Alex Benn=E9e wrote:
-> >>=20
-> >> Laurent Vivier <laurent@vivier.eu> writes:
-> >>=20
-> >> > Le 06/04/2021 =E0 18:00, Alex Benn=E9e a =E9crit=A0:
-> >> >> Hi,
-> >> >>=20
-> >> >> It's been awhile since I last played with this but I think we are
-> >> >> suffering from not having some test cases for tracing code
-> >> >> generation/execution in the tree. I tried adding a simple trace poi=
-nt to
-> >> >> see if I could track ERET calls:
-> >> >>=20
-> >> >> --8<---------------cut here---------------start------------->8---
-> >> >> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.=
-c
-> >> >> index 0b42e53500..0d643f78fe 100644
-> >> >> --- a/target/arm/translate-a64.c
-> >> >> +++ b/target/arm/translate-a64.c
-> >> >> @@ -36,6 +36,7 @@
-> >> >>  #include "exec/log.h"
-> >> >> =20
-> >> >>  #include "trace-tcg.h"
-> >> >> +#include "trace.h"
-> >> >>  #include "translate-a64.h"
-> >> >>  #include "qemu/atomic128.h"
-> >> >> =20
-> >> >> @@ -2302,6 +2303,9 @@ static void disas_uncond_b_reg(DisasContext *=
-s, uint32_t insn)
-> >> >>          default:
-> >> >>              goto do_unallocated;
-> >> >>          }
-> >> >> +
-> >> >> +        trace_eret_tcg(s->current_el, dst);
-> >> >> +
-> >> >>          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> >> >>              gen_io_start();
-> >> >>          }
-> >> >> diff --git a/target/arm/trace-events b/target/arm/trace-events
-> >> >> index 41c63d7570..2d4fca16a1 100644
-> >> >> --- a/target/arm/trace-events
-> >> >> +++ b/target/arm/trace-events
-> >> >> @@ -1,5 +1,10 @@
-> >> >>  # See docs/devel/tracing.txt for syntax documentation.
-> >> >> =20
-> >> >> +# translate-a64.c
-> >> >> +# Mode: softmmu
-> >> >> +# Targets: TCG(aarch64-softmmu)
-> >> >> +tcg eret(int current_el, TCGv target_el) "trans_eret: from EL%d", =
-"exec_eret: EL%d to EL%"PRId64
-> >> >
-> >> > If I read correctly, the name should be eret_tcg()
-> >> > And I'm not sure TCGv will be accepted as a parameter type, use
-> >> > uint64_t instead (and %PRIu64)
-> >>=20
-> >> This was my confusion. I thought the trace-events file was prefixed wi=
-th
-> >> tcg like guest_mem_before:
-> >>=20
-> >>   vcpu tcg guest_mem_before(TCGv vaddr, uint16_t info) "info=3D%d", "v=
-addr=3D0x%016"PRIx64" info=3D%d"
-> >>=20
-> >> and that signalled the tools to generate _trans, _exec and _tcg hooks =
-in
-> >> the generated files. The trace code (see other patch) also has logic t=
-o
-> >> translate natural TCG types into the natives types as well signalling
-> >> which values are only visible for the _exec portion.
-> >>=20
-> >> Maybe I'm over thinking this. Perhaps all the TCG tracing use cases ar=
-e
-> >> just as easily supported with TCG plugins now and we should deprecate
-> >> this unused bit of complexity. I certainly understand the plugin
-> >> interactions better ;-)
-> >
-> > Llu=EDs: are you happy to deprecate tcg trace events in favor of TCG
-> > plugins?
-> >
-> > My question is whether TCG plugins are really equivalent here. Will TCG
-> > plugin users have to write their own log file output code to extract
-> > this information from the QEMU process (i.e. reinventing tracing)?
->=20
-> Yes - although there is no reason we couldn't expose the trace output as
-> a helper. Currently there is:
->=20
->   /**
->    * qemu_plugin_outs() - output string via QEMU's logging system
->    * @string: a string
->    */
->   void qemu_plugin_outs(const char *string);
->=20
-> which allows the user to echo to the log in conjunction with -d plugin
-> on the command line. Plugins are of course free to do there own thing.
->=20
-> > Is
-> > the performance at least as good as tracing?
->=20
-> Well like all things that depends ;-)
->=20
-> Generally on the sort of events you tend to trace (like the example
-> memory access) you usually either want to aggregate or filter your
-> results. With trace output their is no way to do this and you end up
-> post processing potentially very large files (smaller if you use the
-> non-default binary format). I don't know if a similar thing is possible
-> with uprobes and ebpf - I've only ever used the simple logging output in
-> anger. The example plugins generally do things like count total
-> accesses:
->=20
->   https://gitlab.com/qemu-project/qemu/-/blob/master/tests/plugin/mem.c
->=20
-> (pretty fast in comparison to writing out reams of data)
->=20
-> or aggregate the results:
->=20
->   https://gitlab.com/qemu-project/qemu/-/blob/master/contrib/plugins/hotp=
-ages.c
->=20
-> (probably slower while running QEMU, but faster overall because no post
-> processing of log files required.)
->=20
-> Of course plugins are a non-default build option because although light
-> it does have a small performance impact on code generation even when no
-> instrumentation is occurring. As a result you can't use it without
-> building a version first.
->=20
-> If we had test code in the build that used the TCG tracing abilities I
-> wouldn't worry because at least we are defending the feature and we
-> wouldn't run into problems like the above. At least if plugins get
-> broken we'll know about it due to the fairly thorough workout on CI, e.g.=
-:
->=20
->   https://gitlab.com/qemu-project/qemu/-/jobs/1172484753#L3458
+Yes, works just fine -- thanks!
 
-I can see the trade-offs being acceptable for TCG instrumentation use
-cases. There is a lot of overlap between the two approaches and if Llu=EDs
-agrees we could remove the TCG trace event functionality in favor of TCG
-plugins. If any documentation is missing to explain how to solve these
-types of problems using TCG plugins then that should be added.
 
-That said, I haven't used the TCG trace event functionality and maybe
-I'm missing something obvious that Llu=EDs will point out :).
+-- 
+Thanks,
 
-Stefan
-
---wiRjncqQ6piG0i3g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB1V0gACgkQnKSrs4Gr
-c8gsbQf/XkieqGm2NU2cCVF4QwzfY4TFQWySEzocINxSdSEuAYfSapOAqZw5FQwa
-Uor9N8CyG9/2OEbr3E6mctcYaZZgQ2cL81wuhaUxX7B5b4pEuHTiCCfyNPExQNxg
-uWVMwnr5jRTXI8zq/OEU7maFwYDBdwxGx+pZWx3MdXcXVpPs5KBzkCfc79nC/pxe
-LL9OVRO5RwM2tOxcx9EHT/pvyIMdTbO2ub0i0sHxB6o0Y3cM8dDPiie7dPV2Jtxm
-+5KYufmo12wcF12Jt5+NxvzmrrQJs1FmCa5OtjJTNww3JRPKZyEnBdXBpxd2DwZp
-7jt4DaNfdoSFSipen/IYwJjO4TPVSg==
-=4A+Y
------END PGP SIGNATURE-----
-
---wiRjncqQ6piG0i3g--
+David / dhildenb
 
 
