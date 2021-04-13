@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F85135E924
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 00:42:36 +0200 (CEST)
-Received: from localhost ([::1]:53780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B76835E9BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 01:35:32 +0200 (CEST)
+Received: from localhost ([::1]:42036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWRju-00049B-P8
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 18:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41036)
+	id 1lWSZ8-0007nS-Km
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 19:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWRio-0003hI-VA; Tue, 13 Apr 2021 18:41:26 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWRim-0005lt-Sk; Tue, 13 Apr 2021 18:41:26 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id w186so5039316wmg.3;
- Tue, 13 Apr 2021 15:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XZoeM7fzlJ7mkSFEXlMyI09PViB+q7RjcE0+s46WjYw=;
- b=IVN2ZlGsqo/kkHohK6cadN8m+4+QPVJ7Ydk0qC+yAOXsvaQM0L02lX5yLsbLkKzrzB
- LeUz2O0K5KV6joFf3zVLSw28254/Sov5PabeyirERbSO4RaFwqfGE3InRJrqih4mVn9E
- 8xpU0GCWlXyroskAk+rbg57INiPOhL+AHxJ9zx9wUvF0YDttfjnSy00onrNkNgN6rjmP
- YdKf5WJ4kDhXNzDFimGdsMIZLOm/CGTSdWnI9J+xwfaFYfxc3QmvbI2ov1+Mv2TWXD9F
- T8nrVICPy78jg3jz8tfTr7LilG5KLsbnKGqymZIyEPIW41bKhgigjqOIMjTyHOpyahfd
- nycA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XZoeM7fzlJ7mkSFEXlMyI09PViB+q7RjcE0+s46WjYw=;
- b=TzA5tyLGS3gepTCvbjqtWxsY8Yj+8uwwrk7GgLxbCUUWB4K/yOafKOJDbfmgKLYxM1
- BQWfEa3TZV0i4vGovm3YtcRpm8kJI/7Zsc9EpT890QkzAcvcWbdoh0IQHcaVs+z2hqnf
- Qdf/eUTbTcVxjrXsGSAl+gajhLe9jl/ka0LlJS+ShJrgeaRSOMn0mkTQg1muDtPHL5Cf
- BeTy4IKOKPsro4BCLfy2LwcAMP2gr9UuTaCXYa9sgApkzhL7qs2YYNMx1d0W309dHfOX
- /69MgEK7mhtreMqidz/nr4rzECMkfoOLMno8iIy2euHdQA39SxkAqPL+D52B2r8+CDia
- 3aOQ==
-X-Gm-Message-State: AOAM531ERf5zBbMWP7lgWAQ5RwEG7LcOazxe9MFezMvnvlbpIiErA/wh
- NpR/hHLyv50F5zQXEY9FYqo=
-X-Google-Smtp-Source: ABdhPJy4eEXsHyB0vzyo5+gUnQhHcrc+ceJk/tE2w0Avy0tq9kaFC6DT3rNsaitMJ9A/tivL3TSWuw==
-X-Received: by 2002:a1c:7e45:: with SMTP id z66mr66320wmc.126.1618353682904;
- Tue, 13 Apr 2021 15:41:22 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id l5sm3638375wmh.0.2021.04.13.15.41.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 15:41:22 -0700 (PDT)
-Subject: Re: [PATCH 5/5] target/ppc: Implement paddi and replace addi insns
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210413211129.457272-1-luis.pires@eldorado.org.br>
- <20210413211129.457272-6-luis.pires@eldorado.org.br>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <866f5277-60e9-3934-2465-e93c6d5f74b0@amsat.org>
-Date: Wed, 14 Apr 2021 00:41:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1)
+ (envelope-from <prvs=730c0c5bd=alistair.francis@wdc.com>)
+ id 1lWSX5-0006pE-Ch; Tue, 13 Apr 2021 19:33:23 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:47187)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=730c0c5bd=alistair.francis@wdc.com>)
+ id 1lWSWz-0003qc-4Y; Tue, 13 Apr 2021 19:33:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1618356796; x=1649892796;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=u2xWnswPYxTcEkRKgacyVSK26cUkpoopvYwTAo7mwFU=;
+ b=hx9R6BBNRbworzqA3NKk5DPK5MzA94oWkTDjvPOeV5dTdjaPiy/bv+Bh
+ d6BSkBtvDa2nzWvH+8KVr6bvPv/ta56Iom4D21+rQ2cdLTYkHjfPC0v+f
+ 197xS0l4k1+0dMJ8+hgqPE64+ljRCvjvY0udaTavh6jcg0bpk+KZCzLjU
+ Jbu/zSPaq+Ci3p2TM23HaJLPRLOREdOFTOXD+Zk1lPiSoqi2xjIQJ3rKe
+ xDyxdTKqoIdshE0/GuA62vgOXLHzJ2C+1O6l80UAs6sUOGnugCZ5a/MyU
+ 7uUY1UgoPJk34KebZmsNpNgeVQCJxP+KEEDQU+I0sY56XOdPSNA/wWVoC g==;
+IronPort-SDR: sGGMx2vQPVv9PBPHY31UxiajqDgcg8Ae7astv6b382TTA1mq/Z72l0R1YHLbbsTfMH1A5D3bWy
+ MqoQUkLG1nE53Fi8iH7bNALwmNpF7effOIhLodwj3tdHYBlnsZ25Hw/TMov57q1oHZLNxumYZl
+ pdg5pFouJfpue/jKraMu6olTckMZSUpoao/ERFH+16iYYZtIwzJjOFtWdb5RVxrXdu0QyBOUiO
+ MSPb1UDXb6cH2xDqzGc7LaepLWRf/unaYFbi95lGpojAUicZ1F4DWaEk1tzbpg20223IsYfvHu
+ 4Uc=
+X-IronPort-AV: E=Sophos;i="5.82,220,1613404800"; d="scan'208";a="164660103"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Apr 2021 07:33:13 +0800
+IronPort-SDR: Q89fn77Bmu2GMJfSh78fxzmjwCGBYBbf/aQE0dZXZRbuaUwtc8MQVrxAkD+lr/ACRy7B/cgS6C
+ DR0D2c54dxe38YniNBL/cQWLQdKiIm5DkRev1bTfKY0Cu37Wn/TnBIXa4NsAEQ1x/iOtMxHXXW
+ NLogIvyoWeyNXEmOgGfFlOVN9vMxZWIIGtHp2/AUVmND7vhWHkxH/E+/GfYSy9YyjySzmHs+iw
+ VvlT+uia91p7P89EnCRF6gLYg31JbU7eRF5QpkSxpdaUDHDxBwopIzweJRtxc01SSgGr/T6Pjq
+ rm9i5wlfO3KJwtRtyCUs2tfA
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2021 16:12:40 -0700
+IronPort-SDR: ldyw01eKa4meVAEfHhBBaLyFceKkrEuSikXDt2XMssyx5sizQX7aUJWY8mAVXYmYt6xhXYWK/7
+ azA1+pBC6L6E+0F2NAOP+drT3XZg/dnqJHyHU5AeEBVdFHEwdDIn21N4saSBnp0tkTU2/ZFfAa
+ OmpmjiXL9rTHOq0NAHQCt5gCh8AYiVHr357iA5sc+NucNNDhk2ZUtuLHciyT/PPZs4f3dM+BDZ
+ 3SLoqucV+YsX00uLFls3ml9VVjEhF8Mm1lsCeqAKAkzjW5HxikldJoGtY92HMdnSyFRMMrMxeY
+ 6nU=
+WDCIronportException: Internal
+Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.17])
+ by uls-op-cesaip01.wdc.com with ESMTP; 13 Apr 2021 16:33:11 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 0/9]  RISC-V: Steps towards running 32-bit guests on
+Date: Wed, 14 Apr 2021 09:32:59 +1000
+Message-Id: <cover.1618356725.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210413211129.457272-6-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=730c0c5bd=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,159 +87,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Luis,
+This is another step towards running 32-bit CPU code on the 64-bit
+softmmu builds for RISC-V.
 
-On 4/13/21 11:11 PM, Luis Pires wrote:
-> This implements the Power ISA 3.1 prefixed (64-bit) paddi
-> instruction, while also replacing the legacy addi implementation.
-> Both using the decode tree.
-> 
-> Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->  target/ppc/ppc.decode                      |  8 +++++++
->  target/ppc/translate.c                     | 15 +------------
->  target/ppc/translate/fixedpoint-impl.c.inc | 26 ++++++++++++++++++++++
->  3 files changed, 35 insertions(+), 14 deletions(-)
->  create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
-> 
-> diff --git a/target/ppc/ppc.decode b/target/ppc/ppc.decode
-> index 84bb73ac19..c87174dc20 100644
-> --- a/target/ppc/ppc.decode
-> +++ b/target/ppc/ppc.decode
-> @@ -16,3 +16,11 @@
->  # You should have received a copy of the GNU Lesser General Public
->  # License along with this library; if not, see <http://www.gnu.org/licenses/>.
->  #
-> +
-> +%p_D8_SI        32:s18 0:16
-> +
-> +# Fixed-Point Facility Instructions
-> +&addi   r rt ra si
-> +
-> +paddi   000001 10 0 -- r:1 -- .................. 001110 rt:5 ra:5 ................ si=%p_D8_SI &addi
+I have tested this and am able to run some 32-bit code, but eventually
+hit some issue.  This series doesn't allow users to use 32-bit CPUs with
+64-bit softmmu builds as it doesn't work yet. This series instead just
+gets us a little closer to being able to and removes more hardcoded
+macros so hopefully others also stop using them for new code.
 
-IIUC you should be able to do something like catch ra=0 first ...:
+v2:
+ - Update the decode tree setup
+ - Address other review comments
 
-{
-  addi_movi   000001 10 0 -- r:1 -- .................. 001110 rt:5 .....
-................ si=%p_D8_SI &addi ra=0
-  addi   000001 10 0 -- r:1 -- .................. 001110 rt:5 ra:5
-................ si=%p_D8_SI &addi
-}
+Alistair Francis (9):
+  target/riscv: Remove the hardcoded RVXLEN macro
+  target/riscv: Remove the hardcoded SSTATUS_SD macro
+  target/riscv: Remove the hardcoded HGATP_MODE macro
+  target/riscv: Remove the hardcoded MSTATUS_SD macro
+  target/riscv: Remove the hardcoded SATP_MODE macro
+  target/riscv: Remove the unused HSTATUS_WPRI macro
+  target/riscv: Remove an unused CASE_OP_32_64 macro
+  target/riscv: Consolidate RV32/64 32-bit instructions
+  target/riscv: Consolidate RV32/64 16-bit instructions
 
-> +addi    001110 rt:5 ra:5 si:s16 &addi r=0
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 0f123f7b80..2ff192c9e5 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -945,19 +945,6 @@ GEN_INT_ARITH_ADD(addex, 0x05, cpu_ov, 1, 1, 0);
->  /* addze  addze.  addzeo  addzeo.*/
->  GEN_INT_ARITH_ADD_CONST(addze, 0x06, 0, cpu_ca, 1, 1, 0)
->  GEN_INT_ARITH_ADD_CONST(addzeo, 0x16, 0, cpu_ca, 1, 1, 1)
-> -/* addi */
-> -static void gen_addi(DisasContext *ctx)
-> -{
-> -    target_long simm = SIMM(ctx->opcode);
-> -
-> -    if (rA(ctx->opcode) == 0) {
-> -        /* li case */
-> -        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm);
-> -    } else {
-> -        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
-> -                        cpu_gpr[rA(ctx->opcode)], simm);
-> -    }
-> -}
->  /* addic  addic.*/
->  static inline void gen_op_addic(DisasContext *ctx, bool compute_rc0)
->  {
-> @@ -6967,6 +6954,7 @@ static target_ulong ppc_peek_next_insn_size(DisasContext *ctx)
->  }
->  
->  #include "decode-ppc.c.inc"
-> +#include "translate/fixedpoint-impl.c.inc"
->  
->  #include "translate/fp-impl.c.inc"
->  
-> @@ -7091,7 +7079,6 @@ GEN_HANDLER_E(cmpeqb, 0x1F, 0x00, 0x07, 0x00600000, PPC_NONE, PPC2_ISA300),
->  GEN_HANDLER_E(cmpb, 0x1F, 0x1C, 0x0F, 0x00000001, PPC_NONE, PPC2_ISA205),
->  GEN_HANDLER_E(cmprb, 0x1F, 0x00, 0x06, 0x00400001, PPC_NONE, PPC2_ISA300),
->  GEN_HANDLER(isel, 0x1F, 0x0F, 0xFF, 0x00000001, PPC_ISEL),
-> -GEN_HANDLER(addi, 0x0E, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
->  GEN_HANDLER(addic, 0x0C, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
->  GEN_HANDLER2(addic_, "addic.", 0x0D, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
->  GEN_HANDLER(addis, 0x0F, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
-> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-> new file mode 100644
-> index 0000000000..8620954b57
-> --- /dev/null
-> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -0,0 +1,26 @@
-> +static bool trans_paddi(DisasContext *ctx, arg_paddi *a)
+ target/riscv/cpu.h                      |  6 --
+ target/riscv/cpu_bits.h                 | 44 -------------
+ target/riscv/helper.h                   |  2 -
+ target/riscv/insn16-32.decode           | 28 --------
+ target/riscv/insn16-64.decode           | 36 ----------
+ target/riscv/insn16.decode              | 30 +++++++++
+ target/riscv/insn32-64.decode           | 88 -------------------------
+ target/riscv/insn32.decode              | 67 ++++++++++++++++++-
+ target/riscv/cpu.c                      |  6 +-
+ target/riscv/cpu_helper.c               | 46 +++++++++----
+ target/riscv/csr.c                      | 41 ++++++++++--
+ target/riscv/monitor.c                  | 22 +++++--
+ target/riscv/translate.c                | 33 ++++++----
+ target/riscv/vector_helper.c            |  4 --
+ target/riscv/insn_trans/trans_rva.c.inc | 14 +++-
+ target/riscv/insn_trans/trans_rvd.c.inc | 43 ++++++------
+ target/riscv/insn_trans/trans_rvf.c.inc | 40 +++++------
+ target/riscv/insn_trans/trans_rvh.c.inc |  5 +-
+ target/riscv/insn_trans/trans_rvi.c.inc | 22 +++++--
+ target/riscv/insn_trans/trans_rvm.c.inc |  7 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 39 +++++------
+ target/riscv/meson.build                | 13 ++--
+ 22 files changed, 311 insertions(+), 325 deletions(-)
+ delete mode 100644 target/riscv/insn16-32.decode
+ delete mode 100644 target/riscv/insn16-64.decode
+ delete mode 100644 target/riscv/insn32-64.decode
 
-(Nitpick, use the format: arg_addi, not arg_paddi).
+-- 
+2.31.1
 
-> +{
-> +    if (a->r == 0) {
-> +        if (a->ra == 0) {
-> +            /* li case */
-> +            tcg_gen_movi_tl(cpu_gpr[a->rt], a->si);
-> +        } else {
-> +            tcg_gen_addi_tl(cpu_gpr[a->rt],
-> +                            cpu_gpr[a->ra], a->si);
-> +        }
-> +    } else {
-> +        if (a->ra == 0) {
-> +            tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_nip, a->si);
-> +        } else {
-> +            /* invalid form */
-> +            gen_invalid(ctx);
-> +        }
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +static bool trans_addi(DisasContext *ctx, arg_addi *a)
-> +{
-> +    return trans_paddi(ctx, a);
-> +}
-
-... which then simplifies the trans_OPCODE() logic:
-
-static bool trans_addi_movi(DisasContext *ctx, arg_addi *a)
-{
-    if (a->r == 0) {
-        /* li case */
-        tcg_gen_movi_tl(cpu_gpr[a->rt], a->si);
-    } else {
-        tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_nip, a->si);
-    }
-
-    return true;
-}
-
-static bool trans_addi(DisasContext *ctx, arg_addi *a)
-{
-    if (a->r == 0) {
-        tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_gpr[a->ra], a->si);
-    } else {
-        /* invalid form */
-        gen_invalid(ctx);
-    }
-
-    return true;
-}
-
-Maybe you can do the same with the r bit to remove the dual addi_movi.
-
-Regards,
-
-Phil.
 
