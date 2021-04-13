@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F7635E487
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:02:44 +0200 (CEST)
-Received: from localhost ([::1]:53012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE86735E488
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:02:45 +0200 (CEST)
+Received: from localhost ([::1]:52986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWMR1-0007TY-HO
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54508)
+	id 1lWMR2-0007T2-Ut
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lWMNx-0005zo-Bh
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:59:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lWMNu-0005vx-Qp
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:59:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618333169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bv2grLrc8Z0hbjs4tbE8ncFBFEqt7C1s2OzabfyMgPk=;
- b=KEj4309n/qN4SYVRdRjD/AlxmoJJiz9Djkacqz/tHi0Vq72vIB03/3T/bgiW1BULPycTWp
- qsr5h8gJJR8EAnK+lIsJd4drhwq8oKdWspXKEEfaoYKdHyMryKmjaSGvmBbGEA8X2aKLwz
- dQ3yoe+2DViOBnPkA2O/TrDwJxYQhhs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-9fxxCmaZMrmtnZnU1NqUVA-1; Tue, 13 Apr 2021 12:59:26 -0400
-X-MC-Unique: 9fxxCmaZMrmtnZnU1NqUVA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6EE618C35BE;
- Tue, 13 Apr 2021 16:59:25 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-130.phx2.redhat.com [10.3.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0188A61F20;
- Tue, 13 Apr 2021 16:59:17 +0000 (UTC)
-Date: Tue, 13 Apr 2021 18:59:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: Re: [PATCH] vhost-user-blk: Fail gracefully on too large queue size
-Message-ID: <YHXN5Nsmiz9qzRHM@merkur.fritz.box>
-References: <20210413165240.43386-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWMOI-00063N-Us; Tue, 13 Apr 2021 12:59:54 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWMOG-00062v-Oq; Tue, 13 Apr 2021 12:59:54 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id x7so17141964wrw.10;
+ Tue, 13 Apr 2021 09:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9wT8spic4/COFYq9REm81WEt576wS2+k8OYTy4X+org=;
+ b=NuccolTneCghrWk6uKHqyDNUos90MeBDLMRGNT2uIC/ZWMXJvHEe4b0Sn+t3eV7jCl
+ ByIS3utpGwMJqlfpS1RMi6NklkJH55NuSSuUDcTBtHBTFfZKvpSNroVqVje+uNToOf3d
+ VUTe1oCE8XSf2LdCL7/na7uemwLFg4448v6lDc4rM5rfRTeRcQoQXYPDorTTrfjUHLRh
+ cDzSRlGjF53bPKFE0jNC/ACeXn3sPTlguFylinLMHvctlbCI/07Q68X82Vr/LRsfF3SI
+ 1dWXHkgoIOPaAJJoh/t+oee3V5sdHrRpddv2+/7Yp8RsgMC99S2/ZwobuTKRzXP6o27w
+ G+WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9wT8spic4/COFYq9REm81WEt576wS2+k8OYTy4X+org=;
+ b=M0ar8noXH8lYncJbIVSm2vfBEC2ykNL8kRNdKMiUGoUKfNDl16t1uxQEapQjkXFOau
+ 16McNQRW4Tk7eOJ0IuRmam7U7QubdJsnQ9UebRVVAgQRp88/OgMg+P6acK6/HXJxH0sl
+ 77kdpkt5YimdLNbBXDoO//Xxe3iazQRa8leQAoQHhrs/Ts0wUFiFcFCztjaajAikqIV5
+ ULnh6cjwuitCNmk55TunZkt1tRz0GE2RoqbQ1H5LhVTRiq6FBVRiiioB9ymLOz3AwZ29
+ ilcfVIoVuI7Xr/5ZCuA+CZkDOMy+RjoVYKEAjG11LfM8p7edKBQ8wApnVazOw8tBczFP
+ Dcpw==
+X-Gm-Message-State: AOAM530ZDe7avrZflfTeKFdde/Ju3OyDqggT+Ve1wY5b+vptoCr4/KIB
+ uwrIU8mB0v18/nckmyBpEoM=
+X-Google-Smtp-Source: ABdhPJwqqkqj4eAYGZv+3X8zgWo+ZJBAkF/dThduSkT7Zd5gBUcjBvckG7DxxCSCAkMmUT03PPqA0A==
+X-Received: by 2002:a05:6000:1813:: with SMTP id
+ m19mr9393746wrh.122.1618333189757; 
+ Tue, 13 Apr 2021 09:59:49 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id g84sm2979078wmf.30.2021.04.13.09.59.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Apr 2021 09:59:49 -0700 (PDT)
+Subject: Re: [PATCH 01/13] target/arm: Move constant expanders to translate.h
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210413160759.5917-1-peter.maydell@linaro.org>
+ <20210413160759.5917-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <021cb1e1-60bb-3a36-e042-612ec447a066@amsat.org>
+Date: Tue, 13 Apr 2021 18:59:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210413165240.43386-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210413160759.5917-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,51 +89,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: raphael.norwitz@nutanix.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- mst@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.04.2021 um 18:52 hat Kevin Wolf geschrieben:
-> virtio_add_queue() aborts when queue_size > VIRTQUEUE_MAX_SIZE, so
-> vhost_user_blk_device_realize() should check this before calling it.
+On 4/13/21 6:07 PM, Peter Maydell wrote:
+> Some of the constant expanders defined in translate.c are generically
+> useful and will be used by the separate C files for VFP and Neon once
+> they are created; move the expander definitions to translate.h.
 > 
-> Simple reproducer:
-> 
-> qemu-system-x86_64 \
->     -chardev null,id=foo \
->     -device vhost-user-blk-pci,queue-size=4096,chardev=foo
-> 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1935014
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/block/vhost-user-blk.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  target/arm/translate.h | 24 ++++++++++++++++++++++++
+>  target/arm/translate.c | 24 ------------------------
+>  2 files changed, 24 insertions(+), 24 deletions(-)
 > 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 0b5b9d44cd..531e4ea063 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -467,6 +467,11 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
->          error_setg(errp, "vhost-user-blk: queue size must be non-zero");
->          return;
->      }
-> +    if (s->queue_size) {
-
-Sorry, obviously I didn't send the right one... Please look at v2 where
-this actually checks what the commit message promises.
-
-Kevin
-
-> +        error_setg(errp, "vhost-user-blk: queue size must not exceed %d",
-> +                   VIRTQUEUE_MAX_SIZE);
-> +        return;
-> +    }
+> diff --git a/target/arm/translate.h b/target/arm/translate.h
+> index 423b0e08df0..4c0b6e8fc42 100644
+> --- a/target/arm/translate.h
+> +++ b/target/arm/translate.h
+> @@ -116,6 +116,30 @@ extern TCGv_i32 cpu_NF, cpu_ZF, cpu_CF, cpu_VF;
+>  extern TCGv_i64 cpu_exclusive_addr;
+>  extern TCGv_i64 cpu_exclusive_val;
 >  
->      if (!vhost_user_init(&s->vhost_user, &s->chardev, errp)) {
->          return;
-> -- 
-> 2.30.2
-> 
+> +/*
+> + * Constant expanders for the decoders.
+> + */
+> +
+> +static inline int negate(DisasContext *s, int x)
+> +{
+> +    return -x;
+> +}
+> +
+> +static inline int plus_2(DisasContext *s, int x)
+> +{
+> +    return x + 2;
+> +}
+> +
+> +static inline int times_2(DisasContext *s, int x)
+> +{
+> +    return x * 2;
+> +}
+> +
+> +static inline int times_4(DisasContext *s, int x)
+> +{
+> +    return x * 4;
+> +}
 
+Being static inlined, I wonder if these shouldn't belong
+to "exec/translator.h" or another generic helper header
+(because I ended using similar helpers in MIPS).
+
+Can be done later tho, so:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
