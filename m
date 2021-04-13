@@ -2,85 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D5B35E7D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:52:04 +0200 (CEST)
-Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CD435E7DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:58:06 +0200 (CEST)
+Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWQ0w-0005Pe-Ih
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46698)
+	id 1lWQ6n-0007qf-Mz
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWPyu-0004Z9-0i
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:49:57 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWPys-0002ad-Db
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:49:55 -0400
-Received: by mail-wr1-x436.google.com with SMTP id w4so14003517wrt.5
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 13:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OfO3e+U5yGfYY2F5Io2EzNxlliLVTCzoyfvRTt6i9Ko=;
- b=Ud4c57Y/4PDZ0YghqvWmg25+vJvFuSmvj+yVG+CmNIHqDJlmbssZB+oP/ClrUEJm4y
- EuzYtv4yThLrwm2Ow3pblsjKWky+mc6GnAkkcTB47NBLSA32zGcwTwMSk9YzejF0rRXR
- Z4kdnmPnYW+zwzq4FGk7Rtg0FicAQ36++bVZciRV5EU5OF2vvybhCCeuRNKz7m9cvupb
- HovfyI4qkqXxE9y7Ubq1Bh+XlESdT+3+iqYS8HhKBY0Pyx8RVOVx9cazBcT77TbotKIH
- n75ngF2OFDx2XhTNB6zn50rChgNHGuQwjBAjS/7Xd79/RXYfrMfiSEkfOaT9zypNyiCi
- bANw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OfO3e+U5yGfYY2F5Io2EzNxlliLVTCzoyfvRTt6i9Ko=;
- b=qJDl2PxcnjH4fI5GFEVp0bgXMop7YJ0Ucr4ZlOE/AHlHcoJVhyN/OJuYKWoVVCl62a
- tBNhIbkpCAmuMJ9IpRFz9uBflFkE0hL05MQ/syJX1cW0u1c01SU8LoxykDh2BdKJFCyi
- 0V7HpizLSRYyFwfPnUlWIfOFjKeTIPR5EfLkFTkr4KT+95IrCfpQaMkF/TXeQWV9jSj8
- nXaqkua3jVN/Fkf4tuioz/D22K/ue2iz/E+evByUW1lFSFnQV7f/mlIDQWXtwZuQr0tu
- 2ImyaCtOCSMfGjyJ0Kz6TV2lbPxEfk3nqTHImmfuqR9BcC+acaASF93xkQv2TEowwbTW
- Vkzw==
-X-Gm-Message-State: AOAM532zIshmiOPirjAq6HrFxSZr/2I65HMnwZc+DwM+DNxcQ/RN5qAm
- 3kS5M6jVz35KoShWydMFxGE=
-X-Google-Smtp-Source: ABdhPJzzJE1jAkmoHq8pnaEXX0mSdSdFaMmRSdIGYtmWjYIRiikbZonMK+8a2oZcEx7grHa7nbGzXg==
-X-Received: by 2002:adf:e843:: with SMTP id d3mr39295909wrn.56.1618346992948; 
- Tue, 13 Apr 2021 13:49:52 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c8sm3308811wmb.34.2021.04.13.13.49.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 13:49:52 -0700 (PDT)
-Subject: Re: [RFC v12 03/65] arm: tcg: only build under CONFIG_TCG
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-4-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b358544a-d550-97c3-917a-0aaeb85ce34b@amsat.org>
-Date: Tue, 13 Apr 2021 22:49:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lWQ56-0007GX-3K; Tue, 13 Apr 2021 16:56:20 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lWQ52-0005yo-UZ; Tue, 13 Apr 2021 16:56:19 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13DKXLFF015497; Tue, 13 Apr 2021 16:56:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=/mLVgJRlO4VURGg6dQ14sB3fs4hCcX+Kefc6S64V1Hw=;
+ b=XJcoa++BxcPUSZ011Ud5cZmBVl0r7txlwZOslzJIx3hNgcjcEhpZIHXV7M4+ZLu2i/GY
+ HQJaqgyeaYJOXfz/2fShxmZQUpuSiEQ8mmDUrjkaB8OTWFR5K8raUX/VGm+hLzZ88Bie
+ x5nlTRpiVlooCRwpHEeeLUbt8pBa6okuTJ5sPGFL0Kkh2LeTOTB1Egzn4sOSWfgOkrxi
+ pPUzPG2sL/5Dry90WXniegDcOb/3TVivkilCxgudDGcwFdw6xcMWpRc5MZBDKwKEfhB3
+ AczAV8hVrljOuioNW8DPAKkqdIDfI6HuhR/9044gAriPlOn3m24KBbRwFLxtJ1cTV7+2 tQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37wetsdxkr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Apr 2021 16:56:15 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13DKXNEk015623;
+ Tue, 13 Apr 2021 16:56:14 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37wetsdxk3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Apr 2021 16:56:14 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DKquPd017964;
+ Tue, 13 Apr 2021 20:56:12 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 37u39hjwa8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Apr 2021 20:56:12 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 13DKtlsf20250928
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 13 Apr 2021 20:55:47 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B64D74203F;
+ Tue, 13 Apr 2021 20:56:09 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5042142042;
+ Tue, 13 Apr 2021 20:56:09 +0000 (GMT)
+Received: from vm.lan (unknown [9.145.157.105])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 13 Apr 2021 20:56:09 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH] linux-user/elfload: add s390x core dumping support
+Date: Tue, 13 Apr 2021 22:56:08 +0200
+Message-Id: <20210413205608.22587-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210326193701.5981-4-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NzZN6irnS7TPX_yLQam9OjXLa7stwJWs
+X-Proofpoint-ORIG-GUID: zuOsAxSzsQ6LW8Bz8wbdrRacE-vvCVjh
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-13_15:2021-04-13,
+ 2021-04-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 phishscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ malwarescore=0 mlxlogscore=999 clxscore=1011 bulkscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104130137
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,60 +106,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/26/21 8:35 PM, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/arm/tcg/meson.build | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-> index 0bd4e9d954..3b4146d079 100644
-> --- a/target/arm/tcg/meson.build
-> +++ b/target/arm/tcg/meson.build
-> @@ -12,9 +12,9 @@ gen = [
->    decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
->  ]
->  
-> -arm_ss.add(gen)
-> +arm_ss.add(when: 'CONFIG_TCG', if_true: gen)
->  
-> -arm_ss.add(files(
-> +arm_ss.add(when: 'CONFIG_TCG', if_true: files(
->    'translate.c',
->    'helper.c',
->    'iwmmxt_helper.c',
-> @@ -28,7 +28,7 @@ arm_ss.add(files(
->    'debug_helper.c',
->  ))
->  
-> -arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-> +arm_ss.add(when: ['TARGET_AARCH64','CONFIG_TCG'], if_true: files(
->    'translate-a64.c',
->    'translate-sve.c',
->    'helper-a64.c',
-> 
+Provide the following definitions required by the common code:
 
-Isn't it clearer to use in target/arm/meson.build:
+* ELF_NREG: with the value of sizeof(s390_regs) / sizeof(long).
+* target_elf_gregset_t: define it like all the other arches do.
+* elf_core_copy_regs(): similar to kernel's s390_regs_get().
+* USE_ELF_CORE_DUMP.
+* ELF_EXEC_PAGESIZE.
 
-if 'CONFIG_TCG' in config_all
-  subdir('tcg')
-endif
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/elfload.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-?
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index c6731013fd..4e45bd1539 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1385,6 +1385,39 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
+     regs->gprs[15] = infop->start_stack;
+ }
+ 
++/* See linux kernel: arch/s390/include/uapi/asm/ptrace.h (s390_regs).  */
++#define ELF_NREG 27
++typedef target_elf_greg_t target_elf_gregset_t[ELF_NREG];
++
++enum {
++    TARGET_REG_PSWM = 0,
++    TARGET_REG_PSWA = 1,
++    TARGET_REG_GPRS = 2,
++    TARGET_REG_ARS = 18,
++    TARGET_REG_ORIG_R2 = 26,
++};
++
++static void elf_core_copy_regs(target_elf_gregset_t *regs,
++                               const CPUS390XState *env)
++{
++    int i;
++    uint32_t *aregs;
++
++    (*regs)[TARGET_REG_PSWM] = tswapreg(env->psw.mask);
++    (*regs)[TARGET_REG_PSWA] = tswapreg(env->psw.addr);
++    for (i = 0; i < 16; i++) {
++        (*regs)[TARGET_REG_GPRS + i] = tswapreg(env->regs[i]);
++    }
++    aregs = (uint32_t *)&((*regs)[TARGET_REG_ARS]);
++    for (i = 0; i < 16; i++) {
++        aregs[i] = tswap32(env->aregs[i]);
++    }
++    (*regs)[TARGET_REG_ORIG_R2] = 0;
++}
++
++#define USE_ELF_CORE_DUMP
++#define ELF_EXEC_PAGESIZE 4096
++
+ #endif /* TARGET_S390X */
+ 
+ #ifdef TARGET_RISCV
+-- 
+2.29.2
 
-Similarly in the next patch for target/arm/tcg/meson.build:
-
-if have_user
-  subdir('user')
-endif
-if have_system
-  subdir('sysemu')
-endif
 
