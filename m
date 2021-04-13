@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B7C35DA49
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:47:16 +0200 (CEST)
-Received: from localhost ([::1]:55834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4768535DA54
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:49:10 +0200 (CEST)
+Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWEhX-0002X7-5U
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53056)
+	id 1lWEjN-0003VH-CY
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lWEgM-00027u-1E
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:46:02 -0400
-Resent-Date: Tue, 13 Apr 2021 04:46:02 -0400
-Resent-Message-Id: <E1lWEgM-00027u-1E@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21305)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWEho-00030D-UJ
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:47:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lWEgH-0004A9-Fh
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:46:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1618303547; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=IicR6U21YUBvFZ5Ufm32DiyHezMQrGWS1c2u+3WbQqVCwm06WTRQGQ1vtxjMTVjTcO/Jhcl+6/PP0/UkD8QcANN4rg6EhrzDdqS1gIXKvP2vrfLdBfpnyDJIZSew+L9ixprGDt6SI8oVa787EEAHq4CF7NMI6+OMLrJu7/XcdcY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1618303547;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=8eSUjC3c/OV4+paan7Oi5kjZArOobafflxZo2WwTsvw=; 
- b=N5tPkqTgt9tgnVPRLXWt2v9PHdj/5+sHoe6OppykOO8Rp1TUWsmlNYcpKzvlpWbsk2Ia8e7Ln0eABLePiZKlTfEol+4HH5ng/4gLHmQG8E+yRC+g7fWy10OvZMc9xpgxH3TIaj8LkI3gqd2Zlh5EOtoISPGYfrPYQCyeEb1Yags=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1618303544834961.9426491510101;
- Tue, 13 Apr 2021 01:45:44 -0700 (PDT)
-In-Reply-To: <161830261172.29345.7866671962411605196.malonedeb@wampee.canonical.com>
-Subject: Re: [Bug 1923583] [NEW] colo: pvm flush failed after svm killed
-Message-ID: <161830354377.7886.1088668944082795480@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWEhk-00057j-F1
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:47:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618303646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=toKgVAnJuVYLi+hCjT0wQ/aK2AMGtA66iIJg+9E2OoM=;
+ b=VeF11PZOhxr1ArtX8QLX/fmMhUKpfIb4OGP1L6jAcdbZJP9XPXwowe/QVbpQAEAWB/o6KF
+ EA72esPw9VVXQAT4X1BmmV/yGYjKMkEJbGoo7V/SXXTmHHyhjATdwXteFQ3ziAvhx1cED/
+ JAGYTEysho9lxxnafjTXXBQZQffBAXE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-X0jsAQJTNu-tOd5BuPfR3w-1; Tue, 13 Apr 2021 04:47:24 -0400
+X-MC-Unique: X0jsAQJTNu-tOd5BuPfR3w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2CBF9F92B;
+ Tue, 13 Apr 2021 08:47:23 +0000 (UTC)
+Received: from localhost (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 805DA299C4;
+ Tue, 13 Apr 2021 08:47:15 +0000 (UTC)
+Date: Tue, 13 Apr 2021 09:47:14 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Subject: Re: [PATCH] vhost-user-fs: fix features handling
+Message-ID: <YHVakoU5hY0wif2n@stefanha-x1.localdomain>
+References: <20210408195534.647895-1-antonkuchin@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: 1923583@bugs.launchpad.net
-Date: Tue, 13 Apr 2021 01:45:44 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210408195534.647895-1-antonkuchin@yandex-team.ru>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5X0H9MV3cTES+qvK"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,40 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjE4MzAyNjExNzIuMjkzNDUu
-Nzg2NjY3MTk2MjQxMTYwNTE5Ni5tYWxvbmVkZWJAd2FtcGVlLmNhbm9uaWNhbC5jb20vCgoKCkhp
-LAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4g
-U2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNz
-YWdlLWlkOiAxNjE4MzAyNjExNzIuMjkzNDUuNzg2NjY3MTk2MjQxMTYwNTE5Ni5tYWxvbmVkZWJA
-d2FtcGVlLmNhbm9uaWNhbC5jb20KU3ViamVjdDogW0J1ZyAxOTIzNTgzXSBbTkVXXSBjb2xvOiBw
-dm0gZmx1c2ggZmFpbGVkIGFmdGVyIHN2bSBraWxsZWQKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
-PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9n
-cmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFND
-UklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4
-NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtu
-ZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMTYxODMwMjYxMTcyLjI5MzQ1Ljc4NjY2NzE5NjI0MTE2
-MDUxOTYubWFsb25lZGViQHdhbXBlZS5jYW5vbmljYWwuY29tIC0+IHBhdGNoZXcvMTYxODMwMjYx
-MTcyLjI5MzQ1Ljc4NjY2NzE5NjI0MTE2MDUxOTYubWFsb25lZGViQHdhbXBlZS5jYW5vbmljYWwu
-Y29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA0MTMwODEwMDguMzQwOTQ1OS0x
-LWY0YnVnQGFtc2F0Lm9yZyAtPiBwYXRjaGV3LzIwMjEwNDEzMDgxMDA4LjM0MDk0NTktMS1mNGJ1
-Z0BhbXNhdC5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpmNDM4ODVkIGNvbG86
-IHB2bSBmbHVzaCBmYWlsZWQgYWZ0ZXIgc3ZtIGtpbGxlZAoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
-RVJST1I6IE1pc3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAw
-IHdhcm5pbmdzLCA4IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBmNDM4ODVkM2E3ZTkgKGNvbG86IHB2
-bSBmbHVzaCBmYWlsZWQgYWZ0ZXIgc3ZtIGtpbGxlZCkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTYx
-ODMwMjYxMTcyLjI5MzQ1Ljc4NjY2NzE5NjI0MTE2MDUxOTYubWFsb25lZGViQHdhbXBlZS5jYW5v
-bmljYWwuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
-bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+--5X0H9MV3cTES+qvK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 08, 2021 at 10:55:34PM +0300, Anton Kuchin wrote:
+> Make virtio-fs take into account server capabilities.
+>=20
+> Just returning requested features assumes they all of then are implemente=
+d
+> by server and results in setting unsupported configuration if some of the=
+m
+> are absent.
+>=20
+> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+> ---
+>  hw/virtio/vhost-user-fs.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index ac4fc34b36..6cf983ba0e 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -24,6 +24,14 @@
+>  #include "monitor/monitor.h"
+>  #include "sysemu/sysemu.h"
+> =20
+> +static const int user_feature_bits[] =3D {
+> +    VIRTIO_F_VERSION_1,
+> +    VIRTIO_RING_F_INDIRECT_DESC,
+> +    VIRTIO_RING_F_EVENT_IDX,
+> +    VIRTIO_F_NOTIFY_ON_EMPTY,
+> +    VHOST_INVALID_FEATURE_BIT
+> +};
+
+Please add:
+
+VIRTIO_F_RING_PACKED
+VIRTIO_F_IOMMU_PLATFORM
+
+QEMU's virtiofsd does not enable either of these for now, but it's worth
+allowing the vhost-user device backend to participate in negotiation so
+that this can change in the future (or alternative virtiofsd
+implementations can support these features).
+
+--5X0H9MV3cTES+qvK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB1WpIACgkQnKSrs4Gr
+c8i4Fgf+L+wCMhwPZ/BAkAceeQiKNByNCVMiTDWHiKe3BRsixlZVhtRmYdhxIoB2
+3r7xK109cPr7/QSR++09l22mk2230tbUX0SYLhyAXKNrnNBI1QzBPp8PvFM5eMDU
+KV8wnmdxNF5W0YILEri8KRXUIFlhescDkMQbnrjW/TDPChpzpCMf40o3BqJUiIK3
+LFph7obLX15vR2mP5Zx6abU/aPTFZx9V9J9NwHP9EJyl89T0sSycWafmiySJQvDI
+/Q52irxuvG5VuFcFiLzta79s4f/kaGqDu0kJq4/r4VnTA4LSjXvedEyz9oMeaOQK
+VeDPlqkWMLyksah6xtObAREpfRMb2A==
+=Qq8o
+-----END PGP SIGNATURE-----
+
+--5X0H9MV3cTES+qvK--
+
 
