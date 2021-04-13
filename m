@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A4335E3FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:31:09 +0200 (CEST)
-Received: from localhost ([::1]:42300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2446D35E413
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:35:07 +0200 (CEST)
+Received: from localhost ([::1]:48986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLwS-00063W-F6
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:31:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
+	id 1lWM0I-0000VU-5R
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lWLay-00071x-Kj
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:56 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43796)
+ id 1lWLay-00072m-VQ
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:57 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lWLaw-0007HD-T4
+ id 1lWLax-0007Ht-C5
  for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:56 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id l4so26793014ejc.10
+Received: by mail-ej1-x62a.google.com with SMTP id u21so26808241ejo.13
  for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e+0DU0nssNE9Dqd2GnOeTqteOT/NqCeugXBt1xrlSO8=;
- b=uN1uvx461op83sZWSReRLWw47BI0mcFC9uIPRsx1koHAz7L3gtdx1YFfzMX1CCuMBT
- vZ93Z1sZ+3sAvlEARB8U5tWx0wnYAYvLZlr1bWycNv9ANjILfJarwxXdq+O1ohfdWvRb
- jrtQmEK3SyDWlEd/NXHJygn5sZeKtj9eX5fEI8Wx9cEVPGBFAK4X2yLqK0SATy5For+Z
- /20kAEDlHGdEOEz9g4m+PqMw83fLBwoOyl79jdm8tmZtnOlyBjrk0sXRfqmpx2qfkUCk
- JfcQNInGXEB747YoHmaqiO/sYKrNpEodbyLA58dFDn0qWwB4Uzt3zb2NApKCegXx8Rw6
- UCNw==
+ bh=qsvSz9M49RzWb+6RGDeUXmR8bevynykltE41KgLy07I=;
+ b=Tg+6slIxNMnxwrDVcyVT0TF1wA+Xrtb182sjzbUHdKUXT8pnazuwlwaekv4QtxWG97
+ ejm/U1wCqEVo2psGL5PHwUjGD9iuZ2KNCy7wGhD/OZ4n69zQ2uxYOKiNojnWfCNRrkIu
+ sBMWkF6ZeUPdV/v50xKgv+TUAl6JtESEsVV6uokCAKBbKCPAPypJ5ymd2BhLq99j7sYr
+ Etllm4eMBCEjK+dYBZn7KieyPD4PLhcORvFbGgcJbILfZqPtHUJUQgbIpT9eOJvmYFnZ
+ ybzQkZYmBYU0jOrVVGKD53XYa33BtEn5EHtBkE5RZQT7TV96ifQufroRCB2GVjG/HlPa
+ hvnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e+0DU0nssNE9Dqd2GnOeTqteOT/NqCeugXBt1xrlSO8=;
- b=VC6ICaSj+pLJ2AssU6V98fFRvwe9oRdiIA2CdX9BiOupxDLq4Szpm5EEuuVHxIj7uT
- /v7Vie4Ac2mT0dzvwFcT3lk0g2322yqEmx85AJ0h0F6ivyCI+RC66G3oxpp0QuXphlkO
- P1+kfto63+I6ha2v1cacvpsXEKufTr/wljwe41ryWDnmzOZ5t/m5+kpKXvrQ74bHJpyn
- bNXvfJArmcwtVApSu7OKLcG7keFGJGQCCkqJytTDwQOZdUoEewA2NrTLWUmir486NAi2
- Tjs6377TI0pmhVGb5baRAUnzaf7su191lQ4CJmpxhDOds2qh7tZi5EZUtfxBHV5wNu/Z
- 2N6w==
-X-Gm-Message-State: AOAM533ZDKnsQ5aaFBWg1oSsGjttsSdIP1EvFTmK2pVXf5QRrq+CoN3B
- 7pryeh63YZIjrF4PFObBLgGlC+4CyIk=
-X-Google-Smtp-Source: ABdhPJxj9B38PNKSx1kJh06HI4upEnYSWRJEi52kgvBtKxsOoMeLE3FOOejhK1jZ6f4f39yKxgZKEA==
-X-Received: by 2002:a17:906:dfcc:: with SMTP id
- jt12mr33167316ejc.31.1618330133489; 
- Tue, 13 Apr 2021 09:08:53 -0700 (PDT)
+ bh=qsvSz9M49RzWb+6RGDeUXmR8bevynykltE41KgLy07I=;
+ b=s0N4DaCFnOSlv7O2gY6C1r4dEMZbrG30HgZKUDvC5PS6yuo1Pes2H1QkBvI5FQrNcY
+ 0fnQxp4v3uFVervAMagdzcj6Nv2P2r+XuGNtIfyn5llS0Epk4if94tqf2TdxYQ4hNASc
+ WJppKX4edDmljQWsxk6fJg6NJObtLDKjWRJkbqLnn78j9b7vIM6SmweT1dJC1tQQz6xR
+ 5lFhAXtWUwhtXBVHqSH+SiwBVFHc9RupC1l9DZWNmTOnZKzmK8rx+aBChCL+B2riRPEf
+ VX9/FdNT9ZkSIyCSbXYlxClC+7u0rdieGFUNAONpoTEPzYnQTg3Tc5MHdN6sXyOCAjvT
+ TJTg==
+X-Gm-Message-State: AOAM532E4CQeFijnDO+JhlxWnAEu/KvsjaUwZRzfYgnc+IcL3htozbvz
+ q7j1u4QTxDD2qay2T8rEvNu9oZa5q4U=
+X-Google-Smtp-Source: ABdhPJzH2La0PZXTRbYfxdSMOmiE6QcKqjITQ88f1EuEn+CqMNXWJTPkps/c6l27t42eBsHsjBx/WA==
+X-Received: by 2002:a17:906:c1c9:: with SMTP id
+ bw9mr12599709ejb.239.1618330134121; 
+ Tue, 13 Apr 2021 09:08:54 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- u19sm9897670edy.23.2021.04.13.09.08.52 for <qemu-devel@nongnu.org>
+ u19sm9897670edy.23.2021.04.13.09.08.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 13 Apr 2021 09:08:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 2/3] osdep: protect qemu/osdep.h with extern "C"
-Date: Tue, 13 Apr 2021 18:08:49 +0200
-Message-Id: <20210413160850.240064-3-pbonzini@redhat.com>
+Subject: [PULL v2 3/3] qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in
+ common code
+Date: Tue, 13 Apr 2021 18:08:50 +0200
+Message-Id: <20210413160850.240064-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210413160850.240064-1-pbonzini@redhat.com>
 References: <20210413160850.240064-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,96 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-System headers may include templates if compiled with a C++ compiler,
-which cause the compiler to complain if qemu/osdep.h is included
-within a C++ source file's 'extern "C"' block.  Add
-an 'extern "C"' block directly to qemu/osdep.h, so that
-system headers can be kept out of it.
+From: Thomas Huth <thuth@redhat.com>
 
-There is a stray declaration early in qemu/osdep.h, which needs
-to be special cased.  Add a definition in qemu/compiler.h to
-make it look nice.
+The ObjectType enum and ObjectOptions are included from qapi-types-qom.h
+into common code. We should not use target-specific config switches like
+CONFIG_VIRTIO_CRYPTO here, since this is not defined in common code and
+thus the enum will look differently between common and target specific
+code. For this case, it's hopefully enough to check for CONFIG_VHOST_CRYPTO
+only (which is a host specific config switch, i.e. it's the same on all
+targets).
 
-config-host.h, CONFIG_TARGET, exec/poison.h and qemu/compiler.h
-are included outside the 'extern "C"' block; that is not
-an issue because they consist entirely of preprocessor directives.
-
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210412160710.639800-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- disas/nanomips.cpp      |  2 +-
- include/qemu/compiler.h |  6 ++++++
- include/qemu/osdep.h    | 10 +++++++++-
- 3 files changed, 16 insertions(+), 2 deletions(-)
+ qapi/qom.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index 2b09655271..8ddef897f0 100644
---- a/disas/nanomips.cpp
-+++ b/disas/nanomips.cpp
-@@ -27,8 +27,8 @@
-  *      Reference Manual", Revision 01.01, April 27, 2018
-  */
- 
--extern "C" {
- #include "qemu/osdep.h"
-+extern "C" {
- #include "disas/dis-asm.h"
- }
- 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index cf28bb2bcd..091c45248b 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -11,6 +11,12 @@
- #define QEMU_STATIC_ANALYSIS 1
- #endif
- 
-+#ifdef __cplusplus
-+#define QEMU_EXTERN_C extern "C"
-+#else
-+#define QEMU_EXTERN_C extern
-+#endif
-+
- #define QEMU_NORETURN __attribute__ ((__noreturn__))
- 
- #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index b67b0a1e8c..3f8785a471 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -57,7 +57,7 @@
- #define daemon qemu_fake_daemon_function
- #include <stdlib.h>
- #undef daemon
--extern int daemon(int, int);
-+QEMU_EXTERN_C int daemon(int, int);
- #endif
- 
- #ifdef _WIN32
-@@ -113,6 +113,10 @@ extern int daemon(int, int);
- 
- #include "glib-compat.h"
- 
-+#ifdef __cplusplus
-+extern "C" {
-+#endif
-+
- #ifdef _WIN32
- #include "sysemu/os-win32.h"
- #endif
-@@ -723,4 +727,8 @@ static inline int platform_does_not_support_system(const char *command)
- }
- #endif /* !HAVE_SYSTEM_FUNCTION */
- 
-+#ifdef __cplusplus
-+}
-+#endif
-+
- #endif
+diff --git a/qapi/qom.json b/qapi/qom.json
+index db5ac419b1..cd0e76d564 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -752,7 +752,7 @@
+     'cryptodev-backend',
+     'cryptodev-backend-builtin',
+     { 'name': 'cryptodev-vhost-user',
+-      'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
++      'if': 'defined(CONFIG_VHOST_CRYPTO)' },
+     'dbus-vmstate',
+     'filter-buffer',
+     'filter-dump',
+@@ -809,7 +809,7 @@
+       'cryptodev-backend':          'CryptodevBackendProperties',
+       'cryptodev-backend-builtin':  'CryptodevBackendProperties',
+       'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
+-                                      'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
++                                      'if': 'defined(CONFIG_VHOST_CRYPTO)' },
+       'dbus-vmstate':               'DBusVMStateProperties',
+       'filter-buffer':              'FilterBufferProperties',
+       'filter-dump':                'FilterDumpProperties',
 -- 
 2.30.1
-
 
 
