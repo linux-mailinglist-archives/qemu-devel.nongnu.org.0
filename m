@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726F835E03F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:39:28 +0200 (CEST)
-Received: from localhost ([::1]:37762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D75235E04A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:41:09 +0200 (CEST)
+Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWJGJ-0002sx-Hw
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
+	id 1lWJHw-0003ug-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1lWJEx-0002Mv-KV
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:38:03 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4457)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lWJG8-00034k-83
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:39:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1lWJEt-0004Hd-O6
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:38:03 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FKRRd3zfXzNvSM;
- Tue, 13 Apr 2021 21:34:53 +0800 (CST)
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.179) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 13 Apr 2021 21:37:39 +0800
-From: Zenghui Yu <yuzenghui@huawei.com>
-To: <qemu-devel@nongnu.org>, <mst@redhat.com>
-Subject: [PATCH] vhost-vdpa: Make vhost_vdpa_get_device_id() static
-Date: Tue, 13 Apr 2021 21:37:37 +0800
-Message-ID: <20210413133737.1574-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lWJG6-00058I-8n
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:39:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618321152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iWuBk9zJk5Mgl0YarRB3NMjBZ3oG+4IkzUmHkiwJLao=;
+ b=BgTU9nEmU/dPiabbwH8TBblU9iBNKJe72ak5tyTxCSmo7LdkOkplf/qO7WGfQI/Vg2EDRs
+ Mbx2e03FQF2ziwRcOt3AOHWBD73O1f2nrLUIcykoQfRa9d2ECSJLnqWut4Tlbv6bhV08B5
+ uuYAjj0zEYTL83pO6hXpKtC/StThKdE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-539-5Ev3J3K9M7yBMn8Jp2RLqA-1; Tue, 13 Apr 2021 09:39:07 -0400
+X-MC-Unique: 5Ev3J3K9M7yBMn8Jp2RLqA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAE5B107ACC7;
+ Tue, 13 Apr 2021 13:39:05 +0000 (UTC)
+Received: from localhost (ovpn-114-55.ams2.redhat.com [10.36.114.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E8ED50AD6;
+ Tue, 13 Apr 2021 13:39:05 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/1] Block patch for 6.0-rc3
+Date: Tue, 13 Apr 2021 15:39:02 +0200
+Message-Id: <20210413133903.545695-1-mreitz@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.179]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=yuzenghui@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,46 +73,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- jasowang@redhat.com, lulu@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As it's only used inside hw/virtio/vhost-vdpa.c.
+The following changes since commit dce628a97fde2594f99d738883a157f05aa0a14f:
 
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
----
- hw/virtio/vhost-vdpa.c         | 4 ++--
- include/hw/virtio/vhost-vdpa.h | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+  Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.0-20210412' into staging (2021-04-13 13:05:07 +0100)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 01d2101d09..8f2fb9f10b 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -371,8 +371,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
-     return 0;
- }
- 
--int vhost_vdpa_get_device_id(struct vhost_dev *dev,
--                                   uint32_t *device_id)
-+static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-+                                    uint32_t *device_id)
- {
-     int ret;
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_DEVICE_ID, device_id);
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 9b81a409da..28ca65018e 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -22,6 +22,4 @@ typedef struct vhost_vdpa {
- } VhostVDPA;
- 
- extern AddressSpace address_space_memory;
--extern int vhost_vdpa_get_device_id(struct vhost_dev *dev,
--                                   uint32_t *device_id);
- #endif
+are available in the Git repository at:
+
+  https://github.com/XanClic/qemu.git tags/pull-block-2021-04-13
+
+for you to fetch changes up to 0267101af64292c9a84fd9319a763ddfbce9ddc7:
+
+  block/nbd: fix possible use after free of s->connect_thread (2021-04-13 15:35:12 +0200)
+
+(This is the patch for which Vladimir has sent a pull request yesterday.)
+
+----------------------------------------------------------------
+Block patches for 6.0-rc3:
+- Use-after-free fix for block/nbd.c
+
+----------------------------------------------------------------
+Vladimir Sementsov-Ogievskiy (1):
+  block/nbd: fix possible use after free of s->connect_thread
+
+ block/nbd.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
 -- 
-2.19.1
+2.29.2
 
 
