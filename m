@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDF935E76F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:10:39 +0200 (CEST)
-Received: from localhost ([::1]:49956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012F135E783
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:17:15 +0200 (CEST)
+Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWPMs-0002zM-Vg
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:10:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39254)
+	id 1lWPTG-00055Z-3D
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lWPLh-0002XE-Pb
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:09:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lWPLe-00049G-Vb
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:09:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618344561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o3SD7GhYpCmQa2imfWnA7pph8FHmvvg8jHsva/yo2FM=;
- b=hSk7HukTylUnLlGbgxz3ZE7kAdrP95IJVOvkXGM0QxmRuFJ5YH49/YI3MhAbh/9WuZEjiv
- wlZeSnAUEMEtlN5rHmo/9AmCBQ6yJcOpPClBp+d4cY7VNyaEEBj0hb9Jpyy9uJMbfKhrei
- CUdCopoexyEMKt5CfLxy9wCrBX8a654=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-H7aezyJ3PbSnwMuOQN7kKg-1; Tue, 13 Apr 2021 16:09:18 -0400
-X-MC-Unique: H7aezyJ3PbSnwMuOQN7kKg-1
-Received: by mail-wr1-f72.google.com with SMTP id z7so1062309wrs.17
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 13:09:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=o3SD7GhYpCmQa2imfWnA7pph8FHmvvg8jHsva/yo2FM=;
- b=Js8Fge8yFg3DmMHtcsuLqklT+kBpXNEFOBV61g5b9XVxbPfHpmMAE7qAm9w8VFO6Y3
- 6GfGl+kFwIs3yzbX0nC+AjvDCSzQQBDD3iv30xRdH0zMrlxLA8QxV3sPfhr0u+0KITSW
- YbKA7F+68kDfc6w8yqIhs9GxcgFwrBXUSvheymv9JA6sjuYXq0lY9UUhOOlSryVTy9u3
- nSQnp+czEc9fwjQZmxjGoagpMUgwWlMTOD/RthwJgwuPy8cEFkOjOAggKFk/jFU90IvZ
- RAkqwEne59XSOWy41D4zL1dgr4Pj3D7XzzxUdVYkYHjtVA5P/k6V/W25PE+saF7nDbkA
- 4Trg==
-X-Gm-Message-State: AOAM533XtJWDyp792lnczD/mJoqovhYN16y7rakbsg9lkaTLmvMpim5R
- J9HPCSfmFgL+QcgffNbww2qvoY3O6dii76qdpXcFQ1zL5LkAOO9GTwzrNdyyyYrVF3eDtwwRdxY
- NDEut1KPnjqZuujA=
-X-Received: by 2002:a05:600c:3556:: with SMTP id
- i22mr1635160wmq.116.1618344557247; 
- Tue, 13 Apr 2021 13:09:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7nTX0NTFyCAPnWAFeQHFTy2zhGvLL1APCp2RBftI5UMPM9liwwYrfG2s7AMgkdCGM6fJ3cA==
-X-Received: by 2002:a05:600c:3556:: with SMTP id
- i22mr1635151wmq.116.1618344557042; 
- Tue, 13 Apr 2021 13:09:17 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-158-45.red.bezeqint.net. [79.176.158.45])
- by smtp.gmail.com with ESMTPSA id h14sm25060129wrq.45.2021.04.13.13.09.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 13:09:16 -0700 (PDT)
-Date: Tue, 13 Apr 2021 16:09:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH for-6.0] x86: acpi: use offset instead of pointer when
- using build_header()
-Message-ID: <20210413160834-mutt-send-email-mst@kernel.org>
-References: <20210413111400.3778820-1-imammedo@redhat.com>
- <20210413081423-mutt-send-email-mst@kernel.org>
- <20210413151816.0257b829@redhat.com>
- <20210413095106-mutt-send-email-mst@kernel.org>
- <20210413172110.25da8cd3@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWPRj-0004Gy-HA
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:15:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36256)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWPRh-0007gt-3o
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:15:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lWPRe-00012b-RC
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 20:15:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C4BC32E8157
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 20:15:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210413172110.25da8cd3@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Apr 2021 20:10:07 -0000
+From: Adam Williamson <1923663@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: awilliamson
+X-Launchpad-Bug-Reporter: Adam Williamson (awilliamson)
+X-Launchpad-Bug-Modifier: Adam Williamson (awilliamson)
+Message-Id: <161834460731.13851.12350778402155141357.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1923663] [NEW] Can't(?) disable default floppy drive any more in
+ qemu 6.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
+X-Launchpad-Hash: ac4fcfba22a7559d47f09235b81317beab8a764c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,184 +69,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, zhaoshenglong@huawei.com
+Reply-To: Bug 1923663 <1923663@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 13, 2021 at 05:21:10PM +0200, Igor Mammedov wrote:
-> On Tue, 13 Apr 2021 09:53:17 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Tue, Apr 13, 2021 at 03:18:16PM +0200, Igor Mammedov wrote:
-> > > On Tue, 13 Apr 2021 08:14:56 -0400
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > >   
-> > > > On Tue, Apr 13, 2021 at 07:14:00AM -0400, Igor Mammedov wrote:  
-> > > > > Do the same as in commit
-> > > > >  (4d027afeb3a97 Virt: ACPI: fix qemu assert due to re-assigned table data address)  
-> > 
-> > Format:
-> > 
-> > commit 4d027afeb3a97 ("Virt: ACPI: fix qemu assert due to re-assigned table data address")
-> > 
-> > > > > for remaining tables that happen to use saved at
-> > > > > the beginning pointer to build header to avoid assert
-> > > > > when table_data is relocated due to implicit re-size.
-> > > > > 
-> > > > > Reported-in: https://bugs.launchpad.net/bugs/1923497    
-> > > > 
-> > > > Doesn't this fix the bug? If so -
-> > > > Isn't this Fixes: ?  
-> > > that's buried in history
-> > > 
-> > > Fixes: 243bdb79fb0b2ed hw/arm/virt-acpi-build: Generate RSDT table
-> > > Fixes: cb51ac2ffe3649e hw/arm/virt: generate 64-bit addressable ACPI objects
-> > > Fixes: 4338416064303aa acpi: Move build_tpm2() in the generic part
-> > > Fixes: 72c194f7e75cb64 i386: ACPI table generation code from seabios
-> > > Fixes: 711b20b479aa96e Add ACPI tables for TPM  
-> > 
-> > 
-> > I just mean:
-> > 
-> >     Buglink: https://bugs.launchpad.net/qemu/+bug/1921138
-> > 
-> > as opposed to Reported.
-> > 
-> > Also do we CC stable for this?
-> Given it's reported on 5.1, it is a good idea to cc stable.
-> 
-> Shall I repost with fixed: "Fixes:..."?
+Public bug reported:
 
+There's a documented change in qemu 6.0:
 
-Yes. If you can copy problem description from launchpad/ARM
-commit into commit log, that's also a good idea.
+https://qemu-project.gitlab.io/qemu/system/removed-features.html#floppy-
+controllers-drive-properties-removed-in-6-0
 
-> > 
-> > >    
-> > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
-> > 
-> > 
-> > patch itself ok:
-> > 
-> > Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> > 
-> > > > > ---
-> > > > > PS:
-> > > > >  I have build_header() refactoring patch that requires offset
-> > > > >  instead of pointer, to make it harder to misuse but it's
-> > > > >  a bit intrusive for last minute fixes. So here goes simplified
-> > > > >  variant, and I'll post refactoring patch for 6.1. later.
-> > > > > ---
-> > > > >  hw/acpi/aml-build.c  | 15 +++++++++------
-> > > > >  hw/i386/acpi-build.c |  8 ++++++--
-> > > > >  2 files changed, 15 insertions(+), 8 deletions(-)
-> > > > > 
-> > > > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> > > > > index d33ce8954a..f0035d2b4a 100644
-> > > > > --- a/hw/acpi/aml-build.c
-> > > > > +++ b/hw/acpi/aml-build.c
-> > > > > @@ -1830,6 +1830,7 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-> > > > >      int i;
-> > > > >      unsigned rsdt_entries_offset;
-> > > > >      AcpiRsdtDescriptorRev1 *rsdt;
-> > > > > +    int rsdt_start = table_data->len;
-> > > > >      const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
-> > > > >      const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
-> > > > >      const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
-> > > > > @@ -1846,7 +1847,8 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-> > > > >              ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
-> > > > >      }
-> > > > >      build_header(linker, table_data,
-> > > > > -                 (void *)rsdt, "RSDT", rsdt_len, 1, oem_id, oem_table_id);
-> > > > > +                 (void *)(table_data->data + rsdt_start),
-> > > > > +                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
-> > > > >  }
-> > > > >  
-> > > > >  /* Build xsdt table */
-> > > > > @@ -1857,6 +1859,7 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-> > > > >      int i;
-> > > > >      unsigned xsdt_entries_offset;
-> > > > >      AcpiXsdtDescriptorRev2 *xsdt;
-> > > > > +    int xsdt_start = table_data->len;
-> > > > >      const unsigned table_data_len = (sizeof(uint64_t) * table_offsets->len);
-> > > > >      const unsigned xsdt_entry_size = sizeof(xsdt->table_offset_entry[0]);
-> > > > >      const size_t xsdt_len = sizeof(*xsdt) + table_data_len;
-> > > > > @@ -1873,7 +1876,8 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-> > > > >              ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
-> > > > >      }
-> > > > >      build_header(linker, table_data,
-> > > > > -                 (void *)xsdt, "XSDT", xsdt_len, 1, oem_id, oem_table_id);
-> > > > > +                 (void *)(table_data->data + xsdt_start),
-> > > > > +                 "XSDT", xsdt_len, 1, oem_id, oem_table_id);
-> > > > >  }
-> > > > >  
-> > > > >  void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
-> > > > > @@ -2053,10 +2057,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-> > > > >      uint64_t control_area_start_address;
-> > > > >      TPMIf *tpmif = tpm_find();
-> > > > >      uint32_t start_method;
-> > > > > -    void *tpm2_ptr;
-> > > > >  
-> > > > >      tpm2_start = table_data->len;
-> > > > > -    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> > > > > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> > > > >  
-> > > > >      /* Platform Class */
-> > > > >      build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-> > > > > @@ -2095,8 +2098,8 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-> > > > >                                     log_addr_offset, 8,
-> > > > >                                     ACPI_BUILD_TPMLOG_FILE, 0);
-> > > > >      build_header(linker, table_data,
-> > > > > -                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, oem_id,
-> > > > > -                 oem_table_id);
-> > > > > +                 (void *)(table_data->data + tpm2_start),
-> > > > > +                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
-> > > > >  }
-> > > > >  
-> > > > >  Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
-> > > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > > > > index de98750aef..daaf8f473e 100644
-> > > > > --- a/hw/i386/acpi-build.c
-> > > > > +++ b/hw/i386/acpi-build.c
-> > > > > @@ -1816,6 +1816,7 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-> > > > >             const char *oem_table_id)
-> > > > >  {
-> > > > >      Acpi20Hpet *hpet;
-> > > > > +    int hpet_start = table_data->len;
-> > > > >  
-> > > > >      hpet = acpi_data_push(table_data, sizeof(*hpet));
-> > > > >      /* Note timer_block_id value must be kept in sync with value advertised by
-> > > > > @@ -1824,13 +1825,15 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-> > > > >      hpet->timer_block_id = cpu_to_le32(0x8086a201);
-> > > > >      hpet->addr.address = cpu_to_le64(HPET_BASE);
-> > > > >      build_header(linker, table_data,
-> > > > > -                 (void *)hpet, "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
-> > > > > +                 (void *)(table_data->data + hpet_start),
-> > > > > +                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
-> > > > >  }
-> > > > >  
-> > > > >  static void
-> > > > >  build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-> > > > >                 const char *oem_id, const char *oem_table_id)
-> > > > >  {
-> > > > > +    int tcpa_start = table_data->len;
-> > > > >      Acpi20Tcpa *tcpa = acpi_data_push(table_data, sizeof *tcpa);
-> > > > >      unsigned log_addr_size = sizeof(tcpa->log_area_start_address);
-> > > > >      unsigned log_addr_offset =
-> > > > > @@ -1849,7 +1852,8 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-> > > > >          ACPI_BUILD_TPMLOG_FILE, 0);
-> > > > >  
-> > > > >      build_header(linker, table_data,
-> > > > > -                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
-> > > > > +                 (void *)(table_data->data + tcpa_start),
-> > > > > +                 "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
-> > > > >  }
-> > > > >  
-> > > > >  #define HOLE_640K_START  (640 * KiB)
-> > > > > -- 
-> > > > > 2.27.0    
-> > > >   
-> > 
+where you can't configure floppy controller device properties with
+-global any more. However, there's a thing you could do with the old
+parameter which I can't figure out a way to do with the documented
+replacement. openQA passed exactly this argument:
 
+-global isa-fdc.driveA=3D
+
+and that has the effect of removing/disabling the default floppy
+drive/controller. If you just run `qemu-system-i686` (no other args)
+you'll see the VM briefly try to boot from a floppy drive; if you run
+`qemu-system-i686 -global isa-fdc.driveA=3D` (with an earlier version of
+qemu, obviously) you'll see it does not do so.
+
+I can't see a way to do this with `-device floppy`. Going by the docs,
+the equivalent should be:
+
+-device floppy,unit=3D0,drive=3D
+
+but that does not seem to have the same effect. If you run `qemu-
+system-i686 -device floppy,unit=3D0,drive=3D`, it still tries to boot from a
+floppy drive.
+
+I see there's a -nodefaults option that disables *all* default devices,
+but I don't think that's what we want here either. We might want the
+other default devices, we just don't want the floppy drive.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923663
+
+Title:
+  Can't(?) disable default floppy drive any more in qemu 6.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  There's a documented change in qemu 6.0:
+
+  https://qemu-project.gitlab.io/qemu/system/removed-features.html
+  #floppy-controllers-drive-properties-removed-in-6-0
+
+  where you can't configure floppy controller device properties with
+  -global any more. However, there's a thing you could do with the old
+  parameter which I can't figure out a way to do with the documented
+  replacement. openQA passed exactly this argument:
+
+  -global isa-fdc.driveA=3D
+
+  and that has the effect of removing/disabling the default floppy
+  drive/controller. If you just run `qemu-system-i686` (no other args)
+  you'll see the VM briefly try to boot from a floppy drive; if you run
+  `qemu-system-i686 -global isa-fdc.driveA=3D` (with an earlier version of
+  qemu, obviously) you'll see it does not do so.
+
+  I can't see a way to do this with `-device floppy`. Going by the docs,
+  the equivalent should be:
+
+  -device floppy,unit=3D0,drive=3D
+
+  but that does not seem to have the same effect. If you run `qemu-
+  system-i686 -device floppy,unit=3D0,drive=3D`, it still tries to boot from
+  a floppy drive.
+
+  I see there's a -nodefaults option that disables *all* default
+  devices, but I don't think that's what we want here either. We might
+  want the other default devices, we just don't want the floppy drive.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923663/+subscriptions
 
