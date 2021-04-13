@@ -2,59 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C97C35E800
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:05:28 +0200 (CEST)
-Received: from localhost ([::1]:48866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8CC35E81D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:18:48 +0200 (CEST)
+Received: from localhost ([::1]:60314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWQDv-0002ko-9S
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
+	id 1lWQQp-0001Dw-5v
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lWQCU-0002Af-J3
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:03:58 -0400
-Resent-Date: Tue, 13 Apr 2021 17:03:58 -0400
-Resent-Message-Id: <E1lWQCU-0002Af-J3@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lWQCS-0001dt-78
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:03:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1618347826; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QLbUatAsUYava1KMCJY+bxT8SyAzrRtXs5buxxZ9ZlgqVoSvLkOO5H721jOmcOvyLa/cUKFqWc72ml0+JbUgX15KfPTQmGdp43DK/su6aBXSte1DTb6v+3vNa7agVoEZmmNaF6/A4kWZ0BPA3bk9mvmhnfAGMB7hKWdpIv3w7r8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1618347826;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=T8Q3cvDte7SIPPcGbl8dnV9GQNqv1lXWuI0nVafGywE=; 
- b=MfytpYbsIoZFecyzuPhFGdvBN2/0OqK41QuAfp+hR4/lfN2RZWrwNiQY86iuaSaZ5plJG4zjiRYntc1+mVtHsRddGb+ojvaDYawQ5p0LhZ1uAOTSeiAAFKGNZQYubvqz6CJu499HnfXbbDslCvwESx3J2mcxlB/TCb9tIVhdR2A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1618347824071712.0605085061163;
- Tue, 13 Apr 2021 14:03:44 -0700 (PDT)
-In-Reply-To: <20210413205814.22821-1-iii@linux.ibm.com>
-Subject: Re: [PATCH] linux-user/elfload: fix filling psinfo->pr_psargs
-Message-ID: <161834782308.14712.5847960601396362593@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1lWQLy-0007Il-Qp; Tue, 13 Apr 2021 17:13:46 -0400
+Received: from [201.28.113.2] (port=27024 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1lWQLx-0007YY-3g; Tue, 13 Apr 2021 17:13:46 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 13 Apr 2021 18:13:41 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id EB8018011B4;
+ Tue, 13 Apr 2021 18:13:40 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 0/5] Base for adding PowerPC 64-bit instructions
+Date: Tue, 13 Apr 2021 18:11:24 -0300
+Message-Id: <20210413211129.457272-1-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: iii@linux.ibm.com
-Date: Tue, 13 Apr 2021 14:03:44 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 13 Apr 2021 21:13:41.0297 (UTC)
+ FILETIME=[E0FC8210:01D730A9]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,40 +53,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: borntraeger@de.ibm.com, laurent@vivier.eu, iii@linux.ibm.com,
- qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, f4bug@amsat.org,
+ Luis Pires <luis.pires@eldorado.org.br>, lagarcia@br.ibm.com,
+ bruno.larsen@eldorado.org.br, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxMzIwNTgxNC4yMjgy
-MS0xLWlpaUBsaW51eC5pYm0uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTMyMDU4MTQuMjI4MjEt
-MS1paWlAbGludXguaWJtLmNvbQpTdWJqZWN0OiBbUEFUQ0hdIGxpbnV4LXVzZXIvZWxmbG9hZDog
-Zml4IGZpbGxpbmcgcHNpbmZvLT5wcl9wc2FyZ3MKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0K
-IyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFt
-Ci4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQ
-VCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEz
-Mzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcg
-dGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA0MTMyMDU4MTQuMjI4MjEtMS1paWlAbGludXguaWJt
-LmNvbSAtPiBwYXRjaGV3LzIwMjEwNDEzMjA1ODE0LjIyODIxLTEtaWlpQGxpbnV4LmlibS5jb20K
-U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwowMTUzNmZhIGxpbnV4LXVzZXIvZWxmbG9h
-ZDogZml4IGZpbGxpbmcgcHNpbmZvLT5wcl9wc2FyZ3MKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVS
-Uk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1l
-bnQKIzM1OiBGSUxFOiBsaW51eC11c2VyL2VsZmxvYWQuYzozNjM1OgorICAgIGlmIChjb3B5X2Zy
-b21fdXNlcigmcHNpbmZvLT5wcl9wc2FyZ3MsIHRzLT5pbmZvLT5hcmdfc3RyaW5ncywgbGVuKSkK
-Wy4uLl0KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMTIgbGluZXMgY2hlY2tlZAoKQ29t
-bWl0IDAxNTM2ZmEwYzgwYiAobGludXgtdXNlci9lbGZsb2FkOiBmaXggZmlsbGluZyBwc2luZm8t
-PnByX3BzYXJncykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09
-CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
-bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA0MTMyMDU4MTQuMjI4MjEtMS1p
-aWlAbGludXguaWJtLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
-YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
-cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
-b20=
+This series provides the basic infrastructure for adding the new
+32/64-bit instructions in Power ISA 3.1 to target/ppc.
+
+It starts by changing decodetree.py to support 64-bit instructions
+as well as custom variable-width instruction load functions.
+
+Then it changes the target/ppc code to allow 32- and 64-bit instructions
+to be decoded using decodetree, and finishes by adding the implementation
+for 2 simple instructions to demonstrate the new approach:
+- addi (replacing the legacy implementation)
+- paddi (new)
+
+Luis Pires (5):
+  decodetree: Add support for 64-bit instructions
+  decodetree: Fix empty input files for varinsnwidth
+  decodetree: Allow custom var width load functions
+  target/ppc: Base changes to allow 32/64-bit insns
+  target/ppc: Implement paddi and replace addi insns
+
+ docs/devel/decodetree.rst                  |   5 +-
+ scripts/decodetree.py                      |  55 ++++--
+ target/ppc/cpu.h                           |   1 +
+ target/ppc/meson.build                     |   5 +
+ target/ppc/ppc.decode                      |  26 +++
+ target/ppc/translate.c                     | 206 +++++++++++++++------
+ target/ppc/translate/fixedpoint-impl.c.inc |  26 +++
+ 7 files changed, 250 insertions(+), 74 deletions(-)
+ create mode 100644 target/ppc/ppc.decode
+ create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
+
+-- 
+2.25.1
+
 
