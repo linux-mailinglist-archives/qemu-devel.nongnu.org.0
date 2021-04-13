@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4F435DA34
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:39:48 +0200 (CEST)
-Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0593535DA3D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:43:09 +0200 (CEST)
+Received: from localhost ([::1]:50538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWEaJ-0005X2-1i
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49568)
+	id 1lWEdY-0008RE-4o
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWETH-0000bI-3w
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:32:31 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58958)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWEU7-0001K2-20
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:33:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWETB-00055d-KE
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:32:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0694AAFF1;
- Tue, 13 Apr 2021 08:32:24 +0000 (UTC)
-Subject: Re: [RFC v12 27/65] target/arm: split a15 cpu model and 32bit class
- functions to cpu32.c
-From: Claudio Fontana <cfontana@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-28-cfontana@suse.de>
- <e49aa062-0958-1d4e-c682-28d0a2897493@linaro.org>
- <87e94d27-a1ec-cd6a-8079-0f975121d479@suse.de>
-Message-ID: <9fa0e6ae-2594-7a5f-6d5b-9d88495bb47a@suse.de>
-Date: Tue, 13 Apr 2021 10:32:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWEU3-0005Xw-Kx
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 04:33:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618302798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BWifntW60jiyeJq76Iy7n/COMlajPO3QsaaLcaTDJSo=;
+ b=MP+FEggMPCMLuZiIBCCZv4yMVlBeEDQU7G8srbzktkGMeGAgAesO9kvupJyN0CEc2NAOJv
+ ss6cUIvpogD5Qo8z2JyP2gUls7UWsrxRAAXkbHzAyEGsOcPXH2iV8X+4XQQPvhoBOIySrF
+ 1KX7zjFM7grrU/b/QUasUQ28f/dOunE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-uqAkrJ74OFCgOqwqmRiQZw-1; Tue, 13 Apr 2021 04:33:16 -0400
+X-MC-Unique: uqAkrJ74OFCgOqwqmRiQZw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37A9C6D24A;
+ Tue, 13 Apr 2021 08:33:14 +0000 (UTC)
+Received: from localhost (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8860860C5F;
+ Tue, 13 Apr 2021 08:33:13 +0000 (UTC)
+Date: Tue, 13 Apr 2021 09:33:12 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: trace_FOO_tcg bit-rotted?
+Message-ID: <YHVXSJs6JpCnSvqw@stefanha-x1.localdomain>
+References: <87eefnwd0l.fsf@linaro.org>
+ <032cba5b-1b8a-ef47-dd3d-6e4caef1223b@vivier.eu>
+ <87czv3s9i3.fsf@linaro.org>
+ <YHRgkuNwPhiRz6vn@stefanha-x1.localdomain>
+ <87r1jfmhnr.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87e94d27-a1ec-cd6a-8079-0f975121d479@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <87r1jfmhnr.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wiRjncqQ6piG0i3g"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,84 +82,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, matheus.ferst@eldorado.org.br,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?iso-8859-1?Q?Llu=EDs?= Vilanova <vilanova@ac.upc.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/21 12:23 PM, Claudio Fontana wrote:
-> On 3/28/21 6:18 PM, Richard Henderson wrote:
->> On 3/26/21 1:36 PM, Claudio Fontana wrote:
->>> provide helper functions there to initialize 32bit models,
->>> and export the a15 cpu model.
->>>
->>> We still need to keep around a15 until we sort out the board configurations.
->>>
->>> cpu.c will continue to contain the common parts between
->>> 32 and 64.
->>>
->>> Note that we need to build cpu32 also for TARGET_AARCH64,
->>> because qemu-system-aarch64 is supposed to be able to run
->>> non-aarch64 cpus too.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>
->> Dump state has nothing to do with a15 or the 32-bit models.
-> 
-> The relationship I see here is that 32-bit builds,
-> 
-> only really need to use aarch32 version of the dump state, and they do not need to see the aarch64 version.
-> 
->> Moving that should be a separate change.
->>
->> The gdbstub changes are also a separate change, afaics.
-> 
-> 
+--wiRjncqQ6piG0i3g
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 12, 2021 at 08:06:57PM +0100, Alex Benn=E9e wrote:
+>=20
+> Stefan Hajnoczi <stefanha@redhat.com> writes:
+>=20
+> > On Fri, Apr 09, 2021 at 05:29:08PM +0100, Alex Benn=E9e wrote:
+> >>=20
+> >> Laurent Vivier <laurent@vivier.eu> writes:
+> >>=20
+> >> > Le 06/04/2021 =E0 18:00, Alex Benn=E9e a =E9crit=A0:
+> >> >> Hi,
+> >> >>=20
+> >> >> It's been awhile since I last played with this but I think we are
+> >> >> suffering from not having some test cases for tracing code
+> >> >> generation/execution in the tree. I tried adding a simple trace poi=
+nt to
+> >> >> see if I could track ERET calls:
+> >> >>=20
+> >> >> --8<---------------cut here---------------start------------->8---
+> >> >> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.=
+c
+> >> >> index 0b42e53500..0d643f78fe 100644
+> >> >> --- a/target/arm/translate-a64.c
+> >> >> +++ b/target/arm/translate-a64.c
+> >> >> @@ -36,6 +36,7 @@
+> >> >>  #include "exec/log.h"
+> >> >> =20
+> >> >>  #include "trace-tcg.h"
+> >> >> +#include "trace.h"
+> >> >>  #include "translate-a64.h"
+> >> >>  #include "qemu/atomic128.h"
+> >> >> =20
+> >> >> @@ -2302,6 +2303,9 @@ static void disas_uncond_b_reg(DisasContext *=
+s, uint32_t insn)
+> >> >>          default:
+> >> >>              goto do_unallocated;
+> >> >>          }
+> >> >> +
+> >> >> +        trace_eret_tcg(s->current_el, dst);
+> >> >> +
+> >> >>          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+> >> >>              gen_io_start();
+> >> >>          }
+> >> >> diff --git a/target/arm/trace-events b/target/arm/trace-events
+> >> >> index 41c63d7570..2d4fca16a1 100644
+> >> >> --- a/target/arm/trace-events
+> >> >> +++ b/target/arm/trace-events
+> >> >> @@ -1,5 +1,10 @@
+> >> >>  # See docs/devel/tracing.txt for syntax documentation.
+> >> >> =20
+> >> >> +# translate-a64.c
+> >> >> +# Mode: softmmu
+> >> >> +# Targets: TCG(aarch64-softmmu)
+> >> >> +tcg eret(int current_el, TCGv target_el) "trans_eret: from EL%d", =
+"exec_eret: EL%d to EL%"PRId64
+> >> >
+> >> > If I read correctly, the name should be eret_tcg()
+> >> > And I'm not sure TCGv will be accepted as a parameter type, use
+> >> > uint64_t instead (and %PRIu64)
+> >>=20
+> >> This was my confusion. I thought the trace-events file was prefixed wi=
+th
+> >> tcg like guest_mem_before:
+> >>=20
+> >>   vcpu tcg guest_mem_before(TCGv vaddr, uint16_t info) "info=3D%d", "v=
+addr=3D0x%016"PRIx64" info=3D%d"
+> >>=20
+> >> and that signalled the tools to generate _trans, _exec and _tcg hooks =
+in
+> >> the generated files. The trace code (see other patch) also has logic t=
+o
+> >> translate natural TCG types into the natives types as well signalling
+> >> which values are only visible for the _exec portion.
+> >>=20
+> >> Maybe I'm over thinking this. Perhaps all the TCG tracing use cases ar=
+e
+> >> just as easily supported with TCG plugins now and we should deprecate
+> >> this unused bit of complexity. I certainly understand the plugin
+> >> interactions better ;-)
+> >
+> > Llu=EDs: are you happy to deprecate tcg trace events in favor of TCG
+> > plugins?
+> >
+> > My question is whether TCG plugins are really equivalent here. Will TCG
+> > plugin users have to write their own log file output code to extract
+> > this information from the QEMU process (i.e. reinventing tracing)?
+>=20
+> Yes - although there is no reason we couldn't expose the trace output as
+> a helper. Currently there is:
+>=20
+>   /**
+>    * qemu_plugin_outs() - output string via QEMU's logging system
+>    * @string: a string
+>    */
+>   void qemu_plugin_outs(const char *string);
+>=20
+> which allows the user to echo to the log in conjunction with -d plugin
+> on the command line. Plugins are of course free to do there own thing.
+>=20
+> > Is
+> > the performance at least as good as tracing?
+>=20
+> Well like all things that depends ;-)
+>=20
+> Generally on the sort of events you tend to trace (like the example
+> memory access) you usually either want to aggregate or filter your
+> results. With trace output their is no way to do this and you end up
+> post processing potentially very large files (smaller if you use the
+> non-default binary format). I don't know if a similar thing is possible
+> with uprobes and ebpf - I've only ever used the simple logging output in
+> anger. The example plugins generally do things like count total
+> accesses:
+>=20
+>   https://gitlab.com/qemu-project/qemu/-/blob/master/tests/plugin/mem.c
+>=20
+> (pretty fast in comparison to writing out reams of data)
+>=20
+> or aggregate the results:
+>=20
+>   https://gitlab.com/qemu-project/qemu/-/blob/master/contrib/plugins/hotp=
+ages.c
+>=20
+> (probably slower while running QEMU, but faster overall because no post
+> processing of log files required.)
+>=20
+> Of course plugins are a non-default build option because although light
+> it does have a small performance impact on code generation even when no
+> instrumentation is occurring. As a result you can't use it without
+> building a version first.
+>=20
+> If we had test code in the build that used the TCG tracing abilities I
+> wouldn't worry because at least we are defending the feature and we
+> wouldn't run into problems like the above. At least if plugins get
+> broken we'll know about it due to the fairly thorough workout on CI, e.g.=
+:
+>=20
+>   https://gitlab.com/qemu-project/qemu/-/jobs/1172484753#L3458
 
-To hopefully clarify things a bit more here,
+I can see the trade-offs being acceptable for TCG instrumentation use
+cases. There is a lot of overlap between the two approaches and if Llu=EDs
+agrees we could remove the TCG trace event functionality in favor of TCG
+plugins. If any documentation is missing to explain how to solve these
+types of problems using TCG plugins then that should be added.
 
-the current hierarchy seems not right for ARM CPUs also in this respect.
+That said, I haven't used the TCG trace event functionality and maybe
+I'm missing something obvious that Llu=EDs will point out :).
 
-TYPE_ARM_CPU is the ancestor of all ARM CPUs, ok.
-TYPE_AARCH64_CPU is child of TYPE_ARM_CPU, ok.
+Stefan
 
-There is however no TYPE_AARCH32_CPU, or TYPE_ARM32_CPU.
+--wiRjncqQ6piG0i3g
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So what ends up being necessary here (both in the mainline code and in this patch, which just makes it more explicit),
-is to make the ancestor TYPE_ARM_CPU effectively a 32bit CPU class, with TYPE_AARCH64_CPU overriding class methods in order to morph it into a 64bit CPU class.
+-----BEGIN PGP SIGNATURE-----
 
-What this patch does is to make it explicit, by creating a cpu32.c module that contains this non-explicit 32bit ARM CPU class methods, and the registration function to register 32bit ARM cpus.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB1V0gACgkQnKSrs4Gr
+c8gsbQf/XkieqGm2NU2cCVF4QwzfY4TFQWySEzocINxSdSEuAYfSapOAqZw5FQwa
+Uor9N8CyG9/2OEbr3E6mctcYaZZgQ2cL81wuhaUxX7B5b4pEuHTiCCfyNPExQNxg
+uWVMwnr5jRTXI8zq/OEU7maFwYDBdwxGx+pZWx3MdXcXVpPs5KBzkCfc79nC/pxe
+LL9OVRO5RwM2tOxcx9EHT/pvyIMdTbO2ub0i0sHxB6o0Y3cM8dDPiie7dPV2Jtxm
++5KYufmo12wcF12Jt5+NxvzmrrQJs1FmCa5OtjJTNww3JRPKZyEnBdXBpxd2DwZp
+7jt4DaNfdoSFSipen/IYwJjO4TPVSg==
+=4A+Y
+-----END PGP SIGNATURE-----
 
-Thanks,
-
-Claudio
-
-> But the main concern is to split more, I understand: will do.
-> 
->>
->> I don't understand the a15 comment above.  Is it really relevant to moving the 
->> 32-bit cpu models?
-> 
-> 
-> The point there was that we keep around a15 for KVM for the moment, instead of relegating it to the set of "tcg-only" models,
-> so that virt board and qtest continue to function also in the KVM-only build.
-> 
-> Mainly for this code here a question from my side: is the current code actually already "wrong"?
-> 
-> I mean, we unconditionally set the aarch64-capable cpu classes to all use aarch64_gdb_arch_name and gdbstub64,
-> but what about an aarch64-capable cpu running in 32bit mode?
-> 
-> Why don't we have, like tentatively done here for arm_cpu_dump_state,
-> 
-> an arm_gdb_arch_name and an arm_cpu_gdb_read_register that check is_a64() and call aaarch32_cpu_gdb_read_register or aarch64_cpu_gdb_read_register accordingly?
-> 
-> 
->>
->>
->> r~
->>
-> 
+--wiRjncqQ6piG0i3g--
 
 
