@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBB035DC79
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 12:28:54 +0200 (CEST)
-Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EDF35DCD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 12:51:18 +0200 (CEST)
+Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWGHu-0005kc-32
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 06:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47316)
+	id 1lWGdY-0002up-4B
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 06:51:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWGEr-0004EI-2z
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 06:25:45 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:36353)
+ (Exim 4.90_1) (envelope-from <kernellwp@gmail.com>)
+ id 1lWGat-0002Rt-5c
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 06:48:31 -0400
+Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:33441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWGEn-0004oY-5Y
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 06:25:44 -0400
-Received: by mail-ed1-x529.google.com with SMTP id 18so18778171edx.3
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 03:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <kernellwp@gmail.com>)
+ id 1lWGar-0002K0-Cz
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 06:48:30 -0400
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ i25-20020a4aa1190000b02901bbd9429832so3732204ool.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 03:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZZ86QaIOU1bnIL805ycVlBLuftIZ8+5H6yW2bkw8VKY=;
- b=Eferg9Ky131FZox110HnvqGW2f/rolY3f9xwRVH4p9w11A4s4dKkbU3h/XGOaxBSWv
- AykmFwgxVUlbs5xR4EHQJ8pnjvmQ1UxGSWS6ciWrBR46p9ko3oawuXdfZNX9X6luJu3T
- D0NAN6hSifWY3yFqR0CD2a+iuo+1ybE/stpQ/+tXXTfhrPXtNWHQThLNDcVv4OvgOtNb
- hzstIdOvC7ueE5/vdvDNH6OrpgzkL9xhmsUuLnwEN7yGMgx21NbjeSd55GU6M/fa/viK
- JAlEgc48UoC3B72i7d/ljrAW5hHF6TDrp3cNtWJoJghpOX+nQetx/ylHBsol8L004WqN
- y8jg==
+ :cc; bh=yxLJ4jx8zwDk/l6JxSedZpECocVz8godYHUHDpr6FEA=;
+ b=RENUxgHAdiSY76wYt4rOshQmzTHere3sPQ5GTz5/bulLKvJbyQmdA3CRegxOjjVv9/
+ 54U0GoEyUibq3V1RI5RxChEL5w/Qnm37BdG3DIaWcxL4d7jzRkORs9V2ZMNZA1Toa4jw
+ h2XSHxiih4HD7oDxISlhVBhLrMXX6Tji6XdjKQ/eDkCQ1ictH1WPSOCBa37hp2yXAq1L
+ Nvj4pPVYZo8l6wWP54fwWlYx04Onn7nRS6YwVlu4Tb1wKbkYlaf5D0DEXwizY11nqOoj
+ SUlfMPshSNyMt5jFr5oPQmey0A0joR76RSGBY3jAYGZlMqSkjzRoqlsnCajyezCvm8ue
+ 2VPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZZ86QaIOU1bnIL805ycVlBLuftIZ8+5H6yW2bkw8VKY=;
- b=C+x+fWogu1QBJ6XNmZYUkRZVEJ+rclq0vXTltHKgZnrPn2jX8Z71CtMAJOXl633K0Q
- t3v2jpNk2POAjXl2HzolDYQOmErmtbJ6+5GiZeSxaatrH/4MrtqVZ3TqtXNyWtsa68S9
- eBe07FAgrzT4w2ZapN1Zf658XXtHiOQftQ47ExpeJHojbXd/Evb93K7eoLsJ30JOQ5oH
- VeD+SZ3Bya2RNY4UR4EitpaktYjozHiaGEaq7mn1ZvEZxjscAoZn7GHSeXpMljatmebm
- klWJTFXe8fX3bp+zM7RE9ZGddiCM+Jyu7LZJ/ppcfH/1XHCT8o7Ldclm+rGA6gzQ2SCq
- BPtQ==
-X-Gm-Message-State: AOAM533hstJSJl9Em4DW8U7erKfFTOnNmOg8h11e8e1WN1qFxZKIiH/x
- ZzaWhoQx1d5RZDcjPFKK/xqwLKsEISP34/86FteCPg==
-X-Google-Smtp-Source: ABdhPJyaBJKbkLd85/uRnxR0TPOCIRwCv3PP3NnBS8D3g3/HCbqeCGyLm/3rrZshAcymEr2i1cKUujX0fzmRCr5kKqI=
-X-Received: by 2002:a05:6402:19a:: with SMTP id
- r26mr33611290edv.44.1618309539543; 
- Tue, 13 Apr 2021 03:25:39 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=yxLJ4jx8zwDk/l6JxSedZpECocVz8godYHUHDpr6FEA=;
+ b=rQQvxMFthS8/b5vL+EIdu65nOftKTKqmtYCRHASshkoz+N6NHCLOCVXebnXRaGNP0W
+ 7P1w/ta1uuAYWpDE9jsyB47pGXN3tYuWaMnvQWE5+0aI6xyd7CpdEzcj0SuCQpOxPn/f
+ KCw7o+izv3bB4sHBG8ZmzSmdR/hidXsLfxyhRJm1DLNdM68QqYXqebvaSL0uKa1TzUuq
+ X3acmH6L/D+pxVq1/GHJpKsqY2hcMEFZVL76Oa+cS8iRsGouiIOm11pi3+cLt/FRPwKA
+ 4RaAKonEMclXjcVbSu52FG4ELDaen5wjrSWgbuKMmkvOhVZR5faZ54RJkPmeEuo61zYM
+ kEBA==
+X-Gm-Message-State: AOAM531WEiBu3NSYlFU+CY0JX5ZOvYpn3V47UbyXwn5fBRgePTxCMYEY
+ CipbeTDmZ6e5+qQ721+u6q1jWCxxhXDeF0en2QQ=
+X-Google-Smtp-Source: ABdhPJwvMJbyzQjQhXqYPrCYTGKf70zatUrhdhepuSnzn+uhQzUd3m0nXe/dXVKuIIvIPGKMVSpttbAOkiPQEbFq4sk=
+X-Received: by 2002:a4a:e615:: with SMTP id f21mr4324558oot.41.1618310907968; 
+ Tue, 13 Apr 2021 03:48:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210331150527.14857-1-pbonzini@redhat.com>
- <YG2ILNrmn0+vVVKJ@merkur.fritz.box>
- <87wnteus7k.fsf@linaro.org> <YG3SyTLha8a9Itlo@merkur.fritz.box>
- <c388d16d-4230-c828-08e0-d3c684f88106@redhat.com>
- <007fd217-c660-1f7d-835a-07a309d24d8c@suse.de>
-In-Reply-To: <007fd217-c660-1f7d-835a-07a309d24d8c@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Apr 2021 11:24:54 +0100
-Message-ID: <CAFEAcA-9J79hCm-ROkLH-j2rg3+O64wjRC2-jPK3XAj-z5ap4Q@mail.gmail.com>
-Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
- Policy document
-To: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
+References: <36088364-0b3d-d492-0aa4-59ea8f1d1632@msgid.tls.msk.ru>
+In-Reply-To: <36088364-0b3d-d492-0aa4-59ea8f1d1632@msgid.tls.msk.ru>
+From: Wanpeng Li <kernellwp@gmail.com>
+Date: Tue, 13 Apr 2021 18:48:15 +0800
+Message-ID: <CANRm+CyMpNS2OAC8CKGb9HUQe3v180e6gHOZYmVZ8gw=XQKYKw@mail.gmail.com>
+Subject: Re: Commit "x86/kvm: Move context tracking where it belongs" broke
+ guest time accounting
+To: Michael Tokarev <mjt@tls.msk.ru>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
+ envelope-from=kernellwp@gmail.com; helo=mail-oo1-xc2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,27 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ kvm <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Apr 2021 at 11:23, Andreas F=C3=A4rber <afaerber@suse.de> wrote:
-> Or consider the case you get a bug report not copied to the public
-> mailing lists from someone you don't know. Then I would still expect to
-> be allowed to attribute a commit via Reported-by/CC to that person, as
-> it seems in his/her interest to get the bug fixed and be notified,
-> unless explicitly requested otherwise.
+On Wed, 7 Apr 2021 at 18:55, Michael Tokarev <mjt@tls.msk.ru> wrote:
+>
+> Hi!
+>
+> It looks like this commit:
+>
+> commit 87fa7f3e98a1310ef1ac1900e7ee7f9610a038bc
+> Author: Thomas Gleixner <tglx@linutronix.de>
+> Date:   Wed Jul 8 21:51:54 2020 +0200
+>
+>      x86/kvm: Move context tracking where it belongs
+>
+>      Context tracking for KVM happens way too early in the vcpu_run()
+>      code. Anything after guest_enter_irqoff() and before guest_exit_irqoff()
+>      cannot use RCU and should also be not instrumented.
+>
+>      The current way of doing this covers way too much code. Move it closer to
+>      the actual vmenter/exit code.
+>
+> broke kvm guest cpu time accounting - after this commit, when running
+> qemu-system-x86_64 -enable-kvm, the guest time (in /proc/stat and
+> elsewhere) is always 0.
+>
+> I dunno why it happened, but it happened, and all kernels after 5.9
+> are affected by this.
+>
+> This commit is found in a (painful) git bisect between kernel 5.8 and 5.10.
 
-FWIW, in this kind of situation, I generally try to explicitly
-ask the submitter if they're OK with my adding a reported-by
-tag, just as a matter of politeness. Not everybody is OK with
-having their email address publicly recorded on mailing list
-archives and in git history forever.
+Hi Michael,
 
-thanks
--- PMM
+Please have a try.
+https://lore.kernel.org/kvm/1618298169-3831-1-git-send-email-wanpengli@tencent.com/
+
+    Wanpeng
 
