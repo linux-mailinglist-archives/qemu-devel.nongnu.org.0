@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDEC35E4BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:12:33 +0200 (CEST)
-Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E20135E49A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:07:20 +0200 (CEST)
+Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWMaW-0007P6-QL
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:12:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55554)
+	id 1lWMVT-0002Os-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMRy-00015X-5k; Tue, 13 Apr 2021 13:03:42 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40738)
+ id 1lWMRl-0000x5-72; Tue, 13 Apr 2021 13:03:29 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMRw-0007ND-NG; Tue, 13 Apr 2021 13:03:41 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so11116602wmy.5; 
- Tue, 13 Apr 2021 10:03:39 -0700 (PDT)
+ id 1lWMRj-0007Yo-R1; Tue, 13 Apr 2021 13:03:28 -0400
+Received: by mail-wr1-x436.google.com with SMTP id j5so16201305wrn.4;
+ Tue, 13 Apr 2021 10:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
  bh=5srUk3qIIvcebuytWZ9xypNA7snM56pd7PVsHy2DEsE=;
- b=OAUtGvH254YjGIxouCqpu0mRWyHtl4gobdRHICz7CJzzR4IzgFxdGGvq/c+cDZg/Xc
- mC2CIdg83yw6qnmFSTa9EMhr624/Up5rfCQJ/i7pS9ibni4rlZi/Rz4fjZ1FsUJF0GWX
- ilOzja/Ejn7Miz73Z4AFR+cVJsnwAZRjB30XOpRkd1qpHoPfVIHMiVVCvv31F1MP8mll
- QFjN3NC/K5y7+lYoOqo0y5sHjRqS8D7clTqAo+A5yCP2ddR8vSQ+0mzLJmh2/EMd/KW5
- gLBBj3qVrbycFYyULJJ0Zi8xJnE4AN5Kh0hkkyyQqcj5pMIIjntNh9HBmPzR8M+4aVxb
- PHAQ==
+ b=Fe8ZWS5juovd1B2G7idj9b3WhtYnpA7nru8Rww+oAMjiXQbBqbXb8zVH66Mu8Tq4hP
+ twUR2DCDwLnyRwI4ywtpH31IEZ7ctZZzwio2VjlZt4qKAu+rAhXmy7r5P6yvT+TNLos9
+ gcXn3HyuEH9Ro+6Is10jxwN32mKtyrmtSYSLqXa2VrsA5cNHJVDnpfeYjiJ4Qj6aH9Kg
+ ivs2OWtsMwCoJ2HS3eYV10PxpZ/Cyipcm8qwuxcl7hmTx5bU/Ec1JQz+mQ3VpO3BG53C
+ Pz98HgR87mcqWEPby9c6mpv09UNP9GItxPMxeZYqA5g/rUJTK+UEEgcUXZ6k1joWPLzz
+ cskA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=5srUk3qIIvcebuytWZ9xypNA7snM56pd7PVsHy2DEsE=;
- b=YCEifxVEuzXSnZN41WYxjUZcfapHAOZIIMgONPFieBjERZdnbuQNuJmKBlVRMvi1ox
- KKlq3xoANZrJ0GAhLKpkw8akc8MMItbg37twjB+5hhhBVtblPEuA6JdpvN8K9K56o12I
- 0BI0ZbgCRiuAvopbIREqgxvshFLVs1Re8dOSY59W6v1aB4Q4/p32uJk5DcCEkyw3lK41
- iBfGYBeeqAOKVz9aWPS0h84gA0SrCgQgRWdzW4wTA5DEW2C7Fsqq7UAnXfdvvXkXCKyz
- HMFF10gq5PrB3ao8pjoyXFS9M8CmOAa+/AeNphIMVOR4fYtLxSIEWdBkq4XExUqcM+6Q
- 5bxQ==
-X-Gm-Message-State: AOAM532AL2D8d6EtUDJsm/fFGlwh6e91B3vuS9fGUstNEUfZUf+Dz2Df
- TE3iK2r3A59bgfu4pVJ0A2jUu1fB28E=
-X-Google-Smtp-Source: ABdhPJx9Zo22cxc49S6B0CQm4o58iY4H+hQQUYi1E+PCxByF6VFHL9ELQGom3+PF4muxedW2Cxbuuw==
-X-Received: by 2002:a7b:c454:: with SMTP id l20mr948114wmi.65.1618333378551;
- Tue, 13 Apr 2021 10:02:58 -0700 (PDT)
+ b=Dg7LsLWFet21u9jcpdnZQagOtosG3KPt3W7lXOorhnJGinljywHMbcMOHbHPH/SUpH
+ ySpAop2zVx6muJtAKqV0P7DZOiw+kfi1iOXni6cCOlS5NZ2mg/BECLFLJ8nW6SLYaHl9
+ fKrIayGZvaThx7hjomG0p87hiUPR6hA8qz8YJT6R/MUmRogiMU/rC87ppCWXpOYUNF5n
+ nMBjISGLuEUVo6Jpk8gBKAhZZSSg35diThui0QPz8zhVRXnh4S8YOipl68iUQVDW8BNS
+ h1ODTqLSu/tDrpJAzNQof6N2QqxVC3kgnvtcywg0HaDW3V7TYM4/SKmB8MFES+duKD+j
+ Dycg==
+X-Gm-Message-State: AOAM532cuy72SA3JiZxl/894awUjylj/RDY+0HClhDBNvUbnwErmbPdI
+ rdAekYx3Fb2SAUDzCYh2S6P6xSdy3m4=
+X-Google-Smtp-Source: ABdhPJwruCqRQjgVd10D0rGSLRLPQNIH+QNQ+GfvMjIQe9tDdiJ43cuzy7roxN5eKSBtlHE6HbLaFw==
+X-Received: by 2002:a5d:4689:: with SMTP id u9mr2914498wrq.10.1618333398748;
+ Tue, 13 Apr 2021 10:03:18 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id y15sm3990183wrh.8.2021.04.13.10.02.57
+ by smtp.gmail.com with ESMTPSA id b12sm9150547wrn.18.2021.04.13.10.03.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 10:02:58 -0700 (PDT)
+ Tue, 13 Apr 2021 10:03:18 -0700 (PDT)
 Subject: Re: [PATCH 09/13] target/arm: Move vfp_reg_ptr() to
  translate-neon.c.inc
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
@@ -59,8 +58,8 @@ To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
  <20210413160759.5917-10-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d2bea7a6-019b-1115-094f-d5c63c562191@amsat.org>
-Date: Tue, 13 Apr 2021 19:02:57 +0200
+Message-ID: <737339ce-636b-bd75-16b1-6080542400f8@amsat.org>
+Date: Tue, 13 Apr 2021 19:03:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
@@ -68,8 +67,8 @@ In-Reply-To: <20210413160759.5917-10-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
