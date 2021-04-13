@@ -2,138 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF71635D83A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 08:49:07 +0200 (CEST)
-Received: from localhost ([::1]:47254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2DE35D936
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 09:45:51 +0200 (CEST)
+Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWCr7-0007PN-3h
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 02:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55776)
+	id 1lWDk6-0003wL-0p
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 03:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lWCpv-0006uS-03; Tue, 13 Apr 2021 02:47:47 -0400
-Received: from mail-eopbgr70107.outbound.protection.outlook.com
- ([40.107.7.107]:29957 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lWDhS-0002bD-Rx; Tue, 13 Apr 2021 03:43:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:59927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lWCps-0006Sj-62; Tue, 13 Apr 2021 02:47:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=czYjAKi9PlKVc0WLTtFmNjfsfNaQnPmYtzu+wGqTjX7iZ97iX0O2p4yia5oU9f79iQEk3g0vaLQOLPMs3MdYVrSDu3Qn7Vwq908rBe3POGcLJcMi1qEbyvL6olQ0xcRBhTvRz53aPdKrxVf+5Q5zST9VrpCFw2yViyZ3Q3299k3xSQ5R/kTWQ84ZwzDhjIgrqtJHAj5IhLj34EoTVcTSDCtQXfG3rbyxeJ+eZvDtojS1UE/4G++HSf7cP8vFqhH7fQg59n8f9KypJoBlBTqvORBVqNbnANzZ/pq72K2kN36gbAMsv+mGFyUmiXX3MAMZEQz1ILf87uMeSXKjyO64qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+vdB36Xf/qkQkCmr/Li0eb11scwQMstjOz7QVfy6g9o=;
- b=ijG/BLWVpPUToAMPf+zmUhY/lGkP5/scd6FBlXyKolzW4rdc6PQyuN8SdvqQUiqkzUVBc5gSH7YZtS3TmlAdXAhPVAWGlAsMUw/MY203R43wdPhl9LH7ikAMHmobqHsc1sLRB8mACuQvJIIefDqpTdcL69tkqoIJ3+zY5GJy0EnFQxADIePugITfDLC4uTfV/xZmkmftWoaW+Wd/U/iATnG2CoLUd9NJSGTXj0OCc+U8kKiM7s37TQiqJQSGYSrJnJpkx4cjGvRmvKX6OCRxMbzHJg3QVxCAV/yN/dWzE4srHfA0gniccJ+FXC7nzq1fpXjdOxkwLDMrI+ybvHwBPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+vdB36Xf/qkQkCmr/Li0eb11scwQMstjOz7QVfy6g9o=;
- b=D+HIBJSeOsC2/Y9wsD9OC5+E38TvJIx13EY/qUvs7gZlPpG32eEPJRhUluaKfe2XGUjFYrhjqEGE76nIJjARiKpFD5nhTO2a1+2TzfRPF7hXm7Fls8lPFFjmw+QpmeEA/9EP+0e9DQuB9UGqiFq18HsaAOyPCGIcPJmyZlWJJXI=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB2098.eurprd08.prod.outlook.com (2603:10a6:203:4a::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Tue, 13 Apr
- 2021 06:47:40 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
- 06:47:40 +0000
-Subject: Re: [PULL 0/1] NBD fix for 6.0-rc3
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
- rvkagan@yandex-team.ru, Max Reitz <mreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20210412121846.144565-1-vsementsov@virtuozzo.com>
- <CAFEAcA-damn2CQDe2OMpEj=5Lo=ZTcsBOMoaHJqsX4ktL3qyCw@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <bda0a2e0-c596-0959-89e3-0c9980d2c3ec@virtuozzo.com>
-Date: Tue, 13 Apr 2021 09:47:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-In-Reply-To: <CAFEAcA-damn2CQDe2OMpEj=5Lo=ZTcsBOMoaHJqsX4ktL3qyCw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.212]
-X-ClientProxiedBy: FR0P281CA0002.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::7) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lWDhQ-0007rO-AN; Tue, 13 Apr 2021 03:43:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FKHdX0X1rz9sW1; Tue, 13 Apr 2021 17:42:56 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1618299776;
+ bh=dd+xEFEHt+j6D/ffUmszId9ZeF4lWn0KM2NJ6fTMqbk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SD4yxPnzKjWxXbwEwrUC8GxkIowpTMc8Oh2F8L9t0fy35Z0xo/UourCZq7W+Qja+V
+ 8dKtZk7lCVcxzE9IMhfGMShcaO/4Z12qAiPwtpTsCEz4wvoKmSTaxzPgx0V0JJ0Uyh
+ RbBs6COAVFTDogOf7Rg5hJwKudP2WNsEBODPfaaQ=
+Date: Tue, 13 Apr 2021 16:40:27 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH 1/4] target/ppc: Code motion required to build disabling
+ tcg
+Message-ID: <YHU82/SArAWirXIm@yekko.fritz.box>
+References: <CP2PR80MB44994CEF7BA3C917016749B0C7709@CP2PR80MB4499.lamprd80.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.212) by
- FR0P281CA0002.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.6 via Frontend Transport; Tue, 13 Apr 2021 06:47:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: feabd75b-234b-4665-a302-08d8fe4807fc
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2098:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB209832BD553EBFB6A1B8CCC0C14F9@AM5PR0801MB2098.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UlMWJxs5oTlRg6/1jxgQlf+ZtTj6YeSP3uVpCfn8r4BqkZavplQcxVFFRo/i9Yh1Ek+c2cEt2I1BOHG/YVUzbvKZPq051Zh54u74Y+CTMTzizH9q69vZ4HXBX7s8t/C9E23nMe5jColOWk0ZrQdDVtNXLqtHGXRiTbRFkKc80rqcFrO4qB+VMXnYfEYONbAvv0rAoFDKZEsOK4czSvwlsM1XM3z5wBaNFDpFlygG1rDc72aL6C9lYOvdsT3cRPOQfwv6o8u52CEKct8UQyPzPZJrl7WfOn8dsayryrmljnXXVZFCMSR2zqSh9pQ22nEw0CtV/+jmEgAgvhtJqPgcCkfwVFj76IExB7ADhOQ59eIJglI2XcWGR3iG2FpI4fGBhaoZAbW5/Td0txtBwd+9OPGXHK7m46BR/WH7f3p2xP2OjWi4zHVESruo5or1iDtcb/d6ZXdUg6I1LDzq4BQfl4YY9ZJR5sPKwM4stwfGwvnsOlAR8uuLWwUjc4ybxpmbuU2OaaZ7SjOdt6jXDSsloX7GQLmcGTcz+FjfqR3SYfbP2xbllwKLFXyLZ43p3zT2Fd2DqRlMTT+r5yjVG9FCk1htH2UEfQd1SEI3jsGKjlmoVeneWovFDnHjmeIMZ39+ZyxnY8EBwYtbN/fNN+TiYDnEWm0fDbd7W+vaAEgMAlGC4GvKONv6z+IAIBGn+mZqpBH7NebPMfrlsL5rAoeKQPQUBHusdTtRWQIY7BAPyYWeJxUvUX0LgBm1r2/E2E7mcHLtICqx/5OaBCfF++JWUbQR0Ft5kNffGuYZrAg2M9A=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39830400003)(366004)(396003)(376002)(136003)(4326008)(26005)(6916009)(66556008)(52116002)(38350700002)(86362001)(54906003)(478600001)(8676002)(5660300002)(966005)(31686004)(38100700002)(66476007)(83380400001)(6486002)(16576012)(36756003)(316002)(31696002)(2906002)(8936002)(16526019)(66946007)(186003)(2616005)(956004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?M2JZcGQ0OE55TmlseWUyYzVRNUN3WTBwTUlFOExyeXdHV21hMWg3RXk2YkJV?=
- =?utf-8?B?b3A0SFQwaVlyNjg2VXRtQ3YrYnpkNHZ4dVREbU93cFpXU01ONDBmRU1Mb2RM?=
- =?utf-8?B?T1RsM1c5TVpkekNPcW5JSHR1VCt5VUM4U2V5SjhKZkpJTzVOSEZpdXAzYURN?=
- =?utf-8?B?TjlFWGRsV3FsMlkvd1AxdXZKWFVqMzlFd3U4c2diQ04yZjJiTytYckdmVnh4?=
- =?utf-8?B?dzU1UEhWSS9JTGx5UXRJV1dqSzB6SXp2aStsYmpVMk12dHA5WXBIZm9EU3VG?=
- =?utf-8?B?RzY2a1FuZWFBTmJ2ejNSeHU1eStsck1xTFp1TkxvRlhzQ1FFSVlML0tWaWxI?=
- =?utf-8?B?bzIyb1orWmNiUlFGK0p0S0pZTGk0Rm4wU2Jid3hIbmxIYldHYjRGRFFPdmFx?=
- =?utf-8?B?VjlaN3l5b3BQQi85ditDQ2EvUEFLK2U2QXgvVGN0a25BWEs3MWRBNmlGWENx?=
- =?utf-8?B?L1FoT3ZXZFlaSGJscUczdEtxWmlCUDVMTnJ2eTYvUzdiWHpQMmpUSllWUjZn?=
- =?utf-8?B?emFrUG5zMUdDSExqQ2krdDNrRFhTRkhRdWdnTGk4bFQ2MUV3ZDlyWlgxQm8x?=
- =?utf-8?B?L1d2WFdaSFd1aU5lRkw3SXNxTStQNktXeHpmUC83U0tMYWI5NGkxeVRWWndx?=
- =?utf-8?B?MUFGVUgyTkNndHNtaVhobnF5cE40LzlLVkQ4UWFucVZvMm1WeTRoRGxyaFF1?=
- =?utf-8?B?SG1OSTBubERMNDJDN0J0czNwSCs1YklYdXZ6RHhYanpqVGlLdGl0SEhDNlBS?=
- =?utf-8?B?OUxxODAvaGZZWDBlb0JvOGRCR0tJTUhJWDRDbUhsTllUWk9wRFFOU2JpZ2Nq?=
- =?utf-8?B?czhSM2dkNjNXWjl0ODJYUVd3RmVXNWRYV2RiN0lHN1V6aWV5ODNIa09pQ3hS?=
- =?utf-8?B?WVJsYkFwSzBpREo1OEpWYnZEbnUwWlJDWmp5YmZYd0k0MVlpdHR0SlZaTVYz?=
- =?utf-8?B?Q0tIT3hQR09XVEZobmJwWmR1S0Q1UFRySFQ4Y0U0R3BOY3A1cWErREMxbGFx?=
- =?utf-8?B?dHdWcTVMNVRReW1VYXRrTXdWWTRnVTdpZ2hveE9IZEh5djhNZE0zZ2R0UDRI?=
- =?utf-8?B?ci9XNUZNZ2tuZ2Y5K09QTXo4UXZ0T1lOWEJpenJTY00zeGdGMkM5Z1Q2QzMz?=
- =?utf-8?B?V0gwd29QZTdJeDhYSW9rRFhYL0hnc0lQYnN2U3NZelN3aERucGl3MytTekw4?=
- =?utf-8?B?cmFYdkZUSkxVTUZtN1d3Skkzck9UZ3N3WThLYmNBTTZKY29QU1B5VTlxSUd4?=
- =?utf-8?B?VUZkRlNoeVFQYTFwTCtaWVpJdm5qaHpCRjRoVldCOEJqSGRpVGdmeGpxdnRY?=
- =?utf-8?B?bzIzeUxNQXZTRWplMmpydzBPSTI5UVo5REl1cEZkYklOUFNFeXVMb1RMVW44?=
- =?utf-8?B?VHMyM043bjNWeVJxZnF0SU5SK0IrcmEvd3B3RXE4OWIrWWs4UnVZTTE5b09w?=
- =?utf-8?B?K2JzSUtwU2RTZjcvNTFrNkxCRFhncHVONjZGNEhkc2lYV3Q4THVuMnB5MFdp?=
- =?utf-8?B?eEwxM0NjRzBjQWhLb3AvWHFxenZlcEE4VjIvSk9XZUYvRzVLMWdkRSt4VGdG?=
- =?utf-8?B?TDlRblFhMGdqUnhvNFBLRkUvSmZuUzBXZldlWmwxaWk0T0ErVGk1YkdGU2E2?=
- =?utf-8?B?OFdZa1FIWXR3ZFdYUklHbWp0WDhpNVV4azN0MHZBRGpJL0lpTlNRcHpEb0di?=
- =?utf-8?B?MUdEeU4xRGIyS0dTbTBCWGlGaVF4RzBpM0hzZWtxMmNNUmJqTDVITmlFdFg5?=
- =?utf-8?Q?pAYc/OLJylWklz/W1jL8SOsYtlVJMfdjtb4WCLS?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: feabd75b-234b-4665-a302-08d8fe4807fc
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2021 06:47:40.0044 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7P9yWpZ1dgAMk4eLoa+LmGT1QkPRWnkIBZetlqXn6DdlhnxBnGDE/3bqZSCuOyMCe4jm25DRoI5bvvyDdG6lzUJH62bIlWJj8aR715fhO4M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2098
-Received-SPF: pass client-ip=40.107.7.107;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4gVkxjpqR7DqjxWc"
+Content-Disposition: inline
+In-Reply-To: <CP2PR80MB44994CEF7BA3C917016749B0C7709@CP2PR80MB4499.lamprd80.prod.outlook.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,47 +58,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
+ Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Andre Fernando da Silva <andre.silva@eldorado.org.br>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.04.2021 18:48, Peter Maydell wrote:
-> On Mon, 12 Apr 2021 at 13:19, Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
->>
->> The following changes since commit 555249a59e9cdd6b58da103aba5cf3a2d45c899f:
->>
->>    Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-04-10 16:58:56 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-nbd-2021-04-12
->>
->> for you to fetch changes up to d3c278b689845558cd9811940436b28ae6afc5d7:
->>
->>    block/nbd: fix possible use after free of s->connect_thread (2021-04-12 11:56:03 +0300)
->>
->> ----------------------------------------------------------------
->> One fix of possible use-after-free in NBD block-driver for 6.0-rc3
->>
->> ----------------------------------------------------------------
->>
->> Note: the tag is signed by a new key, as I've lost the old one. So,
->> now there are two keys with my name on http://keys.gnupg.net, the elder
->> is lost. I feel stupid about that :(. Anyway, both keys are not signed by
->> anybody except for myself. And this is my first pull-request to Qemu,
->> so, I think some kind of TOFU still applies.
-> 
-> I'd really rather not deal with trying to add a new source of pull
-> requests the day before rc3, please. Eric, could you do a pull
-> or something?
-> 
-> thanks
-> -- PMM
-> 
 
-Hmm. Ok, that's not a degradation of 6.0 and there is no existing bug somewhere, so we can just not care for 6.0.
+--4gVkxjpqR7DqjxWc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best regards,
-Vladimir
+On Mon, Apr 12, 2021 at 12:05:31PM +0000, Bruno Piazera Larsen wrote:
+> > A general advice for this whole series is: make sure you add in some
+> > words explaining why you decided to make a particular change. It will be
+> > much easier to review if we know what were the logical steps leading to
+> > the change.
+>=20
+> Fair point, I should've thought about that.
+>=20
+> > > This commit does the necessary code motion from translate_init.c.inc
+> >
+> > For instance, I don't immediately see why these changes are necessary. I
+> > see that translate_init.c.inc already has some `#ifdef CONFIG_TCG`, so
+> > why do we need to move a bunch of code into cpu.c instead of just adding
+> > more code under ifdef CONFIG_TCG? (I'm not saying it's wrong, just tryi=
+ng to
+> > understand the reasoning).
+>=20
+> There are 3 main reasons for this decision. The first is kind of silly, b=
+ut when I read translate.c my mind jumped to translating machine code to TC=
+G, and the amount of TCGv variables at the start reinforced this notion.
+> The second was that both s390x and i386 removed it (translate.c) from com=
+pilation, so I had no good reason to doubt it.
+> The last (and arguably most important) is that translate.c is many thousa=
+nds of lines long (translate_init.c.inc alone was almost 11k). The whole po=
+int of disabling TCG is to speed up compilation and reduce the final file s=
+ize, so I think it makes sense to remove that big file.
+> And the final nail in the coffin is that at no point did it cross my mind=
+ to keep the init part of translation, but remove the rest
+>=20
+> Also, I'm not a fan of big ifdefs, because it's kinda hard to follow them=
+ when viewing code in vim. Adding that to already having a cpu.c file, wher=
+e it makes sense (to me, at least) to add all CPU related functions, just s=
+ounded like a good idea.
+
+I think those are all sound reasons; I think not compiling translate.c
+for !tcg builds is the right choice.  We might, however, need to
+"rescue" certain functions from there by moving them to another file
+so they can be used by KVM code as well.
+
+> > Is translate_init.c.inc intended to be TCG only? But then I see you
+> > moved TCG-only functions out of it (ppc_fixup_cpu) and left not TCG-only
+> > functions (gen_spr_generic).
+>=20
+> This is me misjudging what is TCG and what is not, mostly. I think that a=
+ctually moving everything to cpu.c and adding ifdefs, or creating a cpu_tcg=
+=2Ec.inc or similar, would be the most sensible code motion, but every func=
+tion I removed from translate gave me 3 new errors, at some point I felt li=
+ke I should leave something behind otherwise we're compiling everything fro=
+m TCG again, just in different files, so I tried to guess what was TCG and =
+what was not (also, I really wanted the RFC out by the weekend, I _may_ hav=
+e rushed a few choices).
+
+I'm actually not sure if we'll want translate_init.c for !tcg builds.
+It's *primarily* for TCG, but we still need at least some of the cpu
+state structure for KVM, and some of that is initialized in
+translate_init.
+
+I think it will probably make more sense to leave it in for a first
+cut.  Later refinement might end up removing it.
+
+The whole #include translate_init.c.inc thing might make for some
+awkward fiddling in this, of course.
+
+> > > This moves all functions that start with gdb_* into target/ppc/gdbstu=
+b.c
+> > > and creates a new function that calls those and is called by ppc_cpu_=
+realize
+> >
+> > This looks like it makes sense regardless of disable-tcg, could we have
+> > it in a standalone patch?
+>=20
+> Sure, I'll try and get it ready ASAP, and make sure I didn't miss one fun=
+ction before sending. Just a noob question... do I edit the patch manually =
+to have it only contain the gdb code motion, or is there a way to move back=
+ to before I actually made the commit without needing to re-do the changes?
+>=20
+> Thomas, I'm adding you to this discussion since it sort of answers your m=
+essage on the other one, about the functions used even in a KVM-only build.
+>=20
+> > IIRC you don't only have to exclude translate.c from the build, you also
+> > have to separate translate_init.c.inc from it, i.e. turn
+> > translate_init.c.inc into a proper .c file and get rid of the #include
+> > "translate_init.c.inc" statement in translate.c, since many functions i=
+n the
+> > translate_init.c.inc file are still needed for the KVM-only builds, too=
+=2E So
+> > maybe that's a good place to start as a first mini series.
+>=20
+> Now that I know that translate doesn't mean "translating to TCG", this id=
+ea makes more sense. My question is, is it a better option than the code mo=
+tion I'm suggesting? From my quick check on the bits that I haven't touched=
+ it might, but at this point it's clear I'm very lost with what makes sense=
+ hahaha.
+>=20
+>=20
+> Bruno Piazera Larsen
+>=20
+> Instituto de Pesquisas ELDORADO<http://clickemailmkt.eldorado.org.br/ls/c=
+lick?upn=3DUPoxpeIcHnAcbUZyo7TTaswyiVb1TXP3jEbQqiiJKKGsxOn8hBEs5ZsMLQfXkKuK=
+XZ7MVDg0ij9eG8HV4TXI75dBzDiNGLxQ8Xx5PzCVNt6TpGrzBbU-2Biu0o69X5ce-2FW-2FOk1u=
+UipuK0fZnWXJEgbRw-3D-3DJY4T_wWk-2BG6VvNBoa1YzxYjhCdFS9IfANIaBzDSklR1NyyrKOI=
+1wj0P-2BdBFcuO4FnHcsA1MyHu0ly1Yt3oDMp7KKdJPM68iKuI2jiRH5v4B0d8wf3chU3qy5n5i=
+XWnW1QjSaNFHOgELzxaP-2FnesTeBgJ5dFkjH4f279sVQpOtyjw5xAqj34M6pgNRAxVvuXif4IW=
+DcVzXg1FzfYlEfkKzr9vvpA3Hg8kitwMtlU3zwbQUBCgL30fQoJPcRPMGKyOY8RmoAlXNqTJYDY=
+IvqmfnI7KLUvw6vKB5R-2B5q1FJRAzX7H-2BmF0NnDET6jMLuIqtCcVIch>
+>=20
+> Departamento Computa=E7=E3o Embarcada
+>=20
+> Analista de Software Trainee
+>=20
+> Aviso Legal - Disclaimer<https://www.eldorado.org.br/disclaimer.html>
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--4gVkxjpqR7DqjxWc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB1PNkACgkQbDjKyiDZ
+s5I9ZA/9EZyAgnuJ5Yx1M4wtYouX9TtKu6m5crnW1lSBWPzgaCqxtAdHokv8AsDU
+O7A2YEAIikKPLPweU1N2KdQ2pj9avBaNvSJOTA+aGi5Kq9tlKhI/PS8vz30eBzhw
+ZAmmAAhSx1GZnRbFiMKVqvYPUHFi37clDyTyXoOCLgvu4s5kyWVOMnEjz3GdKjTu
+C2w/9hWhcMpiUdUX0q43QK9qKU/xYLh65MJAw7IhVdOzMtP096/IFR93ay79BH5N
+ZJw0lNEr8PyXiMVQPdMktBl5zs4M4zUT0CKGFZSRoKuSMGSXx5TMu009JxIxKzUw
+m0ec6K2lpz/GaaPhfoKgf0N1paompNuTw/31bvjHRB0Qovs3skcZX7TKTiDdwfQe
+padIbDBbNVR/R+QWc4JtPBUvhARaOb+G7teKTjnMLpwece0OShMPm5DkMndhAABJ
+p7v7j0zLyO/8y3B2NIQNFeRx1w1Z3ZneewkrC+XpkEejHHCdXXdZc2qxVxNDLVo5
+rMgC0zEmq+o0575rf9pE0yrFpKg3H8U5t/1jew6ObzRQf+e7uFfknBJ+10mu7Nn+
+umPAc6haqNR2a0KbtreavUm2CKvfZTjEiu/pQrHOxdWxPGmahfeeWvigIFIUlI+W
+Frm+qPyR+KfpPR6ak3gYqud7FntvCwZfcvStyPGpiRHBzDcKoOQ=
+=85/K
+-----END PGP SIGNATURE-----
+
+--4gVkxjpqR7DqjxWc--
 
