@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5F135E025
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:34:22 +0200 (CEST)
-Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA3735E026
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:34:29 +0200 (CEST)
+Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWJBN-0006Wm-3w
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
+	id 1lWJBU-0006kD-Kq
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lWJ8t-0005Lq-Uc; Tue, 13 Apr 2021 09:31:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lWJ8r-0000wi-HR; Tue, 13 Apr 2021 09:31:47 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13DD3Dnt036464; Tue, 13 Apr 2021 09:31:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=3wpDD4dsJmAGYdIzSQXZt2XJCS7q6hMKM3xqak9B+iY=;
- b=d5JokogmY3gap62AKS7PxkhzacVb23skj2RHZa8prbNhUQCuqr0LG5dyMEQQCRpZ2Xk+
- kExcm3y8rvvic/qalsXf9uZWsMc6hK+AJR1NYQjaIuLwNi4ckbj5W+xMP0MaYPM/J7i8
- f0ae8EKCkglwOHy8bJ0k2bsnIsGhd3BwO5MYVWTvBY11jErs+M/bvptsah/27587oWz/
- yW8v8PfvvTV1Wea/8eM99YMW0ev4gXrlwdnbglSzrD/lNIpm2AGStSm7bze0TVdi7KmC
- LZlA1KR4Cby18ghHdC5M+qXRiTide6qmZOj9LqdInavlhivp8SE7MVKZyNWBUTImA5nB Pw== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37vkpjtc6s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 09:31:37 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DDRxmL027504;
- Tue, 13 Apr 2021 13:31:36 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma04wdc.us.ibm.com with ESMTP id 37u3na0xb9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 13:31:36 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13DDVZKt24445324
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Apr 2021 13:31:35 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B96F7805F;
- Tue, 13 Apr 2021 13:31:35 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7AF1878063;
- Tue, 13 Apr 2021 13:31:34 +0000 (GMT)
-Received: from localhost (unknown [9.211.159.146])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue, 13 Apr 2021 13:31:34 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] target/ppc: code motion from translate_init.c.inc to
- gdbstub.c
-In-Reply-To: <CP2PR80MB4499015423A3D0B49610C929C74F9@CP2PR80MB4499.lamprd80.prod.outlook.com>
-References: <20210412190442.114467-1-bruno.larsen@eldorado.org.br>
- <874kgb5ibs.fsf@linux.ibm.com>
- <CP2PR80MB4499015423A3D0B49610C929C74F9@CP2PR80MB4499.lamprd80.prod.outlook.com>
-Date: Tue, 13 Apr 2021 10:31:31 -0300
-Message-ID: <871rbe5n0s.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: XTLcQLJ--y4V2VG4gsg4A6xcbiKGKrv7
-X-Proofpoint-ORIG-GUID: XTLcQLJ--y4V2VG4gsg4A6xcbiKGKrv7
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWJ9u-0005k9-Me
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:32:50 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWJ9q-0001Tp-Lc
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:32:50 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id m3so19420797edv.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 06:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JQMi5apjq4+ZxeLlhEC2Qn0085wWlJdEy0w0zBLJE1A=;
+ b=ljDSzTSe6A8KdiqH8gakuHR8OphpveLijNMU9900sm8F29QWIJIn9uehYnEHqtXyGt
+ sz5ejt+WyDnbnQZ5JPwlQTcd57uFEND7sEy/MIor56b9GfJ2+DsnSUPOFQvF7LGHe7Jt
+ jjGZUGFFEE/rM/OOV4pGRutD67U3V66qfVTQJIZugYPYUMbJY21F6VBDHeOxPC5L9q01
+ OI0If+DJ20CRqG9kUlNe8fCnqmzU6O+2CuWlfoBProGj8V4PPy2TUSBhurKI/6mbuHnx
+ 5ld83yO9AdqxzbmpU8ao5+jwDzqO8P184dW5/U14cMcvCTdKVreDXjsxrNmNeJzxrCcV
+ psiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JQMi5apjq4+ZxeLlhEC2Qn0085wWlJdEy0w0zBLJE1A=;
+ b=eEw31a/Q7K5QNRpcuAOKBblssIBOhmtD0GCibOLnAmvIEJuCjTuQM2Gk3t7UmXbIar
+ wyw+Df3At5Ksxojdk39gIwy+VyC1RHiZUJ2EV1lCj6oGeE1/uh/hRAtuuEvqKvDm+Qv0
+ HVSlrYpuRLoJC35wKpiN4iOkTM0qkeB+IN672ZUbpSbBW3rjH0uO0y6YpKsWBVJRye1c
+ ecjNbKoFTtHGGVJg4iD2dEbbIilawXp1Q1N5hVlHbmpar5qkzTSlg9RkVYWuojPGI+gi
+ iGcfX4sJVqcXZyR+9Z+htX6Jww/xGXFIVH+8Ae7ug92Eib9zU9I23x/JuMzxTrAdFURI
+ K6Vw==
+X-Gm-Message-State: AOAM531ZkH389IygR++9qs7zM0ilkzAzT5/SrPFmAWd7ImIE+YT1TNrh
+ oxUOFXZVnpBTpN9GglE65Jj/lv9x8qDotciCYV170g==
+X-Google-Smtp-Source: ABdhPJzTtqbjtmecNimQa/6vymhMvnDN0Jd4wlKD0KFiBT/AYNISuoPA7MB2kOiO6CGe+oP0exIVLyGfE20vWbotwwU=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr34690376edb.204.1618320764385; 
+ Tue, 13 Apr 2021 06:32:44 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-13_07:2021-04-13,
- 2021-04-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104060000 definitions=main-2104130091
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20210413002648.8281-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210413002648.8281-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Apr 2021 14:31:59 +0100
+Message-ID: <CAFEAcA_2bqGVntsq35ZOPEJGUGKLNf-uJGixCF2MzxShZuSmTg@mail.gmail.com>
+Subject: Re: [PULL 0/2] ppc-for-6.0 queue 20210412
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,102 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
- Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bruno Piazera Larsen <bruno.larsen@eldorado.org.br> writes:
+On Tue, 13 Apr 2021 at 01:26, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> The following changes since commit 555249a59e9cdd6b58da103aba5cf3a2d45c899f:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-04-10 16:58:56 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210412
+>
+> for you to fetch changes up to 2b18fc794f312a91482998bae5ea6c8724200e06:
+>
+>   spapr.c: always pulse guest IRQ in spapr_core_unplug_request() (2021-04-12 12:27:14 +1000)
+>
+>
+> Ugh, sorry Peter.  I meant to sent this yesterday, but apparently
+> forgot to execute the last step to actuall send it out.
+>
+> ----------------------------------------------------------------
+> ppc patch queue for 2021-04-21
+>
+> Here's what I hope is the last ppc related pull request for qemu-6.0.
+>
+> The 2 patches here revert a behavioural change that after further
+> discussion we concluded was a bad idea (adding a timeout for
+> possibly-failed hot unplug requests).  Instead it implements a
+> different approach to the original problem: we again let unplug
+> requests the guest doesn't respond to remain pending indefinitely, but
+> no longer allow those to block attempts to retry the same unplug
+> again.
+>
+> The change is a bit more complex than I'd like for this late in the
+> freeze.  Nonetheless, I think it's important to merge this for 6.0, so
+> we don't allow a release which has the probably-a-bad-idea timeout
+> behaviour.
 
-> All the code and git related feedback as been done, with the exception of
->
->> > +gchar *ppc_gdb_arch_name(CPUState *cs);
->> > +
->> > +
->> >  #endif /* PPC_CPU_H */
->> > diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
->> > index c28319fb97..0c016b8483 100644
->> > --- a/target/ppc/gdbstub.c
->> > +++ b/target/ppc/gdbstub.c
->> > @@ -20,6 +20,10 @@
->> >  #include "qemu/osdep.h"
->> >  #include "cpu.h"
->> >  #include "exec/gdbstub.h"
->> > +#ifdef CONFIG_TCG
->> > +#include "exec/helper-proto.h"
->> > +#endif
->> We still need to figure out where to move the vscr helpers so that both
->> TCG and !TCG code can see them. But we cannot build without TCG
->> currently anyway so I guess it's ok to leave the ifdef.
->
-> Actually, since we're moving the helpers away, I think it's better to rem=
-ove the ifdefs...
-> The helper-proto.h is here only for the vscr, so it's going away before w=
-e support the !tcg build anyway. Thoughts?
 
-Sure, that's reasonable.
+Applied, thanks.
 
->
->> > +
->> > +void ppc_cpu_gdb_init(CPUState *cs, PowerPCCPUClass *pcc)
->> > +{
->> > +
->> > +    if (pcc->insns_flags & PPC_FLOAT) {
->> > +        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float=
-_reg,
->> > +                                 33, "power-fpu.xml", 0);
->> > +    }
->> > +    if (pcc->insns_flags & PPC_ALTIVEC) {
->> > +        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
->> > +                                 34, "power-altivec.xml", 0);
->> > +    }
->> > +    if (pcc->insns_flags & PPC_SPE) {
->> > +        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
->> > +                                 34, "power-spe.xml", 0);
->> > +    }
->> > +    if (pcc->insns_flags2 & PPC2_VSX) {
->> > +        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
->> > +                                 32, "power-vsx.xml", 0);
->> > +    }
->> > +#ifndef CONFIG_USER_ONLY
->> > +    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
->> > +                             pcc->gdb_num_sprs, "power-spr.xml", 0);
->> > +#endif
->> > +}
->>
->> Same here.
->
-> This function was actually created by me, wasn't in the translate_init.c.=
-inc. Since we're moving gdb fuinctions to gdbstub.c, I thought it made sens=
-e to hide the logic behind how to register coprocessors correctly as well. =
-that's why there is no removal of this function on the diff. Should I move =
-it back to ppc_cpu_realize or is this a good plan?
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-Right, but you created the function by refactoring the existing code in
-translate_init.c.inc so the diff still needs to contain the removal of
-the gdb_register_coprocessor calls from that file.
-
->
->
->
-> Bruno Piazera Larsen
->
-> Instituto de Pesquisas ELDORADO<http://clickemailmkt.eldorado.org.br/ls/c=
-lick?upn=3DUPoxpeIcHnAcbUZyo7TTaswyiVb1TXP3jEbQqiiJKKGsxOn8hBEs5ZsMLQfXkKuK=
-XZ7MVDg0ij9eG8HV4TXI75dBzDiNGLxQ8Xx5PzCVNt6TpGrzBbU-2Biu0o69X5ce-2FW-2FOk1u=
-UipuK0fZnWXJEgbRw-3D-3DJY4T_wWk-2BG6VvNBoa1YzxYjhCdFS9IfANIaBzDSklR1NyyrKOI=
-1wj0P-2BdBFcuO4FnHcsA1MyHu0ly1Yt3oDMp7KKdJPM68iKuI2jiRH5v4B0d8wf3chU3qy5n5i=
-XWnW1QjSaNFHOgELzxaP-2FnesTeBgJ5dFkjH4f279sVQpOtyjw5xAqj34M6pgNRAxVvuXif4IW=
-DcVzXg1FzfYlEfkKzr9vvpA3Hg8kitwMtlU3zwbQUBCgL30fQoJPcRPMGKyOY8RmoAlXNqTJYDY=
-IvqmfnI7KLUvw6vKB5R-2B5q1FJRAzX7H-2BmF0NnDET6jMLuIqtCcVIch>
->
-> Departamento Computa=C3=A7=C3=A3o Embarcada
->
-> Analista de Software Trainee
->
-> Aviso Legal - Disclaimer<https://www.eldorado.org.br/disclaimer.html>
+-- PMM
 
