@@ -2,56 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A0335D5DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 05:27:31 +0200 (CEST)
-Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BA135D5E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 05:29:37 +0200 (CEST)
+Received: from localhost ([::1]:51878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW9i5-00052G-Kq
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 23:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48496)
+	id 1lW9k8-00062K-QJ
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 23:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lW9h2-0004UV-Vx; Mon, 12 Apr 2021 23:26:25 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:5028)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lW9iy-0005WR-Qc; Mon, 12 Apr 2021 23:28:25 -0400
+Received: from out28-220.mail.aliyun.com ([115.124.28.220]:51531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lW9gy-0000Fh-IK; Mon, 12 Apr 2021 23:26:24 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FK9v355y5zlX2D;
- Tue, 13 Apr 2021 11:24:15 +0800 (CST)
-Received: from [10.174.185.226] (10.174.185.226) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 13 Apr 2021 11:25:59 +0800
-To: Auger Eric <eric.auger@redhat.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>,
- <mst@redhat.com>, <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
- <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-References: <1616656965-23328-1-git-send-email-wangxingang5@huawei.com>
- <1616656965-23328-2-git-send-email-wangxingang5@huawei.com>
- <6e6a276f-86b2-2f32-f3e0-9552f3d28a21@redhat.com>
-From: Wang Xingang <wangxingang5@huawei.com>
-Subject: Re: [PATCH RFC RESEND v2 1/6] hw/pci/pci_host: Add iommu property for
- pci host
-Message-ID: <f4f4d975-5e9a-6677-02a4-bc0310e9e0f9@huawei.com>
-Date: Tue, 13 Apr 2021 11:25:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lW9iu-0001Qe-Rs; Mon, 12 Apr 2021 23:28:24 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.10593|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.04784-0.00539141-0.946769;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.Jz7d4AN_1618284488; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Jz7d4AN_1618284488)
+ by smtp.aliyun-inc.com(10.147.44.145);
+ Tue, 13 Apr 2021 11:28:09 +0800
+Subject: Re: [PATCH 00/38] target/riscv: support packed extension v0.9.2
+To: qemu-devel@nongnu.org
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <17b7c38a-f780-0216-3e3b-fd0d2178c004@c-sky.com>
+Date: Tue, 13 Apr 2021 11:27:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <6e6a276f-86b2-2f32-f3e0-9552f3d28a21@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+In-Reply-To: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.185.226]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=wangxingang5@huawei.com; helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.220; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-220.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,126 +59,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, cenjiahui@huawei.com
+Cc: richard.henderson@linaro.org, qemu-riscv@nongnu.org, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+ping +1.
 
-On 2021/4/13 1:36, Auger Eric wrote:
-> Hi Wang,
-> 
-> On 3/25/21 8:22 AM, Wang Xingang wrote:
->> From: Xingang Wang <wangxingang5@huawei.com>
->>
->> The pci host iommu property is useful to check whether
->> the iommu is enabled on the pci root bus.
->>
->> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
->> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
->> ---
->>   hw/pci/pci.c              | 18 +++++++++++++++++-
->>   hw/pci/pci_host.c         |  2 ++
->>   include/hw/pci/pci.h      |  1 +
->>   include/hw/pci/pci_host.h |  1 +
->>   4 files changed, 21 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->> index ac9a24889c..e17aa9075f 100644
->> --- a/hw/pci/pci.c
->> +++ b/hw/pci/pci.c
->> @@ -417,6 +417,22 @@ const char *pci_root_bus_path(PCIDevice *dev)
->>       return rootbus->qbus.name;
->>   }
->>   
->> +bool pci_root_bus_has_iommu(PCIBus *bus)
-> "has_iommu" is misleading as it does not mean an IOMMU is actually
-> instantiated but rather that if there is any, it will translate
-> transactions coming from this primary bus
-> 
-> I would rather inverse the logic and have a
-> 
-> "bypass_iommu" property defaulting to false
-> 
-> and this function dubbed something like pci_root_bus_bypass_iommu
->> +{
->> +    PCIBus *rootbus = bus;
->> +    PCIHostState *host_bridge;
->> +
->> +    if (!pci_bus_is_root(bus)) {
->> +        rootbus = pci_device_root_bus(bus->parent_dev);
->> +    }
->> +
->> +    host_bridge = PCI_HOST_BRIDGE(rootbus->qbus.parent);
->> +
->> +    assert(host_bridge->bus == rootbus);
->> +
->> +    return host_bridge->iommu;
->> +}
->> +
-
-Thanks for your advice, it is misleading, i will replace this.
-
->>   static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
->>                                 MemoryRegion *address_space_mem,
->>                                 MemoryRegion *address_space_io,
->> @@ -2716,7 +2732,7 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
->>   
->>           iommu_bus = parent_bus;
->>       }
->> -    if (iommu_bus && iommu_bus->iommu_fn) {
->> +    if (pci_root_bus_has_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
->>           return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
->>       }
->>       return &address_space_memory;
->> diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
->> index 8ca5fadcbd..92ce213b18 100644
->> --- a/hw/pci/pci_host.c
->> +++ b/hw/pci/pci_host.c
->> @@ -222,6 +222,8 @@ const VMStateDescription vmstate_pcihost = {
->>   static Property pci_host_properties_common[] = {
->>       DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
->>                        mig_enabled, true),
->> +    DEFINE_PROP_BOOL("pci-host-iommu-enabled", PCIHostState,
->> +                     iommu, true),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
->>   
->> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
->> index 6be4e0c460..718b5a454a 100644
->> --- a/include/hw/pci/pci.h
->> +++ b/include/hw/pci/pci.h
->> @@ -480,6 +480,7 @@ void pci_for_each_bus(PCIBus *bus,
->>   
->>   PCIBus *pci_device_root_bus(const PCIDevice *d);
->>   const char *pci_root_bus_path(PCIDevice *dev);
->> +bool pci_root_bus_has_iommu(PCIBus *bus);
->>   PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn);
->>   int pci_qdev_find_device(const char *id, PCIDevice **pdev);
->>   void pci_bus_get_w64_range(PCIBus *bus, Range *range);
->> diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
->> index 52e038c019..64128e3a19 100644
->> --- a/include/hw/pci/pci_host.h
->> +++ b/include/hw/pci/pci_host.h
->> @@ -43,6 +43,7 @@ struct PCIHostState {
->>       uint32_t config_reg;
->>       bool mig_enabled;
->>       PCIBus *bus;
->> +    bool iommu;
->>   
->>       QLIST_ENTRY(PCIHostState) next;
->>   };
->>
-> Thanks
-> 
-> Eric
-> 
-> .
-> 
-
-Thanks
-
-Xingang
-
-.
+On 2021/2/12 下午11:02, LIU Zhiwei wrote:
+> This patchset implements the packed extension for RISC-V on QEMU.
+>
+> This patchset have passed all my direct Linux user mode cases(RV64) and
+> bare metal cases(RV32) on X86-64 Ubuntu host machine. I will later push
+> these test cases to my repo(https://github.com/romanheros/qemu.git
+> branch:packed-upstream-v1).
+>
+> I have ported packed extension on RISU, but I didn't find a simulator or
+> hardware to compare with. If anyone have one, please let me know.
+>
+> Features:
+>    * support specification packed extension v0.9.2(https://github.com/riscv/riscv-p-spec/)
+>    * support basic packed extension.
+>    * support Zp64.
+>
+> LIU Zhiwei (38):
+>    target/riscv: implementation-defined constant parameters
+>    target/riscv: Hoist vector functions
+>    target/riscv: Fixup saturate subtract function
+>    target/riscv: 16-bit Addition & Subtraction Instructions
+>    target/riscv: 8-bit Addition & Subtraction Instruction
+>    target/riscv: SIMD 16-bit Shift Instructions
+>    target/riscv: SIMD 8-bit Shift Instructions
+>    target/riscv: SIMD 16-bit Compare Instructions
+>    target/riscv: SIMD 8-bit Compare Instructions
+>    target/riscv: SIMD 16-bit Multiply Instructions
+>    target/riscv: SIMD 8-bit Multiply Instructions
+>    target/riscv: SIMD 16-bit Miscellaneous Instructions
+>    target/riscv: SIMD 8-bit Miscellaneous Instructions
+>    target/riscv: 8-bit Unpacking Instructions
+>    target/riscv: 16-bit Packing Instructions
+>    target/riscv: Signed MSW 32x32 Multiply and Add Instructions
+>    target/riscv: Signed MSW 32x16 Multiply and Add Instructions
+>    target/riscv: Signed 16-bit Multiply 32-bit Add/Subtract Instructions
+>    target/riscv: Signed 16-bit Multiply 64-bit Add/Subtract Instructions
+>    target/riscv: Partial-SIMD Miscellaneous Instructions
+>    target/riscv: 8-bit Multiply with 32-bit Add Instructions
+>    target/riscv: 64-bit Add/Subtract Instructions
+>    target/riscv: 32-bit Multiply 64-bit Add/Subtract Instructions
+>    target/riscv: Signed 16-bit Multiply with 64-bit Add/Subtract
+>      Instructions
+>    target/riscv: Non-SIMD Q15 saturation ALU Instructions
+>    target/riscv: Non-SIMD Q31 saturation ALU Instructions
+>    target/riscv: 32-bit Computation Instructions
+>    target/riscv: Non-SIMD Miscellaneous Instructions
+>    target/riscv: RV64 Only SIMD 32-bit Add/Subtract Instructions
+>    target/riscv: RV64 Only SIMD 32-bit Shift Instructions
+>    target/riscv: RV64 Only SIMD 32-bit Miscellaneous Instructions
+>    target/riscv: RV64 Only SIMD Q15 saturating Multiply Instructions
+>    target/riscv: RV64 Only 32-bit Multiply Instructions
+>    target/riscv: RV64 Only 32-bit Multiply & Add Instructions
+>    target/riscv: RV64 Only 32-bit Parallel Multiply & Add Instructions
+>    target/riscv: RV64 Only Non-SIMD 32-bit Shift Instructions
+>    target/riscv: RV64 Only 32-bit Packing Instructions
+>    target/riscv: configure and turn on packed extension from command line
+>
+>   target/riscv/cpu.c                      |   32 +
+>   target/riscv/cpu.h                      |    6 +
+>   target/riscv/helper.h                   |  332 ++
+>   target/riscv/insn32-64.decode           |   93 +-
+>   target/riscv/insn32.decode              |  285 ++
+>   target/riscv/insn_trans/trans_rvp.c.inc | 1224 +++++++
+>   target/riscv/internals.h                |   50 +
+>   target/riscv/meson.build                |    1 +
+>   target/riscv/packed_helper.c            | 3862 +++++++++++++++++++++++
+>   target/riscv/translate.c                |    3 +
+>   target/riscv/vector_helper.c            |   90 +-
+>   11 files changed, 5912 insertions(+), 66 deletions(-)
+>   create mode 100644 target/riscv/insn_trans/trans_rvp.c.inc
+>   create mode 100644 target/riscv/packed_helper.c
+>
 
