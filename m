@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E144135E768
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:06:53 +0200 (CEST)
-Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E314A35E76B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 22:09:05 +0200 (CEST)
+Received: from localhost ([::1]:46646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWPJF-0008Fe-0r
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38196)
+	id 1lWPLM-0001en-VW
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 16:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWPHn-0007k2-WA
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:05:25 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWPHi-0001WV-G8
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:05:23 -0400
-Received: by mail-ed1-x530.google.com with SMTP id m3so20869397edv.5
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 13:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=w9WQ94i88rm+4QKHz9Uv10CgwDXtuJgZNEwkeswXDsM=;
- b=xmASkibhkzNrGZKrnOkj+VsKs5uGWY0z+5ApxkQrUFJvg55VbY6R8dYcYC5pCUaDwH
- CePu0p/TipxIzUmi6flry5F8UlIbuOXdcsodLem80nYiJ7Jaco8EbCuvwYltP3CiMeoK
- vJ/+xK+2IMC5fPfcNdpnQraU7dzrFOQmjQHGhH4Rj4wieTm7zGPUeECqk/te1F2f8Kha
- jeCUOHq8oltg1tAjQ8z7NjSOmQdkoYIM0mYqMjMYU1eN8+NAy6Rg00D62US0v9sVoOjO
- xRT9BoYzQ6DN+wBo11y0kMKRKoknSx6OKlLSYZcxPYgrc0oudxMxcODx/Z3xvS9U5sBG
- jYWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=w9WQ94i88rm+4QKHz9Uv10CgwDXtuJgZNEwkeswXDsM=;
- b=ame6pmbFBjZbUHxkSv90JJACjmloJBW0FoU4kJCrrIXys8yKven5V0WMCQdnWJIeVA
- e6Of3ja0vfP9FibtmHTkWTi4plOsihMENlCBELsIiKqY5127Q35iLiizjnHIWQEZasEx
- +rRhRLgT7bDPrOJsphaMmXkzDY8o6d8OND0JJA5hcW9ZY1A2V8PGqzdASOTKmp2/3mdp
- 5qcoOGBJcT7AdRRcSrRJ3xoybDNpT6ckqRHwLI5IAmAGCxiTIYvWlNW2lN38Wi0akqzR
- +UTQss+ziQvgwFluLyUU7R2titFOj/MyqW2hrw1oB2E1oL2/UzdzRWReU74U16piWsNZ
- z3Cw==
-X-Gm-Message-State: AOAM533qTAjUbnUiGRPlYI6dfPC2KlIrm1i7scVDvHZ1p/RUYS98yM0u
- OFk1LDYK4LHyq9jp5o1r6ZaRHwrg7qwZvgRGckLCeuFTOyc=
-X-Google-Smtp-Source: ABdhPJyOPsg5TKmoZuhtmA7BQMQa6Tp6tdIjWDXPzX6vTwlm5Q5wodZzK/g+FBS2l4svsVdB+4xBEBr8utHfnGTlLiw=
-X-Received: by 2002:a05:6402:c15:: with SMTP id
- co21mr28720721edb.251.1618344316885; 
- Tue, 13 Apr 2021 13:05:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWPJy-0000lS-3B
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:07:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWPJv-00034C-TL
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 16:07:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618344454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h1kTwvZUJCVpH6Mv1ZWeZuUHlESleuA12pB8+hNypMA=;
+ b=JS9rxsyer7l5TzSK2EyQTR4wo0iV5vaSg5eCL+IYJPel3Kx4yHgPtqGgqLvJ+cDcVjQpQg
+ T9cQIgHi6kJkMlRV3zFX6QjaiDc4AvoJzYmqjLbgHi+436feGl9aJehbi3HSQd3Fupns57
+ dRj90vkIBohP1InnxKRqqECjbkxtm0k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-VHW-3OcNMrG4IlneVuKPkg-1; Tue, 13 Apr 2021 16:07:31 -0400
+X-MC-Unique: VHW-3OcNMrG4IlneVuKPkg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 737A283DD20
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 20:07:30 +0000 (UTC)
+Received: from localhost (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A7DA5D9D0;
+ Tue, 13 Apr 2021 20:07:29 +0000 (UTC)
+Date: Tue, 13 Apr 2021 21:07:29 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH RFC 4/7] message: add QMP Message type
+Message-ID: <YHX6AbETd6Idbq//@stefanha-x1.localdomain>
+References: <20210413155553.2660523-1-jsnow@redhat.com>
+ <20210413155553.2660523-5-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20210413120752.18699-1-peter.maydell@linaro.org>
-In-Reply-To: <20210413120752.18699-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Apr 2021 21:04:31 +0100
-Message-ID: <CAFEAcA9KVSvLWWTJwA14Lq2+aNoZ2pVBO-FzXGWB367Zy_qFZw@mail.gmail.com>
-Subject: Re: [PULL 0/3] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210413155553.2660523-5-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GmkueiTVkYIdGTBi"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,36 +79,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: armbru@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Apr 2021 at 13:07, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> A few last patches to go in for rc3...
->
-> The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210413
->
-> for you to fetch changes up to 2d18b4ca023ca1a3aee18064251d6e6e1084f3eb:
->
->   sphinx: qapidoc: Wrap "If" section body in a paragraph node (2021-04-13 10:14:58 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Fix MPC setting for AN524 SRAM block
->  * sphinx: qapidoc: Wrap "If" section body in a paragraph node
->
+--GmkueiTVkYIdGTBi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Apr 13, 2021 at 11:55:50AM -0400, John Snow wrote:
+> This is an abstraction that represents a single message either sent to
+> or received from the server. It is used to subclass the
+> AsyncProtocol(Generic[T]) type.
+>=20
+> It was written such that it can be populated by either raw data or by a
+> dict, with the other form being generated on-demand, as-needed.
+>=20
+> It behaves almost exactly like a dict, but has some extra methods and a
+> special constructor. (It should quack fairly convincingly.)
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  message.py | 196 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 196 insertions(+)
+>  create mode 100644 message.py
+>=20
+> diff --git a/message.py b/message.py
+> new file mode 100644
+> index 0000000..5c7e828
+> --- /dev/null
+> +++ b/message.py
+> @@ -0,0 +1,196 @@
+> +"""
+> +QMP Message format and errors.
+> +
+> +This module provides the `Message` class, which represents a single QMP
+> +message sent to or from the server. Several error-classes that depend on
+> +knowing the format of this message are also included here.
+> +"""
+> +
+> +import json
+> +from json import JSONDecodeError
+> +from typing import (
+> +    Dict,
+> +    ItemsView,
+> +    Iterable,
+> +    KeysView,
+> +    Optional,
+> +    Union,
+> +    ValuesView,
+> +)
+> +
+> +from error import (
+> +    DeserializationError,
+> +    ProtocolError,
+> +    UnexpectedTypeError,
+> +)
+> +
+> +
+> +class Message:
+> +    """
+> +    Represents a single QMP protocol message.
+> +
+> +    QMP uses JSON objects as its basic communicative unit; so this
+> +    object behaves like a MutableMapping. It may be instantiated from
+> +    either another mapping (like a dict), or from raw bytes that still
+> +    need to be deserialized.
+> +
+> +    :param value: Initial value, if any.
+> +    :param eager: When true, attempt to serialize (or deserialize) the
+> +                  initial value immediately, such that conversion except=
+ions
+> +                  are raised during the call to the initialization metho=
+d.
+> +    """
 
-Applied, thanks.
+Why define this class instead of using dicts? It's a very fancy way of
+calling json.dumps() and json.loads().
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+--GmkueiTVkYIdGTBi
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- PMM
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB1+gAACgkQnKSrs4Gr
+c8iKpQf/VGY8HhwmqT0AO8nW65Y3Zj03IbGl0WCDjoPvZtCxnXWO/e6+Uign/ZPn
+duimYSOIvA+KdluOdk6IgWJQ7utfUvuUFz5hA5dnbflNNK9I0iYQodCEduLU7NW+
+u554lJqoX9/noK13Exte7FEjPClOeyZ/ftYu6nxuXE3M4GZaceBurtMfWDzy0Ikk
+kQrC3ACRFhB2BwxgPrKFnkcYmHycqpkhrT1Gkq2Ueo27Kv5r6G0fKBnXkBXzdPi8
+LeAhBFmmCmrkJa38D2On2uQdpjDXply2HOjZl520v3Fh3N5J/C7nJT9Tb9w4ZX3S
+2LmAODamjkPvDjHTav8QuYGC4Lju5Q==
+=I6VY
+-----END PGP SIGNATURE-----
+
+--GmkueiTVkYIdGTBi--
+
 
