@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29B035DF8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:57:30 +0200 (CEST)
-Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91A335DF8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 14:58:22 +0200 (CEST)
+Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWIbi-000855-2w
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:57:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
+	id 1lWIcX-0000bv-PA
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 08:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lWIZU-0006XJ-23; Tue, 13 Apr 2021 08:55:12 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:39869)
+ id 1lWIZT-0006X4-Eb; Tue, 13 Apr 2021 08:55:11 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:36358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lWIZQ-0005OZ-OC; Tue, 13 Apr 2021 08:55:11 -0400
-Received: by mail-pl1-x630.google.com with SMTP id u7so6351974plr.6;
- Tue, 13 Apr 2021 05:55:04 -0700 (PDT)
+ id 1lWIZQ-0005Oy-PM; Tue, 13 Apr 2021 08:55:11 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id z22so3033375plo.3;
+ Tue, 13 Apr 2021 05:55:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LHW53rf2+oqyhXlEHeseRdK6e0I5YuBp7nhEacC0l/E=;
- b=QWMRGDRrSwLMRMp6hEVQiptYvaZ/WTpTh7+bPN/CbsEszzF/2oErtgWzxpW1gBFz4y
- ko42ABtGtgiEUBh1ih/cJHbg80N87HZbZvXueE33in/PV4jDAEYGWD3hLtJTUqq3B9GN
- 60PDEnA+LINkdXVUKuhg873jbSsSdTq3/nDzblDMpkuL91BZn1pCJOmGnf6S5RU7+ZCZ
- 4NndxFYttLwSAj20h7qE+zyM1QwtftySElbw5agB/gT4JOOoHAQ17oBY43VdYKYmeUjw
- Zsfej0IK2Vkwlta8uixvwg/ZDS1PhCzvOafXe0oYPNJp02DIor9T3ZbYRiynnt6q7bd4
- O+gg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZY/g1DDp//F/F5LFsGZagO1HYB3lEEm5TGBFu+93DlY=;
+ b=CSm3zibNli/5wDq9tkVE5rAHeDLx0bCpNheiif+MGFBDkdS3LYfPyMMd6zPaqzeSt1
+ G3TzsdlYBSaCSiV29Dm64o9slMT16CzhkF7eKFOwuE+vXZ3TdHtKt0T/JJWLYOzP8dLY
+ UUBLlUZfHvd2bveeQYP6lPg66TGYtGRE+gKRJkbK+yevY/sHWtDPT1bLdaUMGVAg2dMu
+ HKu/QKfbKX4iKuWV283JnJBwl1ndTyWwRRXpPXu/ILRLNE4o8wlw5B3fkg6N2AdmHT+q
+ axQkvQ9dByGqcTeweIEHfkQgS9VsmhntgTEUVwC9cRFTq8+lfhvWTXP5UVYBb0nI6VXX
+ TT6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LHW53rf2+oqyhXlEHeseRdK6e0I5YuBp7nhEacC0l/E=;
- b=Ov0MtdRgEap0LdviQuRqwlXSGlMOsbmw4YryIhm6GTVYSCUtAFhEYyMnm27C2oRSyD
- A7uh9cm6uU0KOpyQuGGopYn8iqnCMfkil3hBZ1xDjyj9iS1wPUCuH1nCFkMb7bv/WdKH
- MjIW+kqxnHcTAKHHSKqVy7yfMRMPFeHTcpQS+sTUJZ36445dl5+P98oPyQZCbGGxUwCa
- di6iZfNk30362S1wD0DWrPygfpcwf8BrhFSR4GLQ5n6cKGsmBoIO0RJUTqEBgHnHPZQt
- aNquUd0IFIh04hq7aoHw9Inyo78Njg/MTGAVrhNnc/POFGExrq2pWSd1LJyw6L7YEHty
- qufg==
-X-Gm-Message-State: AOAM531VQvwFG6Nn0FRBJP+gfxFGWoruzadNVysSuIkiOaai/0nq4akp
- ccqxsHZBz/VhgmE3qo6wsHTyQdqYCA8=
-X-Google-Smtp-Source: ABdhPJzGUAVqfBkzUcv6JvDxDaHLunlxtaSreVM01B0c2KnllxbKI9mMROKxxnY0O+M39kpqYlaVxA==
-X-Received: by 2002:a17:902:a589:b029:e9:21cc:4aac with SMTP id
- az9-20020a170902a589b02900e921cc4aacmr31892623plb.21.1618318503344; 
- Tue, 13 Apr 2021 05:55:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZY/g1DDp//F/F5LFsGZagO1HYB3lEEm5TGBFu+93DlY=;
+ b=mhIF4wEPK2xhZx2jxWr8UTVFi+uEY0rzrxNq77AULeJyblFPPaeTe6Fycs5BcgG3+g
+ OPQal4TzG9qt9i7aiPa8XzEtw/QB7TYeWaosrwLYSM9+tKBZFjsdg27mJSF7gSP36BDW
+ WxnJreZ0APq9znGgpjr2n9TTVGZ3kP/FMI9DqmsTH4FY2rlSvf0p1DLIUztT7N87XQVl
+ h4C5TMPB2vIQfrR4BgOWlltzdmrARp6wnr7AiUBnz4zv75QMvyhoerr6cx/m3GajinQ6
+ Z044czy14wRoo2CucAMJiyAsD6Bn1MeMHq6wYkzFMiGJ4xUJeLhYtNm8jpBIGCPhSocc
+ 35mw==
+X-Gm-Message-State: AOAM531y2/oIyVt1CavHjDcVOSrjf7/CVs+gZLA1Bbl0JecAxQm5w1KA
+ FjUkuxUVEVkdH4p8mWXrWzflk23PL7A=
+X-Google-Smtp-Source: ABdhPJxo7Momz6MM7/LHKPe81Zw3k2++L9Wg7JulItsJK//HmyRi7aShIgYG/8cc6mSzJDB5geGDwQ==
+X-Received: by 2002:a17:902:fe91:b029:eb:ad8:c5f with SMTP id
+ x17-20020a170902fe91b02900eb0ad80c5fmr8029266plm.63.1618318506690; 
+ Tue, 13 Apr 2021 05:55:06 -0700 (PDT)
 Received: from bobo.ozlabs.ibm.com (193-116-90-211.tpgi.com.au.
  [193.116.90.211])
- by smtp.gmail.com with ESMTPSA id s40sm9627352pfw.133.2021.04.13.05.54.58
+ by smtp.gmail.com with ESMTPSA id s40sm9627352pfw.133.2021.04.13.05.55.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 05:55:02 -0700 (PDT)
+ Tue, 13 Apr 2021 05:55:06 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v1 0/3] POWER9/POWER10 exception model fixes
-Date: Tue, 13 Apr 2021 22:54:45 +1000
-Message-Id: <20210413125448.1689545-1-npiggin@gmail.com>
+Subject: [PATCH v1 1/3] target/ppc: Fix POWER9 radix guest HV interrupt AIL
+ behaviour
+Date: Tue, 13 Apr 2021 22:54:46 +1000
+Message-Id: <20210413125448.1689545-2-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20210413125448.1689545-1-npiggin@gmail.com>
+References: <20210413125448.1689545-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=npiggin@gmail.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,28 +89,48 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@fr.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes a powernv9 bug, and several POWER10 bits (which affect
-powernv10 and pseries power10).
+ISA v3.0 radix guest execution has a quirk in AIL behaviour such that
+the LPCR[AIL] value can apply to hypervisor interrupts.
 
-I think I got the logic right but I didn't individually test and
-verify every case, so any glances over it would be appreciated.
+This affects machines that emulate HV=1 mode (i.e., powernv9).
 
-Thanks,
-Nick
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+ target/ppc/excp_helper.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Nicholas Piggin (3):
-  target/ppc: Fix POWER9 radix guest HV interrupt AIL behaviour
-  target/ppc: POWER10 supports scv
-  target/ppc: Add POWER10 exception model
-
- hw/ppc/spapr_hcall.c            |   5 ++
- target/ppc/cpu-qom.h            |   2 +
- target/ppc/cpu.h                |   5 +-
- target/ppc/excp_helper.c        | 111 ++++++++++++++++++++++++++++----
- target/ppc/translate.c          |   3 +-
- target/ppc/translate_init.c.inc |   4 +-
- 6 files changed, 111 insertions(+), 19 deletions(-)
-
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 85de7e6c90..b8881c0f85 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -791,14 +791,23 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+ #endif
+ 
+     /*
+-     * AIL only works if there is no HV transition and we are running
+-     * with translations enabled
++     * AIL only works if MSR[IR] and MSR[DR] are both enabled.
+      */
+-    if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1) ||
+-        ((new_msr & MSR_HVB) && !(msr & MSR_HVB))) {
++    if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
+         ail = 0;
+     }
+ 
++    /*
++     * AIL does not work if there is a MSR[HV] 0->1 transition and the
++     * partition is in HPT mode. For radix guests, such interrupts are
++     * allowed to be delivered to the hypervisor in ail mode.
++     */
++    if ((new_msr & MSR_HVB) && !(msr & MSR_HVB)) {
++        if (!(env->spr[SPR_LPCR] & LPCR_HR)) {
++            ail = 0;
++        }
++    }
++
+     vector = env->excp_vectors[excp];
+     if (vector == (target_ulong)-1ULL) {
+         cpu_abort(cs, "Raised an exception without defined vector %d\n",
 -- 
 2.23.0
 
