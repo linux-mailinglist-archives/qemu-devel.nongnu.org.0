@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF81735E4CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:17:29 +0200 (CEST)
-Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CE235E4B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:10:05 +0200 (CEST)
+Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWMfI-000525-Rh
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55878)
+	id 1lWMY8-0005r8-FB
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMT5-0002Dl-VL; Tue, 13 Apr 2021 13:04:51 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMT4-00081S-H6; Tue, 13 Apr 2021 13:04:51 -0400
-Received: by mail-wr1-x429.google.com with SMTP id m9so4442748wrx.3;
- Tue, 13 Apr 2021 10:04:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CKab1OeHMfAJeU/EsGt0YFVRl2woEZULiNYV2Vd3DHs=;
- b=UVR2QdpbahhOapaQUMRsBIdw+o6vJBW7VYq9dqmtztY7VKgpf/xWgnhz5i+nSbgPga
- GMhppFZxHBG6u7dFFTETMyNq3YTc/0Yz7lbhq/Bd8E+ERittwjVr4CzBrZXwhuQ4rZA+
- 6vVkOQaGQEz1DVKPZdcXEjXGYu+XHNZOuahcF+pOrG+aDnNOzG+KcQ43eKRBswZqtXoN
- p1mFTtJCJgWAKyN7drrakzILZd6X8+DrnbzrQrRadiIkTWTQM7YF+K6cef8gAwtDX8ka
- zTlQ4j7v0WC3wHKRPCZ4gyQH24bXGICTL9mOo+aeICyXQtGQrsacXAzYI75MPIvVYLHp
- z8LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CKab1OeHMfAJeU/EsGt0YFVRl2woEZULiNYV2Vd3DHs=;
- b=TKAQ+9lstOQoFHN/Fi/rUmz8z6xghK4Ky2387U+if2wwQLlnwgcXFVorUms5WkVupR
- MRL8mdj27tc1c3RWFIk0NjKC3jxQpRNZzHhjYzIDi5S2s5zMHByEtmJqEiRoDKEjKTzv
- duuGz7DyLD8OvRVb5UZWoBGUIa3WbIrOkbua8BM4lwdL2ipbL67D2F8wQLLwxGUo3Jkb
- NC2wURJpjSLtURgmZUbyuMzbcVYQmP84EI5+vl8bL6OeTGaSJXGeG84EZE6lFpEUmYfR
- +lQyKZttCYwQczcnb+ph+SXKhBHIjWiBWaOjb1qFTkg2Gj1ZhfCZOziBW8+QhDyqbf0f
- fI/A==
-X-Gm-Message-State: AOAM530G5iNI9KmCw4CD5woxW7RjpYfySFu7xjcTusT/14hUZoxPzsAs
- fmUGUUDXmzpQwUhg48wj4ZLmzDwLL94=
-X-Google-Smtp-Source: ABdhPJzAZvaYVXa7IDdn3C/+n3DIwu8Gfvap1Hweq+2e0rrNTewaYnO/Hr5zxRPbwoUSx/klSJ7buA==
-X-Received: by 2002:a05:6000:544:: with SMTP id
- b4mr38838372wrf.352.1618333488537; 
- Tue, 13 Apr 2021 10:04:48 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b206sm2984155wmc.15.2021.04.13.10.04.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 10:04:47 -0700 (PDT)
-Subject: Re: [PATCH 13/13] target/arm: Make translate-neon.c.inc its own
- compilation unit
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-14-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ed9cc659-f6f4-c89f-a1da-294903430fee@amsat.org>
-Date: Tue, 13 Apr 2021 19:04:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lWMUL-0003Bk-KO
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 13:06:09 -0400
+Resent-Date: Tue, 13 Apr 2021 13:06:09 -0400
+Resent-Message-Id: <E1lWMUL-0003Bk-KO@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21330)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lWMU6-0008Pq-BS
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 13:06:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618333544; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=l9mQOyLyhmsA17P0+0D1DllHpfqOFRuVSgN13P+atphY6LNsgbn30E7v5HgTpskdO46SKUZjwImHLk7heaCFo+q15k3rneOAqOMRsED7VhNIwnBWhQ6zLjFuSbem7Pdz5lfBqctYpvf3UwIcY5WyO+A0QectRLtWGHBoj+tY7BE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618333544;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Pikw0mGEw5p2rClQIuy9SSbTwv+BPOfbfvBUbAr6WnQ=; 
+ b=DF5iPpgpBBMUysRb66iSRkizZDGpuMYc0Pja4U4hGhGbP4vdLXO9+brJsH8fhG7b22C1k034K7XclxRSDeJzRn61tZRlW+debKPYbRhCRi1W8n/gbFNynhl6SD9XR8ohkb1y6ludlQLA8WRoDxaRSuAkZyv6Q2Xg+nAV105JdEI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618333536953223.87731431486793;
+ Tue, 13 Apr 2021 10:05:36 -0700 (PDT)
+In-Reply-To: <20210413160850.240064-1-pbonzini@redhat.com>
+Subject: Re: [PULL v2 0/3] osdep.h + QOM changes for QEMU 6.0-rc3
+Message-ID: <161833353579.10350.18278026278164568995@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <20210413160759.5917-14-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Tue, 13 Apr 2021 10:05:36 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,21 +67,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 6:07 PM, Peter Maydell wrote:
-> Switch translate-neon.c.inc from being #included into translate.c
-> to being its own compilation unit.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate-a32.h                           |  3 +++
->  .../arm/{translate-neon.c.inc => translate-neon.c}   | 12 +++++++-----
->  target/arm/translate.c                               |  3 ---
->  target/arm/meson.build                               |  7 ++++---
->  4 files changed, 14 insertions(+), 11 deletions(-)
->  rename target/arm/{translate-neon.c.inc => translate-neon.c} (99%)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxMzE2MDg1MC4yNDAw
+NjQtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTMxNjA4NTAuMjQw
+MDY0LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCB2MiAwLzNdIG9zZGVwLmgg
+KyBRT00gY2hhbmdlcyBmb3IgUUVNVSA2LjAtcmMzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
+bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
+UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
+MzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjQ4NzcyMmEgcWFwaS9xb20uanNv
+bjogRG8gbm90IHVzZSBDT05GSUdfVklSVElPX0NSWVBUTyBpbiBjb21tb24gY29kZQo1ODhmNjFm
+IG9zZGVwOiBwcm90ZWN0IHFlbXUvb3NkZXAuaCB3aXRoIGV4dGVybiAiQyIKNTMxNjMyNyBvc2Rl
+cDogaW5jbHVkZSBnbGliLWNvbXBhdC5oIGJlZm9yZSBvdGhlciBRRU1VIGhlYWRlcnMKCj09PSBP
+VVRQVVQgQkVHSU4gPT09CjEvMyBDaGVja2luZyBjb21taXQgNTMxNjMyNzUxOWE3IChvc2RlcDog
+aW5jbHVkZSBnbGliLWNvbXBhdC5oIGJlZm9yZSBvdGhlciBRRU1VIGhlYWRlcnMpCjIvMyBDaGVj
+a2luZyBjb21taXQgNTg4ZjYxZmVhOWFlIChvc2RlcDogcHJvdGVjdCBxZW11L29zZGVwLmggd2l0
+aCBleHRlcm4gIkMiKQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91
+bGQgYmUgYXZvaWRlZAojNTE6IEZJTEU6IGluY2x1ZGUvcWVtdS9jb21waWxlci5oOjE0OgorI2lm
+ZGVmIF9fY3BsdXNwbHVzCgpFUlJPUjogc3RvcmFnZSBjbGFzcyBzaG91bGQgYmUgYXQgdGhlIGJl
+Z2lubmluZyBvZiB0aGUgZGVjbGFyYXRpb24KIzUyOiBGSUxFOiBpbmNsdWRlL3FlbXUvY29tcGls
+ZXIuaDoxNToKKyNkZWZpbmUgUUVNVV9FWFRFUk5fQyBleHRlcm4gIkMiCgpFUlJPUjogc3RvcmFn
+ZSBjbGFzcyBzaG91bGQgYmUgYXQgdGhlIGJlZ2lubmluZyBvZiB0aGUgZGVjbGFyYXRpb24KIzU0
+OiBGSUxFOiBpbmNsdWRlL3FlbXUvY29tcGlsZXIuaDoxNzoKKyNkZWZpbmUgUUVNVV9FWFRFUk5f
+QyBleHRlcm4KCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBi
+ZSBhdm9pZGVkCiM3NzogRklMRTogaW5jbHVkZS9xZW11L29zZGVwLmg6MTE2OgorI2lmZGVmIF9f
+Y3BsdXNwbHVzCgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQg
+YmUgYXZvaWRlZAojODg6IEZJTEU6IGluY2x1ZGUvcWVtdS9vc2RlcC5oOjczMDoKKyNpZmRlZiBf
+X2NwbHVzcGx1cwoKdG90YWw6IDIgZXJyb3JzLCAzIHdhcm5pbmdzLCA0NyBsaW5lcyBjaGVja2Vk
+CgpQYXRjaCAyLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
+IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
+dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMyBDaGVja2luZyBjb21t
+aXQgNDg3NzIyYTNkNGVmIChxYXBpL3FvbS5qc29uOiBEbyBub3QgdXNlIENPTkZJR19WSVJUSU9f
+Q1JZUFRPIGluIGNvbW1vbiBjb2RlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
+eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8yMDIxMDQxMzE2MDg1MC4yNDAwNjQtMS1wYm9uemluaUByZWRoYXQu
+Y29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
+IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
+c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
