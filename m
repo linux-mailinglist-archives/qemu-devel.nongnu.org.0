@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C5C35D9A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:10:04 +0200 (CEST)
-Received: from localhost ([::1]:37048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4B735D9A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 10:09:49 +0200 (CEST)
+Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWE7X-0006EF-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:10:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
+	id 1lWE7I-0005k3-8E
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 04:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lWE5m-00049k-M5; Tue, 13 Apr 2021 04:08:14 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:5030)
+ id 1lWE5k-00045x-Gj; Tue, 13 Apr 2021 04:08:12 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:5032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1lWE5h-0006Pv-Fc; Tue, 13 Apr 2021 04:08:14 -0400
+ id 1lWE5h-0006Qh-77; Tue, 13 Apr 2021 04:08:12 -0400
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FKJ8H2l5fzlXcW;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FKJ8H3Jb8zlXd8;
  Tue, 13 Apr 2021 16:06:07 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 13 Apr 2021 16:07:51 +0800
+ 14.3.498.0; Tue, 13 Apr 2021 16:07:52 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v2 2/6] hw/arm/virt: DT: Add cpu-map
-Date: Tue, 13 Apr 2021 16:07:41 +0800
-Message-ID: <20210413080745.33004-3-wangyanan55@huawei.com>
+Subject: [RFC PATCH v2 3/6] hw/arm/virt-acpi-build: Distinguish possible and
+ present cpus
+Date: Tue, 13 Apr 2021 16:07:42 +0800
+Message-ID: <20210413080745.33004-4-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210413080745.33004-1-wangyanan55@huawei.com>
 References: <20210413080745.33004-1-wangyanan55@huawei.com>
@@ -60,105 +61,95 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
  Yanan Wang <wangyanan55@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>, prime.zeng@hisilicon.com,
  yangyicong@huawei.com, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+ Igor Mammedov <imammedo@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ zhukeqian1@huawei.com, Jiajie Li <lijiajie11@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+From: Ying Fang <fangying1@huawei.com>
 
-Support device tree CPU topology descriptions.
+When building ACPI tables regarding CPUs we should always build
+them for the number of possible CPUs, not the number of present
+CPUs. We then ensure only the present CPUs are enabled in MADT.
+Furthermore, it is also needed if we are going to support CPU
+hotplug in the future.
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
+This patch is a rework based on Andrew Jones's contribution at
+https://lists.gnu.org/archive/html/qemu-arm/2018-07/msg00076.html
+
+Signed-off-by: Ying Fang <fangying1@huawei.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/arm/virt.c         | 41 ++++++++++++++++++++++++++++++++++++++++-
- include/hw/arm/virt.h |  1 +
- 2 files changed, 41 insertions(+), 1 deletion(-)
+ hw/arm/virt-acpi-build.c | 14 ++++++++++----
+ hw/arm/virt.c            |  3 +++
+ 2 files changed, 13 insertions(+), 4 deletions(-)
 
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index f5a2b2d4cb..2ad5dad1bf 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -61,13 +61,16 @@
+ 
+ static void acpi_dsdt_add_cpus(Aml *scope, VirtMachineState *vms)
+ {
+-    MachineState *ms = MACHINE(vms);
++    CPUArchIdList *possible_cpus = MACHINE(vms)->possible_cpus;
+     uint16_t i;
+ 
+-    for (i = 0; i < ms->smp.cpus; i++) {
++    for (i = 0; i < possible_cpus->len; i++) {
+         Aml *dev = aml_device("C%.03X", i);
+         aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
+         aml_append(dev, aml_name_decl("_UID", aml_int(i)));
++        if (possible_cpus->cpus[i].cpu == NULL) {
++            aml_append(dev, aml_name_decl("_STA", aml_int(0)));
++        }
+         aml_append(scope, dev);
+     }
+ }
+@@ -479,6 +482,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     const int *irqmap = vms->irqmap;
+     AcpiMadtGenericDistributor *gicd;
+     AcpiMadtGenericMsiFrame *gic_msi;
++    CPUArchIdList *possible_cpus = MACHINE(vms)->possible_cpus;
+     int i;
+ 
+     acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
+@@ -489,7 +493,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     gicd->base_address = cpu_to_le64(memmap[VIRT_GIC_DIST].base);
+     gicd->version = vms->gic_version;
+ 
+-    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
++    for (i = 0; i < possible_cpus->len; i++) {
+         AcpiMadtGenericCpuInterface *gicc = acpi_data_push(table_data,
+                                                            sizeof(*gicc));
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
+@@ -504,7 +508,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         gicc->cpu_interface_number = cpu_to_le32(i);
+         gicc->arm_mpidr = cpu_to_le64(armcpu->mp_affinity);
+         gicc->uid = cpu_to_le32(i);
+-        gicc->flags = cpu_to_le32(ACPI_MADT_GICC_ENABLED);
++        if (possible_cpus->cpus[i].cpu != NULL) {
++            gicc->flags = cpu_to_le32(ACPI_MADT_GICC_ENABLED);
++        }
+ 
+         if (arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
+             gicc->performance_interrupt = cpu_to_le32(PPI(VIRTUAL_PMU_IRQ));
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 9f01d9041b..f4ae60ded9 100644
+index f4ae60ded9..3e5d9b6f26 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -352,10 +352,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-     int cpu;
-     int addr_cells = 1;
-     const MachineState *ms = MACHINE(vms);
-+    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-     int smp_cpus = ms->smp.cpus;
- 
-     /*
--     * From Documentation/devicetree/bindings/arm/cpus.txt
-+     *  See Linux Documentation/devicetree/bindings/arm/cpus.yaml
-      *  On ARM v8 64-bit systems value should be set to 2,
-      *  that corresponds to the MPIDR_EL1 register size.
-      *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
-@@ -408,8 +409,45 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-                 ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
+@@ -2063,6 +2063,9 @@ static void machvirt_init(MachineState *machine)
          }
  
-+        if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
-+            qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-+                                  qemu_fdt_alloc_phandle(ms->fdt));
-+        }
+         qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
 +
-         g_free(nodename);
++        /* Initialize cpu member here since cpu hotplug is not supported yet */
++        machine->possible_cpus->cpus[n].cpu = cpuobj;
+         object_unref(cpuobj);
      }
-+
-+    if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
-+        /*
-+         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
-+         * In a SMP system, the hierarchy of CPUs is defined through four
-+         * entities that are used to describe the layout of physical CPUs
-+         * in the system: socket/cluster/core/thread.
-+         */
-+        qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
-+
-+        for (cpu = ms->smp.cpus - 1; cpu >= 0; cpu--) {
-+            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
-+            char *map_path;
-+
-+            if (ms->smp.threads > 1) {
-+                map_path = g_strdup_printf(
-+                    "/cpus/cpu-map/%s%d/%s%d/%s%d",
-+                    "socket", cpu / (ms->smp.cores * ms->smp.threads),
-+                    "core", (cpu / ms->smp.threads) % ms->smp.cores,
-+                    "thread", cpu % ms->smp.threads);
-+            } else {
-+                map_path = g_strdup_printf(
-+                    "/cpus/cpu-map/%s%d/%s%d",
-+                    "socket", cpu / ms->smp.cores,
-+                    "core", cpu % ms->smp.cores);
-+            }
-+            qemu_fdt_add_path(ms->fdt, map_path);
-+            qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-+            g_free(map_path);
-+            g_free(cpu_path);
-+        }
-+    }
- }
- 
- static void fdt_add_its_gic_node(VirtMachineState *vms)
-@@ -2769,6 +2807,7 @@ static void virt_machine_5_2_options(MachineClass *mc)
-     virt_machine_6_0_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-     vmc->no_secure_gpio = true;
-+    vmc->no_cpu_topology = true;
- }
- DEFINE_VIRT_MACHINE(5, 2)
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 921416f918..4a4b98e4a7 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -129,6 +129,7 @@ struct VirtMachineClass {
-     bool no_kvm_steal_time;
-     bool acpi_expose_flash;
-     bool no_secure_gpio;
-+    bool no_cpu_topology;
- };
- 
- struct VirtMachineState {
+     fdt_add_timer_nodes(vms);
 -- 
 2.19.1
 
