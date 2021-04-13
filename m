@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CC935D8FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 09:36:39 +0200 (CEST)
-Received: from localhost ([::1]:34130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267DC35D932
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 09:45:32 +0200 (CEST)
+Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWDbC-0008LT-PI
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 03:36:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
+	id 1lWDjm-0003q7-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 03:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lWDZ9-0007VO-V9
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 03:34:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23219)
+ id 1lWDhQ-0002aX-SD
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 03:43:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lWDZ7-0002OS-Ph
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 03:34:31 -0400
+ id 1lWDhO-0007v8-T8
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 03:43:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618299269;
+ s=mimecast20190719; t=1618299781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kHV9sd/ZVAzmMSc8NRqeuxFbEImuUGUHQ7aQYB2Y4x8=;
- b=QCEan1yjVO3dvJB6XOoExF81Kv5rHltPBZyy13D3ziDUmFHq2kA8tqRJIxhCTdwlFvc0+N
- nK4L+HvOC0tB4Li/FyIaRqH9n7yz4/XXu29b+5GqjmKhCKA8MPkkjpDMAtOmj/wgA7qErQ
- DqJfjg+82kf8LXc+pKeQsUzNDyGd0Tk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-vbqwZsy_MKuPnA5QZGk5rA-1; Tue, 13 Apr 2021 03:34:27 -0400
-X-MC-Unique: vbqwZsy_MKuPnA5QZGk5rA-1
-Received: by mail-ej1-f70.google.com with SMTP id cx17so1943055ejb.4
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 00:34:27 -0700 (PDT)
+ bh=5yC8v9ZvdH8D2K8zK/fEPoB18ELwnWFrqgdwsmRFqnk=;
+ b=YRR2ZbFDH18k7VU4WCC2OVh7odWwHklHBzCmVHerkScCJStEUc5oU5xqBsF3bz97VYKq5s
+ /mBJgl9xAxa7bpOVIbxprvTaPaXMs8t7zt5ld1hnSC/D4FPk5Vk7Ns5V2bpfO35bzvof4c
+ n4xqAfLQLQIHcZatp4QLcVtAB4qM7/0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-_lYoueXMPo2aLFLvzjxw-Q-1; Tue, 13 Apr 2021 03:43:00 -0400
+X-MC-Unique: _lYoueXMPo2aLFLvzjxw-Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ r15-20020a50aacf0000b0290381d5d3eb2fso816159edc.7
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 00:42:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kHV9sd/ZVAzmMSc8NRqeuxFbEImuUGUHQ7aQYB2Y4x8=;
- b=OzifiwPjgSndXltO5RhDdKAwB3gVSVaQaT3z4OenmSercb6B84kgTzNS/jzwI6H/4p
- OqY7ZZExFISaaqnPCtaqK2cuGiW/nV8qcqUY4hZY16xXXAAQrBSRvyz2VLcb7SF+iOql
- O3t3K4XIfYAwn2bjVJcnqu02B97dfDviZWD2goylm2nWJY7N5xS6ZTnWfArCD119h2lV
- aZKYfRdKXuFjl8MPzIH20rbQvJb+U3OHbOWKs5oJRVt7/HyTN81miF3IHRX16dQZQk9v
- OMpin8Ynb/LRl659LzMRYqeYZc7w+IR8NJbUj1B0Mo1MkvOUm/l9lnkdZNw0bC7IVQqc
- v0sQ==
-X-Gm-Message-State: AOAM532h239WNJH10f2fT148jdtQ2bOgu/304C+LbJzcKj5MkvcVQdwB
- Alne846e2nVROFikGVmnlH70DAy5HA6xDRnjrTuGjy/GhxR2VQi/p+cI+lkb7wur0/zaic/5k98
- xU/Oi8bzydsKuBMY=
-X-Received: by 2002:a17:906:5e15:: with SMTP id
- n21mr5167576eju.57.1618299266209; 
- Tue, 13 Apr 2021 00:34:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0jzPyfR8iJGOZva9gWEn99qUU6b4Qglz2nZtDZDXTLhmWleYjK8N7/Y5uu18CMBEVIiMxBA==
-X-Received: by 2002:a17:906:5e15:: with SMTP id
- n21mr5167559eju.57.1618299266034; 
- Tue, 13 Apr 2021 00:34:26 -0700 (PDT)
+ bh=5yC8v9ZvdH8D2K8zK/fEPoB18ELwnWFrqgdwsmRFqnk=;
+ b=UXXldnaQLixp34rAjLQgNUlHZ6LuyCYWcvnmijSFbXD9TVQ4WFxTrsG5Dj4j+ac/yY
+ NDy64aRLiOfmLU7ybyyOhuV5TWtjcRM2JU15ArJdbjvkGxz+ziCZZ1DJ+yvLzuV538Eb
+ 9KzeRau+ai+JbGxKLgXnnq7uHIAhdQuVyMCby1DQWCSowVFWVFWqr2SnvUocv9/VbJ0C
+ nuG7MKCd7qRfAubMbfBJXyQ/vJeKC5VzQZOLHys81x3uKkJK7DixnSNBwzRtYDK5r0XF
+ hUKQo+/ILXy02+3uC3Ar4dMxaotFiEDTnHWWVSI09o0OEmJtUWDWkifNBItb7kye75eB
+ O5SA==
+X-Gm-Message-State: AOAM530SoEskYxmmeKS9QYiqZV1BmVYm0EB1LCqRU8pnbLInznfe66Tm
+ SF4fRmmPd1JN99jkhGtuTY2hCoZlJ2HvJAdPGE0ShQqdMps5Aqqe7GhBebpNruMFaKIkRHOi4Bk
+ cAR+buqwWPwyTAq0=
+X-Received: by 2002:a05:6402:4395:: with SMTP id
+ o21mr32676783edc.22.1618299778872; 
+ Tue, 13 Apr 2021 00:42:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJRUQCXzP6wYtT0bA0ZuNiFUcC3JhsukJFOqPaP+Ln2Blr+TTKyEcBnS5ZqZ1A6530NiIVLA==
+X-Received: by 2002:a05:6402:4395:: with SMTP id
+ o21mr32676764edc.22.1618299778708; 
+ Tue, 13 Apr 2021 00:42:58 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u1sm8385860edv.90.2021.04.13.00.34.25
+ by smtp.gmail.com with ESMTPSA id hc43sm7349200ejc.97.2021.04.13.00.42.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 00:34:25 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] docs/devel/qgraph: add troubleshooting information
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20210412143437.727560-1-stefanha@redhat.com>
+ Tue, 13 Apr 2021 00:42:58 -0700 (PDT)
+Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
+ Policy document
+To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210331150527.14857-1-pbonzini@redhat.com>
+ <YG2ILNrmn0+vVVKJ@merkur.fritz.box> <87wnteus7k.fsf@linaro.org>
+ <YG3SyTLha8a9Itlo@merkur.fritz.box>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6c4a9afa-55aa-4778-fa62-a49cbc55be28@redhat.com>
-Date: Tue, 13 Apr 2021 09:34:24 +0200
+Message-ID: <c388d16d-4230-c828-08e0-d3c684f88106@redhat.com>
+Date: Tue, 13 Apr 2021 09:42:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210412143437.727560-1-stefanha@redhat.com>
+In-Reply-To: <YG3SyTLha8a9Itlo@merkur.fritz.box>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +84,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,35 +106,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ berrange@redhat.com, qemu-devel@nongnu.org, agraf@csgraf.de,
+ stefanha@redhat.com, afaerber@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/04/21 16:34, Stefan Hajnoczi wrote:
-> v2:
->   * Fix "will unavailable" typo [Thomas]
-> 
-> I recently needed to troubleshoot a case where qos-test terminated immediately
-> with no output. In other words, qos-test decided that no tests are runnable.
-> 
-> After lots of head scratching and some help from Emanuele it turned out that
-> the machine types weren't being detected as expected.
-> 
-> These patches add documentation about how to troubleshoot similar cases in the
-> future.
-> 
-> Stefan Hajnoczi (2):
->    libqos/qgraph: fix "UNAVAILBLE" typo
->    docs/devel/qgraph: add troubleshooting information
-> 
->   docs/devel/qgraph.rst       | 58 +++++++++++++++++++++++++++++++++++++
->   tests/qtest/libqos/qgraph.c |  2 +-
->   2 files changed, 59 insertions(+), 1 deletion(-)
-> 
+On 07/04/21 17:42, Kevin Wolf wrote:
+>> +* Publishing other's private information, such as physical or electronic
+>> +addresses, without explicit permission
+>
+> Yes, it's pretty clear that I'm not publishing new information about
+> people when I'm keeping them in Cc: when replying to a thread, or even
+> when they posted in another thread on the list recently. It becomes much
+> less clear for adding people who aren't usually part of the QEMU
+> community.
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+If you took the email from, say, the Libvirt or kernel mailing lists, 
+that would not be considered private.  If somebody has two email 
+addresses and you deliberately Cc him on an address that he's only using 
+for communications within his family, that would be a problem.
 
-Thanks, this is helpful.
+I agree that this doxing is unlikely to happen since our communication 
+revolves on email and we generally don't accept pseudonymous 
+contributions.  But even there, we have had historically a couple 
+exceptions to the no-pseudonyms rule.
 
 Paolo
 
