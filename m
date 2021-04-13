@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F6835E845
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:26:51 +0200 (CEST)
-Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7377735E863
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:39:03 +0200 (CEST)
+Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWQYc-0008JS-6U
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53502)
+	id 1lWQkQ-0003pr-If
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:39:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lWQPH-0001ac-Ix
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:17:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lWQPD-00015u-CN
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:17:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618348625;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kwEj9Pm31OEKK5FV08L4xYAJcbIWD7HkfQPGDvgtKzo=;
- b=BA96A6hgzOa6ucR+xqWREtfDnp+FO6UaCiAv7BVoAWkfq96T92c2gcWmOHhBl0ybesZxbH
- j5vH98ha6qCfqH2AmXnnipgs7gaVfIctkGd2+Fi+506506JHj6u1C6NtIEoMWFppYqo05f
- wf18wHBDYAn138H7C/tuzclZHSdP5s4=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-96IEo59gPFeamGMjYDR5ZA-1; Tue, 13 Apr 2021 17:17:02 -0400
-X-MC-Unique: 96IEo59gPFeamGMjYDR5ZA-1
-Received: by mail-pj1-f71.google.com with SMTP id
- oc5-20020a17090b1c05b029014c095a5149so7457157pjb.2
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 14:17:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kwEj9Pm31OEKK5FV08L4xYAJcbIWD7HkfQPGDvgtKzo=;
- b=mMWEkEhYLHt12gejJfmOfYIfj/vcZAOmJOu9pWhyzY4jJdGz1bDPwuIKRsLJH/jskx
- hksEQ7m3FrUo5LCFQ9QUf8Y5THQhsOYuzSDK5+BdcypMAigJO/G0MgShdWOmR0tBjbgF
- bFrdHsDcIorE4ulc6/9PL+bi5tJ7xHN0UxnCAcEgaAq8IT0X3Qz7qJHOiDDGNJO2H9NF
- 9FeIQcMzvhUcWxRxD3STDxyF8joQF7t2RQ3gmICwN+74WzpWJ3fe0AzE4Q2THrgoK+c2
- lPBckb3PdwB7DWiGGaBM06fJrOE2PJDhasvWvVyTMpsyWk6Ix0Lqrc7p/oRUYM60DGT2
- O0Ug==
-X-Gm-Message-State: AOAM530CetTEzZdzCi/s8UOvE8HRSNpditxC2orPM2aHfWPxPvM/RK6v
- SnEkqL//U9haSgjauOpBs5yLt6MAp8tZD3JweWqQW2c2vZprMxMDwKJSoAz+0zha/N6wmBtXkdH
- 35fgYIMUqjIbaeJBB7ZdW6emEVSh9My8=
-X-Received: by 2002:aa7:8584:0:b029:24b:7946:cb83 with SMTP id
- w4-20020aa785840000b029024b7946cb83mr13732160pfn.59.1618348621519; 
- Tue, 13 Apr 2021 14:17:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzX/mjYP/Oe0mX2xuFsHQdRu+2JPK1PSAaFGvjLztd9Akh6wYIV0UUd5ucbuf0qC1aRo34xQlpP0hhBVFYG2Fo=
-X-Received: by 2002:aa7:8584:0:b029:24b:7946:cb83 with SMTP id
- w4-20020aa785840000b029024b7946cb83mr13732136pfn.59.1618348621174; Tue, 13
- Apr 2021 14:17:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWQh4-0002Re-J3
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:35:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWQh1-0003jX-H0
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:35:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lWQgz-0005PS-73
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 21:35:29 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 29DE12E8050
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 21:35:29 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210331150527.14857-1-pbonzini@redhat.com>
- <YHXF3A/Nd2AcpazN@redhat.com>
-In-Reply-To: <YHXF3A/Nd2AcpazN@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 13 Apr 2021 23:16:48 +0200
-Message-ID: <CABgObfY=_3DMy=Nhhz4b0KVxzqTmun=dZ+y7o4Y+5T0vdN2kiA@mail.gmail.com>
-Subject: Re: [PATCH] docs: Add a QEMU Code of Conduct and Conflict Resolution
- Policy document
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b031fd05bfe1263a"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Apr 2021 21:29:45 -0000
+From: Ed Davison <1923497@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ebdavison imammedo
+X-Launchpad-Bug-Reporter: Ed Davison (ebdavison)
+X-Launchpad-Bug-Modifier: Ed Davison (ebdavison)
+References: <161825934506.9582.2393035423485633300.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161834938509.17765.14119628731216209208.malone@wampee.canonical.com>
+Subject: [Bug 1923497] Re: bios_linker_loader_add_checksum: Assertion
+ `start_offset < file->blob->len' failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
+X-Launchpad-Hash: 30a33164aeb9b389b0e64727e330ab9762a4aa8f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,88 +70,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Maydell, Peter" <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Graf, Alexander" <agraf@csgraf.de>,
- "Hajnoczi, Stefan" <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- afaerber <afaerber@suse.de>
+Reply-To: Bug 1923497 <1923497@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b031fd05bfe1263a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hmmm.  Well, I don't know what the command line was.  I use Virtual
+Machine Manager (virt-manager.org) for my interface to the VM and it
+does the startup.  The error shows up when I start the VM.
 
-Il mar 13 apr 2021, 18:25 Daniel P. Berrang=C3=A9 <berrange@redhat.com> ha
-scritto:
+-- =
 
-> Since this was derived from the Fedora CoC, you might be interested to
-> know that Fedora is currently revisiting its CoC:
->
->
-> https://communityblog.fedoraproject.org/policy-proposal-new-code-of-condu=
-ct/
->
-> The first comment on that post from mattdm gives clarity as to why they
-> feel the need to revisit it
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923497
 
+Title:
+  bios_linker_loader_add_checksum: Assertion `start_offset <
+  file->blob->len' failed
 
-Interesting, thanks. Indeed the changes that I brought over from the
-Contributor Covenant (and that were also there, albeit more verbosely, in
-the Django code of conduct) have the purpose of making the text more
-specific in case "being excellent to each other" just isn't enough. We also
-have the separate conflict resolution guide that covers the third point
-that Matt made in his post.
+Status in QEMU:
+  New
 
-Having some confirmation that those things *were* missing from the current
-Fedora CoC is good. In fact in the meanwhile I found a few other cases
-(such as the Microsoft open source code of conduct,
-https://opensource.microsoft.com/codeofconduct/) that merged a less
-prescriptive text ultimately derived from Fedora with parts of the
-Contributor Covenant, so it looks like others have had the same idea in the
-past.
+Bug description:
+  Trying boot/start a Windows 10 VM.  Worked until recently when this
+  error started showing up.
 
-Paolo
+  I have the following installed on Fedora 33:
+  qemu-kvm-5.1.0-9.fc33.x86_64
 
->
+  This is the error:
 
---000000000000b031fd05bfe1263a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  Error starting domain: internal error: process exited while connecting
+  to monitor: qemu-system-x86_64:
+  /builddir/build/BUILD/qemu-5.1.0/hw/acpi/bios-linker-loader.c:239:
+  bios_linker_loader_add_checksum: Assertion `start_offset <
+  file->blob->len' failed.
 
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Il mar 13 apr 2021, 18:25 Daniel P. Berrang=C3=A9 &lt;<a href=
-=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; ha scritto:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">Since this was derived from the Fedora=
- CoC, you might be interested to<br>
-know that Fedora is currently revisiting its CoC:<br>
-<br>
-=C2=A0 <a href=3D"https://communityblog.fedoraproject.org/policy-proposal-n=
-ew-code-of-conduct/" rel=3D"noreferrer noreferrer" target=3D"_blank">https:=
-//communityblog.fedoraproject.org/policy-proposal-new-code-of-conduct/</a><=
-br>
-<br>
-The first comment on that post from mattdm gives clarity as to why they<br>
-feel the need to revisit it</blockquote></div></div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Interesting, thanks. Indeed the changes that I broug=
-ht over from the Contributor Covenant (and that were also there, albeit mor=
-e verbosely, in the Django code of conduct) have the purpose of making the =
-text more specific in case &quot;being excellent to each other&quot; just i=
-sn&#39;t enough. We also have the separate conflict resolution guide that c=
-overs the third point that Matt made in his post.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Having some confirmation that those things *were*=
- missing from the current Fedora CoC is good. In fact in the meanwhile I fo=
-und a few other cases (such as the Microsoft open source code of conduct, <=
-a href=3D"https://opensource.microsoft.com/codeofconduct/">https://opensour=
-ce.microsoft.com/codeofconduct/</a>) that merged a less prescriptive text u=
-ltimately derived from Fedora with parts of the Contributor Covenant, so it=
- looks like others have had the same idea in the past.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><div class=3D"g=
-mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
+  Traceback (most recent call last):
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 65, in cb_=
+wrapper
+      callback(asyncjob, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 101, in tm=
+pcb
+      callback(*args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
+e 57, in newfn
+      ret =3D fn(self, *args, **kwargs)
+    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1329,=
+ in startup
+      self._backend.create()
+    File "/usr/lib64/python3.9/site-packages/libvirt.py", line 1234, in cre=
+ate
+      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
+=3Dself)
+  libvirt.libvirtError: internal error: process exited while connecting to =
+monitor: qemu-system-x86_64: /builddir/build/BUILD/qemu-5.1.0/hw/acpi/bios-=
+linker-loader.c:239: bios_linker_loader_add_checksum: Assertion `start_offs=
+et < file->blob->len' failed.
 
---000000000000b031fd05bfe1263a--
+  I see this were referenced in a patch from some time ago and
+  supposedly fixed.  Here is the patch info I was able to find:
 
+  http://next.patchew.org/QEMU/1515677902-23436-1-git-send-email-
+  peter.maydell@linaro.org/1515677902-23436-10-git-send-email-
+  peter.maydell@linaro.org/
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923497/+subscriptions
 
