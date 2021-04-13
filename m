@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B14935E4AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:08:14 +0200 (CEST)
-Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF81735E4CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:17:29 +0200 (CEST)
+Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWMWL-0003dA-5M
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
+	id 1lWMfI-000525-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:17:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMSX-0001gS-S0; Tue, 13 Apr 2021 13:04:17 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42541)
+ id 1lWMT5-0002Dl-VL; Tue, 13 Apr 2021 13:04:51 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMSW-0007qN-B1; Tue, 13 Apr 2021 13:04:17 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- b136-20020a1c1b8e0000b029012c69da2040so1754618wmb.1; 
- Tue, 13 Apr 2021 10:04:15 -0700 (PDT)
+ id 1lWMT4-00081S-H6; Tue, 13 Apr 2021 13:04:51 -0400
+Received: by mail-wr1-x429.google.com with SMTP id m9so4442748wrx.3;
+ Tue, 13 Apr 2021 10:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1SiDznujmph2PhKe0GmO0eFLJOamtyyulZL/S6s0YWg=;
- b=h0GnWojaCwyQAu+w0cMKVur22/8E25BgbQP8jNeOQ0Gt6Frx6ud1eXzShrg5Cnx84o
- qe9PodaaJtczYqdJ7FCgkR8+ergFPH9BeNh2AtHjIGtvwDbSdm9vDzedsDQh6B+N+6pk
- 6krCCWOps7daXTx06njgjBOgmwPQRd0bQtM20Qx7omDKr/mo2H9LWtO4s8WPxIHhsxNc
- bE68MO8F6ZNf5uGyFf529cP10cb65+6E/fVbBjoGwa9JIaPsL3lV56/SNIyf6SQMOHh1
- 6r75bYVxgmQLFQIRAKPcZLczcWrZ0sJobjlhSk2hjX9yFJeRPE2HHeWCShQwBc60pZZ5
- kNkg==
+ bh=CKab1OeHMfAJeU/EsGt0YFVRl2woEZULiNYV2Vd3DHs=;
+ b=UVR2QdpbahhOapaQUMRsBIdw+o6vJBW7VYq9dqmtztY7VKgpf/xWgnhz5i+nSbgPga
+ GMhppFZxHBG6u7dFFTETMyNq3YTc/0Yz7lbhq/Bd8E+ERittwjVr4CzBrZXwhuQ4rZA+
+ 6vVkOQaGQEz1DVKPZdcXEjXGYu+XHNZOuahcF+pOrG+aDnNOzG+KcQ43eKRBswZqtXoN
+ p1mFTtJCJgWAKyN7drrakzILZd6X8+DrnbzrQrRadiIkTWTQM7YF+K6cef8gAwtDX8ka
+ zTlQ4j7v0WC3wHKRPCZ4gyQH24bXGICTL9mOo+aeICyXQtGQrsacXAzYI75MPIvVYLHp
+ z8LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1SiDznujmph2PhKe0GmO0eFLJOamtyyulZL/S6s0YWg=;
- b=Vw7x/XRiktxlHONVaasXIjiQa4OI2r+3F/VGaqknLA5SeJhmgOOrMP8jQ9s9sCwEbJ
- NHubYCWxnpFwEyzgi4XwvMR5ntU20Jt1c+oyrxC0lDEjyPkqZqAVUJn7gscRiRfHL+Bz
- 1VbrBhaiv7Ds226JGZJy+gcH24rxJA/LfP06pp2bcDeevQ63YI2fBkB9QLE4ZKwa4eca
- IE+e7aWoCGdoKUTCMWrTOe8fRPPZcxg+gxaq164rDxXplYIDHHaa0HgEfvFzQU462zwL
- OSKfPGipwj5Rm90D4UcXbjafsBhwl2/RaIaYV8Qdv9veLB5ybFJA7ZikUD0oMSY5tF/l
- y82Q==
-X-Gm-Message-State: AOAM533YXresrVLfyjWyIGoGLl5o8jkuioeFkKfv87BpCgB7+tTqcNwa
- nA68CFnQSSbM3hU53eOhRArJ0VVEq7g=
-X-Google-Smtp-Source: ABdhPJzMmrcF2BQTmU16WC7XioMDGlbbrQZ72J4nMA1eEznYoT3mT1vomY/PpDaNw8LaDXi4yvCICA==
-X-Received: by 2002:a05:600c:3546:: with SMTP id
- i6mr917313wmq.104.1618333448761; 
- Tue, 13 Apr 2021 10:04:08 -0700 (PDT)
+ bh=CKab1OeHMfAJeU/EsGt0YFVRl2woEZULiNYV2Vd3DHs=;
+ b=TKAQ+9lstOQoFHN/Fi/rUmz8z6xghK4Ky2387U+if2wwQLlnwgcXFVorUms5WkVupR
+ MRL8mdj27tc1c3RWFIk0NjKC3jxQpRNZzHhjYzIDi5S2s5zMHByEtmJqEiRoDKEjKTzv
+ duuGz7DyLD8OvRVb5UZWoBGUIa3WbIrOkbua8BM4lwdL2ipbL67D2F8wQLLwxGUo3Jkb
+ NC2wURJpjSLtURgmZUbyuMzbcVYQmP84EI5+vl8bL6OeTGaSJXGeG84EZE6lFpEUmYfR
+ +lQyKZttCYwQczcnb+ph+SXKhBHIjWiBWaOjb1qFTkg2Gj1ZhfCZOziBW8+QhDyqbf0f
+ fI/A==
+X-Gm-Message-State: AOAM530G5iNI9KmCw4CD5woxW7RjpYfySFu7xjcTusT/14hUZoxPzsAs
+ fmUGUUDXmzpQwUhg48wj4ZLmzDwLL94=
+X-Google-Smtp-Source: ABdhPJzAZvaYVXa7IDdn3C/+n3DIwu8Gfvap1Hweq+2e0rrNTewaYnO/Hr5zxRPbwoUSx/klSJ7buA==
+X-Received: by 2002:a05:6000:544:: with SMTP id
+ b4mr38838372wrf.352.1618333488537; 
+ Tue, 13 Apr 2021 10:04:48 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id r22sm3027164wmh.11.2021.04.13.10.04.07
+ by smtp.gmail.com with ESMTPSA id b206sm2984155wmc.15.2021.04.13.10.04.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 10:04:08 -0700 (PDT)
-Subject: Re: [PATCH 12/13] target/arm: Make functions used by translate-neon
- global
+ Tue, 13 Apr 2021 10:04:47 -0700 (PDT)
+Subject: Re: [PATCH 13/13] target/arm: Make translate-neon.c.inc its own
+ compilation unit
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-13-peter.maydell@linaro.org>
+ <20210413160759.5917-14-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e5b36da8-ff3a-5ef9-d169-5268ad34a449@amsat.org>
-Date: Tue, 13 Apr 2021 19:04:07 +0200
+Message-ID: <ed9cc659-f6f4-c89f-a1da-294903430fee@amsat.org>
+Date: Tue, 13 Apr 2021 19:04:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210413160759.5917-13-peter.maydell@linaro.org>
+In-Reply-To: <20210413160759.5917-14-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,14 +94,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/13/21 6:07 PM, Peter Maydell wrote:
-> Make the remaining functions needed by the translate-neon code
-> global.
+> Switch translate-neon.c.inc from being #included into translate.c
+> to being its own compilation unit.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/translate-a32.h |  8 ++++++++
->  target/arm/translate.c     | 10 ++--------
->  2 files changed, 10 insertions(+), 8 deletions(-)
+>  target/arm/translate-a32.h                           |  3 +++
+>  .../arm/{translate-neon.c.inc => translate-neon.c}   | 12 +++++++-----
+>  target/arm/translate.c                               |  3 ---
+>  target/arm/meson.build                               |  7 ++++---
+>  4 files changed, 14 insertions(+), 11 deletions(-)
+>  rename target/arm/{translate-neon.c.inc => translate-neon.c} (99%)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
