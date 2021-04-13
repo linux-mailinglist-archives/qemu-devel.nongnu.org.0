@@ -2,53 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4738235D93B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 09:46:03 +0200 (CEST)
-Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADEE35D8EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 09:33:42 +0200 (CEST)
+Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWDkI-0004Dz-85
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 03:46:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38802)
+	id 1lWDYL-0006eQ-17
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 03:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lWDhS-0002ar-Lp; Tue, 13 Apr 2021 03:43:06 -0400
-Received: from ozlabs.org ([203.11.71.1]:37509)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lWDXI-0006DH-LX
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 03:32:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lWDhQ-0007rP-AE; Tue, 13 Apr 2021 03:43:06 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FKHdX10vFz9sVv; Tue, 13 Apr 2021 17:42:56 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1618299776;
- bh=6imbApBbnoU37MP7z7eiOy0pDcw/QYH7WzR88yrKlp4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jjifVQYFvNDCGPv4dpp0P+mHTkZHXxM/oG5t9wkU+mE++cHRSwRfxKq/s2FhnrT3S
- TfDnWW2PFrwSqwP/CxzA5INZhvi73p9qtnRWfJKa75BKrqU7c0OaYQkhMbbq/zlfLo
- nPlrXBWH+eL5eTFDru7quoVsJ6D6q1pGIpJ4xXgA=
-Date: Tue, 13 Apr 2021 16:42:13 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 2/4] target/ppc: added solutions for building with
- disable-tcg
-Message-ID: <YHU9Rez8KNZ1FKZi@yekko.fritz.box>
-References: <20210409151916.97326-1-bruno.larsen@eldorado.org.br>
- <20210409151916.97326-3-bruno.larsen@eldorado.org.br>
- <YHPV19l06sgXCNEj@yekko.fritz.box>
- <26d5b8e4-693d-f747-3b7f-d984a43f0209@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lWDXE-0001AV-Fv
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 03:32:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618299150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FtiNGWTvt6kcmwfh+WYzC8aiZsy1IrfrPaHUH1+1cic=;
+ b=b8CxuuUaBZdQx97qYm9Iua7wAHmigJks0mGNU/Vaee+wSOredQXbHFI8uWBgZKepKJo+yp
+ gqcIdh2H3ApwGKOfsiKQPIVZJQO2vijCVAowiefpMC3T+m0Qo3szWsqqQoxJD2A4E0WJk3
+ Z8FFSjy3VsbSCdlqH7e4jX5Cspv39HY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-wrYcWhvsNM6DdVjIQNN_DQ-1; Tue, 13 Apr 2021 03:32:25 -0400
+X-MC-Unique: wrYcWhvsNM6DdVjIQNN_DQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ h13-20020a05640250cdb02903790a9c55acso799559edb.4
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 00:32:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FtiNGWTvt6kcmwfh+WYzC8aiZsy1IrfrPaHUH1+1cic=;
+ b=LF43eYRKHFcP3vqVOcUjcuxNpwCxNLXPheg+GoyHqiyCDYPj8/htPuyhgPHb9cthW7
+ GBNelAvLWHrlr9g7o8dmYK8B0X28ngpQ2oM61YLsxslrQg99d0VR6Cuvh0+ca2bw0mjy
+ 1P2qpkKy7yh3auZ2/bfd/bemEAXM8MCO/CBMEiv0FpPDLxkq7J7jTdM5kx5lL0Z0KAm9
+ 2vUGF9kYz/np7kM7XRt0IKxPP4RJ1nqwn/KCxuf0akdAFCEHiR6DMGB6ptTXW06/PN52
+ jPUuQSYJhIjQlUAJhBzApvak3IGsBXa7jFI4ceEUaebH6pIjFDDg8p5QW4EiCeEz9/dg
+ B4GQ==
+X-Gm-Message-State: AOAM533bzMGynqF4vqTni4RFN7MGMyZ5tmmimfMLlQ0JqvJkl57vbcqy
+ jsOKQONYH8Ax2dCoCQMkSdd91+aqUrDneaNHjI1vxjW4yfXwRk5SwyrHrY1FuddWqNs5rJtwczC
+ DigMrCIS7o53ZQeQ=
+X-Received: by 2002:a17:907:7745:: with SMTP id
+ kx5mr30419463ejc.3.1618299144543; 
+ Tue, 13 Apr 2021 00:32:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyvWu71vGq9sPcXGJybtZO2NF9GXDOCQIHJMoNIDtttrQTHPY+VD1x9mAm4gqhjNcSBRgysqw==
+X-Received: by 2002:a17:907:7745:: with SMTP id
+ kx5mr30419443ejc.3.1618299144319; 
+ Tue, 13 Apr 2021 00:32:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id z20sm8733620edd.0.2021.04.13.00.32.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Apr 2021 00:32:23 -0700 (PDT)
+Subject: Re: Better alternative to strncpy in QEMU.
+To: Thomas Huth <thuth@redhat.com>, Chetan <chetan4windows@gmail.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <CAPPKfOGwK7JDfHaTT-e4Z7bFkYoWu=dHvF-fT+QdqJhnwCLvOw@mail.gmail.com>
+ <162f832d-ea91-a8f4-6f1d-56cda086f481@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1d9b49b5-a771-8b5e-1220-ba82efc9572e@redhat.com>
+Date: Tue, 13 Apr 2021 09:32:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oZw7gLQAITkNJFQA"
-Content-Disposition: inline
-In-Reply-To: <26d5b8e4-693d-f747-3b7f-d984a43f0209@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <162f832d-ea91-a8f4-6f1d-56cda086f481@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,67 +104,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, lagarcia@br.ibm.com, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- andre.silva@eldorado.org.br,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/04/21 06:51, Thomas Huth wrote:
+>>
+> 
+> I think this is pretty much the same as g_strlcpy() from the glib:
+> 
+> https://developer.gnome.org/glib/2.66/glib-String-Utility-Functions.html#g-strlcpy 
+> 
+> So I guess Paolo had something different in mind when adding this task?
 
---oZw7gLQAITkNJFQA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, I did.  strncpy is used legitimately when placing data in a 
+fixed-size buffer that is written to a socket, to a file or to guest 
+memory.  The problem with using g_strlcpy in those cases is that it does 
+not write past the first '\0' character, and therefore it can leak host 
+data.
 
-On Mon, Apr 12, 2021 at 08:40:47AM -0700, Richard Henderson wrote:
-> On 4/11/21 10:08 PM, David Gibson wrote:
-> > Not directly related to what you're trying to accomplish here, but the
-> > whole vscr_sat thing looks really weird.  I have no idea why we're
-> > splitting out the storage of VSCR[SAT] for the TCG case at all.  If
-> > you wanted to clean that up as a preliminary, I'd be grateful.
->=20
-> That's about efficiently implementing the vector saturation instructions =
-in
-> TCG.  See GEN_VXFORM_SAT in translate/vmx-impl.c.inc.
->=20
-> The SAT bit is represented as a vector that e.g. compares the result of
-> addition with the result of saturating addition.  We don't need to resolve
-> that to a single bit until the VSCR register is read.
+What I had in mind was basically strncpy plus an assertion that the last 
+copied byte will be set to 0.  It can be written in many ways, for 
+example strncpy followed by assert(dest[destlen - 1] == '\0'), or like 
+assert(strlen(src) < destlen) followed by strncpy, or of course you 
+could write a for loop by hand.
 
-Aha, thanks for the input.
+Once you do that, you can split uses of strncpy in two: those where the 
+reader expects the last byte to be zero, and those where the reader does 
+not.  (I don't expect many cases of the first type, because the reader 
+always has to think of how to handle a malicious data stream that does 
+not have a zero termination).
 
-Long term, that might benefit from KVM specific code paths that don't
-bother with this then.  However, for the first cut, it's simpler to
-just keep the current representation, even though it's pretty odd for
-KVM.
+As long as you avoid the accidentally quadratic behavior that Peter 
+pointed out, any way is fine since performance does not matter on these 
+paths.  Making the code nice and readable is more important.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Paolo
 
---oZw7gLQAITkNJFQA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB1PUUACgkQbDjKyiDZ
-s5JBug//dEEb2zhQ/ZrJ0EqUCf7WDF38V8/QlDpaN5a1QXDEsHJmDRC4NWCCsYCB
-ghe28qZSmO8Jcoz+1TSLhREWzCS9WMQwvvdYNd/Eug4Dn9wy7LHKpoAJ+WsQQ6JP
-jA8oAIm/o9+D39x5GMrah5K1mR1KpZ5a/hMejpXCBC3BP5gg0VDKWEajomwYtzNU
-HXX4jIlIab6BkzR3929f5EAYn5X0aQoq7gpW4SVaUv3yFXt6PrYDXwghIO7n0bRL
-S8gVwLusEzKESq8/dygvP2qLTbf6vWybGL2pDUzRwGOWfGvVUSbLIebptC1hEhxV
-29oM2rpqHchH5OsqTbSwt5/KWHzar35/HsN5Qz6IpeQHyBomrOurwOXAVUkUW7Y6
-8D0QwlG0sKs/i0iZkFeuh/U9zdYIJV9erDASCIaCyxnkIezB4I8zYXJG1R4tKQYc
-MhNl4smFtJKA4fq1tpNxXlXRn7HalH74pH+4s3uEAqJpFK34ec1v5IXpO8Z08kH3
-FI4evuKG9mVXZEZqqa9XKq+sxY1zNAZDDKImIdQ9SA4kNiXFeUXwRqGQq9Vtl1uv
-hUBCPkCkMOQc3CpJubUlBOKF+S2ASAgvlaBBGVr2+i8MKR1Yr6spa30QC9Z2aP6y
-LW4FGaoZ/A6jwpNknBaPG/WSR5PyzU/gEyD3C1aJ8X0JIH3GG5o=
-=vBTz
------END PGP SIGNATURE-----
-
---oZw7gLQAITkNJFQA--
 
