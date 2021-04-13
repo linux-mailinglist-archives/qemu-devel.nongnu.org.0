@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD48735E02F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:36:42 +0200 (CEST)
-Received: from localhost ([::1]:59506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C878A35E030
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:37:28 +0200 (CEST)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWJDd-0000Aj-Qj
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1lWJEN-0001Dl-Po
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lWJAS-0006BN-Ny
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:33:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39483)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lWJCs-0008PT-3s
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:35:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lWJAQ-0001nC-Cz
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:33:24 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lWJCo-000337-Mc
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:35:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618320801;
+ s=mimecast20190719; t=1618320949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b26UN0r+T3wLi3xILlngnOJ6FYUScbcVZfM38xUEXg0=;
- b=TnGOqJtOmI5iK2LVF65pCrLLR8995FgKspUdLeYtd+Ek8ofrgIwNFh5xyLTPWnzWZkEA7D
- Llyldq6DH6jHQl1oEl4BXwp9oJ5/jvpgkhHaatougK8odHxLLVKFo9ESXj7hVxQiKDec97
- UyXpUCeaIL0LtbPGKGilHS7EaH8tAcs=
+ bh=vKIIpiLJN+6xQi9vZuYDxAi/GM8MC2+O1PPARPGg4RY=;
+ b=bKeMvEjP2gzKb3B3YBtVLqSbExrKwiCkqKUO3/sCV8L1vO+mvNS6edDObf7DTyDR3Hepeh
+ cV1H5JFKPLnuVfWkZDPRrjCPS21lW3zxi9XfTVM6kXOZyW/BtUS0ZVO5jv0CxPQflFegpb
+ UW/DiG6lex6L7pd/v5vBc4T6MhsVZQk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-Di8snGT-N4KutdZryhAy4g-1; Tue, 13 Apr 2021 09:33:17 -0400
-X-MC-Unique: Di8snGT-N4KutdZryhAy4g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-310-T-emTFj8OHSYmfhsX69yXQ-1; Tue, 13 Apr 2021 09:35:47 -0400
+X-MC-Unique: T-emTFj8OHSYmfhsX69yXQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0332510E174C;
- Tue, 13 Apr 2021 13:32:42 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-55.ams2.redhat.com
- [10.36.114.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B32466267B;
- Tue, 13 Apr 2021 13:32:40 +0000 (UTC)
-Subject: Re: [PATCH for-6.0] block/nbd: fix possible use after free of
- s->connect_thread
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210406155114.1057355-1-vsementsov@virtuozzo.com>
- <eb293b4a-6335-5788-5cf8-7f98d04ccfba@redhat.com>
- <a8cd91ca-ae7f-49b0-c98a-f5a9b392a7ac@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <38417b0c-497f-1c41-d35e-8167bda0c2f7@redhat.com>
-Date: Tue, 13 Apr 2021 15:32:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0694819251B1;
+ Tue, 13 Apr 2021 13:35:45 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-152.rdu2.redhat.com [10.10.116.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10591614FA;
+ Tue, 13 Apr 2021 13:35:35 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 9B4D922054F; Tue, 13 Apr 2021 09:35:34 -0400 (EDT)
+Date: Tue, 13 Apr 2021 09:35:34 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH] vhost-user-fs: fix features handling
+Message-ID: <20210413133534.GA1235549@redhat.com>
+References: <20210408195534.647895-1-antonkuchin@yandex-team.ru>
+ <YHVakoU5hY0wif2n@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <a8cd91ca-ae7f-49b0-c98a-f5a9b392a7ac@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YHVakoU5hY0wif2n@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,79 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, rvkagan@yandex-team.ru, qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.04.21 14:19, Vladimir Sementsov-Ogievskiy wrote:
-> 13.04.2021 14:53, Max Reitz wrote:
->> On 06.04.21 17:51, Vladimir Sementsov-Ogievskiy wrote:
->>> If on nbd_close() we detach the thread (in
->>> nbd_co_establish_connection_cancel() thr->state becomes
->>> CONNECT_THREAD_RUNNING_DETACHED), after that point we should not use
->>> s->connect_thread (which is set to NULL), as running thread may free it
->>> at any time.
->>>
->>> Still nbd_co_establish_connection() does exactly this: it saves
->>> s->connect_thread to local variable (just for better code style) and
->>> use it even after yield point, when thread may be already detached.
->>>
->>> Fix that. Also check thr to be non-NULL on
->>> nbd_co_establish_connection() start for safety.
->>>
->>> After this patch "case CONNECT_THREAD_RUNNING_DETACHED" becomes
->>> impossible in the second switch in nbd_co_establish_connection().
->>> Still, don't add extra abort() just before the release. If it somehow
->>> possible to reach this "case:" it won't hurt. Anyway, good refactoring
->>> of all this reconnect mess will come soon.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>>
->>> Hi all! I faced a crash, just running 277 iotest in a loop. I can't
->>> reproduce it on master, it reproduces only on my branch with nbd
->>> reconnect refactorings.
->>>
->>> Still, it seems very possible that it may crash under some conditions.
->>> So I propose this patch for 6.0. It's written so that it's obvious that
->>> it will not hurt:
->>>
->>>   pre-patch, on first hunk we'll just crash if thr is NULL,
->>>   on second hunk it's safe to return -1, and using thr when
->>>   s->connect_thread is already zeroed is obviously wrong.
->>>
->>>   block/nbd.c | 11 +++++++++++
->>>   1 file changed, 11 insertions(+)
->>>
->>> diff --git a/block/nbd.c b/block/nbd.c
->>> index c26dc5a54f..1d4668d42d 100644
->>> --- a/block/nbd.c
->>> +++ b/block/nbd.c
->>> @@ -443,6 +443,11 @@ nbd_co_establish_connection(BlockDriverState 
->>> *bs, Error **errp)
->>>       BDRVNBDState *s = bs->opaque;
->>>       NBDConnectThread *thr = s->connect_thread;
->>> +    if (!thr) {
->>> +        /* detached */
->>> +        return -1;
->>> +    }
->>> +
->>>       qemu_mutex_lock(&thr->mutex);
->>>       switch (thr->state) {
->>
->> First, it is a bit strange not to set *errp in these cases. 
+On Tue, Apr 13, 2021 at 09:47:14AM +0100, Stefan Hajnoczi wrote:
+> On Thu, Apr 08, 2021 at 10:55:34PM +0300, Anton Kuchin wrote:
+> > Make virtio-fs take into account server capabilities.
+> > 
+> > Just returning requested features assumes they all of then are implemented
+> > by server and results in setting unsupported configuration if some of them
+> > are absent.
+> > 
+> > Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+> > ---
+> >  hw/virtio/vhost-user-fs.c | 17 +++++++++++++----
+> >  1 file changed, 13 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> > index ac4fc34b36..6cf983ba0e 100644
+> > --- a/hw/virtio/vhost-user-fs.c
+> > +++ b/hw/virtio/vhost-user-fs.c
+> > @@ -24,6 +24,14 @@
+> >  #include "monitor/monitor.h"
+> >  #include "sysemu/sysemu.h"
+> >  
+> > +static const int user_feature_bits[] = {
+> > +    VIRTIO_F_VERSION_1,
+> > +    VIRTIO_RING_F_INDIRECT_DESC,
+> > +    VIRTIO_RING_F_EVENT_IDX,
+> > +    VIRTIO_F_NOTIFY_ON_EMPTY,
+> > +    VHOST_INVALID_FEATURE_BIT
+> > +};
 > 
-> Oops, right! ashamed)
+> Please add:
+> 
+> VIRTIO_F_RING_PACKED
+> VIRTIO_F_IOMMU_PLATFORM
 
-OK, so who cares.  It wouldn’t do anything anyway.
+Hi Stefan,
 
-Apart from that, all the changes do is to turn use after frees or 
-immediate NULL dereferences into clean errors.  I can’t see any 
-resources that should be cleaned up, so I hope Coverity won’t hate me 
-for taking this patch.
+What about
 
-And then we’ll see whether Peter will take the pull request...
+VIRTIO_F_ANY_LAYOUT
 
-Max
+I see this one is currently set in requested_features. IIUC, qemu will
+assume that device supports VIRTIO_F_ANY_LAYOUT if we don't reset it.
+
+And I see two more flags.
+
+VIRTIO_F_ORDER_PLATFORM
+VIRTIO_F_SR_IOV
+
+Should this be part of user_feature_bits[] too?
+
+Thanks
+Vivek
+
+> 
+> QEMU's virtiofsd does not enable either of these for now, but it's worth
+> allowing the vhost-user device backend to participate in negotiation so
+> that this can change in the future (or alternative virtiofsd
+> implementations can support these features).
+
+
+
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://listman.redhat.com/mailman/listinfo/virtio-fs
 
 
