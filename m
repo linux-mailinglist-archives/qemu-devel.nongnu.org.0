@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7377735E863
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:39:03 +0200 (CEST)
-Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6884735E862
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 23:38:01 +0200 (CEST)
+Received: from localhost ([::1]:53806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWQkQ-0003pr-If
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
+	id 1lWQjP-0002ey-VJ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 17:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWQh4-0002Re-J3
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:35:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41652)
+ (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
+ id 1lWQgF-0001pH-Sw; Tue, 13 Apr 2021 17:34:43 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:47005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWQh1-0003jX-H0
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 17:35:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWQgz-0005PS-73
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 21:35:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 29DE12E8050
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 21:35:29 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Apr 2021 21:29:45 -0000
-From: Ed Davison <1923497@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
+ id 1lWQgE-00039i-3D; Tue, 13 Apr 2021 17:34:43 -0400
+Received: by mail-ed1-x534.google.com with SMTP id h10so21118304edt.13;
+ Tue, 13 Apr 2021 14:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=afped6VEaBtOcQHlk52YMlj+nviLurbH3vzI9NDFDS0=;
+ b=nyhhNP/8yLTA38sw22n/0I2dqLoetP5n/iTMFAhuIjfM5X4v8AdcceOtEPP9Wenxdu
+ 55p464Kqwt6CayWtT1dUhhwPr6A/7cR79bCwJIYrSDJi72nob34LjyLAOfQ5CQdHH8Wp
+ OgIlBDwIJRs2L20kAJYvL+xOihRcmAHfU+3PJrAtrZZwCDTANH0EtEuR+Ldq/HqLTTW0
+ /r9AsFaVXjFmkEoJSZDFmKdhF/INiHei9AIHXd19DlK48iM7rWIUtmTGZDaAPGvg8OBS
+ 0qw15Jwsr2ksTlrquycYWc1NCAyeIvHL1NU9iFhoXBke/qkpgJyUuBQzXs61HMhScbrF
+ r+QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=afped6VEaBtOcQHlk52YMlj+nviLurbH3vzI9NDFDS0=;
+ b=g+UYI0C/d7SsSxnZAnbuytnvltxwMheNioMmOm56h+I8Jf2DJIKroN1Q6G6LbzRX7p
+ 25NtUSLiumNItB403Vqyt7WRl+L1+UkrJLwDb7/cS1L3x2UNPltBuChdbq3gTXcJMA5H
+ cRsLnQVeIaHtH0ZIxxtmhHCoMVwqGhgh2Cbv3RnUEoVrs3hz7qtO3K54LeE+vYpV4d05
+ qkGoDnFMZP6/+rmFjr/P+nh5bkn4mjyfEcudf4yjlDPrgK3AGBMo1ULKY0UWVeUKnYWR
+ r1B4WQQp6WKnwSATM7zLsIosCXzdHgsoIzjgCOvhIdJgCEb6Rd6mjG5p0cbCrXOFg1l+
+ m8HA==
+X-Gm-Message-State: AOAM530ZBmNOVH4lYCSw3jPfIyBPtFoJUZB9/XmiKb+vz+K5wBEsSwqw
+ WyQb6lSe82y51YzxCw0ayHqucXy5pmgLQaDA
+X-Google-Smtp-Source: ABdhPJwyofHcOkP9ptKdjML1415+HsDr27eZFc9WCNlIC1foxbofCVUlxd3ccqOWT2dN5Hz7aVuWcw==
+X-Received: by 2002:a05:6402:3092:: with SMTP id
+ de18mr36171764edb.96.1618349679539; 
+ Tue, 13 Apr 2021 14:34:39 -0700 (PDT)
+Received: from localhost.localdomain (109-186-220-15.bb.netvision.net.il.
+ [109.186.220.15])
+ by smtp.gmail.com with ESMTPSA id f21sm10102455edq.55.2021.04.13.14.34.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 14:34:38 -0700 (PDT)
+From: Nir Soffer <nirsof@gmail.com>
+X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ebdavison imammedo
-X-Launchpad-Bug-Reporter: Ed Davison (ebdavison)
-X-Launchpad-Bug-Modifier: Ed Davison (ebdavison)
-References: <161825934506.9582.2393035423485633300.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161834938509.17765.14119628731216209208.malone@wampee.canonical.com>
-Subject: [Bug 1923497] Re: bios_linker_loader_add_checksum: Assertion
- `start_offset < file->blob->len' failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
-X-Launchpad-Hash: 30a33164aeb9b389b0e64727e330ab9762a4aa8f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] qemu-iotest: Test NBD hole reporting for qcow2
+Date: Wed, 14 Apr 2021 00:34:36 +0300
+Message-Id: <20210413213436.280982-1-nsoffer@redhat.com>
+X-Mailer: git-send-email 2.26.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=nirsof@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLY=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,71 +81,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923497 <1923497@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nirsof@gmail.com>,
+ qemu-block@nongnu.org, Richard Jones <rjones@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hmmm.  Well, I don't know what the command line was.  I use Virtual
-Machine Manager (virt-manager.org) for my interface to the VM and it
-does the startup.  The error shows up when I start the VM.
+In commit commit 0da9856851dcca09222a1467e16ddd05dc66e460
 
--- =
+    nbd: server: Report holes for raw images
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923497
+we changed the way holes are reported for raw images, but also how
+known-zero portions of qcow2 files are reported. This was not covered by
+iotests, and revealed recently by libnbd tests[1].
 
-Title:
-  bios_linker_loader_add_checksum: Assertion `start_offset <
-  file->blob->len' failed
+Add the missing tests for single qcow2 image and qcow2 image with a
+backing file.
 
-Status in QEMU:
-  New
+[1] https://listman.redhat.com/archives/libguestfs/2021-April/msg00050.html
 
-Bug description:
-  Trying boot/start a Windows 10 VM.  Worked until recently when this
-  error started showing up.
+Signed-off-by: Nir Soffer <nirsof@gmail.com>
+---
+ tests/qemu-iotests/314       | 96 ++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/314.out   | 34 +++++++++++++
+ tests/qemu-iotests/common.rc |  1 +
+ 3 files changed, 131 insertions(+)
+ create mode 100755 tests/qemu-iotests/314
+ create mode 100644 tests/qemu-iotests/314.out
 
-  I have the following installed on Fedora 33:
-  qemu-kvm-5.1.0-9.fc33.x86_64
+diff --git a/tests/qemu-iotests/314 b/tests/qemu-iotests/314
+new file mode 100755
+index 0000000000..81c0169eac
+--- /dev/null
++++ b/tests/qemu-iotests/314
+@@ -0,0 +1,96 @@
++#!/usr/bin/env bash
++# group: rw quick
++#
++# Test qemu-nbd base:allocation metacontext
++#
++# Copyright (C) 2021 Nir Soffer <nirsof@gmail.com>
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++# owner=nirsof@gmail.com
++
++seq="$(basename $0)"
++echo "QA output created by $seq"
++
++status=1 # failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++    rm -f "$TEST_DIR/server.log"
++    nbd_server_stop
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++. ./common.nbd
++
++_supported_fmt qcow2
++_supported_proto nbd
++_supported_os Linux
++_require_command QEMU_NBD
++
++TEST_IMG="nbd+unix:///?socket=$nbd_unix_socket"
++
++echo
++echo "=== Single image ==="
++echo
++
++$QEMU_IMG create -f "$IMGFMT" -o cluster_size=64k \
++    "$TEST_IMG_FILE" 384k | _filter_img_create_filenames
++
++$QEMU_IO -f $IMGFMT -c "write -P 1 0k 64k" "$TEST_IMG_FILE" | _filter_qemu_io
++$QEMU_IO -f $IMGFMT -c "write -P 2 64k 512" "$TEST_IMG_FILE" | _filter_qemu_io
++$QEMU_IO -f $IMGFMT -c "write -z 192k 64k" "$TEST_IMG_FILE" | _filter_qemu_io
++$QEMU_IO -f $IMGFMT -c "write -z 256k 512" "$TEST_IMG_FILE" | _filter_qemu_io
++
++nbd_server_start_unix_socket -f $IMGFMT "$TEST_IMG_FILE"
++
++echo
++$QEMU_NBD_PROG --list -k $nbd_unix_socket >/dev/null
++$QEMU_IMG map -f raw --output=json "$TEST_IMG" | _filter_qemu_img_map
++
++nbd_server_stop
++
++echo
++echo "=== Image with backing file ==="
++echo
++
++$QEMU_IMG create -f "$IMGFMT" -o cluster_size=64k \
++    "$TEST_IMG_FILE.base" 384k | _filter_img_create_filenames
++
++$QEMU_IO -f $IMGFMT -c "write -P 1 0k 64k" "$TEST_IMG_FILE.base" | _filter_qemu_io
++$QEMU_IO -f $IMGFMT -c "write -P 2 64k 512" "$TEST_IMG_FILE.base" | _filter_qemu_io
++
++$QEMU_IMG create -f "$IMGFMT" -o cluster_size=64k \
++    -b "$TEST_IMG_FILE.base" -F $IMGFMT "$TEST_IMG_FILE" | _filter_img_create_filenames
++
++$QEMU_IO -f $IMGFMT -c "write -z 192k 64k" "$TEST_IMG_FILE" | _filter_qemu_io
++$QEMU_IO -f $IMGFMT -c "write -z 256k 512" "$TEST_IMG_FILE" | _filter_qemu_io
++
++nbd_server_start_unix_socket -f $IMGFMT "$TEST_IMG_FILE"
++
++echo
++$QEMU_NBD_PROG --list -k $nbd_unix_socket >/dev/null
++$QEMU_IMG map -f raw --output=json "$TEST_IMG" | _filter_qemu_img_map
++
++nbd_server_stop
++
++# success, all done
++echo
++echo '*** done'
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/314.out b/tests/qemu-iotests/314.out
+new file mode 100644
+index 0000000000..df7eef023f
+--- /dev/null
++++ b/tests/qemu-iotests/314.out
+@@ -0,0 +1,34 @@
++QA output created by 314
++
++=== Single image ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT cluster_size=65536 extended_l2=off compression_type=zlib size=393216 lazy_refcounts=off refcount_bits=16
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 512/512 bytes at offset 65536
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 196608
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 512/512 bytes at offset 262144
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++[{ "start": 0, "length": 131072, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 131072, "length": 262144, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
++
++=== Image with backing file ===
++
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT cluster_size=65536 extended_l2=off compression_type=zlib size=393216 lazy_refcounts=off refcount_bits=16
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 512/512 bytes at offset 65536
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT cluster_size=65536 extended_l2=off compression_type=zlib size=393216 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT lazy_refcounts=off refcount_bits=16
++wrote 65536/65536 bytes at offset 196608
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 512/512 bytes at offset 262144
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++[{ "start": 0, "length": 131072, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 131072, "length": 262144, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
++
++*** done
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 7f49c9716d..1dafac6d66 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -612,6 +612,7 @@ _cleanup_test_img()
+         nbd)
+             _stop_nbd_server
+             rm -f "$TEST_IMG_FILE"
++            rm -f "$TEST_IMG_FILE.base"
+             ;;
+ 
+         fuse)
+-- 
+2.26.3
 
-  This is the error:
-
-  Error starting domain: internal error: process exited while connecting
-  to monitor: qemu-system-x86_64:
-  /builddir/build/BUILD/qemu-5.1.0/hw/acpi/bios-linker-loader.c:239:
-  bios_linker_loader_add_checksum: Assertion `start_offset <
-  file->blob->len' failed.
-
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 65, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 101, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", lin=
-e 57, in newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/object/domain.py", line 1329,=
- in startup
-      self._backend.create()
-    File "/usr/lib64/python3.9/site-packages/libvirt.py", line 1234, in cre=
-ate
-      if ret =3D=3D -1: raise libvirtError ('virDomainCreate() failed', dom=
-=3Dself)
-  libvirt.libvirtError: internal error: process exited while connecting to =
-monitor: qemu-system-x86_64: /builddir/build/BUILD/qemu-5.1.0/hw/acpi/bios-=
-linker-loader.c:239: bios_linker_loader_add_checksum: Assertion `start_offs=
-et < file->blob->len' failed.
-
-  I see this were referenced in a patch from some time ago and
-  supposedly fixed.  Here is the patch info I was able to find:
-
-  http://next.patchew.org/QEMU/1515677902-23436-1-git-send-email-
-  peter.maydell@linaro.org/1515677902-23436-10-git-send-email-
-  peter.maydell@linaro.org/
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923497/+subscriptions
 
