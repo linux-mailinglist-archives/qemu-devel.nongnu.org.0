@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7D35D472
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 02:28:48 +0200 (CEST)
-Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F43135D47F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 02:38:09 +0200 (CEST)
+Received: from localhost ([::1]:50174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW6v9-0001xr-2r
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 20:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45606)
+	id 1lW74C-0004mk-5v
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 20:38:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lW6tO-0000Xw-QA; Mon, 12 Apr 2021 20:26:58 -0400
-Received: from ozlabs.org ([203.11.71.1]:46145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lW6tM-0006Nd-2Y; Mon, 12 Apr 2021 20:26:58 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FK5yL3wT9z9sWW; Tue, 13 Apr 2021 10:26:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1618273610;
- bh=3inm0f7ZsVlLFJtACP2OGpr2eHDWVrhNIEPYhuN83yk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z84PKKs8i/vBkalVvnPQjpXJe4Ts0dsi728dPE665/qmyQ2qXSw5GU8Ax3AO/toXi
- uxpvQTVLgivkUwQWm3Jz1LtJLMyteftvWqHj/YMtTp4DKN8UOF/H/DO9HQQOsx+ji5
- kIOI8vQZxIk/MKBexMqlBIYXhz/q7v1DtwFaCluk=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org
-Subject: [PULL 2/2] spapr.c: always pulse guest IRQ in
- spapr_core_unplug_request()
-Date: Tue, 13 Apr 2021 10:26:48 +1000
-Message-Id: <20210413002648.8281-3-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210413002648.8281-1-david@gibson.dropbear.id.au>
-References: <20210413002648.8281-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lW71p-0004EK-IP
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 20:35:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lW71k-0001MN-5L
+ for qemu-devel@nongnu.org; Mon, 12 Apr 2021 20:35:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lW71g-000575-Su
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 00:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D46EE2E8055
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 00:35:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Apr 2021 00:25:42 -0000
+From: Richard Henderson <1922617@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier nathanchance philmd pmaydell rth
+X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <161767088471.29958.926730188235259416.malonedeb@gac.canonical.com>
+Message-Id: <161827354263.31401.1415039530466716589.malone@gac.canonical.com>
+Subject: [Bug 1922617] Re: qemu-aarch64-static "Illegal instruction" with
+ debootstrap
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
+X-Launchpad-Hash: 7c8627c88cac6e124a9e560a434c29bbc9116b90
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,64 +72,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1922617 <1922617@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Fix commit: 52c01ada8661 ("exec: Fix overlap of PAGE_ANON and
+PAGE_TARGET_1")
 
-Commit 47c8c915b162 fixed a problem where multiple spapr_drc_detach()
-requests were breaking QEMU. The solution was to just spapr_drc_detach()
-once, and use spapr_drc_unplug_requested() to filter whether we already
-detached it or not. The commit also tied the hotplug request to the
-guest in the same condition.
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Turns out that there is a reliable way for a CPU hotunplug to fail. If a
-guest with one CPU hotplugs a CPU1, then offline CPU0s via 'echo 0 >
-/sys/devices/system/cpu/cpu0/online', then attempts to hotunplug CPU1,
-the kernel will refuse it because it's the last online CPU of the
-system. Given that we're pulsing the IRQ only in the first try, in a
-failed attempt, all other CPU1 hotunplug attempts will fail, regardless
-of the online state of CPU1 in the kernel, because we're simply not
-letting the guest know that we want to hotunplug the device.
+-- =
 
-Let's move spapr_hotplug_req_remove_by_index() back out of the "if
-(!spapr_drc_unplug_requested(drc))" conditional, allowing for multiple
-'device_del' requests to the same CPU core to reach the guest, in case
-the CPU core didn't fully hotunplugged previously.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1922617
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210401000437.131140-3-danielhb413@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Title:
+  qemu-aarch64-static "Illegal instruction" with debootstrap
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 05a765fab4..e4be00b732 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3777,8 +3777,17 @@ void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
- 
-     if (!spapr_drc_unplug_requested(drc)) {
-         spapr_drc_unplug_request(drc);
--        spapr_hotplug_req_remove_by_index(drc);
-     }
-+
-+    /*
-+     * spapr_hotplug_req_remove_by_index is left unguarded, out of the
-+     * "!spapr_drc_unplug_requested" check, to allow for multiple IRQ
-+     * pulses removing the same CPU. Otherwise, in an failed hotunplug
-+     * attempt (e.g. the kernel will refuse to remove the last online
-+     * CPU), we will never attempt it again because unplug_requested
-+     * will still be 'true' in that case.
-+     */
-+    spapr_hotplug_req_remove_by_index(drc);
- }
- 
- int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
--- 
-2.30.2
+Status in QEMU:
+  Fix Committed
 
+Bug description:
+  This is reproducible against QEMU master. I apologize for the long
+  reproduction steps, I tried to distill it down as much as possible.
+
+  System info:
+
+  # qemu-aarch64-static --version
+  qemu-aarch64 version 5.2.91 (v6.0.0-rc1-68-gee82c086ba)
+  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+
+  # cat /etc/os-release
+  PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
+  NAME=3D"Debian GNU/Linux"
+  VERSION_ID=3D"10"
+  VERSION=3D"10 (buster)"
+  VERSION_CODENAME=3Dbuster
+  ID=3Ddebian
+  HOME_URL=3D"https://www.debian.org/"
+  SUPPORT_URL=3D"https://www.debian.org/support"
+  BUG_REPORT_URL=3D"https://bugs.debian.org/"
+
+  # head -n 26 /proc/cpuinfo
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 85
+  model name      : Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
+  stepping        : 7
+  microcode       : 0x5002f01
+  cpu MHz         : 1000.716
+  cache size      : 22528 KB
+  physical id     : 0
+  siblings        : 32
+  core id         : 0
+  cpu cores       : 16
+  apicid          : 0
+  initial apicid  : 0
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 22
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
+a cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx=
+ pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xto=
+pology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx=
+ smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic mo=
+vbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowpr=
+efetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single intel_ppin ssbd mba ibr=
+s ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsg=
+sbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm mpx rdt_a avx512f avx=
+512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl x=
+saveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_l=
+ocal dtherm ida arat pln pts pku ospke avx512_vnni md_clear flush_l1d arch_=
+capabilities
+  bugs            : spectre_v1 spectre_v2 spec_store_bypass swapgs taa itlb=
+_multihit
+  bogomips        : 4600.00
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 46 bits physical, 48 bits virtual
+  power management:
+
+  My reproduction steps:
+
+  # apt-get install --no-install-recommends -y \
+      build-essential \
+      ca-certificates \
+      debootstrap \
+      git \
+      libglib2.0-dev \
+      libpixman-1-dev \
+      ninja-build \
+      pkg-config \
+      python3 \
+      zstd
+
+  # git clone https://github.com/qemu/qemu
+
+  # mkdir qemu/build
+
+  # cd qemu/build
+
+  # ../configure \
+      --enable-debug \
+      --enable-linux-user \
+      --disable-bsd-user \
+      --disable-werror \
+      --disable-system \
+      --disable-tools \
+      --disable-docs \
+      --disable-gtk \
+      --disable-gnutls \
+      --disable-nettle \
+      --disable-gcrypt \
+      --disable-glusterfs \
+      --disable-libnfs \
+      --disable-libiscsi \
+      --disable-vnc \
+      --disable-kvm \
+      --disable-libssh \
+      --disable-libxml2 \
+      --disable-vde \
+      --disable-sdl \
+      --disable-opengl \
+      --disable-xen \
+      --disable-fdt \
+      --disable-vhost-net \
+      --disable-vhost-crypto \
+      --disable-vhost-user \
+      --disable-vhost-vsock \
+      --disable-vhost-scsi \
+      --disable-tpm \
+      --disable-qom-cast-debug \
+      --disable-capstone \
+      --disable-zstd \
+      --disable-linux-io-uring \
+      --static \
+      --target-list-exclude=3Dhexagon-linux-user
+
+  # ninja qemu-aarch64
+
+  # install -Dm755 qemu-aarch64 /usr/local/bin/qemu-aarch64-static
+
+  # cat <<'EOF' >/proc/sys/fs/binfmt_misc/register
+  :qemu-aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\=
+x02\x00\xb7:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xf=
+f\xfe\xff\xff:/usr/local/bin/qemu-aarch64-static:CF
+  EOF
+
+  # debootstrap --arch arm64 --foreign buster debian-rootfs
+
+  # chroot debian-rootfs /debootstrap/debootstrap --second-stage
+  Illegal instruction
+
+  This prevents me from building an arm64 Debian image on x86_64. If I
+  am doing something wrong, please let me know. The binary has been
+  uploaded for your convenience.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1922617/+subscriptions
 
