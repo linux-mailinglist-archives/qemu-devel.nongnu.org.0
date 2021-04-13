@@ -2,87 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFDF35D38F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 00:59:08 +0200 (CEST)
-Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE5335D471
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 02:28:47 +0200 (CEST)
+Received: from localhost ([::1]:44090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lW5WM-0005MR-QA
-	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 18:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45182)
+	id 1lW6v7-0001wF-QT
+	for lists+qemu-devel@lfdr.de; Mon, 12 Apr 2021 20:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lW5Uo-0004XF-SU; Mon, 12 Apr 2021 18:57:31 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33709)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lW6tO-0000Xe-3Y; Mon, 12 Apr 2021 20:26:58 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:41709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lW5Uj-0001Hc-V4; Mon, 12 Apr 2021 18:57:30 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id CD20E16BC;
- Mon, 12 Apr 2021 18:57:20 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Mon, 12 Apr 2021 18:57:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm2; bh=CCu78
- nP0OOFi3PiuiZ/cnK6E/3Z+4NIgLnGq+le2i2Y=; b=uPXD3lbinNVKM2lXXBeyM
- pmXeTOO2mpdfMTOFKNZv4I1JyhcrDM/CbyVlBaZrvZTj6RqhUbxqohNC+j0y5cE6
- gX5ZcAPs7Ary8MH1EPiaGaHFNWuHzGvJiL53mNoPdFoKWpkFtdcPNRfDLiULpKVX
- GJ8itEdmh2Qo3h/gViTLkO6X/ySWlfnVUwKSEHdIclhb0U/d5oD+nNDND1qbDgif
- 87Wv9ByN5Zfe374JQ9S70ZbvoRdECNqUoD29ll0SyV1ga4DcwnqHKOKNlcS4pzoC
- vzdNc31pXtE7+AuUw5KH/I8WLSb4AUfwMXklcuNDFqeL7cz6VrI/zg5n0Qylz1kP
- w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=CCu78nP0OOFi3PiuiZ/cnK6E/3Z+4NIgLnGq+le2i
- 2Y=; b=jNaTJ/M59X1XxxANZjliQ427D6hdsTYWklQOiOeKrbVdOaSdv4WNqzUDq
- JQBF83VecrdHrr2teD0gOe6l4QVIZwfxlMm4GK6ADtuXXCfLarnW4PKNpEsM1/IX
- u5rfD7A3ke7wwugsuX6KpG7M5bmHI2hAxw6e87iJCMEYC3vxPb2LUWlV/WI7zLph
- vH6n8CuJEloAt5JIT4Tm/zVoHBUE3U80+U765RXa3IixVUePScJW7VAC3iI2BwpP
- YuqNV0YIMeKhQn6+YK39WdFm7+vhmxDpk6ZQUssl0T1KUx+KqvWefkEUIQ0gK0eN
- wVkWN+XWayBsp0IqRqLSe5/JrEK1w==
-X-ME-Sender: <xms:T9B0YFE9_WR0oZvSXkLZfxO7KhIXm4wVipsloif_b7zh6iqamqFIQA>
- <xme:T9B0YKX9i5FBrhxnoMGEIP2juQq2fnGlBfvAV_l3mQeCuEde_x7V7PvYZ1umXwl1d
- u4uzaMnLx4Qic5T1g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekkedgudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
- kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:T9B0YHKV-Z-bxOR6KTNwEZdabdu9OjxPcR4S-q47Lr6tpyaNoo2DPA>
- <xmx:T9B0YLF5hD_PLDR68zaE2vRIhvYJRcOav-Ncst7LJ3hkhDtX9Ixfww>
- <xmx:T9B0YLWaLPqnePdq1QGUxVogjuqN3iJQ6ZuEXOJ8dsuB9Urg05AlxA>
- <xmx:UNB0YIhpyneXhaUcVbWCHJdxBQ0P0BLl3UMjuAbhqoPy-ZFzDUD5MA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 676C1A00492; Mon, 12 Apr 2021 18:57:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
-Mime-Version: 1.0
-Message-Id: <66ef55f5-de03-46b1-ada0-089246e0dad1@www.fastmail.com>
-In-Reply-To: <9c004931-648c-3215-6720-647fe35a50c7@kaod.org>
-References: <20210304124316.164742-1-joel@jms.id.au>
- <9c004931-648c-3215-6720-647fe35a50c7@kaod.org>
-Date: Tue, 13 Apr 2021 08:26:49 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH] aspeed: Emulate the AST2600A3
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=andrew@aj.id.au;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lW6tL-0006Nc-UJ; Mon, 12 Apr 2021 20:26:57 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FK5yL3897z9sWX; Tue, 13 Apr 2021 10:26:50 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1618273610;
+ bh=VaMHaBv9HwPhhuVOvFvOVSjeHf683TykgZXx5TLEwGc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=B+J8+qs5Rh10NoV2ZyBs424A9hOBnLG6jvR7lmr/di18qDSL0AkMZUIZ8EgVx72Nr
+ qLZ7jBJs3txPNmYwPhwZeqJj27UEFKrP0uzu4w5z4HpeBomH1hh7b09+kZp5qWgXro
+ MvDY1UHlw1hewEI4XNwYMJKBjlBk80KPK24j5vho=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org,
+	groug@kaod.org
+Subject: [PULL 0/2] ppc-for-6.0 queue 20210412
+Date: Tue, 13 Apr 2021 10:26:46 +1000
+Message-Id: <20210413002648.8281-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,28 +55,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Cameron Esfahani via <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 555249a59e9cdd6b58da103aba5cf3a2d45c899f:
+
+  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-04-10 16:58:56 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210412
+
+for you to fetch changes up to 2b18fc794f312a91482998bae5ea6c8724200e06:
+
+  spapr.c: always pulse guest IRQ in spapr_core_unplug_request() (2021-04-12 12:27:14 +1000)
 
 
-On Tue, 13 Apr 2021, at 00:57, C=C3=A9dric Le Goater wrote:
-> On 3/4/21 1:43 PM, Joel Stanley wrote:
-> > This is the latest revision of the ASPEED 2600 SoC.
->=20
-> Should we change all machines to use the new SoC ?=20
->=20
-> I would prefer if we introduced an "ast2600-a3" Aspeed SoC, that we wo=
-uld=20
-> use for the newer rainier machine, and leave the tacoma-bmc and ast260=
-0-evb=20
-> machines as they are.
+Ugh, sorry Peter.  I meant to sent this yesterday, but apparently
+forgot to execute the last step to actuall send it out.
 
-I think we just change them all. We're not going to see pre-A3 chips in=20=
+----------------------------------------------------------------
+ppc patch queue for 2021-04-21
 
-production systems.
+Here's what I hope is the last ppc related pull request for qemu-6.0.
 
-Andrew
+The 2 patches here revert a behavioural change that after further
+discussion we concluded was a bad idea (adding a timeout for
+possibly-failed hot unplug requests).  Instead it implements a
+different approach to the original problem: we again let unplug
+requests the guest doesn't respond to remain pending indefinitely, but
+no longer allow those to block attempts to retry the same unplug
+again.
+
+The change is a bit more complex than I'd like for this late in the
+freeze.  Nonetheless, I think it's important to merge this for 6.0, so
+we don't allow a release which has the probably-a-bad-idea timeout
+behaviour.
+
+----------------------------------------------------------------
+Daniel Henrique Barboza (2):
+      spapr: rollback 'unplug timeout' for CPU hotunplugs
+      spapr.c: always pulse guest IRQ in spapr_core_unplug_request()
+
+ hw/ppc/spapr.c             | 15 ++++++++-----
+ hw/ppc/spapr_drc.c         | 52 ----------------------------------------------
+ include/hw/ppc/spapr_drc.h |  5 -----
+ include/qemu/timer.h       |  8 -------
+ util/qemu-timer.c          | 13 ------------
+ 5 files changed, 10 insertions(+), 83 deletions(-)
 
