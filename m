@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514BB35E088
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:47:52 +0200 (CEST)
-Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130AA35E09A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:51:23 +0200 (CEST)
+Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWJOR-0008FK-DY
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53124)
+	id 1lWJRq-00023w-6n
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lWJKR-0006CU-So
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:43:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28429)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lWJPA-00010m-VS
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:48:37 -0400
+Resent-Date: Tue, 13 Apr 2021 09:48:36 -0400
+Resent-Message-Id: <E1lWJPA-00010m-VS@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lWJKP-0007j9-5S
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:43:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618321420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fEDmTaI9cHDNJ/8GO/HMIGBKm66AEMkxQW/a1ggHvoU=;
- b=DHJ1WGlLdlwOpnQb/9D7780hNSWzBeAOnDa5GuNJlR10mGij8WMHKJMJBZ6jp9NQtk46Nc
- UGXMZW0lg3dUNWW9w20nH0dTL9uNoeRCEbBuNFGaeRJ8ejX+m2rcEGPQ1za8eTnCDnj6Bu
- 8lzYM+T7558rf3TSLUPvqk8HYBnGOsk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428--N2tHZcvPoSJW8Ob8ZKITQ-1; Tue, 13 Apr 2021 09:43:37 -0400
-X-MC-Unique: -N2tHZcvPoSJW8Ob8ZKITQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD202188352E;
- Tue, 13 Apr 2021 13:43:36 +0000 (UTC)
-Received: from [10.3.114.86] (ovpn-114-86.phx2.redhat.com [10.3.114.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85EA260DA0;
- Tue, 13 Apr 2021 13:43:36 +0000 (UTC)
-Subject: Re: [PATCH 2/2] qemu-img convert: Unshare write permission for source
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20210413132324.24043-1-kwolf@redhat.com>
- <20210413132324.24043-3-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5edcdaf9-2133-b426-82bb-8849264ff4fd@redhat.com>
-Date: Tue, 13 Apr 2021 08:43:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lWJP7-0001qI-AT
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:48:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618321707; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dXAp4kXV2ch4cm3df6QFsVrLXmbfn/0BgTX1pn9XVJwHMSOVPR79pfiOdOJy47tzTsZMvT8gAC+6Rrfhr6vcyAD9A0fYvN8s5OjWi0aC5vDa0++5kRNA+9eZxTCWSsA0bHzHbGmxw2q4/q4kycAuhRPtrwmUHpGxBpyR/QNI038=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618321707;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=eiM7qZJbJxQ9NakreSgXS6P+UlzJdOlZw7yMP4Io6gY=; 
+ b=amQJrB2m21VWPqAKLD85kh5AiUaMuT+k6koTF8FjBywCCSxcqgMiKiz8x4+gTsMjcyMA2GnMfFg1rBRV/f+qU2M9ahq9+R6mEiRUQnemwaYcZZS5JjungzqhXVo5sfrvkioPZw46r/OW0Goff1zBmbuff+ZxaPrEBOsg0zlM348=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618321703092626.5800845144876;
+ Tue, 13 Apr 2021 06:48:23 -0700 (PDT)
+In-Reply-To: <20210413124800.216095-1-pbonzini@redhat.com>
+Subject: Re: [PULL 0/2] osdep.h changes for QEMU 6.0-rc3
+Message-ID: <161832170214.10350.3223637097229067511@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <20210413132324.24043-3-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Tue, 13 Apr 2021 06:48:23 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,56 +67,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xuwei@redhat.com, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 8:23 AM, Kevin Wolf wrote:
-> For a successful conversion of an image, we must make sure that its
-> content doesn't change during the conversion.
-> 
-> A special case of this is using the same image file both as the source
-> and as the destination. If both input and output format are raw, the
-> operation would just be useless work, with other formats it is a sure
-> way to destroy the image. This will now fail because the image file
-> can't be opened a second time for the output when opening it for the
-> input has already acquired file locks to unshare BLK_PERM_WRITE.
-> 
-> Nevertheless, if there is some reason in a special case why it is
-> actually okay to allow writes to the image while it is being converted,
-> -U can still be used to force sharing all permissions.
-> 
-> Note that for most image formats, BLK_PERM_WRITE would already be
-> unshared by the format driver, so this only really makes a difference
-> for raw source images (but any output format).
-> 
-> Reported-by: Xueqiang Wei <xuwei@redhat.com>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qemu-img.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> diff --git a/qemu-img.c b/qemu-img.c
-> index babb5573ab..a5993682aa 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -2146,7 +2146,7 @@ static void set_rate_limit(BlockBackend *blk, int64_t rate_limit)
->  
->  static int img_convert(int argc, char **argv)
->  {
-> -    int c, bs_i, flags, src_flags = 0;
-> +    int c, bs_i, flags, src_flags = BDRV_O_NO_SHARE;
->      const char *fmt = NULL, *out_fmt = NULL, *cache = "unsafe",
->                 *src_cache = BDRV_DEFAULT_CACHE, *out_baseimg = NULL,
->                 *out_filename, *out_baseimg_param, *snapshot_name = NULL;
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxMzEyNDgwMC4yMTYw
+OTUtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTMxMjQ4MDAuMjE2
+MDk1LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzJdIG9zZGVwLmggY2hh
+bmdlcyBmb3IgUUVNVSA2LjAtcmMzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0
+Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjJmNjMwOGUgb3NkZXA6IHByb3RlY3QgcWVtdS9v
+c2RlcC5oIHdpdGggZXh0ZXJuICJDIgo5YWVkNDA0IG9zZGVwOiBpbmNsdWRlIGdsaWItY29tcGF0
+LmggYmVmb3JlIG90aGVyIFFFTVUgaGVhZGVycwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yIENo
+ZWNraW5nIGNvbW1pdCA5YWVkNDA0NTkxY2IgKG9zZGVwOiBpbmNsdWRlIGdsaWItY29tcGF0Lmgg
+YmVmb3JlIG90aGVyIFFFTVUgaGVhZGVycykKMi8yIENoZWNraW5nIGNvbW1pdCAyZjYzMDhlMWI1
+MjQgKG9zZGVwOiBwcm90ZWN0IHFlbXUvb3NkZXAuaCB3aXRoIGV4dGVybiAiQyIpCldBUk5JTkc6
+IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM1MTogRklM
+RTogaW5jbHVkZS9xZW11L2NvbXBpbGVyLmg6MTQ6CisjaWZkZWYgX19jcGx1c3BsdXMKCkVSUk9S
+OiBzdG9yYWdlIGNsYXNzIHNob3VsZCBiZSBhdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNsYXJh
+dGlvbgojNTI6IEZJTEU6IGluY2x1ZGUvcWVtdS9jb21waWxlci5oOjE1OgorI2RlZmluZSBRRU1V
+X0VYVEVSTl9DIGV4dGVybiAiQyIKCkVSUk9SOiBzdG9yYWdlIGNsYXNzIHNob3VsZCBiZSBhdCB0
+aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNsYXJhdGlvbgojNTQ6IEZJTEU6IGluY2x1ZGUvcWVtdS9j
+b21waWxlci5oOjE3OgorI2RlZmluZSBRRU1VX0VYVEVSTl9DIGV4dGVybgoKV0FSTklORzogYXJj
+aGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzc3OiBGSUxFOiBp
+bmNsdWRlL3FlbXUvb3NkZXAuaDoxMTY6CisjaWZkZWYgX19jcGx1c3BsdXMKCldBUk5JTkc6IGFy
+Y2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM4ODogRklMRTog
+aW5jbHVkZS9xZW11L29zZGVwLmg6NzMwOgorI2lmZGVmIF9fY3BsdXNwbHVzCgp0b3RhbDogMiBl
+cnJvcnMsIDMgd2FybmluZ3MsIDQ3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMiBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
+IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
+ZXcub3JnL2xvZ3MvMjAyMTA0MTMxMjQ4MDAuMjE2MDk1LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90
+ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
+bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
+eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
