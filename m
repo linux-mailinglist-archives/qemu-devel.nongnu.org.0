@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E20135E49A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:07:20 +0200 (CEST)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B14935E4AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 19:08:14 +0200 (CEST)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWMVT-0002Os-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55530)
+	id 1lWMWL-0003dA-5M
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 13:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMRl-0000x5-72; Tue, 13 Apr 2021 13:03:29 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37440)
+ id 1lWMSX-0001gS-S0; Tue, 13 Apr 2021 13:04:17 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWMRj-0007Yo-R1; Tue, 13 Apr 2021 13:03:28 -0400
-Received: by mail-wr1-x436.google.com with SMTP id j5so16201305wrn.4;
- Tue, 13 Apr 2021 10:03:27 -0700 (PDT)
+ id 1lWMSW-0007qN-B1; Tue, 13 Apr 2021 13:04:17 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ b136-20020a1c1b8e0000b029012c69da2040so1754618wmb.1; 
+ Tue, 13 Apr 2021 10:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5srUk3qIIvcebuytWZ9xypNA7snM56pd7PVsHy2DEsE=;
- b=Fe8ZWS5juovd1B2G7idj9b3WhtYnpA7nru8Rww+oAMjiXQbBqbXb8zVH66Mu8Tq4hP
- twUR2DCDwLnyRwI4ywtpH31IEZ7ctZZzwio2VjlZt4qKAu+rAhXmy7r5P6yvT+TNLos9
- gcXn3HyuEH9Ro+6Is10jxwN32mKtyrmtSYSLqXa2VrsA5cNHJVDnpfeYjiJ4Qj6aH9Kg
- ivs2OWtsMwCoJ2HS3eYV10PxpZ/Cyipcm8qwuxcl7hmTx5bU/Ec1JQz+mQ3VpO3BG53C
- Pz98HgR87mcqWEPby9c6mpv09UNP9GItxPMxeZYqA5g/rUJTK+UEEgcUXZ6k1joWPLzz
- cskA==
+ bh=1SiDznujmph2PhKe0GmO0eFLJOamtyyulZL/S6s0YWg=;
+ b=h0GnWojaCwyQAu+w0cMKVur22/8E25BgbQP8jNeOQ0Gt6Frx6ud1eXzShrg5Cnx84o
+ qe9PodaaJtczYqdJ7FCgkR8+ergFPH9BeNh2AtHjIGtvwDbSdm9vDzedsDQh6B+N+6pk
+ 6krCCWOps7daXTx06njgjBOgmwPQRd0bQtM20Qx7omDKr/mo2H9LWtO4s8WPxIHhsxNc
+ bE68MO8F6ZNf5uGyFf529cP10cb65+6E/fVbBjoGwa9JIaPsL3lV56/SNIyf6SQMOHh1
+ 6r75bYVxgmQLFQIRAKPcZLczcWrZ0sJobjlhSk2hjX9yFJeRPE2HHeWCShQwBc60pZZ5
+ kNkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5srUk3qIIvcebuytWZ9xypNA7snM56pd7PVsHy2DEsE=;
- b=Dg7LsLWFet21u9jcpdnZQagOtosG3KPt3W7lXOorhnJGinljywHMbcMOHbHPH/SUpH
- ySpAop2zVx6muJtAKqV0P7DZOiw+kfi1iOXni6cCOlS5NZ2mg/BECLFLJ8nW6SLYaHl9
- fKrIayGZvaThx7hjomG0p87hiUPR6hA8qz8YJT6R/MUmRogiMU/rC87ppCWXpOYUNF5n
- nMBjISGLuEUVo6Jpk8gBKAhZZSSg35diThui0QPz8zhVRXnh4S8YOipl68iUQVDW8BNS
- h1ODTqLSu/tDrpJAzNQof6N2QqxVC3kgnvtcywg0HaDW3V7TYM4/SKmB8MFES+duKD+j
- Dycg==
-X-Gm-Message-State: AOAM532cuy72SA3JiZxl/894awUjylj/RDY+0HClhDBNvUbnwErmbPdI
- rdAekYx3Fb2SAUDzCYh2S6P6xSdy3m4=
-X-Google-Smtp-Source: ABdhPJwruCqRQjgVd10D0rGSLRLPQNIH+QNQ+GfvMjIQe9tDdiJ43cuzy7roxN5eKSBtlHE6HbLaFw==
-X-Received: by 2002:a5d:4689:: with SMTP id u9mr2914498wrq.10.1618333398748;
- Tue, 13 Apr 2021 10:03:18 -0700 (PDT)
+ bh=1SiDznujmph2PhKe0GmO0eFLJOamtyyulZL/S6s0YWg=;
+ b=Vw7x/XRiktxlHONVaasXIjiQa4OI2r+3F/VGaqknLA5SeJhmgOOrMP8jQ9s9sCwEbJ
+ NHubYCWxnpFwEyzgi4XwvMR5ntU20Jt1c+oyrxC0lDEjyPkqZqAVUJn7gscRiRfHL+Bz
+ 1VbrBhaiv7Ds226JGZJy+gcH24rxJA/LfP06pp2bcDeevQ63YI2fBkB9QLE4ZKwa4eca
+ IE+e7aWoCGdoKUTCMWrTOe8fRPPZcxg+gxaq164rDxXplYIDHHaa0HgEfvFzQU462zwL
+ OSKfPGipwj5Rm90D4UcXbjafsBhwl2/RaIaYV8Qdv9veLB5ybFJA7ZikUD0oMSY5tF/l
+ y82Q==
+X-Gm-Message-State: AOAM533YXresrVLfyjWyIGoGLl5o8jkuioeFkKfv87BpCgB7+tTqcNwa
+ nA68CFnQSSbM3hU53eOhRArJ0VVEq7g=
+X-Google-Smtp-Source: ABdhPJzMmrcF2BQTmU16WC7XioMDGlbbrQZ72J4nMA1eEznYoT3mT1vomY/PpDaNw8LaDXi4yvCICA==
+X-Received: by 2002:a05:600c:3546:: with SMTP id
+ i6mr917313wmq.104.1618333448761; 
+ Tue, 13 Apr 2021 10:04:08 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b12sm9150547wrn.18.2021.04.13.10.03.17
+ by smtp.gmail.com with ESMTPSA id r22sm3027164wmh.11.2021.04.13.10.04.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 10:03:18 -0700 (PDT)
-Subject: Re: [PATCH 09/13] target/arm: Move vfp_reg_ptr() to
- translate-neon.c.inc
+ Tue, 13 Apr 2021 10:04:08 -0700 (PDT)
+Subject: Re: [PATCH 12/13] target/arm: Make functions used by translate-neon
+ global
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
- <20210413160759.5917-10-peter.maydell@linaro.org>
+ <20210413160759.5917-13-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <737339ce-636b-bd75-16b1-6080542400f8@amsat.org>
-Date: Tue, 13 Apr 2021 19:03:17 +0200
+Message-ID: <e5b36da8-ff3a-5ef9-d169-5268ad34a449@amsat.org>
+Date: Tue, 13 Apr 2021 19:04:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210413160759.5917-10-peter.maydell@linaro.org>
+In-Reply-To: <20210413160759.5917-13-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,14 +95,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/13/21 6:07 PM, Peter Maydell wrote:
-> The function vfp_reg_ptr() is used only in translate-neon.c.inc;
-> move it there.
+> Make the remaining functions needed by the translate-neon code
+> global.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/translate.c          | 7 -------
->  target/arm/translate-neon.c.inc | 7 +++++++
->  2 files changed, 7 insertions(+), 7 deletions(-)
+>  target/arm/translate-a32.h |  8 ++++++++
+>  target/arm/translate.c     | 10 ++--------
+>  2 files changed, 10 insertions(+), 8 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
