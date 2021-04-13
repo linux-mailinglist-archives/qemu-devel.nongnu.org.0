@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B20D35E2BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:24:56 +0200 (CEST)
-Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7CB35E2EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 17:32:47 +0200 (CEST)
+Received: from localhost ([::1]:56796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWKuN-00058T-KL
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
+	id 1lWL1y-0002d6-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 11:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWKsY-0003hl-VW
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:23:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWKsX-0005VL-FR
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:23:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618327377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RbroG03p+BFPKzz6univLda0Lqb/qYdyuKjR0Hy0uck=;
- b=ZPAoDqXrub0fRZiuplB6TXF6APV/4dEq7xlAkTeiFBiZtO6cJxYNHDMyvpH/7tyAlTIVLb
- D0GW8iTDFsDAot3QJgNhTVooa3tRpYzstAPBmp7eWh5cSxph52bPvz/bSu/u/F5Nbw3PPQ
- DqqIML6Xn5DwHGAmvx/ZkJ7zS1iTMD8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-IcALQe-cNiGwrZNz17O4ew-1; Tue, 13 Apr 2021 11:22:55 -0400
-X-MC-Unique: IcALQe-cNiGwrZNz17O4ew-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EDC5107ACCD;
- Tue, 13 Apr 2021 15:22:54 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-31.ams2.redhat.com
- [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DB2360C04;
- Tue, 13 Apr 2021 15:22:53 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	antonkuchin@yandex-team.ru
-Subject: [PULL 1/1] vhost-user-fs: fix features handling
-Date: Tue, 13 Apr 2021 16:22:46 +0100
-Message-Id: <20210413152246.72950-2-dgilbert@redhat.com>
-In-Reply-To: <20210413152246.72950-1-dgilbert@redhat.com>
-References: <20210413152246.72950-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWL0B-0001g2-FE
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:30:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWL02-0001uA-4r
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:30:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lWKzz-0005u8-Fm
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 15:30:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6DD0A2E8162
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 15:30:43 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Apr 2021 15:21:09 -0000
+From: Tony Cole <1923629@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: riscv vector
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: tony-cole
+X-Launchpad-Bug-Reporter: Tony Cole (tony-cole)
+X-Launchpad-Bug-Modifier: Tony Cole (tony-cole)
+Message-Id: <161832726983.9430.3755052950345832110.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1923629] [NEW] RISC-V Vector Instruction vssub.vv not saturating
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1"; Instance="production"
+X-Launchpad-Hash: 6dd35d11b44faaba2fe96442806d76a8f7aa996b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,66 +69,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com
+Reply-To: Bug 1923629 <1923629@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
+Public bug reported:
 
-Make virtio-fs take into account server capabilities.
+I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv produces=
+ an
+incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
 
-Just returning requested features assumes they all of then are implemented
-by server and results in setting unsupported configuration if some of them
-are absent.
+Here is the bit of the code:
 
-Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  With changes suggested by Stefan
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/virtio/vhost-user-fs.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+		vmv.v.i		v16, 0
+		=E2=80=A6
+8f040457	vssub.vv	v8,v16,v8
 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index ac4fc34b36..6f7f91533d 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -24,6 +24,17 @@
- #include "monitor/monitor.h"
- #include "sysemu/sysemu.h"
- 
-+static const int user_feature_bits[] = {
-+    VIRTIO_F_VERSION_1,
-+    VIRTIO_RING_F_INDIRECT_DESC,
-+    VIRTIO_RING_F_EVENT_IDX,
-+    VIRTIO_F_NOTIFY_ON_EMPTY,
-+    VIRTIO_F_RING_PACKED,
-+    VIRTIO_F_IOMMU_PLATFORM,
-+
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
- static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
-@@ -129,11 +140,12 @@ static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
- }
- 
- static uint64_t vuf_get_features(VirtIODevice *vdev,
--                                      uint64_t requested_features,
--                                      Error **errp)
-+                                 uint64_t features,
-+                                 Error **errp)
- {
--    /* No feature bits used yet */
--    return requested_features;
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
-+
-+    return vhost_get_features(&fs->vhost_dev, user_feature_bits, features);
- }
- 
- static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
--- 
-2.31.1
+I believe the instruction encoding is correct (vssub.vv with vd =3D v8,
+vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
 
+I=E2=80=99ve just tested with what I think is the latest branch (
+https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
+2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem still
+exists.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: riscv vector
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923629
+
+Title:
+  RISC-V Vector Instruction vssub.vv not saturating
+
+Status in QEMU:
+  New
+
+Bug description:
+  I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv produc=
+es an
+  incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
+
+  Here is the bit of the code:
+
+  		vmv.v.i		v16, 0
+  		=E2=80=A6
+  8f040457	vssub.vv	v8,v16,v8
+
+  I believe the instruction encoding is correct (vssub.vv with vd =3D v8,
+  vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
+
+  I=E2=80=99ve just tested with what I think is the latest branch (
+  https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
+  2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem still
+  exists.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923629/+subscriptions
 
