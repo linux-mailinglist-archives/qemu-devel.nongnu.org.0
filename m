@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043B735E384
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:11:11 +0200 (CEST)
-Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F44935E3CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:24:46 +0200 (CEST)
+Received: from localhost ([::1]:56718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLd8-0000Fp-2l
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1lWLqG-0000SK-SC
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWLaT-0006E9-DR
+ id 1lWLaT-0006F3-RO
  for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:25 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41508)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWLaM-0006tC-0U
+ id 1lWLaM-0006tn-OU
  for qemu-devel@nongnu.org; Tue, 13 Apr 2021 12:08:25 -0400
-Received: by mail-wr1-x433.google.com with SMTP id k26so589357wrc.8
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:08:17 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id p19so9060751wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:08:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0ZGdNnOiGwNj8lQaOaIdMrMwuGDxlAwHGTtG4I3LmxA=;
- b=HwgyFdPQ4/h8kqEqDsy/hckVOkWdsDk4pk9U4/4dAMZOc5/VTAwUpIjSEBRwI5R/xJ
- l8GRPM0aFhiub4lXtHY0ybeEY7UNaUIbrX4FQ4E1mFZCsu/hJX0Dh6BU/57hCfvyXQqa
- 5GHLyWnsRwvofJ6VoDyT36qx/invI/CQsvzWByalXg0r/lLT55j3uDDbJ2SB0dYf0gsw
- IN533wqdrTvG+huH6d7P6PwO7f9B4uDlm9o4tGdlATwqp2VzVmElNmSpa9XCJA2gZNVA
- gVMRnNN8TquKYDE+SKyvWENVpLe3aHVqs8d0W4eISZmA28yWXQksUoN3VceMkrNYxNcq
- +QRA==
+ bh=EPKR+7Ln/JdgPQuKuo+DrQ9fLD+pJbsk48aZLHSdMSs=;
+ b=BWRL8Z2B0r6EeF0eim2PaFy0/iE1ut59kkYoyZMm5e3pht5jmG1AUOvIQmNDedQd6F
+ lhFdRRYtbVREmFA8sqkKm/cEHcs06LvM7IeZvACwmSaSyfJyN7poUNF9ROfFgVg9biSb
+ GcsKcfIfPcs6BhqxUe5cLpJZ0tZOydx3l+3S9gMwc4tfGYU+xGe0cnDSSQcG/tIkv5pD
+ 4oykLZ55hPwpkosAFq7xOG6d172856jj5IA1PsrH7z1Ppu2sfdxboO0QmrZ4DBmXKahk
+ QWmSZAoSgNh0mpIHAasYxySNTy9NfbySDn/TBVNidhqU+cz38+2cYenmpwZCVhnZJRVt
+ PIiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0ZGdNnOiGwNj8lQaOaIdMrMwuGDxlAwHGTtG4I3LmxA=;
- b=E4ODzrAFFKjILZEu30lTu7dU2q4KhjBLYCn+qKPGgczUwA4JhoNllvwwBJki1eX7HO
- vHe9lcPsYtGM1dpdkW4LxCXRnSTDCfcVH+Ul67Q4Con3eZFBWiHyEwI34kZejgwMzRpX
- PeFyKOQbWy0oXl/mNxMMUeJY+u0STmB/KoSMfIOVdj6xLzXTceRAv/0VzUOkx/rlP2Mr
- AckN3KpMJALgnpJdiip1bMPl/frKrFWEKPQn/EK5NFzVOTAs8Fv6XSdzu5+2Dm7SBPlf
- RCjooVGoa7GGlXYrcNR5iHDbN9q8bEh2YFrtqp2FrN1L/0ko8XnZlD0GoPeBCTrbiETT
- Tv2w==
-X-Gm-Message-State: AOAM532ueeOs+p0ti03+00rtGQmhhFuBBqzAlioJuqzDfbiunSlpT0DE
- YBjWro/k5mqdzvYYx54qvz9p1nMyrC4D6jmM
-X-Google-Smtp-Source: ABdhPJxVdme9WUY/XWjmG1KKySaGZZ2rq28Kw6NW1dV/j2eqfqIFqY9IUBVxAdbZTZSXqfi4AwWCXw==
-X-Received: by 2002:adf:e50a:: with SMTP id j10mr290376wrm.394.1618330096639; 
- Tue, 13 Apr 2021 09:08:16 -0700 (PDT)
+ bh=EPKR+7Ln/JdgPQuKuo+DrQ9fLD+pJbsk48aZLHSdMSs=;
+ b=f5atabf8y+Nt5LepRownGhR+NAgTAAc2F/fNGEhg2hyy+KgaJ3pA1q4rm818OiW4ZC
+ KcwoKW0PQ8l5WsIAoTXXbvE/gTC8v52XH0kG79T/mAanWBmTTbyBQX9AWmqTredMpSiP
+ AfyLVZJ4d5cL4LbosCtezLdV+XT4AOHnqtES5xw43seLXQpgiL6xZNZNyLdobyi0JhoP
+ 1wUS8MndrtDlOy8ez1ZK6EZVLXkdmfDgWJM45/vVw/BHOqkzNjgJF+TaOQT9JxbNwfEw
+ U+CBQ5mm8A2yAdQ2tScQrw7gq/f/OJwGVFfiltF1YzkngHJE0O7Y5XGBH9/kJ2hlr+GE
+ CPSw==
+X-Gm-Message-State: AOAM531W/hpQ2yvP1yQJTgEBDrozSaNoryuUM7/HICmDR1+bioBADFvR
+ YyZjVjNOoPAqhesWk29wH+LYIA==
+X-Google-Smtp-Source: ABdhPJxMgvfwJ/jzP162dEZa1bIRfawn/eL+8RrLMBf5wVHcSUpw2qrymetyxIruGjoWXhgcRuZdLQ==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr687387wmm.153.1618330097371; 
+ Tue, 13 Apr 2021 09:08:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id b1sm20810888wru.90.2021.04.13.09.08.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Apr 2021 09:08:16 -0700 (PDT)
+ Tue, 13 Apr 2021 09:08:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 05/13] target/arm: Move gen_aa32 functions to translate-a32.h
-Date: Tue, 13 Apr 2021 17:07:51 +0100
-Message-Id: <20210413160759.5917-6-peter.maydell@linaro.org>
+Subject: [PATCH 06/13] target/arm: Move vfp_{load, store}_reg{32,
+ 64} to translate-vfp.c.inc
+Date: Tue, 13 Apr 2021 17:07:52 +0100
+Message-Id: <20210413160759.5917-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210413160759.5917-1-peter.maydell@linaro.org>
 References: <20210413160759.5917-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,163 +88,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the various gen_aa32* functions and macros out of translate.c
-and into translate-a32.h.
+The functions vfp_load_reg32(), vfp_load_reg64(), vfp_store_reg32()
+and vfp_store_reg64() are used only in translate-vfp.c.inc. Move
+them to that file.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-a32.h | 44 ++++++++++++++++++++++++++++++++++
- target/arm/translate.c     | 49 +++++++-------------------------------
- 2 files changed, 52 insertions(+), 41 deletions(-)
+ target/arm/translate.c         | 20 --------------------
+ target/arm/translate-vfp.c.inc | 20 ++++++++++++++++++++
+ 2 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index cb451f70a42..e0e03245f6f 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -57,4 +57,48 @@ static inline TCGv_i32 load_reg(DisasContext *s, int reg)
-     return tmp;
- }
- 
-+void gen_aa32_ld_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-+                     int index, MemOp opc);
-+void gen_aa32_st_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-+                     int index, MemOp opc);
-+void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-+                     int index, MemOp opc);
-+void gen_aa32_st_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-+                     int index, MemOp opc);
-+
-+#define DO_GEN_LD(SUFF, OPC)                                             \
-+static inline void gen_aa32_ld##SUFF(DisasContext *s, TCGv_i32 val,      \
-+                                     TCGv_i32 a32, int index)            \
-+{                                                                        \
-+    gen_aa32_ld_i32(s, val, a32, index, OPC | s->be_data);               \
-+}
-+
-+#define DO_GEN_ST(SUFF, OPC)                                             \
-+static inline void gen_aa32_st##SUFF(DisasContext *s, TCGv_i32 val,      \
-+                                     TCGv_i32 a32, int index)            \
-+{                                                                        \
-+    gen_aa32_st_i32(s, val, a32, index, OPC | s->be_data);               \
-+}
-+
-+DO_GEN_LD(8u, MO_UB)
-+DO_GEN_LD(16u, MO_UW)
-+DO_GEN_LD(32u, MO_UL)
-+DO_GEN_ST(8, MO_UB)
-+DO_GEN_ST(16, MO_UW)
-+DO_GEN_ST(32, MO_UL)
-+
-+#undef DO_GEN_LD
-+
-+static inline void gen_aa32_ld64(DisasContext *s, TCGv_i64 val,
-+                                 TCGv_i32 a32, int index)
-+{
-+    gen_aa32_ld_i64(s, val, a32, index, MO_Q | s->be_data);
-+}
-+
-+static inline void gen_aa32_st64(DisasContext *s, TCGv_i64 val,
-+                                 TCGv_i32 a32, int index)
-+{
-+    gen_aa32_st_i64(s, val, a32, index, MO_Q | s->be_data);
-+}
-+
- #endif
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 168427159ab..fd248b101f2 100644
+index fd248b101f2..2daabb5fb6f 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -879,8 +879,8 @@ static inline TCGv gen_aa32_addr(DisasContext *s, TCGv_i32 a32, MemOp op)
-     return addr;
- }
- 
--static void gen_aa32_ld_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
--                            int index, MemOp opc)
-+void gen_aa32_ld_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-+                     int index, MemOp opc)
- {
-     TCGv addr;
- 
-@@ -894,8 +894,8 @@ static void gen_aa32_ld_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-     tcg_temp_free(addr);
- }
- 
--static void gen_aa32_st_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
--                            int index, MemOp opc)
-+void gen_aa32_st_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-+                     int index, MemOp opc)
- {
-     TCGv addr;
- 
-@@ -909,20 +909,6 @@ static void gen_aa32_st_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-     tcg_temp_free(addr);
- }
- 
--#define DO_GEN_LD(SUFF, OPC)                                             \
--static inline void gen_aa32_ld##SUFF(DisasContext *s, TCGv_i32 val,      \
--                                     TCGv_i32 a32, int index)            \
--{                                                                        \
--    gen_aa32_ld_i32(s, val, a32, index, OPC | s->be_data);               \
--}
--
--#define DO_GEN_ST(SUFF, OPC)                                             \
--static inline void gen_aa32_st##SUFF(DisasContext *s, TCGv_i32 val,      \
--                                     TCGv_i32 a32, int index)            \
--{                                                                        \
--    gen_aa32_st_i32(s, val, a32, index, OPC | s->be_data);               \
--}
--
- static inline void gen_aa32_frob64(DisasContext *s, TCGv_i64 val)
- {
-     /* Not needed for user-mode BE32, where we use MO_BE instead.  */
-@@ -931,8 +917,8 @@ static inline void gen_aa32_frob64(DisasContext *s, TCGv_i64 val)
+@@ -1103,26 +1103,6 @@ static long vfp_reg_offset(bool dp, unsigned reg)
      }
  }
  
--static void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
--                            int index, MemOp opc)
-+void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-+                     int index, MemOp opc)
- {
-     TCGv addr = gen_aa32_addr(s, a32, opc);
-     tcg_gen_qemu_ld_i64(val, addr, index, opc);
-@@ -940,14 +926,8 @@ static void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-     tcg_temp_free(addr);
- }
- 
--static inline void gen_aa32_ld64(DisasContext *s, TCGv_i64 val,
--                                 TCGv_i32 a32, int index)
+-static inline void vfp_load_reg64(TCGv_i64 var, int reg)
 -{
--    gen_aa32_ld_i64(s, val, a32, index, MO_Q | s->be_data);
+-    tcg_gen_ld_i64(var, cpu_env, vfp_reg_offset(true, reg));
 -}
 -
--static void gen_aa32_st_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
--                            int index, MemOp opc)
-+void gen_aa32_st_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-+                     int index, MemOp opc)
- {
-     TCGv addr = gen_aa32_addr(s, a32, opc);
- 
-@@ -963,19 +943,6 @@ static void gen_aa32_st_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-     tcg_temp_free(addr);
- }
- 
--static inline void gen_aa32_st64(DisasContext *s, TCGv_i64 val,
--                                 TCGv_i32 a32, int index)
+-static inline void vfp_store_reg64(TCGv_i64 var, int reg)
 -{
--    gen_aa32_st_i64(s, val, a32, index, MO_Q | s->be_data);
+-    tcg_gen_st_i64(var, cpu_env, vfp_reg_offset(true, reg));
 -}
 -
--DO_GEN_LD(8u, MO_UB)
--DO_GEN_LD(16u, MO_UW)
--DO_GEN_LD(32u, MO_UL)
--DO_GEN_ST(8, MO_UB)
--DO_GEN_ST(16, MO_UW)
--DO_GEN_ST(32, MO_UL)
+-static inline void vfp_load_reg32(TCGv_i32 var, int reg)
+-{
+-    tcg_gen_ld_i32(var, cpu_env, vfp_reg_offset(false, reg));
+-}
 -
- static inline void gen_hvc(DisasContext *s, int imm16)
+-static inline void vfp_store_reg32(TCGv_i32 var, int reg)
+-{
+-    tcg_gen_st_i32(var, cpu_env, vfp_reg_offset(false, reg));
+-}
+-
+ void read_neon_element32(TCGv_i32 dest, int reg, int ele, MemOp memop)
  {
-     /* The pre HVC helper handles cases when HVC gets trapped
+     long off = neon_element_offset(reg, ele, memop);
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index 16a730b7bdd..873a6237ea1 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -30,6 +30,26 @@
+ #include "decode-vfp.c.inc"
+ #include "decode-vfp-uncond.c.inc"
+ 
++static inline void vfp_load_reg64(TCGv_i64 var, int reg)
++{
++    tcg_gen_ld_i64(var, cpu_env, vfp_reg_offset(true, reg));
++}
++
++static inline void vfp_store_reg64(TCGv_i64 var, int reg)
++{
++    tcg_gen_st_i64(var, cpu_env, vfp_reg_offset(true, reg));
++}
++
++static inline void vfp_load_reg32(TCGv_i32 var, int reg)
++{
++    tcg_gen_ld_i32(var, cpu_env, vfp_reg_offset(false, reg));
++}
++
++static inline void vfp_store_reg32(TCGv_i32 var, int reg)
++{
++    tcg_gen_st_i32(var, cpu_env, vfp_reg_offset(false, reg));
++}
++
+ /*
+  * The imm8 encodes the sign bit, enough bits to represent an exponent in
+  * the range 01....1xx to 10....0xx, and the most significant 4 bits of
 -- 
 2.20.1
 
