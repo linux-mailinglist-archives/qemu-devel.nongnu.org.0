@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEF335E35D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:01:46 +0200 (CEST)
-Received: from localhost ([::1]:51488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC8735E375
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 18:06:21 +0200 (CEST)
+Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWLU1-0006Bw-Ih
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:01:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
+	id 1lWLYS-0002O3-Jv
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 12:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOc-0001Sg-0C
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOc-0001TY-F8
  for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46809)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOX-0000BB-F6
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:09 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWLOY-0000BT-7p
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 11:56:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618329364;
+ s=mimecast20190719; t=1618329365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SfeXp++ZNmfkKdeGgfGhy8Bkbe50OiQTtJtWuExrEss=;
- b=OuDMJE8fP0P/0eB+ZICAwP2KfiMuZefD7eW2JnOQbrZPt/v9bBhuumhhyluivHpyYzAFDg
- grhkqQSJCRy1DbOk4mY0Gi/Ka8nvRo0XWtIAXxCIxmMqFH5qPxlyZoPvDnF0m8BVnzVucc
- P+sGyuXxzEE2DNXnvh1Dux9byxWJgb0=
+ bh=XufJ2CLgjzIAubGvoiYCX7qy1kGVUEO3CHR9Ppm6GRY=;
+ b=gk0JavkqhuQHwSWAFl/tOfIL0oZtdRiSa+ZPheVghXnh4PTKzMrjj2akjWVH/5/8uIkjC2
+ CppRyw3YPzED41hCTrGrFi9GD17tXGo41uvNTr2CiqfKRaaRQPIjcK1YIrvbBpSNOXHjN0
+ pNcQoMb8QSk7VgchKyNib1FSdJzCbhc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-ifCkLrEGMwmVxv8rBOIjhQ-1; Tue, 13 Apr 2021 11:56:01 -0400
-X-MC-Unique: ifCkLrEGMwmVxv8rBOIjhQ-1
+ us-mta-312-f9L2cPjUPwS_iyt-XlwkqA-1; Tue, 13 Apr 2021 11:56:03 -0400
+X-MC-Unique: f9L2cPjUPwS_iyt-XlwkqA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40CDC189C440
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 15:56:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7393B79EC5
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 15:56:02 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E2636A034;
- Tue, 13 Apr 2021 15:55:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4EB06A034;
+ Tue, 13 Apr 2021 15:56:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 2/7] error: Error classes and so on.
-Date: Tue, 13 Apr 2021 11:55:48 -0400
-Message-Id: <20210413155553.2660523-3-jsnow@redhat.com>
+Subject: [PATCH RFC 4/7] message: add QMP Message type
+Date: Tue, 13 Apr 2021 11:55:50 -0400
+Message-Id: <20210413155553.2660523-5-jsnow@redhat.com>
 In-Reply-To: <20210413155553.2660523-1-jsnow@redhat.com>
 References: <20210413155553.2660523-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,198 +81,224 @@ Cc: crosa@redhat.com, John Snow <jsnow@redhat.com>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-May be somewhat hard to make sense of until you see how these classes
-are used later on. Notably, although I have split QMP's functionality
-into a "protocol" class and a "QMP" class, representing a separation of
-the loop mechanisms and the QMP protocol itself, this file was written
-prior to that split and contains both "generic" and "QMP-specific" error
-classes.
+This is an abstraction that represents a single message either sent to
+or received from the server. It is used to subclass the
+AsyncProtocol(Generic[T]) type.
 
-It will have to be split out later, but for the purposes of an RFC where
-I wanted a quick eyeball on design, I thought it wasn't necessary to
-clean that up just yet.
+It was written such that it can be populated by either raw data or by a
+dict, with the other form being generated on-demand, as-needed.
 
-The MultiException class might warrant a closer inspection, it's the
-"weirdest" thing here. It's intended to be used internally by the
-module, but as with all best laid plans, there is always the ability it
-will somehow leak out into the caller's space through some unforseen
-mechanism.
+It behaves almost exactly like a dict, but has some extra methods and a
+special constructor. (It should quack fairly convincingly.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- error.py | 163 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 163 insertions(+)
- create mode 100644 error.py
+ message.py | 196 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 196 insertions(+)
+ create mode 100644 message.py
 
-diff --git a/error.py b/error.py
+diff --git a/message.py b/message.py
 new file mode 100644
-index 0000000..f19f8e0
+index 0000000..5c7e828
 --- /dev/null
-+++ b/error.py
-@@ -0,0 +1,163 @@
-+"""Generic error classes.
++++ b/message.py
+@@ -0,0 +1,196 @@
++"""
++QMP Message format and errors.
 +
-+This module seeks to provide semantic error classes that are intended to
-+be used directly by clients when they would like to handle particular
-+semantic failures (e.g. "failed to connect") without needing to know the
-+enumeration of possible reasons for that failure.
-+
-+AQMPError serves as the ancestor for almost all exceptions raised by
-+this package, and is suitable for use in handling semantic errors from
-+this library. In most cases, individual methods will attempt to catch
-+and re-encapsulate various exceptions to provide a semantic
-+error-handling interface, though this is not necessarily true of
-+internal interfaces.
-+
-+Some errors are not defined here in this module, but exist alongside
-+more specific error domains in other modules. They are listed here for
-+convenience anyway.
-+
-+The error inheritance tree is as follows::
-+
-+  MultiException
-+  AQMPError
-+    ProtocolError
-+      RawProtocolError
-+        DeserializationError
-+        UnexpectedTypeError
-+      GreetingError
-+      NegotiationError
-+      MsgProtocolError   (message.py)
-+        ObjectTypeError  (message.py)
-+        OrphanedError    (message.py)
-+        ServerParseError (message.py)
-+    ConnectError
-+    DisconnectedError
-+    StateError
-+
-+The only exception that is not an `AQMPError` is `MultiException`. It is
-+special, and used to encapsulate one-or-more exceptions of an arbitrary
-+kind; this exception MAY be raised on disconnect() when there are two or
-+more exceptions from the AQMP event loop to report back to the caller.
-+
-+(The bottom half is designed in such a way that exceptions are attempted
-+to be handled internally, but in cases of catastrophic failure, it may
-+still occur.)
-+
-+See `MultiException` and `AsyncProtocol.disconnect()` for more details.
-+
++This module provides the `Message` class, which represents a single QMP
++message sent to or from the server. Several error-classes that depend on
++knowing the format of this message are also included here.
 +"""
 +
-+from typing import Iterable, Iterator
++import json
++from json import JSONDecodeError
++from typing import (
++    Dict,
++    ItemsView,
++    Iterable,
++    KeysView,
++    Optional,
++    Union,
++    ValuesView,
++)
++
++from error import (
++    DeserializationError,
++    ProtocolError,
++    UnexpectedTypeError,
++)
 +
 +
-+class AQMPError(Exception):
-+    # Don't use this directly: create a subclass.
-+    """Base failure for all errors raised by AQMP."""
++class Message:
++    """
++    Represents a single QMP protocol message.
 +
++    QMP uses JSON objects as its basic communicative unit; so this
++    object behaves like a MutableMapping. It may be instantiated from
++    either another mapping (like a dict), or from raw bytes that still
++    need to be deserialized.
 +
-+class ProtocolError(AQMPError):
-+    """Abstract error class for protocol failures."""
-+    def __init__(self, error_message: str):
-+        super().__init__()
-+        self.error_message = error_message
++    :param value: Initial value, if any.
++    :param eager: When true, attempt to serialize (or deserialize) the
++                  initial value immediately, such that conversion exceptions
++                  are raised during the call to the initialization method.
++    """
++    # TODO: make Message properly a MutableMapping so it can be typed as such?
++    def __init__(self,
++                 value: Union[bytes, Dict[str, object]] = b'', *,
++                 eager: bool = True):
++        self._data: Optional[bytes] = None
++        self._obj: Optional[Dict[str, object]] = None
++
++        if isinstance(value, bytes):
++            self._data = value
++            if eager:
++                self._obj = self._deserialize(self._data)
++        else:
++            self._obj = value
++            if eager:
++                self._data = self._serialize(self._obj)
++
++    @classmethod
++    def _serialize(cls, value: object) -> bytes:
++        """
++        Serialize a JSON object as bytes.
++
++        :raises: ValueError, TypeError from the json library.
++        """
++        return json.dumps(value, separators=(',', ':')).encode('utf-8')
++
++    @classmethod
++    def _deserialize(cls, data: bytes) -> Dict[str, object]:
++        """
++        Deserialize JSON bytes into a native python dict.
++
++        :raises: DeserializationError if JSON deserialization
++                 fails for any reason.
++        :raises: UnexpectedTypeError if data does not represent
++                 a JSON object.
++        """
++        try:
++            obj = json.loads(data)
++        except JSONDecodeError as err:
++            emsg = "Failed to deserialize QMP message."
++            raise DeserializationError(emsg, data) from err
++        if not isinstance(obj, dict):
++            raise UnexpectedTypeError(
++                "Incoming QMP message is not a JSON object.",
++                data
++            )
++        return obj
++
++    @property
++    def data(self) -> bytes:
++        """
++        bytes representing this QMP message.
++
++        Generated on-demand if required.
++        """
++        if self._data is None:
++            self._data = self._serialize(self._obj or {})
++        return self._data
++
++    @property
++    def _object(self) -> Dict[str, object]:
++        """
++        dict representing this QMP message.
++
++        Generated on-demand if required; Private because it returns an
++        object that could be used to validate the internal state of the
++        Message object.
++        """
++        if self._obj is None:
++            self._obj = self._deserialize(self._data or b'')
++        return self._obj
 +
 +    def __str__(self) -> str:
-+        return f"QMP protocol error: {self.error_message}"
++        """Pretty-printed representation of this QMP message."""
++        return json.dumps(self._object, indent=2)
++
++    def __bytes__(self) -> bytes:
++        return self.data
++
++    def __contains__(self, item: str) -> bool:  # Container, Collection
++        return item in self._object
++
++    def __iter__(self) -> Iterable[str]:  # Iterable, Collection, Mapping
++        return iter(self._object)
++
++    def __len__(self) -> int:  # Sized, Collection, Mapping
++        return len(self._object)
++
++    def __getitem__(self, key: str) -> object:  # Mapping
++        return self._object[key]
++
++    def __setitem__(self, key: str, value: object) -> None:  # MutableMapping
++        self._object[key] = value
++        self._data = None
++
++    def __delitem__(self, key: str) -> None:  # MutableMapping
++        del self._object[key]
++        self._data = None
++
++    def keys(self) -> KeysView[str]:
++        """Return a KeysView object containing all field names."""
++        return self._object.keys()
++
++    def items(self) -> ItemsView[str, object]:
++        """Return an ItemsView object containing all key:value pairs."""
++        return self._object.items()
++
++    def values(self) -> ValuesView[object]:
++        """Return a ValuesView object containing all field values."""
++        return self._object.values()
++
++    def get(self, key: str,
++            default: Optional[object] = None) -> Optional[object]:
++        """Get the value for a single key."""
++        return self._object.get(key, default)
 +
 +
-+class RawProtocolError(ProtocolError):
-+    """
-+    Abstract error class for low-level parsing failures.
-+    """
-+    def __init__(self, error_message: str, raw: bytes):
++class MsgProtocolError(ProtocolError):
++    """Abstract error class for protocol errors that have a JSON object."""
++    def __init__(self, error_message: str, msg: Message):
 +        super().__init__(error_message)
-+        self.raw = raw
++        self.msg = msg
 +
 +    def __str__(self) -> str:
 +        return "\n".join([
 +            super().__str__(),
-+            f"  raw bytes were: {str(self.raw)}",
++            f"  Message was: {str(self.msg)}\n",
 +        ])
 +
 +
-+class DeserializationError(RawProtocolError):
-+    """Incoming message was not understood as JSON."""
-+
-+
-+class UnexpectedTypeError(RawProtocolError):
-+    """Incoming message was JSON, but not a JSON object."""
-+
-+
-+class ConnectError(AQMPError):
++class ObjectTypeError(MsgProtocolError):
 +    """
-+    Initial connection process failed.
-+    Always wraps a "root cause" exception that can be interrogated for info.
++    Incoming message was a JSON object, but has an unexpected data shape.
++
++    e.g.: A malformed greeting may cause this error.
 +    """
 +
 +
-+class GreetingError(ProtocolError):
-+    """An exception occurred during the Greeting phase."""
-+    def __init__(self, error_message: str, exc: Exception):
-+        super().__init__(error_message)
-+        self.exc = exc
++# FIXME: Remove this? Current draft simply trashes these replies.
 +
-+    def __str__(self) -> str:
-+        return (
-+            f"QMP protocol error: {self.error_message}\n"
-+            f"  Cause: {self.exc!s}\n"
-+        )
++# class OrphanedError(MsgProtocolError):
++#     """
++#     Received message, but had no queue to deliver it to.
++#
++#     e.g.: A reply arrives from the server, but the ID does not match any
++#     pending execution requests we are aware of.
++#     """
 +
 +
-+class NegotiationError(ProtocolError):
-+    """An exception occurred during the Negotiation phase."""
-+    def __init__(self, error_message: str, exc: Exception):
-+        super().__init__(error_message)
-+        self.exc = exc
-+
-+    def __str__(self) -> str:
-+        return (
-+            f"QMP protocol error: {self.error_message}\n"
-+            f"  Cause: {self.exc!s}\n"
-+        )
-+
-+
-+class DisconnectedError(AQMPError):
++class ServerParseError(MsgProtocolError):
 +    """
-+    Command was not able to be completed; we have been Disconnected.
++    Server sent a `ParsingError` message.
 +
-+    This error is raised in response to a pending execution when the
-+    back-end is unable to process responses any more.
++    e.g. A reply arrives from the server, but it is missing the "ID"
++    field, which indicates a parsing error on behalf of the server.
 +    """
-+
-+
-+class StateError(AQMPError):
-+    """
-+    An API command (connect, execute, etc) was issued at an inappropriate time.
-+
-+    (e.g. execute() while disconnected; connect() while connected; etc.)
-+    """
-+
-+
-+class MultiException(Exception):
-+    """
-+    Used for multiplexing exceptions.
-+
-+    This exception is used in the case that errors were encountered in both the
-+    Reader and Writer tasks, and we must raise more than one.
-+    """
-+    def __init__(self, exceptions: Iterable[BaseException]):
-+        super().__init__(exceptions)
-+        self.exceptions = list(exceptions)
-+
-+    def __str__(self) -> str:
-+        ret = "------------------------------\n"
-+        ret += "Multiple Exceptions occurred:\n"
-+        ret += "\n"
-+        for i, exc in enumerate(self.exceptions):
-+            ret += f"{i}) {str(exc)}\n"
-+            ret += "\n"
-+        ret += "-----------------------------\n"
-+        return ret
-+
-+    def __iter__(self) -> Iterator[BaseException]:
-+        return iter(self.exceptions)
 -- 
 2.30.2
 
