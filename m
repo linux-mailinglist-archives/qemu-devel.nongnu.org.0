@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF8A35DD15
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 13:01:33 +0200 (CEST)
-Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA5335DD90
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 13:16:08 +0200 (CEST)
+Received: from localhost ([::1]:38074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWGnT-0004gK-IH
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 07:01:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
+	id 1lWH1b-0006a6-B8
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 07:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWGlp-00048x-TG
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 06:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38632)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lWGzz-000678-LC
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:14:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWGlm-00084h-Td
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 06:59:48 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lWGzq-0008NR-03
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 07:14:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618311581;
+ s=mimecast20190719; t=1618312455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LF6Mxg2QFBE2Rb3FefHs5AS+13F0VKddZCUHXREC+xo=;
- b=P4k9ssCBsJFsaUFi9EXn3/+wM4dUmfOzAwDDaI94rdhzwgHMV6KIo2iwnRDdeX/aJeYVNU
- AABUb915wkbN2BqcM2v5xdeUCm8orUKOBsyWcTEbJuf28wPLoXpE4GiUg0xZPk0jGgbxl1
- 8Ba5aluLxqCWf80phqN4uu49vt4XEnY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-pB4a2PvwPqKXqUUTVEtT9Q-1; Tue, 13 Apr 2021 06:59:39 -0400
-X-MC-Unique: pB4a2PvwPqKXqUUTVEtT9Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b20-20020a7bc2540000b029010f7732a35fso691452wmj.1
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 03:59:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LF6Mxg2QFBE2Rb3FefHs5AS+13F0VKddZCUHXREC+xo=;
- b=ExL5aNF8dnU4jlfwUoeuWBOekp64bVAlVuQWn1RwEd0DbH+6bMUzYWOdDsdndcSU5u
- FISXgkiYO3CitvYIvhiEqOWxV4lUFy6E3jcnsXLr9KfTX2n/bAe+/WuODNaN79Y+Dqzd
- 1lUQcy1JHfy8b+HbH6iuV4K+Vg3gvgHAAobC2x1Vc10jIo4yJ2tnSc+qMi5Lk0t76b7h
- bzKKcIx5fCPMeFNgyg95qPeWHI4VE2DYeBoHgrEHQ/W3N8rUywfxOoNUDb6mzmmbEDBV
- vg8cP1rJdNJnH3ABqXIMqjk/sOHOa4EiBr4vbaUQEfX23zqhSvCSTYU1OAqyU6Pk0ELB
- x9Yg==
-X-Gm-Message-State: AOAM533es+NQCjGmufhmhYUiafsnh5H7FwVxAlM9VJZFcqMblafwo2Sw
- VYTy5hYi96F5qJUr3bgqJUh04/r836d1/I6yBknfsx4/K+bzJRMhACsVhNBgksKCNbo8XOGCrbe
- pui1i8q5nP0crTck=
-X-Received: by 2002:a05:600c:3796:: with SMTP id
- o22mr3487060wmr.139.1618311578094; 
- Tue, 13 Apr 2021 03:59:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwIy6wBrWtk1yezc+KNVccVEtlHxtJP87mBfysK2TAmdsVHTiRaRehPVzD601FuNvNklKT1Hg==
-X-Received: by 2002:a05:600c:3796:: with SMTP id
- o22mr3487046wmr.139.1618311577871; 
- Tue, 13 Apr 2021 03:59:37 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id j14sm19293777wrw.69.2021.04.13.03.59.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Apr 2021 03:59:37 -0700 (PDT)
-Subject: Re: [PATCH] cutils: fix memory leak in get_relocated_path()
-To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-References: <20210412170255.231406-1-sgarzare@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <22828e2d-2c8e-c753-31e5-7588f9064b10@redhat.com>
-Date: Tue, 13 Apr 2021 12:59:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fr1bLi40QI+cEUQwDmfwkQ6Koh0p2l2izGFG9vHO+Tc=;
+ b=dUto/ma9ZuVdOhzAt9a4u3EOSJRtXPxcns6b8MacL+6tAJcLhzuXC+4MqEFbtlfR/ejXu1
+ APB5wwqzRzBEjfjjekYjPM9/a33tPelzwOZ2rOwGU+rqi61B07gSGrCG8nt2oxPtZtNloW
+ 4e+9nTThLWbc8p016mTQAVZGbd3X8bU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-pkM9jo8INiWJiGpZwc55ow-1; Tue, 13 Apr 2021 07:14:11 -0400
+X-MC-Unique: pkM9jo8INiWJiGpZwc55ow-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8013B83DD22;
+ Tue, 13 Apr 2021 11:14:10 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F8FD50DE3;
+ Tue, 13 Apr 2021 11:14:02 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.0] x86: acpi: use offset instead of pointer when using
+ build_header()
+Date: Tue, 13 Apr 2021 07:14:00 -0400
+Message-Id: <20210413111400.3778820-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210412170255.231406-1-sgarzare@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,49 +77,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, zhaoshenglong@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is this fix aiming at 6.0 release?
+Do the same as in commit
+ (4d027afeb3a97 Virt: ACPI: fix qemu assert due to re-assigned table data address)
+for remaining tables that happen to use saved at
+the beginning pointer to build header to avoid assert
+when table_data is relocated due to implicit re-size.
 
-On 4/12/21 7:02 PM, Stefano Garzarella wrote:
-> get_relocated_path() allocates a GString object and returns the
-> character data (C string) to the caller without freeing the memory
-> allocated for that object as reported by valgrind:
-> 
->   24 bytes in 1 blocks are definitely lost in loss record 2,805 of 6,532
->      at 0x4839809: malloc (vg_replace_malloc.c:307)
->      by 0x55AABB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->      by 0x55C2481: g_slice_alloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->      by 0x55C4827: g_string_sized_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
->      by 0x55C4CEA: g_string_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
->      by 0x906314: get_relocated_path (cutils.c:1036)
->      by 0x6E1F77: qemu_read_default_config_file (vl.c:2122)
->      by 0x6E1F77: qemu_init (vl.c:2687)
->      by 0x3E3AF8: main (main.c:49)
-> 
-> Let's use g_string_free(gstring, false) to free only the GString object
-> and transfer the ownership of the character data to the caller.
-> 
-> Fixes: f4f5ed2cbd ("cutils: introduce get_relocated_path")
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
->  util/cutils.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/util/cutils.c b/util/cutils.c
-> index ee908486da..c9b91e7535 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -1055,5 +1055,5 @@ char *get_relocated_path(const char *dir)
->          assert(G_IS_DIR_SEPARATOR(dir[-1]));
->          g_string_append(result, dir - 1);
->      }
-> -    return result->str;
-> +    return g_string_free(result, false);
->  }
-> 
+Reported-in: https://bugs.launchpad.net/bugs/1923497
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+PS:
+ I have build_header() refactoring patch that requires offset
+ instead of pointer, to make it harder to misuse but it's
+ a bit intrusive for last minute fixes. So here goes simplified
+ variant, and I'll post refactoring patch for 6.1. later.
+---
+ hw/acpi/aml-build.c  | 15 +++++++++------
+ hw/i386/acpi-build.c |  8 ++++++--
+ 2 files changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index d33ce8954a..f0035d2b4a 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -1830,6 +1830,7 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+     int i;
+     unsigned rsdt_entries_offset;
+     AcpiRsdtDescriptorRev1 *rsdt;
++    int rsdt_start = table_data->len;
+     const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
+     const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
+     const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
+@@ -1846,7 +1847,8 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
+     }
+     build_header(linker, table_data,
+-                 (void *)rsdt, "RSDT", rsdt_len, 1, oem_id, oem_table_id);
++                 (void *)(table_data->data + rsdt_start),
++                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
+ }
+ 
+ /* Build xsdt table */
+@@ -1857,6 +1859,7 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+     int i;
+     unsigned xsdt_entries_offset;
+     AcpiXsdtDescriptorRev2 *xsdt;
++    int xsdt_start = table_data->len;
+     const unsigned table_data_len = (sizeof(uint64_t) * table_offsets->len);
+     const unsigned xsdt_entry_size = sizeof(xsdt->table_offset_entry[0]);
+     const size_t xsdt_len = sizeof(*xsdt) + table_data_len;
+@@ -1873,7 +1876,8 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
+     }
+     build_header(linker, table_data,
+-                 (void *)xsdt, "XSDT", xsdt_len, 1, oem_id, oem_table_id);
++                 (void *)(table_data->data + xsdt_start),
++                 "XSDT", xsdt_len, 1, oem_id, oem_table_id);
+ }
+ 
+ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+@@ -2053,10 +2057,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+     uint64_t control_area_start_address;
+     TPMIf *tpmif = tpm_find();
+     uint32_t start_method;
+-    void *tpm2_ptr;
+ 
+     tpm2_start = table_data->len;
+-    tpm2_ptr = acpi_data_push(table_data, sizeof(AcpiTableHeader));
++    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+ 
+     /* Platform Class */
+     build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
+@@ -2095,8 +2098,8 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+                                    log_addr_offset, 8,
+                                    ACPI_BUILD_TPMLOG_FILE, 0);
+     build_header(linker, table_data,
+-                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, oem_id,
+-                 oem_table_id);
++                 (void *)(table_data->data + tpm2_start),
++                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
+ }
+ 
+ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index de98750aef..daaf8f473e 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1816,6 +1816,7 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+            const char *oem_table_id)
+ {
+     Acpi20Hpet *hpet;
++    int hpet_start = table_data->len;
+ 
+     hpet = acpi_data_push(table_data, sizeof(*hpet));
+     /* Note timer_block_id value must be kept in sync with value advertised by
+@@ -1824,13 +1825,15 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+     hpet->timer_block_id = cpu_to_le32(0x8086a201);
+     hpet->addr.address = cpu_to_le64(HPET_BASE);
+     build_header(linker, table_data,
+-                 (void *)hpet, "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
++                 (void *)(table_data->data + hpet_start),
++                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
+ }
+ 
+ static void
+ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+                const char *oem_id, const char *oem_table_id)
+ {
++    int tcpa_start = table_data->len;
+     Acpi20Tcpa *tcpa = acpi_data_push(table_data, sizeof *tcpa);
+     unsigned log_addr_size = sizeof(tcpa->log_area_start_address);
+     unsigned log_addr_offset =
+@@ -1849,7 +1852,8 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+         ACPI_BUILD_TPMLOG_FILE, 0);
+ 
+     build_header(linker, table_data,
+-                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
++                 (void *)(table_data->data + tcpa_start),
++                 "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
+ }
+ 
+ #define HOLE_640K_START  (640 * KiB)
+-- 
+2.27.0
 
 
