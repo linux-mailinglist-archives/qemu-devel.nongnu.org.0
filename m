@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B8B35DBC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 11:50:20 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A031835DC02
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 11:58:30 +0200 (CEST)
+Received: from localhost ([::1]:54694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWFgZ-0004fq-16
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 05:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39130)
+	id 1lWFoT-0007Rp-8I
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 05:58:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWFfN-0004GB-Lq
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:49:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47777)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWFmh-0006wa-Ps
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:56:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWFfL-0008Rp-5Y
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:49:04 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lWFmd-0003zK-7M
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 05:56:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618307342;
+ s=mimecast20190719; t=1618307793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OGR/Byv26qmkmAdrXQM6ZrFO8+8PGQQAT5SYgJBcl/U=;
- b=BiIrMEB9sZsfFiGLjW7RPKt1nLaThvW8rMokkGiweEdtIKlqXgt/ddBkJ0y81/4YcjBpJs
- xM3LdIE0EBhePg/GKyzd9zfXCMvfHa/Hrc61lvoIc4UnCuQz6q4VZa/MqadA3p261/GW4W
- mZzVo4FjcYHsN4gDbOcq3BJF5o1dGgQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=luV9+PP/JJztcWwQ/Zjqj0ZBsaY4+QQQrpbpqcaaLVI=;
+ b=Q8nGYypXQQrxmJA9WaB+abRisy578gmb9f56ovDgdjpqKKOge+FpZZdp8p8S47JhF6pYGO
+ 0hGHiXQU9R0upv99veBJWBxVAQtdQiNYw1XZniTLVr5RvXpArEkpyIsUMGnLP0MhHiYE5O
+ 4PqYm2ByNNzx8T2B9Y6KtPtA2HXLeH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-T6pmKl9XO-ihhuF3qTqCJg-1; Tue, 13 Apr 2021 05:49:00 -0400
-X-MC-Unique: T6pmKl9XO-ihhuF3qTqCJg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-41-LICMzYVLPASEk6-DfWG9fw-1; Tue, 13 Apr 2021 05:56:30 -0400
+X-MC-Unique: LICMzYVLPASEk6-DfWG9fw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFA8F1883522
- for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 09:48:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56B7C690FA;
- Tue, 13 Apr 2021 09:48:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9BE60113525D; Tue, 13 Apr 2021 11:48:54 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 2/3] qom: move user_creatable_add_opts logic to vl.c
- and QAPIfy it
-References: <20210312173547.1283477-1-pbonzini@redhat.com>
- <20210312173547.1283477-3-pbonzini@redhat.com>
- <f0ea67d8-9641-104d-f8ec-5fc343256cc9@redhat.com>
- <87im4q23v2.fsf@dusky.pond.sub.org>
- <07c08cc3-f3ca-6f7a-e5f7-d2d3ee8de79e@redhat.com>
-Date: Tue, 13 Apr 2021 11:48:54 +0200
-In-Reply-To: <07c08cc3-f3ca-6f7a-e5f7-d2d3ee8de79e@redhat.com> (David
- Hildenbrand's message of "Tue, 13 Apr 2021 10:13:39 +0200")
-Message-ID: <87mtu2wm49.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3300091275;
+ Tue, 13 Apr 2021 09:56:28 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-69.ams2.redhat.com [10.36.115.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3CB35C3E4;
+ Tue, 13 Apr 2021 09:55:32 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RESEND v7 00/13] virtio-mem: vfio support
+Date: Tue, 13 Apr 2021 11:55:18 +0200
+Message-Id: <20210413095531.25603-1-david@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,60 +73,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Hildenbrand <david@redhat.com> writes:
+After silence for more than 1.5 months and the feeling like pinging into a
+black hole, I rebased and retested the patches.
 
-> On 13.04.21 06:41, Markus Armbruster wrote:
->> David Hildenbrand <david@redhat.com> writes:
->> 
->>> On 12.03.21 18:35, Paolo Bonzini wrote:
->>>> Emulators are currently using OptsVisitor (via user_creatable_add_opts)
->>>> to parse the -object command line option.  This has one extra feature,
->>>> compared to keyval, which is automatic conversion of integers to lists
->>>> as well as support for lists as repeated options:
->>>>     -object
->>>> memory-backend-ram,id=pc.ram,size=1048576000,host-nodes=0,policy=bind
->>>> So we cannot replace OptsVisitor with keyval right now.  Still, this
->>>> patch moves the user_creatable_add_opts logic to vl.c since it is
->>>> not needed anywhere else, and makes it go through user_creatable_add_qapi.
->>>> In order to minimize code changes, the predicate still takes a
->>>> string.
->>>> This can be changed later to use the ObjectType QAPI enum directly.
->>>>
->>>
->>> Rebasing my "noreserve"[1] series on this, I get weird errors from
->>> QEMU when specifying the new "reserve=off" option for a
->>> memory-backend-ram:
->>>
->>> "Invalid parameter 'reserve'"
->>>
->>> And it looks like this is the case for any new properties. Poking
->>> around, I fail to find what's causing this -- or how to unlock new
->>> properties. What is the magic toggle to make it work?
->>>
->>> Thanks!
->>>
->>> [1] https://lkml.kernel.org/r/20210319101230.21531-1-david@redhat.com
->> Wild guess: you didn't add your new properties in the QAPI schema.
->> For a not-so-wild-guess, send us a git-fetch argument for your
->> rebased
->> series.
->> 
->
-> Oh, there is qapi/qom.json -- maybe that does the trick.
->
-> (I have mixed feelings about having to specify the same thing twice at
-> different locations)
+I hope we can get them into 6.1 early -- or at least get some more feedback
+on the patches.
 
-With reason.
+@Paolo: Michael and Alex already acked relevant parts
 
-We've talked about generating QOM boilerplate from the QAPI schema, but
-haven't progressed to actual patches.
+--
 
-> I'll have a look if that makes it fly.
+A virtio-mem device manages a memory region in guest physical address
+space, represented as a single (currently large) memory region in QEMU,
+mapped into system memory address space. Before the guest is allowed to use
+memory blocks, it must coordinate with the hypervisor (plug blocks). After
+a reboot, all memory is usually unplugged - when the guest comes up, it
+detects the virtio-mem device and selects memory blocks to plug (based on
+resize requests from the hypervisor).
+
+Memory hot(un)plug consists of (un)plugging memory blocks via a virtio-mem
+device (triggered by the guest). When unplugging blocks, we discard the
+memory - similar to memory balloon inflation. In contrast to memory
+ballooning, we always know which memory blocks a guest may actually use -
+especially during a reboot, after a crash, or after kexec (and during
+hibernation as well). Guests agreed to not access unplugged memory again,
+especially not via DMA.
+
+The issue with vfio is, that it cannot deal with random discards - for this
+reason, virtio-mem and vfio can currently only run mutually exclusive.
+Especially, vfio would currently map the whole memory region (with possible
+only little/no plugged blocks), resulting in all pages getting pinned and
+therefore resulting in a higher memory consumption than expected (turning
+virtio-mem basically useless in these environments).
+
+To make vfio work nicely with virtio-mem, we have to map only the plugged
+blocks, and map/unmap properly when plugging/unplugging blocks (including
+discarding of RAM when unplugging). We achieve that by using a new notifier
+mechanism that communicates changes.
+
+It's important to map memory in the granularity in which we could see
+unmaps again (-> virtio-mem block size) - so when e.g., plugging
+consecutive 100 MB with a block size of 2 MB, we need 50 mappings. When
+unmapping, we can use a single vfio_unmap call for the applicable range.
+We expect that the block size of virtio-mem devices will be fairly large
+in the future (to not run out of mappings and to improve hot(un)plug
+performance), configured by the user, when used with vfio (e.g., 128MB,
+1G, ...), but it will depend on the setup.
+
+More info regarding virtio-mem can be found at:
+    https://virtio-mem.gitlab.io/
+
+v7 is located at:
+  git@github.com:davidhildenbrand/qemu.git virtio-mem-vfio-v7
+
+v6 -> v7:
+- s/RamDiscardMgr/RamDiscardManager/
+- "memory: Introduce RamDiscardManager for RAM memory regions"
+-- Make RamDiscardManager/RamDiscardListener eat MemoryRegionSections
+-- Replace notify_discard_all callback by double_discard_supported
+-- Reshuffle the individual hunks in memory.h
+-- Provide function wrappers for RamDiscardManager calls
+- "memory: Helpers to copy/free a MemoryRegionSection"
+-- Added
+- "virtio-mem: Implement RamDiscardManager interface"
+-- Work on MemoryRegionSections instead of ranges
+-- Minor optimizations
+- "vfio: Support for RamDiscardManager in the !vIOMMU case"
+-- Simplify based on new interfaces /  MemoryRegionSections
+-- Minor cleanups and optimizations
+-- Add a comment regarding dirty bitmap sync.
+-- Don't store "offset_within_region" in VFIORamDiscardListener
+- "vfio: Support for RamDiscardManager in the vIOMMU case"
+-- Adjust to new interface
+- "softmmu/physmem: Don't use atomic operations in ..."
+-- Rename variables
+- "softmmu/physmem: Extend ram_block_discard_(require|disable) ..."
+-- Rename variables
+- Rebased and retested
+
+v5 -> v6:
+- "memory: Introduce RamDiscardMgr for RAM memory regions"
+-- Fix variable names in one prototype.
+- "virtio-mem: Don't report errors when ram_block_discard_range() fails"
+-- Added
+- "virtio-mem: Implement RamDiscardMgr interface"
+-- Don't report an error if discarding fails
+- Rebased and retested
+
+v4 -> v5:
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Added more assertions for granularity vs. iommu supported pagesize
+- "vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr"
+-- Fix accounting of mappings
+- "vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus"
+-- Fence off SPAPR and add some comments regarding future support.
+-- Tweak patch description
+- Rebase and retest
+
+v3 -> v4:
+- "vfio: Query and store the maximum number of DMA mappings
+-- Limit the patch to querying and storing only
+-- Renamed to "vfio: Query and store the maximum number of possible DMA
+   mappings"
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Remove sanity checks / warning the user
+- "vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr"
+-- Perform sanity checks by looking at the number of memslots and all
+   registered RamDiscardMgr sections
+- Rebase and retest
+- Reshuffled the patches slightly
+
+v2 -> v3:
+- Rebased + retested
+- Fixed some typos
+- Added RB's
+
+v1 -> v2:
+- "memory: Introduce RamDiscardMgr for RAM memory regions"
+-- Fix some errors in the documentation
+-- Make register_listener() notify about populated parts and
+   unregister_listener() notify about discarding populated parts, to
+   simplify future locking inside virtio-mem, when handling requests via a
+   separate thread.
+- "vfio: Query and store the maximum number of DMA mappings"
+-- Query number of mappings and track mappings (except for vIOMMU)
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Adapt to RamDiscardMgr changes and warn via generic DMA reservation
+- "vfio: Support for RamDiscardMgr in the vIOMMU case"
+-- Use vmstate priority to handle migration dependencies
+
+RFC - v1:
+- VFIO migration code. Due to missing kernel support, I cannot really test
+  if that part works.
+- Understand/test/document vIOMMU implications, also regarding migration
+- Nicer ram_block_discard_disable/require handling.
+- s/SparseRAMHandler/RamDiscardMgr/, refactorings, cleanups, documentation,
+  testing, ...
+
+David Hildenbrand (13):
+  memory: Introduce RamDiscardManager for RAM memory regions
+  memory: Helpers to copy/free a MemoryRegionSection
+  virtio-mem: Factor out traversing unplugged ranges
+  virtio-mem: Don't report errors when ram_block_discard_range() fails
+  virtio-mem: Implement RamDiscardManager interface
+  vfio: Support for RamDiscardManager in the !vIOMMU case
+  vfio: Query and store the maximum number of possible DMA mappings
+  vfio: Sanity check maximum number of DMA mappings with
+    RamDiscardManager
+  vfio: Support for RamDiscardManager in the vIOMMU case
+  softmmu/physmem: Don't use atomic operations in
+    ram_block_discard_(disable|require)
+  softmmu/physmem: Extend ram_block_discard_(require|disable) by two
+    discard types
+  virtio-mem: Require only coordinated discards
+  vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus
+
+ hw/vfio/common.c               | 315 +++++++++++++++++++++++++-
+ hw/virtio/virtio-mem.c         | 391 ++++++++++++++++++++++++++++-----
+ include/exec/memory.h          | 324 +++++++++++++++++++++++++--
+ include/hw/vfio/vfio-common.h  |  12 +
+ include/hw/virtio/virtio-mem.h |   3 +
+ include/migration/vmstate.h    |   1 +
+ softmmu/memory.c               |  98 +++++++++
+ softmmu/physmem.c              | 108 ++++++---
+ 8 files changed, 1133 insertions(+), 119 deletions(-)
+
+-- 
+2.30.2
 
 
