@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3590935E9BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 01:36:45 +0200 (CEST)
-Received: from localhost ([::1]:46590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C535E9CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 01:43:32 +0200 (CEST)
+Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWSaK-0001Is-9o
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 19:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49144)
+	id 1lWSgt-00081c-M1
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 19:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=730c0c5bd=alistair.francis@wdc.com>)
- id 1lWSYG-0007ld-Mc; Tue, 13 Apr 2021 19:34:36 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17803)
+ id 1lWSYn-0008Or-BM; Tue, 13 Apr 2021 19:35:09 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=730c0c5bd=alistair.francis@wdc.com>)
- id 1lWSYD-0004MW-BA; Tue, 13 Apr 2021 19:34:36 -0400
+ id 1lWSYj-0004Xq-Pq; Tue, 13 Apr 2021 19:35:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1618356873; x=1649892873;
+ t=1618356905; x=1649892905;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CIWpVKitxhWhhhwH+X/wZy5fnfmgSYQiKdEBZGqaiNA=;
- b=KaD5rYM6LBfEbQJEwccg1ASchqKTbGyApv+kE3eGTptrcbNH1934zWfe
- iQop0HF1KPZgxhjmGMUrrk68x9WQZrAGs1Ra1NQV3Fg676J10phiog+gb
- pIVwy9lpXp6GgBMdBt7n0/GOkEp/Jx+noQZqO7GhLdD8rIU4VwBRoqyIC
- zZLt+QH1fvysTBO48wOzYt5GRxv1KGt+a7qVrH5qMdwQw7qHIyjjr2UHp
- wxZt4w2O7AzznSpiOBN/hQ28HazyEXbOvOm1TbQEQNvVT+6tzL3klK50q
- Ol3KiLCupvrDBQMptRAx6LDxdNrZfkV8Z7iNR//iDyI5wJg5qVfII5Hd6 Q==;
-IronPort-SDR: vHMYXcrQL/vlmaBXWaDtYJE2aYSXQlSZ50JrpnVlb8ROVEImCrHV9JOYH5iR+5sQyj+5ACYnSK
- pad7XFk9eTO7WFyqTsdQtA7ocd/NIZ4cswmKDjG3qdP6P1/yk4/IX1YivhG8QJr8eFO6I71MPD
- LV6muTw8xdKO/cSPFE/0Xf0aRNrksBoEzR8wQ80lWFaI4CZIErc2MlP/CyEsnWBGxt+WnVh7jE
- ycpXkPv+yV1sZCF5sEskbjHiRMOlv59gy7mNHYNIeBwqdRjSbywYw61OtuV5aU9y07KFQXkW/f
- 2T4=
-X-IronPort-AV: E=Sophos;i="5.82,220,1613404800"; d="scan'208";a="164258304"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Apr 2021 07:34:20 +0800
-IronPort-SDR: fAyUWhuF3h9d02N3Bug3tTWJCfXdvefcG6+gIEVROPloEgu3NBYwwqWUWmgl44Q/d6YFdrKF0W
- bxopSLBaj2vvAjEyxZFG+9XBker/tGRFqzZtSLKfko8UKJfNqvRHmJfY6vwk1C+60jM+jIdrVC
- P1HXPSyhzpxXzGix1WbUTDqj9JWbC6lz5BExMhLoAeq/QTHgW2+gwdvYX5kcMEkw4b2AYfktg2
- nSeMp+wsEbGXDQ8XkKon7FrYO/e5oDViGD+bGPASV8e8UF5dhN2kDPw7aSpWIQHPRfSLCTrqQa
- 78zKuf4pljbiND1WYiClPCSF
+ bh=4fAfgPIZ3lbd3Ui7he7G0ZKZKdIXrGhC9Q5XFmRKFUI=;
+ b=LV3mhX7ffeNTw+M06g4i6Hr+1iS3WQGM3vpGHC6uKz2uDJ2/+gnmKChK
+ KRUJuqJ1HN2FxR2bj+a9Bt+qW/VbXTGsW08eaEGR6OkAcawUNebZp8D+Y
+ 1gRiP4OrRMTXjipirrLsucFZR0ESyS3J9s+aHjsFYL6W6drWk5X8FxBNx
+ LHIZOesUGIY0VG/nvg2D+4Tucwqiyuy2DLxpRD55uYtK4yEvRP0Yrg6P0
+ BWxJniY1Da8J2cFJuEyb6pqseGrvOfzh3ZVUlxpOH3P9CmMmyREcOr1M0
+ PxpfThrRvcfFAyULgNmwADXwt1rHXZIVRcH3Rqu7L2y41mLt5rxukszTS g==;
+IronPort-SDR: zJ2bzFqaKssS383/lCn/1rABm4b3+fpWLgpWt4chkDqkuKoOv+r6Omu8Apdl4B2glbHZSqEIme
+ stKjzS5BkRCXn62gz4VEMJuJL3Omm04LO+Wg5eq/z8Q0SRDM5MMJFv7S4QNbGQsQIhyXG2uYh3
+ eZUs9xFa6R2A0NKrXFFTQCzV34Gw9XOWgCohKHiIq2CBWjcn06zFyRFOZiwQd+ESyTvMkJsMXU
+ XruOgH2EAh5NCcfljT+/QXnFufvL95HGr3YqS2yn/7T3OQNMZ/GrBqOouX1Wpnh3zWvXCsGIzP
+ zH8=
+X-IronPort-AV: E=Sophos;i="5.82,220,1613404800"; d="scan'208";a="164258326"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Apr 2021 07:34:51 +0800
+IronPort-SDR: +WLG5/CfVfrz2+HXXotQruCZA0zcN0kU2hhbPIR4hJAYMLJqft71jC7IeC0RGL74VMX/m+mWGK
+ VxtEzuul9gKFbkAaVAjHBeIcmGoPdZkmL9QrOiqMsc498ASAoJdEe8j1lZTbql/necwJVSDK5s
+ lgrcXewG4/GBp49PXAfVoJNKFn6hKRxsIN+4fA2Kthd8nxpOVkp67m9sqJhYAWL4UPf4/Imzmi
+ ywGo6Bghzfn0LMw5hhln/Ld3ONLCOXnbumogfHA4aZHNvsMCcPYIQXLZSx4QiurSGMulNYDeiB
+ /H6u3FNq23g2KDddRyzeekxB
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2021 16:15:17 -0700
-IronPort-SDR: 6J6CL5pPI8iooStPrM61ULIuQca0NOWNeisOAD6oAoQEWYsUL2PkAqOjNIcuuem+hAiZfE5K3x
- N8BZV8lLs4ska6b0m7eK6Fct3qPCS9i5T0Kbc5pM9HOOptYRIzO7N28iDXDtAxfNRKFafGpLhO
- eeJ4m6f8jrxS1ImYnxcW9SusadBy8yLNTImlPGNUGuBG0Rrwc7c96HBzxWoTCCqt34LRkojAsv
- AKGJXRo5reBH4VHV50ezdeMBJTIFcUoUAeS4oMzSWg6prHOU+AK7Vg/pkexRjsNcsx+K8bM5y9
- 7K0=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2021 16:13:49 -0700
+IronPort-SDR: DdBt2xFP/iPh8TqWBjXIKSVkCGIUIQsl0iCbzEb5TMzF4H7I0V09YpH5+ihF7kbWhHd/GA/XMb
+ Ex/tYHG9AmXE26K49QVlszWKqNPa9Cv/v75Mq3MuhIXOcPAODx5zBz5b5PNyNykNv7cJr8C793
+ 39bDrZA+1goGC1z/Hy9ECPvfPsbaO6i0Ri0idSWgH+AdXpqjx8Zud+P5OyH25n4cZwllhwzDHU
+ II6dGlWBP+WsP7CumKBkqysXCwq0iTfeOmiOWs/E69Cqt/XAgzhgte13bZqI3QGL4DO52yzNu4
+ caw=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.17])
- by uls-op-cesaip02.wdc.com with ESMTP; 13 Apr 2021 16:34:11 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 13 Apr 2021 16:34:19 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 6/9] target/riscv: Remove the unused HSTATUS_WPRI macro
-Date: Wed, 14 Apr 2021 09:34:09 +1000
-Message-Id: <712a346091f1559c50c7f9b334a8dec728cfa2bd.1618356725.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 7/9] target/riscv: Remove an unused CASE_OP_32_64 macro
+Date: Wed, 14 Apr 2021 09:34:17 +1000
+Message-Id: <89944e8caeecd85d7136ea53e7b2bbe8aab18222.1618356725.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1618356725.git.alistair.francis@wdc.com>
 References: <cover.1618356725.git.alistair.francis@wdc.com>
@@ -97,26 +97,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu_bits.h | 6 ------
+ target/riscv/translate.c | 6 ------
  1 file changed, 6 deletions(-)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 6a816ce9c2..9f6fbe3dc5 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -416,12 +416,6 @@
- #define HSTATUS32_WPRI       0xFF8FF87E
- #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 74636b9db7..ba8fb2cda3 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -67,12 +67,6 @@ typedef struct DisasContext {
+     CPUState *cs;
+ } DisasContext;
  
--#if defined(TARGET_RISCV32)
--#define HSTATUS_WPRI HSTATUS32_WPRI
--#elif defined(TARGET_RISCV64)
--#define HSTATUS_WPRI HSTATUS64_WPRI
+-#ifdef TARGET_RISCV64
+-#define CASE_OP_32_64(X) case X: case glue(X, W)
+-#else
+-#define CASE_OP_32_64(X) case X
 -#endif
 -
- #define HCOUNTEREN_CY        (1 << 0)
- #define HCOUNTEREN_TM        (1 << 1)
- #define HCOUNTEREN_IR        (1 << 2)
+ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+ {
+     return ctx->misa & ext;
 -- 
 2.31.1
 
