@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4393535E007
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:27:48 +0200 (CEST)
-Received: from localhost ([::1]:41818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5F135E025
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Apr 2021 15:34:22 +0200 (CEST)
+Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWJ51-00012P-C5
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45134)
+	id 1lWJBN-0006Wm-3w
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 09:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lWJ1S-00082l-DP
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:24:06 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36682)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lWJ8t-0005Lq-Uc; Tue, 13 Apr 2021 09:31:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lWJ1Q-0005T4-Gp
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 09:24:06 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lWJ8r-0000wi-HR; Tue, 13 Apr 2021 09:31:47 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13DD4lvl071711; Tue, 13 Apr 2021 09:24:01 -0400
+ 13DD3Dnt036464; Tue, 13 Apr 2021 09:31:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=44nATt4pPU1X4XpbG2nkG81Qs2gJDi+Dn3qjr+yIzlk=;
- b=lMCXJzHrvV4Z6HfBF2SS0RW4uflaPOL9eG2XG+LtZUy9AA9zHJKTHtQ7bbJV5ZV8k/h4
- TUh15hPpgHSiC3x6DpQDncdLaZzfGnbIbIZKRyDRSqIw8gb6hMlQq9ClOWY7KQA2GAuj
- YbDheipyyvl/vYRllvm1V0ZF0+McuBwVzrc4kUcdu6eiJiJXs2W4VTFmSwvco+AUxPuw
- znGn7MoVPblWetEB/4TP539lU2uZagfByQQHOtQQQ7TkPH6nsSR7/ey2o/IPmikUgm1W
- HjXm4ZSaKMVXTqbJMdIspNLuka1iBO/nzhC9LjQcaa7IsylRq7i/CzEpM+vuf+iVzCDr 6A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37vk3sj2e8-1
+ : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=3wpDD4dsJmAGYdIzSQXZt2XJCS7q6hMKM3xqak9B+iY=;
+ b=d5JokogmY3gap62AKS7PxkhzacVb23skj2RHZa8prbNhUQCuqr0LG5dyMEQQCRpZ2Xk+
+ kExcm3y8rvvic/qalsXf9uZWsMc6hK+AJR1NYQjaIuLwNi4ckbj5W+xMP0MaYPM/J7i8
+ f0ae8EKCkglwOHy8bJ0k2bsnIsGhd3BwO5MYVWTvBY11jErs+M/bvptsah/27587oWz/
+ yW8v8PfvvTV1Wea/8eM99YMW0ev4gXrlwdnbglSzrD/lNIpm2AGStSm7bze0TVdi7KmC
+ LZlA1KR4Cby18ghHdC5M+qXRiTide6qmZOj9LqdInavlhivp8SE7MVKZyNWBUTImA5nB Pw== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37vkpjtc6s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 09:24:01 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13DD5Grp073666;
- Tue, 13 Apr 2021 09:24:00 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37vk3sj2dc-1
+ Tue, 13 Apr 2021 09:31:37 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DDRxmL027504;
+ Tue, 13 Apr 2021 13:31:36 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04wdc.us.ibm.com with ESMTP id 37u3na0xb9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 09:24:00 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DDMVaO003170;
- Tue, 13 Apr 2021 13:23:58 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 37u3n89e3u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 13:23:58 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13DDNtWv32506262
+ Tue, 13 Apr 2021 13:31:36 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13DDVZKt24445324
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Apr 2021 13:23:55 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 263504204C;
- Tue, 13 Apr 2021 13:23:55 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1F824203F;
- Tue, 13 Apr 2021 13:23:54 +0000 (GMT)
-Received: from vm.lan (unknown [9.145.157.105])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 13 Apr 2021 13:23:54 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] accel/tcg: Fix translation exception on invalid instruction
-Date: Tue, 13 Apr 2021 15:23:49 +0200
-Message-Id: <20210413132349.20520-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Tue, 13 Apr 2021 13:31:35 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2B96F7805F;
+ Tue, 13 Apr 2021 13:31:35 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7AF1878063;
+ Tue, 13 Apr 2021 13:31:34 +0000 (GMT)
+Received: from localhost (unknown [9.211.159.146])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 13 Apr 2021 13:31:34 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH] target/ppc: code motion from translate_init.c.inc to
+ gdbstub.c
+In-Reply-To: <CP2PR80MB4499015423A3D0B49610C929C74F9@CP2PR80MB4499.lamprd80.prod.outlook.com>
+References: <20210412190442.114467-1-bruno.larsen@eldorado.org.br>
+ <874kgb5ibs.fsf@linux.ibm.com>
+ <CP2PR80MB4499015423A3D0B49610C929C74F9@CP2PR80MB4499.lamprd80.prod.outlook.com>
+Date: Tue, 13 Apr 2021 10:31:31 -0300
+Message-ID: <871rbe5n0s.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: BmwhPKNhvIMFxSuey8nqDM2H6Ga6InXI
-X-Proofpoint-ORIG-GUID: vObAFJ7Uwd3bSUOUerHRbKa47nZzOhxC
+X-Proofpoint-GUID: XTLcQLJ--y4V2VG4gsg4A6xcbiKGKrv7
+X-Proofpoint-ORIG-GUID: XTLcQLJ--y4V2VG4gsg4A6xcbiKGKrv7
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-13_07:2021-04-13,
  2021-04-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- mlxlogscore=999 impostorscore=0 clxscore=1011 lowpriorityscore=0
- bulkscore=0 malwarescore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130091
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ suspectscore=0 spamscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104060000 definitions=main-2104130091
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -105,64 +106,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hitting an uretprobe in a s390x TCG guest causes a SIGSEGV. What
-happens is:
+Bruno Piazera Larsen <bruno.larsen@eldorado.org.br> writes:
 
-* uretprobe maps a userspace page containing an invalid instruction.
-* uretprobe replaces the target function's return address with the
-  address of that page.
-* When tb_gen_code() is called on that page, tb->size ends up being 0
-  (because the page starts with the invalid instruction), which causes
-  virt_page2 to point to the previous page.
-* The previous page is not mapped, so this causes a spurious
-  translation exception.
+> All the code and git related feedback as been done, with the exception of
+>
+>> > +gchar *ppc_gdb_arch_name(CPUState *cs);
+>> > +
+>> > +
+>> >  #endif /* PPC_CPU_H */
+>> > diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+>> > index c28319fb97..0c016b8483 100644
+>> > --- a/target/ppc/gdbstub.c
+>> > +++ b/target/ppc/gdbstub.c
+>> > @@ -20,6 +20,10 @@
+>> >  #include "qemu/osdep.h"
+>> >  #include "cpu.h"
+>> >  #include "exec/gdbstub.h"
+>> > +#ifdef CONFIG_TCG
+>> > +#include "exec/helper-proto.h"
+>> > +#endif
+>> We still need to figure out where to move the vscr helpers so that both
+>> TCG and !TCG code can see them. But we cannot build without TCG
+>> currently anyway so I guess it's ok to leave the ifdef.
+>
+> Actually, since we're moving the helpers away, I think it's better to rem=
+ove the ifdefs...
+> The helper-proto.h is here only for the vscr, so it's going away before w=
+e support the !tcg build anyway. Thoughts?
 
-Fix by special-casing tb->size == 0: since there is no useful code, we
-don't need to link pages in this case.
+Sure, that's reasonable.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- accel/tcg/translate-all.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+>
+>> > +
+>> > +void ppc_cpu_gdb_init(CPUState *cs, PowerPCCPUClass *pcc)
+>> > +{
+>> > +
+>> > +    if (pcc->insns_flags & PPC_FLOAT) {
+>> > +        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float=
+_reg,
+>> > +                                 33, "power-fpu.xml", 0);
+>> > +    }
+>> > +    if (pcc->insns_flags & PPC_ALTIVEC) {
+>> > +        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
+>> > +                                 34, "power-altivec.xml", 0);
+>> > +    }
+>> > +    if (pcc->insns_flags & PPC_SPE) {
+>> > +        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
+>> > +                                 34, "power-spe.xml", 0);
+>> > +    }
+>> > +    if (pcc->insns_flags2 & PPC2_VSX) {
+>> > +        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
+>> > +                                 32, "power-vsx.xml", 0);
+>> > +    }
+>> > +#ifndef CONFIG_USER_ONLY
+>> > +    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
+>> > +                             pcc->gdb_num_sprs, "power-spr.xml", 0);
+>> > +#endif
+>> > +}
+>>
+>> Same here.
+>
+> This function was actually created by me, wasn't in the translate_init.c.=
+inc. Since we're moving gdb fuinctions to gdbstub.c, I thought it made sens=
+e to hide the logic behind how to register coprocessors correctly as well. =
+that's why there is no removal of this function on the diff. Should I move =
+it back to ppc_cpu_realize or is this a good plan?
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ba6ab09790..77043b98c4 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1848,7 +1848,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     CPUArchState *env = cpu->env_ptr;
-     TranslationBlock *tb, *existing_tb;
-     tb_page_addr_t phys_pc, phys_page2;
--    target_ulong virt_page2;
-     tcg_insn_unit *gen_code_buf;
-     int gen_code_size, search_size, max_insns;
- #ifdef CONFIG_PROFILER
-@@ -2085,11 +2084,15 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     }
- 
-     /* check next page if needed */
--    virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
-     phys_page2 = -1;
--    if ((pc & TARGET_PAGE_MASK) != virt_page2) {
--        phys_page2 = get_page_addr_code(env, virt_page2);
-+    if (tb->size != 0) {
-+        target_ulong virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
-+
-+        if ((pc & TARGET_PAGE_MASK) != virt_page2) {
-+            phys_page2 = get_page_addr_code(env, virt_page2);
-+        }
-     }
-+
-     /*
-      * No explicit memory barrier is required -- tb_link_page() makes the
-      * TB visible in a consistent state.
--- 
-2.29.2
+Right, but you created the function by refactoring the existing code in
+translate_init.c.inc so the diff still needs to contain the removal of
+the gdb_register_coprocessor calls from that file.
 
+>
+>
+>
+> Bruno Piazera Larsen
+>
+> Instituto de Pesquisas ELDORADO<http://clickemailmkt.eldorado.org.br/ls/c=
+lick?upn=3DUPoxpeIcHnAcbUZyo7TTaswyiVb1TXP3jEbQqiiJKKGsxOn8hBEs5ZsMLQfXkKuK=
+XZ7MVDg0ij9eG8HV4TXI75dBzDiNGLxQ8Xx5PzCVNt6TpGrzBbU-2Biu0o69X5ce-2FW-2FOk1u=
+UipuK0fZnWXJEgbRw-3D-3DJY4T_wWk-2BG6VvNBoa1YzxYjhCdFS9IfANIaBzDSklR1NyyrKOI=
+1wj0P-2BdBFcuO4FnHcsA1MyHu0ly1Yt3oDMp7KKdJPM68iKuI2jiRH5v4B0d8wf3chU3qy5n5i=
+XWnW1QjSaNFHOgELzxaP-2FnesTeBgJ5dFkjH4f279sVQpOtyjw5xAqj34M6pgNRAxVvuXif4IW=
+DcVzXg1FzfYlEfkKzr9vvpA3Hg8kitwMtlU3zwbQUBCgL30fQoJPcRPMGKyOY8RmoAlXNqTJYDY=
+IvqmfnI7KLUvw6vKB5R-2B5q1FJRAzX7H-2BmF0NnDET6jMLuIqtCcVIch>
+>
+> Departamento Computa=C3=A7=C3=A3o Embarcada
+>
+> Analista de Software Trainee
+>
+> Aviso Legal - Disclaimer<https://www.eldorado.org.br/disclaimer.html>
 
