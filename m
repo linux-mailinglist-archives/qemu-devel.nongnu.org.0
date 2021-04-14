@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0794235F0E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:37:47 +0200 (CEST)
-Received: from localhost ([::1]:55366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD4D35F105
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:47:14 +0200 (CEST)
+Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWbxx-00073r-NM
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42002)
+	id 1lWc77-00024e-H4
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:47:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWbvh-0006Vx-KF
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:35:25 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:35350)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWbve-0007Fr-9v
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:35:25 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id x4so22904359edd.2
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 02:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=alwnIiJQ3wwTg7X2tj1ZneTRQ5ENJCZz0FW4LaGKqOk=;
- b=LlU8bWYcPtC8WGIUjIqJOyy1cBmDpbxpjpVcS4opZHo9L4ItrEiqs8AYwFrTcraTwC
- 0oD4ObvDfZDX0H/8EltlsPWkEUrt3xbqR3pErDUYugC7bLxykq+CZce0j+OoMzXJt8HF
- LJOjD3mBHGATXizsMJintofaBpqHQYTrVB853VUgj22X2wst4yZlutH/L9svF9/67k7l
- Vs0nRMSh02hew2XKYV4b/+YkrOEM54+GiUt4qHmVQUyVm1CyUElq4tbEZYjjs5plGatZ
- aw89SM3hnRzVQRCVZAIMB+4ft4Te+R0KlWftNG5ZM5F4qL7iUT5F9lR96Fl9EGUUm2CW
- aTVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=alwnIiJQ3wwTg7X2tj1ZneTRQ5ENJCZz0FW4LaGKqOk=;
- b=mRFpc8R5KyCfPjKmdfI5EKkWbGbr9En+TsTCY9uxATuJMfAqVkCLC1hV+cSlsCtq+i
- SmMi/FlZlIw7QFzB0tI9/aLcQVLJ7vqrUNcZTb3MlD/6kcI5+Lf1AHldpDTncqwhoVzq
- TW/23Qh9cAOKKhgPqWxXZnl9PWsIUv71wTAZ44sSnHPjO0En3oBFC7kwK5Yki0MzmF52
- Msnq1n7BjUw5TBIzaT+NylHefusDayrcA1A354v5sXAiNL1vRGi5J0T+HrrRf/ZNqehi
- sc9O9BstkJmzbSQpkuchQfF93szYoOsjenptsQL7ElQMks7Dn6w7YedxBHXoMey7Eujo
- aEMg==
-X-Gm-Message-State: AOAM533M10xTi3A0qS6vSbJDxpJZp6HYlUO8kvDkZhxYHmqujenJ0aP2
- 0EudQLlftpyyAK1Y4DN6x5Q6LVH/c19tLMuI3K9IeQ==
-X-Google-Smtp-Source: ABdhPJw4vs9ydBTGraupgDyz54oxZKV9RNoTyDyVR06rT2ihceMw9709pq0D7riuDvbo2lya6fTHJD6g10Pnhql04G0=
-X-Received: by 2002:aa7:d28d:: with SMTP id w13mr2342935edq.251.1618392920146; 
- Wed, 14 Apr 2021 02:35:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lWc5W-0001I1-1T
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:45:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lWc5S-0004Oi-BD
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:45:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618393527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3UG1rqIsXMKmeAz/MNqfWNq6iSitU8OvytV5dMtVHC8=;
+ b=egeDm0sQsRhvR+OUJQ17HEA0iPAAPLmOQKPU9nqDOfmKIoxQvCH3zlJLNQb9nYYymMt8j1
+ ZlEjgcNTaNyWxVQ0006KSWPyh0kSaXrjI/SCH80R9t7nLmXMBd4iPwROzglP2lAkDkaAAL
+ AHSOBvg1QwdaOIYYM8ldUAt6QOCNHBY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-s2teuGkSMFud7Whxxm1K_w-1; Wed, 14 Apr 2021 05:45:23 -0400
+X-MC-Unique: s2teuGkSMFud7Whxxm1K_w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6669B8189C8;
+ Wed, 14 Apr 2021 09:45:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-165.ams2.redhat.com
+ [10.36.114.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50DAC6F99E;
+ Wed, 14 Apr 2021 09:45:04 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 615B81800936; Wed, 14 Apr 2021 11:45:02 +0200 (CEST)
+Date: Wed, 14 Apr 2021 11:45:02 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 00/11] Add support for Blob resources feature
+Message-ID: <20210414094502.krykle6fcv2ehkvg@sirius.home.kraxel.org>
+References: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
+ <58a1404f12d9434bae1d336f6553279e@intel.com>
 MIME-Version: 1.0
-References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
- <CAEUhbmWsBfhub-+hMvucshCRH412fuvz5_=fAU_y7UmYJ4_=dQ@mail.gmail.com>
- <5445e140-94f1-dfcf-4652-0e47494e8c23@weilnetz.de>
- <CAEUhbmWJ3kGk4sVM3+TsHmZrDrekqSYcFebpztedU4jkw1DoWQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmWJ3kGk4sVM3+TsHmZrDrekqSYcFebpztedU4jkw1DoWQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 14 Apr 2021 10:34:33 +0100
-Message-ID: <CAFEAcA_XOeoXDVGgMHYXmWj2=pQXsS4__izzOrucYP+ZsbyO1Q@mail.gmail.com>
-Subject: Re: any remaining for-6.0 issues?
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <58a1404f12d9434bae1d336f6553279e@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, "Zhang,
+ Tina" <tina.zhang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Kim, Dongwon" <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Apr 2021 at 09:31, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Stefan,
->
-> On Tue, Apr 13, 2021 at 2:19 PM Stefan Weil <sw@weilnetz.de> wrote:
-> > That patch is based on an older version of my personal QEMU sources and
-> > not required for 6.0.
->
-> I am confused.
->
-> I see https://repo.or.cz/qemu/ar7.git/blob/HEAD:/qemu.nsi still does
-> not contain the fix.
->
-> Or is this qemu.nsi file not used in the latest 6.0 installer?
+  Hi,
 
-In any case, that is a branch, and so any issues in it are not relevant
-to 6.0 unless they are also a problem for QEMU master itself.
+> Any other ideas as to how to eliminate that Blit cleanly?
 
-thanks
--- PMM
+Well, "cleanly" pretty much implies "supported by toolkit".
+
+gtk glarea for example sets up a framebuffer and expects the application
+render to that framebuffer.  So qemu glarea code does a fb-to-fb blit.
+
+Other reasons are scaling and cursor rendering.  Not all reasons apply
+to all UIs.  I think when using spice qemu doesn't blit (not fully sure
+what happens inside spice-server), but it could very well be that the
+spice-client does the blit instead, i.e. we just shift the issue to
+another place ...
+
+take care,
+  Gerd
+
 
