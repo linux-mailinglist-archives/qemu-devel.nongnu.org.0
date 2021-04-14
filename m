@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5238835F911
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:41:55 +0200 (CEST)
-Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C54835F910
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:40:55 +0200 (CEST)
+Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWiaQ-0006fL-FN
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38496)
+	id 1lWiZS-00063O-1c
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:40:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWi7X-0000J9-U9
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:12:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29938)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lWiUH-0002PQ-5Y
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:35:33 -0400
+Received: from smtpout1.mo3005.mail-out.ovh.net ([79.137.123.220]:43697
+ helo=smtpout1.3005.mail-out.ovh.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWi7Q-0006dE-Fs
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:12:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618416714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CoXvQTN9X+iG2WULzyLP7mBpCySqmHMLLa4Gm+1DJjA=;
- b=G+t7RYAr7Ut+5XxP8DoY6U+SholY+bPwXodvXYjaL9/1WzbtPfID+vmoKesZxhC1WZPgMH
- xSIZxpQPpfPME51wMKfIizTW3FPl92z4YFBbP3M1cJQxzaxZgds0kIbx+d5p/G3JgF8uks
- 1L/zdXfRW1TzFWbwuFbrALLBOOvhIUU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-jl-USw8ZOsmpZKQTXXuLPw-1; Wed, 14 Apr 2021 12:11:51 -0400
-X-MC-Unique: jl-USw8ZOsmpZKQTXXuLPw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80C2C801FD8;
- Wed, 14 Apr 2021 16:11:50 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-116-207.rdu2.redhat.com
- [10.10.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71BFB5946D;
- Wed, 14 Apr 2021 16:11:49 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] Acceptance Tests: bump Avocado version requirement to 87.0
-Date: Wed, 14 Apr 2021 12:11:44 -0400
-Message-Id: <20210414161144.1598980-2-crosa@redhat.com>
-In-Reply-To: <20210414161144.1598980-1-crosa@redhat.com>
-References: <20210414161144.1598980-1-crosa@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lWiU4-0006YS-VP
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:35:32 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.249])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 46AC013FF66;
+ Wed, 14 Apr 2021 16:35:09 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 14 Apr
+ 2021 18:35:08 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0042df8592f-91ef-47c3-9325-ab1c72c77115,
+ 27A2EAB91443B59947E9A6799839B739A3DEC47D) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 14 Apr 2021 18:35:07 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH v2 08/25] DAX: virtio-fs: Add vhost-user
+ slave commands for mapping
+Message-ID: <20210414183507.4bffd57d@bahia.lan>
+In-Reply-To: <20210414155137.46522-9-dgilbert@redhat.com>
+References: <20210414155137.46522-1-dgilbert@redhat.com>
+ <20210414155137.46522-9-dgilbert@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 8e70d016-8e95-400d-9d93-c4b6f5788c3f
+X-Ovh-Tracer-Id: 1854638625686460835
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeluddguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehvihhrthhiohdqfhhssehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.3005.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +69,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This version (and 86.0) contain improvements that address specific
-QEMU use cases, including:
+On Wed, 14 Apr 2021 16:51:20 +0100
+"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
 
-* Fix to the error message given when downloading assets
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> The daemon may request that fd's be mapped into the virtio-fs cache
+> visible to the guest.
+> These mappings are triggered by commands sent over the slave fd
+> from the daemon.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  docs/interop/vhost-user.rst               | 21 ++++++++
+>  hw/virtio/vhost-user-fs.c                 | 66 +++++++++++++++++++++++
+>  hw/virtio/vhost-user.c                    | 25 +++++++++
+>  include/hw/virtio/vhost-user-fs.h         | 33 ++++++++++++
+>  subprojects/libvhost-user/libvhost-user.h |  2 +
+>  5 files changed, 147 insertions(+)
+> 
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index d6085f7045..09aee3565d 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -1432,6 +1432,27 @@ Slave message types
+>  
+>    The state.num field is currently reserved and must be set to 0.
+>  
+> +``VHOST_USER_SLAVE_FS_MAP``
+> +  :id: 6
+> +  :equivalent ioctl: N/A
+> +  :slave payload: ``struct VhostUserFSSlaveMsg``
+> +  :master payload: N/A
+> +
+> +  Requests that an fd, provided in the ancillary data, be mmapped
+> +  into the virtio-fs cache; multiple chunks can be mapped in one
+> +  command.
+> +  A reply is generated indicating whether mapping succeeded.
+> +
+> +``VHOST_USER_SLAVE_FS_UNMAP``
+> +  :id: 7
+> +  :equivalent ioctl: N/A
+> +  :slave payload: ``struct VhostUserFSSlaveMsg``
+> +  :master payload: N/A
+> +
+> +  Requests that the range in the virtio-fs cache is unmapped;
+> +  multiple chunks can be unmapped in one command.
+> +  A reply is generated indicating whether unmapping succeeded.
+> +
+>  .. _reply_ack:
+>  
+>  VHOST_USER_PROTOCOL_F_REPLY_ACK
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index dd0a02aa99..169a146e72 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -45,6 +45,72 @@ static const int user_feature_bits[] = {
+>  #define DAX_WINDOW_PROT PROT_NONE
+>  #endif
+>  
+> +/*
+> + * The message apparently had 'received_size' bytes, check this
+> + * matches the count in the message.
+> + *
+> + * Returns true if the size matches.
+> + */
+> +static bool check_slave_message_entries(const VhostUserFSSlaveMsg *sm,
+> +                                        int received_size)
+> +{
+> +    int tmp;
+> +
+> +    /*
+> +     * VhostUserFSSlaveMsg consists of a body followed by 'n' entries,
+> +     * (each VhostUserFSSlaveMsgEntry).  There's a maximum of
+> +     * VHOST_USER_FS_SLAVE_MAX_ENTRIES of these.
+> +     */
+> +    if (received_size <= sizeof(VhostUserFSSlaveMsg)) {
+> +        error_report("%s: Short VhostUserFSSlaveMsg size, %d", __func__,
+> +                     received_size);
+> +        return false;
+> +    }
+> +
+> +    tmp = received_size - sizeof(VhostUserFSSlaveMsg);
+> +    if (tmp % sizeof(VhostUserFSSlaveMsgEntry)) {
+> +        error_report("%s: Non-multiple VhostUserFSSlaveMsg size, %d", __func__,
+> +                     received_size);
+> +        return false;
+> +    }
+> +
+> +    tmp /= sizeof(VhostUserFSSlaveMsgEntry);
+> +    if (tmp != sm->count) {
+> +        error_report("%s: VhostUserFSSlaveMsg count mismatch, %d count: %d",
+> +                     __func__, tmp, sm->count);
+> +        return false;
+> +    }
+> +
+> +    if (sm->count > VHOST_USER_FS_SLAVE_MAX_ENTRIES) {
+> +        error_report("%s: VhostUserFSSlaveMsg too many entries: %d",
+> +                     __func__, sm->count);
+> +        return false;
+> +    }
+> +    return true;
+> +}
+> +
+> +uint64_t vhost_user_fs_slave_map(struct vhost_dev *dev, int message_size,
+> +                                 VhostUserFSSlaveMsg *sm, int fd)
+> +{
+> +    if (!check_slave_message_entries(sm, message_size)) {
+> +        return (uint64_t)-1;
+> +    }
+> +
+> +    /* TODO */
+> +    return (uint64_t)-1;
+> +}
+> +
+> +uint64_t vhost_user_fs_slave_unmap(struct vhost_dev *dev, int message_size,
+> +                                   VhostUserFSSlaveMsg *sm)
+> +{
+> +    if (!check_slave_message_entries(sm, message_size)) {
+> +        return (uint64_t)-1;
+> +    }
+> +
+> +    /* TODO */
+> +    return (uint64_t)-1;
+> +}
+> +
+>  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
+>  {
+>      VHostUserFS *fs = VHOST_USER_FS(vdev);
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 3e4a25e108..ad9170f8dc 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -12,6 +12,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/virtio/vhost.h"
+>  #include "hw/virtio/vhost-user.h"
+> +#include "hw/virtio/vhost-user-fs.h"
+>  #include "hw/virtio/vhost-backend.h"
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-net.h"
+> @@ -133,6 +134,10 @@ typedef enum VhostUserSlaveRequest {
+>      VHOST_USER_SLAVE_IOTLB_MSG = 1,
+>      VHOST_USER_SLAVE_CONFIG_CHANGE_MSG = 2,
+>      VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG = 3,
+> +    VHOST_USER_SLAVE_VRING_CALL = 4,
+> +    VHOST_USER_SLAVE_VRING_ERR = 5,
+> +    VHOST_USER_SLAVE_FS_MAP = 6,
+> +    VHOST_USER_SLAVE_FS_UNMAP = 7,
+>      VHOST_USER_SLAVE_MAX
+>  }  VhostUserSlaveRequest;
+>  
+> @@ -205,6 +210,16 @@ typedef struct {
+>      uint32_t size; /* the following payload size */
+>  } QEMU_PACKED VhostUserHeader;
+>  
+> +/*
+> + * VhostUserFSSlaveMsg is special since it has a variable entry count,
+> + * but it does have a maximum, so make a type for that to fit in our union
+> + * for max size.
+> + */
+> +typedef struct {
+> +    VhostUserFSSlaveMsg fs;
+> +    VhostUserFSSlaveMsgEntry entries[VHOST_USER_FS_SLAVE_MAX_ENTRIES];
+> +} QEMU_PACKED VhostUserFSSlaveMsgMax;
+> +
+>  typedef union {
+>  #define VHOST_USER_VRING_IDX_MASK   (0xff)
+>  #define VHOST_USER_VRING_NOFD_MASK  (0x1<<8)
+> @@ -219,6 +234,8 @@ typedef union {
+>          VhostUserCryptoSession session;
+>          VhostUserVringArea area;
+>          VhostUserInflight inflight;
+> +        VhostUserFSSlaveMsg fs;
+> +        VhostUserFSSlaveMsg fs_max; /* Never actually used */
+>  } VhostUserPayload;
+>  
+>  typedef struct VhostUserMsg {
+> @@ -1538,6 +1555,14 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
+>          ret = vhost_user_slave_handle_vring_host_notifier(dev, &payload.area,
+>                                                            fd ? fd[0] : -1);
+>          break;
+> +#ifdef CONFIG_VHOST_USER_FS
+> +    case VHOST_USER_SLAVE_FS_MAP:
+> +        ret = vhost_user_fs_slave_map(dev, hdr.size, &payload.fs, fd[0]);
 
-* Asset listing/purging capabilities
+Since the QIOChannel conversion, the array of fds is dynamically allocated
+by qio_channel_readv_full_all() when needed. You should do "fd ? fd[0] : -1"
+like for vhost_user_slave_handle_vring_host_notifier() just above.
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/requirements.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Same goes for patch 17 "DAX/unmap: virtiofsd: Add  VHOST_USER_SLAVE_FS_IO".
 
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 91f3a343b9..f57e895c4a 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -1,5 +1,5 @@
- # Add Python module requirements, one per line, to be installed
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
--avocado-framework==85.0
-+avocado-framework==87.0
- pycdlib==1.11.0
--- 
-2.25.4
+> +        break;
+> +    case VHOST_USER_SLAVE_FS_UNMAP:
+> +        ret = vhost_user_fs_slave_unmap(dev, hdr.size, &payload.fs);
+> +        break;
+> +#endif
+>      default:
+>          error_report("Received unexpected msg type: %d.", hdr.request);
+>          ret = true;
+> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
+> index 04596799e3..0766f17548 100644
+> --- a/include/hw/virtio/vhost-user-fs.h
+> +++ b/include/hw/virtio/vhost-user-fs.h
+> @@ -23,6 +23,33 @@
+>  #define TYPE_VHOST_USER_FS "vhost-user-fs-device"
+>  OBJECT_DECLARE_SIMPLE_TYPE(VHostUserFS, VHOST_USER_FS)
+>  
+> +/* Structures carried over the slave channel back to QEMU */
+> +#define VHOST_USER_FS_SLAVE_MAX_ENTRIES 32
+> +
+> +/* For the flags field of VhostUserFSSlaveMsg */
+> +#define VHOST_USER_FS_FLAG_MAP_R (1u << 0)
+> +#define VHOST_USER_FS_FLAG_MAP_W (1u << 1)
+> +
+> +typedef struct {
+> +    /* Offsets within the file being mapped */
+> +    uint64_t fd_offset;
+> +    /* Offsets within the cache */
+> +    uint64_t c_offset;
+> +    /* Lengths of sections */
+> +    uint64_t len;
+> +    /* Flags, from VHOST_USER_FS_FLAG_* */
+> +    uint64_t flags;
+> +} VhostUserFSSlaveMsgEntry;
+> +
+> +typedef struct {
+> +    /* Number of entries */
+> +    uint16_t count;
+> +    /* Spare */
+> +    uint16_t align;
+> +
+> +    VhostUserFSSlaveMsgEntry entries[];
+> +} VhostUserFSSlaveMsg;
+> +
+>  typedef struct {
+>      CharBackend chardev;
+>      char *tag;
+> @@ -46,4 +73,10 @@ struct VHostUserFS {
+>      MemoryRegion cache;
+>  };
+>  
+> +/* Callbacks from the vhost-user code for slave commands */
+> +uint64_t vhost_user_fs_slave_map(struct vhost_dev *dev, int message_size,
+> +                                 VhostUserFSSlaveMsg *sm, int fd);
+> +uint64_t vhost_user_fs_slave_unmap(struct vhost_dev *dev, int message_size,
+> +                                   VhostUserFSSlaveMsg *sm);
+> +
+>  #endif /* _QEMU_VHOST_USER_FS_H */
+> diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
+> index 70fc61171f..a98c5f5c11 100644
+> --- a/subprojects/libvhost-user/libvhost-user.h
+> +++ b/subprojects/libvhost-user/libvhost-user.h
+> @@ -119,6 +119,8 @@ typedef enum VhostUserSlaveRequest {
+>      VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG = 3,
+>      VHOST_USER_SLAVE_VRING_CALL = 4,
+>      VHOST_USER_SLAVE_VRING_ERR = 5,
+> +    VHOST_USER_SLAVE_FS_MAP = 6,
+> +    VHOST_USER_SLAVE_FS_UNMAP = 7,
+>      VHOST_USER_SLAVE_MAX
+>  }  VhostUserSlaveRequest;
+>  
 
 
