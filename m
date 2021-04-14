@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC5535F31A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:02:15 +0200 (CEST)
-Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2525235F319
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:02:02 +0200 (CEST)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWeDl-0006Xx-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42182)
+	id 1lWeDZ-0006KI-7J
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgh-0006bJ-Lk
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgj-0006bQ-3p
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45672)
+Received: from mx2.suse.de ([195.135.220.15]:45674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgT-0005fa-0n
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:03 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgT-0005fb-ET
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:04 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A1990B0BE;
- Wed, 14 Apr 2021 11:27:07 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 14BFCB0DA;
+ Wed, 14 Apr 2021 11:27:08 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 31/80] target/arm: move sve_exception_el out of TCG helpers
-Date: Wed, 14 Apr 2021 13:26:01 +0200
-Message-Id: <20210414112650.18003-32-cfontana@suse.de>
+Subject: [RFC v13 32/80] target/arm: fix comments style of fp_exception_el
+ before moving it
+Date: Wed, 14 Apr 2021 13:26:02 +0200
+Message-Id: <20210414112650.18003-33-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
@@ -41,7 +42,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,174 +61,53 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-we need this for KVM too.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu-sysemu.c | 62 +++++++++++++++++++++++++++++++++++++++
- target/arm/cpu-user.c   |  5 ++++
- target/arm/tcg/helper.c | 64 -----------------------------------------
- 3 files changed, 67 insertions(+), 64 deletions(-)
+ target/arm/tcg/helper.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
-index 7a314bf805..7cc721fe68 100644
---- a/target/arm/cpu-sysemu.c
-+++ b/target/arm/cpu-sysemu.c
-@@ -348,3 +348,65 @@ void aarch64_sync_64_to_32(CPUARMState *env)
- 
-     env->regs[15] = env->pc;
- }
-+
-+/*
-+ * Return the exception level to which exceptions should be taken
-+ * via SVEAccessTrap.  If an exception should be routed through
-+ * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
-+ * take care of raising that exception.
-+ * C.f. the ARM pseudocode function CheckSVEEnabled.
-+ */
-+int sve_exception_el(CPUARMState *env, int el)
-+{
-+    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
-+
-+    if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-+        bool disabled = false;
-+
-+        /*
-+         * The CPACR.ZEN controls traps to EL1:
-+         * 0, 2 : trap EL0 and EL1 accesses
-+         * 1    : trap only EL0 accesses
-+         * 3    : trap no accesses
-+         */
-+        if (!extract32(env->cp15.cpacr_el1, 16, 1)) {
-+            disabled = true;
-+        } else if (!extract32(env->cp15.cpacr_el1, 17, 1)) {
-+            disabled = el == 0;
-+        }
-+        if (disabled) {
-+            /* route_to_el2 */
-+            return hcr_el2 & HCR_TGE ? 2 : 1;
-+        }
-+
-+        /* Check CPACR.FPEN.  */
-+        if (!extract32(env->cp15.cpacr_el1, 20, 1)) {
-+            disabled = true;
-+        } else if (!extract32(env->cp15.cpacr_el1, 21, 1)) {
-+            disabled = el == 0;
-+        }
-+        if (disabled) {
-+            return 0;
-+        }
-+    }
-+
-+    /*
-+     * CPTR_EL2.  Since TZ and TFP are positive,
-+     * they will be zero when EL2 is not present.
-+     */
-+    if (el <= 2 && arm_is_el2_enabled(env)) {
-+        if (env->cp15.cptr_el[2] & CPTR_TZ) {
-+            return 2;
-+        }
-+        if (env->cp15.cptr_el[2] & CPTR_TFP) {
-+            return 0;
-+        }
-+    }
-+
-+    /* CPTR_EL3.  Since EZ is negative we must check for EL3.  */
-+    if (arm_feature(env, ARM_FEATURE_EL3)
-+        && !(env->cp15.cptr_el[3] & CPTR_EZ)) {
-+        return 3;
-+    }
-+    return 0;
-+}
-diff --git a/target/arm/cpu-user.c b/target/arm/cpu-user.c
-index 0225089e46..39093ade76 100644
---- a/target/arm/cpu-user.c
-+++ b/target/arm/cpu-user.c
-@@ -33,3 +33,8 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
- {
-     return 1;
- }
-+
-+int sve_exception_el(CPUARMState *env, int el)
-+{
-+    return 0;
-+}
 diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index e4f18bcaa7..aaa307daca 100644
+index aaa307daca..4e027b98fe 100644
 --- a/target/arm/tcg/helper.c
 +++ b/target/arm/tcg/helper.c
-@@ -261,70 +261,6 @@ static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
+@@ -1625,13 +1625,15 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
+     return crc32c(acc, buf, bytes) ^ 0xffffffff;
  }
- #endif /* TARGET_AARCH64 */
  
--/*
-- * Return the exception level to which exceptions should be taken
-- * via SVEAccessTrap.  If an exception should be routed through
-- * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
-- * take care of raising that exception.
-- * C.f. the ARM pseudocode function CheckSVEEnabled.
-- */
--int sve_exception_el(CPUARMState *env, int el)
--{
--#ifndef CONFIG_USER_ONLY
--    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
--
--    if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
--        bool disabled = false;
--
--        /*
--         * The CPACR.ZEN controls traps to EL1:
--         * 0, 2 : trap EL0 and EL1 accesses
--         * 1    : trap only EL0 accesses
--         * 3    : trap no accesses
--         */
--        if (!extract32(env->cp15.cpacr_el1, 16, 1)) {
--            disabled = true;
--        } else if (!extract32(env->cp15.cpacr_el1, 17, 1)) {
--            disabled = el == 0;
--        }
--        if (disabled) {
--            /* route_to_el2 */
--            return hcr_el2 & HCR_TGE ? 2 : 1;
--        }
--
--        /* Check CPACR.FPEN.  */
--        if (!extract32(env->cp15.cpacr_el1, 20, 1)) {
--            disabled = true;
--        } else if (!extract32(env->cp15.cpacr_el1, 21, 1)) {
--            disabled = el == 0;
--        }
--        if (disabled) {
--            return 0;
--        }
--    }
--
--    /*
--     * CPTR_EL2.  Since TZ and TFP are positive,
--     * they will be zero when EL2 is not present.
--     */
--    if (el <= 2 && arm_is_el2_enabled(env)) {
--        if (env->cp15.cptr_el[2] & CPTR_TZ) {
--            return 2;
--        }
--        if (env->cp15.cptr_el[2] & CPTR_TFP) {
--            return 0;
--        }
--    }
--
--    /* CPTR_EL3.  Since EZ is negative we must check for EL3.  */
--    if (arm_feature(env, ARM_FEATURE_EL3)
--        && !(env->cp15.cptr_el[3] & CPTR_EZ)) {
--        return 3;
--    }
--#endif
--    return 0;
--}
--
- void hw_watchpoint_update(ARMCPU *cpu, int n)
+-/* Return the exception level to which FP-disabled exceptions should
++/*
++ * Return the exception level to which FP-disabled exceptions should
+  * be taken, or 0 if FP is enabled.
+  */
+ int fp_exception_el(CPUARMState *env, int cur_el)
  {
-     CPUARMState *env = &cpu->env;
+ #ifndef CONFIG_USER_ONLY
+-    /* CPACR and the CPTR registers don't exist before v6, so FP is
++    /*
++     * CPACR and the CPTR registers don't exist before v6, so FP is
+      * always accessible
+      */
+     if (!arm_feature(env, ARM_FEATURE_V6)) {
+@@ -1654,7 +1656,8 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+         return 0;
+     }
+ 
+-    /* The CPACR controls traps to EL1, or PL1 if we're 32 bit:
++    /*
++     * The CPACR controls traps to EL1, or PL1 if we're 32 bit:
+      * 0, 2 : trap EL0 and EL1/PL1 accesses
+      * 1    : trap only EL0 accesses
+      * 3    : trap no accesses
+@@ -1701,7 +1704,8 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+         }
+     }
+ 
+-    /* For the CPTR registers we don't need to guard with an ARM_FEATURE
++    /*
++     * For the CPTR registers we don't need to guard with an ARM_FEATURE
+      * check because zero bits in the registers mean "don't trap".
+      */
+ 
 -- 
 2.26.2
 
