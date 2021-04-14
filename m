@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EEA35F32D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:10:07 +0200 (CEST)
-Received: from localhost ([::1]:44784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3997935F34F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:18:11 +0200 (CEST)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWeLN-0005F9-RG
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42404)
+	id 1lWeTC-0004q4-90
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgr-0006ui-FI
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:13 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45864)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgv-00073B-GP
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:17 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgd-0005l1-7h
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:13 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgd-0005lA-E5
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:17 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2FF4AAED7;
- Wed, 14 Apr 2021 11:27:17 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 20567AFD2;
+ Wed, 14 Apr 2021 11:27:18 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 52/80] tests: device-introspect-test: cope with ARM TCG-only
- devices
-Date: Wed, 14 Apr 2021 13:26:22 +0200
-Message-Id: <20210414112650.18003-53-cfontana@suse.de>
+Subject: [RFC v13 54/80] Revert "target/arm: Restrict v8M IDAU to TCG"
+Date: Wed, 14 Apr 2021 13:26:24 +0200
+Message-Id: <20210414112650.18003-55-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
@@ -63,55 +62,77 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Skip the test_device_intro_concrete for now for ARM KVM-only build,
-as on ARM we currently build devices for ARM that are not
-compatible with a KVM-only build.
+This reverts commit 6e937ba7f8fb90d66cb3781f7fed32fb4239556a
 
-We can remove this workaround when we fix this in KConfig etc,
-and we only list and build machines that are compatible with KVM
-for KVM-only builds.
+This change breaks quickly at startup, as all interfaces in boards
+are checked in vl.c in select_machine():
+{
+  GSList *machines = object_class_get_list(TYPE_MACHINE, false);
+}
+
+In order to restrict v8M IDAU to TCG,
+we need to first disable all incompatible boards when building
+only KVM.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qtest/device-introspect-test.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ target/arm/cpu.c                | 7 +++++++
+ target/arm/tcg/tcg-cpu-models.c | 8 --------
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
-index bbec166dbc..1ff15e2247 100644
---- a/tests/qtest/device-introspect-test.c
-+++ b/tests/qtest/device-introspect-test.c
-@@ -329,12 +329,30 @@ int main(int argc, char **argv)
-     qtest_add_func("device/introspect/none", test_device_intro_none);
-     qtest_add_func("device/introspect/abstract", test_device_intro_abstract);
-     qtest_add_func("device/introspect/abstract-interfaces", test_abstract_interfaces);
-+
-+    /*
-+     * XXX currently we build also boards for ARM that are incompatible with KVM.
-+     * We therefore need to check this explicitly, and only test virt for kvm-only
-+     * arm builds.
-+     * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
-+     * are built for the kvm-only build, we could remove this.
-+     */
-+#ifndef CONFIG_TCG
-+    {
-+        const char *arch = qtest_get_arch();
-+        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
-+            goto add_machine_test_done;
-+        }
-+    }
-+#endif /* !CONFIG_TCG */
-     if (g_test_quick()) {
-         qtest_add_data_func("device/introspect/concrete/defaults/none",
-                             g_strdup(common_args), test_device_intro_concrete);
-     } else {
-         qtest_cb_for_every_machine(add_machine_test_case, true);
-     }
-+    goto add_machine_test_done;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index ae28779edd..7a013eb613 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1509,9 +1509,16 @@ static const TypeInfo arm_cpu_type_info = {
+     .class_init = arm_cpu_class_init,
+ };
  
-+ add_machine_test_done:
-     return g_test_run();
- }
++static const TypeInfo idau_interface_type_info = {
++    .name = TYPE_IDAU_INTERFACE,
++    .parent = TYPE_INTERFACE,
++    .class_size = sizeof(IDAUInterfaceClass),
++};
++
+ static void arm_cpu_register_types(void)
+ {
+     type_register_static(&arm_cpu_type_info);
++    type_register_static(&idau_interface_type_info);
+ 
+ #ifdef CONFIG_KVM
+     type_register_static(&host_arm_cpu_type_info);
+diff --git a/target/arm/tcg/tcg-cpu-models.c b/target/arm/tcg/tcg-cpu-models.c
+index 5dc8e2c93f..840e284f47 100644
+--- a/target/arm/tcg/tcg-cpu-models.c
++++ b/target/arm/tcg/tcg-cpu-models.c
+@@ -11,7 +11,6 @@
+ #include "qemu/osdep.h"
+ #include "tcg/tcg-cpu.h"
+ #include "internals.h"
+-#include "target/arm/idau.h"
+ #if !defined(CONFIG_USER_ONLY)
+ #include "hw/boards.h"
+ #endif
+@@ -986,17 +985,10 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+ #endif
+ };
+ 
+-static const TypeInfo idau_interface_type_info = {
+-    .name = TYPE_IDAU_INTERFACE,
+-    .parent = TYPE_INTERFACE,
+-    .class_size = sizeof(IDAUInterfaceClass),
+-};
+-
+ static void arm_tcg_cpu_register_types(void)
+ {
+     size_t i;
+ 
+-    type_register_static(&idau_interface_type_info);
+     for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
+         arm32_cpu_register(&arm_tcg_cpus[i]);
+     }
 -- 
 2.26.2
 
