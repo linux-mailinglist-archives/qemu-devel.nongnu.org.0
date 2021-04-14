@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D78935F950
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:57:51 +0200 (CEST)
-Received: from localhost ([::1]:33618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9925235F951
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:58:34 +0200 (CEST)
+Received: from localhost ([::1]:35020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWipp-0006uG-Uq
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
+	id 1lWiqX-0007UR-P4
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lWims-0005Al-OR
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:54:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47878)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWioN-0006UN-05
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:56:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lWimq-0004hl-CD
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:54:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWioH-0005Cs-U4
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 12:56:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419283;
+ s=mimecast20190719; t=1618419372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X6CXjVFibXsXylcUaAXlYswDsDfQUo7K7CLGg0o9LCI=;
- b=aML17Pe/n8lc0tWo6HuzbW0FYRs6r5nX9ZaNciA9sgqtVq14yv5yDCawz96is02zlWdy0U
- XPBA/TJEn+GIIwardLyOPm2nkzwSsnq3KsN5XWcfHXq7ZrZK1qNItEECYgzg0J2+wBpzuj
- qmT5w4lyjUIL/kSlMFderInZa012AkY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-SGBY7PMEPCObfKDBADeNeg-1; Wed, 14 Apr 2021 12:54:39 -0400
-X-MC-Unique: SGBY7PMEPCObfKDBADeNeg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8244107ACCA;
- Wed, 14 Apr 2021 16:54:38 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-57.gru2.redhat.com
- [10.97.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1362910074F1;
- Wed, 14 Apr 2021 16:54:33 +0000 (UTC)
-Subject: Re: [PATCH 1/1] Acceptance Tests: bump Avocado version requirement to
- 87.0
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210414161144.1598980-1-crosa@redhat.com>
- <20210414161144.1598980-2-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <2eaa3002-9350-138d-8a9b-ec66923c03eb@redhat.com>
-Date: Wed, 14 Apr 2021 13:54:31 -0300
+ bh=5lcmI0ujzF8xPhBv4MlnsELadC27AQvaz59G8ke+O4o=;
+ b=hDSAFp80ktQPEFdVWkALQVVlpjfHbOlXJWpfxjcVOatZ8CQ6EV9L0K9Vw3QZpb6xmnuJzc
+ U19d2i4gdilfi/qDgHuui1pI9rTHci1lMkgnTL/OW0ZSN36G8rB8nnPKlZMSvf5wPz9JZt
+ wkS/RbEmE1ZE4tPe+YAIL2rSQjpse/Y=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-y_F4MHw7NymGAakw_0qcQQ-1; Wed, 14 Apr 2021 12:56:08 -0400
+X-MC-Unique: y_F4MHw7NymGAakw_0qcQQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f26-20020a056402069ab02903788b40ed89so3668371edy.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 09:56:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5lcmI0ujzF8xPhBv4MlnsELadC27AQvaz59G8ke+O4o=;
+ b=KCG9fGUb4NOnyho4kmDd1bpmUJgb7hhyWgsv7ZVKzhyq3+yc3mZHNZI0lzYqSqujqj
+ epHoiwL/8hjKvd1/VpWyZPg8/glGwBQbSCmDyqdVt2OEe+lBkVy1UdE+Euf/VISKSlnh
+ BK/G/gBOXhv+AllLC+dhUL8LnKWNofMqTzZF25bDBLf0T1uJsmnxED4PKbMzvztX+esr
+ RszRvQLYWGlJQFCGOmk4TdlRI0zt6F9gF6IQ/0SKsAllrsQpeJ+/381xyWwqeZsD7Hm9
+ cmaxT22UkWcm+y5urPg5nTLAJKEK79ta/Ani5HJAmcprQKFhhQbDbHzkCkIQoYl44Yvz
+ +LjA==
+X-Gm-Message-State: AOAM530yYZCv6kh5fBrJ1nscQFiGtYzZT/UzmuUb51kxDaKkKPn7VDpo
+ 3mLWUDnsjS/bLe6XOtJLXgODFO0dqxID1J/Q3Chz7OAGJi7XX91otCcGTXRcF5mr8mET/CQ/qZb
+ 894lSSyvhLVhJfiU=
+X-Received: by 2002:a17:906:36ce:: with SMTP id
+ b14mr34602429ejc.395.1618419367602; 
+ Wed, 14 Apr 2021 09:56:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxpbVc7ovNoiRFIipjxr51x7BdNAeLLAQtE2v4OZjogH608Gchsg6wcHlH3+NAZNjm8j5xupQ==
+X-Received: by 2002:a17:906:36ce:: with SMTP id
+ b14mr34602419ejc.395.1618419367434; 
+ Wed, 14 Apr 2021 09:56:07 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id m10sm56166ejc.32.2021.04.14.09.56.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Apr 2021 09:56:06 -0700 (PDT)
+Subject: Re: [PATCH for-6.1 1/4] include/sysemu: Poison all accelerator CONFIG
+ switches in common code
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210414112004.943383-1-thuth@redhat.com>
+ <20210414112004.943383-2-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ac1332dd-8e89-0747-82e8-bf916d8f2119@redhat.com>
+Date: Wed, 14 Apr 2021 18:56:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210414161144.1598980-2-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210414112004.943383-2-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,43 +103,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cameron Esfahani <dirty@apple.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 4/14/21 1:11 PM, Cleber Rosa wrote:
-> This version (and 86.0) contain improvements that address specific
-> QEMU use cases, including:
->
-> * Fix to the error message given when downloading assets
->
-> * Asset listing/purging capabilities
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+On 4/14/21 1:20 PM, Thomas Huth wrote:
+> We are already poisoning CONFIG_KVM since this switch is not working
+> in common code. Do the same with the other accelerator switches, too
+> (except for CONFIG_TCG, which is special, since it is also defined in
+> config-host.h).
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   tests/requirements.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/exec/poison.h | 4 ++++
+>  include/sysemu/hax.h  | 4 ++++
+>  include/sysemu/hvf.h  | 4 ++++
+>  include/sysemu/whpx.h | 4 ++++
+>  4 files changed, 16 insertions(+)
 
-
-Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
->
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 91f3a343b9..f57e895c4a 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -1,5 +1,5 @@
->   # Add Python module requirements, one per line, to be installed
->   # in the tests/venv Python virtual environment. For more info,
->   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> -avocado-framework==85.0
-> +avocado-framework==87.0
->   pycdlib==1.11.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
