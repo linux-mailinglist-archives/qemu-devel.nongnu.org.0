@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC2235F9E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:34:46 +0200 (CEST)
-Received: from localhost ([::1]:36524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CC435F9EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:37:56 +0200 (CEST)
+Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjPZ-0006DJ-E8
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50860)
+	id 1lWjSc-0000Hq-U6
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwm-00034e-3f
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:05:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwg-000084-5d
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MGI36dpdwlbJZSFXPfVGFZj62MzTV1ZxG3MYmITOXa4=;
- b=VSaqAd2hmhlGanxk1VXd+HhikfRYyuYVbsQ/ShnL7MiLp3ugz7dMLTsJ0auHLltK92lFs+
- 5DYGiBjBciylXcdnWqvOfQVynKtFl2POc+a5Y2rH8hMWUeDgtzWQB7+ZfQ9jeNEgy0PLoW
- Uu/nLcQD9s9gL1P2oQUcuaMzPX3Dm6E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-rLypyMoLOi2WyfKv9K516Q-1; Wed, 14 Apr 2021 13:04:51 -0400
-X-MC-Unique: rLypyMoLOi2WyfKv9K516Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CFED5B38D;
- Wed, 14 Apr 2021 17:04:50 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-18.ams2.redhat.com
- [10.36.114.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F39A10023AC;
- Wed, 14 Apr 2021 17:04:46 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 14/15] qemu_iotests: add option to show qemu binary logs on
- stdout
-Date: Wed, 14 Apr 2021 19:03:51 +0200
-Message-Id: <20210414170352.29927-15-eesposit@redhat.com>
-In-Reply-To: <20210414170352.29927-1-eesposit@redhat.com>
-References: <20210414170352.29927-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lWj5C-0001Rd-8y
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:13:42 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:57382
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lWj54-0003EY-NN
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:13:42 -0400
+HMM_SOURCE_IP: 172.18.0.218:38662.401009845
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.3?logid-0d3f3488204e47d1aa442465aa6165d6
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 69388280029;
+ Thu, 15 Apr 2021 01:13:21 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 0d3f3488204e47d1aa442465aa6165d6 for
+ qemu-devel@nongnu.org; Thu Apr 15 01:13:19 2021
+X-Transaction-ID: 0d3f3488204e47d1aa442465aa6165d6
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] migration/dirtyrate: make sample page count configurable
+Date: Thu, 15 Apr 2021 01:13:02 +0800
+Message-Id: <9ebe5902215446884dad886f94d34ed6f14976cb.1618418908.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,114 +62,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?=
+ <huangy81@chinatelecom.cn>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using the flag -p, allow the qemu binary to print to stdout.
-This helps especially when doing print-debugging.
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+introduce optional sample-pages argument in calc-dirty-rate,
+making sample page count per GB configurable so that more
+accurate dirtyrate can be calculated.
+
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- tests/qemu-iotests/check      | 3 ++-
- tests/qemu-iotests/iotests.py | 9 +++++++++
- tests/qemu-iotests/testenv.py | 9 +++++++--
- 3 files changed, 18 insertions(+), 3 deletions(-)
+ migration/dirtyrate.c | 32 ++++++++++++++++++++++++++++----
+ migration/dirtyrate.h |  8 +++++++-
+ qapi/migration.json   | 13 ++++++++++---
+ 3 files changed, 45 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 489178d9a4..84483922eb 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -33,6 +33,7 @@ def make_argparser() -> argparse.ArgumentParser:
-                    help='pretty print output for make check')
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index ccb9814..1e3ef0b 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -48,6 +48,16 @@ static bool is_sample_period_valid(int64_t sec)
+     return true;
+ }
  
-     p.add_argument('-d', dest='debug', action='store_true', help='debug')
-+    p.add_argument('-p', dest='print', action='store_true', help='shows qemu binary prints to stdout')
-     p.add_argument('-gdb', action='store_true',
-                    help="start gdbserver with $GDB_QEMU options. \
-                          Default is localhost:12345")
-@@ -117,7 +118,7 @@ if __name__ == '__main__':
-                   aiomode=args.aiomode, cachemode=args.cachemode,
-                   imgopts=args.imgopts, misalign=args.misalign,
-                   debug=args.debug, valgrind=args.valgrind,
--                  gdb=args.gdb)
-+                  gdb=args.gdb, qprint=args.print)
- 
-     testfinder = TestFinder(test_dir=env.source_iotests)
- 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index f9832558a0..52ff7332f8 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -79,6 +79,8 @@
- if os.environ.get('GDB_QEMU'):
-     qemu_gdb = ['gdbserver'] + os.environ.get('GDB_QEMU').strip().split(' ')
- 
-+qemu_print = os.environ.get('PRINT_QEMU', False)
++static bool is_sample_pages_valid(int64_t sec)
++{
++    if (sec < MIN_SAMPLE_PAGE_COUNT ||
++        sec > MAX_SAMPLE_PAGE_COUNT) {
++        return false;
++    }
 +
- imgfmt = os.environ.get('IMGFMT', 'raw')
- imgproto = os.environ.get('IMGPROTO', 'file')
- output_dir = os.environ.get('OUTPUT_DIR', '.')
-@@ -621,6 +623,13 @@ def _post_shutdown(self) -> None:
-         super()._post_shutdown()
-         self.subprocess_check_valgrind(qemu_valgrind)
- 
-+    def _pre_launch(self) -> None:
-+        super()._pre_launch()
-+        if qemu_print and self._qemu_log_file != None:
-+            # set QEMU binary output to stdout
-+            self._qemu_log_file.close()
-+            self._qemu_log_file = None
++    return true;
++}
 +
-     def add_object(self, opts):
-         self._args.append('-object')
-         self._args.append(opts)
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 39ae7ace33..6ae099114e 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -73,7 +73,7 @@ class TestEnv(ContextManager['TestEnv']):
-                      'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
-                      'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
-                      'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_',
--                     'GDB_QEMU']
-+                     'GDB_QEMU', 'PRINT_QEMU']
+ static int dirtyrate_set_state(int *state, int old_state, int new_state)
+ {
+     assert(new_state < DIRTY_RATE_STATUS__MAX);
+@@ -72,13 +82,15 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+     info->status = CalculatingState;
+     info->start_time = DirtyStat.start_time;
+     info->calc_time = DirtyStat.calc_time;
++    info->sample_pages = DirtyStat.sample_pages;
  
-     def get_env(self) -> Dict[str, str]:
-         env = {}
-@@ -165,7 +165,8 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-                  misalign: bool = False,
-                  debug: bool = False,
-                  valgrind: bool = False,
--                 gdb: bool = False) -> None:
-+                 gdb: bool = False,
-+                 qprint: bool = False) -> None:
-         self.imgfmt = imgfmt
-         self.imgproto = imgproto
-         self.aiomode = aiomode
-@@ -173,6 +174,9 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-         self.misalign = misalign
-         self.debug = debug
+     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
  
-+        if qprint:
-+            self.print_qemu = 'y'
+     return info;
+ }
+ 
+-static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
++static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
++                                uint64_t sample_pages)
+ {
+     DirtyStat.total_dirty_samples = 0;
+     DirtyStat.total_sample_count = 0;
+@@ -86,6 +98,7 @@ static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
+     DirtyStat.dirty_rate = -1;
+     DirtyStat.start_time = start_time;
+     DirtyStat.calc_time = calc_time;
++    DirtyStat.sample_pages = sample_pages;
+ }
+ 
+ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+@@ -361,6 +374,7 @@ void *get_dirtyrate_thread(void *arg)
+     int ret;
+     int64_t start_time;
+     int64_t calc_time;
++    uint64_t sample_pages;
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -371,7 +385,8 @@ void *get_dirtyrate_thread(void *arg)
+ 
+     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+     calc_time = config.sample_period_seconds;
+-    init_dirtyrate_stat(start_time, calc_time);
++    sample_pages = config.sample_pages_per_gigabytes;
++    init_dirtyrate_stat(start_time, calc_time, sample_pages);
+ 
+     calculate_dirtyrate(config);
+ 
+@@ -383,7 +398,8 @@ void *get_dirtyrate_thread(void *arg)
+     return NULL;
+ }
+ 
+-void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
++void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
++                         int64_t sample_pages, Error **errp)
+ {
+     static struct DirtyRateConfig config;
+     QemuThread thread;
+@@ -404,6 +420,13 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+         return;
+     }
+ 
++    if (has_sample_pages && !is_sample_pages_valid(sample_pages)) {
++        error_setg(errp, "sample-pages is out of range[%d, %d].",
++                         MIN_SAMPLE_PAGE_COUNT,
++                         MAX_SAMPLE_PAGE_COUNT);
++        return;
++    }
 +
-         if gdb:
-             self.gdb_qemu = os.environ.get('GDB_QEMU', 'localhost:12345')
-         elif 'GDB_QEMU' in os.environ:
-@@ -278,6 +282,7 @@ def print_env(self) -> None:
- SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
- GDB_QEMU      -- "{GDB_QEMU}"
- VALGRIND_QEMU     -- "{VALGRIND_QEMU}"
-+PRINT_QEMU    --  "{PRINT_QEMU}"
- """
+     /*
+      * Init calculation state as unstarted.
+      */
+@@ -415,7 +438,8 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+     }
  
-         args = collections.defaultdict(str, self.get_env())
--- 
-2.30.2
+     config.sample_period_seconds = calc_time;
+-    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
++    config.sample_pages_per_gigabytes =
++        has_sample_pages ? sample_pages : DIRTYRATE_DEFAULT_SAMPLE_PAGES;
+     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+                        (void *)&config, QEMU_THREAD_DETACHED);
+ }
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 6ec4295..5f987e2 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -15,7 +15,6 @@
+ 
+ /*
+  * Sample 512 pages per GB as default.
+- * TODO: Make it configurable.
+  */
+ #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
+ 
+@@ -35,6 +34,12 @@
+ #define MIN_FETCH_DIRTYRATE_TIME_SEC              1
+ #define MAX_FETCH_DIRTYRATE_TIME_SEC              60
+ 
++/*
++ * Take 128 as minimum for sample dirty pages
++ */
++#define MIN_SAMPLE_PAGE_COUNT                     128
++#define MAX_SAMPLE_PAGE_COUNT                     4096
++
+ struct DirtyRateConfig {
+     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+     int64_t sample_period_seconds; /* time duration between two sampling */
+@@ -63,6 +68,7 @@ struct DirtyRateStat {
+     int64_t dirty_rate; /* dirty rate in MB/s */
+     int64_t start_time; /* calculation start time in units of second */
+     int64_t calc_time; /* time duration of two sampling in units of second */
++    uint64_t sample_pages; /* sample pages per GB */
+ };
+ 
+ void *get_dirtyrate_thread(void *arg);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 9bf0bc4..868a867 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1741,6 +1741,9 @@
+ #
+ # @calc-time: time in units of second for sample dirty pages
+ #
++# @sample-pages: page count per GB for sample dirty pages
++#                the default value is 512
++#
+ # Since: 5.2
+ #
+ ##
+@@ -1748,7 +1751,8 @@
+   'data': {'*dirty-rate': 'int64',
+            'status': 'DirtyRateStatus',
+            'start-time': 'int64',
+-           'calc-time': 'int64'} }
++           'calc-time': 'int64',
++           'sample-pages': 'uint64'} }
+ 
+ ##
+ # @calc-dirty-rate:
+@@ -1757,13 +1761,16 @@
+ #
+ # @calc-time: time in units of second for sample dirty pages
+ #
++# @sample-pages: page count per GB for sample dirty pages
++#                the default value is 512
++#
+ # Since: 5.2
+ #
+ # Example:
+-#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
++#   {"command": "calc-dirty-rate", "data": {"calc-time": 1, 'sample-pages': 512} }
+ #
+ ##
+-{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
++{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', '*sample-pages': 'int'} }
+
+ ##
+ # @query-dirty-rate:
+--
+1.8.3.1
 
 
