@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED8D35EE68
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 09:37:19 +0200 (CEST)
-Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB1335EF39
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:24:23 +0200 (CEST)
+Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWa5O-0004DZ-65
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 03:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42376)
+	id 1lWaow-0000Nb-Ew
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lWa3x-0003MD-6y; Wed, 14 Apr 2021 03:35:49 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:38450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lWa3u-0003LL-LK; Wed, 14 Apr 2021 03:35:48 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id x76so11084804ybe.5;
- Wed, 14 Apr 2021 00:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0IVO033htkAs+SD00yK0wtggY2PFYz8zuQtYsOSG430=;
- b=aCDQXiUKtBTFh7ELsl1XwPqVJOsgZcYbZ3VNqLIUAG2OoQZWT29O5iL7DCytOGBjbU
- +2pSBk0e2sr20c42D3rREn60/affNtjrL4MEjqxW2QdNaorlkERjp+dWB3XwEPYY/aqv
- rHCTts52ZRxcJHw5CGskT03ecBFA/0AQUgPKoA1rBiBjnoJVT7td10T8Y/1JUdfjCdzj
- n5rP9PjwqdjhQYjuQg1pybmBHlirQazhXO00dgP44UT/JNnxFvsnvcBksi2LgcmQ/1my
- wjfKraOYUzQdd26NOak9aA+L8hMsjdt6CWSGOZQM5B59krITPiwp2X813lSoGuWvhk+I
- mfkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0IVO033htkAs+SD00yK0wtggY2PFYz8zuQtYsOSG430=;
- b=MxCIoyNWP5i/LFqNI3o+/tU0iReQzXYCvB34aEjnKibOtggFK7m66kue9Hi8pY8aze
- 9/0BDqNBdDMJcm1Xpx1ZvxPyhwVJxMtW5F26beq85mg0EnmBhX6v0Ap80Yl1hflbXKT+
- /Z/A1i3d7Ur3QPgFdZthVCGnbExlJw/8LLVYg+CHsCeO8wGInfRqVKVxh0nJLwVP55pY
- YZTClRmbIF/kvGUWvrIs/9UaIz12zyHiXx3o8JxDQaAST/kKVTugYRmGn6u4qEX/lE6Z
- nUercFgwTMRS5+zG4KwwXgeDXX6YWmMZ/iqPo3fmGfpRh0PAxqwL/TSDnv2PBkIW++Vb
- FMzg==
-X-Gm-Message-State: AOAM532in2xEWUIiMHokPXVV0ATX9B50w3oz6OggITgdCcDkcluzLKA7
- GE5Ts+vpXQoWOybYk3bto7D3p4Rks7oVScs26Ew=
-X-Google-Smtp-Source: ABdhPJzqODaesbhQWToIJwGOJWjKXMJhf/Ycuxstw3hJuuEht7GQC74j+ue1AaVoZGeiwjY5BXveqroAGxlY5EyUp+0=
-X-Received: by 2002:a25:aa14:: with SMTP id s20mr11548823ybi.306.1618385743951; 
- Wed, 14 Apr 2021 00:35:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWalo-0003jW-9G
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:21:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55836)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWalm-0005hT-Hu
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:21:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618388465;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4KAB8iwYthkrqmlERqaXgbudUn9ZIPaZk16Sx3iZLsA=;
+ b=hz8rE6qTD8bmVyLEvOjCzsfJZYM9iz34vkzomMzY/kcZIf/9232yMPcSdAmJ9W8SGfvItV
+ oi6GvBoH9NG9CNdskwj1TPqvXSsmKIFxJ17TJebzbkHpKNM/7eyPmjCfeU5PRL0vohsrDr
+ wClu6yLUXzHLLeLLIOFM0OGse2y9ckU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-3RTKBM7HPDyYsg6rBciSbQ-1; Wed, 14 Apr 2021 04:21:03 -0400
+X-MC-Unique: 3RTKBM7HPDyYsg6rBciSbQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9DAC188352A
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 08:21:02 +0000 (UTC)
+Received: from localhost (ovpn-114-209.ams2.redhat.com [10.36.114.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9602E62499;
+ Wed, 14 Apr 2021 08:21:02 +0000 (UTC)
+Date: Wed, 14 Apr 2021 06:44:32 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH RFC 6/7] qmp_protocol: add QMP client implementation
+Message-ID: <YHaBQOYfMSuXoMAj@stefanha-x1.localdomain>
+References: <20210413155553.2660523-1-jsnow@redhat.com>
+ <20210413155553.2660523-7-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <cover.1618281655.git.alistair.francis@wdc.com>
- <616cef68b75ec06b77847203efaca16f7efaaf18.1618281655.git.alistair.francis@wdc.com>
-In-Reply-To: <616cef68b75ec06b77847203efaca16f7efaaf18.1618281655.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 14 Apr 2021 15:35:32 +0800
-Message-ID: <CAEUhbmWPqHLGjXTgojg4r8jn9spanWJbLBJci_s0taRpAbLZHQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/8] target/riscv: Implementation of enhanced PMP (ePMP)
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210413155553.2660523-7-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dEiqshZc7QG12RjM"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,243 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: armbru@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+--dEiqshZc7QG12RjM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Apr 13, 2021 at 10:42 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> From: Hou Weiying <weiying_hou@outlook.com>
->
-> This commit adds support for ePMP v0.9.1.
->
-> The ePMP spec can be found in:
-> https://docs.google.com/document/d/1Mh_aiHYxemL0umN3GTTw8vsbmzHZ_nxZXgjgOUzbvc8
->
-> Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-> Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-> Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
-> Message-Id: <SG2PR02MB263462CCDBCBBAD36983C2CD93450@SG2PR02MB2634.apcprd02.prod.outlook.com>
-> [ Changes by AF:
->  - Rebase on master
->  - Update to latest spec
->  - Use a switch case to handle ePMP MML permissions
->  - Fix a few bugs
-> ]
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/pmp.c | 164 +++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 152 insertions(+), 12 deletions(-)
->
-> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-> index e35988eec2..00f91d074f 100644
-> --- a/target/riscv/pmp.c
-> +++ b/target/riscv/pmp.c
-> @@ -90,11 +90,42 @@ static inline uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t pmp_index)
->  static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
->  {
->      if (pmp_index < MAX_RISCV_PMPS) {
-> -        if (!pmp_is_locked(env, pmp_index)) {
-> -            env->pmp_state.pmp[pmp_index].cfg_reg = val;
-> -            pmp_update_rule(env, pmp_index);
-> +        bool locked = true;
+On Tue, Apr 13, 2021 at 11:55:52AM -0400, John Snow wrote:
+> +    async def _execute(self, msg: Message) -> object:
+> +        """
+> +        The same as `execute_msg()`, but without safety mechanisms.
 > +
-> +        if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
-> +            /* mseccfg.RLB is set */
-> +            if (MSECCFG_RLB_ISSET(env)) {
-> +                locked = false;
-> +            }
+> +        Does not assign an execution ID and does not check that the form
+> +        of the message being sent is valid.
 > +
-> +            /* mseccfg.MML is not set */
-> +            if (!MSECCFG_MML_ISSET(env) && !pmp_is_locked(env, pmp_index)) {
-> +                locked = false;
-> +            }
+> +        This method *Requires* an 'id' parameter to be set on the
+> +        message, it will not set one for you like `execute()` or
+> +        `execute_msg()`.
 > +
-> +            /* mseccfg.MML is set */
-> +            if (MSECCFG_MML_ISSET(env)) {
-> +                /* not adding execute bit */
-> +                if ((val & PMP_LOCK) != 0 && (val & PMP_EXEC) != PMP_EXEC) {
-> +                    locked = false;
-> +                }
-> +                /* shared region and not adding X bit */
-> +                if ((val & PMP_LOCK) != PMP_LOCK &&
-> +                    (val & 0x7) != (PMP_WRITE | PMP_EXEC)) {
-> +                    locked = false;
-> +                }
-> +            }
->          } else {
-> +            if (!pmp_is_locked(env, pmp_index)) {
-> +                locked = false;
-> +            }
-> +        }
+> +        Do not use "__aqmp#00000" style IDs, use something else to avoid
+> +        potential clashes. If this ID clashes with an ID presently
+> +        in-use or otherwise clashes with the auto-generated IDs, the
+> +        response routing mechanisms in _on_message may very well fail
+> +        loudly enough to cause the entire loop to crash.
 > +
-> +        if (locked) {
->              qemu_log_mask(LOG_GUEST_ERROR, "ignoring pmpcfg write - locked\n");
-> +        } else {
-> +            env->pmp_state.pmp[pmp_index].cfg_reg = val;
-> +            pmp_update_rule(env, pmp_index);
->          }
->      } else {
->          qemu_log_mask(LOG_GUEST_ERROR,
-> @@ -217,6 +248,32 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
->  {
->      bool ret;
->
-> +    if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
-> +        if (MSECCFG_MMWP_ISSET(env)) {
-> +            /*
-> +             * The Machine Mode Whitelist Policy (mseccfg.MMWP) is set
-> +             * so we default to deny all, even for M-mode.
-> +             */
-> +            *allowed_privs = 0;
-> +            return false;
-> +        } else if (MSECCFG_MML_ISSET(env)) {
-> +            /*
-> +             * The Machine Mode Lockdown (mseccfg.MML) bit is set
-> +             * so we can only execute code in M-mode with an applicable
-> +             * rule. Other modes are disabled.
-> +             */
-> +            if (mode == PRV_M && !(privs & PMP_EXEC)) {
-> +                ret = true;
-> +                *allowed_privs = PMP_READ | PMP_WRITE;
-> +            } else {
-> +                ret = false;
-> +                *allowed_privs = 0;
-> +            }
+> +        The ID should be a str; or at least something JSON
+> +        serializable. It *must* be hashable.
+> +        """
+> +        exec_id = cast(str, msg['id'])
+> +        self.logger.debug("Execute(%s): '%s'", exec_id,
+> +                          msg.get('execute', msg.get('exec-oob')))
 > +
-> +            return ret;
-> +        }
-> +    }
-> +
->      if ((!riscv_feature(env, RISCV_FEATURE_PMP)) || (mode == PRV_M)) {
->          /*
->           * Privileged spec v1.10 states if HW doesn't implement any PMP entry
-> @@ -294,13 +351,94 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
->              pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
->
->          /*
-> -         * If the PMP entry is not off and the address is in range, do the priv
-> -         * check
-> +         * Convert the PMP permissions to match the truth table in the
-> +         * ePMP spec.
->           */
-> +        const uint8_t epmp_operation =
-> +            ((env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) >> 4) |
-> +            ((env->pmp_state.pmp[i].cfg_reg & PMP_READ) << 2) |
-> +            (env->pmp_state.pmp[i].cfg_reg & PMP_WRITE) |
-> +            ((env->pmp_state.pmp[i].cfg_reg & PMP_EXEC) >> 2);
-> +
->          if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
-> -            *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
-> -            if ((mode != PRV_M) || pmp_is_locked(env, i)) {
-> -                *allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
-> +            /*
-> +             * If the PMP entry is not off and the address is in range,
-> +             * do the priv check
-> +             */
-> +            if (!MSECCFG_MML_ISSET(env)) {
-> +                /*
-> +                 * If mseccfg.MML Bit is not set, do pmp priv check
-> +                 * This will always apply to regular PMP.
-> +                 */
-> +                *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
-> +                if ((mode != PRV_M) || pmp_is_locked(env, i)) {
-> +                    *allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
-> +                }
-> +            } else {
-> +                /*
-> +                 * If mseccfg.MML Bit set, do the enhanced pmp priv check
-> +                 */
-> +                if (mode == PRV_M) {
-> +                    switch (epmp_operation) {
-> +                    case 0:
-> +                    case 1:
-> +                    case 4:
-> +                    case 5:
-> +                    case 6:
-> +                    case 7:
-> +                    case 8:
-> +                        *allowed_privs = 0;
-> +                        break;
-> +                    case 2:
-> +                    case 3:
-> +                    case 14:
-> +                        *allowed_privs = PMP_READ | PMP_WRITE;
-> +                        break;
-> +                    case 9:
-> +                    case 10:
-> +                        *allowed_privs = PMP_EXEC;
-> +                        break;
-> +                    case 11:
-> +                    case 13:
-> +                        *allowed_privs = PMP_READ | PMP_EXEC;
-> +                        break;
-> +                    case 12:
-> +                    case 15:
-> +                        *allowed_privs = PMP_READ;
-> +                        break;
-> +                    }
-> +                } else {
-> +                    switch (epmp_operation) {
-> +                    case 0:
-> +                    case 8:
-> +                    case 9:
-> +                    case 12:
-> +                    case 13:
-> +                    case 14:
-> +                        *allowed_privs = 0;
-> +                        break;
-> +                    case 1:
-> +                    case 10:
-> +                    case 11:
-> +                        *allowed_privs = PMP_EXEC;
-> +                        break;
-> +                    case 2:
-> +                    case 4:
-> +                    case 15:
-> +                        *allowed_privs = PMP_READ;
-> +                        break;
-> +                    case 3:
-> +                    case 6:
-> +                        *allowed_privs = PMP_READ | PMP_WRITE;
-> +                        break;
-> +                    case 5:
-> +                        *allowed_privs = PMP_READ | PMP_EXEC;
-> +                        break;
-> +                    case 7:
-> +                        *allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
-> +                        break;
-> +                    }
-> +                }
->              }
->
->              ret = ((privs & *allowed_privs) == privs);
-> @@ -328,10 +466,12 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
->
->      trace_pmpcfg_csr_write(env->mhartid, reg_index, val);
->
-> -    if ((reg_index & 1) && (sizeof(target_ulong) == 8)) {
-> -        qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "ignoring pmpcfg write - incorrect address\n");
-> -        return;
-> +    if (!riscv_feature(env, RISCV_FEATURE_EPMP) || !MSECCFG_RLB_ISSET(env)) {
-> +        if ((reg_index & 1) && (sizeof(target_ulong) == 8)) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "ignoring pmpcfg write - PMP config is locked\n");
+> +        queue: asyncio.Queue[Message] = asyncio.Queue(maxsize=1)
+> +        task = create_task(self._bh_execute(msg, queue))
 
-I think the original log message was for checking register address for
-RV64, and should still retain. We should add another branch with a
-different log message for the new ePMP check.
+We're already in a coroutine, can we await queue.get() ourselves instead
+of creating a new task?
 
-> +            return;
-> +        }
+I guess this is done in order to use Task.cancel() in _bh_disconnect()
+but it seems simpler to use queue both for success and cancellation.
+Fewer tasks are easier to reason about.
 
-Regards,
-Bin
+--dEiqshZc7QG12RjM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB2gUAACgkQnKSrs4Gr
+c8iHVAf/URDv9c1swQpKRD2DiK1ktEX30RUVnQmycOKptGsj+O6hrLiCuXNeAD60
+OHN4XIFw+xd0PgLLnwUMFIUOksfyqsdXxe4WT9f/g7o71hqLEnNmo6KMdK+J9VbP
+S0AkwRIQFAhM+1W2y8f4DVnqUcsvckjLwXuJmYNDDY1wb7KesT1ZgD8rwCeaGtGO
+KnP6YVkloWzIpMbn3Bxyi/cZsSTWgIJN879dWFmoNVaunddDInTkhae0aa2kSrFx
+W4yTBoIISQI2/GqbNKvI1tO2RSQVB6DprwMRJNLfkM9cJudiEXDkGyL2R+g8U+k2
+mAAev02Fpcmfxzc3y0IWXlJRGsgevA==
+=0W+k
+-----END PGP SIGNATURE-----
+
+--dEiqshZc7QG12RjM--
+
 
