@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8B435EE08
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 09:15:05 +0200 (CEST)
-Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FAE35EE00
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 09:07:14 +0200 (CEST)
+Received: from localhost ([::1]:54766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWZjs-00070R-K8
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 03:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
+	id 1lWZcG-0004Ua-M2
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 03:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lWZj3-0006VN-4M
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 03:14:13 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:26915)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWZbV-00044E-11
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 03:06:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lWZiz-0006Z5-I6
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 03:14:12 -0400
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20210414071355epoutp01fec577328b46d086f955adce6039d067~1qBHnuDCZ2394023940epoutp01W
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 07:13:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20210414071355epoutp01fec577328b46d086f955adce6039d067~1qBHnuDCZ2394023940epoutp01W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1618384436;
- bh=MTgA9e9HecYl82ZFodr+ANEeRuYtMozhuDoc1dMjWZg=;
- h=From:To:Cc:Subject:Date:References:From;
- b=fZDw7opc684pvCBtuhvlo/BE+v/BGZRwYzmRb66aDER+LjdYMK/6ICwkrrmutVIcs
- ecC5x+Kpfq/7YnqWohWn+EEhKSFhhX25Kj9awmCd64LOJxTIoYG1XNPKAW+0TDxglk
- QyBO+qNo53pIajF64XMwC1GxAccdeBBR7/GxDQYI=
-Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20210414071355epcas5p36cde69c4f8edb0dbe08663a08c58378b~1qBHA5i342933829338epcas5p3f;
- Wed, 14 Apr 2021 07:13:55 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- FA.C3.41008.33696706; Wed, 14 Apr 2021 16:13:55 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6~1p7_8EIcQ2968129681epcas5p3b;
- Wed, 14 Apr 2021 07:08:03 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210414070803epsmtrp26d8e683ddda1bb5e4b3ce25cb617f55a~1p7_7SaNj1039610396epsmtrp2-;
- Wed, 14 Apr 2021 07:08:03 +0000 (GMT)
-X-AuditID: b6c32a4b-64bff7000001a030-23-60769633be3b
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 55.6B.33967.2D496706; Wed, 14 Apr 2021 16:08:02 +0900 (KST)
-Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
- [107.99.42.33]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210414070801epsmtip195c841476a3f012f539f137adcbd518a~1p79kQ4Jg1435714357epsmtip1Q;
- Wed, 14 Apr 2021 07:08:01 +0000 (GMT)
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: remove redundant invalid_lba_range trace
-Date: Wed, 14 Apr 2021 12:34:35 +0530
-Message-Id: <20210414070435.3702-1-anaidu.gollu@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCIsWRmVeSWpSXmKPExsWy7bCmlq7xtLIEg++n+Sxe7zzObHFl/3lG
- i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
- J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozeowvZC56LVqxoLWtgbBboYuTkkBAw
- kWha9Ja9i5GLQ0hgN6PEzDftUM4nRomHm76yQTjfGCWuTbjHCtPy6dAcJojEXkaJhqWHWCGc
- NiaJa9O3MINUsQkYScx++4YRxBYRkJT43XUaLM4MsuTbXB0QW1jAQ6Jr/x+wGhYBVYmjr/8y
- gdi8AjYSf3vWMEFsk5dYveEAM8gCCYFD7BL/X50HcjiAHBeJd41BEDXCEq+Ob2GHsKUkPr/b
- C3Q2O5BdLXG4CKKzg1Hi2OUNbBAl9hL/nk1jBJnCLKApsX6XPkRYVmLqqXVMEFfySfT+fgJ1
- Aa/EjnkwtprEglvfoTbJSMz8cxsaJh4STSfWsYDYQgKxEoc23macwCg7C2HDAkbGVYySqQXF
- uempxaYFxnmp5XrFibnFpXnpesn5uZsYwQlBy3sH46MHH/QOMTJxMB5ilOBgVhLhdZtSkiDE
- m5JYWZValB9fVJqTWnyIUZqDRUmcd4fBg3ghgfTEktTs1NSC1CKYLBMHp1QDU9TsmQvWmHz5
- Ev08zCt7B59nca9E/3HZsp/eZnKl/Ubvf51j+X6xfPsbhlMFXIFioU3iH9WWTY9ZrTolvCD5
- 85sbusELtgZf8a06t2a7mldolsaJqfx36ueX1rxdbHOaY1by0x/sCisdMlcdzrvt7Lxg79YK
- zk8RaQqL1/qYKG92PWtg93lXzebZFkE/OTa+TGvYuErrgFB77aKg1ktsISKsgpvW/pNYrxyc
- Uv18MYv/v7kHr4T9Tby7uTb6VmDLH9euyS8Nny/y6G1+7ljz58kp+wMZfY43naofOrLLR09h
- eqQjW5NayLKh58D3FpmdXvc+71jVdyBLMIJvTvuWy7EX/I+8X7I4i3vl6xOLnJVYijMSDbWY
- i4oTAaZ9cpx3AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42LZdlhJTvfSlLIEg8tbzS1e7zzObHFl/3lG
- i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
- J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozeowvZC56LVqxoLWtgbBboYuTkkBAw
- kfh0aA5TFyMXh5DAbkaJKZeXMkEkZCR+nZrKDGELS6z895wdoqiFSWLCzi9sIAk2ASOJ2W/f
- MILYIgKSEr+7TjODFDELHGWUuNw+mQUkISzgIdG1/w9YEYuAqsTR13/BNvAK2Ej87VkDtU1e
- YvWGA8wTGHkWMDKsYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P3cQIDjEtzR2M21d90DvE
- yMTBeIhRgoNZSYTXbUpJghBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeC10n44UE0hNLUrNTUwtS
- i2CyTBycUg1Mrtd2lsVY6nMfj5vOllxYv0pB9nCfme6NnsK6uv3mK/NTMsMXPBbwyZvSz8mV
- v9n0yrT45c2OAVK/FQVaVO5XHxV3++eqeOWy7KoDLD9e/zn0Z0VV7In8CfMjuYKTDp9WWavG
- bnPUJ/bFZeHvV7oOCm19ey/lUVPYodTsvA/LXi7Q4ufYMl+Sf/t3iU0WW3sPyt1f3O1zkVfr
- qF3t+8nVwVWv/pb2b42t9FLueTK7RPxN9/LsUzt/MstP0Nh1RpNxxZzNSj/zi3xvP4//fuWd
- Ztajmwcmccltk1pqOfPq6dkX1VQVD7Gd5eQQ/RUfeJfpqdLH8NmO826uzZa9vmXByefCepFn
- t7x5JL5n4orMVUosxRmJhlrMRcWJAAMkPe2gAgAA
-X-CMS-MailID: 20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6
-References: <CGME20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6@epcas5p3.samsung.com>
-Received-SPF: pass client-ip=203.254.224.24;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWZbQ-0001p8-5D
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 03:06:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618383977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=55vS67pRoMdTh1v/UfPQQeQjk+Nf2t6qn3DnxmFlGbs=;
+ b=ROJFOc2pOa9BDL8vp5u4OFgMgRbVq5ToEshMg8iFzArcGZSxWy10d1omNTo+Sf9oqamiGQ
+ /ezzHTdlHGiGWVuUrapZQ66YXh0sYMxOrxfHhUJ39OkjeofElE3BDq7Bi4vGcmxbHHwojO
+ Gg4BiiIzMT1IxG/c1TywslfJbL2EhKM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-QzvML_dfOLWQpT8sx3bKdA-1; Wed, 14 Apr 2021 03:06:15 -0400
+X-MC-Unique: QzvML_dfOLWQpT8sx3bKdA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1EC410053E7;
+ Wed, 14 Apr 2021 07:06:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2ED885D6AC;
+ Wed, 14 Apr 2021 07:06:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6A2A1113525D; Wed, 14 Apr 2021 09:06:09 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Adam Williamson <1923663@bugs.launchpad.net>
+Subject: Re: [Bug 1923663] [NEW] Can't(?) disable default floppy drive any
+ more in qemu 6.0
+References: <161834460731.13851.12350778402155141357.malonedeb@chaenomeles.canonical.com>
+Date: Wed, 14 Apr 2021 09:06:09 +0200
+In-Reply-To: <161834460731.13851.12350778402155141357.malonedeb@chaenomeles.canonical.com>
+ (Adam Williamson's message of "Tue, 13 Apr 2021 20:10:07 -0000")
+Message-ID: <87fsztny5a.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,91 +80,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
- its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently pci_nvme_err_invalid_lba_range tace being called indvidually
-at each function, add this in nvme_check_bounds and remove redundant
-usage of it.
+Adam Williamson <1923663@bugs.launchpad.net> writes:
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
----
- hw/block/nvme.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+> Public bug reported:
+>
+> There's a documented change in qemu 6.0:
+>
+> https://qemu-project.gitlab.io/qemu/system/removed-features.html#floppy-
+> controllers-drive-properties-removed-in-6-0
+>
+> where you can't configure floppy controller device properties with
+> -global any more. However, there's a thing you could do with the old
+> parameter which I can't figure out a way to do with the documented
+> replacement. openQA passed exactly this argument:
+>
+> -global isa-fdc.driveA=
+>
+> and that has the effect of removing/disabling the default floppy
+> drive/controller. If you just run `qemu-system-i686` (no other args)
+> you'll see the VM briefly try to boot from a floppy drive; if you run
+> `qemu-system-i686 -global isa-fdc.driveA=` (with an earlier version of
+> qemu, obviously) you'll see it does not do so.
+>
+> I can't see a way to do this with `-device floppy`. Going by the docs,
+> the equivalent should be:
+>
+> -device floppy,unit=0,drive=
+>
+> but that does not seem to have the same effect. If you run `qemu-
+> system-i686 -device floppy,unit=0,drive=`, it still tries to boot from a
+> floppy drive.
+>
+> I see there's a -nodefaults option that disables *all* default devices,
+> but I don't think that's what we want here either. We might want the
+> other default devices, we just don't want the floppy drive.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6842b01ab5..c67d3315a1 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1424,6 +1424,7 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
-     uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
- 
-     if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
-+        trace_pci_nvme_err_invalid_lba_range(slba, nlb, nsze);
-         return NVME_LBA_RANGE | NVME_DNR;
-     }
- 
-@@ -2266,7 +2267,6 @@ static void nvme_copy_in_complete(NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, sdlba, ctx->nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(sdlba, ctx->nlb, ns->id_ns.nsze);
-         goto invalid;
-     }
- 
-@@ -2528,8 +2528,6 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-             uint32_t nlb = le32_to_cpu(range[i].nlb);
- 
-             if (nvme_check_bounds(ns, slba, nlb)) {
--                trace_pci_nvme_err_invalid_lba_range(slba, nlb,
--                                                     ns->id_ns.nsze);
-                 continue;
-             }
- 
-@@ -2602,7 +2600,6 @@ static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         return status;
-     }
- 
-@@ -2687,7 +2684,6 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
- 
-         status = nvme_check_bounds(ns, slba, _nlb);
-         if (status) {
--            trace_pci_nvme_err_invalid_lba_range(slba, _nlb, ns->id_ns.nsze);
-             goto out;
-         }
- 
-@@ -2816,7 +2812,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         return status;
-     }
- 
-@@ -2935,7 +2930,6 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         goto invalid;
-     }
- 
-@@ -3015,7 +3009,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-     if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-         goto invalid;
-     }
- 
--- 
-2.17.1
+= Short answer =
+
+In my opinion, management applications are better off with -nodefaults.
+It's easier to understand than the complicated mess I'm going to
+describe under "Long answer" below.
+
+If you'd prefer not to, try -global isa-fdc.fdtypeA=none.
+
+
+= Long answer =
+
+-global isa-fdc.driveA= worked.  Whether it was supported usage or
+accidental dirt effect is unclear.  Doesn't matter now.
+
+-nodefaults suppresses a number of backends:
+
+* Character device backend for a serial device
+
+  Also suppressed when -serial ... or -device isa-serial,... or -global
+  isa-serial.PROP=VAL is given, or the machine type opts out of this
+  backend.
+
+  Backend configuration depends on other options; too complicated to
+  explain here.
+
+* Character device backend for a parallel device
+
+  Also suppressed when -parallel ... or -device isa-parallel,... or
+  -global isa-parallel.PROP=VAL is given,  or the machine type opts out
+  of this backend.
+
+  Backend configuration depends on other options; too complicated to
+  explain here.
+
+* Block device backend a floppy device
+
+  Also suppressed when -device isa-fdc,... or -global isa-fdc.PROP=VAL
+  or -device floppy or -global floppy.PROP=VAL is given, or the machine
+  type opts out of this backend.
+
+* Block device backend a CD-ROM device
+
+  Also suppressed when -device {ide,scsi}-{cd,hd},... or -global
+  {ide,scsi}-{cd,hd}.PROP=VAL is given, or the machine type opts out of
+  this backend.
+
+* SD card
+
+  Also suppressed when the machine type opts out of this backend.
+
+When a backend exists, the machine type may
+
+* Create a frontend (a.k.a. device model) connected to the backend
+
+* Ignore the backend silently
+
+* Complain about the useless backend
+
+-nodefaults additionally suppresses:
+
+* Default HMP monitor
+
+  Also suppressed when -monitor or -qmp or -qmp-pretty or -mon or
+  -serial mon:... or -parallel mon:... is given.
+
+  Monitor configuration depends on other options; too complicated to
+  explain here.
+
+* Default network frontend (-net nic) and backend (-net user)
+
+  Also suppressed when -netdev or -nic or -net is given.
+
+  Default backend is only done when we have SLIRP.
+
+* Default VGA type, if any
+
+  Actual type depends on the machine machine type.  Set to "none" when
+  -vga or -device DRV,... or -global DRV.PROP=VAL is given, where DRV is
+  a VGA device model.
+
+  When the type is not "none", the machine type may:
+
+  * Create a device of that type
+
+  * Ignore the type silently
+
+  * Complain about the type
+
+* Additional stuff depending on the machine type
+
+
+Questions?
 
 
