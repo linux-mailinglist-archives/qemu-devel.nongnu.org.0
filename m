@@ -2,103 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCBC35FD9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:15:47 +0200 (CEST)
-Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC88D35FDAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:18:19 +0200 (CEST)
+Received: from localhost ([::1]:60608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWnnV-0004sh-Qz
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54964)
+	id 1lWnpy-0007CG-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:18:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richardmatthewhill@hotmail.com>)
- id 1lWnQ4-00067t-3l
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 17:51:32 -0400
-Received: from mail-db8eur05olkn2102.outbound.protection.outlook.com
- ([40.92.89.102]:59137 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWnn9-0005Jh-0U
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:15:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richardmatthewhill@hotmail.com>)
- id 1lWnQ0-0001LN-Pf
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 17:51:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lzENH7n6BE382V+Dk/g0VZInX9bfxMejoOtW6egf1c8EEWeN4PXLNsh9TwzCdjrpbSwkZbtlno7gGuu2TS4p5VS8yjVzsSrVNswSi9X5PHNlSrcolynEVipBwU+TZzCtYj4b0w+xV57+SQxm1pTSUXyZSDFZjfy8ktqbZtDiuBQMboYUct2jRIdWcXGMr77almo3KTWVAcn7zgLWysNn4SNUwOzlpuW14Ux16vsPigHdcsnaQnL5vVa+jhl21qbz84ziMlJQZslT11Bc34mUJxNSm4tS3V7IgePukrThdAOr11+4m0uLaDelGm1mxraGgwclZZibjCb8QgA1b3HltQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eW3fXcsi0ImjJpzcjMmGRN7Pv0bPb8vf0tA3yML3vCs=;
- b=HV2sl4L9nExsef83qy4eZEcPFn2Sqm3Dkv0268ifkNzF2wSCkDuMbILvmernCwc5l1nyut+CxZ/vGUfrZmmWnge8sW8hUgQ4L7Ib/Gy7YS0lfQgFXjbWu5N26mhhnb0k/zhrN6HuGKEgKsJrZHp3Ml2SauGvtn5omXbAmK7A92VDfI/4QZYa5ehD0ye0HePQNLQk+StS1ZW3ix5IVLmCgO5dE9J/a6hOlOg2mRyCkw4TliFq5FltXb1m9hQrYcGUPxseybDcJ3rZBD/hYpNXhyJnL48TjKoDmJNIbD+CwgHv+Pv36IjOWwy546r7NBvDYJqhqCq9cfTgDBvfum5sxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eW3fXcsi0ImjJpzcjMmGRN7Pv0bPb8vf0tA3yML3vCs=;
- b=LKl6ogygUbmK9bsCZLtKQTuiM/b3NYVGYbZdl1J8+VgsJ+FmoLJEtLE3EpnFjC0DYWu9HlEE5XipYvX/0eJ0pFJONy6z+DBXWOjlhjVvueaJv8Cyt7uwPjGFK5fbpSV66j4AH7LOY60jHyzNtOew20/7g//09vESFBEgB6W8NlBowCMIO4x86d16wq70xMgfKzyE6PUq1mEfvITF6vir/t/UliGAGQCZCqjJ5U8dwBgOeopRwbfgRcgDdxn9kdNYd/1lhBwpDGk96FRpjk1nE357+OqZuqIHpX9RH0Ekbk8Lsz5m28AHflk0VPUtM+Tb8qGYBg/VB8boKvCKiZsiYQ==
-Received: from DB8EUR05FT025.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc0f::46) by
- DB8EUR05HT234.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc0f::438)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Wed, 14 Apr
- 2021 21:36:24 +0000
-Received: from AM6PR01MB4980.eurprd01.prod.exchangelabs.com
- (2a01:111:e400:fc0f::4e) by DB8EUR05FT025.mail.protection.outlook.com
- (2a01:111:e400:fc0f::391) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend
- Transport; Wed, 14 Apr 2021 21:36:24 +0000
-Received: from AM6PR01MB4980.eurprd01.prod.exchangelabs.com
- ([fe80::94bb:9c5d:fd5:7f61]) by AM6PR01MB4980.eurprd01.prod.exchangelabs.com
- ([fe80::94bb:9c5d:fd5:7f61%5]) with mapi id 15.20.4042.018; Wed, 14 Apr 2021
- 21:36:24 +0000
-From: Richard Hill <richardmatthewhill@hotmail.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Mac OS - Standalone Installer
-Thread-Topic: Mac OS - Standalone Installer
-Thread-Index: AQHXMXXOtnRcd+YXJUu3oK8DT+OyTg==
-Date: Wed, 14 Apr 2021 21:36:24 +0000
-Message-ID: <AM6PR01MB498093EDCD5AB2B533595611DF4E9@AM6PR01MB4980.eurprd01.prod.exchangelabs.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:723CC0034CE67A5BBEBBCA46D3CD458852D61EB82DED833F7B5764121E2F87BA;
- UpperCasedChecksum:07A68A074F65D37D54BFDE7142DF68264760F26E0F08843D0F7F87ADAF85D4C0;
- SizeAsReceived:6721; Count:42
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [CK1E6mOa6+QrNAGT8w3FOOpmhGfAyMXF]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 42
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 028a2502-12a1-4c2e-d251-08d8ff8d5a69
-x-ms-traffictypediagnostic: DB8EUR05HT234:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gy8kuZIQsA+I6E0HSaj23eBlQl4IpCSnk4fM1TZUkOWiBZ1P2yJ3fvGMLuuXwt7aJRcC1khFyVSpc2O/9duIIkQddrlITEujD8Vt19TNikkP8Aa9lpeb6zjuYRDyr54x/QKYKmc/JdkG0MEeaM4lUUW6tM8jlmTXzEkAr51L6gHNFfgNAtuyHbWt1ArygB+KZgl07OnPA6iHudmf8EpHaNYF7Xe7BTb9hISrUYyizLevjkpWSLSrxkhYEQwlMbUt8hUtqobQCQIkIxBOpQGgz7nRwKMTsHW19wLWX7Jzn5xIZerxKzrNGH41SSLKhgxsATdChWCm1Fn4qv4h56XFUWO7uqERlV3C3WVIj8mJxIeCGrGXCoSie5g0tRR9JKBdzbFp8kWrH8SvqW4rjpKVeQ==
-x-ms-exchange-antispam-messagedata: /hQLzKopbc5pSnP08+DXgVThOg77LBrS5zpFUA5w6SkP+QeR/UloPErPqSV76tWOU6cMzpf658PgytbveX8rjme4PukD9JuMFaA660RjB05OMGJcCUBeqDBHc+5BVBTMft3/Xc+vkiah1f2awOK24g==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_AM6PR01MB498093EDCD5AB2B533595611DF4E9AM6PR01MB4980eurp_"
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWnmz-00077L-NY
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:15:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618438511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5i4wpIkpUHMRPW5O06b5z/Ud/TfUhdmTAya9zGys4k0=;
+ b=Km3iYGPGrL/v4avY18hfu/buy8+JhGybhErMzj/KOaZDrGDt8Fo3rRyxkTWkSX4D8GEXkv
+ rYwXQ+gyH8R5IPWysjVeAz5YHQYuym75KS8VIQMO1PjdbfDeDv8dShsLGxa+vqA3eIYMMB
+ 9f3pHpboMktSqDhgemB4Zj+vtaP5ZrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-QCbS6SZKP3OISQvrrJ_5cg-1; Wed, 14 Apr 2021 18:15:08 -0400
+X-MC-Unique: QCbS6SZKP3OISQvrrJ_5cg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CF5E1854E25;
+ Wed, 14 Apr 2021 22:15:07 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-116-207.rdu2.redhat.com
+ [10.10.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01B9B19D9B;
+ Wed, 14 Apr 2021 22:14:58 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] Acceptance Tests: support choosing specific distro and
+ version
+Date: Wed, 14 Apr 2021 18:14:54 -0400
+Message-Id: <20210414221457.1653745-1-crosa@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-AuthSource: DB8EUR05FT025.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 028a2502-12a1-4c2e-d251-08d8ff8d5a69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2021 21:36:24.4611 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR05HT234
-Received-SPF: pass client-ip=40.92.89.102;
- envelope-from=richardmatthewhill@hotmail.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 14 Apr 2021 18:13:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,97 +75,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM6PR01MB498093EDCD5AB2B533595611DF4E9AM6PR01MB4980eurp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Because Fedora 31 will not suit all tests that depend on a Linux=0D
+guest, this allows for the configuration of the guest distribution.=0D
+It came out of a suggestion from Eric Auger, and it was actually a=0D
+feature I planned to submit for a while.=0D
+=0D
+This is based on the following series:=0D
+=0D
+ [PATCH v3 00/11] Acceptance Test: introduce base class for Linux based tes=
+ts=0D
+=0D
+A GitLab CI pipeline can be seen here:=0D
+=0D
+ https://gitlab.com/cleber.gnu/qemu/-/pipelines=0D
+=0D
+Note: I'll address the line length caught in the check-patch job as=0D
+soon as I find what was the outcome of the line limits for Python=0D
+code discussion.=0D
+=0D
+Based-On: <20210412044644.55083-1-crosa@redhat.com>=0D
+=0D
+Cleber Rosa (3):=0D
+  Acceptance Tests: rename attribute holding the distro image checksum=0D
+  Acceptance Tests: move definition of distro checksums to the framework=0D
+  Acceptance Tests: support choosing specific distro and version=0D
+=0D
+ docs/devel/testing.rst                    | 65 ++++++++++++++++++++++=0D
+ tests/acceptance/avocado_qemu/__init__.py | 67 +++++++++++++++++++++--=0D
+ tests/acceptance/boot_linux.py            |  8 ---=0D
+ 3 files changed, 127 insertions(+), 13 deletions(-)=0D
+=0D
+--=20=0D
+2.25.4=0D
+=0D
 
-Hello Everyone!
-
- I would like to ask if anyone on this list is aware of a standalone instal=
-ler for QEMU for Mac OS?
-
-I am aware of the excellent work carried out by Stefan Weil for the Windows=
- Platform and I wondered if something similar existed for the Mac?
-
-The approach of using Homebrew will not work for what I am trying to achiev=
-e.
-
-Many thanks in advance for any response / help.
-
-regards
-
-Richard
-
-
---_000_AM6PR01MB498093EDCD5AB2B533595611DF4E9AM6PR01MB4980eurp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-Hello Everyone!&nbsp;</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-&nbsp;I would like to ask if anyone on this list is aware of a standalone i=
-nstaller for QEMU for Mac OS?</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-I am aware of the excellent work carried out by Stefan Weil for the Windows=
- Platform and I wondered if something similar existed for the Mac?&nbsp;</d=
-iv>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-The approach of using Homebrew will not work for what I am trying to achiev=
-e.</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-Many thanks in&nbsp;advance for any response / help.</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-regards</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-Richard</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-&nbsp;</div>
-</body>
-</html>
-
---_000_AM6PR01MB498093EDCD5AB2B533595611DF4E9AM6PR01MB4980eurp_--
 
