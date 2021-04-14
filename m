@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E24735F78A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:28:12 +0200 (CEST)
-Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C7035F7C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:38:08 +0200 (CEST)
+Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWhR4-0006I8-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56828)
+	id 1lWhag-0000qQ-Gy
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lWhPj-0005RT-Gg
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:26:48 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:44604)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lWhZC-0008OX-GS
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:36:35 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lWhPg-0008BF-SG
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:26:47 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id d8so10296920plh.11
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 08:26:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lWhZA-0003Af-BW
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:36:34 -0400
+Received: by mail-wr1-x431.google.com with SMTP id j5so19341989wrn.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 08:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aSuEG2+t6HFLp4jtAjxISZwY7TC6s3eu2M/n0YUovRQ=;
- b=xzW4yA4y86+MSyzjjKRUKodiBq8gJoXXgaia68VPWJvPqSmhjv4dHJekSSFo7bRvUt
- IBfPeAMSMyS5dp44hVQ4LAtOZ4V5Ifv9PZ3ORQmUNX4qFBHud+uuxDl7vLf7XAHHANz4
- IcyxyWbbOC7fjQCpPeCmBCKCDXKX3vy1NIkCjFa9OxUMOLN3k0j8QoTBrmB4fzYOX2Hd
- jtJZrYQ/CZ5eP94cO7x/+WC7oi16W1xvAGcuwIp+OpCCJYCppKaIuqRPyHxhVpUJaYrZ
- BqNoxRCoU3CjBirYd90X3vMEGNm+HIvNMFVWZbBLXMTkDc4ClVU7kD684sU3Hhq4Q/B9
- b49g==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=hCWFBe3oELuzK3fVkMONplMWEwr3KSM2+ShieSL9jkw=;
+ b=cffOAbqTE3vUklJRwr29t+Yl7g/5QRtPkObi6M9SUncve7+xDO1qZyKykeX4wkNEqh
+ rKIoNvd0U4NoqXLK/jhoDvlX+FW4bZAGCUHyUKfGFZXAupxTzelTEdfvH1CnZPuKQoQN
+ qckr/sGTdGoatvVSaJ/5HLuSO9OvCC/Nh1mDsckSoMbTypMBF8K9jfJzaTTEyyDaMPM0
+ U0asFeYwu3s5Vh0md7WLM4EsHPNOdVIYnqqmJx9KIEK4uVyvq8lsmNzasH/FVIL9z4q4
+ WxiLstPUNtCoFIOZ3Z9FiZwhoOUx4TdqULzF/QCLXK4VV8Y/2162qasAOhSzI2HF0GPl
+ 7NVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aSuEG2+t6HFLp4jtAjxISZwY7TC6s3eu2M/n0YUovRQ=;
- b=Ni8EoVupzXOXGIuO/zpODAZnt5qyVPjreHFe7LwSKQ6xWPvB9M71W0HJyFVEdsRkn3
- 23NR0tr7f7FX1lbtKeO+necqK3GjCHzEpxCcmcu4QkImRXWfSr7lDtL/RJUdxgvr65Rj
- uxqd/uhI7R3PyiT0iQHRediPiV5z2WqNUIKPDG2CZem7vDxbaS3kBBBFfNQqQgaXC5d9
- 4LdZnY05NP0J4iWl/dgAIbSkx11zcX2o5/YkxPW1Jhn9OtxQ2jAVtxcItlazBLsP9Zxf
- 4CXFBctYesksVvGMzbvxln/mehcYM8k8Xwc+pJEVDOYm79kQgXbOlu5gNHC8uQqTOWw+
- l5PQ==
-X-Gm-Message-State: AOAM531QYOreZXKBVDDYfC36ty6NvQQsO8yB4NKGfPnTN+xIGLWvJhxG
- KH1OB+/n6VdNs9pPxLUznovtKA==
-X-Google-Smtp-Source: ABdhPJyFGyGZrCi8KKcuAqUboRX/erOu3VRvzPzgV5LI604PqejHcvuN26s0QFqEQfBj3VPIn6rQpg==
-X-Received: by 2002:a17:902:e8d5:b029:e6:cabb:d07 with SMTP id
- v21-20020a170902e8d5b02900e6cabb0d07mr37980060plg.3.1618414003229; 
- Wed, 14 Apr 2021 08:26:43 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id h1sm623587pgv.88.2021.04.14.08.26.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Apr 2021 08:26:42 -0700 (PDT)
-Subject: Re: [PATCH 4/5] target/ppc: Base changes to allow 32/64-bit insns
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210413211129.457272-1-luis.pires@eldorado.org.br>
- <20210413211129.457272-5-luis.pires@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d8e90027-f238-2561-8a7b-f9b95df51d6d@linaro.org>
-Date: Wed, 14 Apr 2021 08:26:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=hCWFBe3oELuzK3fVkMONplMWEwr3KSM2+ShieSL9jkw=;
+ b=IoDOPLGcjuI5SfiDPUoh/G6lI4HvmaMZ+zSqBraJkBb5/OimNm1Dcfh2neJGatlOgU
+ xpyH/BQ8Ao/h2MDqQHv++XKMyPtvBvdaPmwlJKyWu+NpCXHrAdAIAqssGJHiNGwPrtGf
+ Kp1GE0Z2yQO0hK6w6lVnY3Z26X1MKRYfkuxLI3/ASvVn4tcZEMdo2e7Ld0YXd3yWdUFN
+ zSdlay+xC/U5mNiSvuaUWLPejLVU/gurzJgd5bx2M7dxoS7VjYHIq4T8UwugY4XO64f8
+ BHl+NUdiwcy6c6fQ/KLgen64BfX73NqpSjsqowN0ilwG3hZ+qchejCat1BFYv2YR7cQS
+ o8ew==
+X-Gm-Message-State: AOAM532pegYKTRVWwBXy7Cwj7hcqlwAnwnGZ0vscG+wZmi2Or+tTncjA
+ GuqaORM+UpxGTJ1oDI9IwlVxnQ==
+X-Google-Smtp-Source: ABdhPJzuQEfaeYQ1jSjVZLSozFYQGvuCujRnVhvn4FbHo3qNcrrUZdUb0Ri7XeLKDIHeUZw7FUrykQ==
+X-Received: by 2002:adf:f58f:: with SMTP id f15mr9232055wro.348.1618414589017; 
+ Wed, 14 Apr 2021 08:36:29 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r5sm5661121wmr.15.2021.04.14.08.36.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Apr 2021 08:36:28 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 972521FF7E;
+ Wed, 14 Apr 2021 16:36:27 +0100 (BST)
+References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Subject: Re: [PATCH v3 00/15] tests/tcg: Add TriCore tests
+Date: Wed, 14 Apr 2021 16:34:52 +0100
+In-reply-to: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
+Message-ID: <87o8eglvyc.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210413211129.457272-5-luis.pires@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,85 +86,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- matheus.ferst@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 2:11 PM, Luis Pires wrote:
->       if (ctx->exception == POWERPC_EXCP_NONE) {
-> -        gen_update_nip(ctx, ctx->base.pc_next - 4);
-> +        gen_update_nip(ctx, ctx->base.pc_next - ctx->insn_size);
 
-It appears as if the major (only?) use of insn_size is this subtraction?  It 
-looks like it would be better to simply save the address of the current pc 
-before we begin decoding.
+Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
 
-This change should be done as a separate patch.
+> Hi Alex,
+>
+> after a long while and thanks to Thomas reminder, I finally came back to =
+this
+> series. I addressed most of your comments except for the timeout --foregr=
+ound
+> problem (see https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg009=
+21.html).=20
+> I just couldn't figure out why QEMU hangs when run from the Makefile.
 
-> +static uint64_t ppc_load_insn(DisasContext *ctx)
-> +{
-> +    uint64_t insn;
-> +    uint32_t insn_part;
-> +
-> +    /* read 4 bytes */
-> +    insn_part = translator_ldl_swap(ctx->env, ctx->base.pc_next,
-> +                                    need_byteswap(ctx));
-> +    insn = ((uint64_t)insn_part) << 32;
-> +    ctx->base.pc_next += 4;
-> +    ctx->insn_size = 4;
-> +
-> +    if (is_insn_prefix(insn_part)) {
-> +        /* read 4 more bytes */
-> +        insn_part = translator_ldl_swap(ctx->env, ctx->base.pc_next,
-> +                                        need_byteswap(ctx));
-> +        insn |= insn_part;
-> +
-> +        ctx->base.pc_next += 4;
-> +        ctx->insn_size += 4;
-> +    }
-> +
-> +    return insn;
-> +}
+As I'm refactoring configure.sh anyway I have pulled the series and made
+the suggested changes myself. Queued to testing/next, thanks.
+>
+> You can find the full tree here:
+> https://github.com/bkoppelmann/qemu/tree/tricore-tcg-tests2
+>
+> Cheers,
+> Bastian
+>
+> Bastian Koppelmann (15):
+>   tests/tcg: Add docker_as and docker_ld cmds
+>   tests/tcg: Run timeout cmds using --foreground
+>   hw/tricore: Add testdevice for tests in tests/tcg/
+>   tests/tcg/tricore: Add build infrastructure
+>   configure: Emit HOST_CC to config-host.mak
+>   tests/tcg/tricore: Add macros to create tests and first test 'abs'
+>   tests/tcg/tricore: Add bmerge test
+>   tests/tcg/tricore: Add clz test
+>   tests/tcg/tricore: Add dvstep test
+>   tests/tcg/tricore: Add fadd test
+>   tests/tcg/tricore: Add fmul test
+>   tests/tcg/tricore: Add ftoi test
+>   tests/tcg/tricore: Add madd test
+>   tests/tcg/tricore: Add msub test
+>   tests/tcg/tricore: Add muls test
+>
+>  MAINTAINERS                                   |   1 +
+>  configure                                     |   1 +
+>  hw/tricore/meson.build                        |   1 +
+>  hw/tricore/tricore_testboard.c                |   8 ++
+>  hw/tricore/tricore_testdevice.c               |  82 +++++++++++
+>  include/hw/tricore/tricore_testdevice.h       |  38 ++++++
+>  tests/tcg/Makefile.qemu                       |  15 ++
+>  tests/tcg/Makefile.target                     |   5 +-
+>  tests/tcg/configure.sh                        |  27 +++-
+>  tests/tcg/tricore/Makefile.softmmu-target     |  26 ++++
+>  .../tcg/tricore/Makefile.softmmu-target.orig  |  25 ++++
+>  tests/tcg/tricore/link.ld                     |  60 ++++++++
+>  tests/tcg/tricore/macros.h                    | 129 ++++++++++++++++++
+>  tests/tcg/tricore/test_abs.S                  |   7 +
+>  tests/tcg/tricore/test_bmerge.S               |   8 ++
+>  tests/tcg/tricore/test_clz.S                  |   9 ++
+>  tests/tcg/tricore/test_dvstep.S               |  15 ++
+>  tests/tcg/tricore/test_fadd.S                 |  16 +++
+>  tests/tcg/tricore/test_fmul.S                 |   8 ++
+>  tests/tcg/tricore/test_ftoi.S                 |  10 ++
+>  tests/tcg/tricore/test_madd.S                 |  11 ++
+>  tests/tcg/tricore/test_msub.S                 |   9 ++
+>  tests/tcg/tricore/test_muls.S                 |   9 ++
+>  23 files changed, 517 insertions(+), 3 deletions(-)
+>  create mode 100644 hw/tricore/tricore_testdevice.c
+>  create mode 100644 include/hw/tricore/tricore_testdevice.h
+>  create mode 100644 tests/tcg/tricore/Makefile.softmmu-target
+>  create mode 100644 tests/tcg/tricore/Makefile.softmmu-target.orig
+>  create mode 100644 tests/tcg/tricore/link.ld
+>  create mode 100644 tests/tcg/tricore/macros.h
+>  create mode 100644 tests/tcg/tricore/test_abs.S
+>  create mode 100644 tests/tcg/tricore/test_bmerge.S
+>  create mode 100644 tests/tcg/tricore/test_clz.S
+>  create mode 100644 tests/tcg/tricore/test_dvstep.S
+>  create mode 100644 tests/tcg/tricore/test_fadd.S
+>  create mode 100644 tests/tcg/tricore/test_fmul.S
+>  create mode 100644 tests/tcg/tricore/test_ftoi.S
+>  create mode 100644 tests/tcg/tricore/test_madd.S
+>  create mode 100644 tests/tcg/tricore/test_msub.S
+>  create mode 100644 tests/tcg/tricore/test_muls.S
 
-> @@ -7979,37 +8049,31 @@ static bool ppc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->   {
->       DisasContext *ctx = container_of(dcbase, DisasContext, base);
->   
-> +    target_ulong insn_size = ppc_peek_next_insn_size(ctx);
-> +
->       gen_debug_exception(ctx);
->       dcbase->is_jmp = DISAS_NORETURN;
->       /*
->        * The address covered by the breakpoint must be included in
->        * [tb->pc, tb->pc + tb->size) in order to for it to be properly
-> -     * cleared -- thus we increment the PC here so that the logic
-> -     * setting tb->size below does the right thing.
-> +     * cleared -- thus we increment the PC here.
->        */
-> -    ctx->base.pc_next += 4;
-> +    ctx->base.pc_next += insn_size;
 
-Here in breakpoint_check, we merely need a non-zero number.  No point in a 
-change here.
-
-> +    /* load the next insn, keeping track of the insn size */
-> +    insn = ppc_load_insn(ctx);
-> +
-> +    if (unlikely(ctx->insn_size == 8 &&
-> +                 (ctx->base.pc_next & 0x3f) == 0x04)) {
-> +        /*
-> +         * Raise alignment exception when a 64-bit insn crosses a
-> +         * 64-byte boundary
-> +         */
-> +        gen_exception_err(ctx, POWERPC_EXCP_ALIGN, POWERPC_EXCP_ALIGN_INSN);
-
-This is incorrect.
-
-In 1.10.2 Instruction Fetches, it states that all instructions are word 
-aligned, and gives an example of a prefixed instruction not aligned on a 
-double-word boundrary.
-
-
-r~
+--=20
+Alex Benn=C3=A9e
 
