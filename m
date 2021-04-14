@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD4D35F105
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:47:14 +0200 (CEST)
-Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DAF35F114
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:52:04 +0200 (CEST)
+Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWc77-00024e-H4
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:47:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44840)
+	id 1lWcBk-00064M-DD
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lWc5W-0001I1-1T
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:45:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lWc5S-0004Oi-BD
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:45:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618393527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3UG1rqIsXMKmeAz/MNqfWNq6iSitU8OvytV5dMtVHC8=;
- b=egeDm0sQsRhvR+OUJQ17HEA0iPAAPLmOQKPU9nqDOfmKIoxQvCH3zlJLNQb9nYYymMt8j1
- ZlEjgcNTaNyWxVQ0006KSWPyh0kSaXrjI/SCH80R9t7nLmXMBd4iPwROzglP2lAkDkaAAL
- AHSOBvg1QwdaOIYYM8ldUAt6QOCNHBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-s2teuGkSMFud7Whxxm1K_w-1; Wed, 14 Apr 2021 05:45:23 -0400
-X-MC-Unique: s2teuGkSMFud7Whxxm1K_w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6669B8189C8;
- Wed, 14 Apr 2021 09:45:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-165.ams2.redhat.com
- [10.36.114.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50DAC6F99E;
- Wed, 14 Apr 2021 09:45:04 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 615B81800936; Wed, 14 Apr 2021 11:45:02 +0200 (CEST)
-Date: Wed, 14 Apr 2021 11:45:02 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH 00/11] Add support for Blob resources feature
-Message-ID: <20210414094502.krykle6fcv2ehkvg@sirius.home.kraxel.org>
-References: <20210331031001.1564125-1-vivek.kasireddy@intel.com>
- <58a1404f12d9434bae1d336f6553279e@intel.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWcAH-00059U-BI
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:50:29 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:44881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWcAF-0007PR-5s
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:50:29 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id f8so22903023edd.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 02:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UTcobpO/9736ZBQJYMOKuThyr27AxSdM6qny0lqdy8Y=;
+ b=mNc0DGgHPOcJjlkLrSPRcAnXgVnmzNS3/QrJ6TJTuRpPDg5zW+FInj7r0PUq9IMof+
+ uj1SOJ5P+/oRZzD6kfWBR5wu9y2UOdFOMRdAorj/20w/1laiYVkhkTJCSo8cnhFyabIK
+ 3eYMJg7N25OhH4KFs4dVpqSuNxPXIPVkSqmT7v/bdxHgD1sitCJNzBSU7cxGEzefPz9f
+ AH/H+TQRKwUTZ0z1HEYkDg2oFkjPii6l3NMgAExwGGABX9LT9KPsF8/V5/nh8QoyXssH
+ aAZKoGV1G2N9obGNkIvMs2Xi4vy09Ir7c36+SqgQ2TKbiNSIv+yYKSWuoyLFP6rxcWnP
+ 7Z2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UTcobpO/9736ZBQJYMOKuThyr27AxSdM6qny0lqdy8Y=;
+ b=W7i8ateqr/h9yYTBhFBvgXLbLZawwOPF0fA24cc2RZw3qWEs9mP0ONBJchEHe6SpDA
+ kICB6KYNR3XJ/tpEGdQ99ad5S8ixPWM8MKXav22zHPQnHa6EQgevmaG05AE1u5ioQCaj
+ e4Se8jg45iN1YNMMoGhwWBqgrwAr45VCB3iqNfjb0N4Bkhm7KAaoXm/H4lJVNYVh3Xcs
+ e7mA4mm4uEMAkyBw5xzKubEwO1YApiTkHzn3w5kIXK+U5tnMZSqNqcIT6LdaSPmElkY1
+ ysqHuaaHmeflxO6VjTL1+8CYXqdYHtBMKPED+0r4UaYbZy+CcxkGXR1F+9atWH7lJqO5
+ eSWw==
+X-Gm-Message-State: AOAM530PZy9JaevmiKf1nODVmqkP2D/fcmZIaNEZ4++1GMuQrDfccloM
+ m7oP/HI/sCy5VwaOYfikSV6vz31vfB8LR+2M/l6IwA==
+X-Google-Smtp-Source: ABdhPJxC+rW933C+OiQnuGfER2BF9Ex/EdYJ0lKmMDF8oUFSuwaAiWjHclNtLrJ26qsOO95UBTvy5cIlt8hTFjHGsBM=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr39817297edb.204.1618393825688; 
+ Wed, 14 Apr 2021 02:50:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <58a1404f12d9434bae1d336f6553279e@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <CAEtFKsuPfRS1_exHPBNE-BLthbXoudUOcX6ND80FA=JqV8LrzA@mail.gmail.com>
+In-Reply-To: <CAEtFKsuPfRS1_exHPBNE-BLthbXoudUOcX6ND80FA=JqV8LrzA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 14 Apr 2021 10:49:39 +0100
+Message-ID: <CAFEAcA_ywvyxvW_jbjy0SnQGyu3+eaW6KPK4Gfe5K11DxVbxQA@mail.gmail.com>
+Subject: Re: Issues with modifying pc in a sigaction handler
+To: Devin Hussey <husseydevin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, "Zhang,
- Tina" <tina.zhang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Kim, Dongwon" <dongwon.kim@intel.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Tue, 13 Apr 2021 at 23:44, Devin Hussey <husseydevin@gmail.com> wrote:
+>
+> In a toy project I was doing
+> (https://github.com/easyaspi314/ThumbGolf), I found that qemu will
+> incorrectly handle modifying pc in a handler.
+>
+> Specifically, on platforms with instruction alignment requirements
+> (most notably ARM), if you set the pc to an odd address, QEMU will
+> start reading unaligned instructions.
+>
+> Naturally, this is frustrating when dealing with ARM Thumb functions
+> which have the lowest bit set when referenced, as you must manually
+> clear the Thumb bit instead of it being implicit on hardware.
+>
+> The following code exhibits this bug for ARM:
+>
+> ---
+> #include <signal.h>
+> #include <ucontext.h>
+> #include <stdio.h>
+>
+> static void hello(void)
+> {
+>     printf("Hello,");
+> }
+>
+> static void handler(int signo, siginfo_t *si, void *data)
+> {
+>     ucontext_t *uc = (ucontext_t *)data;
+>     // Effectively bl hello although we assume thumb state
+>     uc->uc_mcontext.arm_lr = uc->uc_mcontext.arm_pc + 2 | 1;
+>     uc->uc_mcontext.arm_pc = (unsigned long)&hello;
 
-> Any other ideas as to how to eliminate that Blit cleanly?
+This is setting the arm_pc field to an odd number (because
+the compiler/linker for Thumb will treat "take the address
+of a thumb mode function" as a request for the value with the
+LSB set to indicate Thumb mode. However, the ABI for the
+uc_mcontext fields is that the arm_pc field should be the actual
+required value of the PC -- if you want to go to somewhere in
+Thumb mode you need to set the arm_pc field to the true PC
+(with the LSB clear) and also set the T bit in the CPSR field
+of the uc_mcontext.
 
-Well, "cleanly" pretty much implies "supported by toolkit".
+So your code is doing something it shouldn't and has thus
+wandered off into a corner case where QEMU behaves differently
+from the hardware...
 
-gtk glarea for example sets up a framebuffer and expects the application
-render to that framebuffer.  So qemu glarea code does a fb-to-fb blit.
-
-Other reasons are scaling and cursor rendering.  Not all reasons apply
-to all UIs.  I think when using spice qemu doesn't blit (not fully sure
-what happens inside spice-server), but it could very well be that the
-spice-client does the blit instead, i.e. we just shift the issue to
-another place ...
-
-take care,
-  Gerd
-
+thanks
+-- PMM
 
