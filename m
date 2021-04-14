@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0308D35EB0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 04:42:10 +0200 (CEST)
-Received: from localhost ([::1]:35040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971A335EB56
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 05:15:06 +0200 (CEST)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWVTk-000661-NB
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 22:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46504)
+	id 1lWVzd-00032r-88
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 23:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWVSX-0005WM-Vw
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 22:40:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44956)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lWVyI-0002d0-5V
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 23:13:42 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:33486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWVST-0002Nr-4t
- for qemu-devel@nongnu.org; Tue, 13 Apr 2021 22:40:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWVSR-0002Sn-20
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 02:40:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 067EA2E8163
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 02:40:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lWVyG-0005zS-Eb
+ for qemu-devel@nongnu.org; Tue, 13 Apr 2021 23:13:41 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id a85so12347221pfa.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Apr 2021 20:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UHqEgRmkG/wUkB8gH1KDikR5pfAqgCIrGztC2L+7fKc=;
+ b=pHP5NrMnOka6Whk3sAt7na+Lb2wfqf8Ok0II+C9fOaAZqUmD2cNv77sksRMiHEhDyI
+ f3AeYJG7Mt041oIcHllDbd+N4Fiv3q9HfiI6ra+MXx6CkTj9zkTuFJNU8kJNO5ddjXvj
+ UCSbRuNxK1CS1qIj0TZ+2oPIu6JGtk6EX3airdEPeTC1Of1bdkcgl/QGtkSRA83zHFqA
+ fV078GzxStahGTs0jpPPrf1zy0XDnxe7oOtYfKL/AaPieBOb/R5SjN9Mrap2kgfEk7Ou
+ obB9mIosy0vqXNo9C9K4Blu8XEccipV58bnWJi12tRMae0J4GU0ou8FEGBgfjQ38J9cS
+ Wi+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UHqEgRmkG/wUkB8gH1KDikR5pfAqgCIrGztC2L+7fKc=;
+ b=WbYEgHSbNfOMrjtfB194X3F+t/JMQeE2zEuUjE9+9Slw4RnAm94Wb7vfqEQzdujbsw
+ 41Jo0fJgUqt7MyLpRyBmdeWBehQ6gZYI7y0bjstCJSBTJXL8H5CHt/tQC+FWsSmz48xz
+ rqEIcAYtY3cCSyke+AhRBBVn7/by0J7WrEywK5gXE1PsKlz4Id42fOAnmGPGbFRUs8/+
+ U0kYunq4QbEvDMa2nJ96ftJ6pYdxrUpzevo5YBuPIaGfIHvil8oeGFX5t/BGlmVTVRXh
+ EABlkhIKdYknmMnmcECkCExQNKtPiX/r1lpTiP/gFOG+QuwdDOjJEmYBRQLhYNXUOsqS
+ +Y0Q==
+X-Gm-Message-State: AOAM5336Jvaa88ddm/OG4DkjdD0LYguhSsvBUegmYxYzOAoFu0IwNPxM
+ kQzbpUSkPFEssLZN1BVs03jQbA==
+X-Google-Smtp-Source: ABdhPJyxLGvxnjRCtmQOdauVE/rsEADkyTC5MGzDxQj0woH6EcdYaWzGViPyDGAMJIuz2Jv8mqsKSg==
+X-Received: by 2002:a63:fe12:: with SMTP id p18mr35638247pgh.425.1618370018881; 
+ Tue, 13 Apr 2021 20:13:38 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id b7sm15872997pgs.62.2021.04.13.20.13.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Apr 2021 20:13:38 -0700 (PDT)
+Subject: Re: [PATCH v2 4/9] target/riscv: Remove the hardcoded MSTATUS_SD macro
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1618356725.git.alistair.francis@wdc.com>
+ <2d6d0483c1a1e7aedd1c410b34812ea8e076cb33.1618356725.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5948b55e-a769-59f2-8ef5-0b0e33dcb4b0@linaro.org>
+Date: Tue, 13 Apr 2021 20:13:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 02:33:11 -0000
-From: kallisti5 <1923693@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kallisti5
-X-Launchpad-Bug-Reporter: kallisti5 (kallisti5)
-X-Launchpad-Bug-Modifier: kallisti5 (kallisti5)
-Message-Id: <161836759211.17765.12297179006766447607.malonedeb@wampee.canonical.com>
-Subject: [Bug 1923693] [NEW] Lack of architecture in gdbstub makes debugging
- confusing
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
-X-Launchpad-Hash: 2e71dd36940539238a1f2c5dc58bc6ee1edbd473
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2d6d0483c1a1e7aedd1c410b34812ea8e076cb33.1618356725.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,73 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923693 <1923693@bugs.launchpad.net>
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 4/13/21 4:33 PM, Alistair Francis wrote:
+> +#ifndef CONFIG_USER_ONLY
+> +# ifdef TARGET_RISCV32
+> +#  define is_32bit(ctx)  true
+> +# else
+> +static inline bool is_32bit(DisasContext *ctx)
+> +{
+> +    return !(ctx->misa & RV64);
+> +}
+> +# endif
+> +#endif
 
-I spent some quality time debugging GEF and came to a conclusion here:
-https://github.com/hugsy/gef/issues/598#issuecomment-819174169
+It's going to be soon enough when this is used by user-only too.
+I'd structure this as
 
-tldr;
+#ifdef TARGET_RISCV32
+# define is_32bit(ctx)  true
+#elif defined(CONFIG_USER_ONLY)
+# define is_32bit(ctx)  false
+#else
+static inline...
+#endif
 
-* gdb_arch_name was undefined on riscv
-* this bug was fixed recently via https://github.com/qemu/qemu/commit/edf64=
-7864bdab84ed4b1a4f47ea05be6bb075c69
+>       tmp = tcg_temp_new();
+> +    sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
+> +
+> +
+>       tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+
+Careful with the extra whitespace.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-* An undefined gdb_arch_name results in qemu's gdbstub omitting the <archit=
-ecture> xml.
-* gdb translates a missing <architecture> as "auto" which breaks a lot of s=
-tuff.
-* tracking down where "auto" comes from is a bit confusing and time consumi=
-ng.
-
-
-It might be better to report a missing / blank gdb_arch_name as "<architect=
-ure>unknown</architecture>" instead of omitting the block completely.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923693
-
-Title:
-  Lack of architecture in gdbstub makes debugging confusing
-
-Status in QEMU:
-  New
-
-Bug description:
-  I spent some quality time debugging GEF and came to a conclusion here:
-  https://github.com/hugsy/gef/issues/598#issuecomment-819174169
-
-  tldr;
-
-  * gdb_arch_name was undefined on riscv
-  * this bug was fixed recently via https://github.com/qemu/qemu/commit/edf=
-647864bdab84ed4b1a4f47ea05be6bb075c69
-
-  =
-
-  * An undefined gdb_arch_name results in qemu's gdbstub omitting the <arch=
-itecture> xml.
-  * gdb translates a missing <architecture> as "auto" which breaks a lot of=
- stuff.
-  * tracking down where "auto" comes from is a bit confusing and time consu=
-ming.
-
-  =
-
-  It might be better to report a missing / blank gdb_arch_name as "<archite=
-cture>unknown</architecture>" instead of omitting the block completely.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923693/+subscriptions
+r~
 
