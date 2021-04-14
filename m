@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DED135F64A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 16:38:25 +0200 (CEST)
-Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0622335F652
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 16:41:07 +0200 (CEST)
+Received: from localhost ([::1]:49836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWgeu-0003VI-7q
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 10:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44158)
+	id 1lWghV-0005UR-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 10:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lWgdf-0002vZ-TD
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 10:37:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24078)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lWgfm-0004ME-3t
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 10:39:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lWgdR-0000cb-Dd
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 10:37:02 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lWgfh-0001tA-Sy
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 10:39:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618411011;
+ s=mimecast20190719; t=1618411151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R0N9eeUsfLkG0VboZYaRgYaJrl8D6EqQnNckjuKpzUw=;
- b=Nq0bqzggLKERg0Nb+88DDyRtPp7WTruRv7foDOzdd3nBSoB2LoeuCvbHT+Blsc1YtIkGPy
- KlrVfZOMdOvLhMCnwQxszSCSzb6CQO6JofVZNbf0uDwy20Z/JOXMIMNU+R0mCPyaC2Pod/
- x3oqGyZ2rOr5xPMWh6D0VfLR2014i1k=
+ bh=38hPUfkshFVwW5oAchhW6ze0DqxPAtt0HqVaazPn6m8=;
+ b=F5Ca8lpJDzT2jBny2BMDcbFCdHUfE9HncYM/imI7fC8c/W8DSG7czMVuB8MFqOGdHnpt5l
+ e6cMOXIa+StWhN3zqAJnVWpmpNkrmKdmhrJPyK1soaywnVeXOzCIDiBnlpaQCE3KJ16dt9
+ G2k7NToAtvcoI+RmI8sV3GM+lP3HpD0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-2IvoR3CfP_mWyAGMkbFhxw-1; Wed, 14 Apr 2021 10:36:48 -0400
-X-MC-Unique: 2IvoR3CfP_mWyAGMkbFhxw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-15-FYmjDpd6OCee21VJjSD76Q-1; Wed, 14 Apr 2021 10:39:10 -0400
+X-MC-Unique: FYmjDpd6OCee21VJjSD76Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2110B107ACED;
- Wed, 14 Apr 2021 14:36:47 +0000 (UTC)
-Received: from gondolin (ovpn-113-114.ams2.redhat.com [10.36.113.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2895960C5D;
- Wed, 14 Apr 2021 14:36:44 +0000 (UTC)
-Date: Wed, 14 Apr 2021 16:36:42 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: any remaining for-6.0 issues?
-Message-ID: <20210414163642.54bccd52.cohuck@redhat.com>
-In-Reply-To: <7760731b-ae34-89aa-a5de-65828ec9ae79@ilande.co.uk>
-References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
- <fef000db-6562-f41c-24c0-5fb0f8fb4dd3@redhat.com>
- <c63bbf7e-2230-44b2-7671-086c7dacd787@ilande.co.uk>
- <7760731b-ae34-89aa-a5de-65828ec9ae79@ilande.co.uk>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECEDB871377;
+ Wed, 14 Apr 2021 14:39:07 +0000 (UTC)
+Received: from localhost (ovpn-114-144.rdu2.redhat.com [10.10.114.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0D925D9D0;
+ Wed, 14 Apr 2021 14:39:04 +0000 (UTC)
+Date: Wed, 14 Apr 2021 10:39:03 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v2] i386: Make 'hv-reenlightenment' require explicit
+ 'tsc-frequency' setting
+Message-ID: <20210414143903.abx5svpjalndzm3b@habkost.net>
+References: <20210331113948.333461-1-vkuznets@redhat.com>
+ <20210414132631.ilnasigkxcjoi2px@habkost.net>
+ <87eefd55zq.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <87eefd55zq.fsf@vitty.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,53 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, David Edmondson <dme@dme.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Apr 2021 15:15:04 +0100
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> wrote:
+On Wed, Apr 14, 2021 at 03:51:37PM +0200, Vitaly Kuznetsov wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > My apologies, this was lost under the noise in my mail inbox.
+> > (I promise I'm trying to improve)
+> >
+> > On Wed, Mar 31, 2021 at 01:39:48PM +0200, Vitaly Kuznetsov wrote:
+> >> Commit 561dbb41b1d7 "i386: Make migration fail when Hyper-V reenlightenment
+> >> was enabled but 'user_tsc_khz' is unset" forbade migrations with when guest
+> >> has opted for reenlightenment notifications but 'tsc-frequency' wasn't set
+> >> explicitly on the command line. This works but the migration fails late and
+> >> this may come as an unpleasant surprise. To make things more explicit,
+> >> require 'tsc-frequency=' on the command line when 'hv-reenlightenment' was
+> >> enabled. Make the change affect 6.0+ machine types only to preserve
+> >> previously-valid configurations.
+> >> 
+> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> >> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >
+> > Even if the 6.0 release gets delayed, I wouldn't be comfortable
+> > including this in a -rc4.
+> >
+> > What if the user does not plan to live migrate the machine at
+> > all?  Why is this case different from the ~25
+> > migrate_add_blocker() calls in QEMU, where we block migration but
+> > still let the VM run?
+> 
+> The question is when do we want to let the user know about the
+> problem. By refusing to start with 'hv-reenlightenment' and without
+> 'tsc-frequency' we make it sure he knows early. 
+> 
+> We can, indeed, replace this with migrate_add_blocker() call but the
+> fact that the VM is not migratable may come as a (late) surprise (we
+> can certainly print a warning but these may be hidden by upper layers). 
+> 
+> Also, v1 of this patch was implementing a slightly different approach
+> failing the migration late if we can't set tsc frequency on the
+> destination host. Explicit 'tsc-frequency=' was not required.
+> 
+> Personally, I'm comfortable with any approach, please advise.
 
-> On 14/04/2021 14:57, Mark Cave-Ayland wrote:
-> 
-> > I've definitely seen the same issue as Cornelia in my Gitlab CI builds for the ESP 
-> > security fixes (first version of which appeared just before rc0). The user builds 
-> > always fail on "run-tcg-tests-s390x-linux-user" for me.  
-> 
-> Commit 23fff7a17f lies within that range and certainly feels like it could be 
-> relevant to the above failure:
-> 
-> 
-> commit 23fff7a17f47420797ac6480147941612152a9ad
-> Author: Andreas Krebbel <krebbel@linux.ibm.com>
-> Date:   Wed Mar 24 19:51:28 2021 +0100
-> 
->      linux-user/s390x: Use the guest pointer for the sigreturn stub
-> 
->      When setting up the pointer for the sigreturn stub in the return
->      address register (r14) we currently use the host frame address instead
->      of the guest frame address.
-> 
->      Note: This only caused problems if Qemu has been built with
->      --disable-pie (as it is in distros nowadays). Otherwise guest_base
->      defaults to 0 hiding the actual problem.
-> 
->      Signed-off-by: Andreas Krebbel <krebbel@linux.ibm.com>
->      Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->      Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->      Message-Id: <20210324185128.63971-1-krebbel@linux.ibm.com>
->      Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> 
-> 
-> I'll try pushing a test build to Gitlab CI with a revert for that patch on top and 
-> see if it succeeds for me...
+I agree with what you are trying to do, I just wonder why we
+wouldn't do exactly the same for all other migrate_add_blocker()
+calls too (whatever the solution we choose here).
 
-Hm. I'm actually seeing it sometimes succeeding, and sometimes failing.
-I'm wondering if there's something else at play here...
+I'd suggest the following:
+
+- For people who use "-only-migratable", using
+  migrate_add_blocker() here already solves the problem.
+
+- For people who don't use "-only-migratable", we could change
+  migrate_add_blocker() to print a warning by default (only on
+  machine types where live migration is supported).
+
+- For people who don't need live migration and don't want to see
+  those warnings, we can introduce a "-no-migration" option.
+
+-- 
+Eduardo
 
 
