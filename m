@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B56F35FA30
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 20:06:00 +0200 (CEST)
-Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0EC35FABC
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 20:25:47 +0200 (CEST)
+Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjtm-0004gr-UM
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 14:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34388)
+	id 1lWkCw-0003jk-2I
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 14:25:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1lWjrS-0003y3-0D; Wed, 14 Apr 2021 14:03:34 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38620)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWkAV-00034C-Hs
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 14:23:15 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1lWjrP-000493-5Y; Wed, 14 Apr 2021 14:03:32 -0400
-Received: by mail-ed1-x536.google.com with SMTP id m3so24800147edv.5;
- Wed, 14 Apr 2021 11:03:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWkAT-0005OQ-Qr
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 14:23:15 -0400
+Received: by mail-ed1-x530.google.com with SMTP id e7so24815393edu.10
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 11:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V9PpMaVmpFBSpkbfOgdSol8NZIRUiJ5mHBaNBXBU378=;
- b=ZZqLmwk6HIAgqElRN4flIIqWUqkiL6MC3L8MoCcJ8zOQlYNj728Sa+66tlpNiTishZ
- WYugGb8LnQCFW7qPP7+I36z/WzluU/njbl+MoBtE770aV8Rtgr7xAgHongXy/iedznNd
- fwUfHn0aY4oXVuSb7RJNG4OmXJemVEjIGSFfbnpaGGaiolaSnTPdHMEW+PCwW2HTZxPc
- 0E3B+oUGuZ+ZoDBLZleBckns/Q7k1+nLFxbW7k/Is1K3xAtKOdyvmlsiL6rqVM0kOyG9
- wlt8Ae7jwFpFVtQV8zvdOPLbsvDcOI/l8ZNWWUJEwJLn7GePafM4NaZPk02/erHUXbpm
- ERRA==
+ :cc; bh=7JQ2jqbLr3kIeursdtrGDBRh11ToHLSdLxWaL4YeZag=;
+ b=M0PasrpDLq5EXE5OLXuKdbt1k5PLQmpyo1Fn8uskaESQ/oV48q/aZ7dKyXX+e0F8Vm
+ StLrOf5Hck9N92/oKksk+QUWExA0PhHYNB3aCOndobjc0SzARW3atfWUNfgCGQREZeSv
+ AnqPLBOHENTuDt0eLaOGkcAA98950+fiYSTGowir6hlP/NnyoORQpXA/a36Jrwrn9aE1
+ sAaadi+774ER+BgLnmItx4SWXRYfF9K6JAXChOMfiWv6BJMe3c8G3de30JKI75gXcK5+
+ 4lXYZ5lcNxRmxh3V2aJxi2KYTCT2nICL0Xi6JfgLvpNg3iTy9w9zIqU2NpLvrKnLwx9B
+ mMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=V9PpMaVmpFBSpkbfOgdSol8NZIRUiJ5mHBaNBXBU378=;
- b=dDb7/BouVztJDZJwLL77oFLGL9lI91RkFBAQzg+x4pWOYa4n24EyMe13EtmP0w+vkn
- /kAEiEBmPPqrFuNCrhIGIXuLDI6PW9yHOD3b0JNLtmCPA3FUXCJ7o8ZozBnC7P1g40xL
- E45Fg56BAkuVXZQxKjNGXIFP7Qonb+5Mw3CCiD/2EVSqG6Z3MvGVmZpiAakzXRQvR2Jp
- Z4iwzVVFfPftCnz+p1RuSKjJ/sM7fUFZYk79n5nGLXgWCl1q6/6wQJfnoAqg5kop8GKj
- gselfGSSOP2qqucxRhRlPKNZ5dhqB01zEavh0a+PKYozb4omid4rWu5pUYPvvvkxSPZZ
- lmyw==
-X-Gm-Message-State: AOAM5318jn2yu3zcv11oUR3TUFEalkciCxg9JqhxrDx6A6rW1I6iziMy
- SnzII0NFtVfqCWzNnyNm3qwDIdBmS5SJP8IwbM0=
-X-Google-Smtp-Source: ABdhPJw24btpnRg+adekoEJbohydXXhf1FhXfL2WCvFRkSUxYkj5M+FtGcyq7K+Ed1hsENrm3pU3q/EM4mUagYTFydw=
-X-Received: by 2002:aa7:dc15:: with SMTP id b21mr137040edu.350.1618423407127; 
- Wed, 14 Apr 2021 11:03:27 -0700 (PDT)
+ bh=7JQ2jqbLr3kIeursdtrGDBRh11ToHLSdLxWaL4YeZag=;
+ b=b3ouYcD9gq5DqFFBGIWU/e6ylhXkbhwzP1+vCjrcz+0meqishArgCDMMH29TVw709Z
+ evusQHlwNRZiHs7YVNQULmoidQwJpVbBo6tl0vzhqs8p19+nlWmUUrr7KJ5ITbM67Ywt
+ h3XSnb4HmINfiC003pmMMlJWAcKPwY2f2+ZDwhkAhHeghO7yVJoHUuL4VAPcphwfUrea
+ iPCR5dMcD1FHdefPx0NyPKb5lDqrBozUH4KmoceCG8sonSr//1i4NLxgBsK5aN7pf3U+
+ 1ai7apBjIQeWj8g5FIrJHdEeCjZ/jDj1N0LcPh6e4zi2txSBJwQDqvJ56nYQaKSZJ7b9
+ HYtg==
+X-Gm-Message-State: AOAM5327YPgJQPM1QBceShJGUol+1mBHbqMPovJ4jV7CJYRMLQz1cTu8
+ uNoe0a52y2dio+YaiCfXRzo1fNXX/8uNCOSDySlW8w==
+X-Google-Smtp-Source: ABdhPJy/zNF1SoQwZIhY/3/oi/1JjNK5Yfj1KCW0bd7gZy2YipzG2ylJxK7cVVKwSDppe/uc5JAGvb9m3Vut6tT/xps=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr271557edt.36.1618424592197;
+ Wed, 14 Apr 2021 11:23:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414134112.25620-1-iii@linux.ibm.com>
- <20210414134112.25620-4-iii@linux.ibm.com>
- <d3d690a0-c322-5fbb-26ae-dcbf08173b0a@redhat.com>
- <28224ba9d61d0d805a162c00903559f3b99bc722.camel@linux.ibm.com>
-In-Reply-To: <28224ba9d61d0d805a162c00903559f3b99bc722.camel@linux.ibm.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Wed, 14 Apr 2021 11:03:15 -0700
-Message-ID: <CAMo8Bf+s4OqYJLTkvyPvfnmH=FwxDSFn60TryKfgErxFyB+2yQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] accel/tcg: Assert that tb->size != 0 after
- translation
-To: Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20210413160850.240064-1-pbonzini@redhat.com>
+In-Reply-To: <20210413160850.240064-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 14 Apr 2021 19:22:25 +0100
+Message-ID: <CAFEAcA8vf5Ra0MxwunQPGsahnHgaSCE9QYS86xY7tkKEVSO+TA@mail.gmail.com>
+Subject: Re: [PULL v2 0/3] osdep.h + QOM changes for QEMU 6.0-rc3
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,26 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 14, 2021 at 9:51 AM Ilya Leoshkevich <iii@linux.ibm.com> wrote:
-> On Wed, 2021-04-14 at 16:48 +0200, David Hildenbrand wrote:
-> > Did you double-check the xtensa issue?
+On Tue, 13 Apr 2021 at 17:18, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Oh, I'm sorry, I completely forgot about that one. I just ran the
-> test locally, and apparently it fails because of this new assert, so
-> I'll have to write the 4th patch now. Thanks!
+> The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 1a0b186eaf3d1ce63dc7bf608d618b9ca62b6241:
+>
+>   qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code (2021-04-13 18:04:23 +0200)
+>
+> ----------------------------------------------------------------
+> * Fix C++ compilation of qemu/osdep.h.
+> * Fix -object cryptodev-vhost-user
+>
+> ----------------------------------------------------------------
+> Paolo Bonzini (2):
+>       osdep: include glib-compat.h before other QEMU headers
+>       osdep: protect qemu/osdep.h with extern "C"
+>
+> Thomas Huth (1):
+>       qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code
 
-Just curious, what xtensa issue?
+Given Dan's review, I think that the osdep patches need another
+revision. So my plan is to cherry-pick the CONFIG_VIRTIO_CRYPTO
+patch here and tag rc3 with just that. If we need an rc4 (which
+on our current track record is not unlikely) we can put in some
+version of the osdep patches; if not, this isn't a regression
+since 5.2 so I'm happy releasing 6.0 with it still present.
 
--- 
-Thanks.
--- Max
+thanks
+-- PMM
 
