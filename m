@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B620135F383
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:23:49 +0200 (CEST)
-Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1DA35F3C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:29:50 +0200 (CEST)
+Received: from localhost ([::1]:36890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWeYe-0003Gq-NI
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42328)
+	id 1lWeeT-0001rW-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:29:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgo-0006nz-Ax
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45836)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgp-0006q0-KE
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgb-0005jq-M7
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:09 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgc-0005kd-TK
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:11 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 51F6AB127;
+ by mx2.suse.de (Postfix) with ESMTP id C1ED4B12A;
  Wed, 14 Apr 2021 11:27:15 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 48/80] target/arm: remove kvm-stub.c
-Date: Wed, 14 Apr 2021 13:26:18 +0200
-Message-Id: <20210414112650.18003-49-cfontana@suse.de>
+Subject: [RFC v13 49/80] tests/qtest: skip bios-tables-test
+ test_acpi_oem_fields_virt for KVM
+Date: Wed, 14 Apr 2021 13:26:19 +0200
+Message-Id: <20210414112650.18003-50-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -54,52 +56,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the functions used in machine.c are now protected via
-if (kvm_enabled()), so the stub is not needed.
+test is TCG-only.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/kvm-stub.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
- delete mode 100644 target/arm/kvm-stub.c
+ tests/qtest/bios-tables-test.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/arm/kvm-stub.c b/target/arm/kvm-stub.c
-deleted file mode 100644
-index 56a7099e6b..0000000000
---- a/target/arm/kvm-stub.c
-+++ /dev/null
-@@ -1,24 +0,0 @@
--/*
-- * QEMU KVM ARM specific function stubs
-- *
-- * Copyright Linaro Limited 2013
-- *
-- * Author: Peter Maydell <peter.maydell@linaro.org>
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- *
-- */
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "kvm_arm.h"
--
--bool write_kvmstate_to_list(ARMCPU *cpu)
--{
--    abort();
--}
--
--bool write_list_to_kvmstate(ARMCPU *cpu, int level)
--{
--    abort();
--}
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 156d4174aa..d5ff6c5260 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1488,6 +1488,13 @@ static void test_acpi_oem_fields_virt(void)
+     };
+     char *args;
+ 
++#ifndef CONFIG_TCG
++    if (data.tcg_only) {
++        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
++        return;
++    }
++#endif /* CONFIG_TCG */
++
+     args = test_acpi_create_args(&data,
+                                  "-cpu cortex-a57 "OEM_TEST_ARGS, true);
+     data.qts = qtest_init(args);
 -- 
 2.26.2
 
