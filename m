@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DAF35F114
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:52:04 +0200 (CEST)
-Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22F035F130
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:04:08 +0200 (CEST)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWcBk-00064M-DD
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46402)
+	id 1lWcNT-0001u0-B1
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWcAH-00059U-BI
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:50:29 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:44881)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWcMe-0001Th-Ib
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:03:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lWcAF-0007PR-5s
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:50:29 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id f8so22903023edd.11
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 02:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UTcobpO/9736ZBQJYMOKuThyr27AxSdM6qny0lqdy8Y=;
- b=mNc0DGgHPOcJjlkLrSPRcAnXgVnmzNS3/QrJ6TJTuRpPDg5zW+FInj7r0PUq9IMof+
- uj1SOJ5P+/oRZzD6kfWBR5wu9y2UOdFOMRdAorj/20w/1laiYVkhkTJCSo8cnhFyabIK
- 3eYMJg7N25OhH4KFs4dVpqSuNxPXIPVkSqmT7v/bdxHgD1sitCJNzBSU7cxGEzefPz9f
- AH/H+TQRKwUTZ0z1HEYkDg2oFkjPii6l3NMgAExwGGABX9LT9KPsF8/V5/nh8QoyXssH
- aAZKoGV1G2N9obGNkIvMs2Xi4vy09Ir7c36+SqgQ2TKbiNSIv+yYKSWuoyLFP6rxcWnP
- 7Z2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UTcobpO/9736ZBQJYMOKuThyr27AxSdM6qny0lqdy8Y=;
- b=W7i8ateqr/h9yYTBhFBvgXLbLZawwOPF0fA24cc2RZw3qWEs9mP0ONBJchEHe6SpDA
- kICB6KYNR3XJ/tpEGdQ99ad5S8ixPWM8MKXav22zHPQnHa6EQgevmaG05AE1u5ioQCaj
- e4Se8jg45iN1YNMMoGhwWBqgrwAr45VCB3iqNfjb0N4Bkhm7KAaoXm/H4lJVNYVh3Xcs
- e7mA4mm4uEMAkyBw5xzKubEwO1YApiTkHzn3w5kIXK+U5tnMZSqNqcIT6LdaSPmElkY1
- ysqHuaaHmeflxO6VjTL1+8CYXqdYHtBMKPED+0r4UaYbZy+CcxkGXR1F+9atWH7lJqO5
- eSWw==
-X-Gm-Message-State: AOAM530PZy9JaevmiKf1nODVmqkP2D/fcmZIaNEZ4++1GMuQrDfccloM
- m7oP/HI/sCy5VwaOYfikSV6vz31vfB8LR+2M/l6IwA==
-X-Google-Smtp-Source: ABdhPJxC+rW933C+OiQnuGfER2BF9Ex/EdYJ0lKmMDF8oUFSuwaAiWjHclNtLrJ26qsOO95UBTvy5cIlt8hTFjHGsBM=
-X-Received: by 2002:a05:6402:4244:: with SMTP id
- g4mr39817297edb.204.1618393825688; 
- Wed, 14 Apr 2021 02:50:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWcMa-0006cK-Ng
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:03:16 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lWcMT-0007LG-Um
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 10:03:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E67502E815F
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 10:03:05 +0000 (UTC)
 MIME-Version: 1.0
-References: <CAEtFKsuPfRS1_exHPBNE-BLthbXoudUOcX6ND80FA=JqV8LrzA@mail.gmail.com>
-In-Reply-To: <CAEtFKsuPfRS1_exHPBNE-BLthbXoudUOcX6ND80FA=JqV8LrzA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 14 Apr 2021 10:49:39 +0100
-Message-ID: <CAFEAcA_ywvyxvW_jbjy0SnQGyu3+eaW6KPK4Gfe5K11DxVbxQA@mail.gmail.com>
-Subject: Re: Issues with modifying pc in a sigaction handler
-To: Devin Hussey <husseydevin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Apr 2021 09:51:45 -0000
+From: Stefan Hajnoczi <1923689@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: egernst stefanha
+X-Launchpad-Bug-Reporter: Eric (egernst)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <161836314384.22942.13267689865674610996.malonedeb@soybean.canonical.com>
+Message-Id: <161839390545.13797.9184526753395828432.malone@chaenomeles.canonical.com>
+Subject: [Bug 1923689] Re: sig-abort / coredump observed from aio_ctx_finalize
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
+X-Launchpad-Hash: b3fabde6286d6ecbda5656e3b15db43594282375
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,57 +69,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1923689 <1923689@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Apr 2021 at 23:44, Devin Hussey <husseydevin@gmail.com> wrote:
->
-> In a toy project I was doing
-> (https://github.com/easyaspi314/ThumbGolf), I found that qemu will
-> incorrectly handle modifying pc in a handler.
->
-> Specifically, on platforms with instruction alignment requirements
-> (most notably ARM), if you set the pc to an odd address, QEMU will
-> start reading unaligned instructions.
->
-> Naturally, this is frustrating when dealing with ARM Thumb functions
-> which have the lowest bit set when referenced, as you must manually
-> clear the Thumb bit instead of it being implicit on hardware.
->
-> The following code exhibits this bug for ARM:
->
-> ---
-> #include <signal.h>
-> #include <ucontext.h>
-> #include <stdio.h>
->
-> static void hello(void)
-> {
->     printf("Hello,");
-> }
->
-> static void handler(int signo, siginfo_t *si, void *data)
-> {
->     ucontext_t *uc = (ucontext_t *)data;
->     // Effectively bl hello although we assume thumb state
->     uc->uc_mcontext.arm_lr = uc->uc_mcontext.arm_pc + 2 | 1;
->     uc->uc_mcontext.arm_pc = (unsigned long)&hello;
+Please install debuginfo and run "p *ctx" in GDB from the
+aio_ctx_finalize frame. That should show ctx->scheduled_coroutines,
+ctx->bh_slice_list, etc.
 
-This is setting the arm_pc field to an odd number (because
-the compiler/linker for Thumb will treat "take the address
-of a thumb mode function" as a request for the value with the
-LSB set to indicate Thumb mode. However, the ABI for the
-uc_mcontext fields is that the arm_pc field should be the actual
-required value of the PC -- if you want to go to somewhere in
-Thumb mode you need to set the arm_pc field to the true PC
-(with the LSB clear) and also set the T bit in the CPSR field
-of the uc_mcontext.
+-- =
 
-So your code is doing something it shouldn't and has thus
-wandered off into a corner case where QEMU behaves differently
-from the hardware...
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923689
 
-thanks
--- PMM
+Title:
+  sig-abort / coredump observed from aio_ctx_finalize
+
+Status in QEMU:
+  New
+
+Bug description:
+  Observing occasional sig-abort based on v5.2.0 (tag) of QEMU. The VMM
+  is configured for Kata use case, launching with a nvdimm/pmem based
+  rootfs, and a set of workloads which are heavily utilizing virtio-fs.
+
+  Sample qemu-cmdline:
+  /usr/bin/qemu-kata-system-x86_64
+  -name sandbox-9dc314445bbb2cd02e6d30126ea8355a4f8acd36c866ea32171486931dc=
+2b99c
+  -uuid cd58d78d-ad44-4d26-9eab-66efab3fb23b
+  -machine pc,accel=3Dkvm,kernel_irqchip,nvdimm=3Don
+  -cpu host,pmu=3Doff
+  -qmp unix:/run/vc/vm/9dc314445bbb2cd02e6d30126ea8355a4f8acd36c866ea321714=
+86931dc2b99c/qmp.sock,server,nowait
+  -m 2048M,slots=3D10,maxmem=3D386381M
+  -device pci-bridge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don=
+,addr=3D2,romfile=3D
+  -device virtio-serial-pci,disable-modern=3Dfalse,id=3Dserial0,romfile=3D,=
+max_ports=3D2
+  -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0
+  -chardev socket,id=3Dcharconsole0,path=3D/run/vc/vm/9dc314445bbb2cd02e6d3=
+0126ea8355a4f8acd36c866ea32171486931dc2b99c/console.sock,server,nowait
+  -device nvdimm,id=3Dnv0,memdev=3Dmem0
+  -object memory-backend-file,id=3Dmem0,mem-path=3D/usr/share/kata-containe=
+rs/kata-containers.img,size=3D536870912
+  -object rng-random,id=3Drng0,filename=3D/dev/urandom
+  -device virtio-rng-pci,rng=3Drng0,romfile=3D
+  -device vhost-vsock-pci,disable-modern=3Dfalse,vhostfd=3D3,id=3Dvsock-305=
+4067214,guest-cid=3D3054067214,romfile=3D
+  -chardev socket,id=3Dchar-770bb156466e8ed5,path=3D/run/vc/vm/9dc314445bbb=
+2cd02e6d30126ea8355a4f8acd36c866ea32171486931dc2b99c/vhost-fs.sock
+  -device vhost-user-fs-pci,chardev=3Dchar-770bb156466e8ed5,tag=3DkataShare=
+d,romfile=3D
+  -netdev tap,id=3Dnetwork-0,vhost=3Don,vhostfds=3D4,fds=3D5
+  -device driver=3Dvirtio-net-pci,netdev=3Dnetwork-0,mac=3D9e:ad:0c:d1:58:e=
+0,disable-modern=3Dfalse,mq=3Don,vectors=3D4,romfile=3D
+  -rtc base=3Dutc,driftfix=3Dslew,clock=3Dhost
+  -global kvm-pit.lost_tick_policy=3Ddiscard
+  -vga none
+  -no-user-config
+  -nodefaults
+  -nographic
+  --no-reboot
+  -daemonize
+  -object memory-backend-file,id=3Ddimm1,size=3D2048M,mem-path=3D/dev/shm,s=
+hare=3Don
+  -numa node,memdev=3Ddimm1
+  -kernel /usr/share/kata-containers/vmlinuz
+  -append tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=3D1 i8042.di=
+rect=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 noreplace-smp re=
+boot=3Dk console=3Dhvc0 console=3Dhvc1 cryptomgr.notests net.ifnames=3D0 pc=
+i=3Dlastbus=3D0 root=3D/dev/pmem0p1 rootflags=3Ddax,data=3Dordered,errors=
+=3Dremount-ro ro rootfstype=3Dext4 quiet systemd.show_status=3Dfalse panic=
+=3D1 nr_cpus=3D32 systemd.unit=3Dkata-containers.target systemd.mask=3Dsyst=
+emd-networkd.service systemd.mask=3Dsystemd-networkd.socket
+  -pidfile /run/vc/vm/9dc314445bbb2cd02e6d30126ea8355a4f8acd36c866ea3217148=
+6931dc2b99c/pid
+  -smp 1,cores=3D1,threads=3D1,sockets=3D32,maxcpus=3D32
+
+  From the core file I was able to obtain a backtrace:
+
+  ```
+  (gdb) info thread
+    Id   Target Id         Frame
+    6    Thread 0x7f92feffd700 (LWP 14678) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    5    Thread 0x7f92fffff700 (LWP 13860) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    4    Thread 0x7f930dcff700 (LWP 13572) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    3    Thread 0x7f92ff7fe700 (LWP 14179) 0x00007f93b23a0a35 in pthread_co=
+nd_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0
+    2    Thread 0x7f93aed03700 (LWP 13565) 0x00007f93b20bfd19 in syscall ()=
+ from /lib64/libc.so.6
+  * 1    Thread 0x7f93c718dcc0 (LWP 13564) 0x00007f93b1ffd3d7 in raise () f=
+rom /lib64/libc.so.6
+  (gdb) bt trace
+  No symbol table is loaded.  Use the "file" command.
+  (gdb) bt
+  #0  0x00007f93b1ffd3d7 in raise () from /lib64/libc.so.6
+  #1  0x00007f93b1ffeac8 in abort () from /lib64/libc.so.6
+  #2  0x00007f93b1ff61a6 in __assert_fail_base () from /lib64/libc.so.6
+  #3  0x00007f93b1ff6252 in __assert_fail () from /lib64/libc.so.6
+  #4  0x00000000007c6955 in aio_ctx_finalize ()
+  #5  0x00007f93c64223d1 in g_source_unref_internal () from /lib64/libglib-=
+2.0.so.0
+  #6  0x00007f93c64225f5 in g_source_iter_next () from /lib64/libglib-2.0.s=
+o.0
+  #7  0x00007f93c642362d in g_main_context_unref () from /lib64/libglib-2.0=
+.so.0
+  #8  0x00007f93c6425628 in g_main_loop_unref () from /lib64/libglib-2.0.so=
+.0
+  #9  0x00000000006dbaa0 in iothread_instance_finalize ()
+  #10 0x00000000006c01e9 in object_unref ()
+  #11 0x00000000006be647 in object_property_del_child ()
+  #12 0x000000000075ad79 in monitor_cleanup ()
+  #13 0x0000000000630635 in qemu_cleanup ()
+  #14 0x000000000040fed3 in main ()
+  ```
+
+  I *think* we're hitting this assert: https://github.com/qemu/qemu/blob/ma=
+ster/util/async.c#L339 based on =
+
+  ```
+  (gdb) up
+  #4  0x00000000007c6955 in aio_ctx_finalize ()
+  ```
+
+  The error is relatively infrequent, but a catastrophic core dump none
+  the less.
+
+  Please let me know if there's more I can pull from the core, or more
+  info I can share to help facilitate debugging this error.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923689/+subscriptions
 
