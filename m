@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD2035EF31
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:21:10 +0200 (CEST)
-Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073FB35EF32
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:21:14 +0200 (CEST)
+Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWalp-0002oQ-L4
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51578)
+	id 1lWalt-0002uX-3D
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakD-0001V7-CP
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26797)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakG-0001ZN-JP
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakB-0004mM-FK
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:29 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakE-0004pQ-IJ
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618388366;
+ s=mimecast20190719; t=1618388369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9LKkbXoNihWQt0D51fYTu2bQKolsz1YuGbNaDqD31uM=;
- b=bnrGu6EwQIGVoaiSp2OJQwX6nup2WbE7YHPdknZqzr729gcKO6YPH3z0yQKIyWcEqc9aTQ
- RrYGAVzv+DSWJy48Mx3DQhhsCeprpEYajDtpcshzfoXD80OmE3pitUCz+Z4HOVqyeK5+l4
- GZHHVSNfsjhHe9StSGnOGiaI37NPNJY=
+ bh=9g5AycN+af7RZ/fpBVUz50VqLW59VzYvia7SAA9yAtU=;
+ b=VoPo6XArdsrrkiN9cnAAfmfqBCSJSQYTDZ2fIBrWmJ7iXL/eXvarz98fC5vPiM5cttHXa9
+ NnH/B9uNgCqsZWMtk0JrQr58ExuFNwDuWDdY3JdCy8J0oUH8ESw8b/XulBomCf5l3cKM2B
+ Z64eqqKbzt+qNeBwu5tWS5PDd6Qrhew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-RSsJ8W_mMe-OkoHKJNNrHg-1; Wed, 14 Apr 2021 04:19:24 -0400
-X-MC-Unique: RSsJ8W_mMe-OkoHKJNNrHg-1
+ us-mta-36-y96nfj9vP8SbTKPePCmxJQ-1; Wed, 14 Apr 2021 04:19:26 -0400
+X-MC-Unique: y96nfj9vP8SbTKPePCmxJQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95DDB83DD20;
- Wed, 14 Apr 2021 08:19:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D20C579EC1;
+ Wed, 14 Apr 2021 08:19:25 +0000 (UTC)
 Received: from thuth.com (ovpn-112-89.ams2.redhat.com [10.36.112.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBE9E5D9CA;
- Wed, 14 Apr 2021 08:19:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3C095D9CA;
+ Wed, 14 Apr 2021 08:19:23 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH 1/5] tests/docker/dockerfiles: Add ccache to containers
- where it was missing
-Date: Wed, 14 Apr 2021 10:19:03 +0200
-Message-Id: <20210414081907.871437-2-thuth@redhat.com>
+Subject: [RFC PATCH 2/5] tests/docker/dockerfiles/ubuntu2004: Add missing
+ symlink for cc
+Date: Wed, 14 Apr 2021 10:19:04 +0200
+Message-Id: <20210414081907.871437-3-thuth@redhat.com>
 In-Reply-To: <20210414081907.871437-1-thuth@redhat.com>
 References: <20210414081907.871437-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,78 +86,25 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to enable ccache in our gitlab-CI. Make sure that it is
-available in all containers.
+For some reasons, the "cc" symlink is missing in Ubuntu 20.04.
+Add it manually.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/docker/dockerfiles/alpine.docker             | 1 +
- tests/docker/dockerfiles/fedora-i386-cross.docker  | 1 +
- tests/docker/dockerfiles/fedora-win32-cross.docker | 1 +
- tests/docker/dockerfiles/fedora-win64-cross.docker | 1 +
- tests/docker/dockerfiles/opensuse-leap.docker      | 1 +
- 5 files changed, 5 insertions(+)
+ tests/docker/dockerfiles/ubuntu2004.docker | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index d63a269aef..a1ef408a6a 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -9,6 +9,7 @@ ENV PACKAGES \
- 	alsa-lib-dev \
- 	bash \
- 	binutils \
-+	ccache \
- 	coreutils \
- 	curl-dev \
- 	g++ \
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index 966072c08e..66cdb06c19 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,6 +1,7 @@
- FROM fedora:33
- ENV PACKAGES \
-     bzip2 \
-+    ccache \
-     diffutils \
-     findutils \
-     gcc \
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index 81b5659e9c..3733df63e9 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -4,6 +4,7 @@ FROM fedora:33
- ENV PACKAGES \
-     bc \
-     bzip2 \
-+    ccache \
-     diffutils \
-     findutils \
-     gcc \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index bcb428e724..2564ce4979 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -4,6 +4,7 @@ FROM fedora:33
- ENV PACKAGES \
-     bc \
-     bzip2 \
-+    ccache \
-     diffutils \
-     findutils \
-     gcc \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 0e64893e4a..f7e1cbfbe6 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -5,6 +5,7 @@ ENV PACKAGES \
-     bc \
-     brlapi-devel \
-     bzip2 \
-+    ccache \
-     cyrus-sasl-devel \
-     gcc \
-     gcc-c++ \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 9750016e51..e1b309e313 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -74,3 +74,6 @@ ENV FEATURES clang tsan pyyaml sdl2
+ # Apply patch https://reviews.llvm.org/D75820
+ # This is required for TSan in clang-10 to compile with QEMU.
+ RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
++
++# The symlink for cc is missing on Ubuntu
++RUN cd /usr/lib/ccache && ln -s ../../bin/ccache cc
 -- 
 2.27.0
 
