@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8787735EF34
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:22:41 +0200 (CEST)
-Received: from localhost ([::1]:44554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2132135EF35
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:22:44 +0200 (CEST)
+Received: from localhost ([::1]:44746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWanI-0005ax-KL
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:22:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
+	id 1lWanL-0005gL-7K
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakJ-0001bM-Uu
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20576)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakc-0001wF-Ns
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakI-0004rK-BP
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:35 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakY-0004yN-25
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618388373;
+ s=mimecast20190719; t=1618388388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kPusj4Ma0ttzjZG2Q0EjtkPUmQM1pK0r40kAZyvsR+Y=;
- b=MOd5O62f6gE4Pj6WuBvTK/pJF1OX2wSNaoMHFEe55dU+CsyoiyjRKzTre2sh8W28Qh6hep
- f0Q0dnSsSIHuhnXkWHzQL8sNXxSYrfDXp6cEpiPz5OEJC1CnEuwEkK7I+Hr0Gpxg8o3IrZ
- 84qxKCRvxkri6jstjW8Z5P7kA0aU1Ro=
+ bh=I+LFnZD9QsOaTVi6ehrXc3aLZMhKQKsDrd7y3a+MSOc=;
+ b=iejXWqy+XWjfANkSSF1vPP1GCHPrtuI7jdZZNaSCYwem+kJTcWlBiG4H0DFKCCH7emglg6
+ +Z58RDOd7C5EWCu683N5tb90EM9fwMpDrvejuGL5NrtZG4qokn79bCoqDMIaaK993LGfHx
+ dPM4221V9rOLyZfddvf630rZfiCj4Qo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-lwN52u8ZNBilZtt3TdcQMQ-1; Wed, 14 Apr 2021 04:19:29 -0400
-X-MC-Unique: lwN52u8ZNBilZtt3TdcQMQ-1
+ us-mta-442-h06KSaUUOXWOZZ5AVjzsNg-1; Wed, 14 Apr 2021 04:19:46 -0400
+X-MC-Unique: h06KSaUUOXWOZZ5AVjzsNg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1990279EC0;
- Wed, 14 Apr 2021 08:19:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F9F107ACCA;
+ Wed, 14 Apr 2021 08:19:46 +0000 (UTC)
 Received: from thuth.com (ovpn-112-89.ams2.redhat.com [10.36.112.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DDE85D9CA;
- Wed, 14 Apr 2021 08:19:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7AB8C5D9CA;
+ Wed, 14 Apr 2021 08:19:28 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH 3/5] gitlab-ci.d/crossbuilds: Limit the amount of targets
- in the cross-win64 build
-Date: Wed, 14 Apr 2021 10:19:05 +0200
-Message-Id: <20210414081907.871437-4-thuth@redhat.com>
+Subject: [RFC PATCH 4/5] gitlab-ci.yml: Compile with ccache enabled
+Date: Wed, 14 Apr 2021 10:19:06 +0200
+Message-Id: <20210414081907.871437-5-thuth@redhat.com>
 In-Reply-To: <20210414081907.871437-1-thuth@redhat.com>
 References: <20210414081907.871437-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,35 +85,53 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cross-win64-system job is one of the slowest in our gitlab-ci.
-With the upcoming changes that introduce ccache, it might even get
-slower initially as long as the cache is not populated yet. Thus
-let's limit the amount of targets that we build here even further
-to avoid that we might hit the 80 minutes timeout here. Most of the
-others targets are already covered by the win32 job anyway.
+Ccache can speed up the compilation in some cases, so enable it for
+our CI builds, too.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .gitlab-ci.yml | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 2d95784ed5..017731a894 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -189,6 +189,12 @@ cross-win64-system:
-     job: win64-fedora-cross-container
-   variables:
-     IMAGE: fedora-win64-cross
-+  script:
-+    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-+      ./configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --target-list="cris-softmmu x86_64-softmmu microblaze-softmmu
-+          mipsel-softmmu mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
-+    - make -j$(expr $(nproc) + 1) all check-build
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 52d65d6c04..422608381e 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -18,7 +18,26 @@ include:
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   before_script:
+     - JOBS=$(expr $(nproc) + 1)
++  cache:
++    key: "$CI_JOB_NAME"
++    paths:
++      - ccache
+   script:
++    - mkdir -p ccache
++    - if command -v ccache ; then
++        export CCACHE_BASEDIR=${PWD} ;
++        export CCACHE_DIR=${PWD}/ccache ;
++        export CCACHE_MAXSIZE="1G" ;
++        export CCACHE_COMPILERCHECK=content ;
++        if [ -e /usr/lib/ccache/bin ]; then
++          export PATH=/usr/lib/ccache/bin:$PATH ;
++        elif [ -e /usr/lib/ccache ]; then
++          export PATH=/usr/lib/ccache:$PATH ;
++        elif [ -e /usr/lib64/ccache ]; then
++          export PATH=/usr/lib64/ccache:$PATH ;
++        fi ;
++        ccache --zero-stats ;
++      fi
+     - mkdir build
+     - cd build
+     - if test -n "$TARGETS";
+@@ -36,6 +55,7 @@ include:
+       then
+         make -j"$JOBS" $MAKE_CHECK_ARGS ;
+       fi
++    - if command -v ccache ; then ccache --show-stats ; fi
  
- cross-amd64-xen-only:
-   extends: .cross_accel_build_job
+ .native_test_job_template: &native_test_job_definition
+   stage: test
 -- 
 2.27.0
 
