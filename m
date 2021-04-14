@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1DA35F3C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:29:50 +0200 (CEST)
-Received: from localhost ([::1]:36890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3620A35F372
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:22:44 +0200 (CEST)
+Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWeeT-0001rW-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42360)
+	id 1lWeXb-0000xi-8r
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgp-0006q0-KE
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:11 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45860)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgr-0006tg-4L
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgc-0005kd-TK
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:11 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgd-0005kc-2D
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:12 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C1ED4B12A;
- Wed, 14 Apr 2021 11:27:15 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 348BDAFDF;
+ Wed, 14 Apr 2021 11:27:16 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 49/80] tests/qtest: skip bios-tables-test
- test_acpi_oem_fields_virt for KVM
-Date: Wed, 14 Apr 2021 13:26:19 +0200
-Message-Id: <20210414112650.18003-50-cfontana@suse.de>
+Subject: [RFC v13 50/80] tests: restrict TCG-only arm-cpu-features tests to
+ TCG builds
+Date: Wed, 14 Apr 2021 13:26:20 +0200
+Message-Id: <20210414112650.18003-51-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -56,39 +55,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test is TCG-only.
+sve_tests_sve_max_vq_8,
+sve_tests_sve_off,
+test_query_cpu_model_expansion
+
+all require TCG to run. Skip them for KVM-only builds.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/bios-tables-test.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/qtest/arm-cpu-features.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 156d4174aa..d5ff6c5260 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1488,6 +1488,13 @@ static void test_acpi_oem_fields_virt(void)
-     };
-     char *args;
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 8252b85bb8..e793bffcaa 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -352,6 +352,11 @@ static void sve_tests_sve_max_vq_8(const void *data)
+ {
+     QTestState *qts;
  
 +#ifndef CONFIG_TCG
-+    if (data.tcg_only) {
-+        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
-+        return;
-+    }
++    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_max_vq_8");
++    return;
 +#endif /* CONFIG_TCG */
 +
-     args = test_acpi_create_args(&data,
-                                  "-cpu cortex-a57 "OEM_TEST_ARGS, true);
-     data.qts = qtest_init(args);
+     qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
+ 
+     assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
+@@ -387,6 +392,11 @@ static void sve_tests_sve_off(const void *data)
+ {
+     QTestState *qts;
+ 
++#ifndef CONFIG_TCG
++    g_test_skip("TCG disabled, skipping tcg_only sve_tests_sve_off");
++    return;
++#endif /* CONFIG_TCG */
++
+     qts = qtest_init(MACHINE "-cpu max,sve=off");
+ 
+     /* SVE is off, so the map should be empty. */
+@@ -443,6 +453,11 @@ static void test_query_cpu_model_expansion(const void *data)
+ {
+     QTestState *qts;
+ 
++#ifndef CONFIG_TCG
++    g_test_skip("TCG disabled, skipping tcg_only test_query_cpu_model_expansion");
++    return;
++#endif /* CONFIG_TCG */
++
+     qts = qtest_init(MACHINE "-cpu max");
+ 
+     /* Test common query-cpu-model-expansion input validation */
 -- 
 2.26.2
 
