@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F136A35F214
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:17:50 +0200 (CEST)
-Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB21035F222
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:22:43 +0200 (CEST)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWdWn-00081R-Rt
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
+	id 1lWdbW-0001e3-Or
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWdVb-0007ak-0x
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:16:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWdVY-0007az-JT
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:16:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWdVV-0000pm-St
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 11:16:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B66F42E8163
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 11:16:29 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWdZB-0000BL-VA
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:20:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWdZ8-0001UP-GA
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:20:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618399213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+WdVsSQWRF5Cx7d3B/r8HKUyxzRYFDImi2HtX12vCq0=;
+ b=iHTvJsAVwUe9tZN3gTOqJGNetup9kKKBl6vuafxKQLRcGIRxhfWhheszwGaLP8y9Gi8FWn
+ tbOk5hmow+agksxNDX3ZZ8W1QcUFNwysQ8y7P4XiBoalcXc4UlDrzsLx9Om0/FlgLIrTn7
+ X7yeB5MiTCuiLk3ojhxRSdfwsw4ukMI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-r-Rpt2yWOEGyDcnz1r0uOw-1; Wed, 14 Apr 2021 07:20:11 -0400
+X-MC-Unique: r-Rpt2yWOEGyDcnz1r0uOw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A33A8189C7;
+ Wed, 14 Apr 2021 11:20:10 +0000 (UTC)
+Received: from thuth.com (ovpn-112-89.ams2.redhat.com [10.36.112.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08D891037E81;
+ Wed, 14 Apr 2021 11:20:06 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH for-6.1 0/4] Poison more CONFIG switches
+Date: Wed, 14 Apr 2021 13:20:00 +0200
+Message-Id: <20210414112004.943383-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 11:07:09 -0000
-From: Saverio Miroddi <1809665@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kawsper saveriomiroddi th-huth ticketsolve
-X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
-X-Launchpad-Bug-Modifier: Saverio Miroddi (saveriomiroddi)
-References: <154566626385.25910.12711983515604457304.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161839842921.22192.13388643244264628960.malone@soybean.canonical.com>
-Subject: [Bug 1809665] Re: Xbox One controller USB passthrough disconnections
- and stops
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
-X-Launchpad-Hash: 4e43cfa8315aab2254128fafdd0ad76b13b9cfeb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,71 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1809665 <1809665@bugs.launchpad.net>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, Markus Armbruster <armbru@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still an issue as of QEMU 6.0.0rc2.
+Using target-specific CONFIG_xxx switches in common code via "#ifdef"s
+is wrong, since these macros are only defined for target-specific code.
+We already poison many switches in common code to avoid the bugs with
+dead code here, but these problems still keep creeping in ...
+This series now improves the situation by poisoning more symbols,
+especially by generating these from the target-specific config headers
+automatically.
 
-I can't (still) exclude that it's an issue on the host side, although,
-when it comes to USB passthrough, I don't have issues with similar
-devices (mice, keyboards etc.).
+Thomas Huth (4):
+  include/sysemu: Poison all accelerator CONFIG switches in common code
+  migration: Move populate_vfio_info() into a separate file
+  qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code
+  configure: Poison all current target-specific #defines
 
-The module blacklist workaround works.
+ Makefile              |  2 +-
+ configure             |  5 +++++
+ include/exec/poison.h |  6 ++++++
+ include/sysemu/hax.h  |  4 ++++
+ include/sysemu/hvf.h  |  4 ++++
+ include/sysemu/whpx.h |  4 ++++
+ migration/meson.build |  3 ++-
+ migration/migration.c | 15 ---------------
+ migration/migration.h |  2 ++
+ migration/target.c    | 25 +++++++++++++++++++++++++
+ qapi/qom.json         |  4 ++--
+ 11 files changed, 55 insertions(+), 19 deletions(-)
+ create mode 100644 migration/target.c
 
--- =
+-- 
+2.27.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1809665
-
-Title:
-  Xbox One controller USB passthrough disconnections and stops
-
-Status in QEMU:
-  New
-
-Bug description:
-  I can't properly passthrough my Xbox One controller to a virtual
-  machine; it causes USB disconnections on the host, ultimately
-  preventing it to work (at all) on the guest
-
-  I've seen a few other cases reported in other websites, which show the
-  same symptoms:
-
-  - https://www.reddit.com/r/VFIO/comments/97dhbw/qemu_w10_xbox_one_control=
-ler
-  - https://unix.stackexchange.com/questions/452751/how-can-i-pass-through-=
-an-xbox-one-controller-to-a-windows-vm-on-ubuntu
-
-  This is sample:
-
-      libusb: error [udev_hotplug_event] ignoring udev action bind
-      qemu-system-x86_64: libusb_release_interface: -4 [NO_DEVICE]
-      qemu-system-x86_64: libusb_release_interface: -4 [NO_DEVICE]
-      qemu-system-x86_64: libusb_release_interface: -4 [NO_DEVICE]
-      libusb: error [_get_usbfs_fd] File doesn't exist, wait 10 ms and try =
-again
-      libusb: error [_get_usbfs_fd] libusb couldn't open USB device
-          /dev/bus/usb/003/016: No such file or directory
-
-  I think this is a quite long-standing issue, as I've been experiencing
-  through several versions, including the current one (3.1).
-
-  I can reproduce this 100% of the times, on multiple host O/S
-  distributions (the current one being based on Ubuntu 18.04 x86-64).
-
-  I compile QEMU directly from source, and execute it via commandline;
-  the command is very long, however, the relevant part is standard (I
-  think):
-
-      -usb \
-      -device usb-tablet \
-      -device usb-host,vendorid=3D0x$VGAPT_XBOX_PAD_VEND_ID,productid=3D0x$=
-VGAPT_XBOX_PAD_PROD_ID \
-
-  The guest is Windows 10 64bit.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1809665/+subscriptions
 
