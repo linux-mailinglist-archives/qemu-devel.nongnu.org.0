@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DCB35F9AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:21:12 +0200 (CEST)
-Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B8435F98F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:19:32 +0200 (CEST)
+Received: from localhost ([::1]:35202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjCR-0006uq-MO
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50804)
+	id 1lWjAp-000514-W9
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwj-00032O-VB
+ id 1lWiwj-00032G-8s
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45595)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwa-00005m-PF
+ id 1lWiwd-00007U-Ba
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419883;
+ s=mimecast20190719; t=1618419886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dOrZTBgWsm9E0F1o2wg4n2U8COx0eRdAq6pqIpTP0LE=;
- b=ceuy3v4vbEVL+e8beg9IUGbe4vUYvnlnEX2CQvBp+r4GKTizAWrYYmTKRAlOvLmPHMdBC0
- O9d2IVKZPPCgG57vaAasVF3e7WKf0wMo42n8+PfRtGyr0raY2PaXbuvPOGC+bKXGh6MO3J
- gV0QnIr8T4sGsvYe+AOdxp9QrULIlSc=
+ bh=pfqLEuFdVLZzncUzQFsSVE30ao+uESNyjCwX3TTVCns=;
+ b=dAaw+jUkobFMy6LT4GMdSHkVmrpQu9hzm6otvP7nqkZmBpvrtULF3W2CrFhgeufhFYbq0A
+ 7F1S2fXYJluhStN9OqdVDnIbhse2Ij/QWMk4U8DdRm/YkSyg1GZYQnC6auacOLYnU7YGlG
+ gF6Si6elhsySJoEZSZ+ph7fa8Ji+tXo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-Bn-7CMx6NBunsCxQVl_Y-w-1; Wed, 14 Apr 2021 13:04:41 -0400
-X-MC-Unique: Bn-7CMx6NBunsCxQVl_Y-w-1
+ us-mta-268-IlE5il2ROk-mXfziCJ94Xw-1; Wed, 14 Apr 2021 13:04:44 -0400
+X-MC-Unique: IlE5il2ROk-mXfziCJ94Xw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC5DC5B378;
- Wed, 14 Apr 2021 17:04:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6E301854E24;
+ Wed, 14 Apr 2021 17:04:43 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-18.ams2.redhat.com
  [10.36.114.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D514010023AC;
- Wed, 14 Apr 2021 17:04:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4002B10023AC;
+ Wed, 14 Apr 2021 17:04:40 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 11/15] qemu_iotests: allow valgrind to read/delete the
- generated log file
-Date: Wed, 14 Apr 2021 19:03:48 +0200
-Message-Id: <20210414170352.29927-12-eesposit@redhat.com>
+Subject: [PATCH v3 12/15] qemu_iotests: insert valgrind command line as
+ wrapper for qemu binary
+Date: Wed, 14 Apr 2021 19:03:49 +0200
+Message-Id: <20210414170352.29927-13-eesposit@redhat.com>
 In-Reply-To: <20210414170352.29927-1-eesposit@redhat.com>
 References: <20210414170352.29927-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,47 +88,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using -valgrind on the script tests, it generates a log file
-in $TEST_DIR that is either read (if valgrind finds problems) or
-otherwise deleted. Provide the same exact behavior when using
--valgrind on the python tests.
+The priority will be given to gdb command line, meaning if the -gdb
+parameter and -valgrind are given, gdb will be wrapped around
+the qemu binary.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ tests/qemu-iotests/iotests.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 94597433fa..aef67e3a86 100644
+index aef67e3a86..f9832558a0 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -600,6 +600,26 @@ def __init__(self, path_suffix=''):
-                          sock_dir=sock_dir)
-         self._num_drives = 0
+@@ -593,7 +593,8 @@ class VM(qtest.QEMUQtestMachine):
  
-+    def subprocess_check_valgrind(self, valgrind) -> None:
-+
-+        if not valgrind:
-+            return
-+
-+        valgrind_filename =  test_dir + "/" + str(self._popen.pid) + ".valgrind"
-+
-+        if self.exitcode() == 99:
-+            with open(valgrind_filename) as f:
-+                content = f.readlines()
-+            for line in content:
-+                print(line, end ="")
-+            print("")
-+        else:
-+            os.remove(valgrind_filename)
-+
-+    def _post_shutdown(self) -> None:
-+        super()._post_shutdown()
-+        self.subprocess_check_valgrind(qemu_valgrind)
-+
-     def add_object(self, opts):
-         self._args.append('-object')
-         self._args.append(opts)
+     def __init__(self, path_suffix=''):
+         name = "qemu%s-%d" % (path_suffix, os.getpid())
+-        super().__init__(qemu_prog, qemu_opts, wrapper=qemu_gdb,
++        wrapper = qemu_gdb if qemu_gdb else qemu_valgrind
++        super().__init__(qemu_prog, qemu_opts, wrapper=wrapper,
+                          name=name,
+                          test_dir=test_dir,
+                          socket_scm_helper=socket_scm_helper,
 -- 
 2.30.2
 
