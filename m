@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC35735EF85
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:30:03 +0200 (CEST)
-Received: from localhost ([::1]:58250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9148635EF88
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:33:33 +0200 (CEST)
+Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWauQ-0003OA-RY
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
+	id 1lWaxo-0005Ux-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWat8-0002Zo-5r
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:28:42 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWat6-00022K-Hn
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:28:41 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B13D9AD8D;
- Wed, 14 Apr 2021 08:28:38 +0000 (UTC)
-Subject: Re: [RFC v12 03/65] arm: tcg: only build under CONFIG_TCG
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210326193701.5981-1-cfontana@suse.de>
- <20210326193701.5981-4-cfontana@suse.de>
- <b358544a-d550-97c3-917a-0aaeb85ce34b@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <23006513-c0c9-bca1-d1c7-5d5fd6f679f6@suse.de>
-Date: Wed, 14 Apr 2021 10:28:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lWavY-0004KU-Bw
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:31:12 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:40553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lWavW-0003Qh-E5
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:31:12 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id 82so21249697yby.7
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 01:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Pqhg60qdoytdXLeGEgSonkWTkTlFARfJrbT1ixvNiyY=;
+ b=ga3b4e+Nvd9dF16WRz2qoz+deBHkWugTtr+ENsy+F/FEvjm4vvNlKwx+Go9uopZwHJ
+ GvrqsYH+39EylbmI/q9tlZ6/TbPvjKfaf3OOS218J7OEtxDGyouzC7dsa+OZzSLQLMAe
+ 9iOaAqIwN5zKs2B+th8p0LYe+U9pREAFWYxGw132sd60UsQ1E/zaWcq9ZFogcoTiBgp/
+ b6sDcDfgFAmwV+SdshLNg/UaUfR2LtUgzR2+LXao1HZoTVhTejC0xvbw3PDRie1EtIID
+ 3FWdpr4PvHkYuZQIN8cnj1N7+xR457jUlpV8zzswIQu2PxOEsJVffa+xy0PncAhrM4gA
+ XA/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Pqhg60qdoytdXLeGEgSonkWTkTlFARfJrbT1ixvNiyY=;
+ b=Z62HBXxKUI965SVkAhMYf0b1nblvsiwJnT+pQPUkARIhbTAwWIh58bzPg5A6X2OeFp
+ 1Z/jiyxZAgw4jxzxXz1nLeb3NEpk+6a5zjnyD9W9ivUPCcMmYd1DvTL0q9EHQROFRpi9
+ HWRDuzX11Z+1dVhCsVDNPB2vOPAA9GxSJYUQG3kjZnCRhxpfq50lShIkzQYzg3AfyOxC
+ kyk3uCA7RVzdo1aQkwl6UW0fEDmTGtpYF0QxbtfgRMRiYC2171SbmWpobnn6ZiZxzCIA
+ k1ob6hGtdHf82EBE4gjfryLxlb0XFQvViiQ2nmfm3y45s0gbBGnTRnc3dlCy+9y0ZQCr
+ QN3Q==
+X-Gm-Message-State: AOAM531pXtnZ4hYHSObiIBvziBKgaDdgk2GSzf1B78GuP92seTF+7L51
+ VKIJQWWifdY7N1pINloRNr8OxO78riXnlthz/JI=
+X-Google-Smtp-Source: ABdhPJwDRiZWXAtUJm2lSUr8K0VQLLzQLkqgVukLUU6NWwqicTslFPZvEZS5h5wxE8C86SXchzWGF8teU8JGTKsrfIM=
+X-Received: by 2002:a25:d181:: with SMTP id
+ i123mr28317703ybg.387.1618389069339; 
+ Wed, 14 Apr 2021 01:31:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b358544a-d550-97c3-917a-0aaeb85ce34b@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
+ <CAEUhbmWsBfhub-+hMvucshCRH412fuvz5_=fAU_y7UmYJ4_=dQ@mail.gmail.com>
+ <5445e140-94f1-dfcf-4652-0e47494e8c23@weilnetz.de>
+In-Reply-To: <5445e140-94f1-dfcf-4652-0e47494e8c23@weilnetz.de>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 14 Apr 2021 16:30:58 +0800
+Message-ID: <CAEUhbmWJ3kGk4sVM3+TsHmZrDrekqSYcFebpztedU4jkw1DoWQ@mail.gmail.com>
+Subject: Re: any remaining for-6.0 issues?
+To: Stefan Weil <sw@weilnetz.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,74 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 10:49 PM, Philippe Mathieu-Daudé wrote:
-> On 3/26/21 8:35 PM, Claudio Fontana wrote:
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>  target/arm/tcg/meson.build | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
->> index 0bd4e9d954..3b4146d079 100644
->> --- a/target/arm/tcg/meson.build
->> +++ b/target/arm/tcg/meson.build
->> @@ -12,9 +12,9 @@ gen = [
->>    decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
->>  ]
->>  
->> -arm_ss.add(gen)
->> +arm_ss.add(when: 'CONFIG_TCG', if_true: gen)
->>  
->> -arm_ss.add(files(
->> +arm_ss.add(when: 'CONFIG_TCG', if_true: files(
->>    'translate.c',
->>    'helper.c',
->>    'iwmmxt_helper.c',
->> @@ -28,7 +28,7 @@ arm_ss.add(files(
->>    'debug_helper.c',
->>  ))
->>  
->> -arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
->> +arm_ss.add(when: ['TARGET_AARCH64','CONFIG_TCG'], if_true: files(
->>    'translate-a64.c',
->>    'translate-sve.c',
->>    'helper-a64.c',
->>
-> 
-> Isn't it clearer to use in target/arm/meson.build:
-> 
-> if 'CONFIG_TCG' in config_all
->   subdir('tcg')
-> endif
-> 
-> ?
+Hi Stefan,
 
-This was my initial idea also, but now it is not possible anymore, since we now put some tcg stubs in tcg/.
+On Tue, Apr 13, 2021 at 2:19 PM Stefan Weil <sw@weilnetz.de> wrote:
+>
+> Am 13.04.21 um 07:56 schrieb Bin Meng:
+>
+> > On Mon, Apr 12, 2021 at 11:33 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> Last call to note anything we need to fix for 6.0 on
+> >> https://wiki.qemu.org/Planning/6.0#Known_issues please.
+> >> The schedule is to tag rc3 tomorrow, which I would ideally like
+> >> to be the last rc before release. After rc3 I will only be taking
+> >> fixes for bugs which are absolutely critical...
+> > This patch (affects Windows install)
+> > http://patchwork.ozlabs.org/project/qemu-devel/patch/20210326062140.367861-1-bmeng.cn@gmail.com/
+> >
+> > is still not applied.
+> >
+> > Regards,
+> > Bin
+>
+>
+> That patch is based on an older version of my personal QEMU sources and
+> not required for 6.0.
 
-We could instead put them in a dedicated stubs/ directory though.
+I am confused.
 
-The reason is basically that Paolo suggested to recurse unconditionally, I just considered this meson-related statement as an oracle.
+I see https://repo.or.cz/qemu/ar7.git/blob/HEAD:/qemu.nsi still does
+not contain the fix.
 
-Ciao,
+Or is this qemu.nsi file not used in the latest 6.0 installer?
 
-Claudio
+>
+> The official QEMU sources install the whole share directory, so all
+> required firmware files are included. My latest installer
+> (https://qemu.weilnetz.de/w64/qemu-w64-setup-20210409.exe) installs
+> those files, too.
 
-> 
-> Similarly in the next patch for target/arm/tcg/meson.build:
-> 
-> if have_user
->   subdir('user')
-> endif
-> if have_system
->   subdir('sysemu')
-> endif
-> 
-
+Regards,
+Bin
 
