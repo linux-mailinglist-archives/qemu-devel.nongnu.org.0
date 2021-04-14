@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9F935F8B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:12:23 +0200 (CEST)
-Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9F535F8CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:24:52 +0200 (CEST)
+Received: from localhost ([::1]:38602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWi7q-0007pr-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
+	id 1lWiJv-0006PH-Ha
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:24:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWhoP-0008Oc-9v
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38174)
+ id 1lWhou-0000Ni-35
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWhoM-0000Rh-4D
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:16 -0400
+ id 1lWhog-0000Yv-1l
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618415532;
+ s=mimecast20190719; t=1618415553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vh//pJf+tfOOr5W8FxD0IM/tsH9IzMS2tD+V5Ssbqv4=;
- b=hgBxyRVqk0+ItZQVKOoYXLt5ppx9++9PG0teMPYKLjGiD+BAplo03k/cTtKMBLN6T/P2Z3
- pY/i/wdeLoBhLQM/m6je0HKD6e6U2N1Fxs3J2kvSVyIKXtvnggNnzlN44fBWb0KtAfwivB
- oCpUdoB+qLeoGYxu2ObJetPuIVn+w2g=
+ bh=Gtwxav6tM/KoCKV/wsv3yoh9/ljAdujj7PZ3QHbMrmE=;
+ b=hZD2oPNw7coEfz7QdjbXG7VCbRxp9hI5H0FdJQjWQ2r9ZRtZA0YgqsA8mD8vijZIMbNCMv
+ 9neR44KIBmKXn/lJbNUPOlnJMxV1+sU3s5GESoWn1Q3xTsVK/bIrsTpH7dxAkzXS7FaE2B
+ 1WxbPOxXq1TJuI1Gh7XaaCk4fLrHEos=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-XXQeqC4fNaKaRitN3RsHQg-1; Wed, 14 Apr 2021 11:52:10 -0400
-X-MC-Unique: XXQeqC4fNaKaRitN3RsHQg-1
+ us-mta-506-eOoPz97UPh2xZHR_xgR8bA-1; Wed, 14 Apr 2021 11:52:11 -0400
+X-MC-Unique: eOoPz97UPh2xZHR_xgR8bA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BA12107ACC7
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:52:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159A380D6AA
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:52:11 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-158.ams2.redhat.com
  [10.36.115.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 811FD610A8;
- Wed, 14 Apr 2021 15:52:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA803610A8;
+ Wed, 14 Apr 2021 15:52:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  virtio-fs@redhat.com
-Subject: [PATCH v2 18/25] DAX/unmap virtiofsd: Add wrappers for
- VHOST_USER_SLAVE_FS_IO
-Date: Wed, 14 Apr 2021 16:51:30 +0100
-Message-Id: <20210414155137.46522-19-dgilbert@redhat.com>
+Subject: [PATCH v2 19/25] DAX/unmap virtiofsd: Parse unmappable elements
+Date: Wed, 14 Apr 2021 16:51:31 +0100
+Message-Id: <20210414155137.46522-20-dgilbert@redhat.com>
 In-Reply-To: <20210414155137.46522-1-dgilbert@redhat.com>
 References: <20210414155137.46522-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,102 +85,378 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Add a wrapper to send VHOST_USER_SLAVE_FS_IO commands and a
-further wrapper for sending a fuse_buf write using the FS_IO
-slave command.
+For some read/writes the virtio queue elements are unmappable by
+the daemon; these are cases where the data is to be read/written
+from non-RAM.  In viritofs's case this is typically a direct read/write
+into an mmap'd DAX file also on virtiofs (possibly on another instance).
+
+When we receive a virtio queue element, check that we have enough
+mappable data to handle the headers.  Make a note of the number of
+unmappable 'in' entries (ie. for read data back to the VMM),
+and flag the fuse_bufvec for 'out' entries with a new flag
+FUSE_BUF_PHYS_ADDR.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+with fix by:
+Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
 ---
- tools/virtiofsd/fuse_lowlevel.h | 25 +++++++++++++++++++
- tools/virtiofsd/fuse_virtio.c   | 43 +++++++++++++++++++++++++++++++++
- 2 files changed, 68 insertions(+)
+ tools/virtiofsd/buffer.c      |   4 +-
+ tools/virtiofsd/fuse_common.h |   7 ++
+ tools/virtiofsd/fuse_virtio.c | 230 ++++++++++++++++++++++++----------
+ 3 files changed, 173 insertions(+), 68 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-index 27b07bfc22..757cdae49b 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -2013,4 +2013,29 @@ int64_t fuse_virtio_map(fuse_req_t req, VhostUserFSSlaveMsg *msg, int fd);
-  */
- int64_t fuse_virtio_unmap(struct fuse_session *se, VhostUserFSSlaveMsg *msg);
+diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+index 874f01c488..1a050aa441 100644
+--- a/tools/virtiofsd/buffer.c
++++ b/tools/virtiofsd/buffer.c
+@@ -77,6 +77,7 @@ static ssize_t fuse_buf_write(const struct fuse_buf *dst, size_t dst_off,
+     ssize_t res = 0;
+     size_t copied = 0;
  
-+/**
-+ * For use with virtio-fs; request IO directly to memory
-+ *
-+ * @param se The current session
-+ * @param msg A set of IO requests
-+ * @param fd The fd to map
-+ * @return Length on success, negative errno on error
-+ */
-+int64_t fuse_virtio_io(struct fuse_session *se, VhostUserFSSlaveMsg *msg,
-+                       int fd);
++    assert(!(src->flags & FUSE_BUF_PHYS_ADDR));
+     while (len) {
+         if (dst->flags & FUSE_BUF_FD_SEEK) {
+             res = pwrite(dst->fd, (char *)src->mem + src_off, len,
+@@ -272,7 +273,8 @@ ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
+      * process
+      */
+     for (i = 0; i < srcv->count; i++) {
+-        if (srcv->buf[i].flags & FUSE_BUF_IS_FD) {
++        if ((srcv->buf[i].flags & FUSE_BUF_PHYS_ADDR) ||
++            (srcv->buf[i].flags & FUSE_BUF_IS_FD)) {
+             break;
+         }
+     }
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index fa9671872e..af43cf19f9 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -626,6 +626,13 @@ enum fuse_buf_flags {
+      * detected.
+      */
+     FUSE_BUF_FD_RETRY = (1 << 3),
 +
-+/**
-+ * For use with virtio-fs; wrapper for fuse_virtio_io for writes
-+ * from memory to an fd
-+ * @param req The request that triggered this action
-+ * @param dst The destination (file) memory buffer
-+ * @param dst_off Byte offset in the file
-+ * @param src The source (memory) buffer
-+ * @param src_off The GPA
-+ * @param len Length in bytes
-+ */
-+ssize_t fuse_virtio_write(fuse_req_t req, const struct fuse_buf *dst,
-+                          size_t dst_off, const struct fuse_buf *src,
-+                          size_t src_off, size_t len);
-+
- #endif /* FUSE_LOWLEVEL_H_ */
++    /**
++     * The addresses in the iovec represent guest physical addresses
++     * that can't be mapped by the daemon process.
++     * IO must be bounced back to the VMM to do it.
++     */
++    FUSE_BUF_PHYS_ADDR = (1 << 4),
+ };
+ 
+ /**
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 85d90ca595..402e94dde6 100644
+index 402e94dde6..5ed78bd8cf 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -1141,3 +1141,46 @@ int64_t fuse_virtio_unmap(struct fuse_session *se, VhostUserFSSlaveMsg *msg)
-     return vu_fs_cache_request(&se->virtio_dev->dev, VHOST_USER_SLAVE_FS_UNMAP,
-                                -1, msg);
- }
+@@ -49,6 +49,10 @@ typedef struct {
+     VuVirtqElement elem;
+     struct fuse_chan ch;
+ 
++    /* Number of unmappable iovecs */
++    unsigned bad_in_num;
++    unsigned bad_out_num;
 +
-+int64_t fuse_virtio_io(struct fuse_session *se, VhostUserFSSlaveMsg *msg,
-+                       int fd)
-+{
-+    if (!se->virtio_dev) {
-+        return -ENODEV;
-+    }
-+    return vu_fs_cache_request(&se->virtio_dev->dev, VHOST_USER_SLAVE_FS_IO,
-+                               fd, msg);
-+}
+     /* Used to complete requests that involve no reply */
+     bool reply_sent;
+ } FVRequest;
+@@ -353,8 +357,10 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+ 
+     /* The 'in' part of the elem is to qemu */
+     unsigned int in_num = elem->in_num;
++    unsigned int bad_in_num = req->bad_in_num;
+     struct iovec *in_sg = elem->in_sg;
+     size_t in_len = iov_size(in_sg, in_num);
++    size_t in_len_writeable = iov_size(in_sg, in_num - bad_in_num);
+     fuse_log(FUSE_LOG_DEBUG, "%s: elem %d: with %d in desc of length %zd\n",
+              __func__, elem->index, in_num, in_len);
+ 
+@@ -362,7 +368,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+      * The elem should have room for a 'fuse_out_header' (out from fuse)
+      * plus the data based on the len in the header.
+      */
+-    if (in_len < sizeof(struct fuse_out_header)) {
++    if (in_len_writeable < sizeof(struct fuse_out_header)) {
+         fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
+                  __func__, elem->index);
+         ret = E2BIG;
+@@ -389,7 +395,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+     memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
+     /* These get updated as we skip */
+     struct iovec *in_sg_ptr = in_sg_cpy;
+-    int in_sg_cpy_count = in_num;
++    int in_sg_cpy_count = in_num - bad_in_num;
+ 
+     /* skip over parts of in_sg that contained the header iov */
+     size_t skip_size = iov_len;
+@@ -523,17 +529,21 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
+ 
+     /* The 'out' part of the elem is from qemu */
+     unsigned int out_num = elem->out_num;
++    unsigned int out_num_readable = out_num - req->bad_out_num;
+     struct iovec *out_sg = elem->out_sg;
+     size_t out_len = iov_size(out_sg, out_num);
++    size_t out_len_readable = iov_size(out_sg, out_num_readable);
+     fuse_log(FUSE_LOG_DEBUG,
+-             "%s: elem %d: with %d out desc of length %zd\n",
+-             __func__, elem->index, out_num, out_len);
++             "%s: elem %d: with %d out desc of length %zd"
++             " bad_in_num=%u bad_out_num=%u\n",
++             __func__, elem->index, out_num, out_len, req->bad_in_num,
++             req->bad_out_num);
+ 
+     /*
+      * The elem should contain a 'fuse_in_header' (in to fuse)
+      * plus the data based on the len in the header.
+      */
+-    if (out_len < sizeof(struct fuse_in_header)) {
++    if (out_len_readable < sizeof(struct fuse_in_header)) {
+         fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for in_header\n",
+                  __func__, elem->index);
+         assert(0); /* TODO */
+@@ -544,80 +554,163 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
+         assert(0); /* TODO */
+     }
+     /* Copy just the fuse_in_header and look at it */
+-    copy_from_iov(&fbuf, out_num, out_sg,
++    copy_from_iov(&fbuf, out_num_readable, out_sg,
+                   sizeof(struct fuse_in_header));
+     memcpy(&inh, fbuf.mem, sizeof(struct fuse_in_header));
+ 
+     pbufv = NULL; /* Compiler thinks an unitialised path */
+-    if (inh.opcode == FUSE_WRITE &&
+-        out_len >= (sizeof(struct fuse_in_header) +
+-                    sizeof(struct fuse_write_in))) {
+-        /*
+-         * For a write we don't actually need to copy the
+-         * data, we can just do it straight out of guest memory
+-         * but we must still copy the headers in case the guest
+-         * was nasty and changed them while we were using them.
+-         */
+-        fuse_log(FUSE_LOG_DEBUG, "%s: Write special case\n", __func__);
+-
+-        fbuf.size = copy_from_iov(&fbuf, out_num, out_sg,
+-                                  sizeof(struct fuse_in_header) +
+-                                  sizeof(struct fuse_write_in));
+-        /* That copy reread the in_header, make sure we use the original */
+-        memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
+-
+-        /* Allocate the bufv, with space for the rest of the iov */
+-        pbufv = malloc(sizeof(struct fuse_bufvec) +
+-                       sizeof(struct fuse_buf) * out_num);
+-        if (!pbufv) {
+-            fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
+-                    __func__);
+-            goto out;
+-        }
++    if (req->bad_in_num || req->bad_out_num) {
++        bool handled_unmappable = false;
 +
-+/*
-+ * Write to a file (dst) from an area of guest GPA (src) that probably
-+ * isn't visible to the daemon.
-+ */
-+ssize_t fuse_virtio_write(fuse_req_t req, const struct fuse_buf *dst,
-+                          size_t dst_off, const struct fuse_buf *src,
-+                          size_t src_off, size_t len)
-+{
-+    VhostUserFSSlaveMsg *msg = g_malloc0(sizeof(VhostUserFSSlaveMsg) +
-+                                         sizeof(VhostUserFSSlaveMsgEntry));
++        if (!req->bad_in_num &&
++            inh.opcode == FUSE_WRITE &&
++            out_len_readable >= (sizeof(struct fuse_in_header) +
++                                 sizeof(struct fuse_write_in))) {
++            handled_unmappable = true;
 +
-+    msg->count = 1;
++            /* copy the fuse_write_in header after fuse_in_header */
++            fbuf.size = copy_from_iov(&fbuf, out_num_readable, out_sg,
++                                      sizeof(struct fuse_in_header) +
++                                      sizeof(struct fuse_write_in));
++            /* That copy reread the in_header, make sure we use the original */
++            memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
 +
-+    if (dst->flags & FUSE_BUF_FD_SEEK) {
-+        msg->entries[0].fd_offset = dst->pos + dst_off;
-+    } else {
-+        off_t cur = lseek(dst->fd, 0, SEEK_CUR);
-+        if (cur == (off_t)-1) {
-+            g_free(msg);
-+            return -errno;
++            /* Allocate the bufv, with space for the rest of the iov */
++            pbufv = malloc(sizeof(struct fuse_bufvec) +
++                           sizeof(struct fuse_buf) * out_num);
++            if (!pbufv) {
++                fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
++                        __func__);
++                goto out;
++            }
+ 
+-        allocated_bufv = true;
+-        pbufv->count = 1;
+-        pbufv->buf[0] = fbuf;
++            allocated_bufv = true;
++            pbufv->count = 1;
++            pbufv->buf[0] = fbuf;
+ 
+-        size_t iovindex, pbufvindex, iov_bytes_skip;
+-        pbufvindex = 1; /* 2 headers, 1 fusebuf */
++            size_t iovindex, pbufvindex, iov_bytes_skip;
++            pbufvindex = 1; /* 2 headers, 1 fusebuf */
+ 
+-        if (!skip_iov(out_sg, out_num,
+-                      sizeof(struct fuse_in_header) +
+-                      sizeof(struct fuse_write_in),
+-                      &iovindex, &iov_bytes_skip)) {
+-            fuse_log(FUSE_LOG_ERR, "%s: skip failed\n",
+-                    __func__);
+-            goto out;
+-        }
++            if (!skip_iov(out_sg, out_num,
++                          sizeof(struct fuse_in_header) +
++                          sizeof(struct fuse_write_in),
++                          &iovindex, &iov_bytes_skip)) {
++                fuse_log(FUSE_LOG_ERR, "%s: skip failed\n",
++                        __func__);
++                goto out;
++            }
+ 
+-        for (; iovindex < out_num; iovindex++, pbufvindex++) {
+-            pbufv->count++;
+-            pbufv->buf[pbufvindex].pos = ~0; /* Dummy */
+-            pbufv->buf[pbufvindex].flags = 0;
+-            pbufv->buf[pbufvindex].mem = out_sg[iovindex].iov_base;
+-            pbufv->buf[pbufvindex].size = out_sg[iovindex].iov_len;
+-
+-            if (iov_bytes_skip) {
+-                pbufv->buf[pbufvindex].mem += iov_bytes_skip;
+-                pbufv->buf[pbufvindex].size -= iov_bytes_skip;
+-                iov_bytes_skip = 0;
++            for (; iovindex < out_num; iovindex++, pbufvindex++) {
++                pbufv->count++;
++                pbufv->buf[pbufvindex].pos = ~0; /* Dummy */
++                pbufv->buf[pbufvindex].flags =
++                    (iovindex < out_num_readable) ? 0 :
++                                                    FUSE_BUF_PHYS_ADDR;
++                pbufv->buf[pbufvindex].mem = out_sg[iovindex].iov_base;
++                pbufv->buf[pbufvindex].size = out_sg[iovindex].iov_len;
++
++                if (iov_bytes_skip) {
++                    pbufv->buf[pbufvindex].mem += iov_bytes_skip;
++                    pbufv->buf[pbufvindex].size -= iov_bytes_skip;
++                    iov_bytes_skip = 0;
++                }
+             }
+         }
+-    } else {
+-        /* Normal (non fast write) path */
+ 
+-        copy_from_iov(&fbuf, out_num, out_sg, se->bufsize);
+-        /* That copy reread the in_header, make sure we use the original */
+-        memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
+-        fbuf.size = out_len;
++        if (req->bad_in_num &&
++            inh.opcode == FUSE_READ &&
++            out_len_readable >=
++                (sizeof(struct fuse_in_header) + sizeof(struct fuse_read_in))) {
++            fuse_log(FUSE_LOG_DEBUG,
++                     "Unmappable read case "
++                     "in_num=%d bad_in_num=%d\n",
++                     elem->in_num, req->bad_in_num);
++            handled_unmappable = true;
 +        }
-+        msg->entries[0].fd_offset = cur;
-+    }
-+    msg->entries[0].c_offset = (uintptr_t)src->mem + src_off;
-+    msg->entries[0].len = len;
-+    msg->entries[0].flags = VHOST_USER_FS_FLAG_MAP_W;
 +
-+    int64_t result = fuse_virtio_io(req->se, msg, dst->fd);
-+    fuse_log(FUSE_LOG_DEBUG, "%s: result=%ld\n", __func__, result);
-+    g_free(msg);
-+    return result;
-+}
++        if (!handled_unmappable) {
++            fuse_log(FUSE_LOG_ERR,
++                     "Unhandled unmappable element: out: %d(b:%d) in: "
++                     "%d(b:%d)",
++                     out_num, req->bad_out_num, elem->in_num, req->bad_in_num);
++            fv_panic(dev, "Unhandled unmappable element");
++        }
++    }
++
++    if (!req->bad_out_num) {
++        if (inh.opcode == FUSE_WRITE &&
++            out_len_readable >= (sizeof(struct fuse_in_header) +
++                                 sizeof(struct fuse_write_in))) {
++            /*
++             * For a write we don't actually need to copy the
++             * data, we can just do it straight out of guest memory
++             * but we must still copy the headers in case the guest
++             * was nasty and changed them while we were using them.
++             */
++            fuse_log(FUSE_LOG_DEBUG, "%s: Write special case\n",
++                     __func__);
++
++            fbuf.size = copy_from_iov(&fbuf, out_num, out_sg,
++                                      sizeof(struct fuse_in_header) +
++                                      sizeof(struct fuse_write_in));
++            /* That copy reread the in_header, make sure we use the original */
++            memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
++
++            /* Allocate the bufv, with space for the rest of the iov */
++            pbufv = malloc(sizeof(struct fuse_bufvec) +
++                           sizeof(struct fuse_buf) * out_num);
++            if (!pbufv) {
++                fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
++                        __func__);
++                goto out;
++            }
++
++            allocated_bufv = true;
++            pbufv->count = 1;
++            pbufv->buf[0] = fbuf;
+ 
+-        /* TODO! Endianness of header */
++            size_t iovindex, pbufvindex, iov_bytes_skip;
++            pbufvindex = 1; /* 2 headers, 1 fusebuf */
+ 
+-        /* TODO: Add checks for fuse_session_exited */
+-        bufv.buf[0] = fbuf;
+-        bufv.count = 1;
+-        pbufv = &bufv;
++            if (!skip_iov(out_sg, out_num,
++                          sizeof(struct fuse_in_header) +
++                          sizeof(struct fuse_write_in),
++                          &iovindex, &iov_bytes_skip)) {
++                fuse_log(FUSE_LOG_ERR, "%s: skip failed\n",
++                        __func__);
++                goto out;
++            }
++
++            for (; iovindex < out_num; iovindex++, pbufvindex++) {
++                pbufv->count++;
++                pbufv->buf[pbufvindex].pos = ~0; /* Dummy */
++                pbufv->buf[pbufvindex].flags = 0;
++                pbufv->buf[pbufvindex].mem = out_sg[iovindex].iov_base;
++                pbufv->buf[pbufvindex].size = out_sg[iovindex].iov_len;
++
++                if (iov_bytes_skip) {
++                    pbufv->buf[pbufvindex].mem += iov_bytes_skip;
++                    pbufv->buf[pbufvindex].size -= iov_bytes_skip;
++                    iov_bytes_skip = 0;
++                }
++            }
++        } else {
++            /* Normal (non fast write) path */
++
++            /* Copy the rest of the buffer */
++            copy_from_iov(&fbuf, out_num, out_sg, se->bufsize);
++            /* That copy reread the in_header, make sure we use the original */
++            memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
++
++            fbuf.size = out_len;
++
++            /* TODO! Endianness of header */
++
++            /* TODO: Add checks for fuse_session_exited */
++            bufv.buf[0] = fbuf;
++            bufv.count = 1;
++            pbufv = &bufv;
++        }
+     }
+     pbufv->idx = 0;
+     pbufv->off = 0;
+@@ -732,13 +825,16 @@ static void *fv_queue_thread(void *opaque)
+                  __func__, qi->qidx, (size_t)evalue, in_bytes, out_bytes);
+ 
+         while (1) {
++            unsigned int bad_in_num = 0, bad_out_num = 0;
+             FVRequest *req = vu_queue_pop(dev, q, sizeof(FVRequest),
+-                                          NULL, NULL);
++                                          &bad_in_num, &bad_out_num);
+             if (!req) {
+                 break;
+             }
+ 
+             req->reply_sent = false;
++            req->bad_in_num = bad_in_num;
++            req->bad_out_num = bad_out_num;
+ 
+             if (!se->thread_pool_size) {
+                 req_list = g_list_prepend(req_list, req);
 -- 
 2.31.1
 
