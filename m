@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80C035FA0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:48:42 +0200 (CEST)
-Received: from localhost ([::1]:54794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725D035FA19
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:52:05 +0200 (CEST)
+Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjd4-0006K6-18
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57598)
+	id 1lWjgK-0007pA-IN
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWjU3-0001p8-M9
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:39:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27604)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWjf7-0007OW-BF
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWjTz-0008EN-Lf
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:39:23 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lWjf4-0005UV-BM
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:50:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618421957;
+ s=mimecast20190719; t=1618422644;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TaI7JWPhrCcL9YjipiWrGob/NdE4jqDUD52mLJeqZMg=;
- b=iyvaVJFItgpOpSuxrs1meuxiVsGaV3HkmeAGcXWgOZ4aGxN8ywzbdklHLxpcp2aDTOI35v
- asz9NpW30+4ymwqoffccnkA/zC6MyLpg+BpDyJ7C7uOIkXr3iyD1gV6nNnxoZRRvJ0C6we
- xMPZnfYk7km6umKuYzbMei/ir5vVITQ=
+ bh=gUUedMsrWeBUNjEB7Ps0Np+hqp2HsQukzVcX53wosQY=;
+ b=KMy472ty59tLRdph0KSGvLByUW27Bxs2SDxVmn2KKdWWuSEgASr1vtK25bKho0M6EkrjW8
+ 8oBPvvvETJw9k+LsgBJPjjjJdjJstYRliW3FfgUOcZqKB4FUgvfvLM3YhJzsAWsRxykQx+
+ bxTtbzD24mWmjDpvfqXM3ssIEbbGJos=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-1gfOC4HYNVy6R-6o3zviYw-1; Wed, 14 Apr 2021 13:39:14 -0400
-X-MC-Unique: 1gfOC4HYNVy6R-6o3zviYw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-192-5w3Ic4J_Pf-m7ybbJi0P1g-1; Wed, 14 Apr 2021 13:50:42 -0400
+X-MC-Unique: 5w3Ic4J_Pf-m7ybbJi0P1g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7999FA0CAC
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 17:39:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D69701020C20
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 17:50:41 +0000 (UTC)
 Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 306AA60657;
- Wed, 14 Apr 2021 17:39:08 +0000 (UTC)
-Subject: Re: [PATCH RFC 4/7] message: add QMP Message type
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A76635C232;
+ Wed, 14 Apr 2021 17:50:37 +0000 (UTC)
+Subject: Re: [PATCH RFC 6/7] qmp_protocol: add QMP client implementation
 To: Stefan Hajnoczi <stefanha@redhat.com>
 References: <20210413155553.2660523-1-jsnow@redhat.com>
- <20210413155553.2660523-5-jsnow@redhat.com>
- <YHX6AbETd6Idbq//@stefanha-x1.localdomain>
+ <20210413155553.2660523-7-jsnow@redhat.com>
+ <YHaBQOYfMSuXoMAj@stefanha-x1.localdomain>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <25fb88b3-b2b4-e730-c61d-5a145c850dbb@redhat.com>
-Date: Wed, 14 Apr 2021 13:39:07 -0400
+Message-ID: <6d3a5cf8-838c-bdda-2050-d6d681aec5ea@redhat.com>
+Date: Wed, 14 Apr 2021 13:50:37 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YHX6AbETd6Idbq//@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <YHaBQOYfMSuXoMAj@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,7 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,84 +87,74 @@ Cc: armbru@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 4:07 PM, Stefan Hajnoczi wrote:
-> On Tue, Apr 13, 2021 at 11:55:50AM -0400, John Snow wrote:
->> This is an abstraction that represents a single message either sent to
->> or received from the server. It is used to subclass the
->> AsyncProtocol(Generic[T]) type.
->>
->> It was written such that it can be populated by either raw data or by a
->> dict, with the other form being generated on-demand, as-needed.
->>
->> It behaves almost exactly like a dict, but has some extra methods and a
->> special constructor. (It should quack fairly convincingly.)
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   message.py | 196 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 196 insertions(+)
->>   create mode 100644 message.py
->>
->> diff --git a/message.py b/message.py
->> new file mode 100644
->> index 0000000..5c7e828
->> --- /dev/null
->> +++ b/message.py
->> @@ -0,0 +1,196 @@
->> +"""
->> +QMP Message format and errors.
+On 4/14/21 1:44 AM, Stefan Hajnoczi wrote:
+> On Tue, Apr 13, 2021 at 11:55:52AM -0400, John Snow wrote:
+>> +    async def _execute(self, msg: Message) -> object:
+>> +        """
+>> +        The same as `execute_msg()`, but without safety mechanisms.
 >> +
->> +This module provides the `Message` class, which represents a single QMP
->> +message sent to or from the server. Several error-classes that depend on
->> +knowing the format of this message are also included here.
->> +"""
+>> +        Does not assign an execution ID and does not check that the form
+>> +        of the message being sent is valid.
 >> +
->> +import json
->> +from json import JSONDecodeError
->> +from typing import (
->> +    Dict,
->> +    ItemsView,
->> +    Iterable,
->> +    KeysView,
->> +    Optional,
->> +    Union,
->> +    ValuesView,
->> +)
+>> +        This method *Requires* an 'id' parameter to be set on the
+>> +        message, it will not set one for you like `execute()` or
+>> +        `execute_msg()`.
 >> +
->> +from error import (
->> +    DeserializationError,
->> +    ProtocolError,
->> +    UnexpectedTypeError,
->> +)
+>> +        Do not use "__aqmp#00000" style IDs, use something else to avoid
+>> +        potential clashes. If this ID clashes with an ID presently
+>> +        in-use or otherwise clashes with the auto-generated IDs, the
+>> +        response routing mechanisms in _on_message may very well fail
+>> +        loudly enough to cause the entire loop to crash.
 >> +
+>> +        The ID should be a str; or at least something JSON
+>> +        serializable. It *must* be hashable.
+>> +        """
+>> +        exec_id = cast(str, msg['id'])
+>> +        self.logger.debug("Execute(%s): '%s'", exec_id,
+>> +                          msg.get('execute', msg.get('exec-oob')))
 >> +
->> +class Message:
->> +    """
->> +    Represents a single QMP protocol message.
->> +
->> +    QMP uses JSON objects as its basic communicative unit; so this
->> +    object behaves like a MutableMapping. It may be instantiated from
->> +    either another mapping (like a dict), or from raw bytes that still
->> +    need to be deserialized.
->> +
->> +    :param value: Initial value, if any.
->> +    :param eager: When true, attempt to serialize (or deserialize) the
->> +                  initial value immediately, such that conversion exceptions
->> +                  are raised during the call to the initialization method.
->> +    """
+>> +        queue: asyncio.Queue[Message] = asyncio.Queue(maxsize=1)
+>> +        task = create_task(self._bh_execute(msg, queue))
 > 
-> Why define this class instead of using dicts? It's a very fancy way of
-> calling json.dumps() and json.loads().
+> We're already in a coroutine, can we await queue.get() ourselves instead
+> of creating a new task?
+> 
+> I guess this is done in order to use Task.cancel() in _bh_disconnect()
+> but it seems simpler to use queue both for success and cancellation.
+> Fewer tasks are easier to reason about.
 > 
 
-Mostly just to associate the de/serialization methods of the 
-unit-message with that data type, and it's nice for strict typing.
+...queues do not have a cancellation signal :( :( :( :(
 
-It does repeat a lot of boilerplate to just re-implement the 
-dict-quacking; but I think I might actually be able to get around that 
-by inheriting from MutableMapping to get all of that boilerplate "for free".
+There's no way to "cancel" a queue:
+https://docs.python.org/3/library/asyncio-queue.html#queue
 
-I'll see. I'll put it high on the list for the chopping block.
+You *could* craft a special message and inject an exception into the 
+queue to notify the reader that the message will never arrive, but it 
+feels like working against the intended mechanism of that primitive. It 
+really feels like it wants to be wrapped in a *task*.
+
+An earlier draft used an approach where it crafted a special "mailbox" 
+object, comprised of message, event, and error fields. The waiter sets 
+up a mailbox and then blocks on the event. Upon being notified of an 
+event, the caller checks to see if the message OR the error field was 
+filled.
+
+I wound up removing it, because I felt it added too much custom 
+machinery/terminology and instead went with Tasks and a queue with a 
+depth of one.
+
+Both feel like they are working against the intended mechanisms to a 
+degree. I am open to suggestions here!
+
+(It's also worth noting that iotests will want the ability to separate 
+the queueing of a message and the waiting for that message. The current 
+design only allows for send-and-wait, and not separate send-then-wait 
+semantics. Tasks do provide a rather convenient handle if I want to 
+split that mechanism out.)
+
+All of the above options are a little hacky to me. Any thoughts or 
+preferences?
 
 --js
 
