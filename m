@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9F135EA80
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 03:47:03 +0200 (CEST)
-Received: from localhost ([::1]:44978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753EA35EA8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 03:58:34 +0200 (CEST)
+Received: from localhost ([::1]:48056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWUcQ-0001qy-DE
-	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 21:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
+	id 1lWUnZ-00049Q-4K
+	for lists+qemu-devel@lfdr.de; Tue, 13 Apr 2021 21:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lWUb2-0001Ck-Ob; Tue, 13 Apr 2021 21:45:41 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lWUat-0002C2-6Y; Tue, 13 Apr 2021 21:45:34 -0400
-Received: from DGGEML404-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FKlbw4C7kzRc5G;
- Wed, 14 Apr 2021 09:43:08 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEML404-HUB.china.huawei.com (10.3.17.39) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 14 Apr 2021 09:45:13 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Wed, 14 Apr 2021 09:45:12 +0800
-Subject: Re: [RFC v9 15/29] vfio: Set up nested stage mappings
-To: Auger Eric <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <alex.williamson@redhat.com>
-References: <20210411120912.15770-1-eric.auger@redhat.com>
- <20210411120912.15770-16-eric.auger@redhat.com>
- <cea9fd63-18d6-32c5-bed0-d8783af654ce@huawei.com>
- <a844b9fa-40e9-6443-b359-60ca7d9661aa@redhat.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
-Date: Wed, 14 Apr 2021 09:45:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1lWUm7-0003as-US; Tue, 13 Apr 2021 21:57:03 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:46947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1lWUm5-0007fA-Na; Tue, 13 Apr 2021 21:57:03 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ u14-20020a17090a1f0eb029014e38011b09so5153738pja.5; 
+ Tue, 13 Apr 2021 18:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=tFU3LRcfWE4tlDZUED0PTq12iSpNlOyadvr9GmjxmtE=;
+ b=d8zAjroYPCGbGHcRRgTTPywDiv3zzCvmfD9rUfijFE96sCbv0ScAxGYNsolnyfQ2OB
+ 3UMxdk5LiXLh9lp1+BgomMXJOOm4N1PWWL0FVsGVaoz1NAOuu8eHTi9o27hQ66SVcwlh
+ XqKkLh0Add5Gxd71YDiE0ZaTsjl6RoH+niULvbDb9Glkb/01AU3/c0FiIcxTcjuu03sR
+ sDm5NWroFtDueU4xvh1kljc/Nh4rcvID3MJNGcD6fX0A8bBrC/2xlsiRsTTiOnpwi0M9
+ gThfq3mmLEUUrX1fG9jbCqE/TELmHy+zax3h4KUSG7/SiJMjnqdjeyqVwM15KncDe8Ab
+ 4uhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=tFU3LRcfWE4tlDZUED0PTq12iSpNlOyadvr9GmjxmtE=;
+ b=A+ZulxmliXK84x9BKuJxZHAZer3auBidZNb4/w+bTaeTl2tiJW4f5ccmA2ZYw2pMcg
+ NqtRX1yE/TfkG4F2JhzB8ecZOV5P31dD5c+CcmHiZyl13HPcdmRmgnV5vFnGBdKT3YMT
+ g6OOpPjqnnLv5FHn7FXN1YanbK0ORZDld/sGMImI2vJIvHY/mkpw42zD/K9qEmb+P3sb
+ smeC/sPd5vLPwLABI1UUhbySVYiPaOYWsr0sUgnFT8SqxncnYQmDimCRNtUvN9lrHqb4
+ vzPnq0Vc4EeiArs0EL4w5XKXixmZzs/dkIsYzmGNEv+J9iUo1reLVz9MBl+tshSrqiV2
+ E0+w==
+X-Gm-Message-State: AOAM533PSt2KQieC0FFJTbIOphsD9CL0yPypLghBQ66m5HYrYdTQMSTG
+ av3SRIQFazsMNU9IYwXcv4w=
+X-Google-Smtp-Source: ABdhPJw9ZV10g6U79fmAjmDDwW0Z+icnlzfismDaTdvVXD1B53nZp3QWSxOefArhp1Vc6Js1sZ/y0g==
+X-Received: by 2002:a17:90a:5b0b:: with SMTP id
+ o11mr812322pji.18.1618365419592; 
+ Tue, 13 Apr 2021 18:56:59 -0700 (PDT)
+Received: from localhost (193-116-90-211.tpgi.com.au. [193.116.90.211])
+ by smtp.gmail.com with ESMTPSA id s17sm3180120pjn.44.2021.04.13.18.56.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Apr 2021 18:56:59 -0700 (PDT)
+Date: Wed, 14 Apr 2021 11:56:53 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v1 3/3] target/ppc: Add POWER10 exception model
+To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, Fabiano Rosas
+ <farosas@linux.ibm.com>, qemu-ppc@nongnu.org
+References: <20210413125448.1689545-1-npiggin@gmail.com>
+ <20210413125448.1689545-4-npiggin@gmail.com> <87v98q41v0.fsf@linux.ibm.com>
+ <9fecb60b-8074-83d4-8c59-2d324d576e06@kaod.org>
+In-Reply-To: <9fecb60b-8074-83d4-8c59-2d324d576e06@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <a844b9fa-40e9-6443-b359-60ca7d9661aa@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Message-Id: <1618365262.ky4c5ac4z3.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,379 +85,354 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
- chenxiang66@hisilicon.com, tn@semihalf.com,
- shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
- vivek.gautam@arm.com, vdumpa@nvidia.com, yi.l.liu@intel.com, peterx@redhat.com,
- zhangfei.gao@gmail.com, wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
- jean-philippe@linaro.org, zhukeqian1@huawei.com
+Cc: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/4/13 20:57, Auger Eric wrote:
-> Hi Kunkun,
->
-> On 4/13/21 2:10 PM, Kunkun Jiang wrote:
->> Hi Eric,
->>
->> On 2021/4/11 20:08, Eric Auger wrote:
->>> In nested mode, legacy vfio_iommu_map_notify cannot be used as
->>> there is no "caching" mode and we do not trap on map.
+Excerpts from C=C3=A9dric Le Goater's message of April 14, 2021 3:09 am:
+> On 4/13/21 5:53 PM, Fabiano Rosas wrote:
+>> Nicholas Piggin <npiggin@gmail.com> writes:
+>>=20
+>>> POWER10 adds a new bit that modifies interrupt behaviour, LPCR[HAIL],
+>>> and it removes support for the LPCR[AIL]=3D0b10 mode.
 >>>
->>> On Intel, vfio_iommu_map_notify was used to DMA map the RAM
->>> through the host single stage.
->>>
->>> With nested mode, we need to setup the stage 2 and the stage 1
->>> separately. This patch introduces a prereg_listener to setup
->>> the stage 2 mapping.
->>>
->>> The stage 1 mapping, owned by the guest, is passed to the host
->>> when the guest invalidates the stage 1 configuration, through
->>> a dedicated PCIPASIDOps callback. Guest IOTLB invalidations
->>> are cascaded downto the host through another IOMMU MR UNMAP
->>> notifier.
->>>
->>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>
+>>> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 >>> ---
+>>>  hw/ppc/spapr_hcall.c            |   5 ++
+>>>  target/ppc/cpu-qom.h            |   2 +
+>>>  target/ppc/cpu.h                |   5 +-
+>>>  target/ppc/excp_helper.c        | 114 ++++++++++++++++++++++++++------
+>>>  target/ppc/translate.c          |   3 +-
+>>>  target/ppc/translate_init.c.inc |   2 +-
+>>>  6 files changed, 107 insertions(+), 24 deletions(-)
 >>>
->>> v7 -> v8:
->>> - properly handle new IOMMUTLBEntry fields and especially
->>>     propagate DOMAIN and PASID based invalidations
->>>
->>> v6 -> v7:
->>> - remove PASID based invalidation
->>>
->>> v5 -> v6:
->>> - add error_report_err()
->>> - remove the abort in case of nested stage case
->>>
->>> v4 -> v5:
->>> - use VFIO_IOMMU_SET_PASID_TABLE
->>> - use PCIPASIDOps for config notification
->>>
->>> v3 -> v4:
->>> - use iommu_inv_pasid_info for ASID invalidation
->>>
->>> v2 -> v3:
->>> - use VFIO_IOMMU_ATTACH_PASID_TABLE
->>> - new user API
->>> - handle leaf
->>>
->>> v1 -> v2:
->>> - adapt to uapi changes
->>> - pass the asid
->>> - pass IOMMU_NOTIFIER_S1_CFG when initializing the config notifier
->>> ---
->>>    hw/vfio/common.c     | 139 +++++++++++++++++++++++++++++++++++++++++--
->>>    hw/vfio/pci.c        |  21 +++++++
->>>    hw/vfio/trace-events |   2 +
->>>    3 files changed, 157 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>> index 0cd7ef2139..e369d451e7 100644
->>> --- a/hw/vfio/common.c
->>> +++ b/hw/vfio/common.c
->>> @@ -595,6 +595,73 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry
->>> *iotlb, void **vaddr,
->>>        return true;
->>>    }
->>>    +/* Propagate a guest IOTLB invalidation to the host (nested mode) */
->>> +static void vfio_iommu_unmap_notify(IOMMUNotifier *n, IOMMUTLBEntry
->>> *iotlb)
->>> +{
->>> +    VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
->>> +    struct vfio_iommu_type1_cache_invalidate ustruct = {};
->>> +    VFIOContainer *container = giommu->container;
->>> +    int ret;
+>>> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+>>> index 7b5cd3553c..2f65f20f72 100644
+>>> --- a/hw/ppc/spapr_hcall.c
+>>> +++ b/hw/ppc/spapr_hcall.c
+>>> @@ -1399,6 +1399,11 @@ static target_ulong h_set_mode_resource_addr_tra=
+ns_mode(PowerPCCPU *cpu,
+>>>          return H_UNSUPPORTED_FLAG;
+>>>      }
+>>> =20
+>>> +    if (mflags =3D=3D AIL_0001_8000 && (pcc->insns_flags2 & PPC2_ISA31=
+0)) {
+>>> +        /* AIL 2 is also reserved in ISA v3.1 */
+>>> +        return H_UNSUPPORTED_FLAG;
+>>> +    }
 >>> +
->>> +    assert(iotlb->perm == IOMMU_NONE);
+>>>      spapr_set_all_lpcrs(mflags << LPCR_AIL_SHIFT, LPCR_AIL);
+>>> =20
+>>>      return H_SUCCESS;
+>>> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+>>> index 118baf8d41..06b6571bc9 100644
+>>> --- a/target/ppc/cpu-qom.h
+>>> +++ b/target/ppc/cpu-qom.h
+>>> @@ -116,6 +116,8 @@ enum powerpc_excp_t {
+>>>      POWERPC_EXCP_POWER8,
+>>>      /* POWER9 exception model           */
+>>>      POWERPC_EXCP_POWER9,
+>>> +    /* POWER10 exception model           */
+>>> +    POWERPC_EXCP_POWER10,
+>>>  };
+>>> =20
+>>>  /*********************************************************************=
+********/
+>>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+>>> index e73416da68..24e53e0ac3 100644
+>>> --- a/target/ppc/cpu.h
+>>> +++ b/target/ppc/cpu.h
+>>> @@ -354,10 +354,11 @@ typedef struct ppc_v3_pate_t {
+>>>  #define LPCR_PECE_U_SHIFT (63 - 19)
+>>>  #define LPCR_PECE_U_MASK  (0x7ull << LPCR_PECE_U_SHIFT)
+>>>  #define LPCR_HVEE         PPC_BIT(17) /* Hypervisor Virt Exit Enable *=
+/
+>>> -#define LPCR_RMLS_SHIFT   (63 - 37)
+>>> +#define LPCR_RMLS_SHIFT   (63 - 37)   /* RMLS (removed in ISA v3.0) */
+>>>  #define LPCR_RMLS         (0xfull << LPCR_RMLS_SHIFT)
+>>> +#define LPCR_HAIL         PPC_BIT(37) /* ISA v3.1 HV AIL=3D3 equivalen=
+t */
+>>>  #define LPCR_ILE          PPC_BIT(38)
+>>> -#define LPCR_AIL_SHIFT    (63 - 40)      /* Alternate interrupt locati=
+on */
+>>> +#define LPCR_AIL_SHIFT    (63 - 40)   /* Alternate interrupt location =
+*/
+>>>  #define LPCR_AIL          (3ull << LPCR_AIL_SHIFT)
+>>>  #define LPCR_UPRT         PPC_BIT(41) /* Use Process Table */
+>>>  #define LPCR_EVIRT        PPC_BIT(42) /* Enhanced Virtualisation */
+>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>>> index b8881c0f85..e8bf0598b4 100644
+>>> --- a/target/ppc/excp_helper.c
+>>> +++ b/target/ppc/excp_helper.c
+>>> @@ -197,7 +197,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
+t excp_model, int excp)
+>>>      CPUState *cs =3D CPU(cpu);
+>>>      CPUPPCState *env =3D &cpu->env;
+>>>      target_ulong msr, new_msr, vector;
+>>> -    int srr0, srr1, asrr0, asrr1, lev =3D -1, ail;
+>>> +    int srr0, srr1, asrr0, asrr1, lev =3D -1;
+>>> +    int ail, hail, using_ail;
+>>>      bool lpes0;
+>>> =20
+>>>      qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
+>>> @@ -239,24 +240,39 @@ static inline void powerpc_excp(PowerPCCPU *cpu, =
+int excp_model, int excp)
+>>>       * On anything else, we behave as if LPES0 is 1
+>>>       * (externals don't alter MSR:HV)
+>>>       *
+>>> -     * AIL is initialized here but can be cleared by
+>>> -     * selected exceptions
+>>> +     * ail/hail are initialized here but can be cleared by
+>>> +     * selected exceptions, and other conditions afterwards.
+>>>       */
+>>>  #if defined(TARGET_PPC64)
+>>>      if (excp_model =3D=3D POWERPC_EXCP_POWER7 ||
+>>>          excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+>>> -        excp_model =3D=3D POWERPC_EXCP_POWER9) {
+>>> +        excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+>>> +        excp_model =3D=3D POWERPC_EXCP_POWER10) {
+>>>          lpes0 =3D !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+>>>          if (excp_model !=3D POWERPC_EXCP_POWER7) {
+>>>              ail =3D (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
+>>>          } else {
+>>>              ail =3D 0;
+>>>          }
+>>> +        if (excp_model =3D=3D POWERPC_EXCP_POWER10) {
+>>> +            if (AIL_0001_8000) {
+>>=20
+>> if (2)
+>>=20
+>>> +                ail =3D 0; /* AIL=3D2 is reserved in ISA v3.1 */
+>>> +            }
 >>> +
->>> +    ustruct.argsz = sizeof(ustruct);
->>> +    ustruct.flags = 0;
->>> +    ustruct.info.argsz = sizeof(struct iommu_cache_invalidate_info);
->>> +    ustruct.info.version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
->>> +    ustruct.info.cache = IOMMU_CACHE_INV_TYPE_IOTLB;
->>> +
->>> +    switch (iotlb->granularity) {
->>> +    case IOMMU_INV_GRAN_DOMAIN:
->>> +        ustruct.info.granularity = IOMMU_INV_GRANU_DOMAIN;
->>> +        break;
->>> +    case IOMMU_INV_GRAN_PASID:
->>> +    {
->>> +        struct iommu_inv_pasid_info *pasid_info;
->>> +        int archid = -1;
->>> +
->>> +        pasid_info = &ustruct.info.granu.pasid_info;
->>> +        ustruct.info.granularity = IOMMU_INV_GRANU_PASID;
->>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
->>> +            pasid_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
->>> +            archid = iotlb->arch_id;
->>> +        }
->>> +        pasid_info->archid = archid;
->>> +        trace_vfio_iommu_asid_inv_iotlb(archid);
->>> +        break;
->>> +    }
->>> +    case IOMMU_INV_GRAN_ADDR:
->>> +    {
->>> +        hwaddr start = iotlb->iova + giommu->iommu_offset;
->>> +        struct iommu_inv_addr_info *addr_info;
->>> +        size_t size = iotlb->addr_mask + 1;
->>> +        int archid = -1;
->>> +
->>> +        addr_info = &ustruct.info.granu.addr_info;
->>> +        ustruct.info.granularity = IOMMU_INV_GRANU_ADDR;
->>> +        if (iotlb->leaf) {
->>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_LEAF;
->>> +        }
->>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
->>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
->>> +            archid = iotlb->arch_id;
->>> +        }
->>> +        addr_info->archid = archid;
->>> +        addr_info->addr = start;
->>> +        addr_info->granule_size = size;
->>> +        addr_info->nb_granules = 1;
->>> +        trace_vfio_iommu_addr_inv_iotlb(archid, start, size,
->>> +                                        1, iotlb->leaf);
->>> +        break;
->>> +    }
->> Should we pass a size to  host kernel here, even if vSMMU doesn't support
->> RIL or guest kernel doesn't use RIL?
->>
->> It will cause TLBI issue in  this scenario: Guest kernel issues a TLBI cmd
->> without "range" (tg = 0) to invalidate a 2M huge page. Then qemu passed
->> the iova and size (4K) to host kernel. Finally, host kernel issues a
->> TLBI cmd
->> with "range" (4K) which can not invalidate the TLB entry of 2M huge page.
->> (pSMMU supports RIL)
-> In that case the guest will loop over all 4K images belonging to the 2M
-> huge page and invalidate each of them. This should turn into qemu
-> notifications for each 4kB page, no? This is totally inefficient, hence
-The guest will not loop over all 4K images belonging to the 2M huge page.
-The iommu_iotlb_gather->pgsize will be 2M, if a page is 2M huge page. The
-gather->pgsize will be passed to __arm_smmu_tlb_inv_range as "granule":
+>>> +            if (env->spr[SPR_LPCR] & LPCR_HAIL) {
+>>> +                hail =3D AIL_C000_0000_0000_4000;
+>>> +            } else {
+>>> +                hail =3D 0;
+>>> +            }
+>>> +        } else {
+>>> +            hail =3D ail;
+>>=20
+>> I think it's better if we set hail =3D 0 here. Read on...
+>>=20
+>>> +        }
+>>>      } else
+>>>  #endif /* defined(TARGET_PPC64) */
+>>>      {
+>>>          lpes0 =3D true;
+>>>          ail =3D 0;
+>>> +        hail =3D 0;
+>>>      }
+>>> =20
+>>>      /*
+>>> @@ -316,6 +332,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
+t excp_model, int excp)
+>>>              new_msr |=3D (target_ulong)MSR_HVB;
+>>>          }
+>>>          ail =3D 0;
+>>> +        hail =3D 0;
+>>> =20
+>>>          /* machine check exceptions don't have ME set */
+>>>          new_msr &=3D ~((target_ulong)1 << MSR_ME);
+>>> @@ -520,6 +537,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
+t excp_model, int excp)
+>>>              }
+>>>          }
+>>>          ail =3D 0;
+>>> +        hail =3D 0;
+>>>          break;
+>>>      case POWERPC_EXCP_DSEG:      /* Data segment exception            =
+       */
+>>>      case POWERPC_EXCP_ISEG:      /* Instruction segment exception     =
+       */
+>>> @@ -773,7 +791,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
+t excp_model, int excp)
+>>>          } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+>>>              new_msr |=3D (target_ulong)1 << MSR_LE;
+>>>          }
+>>> -    } else if (excp_model =3D=3D POWERPC_EXCP_POWER9) {
+>>> +    } else if (excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+>>> +               excp_model =3D=3D POWERPC_EXCP_POWER10) {
+>>>          if (new_msr & MSR_HVB) {
+>>>              if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
+>>>                  new_msr |=3D (target_ulong)1 << MSR_LE;
+>>> @@ -791,22 +810,77 @@ static inline void powerpc_excp(PowerPCCPU *cpu, =
+int excp_model, int excp)
+>>>  #endif
+>>> =20
+>>>      /*
+>>> -     * AIL only works if MSR[IR] and MSR[DR] are both enabled.
+>>> +     * The ail variable is for AIL behaviour for interrupts that begin
+>>> +     * execution with MSR[HV]=3D0, and the hail variable is for AIL be=
+haviour for
+>>> +     * interrupts that begin execution with MSR[HV]=3D1.
+>>> +     *
+>>> +     * There is a large matrix of behaviours depending on the processo=
+r and
+>>> +     * the current operating modes when the interrupt is taken, and th=
+e
+>>> +     * interrupt type. The below tables lists behaviour for interrupts=
+ except
+>>> +     * for SRESET, machine check, and HMI (which are all taken in real=
+ mode
+>>> +     * with AIL 0).
+>>> +     *
+>>> +     * POWER8, POWER9 with LPCR[HR]=3D0
+>>> +     * | LPCR[AIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
+>>> +     * +-----------+-------------+---------+-------------+-----+
+>>> +     * | a         | 00/01/10    | x       | x           | 0   |
+>>> +     * | a         | 11          | 0       | 1           | 0   |
+>>> +     * | a         | 11          | 1       | 1           | a   |
+>>> +     * | a         | 11          | 0       | 0           | a   |
+>>> +     * +-------------------------------------------------------+
+>>> +     *
+>>> +     * POWER9 with LPCR[HR]=3D1
+>>> +     * | LPCR[AIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
+>>> +     * +-----------+-------------+---------+-------------+-----+
+>>> +     * | a         | 00/01/10    | x       | x           | 0   |
+>>> +     * | a         | 11          | x       | x           | a   |
+>>> +     * +-------------------------------------------------------+
+>>> +     *
+>>> +     * The difference with POWER9 being that MSR[HV] 0->1 interrupts c=
+an be
+>>> +     * sent to the hypervisor in AIL mode if the guest is radix (LPCR[=
+HR]=3D1).
+>>> +     * This is good for performance but allows the guest to influence =
+the
+>>> +     * AIL of the hypervisor interrupt using its MSR, and also the hyp=
+ervisor
+>>> +     * must disallow guest interrupts (MSR[HV] 0->0) from using AIL if=
+ the
+>>> +     * hypervisor does not want to use AIL for its MSR[HV] 0->1 interr=
+upts.
+>>> +     *
+>>> +     * POWER10 addresses those issues with a new LPCR[HAIL] bit that i=
+s
+>>> +     * applied to interrupt that begin execution with MSR[HV]=3D1 (so =
+both
+>>> +     * MSR[HV] 0->1 and 1->1).
+>>=20
+>> I'd put take these two paragraphs in the commit message as well. Just
+>> alter the beginning:
+>> s/The difference with POWER9 being that/In POWER9,/
+>>=20
+>>> +     *
+>>> +     * POWER10 behaviour is
+>>> +     * | LPCR[AIL] | LPCR[HAIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] =
+| AIL |
+>>> +     * +-----------+------------+-------------+---------+-------------=
++-----+
+>>> +     * | a         | h          | 00/01/10    | 0       | 0           =
+| 0   |
+>>> +     * | a         | h          | 11          | 0       | 0           =
+| a   |
+>>> +     * | a         | h          | x           | 0       | 1           =
+| h   |
+>>> +     * | a         | h          | 00/01/10    | 1       | 1           =
+| 0   |
+>>> +     * | a         | h          | 11          | 1       | 1           =
+| h   |
+>>> +     * +--------------------------------------------------------------=
+------+
+>>>       */
+>>> -    if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
+>>> -        ail =3D 0;
+>>> -    }
+>>> =20
+>>> -    /*
+>>> -     * AIL does not work if there is a MSR[HV] 0->1 transition and the
+>>> -     * partition is in HPT mode. For radix guests, such interrupts are
+>>> -     * allowed to be delivered to the hypervisor in ail mode.
+>>> -     */
+>>> -    if ((new_msr & MSR_HVB) && !(msr & MSR_HVB)) {
+>>> -        if (!(env->spr[SPR_LPCR] & LPCR_HR)) {
+>>> +    if (excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+>>> +        excp_model =3D=3D POWERPC_EXCP_POWER9) {
+>>> +        if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
+>>>              ail =3D 0;
+>>> +            hail =3D 0;
+>>> +        } else if ((new_msr & MSR_HVB) && !(msr & MSR_HVB)) {
+>>> +            if (!(env->spr[SPR_LPCR] & LPCR_HR)) {
+>>> +                hail =3D 0;
+>>> +            }
+>>> +        }
+>>> +    } else if (excp_model =3D=3D POWERPC_EXCP_POWER10) {
+>>> +        if ((new_msr & MSR_HVB) =3D=3D (msr & MSR_HVB)) {
+>>> +            if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
+>>> +                ail =3D 0;
+>>> +                hail =3D 0;
+>>> +            }
+>>>          }
+>>>      }
+>>> +    if (new_msr & MSR_HVB) {
+>>> +        using_ail =3D hail;
+>>> +    } else {
+>>> +        using_ail =3D ail;
+>>> +    }
+>>=20
+>> So if at the start of the function we set:
+>>=20
+>> <=3D P7:
+>> ail =3D 0;
+>> hail =3D 0;
+>>=20
+>> P8,P9:
+>> ail =3D LPCR_AIL;
+>> hail =3D 0;
+>>=20
+>> P10:
+>> ail =3D LPCR_AIL, except AIL2;
+>> hail =3D AIL3;
+>>=20
+>> Then we could do this, which I think is more readable (comments are just
+>> for the email):
+>>=20
+>> // If there's an HV transition to 1, then HPT zeroes AIL and radix
+>> // doesn't. For P10 we'll use HAIL anyway, so no need to check.
+>>=20
+>> if ((new_msr & MSR_HVB) && !(msr & MSR_HVB)) &&
+>>     !(env->spr[SPR_LPCR] & LPCR_HR)) {
+>>           ail =3D 0;
+>> }
+>>=20
+>> // If P10 and HV=3D1, use HAIL instead of AIL
+>>=20
+>> if (excp_model =3D=3D POWERPC_EXCP_POWER10 && (new_msr & MSR_HVB)) {
+>>    ail =3D hail;
+>> }
+>>=20
+>> // The IR|DR check always takes precedence and zeroes AIL/HAIL, no
+>> matter the processor version.
+>>=20
+>> if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
+>>     ail =3D 0;
+>> }
+>>=20
+>> (...)
+>>=20
+>> vector |=3D ppc_excp_vector_offset(cs, ail);
+>>=20
+>> I think that should work...*squints*=20
+>> What do you think?
+>=20
+> The powerpc_excp() routine is insane.
+>=20
+> It feels that we should be duplicating the code in handlers for each=20
+> of the POWER[7-10] CPUs and keep a default powerpc_excp() for the
+> others.
 
-iommu_iotlb_gather_add_page
-     iommu_iotlb_sync
-         domain->ops->iotlb_sync
-             arm_smmu_iotlb_sync
-                 arm_smmu_tlb_inv_range_domain
-                     __arm_smmu_tlb_inv_range
+It's getting pretty wild :(
 
-In the above mentioned scenario, guest kernel will issue a TLBI cmd only 
-with
-"iova" (tg = 0).
+I was trying to come up with something in the way of a "fix" but I agree=20
+it needs a bigger reorganisation.
+
+What would help a lot actually is moving all the AIL logic together. The=20
+only reason it's split completely in two like this is so a few=20
+interrupts can clear it. I think what would work better is just do all
+that in one place, in the AIL logic. Let me see what that looks like. It
+might actually be a saner fix in the end.
 
 Thanks,
-Kunkun Jiang
-> the support of RIL on guest side and QEMU device.
->
-> What do I miss?
->
-> Thanks
->
-> Eric
->> Thanks,
->> Kunkun Jiang
->>> +    }
->>> +
->>> +    ret = ioctl(container->fd, VFIO_IOMMU_CACHE_INVALIDATE, &ustruct);
->>> +    if (ret) {
->>> +        error_report("%p: failed to invalidate CACHE (%d)",
->>> container, ret);
->>> +    }
->>> +}
->>> +
->>>    static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry
->>> *iotlb)
->>>    {
->>>        VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
->>> @@ -776,6 +843,35 @@ static void
->>> vfio_dma_unmap_ram_section(VFIOContainer *container,
->>>        }
->>>    }
->>>    +static void vfio_prereg_listener_region_add(MemoryListener *listener,
->>> +                                            MemoryRegionSection
->>> *section)
->>> +{
->>> +    VFIOContainer *container =
->>> +        container_of(listener, VFIOContainer, prereg_listener);
->>> +    Error *err = NULL;
->>> +
->>> +    if (!memory_region_is_ram(section->mr)) {
->>> +        return;
->>> +    }
->>> +
->>> +    vfio_dma_map_ram_section(container, section, &err);
->>> +    if (err) {
->>> +        error_report_err(err);
->>> +    }
->>> +}
->>> +static void vfio_prereg_listener_region_del(MemoryListener *listener,
->>> +                                     MemoryRegionSection *section)
->>> +{
->>> +    VFIOContainer *container =
->>> +        container_of(listener, VFIOContainer, prereg_listener);
->>> +
->>> +    if (!memory_region_is_ram(section->mr)) {
->>> +        return;
->>> +    }
->>> +
->>> +    vfio_dma_unmap_ram_section(container, section);
->>> +}
->>> +
->>>    static void vfio_listener_region_add(MemoryListener *listener,
->>>                                         MemoryRegionSection *section)
->>>    {
->>> @@ -879,9 +975,10 @@ static void
->>> vfio_listener_region_add(MemoryListener *listener,
->>>        memory_region_ref(section->mr);
->>>          if (memory_region_is_iommu(section->mr)) {
->>> +        IOMMUNotify notify;
->>>            VFIOGuestIOMMU *giommu;
->>>            IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(section->mr);
->>> -        int iommu_idx;
->>> +        int iommu_idx, flags;
->>>              trace_vfio_listener_region_add_iommu(iova, end);
->>>            /*
->>> @@ -900,8 +997,18 @@ static void
->>> vfio_listener_region_add(MemoryListener *listener,
->>>            llend = int128_sub(llend, int128_one());
->>>            iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
->>>                                                          
->>> MEMTXATTRS_UNSPECIFIED);
->>> -        iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
->>> -                            IOMMU_NOTIFIER_IOTLB_EVENTS,
->>> +
->>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->>> +            /* IOTLB unmap notifier to propagate guest IOTLB
->>> invalidations */
->>> +            flags = IOMMU_NOTIFIER_UNMAP;
->>> +            notify = vfio_iommu_unmap_notify;
->>> +        } else {
->>> +            /* MAP/UNMAP IOTLB notifier */
->>> +            flags = IOMMU_NOTIFIER_IOTLB_EVENTS;
->>> +            notify = vfio_iommu_map_notify;
->>> +        }
->>> +
->>> +        iommu_notifier_init(&giommu->n, notify, flags,
->>>                                section->offset_within_region,
->>>                                int128_get64(llend),
->>>                                iommu_idx);
->>> @@ -921,7 +1028,9 @@ static void
->>> vfio_listener_region_add(MemoryListener *listener,
->>>                goto fail;
->>>            }
->>>            QLIST_INSERT_HEAD(&container->giommu_list, giommu,
->>> giommu_next);
->>> -        memory_region_iommu_replay(giommu->iommu, &giommu->n);
->>> +        if (flags & IOMMU_NOTIFIER_MAP) {
->>> +            memory_region_iommu_replay(giommu->iommu, &giommu->n);
->>> +        }
->>>              return;
->>>        }
->>> @@ -1205,10 +1314,16 @@ static const MemoryListener
->>> vfio_memory_listener = {
->>>        .log_sync = vfio_listener_log_sync,
->>>    };
->>>    +static MemoryListener vfio_memory_prereg_listener = {
->>> +    .region_add = vfio_prereg_listener_region_add,
->>> +    .region_del = vfio_prereg_listener_region_del,
->>> +};
->>> +
->>>    static void vfio_listener_release(VFIOContainer *container)
->>>    {
->>>        memory_listener_unregister(&container->listener);
->>> -    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
->>> +    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU ||
->>> +        container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->>>            memory_listener_unregister(&container->prereg_listener);
->>>        }
->>>    }
->>> @@ -1858,6 +1973,20 @@ static int vfio_connect_container(VFIOGroup
->>> *group, AddressSpace *as,
->>>                vfio_get_iommu_info_migration(container, info);
->>>            }
->>>            g_free(info);
->>> +
->>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
->>> +            container->prereg_listener = vfio_memory_prereg_listener;
->>> +            memory_listener_register(&container->prereg_listener,
->>> +                                     &address_space_memory);
->>> +            if (container->error) {
->>> +                memory_listener_unregister(&container->prereg_listener);
->>> +                ret = -1;
->>> +                error_propagate_prepend(errp, container->error,
->>> +                                    "RAM memory listener
->>> initialization failed "
->>> +                                    "for container");
->>> +                goto free_container_exit;
->>> +            }
->>> +        }
->>>            break;
->>>        }
->>>        case VFIO_SPAPR_TCE_v2_IOMMU:
->>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>> index 5c65aa0a98..cad7deec71 100644
->>> --- a/hw/vfio/pci.c
->>> +++ b/hw/vfio/pci.c
->>> @@ -2773,6 +2773,25 @@ static void
->>> vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
->>>        vdev->req_enabled = false;
->>>    }
->>>    +static int vfio_iommu_set_pasid_table(PCIBus *bus, int32_t devfn,
->>> +                                      IOMMUConfig *config)
->>> +{
->>> +    PCIDevice *pdev = bus->devices[devfn];
->>> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
->>> +    VFIOContainer *container = vdev->vbasedev.group->container;
->>> +    struct vfio_iommu_type1_set_pasid_table info;
->>> +
->>> +    info.argsz = sizeof(info);
->>> +    info.flags = VFIO_PASID_TABLE_FLAG_SET;
->>> +    memcpy(&info.config, &config->pasid_cfg, sizeof(config->pasid_cfg));
->>> +
->>> +    return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
->>> +}
->>> +
->>> +static PCIPASIDOps vfio_pci_pasid_ops = {
->>> +    .set_pasid_table = vfio_iommu_set_pasid_table,
->>> +};
->>> +
->>>    static void vfio_realize(PCIDevice *pdev, Error **errp)
->>>    {
->>>        VFIOPCIDevice *vdev = VFIO_PCI(pdev);
->>> @@ -3084,6 +3103,8 @@ static void vfio_realize(PCIDevice *pdev, Error
->>> **errp)
->>>        vfio_register_req_notifier(vdev);
->>>        vfio_setup_resetfn_quirk(vdev);
->>>    +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
->>> +
->>>        return;
->>>      out_deregister:
->>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->>> index 936d29d150..43696afc15 100644
->>> --- a/hw/vfio/trace-events
->>> +++ b/hw/vfio/trace-events
->>> @@ -120,6 +120,8 @@ vfio_region_sparse_mmap_header(const char *name,
->>> int index, int nr_areas) "Devic
->>>    vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned
->>> long end) "sparse entry %d [0x%lx - 0x%lx]"
->>>    vfio_get_dev_region(const char *name, int index, uint32_t type,
->>> uint32_t subtype) "%s index %d, %08x/%0x8"
->>>    vfio_dma_unmap_overflow_workaround(void) ""
->>> +vfio_iommu_addr_inv_iotlb(int asid, uint64_t addr, uint64_t size,
->>> uint64_t nb_granules, bool leaf) "nested IOTLB invalidate asid=%d,
->>> addr=0x%"PRIx64" granule_size=0x%"PRIx64" nb_granules=0x%"PRIx64"
->>> leaf=%d"
->>> +vfio_iommu_asid_inv_iotlb(int asid) "nested IOTLB invalidate asid=%d"
->>>      # platform.c
->>>    vfio_platform_base_device_init(char *name, int groupid) "%s belongs
->>> to group #%d"
->>
->>
-> .
-
-
+Nick
 
