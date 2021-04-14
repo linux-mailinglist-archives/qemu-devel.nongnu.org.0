@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB33535F284
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:36:34 +0200 (CEST)
-Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A262535F27E
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:33:49 +0200 (CEST)
+Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWdov-0006Tu-QQ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
+	id 1lWdmG-0003En-MM
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfu-00066N-Bc
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:16 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43706)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdft-00064x-As
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfb-0005MN-Vk
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfq-0005P2-VQ
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:13 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CA79BAFC8;
- Wed, 14 Apr 2021 11:26:54 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id ABADDAFC1;
+ Wed, 14 Apr 2021 11:26:55 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 04/80] target/arm: tcg: add sysemu and user subdirs
-Date: Wed, 14 Apr 2021 13:25:34 +0200
-Message-Id: <20210414112650.18003-5-cfontana@suse.de>
+Subject: [RFC v13 06/80] target/arm: tcg: move sysemu-only parts of
+ debug_helper
+Date: Wed, 14 Apr 2021 13:25:36 +0200
+Message-Id: <20210414112650.18003-7-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -41,7 +43,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,43 +62,101 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+move sysemu-only parts of debug_helper to sysemu/
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/tcg/meson.build        | 3 +++
- target/arm/tcg/sysemu/meson.build | 2 ++
- target/arm/tcg/user/meson.build   | 2 ++
- 3 files changed, 7 insertions(+)
- create mode 100644 target/arm/tcg/sysemu/meson.build
- create mode 100644 target/arm/tcg/user/meson.build
+ target/arm/tcg/debug_helper.c        | 27 -----------------------
+ target/arm/tcg/sysemu/debug_helper.c | 33 ++++++++++++++++++++++++++++
+ target/arm/tcg/sysemu/meson.build    |  1 +
+ 3 files changed, 34 insertions(+), 27 deletions(-)
+ create mode 100644 target/arm/tcg/sysemu/debug_helper.c
 
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 3b4146d079..abc9d27b63 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -36,3 +36,6 @@ arm_ss.add(when: ['TARGET_AARCH64','CONFIG_TCG'], if_true: files(
-   'pauth_helper.c',
-   'sve_helper.c',
- ))
+diff --git a/target/arm/tcg/debug_helper.c b/target/arm/tcg/debug_helper.c
+index 2ff72d47d1..66a0915393 100644
+--- a/target/arm/tcg/debug_helper.c
++++ b/target/arm/tcg/debug_helper.c
+@@ -308,30 +308,3 @@ void arm_debug_excp_handler(CPUState *cs)
+                         arm_debug_target_el(env));
+     }
+ }
+-
+-#if !defined(CONFIG_USER_ONLY)
+-
+-vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
+-{
+-    ARMCPU *cpu = ARM_CPU(cs);
+-    CPUARMState *env = &cpu->env;
+-
+-    /*
+-     * In BE32 system mode, target memory is stored byteswapped (on a
+-     * little-endian host system), and by the time we reach here (via an
+-     * opcode helper) the addresses of subword accesses have been adjusted
+-     * to account for that, which means that watchpoints will not match.
+-     * Undo the adjustment here.
+-     */
+-    if (arm_sctlr_b(env)) {
+-        if (len == 1) {
+-            addr ^= 3;
+-        } else if (len == 2) {
+-            addr ^= 2;
+-        }
+-    }
+-
+-    return addr;
+-}
+-
+-#endif
+diff --git a/target/arm/tcg/sysemu/debug_helper.c b/target/arm/tcg/sysemu/debug_helper.c
+new file mode 100644
+index 0000000000..0bce00144f
+--- /dev/null
++++ b/target/arm/tcg/sysemu/debug_helper.c
+@@ -0,0 +1,33 @@
++/*
++ * ARM debug helpers.
++ *
++ * This code is licensed under the GNU GPL v2 or later.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "internals.h"
 +
-+subdir('user')
-+subdir('sysemu')
++vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
++{
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
++
++    /*
++     * In BE32 system mode, target memory is stored byteswapped (on a
++     * little-endian host system), and by the time we reach here (via an
++     * opcode helper) the addresses of subword accesses have been adjusted
++     * to account for that, which means that watchpoints will not match.
++     * Undo the adjustment here.
++     */
++    if (arm_sctlr_b(env)) {
++        if (len == 1) {
++            addr ^= 3;
++        } else if (len == 2) {
++            addr ^= 2;
++        }
++    }
++
++    return addr;
++}
 diff --git a/target/arm/tcg/sysemu/meson.build b/target/arm/tcg/sysemu/meson.build
-new file mode 100644
-index 0000000000..726387b0b3
---- /dev/null
+index 6f014f77ec..1a4d7a0940 100644
+--- a/target/arm/tcg/sysemu/meson.build
 +++ b/target/arm/tcg/sysemu/meson.build
-@@ -0,0 +1,2 @@
-+arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-+))
-diff --git a/target/arm/tcg/user/meson.build b/target/arm/tcg/user/meson.build
-new file mode 100644
-index 0000000000..7af3311190
---- /dev/null
-+++ b/target/arm/tcg/user/meson.build
-@@ -0,0 +1,2 @@
-+arm_user_ss.add(when: 'CONFIG_TCG', if_true: files(
-+))
+@@ -1,3 +1,4 @@
+ arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'debug_helper.c',
+   'mte_helper.c',
+ ))
 -- 
 2.26.2
 
