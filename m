@@ -2,80 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D1335F6EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 16:59:25 +0200 (CEST)
-Received: from localhost ([::1]:44030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F7E35F6F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:06:23 +0200 (CEST)
+Received: from localhost ([::1]:49310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWgzD-0000D6-JT
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 10:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49344)
+	id 1lWh5y-00030S-5w
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:06:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lWgyR-0008DZ-4z
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 10:58:35 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lWgyP-0004fN-9u
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 10:58:34 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x7so20172048wrw.10
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 07:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=o5BtT3E7QJnohbLnGvvbRgrJF8hWpdSmdFQ0G3gTWQQ=;
- b=wrDc3c34Nxc/7xHr58Q0KjyVAsxJ8FpNH7vNccM7iUuMFoMiu4a1rihre4wQKUEfQo
- E2iiGazMs9G/2tszz0VkOVxHQA1YkRyCEIkVbbJmIGeay9zeIncBiGh95a2OpujG3Gkl
- dDoitn7DHlSMOi1YO3BnSvDEx6rMmC469KDdXQfPta9D0ZX0s9uHK32rm+OmC8a6E9yg
- m6JxpaF0J+ax0JcsIUsVThlddfG2Uxmul3xbObR3/0Fo0+jggbH+twor6eWeQYmWOjxm
- tAB8cNcJtRD/B3853Ek1vUxst9D1C2tglTVkkykW5gzKQLW9xYMiesfbReSCwH89Ftzs
- KIEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=o5BtT3E7QJnohbLnGvvbRgrJF8hWpdSmdFQ0G3gTWQQ=;
- b=qnOVklPTk7MDsE/JTu4jHTDUrkVrC5rOgFHJRMPHLCG2+MusfYcXcZI8lF25hSB+Cg
- AWpTTllclng3HbqETh1M0rW1S9DwrKM47LqoE+iRDkBvUMbWSCEiUAyd2TEH5/jQ7+MI
- iIkqROMGIzP/PGa3s5owIUHPTi3KhAYBCcdtgBbaSz4Qo6ka/8+OwcoX7t4uRlQWq/tR
- mkryC+lFaJx5xxtfoWtpT0bOvrOp9ZbYn5D2vmgHZW5+IeDrGVNhZtx4ZXnGfxOzcgJP
- XbMBWwkFvWQH4FVEBtW9I29s7/uw1xx3XgidupC7dF6wz9YUwZ3G2ibHscOJdCI2FWyX
- 6AkA==
-X-Gm-Message-State: AOAM5303OZWpZ0lxorCLG4t4EIBlLhpPp/KQHanyWHKTue6nu61SEIPj
- lbioA37TqFrhoB+nzfOJfRxfng==
-X-Google-Smtp-Source: ABdhPJyTXQpKhc54gwqXz3mCbmeesuC+bkVxlUJneztWYsPIv20QZxldiH4Uj81iWQpOi55V2EFoLA==
-X-Received: by 2002:a05:6000:18ab:: with SMTP id
- b11mr42604048wri.403.1618412311409; 
- Wed, 14 Apr 2021 07:58:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g17sm3230350wrs.83.2021.04.14.07.58.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 07:58:30 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EC6321FF7E;
- Wed, 14 Apr 2021 15:58:29 +0100 (BST)
-References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
- <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Subject: Re: [PATCH v3 01/15] tests/tcg: Add docker_as and docker_ld cmds
-Date: Wed, 14 Apr 2021 15:58:13 +0100
-In-reply-to: <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
-Message-ID: <87r1jclxpm.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lWh1K-00013f-Rz; Wed, 14 Apr 2021 11:01:38 -0400
+Received: from [201.28.113.2] (port=3558 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lWh1D-0006OA-E0; Wed, 14 Apr 2021 11:01:34 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 14 Apr 2021 12:00:19 -0300
+Received: from eldorado.org.br (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTP id 1BEFA80122A;
+ Wed, 14 Apr 2021 12:00:19 -0300 (-03)
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] target/ppc: code motion from translate_init.c.inc to
+ gdbstub.c
+Date: Wed, 14 Apr 2021 11:59:47 -0300
+Message-Id: <20210414145947.30155-1-bruno.larsen@eldorado.org.br>
+X-Mailer: git-send-email 2.17.1
+X-OriginalArrivalTime: 14 Apr 2021 15:00:19.0270 (UTC)
+ FILETIME=[E2C03660:01D7313E]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,126 +51,595 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All the code related to gdb has been moved from translate_init.c.inc
+file to the gdbstub.c file, where it makes more sense.
 
-Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
+This new version puts the prototypes in internal.h, to not expose
+them unnecessarily.
 
-> At least for the TriCore target no easily available c compiler exists.
-> Thus we need to rely on "as" and "ld". This allows us to run them
-> through the docker image as well as with locally installed tools.
->
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> ---
-> v2 -> v3:
->     - emit CROSS_LD_GUEST/CROSS_AS_GUEST
->
->  tests/tcg/Makefile.qemu | 15 +++++++++++++++
->  tests/tcg/configure.sh  | 20 ++++++++++++++++++++
->  2 files changed, 35 insertions(+)
->
-> diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-> index a56564660c..fefb50903d 100644
-> --- a/tests/tcg/Makefile.qemu
-> +++ b/tests/tcg/Makefile.qemu
-> @@ -22,6 +22,8 @@ quiet-@ =3D $(if $(V),,@)
->  quiet-command =3D $(quiet-@)$(call quiet-command-run,$1,$2,$3)
->=20=20
->  CROSS_CC_GUEST:=3D
-> +CROSS_AS_GUEST:=3D
-> +CROSS_LD_GUEST:=3D
->  DOCKER_IMAGE:=3D
->=20=20
->  -include tests/tcg/config-$(TARGET).mak
-> @@ -42,6 +44,7 @@ cross-build-guest-tests:
->  	$(call quiet-command, \
->  	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
->  	    $(MAKE) -f $(TCG_MAKE) TARGET=3D"$(TARGET)" CC=3D"$(CROSS_CC_GUEST)=
-" \
-> +			AS=3D"$(CROSS_AS_GUEST) LD=3D"$(CROSS_LD_GUEST)" \
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Suggested-by: Fabiano Rosas <farosas@linux.ibm.com>
+---
+ target/ppc/gdbstub.c            | 258 ++++++++++++++++++++++++++++++++
+ target/ppc/internal.h           |   5 +
+ target/ppc/translate_init.c.inc | 254 +------------------------------
+ 3 files changed, 264 insertions(+), 253 deletions(-)
 
-Also missing quote on AS=3D"
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index c28319fb97..67e8a3175f 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/gdbstub.h"
++#include "exec/helper-proto.h"
+ 
+ static int ppc_gdb_register_len_apple(int n)
+ {
+@@ -387,3 +388,260 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, const char *xml_name)
+     return NULL;
+ }
+ #endif
++
++static bool avr_need_swap(CPUPPCState *env)
++{
++#ifdef HOST_WORDS_BIGENDIAN
++    return msr_le;
++#else
++    return !msr_le;
++#endif
++}
++
++#if !defined(CONFIG_USER_ONLY)
++static int gdb_find_spr_idx(CPUPPCState *env, int n)
++{
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
++        ppc_spr_t *spr = &env->spr_cb[i];
++
++        if (spr->name && spr->gdb_id == n) {
++            return i;
++        }
++    }
++    return -1;
++}
++
++static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    int reg;
++    int len;
++
++    reg = gdb_find_spr_idx(env, n);
++    if (reg < 0) {
++        return 0;
++    }
++
++    len = TARGET_LONG_SIZE;
++    gdb_get_regl(buf, env->spr[reg]);
++    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
++    return len;
++}
++
++static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    int reg;
++    int len;
++
++    reg = gdb_find_spr_idx(env, n);
++    if (reg < 0) {
++        return 0;
++    }
++
++    len = TARGET_LONG_SIZE;
++    ppc_maybe_bswap_register(env, mem_buf, len);
++    env->spr[reg] = ldn_p(mem_buf, len);
++
++    return len;
++}
++#endif
++
++static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    uint8_t *mem_buf;
++    if (n < 32) {
++        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
++        mem_buf = gdb_get_reg_ptr(buf, 8);
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        return 8;
++    }
++    if (n == 32) {
++        gdb_get_reg32(buf, env->fpscr);
++        mem_buf = gdb_get_reg_ptr(buf, 4);
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
++        return 8;
++    }
++    if (n == 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    uint8_t *mem_buf;
++
++    if (n < 32) {
++        ppc_avr_t *avr = cpu_avr_ptr(env, n);
++        if (!avr_need_swap(env)) {
++            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
++        } else {
++            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
++        }
++        mem_buf = gdb_get_reg_ptr(buf, 16);
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
++        return 16;
++    }
++    if (n == 32) {
++        gdb_get_reg32(buf, helper_mfvscr(env));
++        mem_buf = gdb_get_reg_ptr(buf, 4);
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        return 4;
++    }
++    if (n == 33) {
++        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
++        mem_buf = gdb_get_reg_ptr(buf, 4);
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++        ppc_avr_t *avr = cpu_avr_ptr(env, n);
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
++        if (!avr_need_swap(env)) {
++            avr->u64[0] = ldq_p(mem_buf);
++            avr->u64[1] = ldq_p(mem_buf + 8);
++        } else {
++            avr->u64[1] = ldq_p(mem_buf);
++            avr->u64[0] = ldq_p(mem_buf + 8);
++        }
++        return 16;
++    }
++    if (n == 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        helper_mtvscr(env, ldl_p(mem_buf));
++        return 4;
++    }
++    if (n == 33) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        env->spr[SPR_VRSAVE] = (target_ulong)ldl_p(mem_buf);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    if (n < 32) {
++#if defined(TARGET_PPC64)
++        gdb_get_reg32(buf, env->gpr[n] >> 32);
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
++#else
++        gdb_get_reg32(buf, env->gprh[n]);
++#endif
++        return 4;
++    }
++    if (n == 32) {
++        gdb_get_reg64(buf, env->spe_acc);
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
++        return 8;
++    }
++    if (n == 33) {
++        gdb_get_reg32(buf, env->spe_fscr);
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++#if defined(TARGET_PPC64)
++        target_ulong lo = (uint32_t)env->gpr[n];
++        target_ulong hi;
++
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++
++        hi = (target_ulong)ldl_p(mem_buf) << 32;
++        env->gpr[n] = lo | hi;
++#else
++        env->gprh[n] = ldl_p(mem_buf);
++#endif
++        return 4;
++    }
++    if (n == 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        env->spe_acc = ldq_p(mem_buf);
++        return 8;
++    }
++    if (n == 33) {
++        ppc_maybe_bswap_register(env, mem_buf, 4);
++        env->spe_fscr = ldl_p(mem_buf);
++        return 4;
++    }
++    return 0;
++}
++
++static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
++{
++    if (n < 32) {
++        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
++        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
++        return 8;
++    }
++    return 0;
++}
++
++static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
++{
++    if (n < 32) {
++        ppc_maybe_bswap_register(env, mem_buf, 8);
++        *cpu_vsrl_ptr(env, n) = ldq_p(mem_buf);
++        return 8;
++    }
++    return 0;
++}
++
++gchar *ppc_gdb_arch_name(CPUState *cs)
++{
++#if defined(TARGET_PPC64)
++    return g_strdup("powerpc:common64");
++#else
++    return g_strdup("powerpc:common");
++#endif
++}
++
++void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *pcc)
++{
++
++    if (pcc->insns_flags & PPC_FLOAT) {
++        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_reg,
++                                 33, "power-fpu.xml", 0);
++    }
++    if (pcc->insns_flags & PPC_ALTIVEC) {
++        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
++                                 34, "power-altivec.xml", 0);
++    }
++    if (pcc->insns_flags & PPC_SPE) {
++        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
++                                 34, "power-spe.xml", 0);
++    }
++    if (pcc->insns_flags2 & PPC2_VSX) {
++        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
++                                 32, "power-vsx.xml", 0);
++    }
++#ifndef CONFIG_USER_ONLY
++    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
++                             pcc->gdb_num_sprs, "power-spr.xml", 0);
++#endif
++}
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index d547448065..c401658e8d 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -215,4 +215,9 @@ void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                  MMUAccessType access_type,
+                                  int mmu_idx, uintptr_t retaddr);
++
++/* gdbstub.c */
++void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
++gchar *ppc_gdb_arch_name(CPUState *cs);
++
+ #endif /* PPC_INTERNAL_H */
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index c03a7c4f52..80fef0b90d 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -9895,230 +9895,6 @@ static void dump_ppc_insns(CPUPPCState *env)
+     }
+ }
+ #endif
+-
+-static bool avr_need_swap(CPUPPCState *env)
+-{
+-#ifdef HOST_WORDS_BIGENDIAN
+-    return msr_le;
+-#else
+-    return !msr_le;
+-#endif
+-}
+-
+-#if !defined(CONFIG_USER_ONLY)
+-static int gdb_find_spr_idx(CPUPPCState *env, int n)
+-{
+-    int i;
+-
+-    for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
+-        ppc_spr_t *spr = &env->spr_cb[i];
+-
+-        if (spr->name && spr->gdb_id == n) {
+-            return i;
+-        }
+-    }
+-    return -1;
+-}
+-
+-static int gdb_get_spr_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    int reg;
+-    int len;
+-
+-    reg = gdb_find_spr_idx(env, n);
+-    if (reg < 0) {
+-        return 0;
+-    }
+-
+-    len = TARGET_LONG_SIZE;
+-    gdb_get_regl(buf, env->spr[reg]);
+-    ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, len), len);
+-    return len;
+-}
+-
+-static int gdb_set_spr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    int reg;
+-    int len;
+-
+-    reg = gdb_find_spr_idx(env, n);
+-    if (reg < 0) {
+-        return 0;
+-    }
+-
+-    len = TARGET_LONG_SIZE;
+-    ppc_maybe_bswap_register(env, mem_buf, len);
+-    env->spr[reg] = ldn_p(mem_buf, len);
+-
+-    return len;
+-}
+-#endif
+-
+-static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    uint8_t *mem_buf;
+-    if (n < 32) {
+-        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
+-        mem_buf = gdb_get_reg_ptr(buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        return 8;
+-    }
+-    if (n == 32) {
+-        gdb_get_reg32(buf, env->fpscr);
+-        mem_buf = gdb_get_reg_ptr(buf, 4);
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
+-        return 8;
+-    }
+-    if (n == 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        helper_store_fpscr(env, ldl_p(mem_buf), 0xffffffff);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    uint8_t *mem_buf;
+-
+-    if (n < 32) {
+-        ppc_avr_t *avr = cpu_avr_ptr(env, n);
+-        if (!avr_need_swap(env)) {
+-            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
+-        } else {
+-            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
+-        }
+-        mem_buf = gdb_get_reg_ptr(buf, 16);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+-        return 16;
+-    }
+-    if (n == 32) {
+-        gdb_get_reg32(buf, helper_mfvscr(env));
+-        mem_buf = gdb_get_reg_ptr(buf, 4);
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        return 4;
+-    }
+-    if (n == 33) {
+-        gdb_get_reg32(buf, (uint32_t)env->spr[SPR_VRSAVE]);
+-        mem_buf = gdb_get_reg_ptr(buf, 4);
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-        ppc_avr_t *avr = cpu_avr_ptr(env, n);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+-        if (!avr_need_swap(env)) {
+-            avr->u64[0] = ldq_p(mem_buf);
+-            avr->u64[1] = ldq_p(mem_buf + 8);
+-        } else {
+-            avr->u64[1] = ldq_p(mem_buf);
+-            avr->u64[0] = ldq_p(mem_buf + 8);
+-        }
+-        return 16;
+-    }
+-    if (n == 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        helper_mtvscr(env, ldl_p(mem_buf));
+-        return 4;
+-    }
+-    if (n == 33) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        env->spr[SPR_VRSAVE] = (target_ulong)ldl_p(mem_buf);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_get_spe_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    if (n < 32) {
+-#if defined(TARGET_PPC64)
+-        gdb_get_reg32(buf, env->gpr[n] >> 32);
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+-#else
+-        gdb_get_reg32(buf, env->gprh[n]);
+-#endif
+-        return 4;
+-    }
+-    if (n == 32) {
+-        gdb_get_reg64(buf, env->spe_acc);
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+-        return 8;
+-    }
+-    if (n == 33) {
+-        gdb_get_reg32(buf, env->spe_fscr);
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_spe_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-#if defined(TARGET_PPC64)
+-        target_ulong lo = (uint32_t)env->gpr[n];
+-        target_ulong hi;
+-
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-
+-        hi = (target_ulong)ldl_p(mem_buf) << 32;
+-        env->gpr[n] = lo | hi;
+-#else
+-        env->gprh[n] = ldl_p(mem_buf);
+-#endif
+-        return 4;
+-    }
+-    if (n == 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        env->spe_acc = ldq_p(mem_buf);
+-        return 8;
+-    }
+-    if (n == 33) {
+-        ppc_maybe_bswap_register(env, mem_buf, 4);
+-        env->spe_fscr = ldl_p(mem_buf);
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_get_vsx_reg(CPUPPCState *env, GByteArray *buf, int n)
+-{
+-    if (n < 32) {
+-        gdb_get_reg64(buf, *cpu_vsrl_ptr(env, n));
+-        ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 8), 8);
+-        return 8;
+-    }
+-    return 0;
+-}
+-
+-static int gdb_set_vsx_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+-{
+-    if (n < 32) {
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        *cpu_vsrl_ptr(env, n) = ldq_p(mem_buf);
+-        return 8;
+-    }
+-    return 0;
+-}
+-
+ static int ppc_fixup_cpu(PowerPCCPU *cpu)
+ {
+     CPUPPCState *env = &cpu->env;
+@@ -10174,26 +9950,7 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
+     }
+     init_ppc_proc(cpu);
+ 
+-    if (pcc->insns_flags & PPC_FLOAT) {
+-        gdb_register_coprocessor(cs, gdb_get_float_reg, gdb_set_float_reg,
+-                                 33, "power-fpu.xml", 0);
+-    }
+-    if (pcc->insns_flags & PPC_ALTIVEC) {
+-        gdb_register_coprocessor(cs, gdb_get_avr_reg, gdb_set_avr_reg,
+-                                 34, "power-altivec.xml", 0);
+-    }
+-    if (pcc->insns_flags & PPC_SPE) {
+-        gdb_register_coprocessor(cs, gdb_get_spe_reg, gdb_set_spe_reg,
+-                                 34, "power-spe.xml", 0);
+-    }
+-    if (pcc->insns_flags2 & PPC2_VSX) {
+-        gdb_register_coprocessor(cs, gdb_get_vsx_reg, gdb_set_vsx_reg,
+-                                 32, "power-vsx.xml", 0);
+-    }
+-#ifndef CONFIG_USER_ONLY
+-    gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
+-                             pcc->gdb_num_sprs, "power-spr.xml", 0);
+-#endif
++    ppc_gdb_init(cs, pcc);
+     qemu_init_vcpu(cs);
+ 
+     pcc->parent_realize(dev, errp);
+@@ -10835,15 +10592,6 @@ static bool ppc_pvr_match_default(PowerPCCPUClass *pcc, uint32_t pvr)
+     return pcc->pvr == pvr;
+ }
+ 
+-static gchar *ppc_gdb_arch_name(CPUState *cs)
+-{
+-#if defined(TARGET_PPC64)
+-    return g_strdup("powerpc:common64");
+-#else
+-    return g_strdup("powerpc:common");
+-#endif
+-}
+-
+ static void ppc_disas_set_info(CPUState *cs, disassemble_info *info)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+-- 
+2.17.1
 
->  			SRC_PATH=3D"$(SRC_PATH)" BUILD_STATIC=3D$(CROSS_CC_GUEST_STATIC) \
->  			EXTRA_CFLAGS=3D"$(CROSS_CC_GUEST_CFLAGS)"), \
->  	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
-> @@ -59,11 +62,23 @@ DOCKER_COMPILE_CMD=3D"$(DOCKER_SCRIPT) cc \
->  		-i qemu/$(DOCKER_IMAGE) \
->  		-s $(SRC_PATH) -- "
->=20=20
-> +DOCKER_AS_CMD=3D"$(DOCKER_SCRIPT) cc \
-> +		--cc $(DOCKER_CROSS_AS_GUEST) \
-> +		-i qemu/$(DOCKER_IMAGE) \
-> +		-s $(SRC_PATH) -- "
-> +
-> +DOCKER_LD_CMD=3D"$(DOCKER_SCRIPT) cc \
-> +		--cc $(DOCKER_CROSS_LD_GUEST) \
-> +		-i qemu/$(DOCKER_IMAGE) \
-> +		-s $(SRC_PATH) -- "
-> +
-> +
->  .PHONY: docker-build-guest-tests
->  docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
->  	$(call quiet-command, \
->  	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
->  	   $(MAKE) -f $(TCG_MAKE) TARGET=3D"$(TARGET)" CC=3D$(DOCKER_COMPILE_CM=
-D) \
-> +			AS=3D$(DOCKER_AS_CMD) LD=3D$(DOCKER_LD_CMD) \
->  			SRC_PATH=3D"$(SRC_PATH)" BUILD_STATIC=3Dy \
->  			EXTRA_CFLAGS=3D"$(CROSS_CC_GUEST_CFLAGS)"), \
->  	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index 36b8a73a54..4da8c3fa12 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -72,6 +72,12 @@ fi
->  : ${cross_cc_x86_64=3D"x86_64-pc-linux-gnu-gcc"}
->  : ${cross_cc_cflags_x86_64=3D"-m64"}
->=20=20
-> +# cross as defaults, can be overridden with --cross-as-ARCH
-> +: ${cross_as_tricore=3D"tricore-as"}
-> +
-> +# cross ld defaults, can be overridden with --cross-ld-ARCH
-> +: ${cross_as_tricore=3D"tricore-ld"}
-> +
->  for target in $target_list; do
->    arch=3D${target%%-*}
->    case $arch in
-> @@ -228,6 +234,18 @@ for target in $target_list; do
->      fi
->      echo "CROSS_CC_GUEST=3D$target_compiler" >> $config_target_mak
->=20=20
-> +    eval "target_as=3D\${cross_as_$i}"
-> +    if has $target_as; then
-> +      echo "CROSS_AS_GUEST=3D$target_as" >> $config_target_mak
-> +      continue
-> +    fi
-> +
-> +    eval "target_ld=3D\${cross_ld_$i}"
-> +    if has $target_ld; then
-> +      echo "CROSS_LD_GUEST=3D$target_ld" >> $config_target_mak
-> +      continue
-> +    fi
-> +
->      # Test for compiler features for optional tests. We only do this
->      # for cross compilers because ensuring the docker containers based
->      # compilers is a requirememt for adding a new test that needs a
-> @@ -261,5 +279,7 @@ for target in $target_list; do
->    if test $got_cross_cc =3D no && test "$container" !=3D no && test -n "=
-$container_image"; then
->      echo "DOCKER_IMAGE=3D$container_image" >> $config_target_mak
->      echo "DOCKER_CROSS_CC_GUEST=3D$container_cross_cc" >> $config_target=
-_mak
-> +    echo "DOCKER_CROSS_AS_GUEST=3D$container_cross_as" >> $config_target=
-_mak
-> +    echo "DOCKER_CROSS_LD_GUEST=3D$container_cross_ld" >> $config_target=
-_mak
->    fi
->  done
-
-
---=20
-Alex Benn=C3=A9e
 
