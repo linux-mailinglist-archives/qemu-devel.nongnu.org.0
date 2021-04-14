@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E2E35F15B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:16:29 +0200 (CEST)
-Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57C835F149
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:12:05 +0200 (CEST)
+Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWcZP-0006Cj-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:16:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51230)
+	id 1lWcVA-0003hc-Tb
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWcVv-0004Sa-6G
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:12:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46658)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWcTy-0003H1-J2
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:10:50 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWcVt-00048K-7V
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:12:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWcVp-0002gF-DX
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 10:12:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A76932E8196
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 10:12:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWcTw-0002xV-SA
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:10:50 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id e7so10325768wrs.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 03:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VLwbaz5tywsrdiQWw0zwAoUfVo4kNQ/C503WSB6d/Xc=;
+ b=TsYWmIjkSQ9kiSlowut8u/mZU3Qa9mQ43Qxi/frEGdinQ1oA48s04uhickGTBF5OeT
+ K5DyJNhmX4jFpLX+BO/RnR7RvM9bkrhGmwC6uP3T2Fu1iXLtEloIRJ7F9Pe0lbxwZO5i
+ Kl1PGNhVWcuzb+xUtBmDQBRNuCTRfKFXglEvHljxMHU+HXXovP8O4AKSC91kY33FvKeS
+ P800A9IAF4fyYilgiuRiZZesGwx+bsljc1t+vCQywJzE95MBW5+kuK7ZrdVnDxzC9gYK
+ oUzMuKjYcWw3fAXBJQsPVLKE7kwNjz/ZYX/DhZESEay6u1x/pOyCtkVnYbCxdisg27Z2
+ xWDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VLwbaz5tywsrdiQWw0zwAoUfVo4kNQ/C503WSB6d/Xc=;
+ b=VJqqYXM3cB6vyMO2bzvdI9BrWizEgxQgzUiRX2KQFfuvx8mOY9UImMvf1KO4h7jKuE
+ uhfMAHzqbYZUCwenfR0jMEqequSG/3gip7HPKixGOg756tnslUow1HC/V7XuEeMY/sQ1
+ IzNRqyLB8ATpFc1UYlGMutixIs5WNEXxpZfJpvjHfVn+Xj03BDmKNjg3buC8ZFIXvWBa
+ yeiYb4Sf/JEoBqEYqq0Lj75Rr7T4O2ffCe0jBwUoUyrDM3BTk1KH/jCPBWIzN69/W8co
+ FdAC+8C8MO2nYFkpYrwxOnCBuZztpPTj62+eTKbD0pfv9CHEHKS+VFwgQuh0Tpqu3+ra
+ glXQ==
+X-Gm-Message-State: AOAM532ubI3YkI1bMnknkcwgGuHxROP4MqlR78sLqchiSzxWzxyuKTD+
+ Y5OmAYEOlHDInDMkto0Ml9E=
+X-Google-Smtp-Source: ABdhPJwyq1cN8tFdyU8CT+l5ZRgtzA/BUGQUxRblXh9h4j6u4pDix1NavufhW1K2iqYCvw9Z5x/uSQ==
+X-Received: by 2002:a5d:590d:: with SMTP id v13mr9563871wrd.85.1618395046659; 
+ Wed, 14 Apr 2021 03:10:46 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id c2sm4774050wmr.22.2021.04.14.03.10.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Apr 2021 03:10:45 -0700 (PDT)
+Subject: Re: [PATCH] gitlab-ci: Restrict jobs using Docker to runners having
+ 'docker' tag
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210319004300.3800583-1-f4bug@amsat.org>
+ <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a4147360-9cb4-1e8a-570d-e41dbe6ddf5c@amsat.org>
+Date: Wed, 14 Apr 2021 12:10:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 10:04:32 -0000
-From: Namrata Bhave <1920913@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: davidhildenbrand nam121 pmaydell
-X-Launchpad-Bug-Reporter: Namrata Bhave (nam121)
-X-Launchpad-Bug-Modifier: Namrata Bhave (nam121)
-References: <161649998851.23806.5550710395623491265.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161839467285.14854.11053778928063368958.malone@chaenomeles.canonical.com>
-Subject: [Bug 1920913] Re: Openjdk11+ fails to install on s390x
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
-X-Launchpad-Hash: 3c0d7454c16bce207961234d14263c89ef7c4fda
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,89 +90,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920913 <1920913@bugs.launchpad.net>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As java -version passes few times, further also checked behaviour of Maven.=
- Observed that mvn -v crashes in a similar fashion, however after setting b=
-elow:
-export MAVEN_OPTS=3D"-XX:-TieredCompilation -XX:+UseG1GC -Dcount=3D1000000"
+On 3/19/21 6:40 AM, Thomas Huth wrote:
+> On 19/03/2021 01.43, Philippe Mathieu-Daudé wrote:
+>> When a job is based on a Docker image [1], or is using a Docker
+>> service, it requires a runner with Docker installed.
+>>
+>> Gitlab shared runners provide the 'docker' tag when they have it
+>> installed.
+>>
+>> Are Gitlab shared runners are limited resources, we'd like to
+> 
+> s/Are/As/
+> 
+>> add more runners to QEMU repositories hosted on Gitlab. If a
+>> runner doesn't provide Docker, our jobs requiring it will fail.
+>>
+>> Use the standard 'docker' tag to mark the jobs requiring Docker
+>> on the runner.
+>>
+>> [1] https://docs.gitlab.com/ee/ci/yaml/#image
+>> [2] https://docs.gitlab.com/ee/ci/yaml/#services
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> [...]
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index f65cb11c4d3..d4511cf7dea 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -14,6 +14,8 @@ include:
+>>     - local: '/.gitlab-ci.d/crossbuilds.yml'
+>>     .native_build_job_template: &native_build_job_definition
+>> +  tags:
+>> +  - docker
+>>     stage: build
+>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+>>     before_script:
+>> @@ -38,6 +40,8 @@ include:
+>>         fi
+>>     .native_test_job_template: &native_test_job_definition
+>> +  tags:
+>> +  - docker
+>>     stage: test
+>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+>>     script:
+> 
+> If you add it to the templates ... won't this disable most of the jobs
+> on the dedicated runners that don't have docker? Wouldn't it be better
+> to add the tag only to the jobs that run "make check-tcg" ?
 
-mvn -v always passes.
-
-root@XX:/# mvn -v
-OpenJDK 64-Bit Server VM warning: You have loaded library /apache-maven-3.6=
-.3/lib/jansi-native/linux64/libjansi.so which might have disabled stack gua=
-rd. The VM will try to fix the stack guard now.
-It's highly recommended that you fix the library with 'execstack -c <libfil=
-e>', or link it with '-z noexecstack'.
-Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
-Maven home: /apache-maven-3.6.3
-Java version: 11.0.7, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk=
--s390x
-Default locale: en_US, platform encoding: ANSI_X3.4-1968
-OS name: "linux", version: "5.4.0-70-generic", arch: "s390x", family: "unix"
-
-
-However what I am really interested in, is mvn clean install command which =
-never passes with above settings.
-
-@davidhildenbrand, any help would be appreciated.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920913
-
-Title:
-  Openjdk11+ fails to install on s390x
-
-Status in QEMU:
-  New
-
-Bug description:
-  While installing openjdk11 or higher from repo, it crashes while configur=
-ing ca-certificates-java.
-  Although `java -version` passes, `jar -version` crashes. Detailed logs at=
-tached to this issue.
-
-  ```
-  # A fatal error has been detected by the Java Runtime Environment:
-  #
-  #  SIGILL (0x4) at pc=3D0x00000040126f9980, pid=3D8425, tid=3D8430
-  #
-  # JRE version: OpenJDK Runtime Environment (11.0.10+9) (build 11.0.10+9-U=
-buntu-0ubuntu1.20.04)
-  # Java VM: OpenJDK 64-Bit Server VM (11.0.10+9-Ubuntu-0ubuntu1.20.04, mix=
-ed mode, tiered, compressed oops, g1 gc, linux-s390x)
-  # Problematic frame:
-  # J 4 c1 java.lang.StringLatin1.hashCode([B)I java.base@11.0.10 (42 bytes=
-) @ 0x00000040126f9980 [0x00000040126f9980+0x0000000000000000]
-  #
-  # Core dump will be written. Default location: Core dumps may be processe=
-d with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to //core.8=
-425)
-  #
-  # An error report file with more information is saved as:
-  # //hs_err_pid8425.log
-  sed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /roo=
-t/core.10740)
-  #
-  # An error report file with more information is saved as:
-  # /root/hs_err_pid10740.log
-  ```
-
-  Observed this on s390x/ubuntu as well as s390x/alpine when run on amd64 h=
-ost.
-  Please note, on native s390x, the installation is successful. Also this c=
-rash is not observed while installing openjdk-8-jdk.
-
-  Qemu version: 5.2.0
-
-  Please let me know if any more details are needed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920913/+subscriptions
+But this is the point, if a runner doesn't have Docker, it can not
+run the job...
 
