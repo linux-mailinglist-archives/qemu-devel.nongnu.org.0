@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1464B35F844
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:55:01 +0200 (CEST)
-Received: from localhost ([::1]:59036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA77735F843
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:54:59 +0200 (CEST)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWhr2-00019E-3R
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:55:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34152)
+	id 1lWhr0-00018y-UH
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWho0-0007mZ-Hz
+ id 1lWhnz-0007mL-Bu
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54239)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWhnv-0000JT-EI
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:52 -0400
+ id 1lWhnv-0000JN-0L
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618415506;
+ s=mimecast20190719; t=1618415505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4vybUiUK2X6zwUqPhg1FqEHm9YGKL0jFThPAGvYlZ6Q=;
- b=CznTCBZNlI9xj7cP/n5mUvszmq6c6eXAdtBsqeDO2HjS0Kxv6i6ETa06sk1uwWMdkDTJJz
- yqpajRF8rKi2v2YyzSYMc8+DAIa1FxdK9JQUGzAxErUCMQft/HW/Raaxzxag4hIEHj0Nr6
- 1ittnYr4EfDMZHhySkLEMbC/dvxfjWM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VOp8SX3g7XgBvJxlwXb9lm8PDb5coZkGxCxfyRj7X3s=;
+ b=RTS4U2yknPBe5sWAvTheighhMz+GmPugU8knQkPGFNVaIbmDFLaSBaJY/k79VB5g3uNQDr
+ h9osNIrkytrHdCtKJhOzuUVNSRcDyl9/NkEjxCLcmmiJ0KWQ+OPLjriw98EqDcWvBPk39q
+ HEBfwU2UZ0jRnR/hvp7trVMSfz4mgtU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-7ipLM1XZOHKJX7PTb_MuIg-1; Wed, 14 Apr 2021 11:51:42 -0400
-X-MC-Unique: 7ipLM1XZOHKJX7PTb_MuIg-1
+ us-mta-12-tGhQREhrOHCnTeAa9-47Kg-1; Wed, 14 Apr 2021 11:51:43 -0400
+X-MC-Unique: tGhQREhrOHCnTeAa9-47Kg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86A5E106BB4D
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:51:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF35B8030D5
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:51:42 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-158.ams2.redhat.com
  [10.36.115.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 653E160240;
- Wed, 14 Apr 2021 15:51:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDC6E610A8;
+ Wed, 14 Apr 2021 15:51:41 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  virtio-fs@redhat.com
-Subject: [PATCH v2 00/25] virtiofs dax patches
-Date: Wed, 14 Apr 2021 16:51:12 +0100
-Message-Id: <20210414155137.46522-1-dgilbert@redhat.com>
+Subject: [PATCH v2 01/25] DAX: vhost-user: Rework slave return values
+Date: Wed, 14 Apr 2021 16:51:13 +0100
+Message-Id: <20210414155137.46522-2-dgilbert@redhat.com>
+In-Reply-To: <20210414155137.46522-1-dgilbert@redhat.com>
+References: <20210414155137.46522-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -56,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,105 +85,175 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-  This series adds support for acceleration of virtiofs via DAX
-mapping, using features added in the 5.11 Linux kernel.
+All the current slave handlers on the qemu side generate an 'int'
+return value that's squashed down to a bool (!!ret) and stuffed into
+a uint64_t (field of a union) to be returned.
 
-  DAX originally existed in the kernel for mapping real storage
-devices directly into memory, so that reads/writes turn into
-reads/writes directly mapped into the storage device.
+Move the uint64_t type back up through the individual handlers so
+that we can make one actually return a full uint64_t.
 
-  virtiofs's DAX support is similar; a PCI BAR is exposed on the
-virtiofs device corresponding to a DAX 'cache' of a user defined size.
-The guest daemon then requests files to be mapped into that cache;
-when that happens the virtiofsd sends filedescriptors and commands back
-to the QEMU that mmap's those files directly into the memory slot
-exposed to kvm.  The guest can then directly read/write to the files
-exposed by virtiofs by reading/writing into the BAR.
+Note that the definition in the interop spec says most of these
+cases are defined as returning 0 on success and non-0 for failure,
+so it's OK to change from a bool to another non-0.
 
-  A typical invocation would be:
-     -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs,cache-size=4G 
+Vivek:
+This is needed because upcoming patches in series will add new functions
+which want to return full error code. Existing functions continue to
+return true/false so, it should not lead to change of behavior for
+existing users.
 
-and then the guest must mount with -o dax
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ hw/virtio/vhost-backend.c         |  6 +++---
+ hw/virtio/vhost-user.c            | 31 ++++++++++++++++---------------
+ include/hw/virtio/vhost-backend.h |  2 +-
+ 3 files changed, 20 insertions(+), 19 deletions(-)
 
-  Note that the cache doesn't really take VM up on the host, because
-everything placed there is just an mmap of a file, so you can afford
-to use quite a large cache size.
-
-  Unlike a real DAX device, the cache is a finite size that's
-potentially smaller than the underlying filesystem (especially when
-mapping granuality is taken into account).  Mapping, unmapping and
-remapping must take place to juggle files into the cache if it's too
-small.  Some workloads benefit more than others.
-
-Gotchas:
-  a) If something else on the host truncates an mmap'd file,
-kvm gets rather upset;  for this reason it's advised that DAX is
-currently only suitable for use on non-shared filesystems.
-
-Dave
-
-v2
-  Cleanups from first review, rebase on current head
-
-Dr. David Alan Gilbert (20):
-  DAX: vhost-user: Rework slave return values
-  virtiofsd: Don't assume header layout
-  DAX: libvhost-user: Route slave message payload
-  DAX: libvhost-user: Allow popping a queue element with bad pointers
-  DAX subprojects/libvhost-user: Add virtio-fs slave types
-  DAX: virtio: Add shared memory capability
-  DAX: virtio-fs: Add cache BAR
-  DAX: virtio-fs: Add vhost-user slave commands for mapping
-  DAX: virtio-fs: Fill in slave commands for mapping
-  DAX: virtiofsd Add cache accessor functions
-  DAX: virtiofsd: Add setup/remove mappings fuse commands
-  DAX: virtiofsd: Add setup/remove mapping handlers to passthrough_ll
-  DAX: virtiofsd: Wire up passthrough_ll's lo_setupmapping
-  DAX: virtiofsd: route se down to destroy method
-  DAX: virtiofsd: Perform an unmap on destroy
-  DAX/unmap: virtiofsd: Add VHOST_USER_SLAVE_FS_IO
-  DAX/unmap virtiofsd: Add wrappers for VHOST_USER_SLAVE_FS_IO
-  DAX/unmap virtiofsd: Parse unmappable elements
-  DAX/unmap virtiofsd: Route unmappable reads
-  DAX/unmap virtiofsd: route unmappable write to slave command
-
-Stefan Hajnoczi (1):
-  DAX:virtiofsd: implement FUSE_INIT map_alignment field
-
-Vivek Goyal (4):
-  DAX: virtiofsd: Make lo_removemapping() work
-  vhost-user-fs: Extend VhostUserFSSlaveMsg to pass additional info
-  vhost-user-fs: Implement drop CAP_FSETID functionality
-  virtiofsd: Ask qemu to drop CAP_FSETID if client asked for it
-
- block/export/vhost-user-blk-server.c      |   2 +-
- contrib/vhost-user-blk/vhost-user-blk.c   |   3 +-
- contrib/vhost-user-gpu/vhost-user-gpu.c   |   5 +-
- contrib/vhost-user-input/main.c           |   4 +-
- contrib/vhost-user-scsi/vhost-user-scsi.c |   2 +-
- docs/interop/vhost-user.rst               |  37 ++
- hw/virtio/meson.build                     |   1 +
- hw/virtio/trace-events                    |   6 +
- hw/virtio/vhost-backend.c                 |   6 +-
- hw/virtio/vhost-user-fs-pci.c             |  32 ++
- hw/virtio/vhost-user-fs.c                 | 395 ++++++++++++++++++++++
- hw/virtio/vhost-user.c                    |  60 +++-
- hw/virtio/virtio-pci.c                    |  20 ++
- hw/virtio/virtio-pci.h                    |   4 +
- include/hw/virtio/vhost-backend.h         |   2 +-
- include/hw/virtio/vhost-user-fs.h         |  43 +++
- meson.build                               |   6 +
- subprojects/libvhost-user/libvhost-user.c | 113 ++++++-
- subprojects/libvhost-user/libvhost-user.h |  57 +++-
- tests/vhost-user-bridge.c                 |   4 +-
- tools/virtiofsd/buffer.c                  |  22 +-
- tools/virtiofsd/fuse_common.h             |  17 +-
- tools/virtiofsd/fuse_lowlevel.c           |  92 ++++-
- tools/virtiofsd/fuse_lowlevel.h           |  78 ++++-
- tools/virtiofsd/fuse_virtio.c             | 372 ++++++++++++++++----
- tools/virtiofsd/passthrough_ll.c          | 117 ++++++-
- 26 files changed, 1380 insertions(+), 120 deletions(-)
-
+diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+index 31b33bde37..1686c94767 100644
+--- a/hw/virtio/vhost-backend.c
++++ b/hw/virtio/vhost-backend.c
+@@ -401,8 +401,8 @@ int vhost_backend_invalidate_device_iotlb(struct vhost_dev *dev,
+     return -ENODEV;
+ }
+ 
+-int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
+-                                          struct vhost_iotlb_msg *imsg)
++uint64_t vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
++                                        struct vhost_iotlb_msg *imsg)
+ {
+     int ret = 0;
+ 
+@@ -429,5 +429,5 @@ int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
+         break;
+     }
+ 
+-    return ret;
++    return !!ret;
+ }
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index ded0c10453..3e4a25e108 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1405,24 +1405,25 @@ static int vhost_user_reset_device(struct vhost_dev *dev)
+     return 0;
+ }
+ 
+-static int vhost_user_slave_handle_config_change(struct vhost_dev *dev)
++static uint64_t vhost_user_slave_handle_config_change(struct vhost_dev *dev)
+ {
+     int ret = -1;
+ 
+     if (!dev->config_ops) {
+-        return -1;
++        return true;
+     }
+ 
+     if (dev->config_ops->vhost_dev_config_notifier) {
+         ret = dev->config_ops->vhost_dev_config_notifier(dev);
+     }
+ 
+-    return ret;
++    return !!ret;
+ }
+ 
+-static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+-                                                       VhostUserVringArea *area,
+-                                                       int fd)
++static uint64_t vhost_user_slave_handle_vring_host_notifier(
++                struct vhost_dev *dev,
++               VhostUserVringArea *area,
++               int fd)
+ {
+     int queue_idx = area->u64 & VHOST_USER_VRING_IDX_MASK;
+     size_t page_size = qemu_real_host_page_size;
+@@ -1436,7 +1437,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     if (!virtio_has_feature(dev->protocol_features,
+                             VHOST_USER_PROTOCOL_F_HOST_NOTIFIER) ||
+         vdev == NULL || queue_idx >= virtio_get_num_queues(vdev)) {
+-        return -1;
++        return true;
+     }
+ 
+     n = &user->notifier[queue_idx];
+@@ -1449,18 +1450,18 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     }
+ 
+     if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
+-        return 0;
++        return false;
+     }
+ 
+     /* Sanity check. */
+     if (area->size != page_size) {
+-        return -1;
++        return true;
+     }
+ 
+     addr = mmap(NULL, page_size, PROT_READ | PROT_WRITE, MAP_SHARED,
+                 fd, area->offset);
+     if (addr == MAP_FAILED) {
+-        return -1;
++        return true;
+     }
+ 
+     name = g_strdup_printf("vhost-user/host-notifier@%p mmaps[%d]",
+@@ -1471,13 +1472,13 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+ 
+     if (virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true)) {
+         munmap(addr, page_size);
+-        return -1;
++        return true;
+     }
+ 
+     n->addr = addr;
+     n->set = true;
+ 
+-    return 0;
++    return false;
+ }
+ 
+ static void close_slave_channel(struct vhost_user *u)
+@@ -1498,7 +1499,7 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
+     VhostUserPayload payload = { 0, };
+     Error *local_err = NULL;
+     gboolean rc = G_SOURCE_CONTINUE;
+-    int ret = 0;
++    uint64_t ret = 0;
+     struct iovec iov;
+     g_autofree int *fd = NULL;
+     size_t fdsize = 0;
+@@ -1539,7 +1540,7 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
+         break;
+     default:
+         error_report("Received unexpected msg type: %d.", hdr.request);
+-        ret = -EINVAL;
++        ret = true;
+     }
+ 
+     /*
+@@ -1553,7 +1554,7 @@ static gboolean slave_read(QIOChannel *ioc, GIOCondition condition,
+         hdr.flags &= ~VHOST_USER_NEED_REPLY_MASK;
+         hdr.flags |= VHOST_USER_REPLY_MASK;
+ 
+-        payload.u64 = !!ret;
++        payload.u64 = ret;
+         hdr.size = sizeof(payload.u64);
+ 
+         iovec[0].iov_base = &hdr;
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index 8a6f8e2a7a..64ac6b6444 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -186,7 +186,7 @@ int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
+ int vhost_backend_invalidate_device_iotlb(struct vhost_dev *dev,
+                                                  uint64_t iova, uint64_t len);
+ 
+-int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
++uint64_t vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
+                                           struct vhost_iotlb_msg *imsg);
+ 
+ int vhost_user_gpu_set_socket(struct vhost_dev *dev, int fd);
 -- 
 2.31.1
 
