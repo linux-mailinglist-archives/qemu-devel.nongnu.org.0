@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7793B35F33F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:14:12 +0200 (CEST)
-Received: from localhost ([::1]:50456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEC735F326
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:09:11 +0200 (CEST)
+Received: from localhost ([::1]:42156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWePL-0000m1-G0
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42246)
+	id 1lWeKU-00048f-Jb
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgk-0006ex-Kf
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45788)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgp-0006qQ-QY
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgY-0005hr-TM
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:06 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgZ-0005j0-RW
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:11 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 39B2FAF27;
- Wed, 14 Apr 2021 11:27:11 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 202D7AF75;
+ Wed, 14 Apr 2021 11:27:12 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 39/80] target/arm: replace CONFIG_TCG with tcg_enabled
-Date: Wed, 14 Apr 2021 13:26:09 +0200
-Message-Id: <20210414112650.18003-40-cfontana@suse.de>
+Subject: [RFC v13 41/80] target/arm: move cpu_tcg to tcg/tcg-cpu-models.c
+Date: Wed, 14 Apr 2021 13:26:11 +0200
+Message-Id: <20210414112650.18003-42-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
@@ -60,56 +60,102 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-for "all" builds (tcg + kvm), we want to avoid doing
-the psci and semihosting checks if tcg is built-in, but not enabled.
+move the module containing cpu models definitions
+for 32bit TCG-only CPUs to tcg/ and rename it for clarity.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu-sysemu.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ target/arm/{cpu_tcg.c => tcg/tcg-cpu-models.c} | 9 +--------
+ target/arm/meson.build                         | 4 ----
+ target/arm/tcg/meson.build                     | 1 +
+ 3 files changed, 2 insertions(+), 12 deletions(-)
+ rename target/arm/{cpu_tcg.c => tcg/tcg-cpu-models.c} (99%)
 
-diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
-index 7569241339..e83d55b9f7 100644
---- a/target/arm/cpu-sysemu.c
-+++ b/target/arm/cpu-sysemu.c
-@@ -1141,22 +1141,22 @@ void arm_cpu_do_interrupt(CPUState *cs)
-                       env->exception.syndrome);
-     }
+diff --git a/target/arm/cpu_tcg.c b/target/arm/tcg/tcg-cpu-models.c
+similarity index 99%
+rename from target/arm/cpu_tcg.c
+rename to target/arm/tcg/tcg-cpu-models.c
+index 54df5a8e77..5dc8e2c93f 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/tcg/tcg-cpu-models.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU ARM TCG CPUs.
++ * QEMU ARM TCG-only CPUs.
+  *
+  * Copyright (c) 2012 SUSE LINUX Products GmbH
+  *
+@@ -9,10 +9,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "cpu.h"
+-#ifdef CONFIG_TCG
+ #include "tcg/tcg-cpu.h"
+-#endif /* CONFIG_TCG */
+ #include "internals.h"
+ #include "target/arm/idau.h"
+ #if !defined(CONFIG_USER_ONLY)
+@@ -24,7 +21,6 @@
+ /* CPU models. These are not needed for the AArch64 linux-user build. */
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
  
 -#ifdef CONFIG_TCG
--    if (arm_is_psci_call(cpu, cs->exception_index)) {
--        arm_handle_psci_call(cpu);
--        qemu_log_mask(CPU_LOG_INT, "...handled as PSCI call\n");
--        return;
--    }
--    /*
--     * Semihosting semantics depend on the register width of the code
--     * that caused the exception, not the target exception level, so
--     * must be handled here.
--     */
--    if (cs->exception_index == EXCP_SEMIHOST) {
--        tcg_handle_semihosting(cs);
--        return;
-+    if (tcg_enabled()) {
-+        if (arm_is_psci_call(cpu, cs->exception_index)) {
-+            arm_handle_psci_call(cpu);
-+            qemu_log_mask(CPU_LOG_INT, "...handled as PSCI call\n");
-+            return;
-+        }
-+        /*
-+         * Semihosting semantics depend on the register width of the code
-+         * that caused the exception, not the target exception level, so
-+         * must be handled here.
-+         */
-+        if (cs->exception_index == EXCP_SEMIHOST) {
-+            tcg_handle_semihosting(cs);
-+            return;
-+        }
+ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+     CPUClass *cc = CPU_GET_CLASS(cs);
+@@ -48,7 +44,6 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
      }
+     return ret;
+ }
 -#endif /* CONFIG_TCG */
-     /*
-      * Hooks may change global state so BQL should be held, also the
-      * BQL needs to be held for any modification of
+ 
+ static void arm926_initfn(Object *obj)
+ {
+@@ -833,7 +828,6 @@ static void pxa270c5_initfn(Object *obj)
+     cpu->reset_sctlr = 0x00000078;
+ }
+ 
+-#ifdef CONFIG_TCG
+ static struct TCGCPUOps arm_v7m_tcg_ops = {
+     .initialize = arm_translate_init,
+     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
+@@ -849,7 +843,6 @@ static struct TCGCPUOps arm_v7m_tcg_ops = {
+     .debug_check_watchpoint = arm_debug_check_watchpoint,
+ #endif /* !CONFIG_USER_ONLY */
+ };
+-#endif /* CONFIG_TCG */
+ 
+ static void arm_v7m_class_init(ObjectClass *oc, void *data)
+ {
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 0ccd2fb0bc..8d0c12b2fc 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -18,10 +18,6 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'gdbstub64.c',
+ ))
+ 
+-arm_ss.add(when: 'CONFIG_TCG', if_true: files(
+-  'cpu_tcg.c',
+-))
+-
+ arm_softmmu_ss = ss.source_set()
+ arm_softmmu_ss.add(files(
+   'arch_dump.c',
+diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
+index cb67c59416..b3beeef5f2 100644
+--- a/target/arm/tcg/meson.build
++++ b/target/arm/tcg/meson.build
+@@ -29,6 +29,7 @@ arm_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'crypto_helper.c',
+   'debug_helper.c',
+   'tcg-cpu.c',
++  'tcg-cpu-models.c',
+ 
+ ), if_false: files(
+   'tcg-stubs.c',
 -- 
 2.26.2
 
