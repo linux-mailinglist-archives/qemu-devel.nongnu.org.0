@@ -2,122 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547D335FBE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 21:52:13 +0200 (CEST)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5456C35FBBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 21:39:14 +0200 (CEST)
+Received: from localhost ([::1]:40480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWlYa-00068e-8s
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 15:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
+	id 1lWlM1-0000M8-27
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 15:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tbattle@thebstgroup.com>)
- id 1lWjVh-0002dM-K0; Wed, 14 Apr 2021 13:41:07 -0400
-Received: from mail-dm6nam10on2063.outbound.protection.outlook.com
- ([40.107.93.63]:53536 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tbattle@thebstgroup.com>)
- id 1lWjVa-0000eF-B5; Wed, 14 Apr 2021 13:41:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KdRLlGKiVMdDASSRsyb+c6gXx1l0nGo9uDRylCF5ujoKxCMlIEgeTX//g6Dj2nSKs+ZityW+eqAtB9/l2JQK2A9qEtUsBTjMIr4T5ScbPXUR7ORlVgtxVoVBJCsdPSVG25rotLUG/RaR8H9LO/ta8hEgL0AFr6489NaXSSox+LYaQS2xCCqaLOFlcUqmDDD7MbQnS/0/2ceUowlkkGC9phJ/nwFfRdNIP4dERi/Toq/34dtptnOI6HTxAThlCfrm1WvLywSnOoC3XWx4RU/zexqnVVM7Qbhn4fXgsB6ScO87pgMCa9S/jshmPt8NfScWJhdknXfl4u2QEPoc3tk+7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tcn20+CzZWcSEH7XG4UdMOjeQTTShAfHY9rkdTnPuB8=;
- b=LTt3cqSc+QihtjK4fRG88qgMoc+qvBO3oiLZ8x3fgebkkGXa0ebiKPg8STuhx3KfKyUtGZfEDtOpwKck0wp6HScjQGaFBciQIl2TnW/TcCpn7cLUxBi/jMcC7RKwFksIKxh/8J40td466HTB1L9bqRpphUq3mptDxgGhQMTVJ4JFUbmw3rgRZ60SBR80Rpr9Gh95zvGf9Gpd3gi2D5wy9//M9M8BA0hjV1eUl3UhHi/VLH12De+9Ui/yh9fk6vCtgxkAMXZVqPBqCmLYnZkjy28lDXFenAERray70kBwe50mrNlL5e6SuXVCuJSTqlaE7TJxvSPeQebe9W4oOfY1mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=thebstgroup.com; dmarc=pass action=none
- header.from=thebstgroup.com; dkim=pass header.d=thebstgroup.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=thebstgroup.onmicrosoft.com; s=selector2-thebstgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tcn20+CzZWcSEH7XG4UdMOjeQTTShAfHY9rkdTnPuB8=;
- b=HVsns6K9nFqfWVDqNVP1/wsZzg3RM3D6FY6QD/ADQrXzHwC7XWyMKNBfRlhO7s4iBJzaE0kIXDObB+WhN/ZYYdAG7K5zpW+FLMZ9O0NnEmc0CWB5t8Beyjc2ZXTvnH7HihWIL/KOEk6m0C4Lzp5brEyMKjVyJwEjVYqGMJo2H5k=
-Received: from CY4PR15MB1941.namprd15.prod.outlook.com (2603:10b6:903:10f::23)
- by CY4PR15MB1893.namprd15.prod.outlook.com (2603:10b6:910:22::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.22; Wed, 14 Apr
- 2021 17:40:53 +0000
-Received: from CY4PR15MB1941.namprd15.prod.outlook.com
- ([fe80::91f6:4acb:a4f0:74b3]) by CY4PR15MB1941.namprd15.prod.outlook.com
- ([fe80::91f6:4acb:a4f0:74b3%6]) with mapi id 15.20.4020.022; Wed, 14 Apr 2021
- 17:40:52 +0000
-From: Terrance Battle <tbattle@thebstgroup.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-discuss@nongnu.org"
- <qemu-discuss@nongnu.org>
-Subject: Converting QEMU .raw to VMDK VMware
-Thread-Topic: Converting QEMU .raw to VMDK VMware
-Thread-Index: AdcxVQtHtZvK9gyuRu267l4ECSWtFw==
-Date: Wed, 14 Apr 2021 17:40:52 +0000
-Message-ID: <CY4PR15MB1941331170E5D19185C9B5E3A84E9@CY4PR15MB1941.namprd15.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none; nongnu.org; dmarc=none action=none header.from=thebstgroup.com; 
-x-originating-ip: [73.34.84.225]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a55fe3aa-1836-4a73-6025-08d8ff6c735d
-x-ms-traffictypediagnostic: CY4PR15MB1893:
-x-microsoft-antispam-prvs: <CY4PR15MB18939D111BF3C52AAEF51C43A84E9@CY4PR15MB1893.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kjrsJ1xsUjBt8RsJOCW2a0NvaLduWkwkvtAKVwNUCtaAl8qAwdKoVga24U2ri130dGwvigussj/FcgLLnRKxgAqAId2wNGAyCHaBIn5tQHPnHRYD08PlEFbZrdjBoqB3fFkG4o0zrqgma+qFwH3TBrTRa5i2eBP2y8Z68Qy43hanIHogk54yCr0nREk6luqapKQTfTLbskTC2NhoirI8yYTSrE4QCiSGYQgnl5obrX8RQEZCPyAVnmUJC0CKYW4556Q+mn4WpT3uoOc8pFAg3nlPwA4Rotwexfw2HS/N48zEzvGvTfLgU/QTrgowbPCvZf/ILvZfIBraZAl5uOLAuMR24nMgcXmE/roJkTnlCcjqAZtkMHmg0AVPVaxBwizUhUH+4D9Y3LlEmns4GNyVB+3OlP4KyC6E0YhrIvw2X1VhufIvJyiSheUZY5R8ARGCliyOhuni3FAV9/AOBpeYq/Dfp8IFVTNa1n1IAv5dz8pkBG+EPHXP0O7Kna2+iixjSNRkTOUOdEn/idiMuCGWfXLccZMRd4JK6d5Y/2Ov9vJNng9LQ6V5hsy93xbKFXys3aki03rMp95j7JYsPTU7O+9yyL2ijleqnznz93DhAhiJYeZ7PibUuT2oGrhlkdUaPcLWXNqutM6UHf1464V/CGqDZCHpydamhoTl4Y21XrhNHj2XzoaTOQENBXeAUA5hDZ41A/nLlWFBJjck6BNGz4BoCwpAamqiXgl6uAr4lY0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR15MB1941.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39830400003)(136003)(346002)(376002)(366004)(396003)(110136005)(166002)(9686003)(8676002)(186003)(122000001)(86362001)(450100002)(55016002)(316002)(66946007)(71200400001)(66556008)(38100700002)(52536014)(66476007)(6506007)(66446008)(33656002)(7696005)(2906002)(76116006)(9326002)(26005)(558084003)(5660300002)(478600001)(64756008)(8936002)(142923001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?7+4KLYo3wMMaTQeygKsQikMoou4tATulP14F/5nytteQqvf0q56mtcn1qUo5?=
- =?us-ascii?Q?SevzwNypxArfFjVKOyeJ1EyOCuZZxYcVkZi0/wOwUywA4X2hp1TcjBqkWphR?=
- =?us-ascii?Q?Zx7ECYWDvhtTXTprz1Meu8PQt0n2Nx34WhMvlzvD8iUYoH8GcwHl0oj8IGIG?=
- =?us-ascii?Q?0bgH4NXmuzxvDKCSplL8CpLRFoB+ir0auBSguuRnJno+8zKz8bWYjzuwlrYG?=
- =?us-ascii?Q?IIXmEjxABOe1X4+GVMNICx9IJvti4/Ik2kmVHqSLFtBpzw5QpICEYtzIfaJT?=
- =?us-ascii?Q?EC7sh8Cinmk4QZ7fXOq5igTOcBItm0nV1p8iVw0Ba0HCQzIbgEdFJu2uCYzI?=
- =?us-ascii?Q?IoBAkwmS8XwTmVWUPajdMhBC7pyW0R/T4rdGtMECaxV8Yfg14xGZtGGsAHY7?=
- =?us-ascii?Q?1cFFBYDlOf1r6fwxqyi7ilO+HjXHivjm22pNOWBvCoEXwEyJM2aQ3bhOI0PP?=
- =?us-ascii?Q?3OP+AUYFR73y5D7pcXF1jfctxlOHiUPzyebff72/SWgdBnmUQiI24b7i+Ti5?=
- =?us-ascii?Q?q7fpaGfav8ITEdvnLjiT6y01M3HZXq+aJ/unZaLBEk4zWAAuuZJ+8R9DRcBc?=
- =?us-ascii?Q?b4BbCytMt97fzJu3HaTThSPHfm0a7+ZG7lA1GXCLFAO7oegM0nxiMhZF3AAa?=
- =?us-ascii?Q?y1WAOBS7tOsuCqLambwjAglEAmzlpElQ+ovsAz2pe14s2fRyyRDNwhkDT4p/?=
- =?us-ascii?Q?IdmidduYPoHcYFvJHuXAZjcnY+MTD13DIsBb5p10q5wALUas0/JeIRaK9kuM?=
- =?us-ascii?Q?cZSvUfRWtXOEVzxe+FjNfVOMZuKaJPsk8lF9g/K6n3c7naKd/Oqn4Sa2lvjw?=
- =?us-ascii?Q?lHyMZoi6Rp8iXRZ5IUxffw/qZfOhOA92Mf2w3f0Xrzlcjbs1z5IOfrj4zkGV?=
- =?us-ascii?Q?J4DAZV/mjUxzBKmCXMVwYJN3c2q4PTmdYh6SrV0IBu77IkQURYXsRPkkiPOw?=
- =?us-ascii?Q?4a0f6Py4i9d919WPmTV57yBbK5WFLydc0L5GDNsA3iA5CIwebYWKJa2/eETh?=
- =?us-ascii?Q?thULyHAqmuL5LP8bjI7A1p7TEjVCsHjuW/mCSjomPP2aIClOPOM+8Iymh4NY?=
- =?us-ascii?Q?xnYNnsEBQurb0rvWCQJ5MKdzJD2spUZ2ByXwFx3x2uHlF37KTpvsnNRHsw6u?=
- =?us-ascii?Q?DCm+5w0n6psArP0aJTDrB/fpOKY5RlrpGR8EOgmjfgEeY2zOQ2UXiHqi4Hqo?=
- =?us-ascii?Q?U4tT/m6txV1jXcWcaki6fP1iaTsep081V/LvL1ZxH25ew/j/y/gFlGpPrb3r?=
- =?us-ascii?Q?PlkMTHMB87/8UR8klrF8cwF+C0lGLqJ7P4t/EtcYBhdLMTx+wJZV+MAEATsu?=
- =?us-ascii?Q?njM=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_CY4PR15MB1941331170E5D19185C9B5E3A84E9CY4PR15MB1941namp_"
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lWlKl-0007xC-50
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 15:37:55 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:34698)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lWlKg-0006JV-Sy
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 15:37:54 -0400
+Received: by mail-pf1-x431.google.com with SMTP id 10so5563835pfl.1
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 12:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qhPlmKlvoUZaszoLlQr4fyyPOGdgQx0nroHAjYdw8fQ=;
+ b=XxANShzaZt2vEu6L2dccCd+MYuojU+1bDekTYCT+ugEammUEBPAqSla9x8oDiiS6tR
+ s4kM03zoZUO676YgODeBpQIWDfS6sh3je7OlZf7cr2O9Zwl6iXKC2MFxNRvrHlk3qwZO
+ cwFTAPdo1hSqBhhxbnatwGyBc17ijOOKdWcfG/CCXiJNQHCCBz4g10Ossm2fres2E+QQ
+ W3XaDG/5NyeG7FdygGiynKczyg8oN5NvCSc7Qhj6JwmuFhA03kaU1VJ5r/PfOJs+UBvP
+ nNWGtZpt8QgxvhqmGVDQYmHRx3UeAgNPnIKS0fzHSnDDCt4u9EVdKug01jK6owEDldEB
+ G46g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qhPlmKlvoUZaszoLlQr4fyyPOGdgQx0nroHAjYdw8fQ=;
+ b=nyGxtCEiUuiyTg5prYloleB27/k4y3K5feUxidvCeq7K4Uiu37tHGLyeA3+0FjzKDi
+ q3lpd8YHdpX8d418gl6GjLC28j8zGo6BxOLeH5F90PM1bEYr6H4yz7TFKAmJolgRwPYY
+ 5RGUSM7hgwETIjkeOpWDaGVz5dUUhnJn6tssD6Q9ucHYoJDmrxuxve82GAYH6r3J4stv
+ st5yBCpGJZwsB0ANh9mRpd6R3RbFsutKL/Wpkq4WHIRoB8V9o/Z6hy+68q0vlwAvd0Mk
+ wKodZfamRA/BMoXBdPAY1DvLgLlySYMOpUjq1D/aAIxxOuJGD0XuUmdLA12x6C9OZtgm
+ n1Pw==
+X-Gm-Message-State: AOAM5301O7kukCHOrsG1VrHsjwWcYM+Ci3WppDMAnazT/9ZTm1YdtDRe
+ aEG2HWjEFx4pXDRLggp+67Ut1w==
+X-Google-Smtp-Source: ABdhPJzNrnXo7U/KCpXIjVKtpLaCk9IqegPLQLBLFEQoUpNv7HC+ESoRVrCejDp3H84HSU2cOWTlng==
+X-Received: by 2002:a63:c66:: with SMTP id 38mr39386938pgm.69.1618429069190;
+ Wed, 14 Apr 2021 12:37:49 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id w21sm184547pjy.21.2021.04.14.12.37.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Apr 2021 12:37:48 -0700 (PDT)
+Subject: Re: [PATCH 1/4] target/ppc: Code motion required to build disabling
+ tcg
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <CP2PR80MB449996D26DEA4C27397EEF14C74F9@CP2PR80MB4499.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7f935c45-21f2-91b2-f787-dd528858c838@linaro.org>
+Date: Wed, 14 Apr 2021 12:37:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-X-OriginatorOrg: thebstgroup.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR15MB1941.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a55fe3aa-1836-4a73-6025-08d8ff6c735d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2021 17:40:52.7846 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: df8e3c14-526c-4667-be48-cb8b78962b83
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: prScZTvU98tYGsCI/i0FXLaGVX+kL2iLcSXysLTnKiheqJ7K8s4Ge9zKqP1van6QZ3ampxS4wmdufLfqcvFC7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1893
-Received-SPF: pass client-ip=40.107.93.63;
- envelope-from=tbattle@thebstgroup.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CP2PR80MB449996D26DEA4C27397EEF14C74F9@CP2PR80MB4499.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 14 Apr 2021 15:49:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -129,99 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Andre Fernando da Silva <andre.silva@eldorado.org.br>,
+ Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "lagarcia@br.ibm.com" <lagarcia@br.ibm.com>,
+ Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
+ Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_CY4PR15MB1941331170E5D19185C9B5E3A84E9CY4PR15MB1941namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 4/13/21 10:43 AM, Bruno Piazera Larsen wrote:
+> The trivial path is to:
+> * rename translate_init.c.inc to cpu_init.c (since it has to do with
+> initial definitions for CPUs, and it's not related to translating
+> anymore);
 
-Hi,
+Anymore?  You mean after you've moved out everything related to 
+create_ppc_opcodes?  Sure.
 
-I have a question, how do I go about converting a .raw snapshot to VMware V=
-MDK? We're looking to move the .raw snapshot to  our new VMware environment=
- for DevOps.
+> * move gen_write_xer and gen_read_xer into cpu_init.c, as they're
+> used for some sprs, and whatever needs to be moved with it
 
-Thanks,
+Well, gen_* things are specifically translation related, since they emit tcg 
+opcodes.  But I see it's used as part of a callback from the SPRs.
 
-BlackSalt Technology Group
-Terrance Battle | CEO
-tbattle@thebstgroup.com<mailto:tbattle@thebstgroup.com>
-202.579.7334 (mobile)
-www.thebstgroup.com<http://www.thebstgroup.com/>
+I think it would be worth moving all of the SPR code out to a separate file, 
+apart from cpu_init.c.  There's a lot of it.  And, yes, I would move everything 
+that you can that is related out of translate.c.
+
+> * move is_indirect_opcode and ind_table to translate.c, since they
+> are used to translate ppc instructions, and the things defined for
+> these functions
+
+Yes.
+
+> * move opcodes and invalid_handler into cpu_init.c, because they
+> are only used by stuff in this file.
+
+You could move the opcodes to a new file of its own, including invalid_handler. 
+  Moving them to cpu_init.c does not seem helpful.
+
+However, I think the surgery required to disentangle the legacy decoder and all 
+its macros is probably not worth the effort.  What will be worth the effort is 
+completing the decodetree conversion so that the legacy decoder goes away entirely.
 
 
---_000_CY4PR15MB1941331170E5D19185C9B5E3A84E9CY4PR15MB1941namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Angsana New";
-	panose-1:2 2 6 3 5 4 5 2 3 4;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I have a question, how do I go about converting a .r=
-aw snapshot to VMware VMDK? We&#8217;re looking to move the .raw snapshot t=
-o &nbsp;our new VMware environment for DevOps.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:12.0pt">BlackSalt Techno=
-logy Group<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal">Terrance Battle | CEO <o:p></o:p></p>
-<p class=3D"MsoNormal"><a href=3D"mailto:tbattle@thebstgroup.com">tbattle@t=
-hebstgroup.com</a><o:p></o:p></p>
-<p class=3D"MsoNormal">202.579.7334 (mobile)<o:p></o:p></p>
-<p class=3D"MsoNormal"><a href=3D"http://www.thebstgroup.com/">www.thebstgr=
-oup.com</a>
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_CY4PR15MB1941331170E5D19185C9B5E3A84E9CY4PR15MB1941namp_--
+r~
 
