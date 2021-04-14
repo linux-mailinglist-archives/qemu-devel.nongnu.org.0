@@ -2,69 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71BB35ED61
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 08:43:47 +0200 (CEST)
-Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8B435EE08
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 09:15:05 +0200 (CEST)
+Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWZFZ-0007wq-NM
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 02:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58948)
+	id 1lWZjs-00070R-K8
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 03:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWZDW-0007Vx-Gl
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 02:41:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWZDH-0003d8-4r
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 02:41:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWZDA-0003tr-6L
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 06:41:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2CF5A2E8041
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 06:41:16 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 06:24:54 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1921664@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lWZj3-0006VN-4M
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 03:14:13 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:26915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lWZiz-0006Z5-I6
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 03:14:12 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210414071355epoutp01fec577328b46d086f955adce6039d067~1qBHnuDCZ2394023940epoutp01W
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 07:13:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210414071355epoutp01fec577328b46d086f955adce6039d067~1qBHnuDCZ2394023940epoutp01W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1618384436;
+ bh=MTgA9e9HecYl82ZFodr+ANEeRuYtMozhuDoc1dMjWZg=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=fZDw7opc684pvCBtuhvlo/BE+v/BGZRwYzmRb66aDER+LjdYMK/6ICwkrrmutVIcs
+ ecC5x+Kpfq/7YnqWohWn+EEhKSFhhX25Kj9awmCd64LOJxTIoYG1XNPKAW+0TDxglk
+ QyBO+qNo53pIajF64XMwC1GxAccdeBBR7/GxDQYI=
+Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+ 20210414071355epcas5p36cde69c4f8edb0dbe08663a08c58378b~1qBHA5i342933829338epcas5p3f;
+ Wed, 14 Apr 2021 07:13:55 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ FA.C3.41008.33696706; Wed, 14 Apr 2021 16:13:55 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6~1p7_8EIcQ2968129681epcas5p3b;
+ Wed, 14 Apr 2021 07:08:03 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210414070803epsmtrp26d8e683ddda1bb5e4b3ce25cb617f55a~1p7_7SaNj1039610396epsmtrp2-;
+ Wed, 14 Apr 2021 07:08:03 +0000 (GMT)
+X-AuditID: b6c32a4b-64bff7000001a030-23-60769633be3b
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 55.6B.33967.2D496706; Wed, 14 Apr 2021 16:08:02 +0900 (KST)
+Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
+ [107.99.42.33]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210414070801epsmtip195c841476a3f012f539f137adcbd518a~1p79kQ4Jg1435714357epsmtip1Q;
+ Wed, 14 Apr 2021 07:08:01 +0000 (GMT)
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug arm64 hirsute uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer tommy-ubuntuone
-X-Launchpad-Bug-Reporter: Tommy Thorn (tommy-ubuntuone)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <161698578843.25105.11508850027610231738.malonedeb@wampee.canonical.com>
-Message-Id: <161838149423.14903.5252102679309413713.malone@chaenomeles.canonical.com>
-Subject: [Bug 1921664] Re: Recent update broke qemu-system-riscv64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
-X-Launchpad-Hash: 0fc15b6657331c726982a57fbd316027b708f343
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Subject: [PATCH] hw/block/nvme: remove redundant invalid_lba_range trace
+Date: Wed, 14 Apr 2021 12:34:35 +0530
+Message-Id: <20210414070435.3702-1-anaidu.gollu@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCIsWRmVeSWpSXmKPExsWy7bCmlq7xtLIEg++n+Sxe7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozeowvZC56LVqxoLWtgbBboYuTkkBAw
+ kWha9Ja9i5GLQ0hgN6PEzDftUM4nRomHm76yQTjfGCWuTbjHCtPy6dAcJojEXkaJhqWHWCGc
+ NiaJa9O3MINUsQkYScx++4YRxBYRkJT43XUaLM4MsuTbXB0QW1jAQ6Jr/x+wGhYBVYmjr/8y
+ gdi8AjYSf3vWMEFsk5dYveEAM8gCCYFD7BL/X50HcjiAHBeJd41BEDXCEq+Ob2GHsKUkPr/b
+ C3Q2O5BdLXG4CKKzg1Hi2OUNbBAl9hL/nk1jBJnCLKApsX6XPkRYVmLqqXVMEFfySfT+fgJ1
+ Aa/EjnkwtprEglvfoTbJSMz8cxsaJh4STSfWsYDYQgKxEoc23macwCg7C2HDAkbGVYySqQXF
+ uempxaYFxnmp5XrFibnFpXnpesn5uZsYwQlBy3sH46MHH/QOMTJxMB5ilOBgVhLhdZtSkiDE
+ m5JYWZValB9fVJqTWnyIUZqDRUmcd4fBg3ghgfTEktTs1NSC1CKYLBMHp1QDU9TsmQvWmHz5
+ Ev08zCt7B59nca9E/3HZsp/eZnKl/Ubvf51j+X6xfPsbhlMFXIFioU3iH9WWTY9ZrTolvCD5
+ 85sbusELtgZf8a06t2a7mldolsaJqfx36ueX1rxdbHOaY1by0x/sCisdMlcdzrvt7Lxg79YK
+ zk8RaQqL1/qYKG92PWtg93lXzebZFkE/OTa+TGvYuErrgFB77aKg1ktsISKsgpvW/pNYrxyc
+ Uv18MYv/v7kHr4T9Tby7uTb6VmDLH9euyS8Nny/y6G1+7ljz58kp+wMZfY43naofOrLLR09h
+ eqQjW5NayLKh58D3FpmdXvc+71jVdyBLMIJvTvuWy7EX/I+8X7I4i3vl6xOLnJVYijMSDbWY
+ i4oTAaZ9cpx3AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplluLIzCtJLcpLzFFi42LZdlhJTvfSlLIEg8tbzS1e7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsErozeowvZC56LVqxoLWtgbBboYuTkkBAw
+ kfh0aA5TFyMXh5DAbkaJKZeXMkEkZCR+nZrKDGELS6z895wdoqiFSWLCzi9sIAk2ASOJ2W/f
+ MILYIgKSEr+7TjODFDELHGWUuNw+mQUkISzgIdG1/w9YEYuAqsTR13/BNvAK2Ej87VkDtU1e
+ YvWGA8wTGHkWMDKsYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P3cQIDjEtzR2M21d90DvE
+ yMTBeIhRgoNZSYTXbUpJghBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeC10n44UE0hNLUrNTUwtS
+ i2CyTBycUg1Mrtd2lsVY6nMfj5vOllxYv0pB9nCfme6NnsK6uv3mK/NTMsMXPBbwyZvSz8mV
+ v9n0yrT45c2OAVK/FQVaVO5XHxV3++eqeOWy7KoDLD9e/zn0Z0VV7In8CfMjuYKTDp9WWavG
+ bnPUJ/bFZeHvV7oOCm19ey/lUVPYodTsvA/LXi7Q4ufYMl+Sf/t3iU0WW3sPyt1f3O1zkVfr
+ qF3t+8nVwVWv/pb2b42t9FLueTK7RPxN9/LsUzt/MstP0Nh1RpNxxZzNSj/zi3xvP4//fuWd
+ Ztajmwcmccltk1pqOfPq6dkX1VQVD7Gd5eQQ/RUfeJfpqdLH8NmO826uzZa9vmXByefCepFn
+ t7x5JL5n4orMVUosxRmJhlrMRcWJAAMkPe2gAgAA
+X-CMS-MailID: 20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6
+References: <CGME20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6@epcas5p3.samsung.com>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,508 +118,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921664 <1921664@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
+ its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also I've rebuilt the most recent master c1e90def01 about ~55 commits newer=
- than 6.0-rc2.
-As in the experiments of Tommy I was unable to reproduce it there.
-But with the data from the tests before it is very likely that this is more
-likely an accident by having a slightly different timing than a fix (to be
-clear I'd appreciate if there is a fix, I'm just unable to derive from this
-being good I could e.g. bisect).
+Currently pci_nvme_err_invalid_lba_range tace being called indvidually
+at each function, add this in nvme_check_bounds and remove redundant
+usage of it.
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+---
+ hw/block/nvme.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 6842b01ab5..c67d3315a1 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1424,6 +1424,7 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
+     uint64_t nsze = le64_to_cpu(ns->id_ns.nsze);
+ 
+     if (unlikely(UINT64_MAX - slba < nlb || slba + nlb > nsze)) {
++        trace_pci_nvme_err_invalid_lba_range(slba, nlb, nsze);
+         return NVME_LBA_RANGE | NVME_DNR;
+     }
+ 
+@@ -2266,7 +2267,6 @@ static void nvme_copy_in_complete(NvmeRequest *req)
+ 
+     status = nvme_check_bounds(ns, sdlba, ctx->nlb);
+     if (status) {
+-        trace_pci_nvme_err_invalid_lba_range(sdlba, ctx->nlb, ns->id_ns.nsze);
+         goto invalid;
+     }
+ 
+@@ -2528,8 +2528,6 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+             uint32_t nlb = le32_to_cpu(range[i].nlb);
+ 
+             if (nvme_check_bounds(ns, slba, nlb)) {
+-                trace_pci_nvme_err_invalid_lba_range(slba, nlb,
+-                                                     ns->id_ns.nsze);
+                 continue;
+             }
+ 
+@@ -2602,7 +2600,6 @@ static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_bounds(ns, slba, nlb);
+     if (status) {
+-        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+         return status;
+     }
+ 
+@@ -2687,7 +2684,6 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+ 
+         status = nvme_check_bounds(ns, slba, _nlb);
+         if (status) {
+-            trace_pci_nvme_err_invalid_lba_range(slba, _nlb, ns->id_ns.nsze);
+             goto out;
+         }
+ 
+@@ -2816,7 +2812,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_bounds(ns, slba, nlb);
+     if (status) {
+-        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+         return status;
+     }
+ 
+@@ -2935,7 +2930,6 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
+ 
+     status = nvme_check_bounds(ns, slba, nlb);
+     if (status) {
+-        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+         goto invalid;
+     }
+ 
+@@ -3015,7 +3009,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+ 
+     status = nvme_check_bounds(ns, slba, nlb);
+     if (status) {
+-        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+         goto invalid;
+     }
+ 
+-- 
+2.17.1
 
-export CFLAGS=3D"-O0 -g -fPIC"
-../configure --enable-system --disable-xen --disable-werror --disable-docs =
---disable-libudev --disable-guest-agent --disable-sdl --disable-gtk --disab=
-le-vnc --disable-xen --disable-brlapi  --disable-hax --disable-vde --disabl=
-e-netmap --disable-rbd --disable-libiscsi --disable-libnfs --disable-smartc=
-ard --disable-libusb --disable-usb-redir --disable-seccomp --disable-gluste=
-rfs --disable-tpm --disable-numa --disable-opengl --disable-virglrenderer -=
--disable-xfsctl --disable-slirp --disable-blobs --disable-rdma --disable-pv=
-rdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-vho=
-st-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --disab=
-le-qom-cast-debug --disable-bochs --disable-cloop --disable-dmg --disable-q=
-cow1 --disable-vdi --disable-vvfat --disable-qed --disable-parallels --disa=
-ble-sheepdog --disable-avx2 --disable-nettle --disable-gnutls --disable-cap=
-stone --enable-tools --disable-libssh --disable-libpmem --disable-cap-ng --=
-disable-vte --disable-iconv --disable-curses --disable-linux-aio --disable-=
-linux-io-uring --disable-kvm --disable-replication --audio-drv-list=3D"" --=
-disable-vhost-kernel --disable-vhost-vdpa --disable-live-block-migration --=
-disable-keyring --disable-auth-pam --disable-curl --disable-strip --enable-=
-fdt --target-list=3D"riscv64-softmmu"
-make -j10
-
-Just like the package build that configures as
-   coroutine backend: ucontext
-   coroutine pool: YES
-
-5/5 runs with that were ok
-But since we know it is racy I'm unsure if that implies much :-/
-
-P.S. I have not yet went into a build-option bisect, but chances are it cou=
-ld be
-related. But that is too much stabbing in the dark, maybe someone experienc=
-ed
-in the coroutines code can already make sense of all the info we have gathe=
-red so
-far.
-I'll update the bug description and add an upstream task to have all the in=
-fo we have get mirrored to the qemu mailing lists.
-
-** Summary changed:
-
-- Recent update broke qemu-system-riscv64
-+ Coroutines are racy for risc64 emu on arm64 - crash on Assertion
-
-** Description changed:
-
-+ Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
-fect
-+ other architectures as well.
-+ =
-
-+ The following case triggers on a Raspberry Pi4 running with arm64 on
-+ Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
-+ but that is what we have seen it so far.
-+ =
-
-+    $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
-.0/UbuntuFocal-riscv64-QemuVM.tar.gz
-+    $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
-+    $ ./run_riscvVM.sh
-+ (wait ~2 minutes)
-+    [ OK ] Reached target Local File Systems (Pre).
-+    [ OK ] Reached target Local File Systems.
-+             Starting udev Kernel Device Manager...
-+ qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
-ait_impl: Assertion `qemu_in_coroutine()' failed.
-+ =
-
-+ This is often, but not 100% reproducible and the cases differ slightly we
-+ see either of:
-+ - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
-_wait_impl: Assertion `qemu_in_coroutine()' failed.
-+ - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
- Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-+ =
-
-+ Rebuilding working cases has shown to make them fail, as well as rebulding
-+ (or even reinstalling) bad cases has made them work. Also the same builds=
- on
-+ different arm64 CPUs behave differently. TL;DR: The full list of conditio=
-ns
-+ influencing good/bad case here are not yet known.
-+ =
-
-+ [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
--pi#1-overview
-+ [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
-alled-desktop-arm64+raspi.img.xz
-+ =
-
-+ =
-
-+ --- --- original report --- ---
-+ =
-
-  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days ago
-  broke it.  Now when I launch it, it hits an assertion:
-  =
-
--                                                                          =
-         =
-
-- OpenSBI v0.6                                                             =
-         =
-
--    ____                    _____ ____ _____                             =
-
--   / __ \                  / ____|  _ \_   _|                             =
-         =
-
--  | |  | |_ __   ___ _ __ | (___ | |_) || |                               =
-         =
-
--  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |                               =
-                                                                           =
-                 =
-
--  | |__| | |_) |  __/ | | |____) | |_) || |_                              =
-                                                                           =
-                 =
-
--   \____/| .__/ \___|_| |_|_____/|____/_____|                             =
-         =
-
--         | |                                                              =
-                                                                           =
-                 =
-
--         |_|                                                              =
-         =
-
--                                                                          =
-         =
-
-+ OpenSBI v0.6
-+ =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
-+ =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
-+ =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
-+ =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-+ =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
-+ =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
-+ =
-
-  ...
-- Found /boot/extlinux/extlinux.conf                                       =
-                                                                           =
-                 =
-
-- Retrieving file: /boot/extlinux/extlinux.conf                            =
-                                                                           =
-                 =
-
-- 618 bytes read in 2 ms (301.8 KiB/s)                                     =
-         =
-
-- RISC-V Qemu Boot Options                                                 =
-         =
-
-- 1:      Linux kernel-5.5.0-dirty         =
-
-- 2:      Linux kernel-5.5.0-dirty (recovery mode)                         =
-   =
-
-- Enter choice: 1:        Linux kernel-5.5.0-dirty                         =
-         =
-
-- Retrieving file: /boot/initrd.img-5.5.0-dirty                            =
-                                                                           =
-                 =
-
-- qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
-ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.              =
-                     =
-
-+ Found /boot/extlinux/extlinux.conf
-+ Retrieving file: /boot/extlinux/extlinux.conf
-+ 618 bytes read in 2 ms (301.8 KiB/s)
-+ RISC-V Qemu Boot Options
-+ 1:      Linux kernel-5.5.0-dirty
-+ 2:      Linux kernel-5.5.0-dirty (recovery mode)
-+ Enter choice: 1:        Linux kernel-5.5.0-dirty
-+ Retrieving file: /boot/initrd.img-5.5.0-dirty
-+ qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
-ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
-m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
-e virtio-blk-devi
-  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
-ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
-2,format=3Dqcow2,id=3Dhd0 -devi
-- ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports   =
-             =
-
-+ ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
-  =
-
-  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
-  (fully updated).
-- =
-
-  =
-
-  Think you have everything already, but just in case:
-  =
-
-  $ lsb_release -rd
-  Description:    Ubuntu Hirsute Hippo (development branch)
-  Release:        21.04
-  =
-
-  $ uname -a
-  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
-021 aarch64 aarch64 aarch64 GNU/Linux
-  (note this is a VM running on macOS/M1)
-  =
-
-  $ apt-cache policy qemu
-  qemu:
--   Installed: 1:5.2+dfsg-9ubuntu1
--   Candidate: 1:5.2+dfsg-9ubuntu1
--   Version table:
--  *** 1:5.2+dfsg-9ubuntu1 500
--         500 http://ports.ubuntu.com/ubuntu-ports hirsute/universe arm64 P=
-ackages
--         100 /var/lib/dpkg/status
-+ =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
-+ =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
-+ =C2=A0=C2=A0Version table:
-+ =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
-om/ubuntu-ports hirsute/universe arm64 Packages
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
-  =
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu 1:5.2+dfsg-9ubuntu1
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic aarch64
-  ApportVersion: 2.20.11-0ubuntu61
-  Architecture: arm64
-  CasperMD5CheckResult: unknown
-  CurrentDmesg:
--  Error: command ['pkexec', 'dmesg'] failed with exit code 127: polkit-age=
-nt-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedeskto=
-p.PolicyKit1.Error.Failed: No session for cookie
--  Error executing command as another user: Not authorized
--  =
-
--  This incident has been reported.
-+ =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
-t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
-esktop.PolicyKit1.Error.Failed: No session for cookie
-+ =C2=A0Error executing command as another user: Not authorized
-+ =
-
-+ =C2=A0This incident has been reported.
-  Date: Mon Mar 29 02:33:25 2021
-  Dependencies:
--  =
-
-+ =
-
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  Lspci-vt:
--  -[0000:00]-+-00.0  Apple Inc. Device f020
--             +-01.0  Red Hat, Inc. Virtio network device
--             +-05.0  Red Hat, Inc. Virtio console
--             +-06.0  Red Hat, Inc. Virtio block device
--             \-07.0  Red Hat, Inc. Virtio RNG
-+ =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--01.0  Red Hat, Inc. Virtio network device
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--05.0  Red Hat, Inc. Virtio console
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--06.0  Red Hat, Inc. Virtio block device
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
--07.0  Red Hat, Inc. Virtio RNG
-  Lsusb: Error: command ['lsusb'] failed with exit code 1:
-  Lsusb-t:
--  =
-
-+ =
-
-  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
-  ProcEnviron:
--  TERM=3Dscreen
--  PATH=3D(custom, no user)
--  XDG_RUNTIME_DIR=3D<set>
--  LANG=3DC.UTF-8
--  SHELL=3D/bin/bash
-+ =C2=A0TERM=3Dscreen
-+ =C2=A0PATH=3D(custom, no user)
-+ =C2=A0XDG_RUNTIME_DIR=3D<set>
-+ =C2=A0LANG=3DC.UTF-8
-+ =C2=A0SHELL=3D/bin/bash
-  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
-  acpidump:
--  Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] faile=
-d with exit code 127: polkit-agent-helper-1: error response to PolicyKit da=
-emon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for c=
-ookie
--  Error executing command as another user: Not authorized
--  =
-
--  This incident has been reported.
-+ =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
-failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
-it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
-for cookie
-+ =C2=A0Error executing command as another user: Not authorized
-+ =
-
-+ =C2=A0This incident has been reported.
-
-** Also affects: qemu
-   Importance: Undecided
-       Status: New
-
-** Changed in: qemu (Ubuntu)
-   Importance: Undecided =3D> Low
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921664
-
-Title:
-  Coroutines are racy for risc64 emu on arm64 - crash on Assertion
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Confirmed
-
-Bug description:
-  Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
-fect
-  other architectures as well.
-
-  The following case triggers on a Raspberry Pi4 running with arm64 on
-  Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
-  but that is what we have seen it so far.
-
-     $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
-.0/UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ ./run_riscvVM.sh
-  (wait ~2 minutes)
-     [ OK ] Reached target Local File Systems (Pre).
-     [ OK ] Reached target Local File Systems.
-              Starting udev Kernel Device Manager...
-  qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
-ait_impl: Assertion `qemu_in_coroutine()' failed.
-
-  This is often, but not 100% reproducible and the cases differ slightly we
-  see either of:
-  - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
-_wait_impl: Assertion `qemu_in_coroutine()' failed.
-  - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
- Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-
-  Rebuilding working cases has shown to make them fail, as well as rebulding
-  (or even reinstalling) bad cases has made them work. Also the same builds=
- on
-  different arm64 CPUs behave differently. TL;DR: The full list of conditio=
-ns
-  influencing good/bad case here are not yet known.
-
-  [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
--pi#1-overview
-  [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
-alled-desktop-arm64+raspi.img.xz
-
-  =
-
-  --- --- original report --- ---
-
-  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days
-  ago broke it.  Now when I launch it, it hits an assertion:
-
-  OpenSBI v0.6
-  =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
-  =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
-  =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
-  =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-  =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
-  =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
-
-  ...
-  Found /boot/extlinux/extlinux.conf
-  Retrieving file: /boot/extlinux/extlinux.conf
-  618 bytes read in 2 ms (301.8 KiB/s)
-  RISC-V Qemu Boot Options
-  1:      Linux kernel-5.5.0-dirty
-  2:      Linux kernel-5.5.0-dirty (recovery mode)
-  Enter choice: 1:        Linux kernel-5.5.0-dirty
-  Retrieving file: /boot/initrd.img-5.5.0-dirty
-  qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
-ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
-m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
-e virtio-blk-devi
-  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
-ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
-2,format=3Dqcow2,id=3Dhd0 -devi
-  ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
-
-  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
-  (fully updated).
-
-  Think you have everything already, but just in case:
-
-  $ lsb_release -rd
-  Description:    Ubuntu Hirsute Hippo (development branch)
-  Release:        21.04
-
-  $ uname -a
-  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
-021 aarch64 aarch64 aarch64 GNU/Linux
-  (note this is a VM running on macOS/M1)
-
-  $ apt-cache policy qemu
-  qemu:
-  =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Version table:
-  =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
-om/ubuntu-ports hirsute/universe arm64 Packages
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu 1:5.2+dfsg-9ubuntu1
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic aarch64
-  ApportVersion: 2.20.11-0ubuntu61
-  Architecture: arm64
-  CasperMD5CheckResult: unknown
-  CurrentDmesg:
-  =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
-t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
-esktop.PolicyKit1.Error.Failed: No session for cookie
-  =C2=A0Error executing command as another user: Not authorized
-
-  =C2=A0This incident has been reported.
-  Date: Mon Mar 29 02:33:25 2021
-  Dependencies:
-
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  Lspci-vt:
-  =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--01.0  Red Hat, Inc. Virtio network device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--05.0  Red Hat, Inc. Virtio console
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--06.0  Red Hat, Inc. Virtio block device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
--07.0  Red Hat, Inc. Virtio RNG
-  Lsusb: Error: command ['lsusb'] failed with exit code 1:
-  Lsusb-t:
-
-  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
-  ProcEnviron:
-  =C2=A0TERM=3Dscreen
-  =C2=A0PATH=3D(custom, no user)
-  =C2=A0XDG_RUNTIME_DIR=3D<set>
-  =C2=A0LANG=3DC.UTF-8
-  =C2=A0SHELL=3D/bin/bash
-  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
-  acpidump:
-  =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
-failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
-it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
-for cookie
-  =C2=A0Error executing command as another user: Not authorized
-
-  =C2=A0This incident has been reported.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921664/+subscriptions
 
