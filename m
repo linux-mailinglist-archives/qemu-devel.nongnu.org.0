@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D4135F276
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:30:08 +0200 (CEST)
-Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F80535F280
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:34:04 +0200 (CEST)
+Received: from localhost ([::1]:48238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWdih-00089H-DM
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41690)
+	id 1lWdmV-0003PO-Ni
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfy-00068b-AR
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44386)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfr-00064b-8h
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfo-0005P1-An
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:18 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfb-0005ME-VI
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:11 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3F7B6AFD2;
- Wed, 14 Apr 2021 11:26:55 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id EBCADAF27;
+ Wed, 14 Apr 2021 11:26:53 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 05/80] target/arm: tcg: split mte_helper user-only and
- sysemu code
-Date: Wed, 14 Apr 2021 13:25:35 +0200
-Message-Id: <20210414112650.18003-6-cfontana@suse.de>
+Subject: [RFC v13 02/80] target/arm: move helpers to tcg/
+Date: Wed, 14 Apr 2021 13:25:32 +0200
+Message-Id: <20210414112650.18003-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
@@ -62,537 +61,230 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-allocation_tag_mem has a different implementation for
-user-only and sysemu, so move the two implementations into
-the dedicated subdirs.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/tcg/mte_helper.h        |  53 ++++++++
- target/arm/tcg/mte_helper.c        | 191 +----------------------------
- target/arm/tcg/sysemu/mte_helper.c | 159 ++++++++++++++++++++++++
- target/arm/tcg/user/mte_helper.c   |  57 +++++++++
- target/arm/tcg/sysemu/meson.build  |   1 +
- target/arm/tcg/user/meson.build    |   1 +
- 6 files changed, 272 insertions(+), 190 deletions(-)
- create mode 100644 target/arm/tcg/mte_helper.h
- create mode 100644 target/arm/tcg/sysemu/mte_helper.c
- create mode 100644 target/arm/tcg/user/mte_helper.c
+ meson.build                          |  1 +
+ target/arm/{ => tcg}/op_addsub.h     |  0
+ target/arm/tcg/trace.h               |  1 +
+ target/arm/{ => tcg}/vec_internal.h  |  0
+ target/arm/{ => tcg}/crypto_helper.c |  0
+ target/arm/{ => tcg}/debug_helper.c  |  0
+ target/arm/{ => tcg}/helper-a64.c    |  0
+ target/arm/{ => tcg}/helper.c        |  0
+ target/arm/{ => tcg}/iwmmxt_helper.c |  0
+ target/arm/{ => tcg}/m_helper.c      |  0
+ target/arm/{ => tcg}/mte_helper.c    |  0
+ target/arm/{ => tcg}/neon_helper.c   |  0
+ target/arm/{ => tcg}/op_helper.c     |  0
+ target/arm/{ => tcg}/pauth_helper.c  |  0
+ target/arm/{ => tcg}/sve_helper.c    |  0
+ target/arm/{ => tcg}/tlb_helper.c    |  0
+ target/arm/{ => tcg}/vec_helper.c    |  0
+ target/arm/{ => tcg}/vfp_helper.c    |  0
+ target/arm/meson.build               | 14 --------------
+ target/arm/tcg/meson.build           | 14 ++++++++++++++
+ target/arm/tcg/trace-events          | 10 ++++++++++
+ target/arm/trace-events              |  9 ---------
+ 22 files changed, 26 insertions(+), 23 deletions(-)
+ rename target/arm/{ => tcg}/op_addsub.h (100%)
+ create mode 100644 target/arm/tcg/trace.h
+ rename target/arm/{ => tcg}/vec_internal.h (100%)
+ rename target/arm/{ => tcg}/crypto_helper.c (100%)
+ rename target/arm/{ => tcg}/debug_helper.c (100%)
+ rename target/arm/{ => tcg}/helper-a64.c (100%)
+ rename target/arm/{ => tcg}/helper.c (100%)
+ rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
+ rename target/arm/{ => tcg}/m_helper.c (100%)
+ rename target/arm/{ => tcg}/mte_helper.c (100%)
+ rename target/arm/{ => tcg}/neon_helper.c (100%)
+ rename target/arm/{ => tcg}/op_helper.c (100%)
+ rename target/arm/{ => tcg}/pauth_helper.c (100%)
+ rename target/arm/{ => tcg}/sve_helper.c (100%)
+ rename target/arm/{ => tcg}/tlb_helper.c (100%)
+ rename target/arm/{ => tcg}/vec_helper.c (100%)
+ rename target/arm/{ => tcg}/vfp_helper.c (100%)
+ create mode 100644 target/arm/tcg/trace-events
 
-diff --git a/target/arm/tcg/mte_helper.h b/target/arm/tcg/mte_helper.h
+diff --git a/meson.build b/meson.build
+index 25363b492d..357ddc3dd6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1845,6 +1845,7 @@ if have_system or have_user
+     'accel/tcg',
+     'hw/core',
+     'target/arm',
++    'target/arm/tcg',
+     'target/hppa',
+     'target/i386',
+     'target/i386/kvm',
+diff --git a/target/arm/op_addsub.h b/target/arm/tcg/op_addsub.h
+similarity index 100%
+rename from target/arm/op_addsub.h
+rename to target/arm/tcg/op_addsub.h
+diff --git a/target/arm/tcg/trace.h b/target/arm/tcg/trace.h
 new file mode 100644
-index 0000000000..29db1ad9fc
+index 0000000000..c6e89d018b
 --- /dev/null
-+++ b/target/arm/tcg/mte_helper.h
-@@ -0,0 +1,53 @@
-+/*
-+ * ARM v8.5-MemTag Operations
-+ *
-+ * Copyright (c) 2020 Linaro, Ltd.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef MTE_HELPER_H
-+#define MTE_HELPER_H
-+
-+/**
-+ * allocation_tag_mem:
-+ * @env: the cpu environment
-+ * @ptr_mmu_idx: the addressing regime to use for the virtual address
-+ * @ptr: the virtual address for which to look up tag memory
-+ * @ptr_access: the access to use for the virtual address
-+ * @ptr_size: the number of bytes in the normal memory access
-+ * @tag_access: the access to use for the tag memory
-+ * @tag_size: the number of bytes in the tag memory access
-+ * @ra: the return address for exception handling
-+ *
-+ * Our tag memory is formatted as a sequence of little-endian nibbles.
-+ * That is, the byte at (addr >> (LOG2_TAG_GRANULE + 1)) contains two
-+ * tags, with the tag at [3:0] for the lower addr and the tag at [7:4]
-+ * for the higher addr.
-+ *
-+ * Here, resolve the physical address from the virtual address, and return
-+ * a pointer to the corresponding tag byte.  Exit with exception if the
-+ * virtual address is not accessible for @ptr_access.
-+ *
-+ * The @ptr_size and @tag_size values may not have an obvious relation
-+ * due to the alignment of @ptr, and the number of tag checks required.
-+ *
-+ * If there is no tag storage corresponding to @ptr, return NULL.
-+ */
-+uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-+                            uint64_t ptr, MMUAccessType ptr_access,
-+                            int ptr_size, MMUAccessType tag_access,
-+                            int tag_size, uintptr_t ra);
-+
-+#endif /* MTE_HELPER_H */
-diff --git a/target/arm/tcg/mte_helper.c b/target/arm/tcg/mte_helper.c
-index 0bbb9ec346..ea4196a162 100644
---- a/target/arm/tcg/mte_helper.c
-+++ b/target/arm/tcg/mte_helper.c
-@@ -26,7 +26,7 @@
- #include "exec/helper-proto.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
--
-+#include "tcg/mte_helper.h"
- 
- static int choose_nonexcluded_tag(int tag, int offset, uint16_t exclude)
- {
-@@ -47,195 +47,6 @@ static int choose_nonexcluded_tag(int tag, int offset, uint16_t exclude)
-     return tag;
- }
- 
--/**
-- * allocation_tag_mem:
-- * @env: the cpu environment
-- * @ptr_mmu_idx: the addressing regime to use for the virtual address
-- * @ptr: the virtual address for which to look up tag memory
-- * @ptr_access: the access to use for the virtual address
-- * @ptr_size: the number of bytes in the normal memory access
-- * @tag_access: the access to use for the tag memory
-- * @tag_size: the number of bytes in the tag memory access
-- * @ra: the return address for exception handling
-- *
-- * Our tag memory is formatted as a sequence of little-endian nibbles.
-- * That is, the byte at (addr >> (LOG2_TAG_GRANULE + 1)) contains two
-- * tags, with the tag at [3:0] for the lower addr and the tag at [7:4]
-- * for the higher addr.
-- *
-- * Here, resolve the physical address from the virtual address, and return
-- * a pointer to the corresponding tag byte.  Exit with exception if the
-- * virtual address is not accessible for @ptr_access.
-- *
-- * The @ptr_size and @tag_size values may not have an obvious relation
-- * due to the alignment of @ptr, and the number of tag checks required.
-- *
-- * If there is no tag storage corresponding to @ptr, return NULL.
-- */
--static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
--                                   uint64_t ptr, MMUAccessType ptr_access,
--                                   int ptr_size, MMUAccessType tag_access,
--                                   int tag_size, uintptr_t ra)
--{
--#ifdef CONFIG_USER_ONLY
--    uint64_t clean_ptr = useronly_clean_ptr(ptr);
--    int flags = page_get_flags(clean_ptr);
--    uint8_t *tags;
--    uintptr_t index;
--
--    if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE : PAGE_READ))) {
--        /* SIGSEGV */
--        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
--                         ptr_mmu_idx, false, ra);
--        g_assert_not_reached();
--    }
--
--    /* Require both MAP_ANON and PROT_MTE for the page. */
--    if (!(flags & PAGE_ANON) || !(flags & PAGE_MTE)) {
--        return NULL;
--    }
--
--    tags = page_get_target_data(clean_ptr);
--    if (tags == NULL) {
--        size_t alloc_size = TARGET_PAGE_SIZE >> (LOG2_TAG_GRANULE + 1);
--        tags = page_alloc_target_data(clean_ptr, alloc_size);
--        assert(tags != NULL);
--    }
--
--    index = extract32(ptr, LOG2_TAG_GRANULE + 1,
--                      TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
--    return tags + index;
--#else
--    uintptr_t index;
--    CPUIOTLBEntry *iotlbentry;
--    int in_page, flags;
--    ram_addr_t ptr_ra;
--    hwaddr ptr_paddr, tag_paddr, xlat;
--    MemoryRegion *mr;
--    ARMASIdx tag_asi;
--    AddressSpace *tag_as;
--    void *host;
--
--    /*
--     * Probe the first byte of the virtual address.  This raises an
--     * exception for inaccessible pages, and resolves the virtual address
--     * into the softmmu tlb.
--     *
--     * When RA == 0, this is for mte_probe1.  The page is expected to be
--     * valid.  Indicate to probe_access_flags no-fault, then assert that
--     * we received a valid page.
--     */
--    flags = probe_access_flags(env, ptr, ptr_access, ptr_mmu_idx,
--                               ra == 0, &host, ra);
--    assert(!(flags & TLB_INVALID_MASK));
--
--    /*
--     * Find the iotlbentry for ptr.  This *must* be present in the TLB
--     * because we just found the mapping.
--     * TODO: Perhaps there should be a cputlb helper that returns a
--     * matching tlb entry + iotlb entry.
--     */
--    index = tlb_index(env, ptr_mmu_idx, ptr);
--# ifdef CONFIG_DEBUG_TCG
--    {
--        CPUTLBEntry *entry = tlb_entry(env, ptr_mmu_idx, ptr);
--        target_ulong comparator = (ptr_access == MMU_DATA_LOAD
--                                   ? entry->addr_read
--                                   : tlb_addr_write(entry));
--        g_assert(tlb_hit(comparator, ptr));
--    }
--# endif
--    iotlbentry = &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
--
--    /* If the virtual page MemAttr != Tagged, access unchecked. */
--    if (!arm_tlb_mte_tagged(&iotlbentry->attrs)) {
--        return NULL;
--    }
--
--    /*
--     * If not backed by host ram, there is no tag storage: access unchecked.
--     * This is probably a guest os bug though, so log it.
--     */
--    if (unlikely(flags & TLB_MMIO)) {
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "Page @ 0x%" PRIx64 " indicates Tagged Normal memory "
--                      "but is not backed by host ram\n", ptr);
--        return NULL;
--    }
--
--    /*
--     * The Normal memory access can extend to the next page.  E.g. a single
--     * 8-byte access to the last byte of a page will check only the last
--     * tag on the first page.
--     * Any page access exception has priority over tag check exception.
--     */
--    in_page = -(ptr | TARGET_PAGE_MASK);
--    if (unlikely(ptr_size > in_page)) {
--        void *ignore;
--        flags |= probe_access_flags(env, ptr + in_page, ptr_access,
--                                    ptr_mmu_idx, ra == 0, &ignore, ra);
--        assert(!(flags & TLB_INVALID_MASK));
--    }
--
--    /* Any debug exception has priority over a tag check exception. */
--    if (unlikely(flags & TLB_WATCHPOINT)) {
--        int wp = ptr_access == MMU_DATA_LOAD ? BP_MEM_READ : BP_MEM_WRITE;
--        assert(ra != 0);
--        cpu_check_watchpoint(env_cpu(env), ptr, ptr_size,
--                             iotlbentry->attrs, wp, ra);
--    }
--
--    /*
--     * Find the physical address within the normal mem space.
--     * The memory region lookup must succeed because TLB_MMIO was
--     * not set in the cputlb lookup above.
--     */
--    mr = memory_region_from_host(host, &ptr_ra);
--    tcg_debug_assert(mr != NULL);
--    tcg_debug_assert(memory_region_is_ram(mr));
--    ptr_paddr = ptr_ra;
--    do {
--        ptr_paddr += mr->addr;
--        mr = mr->container;
--    } while (mr);
--
--    /* Convert to the physical address in tag space.  */
--    tag_paddr = ptr_paddr >> (LOG2_TAG_GRANULE + 1);
--
--    /* Look up the address in tag space. */
--    tag_asi = iotlbentry->attrs.secure ? ARMASIdx_TagS : ARMASIdx_TagNS;
--    tag_as = cpu_get_address_space(env_cpu(env), tag_asi);
--    mr = address_space_translate(tag_as, tag_paddr, &xlat, NULL,
--                                 tag_access == MMU_DATA_STORE,
--                                 iotlbentry->attrs);
--
--    /*
--     * Note that @mr will never be NULL.  If there is nothing in the address
--     * space at @tag_paddr, the translation will return the unallocated memory
--     * region.  For our purposes, the result must be ram.
--     */
--    if (unlikely(!memory_region_is_ram(mr))) {
--        /* ??? Failure is a board configuration error. */
--        qemu_log_mask(LOG_UNIMP,
--                      "Tag Memory @ 0x%" HWADDR_PRIx " not found for "
--                      "Normal Memory @ 0x%" HWADDR_PRIx "\n",
--                      tag_paddr, ptr_paddr);
--        return NULL;
--    }
--
--    /*
--     * Ensure the tag memory is dirty on write, for migration.
--     * Tag memory can never contain code or display memory (vga).
--     */
--    if (tag_access == MMU_DATA_STORE) {
--        ram_addr_t tag_ra = memory_region_get_ram_addr(mr) + xlat;
--        cpu_physical_memory_set_dirty_flag(tag_ra, DIRTY_MEMORY_MIGRATION);
--    }
--
--    return memory_region_get_ram_ptr(mr) + xlat;
--#endif
--}
--
- uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
- {
-     uint16_t exclude = extract32(rm | env->cp15.gcr_el1, 0, 16);
-diff --git a/target/arm/tcg/sysemu/mte_helper.c b/target/arm/tcg/sysemu/mte_helper.c
-new file mode 100644
-index 0000000000..d953369294
---- /dev/null
-+++ b/target/arm/tcg/sysemu/mte_helper.c
-@@ -0,0 +1,159 @@
-+/*
-+ * ARM v8.5-MemTag Operations - System Emulation
-+ *
-+ * Copyright (c) 2020 Linaro, Ltd.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+#include "exec/exec-all.h"
-+#include "exec/ram_addr.h"
-+#include "tcg/mte_helper.h"
-+
-+uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-+                            uint64_t ptr, MMUAccessType ptr_access,
-+                            int ptr_size, MMUAccessType tag_access,
-+                            int tag_size, uintptr_t ra)
-+{
-+    uintptr_t index;
-+    CPUIOTLBEntry *iotlbentry;
-+    int in_page, flags;
-+    ram_addr_t ptr_ra;
-+    hwaddr ptr_paddr, tag_paddr, xlat;
-+    MemoryRegion *mr;
-+    ARMASIdx tag_asi;
-+    AddressSpace *tag_as;
-+    void *host;
-+
-+    /*
-+     * Probe the first byte of the virtual address.  This raises an
-+     * exception for inaccessible pages, and resolves the virtual address
-+     * into the softmmu tlb.
-+     *
-+     * When RA == 0, this is for mte_probe1.  The page is expected to be
-+     * valid.  Indicate to probe_access_flags no-fault, then assert that
-+     * we received a valid page.
-+     */
-+    flags = probe_access_flags(env, ptr, ptr_access, ptr_mmu_idx,
-+                               ra == 0, &host, ra);
-+    assert(!(flags & TLB_INVALID_MASK));
-+
-+    /*
-+     * Find the iotlbentry for ptr.  This *must* be present in the TLB
-+     * because we just found the mapping.
-+     * TODO: Perhaps there should be a cputlb helper that returns a
-+     * matching tlb entry + iotlb entry.
-+     */
-+    index = tlb_index(env, ptr_mmu_idx, ptr);
-+#ifdef CONFIG_DEBUG_TCG
-+    {
-+        CPUTLBEntry *entry = tlb_entry(env, ptr_mmu_idx, ptr);
-+        target_ulong comparator = (ptr_access == MMU_DATA_LOAD
-+                                   ? entry->addr_read
-+                                   : tlb_addr_write(entry));
-+        g_assert(tlb_hit(comparator, ptr));
-+    }
-+#endif
-+    iotlbentry = &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
-+
-+    /* If the virtual page MemAttr != Tagged, access unchecked. */
-+    if (!arm_tlb_mte_tagged(&iotlbentry->attrs)) {
-+        return NULL;
-+    }
-+
-+    /*
-+     * If not backed by host ram, there is no tag storage: access unchecked.
-+     * This is probably a guest os bug though, so log it.
-+     */
-+    if (unlikely(flags & TLB_MMIO)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "Page @ 0x%" PRIx64 " indicates Tagged Normal memory "
-+                      "but is not backed by host ram\n", ptr);
-+        return NULL;
-+    }
-+
-+    /*
-+     * The Normal memory access can extend to the next page.  E.g. a single
-+     * 8-byte access to the last byte of a page will check only the last
-+     * tag on the first page.
-+     * Any page access exception has priority over tag check exception.
-+     */
-+    in_page = -(ptr | TARGET_PAGE_MASK);
-+    if (unlikely(ptr_size > in_page)) {
-+        void *ignore;
-+        flags |= probe_access_flags(env, ptr + in_page, ptr_access,
-+                                    ptr_mmu_idx, ra == 0, &ignore, ra);
-+        assert(!(flags & TLB_INVALID_MASK));
-+    }
-+
-+    /* Any debug exception has priority over a tag check exception. */
-+    if (unlikely(flags & TLB_WATCHPOINT)) {
-+        int wp = ptr_access == MMU_DATA_LOAD ? BP_MEM_READ : BP_MEM_WRITE;
-+        assert(ra != 0);
-+        cpu_check_watchpoint(env_cpu(env), ptr, ptr_size,
-+                             iotlbentry->attrs, wp, ra);
-+    }
-+
-+    /*
-+     * Find the physical address within the normal mem space.
-+     * The memory region lookup must succeed because TLB_MMIO was
-+     * not set in the cputlb lookup above.
-+     */
-+    mr = memory_region_from_host(host, &ptr_ra);
-+    tcg_debug_assert(mr != NULL);
-+    tcg_debug_assert(memory_region_is_ram(mr));
-+    ptr_paddr = ptr_ra;
-+    do {
-+        ptr_paddr += mr->addr;
-+        mr = mr->container;
-+    } while (mr);
-+
-+    /* Convert to the physical address in tag space.  */
-+    tag_paddr = ptr_paddr >> (LOG2_TAG_GRANULE + 1);
-+
-+    /* Look up the address in tag space. */
-+    tag_asi = iotlbentry->attrs.secure ? ARMASIdx_TagS : ARMASIdx_TagNS;
-+    tag_as = cpu_get_address_space(env_cpu(env), tag_asi);
-+    mr = address_space_translate(tag_as, tag_paddr, &xlat, NULL,
-+                                 tag_access == MMU_DATA_STORE,
-+                                 iotlbentry->attrs);
-+
-+    /*
-+     * Note that @mr will never be NULL.  If there is nothing in the address
-+     * space at @tag_paddr, the translation will return the unallocated memory
-+     * region.  For our purposes, the result must be ram.
-+     */
-+    if (unlikely(!memory_region_is_ram(mr))) {
-+        /* ??? Failure is a board configuration error. */
-+        qemu_log_mask(LOG_UNIMP,
-+                      "Tag Memory @ 0x%" HWADDR_PRIx " not found for "
-+                      "Normal Memory @ 0x%" HWADDR_PRIx "\n",
-+                      tag_paddr, ptr_paddr);
-+        return NULL;
-+    }
-+
-+    /*
-+     * Ensure the tag memory is dirty on write, for migration.
-+     * Tag memory can never contain code or display memory (vga).
-+     */
-+    if (tag_access == MMU_DATA_STORE) {
-+        ram_addr_t tag_ra = memory_region_get_ram_addr(mr) + xlat;
-+        cpu_physical_memory_set_dirty_flag(tag_ra, DIRTY_MEMORY_MIGRATION);
-+    }
-+
-+    return memory_region_get_ram_ptr(mr) + xlat;
-+}
-diff --git a/target/arm/tcg/user/mte_helper.c b/target/arm/tcg/user/mte_helper.c
-new file mode 100644
-index 0000000000..2c8b0e582d
---- /dev/null
-+++ b/target/arm/tcg/user/mte_helper.c
-@@ -0,0 +1,57 @@
-+/*
-+ * ARM v8.5-MemTag Operations - User-mode
-+ *
-+ * Copyright (c) 2020 Linaro, Ltd.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+#include "tcg/mte_helper.h"
-+
-+uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-+                            uint64_t ptr, MMUAccessType ptr_access,
-+                            int ptr_size, MMUAccessType tag_access,
-+                            int tag_size, uintptr_t ra)
-+{
-+    uint64_t clean_ptr = useronly_clean_ptr(ptr);
-+    int flags = page_get_flags(clean_ptr);
-+    uint8_t *tags;
-+    uintptr_t index;
-+
-+    if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE : PAGE_READ))) {
-+        /* SIGSEGV */
-+        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
-+                         ptr_mmu_idx, false, ra);
-+        g_assert_not_reached();
-+    }
-+
-+    /* Require both MAP_ANON and PROT_MTE for the page. */
-+    if (!(flags & PAGE_ANON) || !(flags & PAGE_MTE)) {
-+        return NULL;
-+    }
-+
-+    tags = page_get_target_data(clean_ptr);
-+    if (tags == NULL) {
-+        size_t alloc_size = TARGET_PAGE_SIZE >> (LOG2_TAG_GRANULE + 1);
-+        tags = page_alloc_target_data(clean_ptr, alloc_size);
-+        assert(tags != NULL);
-+    }
-+
-+    index = extract32(ptr, LOG2_TAG_GRANULE + 1,
-+                      TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
-+    return tags + index;
-+}
-diff --git a/target/arm/tcg/sysemu/meson.build b/target/arm/tcg/sysemu/meson.build
-index 726387b0b3..6f014f77ec 100644
---- a/target/arm/tcg/sysemu/meson.build
-+++ b/target/arm/tcg/sysemu/meson.build
-@@ -1,2 +1,3 @@
- arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-+  'mte_helper.c',
++++ b/target/arm/tcg/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-target_arm_tcg.h"
+diff --git a/target/arm/vec_internal.h b/target/arm/tcg/vec_internal.h
+similarity index 100%
+rename from target/arm/vec_internal.h
+rename to target/arm/tcg/vec_internal.h
+diff --git a/target/arm/crypto_helper.c b/target/arm/tcg/crypto_helper.c
+similarity index 100%
+rename from target/arm/crypto_helper.c
+rename to target/arm/tcg/crypto_helper.c
+diff --git a/target/arm/debug_helper.c b/target/arm/tcg/debug_helper.c
+similarity index 100%
+rename from target/arm/debug_helper.c
+rename to target/arm/tcg/debug_helper.c
+diff --git a/target/arm/helper-a64.c b/target/arm/tcg/helper-a64.c
+similarity index 100%
+rename from target/arm/helper-a64.c
+rename to target/arm/tcg/helper-a64.c
+diff --git a/target/arm/helper.c b/target/arm/tcg/helper.c
+similarity index 100%
+rename from target/arm/helper.c
+rename to target/arm/tcg/helper.c
+diff --git a/target/arm/iwmmxt_helper.c b/target/arm/tcg/iwmmxt_helper.c
+similarity index 100%
+rename from target/arm/iwmmxt_helper.c
+rename to target/arm/tcg/iwmmxt_helper.c
+diff --git a/target/arm/m_helper.c b/target/arm/tcg/m_helper.c
+similarity index 100%
+rename from target/arm/m_helper.c
+rename to target/arm/tcg/m_helper.c
+diff --git a/target/arm/mte_helper.c b/target/arm/tcg/mte_helper.c
+similarity index 100%
+rename from target/arm/mte_helper.c
+rename to target/arm/tcg/mte_helper.c
+diff --git a/target/arm/neon_helper.c b/target/arm/tcg/neon_helper.c
+similarity index 100%
+rename from target/arm/neon_helper.c
+rename to target/arm/tcg/neon_helper.c
+diff --git a/target/arm/op_helper.c b/target/arm/tcg/op_helper.c
+similarity index 100%
+rename from target/arm/op_helper.c
+rename to target/arm/tcg/op_helper.c
+diff --git a/target/arm/pauth_helper.c b/target/arm/tcg/pauth_helper.c
+similarity index 100%
+rename from target/arm/pauth_helper.c
+rename to target/arm/tcg/pauth_helper.c
+diff --git a/target/arm/sve_helper.c b/target/arm/tcg/sve_helper.c
+similarity index 100%
+rename from target/arm/sve_helper.c
+rename to target/arm/tcg/sve_helper.c
+diff --git a/target/arm/tlb_helper.c b/target/arm/tcg/tlb_helper.c
+similarity index 100%
+rename from target/arm/tlb_helper.c
+rename to target/arm/tcg/tlb_helper.c
+diff --git a/target/arm/vec_helper.c b/target/arm/tcg/vec_helper.c
+similarity index 100%
+rename from target/arm/vec_helper.c
+rename to target/arm/tcg/vec_helper.c
+diff --git a/target/arm/vfp_helper.c b/target/arm/tcg/vfp_helper.c
+similarity index 100%
+rename from target/arm/vfp_helper.c
+rename to target/arm/tcg/vfp_helper.c
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 229ec7fa11..0172937b40 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -1,17 +1,7 @@
+ arm_ss = ss.source_set()
+ arm_ss.add(files(
+   'cpu.c',
+-  'crypto_helper.c',
+-  'debug_helper.c',
+   'gdbstub.c',
+-  'helper.c',
+-  'iwmmxt_helper.c',
+-  'm_helper.c',
+-  'neon_helper.c',
+-  'op_helper.c',
+-  'tlb_helper.c',
+-  'vec_helper.c',
+-  'vfp_helper.c',
+   'cpu_tcg.c',
  ))
-diff --git a/target/arm/tcg/user/meson.build b/target/arm/tcg/user/meson.build
-index 7af3311190..e681e5f5a1 100644
---- a/target/arm/tcg/user/meson.build
-+++ b/target/arm/tcg/user/meson.build
-@@ -1,2 +1,3 @@
- arm_user_ss.add(when: 'CONFIG_TCG', if_true: files(
-+  'mte_helper.c',
+ arm_ss.add(zlib)
+@@ -21,10 +11,6 @@ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: fil
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'cpu64.c',
+   'gdbstub64.c',
+-  'helper-a64.c',
+-  'mte_helper.c',
+-  'pauth_helper.c',
+-  'sve_helper.c',
  ))
+ 
+ arm_softmmu_ss = ss.source_set()
+diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
+index 5a7c9b95d8..0bd4e9d954 100644
+--- a/target/arm/tcg/meson.build
++++ b/target/arm/tcg/meson.build
+@@ -16,9 +16,23 @@ arm_ss.add(gen)
+ 
+ arm_ss.add(files(
+   'translate.c',
++  'helper.c',
++  'iwmmxt_helper.c',
++  'm_helper.c',
++  'neon_helper.c',
++  'op_helper.c',
++  'tlb_helper.c',
++  'vec_helper.c',
++  'vfp_helper.c',
++  'crypto_helper.c',
++  'debug_helper.c',
+ ))
+ 
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'translate-a64.c',
+   'translate-sve.c',
++  'helper-a64.c',
++  'mte_helper.c',
++  'pauth_helper.c',
++  'sve_helper.c',
+ ))
+diff --git a/target/arm/tcg/trace-events b/target/arm/tcg/trace-events
+new file mode 100644
+index 0000000000..755373a5b1
+--- /dev/null
++++ b/target/arm/tcg/trace-events
+@@ -0,0 +1,10 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# helper.c
++arm_gt_recalc(int timer, int irqstate, uint64_t nexttick) "gt recalc: timer %d irqstate %d next tick 0x%" PRIx64
++arm_gt_recalc_disabled(int timer) "gt recalc: timer %d irqstate 0 timer disabled"
++arm_gt_cval_write(int timer, uint64_t value) "gt_cval_write: timer %d value 0x%" PRIx64
++arm_gt_tval_write(int timer, uint64_t value) "gt_tval_write: timer %d value 0x%" PRIx64
++arm_gt_ctl_write(int timer, uint64_t value) "gt_ctl_write: timer %d value 0x%" PRIx64
++arm_gt_imask_toggle(int timer, int irqstate) "gt_ctl_write: timer %d IMASK toggle, new irqstate %d"
++arm_gt_cntvoff_write(uint64_t value) "gt_cntvoff_write: value 0x%" PRIx64
+diff --git a/target/arm/trace-events b/target/arm/trace-events
+index 41c63d7570..b1bc061a0e 100644
+--- a/target/arm/trace-events
++++ b/target/arm/trace-events
+@@ -1,13 +1,4 @@
+ # See docs/devel/tracing.txt for syntax documentation.
+ 
+-# helper.c
+-arm_gt_recalc(int timer, int irqstate, uint64_t nexttick) "gt recalc: timer %d irqstate %d next tick 0x%" PRIx64
+-arm_gt_recalc_disabled(int timer) "gt recalc: timer %d irqstate 0 timer disabled"
+-arm_gt_cval_write(int timer, uint64_t value) "gt_cval_write: timer %d value 0x%" PRIx64
+-arm_gt_tval_write(int timer, uint64_t value) "gt_tval_write: timer %d value 0x%" PRIx64
+-arm_gt_ctl_write(int timer, uint64_t value) "gt_ctl_write: timer %d value 0x%" PRIx64
+-arm_gt_imask_toggle(int timer, int irqstate) "gt_ctl_write: timer %d IMASK toggle, new irqstate %d"
+-arm_gt_cntvoff_write(uint64_t value) "gt_cntvoff_write: value 0x%" PRIx64
+-
+ # kvm.c
+ kvm_arm_fixup_msi_route(uint64_t iova, uint64_t gpa) "MSI iova = 0x%"PRIx64" is translated into 0x%"PRIx64
 -- 
 2.26.2
 
