@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E458535F574
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 15:54:29 +0200 (CEST)
-Received: from localhost ([::1]:56970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF2A35F50D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 15:43:48 +0200 (CEST)
+Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWfyP-0005mc-1V
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 09:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1lWfo3-0005Ns-Ng
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 09:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lWfvS-0003b9-5v
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 09:51:26 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lWfvP-00007B-OQ
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 09:51:25 -0400
-Received: by mail-wr1-x431.google.com with SMTP id a4so19974673wrr.2
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 06:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=H3NBbA+Ad/ofpehVJWL26+9hlnHMHXca6heVgWIRMgY=;
- b=VeVM4H6bFIX2uK+fMvY6VvERmoNOs6cxuXaD+dsyY6MaYhOLkMzxzjNEmVN1om9hl2
- IwMcARRHGm5G8gWXyB7WLI2g7I26LBVXxVD9sknjHaMq7O3lkjDSraaLc2rpwPurhM0V
- CCoWZb9nG5HV+v9huQmIjiVM6e8MIqKcfDFwtMLj0EQU8GsBgIxVmyABkIxjAahq49hC
- iIzjNX1iyQ7elMEpM0unnkCzlLxaOnpZeAmYT4Uvftj9sc2w7hp9SQyBY1a0Qi0eorK4
- J3R1/iMyuU/pTC2y9Y6pVNH+nJr5ss62CoKQGLqL6uoam7Adqous7VWgyRdYjI37N1AE
- cZHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=H3NBbA+Ad/ofpehVJWL26+9hlnHMHXca6heVgWIRMgY=;
- b=pHh6s3NF2cPt5ClrKg94vCH0eTQ5quv993Hu0av1gfKb+8Fi3Gymsi40yWBs8I3tlR
- HERP5Je3y8gdMMXk3hUvptwIcfswUzR2QBoS0R0HV7isIR0+cVqY9uypT9VAhO7Ltpnh
- 5/pFgQVZsKe+jupHJBvbPPlEYGbBCKwr5JevuBYmwJ7ftOwxY0gGAwhlnyB7vQSdCG/c
- OPxkNwjjCqW1y4qTErDOk46v7lK4kh1wHmeNdrPB78g3kb6Yu0oLMmiZggUIBdE/7/kZ
- CoeZgh9bAHj2YtjHIwkipJ0TUr7+4hzDH2EB0dTUMLzzuop1HCqebXHqYbO+g5B+lo2e
- dHeg==
-X-Gm-Message-State: AOAM532w+/dx4f4DOsff7fNXE/fDyS6lOiRDzWRHp/uy8/t/Yp8YQGlJ
- Bgb4hr5GDjo7bm6yY8DUiUH+fw==
-X-Google-Smtp-Source: ABdhPJzmZaVvKtXqRdlkOe5MjcEsBeNx//uekuYArBWObOklWeymrzeGrXKk8Ht7NVYY0yWgdUuJnw==
-X-Received: by 2002:a05:6000:504:: with SMTP id
- a4mr13162060wrf.51.1618408282122; 
- Wed, 14 Apr 2021 06:51:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a4sm2508382wmm.12.2021.04.14.06.51.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 06:51:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B01E81FF7E;
- Wed, 14 Apr 2021 14:51:20 +0100 (BST)
-References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
- <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Subject: Re: [PATCH v3 01/15] tests/tcg: Add docker_as and docker_ld cmds
-Date: Wed, 14 Apr 2021 14:40:15 +0100
-In-reply-to: <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
-Message-ID: <87tuo9km93.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lWflq-0003zv-Nr; Wed, 14 Apr 2021 09:41:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lWfll-0003B2-Hw; Wed, 14 Apr 2021 09:41:30 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13EDXFWX193973; Wed, 14 Apr 2021 09:41:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=4QGsmAKpLsPg+OyPty9+uc+o2xJHgqy74aPBXiXFCOM=;
+ b=ee8zQFQ/NnGwZTLVq5wj0KSr09JTTiS+ltnrXMuaPBtCunjghrDg7KEjiV+oGu5O56tI
+ 9JH8lMVzRxJd1taUXUtuy7r8WMLjvCtz4kH4BoR8xBDR+Tv5qOI3P0fFgbizL3AgHATv
+ cfGXWbVZQRqlTW7t5al/ZNs7VyX9k10Nf6TDQH/C9E9HNzhd7ryadlIaRLAo93CmN0eY
+ 5YFF11SmmypEHsZ9xeBb5Ay4LJutDU8NMKIXxsiv8yEewCol3TZpJ1VeEJ/X/umy/NWN
+ LYBYstOVLG7wvpIJuwYrcOBxFyFabPKsYRBp8Lk8GTWj+bLz28ZhGylPQokcUmOMvgxJ xA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37wwn1xtxa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Apr 2021 09:41:19 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13EDXLMs194644;
+ Wed, 14 Apr 2021 09:41:19 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37wwn1xtwb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Apr 2021 09:41:19 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13EDbHa4028976;
+ Wed, 14 Apr 2021 13:41:17 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 37u39hkbad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Apr 2021 13:41:16 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 13EDepUg37814676
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Apr 2021 13:40:52 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E27A7A4065;
+ Wed, 14 Apr 2021 13:41:13 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5097FA405C;
+ Wed, 14 Apr 2021 13:41:13 +0000 (GMT)
+Received: from vm.lan (unknown [9.145.157.105])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 14 Apr 2021 13:41:13 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v3 0/3] accel/tcg: Make sure that tb->size != 0 after
+ translation
+Date: Wed, 14 Apr 2021 15:41:09 +0200
+Message-Id: <20210414134112.25620-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.29.2
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: yq5QalstzI98-cPwIFyNzkGpZhFSjB96
+X-Proofpoint-ORIG-GUID: D-G5lZedDSYzqM-Ai-h2dAzkf8ZSLYhS
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-14_07:2021-04-14,
+ 2021-04-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ priorityscore=1501 clxscore=1011 suspectscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
+ spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140093
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,135 +111,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If arch-specific code generates a translation block of size 0,
+tb_gen_code() may generate a spurious exception.
 
-Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
+Fix s390x (patch 1) and ARM (patch 2) and add an assertion in order to
+catch such situations early (patch 3).
 
-> At least for the TriCore target no easily available c compiler exists.
-> Thus we need to rely on "as" and "ld". This allows us to run them
-> through the docker image as well as with locally installed tools.
->
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> ---
-> v2 -> v3:
->     - emit CROSS_LD_GUEST/CROSS_AS_GUEST
->
->  tests/tcg/Makefile.qemu | 15 +++++++++++++++
->  tests/tcg/configure.sh  | 20 ++++++++++++++++++++
->  2 files changed, 35 insertions(+)
->
-> diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-> index a56564660c..fefb50903d 100644
-> --- a/tests/tcg/Makefile.qemu
-> +++ b/tests/tcg/Makefile.qemu
-> @@ -22,6 +22,8 @@ quiet-@ =3D $(if $(V),,@)
->  quiet-command =3D $(quiet-@)$(call quiet-command-run,$1,$2,$3)
->=20=20
->  CROSS_CC_GUEST:=3D
-> +CROSS_AS_GUEST:=3D
-> +CROSS_LD_GUEST:=3D
->  DOCKER_IMAGE:=3D
->=20=20
->  -include tests/tcg/config-$(TARGET).mak
-> @@ -42,6 +44,7 @@ cross-build-guest-tests:
->  	$(call quiet-command, \
->  	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
->  	    $(MAKE) -f $(TCG_MAKE) TARGET=3D"$(TARGET)" CC=3D"$(CROSS_CC_GUEST)=
-" \
-> +			AS=3D"$(CROSS_AS_GUEST) LD=3D"$(CROSS_LD_GUEST)" \
->  			SRC_PATH=3D"$(SRC_PATH)" BUILD_STATIC=3D$(CROSS_CC_GUEST_STATIC) \
->  			EXTRA_CFLAGS=3D"$(CROSS_CC_GUEST_CFLAGS)"), \
->  	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
-> @@ -59,11 +62,23 @@ DOCKER_COMPILE_CMD=3D"$(DOCKER_SCRIPT) cc \
->  		-i qemu/$(DOCKER_IMAGE) \
->  		-s $(SRC_PATH) -- "
->=20=20
-> +DOCKER_AS_CMD=3D"$(DOCKER_SCRIPT) cc \
-> +		--cc $(DOCKER_CROSS_AS_GUEST) \
-> +		-i qemu/$(DOCKER_IMAGE) \
-> +		-s $(SRC_PATH) -- "
-> +
-> +DOCKER_LD_CMD=3D"$(DOCKER_SCRIPT) cc \
-> +		--cc $(DOCKER_CROSS_LD_GUEST) \
-> +		-i qemu/$(DOCKER_IMAGE) \
-> +		-s $(SRC_PATH) -- "
-> +
-> +
->  .PHONY: docker-build-guest-tests
->  docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
->  	$(call quiet-command, \
->  	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
->  	   $(MAKE) -f $(TCG_MAKE) TARGET=3D"$(TARGET)" CC=3D$(DOCKER_COMPILE_CM=
-D) \
-> +			AS=3D$(DOCKER_AS_CMD) LD=3D$(DOCKER_LD_CMD) \
->  			SRC_PATH=3D"$(SRC_PATH)" BUILD_STATIC=3Dy \
->  			EXTRA_CFLAGS=3D"$(CROSS_CC_GUEST_CFLAGS)"), \
->  	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index 36b8a73a54..4da8c3fa12 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -72,6 +72,12 @@ fi
->  : ${cross_cc_x86_64=3D"x86_64-pc-linux-gnu-gcc"}
->  : ${cross_cc_cflags_x86_64=3D"-m64"}
->=20=20
-> +# cross as defaults, can be overridden with --cross-as-ARCH
-> +: ${cross_as_tricore=3D"tricore-as"}
-> +
-> +# cross ld defaults, can be overridden with --cross-ld-ARCH
-> +: ${cross_as_tricore=3D"tricore-ld"}
-> +
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02037.html
+v1 -> v2: Fix target/s390x instead of trying to tolerate tb->size == 0
+          in tb_gen_code().
 
-These explicit defaults should be in a separate patch.
+v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02101.html
+v2 -> v3: Split the common code change into a separate patch, add the
+          ARM patch in order to fix
+          https://gitlab.com/cohuck/qemu/-/jobs/1178409450
 
->  for target in $target_list; do
->    arch=3D${target%%-*}
->    case $arch in
-> @@ -228,6 +234,18 @@ for target in $target_list; do
->      fi
->      echo "CROSS_CC_GUEST=3D$target_compiler" >> $config_target_mak
->=20=20
-> +    eval "target_as=3D\${cross_as_$i}"
-> +    if has $target_as; then
-> +      echo "CROSS_AS_GUEST=3D$target_as" >> $config_target_mak
-> +      continue
-> +    fi
+Ilya Leoshkevich (3):
+  target/s390x: Fix translation exception on illegal instruction
+  target/arm: Make sure that commpage's tb->size != 0
+  accel/tcg: Assert that tb->size != 0 after translation
 
-Should there be any attempt to verify the assembler will do something.
-If you passed --cross-as-tricore=3D/bin/false to force the use of the
-docker container it wouldn't work because we assume if it's there it
-works.
+ accel/tcg/translate-all.c |  1 +
+ target/arm/translate.c    |  1 +
+ target/s390x/translate.c  | 16 +++++++++++-----
+ 3 files changed, 13 insertions(+), 5 deletions(-)
 
-> +
-> +    eval "target_ld=3D\${cross_ld_$i}"
-> +    if has $target_ld; then
-> +      echo "CROSS_LD_GUEST=3D$target_ld" >> $config_target_mak
-> +      continue
-> +    fi
-> +
->      # Test for compiler features for optional tests. We only do this
->      # for cross compilers because ensuring the docker containers based
->      # compilers is a requirememt for adding a new test that needs a
-> @@ -261,5 +279,7 @@ for target in $target_list; do
->    if test $got_cross_cc =3D no && test "$container" !=3D no && test -n "=
-$container_image"; then
->      echo "DOCKER_IMAGE=3D$container_image" >> $config_target_mak
->      echo "DOCKER_CROSS_CC_GUEST=3D$container_cross_cc" >> $config_target=
-_mak
-> +    echo "DOCKER_CROSS_AS_GUEST=3D$container_cross_as" >> $config_target=
-_mak
-> +    echo "DOCKER_CROSS_LD_GUEST=3D$container_cross_ld" >>
-> $config_target_mak
+-- 
+2.29.2
 
-Could we gate these on being defined please?
-
->    fi
->  done
-
-
---=20
-Alex Benn=C3=A9e
 
