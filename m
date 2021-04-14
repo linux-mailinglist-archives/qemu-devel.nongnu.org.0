@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF3E35F27A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:31:44 +0200 (CEST)
-Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB33535F284
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 13:36:34 +0200 (CEST)
+Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWdkF-0000un-NU
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
+	id 1lWdov-0006Tu-QQ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 07:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfs-00064f-9i
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:12 -0400
-Received: from mx2.suse.de ([195.135.220.15]:43676)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfu-00066N-Bc
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfb-0005MK-VZ
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:12 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdfb-0005MN-Vk
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:27:13 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5F0F7AF75;
+ by mx2.suse.de (Postfix) with ESMTP id CA79BAFC8;
  Wed, 14 Apr 2021 11:26:54 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 03/80] arm: tcg: only build under CONFIG_TCG
-Date: Wed, 14 Apr 2021 13:25:33 +0200
-Message-Id: <20210414112650.18003-4-cfontana@suse.de>
+Subject: [RFC v13 04/80] target/arm: tcg: add sysemu and user subdirs
+Date: Wed, 14 Apr 2021 13:25:34 +0200
+Message-Id: <20210414112650.18003-5-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -42,7 +41,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,36 +62,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/tcg/meson.build | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/arm/tcg/meson.build        | 3 +++
+ target/arm/tcg/sysemu/meson.build | 2 ++
+ target/arm/tcg/user/meson.build   | 2 ++
+ 3 files changed, 7 insertions(+)
+ create mode 100644 target/arm/tcg/sysemu/meson.build
+ create mode 100644 target/arm/tcg/user/meson.build
 
 diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 0bd4e9d954..3b4146d079 100644
+index 3b4146d079..abc9d27b63 100644
 --- a/target/arm/tcg/meson.build
 +++ b/target/arm/tcg/meson.build
-@@ -12,9 +12,9 @@ gen = [
-   decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
- ]
- 
--arm_ss.add(gen)
-+arm_ss.add(when: 'CONFIG_TCG', if_true: gen)
- 
--arm_ss.add(files(
-+arm_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'translate.c',
-   'helper.c',
-   'iwmmxt_helper.c',
-@@ -28,7 +28,7 @@ arm_ss.add(files(
-   'debug_helper.c',
+@@ -36,3 +36,6 @@ arm_ss.add(when: ['TARGET_AARCH64','CONFIG_TCG'], if_true: files(
+   'pauth_helper.c',
+   'sve_helper.c',
  ))
- 
--arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-+arm_ss.add(when: ['TARGET_AARCH64','CONFIG_TCG'], if_true: files(
-   'translate-a64.c',
-   'translate-sve.c',
-   'helper-a64.c',
++
++subdir('user')
++subdir('sysemu')
+diff --git a/target/arm/tcg/sysemu/meson.build b/target/arm/tcg/sysemu/meson.build
+new file mode 100644
+index 0000000000..726387b0b3
+--- /dev/null
++++ b/target/arm/tcg/sysemu/meson.build
+@@ -0,0 +1,2 @@
++arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
++))
+diff --git a/target/arm/tcg/user/meson.build b/target/arm/tcg/user/meson.build
+new file mode 100644
+index 0000000000..7af3311190
+--- /dev/null
++++ b/target/arm/tcg/user/meson.build
+@@ -0,0 +1,2 @@
++arm_user_ss.add(when: 'CONFIG_TCG', if_true: files(
++))
 -- 
 2.26.2
 
