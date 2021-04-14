@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B8435F98F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:19:32 +0200 (CEST)
-Received: from localhost ([::1]:35202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E53035F989
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:15:09 +0200 (CEST)
+Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjAp-000514-W9
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
+	id 1lWj6a-0001gM-5t
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:15:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwj-00032G-8s
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24202)
+ id 1lWiwl-00034F-Mh
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwd-00007U-Ba
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:57 -0400
+ id 1lWiwd-00007m-C7
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419886;
+ s=mimecast20190719; t=1618419889;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pfqLEuFdVLZzncUzQFsSVE30ao+uESNyjCwX3TTVCns=;
- b=dAaw+jUkobFMy6LT4GMdSHkVmrpQu9hzm6otvP7nqkZmBpvrtULF3W2CrFhgeufhFYbq0A
- 7F1S2fXYJluhStN9OqdVDnIbhse2Ij/QWMk4U8DdRm/YkSyg1GZYQnC6auacOLYnU7YGlG
- gF6Si6elhsySJoEZSZ+ph7fa8Ji+tXo=
+ bh=/VBDp2RtOh/XNJDI0O/4+HZb3GCYhK+XzChg44M3Pdo=;
+ b=JgfE47HbJ+mGqnPAitCOkjXFZLXWPgVTXJ6sH/VWSV/2mmcwoTCGyXhoZRQguBKIf9H0XH
+ K7ILkezuTw+rwvTZUCnGJFRqoRvlOdNUQ2SBrHvzSaxB6sHsWOD9ABLSFtb8XuNYtZ7iX7
+ NkFy4+M5mJ5hectkF41vOLYEl8MxWOE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-IlE5il2ROk-mXfziCJ94Xw-1; Wed, 14 Apr 2021 13:04:44 -0400
-X-MC-Unique: IlE5il2ROk-mXfziCJ94Xw-1
+ us-mta-325--DZFX3NvO-uXHlJdZQvnBQ-1; Wed, 14 Apr 2021 13:04:47 -0400
+X-MC-Unique: -DZFX3NvO-uXHlJdZQvnBQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6E301854E24;
- Wed, 14 Apr 2021 17:04:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCD315B378;
+ Wed, 14 Apr 2021 17:04:46 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-18.ams2.redhat.com
  [10.36.114.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4002B10023AC;
- Wed, 14 Apr 2021 17:04:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22B9010023AC;
+ Wed, 14 Apr 2021 17:04:43 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 12/15] qemu_iotests: insert valgrind command line as
- wrapper for qemu binary
-Date: Wed, 14 Apr 2021 19:03:49 +0200
-Message-Id: <20210414170352.29927-13-eesposit@redhat.com>
+Subject: [PATCH v3 13/15] docs/devel/testing: add -valgrind option to the
+ debug section of QEMU iotests
+Date: Wed, 14 Apr 2021 19:03:50 +0200
+Message-Id: <20210414170352.29927-14-eesposit@redhat.com>
 In-Reply-To: <20210414170352.29927-1-eesposit@redhat.com>
 References: <20210414170352.29927-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,29 +88,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The priority will be given to gdb command line, meaning if the -gdb
-parameter and -valgrind are given, gdb will be wrapped around
-the qemu binary.
-
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ docs/devel/testing.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index aef67e3a86..f9832558a0 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -593,7 +593,8 @@ class VM(qtest.QEMUQtestMachine):
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 2ee77a057b..62902cfd2d 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -236,6 +236,13 @@ given as options to the ``check`` script:
+   by setting the ``$GDB_QEMU`` environmental variable.
+   The final command line will be ``gdbserver $GDB_QEMU $QEMU ...``
  
-     def __init__(self, path_suffix=''):
-         name = "qemu%s-%d" % (path_suffix, os.getpid())
--        super().__init__(qemu_prog, qemu_opts, wrapper=qemu_gdb,
-+        wrapper = qemu_gdb if qemu_gdb else qemu_valgrind
-+        super().__init__(qemu_prog, qemu_opts, wrapper=wrapper,
-                          name=name,
-                          test_dir=test_dir,
-                          socket_scm_helper=socket_scm_helper,
++* ``-valgrind`` wraps a valgrind instance to QEMU. If it detects
++  warnings, it will print and save the log in
++  ``$TEST_DIR/<valgrind_pid>.valgrind``.
++  The final command line will be ``valgrind --log-file=$TEST_DIR/
++  <valgrind_pid>.valgrind --error-exitcode=99 $QEMU ...``
++  Note: if used together with ``-gdb``, this command will be ignored.
++
+ * ``-d`` (debug) just increases the logging verbosity, showing
+   for example the QMP commands and answers.
+ 
 -- 
 2.30.2
 
