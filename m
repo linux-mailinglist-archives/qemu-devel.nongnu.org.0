@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0263E35FE14
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:52:51 +0200 (CEST)
-Received: from localhost ([::1]:59772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980D835FE32
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 01:09:02 +0200 (CEST)
+Received: from localhost ([::1]:37390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWoNO-00067R-2u
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37052)
+	id 1lWod3-0003cq-5E
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 19:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lWoLV-0004xB-JN; Wed, 14 Apr 2021 18:50:53 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:43920)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lWoby-00036j-Qu
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 19:07:54 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lWoLT-0004I1-PM; Wed, 14 Apr 2021 18:50:53 -0400
-Received: by mail-io1-xd32.google.com with SMTP id v123so15432438ioe.10;
- Wed, 14 Apr 2021 15:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YMl0q4Qg+LLVVghVpz3Z75rPVp0f8dXQ4rlEwW2PnGY=;
- b=MSWSM466xn2JwPKk40F9f0J0QSVWykebgtuupTAWaKe7xc8NFvydhhv6fEGlB5Emvr
- phLpPjr4MxjPnc4/4xEZVaCAkH4/sqQRy9VUfOn3XRRVSV0EdVRFj7LM3yzEnVmoEzco
- VB+RRIaYV445qO8LzejzorIh1Fu0YPD9vY+j/3K6ERPoRTL1oeKQMyjVxtrHSa+4jSTB
- vtObrsewgGLlbFm+wpVp7XKo1zVtN/nt8tjom/92KZy6IUJLEvMUft9vfrJVwtyI7wWA
- dlGDI93zZvW0SIdD2WNYcd/GMoGLc49tFP0WOyQe5irB5Oc75L074gPIUl0e4BQjVk24
- HUww==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lWobv-0006eF-Lo
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 19:07:54 -0400
+Received: by mail-pl1-x630.google.com with SMTP id y2so10990074plg.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 16:07:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lFl7y2iAIJqc3cs10Tu67yTTNbUSGSUFrTy+PzLhW3M=;
+ b=nGzuXdULesEgPkXN5LxnTbhoFdbFah6iRqyr0bvOY4lYzx3NrQFwhsriQKO16e0T4L
+ DVdvu5icffZkTUn8CpVTFIWtqk6GkFKCRSODC9CKidsAW6ll+p2+LVyFEMd8iXR6hWKZ
+ fOERrJXM8raZWigdjNBIdB0rGU0o1pWHw/jUXjUuKASLeqyJqIRgjLgqnyN/WGwpaS5y
+ 399k7rj4VBqEVl7xGbPU/Hcji+Mj0CDzjw5ELn4/2A2U3i7DrLsklKGzPCIPsL+2U0rw
+ cwlrw6lkFh+XVZYZDTcQIMaL6ZVAOWBIiBU6WqCS6KXSE3clWfzXwpTBhnRRWmiNPWbs
+ 1vTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YMl0q4Qg+LLVVghVpz3Z75rPVp0f8dXQ4rlEwW2PnGY=;
- b=ozQBBPpUBKABFmLDvcxCrvfSXulmZNi6h8eZB5XjxaGzyUCVujPS8FSQJMB7K8md21
- JS2keWTpqm/viP0VH/LDdG/2uAlGCS3vT/8C4ogngtSvS/exJxnKMQLOWDeafXKY5psx
- HKpEPGKe3xC/DGnfC27h8ALv6IOAWG5u+a3HaFWhxgZp29iHHYERwAZkSYZtJ9legQE9
- Dg1V3w+CNxILJPVouuw15YB1oJ0PeUJEj7EluAvqde6Q5W9lPCinhTXFnfJZYnPxg9N6
- plNCSmAh5sMGCDkpJdId9ROQL0toD1xTTVo+mVG9dW91+gbKfiQLdo/V1yucI/CQuKTh
- EsJA==
-X-Gm-Message-State: AOAM533kWyhJOFe39T3/nEYSJluCahH8jXHNab+pphYUOAnuUSoeKheo
- aDIgyGfY05n1unvvcHqiBYmmoiot79DvaHlCJ64=
-X-Google-Smtp-Source: ABdhPJxgaQGhRs1C/cFTlO12Ada6lPwWqpJPa3I/q2ak8K0Eq4Xr5SAYvJLaCBDcpyS9uy5RW9XvJXGaB5Cvzsq6VTE=
-X-Received: by 2002:a05:6638:3048:: with SMTP id
- u8mr203045jak.91.1618440650050; 
- Wed, 14 Apr 2021 15:50:50 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lFl7y2iAIJqc3cs10Tu67yTTNbUSGSUFrTy+PzLhW3M=;
+ b=DDuWOlaFoR6Ib+uqR813wslStSKJCGnlwuWqs+eJ/yVKQVF5mgh8LS4/YnMCleom0f
+ 9cVeYTHCTffSQARVtmKdk2NBt+kFovTuTTQ/BefWkaASE2sbJpvypj+nr/48kOf5dq1i
+ yW6b0QPoSGT1ToI00SS5dJbp/dOJTTZD7qyHP/GqxpvvW22Ef7+iLVH9k4S6SvsYMZ2+
+ UVFuJ9vCc4tSBbVuOEZn/y/axyoY72K0fsZSQOKEnoDJb5pIhA8jmkHCdING9o926W3k
+ wpIN1nvP8hO2w5UPWpJ5/0e7SNJaUgNkLyzD3Dcbl6sySEbWu6oHc9N2BtRwwzgEEn/O
+ ROpg==
+X-Gm-Message-State: AOAM5306T46lcZ21BordNu+KbnRNcKewB0TiMWaCdlnuqxsuxSxiwTJm
+ k09TsTfMQs8vbp3A0gFjWHLR+Q==
+X-Google-Smtp-Source: ABdhPJwEHgTmNxpDNZ1iwC+HDFV2ntyC4syHwtxT8FUgFfbSimSbASnqBDU4daui6ediCvmOo1/5Lg==
+X-Received: by 2002:a17:90a:f2d7:: with SMTP id
+ gt23mr497635pjb.199.1618441670154; 
+ Wed, 14 Apr 2021 16:07:50 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id i22sm383248pfq.170.2021.04.14.16.07.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Apr 2021 16:07:49 -0700 (PDT)
+Subject: Re: [PATCH 5/5] target/ppc: Implement paddi and replace addi insns
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210413211129.457272-1-luis.pires@eldorado.org.br>
+ <20210413211129.457272-6-luis.pires@eldorado.org.br>
+ <35a37fdc-0580-7c0b-5748-1f194386007c@linaro.org>
+Message-ID: <c1e25987-6252-4cf8-fee1-d55f56480beb@linaro.org>
+Date: Wed, 14 Apr 2021 16:07:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210412065246.1853-1-jiangyifei@huawei.com>
- <20210412065246.1853-8-jiangyifei@huawei.com>
-In-Reply-To: <20210412065246.1853-8-jiangyifei@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 15 Apr 2021 08:50:23 +1000
-Message-ID: <CAKmqyKNzyftUr0yTJ1TOENo_p3S_nO9peQRpdu=1Zbm70zncdQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v5 07/12] hw/riscv: PLIC update external interrupt by
- KVM when kvm enabled
-To: Yifei Jiang <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <35a37fdc-0580-7c0b-5748-1f194386007c@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,142 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm-riscv@lists.infradead.org, Anup Patel <anup.patel@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "open list:Overall" <kvm@vger.kernel.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, libvir-list@redhat.com,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, fanliang@huawei.com,
- "Wubin \(H\)" <wu.wubin@huawei.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
+ matheus.ferst@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 12, 2021 at 4:57 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Only support supervisor external interrupt currently.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+On 4/14/21 12:11 PM, Richard Henderson wrote:
+> static bool
+> allow_prefix_MLS(DisasContext *ctx, arg_D *a)
+> {
+>      int64_t imm;
+> 
+>      /* Require MLS prefix or no prefix. */
+>      if (ctx->prefix_type != PREFIX_MLS) {
+>          if (ctx->prefix_type == PREFIX_NONE) {
+>              return true;
+>          }
+>          gen_invalid(ctx);
+>          return false;
+>      }
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Combined with the switch on prefix_type in translate_insn, I think this can 
+just simplify to
 
-Alistair
+     if (ctx->prefix_type != PREFIX_MLS) {
+         return ctx->prefix_type == PREFIX_NONE;
+     }
 
-> ---
->  hw/intc/sifive_plic.c    | 29 ++++++++++++++++++++---------
->  target/riscv/kvm-stub.c  |  5 +++++
->  target/riscv/kvm.c       | 20 ++++++++++++++++++++
->  target/riscv/kvm_riscv.h |  1 +
->  4 files changed, 46 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 97a1a27a9a..2746eb7a05 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -31,6 +31,8 @@
->  #include "target/riscv/cpu.h"
->  #include "sysemu/sysemu.h"
->  #include "migration/vmstate.h"
-> +#include "sysemu/kvm.h"
-> +#include "kvm_riscv.h"
->
->  #define RISCV_DEBUG_PLIC 0
->
-> @@ -147,15 +149,24 @@ static void sifive_plic_update(SiFivePLICState *plic)
->              continue;
->          }
->          int level = sifive_plic_irqs_pending(plic, addrid);
-> -        switch (mode) {
-> -        case PLICMode_M:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
-> -            break;
-> -        case PLICMode_S:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-> -            break;
-> -        default:
-> -            break;
-> +        if (kvm_enabled()) {
-> +            if (mode == PLICMode_M) {
-> +                continue;
-> +            }
-> +            kvm_riscv_set_irq(RISCV_CPU(cpu), IRQ_S_EXT, level);
-> +        } else {
-> +            switch (mode) {
-> +            case PLICMode_M:
-> +                riscv_cpu_update_mip(RISCV_CPU(cpu),
-> +                                     MIP_MEIP, BOOL_TO_MASK(level));
-> +                break;
-> +            case PLICMode_S:
-> +                riscv_cpu_update_mip(RISCV_CPU(cpu),
-> +                                     MIP_SEIP, BOOL_TO_MASK(level));
-> +                break;
-> +            default:
-> +                break;
-> +            }
->          }
->      }
->
-> diff --git a/target/riscv/kvm-stub.c b/target/riscv/kvm-stub.c
-> index 39b96fe3f4..4e8fc31a21 100644
-> --- a/target/riscv/kvm-stub.c
-> +++ b/target/riscv/kvm-stub.c
-> @@ -23,3 +23,8 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
->  {
->      abort();
->  }
-> +
-> +void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
-> +{
-> +    abort();
-> +}
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index 79c931acb4..da63535812 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -453,6 +453,26 @@ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
->      env->gpr[11] = cpu->env.fdt_addr;          /* a1 */
->  }
->
-> +void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level)
-> +{
-> +    int ret;
-> +    unsigned virq = level ? KVM_INTERRUPT_SET : KVM_INTERRUPT_UNSET;
-> +
-> +    if (irq != IRQ_S_EXT) {
-> +        return;
-> +    }
-> +
-> +    if (!kvm_enabled()) {
-> +        return;
-> +    }
-> +
-> +    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_INTERRUPT, &virq);
-> +    if (ret < 0) {
-> +        perror("Set irq failed");
-> +        abort();
-> +    }
-> +}
-> +
->  bool kvm_arch_cpu_check_are_resettable(void)
->  {
->      return true;
-> diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-> index f38c82bf59..ed281bdce0 100644
-> --- a/target/riscv/kvm_riscv.h
-> +++ b/target/riscv/kvm_riscv.h
-> @@ -20,5 +20,6 @@
->  #define QEMU_KVM_RISCV_H
->
->  void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
-> +void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
->
->  #endif
-> --
-> 2.19.1
->
->
+because decode_legacy is only called from within PREFIX_NONE.
+
+
+r~
 
