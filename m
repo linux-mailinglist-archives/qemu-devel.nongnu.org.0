@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7667435F441
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:51:12 +0200 (CEST)
-Received: from localhost ([::1]:34030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6813A35F448
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:53:40 +0200 (CEST)
+Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWez9-0007pl-AD
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
+	id 1lWf1X-0001nA-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWeXF-0001rY-Ee
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 08:22:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41279)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWemx-0004jH-Ug
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 08:38:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWeXB-0008AP-De
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 08:22:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWemv-0008SW-Lr
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 08:38:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618402936;
+ s=mimecast20190719; t=1618403912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JguuMCagEJ2JhCeSMiNbCaPSNIZ1hjZ3Iik6JmFufyM=;
- b=AxmS+TGEfhafGeSIVDU807Kozdwi74r7v4dEI1slwq9ypLmQgg7uMCiV7emCZkdfAW5L/e
- shzW9dTyM8WAze4UTqQnOuA13odGFEbxWf9EcOWgY3SGphk7Qylc2kMTidmLyxijbGoelR
- Mp5W1D1+fOh2kjjv+/hFXeFpzUQh6l8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-qOu0IyOlN6KGi_B_Do3lbw-1; Wed, 14 Apr 2021 08:22:14 -0400
-X-MC-Unique: qOu0IyOlN6KGi_B_Do3lbw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D18E4881283;
- Wed, 14 Apr 2021 12:22:12 +0000 (UTC)
-Received: from work-vm (ovpn-115-158.ams2.redhat.com [10.36.115.158])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 49A2910016FD;
- Wed, 14 Apr 2021 12:22:10 +0000 (UTC)
-Date: Wed, 14 Apr 2021 13:22:07 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-6.1 2/4] migration: Move populate_vfio_info() into a
- separate file
-Message-ID: <YHbeb5FpYJSoHjui@work-vm>
-References: <20210414112004.943383-1-thuth@redhat.com>
- <20210414112004.943383-3-thuth@redhat.com>
+ bh=7sXB4mmWKfdT/pgay3a/C20s9LhZL+8Q39JFroFFNtc=;
+ b=gaNWxOJhPCP4FmQxO5Va8IkwjmRcpGgRSZld4OA5XGN/YX0bVlGmyA0nQvFK1AiMwPdAjl
+ 3vpiH4Dk2EskOdMQcNAyi7UmKRyoriBH9waQVp3vFvrUBgqCJaTBt81e+h9GCX+gytcOQy
+ H4QfWbSAEFCXgn3LN15lAtmJRyfZcIM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-7BZI6hDkMP6KZUXImnvr1A-1; Wed, 14 Apr 2021 08:38:31 -0400
+X-MC-Unique: 7BZI6hDkMP6KZUXImnvr1A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h3-20020adfa4c30000b02901027da44a81so1011933wrb.19
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 05:38:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7sXB4mmWKfdT/pgay3a/C20s9LhZL+8Q39JFroFFNtc=;
+ b=kprDU35DVaRKWho+3SLAS0aT05EQ8eINyVFdHiksYzYOU/EQKV8nPawvsI3vE74XmT
+ Hl9Qtv58ZsPfW5/5Goi4IzJjEnmoGU+Rz8Mv2q4T0MvQgwtQ5WNjXE3Ih3RuKnHyZkRh
+ 49sRueNFHfLcYrln2vSn342wmdWWnMwb2MV9FxutYLg5mTpmWjKLGLldwY2wdXpov7cR
+ fZRCyyWwAhoNENSSohlbPljmmQuQ4F1xHYqDQbZGbG5PPyJyAN0m2wTc7l+Uwao5X9yF
+ ZSGbNXSZ2Kxj7CrIktrRUjrqNUII00s2KasWk3ztEPGNT+mqWAvfR1pxWzaQ9Tst55DS
+ P7Zg==
+X-Gm-Message-State: AOAM5313ThnNkPqzQ+KY2uNnAVkoM8LwrRtXktu4wNLtLh/Y6904HBNV
+ 5vFRsytEalLLt5YWmhYmh+d4uz1NCcgNyu9cTbm6hDiYah36x5JwR5JdOLXo+2STT/382HHY844
+ 4m3LD23BVSyI1BTg=
+X-Received: by 2002:a1c:1d0d:: with SMTP id d13mr2773616wmd.90.1618403910041; 
+ Wed, 14 Apr 2021 05:38:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJavVm8su7DRTZEQDgLOxlaikOhvX4zY+baTRkofPmvv0iNRHVLFJpFHAuigyRSgtdlNIJyA==
+X-Received: by 2002:a1c:1d0d:: with SMTP id d13mr2773592wmd.90.1618403909789; 
+ Wed, 14 Apr 2021 05:38:29 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id f6sm5216290wmf.28.2021.04.14.05.38.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Apr 2021 05:38:29 -0700 (PDT)
+Subject: Re: [PATCH] hw/block/nvme: remove redundant invalid_lba_range trace
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org
+References: <CGME20210414070803epcas5p32e695f55e3421e0af51ba6adfd157cc6@epcas5p3.samsung.com>
+ <20210414070435.3702-1-anaidu.gollu@samsung.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <262467e8-5d02-3425-3240-fbd99d995e2a@redhat.com>
+Date: Wed, 14 Apr 2021 14:38:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210414112004.943383-3-thuth@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210414070435.3702-1-anaidu.gollu@samsung.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URG_BIZ=0.573 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,131 +99,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Colin Xu <colin.xu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com,
+ kbusch@kernel.org, stefanha@redhat.com, its@irrelevant.dk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Thomas Huth (thuth@redhat.com) wrote:
-> The CONFIG_VFIO switch only works in target specific code. Since
-> migration/migration.c is common code, the #ifdef does not have
-> the intended behavior here. Move the related code to a separate
-> file now which gets compiled via specific_ss instead.
+On 4/14/21 9:04 AM, Gollu Appalanaidu wrote:
+> Currently pci_nvme_err_invalid_lba_range tace being called indvidually
+
+Typos "trace", "individually".
+
+> at each function, add this in nvme_check_bounds and remove redundant
+> usage of it.
 > 
-> Fixes: 3710586caa ("qapi: Add VFIO devices migration stats in Migration stats")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-althoguh I wonder if it would be easier to put the populate_vfio_info
-into hw/vfio and add a stub function?
-
-Dave
-
-
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 > ---
->  migration/meson.build |  3 ++-
->  migration/migration.c | 15 ---------------
->  migration/migration.h |  2 ++
->  migration/target.c    | 25 +++++++++++++++++++++++++
->  4 files changed, 29 insertions(+), 16 deletions(-)
->  create mode 100644 migration/target.c
-> 
-> diff --git a/migration/meson.build b/migration/meson.build
-> index 3ecedce94d..f8714dcb15 100644
-> --- a/migration/meson.build
-> +++ b/migration/meson.build
-> @@ -31,4 +31,5 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
->  softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
->  softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
->  
-> -specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'ram.c'))
-> +specific_ss.add(when: 'CONFIG_SOFTMMU',
-> +                if_true: files('dirtyrate.c', 'ram.c', 'target.c'))
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 8ca034136b..db8c378079 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -60,10 +60,6 @@
->  #include "qemu/yank.h"
->  #include "sysemu/cpus.h"
->  
-> -#ifdef CONFIG_VFIO
-> -#include "hw/vfio/vfio-common.h"
-> -#endif
-> -
->  #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
->  
->  /* Amount of time to allocate to each "chunk" of bandwidth-throttled
-> @@ -1059,17 +1055,6 @@ static void populate_disk_info(MigrationInfo *info)
->      }
->  }
->  
-> -static void populate_vfio_info(MigrationInfo *info)
-> -{
-> -#ifdef CONFIG_VFIO
-> -    if (vfio_mig_active()) {
-> -        info->has_vfio = true;
-> -        info->vfio = g_malloc0(sizeof(*info->vfio));
-> -        info->vfio->transferred = vfio_mig_bytes_transferred();
-> -    }
-> -#endif
-> -}
-> -
->  static void fill_source_migration_info(MigrationInfo *info)
->  {
->      MigrationState *s = migrate_get_current();
-> diff --git a/migration/migration.h b/migration/migration.h
-> index db6708326b..2730fa05c0 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -376,4 +376,6 @@ void migration_make_urgent_request(void);
->  void migration_consume_urgent_request(void);
->  bool migration_rate_limit(void);
->  
-> +void populate_vfio_info(MigrationInfo *info);
-> +
->  #endif
-> diff --git a/migration/target.c b/migration/target.c
-> new file mode 100644
-> index 0000000000..907ebf0a0a
-> --- /dev/null
-> +++ b/migration/target.c
-> @@ -0,0 +1,25 @@
-> +/*
-> + * QEMU live migration - functions that need to be compiled target-specific
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2
-> + * or (at your option) any later version.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/qapi-types-migration.h"
-> +#include "migration.h"
-> +
-> +#ifdef CONFIG_VFIO
-> +#include "hw/vfio/vfio-common.h"
-> +#endif
-> +
-> +void populate_vfio_info(MigrationInfo *info)
-> +{
-> +#ifdef CONFIG_VFIO
-> +    if (vfio_mig_active()) {
-> +        info->has_vfio = true;
-> +        info->vfio = g_malloc0(sizeof(*info->vfio));
-> +        info->vfio->transferred = vfio_mig_bytes_transferred();
-> +    }
-> +#endif
-> +}
-> -- 
-> 2.27.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  hw/block/nvme.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
