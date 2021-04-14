@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5D935F571
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 15:52:20 +0200 (CEST)
-Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E458535F574
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 15:54:29 +0200 (CEST)
+Received: from localhost ([::1]:56970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWfwJ-0003i9-Mk
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 09:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58284)
+	id 1lWfyP-0005mc-1V
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 09:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWfuy-0002tH-Fx
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 09:50:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55310)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lWfvS-0003b9-5v
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 09:51:26 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWfuv-0008Gh-Mn
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 09:50:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWfut-0005Cd-Ve
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 13:50:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EE0662E8026
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 13:50:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lWfvP-00007B-OQ
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 09:51:25 -0400
+Received: by mail-wr1-x431.google.com with SMTP id a4so19974673wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 06:51:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=H3NBbA+Ad/ofpehVJWL26+9hlnHMHXca6heVgWIRMgY=;
+ b=VeVM4H6bFIX2uK+fMvY6VvERmoNOs6cxuXaD+dsyY6MaYhOLkMzxzjNEmVN1om9hl2
+ IwMcARRHGm5G8gWXyB7WLI2g7I26LBVXxVD9sknjHaMq7O3lkjDSraaLc2rpwPurhM0V
+ CCoWZb9nG5HV+v9huQmIjiVM6e8MIqKcfDFwtMLj0EQU8GsBgIxVmyABkIxjAahq49hC
+ iIzjNX1iyQ7elMEpM0unnkCzlLxaOnpZeAmYT4Uvftj9sc2w7hp9SQyBY1a0Qi0eorK4
+ J3R1/iMyuU/pTC2y9Y6pVNH+nJr5ss62CoKQGLqL6uoam7Adqous7VWgyRdYjI37N1AE
+ cZHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=H3NBbA+Ad/ofpehVJWL26+9hlnHMHXca6heVgWIRMgY=;
+ b=pHh6s3NF2cPt5ClrKg94vCH0eTQ5quv993Hu0av1gfKb+8Fi3Gymsi40yWBs8I3tlR
+ HERP5Je3y8gdMMXk3hUvptwIcfswUzR2QBoS0R0HV7isIR0+cVqY9uypT9VAhO7Ltpnh
+ 5/pFgQVZsKe+jupHJBvbPPlEYGbBCKwr5JevuBYmwJ7ftOwxY0gGAwhlnyB7vQSdCG/c
+ OPxkNwjjCqW1y4qTErDOk46v7lK4kh1wHmeNdrPB78g3kb6Yu0oLMmiZggUIBdE/7/kZ
+ CoeZgh9bAHj2YtjHIwkipJ0TUr7+4hzDH2EB0dTUMLzzuop1HCqebXHqYbO+g5B+lo2e
+ dHeg==
+X-Gm-Message-State: AOAM532w+/dx4f4DOsff7fNXE/fDyS6lOiRDzWRHp/uy8/t/Yp8YQGlJ
+ Bgb4hr5GDjo7bm6yY8DUiUH+fw==
+X-Google-Smtp-Source: ABdhPJzmZaVvKtXqRdlkOe5MjcEsBeNx//uekuYArBWObOklWeymrzeGrXKk8Ht7NVYY0yWgdUuJnw==
+X-Received: by 2002:a05:6000:504:: with SMTP id
+ a4mr13162060wrf.51.1618408282122; 
+ Wed, 14 Apr 2021 06:51:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a4sm2508382wmm.12.2021.04.14.06.51.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Apr 2021 06:51:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B01E81FF7E;
+ Wed, 14 Apr 2021 14:51:20 +0100 (BST)
+References: <20210305170045.869437-1-kbastian@mail.uni-paderborn.de>
+ <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Subject: Re: [PATCH v3 01/15] tests/tcg: Add docker_as and docker_ld cmds
+Date: Wed, 14 Apr 2021 14:40:15 +0100
+In-reply-to: <20210305170045.869437-2-kbastian@mail.uni-paderborn.de>
+Message-ID: <87tuo9km93.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 13:38:54 -0000
-From: Mauro Matteo Cascella <1919035@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr cwmyung mark-cave-ayland mauro-cascella
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Mauro Matteo Cascella (mauro-cascella)
-References: <161565639689.3429.408017997346111219.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161840753475.14462.5302551624960372314.malone@chaenomeles.canonical.com>
-Subject: [Bug 1919035] Re: Assertion failure in fifo8_pop_buf() through
- am53c974
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9327c982b35e4a485a3c716663ed8345e279c16e"; Instance="production"
-X-Launchpad-Hash: e43ccfbc8436f49d1a4d1935e7f030451be70d40
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,154 +88,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1919035 <1919035@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is fixed now, thank you Mark.
 
-Patchset v4:
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01000.html
+Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
 
-Upstream commits:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D0db895361b8a82e1114372ff9=
-f48
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3De392255766071c8cac480da3a=
-9ae
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3De5455b8c1c6170c788f3c0fd5=
-77c
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dc5fef9112b15c4b5494791cdf=
-8bb
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D7b320a8e67a534925048cbabf=
-a51
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D99545751734035b76bd372c4e=
-721
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dfa7505c154d4d00ad89a747be=
-2ed
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dfbc6510e3379fa8f8370bf711=
-98f
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D0ebb5fd80589835153a0c2baa=
-1b8
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D324c8809897c8c53ad05c3a71=
-47d
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D607206948cacda4a80be5b976=
-dba
+> At least for the TriCore target no easily available c compiler exists.
+> Thus we need to rely on "as" and "ld". This allows us to run them
+> through the docker image as well as with locally installed tools.
+>
+> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> ---
+> v2 -> v3:
+>     - emit CROSS_LD_GUEST/CROSS_AS_GUEST
+>
+>  tests/tcg/Makefile.qemu | 15 +++++++++++++++
+>  tests/tcg/configure.sh  | 20 ++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+>
+> diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+> index a56564660c..fefb50903d 100644
+> --- a/tests/tcg/Makefile.qemu
+> +++ b/tests/tcg/Makefile.qemu
+> @@ -22,6 +22,8 @@ quiet-@ =3D $(if $(V),,@)
+>  quiet-command =3D $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+>=20=20
+>  CROSS_CC_GUEST:=3D
+> +CROSS_AS_GUEST:=3D
+> +CROSS_LD_GUEST:=3D
+>  DOCKER_IMAGE:=3D
+>=20=20
+>  -include tests/tcg/config-$(TARGET).mak
+> @@ -42,6 +44,7 @@ cross-build-guest-tests:
+>  	$(call quiet-command, \
+>  	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+>  	    $(MAKE) -f $(TCG_MAKE) TARGET=3D"$(TARGET)" CC=3D"$(CROSS_CC_GUEST)=
+" \
+> +			AS=3D"$(CROSS_AS_GUEST) LD=3D"$(CROSS_LD_GUEST)" \
+>  			SRC_PATH=3D"$(SRC_PATH)" BUILD_STATIC=3D$(CROSS_CC_GUEST_STATIC) \
+>  			EXTRA_CFLAGS=3D"$(CROSS_CC_GUEST_CFLAGS)"), \
+>  	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
+> @@ -59,11 +62,23 @@ DOCKER_COMPILE_CMD=3D"$(DOCKER_SCRIPT) cc \
+>  		-i qemu/$(DOCKER_IMAGE) \
+>  		-s $(SRC_PATH) -- "
+>=20=20
+> +DOCKER_AS_CMD=3D"$(DOCKER_SCRIPT) cc \
+> +		--cc $(DOCKER_CROSS_AS_GUEST) \
+> +		-i qemu/$(DOCKER_IMAGE) \
+> +		-s $(SRC_PATH) -- "
+> +
+> +DOCKER_LD_CMD=3D"$(DOCKER_SCRIPT) cc \
+> +		--cc $(DOCKER_CROSS_LD_GUEST) \
+> +		-i qemu/$(DOCKER_IMAGE) \
+> +		-s $(SRC_PATH) -- "
+> +
+> +
+>  .PHONY: docker-build-guest-tests
+>  docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
+>  	$(call quiet-command, \
+>  	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+>  	   $(MAKE) -f $(TCG_MAKE) TARGET=3D"$(TARGET)" CC=3D$(DOCKER_COMPILE_CM=
+D) \
+> +			AS=3D$(DOCKER_AS_CMD) LD=3D$(DOCKER_LD_CMD) \
+>  			SRC_PATH=3D"$(SRC_PATH)" BUILD_STATIC=3Dy \
+>  			EXTRA_CFLAGS=3D"$(CROSS_CC_GUEST_CFLAGS)"), \
+>  	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index 36b8a73a54..4da8c3fa12 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -72,6 +72,12 @@ fi
+>  : ${cross_cc_x86_64=3D"x86_64-pc-linux-gnu-gcc"}
+>  : ${cross_cc_cflags_x86_64=3D"-m64"}
+>=20=20
+> +# cross as defaults, can be overridden with --cross-as-ARCH
+> +: ${cross_as_tricore=3D"tricore-as"}
+> +
+> +# cross ld defaults, can be overridden with --cross-ld-ARCH
+> +: ${cross_as_tricore=3D"tricore-ld"}
+> +
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+These explicit defaults should be in a separate patch.
 
--- =
+>  for target in $target_list; do
+>    arch=3D${target%%-*}
+>    case $arch in
+> @@ -228,6 +234,18 @@ for target in $target_list; do
+>      fi
+>      echo "CROSS_CC_GUEST=3D$target_compiler" >> $config_target_mak
+>=20=20
+> +    eval "target_as=3D\${cross_as_$i}"
+> +    if has $target_as; then
+> +      echo "CROSS_AS_GUEST=3D$target_as" >> $config_target_mak
+> +      continue
+> +    fi
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1919035
+Should there be any attempt to verify the assembler will do something.
+If you passed --cross-as-tricore=3D/bin/false to force the use of the
+docker container it wouldn't work because we assume if it's there it
+works.
 
-Title:
-  Assertion failure in fifo8_pop_buf() through am53c974
+> +
+> +    eval "target_ld=3D\${cross_ld_$i}"
+> +    if has $target_ld; then
+> +      echo "CROSS_LD_GUEST=3D$target_ld" >> $config_target_mak
+> +      continue
+> +    fi
+> +
+>      # Test for compiler features for optional tests. We only do this
+>      # for cross compilers because ensuring the docker containers based
+>      # compilers is a requirememt for adding a new test that needs a
+> @@ -261,5 +279,7 @@ for target in $target_list; do
+>    if test $got_cross_cc =3D no && test "$container" !=3D no && test -n "=
+$container_image"; then
+>      echo "DOCKER_IMAGE=3D$container_image" >> $config_target_mak
+>      echo "DOCKER_CROSS_CC_GUEST=3D$container_cross_cc" >> $config_target=
+_mak
+> +    echo "DOCKER_CROSS_AS_GUEST=3D$container_cross_as" >> $config_target=
+_mak
+> +    echo "DOCKER_CROSS_LD_GUEST=3D$container_cross_ld" >>
+> $config_target_mak
 
-Status in QEMU:
-  Fix Released
+Could we gate these on being defined please?
 
-Bug description:
-  Hello,
+>    fi
+>  done
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  am53c974 emulator.
 
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master, 3f8d1885e4)
-
-  =
-
-  ```
-  qemu-system-i386: ../util/fifo8.c:73: fifo8_pop_buf: Assertion `max > 0 &=
-& max <=3D fifo->num' failed.
-
-  #0  0x00007ffff0218fb7 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007ffff021a921 in __GI_abort () at abort.c:79
-  #2  0x00007ffff020a48a in __assert_fail_base (fmt=3D0x7ffff0391750 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5555=
-58ed24a0 "max > 0 && max <=3D fifo->num", file=3Dfile@entry=3D0x555558ed238=
-0 "../util/fifo8.c", line=3Dline@entry=3D0x49, function=3Dfunction@entry=3D=
-0x555558ed24e0 <__PRETTY_FUNCTION__.16603> "fifo8_pop_buf") at assert.c:92
-  #3  0x00007ffff020a502 in __GI___assert_fail (assertion=3Dassertion@entry=
-=3D0x555558ed24a0 "max > 0 && max <=3D fifo->num", file=3Dfile@entry=3D0x55=
-5558ed2380 "../util/fifo8.c", line=3Dline@entry=3D0x49, function=3Dfunction=
-@entry=3D0x555558ed24e0 <__PRETTY_FUNCTION__.16603> "fifo8_pop_buf") at ass=
-ert.c:101
-  #4  0x000055555877519a in fifo8_pop_buf (fifo=3Dfifo@entry=3D0x61f0000052=
-00, max=3Dmax@entry=3D0xff, num=3Dnum@entry=3D0x7fff72bfa550) at ../util/fi=
-fo8.c:73
-  #5  0x00005555572b7d9a in do_cmd (s=3Ds@entry=3D0x61f000005088) at ../hw/=
-scsi/esp.c:328
-  #6  0x00005555572b879a in esp_do_nodma (s=3Ds@entry=3D0x61f000005088) at =
-../hw/scsi/esp.c:701
-  #7  0x00005555572bfd79 in handle_ti (s=3D0x61f000005088) at ../hw/scsi/es=
-p.c:848
-  #8  0x00005555572c419c in esp_reg_write (s=3D0x61f000005088, saddr=3Dsadd=
-r@entry=3D0x3, val=3D<optimized out>) at ../hw/scsi/esp.c:987
-  #9  0x0000555557bb916a in esp_pci_io_write (opaque=3D0x61f000004680, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at ../hw=
-/scsi/esp-pci.c:214
-  #10 0x000055555817ea28 in memory_region_write_accessor (mr=3D0x61f000004f=
-70, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>=
-, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at ../softm=
-mu/memory.c:491
-  #11 0x0000555558176671 in access_with_adjusted_size (addr=3Daddr@entry=3D=
-0xc, value=3Dvalue@entry=3D0x7fff72bfb2a8, size=3Dsize@entry=3D0x1, access_=
-size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D
-      0x55555817e7c0 <memory_region_write_accessor>, mr=3D0x61f000004f70, a=
-ttrs=3D...) at ../softmmu/memory.c:552
-  #12 0x00005555581892aa in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
-x61f000004f70, addr=3D<optimized out>, data=3D<optimized out>, data@entry=
-=3D0x10, op=3Dop@entry=3DMO_8, attrs=3D..., attrs@entry=3D...) at ../softmm=
-u/memory.c:1508
-  #13 0x0000555558024b66 in address_space_stb (as=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, attrs=3D..., result=3D0x0) at /h=
-ome/cwmyung/prj/hyfuzz/src/qemu-master/memory_ldst.c.inc:382
-  #14 0x00007fff93236d3c in code_gen_buffer ()
-  #15 0x0000555557e793bb in cpu_tb_exec (tb_exit=3D<optimized out>, itb=3D<=
-optimized out>, cpu=3D0x62e0000004b4) at ../accel/tcg/cpu-exec.c:190
-  #16 0x0000555557e793bb in cpu_loop_exec_tb (tb_exit=3D<optimized out>, la=
-st_tb=3D<optimized out>, tb=3D<optimized out>, cpu=3D0x62e0000004b4) at ../=
-accel/tcg/cpu-exec.c:673
-  #17 0x0000555557e793bb in cpu_exec (cpu=3Dcpu@entry=3D0x62e000000400) at =
-../accel/tcg/cpu-exec.c:798
-  #18 0x0000555557f5fc5a in tcg_cpus_exec (cpu=3Dcpu@entry=3D0x62e000000400=
-) at ../accel/tcg/tcg-accel-ops.c:68
-  #19 0x00005555582260af in mttcg_cpu_thread_fn (arg=3Darg@entry=3D0x62e000=
-000400) at ../accel/tcg/tcg-accel-ops-mttcg.c:70
-  #20 0x0000555558777b05 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #21 0x00007ffff05d26db in start_thread (arg=3D0x7fff72bff700) at pthread_=
-create.c:463
-  #22 0x00007ffff02fb71f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-  ```
-
-  =
-
-  To reproduce the assertion failure, please run the QEMU with the followin=
-g command line.
-
-  ```
-
-  $ ./qemu-system-i386 -m 512 -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device
-  am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk -drive
-  id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-  ```
-
-  Please let me know if I can provide any further info.
-
-  Thank you.
-
-  - Cheolwoo, Myung (Seoul National University)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1919035/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
