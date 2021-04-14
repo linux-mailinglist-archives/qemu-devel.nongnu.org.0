@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0741835F9B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:22:23 +0200 (CEST)
-Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3222B35F9BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:25:59 +0200 (CEST)
+Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjDZ-0007iz-UZ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50886)
+	id 1lWjH4-0006Do-73
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:25:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwo-00035T-6T
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:05:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42885)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lWiz1-00057M-2V
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:07:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWiwi-00008f-Pr
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:05:01 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lWiyv-00013l-GR
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:07:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1618420030;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sXmBDSKKvXZ6kzBF7OB8xdB1PfZroz9H4SRZV3s1Jq4=;
- b=fscgZbpt6yG3YVqh3apnlLWoHWJjMGKxE9r62pMyWzSEf7GGmmLgU1K7hokHONpmKr4njv
- W3pzrGjjXdyYs/dYuH+ExsZW0MOEdezfK7IJta0NRg8QLJfW4NmJS8n6iavCdVsQvMUnUo
- sdhVU0AJDE2QQlRxR7mROZfbwpyKJew=
+ bh=t5fVZs6aseVpXyGqW9EovGgMH+pAX2bB75I2ix6ALIw=;
+ b=Z0XuIvsUhCqXRILDcT4r/IWSW/R77Fpq7tSYs5eUC2wzi9cbbIObCHs2iZi4LK2FCWlxcj
+ pLXBZSa2Jy9rZ6PHr+xBo7qRzZmFzkw7l7LeaVpidZfA1HeJPj6+b6Rh3dkpGCSncFbSNB
+ 6CbgWDpbtQOtF8rVxQY2sp+a8dDmjYs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-XXKIpG_lPqSz_2SNTB5D5A-1; Wed, 14 Apr 2021 13:04:54 -0400
-X-MC-Unique: XXKIpG_lPqSz_2SNTB5D5A-1
+ us-mta-572-8_VYFxh_PkmSbbC_6hvj5A-1; Wed, 14 Apr 2021 13:07:05 -0400
+X-MC-Unique: 8_VYFxh_PkmSbbC_6hvj5A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AACA8030A1;
- Wed, 14 Apr 2021 17:04:53 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-18.ams2.redhat.com
- [10.36.114.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7CB110023AC;
- Wed, 14 Apr 2021 17:04:50 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 15/15] docs/devel/testing: add -p option to the debug
- section of QEMU iotests
-Date: Wed, 14 Apr 2021 19:03:52 +0200
-Message-Id: <20210414170352.29927-16-eesposit@redhat.com>
-In-Reply-To: <20210414170352.29927-1-eesposit@redhat.com>
-References: <20210414170352.29927-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 232CA84B9A0
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 17:07:05 +0000 (UTC)
+Received: from redhat.com (ovpn-114-26.ams2.redhat.com [10.36.114.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2117510023AC;
+ Wed, 14 Apr 2021 17:07:03 +0000 (UTC)
+Date: Wed, 14 Apr 2021 18:07:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL v2 2/3] osdep: protect qemu/osdep.h with extern "C"
+Message-ID: <YHchNfXnhyzZBTg5@redhat.com>
+References: <20210413160850.240064-1-pbonzini@redhat.com>
+ <20210413160850.240064-3-pbonzini@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210413160850.240064-3-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,35 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- docs/devel/testing.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+On Tue, Apr 13, 2021 at 06:08:49PM +0200, Paolo Bonzini wrote:
+> System headers may include templates if compiled with a C++ compiler,
+> which cause the compiler to complain if qemu/osdep.h is included
+> within a C++ source file's 'extern "C"' block.  Add
+> an 'extern "C"' block directly to qemu/osdep.h, so that
+> system headers can be kept out of it.
+> 
+> There is a stray declaration early in qemu/osdep.h, which needs
+> to be special cased.  Add a definition in qemu/compiler.h to
+> make it look nice.
+> 
+> config-host.h, CONFIG_TARGET, exec/poison.h and qemu/compiler.h
+> are included outside the 'extern "C"' block; that is not
+> an issue because they consist entirely of preprocessor directives.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  disas/nanomips.cpp      |  2 +-
+>  include/qemu/compiler.h |  6 ++++++
+>  include/qemu/osdep.h    | 10 +++++++++-
+>  3 files changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+> index 2b09655271..8ddef897f0 100644
+> --- a/disas/nanomips.cpp
+> +++ b/disas/nanomips.cpp
+> @@ -27,8 +27,8 @@
+>   *      Reference Manual", Revision 01.01, April 27, 2018
+>   */
+>  
+> -extern "C" {
+>  #include "qemu/osdep.h"
+> +extern "C" {
+>  #include "disas/dis-asm.h"
+>  }
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 62902cfd2d..0c18fc4571 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -246,6 +246,10 @@ given as options to the ``check`` script:
- * ``-d`` (debug) just increases the logging verbosity, showing
-   for example the QMP commands and answers.
- 
-+* ``-p`` (print) allows QEMU binary stdout to be shown in the
-+  test console, instead of saving it into a log file in
-+  ``$TEST_DIR/qemu-machine-<random_string>``.
-+
- Test case groups
- ----------------
- 
+disas/arm-a64.c  also has an 'extern "C"' block around
+an include of qemu/osdep.h.   Do we need a similar
+fix for that file, or are we no longer using that
+bit of code ?
+
+>  
+> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+> index cf28bb2bcd..091c45248b 100644
+> --- a/include/qemu/compiler.h
+> +++ b/include/qemu/compiler.h
+> @@ -11,6 +11,12 @@
+>  #define QEMU_STATIC_ANALYSIS 1
+>  #endif
+>  
+> +#ifdef __cplusplus
+> +#define QEMU_EXTERN_C extern "C"
+> +#else
+> +#define QEMU_EXTERN_C extern
+> +#endif
+> +
+>  #define QEMU_NORETURN __attribute__ ((__noreturn__))
+>  
+>  #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index b67b0a1e8c..3f8785a471 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -57,7 +57,7 @@
+>  #define daemon qemu_fake_daemon_function
+>  #include <stdlib.h>
+>  #undef daemon
+> -extern int daemon(int, int);
+> +QEMU_EXTERN_C int daemon(int, int);
+>  #endif
+>  
+>  #ifdef _WIN32
+> @@ -113,6 +113,10 @@ extern int daemon(int, int);
+>  
+>  #include "glib-compat.h"
+>  
+> +#ifdef __cplusplus
+> +extern "C" {
+> +#endif
+> +
+>  #ifdef _WIN32
+>  #include "sysemu/os-win32.h"
+
+This and os-posix.h both include other system headers. We don't currently
+have problem, so this is ok as the minimal fix for 6.0, but long term we
+need more work on this header to further narrow the extern {} block.
+
+So assuming my question about disas/arm-a64.c is a non-issue, then
+
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+Regards,
+Daniel
 -- 
-2.30.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
