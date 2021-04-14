@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CC435F9EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:37:56 +0200 (CEST)
-Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F1C35F9E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:32:24 +0200 (CEST)
+Received: from localhost ([::1]:60370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWjSc-0000Hq-U6
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52516)
+	id 1lWjNH-0004JQ-I3
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lWj5C-0001Rd-8y
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:13:42 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:57382
+ id 1lWjFX-0005UO-FU
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:24:23 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:53113
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lWj54-0003EY-NN
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:13:42 -0400
-HMM_SOURCE_IP: 172.18.0.218:38662.401009845
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lWjFU-0008Fv-F3
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:24:23 -0400
+HMM_SOURCE_IP: 172.18.0.218:52210.1894253153
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-125.69.43.3?logid-0d3f3488204e47d1aa442465aa6165d6
+Received: from clientip-125.69.43.3?logid-bc1b70fac4f344daa0145a501f9b6669
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 69388280029;
- Thu, 15 Apr 2021 01:13:21 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id D06E0280072;
+ Thu, 15 Apr 2021 01:24:15 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 0d3f3488204e47d1aa442465aa6165d6 for
- qemu-devel@nongnu.org; Thu Apr 15 01:13:19 2021
-X-Transaction-ID: 0d3f3488204e47d1aa442465aa6165d6
+ by app0025 with ESMTP id bc1b70fac4f344daa0145a501f9b6669 for
+ qemu-devel@nongnu.org; Thu Apr 15 01:24:13 2021
+X-Transaction-ID: bc1b70fac4f344daa0145a501f9b6669
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] migration/dirtyrate: make sample page count configurable
-Date: Thu, 15 Apr 2021 01:13:02 +0800
-Message-Id: <9ebe5902215446884dad886f94d34ed6f14976cb.1618418908.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v1] migration/dirtyrate: make sample page count configurable
+Date: Thu, 15 Apr 2021 01:23:54 +0800
+Message-Id: <76153f1cea1ba01997b2b6944ffbb69083d4f7db.1618420974.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.227;
+Received-SPF: pass client-ip=42.123.76.220;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -82,17 +82,17 @@ Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
  3 files changed, 45 insertions(+), 8 deletions(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index ccb9814..1e3ef0b 100644
+index ccb9814..43a531c 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
 @@ -48,6 +48,16 @@ static bool is_sample_period_valid(int64_t sec)
      return true;
  }
  
-+static bool is_sample_pages_valid(int64_t sec)
++static bool is_sample_pages_valid(int64_t pages)
 +{
-+    if (sec < MIN_SAMPLE_PAGE_COUNT ||
-+        sec > MAX_SAMPLE_PAGE_COUNT) {
++    if (pages < MIN_SAMPLE_PAGE_COUNT ||
++        pages > MAX_SAMPLE_PAGE_COUNT) {
 +        return false;
 +    }
 +
@@ -252,10 +252,10 @@ index 9bf0bc4..868a867 100644
  ##
 -{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
 +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', '*sample-pages': 'int'} }
-
+ 
  ##
  # @query-dirty-rate:
---
+-- 
 1.8.3.1
 
 
