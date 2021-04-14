@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DAA35F96B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:07:52 +0200 (CEST)
-Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909D035F96C
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:08:32 +0200 (CEST)
+Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWizW-00046B-FC
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
+	id 1lWj0B-0004by-LQ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWivx-0002Ab-5I
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56188)
+ id 1lWivz-0002Bf-8L
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lWivr-0008FT-UV
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:07 -0400
+ id 1lWivt-0008GS-8C
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419842;
+ s=mimecast20190719; t=1618419844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YUf7d1p6IJNIbGDsprsh77gHzswV7zaPkNJydacC2yk=;
- b=ccn+NJ4plFHaFP+Qfma2wPL43hEbmbVLaSWP/+pmx5aRnL9nrz3fyQC+ZbGssEwR3xSpD1
- 6d9vcRbJPnWD/y5Wytj9xKAZgpQFkf9NaRzl4u0O22VtxGEpGOLbQELVNhOrxyGl2NmVBp
- Ovgp3NbYSq1I/xdNFT6mSe+D9QUKNUs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ckYqI9bQu6Z0/rMmphDxv6wpiFod2PmXyRU/5JNwzjk=;
+ b=TRWlzOCoUQq3QLdCUtgkR5US/MZQagd5EM6uoknYfpsj+UyIMx7qVvLl0WcjZCvIv2K7aQ
+ 98oMC/Yud+efkrrxByFr11D07PqOlq0nHg8Ij+T23jjcmiKR2JzNxfb9sHquSrNQs/+YsB
+ pvmfxTcCusONtsyLuMMED8vjdQ04rts=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-l5oPF8GlND-6KX-DDIq3Ng-1; Wed, 14 Apr 2021 13:04:01 -0400
-X-MC-Unique: l5oPF8GlND-6KX-DDIq3Ng-1
+ us-mta-17-fTs-PbHKNzimb3SEvl9s-g-1; Wed, 14 Apr 2021 13:04:01 -0400
+X-MC-Unique: fTs-PbHKNzimb3SEvl9s-g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09888018A7;
- Wed, 14 Apr 2021 17:03:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3AE2107ACF9;
+ Wed, 14 Apr 2021 17:04:00 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-18.ams2.redhat.com
  [10.36.114.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A43001037EA2;
- Wed, 14 Apr 2021 17:03:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22E4C10023AC;
+ Wed, 14 Apr 2021 17:03:57 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 00/15] qemu_iotests: improve debugging options
-Date: Wed, 14 Apr 2021 19:03:37 +0200
-Message-Id: <20210414170352.29927-1-eesposit@redhat.com>
+Subject: [PATCH v3 01/15] python: qemu: add timer parameter for qmp.accept
+ socket
+Date: Wed, 14 Apr 2021 19:03:38 +0200
+Message-Id: <20210414170352.29927-2-eesposit@redhat.com>
+In-Reply-To: <20210414170352.29927-1-eesposit@redhat.com>
+References: <20210414170352.29927-1-eesposit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -55,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -63,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,61 +88,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds the option to attach gdbserver and valgrind
-to the QEMU binary running in qemu_iotests.
-It also allows to redirect QEMU binaries output of the python tests
-to the stdout, instead of a log file.
-
-Patches 1-6 introduce the -gdb option to both python and bash tests, 
-7-10 extend the already existing -valgrind flag to work also on 
-python tests, and patch 11 introduces -p to enable logging to stdout.
-
-In particular, patches 1,2,4,8 focus on extending the QMP socket timers
-when using gdb/valgrind, otherwise the python tests will fail due to
-delays in the QMP responses.
-
-This series is tested on the previous serie
-"qemu-iotests: quality of life improvements"
-but independent from it, so it can be applied separately.
+Add a new _qmp_timer field to the QEMUMachine class.
+The default timer is 15 sec, as per the default in the
+qmp accept() function.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
-v3:
-- Introduce the class field _qmp_timer instead of a function parameter
-in the _post_launch() function [John]
-- style and cleanup fixes in iotests.py [Paolo]
+ python/qemu/machine.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Emanuele Giuseppe Esposito (15):
-  python: qemu: add timer parameter for qmp.accept socket
-  python: qemu: pass the wrapper field from QEMUQtestmachine to
-    QEMUMachine
-  docs/devel/testing: add debug section to the QEMU iotests chapter
-  qemu-iotests: add option to attach gdbserver
-  qemu-iotests: delay QMP socket timers
-  qemu_iotests: insert gdbserver command line as wrapper for qemu binary
-  qemu-iotests: add gdbserver option to script tests too
-  docs/devel/testing: add -gdb option to the debugging section of QEMU
-    iotests
-  qemu_iotests: extend the check script to support valgrind for python
-    tests
-  qemu_iotests: extent QMP socket timeout when using valgrind
-  qemu_iotests: allow valgrind to read/delete the generated log file
-  qemu_iotests: insert valgrind command line as wrapper for qemu binary
-  docs/devel/testing: add -valgrind option to the debug section of QEMU
-    iotests
-  qemu_iotests: add option to show qemu binary logs on stdout
-  docs/devel/testing: add -p option to the debug section of QEMU iotests
-
- docs/devel/testing.rst        | 26 ++++++++++++++++
- python/qemu/machine.py        |  6 +++-
- python/qemu/qtest.py          |  4 ++-
- tests/qemu-iotests/check      | 14 ++++++---
- tests/qemu-iotests/common.rc  |  8 ++++-
- tests/qemu-iotests/iotests.py | 58 +++++++++++++++++++++++++++++++++--
- tests/qemu-iotests/testenv.py | 21 +++++++++++--
- 7 files changed, 125 insertions(+), 12 deletions(-)
-
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 6e44bda337..12752142c9 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -110,6 +110,7 @@ def __init__(self,
+         self._binary = binary
+         self._args = list(args)
+         self._wrapper = wrapper
++        self._qmp_timer = 15.0
+ 
+         self._name = name or "qemu-%d" % os.getpid()
+         self._test_dir = test_dir
+@@ -323,7 +324,7 @@ def _pre_launch(self) -> None:
+ 
+     def _post_launch(self) -> None:
+         if self._qmp_connection:
+-            self._qmp.accept()
++            self._qmp.accept(self._qmp_timer)
+ 
+     def _post_shutdown(self) -> None:
+         """
 -- 
 2.30.2
 
