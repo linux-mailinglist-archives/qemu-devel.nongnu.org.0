@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C603E35F153
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:14:09 +0200 (CEST)
-Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FDB35F164
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:18:39 +0200 (CEST)
+Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWcXA-0004dX-UP
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
+	id 1lWcbW-0000Fn-5I
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWcVZ-00048w-6W
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:12:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWcVW-0003vn-4y
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:12:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618395144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GCR5oJg/3xASiJ44WzvDvU/b8UGyLWRgUrfEhS7jAr8=;
- b=hpBtuJNBsn4dS5xFIn3XhPn1mxBfcEtIgNSa1ntoXkTT4NbzQM0231XgCJSGfgenk9tOhD
- 6HH33r3gWieBv5+IOpR8epEW1Mj8Q9kBh/zj4lEKhP+NkfBcDQQCjR6n7mF2GdXQNbLwBi
- tw9ZcN0TljHqLdKHIyBdlMYWKqnUuqA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-MOvo2pSxMP6lpL9Yj6u_Lg-1; Wed, 14 Apr 2021 06:12:22 -0400
-X-MC-Unique: MOvo2pSxMP6lpL9Yj6u_Lg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o14-20020a5d474e0000b029010298882dadso844411wrs.2
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 03:12:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWcZD-0006r2-FW
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:16:15 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51927)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWcZB-0005p3-N7
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:16:15 -0400
+Received: by mail-wm1-x336.google.com with SMTP id p19so10315967wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 03:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EZeaKiH+RbpOdTzhuUN+3R6GtinfBY0skStQKK99rXY=;
+ b=XRUvH2oG8JLmFl+94DpCVyCCbr4dZOo6w73YIq4oCsxt4ok3NtYDaE0tnRDFdLvp9Y
+ o+OYIT/epfLrVIpqkIpBkY5rxEkvJFF+nJyexSpl6XlIBqxPAx/u3Dta40ayS2VHFkut
+ wloOmJootUfMRxb/fYEuPrj2b9jwaliRZppujM5Tds3CT0dqNs0mq66lSRJj86fpneKp
+ VcQd+Dutbki0o3ydat63IGad/fQa4QI4/LV0nIXqGK9MaZED8Xd4Azmp3RxWJZivtwjf
+ U02La4QGGvYc/aHoAdZ1Xak92UjxNkJeUCV1d19q4+VwRlz9s5e+jzSM5L/JsJK5PRMs
+ +HzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GCR5oJg/3xASiJ44WzvDvU/b8UGyLWRgUrfEhS7jAr8=;
- b=oDHiNxZGSJZGQ3jIaqM/uOctH/vjY58DKrvv1eueFtmdF+9NUnZfyWYiOqwrk9JSTC
- VVECNRL/cI+kVdlaUqzsZ8aAY3CjQfJiXy7Wf/ENz7p8gUFYzGlJ+KDuXdKrGqoJC9Pt
- 2fIp33WIG1YVbNumuoUvOcdYnKje58QudcPr8x9stFEbLoLvJEQa/leNPGbE9X6UB67i
- 6vznr5w/qr/UU9/lkkdpLDg8kcFtL0CmO40MdY9ZWr3ff55AErklHgvtHNL7B1uzWGgi
- 4sP8f3ODCIdJhZc0NSq88WQbMgqvfukaS/X7U4avIUHmlPJcIzbUVj7Peza1TIShYJiX
- at8g==
-X-Gm-Message-State: AOAM533T6vG8ChRECO4ilKHPHiyuywgaJ7XwU1Hr1UvZgtTkE0eDnWMZ
- nwUAMeSYYHAwh5Bwgsm8VqusXm7brDV+mrEWGTELufV5oJGPOwvOlKXpG2mAvnTKHQCUfrlR6xY
- n23pNHiDRjfpWBtk=
-X-Received: by 2002:a7b:c189:: with SMTP id y9mr2210448wmi.126.1618395141659; 
- Wed, 14 Apr 2021 03:12:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyjwNsQHYxNJMlPVuKleeRquvRA0CVdx9aignAQO6FPM1onp4oR4ElcFuGGBxGoCBhkLgUV7w==
-X-Received: by 2002:a7b:c189:: with SMTP id y9mr2210424wmi.126.1618395141456; 
- Wed, 14 Apr 2021 03:12:21 -0700 (PDT)
+ bh=EZeaKiH+RbpOdTzhuUN+3R6GtinfBY0skStQKK99rXY=;
+ b=pEGSvgDCOSp1bZu5E2KXNkukXrtYyjql9QQ37CjNyA6BtK5/EBmgGrcDjylTqXQ+oq
+ LkmWcinVTLJKNWyI6jiZezLbwN74/r+8cunMojAPbof24BBsumaKXYS1c0Jx0dA8zCxc
+ vrvTGQDjmFQXHszwzUwMCQkg14vbLVRFE0NNgCUbBiGBmq3hIPSBSAbuzJvLeMZeELAu
+ nL4TkpaYjAHTVgKG4Yoo1sVjWsznC5btKASfCxlO1HWyoPU+OrSVwaq2Mt6gYkodn/8y
+ MRxN+BMTcL1pxXnqed6om2mrL/9NV1F6+TQ3k3gtj14DwNCdwjTKI4Q9U8/Zz2EuEwt4
+ O9yw==
+X-Gm-Message-State: AOAM533LJ2zCEZg9f3lde+8E9CeN/mwrZT3yHsOX7UKZf3dIzYiyuBe7
+ 7cJY6W3jn7oz2mWgbUg5hTo=
+X-Google-Smtp-Source: ABdhPJxm698RvbYgX+1onS4W2QpQ2OxOd4x0iPgHqljlYg4DVGqLQGVgem5rfjPce8sI2YBNTGZiaA==
+X-Received: by 2002:a1c:c246:: with SMTP id s67mr2220383wmf.86.1618395372393; 
+ Wed, 14 Apr 2021 03:16:12 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id o125sm4977248wmo.24.2021.04.14.03.12.20
+ by smtp.gmail.com with ESMTPSA id j23sm4758308wmo.33.2021.04.14.03.16.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Apr 2021 03:12:20 -0700 (PDT)
-Subject: Re: [PATCH] vhost-vdpa: Make vhost_vdpa_get_device_id() static
-To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org, mst@redhat.com
-References: <20210413133737.1574-1-yuzenghui@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3d44f706-8611-c2b5-93ba-363a17df4211@redhat.com>
-Date: Wed, 14 Apr 2021 12:12:19 +0200
+ Wed, 14 Apr 2021 03:16:11 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/5] tests/docker/dockerfiles/ubuntu2004: Add missing
+ symlink for cc
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210414081907.871437-1-thuth@redhat.com>
+ <20210414081907.871437-3-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3689c506-5812-740c-70c8-287ec4caa549@amsat.org>
+Date: Wed, 14 Apr 2021 12:16:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210413133737.1574-1-yuzenghui@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210414081907.871437-3-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,19 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, jasowang@redhat.com, lulu@redhat.com
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/21 3:37 PM, Zenghui Yu wrote:
-> As it's only used inside hw/virtio/vhost-vdpa.c.
+On 4/14/21 10:19 AM, Thomas Huth wrote:
+> For some reasons, the "cc" symlink is missing in Ubuntu 20.04.
+> Add it manually.
 > 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  hw/virtio/vhost-vdpa.c         | 4 ++--
->  include/hw/virtio/vhost-vdpa.h | 2 --
->  2 files changed, 2 insertions(+), 4 deletions(-)
+>  tests/docker/dockerfiles/ubuntu2004.docker | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+> index 9750016e51..e1b309e313 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -74,3 +74,6 @@ ENV FEATURES clang tsan pyyaml sdl2
+>  # Apply patch https://reviews.llvm.org/D75820
+>  # This is required for TSan in clang-10 to compile with QEMU.
+>  RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
+> +
+> +# The symlink for cc is missing on Ubuntu
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Maybe precise the version: "on Ubuntu 20.04" so we can remove
+when upgrading to the next release?
 
+> +RUN cd /usr/lib/ccache && ln -s ../../bin/ccache cc
+
+No need to change current directory:
+
+   RUN ln -s ../../bin/ccache /usr/lib/ccache/cc
+
+Or use absolute (but if other use relative, better keep relative,
+I haven't check):
+
+   RUN ln -s /usr/bin/ccache /usr/lib/ccache/cc
 
