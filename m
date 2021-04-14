@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476B435F3D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:34:45 +0200 (CEST)
-Received: from localhost ([::1]:52042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F016E35F3DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:37:21 +0200 (CEST)
+Received: from localhost ([::1]:58312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWejE-0008Cl-B2
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42586)
+	id 1lWell-0002TB-2h
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:37:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgx-00077V-By
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45928)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgz-00079d-3b
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:21 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgs-0005pG-IN
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:19 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgs-0005pM-Mr
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:20 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1EFD0B00D;
+ by mx2.suse.de (Postfix) with ESMTP id F2CDAB166;
  Wed, 14 Apr 2021 11:27:22 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 63/80] target/arm: make is_aa64 and arm_el_is_aa64 a macro
- for !TARGET_AARCH64
-Date: Wed, 14 Apr 2021 13:26:33 +0200
-Message-Id: <20210414112650.18003-64-cfontana@suse.de>
+Subject: [RFC v13 65/80] target/arm: arch_dump: restrict ELFCLASS64 to AArch64
+Date: Wed, 14 Apr 2021 13:26:35 +0200
+Message-Id: <20210414112650.18003-66-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
@@ -61,92 +60,106 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-when TARGET_AARCH64 is not defined, it is helpful to make
-is_aa64() and arm_el_is_aa64 macros defined to "false".
-
-This way we can make more code TARGET_AARCH64-only.
+this will allow us to restrict more code to TARGET_AARCH64
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 37 ++++++++++++++++++++++++-------------
- 1 file changed, 24 insertions(+), 13 deletions(-)
+ target/arm/arch_dump.c | 12 +++++++-----
+ target/arm/cpu.c       |  1 -
+ target/arm/cpu64.c     |  4 ++++
+ 3 files changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 99f65c5390..204fc13949 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1053,6 +1053,11 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
+diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
+index 0184845310..9cc75a6fda 100644
+--- a/target/arm/arch_dump.c
++++ b/target/arm/arch_dump.c
+@@ -23,6 +23,8 @@
+ #include "elf.h"
+ #include "sysemu/dump.h"
  
-+static inline bool is_a64(CPUARMState *env)
-+{
-+    return env->aarch64;
-+}
++#ifdef TARGET_AARCH64
 +
- /*
-  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-  * The byte at offset i from the start of the in-memory representation contains
-@@ -1082,7 +1087,10 @@ static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
- static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-                                          int n, bool a)
- { }
--#endif
-+
-+#define is_a64(env) ((void)env, false)
-+
-+#endif /* TARGET_AARCH64 */
- 
- void aarch64_sync_32_to_64(CPUARMState *env);
- void aarch64_sync_64_to_32(CPUARMState *env);
-@@ -1091,11 +1099,6 @@ int fp_exception_el(CPUARMState *env, int cur_el);
- int sve_exception_el(CPUARMState *env, int cur_el);
- uint32_t sve_zcr_len_for_el(CPUARMState *env, int el);
- 
--static inline bool is_a64(CPUARMState *env)
--{
--    return env->aarch64;
--}
--
- /* you can call this signal handler from your SIGBUS and SIGSEGV
-    signal handlers to inform the virtual CPU of exceptions. non zero
-    is returned if the signal was handled by the virtual CPU.  */
-@@ -2195,13 +2198,7 @@ static inline bool arm_is_el2_enabled(CPUARMState *env)
+ /* struct user_pt_regs from arch/arm64/include/uapi/asm/ptrace.h */
+ struct aarch64_user_regs {
+     uint64_t regs[31];
+@@ -141,7 +143,6 @@ static int aarch64_write_elf64_prfpreg(WriteCoreDumpFunction f,
+     return 0;
  }
+ 
+-#ifdef TARGET_AARCH64
+ static off_t sve_zreg_offset(uint32_t vq, int n)
+ {
+     off_t off = sizeof(struct aarch64_user_sve_header);
+@@ -229,7 +230,6 @@ static int aarch64_write_elf64_sve(WriteCoreDumpFunction f,
+ 
+     return 0;
+ }
+-#endif
+ 
+ int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+                              int cpuid, void *opaque)
+@@ -272,15 +272,15 @@ int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+         return ret;
+     }
+ 
+-#ifdef TARGET_AARCH64
+     if (cpu_isar_feature(aa64_sve, cpu)) {
+         ret = aarch64_write_elf64_sve(f, env, cpuid, s);
+     }
+-#endif
+ 
+     return ret;
+ }
+ 
++#endif /* TARGET_AARCH64 */
++
+ /* struct pt_regs from arch/arm/include/asm/ptrace.h */
+ struct arm_user_regs {
+     uint32_t regs[17];
+@@ -449,12 +449,14 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+     size_t note_size;
+ 
+     if (class == ELFCLASS64) {
++#ifdef TARGET_AARCH64
+         note_size = AARCH64_PRSTATUS_NOTE_SIZE;
+         note_size += AARCH64_PRFPREG_NOTE_SIZE;
+-#ifdef TARGET_AARCH64
+         if (cpu_isar_feature(aa64_sve, cpu)) {
+             note_size += AARCH64_SVE_NOTE_SIZE(&cpu->env);
+         }
++#else
++        return -1; /* unsupported */
+ #endif
+     } else {
+         note_size = ARM_PRSTATUS_NOTE_SIZE;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index d192dd1ba4..ffa31729e1 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1391,7 +1391,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->asidx_from_attrs = arm_asidx_from_attrs;
+     cc->vmsd = &vmstate_arm_cpu;
+     cc->virtio_is_big_endian = arm_cpu_virtio_is_big_endian;
+-    cc->write_elf64_note = arm_cpu_write_elf64_note;
+     cc->write_elf32_note = arm_cpu_write_elf32_note;
  #endif
  
--/**
-- * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
-- * E.g. when in secure state, fields in HCR_EL2 are suppressed,
-- * "for all purposes other than a direct read or write access of HCR_EL2."
-- * Not included here is HCR_RW.
-- */
--uint64_t arm_hcr_el2_eff(CPUARMState *env);
-+#ifdef TARGET_AARCH64
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 7d6e0b553f..8c96a108fc 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -636,6 +636,10 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_arch_name = aarch64_gdb_arch_name;
+     cc->dump_state = arm_cpu_dump_state;
  
- /* Return true if the specified exception level is running in AArch64 state. */
- static inline bool arm_el_is_aa64(CPUARMState *env, int el)
-@@ -2236,6 +2233,20 @@ static inline bool arm_el_is_aa64(CPUARMState *env, int el)
-     return aa64;
- }
- 
-+#else
++#ifndef CONFIG_USER_ONLY
++    cc->write_elf64_note = arm_cpu_write_elf64_note;
++#endif /* !CONFIG_USER_ONLY */
 +
-+#define arm_el_is_aa64(env, el) ((void)env, (void)el, false)
-+
-+#endif /* TARGET_AARCH64 */
-+
-+/**
-+ * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
-+ * E.g. when in secure state, fields in HCR_EL2 are suppressed,
-+ * "for all purposes other than a direct read or write access of HCR_EL2."
-+ * Not included here is HCR_RW.
-+ */
-+uint64_t arm_hcr_el2_eff(CPUARMState *env);
-+
- /* Function for determing whether guest cp register reads and writes should
-  * access the secure or non-secure bank of a cp register.  When EL3 is
-  * operating in AArch32 state, the NS-bit determines whether the secure
+     object_class_property_add_bool(oc, "aarch64", aarch64_cpu_get_aarch64,
+                                    aarch64_cpu_set_aarch64);
+     object_class_property_set_description(oc, "aarch64",
 -- 
 2.26.2
 
