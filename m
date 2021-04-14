@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE44F35F436
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:47:36 +0200 (CEST)
-Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69F335F3C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 14:32:37 +0200 (CEST)
+Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWevf-0004Zt-Vj
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42726)
+	id 1lWehA-0004cG-Jw
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 08:32:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdh6-0007Fm-BG
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdh6-0007GS-R1
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:28 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45966)
+Received: from mx2.suse.de ([195.135.220.15]:45978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgu-0005qj-Ab
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lWdgv-0005rz-D0
  for qemu-devel@nongnu.org; Wed, 14 Apr 2021 07:28:28 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6C34AB1C5;
- Wed, 14 Apr 2021 11:27:27 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 5112EB1CA;
+ Wed, 14 Apr 2021 11:27:28 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v13 75/80] target/arm: move arm_cpu_finalize_features into cpu64
-Date: Wed, 14 Apr 2021 13:26:45 +0200
-Message-Id: <20210414112650.18003-76-cfontana@suse.de>
+Subject: [RFC v13 77/80] target/arm: cpu64: some final cleanup on
+ aarch64_cpu_finalize_features
+Date: Wed, 14 Apr 2021 13:26:47 +0200
+Message-Id: <20210414112650.18003-78-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210414112650.18003-1-cfontana@suse.de>
 References: <20210414112650.18003-1-cfontana@suse.de>
@@ -60,36 +61,42 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-all the features in arm_cpu_finalize_features are actually
-TARGET_AARCH64-only now, since KVM is now only supported on 64bit.
-
-Therefore move the function to cpu64.
+bail out immediately if ARM_FEATURE_AARCH64 is not set,
+and add an else statement when checking for accelerators.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu.c     | 36 ++----------------------------------
- target/arm/cpu64.c   | 34 ++++++++++++++++++++++++++++++++++
- target/arm/monitor.c |  4 ++++
- 3 files changed, 40 insertions(+), 34 deletions(-)
+ target/arm/cpu64.c | 33 ++++++++++++++++-----------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index b91c48cd2f..4d0724b537 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -820,40 +820,6 @@ static void arm_cpu_finalizefn(Object *obj)
- #endif
- }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 5b8dc8ff14..1de1d46b82 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -459,26 +459,25 @@ void aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+ {
+     Error *local_err = NULL;
  
--void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
--{
--    Error *local_err = NULL;
--
--#ifdef TARGET_AARCH64
 -    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
 -        if (!cpu_sve_finalize_features(cpu, &local_err)) {
--            error_propagate(errp, local_err);
--            return;
--        }
++    if (!arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
++        return;
++    }
++    if (!cpu_sve_finalize_features(cpu, &local_err)) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    /*
++     * KVM does not support modifications to this feature.
++     * We have not registered the cpu properties when KVM
++     * is in use, so the user will not be able to set them.
++     */
++    if (tcg_enabled()) {
++        if (!cpu_pauth_finalize(cpu, &local_err)) {
+             error_propagate(errp, local_err);
+             return;
+         }
 -
 -        /*
 -         * KVM does not support modifications to this feature.
@@ -103,107 +110,12 @@ index b91c48cd2f..4d0724b537 100644
 -            }
 -        }
 -    }
--#endif /* TARGET_AARCH64 */
 -
 -    if (kvm_enabled()) {
--        kvm_arm_steal_time_finalize(cpu, &local_err);
--        if (local_err != NULL) {
--            error_propagate(errp, local_err);
--            return;
--        }
--    }
--}
--
- static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-@@ -876,6 +842,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+#ifdef TARGET_AARCH64
-     arm_cpu_finalize_features(cpu, &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-@@ -892,6 +859,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-                    "AArch64 CPUs must have both VFP and Neon or neither");
-         return;
-     }
-+#endif /* TARGET_AARCH64 */
- 
-     if (!cpu->has_vfp) {
-         uint64_t t;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index b76fbb4947..bcbfc5d53a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -455,6 +455,40 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
-     return g_strdup("aarch64");
- }
- 
-+void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-+{
-+    Error *local_err = NULL;
-+
-+#ifdef TARGET_AARCH64
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+        if (!cpu_sve_finalize_features(cpu, &local_err)) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+
-+        /*
-+         * KVM does not support modifications to this feature.
-+         * We have not registered the cpu properties when KVM
-+         * is in use, so the user will not be able to set them.
-+         */
-+        if (tcg_enabled()) {
-+            if (!cpu_pauth_finalize(cpu, &local_err)) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+        }
-+    }
-+#endif /* TARGET_AARCH64 */
-+
-+    if (kvm_enabled()) {
-+        kvm_arm_steal_time_finalize(cpu, &local_err);
-+        if (local_err != NULL) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+    }
-+}
-+
- static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 0c72bf7c31..95c1e72cd1 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -184,9 +184,11 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-         if (!err) {
-             visit_check_struct(visitor, &err);
-         }
-+#ifdef TARGET_AARCH64
-         if (!err) {
-             arm_cpu_finalize_features(ARM_CPU(obj), &err);
-         }
-+#endif /* TARGET_AARCH64 */
-         visit_end_struct(visitor, NULL);
-         visit_free(visitor);
-         if (err) {
-@@ -195,7 +197,9 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-             return NULL;
-         }
-     } else {
-+#ifdef TARGET_AARCH64
-         arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
-+#endif /* TARGET_AARCH64 */
-     }
- 
-     expansion_info = g_new0(CpuModelExpansionInfo, 1);
++    } else if (kvm_enabled()) {
+         kvm_arm_steal_time_finalize(cpu, &local_err);
+         if (local_err != NULL) {
+             error_propagate(errp, local_err);
 -- 
 2.26.2
 
