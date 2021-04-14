@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AEF35F8B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:09:56 +0200 (CEST)
-Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51E635F8B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 18:14:47 +0200 (CEST)
+Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWi5T-0005IH-71
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
+	id 1lWiAA-00033u-OM
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 12:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWhoR-0008Q6-Sw
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45643)
+ id 1lWhoT-0008R3-7K
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWhoN-0000SU-QJ
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:19 -0400
+ id 1lWhoP-0000Sw-7G
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:52:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618415535;
+ s=mimecast20190719; t=1618415536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QOcwNXYhqkABgNUcL/n2UG0DsBjC65kOgntv4sKnI8U=;
- b=QbO2j9lGJD4e4G94YBqdE1+DTa7fNf5vY+q2NprpExjYu1WzDYM+nKrtiW3F+p4oB87OSf
- /4tdXiS+HMNNRmQ6yymGQMwj9tbsy8upEMJAMyYdHI2uhD5U12fz2/Fxd7zhfj8sMkW4SX
- 9yDlFbqfjGt6H8Tyng63khffoBXiE6o=
+ bh=Jlsb5sfmoaD/lonstNPHjpveSV9zO5eW55DbeU14usA=;
+ b=BDJIGDaoegdQc87LJ39mjBoDjxgRwcfCYOsyTrBxrimIwJMKFhpxHMSnK2O/DIfVPA+Px2
+ Z5WukqMXHBtQvr51CjhFQYG/Qo17BPoGZSDfqXEzypiRf5yP720qQ8WAWsSz2mNTyG9fg6
+ iQ9u+nqIx4uloNFKeV3PTbcbdQHCly4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-ib4jfAR1NRGIys7g90OuPg-1; Wed, 14 Apr 2021 11:52:13 -0400
-X-MC-Unique: ib4jfAR1NRGIys7g90OuPg-1
+ us-mta-143-5TE3dN0WOj-qJ3vyavyEmA-1; Wed, 14 Apr 2021 11:52:14 -0400
+X-MC-Unique: 5TE3dN0WOj-qJ3vyavyEmA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E13FA6882
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:52:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8DC81020C21
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:52:13 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-158.ams2.redhat.com
  [10.36.115.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 649BA18A49;
- Wed, 14 Apr 2021 15:52:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBFC5610A8;
+ Wed, 14 Apr 2021 15:52:12 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  virtio-fs@redhat.com
-Subject: [PATCH v2 20/25] DAX/unmap virtiofsd: Route unmappable reads
-Date: Wed, 14 Apr 2021 16:51:32 +0100
-Message-Id: <20210414155137.46522-21-dgilbert@redhat.com>
+Subject: [PATCH v2 21/25] DAX/unmap virtiofsd: route unmappable write to slave
+ command
+Date: Wed, 14 Apr 2021 16:51:33 +0100
+Message-Id: <20210414155137.46522-22-dgilbert@redhat.com>
 In-Reply-To: <20210414155137.46522-1-dgilbert@redhat.com>
 References: <20210414155137.46522-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,62 +86,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-When a read with unmappable buffers is found, map it to a slave
-read command.
+When a fuse_buf_copy is performed on an element with FUSE_BUF_PHYS_ADDR
+route it to a fuse_virtio_write request that does a slave command to
+perform the write.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 37 +++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ tools/virtiofsd/buffer.c         | 14 +++++++++++---
+ tools/virtiofsd/fuse_common.h    |  6 +++++-
+ tools/virtiofsd/fuse_lowlevel.h  |  3 ---
+ tools/virtiofsd/passthrough_ll.c |  2 +-
+ 4 files changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 5ed78bd8cf..887e79a126 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -459,6 +459,43 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-         in_sg_left -= ret;
-         len -= ret;
-     } while (in_sg_left);
-+
-+    if (bad_in_num) {
-+        /* TODO: Rework to send in fewer messages */
-+        VhostUserFSSlaveMsg *msg = g_malloc0(sizeof(VhostUserFSSlaveMsg) +
-+                                             sizeof(VhostUserFSSlaveMsgEntry));
-+        while (len && bad_in_num) {
-+            msg->count = 1;
-+            msg->entries[0].flags = VHOST_USER_FS_FLAG_MAP_R;
-+            msg->entries[0].fd_offset = buf->buf[0].pos;
-+            msg->entries[0].c_offset =
-+                (uint64_t)(uintptr_t)in_sg_ptr[0].iov_base;
-+            msg->entries[0].len = in_sg_ptr[0].iov_len;
-+            if (len < msg->entries[0].len) {
-+                msg->entries[0].len = len;
-+             }
-+            int64_t req_res = fuse_virtio_io(se, msg, buf->buf[0].fd);
-+            fuse_log(FUSE_LOG_DEBUG,
-+                     "%s: bad loop; len=%zd bad_in_num=%d fd_offset=%zd "
-+                     "c_offset=%p req_res=%ld\n",
-+                     __func__, len, bad_in_num, buf->buf[0].pos,
-+                     in_sg_ptr[0].iov_base, req_res);
-+            if (req_res > 0) {
-+                len -= msg->entries[0].len;
-+                buf->buf[0].pos += msg->entries[0].len;
-+                in_sg_ptr++;
-+                bad_in_num--;
-+            } else if (req_res == 0) {
-+                break;
-+            } else {
-+                ret = req_res;
-+                free(in_sg_cpy);
-+                g_free(msg);
-+                goto err;
-+            }
-+        }
-+        g_free(msg);
-+    }
-     free(in_sg_cpy);
+diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+index 1a050aa441..8135d52d2a 100644
+--- a/tools/virtiofsd/buffer.c
++++ b/tools/virtiofsd/buffer.c
+@@ -200,13 +200,20 @@ static ssize_t fuse_buf_fd_to_fd(const struct fuse_buf *dst, size_t dst_off,
+     return copied;
+ }
  
-     /* Need to fix out->len on EOF */
+-static ssize_t fuse_buf_copy_one(const struct fuse_buf *dst, size_t dst_off,
++static ssize_t fuse_buf_copy_one(fuse_req_t req,
++                                 const struct fuse_buf *dst, size_t dst_off,
+                                  const struct fuse_buf *src, size_t src_off,
+                                  size_t len)
+ {
+     int src_is_fd = src->flags & FUSE_BUF_IS_FD;
+     int dst_is_fd = dst->flags & FUSE_BUF_IS_FD;
++    int src_is_phys = src->flags & FUSE_BUF_PHYS_ADDR;
++    int dst_is_phys = src->flags & FUSE_BUF_PHYS_ADDR;
+ 
++    if (src_is_phys && !src_is_fd && dst_is_fd) {
++        return fuse_virtio_write(req, dst, dst_off, src, src_off, len);
++    }
++    assert(!src_is_phys && !dst_is_phys);
+     if (!src_is_fd && !dst_is_fd) {
+         char *dstmem = (char *)dst->mem + dst_off;
+         char *srcmem = (char *)src->mem + src_off;
+@@ -259,7 +266,8 @@ static int fuse_bufvec_advance(struct fuse_bufvec *bufv, size_t len)
+     return 1;
+ }
+ 
+-ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
++ssize_t fuse_buf_copy(fuse_req_t req, struct fuse_bufvec *dstv,
++                      struct fuse_bufvec *srcv)
+ {
+     size_t copied = 0, i;
+ 
+@@ -301,7 +309,7 @@ ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
+         dst_len = dst->size - dstv->off;
+         len = min_size(src_len, dst_len);
+ 
+-        res = fuse_buf_copy_one(dst, dstv->off, src, srcv->off, len);
++        res = fuse_buf_copy_one(req, dst, dstv->off, src, srcv->off, len);
+         if (res < 0) {
+             if (!copied) {
+                 return res;
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index af43cf19f9..beed03aa93 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -510,6 +510,8 @@ struct fuse_conn_info {
+ struct fuse_session;
+ struct fuse_pollhandle;
+ struct fuse_conn_info_opts;
++struct fuse_req;
++typedef struct fuse_req *fuse_req_t;
+ 
+ /**
+  * This function parses several command-line options that can be used
+@@ -728,11 +730,13 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv);
+ /**
+  * Copy data from one buffer vector to another
+  *
++ * @param req The request this copy is part of
+  * @param dst destination buffer vector
+  * @param src source buffer vector
+  * @return actual number of bytes copied or -errno on error
+  */
+-ssize_t fuse_buf_copy(struct fuse_bufvec *dst, struct fuse_bufvec *src);
++ssize_t fuse_buf_copy(fuse_req_t req,
++                      struct fuse_bufvec *dst, struct fuse_bufvec *src);
+ 
+ /**
+  * Memory buffer iterator
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index 757cdae49b..24e580aafe 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -42,9 +42,6 @@
+ /** Inode number type */
+ typedef uint64_t fuse_ino_t;
+ 
+-/** Request pointer type */
+-typedef struct fuse_req *fuse_req_t;
+-
+ /**
+  * Session
+  *
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 726343677e..b3954376b3 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2301,7 +2301,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
+         }
+     }
+ 
+-    res = fuse_buf_copy(&out_buf, in_buf);
++    res = fuse_buf_copy(req, &out_buf, in_buf);
+     if (res < 0) {
+         fuse_reply_err(req, -res);
+     } else {
 -- 
 2.31.1
 
