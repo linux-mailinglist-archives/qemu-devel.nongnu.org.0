@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073FB35EF32
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:21:14 +0200 (CEST)
-Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8787735EF34
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 10:22:41 +0200 (CEST)
+Received: from localhost ([::1]:44554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWalt-0002uX-3D
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:21:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51598)
+	id 1lWanI-0005ax-KL
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 04:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakG-0001ZN-JP
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28718)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakJ-0001bM-Uu
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakE-0004pQ-IJ
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:32 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWakI-0004rK-BP
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 04:19:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618388369;
+ s=mimecast20190719; t=1618388373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9g5AycN+af7RZ/fpBVUz50VqLW59VzYvia7SAA9yAtU=;
- b=VoPo6XArdsrrkiN9cnAAfmfqBCSJSQYTDZ2fIBrWmJ7iXL/eXvarz98fC5vPiM5cttHXa9
- NnH/B9uNgCqsZWMtk0JrQr58ExuFNwDuWDdY3JdCy8J0oUH8ESw8b/XulBomCf5l3cKM2B
- Z64eqqKbzt+qNeBwu5tWS5PDd6Qrhew=
+ bh=kPusj4Ma0ttzjZG2Q0EjtkPUmQM1pK0r40kAZyvsR+Y=;
+ b=MOd5O62f6gE4Pj6WuBvTK/pJF1OX2wSNaoMHFEe55dU+CsyoiyjRKzTre2sh8W28Qh6hep
+ f0Q0dnSsSIHuhnXkWHzQL8sNXxSYrfDXp6cEpiPz5OEJC1CnEuwEkK7I+Hr0Gpxg8o3IrZ
+ 84qxKCRvxkri6jstjW8Z5P7kA0aU1Ro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-y96nfj9vP8SbTKPePCmxJQ-1; Wed, 14 Apr 2021 04:19:26 -0400
-X-MC-Unique: y96nfj9vP8SbTKPePCmxJQ-1
+ us-mta-379-lwN52u8ZNBilZtt3TdcQMQ-1; Wed, 14 Apr 2021 04:19:29 -0400
+X-MC-Unique: lwN52u8ZNBilZtt3TdcQMQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D20C579EC1;
- Wed, 14 Apr 2021 08:19:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1990279EC0;
+ Wed, 14 Apr 2021 08:19:28 +0000 (UTC)
 Received: from thuth.com (ovpn-112-89.ams2.redhat.com [10.36.112.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3C095D9CA;
- Wed, 14 Apr 2021 08:19:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DDE85D9CA;
+ Wed, 14 Apr 2021 08:19:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH 2/5] tests/docker/dockerfiles/ubuntu2004: Add missing
- symlink for cc
-Date: Wed, 14 Apr 2021 10:19:04 +0200
-Message-Id: <20210414081907.871437-3-thuth@redhat.com>
+Subject: [RFC PATCH 3/5] gitlab-ci.d/crossbuilds: Limit the amount of targets
+ in the cross-win64 build
+Date: Wed, 14 Apr 2021 10:19:05 +0200
+Message-Id: <20210414081907.871437-4-thuth@redhat.com>
 In-Reply-To: <20210414081907.871437-1-thuth@redhat.com>
 References: <20210414081907.871437-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,25 +86,35 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some reasons, the "cc" symlink is missing in Ubuntu 20.04.
-Add it manually.
+The cross-win64-system job is one of the slowest in our gitlab-ci.
+With the upcoming changes that introduce ccache, it might even get
+slower initially as long as the cache is not populated yet. Thus
+let's limit the amount of targets that we build here even further
+to avoid that we might hit the 80 minutes timeout here. Most of the
+others targets are already covered by the win32 job anyway.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu2004.docker | 3 +++
- 1 file changed, 3 insertions(+)
+ .gitlab-ci.d/crossbuilds.yml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 9750016e51..e1b309e313 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -74,3 +74,6 @@ ENV FEATURES clang tsan pyyaml sdl2
- # Apply patch https://reviews.llvm.org/D75820
- # This is required for TSan in clang-10 to compile with QEMU.
- RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
-+
-+# The symlink for cc is missing on Ubuntu
-+RUN cd /usr/lib/ccache && ln -s ../../bin/ccache cc
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 2d95784ed5..017731a894 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -189,6 +189,12 @@ cross-win64-system:
+     job: win64-fedora-cross-container
+   variables:
+     IMAGE: fedora-win64-cross
++  script:
++    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
++      ./configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
++        --target-list="cris-softmmu x86_64-softmmu microblaze-softmmu
++          mipsel-softmmu mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
++    - make -j$(expr $(nproc) + 1) all check-build
+ 
+ cross-amd64-xen-only:
+   extends: .cross_accel_build_job
 -- 
 2.27.0
 
