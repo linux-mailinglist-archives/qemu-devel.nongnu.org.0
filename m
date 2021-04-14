@@ -2,51 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472AB35F0AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:20:17 +0200 (CEST)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FAD35F0AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 11:21:17 +0200 (CEST)
+Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWbh2-0003Ow-DM
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:20:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38124)
+	id 1lWbhz-0004Rv-T8
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 05:21:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lWbfP-0001aH-TG
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:18:35 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:50128
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lWbgn-0003Wc-33; Wed, 14 Apr 2021 05:20:01 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lWbfN-00058W-GG
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 05:18:35 -0400
-Received: from macbook02.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 167F8DA0498;
- Wed, 14 Apr 2021 11:18:30 +0200 (CEST)
-Subject: Re: any remaining for-6.0 issues?
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <CAFEAcA8=qEFgvUqGFdWLJ+1ePPv2Ybisomrs2o77PyiAZA2sXg@mail.gmail.com>
- <CAEUhbmWsBfhub-+hMvucshCRH412fuvz5_=fAU_y7UmYJ4_=dQ@mail.gmail.com>
- <5445e140-94f1-dfcf-4652-0e47494e8c23@weilnetz.de>
- <CAEUhbmWJ3kGk4sVM3+TsHmZrDrekqSYcFebpztedU4jkw1DoWQ@mail.gmail.com>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <f70d8abb-f10d-f1e8-00f1-2a41aeff8f2b@weilnetz.de>
-Date: Wed, 14 Apr 2021 11:18:29 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1lWbgk-00060k-UB; Wed, 14 Apr 2021 05:20:00 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13E9I1C2084695; Wed, 14 Apr 2021 05:19:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=xVnvvB3/1lBevdoKnFfl06wm9CWWz0SNVEdmD0OM270=;
+ b=bmz1cxLdrkfh+dt7Y3t8/QINQLaVANxDg7Wsiql+js2TUJC5K8CBlcaeeXLLR8ZkuzrT
+ 9Ew7Qwyvis8McTy/9EOK2EkHiI5NzUHYM1HWtCgTHU8QlWxSHs/i5VY1NPUlRaz2nO+u
+ oM6wvGkSHmR6Mc7agtVVyflo5kbe2Y18pLenq26OPR8UxsWEzI6ONVrR/h0UYKQ6MRPD
+ yecSf4YLZYKg9lU7g0zfU/AsrALZoB9EUcP9dxebzcyXhNaW8giK7kqXJLeKoqRwcgGm
+ b1blypHfQLRfQag++iaNhVeSKdfccIgks6gyAey7w3eeUFz/BZ5965A1REuftyrQ44cG Fg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37wwn1r0sp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Apr 2021 05:19:56 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13E9IFHB086343;
+ Wed, 14 Apr 2021 05:19:55 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37wwn1r0sc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Apr 2021 05:19:55 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13E9HG5g013930;
+ Wed, 14 Apr 2021 09:19:53 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 37u3n8b67b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Apr 2021 09:19:53 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13E9Jpev32899358
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Apr 2021 09:19:51 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF494AE057;
+ Wed, 14 Apr 2021 09:19:50 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8120CAE051;
+ Wed, 14 Apr 2021 09:19:50 +0000 (GMT)
+Received: from sig-9-145-157-105.de.ibm.com (unknown [9.145.157.105])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 14 Apr 2021 09:19:50 +0000 (GMT)
+Message-ID: <9ffa39db0e16efa173119d3b9746bb312e214d87.camel@linux.ibm.com>
+Subject: Re: [PATCH v2] target/s390x: Fix translation exception on illegal
+ instruction
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Date: Wed, 14 Apr 2021 11:19:50 +0200
+In-Reply-To: <20210414103813.2595508b.cohuck@redhat.com>
+References: <20210413165257.21426-1-iii@linux.ibm.com>
+ <20210414103813.2595508b.cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 4442bsrSv1vnfc4zIMyvTTxfXjeie-oq
+X-Proofpoint-ORIG-GUID: zl-qR6J7xJzb21IZxBa3j1vlY-Etymk-
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmWJ3kGk4sVM3+TsHmZrDrekqSYcFebpztedU4jkw1DoWQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-14_06:2021-04-14,
+ 2021-04-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
+ spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140064
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,41 +112,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.04.21 um 10:30 schrieb Bin Meng:
+On Wed, 2021-04-14 at 10:38 +0200, Cornelia Huck wrote:
+> On Tue, 13 Apr 2021 18:52:57 +0200
+> Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+> 
+> > Hitting an uretprobe in a s390x TCG guest causes a SIGSEGV. What
+> > happens is:
+> > 
+> > * uretprobe maps a userspace page containing an invalid
+> > instruction.
+> > * uretprobe replaces the target function's return address with the
+> >   address of that page.
+> > * When tb_gen_code() is called on that page, tb->size ends up being
+> > 0
+> >   (because the page starts with the invalid instruction), which
+> > causes
+> >   virt_page2 to point to the previous page.
+> > * The previous page is not mapped, so this causes a spurious
+> >   translation exception.
+> > 
+> > The bug is that tb->size must never be 0: even if there is an
+> > illegal
+> > instruction, the instruction bytes that have been looked at must
+> > count
+> > towards tb->size. So adjust s390x's translate_one() to act this way
+> > for both illegal instructions and instructions that are known to
+> > generate exceptions.
+> > 
+> > Also add an assertion to tb_gen_code() in order to detect such
+> > situations in future.
+> > 
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> > ---
+> > 
+> > v1: 
+> > https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg02037.html
+> > v1 -> v2: Fix target/s390x instead of trying to tolerate tb->size
+> > == 0
+> >           in tb_gen_code().
+> > 
+> >  accel/tcg/translate-all.c |  1 +
+> >  target/s390x/translate.c  | 16 +++++++++++-----
+> >  2 files changed, 12 insertions(+), 5 deletions(-)
+> 
+> I assume this bug is not usually hit during normal usage, right? It's
+> probably not release critical, so I'll line it up for 6.1 instead.
 
-> Hi Stefan,
->
-> On Tue, Apr 13, 2021 at 2:19 PM Stefan Weil <sw@weilnetz.de> wrote:
->> Am 13.04.21 um 07:56 schrieb Bin Meng:
->>
->>> This patch (affects Windows install)
->>> http://patchwork.ozlabs.org/project/qemu-devel/patch/20210326062140.367861-1-bmeng.cn@gmail.com/
->>>
->>> is still not applied.
->>>
->>> Regards,
->>> Bin
->>
->> That patch is based on an older version of my personal QEMU sources and
->> not required for 6.0.
-> I am confused.
->
-> I see https://repo.or.cz/qemu/ar7.git/blob/HEAD:/qemu.nsi still does
-> not contain the fix.
->
-> Or is this qemu.nsi file not used in the latest 6.0 installer?
-
-
-https://repo.or.cz/qemu/ar7.git/blob/HEAD:/qemu.nsi#l139 installs all 
-shared files recursively (same as in the official QEMU git master), so 
-no fix is required.
-
-Stefan
-
+Yes, I saw it only with uprobes, and then it leads only to a process
+crash, not to a kernel crash. Thanks!
 
 
