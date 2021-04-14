@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2A935F849
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:58:49 +0200 (CEST)
-Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B520C35F845
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 17:55:02 +0200 (CEST)
+Received: from localhost ([::1]:59214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWhui-0004Ra-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
+	id 1lWhr3-0001DQ-P4
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 11:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWho2-0007mx-2w
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22259)
+ id 1lWho0-0007mn-Rx
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lWhnw-0000Jf-Se
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:53 -0400
+ id 1lWhny-0000Js-Rn
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 11:51:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618415507;
+ s=mimecast20190719; t=1618415508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vFtLfLC7j0WjNTwXgWNY54K5yrKdt9r7ZZL0hXU51BY=;
- b=bVkWzACXqeNx0PCOKm1FkbN0p4pL176GAcuQbWQ0UsN+Oscj6yEPbTR37g0Q5i5hUr1RA4
- 3FWjDI2AyVvTd79AmWRrRZIF+CTxaFKBxM+CVsPJIp7YyX0U4O1I7cSyaiMyuUJJFrdGAk
- fcFduzB2qigBq0ILzwk+RwFXbNFSfQ4=
+ bh=2jQk9VFsJNGH2Gwg1Bdemo+kfG5wOkbfp4Zlh2qght0=;
+ b=cEVM+ak10sWMO7IPEvmVbJSyHOCwOM3rdZiRUEpGfaTgUq18xxr/rqimbPgm8RkqmJLr/K
+ srfGpzFtAhNYu6kQXDKOH/i0zGnJyrYJqFsoIv/TY9q/HWKj0BHBnPqsoeP466mOXvmk84
+ oLt/NE4XeBQI/RI69DfcLoviUWfloTc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-qyYzy-QAPOey7mDeteBuDA-1; Wed, 14 Apr 2021 11:51:45 -0400
-X-MC-Unique: qyYzy-QAPOey7mDeteBuDA-1
+ us-mta-576-taKQIpDgOz2QddYQ0XYgsw-1; Wed, 14 Apr 2021 11:51:46 -0400
+X-MC-Unique: taKQIpDgOz2QddYQ0XYgsw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50273106BB44
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:51:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC67E196633F
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 15:51:45 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-158.ams2.redhat.com
  [10.36.115.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 471A413905;
- Wed, 14 Apr 2021 15:51:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D3B560240;
+ Wed, 14 Apr 2021 15:51:44 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  virtio-fs@redhat.com
-Subject: [PATCH v2 02/25] virtiofsd: Don't assume header layout
-Date: Wed, 14 Apr 2021 16:51:14 +0100
-Message-Id: <20210414155137.46522-3-dgilbert@redhat.com>
+Subject: [PATCH v2 03/25] DAX: libvhost-user: Route slave message payload
+Date: Wed, 14 Apr 2021 16:51:15 +0100
+Message-Id: <20210414155137.46522-4-dgilbert@redhat.com>
 In-Reply-To: <20210414155137.46522-1-dgilbert@redhat.com>
 References: <20210414155137.46522-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,175 +85,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-virtiofsd incorrectly assumed a fixed set of header layout in the virt
-queue; assuming that the fuse and write headers were conveniently
-separated from the data;  the spec doesn't allow us to take that
-convenience, so fix it up to deal with it the hard way.
+Route the uint64 payload from message replies on the slave back up
+through vu_process_message_reply and to the callers.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 94 +++++++++++++++++++++++++++--------
- 1 file changed, 73 insertions(+), 21 deletions(-)
+ subprojects/libvhost-user/libvhost-user.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 3e13997406..6dd73c9b72 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -129,18 +129,55 @@ static void fv_panic(VuDev *dev, const char *err)
-  * Copy from an iovec into a fuse_buf (memory only)
-  * Caller must ensure there is space
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index fab7ca17ee..937f64480d 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -403,9 +403,11 @@ vu_send_reply(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+  * Processes a reply on the slave channel.
+  * Entered with slave_mutex held and releases it before exit.
+  * Returns true on success.
++ * *payload is written on success
   */
--static void copy_from_iov(struct fuse_buf *buf, size_t out_num,
--                          const struct iovec *out_sg)
-+static size_t copy_from_iov(struct fuse_buf *buf, size_t out_num,
-+                            const struct iovec *out_sg,
-+                            size_t max)
+ static bool
+-vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg)
++vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
++                         uint64_t *payload)
  {
-     void *dest = buf->mem;
-+    size_t copied = 0;
- 
--    while (out_num) {
-+    while (out_num && max) {
-         size_t onelen = out_sg->iov_len;
-+        onelen = MIN(onelen, max);
-         memcpy(dest, out_sg->iov_base, onelen);
-         dest += onelen;
-+        copied += onelen;
-         out_sg++;
-         out_num--;
-+        max -= onelen;
+     VhostUserMsg msg_reply;
+     bool result = false;
+@@ -425,7 +427,8 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg)
+         goto out;
      }
+ 
+-    result = msg_reply.payload.u64 == 0;
++    *payload = msg_reply.payload.u64;
++    result = true;
+ 
+ out:
+     pthread_mutex_unlock(&dev->slave_mutex);
+@@ -1312,6 +1315,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
+ {
+     int qidx = vq - dev->vq;
+     int fd_num = 0;
++    bool res;
++    uint64_t payload = 0;
+     VhostUserMsg vmsg = {
+         .request = VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG,
+         .flags = VHOST_USER_VERSION | VHOST_USER_NEED_REPLY_MASK,
+@@ -1342,7 +1347,10 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
+     }
+ 
+     /* Also unlocks the slave_mutex */
+-    return vu_process_message_reply(dev, &vmsg);
++    res = vu_process_message_reply(dev, &vmsg, &payload);
++    res = res && (payload == 0);
 +
-+    return copied;
-+}
-+
-+/*
-+ * Skip 'skip' bytes in the iov; 'sg_1stindex' is set as
-+ * the index for the 1st iovec to read data from, and
-+ * 'sg_1stskip' is the number of bytes to skip in that entry.
-+ *
-+ * Returns True if there are at least 'skip' bytes in the iovec
-+ *
-+ */
-+static bool skip_iov(const struct iovec *sg, size_t sg_size,
-+                     size_t skip,
-+                     size_t *sg_1stindex, size_t *sg_1stskip)
-+{
-+    size_t vec;
-+
-+    for (vec = 0; vec < sg_size; vec++) {
-+        if (sg[vec].iov_len > skip) {
-+            *sg_1stskip = skip;
-+            *sg_1stindex = vec;
-+
-+            return true;
-+        }
-+
-+        skip -= sg[vec].iov_len;
-+    }
-+
-+    *sg_1stindex = vec;
-+    *sg_1stskip = 0;
-+    return skip == 0;
++    return res;
  }
  
- /*
-@@ -457,6 +494,7 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
-     bool allocated_bufv = false;
-     struct fuse_bufvec bufv;
-     struct fuse_bufvec *pbufv;
-+    struct fuse_in_header inh;
- 
-     assert(se->bufsize > sizeof(struct fuse_in_header));
- 
-@@ -505,14 +543,15 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
-                  elem->index);
-         assert(0); /* TODO */
-     }
--    /* Copy just the first element and look at it */
--    copy_from_iov(&fbuf, 1, out_sg);
-+    /* Copy just the fuse_in_header and look at it */
-+    copy_from_iov(&fbuf, out_num, out_sg,
-+                  sizeof(struct fuse_in_header));
-+    memcpy(&inh, fbuf.mem, sizeof(struct fuse_in_header));
- 
-     pbufv = NULL; /* Compiler thinks an unitialised path */
--    if (out_num > 2 &&
--        out_sg[0].iov_len == sizeof(struct fuse_in_header) &&
--        ((struct fuse_in_header *)fbuf.mem)->opcode == FUSE_WRITE &&
--        out_sg[1].iov_len == sizeof(struct fuse_write_in)) {
-+    if (inh.opcode == FUSE_WRITE &&
-+        out_len >= (sizeof(struct fuse_in_header) +
-+                    sizeof(struct fuse_write_in))) {
-         /*
-          * For a write we don't actually need to copy the
-          * data, we can just do it straight out of guest memory
-@@ -521,15 +560,15 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
-          */
-         fuse_log(FUSE_LOG_DEBUG, "%s: Write special case\n", __func__);
- 
--        /* copy the fuse_write_in header afte rthe fuse_in_header */
--        fbuf.mem += out_sg->iov_len;
--        copy_from_iov(&fbuf, 1, out_sg + 1);
--        fbuf.mem -= out_sg->iov_len;
--        fbuf.size = out_sg[0].iov_len + out_sg[1].iov_len;
-+        fbuf.size = copy_from_iov(&fbuf, out_num, out_sg,
-+                                  sizeof(struct fuse_in_header) +
-+                                  sizeof(struct fuse_write_in));
-+        /* That copy reread the in_header, make sure we use the original */
-+        memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
- 
-         /* Allocate the bufv, with space for the rest of the iov */
-         pbufv = malloc(sizeof(struct fuse_bufvec) +
--                       sizeof(struct fuse_buf) * (out_num - 2));
-+                       sizeof(struct fuse_buf) * out_num);
-         if (!pbufv) {
-             fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
-                     __func__);
-@@ -540,24 +579,37 @@ static void fv_queue_worker(gpointer data, gpointer user_data)
-         pbufv->count = 1;
-         pbufv->buf[0] = fbuf;
- 
--        size_t iovindex, pbufvindex;
--        iovindex = 2; /* 2 headers, separate iovs */
-+        size_t iovindex, pbufvindex, iov_bytes_skip;
-         pbufvindex = 1; /* 2 headers, 1 fusebuf */
- 
-+        if (!skip_iov(out_sg, out_num,
-+                      sizeof(struct fuse_in_header) +
-+                      sizeof(struct fuse_write_in),
-+                      &iovindex, &iov_bytes_skip)) {
-+            fuse_log(FUSE_LOG_ERR, "%s: skip failed\n",
-+                    __func__);
-+            goto out;
-+        }
-+
-         for (; iovindex < out_num; iovindex++, pbufvindex++) {
-             pbufv->count++;
-             pbufv->buf[pbufvindex].pos = ~0; /* Dummy */
-             pbufv->buf[pbufvindex].flags = 0;
-             pbufv->buf[pbufvindex].mem = out_sg[iovindex].iov_base;
-             pbufv->buf[pbufvindex].size = out_sg[iovindex].iov_len;
-+
-+            if (iov_bytes_skip) {
-+                pbufv->buf[pbufvindex].mem += iov_bytes_skip;
-+                pbufv->buf[pbufvindex].size -= iov_bytes_skip;
-+                iov_bytes_skip = 0;
-+            }
-         }
-     } else {
-         /* Normal (non fast write) path */
- 
--        /* Copy the rest of the buffer */
--        fbuf.mem += out_sg->iov_len;
--        copy_from_iov(&fbuf, out_num - 1, out_sg + 1);
--        fbuf.mem -= out_sg->iov_len;
-+        copy_from_iov(&fbuf, out_num, out_sg, se->bufsize);
-+        /* That copy reread the in_header, make sure we use the original */
-+        memcpy(fbuf.mem, &inh, sizeof(struct fuse_in_header));
-         fbuf.size = out_len;
- 
-         /* TODO! Endianness of header */
+ static bool
 -- 
 2.31.1
 
