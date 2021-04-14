@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57C835F149
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:12:05 +0200 (CEST)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C603E35F153
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 12:14:09 +0200 (CEST)
+Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWcVA-0003hc-Tb
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50914)
+	id 1lWcXA-0004dX-UP
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 06:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWcTy-0003H1-J2
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:10:50 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lWcTw-0002xV-SA
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:10:50 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id e7so10325768wrs.11
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 03:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VLwbaz5tywsrdiQWw0zwAoUfVo4kNQ/C503WSB6d/Xc=;
- b=TsYWmIjkSQ9kiSlowut8u/mZU3Qa9mQ43Qxi/frEGdinQ1oA48s04uhickGTBF5OeT
- K5DyJNhmX4jFpLX+BO/RnR7RvM9bkrhGmwC6uP3T2Fu1iXLtEloIRJ7F9Pe0lbxwZO5i
- Kl1PGNhVWcuzb+xUtBmDQBRNuCTRfKFXglEvHljxMHU+HXXovP8O4AKSC91kY33FvKeS
- P800A9IAF4fyYilgiuRiZZesGwx+bsljc1t+vCQywJzE95MBW5+kuK7ZrdVnDxzC9gYK
- oUzMuKjYcWw3fAXBJQsPVLKE7kwNjz/ZYX/DhZESEay6u1x/pOyCtkVnYbCxdisg27Z2
- xWDA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWcVZ-00048w-6W
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:12:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWcVW-0003vn-4y
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 06:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618395144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GCR5oJg/3xASiJ44WzvDvU/b8UGyLWRgUrfEhS7jAr8=;
+ b=hpBtuJNBsn4dS5xFIn3XhPn1mxBfcEtIgNSa1ntoXkTT4NbzQM0231XgCJSGfgenk9tOhD
+ 6HH33r3gWieBv5+IOpR8epEW1Mj8Q9kBh/zj4lEKhP+NkfBcDQQCjR6n7mF2GdXQNbLwBi
+ tw9ZcN0TljHqLdKHIyBdlMYWKqnUuqA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-MOvo2pSxMP6lpL9Yj6u_Lg-1; Wed, 14 Apr 2021 06:12:22 -0400
+X-MC-Unique: MOvo2pSxMP6lpL9Yj6u_Lg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o14-20020a5d474e0000b029010298882dadso844411wrs.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 03:12:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VLwbaz5tywsrdiQWw0zwAoUfVo4kNQ/C503WSB6d/Xc=;
- b=VJqqYXM3cB6vyMO2bzvdI9BrWizEgxQgzUiRX2KQFfuvx8mOY9UImMvf1KO4h7jKuE
- uhfMAHzqbYZUCwenfR0jMEqequSG/3gip7HPKixGOg756tnslUow1HC/V7XuEeMY/sQ1
- IzNRqyLB8ATpFc1UYlGMutixIs5WNEXxpZfJpvjHfVn+Xj03BDmKNjg3buC8ZFIXvWBa
- yeiYb4Sf/JEoBqEYqq0Lj75Rr7T4O2ffCe0jBwUoUyrDM3BTk1KH/jCPBWIzN69/W8co
- FdAC+8C8MO2nYFkpYrwxOnCBuZztpPTj62+eTKbD0pfv9CHEHKS+VFwgQuh0Tpqu3+ra
- glXQ==
-X-Gm-Message-State: AOAM532ubI3YkI1bMnknkcwgGuHxROP4MqlR78sLqchiSzxWzxyuKTD+
- Y5OmAYEOlHDInDMkto0Ml9E=
-X-Google-Smtp-Source: ABdhPJwyq1cN8tFdyU8CT+l5ZRgtzA/BUGQUxRblXh9h4j6u4pDix1NavufhW1K2iqYCvw9Z5x/uSQ==
-X-Received: by 2002:a5d:590d:: with SMTP id v13mr9563871wrd.85.1618395046659; 
- Wed, 14 Apr 2021 03:10:46 -0700 (PDT)
+ bh=GCR5oJg/3xASiJ44WzvDvU/b8UGyLWRgUrfEhS7jAr8=;
+ b=oDHiNxZGSJZGQ3jIaqM/uOctH/vjY58DKrvv1eueFtmdF+9NUnZfyWYiOqwrk9JSTC
+ VVECNRL/cI+kVdlaUqzsZ8aAY3CjQfJiXy7Wf/ENz7p8gUFYzGlJ+KDuXdKrGqoJC9Pt
+ 2fIp33WIG1YVbNumuoUvOcdYnKje58QudcPr8x9stFEbLoLvJEQa/leNPGbE9X6UB67i
+ 6vznr5w/qr/UU9/lkkdpLDg8kcFtL0CmO40MdY9ZWr3ff55AErklHgvtHNL7B1uzWGgi
+ 4sP8f3ODCIdJhZc0NSq88WQbMgqvfukaS/X7U4avIUHmlPJcIzbUVj7Peza1TIShYJiX
+ at8g==
+X-Gm-Message-State: AOAM533T6vG8ChRECO4ilKHPHiyuywgaJ7XwU1Hr1UvZgtTkE0eDnWMZ
+ nwUAMeSYYHAwh5Bwgsm8VqusXm7brDV+mrEWGTELufV5oJGPOwvOlKXpG2mAvnTKHQCUfrlR6xY
+ n23pNHiDRjfpWBtk=
+X-Received: by 2002:a7b:c189:: with SMTP id y9mr2210448wmi.126.1618395141659; 
+ Wed, 14 Apr 2021 03:12:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjwNsQHYxNJMlPVuKleeRquvRA0CVdx9aignAQO6FPM1onp4oR4ElcFuGGBxGoCBhkLgUV7w==
+X-Received: by 2002:a7b:c189:: with SMTP id y9mr2210424wmi.126.1618395141456; 
+ Wed, 14 Apr 2021 03:12:21 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c2sm4774050wmr.22.2021.04.14.03.10.45
+ by smtp.gmail.com with ESMTPSA id o125sm4977248wmo.24.2021.04.14.03.12.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Apr 2021 03:10:45 -0700 (PDT)
-Subject: Re: [PATCH] gitlab-ci: Restrict jobs using Docker to runners having
- 'docker' tag
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210319004300.3800583-1-f4bug@amsat.org>
- <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a4147360-9cb4-1e8a-570d-e41dbe6ddf5c@amsat.org>
-Date: Wed, 14 Apr 2021 12:10:44 +0200
+ Wed, 14 Apr 2021 03:12:20 -0700 (PDT)
+Subject: Re: [PATCH] vhost-vdpa: Make vhost_vdpa_get_device_id() static
+To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org, mst@redhat.com
+References: <20210413133737.1574-1-yuzenghui@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3d44f706-8611-c2b5-93ba-363a17df4211@redhat.com>
+Date: Wed, 14 Apr 2021 12:12:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
+In-Reply-To: <20210413133737.1574-1-yuzenghui@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,63 +98,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: wanghaibin.wang@huawei.com, jasowang@redhat.com, lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/19/21 6:40 AM, Thomas Huth wrote:
-> On 19/03/2021 01.43, Philippe Mathieu-Daudé wrote:
->> When a job is based on a Docker image [1], or is using a Docker
->> service, it requires a runner with Docker installed.
->>
->> Gitlab shared runners provide the 'docker' tag when they have it
->> installed.
->>
->> Are Gitlab shared runners are limited resources, we'd like to
+On 4/13/21 3:37 PM, Zenghui Yu wrote:
+> As it's only used inside hw/virtio/vhost-vdpa.c.
 > 
-> s/Are/As/
-> 
->> add more runners to QEMU repositories hosted on Gitlab. If a
->> runner doesn't provide Docker, our jobs requiring it will fail.
->>
->> Use the standard 'docker' tag to mark the jobs requiring Docker
->> on the runner.
->>
->> [1] https://docs.gitlab.com/ee/ci/yaml/#image
->> [2] https://docs.gitlab.com/ee/ci/yaml/#services
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> [...]
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index f65cb11c4d3..d4511cf7dea 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -14,6 +14,8 @@ include:
->>     - local: '/.gitlab-ci.d/crossbuilds.yml'
->>     .native_build_job_template: &native_build_job_definition
->> +  tags:
->> +  - docker
->>     stage: build
->>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->>     before_script:
->> @@ -38,6 +40,8 @@ include:
->>         fi
->>     .native_test_job_template: &native_test_job_definition
->> +  tags:
->> +  - docker
->>     stage: test
->>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->>     script:
-> 
-> If you add it to the templates ... won't this disable most of the jobs
-> on the dedicated runners that don't have docker? Wouldn't it be better
-> to add the tag only to the jobs that run "make check-tcg" ?
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>  hw/virtio/vhost-vdpa.c         | 4 ++--
+>  include/hw/virtio/vhost-vdpa.h | 2 --
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 
-But this is the point, if a runner doesn't have Docker, it can not
-run the job...
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 
