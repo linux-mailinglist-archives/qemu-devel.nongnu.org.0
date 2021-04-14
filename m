@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFB635FDCE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:32:14 +0200 (CEST)
-Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A1E35FDDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:34:06 +0200 (CEST)
+Received: from localhost ([::1]:41292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWo3Q-00040M-PI
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:32:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
+	id 1lWo5F-0005Y7-Iu
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:34:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWo24-0002qQ-T6
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53596)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lWo3t-00054m-El; Wed, 14 Apr 2021 18:32:41 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:37622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWo22-0000N2-NU
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:30:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWo20-0006Du-AK
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 22:30:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4CDF62E815F
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 22:30:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lWo3q-0001Ny-GH; Wed, 14 Apr 2021 18:32:41 -0400
+Received: by mail-io1-xd30.google.com with SMTP id b10so22248230iot.4;
+ Wed, 14 Apr 2021 15:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DnWpmyuBcVLMh+o254nNZjs/ViGAgPIT2BWu82a9qds=;
+ b=VBQkmczcFZIy8vNoASuNLjaR7Mqq4uAMvQbmVI31prjpKqnoQ8DYYWS/Vr64FewoaJ
+ t+5Z8Vez2c/GrpehDiF/LLnGO3ELLsNVQDb8JmfBoO5DZ38ECyWeAFHhkde39wCh1dAV
+ 8KFjbXmGMdDMMWu8b6fIseMYcUJyTpPnzuXdfZI8bBiEJUp5EnsCaSzRonsSp34GSTFt
+ cGOjTskLLPCkEeZ91Vqyq0es38h+7I2VVq6+ZICZXMXFtp2+ZfJt55x1yl6tlqS2BiRw
+ COmM3IEw/1lV4CpM9RR+oeBMxF+so8nr2YMSAg5tmBdAwYVKUDDvIY7eXfHoYLeOYAFt
+ M2+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DnWpmyuBcVLMh+o254nNZjs/ViGAgPIT2BWu82a9qds=;
+ b=cQ0ul0YAAWbfzrTdADtY5oWAgTRvIqv6t+CiFuLSMS7JgHjmXDdoHmUKVyqdJsVeW+
+ hKA2kx3rrlXhy68y1sQC4DAwdiHdyyBk7TTzwBo3mfP61Cljw5E6NjJmHiqMZuE4dGRM
+ cNE/b6xfLd7G77Q0rFNxx/3B+V/oCccHOGfAp87dumhL41zX2eczO/GJ4IVxn94R/NrS
+ Jh13smQkG+ciYQjOOi7TloLRRJ/NYfDUpyeh+w8volYoznPmaTmA//iubbD1QzA9R8z6
+ RJkZftM4I5b6j28HZOqU0reTbfzF870f5XVmnTUs2u9DlIqngZ+LMCaOGYDfjaQpwmO1
+ 4WLA==
+X-Gm-Message-State: AOAM532oAhOZY530/BiguCuZ4T8nHxeehn19wUUv+4t+cfbOLkgPCpC3
+ 7Vh/C5gjXMsE1LWCMG6ZnuAqJKqFgB7w+03Iv+A=
+X-Google-Smtp-Source: ABdhPJzlHwyWvinrhm2Yv5H+jUvhG4+4quL/QYdBBVc8w8nMH9ycirhBlndVFnE//9LtCOb91HnQ1eLdgxpG+hRYNFc=
+X-Received: by 2002:a05:6638:1211:: with SMTP id
+ n17mr198838jas.26.1618439556144; 
+ Wed, 14 Apr 2021 15:32:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 22:22:42 -0000
-From: Alistair Francis <1923693@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 kallisti5
-X-Launchpad-Bug-Reporter: kallisti5 (kallisti5)
-X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
-References: <161836759211.17765.12297179006766447607.malonedeb@wampee.canonical.com>
-Message-Id: <161843896255.29131.16312013841643505605.malone@soybean.canonical.com>
-Subject: [Bug 1923693] Re: Lack of architecture in gdbstub makes debugging
- confusing
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 397fd95fd8a8182479099ca3ddefb1709dbf9a5b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210412065246.1853-1-jiangyifei@huawei.com>
+ <20210412065246.1853-4-jiangyifei@huawei.com>
+In-Reply-To: <20210412065246.1853-4-jiangyifei@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 15 Apr 2021 08:32:09 +1000
+Message-ID: <CAKmqyKN-eiDw3Ufo1QyLg5ELP-JY+aq3Bi1cPJVf8gQtsu+qkw@mail.gmail.com>
+Subject: Re: [PATCH RFC v5 03/12] target/riscv: Implement function
+ kvm_arch_init_vcpu
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,52 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923693 <1923693@bugs.launchpad.net>
+Cc: kvm-riscv@lists.infradead.org, Anup Patel <anup.patel@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "open list:Overall" <kvm@vger.kernel.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, libvir-list@redhat.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, fanliang@huawei.com,
+ "Wubin \(H\)" <wu.wubin@huawei.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for raising this. I have marked it as fixes as like you say it's
-fixed in mainline.
+On Mon, Apr 12, 2021 at 4:53 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> Get isa info from kvm while kvm init.
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+> ---
+>  target/riscv/kvm.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 687dd4b621..0d924be33f 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -38,6 +38,18 @@
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
+>
+> +static __u64 kvm_riscv_reg_id(CPURISCVState *env, __u64 type, __u64 idx)
+> +{
+> +    __u64 id = KVM_REG_RISCV | type | idx;
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+Can you use uint64_t instead of __u64?
 
--- =
+Once that is fixed:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923693
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Title:
-  Lack of architecture in gdbstub makes debugging confusing
+Alistair
 
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  I spent some quality time debugging GEF and came to a conclusion here:
-  https://github.com/hugsy/gef/issues/598#issuecomment-819174169
-
-  tldr;
-
-  * gdb_arch_name was undefined on riscv
-  * this bug was fixed recently via https://github.com/qemu/qemu/commit/edf=
-647864bdab84ed4b1a4f47ea05be6bb075c69
-
-  =
-
-  * An undefined gdb_arch_name results in qemu's gdbstub omitting the <arch=
-itecture> xml.
-  * gdb translates a missing <architecture> as "auto" which breaks a lot of=
- stuff.
-  * tracking down where "auto" comes from is a bit confusing and time consu=
-ming.
-
-  =
-
-  It might be better to report a missing / blank gdb_arch_name as "<archite=
-cture>unknown</architecture>" instead of omitting the block completely.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923693/+subscriptions
+> +
+> +    if (riscv_cpu_is_32bit(env)) {
+> +        id |= KVM_REG_SIZE_U32;
+> +    } else {
+> +        id |= KVM_REG_SIZE_U64;
+> +    }
+> +    return id;
+> +}
+> +
+>  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>      KVM_CAP_LAST_INFO
+>  };
+> @@ -79,7 +91,20 @@ void kvm_arch_init_irq_routing(KVMState *s)
+>
+>  int kvm_arch_init_vcpu(CPUState *cs)
+>  {
+> -    return 0;
+> +    int ret = 0;
+> +    target_ulong isa;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    __u64 id;
+> +
+> +    id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG, KVM_REG_RISCV_CONFIG_REG(isa));
+> +    ret = kvm_get_one_reg(cs, id, &isa);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->misa = isa | RVXLEN;
+> +
+> +    return ret;
+>  }
+>
+>  int kvm_arch_msi_data_to_gsi(uint32_t data)
+> --
+> 2.19.1
+>
+>
 
