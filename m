@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DDC35F958
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:03:04 +0200 (CEST)
-Received: from localhost ([::1]:37774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DAA35F96B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Apr 2021 19:07:52 +0200 (CEST)
+Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWiut-0000od-Ld
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49052)
+	id 1lWizW-00046B-FC
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 13:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lWisJ-0008VH-9j
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:00:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31455)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lWivx-0002Ab-5I
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lWisH-0006eZ-JH
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:00:23 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lWivr-0008FT-UV
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 13:04:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618419618;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2UbE+1RV4lYRNIfnveexBpz2pzO+PJJ4NeFaPIY+Y+Q=;
- b=JLjRLJvv8EOL4qeLo+r/OYLCdyLsEZ2oZRQDH1mXPLkY7bqq4MupamTbmDEHBZhUD/wcL8
- apd/y5miLXzYghES8Aad1Q1G2kWxmVeCsfVj71v+jiDL/RBBUJsCIEglhiRcQWahsQ55hM
- NFmLVBbJJ7mxhYtHwJky0iSxBThevlc=
+ s=mimecast20190719; t=1618419842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YUf7d1p6IJNIbGDsprsh77gHzswV7zaPkNJydacC2yk=;
+ b=ccn+NJ4plFHaFP+Qfma2wPL43hEbmbVLaSWP/+pmx5aRnL9nrz3fyQC+ZbGssEwR3xSpD1
+ 6d9vcRbJPnWD/y5Wytj9xKAZgpQFkf9NaRzl4u0O22VtxGEpGOLbQELVNhOrxyGl2NmVBp
+ Ovgp3NbYSq1I/xdNFT6mSe+D9QUKNUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-ltuZaY4-MIqErFFGKwK4tA-1; Wed, 14 Apr 2021 13:00:11 -0400
-X-MC-Unique: ltuZaY4-MIqErFFGKwK4tA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-590-l5oPF8GlND-6KX-DDIq3Ng-1; Wed, 14 Apr 2021 13:04:01 -0400
+X-MC-Unique: l5oPF8GlND-6KX-DDIq3Ng-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDA2184BA43
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 17:00:10 +0000 (UTC)
-Received: from redhat.com (ovpn-114-26.ams2.redhat.com [10.36.114.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14B8E18B90;
- Wed, 14 Apr 2021 17:00:08 +0000 (UTC)
-Date: Wed, 14 Apr 2021 18:00:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL v2 1/3] osdep: include glib-compat.h before other QEMU
- headers
-Message-ID: <YHcfj+Wv2pf7X+gC@redhat.com>
-References: <20210413160850.240064-1-pbonzini@redhat.com>
- <20210413160850.240064-2-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09888018A7;
+ Wed, 14 Apr 2021 17:03:57 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-18.ams2.redhat.com
+ [10.36.114.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A43001037EA2;
+ Wed, 14 Apr 2021 17:03:54 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 00/15] qemu_iotests: improve debugging options
+Date: Wed, 14 Apr 2021 19:03:37 +0200
+Message-Id: <20210414170352.29927-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210413160850.240064-2-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,30 +76,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 13, 2021 at 06:08:48PM +0200, Paolo Bonzini wrote:
-> glib-compat.h is sort of like a system header, and it needs to include
-> system headers (glib.h) that may dislike being included under
-> 'extern "C"'.  Move it right after all system headers and before
-> all other QEMU headers.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qemu/osdep.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+This series adds the option to attach gdbserver and valgrind
+to the QEMU binary running in qemu_iotests.
+It also allows to redirect QEMU binaries output of the python tests
+to the stdout, instead of a log file.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Patches 1-6 introduce the -gdb option to both python and bash tests, 
+7-10 extend the already existing -valgrind flag to work also on 
+python tests, and patch 11 introduces -p to enable logging to stdout.
+
+In particular, patches 1,2,4,8 focus on extending the QMP socket timers
+when using gdb/valgrind, otherwise the python tests will fail due to
+delays in the QMP responses.
+
+This series is tested on the previous serie
+"qemu-iotests: quality of life improvements"
+but independent from it, so it can be applied separately.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v3:
+- Introduce the class field _qmp_timer instead of a function parameter
+in the _post_launch() function [John]
+- style and cleanup fixes in iotests.py [Paolo]
 
 
-Regards,
-Daniel
+Emanuele Giuseppe Esposito (15):
+  python: qemu: add timer parameter for qmp.accept socket
+  python: qemu: pass the wrapper field from QEMUQtestmachine to
+    QEMUMachine
+  docs/devel/testing: add debug section to the QEMU iotests chapter
+  qemu-iotests: add option to attach gdbserver
+  qemu-iotests: delay QMP socket timers
+  qemu_iotests: insert gdbserver command line as wrapper for qemu binary
+  qemu-iotests: add gdbserver option to script tests too
+  docs/devel/testing: add -gdb option to the debugging section of QEMU
+    iotests
+  qemu_iotests: extend the check script to support valgrind for python
+    tests
+  qemu_iotests: extent QMP socket timeout when using valgrind
+  qemu_iotests: allow valgrind to read/delete the generated log file
+  qemu_iotests: insert valgrind command line as wrapper for qemu binary
+  docs/devel/testing: add -valgrind option to the debug section of QEMU
+    iotests
+  qemu_iotests: add option to show qemu binary logs on stdout
+  docs/devel/testing: add -p option to the debug section of QEMU iotests
+
+ docs/devel/testing.rst        | 26 ++++++++++++++++
+ python/qemu/machine.py        |  6 +++-
+ python/qemu/qtest.py          |  4 ++-
+ tests/qemu-iotests/check      | 14 ++++++---
+ tests/qemu-iotests/common.rc  |  8 ++++-
+ tests/qemu-iotests/iotests.py | 58 +++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/testenv.py | 21 +++++++++++--
+ 7 files changed, 125 insertions(+), 12 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.30.2
 
 
