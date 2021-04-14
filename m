@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1408A35FDA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:18:03 +0200 (CEST)
-Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52A635FDA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 00:18:04 +0200 (CEST)
+Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWnpi-0006cM-2P
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58658)
+	id 1lWnpj-0006ht-Sy
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 18:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWnn2-0005Fq-T5
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:15:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44801)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWnnE-0005KN-GO
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:15:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWnmz-000785-Ap
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:15:16 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lWnn1-00079m-5u
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 18:15:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618438512;
+ s=mimecast20190719; t=1618438514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mck4c/UEFBDCXeEYMxPX9vRJ2i1O3xUvaBcNk5SpeYI=;
- b=Xd3G3AfqitDK6MJyGJ9mmhGOOTVOxSupisjT14rEF5vzbTj6Vgu8EuC1Z+u/RJ90d+WfCA
- Q56LJmj4BzxVOdRtuEuPZxz8MBBoXsefAQPO8tIq0me6AsViGkW2tU+fkco2lAmhYzLrN6
- Enbo8GqfK9u4Mk9KYeG8e6OhOaFNCJQ=
+ bh=0rk6ZpicPEu0z7XjZbHR1K9MmKw8Vr9+6KPRkz/za04=;
+ b=XZ9hz8EtUxQ9AshgcmqjNct+hFM0avSW1ozpSqMxXNOyfjp8Fyc3UzVr1LsfPSlcT/CUjy
+ SVSwucCiTb+bSUOlCGwb44m+YcCwDhsoqwvtaK99RWEyUgtbn3lWMw84qzfxuP5bBInlnv
+ YU1OojcNmOx84MH8CCfHaxblH24ilGM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-_cvifw_LNAC7pKmKhVRvXg-1; Wed, 14 Apr 2021 18:15:10 -0400
-X-MC-Unique: _cvifw_LNAC7pKmKhVRvXg-1
+ us-mta-458-zBsR5nYgMuqBK45E3st1_Q-1; Wed, 14 Apr 2021 18:15:11 -0400
+X-MC-Unique: zBsR5nYgMuqBK45E3st1_Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9858F6414C;
- Wed, 14 Apr 2021 22:15:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFE2E107ACC7;
+ Wed, 14 Apr 2021 22:15:10 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-207.rdu2.redhat.com
  [10.10.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F08621ECB;
- Wed, 14 Apr 2021 22:15:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD0441F44E;
+ Wed, 14 Apr 2021 22:15:09 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] Acceptance Tests: move definition of distro checksums to
- the framework
-Date: Wed, 14 Apr 2021 18:14:56 -0400
-Message-Id: <20210414221457.1653745-3-crosa@redhat.com>
+Subject: [PATCH 3/3] Acceptance Tests: support choosing specific distro and
+ version
+Date: Wed, 14 Apr 2021 18:14:57 -0400
+Message-Id: <20210414221457.1653745-4-crosa@redhat.com>
 In-Reply-To: <20210414221457.1653745-1-crosa@redhat.com>
 References: <20210414221457.1653745-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -88,120 +88,184 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of having, by default, the checksum in the tests, and the
-definition of tests in the framework, let's keep them together.
+The tests based on the LinuxTest class give the test writer a ready to
+use guest operating system, currently pinned to Fedora 31.
 
-A central definition for distributions is available, and it should
-allow other known distros to be added more easily.
+With this change, it's now possible to choose different distros and
+versions, similar to how other tags and parameter can be set for the
+target arch, accelerator, etc.
 
-No behavior change is expected here, and tests can still define
-a distro_checksum value if for some reason they want to override
-the known distribution information.
+One of the reasons for this work, is that some development features
+depend on updates on the guest side.  For instance the tests on
+virtiofs_submounts.py, require newer kernels, and may benefit from
+running, say on Fedora 34, without the need for a custom kernel.
+
+Please notice that the pre-caching of the Fedora 31 images done during
+the early stages of `make check-acceptance` (before the tests are
+actually executed) are not expanded here to cover every new image
+added.  But, the tests will download other needed images (and cache
+them) during the first execution.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 34 +++++++++++++++++++++--
- tests/acceptance/boot_linux.py            |  8 ------
- 2 files changed, 32 insertions(+), 10 deletions(-)
+ docs/devel/testing.rst                    | 65 +++++++++++++++++++++++
+ tests/acceptance/avocado_qemu/__init__.py | 47 ++++++++++++----
+ 2 files changed, 102 insertions(+), 10 deletions(-)
 
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4e42392810..19cbf532ae 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -922,6 +922,39 @@ The preserved value of the ``qemu_bin`` parameter or the result of the
+ dynamic probe for a QEMU binary in the current working directory or
+ source tree.
+ 
++LinuxTest
++~~~~~~~~~
++
++Besides the attributes present on the ``avocado_qemu.Test`` base
++class, the ``avocado_qemu.LinuxTest`` adds the following attributes:
++
++distro
++......
++
++The name of the Linux distribution used as the guest image for the
++test.  The name should match the **Provider** column on the list
++of images supported by the avocado.utils.vmimage library:
++
++https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
++
++distro_version
++..............
++
++The version of the Linux distribution as the guest image for the
++test.  The name should match the **Version** column on the list
++of images supported by the avocado.utils.vmimage library:
++
++https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
++
++distro_checksum
++...............
++
++The sha256 hash of the guest image file used for the test.
++
++If this value is not set in the code or by a test parameter (with the
++same name), no validation on the integrity of the image will be
++performed.
++
+ Parameter reference
+ -------------------
+ 
+@@ -962,6 +995,38 @@ qemu_bin
+ 
+ The exact QEMU binary to be used on QEMUMachine.
+ 
++LinuxTest
++~~~~~~~~~
++
++Besides the parameters present on the ``avocado_qemu.Test`` base
++class, the ``avocado_qemu.LinuxTest`` adds the following parameters:
++
++distro
++......
++
++The name of the Linux distribution used as the guest image for the
++test.  The name should match the **Provider** column on the list
++of images supported by the avocado.utils.vmimage library:
++
++https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
++
++distro_version
++..............
++
++The version of the Linux distribution as the guest image for the
++test.  The name should match the **Version** column on the list
++of images supported by the avocado.utils.vmimage library:
++
++https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
++
++distro_checksum
++...............
++
++The sha256 hash of the guest image file used for the test.
++
++If this value is not set in the code or by this parameter no
++validation on the integrity of the image will be performed.
++
+ Skipping tests
+ --------------
+ The Avocado framework provides Python decorators which allow for easily skip
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index aae1e5bbc9..97093614d9 100644
+index 97093614d9..6fd0016917 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -299,6 +299,30 @@ def ssh_command(self, command):
-         return stdout_lines, stderr_lines
+@@ -335,8 +335,39 @@ class LinuxTest(Test, LinuxSSHMixIn):
+     username = 'root'
+     password = 'password'
  
- 
-+#: A collection of known distros and their respective image checksum
-+KNOWN_DISTROS = {
-+    'fedora': {
-+        '31': {
-+            'x86_64':
-+            {'checksum': 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
-+            'aarch64':
-+            {'checksum': '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
-+            'ppc64':
-+            {'checksum': '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
-+            's390x':
-+            {'checksum': '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'},
-+            }
-+        }
-+    }
++    def _set_distro(self):
++        distro = self.params.get(
++            'distro',
++            default=self._get_unique_tag_val('distro'))
++        if not distro:
++            distro = 'fedora'
++        self.distro = distro
 +
++        distro_version = self.params.get(
++            'distro_version',
++            default=self._get_unique_tag_val('distro_version'))
++        if not distro_version:
++            distro_version = '31'
++        self.distro_version = distro_version
 +
-+def get_known_distro_checksum(distro, distro_version, arch):
-+    try:
-+        return KNOWN_DISTROS.get(distro).get(distro_version).get(arch).get('checksum')
-+    except AttributeError:
-+        return None
++        # The distro checksum behaves differently than distro name and
++        # version. First, it does not respect a tag with the same
++        # name, given that it's not expected to be used for filtering
++        # (distro name versions are the natural choice).  Second, the
++        # order of precedence is: parameter, attribute and then value
++        # from KNOWN_DISTROS.
++        distro_checksum = self.params.get('distro_checksum',
++                                          default=self.distro_checksum)
++        if not distro_checksum:
++            distro_checksum = get_known_distro_checksum(self.distro,
++                                                        self.distro_version,
++                                                        self.arch)
++        if distro_checksum:
++            self.distro_checksum = distro_checksum
 +
-+
- class LinuxTest(Test, LinuxSSHMixIn):
-     """Facilitates having a cloud-image Linux based available.
- 
-@@ -348,14 +372,20 @@ def download_boot(self):
+     def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
+         super(LinuxTest, self).setUp()
++        self._set_distro()
+         self.vm.add_args('-smp', '2')
+         self.vm.add_args('-m', '1024')
+         # The following network device allows for SSH connections
+@@ -372,20 +403,16 @@ def download_boot(self):
          vmimage.QEMU_IMG = qemu_img
  
          self.log.info('Downloading/preparing boot image')
-+        distro = 'fedora'
-+        distro_version = '31'
-+        known_distro_checksum = get_known_distro_checksum(distro,
-+                                                          distro_version,
-+                                                          self.arch)
-+        distro_checksum = self.distro_checksum or known_distro_checksum
+-        distro = 'fedora'
+-        distro_version = '31'
+-        known_distro_checksum = get_known_distro_checksum(distro,
+-                                                          distro_version,
+-                                                          self.arch)
+-        distro_checksum = self.distro_checksum or known_distro_checksum
          # Fedora 31 only provides ppc64le images
          image_arch = self.arch
-         if image_arch == 'ppc64':
-             image_arch = 'ppc64le'
+-        if image_arch == 'ppc64':
+-            image_arch = 'ppc64le'
++        if self.distro == 'fedora':
++            if image_arch == 'ppc64':
++                image_arch = 'ppc64le'
++
          try:
              boot = vmimage.get(
--                'fedora', arch=image_arch, version='31',
--                checksum=self.distro_checksum,
-+                distro, arch=image_arch, version=distro_version,
-+                checksum=distro_checksum,
+-                distro, arch=image_arch, version=distro_version,
+-                checksum=distro_checksum,
++                self.distro, arch=image_arch, version=self.distro_version,
++                checksum=self.distro_checksum,
                  algorithm='sha256',
                  cache_dir=self.cache_dirs[0],
                  snapshot_dir=self.workdir)
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index c7bc3a589e..9e618c6daa 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -20,8 +20,6 @@ class BootLinuxX8664(LinuxTest):
-     :avocado: tags=arch:x86_64
-     """
- 
--    distro_checksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
--
-     def test_pc_i440fx_tcg(self):
-         """
-         :avocado: tags=machine:pc
-@@ -66,8 +64,6 @@ class BootLinuxAarch64(LinuxTest):
-     :avocado: tags=machine:gic-version=2
-     """
- 
--    distro_checksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
--
-     def add_common_args(self):
-         self.vm.add_args('-bios',
-                          os.path.join(BUILD_DIR, 'pc-bios',
-@@ -119,8 +115,6 @@ class BootLinuxPPC64(LinuxTest):
-     :avocado: tags=arch:ppc64
-     """
- 
--    distro_checksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
--
-     def test_pseries_tcg(self):
-         """
-         :avocado: tags=machine:pseries
-@@ -136,8 +130,6 @@ class BootLinuxS390X(LinuxTest):
-     :avocado: tags=arch:s390x
-     """
- 
--    distro_checksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
--
-     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_s390_ccw_virtio_tcg(self):
-         """
 -- 
 2.25.4
 
