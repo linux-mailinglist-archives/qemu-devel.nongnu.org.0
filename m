@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FC03600DF
+	by mail.lfdr.de (Postfix) with ESMTPS id 78EAF3600DE
 	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 06:17:18 +0200 (CEST)
-Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWtRN-0004mB-BT
+	id 1lWtRN-0004lM-4F
 	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 00:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWtPs-0003wH-Jc
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:15:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60808)
+ id 1lWtPr-0003w8-6z
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:15:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWtPp-0001mc-09
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:15:44 -0400
+ id 1lWtPo-0001mp-Vk
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:15:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWtPm-0000IC-Nj
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 04:15:38 +0000
+ id 1lWtPn-0000Ln-Dk
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 04:15:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B00A42E815A
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 04:15:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6287A2E8157
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 04:15:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Apr 2021 04:08:27 -0000
+Date: Thu, 15 Apr 2021 04:09:20 -0000
 From: Alistair Francis <1923197@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: alistair2323 teodori-serge
 X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
 X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
 References: <161797335493.30650.12922009005165891710.malonedeb@gac.canonical.com>
-Message-Id: <161845970725.8931.11860624017741986671.malone@gac.canonical.com>
+Message-Id: <161845976109.28136.14702901890611944266.malone@soybean.canonical.com>
 Subject: [Bug 1923197] Re: RISC-V priviledged instruction error
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 9d50b188ecc7faa1b9d10a76a12d6366a66b32f2
+X-Launchpad-Hash: 0f5f1ded391d7804df3e083a7e25b5e541bf6839
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,23 +75,23 @@ Reply-To: Bug 1923197 <1923197@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm guessing that this is a bug in your guest as it hasn't configured
-PMP regions.
+You can check this by reverting this QEMU commit:
 
->From the RISC-V spec:
+commit d102f19a2085ac931cb998e6153b73248cca49f1
+Author: Atish Patra <atish.patra@wdc.com>
+Date:   Wed Dec 23 11:25:53 2020 -0800
 
-"
-If no PMP entry matches an M-mode access, the access succeeds. If no PMP en=
-try matches an
-S-mode or U-mode access, but at least one PMP entry is implemented, the acc=
-ess fails.
-"
+    target/riscv/pmp: Raise exception if no PMP entry is configured
+    =
 
-Confusingly implemented here means implemented in hardware, not just
-configured.
+    As per the privilege specification, any access from S/U mode should fail
+    if no pmp region is configured.
+    =
 
-** Changed in: qemu
-       Status: Confirmed =3D> Invalid
+    Signed-off-by: Atish Patra <atish.patra@wdc.com>
+    Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+    Message-id: 20201223192553.332508-1-atish.patra@wdc.com
+    Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
 -- =
 
