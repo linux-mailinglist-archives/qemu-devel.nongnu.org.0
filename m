@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B78360194
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 07:27:16 +0200 (CEST)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2334A36019B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 07:29:42 +0200 (CEST)
+Received: from localhost ([::1]:50486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWuX4-0005Pj-OR
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 01:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39144)
+	id 1lWuZR-00075m-9F
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 01:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lWuVl-0004Md-EE; Thu, 15 Apr 2021 01:25:53 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41551)
+ id 1lWuYH-0006XT-73; Thu, 15 Apr 2021 01:28:29 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:44904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lWuVj-00057u-Ox; Thu, 15 Apr 2021 01:25:53 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- z22-20020a17090a0156b029014d4056663fso12049986pje.0; 
- Wed, 14 Apr 2021 22:25:50 -0700 (PDT)
+ id 1lWuYF-0006tx-No; Thu, 15 Apr 2021 01:28:28 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id m11so15297584pfc.11;
+ Wed, 14 Apr 2021 22:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:subject:to:cc:references:in-reply-to:mime-version
  :message-id:content-transfer-encoding;
- bh=9HzlCSEZPF0neIGi9d0fpeMh58pd8KRkWo/KMGKcxLw=;
- b=YXcalY9yxKNDpwNmU4GAw4BJ19s0UC6ZHoYkQCrLUhbhkFtH4WJn0VSi5uXXM/h69J
- 6Csc0B2dPj4mMvhyfKQBzxgz5IED8kjfUzCyNuXHTbTboLX8eiZaITALp5A+vAVc7G2U
- wmzQqwZDoLrOpFlQmnsCkgzbisQNDB7VE5qT2oWXFmZk0XSTk4RvyHgxt1pbK0xz8DBg
- uF0sbqtNgARUpzL1c80N45dPIdj2QbWFCE/14K8fFzcvH8yvMRZYNPJSIq1W+rzNEtFM
- MRRE2JsVK2pkkUF+1/iCT+vo8kmKrwZC4r3L4pGGS09D5qPNV/2WjMOym0mWkhcZbSDv
- yNSA==
+ bh=LP+57eqfwYFNzuYtHRfZIvRZ3vd53H3lc6YsNNaRRmg=;
+ b=ZGHDzo6o2EoBVWd053I4e4W9RYIR7fN9vJ40V8Pg5Dwf+tORUC9Vf6YXOTqiF7DjGG
+ n1yV+6GN8Uw/CW9gqiPomBbOxI4SXmElbuP/gNBd7TN7Jcw8+MOmt4zttqPK1eXVshzq
+ 7ZepWmQ3B+lrqkHxkKT3l+wpZZMVWoLYKgFfww/x332oB+hTe7G54jggZPzetVk4meTm
+ 2ZPv1rTbBSSFMIVtINsK825wrFTdrim2onbvKE/6aylEZNka6n04BN17JISdm9/bKxH2
+ a92pC+x+D/WghwV3AVYFL4GUrA1rF5mz7mMdIt44Qe9kGwbgDuOB9611I+v3B79VWmGv
+ Kpsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
  :mime-version:message-id:content-transfer-encoding;
- bh=9HzlCSEZPF0neIGi9d0fpeMh58pd8KRkWo/KMGKcxLw=;
- b=OqQ/h6C3+YALMcxfIAJgIpJA8Nvfydej+18wHAUApu/Mwel4L5Ly7u00ge8VFXCwcV
- re/H++J9BZ1rEd65B7QuCWndyQQHhngoDColo62Ppqqtf0q3pI128apkyB7UYzyq6zMa
- OTJ8UflFlIxutDSYV/TIYMjQBEGQhCGIAVlkYKKoeSpHnOEVVHm6RifPuOPrM7X+Xk9s
- PfeRmUqVcpJSAJcMI0NxCdP66A/+5l8jDlKaNf0W86n6xBbYNOopOZnAuVIvAj9koSHN
- Rzctua+lO9OjSDsUjnFG3l5WuC3KjZh0FnWGyV8mpdKPCHJqRYJcPXRx2T18Fg2Wh6xf
- zZOQ==
-X-Gm-Message-State: AOAM533wkHJtK2lozrCG1F/1qmC8qDOV9sk7w7DMRNJ7voob1PMQh2BW
- 1IaBcsmE+lYN4U7dXsn6m8s=
-X-Google-Smtp-Source: ABdhPJz+T7HykLspQhbtdBGT/KifryRZfs+W8Qf8fBBlmbrvB3g83oTIcQr1riaJtDEJliiebHRv7A==
-X-Received: by 2002:a17:902:e812:b029:eb:59d9:e550 with SMTP id
- u18-20020a170902e812b02900eb59d9e550mr2021408plg.26.1618464349513; 
- Wed, 14 Apr 2021 22:25:49 -0700 (PDT)
+ bh=LP+57eqfwYFNzuYtHRfZIvRZ3vd53H3lc6YsNNaRRmg=;
+ b=aantx4dxU+0SmNcubqT2DucFWQFI7KadRqIdbzv3Hi61e5hg0/tsySgzNBVL/ph9pa
+ MS/+hAH3XNckqZ4eUq5r2jqNedbKjWC2IChXJZbe0HVRo5IUBd6gFQTq4xfh97Jji2ti
+ ZwuBSUbZ1Uj6lcA4a/A1d66KXu37OBKOIuN9ke67QeEVh83D92sqWTlTcAAXzsFJ1nVS
+ +mPc5w2uEcOKNcMqXpm5Sx7d6eiz27jPg5hdptXwTYmc7pKt6wmWmH7DmWyGrTS/NgvN
+ ZEXQMNtER4FetSomTH9L4d3NsbRKJK/sgKElZ6sQFrPE95NrUzwcz0jvFIkPfqEBPlfs
+ W2lw==
+X-Gm-Message-State: AOAM533A5da6ulIdv9YtzZ9ehlnHPQTaaZ36zIkTOocIGZHX3MEpqUlI
+ tXsiOqs+ocTj++bzad9jKbw=
+X-Google-Smtp-Source: ABdhPJzHRFmQOL2uwrKiWu+12yYQL5HtFwhaUPlw227B8qThVoefNQqoq3tIaHCYxSJ6I7yV9VFsFA==
+X-Received: by 2002:a63:4442:: with SMTP id t2mr1965739pgk.232.1618464505886; 
+ Wed, 14 Apr 2021 22:28:25 -0700 (PDT)
 Received: from localhost (193-116-90-211.tpgi.com.au. [193.116.90.211])
- by smtp.gmail.com with ESMTPSA id c21sm178613pfc.165.2021.04.14.22.25.48
+ by smtp.gmail.com with ESMTPSA id e10sm874228pfv.196.2021.04.14.22.28.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 22:25:49 -0700 (PDT)
-Date: Thu, 15 Apr 2021 15:25:43 +1000
+ Wed, 14 Apr 2021 22:28:25 -0700 (PDT)
+Date: Thu, 15 Apr 2021 15:28:20 +1000
 From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [EXTERNAL] [RFC PATCH 1/2] target/ppc: rework AIL logic in
- interrupt delivery
+Subject: Re: [EXTERNAL] [RFC PATCH 2/2] target/ppc: Add POWER10 exception model
 To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
 References: <20210414032343.1720010-1-npiggin@gmail.com>
- <20210414032343.1720010-2-npiggin@gmail.com>
- <eaada833-6df9-a056-b137-9b5fd6643992@kaod.org>
-In-Reply-To: <eaada833-6df9-a056-b137-9b5fd6643992@kaod.org>
+ <20210414032343.1720010-3-npiggin@gmail.com>
+ <07285365-1c95-27b3-6922-260709d22624@kaod.org>
+In-Reply-To: <07285365-1c95-27b3-6922-260709d22624@kaod.org>
 MIME-Version: 1.0
-Message-Id: <1618464037.6efzvw5ldq.astroid@bobo.none>
+Message-Id: <1618464352.9ndmtpt9ct.astroid@bobo.none>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,86 +88,33 @@ Cc: Fabiano Rosas <farosas@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Excerpts from C=C3=A9dric Le Goater's message of April 15, 2021 1:24 am:
+Excerpts from C=C3=A9dric Le Goater's message of April 15, 2021 1:54 am:
 > On 4/14/21 5:23 AM, Nicholas Piggin wrote:
->> The AIL logic is becoming unmanageable spread all over powerpc_excp(),
->> and it is slated to get even worse with POWER10 support.
->>=20
->> Move it all to a new helper function.
+>> POWER10 adds a new bit that modifies interrupt behaviour, LPCR[HAIL],
+>> and it removes support for the LPCR[AIL]=3D0b10 mode.
+>=20
+> This looks good but it's missing the MSR_LE setting. A part from that :=20
+
+Oh, and lpes as well. Looks like a mis-merged from my original patch.
+Thanks for catching it, great.
+
 >=20
 > Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>=20
+> and=20
+>=20
 > Tested-by: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
-> Thanks for the effort and the documentation. One minor comment below,
->=20
-> C.
->=20
->>=20
->> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
->> ---
->>  hw/ppc/spapr_hcall.c            |   3 +-
->>  target/ppc/cpu.h                |   8 --
->>  target/ppc/excp_helper.c        | 161 ++++++++++++++++++++------------
->>  target/ppc/translate_init.c.inc |   2 +-
->>  4 files changed, 104 insertions(+), 70 deletions(-)
->>=20
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index 7b5cd3553c..2fbe04a689 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1395,7 +1395,8 @@ static target_ulong h_set_mode_resource_addr_trans=
-_mode(PowerPCCPU *cpu,
->>          return H_P4;
->>      }
->>=20
->> -    if (mflags =3D=3D AIL_RESERVED) {
->> +    if (mflags =3D=3D 1) {
->> +        /* AIL=3D1 is reserved */
->>          return H_UNSUPPORTED_FLAG;
->>      }
->>=20
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index e73416da68..5200a16d23 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -2375,14 +2375,6 @@ enum {
->>      HMER_XSCOM_STATUS_MASK      =3D PPC_BITMASK(21, 23),
->>  };
->>=20
->> -/* Alternate Interrupt Location (AIL) */
->> -enum {
->> -    AIL_NONE                =3D 0,
->> -    AIL_RESERVED            =3D 1,
->> -    AIL_0001_8000           =3D 2,
->> -    AIL_C000_0000_0000_4000 =3D 3,
->> -};
->=20
-> I kind of like these. No big deal.
 
-My thinking was they actually are just a POWER8 model of the AIL bits=20
-(e.g., they don't represent scv properly or AIL=3D2 reserved in P10), and=20
-they spread the meaning over multiple files. After this patch it's all
-just in that single function.
-
->>=20
->> -    switch (ail) {
->> -    case AIL_NONE:
->> -        break;
->> -    case AIL_0001_8000:
->> -        offset =3D 0x18000;
->> -        break;
->> -    case AIL_C000_0000_0000_4000:
->> -        offset =3D 0xc000000000004000ull;
->> -        break;
->> -    default:
->> -        cpu_abort(cs, "Invalid AIL combination %d\n", ail);
+Thanks, this was tested after you added the MSR_LE bit?
 >=20
-> Could we keep this abort ?=20
+> distros using scv on P10 now need your patch to boot :
+>=20
+> "powerpc/powernv: Enable HAIL (HV AIL) for ISA v3.1 processors"
+>=20
+> I guess it will get merged in time.=20
 
-Well the abort is no longer there because we explicitly handle all=20
-cases, the reserved ones by just ignoring them. I don't know what
-the hardware actually does if you tried to set it (it should ignore)
-but I think this is nicer to not abort.
+Yes, unfortunately. Real hardware crashes the same way though, so
+nothing to be done about it.
 
 Thanks,
 Nick
