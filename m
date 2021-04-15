@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE709360463
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 10:36:25 +0200 (CEST)
-Received: from localhost ([::1]:47856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18913604D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 10:47:46 +0200 (CEST)
+Received: from localhost ([::1]:52156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWxU8-0006dP-L2
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 04:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
+	id 1lWxf7-0000ki-CC
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 04:47:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWxSl-0006A3-A6
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:34:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWxSh-00026c-Vq
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:34:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618475694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xI86Zs8SI2SvPu8qU0+SoK5yPnjRaoOsYZVMRg00vCk=;
- b=LqCJup7XSAqNB5Y4YOBUkURiBaD4UGoSU1vkMFYY7+bNaHCfxY+OpKI5P85+t9mdgcBXK0
- MrcGCBsgHXEGL7lJ7I0OVhZdgUBrvtGijE6d78yF//xojRGtP8NBtbzuNogqX5T9w8hAFf
- +Fsp+SCL9mPfJkLA5zdQiGWcwtrwKyI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-o7c2hXY0M-KH34MvqyTHWA-1; Thu, 15 Apr 2021 04:34:52 -0400
-X-MC-Unique: o7c2hXY0M-KH34MvqyTHWA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y82-20020a1ce1550000b02901262158f1e9so3601936wmg.8
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 01:34:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWxbw-00005P-LI
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:44:28 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lWxbv-0007mS-1G
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:44:28 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so14115076wmy.5
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 01:44:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nvIVir+MpG4sbzW4/BCCmip13ZLDzoJNS8Cvq/4Tinc=;
+ b=fTHL1KAsKznnby9XrtWMsLodurTTMR1NNKgX5ZoEKOSu5ZWSKNGnGJYjRjkSYEpwCn
+ wJBW2gWxpQJWpGPF6O5KG2Nli+wtQeqo/M1cItFx2w8WAfuCkckwgQEyPHtXUQIfnaNR
+ N5AGGdovSWFkPc0UaYN7KLDo6UHeDdDgPKGKy9NHU5kdfgWnwDb7fKXWCHpNLO+kPsXk
+ ydz9EL7WnQMkIGxEvOa8R6DOpSt9YQHQmlvs891/xlwct6laVqDWWbGFWNmjJfGErYDF
+ c0bgDThQmpuPN7nxhclJ6HoWwJU3l3BeUVtEgx0tXymqQu2Bv8he0/cwOaPWsgTEgDYA
+ K4AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xI86Zs8SI2SvPu8qU0+SoK5yPnjRaoOsYZVMRg00vCk=;
- b=rerMn8l0gFBNoolCmmXiSb+/hwvU7s3d5OLS4eBKxjBCRWDJfuwDsxMpAw9u5qhrqp
- WIG6FuLhN1Vy3xH3X2JGYs/fhMKDo/mwALmlPULefVX6/NLbhciO0k0+vGLhH+LJ2tPL
- AE7PV8/nY+OKE63Zmol1juTpQgmpM8oC0IgdSDfBPknF2QUtZD6RXV3V43soB6QcUr8E
- VYkoFoTCs6BoXkgdYJIMpnkpq5u86OccDwalAKPfFVfr9CigCLKH9HR3HJAyM9sB4jT4
- FMmJpwZ7eqz/wS/ys38+Dg9in/gliMD5CLPPjdhoIsR8t1E1VodIy4/wUwWh4GEw4yhz
- sZKA==
-X-Gm-Message-State: AOAM5309laXQ7ZfNPeeRy0A/ylCln15Qbs4Y+AH1G4EGSkKHvR/4lDZi
- r+jd8QrflKis8O51P+nE1V9d0Xr35ThCH6BzTlhvxIBvVFwL9mR3q0JIoU4Re8bU4wv+5S72Kkq
- l/qS931e1audhqbk=
-X-Received: by 2002:a05:600c:4f8e:: with SMTP id
- n14mr2006465wmq.166.1618475690663; 
- Thu, 15 Apr 2021 01:34:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTs4UsBCMr6tiFEqFjxlMF8nIMsLn3WK77TJbZkTlCKvND0lGKG3g/3M2GGnjxh8UFRzShZg==
-X-Received: by 2002:a05:600c:4f8e:: with SMTP id
- n14mr2006439wmq.166.1618475690476; 
- Thu, 15 Apr 2021 01:34:50 -0700 (PDT)
+ bh=nvIVir+MpG4sbzW4/BCCmip13ZLDzoJNS8Cvq/4Tinc=;
+ b=qxWp5t38KrKI4QDl28Gh2Rt8dghxEOAWjIAiMznr6SMbdb9Sj+5pmDh7/47i452OOi
+ Mng1HLncReduWL84CLUKSr+ybEgp4tdFjQLZTdbuGolXPwVkFbBAsBJW8IO4Q2QMSges
+ evsAWyrldttDfgWGs7X/zo/+COHBY95YG1nOiLkoZpGYlgAh7WByYEPJMSQpXZuVp+pg
+ b0CMr7/ty3geUphKysxWaXSkiJTKEvKpF59tkM47SSGL9NUtTRRlksvMzH7t80xIP89q
+ vCUBFWbbTOYF8aCdsrRsl7jlm/CUGqAscJr7F3Wd+fYjOef7ATh2WUJiohtwXGb21O9W
+ ffIA==
+X-Gm-Message-State: AOAM532DqGbC+iITQd4n69mEUnRLN+Lfi8zF/h3L70ujwZIMqZEdiCGq
+ ONeUICEVOwyKDdV3t9VMPdY=
+X-Google-Smtp-Source: ABdhPJyYFka/7/mfnGdIIFZxnX8LpBqYdotNesi1CXhvkUb0ksgWzzqnk/zvdDBgUVJygUVIS2Z9Sg==
+X-Received: by 2002:a05:600c:2112:: with SMTP id
+ u18mr1958111wml.33.1618476264946; 
+ Thu, 15 Apr 2021 01:44:24 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c9sm1939907wrr.78.2021.04.15.01.34.49
+ by smtp.gmail.com with ESMTPSA id c2sm1617609wmr.22.2021.04.15.01.44.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 01:34:49 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 4/4] configure: Poison all current target-specific
- #defines
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
-References: <20210414112004.943383-1-thuth@redhat.com>
- <20210414112004.943383-5-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <529f4022-aa17-2b41-294d-a293b0461690@redhat.com>
-Date: Thu, 15 Apr 2021 10:34:48 +0200
+ Thu, 15 Apr 2021 01:44:24 -0700 (PDT)
+Subject: Re: [PATCH] hw/elf_ops: clear uninitialized segment space
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210414105838.205019-1-laurent@vivier.eu>
+ <c8f39459-5106-bafb-94e5-2116546f75e0@amsat.org>
+ <d4874de4-9bf2-f0b6-0b4c-3d0b97d26b0d@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <97b4d188-9fb6-3ba3-183a-82f926ab016c@amsat.org>
+Date: Thu, 15 Apr 2021 10:44:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210414112004.943383-5-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d4874de4-9bf2-f0b6-0b4c-3d0b97d26b0d@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,73 +92,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Colin Xu <colin.xu@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Richard/Claudio
-
-On 4/14/21 1:20 PM, Thomas Huth wrote:
-> We are generating a lot of target-specific defines in the *-config-devices.h
-> and *-config-target.h files. Using them in common code is wrong and leads
-> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
-> as expected. To avoid these issues, we are already poisoning many of the
-> macros in include/exec/poison.h - but it's cumbersome to maintain this
-> list manually. Thus let's generate an additional list of poisoned macros
-> automatically from the current config switches - this should give us a
-> much better test coverage via the different CI configurations.
+On 4/14/21 2:41 PM, Laurent Vivier wrote:
+> Le 14/04/2021 à 14:16, Philippe Mathieu-Daudé a écrit :
+>> On 4/14/21 12:58 PM, Laurent Vivier wrote:
+>>> When the mem_size of the segment is bigger than the file_size,
+>>> and if this space doesn't overlap another segment, it needs
+>>> to be cleared.
+>>>
+>>> This bug is very similar to the one we had for linux-user,
+>>> 22d113b52f41 ("linux-user: Fix loading of BSS segments"),
+>>> where .bss section is encoded as an extension of the the data
+>>> one by setting the segment p_memsz > p_filesz.
+>>>
+>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>> ---
+>>>  include/hw/elf_ops.h | 17 +++++++++++++++++
+>>>  1 file changed, 17 insertions(+)
+>>>
+>>> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+>>> index 6ee458e7bc3c..e3dcee3ee349 100644
+>>> --- a/include/hw/elf_ops.h
+>>> +++ b/include/hw/elf_ops.h
+>>> @@ -562,6 +562,23 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+>>>                      if (res != MEMTX_OK) {
+>>>                          goto fail;
+>>>                      }
+>>> +                    /*
+>>> +                     * We need to zero'ify the space that is not copied
+>>> +                     * from file
+>>> +                     */
+>>> +                    if (file_size < mem_size) {
+>>> +                        static uint8_t zero[4096];
+>>
+>> Given it is unlikely, maybe better use:
+>>
+>>               g_autofree uint8_t *zero = g_new0(uint8_t, 4096);
 > 
-> Note that CONFIG_TCG (which is also defined in config-host.h) and
-> CONFIG_USER_ONLY are special, so we have to filter these out.
+> I don't know what is the best solution but this seems to introduce a lot of complexity only to have
+> a page of 0s.
 
-I know if we poison CONFIG_TCG, almost nothing build, but I fail to
-see how it is different from the other accelerators. I suppose in the
-future (maybe with Claudio's effort) we could have it not special.
+Less complex alternative is to use dma_memory_set():
 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Makefile              | 2 +-
->  configure             | 5 +++++
->  include/exec/poison.h | 2 ++
->  3 files changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index bcbbec71a1..4cab10a2a4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -213,7 +213,7 @@ qemu-%.tar.bz2:
->  
->  distclean: clean
->  	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
-> -	rm -f config-host.mak config-host.h*
-> +	rm -f config-host.mak config-host.h* config-poison.h
->  	rm -f tests/tcg/config-*.mak
->  	rm -f config-all-disas.mak config.status
->  	rm -f roms/seabios/config.mak roms/vgabios/config.mak
-> diff --git a/configure b/configure
-> index 4f374b4889..a0f0601e7e 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6440,6 +6440,11 @@ if test -n "${deprecated_features}"; then
->      echo "  features: ${deprecated_features}"
->  fi
->  
+   dma_memory_set(as, file_size, 0, mem_size - file_size);
 
-Maybe a one line comment (but since it is obvious, I don't mind):
+Actually we should extract address_space_set() from it, keeping
+the dma_barrier() call in dma_memory_set(), and use address_space_set()
+here.
 
-   # Filter out CONFIG_TCG and CONFIG_USER_ONLY which are special
+What do you think?
 
-> +sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
-> +    -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
-> +    *-config-devices.h *-config-target.h | \
-> +    sort -u > config-poison.h
-> +
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+Phil.
 
