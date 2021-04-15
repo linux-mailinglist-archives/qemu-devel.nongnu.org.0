@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B1E361043
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:37:25 +0200 (CEST)
-Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EB8361057
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:43:10 +0200 (CEST)
+Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX4zc-0004o9-F2
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
+	id 1lX55B-0000MR-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lX4tA-0001pT-L1
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:30:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59959)
+ id 1lX4tk-0002Er-ON
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:31:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lX4t7-00054X-8y
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:30:44 -0400
+ id 1lX4th-0005JH-OP
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:31:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618504240;
+ s=mimecast20190719; t=1618504277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0AFROuHVd5HwJkHT/bjlp5ZVaLvGGXhsepomNt1v6Zw=;
- b=JU/ZztSvRgR46i1y2zhA0p+SQF1giLcYASrQCngQvf0qphEAVoQeXXbYLAGF9AAIngHoUG
- y7IvUxJHlaoGwcguqM5HtY7CR7Ukem2JOnY7y/gdnq5RZR+wqu8N0MXYBMm3nN36Ebt8kg
- o2KfmM3iC3Pi3kcqba7aYHVLaLeotmQ=
+ bh=0G8ohVbjQ6a34HzWOEKarwWvEUqE+U5orGyHssEQKf8=;
+ b=VxLRqhon4XjX1K2Qgf+EhVolBVm3uqnBbeFQ0bl9q2hbum0wTJDVBAFiXlDUhbWHQfWjsX
+ q4X2oJS3tkauwEn1kerj5AeRySGRiCZbmSdYxi4ZXYJkIvUvrtzsU9V8fdRKEMShHfHRoP
+ 5NRGv1bgmjXB9i6tYWJvQqbQcGBgQa0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-Yk0QYXuUNc-Ixv1GZlvqLA-1; Thu, 15 Apr 2021 12:30:38 -0400
-X-MC-Unique: Yk0QYXuUNc-Ixv1GZlvqLA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-389-G5sm6VBSNVWvIgD5op4F4g-1; Thu, 15 Apr 2021 12:31:13 -0400
+X-MC-Unique: G5sm6VBSNVWvIgD5op4F4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502BF8030D6;
- Thu, 15 Apr 2021 16:30:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8B97107ACE4;
+ Thu, 15 Apr 2021 16:31:11 +0000 (UTC)
 Received: from work-vm (ovpn-113-195.ams2.redhat.com [10.36.113.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 249046064B;
- Thu, 15 Apr 2021 16:30:30 +0000 (UTC)
-Date: Thu, 15 Apr 2021 17:30:28 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB27210016DB;
+ Thu, 15 Apr 2021 16:31:06 +0000 (UTC)
+Date: Thu, 15 Apr 2021 17:31:04 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/5] migration: add trace point when vm_stop_force_state
- fails
-Message-ID: <YHhqJBbNcGnng7J1@work-vm>
+Subject: Re: [PATCH 2/5] softmmu: add trace point when bdrv_flush_all fails
+Message-ID: <YHhqSCUErOGPYWtx@work-vm>
 References: <20210415135851.862406-1-berrange@redhat.com>
- <20210415135851.862406-2-berrange@redhat.com>
+ <20210415135851.862406-3-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210415135851.862406-2-berrange@redhat.com>
+In-Reply-To: <20210415135851.862406-3-berrange@redhat.com>
 User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -69,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,44 +89,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> This is a critical failure scenario for migration that is hard to
-> diagnose from existing probes. Most likely it is caused by an error
-> from bdrv_flush(), but we're not logging the errno anywhere, hence
-> this new probe.
+> The VM stop process has to flush outstanding I/O and this is a critical
+> failure scenario that is hard to diagnose. Add a probe point that
+> records the flush return code.
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  migration/migration.c  | 1 +
->  migration/trace-events | 1 +
->  2 files changed, 2 insertions(+)
+>  softmmu/cpus.c       | 7 ++++++-
+>  softmmu/trace-events | 3 +++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 8ca034136b..bee0dcd501 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3121,6 +3121,7 @@ static void migration_completion(MigrationState *s)
->          if (!ret) {
->              bool inactivate = !migrate_colo_enabled();
->              ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
-> +            trace_migration_completion_vm_stop(ret);
->              if (ret >= 0) {
->                  ret = migration_maybe_pause(s, &current_active_state,
->                                              MIGRATION_STATUS_DEVICE);
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 668c562fed..8ec28432eb 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -149,6 +149,7 @@ migrate_pending(uint64_t size, uint64_t max, uint64_t pre, uint64_t compat, uint
->  migrate_send_rp_message(int msg_type, uint16_t len) "%d: len %d"
->  migrate_send_rp_recv_bitmap(char *name, int64_t size) "block '%s' size 0x%"PRIi64
->  migration_completion_file_err(void) ""
-> +migration_completion_vm_stop(int ret) "ret %d"
->  migration_completion_postcopy_end(void) ""
->  migration_completion_postcopy_end_after_complete(void) ""
->  migration_rate_limit_pre(int ms) "%d ms"
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index a7ee431187..c3caaeb26e 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -44,6 +44,7 @@
+>  #include "sysemu/whpx.h"
+>  #include "hw/boards.h"
+>  #include "hw/hw.h"
+> +#include "trace.h"
+>  
+>  #ifdef CONFIG_LINUX
+>  
+> @@ -266,6 +267,7 @@ static int do_vm_stop(RunState state, bool send_stop)
+>  
+>      bdrv_drain_all();
+>      ret = bdrv_flush_all();
+> +    trace_vm_stop_flush_all(ret);
+>  
+>      return ret;
+>  }
+> @@ -704,12 +706,15 @@ int vm_stop_force_state(RunState state)
+>      if (runstate_is_running()) {
+>          return vm_stop(state);
+>      } else {
+> +        int ret;
+>          runstate_set(state);
+>  
+>          bdrv_drain_all();
+>          /* Make sure to return an error if the flush in a previous vm_stop()
+>           * failed. */
+> -        return bdrv_flush_all();
+> +        ret = bdrv_flush_all();
+> +        trace_vm_stop_flush_all(ret);
+> +        return ret;
+>      }
+>  }
+>  
+> diff --git a/softmmu/trace-events b/softmmu/trace-events
+> index b80ca042e1..f11b427544 100644
+> --- a/softmmu/trace-events
+> +++ b/softmmu/trace-events
+> @@ -19,6 +19,9 @@ flatview_new(void *view, void *root) "%p (root %p)"
+>  flatview_destroy(void *view, void *root) "%p (root %p)"
+>  flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
+>  
+> +# softmmu.c
+> +vm_stop_flush_all(int ret) "ret %d"
+> +
+>  # vl.c
+>  vm_state_notify(int running, int reason, const char *reason_str) "running %d reason %d (%s)"
+>  load_file(const char *name, const char *path) "name %s location %s"
 > -- 
 > 2.30.2
 > 
