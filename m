@@ -2,86 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334BC360F9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:58:20 +0200 (CEST)
-Received: from localhost ([::1]:48080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB705360FEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:13:49 +0200 (CEST)
+Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX4Nn-0006aG-Aw
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59286)
+	id 1lX4cm-0000ks-83
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:13:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lX4L5-0005ez-CR; Thu, 15 Apr 2021 11:55:34 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lX4Kz-0005ne-EP; Thu, 15 Apr 2021 11:55:31 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so14882301wmy.5; 
- Thu, 15 Apr 2021 08:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1iJlHk6v/UUiwwngJCIvEQtApBK1nE4RmsWgnACZLdY=;
- b=CiA6EWFazR/n0+oGCWpcZk0q82xrqft8bMsUK6WxO+P/6wyul5H14Av1buND1hEvi0
- YPuM+enAI3s8/jjadhd9sm2cIt5W5Sau96EjF30C8r04cOQ91m0wgoKzjSJrMh0gsB2J
- kNpDMfyt1n+Jun7YFPn2byfKF7HlY+twHPDNBI/5kAQE/NJpTOQttzY8SFjUZeMH+PQz
- tSp8Z+h5bmtl7uoeQ78lhvZDZChZQZLcq8Z46PBIyXk2aLGo4g5sciO2gxgJxjGpEz61
- qQsHYfcoyX7NIIhgmuPPiB4eijB0QK/Ich3mmyoQ88pYECKWc2x00vIW434Cry81uH6p
- lsJA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX4Qw-00007x-0K
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:01:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX4Qs-0008Te-JF
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:01:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618502489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dpZF+Y7ogSRWg8vOKWxNowPnzUaKyrkc4oaT6d4L2z0=;
+ b=F+2Tn5PStnhFK6OVn6EcPR4UBxHg5fzmpyCM9qISxP6QOegyqxJBF230q9NTkDPVp9RSV4
+ 8AP3PCimnrsnEwxkp38a+m80radTZbA/BeE/GIfy3auw6mdTfdO4mIJRu33eF7zH5fvbhB
+ 8SBpLbJS2BLT4yKWZt3CtHuqZyubCUk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-L9Da7FwkPai6RUnx1e6Itw-1; Thu, 15 Apr 2021 12:01:27 -0400
+X-MC-Unique: L9Da7FwkPai6RUnx1e6Itw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t14-20020adff04e0000b0290103307c23e1so2960505wro.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 09:01:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1iJlHk6v/UUiwwngJCIvEQtApBK1nE4RmsWgnACZLdY=;
- b=Y7XbJiAjTJ34dGpLpCE/IucfvUFtqkRdK/ciSVSJS6522kHygwwrEdl4bT4IH7Dfjr
- 90uknZKjqpYWq1bItI211TcQNBUGYKGrTKKaBAaDInaMc862JmuhWqT102r9sTwG7BCU
- cBBbrPxmsgJJHUQH86TEXWOJA2ILtX/s3H94WOJltHqo/aH1vRwoBdKgXJuqSe5wKNH+
- ltSQh48Jyip2dl3rmxgVTDFNhQn4TTImikqWxQ+fbawv3bPJK/VLZkyII5Qf9hY9uGMY
- QvPVTSQiZ3zoj0n2uCQZ/rZuaT71a2inGqoeEpuo3T6OlDDMOkmqC2rsFKktjrggjk1E
- 7AxQ==
-X-Gm-Message-State: AOAM530+MR2FTOCCxR8lmoTP2duUxKO+uCFbImCB6ACK6FDr/bA+ub8k
- 5FS1FHO0JPPeUActphH0FfVUfUSjQWQ=
-X-Google-Smtp-Source: ABdhPJxmXHrZLcCq62I9Q3o0+wqhE+Rlk4V6aHko4Zw3jPt0RyhoT/FARIcmY2uhCkIzdZzsKLiu/Q==
-X-Received: by 2002:a1c:b457:: with SMTP id d84mr3825603wmf.169.1618502119320; 
- Thu, 15 Apr 2021 08:55:19 -0700 (PDT)
+ bh=dpZF+Y7ogSRWg8vOKWxNowPnzUaKyrkc4oaT6d4L2z0=;
+ b=noVXdMpXmocRYNkJG+fHhPTSmP+4iMzlfgipGV/CIX+DjAoZBLt0SLAhds2Q1m7I2c
+ +KRwsbu8rOKnuLrs+G9e7L1rZvb69FZQPSTs82cSyipTMnbMsWzyiriia9xla3Xdmcvr
+ Lrf/Mo18s09pvcfbmw9+HM8YPXe5FDvrA7SGRWTMibU37AVNmVU8dX0bp018Lw6PKiI3
+ Sr11oxXMsOXws7X6pWPsqbJW9LeAwKKDKHDvWL0K3+aDKAPgCMcPIJLpyLMsF0U+8IZP
+ NRy+xu6hPbvrPmUP8yZPBtO/Zm6gAgiZJAJR/wUO5He2Nh9m5x12yjWn45Qk6I9z9ODE
+ D4tA==
+X-Gm-Message-State: AOAM5310oBEkR9if9PYVjE+A4UNBJBH0m+q9vhaDWJmA8key5yvcS77S
+ E12O1INkgXERhJbZFVxkte3dNIezerwpYB2/RedxlTwQHv7/Kj+mximlXDrnZheCaMrSxd9wi3e
+ sdHjFls5IKGwx7AE=
+X-Received: by 2002:adf:b1d3:: with SMTP id r19mr4420166wra.97.1618502486467; 
+ Thu, 15 Apr 2021 09:01:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUX6q7hB3k7+EYnTIKdlm78Btw2N2o0J9kuWNnrEDu2HUAqpCd/i2ODTQmrxcePJC2GPzemQ==
+X-Received: by 2002:adf:b1d3:: with SMTP id r19mr4420127wra.97.1618502486165; 
+ Thu, 15 Apr 2021 09:01:26 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id g132sm3565620wmg.42.2021.04.15.08.55.18
+ by smtp.gmail.com with ESMTPSA id f7sm469905wrp.48.2021.04.15.09.01.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 08:55:18 -0700 (PDT)
-Subject: Re: [PULL 18/23] accel/tcg: re-factor non-RAM execution code
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cedric Le Goater <clg@fr.ibm.com>, qemu-arm <qemu-arm@nongnu.org>
-References: <20210218094706.23038-1-alex.bennee@linaro.org>
- <20210218094706.23038-19-alex.bennee@linaro.org>
- <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
- <CAFEAcA9G-WabAM_EdgMzd0Xv6z8xRYjw57DiEqB6Z_Wbj=X1Eg@mail.gmail.com>
- <87blaflit2.fsf@linaro.org>
- <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b989ebfe-1294-5eef-53a2-9599421e0069@amsat.org>
-Date: Thu, 15 Apr 2021 17:55:17 +0200
+ Thu, 15 Apr 2021 09:01:25 -0700 (PDT)
+Subject: Re: [PATCH v3 7/6] qtest/arm-cpu-features: Use generic
+ qtest_has_accel() to check for KVM
+To: Andrew Jones <drjones@redhat.com>
+References: <20210415122633.4054644-1-philmd@redhat.com>
+ <20210415125737.4064646-1-philmd@redhat.com>
+ <20210415132317.rcnlq2iptbryeivs@kamzik.brq.redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0ca279e1-e173-355c-76c7-cf066ac824d2@redhat.com>
+Date: Thu, 15 Apr 2021 18:01:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
+In-Reply-To: <20210415132317.rcnlq2iptbryeivs@kamzik.brq.redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,42 +101,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 4:54 PM, Peter Maydell wrote:
-> On Thu, 15 Apr 2021 at 15:32, Alex Bennée <alex.bennee@linaro.org> wrote:
->> --8<---------------cut here---------------start------------->8---
->> accel/tcg: avoid re-translating one-shot instructions
->>
->> By definition a single instruction is capable of being an IO
->> instruction. This avoids a problem of triggering a cpu_io_recompile on
->> a non-cached translation which would only do exactly this anyway.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->> accel/tcg/translate-all.c | 2 +-
->>
->> modified   accel/tcg/translate-all.c
->> @@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->>
->>      if (phys_pc == -1) {
->>          /* Generate a one-shot TB with 1 insn in it */
->> -        cflags = (cflags & ~CF_COUNT_MASK) | 1;
->> +        cflags = (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
->>      }
->>
->>      max_insns = cflags & CF_COUNT_MASK;
->> --8<---------------cut here---------------end--------------->8---
-> 
-> Yes, this fixes the problem. Do we want to put this in for 6.0? My
-> feeling is that executing from non-RAM is pretty niche, so maybe
-> if we need an rc4 anyway, but this isn't important enough to cause an
-> rc4 itself.
+Hi Drew,
 
-Isn't it the default for Aspeed machines (with U-Boot)? (Cc'ing Cédric).
+On 4/15/21 3:23 PM, Andrew Jones wrote:
+> On Thu, Apr 15, 2021 at 02:57:37PM +0200, Philippe Mathieu-Daudé wrote:
+>> Use the recently added generic qtest_has_accel() method to
+>> check if KVM is available.
+>>
+>> Suggested-by: Claudio Fontana <cfontana@suse.de>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  tests/qtest/arm-cpu-features.c | 25 +------------------------
+>>  1 file changed, 1 insertion(+), 24 deletions(-)
+
+>>  static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
+>>  {
+>>      return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
+>> @@ -493,14 +478,6 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>>  
+>>      qts = qtest_init(MACHINE_KVM "-cpu max");
+>>  
+>> -    /*
+>> -     * These tests target the 'host' CPU type, so KVM must be enabled.
+>> -     */
+>> -    if (!kvm_enabled(qts)) {
+>> -        qtest_quit(qts);
+>> -        return;
+>> -    }
+>> -
+>>      /* Enabling and disabling kvm-no-adjvtime should always work. */
+>>      assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
+>>      assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
+>> @@ -624,7 +601,7 @@ int main(int argc, char **argv)
+>>       * order avoid attempting to run an AArch32 QEMU with KVM on
+>>       * AArch64 hosts. That won't work and isn't easy to detect.
+>>       */
+>> -    if (g_str_equal(qtest_get_arch(), "aarch64")) {
+>> +    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
+> 
+> With this new guard in main(), we should be able to drop the tcg fallback
+> in MACHINE_KVM. But, to do that, we also need to guard the call to
+> sve_tests_sve_off_kvm().
+
+OK, I'll have a look.
+
+>>          qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
+>>                              NULL, test_query_cpu_model_expansion_kvm);
+>>      }
+>> -- 
+>> 2.26.3
+>>
+> 
+> And, shouldn't we also guard all the other tests, which require tcg, with
+> qtest_has_accel("tcg")?
+
+Now that we have this qtest_has_accel() method, there is certainly room
+for improvements / simplifications. This doesn't have to block this
+patch set and could be done on top. (Beside helping Claudio's effort,
+my main selfish motivation was to stop compile pointless objects and
+reduce minutes wasted on CI).
+
+Thanks,
+
+Phil.
+
 
