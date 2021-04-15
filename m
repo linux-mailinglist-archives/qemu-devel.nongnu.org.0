@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4624D360EE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:24:31 +0200 (CEST)
-Received: from localhost ([::1]:41780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC11D360EE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:24:38 +0200 (CEST)
+Received: from localhost ([::1]:42394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX3r4-0005fF-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
+	id 1lX3rB-0005wM-SS
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lX3pO-0004NF-TU
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lX3pO-0004NE-SX
  for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:22:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57791)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lX3pB-00089j-Bp
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:22:45 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lX3pH-0008CE-0j
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:22:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618500149;
+ s=mimecast20190719; t=1618500157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GKk/dW4kG4eG02+rfklR9WWtwJ5o135CqC7RV0u1M0c=;
- b=Hpn/oGGB6gl3z91o/39oBQZ5pTmzdGpQi/Dps7Twl+c0GYHZ7132p5yE2tnS3EyokoaaF3
- +XI1nTZRH/5nKHiVrGB5tqpOQhWlNFWWMM39xUxbilEfQipHTyECobg2qc1C3LOH/ED/wf
- COBTOV0J1lyMwC5uVvODteiHYtoVqxg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EoWyZ2dB1Ly3LvFvZQ+QSc42Tvdp2sayrjC5gsGvwNY=;
+ b=Cjd0klJZny0tdzzw/f8q1jMmb7KdS7DWM2Q8uQmgyE+ZGJsEVt9FTmBFdn+ggv/OeUIGZQ
+ 07gDeg4HfG/i2ovK8jhvHMl8DtoDAK358B9Xny5yG0cGyoNKrEifP4JavrAu6iAocC8mus
+ SAMFcbe3Lkof5RwXsAfFt1P7u/h1qHA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-XcOYGeK5MeioKrPOwTm30g-1; Thu, 15 Apr 2021 11:22:27 -0400
-X-MC-Unique: XcOYGeK5MeioKrPOwTm30g-1
+ us-mta-254-RDeLtA0fOcqzU_GvQtpSIQ-1; Thu, 15 Apr 2021 11:22:36 -0400
+X-MC-Unique: RDeLtA0fOcqzU_GvQtpSIQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01021801814;
- Thu, 15 Apr 2021 15:22:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59B531020C41;
+ Thu, 15 Apr 2021 15:22:35 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-113-169.ams2.redhat.com [10.36.113.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 432586064B;
- Thu, 15 Apr 2021 15:22:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47241369A;
+ Thu, 15 Apr 2021 15:22:26 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 0/2] qemu-img convert: Fix sparseness detection
-Date: Thu, 15 Apr 2021 17:22:12 +0200
-Message-Id: <20210415152214.279844-1-kwolf@redhat.com>
+Subject: [RFC PATCH 1/2] iotests: Test qemu-img convert of zeroed data cluster
+Date: Thu, 15 Apr 2021 17:22:13 +0200
+Message-Id: <20210415152214.279844-2-kwolf@redhat.com>
+In-Reply-To: <20210415152214.279844-1-kwolf@redhat.com>
+References: <20210415152214.279844-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -52,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -60,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,33 +80,65 @@ Cc: kwolf@redhat.com, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter, three years ago you changed 'qemu-img convert' to sacrifice some
-sparsification in order to get aligned requests on the target image. At
-the time, I thought the impact would be small, but it turns out that
-this can end up wasting gigabytes of storagee (like converting a fully
-zeroed 10 GB image taking 2.8 GB instead of a few kilobytes).
+This demonstrates what happens when the block status changes in
+sub-min_sparse granularity, but all of the parts are zeroed out. The
+alignment logic in is_allocated_sectors() prevents that the target image
+remains fully sparse as expected, but turns it into a data cluster of
+explicit zeros.
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1882917
-
-I'm not entirely sure how to attack this best since this is a tradeoff,
-but maybe the approach in this series is still good enough for the case
-that you wanted to fix back then?
-
-Of course, it would be possible to have a more complete fix like looking
-forward a few blocks more before writing data, but that would probably
-not be entirely trivial because you would have to merge blocks with ZERO
-block status with DATA blocks that contain only zeros. I'm not sure if
-it's worth this complication of the code.
-
-Kevin Wolf (2):
-  iotests: Test qemu-img convert of zeroed data cluster
-  qemu-img convert: Fix sparseness detection
-
- qemu-img.c                 | 18 ++++--------------
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
  tests/qemu-iotests/122     |  1 +
- tests/qemu-iotests/122.out |  6 ++++--
- 3 files changed, 9 insertions(+), 16 deletions(-)
+ tests/qemu-iotests/122.out | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
+index 5d550ed13e..7a213a4df9 100755
+--- a/tests/qemu-iotests/122
++++ b/tests/qemu-iotests/122
+@@ -251,6 +251,7 @@ $QEMU_IO -c "write -P 0 0 64k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_test
+ $QEMU_IO -c "write 0 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+ $QEMU_IO -c "write 8k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+ $QEMU_IO -c "write 17k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
++$QEMU_IO -c "write -P 0 65k 1k" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+ 
+ for min_sparse in 4k 8k; do
+     echo
+diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
+index 3a3e121d57..dcc44a2304 100644
+--- a/tests/qemu-iotests/122.out
++++ b/tests/qemu-iotests/122.out
+@@ -192,6 +192,8 @@ wrote 1024/1024 bytes at offset 8192
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ wrote 1024/1024 bytes at offset 17408
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 1024/1024 bytes at offset 66560
++1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ convert -S 4k
+ [{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+@@ -199,7 +201,9 @@ convert -S 4k
+ { "start": 8192, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 12288, "length": 4096, "depth": 0, "zero": true, "data": false},
+ { "start": 16384, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+-{ "start": 20480, "length": 67088384, "depth": 0, "zero": true, "data": false}]
++{ "start": 20480, "length": 46080, "depth": 0, "zero": true, "data": false},
++{ "start": 66560, "length": 1024, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 67584, "length": 67041280, "depth": 0, "zero": true, "data": false}]
+ 
+ convert -c -S 4k
+ [{ "start": 0, "length": 1024, "depth": 0, "zero": false, "data": true},
+@@ -211,7 +215,9 @@ convert -c -S 4k
+ 
+ convert -S 8k
+ [{ "start": 0, "length": 24576, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+-{ "start": 24576, "length": 67084288, "depth": 0, "zero": true, "data": false}]
++{ "start": 24576, "length": 41984, "depth": 0, "zero": true, "data": false},
++{ "start": 66560, "length": 1024, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 67584, "length": 67041280, "depth": 0, "zero": true, "data": false}]
+ 
+ convert -c -S 8k
+ [{ "start": 0, "length": 1024, "depth": 0, "zero": false, "data": true},
 -- 
 2.30.2
 
