@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57C7360248
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 08:19:42 +0200 (CEST)
-Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFB93602A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 08:47:11 +0200 (CEST)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWvLp-0005AV-RL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 02:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
+	id 1lWvmQ-0001zG-5G
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 02:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWvIP-0003RR-DS
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:16:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30088)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWvkX-0001RB-Ai
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:45:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lWvIM-0002JG-5S
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:16:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWvkT-0001ue-7i
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:45:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618467364;
+ s=mimecast20190719; t=1618469107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=29Ytxhr+t2c3sCs+C/ReL9mjppnUxqSZqs1XmDQP3ZU=;
- b=HT1OzW41G0gMjtG0w3Irl0/iJ1mOMbCUoYXeD63GvgyYDbyZ6fBCZk6HPByMerGBSJdGJq
- 5jQtUefuv2CGibpVVLqJwm7CEjM32CAw2IobGJOW+rouGDmjrurlkFbV3HoYfPI7I44fK0
- K3SLwdw3sr8ttpliQx45J0QpQ9+Wt0w=
+ bh=jSPHUywHVT+XFbCa0uo/qwalvan/jMhU/eieLHW7k7g=;
+ b=ZKTXUFtTcGUXqIjgI3zMTafwfIsyWkwXjL+nDi9IbXCrSWBJz4HsrCoWmTB55j5n82CdA/
+ UN9x4i4CaFXWg3ZOEBxDzpthO/6buHGgu6F0KU0qiHmRQnRAB4ZvY5oDf4poLtu7dxKCkK
+ qvxolw7lJvGkIksc8ohuZt5JUMiTyfY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-HENcFcr2NqOiXb51U-tPsQ-1; Thu, 15 Apr 2021 02:16:01 -0400
-X-MC-Unique: HENcFcr2NqOiXb51U-tPsQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-464-l8lAosBTNJSUFF20QpVvQw-1; Thu, 15 Apr 2021 02:45:02 -0400
+X-MC-Unique: l8lAosBTNJSUFF20QpVvQw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE38587A83A;
- Thu, 15 Apr 2021 06:15:59 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-39.ams2.redhat.com [10.36.112.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F6BF6087C;
- Thu, 15 Apr 2021 06:15:56 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210414112004.943383-1-thuth@redhat.com>
- <20210414112004.943383-4-thuth@redhat.com>
- <87tuo9j7hw.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-6.1 3/4] qapi/qom.json: Do not use
- CONFIG_VIRTIO_CRYPTO in common code
-Message-ID: <b5a3e83d-ec62-d5ce-b03c-d33f7419a5e9@redhat.com>
-Date: Thu, 15 Apr 2021 08:15:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CC90107ACCA;
+ Thu, 15 Apr 2021 06:45:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3472D6062F;
+ Thu, 15 Apr 2021 06:44:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B1693113525D; Thu, 15 Apr 2021 08:44:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 1/8] qapi/error: Repurpose QAPIError as a generic
+ exception base class
+References: <20210330171844.1197918-1-jsnow@redhat.com>
+ <20210330171844.1197918-2-jsnow@redhat.com>
+Date: Thu, 15 Apr 2021 08:44:57 +0200
+In-Reply-To: <20210330171844.1197918-2-jsnow@redhat.com> (John Snow's message
+ of "Tue, 30 Mar 2021 13:18:37 -0400")
+Message-ID: <87mtu0gi6u.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87tuo9j7hw.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,71 +81,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Colin Xu <colin.xu@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/04/2021 15.55, Markus Armbruster wrote:
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> The ObjectType enum and ObjectOptions are included from qapi-types-qom.h
->> into common code. We should not use target-specific config switches like
->> CONFIG_VIRTIO_CRYPTO here, since this is not defined in common code and
->> thus the enum will look differently between common and target specific
->> code. For this case, it's hopefully enough to check for CONFIG_VHOST_CRYPTO
->> only (which is a host specific config switch, i.e. it's the same on all
->> targets).
-> 
-> Drawback: introspection now claims cryptodev-vhost-user is among the
-> values of qom-type, which is a lie when !defined(CONFIG_VIRTIO_CRYPTO).
-> 
-> Is this the first lie about QOM object types?
-> 
-> Do we care?
+John Snow <jsnow@redhat.com> writes:
 
-I don't think we really care, since there are other entries in the list 
-which are obviously only available on certain targets or configurations, but 
-not fenced with "if"s, e.g. s390-pv-guest, input-linux or rng-random.
-Or do you see a special problem with cryptodev-vhost-user here?
+> Rename QAPIError to QAPISourceError, and then create a new QAPIError
+> class that serves as the basis for all of our other custom exceptions.
 
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   qapi/qom.json | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/qapi/qom.json b/qapi/qom.json
->> index db5ac419b1..cd0e76d564 100644
->> --- a/qapi/qom.json
->> +++ b/qapi/qom.json
->> @@ -752,7 +752,7 @@
->>       'cryptodev-backend',
->>       'cryptodev-backend-builtin',
->>       { 'name': 'cryptodev-vhost-user',
->> -      'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
->> +      'if': 'defined(CONFIG_VHOST_CRYPTO)' },
->>       'dbus-vmstate',
->>       'filter-buffer',
->>       'filter-dump',
->> @@ -809,7 +809,7 @@
->>         'cryptodev-backend':          'CryptodevBackendProperties',
->>         'cryptodev-backend-builtin':  'CryptodevBackendProperties',
->>         'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
->> -                                      'if': 'defined(CONFIG_VIRTIO_CRYPTO) && defined(CONFIG_VHOST_CRYPTO)' },
->> +                                      'if': 'defined(CONFIG_VHOST_CRYPTO)' },
->>         'dbus-vmstate':               'DBusVMStateProperties',
->>         'filter-buffer':              'FilterBufferProperties',
->>         'filter-dump':                'FilterDumpProperties',
-> 
-> Could CryptodevVhostUserProperties be conditional, too?
+Isn't the existing QAPIError such a base class already?  Peeking
+ahead...  aha, your new base class is abstract.  Can you explain why we
+that's useful?
 
-That's certainly a question for the QOM experts here...
-
-  Thomas
+> Add docstrings to explain the intended function of each error class.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  docs/sphinx/qapidoc.py |  3 ++-
+>  scripts/qapi/error.py  | 11 +++++++++--
+>  scripts/qapi/schema.py |  5 +++--
+>  3 files changed, 14 insertions(+), 5 deletions(-)
+>
+> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+> index b7b86b5dff..458b1f477e 100644
+> --- a/docs/sphinx/qapidoc.py
+> +++ b/docs/sphinx/qapidoc.py
+> @@ -34,7 +34,8 @@
+>  from sphinx.util.nodes import nested_parse_with_titles
+>  import sphinx
+>  from qapi.gen import QAPISchemaVisitor
+> -from qapi.schema import QAPIError, QAPISemError, QAPISchema
+> +from qapi.error import QAPIError, QAPISemError
+> +from qapi.schema import QAPISchema
+>  
+>  
+>  # Sphinx up to 1.6 uses AutodocReporter; 1.7 and later
+> diff --git a/scripts/qapi/error.py b/scripts/qapi/error.py
+> index ae60d9e2fe..126dda7c9b 100644
+> --- a/scripts/qapi/error.py
+> +++ b/scripts/qapi/error.py
+> @@ -13,6 +13,11 @@
+>  
+>  
+>  class QAPIError(Exception):
+> +    """Base class for all exceptions from the QAPI package."""
+> +
+> +
+> +class QAPISourceError(QAPIError):
+> +    """Error class for all exceptions identifying a source location."""
+>      def __init__(self, info, col, msg):
+>          Exception.__init__(self)
+>          self.info = info
+> @@ -27,7 +32,8 @@ def __str__(self):
+>          return loc + ': ' + self.msg
+>  
+>  
+> -class QAPIParseError(QAPIError):
+> +class QAPIParseError(QAPISourceError):
+> +    """Error class for all QAPI schema parsing errors."""
+>      def __init__(self, parser, msg):
+>          col = 1
+>          for ch in parser.src[parser.line_pos:parser.pos]:
+> @@ -38,6 +44,7 @@ def __init__(self, parser, msg):
+>          super().__init__(parser.info, col, msg)
+>  
+>  
+> -class QAPISemError(QAPIError):
+> +class QAPISemError(QAPISourceError):
+> +    """Error class for semantic QAPI errors."""
+>      def __init__(self, info, msg):
+>          super().__init__(info, None, msg)
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 01cdd753cd..1849c3e45f 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -20,7 +20,7 @@
+>  from typing import Optional
+>  
+>  from .common import POINTER_SUFFIX, c_name
+> -from .error import QAPIError, QAPISemError
+> +from .error import QAPISemError, QAPISourceError
+>  from .expr import check_exprs
+>  from .parser import QAPISchemaParser
+>  
+> @@ -878,7 +878,8 @@ def _def_entity(self, ent):
+>          other_ent = self._entity_dict.get(ent.name)
+>          if other_ent:
+>              if other_ent.info:
+> -                where = QAPIError(other_ent.info, None, "previous definition")
+> +                where = QAPISourceError(other_ent.info, None,
+> +                                        "previous definition")
+>                  raise QAPISemError(
+>                      ent.info,
+>                      "'%s' is already defined\n%s" % (ent.name, where))
 
 
