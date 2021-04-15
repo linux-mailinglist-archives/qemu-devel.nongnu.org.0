@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717AD361464
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 23:55:55 +0200 (CEST)
-Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D98A361463
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 23:55:50 +0200 (CEST)
+Received: from localhost ([::1]:39846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX9xq-0004Ws-H1
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 17:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
+	id 1lX9xl-0004LB-ID
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 17:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uQ-0000cz-7V
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46404)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uS-0000gC-1l
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uN-0001xv-7G
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:21 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uN-0001yD-TD
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618523538;
+ s=mimecast20190719; t=1618523539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+NfWOz55xxZzpQYzc0k/q704CVd37G4rSeYOrY2kess=;
- b=HayvYKR9eMwfYScHsqw5MZGcZWBejtLNrntIGgmW847shVATpWePgfhLy1aUouRU3rn2gz
- N0Varf1/IynmyJ3x7WhCJPHO9F80FErDOvnL8zsC0Q2KAaX0SzT0VoB+qPZpsOyhLDhrUa
- qOMkizzpAYD07rIiK3gWxpdbJrlvAH8=
+ bh=vm06+2+Ea/hlkjRzQEKPtb/wn1adVwmS884rgA2yYKI=;
+ b=RlwcIuy7KTm/rkB2zYmcBiCcJSjswcRsk+qY37+ijEPfdYE8dcNffSCQXznMAYlRmHEGCz
+ G1rsyb42UcprK1M/Xv3okvwcO9EGf54fHSG9+zjsMxikJ6n32dN9mgZmbKA8B6XZtSNOM9
+ pg4pfg8jJGxekjukCFDsuuQV1rqrKiA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-Xdz7CnQrOzux20LBqxClcA-1; Thu, 15 Apr 2021 17:52:14 -0400
-X-MC-Unique: Xdz7CnQrOzux20LBqxClcA-1
+ us-mta-78-CmFTrq1HMEG1sSeS1poTJA-1; Thu, 15 Apr 2021 17:52:16 -0400
+X-MC-Unique: CmFTrq1HMEG1sSeS1poTJA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC74E81744F;
- Thu, 15 Apr 2021 21:52:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F8018030A0;
+ Thu, 15 Apr 2021 21:52:15 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-207.rdu2.redhat.com
  [10.10.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA3855D9DE;
- Thu, 15 Apr 2021 21:52:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1D275D9DE;
+ Thu, 15 Apr 2021 21:52:13 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] tests/acceptance/migration.py: cancel test if migration
- is not supported
-Date: Thu, 15 Apr 2021 17:51:37 -0400
-Message-Id: <20210415215141.1865467-5-crosa@redhat.com>
+Subject: [PATCH 5/8] tests/acceptance/cpu_queries.py: use the proper logging
+ channels
+Date: Thu, 15 Apr 2021 17:51:38 -0400
+Message-Id: <20210415215141.1865467-6-crosa@redhat.com>
 In-Reply-To: <20210415215141.1865467-1-crosa@redhat.com>
 References: <20210415215141.1865467-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,34 +92,38 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FIXME: check if there's a way to query migration support before
-actually requesting migration.
+The test contains methods for the proper log of test related
+information.  Let's use that and remove the print and the unused
+logging import.
 
-Some targets/machines contain devices that do not support migration.
-Let's acknowledge that and cancel the test as early as possible.
-
+Reference: https://avocado-framework.readthedocs.io/en/87.0/api/test/avocado.html#avocado.Test.log
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/migration.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ tests/acceptance/cpu_queries.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index 792639cb69..25ee55f36a 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -53,7 +53,11 @@ def do_migrate(self, dest_uri, src_uri=None):
-         source_vm = self.get_vm()
-         source_vm.add_args('-nodefaults')
-         source_vm.launch()
--        source_vm.qmp('migrate', uri=src_uri)
-+        response = source_vm.qmp('migrate', uri=src_uri)
-+        if 'error' in response:
-+            if 'desc' in response['error']:
-+                msg = response['error']['desc']
-+            self.cancel('Migration does not seem to be supported: %s' % msg)
-         self.assert_migration(source_vm, dest_vm)
+diff --git a/tests/acceptance/cpu_queries.py b/tests/acceptance/cpu_queries.py
+index 293dccb89a..cc9e380cc7 100644
+--- a/tests/acceptance/cpu_queries.py
++++ b/tests/acceptance/cpu_queries.py
+@@ -8,8 +8,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later.  See the COPYING file in the top-level directory.
  
-     def _get_free_port(self):
+-import logging
+-
+ from avocado_qemu import Test
+ 
+ class QueryCPUModelExpansion(Test):
+@@ -27,7 +25,7 @@ def test(self):
+ 
+         cpus = self.vm.command('query-cpu-definitions')
+         for c in cpus:
+-            print(repr(c))
++            self.log.info("Checking CPU: %s", c)
+             self.assertNotIn('', c['unavailable-features'], c['name'])
+ 
+         for c in cpus:
 -- 
 2.25.4
 
