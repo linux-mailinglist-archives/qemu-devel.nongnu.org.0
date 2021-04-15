@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA37361167
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:49:24 +0200 (CEST)
-Received: from localhost ([::1]:44272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CB036116C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:51:19 +0200 (CEST)
+Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX67G-0001mi-F0
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55604)
+	id 1lX698-0004Ld-3s
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1lX5Zi-0001qd-Tf
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:14:44 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:44578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1lX5Ze-00068l-OE
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:14:42 -0400
-Received: by mail-qk1-x733.google.com with SMTP id x11so25916528qkp.11
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 10:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/i7exIOkfzjaGivOrzAfaS8+wOSkmaJkGms6e2vCLj4=;
- b=cUbCFPjQGoHKP8Eq5ZMCVeKk6GZ6EjEz61piJ90R4UKux8MQysMciX9qDJbRfoytce
- ENMkjK/olXuaCzX/G6g9XzQQFy/0S+GteNg7VeTmxDqwnEMGmG4hu3F0eiiEAhhK3PaQ
- i2+EpRQs2ISQHNy4WnVTx3C5H+dx96LPWqYKOZs+nr26Xg/YTdKkkegoAek+QP0SQ03Q
- LG8Kngbf6XmwwgL60rKHlJ+MjcmJPGAytno/qpKPK0+bJuFolIgetNnvHd+KeyaOAF6c
- 0nXLIF3SfDoOJDlV2etR4b+jAwB2/TuoqRnbEJ18U5x5LnA+sPVMKy7kN1WctHUj7lt7
- apdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/i7exIOkfzjaGivOrzAfaS8+wOSkmaJkGms6e2vCLj4=;
- b=oaUmQK0NQYvm6I7nwJWARwcPnIck2OpV9yYeu70xgHGw6bVs+FsyXl4ZvtsLR9wyWl
- YJ3ecvGR85JH4kiFqO/wF69Gl6uMakYTM4K6XPoo7jzJQAdj5O0Gl4YCiQFXYYdWLRpo
- cpwipjvUVkXuRDCKo40yuZ8x5pfZVj+Tt0v4gZUo5If5X6T3+S2SY+Dgnb69UBRKWsHE
- IH6FlNtJ0yefcOA0lxTmpX7AWg1MtFbKpDcHdPkkShQv3d6ky9kxxT/MWSb6FMSY47lQ
- H1qbv4YZaMcVcEWNXZbE256169pks3DfPVA1vtXAEBRnOC523hdMgWBGXTGDztV8Pkz4
- Vimg==
-X-Gm-Message-State: AOAM530FCEiozWUFXfsys2FY7WBPsbIQMxCwCML9woDsTGpO8j0J/9Hg
- PQfUnsbBVgPAOuiAvFmQv3gUsVbquetq9B/h1cG/uA==
-X-Google-Smtp-Source: ABdhPJw1HsWteHMsSB5wcgxMU0qV8TzsScna4sL88nd+EcfedtGKo8P2e7k+XMbp+bRHirLh0YJL2L/TRkVI+fYY864=
-X-Received: by 2002:a37:64c3:: with SMTP id y186mr4486943qkb.244.1618506875046; 
- Thu, 15 Apr 2021 10:14:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lX5dz-0005E5-MR; Thu, 15 Apr 2021 13:19:07 -0400
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:44439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lX5dp-0007eo-Ii; Thu, 15 Apr 2021 13:19:07 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.210])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 79F9725C5E9;
+ Thu, 15 Apr 2021 19:18:47 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 15 Apr
+ 2021 19:18:46 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005299d6363-7978-4634-8674-a9eb0ed4637f,
+ 223986A87AF8D074E4FEF7B99352A100DDD0E9F0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [EXTERNAL] Re: [PULL 18/23] accel/tcg: re-factor non-RAM
+ execution code
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Peter Maydell
+ <peter.maydell@linaro.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-arm <qemu-arm@nongnu.org>
+References: <20210218094706.23038-1-alex.bennee@linaro.org>
+ <20210218094706.23038-19-alex.bennee@linaro.org>
+ <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
+ <CAFEAcA9G-WabAM_EdgMzd0Xv6z8xRYjw57DiEqB6Z_Wbj=X1Eg@mail.gmail.com>
+ <87blaflit2.fsf@linaro.org>
+ <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
+ <b989ebfe-1294-5eef-53a2-9599421e0069@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <6597cb54-44d9-0798-0786-098286001fe0@kaod.org>
+Date: Thu, 15 Apr 2021 19:18:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210412194522.664594-1-venture@google.com>
- <20210415121257.GD5612@minyard.net>
-In-Reply-To: <20210415121257.GD5612@minyard.net>
-From: Patrick Venture <venture@google.com>
-Date: Thu, 15 Apr 2021 10:14:24 -0700
-Message-ID: <CAO=notz+EMXqv+5ndHCGgcwUwGfGMNYt3NCVfx87R9HEutwf2w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] hw/i2c: Adds pca954x i2c mux switch device
-To: Corey Minyard <minyard@acm.org>
-Cc: Corey Minyard <cminyard@mvista.com>, Hao Wu <wuhaotsh@google.com>, 
- Havard Skinnemoen <hskinnemoen@google.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=venture@google.com; helo=mail-qk1-x733.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <b989ebfe-1294-5eef-53a2-9599421e0069@amsat.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 50e4b46c-3d43-4c0c-a7f2-a452ee3c2f8d
+X-Ovh-Tracer-Id: 8464234028943444841
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudelfedgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,66 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 15, 2021 at 5:13 AM Corey Minyard <minyard@acm.org> wrote:
->
-> On Mon, Apr 12, 2021 at 12:45:18PM -0700, Patrick Venture wrote:
-> > The i2c mux device pca954x implements two devices:
-> >  - the pca9546 and pca9548.
->
-> This looks good, I have pulled it into my queue.  6.0 is about to be
-> released, I'll try to remember to request a pull after that.
->
-> Thanks,
->
-> -corey
+On 4/15/21 5:55 PM, Philippe Mathieu-Daudé wrote:
+> On 4/15/21 4:54 PM, Peter Maydell wrote:
+>> On Thu, 15 Apr 2021 at 15:32, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>> --8<---------------cut here---------------start------------->8---
+>>> accel/tcg: avoid re-translating one-shot instructions
+>>>
+>>> By definition a single instruction is capable of being an IO
+>>> instruction. This avoids a problem of triggering a cpu_io_recompile on
+>>> a non-cached translation which would only do exactly this anyway.
+>>>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>
+>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>> accel/tcg/translate-all.c | 2 +-
+>>>
+>>> modified   accel/tcg/translate-all.c
+>>> @@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>>>
+>>>      if (phys_pc == -1) {
+>>>          /* Generate a one-shot TB with 1 insn in it */
+>>> -        cflags = (cflags & ~CF_COUNT_MASK) | 1;
+>>> +        cflags = (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
+>>>      }
+>>>
+>>>      max_insns = cflags & CF_COUNT_MASK;
+>>> --8<---------------cut here---------------end--------------->8---
+>>
+>> Yes, this fixes the problem. Do we want to put this in for 6.0? My
+>> feeling is that executing from non-RAM is pretty niche, so maybe
+>> if we need an rc4 anyway, but this isn't important enough to cause an
+>> rc4 itself.
+> 
+> Isn't it the default for Aspeed machines (with U-Boot)? (Cc'ing Cédric).
 
-Thanks, after I see the pull I'll send out a small stack I have of bmc
-boards that can now use this device.
+You need to set the 'execute-in-place' machine option to load/execute the
+instructions from the AHB window of CE0. It's not on by default because 
+boot can be really slow with some recent u-boot which heavily trash the TBs.
 
-Patrick
+But this seems to work fine with -rc3. 
 
->
-> >
-> > v4:
-> >  - Fixed up bug where the i2c_scan_bus wasn't parameterizing the
-> >  current_devs list.
-> >  - Minor consistency changes in the i2c mux pca954x.
-> >
-> > v3:
-> >  - fixup comment with missing end parenthesis.
-> >  - removed superfluous object cast.
-> >
-> > v2:
-> >  - the core i2c bus now calls a match method on each i2c child, which
-> >  by default will only check for a match against itself.
-> >  - the pca954x device overrides the i2c device match method to search
-> >  the children for each of its buses that are active.
-> >  - the pca954x device now owns an i2c bus for each channel, allowing
-> >  the normal device model to attach devices to the channels.
-> >
-> > Patrick Venture (4):
-> >   hw/i2c: name I2CNode list in I2CBus
-> >   hw/i2c: add match method for device search
-> >   hw/i2c: move search to i2c_scan_bus method
-> >   hw/i2c: add pca954x i2c-mux switch
-> >
-> >  MAINTAINERS                      |   6 +
-> >  hw/i2c/Kconfig                   |   4 +
-> >  hw/i2c/core.c                    |  55 ++++--
-> >  hw/i2c/i2c_mux_pca954x.c         | 290 +++++++++++++++++++++++++++++++
-> >  hw/i2c/meson.build               |   1 +
-> >  hw/i2c/trace-events              |   5 +
-> >  include/hw/i2c/i2c.h             |  17 +-
-> >  include/hw/i2c/i2c_mux_pca954x.h |  19 ++
-> >  8 files changed, 383 insertions(+), 14 deletions(-)
-> >  create mode 100644 hw/i2c/i2c_mux_pca954x.c
-> >  create mode 100644 include/hw/i2c/i2c_mux_pca954x.h
-> >
-> > --
-> > 2.31.1.295.g9ea45b61b8-goog
-> >
-> >
+C. 
 
