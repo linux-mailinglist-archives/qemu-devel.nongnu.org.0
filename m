@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E543605DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 11:35:03 +0200 (CEST)
-Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2B4360639
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 11:52:17 +0200 (CEST)
+Received: from localhost ([::1]:37150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWyOs-0003AH-Mr
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 05:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59776)
+	id 1lWyfX-0006Xi-LY
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 05:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lWyNf-0002jX-Ot
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:33:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32491)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1lWyeX-000668-Tf
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:51:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lWyNd-00036m-Rt
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:33:47 -0400
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1lWyeS-0005Cd-Kc
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:51:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618479224;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rlt7vfaurTmNGzCEJ5i1E5x4k1gudeeKXOrCBv8dgy8=;
- b=bmfAaDVzagFrP8bP8w1ybCmtvA5CzmTdGplawx5iRFA65wef4EWLRIXXp7CN+P7D7HNM6W
- QN6pl5oJzbBCmhhTCaf9gxXNwKWwV85slciAPvegm1V/HwME67/3KU8ZzA4tx6uOMnit6z
- KUnRT6sHTzhQp2lvP87ea9hHOdPYKe4=
+ s=mimecast20190719; t=1618480267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TbJNfxs6yzheyJ9qxe1sos1SUVxxDn8ucygjdgUFq5M=;
+ b=KnwE5MU23xLHdbuJPzrMVdFcpXu56SEpNyEU0zcKAR3jaINpYwCnIGH3acDeGRTgLpQAWk
+ SNu66vTj3JZGyhD3qLZ0AFofzRreHSlvh/ZRvskcyI9r9HM3imS1RVlkg2TkeeAXuSbNCu
+ ddU3Tx5SPxkGU9pRBnm+ytDQ1zVoIFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-a8KmJBeVMpKQ8OE50_zkvQ-1; Thu, 15 Apr 2021 05:33:43 -0400
-X-MC-Unique: a8KmJBeVMpKQ8OE50_zkvQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-520-d7as5UYWOH63kRAXH5aITQ-1; Thu, 15 Apr 2021 05:49:58 -0400
+X-MC-Unique: d7as5UYWOH63kRAXH5aITQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E52A801814;
- Thu, 15 Apr 2021 09:33:42 +0000 (UTC)
-Received: from redhat.com (ovpn-115-159.ams2.redhat.com [10.36.115.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 334272C154;
- Thu, 15 Apr 2021 09:33:41 +0000 (UTC)
-Date: Thu, 15 Apr 2021 10:33:38 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] include/qemu/osdep.h: Move system includes to top
-Message-ID: <YHgIcv5gADT13Hyj@redhat.com>
-References: <20210414184343.26235-1-peter.maydell@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9493107ACCD
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 09:49:57 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-115-90.ams2.redhat.com [10.36.115.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD64B5C1B4;
+ Thu, 15 Apr 2021 09:49:57 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id AA2523E049A; Thu, 15 Apr 2021 11:49:54 +0200 (CEST)
+Date: Thu, 15 Apr 2021 11:49:54 +0200
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Upstream bug comments on the mailing list and Launchpad
+Message-ID: <20210415094954.GA84874@paraplu.home>
 MIME-Version: 1.0
-In-Reply-To: <20210414184343.26235-1-peter.maydell@linaro.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,31 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 14, 2021 at 07:43:43PM +0100, Peter Maydell wrote:
-> Mostly osdep.h puts the system includes at the top of the file; but
-> there are a couple of exceptions where we include a system header
-> halfway through the file.  Move these up to the top with the rest
-> so that all the system headers we include are included before
-> we include os-win32.h or os-posix.h.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  include/qemu/osdep.h | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+Hi, folks —
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Many here know that upstream bugs from launchpad get replicated to
+'qemu-devel'.  But the catch is that it only happens if you _also_ have
+an account on Launchpad with the same email address with which you're
+replying on the list.  This is easy to forget.
 
+So a QEMU developer without a Launchpad account might give a detailed
+response to a bug on the list.  But the bug reporter isn't subscribed to
+the list (which is fine; and is expected behaviour).
 
-Regards,
-Daniel
+    <... a few weeks later ... >
+
+The bug reporter thinks: "no one responded to my bug".  Meanwhile, the
+detailed comment from the developer is languishing on the list.
+
+PS: I recall there was discussion on the list of moving to a different
+    GitLab tracker.  As Thomas Huth mentioned on IRC, more people seem
+    to have account on GitLab than on Launchpad.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+/kashyap
 
 
