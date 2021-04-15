@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430AC3609AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:44:59 +0200 (CEST)
-Received: from localhost ([::1]:34056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2F23609C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:48:23 +0200 (CEST)
+Received: from localhost ([::1]:41124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1Mg-0001TE-9q
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50180)
+	id 1lX1Py-0004Tz-Ai
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lX1Kz-0008HZ-E9; Thu, 15 Apr 2021 08:43:13 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:40536)
+ id 1lX1Kz-0008Hd-FD; Thu, 15 Apr 2021 08:43:13 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lX1Kx-0006Rh-Ob; Thu, 15 Apr 2021 08:43:13 -0400
-Received: by mail-ej1-x631.google.com with SMTP id n2so36616760ejy.7;
- Thu, 15 Apr 2021 05:43:10 -0700 (PDT)
+ id 1lX1Kx-0006SN-R1; Thu, 15 Apr 2021 08:43:13 -0400
+Received: by mail-ed1-x530.google.com with SMTP id e7so27813909edu.10;
+ Thu, 15 Apr 2021 05:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F+l7lt09eYsKPa9p0eJhHW5wcRb9BkcCl8a8ZhO9zx8=;
- b=QyMVFLCVnmft70agl8qRRDXxJCxneOXsOhpJJTmbD6VmQmm27KK0PqdTHDhkhYa/L6
- 9nFQF855wBAPhE+vv+ttIYWLGx5ljEOq/LFcCnx/optH1oxBnGUEc8T4sF2T2SzqAAHI
- bEpGB3sHiNXatw+ASNlQFutlz5rNMSzVDPsi8aAwtfvkqUSBak+eWD8mekyVVJP5+hN0
- cRlotVeZgkhecy3hZawDVtSEhCWjRlj18kiBQoBdQYD8bw2ymE/1uWrTRgwabwjTGu1K
- HUScr74dS+pTgcRzJuEOJZP14aGXhxSc1xkusrzHY3CJl9ZhmD7WugQ4l4DRSsmnGDtD
- MUnA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=rhfohXvd9u9hiyEFj5jEs/XQvfO1s0x/uIcLpSe61TU=;
+ b=lC55u/Hy0jEIz/lqrhmaGoRPOLkA/k5Ljkh420pxGGk6gf9dTdh0cyt5bGxlbncqSP
+ MoJv3Qn2HAnODpzz3+IQ+/507SGhwxxwPazD/RczHMun6kli1emwE1H9v6uVb9UQPfsa
+ srBuJTdMrohZY8kFgmNZGEJFgzoJGGfh3gPpHvdfXXiQqqtkzEKy16fRCk/5qUOEAY7i
+ qTY4YEk6ui0hAT+aYVnfnA9XOyThCbhFGD6UzP8nzgK8OdOCYqXa+Up3Y8MMz4TciZZU
+ Ps5LiHh3DUbk3eMZzXg5b1KPIZjuLhJ7K8aB1hNksJ0u6LhzcZ2BGsv4QOtfi9D26KfM
+ BlFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=F+l7lt09eYsKPa9p0eJhHW5wcRb9BkcCl8a8ZhO9zx8=;
- b=BDot2jU7C9DJKVkzgEAKTFSsBoaR1jThLelxj2iZao7fNhU2FWnJjQpaOw9fXI4VTG
- jc+OeR1lhoVEy7zYrlvUrVDwgOnqe/kPTAYIwQgr+TzS4+fheBzjORSj86a3QRqKON4U
- c2T3Tcp3Y1XwARMt9ozV6Z928pbzvJl0n4gFijwjAXNqBgBdJXEEGfvsiRCexAMQ6YTE
- zr2gr4uZV0/t48JI791uC454RzkkXSgwZdZ2vea6omU7h8zsLtXR9bEGs+gA8V5SSCgK
- pvFrvxHK78bOej5Bybg3As6U4iTrmCDA5fQJFw2CUOhBPqGBhzDBXX+cr0zZimIefN09
- oT+A==
-X-Gm-Message-State: AOAM531d0M/KwPqfZbW756LUU+ifUEYhUp3o6N8amSDcjcdPOgcNSilQ
- Q6qHrq9EvsMMaSkX70/60U6CGAvbWQ0=
-X-Google-Smtp-Source: ABdhPJxmmAvyvW3mm31RO9oMtLTojkq0g4J0A6J+J+LcmQYloQNudH/MDBdFkh9bnTdq0cW1j6YtSg==
-X-Received: by 2002:a17:906:a0d4:: with SMTP id
- bh20mr3213139ejb.348.1618490589365; 
- Thu, 15 Apr 2021 05:43:09 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=rhfohXvd9u9hiyEFj5jEs/XQvfO1s0x/uIcLpSe61TU=;
+ b=WTeuk4RVIA85BRcKlAIK++rEOFTFp0+U7ixg/1OyFvFcGp9xo1dAx5vRY87M9Z7Op5
+ grLIMMTO++FDsc1ZXchPn53pw7K1lSh3vmskA0yOcaumN/G0NHQ3piQWalFUX0Ku/540
+ Zg7ujav0Mx7AX/LIAO+sNZWMJqn/NopCCfmBqzuXDFvH/nwmKv2vE61twFuOJmq49rkb
+ WS3Pvjvh7F8ybPkLDpNondC0INkaEzlRR3wFdnXZNGqLiZoB2PyNoG2xILWTuG1kuX4p
+ IaMuEMqOfV5TGlZB1p9bPiHk703lghRKlosMYrftXxblkxWCuSIUJ5vrmZxnwo0KDFjT
+ z0UA==
+X-Gm-Message-State: AOAM532f+KiLQAjvHdrXsPFY6So/P4syP17J80eqTiWKNBkrP0qPW8yW
+ k9HKw9xaypadFQQfyZbPNoqjbIulD6s=
+X-Google-Smtp-Source: ABdhPJxLoQCRPT6UhIsSf0l0Lx62KGnDVG298mkBvgumAcrGCrlwbVff7fziy97pZgdZeWWKfDjLrQ==
+X-Received: by 2002:aa7:c5c6:: with SMTP id h6mr2598955eds.136.1618490590150; 
+ Thu, 15 Apr 2021 05:43:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id r10sm1862585ejd.112.2021.04.15.05.43.08
+ by smtp.gmail.com with ESMTPSA id r10sm1862585ejd.112.2021.04.15.05.43.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 05:43:08 -0700 (PDT)
+ Thu, 15 Apr 2021 05:43:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] file-posix: fix refresh_limits for SCSI devices
-Date: Thu, 15 Apr 2021 14:43:04 +0200
-Message-Id: <20210415124307.428203-1-pbonzini@redhat.com>
+Subject: [PATCH 1/3] scsi-generic: pass max_segments via max_iov field in
+ BlockLimits
+Date: Thu, 15 Apr 2021 14:43:05 +0200
+Message-Id: <20210415124307.428203-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210415124307.428203-1-pbonzini@redhat.com>
+References: <20210415124307.428203-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,26 +86,56 @@ Cc: fam@euphon.net, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-refresh_limits is not doing anything for block devices, and is retrieving
-the maximum number of s/g list entries incorrectly for character devices.
+I/O to a disk via read/write is not limited by the number of segments allowed
+by the host adapter; the kernel can split requests if needed, and the limit
+imposed by the host adapter can be very low (256k or so) to avoid that SG_IO
+returns EINVAL if memory is heavily fragmented.
 
-Patches 2-3 fix these problems, while patch 1 is a small improvement to
-avoid making the BlockLimits unnecessarily restrictive when SG_IO is not
-in use.
+Since this value is only interesting for SG_IO-based I/O, do not include
+it in the max_transfer and only take it into account when patching the
+block limits VPD page in the scsi-generic device.
 
-Paolo
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/file-posix.c     | 3 +--
+ hw/scsi/scsi-generic.c | 6 ++++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-Paolo Bonzini (3):
-  scsi-generic: pass max_segments via max_iov field in BlockLimits
-  file-posix: try BLKSECTGET on block devices too, do not round to power
-    of 2
-  file-posix: fix max_iov for /dev/sg devices
-
- block/file-posix.c     | 37 +++++++++++++++++++++++--------------
- hw/scsi/scsi-generic.c |  6 ++++--
- 2 files changed, 27 insertions(+), 16 deletions(-)
-
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 20e14f8e96..9e316a2a97 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1252,8 +1252,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+ 
+         ret = sg_get_max_segments(s->fd);
+         if (ret > 0) {
+-            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
+-                                      ret * qemu_real_host_page_size);
++            bs->bl.max_iov = ret;
+         }
+     }
+ 
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index 98c30c5d5c..82e1e2ee79 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -179,10 +179,12 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
+         (r->req.cmd.buf[1] & 0x01)) {
+         page = r->req.cmd.buf[2];
+         if (page == 0xb0) {
+-            uint32_t max_transfer =
+-                blk_get_max_transfer(s->conf.blk) / s->blocksize;
++            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
++            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
+ 
+             assert(max_transfer);
++            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
++                / s->blocksize;
+             stl_be_p(&r->buf[8], max_transfer);
+             /* Also take care of the opt xfer len. */
+             stl_be_p(&r->buf[12],
 -- 
 2.30.1
+
 
 
