@@ -2,57 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F9F3609D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:53:49 +0200 (CEST)
-Received: from localhost ([::1]:50486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC063609E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:58:58 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1VE-0000AL-EI
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
+	id 1lX1aD-0003i5-7M
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:58:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lX1Tb-0007Ik-KO; Thu, 15 Apr 2021 08:52:07 -0400
-Resent-Date: Thu, 15 Apr 2021 08:52:07 -0400
-Resent-Message-Id: <E1lX1Tb-0007Ik-KO@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21336)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1Z3-00038Y-3p
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:57:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lX1TY-0002x1-Uo; Thu, 15 Apr 2021 08:52:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1618491108; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=E2tveTTdjXUqSpyUc5eQVZFeo1GhSK0sLMioIHRv0f9axMyfgVPw95diQs94YFnhlx6OntrJWW4i6GONIqo682ldbdr6RZGa4VmhapfI00uGVU5Kdtv0TCKAt5o29ka1Nxyy1lB0/o+SNYmo31KoksgwiQm4LMojW65HxZo3D8g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1618491108;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=G3evihUPngUNM8pRHuMasiaSps84GbF4HfOmgWHVQ5U=; 
- b=dVrpFXIK5OZqBYwDNynIaQsrLAqlu/JNDRL27Sqb3nbOMC5J8Ludm8Bk/WM8qOFdNzdT362kolDHnlT/lL4Y6UZa6fh0xxUGY51g/2PLt+b/lauLzjmJuss8wL+CngnvVQDBzkrzaR1aaIsLdyEH6zapvfUIefi2JDRP+U1aZYU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1618491105581120.3290389281891;
- Thu, 15 Apr 2021 05:51:45 -0700 (PDT)
-In-Reply-To: <20210415124307.428203-1-pbonzini@redhat.com>
-Subject: Re: [PATCH 0/3] file-posix: fix refresh_limits for SCSI devices
-Message-ID: <161849110447.10689.413393062428361511@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1Z1-0006ND-Id
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:57:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618491463;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=guk+TFRH4H8npjA92ucehbcfrQY0sqYaSCHgw+fxV9U=;
+ b=aiqXAY7Vtq0/DvytF+Cp8VvAXpOarbCIrv16omRbtSqIgaazQo5neQjdrvSlCxKRx0DThU
+ 7UrsLd3IjakOLlwLpL/JRevI9IAt+mkkeaaHZT6U2QjKE8AgGjiAXj76cihL7JexQMOb+r
+ 37aKpCJHojq2PP1N5TX9BeQIgaDB14U=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-Bq5fFmyIMyurX6S3hVMgFg-1; Thu, 15 Apr 2021 08:57:41 -0400
+X-MC-Unique: Bq5fFmyIMyurX6S3hVMgFg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ 91-20020adf92e40000b029010470a9ebc4so1646144wrn.14
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:57:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=guk+TFRH4H8npjA92ucehbcfrQY0sqYaSCHgw+fxV9U=;
+ b=ftO1kgP0nuAw/ImbDtEQU9noP5MZCtHjSgHVdmLHaAxA92UYGobtPwbwNs/pCwtwNY
+ szAzRJA0DZMyo5l57Iq+YyzdEPjCPwa7jasoMMZRyzg2mN0TnGOzTFwQswJYEpg3KFTJ
+ bo6zf36t0UP2S+8XQAyrsrnN2KdFOZidqH8rcUfAPfPoDLYc4SF0yNFJ8aeSMzrAfhPI
+ HJq+9AjqV1l4tI3jUDaj4sdJAPKAksA5CZTCsz6XYfFDDAbe4A9TgGKtCB0HKzZu+6fK
+ iQPyEBr5ENBYLd6Jhhu7XlHHdUaE25TWasLZc/anZUTiEECtZDuSPnv4Hu0Uq+pgU2MM
+ 5rEg==
+X-Gm-Message-State: AOAM533FI8iRSA0q4y54lIuBn/HzBc1EWMuu2kp2jjKDeZa8nIb21sR0
+ Q1zuBmETdJ+9QuEQat/AA9MWSW+EohWfxdeUtMnZUbpRmJLJyzD2bUJFstxOPdm6qZX5LK3XeoB
+ ++sSwv+7OttMuBSnFto/AuqSu3a4pMG9CiQHczKRX/o+JuNC8wJyX7/Xj91HyFOj7
+X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr3014255wmh.151.1618491459991; 
+ Thu, 15 Apr 2021 05:57:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHgK/B9xdBozvUa0Dz97seOiLaXYEXB8pLdaGBRX8bv4ipUgORSdQROblkAX1QksL+KxFXtQ==
+X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr3014231wmh.151.1618491459807; 
+ Thu, 15 Apr 2021 05:57:39 -0700 (PDT)
+Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id 24sm3016453wmk.18.2021.04.15.05.57.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Apr 2021 05:57:39 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 7/6] qtest/arm-cpu-features: Use generic qtest_has_accel()
+ to check for KVM
+Date: Thu, 15 Apr 2021 14:57:37 +0200
+Message-Id: <20210415125737.4064646-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210415122633.4054644-1-philmd@redhat.com>
+References: <20210415122633.4054644-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 15 Apr 2021 05:51:45 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,50 +95,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxNTEyNDMwNy40Mjgy
-MDMtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTUxMjQzMDcuNDI4
-MjAzLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSBmaWxlLXBvc2l4
-OiBmaXggcmVmcmVzaF9saW1pdHMgZm9yIFNDU0kgZGV2aWNlcwoKPT09IFRFU1QgU0NSSVBUIEJF
-R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
-aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
-U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
-YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDQxNTEyNDMwNy40MjgyMDMtMS1wYm9u
-emluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTA0MTUxMjQzMDcuNDI4MjAzLTEtcGJvbnpp
-bmlAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjM3ZmViMjUgZmls
-ZS1wb3NpeDogZml4IG1heF9pb3YgZm9yIC9kZXYvc2cgZGV2aWNlcwplZWMwNTIxIGZpbGUtcG9z
-aXg6IHRyeSBCTEtTRUNUR0VUIG9uIGJsb2NrIGRldmljZXMgdG9vLCBkbyBub3Qgcm91bmQgdG8g
-cG93ZXIgb2YgMgpjNDRiYzM4IHNjc2ktZ2VuZXJpYzogcGFzcyBtYXhfc2VnbWVudHMgdmlhIG1h
-eF9pb3YgZmllbGQgaW4gQmxvY2tMaW1pdHMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVj
-a2luZyBjb21taXQgYzQ0YmMzODZiYTIwIChzY3NpLWdlbmVyaWM6IHBhc3MgbWF4X3NlZ21lbnRz
-IHZpYSBtYXhfaW92IGZpZWxkIGluIEJsb2NrTGltaXRzKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
-Y2hhcmFjdGVycwojNTE6IEZJTEU6IGh3L3Njc2kvc2NzaS1nZW5lcmljLmM6MTg2OgorICAgICAg
-ICAgICAgbWF4X3RyYW5zZmVyID0gTUlOX05PTl9aRVJPKG1heF90cmFuc2ZlciwgbWF4X2lvdiAq
-IHFlbXVfcmVhbF9ob3N0X3BhZ2Vfc2l6ZSkKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
-MjMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS8zIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
-dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
-dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIv
-MyBDaGVja2luZyBjb21taXQgZWVjMDUyMTQyMTU0IChmaWxlLXBvc2l4OiB0cnkgQkxLU0VDVEdF
-VCBvbiBibG9jayBkZXZpY2VzIHRvbywgZG8gbm90IHJvdW5kIHRvIHBvd2VyIG9mIDIpCjMvMyBD
-aGVja2luZyBjb21taXQgMzdmZWIyNTliYmM0IChmaWxlLXBvc2l4OiBmaXggbWF4X2lvdiBmb3Ig
-L2Rldi9zZyBkZXZpY2VzKQpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0
-b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMyBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
-bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
-cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA0MTUxMjQzMDcuNDI4MjAzLTEtcGJvbnppbmlAcmVk
-aGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
-YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
-YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Use the recently added generic qtest_has_accel() method to
+check if KVM is available.
+
+Suggested-by: Claudio Fontana <cfontana@suse.de>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/qtest/arm-cpu-features.c | 25 +------------------------
+ 1 file changed, 1 insertion(+), 24 deletions(-)
+
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 8252b85bb85..7f4b2521277 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -26,21 +26,6 @@
+                     "  'arguments': { 'type': 'full', "
+ #define QUERY_TAIL  "}}"
+ 
+-static bool kvm_enabled(QTestState *qts)
+-{
+-    QDict *resp, *qdict;
+-    bool enabled;
+-
+-    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
+-    g_assert(qdict_haskey(resp, "return"));
+-    qdict = qdict_get_qdict(resp, "return");
+-    g_assert(qdict_haskey(qdict, "enabled"));
+-    enabled = qdict_get_bool(qdict, "enabled");
+-    qobject_unref(resp);
+-
+-    return enabled;
+-}
+-
+ static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
+ {
+     return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
+@@ -493,14 +478,6 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+ 
+     qts = qtest_init(MACHINE_KVM "-cpu max");
+ 
+-    /*
+-     * These tests target the 'host' CPU type, so KVM must be enabled.
+-     */
+-    if (!kvm_enabled(qts)) {
+-        qtest_quit(qts);
+-        return;
+-    }
+-
+     /* Enabling and disabling kvm-no-adjvtime should always work. */
+     assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
+     assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
+@@ -624,7 +601,7 @@ int main(int argc, char **argv)
+      * order avoid attempting to run an AArch32 QEMU with KVM on
+      * AArch64 hosts. That won't work and isn't easy to detect.
+      */
+-    if (g_str_equal(qtest_get_arch(), "aarch64")) {
++    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
+         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
+                             NULL, test_query_cpu_model_expansion_kvm);
+     }
+-- 
+2.26.3
+
 
