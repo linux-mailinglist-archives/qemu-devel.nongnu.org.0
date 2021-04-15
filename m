@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BD9360093
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 05:42:25 +0200 (CEST)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C9E360094
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 05:42:26 +0200 (CEST)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWstb-0001dx-NF
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 23:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51152)
+	id 1lWstd-0001gj-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 23:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3irV3YAMKCt0CIDFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--dje.bounces.google.com>)
- id 1lWsrI-0000JE-2i
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 23:40:00 -0400
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449]:44807)
+ <3jLV3YAMKCt8EKFHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--dje.bounces.google.com>)
+ id 1lWsrJ-0000JM-7g
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 23:40:01 -0400
+Received: from mail-pj1-x104a.google.com ([2607:f8b0:4864:20::104a]:33590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3irV3YAMKCt0CIDFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--dje.bounces.google.com>)
- id 1lWsrF-0004ht-HM
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 23:39:59 -0400
-Received: by mail-pf1-x449.google.com with SMTP id
- d130-20020a621d880000b02901fb88abc171so2055283pfd.11
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 20:39:55 -0700 (PDT)
+ <3jLV3YAMKCt8EKFHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--dje.bounces.google.com>)
+ id 1lWsrH-0004jv-D2
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 23:40:01 -0400
+Received: by mail-pj1-x104a.google.com with SMTP id
+ p11-20020a17090ad30bb029014dcd9154e1so2972120pju.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 20:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=uigCV7iN8L8HyQfw7Nte0uVxsGjx/eePiI6e0hjIKy4=;
- b=RmcqT+YPzb9v3tPbAZek+uGgEfrHt0etwv1hE83UXgUyYO9fWnPNBUWHdUbVbnS9Tg
- aCSQl/stIPt2ORe9a8iZ9gkOKjMj119Odtn+zy+qL0HPRGL7IkUoZzsTDjeyN5PtqYUn
- rtFKSXwPCXyejDF3+msqs85Fe8uc7TE2fFmPSC9U1ehw1cpq44b3UUk4QfzUYOBXv9xV
- +Y8Jx5O7759bF1hHfFORcyEsYseaicKis5tFfSY29wFOJiW887F0WGHX+w0xe2+2iioa
- OuBsS6e9/HDjIadS9+P+jT0g1ZQewO56zEzY2X10/VIW9hq1u8bfQKQ3k5dSioPpvu3U
- lJ/w==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc:content-transfer-encoding;
+ bh=p1ab23m8r3m0UpAYw3EBQJeJa7d9BxO3N5r4kXpaF/Q=;
+ b=PdwN59aHghGVYCHLuKvgPvuFiWa9A7gkL5P4UUc/OfoBWbEDbE7C1Zv0hQmDIDyTkq
+ LNU3jGhawih/1GBvltgDV4+j6RdKzK2jaDaO4gKPDgGgPoQHiW5/m+6kilFydAFYQOKB
+ 93egm3A7v2+5MWeMJ3PY238TW3P/p/GrZeMYQKDqbOVB/RU73pbryGpS0j6XYLDQKGDD
+ XpJmx3OdA0VxRwZeK+CKa89WN/WZ1toat1i1EVyqy0Q7+h/o+w+zDmlkEjfIC3umaojY
+ 4zlObfMehxwJbxa7/Otm79Gz60gnfL6Fwpm/4fYyBlKSwNe1l4l5arZHCytAVToHVxOB
+ VudQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=uigCV7iN8L8HyQfw7Nte0uVxsGjx/eePiI6e0hjIKy4=;
- b=sp1hZHQLrGDrrvDpsvi+xioJJsWOCFN2ZOvNpJS6EcE0DnBjq33ZpnzTYUW2ilNI/b
- WOKJNy9xAJbP28hQKpxhejUSPDCVS1xTukEFMXLR4pCXoI7OpxoN1L7fd2/2NchQipfK
- /Ym65nt948saXl8DK/I5+YfPiNatu2od+V5Xe+fT8Y8xJCd+IbnCuThK25W1TQyQrIQE
- LCHMDeIh1eYOAAiZdOxz/onjTPoPjGgyerSC9ZfeQtkL364y9svK41NeRaol5JrOUyFO
- SkfZmaIC0VVrCDsrOxBehqWiMlQ64VcBA0TKTgVsmogl3Gw3JVFLrtTBj853Bi4/h3RV
- 5XnA==
-X-Gm-Message-State: AOAM531acYrfALzKd3OYYvD3PMt6onjYMYyJtGACTciOqV5zC5T3Km6j
- aoryo1dMdO8lZSGr2CykOnNtT/K61J0B6VrUOHuz+RwONuhFcbEnAUGPHD+3+gtZffjjDhjIpII
- ycMDRSdqaboEFadSbWTOqBKo0NSjfUW9Ntfvw6/iX0m9tvx9Ok7qD
-X-Google-Smtp-Source: ABdhPJzPu708/1WbdMWTvSKdjuiy2CSR08T3PzcM1OVq8IEGn2ct1zwX00GGbjEH3ZCvivjbqTfn464=
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=p1ab23m8r3m0UpAYw3EBQJeJa7d9BxO3N5r4kXpaF/Q=;
+ b=Oqie51F31BdX79nQhk8NGRdjsQe31ouR0Ir217q+a0Q9CtF4ZpScvAEkttO7t4MlNE
+ AORlFyafRDsiOByH7FuoTevdwwCSDN4WRKTQhxdEOalhNZKJYYzpaSLvDzVMRdIkZFsX
+ /csOB8UTY6/SjgTWKrUAcT9WGOkj9+xTfIMugYLd45WTAxCp7KEH1GBXzDt+jpEKm0z0
+ GcTCw+Fth6IqAABP+jOdYESHgT0Jf3O3CCB0f9u4rP39hP1yIlWBVvE3REgWoo3rXMNz
+ qcsRMgYfQvKcIndUz0lvW6B9TJGtHV0ouMb+dZ+H2dYu+NARMiJLHeOaaPT53VvUVdwn
+ 3Z9A==
+X-Gm-Message-State: AOAM533vPBH7/GAo2mIh41cRZshz1Zk0Gavf34dooRTCem2JdBx8Awgg
+ 89Sw/ZlmMZua04HbPl8lsi2hCGIQ0KQsoh+1G80qZDMH+CplC/2b1niXqS9O6Dis1nYKszjdbdL
+ 3BkrSfMu8rlB1bt4seFiWeCN6IrWTjAmNIjj/K9cf3R1ld5H66HZ8
+X-Google-Smtp-Source: ABdhPJyvbn3CFkxmr0eOP9FLwnYIueXzpvYi6xKdIzYgQ7iwKyaTqbmAIkle9I85A2VYhxFWUMCPOuA=
 X-Received: from ruffy.mtv.corp.google.com
  ([2620:0:1000:1412:83d5:e012:e680:1449])
- (user=dje job=sendgmr) by 2002:a65:6792:: with SMTP id
- e18mr1574332pgr.256.1618457994621; 
- Wed, 14 Apr 2021 20:39:54 -0700 (PDT)
-Date: Wed, 14 Apr 2021 20:39:21 -0700
-Message-Id: <20210415033925.1290401-1-dje@google.com>
+ (user=dje job=sendgmr) by 2002:a63:4652:: with SMTP id
+ v18mr1583950pgk.386.1618457996899; 
+ Wed, 14 Apr 2021 20:39:56 -0700 (PDT)
+Date: Wed, 14 Apr 2021 20:39:22 -0700
+In-Reply-To: <20210415033925.1290401-1-dje@google.com>
+Message-Id: <20210415033925.1290401-2-dje@google.com>
 Mime-Version: 1.0
+References: <20210415033925.1290401-1-dje@google.com>
 X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH v6 0/4] Add support for ipv6 host forwarding
+Subject: [PATCH v6 1/4] slirp: Advance libslirp submodule to add ipv6
+ host-forward support
 From: Doug Evans <dje@google.com>
 To: qemu-devel@nongnu.org
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
  "=?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
  Doug Evans <dje@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3irV3YAMKCt0CIDFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--dje.bounces.google.com;
- helo=mail-pf1-x449.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::104a;
+ envelope-from=3jLV3YAMKCt8EKFHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--dje.bounces.google.com;
+ helo=mail-pj1-x104a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -88,15 +94,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset takes the original patch from Maxim,
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
-and updates it.
+5eraph (2):
+      disable_dns option
+      limit vnameserver_addr to port 53
 
-Option hostfwd is extended to support ipv6 addresses.
-Commands hostfwd_add, hostfwd_remove are extended as well.
+Akihiro Suda (1):
+      libslirp.h: fix SlirpConfig v3 documentation
 
-The libslirp part of the patch has been committed upstream,
-and is now in qemu. See patch 1/4.
+Doug Evans (11):
+      Add ipv6 host forward support
+      tcpx_listen: Pass sizeof(addr) to memset
+      Reject host forwarding to ipv6 "addr-any"
+      Add /build/ to .gitignore
+      New utility slirp_ether_ntoa
+      m_cleanup_list: make static
+      New API routine slirp_neighbor_info
+      Move DEBUG_CALL("if_start") to DEBUG_VERBOSE_CALL
+      tcpx_listen: tcp_newtcpcb doesn't fail
+      slirp_add_host*fwd: Ensure all error paths set errno
+      Perform lazy guest address resolution for IPv6
+
+Dr. David Alan Gilbert (1):
+      ip_stripoptions use memmove
+
+Giuseppe Scrivano (1):
+      socket: consume empty packets
+
+Hafiz Abid Qadeer (1):
+      Fix a typo that can cause slow socket response on Windows.
+
+Jindrich Novy (4):
+      Fix possible infinite loops and use-after-free
+      Use secure string copy to avoid overflow
+      Be sure to initialize sockaddr structure
+      Check lseek() for failure
+
+Marc-Andr=C3=A9 Lureau (26):
+      Merge branch 'master' into 'master'
+      Merge branch 'fix-slirpconfig-3-doc' into 'master'
+      Fix use-afte-free in ip_reass() (CVE-2020-1983)
+      Update CHANGELOG
+      Merge branch 'cve-2020-1983' into 'master'
+      Release v4.3.0
+      Merge branch 'release-v4.3.0' into 'master'
+      changelog: post-release
+      util: do not silently truncate
+      Merge branch 'slirp-fmt-truncate' into 'master'
+      Release v4.3.1
+      Merge branch 'release-v4.3.1' into 'master'
+      changelog: post-release
+      .gitlab-ci: add a Coverity stage
+      Merge branch 'coverity' into 'master'
+      Merge branch 'ios-support' into 'master'
+      Merge branch 'master' into 'master'
+      Remove the QEMU-special make build-system
+      Merge branch 'qemu' into 'master'
+      Release v4.4.0
+      Merge branch '4.4.0-release' into 'master'
+      changelog: post-release
+      Remove some needless (void)casts
+      Fix unused variables
+      Merge branch 'gitignore-build' into 'master'
+      Merge branch 'macos-deployment-target' into 'master'
+
+Nathaniel Wesley Filardo (1):
+      fork_exec_child_setup: improve signal handling
+
+Paolo Bonzini (2):
+      meson: remove meson-dist script
+      meson: support compiling as subproject
+
+Philippe Mathieu-Daud=C3=A9 (3):
+      Fix win32 builds by using the SLIRP_PACKED definition
+      Fix constness warnings
+      Remove unnecessary break
+
+Prasad J Pandit (1):
+      slirp: check pkt_len before reading protocol header
+
+Ralf Haferkamp (2):
+      Drop bogus IPv6 messages
+      Fix MTU check
+
+Samuel Thibault (45):
+      Merge branch 'ip6_payload_len' into 'master'
+      Merge branch 'lp1878043' into 'master'
+      udp, udp6, icmp: handle TTL value
+      icmp, icmp6: Add icmp_forward_error and icmp6_forward_error
+      udp, udp6, icmp, icmp6: Enable forwarding errors on Linux
+      TCPIPHDR_DELTA: Fix potential negative value
+      sosendoob: better document what urgc is used for
+      Merge branch 'G_GNUC_PRINTF' into 'master'
+      Merge branch 'CVE-2020-29129' into 'master'
+      Merge branch 'ttl' into 'master'
+      Merge branch 'errors' into 'master'
+      Merge branch 'consume-empty-packet' into 'master'
+      Merge branch 'void' into 'master'
+      Merge branch 'master' into 'master'
+      Merge branch 'unused' into 'master'
+      Merge branch 'socket_delay' into 'master'
+      tcp_subr: simplify code
+      Merge branch 'ipv6-host-fwd-9-patch' into 'master'
+      Document the slirp API
+      Complete timeout documentation
+      Merge branch 'memset-sizeof' into 'master'
+      Merge branch 'reject-ipv6-addr-any' into 'master'
+      ip6_output: fix memory leak on fast-send
+      Merge branch 'ndp-leak' into 'master'
+      Merge branch 'memory_leaks' into 'master'
+      TODO for generalizing the hostfwd calls
+      socket.h: add missing sbuf.h inclusion
+      Expose udpx_listen and tcpx_listen as taking sockaddr
+      Disable polling for PRI on MacOS
+      Merge branch 'macos-pri' into 'master'
+      Merge branch 'x_listen' into 'master'
+      udpx/tcpx_listen: Add missing const qualifier
+      sockaddr_*: add missing const qualifiers
+      Merge branch 'm-cleanup-list-prototype' into 'master'
+      Merge branch 'neighbor-info' into 'master'
+      udpx/tcpx_listen: Use struct sockaddr * types
+      Add ipv4/ipv6-agnostic host forwarding functions
+      hostfwd: Add SLIRP_HOSTFWD_V6ONLY flag
+      Merge branch 'hostxfwd' into 'master'
+      Merge branch 'verbose-if-start' into 'master'
+      Remove slirp_add/remove_ipv6_hostfwd
+      Merge branch 'listen-errno' into 'master'
+      Merge branch 'newtcpcb-no-fail' into 'master'
+      Merge branch 'listen_v6only' into 'master'
+      Merge branch 'lazy-ipv6-resolution' into 'master'
+
+Stefan Weil (1):
+      Add G_GNUC_PRINTF to local function slirp_vsnprintf
+
+WaluigiWare64 (1):
+      Set macOS deployment target to macOS 10.4 Without a macOS deployment =
+target, the resulting library does not work on macOS versions lower than it=
+ was currently built on. For example, if libslirp was built on macOS 10.15,=
+ it would not work on macOS 10.14.
+
+jeremy marchand (4):
+      m_free: remove the M_EXT flag after freeing the mbuf extended buffer
+      refactor m_cleanup as requested in slirp/libslirp!68
+      m_cleanup: fix memory leaks
+      m_cleanup: set qh_link and qh_rlink to the list head
+
+osy (1):
+      Add DNS resolving for iOS
+
+Signed-off-by: Doug Evans <dje@google.com>
+---
 
 Changes from v5:
 
@@ -106,106 +252,17 @@ maintainer takes on advancing QEMU's libslirp to libslirp's master.
 Beyond that, I really don't know what to do except submit this patch as
 is currently provided.
 
-2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
+ slirp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also split out parsing of ipv4=on|off, ipv6=on|off
-
-3/4: net/slirp.c: Refactor address parsing
-
-Use InetSocketAddress and getaddrinfo().
-Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
-
-4/4: net: Extend host forwarding to support IPv6
-
-Recognize ipv4=,ipv6= options.
-
-Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been deleted:
-the churn on this patch series needs to be reduced.
-This change is not required, and can easily be done in a later patch.
-
-Changes from v4:
-
-1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support
-NOTE TO REVIEWERS: I need some hand-holding to know what The Right
-way to submit this particular patch is.
-
-- no change
-
-2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
-
-- move recognition of "[]:port" to separate patch
-- allow passing NULL for ip_v6
-- fix some formatting issues
-
-3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
-
-- new in this patchset revision
-
-4/5 net/slirp.c: Refactor address parsing
-
-- was 3/4 in v4
-- fix some formatting issues
-
-5/5 net: Extend host forwarding to support IPv6
-
-- was 4/4 in v4
-- fix some formatting issues
-
-Changes from v3:
-
-1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support
-
-- pick up latest libslirp patch to reject ipv6 addr-any for guest address
-  - libslirp currently only provides a stateless DHCPv6 server, which means
-    it can't know in advance what the guest's IP address is, and thus
-    cannot do the "addr-any -> guest ip address" translation that is done
-    for ipv4
-
-2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
-
-- this patch is new in v4
-  - provides new utility: inet_parse_host_and_port, updates inet_parse
-    to use it
-
-3/4 net/slirp.c: Refactor address parsing
-
-- this patch renamed from 2/3 to 3/4
-- call inet_parse_host_and_port from util/qemu-sockets.c
-- added tests/acceptance/hostfwd.py
-
-4/4 net: Extend host forwarding to support IPv6
-
-- this patch renamed from 3/3 to 4/4
-- ipv6 support added to existing hostfwd option, commands
-  - instead of creating new ipv6 option, commands
-- added tests to tests/acceptance/hostfwd.py
-
-Changes from v2:
-- split out libslirp commit
-- clarify spelling of ipv6 addresses in docs
-- tighten parsing of ipv6 addresses
-
-Change from v1:
-- libslirp part is now upstream
-- net/slirp.c changes split into two pieces (refactor, add ipv6)
-- added docs
-
-Doug Evans (4):
-  slirp: Advance libslirp submodule to add ipv6 host-forward support
-  util/qemu-sockets.c: Split host:port parsing out of inet_parse
-  net/slirp.c: Refactor address parsing
-  net: Extend host forwarding to support IPv6
-
- hmp-commands.hx             |  18 ++-
- include/qemu/sockets.h      |   5 +
- net/slirp.c                 | 236 ++++++++++++++++++++++++++----------
- slirp                       |   2 +-
- tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++
- util/qemu-sockets.c         |  82 +++++++++----
- 6 files changed, 436 insertions(+), 92 deletions(-)
- create mode 100644 tests/acceptance/hostfwd.py
-
--- 
+diff --git a/slirp b/slirp
+index 8f43a99191..4e6444e842 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
++Subproject commit 4e6444e842695a6bfb00e15a8d0edfceb5c4628d
+--=20
 2.31.1.295.g9ea45b61b8-goog
 
 
