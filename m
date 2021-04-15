@@ -2,87 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0CA3610C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:08:02 +0200 (CEST)
-Received: from localhost ([::1]:34342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB98361114
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:26:11 +0200 (CEST)
+Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX5TE-0004Tn-Pj
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41738)
+	id 1lX5ko-0003Dg-NN
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX4wc-0003aH-0j
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:34:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50392)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xY-0004EC-JN
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:16 -0400
+Received: from rev.ng ([5.9.113.41]:34061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX4wX-0006Kl-Ey
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:34:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618504452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VGzikIBP/Z5SEBvKQqeWbm5PvQswPv/9xcZd1fSf1xk=;
- b=ASRtAwyfX5sc8yAK7cnpJTdKvjcIFUmjnAXy4EoG9OcniJRvHu4AMz/U+xbhHUOuuQyrL0
- IqnRoB8+zqjzjc0ioH0Gz0jMYf/DWqvjvwWBjP5w6RDV97D/za8CY3sq2ZM8NBb1GBzjG6
- 7zM9dyTp2h7KkO/Za2itYEZrO8aGPb0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-INdRnFdrOP-oYoQSL1Kjag-1; Thu, 15 Apr 2021 12:34:10 -0400
-X-MC-Unique: INdRnFdrOP-oYoQSL1Kjag-1
-Received: by mail-wr1-f72.google.com with SMTP id
- y13-20020adfdf0d0000b02901029a3bf796so3000630wrl.15
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 09:34:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VGzikIBP/Z5SEBvKQqeWbm5PvQswPv/9xcZd1fSf1xk=;
- b=HnMlwrZuBGoLHysE5SLVNHNUJf1QuDqxbprp/vH7m8c/EvFF2N7N5hwX3eGX34RI+I
- 4GRg0AlcdL98RRyTsov+hMqd1NA44secPZ0olo/fPZazFfn8PaH01K2Ys318H3NKRXRy
- rJsdky557PCyAN8Eb0JMSad4C/GJhJo1GV0zZQ8RG+Whb6Xa4v+l2f8TYR2Astcn9ZWU
- jOfU2lE13pkJ3BPOnhCVthyj5Q9r5OYzAAiLJW7LXoDTiGvOc2U770oT3j+809Ok03Px
- 9YC8F1klrGivffoVIx7NvzVsGiYSMUF+v305d4xuiNnhcRxgm/bmYTreOug7FmwzDgFn
- L/1w==
-X-Gm-Message-State: AOAM531jXm9zYubBjDBY9n4ADN7hL5n/gVayq0RmEi5KYAos6Dt5Q5q8
- inULikymVhZ0nM92ZXHojrUHv35+5JqK4H0QExvO5jzFd2aHMIdMKUrbQ0DjljxyC0ydREGab5Q
- G1mrgOAfPX+sshjvk9BdQJgSsB2rAnmLcZHrzQ3al6XO01vIkm41MysZwnR347zQZ
-X-Received: by 2002:adf:9148:: with SMTP id j66mr4505342wrj.124.1618504448943; 
- Thu, 15 Apr 2021 09:34:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7KSEZ6h11mgqXKUQcN7HUrjscZfTNVD6dvmc/kqNupzUF+B9S1FwFPwgm1RZiefT37+Qowg==
-X-Received: by 2002:adf:9148:: with SMTP id j66mr4505308wrj.124.1618504448726; 
- Thu, 15 Apr 2021 09:34:08 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c1sm4236652wrx.89.2021.04.15.09.34.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 09:34:08 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xT-0006eM-F0
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=2RwTHTorS670vO4eCktAe3M0cB7xAsEMv6yPznJKvhs=; b=ajXB4n4evChcoHb6ENkZ3Crtmm
+ 2kylkTGYPBTHWOULjBGD6/6qXRKri/Uk+yXbWROI46Qyjvx23FvJ34cYDIxVJgI8ezzbDf3BDLuZ5
+ Prk/foIBpeumlhbOTl5n2znn3hngOkHXW3ZW59xaxBx7NACsB65/J8YxLgmgKCkQ+xV4=;
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/12] tests/qtest: Do not restrict bios-tables-test to
- Aarch64 hosts anymore
-Date: Thu, 15 Apr 2021 18:33:03 +0200
-Message-Id: <20210415163304.4120052-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210415163304.4120052-1-philmd@redhat.com>
-References: <20210415163304.4120052-1-philmd@redhat.com>
+Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
+ philmd@redhat.com, richard.henderson@linaro.org,
+ Alessandro Di Federico <ale@rev.ng>
+Subject: [PATCH v4 01/12] tcg: expose TCGCond manipulation routines
+Date: Thu, 15 Apr 2021 18:34:44 +0200
+Message-Id: <20210415163455.3839169-2-ale.qemu@rev.ng>
+In-Reply-To: <20210415163455.3839169-1-ale.qemu@rev.ng>
+References: <20210415163455.3839169-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,51 +56,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
+From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-Since commit 82bf7ae84ce ("target/arm: Remove KVM support for
-32-bit Arm hosts") we can remove the comment / check added in
-commit ab6b6a77774 and directly run the bios-tables-test.
+From: Alessandro Di Federico <ale@rev.ng>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This commit moves into a separate file routines used to manipulate
+TCGCond. These will be employed by the idef-parser.
+
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
 ---
- tests/qtest/meson.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/tcg/tcg-cond.h | 101 +++++++++++++++++++++++++++++++++++++++++
+ include/tcg/tcg.h      |  70 +---------------------------
+ 2 files changed, 102 insertions(+), 69 deletions(-)
+ create mode 100644 include/tcg/tcg-cond.h
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 0c767389217..46de073d155 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -175,14 +175,13 @@
-    'boot-serial-test',
-    'hexloader-test']
+diff --git a/include/tcg/tcg-cond.h b/include/tcg/tcg-cond.h
+new file mode 100644
+index 0000000000..2a38a386d4
+--- /dev/null
++++ b/include/tcg/tcg-cond.h
+@@ -0,0 +1,101 @@
++/*
++ * Tiny Code Generator for QEMU
++ *
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef TCG_COND_H
++#define TCG_COND_H
++
++/*
++ * Conditions.  Note that these are laid out for easy manipulation by
++ * the functions below:
++ *    bit 0 is used for inverting;
++ *    bit 1 is signed,
++ *    bit 2 is unsigned,
++ *    bit 3 is used with bit 0 for swapping signed/unsigned.
++ */
++typedef enum {
++    /* non-signed */
++    TCG_COND_NEVER  = 0 | 0 | 0 | 0,
++    TCG_COND_ALWAYS = 0 | 0 | 0 | 1,
++    TCG_COND_EQ     = 8 | 0 | 0 | 0,
++    TCG_COND_NE     = 8 | 0 | 0 | 1,
++    /* signed */
++    TCG_COND_LT     = 0 | 0 | 2 | 0,
++    TCG_COND_GE     = 0 | 0 | 2 | 1,
++    TCG_COND_LE     = 8 | 0 | 2 | 0,
++    TCG_COND_GT     = 8 | 0 | 2 | 1,
++    /* unsigned */
++    TCG_COND_LTU    = 0 | 4 | 0 | 0,
++    TCG_COND_GEU    = 0 | 4 | 0 | 1,
++    TCG_COND_LEU    = 8 | 4 | 0 | 0,
++    TCG_COND_GTU    = 8 | 4 | 0 | 1,
++} TCGCond;
++
++/* Invert the sense of the comparison.  */
++static inline TCGCond tcg_invert_cond(TCGCond c)
++{
++    return (TCGCond)(c ^ 1);
++}
++
++/* Swap the operands in a comparison.  */
++static inline TCGCond tcg_swap_cond(TCGCond c)
++{
++    return c & 6 ? (TCGCond)(c ^ 9) : c;
++}
++
++/* Create an "unsigned" version of a "signed" comparison.  */
++static inline TCGCond tcg_unsigned_cond(TCGCond c)
++{
++    return c & 2 ? (TCGCond)(c ^ 6) : c;
++}
++
++/* Create a "signed" version of an "unsigned" comparison.  */
++static inline TCGCond tcg_signed_cond(TCGCond c)
++{
++    return c & 4 ? (TCGCond)(c ^ 6) : c;
++}
++
++/* Must a comparison be considered unsigned?  */
++static inline bool is_unsigned_cond(TCGCond c)
++{
++    return (c & 4) != 0;
++}
++
++/*
++ * Create a "high" version of a double-word comparison.
++ * This removes equality from a LTE or GTE comparison.
++ */
++static inline TCGCond tcg_high_cond(TCGCond c)
++{
++    switch (c) {
++    case TCG_COND_GE:
++    case TCG_COND_LE:
++    case TCG_COND_GEU:
++    case TCG_COND_LEU:
++        return (TCGCond)(c ^ 8);
++    default:
++        return c;
++    }
++}
++
++#endif /* TCG_COND_H */
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 0f0695e90d..3dc468ebd8 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -34,6 +34,7 @@
+ #include "tcg/tcg-mo.h"
+ #include "tcg-target.h"
+ #include "qemu/int128.h"
++#include "tcg/tcg-cond.h"
  
--# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
--  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
-+   'bios-tables-test',
-    'xlnx-can-test',
-    'migration-test']
+ /* XXX: make safe guess about sizes */
+ #define MAX_OP_PER_INSTR 266
+@@ -407,75 +408,6 @@ typedef TCGv_ptr TCGv_env;
+ /* Used to align parameters.  See the comment before tcgv_i32_temp.  */
+ #define TCG_CALL_DUMMY_ARG      ((TCGArg)0)
  
+-/* Conditions.  Note that these are laid out for easy manipulation by
+-   the functions below:
+-     bit 0 is used for inverting;
+-     bit 1 is signed,
+-     bit 2 is unsigned,
+-     bit 3 is used with bit 0 for swapping signed/unsigned.  */
+-typedef enum {
+-    /* non-signed */
+-    TCG_COND_NEVER  = 0 | 0 | 0 | 0,
+-    TCG_COND_ALWAYS = 0 | 0 | 0 | 1,
+-    TCG_COND_EQ     = 8 | 0 | 0 | 0,
+-    TCG_COND_NE     = 8 | 0 | 0 | 1,
+-    /* signed */
+-    TCG_COND_LT     = 0 | 0 | 2 | 0,
+-    TCG_COND_GE     = 0 | 0 | 2 | 1,
+-    TCG_COND_LE     = 8 | 0 | 2 | 0,
+-    TCG_COND_GT     = 8 | 0 | 2 | 1,
+-    /* unsigned */
+-    TCG_COND_LTU    = 0 | 4 | 0 | 0,
+-    TCG_COND_GEU    = 0 | 4 | 0 | 1,
+-    TCG_COND_LEU    = 8 | 4 | 0 | 0,
+-    TCG_COND_GTU    = 8 | 4 | 0 | 1,
+-} TCGCond;
+-
+-/* Invert the sense of the comparison.  */
+-static inline TCGCond tcg_invert_cond(TCGCond c)
+-{
+-    return (TCGCond)(c ^ 1);
+-}
+-
+-/* Swap the operands in a comparison.  */
+-static inline TCGCond tcg_swap_cond(TCGCond c)
+-{
+-    return c & 6 ? (TCGCond)(c ^ 9) : c;
+-}
+-
+-/* Create an "unsigned" version of a "signed" comparison.  */
+-static inline TCGCond tcg_unsigned_cond(TCGCond c)
+-{
+-    return c & 2 ? (TCGCond)(c ^ 6) : c;
+-}
+-
+-/* Create a "signed" version of an "unsigned" comparison.  */
+-static inline TCGCond tcg_signed_cond(TCGCond c)
+-{
+-    return c & 4 ? (TCGCond)(c ^ 6) : c;
+-}
+-
+-/* Must a comparison be considered unsigned?  */
+-static inline bool is_unsigned_cond(TCGCond c)
+-{
+-    return (c & 4) != 0;
+-}
+-
+-/* Create a "high" version of a double-word comparison.
+-   This removes equality from a LTE or GTE comparison.  */
+-static inline TCGCond tcg_high_cond(TCGCond c)
+-{
+-    switch (c) {
+-    case TCG_COND_GE:
+-    case TCG_COND_LE:
+-    case TCG_COND_GEU:
+-    case TCG_COND_LEU:
+-        return (TCGCond)(c ^ 8);
+-    default:
+-        return c;
+-    }
+-}
+-
+ typedef enum TCGTempVal {
+     TEMP_VAL_DEAD,
+     TEMP_VAL_REG,
 -- 
-2.26.3
+2.31.1
 
 
