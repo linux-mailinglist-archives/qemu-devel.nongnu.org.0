@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4CD361038
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:32:44 +0200 (CEST)
-Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B1E361043
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:37:25 +0200 (CEST)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX4v5-0002J3-FU
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:32:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40698)
+	id 1lX4zc-0004o9-F2
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lX4t6-0001oN-AV
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:30:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58640)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lX4tA-0001pT-L1
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:30:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lX4t2-00050x-Dc
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:30:39 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lX4t7-00054X-8y
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:30:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618504233;
+ s=mimecast20190719; t=1618504240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UmYeJHtax2gpPn/6qq7IJRyePswTlPywhUGWa4Vv9ks=;
- b=DdSvgAfwDvtVFU4x7ES7NymgiRxAqoTvPsi56R3B276c5bVqgcUkaCLUCClTFbVpYv2NWc
- roO62fo7pdiyQQ/vohgH5wyO++4DJyvLkHSikjdI7/KZD3f1ZR2O9NCRM2OaLDNPUgtn+T
- itR/1v2n7mKCjvB/UsuNLnb3rl3qd8Y=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-eeriPHHeNKykUv3w9GP6cg-1; Thu, 15 Apr 2021 12:30:28 -0400
-X-MC-Unique: eeriPHHeNKykUv3w9GP6cg-1
-Received: by mail-lj1-f199.google.com with SMTP id
- q17-20020a05651c0551b02900bdd1e782edso2029077ljp.3
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 09:30:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UmYeJHtax2gpPn/6qq7IJRyePswTlPywhUGWa4Vv9ks=;
- b=XZdzjbNCCnKcAksXc7VAVmQTxO8LYBwHkxwrlkkKqatOJZP2G8+SDkbJVfAUfR6rzC
- 6qbD39eSDHaMrUFIoSPSlKBXYTv7WB3XsEP6vOWL3zd+IdlSrb95Z3Vxgk+GDxngHSmt
- OqMAzXEEjntIm/Cofhk/rJDrfPnVBdiZ/yxYFxwfISvKYrEiYkPoBv5nwXaRJfrl5Z2O
- LUOiYfXPhLmPp9TkIPOJUJqkZiPbjmEp2MTXAkndbACg577loe0xXRgtqiplJFMtCPub
- 7o4V1xEwJgURxCMoEaIHZxdD2sAyvASIxUCxPo3aj9BFj/EEyavHU+dtqst0yIVi9TY6
- OWOg==
-X-Gm-Message-State: AOAM530YXiimef2/dtjhEjdV8cG7teQt0Q7u4jci866Rm/YKSRLQT6qW
- sP1GV7hF56sKW7gewfgvq9LyQtiyGCuSufS+4BoQjU3NBEOKPGOUeTt/ARe1ZAnDMMXnSJL5hZ/
- bGUqvk7mi7g1bIPAfIgVMrsYy8uBDjmw=
-X-Received: by 2002:a2e:a177:: with SMTP id u23mr4850ljl.329.1618504227112;
- Thu, 15 Apr 2021 09:30:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxd36iKVyo5nF1kIZHLSZYg3TINYq16k8b+gdcqzwBsScxZMc3iWpoJ7rzbhprhUJHTrOhrUNkO6zUeWqs/rxM=
-X-Received: by 2002:a2e:a177:: with SMTP id u23mr4832ljl.329.1618504226839;
- Thu, 15 Apr 2021 09:30:26 -0700 (PDT)
+ bh=0AFROuHVd5HwJkHT/bjlp5ZVaLvGGXhsepomNt1v6Zw=;
+ b=JU/ZztSvRgR46i1y2zhA0p+SQF1giLcYASrQCngQvf0qphEAVoQeXXbYLAGF9AAIngHoUG
+ y7IvUxJHlaoGwcguqM5HtY7CR7Ukem2JOnY7y/gdnq5RZR+wqu8N0MXYBMm3nN36Ebt8kg
+ o2KfmM3iC3Pi3kcqba7aYHVLaLeotmQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-Yk0QYXuUNc-Ixv1GZlvqLA-1; Thu, 15 Apr 2021 12:30:38 -0400
+X-MC-Unique: Yk0QYXuUNc-Ixv1GZlvqLA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502BF8030D6;
+ Thu, 15 Apr 2021 16:30:36 +0000 (UTC)
+Received: from work-vm (ovpn-113-195.ams2.redhat.com [10.36.113.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 249046064B;
+ Thu, 15 Apr 2021 16:30:30 +0000 (UTC)
+Date: Thu, 15 Apr 2021 17:30:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 1/5] migration: add trace point when vm_stop_force_state
+ fails
+Message-ID: <YHhqJBbNcGnng7J1@work-vm>
+References: <20210415135851.862406-1-berrange@redhat.com>
+ <20210415135851.862406-2-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20210415154402.28424-1-vkuznets@redhat.com>
- <YHhj/bo883jJ9ocy@redhat.com>
-In-Reply-To: <YHhj/bo883jJ9ocy@redhat.com>
-From: Eduardo Habkost <ehabkost@redhat.com>
-Date: Thu, 15 Apr 2021 12:30:11 -0400
-Message-ID: <CAOpTY_r-sSdNEWCqoAbSfOvnAAbgEAKgU=LfeVco65gD=k3uDQ@mail.gmail.com>
-Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
- unless '--no-migration' was specified
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+In-Reply-To: <20210415135851.862406-2-berrange@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -92,84 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 15, 2021 at 12:04 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
->
-> On Thu, Apr 15, 2021 at 05:44:02PM +0200, Vitaly Kuznetsov wrote:
-> > When a migration blocker is added nothing is reported to the user,
-> > inability to migrate such guest may come as a late surprise. As a bare
-> > minimum, we can print a warning. To not pollute the output for those, w=
-ho
-> > have no intention to migrate their guests, introduce '--no-migration'
-> > option which both block the migration and eliminates warning from
->
-> I wonder how this is actually going to work in practice ?
->
-> At the time libvirt starts a guest, it has no idea whether the guest
-> is likely to need migration 3, 6, 12, 24 months in to the future.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> This is a critical failure scenario for migration that is hard to
+> diagnose from existing probes. Most likely it is caused by an error
+> from bdrv_flush(), but we're not logging the errno anywhere, hence
+> this new probe.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-I believe the libvirt API could be extended so applications can
-indicate that migration is not a required feature. This would let QEMU
-automatically enable useful but non-migration-friendly features. For
-example, I would expect "-cpu host" to become the default CPU model if
---no-migration is specified.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
->
-> IOW, we can't use a --no-migration flag and will be stuck with these
-> warnings no mtter what.
-
-The expected behavior of the libvirt API is to create migratable VMs
-by default, isn't it? This means it would be valid for libvirt to use
-"--only-migratable" by default.
-
-If libvirt can't use "--only-migratable" by default, I would say it's
-a deficiency of the libvirt API that needs to be addressed.
-
->
-> Is it possible to query the migration blockers via QMP ?
-
-I don't think it is, but we can add that if it's useful for libvirt.
-
->
-> Libvirt recently introduced a new API 'virDomainGetMessages' which
-> lets us report a list of human targetted message strings against
-> a guest. We use it for reporting when an operation has tainted
-> a guest, and also use it for reporting when a deprecated QEMU
-> feature is used.  We could use it to report any migration
-> blockers that exist.
->
-> These are visible from 'virsh dominfo $guestname' and could also
-> be displayed by a mgmt application.
-
-Cool!
-
-Will the API include all warnings printed by QEMU to stderr?
-
->
-> NB, the messages are intentionally declared opaque strings, so
-> mgmt apps shouldn't try to parse them. They merely know whether
-> the count is non-zero for any given message class.
->
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
-
---
-Eduardo
+> ---
+>  migration/migration.c  | 1 +
+>  migration/trace-events | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 8ca034136b..bee0dcd501 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3121,6 +3121,7 @@ static void migration_completion(MigrationState *s)
+>          if (!ret) {
+>              bool inactivate = !migrate_colo_enabled();
+>              ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
+> +            trace_migration_completion_vm_stop(ret);
+>              if (ret >= 0) {
+>                  ret = migration_maybe_pause(s, &current_active_state,
+>                                              MIGRATION_STATUS_DEVICE);
+> diff --git a/migration/trace-events b/migration/trace-events
+> index 668c562fed..8ec28432eb 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -149,6 +149,7 @@ migrate_pending(uint64_t size, uint64_t max, uint64_t pre, uint64_t compat, uint
+>  migrate_send_rp_message(int msg_type, uint16_t len) "%d: len %d"
+>  migrate_send_rp_recv_bitmap(char *name, int64_t size) "block '%s' size 0x%"PRIi64
+>  migration_completion_file_err(void) ""
+> +migration_completion_vm_stop(int ret) "ret %d"
+>  migration_completion_postcopy_end(void) ""
+>  migration_completion_postcopy_end_after_complete(void) ""
+>  migration_rate_limit_pre(int ms) "%d ms"
+> -- 
+> 2.30.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
