@@ -2,134 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0881736124B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 20:47:26 +0200 (CEST)
-Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8533612BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 21:09:53 +0200 (CEST)
+Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX71Q-0003Jg-Rd
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 14:47:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56638)
+	id 1lX7NA-0007c0-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 15:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lX70K-0002lw-S6; Thu, 15 Apr 2021 14:46:16 -0400
-Received: from mail-db8eur05on2120.outbound.protection.outlook.com
- ([40.107.20.120]:11877 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX7L9-00076B-1A
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 15:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lX70H-00045w-7w; Thu, 15 Apr 2021 14:46:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dMg/CPzr/69ZDFKzpOs+UlvUkQOBMCxWGvDcJFwwOPRqGPcwhelHIadm5mV1kYyGPbuWaRt1oFe9IAkPtnJyfeIPIRcF76YXoR1Qntatg1J4VC+J7JO5NbpM0YcPmcs2hmO3FUaLShdWy+bRn2v+2LjxcjKC8kG1OUwBPn3IfWlVYsWOeTq4EbRujCZa3VFG7/SWlQ1Tfj3L32T+ylBlicM8C8du3zixWwNaigdk+jZFWX2ntH++unKBWH9gsCokfi9pf99yVgLHV3d2m8fmJMWwxniFyGI2SyTqdluOq24LkzxgYXo8pNRBNqch+aN103yg/hFDGEA+e8tyiyEnMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WsMAEF4WS+teP/9VcjVxF03875K6cHrlLHqPfRIbGWY=;
- b=Ap8+/o33WFrwBg61/8ead5Uh5XZ67Tvx4YoZ1FM8+L1Hego5FlacQ41IILueU1K5NRwiJGee9D4yOZHFO0G1gwQhUspHtlLZJcHjyHQ3UcC155FxgQfT+FmcrTY8Q4LzGpKyKwVSPyOj0BFVANcNJtRDhHwgXxVtbCS0Zs5uJISnS2ynVXot5iZbNUF820BNpx2+fAEHf01p7RFhbIXBnbjQg8cSmnewko6WDjQ5UnccWd5Hvj8lnbjR0GiSzJPd51S/TddEFAbhfoWM2uaueSHgWBhMY90lKq8V5pL0RTwfj9NDO6Tq5efUzN7qrOlUGL2x5U1qov44yLqiBHhI6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WsMAEF4WS+teP/9VcjVxF03875K6cHrlLHqPfRIbGWY=;
- b=eKnNuWsIhMpUKu1sw5vYvGx81TUM5Z8tvJRMgVQ2aVYTlSCoSO8wGzUiRWxJRPjMM60JqmCn3NF7jlpX472iFuDC80deaEDAUOVLGjjwWjU4NjDDZCbNB7jqgzPS/UizeaLXjVFoa34XjLr6uRgQDca8GgKiUtUB6apm2WZrniA=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4071.eurprd08.prod.outlook.com (2603:10a6:20b:a7::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16; Thu, 15 Apr
- 2021 18:46:07 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%8]) with mapi id 15.20.4042.016; Thu, 15 Apr 2021
- 18:46:07 +0000
-To: qemu block <qemu-block@nongnu.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: about mirror cancel
-Message-ID: <b2e5b990-ca1c-53f0-0e0c-31396156fa4a@virtuozzo.com>
-Date: Thu, 15 Apr 2021 21:46:05 +0300
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX7L3-0008Nz-QL
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 15:07:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618513660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w2ZC9N4LOsUb+p3Rd7GQLJYGOsE+Kg7MiMKU3M7XGgo=;
+ b=Y/gIMWm0mblNkYJZSIPgNM6uOm0gtuWjkpyXqtojbHYwXrrxmU2C0Cs4fkJdR7sEdy6uiz
+ vC3dM1Dq09xD/c83LCWgcuS1PWWFppX8lqoG49E4FsIBs26XWmDPIZFYWsOP6xxGNdOFbf
+ MtztFJ37fNm3DPvi83wB519AtXcJ7XQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-tKMErO1-NTyBhkeiGHEz7g-1; Thu, 15 Apr 2021 15:07:36 -0400
+X-MC-Unique: tKMErO1-NTyBhkeiGHEz7g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t14-20020a5d6a4e0000b029010277dcae0fso3171551wrw.22
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 12:07:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w2ZC9N4LOsUb+p3Rd7GQLJYGOsE+Kg7MiMKU3M7XGgo=;
+ b=XC8sJfMLaT3TDScKyYOuD69x6kZ9DVZTluNNHRDgneGnXyWVSghqSIZUIwYu/IYazD
+ hp3g3OM+NWNkFCofrIGbacLz2el4ggmGEY1iDS8H2vBWJCdDWVDzcd7N+DtUmHtxzOfw
+ bFuhTmsa7oxZqdS71VZvyybFJLenWqPMugpaRbgzSgeMuV7CX91K8GkhrxNgUfNls1em
+ HhlTdGVAJE5DqX6v+qgNcEdAsRBTLh+Iv7l/X36YJ9i1F9XEhDAwyXF1kjzSgTRLXLWx
+ rBzMCHvA3C66lrelAfVTeOQclR65N4q9SWq/6bC7TAW5Z7AmPEqQgAE41nuNBynp/bU3
+ clog==
+X-Gm-Message-State: AOAM533r734k+nxiB4prJZHbuwf9MKsXD3vzjbKPBxN2rYlJzNf05ir9
+ IeWyFJTwa+m2iqv5fqu4hsWd5CyJqLRqWJgIcU5kTUBLjrBEmrDqOf9v2IpqbC5ZGWl+kwRuXo/
+ n4YtGFhiXE97A1vc=
+X-Received: by 2002:a1c:1f92:: with SMTP id f140mr4475805wmf.108.1618513655068; 
+ Thu, 15 Apr 2021 12:07:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2/0XuopO1NJaaAit7EQBHMzPRQoer6R1eGo3/OL3zpFiznCYkvqFSncpYwjQE0Y3kVB2D7Q==
+X-Received: by 2002:a1c:1f92:: with SMTP id f140mr4475783wmf.108.1618513654829; 
+ Thu, 15 Apr 2021 12:07:34 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id t19sm4303394wmq.14.2021.04.15.12.07.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Apr 2021 12:07:34 -0700 (PDT)
+Subject: Re: [PATCH 1/2] qdev: Separate implementations of qdev_get_machine()
+ for user and system
+To: Greg Kurz <groug@kaod.org>
+References: <20210409160339.500167-1-groug@kaod.org>
+ <20210409160339.500167-2-groug@kaod.org>
+ <25ab34ad-0950-65f0-6cb2-d3f7a4a86744@redhat.com>
+ <20210415153056.04f981a8@bahia.lan>
+ <d21045c1-3df2-1569-3bf9-8a7ea27866f4@redhat.com>
+ <20210415185639.12300368@bahia.lan>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1a68b426-47da-9fba-a34a-d024ac9ed148@redhat.com>
+Date: Thu, 15 Apr 2021 21:07:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.227]
-X-ClientProxiedBy: PR0P264CA0259.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::31)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.227) by
- PR0P264CA0259.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16 via Frontend Transport; Thu, 15 Apr 2021 18:46:06 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b507aac2-71ca-4f10-720e-08d9003ebaf4
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4071:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB40718BC033C75808DD9B11C8C14D9@AM6PR08MB4071.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5dVSlqu0VqtmjiiYrrNuxnWVb2wa6e5ZdBFTA9gtcS4WhNN5IKeQv/q2jced0WcfDvZmw+cYK1PuOAckk1vQY5esLTxR7DZvLDoaHqkFHJQ6TxpmLHxR/QOJBVKD3a/3DxBuvnyPppXsvpyLJevk0QfBpDqKmdjmPV4bWLplPOBK2sWSLOMaGf0SGz/RjhrQJXhRveTu78rWNw7xzh84DzY8ZlrXkfJRnT2TtDJorAODA8xh84eB6FvUaz1aTTbdZGG7s9pOjt5pf5bDpY/FtiQJVRWPPbG1TC34Sex5oVxvdEIMQHXA+2xgNKiJ6OpuDL1RRJhEy6N/F898VGaiPiSuVlxKxFONxSAqjUw5jlAvZhlSJw8aYNsLWWlxSk7ZVy07gh6XUAaf99EMdVfzkwlxf9OvXjR8nNke0zJtIJ6saCnNF2qSy+EcCmBFgf66EXebPSw8a+JaJuH/HreT6z6niA6/5xBDIlofhrwesmR7ATGmI6xHdlGW15ezjWHTG2G5ic0mMPtj1Eap8W0xPhg7iXuYI3fxoYdz1EpH5jvYQ3z2+xnGOVp47LvWCsdCU0Vp4gZeguaqwgvmbk6AwkRiofEplDZgwW7bigQt/FPybUoF/ldz4jZp//eL0q4/Uz2AGkPIE7miD9NZpJHDk6Pvsk5zxMsIO3IEFfBoWBrMB586C0qqkUXlB7aalWQ32dDB3pVMhPV5de5VbYBREWHfMgeRMmTQUElrWQLBGHcmNORs8vL5eJlaXBdf6pit8IPuVtSXeVPqjGm0oqJYpQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(376002)(39850400004)(396003)(346002)(36756003)(66946007)(8676002)(31686004)(956004)(2616005)(52116002)(66476007)(8936002)(6916009)(478600001)(66556008)(2906002)(26005)(4326008)(316002)(31696002)(38350700002)(6486002)(38100700002)(5660300002)(7116003)(186003)(3480700007)(16576012)(54906003)(86362001)(83380400001)(107886003)(16526019)(133083001)(60764002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?R2wvaXZlSFVTdVE2dU91aVJ2UlJoamlpVWN3K2J0cXRUMS9FQWpTZzlFZmJs?=
- =?utf-8?B?L0VqRGlITHJ4eCtDSE55MHgweEU0RnpBRXIvaEhKczVVUGdteFQ3UUkvRTl6?=
- =?utf-8?B?QUhjQ3NZbVJZd3Y5RjRSaDVQclhjUnVjTzEwYmtiU2FBREk2VWl4eTVwR3pH?=
- =?utf-8?B?Mk1UR1FiNm5zTTN0dUVZdFkrT2pCWG52RnRMK1RHeGhYWElLWDcxQVZvdGZR?=
- =?utf-8?B?bXAzZVFEZmJVTS9USGxtWWhPWXZ4SVRSRGNJVVFhekNLY2hsZE0zNU1ENEls?=
- =?utf-8?B?NkZ2YzBROFpDOXZOREY2MWpadjNoay80Q0ZGaDFtUmFOM3VxNlNvRXg2cWw5?=
- =?utf-8?B?R3FqbWVHbFBidjNXQlE4anB4cjRHM2FOQWpUbFNMK2k5a3o5eXRhaW1tQ0tG?=
- =?utf-8?B?cDd4NG9vN1E3K2xjcUltOXZPSXZ0VlFuUWExb2pLZFFWSzljTTNuSmdNQm5r?=
- =?utf-8?B?cWlXS2NKM0tjenlTMzhka0FmSkV3K0h4UmtneE9uN3hzeTIvQllZUTRpa0Zv?=
- =?utf-8?B?KzUvOCs1N3RhMXVnemhCQzU2bFltanE3UG55ZTN0ajZ0SDBIa3RNQnp6UUcw?=
- =?utf-8?B?TnBKQ3Y0cG12aHF3eUppZDdlMUpieS9OWTRuSWFHQzlncTl6ZHBVem5NUUtq?=
- =?utf-8?B?SmV1K2ZubE0yb1Rwak42VTRHQ0s2WmdqbWFpazhlU1dFK0JRbnpWaFJaZVFt?=
- =?utf-8?B?emJsb0ZseFlaTW9PamRmbHhqL2pOVEJzWHVGeFUzVVRra3ZweG82bnhnOE5w?=
- =?utf-8?B?NHg4Y25KSHJ4NC9yQXNDbElGczVGd3lEWXpmVmNxaEZXWFdjc281TTdWVGtj?=
- =?utf-8?B?NVIwSnhuR0dFTmF3cGZ3ckFnQnN3RXAwWDRrdDNBOFdJVFNiaVpnNjdMZU5X?=
- =?utf-8?B?NlNkdC9GMTc4UW91UTNMbk80R2RHZDRKSUZ6a0pnMmZtbjZ3Y1BraGl5empQ?=
- =?utf-8?B?dm5nRHVjdVdlUFJreFptTExMU21iU0pMNDRhTXNGaTZ6eWRoYkVkMVBwcElJ?=
- =?utf-8?B?ZWxOOEpnZk1LeHV0UnZjWnUwZERRUUJscnpiN3lvNzVwL2VOMmpuODV4VDhJ?=
- =?utf-8?B?UUF5V1I3VGJaWXlzNVMwbnY2VXhoMXlHejJmVTIvampxWkx3QmpxSXg5Vjhr?=
- =?utf-8?B?bUlobHdCMmZ4Zk8vRzhnaUVvaWd1RnRDWUZTS1FyOFFnSEFGVWkyS0VIRUZo?=
- =?utf-8?B?bVljeGdRY2oyeWcxRUlPK2FtZ25RNkhJaUxWYnhZTVdId09ORGVNM01KSmRN?=
- =?utf-8?B?N2JPclIzL1lLandOcWlUeXk0bEpHRjBXTTNWSXp0SUxxdTdBZHJKZjZUYjJ1?=
- =?utf-8?B?cUlrSkJvZkI1d3BTYXpDTFBFUnh3Y2tHMVJoRDBwNnE0OEY1R3EzYk5TcTh3?=
- =?utf-8?B?Zkg2WWxFT3k4RkE2cldLNlJNdk1NUXd2cWhGYVJqU2NoTzhyMXR0WXdFbWkx?=
- =?utf-8?B?TVIvWFVrRjBIQkgzbFZNZDBMU2g3TEJBdjhhS2RvRDBVc3lJc296OU9JTUxs?=
- =?utf-8?B?aEhSUUVLZXRwZzNvUnJleEkrVUl3VHZkMnlkVGhIcUt4UDdLdVJ0djZMTlEx?=
- =?utf-8?B?NzRYM0VCbDNzTWZod1dvODExUHFrdzJDbEFqdWlsSXZMYXRmeXZNZEpvdzRr?=
- =?utf-8?B?VHE3Qk5jYnJTVWhuV3hFNjVJYlBOUVJ4UkVsWFNKcEhuTW1Vb2hrSC9qRE52?=
- =?utf-8?B?bkJabkFtMk1KdjNBSjZPd3MrajJEcmg0NE9HQWhPOHZpejlFaVFPbjV5RElC?=
- =?utf-8?Q?dA8EIVxQsd2FKVS3fIhLugR7VLeoDtQsEYNAfwq?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b507aac2-71ca-4f10-720e-08d9003ebaf4
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 18:46:07.5962 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eNJ1nvCMSlZ2IFB7OougY+/8dKl7+/4Gtlpd+xKXEiPihzrSOc9TeM5wBOMtehiumSApUHovGZwJi87D0UkrpWOpnZmYG21TFQ8bkQAJU7Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4071
-Received-SPF: pass client-ip=40.107.20.120;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210415185639.12300368@bahia.lan>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,36 +104,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+On 4/15/21 6:56 PM, Greg Kurz wrote:
+> On Thu, 15 Apr 2021 18:45:45 +0200
+> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> 
+>> On 4/15/21 3:30 PM, Greg Kurz wrote:
+>>> On Thu, 15 Apr 2021 14:39:55 +0200
+>>> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>>
+>>>> On 4/9/21 6:03 PM, Greg Kurz wrote:
+>>>>> Despite its simple name and common usage of "getting a pointer to
+>>>>> the machine" in system-mode emulation, qdev_get_machine() has some
+>>>>> subtilities.
+>>>>>
+>>>>> First, it can be called when running user-mode emulation : this is
+>>>>> because user-mode partly relies on qdev to instantiate its CPU
+>>>>> model.
+>>>>>
+>>>>> Second, but not least, it has a side-effect : if it cannot find an
+>>>>> object at "/machine" in the QOM tree, it creates a dummy "container"
+>>>>> object and put it there. A simple check on the type returned by
+>>>>> qdev_get_machine() allows user-mode to run the common qdev code,
+>>>>> skipping the parts that only make sense for system-mode.
+>>>>>
+>>>>> This side-effect turns out to complicate the use of qdev_get_machine()
+>>>>> for the system-mode case though. Most notably, qdev_get_machine() must
+>>>>> not be called before the machine object is added to the QOM tree by
+>>>>> qemu_create_machine(), otherwise the existing dummy "container" object
+>>>>> would cause qemu_create_machine() to fail with something like :
+>>>>>
+>>>>> Unexpected error in object_property_try_add() at ../../qom/object.c:1223:
+>>>>> qemu-system-ppc64: attempt to add duplicate property 'machine' to
+>>>>>  object (type 'container')
+>>>>> Aborted (core dumped)
+>>>>>
+>>>>> This situation doesn't exist in the current code base, mostly because
+>>>>> of preventive fixing of some "latent bugs" in QEMU 4.0 (see 1a3ec8c1564
+>>>>> and e2fb3fbbf9c for details).
+>>>>>
+>>>>> A new kind of breakage was spotted very recently though :
+>>>>>
+>>>>> $ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
+>>>>> /home/thuth/devel/qemu/include/hw/boards.h:24:
+>>>>>  MACHINE: Object 0x5635bd53af10 is not an instance of type machine
+>>>>> Aborted (core dumped)
+>>>>>
+>>>>> This comes from the change 3df261b6676b in QEMU 5.0. It unwillingly
+>>>>> added a new condition for qdev_get_machine() to be called too early,
+>>>>> breaking MACHINE(qdev_get_machine()) in generic cpu-core code this
+>>>>> time.
+>>>>>
+>>>>> In order to avoid further subtle breakages like this, change the
+>>>>> implentation of qdev_get_machine() to:
+>>>>> - keep the existing behaviour of creating the dummy "container"
+>>>>>   object for the user-mode case only ;
+>>>>> - abort() if the machine doesn't exist yet in the QOM tree for
+>>>>>   the system-mode case. This gives a precise hint to developpers
+>>>>>   that calling qdev_get_machine() too early is a programming bug.
+>>>>>
+>>>>> This is achieved with a new do_qdev_get_machine() function called
+>>>>> from qdev_get_machine(), with different implementations for system
+>>>>> and user mode.
+>>>>>
+>>>>> $ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
+>>>>> qemu-system-ppc64: ../../hw/core/machine.c:1290:
+>>>>>  qdev_get_machine: Assertion `machine != NULL' failed.
+>>>>> Aborted (core dumped)
+>>>>>
+>>>>> Reported-by: Thomas Huth <thuth@redhat.com>
+>>>>> Signed-off-by: Greg Kurz <groug@kaod.org>
+>>>>> ---
+>>>>>  hw/core/machine.c        | 14 ++++++++++++++
+>>>>>  hw/core/qdev.c           |  2 +-
+>>>>>  include/hw/qdev-core.h   |  1 +
+>>>>>  stubs/meson.build        |  1 +
+>>>>>  stubs/qdev-get-machine.c | 11 +++++++++++
+>>>>>  5 files changed, 28 insertions(+), 1 deletion(-)
+>>>>>  create mode 100644 stubs/qdev-get-machine.c
+>>>> ...
+>>>>
+>>>>> diff --git a/stubs/meson.build b/stubs/meson.build
+>>>>> index be6f6d609e58..b99ee2b33e94 100644
+>>>>> --- a/stubs/meson.build
+>>>>> +++ b/stubs/meson.build
+>>>>> @@ -54,3 +54,4 @@ if have_system
+>>>>>  else
+>>>>>    stub_ss.add(files('qdev.c'))
+>>>>>  endif
+>>>>> +stub_ss.add(files('qdev-get-machine.c'))
+>>>>
+>>>> Adding this as a stub looks suspicious...
+>>>> Why not add it in to user_ss in hw/core/meson.build?
+>>>> Maybe name the new file hw/core/qdev-user.c?
+>>>>
+>>>
+>>> It turns out that this isn't specific to user-mode but rather
+>>> to any non-qemu-system-FOO binary built with qdev, e.g.
+>>> test-qdev-global-props :
+>>>
+>>> #0  do_qdev_get_machine () at ../../stubs/qdev-get-machine.c:10
+>>> #1  0x0000000100017938 in qdev_get_machine () at ../../hw/core/qdev.c:1134
+>>> #2  0x000000010001855c in device_set_realized (obj=0x100128b60, value=<optimized out>, errp=0x7fffffffd4e0) at ../../hw/core/qdev.c:745
+>>> #3  0x000000010001cc5c in property_set_bool (obj=0x100128b60, v=<optimized out>, name=<optimized out>, opaque=0x1000f33f0, errp=0x7fffffffd4e0) at ../../qom/object.c:2257
+>>> #4  0x0000000100020a9c in object_property_set (obj=0x100128b60, name=0x100093f78 "realized", v=0x100136d30, errp=0x1000e3af8 <error_fatal>) at ../../qom/object.c:1402
+>>> #5  0x000000010001c38c in object_property_set_qobject (obj=0x100128b60, name=0x100093f78 "realized", value=<optimized out>, errp=0x1000e3af8 <error_fatal>) at ../../qom/qom-qobject.c:28
+>>> #6  0x0000000100020e20 in object_property_set_bool (obj=0x100128b60, name=0x100093f78 "realized", value=<optimized out>, errp=0x1000e3af8 <error_fatal>) at ../../qom/object.c:1472
+>>> #7  0x000000010001612c in qdev_realize (dev=0x100128b60, bus=<optimized out>, errp=0x1000e3af8 <error_fatal>) at ../../hw/core/qdev.c:389
+>>> #8  0x000000010000fb10 in test_static_prop_subprocess () at /home/greg/Work/qemu/qemu-master/include/hw/qdev-core.h:17
+>>> #9  0x00007ffff7e95654 in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+>>> #10 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+>>> #11 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+>>> #12 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+>>> #13 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+>>> #14 0x00007ffff7e959cc in g_test_run_suite () from /lib64/libglib-2.0.so.0
+>>> #15 0x00007ffff7e95a80 in g_test_run () from /lib64/libglib-2.0.so.0
+>>> #16 0x000000010000ecec in main (argc=<optimized out>, argv=<optimized out>) at ../../tests/unit/test-qdev-global-props.c:316
+>>>
+>>> Is there a meson thingy to handle this dependency ?
+>>
+>>   if not have_system
+>>     common_ss.add(files('qdev-machine-stubs.c'))
+>>   endif
+>>
+>> This is not pretty, but better than a generic stubs/qdev-get-machine.c
+>> IMO...
+>>
+> 
+> Yeah it isn't that much different,
 
-Recently I've implemented fast-cancelling of mirror job: do bdrv_cancel_in_flight() in mirror_cancel().
+I'd expect symbols in stubs/ to be declared weak, while not with this
+approach, so we'd catch clash for incorrect configs. Maybe I'm wrong...
 
-Now I'm in doubt: is it a correct thing? I heard, that mirror-cancel is a kind of valid mirror completion..
+> except maybe an improvement on the
+> file location. Thanks for tip !
 
-Looking at documentation:
-
-# Note that if you issue 'block-job-cancel' after 'drive-mirror' has indicated
-# (via the event BLOCK_JOB_READY) that the source and destination are
-# synchronized, then the event triggered by this command changes to
-# BLOCK_JOB_COMPLETED, to indicate that the mirroring has ended and the
-# destination now has a point-in-time copy tied to the time of the cancellation.
-
-So, in other words, do we guarantee something to the user, if it calls mirror-cancel in ready state? Does this abuse exist in libvirt?
-
-====
-
-Note, that if cancelling all in-flight requests on target is wrong on mirror cancel, we still don't have real bug, as the only implementation of .bdrv_cancel_in_flight is stopping reconnect waiting in nbd driver. So, we'll cancel requests only if connection is already lost anyway.
-
-But that probably means, that correct name of the handler would be .bdrv_cancel_in_fligth_requests_that_will_most_probably_fail_anyway()..
-
-And it also means, that abuse of mirror-cancel as valid completion is a bad idea, as we can't distinguish the cases when user calls job-cancel to have a kind of point-in-time copy, or just to cancel job (and being not interested in the final state of target).
-
-So, probably we need an option boolean argument for blockjob-cancel, like "hard", that will cancel in-flight writes on target node..
-
--- 
-Best regards,
-Vladimir
 
