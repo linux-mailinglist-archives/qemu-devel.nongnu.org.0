@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA7F36056E
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 11:16:05 +0200 (CEST)
-Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B93936058B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 11:22:20 +0200 (CEST)
+Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWy6W-0004ba-7a
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 05:16:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55776)
+	id 1lWyCZ-0007Iu-7N
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 05:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lWy4x-00047l-LC
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:14:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25962)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lWyBP-0006nP-Vt
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:21:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lWy4u-0008TE-IG
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:14:27 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lWyBM-0003w0-Pr
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:21:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618478063;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1618478463;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l6BF1azfV5tGWgLRhxszOUt2XmUfOPPGkUgmN1Rw1OE=;
- b=ZnQQEqUZHHJrXsNwX/MaG+s1P5YLEP8+qeuX68AXZ8Cwq8gqFyJ+4iQCk8RWUONVRJ2xhF
- wEISJt5Vlu0IC1X8pocE7sWDBZD7HTPdpnZiRl0CCvpDY8gz1VKZfcUWkfTtUvbiSbGQxl
- +8ByQYJReSt9PPLfMWSwy7RX9iFTlr4=
+ bh=lxv418U1vvcptsM4p1qBggKL1PKoJ/e3cUwUNMXAI1g=;
+ b=S5SZghDAVE2cQUN/iJ2wzoIuKRjQb8PFVY5cKlK/rV6NrDL5rE/2ghtuqMNbxj1p2X/nVY
+ yMuDqqyy3fcgh52d0rXwmMszO9t6WCkvnYgTq1DhuiPvicPCNEiiGJduVkLx63uVaRIEwC
+ vIomFr/dvWGYelsHB/BGl4xK97stv8o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-IVwqxobXObiuDLuTGDMinw-1; Thu, 15 Apr 2021 05:14:19 -0400
-X-MC-Unique: IVwqxobXObiuDLuTGDMinw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-228-IZomErASMTa9Nr9KvJI10g-1; Thu, 15 Apr 2021 05:21:02 -0400
+X-MC-Unique: IZomErASMTa9Nr9KvJI10g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 763201006C82
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 09:14:18 +0000 (UTC)
-Received: from localhost (ovpn-114-209.ams2.redhat.com [10.36.114.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0513F5D9DE;
- Thu, 15 Apr 2021 09:14:16 +0000 (UTC)
-Date: Thu, 15 Apr 2021 10:14:15 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH RFC 3/7] protocol: generic async message-based protocol
- loop
-Message-ID: <YHgD52cqe/gSoa8X@stefanha-x1.localdomain>
-References: <20210413155553.2660523-1-jsnow@redhat.com>
- <20210413155553.2660523-4-jsnow@redhat.com>
- <YHX4dTmEgNal6Jca@stefanha-x1.localdomain>
- <cf8c94de-e2fe-2416-7062-cc6991149d45@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DC438030A1;
+ Thu, 15 Apr 2021 09:21:01 +0000 (UTC)
+Received: from redhat.com (ovpn-115-159.ams2.redhat.com [10.36.115.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 42B441037EAF;
+ Thu, 15 Apr 2021 09:21:00 +0000 (UTC)
+Date: Thu, 15 Apr 2021 10:20:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 2/3] osdep: protect qemu/osdep.h with extern "C"
+Message-ID: <YHgFeeQaNDV5uiL0@redhat.com>
+References: <20210413160850.240064-1-pbonzini@redhat.com>
+ <20210413160850.240064-3-pbonzini@redhat.com>
+ <YHchNfXnhyzZBTg5@redhat.com>
+ <CAFEAcA-Wu8c=TyNd0T4mocvy4=Fh=xqoAAuOtg7NcF2i38YiqA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cf8c94de-e2fe-2416-7062-cc6991149d45@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAFEAcA-Wu8c=TyNd0T4mocvy4=Fh=xqoAAuOtg7NcF2i38YiqA@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NyIWghvMyGHZWYNl"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,124 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NyIWghvMyGHZWYNl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 14, 2021 at 07:50:41PM +0100, Peter Maydell wrote:
+> On Wed, 14 Apr 2021 at 18:26, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Tue, Apr 13, 2021 at 06:08:49PM +0200, Paolo Bonzini wrote:
+> > >  #ifdef _WIN32
+> > >  #include "sysemu/os-win32.h"
+> >
+> > This and os-posix.h both include other system headers. We don't currently
+> > have problem, so this is ok as the minimal fix for 6.0, but long term we
+> > need more work on this header to further narrow the extern {} block.
+> 
+> Maybe we should just move all the system header includes out of
+> both os-posix.h and os-win32.h ? We already have one header file
+> we've treated that way (sys/wait.h).
+> 
+> Alternatively we could leave os-win32.h and os-posix.h outside
+> osdep.h's extern block, and require that they both use an
+> extern block themselves for their declarations.
 
-On Wed, Apr 14, 2021 at 01:29:40PM -0400, John Snow wrote:
-> On 4/13/21 4:00 PM, Stefan Hajnoczi wrote:
-> > On Tue, Apr 13, 2021 at 11:55:49AM -0400, John Snow wrote:
-> One of the reasons it's split out here like this is because I also wrote =
-a
-> qtest protocol that uses the same infrastructure. I tried to keep both of
-> those looking as simple as possible.
+I'd be inclined towards the latter as I tihnk its reasonable for
+os-win32/posix.h  to want to include system headers.
 
-If infrastructure is needed, let's add it when it's needed but not
-before then. Reviewers can't take into account qtest requirements
-without seeing that code.
 
-> > > +        try:
-> > > +            await self._new_session(self._do_accept(address, ssl))
-> > > +        except Exception as err:
-> > > +            emsg =3D "Failed to accept incoming connection"
-> > > +            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
-> > > +            raise ConnectError(f"{emsg}: {err!s}") from err
-> >=20
-> > Wrapping the exception in ConnectError() obfuscates what's going on IMO=
-.
-> >=20
->=20
-> It can. I will admit to you that the reason I did it was so that at a hig=
-her
-> level it was possible to write things like:
->=20
-> try:
->     await qmp.connect(('127.0.0.1', 1234))
-> except ConnectError:
->     print("Oh no! ...")
->     handle_connect_problem()
->=20
-> while still allowing for other problems to "bubble up", for instance,
-> keyboard interrupts are BaseException and won't be caught by that wrapper=
-.
-
-That's what "except Exception as err" is for. It allows system exiting
-exceptions through.
-
-> I adhere to this pattern fairly regularly in this draft; using "container=
-"
-> exceptions to declare a semantic problem regardless of the actual underly=
-ing
-> cause, assuming that a high-level user will (probably) be unable to make
-> sense of the internal details anyway.
->=20
-> Part of the reason I do this is so that I could write in the docstrings w=
-hat
-> exceptions we actually expect to be raised and under what circumstances.
->=20
-> I suppose what I don't document, though, is how to get at the "root"
-> exception in these cases. You can do it:
->=20
-> try:
->     ...
-> except Foo as err:
->     root_err =3D err.__cause__
->     ...
->=20
->=20
-> I suppose the specific problem I wanted to solve is this: When we fail to
-> connect, what exception will we see? How many types of exceptions? Which
-> ones should I try to catch, and which ones should I not? Which error clas=
-ses
-> merit a retry, and which do not?
->=20
-> It seemed almost impossible to enumerate, so writing informed client code
-> seemed difficult or impossible.
->=20
-> Any thoughts on this perception?
-
-I reviewed error.py again. I was assuming the other exceptions are like
-ConnectError, which would have been bad but they seem to be more
-actionable. I think ConnectError is okay as a catch-all here.
-
-requests is similar, its exceptions consist mostly of actionable
-exceptions but it does have catch-all exceptions for general networking
-errors:
-https://docs.python-requests.org/en/latest/api/#exceptions
-
-MultiException and the 4-level exception inheritance hierarchy in
-error.py still seem complex. Is it really necessary to have
-ProtocolError, RawProtocolError, and MsgProtocolError abstract classes?
-Having them forces the user to make extra decisions about how to catch
-exceptions. If error handling is involved, more mistakes will be made.
-
-The requests package doesn't document the exception hierarchy. They keep
-it simple with a flat list of exceptions. (RequestException is the base
-class though.)
-
-Stefan
-
---NyIWghvMyGHZWYNl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB4A+cACgkQnKSrs4Gr
-c8hDtwgAqb0bK6FYUsrNMmwp8C+ds4r5Bgo02UtNSm8rVCYmZeyvIWjTV/OM2Ri7
-DeSG8FoV+7RWQ25JNueWTPk700Pj9HcjHl/FqCoC/3xut3jrTDS8Xb7W5YcMWno7
-ZJWi2Bv6tBKG8EsmFFhiTWoFuxdP9dXtJLr7kbC6Zzh7xVadR6QPpAamDUMH96N9
-KnPUsPPxSggKh62sUPRG8c8FGjuwpoWCvYCtPt1TED2rPyTX8bkPrLsoupbaIooG
-DeWhYx+3PRT+vvUHbXNqb2Ag02O9NciRg/c12DerCwiCH+AW7sJo2GGl4cLR2X0Y
-0jEGBSbqCoVtSDrX941ZTHeABsL4uw==
-=WWqz
------END PGP SIGNATURE-----
-
---NyIWghvMyGHZWYNl--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
