@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BABB36123A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 20:37:10 +0200 (CEST)
-Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E72836122B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 20:34:26 +0200 (CEST)
+Received: from localhost ([::1]:56904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX6rV-0007KH-1b
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 14:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50612)
+	id 1lX6or-0005OU-Ma
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 14:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lX6gV-0001mC-1n
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:25:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55460)
+ id 1lX6gT-0001jh-SC
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:25:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lX6gR-0001nA-7O
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:25:46 -0400
+ id 1lX6gP-0001mJ-Uw
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:25:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lX6gP-00073r-16
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 18:25:41 +0000
+ id 1lX6gO-00071c-7y
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 18:25:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F407D2E8047
+ by loganberry.canonical.com (Postfix) with ESMTP id 3AFCB2E80F9
  for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 18:25:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Apr 2021 18:17:30 -0000
-From: Peter Maydell <1923861@bugs.launchpad.net>
+Date: Thu, 15 Apr 2021 18:17:59 -0000
+From: Gautam Dawar <1924603@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: v5.1.0
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ml-0 pmaydell
-X-Launchpad-Bug-Reporter: ml-0 (ml-0)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
-Message-Id: <161851065104.28136.335363198848944407.malone@soybean.canonical.com>
-Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
+X-Launchpad-Bug-Commenters: gdawar
+X-Launchpad-Bug-Reporter: Gautam Dawar (gdawar)
+X-Launchpad-Bug-Modifier: Gautam Dawar (gdawar)
+References: <161851052657.18499.4390060645724242620.malonedeb@wampee.canonical.com>
+Message-Id: <161851067986.29215.16265633389130959087.malone@soybean.canonical.com>
+Subject: [Bug 1924603] Re: Incorrect feature negotiation for vhost-vdpa
+ netdevice
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 02f5c35208d26be4c0d97a7e1aad35585198042f
+X-Launchpad-Hash: 1b49876e8e3cb27f992315b1dfbe76ae1f673eb5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -69,59 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
+Reply-To: Bug 1924603 <1924603@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks. This is a bug in the AN547 model -- we were accidentally turning
-off the FPU. I'll write a patch.
-
-NB that with that bug fixed your code then hits an UNDEF trying to do:
-  0x00000996:  eef7 1a10  vmrs     r1, mvfr0
-
-Only A-profile CPUs have MVFR0 accessible via the vmrs instruction. For
-M-profile this register is memory-mapped, at 0xE000EF40.
+QEMU version: 5.1.0
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923861
+https://bugs.launchpad.net/bugs/1924603
 
 Title:
-  Hardfault when accessing FPSCR register
+  Incorrect feature negotiation for vhost-vdpa netdevice
 
 Status in QEMU:
   New
 
 Bug description:
-  QEMU release version: v6.0.0-rc2
+  QEMU cmdline:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -m 2G -hda  /gau=
+tam/centos75_1.qcow2 -name gautam,process=3Dgautam -enable-kvm -netdev vhos=
+t-vdpa,id=3Dmynet0,vhostdev=3D/dev/vhost-vdpa-0 -device virtio-net-pci,netd=
+ev=3Dmynet0,mac=3D02:AA:BB:DD:00:20,disable-modern=3Doff,page-per-vq=3Don -=
+cpu host --nographic
 
-  command line:
-  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
-semihosting -semihosting-config enable=3Don,target=3Dnative
+  Host OS:
+  =3D=3D=3D=3D=3D=3D=3D=3D
+  Linux kernel 5.11 running on x86 host
 
-  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
-  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
-  GNU/Linux
+  Guest OS:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  CentOS 7.5
 
-  guest operating system: none (bare metal)
+  Root cause analysis:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-  Observation:
-  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
-47 machine. In the startup code I am accessing the FPSCR core register:
+  For vhost-vdpa netdevice, the feature negotiation results in sending
+  the superset of features received from device in call to get_features
+  vdpa ops callback.
 
-  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
-  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
-  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
+  During the feature-negotiation phase, the acknowledged feature bits
+  are initialized with backend_features  and then checked for supported
+  feature bits in vhost_ack_features():
 
-  where the register access functions __get_FPSCR() and
-  __set_FPSCR(fpscr) are taken from CMSIS_5 at
-  ./CMSIS/Core/include/cmsis_gcc.h
+  void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
+  {
+    net->dev.acked_features =3D net->dev.backend_features;
+    vhost_ack_features(&net->dev, vhost_net_get_feature_bits(net), features=
+);
+  }
 
-  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
-  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
+   =
+
+  The vhost_ack_features() function just builds up on the dev.acked_feature=
+s and never trims it down:
+
+  void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits, =
+uint64_t features)
+  {     const int *bit =3D feature_bits;
+
+        while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
+             uint64_t bit_mask =3D (1ULL << *bit);      =
+
+
+              if (features & bit_mask)
+                   hdev->acked_features |=3D bit_mask;
+
+              bit++;
+         }
+  }
+
+  Because of this hdev->acked_features is always minimally equal to the
+  value of device features and this is the value that is passed to the
+  device in set_features callback:
+
+  static int vhost_dev_set_features(struct vhost_dev *dev, bool enable_log)
+  {
+         uint64_t *features =3D dev->acked_features;
+         .....
+         r =3D dev->vhost_ops->*vhost_set_features*(dev, features);
+  }
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1924603/+subscriptions
 
