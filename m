@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151903602C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 08:53:33 +0200 (CEST)
-Received: from localhost ([::1]:35644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E86F3602D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 08:58:15 +0200 (CEST)
+Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWvsa-0005h7-61
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 02:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
+	id 1lWvx8-00081C-Da
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 02:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lWvr0-0004ph-IT
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:51:54 -0400
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:39552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lWvqx-00063i-3E
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:51:54 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id u4so25915877ljo.6
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 23:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J6f7rExeDcaeVqyX/x6Y/RGhrOBvlSYjbDa784miew4=;
- b=KLEme10tpGFd6crfl2otkOCbzpf27Whl8n+d0b8ZUTwbXGcJpfmAmwRxqOXY9pK8F/
- pbTdNWkGwzgsLLjfq+uDmHryw0UMDh9TTu8xaNIXQy/cdWXIHJlCWOCRTT4A3PMx9QCm
- J7GOaww3oyowcf1QsphF4xZinTfxawZosyouQu2LhWy9A0VXT8Dk4B5Xub5xaKGvgBnK
- KRoCuZ6O0shUfQuYWF+4shyPWVm+wBBrgZ9XHaBrrgI8kwe8aTXor6zPWeX9frqvWNPx
- 6KkI07pnuGcEOWQ+xZ2a5Em2xUMtVda4/Vp3lmk86NWE+DuNto73eoKddniNspGal8Cu
- SBGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J6f7rExeDcaeVqyX/x6Y/RGhrOBvlSYjbDa784miew4=;
- b=FJWQEPzJW51+wfo1MuJWyFDoSbPkYk312Ty41BmUYLigFPTXBDfBLVNLVkkhEjWh0S
- oJvaVJof8WK/SmPMl3I3oLW0t6Giu2w33Q8D/VJp4SjmuZ9twbws8amri/twoZLWdZcj
- tzs8lW7ycfcRyzZ1Mz91dXt/4ntQ8Cs2keiQTbmBY22JEGw746zLDG5fhIRhqeja8q/j
- 8fvB+bAu6AcVN2D0eur+isrW/uMcEZxz/YArzbsf9tIQhg5qniJDqivj7o/cAjz1PElf
- WwI7ML3IgZ08ryMpd0CginlMQKkFxNaXIWcgqj6cP5rjKuOnz6jUUXoEhn+QuG/VJV0g
- +iFQ==
-X-Gm-Message-State: AOAM532jcOxZWpsRKRTzmFA09oOGm2HC5S5YyVB2sWkH7zf4tHpEo9iW
- HucogZEDP0uVHxh+yfrwzwoosheFhxWWXLvklGaODg==
-X-Google-Smtp-Source: ABdhPJwE1o3Tp7WE/LSSjsdZieUB/3azTl64601wK3qlCcW6L4nLY03onGgWGvgKu6qbm9CpReRfb0VK2K6GQAfVg6U=
-X-Received: by 2002:a2e:3909:: with SMTP id g9mr926910lja.385.1618469506589;
- Wed, 14 Apr 2021 23:51:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lWvsa-0006TA-Ep; Thu, 15 Apr 2021 02:53:32 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lWvsW-00072U-W4; Thu, 15 Apr 2021 02:53:32 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1BE8D10C8;
+ Thu, 15 Apr 2021 02:53:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 15 Apr 2021 02:53:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=VqpreVlkM+l5iDfizppH6zpyBGG
+ NK+Th/IL8PCMiooQ=; b=ys+4uqDomkAvsMzZOSLCApglTm0oeOhGQH1q1d/oHGB
+ a+o0IuPoozz+a0EV//mhp2K/WBaS//PP//9jdpepxB5nOBBl1KJ5cwsk5pNroRN1
+ Y7qAub3bgp74K+P7WRAuLgSvytypcaOegWhhKSqFOoboQfqymUfKUCS4VxNQMQTb
+ 4pWAqrR5FYlTu/zDHK+eZbuU7n7mHMj0wm5hbTbeCugCbIjMc25JWWkFOkJbQRwA
+ s662UWFQS/GaouuFNVT8p2gDgzVcBymlIe9RqPWoWHccAr759qAhc44xjPvxXk4Z
+ /G0FT+FyBYpVMJHCfAGUiAYtOtHCZO1LQMzRj3+snog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VqpreV
+ lkM+l5iDfizppH6zpyBGGNK+Th/IL8PCMiooQ=; b=NMCSJjvyPm+ayhW81F0qWr
+ QEoroPSgQwnmcns8dAjrgsqCK208G/dqYvOtYQtEGAX94RP4rsmyDaev6GPqUs6H
+ bY90JUcF9EGd8Gkuj9t1/ODapwTy6kJRfbZaMpdu5pEweJCfiuFC6lRbdjjKGv1d
+ 0tkQhtFcGWtL1XGu2eJ7xjB9x83ovl7ED89BYKd/oHmycOTyF3Hbb/IhtXPvO7NG
+ aOvWzWU9Rt0NFOuwH1szbrNyV0E6O53TGsDEtp3IOljqghchIBvZ4cpJXpFNjiTH
+ PhkncwBW6VYSGLWOBTGt0rtrd3rmcqcgCFGfWnzuir0TpCXq1TZdXd2fahZYgDgQ
+ ==
+X-ME-Sender: <xms:4-J3YJwVwZ3o_sliyBI6XVW7QdbNYzgJG3UR1CVV8_8xV7m_PuS71w>
+ <xme:4-J3YJR3ZiB3kI9zuDH-d1c39hf-cWjec-7eGipD7tK9VgzwmOydJeraBz9Gf650X
+ 8V-MYfavQQF8IpaTrY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudelvddguddtlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeule
+ etveejudeileduffefjeegfffhuddvudffkeenucfkphepkedtrdduieejrdelkedrudel
+ tdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:4-J3YDU64GbxMyVHFdqHFrlRq0yuOX-Cbm1igl0DCz2o3Frhy7HvLA>
+ <xmx:4-J3YLjSgyXvHl9Em4tvGMdhJsWLMQLvkWn8TJxbWpCTvMkdL0WdGg>
+ <xmx:4-J3YLDMVXYqJEqxmt193nCVt7SoKG3-LT1kpbcfd7sBSbXF64k5bg>
+ <xmx:5eJ3YNAObaiIooI48vPW6ODbFUCeLYMkmiNFNIZI6yFPDbMA6HAH_A>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 66C3B24005B;
+ Thu, 15 Apr 2021 02:53:22 -0400 (EDT)
+Date: Thu, 15 Apr 2021 08:53:20 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH 1/2] hw/block/nvme: align with existing style
+Message-ID: <YHfi4IiGoJA+CiTG@apples.localdomain>
+References: <CGME20210317093352epcas5p3193a70101b750934fabcb2540129e499@epcas5p3.samsung.com>
+ <20210317093006.31404-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-References: <AM6PR01MB498093EDCD5AB2B533595611DF4E9@AM6PR01MB4980.eurprd01.prod.exchangelabs.com>
-In-Reply-To: <AM6PR01MB498093EDCD5AB2B533595611DF4E9@AM6PR01MB4980.eurprd01.prod.exchangelabs.com>
-From: Liviu Ionescu <ilg@livius.net>
-Date: Thu, 15 Apr 2021 09:51:35 +0300
-Message-ID: <CAG7hfcK89F0FiPLkPpWr98YDi9Ks2XNhRca_xKhz8WgnH4bYgg@mail.gmail.com>
-Subject: Re: Mac OS - Standalone Installer
-To: Richard Hill <richardmatthewhill@hotmail.com>
-Content-Type: multipart/alternative; boundary="000000000000053fc005bffd4c13"
-Received-SPF: none client-ip=2a00:1450:4864:20::22a;
- envelope-from=ilg@livius.net; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MUAhds1EJPxcpQ4e"
+Content-Disposition: inline
+In-Reply-To: <20210317093006.31404-1-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,68 +94,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ k.jensen@samsung.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000053fc005bffd4c13
-Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 15 Apr 2021 at 01:16, Richard Hill <richardmatthewhill@hotmail.com>
-wrote:
-
->
->   ... a standalone installer for QEMU for Mac OS?
->
-
-The xPack QEMU Arm is distributed as standalone archives, for all
-platforms, including macOS:
-
-https://github.com/xpack-dev-tools/qemu-arm-xpack/releases
-
-They do not even require install, simply unpacking the archives in any
-location is enough; this can be further automated with xpm, which is also
-very convenient for CI.
-
-Time permitting, I plan a similar binary distribution for the latest QEMU
-too.
-
-Regards,
-
-Liviu
-
--- 
-Sent from my iPad via Gmail.
-
---000000000000053fc005bffd4c13
-Content-Type: text/html; charset="UTF-8"
+--MUAhds1EJPxcpQ4e
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, 15 Apr 2021 at 01:16, Richard Hill &lt;<a href=3D"m=
-ailto:richardmatthewhill@hotmail.com">richardmatthewhill@hotmail.com</a>&gt=
-; wrote:</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">
-<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
-:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
-:rgb(0,0,0)" dir=3D"auto">=C2=A0 ... a standalone installer for QEMU for Ma=
-c OS?</div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"=
->The xPack QEMU Arm is distributed as standalone archives, for all platform=
-s, including macOS:</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
-><a href=3D"https://github.com/xpack-dev-tools/qemu-arm-xpack/releases">htt=
-ps://github.com/xpack-dev-tools/qemu-arm-xpack/releases</a></div><div><br><=
-/div><div dir=3D"auto">They do not even require install, simply unpacking t=
-he archives in any location is enough; this can be further automated with x=
-pm, which is also very convenient for CI.<br></div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Time permitting, I plan a similar binary distribution=
- for the latest QEMU too.</div><div dir=3D"auto">=C2=A0</div><div dir=3D"au=
-to">Regards,</div><div dir=3D"auto"><br></div><div dir=3D"auto">Liviu</div>=
-<div dir=3D"auto"><br></div></div></div></div>-- <br><div dir=3D"ltr" class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">Sent from my iPad v=
-ia Gmail.</div>
+On Mar 17 15:00, Gollu Appalanaidu wrote:
+>Make uniform hexadecimal numbers format.
+>
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> hw/block/nvme.c      | 30 +++++++++++++++---------------
+> include/block/nvme.h | 10 +++++-----
+> 2 files changed, 20 insertions(+), 20 deletions(-)
+>
+>diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>index d439e44db8..21e85374bf 100644
+>--- a/hw/block/nvme.c
+>+++ b/hw/block/nvme.c
+>@@ -2728,18 +2728,18 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeReque=
+st *req)
+>
+>     /*
+>      * In the base NVM command set, Flush may apply to all namespaces
+>-     * (indicated by NSID being set to 0xFFFFFFFF). But if that feature i=
+s used
+>+     * (indicated by NSID being set to 0xffffffff). But if that feature i=
+s used
+>      * along with TP 4056 (Namespace Types), it may be pretty screwed up.
+>      *
+>-     * If NSID is indeed set to 0xFFFFFFFF, we simply cannot associate the
+>+     * If NSID is indeed set to 0xffffffff, we simply cannot associate the
+>      * opcode with a specific command since we cannot determine a unique =
+I/O
+>      * command set. Opcode 0x0 could have any other meaning than something
+>      * equivalent to flushing and say it DOES have completely different
+>-     * semantics in some other command set - does an NSID of 0xFFFFFFFF t=
+hen
+>+     * semantics in some other command set - does an NSID of 0xffffffff t=
+hen
+>      * mean "for all namespaces, apply whatever command set specific comm=
+and
+>      * that uses the 0x0 opcode?" Or does it mean "for all namespaces, ap=
+ply
+>      * whatever command that uses the 0x0 opcode if, and only if, it allo=
+ws
+>-     * NSID to be 0xFFFFFFFF"?
+>+     * NSID to be 0xffffffff"?
+>      *
+>      * Anyway (and luckily), for now, we do not care about this since the
+>      * device only supports namespace types that includes the NVM Flush c=
+ommand
+>@@ -3948,8 +3948,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRe=
+quest *req)
+>             return NVME_INVALID_FIELD | NVME_DNR;
+>         }
+>
+>-        trace_pci_nvme_setfeat_numq((dw11 & 0xFFFF) + 1,
+>-                                    ((dw11 >> 16) & 0xFFFF) + 1,
+>+        trace_pci_nvme_setfeat_numq((dw11 & 0xffff) + 1,
+>+                                    ((dw11 >> 16) & 0xffff) + 1,
+>                                     n->params.max_ioqpairs,
+>                                     n->params.max_ioqpairs);
+>         req->cqe.result =3D cpu_to_le32((n->params.max_ioqpairs - 1) |
+>@@ -4436,7 +4436,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offse=
+t, uint64_t data,
+>         }
+>         break;
+>     case 0x20:  /* NSSR */
+>-        if (data =3D=3D 0x4E564D65) {
+>+        if (data =3D=3D 0x4e564d65) {
+>             trace_pci_nvme_ub_mmiowr_ssreset_unsupported();
+>         } else {
+>             /* The spec says that writes of other values have no effect */
+>@@ -4506,11 +4506,11 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr off=
+set, uint64_t data,
+>         n->bar.cmbmsc =3D (n->bar.cmbmsc & 0xffffffff) | (data << 32);
+>         return;
+>
+>-    case 0xE00: /* PMRCAP */
+>+    case 0xe00: /* PMRCAP */
+>         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrcap_readonly,
+>                        "invalid write to PMRCAP register, ignored");
+>         return;
+>-    case 0xE04: /* PMRCTL */
+>+    case 0xe04: /* PMRCTL */
+>         n->bar.pmrctl =3D data;
+>         if (NVME_PMRCTL_EN(data)) {
+>             memory_region_set_enabled(&n->pmr.dev->mr, true);
+>@@ -4521,19 +4521,19 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr off=
+set, uint64_t data,
+>             n->pmr.cmse =3D false;
+>         }
+>         return;
+>-    case 0xE08: /* PMRSTS */
+>+    case 0xe08: /* PMRSTS */
+>         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrsts_readonly,
+>                        "invalid write to PMRSTS register, ignored");
+>         return;
+>-    case 0xE0C: /* PMREBS */
+>+    case 0xe0C: /* PMREBS */
+>         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrebs_readonly,
+>                        "invalid write to PMREBS register, ignored");
+>         return;
+>-    case 0xE10: /* PMRSWTP */
+>+    case 0xe10: /* PMRSWTP */
+>         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrswtp_readonly,
+>                        "invalid write to PMRSWTP register, ignored");
+>         return;
+>-    case 0xE14: /* PMRMSCL */
+>+    case 0xe14: /* PMRMSCL */
+>         if (!NVME_CAP_PMRS(n->bar.cap)) {
+>             return;
+>         }
+>@@ -4553,7 +4553,7 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offse=
+t, uint64_t data,
+>         }
+>
+>         return;
+>-    case 0xE18: /* PMRMSCU */
+>+    case 0xe18: /* PMRMSCU */
+>         if (!NVME_CAP_PMRS(n->bar.cap)) {
+>             return;
+>         }
+>@@ -4595,7 +4595,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr =
+addr, unsigned size)
+>          * from PMRSTS should ensure prior writes
+>          * made it to persistent media
+>          */
+>-        if (addr =3D=3D 0xE08 &&
+>+        if (addr =3D=3D 0xe08 &&
+>             (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
+>             memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
+>         }
+>diff --git a/include/block/nvme.h b/include/block/nvme.h
+>index 372d0f2799..fc65cfcb01 100644
+>--- a/include/block/nvme.h
+>+++ b/include/block/nvme.h
+>@@ -840,8 +840,8 @@ enum NvmeStatusCodes {
+>     NVME_FEAT_NOT_NS_SPEC       =3D 0x010f,
+>     NVME_FW_REQ_SUSYSTEM_RESET  =3D 0x0110,
+>     NVME_NS_ALREADY_ATTACHED    =3D 0x0118,
+>-    NVME_NS_NOT_ATTACHED        =3D 0x011A,
+>-    NVME_NS_CTRL_LIST_INVALID   =3D 0x011C,
+>+    NVME_NS_NOT_ATTACHED        =3D 0x011a,
+>+    NVME_NS_CTRL_LIST_INVALID   =3D 0x011c,
+>     NVME_CONFLICTING_ATTRS      =3D 0x0180,
+>     NVME_INVALID_PROT_INFO      =3D 0x0181,
+>     NVME_WRITE_TO_RO            =3D 0x0182,
+>@@ -1392,9 +1392,9 @@ typedef enum NvmeZoneState {
+>     NVME_ZONE_STATE_IMPLICITLY_OPEN  =3D 0x02,
+>     NVME_ZONE_STATE_EXPLICITLY_OPEN  =3D 0x03,
+>     NVME_ZONE_STATE_CLOSED           =3D 0x04,
+>-    NVME_ZONE_STATE_READ_ONLY        =3D 0x0D,
+>-    NVME_ZONE_STATE_FULL             =3D 0x0E,
+>-    NVME_ZONE_STATE_OFFLINE          =3D 0x0F,
+>+    NVME_ZONE_STATE_READ_ONLY        =3D 0x0d,
+>+    NVME_ZONE_STATE_FULL             =3D 0x0e,
+>+    NVME_ZONE_STATE_OFFLINE          =3D 0x0f,
+> } NvmeZoneState;
+>
+> static inline void _nvme_check_size(void)
+>--=20
+>2.17.1
+>
 
---000000000000053fc005bffd4c13--
+I do prefer lower case hex in code, but for comments I'd actually like=20
+if they used the same format as in the spec (i.e. "FFFFFFFFh").
+
+This is total bikeshedding, but I guess this patch basically is too :)
+
+--MUAhds1EJPxcpQ4e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmB34t4ACgkQTeGvMW1P
+DelZAggAiQIOoFHJnTd9rTLrVp5oUHE/UlUNC5n968WIB7dppYkqE4n1YuTPCMiP
+dCISsxnCAj6Vmfr4ItGdPd/T8Nr+QsLXy/ppQyAEsvFb3ieBio1buTP13bLsL5E6
+L3XEPAscU7uaUhUHaT6mHEWHfG2wA4mBpbM+KYUpiv8QSRALC9ejbnr2qrUe5gYq
+aSB8PDnmZPPsSxqOH0YhNz+lCdsHjR8jKovPOVKEeVuB30yOhy5KK/p2l4HVmSnl
+z0/AxdVQvFy8g0JO0izcEUhsQG9W0pXBMKpfGJRr9e2UqPbt7e2UIDFFnJcTMyYO
+CgDbFXvd2vlmvlywx2tTnWnw7Ibe1w==
+=BJ2u
+-----END PGP SIGNATURE-----
+
+--MUAhds1EJPxcpQ4e--
 
