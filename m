@@ -2,91 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972C03609D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:52:08 +0200 (CEST)
-Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F9F3609D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:53:49 +0200 (CEST)
+Received: from localhost ([::1]:50486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1Tb-0006nw-Lu
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51902)
+	id 1lX1VE-0000AL-EI
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1Ri-00065R-Oy
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:50:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22353)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lX1Tb-0007Ik-KO; Thu, 15 Apr 2021 08:52:07 -0400
+Resent-Date: Thu, 15 Apr 2021 08:52:07 -0400
+Resent-Message-Id: <E1lX1Tb-0007Ik-KO@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1Rf-0001mq-Am
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:50:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618491006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qB2XOU8KMbuTGMu04OWSLncll7I/PkIw5fsKwWPgarQ=;
- b=BxWhL+IXotKRLK2DfNgUoI36FUlL3FQffD7onmWtVw2S4rT45cxKdM5F0AyMblwSzgyBzf
- ltv+zqNiwJV2JR18ikVBZcAxFPkOkj3HVYI68AEGsMXAqR/IpVxdwcRyV1+TMhkK6Bm3Nr
- oGxdmh/bjLo6XK120JfDF9cBLvS8CpU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-Ci5p2KEBMQeDGTCQ6OAGcA-1; Thu, 15 Apr 2021 08:50:04 -0400
-X-MC-Unique: Ci5p2KEBMQeDGTCQ6OAGcA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j16-20020adfd2100000b02901022328749eso2701030wrh.4
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:50:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qB2XOU8KMbuTGMu04OWSLncll7I/PkIw5fsKwWPgarQ=;
- b=rkhCSgoiLR6ZJZsy+dUpjbtVyUSbuAELym34+fXlZTkmopQwjQ+1rB7pT9qnvcWDtb
- PmmGthTK5lQ8FbwQ1b8MLlJiW7iU9+pkRaiyRAqXY85evxUkoSrFPS9xabLKOLDIhAHZ
- m28azwj1ZrfvTGV/ha9v/C7qN0jW2OdEvYC9m7S6rmgARFKCCrZ/eGgjrnJw92fsgL8n
- VQ4VM/JSZePG/tlLP3CHRIutBaOK2bHdy03em86kF+WZ0k1KlxB4VHqLjgFOKv5DNoLQ
- vrhEmINsoslmLrML8TOmGjFLUld49gAetp0Vk6bxGytlxjw/56m5NAU9DcPamrBeATzS
- ZvWg==
-X-Gm-Message-State: AOAM531tTV4/ynMTCLx0LzcFquCiQHJElfqpsT5dPeBHpukTnsfhV3aJ
- GoeAsXW+typtrV1FYhJ7MUram2A23pVrRNaFLANIanAaZleXxOM2wyv8lJF0kkvWM4xtbr2ztjs
- WeMT3+jY4wCcaCPM=
-X-Received: by 2002:a1c:1f8e:: with SMTP id f136mr3040009wmf.17.1618491003212; 
- Thu, 15 Apr 2021 05:50:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTV6j4W4+I29dP4NHq9g6RTMVIqviLMJs29OZnWCv4zFZawxhNJCvJetfdUBImZcxGbK6qGg==
-X-Received: by 2002:a1c:1f8e:: with SMTP id f136mr3039982wmf.17.1618491003041; 
- Thu, 15 Apr 2021 05:50:03 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id k7sm2959507wrw.64.2021.04.15.05.50.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 05:50:02 -0700 (PDT)
-Subject: Re: [PATCH v3 0/6] qtests: Check accelerator available at runtime via
- QMP 'query-accels'
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-References: <20210415122633.4054644-1-philmd@redhat.com>
- <7be73164-ab1f-f4c7-f80c-3305a71761a9@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ed318c8b-b051-755d-35dc-5d64816f2be6@redhat.com>
-Date: Thu, 15 Apr 2021 14:50:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lX1TY-0002x1-Uo; Thu, 15 Apr 2021 08:52:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618491108; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=E2tveTTdjXUqSpyUc5eQVZFeo1GhSK0sLMioIHRv0f9axMyfgVPw95diQs94YFnhlx6OntrJWW4i6GONIqo682ldbdr6RZGa4VmhapfI00uGVU5Kdtv0TCKAt5o29ka1Nxyy1lB0/o+SNYmo31KoksgwiQm4LMojW65HxZo3D8g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618491108;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=G3evihUPngUNM8pRHuMasiaSps84GbF4HfOmgWHVQ5U=; 
+ b=dVrpFXIK5OZqBYwDNynIaQsrLAqlu/JNDRL27Sqb3nbOMC5J8Ludm8Bk/WM8qOFdNzdT362kolDHnlT/lL4Y6UZa6fh0xxUGY51g/2PLt+b/lauLzjmJuss8wL+CngnvVQDBzkrzaR1aaIsLdyEH6zapvfUIefi2JDRP+U1aZYU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618491105581120.3290389281891;
+ Thu, 15 Apr 2021 05:51:45 -0700 (PDT)
+In-Reply-To: <20210415124307.428203-1-pbonzini@redhat.com>
+Subject: Re: [PATCH 0/3] file-posix: fix refresh_limits for SCSI devices
+Message-ID: <161849110447.10689.413393062428361511@72b6d80f974b>
 MIME-Version: 1.0
-In-Reply-To: <7be73164-ab1f-f4c7-f80c-3305a71761a9@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Thu, 15 Apr 2021 05:51:45 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,30 +65,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 2:30 PM, Claudio Fontana wrote:
-> Hi Philippe,
-> 
-> does the tests/qtest/arm-cpu-features.c kvm_enabled() function need to be replaced by the use of this new command?
-> 
-> Maybe something to add to the series?
-> 
-> The use of "kvm_enabled()" in this function is particularly confused, because it matches the sysemu/kvm.h function name with completely different meaning.
-
-Great idea, thanks!
-
-> 
-> Ciao,
-> 
-> CLaudio
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxNTEyNDMwNy40Mjgy
+MDMtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTUxMjQzMDcuNDI4
+MjAzLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSBmaWxlLXBvc2l4
+OiBmaXggcmVmcmVzaF9saW1pdHMgZm9yIFNDU0kgZGV2aWNlcwoKPT09IFRFU1QgU0NSSVBUIEJF
+R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
+aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
+U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
+YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
+ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDQxNTEyNDMwNy40MjgyMDMtMS1wYm9u
+emluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTA0MTUxMjQzMDcuNDI4MjAzLTEtcGJvbnpp
+bmlAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjM3ZmViMjUgZmls
+ZS1wb3NpeDogZml4IG1heF9pb3YgZm9yIC9kZXYvc2cgZGV2aWNlcwplZWMwNTIxIGZpbGUtcG9z
+aXg6IHRyeSBCTEtTRUNUR0VUIG9uIGJsb2NrIGRldmljZXMgdG9vLCBkbyBub3Qgcm91bmQgdG8g
+cG93ZXIgb2YgMgpjNDRiYzM4IHNjc2ktZ2VuZXJpYzogcGFzcyBtYXhfc2VnbWVudHMgdmlhIG1h
+eF9pb3YgZmllbGQgaW4gQmxvY2tMaW1pdHMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVj
+a2luZyBjb21taXQgYzQ0YmMzODZiYTIwIChzY3NpLWdlbmVyaWM6IHBhc3MgbWF4X3NlZ21lbnRz
+IHZpYSBtYXhfaW92IGZpZWxkIGluIEJsb2NrTGltaXRzKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
+Y2hhcmFjdGVycwojNTE6IEZJTEU6IGh3L3Njc2kvc2NzaS1nZW5lcmljLmM6MTg2OgorICAgICAg
+ICAgICAgbWF4X3RyYW5zZmVyID0gTUlOX05PTl9aRVJPKG1heF90cmFuc2ZlciwgbWF4X2lvdiAq
+IHFlbXVfcmVhbF9ob3N0X3BhZ2Vfc2l6ZSkKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
+MjMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS8zIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIv
+MyBDaGVja2luZyBjb21taXQgZWVjMDUyMTQyMTU0IChmaWxlLXBvc2l4OiB0cnkgQkxLU0VDVEdF
+VCBvbiBibG9jayBkZXZpY2VzIHRvbywgZG8gbm90IHJvdW5kIHRvIHBvd2VyIG9mIDIpCjMvMyBD
+aGVja2luZyBjb21taXQgMzdmZWIyNTliYmM0IChmaWxlLXBvc2l4OiBmaXggbWF4X2lvdiBmb3Ig
+L2Rldi9zZyBkZXZpY2VzKQpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0
+b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMyBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
+bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA0MTUxMjQzMDcuNDI4MjAzLTEtcGJvbnppbmlAcmVk
+aGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
+YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
+YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
