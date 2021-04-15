@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E216360988
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:35:42 +0200 (CEST)
-Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8402736097F
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:34:18 +0200 (CEST)
+Received: from localhost ([::1]:38782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1Dh-0001Ne-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:35:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46458)
+	id 1lX1CL-0007xO-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15W-0003OF-GF
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47370)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15T-0006EY-68
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618489630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sTefL8KFB03yS8Z+kdiNHNixKSuiXSG+jyZydBtqNkg=;
- b=AfRz/DCPCaBzJWAD1IZY8Z69tYVE4ZpxKMHxCRtlWoG8b+PcfHEZJ6S0MH1JjrAFBd+nqi
- C86Pw58eIRZzj8NhJoskEM+VFEbJwa3KJsGIgyKBNOoZ02trrkqpZEpowPXjoTrIrGdN9/
- dQO61NfsBapX81Z8zm1u5DeSbIIkKpk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-zQa8idv-PdOuizFevkES5A-1; Thu, 15 Apr 2021 08:27:08 -0400
-X-MC-Unique: zQa8idv-PdOuizFevkES5A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g21-20020a1c4e150000b0290125a227e5bbso2828580wmh.0
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:27:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lX18A-0005tC-Ea
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:30:00 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lX186-0007X7-2Q
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:29:58 -0400
+Received: by mail-ej1-x632.google.com with SMTP id x12so15811298ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ensaLCG1u889GzSXiMB5rsF8TGZR+HOGSorjU2KKyrI=;
+ b=J27/6Fx6TsS5gz7+wrVwLk11Pi68WJLlR3XprxVoV3/ZwlaRGu/yUg2YaxrnfVhN6a
+ y6LOEeaAhiTcd766CtIKdEy5LwKqGEWWYC3sWncX2V2bHmoT6zWAo3IoSY1BcZwiU5zY
+ TvU9MrFoLCmKQVOGWLeqO9BDc10wOtmv/r+bEacMsfPmM+kXqOTu6C2gBHs+5Rp4i5mT
+ lqUFupEuYmj1xVBdvBTfnk4iBR+G8ZM2RsMnKQqvUq81gEcqjzB1tb/FZM828PnXaXOc
+ CtfrCx+aheiFM7A4jzbvRzbhUxkdupdD217PVT4LxI/TZue7d4jh4VPKn0gZ+i/x6sQz
+ p5RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sTefL8KFB03yS8Z+kdiNHNixKSuiXSG+jyZydBtqNkg=;
- b=eR4udVuTrM64LRXJfbSYlTzT9XYtt5Lwg5llBSLWx0c61iGy3xTQz7AIpuW8hjEpNm
- xCvdVGi/s8MaZDqL9K42GiABETXEZaEK9PowpglxG8DEdEMlYh5EjLm13eH6+NfY6fXs
- Ud5tFobhFQ/qK9mAaj8Vlu6jeuj9cdcTBXMqDoQ2s48nFMQS5o/yie9s0L/VvhVu3Vn4
- Isx5OSbwNZevpF2k89VGK3VWyPf5yNta9z4uGuQz+MYZ+K/7jnvUgzhpbMJ9UP7LH5Fo
- yGBmNxwnOs8Zf2wOn5J8cW6JACsVNigWYOhlh+oNDyALK4ZZ5KYbQn9na7xWcqhWsq/p
- zenQ==
-X-Gm-Message-State: AOAM531RYZU8L+gKpZ/b7lCeOkCeJhcEcsn0sfs68sVit1QI2I0GWpRX
- 8TBYGaMhV9WNnjpNv0JXK24bh2pUL55gXb0J8Rcc7imDkwMAR95kF5hAEoteLsouCgVV+IMMJI9
- 96Lpl/srIaLIXIIrOTOD2dldLNv205d9SvrRxGgAkMUK8y31antRQUXl6VUP5VRZ2
-X-Received: by 2002:a05:6000:1564:: with SMTP id
- 4mr1781789wrz.197.1618489627102; 
- Thu, 15 Apr 2021 05:27:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZAiOPR+Qhi3AUy09fgxkgg+Rre7WuZBPsycy6ykBF0cHFL3asGkc4vd28EHzUJevZprqzqA==
-X-Received: by 2002:a05:6000:1564:: with SMTP id
- 4mr1781763wrz.197.1618489626954; 
- Thu, 15 Apr 2021 05:27:06 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id q5sm3014005wrv.17.2021.04.15.05.27.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 05:27:06 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] tests/meson: Only build softfloat objects if TCG is
- selected
-Date: Thu, 15 Apr 2021 14:26:33 +0200
-Message-Id: <20210415122633.4054644-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210415122633.4054644-1-philmd@redhat.com>
-References: <20210415122633.4054644-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ensaLCG1u889GzSXiMB5rsF8TGZR+HOGSorjU2KKyrI=;
+ b=hSKo906QRMobWnBn1P4ReKQFzJy/8W1+5Qw+jmdF8Zp/bRv7wFrpN22pNyqvqe/uuR
+ o1M7EXlFZQjBlogeYgaBiFAg+h3/5uOCrlcp63i4ebAWms7xXnNjkb/xmI+2G99tHQ54
+ ZsYOl4YGQ6EQHiIBhID4uHYIdQB0b+DNfmXKFhAoPK1KPQIvVCQ/gCd/CCgwviiZLdvL
+ m9QdELFPA8asLytbUf7q9fxzlBeZFnrAHKMxFaYgHbP0JnR10EH34le85NwVwF968KjP
+ OSTBA+ZZWDkfnWXKDDjav7l+h5sGKBsOs2a+xVq92O6692vzJLu6oJamFYeDXeC8JhuQ
+ L31A==
+X-Gm-Message-State: AOAM530ge1f5bp+OyhPBRh5jmZcVGoM19iLldRB89tRwwD1YaiEdevAs
+ pLkmM/TxkrglkY0qiL1c8geFy23pr+YxExGTR3ed+tYG/vVvbQ==
+X-Google-Smtp-Source: ABdhPJwH4ezH8I4fL0cLmeQSXXTe0vaWs4zmyETUuYHooHErhPMk54Fo4efxzxXwnUzlkREUnVSTGDg9M+VkQEO9pVQ=
+X-Received: by 2002:a17:906:bd2:: with SMTP id
+ y18mr3205709ejg.482.1618489791138; 
+ Thu, 15 Apr 2021 05:29:51 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 15 Apr 2021 13:29:03 +0100
+Message-ID: <CAFEAcA8xHxCGhh2hibsdCxZrYRRU+xcwVsa85O7KL9BsmW7ohw@mail.gmail.com>
+Subject: meson incorrectly detects libcurl as present even if it spots that
+ its dependencies are missing
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,75 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Andrew Jones <drjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
- Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+My build of system-emulation with --enable-static seems to have
+broken at some point since the last time I had cause to run it.
+Looking at the meson-log the cause seems to be that meson enables
+libcurl support even though it has found that libcurl's dependencies
+aren't present as static libs:
 
-The previous attempt (commit f77147cd4de) doesn't work as
-expected, as we still have CONFIG_TCG=1 when using:
+Determining dependency 'libcurl' with pkg-config executable
+'/usr/bin/pkg-config'
+PKG_CONFIG_PATH:
+Called `/usr/bin/pkg-config --modversion libcurl` -> 0
+7.58.0
+PKG_CONFIG_PATH:
+Called `/usr/bin/pkg-config --cflags libcurl` -> 0
+-I/usr/include/x86_64-linux-gnu
+PKG_CONFIG_PATH:
+Called `/usr/bin/pkg-config libcurl --libs --static` -> 0
+-L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/mit-krb5
+-lcurl -lnghttp2 -lidn2 -lrtmp -lpsl -lnettle -lgnutls
+-Wl,-Bsymbolic-functions -Wl,-z,relro -lgssapi_krb5 -lkrb5 -lk5crypto
+-lcom_err -llber -lldap -llber -lz
+PKG_CONFIG_PATH:
+Called `/usr/bin/pkg-config libcurl --libs --static` -> 0
+-L/usr/lib/x86_64-linux-gnu/mit-krb5 -lcurl -lnghttp2 -lidn2 -lrtmp
+-lpsl -lnettle -lgnutls -Wl,-Bsymbolic-functions -Wl,-z,relro
+-lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -llber -lldap -llber -lz
+None of 'PKG_CONFIG_PATH' are defined in the environment, not changing
+global flags.
+WARNING: Static library 'nghttp2' not found for dependency 'libcurl',
+may not be statically linked
+WARNING: Static library 'psl' not found for dependency 'libcurl', may
+not be statically linked
+WARNING: Static library 'gssapi_krb5' not found for dependency
+'libcurl', may not be statically linked
+WARNING: Static library 'krb5' not found for dependency 'libcurl', may
+not be statically linked
+WARNING: Static library 'k5crypto' not found for dependency 'libcurl',
+may not be statically linked
+Run-time dependency libcurl found: YES 7.58.0
 
-  configure --disable-system --disable-user
 
-Now than we have removed the use of CONFIG_TCG from target-dependent
-files in tests/qtest/, we can remove the unconditional definition of
-CONFIG_TCG in config_host.
+This seems wrong to me -- if meson is smart enough to spot that
+it's not actually going to be able to statically link libcurl
+because of all those missing static libs, it should determine that
+it has not found a working libcurl, rather than saying that it has
+and letting the build proceed until the final link of executables fails.
 
-This avoid to build a bunch of unrequired objects when building with
---disable-tcg (in particular the softfloat tests):
-
-Before:
-
-  $ make
-  [1/812] Generating trace-qom.h with a custom command
-  ...
-
-After:
-
-  $ make
-  [1/349] Generating trace-qom.h with a custom command
-  ...
-
-A difference of 463 objects...
-
-Reported-by: Claudio Fontana <cfontana@suse.de>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v3: Include Paolo's feedback:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg793872.html
-therefore o not include Alex's R-b tag.
-
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Cc: Emilio G. Cota <cota@braap.org>
----
- meson.build | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meson.build b/meson.build
-index c6f4b0cf5e8..623cbe50685 100644
---- a/meson.build
-+++ b/meson.build
-@@ -262,7 +262,6 @@
-                         language: ['c', 'cpp', 'objc'])
- 
-   accelerators += 'CONFIG_TCG'
--  config_host += { 'CONFIG_TCG': 'y' }
- endif
- 
- if 'CONFIG_KVM' not in accelerators and get_option('kvm').enabled()
--- 
-2.26.3
-
+thanks
+-- PMM
 
