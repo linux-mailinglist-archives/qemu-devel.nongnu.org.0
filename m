@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FEE4361466
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 23:58:15 +0200 (CEST)
-Received: from localhost ([::1]:45740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D9D361465
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 23:57:50 +0200 (CEST)
+Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXA06-0006qE-Mb
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 17:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43688)
+	id 1lX9zi-0006hO-30
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 17:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uT-0000j2-Kf
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37204)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uV-0000kt-Ld
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uR-0001zp-Dl
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:25 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lX9uR-0001zn-E2
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 17:52:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1618523542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/fhLbR5K3HyCkI+hULT4nKQTRoKHc8/uItuX0msEvnY=;
- b=ZqmHTeNJXKfc/rRT2OkasBiVVfq95uwVwfnxUu1H+LaKp4KuBnd//U/cj8bEM17ttKHEIz
- 281G0N5o+XB2TWJJ8eHABrRWwi9ZI4e69f08zGb18TQkXjTl+Gfbq08walEJdD6JDw1NPZ
- i3r0xwUCFH1qyVbeUKFM/mrXVzSZERc=
+ bh=dY2PHxhgV0UwiOC39r7ALvr6lsd4xAizu2vDZ7OF7xM=;
+ b=JTvgvdeqc7jGFPuoWvdvYX0VGCeI3pObRWcod2je/ZXySTFP2yN/P+3CsYnjkS40C0c4LJ
+ TN7upKxKNy8qetwJHPqC7OvaupGpOX91qokDVvwgLoNa0IMOjDdS1yF8IkssjqRbOdRJp9
+ jOMyBckaIhszge0li7KcHMWgbY9Ml3w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-bl4RYgleN7WHcFkzv2AnDA-1; Thu, 15 Apr 2021 17:52:18 -0400
-X-MC-Unique: bl4RYgleN7WHcFkzv2AnDA-1
+ us-mta-470-t_XziZBZO--I_C5f_80FWw-1; Thu, 15 Apr 2021 17:52:20 -0400
+X-MC-Unique: t_XziZBZO--I_C5f_80FWw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AC3C107ACC7;
- Thu, 15 Apr 2021 21:52:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FFEBEC1A0;
+ Thu, 15 Apr 2021 21:52:19 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-207.rdu2.redhat.com
  [10.10.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A569B5D9DE;
- Thu, 15 Apr 2021 21:52:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 902D85D9DE;
+ Thu, 15 Apr 2021 21:52:17 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] Acceptance tests: prevent shutdown on non-specific target
- tests
-Date: Thu, 15 Apr 2021 17:51:39 -0400
-Message-Id: <20210415215141.1865467-7-crosa@redhat.com>
+Subject: [PATCH 7/8] tests/acceptance/migration.py: cancel test on s390x
+Date: Thu, 15 Apr 2021 17:51:40 -0400
+Message-Id: <20210415215141.1865467-8-crosa@redhat.com>
 In-Reply-To: <20210415215141.1865467-1-crosa@redhat.com>
 References: <20210415215141.1865467-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -92,54 +91,34 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running tests that are not target specific with various target
-binaries, some specific behavior appears.  For s390x, when there's no
-guest code running, it will produce GUEST_PANICKED events as the
-firmware will shutdown the machine.
+Because s390x targets it can not currently migrate without a guest
+running.
 
-With this change, no GUEST_PANICKED *event* will be generated.
-
-For some QMP commands, such as "query-migrate", a proper response
-("guest-panicked" for the s390x target) will still be given.
+Future work may provide a proper guest, but for now, it's safer to
+cancel the test.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/migration.py | 4 ++--
- tests/acceptance/version.py   | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tests/acceptance/migration.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index 25ee55f36a..b4d46becc6 100644
+index b4d46becc6..4174d55c81 100644
 --- a/tests/acceptance/migration.py
 +++ b/tests/acceptance/migration.py
-@@ -46,12 +46,12 @@ def assert_migration(self, src_vm, dst_vm):
- 
-     def do_migrate(self, dest_uri, src_uri=None):
+@@ -48,6 +48,12 @@ def do_migrate(self, dest_uri, src_uri=None):
          dest_vm = self.get_vm('-incoming', dest_uri)
--        dest_vm.add_args('-nodefaults')
-+        dest_vm.add_args('-nodefaults', '-no-shutdown')
+         dest_vm.add_args('-nodefaults', '-no-shutdown')
          dest_vm.launch()
++
++        cpus = dest_vm.command('query-cpus-fast')
++        if cpus:
++            if cpus[0].get('target') == 's390x':
++                self.cancel('Migration without a guest not possible on s390')
++
          if src_uri is None:
              src_uri = dest_uri
          source_vm = self.get_vm()
--        source_vm.add_args('-nodefaults')
-+        source_vm.add_args('-nodefaults', '-no-shutdown')
-         source_vm.launch()
-         response = source_vm.qmp('migrate', uri=src_uri)
-         if 'error' in response:
-diff --git a/tests/acceptance/version.py b/tests/acceptance/version.py
-index 79b923d4fc..3cf18c9878 100644
---- a/tests/acceptance/version.py
-+++ b/tests/acceptance/version.py
-@@ -17,7 +17,7 @@ class Version(Test):
-     :avocado: tags=quick
-     """
-     def test_qmp_human_info_version(self):
--        self.vm.add_args('-nodefaults')
-+        self.vm.add_args('-nodefaults', '-no-shutdown')
-         self.vm.launch()
-         res = self.vm.command('human-monitor-command',
-                               command_line='info version')
 -- 
 2.25.4
 
