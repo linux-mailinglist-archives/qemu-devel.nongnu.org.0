@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729D336098A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:36:40 +0200 (CEST)
-Received: from localhost ([::1]:47788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96642360980
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:34:19 +0200 (CEST)
+Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1Ed-0003KS-HQ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46276)
+	id 1lX1CM-0007xm-Hy
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15M-000351-UE
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48645)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15Q-00039z-2K
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15I-000672-G5
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15O-0006B0-BE
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618489619;
+ s=mimecast20190719; t=1618489625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gXF3I2HiTrXmapky2sFUIdU4HSA6Nendcs7h4VxHKIw=;
- b=QO53Uo0Qxst3ihpSFgXhzVBh1Da8fSlmetQ7QIsGDfKJTA92X9XRfM2ronEZGCExdq4LB5
- ZSp+Ul4w9WYvubAza03mcXdi5w+OdU02QTscQYXYkmAnbpHhhkpp8u4RUrGhF2eWCxt0Bi
- P3f0anBqyDPYskN593thUUIr1H/FzJA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-3t_Mdr1HNdCtu1oDhZ3fmg-1; Thu, 15 Apr 2021 08:26:58 -0400
-X-MC-Unique: 3t_Mdr1HNdCtu1oDhZ3fmg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- m16-20020a0560000250b02900ffde35c102so2685982wrz.20
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:26:57 -0700 (PDT)
+ bh=VGzikIBP/Z5SEBvKQqeWbm5PvQswPv/9xcZd1fSf1xk=;
+ b=izlhcKt88eJMq3V9qWSnS/Nyid2sHONiX8ZnGfSqWZwSKeftaWnltG9N7kcJZPoHfqe3eS
+ pRwvMcrPDEgNro66a3+sO8aIW6pJM+k/992Fr656DWGGdJWPXURFv0/X5kVp4xMvnZkrcj
+ ZXZo1vgIVOinkWp4WQxZuH56gf20m9E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-11wXdvRjMrSHZ4AQdpiuwA-1; Thu, 15 Apr 2021 08:27:04 -0400
+X-MC-Unique: 11wXdvRjMrSHZ4AQdpiuwA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y13-20020adfdf0d0000b02901029a3bf796so2688815wrl.15
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:27:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gXF3I2HiTrXmapky2sFUIdU4HSA6Nendcs7h4VxHKIw=;
- b=XEuvfw8fBw9VUdYkOsYZYOsH797/Kc8NiDLb5x08Opc5VKvwI5SRROM4gP3YLPm3hQ
- mN2y+wHEelPGn8rxJlSP3sH3iAZ3yZyjbZwlkfc1Wr3s6PL47LTxJU8FDpoF5dXAoO4A
- ktQQ3jaoppC3E+CiD0pOmvtl5H9Wm3XGXEYNRi6BHPOIEdBf9832dNAhILgvnDNi+d3T
- SKohyBZbKocTsC9dOY4rHzM/wsq4GW+kr7awtrIgCio9eMeXy5sQ+BuuFfeNZ/jmvMKe
- nhdkDIsyuXwWBZxDfvZ5Y+up9t78NF07QpnoR92wCqWMGzXk7ocug6o7/yPI4LJx3QLI
- 3cVA==
-X-Gm-Message-State: AOAM531E4ylxqzfQ1oKl4LzHYfQJVqk5Fi//G1DyammG9psSfcD2VuZX
- gwJgJZKV4/oJjnycRt9tiFv/QpiIA4AY6boIbxSyKZlHNF3V7Vu66BGKrI3Zskm98TaquoK1JAS
- eE2q+69I66/NFEpohQ9IwywtKHSuGilAyMVad/IZmrYSZwRcuyiKYiyYMt/xJqaqw
-X-Received: by 2002:a1c:6244:: with SMTP id w65mr2923520wmb.27.1618489616740; 
- Thu, 15 Apr 2021 05:26:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8J+lFcTf5KIFEhbrwHJ6+rzq/h6zamQqjhIsLdqljew46wDI+MFnjCaFqLakdx3bbxihSRg==
-X-Received: by 2002:a1c:6244:: with SMTP id w65mr2923493wmb.27.1618489616564; 
- Thu, 15 Apr 2021 05:26:56 -0700 (PDT)
+ bh=VGzikIBP/Z5SEBvKQqeWbm5PvQswPv/9xcZd1fSf1xk=;
+ b=BmTP1j+8ZX92GRYFCgxSW41AJGUbNJQZ5+nndwCz/2Aj0KVVfmENPlZxCmAz71AAqC
+ 7BQ0oKj8fNdSN3hF10dfCoqVESTuTcdDyMSd71UCDp/96IKCntSNk49+CCq55dc/JQAJ
+ fKh0kiGS3nWJNCYfBmLgKp71aWz/6OQqbEti78hbQ+HzO+Itvr1+Fari5bWZy6m8xC5c
+ eP3QgOgTHKjxZktUXPK22N5yg9wIkicu5DP2GCWtp+aBiUO4DFUljDtwJdg4fk6VN/5z
+ Pd3UUQxEbbhPs1vlKLLAjLO8MrA44K4dL/+zwAVcD4QqKQ2VR3EqSUnO9y/p7kXhrsyB
+ yC7A==
+X-Gm-Message-State: AOAM532O+hyaRFvV23VHI4Sf2wdotMZVTefQq2mKV6Dj2lzA+l114zAG
+ Y26M/F8wHLgqTzXXg/T4iHSyMBG43gA/+NQCLrMLvfE9+dYKhHTiVjO9zTMbZjlKwOdkWrRgWR+
+ xhE2q+S3j+SHBgltRxTYd4QGMwraT1rKja3u0EBagc2B8jDb4Z+YNsTpFupHgv0xm
+X-Received: by 2002:a05:600c:649:: with SMTP id
+ p9mr3008091wmm.47.1618489621871; 
+ Thu, 15 Apr 2021 05:27:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxC5NXLBgOzOhUouyDApWFT7C8LlF+mZV5ojCSMSkE36v7aKPPrnEJCbdjyb290Dn6K+qcTvQ==
+X-Received: by 2002:a05:600c:649:: with SMTP id
+ p9mr3008057wmm.47.1618489621666; 
+ Thu, 15 Apr 2021 05:27:01 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id p18sm2754498wrs.68.2021.04.15.05.26.55
+ by smtp.gmail.com with ESMTPSA id u3sm2456551wmg.48.2021.04.15.05.27.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 05:26:56 -0700 (PDT)
+ Thu, 15 Apr 2021 05:27:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] qtest/qmp-cmd-test: Make test build-independent from
- accelerator
-Date: Thu, 15 Apr 2021 14:26:31 +0200
-Message-Id: <20210415122633.4054644-5-philmd@redhat.com>
+Subject: [PATCH v3 5/6] tests/qtest: Do not restrict bios-tables-test to
+ Aarch64 hosts anymore
+Date: Thu, 15 Apr 2021 14:26:32 +0200
+Message-Id: <20210415122633.4054644-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210415122633.4054644-1-philmd@redhat.com>
 References: <20210415122633.4054644-1-philmd@redhat.com>
@@ -74,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -106,69 +108,36 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now than we can probe if the TCG accelerator is available
-at runtime with a QMP command, do it once at the beginning
-and only register the tests we can run.
-We can then replace the #ifdef'ry by a runtime check.
+Since commit 82bf7ae84ce ("target/arm: Remove KVM support for
+32-bit Arm hosts") we can remove the comment / check added in
+commit ab6b6a77774 and directly run the bios-tables-test.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/qmp-cmd-test.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ tests/qtest/meson.build | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index c98b78d0339..8902d2f169f 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -21,19 +21,24 @@ const char common_args[] = "-nodefaults -machine none";
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 0c767389217..46de073d155 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -175,14 +175,13 @@
+    'boot-serial-test',
+    'hexloader-test']
  
- /* Query smoke tests */
+-# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
+ qtests_aarch64 = \
+-  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+   ['arm-cpu-features',
+    'numa-test',
+    'boot-serial-test',
++   'bios-tables-test',
+    'xlnx-can-test',
+    'migration-test']
  
-+static bool tcg_accel_available;
-+
- static int query_error_class(const char *cmd)
- {
--    static struct {
-+    static const struct {
-         const char *cmd;
-         int err_class;
-+        /*
-+         * Pointer to boolean.
-+         * If non-NULL and value is %true, the error class is skipped.
-+         */
-+        bool *skip_err_class;
-     } fails[] = {
-         /* Success depends on build configuration: */
- #ifndef CONFIG_SPICE
-         { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
- #endif
--#ifndef CONFIG_TCG
--        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
--#endif
-+        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND, &tcg_accel_available },
- #ifndef CONFIG_VNC
-         { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
-         { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
-@@ -51,6 +56,9 @@ static int query_error_class(const char *cmd)
-     int i;
- 
-     for (i = 0; fails[i].cmd; i++) {
-+        if (fails[i].skip_err_class && *fails[i].skip_err_class) {
-+            continue;
-+        }
-         if (!strcmp(cmd, fails[i].cmd)) {
-             return fails[i].err_class;
-         }
-@@ -334,6 +342,8 @@ int main(int argc, char *argv[])
-     QmpSchema schema;
-     int ret;
- 
-+    tcg_accel_available = qtest_has_accel("tcg");
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     qmp_schema_init(&schema);
 -- 
 2.26.3
 
