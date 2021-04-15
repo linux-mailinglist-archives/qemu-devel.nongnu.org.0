@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549EC3603E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 10:08:00 +0200 (CEST)
-Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74ADA3603EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 10:10:21 +0200 (CEST)
+Received: from localhost ([::1]:57770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWx2d-0005Y1-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 04:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40702)
+	id 1lWx4u-00007q-GQ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 04:10:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lWwzh-0003zD-5s
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:04:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40239)
+ id 1lWwzj-00041V-EJ
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lWwzf-0000km-JQ
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:04:56 -0400
+ id 1lWwzh-0000lp-Ol
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:04:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618473894;
+ s=mimecast20190719; t=1618473896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8+u4p1EAD2LIjo2fTJY5EENEsS4no6xdl+eTYYu3u3A=;
- b=ek1IzvoXjWRkaAbDNkL+KhNAnLqLwAgCAWtXafOa0B+jelKKBaZayPk5sMsgftYvUzDk7u
- pZx6+2bZwGTqSXOwgUbnaNh9+4eMafO+5pIT+IXifuEqCli+TBtGgrXe0Yt5pYcFt57NfS
- +FNlY4v/hSFFlxLP7GKmKTSwCpA8lsU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eAYC3tJKs+qL04BDfVKy+xILBP58PJDFLvNSXkSRuJQ=;
+ b=MWmJluPUc1trbjsV/szLUTysxN2UVwkDy43ahnLnOWE383McgL5a3ilaiLN5WqGTia9rjg
+ T2c669GJUK40Z3kLlfcWnOHmQCSF1Q7MGU1+I6FGBh0Cmk6bNoCN1X4rJI77ArDskhGHoL
+ JB09OKBjrAmB6aLl83VSuMnt4hqJb/Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-caM-5f60P9-MTECusjIhbA-1; Thu, 15 Apr 2021 04:04:52 -0400
-X-MC-Unique: caM-5f60P9-MTECusjIhbA-1
+ us-mta-248-J6yJh0IVNgiJTuZJREBkSw-1; Thu, 15 Apr 2021 04:04:55 -0400
+X-MC-Unique: J6yJh0IVNgiJTuZJREBkSw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26DE283DD24;
- Thu, 15 Apr 2021 08:04:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5406283DD32;
+ Thu, 15 Apr 2021 08:04:54 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-61.pek2.redhat.com [10.72.12.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E2F9104C475;
- Thu, 15 Apr 2021 08:04:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A955510023B0;
+ Thu, 15 Apr 2021 08:04:52 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] vhost-vDPA: doorbell mapping support
-Date: Thu, 15 Apr 2021 16:04:42 +0800
-Message-Id: <20210415080444.44645-1-jasowang@redhat.com>
+Subject: [PATCH 1/2] vhost-vdpa: skip ram device from the IOTLB mapping
+Date: Thu, 15 Apr 2021 16:04:43 +0800
+Message-Id: <20210415080444.44645-2-jasowang@redhat.com>
+In-Reply-To: <20210415080444.44645-1-jasowang@redhat.com>
+References: <20210415080444.44645-1-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -80,21 +83,52 @@ Cc: elic@nvidia.com, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All:
+vDPA is not tie to any specific hardware, for safety and simplicity,
+vhost-vDPA doesn't allow MMIO area to be mapped via IOTLB. Only the
+doorbell could be mapped via mmap(). So this patch exclude skip the
+ram device from the IOTLB mapping.
 
-This series tries to implement doorbell mapping support for
-vhost-vDPA. Tested with virtio-pci vDPA driver.
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-Please review.
-
-Jason Wang (2):
-  vhost-vdpa: skip ram device from the IOTLB mapping
-  vhost-vdpa: doorbell mapping support
-
- hw/virtio/vhost-vdpa.c         | 97 ++++++++++++++++++++++++++++++----
- include/hw/virtio/vhost-vdpa.h |  7 +++
- 2 files changed, 94 insertions(+), 10 deletions(-)
-
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 01d2101d09..dd4321bac2 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -27,6 +27,8 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
+ {
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
++           /* vhost-vDPA doesn't allow MMIO to be mapped  */
++            memory_region_is_ram_device(section->mr) ||
+            /*
+             * Sizing an enabled 64-bit BAR can cause spurious mappings to
+             * addresses in the upper part of the 64-bit address space.  These
+@@ -171,22 +173,12 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+                              vaddr, section->readonly);
+     if (ret) {
+         error_report("vhost vdpa map fail!");
+-        if (memory_region_is_ram_device(section->mr)) {
+-            /* Allow unexpected mappings not to be fatal for RAM devices */
+-            error_report("map ram fail!");
+-          return ;
+-        }
+         goto fail;
+     }
+ 
+     return;
+ 
+ fail:
+-    if (memory_region_is_ram_device(section->mr)) {
+-        error_report("failed to vdpa_dma_map. pci p2p may not work");
+-        return;
+-
+-    }
+     /*
+      * On the initfn path, store the first error in the container so we
+      * can gracefully fail.  Runtime, there's not much we can do other
 -- 
 2.25.1
 
