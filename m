@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C2036158C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 00:35:27 +0200 (CEST)
-Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6105236158F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 00:36:07 +0200 (CEST)
+Received: from localhost ([::1]:46338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXAa6-0003tS-2r
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 18:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1lXAak-00055n-D1
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 18:36:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXAY4-0002mB-7R
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 18:33:20 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:33540)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lXAYo-0003aM-PM; Thu, 15 Apr 2021 18:34:06 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:44871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXAY2-0001vX-Nf
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 18:33:19 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id a85so16594849pfa.0
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 15:33:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aa3fLmQalcCAaQ8X+Npv2Q+VeXUNMwkbQrfl3s2KGSY=;
- b=MBd/nwi0FjCOBsVik2nZCnhk99T8aXxA1JbvVeaU4z1y30N/7Kb3TtMUlPgeuHL3AD
- Ic1souU1w6IcQI1q8szPzrfcw5SMXnPGZmtzG22/Nv+ZJdhlSs/cE735xLYed0HDe0Zx
- IeqB2JAxg0S4gdy0kuk4OgmjVEX49H6onaUzZ5809pNjn5C90yCP9NIikLK3D2a2Q3Hm
- r4s6somLCed7Qeq9rEpca10ET14EK4OZp5RCNUOp7fIl0nVx0gV4rYHdbg7UmLoFlkGz
- xGtqLSOTfyoEcCrkduMyBvz2q8wLqtWoXCY2XUjLhll9pXlbb0XpxVTqIBbBlTCLSsdE
- 43Lg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lXAYm-0002JY-O2; Thu, 15 Apr 2021 18:34:06 -0400
+Received: by mail-io1-xd32.google.com with SMTP id p8so4451540iol.11;
+ Thu, 15 Apr 2021 15:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f4zD4sRXt/BaKHUrk72b5CYeq5O7E4rSDkxxZRR9nwk=;
+ b=aeqK/dNBmwTlE1wchd7yO+bAdIV/ThJLDHqAQcl0tYuBu9hUKvQZA6o6xMGprYMX4M
+ Q9mihPOmblUCWhtt1syMbMpZi1RS70nn5f7Kxf5meCyoY3U0IbrOV7msXKfwDcrRxyDe
+ SIJRalSmlXneBMmkoPS0FKhu2jqEwK7bEq8kEcyqC2fLWxH4joauDAztW2wNZMcR2Q8r
+ lSHFxJzUlzZQGLRjZ/VeJAfA4sfB/leCLozMHT3vQnuiDHhsXf1I1sEh5Xit0Za4GiTg
+ G4wQsH9Ba1tqWNW3tck8uu/7akP/74IdA5x/HdvZ5glQ1GKndTdZmWf6vSgm2tiSEsyo
+ RXNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aa3fLmQalcCAaQ8X+Npv2Q+VeXUNMwkbQrfl3s2KGSY=;
- b=mKH4ZukLFScDT0T/rCGEyoZFGZpJWIw/TIW7O4SWw2Aaj2NTkjuNKQ0hWEXWGR+pLb
- wPVr9UwERpumhgqx05k71lDgByB7l42DlPpHHKJWXnrYdvjRdenXOabO1ywCmKHIBlIL
- nbsOxpCdNwj2l4QIK88T+3r5/0QKCPFHdYgzO4CARTQDF/4YL42xbMGLmeItM0iO6zNo
- u+0bdtkpPRaDwTV/hNyFssejTdHG6/Yoqw1Em7Rf7eMTi2pyykYAxTemAXv2ZrgtxU56
- e6E4CQRTw2eVgk3i+3huivTmazImBcpBGI6nSsUVVUFG+EI7UDQwhIAcwXDdax1Sq5pZ
- CE6w==
-X-Gm-Message-State: AOAM5323JK90Ncq3vy85u/RXrClkO/zkH5EO3DCTx7rMTt0kjL1cNB7Z
- YObqlEri99UCoRFZaYc/b9shYA==
-X-Google-Smtp-Source: ABdhPJxSMFEWz+15FiWw+8M7TS3ECZM6draXDD8faE0frwTPZpg+gUvSmMyg/Lc936YgdjWtxZ75Jg==
-X-Received: by 2002:a05:6a00:2343:b029:258:558b:83d0 with SMTP id
- j3-20020a056a002343b0290258558b83d0mr3724871pfj.33.1618525997440; 
- Thu, 15 Apr 2021 15:33:17 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id c21sm3204953pgl.71.2021.04.15.15.33.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 15:33:16 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] hw/elf_ops: clear uninitialized segment space
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier
- <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210415100409.3977971-1-philmd@redhat.com>
- <20210415100409.3977971-3-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0a895763-6dc2-ee9b-7a60-4b22098bcfa6@linaro.org>
-Date: Thu, 15 Apr 2021 15:33:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f4zD4sRXt/BaKHUrk72b5CYeq5O7E4rSDkxxZRR9nwk=;
+ b=ThTj73qDaiIZV0Ub0jC8uF6I+hZ7HngxR93FcXkBTe6i0VwsjJc53ETAI80XQodlD1
+ gIxnDCLwINk9QIOl/zdVGcvzoThWDnHVRSjlHQ8JTgACSaedkxYQpNwx3RExE8SjWZzy
+ GphlZb5esd6mbpR+jbORfKfs+MuUPVDzCuRs/Kmyz8sWcF5GUsy66FlPQ2498ZzfjZAL
+ mWyyMV9ZgKkg1ysyX5y6iktg8KzLhmFmGQaMfw5w2P/za5KY8PfqA2XROX5fQhUnGYTd
+ 1vOeIed3JL2ly7+dCCvJzxgGPPe42P3DUZ6CfwLd97i2Y+BKNdKr+oRoq2LRV5M4kSeH
+ garg==
+X-Gm-Message-State: AOAM533qhsQ7B0Td8VXKCxehZXkguH1LzTcK40qvoDRYCay3CFjzrRkT
+ HUJcMxV7v5otj0edPQO+WHO6VarUU4WoUJsMI3A=
+X-Google-Smtp-Source: ABdhPJz1qxEK2X7d17/xd/zoRtK1Cb8snrpNKs/Dd02NFP+LwQN+jqq1so76N0WaodsgOFRgd+dfPnv4xttiOWZ9OMU=
+X-Received: by 2002:a05:6638:1211:: with SMTP id
+ n17mr1368941jas.26.1618526042339; 
+ Thu, 15 Apr 2021 15:34:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210415100409.3977971-3-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210412174248.8668-1-vijai@behindbytes.com>
+In-Reply-To: <20210412174248.8668-1-vijai@behindbytes.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 16 Apr 2021 08:33:35 +1000
+Message-ID: <CAKmqyKPt9gi8sE0=9-tiNxoeFfmrDb_3JFq8aR_R6PSfAH_5OQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: Add documentation for shakti_c machine
+To: Vijai Kumar K <vijai@behindbytes.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,32 +76,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 3:04 AM, Philippe Mathieu-Daudé wrote:
-> From: Laurent Vivier<laurent@vivier.eu>
-> 
-> When the mem_size of the segment is bigger than the file_size,
-> and if this space doesn't overlap another segment, it needs
-> to be cleared.
-> 
-> This bug is very similar to the one we had for linux-user,
-> 22d113b52f41 ("linux-user: Fix loading of BSS segments"),
-> where .bss section is encoded as an extension of the the data
-> one by setting the segment p_memsz > p_filesz.
-> 
-> Signed-off-by: Laurent Vivier<laurent@vivier.eu>
-> Message-Id:<20210414105838.205019-1-laurent@vivier.eu>
-> [PMD: Use recently added address_space_set()]
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+On Tue, Apr 13, 2021 at 3:44 AM Vijai Kumar K <vijai@behindbytes.com> wrote:
+>
+> Add documentation for Shakti C reference platform.
+>
+> Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
+
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
 > ---
->   include/hw/elf_ops.h | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+>  docs/system/riscv/shakti-c.rst | 82 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+>  create mode 100644 docs/system/riscv/shakti-c.rst
+>
+> diff --git a/docs/system/riscv/shakti-c.rst b/docs/system/riscv/shakti-c.rst
+> new file mode 100644
+> index 0000000000..a6035d42b0
+> --- /dev/null
+> +++ b/docs/system/riscv/shakti-c.rst
+> @@ -0,0 +1,82 @@
+> +Shakti C Reference Platform (``shakti_c``)
+> +==========================================
+> +
+> +Shakti C Reference Platform is a reference platform based on arty a7 100t
+> +for the Shakti SoC.
+> +
+> +Shakti SoC is a SoC based on the Shakti C-class processor core. Shakti C
+> +is a 64bit RV64GCSUN processor core.
+> +
+> +For more details on Shakti SoC, please see:
+> +https://gitlab.com/shaktiproject/cores/shakti-soc/-/blob/master/fpga/boards/artya7-100t/c-class/README.rst
+> +
+> +For more info on the Shakti C-class core, please see:
+> +https://c-class.readthedocs.io/en/latest/
+> +
+> +Supported devices
+> +-----------------
+> +
+> +The ``shakti_c`` machine supports the following devices:
+> +
+> + * 1 C-class core
+> + * Core Level Interruptor (CLINT)
+> + * Platform-Level Interrupt Controller (PLIC)
+> + * 1 UART
+> +
+> +Boot options
+> +------------
+> +
+> +The ``shakti_c`` machine can start using the standard -bios
+> +functionality for loading the baremetal application or opensbi.
+> +
+> +Boot the machine
+> +----------------
+> +
+> +Shakti SDK
+> +~~~~~~~~~~
+> +Shakti SDK can be used to generate the baremetal example UART applications.
+> +
+> +.. code-block:: bash
+> +
+> +   $ git clone https://gitlab.com/behindbytes/shakti-sdk.git
+> +   $ cd shakti-sdk
+> +   $ make software PROGRAM=loopback TARGET=artix7_100t
+> +
+> +Binary would be generated in:
+> +  software/examples/uart_applns/loopback/output/loopback.shakti
+> +
+> +You could also download the precompiled example applicatons using below
+> +commands.
+> +
+> +.. code-block:: bash
+> +
+> +   $ wget -c https://gitlab.com/behindbytes/shakti-binaries/-/raw/master/sdk/shakti_sdk_qemu.zip
+> +   $ unzip shakti_sdk_qemu.zip
+> +
+> +Then we can run the UART example using:
+> +
+> +.. code-block:: bash
+> +
+> +   $ qemu-system-riscv64 -M shakti_c -nographic \
+> +      -bios path/to/shakti_sdk_qemu/loopback.shakti
+> +
+> +OpenSBI
+> +~~~~~~~
+> +We can also run OpenSBI with Test Payload.
+> +
+> +.. code-block:: bash
+> +
+> +   $ git clone https://github.com/riscv/opensbi.git -b v0.9
+> +   $ cd opensbi
+> +   $ wget -c https://gitlab.com/behindbytes/shakti-binaries/-/raw/master/dts/shakti.dtb
+> +   $ export CROSS_COMPILE=riscv64-unknown-elf-
+> +   $ export FW_FDT_PATH=./shakti.dtb
+> +   $ make PLATFORM=generic
+> +
+> +fw_payload.elf would be generated in build/platform/generic/firmware/fw_payload.elf.
+> +Boot it using the below qemu command.
+> +
+> +.. code-block:: bash
+> +
+> +   $ qemu-system-riscv64 -M shakti_c -nographic \
+> +      -bios path/to/fw_payload.elf
+> --
+> 2.25.1
+>
+>
+>
 
