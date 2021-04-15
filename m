@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF66360D0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 16:56:40 +0200 (CEST)
-Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1AD360D1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 16:57:18 +0200 (CEST)
+Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX3Q7-0007aM-9n
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 10:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41932)
+	id 1lX3Qj-0008C1-AQ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 10:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lX3Oc-0006Yf-Da
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:55:06 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:37691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lX3Oa-00027t-LY
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:55:06 -0400
-Received: by mail-ed1-x531.google.com with SMTP id s15so28449711edd.4
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 07:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hI5cu9jKJw2ZK8vWZAs5PsFJVnhHb2MqXM2tXjO+r5s=;
- b=G7ySAS1CQja8+EXHs3o2i9RDncsUSB4aQ8ow5KMqk5tIFRRUPxUZnfWEqNkyUUFx0O
- tTpnopMzokJsDLDuN5ljtiPfSc9E8lNxnu2Wgu3Hh1WofpkQCIGwBLAcNmoJepAz1N85
- CNENJ1hUgr/v4WKyO/85mRZa7aoXHcB6GNE5ckdwxoFcPszFIOaJfwkT6uHRZh1jE6Ib
- oKnginR0VRVQKdoNqkNngsTDic5uy7+LeplxhA/iVdIeufKaGymxlGZfNrhs7TYvGvAv
- H2Z9xzkwQWEanKpcvOgxQUTBT8VE0nw482pjPaxXNPLGXr2qH57Ty47W2o4qdUPx8lEG
- 8LMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hI5cu9jKJw2ZK8vWZAs5PsFJVnhHb2MqXM2tXjO+r5s=;
- b=i2xnYBxkxZN/ukLI+6S/YkfX7OvM1ayY/9z7eZbGKvlJ3GBtdpmbm2MTKfCGWpNVyr
- l1p//1d5UzriOjxdJB4C/LJ2lLtoTHwJD9wANcPmi+yTeoTxKZlYEUI1WpmAuzZWavgh
- qX9PaK9DSpwpbG8xEwFYIh6fMDFQ8741HqPq2D/u9KBREUk41r8tuphk5qk4QTfvRYQN
- NiXYG6L2VaClSuU5ttBtZpV79+wviQ/UuoJP0by3phqJRnkTrlHAU0sCA7YJGoOFGmrb
- HfDOVBydpvlKWFZvowZpbLYygYCh0EPqZe2/0g5s8AQfbvGwKBg2xyyLiqyq25xs5B+/
- e7MA==
-X-Gm-Message-State: AOAM5325Uwy9EAHPIl5fyx/ugnPvaUXWPbsAZ97UWAPOUgFjjWsrjtEl
- O6YCYOPip6kxZxJKf8rukdfwqq9yP/LSdczm4cmPvQ==
-X-Google-Smtp-Source: ABdhPJwpa7m/PDLtuhaCgeQBK1skScpQ60ExYuPBDowzGewwYRTFbCJRgRLT5m0n1/nlD2dRjeSlwHdbe/UG9KqQacs=
-X-Received: by 2002:a05:6402:51d0:: with SMTP id
- r16mr1386363edd.52.1618498502965; 
- Thu, 15 Apr 2021 07:55:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3P8-00071D-Vo
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:55:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3P7-0002Vr-Bf
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:55:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618498536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jQamOzTdeEQxg1fRqjSZav8WCzE4gUYGj8a1QsxzlX0=;
+ b=XJZBKHHC+GP4n3In1kjBh16BRNUCWgDNnX6znAmwEiPb7sdhcG4vxsFnlxaWTgW8mYdT1X
+ Q6TAt4emd1tTyKp6OJ7HfduPykOkTdIMohm4B5HBAGK0NNy4zluBb4UUp+EkIDGvnnyLw3
+ X61a4K4pwB2ghhn0qBUU+Fog7eJPt1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-8k-RVlaRPtCLEa2kP0MEvg-1; Thu, 15 Apr 2021 10:55:32 -0400
+X-MC-Unique: 8k-RVlaRPtCLEa2kP0MEvg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7591983DD20;
+ Thu, 15 Apr 2021 14:55:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4491560D08;
+ Thu, 15 Apr 2021 14:55:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BA67E113525D; Thu, 15 Apr 2021 16:55:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: tidying up osdep.h
+References: <CAFEAcA95ZobYrOaDA4O4ESWNAKkMi-y8QUGoVQRkC2ujbtNeSA@mail.gmail.com>
+ <9f580695-b88a-7f4e-6e84-cfd3eed0914e@redhat.com>
+Date: Thu, 15 Apr 2021 16:55:28 +0200
+In-Reply-To: <9f580695-b88a-7f4e-6e84-cfd3eed0914e@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 15 Apr 2021 10:59:31
+ +0200")
+Message-ID: <87v98nbnrz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210218094706.23038-1-alex.bennee@linaro.org>
- <20210218094706.23038-19-alex.bennee@linaro.org>
- <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
- <CAFEAcA9G-WabAM_EdgMzd0Xv6z8xRYjw57DiEqB6Z_Wbj=X1Eg@mail.gmail.com>
- <87blaflit2.fsf@linaro.org>
-In-Reply-To: <87blaflit2.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Apr 2021 15:54:15 +0100
-Message-ID: <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
-Subject: Re: [PULL 18/23] accel/tcg: re-factor non-RAM execution code
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,42 +83,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Daniel P.
+ Berrange" <berrange@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Apr 2021 at 15:32, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> --8<---------------cut here---------------start------------->8---
-> accel/tcg: avoid re-translating one-shot instructions
->
-> By definition a single instruction is capable of being an IO
-> instruction. This avoids a problem of triggering a cpu_io_recompile on
-> a non-cached translation which would only do exactly this anyway.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-> accel/tcg/translate-all.c | 2 +-
->
-> modified   accel/tcg/translate-all.c
-> @@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->
->      if (phys_pc =3D=3D -1) {
->          /* Generate a one-shot TB with 1 insn in it */
-> -        cflags =3D (cflags & ~CF_COUNT_MASK) | 1;
-> +        cflags =3D (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
->      }
->
->      max_insns =3D cflags & CF_COUNT_MASK;
-> --8<---------------cut here---------------end--------------->8---
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Yes, this fixes the problem. Do we want to put this in for 6.0? My
-feeling is that executing from non-RAM is pretty niche, so maybe
-if we need an rc4 anyway, but this isn't important enough to cause an
-rc4 itself.
+> On 4/14/21 9:17 PM, Peter Maydell wrote:
+>> (cc'ing people related to the recent 'extern "C"' patches and also
+>> randomly Markus as somebody who's had opinions on header cleanups
+>> in the past...)
+>>=20
+>> osdep.h as it stands today is a mix of two things:
+>>  (1) it has the "must be included by everybody" items:
+>>    (a) config-host.h, poison.h, compiler.h
+>>    (b) things which must be done before any system header is included
+>>        (like defining __STDC_CONSTANT_MACROS or WIN32_LEAN_AND_MEAN)
+>>    (c) includes of system headers which we need to then fix up for
+>>        portability issues (eg redefining assert on mingw, defining
+>>        fallback versions of missing macros)
+>>  (2) it has declarations for a library of QEMU functions, some of which
+>>      typically wrap and abstract away OS specifics (like qemu_create(),
+>>      qemu_unlink()), and some of which seem to have just been dumped
+>>      in here for convenience (like qemu_hw_version())
+>>=20
+>> Every file needs (1), which is why we mandate osdep.h as the first
+>> include; most files don't need a lot of the things in (2) (for instance
+>> qemu_hw_version() is used in just half a dozen .c files). Is it worth
+>> trying to split some of the type (2) items out into their own header fil=
+es?
+>>=20
+>> I suspect that the advantages would be primarily just making osdep.h
+>> a bit clearer to read and less of an "attractive nuisance" for new
+>> additions; I imagine the bulk of the extra compilation time represented
+>> by osdep.h is going to be because it pulls in dozens of system
+>> headers, most of which are going to be required under heading (1).
+>
+> What about:
+>
+> - extract qemu_hw_version() to "qemu/legacy_api.h"?
+>
+> - extract (1) from osdep.h as osinc.h (because described as
+>   "OS includes and handling of OS dependencies")?
+>   Or KISS as "qemu-first-include.h"...
 
--- PMM
+For what it's worth, the autoconf convention is to call it "config.h".
+
+> - osdep.h now contains the declarations for osdep.c
+>
+> Regards,
+>
+> Phil.
+
 
