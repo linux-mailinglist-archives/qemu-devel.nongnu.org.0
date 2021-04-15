@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF2E36012E
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 06:43:59 +0200 (CEST)
-Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6E9360135
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 06:48:09 +0200 (CEST)
+Received: from localhost ([::1]:59000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWtrB-00036C-Kv
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 00:43:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60470)
+	id 1lWtvE-0004OY-R0
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 00:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lWtqI-0002gM-89
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:43:02 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:43871)
+ id 1lWtto-0003rF-HG; Thu, 15 Apr 2021 00:46:40 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:34491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lWtqE-0002uj-9h
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:43:01 -0400
-Received: by mail-io1-xd30.google.com with SMTP id v123so16091578ioe.10
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 21:42:56 -0700 (PDT)
+ id 1lWttm-0005HP-MT; Thu, 15 Apr 2021 00:46:40 -0400
+Received: by mail-io1-xd34.google.com with SMTP id x16so22982986iob.1;
+ Wed, 14 Apr 2021 21:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=mo6tBoNIhMk+xyjlU/BAAg9bfNyAzwVR08IdnM52euU=;
- b=XErMT16nKgpeOY3x4wbLYoJ1x3iKM2/cPUUdt9V9T5DlL1IvFHvR61AeJKukgkwlXz
- X+7v7L5nWov2O/1nAYpXHV4L1YLVSrtQM9mLVmgnbiK0qTZR8HbWPLd5Y7Cr+PC8cV2M
- QndC4zwjWFen9rkecBSx/3vpNtEZE+kTFwa0+Lvp0LFg9bg1qQRZCiwIGb0hve+y326H
- wu/38eWiSEm2SObfNRNTCz+PJDnpHIC9/vifYehzeEbo6jONYSfL+oLBeh7VYQsFDGFX
- 3g2P/gIVXVgvBxap9fTfZ/y9hnTrcdBD38VTkBt17T/rR6Kg5XfvDLLhRiwUPB3cVhxd
- Eaeg==
+ bh=qo2JUiTAyB/1PBGaNf8Dz353eWmCwGm6YOC/9P+FTjM=;
+ b=cN69jFnUCWmeVtxn1qN62g4YtP++snyOvLeSNvgyy6s0Q1rSFdLUnqbsQfHrHB/bXM
+ B+iCFyZXETQfFnGGrM2B3Kh1+c2Leg0jNnMKVaArVEWkh1HP+TY8kNJxHRXJkjpRHIMy
+ 4XqRU6dAci2h6zSaHX2ZIceU1n2nsSoFBY3qC2/qovp5z0Vwx3JfzAYmlmYx+/ydcCcv
+ FA7PIQrXLFMrOlcD+JFr0Jedtj7WuwZTT3CTPdbTcY3c7jHK5Ds7Vbpb0KtbaZDgOR4Q
+ tC0UGu7XEXzZw4gS/DeItqkFf6342aD4QrYpUCeVcnuwmiqnN28ZodvpmDaclIfNl5eg
+ nRww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=mo6tBoNIhMk+xyjlU/BAAg9bfNyAzwVR08IdnM52euU=;
- b=eMjTl9dMHV/PnfAhjgrCLO2TqiUneGggrOxWu0WQZNpF6U5k1Ok48seZhqKveVpjIr
- RhYWd7l36/dq3QmeJxmDmosCPR5lhynoHACNWyDJhdyRlLNR6yyfTdZtGDx5OJhRZca1
- CBCW1FFc3raGa2KmykXMmuhf4bLNyEYuwlwU1Q/cF49YAPWAfjInCF1UlQm3mT/CzG1v
- F6Y9UpFxoxki8d1sGY4r9ttVScCdxU5SZw/Kp/3NkqLHdWxg4vppfBy434dgWaCvoyq7
- DQzr4gXOmN2llGJG0HvxSQ2YaAUIZoGEkdoPL+upJWh8ch4jzpdJqNk9Klq1iLBlO+Ux
- HF4Q==
-X-Gm-Message-State: AOAM531XyDohWC6NXLZRbgr6hQmbhwi6FzBSl2oX7PYEJplA28E0E/je
- 9gMINgkH63f3b0gLgIbgtK0D/YSRzMb3an34F4c=
-X-Google-Smtp-Source: ABdhPJxWYVNrhpfz0dPxrCMBuPWkGDn/i4vrRF3I/hr3Ft4vBeDn6etulXHXB4Qy6QTNm6BXceEFjGU6xzAWBG3IUyo=
-X-Received: by 2002:a05:6638:41:: with SMTP id a1mr1270295jap.8.1618461775964; 
- Wed, 14 Apr 2021 21:42:55 -0700 (PDT)
+ bh=qo2JUiTAyB/1PBGaNf8Dz353eWmCwGm6YOC/9P+FTjM=;
+ b=l2B6oQl86VhgMayT579tdv9ViOiO+6Ggztetz+IzZb4Zi5hJkN5/xT78Hs5XhGE7Jo
+ XubqJXMdxcnywODWTRNhtY+WNT0wJTiQce6xqmUDSlpjf+ysxijP981pt5SmlK93itfz
+ 35/R2HQ2tHvJ6GwAFU2GhLtH0cIE1ud5otvGg1e/NzEflJI0c1O6oEkl3cEj6oMi6YIr
+ 30nQ6Ri6Hj1ppL/Ts3gG60me2Yse82ieKoAANB7LiUyrBA76fKXWLXiHx5zFHKmCnh/p
+ 48I0z/P8okuEL9El21uA8qx8tvtIgkQEC2H3/wHMojQgVU3EMk20tGuQCDV7uEl6FjIL
+ /jgg==
+X-Gm-Message-State: AOAM5310ET0EXPTwUiG3QJZWvgfstj7sXdya+qg2j34/l7hC0HwJiP3N
+ BsiJX14sytp7Gsf8tKurdM6L5KDpRSwW0m1bHJU=
+X-Google-Smtp-Source: ABdhPJxo7JLC0dSzHJBDiuaGJziYyU88vjpHgFPJg6L29WHNwOJVSV40VfqqyU66Wet85aoxzjEa6J+HJE+T5Ds3VTk=
+X-Received: by 2002:a5d:878e:: with SMTP id f14mr1185227ion.176.1618461996781; 
+ Wed, 14 Apr 2021 21:46:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <161832726983.9430.3755052950345832110.malonedeb@chaenomeles.canonical.com>
- <CAKmqyKM7iVth4dzSLgdx6u=V3icoQuFnZ+JeqwUzmvim14BRRg@mail.gmail.com>
- <d8a3da4f-69d5-d254-497b-c2a0397db029@c-sky.com>
-In-Reply-To: <d8a3da4f-69d5-d254-497b-c2a0397db029@c-sky.com>
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <17b7c38a-f780-0216-3e3b-fd0d2178c004@c-sky.com>
+In-Reply-To: <17b7c38a-f780-0216-3e3b-fd0d2178c004@c-sky.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 15 Apr 2021 14:42:29 +1000
-Message-ID: <CAKmqyKMsnAYFx5FDtO3kghtv96RQMFGzvaDgpzjGpo9Zu32Gnw@mail.gmail.com>
-Subject: Re: [Bug 1923629] [NEW] RISC-V Vector Instruction vssub.vv not
- saturating
+Date: Thu, 15 Apr 2021 14:46:10 +1000
+Message-ID: <CAKmqyKM430xxwC+JyXBKwFiE4Y=1_mk4Qq3b3D+EKUszSneWRA@mail.gmail.com>
+Subject: Re: [PATCH 00/38] target/riscv: support packed extension v0.9.2
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,108 +78,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kito Cheng <kito.cheng@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bug 1923629 <1923629@bugs.launchpad.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 15, 2021 at 2:18 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Tue, Apr 13, 2021 at 1:28 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> Hi Alistair,
+> ping +1.
 >
-> I think that this bug has been resolved in my packed-extension patch set[=
-1].
->
-> Would you mind to have a test and merge it before the whole patch set?
+> On 2021/2/12 =E4=B8=8B=E5=8D=8811:02, LIU Zhiwei wrote:
+> > This patchset implements the packed extension for RISC-V on QEMU.
+> >
+> > This patchset have passed all my direct Linux user mode cases(RV64) and
+> > bare metal cases(RV32) on X86-64 Ubuntu host machine. I will later push
+> > these test cases to my repo(https://github.com/romanheros/qemu.git
+> > branch:packed-upstream-v1).
+> >
+> > I have ported packed extension on RISU, but I didn't find a simulator o=
+r
+> > hardware to compare with. If anyone have one, please let me know.
+> >
+> > Features:
+> >    * support specification packed extension v0.9.2(https://github.com/r=
+iscv/riscv-p-spec/)
+> >    * support basic packed extension.
+> >    * support Zp64.
+> >
+> > LIU Zhiwei (38):
+> >    target/riscv: implementation-defined constant parameters
+> >    target/riscv: Hoist vector functions
+> >    target/riscv: Fixup saturate subtract function
 
-Great! Thanks
+Thanks for the patches and sorry for the long delay.
 
-I have applied patch 3 for the next PR.
+I have applied patch 3 as it fixes a bug.
+
+As for the other patches they are on both my review queue and Palmer's
+review queue. It takes a lot of time to review these large patch
+series, especially as I haven't been involved with the extension
+development, so I have to both understand the extension and then
+review the code.
+
+If you would like to help speed things up you could review other
+patches. That way I will have more time left to review your patches.
 
 Alistair
 
->
-> Thanks.
->
->
-> Best Regards,
->
-> Zhiwei
->
-> [1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg782125.html
->
->
->
-> On 2021/4/15 =E4=B8=8A=E5=8D=8811:57, Alistair Francis wrote:
-> > + LIU Zhiwei and Kito Cheng
+> >    target/riscv: 16-bit Addition & Subtraction Instructions
+> >    target/riscv: 8-bit Addition & Subtraction Instruction
+> >    target/riscv: SIMD 16-bit Shift Instructions
+> >    target/riscv: SIMD 8-bit Shift Instructions
+> >    target/riscv: SIMD 16-bit Compare Instructions
+> >    target/riscv: SIMD 8-bit Compare Instructions
+> >    target/riscv: SIMD 16-bit Multiply Instructions
+> >    target/riscv: SIMD 8-bit Multiply Instructions
+> >    target/riscv: SIMD 16-bit Miscellaneous Instructions
+> >    target/riscv: SIMD 8-bit Miscellaneous Instructions
+> >    target/riscv: 8-bit Unpacking Instructions
+> >    target/riscv: 16-bit Packing Instructions
+> >    target/riscv: Signed MSW 32x32 Multiply and Add Instructions
+> >    target/riscv: Signed MSW 32x16 Multiply and Add Instructions
+> >    target/riscv: Signed 16-bit Multiply 32-bit Add/Subtract Instruction=
+s
+> >    target/riscv: Signed 16-bit Multiply 64-bit Add/Subtract Instruction=
+s
+> >    target/riscv: Partial-SIMD Miscellaneous Instructions
+> >    target/riscv: 8-bit Multiply with 32-bit Add Instructions
+> >    target/riscv: 64-bit Add/Subtract Instructions
+> >    target/riscv: 32-bit Multiply 64-bit Add/Subtract Instructions
+> >    target/riscv: Signed 16-bit Multiply with 64-bit Add/Subtract
+> >      Instructions
+> >    target/riscv: Non-SIMD Q15 saturation ALU Instructions
+> >    target/riscv: Non-SIMD Q31 saturation ALU Instructions
+> >    target/riscv: 32-bit Computation Instructions
+> >    target/riscv: Non-SIMD Miscellaneous Instructions
+> >    target/riscv: RV64 Only SIMD 32-bit Add/Subtract Instructions
+> >    target/riscv: RV64 Only SIMD 32-bit Shift Instructions
+> >    target/riscv: RV64 Only SIMD 32-bit Miscellaneous Instructions
+> >    target/riscv: RV64 Only SIMD Q15 saturating Multiply Instructions
+> >    target/riscv: RV64 Only 32-bit Multiply Instructions
+> >    target/riscv: RV64 Only 32-bit Multiply & Add Instructions
+> >    target/riscv: RV64 Only 32-bit Parallel Multiply & Add Instructions
+> >    target/riscv: RV64 Only Non-SIMD 32-bit Shift Instructions
+> >    target/riscv: RV64 Only 32-bit Packing Instructions
+> >    target/riscv: configure and turn on packed extension from command li=
+ne
 > >
-> > Alistair
+> >   target/riscv/cpu.c                      |   32 +
+> >   target/riscv/cpu.h                      |    6 +
+> >   target/riscv/helper.h                   |  332 ++
+> >   target/riscv/insn32-64.decode           |   93 +-
+> >   target/riscv/insn32.decode              |  285 ++
+> >   target/riscv/insn_trans/trans_rvp.c.inc | 1224 +++++++
+> >   target/riscv/internals.h                |   50 +
+> >   target/riscv/meson.build                |    1 +
+> >   target/riscv/packed_helper.c            | 3862 ++++++++++++++++++++++=
++
+> >   target/riscv/translate.c                |    3 +
+> >   target/riscv/vector_helper.c            |   90 +-
+> >   11 files changed, 5912 insertions(+), 66 deletions(-)
+> >   create mode 100644 target/riscv/insn_trans/trans_rvp.c.inc
+> >   create mode 100644 target/riscv/packed_helper.c
 > >
-> > On Wed, Apr 14, 2021 at 1:31 AM Tony Cole <1923629@bugs.launchpad.net> =
-wrote:
-> >> Public bug reported:
-> >>
-> >> I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv pro=
-duces an
-> >> incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
-> >>
-> >> Here is the bit of the code:
-> >>
-> >>                  vmv.v.i         v16, 0
-> >>                  =E2=80=A6
-> >> 8f040457        vssub.vv        v8,v16,v8
-> >>
-> >> I believe the instruction encoding is correct (vssub.vv with vd =3D v8=
-,
-> >> vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
-> >>
-> >> I=E2=80=99ve just tested with what I think is the latest branch (
-> >> https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
-> >> 2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem still
-> >> exists.
-> >>
-> >> ** Affects: qemu
-> >>       Importance: Undecided
-> >>           Status: New
-> >>
-> >>
-> >> ** Tags: riscv vector
-> >>
-> >> --
-> >> You received this bug notification because you are a member of qemu-
-> >> devel-ml, which is subscribed to QEMU.
-> >> https://bugs.launchpad.net/bugs/1923629
-> >>
-> >> Title:
-> >>    RISC-V Vector Instruction vssub.vv not saturating
-> >>
-> >> Status in QEMU:
-> >>    New
-> >>
-> >> Bug description:
-> >>    I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv =
-produces an
-> >>    incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
-> >>
-> >>    Here is the bit of the code:
-> >>
-> >>                  vmv.v.i         v16, 0
-> >>                  =E2=80=A6
-> >>    8f040457      vssub.vv        v8,v16,v8
-> >>
-> >>    I believe the instruction encoding is correct (vssub.vv with vd =3D=
- v8,
-> >>    vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
-> >>
-> >>    I=E2=80=99ve just tested with what I think is the latest branch (
-> >>    https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 F=
-eb
-> >>    2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem st=
-ill
-> >>    exists.
-> >>
-> >> To manage notifications about this bug go to:
-> >> https://bugs.launchpad.net/qemu/+bug/1923629/+subscriptions
-> >>
 
