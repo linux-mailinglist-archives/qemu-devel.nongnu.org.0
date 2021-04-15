@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9CA361088
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:55:17 +0200 (CEST)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA17136107C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 18:54:15 +0200 (CEST)
+Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX5Gv-0002Ic-1Q
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41992)
+	id 1lX5Fu-0001FH-O9
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 12:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xV-00049I-VK
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:14 -0400
-Received: from rev.ng ([5.9.113.41]:48157)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xa-0004I0-Ol
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:18 -0400
+Received: from rev.ng ([5.9.113.41]:50119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xT-0006eH-F1
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:13 -0400
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xT-0006eV-S3
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date
- :Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=4jTCkfq3XcmETgf3Ux1MMnW4upozSRxmg9Qhbb9pUa0=; b=nUYbtV2GYADN7fZeJWL6UfSV4N
- pg85OuzHlvtynHnlvsgtdDAcOBivg0Dq2iI9OA2xO83qAJBlbhfKu5IB1Sj38i449UOMwof7X1e3N
- 2SIxWVdqY1LNo6o5Ls3IwCOI+zie3Q/EjfdxNycaCnoEUiqk3dZwiuDDJer9Di38YML4=;
+ bh=nnMa6nyW3qh00VjA+XvsAuyxMfPHoTfD0lPP+OlMkB0=; b=Ua1kuDrso/YLXS1dXYRxI4AmEi
+ 7GHALtNJ1kOlwj9sS86Gw/CtZnl7EBf/bWZTtRtFbJvl67+8inGoO4jMkVjjqmAv1LK8irh2GN872
+ 6cVRw3CsYgKuxXEm6mJKmhaWdctBhW+xHwpWqzraJ6EPjP6ZrKmzdY8bEmvlsABEt42Y=;
 To: qemu-devel@nongnu.org
 Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
  philmd@redhat.com, richard.henderson@linaro.org,
  Alessandro Di Federico <ale@rev.ng>
-Subject: [PATCH v4 00/12] target/hexagon: introduce idef-parser
-Date: Thu, 15 Apr 2021 18:34:43 +0200
-Message-Id: <20210415163455.3839169-1-ale.qemu@rev.ng>
+Subject: [PATCH v4 03/12] target/hexagon: import README for idef-parser
+Date: Thu, 15 Apr 2021 18:34:46 +0200
+Message-Id: <20210415163455.3839169-4-ale.qemu@rev.ng>
+In-Reply-To: <20210415163455.3839169-1-ale.qemu@rev.ng>
+References: <20210415163455.3839169-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=a
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
@@ -62,175 +64,489 @@ From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
 From: Alessandro Di Federico <ale@rev.ng>
 
-This patchset introduces the idef-parser for target/hexagon.
-
-It's the fourth iteration of the patchset and includes fixes suggested
-in previous iterations.
-
-`idef-parser` is a build-time tool built using flex and bison. Its aim
-is to generate a large part of the tiny code generator frontend for
-Hexagon. The prototype of idef-parser has been presented at KVM Forum
-2019 ("QEMU-Hexagon: Automatic Translation of the ISA Manual Pseudcode
-to Tiny Code Instructions"):
-
-    https://www.youtube.com/watch?v=3EpnTYBOXCI
-
-`target/hexagon/idef-parser/README.rst` provides an overview of the
-parser and its inner working.
-
-A couple of notes:
-
-* `idef-parser` also supports certain things that are not used in the
-  most recently submitted version of the "Hexagon patch
-  series". However, they will be needed and stripping them out of the
-  parser is quite a bit of work.
-* The build on the CI fails for the cross-i386-* jobs. This seems to be
-  due to the fact that, despite we specified glib as a native
-  dependency, meson still chooses the i386 bit version of the library,
-  as opposed to the x86-64.
-  Help on this matter is appreciated.
-  The `clang-user` build fails too, but seems to be due reasons not
-  concerning this patchset.
-* Unlike the last iteration of this patchset, we no longer use local
-  temps, which were detrimental for performance. Now, in order to
-  handle side effects in ternary operators, the parser keeps track of
-  nested ternary operators and their conditions. We then exploit that
-  information to turn the side effect itself into a `movcond`. This is
-  done by emitting a series of `and` instructions on the nested
-  ternary operator conditions.
-
-Alessandro Di Federico (5):
-  tcg: expose TCGCond manipulation routines
-  target/hexagon: update MAINTAINERS for idef-parser
-  target/hexagon: import README for idef-parser
-  target/hexagon: prepare input for the idef-parser
-  target/hexagon: call idef-parser functions
-
-Niccolò Izzo (2):
-  target/hexagon: introduce new helper functions
-  target/hexagon: import additional tests
-
-Paolo Montesel (5):
-  target/hexagon: make slot number an unsigned
-  target/hexagon: make helper functions non-static
-  target/hexagon: expose next PC in DisasContext
-  target/hexagon: import lexer for idef-parser
-  target/hexagon: import parser for idef-parser
-
- MAINTAINERS                                   |    8 +
- include/tcg/tcg-cond.h                        |  101 +
- include/tcg/tcg.h                             |   70 +-
- target/hexagon/README                         |    5 +
- target/hexagon/gen_idef_parser_funcs.py       |  114 +
- target/hexagon/gen_tcg_funcs.py               |   28 +-
- target/hexagon/genptr.c                       |  201 +-
- target/hexagon/genptr.h                       |   28 +
- target/hexagon/hex_common.py                  |   10 +
- target/hexagon/idef-parser/README.rst         |  447 ++++
- target/hexagon/idef-parser/idef-parser.h      |  254 ++
- target/hexagon/idef-parser/idef-parser.lex    |  611 +++++
- target/hexagon/idef-parser/idef-parser.y      |  947 +++++++
- target/hexagon/idef-parser/macros.inc         |  150 ++
- target/hexagon/idef-parser/parser-helpers.c   | 2374 +++++++++++++++++
- target/hexagon/idef-parser/parser-helpers.h   |  347 +++
- target/hexagon/idef-parser/prepare            |   24 +
- target/hexagon/macros.h                       |   11 +-
- target/hexagon/meson.build                    |   67 +-
- target/hexagon/translate.c                    |    3 +-
- target/hexagon/translate.h                    |    1 +
- tests/docker/dockerfiles/alpine.docker        |    2 +
- tests/docker/dockerfiles/centos7.docker       |    2 +
- tests/docker/dockerfiles/centos8.docker       |    2 +
- tests/docker/dockerfiles/debian10.docker      |    3 +
- .../dockerfiles/fedora-i386-cross.docker      |    3 +
- .../dockerfiles/fedora-win32-cross.docker     |    3 +
- .../dockerfiles/fedora-win64-cross.docker     |    3 +
- tests/docker/dockerfiles/fedora.docker        |    2 +
- tests/docker/dockerfiles/opensuse-leap.docker |    2 +
- tests/docker/dockerfiles/ubuntu.docker        |    3 +
- tests/docker/dockerfiles/ubuntu1804.docker    |    3 +
- tests/docker/dockerfiles/ubuntu2004.docker    |    5 +-
- tests/tcg/hexagon/Makefile.target             |   36 +-
- tests/tcg/hexagon/crt.S                       |   28 +
- tests/tcg/hexagon/test_abs.S                  |   20 +
- tests/tcg/hexagon/test_add.S                  |   20 +
- tests/tcg/hexagon/test_andp.S                 |   23 +
- tests/tcg/hexagon/test_bitcnt.S               |   42 +
- tests/tcg/hexagon/test_bitsplit.S             |   25 +
- tests/tcg/hexagon/test_call.S                 |   63 +
- tests/tcg/hexagon/test_clobber.S              |   35 +
- tests/tcg/hexagon/test_cmp.S                  |   34 +
- tests/tcg/hexagon/test_cmpy.S                 |   31 +
- tests/tcg/hexagon/test_djump.S                |   24 +
- tests/tcg/hexagon/test_dotnew.S               |   39 +
- tests/tcg/hexagon/test_dstore.S               |   29 +
- tests/tcg/hexagon/test_ext.S                  |   18 +
- tests/tcg/hexagon/test_fibonacci.S            |   33 +
- tests/tcg/hexagon/test_hello.S                |   21 +
- tests/tcg/hexagon/test_hl.S                   |   19 +
- tests/tcg/hexagon/test_hwloops.S              |   25 +
- tests/tcg/hexagon/test_jmp.S                  |   25 +
- tests/tcg/hexagon/test_lsr.S                  |   39 +
- tests/tcg/hexagon/test_mpyi.S                 |   20 +
- tests/tcg/hexagon/test_overflow.S             |   63 +
- tests/tcg/hexagon/test_packet.S               |   26 +
- tests/tcg/hexagon/test_reorder.S              |   31 +
- tests/tcg/hexagon/test_round.S                |   31 +
- tests/tcg/hexagon/test_vavgw.S                |   33 +
- tests/tcg/hexagon/test_vcmpb.S                |   32 +
- tests/tcg/hexagon/test_vcmpw.S                |   29 +
- tests/tcg/hexagon/test_vcmpy.S                |   50 +
- tests/tcg/hexagon/test_vlsrw.S                |   23 +
- tests/tcg/hexagon/test_vmaxh.S                |   37 +
- tests/tcg/hexagon/test_vminh.S                |   37 +
- tests/tcg/hexagon/test_vpmpyh.S               |   30 +
- tests/tcg/hexagon/test_vspliceb.S             |   33 +
- 68 files changed, 6849 insertions(+), 89 deletions(-)
- create mode 100644 include/tcg/tcg-cond.h
- create mode 100644 target/hexagon/gen_idef_parser_funcs.py
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+---
+ target/hexagon/README                 |   5 +
+ target/hexagon/idef-parser/README.rst | 447 ++++++++++++++++++++++++++
+ 2 files changed, 452 insertions(+)
  create mode 100644 target/hexagon/idef-parser/README.rst
- create mode 100644 target/hexagon/idef-parser/idef-parser.h
- create mode 100644 target/hexagon/idef-parser/idef-parser.lex
- create mode 100644 target/hexagon/idef-parser/idef-parser.y
- create mode 100644 target/hexagon/idef-parser/macros.inc
- create mode 100644 target/hexagon/idef-parser/parser-helpers.c
- create mode 100644 target/hexagon/idef-parser/parser-helpers.h
- create mode 100755 target/hexagon/idef-parser/prepare
- create mode 100644 tests/tcg/hexagon/crt.S
- create mode 100644 tests/tcg/hexagon/test_abs.S
- create mode 100644 tests/tcg/hexagon/test_add.S
- create mode 100644 tests/tcg/hexagon/test_andp.S
- create mode 100644 tests/tcg/hexagon/test_bitcnt.S
- create mode 100644 tests/tcg/hexagon/test_bitsplit.S
- create mode 100644 tests/tcg/hexagon/test_call.S
- create mode 100644 tests/tcg/hexagon/test_clobber.S
- create mode 100644 tests/tcg/hexagon/test_cmp.S
- create mode 100644 tests/tcg/hexagon/test_cmpy.S
- create mode 100644 tests/tcg/hexagon/test_djump.S
- create mode 100644 tests/tcg/hexagon/test_dotnew.S
- create mode 100644 tests/tcg/hexagon/test_dstore.S
- create mode 100644 tests/tcg/hexagon/test_ext.S
- create mode 100644 tests/tcg/hexagon/test_fibonacci.S
- create mode 100644 tests/tcg/hexagon/test_hello.S
- create mode 100644 tests/tcg/hexagon/test_hl.S
- create mode 100644 tests/tcg/hexagon/test_hwloops.S
- create mode 100644 tests/tcg/hexagon/test_jmp.S
- create mode 100644 tests/tcg/hexagon/test_lsr.S
- create mode 100644 tests/tcg/hexagon/test_mpyi.S
- create mode 100644 tests/tcg/hexagon/test_overflow.S
- create mode 100644 tests/tcg/hexagon/test_packet.S
- create mode 100644 tests/tcg/hexagon/test_reorder.S
- create mode 100644 tests/tcg/hexagon/test_round.S
- create mode 100644 tests/tcg/hexagon/test_vavgw.S
- create mode 100644 tests/tcg/hexagon/test_vcmpb.S
- create mode 100644 tests/tcg/hexagon/test_vcmpw.S
- create mode 100644 tests/tcg/hexagon/test_vcmpy.S
- create mode 100644 tests/tcg/hexagon/test_vlsrw.S
- create mode 100644 tests/tcg/hexagon/test_vmaxh.S
- create mode 100644 tests/tcg/hexagon/test_vminh.S
- create mode 100644 tests/tcg/hexagon/test_vpmpyh.S
- create mode 100644 tests/tcg/hexagon/test_vspliceb.S
 
+diff --git a/target/hexagon/README b/target/hexagon/README
+index b0b2435070..2f2814380c 100644
+--- a/target/hexagon/README
++++ b/target/hexagon/README
+@@ -23,6 +23,10 @@ Hexagon-specific code are
+         encode*.def             Encoding patterns for each instruction
+         iclass.def              Instruction class definitions used to determine
+                                 legal VLIW slots for each instruction
++    qemu/target/hexagon/idef-parser
++        Parser that, given the high-level definitions of an instruction,
++        produces a C function generating equivalent tiny code instructions.
++        See README.rst.
+     qemu/linux-user/hexagon
+         Helpers for loading the ELF file and making Linux system calls,
+         signals, etc
+@@ -43,6 +47,7 @@ header files in <BUILD_DIR>/target/hexagon
+         gen_tcg_funcs.py                -> tcg_funcs_generated.c.inc
+         gen_tcg_func_table.py           -> tcg_func_table_generated.c.inc
+         gen_helper_funcs.py             -> helper_funcs_generated.c.inc
++        gen_idef_parser_funcs.py        -> idef_parser_input.h
+ 
+ Qemu helper functions have 3 parts
+     DEF_HELPER declaration indicates the signature of the helper
+diff --git a/target/hexagon/idef-parser/README.rst b/target/hexagon/idef-parser/README.rst
+new file mode 100644
+index 0000000000..f4cb416e8b
+--- /dev/null
++++ b/target/hexagon/idef-parser/README.rst
+@@ -0,0 +1,447 @@
++Hexagon ISA instruction definitions to tinycode generator compiler
++------------------------------------------------------------------
++
++idef-parser is a small compiler able to translate the Hexagon ISA description
++language into tinycode generator code, that can be easily integrated into QEMU.
++
++Compilation Example
++-------------------
++
++To better understand the scope of the idef-parser, we'll explore an applicative
++example. Let's start by one of the simplest Hexagon instruction: the ``add``.
++
++The ISA description language represents the ``add`` instruction as
++follows:
++
++.. code:: c
++
++   A2_add(RdV, in RsV, in RtV) {
++       { RdV=RsV+RtV;}
++   }
++
++idef-parser will compile the above code into the following code:
++
++.. code:: c
++
++   /* A2_add */
++   void emit_A2_add(DisasContext *ctx, Insn *insn, Packet *pkt, TCGv_i32 RdV,
++                    TCGv_i32 RsV, TCGv_i32 RtV)
++   /*  { RdV=RsV+RtV;} */
++   {
++       tcg_gen_movi_i32(RdV, 0);
++       TCGv_i32 tmp_0 = tcg_temp_new_i32();
++       tcg_gen_add_i32(tmp_0, RsV, RtV);
++       tcg_gen_mov_i32(RdV, tmp_0);
++       tcg_temp_free_i32(tmp_0);
++   }
++
++The output of the compilation process will be a function, containing the
++tinycode generator code, implementing the correct semantics. That function will
++not access any global variable, because all the accessed data structures will be
++passed explicitly as function parameters. Among the passed parameters we will
++have TCGv (tinycode variables) representing the input and output registers of
++the architecture, integers representing the immediates that come from the code,
++and other data structures which hold information about the disassemblation
++context (``DisasContext`` struct).
++
++Let's begin by describing the input code. The ``add`` instruction is associated
++with a unique identifier, in this case ``A2_add``, which allows to distinguish
++variants of the same instruction, and expresses the class to which the
++instruction belongs, in this case ``A2`` corresponds to the Hexagon
++``ALU32/ALU`` instruction subclass.
++
++After the instruction identifier, we have a series of parameters that represents
++TCG variables that will be passed to the generated function. Parameters marked
++with ``in`` are already initialized, while the others are output parameters.
++
++We will leverage this information to infer several information:
++
++-  Fill in the output function signature with the correct TCGv registers
++-  Fill in the output function signature with the immediate integers
++-  Keep track of which registers, among the declared one, have been
++   initialized
++
++Let's now observe the actual instruction description code, in this case:
++
++.. code:: c
++
++   { RdV=RsV+RtV;}
++
++This code is composed by a subset of the C syntax, and is the result of the
++application of some macro definitions contained in the ``macros.h`` file.
++
++This file is used to reduce the complexity of the input language where complex
++variants of similar constructs can be mapped to a unique primitive, so that the
++idef-parser has to handle a lower number of computation primitives.
++
++As you may notice, the description code modifies the registers which have been
++declared by the declaration statements. In this case all the three registers
++will be declared, ``RsV`` and ``RtV`` will also be read and ``RdV`` will be
++written.
++
++Now let's have a quick look at the generated code, line by line.
++
++::
++
++   tcg_gen_movi_i32(RdV, 0);
++
++This code starts by zero-initializing ``RdV``, since reading from that register
++without initialization will cause a segmentation fault by QEMU.  This is emitted
++since a declaration of the ``RdV`` register was parsed, but we got no indication
++that the variable has been initialized by the caller.
++
++::
++
++   TCGv_i32 tmp_0 = tcg_temp_new_i32();
++
++Then we are declaring a temporary TCGv to hold the result from the sum
++operation.
++
++::
++
++   tcg_gen_add_i32(tmp_0, RsV, RtV);
++
++Now we are actually generating the sum tinycode operator between the selected
++registers, storing the result in the just declared temporary.
++
++::
++
++   tcg_gen_mov_i32(RdV, tmp_0);
++
++The result of the addition is now stored in the temporary, we move it into the
++correct destination register. This might not seem an efficient code, but QEMU
++will perform some tinycode optimization, reducing the unnecessary copy.
++
++::
++
++   tcg_temp_free_i32(tmp_0);
++
++Finally, we free the temporary we used to hold the addition result.
++
++Parser Structure
++----------------
++
++The idef-parser is built using the ``flex`` and ``bison``.
++
++``flex`` is used to split the input string into tokens, each described using a
++regular expression. The token description is contained in the
++``idef-parser.lex`` source file. The flex-generated scanner takes care also to
++extract from the input text other meaningful information, e.g., the numerical
++value in case of an immediate constant, and decorates the token with the
++extracted information.
++
++``bison`` is used to generate the actual parser, starting from the parsing
++description contained in the ``idef-parser.y`` file. The generated parser
++executes the ``main`` function at the end of the ``idef-parser.y`` file, which
++opens input and output files, creates the parsing context, and eventually calls
++the ``yyparse()`` function, which starts the execution of the LALR(1) parser
++(see `Wikipedia <https://en.wikipedia.org/wiki/LALR_parser>`__ for more
++information about LALR parsing techniques). The LALR(1) parser, whenever it has
++to shift a token, calls the ``yylex()`` function, which is defined by the
++flex-generated code, and reads the input file returning the next scanned token.
++
++The tokens are mapped on the source language grammar, defined in the
++``idef-parser.y`` file to build a unique syntactic tree, according to the
++specified operator precedences and associativity rules.
++
++The grammar describes the whole file which contains the Hexagon instruction
++descriptions, therefore it starts from the ``input`` nonterminal, which is a
++list of instructions, each instruction is represented by the following grammar
++rule, representing the structure of the input file shown above:
++
++::
++
++   instruction : INAME code
++
++   code        : LBR decls statements decls RBR
++
++   statements  : statements statement
++               | statement
++
++   statement   : control_statement
++               | rvalue SEMI
++               | code_block
++               | SEMI
++
++   code_block  : LBR statements RBR
++               | LBR RBR
++
++With this initial portion of the grammar we are defining the instruction
++statements, which are enclosed by the declarations. Each statement can be a
++``control_statement``, a code block, which is just a bracket-enclosed list of
++statements, a ``SEMI``, which is a ``nop`` instruction, and an ``rvalue SEMI``.
++
++Expressions
++~~~~~~~~~~~
++
++``rvalue`` is the nonterminal representing expressions, which are everything
++that could be assigned to a variable. ``rvalue SEMI`` can be a statement on its
++own because the assign statement, just as in the C language, is itself an
++expression.
++
++``rvalue``\ s can be registers, immediates, predicates, control registers,
++variables, or any combination of other ``rvalue``\ s through operators. An
++``rvalue`` can be either an immediate or a TCGv, the actual type is determined
++by the ``t_hex_value.type`` field. In case it is an immediate, its combination
++with other immediates can be performed at compile-time (constant folding), only
++the result will be written into the code. If the ``rvalue`` instead is a TCGv,
++the operations performed on it will have to be emitted as tinycode instructions,
++therefore their result will be known only at runtime. An immediate can be copied
++into a TCGv through the ``rvalue_materialize`` function, which allocates a
++temporary TCGv and copies the value of the immediate in it. Each temporary
++should be freed after that it is no more used, we usually free both operands of
++each operator, in an SSA fashion.
++
++``lvalue``\ s instead represents all the variables which can be assigned to a
++value, and are specialized into registers and variables:
++
++::
++
++   lvalue        : REG
++                 | VAR
++
++The effective assignment of ``lvalue``\ s is handled by the ``gen_assign()``
++function.
++
++Automatic Variables
++~~~~~~~~~~~~~~~~~~~
++
++The input code can contain implicitly declared automatic variables, which are
++initialized with a value and then used. We performed a dedicated handling of
++such variables, because they will be matched by a generic ``VARID`` token, which
++will feature the variable name as a decoration. Each time that the variable is
++found, we have to check if that's the first variable use, in that case we
++declare a new automatic variable in the tinycode, which can be considered at all
++effects as an immediate. Special care is taken to make sure that each variable
++is declared only the first time it is seen. Furthermore the variable might
++inherit some characteristics like the signedness and the bit width, which must
++be propagated from the initialization of the variable to all the further uses of
++the variable.
++
++The combination of ``rvalue``\ s are handled through the use of the
++``gen_bin_op`` and ``gen_bin_cmp`` helper functions. These two functions handle
++the appropriate compile-time or run-time emission of operations to perform the
++required computation.
++
++Type System
++~~~~~~~~~~~
++
++idef-parser features a simple type system which is used to correctly implement
++the signedness and bit width of the operations.
++
++The type of each ``rvalue`` is determined by two attributes: its bit width
++(``unsigned bit_width``) and its signedness (``bool is_unsigned``).
++
++For each operation, the type of ``rvalue``\ s influence the way in which the
++operands are handled and emitted. For example a right shift between signed
++operators will be an algebraic shift, while one between unsigned operators will
++be a logical shift. If one of the two operands is signed, and the other is
++unsigned, the operation will be signed.
++
++The bit width also influences the outcome of the operations, in particular while
++the input languages features a fine granularity type system, with types of 8,
++16, 32, 64 (and more for vectorial instructions) bits, the tinycode only
++features 32 and 64 bit widths. We propagate as much as possible the fine
++granularity type, until the value has to be used inside an operation between
++``rvalue``\ s; in that case if one of the two operands is greater than 32 bits
++we promote the whole operation to 64 bit, taking care of properly extending the
++two operands.  Fortunately, the most critical instructions already feature
++explicit casts and zero/sign extensions which are properly propagated down to
++our parser.
++
++Control Statements
++~~~~~~~~~~~~~~~~~~
++
++``control_statement``\ s are all the statements which modify the order of
++execution of the generated code according to input parameters. They are expanded
++by the following grammar rule:
++
++::
++
++   control_statement : frame_check
++                     | cancel_statement
++                     | if_statement
++                     | for_statement
++                     | fpart1_statement
++
++``if_statement``\ s require the emission of labels and branch instructions which
++effectively perform conditional jumps (``tcg_gen_brcondi``) according to the
++value of an expression. All the predicated instructions, and in general all the
++instructions where there could be alternative values assigned to an ``lvalue``,
++like C-style ternary expressions:
++
++::
++
++   rvalue            : rvalue QMARK rvalue COLON rvalue
++
++Are handled using the conditional move tinycode instruction
++(``tcg_gen_movcond``), which avoids the additional complexity of managing labels
++and jumps.
++
++Instead, regarding the ``for`` loops, exploiting the fact that they always
++iterate on immediate values, therefore their iteration ranges are always known
++at compile time, we implemented those emitting plain C ``for`` loops. This is
++possible because the loops will be executed in the QEMU code, leading to the
++consequential unrolling of the for loop, since the tinycode generator
++instructions will be executed multiple times, and the respective generated
++tinycode will represent the unrolled execution of the loop.
++
++Parsing Context
++~~~~~~~~~~~~~~~
++
++All the helper functions in ``idef-parser.y`` carry two fixed parameters, which
++are the parsing context ``c`` and the ``YYLLOC`` location information. The
++context is explicitly passed to all the functions because the parser we generate
++is a reentrant one, meaning that it does not have any global variable, and
++therefore the instruction compilation could easily be parallelized in the
++future. Finally for each rule we propagate information about the location of the
++involved tokens to generate a pretty error reporting, able to highlight the
++portion of the input code which generated each error.
++
++Debugging
++---------
++
++Developing the idef-parser can lead to two types of errors: compile-time errors
++and parsing errors.
++
++Compile-time errors in Bison-generated parsers are usually due to conflicts in
++the described grammar. Conflicts forbid the grammar to produce a unique
++derivation tree, thus must be solved (except for the dangling else problem,
++which is marked as expected through the ``%expect 1`` Bison option).
++
++For solving conflicts you need a basic understanding of `shift-reduce conflicts
++<https://www.gnu.org/software/Bison/manual/html_node/Shift_002fReduce.html>`__
++and `reduce-reduce conflicts
++<https://www.gnu.org/software/Bison/manual/html_node/Reduce_002fReduce.html>`__,
++then, if you are using a Bison version > 3.7.1 you can ask Bison to generate
++some counterexamples which highlight ambiguous derivations, passing the
++``-Wcex`` option to Bison. In general shift/reduce conflicts are solved by
++redesigning the grammar in an unambiguous way or by setting the token priority
++correctly, while reduce/reduce conflicts are solved by redesigning the
++interested part of the grammar.
++
++Run-time errors can be divided between lexing and parsing errors, lexing errors
++are hard to detect, since the ``VAR`` token will catch everything which is not
++catched by other tokens, but easy to fix, because most of the time a simple
++regex editing will be enough.
++
++idef-parser features a fancy parsing error reporting scheme, which for each
++parsing error reports the fragment of the input text which was involved in the
++parsing rule that generated an error.
++
++Implementing an instruction goes through several sequential steps, here are some
++suggestions to make each instruction proceed to the next step.
++
++-  not-emitted
++
++   Means that the parsing of the input code relative to that instruction failed,
++   this could be due to a lexical error or to some mismatch between the order of
++   valid tokens and a parser rule. You should check that tokens are correctly
++   identified and mapped, and that there is a rule matching the token sequence
++   that you need to parse.
++
++-  emitted
++
++   This instruction class contains all the instruction which are emitted but
++   fail to compile when included in QEMU. The compilation errors are shown by
++   the QEMU building process and will lead to fixing the bug.  Most common
++   errors regard the mismatch of parameters for tinycode generator functions,
++   which boil down to errors in the idef-parser type system.
++
++-  compiled
++
++   These instruction generate valid tinycode generator code, which however fail
++   the QEMU or the harness tests, these cases must be handled manually by
++   looking into the failing tests and looking at the generated tinycode
++   generator instruction and at the generated tinycode itself. Tip: handle the
++   failing harness tests first, because they usually feature only a single
++   instruction, thus will require less execution trace navigation. If a
++   multi-threaded test fail, fixing all the other tests will be the easier
++   option, hoping that the multi-threaded one will be indirectly fixed.
++
++-  tests-passed
++
++   This is the final goal for each instruction, meaning that the instruction
++   passes the test suite.
++
++Another approach to fix QEMU system test, where many instructions might fail, is
++to compare the execution trace of your implementation with the reference
++implementations already present in QEMU. To do so you should obtain a QEMU build
++where the instruction pass the test, and run it with the following command:
++
++::
++
++   sudo unshare -p sudo -u <USER> bash -c \
++   'env -i <qemu-hexagon full path> -d cpu <TEST>'
++
++And do the same for your implementation, the generated execution traces will be
++inherently aligned and can be inspected for behavioral differences using the
++``diff`` tool.
++
++Limitations and Future Development
++----------------------------------
++
++The main limitation of the current parser is given by the syntax-driven nature
++of the Bison-generated parsers. This has the severe implication of only being
++able to generate code in the order of evaluation of the various rules, without,
++in any case, being able to backtrack and alter the generated code.
++
++An example limitation is highlighted by this statement of the input language:
++
++::
++
++   { (PsV==0xff) ? (PdV=0xff) : (PdV=0x00); }
++
++This ternary assignment, when written in this form requires us to emit some
++proper control flow statements, which emit a jump to the first or to the second
++code block, whose implementation is extremely convoluted, because when matching
++the ternary assignment, the code evaluating the two assignments will be already
++generated.
++
++Instead we pre-process that statement, making it become:
++
++::
++
++   { PdV = ((PsV==0xff)) ? 0xff : 0x00; }
++
++Which can be easily matched by the following parser rules:
++
++::
++
++   statement             | rvalue SEMI
++
++   rvalue                : rvalue QMARK rvalue COLON rvalue
++                         | rvalue EQ rvalue
++                         | LPAR rvalue RPAR
++                         | assign_statement
++                         | IMM
++
++   assign_statement      : pre ASSIGN rvalue
++
++Another example that highlight the limitation of the flex/bison parser can be
++found even in the add operation we already saw:
++
++::
++
++   TCGv_i32 tmp_0 = tcg_temp_new_i32();
++   tcg_gen_add_i32(tmp_0, RsV, RtV);
++   tcg_gen_mov_i32(RdV, tmp_0);
++
++The fact that we cannot directly use ``RdV`` as the destination of the sum is a
++consequence of the syntax-driven nature of the parser. In fact when we parse the
++assignment, the ``rvalue`` token, representing the sum has already been reduced,
++and thus its code emitted and unchangeable. We rely on the fact that QEMU will
++optimize our code reducing the useless move operations and the relative
++temporaries.
++
++A possible improvement of the parser regards the support for vectorial
++instructions and floating point instructions, which will require the extension
++of the scanner, the parser, and a partial re-design of the type system, allowing
++to build the vectorial semantics over the available vectorial tinycode generator
++primitives.
++
++A more radical improvement will use the parser, not to generate directly the
++tinycode generator code, but to generate an intermediate representation like the
++LLVM IR, which in turn could be compiled using the clang TCG backend. That code
++could be furtherly optimized, overcoming the limitations of the syntax-driven
++parsing and could lead to a more optimized generated code.
 -- 
 2.31.1
 
