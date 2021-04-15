@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DE336096A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:29:48 +0200 (CEST)
-Received: from localhost ([::1]:60086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC494360967
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:29:20 +0200 (CEST)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX17z-0004kB-Iz
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46028)
+	id 1lX17X-0004RE-GH
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15A-0002vS-2W
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:26:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32788)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15C-0002x0-0O
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:26:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX156-0005yd-FZ
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:26:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX159-00060P-NW
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:26:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618489606;
+ s=mimecast20190719; t=1618489611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oX/D9vzkbuCupVtNwAphnCfZjmK6c7aD/BD5R7Zvb6A=;
- b=WgXCIfmAoCHB16Pmkql9bGjs3X66fCrWXGk8gr1zjaU2/CvQniIVAHaMptRKWVVy1tUA+H
- VuQIJXbEEhlp80I6zexNUZ5Q3o0VeDMsP8aqDx+mV0fEbyG/qwdM0luY8f+Utqxa4vtPD4
- Z7A3W9gp0cCi6AVG+ycBWbCzuIOLpYA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-Wi3LmtM2MfevB1fhyNe83Q-1; Thu, 15 Apr 2021 08:26:42 -0400
-X-MC-Unique: Wi3LmtM2MfevB1fhyNe83Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p11-20020a05600c358bb029011630279b61so4119764wmq.7
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:26:42 -0700 (PDT)
+ bh=WU1rsuPZSbiXCb5ZUrh9An1Xj0dCMP/3YS/3/3XzJFk=;
+ b=NMH9F2XzumnaE3zEHUYPvf3o5kkJ8g0XsbXA/4csCYVfnvFy2m1cKaJDEVYvsVtMRFVOQp
+ 1WjcqIM1BYC1VO0Bz2KgTaoL6d0ByXUi2rpUlER0acV5F9VykJ8GbIlrGa+BRAwhyfJ3yA
+ BgtJHStPqplCxmSxDH396pg/iqISKmQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-jwDfUz4JOSaxPsQJoMm5GA-1; Thu, 15 Apr 2021 08:26:47 -0400
+X-MC-Unique: jwDfUz4JOSaxPsQJoMm5GA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o3-20020a1c75030000b029010f4e02a2f2so2830895wmc.6
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:26:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oX/D9vzkbuCupVtNwAphnCfZjmK6c7aD/BD5R7Zvb6A=;
- b=V2Kctu0dNeHukKp6ivKfdhPJ8/F/PcthzB0cph0RfEjTxyJqOqFlGm8Gk2SUBl6E7e
- X17+f8gZl1b5ncP0jFBslGFnAykpxvkMiQkX8FmHIKVtvhmHag4xag6NJWIOtKAfYV/8
- cqw7eXvv7eU3YSn6btbuUI5r6EF3kw7dJp95UlRoYc/WWOphnHVs1zkGEzcpuRCkxH5c
- VE5zPY97E06pf5ccMBPN/OqUKftHpgB94N+saAgqrecixU5jD32nyQ8tq+hwMPPxpCPS
- 8pvJXFmd/cL/YKL6pCOqwOq+GzipSEIOoieYkD/n5nND37Ki7bTBLaOy7hNEpZiFLUkz
- FeFg==
-X-Gm-Message-State: AOAM533CbltHV+aRjnJgDUl5IdSca3Z1fFB5e0JHx6t/hXQKLYNdf57v
- wie1Dj6I6ycxplbruf5G+4pgok1KiG+zs5JlPirWi4rb56PbQfIUrgfU5/U5qCrzWyCj8sn7FQN
- HuaXDOhibFQcLtXbwR28hljqTk4rp61MYg1ALR8LDAzGbMYIATdhT8iiiBmbAEPCZ
-X-Received: by 2002:a1c:64c6:: with SMTP id y189mr3010405wmb.36.1618489601345; 
- Thu, 15 Apr 2021 05:26:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy77SnwzzCTpW6dQaPt8XPrIwgcQTqMZAZLEF9ypayL1CVAvzWIwllZoO3iT4pNIEAypvZ4Qw==
-X-Received: by 2002:a1c:64c6:: with SMTP id y189mr3010375wmb.36.1618489601179; 
- Thu, 15 Apr 2021 05:26:41 -0700 (PDT)
+ bh=WU1rsuPZSbiXCb5ZUrh9An1Xj0dCMP/3YS/3/3XzJFk=;
+ b=W1PhiOuS7d8XyfXvV2CYWUD0BT4zlnkFPBjdpNjIrOnz4RttwhEjr9sChRN5MKbEGs
+ JCGvcdvkK3L82cf8S9k/twoImv5lHX0REefoku6t65xVvSch7O7nmR/oad1bWoiQo5uq
+ qvltKhlenCXIxVsdtcy2R7L88kcTTu8qaMEkIGsFEtoI8Fw3tAlJoxjoAneNHsmrikLR
+ cgyr3aoVB/bkCE8/jbrbpKtX6wLWB7wa+d8Hga8DxQBfvuoajXs9g779Yl7OCByuq4AR
+ 2OOw6VuyxIloqM9a/DgbmAUSRAkqlYat0VibBTDY3JeHUAQse+vYVs7g+GjClaBK0JM8
+ alog==
+X-Gm-Message-State: AOAM530czV/vD0o7PNVgy+ANw2wdfbRNoqmRyYLDUpUz+WM9FYN+GhuO
+ hsIuN8/urJbiqdu8D3wDuDbsInlCUnPoGKEdbCy+KUF1t3GWukg9DvHAFM9HaeF0ythcdQXgt9g
+ B4re7E6ThP5MlC5icISQ/3hHIIL/hF5q4OrzQfMFmaIw8RrVc2YB+nreXSOTbWeu2
+X-Received: by 2002:adf:d1ce:: with SMTP id b14mr2619761wrd.159.1618489606443; 
+ Thu, 15 Apr 2021 05:26:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzB90NWbYaE7b8Gf0ZunPtbrJC+NSXfcFzScvhaN2FMv+oN+b1BXp3u+mFGGp9PD013jpJoIg==
+X-Received: by 2002:adf:d1ce:: with SMTP id b14mr2619727wrd.159.1618489606241; 
+ Thu, 15 Apr 2021 05:26:46 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id x8sm2812348wru.70.2021.04.15.05.26.39
+ by smtp.gmail.com with ESMTPSA id x17sm1399684wmi.46.2021.04.15.05.26.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 05:26:40 -0700 (PDT)
+ Thu, 15 Apr 2021 05:26:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] accel: Introduce 'query-accels' QMP command
-Date: Thu, 15 Apr 2021 14:26:28 +0200
-Message-Id: <20210415122633.4054644-2-philmd@redhat.com>
+Subject: [PATCH v3 2/6] tests/qtest: Add qtest_has_accel() method
+Date: Thu, 15 Apr 2021 14:26:29 +0200
+Message-Id: <20210415122633.4054644-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210415122633.4054644-1-philmd@redhat.com>
 References: <20210415122633.4054644-1-philmd@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,169 +105,81 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the 'query-accels' QMP command which returns a list
-of built-in accelerator names.
-
-- Accelerator is a QAPI enum of all existing accelerators,
-
-- AcceleratorInfo is a QAPI structure providing accelerator
-  specific information. Currently the common structure base
-  provides the name of the accelerator, while the specific
-  part is empty, but each accelerator can expand it.
-
-- 'query-accels' QMP command returns a list of @AcceleratorInfo
-
-For example on a KVM-only build we get:
-
-    { "execute": "query-accels" }
-    {
-        "return": [
-            {
-                "name": "qtest"
-            },
-            {
-                "name": "kvm"
-            }
-        ]
-    }
-
-Note that we can't make the enum values or union branches conditional
-because of target-specific poisoning of accelerator definitions.
+Introduce the qtest_has_accel() method which allows a runtime
+query on whether a QEMU instance has an accelerator built-in.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Since v2: @since 6.0 -> 6.1, added note (Eric)
-Since v1: 'type' -> 'name' in comments
+Since v2:
+- reworded (Eric)
+Since v1:
+- rename qtest_probe_accel() -> qtest_has_accel()
+- run with -machine none before creating QTestState
 ---
- qapi/machine.json | 49 +++++++++++++++++++++++++++++++++++++++++++++++
- accel/accel-qmp.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++
- accel/meson.build |  2 +-
- 3 files changed, 99 insertions(+), 1 deletion(-)
- create mode 100644 accel/accel-qmp.c
+ tests/qtest/libqos/libqtest.h |  8 ++++++++
+ tests/qtest/libqtest.c        | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 6e90d463fc9..4babc06f8b0 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1274,3 +1274,52 @@
- ##
- { 'event': 'MEM_UNPLUG_ERROR',
-   'data': { 'device': 'str', 'msg': 'str' } }
-+
-+##
-+# @Accelerator:
-+#
-+# An enumeration of accelerator names.
-+#
-+# Since: 6.1
-+##
-+{ 'enum': 'Accelerator',
-+  'data': [ 'qtest', 'tcg', 'kvm', 'hax', 'hvf', 'whpx', 'xen' ] }
-+
-+##
-+# @AcceleratorInfo:
-+#
-+# Accelerator information.
-+#
-+# @name: The accelerator name.
-+#
-+# Since: 6.1
-+##
-+{ 'union': 'AcceleratorInfo',
-+  'base': {'name': 'Accelerator'},
-+  'discriminator': 'name',
-+  'data': { } }
-+
-+##
-+# @query-accels:
-+#
-+# Get a list of AcceleratorInfo for all built-in accelerators.
-+#
-+# Returns: a list of @AcceleratorInfo describing each accelerator.
-+#
-+# Since: 6.1
-+#
-+# Example:
-+#
-+# -> { "execute": "query-accels" }
-+# <- { "return": [
-+#        {
-+#            "name": "qtest"
-+#        },
-+#        {
-+#            "name": "kvm"
-+#        }
-+#    ] }
-+#
-+##
-+{ 'command': 'query-accels',
-+  'returns': ['AcceleratorInfo'] }
-diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
-new file mode 100644
-index 00000000000..426737b3f9a
---- /dev/null
-+++ b/accel/accel-qmp.c
-@@ -0,0 +1,49 @@
-+/*
-+ * QEMU accelerators, QMP commands
+diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+index a68dcd79d44..d80c618c18d 100644
+--- a/tests/qtest/libqos/libqtest.h
++++ b/tests/qtest/libqos/libqtest.h
+@@ -763,6 +763,14 @@ void qmp_expect_error_and_unref(QDict *rsp, const char *class);
+  */
+ bool qtest_probe_child(QTestState *s);
+ 
++/**
++ * qtest_has_accel:
++ * @accel_name: Accelerator name to check for.
 + *
-+ * Copyright (c) 2021 Red Hat Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Returns: true if the accelerator is built in.
 + */
++bool qtest_has_accel(const char *accel_name);
 +
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-commands-machine.h"
-+
-+static const bool accel_builtin_list[ACCELERATOR__MAX] = {
-+    [ACCELERATOR_QTEST] = true,
-+#ifdef CONFIG_TCG
-+    [ACCELERATOR_TCG] = true,
-+#endif
-+#ifdef CONFIG_KVM
-+    [ACCELERATOR_KVM] = true,
-+#endif
-+#ifdef CONFIG_HAX
-+    [ACCELERATOR_HAX] = true,
-+#endif
-+#ifdef CONFIG_HVF
-+    [ACCELERATOR_HVF] = true,
-+#endif
-+#ifdef CONFIG_WHPX
-+    [ACCELERATOR_WHPX] = true,
-+#endif
-+#ifdef CONFIG_XEN_BACKEND
-+    [ACCELERATOR_XEN] = true,
-+#endif
-+};
-+
-+AcceleratorInfoList *qmp_query_accels(Error **errp)
+ /**
+  * qtest_set_expected_status:
+  * @s: QTestState instance to operate on.
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 71e359efcd3..2156b7e3972 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -393,6 +393,35 @@ QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd)
+     return qts;
+ }
+ 
++bool qtest_has_accel(const char *accel_name)
 +{
-+    AcceleratorInfoList *list = NULL, **tail = &list;
++    bool has_accel = false;
++    QDict *response;
++    QList *accels;
++    QListEntry *accel;
++    QTestState *qts;
 +
-+    for (Accelerator accel = 0; accel < ACCELERATOR__MAX; accel++) {
-+        if (accel_builtin_list[accel]) {
-+            AcceleratorInfo *info = g_new0(AcceleratorInfo, 1);
++    qts = qtest_initf("-accel qtest -machine none");
++    response = qtest_qmp(qts, "{'execute': 'query-accels'}");
++    accels = qdict_get_qlist(response, "return");
 +
-+            info->name = accel;
++    QLIST_FOREACH_ENTRY(accels, accel) {
++        QDict *accel_dict = qobject_to(QDict, qlist_entry_obj(accel));
++        const char *name = qdict_get_str(accel_dict, "name");
 +
-+            QAPI_LIST_APPEND(tail, info);
++        if (g_str_equal(name, accel_name)) {
++            has_accel = true;
++            break;
 +        }
 +    }
++    qobject_unref(response);
 +
-+    return list;
++    qtest_quit(qts);
++
++    return has_accel;
 +}
-diff --git a/accel/meson.build b/accel/meson.build
-index b44ba30c864..7a48f6d568d 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -1,4 +1,4 @@
--specific_ss.add(files('accel-common.c'))
-+specific_ss.add(files('accel-common.c', 'accel-qmp.c'))
- softmmu_ss.add(files('accel-softmmu.c'))
- user_ss.add(files('accel-user.c'))
- 
++
++
+ void qtest_quit(QTestState *s)
+ {
+     qtest_remove_abrt_handler(s);
 -- 
 2.26.3
 
