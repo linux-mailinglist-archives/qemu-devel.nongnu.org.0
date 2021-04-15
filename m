@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855F33600BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 06:03:10 +0200 (CEST)
-Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FC03600DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 06:17:18 +0200 (CEST)
+Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWtDh-0000Vx-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 00:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
+	id 1lWtRN-0004mB-BT
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 00:17:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kito.cheng@sifive.com>)
- id 1lWtBp-0007tQ-0x
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:01:14 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:34335)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWtPs-0003wH-Jc
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:15:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kito.cheng@sifive.com>)
- id 1lWtBb-0000nm-3g
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:01:12 -0400
-Received: by mail-lf1-x129.google.com with SMTP id n8so36987839lfh.1
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 21:00:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xI3Ep+n0y0FZ95h+gp0YqcG2RpJeZK2m3inYPh2KkoA=;
- b=K7wOiXfNaxguCbJIgTH5K7MZiHx2z23tr2sQNuOnsaWauUh4t4TJy51NmoeCJRnHRu
- qttcxdhZ3cXs6hBeDa7To8AARK3yqdY2hGnP1xEpWlAEUxeyLsspTfUDDezg4htA6RnI
- oSIk6K6ap7s4LfOHKgT526SYPx1lKLcwyKT5RyELegqpMvpodCvqHg+mRxNWY377N373
- 3SnEb92+PKQqQyt7JVp5VNGTCXC3W08s3Qa/YyVwbzwnFW7FWChloPh+/X8WgUOnjA4P
- 7bis3byHogBYgn+G4e8tIXuz148FBWivhuH0HMiOrNzfnIMfUqS0ihs+vG+uPZuOVTqw
- tOQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xI3Ep+n0y0FZ95h+gp0YqcG2RpJeZK2m3inYPh2KkoA=;
- b=NJPIUOtp8y28b8OklLGahJfj6psxP7kat3n3nXw9uPGxecdnMtaAfTppOUIZIVoccu
- vI1nzkIY9rSaeBWuyqpXUSwx1/g1v+nd9bTZKY9kFPv6i/klwo/FbjFhRLfoNGE1Gfzj
- stzE5LCazkgupq1KRUEKgeLfuzNmlGSHMqXXV4CegehpOfG0tgro9J7QM3PmYPFRgnxK
- n2mSvR9tjQ4qVBymMkk0X8x5RRKvtnqcVcyZXnj7DN3bZFSXLmnPSDLHrCj14N2gLR9o
- NtJCoaxtnUK3/18RTFi3VzUZO2duFwuvEJ3dl3KMhv7k84nFFwzcwQUxTt+U7wnwlp+B
- o2Gw==
-X-Gm-Message-State: AOAM531PV7AMcZOXw1RYYf8E5O+uK16onoQa5EwT2fOv+vRfg1jPb4FF
- 9KIijbmg0VgUC+Yirwf24paz3zCqsxy82KsQGCWxIw==
-X-Google-Smtp-Source: ABdhPJwPcmCWbeCxoxQ0XdetoVFkX8EwJYoaXuiFhzxzE2lqFEBKCDcjD82clFuYH0lNPYPJ7FCnCi5HxeVp5UoweyY=
-X-Received: by 2002:a05:6512:108f:: with SMTP id
- j15mr568966lfg.76.1618459251276; 
- Wed, 14 Apr 2021 21:00:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWtPp-0001mc-09
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 00:15:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lWtPm-0000IC-Nj
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 04:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B00A42E815A
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 04:15:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <161832726983.9430.3755052950345832110.malonedeb@chaenomeles.canonical.com>
- <CAKmqyKM7iVth4dzSLgdx6u=V3icoQuFnZ+JeqwUzmvim14BRRg@mail.gmail.com>
-In-Reply-To: <CAKmqyKM7iVth4dzSLgdx6u=V3icoQuFnZ+JeqwUzmvim14BRRg@mail.gmail.com>
-From: Kito Cheng <kito.cheng@sifive.com>
-Date: Thu, 15 Apr 2021 12:00:40 +0800
-Message-ID: <CALLt3TjP5TsuVNOcM+jnQb1tUKPuRxxxsNAahFCZFrxZs-gc1g@mail.gmail.com>
-Subject: Re: [Bug 1923629] [NEW] RISC-V Vector Instruction vssub.vv not
- saturating
-To: Alistair Francis <alistair23@gmail.com>,
- Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=kito.cheng@sifive.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 15 Apr 2021 04:08:27 -0000
+From: Alistair Francis <1923197@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: riscv64
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 teodori-serge
+X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
+X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
+References: <161797335493.30650.12922009005165891710.malonedeb@gac.canonical.com>
+Message-Id: <161845970725.8931.11860624017741986671.malone@gac.canonical.com>
+Subject: [Bug 1923197] Re: RISC-V priviledged instruction error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
+X-Launchpad-Hash: 9d50b188ecc7faa1b9d10a76a12d6366a66b32f2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,83 +71,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liuzhiwei <zhiwei_liu@c-sky.com>, Bug 1923629 <1923629@bugs.launchpad.net>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1923197 <1923197@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add Frank, he is the SiFive's qemu maintainer.
+I'm guessing that this is a bug in your guest as it hasn't configured
+PMP regions.
 
-On Thu, Apr 15, 2021 at 11:57 AM Alistair Francis <alistair23@gmail.com> wr=
-ote:
->
-> + LIU Zhiwei and Kito Cheng
->
-> Alistair
->
-> On Wed, Apr 14, 2021 at 1:31 AM Tony Cole <1923629@bugs.launchpad.net> wr=
-ote:
-> >
-> > Public bug reported:
-> >
-> > I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv prod=
-uces an
-> > incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
-> >
-> > Here is the bit of the code:
-> >
-> >                 vmv.v.i         v16, 0
-> >                 =E2=80=A6
-> > 8f040457        vssub.vv        v8,v16,v8
-> >
-> > I believe the instruction encoding is correct (vssub.vv with vd =3D v8,
-> > vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
-> >
-> > I=E2=80=99ve just tested with what I think is the latest branch (
-> > https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
-> > 2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem still
-> > exists.
-> >
-> > ** Affects: qemu
-> >      Importance: Undecided
-> >          Status: New
-> >
-> >
-> > ** Tags: riscv vector
-> >
-> > --
-> > You received this bug notification because you are a member of qemu-
-> > devel-ml, which is subscribed to QEMU.
-> > https://bugs.launchpad.net/bugs/1923629
-> >
-> > Title:
-> >   RISC-V Vector Instruction vssub.vv not saturating
-> >
-> > Status in QEMU:
-> >   New
-> >
-> > Bug description:
-> >   I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv pr=
-oduces an
-> >   incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
-> >
-> >   Here is the bit of the code:
-> >
-> >                 vmv.v.i         v16, 0
-> >                 =E2=80=A6
-> >   8f040457      vssub.vv        v8,v16,v8
-> >
-> >   I believe the instruction encoding is correct (vssub.vv with vd =3D v=
-8,
-> >   vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
-> >
-> >   I=E2=80=99ve just tested with what I think is the latest branch (
-> >   https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
-> >   2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem stil=
-l
-> >   exists.
-> >
-> > To manage notifications about this bug go to:
-> > https://bugs.launchpad.net/qemu/+bug/1923629/+subscriptions
-> >
+>From the RISC-V spec:
+
+"
+If no PMP entry matches an M-mode access, the access succeeds. If no PMP en=
+try matches an
+S-mode or U-mode access, but at least one PMP entry is implemented, the acc=
+ess fails.
+"
+
+Confusingly implemented here means implemented in hardware, not just
+configured.
+
+** Changed in: qemu
+       Status: Confirmed =3D> Invalid
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923197
+
+Title:
+  RISC-V priviledged instruction error
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Hello when performing an MRET with MPP set to something else than 0b11
+  in MSTATUS, 'Invalid Instruction' exception will be triggered. The
+  problem appeared in code after version 5.2.0. Use following code to
+  test.
+
+  =C2=A0=C2=A0# setup interrupt handling for monitor mode
+  =C2=A0=C2=A0la t0, entry_loop
+  =C2=A0=C2=A0la t1, entry_trap
+  =C2=A0=C2=A0li t2, 0x888
+  =C2=A0=C2=A0li t3, 0x1880
+  =C2=A0=C2=A0csrw mepc, t0
+  =C2=A0=C2=A0csrw mtvec, t1
+  =C2=A0=C2=A0csrs mie, t2
+  =C2=A0=C2=A0csrs mstatus, t3
+
+  =C2=A0=C2=A0# if supervisor mode not supported, then loop forever
+  =C2=A0=C2=A0csrr t0, misa
+  =C2=A0=C2=A0li t1, 0x40000
+  =C2=A0=C2=A0and t2, t1, t0
+  =C2=A0=C2=A0beqz t2, 1f
+
+  =C2=A0=C2=A0# setup interrupt i& exception delegation for supervisor mode
+  =C2=A0=C2=A0li t0, 0xc0000000 # 3 GiB (entry address of supervisor)
+  =C2=A0=C2=A0li t1, 0x1000
+  =C2=A0=C2=A0li t2, 0x300
+  =C2=A0=C2=A0li t3, 0x222
+  =C2=A0=C2=A0csrw mepc, t0
+  =C2=A0=C2=A0csrc mstatus, t1
+  =C2=A0=C2=A0csrs medeleg, t2
+  =C2=A0=C2=A0csrs mideleg, t3
+
+  =C2=A0=C2=A0# pass mhartid as first parameter to supervisor
+  =C2=A0=C2=A0csrr a0, mhartid
+
+  1:
+  =C2=A0=C2=A0mret
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923197/+subscriptions
 
