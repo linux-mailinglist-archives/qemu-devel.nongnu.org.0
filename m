@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982BE36112F
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:37:25 +0200 (CEST)
-Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA473611A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 20:02:35 +0200 (CEST)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX5vg-0004qB-N8
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
+	id 1lX6K1-0002WU-Nn
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 14:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lX5tZ-0003eK-9l
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:35:14 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42590)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lX622-0008NW-UN
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:44:00 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:33581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lX5tW-0008AZ-Dg
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:35:12 -0400
-Received: by mail-ed1-x532.google.com with SMTP id d21so8955360edv.9
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 10:35:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lX61z-0004l5-2m
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:43:57 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ kb13-20020a17090ae7cdb02901503d67f0beso1751128pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 10:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wtD98WdQcA0AbtawXI5Ih4VPg30HhlDeZrK5SpBi5wI=;
- b=DCu4ylfOUcbULZvcwFw0rquq65UHTkO5mhk2f8/zykIMPVNb0An5ioAGfbhpl7McQS
- jF2RXzz1qbkbHaCkDwS5YOBYQ3aBkBni7jIQabfekpgV5LKPNbPC9NEBST8rGT8v26Ew
- vHjAzRMGFL/JXHgXCeTQE/E1EP5k9+KXE2SGxrkPU0cSrmgYokg8mmqXRxgJYy0nlTf+
- 5Q/t+p5L3qV996jMdShxM9rg9UwKmfzvmNtOA0aERBpvYDmDRP3JWYOKWEMWKBEXAfku
- gwQRF9aJIjOD+TnbF5LZ4zsyrbMY8QXAtqJFkUOJV+k8xWQ4Gi+PP6z1/9Vq8+td3gY6
- 787Q==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e2bQLxkyK6e3Kk2nLdEQ46l861Wy2SMGwWIy44j7jrM=;
+ b=z2/wdTBYpoC+WSGFy4VmW5NIwwm+OoxMeEWwdKJsVH1Apjuhf97wq0wG8Qax5ARCYC
+ IxsmPRjg+7UgamU/RhE6wT3zTfIcSTSfrl55Qn0tXZkILRMOBS/ZP/5zMfr5s44JiU3J
+ IJp+l7zjkJNK5JfVsca/6pbx4+tKEfuwsbRV9TU6FPk0tV/Unv4CJ1rZif2QEdIYd5Mv
+ 5STAWU0IeviwKigAJSJV/XfYFxEUm61maqAWJQpGA2YdCU+BLrXPxj1RSyRK4vi7JUd6
+ TkZ+urqxmgUhi8w+ePtU0LT4tq1smOhQPfhLXXvv6GVZSURf5DhlZ0k3RNxox40L+1Ey
+ Kblg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wtD98WdQcA0AbtawXI5Ih4VPg30HhlDeZrK5SpBi5wI=;
- b=uccfYLErFSKqQ3yhi1u9mBR/sEUNpKWMaskctaodpH6HoOgUvDrUnI7tc45TFN9G6w
- ViPpgaL9t00g40LNgaF3dQIPKyWpc64PXS3DQtXbivKPpIB/+0ibUuUvRj2j8HxHs9aS
- XsxMcqYpXpRtySQuow2QaKKKFd1oHiPxnw4uOizyOfrQvZ+VsBlMMucTgW9rwppQnDFV
- hCHjfZEDBk96YkY6XeIvH/LSGrN2klecAuWwTcP/dejW3NF+kz1hbfsMjTnL7LjRWakW
- uIpDXAkWQ6HaUor5cO9HGOKRkLE099t9tKjj74vUUNp5p+OkBjZjDtPfkwAo3SYT30Ts
- obog==
-X-Gm-Message-State: AOAM530v4VTTkCQ0oJ0NxyjE7g35EUNdxp5VuxYQ230fd8Gbll3lqUqP
- bTlp4Q+qazaDsA2fNBMGQmCzf98/nUT8bEIBd/64CH3wecI=
-X-Google-Smtp-Source: ABdhPJzVR6r38/amAeYYYd11CbIf3puIsQnsd5nlKtfBTvA/tZuDg09TWdxVdh00TVgBO6Zz/8V7kXN9INHnYF4jp/M=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr5624027edt.36.1618508108534; 
- Thu, 15 Apr 2021 10:35:08 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e2bQLxkyK6e3Kk2nLdEQ46l861Wy2SMGwWIy44j7jrM=;
+ b=C+y56qorXPFskCq+SaOXyG/0dtWO6/fGdUsnfIA2JWGQwAeIoitGRxrkJgzNttVP2L
+ fslvMorm8q9hSgzOmCqLJn15RLURUMdgmcMQ9w0W2kMxEoLBbHg88fTIkSGpt6IZwJ7x
+ VPu6kuoA+NFYbuP/d64KGBKyTQQZBBheIAFV2dmNto/M2V6sW6Ao0lEJX5nz5eyeUqOM
+ 8Pk+wnqr7yIiSth0ET8umG9z3Lfaw+2gQ1SCIik3qHdE6YfwHle5QNXAkOWlNPXatDga
+ bO9BcTAwFev5EasvDIKSIO2W/0nX6AfVl+9tp4/eIVS4PVDs6s1AH509BvnftAmE45H7
+ iq3w==
+X-Gm-Message-State: AOAM531LsJt2JmSDNHN9Hxv7Up0UjuG7wf+Rv5fZxVKsn3MnKQZ/OnSG
+ ZyaPi+cPPOzhXWfWtOEyyzCuig==
+X-Google-Smtp-Source: ABdhPJzMuDAntGnfpHfsDXdlW1Em3qWFh1XB1rWC/9tQ5cOqmt34pyjceau6uxMq7HuJ2/5r2JB5/A==
+X-Received: by 2002:a17:902:d645:b029:e8:ec90:d097 with SMTP id
+ y5-20020a170902d645b02900e8ec90d097mr4927105plh.47.1618508632878; 
+ Thu, 15 Apr 2021 10:43:52 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id 205sm2721597pfc.201.2021.04.15.10.43.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Apr 2021 10:43:52 -0700 (PDT)
+Subject: Re: [RFC PATCH] accel/tcg: avoid re-translating one-shot instructions
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210415162454.22056-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <24c3af00-b29b-fc63-9540-044c59128436@linaro.org>
+Date: Thu, 15 Apr 2021 10:43:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210218094706.23038-1-alex.bennee@linaro.org>
- <20210218094706.23038-19-alex.bennee@linaro.org>
- <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
- <CAFEAcA9G-WabAM_EdgMzd0Xv6z8xRYjw57DiEqB6Z_Wbj=X1Eg@mail.gmail.com>
- <87blaflit2.fsf@linaro.org>
- <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
- <b989ebfe-1294-5eef-53a2-9599421e0069@amsat.org>
- <6597cb54-44d9-0798-0786-098286001fe0@kaod.org>
-In-Reply-To: <6597cb54-44d9-0798-0786-098286001fe0@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Apr 2021 18:34:21 +0100
-Message-ID: <CAFEAcA-x-eNaH=JROoSgF-ruWJDC2++qLNxz3ZEtziyUO-3aEQ@mail.gmail.com>
-Subject: Re: [EXTERNAL] Re: [PULL 18/23] accel/tcg: re-factor non-RAM
- execution code
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+In-Reply-To: <20210415162454.22056-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,63 +89,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Apr 2021 at 18:18, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> On 4/15/21 5:55 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 4/15/21 4:54 PM, Peter Maydell wrote:
-> >> On Thu, 15 Apr 2021 at 15:32, Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
-> >>> --8<---------------cut here---------------start------------->8---
-> >>> accel/tcg: avoid re-translating one-shot instructions
-> >>>
-> >>> By definition a single instruction is capable of being an IO
-> >>> instruction. This avoids a problem of triggering a cpu_io_recompile o=
-n
-> >>> a non-cached translation which would only do exactly this anyway.
-> >>>
-> >>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> >>>
-> >>> 1 file changed, 1 insertion(+), 1 deletion(-)
-> >>> accel/tcg/translate-all.c | 2 +-
-> >>>
-> >>> modified   accel/tcg/translate-all.c
-> >>> @@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-> >>>
-> >>>      if (phys_pc =3D=3D -1) {
-> >>>          /* Generate a one-shot TB with 1 insn in it */
-> >>> -        cflags =3D (cflags & ~CF_COUNT_MASK) | 1;
-> >>> +        cflags =3D (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
-> >>>      }
-> >>>
-> >>>      max_insns =3D cflags & CF_COUNT_MASK;
-> >>> --8<---------------cut here---------------end--------------->8---
-> >>
-> >> Yes, this fixes the problem. Do we want to put this in for 6.0? My
-> >> feeling is that executing from non-RAM is pretty niche, so maybe
-> >> if we need an rc4 anyway, but this isn't important enough to cause an
-> >> rc4 itself.
-> >
-> > Isn't it the default for Aspeed machines (with U-Boot)? (Cc'ing C=C3=A9=
-dric).
->
-> You need to set the 'execute-in-place' machine option to load/execute the
-> instructions from the AHB window of CE0. It's not on by default because
-> boot can be really slow with some recent u-boot which heavily trash the T=
-Bs.
->
-> But this seems to work fine with -rc3.
+On 4/15/21 9:24 AM, Alex Bennée wrote:
+> By definition a single instruction is capable of being an IO
+> instruction. This avoids a problem of triggering a cpu_io_recompile on
+> a non-recorded translation which then fails because it expects
+> tcg_tb_lookup() to succeed unconditionally. The normal use case
+> requires a TB to be able to resolve machine state.
+> 
+> The other users of tcg_tb_lookup() are able to tolerate a missing TB
+> if the machine state has been resolved by other means - which in the
+> single-shot case is always true because machine state is synced at the
+> start of a block.
+> 
+> Reported-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   accel/tcg/translate-all.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Triggering the bug requires both execute-in-place and -icount -- did
-you test with -icount enabled?
-
-thanks
--- PMM
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
