@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF73361583
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 00:32:37 +0200 (CEST)
-Received: from localhost ([::1]:36668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D980C361584
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 00:32:40 +0200 (CEST)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXAXM-00012W-Pq
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 18:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1lXAXP-000162-SE
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 18:32:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lXATq-0007XA-Nn; Thu, 15 Apr 2021 18:28:58 -0400
+ id 1lXATt-0007XN-R9; Thu, 15 Apr 2021 18:29:01 -0400
 Received: from [201.28.113.2] (port=9244 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lXATp-0007aM-3P; Thu, 15 Apr 2021 18:28:58 -0400
+ id 1lXATs-0007aM-90; Thu, 15 Apr 2021 18:29:01 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 15 Apr 2021 18:41:50 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 15 Apr 2021 18:41:51 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id E2D19801328;
- Thu, 15 Apr 2021 18:41:49 -0300 (-03)
+ by power9a (Postfix) with ESMTP id ECBC7801328;
+ Thu, 15 Apr 2021 18:41:50 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/3] tests/tcg/ppc64le: load 33-bits constant with paddi
-Date: Thu, 15 Apr 2021 18:41:37 -0300
-Message-Id: <20210415214138.563795-3-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH 3/3] tests/tcg/ppc64le: R=1 test for paddi
+Date: Thu, 15 Apr 2021 18:41:38 -0300
+Message-Id: <20210415214138.563795-4-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210415214138.563795-1-matheus.ferst@eldorado.org.br>
 References: <20210415214138.563795-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Apr 2021 21:41:50.0349 (UTC)
- FILETIME=[2490E3D0:01D73240]
+X-OriginalArrivalTime: 15 Apr 2021 21:41:51.0397 (UTC)
+ FILETIME=[2530CD50:01D73240]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,75 +63,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-This test checks that we can correctly load a 33-bit constant and its
-two's complement. At least until version 1.1-0, POWER10 Functional
-Simulation fails this test, processing the immediate as if it were
-32-bits instead of 34, so it's probably something to keep an eye on.
+This test exercise the R=1 path of paddi implementation using the
+extended mnemonic "pla".
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- tests/tcg/ppc64/Makefile.target   |  5 +++++
- tests/tcg/ppc64le/Makefile.target |  5 +++++
- tests/tcg/ppc64le/pli_33bits.c    | 22 ++++++++++++++++++++++
- 3 files changed, 32 insertions(+)
- create mode 100644 tests/tcg/ppc64le/pli_33bits.c
+ tests/tcg/ppc64/Makefile.target   |  3 ++-
+ tests/tcg/ppc64le/Makefile.target |  3 ++-
+ tests/tcg/ppc64le/pla.c           | 26 ++++++++++++++++++++++++++
+ 3 files changed, 30 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/ppc64le/pla.c
 
 diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 0c6a4585fc..6eccd2c06f 100644
+index 6eccd2c06f..a6cd7a21b2 100644
 --- a/tests/tcg/ppc64/Makefile.target
 +++ b/tests/tcg/ppc64/Makefile.target
-@@ -10,4 +10,9 @@ PPC64_TESTS=bcdsub
- endif
+@@ -11,8 +11,9 @@ endif
  bcdsub: CFLAGS += -mpower8-vector
  
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+PPC64LE_TESTS += pli_33bits
-+endif
-+pli_33bits: CFLAGS += -mpower10
-+
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
+-PPC64LE_TESTS += pli_33bits
++PPC64LE_TESTS += pli_33bits pla
+ endif
+ pli_33bits: CFLAGS += -mpower10
++pla: CFLAGS += -mpower10
+ 
  TESTS += $(PPC64_TESTS)
 diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 1acfcff94a..2003eab2df 100644
+index 2003eab2df..db92b2ec99 100644
 --- a/tests/tcg/ppc64le/Makefile.target
 +++ b/tests/tcg/ppc64le/Makefile.target
-@@ -9,4 +9,9 @@ PPC64LE_TESTS=bcdsub
- endif
+@@ -10,8 +10,9 @@ endif
  bcdsub: CFLAGS += -mpower8-vector
  
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+PPC64LE_TESTS += pli_33bits
-+endif
-+pli_33bits: CFLAGS += -mpower10
-+
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
+-PPC64LE_TESTS += pli_33bits
++PPC64LE_TESTS += pli_33bits pla
+ endif
+ pli_33bits: CFLAGS += -mpower10
++pla: CFLAGS += -mpower10
+ 
  TESTS += $(PPC64LE_TESTS)
-diff --git a/tests/tcg/ppc64le/pli_33bits.c b/tests/tcg/ppc64le/pli_33bits.c
+diff --git a/tests/tcg/ppc64le/pla.c b/tests/tcg/ppc64le/pla.c
 new file mode 100644
-index 0000000000..848cbce165
+index 0000000000..4826579216
 --- /dev/null
-+++ b/tests/tcg/ppc64le/pli_33bits.c
-@@ -0,0 +1,22 @@
++++ b/tests/tcg/ppc64le/pla.c
+@@ -0,0 +1,26 @@
 +#include <assert.h>
 +#include <unistd.h>
 +#include <signal.h>
 +
 +int main(void)
 +{
-+    long int var;
++    long unsigned int label, addr;
 +    struct sigaction action;
 +
 +    action.sa_handler = _exit;
 +    sigaction(SIGABRT, &action, NULL);
 +
-+    asm(" pli %0,0x1FFFFFFFF\n"
-+        : "=r"(var));
-+    assert(var == 0x1FFFFFFFF);
-+
-+    asm(" pli %0,-0x1FFFFFFFF\n"
-+       : "=r"(var));
-+    assert(var == -0x1FFFFFFFF);
++    asm("insn:\n"
++        " lis    %0, insn@highest\n"
++        " addi   %0, %0, insn@higher\n"
++        " rldicr %0, %0, 32, 31\n"
++        " oris   %0, %0, insn@h\n"
++        " ori    %0, %0, insn@l\n"
++        " pla    %1, %2\n"
++        : "=r" (label), "=r" (addr)
++        : "i" (-5 * 4)); /* number of instruction between label and pla */
++    assert(addr == label);
 +
 +    return 0;
 +}
++
 -- 
 2.25.1
 
