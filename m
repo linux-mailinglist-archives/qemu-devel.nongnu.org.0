@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ABF3603E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 10:08:03 +0200 (CEST)
-Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51B43603F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 10:12:24 +0200 (CEST)
+Received: from localhost ([::1]:34172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWx2g-0005hM-VW
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 04:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40726)
+	id 1lWx6t-0002sP-VK
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 04:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lWwzm-000457-78
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:05:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21705)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1lWx5d-0001k6-QU; Thu, 15 Apr 2021 04:11:06 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lWwzk-0000nR-2b
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 04:05:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618473899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qp2GXWW4hbtIRJIYBfKSWq35Kn2yR/Zh2tbJaZmorFQ=;
- b=KpxyStLw93jCDkTE0/Ui4a5GSGI3yCXaVIipNq6O/3NGJP48JX5+MnwP1bjl3dFxvtMdJM
- s5980vhDG00lucUeLgsBrL/bMJz+oZKZfGIuQQCc4Vcva4RT7Ip/nMB4Yw9MzOv2kah4Bf
- MkioiWU7T6HrHwzjMJ5ggl3RXnSEznY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-4hPgHb1LMSSSht4S2MxUhA-1; Thu, 15 Apr 2021 04:04:57 -0400
-X-MC-Unique: 4hPgHb1LMSSSht4S2MxUhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 878879F92D;
- Thu, 15 Apr 2021 08:04:56 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-61.pek2.redhat.com [10.72.12.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D749F10023B0;
- Thu, 15 Apr 2021 08:04:54 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] vhost-vdpa: doorbell mapping support
-Date: Thu, 15 Apr 2021 16:04:44 +0800
-Message-Id: <20210415080444.44645-3-jasowang@redhat.com>
-In-Reply-To: <20210415080444.44645-1-jasowang@redhat.com>
-References: <20210415080444.44645-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1lWx5a-0004RM-DY; Thu, 15 Apr 2021 04:11:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618474236; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=bHqFLL/VwWUuNCfCYmwyBOKLOHpAvHtUslAoPXqzu1IGjqiWZGB3JuGpx3ddPldZqo/gjw403lNetK/58Lb+QXDOkn9SZMJXIYHvxfB/YZbt9jGyT85WLw0vTPbjUBa37qLUH5JYLMEOUtROl5wGb8Dpqs1bsO/tbjbxR29Ob/E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1618474236;
+ h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=Sf0YNWGK0IYdwTqDVu3dWpyzCzBpBfU6Mr/JOJdwZVQ=; 
+ b=DPd6dtxDAaGEePig1xdOhu90n9IAfa3WlqiVyaZ+8mPCU6s5/UPSK3u1/dJiDbDXE/lyCONlmKc64xm6VvbfuSry3VmkVlhzzyWRJi0ueU3icRfVeD+Mdn7ibP6T47Ye63169XT+fMnKc5Ks1pFjqN3gCI3l7I0UVmjRfCQN2o0=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1618474236; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
+ bh=Sf0YNWGK0IYdwTqDVu3dWpyzCzBpBfU6Mr/JOJdwZVQ=;
+ b=BLHDGH2KDbURdmd3mNCYG8spPKcsk4ALP4EArliRbxEosnk8xtWS7H8vy91YCLRv
+ Wyx7Qtx7lU5K0AA4wrSE9o5q5lQGS9lTvMmkfj1Ey/CLW2HH1LzfqOFc2pk8pK9fgDw
+ 7X5swBD8x1lC0bUtY5PMSpd5j3jNcm1dV7k429bc=
+Received: from localhost (139.59.189.172 [139.59.189.172]) by mx.zoho.com.cn
+ with SMTPS id 1618474234417895.2208322351457;
+ Thu, 15 Apr 2021 16:10:34 +0800 (CST)
+Date: Thu, 15 Apr 2021 08:09:30 +0000
+From: Fam Zheng <fam@euphon.net>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 0/2] util/async: print leaked BH name when AioContext
+ finalizes
+Message-ID: <20210415080930.GA2259808@do.euphon.net>
+References: <20210414200247.917496-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414200247.917496-1-stefanha@redhat.com>
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,162 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elic@nvidia.com, Jason Wang <jasowang@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ eric.g.ernst@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements the doorbell mapping support for
-vhost-vDPA. This is simply done by using mmap()/munmap() for the
-vhost-vDPA fd during device start/stop. For the device without
-doorbell support, we fall back to eventfd based notification
-gracefully.
+On 2021-04-14 21:02, Stefan Hajnoczi wrote:
+> Eric Ernst and I debugged a BH leak and it was more involved than it should be.
+> The problem is that BHs don't have a human-readable identifier, so low-level
+> debugging techniques and inferences about the code are required to figure out
+> which BH was leaked in production environments without easy debug access.
+> 
+> The leak ended up already being fixed upstream but let's improve diagnostics
+> for leaked BHs so that this becomes quick and easy in the future.
+> 
+> Stefan Hajnoczi (2):
+>   util/async: add a human-readable name to BHs for debugging
+>   util/async: print leaked BH name when AioContext finalizes
+> 
+>  include/block/aio.h            | 31 ++++++++++++++++++++++++++++---
+>  include/qemu/main-loop.h       |  4 +++-
+>  tests/unit/ptimer-test-stubs.c |  2 +-
+>  util/async.c                   | 25 +++++++++++++++++++++----
+>  util/main-loop.c               |  4 ++--
+>  5 files changed, 55 insertions(+), 11 deletions(-)
+> 
+> -- 
+> 2.30.2
+> 
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/virtio/vhost-vdpa.c         | 85 ++++++++++++++++++++++++++++++++++
- include/hw/virtio/vhost-vdpa.h |  7 +++
- 2 files changed, 92 insertions(+)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index dd4321bac2..c3a3b7566f 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -285,12 +285,95 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
-     return 0;
- }
- 
-+static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *dev,
-+                                            int queue_index)
-+{
-+    size_t page_size = qemu_real_host_page_size;
-+    struct vhost_vdpa *v = dev->opaque;
-+    VirtIODevice *vdev = dev->vdev;
-+    VhostVDPAHostNotifier *n;
-+
-+    n = &v->notifier[queue_index];
-+
-+    if (n->addr) {
-+        virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, false);
-+        object_unparent(OBJECT(&n->mr));
-+        munmap(n->addr, page_size);
-+        n->addr = NULL;
-+    }
-+}
-+
-+static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
-+{
-+    int i;
-+
-+    for (i = 0; i < n; i++) {
-+        vhost_vdpa_host_notifier_uninit(dev, i);
-+    }
-+}
-+
-+static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int queue_index)
-+{
-+    size_t page_size = qemu_real_host_page_size;
-+    struct vhost_vdpa *v = dev->opaque;
-+    VirtIODevice *vdev = dev->vdev;
-+    VhostVDPAHostNotifier *n;
-+    int fd = v->device_fd;
-+    void *addr;
-+    char *name;
-+
-+    vhost_vdpa_host_notifier_uninit(dev, queue_index);
-+
-+    n = &v->notifier[queue_index];
-+
-+    addr = mmap(NULL, page_size, PROT_WRITE, MAP_SHARED, fd,
-+                queue_index * page_size);
-+    if (addr == MAP_FAILED) {
-+        goto err;
-+    }
-+
-+    name = g_strdup_printf("vhost-vdpa/host-notifier@%p mmaps[%d]",
-+                           v, queue_index);
-+    memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
-+                                      page_size, addr);
-+    g_free(name);
-+
-+    if (virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, true)) {
-+        munmap(addr, page_size);
-+        goto err;
-+    }
-+    n->addr = addr;
-+
-+    return 0;
-+
-+err:
-+    return -1;
-+}
-+
-+static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
-+{
-+    int i;
-+
-+    for (i = 0; i < dev->nvqs; i++) {
-+        if (vhost_vdpa_host_notifier_init(dev, i)) {
-+            goto err;
-+        }
-+    }
-+
-+    return;
-+
-+err:
-+    vhost_vdpa_host_notifiers_uninit(dev, i);
-+    return;
-+}
-+
- static int vhost_vdpa_cleanup(struct vhost_dev *dev)
- {
-     struct vhost_vdpa *v;
-     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
-     v = dev->opaque;
-     trace_vhost_vdpa_cleanup(dev, v);
-+    vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-     memory_listener_unregister(&v->listener);
- 
-     dev->opaque = NULL;
-@@ -467,6 +550,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-     if (started) {
-         uint8_t status = 0;
-         memory_listener_register(&v->listener, &address_space_memory);
-+        vhost_vdpa_host_notifiers_init(dev);
-         vhost_vdpa_set_vring_ready(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-         vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-@@ -476,6 +560,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         vhost_vdpa_reset_device(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-                                    VIRTIO_CONFIG_S_DRIVER);
-+        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-         memory_listener_unregister(&v->listener);
- 
-         return 0;
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 9b81a409da..0f11ecff34 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -14,11 +14,18 @@
- 
- #include "hw/virtio/virtio.h"
- 
-+typedef struct VhostVDPAHostNotifier {
-+    MemoryRegion mr;
-+    void *addr;
-+} VhostVDPAHostNotifier;
-+
- typedef struct vhost_vdpa {
-     int device_fd;
-     uint32_t msg_type;
-     MemoryListener listener;
-     struct vhost_dev *dev;
-+    VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-+    bool host_notifier_set;
- } VhostVDPA;
- 
- extern AddressSpace address_space_memory;
--- 
-2.25.1
-
+Reviewed-by: Fam Zheng <fam@euphon.net>
 
