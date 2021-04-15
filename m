@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE1F35FEB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 02:02:37 +0200 (CEST)
-Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDF435FF87
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 03:27:13 +0200 (CEST)
+Received: from localhost ([::1]:59798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWpSt-000507-MW
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 20:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49000)
+	id 1lWqml-0004ON-Tv
+	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 21:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWpS1-0004Ze-HW
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 20:01:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37470)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lWqju-000356-Q4; Wed, 14 Apr 2021 21:24:14 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:42563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lWpRy-0005ut-Q8
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 20:01:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lWpRw-0006HK-7g
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 00:01:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2DCA12E8162
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 00:01:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1lWqjt-0004oe-Dh; Wed, 14 Apr 2021 21:24:14 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id d21so5855818edv.9;
+ Wed, 14 Apr 2021 18:24:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t+clK8haa/jfJkCf2nTPAp3hRgz37oMSnMj5wVYCaGM=;
+ b=jJUOlnxZdPUyEFJFrxh1fS7H4Ksp9XtM70g9u2zbA+S3yWlGzgnBKiPfzGHBox/hi2
+ YP7LrNdnzAP5o0GK3wHovtNrQqu1nsm5+pzBHr0PB3hlNJ4rGKnYtuzHG8b8f0VIOKWP
+ 8iLeE0uO1lD5/AjOyN3csfm/+1umR7PJs16YzqFPGCQppGm3zmDTminoC8PxCoymYVSB
+ kn+DZlcBPZMsECVFFCk5ASCMIOJJ0kkVb/u7KUk8D7BsxcUKTHronozHY2DpUY559Ymi
+ qfxXQrTu3HLq6zo4sExTZhpABzmxZUWrhFVBoSm9Hxs5CrqR3cFfTr5vipsVRS46nxvH
+ C5Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t+clK8haa/jfJkCf2nTPAp3hRgz37oMSnMj5wVYCaGM=;
+ b=jIPnnmSV6MyjIDi3a0jAGkeGaBJj3dic/mIzpU9SYo7kCYGo5jtn3fhn+A70Ku5Gny
+ zoaV010/zN9yCmL/emVilFIDmpHzFQDTx8YwHGs1ruMp0GX+HV+nzIZpgxMiKJDTiEAY
+ iEga93LCmBjtFueD/NTxrhp5aUBzKm3O5K6UkRnWtmMQwAeUfprrXMguQyX2whn0dMfJ
+ Y7wOmUejp77kHGH9kSNnWZdLdOOiCYb2ggtaqs+6fk9gMQl/A+cNxzOdEbHUVRJw/xai
+ 1qzCav3QQmx0ojYrL18JKPcu7cGP/o/sLBNLtPk0mp43BMPqoWjMeMVoB+V4D/98G9qE
+ wNmQ==
+X-Gm-Message-State: AOAM533ManfwA3f9sVa+XPBr1PxtYbUksTuG9w9mLfqL3KLN8CaAtMVT
+ m83/i6lOANkZCTXyD4ePEXAYQ2mqj3nL8/ns7Ds=
+X-Google-Smtp-Source: ABdhPJyYz5vPWfDTMfAHZchNsBpJzt1CoAOQWsk7MJUg4Rwdo7Wt4qlsFZs3tbc5PSidgU/xjzBIA+Cn4GqQ+VGNpg8=
+X-Received: by 2002:aa7:c694:: with SMTP id n20mr1118920edq.51.1618449847580; 
+ Wed, 14 Apr 2021 18:24:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Apr 2021 23:49:13 -0000
-From: Cleber Rosa <1922611@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: acceptance sparc test
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu mark-cave-ayland philmd
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Cleber Rosa (cleber-gnu)
-References: <161766836712.29624.11290531043933796860.malonedeb@gac.canonical.com>
-Message-Id: <161844415407.18765.16328908728832319661.malone@wampee.canonical.com>
-Subject: [Bug 1922611] Re: Acceptance Tests: migration fails on sparc target
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 6cd6a38803d2aa34b70e7a863a5776f14118bdbc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+References: <20210414134112.25620-1-iii@linux.ibm.com>
+ <20210414134112.25620-4-iii@linux.ibm.com>
+ <d3d690a0-c322-5fbb-26ae-dcbf08173b0a@redhat.com>
+ <28224ba9d61d0d805a162c00903559f3b99bc722.camel@linux.ibm.com>
+ <CAMo8Bf+s4OqYJLTkvyPvfnmH=FwxDSFn60TryKfgErxFyB+2yQ@mail.gmail.com>
+ <cfae4bbd-3068-41f6-ec38-a27cf7381fee@linaro.org>
+In-Reply-To: <cfae4bbd-3068-41f6-ec38-a27cf7381fee@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Wed, 14 Apr 2021 18:23:56 -0700
+Message-ID: <CAMo8BfJNcfAp_tJWHQziUQXxR8WykLcBGTKnHeWS=TtLYwTC=g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] accel/tcg: Assert that tb->size != 0 after
+ translation
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,143 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922611 <1922611@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can confirm this bug has been fixed.  Relevant test output:
+On Wed, Apr 14, 2021 at 12:43 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 4/14/21 11:03 AM, Max Filippov wrote:
+> > On Wed, Apr 14, 2021 at 9:51 AM Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+> >> On Wed, 2021-04-14 at 16:48 +0200, David Hildenbrand wrote:
+> >>> Did you double-check the xtensa issue?
+> >>
+> >> Oh, I'm sorry, I completely forgot about that one. I just ran the
+> >> test locally, and apparently it fails because of this new assert, so
+> >> I'll have to write the 4th patch now. Thanks!
+> >
+> > Just curious, what xtensa issue?
+>
+> Returning from xtensa_tr_translate_insn with tb->size == 0.
+>
+> Basically, dc->base.pc_next needs to be incremented even for illegal
+> instructions, preferably by the number of bytes consumed while determining that
+> the insn is illegal.
 
-VM launch command: './qemu-system-sparc -display none -vga none -chardev so=
-cket,id=3Dmon,path=3D/tmp/avo_qemu_sock_g0w15g26/qemu-1672256-monitor.sock =
--mon chardev=3Dmon,mode=3Dcontrol -incoming tcp:localhost:53800 -nodefaults'
->>> {'execute': 'qmp_capabilities'}
-<<< {'return': {}}
-VM launch command: './qemu-system-sparc -display none -vga none -chardev so=
-cket,id=3Dmon,path=3D/tmp/avo_qemu_sock_ajodgya5/qemu-1672256-monitor.sock =
--mon chardev=3Dmon,mode=3Dcontrol -nodefaults'
->>> {'execute': 'qmp_capabilities'}
-<<< {'return': {}}
->>> {'execute': 'migrate', 'arguments': {'uri': 'tcp:localhost:53800'}}
-<<< {'return': {}}
->>> {'execute': 'query-migrate'}
-<<< {'return': {'blocked': False, 'status': 'setup'}}
->>> {'execute': 'query-migrate'}
-<<< {'timestamp': {'seconds': 1618444112, 'microseconds': 790928}, 'event':=
- 'STOP'}
-<<< {'return': {'blocked': False, 'status': 'completed', 'setup-time': 1, '=
-downtime': 1, 'total-time': 17, 'ram': {'total': 135274496, 'postcopy-reque=
-sts': 0, 'dirty-sync-count': 2, 'multifd-bytes': 0, 'pages-per-second': 0, =
-'page-size': 4096, 'remaining': 0, 'mbps': 282.253, 'transferred': 528415, =
-'duplicate': 33170, 'dirty-pages-rate': 0, 'skipped': 0, 'normal-bytes': 22=
-9376, 'normal': 56}}}
->>> {'execute': 'query-migrate'}
-<<< {'timestamp': {'seconds': 1618444112, 'microseconds': 792061}, 'event':=
- 'RESUME'}
-<<< {'return': {'blocked': False, 'status': 'completed'}}
->>> {'execute': 'query-migrate'}
-<<< {'return': {'blocked': False, 'status': 'completed', 'setup-time': 1, '=
-downtime': 1, 'total-time': 17, 'ram': {'total': 135274496, 'postcopy-reque=
-sts': 0, 'dirty-sync-count': 2, 'multifd-bytes': 0, 'pages-per-second': 0, =
-'page-size': 4096, 'remaining': 0, 'mbps': 282.253, 'transferred': 528415, =
-'duplicate': 33170, 'dirty-pages-rate': 0, 'skipped': 0, 'normal-bytes': 22=
-9376, 'normal': 56}}}
->>> {'execute': 'query-migrate'}
-<<< {'return': {'blocked': False, 'status': 'completed'}}
->>> {'execute': 'query-status'}
-<<< {'return': {'status': 'running', 'singlestep': False, 'running': True}}
->>> {'execute': 'query-status'}
-<<< {'return': {'status': 'postmigrate', 'singlestep': False, 'running': Fa=
-lse}}
->>> {'execute': 'quit'}
-<<< {'return': {}}
->>> {'execute': 'quit'}
-<<< {'return': {}}
-DATA (filename=3Doutput.expected) =3D> NOT FOUND (data sources: variant, te=
-st, file)
-DATA (filename=3Dstdout.expected) =3D> NOT FOUND (data sources: variant, te=
-st, file)
-DATA (filename=3Dstderr.expected) =3D> NOT FOUND (data sources: variant, te=
-st, file)
-PASS 1-tests/acceptance/migration.py:Migration.test_migration_with_tcp_loca=
-lhost
+I see a few places where target/xtensa may do that. E.g. it does that on entry
+to an exception handler to allow for debugging its first instruction.
+No guest code
+is consumed to make this decision, would size 1 work in that case?
+I'll take a look.
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922611
-
-Title:
-  Acceptance Tests: migration fails on sparc target
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  QEMU fails migration when using a sparc target.
-
-  This cab be verified/reproduced with the
-  `tests/acceptance/migration.py` test.  Running it with:
-
-   $ make check-venv
-   $ ./tests/venv/bin/avocado --show=3Dtest run -p qemu_bin=3D./qemu-system=
--sparc tests/acceptance/migration.py:Migration.test_migration_with_tcp_loca=
-lhost
-
-  Right after a QMP `query-migrate` is executed, communication with the
-  monitor is lost:
-
-  >>> {'execute': 'query-migrate'}
-  <<< {'timestamp': {'seconds': 1617667984, 'microseconds': 330282}, 'event=
-': 'STOP'}
-  <<< {'return': {'blocked': False, 'status': 'completed', 'setup-time': 0,=
- 'downtime': 1, 'total-time': 15, 'ram': {'total': 135274496, 'postcopy-req=
-uests': 0, 'dirty-sync-count': 2, 'multifd-bytes': 0, 'pages-per-second': 0=
-, 'page-size': 4096, 'remaining': 0, 'mbps': 301.2234666666667, 'transferre=
-d': 528703, 'duplicate': 33202, 'dirty-pages-rate': 0, 'skipped': 0, 'norma=
-l-bytes': 229376, 'normal': 56}}}
-  >>> {'execute': 'query-migrate'}
-
-  Reproduced traceback from: /var/lib/users/cleber/build/qemu/tests/venv/li=
-b64/python3.7/site-packages/avocado/core/test.py:756
-  Traceback (most recent call last):
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 80, in test_migration_with_tcp_localhost
-      self.do_migrate(dest_uri)
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 69, in do_migrate
-      self.assert_migration(source_vm, dest_vm)
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 41, in assert_migration
-      args=3D(dst_vm,))
-    File "/var/lib/users/cleber/build/qemu/tests/venv/lib64/python3.7/site-=
-packages/avocado/utils/wait.py", line 34, in wait_for
-      output =3D func(*args, **kwargs)
-    File "/var/lib/users/cleber/build/qemu/tests/acceptance/migration.py", =
-line 31, in migration_finished
-      return vm.command('query-migrate')['status'] in ('completed', 'failed=
-')
-    File "/home/cleber/src/qemu/python/qemu/machine.py", line 572, in comma=
-nd
-      return self._qmp.command(cmd, **qmp_args)
-    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 284, in command
-      ret =3D self.cmd(cmd, kwds)
-    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 278, in cmd
-      return self.cmd_obj(qmp_cmd)
-    File "/home/cleber/src/qemu/python/qemu/qmp.py", line 256, in cmd_obj
-      self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
-  BrokenPipeError: [Errno 32] Broken pipe =
-
-
-  The qemu-system-sparc binary outputs:
-
-   qemu-system-sparc: warning: nic lance.0 has no peer
-   qemu-system-sparc: Missing section footer for sysbusespscsi
-   qemu-system-sparc: load of migration failed: Invalid argument
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922611/+subscriptions
+-- 
+Thanks.
+-- Max
 
