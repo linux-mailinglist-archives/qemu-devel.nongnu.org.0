@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8219360BED
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 16:36:03 +0200 (CEST)
-Received: from localhost ([::1]:54074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424F7360CCA
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 16:54:40 +0200 (CEST)
+Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX36A-0006iI-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 10:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36268)
+	id 1lX3OA-0005ga-Uj
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 10:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lX34I-0005he-Rw
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:34:06 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:38480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lX346-0006GL-4H
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:34:06 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id y2so12163901plg.5
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 07:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iFHVJBO+ry13+wBzkm6FPAuC4sj/uHPx5HzixSFny3I=;
- b=myfndaSBzFmOB5cVXwXrpaAN6duWCgNo7VWQfVZ39rd12QGZmYdWgwTbT83oXltPtM
- b4z/xCoBlrx8Eqng3myFRKUA38Adq02LLF9IG4S+FY1nL3CzwegWOMekpE4ZXNCG0D/g
- jtCXQXOKJpvHQ//WrUplvZPLk2Pe+BF+wSj1vspqaZG8iSSFaE1QyWA7l2ZYaImN0xbW
- C3CWAhdNZYtVfNE090EeHUedt+dCx8rvVyiHz8CtHRXkANLg6nJtJbRk1pV4u0zXNNnC
- c5bUai4nF9bRMMZAGh9KZLa0DjvJqY1N9GqNb6D6MU/UGwDQncZbF2cStq9y0B8BGATU
- dzOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iFHVJBO+ry13+wBzkm6FPAuC4sj/uHPx5HzixSFny3I=;
- b=JWCySbbwkAKXW0+krrHSUZD80//amDQXZHs4UWHPLY4FdmmTtzZrdP4kKZiBDzf+bv
- m+xC/oKvn5eUPHguw5leUUMCWTvtb72eud5qVrKLTqjeQGFHP8wwtbwUWIwkns9jCXG9
- fYS+oph5bHr+gbvg5xG3Nuei8qRywrmQI+mpTTpEdp8UrfPHA+JaWdw0fTa0lDxl458R
- kjrsxVfstApP7qvfClEytzqLk7cJMt76I3qLbcbiSKMSGLm9HWTtdme1IVfFxn4jj4YF
- ec6ES87pU1XVqXDKkxbd9Wl2mclYn296sHS44Xp7zV/ghiQ2dv0/0MyVQ7s7PyZZh/Kq
- 6gPg==
-X-Gm-Message-State: AOAM531bVjrqrLaRz0RCL5puRq3o11mCsq17k/aQaYg1KBdLZ0BkJlBH
- 6zbW5Ff1blvX2WgyHqji3rMG3osQg+4OCQ==
-X-Google-Smtp-Source: ABdhPJw3yDf510v2MIL46HSn8zsLMOlbxdcxF4duhcACxYFF428oww4v8dZ+Nuala8DG/edHKK22kA==
-X-Received: by 2002:a17:90b:3118:: with SMTP id
- gc24mr4288922pjb.212.1618497230255; 
- Thu, 15 Apr 2021 07:33:50 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id w127sm2314022pfc.51.2021.04.15.07.33.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 07:33:49 -0700 (PDT)
-Subject: Re: [PATCH v3 3/3] accel/tcg: Assert that tb->size != 0 after
- translation
-To: Max Filippov <jcmvbkbc@gmail.com>
-References: <20210414134112.25620-1-iii@linux.ibm.com>
- <20210414134112.25620-4-iii@linux.ibm.com>
- <d3d690a0-c322-5fbb-26ae-dcbf08173b0a@redhat.com>
- <28224ba9d61d0d805a162c00903559f3b99bc722.camel@linux.ibm.com>
- <CAMo8Bf+s4OqYJLTkvyPvfnmH=FwxDSFn60TryKfgErxFyB+2yQ@mail.gmail.com>
- <cfae4bbd-3068-41f6-ec38-a27cf7381fee@linaro.org>
- <CAMo8BfJNcfAp_tJWHQziUQXxR8WykLcBGTKnHeWS=TtLYwTC=g@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <315a4dfe-fdb2-2d01-7e7a-2d413ee0d77a@linaro.org>
-Date: Thu, 15 Apr 2021 07:33:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3Mr-0004uS-CO
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:53:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3Mp-00015J-7T
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 10:53:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618498393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t3m54ArYG7BLnGEcTA+i36jiKU4ETN9NMgjXMn41PPU=;
+ b=bmpBWb3KI+cVdsDUMp0G1+rtycW8r36OO8CQOxA/Px8+PQX41vox81tkFOn6hrtdyTby4u
+ 48Tr0muj9VRIyFCkjApHWwESUSxvViRAVByZyE4jFZpW5JL7LbYniHt2AuhJx4VHB/C/tY
+ lFhjpCVHFfCtIr2gD7s9UBfkLzMsvOk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-v1IK2rw7PJCt1bqdUoiRew-1; Thu, 15 Apr 2021 10:53:09 -0400
+X-MC-Unique: v1IK2rw7PJCt1bqdUoiRew-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07DBF18397AA;
+ Thu, 15 Apr 2021 14:53:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC0CA60D08;
+ Thu, 15 Apr 2021 14:53:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0BF0A113525D; Thu, 15 Apr 2021 16:53:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [Bug 1923663] [NEW] Can't(?) disable default floppy drive any
+ more in qemu 6.0
+References: <161834460731.13851.12350778402155141357.malonedeb@chaenomeles.canonical.com>
+ <87fsztny5a.fsf@dusky.pond.sub.org>
+ <CAFEAcA-=85_YdVpQMURN6TVJ67MRbj4NCx8fAPrWWUFYBWG5aQ@mail.gmail.com>
+Date: Thu, 15 Apr 2021 16:53:06 +0200
+In-Reply-To: <CAFEAcA-=85_YdVpQMURN6TVJ67MRbj4NCx8fAPrWWUFYBWG5aQ@mail.gmail.com>
+ (Peter Maydell's message of "Thu, 15 Apr 2021 13:36:12 +0100")
+Message-ID: <87zgxzbnvx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAMo8BfJNcfAp_tJWHQziUQXxR8WykLcBGTKnHeWS=TtLYwTC=g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,23 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Adam Williamson <1923663@bugs.launchpad.net>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/21 6:23 PM, Max Filippov wrote:
-> I see a few places where target/xtensa may do that. E.g. it does that on entry
-> to an exception handler to allow for debugging its first instruction.
-> No guest code
-> is consumed to make this decision, would size 1 work in that case?
-> I'll take a look.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Yes, any positive value will do.
+> On Wed, 14 Apr 2021 at 08:07, Markus Armbruster <armbru@redhat.com> wrote:
+>> In my opinion, management applications are better off with -nodefaults.
+>> It's easier to understand than the complicated mess I'm going to
+>> describe under "Long answer" below.
+>
+> Is there a mechanism to get QEMU to tell me "what are all the
+> long options I need to specify explicitly now to get the same
+> behaviour that I had before I started passing -nodefaults" ?
 
+Sadly, no.
 
-r~
+> Otherwise it's a pretty painful route to suggest that people
+> go down (though I agree that for a management app as opposed to
+> an individual user it's probably a worthwhile route in the long
+> term).
+
+I don't think it's *that* bad.  The stuff -nodefaults suppresses is
+geared for ad hoc human use, and I figure management applications
+override much of it anyway.
+
 
