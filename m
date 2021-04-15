@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE73B360787
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 12:49:36 +0200 (CEST)
-Received: from localhost ([::1]:35820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FA5360797
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 12:51:23 +0200 (CEST)
+Received: from localhost ([::1]:38074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWzZ1-0008Su-RL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 06:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49052)
+	id 1lWzak-000166-6J
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 06:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lWzWP-0006rb-Ka
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 06:46:57 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:36863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lWzWH-000508-Cu
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 06:46:51 -0400
-Received: from [192.168.100.1] ([82.142.18.94]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MxmBc-1ljpLB2EiE-00zGCM; Thu, 15 Apr 2021 12:46:35 +0200
-Subject: Re: [PATCH v2 1/2] exec/memory: Extract address_space_set() from
- dma_memory_set()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-References: <20210415100409.3977971-1-philmd@redhat.com>
- <20210415100409.3977971-2-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <9a72b757-1d9a-f4c7-e22c-8a073a48a9a9@vivier.eu>
-Date: Thu, 15 Apr 2021 12:46:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWzZ6-0000SR-MO
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 06:49:40 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lWzZ4-0006d3-1m
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 06:49:40 -0400
+Received: by mail-ed1-x533.google.com with SMTP id g17so26752874edm.6
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 03:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zY14ioKaR9lJGjtGdzcBrzjq/TDEfEQsSavC5DQhLp4=;
+ b=Tmn5Y1XYKLwy3Jq2iYgcTgCz9SEGbZUPIRzDD7CPP9LSxMnqAbux0Y8YC6/pSYo3T5
+ z7SyB1GilKnY5NmuvOZI2NbNM37+r+dO5T3dibEJFqgYFhzJBJpSQ0R4FA2psjHjqN4B
+ SYq5PlpUQiP83sRWWNkIpn6kmENyUNhjNi2qFk/2apXUbdyxzWvp808SLhSKU4ZmpuTY
+ J4NzGgTHJOEGU5bX/QohE5hnx/sV5KbulIKfCFnNlIzhJ7DJz5VV+5qZ8Z1lzjb8wr7B
+ BAPmoPGUuc+innC3BJtxZwRDzD+hoADbOTdOTPwnU1f6D5ISeCeMTFyHVe3WFNQ+wDVU
+ YsvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zY14ioKaR9lJGjtGdzcBrzjq/TDEfEQsSavC5DQhLp4=;
+ b=cLlOdWKFOoAjtyO+DippqwxTUrpxTsYBMloPcV4OR0B2IM+erYS7nOOrBU9Xf6qjH1
+ AgfVCFdSLTfk+3DEFus0H2ddrGaT9BG42o1RGJmMwepdM3s0LiXzQuOYqTVgRLy741Zl
+ 90p2m9+Bh/p2fcVMfL8X43otUjm7wk//niMZKjUe7tYjwZff1vMt1ZVacnm4chCFxWwF
+ +cZ/P7Iw91uNJF3ebEjr4mPk9slNoGY14AjpU2I/nX6CvVAGSlWflI53vUnMz9/Rn/CQ
+ bRlq/poQO67OeA1t+l+d8gvnuqFjYC2GJhmtaNSoPuLHzf1sCCW+cy6s7d/uskS7lCKF
+ AxvA==
+X-Gm-Message-State: AOAM531MQBLfJP+sA+9AQFaTToZxIkuUukZCRTANR6dd7olEKxflj8PA
+ loTTN5eTfZh98YV9IhelmnS6ERoKkjM93eBEkc9CYA==
+X-Google-Smtp-Source: ABdhPJxRYKe+Bu00ktVHmzGVhpwDKHCxVI7BWD9oJLg9FeoMGCuf9f4Aou4dRcr2wLlGVSWK59GfS8vzGRsiJt2nDOw=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr3402006edt.36.1618483775914; 
+ Thu, 15 Apr 2021 03:49:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210415100409.3977971-2-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sG2odHTSmJ3xv9znbBdtQoo0hGNbA5parQPzKlZNtcA2ZanupAj
- Yryla7vqswcBQ9cG7F/i3kWVbvdUlQzewgPrsz5elS4q45q+JNDK+ezDV9vKRRAB2oldF1Z
- zsDfL1K/5DokV+Lost1dHN7hK6TsJjrBNCnlEQ9h/2ddBf2DL90b01PHqc7y1WzEgotIHjw
- HTmyAKAyLrAuwrjuNj20w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5JdKggw5GXU=:36Cgjab0+U4Mh+Wt+T06z/
- +OmgnGEGqh8nCy3V7zKdYABpDSlMUTSAQr0q6UTIXXfs0KC+1hMl2y6y1a5m9eAYVZFEHx75S
- 3Z1o9ma4Hc4hs5fq+LrU+hyWvlNkSNtB47pCl1fq77mRlGyjVzEnkVhwL0f+MPqzuomX5P9Pr
- 1onKc37L8xndqRd0ITofyXYBfd0L/rNsI/p0nnDW60tQEuzshnHlXl4F9UN+Nzh4VR5o3ny5d
- EiZYCWNb77nEeloGlUIzYqG3xzYf1jZ3MtVVUI6/8ZtG7sla0DQD9CBvHJTk/fvwoOciomKci
- 9uKOdA7K8QPUKfigmOPX9D/6ovlWO1nEmBF1YBY1RYfUS8ljxQjo9JIeah4Fb43Vucj53le1e
- rKg4pt8lfbJXHm0gQ4WySaoHpblu25pjydoXKBceDPK7ezHytm9/1x6NZvZcyshFKQgMNpuVn
- 2PpzeDlbPL5hxEUb6qzc9O4KatnV36h+B3KdGUaf6RLLJneg3t+MFA7cSlKJBLpeRaGIBfjQT
- gFBs/NPmAEu+WnG3whxdEc=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+References: <20210413160850.240064-1-pbonzini@redhat.com>
+ <CAFEAcA8vf5Ra0MxwunQPGsahnHgaSCE9QYS86xY7tkKEVSO+TA@mail.gmail.com>
+ <87r1jcgkdw.fsf@dusky.pond.sub.org>
+In-Reply-To: <87r1jcgkdw.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 15 Apr 2021 11:48:48 +0100
+Message-ID: <CAFEAcA85Hm_bpxdjotESPTHhwbHz9xME93rRAZ1_Kiih1QQ3kw@mail.gmail.com>
+Subject: Re: [PULL v2 0/3] osdep.h + QOM changes for QEMU 6.0-rc3
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,109 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/04/2021 à 12:04, Philippe Mathieu-Daudé a écrit :
-> dma_memory_set() does a DMA barrier, set the address space with
-> a constant value. The constant value filling code is not specific
-> to DMA and can be used for AddressSpace. Extract it as a new
-> helper: address_space_set().
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/exec/memory.h | 16 ++++++++++++++++
->  softmmu/dma-helpers.c | 16 +---------------
->  softmmu/physmem.c     | 19 +++++++++++++++++++
->  3 files changed, 36 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 5728a681b27..192139af58e 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2568,6 +2568,22 @@ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
->      }
->  }
->  
-> +/**
-> + * address_space_set: Fill address space with a constant byte.
-> + *
-> + * Return a MemTxResult indicating whether the operation succeeded
-> + * or failed (eg unassigned memory, device rejected the transaction,
-> + * IOMMU fault).
-> + *
-> + * @as: #AddressSpace to be accessed
-> + * @addr: address within that address space
-> + * @c: constant byte to fill the memory
-> + * @len: the number of bytes to fill with the constant byte
-> + * @attrs: memory transaction attributes
-> + */
-> +MemTxResult address_space_set(AddressSpace *as, hwaddr addr,
-> +                              uint8_t c, hwaddr len, MemTxAttrs attrs);
-> +
->  #ifdef NEED_CPU_H
->  /* enum device_endian to MemOp.  */
->  static inline MemOp devend_memop(enum device_endian end)
-> diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-> index 7d766a5e89a..8e1e7ad5320 100644
-> --- a/softmmu/dma-helpers.c
-> +++ b/softmmu/dma-helpers.c
-> @@ -23,21 +23,7 @@ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
->  {
->      dma_barrier(as, DMA_DIRECTION_FROM_DEVICE);
->  
-> -#define FILLBUF_SIZE 512
-> -    uint8_t fillbuf[FILLBUF_SIZE];
-> -    int l;
-> -    MemTxResult error = MEMTX_OK;
-> -
-> -    memset(fillbuf, c, FILLBUF_SIZE);
-> -    while (len > 0) {
-> -        l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
-> -        error |= address_space_write(as, addr, MEMTXATTRS_UNSPECIFIED,
-> -                                     fillbuf, l);
-> -        len -= l;
-> -        addr += l;
-> -    }
-> -
-> -    return error;
-> +    return address_space_set(as, addr, c, len, MEMTXATTRS_UNSPECIFIED);
->  }
->  
->  void qemu_sglist_init(QEMUSGList *qsg, DeviceState *dev, int alloc_hint,
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 85034d9c11e..c9117527ae7 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2891,6 +2891,25 @@ MemTxResult address_space_rw(AddressSpace *as, hwaddr addr, MemTxAttrs attrs,
->      }
->  }
->  
-> +MemTxResult address_space_set(AddressSpace *as, hwaddr addr,
-> +                              uint8_t c, hwaddr len, MemTxAttrs attrs)
-> +{
-> +#define FILLBUF_SIZE 512
-> +    uint8_t fillbuf[FILLBUF_SIZE];
-> +    int l;
-> +    MemTxResult error = MEMTX_OK;
-> +
-> +    memset(fillbuf, c, FILLBUF_SIZE);
-> +    while (len > 0) {
-> +        l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
-> +        error |= address_space_write(as, addr, attrs, fillbuf, l);
-> +        len -= l;
-> +        addr += l;
-> +    }
-> +
-> +    return error;
-> +}
-> +
->  void cpu_physical_memory_rw(hwaddr addr, void *buf,
->                              hwaddr len, bool is_write)
->  {
-> 
+On Thu, 15 Apr 2021 at 06:57, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Tue, 13 Apr 2021 at 17:18, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >> Paolo Bonzini (2):
+> >>       osdep: include glib-compat.h before other QEMU headers
+> >>       osdep: protect qemu/osdep.h with extern "C"
+> >>
+> >> Thomas Huth (1):
+> >>       qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code
+> >
+> > Given Dan's review, I think that the osdep patches need another
+> > revision. So my plan is to cherry-pick the CONFIG_VIRTIO_CRYPTO
+> > patch here and tag rc3 with just that. If we need an rc4 (which
+>
+> Uh, I had a question on that one:
+>
+> Message-ID: <87tuo9j7hw.fsf@dusky.pond.sub.org>
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02341.html
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Sorry, I missed that. Let me know if the discussion ends up concluding
+that we should revert this change for 6.0.
+
+thanks
+-- PMM
 
