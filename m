@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999EC361240
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 20:42:16 +0200 (CEST)
-Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BEC36123C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 20:39:40 +0200 (CEST)
+Received: from localhost ([::1]:37522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX6wR-00021V-OL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 14:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55404)
+	id 1lX6tv-0000lS-9T
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 14:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lX6vP-0001bp-Bc
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:41:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57444)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lX6nf-0005Y5-RC
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:33:12 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:43933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lX6vF-0001CE-Tj
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:41:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lX6vD-0000Ef-MM
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 18:40:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A37E12E8010
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 18:40:59 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lX6nd-0005H5-7C
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 14:33:11 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id e7so29204443edu.10
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 11:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=MbGNe8xVn4kiM2Wi/WaRgSqabfbhn+M2GR/5aukW1w8=;
+ b=giclkvwz7f9tnO/v0Vrik4aL0+bEZoDKTFcPy87T7Zo6zKA5KHNByykCK+ruwjRI0R
+ pl5ZLkYxoBoT5mniVq8+6jN9tyfHweZ6XUUL7vNK1g8x7OetnNvI4yI2PcxAQOeGM6Wf
+ 1fmQNsmzR9aDRKjG7fEHjnbhMhDIG4nGIO+MJkESReOUXIg5TrBCLOxmU0uaNrtqX3Eq
+ T2aFBXXkQJKdWmXSbyYnmM0mt3ZWOSgMrHtQ6+tFfQgN3qERu2qK3xHYl/nl2D/Cnhav
+ 2T7TuavKCCoMNxvbm3565INM3dU5hyawbk4O2JVlwOL6iXbonYbp9uyea9SSAJrrGHHt
+ NRJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=MbGNe8xVn4kiM2Wi/WaRgSqabfbhn+M2GR/5aukW1w8=;
+ b=VqhNOYJo2MALb3e+XylPQGVq8VfuUrTKPq3/K3vSlPkBbIbl6kgqnqltLGVMe0E6DC
+ tzx/H27zwmhv6r7hqHaxXKXOhAkxb/zjxHAKsxggby5mL7SqGwCS0ptoUt9BjkwaZuG8
+ D9kE1qXAKyR3v45YQBN4R+qJt1bvF84EgNsNgqigh+Wj4UkRszbw/3v8VGWE6NErNR/m
+ 3Za3eBzKGdPz4TLdyQwoK+/9ymJT5mG3oOtx4NNpYYdawhevrky4CiZwvmvvbi1/DSRV
+ g86WIIj8ZuIe4WqR3mlFduwKOdRvigUVPEy473A3JNFOtL/UA9Obgzq+G+N2dSMLaEba
+ Q8YA==
+X-Gm-Message-State: AOAM531q0MQ+xWK3af/p6SlYgHvGjlbfqQqyNoxBida8IF2MtqSm7CJR
+ rnwX2ZCf/DLneWjLc0Ma5uHPAKfHph5k9it4JVAsVw==
+X-Google-Smtp-Source: ABdhPJzHQRNbTld7r2E+FMY3ANrmOeHSrv67XB91WrMwRMgmXgaKxzBehBJB03EcghgEvJAoVStPybutvTEuWtmfT+8=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr5918351edb.204.1618511587491; 
+ Thu, 15 Apr 2021 11:33:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Apr 2021 18:32:09 -0000
-From: Peter Maydell <1923861@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ml-0 pmaydell
-X-Launchpad-Bug-Reporter: ml-0 (ml-0)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
-Message-Id: <161851152944.19133.14637209559313933997.malone@wampee.canonical.com>
-Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 5d56ba42ec13d1f2492befd01e8d9cf83716ee7f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210415182353.8173-1-peter.maydell@linaro.org>
+In-Reply-To: <20210415182353.8173-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 15 Apr 2021 19:32:20 +0100
+Message-ID: <CAFEAcA-zaAKyXXw5XHQ=zm9nY8GwYWjd-=fYcncNnnF-mqQAKw@mail.gmail.com>
+Subject: Re: [PATCH for-6.0?] hw/arm/armsse: Give SSE-300 its own Property
+ array
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,53 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bug fix for the QEMU part of this is
-https://patchew.org/QEMU/20210415182353.8173-1-peter.maydell@linaro.org/
+On Thu, 15 Apr 2021 at 19:23, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> SSE-300 currently shares the SSE-200 Property array. This is
+> bad principally because the default values of the CPU0_FPU
+> and CPU0_DSP properties disable the FPU and DSP on the CPU.
+> That is correct for the SSE-300 but not the SSE-200.
 
--- =
+Should read "correct for the SSE-200 but not the SSE-300",
+of course.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923861
+> Give the SSE-300 its own Property array with the correct
+> SSE-300 specific settings:
+>  * SSE-300 has only one CPU, so no CPU1* properties
+>  * SSE-300 CPU has FPU and DSP
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1923861
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
 
-Title:
-  Hardfault when accessing FPSCR register
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU release version: v6.0.0-rc2
-
-  command line:
-  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
-semihosting -semihosting-config enable=3Don,target=3Dnative
-
-  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
-  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
-  GNU/Linux
-
-  guest operating system: none (bare metal)
-
-  Observation:
-  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
-47 machine. In the startup code I am accessing the FPSCR core register:
-
-  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
-  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
-  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
-
-  where the register access functions __get_FPSCR() and
-  __set_FPSCR(fpscr) are taken from CMSIS_5 at
-  ./CMSIS/Core/include/cmsis_gcc.h
-
-  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
-  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
+-- PMM
 
