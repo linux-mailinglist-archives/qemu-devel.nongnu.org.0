@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96642360980
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:34:19 +0200 (CEST)
-Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E216360988
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 14:35:42 +0200 (CEST)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1CM-0007xm-Hy
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46320)
+	id 1lX1Dh-0001Ne-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 08:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15Q-00039z-2K
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30928)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15W-0003OF-GF
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15O-0006B0-BE
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX15T-0006EY-68
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 08:27:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618489625;
+ s=mimecast20190719; t=1618489630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VGzikIBP/Z5SEBvKQqeWbm5PvQswPv/9xcZd1fSf1xk=;
- b=izlhcKt88eJMq3V9qWSnS/Nyid2sHONiX8ZnGfSqWZwSKeftaWnltG9N7kcJZPoHfqe3eS
- pRwvMcrPDEgNro66a3+sO8aIW6pJM+k/992Fr656DWGGdJWPXURFv0/X5kVp4xMvnZkrcj
- ZXZo1vgIVOinkWp4WQxZuH56gf20m9E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-11wXdvRjMrSHZ4AQdpiuwA-1; Thu, 15 Apr 2021 08:27:04 -0400
-X-MC-Unique: 11wXdvRjMrSHZ4AQdpiuwA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- y13-20020adfdf0d0000b02901029a3bf796so2688815wrl.15
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:27:03 -0700 (PDT)
+ bh=sTefL8KFB03yS8Z+kdiNHNixKSuiXSG+jyZydBtqNkg=;
+ b=AfRz/DCPCaBzJWAD1IZY8Z69tYVE4ZpxKMHxCRtlWoG8b+PcfHEZJ6S0MH1JjrAFBd+nqi
+ C86Pw58eIRZzj8NhJoskEM+VFEbJwa3KJsGIgyKBNOoZ02trrkqpZEpowPXjoTrIrGdN9/
+ dQO61NfsBapX81Z8zm1u5DeSbIIkKpk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-zQa8idv-PdOuizFevkES5A-1; Thu, 15 Apr 2021 08:27:08 -0400
+X-MC-Unique: zQa8idv-PdOuizFevkES5A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g21-20020a1c4e150000b0290125a227e5bbso2828580wmh.0
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 05:27:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VGzikIBP/Z5SEBvKQqeWbm5PvQswPv/9xcZd1fSf1xk=;
- b=BmTP1j+8ZX92GRYFCgxSW41AJGUbNJQZ5+nndwCz/2Aj0KVVfmENPlZxCmAz71AAqC
- 7BQ0oKj8fNdSN3hF10dfCoqVESTuTcdDyMSd71UCDp/96IKCntSNk49+CCq55dc/JQAJ
- fKh0kiGS3nWJNCYfBmLgKp71aWz/6OQqbEti78hbQ+HzO+Itvr1+Fari5bWZy6m8xC5c
- eP3QgOgTHKjxZktUXPK22N5yg9wIkicu5DP2GCWtp+aBiUO4DFUljDtwJdg4fk6VN/5z
- Pd3UUQxEbbhPs1vlKLLAjLO8MrA44K4dL/+zwAVcD4QqKQ2VR3EqSUnO9y/p7kXhrsyB
- yC7A==
-X-Gm-Message-State: AOAM532O+hyaRFvV23VHI4Sf2wdotMZVTefQq2mKV6Dj2lzA+l114zAG
- Y26M/F8wHLgqTzXXg/T4iHSyMBG43gA/+NQCLrMLvfE9+dYKhHTiVjO9zTMbZjlKwOdkWrRgWR+
- xhE2q+S3j+SHBgltRxTYd4QGMwraT1rKja3u0EBagc2B8jDb4Z+YNsTpFupHgv0xm
-X-Received: by 2002:a05:600c:649:: with SMTP id
- p9mr3008091wmm.47.1618489621871; 
- Thu, 15 Apr 2021 05:27:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxC5NXLBgOzOhUouyDApWFT7C8LlF+mZV5ojCSMSkE36v7aKPPrnEJCbdjyb290Dn6K+qcTvQ==
-X-Received: by 2002:a05:600c:649:: with SMTP id
- p9mr3008057wmm.47.1618489621666; 
- Thu, 15 Apr 2021 05:27:01 -0700 (PDT)
+ bh=sTefL8KFB03yS8Z+kdiNHNixKSuiXSG+jyZydBtqNkg=;
+ b=eR4udVuTrM64LRXJfbSYlTzT9XYtt5Lwg5llBSLWx0c61iGy3xTQz7AIpuW8hjEpNm
+ xCvdVGi/s8MaZDqL9K42GiABETXEZaEK9PowpglxG8DEdEMlYh5EjLm13eH6+NfY6fXs
+ Ud5tFobhFQ/qK9mAaj8Vlu6jeuj9cdcTBXMqDoQ2s48nFMQS5o/yie9s0L/VvhVu3Vn4
+ Isx5OSbwNZevpF2k89VGK3VWyPf5yNta9z4uGuQz+MYZ+K/7jnvUgzhpbMJ9UP7LH5Fo
+ yGBmNxwnOs8Zf2wOn5J8cW6JACsVNigWYOhlh+oNDyALK4ZZ5KYbQn9na7xWcqhWsq/p
+ zenQ==
+X-Gm-Message-State: AOAM531RYZU8L+gKpZ/b7lCeOkCeJhcEcsn0sfs68sVit1QI2I0GWpRX
+ 8TBYGaMhV9WNnjpNv0JXK24bh2pUL55gXb0J8Rcc7imDkwMAR95kF5hAEoteLsouCgVV+IMMJI9
+ 96Lpl/srIaLIXIIrOTOD2dldLNv205d9SvrRxGgAkMUK8y31antRQUXl6VUP5VRZ2
+X-Received: by 2002:a05:6000:1564:: with SMTP id
+ 4mr1781789wrz.197.1618489627102; 
+ Thu, 15 Apr 2021 05:27:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZAiOPR+Qhi3AUy09fgxkgg+Rre7WuZBPsycy6ykBF0cHFL3asGkc4vd28EHzUJevZprqzqA==
+X-Received: by 2002:a05:6000:1564:: with SMTP id
+ 4mr1781763wrz.197.1618489626954; 
+ Thu, 15 Apr 2021 05:27:06 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id u3sm2456551wmg.48.2021.04.15.05.27.00
+ by smtp.gmail.com with ESMTPSA id q5sm3014005wrv.17.2021.04.15.05.27.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 05:27:01 -0700 (PDT)
+ Thu, 15 Apr 2021 05:27:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/6] tests/qtest: Do not restrict bios-tables-test to
- Aarch64 hosts anymore
-Date: Thu, 15 Apr 2021 14:26:32 +0200
-Message-Id: <20210415122633.4054644-6-philmd@redhat.com>
+Subject: [PATCH v3 6/6] tests/meson: Only build softfloat objects if TCG is
+ selected
+Date: Thu, 15 Apr 2021 14:26:33 +0200
+Message-Id: <20210415122633.4054644-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210415122633.4054644-1-philmd@redhat.com>
 References: <20210415122633.4054644-1-philmd@redhat.com>
@@ -76,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,44 +100,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Andrew Jones <drjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ qemu-arm@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
+ Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 82bf7ae84ce ("target/arm: Remove KVM support for
-32-bit Arm hosts") we can remove the comment / check added in
-commit ab6b6a77774 and directly run the bios-tables-test.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The previous attempt (commit f77147cd4de) doesn't work as
+expected, as we still have CONFIG_TCG=1 when using:
+
+  configure --disable-system --disable-user
+
+Now than we have removed the use of CONFIG_TCG from target-dependent
+files in tests/qtest/, we can remove the unconditional definition of
+CONFIG_TCG in config_host.
+
+This avoid to build a bunch of unrequired objects when building with
+--disable-tcg (in particular the softfloat tests):
+
+Before:
+
+  $ make
+  [1/812] Generating trace-qom.h with a custom command
+  ...
+
+After:
+
+  $ make
+  [1/349] Generating trace-qom.h with a custom command
+  ...
+
+A difference of 463 objects...
+
+Reported-by: Claudio Fontana <cfontana@suse.de>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/meson.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+v3: Include Paolo's feedback:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg793872.html
+therefore o not include Alex's R-b tag.
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 0c767389217..46de073d155 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -175,14 +175,13 @@
-    'boot-serial-test',
-    'hexloader-test']
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Emilio G. Cota <cota@braap.org>
+---
+ meson.build | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index c6f4b0cf5e8..623cbe50685 100644
+--- a/meson.build
++++ b/meson.build
+@@ -262,7 +262,6 @@
+                         language: ['c', 'cpp', 'objc'])
  
--# TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
- qtests_aarch64 = \
--  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
-+   'bios-tables-test',
-    'xlnx-can-test',
-    'migration-test']
+   accelerators += 'CONFIG_TCG'
+-  config_host += { 'CONFIG_TCG': 'y' }
+ endif
  
+ if 'CONFIG_KVM' not in accelerators and get_option('kvm').enabled()
 -- 
 2.26.3
 
