@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C55360556
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 11:12:29 +0200 (CEST)
-Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA7F36056E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 11:16:05 +0200 (CEST)
+Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWy33-000315-1F
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 05:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54984)
+	id 1lWy6W-0004ba-7a
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 05:16:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWy1q-00027W-QX
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:11:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46212)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWy4x-00047l-LC
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:14:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lWy1p-0006VU-DL
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:11:14 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lWy4u-0008TE-IG
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 05:14:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618477872;
+ s=mimecast20190719; t=1618478063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PR/HMe9WISZqN7ICHQnFlEUDruTDuU/HPpneZbjHvvg=;
- b=i6+NpvZF072BDL/voyq4gd2MTaWEBwuTkHE+qM7UcprCJFt6PryaIBY44lVJc2lXJRjmgb
- 3u77/rXhcVFUEqgrccrL9UA+ftTyZpKE8K5mCXU2FOG2GkMNQxhxMLqQiUQCNf+pvKSubU
- Up8oYIQk5bCmeoRZZeoqXO1KklCUMs4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-_nm3H4JBMhqGrLPfXcb4eg-1; Thu, 15 Apr 2021 05:11:11 -0400
-X-MC-Unique: _nm3H4JBMhqGrLPfXcb4eg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h60-20020adf90420000b029010418c4cd0cso1579472wrh.12
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 02:11:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PR/HMe9WISZqN7ICHQnFlEUDruTDuU/HPpneZbjHvvg=;
- b=JyYByeMFEmG3OCSDgqmyHCUg+0X9sfHO4Y52rKeOZUY8jSkZw4oedazhTuwJgiL3DJ
- SsbS+hJPNIyvQjVimGCzn+/n51nSs9s6Ol0X6WM9Ji9MtY6B/YNVi2mCai5OXicHa2Qp
- pCNE+XkBu/qGMJ7cRtIjRWDunqes00JhBrebJY6NmT+31DcbN+rwGQ3OEjlvlrmhntG4
- 36MoDq+lGxbDV/BDD9+53XeUoFitloYlGzWbrV93yhmAxLil7VkS7iDSQXGi7PPhB72C
- Jc2LIUUlNCBBOvnWXozopjXenXF9RjObYLZ04Xg+XQ7IzvUkIaU5xZOscjcMCuNrV0EH
- IC8g==
-X-Gm-Message-State: AOAM5338UKzFFXV9fks1AffrS75loJaux8t17ESNj0SLjM9lNK36MRbJ
- QgSDVC0fyDqcJx9xCeP+oSYmTOwSte5i1ysuCGMecl5TVLEjwZku9L4FpbSk2akbBbR/hbqCiWF
- ijimfLJLQGDFKPVE=
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr2056684wmi.124.1618477870028; 
- Thu, 15 Apr 2021 02:11:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfBeSzTgaA/TSp1hXgbwLkGNIPLBkKsjewCMEQyh/yhn5sVL7TQkxFIxCTeoQEpKYaoaD8lw==
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr2056667wmi.124.1618477869875; 
- Thu, 15 Apr 2021 02:11:09 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a72sm1673946wme.29.2021.04.15.02.11.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 02:11:09 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Acceptance Tests: support choosing specific distro
- and version
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210414221457.1653745-1-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <62808682-d7f6-7af7-b4fe-b1b4c6a69e1d@redhat.com>
-Date: Thu, 15 Apr 2021 11:11:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=l6BF1azfV5tGWgLRhxszOUt2XmUfOPPGkUgmN1Rw1OE=;
+ b=ZnQQEqUZHHJrXsNwX/MaG+s1P5YLEP8+qeuX68AXZ8Cwq8gqFyJ+4iQCk8RWUONVRJ2xhF
+ wEISJt5Vlu0IC1X8pocE7sWDBZD7HTPdpnZiRl0CCvpDY8gz1VKZfcUWkfTtUvbiSbGQxl
+ +8ByQYJReSt9PPLfMWSwy7RX9iFTlr4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-IVwqxobXObiuDLuTGDMinw-1; Thu, 15 Apr 2021 05:14:19 -0400
+X-MC-Unique: IVwqxobXObiuDLuTGDMinw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 763201006C82
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 09:14:18 +0000 (UTC)
+Received: from localhost (ovpn-114-209.ams2.redhat.com [10.36.114.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0513F5D9DE;
+ Thu, 15 Apr 2021 09:14:16 +0000 (UTC)
+Date: Thu, 15 Apr 2021 10:14:15 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH RFC 3/7] protocol: generic async message-based protocol
+ loop
+Message-ID: <YHgD52cqe/gSoa8X@stefanha-x1.localdomain>
+References: <20210413155553.2660523-1-jsnow@redhat.com>
+ <20210413155553.2660523-4-jsnow@redhat.com>
+ <YHX4dTmEgNal6Jca@stefanha-x1.localdomain>
+ <cf8c94de-e2fe-2416-7062-cc6991149d45@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210414221457.1653745-1-crosa@redhat.com>
+In-Reply-To: <cf8c94de-e2fe-2416-7062-cc6991149d45@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NyIWghvMyGHZWYNl"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,25 +82,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: armbru@redhat.com, crosa@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 12:14 AM, Cleber Rosa wrote:
-> Cleber Rosa (3):
->   Acceptance Tests: rename attribute holding the distro image checksum
->   Acceptance Tests: move definition of distro checksums to the framework
->   Acceptance Tests: support choosing specific distro and version
-> 
->  docs/devel/testing.rst                    | 65 ++++++++++++++++++++++
->  tests/acceptance/avocado_qemu/__init__.py | 67 +++++++++++++++++++++--
->  tests/acceptance/boot_linux.py            |  8 ---
->  3 files changed, 127 insertions(+), 13 deletions(-)
+--NyIWghvMyGHZWYNl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, Apr 14, 2021 at 01:29:40PM -0400, John Snow wrote:
+> On 4/13/21 4:00 PM, Stefan Hajnoczi wrote:
+> > On Tue, Apr 13, 2021 at 11:55:49AM -0400, John Snow wrote:
+> One of the reasons it's split out here like this is because I also wrote =
+a
+> qtest protocol that uses the same infrastructure. I tried to keep both of
+> those looking as simple as possible.
+
+If infrastructure is needed, let's add it when it's needed but not
+before then. Reviewers can't take into account qtest requirements
+without seeing that code.
+
+> > > +        try:
+> > > +            await self._new_session(self._do_accept(address, ssl))
+> > > +        except Exception as err:
+> > > +            emsg =3D "Failed to accept incoming connection"
+> > > +            self.logger.error("%s:\n%s\n", emsg, pretty_traceback())
+> > > +            raise ConnectError(f"{emsg}: {err!s}") from err
+> >=20
+> > Wrapping the exception in ConnectError() obfuscates what's going on IMO=
+.
+> >=20
+>=20
+> It can. I will admit to you that the reason I did it was so that at a hig=
+her
+> level it was possible to write things like:
+>=20
+> try:
+>     await qmp.connect(('127.0.0.1', 1234))
+> except ConnectError:
+>     print("Oh no! ...")
+>     handle_connect_problem()
+>=20
+> while still allowing for other problems to "bubble up", for instance,
+> keyboard interrupts are BaseException and won't be caught by that wrapper=
+.
+
+That's what "except Exception as err" is for. It allows system exiting
+exceptions through.
+
+> I adhere to this pattern fairly regularly in this draft; using "container=
+"
+> exceptions to declare a semantic problem regardless of the actual underly=
+ing
+> cause, assuming that a high-level user will (probably) be unable to make
+> sense of the internal details anyway.
+>=20
+> Part of the reason I do this is so that I could write in the docstrings w=
+hat
+> exceptions we actually expect to be raised and under what circumstances.
+>=20
+> I suppose what I don't document, though, is how to get at the "root"
+> exception in these cases. You can do it:
+>=20
+> try:
+>     ...
+> except Foo as err:
+>     root_err =3D err.__cause__
+>     ...
+>=20
+>=20
+> I suppose the specific problem I wanted to solve is this: When we fail to
+> connect, what exception will we see? How many types of exceptions? Which
+> ones should I try to catch, and which ones should I not? Which error clas=
+ses
+> merit a retry, and which do not?
+>=20
+> It seemed almost impossible to enumerate, so writing informed client code
+> seemed difficult or impossible.
+>=20
+> Any thoughts on this perception?
+
+I reviewed error.py again. I was assuming the other exceptions are like
+ConnectError, which would have been bad but they seem to be more
+actionable. I think ConnectError is okay as a catch-all here.
+
+requests is similar, its exceptions consist mostly of actionable
+exceptions but it does have catch-all exceptions for general networking
+errors:
+https://docs.python-requests.org/en/latest/api/#exceptions
+
+MultiException and the 4-level exception inheritance hierarchy in
+error.py still seem complex. Is it really necessary to have
+ProtocolError, RawProtocolError, and MsgProtocolError abstract classes?
+Having them forces the user to make extra decisions about how to catch
+exceptions. If error handling is involved, more mistakes will be made.
+
+The requests package doesn't document the exception hierarchy. They keep
+it simple with a flat list of exceptions. (RequestException is the base
+class though.)
+
+Stefan
+
+--NyIWghvMyGHZWYNl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmB4A+cACgkQnKSrs4Gr
+c8hDtwgAqb0bK6FYUsrNMmwp8C+ds4r5Bgo02UtNSm8rVCYmZeyvIWjTV/OM2Ri7
+DeSG8FoV+7RWQ25JNueWTPk700Pj9HcjHl/FqCoC/3xut3jrTDS8Xb7W5YcMWno7
+ZJWi2Bv6tBKG8EsmFFhiTWoFuxdP9dXtJLr7kbC6Zzh7xVadR6QPpAamDUMH96N9
+KnPUsPPxSggKh62sUPRG8c8FGjuwpoWCvYCtPt1TED2rPyTX8bkPrLsoupbaIooG
+DeWhYx+3PRT+vvUHbXNqb2Ag02O9NciRg/c12DerCwiCH+AW7sJo2GGl4cLR2X0Y
+0jEGBSbqCoVtSDrX941ZTHeABsL4uw==
+=WWqz
+-----END PGP SIGNATURE-----
+
+--NyIWghvMyGHZWYNl--
 
 
