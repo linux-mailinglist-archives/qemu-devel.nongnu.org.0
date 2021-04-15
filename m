@@ -2,48 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9451F3610CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:10:22 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DE53610CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:10:09 +0200 (CEST)
+Received: from localhost ([::1]:37388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX5VV-0006Ph-M8
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:10:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42150)
+	id 1lX5VD-0005lt-Be
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:10:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xk-0004Ku-GZ
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:32 -0400
-Received: from rev.ng ([5.9.113.41]:56351)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lX4zs-0006Wa-5S
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:37:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lX4xa-0006gJ-Ez
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:35:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=164qfJGWjgk/yD//xf2nbP9mcSxC9C6/81DLlms6jfo=; b=JvdxldyBb2tbfN7cpCWhET8FuT
- bv9Wt3X+iMIftURqtknauuAVJb/Yd92ASYbMp7SfOLaOoe9MgXSpRbzPPR3Ak372jjC/jSbjGcsIi
- 33rATpvhRNMLH0+9ITbmRCCDH4TPnlYm+IQgtV0QwAxkHHJM3og2mtoQlgkFtrIAVy6k=;
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
- philmd@redhat.com, richard.henderson@linaro.org,
- Alessandro Di Federico <ale@rev.ng>
-Subject: [PATCH v4 11/12] target/hexagon: call idef-parser functions
-Date: Thu, 15 Apr 2021 18:34:54 +0200
-Message-Id: <20210415163455.3839169-12-ale.qemu@rev.ng>
-In-Reply-To: <20210415163455.3839169-1-ale.qemu@rev.ng>
-References: <20210415163455.3839169-1-ale.qemu@rev.ng>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lX4zp-0007gS-9A
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 12:37:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618504656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3mC4KaUzcHLaa1m3y0gwDCmz5zzvOxtb5A4xOFS/PvQ=;
+ b=eGv5KSjWusd+Bwp5pUnUgbuXXh3tepUjZPV8RP5WenE5BPr1izzkUAr4tyOyER2YlR/bDD
+ 9uH/rDTArCaDoDLttt+Kf4vlNOQNNBuR7R791bsm2PwbUBnWfQJQWFVnxqKmQbt6+1r1o4
+ +SAgbRABTzQ66GFtutieZTrZtQLeqqQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-wgf81LY-OSadc6JX3aetgw-1; Thu, 15 Apr 2021 12:37:34 -0400
+X-MC-Unique: wgf81LY-OSadc6JX3aetgw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B67CE9F92A;
+ Thu, 15 Apr 2021 16:37:32 +0000 (UTC)
+Received: from work-vm (ovpn-113-195.ams2.redhat.com [10.36.113.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D12065C290;
+ Thu, 15 Apr 2021 16:37:30 +0000 (UTC)
+Date: Thu, 15 Apr 2021 17:37:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 5/5] block: remove duplicate trace.h include
+Message-ID: <YHhryH4Q4Q7nwMM+@work-vm>
+References: <20210415135851.862406-1-berrange@redhat.com>
+ <20210415135851.862406-6-berrange@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210415135851.862406-6-berrange@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,145 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Extend gen_tcg_funcs.py in order to emit calls to the functions emitted
-by the idef-parser, if available.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
----
- target/hexagon/gen_tcg_funcs.py | 28 ++++++++++++++++++++++++++--
- target/hexagon/hex_common.py    | 10 ++++++++++
- target/hexagon/meson.build      | 22 +++++++++++++---------
- 3 files changed, 49 insertions(+), 11 deletions(-)
-
-diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
-index db9f663a77..5980dab8ee 100755
---- a/target/hexagon/gen_tcg_funcs.py
-+++ b/target/hexagon/gen_tcg_funcs.py
-@@ -394,7 +394,29 @@ def gen_tcg_func(f, tag, regs, imms):
-         if (hex_common.is_read(regid)):
-             genptr_src_read_opn(f,regtype,regid,tag)
- 
--    if ( hex_common.skip_qemu_helper(tag) ):
-+    if hex_common.is_idef_parser_enabled(tag):
-+        declared = []
-+        ## Handle registers
-+        for regtype,regid,toss,numregs in regs:
-+            if (hex_common.is_pair(regid)
-+                or (hex_common.is_single(regid)
-+                    and hex_common.is_old_val(regtype, regid, tag))):
-+                declared.append("%s%sV" % (regtype, regid))
-+                if regtype == "M":
-+                    declared.append("%s%sN" % (regtype, regid))
-+            elif hex_common.is_new_val(regtype, regid, tag):
-+                declared.append("%s%sN" % (regtype,regid))
-+            else:
-+                print("Bad register parse: ",regtype,regid,toss,numregs)
-+
-+        ## Handle immediates
-+        for immlett,bits,immshift in imms:
-+            declared.append(hex_common.imm_name(immlett))
-+
-+        arguments = ", ".join(["ctx", "insn", "pkt"] + declared)
-+        f.write("    emit_%s(%s);\n" % (tag, arguments))
-+
-+    elif ( hex_common.skip_qemu_helper(tag) ):
-         f.write("    fGEN_TCG_%s(%s);\n" % (tag, hex_common.semdict[tag]))
-     else:
-         ## Generate the call to the helper
-@@ -455,12 +477,14 @@ def main():
-     hex_common.read_attribs_file(sys.argv[2])
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.calculate_attribs()
-+    hex_common.read_idef_parser_enabled_file(sys.argv[4])
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
- 
--    with open(sys.argv[4], 'w') as f:
-+    with open(sys.argv[5], 'w') as f:
-         f.write("#ifndef HEXAGON_TCG_FUNCS_H\n")
-         f.write("#define HEXAGON_TCG_FUNCS_H\n\n")
-+        f.write("#include \"idef-generated-emitter.h.inc\"\n\n")
- 
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-diff --git a/target/hexagon/hex_common.py b/target/hexagon/hex_common.py
-index b3b534057d..648ad29e94 100755
---- a/target/hexagon/hex_common.py
-+++ b/target/hexagon/hex_common.py
-@@ -28,6 +28,7 @@
- attribinfo = {}       # Register information and misc
- tags = []             # list of all tags
- overrides = {}        # tags with helper overrides
-+idef_parser_enabled = {} # tags enabled for idef-parser
- 
- # We should do this as a hash for performance,
- # but to keep order let's keep it as a list.
-@@ -201,6 +202,9 @@ def need_ea(tag):
- def skip_qemu_helper(tag):
-     return tag in overrides.keys()
- 
-+def is_idef_parser_enabled(tag):
-+    return tag in idef_parser_enabled
-+
- def imm_name(immlett):
-     return "%siV" % immlett
- 
-@@ -232,3 +236,9 @@ def read_overrides_file(name):
-             continue
-         tag = overridere.findall(line)[0]
-         overrides[tag] = True
-+
-+def read_idef_parser_enabled_file(name):
-+    global idef_parser_enabled
-+    with open(name, "r") as idef_parser_enabled_file:
-+        lines = idef_parser_enabled_file.read().strip().split("\n")
-+        idef_parser_enabled = set(lines)
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index abd931d636..7f30237e59 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -69,15 +69,6 @@ helper_protos_generated = custom_target(
- )
- hexagon_ss.add(helper_protos_generated)
- 
--tcg_funcs_generated = custom_target(
--    'tcg_funcs_generated.c.inc',
--    output: 'tcg_funcs_generated.c.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
--    command: [python, files('gen_tcg_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
--)
--hexagon_ss.add(tcg_funcs_generated)
--
- tcg_func_table_generated = custom_target(
-     'tcg_func_table_generated.c.inc',
-     output: 'tcg_func_table_generated.c.inc',
-@@ -221,4 +212,17 @@ idef_generated_tcg = custom_target(
-     command: [idef_parser, '@INPUT@', '@OUTPUT0@', '@OUTPUT1@', '@OUTPUT2@'],
- )
- 
-+idef_generated_list = idef_generated_tcg[2].full_path()
-+
-+hexagon_ss.add(idef_generated_tcg)
-+
-+tcg_funcs_generated = custom_target(
-+    'tcg_funcs_generated.c.inc',
-+    output: 'tcg_funcs_generated.c.inc',
-+    depends: [semantics_generated, idef_generated_tcg],
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
-+    command: [python, files('gen_tcg_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, idef_generated_list, '@OUTPUT@'],
-+)
-+hexagon_ss.add(tcg_funcs_generated)
-+
- target_arch += {'hexagon': hexagon_ss}
+> ---
+>  block/file-posix.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 6aafeda44f..2538e43299 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -106,8 +106,6 @@
+>  #include <xfs/xfs.h>
+>  #endif
+>  
+> -#include "trace.h"
+> -
+>  /* OS X does not have O_DSYNC */
+>  #ifndef O_DSYNC
+>  #ifdef O_SYNC
+> -- 
+> 2.30.2
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
