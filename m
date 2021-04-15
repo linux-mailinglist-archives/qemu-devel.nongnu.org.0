@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F17360A50
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 15:15:00 +0200 (CEST)
-Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423BA360A60
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 15:20:53 +0200 (CEST)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1pj-0000KK-FW
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 09:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
+	id 1lX1vP-0002tD-T7
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 09:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1oX-0007sF-29
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:13:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1oU-0007Kr-5n
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:13:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618492420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dMRAiPiwfxXNK8P2J9yuAvkLtXoYXGNDdYmIil7v27c=;
- b=dZmBmt3yJR9ymSQRn+CFguVMYtvHEDPm6hW7h8A2LxeY1GASP/x+bKNUNUL5dAranydNtK
- jC5p34s37zxzFgbWga3ggWI0G4TX5+c1hXjjRzMzROWxHW1457YhtI/3T53zFcAUhzsgku
- UdeTAKF7CW3SwggP4Lv1MThEPS9zEbk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-DUkbVmIoNd2ocCiZ2gJI5g-1; Thu, 15 Apr 2021 09:13:37 -0400
-X-MC-Unique: DUkbVmIoNd2ocCiZ2gJI5g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j3-20020a1c55030000b029012e7c06101aso1251277wmb.5
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 06:13:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lX1tv-0002ND-Ug
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:19:19 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lX1tu-0002OP-6x
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:19:19 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id u17so36841942ejk.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 06:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Z/egrE6OhYbnHyUCrspoK8xcMuB+cOyXE70iDCJIb+M=;
+ b=gbXmHmeVB5F2ETxhyPga2w0E8EBMAwWnWlbjRTTEDGwpGypa7GI39ZRGMKg6QcetK2
+ vhOHjuq+zw9DeYKvj/CKAm7ZtNes4JAVtNiZrt+Xj9Dig1IXZHPtjNFjfmGoD3eqlaFm
+ VbxK7dw1tNdyJRlIV94uMgmPJQtEcfl7QukBzd25RTtGswLu8YEj+Ld6VvtZiQ5laAXm
+ 8/8hnvB09K9sWtcHVlL1y6p0v0rfIYOR194sqq+8S4O/cPMqYy/28yj5TC0zFPMexRhI
+ AoWP0vTW9log1RRgOr225Zb1nOttbp0c1tC1xejHvCcqDTX1pA5WOvzUjG0BmFBtI/GF
+ YwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dMRAiPiwfxXNK8P2J9yuAvkLtXoYXGNDdYmIil7v27c=;
- b=SzUwLCfIqO9qxFyMfuamJR9t4CTke+n02VkHFIiBOgx8ClvJSAmxIUwKixKiOYRREL
- Nn9Yo7R2CCe5r/sBQvTP+gfLhtZyZ8fRzn8D07lk4+F5kT/F6tyYYok/YgQr0JWk3ma/
- 99cFST+99YUBeYWo/5C2A6gTwQWN4U0QLHRT2CY6FRs0lDtcApudfGAdBZYVS53UL+Vj
- y+tB8xQOMk7f52ujSWl1iRsHRvBbzHaApcyKRB71fjvubcNrhCCeB8Ir0iO7ZonGqDN2
- K35Mz9RggU1XzDVEvinBH8L9oOwKQVRt7KdeMKzSVBf8+31xt35MLWZFFYW+OheH34kY
- F0sQ==
-X-Gm-Message-State: AOAM530CbpSAWWOpJ/xoxIHSw0nvoXsME/j/cLtNCqLBpexb8Z+fL0ue
- DtQjZfZp04qVe3aT7/AFKiF0H5/cM8fitOZ1C0nM3h1PiDm/37jkxdnAPO5RIFLG/A2n5HTuypp
- fvX242+6Nbgho2sI=
-X-Received: by 2002:a5d:66cd:: with SMTP id k13mr3504694wrw.387.1618492416032; 
- Thu, 15 Apr 2021 06:13:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrtVxbMhWzGZYydW2/maMvvuJzG4cm0dtUWZwei8fJ88L8mqoJR1fltsJHm6rI1knTx3qAgw==
-X-Received: by 2002:a5d:66cd:: with SMTP id k13mr3504667wrw.387.1618492415869; 
- Thu, 15 Apr 2021 06:13:35 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id t19sm2684809wmq.14.2021.04.15.06.13.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 06:13:35 -0700 (PDT)
-Subject: Re: [PATCH v2] hw/block/nvme: align with existing style
-To: Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org
-References: <CGME20210415120417epcas5p31ddb152cbe94fa5bebe386de5e33f69e@epcas5p3.samsung.com>
- <20210415120048.5484-1-anaidu.gollu@samsung.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a1ce0889-c80c-2d59-e65a-3eed8bfdd3e9@redhat.com>
-Date: Thu, 15 Apr 2021 15:13:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Z/egrE6OhYbnHyUCrspoK8xcMuB+cOyXE70iDCJIb+M=;
+ b=WzzRK6A9uT27Oqu58LV9vLMW/G43VwT2ImAz3bIxID+CZq1LIQ+rtdVBKmyrq5F8Uw
+ e5UBslrfrwlcnnh3r/If0eNiNrXLbVSVWsV6ZzOvzm4cSGoM8rH+Ky5EBLJszsEz0RiC
+ Yd02CCvJF0hmfzbAYQAZrMEmHfATJeNbXspvf5tl9ZkiaxUNlD8ha0TJTJqbNBm03mOi
+ MkaiUTqpxfAsocjBKPhNYEDSKjStlMXmmZksn8sMQcZ0Q98s8IRBy6z82Ve98s3/Uele
+ dJPdxNmYYS0n5pAC0v6dk9gDsNdllGCpwT1ArjMa2hoLYtICqYHasToIVONyp9j+AaqS
+ nGFQ==
+X-Gm-Message-State: AOAM533l7/fnbMu2nhjq0rZXaR6yF4YxRo3hUQF6hjYoFGg4+btgywfn
+ WWnQtj7Q/2aDSPfK9SymcuwsBW6jfHmZUnwXFrlJLg==
+X-Google-Smtp-Source: ABdhPJy4pBTl8dMoyJ/DVJZMDdpGzNUC2rvrSsYZaKyEGhAdsuw33JdhM2an7ADLjyeTFCcd5zgiXEQCn3ir/i7YTtE=
+X-Received: by 2002:a17:906:bd2:: with SMTP id
+ y18mr3426361ejg.482.1618492756156; 
+ Thu, 15 Apr 2021 06:19:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210415120048.5484-1-anaidu.gollu@samsung.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210218094706.23038-1-alex.bennee@linaro.org>
+ <20210218094706.23038-19-alex.bennee@linaro.org>
+In-Reply-To: <20210218094706.23038-19-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 15 Apr 2021 14:18:28 +0100
+Message-ID: <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
+Subject: Re: [PULL 18/23] accel/tcg: re-factor non-RAM execution code
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,36 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, mreitz@redhat.com, kbusch@kernel.org,
- stefanha@redhat.com, its@irrelevant.dk
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 2:00 PM, Gollu Appalanaidu wrote:
-> Make uniform hexadecimal numbers format.
-> 
-> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> ---
-> -v2: Address review comments (Klaus)
-> use lower case hexa format for the code and in comments 
-> use the same format as used in Spec. ("FFFFFFFFh")
+On Thu, 18 Feb 2021 at 09:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> There is no real need to use CF_NOCACHE here. As long as the TB isn't
+> linked to other TBs or included in the QHT or jump cache then it will
+> only get executed once.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20210213130325.14781-19-alex.bennee@linaro.org>
 
-^ This comment is relevant to the commit message.
+Hi; I've just noticed that this commit seems to break the case of:
+ * execution of code not from a RAM block
+ * when icount is enabled
+ * and an instruction is an IO insn that triggers io-recompile
 
-Also it would be nice if the subsystem could describe somewhere
-what is its style. Not sure where... The file header is probably
-the simplest place.
+because:
 
-Something like:
+> @@ -2097,6 +2086,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>          tb_reset_jump(tb, 1);
+>      }
+>
+> +    /*
+> +     * If the TB is not associated with a physical RAM page then
+> +     * it must be a temporary one-insn TB, and we have nothing to do
+> +     * except fill in the page_addr[] fields. Return early before
+> +     * attempting to link to other TBs or add to the lookup table.
+> +     */
+> +    if (phys_pc =3D=3D -1) {
+> +        tb->page_addr[0] =3D tb->page_addr[1] =3D -1;
+> +        return tb;
+> +    }
 
-"While QEMU coding style prefers lowercase hexadecimal in constants,
-the NVMe subsystem use the format from the NVMe specifications in
-the comments: no '0x' prefix, uppercase, 'h' hexadecimal suffix."
+we used to fall through here, which meant we called
+tcg_tb_insert(tb). No we no longer do. That's bad, because
+cpu_io_recompile() does:
 
->  hw/block/nvme-ns.c   |  2 +-
->  hw/block/nvme.c      | 40 ++++++++++++++++++++--------------------
->  include/block/nvme.h | 10 +++++-----
->  3 files changed, 26 insertions(+), 26 deletions(-)
+    tb =3D tcg_tb_lookup(retaddr);
+    if (!tb) {
+        cpu_abort(cpu, "cpu_io_recompile: could not find TB for pc=3D%p",
+                  (void *)retaddr);
+    }
 
+and since it can no longer find the TB, QEMU aborts.
+
+thanks
+-- PMM
 
