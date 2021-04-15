@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DC1360A36
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 15:10:17 +0200 (CEST)
-Received: from localhost ([::1]:49138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FCA360A41
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 15:12:37 +0200 (CEST)
+Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX1lA-00049e-IQ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 09:10:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
+	id 1lX1nQ-0006Fw-3h
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 09:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1hg-00018A-By
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:06:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47131)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lX1lP-00051n-In
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:10:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lX1hc-0003Du-Ah
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:06:39 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lX1lJ-0005YW-D4
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:10:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618491995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1618492224;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=puBMi4NDnOD5ITFXisCSQxIlqEU05HUp46wCpGId5Ok=;
- b=bRfcbVHfxyqPaE4Bd7Z2h5a53FpTmUKg+/0/A++Y+/bzFscOmvLYmUvVyD71SKaHhX8t1A
- 26R+G4lPk8CSw0NhZFbv+VzRmqacYRJ33W5QYzwEPIutNmmLJdKiRYnG7vncVkoGWxtxTm
- GJFHVNqlsu3j1AwE0QwDBcvDnXy1Z5w=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-ZJu0BiUNPI6XkfXwkmZqjg-1; Thu, 15 Apr 2021 09:06:33 -0400
-X-MC-Unique: ZJu0BiUNPI6XkfXwkmZqjg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j187-20020a1c23c40000b0290127873d3384so3254911wmj.6
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 06:06:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=puBMi4NDnOD5ITFXisCSQxIlqEU05HUp46wCpGId5Ok=;
- b=ehAmO44nAtqef//s47WU49KBxCg48whMFrGEEkNHUaV3MwUZqP/Z8U8EVWkaaZkYGd
- uytKS/wqC2tUtg0RDTsRNCa61TqjPN6yr4XZUefRTNotNDM3jqr9F9bkwJ1JSfBKFpLQ
- fEcMmDYsGMxpnr3zbey7yeVa6KQruva/mHoNG6JwjOt0auzSIKR+sejUPHkFDVKdRYdC
- UyIu8nPu5hhWJtXcTCIjhIk/73vj3Hqr7e9HESLG3NdyUGqnIdMMSPBN8qtLENzkFb7P
- tbuq0lDdaO0VWi1kzVlfgBfYKllIRMS1RKpbk8rQoF+PE8VUl010g8N9fnlFUCsNe7Iv
- 9bUQ==
-X-Gm-Message-State: AOAM532eaWYYLnCOJz4P5sDNGT28RfIWL8nwtWY/0c3t9hgO8D6Bc6rr
- LkV9a/ZJ0htdPvPfQQxYBIi3OeOqLXKvSV2EKMZN9pIHPnjfSE0is8mBreQPqA2MtbmFso8Wa5Q
- mEQ0RLlGE9yPtkqM=
-X-Received: by 2002:a1c:60c2:: with SMTP id u185mr3033667wmb.157.1618491992691; 
- Thu, 15 Apr 2021 06:06:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGXysR1r9aW1RxD1iY/a3eQdoef0tPTaY4UwERfUdZwilZOfbtEU0QMhKZ5tyhtgDt86HnoQ==
-X-Received: by 2002:a1c:60c2:: with SMTP id u185mr3033647wmb.157.1618491992496; 
- Thu, 15 Apr 2021 06:06:32 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id u8sm3106010wrr.42.2021.04.15.06.06.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 06:06:32 -0700 (PDT)
-Subject: Re: meson incorrectly detects libcurl as present even if it spots
- that its dependencies are missing
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA8xHxCGhh2hibsdCxZrYRRU+xcwVsa85O7KL9BsmW7ohw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c3e0214a-64ef-944c-d21a-87da6c71a2fa@redhat.com>
-Date: Thu, 15 Apr 2021 15:06:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=xdnxvJeTvmTI93qf6LXA1rTwvbfDgu74hg2PcT7SRqs=;
+ b=Q7HkX1k/9YqGZKeSAROcZmlQKabFp+hXh44QnrUkUPxAaVikPlMy/pkv2IicidADrFtTx1
+ HvAxlFgcDuDil/Cf1IDKz94ZZC1Bg6w2l4t/iHvM/HY7/rWHFblvdCxqpCW2jag82k/3DB
+ DMGk2CNAqibpddoOdHDumplVvNL3bwA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-vPLUIfV-O_mhsw2Vc67VQw-1; Thu, 15 Apr 2021 09:10:19 -0400
+X-MC-Unique: vPLUIfV-O_mhsw2Vc67VQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 553D58030B5
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 13:10:18 +0000 (UTC)
+Received: from redhat.com (ovpn-115-159.ams2.redhat.com [10.36.115.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E066F5D9C0;
+ Thu, 15 Apr 2021 13:10:09 +0000 (UTC)
+Date: Thu, 15 Apr 2021 14:10:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
+Message-ID: <YHg7LnMeJehqf3sO@redhat.com>
+References: <20210121125028.3247190-1-kraxel@redhat.com>
+ <20210203163202.GF241524@stefanha-x1.localdomain>
+ <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
+ <YFiHnr/uguP8/Vtz@redhat.com>
+ <20210409131245.oqeu4ooueazqfcir@sirius.home.kraxel.org>
+ <YHBT2ZLdIesZOR4Q@redhat.com>
+ <20210412130759.txvduaibh3yjaig5@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8xHxCGhh2hibsdCxZrYRRU+xcwVsa85O7KL9BsmW7ohw@mail.gmail.com>
+In-Reply-To: <20210412130759.txvduaibh3yjaig5@sirius.home.kraxel.org>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,63 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/21 2:29 PM, Peter Maydell wrote:
-> My build of system-emulation with --enable-static seems to have
-> broken at some point since the last time I had cause to run it.
+On Mon, Apr 12, 2021 at 03:07:59PM +0200, Gerd Hoffmann wrote:
+> On Fri, Apr 09, 2021 at 02:17:13PM +0100, Daniel P. Berrangé wrote:
+> > On Fri, Apr 09, 2021 at 03:12:45PM +0200, Gerd Hoffmann wrote:
+> > >   Hi,
+> > > 
+> > > > eg a trace point "dma_map_wait" gets mapped to probes in many
+> > > > .stp files, once per target, because we need to match based on
+> > > > the executable path:
+> > > > 
+> > > >   probe qemu.system.x86_64.dma_map_wait = process("/usr/libexec/qemu-system-x86_64").mark("dma_map_wait")
+> > > 
+> > > So, that changes with modules, we need the module name now, i.e.
+> > > 
+> > >     probe qemu.system.x86_64.qxl_soft_reset = \
+> > > 	process("/home/kraxel/qemu-install/lib/qemu/hw-display-qxl.so").mark("qxl_soft_reset")
+> > > 
+> > > We could repeat that in every qemu-system-$arch.stp file.
+> > 
+> > This would have the surprise the 'qemu.system.x86_64.qxl_soft_reset'
+> > probes will fire even for qemu-system-ppc64 / qemu-system-xxxxx etc
+> > because we've not restricted the scope as the original probe did.
+> 
+> Oh, right.
+> 
+> > If we can't fix that, then we must use the second option to avoid
+> > the surprise IMHO
+> 
+> Yep.  Got that working.  Only problem is qemu-trace-stap is broken now
+> and it seems there is no easy way out.  Right now qemu-trace-stap can
+> simply work with a constant prefix, with that change the prefix can be
+> either qemu.system.$arch or qemu.system.modules and I suspect there is
+> no way around listing tracepoints to figure the correct name ...
 
-Maybe a side-effect of commit d7dedf428fe tri-state?
-("meson: accept either shared or static libraries if --disable-static")
+Maybe just don't change the probe names, and declare that people have
+to tell stap to filter by pid if you want exact matches
 
-> Looking at the meson-log the cause seems to be that meson enables
-> libcurl support even though it has found that libcurl's dependencies
-> aren't present as static libs:
-> 
-> Determining dependency 'libcurl' with pkg-config executable
-> '/usr/bin/pkg-config'
-> PKG_CONFIG_PATH:
-> Called `/usr/bin/pkg-config --modversion libcurl` -> 0
-> 7.58.0
-> PKG_CONFIG_PATH:
-> Called `/usr/bin/pkg-config --cflags libcurl` -> 0
-> -I/usr/include/x86_64-linux-gnu
-> PKG_CONFIG_PATH:
-> Called `/usr/bin/pkg-config libcurl --libs --static` -> 0
-> -L/usr/lib/x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu/mit-krb5
-> -lcurl -lnghttp2 -lidn2 -lrtmp -lpsl -lnettle -lgnutls
-> -Wl,-Bsymbolic-functions -Wl,-z,relro -lgssapi_krb5 -lkrb5 -lk5crypto
-> -lcom_err -llber -lldap -llber -lz
-> PKG_CONFIG_PATH:
-> Called `/usr/bin/pkg-config libcurl --libs --static` -> 0
-> -L/usr/lib/x86_64-linux-gnu/mit-krb5 -lcurl -lnghttp2 -lidn2 -lrtmp
-> -lpsl -lnettle -lgnutls -Wl,-Bsymbolic-functions -Wl,-z,relro
-> -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -llber -lldap -llber -lz
-> None of 'PKG_CONFIG_PATH' are defined in the environment, not changing
-> global flags.
-> WARNING: Static library 'nghttp2' not found for dependency 'libcurl',
-> may not be statically linked
-> WARNING: Static library 'psl' not found for dependency 'libcurl', may
-> not be statically linked
-> WARNING: Static library 'gssapi_krb5' not found for dependency
-> 'libcurl', may not be statically linked
-> WARNING: Static library 'krb5' not found for dependency 'libcurl', may
-> not be statically linked
-> WARNING: Static library 'k5crypto' not found for dependency 'libcurl',
-> may not be statically linked
-> Run-time dependency libcurl found: YES 7.58.0
-> 
-> 
-> This seems wrong to me -- if meson is smart enough to spot that
-> it's not actually going to be able to statically link libcurl
-> because of all those missing static libs, it should determine that
-> it has not found a working libcurl, rather than saying that it has
-> and letting the build proceed until the final link of executables fails.
-> 
-> thanks
-> -- PMM
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
