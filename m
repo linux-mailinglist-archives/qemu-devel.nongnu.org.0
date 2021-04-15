@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62F5361121
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:31:40 +0200 (CEST)
-Received: from localhost ([::1]:45110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7631636117E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 19:54:27 +0200 (CEST)
+Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX5q7-0006fK-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56688)
+	id 1lX6CA-0006i6-Ja
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 13:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lX5e0-0005Gu-Nt; Thu, 15 Apr 2021 13:19:09 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:39401)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lX5dw-0007kD-4C; Thu, 15 Apr 2021 13:19:08 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 951BA1A16;
- Thu, 15 Apr 2021 13:18:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 15 Apr 2021 13:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=DohkFW+Icdqd+ECH30OxCQLgaQ8
- kQQyakpR/Mq4hyoI=; b=2dTiXtsTDtC1+upp1VHuxwZV6gZyCa9rb2pSi7IFSQ/
- 5UkA9GEI3EnanxT81lpfrZiAvFfTs1Q0zyGOPRAuyVKbyLy05vTudpEfARtL5P/F
- zE99aSUsBekTEb9fyeC35jqSTJ7vIe8NJ+JvkqT6T3Ag+NSG7WAJDz+L7fJcNItQ
- 0wR2sw8ybxJQKeIYUNoPTqHA6zIzHfeaFLSVDBF7Z0DcRhbbSQWx5v0BkhwKYuxn
- n9Hw03pi+xOR35XQFloKdR5APqM9666siEePwNcRzd3oddjPLfz04AJWtxRFA7eT
- XliAlOPtHF7soUIYe2BmLGLqzpJ+FFTdL+ygLisNtGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DohkFW
- +Icdqd+ECH30OxCQLgaQ8kQQyakpR/Mq4hyoI=; b=vPqbLZ6DrcIt+krn5c1Atk
- 6wVZbczburqgnS3QNEhZf9MzYpFWmaWvnixqCc7jDF7vwpxpiCBHCZBYgqJKAfNB
- YUKGQCG/UUZnYo3EXQhYQvUJZqCrJQsjnejeSEMaT6P7eHPY+hlW0QyJk+xslCdC
- Wb29TK4CUSBl5iQCW8N8Ivpyd6Cf7TdcJgJ4+dw2I2T0UdacwfUtJMhAwoTGPya+
- D402/AEkChYL76DlwsRImaT5oSvhuF88ERpu4nClsp8j3t7koNMztfjmDeMd2UOH
- 25ZyOQCQ+fRqPPMNYOnfQ+B7ymVW/7iJlvFejAQvLdcSVtTu8jDSvtTQybN/5d+Q
- ==
-X-ME-Sender: <xms:fnV4YFri18FOImPvQnMlT72u3un6P-1eGRJYYTk-jRk8PXfsiN3PBA>
- <xme:fnV4YFdKYA4iKWu-Y9TzDqytpDxHtXCeMviL2WyhqiEs6ByPuCcHWr5PympvtIwh3
- L4E92FMuiEOaqBJpuM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudelfedgudduiecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:fnV4YMoGP0nOIaTp8G-69pTkPDiistrD0DVWMQNkJzd5h4TyUAIT-A>
- <xmx:fnV4YOGtvYwujezt1w_Yx4pqkqYYUg22IohS3ho_U2M4ktrU2sAQAg>
- <xmx:fnV4YEtCUkgksXak-V5zHtjK5tSyeiGisF8fFBFwv5_HTTJA1Gk1_Q>
- <xmx:gHV4YL5aOrTYXZAtDdLxNW-twjiLX3Nn9gsfTI9Z_Ajj1pQFBL12LDuBZzc>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 63A9624005B;
- Thu, 15 Apr 2021 13:18:53 -0400 (EDT)
-Date: Thu, 15 Apr 2021 19:18:50 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] hw/block/nvme: align with existing style
-Message-ID: <YHh1evjljdZesw5I@apples.localdomain>
-References: <CGME20210415120417epcas5p31ddb152cbe94fa5bebe386de5e33f69e@epcas5p3.samsung.com>
- <20210415120048.5484-1-anaidu.gollu@samsung.com>
- <a1ce0889-c80c-2d59-e65a-3eed8bfdd3e9@redhat.com>
+ (Exim 4.90_1) (envelope-from <tetra2005@gmail.com>)
+ id 1lX5mP-0005pp-Fx
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:27:49 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:46826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tetra2005@gmail.com>)
+ id 1lX5mL-00045i-3K
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 13:27:49 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ u14-20020a17090a1f0eb029014e38011b09so8271475pja.5
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 10:27:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=hvwoMbJP7z71zsna8x2Giu+44BzbgX2cpN534I3Gkbo=;
+ b=a0FVf1zUZ2Wajx2VD0SdRNEuOSSqWL3AVplAA4EGKj4zKY01yF/WdAyia4rBjLel8Q
+ /0YgzKqyAm9t7oembWXzAxoyGXvx/RKAmzW+DEq1thFfPIVANnc5fLUXFlV/oDmqfseQ
+ UluvDG07jf7V/2g4pQGpeF0WuKsxuZTFtMwFobVJ2riqA27rCf+hkelfWd4rhW3jAa7g
+ XUanBye3Antw3BgS6O1tM6Dhcrb9kuUxQBVDp3mmvdpw3sTdVJZZ6vLDKDxleSSJZ1j5
+ imDXmZIbs0Fh1KsiT+1ShsM/Doh+O51kUCvF8OfyxphPjci5jkpFNKG/1PhsDt6V029w
+ J71Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hvwoMbJP7z71zsna8x2Giu+44BzbgX2cpN534I3Gkbo=;
+ b=t/5pMYA46/0Ts6JbCR4PI03XcIwBeqCNjhrg2esw5KeerU3qoov+VRbtY7pqJT2VL9
+ uZ21WvhlZf7MXTv/bt/c5A/y/8E4Ndy/RgNLjfkXUyqMsX6vC82MbRYME21J3kasOvQe
+ QCBM2kjjTRMIT9B+UAIa7ZV3YXPJlNu4xgsDgZekHXYcjvfsoo0UfeFVT1EUAkk1bBpG
+ Q2pk5lHGIJFUEFNC+yReC+bRpsdveV9ePYcQQyYgXQmVhd/eu/L6lw4k1+JriqdiVBxj
+ QxQMT0wE5ljvWMtEF+VPjRo+/Dwjl7XL3k7kPzEwz6i1YNcvaKIf8j3aYMwy8vlMI/ds
+ jRYg==
+X-Gm-Message-State: AOAM5305UIWRDmoZy7yUxN6SNMD0kCNV/D5UP8VuE0UX/21IyJFZGl0Y
+ l0NuBdHfdBeXxEXxBi+RqHGXF3AFw76nxB/hv9GmB3gB4m2ynQ==
+X-Google-Smtp-Source: ABdhPJwb9gpFI+pgCirp7b9BBQ4QMae6G01uh84JqkxdrShX7p18HE4QEQaqVtPlAAGgP8tXmkC0hal4QowZWjWwdSU=
+X-Received: by 2002:a17:90a:c598:: with SMTP id
+ l24mr1498888pjt.166.1618507662913; 
+ Thu, 15 Apr 2021 10:27:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="btMPu+fDapW2aDgm"
-Content-Disposition: inline
-In-Reply-To: <a1ce0889-c80c-2d59-e65a-3eed8bfdd3e9@redhat.com>
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
- helo=wnew1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received: by 2002:a17:90a:540d:0:0:0:0 with HTTP; Thu, 15 Apr 2021 10:27:42
+ -0700 (PDT)
+In-Reply-To: <CAJOtW+6S8bTZa-n33TpYoVJVge_6_Xm3=M6h=Sy+cYEe+GJ0DA@mail.gmail.com>
+References: <CAJOtW+5DDMsr8QJQxaa1OHT79rpMJCrwkYbuaRTynR_ngUxgHA@mail.gmail.com>
+ <CAJOtW+6S8bTZa-n33TpYoVJVge_6_Xm3=M6h=Sy+cYEe+GJ0DA@mail.gmail.com>
+From: Yuri Gribov <tetra2005@gmail.com>
+Date: Thu, 15 Apr 2021 20:27:42 +0300
+Message-ID: <CAJOtW+7NN2rkcnKmNmMqEUXAgFku+zECRZgv2LX1G73HM-d2NQ@mail.gmail.com>
+Subject: [PING^2] [PATCH] [NFC] Mark locally used symbols as static.
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=tetra2005@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,65 +84,945 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, stefanha@redhat.com, kbusch@kernel.org,
- mreitz@redhat.com
+Cc: Marek Vasut <marex@denx.de>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all,
 
---btMPu+fDapW2aDgm
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch makes locally used symbols static to enable more compiler
+optimizations on them. Some of the symbols turned out to not be used
+at all so I marked them with ATTRIBUTE_UNUSED (as I wasn't sure if
+they were ok to delete).
 
-On Apr 15 15:13, Philippe Mathieu-Daud=C3=A9 wrote:
->On 4/15/21 2:00 PM, Gollu Appalanaidu wrote:
->> Make uniform hexadecimal numbers format.
->>
->> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->> ---
->> -v2: Address review comments (Klaus)
->> use lower case hexa format for the code and in comments
->> use the same format as used in Spec. ("FFFFFFFFh")
->
->^ This comment is relevant to the commit message.
->
->Also it would be nice if the subsystem could describe somewhere
->what is its style. Not sure where... The file header is probably
->the simplest place.
->
->Something like:
->
->"While QEMU coding style prefers lowercase hexadecimal in constants,
->the NVMe subsystem use the format from the NVMe specifications in
->the comments: no '0x' prefix, uppercase, 'h' hexadecimal suffix."
->
+The symbols have been identified with a pet project of mine:
+https://github.com/yugr/Localizer
 
-+1 for that suggestion.
+Link to patch: https://patchew.org/QEMU/CAJOtW+5DDMsr8QJQxaa1OHT79rpMJCrwkY=
+buaRTynR_ngUxgHA@mail.gmail.com/
 
->>  hw/block/nvme-ns.c   |  2 +-
->>  hw/block/nvme.c      | 40 ++++++++++++++++++++--------------------
->>  include/block/nvme.h | 10 +++++-----
->>  3 files changed, 26 insertions(+), 26 deletions(-)
->
->
+From 4e790fd06becfbbf6fb106ac52ae1e4515f1ac73 Mon Sep 17 00:00:00 2001
+From: Yury Gribov <tetra2005@gmail.com>
+Date: Sat, 20 Mar 2021 23:39:15 +0300
+Subject: [PATCH] Mark locally used symbols as static.
 
---btMPu+fDapW2aDgm
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Yury Gribov <tetra2005@gmail.com>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com> (xtensa)
+Acked-by: David Gibson <david@gibson.dropbear.id.au> (ppc)
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com> (tracetool)
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com> (hexagon)
+---
+ disas/alpha.c                                 | 16 ++--
+ disas/m68k.c                                  | 78 ++++++++---------
+ disas/mips.c                                  | 14 ++--
+ disas/nios2.c                                 | 84 +++++++++----------
+ disas/ppc.c                                   | 26 +++---
+ disas/riscv.c                                 |  2 +-
+ pc-bios/optionrom/linuxboot_dma.c             |  4 +-
+ scripts/tracetool/format/c.py                 |  2 +-
+ target/hexagon/gen_dectree_import.c           |  2 +-
+ target/hexagon/opcodes.c                      |  2 +-
+ target/i386/cpu.c                             |  2 +-
+ target/s390x/cpu_models.c                     |  2 +-
+ .../xtensa/core-dc232b/xtensa-modules.c.inc   |  2 +-
+ .../xtensa/core-dc233c/xtensa-modules.c.inc   |  2 +-
+ target/xtensa/core-de212/xtensa-modules.c.inc |  2 +-
+ .../core-de233_fpu/xtensa-modules.c.inc       |  2 +-
+ .../xtensa/core-dsp3400/xtensa-modules.c.inc  |  2 +-
+ target/xtensa/core-fsf/xtensa-modules.c.inc   |  2 +-
+ .../xtensa-modules.c.inc                      |  2 +-
+ .../core-test_kc705_be/xtensa-modules.c.inc   |  2 +-
+ .../core-test_mmuhifi_c3/xtensa-modules.c.inc |  2 +-
+ 21 files changed, 125 insertions(+), 127 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/disas/alpha.c b/disas/alpha.c
+index 3db90fa665..361a4ed101 100644
+--- a/disas/alpha.c
++++ b/disas/alpha.c
+@@ -56,8 +56,8 @@ struct alpha_opcode
+ /* The table itself is sorted by major opcode number, and is otherwise
+    in the order in which the disassembler should consider
+    instructions.  */
+-extern const struct alpha_opcode alpha_opcodes[];
+-extern const unsigned alpha_num_opcodes;
++static const struct alpha_opcode alpha_opcodes[];
++static const unsigned alpha_num_opcodes;
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmB4dXkACgkQTeGvMW1P
-DemePAf/WHWTJOcPTpEr/9lhfy7kYSYlsMV8NE7XIBbK4OGkNnfJUTiyHRkNkX6W
-CJ7bpbu8/LK8GmQ3oSHO6BGRuQMXmKy1C2jL73zPx/N6gkBHqgpvvIkhmH0uBO6i
-mAB6sCGDF2O7A/wGGdDvI0eMYZJ3BCNvAVSFPx22sAM/aG4o9KNz71Z9cjd/NHMI
-wAp3m7rPz9yccZuXljQ+EcaLjxZiuDkJbnzWVQoGo5U2UOu5VO/B9szdfCpR8SGb
-qyGUBpEuV6HUGKmwewNdGap6cg1rPKJUnr9UyZ43K/XeVgJIrcLR7KdtGKCZhvwt
-Ra8GMPgnEVCYL2wCokUq23Do97gAfw==
-=KSG/
------END PGP SIGNATURE-----
+ /* Values defined for the flags field of a struct alpha_opcode.  */
 
---btMPu+fDapW2aDgm--
+@@ -137,8 +137,8 @@ struct alpha_operand
+ /* Elements in the table are retrieved by indexing with values from
+    the operands field of the alpha_opcodes table.  */
+
+-extern const struct alpha_operand alpha_operands[];
+-extern const unsigned alpha_num_operands;
++static const struct alpha_operand alpha_operands[];
++static const unsigned alpha_num_operands;
+
+ /* Values defined for the flags field of a struct alpha_operand.  */
+
+@@ -293,7 +293,7 @@ static int extract_ev6hwjhint (unsigned, int *);
+
+ /* The operands table  */
+
+-const struct alpha_operand alpha_operands[] =3D
++static const struct alpha_operand alpha_operands[] =3D
+ {
+   /* The fields are bits, shift, insert, extract, flags */
+   /* The zero index is used to indicate end-of-list */
+@@ -424,7 +424,7 @@ const struct alpha_operand alpha_operands[] =3D
+     insert_ev6hwjhint, extract_ev6hwjhint }
+ };
+
+-const unsigned alpha_num_operands =3D
+sizeof(alpha_operands)/sizeof(*alpha_operands);
++static ATTRIBUTE_UNUSED const unsigned alpha_num_operands =3D
+sizeof(alpha_operands)/sizeof(*alpha_operands);
+
+ /* The RB field when it is the same as the RA field in the same insn.
+    This operand is marked fake.  The insertion function just copies
+@@ -706,7 +706,7 @@ extract_ev6hwjhint(unsigned insn, int *invalid
+ATTRIBUTE_UNUSED)
+ 		that were not assigned to a particular extension.
+ */
+
+-const struct alpha_opcode alpha_opcodes[] =3D {
++static const struct alpha_opcode alpha_opcodes[] =3D {
+   { "halt",		SPCD(0x00,0x0000), BASE, ARG_NONE },
+   { "draina",		SPCD(0x00,0x0002), BASE, ARG_NONE },
+   { "bpt",		SPCD(0x00,0x0080), BASE, ARG_NONE },
+@@ -1732,7 +1732,7 @@ const struct alpha_opcode alpha_opcodes[] =3D {
+   { "bgt",		BRA(0x3F), BASE, ARG_BRA },
+ };
+
+-const unsigned alpha_num_opcodes =3D
+sizeof(alpha_opcodes)/sizeof(*alpha_opcodes);
++static ATTRIBUTE_UNUSED const unsigned alpha_num_opcodes =3D
+sizeof(alpha_opcodes)/sizeof(*alpha_opcodes);
+
+ /* OSF register names.  */
+
+diff --git a/disas/m68k.c b/disas/m68k.c
+index aefaecfbd6..903d5cfec4 100644
+--- a/disas/m68k.c
++++ b/disas/m68k.c
+@@ -95,29 +95,29 @@ struct floatformat
+
+ /* floatformats for IEEE single and double, big and little endian.  */
+
+-extern const struct floatformat floatformat_ieee_single_big;
+-extern const struct floatformat floatformat_ieee_single_little;
+-extern const struct floatformat floatformat_ieee_double_big;
+-extern const struct floatformat floatformat_ieee_double_little;
++static const struct floatformat floatformat_ieee_single_big;
++static const struct floatformat floatformat_ieee_single_little;
++static const struct floatformat floatformat_ieee_double_big;
++static const struct floatformat floatformat_ieee_double_little;
+
+ /* floatformat for ARM IEEE double, little endian bytes and big endian wor=
+ds */
+
+-extern const struct floatformat floatformat_ieee_double_littlebyte_bigword=
+;
++static const struct floatformat floatformat_ieee_double_littlebyte_bigword=
+;
+
+ /* floatformats for various extendeds.  */
+
+-extern const struct floatformat floatformat_i387_ext;
+-extern const struct floatformat floatformat_m68881_ext;
+-extern const struct floatformat floatformat_i960_ext;
+-extern const struct floatformat floatformat_m88110_ext;
+-extern const struct floatformat floatformat_m88110_harris_ext;
+-extern const struct floatformat floatformat_arm_ext_big;
+-extern const struct floatformat floatformat_arm_ext_littlebyte_bigword;
++static const struct floatformat floatformat_i387_ext;
++static const struct floatformat floatformat_m68881_ext;
++static const struct floatformat floatformat_i960_ext;
++static const struct floatformat floatformat_m88110_ext;
++static const struct floatformat floatformat_m88110_harris_ext;
++static const struct floatformat floatformat_arm_ext_big;
++static const struct floatformat floatformat_arm_ext_littlebyte_bigword;
+ /* IA-64 Floating Point register spilt into memory.  */
+-extern const struct floatformat floatformat_ia64_spill_big;
+-extern const struct floatformat floatformat_ia64_spill_little;
+-extern const struct floatformat floatformat_ia64_quad_big;
+-extern const struct floatformat floatformat_ia64_quad_little;
++static const struct floatformat floatformat_ia64_spill_big;
++static const struct floatformat floatformat_ia64_spill_little;
++static const struct floatformat floatformat_ia64_quad_big;
++static const struct floatformat floatformat_ia64_quad_little;
+
+ /* Convert from FMT to a double.
+    FROM is the address of the extended float.
+@@ -514,10 +514,10 @@ struct m68k_opcode_alias
+    ]  first word, bit 10
+ */
+
+-extern const struct m68k_opcode m68k_opcodes[];
+-extern const struct m68k_opcode_alias m68k_opcode_aliases[];
++static const struct m68k_opcode m68k_opcodes[];
++static const struct m68k_opcode_alias m68k_opcode_aliases[];
+
+-extern const int m68k_numopcodes, m68k_numaliases;
++static const int m68k_numopcodes, m68k_numaliases;
+
+ /* **** End of m68k-opcode.h */
+ /* **** m68k-dis.c from sourceware.org CVS 2005-08-14.  */
+@@ -2072,7 +2072,7 @@ print_insn_m68k (bfd_vma memaddr, disassemble_info *i=
+nfo)
+    be consecutive.  If they aren't, the assembler will bomb at
+    runtime.  */
+
+-const struct m68k_opcode m68k_opcodes[] =3D
++static const struct m68k_opcode m68k_opcodes[] =3D
+ {
+ {"abcd", 2,	one(0140400),	one(0170770), "DsDd", m68000up },
+ {"abcd", 2,	one(0140410),	one(0170770), "-s-d", m68000up },
+@@ -4212,7 +4212,7 @@ TBL("tblunb", "tblunw", "tblunl", 0, 0),
+ {"wdebug", 4,	two(0175750, 03),	two(0177770, 0xffff), "ds", mcfisa_a },
+ };
+
+-const int m68k_numopcodes =3D sizeof m68k_opcodes / sizeof m68k_opcodes[0]=
+;
++static const int m68k_numopcodes =3D sizeof m68k_opcodes / sizeof
+m68k_opcodes[0];
+
+ /* These aliases used to be in the above table, each one duplicating
+    all of the entries for its primary exactly.  This table was
+@@ -4221,7 +4221,7 @@ const int m68k_numopcodes =3D sizeof m68k_opcodes
+/ sizeof m68k_opcodes[0];
+    aliases above that could be moved down here, except for very minor
+    differences.  */
+
+-const struct m68k_opcode_alias m68k_opcode_aliases[] =3D
++static const struct m68k_opcode_alias m68k_opcode_aliases[] =3D
+ {
+   { "add",	"addw", },
+   { "adda",	"addaw", },
+@@ -4465,7 +4465,7 @@ const struct m68k_opcode_alias m68k_opcode_aliases[] =
+=3D
+
+ };
+
+-const int m68k_numaliases =3D
++static ATTRIBUTE_UNUSED const int m68k_numaliases =3D
+   sizeof m68k_opcode_aliases / sizeof m68k_opcode_aliases[0];
+ /* **** End of m68k-opc.c */
+ /* **** floatformat.c from sourceware.org CVS 2005-08-14.  */
+@@ -4523,28 +4523,28 @@ floatformat_always_valid (const struct
+floatformat *fmt ATTRIBUTE_UNUSED,
+ #define FLOATFORMAT_CHAR_BIT 8
+
+ /* floatformats for IEEE single and double, big and little endian.  */
+-const struct floatformat floatformat_ieee_single_big =3D
++static const struct floatformat floatformat_ieee_single_big =3D
+ {
+   floatformat_big, 32, 0, 1, 8, 127, 255, 9, 23,
+   floatformat_intbit_no,
+   "floatformat_ieee_single_big",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ieee_single_little =3D
++static ATTRIBUTE_UNUSED const struct floatformat
+floatformat_ieee_single_little =3D
+ {
+   floatformat_little, 32, 0, 1, 8, 127, 255, 9, 23,
+   floatformat_intbit_no,
+   "floatformat_ieee_single_little",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ieee_double_big =3D
++static const struct floatformat floatformat_ieee_double_big =3D
+ {
+   floatformat_big, 64, 0, 1, 11, 1023, 2047, 12, 52,
+   floatformat_intbit_no,
+   "floatformat_ieee_double_big",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ieee_double_little =3D
++static ATTRIBUTE_UNUSED const struct floatformat
+floatformat_ieee_double_little =3D
+ {
+   floatformat_little, 64, 0, 1, 11, 1023, 2047, 12, 52,
+   floatformat_intbit_no,
+@@ -4555,7 +4555,7 @@ const struct floatformat floatformat_ieee_double_litt=
+le =3D
+ /* floatformat for IEEE double, little endian byte order, with big endian =
+word
+    ordering, as on the ARM.  */
+
+-const struct floatformat floatformat_ieee_double_littlebyte_bigword =3D
++static ATTRIBUTE_UNUSED const struct floatformat
+floatformat_ieee_double_littlebyte_bigword =3D
+ {
+   floatformat_littlebyte_bigword, 64, 0, 1, 11, 1023, 2047, 12, 52,
+   floatformat_intbit_no,
+@@ -4586,14 +4586,14 @@ floatformat_i387_ext_is_valid (const struct
+floatformat *fmt, const char *from)
+     return 1;
+ }
+
+-const struct floatformat floatformat_i387_ext =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_i387_ext =3D
+ {
+   floatformat_little, 80, 0, 1, 15, 0x3fff, 0x7fff, 16, 64,
+   floatformat_intbit_yes,
+   "floatformat_i387_ext",
+   floatformat_i387_ext_is_valid
+ };
+-const struct floatformat floatformat_m68881_ext =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_m68881_ext =
+=3D
+ {
+   /* Note that the bits from 16 to 31 are unused.  */
+   floatformat_big, 96, 0, 1, 15, 0x3fff, 0x7fff, 32, 64,
+@@ -4601,7 +4601,7 @@ const struct floatformat floatformat_m68881_ext =3D
+   "floatformat_m68881_ext",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_i960_ext =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_i960_ext =3D
+ {
+   /* Note that the bits from 0 to 15 are unused.  */
+   floatformat_little, 96, 16, 17, 15, 0x3fff, 0x7fff, 32, 64,
+@@ -4609,14 +4609,14 @@ const struct floatformat floatformat_i960_ext =3D
+   "floatformat_i960_ext",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_m88110_ext =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_m88110_ext =
+=3D
+ {
+   floatformat_big, 80, 0, 1, 15, 0x3fff, 0x7fff, 16, 64,
+   floatformat_intbit_yes,
+   "floatformat_m88110_ext",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_m88110_harris_ext =3D
++static ATTRIBUTE_UNUSED const struct floatformat
+floatformat_m88110_harris_ext =3D
+ {
+   /* Harris uses raw format 128 bytes long, but the number is just an ieee
+      double, and the last 64 bits are wasted. */
+@@ -4625,7 +4625,7 @@ const struct floatformat floatformat_m88110_harris_ex=
+t =3D
+   "floatformat_m88110_ext_harris",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_arm_ext_big =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_arm_ext_big =
+=3D
+ {
+   /* Bits 1 to 16 are unused.  */
+   floatformat_big, 96, 0, 17, 15, 0x3fff, 0x7fff, 32, 64,
+@@ -4633,7 +4633,7 @@ const struct floatformat floatformat_arm_ext_big =3D
+   "floatformat_arm_ext_big",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_arm_ext_littlebyte_bigword =3D
++static ATTRIBUTE_UNUSED const struct floatformat
+floatformat_arm_ext_littlebyte_bigword =3D
+ {
+   /* Bits 1 to 16 are unused.  */
+   floatformat_littlebyte_bigword, 96, 0, 17, 15, 0x3fff, 0x7fff, 32, 64,
+@@ -4641,28 +4641,28 @@ const struct floatformat
+floatformat_arm_ext_littlebyte_bigword =3D
+   "floatformat_arm_ext_littlebyte_bigword",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ia64_spill_big =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_ia64_spill_bi=
+g =3D
+ {
+   floatformat_big, 128, 0, 1, 17, 65535, 0x1ffff, 18, 64,
+   floatformat_intbit_yes,
+   "floatformat_ia64_spill_big",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ia64_spill_little =3D
++static ATTRIBUTE_UNUSED const struct floatformat
+floatformat_ia64_spill_little =3D
+ {
+   floatformat_little, 128, 0, 1, 17, 65535, 0x1ffff, 18, 64,
+   floatformat_intbit_yes,
+   "floatformat_ia64_spill_little",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ia64_quad_big =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_ia64_quad_big=
+ =3D
+ {
+   floatformat_big, 128, 0, 1, 15, 16383, 0x7fff, 16, 112,
+   floatformat_intbit_no,
+   "floatformat_ia64_quad_big",
+   floatformat_always_valid
+ };
+-const struct floatformat floatformat_ia64_quad_little =3D
++static ATTRIBUTE_UNUSED const struct floatformat floatformat_ia64_quad_lit=
+tle =3D
+ {
+   floatformat_little, 128, 0, 1, 15, 16383, 0x7fff, 16, 112,
+   floatformat_intbit_no,
+diff --git a/disas/mips.c b/disas/mips.c
+index b9a5204304..b43700be9c 100644
+--- a/disas/mips.c
++++ b/disas/mips.c
+@@ -931,10 +931,9 @@ enum
+    Many instructions are short hand for other instructions (i.e., The
+    jal <register> instruction is short for jalr <register>).  */
+
+-extern const struct mips_opcode mips_builtin_opcodes[];
+-extern const int bfd_mips_num_builtin_opcodes;
+-extern struct mips_opcode *mips_opcodes;
+-extern int bfd_mips_num_opcodes;
++static const struct mips_opcode mips_builtin_opcodes[];
++static struct mips_opcode *mips_opcodes;
++static int bfd_mips_num_opcodes;
+ #define NUMOPCODES bfd_mips_num_opcodes
+
+
+@@ -1259,7 +1258,7 @@ extern const int bfd_mips16_num_opcodes;
+    Many instructions are short hand for other instructions (i.e., The
+    jal <register> instruction is short for jalr <register>).  */
+
+-const struct mips_opcode mips_builtin_opcodes[] =3D
++static const struct mips_opcode mips_builtin_opcodes[] =3D
+ {
+ /* These instructions appear first so that the disassembler will find
+    them first.  The assemblers uses a hash table based on the
+@@ -3509,13 +3508,12 @@ const struct mips_opcode mips_builtin_opcodes[] =3D
+
+ #define MIPS_NUM_OPCODES \
+ 	((sizeof mips_builtin_opcodes) / (sizeof (mips_builtin_opcodes[0])))
+-const int bfd_mips_num_builtin_opcodes =3D MIPS_NUM_OPCODES;
+
+ /* const removed from the following to allow for dynamic extensions to the
+  * built-in instruction set. */
+-struct mips_opcode *mips_opcodes =3D
++static struct mips_opcode *mips_opcodes =3D
+   (struct mips_opcode *) mips_builtin_opcodes;
+-int bfd_mips_num_opcodes =3D MIPS_NUM_OPCODES;
++static int bfd_mips_num_opcodes =3D MIPS_NUM_OPCODES;
+ #undef MIPS_NUM_OPCODES
+
+ /* Mips instructions are at maximum this many bytes long.  */
+diff --git a/disas/nios2.c b/disas/nios2.c
+index c3e82140c7..089ae6ef6f 100644
+--- a/disas/nios2.c
++++ b/disas/nios2.c
+@@ -1720,38 +1720,38 @@ struct nios2_reg
+
+
+ /* These are the data structures used to hold the instruction information.=
+  */
+-extern const struct nios2_opcode nios2_r1_opcodes[];
+-extern const int nios2_num_r1_opcodes;
+-extern const struct nios2_opcode nios2_r2_opcodes[];
+-extern const int nios2_num_r2_opcodes;
+-extern struct nios2_opcode *nios2_opcodes;
+-extern int nios2_num_opcodes;
++static const struct nios2_opcode nios2_r1_opcodes[];
++static const int nios2_num_r1_opcodes;
++static const struct nios2_opcode nios2_r2_opcodes[];
++static const int nios2_num_r2_opcodes;
++static struct nios2_opcode *nios2_opcodes;
++static int nios2_num_opcodes;
+
+ /* These are the data structures used to hold the register information.  *=
+/
+-extern const struct nios2_reg nios2_builtin_regs[];
+-extern struct nios2_reg *nios2_regs;
+-extern const int nios2_num_builtin_regs;
+-extern int nios2_num_regs;
++static const struct nios2_reg nios2_builtin_regs[];
++static struct nios2_reg *nios2_regs;
++static const int nios2_num_builtin_regs;
++static int nios2_num_regs;
+
+ /* Return the opcode descriptor for a single instruction.  */
+-extern const struct nios2_opcode *
++static const struct nios2_opcode *
+ nios2_find_opcode_hash (unsigned long, unsigned long);
+
+ /* Lookup tables for R2 immediate decodings.  */
+-extern unsigned int nios2_r2_asi_n_mappings[];
+-extern const int nios2_num_r2_asi_n_mappings;
+-extern unsigned int nios2_r2_shi_n_mappings[];
+-extern const int nios2_num_r2_shi_n_mappings;
+-extern unsigned int nios2_r2_andi_n_mappings[];
+-extern const int nios2_num_r2_andi_n_mappings;
++static unsigned int nios2_r2_asi_n_mappings[];
++static const int nios2_num_r2_asi_n_mappings;
++static unsigned int nios2_r2_shi_n_mappings[];
++static const int nios2_num_r2_shi_n_mappings;
++static unsigned int nios2_r2_andi_n_mappings[];
++static const int nios2_num_r2_andi_n_mappings;
+
+ /* Lookup table for 3-bit register decodings.  */
+-extern int nios2_r2_reg3_mappings[];
+-extern const int nios2_num_r2_reg3_mappings;
++static int nios2_r2_reg3_mappings[];
++static const int nios2_num_r2_reg3_mappings;
+
+ /* Lookup table for REG_RANGE value list decodings.  */
+-extern unsigned long nios2_r2_reg_range_mappings[];
+-extern const int nios2_num_r2_reg_range_mappings;
++static unsigned long nios2_r2_reg_range_mappings[];
++static const int nios2_num_r2_reg_range_mappings;
+
+ #endif /* _NIOS2_H */
+
+@@ -1760,7 +1760,7 @@ extern const int nios2_num_r2_reg_range_mappings;
+ */
+ /* Register string table */
+
+-const struct nios2_reg nios2_builtin_regs[] =3D {
++static const struct nios2_reg nios2_builtin_regs[] =3D {
+   /* Standard register names.  */
+   {"zero", 0, REG_NORMAL},
+   {"at", 1, REG_NORMAL},			/* assembler temporary */
+@@ -1896,17 +1896,17 @@ const struct nios2_reg nios2_builtin_regs[] =3D {
+
+ #define NIOS2_NUM_REGS \
+        ((sizeof nios2_builtin_regs) / (sizeof (nios2_builtin_regs[0])))
+-const int nios2_num_builtin_regs =3D NIOS2_NUM_REGS;
++static ATTRIBUTE_UNUSED const int nios2_num_builtin_regs =3D NIOS2_NUM_REG=
+S;
+
+ /* This is not const in order to allow for dynamic extensions to the
+    built-in instruction set.  */
+-struct nios2_reg *nios2_regs =3D (struct nios2_reg *) nios2_builtin_regs;
+-int nios2_num_regs =3D NIOS2_NUM_REGS;
++static struct nios2_reg *nios2_regs =3D (struct nios2_reg *) nios2_builtin=
+_regs;
++static int nios2_num_regs =3D NIOS2_NUM_REGS;
+ #undef NIOS2_NUM_REGS
+
+ /* This is the opcode table used by the Nios II GNU as, disassembler
+    and GDB.  */
+-const struct nios2_opcode nios2_r1_opcodes[] =3D
++static const struct nios2_opcode nios2_r1_opcodes[] =3D
+ {
+   /* { name, args, args_test, num_args, size, format,
+        match, mask, pinfo, overflow } */
+@@ -2134,10 +2134,10 @@ const struct nios2_opcode nios2_r1_opcodes[] =3D
+
+ #define NIOS2_NUM_R1_OPCODES \
+        ((sizeof nios2_r1_opcodes) / (sizeof (nios2_r1_opcodes[0])))
+-const int nios2_num_r1_opcodes =3D NIOS2_NUM_R1_OPCODES;
++static const int nios2_num_r1_opcodes =3D NIOS2_NUM_R1_OPCODES;
+
+
+-const struct nios2_opcode nios2_r2_opcodes[] =3D
++static const struct nios2_opcode nios2_r2_opcodes[] =3D
+ {
+   /* { name, args, args_test, num_args, size, format,
+        match, mask, pinfo, overflow } */
+@@ -2474,37 +2474,37 @@ const struct nios2_opcode nios2_r2_opcodes[] =3D
+
+ #define NIOS2_NUM_R2_OPCODES \
+        ((sizeof nios2_r2_opcodes) / (sizeof (nios2_r2_opcodes[0])))
+-const int nios2_num_r2_opcodes =3D NIOS2_NUM_R2_OPCODES;
++static const int nios2_num_r2_opcodes =3D NIOS2_NUM_R2_OPCODES;
+
+ /* Default to using the R1 instruction tables.  */
+-struct nios2_opcode *nios2_opcodes =3D (struct nios2_opcode *) nios2_r1_op=
+codes;
+-int nios2_num_opcodes =3D NIOS2_NUM_R1_OPCODES;
++static ATTRIBUTE_UNUSED struct nios2_opcode *nios2_opcodes =3D (struct
+nios2_opcode *) nios2_r1_opcodes;
++static ATTRIBUTE_UNUSED int nios2_num_opcodes =3D NIOS2_NUM_R1_OPCODES;
+ #undef NIOS2_NUM_R1_OPCODES
+ #undef NIOS2_NUM_R2_OPCODES
+
+ /* Decodings for R2 asi.n (addi.n/subi.n) immediate values.  */
+-unsigned int nios2_r2_asi_n_mappings[] =3D
++static unsigned int nios2_r2_asi_n_mappings[] =3D
+   {1, 2, 4, 8, 16, 32, 64, 128};
+-const int nios2_num_r2_asi_n_mappings =3D 8;
++static ATTRIBUTE_UNUSED const int nios2_num_r2_asi_n_mappings =3D 8;
+
+ /* Decodings for R2 shi.n (slli.n/srli.n) immediate values.  */
+-unsigned int nios2_r2_shi_n_mappings[] =3D
++static unsigned int nios2_r2_shi_n_mappings[] =3D
+   {1, 2, 3, 8, 12, 16, 24, 31};
+-const int nios2_num_r2_shi_n_mappings =3D 8;
++static ATTRIBUTE_UNUSED const int nios2_num_r2_shi_n_mappings =3D 8;
+
+ /* Decodings for R2 andi.n immediate values.  */
+-unsigned int nios2_r2_andi_n_mappings[] =3D
++static unsigned int nios2_r2_andi_n_mappings[] =3D
+   {1, 2, 3, 4, 8, 0xf, 0x10, 0x1f,
+    0x20, 0x3f, 0x7f, 0x80, 0xff, 0x7ff, 0xff00, 0xffff};
+-const int nios2_num_r2_andi_n_mappings =3D 16;
++static ATTRIBUTE_UNUSED const int nios2_num_r2_andi_n_mappings =3D 16;
+
+ /* Decodings for R2 3-bit register fields.  */
+-int nios2_r2_reg3_mappings[] =3D
++static int nios2_r2_reg3_mappings[] =3D
+   {16, 17, 2, 3, 4, 5, 6, 7};
+-const int nios2_num_r2_reg3_mappings =3D 8;
++static ATTRIBUTE_UNUSED const int nios2_num_r2_reg3_mappings =3D 8;
+
+ /* Decodings for R2 push.n/pop.n REG_RANGE value list.  */
+-unsigned long nios2_r2_reg_range_mappings[] =3D {
++static unsigned long nios2_r2_reg_range_mappings[] =3D {
+   0x00010000,
+   0x00030000,
+   0x00070000,
+@@ -2514,7 +2514,7 @@ unsigned long nios2_r2_reg_range_mappings[] =3D {
+   0x007f0000,
+   0x00ff0000
+ };
+-const int nios2_num_r2_reg_range_mappings =3D 8;
++static ATTRIBUTE_UNUSED const int nios2_num_r2_reg_range_mappings =3D 8;
+
+ /*#include "sysdep.h"
+ #include "dis-asm.h"
+@@ -2668,7 +2668,7 @@ nios2_init_opcode_hash (nios2_disassembler_state *sta=
+te)
+
+ /* Return a pointer to an nios2_opcode struct for a given instruction
+    word OPCODE for bfd machine MACH, or NULL if there is an error.  */
+-const struct nios2_opcode *
++static const struct nios2_opcode *
+ nios2_find_opcode_hash (unsigned long opcode, unsigned long mach)
+ {
+   nios2_opcode_hash *entry;
+diff --git a/disas/ppc.c b/disas/ppc.c
+index 02be878198..30ca8acf53 100644
+--- a/disas/ppc.c
++++ b/disas/ppc.c
+@@ -74,8 +74,8 @@ struct powerpc_opcode
+ /* The table itself is sorted by major opcode number, and is otherwise
+    in the order in which the disassembler should consider
+    instructions.  */
+-extern const struct powerpc_opcode powerpc_opcodes[];
+-extern const int powerpc_num_opcodes;
++static const struct powerpc_opcode powerpc_opcodes[];
++static const int powerpc_num_opcodes;
+
+ /* Values defined for the flags field of a struct powerpc_opcode.  */
+
+@@ -225,8 +225,8 @@ struct powerpc_operand
+ /* Elements in the table are retrieved by indexing with values from
+    the operands field of the powerpc_opcodes table.  */
+
+-extern const struct powerpc_operand powerpc_operands[];
+-extern const unsigned int num_powerpc_operands;
++static const struct powerpc_operand powerpc_operands[];
++static const unsigned int num_powerpc_operands;
+
+ /* Values defined for the flags field of a struct powerpc_operand.  */
+
+@@ -341,8 +341,8 @@ struct powerpc_macro
+   const char *format;
+ };
+
+-extern const struct powerpc_macro powerpc_macros[];
+-extern const int powerpc_num_macros;
++static const struct powerpc_macro powerpc_macros[];
++static const int powerpc_num_macros;
+
+ /* ppc-opc.c -- PowerPC opcode list
+    Copyright 1994, 1995, 1996, 1997, 1998, 2000, 2001, 2002, 2003, 2004,
+@@ -425,7 +425,7 @@ static long extract_tbr (unsigned long, int, int *);
+    omit the parens, since the macros are never used in a context where
+    the addition will be ambiguous.  */
+
+-const struct powerpc_operand powerpc_operands[] =3D
++static const struct powerpc_operand powerpc_operands[] =3D
+ {
+   /* The zero index is used to indicate the end of the list of
+      operands.  */
+@@ -893,8 +893,8 @@ const struct powerpc_operand powerpc_operands[] =3D
+   { 0x1, 25, NULL, NULL, PPC_OPERAND_OPTIONAL},
+ };
+
+-const unsigned int num_powerpc_operands =3D (sizeof (powerpc_operands)
+-					   / sizeof (powerpc_operands[0]));
++static ATTRIBUTE_UNUSED const unsigned int num_powerpc_operands =3D
++  sizeof (powerpc_operands) / sizeof (powerpc_operands[0]);
+
+ /* The functions used to insert and extract complicated operands.  */
+
+@@ -2011,7 +2011,7 @@ extract_tbr (unsigned long insn,
+    specific instructions before more general instructions.  It is also
+    sorted by major opcode.  */
+
+-const struct powerpc_opcode powerpc_opcodes[] =3D {
++static const struct powerpc_opcode powerpc_opcodes[] =3D {
+ { "attn",    X(0,256), X_MASK,		POWER4,		{ 0 } },
+ { "tdlgti",  OPTO(2,TOLGT), OPTO_MASK,	PPC64,		{ RA, SI } },
+ { "tdllti",  OPTO(2,TOLLT), OPTO_MASK,	PPC64,		{ RA, SI } },
+@@ -5036,7 +5036,7 @@ const struct powerpc_opcode powerpc_opcodes[] =3D {
+
+ };
+
+-const int powerpc_num_opcodes =3D
++static const int powerpc_num_opcodes =3D
+   sizeof (powerpc_opcodes) / sizeof (powerpc_opcodes[0]);
+
+ /* The macro table.  This is only used by the assembler.  */
+@@ -5051,7 +5051,7 @@ const int powerpc_num_opcodes =3D
+    the underlying instructions don't support extracting 0 bits but do
+    support extracting the whole word (32 bits in this case).  */
+
+-const struct powerpc_macro powerpc_macros[] =3D {
++static const struct powerpc_macro powerpc_macros[] =3D {
+ { "extldi",  4,   PPC64,	"rldicr %0,%1,%3,(%2)-1" },
+ { "extldi.", 4,   PPC64,	"rldicr. %0,%1,%3,(%2)-1" },
+ { "extrdi",  4,   PPC64,	"rldicl %0,%1,(%2)+(%3),64-(%2)" },
+@@ -5093,7 +5093,7 @@ const struct powerpc_macro powerpc_macros[] =3D {
+ { "clrlslwi.",4,  PPCCOM,	"rlwinm. %0,%1,%3,(%2)-(%3),31-(%3)" },
+ };
+
+-const int powerpc_num_macros =3D
++static ATTRIBUTE_UNUSED const int powerpc_num_macros =3D
+   sizeof (powerpc_macros) / sizeof (powerpc_macros[0]);
+
+
+diff --git a/disas/riscv.c b/disas/riscv.c
+index 278d9be924..0d124d8b61 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -789,7 +789,7 @@ static const rv_comp_data rvcp_fsgnjx_q[] =3D {
+
+ /* instruction metadata */
+
+-const rv_opcode_data opcode_data[] =3D {
++static const rv_opcode_data opcode_data[] =3D {
+     { "illegal", rv_codec_illegal, rv_fmt_none, NULL, 0, 0, 0 },
+     { "lui", rv_codec_u, rv_fmt_rd_imm, NULL, 0, 0, 0 },
+     { "auipc", rv_codec_u, rv_fmt_rd_offset, NULL, 0, 0, 0 },
+diff --git a/pc-bios/optionrom/linuxboot_dma.c
+b/pc-bios/optionrom/linuxboot_dma.c
+index cbcf6679d9..a3d5cf76aa 100644
+--- a/pc-bios/optionrom/linuxboot_dma.c
++++ b/pc-bios/optionrom/linuxboot_dma.c
+@@ -132,9 +132,9 @@ static uint32_t get_e801_addr(void)
+ }
+
+ /* Force the asm name without leading underscore, even on Win32. */
+-extern void load_kernel(void) asm("load_kernel");
++static void load_kernel(void) asm("load_kernel");
+
+-void load_kernel(void)
++static __attribute__((used)) void load_kernel(void)
+ {
+     void *setup_addr;
+     void *initrd_addr;
+diff --git a/scripts/tracetool/format/c.py b/scripts/tracetool/format/c.py
+index c390c1844a..7e89ba37f9 100644
+--- a/scripts/tracetool/format/c.py
++++ b/scripts/tracetool/format/c.py
+@@ -49,7 +49,7 @@ def generate(events, backend, group):
+             sstate =3D "TRACE_%s_ENABLED" % e.name.upper(),
+             dstate =3D e.api(e.QEMU_DSTATE))
+
+-    out('TraceEvent *%(group)s_trace_events[] =3D {',
++    out('static TraceEvent *%(group)s_trace_events[] =3D {',
+         group =3D group.lower())
+
+     for e in events:
+diff --git a/target/hexagon/gen_dectree_import.c
+b/target/hexagon/gen_dectree_import.c
+index 5b7ecfc6b3..20caee5a2f 100644
+--- a/target/hexagon/gen_dectree_import.c
++++ b/target/hexagon/gen_dectree_import.c
+@@ -41,7 +41,7 @@ const char * const opcode_names[] =3D {
+  *         "Add 32-bit registers",
+  *         { RdV=3DRsV+RtV;})
+  */
+-const char * const opcode_syntax[XX_LAST_OPCODE] =3D {
++static const char * const opcode_syntax[XX_LAST_OPCODE] =3D {
+ #define Q6INSN(TAG, BEH, ATTRIBS, DESCR, SEM) \
+    [TAG] =3D BEH,
+ #define EXTINSN(TAG, BEH, ATTRIBS, DESCR, SEM) \
+diff --git a/target/hexagon/opcodes.c b/target/hexagon/opcodes.c
+index 35d790cdd5..586e70dd6a 100644
+--- a/target/hexagon/opcodes.c
++++ b/target/hexagon/opcodes.c
+@@ -65,7 +65,7 @@ const char * const opcode_wregs[] =3D {
+ #undef IMMINFO
+ };
+
+-const char * const opcode_short_semantics[] =3D {
++static const char * const opcode_short_semantics[] =3D {
+ #define DEF_SHORTCODE(TAG, SHORTCODE)              [TAG] =3D #SHORTCODE,
+ #include "shortcode_generated.h.inc"
+ #undef DEF_SHORTCODE
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6b3e9467f1..69d3bc2a9b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -78,7 +78,7 @@ struct CPUID2CacheDescriptorInfo {
+  * Known CPUID 2 cache descriptors.
+  * From Intel SDM Volume 2A, CPUID instruction
+  */
+-struct CPUID2CacheDescriptorInfo cpuid2_cache_descriptors[] =3D {
++static struct CPUID2CacheDescriptorInfo cpuid2_cache_descriptors[] =3D {
+     [0x06] =3D { .level =3D 1, .type =3D INSTRUCTION_CACHE, .size =3D   8 =
+* KiB,
+                .associativity =3D 4,  .line_size =3D 32, },
+     [0x08] =3D { .level =3D 1, .type =3D INSTRUCTION_CACHE, .size =3D  16 =
+* KiB,
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 050dcf2d42..56c54227f7 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -97,7 +97,7 @@ static const S390FeatInit qemu_max_cpu_feat_init =3D {
+S390_FEAT_LIST_QEMU_MAX };
+ static S390FeatBitmap qemu_max_cpu_feat;
+
+ /* features part of a base model but not relevant for finding a base model=
+ */
+-S390FeatBitmap ignored_base_feat;
++static S390FeatBitmap ignored_base_feat;
+
+ void s390_cpudef_featoff(uint8_t gen, uint8_t ec_ga, S390Feat feat)
+ {
+diff --git a/target/xtensa/core-dc232b/xtensa-modules.c.inc
+b/target/xtensa/core-dc232b/xtensa-modules.c.inc
+index 164df3b1a4..8bef6535ba 100644
+--- a/target/xtensa/core-dc232b/xtensa-modules.c.inc
++++ b/target/xtensa/core-dc232b/xtensa-modules.c.inc
+@@ -14060,7 +14060,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   3 /* insn_size */, 0,
+   3, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-dc233c/xtensa-modules.c.inc
+b/target/xtensa/core-dc233c/xtensa-modules.c.inc
+index 0f32f0804a..24a63a4faf 100644
+--- a/target/xtensa/core-dc233c/xtensa-modules.c.inc
++++ b/target/xtensa/core-dc233c/xtensa-modules.c.inc
+@@ -15187,7 +15187,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   3 /* insn_size */, 0,
+   3, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-de212/xtensa-modules.c.inc
+b/target/xtensa/core-de212/xtensa-modules.c.inc
+index 480c68d3c6..19f0d7f5b6 100644
+--- a/target/xtensa/core-de212/xtensa-modules.c.inc
++++ b/target/xtensa/core-de212/xtensa-modules.c.inc
+@@ -14525,7 +14525,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   3 /* insn_size */, 0,
+   3, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-de233_fpu/xtensa-modules.c.inc
+b/target/xtensa/core-de233_fpu/xtensa-modules.c.inc
+index 129c023514..e35ca06243 100644
+--- a/target/xtensa/core-de233_fpu/xtensa-modules.c.inc
++++ b/target/xtensa/core-de233_fpu/xtensa-modules.c.inc
+@@ -20740,7 +20740,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   3 /* insn_size */, 0,
+   3, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-dsp3400/xtensa-modules.c.inc
+b/target/xtensa/core-dsp3400/xtensa-modules.c.inc
+index 28ea3d75fe..4adc52fec3 100644
+--- a/target/xtensa/core-dsp3400/xtensa-modules.c.inc
++++ b/target/xtensa/core-dsp3400/xtensa-modules.c.inc
+@@ -171888,7 +171888,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   8 /* insn_size */, 0,
+   10, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-fsf/xtensa-modules.c.inc
+b/target/xtensa/core-fsf/xtensa-modules.c.inc
+index c32683ff77..7e7268a224 100644
+--- a/target/xtensa/core-fsf/xtensa-modules.c.inc
++++ b/target/xtensa/core-fsf/xtensa-modules.c.inc
+@@ -9808,7 +9808,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   1 /* big-endian */,
+   3 /* insn_size */, 0,
+   3, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-sample_controller/xtensa-modules.c.inc
+b/target/xtensa/core-sample_controller/xtensa-modules.c.inc
+index 7e87d216bd..10d56e0118 100644
+--- a/target/xtensa/core-sample_controller/xtensa-modules.c.inc
++++ b/target/xtensa/core-sample_controller/xtensa-modules.c.inc
+@@ -11348,7 +11348,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   3 /* insn_size */, 0,
+   3, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-test_kc705_be/xtensa-modules.c.inc
+b/target/xtensa/core-test_kc705_be/xtensa-modules.c.inc
+index bc7cf44828..9c0c78e250 100644
+--- a/target/xtensa/core-test_kc705_be/xtensa-modules.c.inc
++++ b/target/xtensa/core-test_kc705_be/xtensa-modules.c.inc
+@@ -45099,7 +45099,7 @@ length_decoder (const unsigned char *insn)
+
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   1 /* big-endian */,
+   8 /* insn_size */, 0,
+   4, formats, format_decoder, length_decoder,
+diff --git a/target/xtensa/core-test_mmuhifi_c3/xtensa-modules.c.inc
+b/target/xtensa/core-test_mmuhifi_c3/xtensa-modules.c.inc
+index 28561147fc..863fcd5b4f 100644
+--- a/target/xtensa/core-test_mmuhifi_c3/xtensa-modules.c.inc
++++ b/target/xtensa/core-test_mmuhifi_c3/xtensa-modules.c.inc
+@@ -36369,7 +36369,7 @@ length_decoder (const unsigned char *insn)
+ =0C
+ /* Top-level ISA structure.  */
+
+-xtensa_isa_internal xtensa_modules =3D {
++static xtensa_isa_internal xtensa_modules =3D {
+   0 /* little-endian */,
+   8 /* insn_size */, 0,
+   4, formats, format_decoder, length_decoder,
+--=20
+2.17.1
+
+--
+Best regards,
+Yuri Gribov
 
