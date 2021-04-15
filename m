@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C82360B62
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 16:04:39 +0200 (CEST)
-Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92F2360B45
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 16:02:19 +0200 (CEST)
+Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX2bk-0001qh-MX
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 10:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
+	id 1lX2ZW-00077N-Pc
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 10:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lX2Wa-0005Uu-7N
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:59:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36463)
+ id 1lX2Wd-0005bl-Ew
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:59:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lX2WX-00026R-KT
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:59:15 -0400
+ id 1lX2Wb-000293-HG
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 09:59:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618495152;
+ s=mimecast20190719; t=1618495156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TFzRBkY+DSgenbNBn3jkrOtWXzY0sNDIyTzKb8fUwiE=;
- b=Kg7ZYmUIOtCYAMxN/0Ks7yhs8edpSXfIlwDbzWXlH8tO193C0W5+fG+5fHmUdg2FL3Sg6e
- ZqUQ5hiRv5IBz0B/JabHPDf7A5Kx7hAY4pA4BWhuG+xBHF8o0AJeFk7qkr5bBop1FBzF4Z
- ZmOwWHoaoLUUKn2qvgpN0afr66Yg81k=
+ bh=K0MmcAntTd5SbwkFZUh0401Z4Ui3UqiqHIykQtY6N3o=;
+ b=PEoMkOGKCx/ynlywyiDzIC1a2XmFg3QuShaiM5dqimWFM58BGdjXN6keDv63XNcLM1R2fn
+ DRWvZcuhWCsgUbwW4IKDxuF3ZNDYoL015CKzFid5eoeLBu7Z/iUstjqosNvNJ7Hvvo87HB
+ L+gJ1DU29ovWFonxHZ7lkbvpkD7o8mY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-gwk9P3JaNOGJchgLUBlV3w-1; Thu, 15 Apr 2021 09:59:11 -0400
-X-MC-Unique: gwk9P3JaNOGJchgLUBlV3w-1
+ us-mta-21-lrIRfBsiPMqxn_KVfXSS0w-1; Thu, 15 Apr 2021 09:59:13 -0400
+X-MC-Unique: lrIRfBsiPMqxn_KVfXSS0w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 304AB107ACE4;
- Thu, 15 Apr 2021 13:59:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B226D8189EC;
+ Thu, 15 Apr 2021 13:59:12 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-159.ams2.redhat.com
  [10.36.115.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83DFB6BF6B;
- Thu, 15 Apr 2021 13:59:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7843D60CC5;
+ Thu, 15 Apr 2021 13:59:10 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] block: preserve errno from fdatasync failures
-Date: Thu, 15 Apr 2021 14:58:49 +0100
-Message-Id: <20210415135851.862406-4-berrange@redhat.com>
+Subject: [PATCH 4/5] block: add trace point when fdatasync fails
+Date: Thu, 15 Apr 2021 14:58:50 +0100
+Message-Id: <20210415135851.862406-5-berrange@redhat.com>
 In-Reply-To: <20210415135851.862406-1-berrange@redhat.com>
 References: <20210415135851.862406-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,49 +88,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When fdatasync() fails on a file backend we set a flag that
-short-circuits any future attempts to call fdatasync(). The
-first failure returns the true errno, but the later short-
-circuited calls return a generic EIO. The latter is unhelpful
-because fdatasync() can return a variety of errnos, including
-EACCESS.
+A flush failure is a critical failure scenario for some operations.
+For example, it will prevent migration from completing, as it will
+make vm_stop() report an error. Thus it is important to have a
+trace point present for debugging.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- block/file-posix.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ block/file-posix.c | 2 ++
+ block/trace-events | 1 +
+ 2 files changed, 3 insertions(+)
 
 diff --git a/block/file-posix.c b/block/file-posix.c
-index 20e14f8e96..99cf452f84 100644
+index 99cf452f84..6aafeda44f 100644
 --- a/block/file-posix.c
 +++ b/block/file-posix.c
-@@ -160,7 +160,7 @@ typedef struct BDRVRawState {
-     bool discard_zeroes:1;
-     bool use_linux_aio:1;
-     bool use_linux_io_uring:1;
--    bool page_cache_inconsistent:1;
-+    int page_cache_inconsistent; /* errno from fdatasync failure */
-     bool has_fallocate;
-     bool needs_alignment;
-     bool drop_cache;
-@@ -1357,7 +1357,7 @@ static int handle_aiocb_flush(void *opaque)
-     int ret;
- 
-     if (s->page_cache_inconsistent) {
--        return -EIO;
-+        return -s->page_cache_inconsistent;
-     }
+@@ -1362,6 +1362,8 @@ static int handle_aiocb_flush(void *opaque)
  
      ret = qemu_fdatasync(aiocb->aio_fildes);
-@@ -1376,7 +1376,7 @@ static int handle_aiocb_flush(void *opaque)
-          * Obviously, this doesn't affect O_DIRECT, which bypasses the page
-          * cache. */
-         if ((s->open_flags & O_DIRECT) == 0) {
--            s->page_cache_inconsistent = true;
-+            s->page_cache_inconsistent = errno;
-         }
-         return -errno;
-     }
+     if (ret == -1) {
++        trace_file_flush_fdatasync_failed(errno);
++
+         /* There is no clear definition of the semantics of a failing fsync(),
+          * so we may have to assume the worst. The sad truth is that this
+          * assumption is correct for Linux. Some pages are now probably marked
+diff --git a/block/trace-events b/block/trace-events
+index 1a12d634e2..c8a943e992 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -206,6 +206,7 @@ file_copy_file_range(void *bs, int src, int64_t src_off, int dst, int64_t dst_of
+ file_FindEjectableOpticalMedia(const char *media) "Matching using %s"
+ file_setup_cdrom(const char *partition) "Using %s as optical disc"
+ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
++file_flush_fdatasync_failed(int err) "errno %d"
+ 
+ # sheepdog.c
+ sheepdog_reconnect_to_sdog(void) "Wait for connection to be established"
 -- 
 2.30.2
 
