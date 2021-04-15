@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35F73600AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 05:58:23 +0200 (CEST)
-Received: from localhost ([::1]:34526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530DB3600C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 06:06:06 +0200 (CEST)
+Received: from localhost ([::1]:41256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWt94-0006xl-K6
-	for lists+qemu-devel@lfdr.de; Wed, 14 Apr 2021 23:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
+	id 1lWtGX-00022T-GR
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 00:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lWt8J-0006UV-15
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 23:57:35 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:46662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lWt8H-0007I2-9Z
- for qemu-devel@nongnu.org; Wed, 14 Apr 2021 23:57:34 -0400
-Received: by mail-il1-x133.google.com with SMTP id l19so15156092ilk.13
- for <qemu-devel@nongnu.org>; Wed, 14 Apr 2021 20:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7645azot0lpBsMidEtmnGlidZJwZA5V1oQhr31WAeE0=;
- b=ZtnC4cQ6WNY32A34fn2ZxN/FJXJ4vx9Q6C9BOjOSFBzqnWZy2zbY8rZsifmwECNGyA
- n2KNxoEAHlgZgnMzLjJSuhAeZYTUjLNOKhDDSy9LoUM/vgoenmq2Tfa1dKib27NbZvKC
- uT7WiyANO3USe9AiCi/5OaSyj5/oDp8/lRluKyiGG6gYpno608V7Aw2ahLjBpC6rwEdp
- 8t3yuKnSJtyxmmZMEnpsEi/8ZaYyNSdk9kyqoMGTYctXDoEA+pf2LU9e35RK92xeivRB
- a847emKfiTD81O9kawkfKvMS5hKFVbYRAfoS7FyQLzYw5vVNdEh8RzuJWdvQh3XnkpIT
- h9MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7645azot0lpBsMidEtmnGlidZJwZA5V1oQhr31WAeE0=;
- b=PkSbaY0g8v/kHj/CF6r6LBEl8yqY6f6YaQSniPshLSK/nwKQ31IQhl9Y7bZ/HO9aau
- yU9jOtLINLMG0eWY3udBpKBO4m3LzNAV3juKXjChUsFFKDplR05FBizT1XWW8SzVFYdw
- qN1kpe0VhmFFsrKtIeK/msJf7mZ9qIOCvhqRdaxrEzClRxiDit5LjC6f0c8ndzPZpVYO
- TVTI58MAqZHINTuWULTBMGLPlUIWMoNPu+9LHsHBCmLVDEMK1gLG+E0s0jBRvOrt1/8o
- RtcRPVSmuV32QbH+EbW9eU3GOVrH1BG+l/iQvl2vfvygtGBwegmZmPVTfxjyDCBDCGYx
- z20Q==
-X-Gm-Message-State: AOAM530UgfGDlG0DLwr6RseWgElR1W9cGnaXm/nrBs0SXJDUUPiY5guE
- R9DilmQp+udPetFjNKHpcugEYLNEVNSI1X8oxfE=
-X-Google-Smtp-Source: ABdhPJyKevU8gN1A+latLuk57wM4c9WZBtTnyvfA9Ctc+sCole8pFWVr5kYRyRqgbxwc+1dRnAhCWRT6fGvFt0Vq2nY=
-X-Received: by 2002:a05:6e02:671:: with SMTP id
- l17mr1193167ilt.267.1618459052144; 
- Wed, 14 Apr 2021 20:57:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
+ id 1lWrDI-0000d7-5y
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 21:54:36 -0400
+Received: from mail.kingsoft.com ([114.255.44.145]:18864)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1lWrDE-0004q1-Ko
+ for qemu-devel@nongnu.org; Wed, 14 Apr 2021 21:54:35 -0400
+X-AuditID: 0a580155-2a3ff70000061b1d-d3-60779ccc3edd
+Received: from mail.kingsoft.com (localhost [10.88.1.78])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-2-NODE-85) with SMTP id 44.A3.06941.CCC97706;
+ Thu, 15 Apr 2021 09:54:20 +0800 (HKT)
+Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL3.kingsoft.cn
+ (10.88.1.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 15 Apr
+ 2021 09:54:20 +0800
+Received: from KSbjmail3.kingsoft.cn ([fe80::a5d4:d2ab:3048:62ec]) by
+ KSBJMAIL3.kingsoft.cn ([fe80::a5d4:d2ab:3048:62ec%6]) with mapi id
+ 15.01.2176.012; Thu, 15 Apr 2021 09:54:20 +0800
+From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>
+Subject: Issue Report: When VM memory is extremely large, downtime for RDMA
+ migration is high. (64G mem --> extra 400ms)
+Thread-Topic: Issue Report: When VM memory is extremely large, downtime for
+ RDMA migration is high. (64G mem --> extra 400ms)
+Thread-Index: AdcxmeDs+PVo9tkbRByE2DQN6zgTjw==
+Date: Thu, 15 Apr 2021 01:54:19 +0000
+Message-ID: <0e83bff996fd4c098b679f04323d25e6@kingsoft.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.88.1.101]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <161832726983.9430.3755052950345832110.malonedeb@chaenomeles.canonical.com>
-In-Reply-To: <161832726983.9430.3755052950345832110.malonedeb@chaenomeles.canonical.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 15 Apr 2021 13:57:06 +1000
-Message-ID: <CAKmqyKM7iVth4dzSLgdx6u=V3icoQuFnZ+JeqwUzmvim14BRRg@mail.gmail.com>
-Subject: Re: [Bug 1923629] [NEW] RISC-V Vector Instruction vssub.vv not
- saturating
-To: Bug 1923629 <1923629@bugs.launchpad.net>, liuzhiwei <zhiwei_liu@c-sky.com>,
- Kito Cheng <kito.cheng@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNLMWRmVeSWpSXmKPExsXCFcHop3tmTnmCwY07Cha92+6xWxzv3cFi
+ cWdLH5MDs8eTa5uZPN7vu8oWwBTFZZOSmpNZllqkb5fAlfF/zXfWgj0cFXcubGBvYFzA0cXI
+ ySEhYCIx63cPSxcjF4eQwHQmiS0T37JCOM8ZJZYeWw3l7GGU+LC7hRmkhU3AU+LTqjNsIAkR
+ gX5GiRvrHzCBOMwCPUwSv9+0soJUCQtUSXTf38sEYosI1Ess/NbDDmHrScx/cYcNxGYRUJW4
+ vesNWJxXwFrieMM7RhCbUUBWYtqj+2C9zALiEnOnzWKFOFZAYsme88wQtqjEy8f/oOLyEnsu
+ t7FC1GtJzGv4DdWrKDGl+yHUfEGJkzOfsExgFJmFZOwsJC2zkLTMQtKygJFlFSNLcW660SZG
+ SPiH7mCc0fRR7xAjEwfjIUYJDmYlEV63KSUJQrwpiZVVqUX58UWlOanFhxilOViUxHk70ssS
+ hATSE0tSs1NTC1KLYLJMHJxSDUwal3Z9/G+y8HHD8tSjeerJ1emrny6bN99W67XVHq1IFcYd
+ AifMlLm7K27PfVv9tnzXzZ6k4PqatO3HROfPdJ+60yYm0P53sqLOmqCv/3b/5T85tTtxzaEf
+ AmnyW+Y4+Cxcc7H2AVvDr0tSxxqYd9z9u9j03pPzmYL7uKS09DVOCexe+5XzwYJV/g03f3+I
+ 4bxgL3Roso6kj59xwZ7UxL0lXWtuPHNaecea3+TBFfldPeujXixYr7Gh4/OM4BWz0vhycrcy
+ yvn/beuw2/8mvm9m3L4Fv4VWBc2/G3hmq/LeBepXbCtMLocKbWvfq2uq62bZUKeWskEza9Pv
+ nkk2n5cf0mWPPKH8/JSUuZTe/4eMSizFGYmGWsxFxYkA+0eXE+4CAAA=
+Received-SPF: pass client-ip=114.255.44.145;
+ envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 15 Apr 2021 00:04:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,75 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>,
+ =?gb2312?B?c3VuaGFvMiBby+/qu10=?= <sunhao2@kingsoft.com>,
+ =?gb2312?B?REVOR0xJTldFTiBbtcvB1s7EXQ==?= <DENGLINWEN@kingsoft.com>,
+ =?gb2312?B?WUFOR0ZFTkcxIFvR7rflXQ==?= <YANGFENG1@kingsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+ LIU Zhiwei and Kito Cheng
-
-Alistair
-
-On Wed, Apr 14, 2021 at 1:31 AM Tony Cole <1923629@bugs.launchpad.net> wrot=
-e:
->
-> Public bug reported:
->
-> I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv produc=
-es an
-> incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
->
-> Here is the bit of the code:
->
->                 vmv.v.i         v16, 0
->                 =E2=80=A6
-> 8f040457        vssub.vv        v8,v16,v8
->
-> I believe the instruction encoding is correct (vssub.vv with vd =3D v8,
-> vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
->
-> I=E2=80=99ve just tested with what I think is the latest branch (
-> https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
-> 2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem still
-> exists.
->
-> ** Affects: qemu
->      Importance: Undecided
->          Status: New
->
->
-> ** Tags: riscv vector
->
-> --
-> You received this bug notification because you are a member of qemu-
-> devel-ml, which is subscribed to QEMU.
-> https://bugs.launchpad.net/bugs/1923629
->
-> Title:
->   RISC-V Vector Instruction vssub.vv not saturating
->
-> Status in QEMU:
->   New
->
-> Bug description:
->   I noticed doing a negate ( 0 =E2=80=93 0x80000000 ) using vssub.vv prod=
-uces an
->   incorrect result of 0x80000000 (should saturate to 0x7FFFFFFF).
->
->   Here is the bit of the code:
->
->                 vmv.v.i         v16, 0
->                 =E2=80=A6
->   8f040457      vssub.vv        v8,v16,v8
->
->   I believe the instruction encoding is correct (vssub.vv with vd =3D v8,
->   vs2 =3D v16, rs1 =3D v8), but the result does not saturate in QEMU.
->
->   I=E2=80=99ve just tested with what I think is the latest branch (
->   https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v7 commit 26 Feb
->   2021: 1151361fa7d45cc90d69086ccf1a4d8397931811 ) and the problem still
->   exists.
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1923629/+subscriptions
->
+SGk6DQpXaGVuIEkgdGVzdGVkIFJETUEgbGl2ZSBtaWdyYXRpb24sIEkgZm91bmQgdGhhdCB0aGUg
+ZG93bnRpbWUgaW5jcmVhc2VkIGFzIHRoZSBWTSdzIG1lbW9yeSBpbmNyZWFzZWQuDQoNCk15IE1l
+bGxhbm94IG5ldHdvcmsgY2FyZCBpcyBbQ29ubmVjdFgtNCBMWF0gYW5kIHRoZSBkcml2ZXIgaXMg
+TUxOWC01LjIsIE15IFZNIG1lbW9yeSBzaXplIGlzIDY0R0IsIGRvd250aW1lIGlzIDQzMG1zIHdo
+ZW4gSSBtaWdyYXRlIHVzaW5nIHRoZSBmb2xsb3dpbmcgcGFyYW1ldGVyczoNCnZpcnNoIG1pZ3Jh
+dGUgLS1saXZlIC0tcDJwIC0tcGVyc2lzdGVudCAtLWNvcHktc3RvcmFnZS1pbmMgLS1hdXRvLWNv
+bnZlcmdlIC0tdmVyYm9zZSAtLWxpc3Rlbi1hZGRyZXNzIDAuMC4wLjAgLS1yZG1hLXBpbi1hbGwg
+LS1taWdyYXRldXJpIHJkbWE6Ly8xOTIuMTY4LjAuMiBbVk1dIHFlbXUrdGNwOi8vMTkyLjE2OC4w
+LjIvc3lzdGVtDQoNClRoZSBleHRyYSB0aW1lLCBhYm91dCA0MDBtcywgd2hpY2ggaXMgaG93IGxv
+bmcgaXQgdGFrZXMgUkRNQSB0byBkZXJlZ2lzdGVyIG1lbW9yeSAodGhlIGZ1bmN0aW9uOiBpYnZf
+ZGVyZWdfbXIpIGFmdGVyIG1lbW9yeSBtaWdyYXRpb24gaXMgY29tcGxldGUsIGlzIGJlZm9yZSBx
+bXBfY29udCBhbmQgdGhlcmVmb3JlIHBhcnQgb2YgZG93bnRpbWUuDQoNCkhvdyBkbyB3ZSByZWR1
+Y2UgdGhpcyBkb3dudGltZT8gTGlrZSBkZXJlZ2lzdGVyIG1lbW9yeSBzb21ld2hlcmUgZWxzZT8N
+Cg0KSWYgYW55dGhpbmcgd3JvbmcsIFBsZWFzZSBwb2ludCBvdXQuDQpUaGFua3MhDQo=
 
