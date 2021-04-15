@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA653360216
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 07:58:55 +0200 (CEST)
-Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F86036023C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 08:17:24 +0200 (CEST)
+Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lWv1i-0000PU-HG
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 01:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
+	id 1lWvJa-00040r-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 02:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWv0l-0008Jp-Te
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 01:57:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lWv0W-0007x6-E2
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 01:57:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618466257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AgJzPMB38URAwnufKApG2Du7riFKW9GITVtrU56VbR8=;
- b=XUfOL9EA9U7mteoik71kl6C65DjGzCNho2uFfouRsvIZce0C2BZ2Lu4x/XVnQ4ybXc06Wg
- v8iQQ0gZidINZvG1lv2FSm9pIZdBnn41zDsVRlpGcDUKpkVg+7JPzmQUcDkmTcYI7wOTnc
- KMR+v6bpHLXv0+LsHHcN4C8B4Z4o0Rw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-dYSVJbSePQ-KkLLRZM6AUw-1; Thu, 15 Apr 2021 01:57:34 -0400
-X-MC-Unique: dYSVJbSePQ-KkLLRZM6AUw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB8C087A826;
- Thu, 15 Apr 2021 05:57:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82FEB6C32D;
- Thu, 15 Apr 2021 05:57:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 04E95113525D; Thu, 15 Apr 2021 07:57:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 0/3] osdep.h + QOM changes for QEMU 6.0-rc3
-References: <20210413160850.240064-1-pbonzini@redhat.com>
- <CAFEAcA8vf5Ra0MxwunQPGsahnHgaSCE9QYS86xY7tkKEVSO+TA@mail.gmail.com>
-Date: Thu, 15 Apr 2021 07:57:31 +0200
-In-Reply-To: <CAFEAcA8vf5Ra0MxwunQPGsahnHgaSCE9QYS86xY7tkKEVSO+TA@mail.gmail.com>
- (Peter Maydell's message of "Wed, 14 Apr 2021 19:22:25 +0100")
-Message-ID: <87r1jcgkdw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWvIG-0003Nh-R9
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:16:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lWvI7-0002B7-31
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 02:15:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lWvI4-0001Fq-ME
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 06:15:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A18A12E8157
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 06:15:48 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 15 Apr 2021 06:05:02 -0000
+From: Teodori Serge <1923197@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: riscv64
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 teodori-serge
+X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
+X-Launchpad-Bug-Modifier: Teodori Serge (teodori-serge)
+References: <161797335493.30650.12922009005165891710.malonedeb@gac.canonical.com>
+ <161845970725.8931.11860624017741986671.malone@gac.canonical.com>
+Message-Id: <CANUt7srsXSduaAzttiVSHwPVFHZqGFLoAdEFA6OTp1xjc3M92w@mail.gmail.com>
+Subject: Re: [Bug 1923197] Re: RISC-V priviledged instruction error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
+X-Launchpad-Hash: 3ee4256aa04c466aa7c84f7549276e9ad13ca8d6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,53 +72,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1923197 <1923197@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hello Francis,
 
-> On Tue, 13 Apr 2021 at 17:18, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> The following changes since commit c1e90def01bdb8fcbdbebd9d1eaa8e4827ece620:
->>
->>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210412' into staging (2021-04-12 12:12:09 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->>
->> for you to fetch changes up to 1a0b186eaf3d1ce63dc7bf608d618b9ca62b6241:
->>
->>   qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code (2021-04-13 18:04:23 +0200)
->>
->> ----------------------------------------------------------------
->> * Fix C++ compilation of qemu/osdep.h.
->> * Fix -object cryptodev-vhost-user
->>
->> ----------------------------------------------------------------
->> Paolo Bonzini (2):
->>       osdep: include glib-compat.h before other QEMU headers
->>       osdep: protect qemu/osdep.h with extern "C"
->>
->> Thomas Huth (1):
->>       qapi/qom.json: Do not use CONFIG_VIRTIO_CRYPTO in common code
+I'll configure PMP than do the test again. Sorry I hadn't understood what
+changed between version 5.2 and 6.0-rc2, since my code worked before.
+
+Best regards,
+Teodori Serge
+
+On Thu, 15 Apr 2021, 06:15 Alistair Francis, <1923197@bugs.launchpad.net>
+wrote:
+
+> I'm guessing that this is a bug in your guest as it hasn't configured
+> PMP regions.
 >
-> Given Dan's review, I think that the osdep patches need another
-> revision. So my plan is to cherry-pick the CONFIG_VIRTIO_CRYPTO
-> patch here and tag rc3 with just that. If we need an rc4 (which
-
-Uh, I had a question on that one:
-
-Message-ID: <87tuo9j7hw.fsf@dusky.pond.sub.org>
-https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02341.html
-
-> on our current track record is not unlikely) we can put in some
-> version of the osdep patches; if not, this isn't a regression
-> since 5.2 so I'm happy releasing 6.0 with it still present.
+> >From the RISC-V spec:
 >
-> thanks
-> -- PMM
+> "
+> If no PMP entry matches an M-mode access, the access succeeds. If no PMP
+> entry matches an
+> S-mode or U-mode access, but at least one PMP entry is implemented, the
+> access fails.
+> "
+>
+> Confusingly implemented here means implemented in hardware, not just
+> configured.
+>
+> ** Changed in: qemu
+>        Status: Confirmed =3D> Invalid
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1923197
+>
+> Title:
+>   RISC-V priviledged instruction error
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1923197/+subscriptions
+>
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923197
+
+Title:
+  RISC-V priviledged instruction error
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Hello when performing an MRET with MPP set to something else than 0b11
+  in MSTATUS, 'Invalid Instruction' exception will be triggered. The
+  problem appeared in code after version 5.2.0. Use following code to
+  test.
+
+  =C2=A0=C2=A0# setup interrupt handling for monitor mode
+  =C2=A0=C2=A0la t0, entry_loop
+  =C2=A0=C2=A0la t1, entry_trap
+  =C2=A0=C2=A0li t2, 0x888
+  =C2=A0=C2=A0li t3, 0x1880
+  =C2=A0=C2=A0csrw mepc, t0
+  =C2=A0=C2=A0csrw mtvec, t1
+  =C2=A0=C2=A0csrs mie, t2
+  =C2=A0=C2=A0csrs mstatus, t3
+
+  =C2=A0=C2=A0# if supervisor mode not supported, then loop forever
+  =C2=A0=C2=A0csrr t0, misa
+  =C2=A0=C2=A0li t1, 0x40000
+  =C2=A0=C2=A0and t2, t1, t0
+  =C2=A0=C2=A0beqz t2, 1f
+
+  =C2=A0=C2=A0# setup interrupt i& exception delegation for supervisor mode
+  =C2=A0=C2=A0li t0, 0xc0000000 # 3 GiB (entry address of supervisor)
+  =C2=A0=C2=A0li t1, 0x1000
+  =C2=A0=C2=A0li t2, 0x300
+  =C2=A0=C2=A0li t3, 0x222
+  =C2=A0=C2=A0csrw mepc, t0
+  =C2=A0=C2=A0csrc mstatus, t1
+  =C2=A0=C2=A0csrs medeleg, t2
+  =C2=A0=C2=A0csrs mideleg, t3
+
+  =C2=A0=C2=A0# pass mhartid as first parameter to supervisor
+  =C2=A0=C2=A0csrr a0, mhartid
+
+  1:
+  =C2=A0=C2=A0mret
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923197/+subscriptions
 
