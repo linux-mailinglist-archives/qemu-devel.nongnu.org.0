@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE994360DCC
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:06:53 +0200 (CEST)
-Received: from localhost ([::1]:53530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC26360E03
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:09:39 +0200 (CEST)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX3a0-0005Rf-Ss
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
+	id 1lX3cg-0007Ns-DH
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lX3WP-0003Tk-IJ
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:03:09 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:42762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lX3WM-0006g0-CB
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:03:09 -0400
-Received: by mail-ed1-x536.google.com with SMTP id d21so8352515edv.9
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 08:03:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nxHyx7T/HxLI0z5SzewkdptKKHtzzwtIltSwsHIOcq4=;
- b=B+ku02S15JZesvnthh84L6rxPal8qk4cPV3UWuZl89IBvRf1tibG8fMZMQ9laWo627
- 1qYA+GmB0MknJFdYWYIVmXFTIZhAqx5Gt1LK229CrKZ5kQl1vWuxmIe8ZstKw+9XSv64
- rEdBPQWVOS0ltiJRqmd2ZqTQxcDnWWA0/KB0qMPmRC7ujZhVknZrlEdOvIQi8V4cJyAS
- jjYkqWxdwlqrsgm+ovSB0wuVYUiWN94Pe1kpWorfyB0S7WXoNxQXZtpXrH3Udp4PIlxn
- WZ74Wbe/HBq8h+f56Qbqw84q8OlNv6qjPqWZxPPdz+pjeBL3hklxkuDPwo8xh3PfsueI
- aGXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nxHyx7T/HxLI0z5SzewkdptKKHtzzwtIltSwsHIOcq4=;
- b=RK5KMGQYXTUUZYCM/DzFoqgrq1GDwuV95GCSETOoVui8T4KpHB2fGFtqdkLp1ARg04
- wGIihTd8AXgRFrkkgOyP1mc8FghqmLfIG0nRzsH4rJcM4a8ptRwaYMUQwepAqrNotGdr
- Ubo0Yc5sIdsj3Kbt4DDNLgDEw9r+1ZTsSKGKRLLA3Rcl34+rzMg6+uDbSfVJWq/Ja2eI
- h2sPUZcnxAHkLpfoY0MIe1GRgPz8z9RMVpmnokJN+qLAQ9qakZVC+40d98IBr94MRhHw
- EZTsn5wQgOnH1/WbYBEpA9w/o8y2D+ecfJMy6DWyN4nfUMg8q9rJQEE164TEws6PrU1S
- 4UmQ==
-X-Gm-Message-State: AOAM531PsAfty4YTq8YkpBws4hC7WycBaq0RvQHn7XQ5hR/sEceHZTuT
- nHQKvYdCMiT6iZk+CR+ul1hAM6LhaeH+QQm5qWJL2Q==
-X-Google-Smtp-Source: ABdhPJwF/15OQZyPPuOgt6zcN4FWYCQoOm9ovjr63uPqBmxi1X1o5fDkIHHbjGZ7Uers/EcE7vHSUoTC4Kyxy93vDC4=
-X-Received: by 2002:a05:6402:c:: with SMTP id
- d12mr4700020edu.100.1618498984793; 
- Thu, 15 Apr 2021 08:03:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3aK-0006JM-4t
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:07:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3aE-0001D3-Dx
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:07:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618499225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fa2zGhccdCX+ORQH4lUlL0KRtSq0VqAHYD2oDtfjA1M=;
+ b=i2tF0zIemMUOoSt1veczioYMUMXG8Y+zjN0tpySDtk0NX3vOGq4H059GmUbqsQhtLbUnau
+ O2n6ivpoQvJac6FdlTRjuB0Ls40paTGv0gmHppre0xSne7+pX6CF0WeZn1LyGbSIcSDiKj
+ cJzYIlieTEX5GNdJqNMZTbTSgxCE53Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-1yyx9O4XNIGb7umLGydnLw-1; Thu, 15 Apr 2021 11:07:04 -0400
+X-MC-Unique: 1yyx9O4XNIGb7umLGydnLw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 789111083E93;
+ Thu, 15 Apr 2021 15:07:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0316A10023B0;
+ Thu, 15 Apr 2021 15:06:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7F395113525D; Thu, 15 Apr 2021 17:06:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 1/6] accel: Introduce 'query-accels' QMP command
+References: <20210415122633.4054644-1-philmd@redhat.com>
+ <20210415122633.4054644-2-philmd@redhat.com>
+Date: Thu, 15 Apr 2021 17:06:57 +0200
+In-Reply-To: <20210415122633.4054644-2-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 15 Apr 2021 14:26:28
+ +0200")
+Message-ID: <87im4nbn8u.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210414134112.25620-1-iii@linux.ibm.com>
- <20210414134112.25620-4-iii@linux.ibm.com>
- <d3d690a0-c322-5fbb-26ae-dcbf08173b0a@redhat.com>
- <28224ba9d61d0d805a162c00903559f3b99bc722.camel@linux.ibm.com>
- <CAMo8Bf+s4OqYJLTkvyPvfnmH=FwxDSFn60TryKfgErxFyB+2yQ@mail.gmail.com>
- <cfae4bbd-3068-41f6-ec38-a27cf7381fee@linaro.org>
- <CAMo8BfJNcfAp_tJWHQziUQXxR8WykLcBGTKnHeWS=TtLYwTC=g@mail.gmail.com>
-In-Reply-To: <CAMo8BfJNcfAp_tJWHQziUQXxR8WykLcBGTKnHeWS=TtLYwTC=g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Apr 2021 16:02:17 +0100
-Message-ID: <CAFEAcA-k_wguyTDttUVxdxrdAjBotGRV8+drhcJ49nrWEVYFjQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] accel/tcg: Assert that tb->size != 0 after
- translation
-To: Max Filippov <jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,24 +83,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Apr 2021 at 02:24, Max Filippov <jcmvbkbc@gmail.com> wrote:
-> I see a few places where target/xtensa may do that. E.g. it does that on entry
-> to an exception handler to allow for debugging its first instruction.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-That should now be handled by the common code, I think (see commits
-a7ba744f4082ab and ba3c35d9c402636) -- does xtensa still need to
-special case this ?
+> Introduce the 'query-accels' QMP command which returns a list
+> of built-in accelerator names.
+>
+> - Accelerator is a QAPI enum of all existing accelerators,
+>
+> - AcceleratorInfo is a QAPI structure providing accelerator
+>   specific information. Currently the common structure base
+>   provides the name of the accelerator, while the specific
+>   part is empty, but each accelerator can expand it.
+>
+> - 'query-accels' QMP command returns a list of @AcceleratorInfo
+>
+> For example on a KVM-only build we get:
+>
+>     { "execute": "query-accels" }
+>     {
+>         "return": [
+>             {
+>                 "name": "qtest"
+>             },
+>             {
+>                 "name": "kvm"
+>             }
+>         ]
+>     }
+>
+> Note that we can't make the enum values or union branches conditional
+> because of target-specific poisoning of accelerator definitions.
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Since v2: @since 6.0 -> 6.1, added note (Eric)
+> Since v1: 'type' -> 'name' in comments
+> ---
+>  qapi/machine.json | 49 +++++++++++++++++++++++++++++++++++++++++++++++
+>  accel/accel-qmp.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++
+>  accel/meson.build |  2 +-
+>  3 files changed, 99 insertions(+), 1 deletion(-)
+>  create mode 100644 accel/accel-qmp.c
+>
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 6e90d463fc9..4babc06f8b0 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1274,3 +1274,52 @@
+>  ##
+>  { 'event': 'MEM_UNPLUG_ERROR',
+>    'data': { 'device': 'str', 'msg': 'str' } }
+> +
+> +##
+> +# @Accelerator:
+> +#
+> +# An enumeration of accelerator names.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'enum': 'Accelerator',
+> +  'data': [ 'qtest', 'tcg', 'kvm', 'hax', 'hvf', 'whpx', 'xen' ] }
+> +
+> +##
+> +# @AcceleratorInfo:
+> +#
+> +# Accelerator information.
+> +#
+> +# @name: The accelerator name.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'union': 'AcceleratorInfo',
+> +  'base': {'name': 'Accelerator'},
+> +  'discriminator': 'name',
+> +  'data': { } }
 
-thanks
--- PMM
+Not wrong, but feels overengineered unless you have concrete plans to
+add variant members in the near future.  Simpler:
+
+   { 'struct': 'AcceleratorInfo',
+     'data': { 'name': 'Accelerator' } }
+
+Changing this to flat union when we actually need it won't break
+compatibility.
+
+> +
+> +##
+> +# @query-accels:
+> +#
+> +# Get a list of AcceleratorInfo for all built-in accelerators.
+> +#
+> +# Returns: a list of @AcceleratorInfo describing each accelerator.
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "query-accels" }
+> +# <- { "return": [
+> +#        {
+> +#            "name": "qtest"
+> +#        },
+> +#        {
+> +#            "name": "kvm"
+> +#        }
+> +#    ] }
+> +#
+> +##
+> +{ 'command': 'query-accels',
+> +  'returns': ['AcceleratorInfo'] }
+[...]
+
 
