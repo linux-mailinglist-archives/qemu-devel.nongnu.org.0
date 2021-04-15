@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B08360E04
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:10:12 +0200 (CEST)
-Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8DC360E95
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Apr 2021 17:18:29 +0200 (CEST)
+Received: from localhost ([::1]:34492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lX3dE-0008CZ-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46738)
+	id 1lX3lE-0002DO-LN
+	for lists+qemu-devel@lfdr.de; Thu, 15 Apr 2021 11:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1lX3b7-0006oe-0V
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:08:01 -0400
-Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c]:40560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1lX3b5-0001QW-0R
- for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:08:00 -0400
-Received: by mail-vk1-xa2c.google.com with SMTP id k12so1916868vkn.7
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 08:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0npHmN0TfYDiJUsL9STYqaKBKN9NkMLnpDlOX8b00wc=;
- b=N9F7q+vmD9wbLVD+KT/z3Yc/8TWuyj6Idp48WLNpDQ3Xu0KpfvWxaulGS8AEwKdWuF
- sThYnGcIyc4abkZpIqeqvMtkGctP2AdTnLCCEXz22H6ZmrBRslQQ/UYEsScapkBNHrXO
- Vrw1vSBuYvpONLECNzP/yhe8d7bbfDv4WABvDdSZva9L7CS8NaarHQYtP1lYTeYvnOah
- UzfZZUIaOTR3MqZk+uzB9M1YxWmzIzdXJMJLlllT4MJuB5TwxubSJvSjXhNpNWuKa57c
- FWe5ZZJ3bYRf7wiSCTrNVBSj++2A1u3YiT8wH32TYNLKavMTbcoLhJBiXMoPDPP7xPfK
- 5Y/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0npHmN0TfYDiJUsL9STYqaKBKN9NkMLnpDlOX8b00wc=;
- b=UySxsSao8z20TQrVitwNiimHLTqwOsteINfLn12RQ9oO1z62C7CI8sUrls2N3/C8xw
- 99NB1XIhloqNM6wOj1MnQyLIkWNjVhnpnlWbOsBnixHK+skwHtt14LbCrO/RlXh4pFsO
- q2GKxyMygjC9ooQH7hTWzox7PM9J8VvYGdBsk1xrWwFsaiZ8jd98+xUuOOssMu15v1gN
- X0FqM3vR8LwVUOk9Km/ZoTJM6CG+TJdeQ0kuWXBr+UcpP5TAxUiyHjAPBQXAQNDrZKrf
- x5L8hU10pnQTcNI87rcpOXMt6bx76Hx2P5pXX3Gl9ZDpGr9WgvkudnR+aWK5AEzGlT/k
- FfzQ==
-X-Gm-Message-State: AOAM531+DfwtIDPy+B/C2cE5CzJFfaXGc7ZSb7YBkqM8OQSOe6mevtTf
- 6I2I+4vtucOtIA5EC96PQEWWcMupEsx5jgBqnFY=
-X-Google-Smtp-Source: ABdhPJz8rwK6lj0rL3pYTvQsXVWaMZoKrbqib+oun9/zmODww2tI/oAlAHUeyLCwbS6xXSQUZDh30o9vtqLfZdrxT7U=
-X-Received: by 2002:a05:6122:54:: with SMTP id q20mr2393744vkn.3.1618499276816; 
- Thu, 15 Apr 2021 08:07:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3i3-0001Fl-HB
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:15:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lX3hz-00044I-F4
+ for qemu-devel@nongnu.org; Thu, 15 Apr 2021 11:15:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618499706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wOXw68RDGmkCCROcIPphcAxM8fl2TumhlbwhwghNCbg=;
+ b=HroS6SqtDyuUyFa0+4XR2kAhsb+GgILuPastTqlBPl6rqL1uhYq0WvzsOTzsTT8U39+lgM
+ +/trWLdrGq0WCnF0VPWPcLPjpccpj5D7Vkma77VNSrnJhQoAl2G6co2JqXY0G1ZwgPN63H
+ gRflsoY3gfZt+9McglrJYgmAQ0dKDww=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-EVe0zt_VMKuIdc3BSUwLxA-1; Thu, 15 Apr 2021 11:15:04 -0400
+X-MC-Unique: EVe0zt_VMKuIdc3BSUwLxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 544781009623;
+ Thu, 15 Apr 2021 15:15:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03B826A04C;
+ Thu, 15 Apr 2021 15:15:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 72CEB113525D; Thu, 15 Apr 2021 17:14:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL definition
+References: <20210319035508.113741-1-chen.zhang@intel.com>
+ <20210319035508.113741-2-chen.zhang@intel.com>
+ <YFpJFahbhS+cVZvT@work-vm>
+ <5a9d9778f4784b4b96fa9e0831635c8d@intel.com>
+Date: Thu, 15 Apr 2021 17:14:57 +0200
+In-Reply-To: <5a9d9778f4784b4b96fa9e0831635c8d@intel.com> (Chen Zhang's
+ message of "Thu, 15 Apr 2021 10:51:13 +0000")
+Message-ID: <87czuvbmvi.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210413213459.629963-1-li.zhang@cloud.ionos.com>
-In-Reply-To: <20210413213459.629963-1-li.zhang@cloud.ionos.com>
-From: Li Zhang <zhlcindy@gmail.com>
-Date: Thu, 15 Apr 2021 17:07:35 +0200
-Message-ID: <CAD8of+o43USAaRu7zJTynKvgT2FaJ7U69SMxZ50gUVBYMtQaSg@mail.gmail.com>
-Subject: Re: [PATCHv2 1/1] Support monitor chardev hotswap with QMP
-To: Markus Armbruster <armbru@redhat.com>, marcandre.lureau@redhat.com,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2c;
- envelope-from=zhlcindy@gmail.com; helo=mail-vk1-xa2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,140 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <li.zhang@cloud.ionos.com>, Pankaj Gupta <pankaj.gupta@ionos.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
+"Zhang, Chen" <chen.zhang@intel.com> writes:
 
-On Tue, Apr 13, 2021 at 11:37 PM Li Zhang <zhlcindy@gmail.com> wrote:
+>> -----Original Message-----
+>> From: Qemu-devel <qemu-devel-
+>> bounces+chen.zhang=intel.com@nongnu.org> On Behalf Of Dr. David Alan
+>> Gilbert
+>> Sent: Wednesday, March 24, 2021 4:01 AM
+>> To: Zhang, Chen <chen.zhang@intel.com>
+>> Cc: Lukas Straub <lukasstraub2@web.de>; Li Zhijian
+>> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; qemu-
+>> dev <qemu-devel@nongnu.org>; Markus Armbruster
+>> <armbru@redhat.com>; Zhang Chen <zhangckid@gmail.com>
+>> Subject: Re: [PATCH V4 1/7] qapi/net.json: Add IP_PROTOCOL definition
+>> 
+>> * Zhang Chen (chen.zhang@intel.com) wrote:
+>> > Add IP_PROTOCOL as enum include TCP,UDP, ICMP... for other QMP
+>> commands.
+>> >
+>> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>> > ---
+>> >  qapi/net.json | 31 +++++++++++++++++++++++++++++++
+>> >  1 file changed, 31 insertions(+)
+>> >
+>> > diff --git a/qapi/net.json b/qapi/net.json index
+>> > 87361ebd9a..498ea7aa72 100644
+>> > --- a/qapi/net.json
+>> > +++ b/qapi/net.json
+>> > @@ -794,3 +794,34 @@
+>> >  #
+>> >  ##
+>> >  { 'command': 'query-netdev', 'returns': ['NetdevInfo'] }
+>> > +
+>> > +##
+>> > +# @IP_PROTOCOL:
+>> > +#
+>> > +# Transport layer protocol.
+>> > +#
+>> > +# Just for IPv4.
+>> > +#
+>> > +# @tcp: Transmission Control Protocol.
+>> > +#
+>> > +# @udp: User Datagram Protocol.
+>> > +#
+>> > +# @dccp: Datagram Congestion Control Protocol.
+>> > +#
+>> > +# @sctp: Stream Control Transmission Protocol.
+>> > +#
+>> > +# @udplite: Lightweight User Datagram Protocol.
+>> > +#
+>> > +# @icmp: Internet Control Message Protocol.
+>> > +#
+>> > +# @igmp: Internet Group Management Protocol.
+>> > +#
+>> > +# @ipv6: IPv6 Encapsulation.
+>> > +#
+>> > +# TODO: Need to add more transport layer protocol.
+>> > +#
+>> > +# Since: 6.1
+>> > +##
+>> > +{ 'enum': 'IP_PROTOCOL', 'data': [ 'tcp', 'udp', 'dccp', 'sctp', 'udplite',
+>> > +    'icmp', 'igmp', 'ipv6' ] }
+>> 
+>> Isn't the right thing to do here to use a string for protocol and then pass it to
+>> getprotobyname;  that way your list is never out of date, and you never have
+>> to translate between the order of this enum and the integer assignment set
+>> in stone.
+>> 
 >
-> For some scenarios, it needs to hot-add a monitor device.
-> But QEMU doesn't support hotplug yet. It also works by adding
-> a monitor with null backend by default and then change its
-> backend to socket by QMP command "chardev-change".
+> Hi Dave,
 >
-> So this patch is to support monitor chardev hotswap with QMP.
->
-> Signed-off-by: Li Zhang <li.zhang@cloud.ionos.com>
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-> ---
->  v1 -> v2:
->   - Change mutex lock mon_lock section
->   - Fix indentation problems
->
->  monitor/monitor-internal.h |  3 +++
->  monitor/monitor.c          |  2 +-
->  monitor/qmp.c              | 43 +++++++++++++++++++++++++++++++++++---
->  3 files changed, 44 insertions(+), 4 deletions(-)
->
-> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-> index 9c3a09cb01..1b80c74883 100644
-> --- a/monitor/monitor-internal.h
-> +++ b/monitor/monitor-internal.h
-> @@ -183,4 +183,7 @@ void help_cmd(Monitor *mon, const char *name);
->  void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
->  int hmp_compare_cmd(const char *name, const char *list);
->
-> +gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-> +                           void *opaque);
-> +
->  #endif
-> diff --git a/monitor/monitor.c b/monitor/monitor.c
-> index 636bcc81c5..16a3620d02 100644
-> --- a/monitor/monitor.c
-> +++ b/monitor/monitor.c
-> @@ -157,7 +157,7 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
->
->  static void monitor_flush_locked(Monitor *mon);
->
-> -static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
-> +gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
->                                    void *opaque)
->  {
->      Monitor *mon = opaque;
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> index 2b0308f933..5fa65401ae 100644
-> --- a/monitor/qmp.c
-> +++ b/monitor/qmp.c
-> @@ -44,6 +44,7 @@ struct QMPRequest {
->      Error *err;
->  };
->  typedef struct QMPRequest QMPRequest;
-> +static void monitor_qmp_set_handlers_bh(void *opaque);
->
->  QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
->
-> @@ -477,7 +478,36 @@ void monitor_data_destroy_qmp(MonitorQMP *mon)
->      g_queue_free(mon->qmp_requests);
->  }
->
-> -static void monitor_qmp_setup_handlers_bh(void *opaque)
-> +static int monitor_qmp_change(void *opaque)
-> +{
-> +    MonitorQMP *mon = opaque;
-> +
-> +    mon->common.use_io_thread = qemu_chr_has_feature(mon->common.chr.chr,
-> +                                QEMU_CHAR_FEATURE_GCONTEXT);
-> +
-> +    if (mon->common.use_io_thread) {
-> +        aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
-> +                                monitor_qmp_set_handlers_bh, mon);
-> +    } else {
-> +        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-> +                                 monitor_qmp_read, monitor_qmp_event,
-> +                                 monitor_qmp_change, &mon->common, NULL, true);
-> +    }
-> +
-> +    qemu_mutex_lock(&mon->common.mon_lock);
-> +    if (mon->common.out_watch) {
-> +        g_source_remove(mon->common.out_watch);
-> +        mon->common.out_watch = qemu_chr_fe_add_watch(&mon->common.chr,
-> +                                G_IO_OUT | G_IO_HUP,
-> +                                monitor_unblocked,
-> +                                &mon->common);
-> +    }
-> +    qemu_mutex_unlock(&mon->common.mon_lock);
-> +
-> +    return 0;
-> +}
-> +
-> +static void monitor_qmp_set_handlers_bh(void *opaque)
->  {
->      MonitorQMP *mon = opaque;
->      GMainContext *context;
-> @@ -487,7 +517,14 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
->      assert(context);
->      qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
->                               monitor_qmp_read, monitor_qmp_event,
-> -                             NULL, &mon->common, context, true);
-> +                             monitor_qmp_change, &mon->common, context, true);
-> +
-> +}
-> +
-> +static void monitor_qmp_setup_handlers_bh(void *opaque)
-> +{
-> +    MonitorQMP *mon = opaque;
-> +    monitor_qmp_set_handlers_bh(mon);
->      monitor_list_append(&mon->common);
->  }
->
-> @@ -528,7 +565,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
->      } else {
->          qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
->                                   monitor_qmp_read, monitor_qmp_event,
-> -                                 NULL, &mon->common, NULL, true);
-> +                                 monitor_qmp_change, &mon->common, NULL, true);
->          monitor_list_append(&mon->common);
->      }
->  }
-> --
-> 2.25.1
->
+> Considering that most of the scenes in Qemu don't call the getprotobyname, looks keep the string are more readable.
 
+Unless I'm missing something,
 
--- 
+(1) this enum is only used for matching packets by source IP, source
+port, destination IP, destination port, and protocol, and
 
-Best Regards
--Li
+(2) the packet matching works just fine for *any* protocol.
+
+By using an enum for the protocol, you're limiting the matcher to
+whatever protocols we bother to include in the enum for no particular
+reason.  Feels wrong to me.
+
+> Please review the V5 patches, Thanks.
+>
+> Thanks
+> Chen
+>
+>> Dave
+>> 
+>> > +
+>> > --
+>> > 2.25.1
+>> >
+>> --
+>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>> 
+
 
