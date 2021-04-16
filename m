@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32D6361BB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 10:47:00 +0200 (CEST)
-Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EECE361BBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 10:53:00 +0200 (CEST)
+Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXK7v-00079h-VG
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 04:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34920)
+	id 1lXKDj-00008T-4S
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 04:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lXK4Q-0005VN-CK
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 04:43:22 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:33520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lXK4O-0002LY-Ee
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 04:43:22 -0400
-Received: by mail-il1-x132.google.com with SMTP id y10so615619ilv.0
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 01:43:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UrANIj1o+xA0orqtcu8sYkGOJmUmrxmV1iCfhK3tcd4=;
- b=BFOpmNQLn4gCMAW+ZWJhr75oMHlMMV1yhTJr/zbXZ5rqwGd0/GTf6Mg5h/h93eN6BM
- pno0sOE990DgP45mHkj738IkLLJIAj51nuf71ywOa86hQH0UJkcw+zZzAn18XLAjADcq
- cIh38k9CMOGExXzpHwCJHTumbW9doaleM4vEXxBnSioCad/gALPkyQ1KDaIn/dd2xP4n
- o0yUL5hFOzwUfnxdWdx3CSoh2Xe3brkblV92pTummA4yBNhP1YpSk2e/A4GBnATjhuF5
- ZsM/gFjQ0/qp48gzsG17UJEpThlBfA5xiEm20e2/wuxugxP9KpliqqbFRUsuJyl4pEzo
- wh1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UrANIj1o+xA0orqtcu8sYkGOJmUmrxmV1iCfhK3tcd4=;
- b=BkAidns38xWNpqhyhiyW5hQCHN7KOInr3IRzzFl20J/Y0gRxqXJFF8rac3tmw+M8UB
- eECFdDo+YWhwZT955164DVRNhXAQ8iVZbpq4qbElE6744ACuMeuY25y4Pq0yBS5WqLpO
- FEE8ZNLmdClVhhUqoLBzdVkUawu8MtixuPl/LPeDfY++UfAZ64S98aY0IsLbLCR69PdE
- SfBUHARQdCpaSsq8ZpaHbDHLFVLngR89c/QaHeUaSPkMDzNBzJrUFYf5re4AN514+cte
- wO/+jkxdYJfzWmjzrkdOLhD9vSy+qXp0Zeg8rgjtboxhAn+7N30xmCk1VXhidpR+3CmO
- bCpw==
-X-Gm-Message-State: AOAM531FZWr/Q97ziFa/115DJlTNL19fGiEuVZyZ+ZPb7+P9dqaSjNiW
- RqnGzSkrWvNOYw/6iqIm8oXRAoCbyPJuTtpu/BM=
-X-Google-Smtp-Source: ABdhPJxMgn7qb6czXY73DV3yUcTdGJFFUfOIgvvnzzNKqCZdVF2gw01xGDeU8YKQklNJ15a4ObeyhskPSP/EET2Cn/Y=
-X-Received: by 2002:a92:ca06:: with SMTP id j6mr6360706ils.234.1618562597771; 
- Fri, 16 Apr 2021 01:43:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lXK9N-0007hQ-Pw; Fri, 16 Apr 2021 04:48:30 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:53091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lXK9J-00051u-LI; Fri, 16 Apr 2021 04:48:29 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 27A175C0159;
+ Fri, 16 Apr 2021 04:48:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 16 Apr 2021 04:48:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=S7T2W9TBGp4xgA/mS9kS9vo2nN4
+ pL536HLzHm8coLFM=; b=BYFpiF+P8SbBjyJD9YZQs+9Kyx1EjXaWm9Fr/YnDBeW
+ OGULDYzZTMy5gLiPLUymWb1tPjfJjMnTgDW0+QDX3CNqDNzydcCLnwXgCKpSz1MY
+ ziunsD8/u/5WptzXOUXksI38c6TqYl3lv1XmfemACOvEUjt7i0MZ9Pqqm+CEbVfr
+ LPrUDypkgvGzO/4XgOqiEfzJMizB1Y/DNQTeecYiL3aohBKMlLdc7zuOrsm8cUDH
+ 2FWHMHPEiCoiRccK/KFRCbqFH82Q84j92vjBSxpdI5vZUajYMQc3+JZ2oAwYVuO7
+ 7BH7S/Q2sjL60Y7dbsEdUQo9bvadV7jv5y9Vi26EmfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=S7T2W9
+ TBGp4xgA/mS9kS9vo2nN4pL536HLzHm8coLFM=; b=Lg3gGzXbrSrdRzPZa8Q6ga
+ QAq28S1Nf+ke8y0VQLfWzQIXKay4JuxgJMffi0Wtra7+yIVvEG34SmQHaDvg3ZuS
+ PA/S84YDVnWMrY+KlWUfb3fr3ML2IINpAng62IqsfclgjBWNqpV3jQpdgIRlawhm
+ ej5NWGVg1j2z8/48p3cMiMtHrpy2ph/DkIXJalZJuhOG/xAFcoD/fZ3RTlDmLrAZ
+ 414CyhRgKkfM4zu56sqItQVMN33u7PSNOCWqHLh5Aolg4RSTvRo/1+4XTbdJNQfZ
+ 9pJsZG6I0aEF3KoPh7WS2KX8cZXfu+Y0hIUAb/4Qm7oggQqeTTdC3gyynCcmyXKg
+ ==
+X-ME-Sender: <xms:U095YMUGbyhTWUmSGA9nJ11flLe6EZZshqJ2JFN03mBggYaCa_UBiQ>
+ <xme:U095YAn87FIzyd5iYfblrX8jIL9jz1nyyvvIALs0Xl7CgU-OuZZ_L9TlMtr8D_S5p
+ 6OLkuJ8H2HoiZ6YaGE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudelhedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
+ ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
+ vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjeegudffueeiteekieelkedvueelte
+ evjeduieeludfffeejgeffhfduvdduffeknecukfhppeektddrudeijedrleekrdduledt
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:U095YAa-A1eZTTmFs7F18pHASkBEX4BonT2NNpI9qwtbH7CW1m-kzg>
+ <xmx:U095YLW4vA8OurH5VFG35GUsWOUhs_-W4tYj1tx0FfghKkr7uNwixw>
+ <xmx:U095YGkHbbrnRRFeqxvx3S72rxqELiN-Ify8z3A-K53nQkIllFurIA>
+ <xmx:VE95YEan777u1u506hfUgXYE6x8jZkn592xYJUmwLtq1fD62FJB1_Q>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 058D024005A;
+ Fri, 16 Apr 2021 04:48:17 -0400 (EDT)
+Date: Fri, 16 Apr 2021 10:48:16 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH 2/2] hw/block/nvme: fix lbaf formats initialization
+Message-ID: <YHlPUMYBcnl/Newj@apples.localdomain>
+References: <20210416072234.25732-1-anaidu.gollu@samsung.com>
+ <CGME20210416072544epcas5p26bf011c82ad4b60693cfaac32bc9e36f@epcas5p2.samsung.com>
+ <20210416072234.25732-2-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-References: <20210319132527.3118-1-ma.mandourr@gmail.com>
- <CAD-LL6hpUObLT-sQcDPnLt4m406TBv_SDUYgT346ZDc8eWsSig@mail.gmail.com>
- <YFi9WoL1hqY/0MWU@stefanha-x1.localdomain>
-In-Reply-To: <YFi9WoL1hqY/0MWU@stefanha-x1.localdomain>
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-Date: Fri, 16 Apr 2021 10:43:07 +0200
-Message-ID: <CAD-LL6gkQnBo5rxJFHsHGTUq=aS+=u=FaeK1Uhak7BL1Giba2g@mail.gmail.com>
-Subject: Re: [PATCH 0/8] virtiofsd: Changed various allocations to GLib
- functions
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000afdd0905c012f819"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=ma.mandourr@gmail.com; helo=mail-il1-x132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bndTBN5M6VlKoUlI"
+Content-Disposition: inline
+In-Reply-To: <20210416072234.25732-2-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,171 +95,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000afdd0905c012f819
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 22, 2021 at 5:53 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-
-> On Fri, Mar 19, 2021 at 03:47:03PM +0200, Mahmoud Mandour wrote:
-> > On Fri, Mar 19, 2021 at 3:25 PM Mahmoud Mandour <ma.mandourr@gmail.com>
-> > wrote:
-> >
-> > > Replaced allocations done using malloc(), calloc(), and realloc()
-> > > to their equivalent functions in GLib.
-> > >
-> > > Memory that is allocated locally and freed when the function exits
-> > > are annotated g_autofree so that the deallocation is automatically
-> > > handled. Subsequently, I could remove a bunch of free() calls.
-> > >
-> > > Also, tried to keep the semantics of the code as is, but when the
-> > > allocation is a small one, or a crucial one, I replaced the
-> > > NULL-checking mechanisms with glib's functions that crash on error.
-> > >
-> > > This is related to a patch that I had submitted as a part of a
-> > > previous series. The previous patch had some errors. Also, I thought
-> > > that it's better to split the patch into smaller pieces.
-> > >
-> > > The previous patch can be found here:
-> > > https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg05153.html
-> > >
-> > > Mahmoud Mandour (8):
-> > >   virtiofsd: Changed allocations of fuse_req to GLib functions
-> > >   virtiofds: Changed allocations of iovec to GLib's functions
-> > >   virtiofsd: Changed fuse_pollhandle allocation to GLib's functions
-> > >   virtiofsd: Changed allocations of fuse_session to GLib's functions
-> > >   virtiofsd: Changed allocation of lo_map_elems to GLib's functions
-> > >   virtiofsd: Changed allocations of fv_VuDev & its internals to GLib
-> > >     functions
-> > >   virtiofsd/passthrough_ll.c: Changed local allocations to GLib
-> > >     functions
-> > >   virtiofsd/fuse_virtio.c: Changed allocations of locals to GLib
-> > >
-> > >  tools/virtiofsd/fuse_lowlevel.c  | 43 +++++++++++---------------------
-> > >  tools/virtiofsd/fuse_virtio.c    | 34 ++++++++-----------------
-> > >  tools/virtiofsd/passthrough_ll.c | 21 ++++++----------
-> > >  3 files changed, 34 insertions(+), 64 deletions(-)
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> > >
-> > Hello,
-> > For some reason, my get_maintainers script auto cc-filling did not work,
-> so
-> > I had to manually cc
-> > you.
-> > Sorry for the inconvenience.
->
-> Thanks, will review tomorrow.
->
-> Stefan
->
-
-Hello
-
-I wanted to ask whether I need to resend the patch series with updates
-utilizing
-the feedback I got? There are patches that are overall superfluous, and
-others are
-"reviewed". Should I resend an updated series with only the patches
-reviewed?
-
-Yours,
-Mahmoud
-
---000000000000afdd0905c012f819
-Content-Type: text/html; charset="UTF-8"
+--bndTBN5M6VlKoUlI
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"></div><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 22, 2021 at 5:53=
- PM Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Fri, Mar 19, 2021 at 03:47:03PM +0200, Mahmoud Mandour wrote:<br>
-&gt; On Fri, Mar 19, 2021 at 3:25 PM Mahmoud Mandour &lt;<a href=3D"mailto:=
-ma.mandourr@gmail.com" target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; Replaced allocations done using malloc(), calloc(), and realloc()=
-<br>
-&gt; &gt; to their equivalent functions in GLib.<br>
-&gt; &gt;<br>
-&gt; &gt; Memory that is allocated locally and freed when the function exit=
-s<br>
-&gt; &gt; are annotated g_autofree so that the deallocation is automaticall=
-y<br>
-&gt; &gt; handled. Subsequently, I could remove a bunch of free() calls.<br=
+On Apr 16 12:52, Gollu Appalanaidu wrote:
+>Currently LBAF formats are being intialized based on metadata
+>size if and only if nvme-ns "ms" parameter is non-zero value.
+>Since FormatNVM command being supported device parameter "ms"
+>may not be the criteria to initialize the supported LBAFs.
 >
-&gt; &gt;<br>
-&gt; &gt; Also, tried to keep the semantics of the code as is, but when the=
-<br>
-&gt; &gt; allocation is a small one, or a crucial one, I replaced the<br>
-&gt; &gt; NULL-checking mechanisms with glib&#39;s functions that crash on =
-error.<br>
-&gt; &gt;<br>
-&gt; &gt; This is related to a patch that I had submitted as a part of a<br=
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> hw/block/nvme-ns.c | 48 ++++++++++++++++++----------------------------
+> 1 file changed, 19 insertions(+), 29 deletions(-)
 >
-&gt; &gt; previous series. The previous patch had some errors. Also, I thou=
-ght<br>
-&gt; &gt; that it&#39;s better to split the patch into smaller pieces.<br>
-&gt; &gt;<br>
-&gt; &gt; The previous patch can be found here:<br>
-&gt; &gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-03/=
-msg05153.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/a=
-rchive/html/qemu-devel/2021-03/msg05153.html</a><br>
-&gt; &gt;<br>
-&gt; &gt; Mahmoud Mandour (8):<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd: Changed allocations of fuse_req to GLib fu=
-nctions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofds: Changed allocations of iovec to GLib&#39;s=
- functions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd: Changed fuse_pollhandle allocation to GLib=
-&#39;s functions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd: Changed allocations of fuse_session to GLi=
-b&#39;s functions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd: Changed allocation of lo_map_elems to GLib=
-&#39;s functions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd: Changed allocations of fv_VuDev &amp; its =
-internals to GLib<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0functions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd/passthrough_ll.c: Changed local allocations=
- to GLib<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0functions<br>
-&gt; &gt;=C2=A0 =C2=A0virtiofsd/fuse_virtio.c: Changed allocations of local=
-s to GLib<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 tools/virtiofsd/fuse_lowlevel.c=C2=A0 | 43 +++++++++++-----=
-----------------<br>
-&gt; &gt;=C2=A0 tools/virtiofsd/fuse_virtio.c=C2=A0 =C2=A0 | 34 ++++++++---=
---------------<br>
-&gt; &gt;=C2=A0 tools/virtiofsd/passthrough_ll.c | 21 ++++++----------<br>
-&gt; &gt;=C2=A0 3 files changed, 34 insertions(+), 64 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.25.1<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; Hello,<br>
-&gt; For some reason, my get_maintainers script auto cc-filling did not wor=
-k, so<br>
-&gt; I had to manually cc<br>
-&gt; you.<br>
-&gt; Sorry for the inconvenience.<br>
-<br>
-Thanks, will review tomorrow.<br>
-<br>
-Stefan<br></blockquote><div><br></div>Hello<div><br></div><div>I wanted to =
-ask whether I need to resend the patch series with updates utilizing</div><=
-div>the feedback I got? There are patches that are overall superfluous, and=
- others are</div><div>&quot;reviewed&quot;. Should I resend an updated seri=
-es with only the patches reviewed?</div><div><br></div><div>Yours,</div><di=
-v>Mahmoud=C2=A0</div></div></div></div>
+>diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+>index 7bb618f182..573dbb5a9d 100644
+>--- a/hw/block/nvme-ns.c
+>+++ b/hw/block/nvme-ns.c
+>@@ -85,38 +85,28 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **err=
+p)
+>     ds =3D 31 - clz32(ns->blkconf.logical_block_size);
+>     ms =3D ns->params.ms;
+>
+>-    if (ns->params.ms) {
+>-        id_ns->mc =3D 0x3;
+>+    id_ns->mc =3D 0x3;
+>
+>-        if (ns->params.mset) {
+>-            id_ns->flbas |=3D 0x10;
+>-        }
+>+    if (ms && ns->params.mset) {
+>+        id_ns->flbas |=3D 0x10;
+>+    }
+>
+>-        id_ns->dpc =3D 0x1f;
+>-        id_ns->dps =3D ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+>-
+>-        NvmeLBAF lbaf[16] =3D {
+>-            [0] =3D { .ds =3D  9           },
+>-            [1] =3D { .ds =3D  9, .ms =3D  8 },
+>-            [2] =3D { .ds =3D  9, .ms =3D 16 },
+>-            [3] =3D { .ds =3D  9, .ms =3D 64 },
+>-            [4] =3D { .ds =3D 12           },
+>-            [5] =3D { .ds =3D 12, .ms =3D  8 },
+>-            [6] =3D { .ds =3D 12, .ms =3D 16 },
+>-            [7] =3D { .ds =3D 12, .ms =3D 64 },
+>-        };
+>-
+>-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>-        id_ns->nlbaf =3D 7;
+>-    } else {
+>-        NvmeLBAF lbaf[16] =3D {
+>-            [0] =3D { .ds =3D  9 },
+>-            [1] =3D { .ds =3D 12 },
+>-        };
+>+    id_ns->dpc =3D 0x1f;
+>+    id_ns->dps =3D ((ns->params.pil & 0x1) << 3) | ns->params.pi;
 
---000000000000afdd0905c012f819--
+While nvme_ns_check_constraints() will error out if pi is set and the=20
+metadata bytes are insufficient, I don't think this should set bit 3=20
+unless both metadata and pi is enabled. It's not against the spec, but=20
+it's just slightly weird.
+
+>
+>-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>-        id_ns->nlbaf =3D 1;
+>-    }
+>+    NvmeLBAF lbaf[16] =3D {
+>+        [0] =3D { .ds =3D  9           },
+>+        [1] =3D { .ds =3D  9, .ms =3D  8 },
+>+        [2] =3D { .ds =3D  9, .ms =3D 16 },
+>+        [3] =3D { .ds =3D  9, .ms =3D 64 },
+>+        [4] =3D { .ds =3D 12           },
+>+        [5] =3D { .ds =3D 12, .ms =3D  8 },
+>+        [6] =3D { .ds =3D 12, .ms =3D 16 },
+>+        [7] =3D { .ds =3D 12, .ms =3D 64 },
+>+    };
+>+
+>+    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+>+    id_ns->nlbaf =3D 7;
+>
+>     for (i =3D 0; i <=3D id_ns->nlbaf; i++) {
+>         NvmeLBAF *lbaf =3D &id_ns->lbaf[i];
+>--=20
+>2.17.1
+>
+>
+
+
+--bndTBN5M6VlKoUlI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmB5T04ACgkQTeGvMW1P
+DemqXAf8DzJipNPZJ+fW21z1IGoEWAOyom3nVlGyE+SdaCDkgL8i0YIkmhhhTLF2
+7/F3JNhwLs4tdtwpnfWUoL+BlHLpG1R1r/fMGdvbBR4uxotmO2UP7FknKyz33X3F
+JKnCo8/JeZl2svXnMrvTxGEPtaBFQ4iKri/Nk2DJNhbHiLgF1HKO0Ow54uKnwk0E
+/EfMQ75OCZ66LIGe9yAPjCt5BJ3CpHG17L5vf/Lj2TH92H0Ml9dFu3VaXwoxbUzc
+mBmmFyIu2BJ6e+8VVbni90avWZO/LN/rU05OIQl0sEpdhxT4JUWKoZR+ItH6izIm
+ua16mqViiWi7MhdWLXZScbX5aHVmtQ==
+=1s9v
+-----END PGP SIGNATURE-----
+
+--bndTBN5M6VlKoUlI--
 
