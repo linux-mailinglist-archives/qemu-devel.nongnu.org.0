@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED2336276D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:05:55 +0200 (CEST)
-Received: from localhost ([::1]:37964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8382236278F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:15:24 +0200 (CEST)
+Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSqo-0001Fp-Rs
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60490)
+	id 1lXSzz-0001bD-J0
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:15:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1lXSQA-0005C2-25
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:38:22 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:45637)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lXSYC-0002rj-Sm; Fri, 16 Apr 2021 13:46:40 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1lXSQ7-0007uJ-TF
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:38:21 -0400
-Received: by mail-qk1-x734.google.com with SMTP id d23so17611248qko.12
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hz9a4hjciu21TFOJCSK8kwYsTaHAfAEQqBxTY2sg6/I=;
- b=UZcPmgJhAkT1R/KHF/UgdvXzeOuL4PkGIgpC7O7D8NfiOzE96dk8t1KEjHZQwHiheM
- wy2k2CLfYPDcDpuKAfbS6a7r2vL+LI0DdswbTUUDYkG08j8/0UBH85Suvh5eZN2cw1m9
- lWzh3+qt2keEUgHCVPoUdaDj6Vl2l0PO5uVWJDIKb4IJBNIAVqYJ2rGFPC0vjNoGycyi
- M/3lXL4OnxqUPHrN/4CHhFDHzav9vtVjlMfmZboKvAd/UQg70uY4ARHMqdqP56A+p4w/
- RWYe74spLbluPYkSBlfwL3T4aHd4IP63evt/8q9J5ASZ8NNrtJCZk1JJipcHFQ16gn2p
- Y6mA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lXSYA-0003aQ-WE; Fri, 16 Apr 2021 13:46:40 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id h4so18428725wrt.12;
+ Fri, 16 Apr 2021 10:46:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MrOc6ZehVCG/YLPBwV+Pro29+HUpOQe0K9Z4xnhhdTM=;
+ b=lDh8c3GjtMaLHgtqvJiv65HJGrwIkUAjC1G+nm8PWI3tvllnIWzsBWAjZ9MPZwVlF+
+ dfxue5Pt72pkrIzimIGbwBM8rP9YSYMKmNo3Xi+HPA34A8fk9fh2zD/xFr/nHTFagD7I
+ cZDdzYXxvfuaILhsPJ1pvmJoOw3LYOi3VEDKhWZwtKnM9Rl0bl6gVD9tPRfGD5KqkkkP
+ Sd2Gh0AtgKV8EMAOwu75sC7BtG35SUE8GkEwvY/rSlLvh1pVQzP9Xn4h0ndr9qnagOSn
+ RmMmxyAZfR5d/9DBHzwnJy8cb34jx5HXxaHbj2Z7ax7J+tPwuWFDiyEqao+HtE4g0VO1
+ n2sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hz9a4hjciu21TFOJCSK8kwYsTaHAfAEQqBxTY2sg6/I=;
- b=dm8+0Ri5DC1PFkzpskn9AtzEp1sxFlHvB1bXsp552HWabsMHXJBCoTC0f1Gr/gohVv
- EnQdJZ9g9u0SYU5zB+5eVhCiE0spI3d4Gyqejp06CcSoYe11YEkv6vBXZhuu/1WrrXZ3
- 5i/hk5BN8Cgd5P4VRhmbfhHxz9RVp7ypigCPU1cVl6BHYB9sKwUYJP/PARqOZEwmCNu1
- Oo8k3LbeID3qoWvEN5pIp7byRy8GeKPO235l897J53Mk59Kgk8tD/yvXh1MSvrn9DcQk
- LgIuZ7hg6quZEeGvcTGmhw4e8nghiQBMLEY7vvBkzCP+imk5P9NxSZ2v5zUPic4gdlO2
- tD6Q==
-X-Gm-Message-State: AOAM5306t8a3XA9rfiu5JWTRubwRThHfJmOFJP35vsPP5+KOZkez51AP
- +V2FaLna/Op27IPfnb4yLiNAHLE7AsrHJY2pJ9uhXA==
-X-Google-Smtp-Source: ABdhPJx27SeaFLJtBxmuaaWDH0qs0XiC5x2DqHV/NpxXd55Ov8FPfHXx/ycYyT+zIbnYZUUFEtvb92VCAX1bX/6/EbY=
-X-Received: by 2002:a37:2ec4:: with SMTP id u187mr354995qkh.472.1618594697648; 
- Fri, 16 Apr 2021 10:38:17 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MrOc6ZehVCG/YLPBwV+Pro29+HUpOQe0K9Z4xnhhdTM=;
+ b=X0+Ku78uRkLpOgDE+tIonsqDwtjh+Ae9aOTK6J6cCpSlaC62fX/Dap/JapTXgyztan
+ 279FLOKDMDkgS+vyjjRZVTmbaWld5oMIBfqusJfvzhkZbxsXZw+JrBz6ORBlx7WDMF99
+ NMXCulhBh5/ZJwazhgAqviDjcbGR4f1rkmk2D3AGRRrZfe6KEWWyqivZRkMp2VXlJrrU
+ 7xHhn517yNxCsYGFIGN9YXLjIimSE93aBA3jugJ53lo+6hVLO2Y2IkN83gA4nOWcuCHq
+ jzfmAaRhBJTLjiqWlNWcTy+QyCAZKtPhyhb6u9vRvatjwqbYyJOXs4GciWwoAidxHuPN
+ w1Tg==
+X-Gm-Message-State: AOAM531+gsnwb6FF0xrK1H3j5l9fAATk63xDNV7mkHhHqpcuIgmufZzM
+ Ti+gVcOu16YhBBJFmCBXt8g=
+X-Google-Smtp-Source: ABdhPJzJfaSvo454J15YBup0dvYAZv3NqeBmZE6td9DvlyCWQbLk/YrkIqRUhCrpkleFjpHHKW9IZQ==
+X-Received: by 2002:a05:6000:154e:: with SMTP id
+ 14mr401782wry.24.1618595196883; 
+ Fri, 16 Apr 2021 10:46:36 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id l14sm385943wrv.94.2021.04.16.10.46.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Apr 2021 10:46:36 -0700 (PDT)
+Subject: Re: [PATCH 3/8] tests/acceptance/linux_ssh_mips_malta.py: drop
+ identical setUp
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210415215141.1865467-1-crosa@redhat.com>
+ <20210415215141.1865467-4-crosa@redhat.com>
+ <229a10ef-b912-2191-c670-a2c74a0870a4@amsat.org>
+ <20210416154356.GB1914548@amachine.somewhere>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <15232a34-9cc1-a9cb-3261-ee61d53976d1@amsat.org>
+Date: Fri, 16 Apr 2021 19:46:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210416162426.3217033-1-venture@google.com>
- <4e5592b1-ea5b-0ef6-c837-1c7ac1476696@kaod.org>
-In-Reply-To: <4e5592b1-ea5b-0ef6-c837-1c7ac1476696@kaod.org>
-From: Patrick Venture <venture@google.com>
-Date: Fri, 16 Apr 2021 10:38:06 -0700
-Message-ID: <CAO=notw0zZZt7U1-tyg9h8oC_TngRCNddEgmNbz=NnLojdYUYg@mail.gmail.com>
-Subject: Re: [PATCH] aspeed: Add support for the quanta-q7l1-bmc board
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=venture@google.com; helo=mail-qk1-x734.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <20210416154356.GB1914548@amachine.somewhere>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,164 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 9:40 AM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Patrick,
->
-> On 4/16/21 6:24 PM, Patrick Venture wrote:
-> > The Quanta-Q71l BMC board is a board supported by OpenBMC.
-> >
-> > Tested: Booted quanta-q71l firmware.
-> > Signed-off-by: Patrick Venture <venture@google.com>
-> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
->
-> This looks good.
->
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
->
-> Some comments below,
->
->
-> > ---
-> >  hw/arm/aspeed.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 62 insertions(+)
-> >
-> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> > index a17b75f494..4611996d21 100644
-> > --- a/hw/arm/aspeed.c
-> > +++ b/hw/arm/aspeed.c
-> > @@ -138,6 +138,19 @@ struct AspeedMachineState {
-> >  /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition)=
- */
-> >  #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
-> >
-> > +/* Quanta-Q71l hardware value */
-> > +#define QUANTA_Q71L_BMC_HW_STRAP1 (                                   =
-  \
-> > +        SCU_AST2400_HW_STRAP_DRAM_SIZE(DRAM_SIZE_128MB) |             =
-  \
-> > +        SCU_AST2400_HW_STRAP_DRAM_CONFIG(2/* DDR3 with CL=3D6, CWL=3D5=
- */) | \
-> > +        SCU_AST2400_HW_STRAP_ACPI_DIS |                               =
-  \
-> > +        SCU_AST2400_HW_STRAP_SET_CLK_SOURCE(AST2400_CLK_24M_IN) |     =
-  \
-> > +        SCU_HW_STRAP_VGA_CLASS_CODE |                                 =
-  \
-> > +        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_PASS_THROUGH) |        =
-  \
-> > +        SCU_AST2400_HW_STRAP_SET_CPU_AHB_RATIO(AST2400_CPU_AHB_RATIO_2=
-_1) | \
-> > +        SCU_HW_STRAP_SPI_WIDTH |                                      =
-  \
-> > +        SCU_HW_STRAP_VGA_SIZE_SET(VGA_8M_DRAM) |                      =
-  \
-> > +        SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
-> > +
-> >  /* AST2600 evb hardware value */
-> >  #define AST2600_EVB_HW_STRAP1 0x000000C0
-> >  #define AST2600_EVB_HW_STRAP2 0x00000003
-> > @@ -433,6 +446,34 @@ static void palmetto_bmc_i2c_init(AspeedMachineSta=
-te *bmc)
-> >      object_property_set_int(OBJECT(dev), "temperature3", 110000, &erro=
-r_abort);
-> >  }
-> >
-> > +static void quanta_q71l_bmc_i2c_init(AspeedMachineState *bmc)
-> > +{
-> > +    AspeedSoCState *soc =3D &bmc->soc;
-> > +
-> > +    /*
-> > +     * The quanta-q71l platform expects tmp75s which are compatible wi=
-th
-> > +     * tmp105s.
-> > +     */
-> > +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105"=
-, 0x4c);
-> > +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105"=
-, 0x4e);
-> > +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 1), "tmp105"=
-, 0x4f);
-> > +
-> > +    /* TODO: i2c-1: Add baseboard FRU eeprom@54 24c64 */
->
-> Why not add the eeprom devices ?
+On 4/16/21 5:43 PM, Cleber Rosa wrote:
+> On Fri, Apr 16, 2021 at 07:26:05AM +0200, Philippe Mathieu-Daudé wrote:
+>> On 4/15/21 11:51 PM, Cleber Rosa wrote:
+>>> These tests' setUp do not do anything beyong what their base class do.
+>>> And while they do decorate the setUp() we can decorate the classes
+>>> instead, so no functionality is lost here.
+>>
+>> This is what I did first when adding this test, but it was not working,
+>> so I had to duplicate it to each method. Did something change so now
+>> this is possible?
+>>
+> 
+> It did, but quite a while ago:
+> 
+>   https://avocado-framework.readthedocs.io/en/87.0/releases/76_0.html#users-test-writers
 
-I wanted to provide this ahead of filling it all out, I also have the
-pca954x staged, and some other devices to add.  If you want, I can add
-those and make this into a patch series instead of a one-off.
+OK, the test is older. Do you mind adding a comment?
 
->
-> > +    /* TODO: i2c-1: Add Frontpanel FRU eeprom@57 24c64 */
-> > +    /* TODO: Add Memory Riser i2c mux and eeproms. */
-> > +
-> > +    /* TODO: i2c-2: pca9546@74 */
-> > +    /* TODO: i2c-2: pca9548@77 */
-> > +    /* TODO: i2c-3: Add BIOS FRU eeprom@56 24c64 */
-> > +    /* TODO: i2c-7: Add pca9546@70 */
-> > +    /*        - i2c@0: pmbus@59 */
-> > +    /*        - i2c@1: pmbus@58 */
-> > +    /*        - i2c@2: pmbus@58 */
-> > +    /*        - i2c@3: pmbus@59 */
-> > +    /* TODO: i2c-7: Add PDB FRU eeprom@52 */
-> > +    /* TODO: i2c-8: Add BMC FRU eeprom@50 */
-> > +}
-> > +
-> >  static void ast2500_evb_i2c_init(AspeedMachineState *bmc)
-> >  {
-> >      AspeedSoCState *soc =3D &bmc->soc;
-> > @@ -728,6 +769,23 @@ static void aspeed_machine_palmetto_class_init(Obj=
-ectClass *oc, void *data)
-> >          aspeed_soc_num_cpus(amc->soc_name);
-> >  };
-> >
-> > +static void aspeed_machine_quanta_q71l_class_init(ObjectClass *oc, voi=
-d *data)
-> > +{
-> > +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> > +    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
-> > +
-> > +    mc->desc       =3D "Quanta-Q71l BMC (ARM926EJ-S)";
-> > +    amc->soc_name  =3D "ast2400-a1";
-> > +    amc->hw_strap1 =3D QUANTA_Q71L_BMC_HW_STRAP1;
-> > +    amc->fmc_model =3D "n25q256a";
-> > +    amc->spi_model =3D "mx25l25635e";
-> > +    amc->num_cs    =3D 1;
-> > +    amc->i2c_init  =3D quanta_q71l_bmc_i2c_init;
-> > +    mc->default_ram_size       =3D 128 * MiB;
->
-> I thought the board had more RAM ?
+"Since Avocado 76.0 we can decorate setUp() directly, ..."
 
-It does not :(  Trying to maintain OpenBMC with such little memory
-overhead has been less than fun, but it's do-able.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
->
-> Thanks,
->
-> C.
->
-> > +    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
-> > +        aspeed_soc_num_cpus(amc->soc_name);
-> > +}
-> > +
-> >  static void aspeed_machine_supermicrox11_bmc_class_init(ObjectClass *o=
-c,
-> >                                                          void *data)
-> >  {
-> > @@ -927,6 +985,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
-> >          .name          =3D MACHINE_TYPE_NAME("g220a-bmc"),
-> >          .parent        =3D TYPE_ASPEED_MACHINE,
-> >          .class_init    =3D aspeed_machine_g220a_class_init,
-> > +    }, {
-> > +        .name          =3D MACHINE_TYPE_NAME("quanta-q71l-bmc"),
-> > +        .parent        =3D TYPE_ASPEED_MACHINE,
-> > +        .class_init    =3D aspeed_machine_quanta_q71l_class_init,
-> >      }, {
-> >          .name          =3D TYPE_ASPEED_MACHINE,
-> >          .parent        =3D TYPE_MACHINE,
-> >
->
+> It could have been updated much earlier, but, better late than never.
+
+Sure :)
+
+Thanks,
+
+Phil.
 
