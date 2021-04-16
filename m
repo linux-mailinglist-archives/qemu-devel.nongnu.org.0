@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B94362A93
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 23:49:57 +0200 (CEST)
-Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE0A362A7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 23:42:04 +0200 (CEST)
+Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXWLc-0002td-3F
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 17:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
+	id 1lXWDz-00035R-4b
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 17:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXVdo-0006Vs-Dm
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:40 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54221)
+ id 1lXVdf-00068Q-Od
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:31 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXVdV-0001jU-KJ
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:40 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id nk8so1511949pjb.3
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:04:11 -0700 (PDT)
+ id 1lXVdQ-0001je-KL
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:04:31 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id p67so14195073pfp.10
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6+bWqDpe9bFb8HpI6D4DHTRWk4CTefRX0cnIpSJEYXs=;
- b=xLr+k5PZgpuOZBW90nsmRSiaL1uAfsb3ytPt0y4sZoB0K2hxDMbkRwgOgW/OTD5UkG
- Cp0TV77e8kxJda06niIshs6BY9r1gcSSIU0bzXVS9Y4h5k3sUznGZynNTTkq12f2P2zZ
- q5WJu6EhVW+D0j+t53TdK4Jt5CNG97BPAu2uUQOOnsDGBQByeHsewNbHz9u4Hy/hnPER
- v3cGvusFZuwrE9FVeohCQmBMinjf2qsbcdg12+hARsLh0zI3tGKo34KRUqIAa7w9GJIZ
- p5+zBqte8iGaXgkuEAyQKHoEEryjDjw8JaXh+buKj1EiW+osA6+OcrhXPZrFfK5Ga0pQ
- Gg6g==
+ bh=MCDHvXiyFXS1mzEiFOdu1UrmPEyO05QZiiThz71om18=;
+ b=KVAj4DKavMVJw5wI5GH7QMxT6FW2E6YDuOuPBeY4z4tDTmfUCans+feT5uli14Pttv
+ ff+JQ2O3W7n+DbVczxme2y7lXpYycyMmtqzaQllI3D1mSxFLuzx9toZB6z+9WeVIEjH7
+ Wpz1uo58AhTmdKy4la8tdXliFNS8dJ2GfjY5/5D8Jhz5/xVsXsqelzpGWCLYWx2TNuXc
+ RwFPNqa+/yEqXPvihi9PmE/bvw8qyBcyFylq/yZAJ3OqK4m6CeukoDP4tJlePPv52aIJ
+ s96xgUJTpUeq9Sl684FICuPrdO4d8Bd0zq2xJMu4h8bMHMHyQorFI34ziImSa1U/YJbe
+ yfyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6+bWqDpe9bFb8HpI6D4DHTRWk4CTefRX0cnIpSJEYXs=;
- b=ARaWm+M/sxoXwQPyxC7JL1lGHxnk6TGZurGOhDdW5ffq7ij6OzS6w6mnijlj0LRs6+
- m90h/UDV+d+MJPWoklbQSIGXxKUY4WLGFoYnFELdp5wXxvWEjElLusUiOkPEjwP/tIR5
- m9DOz3oHaBI1zs8CCY35rTNzbmy+VyUiE7hrgh3H8WdoTSvuR+BlJrdfkBPDz/bqfWkr
- agamq4CTgtuscVXVB4yuZZc24O4vRw4bBcS1N0GDHPMgXEAljoTB1tLbwmobN9XicjP3
- d4mxPmgdNXNEg3rJde9eklUrl+rWQqAehyEi5751otumIY741y1ap0tXolRUSlpUdlc3
- 9eIQ==
-X-Gm-Message-State: AOAM531pH37mi1EeSB72sJOaO/HpfC1ZDvzOPaz6qGZTpI5ihf16tOWJ
- GGg+q5NVomkd8Dror6/PMNdp1X/NsnyXLQ==
-X-Google-Smtp-Source: ABdhPJwAsepJQIRENh3n5T6EP3ss2o+XgZ6MgpRT4D2Z11LJ200hE9gOssf/CrwC/uJe/5+LHnc59Q==
-X-Received: by 2002:a17:90b:388a:: with SMTP id
- mu10mr11202454pjb.203.1618607051049; 
+ bh=MCDHvXiyFXS1mzEiFOdu1UrmPEyO05QZiiThz71om18=;
+ b=KKsvZ1QESjHh5uSoGPlD2uOcE0QMiYi68qwfZOUTHOGu+4tdt93tF+F0jioAvQ4t0R
+ SPFYPpeFtbbgox1nl5x8qfdp4IfqjbCsvP+jLYqxAKzvUytk2oMLG2pSYmVZ4R4lfMvT
+ SWmMCBNMrhG0UAEGa7oGA9UjbyJq9URBksCI6iAGHFBuZz/vqtw3gDgqfq1RoNwK8W2Y
+ nEdivjbbSO39Yjff/th2ixNLRySWKm5wos5Mrz0BzRfPXU1e545OGryTFG8t0w1yUkRR
+ DdESYD5pqlmIohD3TXINxeWOAaCVo/3sDZUSHTGShPqlxQNEeh8CsAkUpYTPnhfv0tZR
+ 7Ipg==
+X-Gm-Message-State: AOAM531yjEUun2WIsj/jPic1ijjjrdmaoWTgg2oLdeVUTCAoJBvTartH
+ N02DC/5CqOgGdzkNZudhmb8SfBdHaNvsVA==
+X-Google-Smtp-Source: ABdhPJzRLgmh3UpM4i1TTAcneP6MtiWTCEzxn6yJ0q5fdeRiZGHE0eGiCKI59rvQC9apaWFE8mHtZg==
+X-Received: by 2002:a63:5223:: with SMTP id g35mr864332pgb.164.1618607051735; 
  Fri, 16 Apr 2021 14:04:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id m9sm5766734pgt.65.2021.04.16.14.04.10
+ by smtp.gmail.com with ESMTPSA id m9sm5766734pgt.65.2021.04.16.14.04.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 14:04:10 -0700 (PDT)
+ Fri, 16 Apr 2021 14:04:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 60/81] target/arm: Implement SVE mixed sign dot product
-Date: Fri, 16 Apr 2021 14:02:19 -0700
-Message-Id: <20210416210240.1591291-61-richard.henderson@linaro.org>
+Subject: [PATCH v5 61/81] target/arm: Implement SVE2 crypto unary operations
+Date: Fri, 16 Apr 2021 14:02:20 -0700
+Message-Id: <20210416210240.1591291-62-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210416210240.1591291-1-richard.henderson@linaro.org>
 References: <20210416210240.1591291-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,93 +88,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.h        |  2 ++
- target/arm/sve.decode      |  4 ++++
- target/arm/translate-sve.c | 16 ++++++++++++++++
- target/arm/vec_helper.c    | 18 ++++++++++++++++++
- 4 files changed, 40 insertions(+)
+ target/arm/sve.decode      |  6 ++++++
+ target/arm/translate-sve.c | 11 +++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index e4c6458f98..86f938c938 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -612,6 +612,8 @@ DEF_HELPER_FLAGS_5(gvec_sdot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_udot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_sdot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(gvec_udot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_usdot_b, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
- 
- DEF_HELPER_FLAGS_5(gvec_sdot_idx_b, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 05360e2608..73f1348313 100644
+index 73f1348313..6ab13b2f78 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1481,6 +1481,10 @@ UMLSLT_zzzw     01000100 .. 0 ..... 010 111 ..... .....  @rda_rn_rm
- CMLA_zzzz       01000100 esz:2 0 rm:5 0010 rot:2 rn:5 rd:5  ra=%reg_movprfx
- SQRDCMLAH_zzzz  01000100 esz:2 0 rm:5 0011 rot:2 rn:5 rd:5  ra=%reg_movprfx
- 
-+## SVE mixed sign dot product
+@@ -1509,3 +1509,9 @@ STNT1_zprz      1110010 .. 00 ..... 001 ... ..... ..... \
+ # SVE2 32-bit scatter non-temporal store (vector plus scalar)
+ STNT1_zprz      1110010 .. 10 ..... 001 ... ..... ..... \
+                 @rprr_scatter_store xs=0 esz=2 scale=0
 +
-+USDOT_zzzz      01000100 .. 0 ..... 011 110 ..... .....  @rda_rn_rm
++### SVE2 Crypto Extensions
 +
- ### SVE2 floating point matrix multiply accumulate
- 
- FMMLA           01100100 .. 1 ..... 111001 ..... .....  @rda_rn_rm
++# SVE2 crypto unary operations
++# AESMC and AESIMC
++AESMC           01000101 00 10000011100 decrypt:1 00000 rd:5
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 1f07131cff..0da4a48199 100644
+index 0da4a48199..4213411caa 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8056,3 +8056,19 @@ static bool trans_SQRDCMLAH_zzzz(DisasContext *s, arg_SQRDCMLAH_zzzz *a)
+@@ -8072,3 +8072,14 @@ static bool trans_USDOT_zzzz(DisasContext *s, arg_USDOT_zzzz *a)
      }
      return true;
  }
 +
-+static bool trans_USDOT_zzzz(DisasContext *s, arg_USDOT_zzzz *a)
++static bool trans_AESMC(DisasContext *s, arg_AESMC *a)
 +{
-+    if (a->esz != 2 || !dc_isar_feature(aa64_sve_i8mm, s)) {
++    if (!dc_isar_feature(aa64_sve2_aes, s)) {
 +        return false;
 +    }
 +    if (sve_access_check(s)) {
-+        unsigned vsz = vec_full_reg_size(s);
-+        tcg_gen_gvec_4_ool(vec_full_reg_offset(s, a->rd),
-+                           vec_full_reg_offset(s, a->rn),
-+                           vec_full_reg_offset(s, a->rm),
-+                           vec_full_reg_offset(s, a->ra),
-+                           vsz, vsz, 0, gen_helper_gvec_usdot_b);
++        gen_gvec_ool_zz(s, gen_helper_crypto_aesmc, a->rd, a->rd, a->decrypt);
 +    }
 +    return true;
 +}
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 98b707f4f5..9b2a4d5b7e 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -579,6 +579,24 @@ void HELPER(gvec_udot_b)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
-+void HELPER(gvec_usdot_b)(void *vd, void *vn, void *vm,
-+                          void *va, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc);
-+    int32_t *d = vd, *a = va;
-+    uint8_t *n = vn;
-+    int8_t *m = vm;
-+
-+    for (i = 0; i < opr_sz / 4; ++i) {
-+        d[i] = (a[i] +
-+                n[i * 4 + 0] * m[i * 4 + 0] +
-+                n[i * 4 + 1] * m[i * 4 + 1] +
-+                n[i * 4 + 2] * m[i * 4 + 2] +
-+                n[i * 4 + 3] * m[i * 4 + 3]);
-+    }
-+    clear_tail(d, opr_sz, simd_maxsz(desc));
-+}
-+
- void HELPER(gvec_sdot_h)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
- {
-     intptr_t i, opr_sz = simd_oprsz(desc);
 -- 
 2.25.1
 
