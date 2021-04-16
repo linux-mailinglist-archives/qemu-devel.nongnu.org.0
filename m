@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE9A362187
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 15:57:01 +0200 (CEST)
-Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2CF36218F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 15:58:49 +0200 (CEST)
+Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXOxw-0008Tj-2T
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 09:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37358)
+	id 1lXOzg-0002GL-8w
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 09:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXOwm-0007HI-RY
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:48 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42749)
+ id 1lXOwp-0007JC-Rg
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:51 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXOwk-0004vu-To
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:48 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id p6so20079005wrn.9
+ id 1lXOwl-0004wI-55
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:51 -0400
+Received: by mail-wr1-x430.google.com with SMTP id c15so17848066wro.13
  for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 06:55:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uFJHD3EYYufIxLu1GXNR0BHouTxGLI+iTAat3JRZVXM=;
- b=ozZilGlYCogcpFL1ZSCbvPqFhTgMbWsw6l+xh2hfMGAHg2Bbs5oh6jkAq/MogwZXjI
- YoNK/rhO9DY2LS+cGjw55YCxutSOBFmtJgExp5uEjcH1iI8I6MFYHqx+fZ5Pwr9GY6wc
- NUEJEn5bvcxViVaD7iBjlxLI4SevPLNBU04myWLQVBejoHuhTN9wZvRWvwilQ/toYQ/U
- V5IYgyhXMSkID9LIQSTClXFcDxkGlslToGRMdwAJ6jrzz8TgdT+vNTl9Q9GjIQ6A5eD4
- iKiGW+G9Nctz37ddRmw8gk5z3Ok8/VZbaq7UyGd6i7pJ3OPz7Zilk3oIU70kHR+UkTCZ
- McqQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AtdhNpA3BF6tCi5f8+toaQnoZ0KKS5XaxPZHuzEnrl4=;
+ b=P9VOfuYyJmKNvk18yqus4V1OwdIgZNFmHm8gnFI6iJAL9cNoHm53IChpbseJlV/C/w
+ vTOEkgFnay3gcS/WN9LYJgUF781tX7NQsqqWNybPYQN964fZ6/rNDvKVdRQhCIu56kNV
+ 6iAEBFVmDb6tP1KoOx3DhKlXRaQpb2thMWbF0AL+r9A5jy+eiphVmoRu00ZzawSEiNo3
+ Dbu/tzSlq+mrxdM7M7Y1DdGHcT4slDVa0QLBK29V1uewnHXOKecZBkMh1WTUCbxklrM0
+ 41YqQpIwhEz+bqYeHikBg96ldjfBtp0de4moluwpTj5cw+qyEDQ/oxFfDdzHio+eqlnQ
+ IxPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uFJHD3EYYufIxLu1GXNR0BHouTxGLI+iTAat3JRZVXM=;
- b=IXgZGAxp6zdEhMdVKyc1RdUBBU1FBfDn67stisHyF/lUeUKps2p8MopkVr4dXiL6aT
- KsqG0ZpR8REIFUFsPcmC4prBka5IMg63ztobk85Kuz5xoCLrFD+WAYymtffNnzOAP+Hw
- rSLSQgeifzvFRgZFVYq84hjLt1W4/VqM2cL5rAtvY41em0ykTkBHA1NQDESkH0QugEpg
- r/Ss6QoRuWe1G24wf5aKWaejiREPppcwCDA1HUDe5dw53FOXC4SlpZ2Hr8HrySFIR+by
- dSHW9FsAYGAya1FRFX6BuhTOUBSvao8juclNiJ3MofrnBuFdlILjd0ttOIlr8iO4orRO
- /cXw==
-X-Gm-Message-State: AOAM532HGiUYM42kwD4tcV+/qKWaGYQBcXZoHiu/07DI8w1hQgc8AF25
- 6hBUOkV3elnBDxU/rGGFe6TB3nTr+dX53RAX
-X-Google-Smtp-Source: ABdhPJzxdFuG+XkZ94JlG7zO+9J9IqCrBsame1k7tnyKWXS9Ylgg/EyNt/ye8m1hHsoVIRDBQVrGpA==
-X-Received: by 2002:adf:9cc1:: with SMTP id h1mr9129630wre.135.1618581345139; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=AtdhNpA3BF6tCi5f8+toaQnoZ0KKS5XaxPZHuzEnrl4=;
+ b=S/NhQTccj/lccQLoqHZKCn5qNcIWnIQjU6HkeaES5RpsMAM781oJk0FtONddTMt14p
+ sEdI9UtOgYLySks0gpuEPDcP/XMrJaeC5shCKPYw+fnFqXHSXOTS25qcXkddFpUYg6TO
+ IAQyc4vCu0YV8+9yGtxVtm2YMVmYjo83EwzHLqrgNPMMBbYGR6UWc4mgknwudjKcQ3Ba
+ BfJIvV4xel02FqNkWkklrPbRS1Swk+km0AK7Fd0QTW7S/Q6cYAE2T454TyfXiXo5hASc
+ bOb7uAgTvH1mUtEVmqu8ex65QibFeKRzvv2zTYhmpaMWFG8Ls8ZGiUrC+Kin9cDAV3kN
+ 89Ww==
+X-Gm-Message-State: AOAM531ZowWJ4aTdWG+4jkBMYMVmH+ek6c665I2KzN5oJQT1lAF3scl/
+ 8QMYqIFGbgbgjs7bzAqTxS/sFN9fpAQetqaa
+X-Google-Smtp-Source: ABdhPJxWrU3bFZ9rYmBoIluAaxzB7KoxN3G2ik9nKHB68114wyVEcckPC3+N24B4ewzu/nA4O5fZRw==
+X-Received: by 2002:a5d:5091:: with SMTP id a17mr9187543wrt.60.1618581345806; 
  Fri, 16 Apr 2021 06:55:45 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p14sm10686528wrn.49.2021.04.16.06.55.44
+ by smtp.gmail.com with ESMTPSA id p14sm10686528wrn.49.2021.04.16.06.55.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 06:55:44 -0700 (PDT)
+ Fri, 16 Apr 2021 06:55:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0? 0/6] extern "C" overhaul for C++ files
-Date: Fri, 16 Apr 2021 14:55:37 +0100
-Message-Id: <20210416135543.20382-1-peter.maydell@linaro.org>
+Subject: [PATCH for-6.0? 1/6] osdep: include glib-compat.h before other QEMU
+ headers
+Date: Fri, 16 Apr 2021 14:55:38 +0100
+Message-Id: <20210416135543.20382-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210416135543.20382-1-peter.maydell@linaro.org>
+References: <20210416135543.20382-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,57 +89,48 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; this patchseries is:
- (1) a respin of Paolo's patches, with the review issue Dan
-     noticed fixed (ie handle arm-a64.cc too)
- (2) a copy of my "osdep.h: Move system includes to top" patch
- (3) some new patches which try to more comprehensively address
-     the extern "C" issue
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-I've marked this "for-6.0?", but more specifically:
- * I think patches 1 and 2 should go in if we do an rc4
-   (and maybe we should do an rc4 given various things that
-   have appeared that aren't individually rc4-worthy)
- * patches 3-6 are definitely 6.1 material
+glib-compat.h is sort of like a system header, and it needs to include
+system headers (glib.h) that may dislike being included under
+'extern "C"'.  Move it right after all system headers and before
+all other QEMU headers.
 
-We have 2 C++ files in the tree which need to include QEMU
-headers: disas/arm-a64.cc and disas/nanomips.cpp. These
-include only osdep.h and dis-asm.h, so it is sufficient to
-extern-C-ify those two files only.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+[PMM: Added comment about why glib-compat.h is special]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/qemu/osdep.h | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-I'm not wildly enthusiastic about this because it's pretty
-invasive (and needs extending if we ever find we need to
-include further headers from C++), but it seems to be what
-C++ forces upon us...
-
-Patches 1, 2 and 3 have been reviewed (I kept Dan's r-by on
-patch 1 since the change to it is just fixing the thing he
-noticed). Further review, and opinions on the 6.0-ness, whether
-we should do an rc4, etc, appreciated.
-
-thanks
--- PMM
-
-Paolo Bonzini (2):
-  osdep: include glib-compat.h before other QEMU headers
-  osdep: protect qemu/osdep.h with extern "C"
-
-Peter Maydell (4):
-  include/qemu/osdep.h: Move system includes to top
-  osdep: Make os-win32.h and os-posix.h handle 'extern "C"' themselves
-  include/qemu/bswap.h: Handle being included outside extern "C" block
-  include/disas/dis-asm.h: Handle being included outside 'extern "C"'
-
- include/disas/dis-asm.h   | 12 ++++++++++--
- include/qemu/bswap.h      | 26 ++++++++++++++++++++++----
- include/qemu/compiler.h   |  6 ++++++
- include/qemu/osdep.h      | 34 +++++++++++++++++++++++++++-------
- include/sysemu/os-posix.h |  8 ++++++++
- include/sysemu/os-win32.h |  8 ++++++++
- disas/arm-a64.cc          |  2 --
- disas/nanomips.cpp        |  2 --
- 8 files changed, 81 insertions(+), 17 deletions(-)
-
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index ba15be9c569..ab84ecc7c1c 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -111,6 +111,13 @@ extern int daemon(int, int);
+ #define WEXITSTATUS(x) (x)
+ #endif
+ 
++/*
++ * This is somewhat like a system header; it must be outside any extern "C"
++ * block because it includes system headers itself, including glib.h,
++ * which will not compile if inside an extern "C" block.
++ */
++#include "glib-compat.h"
++
+ #ifdef _WIN32
+ #include "sysemu/os-win32.h"
+ #endif
+@@ -123,7 +130,6 @@ extern int daemon(int, int);
+ #include <AvailabilityMacros.h>
+ #endif
+ 
+-#include "glib-compat.h"
+ #include "qemu/typedefs.h"
+ 
+ /*
 -- 
 2.20.1
 
