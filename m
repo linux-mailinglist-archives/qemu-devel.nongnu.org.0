@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A123629E7
+	by mail.lfdr.de (Postfix) with ESMTPS id D37AE3629E6
 	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 23:05:21 +0200 (CEST)
-Received: from localhost ([::1]:46214 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXVeS-000676-IR
+	id 1lXVeS-00068p-Cx
 	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 17:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43256)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXVc0-0003pn-7p
+ id 1lXVc0-0003pz-KQ
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:02:48 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:34737)
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXVbx-0000wv-25
+ id 1lXVbx-0000xu-Fx
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:02:48 -0400
-Received: by mail-pl1-x632.google.com with SMTP id t22so14309057ply.1
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:02:44 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id t22so14309078ply.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ie9r6EOQypZoQYkbRn9pO7nDggqaoqaomu+rCPA0MmU=;
- b=epeFFpziAOMORL8aFyTO4bT0W1OpGNtSNSYlhywiiVph4Rk8+tEPVWltWraNpv96A9
- +AP0AldYN4c+gIWOnJ5h2Q+7kOkwg2B2Xd3MgnNeStSdpVsSjO4J3yp30RORPuI68O/c
- 9c4UkxYJJjFu8bLXqQH7xDCp7BTl7SMyxQ+vZdhM5unEx+OU9MgX3u7i3EUO5EHfFYti
- Up3u7YtDFptg/7QGJjzmji43yb3/H7BW3SXBn396kz5qei7G8R2laPQtVs2R/FpB9H6/
- G8hh8U2RPvMCEEHUiO2JB9UKdkKJUTkuiqhW5y4gbL96ep6sLaKyb1pEBVTut7gItG3e
- /Hng==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=q1Vt8UmYtOZ5Zzksw1iaCjMqU/oXmihF2abTUk6CpYQ=;
+ b=WTZX/2ijU82WfMVX/lh+aXZDtZSe2ttLeK4Uy1TpcYW1pruMrGF/bU5FkoxAA4dDk7
+ sIW1mb+IR5JvdM+EFfojpuNwA3e0va5YXntX/c491fv2T0n00K8FExBA2AHwD7gcys9v
+ WsRvG7VKarqhW4vPHV+1/73XHqB+gmnroNv8WJIRKEWr/gDS3yBxxQOFTcEc6uaclb7M
+ Sd7e5U6JJGA3yi3vtliZ+ek9hyyDcncqYCLaTSj0qcYQlsgMh6MG4g/c7BydRuDKzNQ/
+ e9TSApZEKV8JIE0rFeKhR0W3psV06O+J2+LgEav85tWKwatJ8HWamQkZQMKepluw5ISi
+ 0HIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ie9r6EOQypZoQYkbRn9pO7nDggqaoqaomu+rCPA0MmU=;
- b=UYT08KGlQkqAljUHZQU2p+IU9O30Z0XxfnQDdvpnmVY5Y0jbh2UCNjyuK79bdvObaP
- DrUEM+73+Yd0AstXZFe/VPvXtM3ZMgO0HV7RlNPIdMXODkJbnYwaDpW7pR3GunbYvnWw
- r3Lyi1Y2gYIcfIsRJYZ6ng5/tt1s865jmroA4RCVwyxL6jna6bBBL5rGEizbos2A4UG9
- eXvOBSbDJEGe3jL5dFOznxOn1UJ+olsCJ79mzsw4YmkWXPhNtYqromhmi1bNZprKwGE4
- axI8/eYQQIXVhv9xIJItkoqzlDyK4XNsNnOWi9qndkOv5mNBYT6K40dV7DVB13KlqOMh
- +NVw==
-X-Gm-Message-State: AOAM53103Pu0juSngzaETFpPDAzIZnoxAPbxV4QENJ/Za/AKPcyQgD1Y
- u93NhJTsXn8GFQ3EKon6VY0EA5e7BpVvyQ==
-X-Google-Smtp-Source: ABdhPJwaVTfMtBGJhaqFwkdbTslUJXGqDehZ+69kIhb2xuqnyj714ve8ZRofvdEeI8aN0kSnXnu4Rw==
-X-Received: by 2002:a17:902:e843:b029:eb:8aff:360 with SMTP id
- t3-20020a170902e843b02900eb8aff0360mr8028411plg.1.1618606963205; 
- Fri, 16 Apr 2021 14:02:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=q1Vt8UmYtOZ5Zzksw1iaCjMqU/oXmihF2abTUk6CpYQ=;
+ b=h0Fo2eJwW3q/b2AY7hnvjf9p6in1B3FU/D1+4ndFPNDqKoh2BWsrASHuq7EiX9uZrX
+ 2Ori5dtzZ58gbBGCoDUp2e3/jMavI8hEX0CmTNmm+k4aorpWZxMzF/x77mAO9tKwaVXQ
+ cgBSRy8rBfQsNB+SVirtuNEFso2S/7hPICJZeMobXeb29ZEoJJ7a5Wgt97O5skM534Ea
+ zy9Dljm4pLPSN7fTkBEcF938Hp+RJGkfTQCC967ft/pO0C3s/QZEORwE7e3GDHGIdqeN
+ 3f+UkVCMyHKe8Pb4P2BQsXtGhLazQgK4CEn5bo+EgV4/63je6KPpeh9ZKHs/cvIPv6kG
+ 1w0w==
+X-Gm-Message-State: AOAM531e6jFGHhdpOjIhNsnlV3u5EzXsRkSgvZSpvVOxn8Sh5Unhtse6
+ 4flPh/cBIST82L8x7MDiY5/7GKIcnB+RTA==
+X-Google-Smtp-Source: ABdhPJwbMbucjVwG9gmHZ+/FqJW/O+4DEEh3NPqp2TGcQaRVQ6cn2BSve6GGip4N3NyC2VlnwWLwsQ==
+X-Received: by 2002:a17:90a:bb94:: with SMTP id
+ v20mr11421140pjr.144.1618606964240; 
+ Fri, 16 Apr 2021 14:02:44 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id m15sm5920640pjz.36.2021.04.16.14.02.41
+ by smtp.gmail.com with ESMTPSA id m15sm5920640pjz.36.2021.04.16.14.02.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 14:02:42 -0700 (PDT)
+ Fri, 16 Apr 2021 14:02:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 for-6.1 00/81] target/arm: Implement SVE2
-Date: Fri, 16 Apr 2021 14:01:19 -0700
-Message-Id: <20210416210240.1591291-1-richard.henderson@linaro.org>
+Subject: [PATCH v5 01/81] target/arm: Add ID_AA64ZFR0 fields and
+ isar_feature_aa64_sve2
+Date: Fri, 16 Apr 2021 14:01:20 -0700
+Message-Id: <20210416210240.1591291-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210416210240.1591291-1-richard.henderson@linaro.org>
+References: <20210416210240.1591291-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,134 +85,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: 20210416185959.1520974-1-richard.henderson@linaro.org
-("[PATCH v4 for-6.1 00/39] target/arm: enforce alignment")
+Will be used for SVE2 isa subset enablement.
 
-And of course, since I messed up the alignment subject, our tooling
-isn't going to thread this properly.  So:
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v2: Do not read zfr0 from kvm unless sve is available.
+---
+ target/arm/cpu.h    | 16 ++++++++++++++++
+ target/arm/helper.c |  3 +--
+ target/arm/kvm64.c  | 11 +++++++++++
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
-https://gitlab.com/rth7680/qemu/-/tree/tgt-arm-sve2
-https://gitlab.com/rth7680/qemu/-/commit/cccb2c67e975322f006e81adb3cf5e235254f254
-
-Changes since v4:
-  * Rebased on mte + alignment changes.
-  * Implement integer matrix multiply accumulate.
-  * Change to decode to facilitate bfloat16.
-
-
-r~
-
-
-Richard Henderson (63):
-  target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
-  target/arm: Implement SVE2 Integer Multiply - Unpredicated
-  target/arm: Implement SVE2 integer pairwise add and accumulate long
-  target/arm: Implement SVE2 integer unary operations (predicated)
-  target/arm: Split out saturating/rounding shifts from neon
-  target/arm: Implement SVE2 saturating/rounding bitwise shift left
-    (predicated)
-  target/arm: Implement SVE2 integer halving add/subtract (predicated)
-  target/arm: Implement SVE2 integer pairwise arithmetic
-  target/arm: Implement SVE2 saturating add/subtract (predicated)
-  target/arm: Implement SVE2 integer add/subtract long
-  target/arm: Implement SVE2 integer add/subtract interleaved long
-  target/arm: Implement SVE2 integer add/subtract wide
-  target/arm: Implement SVE2 integer multiply long
-  target/arm: Implement PMULLB and PMULLT
-  target/arm: Implement SVE2 bitwise shift left long
-  target/arm: Implement SVE2 bitwise exclusive-or interleaved
-  target/arm: Implement SVE2 bitwise permute
-  target/arm: Implement SVE2 complex integer add
-  target/arm: Implement SVE2 integer absolute difference and accumulate
-    long
-  target/arm: Implement SVE2 integer add/subtract long with carry
-  target/arm: Implement SVE2 bitwise shift right and accumulate
-  target/arm: Implement SVE2 bitwise shift and insert
-  target/arm: Implement SVE2 integer absolute difference and accumulate
-  target/arm: Implement SVE2 saturating extract narrow
-  target/arm: Implement SVE2 SHRN, RSHRN
-  target/arm: Implement SVE2 SQSHRUN, SQRSHRUN
-  target/arm: Implement SVE2 UQSHRN, UQRSHRN
-  target/arm: Implement SVE2 SQSHRN, SQRSHRN
-  target/arm: Implement SVE2 WHILEGT, WHILEGE, WHILEHI, WHILEHS
-  target/arm: Implement SVE2 WHILERW, WHILEWR
-  target/arm: Implement SVE2 bitwise ternary operations
-  target/arm: Implement SVE2 saturating multiply-add long
-  target/arm: Implement SVE2 saturating multiply-add high
-  target/arm: Implement SVE2 integer multiply-add long
-  target/arm: Implement SVE2 complex integer multiply-add
-  target/arm: Implement SVE2 XAR
-  target/arm: Pass separate addend to {U,S}DOT helpers
-  target/arm: Pass separate addend to FCMLA helpers
-  target/arm: Split out formats for 2 vectors + 1 index
-  target/arm: Split out formats for 3 vectors + 1 index
-  target/arm: Implement SVE2 integer multiply (indexed)
-  target/arm: Implement SVE2 integer multiply-add (indexed)
-  target/arm: Implement SVE2 saturating multiply-add high (indexed)
-  target/arm: Implement SVE2 saturating multiply-add (indexed)
-  target/arm: Implement SVE2 saturating multiply (indexed)
-  target/arm: Implement SVE2 signed saturating doubling multiply high
-  target/arm: Implement SVE2 saturating multiply high (indexed)
-  target/arm: Implement SVE mixed sign dot product (indexed)
-  target/arm: Implement SVE mixed sign dot product
-  target/arm: Implement SVE2 crypto unary operations
-  target/arm: Implement SVE2 crypto destructive binary operations
-  target/arm: Implement SVE2 crypto constructive binary operations
-  target/arm: Share table of sve load functions
-  target/arm: Implement SVE2 LD1RO
-  target/arm: Implement 128-bit ZIP, UZP, TRN
-  target/arm: Implement aarch64 SUDOT, USDOT
-  target/arm: Split out do_neon_ddda_fpst
-  target/arm: Remove unused fpst from VDOT_scalar
-  target/arm: Fix decode for VDOT (indexed)
-  target/arm: Split decode of VSDOT and VUDOT
-  target/arm: Implement aarch32 VSUDOT, VUSDOT
-  target/arm: Implement integer matrix multiply accumulate
-  target/arm: Enable SVE2 and some extensions
-
-Stephen Long (18):
-  target/arm: Implement SVE2 floating-point pairwise
-  target/arm: Implement SVE2 MATCH, NMATCH
-  target/arm: Implement SVE2 ADDHNB, ADDHNT
-  target/arm: Implement SVE2 RADDHNB, RADDHNT
-  target/arm: Implement SVE2 SUBHNB, SUBHNT
-  target/arm: Implement SVE2 RSUBHNB, RSUBHNT
-  target/arm: Implement SVE2 HISTCNT, HISTSEG
-  target/arm: Implement SVE2 scatter store insns
-  target/arm: Implement SVE2 gather load insns
-  target/arm: Implement SVE2 FMMLA
-  target/arm: Implement SVE2 SPLICE, EXT
-  target/arm: Implement SVE2 TBL, TBX
-  target/arm: Implement SVE2 FCVTNT
-  target/arm: Implement SVE2 FCVTLT
-  target/arm: Implement SVE2 FCVTXNT, FCVTX
-  target/arm: Implement SVE2 FLOGB
-  target/arm: Implement SVE2 bitwise shift immediate
-  target/arm: Implement SVE2 fp multiply-add long
-
- target/arm/cpu.h                |   66 +
- target/arm/helper-sve.h         |  681 ++++++-
- target/arm/helper.h             |  111 +-
- target/arm/translate-a64.h      |    3 +
- target/arm/vec_internal.h       |  143 ++
- target/arm/neon-shared.decode   |   24 +-
- target/arm/sve.decode           |  525 +++++-
- target/arm/cpu.c                |    1 +
- target/arm/cpu64.c              |   13 +
- target/arm/helper.c             |    3 +-
- target/arm/kvm64.c              |   11 +
- target/arm/neon_helper.c        |  507 +----
- target/arm/sve_helper.c         | 1904 ++++++++++++++++++-
- target/arm/translate-a64.c      |  111 +-
- target/arm/translate-sve.c      | 3117 +++++++++++++++++++++++++++++--
- target/arm/vec_helper.c         |  854 ++++++++-
- target/arm/translate-neon.c.inc |  231 ++-
- 17 files changed, 7367 insertions(+), 938 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 616b393253..a6e1fa6333 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -947,6 +947,7 @@ struct ARMCPU {
+         uint64_t id_aa64mmfr2;
+         uint64_t id_aa64dfr0;
+         uint64_t id_aa64dfr1;
++        uint64_t id_aa64zfr0;
+     } isar;
+     uint64_t midr;
+     uint32_t revidr;
+@@ -2034,6 +2035,16 @@ FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
+ FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
+ FIELD(ID_AA64DFR0, MTPMU, 48, 4)
+ 
++FIELD(ID_AA64ZFR0, SVEVER, 0, 4)
++FIELD(ID_AA64ZFR0, AES, 4, 4)
++FIELD(ID_AA64ZFR0, BITPERM, 16, 4)
++FIELD(ID_AA64ZFR0, BFLOAT16, 20, 4)
++FIELD(ID_AA64ZFR0, SHA3, 32, 4)
++FIELD(ID_AA64ZFR0, SM4, 40, 4)
++FIELD(ID_AA64ZFR0, I8MM, 44, 4)
++FIELD(ID_AA64ZFR0, F32MM, 52, 4)
++FIELD(ID_AA64ZFR0, F64MM, 56, 4)
++
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
+ FIELD(ID_DFR0, MMAPDBG, 8, 4)
+@@ -4215,6 +4226,11 @@ static inline bool isar_feature_aa64_ssbs(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SSBS) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_sve2(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SVEVER) != 0;
++}
++
+ /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cd92a22689..ec8d477516 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7561,8 +7561,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 4,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              /* At present, only SVEver == 0 is defined anyway.  */
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_aa64zfr0 },
+             { .name = "ID_AA64PFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 5,
+               .access = PL1_R, .type = ARM_CP_CONST,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index dff85f6db9..e8729b53fd 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -567,6 +567,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
+                               ARM64_SYS_REG(3, 0, 0, 7, 2));
+ 
++        /*
++         * Before v5.1, KVM did not support SVE and did not expose
++         * ID_AA64ZFR0_EL1 even as RAZ.  After v5.1, KVM still does
++         * not expose the register to "user" requests like this
++         * unless the host supports SVE.
++         */
++        if (isar_feature_aa64_sve(&ahcf->isar)) {
++            err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
++                                  ARM64_SYS_REG(3, 0, 0, 4, 4));
++        }
++
+         /*
+          * Note that if AArch32 support is not present in the host,
+          * the AArch32 sysregs are present to be read, but will
 -- 
 2.25.1
 
