@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F44361DD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:12:11 +0200 (CEST)
-Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E648361DDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:22:00 +0200 (CEST)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXLSL-00030q-Lv
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51472)
+	id 1lXLbr-0006Qo-9M
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXLRF-0002a5-Fz
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:11:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33546)
+ id 1lXLao-0005f5-P6
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:20:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lXLRC-0003dT-IN
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:11:01 -0400
+ id 1lXLak-0001H5-I3
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:20:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lXLRA-0003TP-78
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:10:56 +0000
+ id 1lXLaf-0004vs-SD
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:20:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2F5A02E8160
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:10:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BC9AE2E8162
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:20:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Apr 2021 09:56:40 -0000
-From: Izorkin <1924738@bugs.launchpad.net>
+Date: Fri, 16 Apr 2021 10:10:17 -0000
+From: Peter Maydell <1923861@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: izorkin
-X-Launchpad-Bug-Reporter: Izorkin (izorkin)
-X-Launchpad-Bug-Modifier: Izorkin (izorkin)
-Message-Id: <161856700090.8743.17887923677613364195.malonedeb@gac.canonical.com>
-Subject: [Bug 1924738] [NEW] Failed to restore domain - error load load
- virtio-balloon:virtio
+X-Launchpad-Bug-Commenters: ml-0 pmaydell
+X-Launchpad-Bug-Reporter: ml-0 (ml-0)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
+Message-Id: <161856781762.8790.12240976625650730674.malone@gac.canonical.com>
+Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
-X-Launchpad-Hash: 6ebee0f15adfe0439929e8a22d34100c43450484
+X-Launchpad-Hash: 2551cbb354603e21433dc459cf5785ea3ffc7505
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -69,109 +69,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924738 <1924738@bugs.launchpad.net>
+Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-I noticed a domain restore error on my virtual machines.
-I can't reproduce the error on a test virtual machine.
-
-sudo virsh save linux2020 /var/lib/libvirt/qemu/save/linux2020.save
-Domain 'linux2020' saved to /var/lib/libvirt/qemu/save/linux2020.save
-
-sudo virsh restore /var/lib/libvirt/qemu/save/linux2020.save
-error: Failed to restore domain from /var/lib/libvirt/qemu/save/linux2020.s=
-ave
-error: =D0=B2=D0=BD=D1=83=D1=82=D1=80=D0=B5=D0=BD=D0=BD=D1=8F=D1=8F =D0=BE=
-=D1=88=D0=B8=D0=B1=D0=BA=D0=B0: QEMU =D0=BD=D0=B5=D0=BE=D0=B6=D0=B8=D0=B4=
-=D0=B0=D0=BD=D0=BD=D0=BE =D0=B7=D0=B0=D0=B2=D0=B5=D1=80=D1=88=D0=B8=D0=BB =
-=D1=80=D0=B0=D0=B1=D0=BE=D1=82=D1=83 =D0=BC=D0=BE=D0=BD=D0=B8=D1=82=D0=BE=
-=D1=80=D0=B0: qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=3D52=
-,server,nowait: warning: short-form boolean option 'server' deprecated
-Please use server=3Don instead
-qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=3D52,server,nowait=
-: warning: short-form boolean option 'nowait' deprecated
-Please use wait=3Doff instead
-qemu-system-x86_64: -spice port=3D5900,addr=3D0.0.0.0,disable-ticketing,ima=
-ge-compression=3Doff,seamless-migration=3Don: warning: short-form boolean o=
-ption 'disable-ticketing' deprecated
-Please use disable-ticketing=3Don instead
-2021-04-16T09:47:15.037700Z qemu-system-x86_64: VQ 0 size 0x80 < last_avail=
-_idx 0x0 - used_idx 0xcccc
-2021-04-16T09:47:15.037737Z qemu-system-x86_64: Failed to load virtio-ballo=
-on:virtio
-2021-04-16T09:47:15.037744Z qemu-system-x86_64: error while loading state f=
-or instance 0x0 of device '0000:00:02.0/virtio-balloon'
-2021-04-16T09:47:15.037849Z qemu-system-x86_64: load of migration failed: O=
-peration not permitted
-
-If in the machine configuration replace
-<type arch=3D"x86_64" machine=3D"pc-i440fx-5.1">hvm</type>
-to
-<type arch=3D"x86_64" machine=3D"pc-i440fx-5.0">hvm</type>
-the virtual machine is recovering normally
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "linux2020.xml"
-   https://bugs.launchpad.net/bugs/1924738/+attachment/5488847/+files/linux=
-2020.xml
+Yes, MVE is next on my todo list; it will probably be in 6.2, or maybe
+7.0 depending how long it takes to implement it all.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924738
+https://bugs.launchpad.net/bugs/1923861
 
 Title:
-  Failed to restore domain - error load load virtio-balloon:virtio
+  Hardfault when accessing FPSCR register
 
 Status in QEMU:
   New
 
 Bug description:
-  I noticed a domain restore error on my virtual machines.
-  I can't reproduce the error on a test virtual machine.
+  QEMU release version: v6.0.0-rc2
 
-  sudo virsh save linux2020 /var/lib/libvirt/qemu/save/linux2020.save
-  Domain 'linux2020' saved to /var/lib/libvirt/qemu/save/linux2020.save
+  command line:
+  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
+semihosting -semihosting-config enable=3Don,target=3Dnative
 
-  sudo virsh restore /var/lib/libvirt/qemu/save/linux2020.save
-  error: Failed to restore domain from /var/lib/libvirt/qemu/save/linux2020=
-.save
-  error: =D0=B2=D0=BD=D1=83=D1=82=D1=80=D0=B5=D0=BD=D0=BD=D1=8F=D1=8F =D0=
-=BE=D1=88=D0=B8=D0=B1=D0=BA=D0=B0: QEMU =D0=BD=D0=B5=D0=BE=D0=B6=D0=B8=D0=
-=B4=D0=B0=D0=BD=D0=BD=D0=BE =D0=B7=D0=B0=D0=B2=D0=B5=D1=80=D1=88=D0=B8=D0=
-=BB =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D1=83 =D0=BC=D0=BE=D0=BD=D0=B8=D1=82=D0=
-=BE=D1=80=D0=B0: qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=
-=3D52,server,nowait: warning: short-form boolean option 'server' deprecated
-  Please use server=3Don instead
-  qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=3D52,server,nowa=
-it: warning: short-form boolean option 'nowait' deprecated
-  Please use wait=3Doff instead
-  qemu-system-x86_64: -spice port=3D5900,addr=3D0.0.0.0,disable-ticketing,i=
-mage-compression=3Doff,seamless-migration=3Don: warning: short-form boolean=
- option 'disable-ticketing' deprecated
-  Please use disable-ticketing=3Don instead
-  2021-04-16T09:47:15.037700Z qemu-system-x86_64: VQ 0 size 0x80 < last_ava=
-il_idx 0x0 - used_idx 0xcccc
-  2021-04-16T09:47:15.037737Z qemu-system-x86_64: Failed to load virtio-bal=
-loon:virtio
-  2021-04-16T09:47:15.037744Z qemu-system-x86_64: error while loading state=
- for instance 0x0 of device '0000:00:02.0/virtio-balloon'
-  2021-04-16T09:47:15.037849Z qemu-system-x86_64: load of migration failed:=
- Operation not permitted
+  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
+  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
+  GNU/Linux
 
-  If in the machine configuration replace
-  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.1">hvm</type>
-  to
-  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.0">hvm</type>
-  the virtual machine is recovering normally
+  guest operating system: none (bare metal)
+
+  Observation:
+  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
+47 machine. In the startup code I am accessing the FPSCR core register:
+
+  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
+  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
+  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
+
+  where the register access functions __get_FPSCR() and
+  __set_FPSCR(fpscr) are taken from CMSIS_5 at
+  ./CMSIS/Core/include/cmsis_gcc.h
+
+  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
+  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924738/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
 
