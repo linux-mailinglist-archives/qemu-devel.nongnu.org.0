@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13434362AC3
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 00:07:40 +0200 (CEST)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7063C362AC8
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Apr 2021 00:08:53 +0200 (CEST)
+Received: from localhost ([::1]:38022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXWcl-0000UD-3t
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 18:07:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
+	id 1lXWdw-0001iH-E6
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 18:08:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lXViu-0005A0-V8; Fri, 16 Apr 2021 17:09:56 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:40771)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lXVrf-0000Dm-7I
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:18:59 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:46927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lXVit-0004sF-8K; Fri, 16 Apr 2021 17:09:56 -0400
-Received: by mail-qt1-x836.google.com with SMTP id z15so13755193qtj.7;
- Fri, 16 Apr 2021 14:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lXVrd-0001OA-0S
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:18:58 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id d124so19127929pfa.13
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gAJjmmMV8+g9mVmOZMI4Au7H0SrBJFcXKAZE/KJTSKg=;
- b=U19H1ib3edovDFPazP53v00k2pgkkNTi6RUduVIAh9htBXlDnOSK8EoRpB3Jd+4fvN
- YGk3Dkw+LyG9xhGrbgYSOZW+oIwK44K2q6L/jBvASxtdFoi/V/dLr8i0bWwhtRcZK8Kr
- ysyE5cUx+42MrjG4Sg1SbWTD7jR2Xg0tE3VVS6dHZoIGdXlTO/DgERQaXwRqz8WB/fJ9
- DTt4iKmHG4RaKVUKGJzp214RGt7zdzuokeYtDG2y2r8OkX5AqOqyVtVDDTtHHzTHCzyz
- lDJJVie3dMFr192L7SVetvYH/ebjaOFpYqmPAt9Ts1/P/UL4+c0jWMyDvxefzr7+T/np
- n+ew==
+ bh=l2DdQUpZAAYz/+QgM/RAZaDAb6uzfP9zN/oGnx1vuJ0=;
+ b=d6S/D6mahlOitw85J2YwwWMKTyowdfSdr+eBMmK9uYpxajtdSzqExbKEzCcGaEAx7x
+ Y0/Dj1PqLe/eSQofsorTFC599rtbvWXQVlMKaEHo4vPldg9wqdi5O6zb0C40HAvWWHST
+ 9VV1Z3cb4RQutvrJnIhIg8L0GudKMJyE2CUr3aq+B8UnCAAu9R8cHSRk2E3RacBYoLgV
+ +kEspkZqX7pSgRBLEuhoWYQsbC2Ea1+loJiIla7adtj2b04JnajiV7vOAwQuP001OMrF
+ hv8dYp4fA/At130fCNayF6RV95eWrx/3YCC4CwuCj4JEts4HIf+okKhGIlu7vwK/YHHM
+ wKmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gAJjmmMV8+g9mVmOZMI4Au7H0SrBJFcXKAZE/KJTSKg=;
- b=jDibI+9ZKHG+/cAB9k0xKm237A75YPaMrwSv2uNGVgPeWFy/qGIDdfQon56wukqd2x
- xrbcQWq7mLR8+QG+pvTL7RdsvHd64MIF1byksi8vaxf7I7F7Yba0XeuBKsNqo9ZE88fT
- sstq4g0CuMOABhV/+q9Mv6/Qt0snyUnanRr+UUBOnYppTEOh3xP9J2SgwDoKAu+RZECN
- qRr/QlWoLwgF3/QfNSwVbMDfpLqtyoLi0meHU6bGr9VtkAayNCMpMoP2XmGA7ZH33dXT
- /JjO+2cKKv6wCGdJJsy1x6Bl9KbJ12GTUgREgbmum2LhQ36IbesecdNN+out3qPlde/N
- yASQ==
-X-Gm-Message-State: AOAM530hQ23skNfE4m9QO2tkejj8cPj54sn47WjoZNfgAVVamo1bL19x
- Bq/JBWNjeC8sxjfLUfrBIA/tc2pMoDwB0vr1Llw=
-X-Google-Smtp-Source: ABdhPJzkfvaU1Cn2xVH+vb82NQi07iZaMptioFsaTNSgy/4R52RUjyOLYdifPYLpROac5VQMDJyYsA==
-X-Received: by 2002:ac8:7f53:: with SMTP id g19mr1021437qtk.249.1618607393850; 
- Fri, 16 Apr 2021 14:09:53 -0700 (PDT)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:8811:45c7:4abc:f19a:be81])
- by smtp.gmail.com with ESMTPSA id g4sm4647634qtg.86.2021.04.16.14.09.51
+ bh=l2DdQUpZAAYz/+QgM/RAZaDAb6uzfP9zN/oGnx1vuJ0=;
+ b=f5qyKB9Z1PI0SVZsZ5rmb4rGtSs0vPz9YCll8DNhSUEq7dHjxUQGvT7AvE8lwawSyT
+ MH9lrGH90ZLy+3cZJFBVMmyUOLc7xj4E8m9yHvydcPZ76EANs7q1BYw1RpO1AElfQ55H
+ OdIs1tZ9L8h14yHSCSi+vyMiyYGioULP6tWKMUgfPf4bSQhR/1HpNCnQt/+kCRxlf1qV
+ /nzk4Cm3xYwpvPfXw3L4lRhPG13mYHeuCftVC55I2y8eguKC98uMwMFBW1y+fDYKREBa
+ 6WamBpUib4SQAzZFMd3geCUGXUA2XRzRVmLI7IokZwRX28Eows3uzifqdsIocLW4H8U8
+ gX+A==
+X-Gm-Message-State: AOAM53128CFhbbOmee+keZ29xuGn7/+JygyWx5UarCaxeO/TGOk2RkUp
+ zQTSnm4K3U43QYvn5bojwx8L9uUk/uPI7A==
+X-Google-Smtp-Source: ABdhPJyUESujCi5JjD8ZLZ45NNLlH+nMjyB5E1WlIq8jlrDKTeG6ZCMYvoaSstZtWP0zSAAoovxfSA==
+X-Received: by 2002:a63:c042:: with SMTP id z2mr909471pgi.136.1618607935267;
+ Fri, 16 Apr 2021 14:18:55 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id r127sm5586266pfr.163.2021.04.16.14.18.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 14:09:53 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+ Fri, 16 Apr 2021 14:18:54 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] spapr_drc.c: handle hotunplug errors in
- drc_unisolate_logical()
-Date: Fri, 16 Apr 2021 18:09:41 -0300
-Message-Id: <20210416210941.381119-2-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210416210941.381119-1-danielhb413@gmail.com>
-References: <20210416210941.381119-1-danielhb413@gmail.com>
+Subject: [PATCH v5 80/81] target/arm: Implement integer matrix multiply
+ accumulate
+Date: Fri, 16 Apr 2021 14:18:53 -0700
+Message-Id: <20210416211853.1591708-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210416210240.1591291-1-richard.henderson@linaro.org>
+References: <20210416210240.1591291-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x836.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,68 +83,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Linux kernel will call set-indicator to move a DRC to 'unisolate' in
-the case a device removal fails. Setting a DRC that is already
-unisolated or configured to 'unisolate' is a no-op for the current
-hypervisors that supports pSeries guests, namely QEMU and phyp, and is
-being used to signal hotunplug errors if the hypervisor has the code for
-it.
+This is {S,U,US}MMLA for both AArch64 AdvSIMD and SVE,
+and V{S,U,US}MMLA.S8 for AArch32 NEON.
 
-This patch changes drc_unisolate_logical() to implement in the pSeries
-machine. For CPUs it's a simple matter of setting drc->unplug_requested
-to 'false', while for LMBs the process is similar to the rollback that
-is done in rtas_ibm_configure_connector(). Although at this moment the
-Linux kernel is only reporting CPU removal errors, let's get the code
-ready to handle LMBs as well.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/ppc/spapr_drc.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ target/arm/helper.h             |  7 +++
+ target/arm/neon-shared.decode   |  7 +++
+ target/arm/sve.decode           |  6 +++
+ target/arm/translate-a64.c      | 18 ++++++++
+ target/arm/translate-sve.c      | 27 ++++++++++++
+ target/arm/vec_helper.c         | 77 +++++++++++++++++++++++++++++++++
+ target/arm/translate-neon.c.inc | 27 ++++++++++++
+ 7 files changed, 169 insertions(+)
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 9e16505fa1..6918e0c9d1 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -151,9 +151,32 @@ static uint32_t drc_isolate_logical(SpaprDrc *drc)
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index e8b16a401f..33df62f44d 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -994,6 +994,13 @@ DEF_HELPER_FLAGS_6(sve2_fmlal_zzxw_s, TCG_CALL_NO_RWG,
  
- static uint32_t drc_unisolate_logical(SpaprDrc *drc)
- {
-+    SpaprMachineState *spapr = NULL;
+ DEF_HELPER_FLAGS_4(gvec_xar_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_5(gvec_smmla_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_ummla_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_usmmla_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
 +
-     switch (drc->state) {
-     case SPAPR_DRC_STATE_LOGICAL_UNISOLATE:
-     case SPAPR_DRC_STATE_LOGICAL_CONFIGURED:
-+        /*
-+         * Unisolating a logical DRC that was marked for unplug
-+         * means that the kernel is refusing the removal.
-+         */
-+        if (drc->unplug_requested && drc->dev) {
-+            if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB) {
-+                spapr = SPAPR_MACHINE(qdev_get_machine());
+ #ifdef TARGET_AARCH64
+ #include "helper-a64.h"
+ #include "helper-sve.h"
+diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
+index 5befaec87b..cc9f4cdd85 100644
+--- a/target/arm/neon-shared.decode
++++ b/target/arm/neon-shared.decode
+@@ -59,6 +59,13 @@ VFML           1111 110 0 s:1 . 10 .... .... 1000 . 0 . 1 .... \
+ VFML           1111 110 0 s:1 . 10 .... .... 1000 . 1 . 1 .... \
+                vm=%vm_dp vn=%vn_dp vd=%vd_dp q=1
+ 
++VSMMLA         1111 1100 0.10 .... .... 1100 .1.0 .... \
++               vm=%vm_dp vn=%vn_dp vd=%vd_dp
++VUMMLA         1111 1100 0.10 .... .... 1100 .1.1 .... \
++               vm=%vm_dp vn=%vn_dp vd=%vd_dp
++VUSMMLA        1111 1100 1.10 .... .... 1100 .1.0 .... \
++               vm=%vm_dp vn=%vn_dp vd=%vd_dp
 +
-+                spapr_memory_unplug_rollback(spapr, drc->dev);
-+            }
+ VCMLA_scalar   1111 1110 0 . rot:2 .... .... 1000 . q:1 index:1 0 vm:4 \
+                vn=%vn_dp vd=%vd_dp size=1
+ VCMLA_scalar   1111 1110 1 . rot:2 .... .... 1000 . q:1 . 0 .... \
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 63870b7539..3d7c4fa6e5 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -1364,6 +1364,12 @@ USHLLT          01000101 .. 0 ..... 1010 11 ..... .....  @rd_rn_tszimm_shl
+ EORBT           01000101 .. 0 ..... 10010 0 ..... .....  @rd_rn_rm
+ EORTB           01000101 .. 0 ..... 10010 1 ..... .....  @rd_rn_rm
+ 
++## SVE integer matrix multiply accumulate
 +
-+            drc->unplug_requested = false;
-+            error_report("Device hotunplug rejected by the guest "
-+                         "for device %s", drc->dev->id);
++SMMLA           01000101 00 0 ..... 10011 0 ..... .....  @rda_rn_rm_e0
++USMMLA          01000101 10 0 ..... 10011 0 ..... .....  @rda_rn_rm_e0
++UMMLA           01000101 11 0 ..... 10011 0 ..... .....  @rda_rn_rm_e0
 +
-+            /*
-+             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
-+             * it is implemented.
-+             */
+ ## SVE2 bitwise permute
+ 
+ BEXT            01000101 .. 0 ..... 1011 00 ..... .....  @rd_rn_rm
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 0d45a44f51..668edf3a00 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -12197,6 +12197,15 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
+         }
+         feature = dc_isar_feature(aa64_i8mm, s);
+         break;
++    case 0x04: /* SMMLA */
++    case 0x14: /* UMMLA */
++    case 0x05: /* USMMLA */
++        if (!is_q || size != MO_32) {
++            unallocated_encoding(s);
++            return;
 +        }
++        feature = dc_isar_feature(aa64_i8mm, s);
++        break;
+     case 0x18: /* FCMLA, #0 */
+     case 0x19: /* FCMLA, #90 */
+     case 0x1a: /* FCMLA, #180 */
+@@ -12241,6 +12250,15 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
+         gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, 0, gen_helper_gvec_usdot_b);
+         return;
+ 
++    case 0x04: /* SMMLA, UMMLA */
++        gen_gvec_op4_ool(s, 1, rd, rn, rm, rd, 0,
++                         u ? gen_helper_gvec_ummla_b
++                         : gen_helper_gvec_smmla_b);
++        return;
++    case 0x05: /* USMMLA */
++        gen_gvec_op4_ool(s, 1, rd, rn, rm, rd, 0, gen_helper_gvec_usmmla_b);
++        return;
 +
-         return RTAS_OUT_SUCCESS; /* Nothing to do */
-     case SPAPR_DRC_STATE_LOGICAL_AVAILABLE:
-         break; /* see below */
+     case 0x8: /* FCMLA, #0 */
+     case 0x9: /* FCMLA, #90 */
+     case 0xa: /* FCMLA, #180 */
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index ae628968da..cb0e7a1f68 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -8543,3 +8543,30 @@ static bool trans_FMLSLT_zzxw(DisasContext *s, arg_rrxr_esz *a)
+ {
+     return do_FMLAL_zzxw(s, a, true, true);
+ }
++
++static bool do_i8mm_zzzz_ool(DisasContext *s, arg_rrrr_esz *a,
++                             gen_helper_gvec_4 *fn, int data)
++{
++    if (!dc_isar_feature(aa64_sve_i8mm, s)) {
++        return false;
++    }
++    if (sve_access_check(s)) {
++        gen_gvec_ool_zzzz(s, fn, a->rd, a->rn, a->rm, a->ra, data);
++    }
++    return true;
++}
++
++static bool trans_SMMLA(DisasContext *s, arg_rrrr_esz *a)
++{
++    return do_i8mm_zzzz_ool(s, a, gen_helper_gvec_smmla_b, 0);
++}
++
++static bool trans_USMMLA(DisasContext *s, arg_rrrr_esz *a)
++{
++    return do_i8mm_zzzz_ool(s, a, gen_helper_gvec_usmmla_b, 0);
++}
++
++static bool trans_UMMLA(DisasContext *s, arg_rrrr_esz *a)
++{
++    return do_i8mm_zzzz_ool(s, a, gen_helper_gvec_ummla_b, 0);
++}
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index ea08b15c55..6c9f1e5146 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -2578,3 +2578,80 @@ void HELPER(gvec_xar_d)(void *vd, void *vn, void *vm, uint32_t desc)
+     }
+     clear_tail(d, opr_sz * 8, simd_maxsz(desc));
+ }
++
++/*
++ * Integer matrix-multiply accumulate
++ */
++
++static uint32_t do_smmla_b(uint32_t sum, void *vn, void *vm)
++{
++    int8_t *n = vn, *m = vm;
++
++    for (intptr_t k = 0; k < 8; ++k) {
++        sum += n[H1(k)] * m[H1(k)];
++    }
++    return sum;
++}
++
++static uint32_t do_ummla_b(uint32_t sum, void *vn, void *vm)
++{
++    uint8_t *n = vn, *m = vm;
++
++    for (intptr_t k = 0; k < 8; ++k) {
++        sum += n[H1(k)] * m[H1(k)];
++    }
++    return sum;
++}
++
++static uint32_t do_usmmla_b(uint32_t sum, void *vn, void *vm)
++{
++    uint8_t *n = vn;
++    int8_t *m = vm;
++
++    for (intptr_t k = 0; k < 8; ++k) {
++        sum += n[H1(k)] * m[H1(k)];
++    }
++    return sum;
++}
++
++static void do_mmla_b(void *vd, void *vn, void *vm, void *va, uint32_t desc,
++                      uint32_t (*inner_loop)(uint32_t, void *, void *))
++{
++    intptr_t seg, opr_sz = simd_oprsz(desc);
++
++    for (seg = 0; seg < opr_sz; seg += 16) {
++        uint32_t *d = vd + seg;
++        uint32_t *a = va + seg;
++        uint32_t sum0, sum1, sum2, sum3;
++
++        /*
++         * Process the entire segment at once, writing back the
++         * results only after we've consumed all of the inputs.
++         *
++         * Key to indicies by column:
++         *          i   j                  i             j
++         */
++        sum0 = a[H4(0 + 0)];
++        sum0 = inner_loop(sum0, vn + seg + 0, vm + seg + 0);
++        sum1 = a[H4(0 + 1)];
++        sum1 = inner_loop(sum1, vn + seg + 0, vm + seg + 8);
++        sum2 = a[H4(2 + 0)];
++        sum2 = inner_loop(sum2, vn + seg + 8, vm + seg + 0);
++        sum3 = a[H4(2 + 1)];
++        sum3 = inner_loop(sum3, vn + seg + 8, vm + seg + 8);
++
++        d[H4(0)] = sum0;
++        d[H4(1)] = sum1;
++        d[H4(2)] = sum2;
++        d[H4(3)] = sum3;
++    }
++    clear_tail(vd, opr_sz, simd_maxsz(desc));
++}
++
++#define DO_MMLA_B(NAME, INNER) \
++    void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
++    { do_mmla_b(vd, vn, vm, va, desc, INNER); }
++
++DO_MMLA_B(gvec_smmla_b, do_smmla_b)
++DO_MMLA_B(gvec_ummla_b, do_ummla_b)
++DO_MMLA_B(gvec_usmmla_b, do_usmmla_b)
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index c322615915..f1893b1dc8 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
+@@ -4027,3 +4027,30 @@ static bool trans_VTRN(DisasContext *s, arg_2misc *a)
+     tcg_temp_free_i32(tmp2);
+     return true;
+ }
++
++static bool trans_VSMMLA(DisasContext *s, arg_VSMMLA *a)
++{
++    if (!dc_isar_feature(aa32_i8mm, s)) {
++        return false;
++    }
++    return do_neon_ddda(s, 7, a->vd, a->vn, a->vm, 0,
++                        gen_helper_gvec_smmla_b);
++}
++
++static bool trans_VUMMLA(DisasContext *s, arg_VUMMLA *a)
++{
++    if (!dc_isar_feature(aa32_i8mm, s)) {
++        return false;
++    }
++    return do_neon_ddda(s, 7, a->vd, a->vn, a->vm, 0,
++                        gen_helper_gvec_ummla_b);
++}
++
++static bool trans_VUSMMLA(DisasContext *s, arg_VUSMMLA *a)
++{
++    if (!dc_isar_feature(aa32_i8mm, s)) {
++        return false;
++    }
++    return do_neon_ddda(s, 7, a->vd, a->vn, a->vm, 0,
++                        gen_helper_gvec_usmmla_b);
++}
 -- 
-2.30.2
+2.25.1
 
 
