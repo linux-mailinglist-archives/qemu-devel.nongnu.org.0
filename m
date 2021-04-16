@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862AC3624CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 17:59:43 +0200 (CEST)
-Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AA83625A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:28:47 +0200 (CEST)
+Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXQsg-00042m-Iz
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 11:59:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
+	id 1lXRKo-0002HG-F8
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lXQjE-0003Ci-D4; Fri, 16 Apr 2021 11:49:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31264)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRJ0-0000eL-D1
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:26:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1lXQjC-0000AL-L2; Fri, 16 Apr 2021 11:49:56 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13GFYH3J053283; Fri, 16 Apr 2021 11:49:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=BW7u4WcPkobkkMRidYkYfR+F2b4Woa8iJkWP89Rsaw0=;
- b=rhmZSRadD7SxyXstfcChiE0CWc8PebalfuVyct+eGWEFuzPREaK8B+pyVyN9/BAmTJp/
- 4yoe7yDMT/EyNMZ4jnGQsoal+XinlDMjAHrIzpzbRiGp5f5aprr0Gl7ptrceknwSRQT+
- oI4NMCrvHdrr4NcIi9Qw5GSkKb7cqf8VI+C7+hILkam8gPIllOHvBchQ5aEzCe7h09nI
- o+2l06UDYSrVyvMK/Qz5B2cBYVx3pv5L1P1YK9sH0aH2nV9E1j3BRl3ytsDPapJS0Nnt
- mCqAYUmMDgJL6pryrXn+lEyYmDqW6xni3OfvCTMLQzc9qoUkGvJhKJL0r/mgHmniI5+S Nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37xtt557v3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Apr 2021 11:49:51 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13GFZrsN057861;
- Fri, 16 Apr 2021 11:49:50 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37xtt557uc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Apr 2021 11:49:50 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13GFbxE7006087;
- Fri, 16 Apr 2021 15:49:48 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 37u39hmjcj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Apr 2021 15:49:48 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13GFnjBL41156866
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Apr 2021 15:49:45 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E96511C04A;
- Fri, 16 Apr 2021 15:49:45 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F77311C04C;
- Fri, 16 Apr 2021 15:49:44 +0000 (GMT)
-Received: from vm.lan (unknown [9.145.157.105])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 16 Apr 2021 15:49:44 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH v5 4/4] accel/tcg: Assert that tb->size != 0 after translation
-Date: Fri, 16 Apr 2021 17:49:39 +0200
-Message-Id: <20210416154939.32404-5-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210416154939.32404-1-iii@linux.ibm.com>
-References: <20210416154939.32404-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRIx-0000bT-SA
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:26:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618590411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z2nDTnhB4JMlgOMvwKnb/4ZGZIMaaPgWntHgrO1i3W4=;
+ b=FinPxTZ8Qyoklu7GhI81UBDEAU6JxBrW+g0hMw2C5JLTg8EyiZYbmR7qyiNlBuyl9DFr8B
+ +f7OVoiwnJtabIGdR1MOdUkR7QSN4dSbQuAbF8JSHdzgEf6QF73deLqHdDkWtgOsf+2jLW
+ JZrXI4uqMrL3B8jGWY8dQSX1yWW54hU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-80M-E84oNveSLX6IxfewNw-1; Fri, 16 Apr 2021 12:26:48 -0400
+X-MC-Unique: 80M-E84oNveSLX6IxfewNw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94AA4801814;
+ Fri, 16 Apr 2021 16:26:47 +0000 (UTC)
+Received: from localhost (ovpn-116-207.rdu2.redhat.com [10.10.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DCD35D6D3;
+ Fri, 16 Apr 2021 16:26:37 +0000 (UTC)
+Date: Fri, 16 Apr 2021 11:39:00 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/8] Acceptance Jobs: preserve the cache for pip on
+ GitLab CI
+Message-ID: <20210416153900.GA1914548@amachine.somewhere>
+References: <20210415215141.1865467-1-crosa@redhat.com>
+ <20210415215141.1865467-2-crosa@redhat.com>
+ <af052ca5-aaaa-07f8-c2c0-e96132d4db5a@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: J43xLxcyno3JKawLUFbfMJnbOCA4Pm7t
-X-Proofpoint-GUID: A_0AMjkrKDxv1E7V4_Suz2htj5rdtSqp
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-16_08:2021-04-16,
- 2021-04-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- mlxlogscore=999 malwarescore=0 phishscore=0 clxscore=1015 suspectscore=0
- bulkscore=0 impostorscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104160113
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <af052ca5-aaaa-07f8-c2c0-e96132d4db5a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,35 +79,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If arch-specific code generates a translation block of size 0,
-tb_gen_code() may generate a spurious exception. Add an assertion in
-order to catch such situations early.
+--3V7upXqbjpZ4EhLz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
- accel/tcg/translate-all.c | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, Apr 16, 2021 at 05:56:10AM +0200, Thomas Huth wrote:
+> On 15/04/2021 23.51, Cleber Rosa wrote:
+> > The acceptance jobs (via `make check-venv`) will setup a virtual
+> > environment, and after that install packages defined in
+> > tests/requirements.txt via pip.
+> >=20
+> > Let's enable pip's default cache directory, so that we can save
+> > a bit on time/bandwidth.
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >   .gitlab-ci.yml | 1 +
+> >   1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> > index 52d65d6c04..9cc4676912 100644
+> > --- a/.gitlab-ci.yml
+> > +++ b/.gitlab-ci.yml
+> > @@ -53,6 +53,7 @@ include:
+> >       key: "${CI_JOB_NAME}-cache"
+> >       paths:
+> >         - ${CI_PROJECT_DIR}/avocado-cache
+> > +      - ~/.cache/pip
+>=20
+> Did you check whether this works? AFAIK the cache directories have to be
+> part of the project directory, see:
+>=20
+>  https://docs.gitlab.com/ee/ci/yaml/README.html#cache
+>=20
+> We already tried to cache ~/avocado/data/cache in the past, but it did no=
+t
+> work and we had to move the cache manually to the current working directo=
+ry
+> (see commit 5896c539547).
+>=20
+>  Thomas
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ba6ab09790..93b2dae112 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1913,6 +1913,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- 
-     tcg_ctx->cpu = env_cpu(env);
-     gen_intermediate_code(cpu, tb, max_insns);
-+    assert(tb->size != 0);
-     tcg_ctx->cpu = NULL;
-     max_insns = tb->icount;
- 
--- 
-2.29.2
+You're absolutely right, it won't work like that.  My bad.
+
+I was trying to avoid having to set variables or configurations, but
+something like the following will be needed:
+
+    before_script:
+        - export PIP_CACHE_DIR=3D${CI_PROJECT_DIR}/pip-cache
+        - mkdir -p ${CI_PROJECT_DIR}/pip-cache
+    cache:
+        paths:
+            - ${CI_PROJECT_DIR}/pip-cache
+
+Resulting in:
+
+    Using cached avocado_framework-87.0-py3-none-any.whl (399 kB)
+
+And the likes of:
+
+    https://gitlab.com/cleber.gnu/democi/-/jobs/1186910932#L166
+
+I'll change that on v2.
+
+Thanks!
+- Cleber.
+
+--3V7upXqbjpZ4EhLz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmB5r5EACgkQZX6NM6Xy
+CfP+5hAApJ6gGMhrMmMyCzlUQUonRUcc/laCSIflgicuRTUhYalXsxspJkdnrrae
+ythz7NxhKrOqbZqyt5zdJok4p6Fnh1QjeKFhvvAJUxec3WpNujsZgO0nv+E/V3TD
+oIUYgF0ktR4fgE0vUTt+TzI3A5DuOtFzF244evVc8iB0/C1IrAI+MP4hCJ0uj81H
+QJPt0GQLPS5IzjyCQ2l628F+DbK949ZxmrfxHOisJH6YlBD65UjJwmeQK3vnnmjb
+zBgtjt0bgmA9QbbqVlDJQFLWdIo9pOEvyuoU8m/QE7fyjQZ95tgsG769a8t4YAv5
+NAX0NqV6i7otr/dFA3xQcLNfhT5vok8qzZSaKPd/6kGIc2jb348rbLLfU01AxLDE
+AxpKZulipCy6EcAVRVUKnEGAFi68VBT/0bFv9BOO3UMouIAdkDBM73Lz5dk13f+i
+bPLf5Z2eUL5wuM2TZIq5st2RJH3eo2Y684eNccDcY9llnnBrWbOH5hc/rgR+T6/c
+g81OyjTcrPuRe/tEQUA2P6uP54fxtd62NatB7kO152kTL3EpXdxcPSuFqEcwdm2h
+Lz3x3J5eI+yanW5Bu3wORFXVKD+rfy/KQV/qu0qgTmzW//sUVqmTWlngY3gOpevv
+5zJLCBr0kUvD5E6YgAbHeA1NfV8jFkoujtym8X1cmsL6uRaTPSA=
+=q6Yc
+-----END PGP SIGNATURE-----
+
+--3V7upXqbjpZ4EhLz--
 
 
