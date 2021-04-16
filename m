@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1795236270A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:41:04 +0200 (CEST)
-Received: from localhost ([::1]:53242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B787362718
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:46:21 +0200 (CEST)
+Received: from localhost ([::1]:33380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSSl-0005hm-2U
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1lXSXs-0000z0-Dy
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:46:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLM-0004bq-NP
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:20 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45026)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLO-0004iA-U8
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL9-0001Wp-7e
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:20 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL9-0001XC-EN
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:22 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2D161B301;
- Fri, 16 Apr 2021 16:28:47 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 92CE1B300;
+ Fri, 16 Apr 2021 16:28:48 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 46/80] target/arm: cleanup cpu includes
-Date: Fri, 16 Apr 2021 18:27:50 +0200
-Message-Id: <20210416162824.25131-47-cfontana@suse.de>
+Subject: [RFC v14 49/80] tests/qtest: skip bios-tables-test
+ test_acpi_oem_fields_virt for KVM
+Date: Fri, 16 Apr 2021 18:27:53 +0200
+Message-Id: <20210416162824.25131-50-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -54,144 +56,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu.c,
-cpu32.c,
-cpu64.c,
-tcg/sysemu/tcg-cpu.c,
-
-all need a good cleanup when it comes to included header files.
+test is TCG-only.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/cpu.c                |  7 ++-----
- target/arm/cpu32.c              | 14 --------------
- target/arm/cpu64.c              |  6 ------
- target/arm/tcg/sysemu/tcg-cpu.c | 22 +---------------------
- 4 files changed, 3 insertions(+), 46 deletions(-)
+ tests/qtest/bios-tables-test.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 617334a614..cc3e2355c1 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -21,25 +21,22 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "target/arm/idau.h"
--#include "qemu/module.h"
- #include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #include "cpregs.h"
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 156d4174aa..d5ff6c5260 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1488,6 +1488,13 @@ static void test_acpi_oem_fields_virt(void)
+     };
+     char *args;
+ 
++#ifndef CONFIG_TCG
++    if (data.tcg_only) {
++        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
++        return;
++    }
++#endif /* CONFIG_TCG */
 +
- #ifdef CONFIG_TCG
- #include "tcg/tcg-cpu.h"
- #endif /* CONFIG_TCG */
- #include "cpu32.h"
--#include "internals.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
- #include "hw/loader.h"
- #include "hw/boards.h"
- #endif
--#include "sysemu/sysemu.h"
-+
- #include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
- #include "kvm/kvm_arm.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
-diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
-index 56f02ca891..6c53245d66 100644
---- a/target/arm/cpu32.c
-+++ b/target/arm/cpu32.c
-@@ -20,26 +20,12 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/qemu-print.h"
--#include "qemu-common.h"
--#include "target/arm/idau.h"
- #include "qemu/module.h"
--#include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
- #include "cpregs.h"
--#include "internals.h"
--#include "exec/exec-all.h"
--#include "hw/qdev-properties.h"
- #if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
- #include "hw/boards.h"
- #endif
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
--#include "kvm/kvm_arm.h"
--#include "disas/capstone.h"
--#include "fpu/softfloat.h"
- #include "cpu-mmu.h"
- #include "cpu32.h"
- 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 3124925afa..cf89dfc1bc 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -23,13 +23,7 @@
- #include "qemu/qemu-print.h"
- #include "cpu.h"
- #include "cpu32.h"
--#ifdef CONFIG_TCG
--#include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "qemu/module.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#endif
- #include "sysemu/kvm.h"
- #include "kvm/kvm_arm.h"
- #include "qapi/visitor.h"
-diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index 6ab49ba614..327b2a5073 100644
---- a/target/arm/tcg/sysemu/tcg-cpu.c
-+++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -19,29 +19,9 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/qemu-print.h"
--#include "qemu-common.h"
--#include "target/arm/idau.h"
--#include "qemu/module.h"
--#include "qapi/error.h"
--#include "qapi/visitor.h"
- #include "cpu.h"
--#include "hw/core/tcg-cpu-ops.h"
- #include "semihosting/common-semi.h"
--#include "cpregs.h"
--#include "internals.h"
--#include "exec/exec-all.h"
--#include "hw/qdev-properties.h"
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/loader.h"
--#include "hw/boards.h"
--#endif
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
--#include "sysemu/hw_accel.h"
--#include "disas/capstone.h"
--#include "fpu/softfloat.h"
--#include "cpu-mmu.h"
-+#include "qemu/log.h"
- #include "tcg/tcg-cpu.h"
- 
- /*
+     args = test_acpi_create_args(&data,
+                                  "-cpu cortex-a57 "OEM_TEST_ARGS, true);
+     data.qts = qtest_init(args);
 -- 
 2.26.2
 
