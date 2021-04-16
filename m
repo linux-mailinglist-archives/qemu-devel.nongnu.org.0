@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BD4362577
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:14:56 +0200 (CEST)
-Received: from localhost ([::1]:49608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA263625A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:28:35 +0200 (CEST)
+Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXR7P-0002OH-Jw
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40620)
+	id 1lXRKc-0001wc-9i
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXR0m-0003h6-BD
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:08:05 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:43839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXR0j-00086y-C0
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:08:04 -0400
-Received: by mail-pg1-x535.google.com with SMTP id p12so19505115pgj.10
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 09:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WkFBCkkkicIKnBE9nNBDT9WuWGWcL0lUZBXFEw9pw8M=;
- b=bFAcaHHjGxiVrow+BpJJW0h/YsGs0kVXjQxOqpEJbE55J+/JIWkMi7LKklFTjSrB/l
- OV4pBBS+186wIHUrLIq0hWKqpEyTPec6fJL2DJHvig161bpvAesinoED/gDIdyKq1/+1
- ieEkAHur9IJixv/ZNwPYiK3Fj77A/zJijbK/VkODSvVXvE4NNtf7CdTyOt/u9vrI5tkJ
- qCfclic8LGRdliJ9PVz1N/oMOwusvbpee2sr/A47NMH9ms3nOxqlwuDtxVGei0QUM1ac
- PZKa2du27CfSWTjWzdu6PtB3chV4T3GGH0CHaOz+PCpmGkxBj1BJwME/eLtzisIh8Bu2
- ljOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WkFBCkkkicIKnBE9nNBDT9WuWGWcL0lUZBXFEw9pw8M=;
- b=kbBNU/ZiUhQmAviXdX4JU/ep/FAkarhn005wiAQSuvid28pkf0tBQ0kqX9R7vs5vFn
- NuABYlhxF3wspC3xlwK3jXfL7IB0RgEk0iIc2KBtzQ7VH95cvZC86XLdV7nac1lOOCbR
- +XHh2mWZVMP11E5z11t9xtDaHlBxF4I4K4jfPvnrBwyuAfYXHeH/vhsbqnmta/v4//4R
- ImxwzqWj6E6vHNpceCMMi6RnmsMidld4s6c3JikVNzLdys7jwHxGj8U2HeKCIXT2f7Vs
- q9BzRvbQDYdkpP8MgbNDub5UVhaeeoA9FFBZh8yOYpzRXdxbES4uPTgeJqhTTs7VrzWH
- 3psw==
-X-Gm-Message-State: AOAM531G/A+1PlF2JkysvjFL5i17mqkG+BmBKpo3ZBuQ2ylP+kCOjGJH
- A1Z1/w3Z03DLEpZMVxAR+esJ/A==
-X-Google-Smtp-Source: ABdhPJz/NYNWyovFx2/O4+pJloC5xRhAvX9MkaPBjyAs7NCCsxEGTOooQMQMccga7SnSYlnH9vKSvw==
-X-Received: by 2002:a62:6585:0:b029:241:cf5d:93b2 with SMTP id
- z127-20020a6265850000b0290241cf5d93b2mr8647186pfb.15.1618589279093; 
- Fri, 16 Apr 2021 09:07:59 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id h16sm5158682pfo.191.2021.04.16.09.07.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 09:07:58 -0700 (PDT)
-Subject: Re: [RFC PATCH] target/arm: drop CF_LAST_IO/dc->condjump check
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210416154908.21673-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0f27dc8f-c62c-fd8e-4f4e-3ad4b51122fa@linaro.org>
-Date: Fri, 16 Apr 2021 09:07:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRIv-0000c5-6I
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:26:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRIp-0000Xp-LG
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:26:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618590402;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/gXkf3hWGoMfVhrCPlXQ8k2cVZWEibm2fDPJIKnimos=;
+ b=X4vq8hJsIT9Rk4fXPAUQ6pLGxA6KmOx0oslmhmtO5yHSIuECqdHtD1TQsnfTgi+UHtxqf6
+ J83V3+uZxDnZtlmc5MPq/J0oqrBAyYinUqWWPkvIJqtOJ6hbfZYN+y/2SYdCNxaKq8e/JC
+ XCVFku27rkUVLWyjL6j6/pZIQqXbWjY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-GJsBfpLZMlefoR-Ea42FkQ-1; Fri, 16 Apr 2021 12:26:38 -0400
+X-MC-Unique: GJsBfpLZMlefoR-Ea42FkQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C349F107ACCD;
+ Fri, 16 Apr 2021 16:26:36 +0000 (UTC)
+Received: from localhost (ovpn-116-207.rdu2.redhat.com [10.10.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E12D60BE5;
+ Fri, 16 Apr 2021 16:26:26 +0000 (UTC)
+Date: Fri, 16 Apr 2021 12:14:14 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 4/8] tests/acceptance/migration.py: cancel test if
+ migration is not supported
+Message-ID: <20210416161414.GC1914548@amachine.somewhere>
+References: <20210415215141.1865467-1-crosa@redhat.com>
+ <20210415215141.1865467-5-crosa@redhat.com>
+ <68f215a3-10cc-d348-0512-8a5cf64b77a5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416154908.21673-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <68f215a3-10cc-d348-0512-8a5cf64b77a5@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="E13BgyNx05feLLmH"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,29 +79,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/21 8:49 AM, Alex Bennée wrote:
-> This is a left over erroneous check from the days front-ends handled
-> io start/end themselves. Regardless just because IO could be performed
-> on the last instruction doesn't obligate the front end to do so.
-> 
-> This fixes an abort faced by the aspeed execute-in-place support which
-> will necessarily trigger this state (even before the one-shot
-> CF_LAST_IO fix). The test still seems to hang once it attempts to boot
-> the Linux kernel but I suspect this is an unrelated issue with icount
-> and the timer handling code.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Cédric Le Goater<clg@kaod.org>
-> ---
->   target/arm/translate.c | 5 -----
->   1 file changed, 5 deletions(-)
+--E13BgyNx05feLLmH
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Fri, Apr 16, 2021 at 07:11:04AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 4/15/21 11:51 PM, Cleber Rosa wrote:
+> > FIXME: check if there's a way to query migration support before
+> > actually requesting migration.
+> >=20
+> > Some targets/machines contain devices that do not support migration.
+> > Let's acknowledge that and cancel the test as early as possible.
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  tests/acceptance/migration.py | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration=
+.py
+> > index 792639cb69..25ee55f36a 100644
+> > --- a/tests/acceptance/migration.py
+> > +++ b/tests/acceptance/migration.py
+> > @@ -53,7 +53,11 @@ def do_migrate(self, dest_uri, src_uri=3DNone):
+> >          source_vm =3D self.get_vm()
+> >          source_vm.add_args('-nodefaults')
+> >          source_vm.launch()
+> > -        source_vm.qmp('migrate', uri=3Dsrc_uri)
+> > +        response =3D source_vm.qmp('migrate', uri=3Dsrc_uri)
+> > +        if 'error' in response:
+> > +            if 'desc' in response['error']:
+> > +                msg =3D response['error']['desc']
+> > +            self.cancel('Migration does not seem to be supported: %s' =
+% msg)
+> >          self.assert_migration(source_vm, dest_vm)
+>=20
+> It would be better to have this done as a generic check_requisites()
+> method. First because we could reuse it (also at the class level),
+> second because we could account the time spent for checking separately
+> from the time spent for the actual testing.
+>=20
 
-r~
+With regards to separating the time, you suggest that we should
+perform the check at the setUp(), and I absolutely agree with the
+principle.  But, I wonder if any characteristic of the "vm",
+configured during the test (and not available earlier), could affect
+its migration capabilities.
+
+Right now we are proposing some "require_*()" methods, such as
+require_accelerator("kvm"), because they are checks that, to the best
+of my knowlege, do not depend on any further configuration for the vm
+instance.
+
+But, your second point, about this being in a method for common use,
+is very sound.  IMO the place to put something like you suggest would
+be QEMUMachine.  Something like:
+
+   try:
+      source_vm.require_migrate()
+   except RequirementError as e:
+      self.cancel(e)
+
+Ideally, though, one instance of the QEMUMachine used for the checks,
+would not be re-used during the test.  The ideal implementation of
+QEMUMachine.require_*(), would create a fresh QEMUMachine instance
+with user defined characteristics and verify the requirement, leaving
+the original instance untouched.
+
+IMO we can pursue that discussion further, while handling this error
+condition locally for now.
+
+Thanks,
+- Cleber.
+
+--E13BgyNx05feLLmH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmB5t9MACgkQZX6NM6Xy
+CfOKChAAtYBZCRlnVS+hjtSkofRGpuTgOtOssYSlfGfN5gcXSPf2ywJD+myXhFd+
+eTbxWlKJAr6a1S7C6I9W0zV4S6Ycryb5DakzJeZ+2tpsno52dZaAPx4QA3Sx90FL
+wNijr58XUIlG6bHZBfIoLMiMlH6d5okfkqUTrqeCoaue1o7yk96YffW8UoLX7ByH
+VSuV4g6y7eoFYyFjCFzogcm30ztw/92Mu86w5AKHcUZNWYUab4fWhcta5Wbb84iY
+rYNzpXJG55AlUsHtzeh6SbJvOn/Go78o96D6ZdkNQ6IK7UqC+z+66k/4A6kDlb1Z
+36kpgAM3BBu4cCn3IZD26qADkjP8sIg3Co0Sz7Lrzhz6qMMax43LDtVTwPjQE+YS
+spvY6EL6VtCYqkqgxhxxkoUXe/uF3D522DOIOm1CFaUOS5P/PJBQjmmx7/bR7qJU
+CU63tCpo1t6aTrxM/VLTTwXay5oJDGfds1q78Lrlj2C0OyBldlI/JrDReCXe2ETm
+unOJMbayYHcmH5AHSdDBLiDZFpVJuHrWmzQETGEtAbaXm42J1hy1xj7MFIdmpDmG
+9nESBChIIQeYPVlcdZVvmeHSEqiPSNs79WMfGeZEp9F1YWOKgRwXAXKptUOiaae6
+ccs83DF/mTRIyysmJlskMAK/lk9ZkdmKONWpkiZp9sHwQRcBxcY=
+=jqyx
+-----END PGP SIGNATURE-----
+
+--E13BgyNx05feLLmH--
+
 
