@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C236361A5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 09:12:49 +0200 (CEST)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9227361A72
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 09:24:41 +0200 (CEST)
+Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXIem-0007P7-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 03:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47190)
+	id 1lXIqG-0002bX-Pa
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 03:24:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lXIdM-0006lF-Hh
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:11:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lXIdK-0004p4-1Y
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:11:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618557077;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9bi06xcak41WEfg6uAzy/+N11jZ+D6OSUzpk3DrcL40=;
- b=GT5REdiDeTtyj5yDD2lN4TWz63VcPyZgE1R6hruZQwdsQzYXuQTqtwPsbBytGSh7ex0UFo
- KrL0G0FSmKjy6q5Me5VEvcMJIeCsOhdXZGLWdmgi4cEptGjb+B4KoR5GtP5Uc6F/hAA2lE
- zTlB70tp9PCernLZJO30D2ZuRs8wuVc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-az_St-pYPiy14tJ1PJP9nA-1; Fri, 16 Apr 2021 03:11:15 -0400
-X-MC-Unique: az_St-pYPiy14tJ1PJP9nA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ADC16D246;
- Fri, 16 Apr 2021 07:11:14 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-131.ams2.redhat.com
- [10.36.113.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBC7F5E1A4;
- Fri, 16 Apr 2021 07:11:12 +0000 (UTC)
-Subject: Re: about mirror cancel
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu block <qemu-block@nongnu.org>
-References: <b2e5b990-ca1c-53f0-0e0c-31396156fa4a@virtuozzo.com>
- <5df8166f-a204-6510-e27a-1b334f0bb3f3@redhat.com>
-Message-ID: <ea96f574-dc36-2546-53be-ddb02ba02880@redhat.com>
-Date: Fri, 16 Apr 2021 09:11:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lXIpQ-0002AS-8I
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:23:48 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lXIpO-0004M4-B5
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:23:47 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ q123-20020a1c43810000b029012c7d852459so4957167wma.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 00:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K8Lefpo8nZP0gFggoWqcmXp4/ZG5K0orSkYHqPpyME4=;
+ b=o+bOXMIJggQpKNVUZ9MLFY2Ea0tGke2F/v2ET75uMSzyTEnepYooBGTYKQSQtxJ8e6
+ HhLKVhFgZ3YpkkxqDfC8XO1l6Mri+OiP4ukr3OcZnaqCKAuD8jnANKN05uAxuMYjhzRv
+ evVJmIEQGnkBxVrAjFAYx4TmaKdpnEO1fdBqr6coPxZfST+eBRO2eizBR7sZNdzIe1Ln
+ wRN2z5Mlr0gkVUbJXjTdxGs+vxFqGq4xB10yEbWVF0UQC2SzvMC71J4c0x5ZjzpHzdaV
+ hCYZ4tKKXd9EZH6UXPRpGnP1NqYDfnrhYnmSeE72479MUYTX0ZKWD09L4fUVbDu2TVQh
+ Ll+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K8Lefpo8nZP0gFggoWqcmXp4/ZG5K0orSkYHqPpyME4=;
+ b=npLdE0ywivId7UQHekiRteEPYfsppmcya1IPzM8KlrB7bJbQSWrxN0oaOb1tyQ2nUp
+ RMvUVQZZeEkk40xvp5F1KnZEY4g8zRWGEeSna4Ux7he2vl/CX1rYF1IsITveQwbCE2Hu
+ +ES8FrPjTswn3gfp+qv/Xkc2lSRJoYbfdDLC7Lh2XdBVC6+rxThlyBzTDxr9un7W7oBe
+ mMgoYBurCMIUY6lyGhpFaGtBbjhLgoWxVcs739pfoWb7MpRja+ho+xaW3akhQdWCKiGr
+ 4m4DIgM1v/O62pQvTTb0699INNE2okKj5ishT/dCh8kVX41xvNhFrROMh0CKNLNITtVz
+ shKg==
+X-Gm-Message-State: AOAM530A+U0phdujHPtDLyr49wZqC6eWPeM+brugAlTJVAbF+JAGeoVF
+ X/kAiL66fZKb3iuISVyzK9L1BI16x/o=
+X-Google-Smtp-Source: ABdhPJx51iLS3oBZYmwvIhwSx2Yw9NipehwJgEA8myV3gCxPccORK33hnEh3HjWJDxhUp2O7OJZi5Q==
+X-Received: by 2002:a05:600c:4f03:: with SMTP id
+ l3mr6766006wmq.149.1618557824556; 
+ Fri, 16 Apr 2021 00:23:44 -0700 (PDT)
+Received: from localhost.localdomain ([41.36.15.230])
+ by smtp.googlemail.com with ESMTPSA id n3sm7484674wmi.7.2021.04.16.00.23.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 00:23:44 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] plugins/syscall: Added a table-like summary output
+Date: Fri, 16 Apr 2021 09:17:39 +0200
+Message-Id: <20210416071740.3393-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <5df8166f-a204-6510-e27a-1b334f0bb3f3@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,42 +82,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.04.21 09:05, Max Reitz wrote:
-> On 15.04.21 20:46, Vladimir Sementsov-Ogievskiy wrote:
+Added a table-like output which contains the total number of calls
+for each used syscall along with the number of errors that occurred.
 
-[...]
+Per-call tracing is still available through supplying the argument
+``print`` to the plugin.
 
->> Note, that if cancelling all in-flight requests on target is wrong on 
->> mirror cancel, we still don't have real bug, as the only 
->> implementation of .bdrv_cancel_in_flight is stopping reconnect waiting 
->> in nbd driver. So, we'll cancel requests only if connection is already 
->> lost anyway.
->>
->> But that probably means, that correct name of the handler would be 
->> .bdrv_cancel_in_fligth_requests_that_will_most_probably_fail_anyway()..
-> 
-> It’s documentation states that it should cancel all in-flight requests, 
-> so it’s more likely it just isn’t implemented where it could be.
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+v1: https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02623.html
+v1 -> v2: Removed debugging code in the on-return from syscall callback 
+          that was silently existent.
 
-Oh, I now see you added it in the same series.  Well, then I suppose 
-you’re free to change the semantics as you see fit.
+ tests/plugin/syscall.c | 91 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 85 insertions(+), 6 deletions(-)
 
-But be aware that even cancelling those requests means that you abandon 
-the target.  So it must then fail instead of emitting the COMPLETED 
-event (AFAIR the mirror job emits COMPLETED when cancelled in READY with 
-force=false).
-
-If the user wants the mirror job to create a consistent copy and so 
-cancels it after READY (with force=false), I don’t know whether 
-cancelling those hanging requests is what we want.  If the cancel hangs 
-and the user sees this, they are still free to decide to cancel again 
-with force=true, no?
-
-Max
+diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+index 53ee2ab6c4..b66a930635 100644
+--- a/tests/plugin/syscall.c
++++ b/tests/plugin/syscall.c
+@@ -16,32 +16,111 @@
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
++typedef struct {
++    int64_t calls;
++    int64_t errors;
++} SyscallStats;
++
++static GHashTable *syscalls_statistics;
++
++static bool percall_print;
++
+ static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
+                          int64_t num, uint64_t a1, uint64_t a2,
+                          uint64_t a3, uint64_t a4, uint64_t a5,
+                          uint64_t a6, uint64_t a7, uint64_t a8)
+ {
+-    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
+-    qemu_plugin_outs(out);
++    if (!percall_print) {
++        SyscallStats *syscall_entry;
++
++        syscall_entry =
++            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
++                                                  GINT_TO_POINTER(num));
++
++        if (!syscall_entry) {
++            syscall_entry = g_new(SyscallStats, 1);
++            syscall_entry->calls = 1;
++            syscall_entry->errors = 0;
++
++            g_hash_table_insert(syscalls_statistics, GINT_TO_POINTER(num),
++                                (gpointer) syscall_entry);
++        } else {
++            syscall_entry->calls++;
++        }
++    } else {
++        g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n", num);
++        qemu_plugin_outs(out);
++    }
+ }
+ 
+ static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+                              int64_t num, int64_t ret)
++{
++    if (!percall_print) {
++        SyscallStats *syscall_entry;
++
++        syscall_entry =
++            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
++                                                  GINT_TO_POINTER(num));
++        if (ret < 0) {
++            syscall_entry->errors++;
++        }
++    } else {
++        g_autofree gchar *out;
++        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
++                num, ret);
++        qemu_plugin_outs(out);
++    }
++}
++
++/* ************************************************************************* */
++
++void print_entry(gpointer key, gpointer val, gpointer user_data)
+ {
+     g_autofree gchar *out;
+-    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64 "\n",
+-            num, ret);
++    int64_t syscall_num = (int64_t) key;
++    SyscallStats *syscall_entry = (SyscallStats *) val;
++    out = g_strdup_printf(
++        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
++        syscall_num, syscall_entry->calls, syscall_entry->errors);
+     qemu_plugin_outs(out);
+ }
+ 
+-/* ************************************************************************* */
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    if (!percall_print) {
++        qemu_plugin_outs("syscall no.  calls  errors\n");
++        g_hash_table_foreach(syscalls_statistics, &print_entry, NULL);
++    }
++}
+ 
+-static void plugin_exit(qemu_plugin_id_t id, void *p) {}
++void free_entry(gpointer entry)
++{
++    g_free(entry);
++}
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+                                            const qemu_info_t *info,
+                                            int argc, char **argv)
+ {
++    int i;
++
++    for (i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        if (g_strcmp0(opt, "print") == 0) {
++            percall_print = true;
++        } else {
++            fprintf(stderr, "unsupported argument: %s\n", opt);
++            return -1;
++        }
++    }
++
++    if (!percall_print) {
++        syscalls_statistics =
++            g_hash_table_new_full(g_direct_hash, g_direct_equal,
++                    NULL, &free_entry);
++    }
++
+     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
+     qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
+     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+-- 
+2.25.1
 
 
