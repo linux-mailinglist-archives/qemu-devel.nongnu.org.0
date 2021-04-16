@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABD8362190
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 15:58:51 +0200 (CEST)
-Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BB4362189
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 15:57:05 +0200 (CEST)
+Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXOzi-0002KC-AE
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 09:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
+	id 1lXOy0-00006W-8y
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 09:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXOwo-0007HU-1n
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:50 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46689)
+ id 1lXOwp-0007IG-2K
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:51 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:41970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXOwm-0004xz-E0
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:49 -0400
-Received: by mail-wr1-x431.google.com with SMTP id c15so17848138wro.13
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 06:55:48 -0700 (PDT)
+ id 1lXOwn-0004yD-FU
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:50 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ o21-20020a1c4d150000b029012e52898006so4623268wmh.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 06:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cZehfILUJtGk9HUzuIGzJjH/JKzgTkA2dSQh0622GUc=;
- b=dNXtTYHnny80kgrQ7dz46aEA/bgDs0WX+Vq0PbbQ4bHZkpnaWiLPy+XTPNL+yo2RfB
- PpfxPfTelVY/1jz7lOhLGHNhy2YaaRJ22vg0CuuwKN4e2lGYgdSR6w2lKQPusgITj+4X
- mi415NcY3n3ZzJK4a4nXqjkQrLM8KftGlj9fs4oOdMtBT4ik27YgE5VY4ED5rrSSruJu
- XuBwWtnqo1zMYbX/DuLEtkAs8XEPWZrv2mhhHaBMWPYojtxPzzzFVq01tiQYkVyL3V5G
- 6m818YdvVj03wm0ZlcKIX4hMzEgXrQX+rRYrcvxLvVfOyB88YhG7ecVy8kUOYIBT+t+U
- k9ZQ==
+ bh=yexOzAULOcEYO6I06ENHGVCv2bXclh59mEOkxfhqD7I=;
+ b=vkN41Y2RtysMJYK7aApauhRqXxod31xb23nAQuxwgJI8gP4UAHx9VXWoQ2HxbLobpU
+ QOMjvDX5CF8l9KclFz3V+q6NlaoH2Q0N0FauNQ5FUQioqmxSjhEWNY4BfTU31shbJo23
+ fwgeUO9lrCFIrtUjjTnBIehnDhJVSAHp3W0JPXGXZYzrond3Qmf8oCUNmSCzdAzHcM2T
+ y4BrTZekILQ9qdr7aeGh7vxr8hNhC7RP+USsH2uYsKCH7UjOGkjsDvwdl5/nGbUH+uY2
+ rFyk8WG6XLp0ssXAYG2LK+yIHidButlSuNf60v6ImwFtY7MCCksR3xwY6u4t6sc5jYTa
+ KfGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cZehfILUJtGk9HUzuIGzJjH/JKzgTkA2dSQh0622GUc=;
- b=gJfj1VSxvGoRBScilDn0wyyxs2wWAW7qybxFW40P777IuuAzG9qhHoxLHy5r2mbXRS
- xSvaB5wq7mL8B69KSqjA9xA31zq6wLCl6HwxJmzdc9R3lst1N0CV+3nffjDRNyh559QZ
- cChDppyfTa/9mxcfK/Stg6GUPtz+EfQS9AUa2IoCSRJz91egj40qh1QNRJR0Kl3EuTL/
- j3nAXsGP1kI1+tXKZix4J/UqXzlSWGfOHRPNk1QfQYmnWMhkDc3QcjSUDyosBXxdhJ5V
- r7NYaBfOkAux3FXGOzpTx4H8bbQ3LSYvZ9AUbenFjtA63/bvDzU4kfFV9nkgqr2uYEu8
- Eczw==
-X-Gm-Message-State: AOAM530VUxD8ewV/wxR2snd2XsmiY8Q3EoFaaDT0L+hqslIVy+zlt5vU
- X8kS82FyTXTq+/eppR7KQGQIG2mvWjPqWgmY
-X-Google-Smtp-Source: ABdhPJw07lkIYGLxJkaLJZHEvfZ+qQGobzUmmTYasx7wG65PjE2GGnneUrncBXpsq5nTFBWDK4t4hA==
-X-Received: by 2002:a05:6000:178c:: with SMTP id
- e12mr9318241wrg.42.1618581347192; 
+ bh=yexOzAULOcEYO6I06ENHGVCv2bXclh59mEOkxfhqD7I=;
+ b=FLyP3MSPU3kN6bLpyWejXkUOWyG4dXASb1Iqf6UUbaLsIMGUs+AFpT63nWZKzsTjW/
+ 03iU2bm27KKleTaFE8X1LeQckQRCeqCskw7DQxRiIDZwBUSOraq4p2E4kJLLvKZyRjpu
+ yxYaAZ1aWxbhWRVLBZbxHsGYZlRF2JURX1SSEJQ1aWgL/ON9nzHbEKUCHki0VAjRI1I4
+ GjB3rgZrgh8HAuX4xyr0ESSB+SI6x7GfR5iXHa45rG9Vj6lHO0nsaEyPws129RaXj6s/
+ DeGHsMmOiDWywjxqfpmypFCPxGX4Jcrcswn77AJS8XhHW1V4BO7ZlTRfxQaUeoDM6jD9
+ VX5w==
+X-Gm-Message-State: AOAM530N09I8fbaKkqbMtEsx3yJ33XTwVr3VCchovpD9pLzvIaRTyxjv
+ NW0hYCQwETcjkn1Miv9uT8hDgMjb/6Eq5VNP
+X-Google-Smtp-Source: ABdhPJw/24+YqhOrWOHF6pepenLOenpQW9VKdmXyRvCfKvTL1TsE+8V8LHT6usUDgee/bE/vgNRCQg==
+X-Received: by 2002:a05:600c:2159:: with SMTP id
+ v25mr8428478wml.80.1618581347870; 
  Fri, 16 Apr 2021 06:55:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p14sm10686528wrn.49.2021.04.16.06.55.46
+ by smtp.gmail.com with ESMTPSA id p14sm10686528wrn.49.2021.04.16.06.55.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 06:55:46 -0700 (PDT)
+ Fri, 16 Apr 2021 06:55:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0? 3/6] include/qemu/osdep.h: Move system includes to top
-Date: Fri, 16 Apr 2021 14:55:40 +0100
-Message-Id: <20210416135543.20382-4-peter.maydell@linaro.org>
+Subject: [PATCH for-6.0? 4/6] osdep: Make os-win32.h and os-posix.h handle
+ 'extern "C"' themselves
+Date: Fri, 16 Apr 2021 14:55:41 +0100
+Message-Id: <20210416135543.20382-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210416135543.20382-1-peter.maydell@linaro.org>
 References: <20210416135543.20382-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,79 +90,95 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly osdep.h puts the system includes at the top of the file; but
-there are a couple of exceptions where we include a system header
-halfway through the file.  Move these up to the top with the rest
-so that all the system headers we include are included before
-we include os-win32.h or os-posix.h.
+Both os-win32.h and os-posix.h include system header files. Instead
+of having osdep.h include them inside its 'extern "C"' block, make
+these headers handle that themselves, so that we don't include the
+system headers inside 'extern "C"'.
+
+This doesn't fix any current problems, but it's conceptually the
+right way to handle system headers.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-id: 20210414184343.26235-1-peter.maydell@linaro.org
 ---
- include/qemu/osdep.h | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ include/qemu/osdep.h      | 8 ++++----
+ include/sysemu/os-posix.h | 8 ++++++++
+ include/sysemu/os-win32.h | 8 ++++++++
+ 3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 6d8562eaf40..cb2a07e472e 100644
+index cb2a07e472e..4c6f2390be4 100644
 --- a/include/qemu/osdep.h
 +++ b/include/qemu/osdep.h
-@@ -104,6 +104,15 @@ QEMU_EXTERN_C int daemon(int, int);
- #include <setjmp.h>
- #include <signal.h>
+@@ -131,10 +131,6 @@ QEMU_EXTERN_C int daemon(int, int);
+  */
+ #include "glib-compat.h"
  
-+#ifdef CONFIG_IOVEC
-+#include <sys/uio.h>
-+#endif
-+
-+#if defined(__linux__) && defined(__sparc__)
-+/* The SPARC definition of QEMU_VMALLOC_ALIGN needs SHMLBA */
-+#include <sys/shm.h>
-+#endif
-+
- #ifndef _WIN32
- #include <sys/wait.h>
- #else
-@@ -111,6 +120,10 @@ QEMU_EXTERN_C int daemon(int, int);
- #define WEXITSTATUS(x) (x)
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+ #ifdef _WIN32
+ #include "sysemu/os-win32.h"
  #endif
- 
-+#ifdef __APPLE__
-+#include <AvailabilityMacros.h>
-+#endif
-+
- /*
-  * This is somewhat like a system header; it must be outside any extern "C"
-  * block because it includes system headers itself, including glib.h,
-@@ -130,10 +143,6 @@ extern "C" {
+@@ -143,6 +139,10 @@ extern "C" {
  #include "sysemu/os-posix.h"
  #endif
  
--#ifdef __APPLE__
--#include <AvailabilityMacros.h>
--#endif
--
++#ifdef __cplusplus
++extern "C" {
++#endif
++
  #include "qemu/typedefs.h"
  
  /*
-@@ -469,7 +478,6 @@ void qemu_anon_ram_free(void *ptr, size_t size);
-    /* Use 1 MiB (segment size) alignment so gmap can be used by KVM. */
- #  define QEMU_VMALLOC_ALIGN (256 * 4096)
- #elif defined(__linux__) && defined(__sparc__)
--#include <sys/shm.h>
- #  define QEMU_VMALLOC_ALIGN MAX(qemu_real_host_page_size, SHMLBA)
- #else
- #  define QEMU_VMALLOC_ALIGN qemu_real_host_page_size
-@@ -549,8 +557,6 @@ struct iovec {
- 
- ssize_t readv(int fd, const struct iovec *iov, int iov_cnt);
- ssize_t writev(int fd, const struct iovec *iov, int iov_cnt);
--#else
--#include <sys/uio.h>
+diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
+index 629c8c648b7..2edf33658a4 100644
+--- a/include/sysemu/os-posix.h
++++ b/include/sysemu/os-posix.h
+@@ -38,6 +38,10 @@
+ #include <sys/sysmacros.h>
  #endif
  
- #ifdef _WIN32
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ void os_set_line_buffering(void);
+ void os_set_proc_name(const char *s);
+ void os_setup_signal_handling(void);
+@@ -92,4 +96,8 @@ static inline void qemu_funlockfile(FILE *f)
+     funlockfile(f);
+ }
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 5346d51e890..43f569b5c21 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -30,6 +30,10 @@
+ #include <windows.h>
+ #include <ws2tcpip.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ #if defined(_WIN64)
+ /* On w64, setjmp is implemented by _setjmp which needs a second parameter.
+  * If this parameter is NULL, longjump does no stack unwinding.
+@@ -194,4 +198,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
+ ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
+                            struct sockaddr *addr, socklen_t *addrlen);
+ 
++#ifdef __cplusplus
++}
++#endif
++
+ #endif
 -- 
 2.20.1
 
