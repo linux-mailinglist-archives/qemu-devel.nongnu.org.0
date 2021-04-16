@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18973362720
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:46:52 +0200 (CEST)
-Received: from localhost ([::1]:35448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C7F36270F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:42:19 +0200 (CEST)
+Received: from localhost ([::1]:55158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSYN-00023U-5X
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:46:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
+	id 1lXSTy-0006au-2I
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLc-0005LK-VK
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLc-0005KW-LC
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:36 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47104)
+Received: from mx2.suse.de ([195.135.220.15]:47106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLR-0001eI-Pl
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLR-0001eK-OT
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:36 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 31163B30F;
+ by mx2.suse.de (Postfix) with ESMTP id 93ED6B316;
  Fri, 16 Apr 2021 16:29:00 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 75/80] target/arm: move arm_cpu_finalize_features into cpu64
-Date: Fri, 16 Apr 2021 18:28:19 +0200
-Message-Id: <20210416162824.25131-76-cfontana@suse.de>
+Subject: [RFC v14 76/80] target/arm: cpu64: rename arm_cpu_finalize_features
+Date: Fri, 16 Apr 2021 18:28:20 +0200
+Message-Id: <20210416162824.25131-77-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
@@ -60,150 +60,117 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-all the features in arm_cpu_finalize_features are actually
-TARGET_AARCH64-only now, since KVM is now only supported on 64bit.
-
-Therefore move the function to cpu64.
+also remove the now useless ifdef TARGET_AARCH64 from the function
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu.c     | 36 ++----------------------------------
- target/arm/cpu64.c   | 34 ++++++++++++++++++++++++++++++++++
- target/arm/monitor.c |  4 ++++
- 3 files changed, 40 insertions(+), 34 deletions(-)
+ target/arm/cpu-sve.h       | 2 +-
+ target/arm/cpu.h           | 2 +-
+ target/arm/tcg/cpu-pauth.h | 2 +-
+ target/arm/cpu.c           | 2 +-
+ target/arm/cpu64.c         | 4 +---
+ target/arm/monitor.c       | 4 ++--
+ 6 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index b91c48cd2f..4d0724b537 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -820,40 +820,6 @@ static void arm_cpu_finalizefn(Object *obj)
- #endif
+diff --git a/target/arm/cpu-sve.h b/target/arm/cpu-sve.h
+index c83508ea0a..85078550bb 100644
+--- a/target/arm/cpu-sve.h
++++ b/target/arm/cpu-sve.h
+@@ -25,7 +25,7 @@
+ 
+ #include "cpu.h"
+ 
+-/* called by arm_cpu_finalize_features in realizefn */
++/* called by aarch64_cpu_finalize_features in realizefn */
+ bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
+ 
+ /* add the CPU SVE properties */
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 236717ec71..dbbad48fda 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2110,7 +2110,7 @@ static inline int arm_feature(CPUARMState *env, int feature)
+     return (env->features & (1ULL << feature)) != 0;
  }
  
--void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
--{
--    Error *local_err = NULL;
--
--#ifdef TARGET_AARCH64
--    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        if (!cpu_sve_finalize_features(cpu, &local_err)) {
--            error_propagate(errp, local_err);
--            return;
--        }
--
--        /*
--         * KVM does not support modifications to this feature.
--         * We have not registered the cpu properties when KVM
--         * is in use, so the user will not be able to set them.
--         */
--        if (tcg_enabled()) {
--            if (!cpu_pauth_finalize(cpu, &local_err)) {
--                error_propagate(errp, local_err);
--                return;
--            }
--        }
--    }
--#endif /* TARGET_AARCH64 */
--
--    if (kvm_enabled()) {
--        kvm_arm_steal_time_finalize(cpu, &local_err);
--        if (local_err != NULL) {
--            error_propagate(errp, local_err);
--            return;
--        }
--    }
--}
--
- static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-@@ -876,6 +842,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
+-void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp);
++void aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp);
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ /* Return true if exception levels below EL3 are in secure state,
+diff --git a/target/arm/tcg/cpu-pauth.h b/target/arm/tcg/cpu-pauth.h
+index a0ef74dc77..b106b9cefc 100644
+--- a/target/arm/tcg/cpu-pauth.h
++++ b/target/arm/tcg/cpu-pauth.h
+@@ -25,7 +25,7 @@
+ 
+ #include "cpu.h"
+ 
+-/* called by arm_cpu_finalize_features in realizefn */
++/* called by aarch64_cpu_finalize_features in realizefn */
+ bool cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
+ 
+ /* add the CPU Pointer Authentication properties */
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 4d0724b537..fac297df4e 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -843,7 +843,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
      }
  
-+#ifdef TARGET_AARCH64
-     arm_cpu_finalize_features(cpu, &local_err);
+ #ifdef TARGET_AARCH64
+-    arm_cpu_finalize_features(cpu, &local_err);
++    aarch64_cpu_finalize_features(cpu, &local_err);
      if (local_err != NULL) {
          error_propagate(errp, local_err);
-@@ -892,6 +859,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-                    "AArch64 CPUs must have both VFP and Neon or neither");
          return;
-     }
-+#endif /* TARGET_AARCH64 */
- 
-     if (!cpu->has_vfp) {
-         uint64_t t;
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index b76fbb4947..bcbfc5d53a 100644
+index bcbfc5d53a..5b8dc8ff14 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -455,6 +455,40 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
+@@ -455,11 +455,10 @@ static gchar *aarch64_gdb_arch_name(CPUState *cs)
      return g_strdup("aarch64");
  }
  
-+void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-+{
-+    Error *local_err = NULL;
-+
-+#ifdef TARGET_AARCH64
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+        if (!cpu_sve_finalize_features(cpu, &local_err)) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+
-+        /*
-+         * KVM does not support modifications to this feature.
-+         * We have not registered the cpu properties when KVM
-+         * is in use, so the user will not be able to set them.
-+         */
-+        if (tcg_enabled()) {
-+            if (!cpu_pauth_finalize(cpu, &local_err)) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+        }
-+    }
-+#endif /* TARGET_AARCH64 */
-+
-+    if (kvm_enabled()) {
-+        kvm_arm_steal_time_finalize(cpu, &local_err);
-+        if (local_err != NULL) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+    }
-+}
-+
- static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
++void aarch64_cpu_finalize_features(ARMCPU *cpu, Error **errp)
  {
-     ARMCPU *cpu = ARM_CPU(cs);
+     Error *local_err = NULL;
+ 
+-#ifdef TARGET_AARCH64
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+         if (!cpu_sve_finalize_features(cpu, &local_err)) {
+             error_propagate(errp, local_err);
+@@ -478,7 +477,6 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+             }
+         }
+     }
+-#endif /* TARGET_AARCH64 */
+ 
+     if (kvm_enabled()) {
+         kvm_arm_steal_time_finalize(cpu, &local_err);
 diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 0c72bf7c31..95c1e72cd1 100644
+index 95c1e72cd1..8a31c4dd04 100644
 --- a/target/arm/monitor.c
 +++ b/target/arm/monitor.c
-@@ -184,9 +184,11 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-         if (!err) {
-             visit_check_struct(visitor, &err);
+@@ -186,7 +186,7 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
          }
-+#ifdef TARGET_AARCH64
+ #ifdef TARGET_AARCH64
          if (!err) {
-             arm_cpu_finalize_features(ARM_CPU(obj), &err);
+-            arm_cpu_finalize_features(ARM_CPU(obj), &err);
++            aarch64_cpu_finalize_features(ARM_CPU(obj), &err);
          }
-+#endif /* TARGET_AARCH64 */
+ #endif /* TARGET_AARCH64 */
          visit_end_struct(visitor, NULL);
-         visit_free(visitor);
-         if (err) {
-@@ -195,7 +197,9 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-             return NULL;
+@@ -198,7 +198,7 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
          }
      } else {
-+#ifdef TARGET_AARCH64
-         arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
-+#endif /* TARGET_AARCH64 */
+ #ifdef TARGET_AARCH64
+-        arm_cpu_finalize_features(ARM_CPU(obj), &error_abort);
++        aarch64_cpu_finalize_features(ARM_CPU(obj), &error_abort);
+ #endif /* TARGET_AARCH64 */
      }
  
-     expansion_info = g_new0(CpuModelExpansionInfo, 1);
 -- 
 2.26.2
 
