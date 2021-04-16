@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2B53621AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:06:04 +0200 (CEST)
-Received: from localhost ([::1]:45646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD293621F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:17:00 +0200 (CEST)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXP6h-0006Kn-6z
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39216)
+	id 1lXPHH-00030R-Mt
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lXP4v-0005c9-Fk
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:04:13 -0400
-Resent-Date: Fri, 16 Apr 2021 10:04:13 -0400
-Resent-Message-Id: <E1lXP4v-0005c9-Fk@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lXP4s-0001YH-Jr
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:04:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1618581835; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=iqMGId/1eAxMopAAyWDZPYsFrOfYWYuvkbuQ03iWS8hk5fQZLqr+qkX+hm6r/OdPFYtIjoHfbJ3rCnZuCTQQhFFMPaPmPSAMNvaLm67P2F2iz+aWc4znp9ZHEbZp/ASQ8zTuMWNsijY/zKvlNX63/yxTDvUQx+0kMK5F/RDl+ss=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1618581835;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=KWzOR0UBRFt1RKt7ARjyysESBmsN3h0aGof6wOgGAZ4=; 
- b=bDWaX70AvRlZS7Rnp7Cwt8LV/sh5TgAYcR2slwcLP4W3HBiBYT3xiXsH0NJxknVWbgeHXQ3eIrAEDs5ptDzUbHfSeT1HtxfzPXJQYDNjkf9O2xifpqUDzIZ/0TXi81A0v85e3iPFNMSshNvIeWpYgo5oCjki5VTBB5f3b9N8rZA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 161858182809611.216253671897448;
- Fri, 16 Apr 2021 07:03:48 -0700 (PDT)
-In-Reply-To: <20210416135543.20382-1-peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.0? 0/6] extern "C" overhaul for C++ files
-Message-ID: <161858182693.31688.10646572667791765739@72b6d80f974b>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lXPFG-0001ea-BJ
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:14:54 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lXPFC-0007nc-On
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:14:54 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ y20-20020a1c4b140000b029011f294095d3so16626604wma.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 07:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Suoh6drSA2r2AHm83yRACjwmRqy2lLqKn7aRv2oVNN0=;
+ b=gDcieit4paJbBUhcCBywpWtEkKcIM+oUEAYXTdXz3spLRsTMlcQfiE4HsKhbljxBMP
+ /6cTGxTnvKzzdNAs1pz7yJLV9FR7ieebxtIayoLH1uqNilyAP0Ngd3aJNGySu2mcLsAN
+ 1n0KKpl6p5yOuydOksq/Xd0wGxuYssiZuo9Y26ymxC5/kwAf9aounnhagzFfh0OP7LSo
+ PXbXo2jfwQt+vFNWlHqhhqr2Hn3K7tc74gFN/k4u8pqYD3UKCrnT+5pRd7fTkSWH7My0
+ TJ9vooGYIhMJtX2Zpmwn8UHNdFn0g7QbSYYkzxMTEy/eET6GUETeBl8IlixpKf3ywuV/
+ A+OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Suoh6drSA2r2AHm83yRACjwmRqy2lLqKn7aRv2oVNN0=;
+ b=nC10NSH8sT3J+rCjo8ZowmMGSoao2yKVq79iWSlwhRhN8w5ZOy/gXturwmYwIR6JKu
+ momCMNijbqxrIl9uwsPOpSAbS4pAxDlvO4qFq1GuhOn42c+kjXsyLhm3Ewrtl5Dkbapr
+ 2Q/jNEg2M3TY9XY4G4k8JC0seafRYcV1cJaHxhw+hVt623x5VYs4FylHgncTQOSDNP4t
+ +nbO75an6DU9GJ9DhwLpdG5CUAnhQPt07WQ/tVpQuzG+PxVJWi6379MKzBDnYJe/i5K0
+ afSlZFUAOJqr9ozE7mAuxi0pQYAca92SY7ZXzEW5k1D8ICG2SHmrOHmYZ8jcIh3CFGvg
+ wBrw==
+X-Gm-Message-State: AOAM531Ur4EL1ptVPrZVzKl1yRJAmgMczBoscdd+V7Ai0+Jem7XTcfqk
+ LwB/UShZJ8mLhmuCG0E8+RRumA==
+X-Google-Smtp-Source: ABdhPJwgVjGj1QFt+xYXQZ49KOsdbUGNMR4P7Mb9go15esnytMIuXKikQPpy/W2EGvQsgE3+yqt10Q==
+X-Received: by 2002:a1c:ed05:: with SMTP id l5mr8608290wmh.154.1618582488375; 
+ Fri, 16 Apr 2021 07:14:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g3sm10924748wrp.46.2021.04.16.07.14.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 07:14:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id ADDCA1FF7E;
+ Fri, 16 Apr 2021 15:14:46 +0100 (BST)
+References: <20210415214138.563795-1-matheus.ferst@eldorado.org.br>
+ <20210415214138.563795-2-matheus.ferst@eldorado.org.br>
+ <YHkLU6rlVOl2v6Al@yekko.fritz.box>
+User-agent: mu4e 1.5.11; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC PATCH 1/3] tests/docker: gcc-10 based images for
+ ppc64{,le} tests
+Date: Fri, 16 Apr 2021 15:07:28 +0100
+In-reply-to: <YHkLU6rlVOl2v6Al@yekko.fritz.box>
+Message-ID: <87tuo6joyx.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Fri, 16 Apr 2021 07:03:48 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,101 +90,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, gustavo.romero@protonmail.com, qemu-devel@nongnu.org,
+ wainersm@redhat.com, f4bug@amsat.org, luis.pires@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxNjEzNTU0My4yMDM4
-Mi0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNDE2MTM1NTQz
-LjIwMzgyLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnClN1YmplY3Q6IFtQQVRDSCBmb3ItNi4w
-PyAwLzZdIGV4dGVybiAiQyIgb3ZlcmhhdWwgZm9yIEMrKyBmaWxlcwoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwg
-ZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRo
-bSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09
-IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3
-ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3Fl
-bXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDQxNTEwNDQyNi45ODYwLTEtdmFs
-ZXJpeS52ZG92aW5AdmlydHVvenpvLmNvbSAtPiBwYXRjaGV3LzIwMjEwNDE1MTA0NDI2Ljk4NjAt
-MS12YWxlcml5LnZkb3ZpbkB2aXJ0dW96em8uY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNo
-ZXcvMjAyMTA0MTYxMzU1NDMuMjAzODItMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0
-Y2hldy8yMDIxMDQxNjEzNTU0My4yMDM4Mi0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwpTd2l0
-Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjMwZjczYWUgaW5jbHVkZS9kaXNhcy9kaXMtYXNt
-Lmg6IEhhbmRsZSBiZWluZyBpbmNsdWRlZCBvdXRzaWRlICdleHRlcm4gIkMiJwpjYmUzODg2IGlu
-Y2x1ZGUvcWVtdS9ic3dhcC5oOiBIYW5kbGUgYmVpbmcgaW5jbHVkZWQgb3V0c2lkZSBleHRlcm4g
-IkMiIGJsb2NrCmZmNzNmOTMgb3NkZXA6IE1ha2Ugb3Mtd2luMzIuaCBhbmQgb3MtcG9zaXguaCBo
-YW5kbGUgJ2V4dGVybiAiQyInIHRoZW1zZWx2ZXMKZmZiNWJmYyBpbmNsdWRlL3FlbXUvb3NkZXAu
-aDogTW92ZSBzeXN0ZW0gaW5jbHVkZXMgdG8gdG9wCjljNjM3MDIgb3NkZXA6IHByb3RlY3QgcWVt
-dS9vc2RlcC5oIHdpdGggZXh0ZXJuICJDIgpiZGRjNTY2IG9zZGVwOiBpbmNsdWRlIGdsaWItY29t
-cGF0LmggYmVmb3JlIG90aGVyIFFFTVUgaGVhZGVycwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS82
-IENoZWNraW5nIGNvbW1pdCBiZGRjNTY2NGUyMWMgKG9zZGVwOiBpbmNsdWRlIGdsaWItY29tcGF0
-LmggYmVmb3JlIG90aGVyIFFFTVUgaGVhZGVycykKMi82IENoZWNraW5nIGNvbW1pdCA5YzYzNzAy
-OTdiYTIgKG9zZGVwOiBwcm90ZWN0IHFlbXUvb3NkZXAuaCB3aXRoIGV4dGVybiAiQyIpCldBUk5J
-Tkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM3Njog
-RklMRTogaW5jbHVkZS9xZW11L2NvbXBpbGVyLmg6MTQ6CisjaWZkZWYgX19jcGx1c3BsdXMKCkVS
-Uk9SOiBzdG9yYWdlIGNsYXNzIHNob3VsZCBiZSBhdCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNs
-YXJhdGlvbgojNzc6IEZJTEU6IGluY2x1ZGUvcWVtdS9jb21waWxlci5oOjE1OgorI2RlZmluZSBR
-RU1VX0VYVEVSTl9DIGV4dGVybiAiQyIKCkVSUk9SOiBzdG9yYWdlIGNsYXNzIHNob3VsZCBiZSBh
-dCB0aGUgYmVnaW5uaW5nIG9mIHRoZSBkZWNsYXJhdGlvbgojNzk6IEZJTEU6IGluY2x1ZGUvcWVt
-dS9jb21waWxlci5oOjE3OgorI2RlZmluZSBRRU1VX0VYVEVSTl9DIGV4dGVybgoKV0FSTklORzog
-YXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzEwMjogRklM
-RTogaW5jbHVkZS9xZW11L29zZGVwLmg6MTIxOgorI2lmZGVmIF9fY3BsdXNwbHVzCgpXQVJOSU5H
-OiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMTEzOiBG
-SUxFOiBpbmNsdWRlL3FlbXUvb3NkZXAuaDo3MzU6CisjaWZkZWYgX19jcGx1c3BsdXMKCnRvdGFs
-OiAyIGVycm9ycywgMyB3YXJuaW5ncywgNTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi82IGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgozLzYgQ2hlY2tpbmcgY29tbWl0IGZmYjViZmNjYjhhMiAo
-aW5jbHVkZS9xZW11L29zZGVwLmg6IE1vdmUgc3lzdGVtIGluY2x1ZGVzIHRvIHRvcCkKV0FSTklO
-RzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzM0OiBG
-SUxFOiBpbmNsdWRlL3FlbXUvb3NkZXAuaDoxMTE6CisjaWYgZGVmaW5lZChfX2xpbnV4X18pICYm
-IGRlZmluZWQoX19zcGFyY19fKQoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmlu
-ZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzQ2OiBGSUxFOiBpbmNsdWRlL3FlbXUvb3NkZXAuaDoxMjM6
-CisjaWZkZWYgX19BUFBMRV9fCgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDUwIGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDMvNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo0LzYgQ2hlY2tp
-bmcgY29tbWl0IGZmNzNmOTMzY2U2NyAob3NkZXA6IE1ha2Ugb3Mtd2luMzIuaCBhbmQgb3MtcG9z
-aXguaCBoYW5kbGUgJ2V4dGVybiAiQyInIHRoZW1zZWx2ZXMpCldBUk5JTkc6IGFyY2hpdGVjdHVy
-ZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM0MjogRklMRTogaW5jbHVkZS9x
-ZW11L29zZGVwLmg6MTQyOgorI2lmZGVmIF9fY3BsdXNwbHVzCgpXQVJOSU5HOiBhcmNoaXRlY3R1
-cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojNTc6IEZJTEU6IGluY2x1ZGUv
-c3lzZW11L29zLXBvc2l4Lmg6NDE6CisjaWZkZWYgX19jcGx1c3BsdXMKCldBUk5JTkc6IGFyY2hp
-dGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM2ODogRklMRTogaW5j
-bHVkZS9zeXNlbXUvb3MtcG9zaXguaDo5OToKKyNpZmRlZiBfX2NwbHVzcGx1cwoKV0FSTklORzog
-YXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzgxOiBGSUxF
-OiBpbmNsdWRlL3N5c2VtdS9vcy13aW4zMi5oOjMzOgorI2lmZGVmIF9fY3BsdXNwbHVzCgpXQVJO
-SU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojOTI6
-IEZJTEU6IGluY2x1ZGUvc3lzZW11L29zLXdpbjMyLmg6MjAxOgorI2lmZGVmIF9fY3BsdXNwbHVz
-Cgp0b3RhbDogMCBlcnJvcnMsIDUgd2FybmluZ3MsIDU2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQv
-NiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzYgQ2hlY2tpbmcgY29tbWl0IGNiZTM4ODYw
-NTBlMSAoaW5jbHVkZS9xZW11L2Jzd2FwLmg6IEhhbmRsZSBiZWluZyBpbmNsdWRlZCBvdXRzaWRl
-IGV4dGVybiAiQyIgYmxvY2spCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVz
-IHNob3VsZCBiZSBhdm9pZGVkCiM0NzogRklMRTogaW5jbHVkZS9xZW11L2Jzd2FwLmg6MTg6Cisj
-aWZkZWYgX19jcGx1c3BsdXMKCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVz
-IHNob3VsZCBiZSBhdm9pZGVkCiM4NDogRklMRTogaW5jbHVkZS9xZW11L2Jzd2FwLmg6NTExOgor
-I2lmZGVmIF9fY3BsdXNwbHVzCgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDU1IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDUvNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzYgQ2hlY2tp
-bmcgY29tbWl0IDMwZjczYWVjNTgxNCAoaW5jbHVkZS9kaXNhcy9kaXMtYXNtLmg6IEhhbmRsZSBi
-ZWluZyBpbmNsdWRlZCBvdXRzaWRlICdleHRlcm4gIkMiJykKV0FSTklORzogYXJjaGl0ZWN0dXJl
-IHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzU3OiBGSUxFOiBpbmNsdWRlL2Rp
-c2FzL2Rpcy1hc20uaDoxNDoKKyNpZmRlZiBfX2NwbHVzcGx1cwoKV0FSTklORzogYXJjaGl0ZWN0
-dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzc3OiBGSUxFOiBpbmNsdWRl
-L2Rpc2FzL2Rpcy1hc20uaDo1MTU6CisjaWZkZWYgX19jcGx1c3BsdXMKCnRvdGFsOiAwIGVycm9y
-cywgMiB3YXJuaW5ncywgNDYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi82IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
-IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
-Zy9sb2dzLzIwMjEwNDE2MTM1NTQzLjIwMzgyLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnL3Rl
-c3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
-YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5
-b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+
+David Gibson <david@gibson.dropbear.id.au> writes:
+
+> On Thu, Apr 15, 2021 at 06:41:36PM -0300, matheus.ferst@eldorado.org.br w=
+rote:
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>=20
+>> A newer compiler is needed to build tests for Power10 instructions. As
+>> done for arm64 on c729a99d2701, new '-test-cross' images are created for
+>> ppc64 and ppc64le. As done on 936fda4d771f, a test for compiler support
+>> is added to verify that the toolchain in use has '-mpower10'.
+>>=20
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>>  tests/docker/Makefile.include                   |  4 ++++
+>>  .../dockerfiles/debian-ppc64-test-cross.docker  | 13 +++++++++++++
+>>  .../debian-ppc64el-test-cross.docker            | 17 +++++++++++++++++
+>>  tests/tcg/configure.sh                          | 12 ++++++++----
+>>  4 files changed, 42 insertions(+), 4 deletions(-)
+>>  create mode 100644 tests/docker/dockerfiles/debian-ppc64-test-cross.doc=
+ker
+>>  create mode 100644 tests/docker/dockerfiles/debian-ppc64el-test-cross.d=
+ocker
+>>=20
+>> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.inclu=
+de
+>> index 9f464cb92c..1f8941d290 100644
+>> --- a/tests/docker/Makefile.include
+>> +++ b/tests/docker/Makefile.include
+>> @@ -152,10 +152,14 @@ docker-image-debian-sparc64-cross: docker-image-de=
+bian10
+>>  docker-image-debian-tricore-cross: docker-image-debian10
+>>  docker-image-debian-all-test-cross: docker-image-debian10
+>>  docker-image-debian-arm64-test-cross: docker-image-debian11
+>> +docker-image-debian-ppc64-test-cross: docker-image-debian11
+>> +docker-image-debian-ppc64el-test-cross: docker-image-debian11
+>>=20=20
+>>  # These images may be good enough for building tests but not for test b=
+uilds
+>>  DOCKER_PARTIAL_IMAGES +=3D debian-alpha-cross
+>>  DOCKER_PARTIAL_IMAGES +=3D debian-arm64-test-cross
+>> +DOCKER_PARTIAL_IMAGES +=3D debian-ppc64-test-cross
+>> +DOCKER_PARTIAL_IMAGES +=3D debian-ppc64el-test-cross
+>>  DOCKER_PARTIAL_IMAGES +=3D debian-hppa-cross
+>>  DOCKER_PARTIAL_IMAGES +=3D debian-m68k-cross debian-mips64-cross
+>>  DOCKER_PARTIAL_IMAGES +=3D debian-powerpc-cross debian-ppc64-cross
+>
+> Why are you adding new images, rather than updating the existing
+> debian-powerpc-cross image?
+
+Right - we could consider renaming the image to debian-power-test-cross
+just to make it clear it's just for building tests.
+
+The final image would essentially be:
+
+RUN apt update && \
+    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+    apt install -y --no-install-recommends \
+        gcc-powerpc-linux-gnu \
+        libc6-dev-powerpc-cross \
+        gcc-10-powerpc64-linux-gnu \
+        libc6-dev-ppc64-cross \
+        gcc-10-powerpc64le-linux-gnu \
+        libc6-dev-ppc64le-cross=20
+
+> I don't think you should need separate
+> ppc64 and ppc64el images, a single image with a gcc that can target
+> both should suffice.  (Also, it's typically ppc64le, not ppc64el,
+> which, yes, is different from what the mips and arm people do for no
+> particularly good reason).
+>
+>> diff --git a/tests/docker/dockerfiles/debian-ppc64-test-cross.docker b/t=
+ests/docker/dockerfiles/debian-ppc64-test-cross.docker
+>> new file mode 100644
+>> index 0000000000..66abfdeb47
+>> --- /dev/null
+>> +++ b/tests/docker/dockerfiles/debian-ppc64-test-cross.docker
+>> @@ -0,0 +1,13 @@
+>> +#
+>> +# Docker ppc64 cross-compiler target (tests only)
+>> +#
+>> +# This docker target builds on the debian Bullseye base image.
+>> +#
+>> +FROM qemu/debian11
+>> +
+>> +# Add the foreign architecture we want and install dependencies
+>> +RUN dpkg --add-architecture ppc64
+
+Adding a foreign architecture is only really required for getting cross
+libraries for more complex things like QEMU, for tcg tests directly
+including the libc is enough.
+>> +
+>> +# Add the foreign architecture we want and install dependencies
+>> +RUN dpkg --add-architecture ppc64el
+>> +RUN apt update && \
+>> +    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+>> +        apt install -y --no-install-recommends \
+>> +        crossbuild-essential-ppc64el gcc-10-powerpc64le-linux-gnu
+
+include the libc instead of crossbuild which brings in a lot more than
+we need for tests.
+
+>> +
+>> +# Specify the cross prefix for this image (see tests/docker/common.rc)
+>> +#ENV QEMU_CONFIGURE_OPTS --cross-prefix=3Dpowerpc64le-linux-gnu-
+>> +#ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-us=
+er
+>> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+>> index fa1a4261a4..5f5db91a01 100755
+>> --- a/tests/tcg/configure.sh
+>> +++ b/tests/tcg/configure.sh
+>> @@ -170,13 +170,13 @@ for target in $target_list; do
+>>        ;;
+>>      ppc64-*)
+>>        container_hosts=3Dx86_64
+>> -      container_image=3Ddebian-ppc64-cross
+>> -      container_cross_cc=3Dpowerpc64-linux-gnu-gcc
+>> +      container_image=3Ddebian-ppc64-test-cross
+>> +      container_cross_cc=3Dpowerpc64-linux-gnu-gcc-10
+>>        ;;
+>>      ppc64le-*)
+>>        container_hosts=3Dx86_64
+>> -      container_image=3Ddebian-ppc64el-cross
+>> -      container_cross_cc=3Dpowerpc64le-linux-gnu-gcc
+>> +      container_image=3Ddebian-ppc64el-test-cross
+>> +      container_cross_cc=3Dpowerpc64le-linux-gnu-gcc-10
+>>        ;;
+
+I don't know if it's possible to nest the cases but if it's not too
+ugly bringing all the cases into one place and just differentiating the
+container_cross_cc would be nice.
+
+>>      riscv64-*)
+>>        container_hosts=3Dx86_64
+>> @@ -280,6 +280,10 @@ for target in $target_list; do
+>>                 -mpower8-vector -o $TMPE $TMPC; then
+>>                  echo "CROSS_CC_HAS_POWER8_VECTOR=3Dy" >> $config_target=
+_mak
+>>              fi
+>> +            if do_compiler "$target_compiler" $target_compiler_cflags \
+>> +               -mpower10 -o $TMPE $TMPC; then
+>> +                echo "CROSS_CC_HAS_POWER10=3Dy" >> $config_target_mak
+>> +            fi
+>>          ;;
+>>          i386-linux-user)
+>>              if do_compiler "$target_compiler" $target_compiler_cflags \
+
+
+--=20
+Alex Benn=C3=A9e
 
