@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CB836191C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 07:13:00 +0200 (CEST)
-Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A940C361924
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 07:16:28 +0200 (CEST)
+Received: from localhost ([::1]:59632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXGmp-0000jC-Qr
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 01:12:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57792)
+	id 1lXGqB-0002yg-Qs
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 01:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXGl8-0008FZ-2u
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 01:11:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48341)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXGp4-0002Fi-G2
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 01:15:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXGl6-0006t4-CE
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 01:11:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXGp0-00010t-M9
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 01:15:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618549871;
+ s=mimecast20190719; t=1618550114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FsfStsg8Iy1fV1kiEhVrWpvCT2Tl9ugB/Bscp0bzz0I=;
- b=X2HPJiUNLWZRRVrK4z2fqzYGO0YNhh1jfNl4IjBKDVuxUxrt/KwXB0VBcxIF/HPnpR0Cdi
- +XN9fVhL4MvA71uuQIV8+iCyFcK96sdo92lYLizw8/VtKH5UBP5pjN95EN5wNme2G2uq3A
- Uigg06OSbHseiIXQnRiiDELt9vWsQjQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-EqGnJ2LmPBKt02O5L-jlmg-1; Fri, 16 Apr 2021 01:11:08 -0400
-X-MC-Unique: EqGnJ2LmPBKt02O5L-jlmg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s7-20020adfc5470000b0290106eef17cbdso445709wrf.11
- for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 22:11:07 -0700 (PDT)
+ bh=aQaLQxLWKAKM5qt5BjLLriNNXQbbf7Lz+gWMLsjOGiw=;
+ b=fPlWcYcApgqXWc/jO9+7dYejKViYSEqKk/OcBTgqK7Dkowp1UJbUXzsOpM9wrRa2wvFPMQ
+ WJoYuHEELjfaA+lxqWolh3LFDrZAj7ysVsklL4BlTcHY7RqD1l99IeOTnwCVlftPqeSBxh
+ L6J91KN3tZxzKW3LgoUCDBe+THzkG50=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-SPVlOJjOMjC_NREXNNWenQ-1; Fri, 16 Apr 2021 01:15:10 -0400
+X-MC-Unique: SPVlOJjOMjC_NREXNNWenQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v2-20020a0560001622b0290106e28f8af8so1315464wrb.9
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 22:15:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FsfStsg8Iy1fV1kiEhVrWpvCT2Tl9ugB/Bscp0bzz0I=;
- b=oKN47HFGPkg+KuDDGoZzHUVrkHJhxZT2RQ/n6v6qAIFGxWSn0ulhUr49OMdQCHMsi9
- M13xloxdLpSpx18pTsE6PZ2ZA5/XftKsmiXTSA/xaMFoevSjWh+RjtQxJg+AzPcWC9k8
- NNgKm4ITuL5dr5WTmW/k28Yow+Hz+jKKcGCywsdCbp03cuB+SEmDuqkwAElpPfhPePqf
- ez7/X8PurkLXXzFq8wecX8ByTWT3wlBnsoKbfFbQW5oiY5JUFMZwtpnvcaJxTGsLv9xo
- wzPVm5jZB2eqOw7LXZL5putWMw+PF7vz07/hvOeml2x9crg9bOj2ONmeu8S+VvWM2+la
- z7vQ==
-X-Gm-Message-State: AOAM533MgGe3Z9DvKNUdt7F5jZPJ6xGpZWi/oDyZ4+PHUH81uIdJjTbc
- ZAxhTkSqbaSHzd2DQIkX4IkESFh9PACT/urmUfxavXy+XGja8OAfYgUkdkzuYvfQqV6DA3r/NVS
- 1lKV3xcum7fgHV2g=
-X-Received: by 2002:a7b:cbc1:: with SMTP id n1mr6252749wmi.50.1618549867067;
- Thu, 15 Apr 2021 22:11:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyjUwuXep2jZxGcaAN9LgGIsE+eU0nP3OdUzzhm0QA0+wFgakZLyvpI9b8fmV9WsAEnTwvRlg==
-X-Received: by 2002:a7b:cbc1:: with SMTP id n1mr6252718wmi.50.1618549866842;
- Thu, 15 Apr 2021 22:11:06 -0700 (PDT)
+ bh=aQaLQxLWKAKM5qt5BjLLriNNXQbbf7Lz+gWMLsjOGiw=;
+ b=NrwBRy5RIv7yCQNmQfCScqqEYLwvRlvevQN6RxzmOj4ZK8DHEh2ex7B2Dpuy5ITea8
+ UESBinyeJVaSaPsqMI74g+KHIxoqKGPPqOTRfN42w0BGXRTknrGj+ExgkWq0wCq+5O88
+ hwq7gUqunGjkREU7Mj82v1EdgucAlI7+72tjrWGy5686K4XlnZv/DdSbzlC6/WTE/K3P
+ fvRUdmOWWo8u5s7M1vGOg3FDMtw12yoEd9V6jPTrx47aBsJQfZBKTAEza8bTmzY/yN+Y
+ Sqd9J/K4XqMIAfJcGEFwzNokLXFNs4vZdye7b1MlfBOXv3ceyOEWrfgX7ZjjG8sjtFKW
+ Hqfg==
+X-Gm-Message-State: AOAM531hF4iFj5UxES/GOmMWvaIJCwKsq9RsRWzPClQB6bsOMGL5d3wF
+ S2I8II+1UivWnc6d2nR2sQE5oB8Hmv0E2ZUV5KD3ujh+101zpzwdeW0fJgXEuDhnAj/CI/34rLQ
+ DcNyXsQywkvpoulA=
+X-Received: by 2002:a1c:9853:: with SMTP id a80mr6248342wme.44.1618550109277; 
+ Thu, 15 Apr 2021 22:15:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzN0b+DGFYZvZt5cAnrQv9Uv7+s5x7NH8tF1RRZALQiC6AwzioyE9kxQbYm2CJdwoVOoljLZg==
+X-Received: by 2002:a1c:9853:: with SMTP id a80mr6248318wme.44.1618550109101; 
+ Thu, 15 Apr 2021 22:15:09 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id c16sm7831014wrt.83.2021.04.15.22.11.05
+ by smtp.gmail.com with ESMTPSA id u7sm6594776wmq.36.2021.04.15.22.15.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Apr 2021 22:11:06 -0700 (PDT)
-Subject: Re: [PATCH 4/8] tests/acceptance/migration.py: cancel test if
- migration is not supported
+ Thu, 15 Apr 2021 22:15:08 -0700 (PDT)
+Subject: Re: [PATCH 5/8] tests/acceptance/cpu_queries.py: use the proper
+ logging channels
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20210415215141.1865467-1-crosa@redhat.com>
- <20210415215141.1865467-5-crosa@redhat.com>
+ <20210415215141.1865467-6-crosa@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <68f215a3-10cc-d348-0512-8a5cf64b77a5@redhat.com>
-Date: Fri, 16 Apr 2021 07:11:04 +0200
+Message-ID: <28f2fd45-4ccd-2c9c-29d6-2de5f52bbc4c@redhat.com>
+Date: Fri, 16 Apr 2021 07:15:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210415215141.1865467-5-crosa@redhat.com>
+In-Reply-To: <20210415215141.1865467-6-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -113,36 +113,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/15/21 11:51 PM, Cleber Rosa wrote:
-> FIXME: check if there's a way to query migration support before
-> actually requesting migration.
+> The test contains methods for the proper log of test related
+
+"The Test class ..."?
+
+> information.  Let's use that and remove the print and the unused
+> logging import.
 > 
-> Some targets/machines contain devices that do not support migration.
-> Let's acknowledge that and cancel the test as early as possible.
-> 
+> Reference: https://avocado-framework.readthedocs.io/en/87.0/api/test/avocado.html#avocado.Test.log
+
+This test predates Avocado 87.0 :) Maybe mention this is an update
+to the recent API?
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/migration.py | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  tests/acceptance/cpu_queries.py | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-> index 792639cb69..25ee55f36a 100644
-> --- a/tests/acceptance/migration.py
-> +++ b/tests/acceptance/migration.py
-> @@ -53,7 +53,11 @@ def do_migrate(self, dest_uri, src_uri=None):
->          source_vm = self.get_vm()
->          source_vm.add_args('-nodefaults')
->          source_vm.launch()
-> -        source_vm.qmp('migrate', uri=src_uri)
-> +        response = source_vm.qmp('migrate', uri=src_uri)
-> +        if 'error' in response:
-> +            if 'desc' in response['error']:
-> +                msg = response['error']['desc']
-> +            self.cancel('Migration does not seem to be supported: %s' % msg)
->          self.assert_migration(source_vm, dest_vm)
-
-It would be better to have this done as a generic check_requisites()
-method. First because we could reuse it (also at the class level),
-second because we could account the time spent for checking separately
-from the time spent for the actual testing.
+> diff --git a/tests/acceptance/cpu_queries.py b/tests/acceptance/cpu_queries.py
+> index 293dccb89a..cc9e380cc7 100644
+> --- a/tests/acceptance/cpu_queries.py
+> +++ b/tests/acceptance/cpu_queries.py
+> @@ -8,8 +8,6 @@
+>  # This work is licensed under the terms of the GNU GPL, version 2 or
+>  # later.  See the COPYING file in the top-level directory.
+>  
+> -import logging
+> -
+>  from avocado_qemu import Test
+>  
+>  class QueryCPUModelExpansion(Test):
+> @@ -27,7 +25,7 @@ def test(self):
+>  
+>          cpus = self.vm.command('query-cpu-definitions')
+>          for c in cpus:
+> -            print(repr(c))
+> +            self.log.info("Checking CPU: %s", c)
+>              self.assertNotIn('', c['unavailable-features'], c['name'])
+>  
+>          for c in cpus:
+> 
 
 
