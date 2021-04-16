@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE253626AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:23:50 +0200 (CEST)
-Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35613626B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:26:32 +0200 (CEST)
+Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSC5-0001ON-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:23:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46918)
+	id 1lXSEh-0004n2-UX
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:26:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLT-0004uJ-Fs
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:27 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46436)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLU-0004x7-CQ
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:28 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLK-0001b5-QH
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:27 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLK-0001bD-SR
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:28 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8E5CEB2EE;
- Fri, 16 Apr 2021 16:28:54 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 08125B2D4;
+ Fri, 16 Apr 2021 16:28:55 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 62/80] target/arm: cpu-sve: make cpu_sve_finalize_features
- return bool
-Date: Fri, 16 Apr 2021 18:28:06 +0200
-Message-Id: <20210416162824.25131-63-cfontana@suse.de>
+Subject: [RFC v14 63/80] target/arm: make is_aa64 and arm_el_is_aa64 a macro
+ for !TARGET_AARCH64
+Date: Fri, 16 Apr 2021 18:28:07 +0200
+Message-Id: <20210416162824.25131-64-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
@@ -61,119 +61,92 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-return false on error, true on success.
+when TARGET_AARCH64 is not defined, it is helpful to make
+is_aa64() and arm_el_is_aa64 macros defined to "false".
+
+This way we can make more code TARGET_AARCH64-only.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/arm/cpu-sve.h |  2 +-
- target/arm/cpu-sve.c | 17 +++++++++--------
- target/arm/cpu.c     |  3 +--
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ target/arm/cpu.h | 37 ++++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/target/arm/cpu-sve.h b/target/arm/cpu-sve.h
-index ece36d2a0c..6ab74b1d8f 100644
---- a/target/arm/cpu-sve.h
-+++ b/target/arm/cpu-sve.h
-@@ -26,7 +26,7 @@
- #include "cpu.h"
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 99f65c5390..204fc13949 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1053,6 +1053,11 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
+ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64);
  
- /* called by arm_cpu_finalize_features in realizefn */
--void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
-+bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp);
++static inline bool is_a64(CPUARMState *env)
++{
++    return env->aarch64;
++}
++
+ /*
+  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
+  * The byte at offset i from the start of the in-memory representation contains
+@@ -1082,7 +1087,10 @@ static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
+ static inline void aarch64_sve_change_el(CPUARMState *env, int o,
+                                          int n, bool a)
+ { }
+-#endif
++
++#define is_a64(env) ((void)env, false)
++
++#endif /* TARGET_AARCH64 */
  
- /* add the CPU SVE properties */
- void cpu_sve_add_props(Object *obj);
-diff --git a/target/arm/cpu-sve.c b/target/arm/cpu-sve.c
-index 5190e4a639..24bffbba8b 100644
---- a/target/arm/cpu-sve.c
-+++ b/target/arm/cpu-sve.c
-@@ -49,7 +49,7 @@ static bool apply_max_vq(unsigned long *sve_vq_map, unsigned long *sve_vq_init,
-     return true;
+ void aarch64_sync_32_to_64(CPUARMState *env);
+ void aarch64_sync_64_to_32(CPUARMState *env);
+@@ -1091,11 +1099,6 @@ int fp_exception_el(CPUARMState *env, int cur_el);
+ int sve_exception_el(CPUARMState *env, int cur_el);
+ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el);
+ 
+-static inline bool is_a64(CPUARMState *env)
+-{
+-    return env->aarch64;
+-}
+-
+ /* you can call this signal handler from your SIGBUS and SIGSEGV
+    signal handlers to inform the virtual CPU of exceptions. non zero
+    is returned if the signal was handled by the virtual CPU.  */
+@@ -2195,13 +2198,7 @@ static inline bool arm_is_el2_enabled(CPUARMState *env)
+ }
+ #endif
+ 
+-/**
+- * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
+- * E.g. when in secure state, fields in HCR_EL2 are suppressed,
+- * "for all purposes other than a direct read or write access of HCR_EL2."
+- * Not included here is HCR_RW.
+- */
+-uint64_t arm_hcr_el2_eff(CPUARMState *env);
++#ifdef TARGET_AARCH64
+ 
+ /* Return true if the specified exception level is running in AArch64 state. */
+ static inline bool arm_el_is_aa64(CPUARMState *env, int el)
+@@ -2236,6 +2233,20 @@ static inline bool arm_el_is_aa64(CPUARMState *env, int el)
+     return aa64;
  }
  
--void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-+bool cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
- {
-     /*
-      * If any vector lengths are explicitly enabled with sve<N> properties,
-@@ -86,7 +86,7 @@ void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-                               "length, sve-max-vq=%d (%d bits)\n",
-                               max_vq * 128, cpu->sve_max_vq,
-                               cpu->sve_max_vq * 128);
--            return;
-+            return false;
-         }
-         if (kvm_enabled()) {
-             kvm_sve_enable_lens(cpu->sve_vq_map, cpu->sve_vq_init, max_vq,
-@@ -98,7 +98,7 @@ void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-         /* No explicit bits enabled, and no implicit bits from sve-max-vq. */
-         if (!cpu_isar_feature(aa64_sve, cpu)) {
-             /* SVE is disabled and so are all vector lengths.  Good. */
--            return;
-+            return true;
-         }
-         if (kvm_enabled()) {
-             max_vq = kvm_sve_disable_lens(cpu->sve_vq_map, cpu->sve_vq_init,
-@@ -108,7 +108,7 @@ void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-                                           errp);
-         }
-         if (!max_vq) {
--            return;
-+            return false;
-         }
-         max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
-     }
-@@ -122,7 +122,7 @@ void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-         max_vq = cpu->sve_max_vq;
-         if (!apply_max_vq(cpu->sve_vq_map, cpu->sve_vq_init, max_vq,
-                           errp)) {
--            return;
-+            return false;
-         }
-     }
-     /*
-@@ -136,11 +136,11 @@ void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-     if (kvm_enabled()) {
-         if (!kvm_sve_validate_lens(cpu->sve_vq_map, max_vq, kvm_supported,
-                                    errp, cpu->sve_max_vq)) {
--            return;
-+            return false;
-         }
-     } else if (tcg_enabled()) {
-         if (!tcg_sve_validate_lens(cpu->sve_vq_map, max_vq, errp)) {
--            return;
-+            return false;
-         }
-     }
- 
-@@ -153,11 +153,12 @@ void cpu_sve_finalize_features(ARMCPU *cpu, Error **errp)
-         error_append_hint(errp, "SVE must be enabled to enable vector "
-                           "lengths.\n");
-         error_append_hint(errp, "Add sve=on to the CPU property list.\n");
--        return;
-+        return false;
-     }
- 
-     /* From now on sve_max_vq is the actual maximum supported length. */
-     cpu->sve_max_vq = max_vq;
-+    return true;
- }
- 
- static void get_prop_max_vq(Object *obj, Visitor *v, const char *name,
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index be5d857e65..d192dd1ba4 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -821,8 +821,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
- 
- #ifdef TARGET_AARCH64
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        cpu_sve_finalize_features(cpu, &local_err);
--        if (local_err != NULL) {
-+        if (!cpu_sve_finalize_features(cpu, &local_err)) {
-             error_propagate(errp, local_err);
-             return;
-         }
++#else
++
++#define arm_el_is_aa64(env, el) ((void)env, (void)el, false)
++
++#endif /* TARGET_AARCH64 */
++
++/**
++ * arm_hcr_el2_eff(): Return the effective value of HCR_EL2.
++ * E.g. when in secure state, fields in HCR_EL2 are suppressed,
++ * "for all purposes other than a direct read or write access of HCR_EL2."
++ * Not included here is HCR_RW.
++ */
++uint64_t arm_hcr_el2_eff(CPUARMState *env);
++
+ /* Function for determing whether guest cp register reads and writes should
+  * access the secure or non-secure bank of a cp register.  When EL3 is
+  * operating in AArch32 state, the NS-bit determines whether the secure
 -- 
 2.26.2
 
