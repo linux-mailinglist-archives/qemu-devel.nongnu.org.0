@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDC4362654
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:07:21 +0200 (CEST)
-Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA9336266E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:11:15 +0200 (CEST)
+Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRw8-0008GU-88
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46666)
+	id 1lXRzu-0003NT-GK
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLK-0004Wz-Sr
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44976)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLL-0004Xm-85
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:19 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL7-0001Wi-Ma
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL9-0001X3-7i
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:18 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 56A28B2FE;
- Fri, 16 Apr 2021 16:28:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id B2823B302;
+ Fri, 16 Apr 2021 16:28:47 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 44/80] target/arm: move kvm-const.h, kvm.c, kvm64.c,
- kvm_arm.h to kvm/
-Date: Fri, 16 Apr 2021 18:27:48 +0200
-Message-Id: <20210416162824.25131-45-cfontana@suse.de>
+Subject: [RFC v14 47/80] target/arm: remove broad "else" statements when
+ checking accels
+Date: Fri, 16 Apr 2021 18:27:51 +0200
+Message-Id: <20210416162824.25131-48-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -55,368 +56,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Julien Grall <jgrall@amazon.com>,
+ qemu-devel@nongnu.org, Olaf Hering <OHering@suse.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-and adapt the code including the header references,
-and trace-events / trace.h
+There might be more than just KVM and TCG in the future,
+so where appropriate, replace broad "else" statements
+with the appropriate if (accel_enabled()) check.
+
+Also invert some checks for !kvm_enabled() or !tcg_enabled()
+where it seems appropriate to do so.
+
+Note that to make qtest happy we need to perform gpio
+initialization in the qtest_enabled() case as well.
+
+Hopefully we do not break any Xen stuff.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Julien Grall <jgrall@amazon.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Olaf Hering <OHering@suse.com>
+Cc: Alex Bennée <alex.bennee@linaro.org>
 ---
- meson.build                       | 2 +-
- target/arm/cpu.h                  | 2 +-
- target/arm/{ => kvm}/kvm-consts.h | 0
- target/arm/{ => kvm}/kvm_arm.h    | 0
- target/arm/kvm/trace.h            | 1 +
- target/arm/trace.h                | 1 -
- hw/arm/sbsa-ref.c                 | 2 +-
- hw/arm/virt-acpi-build.c          | 2 +-
- hw/arm/virt.c                     | 2 +-
- hw/arm/xlnx-versal.c              | 2 +-
- hw/arm/xlnx-zynqmp.c              | 2 +-
- hw/cpu/a15mpcore.c                | 2 +-
- hw/intc/arm_gic_kvm.c             | 2 +-
- hw/intc/arm_gicv3_its_kvm.c       | 2 +-
- hw/intc/arm_gicv3_kvm.c           | 2 +-
- target/arm/cpu-sysemu.c           | 2 +-
- target/arm/cpu.c                  | 2 +-
- target/arm/cpu32.c                | 2 +-
- target/arm/cpu64.c                | 2 +-
- target/arm/{ => kvm}/kvm.c        | 0
- target/arm/{ => kvm}/kvm64.c      | 0
- target/arm/machine.c              | 2 +-
- target/arm/monitor.c              | 2 +-
- target/arm/tcg/sysemu/tcg-cpu.c   | 1 -
- MAINTAINERS                       | 2 +-
- target/arm/kvm/meson.build        | 4 ++++
- target/arm/{ => kvm}/trace-events | 0
- target/arm/meson.build            | 3 +--
- 28 files changed, 24 insertions(+), 22 deletions(-)
- rename target/arm/{ => kvm}/kvm-consts.h (100%)
- rename target/arm/{ => kvm}/kvm_arm.h (100%)
- create mode 100644 target/arm/kvm/trace.h
- delete mode 100644 target/arm/trace.h
- rename target/arm/{ => kvm}/kvm.c (100%)
- rename target/arm/{ => kvm}/kvm64.c (100%)
- create mode 100644 target/arm/kvm/meson.build
- rename target/arm/{ => kvm}/trace-events (100%)
+ target/arm/cpu.c     |  9 +++++----
+ target/arm/cpu64.c   |  9 +++++----
+ target/arm/machine.c | 18 ++++++------------
+ 3 files changed, 16 insertions(+), 20 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 357ddc3dd6..18be3e6295 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1844,8 +1844,8 @@ if have_system or have_user
-   trace_events_subdirs += [
-     'accel/tcg',
-     'hw/core',
--    'target/arm',
-     'target/arm/tcg',
-+    'target/arm/kvm',
-     'target/hppa',
-     'target/i386',
-     'target/i386/kvm',
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 3e92f4faaa..8b570fa14c 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -20,7 +20,7 @@
- #ifndef ARM_CPU_H
- #define ARM_CPU_H
- 
--#include "kvm-consts.h"
-+#include "kvm/kvm-consts.h"
- #include "hw/registerfields.h"
- #include "cpu-qom.h"
- #include "exec/cpu-defs.h"
-diff --git a/target/arm/kvm-consts.h b/target/arm/kvm/kvm-consts.h
-similarity index 100%
-rename from target/arm/kvm-consts.h
-rename to target/arm/kvm/kvm-consts.h
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm/kvm_arm.h
-similarity index 100%
-rename from target/arm/kvm_arm.h
-rename to target/arm/kvm/kvm_arm.h
-diff --git a/target/arm/kvm/trace.h b/target/arm/kvm/trace.h
-new file mode 100644
-index 0000000000..c688745b90
---- /dev/null
-+++ b/target/arm/kvm/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-target_arm_kvm.h"
-diff --git a/target/arm/trace.h b/target/arm/trace.h
-deleted file mode 100644
-index 60372d8e26..0000000000
---- a/target/arm/trace.h
-+++ /dev/null
-@@ -1 +0,0 @@
--#include "trace/trace-target_arm.h"
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 88dfb2284c..fa0356cf20 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -29,7 +29,7 @@
- #include "sysemu/sysemu.h"
- #include "exec/address-spaces.h"
- #include "exec/hwaddr.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "hw/arm/boot.h"
- #include "hw/block/flash.h"
- #include "hw/boards.h"
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 60fe2e65a7..bfd7f58eec 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -51,7 +51,7 @@
- #include "sysemu/numa.h"
- #include "sysemu/reset.h"
- #include "sysemu/tpm.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/ghes.h"
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 9f01d9041b..65964edd58 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -65,7 +65,7 @@
- #include "hw/intc/arm_gic.h"
- #include "hw/intc/arm_gicv3_common.h"
- #include "hw/irq.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "hw/firmware/smbios.h"
- #include "qapi/visitor.h"
- #include "qapi/qapi-visit-common.h"
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 79609692e4..49873584a1 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -19,7 +19,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
- #include "hw/arm/boot.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "hw/misc/unimp.h"
- #include "hw/arm/xlnx-versal.h"
- 
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 7f01284a5c..90c3254bdd 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -25,7 +25,7 @@
- #include "exec/address-spaces.h"
- #include "sysemu/kvm.h"
- #include "sysemu/sysemu.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- 
- #define GIC_NUM_SPI_INTR 160
- 
-diff --git a/hw/cpu/a15mpcore.c b/hw/cpu/a15mpcore.c
-index 774ca9987a..670d07a98c 100644
---- a/hw/cpu/a15mpcore.c
-+++ b/hw/cpu/a15mpcore.c
-@@ -25,7 +25,7 @@
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/kvm.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- 
- static void a15mp_priv_set_irq(void *opaque, int irq, int level)
- {
-diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
-index 9494185cf4..c10e96496a 100644
---- a/hw/intc/arm_gic_kvm.c
-+++ b/hw/intc/arm_gic_kvm.c
-@@ -26,7 +26,7 @@
- #include "hw/sysbus.h"
- #include "migration/blocker.h"
- #include "sysemu/kvm.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "gic_internal.h"
- #include "vgic_common.h"
- #include "qom/object.h"
-diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
-index b554d2ede0..5322e1bcaf 100644
---- a/hw/intc/arm_gicv3_its_kvm.c
-+++ b/hw/intc/arm_gicv3_its_kvm.c
-@@ -25,7 +25,7 @@
- #include "hw/qdev-properties.h"
- #include "sysemu/runstate.h"
- #include "sysemu/kvm.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "migration/blocker.h"
- #include "qom/object.h"
- 
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 6e7e894f50..fead001beb 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -27,7 +27,7 @@
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "gicv3_internal.h"
- #include "vgic_common.h"
- #include "migration/blocker.h"
-diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
-index 2d3fe4f643..26467c640b 100644
---- a/target/arm/cpu-sysemu.c
-+++ b/target/arm/cpu-sysemu.c
-@@ -24,7 +24,7 @@
- #include "cpu.h"
- #include "internals.h"
- #include "sysemu/hw_accel.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "sysemu/tcg.h"
- #include "tcg/tcg-cpu.h"
- 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index b130f56d98..617334a614 100644
+index cc3e2355c1..ae28779edd 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -40,7 +40,7 @@
- #include "sysemu/sysemu.h"
+@@ -37,6 +37,7 @@
+ #endif
+ 
  #include "sysemu/tcg.h"
- #include "sysemu/hw_accel.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
++#include "sysemu/qtest.h"
+ #include "kvm/kvm_arm.h"
  #include "disas/capstone.h"
  #include "fpu/softfloat.h"
- #include "cpu-mmu.h"
-diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
-index a6ba91ae08..56f02ca891 100644
---- a/target/arm/cpu32.c
-+++ b/target/arm/cpu32.c
-@@ -37,7 +37,7 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/tcg.h"
- #include "sysemu/hw_accel.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
- #include "cpu-mmu.h"
+@@ -564,7 +565,7 @@ static void arm_cpu_initfn(Object *obj)
+          * the same interface as non-KVM CPUs.
+          */
+         qdev_init_gpio_in(DEVICE(cpu), arm_cpu_kvm_set_irq, 4);
+-    } else {
++    } else if (tcg_enabled() || qtest_enabled()) {
+         qdev_init_gpio_in(DEVICE(cpu), arm_cpu_set_irq, 4);
+     }
+ 
+@@ -741,14 +742,14 @@ void arm_cpu_post_init(Object *obj)
+         ? cpu_isar_feature(aa64_fp_simd, cpu)
+         : cpu_isar_feature(aa32_vfp, cpu)) {
+         cpu->has_vfp = true;
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
+             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property);
+         }
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
+         cpu->has_neon = true;
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
+             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property);
+         }
+     }
+@@ -849,7 +850,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+          * We have not registered the cpu properties when KVM
+          * is in use, so the user will not be able to set them.
+          */
+-        if (!kvm_enabled()) {
++        if (tcg_enabled()) {
+             arm_cpu_pauth_finalize(cpu, &local_err);
+             if (local_err != NULL) {
+                 error_propagate(errp, local_err);
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 90edd5ecc1..3124925afa 100644
+index cf89dfc1bc..efc821363c 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -31,7 +31,7 @@
- #include "hw/loader.h"
- #endif
+@@ -24,6 +24,7 @@
+ #include "cpu.h"
+ #include "cpu32.h"
+ #include "qemu/module.h"
++#include "sysemu/tcg.h"
  #include "sysemu/kvm.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
+ #include "kvm/kvm_arm.h"
  #include "qapi/visitor.h"
- #include "hw/qdev-properties.h"
- #include "cpregs.h"
-diff --git a/target/arm/kvm.c b/target/arm/kvm/kvm.c
-similarity index 100%
-rename from target/arm/kvm.c
-rename to target/arm/kvm/kvm.c
-diff --git a/target/arm/kvm64.c b/target/arm/kvm/kvm64.c
-similarity index 100%
-rename from target/arm/kvm64.c
-rename to target/arm/kvm/kvm64.c
+@@ -297,7 +298,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+              */
+             bitmap_andnot(tmp, kvm_supported, cpu->sve_vq_init, max_vq);
+             bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
+-        } else {
++        } else if (tcg_enabled()) {
+             /* Propagate enabled bits down through required powers-of-two. */
+             for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+                 if (!test_bit(vq - 1, cpu->sve_vq_init)) {
+@@ -334,7 +335,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+                                   "vector length must be enabled.\n");
+                 return;
+             }
+-        } else {
++        } else if (tcg_enabled()) {
+             /* Disabling a power-of-two disables all larger lengths. */
+             if (test_bit(0, cpu->sve_vq_init)) {
+                 error_setg(errp, "cannot disable sve128");
+@@ -416,7 +417,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+             }
+             return;
+         }
+-    } else {
++    } else if (tcg_enabled()) {
+         /* Ensure all required powers-of-two are enabled. */
+         for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+             if (!test_bit(vq - 1, cpu->sve_vq_map)) {
+@@ -610,7 +611,7 @@ static void aarch64_max_initfn(Object *obj)
+ 
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
+-    } else {
++    } else if (tcg_enabled()) {
+         uint64_t t;
+         uint32_t u;
+         aarch64_a57_initfn(obj);
 diff --git a/target/arm/machine.c b/target/arm/machine.c
-index 2982e8d7f4..595ab94237 100644
+index 595ab94237..4acdccc22d 100644
 --- a/target/arm/machine.c
 +++ b/target/arm/machine.c
-@@ -3,7 +3,7 @@
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "internals.h"
- #include "migration/cpu.h"
- #include "cpregs.h"
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 80c64fa355..0c72bf7c31 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -22,7 +22,7 @@
+@@ -638,9 +638,11 @@ static int cpu_pre_save(void *opaque)
  
- #include "qemu/osdep.h"
- #include "hw/boards.h"
--#include "kvm_arm.h"
-+#include "kvm/kvm_arm.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "qapi/qobject-input-visitor.h"
-diff --git a/target/arm/tcg/sysemu/tcg-cpu.c b/target/arm/tcg/sysemu/tcg-cpu.c
-index 2c395f47e7..6ab49ba614 100644
---- a/target/arm/tcg/sysemu/tcg-cpu.c
-+++ b/target/arm/tcg/sysemu/tcg-cpu.c
-@@ -39,7 +39,6 @@
- #include "sysemu/sysemu.h"
- #include "sysemu/tcg.h"
- #include "sysemu/hw_accel.h"
--#include "kvm_arm.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
- #include "cpu-mmu.h"
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7de873c9f5..3677de1638 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -399,7 +399,7 @@ ARM KVM CPUs
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Maintained
--F: target/arm/kvm.c
-+F: target/arm/kvm/kvm.c
- 
- MIPS KVM CPUs
- M: Huacai Chen <chenhuacai@kernel.org>
-diff --git a/target/arm/kvm/meson.build b/target/arm/kvm/meson.build
-new file mode 100644
-index 0000000000..e92010fa3f
---- /dev/null
-+++ b/target/arm/kvm/meson.build
-@@ -0,0 +1,4 @@
-+arm_ss.add(when: 'CONFIG_KVM', if_true: files(
-+  'kvm.c',
-+  'kvm64.c',
-+))
-diff --git a/target/arm/trace-events b/target/arm/kvm/trace-events
-similarity index 100%
-rename from target/arm/trace-events
-rename to target/arm/kvm/trace-events
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 8d0c12b2fc..448e94861f 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -11,8 +11,6 @@ arm_ss.add(files(
- ))
- arm_ss.add(zlib)
- 
--arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
+     if (tcg_enabled()) {
+         pmu_op_start(&cpu->env);
+-    }
 -
- arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-   'cpu64.c',
-   'gdbstub64.c',
-@@ -38,6 +36,7 @@ arm_user_ss.add(files(
- ))
+-    if (kvm_enabled()) {
++        if (!write_cpustate_to_list(cpu, false)) {
++            /* This should never fail. */
++            abort();
++        }
++    } else if (kvm_enabled()) {
+         if (!write_kvmstate_to_list(cpu)) {
+             /* This should never fail */
+             abort();
+@@ -651,11 +653,6 @@ static int cpu_pre_save(void *opaque)
+          * write_kvmstate_to_list()
+          */
+         kvm_arm_cpu_pre_save(cpu);
+-    } else {
+-        if (!write_cpustate_to_list(cpu, false)) {
+-            /* This should never fail. */
+-            abort();
+-        }
+     }
  
- subdir('tcg')
-+subdir('kvm')
+     cpu->cpreg_vmstate_array_len = cpu->cpreg_array_len;
+@@ -754,13 +751,10 @@ static int cpu_post_load(void *opaque, int version_id)
+          */
+         write_list_to_cpustate(cpu);
+         kvm_arm_cpu_post_load(cpu);
+-    } else {
++    } else if (tcg_enabled()) {
+         if (!write_list_to_cpustate(cpu)) {
+             return -1;
+         }
+-    }
+-
+-    if (tcg_enabled()) {
+         hw_breakpoint_update_all(cpu);
+         hw_watchpoint_update_all(cpu);
  
- target_arch += {'arm': arm_ss}
- target_softmmu_arch += {'arm': arm_softmmu_ss}
 -- 
 2.26.2
 
