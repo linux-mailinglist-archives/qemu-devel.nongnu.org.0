@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7492F362893
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:24:33 +0200 (CEST)
-Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E650362888
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:21:16 +0200 (CEST)
+Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXU4u-0002cB-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
+	id 1lXU1i-0006p9-LQ
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:21:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXTi5-00043t-L8
+ id 1lXTi6-000441-UR
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:00:59 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:40749)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:40602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXTha-0004TB-1k
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:00:55 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- b8-20020a17090a5508b029014d0fbe9b64so16891247pji.5
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 12:00:25 -0700 (PDT)
+ id 1lXThb-0004TK-VW
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:00:57 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id 20so10524590pll.7
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 12:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3RCCb6g/8oqZVVFrzfzAA8xyWzyQtEiKHnjFMLf0Q3g=;
- b=YI2gHcmuO/DcWLVSy7GKxYtY9Y5P7rgi720e5JOgFvEvZ++VO0TlbRPUHlCxbazjt3
- NuVedm0okFwnjmMlIx69T8gmAqEIeHaoZrLSls+ReDiKw0r0Stru0ijNWnHPJbbFiSUJ
- PLhmR8ob+/OXWTwV9TaM1p7hJuPgqjU4nsQs/oOQ8zpXhuJ5Xp8CfoysxcM29X7V22i1
- Nz9S9ozJMlMn7ImeqdydKlTQUv20SgJXCw4u5rP3V8cQlz7OaFXArNmozLM5yJ2gdOEJ
- yXTcsEJtiQpAzfHmHiZ46YilMypxyKRMctwAlBFJ9wUZuozzisH9jlP2xxa0szlU5Cst
- gD7Q==
+ bh=JvIEukWRJcec2HtgegM57M5MObIvx3MKZPreWQgWndE=;
+ b=yFUMFO9xoRJ83pGRrwjhUbC3pZHO4Lc4Z6IZI7XqTZhoqpWMUVcUpLy9Q9UbXTihuz
+ HDNQJeuJFTNwU6vNPbe8WI1/ZXYgJ68jspnz8r+wOae4qNMiJ9MKPCtMGHJpNyW0CjyB
+ ZSLESLcQAuD6ykfybyS1Ll6OapdAclWQ8oRA2+6zKFx5oXyfzdCDPjR3k4odubUPc1aF
+ bJkE/ZmLIv41Hryj0MeBec2D7UKQKWiVnnXU/CABxMTQPv7kC7YHGpXkyr7cYQJMCFbI
+ bq4H2VrahfFeajoFS7mU1ni9ctIoVVrdqocEjfyj/2e6VFDN4CRNnz1w320WeauC1uU9
+ XSWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3RCCb6g/8oqZVVFrzfzAA8xyWzyQtEiKHnjFMLf0Q3g=;
- b=bkqxJmevepWsMHRevpUl2QAxv3mFhUNkiYjFzYPOSVzKvY5um6vUBeqUzpm0+vPBsH
- KGchqOTD62EZneFnno38Q9TZUqQr18vOhBcLn06pBrDgQj6/yr9v/DOYxqnnwGjQJ80E
- 1xe91ouT1CP1fb+Ner0oiE858ug89S3rhCGKRTclKrS8/dDNmOLrnvyE/t1cIOtYAu71
- w5F/PGzyN+bZPA5iOVq3RFDgZsgNAWWEtotKPvpKrEGRt0GWUwnJP0h+CATO2N+hWShO
- 0GKdBVFvgLZW0WhoKhExNrDJXVEeZnjqVtnKJBU0doXhArlN8Uy3zg36eVzYenITDH6q
- 37Jg==
-X-Gm-Message-State: AOAM532+TtWzFgv4m0SSPjdkf63Xu0mq/7NXx9kUVjWanHEhbqHeOcmQ
- 7LvSJW1dWOsnvnJzRpzauIIMjrUtxyoeQQ==
-X-Google-Smtp-Source: ABdhPJzpDQScgzO4nUx4I9Ad31KgjLXQXXlVKuvloxUsHPLyIj+9dwyMA9rr30ZiqGPNjzVDqqBB5Q==
-X-Received: by 2002:a17:90b:2305:: with SMTP id
- mt5mr11480353pjb.198.1618599624553; 
- Fri, 16 Apr 2021 12:00:24 -0700 (PDT)
+ bh=JvIEukWRJcec2HtgegM57M5MObIvx3MKZPreWQgWndE=;
+ b=dOm7lfKxT4aAPPw8N1DDanDd90Xl0LGvfyfdt8+xzE9njnWPBt/Np35uwwsPpSA9cM
+ otG/ePIAi257sfzuMDVg69lVGV45E1/OPAUfwV69vZsOcLthPQVD8+XFglhfL7GoQeVc
+ IqvtyJJAan0fEmZZijPQKGEwDY9U9kim3pEfVeSG8QemFn1bJV+fGgaYi5bzlKgIWxES
+ EebtAKBzQyHw1awXQCInAtEgFEMQsB1OL9hn+uriCCsfhkPSmGYMoSV8ceVPN63rsdW/
+ xPtQzM/phGSPxMgVw3ZAz3FLC3YmGTnBaO+dpqusVEMeLdhGLqh8DW3oe83JRadUpJ+z
+ h80w==
+X-Gm-Message-State: AOAM532cCvf5Ad07ptxbnuZa52Z8dFCLdLr6lzhW4nvtBwKKQ9DqzzSD
+ GKTwBQT4+/uemZgoJzSl2EqfkA5S82ayHQ==
+X-Google-Smtp-Source: ABdhPJyG/6lqWVh3aDTNlv+CncBemGmgDhFIFWGZsZk8jiTmWjxHejWCGUCkKGLYrjEia5XU8l8oMQ==
+X-Received: by 2002:a17:90b:2291:: with SMTP id
+ kx17mr10970936pjb.79.1618599625568; 
+ Fri, 16 Apr 2021 12:00:25 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id d7sm1988337pfv.197.2021.04.16.12.00.23
+ by smtp.gmail.com with ESMTPSA id d7sm1988337pfv.197.2021.04.16.12.00.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 12:00:24 -0700 (PDT)
+ Fri, 16 Apr 2021 12:00:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 24/30] target/arm: Use finalize_memop for aa64 gpr
+Subject: [PATCH v4 25/30] target/arm: Use finalize_memop for aa64 fpr
  load/store
-Date: Fri, 16 Apr 2021 11:59:53 -0700
-Message-Id: <20210416185959.1520974-25-richard.henderson@linaro.org>
+Date: Fri, 16 Apr 2021 11:59:54 -0700
+Message-Id: <20210416185959.1520974-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210416185959.1520974-1-richard.henderson@linaro.org>
 References: <20210416185959.1520974-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,216 +88,96 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the case of gpr load, merge the size and is_signed arguments;
-otherwise, simply convert size to memop.
+For 128-bit load/store, use 16-byte alignment.  This
+requires that we perform the two operations in the
+correct order so that we generate the alignment fault
+before modifying memory.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 78 ++++++++++++++++----------------------
- 1 file changed, 33 insertions(+), 45 deletions(-)
+ target/arm/translate-a64.c | 42 +++++++++++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 92a62b1a75..f2995d2b74 100644
+index f2995d2b74..b90d6880e7 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -886,19 +886,19 @@ static void gen_adc_CC(int sf, TCGv_i64 dest, TCGv_i64 t0, TCGv_i64 t1)
-  * Store from GPR register to memory.
-  */
- static void do_gpr_st_memidx(DisasContext *s, TCGv_i64 source,
--                             TCGv_i64 tcg_addr, int size, int memidx,
-+                             TCGv_i64 tcg_addr, MemOp memop, int memidx,
-                              bool iss_valid,
-                              unsigned int iss_srt,
-                              bool iss_sf, bool iss_ar)
+@@ -963,25 +963,33 @@ static void do_gpr_ld(DisasContext *s, TCGv_i64 dest, TCGv_i64 tcg_addr,
+ static void do_fp_st(DisasContext *s, int srcidx, TCGv_i64 tcg_addr, int size)
  {
--    g_assert(size <= 3);
--    tcg_gen_qemu_st_i64(source, tcg_addr, memidx, s->be_data + size);
-+    memop = finalize_memop(s, memop);
-+    tcg_gen_qemu_st_i64(source, tcg_addr, memidx, memop);
+     /* This writes the bottom N bits of a 128 bit wide vector to memory */
+-    TCGv_i64 tmp = tcg_temp_new_i64();
+-    tcg_gen_ld_i64(tmp, cpu_env, fp_reg_offset(s, srcidx, MO_64));
++    TCGv_i64 tmplo = tcg_temp_new_i64();
++    MemOp mop;
++
++    tcg_gen_ld_i64(tmplo, cpu_env, fp_reg_offset(s, srcidx, MO_64));
++
+     if (size < 4) {
+-        tcg_gen_qemu_st_i64(tmp, tcg_addr, get_mem_index(s),
+-                            s->be_data + size);
++        mop = finalize_memop(s, size);
++        tcg_gen_qemu_st_i64(tmplo, tcg_addr, get_mem_index(s), mop);
+     } else {
+         bool be = s->be_data == MO_BE;
+         TCGv_i64 tcg_hiaddr = tcg_temp_new_i64();
++        TCGv_i64 tmphi = tcg_temp_new_i64();
  
-     if (iss_valid) {
-         uint32_t syn;
++        tcg_gen_ld_i64(tmphi, cpu_env, fp_reg_hi_offset(s, srcidx));
++
++        mop = s->be_data | MO_Q;
++        tcg_gen_qemu_st_i64(be ? tmphi : tmplo, tcg_addr, get_mem_index(s),
++                            mop | (s->align_mem ? MO_ALIGN_16 : 0));
+         tcg_gen_addi_i64(tcg_hiaddr, tcg_addr, 8);
+-        tcg_gen_qemu_st_i64(tmp, be ? tcg_hiaddr : tcg_addr, get_mem_index(s),
+-                            s->be_data | MO_Q);
+-        tcg_gen_ld_i64(tmp, cpu_env, fp_reg_hi_offset(s, srcidx));
+-        tcg_gen_qemu_st_i64(tmp, be ? tcg_addr : tcg_hiaddr, get_mem_index(s),
+-                            s->be_data | MO_Q);
++        tcg_gen_qemu_st_i64(be ? tmplo : tmphi, tcg_hiaddr,
++                            get_mem_index(s), mop);
++
+         tcg_temp_free_i64(tcg_hiaddr);
++        tcg_temp_free_i64(tmphi);
+     }
  
-         syn = syn_data_abort_with_iss(0,
--                                      size,
-+                                      (memop & MO_SIZE),
-                                       false,
-                                       iss_srt,
-                                       iss_sf,
-@@ -909,37 +909,28 @@ static void do_gpr_st_memidx(DisasContext *s, TCGv_i64 source,
- }
- 
- static void do_gpr_st(DisasContext *s, TCGv_i64 source,
--                      TCGv_i64 tcg_addr, int size,
-+                      TCGv_i64 tcg_addr, MemOp memop,
-                       bool iss_valid,
-                       unsigned int iss_srt,
-                       bool iss_sf, bool iss_ar)
- {
--    do_gpr_st_memidx(s, source, tcg_addr, size, get_mem_index(s),
-+    do_gpr_st_memidx(s, source, tcg_addr, memop, get_mem_index(s),
-                      iss_valid, iss_srt, iss_sf, iss_ar);
+-    tcg_temp_free_i64(tmp);
++    tcg_temp_free_i64(tmplo);
  }
  
  /*
-  * Load from memory to GPR register
-  */
--static void do_gpr_ld_memidx(DisasContext *s,
--                             TCGv_i64 dest, TCGv_i64 tcg_addr,
--                             int size, bool is_signed,
--                             bool extend, int memidx,
-+static void do_gpr_ld_memidx(DisasContext *s, TCGv_i64 dest, TCGv_i64 tcg_addr,
-+                             MemOp memop, bool extend, int memidx,
-                              bool iss_valid, unsigned int iss_srt,
-                              bool iss_sf, bool iss_ar)
- {
--    MemOp memop = s->be_data + size;
--
--    g_assert(size <= 3);
--
--    if (is_signed) {
--        memop += MO_SIGN;
--    }
--
-+    memop = finalize_memop(s, memop);
-     tcg_gen_qemu_ld_i64(dest, tcg_addr, memidx, memop);
+@@ -992,10 +1000,11 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
+     /* This always zero-extends and writes to a full 128 bit wide vector */
+     TCGv_i64 tmplo = tcg_temp_new_i64();
+     TCGv_i64 tmphi = NULL;
++    MemOp mop;
  
--    if (extend && is_signed) {
--        g_assert(size < 3);
-+    if (extend && (memop & MO_SIGN)) {
-+        g_assert((memop & MO_SIZE) <= MO_32);
-         tcg_gen_ext32u_i64(dest, dest);
+     if (size < 4) {
+-        MemOp memop = s->be_data + size;
+-        tcg_gen_qemu_ld_i64(tmplo, tcg_addr, get_mem_index(s), memop);
++        mop = finalize_memop(s, size);
++        tcg_gen_qemu_ld_i64(tmplo, tcg_addr, get_mem_index(s), mop);
+     } else {
+         bool be = s->be_data == MO_BE;
+         TCGv_i64 tcg_hiaddr;
+@@ -1003,11 +1012,12 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
+         tmphi = tcg_temp_new_i64();
+         tcg_hiaddr = tcg_temp_new_i64();
+ 
++        mop = s->be_data | MO_Q;
++        tcg_gen_qemu_ld_i64(be ? tmphi : tmplo, tcg_addr, get_mem_index(s),
++                            mop | (s->align_mem ? MO_ALIGN_16 : 0));
+         tcg_gen_addi_i64(tcg_hiaddr, tcg_addr, 8);
+-        tcg_gen_qemu_ld_i64(tmplo, be ? tcg_hiaddr : tcg_addr, get_mem_index(s),
+-                            s->be_data | MO_Q);
+-        tcg_gen_qemu_ld_i64(tmphi, be ? tcg_addr : tcg_hiaddr, get_mem_index(s),
+-                            s->be_data | MO_Q);
++        tcg_gen_qemu_ld_i64(be ? tmplo : tmphi, tcg_hiaddr,
++                            get_mem_index(s), mop);
+         tcg_temp_free_i64(tcg_hiaddr);
      }
  
-@@ -947,8 +938,8 @@ static void do_gpr_ld_memidx(DisasContext *s,
-         uint32_t syn;
- 
-         syn = syn_data_abort_with_iss(0,
--                                      size,
--                                      is_signed,
-+                                      (memop & MO_SIZE),
-+                                      (memop & MO_SIGN) != 0,
-                                       iss_srt,
-                                       iss_sf,
-                                       iss_ar,
-@@ -957,14 +948,12 @@ static void do_gpr_ld_memidx(DisasContext *s,
-     }
- }
- 
--static void do_gpr_ld(DisasContext *s,
--                      TCGv_i64 dest, TCGv_i64 tcg_addr,
--                      int size, bool is_signed, bool extend,
-+static void do_gpr_ld(DisasContext *s, TCGv_i64 dest, TCGv_i64 tcg_addr,
-+                      MemOp memop, bool extend,
-                       bool iss_valid, unsigned int iss_srt,
-                       bool iss_sf, bool iss_ar)
- {
--    do_gpr_ld_memidx(s, dest, tcg_addr, size, is_signed, extend,
--                     get_mem_index(s),
-+    do_gpr_ld_memidx(s, dest, tcg_addr, memop, extend, get_mem_index(s),
-                      iss_valid, iss_srt, iss_sf, iss_ar);
- }
- 
-@@ -2717,7 +2706,7 @@ static void disas_ldst_excl(DisasContext *s, uint32_t insn)
-         }
-         clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn),
-                                     false, rn != 31, size);
--        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, false, true, rt,
-+        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, true, rt,
-                   disas_ldst_compute_iss_sf(size, false, 0), is_lasr);
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
-         return;
-@@ -2830,8 +2819,8 @@ static void disas_ld_lit(DisasContext *s, uint32_t insn)
-         /* Only unsigned 32bit loads target 32bit registers.  */
-         bool iss_sf = opc != 0;
- 
--        do_gpr_ld(s, tcg_rt, clean_addr, size, is_signed, false,
--                  true, rt, iss_sf, false);
-+        do_gpr_ld(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
-+                  false, true, rt, iss_sf, false);
-     }
-     tcg_temp_free_i64(clean_addr);
- }
-@@ -2989,11 +2978,11 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
-             /* Do not modify tcg_rt before recognizing any exception
-              * from the second load.
-              */
--            do_gpr_ld(s, tmp, clean_addr, size, is_signed, false,
--                      false, 0, false, false);
-+            do_gpr_ld(s, tmp, clean_addr, size + is_signed * MO_SIGN,
-+                      false, false, 0, false, false);
-             tcg_gen_addi_i64(clean_addr, clean_addr, 1 << size);
--            do_gpr_ld(s, tcg_rt2, clean_addr, size, is_signed, false,
--                      false, 0, false, false);
-+            do_gpr_ld(s, tcg_rt2, clean_addr, size + is_signed * MO_SIGN,
-+                      false, false, 0, false, false);
- 
-             tcg_gen_mov_i64(tcg_rt, tmp);
-             tcg_temp_free_i64(tmp);
-@@ -3124,8 +3113,8 @@ static void disas_ldst_reg_imm9(DisasContext *s, uint32_t insn,
-             do_gpr_st_memidx(s, tcg_rt, clean_addr, size, memidx,
-                              iss_valid, rt, iss_sf, false);
-         } else {
--            do_gpr_ld_memidx(s, tcg_rt, clean_addr, size,
--                             is_signed, is_extended, memidx,
-+            do_gpr_ld_memidx(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
-+                             is_extended, memidx,
-                              iss_valid, rt, iss_sf, false);
-         }
-     }
-@@ -3229,9 +3218,8 @@ static void disas_ldst_reg_roffset(DisasContext *s, uint32_t insn,
-             do_gpr_st(s, tcg_rt, clean_addr, size,
-                       true, rt, iss_sf, false);
-         } else {
--            do_gpr_ld(s, tcg_rt, clean_addr, size,
--                      is_signed, is_extended,
--                      true, rt, iss_sf, false);
-+            do_gpr_ld(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
-+                      is_extended, true, rt, iss_sf, false);
-         }
-     }
- }
-@@ -3314,8 +3302,8 @@ static void disas_ldst_reg_unsigned_imm(DisasContext *s, uint32_t insn,
-             do_gpr_st(s, tcg_rt, clean_addr, size,
-                       true, rt, iss_sf, false);
-         } else {
--            do_gpr_ld(s, tcg_rt, clean_addr, size, is_signed, is_extended,
--                      true, rt, iss_sf, false);
-+            do_gpr_ld(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
-+                      is_extended, true, rt, iss_sf, false);
-         }
-     }
- }
-@@ -3402,7 +3390,7 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
-          * full load-acquire (we only need "load-acquire processor consistent"),
-          * but we choose to implement them as full LDAQ.
-          */
--        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, false,
-+        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false,
-                   true, rt, disas_ldst_compute_iss_sf(size, false, 0), true);
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
-         return;
-@@ -3475,7 +3463,7 @@ static void disas_ldst_pac(DisasContext *s, uint32_t insn,
-                                 is_wback || rn != 31, size);
- 
-     tcg_rt = cpu_reg(s, rt);
--    do_gpr_ld(s, tcg_rt, clean_addr, size, /* is_signed */ false,
-+    do_gpr_ld(s, tcg_rt, clean_addr, size,
-               /* extend */ false, /* iss_valid */ !is_wback,
-               /* iss_srt */ rt, /* iss_sf */ true, /* iss_ar */ false);
- 
-@@ -3560,8 +3548,8 @@ static void disas_ldst_ldapr_stlr(DisasContext *s, uint32_t insn)
-          * Load-AcquirePC semantics; we implement as the slightly more
-          * restrictive Load-Acquire.
-          */
--        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, is_signed, extend,
--                  true, rt, iss_sf, true);
-+        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size + is_signed * MO_SIGN,
-+                  extend, true, rt, iss_sf, true);
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
-     }
- }
 -- 
 2.25.1
 
