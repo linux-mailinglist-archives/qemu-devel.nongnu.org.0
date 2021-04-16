@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93829361907
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:56:21 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3ECD361914
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 07:05:40 +0200 (CEST)
+Received: from localhost ([::1]:46750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXGWi-0001me-NN
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:56:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55330)
+	id 1lXGfj-0005ND-FO
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 01:05:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lXGVv-00015K-K7; Fri, 16 Apr 2021 00:55:31 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:38690)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lXGVs-0005bn-Lt; Fri, 16 Apr 2021 00:55:31 -0400
-Received: by mail-io1-xd30.google.com with SMTP id f15so17754497iob.5;
- Thu, 15 Apr 2021 21:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TqhPBmIdX2fXKUKlrpYBCEXvJNh9xPtljVtd4cKyVpM=;
- b=dbA5OtcmCSKbyO3+EEv/+Y/t0uMkS0FK84qy1RmGOfBJvBqRCdXstc0uS9x1DDTmzU
- tUfwKrd9i3WrYrf2qTKqDKTF1U3EfR3J6setkJcv4OW2IrrxS+FAY/kgBwiyBMpHKvyE
- fpEQjAMzt6jQQl2lfLQfeMFVfaVomfFx0cCULOYAY44VSxFDQ/uSnvDHTFIHxPeN5Nyy
- zGCf0YKRw5jdVQmSLckpEF3/PUCQ2Ggmm2Ky6IrakvwFsjniLWRFnKwtDFmsqOVpRexA
- 5qLe2bWJm3m9oLZb7sMlbQYJDrr8s5pIXeJAcjbB7vhU1huGmyExqBTgTF1n5aE6dtjy
- 4ahg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXGeN-0004UL-PD
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 01:04:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXGe7-0002Jp-EV
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 01:04:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618549437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sRkbYoSlzrcIOrMEFMTJ/CkkFjk9cusSiEbvF8gFMgc=;
+ b=U37ZoEDPKxAeAm1qzOPQBV5YVHyHGDba6A+PpGRAubYlBP/thc3q8CFFwUbKK+fPAUoeug
+ bONgUXVaeqAd3H4PStPfxNbq7qCpLxJmlVCh0eCKaJ1ZTf8FG8MKMUhVVfz02/MlM2FpIe
+ E6KP5hy3ntYgS+QtLohaP/BInG8Dm6w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-QxqDH86tMxmYXDBogXTESQ-1; Fri, 16 Apr 2021 01:03:53 -0400
+X-MC-Unique: QxqDH86tMxmYXDBogXTESQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t14-20020adff04e0000b0290103307c23e1so3848289wro.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 22:03:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TqhPBmIdX2fXKUKlrpYBCEXvJNh9xPtljVtd4cKyVpM=;
- b=rPpUQRwYTYjsSwfb5Ba4VWwhovHOIRdAsCjDmbdl1cRmp+65TPDdmbnSpSZblPQN0W
- Yp6q0BwqajoDTPnFsSv6j4xjD/3FFLltqX6SvZ02CTmM0cs9/9GMzWi8WfZSoUTRs3C8
- dF/S7hFrSDSaGPvM+eA2n5AFx3gONFcu641IAdsJwsE6DdOT7gwqbFCh9DH4QWfElXXf
- Y8T1xoy4kAa9b+MHraLH2+fZnQjvjq6hbZ74szjwB0Cy1UwUzzXqQ4Nv57TGdLelume/
- mcQfoPkNFNe0FGZs/8OYYOqV7iKa3gGhFkIH+Zt8eeKm3IJ/CGfz7rtW/iZAiTyE2GO+
- TxHw==
-X-Gm-Message-State: AOAM530aKQ0W8ztA4NxfbqNYbSK6S8aCmFGD5ZaiCQ57yiYe9gIp2cdD
- yghGSei4Iq7sq+u1raqSVWSox7fEIEGOoKL0oy4=
-X-Google-Smtp-Source: ABdhPJzO1Si2smTymgF/iLc8zzOdlXuEk3X0yde6VyTdWaZ/yxguCW3kcVbIyRkDq+24oAKa1Dyax+b2F5MuqnOUnqQ=
-X-Received: by 2002:a02:a38f:: with SMTP id y15mr2475580jak.106.1618548926208; 
- Thu, 15 Apr 2021 21:55:26 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sRkbYoSlzrcIOrMEFMTJ/CkkFjk9cusSiEbvF8gFMgc=;
+ b=cI0lEzCn6wl0WTCxnkfH+sqazUcgBr7xq0zKVEoYzAGbYcDxaL96xOh16bJFUv91Pl
+ GH27r0625W71MZeWyKoP81TfufJI4PVTBZeaTZdE4b7tzc+fICDSsw7fDwZgjJnjM3Ai
+ Ro5lMiSv2/ipnQfcxdvCrQAKjSFRT4qssrQbIwOPP5eEDEXUP+9G7Zk5jBwf62K3iBOD
+ ib0Lj/zWIkn3xkTFXlCiRs2qKHuCKsSfmUpPvFu2uO/h2VVfuMVccANEsoBdLokmaC0D
+ qSFClel27o8E+SB8wK9CuVVYP1kxk7Pszi2OVxJfMxJCn2XeJZ3ag5ChVdmnn4b4GTK7
+ 1kDA==
+X-Gm-Message-State: AOAM533fumseVqn2bPgGF/2eNkM/TSrEkdFDWUlITer5OgxXqGOjSw18
+ 5RZvX+ouWLKRqqK5qeyob/ukaNy48LBS55e5BCPPqCMYGs0XgM4CHRQ1KHsT15WEG5iArXZEncB
+ rD8i4fD6d+5rpiVE=
+X-Received: by 2002:a1c:35c6:: with SMTP id c189mr6101874wma.127.1618549431994; 
+ Thu, 15 Apr 2021 22:03:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyuSc5mBKs+UMc55iPFMk6ZSCmm99y4qrQk1uDEJq60oQry53dSe6nKwLChPMlPO9OfhxiMcQ==
+X-Received: by 2002:a1c:35c6:: with SMTP id c189mr6101853wma.127.1618549431830; 
+ Thu, 15 Apr 2021 22:03:51 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id f7sm4460219wrp.48.2021.04.15.22.03.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Apr 2021 22:03:51 -0700 (PDT)
+Subject: Re: [PING^2] [PATCH] [NFC] Mark locally used symbols as static.
+To: Yuri Gribov <tetra2005@gmail.com>, qemu-devel@nongnu.org
+References: <CAJOtW+5DDMsr8QJQxaa1OHT79rpMJCrwkYbuaRTynR_ngUxgHA@mail.gmail.com>
+ <CAJOtW+6S8bTZa-n33TpYoVJVge_6_Xm3=M6h=Sy+cYEe+GJ0DA@mail.gmail.com>
+ <CAJOtW+7NN2rkcnKmNmMqEUXAgFku+zECRZgv2LX1G73HM-d2NQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <075db5e1-ee1e-94eb-6903-68e3817b6e3e@redhat.com>
+Date: Fri, 16 Apr 2021 07:03:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210410194047.559189-1-josemartins90@gmail.com>
-In-Reply-To: <20210410194047.559189-1-josemartins90@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 16 Apr 2021 14:55:00 +1000
-Message-ID: <CAKmqyKPpjRfowvYjofny8JNwnDUZkyH4jnU6mvVxaWNJuEgsqA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix wfi exception behavior
-To: Jose Martins <josemartins90@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAJOtW+7NN2rkcnKmNmMqEUXAgFku+zECRZgv2LX1G73HM-d2NQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,75 +100,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+Cc: Marek Vasut <marex@denx.de>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 11, 2021 at 5:41 AM Jose Martins <josemartins90@gmail.com> wrote:
->
-> The wfi exception trigger behavior was not taking into account the fact
-> that user mode is not allowed to execute wfi instructions or the effect
-> of the hstatus.vtw bit. It was also always generating virtual instruction
-> exceptions when this should only happen when the wfi instruction is
-> executed when the virtualization mode is enabled:
->
-> - when a wfi instruction is executed, an illegal exception should be triggered
-> if either the current mode is user or the mode is supervisor and mstatus.tw is
-> set.
->
-> - a virtual instruction exception should be raised when a wfi is executed from
-> virtual-user or virtual-supervisor and hstatus.vtw is set.
->
-> Signed-off-by: Jose Martins <josemartins90@gmail.com>
+Hi Yuri,
+
+On 4/15/21 7:27 PM, Yuri Gribov wrote:
+> Hi all,
+> 
+> This patch makes locally used symbols static to enable more compiler
+> optimizations on them. Some of the symbols turned out to not be used
+> at all so I marked them with ATTRIBUTE_UNUSED (as I wasn't sure if
+> they were ok to delete).
+
+It would be easier to integrate your work if your split it
+in multiple patches, and send them as a series, and add the
+Reviewed-by/Acked-by tags to the corresponding ones (these
+could be queued via the qemu-trival tree already). See below.
+
+> The symbols have been identified with a pet project of mine:
+> https://github.com/yugr/Localizer
+> 
+> Link to patch: https://patchew.org/QEMU/CAJOtW+5DDMsr8QJQxaa1OHT79rpMJCrwkYbuaRTynR_ngUxgHA@mail.gmail.com/
+> 
+> From 4e790fd06becfbbf6fb106ac52ae1e4515f1ac73 Mon Sep 17 00:00:00 2001
+> From: Yury Gribov <tetra2005@gmail.com>
+> Date: Sat, 20 Mar 2021 23:39:15 +0300
+> Subject: [PATCH] Mark locally used symbols as static.
+> 
+> Signed-off-by: Yury Gribov <tetra2005@gmail.com>
+> Acked-by: Max Filippov <jcmvbkbc@gmail.com> (xtensa)
+> Acked-by: David Gibson <david@gibson.dropbear.id.au> (ppc)
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com> (tracetool)
+> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com> (hexagon)
 > ---
->  target/riscv/cpu_bits.h  | 1 +
->  target/riscv/op_helper.c | 8 +++++---
->  2 files changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 24b24c69c5..ed8b97c788 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -436,6 +436,7 @@
->  #define HSTATUS_HU           0x00000200
->  #define HSTATUS_VGEIN        0x0003F000
->  #define HSTATUS_VTVM         0x00100000
-> +#define HSTATUS_VTW          0x00200000
->  #define HSTATUS_VTSR         0x00400000
->  #if defined(TARGET_RISCV64)
->  #define HSTATUS_VSXL        0x300000000
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index d55def76cf..354e39ec26 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -174,9 +174,11 @@ void helper_wfi(CPURISCVState *env)
->  {
->      CPUState *cs = env_cpu(env);
->
-> -    if ((env->priv == PRV_S &&
-> -        get_field(env->mstatus, MSTATUS_TW)) ||
-> -        riscv_cpu_virt_enabled(env)) {
-> +    if ((!riscv_cpu_virt_enabled(env) && env->priv == PRV_U) ||
+>  disas/alpha.c                                 | 16 ++--
+>  disas/m68k.c                                  | 78 ++++++++---------
+>  disas/mips.c                                  | 14 ++--
+>  disas/nios2.c                                 | 84 +++++++++----------
+>  disas/ppc.c                                   | 26 +++---
+>  disas/riscv.c                                 |  2 +-
 
-> +        (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TW))) {
+patch #1, "disas: Mark locally used symbols as static"
 
-Shouldn't we check here that we aren't virtualised?
+>  pc-bios/optionrom/linuxboot_dma.c             |  4 +-
 
-Alistair
+patch #2, "pc-bios/optionrom: Mark locally used symbols as static"
 
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> +    } else if (riscv_cpu_virt_enabled(env) && (env->priv == PRV_U ||
-> +            (env->priv == PRV_S && get_field(env->hstatus, HSTATUS_VTW)))) {
->          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
->      } else {
->          cs->halted = 1;
-> --
-> 2.25.1
->
->
+>  scripts/tracetool/format/c.py                 |  2 +-
+
+patch #3, "scripts/tracetool: Mark locally used symbols as static"
+
+>  target/hexagon/gen_dectree_import.c           |  2 +-
+>  target/hexagon/opcodes.c                      |  2 +-
+
+patch #4, "target/hexagon: Mark locally used symbols as static"
+
+>  target/i386/cpu.c                             |  2 +-
+
+patch #5, "target/i386: Mark locally used symbols as static"
+
+>  target/s390x/cpu_models.c                     |  2 +-
+
+patch #6, "target/s390x: Mark locally used symbols as static"
+
+>  .../xtensa/core-dc232b/xtensa-modules.c.inc   |  2 +-
+>  .../xtensa/core-dc233c/xtensa-modules.c.inc   |  2 +-
+>  target/xtensa/core-de212/xtensa-modules.c.inc |  2 +-
+>  .../core-de233_fpu/xtensa-modules.c.inc       |  2 +-
+>  .../xtensa/core-dsp3400/xtensa-modules.c.inc  |  2 +-
+>  target/xtensa/core-fsf/xtensa-modules.c.inc   |  2 +-
+>  .../xtensa-modules.c.inc                      |  2 +-
+>  .../core-test_kc705_be/xtensa-modules.c.inc   |  2 +-
+>  .../core-test_mmuhifi_c3/xtensa-modules.c.inc |  2 +-
+
+patch #7, "target/xtensa: Mark locally used symbols as static"
+
+>  21 files changed, 125 insertions(+), 127 deletions(-)
+
+Regards,
+
+Phil.
+
 
