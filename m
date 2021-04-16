@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E464D362446
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 17:42:10 +0200 (CEST)
-Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5738236244E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 17:44:54 +0200 (CEST)
+Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXQbh-0003zK-VM
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 11:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
+	id 1lXQeL-0005uG-F0
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 11:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lXQZt-00034O-Be
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:40:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52337)
+ id 1lXQbg-0004fM-Qz
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:42:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lXQZq-0004CG-6z
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:40:16 -0400
+ id 1lXQbe-0005A5-Rz
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:42:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618587612;
+ s=mimecast20190719; t=1618587726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=h9aMIoabz7EF8aG8KVZgl6vIDE/kt8sWXCBHacmawAo=;
- b=UBAOcDDUXvr44chdgPPanmNN+f65TKplOtOU8OpnsTjQHq/Wu+S2/5OyZQPpFlWqksApRY
- DSCQ+hDDH39yqt5xlQgM6LtC+aE524SJDJmxwbk5uN79KUl1PJIb1Rmwr8p1hwrrTTVSXO
- ZKahYcg0ce4CnaziyeVWnp85S/y4yGw=
+ bh=hJ2CgBzXIAv16dlfXO/kx1g366euPNJd/aubXw4gMu4=;
+ b=CP+DvH74tQ+jKgupIUbKzq7B3V4uaWO+4D+qkXkcRualiVEQcJHVGu71tYYPqTP/0aE2oy
+ TVOtRiCvaeJ33j5Zdl24ozkkCSKC4VnHK92NFsKoaxiX1CB6xP4utLR19Lx6XPYrzY/iBy
+ IK4dhmJSrFHYMPfUu/+CNlplYC5VQpI=
 Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
  [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-rfZz9qgKNhySnPWjJFFiow-1; Fri, 16 Apr 2021 11:39:43 -0400
-X-MC-Unique: rfZz9qgKNhySnPWjJFFiow-1
+ us-mta-170-6ObsfJ7KPxiez1GcVsz9OA-1; Fri, 16 Apr 2021 11:42:04 -0400
+X-MC-Unique: 6ObsfJ7KPxiez1GcVsz9OA-1
 Received: by mail-ua1-f70.google.com with SMTP id
- q5-20020a9f38450000b02901e7f4035131so1943822uad.10
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 08:39:43 -0700 (PDT)
+ k8-20020ab059c80000b02901dbe33ea7f9so1954748uad.17
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 08:42:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=h9aMIoabz7EF8aG8KVZgl6vIDE/kt8sWXCBHacmawAo=;
- b=QR85jT0cr7/wn8mBkaaPXJPSL1HST+ZXRY2nvBkcv7u7fNI2EO4TCyoX4tOI7yPFLq
- zLZa+zAOSd4ScEta+Vm0h2HKvW2aBjWmeo+TJ/7hvvL+kNYpNBNi7IkTxAWW4ZU2d/v2
- mMu6Jma/SJn4+jrYB/6GJFrqOhJSBkqXnHBovAQQ6axZpy1vBWRAt6mxqCZy3aqVmpuN
- rwQuehGgnjQIbnBTyAHL6hW/djL2nlSlIxi+LGJAUF7QVtWOv8TpNhQ4DFTQqwJAtIVZ
- SdaZxfxqYcxjpFGQEd3fO7FGWWs1bvzu2Tylv4VAY5qvfr8hFyCqiZ1+srqyzBj9K9Ao
- DX1g==
-X-Gm-Message-State: AOAM532fx4OmsjfchsoU/meMkhDNlrC7xc5zE6aDKcns2KYcH0WBiXRj
- rhrZbChCWqa0Xdd+W23npV3YpuoFB70/G2IB04g6MmznhxCr8Y2DOxmZqs1O1sMuEzH/KUoQ6BZ
- ePVW2FFIpvkO7gPqJqdwZiO2XEh+On6o=
-X-Received: by 2002:ab0:4042:: with SMTP id h60mr7161388uad.133.1618587583146; 
- Fri, 16 Apr 2021 08:39:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/Xt2dXPQuqucEOqX2icbASN+a7YfoXxZ0TcOzQS4HuG5gSdbbZAdZZYKsy8NmsVeMYfxo0qEIUioOZQWY7Oc=
-X-Received: by 2002:ab0:4042:: with SMTP id h60mr7161366uad.133.1618587582986; 
- Fri, 16 Apr 2021 08:39:42 -0700 (PDT)
+ bh=hJ2CgBzXIAv16dlfXO/kx1g366euPNJd/aubXw4gMu4=;
+ b=rWxhb9bkaDXDcaA2INvFQmYY2iNYHeixa4BHud81fmyfhwzHfqYLGvVX6SX5HrwfUr
+ 2cwpPEAL2eChSVR+4upd1xokpdYwaLLhbHaSsjZRxq7ZbZUWWBSDXZZNN5c12q/Lub0E
+ 7GizexBhUjSZLdJfR1B+OjXWP/Rz2LFSDnG75zl9TgvsB+tKjt05xGJZoqWlsK4OY0l8
+ STBslTCVlO+9QPlUQjZHNb+6mEDM7ChSteaMeA6hM5lk8KK3zbd8FNeDPhBumNAfOP09
+ BlqmjmefHrwN/4NoxQYpkFVnh6SPEoC5/1f5sLv6YoMto/hm8mV7YgimdCVkB3e5PRC4
+ r5HA==
+X-Gm-Message-State: AOAM532mBOlm9vGjtmr2pEklcq02vj3GmUWGGwHf0KDzYuUAng+qc0VZ
+ jP0HpYAHsIqwr06/2GvqqIG1c3YWbOMuw2o2Kj21Uw6/bd3ehueyzOiRQfLRaVQnXox+k1HAGOS
+ V4oJtOquRfPRH8xcIl9OdJ5LGRLICB50=
+X-Received: by 2002:a1f:cc47:: with SMTP id c68mr7768923vkg.19.1618587724044; 
+ Fri, 16 Apr 2021 08:42:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzzN1ATd2TW2cRNGY82gefuC5cnllbCmAb0hMMx+dUuybD2eVmlhU0Xm+B2QX8PP50SzBF9b+jLAQwlsM6AcWI=
+X-Received: by 2002:a1f:cc47:: with SMTP id c68mr7768910vkg.19.1618587723903; 
+ Fri, 16 Apr 2021 08:42:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210415215141.1865467-1-crosa@redhat.com>
- <20210415215141.1865467-3-crosa@redhat.com>
-In-Reply-To: <20210415215141.1865467-3-crosa@redhat.com>
+ <20210415215141.1865467-4-crosa@redhat.com>
+In-Reply-To: <20210415215141.1865467-4-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 16 Apr 2021 12:39:16 -0300
-Message-ID: <CAKJDGDbPfxpYLg29q8d7tg12xE9a7u+7nd8zX34kHZrbKaEyrQ@mail.gmail.com>
-Subject: Re: [PATCH 2/8] Acceptance tests: do not try to reuse packages from
- the system
+Date: Fri, 16 Apr 2021 12:41:38 -0300
+Message-ID: <CAKJDGDbJ=em63tyegJeL63CT0ZDMg6H8Q7z3p-oAsRb1bBYWbQ@mail.gmail.com>
+Subject: Re: [PATCH 3/8] tests/acceptance/linux_ssh_mips_malta.py: drop
+ identical setUp
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -106,30 +106,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Apr 15, 2021 at 6:52 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> The premise behind the original behavior is that it would save people
-> from downloading Avocado (and other dependencies) if already installed
-> on the system.  To be honest, I think it's extremely rare that the
-> same versions described as dependencies will be available on most
-> systems.  But, the biggest motivations here are that:
->
->  1) Hacking on QEMU in the same system used to develop Avocado leads
->     to confusion with regards to the exact bits that are being used;
->
-
-Indeed!
-
->  2) Not reusing Python packages from system wide installations gives
->     extra assurance that the same behavior will be seen from tests run
->     on different machines;
->
-> With regards to downloads, pip already caches the downloaded wheels
-> and tarballs under ~/.cache/pip, so there should not be more than
-> one download even if the venv is destroyed and recreated.
+> These tests' setUp do not do anything beyong what their base class do.
+> And while they do decorate the setUp() we can decorate the classes
+> instead, so no functionality is lost here.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/Makefile.include | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/acceptance/linux_ssh_mips_malta.py | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
