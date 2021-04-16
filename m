@@ -2,110 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DB136205C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:59:07 +0200 (CEST)
-Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3E036200A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:44:20 +0200 (CEST)
+Received: from localhost ([::1]:57426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXO3u-0004xS-Jt
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54536)
+	id 1lXNpb-00072x-7w
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lXO2u-00049F-M3
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:58:04 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:11531)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lXNnj-0006Ho-NU
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:42:23 -0400
+Received: from mail-db8eur05on2122.outbound.protection.outlook.com
+ ([40.107.20.122]:43121 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lXO2p-0002I3-RJ
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:58:04 -0400
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20210416125752epoutp01d873a9046e2066e1cee6dd336fca6417~2V-_-uuy22599725997epoutp01B
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 12:57:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20210416125752epoutp01d873a9046e2066e1cee6dd336fca6417~2V-_-uuy22599725997epoutp01B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1618577872;
- bh=+YYmHF1Vjto0mzbi9qlffe858Q58ow5igVTuaNu/oso=;
- h=From:To:Cc:Subject:Date:References:From;
- b=Ctczf7Dvyx963NnfMpAJUVsk7VvAeK/jib9yfaCVP3u8lk2/sEHLk05v1snoN7+z1
- 5BUT3P618gSnULE7m+QINAQzKhvy9PhPNeB3Vq4eiFwkQzKinqcWg0hcxre7ZTZIMt
- woZKTlGr6HuV50MgTjbAM/B7I5J+Z/Q9T6NXWac4=
-Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20210416125751epcas5p2c544c3a68500bc7106e8c378f8d9dfeb~2V-_YhVxf2223722237epcas5p2a;
- Fri, 16 Apr 2021 12:57:51 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 32.27.15682.FC989706; Fri, 16 Apr 2021 21:57:51 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20210416120324epcas5p354e2f196cc68680aba45341f385b59ed~2VQcTFWMx0591505915epcas5p35;
- Fri, 16 Apr 2021 12:03:24 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210416120324epsmtrp2da5f2ab389827713707350e6e8a3bb8a~2VQcSPdPy0190801908epsmtrp2l;
- Fri, 16 Apr 2021 12:03:24 +0000 (GMT)
-X-AuditID: b6c32a49-8bfff70000013d42-e1-607989cf19cb
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- D8.E5.33967.C0D79706; Fri, 16 Apr 2021 21:03:24 +0900 (KST)
-Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
- [107.99.42.33]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210416120323epsmtip19e52d86b65ef90d6bdc6b2d729bcb88f~2VQa5-ZzJ3147131471epsmtip1Q;
- Fri, 16 Apr 2021 12:03:23 +0000 (GMT)
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] hw/block/nvme: fix lbaf formats initialization
-Date: Fri, 16 Apr 2021 17:29:07 +0530
-Message-Id: <20210416115907.30625-1-anaidu.gollu@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7bCmuu75zsoEg6v/BS1e7zzObHFl/3lG
- i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
- J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsEroxnJxezF/ySqji57hJLA+MLwS5GDg4J
- AROJxZctuxi5OIQEdjNK/Lq+ig3C+cQocbV5FQuE841RYtWvX4wwHdPm2kDE9zJKfLywnxXC
- aWOS2HW0C8jh5GATMJKY/fYNI4gtIiAp8bvrNDOIzQyy49tcHZBBwgJOEv0fXUDCLAKqEheb
- HoO18grYSrz6cBesXEJAXmL1hgPMIPMlBI6xS/xtb2GBSLhIdPc1sUHYwhKvjm9hh7ClJD6/
- 2wsUZweyqyUOF0G0djBKHLu8AarcXuLfs2lgvzALaEqs36UPEZaVmHpqHRPElXwSvb+fMEHE
- eSV2zIOx1SQW3PoOtUlGYuaf26wQtodE04JlYHEhgViJI+v3MU1glJ2FsGEBI+MqRsnUguLc
- 9NRi0wLDvNRyveLE3OLSvHS95PzcTYzgdKDluYPx7oMPeocYmTgYDzFKcDArifAad1YkCPGm
- JFZWpRblxxeV5qQWH2KU5mBREufdYfAgXkggPbEkNTs1tSC1CCbLxMEp1cDUnXJWRXHa9dgX
- ehHXlS4u3ZKx+/28E9oNJfNPHbmjvPaWh33GmZ6tzzNk3vde/1FgevGumnqaHXNHfbmRs5xT
- UL1ouPrnV5mvy4R232pifnW7p+aZ6V/R58xKBx4eXqB+cKXPh4SfDoEBN+6+2Ttz2V9OQY3G
- yaWlU6W32TQ7LyxJuJ48+e6lhyqFR78YmbClnDgV5bspdUJRpBi7Q4CEd7PyipdlbB8400wO
- ux2Z+d5pb4G+7/90CX+eBlv3CQfadynVXektuG1xw/Pn3qOVwd61s4Kqtv9dfEf4bIlNpp3y
- 1RBGDdUJYVrzzsj3vr5vWDH7QeDDM30vwpT3dK5MfNlhGnrQJeVc9dnEhKVKLMUZiYZazEXF
- iQBks9+kdgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphluLIzCtJLcpLzFFi42LZdlhJTpentjLBoOGvocXrnceZLa7sP89o
- sf/gN1aLSYeuMVosuZhqMe+WssWsd+1sFsd7d7BYvJ70n9WB0+PHuXY2j3M7zrN7bFrVyebx
- 5NpmJo/3+66yefRtWcUYwBbFZZOSmpNZllqkb5fAlfHs5GL2gl9SFSfXXWJpYHwh2MXIwSEh
- YCIxba5NFyMXh5DAbkaJWYtamLoYOYHiMhK/Tk1lhrCFJVb+e84OUdTCJPFhzwlWkASbgJHE
- 7LdvGEFsEQFJid9dp5lBipgFjjJKXG6fzAKyQVjASaL/owtIDYuAqsTFpsdgvbwCthKvPtyF
- WiAvsXrDAeYJjDwLGBlWMUqmFhTnpucWGxYY5qWW6xUn5haX5qXrJefnbmIEB5iW5g7G7as+
- 6B1iZOJgPMQowcGsJMJr3FmRIMSbklhZlVqUH19UmpNafIhRmoNFSZz3QtfJeCGB9MSS1OzU
- 1ILUIpgsEwenVAPT/KJjl+8V3j/30OGzwpNPf1OePubv/lUctHst1/aFiyREc5KmfAlpZI05
- 5VG67c9Pp5Br/MeuJJ9rO3Z2p6F1467HwR1Xcx5s/LyaJ//a9uyp+Xsy97VXRS9bUNgpuIDh
- enRV6fQVDYGMpd9v6Bt8E7arYTJdv1jMS+ZBp9Pv/Wm21+oK42x+/dr1vnP5Y+vGbLuvK0MO
- /7pyfoPzeaEcTjavqqonbTH173iWb3RluOg0KTVJuNyPSztQWb72dX3ixdRTLWGL3DdUPOie
- 1irNZJTCmNX+Pf/avyQdt9tuf5773enda+u6QvRnwR0v5tlvDffsXKsqz2ETMNll1wxjP7Gq
- cvl5rM6SyzkkMxcpsRRnJBpqMRcVJwIAJEl0zJ8CAAA=
-X-CMS-MailID: 20210416120324epcas5p354e2f196cc68680aba45341f385b59ed
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210416120324epcas5p354e2f196cc68680aba45341f385b59ed
-References: <CGME20210416120324epcas5p354e2f196cc68680aba45341f385b59ed@epcas5p3.samsung.com>
-Received-SPF: pass client-ip=203.254.224.24;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lXNnf-0001Hp-9T
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:42:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=awo6m/D2il7G1EGpXsdfIHIVlVTTVl7nLoV5KzRnG0mz41C7bXIrjJFhgN4RR/4XGXnX0UJUeQp5nFZe+1ms5uGNZsdhyjeKz0sDq6CmTTwihAOkmMRBdXyFVZm773xBmQRTuclk5CMzHeangbibJDdDhRAngSKoYXiekHwYONgX1tSRrG+6EqL6f08FYzct2hDl/SrYupd/R+FS6rVXzHff/zVDSf9RROtmukd3+mX6LRQ8kGfMLoUkRWfAJzCiPDrYwb2yHyGAEW7G1Nf/eEwTmquLhcQy8EtUGDTpo3g3mep9swP2leHJoeXJRp9nE1zQlmc4rPnVGVrsSRuL+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k6K4nbPFnjH3VUyc+BsRJnBEE55UtitXTS1czcZtSLM=;
+ b=b7YZwBBOC1r0lOtxt1Fpxy7nnuqPXssE85k3Cu4uq+3NhRrXe9GeXI38fFg1rV6zp6dr9gJW+tYitoB9QtUYPv13/x7VSFdJFI1QJIzxfLnG28q/c4wIR67AFE7ykCzpatyteOfI/p3UdN9p7/L4a2Q7LKaeHBdTZ8g1ppfU1jjz8b0SWQyprtlV+GECKOZBINkrCnMf0quTDqYNUlvUYudylYFWygYqsaC5rq4OhzAeeuR6U9Xpr/lDiY53r7nQGsZO9Wev/V3d0xvmRg3HwtTgFkw0M/mlLpOC/UocQy+P9THiigWuyKHojsnfznKOFUPykQaan5kfjXv0Zs7UAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k6K4nbPFnjH3VUyc+BsRJnBEE55UtitXTS1czcZtSLM=;
+ b=th0u543QTuLvavXDDQclyW+XPseTcsTy70VhzsoxCGZDz9wG5d353XFHDHRl5Kr7BNEaUYUHXRo6YG5UcJqFetOounvT9RCnEOzzSFyesH0of5fT/a6UaqHcgb7JOPLyX5KVPGgrF//YjU5xkZO9E1EvbMrJUsxDmy1vfMqJ0OM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
+ by AM0PR08MB4433.eurprd08.prod.outlook.com (2603:10a6:208:13b::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18; Fri, 16 Apr
+ 2021 12:27:10 +0000
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::d4d5:1c34:eadb:ca42]) by AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::d4d5:1c34:eadb:ca42%4]) with mapi id 15.20.4020.022; Fri, 16 Apr 2021
+ 12:27:10 +0000
+Subject: Re: [RFC PATCH 0/9] migration/snap-tool: External snapshot utility
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
+ <20210415235032.GS4440@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <7a9f8bbd-01f9-f7fe-76ee-12a17b5861e0@virtuozzo.com>
+Date: Fri, 16 Apr 2021 15:27:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
+In-Reply-To: <20210415235032.GS4440@xz-x1>
+Content-Type: multipart/alternative;
+ boundary="------------EDA78BD7D07424FF733B5238"
+Content-Language: en-US
+X-Originating-IP: [109.252.109.82]
+X-ClientProxiedBy: PR0P264CA0095.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:18::35) To AM0PR08MB3364.eurprd08.prod.outlook.com
+ (2603:10a6:208:e4::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.3] (109.252.109.82) by
+ PR0P264CA0095.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:18::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.16 via Frontend Transport; Fri, 16 Apr 2021 12:27:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c10181ad-c5bb-4439-8ae5-08d900d2f4e5
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4433:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4433979323C4BEA1F0966C739F4C9@AM0PR08MB4433.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RVxPD2bLlWuDLfLCCKtLxkPcP/wSdJ0annFtuU30PLl1ReTQ8Ihy3bzCOV7i/XCB2XOC/ZdqNyEZZ9J4T3xGeHqw5n7OSDA3Rm+mK/b4jGFgLqkFObPPCl2Dvs1DAG6Wi1uxomc3CTZt1rc2auT/G5s3aDiaF7TstFHohImZaDKfwW7XVxU9vgxSaH2+p5bN/MQpzDtoy+HVyOZ3WA8SmjraTiwFHgFaQIa3t1f9Riq3KUR8vNxeBOHXEoWv1ue1eN3cJEA2MfdYtpImVCAMn2IpqejI9kgLjWzG3FY90XL7YkQ/3WtAEH34nuXUzOnSaAG5/n2JPLU/tPUqq6XM62n59LALlyQkFU8GhK6ROobcIbToKR+JcOSX70vNtXus8Yd6RVDTjyPVM+VlOM6uUJLrwQ5jyB3W8/J+xqofe4Jw1Ef5ZXNse0JtPBmM+UuWZGlVOLcX/4vj9wkzB8Xg0KLbW1e0m4GW22v3z/ZdLmGW/phR2BSTuj8nknN1lvhLwH2PmsMoHwb7VxgMDly/ns5hKSNd+ISYk1t+SJrVu0oL+SRhXszY7F3SlmLSwZ2eNupVs+dvqlc0XCcdSkpcyg+ZzMv2jCf8Cfa7197YZ8whka8Cg5tc1jvzIqfnNDHw6m+f6oYx61YwTn3M6gNarDQMzLVlSOXEzTfFgTiNZ9/jdUhNRpENf8R0D8f3O/Kwx84RHV3G1OgnZhqgMNRacw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(39840400004)(396003)(136003)(346002)(366004)(4326008)(53546011)(8936002)(16576012)(66476007)(66556008)(8676002)(44832011)(26005)(16526019)(5660300002)(66946007)(31696002)(52116002)(30864003)(478600001)(38350700002)(86362001)(6916009)(316002)(36756003)(2906002)(54906003)(33964004)(956004)(2616005)(83380400001)(186003)(6486002)(31686004)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UG81QWRSUHh0aXZwMEkxb0dDMkFaa1hBTW03MENxSTBsUFZSVlBRN3FpZ0ww?=
+ =?utf-8?B?SFRJeHMwS1k1WThpRFlLZ0loMGQyWS93OUQ0a3paUjE0QUdmM1o1anRXZW9k?=
+ =?utf-8?B?Vzk3V1kxbHBKWFJoeEdLc1daeUx5ZkFKQkN2eGRneVorWVdERjV1NXlCUVVV?=
+ =?utf-8?B?bWpaVlBxeUVSdThJNFZRQzE0bWdQWjZjeGFZeGtidmFmNFFSaUVSU3VYTVZ0?=
+ =?utf-8?B?akdTNjlTSEovSTZLSDlnWTVlSTZlNHc2QlFpMWo0aXJtcjM2SkY2aDR6UXhR?=
+ =?utf-8?B?YlNKK205TlVKSy82czRKUTc4VmtxN0Z2UFFnWS9pckdTT1A3QjB4WlNXbm5S?=
+ =?utf-8?B?eFE3ZUQrY1pqVDZIK1h6alBKa2pjMldzSS9reFdHUVgxT2Z0K1k0TGVSMnIv?=
+ =?utf-8?B?VHpSamw0a2thekpkMUMxQ2tRWEdrYVNkWm1UQkxsdWluOE5sc2N1Qnoxb0or?=
+ =?utf-8?B?c0FIL3BYOGNMSGx5NU00N0dJY0ZHdWc1MVh4dG5lR3F2MHlMSTRzZmFlZitm?=
+ =?utf-8?B?NzF4UkU4QnBXOE4vU0pWNVVxWlVsN3c1S1JTWjR6TkpmeCt1R2padlFIV2lQ?=
+ =?utf-8?B?OHlXRjJHM3VkR1BNNEp2Y0RaRS8wbHFVTHlXWWp6clJxbmNVSG9lUlkvMmlE?=
+ =?utf-8?B?YU9MSVR1NWxPVUZFcTdlVVhGQ3VxQzRzcTRwWFkvV1pkRThGbkcwZ290RlRN?=
+ =?utf-8?B?WWtnNlB2TjVBYlZtcGlXUTJNRkFjRFQ4NGhDbVIwRFZLU010RDdvL3hnY0lD?=
+ =?utf-8?B?emljZGs3bmxHNjhaSVJHU3R6U0dGY2UzWGdqZHlrcG50TExXTU1EdFB5c0RJ?=
+ =?utf-8?B?NEMvRTdzRUZiQmJra2ZQdUIvZmQzTmFtZkowYmZCZ1RjSFB4RmhVOWVEcWVx?=
+ =?utf-8?B?V214bmlJNHZyRVIzSGpXYmdZQWdrRWRpRnI4Zi9MRm8xUWM4KzdDOEY0ZEFD?=
+ =?utf-8?B?R0VURlN2Q2pKSUh0WDFKWTRrbzRSamJqMDN6QWpid2VWbnNtQVowQzRtMVNz?=
+ =?utf-8?B?amtVcXdmWFR6NStEZHZRZUpKTE9JRWUvUnY2UEdIUTQrblRWa0VzckkrcU9G?=
+ =?utf-8?B?bWwxZUt2alpOQXBSTWZScW9lU1RnYWxqZ1dxd3JOclFGVkIrdW5SYytadVhZ?=
+ =?utf-8?B?eU01d3dOL1p4WG5zeGtqN2tBT01oMmJ5ZHdCNW1GRVduNGRMbWVOZnZwOEpu?=
+ =?utf-8?B?YWdPYlJrTWlLWmdHckNnUHUralZvdFdHaTFVOU02RHp1NGlSdEl2eHlwVnJC?=
+ =?utf-8?B?Zkh4U29LcWNUMkN6OFBsZWRFRTh0RllSdExRTlRYM01ycXEzelJNY052dkdV?=
+ =?utf-8?B?MExoYWxqR1JCRFkrbnBQem5hR0lOcnJPd0l2Mk1IN296TTdIeEpDT2NJMUl1?=
+ =?utf-8?B?QlJiS0s1anc4NzcvTXF5dzRuM3RXbElNd2wycWVESUZDVm1ia3hpbEt4VlZ6?=
+ =?utf-8?B?VFZvc2JPSk56cGZzYUJtK1ZtaWNQcVNkM3laVS96Zm5JNlp3enJvMUdRZnhV?=
+ =?utf-8?B?RnQ2M0FNQzY5QVhaY1QvODU0MEFWQml4V2IvNmQ5SiszRUhpbFNqRHQ0di9E?=
+ =?utf-8?B?ZjNEZUQwRW9RcERYQlFuMklNT1A0VzlIRDRROFZPcmpETDZJVGlmM3ltYXU3?=
+ =?utf-8?B?d21RN2xUR2tFc3JZL3lBTDlabDhWanNLVitkbzBnK1BUTGliRC95UWdHYkZU?=
+ =?utf-8?B?S3hlOXZ1aXRoMnJQclVGdjRrSGl4ZGRJU2IrbGZWT3lpc0czOVlFUWdWdFFV?=
+ =?utf-8?Q?IH9b8qgd8agogrzYO95rPzfHCe+rT2dD7ZoM4yN?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c10181ad-c5bb-4439-8ae5-08d900d2f4e5
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 12:27:10.3430 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rmn0crOXrVd4EpV+QRXEdhd+HNYrgZ/ig8spD8gFGL0shv7Rsm2iDZq7Ji6MDSWEEjbAhUgEOIFcs1xmacTbPHxvIhFIPjNovi07Kn2jR7Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4433
+Received-SPF: pass client-ip=40.107.20.122;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,111 +150,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
- its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently LBAF formats are being intialized based on metadata
-size if and only if nvme-ns "ms" parameter is non-zero value.
-Since FormatNVM command being supported device parameter "ms"
-may not be the criteria to initialize the supported LBAFs.
+--------------EDA78BD7D07424FF733B5238
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
----
--v3: Remove "mset" constraint  check if ms < 8, "mset" can be
- set even when ms < 8 and non-zero.
+On 16.04.2021 02:50, Peter Xu wrote:
+> On Wed, Mar 17, 2021 at 07:32:13PM +0300, Andrey Gruzdev wrote:
+>> This series is a kind of PoC for asynchronous snapshot reverting. This is
+>> about external snapshots only and doesn't involve block devices. Thus, it's
+>> mainly intended to be used with the new 'background-snapshot' migration
+>> capability and otherwise standard QEMU migration mechanism.
+>>
+>> The major ideas behind this first version were:
+>>    * Make it compatible with 'exec:'-style migration - options can be create
+>>      some separate tool or integrate into qemu-system.
+>>    * Support asynchronous revert stage by using unaltered postcopy logic
+>>      at destination. To do this, we should be capable of saving RAM pages
+>>      so that any particular page can be directly addressed by it's block ID
+>>      and page offset. Possible solutions here seem to be:
+>>        use separate index (and storing it somewhere)
+>>        create sparse file on host FS and address pages with file offset
+>>        use QCOW2 (or other) image container with inherent sparsity support
+>>    * Make snapshot image file dense on the host FS so we don't depend on
+>>      copy/backup tools and how they deal with sparse files. Off course,
+>>      there's some performance cost for this choice.
+>>    * Make the code which is parsing unstructered format of migration stream,
+>>      at least, not very sophisticated. Also, try to have minimum dependencies
+>>      on QEMU migration code, both RAM and device.
+>>    * Try to keep page save latencies small while not degrading migration
+>>      bandwidth too much.
+>>
+>> For this first version I decided not to integrate into main QEMU code but
+>> create a separate tool. The main reason is that there's not too much migration
+>> code that is target-specific and can be used in it's unmodified form. Also,
+>> it's still not very clear how to make 'qemu-system' integration in terms of
+>> command-line (or monitor/QMP?) interface extension.
+>>
+>> For the storage format, QCOW2 as a container and large (1MB) cluster size seem
+>> to be an optimal choice. Larger cluster is beneficial for performance particularly
+>> in the case when image preallocation is disabled. Such cluster size does not result
+>> in too high internal fragmentation level (~10% of space waste in most cases) yet
+>> allows to reduce significantly the number of expensive cluster allocations.
+>>
+>> A bit tricky part is dispatching QEMU migration stream cause it is mostly
+>> unstructered and depends on configuration parameters like 'send-configuration'
+>> and 'send-section-footer'. But, for the case with default values in migration
+>> globals it seems that implemented dispatching code works well and won't have
+>> compatibility issues in a reasonably long time frame.
+>>
+>> I decided to keep RAM save path synchronous, anyhow it's better to use writeback
+>> cache mode for the live snapshots cause of it's interleaving page address pattern.
+>> Page coalescing buffer is used to merge contiguous pages to optimize block layer
+>> writes.
+>>
+>> Since for snapshot loading opening image file in cached mode would not do any good,
+>> it implies that Linux native AIO and O_DIRECT mode is used in a common scenario.
+>> AIO support in RAM loading path is implemented by using a ring of preallocated
+>> fixed-sized buffers in such a way that there's always a number of outstanding block
+>> requests anytime. It also ensures in-order request completion.
+>>
+>> How to use:
+>>
+>> **Save:**
+>> * qemu> migrate_set_capability background-snapshot on
+>> * qemu> migrate "exec:<qemu-bin-path>/qemu-snap -s <virtual-size>
+>>             --cache=writeback --aio=threads save <image-file.qcow2>"
+>>
+>> **Load:**
+>> * Use 'qemu-system-* -incoming defer'
+>> * qemu> migrate_incoming "exec:<qemu-bin-path>/qemu-snap
+>>            --cache=none --aio=native load <image-file.qcow2>"
+>>
+>> **Load with postcopy:**
+>> * Use 'qemu-system-* -incoming defer'
+>> * qemu> migrate_set_capability postcopy-ram on
+>> * qemu> migrate_incoming "exec:<qemu-bin-path>/qemu-snap --postcopy=60
+>>            --cache=none --aio=native load <image-file.qcow2>"
+>>
+>> And yes, asynchronous revert works well only with SSD, not with rotational disk..
+>>
+>> Some performance stats:
+>> * SATA SSD drive with ~500/450 MB/s sequantial read/write and ~60K IOPS max.
+>> * 220 MB/s average save rate (depends on workload)
+>> * 440 MB/s average load rate in precopy
+>> * 260 MB/s average load rate in postcopy
+> Andrey,
+>
+> Before I try to read it (since I'm probably not the best person to review
+> it..).. Would you remind me on the major difference of external snapshots
+> comparing to the existing one, and problems to solve?
+>
+> Thanks,
+>
+Hi Peter,
 
--v2: Addressing review comments (Klaus)
- Change the current "pi" and "ms" constraint check such that it
- will throw the error if ms < 8 and if namespace protection info,
- location and metadata settings are set.
- Splitting this from compare fix patch series.
+For the external snapshots - the difference (compared to internal) is that snapshot
+data is going to storage objects which are not part VM config. I mean that for internal
+snapshots we use configured storage of the VM instance to store both vm state and blockdev
+snapshot data. The opposite is for external snapshots when we save vmstate and blockdev
+snapshots to separate files on the host. Also external snapshots are not managed by QEMU.
 
- hw/block/nvme-ns.c | 58 ++++++++++++++++++++--------------------------
- 1 file changed, 25 insertions(+), 33 deletions(-)
+One of the problems is that the vmstate part of external snapshot is essentially the
+migration stream which is schema-less and it's structure is dependent on QEMU target.
+That means that currently we can do a revert-to-snapshot operation with the sequence of
+QMP commands but we can do that only in a synchronous way, i.e. vcpus can't be started
+until all of the vmstate data has been transferred. The reason for this synchronous
+behavior is that we cannot locate arbitrary RAM page in raw migration stream if we start
+vcpus early and get faults for the pages that are missing on destination vm.
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 7bb618f182..594b0003cf 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -85,38 +85,28 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
-     ds = 31 - clz32(ns->blkconf.logical_block_size);
-     ms = ns->params.ms;
- 
--    if (ns->params.ms) {
--        id_ns->mc = 0x3;
-+    id_ns->mc = 0x3;
- 
--        if (ns->params.mset) {
--            id_ns->flbas |= 0x10;
--        }
-+    if (ms && ns->params.mset) {
-+        id_ns->flbas |= 0x10;
-+    }
- 
--        id_ns->dpc = 0x1f;
--        id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
--
--        NvmeLBAF lbaf[16] = {
--            [0] = { .ds =  9           },
--            [1] = { .ds =  9, .ms =  8 },
--            [2] = { .ds =  9, .ms = 16 },
--            [3] = { .ds =  9, .ms = 64 },
--            [4] = { .ds = 12           },
--            [5] = { .ds = 12, .ms =  8 },
--            [6] = { .ds = 12, .ms = 16 },
--            [7] = { .ds = 12, .ms = 64 },
--        };
--
--        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
--        id_ns->nlbaf = 7;
--    } else {
--        NvmeLBAF lbaf[16] = {
--            [0] = { .ds =  9 },
--            [1] = { .ds = 12 },
--        };
-+    id_ns->dpc = 0x1f;
-+    id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
- 
--        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
--        id_ns->nlbaf = 1;
--    }
-+    NvmeLBAF lbaf[16] = {
-+        [0] = { .ds =  9           },
-+        [1] = { .ds =  9, .ms =  8 },
-+        [2] = { .ds =  9, .ms = 16 },
-+        [3] = { .ds =  9, .ms = 64 },
-+        [4] = { .ds = 12           },
-+        [5] = { .ds = 12, .ms =  8 },
-+        [6] = { .ds = 12, .ms = 16 },
-+        [7] = { .ds = 12, .ms = 64 },
-+    };
-+
-+    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
-+    id_ns->nlbaf = 7;
- 
-     for (i = 0; i <= id_ns->nlbaf; i++) {
-         NvmeLBAF *lbaf = &id_ns->lbaf[i];
-@@ -395,10 +385,12 @@ static int nvme_ns_check_constraints(NvmeCtrl *n, NvmeNamespace *ns,
-         return -1;
-     }
- 
--    if (ns->params.pi && ns->params.ms < 8) {
--        error_setg(errp, "at least 8 bytes of metadata required to enable "
--                   "protection information");
--        return -1;
-+    if (ns->params.ms < 8) {
-+        if (ns->params.pi || ns->params.pil) {
-+            error_setg(errp, "at least 8 bytes of metadata required to enable "
-+                    "protection information, protection information location");
-+            return -1;
-+        }
-     }
- 
-     if (ns->params.nsid > NVME_MAX_NAMESPACES) {
+So the major goal of this PoC is to demonstrate asynchronous snapshot reverting in QEMU
+while keeping migration code mostly unchanged. To do that we need to split migration stream
+into two parts, particularly these parts are RAM pages and the rest of vmstate. And then,
+if we can do this, RAM pages can be dispatched directly to a block device with block offsets
+deduced from page GPAs.
+
+
 -- 
-2.17.1
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
+
+--------------EDA78BD7D07424FF733B5238
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 16.04.2021 02:50, Peter Xu wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20210415235032.GS4440@xz-x1">
+      <pre class="moz-quote-pre" wrap="">On Wed, Mar 17, 2021 at 07:32:13PM +0300, Andrey Gruzdev wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">This series is a kind of PoC for asynchronous snapshot reverting. This is
+about external snapshots only and doesn't involve block devices. Thus, it's
+mainly intended to be used with the new 'background-snapshot' migration
+capability and otherwise standard QEMU migration mechanism.
+
+The major ideas behind this first version were:
+  * Make it compatible with 'exec:'-style migration - options can be create
+    some separate tool or integrate into qemu-system.
+  * Support asynchronous revert stage by using unaltered postcopy logic
+    at destination. To do this, we should be capable of saving RAM pages
+    so that any particular page can be directly addressed by it's block ID
+    and page offset. Possible solutions here seem to be:
+      use separate index (and storing it somewhere)
+      create sparse file on host FS and address pages with file offset
+      use QCOW2 (or other) image container with inherent sparsity support
+  * Make snapshot image file dense on the host FS so we don't depend on
+    copy/backup tools and how they deal with sparse files. Off course,
+    there's some performance cost for this choice.
+  * Make the code which is parsing unstructered format of migration stream,
+    at least, not very sophisticated. Also, try to have minimum dependencies
+    on QEMU migration code, both RAM and device.
+  * Try to keep page save latencies small while not degrading migration
+    bandwidth too much.
+
+For this first version I decided not to integrate into main QEMU code but
+create a separate tool. The main reason is that there's not too much migration
+code that is target-specific and can be used in it's unmodified form. Also,
+it's still not very clear how to make 'qemu-system' integration in terms of
+command-line (or monitor/QMP?) interface extension.
+
+For the storage format, QCOW2 as a container and large (1MB) cluster size seem
+to be an optimal choice. Larger cluster is beneficial for performance particularly
+in the case when image preallocation is disabled. Such cluster size does not result
+in too high internal fragmentation level (~10% of space waste in most cases) yet
+allows to reduce significantly the number of expensive cluster allocations.
+
+A bit tricky part is dispatching QEMU migration stream cause it is mostly
+unstructered and depends on configuration parameters like 'send-configuration'
+and 'send-section-footer'. But, for the case with default values in migration
+globals it seems that implemented dispatching code works well and won't have
+compatibility issues in a reasonably long time frame.
+
+I decided to keep RAM save path synchronous, anyhow it's better to use writeback
+cache mode for the live snapshots cause of it's interleaving page address pattern.
+Page coalescing buffer is used to merge contiguous pages to optimize block layer
+writes.
+
+Since for snapshot loading opening image file in cached mode would not do any good,
+it implies that Linux native AIO and O_DIRECT mode is used in a common scenario.
+AIO support in RAM loading path is implemented by using a ring of preallocated
+fixed-sized buffers in such a way that there's always a number of outstanding block
+requests anytime. It also ensures in-order request completion.
+
+How to use:
+
+**Save:**
+* qemu&gt; migrate_set_capability background-snapshot on
+* qemu&gt; migrate &quot;exec:&lt;qemu-bin-path&gt;/qemu-snap -s &lt;virtual-size&gt;
+           --cache=writeback --aio=threads save &lt;image-file.qcow2&gt;&quot;
+
+**Load:**
+* Use 'qemu-system-* -incoming defer'
+* qemu&gt; migrate_incoming &quot;exec:&lt;qemu-bin-path&gt;/qemu-snap
+          --cache=none --aio=native load &lt;image-file.qcow2&gt;&quot;
+
+**Load with postcopy:**
+* Use 'qemu-system-* -incoming defer'
+* qemu&gt; migrate_set_capability postcopy-ram on
+* qemu&gt; migrate_incoming &quot;exec:&lt;qemu-bin-path&gt;/qemu-snap --postcopy=60
+          --cache=none --aio=native load &lt;image-file.qcow2&gt;&quot;
+
+And yes, asynchronous revert works well only with SSD, not with rotational disk..
+
+Some performance stats:
+* SATA SSD drive with ~500/450 MB/s sequantial read/write and ~60K IOPS max.
+* 220 MB/s average save rate (depends on workload)
+* 440 MB/s average load rate in precopy
+* 260 MB/s average load rate in postcopy
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Andrey,
+
+Before I try to read it (since I'm probably not the best person to review
+it..).. Would you remind me on the major difference of external snapshots
+comparing to the existing one, and problems to solve?
+
+Thanks,
+
+</pre>
+    </blockquote>
+    <pre>Hi Peter,
+
+For the external snapshots - the difference (compared to internal) is that snapshot
+data is going to storage objects which are not part VM config. I mean that for internal
+snapshots we use configured storage of the VM instance to store both vm state and blockdev
+snapshot data. The opposite is for external snapshots when we save vmstate and blockdev
+snapshots to separate files on the host. Also external snapshots are not managed by QEMU.
+
+One of the problems is that the vmstate part of external snapshot is essentially the
+migration stream which is schema-less and it's structure is dependent on QEMU target.
+That means that currently we can do a revert-to-snapshot operation with the sequence of
+QMP commands but we can do that only in a synchronous way, i.e. vcpus can't be started
+until all of the vmstate data has been transferred. The reason for this synchronous
+behavior is that we cannot locate arbitrary RAM page in raw migration stream if we start
+vcpus early and get faults for the pages that are missing on destination vm.
+
+So the major goal of this PoC is to demonstrate asynchronous snapshot reverting in QEMU
+while keeping migration code mostly unchanged. To do that we need to split migration stream
+into two parts, particularly these parts are RAM pages and the rest of vmstate. And then,
+if we can do this, RAM pages can be dispatched directly to a block device with block offsets
+deduced from page GPAs.
+</pre>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                virtuzzo.com</pre>
+  </body>
+</html>
+
+--------------EDA78BD7D07424FF733B5238--
 
