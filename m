@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB959361E23
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:41:53 +0200 (CEST)
-Received: from localhost ([::1]:41732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FF4361E43
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:52:30 +0200 (CEST)
+Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXLv5-0002zj-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:41:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56584)
+	id 1lXM5L-00058O-Av
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXLtY-0002E0-Og
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:40:17 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51077)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lXM3j-0004hb-V1
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:50:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXLtW-0004Uh-O6
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:40:16 -0400
-Received: by mail-wm1-x335.google.com with SMTP id u20so9496257wmj.0
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 03:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e28W/IGA/Y8IVqH2SaQEZoIYXu2fwPxJICFBKtCl8wM=;
- b=Xgelfsyq0l+ME78+ANIsj6Tw1EbOIQ7oAnGefQxGrvlEJQ+dQA9pfT7TU6nT58VxfD
- 7FWTRnVW9ppvoFZXeOa8TZsZE2uPYiAEnRb1iRHWWtXmI2j3LwyQeR0bf4z3iuUUtx7E
- EWzca3ZGuRiyO2GPXcrGVwu4xmPLFF03z++13aoZkOj8fW6kiqMytA4ZVFqumlqCJfoN
- XxWpmvilpdihVFFNTWL8v9KgYtYwyw0KLiZNPrb2PSKR79PF2N76HnVYhi84eE8uItF5
- S64wmlwkg4uYwL6hEy2KEx7Oqep27co29iOkUXYIfmNnWdR666udeubEC6rPlQSgChtu
- gKog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e28W/IGA/Y8IVqH2SaQEZoIYXu2fwPxJICFBKtCl8wM=;
- b=FtNZN8JY/1zoC3uy3UU0XBghBZhp6dOt2rm0OugyKC3FpWiqnrQiCw3Rs/4rdN0ElH
- 6FLw/pShtZhgCIktGJJ4P5XnAp1PM14L3s/sk0yf9WmB5O+Nf7/sSLYq4zATzwdzDpE3
- OwwysJahl0iOgB+KvL5sve2SvAClpmQGbF1fKJ6qYolPnogtMqJkZz2x62AiY3unthPZ
- Bmg7ifdVUnBeKaqVOdhsUb5I+XHpWKx3945o3FbP4/Fph71F+XTbr0e2x3lBiI3InzLG
- z8k1mCrk50kO+CVr/BfKsccXAu0a10wBmuDnF6nLE6xLIMLBI1ZrexuQF7CPIsm/fkNK
- ANew==
-X-Gm-Message-State: AOAM533xEyUibPA8Gpd/lw52KyJ9UUAjaaDjS0nqwCiCalAMYzPvLqFg
- TvqdS5b59hPzeZdvdAws1GDwqA==
-X-Google-Smtp-Source: ABdhPJzWvSm1gM0uKG+OTK18ha2CepKh/CmmcnUsI591BcJA10n4IoGjRSOsijMNkkIqgISU1mS/rw==
-X-Received: by 2002:a1c:1bd0:: with SMTP id b199mr7330048wmb.127.1618569612631; 
- Fri, 16 Apr 2021 03:40:12 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id k11sm6033876wrx.88.2021.04.16.03.40.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 03:40:12 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH for-6.0?] hw/arm/armsse: Make SSE-300 use Cortex-M55
-Date: Fri, 16 Apr 2021 11:40:10 +0100
-Message-Id: <20210416104010.13228-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lXM3h-0002ET-0z
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:50:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lXM3e-0007z0-Pz
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:50:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C3BD42E8050
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:50:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 16 Apr 2021 10:43:03 -0000
+From: Peter Maydell <1923861@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ml-0 pmaydell
+X-Launchpad-Bug-Reporter: ml-0 (ml-0)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
+Message-Id: <161856978331.8931.16686838459061592837.malone@gac.canonical.com>
+Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
+X-Launchpad-Hash: b93ecf27cfe5c34eae26a4d945fc848354562dee
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,72 +69,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SSE-300 has a Cortex-M55 (which was the whole reason for us
-modelling it), but we forgot to actually update the code to let it
-have a different CPU type from the IoTKit and SSE-200.  Add CPU type
-as a field for ARMSSEInfo instead of hardcoding it to always use a
-Cortex-M33.
+https://patchew.org/QEMU/20210416104010.13228-1-peter.maydell@linaro.org/
+should fix the "not actually an M55" bug which will then give you the
+double-precision and FP16 (and the right FPSCR value).
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1923861
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-This is a rather embarrassing bug. None of the test code I ran
-on the a547 model actually cared about the CPU specifically being
-an M55... Another one for the "maybe in rc4" bucket.
+-- =
 
- hw/arm/armsse.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923861
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 170dea8632d..2e5d0679e7b 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -56,6 +56,7 @@ typedef struct ARMSSEDeviceInfo {
- 
- struct ARMSSEInfo {
-     const char *name;
-+    const char *cpu_type;
-     uint32_t sse_version;
-     int sram_banks;
-     int num_cpus;
-@@ -501,6 +502,7 @@ static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_IOTKIT,
-         .sse_version = ARMSSE_IOTKIT,
-+        .cpu_type = ARM_CPU_TYPE_NAME("cortex-m33"),
-         .sram_banks = 1,
-         .num_cpus = 1,
-         .sys_version = 0x41743,
-@@ -519,6 +521,7 @@ static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_SSE200,
-         .sse_version = ARMSSE_SSE200,
-+        .cpu_type = ARM_CPU_TYPE_NAME("cortex-m33"),
-         .sram_banks = 4,
-         .num_cpus = 2,
-         .sys_version = 0x22041743,
-@@ -537,6 +540,7 @@ static const ARMSSEInfo armsse_variants[] = {
-     {
-         .name = TYPE_SSE300,
-         .sse_version = ARMSSE_SSE300,
-+        .cpu_type = ARM_CPU_TYPE_NAME("cortex-m55"),
-         .sram_banks = 2,
-         .num_cpus = 1,
-         .sys_version = 0x7e00043b,
-@@ -719,8 +723,7 @@ static void armsse_init(Object *obj)
-         name = g_strdup_printf("armv7m%d", i);
-         object_initialize_child(OBJECT(&s->cluster[i]), name, &s->armv7m[i],
-                                 TYPE_ARMV7M);
--        qdev_prop_set_string(DEVICE(&s->armv7m[i]), "cpu-type",
--                             ARM_CPU_TYPE_NAME("cortex-m33"));
-+        qdev_prop_set_string(DEVICE(&s->armv7m[i]), "cpu-type", info->cpu_type);
-         g_free(name);
-         name = g_strdup_printf("arm-sse-cpu-container%d", i);
-         memory_region_init(&s->cpu_container[i], obj, name, UINT64_MAX);
--- 
-2.20.1
+Title:
+  Hardfault when accessing FPSCR register
 
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU release version: v6.0.0-rc2
+
+  command line:
+  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
+semihosting -semihosting-config enable=3Don,target=3Dnative
+
+  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
+  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
+  GNU/Linux
+
+  guest operating system: none (bare metal)
+
+  Observation:
+  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
+47 machine. In the startup code I am accessing the FPSCR core register:
+
+  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
+  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
+  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
+
+  where the register access functions __get_FPSCR() and
+  __set_FPSCR(fpscr) are taken from CMSIS_5 at
+  ./CMSIS/Core/include/cmsis_gcc.h
+
+  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
+  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
 
