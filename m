@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FEC3627D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:37:10 +0200 (CEST)
-Received: from localhost ([::1]:32832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC4F3627DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:40:22 +0200 (CEST)
+Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXTL3-0007Vg-UO
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
+	id 1lXTO9-0004G1-Fd
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:40:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXTFQ-0000pD-I0
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:21 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:37788)
+ id 1lXTFS-0000rB-LC
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:23 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lXTFM-0003kP-Hj
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:20 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id h20so14445380plr.4
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 11:31:15 -0700 (PDT)
+ id 1lXTFN-0003lQ-A6
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:22 -0400
+Received: by mail-pg1-x534.google.com with SMTP id w10so19774441pgh.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 11:31:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PozZ71039TN9LB2JM2brlhvpMPxTWKRovHdHzz5gXtI=;
- b=IuTR88XR3vpftP4dIptq38W33dAQacYbX+HAk/7/I54jNYdV6yVJQScUYMVLBoJhFE
- o69k/wfZ5WOiRIUALLZlfrF6M9dTWAolkclGwmpqOKSrWfL/0p2t3T0sLH0zapGebjKk
- BXlNRUsDgGGL8LMW5FlTp3hNLSXCjJEIfNw7kDETAou5vzSWV7N4ixaeJW/7FL1TT1tp
- /5aAGfMEk1yNAXrkEzKjcqbqfsL0LtVUKI+hHVt/bw5JGBYoLQDmmLz/ABJcrGnD4gxU
- 70KfjeEOeuvzYL1Vu2FVL6isepwakW+KlsOYpleCCRLRe5SEyBxDWLifSMytO+/U7Kp6
- pSvQ==
+ bh=8Qvhuw34Dusu23xRHrsMIFmgKEs+N9tm6FJ3fDOSwZQ=;
+ b=r71H/evkjlmm7kTPZiLuLgY3lwkKHQ1aCYC3tJ4pj4Up0xJma1vrnDaKVfgPvMzgb0
+ BxlSK14IeM6Ti0po4tti8Lck516zZL2mlXMYnQw3bMS2km1m9pT+1ZJhGyjkOY2HRA/e
+ AJJ1lnjTOkHn3KfG8MroH8XS5fb+RmO3pv7AF3zonTBNKhuw+lZ8hhLKodEAHM+nsA1s
+ BcY7k4GQQqg/wqkjCBNQ14s32IwAHmQ+E7GAFDx4v24bS5PzFn/IPxpMa3alR8CBMvI+
+ CoASXtEAJMoKZrJGnRWsE0AZYS/zniS2S9onge19XLrFc8AJN70rPZHeBMPUjppu1cVN
+ sqZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PozZ71039TN9LB2JM2brlhvpMPxTWKRovHdHzz5gXtI=;
- b=DknfaivgYbDKPYsUUgvsXhZKa+DRON6C2ym+UPKZJ8gMd8PFzjp+gL2sTyJqr/dXyo
- YmjuRyUNgU4dzX4aB6OebOsr0KiWbtk5+87XPv1jr0HTEfx9+fFikbHRICmD/58R3b0x
- RLg8hRR9UDzucyAZ3mZlPWo16TSqVFB+nl6sqoZGZgP0hpQjMHzsjlD6V+CNgDT++afJ
- zxsG7B+B3c0+himfvMrelRgaHzzHER2T8W2gMghplrFoWTyFvCFhg/nTGQRteTHG0V58
- emC652EULqjCbfrbuaBk5Mg269Tu6QOyx3KdmJN6W1zohB7R4+Dz/1f3PD0gfrRDHMyi
- n7xQ==
-X-Gm-Message-State: AOAM531BYboUQbjGz4snsHhgs62NILskACPetrAo9Q0Vb8lRTbp0YTrI
- HfIykrK94vTBYAJAYsX7zdQVrPsaqddVhw==
-X-Google-Smtp-Source: ABdhPJxq+ORWkt/GpYaUI06jg9inslirNqu2vPBtVa/5k/UdWqEol0G2Inbp6O+Ntua2t2MU9l9Otg==
-X-Received: by 2002:a17:902:7249:b029:e9:44dc:61a9 with SMTP id
- c9-20020a1709027249b02900e944dc61a9mr10765075pll.32.1618597874992; 
- Fri, 16 Apr 2021 11:31:14 -0700 (PDT)
+ bh=8Qvhuw34Dusu23xRHrsMIFmgKEs+N9tm6FJ3fDOSwZQ=;
+ b=dl86H+WyBZT5kgmg2xJLtM8mi3Bk0vGd9jafOUrcfjQIQTQp1z1fStlsUw+sFY7zqj
+ 6heZhAsoN6hcRra8YQQnwudp306q4MqYW4N0gxaY297mA1OMvtroLbzmeaLYfFrkkdQj
+ U6d27TlbzIiwN08rd9aOCPGR/Bgp4Qo+zHclGZVtI01f9jpoceIcumzH4foudGqiNd57
+ RATbglLayhyrLY2fwBYeM8rI7/HSAnLNFXYEiOzwikRp1xEn5m9lM/wTEjsLsHVVEEkn
+ xZIN/ikQS/jXmSLqG0fTHaTkMJXxfovzFSGwsTeaXqM+QQYK7kH3X7nYjFAJXxAm3BO4
+ fcxg==
+X-Gm-Message-State: AOAM533IdCchSgMiPNAS9malLZuR8+E/KSG6PiylwboGomqoQ2R9eZpI
+ zVw8hs+eadI81v2bu7ZwM56c2zbhSKTUkg==
+X-Google-Smtp-Source: ABdhPJx3BLyE6y4Z8ZD3g9Lmj+KHGfgwRPNekzMcpoa4EgP55W2aklhQPoCTE/YPH8bQphdQIXvQOg==
+X-Received: by 2002:a63:120e:: with SMTP id h14mr406926pgl.48.1618597875781;
+ Fri, 16 Apr 2021 11:31:15 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.131.83])
- by smtp.gmail.com with ESMTPSA id p18sm3057307pju.3.2021.04.16.11.31.14
+ by smtp.gmail.com with ESMTPSA id p18sm3057307pju.3.2021.04.16.11.31.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Apr 2021 11:31:14 -0700 (PDT)
+ Fri, 16 Apr 2021 11:31:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 7/9] target/arm: Rename mte_probe1 to mte_probe
-Date: Fri, 16 Apr 2021 11:31:04 -0700
-Message-Id: <20210416183106.1516563-8-richard.henderson@linaro.org>
+Subject: [PATCH v5 8/9] target/arm: Simplify sve mte checking
+Date: Fri, 16 Apr 2021 11:31:05 -0700
+Message-Id: <20210416183106.1516563-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210416183106.1516563-1-richard.henderson@linaro.org>
 References: <20210416183106.1516563-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,89 +88,240 @@ Cc: qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For consistency with the mte_check1 + mte_checkN merge
-to mte_check, rename the probe function as well.
+Now that mte_check1 and mte_checkN have been merged, we can
+merge sve_cont_ldst_mte_check1 and sve_cont_ldst_mte_checkN.
+
+Which means that we can eliminate the function pointer into
+sve_ldN_r and sve_stN_r, calling sve_cont_ldst_mte_check directly.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h  | 2 +-
- target/arm/mte_helper.c | 6 +++---
- target/arm/sve_helper.c | 6 +++---
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ target/arm/sve_helper.c | 84 +++++++++++++----------------------------
+ 1 file changed, 26 insertions(+), 58 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index af1db2cd9c..886db56b58 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1145,7 +1145,7 @@ FIELD(MTEDESC, TCMA,  6, 2)
- FIELD(MTEDESC, WRITE, 8, 1)
- FIELD(MTEDESC, SIZEM1, 9, SIMD_DATA_BITS - 9)  /* size - 1 */
- 
--bool mte_probe1(CPUARMState *env, uint32_t desc, uint64_t ptr);
-+bool mte_probe(CPUARMState *env, uint32_t desc, uint64_t ptr);
- uint64_t mte_check(CPUARMState *env, uint32_t desc, uint64_t ptr, uintptr_t ra);
- 
- static inline int allocation_tag_from_addr(uint64_t ptr)
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 161425f208..011a1ffa46 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -121,7 +121,7 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-      * exception for inaccessible pages, and resolves the virtual address
-      * into the softmmu tlb.
-      *
--     * When RA == 0, this is for mte_probe1.  The page is expected to be
-+     * When RA == 0, this is for mte_probe.  The page is expected to be
-      * valid.  Indicate to probe_access_flags no-fault, then assert that
-      * we received a valid page.
-      */
-@@ -808,12 +808,12 @@ uint64_t HELPER(mte_check)(CPUARMState *env, uint32_t desc, uint64_t ptr)
- }
- 
- /*
-- * No-fault version of mte_check1, to be used by SVE for MemSingleNF.
-+ * No-fault version of mte_check, to be used by SVE for MemSingleNF.
-  * Returns false if the access is Checked and the check failed.  This
-  * is only intended to probe the tag -- the validity of the page must
-  * be checked beforehand.
-  */
--bool mte_probe1(CPUARMState *env, uint32_t desc, uint64_t ptr)
-+bool mte_probe(CPUARMState *env, uint32_t desc, uint64_t ptr)
- {
-     uint64_t fault;
-     int ret = mte_probe_int(env, desc, ptr, 0, &fault);
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index b63ddfc7f9..982240d104 100644
+index 982240d104..c068dfa0d5 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -4869,7 +4869,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                 /* Watchpoint hit, see below. */
-                 goto do_fault;
-             }
--            if (mtedesc && !mte_probe1(env, mtedesc, addr + mem_off)) {
-+            if (mtedesc && !mte_probe(env, mtedesc, addr + mem_off)) {
-                 goto do_fault;
-             }
-             /*
-@@ -4919,7 +4919,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                      & BP_MEM_READ)) {
-                     goto do_fault;
-                 }
--                if (mtedesc && !mte_probe1(env, mtedesc, addr + mem_off)) {
-+                if (mtedesc && !mte_probe(env, mtedesc, addr + mem_off)) {
-                     goto do_fault;
-                 }
-                 host_fn(vd, reg_off, host + mem_off);
-@@ -5588,7 +5588,7 @@ void sve_ldff1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                 }
-                 if (mtedesc &&
-                     arm_tlb_mte_tagged(&info.attrs) &&
--                    !mte_probe1(env, mtedesc, addr)) {
-+                    !mte_probe(env, mtedesc, addr)) {
-                     goto fault;
-                 }
+@@ -4382,13 +4382,9 @@ static void sve_cont_ldst_watchpoints(SVEContLdSt *info, CPUARMState *env,
+ #endif
+ }
  
+-typedef uint64_t mte_check_fn(CPUARMState *, uint32_t, uint64_t, uintptr_t);
+-
+-static inline QEMU_ALWAYS_INLINE
+-void sve_cont_ldst_mte_check_int(SVEContLdSt *info, CPUARMState *env,
+-                                 uint64_t *vg, target_ulong addr, int esize,
+-                                 int msize, uint32_t mtedesc, uintptr_t ra,
+-                                 mte_check_fn *check)
++static void sve_cont_ldst_mte_check(SVEContLdSt *info, CPUARMState *env,
++                                    uint64_t *vg, target_ulong addr, int esize,
++                                    int msize, uint32_t mtedesc, uintptr_t ra)
+ {
+     intptr_t mem_off, reg_off, reg_last;
+ 
+@@ -4405,7 +4401,7 @@ void sve_cont_ldst_mte_check_int(SVEContLdSt *info, CPUARMState *env,
+             uint64_t pg = vg[reg_off >> 6];
+             do {
+                 if ((pg >> (reg_off & 63)) & 1) {
+-                    check(env, mtedesc, addr, ra);
++                    mte_check(env, mtedesc, addr, ra);
+                 }
+                 reg_off += esize;
+                 mem_off += msize;
+@@ -4422,7 +4418,7 @@ void sve_cont_ldst_mte_check_int(SVEContLdSt *info, CPUARMState *env,
+             uint64_t pg = vg[reg_off >> 6];
+             do {
+                 if ((pg >> (reg_off & 63)) & 1) {
+-                    check(env, mtedesc, addr, ra);
++                    mte_check(env, mtedesc, addr, ra);
+                 }
+                 reg_off += esize;
+                 mem_off += msize;
+@@ -4431,30 +4427,6 @@ void sve_cont_ldst_mte_check_int(SVEContLdSt *info, CPUARMState *env,
+     }
+ }
+ 
+-typedef void sve_cont_ldst_mte_check_fn(SVEContLdSt *info, CPUARMState *env,
+-                                        uint64_t *vg, target_ulong addr,
+-                                        int esize, int msize, uint32_t mtedesc,
+-                                        uintptr_t ra);
+-
+-static void sve_cont_ldst_mte_check1(SVEContLdSt *info, CPUARMState *env,
+-                                     uint64_t *vg, target_ulong addr,
+-                                     int esize, int msize, uint32_t mtedesc,
+-                                     uintptr_t ra)
+-{
+-    sve_cont_ldst_mte_check_int(info, env, vg, addr, esize, msize,
+-                                mtedesc, ra, mte_check);
+-}
+-
+-static void sve_cont_ldst_mte_checkN(SVEContLdSt *info, CPUARMState *env,
+-                                     uint64_t *vg, target_ulong addr,
+-                                     int esize, int msize, uint32_t mtedesc,
+-                                     uintptr_t ra)
+-{
+-    sve_cont_ldst_mte_check_int(info, env, vg, addr, esize, msize,
+-                                mtedesc, ra, mte_check);
+-}
+-
+-
+ /*
+  * Common helper for all contiguous 1,2,3,4-register predicated stores.
+  */
+@@ -4463,8 +4435,7 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
+                uint32_t desc, const uintptr_t retaddr,
+                const int esz, const int msz, const int N, uint32_t mtedesc,
+                sve_ldst1_host_fn *host_fn,
+-               sve_ldst1_tlb_fn *tlb_fn,
+-               sve_cont_ldst_mte_check_fn *mte_check_fn)
++               sve_ldst1_tlb_fn *tlb_fn)
+ {
+     const unsigned rd = simd_data(desc);
+     const intptr_t reg_max = simd_oprsz(desc);
+@@ -4493,9 +4464,9 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
+      * Handle mte checks for all active elements.
+      * Since TBI must be set for MTE, !mtedesc => !mte_active.
+      */
+-    if (mte_check_fn && mtedesc) {
+-        mte_check_fn(&info, env, vg, addr, 1 << esz, N << msz,
+-                     mtedesc, retaddr);
++    if (mtedesc) {
++        sve_cont_ldst_mte_check(&info, env, vg, addr, 1 << esz, N << msz,
++                                mtedesc, retaddr);
+     }
+ 
+     flags = info.page[0].flags | info.page[1].flags;
+@@ -4621,8 +4592,7 @@ void sve_ldN_r_mte(CPUARMState *env, uint64_t *vg, target_ulong addr,
+         mtedesc = 0;
+     }
+ 
+-    sve_ldN_r(env, vg, addr, desc, ra, esz, msz, N, mtedesc, host_fn, tlb_fn,
+-              N == 1 ? sve_cont_ldst_mte_check1 : sve_cont_ldst_mte_checkN);
++    sve_ldN_r(env, vg, addr, desc, ra, esz, msz, N, mtedesc, host_fn, tlb_fn);
+ }
+ 
+ #define DO_LD1_1(NAME, ESZ)                                             \
+@@ -4630,7 +4600,7 @@ void HELPER(sve_##NAME##_r)(CPUARMState *env, void *vg,                 \
+                             target_ulong addr, uint32_t desc)           \
+ {                                                                       \
+     sve_ldN_r(env, vg, addr, desc, GETPC(), ESZ, MO_8, 1, 0,            \
+-              sve_##NAME##_host, sve_##NAME##_tlb, NULL);               \
++              sve_##NAME##_host, sve_##NAME##_tlb);                     \
+ }                                                                       \
+ void HELPER(sve_##NAME##_r_mte)(CPUARMState *env, void *vg,             \
+                                 target_ulong addr, uint32_t desc)       \
+@@ -4644,22 +4614,22 @@ void HELPER(sve_##NAME##_le_r)(CPUARMState *env, void *vg,              \
+                                target_ulong addr, uint32_t desc)        \
+ {                                                                       \
+     sve_ldN_r(env, vg, addr, desc, GETPC(), ESZ, MSZ, 1, 0,             \
+-              sve_##NAME##_le_host, sve_##NAME##_le_tlb, NULL);         \
++              sve_##NAME##_le_host, sve_##NAME##_le_tlb);               \
+ }                                                                       \
+ void HELPER(sve_##NAME##_be_r)(CPUARMState *env, void *vg,              \
+                                target_ulong addr, uint32_t desc)        \
+ {                                                                       \
+     sve_ldN_r(env, vg, addr, desc, GETPC(), ESZ, MSZ, 1, 0,             \
+-              sve_##NAME##_be_host, sve_##NAME##_be_tlb, NULL);         \
++              sve_##NAME##_be_host, sve_##NAME##_be_tlb);               \
+ }                                                                       \
+ void HELPER(sve_##NAME##_le_r_mte)(CPUARMState *env, void *vg,          \
+-                                 target_ulong addr, uint32_t desc)      \
++                                   target_ulong addr, uint32_t desc)    \
+ {                                                                       \
+     sve_ldN_r_mte(env, vg, addr, desc, GETPC(), ESZ, MSZ, 1,            \
+                   sve_##NAME##_le_host, sve_##NAME##_le_tlb);           \
+ }                                                                       \
+ void HELPER(sve_##NAME##_be_r_mte)(CPUARMState *env, void *vg,          \
+-                                 target_ulong addr, uint32_t desc)      \
++                                   target_ulong addr, uint32_t desc)    \
+ {                                                                       \
+     sve_ldN_r_mte(env, vg, addr, desc, GETPC(), ESZ, MSZ, 1,            \
+                   sve_##NAME##_be_host, sve_##NAME##_be_tlb);           \
+@@ -4693,7 +4663,7 @@ void HELPER(sve_ld##N##bb_r)(CPUARMState *env, void *vg,                \
+                              target_ulong addr, uint32_t desc)          \
+ {                                                                       \
+     sve_ldN_r(env, vg, addr, desc, GETPC(), MO_8, MO_8, N, 0,           \
+-              sve_ld1bb_host, sve_ld1bb_tlb, NULL);                     \
++              sve_ld1bb_host, sve_ld1bb_tlb);                           \
+ }                                                                       \
+ void HELPER(sve_ld##N##bb_r_mte)(CPUARMState *env, void *vg,            \
+                                  target_ulong addr, uint32_t desc)      \
+@@ -4707,13 +4677,13 @@ void HELPER(sve_ld##N##SUFF##_le_r)(CPUARMState *env, void *vg,         \
+                                     target_ulong addr, uint32_t desc)   \
+ {                                                                       \
+     sve_ldN_r(env, vg, addr, desc, GETPC(), ESZ, ESZ, N, 0,             \
+-              sve_ld1##SUFF##_le_host, sve_ld1##SUFF##_le_tlb, NULL);   \
++              sve_ld1##SUFF##_le_host, sve_ld1##SUFF##_le_tlb);         \
+ }                                                                       \
+ void HELPER(sve_ld##N##SUFF##_be_r)(CPUARMState *env, void *vg,         \
+                                     target_ulong addr, uint32_t desc)   \
+ {                                                                       \
+     sve_ldN_r(env, vg, addr, desc, GETPC(), ESZ, ESZ, N, 0,             \
+-              sve_ld1##SUFF##_be_host, sve_ld1##SUFF##_be_tlb, NULL);   \
++              sve_ld1##SUFF##_be_host, sve_ld1##SUFF##_be_tlb);         \
+ }                                                                       \
+ void HELPER(sve_ld##N##SUFF##_le_r_mte)(CPUARMState *env, void *vg,     \
+                                         target_ulong addr, uint32_t desc) \
+@@ -5090,8 +5060,7 @@ void sve_stN_r(CPUARMState *env, uint64_t *vg, target_ulong addr,
+                uint32_t desc, const uintptr_t retaddr,
+                const int esz, const int msz, const int N, uint32_t mtedesc,
+                sve_ldst1_host_fn *host_fn,
+-               sve_ldst1_tlb_fn *tlb_fn,
+-               sve_cont_ldst_mte_check_fn *mte_check_fn)
++               sve_ldst1_tlb_fn *tlb_fn)
+ {
+     const unsigned rd = simd_data(desc);
+     const intptr_t reg_max = simd_oprsz(desc);
+@@ -5117,9 +5086,9 @@ void sve_stN_r(CPUARMState *env, uint64_t *vg, target_ulong addr,
+      * Handle mte checks for all active elements.
+      * Since TBI must be set for MTE, !mtedesc => !mte_active.
+      */
+-    if (mte_check_fn && mtedesc) {
+-        mte_check_fn(&info, env, vg, addr, 1 << esz, N << msz,
+-                     mtedesc, retaddr);
++    if (mtedesc) {
++        sve_cont_ldst_mte_check(&info, env, vg, addr, 1 << esz, N << msz,
++                                mtedesc, retaddr);
+     }
+ 
+     flags = info.page[0].flags | info.page[1].flags;
+@@ -5233,8 +5202,7 @@ void sve_stN_r_mte(CPUARMState *env, uint64_t *vg, target_ulong addr,
+         mtedesc = 0;
+     }
+ 
+-    sve_stN_r(env, vg, addr, desc, ra, esz, msz, N, mtedesc, host_fn, tlb_fn,
+-              N == 1 ? sve_cont_ldst_mte_check1 : sve_cont_ldst_mte_checkN);
++    sve_stN_r(env, vg, addr, desc, ra, esz, msz, N, mtedesc, host_fn, tlb_fn);
+ }
+ 
+ #define DO_STN_1(N, NAME, ESZ)                                          \
+@@ -5242,7 +5210,7 @@ void HELPER(sve_st##N##NAME##_r)(CPUARMState *env, void *vg,            \
+                                  target_ulong addr, uint32_t desc)      \
+ {                                                                       \
+     sve_stN_r(env, vg, addr, desc, GETPC(), ESZ, MO_8, N, 0,            \
+-              sve_st1##NAME##_host, sve_st1##NAME##_tlb, NULL);         \
++              sve_st1##NAME##_host, sve_st1##NAME##_tlb);               \
+ }                                                                       \
+ void HELPER(sve_st##N##NAME##_r_mte)(CPUARMState *env, void *vg,        \
+                                      target_ulong addr, uint32_t desc)  \
+@@ -5256,13 +5224,13 @@ void HELPER(sve_st##N##NAME##_le_r)(CPUARMState *env, void *vg,         \
+                                     target_ulong addr, uint32_t desc)   \
+ {                                                                       \
+     sve_stN_r(env, vg, addr, desc, GETPC(), ESZ, MSZ, N, 0,             \
+-              sve_st1##NAME##_le_host, sve_st1##NAME##_le_tlb, NULL);   \
++              sve_st1##NAME##_le_host, sve_st1##NAME##_le_tlb);         \
+ }                                                                       \
+ void HELPER(sve_st##N##NAME##_be_r)(CPUARMState *env, void *vg,         \
+                                     target_ulong addr, uint32_t desc)   \
+ {                                                                       \
+     sve_stN_r(env, vg, addr, desc, GETPC(), ESZ, MSZ, N, 0,             \
+-              sve_st1##NAME##_be_host, sve_st1##NAME##_be_tlb, NULL);   \
++              sve_st1##NAME##_be_host, sve_st1##NAME##_be_tlb);         \
+ }                                                                       \
+ void HELPER(sve_st##N##NAME##_le_r_mte)(CPUARMState *env, void *vg,     \
+                                         target_ulong addr, uint32_t desc) \
 -- 
 2.25.1
 
