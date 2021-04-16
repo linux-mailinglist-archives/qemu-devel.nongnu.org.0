@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20F63624F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:04:27 +0200 (CEST)
-Received: from localhost ([::1]:50262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6CD362535
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:09:47 +0200 (CEST)
+Received: from localhost ([::1]:36452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXQxG-0006IR-GQ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37586)
+	id 1lXR2Q-0004gG-G8
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lXQoP-0000Cg-NC
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:55:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37043)
+ id 1lXQpz-00026E-Sf
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:56:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lXQoL-0002Pk-29
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:55:17 -0400
+ id 1lXQpx-0003Fg-Qm
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:56:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618588512;
+ s=mimecast20190719; t=1618588613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TuL/kMFJTRYBRAWEmfzHmLsRvk5byGqdy24idS5Rv1A=;
- b=Deczcs7Z65/0/hnJG8L1jk9NRlAaVM8alpSMmrJ20dRvT760sPWHH+N/mtcaK/RJTw8qPD
- 678DQP60Qmi1KQIFMJyY5oZmW1J9v/003Ek2IEqRR6ZznlA3t4mlRNiCq9rwiESTIMZzXK
- 8/MAXEDvy/GyxxJNp1r9y2ni7tqSi0s=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-rAMVM13JMG-jCdGLRWUdLA-1; Fri, 16 Apr 2021 11:55:10 -0400
-X-MC-Unique: rAMVM13JMG-jCdGLRWUdLA-1
-Received: by mail-vk1-f198.google.com with SMTP id
- j67-20020a1f55460000b02901d93424fdc4so2689197vkb.10
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 08:55:10 -0700 (PDT)
+ bh=y91i984hImGwqQz+AKB3DHmF5cVKd0a+w+x4hzSH9wM=;
+ b=J91rPZDPzn56wXh/O+ITvtJxlzia2oEkolvoIeVRiLu6ZmB+MqLc6MXEH0I98VMBTc5P2J
+ IpsnTX8+/0bUClD65+HmxWHDdo96eRk0lMoeGHsfRlVlrtxnz9qelOuF8Oebib64oD0VDv
+ 3k/676SK5z/RtIFwh2fwptOsYSrnLfo=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-ZORuEY4INlSfzM80f9psow-1; Fri, 16 Apr 2021 11:56:51 -0400
+X-MC-Unique: ZORuEY4INlSfzM80f9psow-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ h9-20020ab02a890000b02901e86c9535feso1956065uar.15
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 08:56:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TuL/kMFJTRYBRAWEmfzHmLsRvk5byGqdy24idS5Rv1A=;
- b=R88sHJpsbLJC1kJvluV81hBe29kC5d2ahgooFwWyWws+auLGIb0NuwuVspgjDDBV9q
- fyxTCLMYp/507bzgA/LMve2aHV0fB6zDDUmw8xAF1C4zZORLwpuf+0c6dGoCUPZSoKFn
- mVDk7SvNw2nkU7UkSqwM5T3FEpL4i61nRmaoLZ3TdCR9aa3mOBQN1r/qs4GRRb+43pBm
- +wnTGIHG+r7m0MZOGEA+Wop4sVirJJO/kk4WFWhYimFRDBuVbquMLUwFZRIh4avpTsfn
- hju1d+dwoUk7bmzhv4PcMKUuiytjrRNTxqJ4RWRpFh/G7AJNd+7kQJmnoxpljMKVqoEs
- bdZQ==
-X-Gm-Message-State: AOAM530F5mfvCuAp+6Y/Z4S6i23VRzT59oVtyZ9uUfWHuafvLR6w5DFk
- 8hu3GMXrNz/dC5NocGnho/6rTG3r9K5weihaCXolzRB7myNV6zpGCe52BWbqi7H6cmMH6r1XG5h
- REUutSU6zlTKLCMZ/fobi6pvPWQ6nDvQ=
-X-Received: by 2002:a67:27c2:: with SMTP id n185mr7566210vsn.39.1618588509641; 
- Fri, 16 Apr 2021 08:55:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1UVaeXnYeuymhPU2XuHuvWaDUv+z14ErUDwZTMPzZiETwfh4a16jcN5fQiJvxfYmb0RBinnvNLqUCcZLsBbI=
-X-Received: by 2002:a67:27c2:: with SMTP id n185mr7566195vsn.39.1618588509432; 
- Fri, 16 Apr 2021 08:55:09 -0700 (PDT)
+ bh=y91i984hImGwqQz+AKB3DHmF5cVKd0a+w+x4hzSH9wM=;
+ b=uOESEGYUObabWPcLv69+8xFFNkP3fO8ogfZ2aScmXA+CwfirvXGORLhSIiLu5MjBPq
+ MQNY6TdjLMtvp+b71Jxs98PwzKxoKn+GeV7m8kwBVIM672+pLkAPTYoF9rRXkBiwpPuj
+ 72IrMkjk/pqFdpMpjqHL3nLZiK7p3ZnedrjurLh8mdo+qvBm/9SDAss8TSUNXgPR5Ks0
+ 36Gd9y+8C5ycNtDbFbL/dBNeEY2qAOM2/IIPrmyalRkbRYYf+FXSipQT+/i/KiWr53Mi
+ oWBtRQjK5f61JCzBYetqVY2KsnibJXUfwUWnymkxCl81KoSGUeNACxiKN6JCZh9oGjHk
+ 2s4g==
+X-Gm-Message-State: AOAM533Cy9KRx9Zy4yXovHPv2S9wg3EiSpxmNEadcA0FtKu7n1oXzRbl
+ 6kGnsHQ/CBbhnPODRUVTe99iyeEpDwtf4201wYyn8JIU2TKLHjdZ0Ls4qfEdzVQk0GZEPvmSF6E
+ s13NkixCXO69HI3NcKTy82ENHuqTV2Tk=
+X-Received: by 2002:ab0:3750:: with SMTP id i16mr7147066uat.113.1618588611072; 
+ Fri, 16 Apr 2021 08:56:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfe8/7AfC5bjjOR9jr3mOt9nvaYS5RxcQ2p/vLWkSYxoj3rFJIwmFCQXckY+Un1TMeU2Ko5k4GYrky4ElxLGc=
+X-Received: by 2002:ab0:3750:: with SMTP id i16mr7147045uat.113.1618588610940; 
+ Fri, 16 Apr 2021 08:56:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210415215141.1865467-1-crosa@redhat.com>
- <20210415215141.1865467-6-crosa@redhat.com>
-In-Reply-To: <20210415215141.1865467-6-crosa@redhat.com>
+ <20210415215141.1865467-7-crosa@redhat.com>
+In-Reply-To: <20210415215141.1865467-7-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 16 Apr 2021 12:54:43 -0300
-Message-ID: <CAKJDGDb91Sy9PJjb4vihFY++uJ9SkeMyNiu7-rWNefpsO8CytQ@mail.gmail.com>
-Subject: Re: [PATCH 5/8] tests/acceptance/cpu_queries.py: use the proper
- logging channels
+Date: Fri, 16 Apr 2021 12:56:24 -0300
+Message-ID: <CAKJDGDZoKNkL-mO9=H126EnHn4pFJKq2urakuGvM1N8anDsQyw@mail.gmail.com>
+Subject: Re: [PATCH 6/8] Acceptance tests: prevent shutdown on non-specific
+ target tests
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,15 +106,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Apr 15, 2021 at 6:52 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> The test contains methods for the proper log of test related
-> information.  Let's use that and remove the print and the unused
-> logging import.
+> When running tests that are not target specific with various target
+> binaries, some specific behavior appears.  For s390x, when there's no
+> guest code running, it will produce GUEST_PANICKED events as the
+> firmware will shutdown the machine.
 >
-> Reference: https://avocado-framework.readthedocs.io/en/87.0/api/test/avocado.html#avocado.Test.log
+> With this change, no GUEST_PANICKED *event* will be generated.
+>
+> For some QMP commands, such as "query-migrate", a proper response
+> ("guest-panicked" for the s390x target) will still be given.
+>
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/cpu_queries.py | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  tests/acceptance/migration.py | 4 ++--
+>  tests/acceptance/version.py   | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
