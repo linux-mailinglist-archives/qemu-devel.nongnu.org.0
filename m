@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707A53628A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:29:49 +0200 (CEST)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FB23628A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:29:51 +0200 (CEST)
+Received: from localhost ([::1]:37372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXUA0-0007nY-Ft
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56212)
+	id 1lXUA2-0007pT-3V
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8m-0006eq-6S
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58243)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8q-0006hP-HL
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8k-0003OR-8K
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:31 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8l-0003P8-90
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618601309;
+ s=mimecast20190719; t=1618601310;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MfcmNYCQikZJ4xfrdDv4j2OV9FfXeeKKKeQtd320+PI=;
- b=Kh2WYGSyHjgA1crsPY9xh19tw43e03YxQBUitVGUjTfKxzSkDuy6jAP/lfyQjVMB5aFk5T
- j9wdn3VIt0+vDQuEhsBmfofPg8Qc5tcvVIz/GTWnE+Wdv3ZWVitMTgD1tGnKIYy2oWLth3
- HElwaopmCJvF7Ul9FUD+K4Is7OJIgEo=
+ bh=DsbzNOehjco8iyDIl0NkBWztj8jPzptsvkz3Pr0Iy7A=;
+ b=NrW/Jz4hnV9IvGBnsEi7wz4Sc6cX4OTjs29z4OsS0kBlq+M5wRyJx6jwu0dAjy3riMwcyq
+ InaACpkM+C4IsnvpbtUHKpN6KhzmGmiGm2yr6CrRenpIAsyUaV2kPOsOYm40JeP+HjaZAD
+ YFTTRkl/jutaS6+0bpN1WwOckWYkJUc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-4CrH1_oOP0KagYnctyVP_A-1; Fri, 16 Apr 2021 15:28:27 -0400
-X-MC-Unique: 4CrH1_oOP0KagYnctyVP_A-1
+ us-mta-371-BRWUAmG5PRKVAuNOEsXOjQ-1; Fri, 16 Apr 2021 15:28:29 -0400
+X-MC-Unique: BRWUAmG5PRKVAuNOEsXOjQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EEF1192296B
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 19:28:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23F2283DD21
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 19:28:28 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96124107D5C7;
- Fri, 16 Apr 2021 19:28:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A365107D5C6;
+ Fri, 16 Apr 2021 19:28:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] [DO-NOT-MERGE] docs/sphinx: change default role to
- "any"
-Date: Fri, 16 Apr 2021 15:28:17 -0400
-Message-Id: <20210416192819.2958482-3-jsnow@redhat.com>
+Subject: [PATCH v2 4/4] [DO-NOT-MERGE]: Add some ad-hoc linting helpers.
+Date: Fri, 16 Apr 2021 15:28:19 -0400
+Message-Id: <20210416192819.2958482-5-jsnow@redhat.com>
 In-Reply-To: <20210416192819.2958482-1-jsnow@redhat.com>
 References: <20210416192819.2958482-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,28 +82,77 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This interprets single-backtick syntax in all of our Sphinx docs as a
-cross-reference to *something*, including Python symbols.
+These aren't ready for upstream inclusion, because they do not properly
+manage version dependencies, execution environment and so on. These are
+just the tools I use in my Own Special Environment :tm: for testing and
+debugging.
+
+I *think*, but can't exhaustively guarantee, that these should
+work:
+
+Python >= 3.6
+isort >= 5.7.0  (But possibly earlier)
+mypy >= 0.770   (Currently using 0.800)
+pylint >= 2.6.0 (Currently using 2.7.4)
+
+My python packaging series does a more exhaustive treatment and
+exploration of minimum package requirements; eventually these two series
+will converge and these dependencies will be handled in one place.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/conf.py | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/qapi-lint.sh  | 29 +++++++++++++++++++++++++++++
+ scripts/qapi/Makefile |  5 +++++
+ 2 files changed, 34 insertions(+)
+ create mode 100755 scripts/qapi-lint.sh
+ create mode 100644 scripts/qapi/Makefile
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 2ee61118725..8752e436ebe 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -84,6 +84,9 @@
- # The master toctree document.
- master_doc = 'index'
- 
-+# Interpret `this` to be a cross-reference to "anything".
-+default_role = 'any'
+diff --git a/scripts/qapi-lint.sh b/scripts/qapi-lint.sh
+new file mode 100755
+index 00000000000..2c2f2808ca6
+--- /dev/null
++++ b/scripts/qapi-lint.sh
+@@ -0,0 +1,29 @@
++#!/usr/bin/env bash
++set -e
 +
- # General information about the project.
- project = u'QEMU'
- copyright = u'2020, The QEMU Project Developers'
++if [[ -f qapi/.flake8 ]]; then
++    echo "flake8 --config=qapi/.flake8 qapi/"
++    flake8 --config=qapi/.flake8 qapi/
++fi
++if [[ -f qapi/pylintrc ]]; then
++    echo "pylint --rcfile=qapi/pylintrc qapi/"
++    pylint --rcfile=qapi/pylintrc qapi/
++fi
++if [[ -f qapi/mypy.ini ]]; then
++    echo "mypy --config-file=qapi/mypy.ini qapi/"
++    mypy --config-file=qapi/mypy.ini qapi/
++fi
++
++if [[ -f qapi/.isort.cfg ]]; then
++    pushd qapi
++    echo "isort -c ."
++    isort -c .
++    popd
++fi
++
++pushd ../bin/git
++make -j9
++make check-qapi-schema
++make docs
++make sphinxdocs
++popd
+diff --git a/scripts/qapi/Makefile b/scripts/qapi/Makefile
+new file mode 100644
+index 00000000000..314e8a5505e
+--- /dev/null
++++ b/scripts/qapi/Makefile
+@@ -0,0 +1,5 @@
++check:
++	isort -c .
++	flake8 .
++	cd .. && pylint --rcfile=qapi/pylintrc qapi
++	cd .. && mypy -p qapi --config-file=qapi/mypy.ini
 -- 
 2.30.2
 
