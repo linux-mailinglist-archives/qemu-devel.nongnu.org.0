@@ -2,91 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA813625CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:39:07 +0200 (CEST)
-Received: from localhost ([::1]:37038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1419B36264F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:07:09 +0200 (CEST)
+Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRUo-0006GW-LQ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46100)
+	id 1lXRvw-00083N-4Q
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:07:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lXRKd-0003Cp-Na
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52382)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRKw-0003x5-0E
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lXRKa-0001IP-5o
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618590511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QgcuRFF2jSIKZJnI+h16vksgWmFVyeF2TwcurFEWll4=;
- b=RlYmvPLIGzZWx/9tG9Mwc7TXnIG1R88r5PQhPFlXdLCVByzt8a7eXwdOml4jl+vrB2nE5S
- JBXa2JgIDjKK/sHY0aecgjeEs4mcya1cOwQnWo6hA+IY6Wa5KUm/E1y+7VVRNPHieBHr8t
- w11BADtNdw+zXGjFZVAF8TAkgn7WLgc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-HV2u9ZJ5OuyssoKIb8bvsA-1; Fri, 16 Apr 2021 12:28:29 -0400
-X-MC-Unique: HV2u9ZJ5OuyssoKIb8bvsA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- l7-20020aa7c3070000b029038502ffe9f2so1535505edq.16
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 09:28:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QgcuRFF2jSIKZJnI+h16vksgWmFVyeF2TwcurFEWll4=;
- b=IisMGy0ASfZMwQ4jnkW5MjSfocjUc+TY777X5dZx/tcQEVRc5oBuJTvKNWREMLOxwW
- ODRAhIqdu+WyVAtNiooLsEL7viyNrS5ATqULiczCb64tg0oh7GdYp54LXHWQssJl2G0V
- zeUMlasIeODcdhLY96/oEzAUsJuD6Iv0qt0Hq0E1XFbMMXMoXC/5ri5YK8dj/jKBzsF0
- 5ZLtbj7uhNVxUlHMYddGaVbfyVRCLABzDUqxMCnGR/u6CqzZ31xRrDc1UuT3GLru2eJ6
- pCgQaXFW+v0CeV73IJFz5f7d50eDwYgCP7/hbhhwLT0QQ7oQOwW41PDRAGGFSl9Z4S8V
- 8cbw==
-X-Gm-Message-State: AOAM531R64KQPFxByMHcguO3RneyNsul0GmlogCGG9d7YioVRINPjkvz
- r3FcE8EdBgk+lBNg9T4tRvta8yGEZUPW0lABlud3oLJnNsAp05W4ZNr5KAzYtzuKdobz7iuElrv
- hrRrj82CSrSo5ZGY=
-X-Received: by 2002:a50:fd99:: with SMTP id o25mr9139802edt.148.1618590508013; 
- Fri, 16 Apr 2021 09:28:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeixKmYO33uYtFz/Tww+V+dylrHmknA/3uQDVFmM3g4QL1PZpGCM82FzA2QKsvASE3CBkqRw==
-X-Received: by 2002:a50:fd99:: with SMTP id o25mr9139789edt.148.1618590507844; 
- Fri, 16 Apr 2021 09:28:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id jl8sm621105ejc.122.2021.04.16.09.28.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 09:28:27 -0700 (PDT)
-Subject: Re: [PATCH for-6.0? 0/6] extern "C" overhaul for C++ files
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210416135543.20382-1-peter.maydell@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <63df4bb6-77ae-b8fe-770e-6eb8efa7699d@redhat.com>
-Date: Fri, 16 Apr 2021 18:28:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRKq-0001Nk-81
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:53 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 19019B114;
+ Fri, 16 Apr 2021 16:28:35 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC v14 18/80] target/arm: move cpsr_read, cpsr_write to cpu_common
+Date: Fri, 16 Apr 2021 18:27:22 +0200
+Message-Id: <20210416162824.25131-19-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
+References: <20210416162824.25131-1-cfontana@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210416135543.20382-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,71 +54,586 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/04/21 15:55, Peter Maydell wrote:
-> Hi; this patchseries is:
->   (1) a respin of Paolo's patches, with the review issue Dan
->       noticed fixed (ie handle arm-a64.cc too)
->   (2) a copy of my "osdep.h: Move system includes to top" patch
->   (3) some new patches which try to more comprehensively address
->       the extern "C" issue
-> 
-> I've marked this "for-6.0?", but more specifically:
->   * I think patches 1 and 2 should go in if we do an rc4
->     (and maybe we should do an rc4 given various things that
->     have appeared that aren't individually rc4-worthy)
->   * patches 3-6 are definitely 6.1 material
-> 
-> We have 2 C++ files in the tree which need to include QEMU
-> headers: disas/arm-a64.cc and disas/nanomips.cpp. These
-> include only osdep.h and dis-asm.h, so it is sufficient to
-> extern-C-ify those two files only.
-> 
-> I'm not wildly enthusiastic about this because it's pretty
-> invasive (and needs extending if we ever find we need to
-> include further headers from C++), but it seems to be what
-> C++ forces upon us...
-> 
-> Patches 1, 2 and 3 have been reviewed (I kept Dan's r-by on
-> patch 1 since the change to it is just fixing the thing he
-> noticed). Further review, and opinions on the 6.0-ness, whether
-> we should do an rc4, etc, appreciated.
+we need as a result to move switch_mode too,
+so we put an implementation into cpu_user and cpu_sysemu.
 
-I think at least 1-3 are 6.0 material because build on a supported 
-distro (Fedora 34, due for release on April 27) is broken right now.
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h        |   2 +
+ target/arm/cpu-common.c | 192 +++++++++++++++++++++++++++++++++++
+ target/arm/cpu-sysemu.c |  30 ++++++
+ target/arm/cpu-user.c   |  24 +++++
+ target/arm/tcg/helper.c | 220 ----------------------------------------
+ target/arm/meson.build  |   3 +
+ 6 files changed, 251 insertions(+), 220 deletions(-)
+ create mode 100644 target/arm/cpu-user.c
 
-For 4-6 I'm a bit less sure since there's more to cleanup in 
-include/sysemu/os-*.h.  Anyway,
-
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
-
-> thanks
-> -- PMM
-> 
-> Paolo Bonzini (2):
->    osdep: include glib-compat.h before other QEMU headers
->    osdep: protect qemu/osdep.h with extern "C"
-> 
-> Peter Maydell (4):
->    include/qemu/osdep.h: Move system includes to top
->    osdep: Make os-win32.h and os-posix.h handle 'extern "C"' themselves
->    include/qemu/bswap.h: Handle being included outside extern "C" block
->    include/disas/dis-asm.h: Handle being included outside 'extern "C"'
-> 
->   include/disas/dis-asm.h   | 12 ++++++++++--
->   include/qemu/bswap.h      | 26 ++++++++++++++++++++++----
->   include/qemu/compiler.h   |  6 ++++++
->   include/qemu/osdep.h      | 34 +++++++++++++++++++++++++++-------
->   include/sysemu/os-posix.h |  8 ++++++++
->   include/sysemu/os-win32.h |  8 ++++++++
->   disas/arm-a64.cc          |  2 --
->   disas/nanomips.cpp        |  2 --
->   8 files changed, 81 insertions(+), 17 deletions(-)
-> 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 91fabb7ab2..30882bfbb6 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1383,6 +1383,8 @@ typedef enum CPSRWriteType {
+ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
+                 CPSRWriteType write_type);
+ 
++void switch_mode(CPUARMState *env, int mode);
++
+ /* Return the current xPSR value.  */
+ static inline uint32_t xpsr_read(CPUARMState *env)
+ {
+diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
+index 0f8ca94815..694e5d73f3 100644
+--- a/target/arm/cpu-common.c
++++ b/target/arm/cpu-common.c
+@@ -7,10 +7,12 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "qom/object.h"
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
++#include "internals.h"
+ 
+ static void arm_cpu_add_definition(gpointer data, gpointer user_data)
+ {
+@@ -39,3 +41,193 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+ 
+     return cpu_list;
+ }
++
++uint32_t cpsr_read(CPUARMState *env)
++{
++    int ZF;
++    ZF = (env->ZF == 0);
++    return env->uncached_cpsr | (env->NF & 0x80000000) | (ZF << 30) |
++        (env->CF << 29) | ((env->VF & 0x80000000) >> 3) | (env->QF << 27)
++        | (env->thumb << 5) | ((env->condexec_bits & 3) << 25)
++        | ((env->condexec_bits & 0xfc) << 8)
++        | (env->GE << 16) | (env->daif & CPSR_AIF);
++}
++
++static int bad_mode_switch(CPUARMState *env, int mode, CPSRWriteType write_type)
++{
++    /*
++     * Return true if it is not valid for us to switch to
++     * this CPU mode (ie all the UNPREDICTABLE cases in
++     * the ARM ARM CPSRWriteByInstr pseudocode).
++     */
++
++    /* Changes to or from Hyp via MSR and CPS are illegal. */
++    if (write_type == CPSRWriteByInstr &&
++        ((env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_HYP ||
++         mode == ARM_CPU_MODE_HYP)) {
++        return 1;
++    }
++
++    switch (mode) {
++    case ARM_CPU_MODE_USR:
++        return 0;
++    case ARM_CPU_MODE_SYS:
++    case ARM_CPU_MODE_SVC:
++    case ARM_CPU_MODE_ABT:
++    case ARM_CPU_MODE_UND:
++    case ARM_CPU_MODE_IRQ:
++    case ARM_CPU_MODE_FIQ:
++        /*
++         * Note that we don't implement the IMPDEF NSACR.RFR which in v7
++         * allows FIQ mode to be Secure-only. (In v8 this doesn't exist.)
++         *
++         * If HCR.TGE is set then changes from Monitor to NS PL1 via MSR
++         * and CPS are treated as illegal mode changes.
++         */
++        if (write_type == CPSRWriteByInstr &&
++            (env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_MON &&
++            (arm_hcr_el2_eff(env) & HCR_TGE)) {
++            return 1;
++        }
++        return 0;
++    case ARM_CPU_MODE_HYP:
++        return !arm_is_el2_enabled(env) || arm_current_el(env) < 2;
++    case ARM_CPU_MODE_MON:
++        return arm_current_el(env) < 3;
++    default:
++        return 1;
++    }
++}
++
++void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
++                CPSRWriteType write_type)
++{
++    uint32_t changed_daif;
++
++    if (mask & CPSR_NZCV) {
++        env->ZF = (~val) & CPSR_Z;
++        env->NF = val;
++        env->CF = (val >> 29) & 1;
++        env->VF = (val << 3) & 0x80000000;
++    }
++    if (mask & CPSR_Q) {
++        env->QF = ((val & CPSR_Q) != 0);
++    }
++    if (mask & CPSR_T) {
++        env->thumb = ((val & CPSR_T) != 0);
++    }
++    if (mask & CPSR_IT_0_1) {
++        env->condexec_bits &= ~3;
++        env->condexec_bits |= (val >> 25) & 3;
++    }
++    if (mask & CPSR_IT_2_7) {
++        env->condexec_bits &= 3;
++        env->condexec_bits |= (val >> 8) & 0xfc;
++    }
++    if (mask & CPSR_GE) {
++        env->GE = (val >> 16) & 0xf;
++    }
++
++    /*
++     * In a V7 implementation that includes the security extensions but does
++     * not include Virtualization Extensions the SCR.FW and SCR.AW bits control
++     * whether non-secure software is allowed to change the CPSR_F and CPSR_A
++     * bits respectively.
++     *
++     * In a V8 implementation, it is permitted for privileged software to
++     * change the CPSR A/F bits regardless of the SCR.AW/FW bits.
++     */
++    if (write_type != CPSRWriteRaw && !arm_feature(env, ARM_FEATURE_V8) &&
++        arm_feature(env, ARM_FEATURE_EL3) &&
++        !arm_feature(env, ARM_FEATURE_EL2) &&
++        !arm_is_secure(env)) {
++
++        changed_daif = (env->daif ^ val) & mask;
++
++        if (changed_daif & CPSR_A) {
++            /*
++             * Check to see if we are allowed to change the masking of async
++             * abort exceptions from a non-secure state.
++             */
++            if (!(env->cp15.scr_el3 & SCR_AW)) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "Ignoring attempt to switch CPSR_A flag from "
++                              "non-secure world with SCR.AW bit clear\n");
++                mask &= ~CPSR_A;
++            }
++        }
++
++        if (changed_daif & CPSR_F) {
++            /*
++             * Check to see if we are allowed to change the masking of FIQ
++             * exceptions from a non-secure state.
++             */
++            if (!(env->cp15.scr_el3 & SCR_FW)) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "Ignoring attempt to switch CPSR_F flag from "
++                              "non-secure world with SCR.FW bit clear\n");
++                mask &= ~CPSR_F;
++            }
++
++            /*
++             * Check whether non-maskable FIQ (NMFI) support is enabled.
++             * If this bit is set software is not allowed to mask
++             * FIQs, but is allowed to set CPSR_F to 0.
++             */
++            if ((A32_BANKED_CURRENT_REG_GET(env, sctlr) & SCTLR_NMFI) &&
++                (val & CPSR_F)) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "Ignoring attempt to enable CPSR_F flag "
++                              "(non-maskable FIQ [NMFI] support enabled)\n");
++                mask &= ~CPSR_F;
++            }
++        }
++    }
++
++    env->daif &= ~(CPSR_AIF & mask);
++    env->daif |= val & CPSR_AIF & mask;
++
++    if (write_type != CPSRWriteRaw &&
++        ((env->uncached_cpsr ^ val) & mask & CPSR_M)) {
++        if ((env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_USR) {
++            /*
++             * Note that we can only get here in USR mode if this is a
++             * gdb stub write; for this case we follow the architectural
++             * behaviour for guest writes in USR mode of ignoring an attempt
++             * to switch mode. (Those are caught by translate.c for writes
++             * triggered by guest instructions.)
++             */
++            mask &= ~CPSR_M;
++        } else if (bad_mode_switch(env, val & CPSR_M, write_type)) {
++            /*
++             * Attempt to switch to an invalid mode: this is UNPREDICTABLE in
++             * v7, and has defined behaviour in v8:
++             *  + leave CPSR.M untouched
++             *  + allow changes to the other CPSR fields
++             *  + set PSTATE.IL
++             * For user changes via the GDB stub, we don't set PSTATE.IL,
++             * as this would be unnecessarily harsh for a user error.
++             */
++            mask &= ~CPSR_M;
++            if (write_type != CPSRWriteByGDBStub &&
++                arm_feature(env, ARM_FEATURE_V8)) {
++                mask |= CPSR_IL;
++                val |= CPSR_IL;
++            }
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "Illegal AArch32 mode switch attempt from %s to %s\n",
++                          aarch32_mode_name(env->uncached_cpsr),
++                          aarch32_mode_name(val));
++        } else {
++            qemu_log_mask(CPU_LOG_INT, "%s %s to %s PC 0x%" PRIx32 "\n",
++                          write_type == CPSRWriteExceptionReturn ?
++                          "Exception return from AArch32" :
++                          "AArch32 mode switch from",
++                          aarch32_mode_name(env->uncached_cpsr),
++                          aarch32_mode_name(val), env->regs[15]);
++            switch_mode(env, val & CPSR_M);
++        }
++    }
++    mask &= ~CACHED_CPSR_BITS;
++    env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
++}
+diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
+index db1c8cb245..3add2c2439 100644
+--- a/target/arm/cpu-sysemu.c
++++ b/target/arm/cpu-sysemu.c
+@@ -103,3 +103,33 @@ bool arm_cpu_virtio_is_big_endian(CPUState *cs)
+     cpu_synchronize_state(cs);
+     return arm_cpu_data_is_big_endian(env);
+ }
++
++void switch_mode(CPUARMState *env, int mode)
++{
++    int old_mode;
++    int i;
++
++    old_mode = env->uncached_cpsr & CPSR_M;
++    if (mode == old_mode) {
++        return;
++    }
++
++    if (old_mode == ARM_CPU_MODE_FIQ) {
++        memcpy(env->fiq_regs, env->regs + 8, 5 * sizeof(uint32_t));
++        memcpy(env->regs + 8, env->usr_regs, 5 * sizeof(uint32_t));
++    } else if (mode == ARM_CPU_MODE_FIQ) {
++        memcpy(env->usr_regs, env->regs + 8, 5 * sizeof(uint32_t));
++        memcpy(env->regs + 8, env->fiq_regs, 5 * sizeof(uint32_t));
++    }
++
++    i = bank_number(old_mode);
++    env->banked_r13[i] = env->regs[13];
++    env->banked_spsr[i] = env->spsr;
++
++    i = bank_number(mode);
++    env->regs[13] = env->banked_r13[i];
++    env->spsr = env->banked_spsr[i];
++
++    env->banked_r14[r14_bank_number(old_mode)] = env->regs[14];
++    env->regs[14] = env->banked_r14[r14_bank_number(mode)];
++}
+diff --git a/target/arm/cpu-user.c b/target/arm/cpu-user.c
+new file mode 100644
+index 0000000000..a72b7f5703
+--- /dev/null
++++ b/target/arm/cpu-user.c
+@@ -0,0 +1,24 @@
++/*
++ * ARM CPU user-mode only code
++ *
++ * This code is licensed under the GNU GPL v2 or later.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qom/object.h"
++#include "qapi/qapi-commands-machine-target.h"
++#include "qapi/error.h"
++#include "cpu.h"
++#include "internals.h"
++
++void switch_mode(CPUARMState *env, int mode)
++{
++    ARMCPU *cpu = env_archcpu(env);
++
++    if (mode != ARM_CPU_MODE_USR) {
++        cpu_abort(CPU(cpu), "Tried to switch out of user mode\n");
++    }
++}
+diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
+index 08456aa50a..f35d2969b0 100644
+--- a/target/arm/tcg/helper.c
++++ b/target/arm/tcg/helper.c
+@@ -38,8 +38,6 @@
+ #include "cpu-mmu.h"
+ #include "cpregs.h"
+ 
+-static void switch_mode(CPUARMState *env, int mode);
+-
+ static int vfp_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -696,186 +694,6 @@ void arm_cpu_list(void)
+     g_slist_free(list);
+ }
+ 
+-static int bad_mode_switch(CPUARMState *env, int mode, CPSRWriteType write_type)
+-{
+-    /* Return true if it is not valid for us to switch to
+-     * this CPU mode (ie all the UNPREDICTABLE cases in
+-     * the ARM ARM CPSRWriteByInstr pseudocode).
+-     */
+-
+-    /* Changes to or from Hyp via MSR and CPS are illegal. */
+-    if (write_type == CPSRWriteByInstr &&
+-        ((env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_HYP ||
+-         mode == ARM_CPU_MODE_HYP)) {
+-        return 1;
+-    }
+-
+-    switch (mode) {
+-    case ARM_CPU_MODE_USR:
+-        return 0;
+-    case ARM_CPU_MODE_SYS:
+-    case ARM_CPU_MODE_SVC:
+-    case ARM_CPU_MODE_ABT:
+-    case ARM_CPU_MODE_UND:
+-    case ARM_CPU_MODE_IRQ:
+-    case ARM_CPU_MODE_FIQ:
+-        /* Note that we don't implement the IMPDEF NSACR.RFR which in v7
+-         * allows FIQ mode to be Secure-only. (In v8 this doesn't exist.)
+-         */
+-        /* If HCR.TGE is set then changes from Monitor to NS PL1 via MSR
+-         * and CPS are treated as illegal mode changes.
+-         */
+-        if (write_type == CPSRWriteByInstr &&
+-            (env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_MON &&
+-            (arm_hcr_el2_eff(env) & HCR_TGE)) {
+-            return 1;
+-        }
+-        return 0;
+-    case ARM_CPU_MODE_HYP:
+-        return !arm_is_el2_enabled(env) || arm_current_el(env) < 2;
+-    case ARM_CPU_MODE_MON:
+-        return arm_current_el(env) < 3;
+-    default:
+-        return 1;
+-    }
+-}
+-
+-uint32_t cpsr_read(CPUARMState *env)
+-{
+-    int ZF;
+-    ZF = (env->ZF == 0);
+-    return env->uncached_cpsr | (env->NF & 0x80000000) | (ZF << 30) |
+-        (env->CF << 29) | ((env->VF & 0x80000000) >> 3) | (env->QF << 27)
+-        | (env->thumb << 5) | ((env->condexec_bits & 3) << 25)
+-        | ((env->condexec_bits & 0xfc) << 8)
+-        | (env->GE << 16) | (env->daif & CPSR_AIF);
+-}
+-
+-void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
+-                CPSRWriteType write_type)
+-{
+-    uint32_t changed_daif;
+-
+-    if (mask & CPSR_NZCV) {
+-        env->ZF = (~val) & CPSR_Z;
+-        env->NF = val;
+-        env->CF = (val >> 29) & 1;
+-        env->VF = (val << 3) & 0x80000000;
+-    }
+-    if (mask & CPSR_Q)
+-        env->QF = ((val & CPSR_Q) != 0);
+-    if (mask & CPSR_T)
+-        env->thumb = ((val & CPSR_T) != 0);
+-    if (mask & CPSR_IT_0_1) {
+-        env->condexec_bits &= ~3;
+-        env->condexec_bits |= (val >> 25) & 3;
+-    }
+-    if (mask & CPSR_IT_2_7) {
+-        env->condexec_bits &= 3;
+-        env->condexec_bits |= (val >> 8) & 0xfc;
+-    }
+-    if (mask & CPSR_GE) {
+-        env->GE = (val >> 16) & 0xf;
+-    }
+-
+-    /* In a V7 implementation that includes the security extensions but does
+-     * not include Virtualization Extensions the SCR.FW and SCR.AW bits control
+-     * whether non-secure software is allowed to change the CPSR_F and CPSR_A
+-     * bits respectively.
+-     *
+-     * In a V8 implementation, it is permitted for privileged software to
+-     * change the CPSR A/F bits regardless of the SCR.AW/FW bits.
+-     */
+-    if (write_type != CPSRWriteRaw && !arm_feature(env, ARM_FEATURE_V8) &&
+-        arm_feature(env, ARM_FEATURE_EL3) &&
+-        !arm_feature(env, ARM_FEATURE_EL2) &&
+-        !arm_is_secure(env)) {
+-
+-        changed_daif = (env->daif ^ val) & mask;
+-
+-        if (changed_daif & CPSR_A) {
+-            /* Check to see if we are allowed to change the masking of async
+-             * abort exceptions from a non-secure state.
+-             */
+-            if (!(env->cp15.scr_el3 & SCR_AW)) {
+-                qemu_log_mask(LOG_GUEST_ERROR,
+-                              "Ignoring attempt to switch CPSR_A flag from "
+-                              "non-secure world with SCR.AW bit clear\n");
+-                mask &= ~CPSR_A;
+-            }
+-        }
+-
+-        if (changed_daif & CPSR_F) {
+-            /* Check to see if we are allowed to change the masking of FIQ
+-             * exceptions from a non-secure state.
+-             */
+-            if (!(env->cp15.scr_el3 & SCR_FW)) {
+-                qemu_log_mask(LOG_GUEST_ERROR,
+-                              "Ignoring attempt to switch CPSR_F flag from "
+-                              "non-secure world with SCR.FW bit clear\n");
+-                mask &= ~CPSR_F;
+-            }
+-
+-            /* Check whether non-maskable FIQ (NMFI) support is enabled.
+-             * If this bit is set software is not allowed to mask
+-             * FIQs, but is allowed to set CPSR_F to 0.
+-             */
+-            if ((A32_BANKED_CURRENT_REG_GET(env, sctlr) & SCTLR_NMFI) &&
+-                (val & CPSR_F)) {
+-                qemu_log_mask(LOG_GUEST_ERROR,
+-                              "Ignoring attempt to enable CPSR_F flag "
+-                              "(non-maskable FIQ [NMFI] support enabled)\n");
+-                mask &= ~CPSR_F;
+-            }
+-        }
+-    }
+-
+-    env->daif &= ~(CPSR_AIF & mask);
+-    env->daif |= val & CPSR_AIF & mask;
+-
+-    if (write_type != CPSRWriteRaw &&
+-        ((env->uncached_cpsr ^ val) & mask & CPSR_M)) {
+-        if ((env->uncached_cpsr & CPSR_M) == ARM_CPU_MODE_USR) {
+-            /* Note that we can only get here in USR mode if this is a
+-             * gdb stub write; for this case we follow the architectural
+-             * behaviour for guest writes in USR mode of ignoring an attempt
+-             * to switch mode. (Those are caught by translate.c for writes
+-             * triggered by guest instructions.)
+-             */
+-            mask &= ~CPSR_M;
+-        } else if (bad_mode_switch(env, val & CPSR_M, write_type)) {
+-            /* Attempt to switch to an invalid mode: this is UNPREDICTABLE in
+-             * v7, and has defined behaviour in v8:
+-             *  + leave CPSR.M untouched
+-             *  + allow changes to the other CPSR fields
+-             *  + set PSTATE.IL
+-             * For user changes via the GDB stub, we don't set PSTATE.IL,
+-             * as this would be unnecessarily harsh for a user error.
+-             */
+-            mask &= ~CPSR_M;
+-            if (write_type != CPSRWriteByGDBStub &&
+-                arm_feature(env, ARM_FEATURE_V8)) {
+-                mask |= CPSR_IL;
+-                val |= CPSR_IL;
+-            }
+-            qemu_log_mask(LOG_GUEST_ERROR,
+-                          "Illegal AArch32 mode switch attempt from %s to %s\n",
+-                          aarch32_mode_name(env->uncached_cpsr),
+-                          aarch32_mode_name(val));
+-        } else {
+-            qemu_log_mask(CPU_LOG_INT, "%s %s to %s PC 0x%" PRIx32 "\n",
+-                          write_type == CPSRWriteExceptionReturn ?
+-                          "Exception return from AArch32" :
+-                          "AArch32 mode switch from",
+-                          aarch32_mode_name(env->uncached_cpsr),
+-                          aarch32_mode_name(val), env->regs[15]);
+-            switch_mode(env, val & CPSR_M);
+-        }
+-    }
+-    mask &= ~CACHED_CPSR_BITS;
+-    env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
+-}
+-
+ /* Sign/zero extend */
+ uint32_t HELPER(sxtb16)(uint32_t x)
+ {
+@@ -916,15 +734,6 @@ uint32_t HELPER(rbit)(uint32_t x)
+ 
+ #ifdef CONFIG_USER_ONLY
+ 
+-static void switch_mode(CPUARMState *env, int mode)
+-{
+-    ARMCPU *cpu = env_archcpu(env);
+-
+-    if (mode != ARM_CPU_MODE_USR) {
+-        cpu_abort(CPU(cpu), "Tried to switch out of user mode\n");
+-    }
+-}
+-
+ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
+                                  uint32_t cur_el, bool secure)
+ {
+@@ -938,35 +747,6 @@ void aarch64_sync_64_to_32(CPUARMState *env)
+ 
+ #else
+ 
+-static void switch_mode(CPUARMState *env, int mode)
+-{
+-    int old_mode;
+-    int i;
+-
+-    old_mode = env->uncached_cpsr & CPSR_M;
+-    if (mode == old_mode)
+-        return;
+-
+-    if (old_mode == ARM_CPU_MODE_FIQ) {
+-        memcpy (env->fiq_regs, env->regs + 8, 5 * sizeof(uint32_t));
+-        memcpy (env->regs + 8, env->usr_regs, 5 * sizeof(uint32_t));
+-    } else if (mode == ARM_CPU_MODE_FIQ) {
+-        memcpy (env->usr_regs, env->regs + 8, 5 * sizeof(uint32_t));
+-        memcpy (env->regs + 8, env->fiq_regs, 5 * sizeof(uint32_t));
+-    }
+-
+-    i = bank_number(old_mode);
+-    env->banked_r13[i] = env->regs[13];
+-    env->banked_spsr[i] = env->spsr;
+-
+-    i = bank_number(mode);
+-    env->regs[13] = env->banked_r13[i];
+-    env->spsr = env->banked_spsr[i];
+-
+-    env->banked_r14[r14_bank_number(old_mode)] = env->regs[14];
+-    env->regs[14] = env->banked_r14[r14_bank_number(mode)];
+-}
+-
+ /* Physical Interrupt Target EL Lookup Table
+  *
+  * [ From ARM ARM section G1.13.4 (Table G1-15) ]
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 8d6177c1fb..1f7375375e 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -32,6 +32,9 @@ arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+ ))
+ 
+ arm_user_ss = ss.source_set()
++arm_user_ss.add(files(
++  'cpu-user.c',
++))
+ 
+ subdir('tcg')
+ 
+-- 
+2.26.2
 
 
