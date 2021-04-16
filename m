@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27E23619F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 08:43:43 +0200 (CEST)
-Received: from localhost ([::1]:42420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B743361A14
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 08:55:36 +0200 (CEST)
+Received: from localhost ([::1]:45236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXICc-00087R-7d
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 02:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
+	id 1lXIO7-0001w3-E2
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 02:55:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lXIBR-0007ge-Pg
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 02:42:29 -0400
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:45192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lXIBN-00044u-Lq
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 02:42:29 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.240])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id D106F25D3EE;
- Fri, 16 Apr 2021 08:42:20 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Apr
- 2021 08:42:20 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003dcbd630c-bb76-4d16-89bf-99d8298b6114,
- 138CDC1FF09234587CE5031F2EFAB81617CD6BEF) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Fri, 16 Apr 2021 08:42:19 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/2] qdev: Separate implementations of
- qdev_get_machine() for user and system
-Message-ID: <20210416084219.7bd254a4@bahia.lan>
-In-Reply-To: <1a68b426-47da-9fba-a34a-d024ac9ed148@redhat.com>
-References: <20210409160339.500167-1-groug@kaod.org>
- <20210409160339.500167-2-groug@kaod.org>
- <25ab34ad-0950-65f0-6cb2-d3f7a4a86744@redhat.com>
- <20210415153056.04f981a8@bahia.lan>
- <d21045c1-3df2-1569-3bf9-8a7ea27866f4@redhat.com>
- <20210415185639.12300368@bahia.lan>
- <1a68b426-47da-9fba-a34a-d024ac9ed148@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lXIN8-0001SZ-Ue
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 02:54:34 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:46842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1lXIN5-0002dJ-9S
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 02:54:34 -0400
+Received: by mail-il1-x12e.google.com with SMTP id l19so18405480ilk.13
+ for <qemu-devel@nongnu.org>; Thu, 15 Apr 2021 23:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OIXSLuaDfCZ9nblYedIjPAZNQU4G0dq/KsWieZm0rrs=;
+ b=GNCNsigax+tyhYEzWSxfbghxqJSabJwuNMB/IQPAJRCA8dbjnI38LJPmfAyuNHKFan
+ P3ree8tAjfrSZ5ppGmu4GQmmO/8ovDsEZChoMnQfSafBUykCsh5mHbBHiooCPXyPbJV1
+ 2ep84KsU+tJFeSJAMbmZeXIrXd643O1pT5hhpVIX/M6wan2LDqX/p+VqjV1bLjO3yrm9
+ AXX9XE2qNb/RloF9wxPHOoe/XN1Q1+Ws3KL1/UrOplGXjw5deEl2txWCeQk12jTch5pK
+ jCkw00HuiXwpN6/HYW+R/3wZ0f/muuxD9HOWdt4Us8jbq6e+GKCORoVwn6YwIACxQlCR
+ ekdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OIXSLuaDfCZ9nblYedIjPAZNQU4G0dq/KsWieZm0rrs=;
+ b=my6LM7kMA0K8jguEmSe5AkDDPTPIwAekwb9kFVDdRnBBaYlinx9RWvhkwIvO6w321G
+ 1fYKYYiu4j5BHKGDJ+RJuxAAIscZa5OvDJkdU5WZwIwJ1GsOPgPqVZE1CTJOgfiLZbdz
+ NCJF/JZ0upKA6tkro4XgMUiglkvw2iCts9x6mUmtYr8QdqEw9zb3NAYVnml6tyFBDU5d
+ KnbbsTFJoza/dD/hA0xNrGLSbgSDuvfWcJovEEbrTEa677Z+KD93+21GIpA7pGOR2BkM
+ bvDxhcYlXsZOyi5CCbUVlKlvV8j+gwm0lvz0iEGqADDno016gVugplEV2bQjX1Yofpkk
+ gtpg==
+X-Gm-Message-State: AOAM533BaoHOy3UrGom/QlalAtZOG26WA/FU9pYDtHBkrVF6h+6wAYhQ
+ HXXiFf/cDIsRnUlzK4/KBNqjnF1lZgvzzdVad1vtClUKY0w=
+X-Google-Smtp-Source: ABdhPJxVzMLD/TsmFRIXFWMdm53BdPvRwp3AFHdr71HW4Um89XD39c+K7xPmQiusat3n08ZEMmbhygLLRGfl0t1h0CA=
+X-Received: by 2002:a05:6e02:de6:: with SMTP id
+ m6mr5943429ilj.81.1618556069931; 
+ Thu, 15 Apr 2021 23:54:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: d5cb7258-dfb1-4664-a3d6-b3e2e4f3f988
-X-Ovh-Tracer-Id: 3588243005609449833
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudelgedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdfgteefgeekheevgfdtgeeiuedtteevveelkeeihefggfevjeehhfetffegieefnecuffhomhgrihhnpehmvghsohhnrdgsuhhilhgunecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheprghrmhgsrhhusehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210415151849.26740-1-ma.mandourr@gmail.com>
+In-Reply-To: <20210415151849.26740-1-ma.mandourr@gmail.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Fri, 16 Apr 2021 08:54:18 +0200
+Message-ID: <CAD-LL6h1Q5QuccmPoR9jTesM8axLFRN2Hy+Hm85fcXYRPR0KTw@mail.gmail.com>
+Subject: Re: [PATCH] plugins/syscall: Added a table-like summary output
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000098ef9605c01173a7"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,177 +77,385 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org, Markus
- Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Apr 2021 21:07:33 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+--00000000000098ef9605c01173a7
+Content-Type: text/plain; charset="UTF-8"
 
-> On 4/15/21 6:56 PM, Greg Kurz wrote:
-> > On Thu, 15 Apr 2021 18:45:45 +0200
-> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> >=20
-> >> On 4/15/21 3:30 PM, Greg Kurz wrote:
-> >>> On Thu, 15 Apr 2021 14:39:55 +0200
-> >>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> >>>
-> >>>> On 4/9/21 6:03 PM, Greg Kurz wrote:
-> >>>>> Despite its simple name and common usage of "getting a pointer to
-> >>>>> the machine" in system-mode emulation, qdev_get_machine() has some
-> >>>>> subtilities.
-> >>>>>
-> >>>>> First, it can be called when running user-mode emulation : this is
-> >>>>> because user-mode partly relies on qdev to instantiate its CPU
-> >>>>> model.
-> >>>>>
-> >>>>> Second, but not least, it has a side-effect : if it cannot find an
-> >>>>> object at "/machine" in the QOM tree, it creates a dummy "container"
-> >>>>> object and put it there. A simple check on the type returned by
-> >>>>> qdev_get_machine() allows user-mode to run the common qdev code,
-> >>>>> skipping the parts that only make sense for system-mode.
-> >>>>>
-> >>>>> This side-effect turns out to complicate the use of qdev_get_machin=
-e()
-> >>>>> for the system-mode case though. Most notably, qdev_get_machine() m=
-ust
-> >>>>> not be called before the machine object is added to the QOM tree by
-> >>>>> qemu_create_machine(), otherwise the existing dummy "container" obj=
-ect
-> >>>>> would cause qemu_create_machine() to fail with something like :
-> >>>>>
-> >>>>> Unexpected error in object_property_try_add() at ../../qom/object.c=
-:1223:
-> >>>>> qemu-system-ppc64: attempt to add duplicate property 'machine' to
-> >>>>>  object (type 'container')
-> >>>>> Aborted (core dumped)
-> >>>>>
-> >>>>> This situation doesn't exist in the current code base, mostly becau=
-se
-> >>>>> of preventive fixing of some "latent bugs" in QEMU 4.0 (see 1a3ec8c=
-1564
-> >>>>> and e2fb3fbbf9c for details).
-> >>>>>
-> >>>>> A new kind of breakage was spotted very recently though :
-> >>>>>
-> >>>>> $ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
-> >>>>> /home/thuth/devel/qemu/include/hw/boards.h:24:
-> >>>>>  MACHINE: Object 0x5635bd53af10 is not an instance of type machine
-> >>>>> Aborted (core dumped)
-> >>>>>
-> >>>>> This comes from the change 3df261b6676b in QEMU 5.0. It unwillingly
-> >>>>> added a new condition for qdev_get_machine() to be called too early,
-> >>>>> breaking MACHINE(qdev_get_machine()) in generic cpu-core code this
-> >>>>> time.
-> >>>>>
-> >>>>> In order to avoid further subtle breakages like this, change the
-> >>>>> implentation of qdev_get_machine() to:
-> >>>>> - keep the existing behaviour of creating the dummy "container"
-> >>>>>   object for the user-mode case only ;
-> >>>>> - abort() if the machine doesn't exist yet in the QOM tree for
-> >>>>>   the system-mode case. This gives a precise hint to developpers
-> >>>>>   that calling qdev_get_machine() too early is a programming bug.
-> >>>>>
-> >>>>> This is achieved with a new do_qdev_get_machine() function called
-> >>>>> from qdev_get_machine(), with different implementations for system
-> >>>>> and user mode.
-> >>>>>
-> >>>>> $ ./qemu-system-ppc64 -device power8_v2.0-spapr-cpu-core,help
-> >>>>> qemu-system-ppc64: ../../hw/core/machine.c:1290:
-> >>>>>  qdev_get_machine: Assertion `machine !=3D NULL' failed.
-> >>>>> Aborted (core dumped)
-> >>>>>
-> >>>>> Reported-by: Thomas Huth <thuth@redhat.com>
-> >>>>> Signed-off-by: Greg Kurz <groug@kaod.org>
-> >>>>> ---
-> >>>>>  hw/core/machine.c        | 14 ++++++++++++++
-> >>>>>  hw/core/qdev.c           |  2 +-
-> >>>>>  include/hw/qdev-core.h   |  1 +
-> >>>>>  stubs/meson.build        |  1 +
-> >>>>>  stubs/qdev-get-machine.c | 11 +++++++++++
-> >>>>>  5 files changed, 28 insertions(+), 1 deletion(-)
-> >>>>>  create mode 100644 stubs/qdev-get-machine.c
-> >>>> ...
-> >>>>
-> >>>>> diff --git a/stubs/meson.build b/stubs/meson.build
-> >>>>> index be6f6d609e58..b99ee2b33e94 100644
-> >>>>> --- a/stubs/meson.build
-> >>>>> +++ b/stubs/meson.build
-> >>>>> @@ -54,3 +54,4 @@ if have_system
-> >>>>>  else
-> >>>>>    stub_ss.add(files('qdev.c'))
-> >>>>>  endif
-> >>>>> +stub_ss.add(files('qdev-get-machine.c'))
-> >>>>
-> >>>> Adding this as a stub looks suspicious...
-> >>>> Why not add it in to user_ss in hw/core/meson.build?
-> >>>> Maybe name the new file hw/core/qdev-user.c?
-> >>>>
-> >>>
-> >>> It turns out that this isn't specific to user-mode but rather
-> >>> to any non-qemu-system-FOO binary built with qdev, e.g.
-> >>> test-qdev-global-props :
-> >>>
-> >>> #0  do_qdev_get_machine () at ../../stubs/qdev-get-machine.c:10
-> >>> #1  0x0000000100017938 in qdev_get_machine () at ../../hw/core/qdev.c=
-:1134
-> >>> #2  0x000000010001855c in device_set_realized (obj=3D0x100128b60, val=
-ue=3D<optimized out>, errp=3D0x7fffffffd4e0) at ../../hw/core/qdev.c:745
-> >>> #3  0x000000010001cc5c in property_set_bool (obj=3D0x100128b60, v=3D<=
-optimized out>, name=3D<optimized out>, opaque=3D0x1000f33f0, errp=3D0x7fff=
-ffffd4e0) at ../../qom/object.c:2257
-> >>> #4  0x0000000100020a9c in object_property_set (obj=3D0x100128b60, nam=
-e=3D0x100093f78 "realized", v=3D0x100136d30, errp=3D0x1000e3af8 <error_fata=
-l>) at ../../qom/object.c:1402
-> >>> #5  0x000000010001c38c in object_property_set_qobject (obj=3D0x100128=
-b60, name=3D0x100093f78 "realized", value=3D<optimized out>, errp=3D0x1000e=
-3af8 <error_fatal>) at ../../qom/qom-qobject.c:28
-> >>> #6  0x0000000100020e20 in object_property_set_bool (obj=3D0x100128b60=
-, name=3D0x100093f78 "realized", value=3D<optimized out>, errp=3D0x1000e3af=
-8 <error_fatal>) at ../../qom/object.c:1472
-> >>> #7  0x000000010001612c in qdev_realize (dev=3D0x100128b60, bus=3D<opt=
-imized out>, errp=3D0x1000e3af8 <error_fatal>) at ../../hw/core/qdev.c:389
-> >>> #8  0x000000010000fb10 in test_static_prop_subprocess () at /home/gre=
-g/Work/qemu/qemu-master/include/hw/qdev-core.h:17
-> >>> #9  0x00007ffff7e95654 in g_test_run_suite_internal () from /lib64/li=
-bglib-2.0.so.0
-> >>> #10 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/li=
-bglib-2.0.so.0
-> >>> #11 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/li=
-bglib-2.0.so.0
-> >>> #12 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/li=
-bglib-2.0.so.0
-> >>> #13 0x00007ffff7e954b8 in g_test_run_suite_internal () from /lib64/li=
-bglib-2.0.so.0
-> >>> #14 0x00007ffff7e959cc in g_test_run_suite () from /lib64/libglib-2.0=
-.so.0
-> >>> #15 0x00007ffff7e95a80 in g_test_run () from /lib64/libglib-2.0.so.0
-> >>> #16 0x000000010000ecec in main (argc=3D<optimized out>, argv=3D<optim=
-ized out>) at ../../tests/unit/test-qdev-global-props.c:316
-> >>>
-> >>> Is there a meson thingy to handle this dependency ?
-> >>
-> >>   if not have_system
-> >>     common_ss.add(files('qdev-machine-stubs.c'))
-> >>   endif
-> >>
-> >> This is not pretty, but better than a generic stubs/qdev-get-machine.c
-> >> IMO...
-> >>
-> >=20
-> > Yeah it isn't that much different,
->=20
-> I'd expect symbols in stubs/ to be declared weak, while not with this
-> approach, so we'd catch clash for incorrect configs. Maybe I'm wrong...
->=20
+On Thu, Apr 15, 2021 at 5:20 PM Mahmoud Mandour <ma.mandourr@gmail.com>
+wrote:
 
-Ah yes, you're certainly right. I'm convinced :)
+> Added a table-like output which contains the total number of calls
+> for each used syscall along with the number of errors that occurred.
+>
+> Per-call tracing is still available through supplying the argument
+> ``print`` to the plugin.
+>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+>  tests/plugin/syscall.c | 94 +++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 88 insertions(+), 6 deletions(-)
+>
+> diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+> index 53ee2ab6c4..b92340c636 100644
+> --- a/tests/plugin/syscall.c
+> +++ b/tests/plugin/syscall.c
+> @@ -16,32 +16,114 @@
+>
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+>
+> +typedef struct {
+> +    int64_t calls;
+> +    int64_t errors;
+> +} SyscallStats;
+> +
+> +static GHashTable *syscalls_statistics;
+> +
+> +static bool percall_print;
+> +
+>  static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
+>                           int64_t num, uint64_t a1, uint64_t a2,
+>                           uint64_t a3, uint64_t a4, uint64_t a5,
+>                           uint64_t a6, uint64_t a7, uint64_t a8)
+>  {
+> -    g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n",
+> num);
+> -    qemu_plugin_outs(out);
+> +    if (!percall_print) {
+> +        SyscallStats *syscall_entry;
+> +
+> +        syscall_entry =
+> +            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
+> +                                                  GINT_TO_POINTER(num));
+> +
+> +        if (!syscall_entry) {
+> +            syscall_entry = g_new(SyscallStats, 1);
+> +            syscall_entry->calls = 1;
+> +            syscall_entry->errors = 0;
+> +
+> +            g_hash_table_insert(syscalls_statistics, GINT_TO_POINTER(num),
+> +                                (gpointer) syscall_entry);
+> +        } else {
+> +            syscall_entry->calls++;
+> +        }
+> +    } else {
+> +        g_autofree gchar *out = g_strdup_printf("syscall #%" PRIi64 "\n",
+> num);
+> +        qemu_plugin_outs(out);
+> +    }
+>  }
+>
+>  static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+>                               int64_t num, int64_t ret)
+> +{
+> +    if (!percall_print) {
+> +        SyscallStats *syscall_entry;
+> +
+> +        syscall_entry =
+> +            (SyscallStats *) g_hash_table_lookup(syscalls_statistics,
+> +                                                  GINT_TO_POINTER(num));
+> +        if (!syscall_entry) {
+> +            qemu_plugin_outs(g_strdup_printf("%" PRIi64 "\n", num));
+> +        }
+> +        if (ret < 0) {
+> +            syscall_entry->errors++;
+> +        }
+> +    } else {
+> +        g_autofree gchar *out;
+> +        out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64
+> "\n",
+> +                num, ret);
+> +        qemu_plugin_outs(out);
+> +    }
+> +}
+> +
+> +/*
+> ************************************************************************* */
+> +
+> +void print_entry(gpointer key, gpointer val, gpointer user_data)
+>  {
+>      g_autofree gchar *out;
+> -    out = g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi64
+> "\n",
+> -            num, ret);
+> +    int64_t syscall_num = (int64_t) key;
+> +    SyscallStats *syscall_entry = (SyscallStats *) val;
+> +    out = g_strdup_printf(
+> +        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
+> +        syscall_num, syscall_entry->calls, syscall_entry->errors);
+>      qemu_plugin_outs(out);
+>  }
+>
+> -/*
+> ************************************************************************* */
+> +static void plugin_exit(qemu_plugin_id_t id, void *p)
+> +{
+> +    if (!percall_print) {
+> +        qemu_plugin_outs("syscall no.  calls  errors\n");
+> +        g_hash_table_foreach(syscalls_statistics, &print_entry, NULL);
+> +    }
+> +}
+>
+> -static void plugin_exit(qemu_plugin_id_t id, void *p) {}
+> +void free_entry(gpointer entry)
+> +{
+> +    g_free(entry);
+> +}
+>
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+>                                             const qemu_info_t *info,
+>                                             int argc, char **argv)
+>  {
+> +    int i;
+> +
+> +    for (i = 0; i < argc; i++) {
+> +        char *opt = argv[i];
+> +        if (g_strcmp0(opt, "print") == 0) {
+> +            percall_print = true;
+> +        } else {
+> +            fprintf(stderr, "unsupported argument: %s\n", opt);
+> +            return -1;
+> +        }
+> +    }
+> +
+> +    if (!percall_print) {
+> +        syscalls_statistics =
+> +            g_hash_table_new_full(g_direct_hash, g_direct_equal,
+> +                    NULL, &free_entry);
+> +    }
+> +
+>      qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
+>      qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
+>      qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+> --
+> 2.25.1
+>
+>
+Hello. I just realized that this hunk:
 
-> > except maybe an improvement on the
-> > file location. Thanks for tip !
->=20
+static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_idx,
+>                               int64_t num, int64_t ret)
+> +{
+> +        // ......
+> +        if (!syscall_entry) {
+> +            qemu_plugin_outs(g_strdup_printf("%" PRIi64 "\n", num));
+> +        }
+>
 
+Is completely superfluous. I think I had it for debugging purposes.
+Should I resend without it or can you omit it from the patch?
+
+Yours,
+Mahmoud
+
+--00000000000098ef9605c01173a7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Thu, Apr 15, 2021 at 5:20 PM Mahmoud Mand=
+our &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@gmail.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Added=
+ a table-like output which contains the total number of calls<br>
+for each used syscall along with the number of errors that occurred.<br>
+<br>
+Per-call tracing is still available through supplying the argument<br>
+``print`` to the plugin.<br>
+<br>
+Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com"=
+ target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0tests/plugin/syscall.c | 94 +++++++++++++++++++++++++++++++++++++++--=
+-<br>
+=C2=A01 file changed, 88 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c<br>
+index 53ee2ab6c4..b92340c636 100644<br>
+--- a/tests/plugin/syscall.c<br>
++++ b/tests/plugin/syscall.c<br>
+@@ -16,32 +16,114 @@<br>
+<br>
+=C2=A0QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;<b=
+r>
+<br>
++typedef struct {<br>
++=C2=A0 =C2=A0 int64_t calls;<br>
++=C2=A0 =C2=A0 int64_t errors;<br>
++} SyscallStats;<br>
++<br>
++static GHashTable *syscalls_statistics;<br>
++<br>
++static bool percall_print;<br>
++<br>
+=C2=A0static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index=
+,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 int64_t num, uint64_t a1, uint64_t a2,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 uint64_t a3, uint64_t a4, uint64_t a5,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 uint64_t a6, uint64_t a7, uint64_t a8)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 g_autofree gchar *out =3D g_strdup_printf(&quot;syscall #%&q=
+uot; PRIi64 &quot;\n&quot;, num);<br>
+-=C2=A0 =C2=A0 qemu_plugin_outs(out);<br>
++=C2=A0 =C2=A0 if (!percall_print) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 SyscallStats *syscall_entry;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (SyscallStats *) g_hash_table_lo=
+okup(syscalls_statistics,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 GINT_TO_POINTER(num));<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!syscall_entry) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry =3D g_new(SyscallS=
+tats, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry-&gt;calls =3D 1;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry-&gt;errors =3D 0;<=
+br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_hash_table_insert(syscalls_sta=
+tistics, GINT_TO_POINTER(num),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (gpointer) syscall_entry);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry-&gt;calls++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree gchar *out =3D g_strdup_printf(&quo=
+t;syscall #%&quot; PRIi64 &quot;\n&quot;, num);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(out);<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_i=
+dx,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t num, int64_t ret)<br>
++{<br>
++=C2=A0 =C2=A0 if (!percall_print) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 SyscallStats *syscall_entry;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (SyscallStats *) g_hash_table_lo=
+okup(syscalls_statistics,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 GINT_TO_POINTER(num));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!syscall_entry) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(g_strdup_printf=
+(&quot;%&quot; PRIi64 &quot;\n&quot;, num));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_entry-&gt;errors++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree gchar *out;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 out =3D g_strdup_printf(&quot;syscall #%&quot;=
+ PRIi64 &quot; returned -&gt; %&quot; PRIi64 &quot;\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 num, ret);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(out);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++/* ***********************************************************************=
+** */<br>
++<br>
++void print_entry(gpointer key, gpointer val, gpointer user_data)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0g_autofree gchar *out;<br>
+-=C2=A0 =C2=A0 out =3D g_strdup_printf(&quot;syscall #%&quot; PRIi64 &quot;=
+ returned -&gt; %&quot; PRIi64 &quot;\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 num, ret);<br>
++=C2=A0 =C2=A0 int64_t syscall_num =3D (int64_t) key;<br>
++=C2=A0 =C2=A0 SyscallStats *syscall_entry =3D (SyscallStats *) val;<br>
++=C2=A0 =C2=A0 out =3D g_strdup_printf(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%-13&quot; PRIi64 &quot;%-6&quot; PRIi64=
+ &quot; %&quot; PRIi64 &quot;\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_num, syscall_entry-&gt;calls, syscall_=
+entry-&gt;errors);<br>
+=C2=A0 =C2=A0 =C2=A0qemu_plugin_outs(out);<br>
+=C2=A0}<br>
+<br>
+-/* ***********************************************************************=
+** */<br>
++static void plugin_exit(qemu_plugin_id_t id, void *p)<br>
++{<br>
++=C2=A0 =C2=A0 if (!percall_print) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(&quot;syscall no.=C2=A0 calls=
+=C2=A0 errors\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_hash_table_foreach(syscalls_statistics, &amp=
+;print_entry, NULL);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
+<br>
+-static void plugin_exit(qemu_plugin_id_t id, void *p) {}<br>
++void free_entry(gpointer entry)<br>
++{<br>
++=C2=A0 =C2=A0 g_free(entry);<br>
++}<br>
+<br>
+=C2=A0QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 const qemu_info_t *info,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 int argc, char **argv)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; argc; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *opt =3D argv[i];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_strcmp0(opt, &quot;print&quot;) =3D=3D 0=
+) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 percall_print =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;unsupporte=
+d argument: %s\n&quot;, opt);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (!percall_print) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 syscalls_statistics =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_hash_table_new_full(g_direct_h=
+ash, g_direct_equal,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL=
+, &amp;free_entry);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);=
+<br>
+=C2=A0 =C2=A0 =C2=A0qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_sysca=
+ll_ret);<br>
+=C2=A0 =C2=A0 =C2=A0qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);<=
+br>
+-- <br>
+2.25.1<br>
+<br></blockquote><div><br></div><div>Hello. I just realized that this hunk:=
+=C2=A0</div><div><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">static void vcpu_syscall_ret(qemu_plugin_id_t id, unsigned int vcpu_=
+idx,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t num, int64_t ret)<br>
++{<br>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 // ......<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!syscall_entry) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(g_strdup_printf=
+(&quot;%&quot; PRIi64 &quot;\n&quot;, num));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>Is compl=
+etely superfluous. I think I had it for debugging purposes.</div></div><div=
+>Should I resend without it or can you omit it from the patch?</div><div><b=
+r></div><div>Yours,</div><div>Mahmoud</div></div></div></div></div></div></=
+div>
+
+--00000000000098ef9605c01173a7--
 
