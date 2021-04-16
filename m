@@ -2,39 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA9336266E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:11:15 +0200 (CEST)
-Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CCB36267C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:14:22 +0200 (CEST)
+Received: from localhost ([::1]:33288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRzu-0003NT-GK
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
+	id 1lXS2v-0006uW-Mb
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLL-0004Xm-85
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45142)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLM-0004aY-7Y
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL9-0001X3-7i
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:18 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL9-0001X4-7k
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:19 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B2823B302;
- Fri, 16 Apr 2021 16:28:47 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 25AB2B2D9;
+ Fri, 16 Apr 2021 16:28:48 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 47/80] target/arm: remove broad "else" statements when
- checking accels
-Date: Fri, 16 Apr 2021 18:27:51 +0200
-Message-Id: <20210416162824.25131-48-cfontana@suse.de>
+Subject: [RFC v14 48/80] target/arm: remove kvm-stub.c
+Date: Fri, 16 Apr 2021 18:27:52 +0200
+Message-Id: <20210416162824.25131-49-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -56,178 +54,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Julien Grall <jgrall@amazon.com>,
- qemu-devel@nongnu.org, Olaf Hering <OHering@suse.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There might be more than just KVM and TCG in the future,
-so where appropriate, replace broad "else" statements
-with the appropriate if (accel_enabled()) check.
-
-Also invert some checks for !kvm_enabled() or !tcg_enabled()
-where it seems appropriate to do so.
-
-Note that to make qtest happy we need to perform gpio
-initialization in the qtest_enabled() case as well.
-
-Hopefully we do not break any Xen stuff.
+the functions used in machine.c are now protected via
+if (kvm_enabled()), so the stub is not needed.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Julien Grall <jgrall@amazon.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Olaf Hering <OHering@suse.com>
-Cc: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c     |  9 +++++----
- target/arm/cpu64.c   |  9 +++++----
- target/arm/machine.c | 18 ++++++------------
- 3 files changed, 16 insertions(+), 20 deletions(-)
+ target/arm/kvm-stub.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
+ delete mode 100644 target/arm/kvm-stub.c
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index cc3e2355c1..ae28779edd 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -37,6 +37,7 @@
- #endif
- 
- #include "sysemu/tcg.h"
-+#include "sysemu/qtest.h"
- #include "kvm/kvm_arm.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
-@@ -564,7 +565,7 @@ static void arm_cpu_initfn(Object *obj)
-          * the same interface as non-KVM CPUs.
-          */
-         qdev_init_gpio_in(DEVICE(cpu), arm_cpu_kvm_set_irq, 4);
--    } else {
-+    } else if (tcg_enabled() || qtest_enabled()) {
-         qdev_init_gpio_in(DEVICE(cpu), arm_cpu_set_irq, 4);
-     }
- 
-@@ -741,14 +742,14 @@ void arm_cpu_post_init(Object *obj)
-         ? cpu_isar_feature(aa64_fp_simd, cpu)
-         : cpu_isar_feature(aa32_vfp, cpu)) {
-         cpu->has_vfp = true;
--        if (!kvm_enabled()) {
-+        if (tcg_enabled()) {
-             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property);
-         }
-     }
- 
-     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
-         cpu->has_neon = true;
--        if (!kvm_enabled()) {
-+        if (tcg_enabled()) {
-             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property);
-         }
-     }
-@@ -849,7 +850,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-          * We have not registered the cpu properties when KVM
-          * is in use, so the user will not be able to set them.
-          */
--        if (!kvm_enabled()) {
-+        if (tcg_enabled()) {
-             arm_cpu_pauth_finalize(cpu, &local_err);
-             if (local_err != NULL) {
-                 error_propagate(errp, local_err);
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index cf89dfc1bc..efc821363c 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -24,6 +24,7 @@
- #include "cpu.h"
- #include "cpu32.h"
- #include "qemu/module.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/kvm.h"
- #include "kvm/kvm_arm.h"
- #include "qapi/visitor.h"
-@@ -297,7 +298,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-              */
-             bitmap_andnot(tmp, kvm_supported, cpu->sve_vq_init, max_vq);
-             bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
--        } else {
-+        } else if (tcg_enabled()) {
-             /* Propagate enabled bits down through required powers-of-two. */
-             for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
-                 if (!test_bit(vq - 1, cpu->sve_vq_init)) {
-@@ -334,7 +335,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-                                   "vector length must be enabled.\n");
-                 return;
-             }
--        } else {
-+        } else if (tcg_enabled()) {
-             /* Disabling a power-of-two disables all larger lengths. */
-             if (test_bit(0, cpu->sve_vq_init)) {
-                 error_setg(errp, "cannot disable sve128");
-@@ -416,7 +417,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-             }
-             return;
-         }
--    } else {
-+    } else if (tcg_enabled()) {
-         /* Ensure all required powers-of-two are enabled. */
-         for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
-             if (!test_bit(vq - 1, cpu->sve_vq_map)) {
-@@ -610,7 +611,7 @@ static void aarch64_max_initfn(Object *obj)
- 
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
--    } else {
-+    } else if (tcg_enabled()) {
-         uint64_t t;
-         uint32_t u;
-         aarch64_a57_initfn(obj);
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index 595ab94237..4acdccc22d 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -638,9 +638,11 @@ static int cpu_pre_save(void *opaque)
- 
-     if (tcg_enabled()) {
-         pmu_op_start(&cpu->env);
--    }
+diff --git a/target/arm/kvm-stub.c b/target/arm/kvm-stub.c
+deleted file mode 100644
+index 56a7099e6b..0000000000
+--- a/target/arm/kvm-stub.c
++++ /dev/null
+@@ -1,24 +0,0 @@
+-/*
+- * QEMU KVM ARM specific function stubs
+- *
+- * Copyright Linaro Limited 2013
+- *
+- * Author: Peter Maydell <peter.maydell@linaro.org>
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- *
+- */
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "kvm_arm.h"
 -
--    if (kvm_enabled()) {
-+        if (!write_cpustate_to_list(cpu, false)) {
-+            /* This should never fail. */
-+            abort();
-+        }
-+    } else if (kvm_enabled()) {
-         if (!write_kvmstate_to_list(cpu)) {
-             /* This should never fail */
-             abort();
-@@ -651,11 +653,6 @@ static int cpu_pre_save(void *opaque)
-          * write_kvmstate_to_list()
-          */
-         kvm_arm_cpu_pre_save(cpu);
--    } else {
--        if (!write_cpustate_to_list(cpu, false)) {
--            /* This should never fail. */
--            abort();
--        }
-     }
- 
-     cpu->cpreg_vmstate_array_len = cpu->cpreg_array_len;
-@@ -754,13 +751,10 @@ static int cpu_post_load(void *opaque, int version_id)
-          */
-         write_list_to_cpustate(cpu);
-         kvm_arm_cpu_post_load(cpu);
--    } else {
-+    } else if (tcg_enabled()) {
-         if (!write_list_to_cpustate(cpu)) {
-             return -1;
-         }
--    }
+-bool write_kvmstate_to_list(ARMCPU *cpu)
+-{
+-    abort();
+-}
 -
--    if (tcg_enabled()) {
-         hw_breakpoint_update_all(cpu);
-         hw_watchpoint_update_all(cpu);
- 
+-bool write_list_to_kvmstate(ARMCPU *cpu, int level)
+-{
+-    abort();
+-}
 -- 
 2.26.2
 
