@@ -2,86 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F482361F8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:10:44 +0200 (CEST)
-Received: from localhost ([::1]:35516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DB136205C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:59:07 +0200 (CEST)
+Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXNJ3-0003s3-R2
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
+	id 1lXO3u-0004xS-Jt
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lXNFL-0003Js-OS; Fri, 16 Apr 2021 08:06:51 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:40547)
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lXO2u-00049F-M3
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:58:04 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:11531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lXNFI-00063p-4t; Fri, 16 Apr 2021 08:06:51 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id CC5D45C0110;
- Fri, 16 Apr 2021 08:06:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 16 Apr 2021 08:06:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=tYtOQaqdCsqK/JH1/Zi4OtRAoS3
- 9A/xG4osJJXYnIck=; b=BunjZxnGnAH2h+lkHPH1kHtc8ZVNngbaLOFk0Ya8wSQ
- n91bhH9IY3lFEsHeiuLMObQ0Mtae1xVLwnhehwlXFle7U5WL1bJ3ZEjfg4CD5tXW
- UepD3JSg3vj42csy0NgDddeXkkQJkHMopgpTZ2Q4eVg6e9Nq5r8KUjnlZ9/vTtYP
- txNvOW/B60Jf/F7Sk0KYsp36zCaWOAD2/+kkLoIb+k0W15PDmpSlO+dsdAJT5dT8
- K2kUL0icUOIXd3hQB91H+mYHPGSFM1Lh2wYPBJR7y87RTPshctia94Lb26731PYd
- dzeb0vi3WDwGyrB6i2SWEgp2t0fSfcdksdzkbA8AW6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=tYtOQa
- qdCsqK/JH1/Zi4OtRAoS39A/xG4osJJXYnIck=; b=bjNiGrZ3vzVS6ZYE9QVj+F
- f5ejWkHZtCAEvFtRQ+KaAqTEvc3J4tAM76bWxqFn/uOFkF9XSWjSOZwxEZU2morh
- 4DkpT4VzgGxa+qvAMX/YArDwIIULCvO+XBY6mANs4ZX3GwpfOnf4J1prYPV2rph1
- m/mBtcVeFKssPqo+QgC8LJJBqvmeihYYUzE0iSakLGO5nCOZe0QoRxLSwpVQsqlK
- JgMVMvsr2E46w1cJetOB0J65suHmwz5YOhHIeLEgkZoqGGyt/bfJ5qkwO7h0eHUi
- ZZ1dZlQKTKxaVVgsN0kNV/ENFduTNihOKyGkU4iQ62mWwQbtiEv1oEqXPDNs5Gow
- ==
-X-ME-Sender: <xms:1X15YF-mA8osC5vHVbUdmXqjeddtZmULknvbJwkn2MJNLEHGhdL3JQ>
- <xme:1X15YJtMkVQwto1dJrhBY56HSLtWLDVO1D-gIeDTL38X5meP5fIvgEJ7pNZykUSfN
- YGzWtyyY6IoeI_rC2E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudelhedggeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
- ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
- vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjeegudffueeiteekieelkedvueelte
- evjeduieeludfffeejgeffhfduvdduffeknecukfhppeektddrudeijedrleekrdduledt
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:1X15YDA49YyOtlR9oou5Z88XeN8Lg9iNkZlSbYSmPkLkvgYkASNcGw>
- <xmx:1X15YJd4BwYwu5vDjbZreezXAKdbHmFuEvf750kdi12amRY_YOchvA>
- <xmx:1X15YKPG_aCtmf6gaNrLXWruJwZEBXWU3hnIMzzloRTMPuE1pNJ1OQ>
- <xmx:1n15YGBhswCNi5U8jKHLidZ1svRZ9M84hT12y3YBTM1Dqgk37Hp9pg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6CBD41080067;
- Fri, 16 Apr 2021 08:06:44 -0400 (EDT)
-Date: Fri, 16 Apr 2021 14:06:42 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Subject: Re: [PATCH 1/2] hw/block/nvme: consider metadata read aio return
- value in compare
-Message-ID: <YHl90ktSdfhCOdYZ@apples.localdomain>
-References: <CGME20210416072533epcas5p305e83206f2b3d947e9b5fef9fde1c969@epcas5p3.samsung.com>
- <20210416072234.25732-1-anaidu.gollu@samsung.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GC7oygq3qN54GJlx"
-Content-Disposition: inline
-In-Reply-To: <20210416072234.25732-1-anaidu.gollu@samsung.com>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
+ id 1lXO2p-0002I3-RJ
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:58:04 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20210416125752epoutp01d873a9046e2066e1cee6dd336fca6417~2V-_-uuy22599725997epoutp01B
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 12:57:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20210416125752epoutp01d873a9046e2066e1cee6dd336fca6417~2V-_-uuy22599725997epoutp01B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1618577872;
+ bh=+YYmHF1Vjto0mzbi9qlffe858Q58ow5igVTuaNu/oso=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=Ctczf7Dvyx963NnfMpAJUVsk7VvAeK/jib9yfaCVP3u8lk2/sEHLk05v1snoN7+z1
+ 5BUT3P618gSnULE7m+QINAQzKhvy9PhPNeB3Vq4eiFwkQzKinqcWg0hcxre7ZTZIMt
+ woZKTlGr6HuV50MgTjbAM/B7I5J+Z/Q9T6NXWac4=
+Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210416125751epcas5p2c544c3a68500bc7106e8c378f8d9dfeb~2V-_YhVxf2223722237epcas5p2a;
+ Fri, 16 Apr 2021 12:57:51 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 32.27.15682.FC989706; Fri, 16 Apr 2021 21:57:51 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20210416120324epcas5p354e2f196cc68680aba45341f385b59ed~2VQcTFWMx0591505915epcas5p35;
+ Fri, 16 Apr 2021 12:03:24 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210416120324epsmtrp2da5f2ab389827713707350e6e8a3bb8a~2VQcSPdPy0190801908epsmtrp2l;
+ Fri, 16 Apr 2021 12:03:24 +0000 (GMT)
+X-AuditID: b6c32a49-8bfff70000013d42-e1-607989cf19cb
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ D8.E5.33967.C0D79706; Fri, 16 Apr 2021 21:03:24 +0900 (KST)
+Received: from 2030045822.sa.corp.samsungelectronics.net (unknown
+ [107.99.42.33]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210416120323epsmtip19e52d86b65ef90d6bdc6b2d729bcb88f~2VQa5-ZzJ3147131471epsmtip1Q;
+ Fri, 16 Apr 2021 12:03:23 +0000 (GMT)
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] hw/block/nvme: fix lbaf formats initialization
+Date: Fri, 16 Apr 2021 17:29:07 +0530
+Message-Id: <20210416115907.30625-1-anaidu.gollu@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7bCmuu75zsoEg6v/BS1e7zzObHFl/3lG
+ i/0Hv7FaTDp0jdFiycVUi3m3lC1mvWtnszjeu4PF4vWk/6wOnB4/zrWzeZzbcZ7dY9OqTjaP
+ J9c2M3m833eVzaNvyyrGALYoLpuU1JzMstQifbsEroxnJxezF/ySqji57hJLA+MLwS5GDg4J
+ AROJxZctuxi5OIQEdjNK/Lq+ig3C+cQocbV5FQuE841RYtWvX4wwHdPm2kDE9zJKfLywnxXC
+ aWOS2HW0C8jh5GATMJKY/fYNI4gtIiAp8bvrNDOIzQyy49tcHZBBwgJOEv0fXUDCLAKqEheb
+ HoO18grYSrz6cBesXEJAXmL1hgPMIPMlBI6xS/xtb2GBSLhIdPc1sUHYwhKvjm9hh7ClJD6/
+ 2wsUZweyqyUOF0G0djBKHLu8AarcXuLfs2lgvzALaEqs36UPEZaVmHpqHRPElXwSvb+fMEHE
+ eSV2zIOx1SQW3PoOtUlGYuaf26wQtodE04JlYHEhgViJI+v3MU1glJ2FsGEBI+MqRsnUguLc
+ 9NRi0wLDvNRyveLE3OLSvHS95PzcTYzgdKDluYPx7oMPeocYmTgYDzFKcDArifAad1YkCPGm
+ JFZWpRblxxeV5qQWH2KU5mBREufdYfAgXkggPbEkNTs1tSC1CCbLxMEp1cDUnXJWRXHa9dgX
+ ehHXlS4u3ZKx+/28E9oNJfNPHbmjvPaWh33GmZ6tzzNk3vde/1FgevGumnqaHXNHfbmRs5xT
+ UL1ouPrnV5mvy4R232pifnW7p+aZ6V/R58xKBx4eXqB+cKXPh4SfDoEBN+6+2Ttz2V9OQY3G
+ yaWlU6W32TQ7LyxJuJ48+e6lhyqFR78YmbClnDgV5bspdUJRpBi7Q4CEd7PyipdlbB8400wO
+ ux2Z+d5pb4G+7/90CX+eBlv3CQfadynVXektuG1xw/Pn3qOVwd61s4Kqtv9dfEf4bIlNpp3y
+ 1RBGDdUJYVrzzsj3vr5vWDH7QeDDM30vwpT3dK5MfNlhGnrQJeVc9dnEhKVKLMUZiYZazEXF
+ iQBks9+kdgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphluLIzCtJLcpLzFFi42LZdlhJTpentjLBoOGvocXrnceZLa7sP89o
+ sf/gN1aLSYeuMVosuZhqMe+WssWsd+1sFsd7d7BYvJ70n9WB0+PHuXY2j3M7zrN7bFrVyebx
+ 5NpmJo/3+66yefRtWcUYwBbFZZOSmpNZllqkb5fAlfHs5GL2gl9SFSfXXWJpYHwh2MXIwSEh
+ YCIxba5NFyMXh5DAbkaJWYtamLoYOYHiMhK/Tk1lhrCFJVb+e84OUdTCJPFhzwlWkASbgJHE
+ 7LdvGEFsEQFJid9dp5lBipgFjjJKXG6fzAKyQVjASaL/owtIDYuAqsTFpsdgvbwCthKvPtyF
+ WiAvsXrDAeYJjDwLGBlWMUqmFhTnpucWGxYY5qWW6xUn5haX5qXrJefnbmIEB5iW5g7G7as+
+ 6B1iZOJgPMQowcGsJMJr3FmRIMSbklhZlVqUH19UmpNafIhRmoNFSZz3QtfJeCGB9MSS1OzU
+ 1ILUIpgsEwenVAPT/KJjl+8V3j/30OGzwpNPf1OePubv/lUctHst1/aFiyREc5KmfAlpZI05
+ 5VG67c9Pp5Br/MeuJJ9rO3Z2p6F1467HwR1Xcx5s/LyaJ//a9uyp+Xsy97VXRS9bUNgpuIDh
+ enRV6fQVDYGMpd9v6Bt8E7arYTJdv1jMS+ZBp9Pv/Wm21+oK42x+/dr1vnP5Y+vGbLuvK0MO
+ /7pyfoPzeaEcTjavqqonbTH173iWb3RluOg0KTVJuNyPSztQWb72dX3ixdRTLWGL3DdUPOie
+ 1irNZJTCmNX+Pf/avyQdt9tuf5773enda+u6QvRnwR0v5tlvDffsXKsqz2ETMNll1wxjP7Gq
+ cvl5rM6SyzkkMxcpsRRnJBpqMRcVJwIAJEl0zJ8CAAA=
+X-CMS-MailID: 20210416120324epcas5p354e2f196cc68680aba45341f385b59ed
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+X-CMS-RootMailID: 20210416120324epcas5p354e2f196cc68680aba45341f385b59ed
+References: <CGME20210416120324epcas5p354e2f196cc68680aba45341f385b59ed@epcas5p3.samsung.com>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=anaidu.gollu@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,88 +119,110 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- kbusch@kernel.org
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, mreitz@redhat.com,
+ its@irrelevant.dk, stefanha@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently LBAF formats are being intialized based on metadata
+size if and only if nvme-ns "ms" parameter is non-zero value.
+Since FormatNVM command being supported device parameter "ms"
+may not be the criteria to initialize the supported LBAFs.
 
---GC7oygq3qN54GJlx
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+---
+-v3: Remove "mset" constraint  check if ms < 8, "mset" can be
+ set even when ms < 8 and non-zero.
 
-On Apr 16 12:52, Gollu Appalanaidu wrote:
->Currently in compare command metadata aio read blk_aio_preadv return
->value ignored, consider it and complete the block accounting.
->
->Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->---
-> hw/block/nvme.c | 11 +++++++++++
-> 1 file changed, 11 insertions(+)
->
->diff --git a/hw/block/nvme.c b/hw/block/nvme.c
->index 624a1431d0..c2727540f1 100644
->--- a/hw/block/nvme.c
->+++ b/hw/block/nvme.c
->@@ -2369,10 +2369,19 @@ static void nvme_compare_mdata_cb(void *opaque, in=
-t ret)
->     uint32_t reftag =3D le32_to_cpu(rw->reftag);
->     struct nvme_compare_ctx *ctx =3D req->opaque;
->     g_autofree uint8_t *buf =3D NULL;
->+    BlockBackend *blk =3D ns->blkconf.blk;
->+    BlockAcctCookie *acct =3D &req->acct;
->+    BlockAcctStats *stats =3D blk_get_stats(blk);
->     uint16_t status =3D NVME_SUCCESS;
->
->     trace_pci_nvme_compare_mdata_cb(nvme_cid(req));
->
->+    if (ret) {
->+        block_acct_failed(stats, acct);
->+        nvme_aio_err(req, ret);
->+        goto out;
->+    }
->+
->     buf =3D g_malloc(ctx->mdata.iov.size);
->
->     status =3D nvme_bounce_mdata(n, buf, ctx->mdata.iov.size,
->@@ -2421,6 +2430,8 @@ static void nvme_compare_mdata_cb(void *opaque, int =
-ret)
->         goto out;
->     }
->
->+    block_acct_done(stats, acct);
->+
-> out:
->     qemu_iovec_destroy(&ctx->data.iov);
->     g_free(ctx->data.bounce);
->--=20
->2.17.1
->
->
+-v2: Addressing review comments (Klaus)
+ Change the current "pi" and "ms" constraint check such that it
+ will throw the error if ms < 8 and if namespace protection info,
+ location and metadata settings are set.
+ Splitting this from compare fix patch series.
 
-Good fix, thanks! Since there is no crash, data corruption or other=20
-"bad" behavior, this isn't critical for v6.0.
+ hw/block/nvme-ns.c | 58 ++++++++++++++++++++--------------------------
+ 1 file changed, 25 insertions(+), 33 deletions(-)
 
-Might consider it for a potential stable release though, so I'll add a=20
-Fixes: tag and queue it up.
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 7bb618f182..594b0003cf 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -85,38 +85,28 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     ds = 31 - clz32(ns->blkconf.logical_block_size);
+     ms = ns->params.ms;
+ 
+-    if (ns->params.ms) {
+-        id_ns->mc = 0x3;
++    id_ns->mc = 0x3;
+ 
+-        if (ns->params.mset) {
+-            id_ns->flbas |= 0x10;
+-        }
++    if (ms && ns->params.mset) {
++        id_ns->flbas |= 0x10;
++    }
+ 
+-        id_ns->dpc = 0x1f;
+-        id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+-
+-        NvmeLBAF lbaf[16] = {
+-            [0] = { .ds =  9           },
+-            [1] = { .ds =  9, .ms =  8 },
+-            [2] = { .ds =  9, .ms = 16 },
+-            [3] = { .ds =  9, .ms = 64 },
+-            [4] = { .ds = 12           },
+-            [5] = { .ds = 12, .ms =  8 },
+-            [6] = { .ds = 12, .ms = 16 },
+-            [7] = { .ds = 12, .ms = 64 },
+-        };
+-
+-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+-        id_ns->nlbaf = 7;
+-    } else {
+-        NvmeLBAF lbaf[16] = {
+-            [0] = { .ds =  9 },
+-            [1] = { .ds = 12 },
+-        };
++    id_ns->dpc = 0x1f;
++    id_ns->dps = ((ns->params.pil & 0x1) << 3) | ns->params.pi;
+ 
+-        memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
+-        id_ns->nlbaf = 1;
+-    }
++    NvmeLBAF lbaf[16] = {
++        [0] = { .ds =  9           },
++        [1] = { .ds =  9, .ms =  8 },
++        [2] = { .ds =  9, .ms = 16 },
++        [3] = { .ds =  9, .ms = 64 },
++        [4] = { .ds = 12           },
++        [5] = { .ds = 12, .ms =  8 },
++        [6] = { .ds = 12, .ms = 16 },
++        [7] = { .ds = 12, .ms = 64 },
++    };
++
++    memcpy(&id_ns->lbaf, &lbaf, sizeof(lbaf));
++    id_ns->nlbaf = 7;
+ 
+     for (i = 0; i <= id_ns->nlbaf; i++) {
+         NvmeLBAF *lbaf = &id_ns->lbaf[i];
+@@ -395,10 +385,12 @@ static int nvme_ns_check_constraints(NvmeCtrl *n, NvmeNamespace *ns,
+         return -1;
+     }
+ 
+-    if (ns->params.pi && ns->params.ms < 8) {
+-        error_setg(errp, "at least 8 bytes of metadata required to enable "
+-                   "protection information");
+-        return -1;
++    if (ns->params.ms < 8) {
++        if (ns->params.pi || ns->params.pil) {
++            error_setg(errp, "at least 8 bytes of metadata required to enable "
++                    "protection information, protection information location");
++            return -1;
++        }
+     }
+ 
+     if (ns->params.nsid > NVME_MAX_NAMESPACES) {
+-- 
+2.17.1
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---GC7oygq3qN54GJlx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmB5fdAACgkQTeGvMW1P
-Del7ogf/QCDRbed9UjzgmfSiJqV6jfzDjBjApdgmg59k3t/2n9u1Z4wO9d1QoMwy
-5tP552BECwqatcaYiPyvXWKfxwKQLYlnOBqMcTBdMg470v4RhdOklcuzhWfzM/xe
-qitggicfTWyv/91Thq2wFxF6Fh+2ICaYhPNkphi9+vxESToqF/7Wyts/9/EYHZHE
-M1lpE0ZDhbLWR2z/bUJmjMgJiOGRl6FfnTrcox3xKIM2FYP/+ePWP3H5jul5sIQo
-09pbRXyjP3O2IqPM5uI+Fb0y7CVuObTLwjs4J83YkZs95QnVD7SRk+/cs74EmlBU
-5Khqu4NBNqXAAS5eChSRVMWB+OvpMw==
-=6OXt
------END PGP SIGNATURE-----
-
---GC7oygq3qN54GJlx--
 
