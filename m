@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F355B362967
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 22:36:05 +0200 (CEST)
-Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A123629E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 23:05:21 +0200 (CEST)
+Received: from localhost ([::1]:46214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXVC8-0006XJ-TP
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 16:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38422)
+	id 1lXVeS-000676-IR
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 17:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lXVB3-0005yK-OB
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 16:34:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lXVAz-0000k2-Pp
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 16:34:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618605292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fNNgqRlm3js3tNLBhWoImjB77nBgPnyaatPVka/WPV4=;
- b=AF+7KL7S47Kc+GRtZ7oeNKt6iOqBjJA+i2KpY4wTJgVy+an+/1uKolxd9igwnknJC6iiRv
- M2ptvfSucdaMF8J/xTo8rgbe2nDbLyrJfVzSJpzQslwjwR4DI17+hVAarRL+B27H0xkECs
- wsAUevni3eSNjgE7XzvWSfjXaMw903w=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-uykM7sJgMWmigL_BtOvHMg-1; Fri, 16 Apr 2021 16:34:50 -0400
-X-MC-Unique: uykM7sJgMWmigL_BtOvHMg-1
-Received: by mail-oo1-f71.google.com with SMTP id
- 62-20020a4a11410000b02901b6bbbeb606so2968380ooc.12
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 13:34:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lXVc0-0003pn-7p
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:02:48 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:34737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lXVbx-0000wv-25
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 17:02:48 -0400
+Received: by mail-pl1-x632.google.com with SMTP id t22so14309057ply.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 14:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ie9r6EOQypZoQYkbRn9pO7nDggqaoqaomu+rCPA0MmU=;
+ b=epeFFpziAOMORL8aFyTO4bT0W1OpGNtSNSYlhywiiVph4Rk8+tEPVWltWraNpv96A9
+ +AP0AldYN4c+gIWOnJ5h2Q+7kOkwg2B2Xd3MgnNeStSdpVsSjO4J3yp30RORPuI68O/c
+ 9c4UkxYJJjFu8bLXqQH7xDCp7BTl7SMyxQ+vZdhM5unEx+OU9MgX3u7i3EUO5EHfFYti
+ Up3u7YtDFptg/7QGJjzmji43yb3/H7BW3SXBn396kz5qei7G8R2laPQtVs2R/FpB9H6/
+ G8hh8U2RPvMCEEHUiO2JB9UKdkKJUTkuiqhW5y4gbL96ep6sLaKyb1pEBVTut7gItG3e
+ /Hng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fNNgqRlm3js3tNLBhWoImjB77nBgPnyaatPVka/WPV4=;
- b=UHHytiKm6RCzRMqUEZmrkmph4uc9xFQX+C05AYC3WiTl5lZLZSn9v3ja7id/7+YmGm
- dvgic5Ao/TK8VCjgGfbVeMRkBMD3Jov5zF7uoacFMvH140kvOPo91MFQ5vaQ/FicKWO5
- kFU9vQWuMvJrFyZyjcFHTj+NIM5c1luJ3CKgk5SnsoAvQRMv6+VQy5uwFeQQSvFuYxQ6
- sKFtsQxNxcIAnHWLBlhCMCH/Ze5U0SiDAFejbDlvxjWWLvgwq/dXdK9zLAWj3mgf3CL8
- ZEBfsLOq5X3Iu8s2/RiW3SmbiBFHK58e42/p1DVLOd+LHm2/veBGiwR06yLYTFBkLr1o
- Wq5g==
-X-Gm-Message-State: AOAM531ZDt7pJM96N7yI9aJWKK/uFQAJ9lL8HGD5SLVAFNlAvienz/wC
- m0ySj4V1pyM+0mL2SnmoFLT7sLTKHq7XEWcH12NEHCEQG+pEQp51vSEKExCvWiCunhWSV/whiK6
- RL8xSwWnb91S0TLZvLHFpP4wvPGSxlK4=
-X-Received: by 2002:a4a:c3c3:: with SMTP id e3mr4655694ooq.79.1618605290158;
- Fri, 16 Apr 2021 13:34:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUiI2dMYztfWWY85POkf76RGuF8GkqbQemboY9ymDm/sxGDClAZcWwh+F+fbzc4iKMNOa/Q5G79leC9R5Cs7I=
-X-Received: by 2002:a4a:c3c3:: with SMTP id e3mr4655677ooq.79.1618605289805;
- Fri, 16 Apr 2021 13:34:49 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ie9r6EOQypZoQYkbRn9pO7nDggqaoqaomu+rCPA0MmU=;
+ b=UYT08KGlQkqAljUHZQU2p+IU9O30Z0XxfnQDdvpnmVY5Y0jbh2UCNjyuK79bdvObaP
+ DrUEM+73+Yd0AstXZFe/VPvXtM3ZMgO0HV7RlNPIdMXODkJbnYwaDpW7pR3GunbYvnWw
+ r3Lyi1Y2gYIcfIsRJYZ6ng5/tt1s865jmroA4RCVwyxL6jna6bBBL5rGEizbos2A4UG9
+ eXvOBSbDJEGe3jL5dFOznxOn1UJ+olsCJ79mzsw4YmkWXPhNtYqromhmi1bNZprKwGE4
+ axI8/eYQQIXVhv9xIJItkoqzlDyK4XNsNnOWi9qndkOv5mNBYT6K40dV7DVB13KlqOMh
+ +NVw==
+X-Gm-Message-State: AOAM53103Pu0juSngzaETFpPDAzIZnoxAPbxV4QENJ/Za/AKPcyQgD1Y
+ u93NhJTsXn8GFQ3EKon6VY0EA5e7BpVvyQ==
+X-Google-Smtp-Source: ABdhPJwaVTfMtBGJhaqFwkdbTslUJXGqDehZ+69kIhb2xuqnyj714ve8ZRofvdEeI8aN0kSnXnu4Rw==
+X-Received: by 2002:a17:902:e843:b029:eb:8aff:360 with SMTP id
+ t3-20020a170902e843b02900eb8aff0360mr8028411plg.1.1618606963205; 
+ Fri, 16 Apr 2021 14:02:43 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id m15sm5920640pjz.36.2021.04.16.14.02.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 14:02:42 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 for-6.1 00/81] target/arm: Implement SVE2
+Date: Fri, 16 Apr 2021 14:01:19 -0700
+Message-Id: <20210416210240.1591291-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210416052333.1548853-1-thuth@redhat.com>
-In-Reply-To: <20210416052333.1548853-1-thuth@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Fri, 16 Apr 2021 23:34:33 +0300
-Message-ID: <CAMRbyytmcZHggOtxJ09Lu4QEke-B=Hz_+cf_HLqRV9joQWaG=Q@mail.gmail.com>
-Subject: Re: [PATCH] block/file-posix: Fix problem with fallocate(PUNCH_HOLE)
- on GPFS
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,78 +82,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Richard Jones <rjones@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Christian Borntraeger <borntraeger@de.ibm.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 8:23 AM Thomas Huth <thuth@redhat.com> wrote:
->
-> A customer reported that running
->
->  qemu-img convert -t none -O qcow2 -f qcow2 input.qcow2 output.qcow2
->
-> fails for them with the following error message when the images are
-> stored on a GPFS file system:
->
->  qemu-img: error while writing sector 0: Invalid argument
->
-> After analyzing the strace output, it seems like the problem is in
-> handle_aiocb_write_zeroes(): The call to fallocate(FALLOC_FL_PUNCH_HOLE)
-> returns EINVAL, which can apparently happen if the file system has
-> a different idea of the granularity of the operation. It's arguably
-> a bug in GPFS, since the PUNCH_HOLE mode should not result in EINVAL
-> according to the man-page of fallocate(), but the file system is out
-> there in production and so we have to deal with it. In commit 294682cc3a
-> ("block: workaround for unaligned byte range in fallocate()") we also
-> already applied the a work-around for the same problem to the earlier
-> fallocate(FALLOC_FL_ZERO_RANGE) call, so do it now similar with the
-> PUNCH_HOLE call.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  block/file-posix.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 20e14f8e96..7a40428d52 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1675,6 +1675,13 @@ static int handle_aiocb_write_zeroes(void *opaque)
->              }
->              s->has_fallocate = false;
->          } else if (ret != -ENOTSUP) {
-> +            if (ret == -EINVAL) {
-> +                /*
-> +                 * File systems like GPFS do not like unaligned byte ranges,
-> +                 * treat it like unsupported (so caller falls back to pwrite)
-> +                 */
-> +                return -ENOTSUP;
+Based-on: 20210416185959.1520974-1-richard.henderson@linaro.org
+("[PATCH v4 for-6.1 00/39] target/arm: enforce alignment")
 
-This skips the next fallback, using plain fallocate(0) if we write
-after the end of the file. Is this intended?
+And of course, since I messed up the alignment subject, our tooling
+isn't going to thread this properly.  So:
 
-We can treat the buggy EINVAL return value as "filesystem is buggy,
-let's not try other options", or "let's try the next option". Since falling
-back to actually writing zeroes is so much slower, I think it is better to
-try the next option.
+https://gitlab.com/rth7680/qemu/-/tree/tgt-arm-sve2
+https://gitlab.com/rth7680/qemu/-/commit/cccb2c67e975322f006e81adb3cf5e235254f254
 
-This issue affects also libnbd (nbdcopy file backend).
+Changes since v4:
+  * Rebased on mte + alignment changes.
+  * Implement integer matrix multiply accumulate.
+  * Change to decode to facilitate bfloat16.
 
-Do we have a bug for GFS?
 
-Nir
+r~
 
-> +            }
->              return ret;
->          } else {
->              s->has_discard = false;
-> --
-> 2.27.0
->
->
+
+Richard Henderson (63):
+  target/arm: Add ID_AA64ZFR0 fields and isar_feature_aa64_sve2
+  target/arm: Implement SVE2 Integer Multiply - Unpredicated
+  target/arm: Implement SVE2 integer pairwise add and accumulate long
+  target/arm: Implement SVE2 integer unary operations (predicated)
+  target/arm: Split out saturating/rounding shifts from neon
+  target/arm: Implement SVE2 saturating/rounding bitwise shift left
+    (predicated)
+  target/arm: Implement SVE2 integer halving add/subtract (predicated)
+  target/arm: Implement SVE2 integer pairwise arithmetic
+  target/arm: Implement SVE2 saturating add/subtract (predicated)
+  target/arm: Implement SVE2 integer add/subtract long
+  target/arm: Implement SVE2 integer add/subtract interleaved long
+  target/arm: Implement SVE2 integer add/subtract wide
+  target/arm: Implement SVE2 integer multiply long
+  target/arm: Implement PMULLB and PMULLT
+  target/arm: Implement SVE2 bitwise shift left long
+  target/arm: Implement SVE2 bitwise exclusive-or interleaved
+  target/arm: Implement SVE2 bitwise permute
+  target/arm: Implement SVE2 complex integer add
+  target/arm: Implement SVE2 integer absolute difference and accumulate
+    long
+  target/arm: Implement SVE2 integer add/subtract long with carry
+  target/arm: Implement SVE2 bitwise shift right and accumulate
+  target/arm: Implement SVE2 bitwise shift and insert
+  target/arm: Implement SVE2 integer absolute difference and accumulate
+  target/arm: Implement SVE2 saturating extract narrow
+  target/arm: Implement SVE2 SHRN, RSHRN
+  target/arm: Implement SVE2 SQSHRUN, SQRSHRUN
+  target/arm: Implement SVE2 UQSHRN, UQRSHRN
+  target/arm: Implement SVE2 SQSHRN, SQRSHRN
+  target/arm: Implement SVE2 WHILEGT, WHILEGE, WHILEHI, WHILEHS
+  target/arm: Implement SVE2 WHILERW, WHILEWR
+  target/arm: Implement SVE2 bitwise ternary operations
+  target/arm: Implement SVE2 saturating multiply-add long
+  target/arm: Implement SVE2 saturating multiply-add high
+  target/arm: Implement SVE2 integer multiply-add long
+  target/arm: Implement SVE2 complex integer multiply-add
+  target/arm: Implement SVE2 XAR
+  target/arm: Pass separate addend to {U,S}DOT helpers
+  target/arm: Pass separate addend to FCMLA helpers
+  target/arm: Split out formats for 2 vectors + 1 index
+  target/arm: Split out formats for 3 vectors + 1 index
+  target/arm: Implement SVE2 integer multiply (indexed)
+  target/arm: Implement SVE2 integer multiply-add (indexed)
+  target/arm: Implement SVE2 saturating multiply-add high (indexed)
+  target/arm: Implement SVE2 saturating multiply-add (indexed)
+  target/arm: Implement SVE2 saturating multiply (indexed)
+  target/arm: Implement SVE2 signed saturating doubling multiply high
+  target/arm: Implement SVE2 saturating multiply high (indexed)
+  target/arm: Implement SVE mixed sign dot product (indexed)
+  target/arm: Implement SVE mixed sign dot product
+  target/arm: Implement SVE2 crypto unary operations
+  target/arm: Implement SVE2 crypto destructive binary operations
+  target/arm: Implement SVE2 crypto constructive binary operations
+  target/arm: Share table of sve load functions
+  target/arm: Implement SVE2 LD1RO
+  target/arm: Implement 128-bit ZIP, UZP, TRN
+  target/arm: Implement aarch64 SUDOT, USDOT
+  target/arm: Split out do_neon_ddda_fpst
+  target/arm: Remove unused fpst from VDOT_scalar
+  target/arm: Fix decode for VDOT (indexed)
+  target/arm: Split decode of VSDOT and VUDOT
+  target/arm: Implement aarch32 VSUDOT, VUSDOT
+  target/arm: Implement integer matrix multiply accumulate
+  target/arm: Enable SVE2 and some extensions
+
+Stephen Long (18):
+  target/arm: Implement SVE2 floating-point pairwise
+  target/arm: Implement SVE2 MATCH, NMATCH
+  target/arm: Implement SVE2 ADDHNB, ADDHNT
+  target/arm: Implement SVE2 RADDHNB, RADDHNT
+  target/arm: Implement SVE2 SUBHNB, SUBHNT
+  target/arm: Implement SVE2 RSUBHNB, RSUBHNT
+  target/arm: Implement SVE2 HISTCNT, HISTSEG
+  target/arm: Implement SVE2 scatter store insns
+  target/arm: Implement SVE2 gather load insns
+  target/arm: Implement SVE2 FMMLA
+  target/arm: Implement SVE2 SPLICE, EXT
+  target/arm: Implement SVE2 TBL, TBX
+  target/arm: Implement SVE2 FCVTNT
+  target/arm: Implement SVE2 FCVTLT
+  target/arm: Implement SVE2 FCVTXNT, FCVTX
+  target/arm: Implement SVE2 FLOGB
+  target/arm: Implement SVE2 bitwise shift immediate
+  target/arm: Implement SVE2 fp multiply-add long
+
+ target/arm/cpu.h                |   66 +
+ target/arm/helper-sve.h         |  681 ++++++-
+ target/arm/helper.h             |  111 +-
+ target/arm/translate-a64.h      |    3 +
+ target/arm/vec_internal.h       |  143 ++
+ target/arm/neon-shared.decode   |   24 +-
+ target/arm/sve.decode           |  525 +++++-
+ target/arm/cpu.c                |    1 +
+ target/arm/cpu64.c              |   13 +
+ target/arm/helper.c             |    3 +-
+ target/arm/kvm64.c              |   11 +
+ target/arm/neon_helper.c        |  507 +----
+ target/arm/sve_helper.c         | 1904 ++++++++++++++++++-
+ target/arm/translate-a64.c      |  111 +-
+ target/arm/translate-sve.c      | 3117 +++++++++++++++++++++++++++++--
+ target/arm/vec_helper.c         |  854 ++++++++-
+ target/arm/translate-neon.c.inc |  231 ++-
+ 17 files changed, 7367 insertions(+), 938 deletions(-)
+
+-- 
+2.25.1
 
 
