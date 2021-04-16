@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544AD362014
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:47:07 +0200 (CEST)
-Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D2636204E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:54:26 +0200 (CEST)
+Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXNsI-0000mG-3v
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51308)
+	id 1lXNzN-0002Za-QO
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXNqA-00083H-Ma
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39489)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lXNy9-00023r-Gw
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:53:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXNq6-0002hi-Cv
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:44:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lXNy5-0007iA-1v
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:53:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618577088;
+ s=mimecast20190719; t=1618577584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eRcTvg5U8caAVjs8k7xsNNjOg6LgYyY2Aen+lR0Y3X8=;
- b=aWPRsRIv4CJkTcBZVlZ+mrcN4hwo9gCmfHQRTdF/cj00IuO0BbZmHgmptbqxial4qlAqkm
- InCwitk5+cAxAZYBR0M7wOrCbsq5hO7igJyhlCigBElmCkMhErhiIODKGtxUrRS4A8GabW
- 03fH72s5KNuj81Z2odHmqwfLUeUnnNQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2e59MtSLhx7S3f+tAr2YfXXoO6u82PDESXCpvKv5zc4=;
+ b=h4LpiJM7wDLscL80jvMMQyxkMyngO2cWAd2Jys3EpThMaovXrJS7SHHWclPmQsguZ4HQjx
+ Kup2HrC3yEiCvGVwWVFpKUqSY4MFz4pbvc58AEArFUQro3uL9xMk6SmVYs3/vxLYDmqIb7
+ +YVGAgeE0ieyAQV1uGwj5T6dkM8iQtw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-ka5KCwMnP3y2TaBw4TV4NA-1; Fri, 16 Apr 2021 08:44:44 -0400
-X-MC-Unique: ka5KCwMnP3y2TaBw4TV4NA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-477-woi9wyM5NVCEed1KWmxFxg-1; Fri, 16 Apr 2021 08:53:02 -0400
+X-MC-Unique: woi9wyM5NVCEed1KWmxFxg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31DFE8189C7;
- Fri, 16 Apr 2021 12:44:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5D8B47;
- Fri, 16 Apr 2021 12:44:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 21D86113525D; Fri, 16 Apr 2021 14:44:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for
- comments and docstrings
-References: <20210325060356.4040114-1-jsnow@redhat.com>
- <20210325060356.4040114-3-jsnow@redhat.com>
-Date: Fri, 16 Apr 2021 14:44:41 +0200
-In-Reply-To: <20210325060356.4040114-3-jsnow@redhat.com> (John Snow's message
- of "Thu, 25 Mar 2021 02:03:39 -0400")
-Message-ID: <878s5i5rgm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C57E1006C87;
+ Fri, 16 Apr 2021 12:53:01 +0000 (UTC)
+Received: from thuth.com (ovpn-112-57.ams2.redhat.com [10.36.112.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 726E65D9C6;
+ Fri, 16 Apr 2021 12:52:59 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	John Snow <jsnow@redhat.com>
+Subject: [PATCH] hw/ide: Fix crash when plugging a piix3-ide device into the
+ x-remote machine
+Date: Fri, 16 Apr 2021 14:52:56 +0200
+Message-Id: <20210416125256.2039734-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,398 +75,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+QEMU currently crashes when the user tries to do something like:
 
-> PEP8's BDFL writes: "For flowing long blocks of text with fewer
-> structural restrictions (docstrings or comments), the line length should
-> be limited to 72 characters."
->
-> I do not like this patch. I have included it explicitly to recommend we
-> do not pay any further heed to the 72 column limit.
+ qemu-system-x86_64 -M x-remote -device piix3-ide
 
-Let me go through the patch hunk by hunk to see what I like and what I
-don't like.
+This happens because the "isabus" variable is not initialized with
+the x-remote machine yet. Add a proper check for this condition
+and propagate the error to the caller, so we can fail there gracefully.
 
-In case you'd prefer not to pay any further heed to line length: please
-check out my comment on c_name() anyway.  It's about doc string style,
-and relevant regardless of line length limits.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/ide/ioport.c           | 16 ++++++++++------
+ hw/ide/piix.c             | 22 +++++++++++++++++-----
+ hw/isa/isa-bus.c          | 14 ++++++++++----
+ include/hw/ide/internal.h |  2 +-
+ include/hw/isa/isa.h      | 13 ++++++++-----
+ 5 files changed, 46 insertions(+), 21 deletions(-)
 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/.flake8       |  1 +
->  scripts/qapi/common.py     |  8 +++++---
->  scripts/qapi/events.py     |  9 +++++----
->  scripts/qapi/gen.py        |  8 ++++----
->  scripts/qapi/introspect.py |  8 +++++---
->  scripts/qapi/main.py       |  4 ++--
->  scripts/qapi/parser.py     | 15 ++++++++-------
->  scripts/qapi/schema.py     | 23 +++++++++++++----------
->  scripts/qapi/types.py      |  7 ++++---
->  9 files changed, 47 insertions(+), 36 deletions(-)
->
-> diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
-> index 6b158c68b8..4f00455290 100644
-> --- a/scripts/qapi/.flake8
-> +++ b/scripts/qapi/.flake8
-> @@ -1,2 +1,3 @@
->  [flake8]
->  extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-> +max-doc-length = 72
-> \ No newline at end of file
-
-Since we intend to make use of PEP 8's license to go over the line
-length limit, having the build gripe about it is not useful.  Drop.
-
-> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> index cbd3fd81d3..6e3d9b8ecd 100644
-> --- a/scripts/qapi/common.py
-> +++ b/scripts/qapi/common.py
-> @@ -41,7 +41,8 @@ def camel_to_upper(value: str) -> str:
->      length = len(c_fun_str)
->      for i in range(length):
->          char = c_fun_str[i]
-> -        # When char is upper case and no '_' appears before, do more checks
-> +        # When char is upper case and no '_' appears before,
-> +        # do more checks
->          if char.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
->              if i < length - 1 and c_fun_str[i + 1].islower():
->                  new_name += '_'
-
-The comment paraphrases the if condition.  Feels useless.  Let's drop
-it.
-
-> @@ -78,8 +79,9 @@ def c_name(name: str, protect: bool = True) -> str:
->      protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
->  
->      :param name: The name to map.
-> -    :param protect: If true, avoid returning certain ticklish identifiers
-> -                    (like C keywords) by prepending ``q_``.
-> +    :param protect: If true, avoid returning certain ticklish
-> +                    identifiers (like C keywords) by prepending
-> +                    ``q_``.
-
-Better:
-
-       :param protect: If true, avoid returning certain ticklish
-           identifiers (like C keywords) by prepending ``q_``.
-
-For what it's worth, this indentation style is also used in the
-Sphinx-RTD-Tutorial[*].  I like it much better than aligning the text
-like you did, because that wastes screen real estate when the parameter
-names are long, and tempts people to aligning all the parameters, like
-
-       :param name:    The name to map.
-       :param protect: If true, avoid returning certain ticklish identifiers
-                       (like C keywords) by prepending ``q_``.
-
-which leads to either churn or inconsistency when parameters with longer
-names get added.
-
->      """
->      # ANSI X3J11/88-090, 3.1.1
->      c89_words = set(['auto', 'break', 'case', 'char', 'const', 'continue',
-> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-> index fee8c671e7..210b56974f 100644
-> --- a/scripts/qapi/events.py
-> +++ b/scripts/qapi/events.py
-> @@ -48,7 +48,8 @@ def gen_param_var(typ: QAPISchemaObjectType) -> str:
->      """
->      Generate a struct variable holding the event parameters.
->  
-> -    Initialize it with the function arguments defined in `gen_event_send`.
-> +    Initialize it with the function arguments defined in
-> +    `gen_event_send`.
->      """
->      assert not typ.variants
->      ret = mcgen('''
-
-Looks like a wash.  I figure the doc string will be rewritten to Sphinx
-format (or whatever other format we adopt for our Python code) anyway,
-so let's not mess with it now.
-
-> @@ -86,9 +87,9 @@ def gen_event_send(name: str,
->      # FIXME: Our declaration of local variables (and of 'errp' in the
->      # parameter list) can collide with exploded members of the event's
->      # data type passed in as parameters.  If this collision ever hits in
-> -    # practice, we can rename our local variables with a leading _ prefix,
-> -    # or split the code into a wrapper function that creates a boxed
-> -    # 'param' object then calls another to do the real work.
-> +    # practice, we can rename our local variables with a leading _
-> +    # prefix, or split the code into a wrapper function that creates a
-> +    # boxed 'param' object then calls another to do the real work.
->      have_args = boxed or (arg_type and not arg_type.is_empty())
->  
->      ret = mcgen('''
-
-Improvement.
-
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index 1fa503bdbd..c54980074e 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -63,9 +63,9 @@ def _bottom(self) -> str:
->          return ''
->  
->      def write(self, output_dir: str) -> None:
-> -        # Include paths starting with ../ are used to reuse modules of the main
-> -        # schema in specialised schemas. Don't overwrite the files that are
-> -        # already generated for the main schema.
-> +        # Include paths starting with ../ are used to reuse modules
-> +        # of the main schema in specialised schemas. Don't overwrite
-> +        # the files that are already generated for the main schema.
->          if self.fname.startswith('../'):
->              return
->          pathname = os.path.join(output_dir, self.fname)
-
-Improvement, but mind PEP 8's "You should use two spaces after a
-sentence-ending period in multi-sentence comments".
-
-> @@ -189,7 +189,7 @@ def _bottom(self) -> str:
->  @contextmanager
->  def ifcontext(ifcond: Sequence[str], *args: QAPIGenCCode) -> Iterator[None]:
->      """
-> -    A with-statement context manager that wraps with `start_if()` / `end_if()`.
-> +    A context manager that wraps output with `start_if()` / `end_if()`.
->  
->      :param ifcond: A sequence of conditionals, passed to `start_if()`.
->      :param args: any number of `QAPIGenCCode`.
-
-Improvement.
-
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index 9a348ca2e5..faf00013ad 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -61,8 +61,9 @@
->  # With optional annotations, the type of all values is:
->  # JSONValue = Union[_Value, Annotated[_Value]]
->  #
-> -# Sadly, mypy does not support recursive types; so the _Stub alias is used to
-> -# mark the imprecision in the type model where we'd otherwise use JSONValue.
-> +# Sadly, mypy does not support recursive types; so the _Stub alias is
-> +# used to mark the imprecision in the type model where we'd otherwise
-> +# use JSONValue.
->  _Stub = Any
->  _Scalar = Union[str, bool, None]
->  _NonScalar = Union[Dict[str, _Stub], List[_Stub]]
-
-Improvement.
-
-> @@ -217,7 +218,8 @@ def visit_end(self) -> None:
->          self._name_map = {}
->  
->      def visit_needed(self, entity: QAPISchemaEntity) -> bool:
-> -        # Ignore types on first pass; visit_end() will pick up used types
-> +        # Ignore types on first pass;
-> +        # visit_end() will pick up used types
-
-Looks a bit odd.  Since the original is only slightly over the limit, we
-can keep it.  Alternatively.
-
-           # Ignore types on first pass; visit_end() will pick up the
-           # types that are actually used
-
->          return not isinstance(entity, QAPISchemaType)
->  
->      def _name(self, name: str) -> str:
-> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-> index 703e7ed1ed..5bcac83985 100644
-> --- a/scripts/qapi/main.py
-> +++ b/scripts/qapi/main.py
-> @@ -1,5 +1,5 @@
-> -# This work is licensed under the terms of the GNU GPL, version 2 or later.
-> -# See the COPYING file in the top-level directory.
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later. See the COPYING file in the top-level directory.
-
-Let's drop this one.  The line is only slightly too long, and
-consistency with the copright notices elsewhere is more important.
-
->  
->  """
->  QAPI Generator
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index 58267c3db9..d5bf91f2b0 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -331,8 +331,8 @@ def __init__(self, parser, name=None, indent=0):
->              self._indent = indent
->  
->          def append(self, line):
-> -            # Strip leading spaces corresponding to the expected indent level
-> -            # Blank lines are always OK.
-> +            # Strip leading spaces corresponding to the expected indent
-> +            # level. Blank lines are always OK.
->              if line:
->                  indent = re.match(r'\s*', line).end()
->                  if indent < self._indent:
-
-Improvement, but mind PEP 8's "You should use two spaces after a
-sentence-ending period".
-
-> @@ -353,10 +353,10 @@ def connect(self, member):
->              self.member = member
->  
->      def __init__(self, parser, info):
-> -        # self._parser is used to report errors with QAPIParseError.  The
-> -        # resulting error position depends on the state of the parser.
-> -        # It happens to be the beginning of the comment.  More or less
-> -        # servicable, but action at a distance.
-> +        # self._parser is used to report errors with QAPIParseError.
-> +        # The resulting error position depends on the state of the
-> +        # parser. It happens to be the beginning of the comment. More
-> +        # or less servicable, but action at a distance.
->          self._parser = parser
->          self.info = info
->          self.symbol = None
-
-Why not.  Two spaces again.
-
-> @@ -430,7 +430,8 @@ def _append_body_line(self, line):
->              if not line.endswith(':'):
->                  raise QAPIParseError(self._parser, "line should end with ':'")
->              self.symbol = line[1:-1]
-> -            # FIXME invalid names other than the empty string aren't flagged
-> +            # FIXME invalid names other than the empty string aren't
-> +            # flagged
->              if not self.symbol:
->                  raise QAPIParseError(self._parser, "invalid name")
->          elif self.symbol:
-
-Not an improvement, drop the hunk.
-
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 703b446fd2..01cdd753cd 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -166,9 +166,10 @@ def is_user_module(cls, name: str) -> bool:
->      @classmethod
->      def is_builtin_module(cls, name: str) -> bool:
->          """
-> -        The built-in module is a single System module for the built-in types.
-> +        Return true when given the built-in module name.
->  
-> -        It is always "./builtin".
-> +        The built-in module is a specific System module for the built-in
-> +        types. It is always "./builtin".
->          """
->          return name == cls.BUILTIN_MODULE_NAME
->  
-
-I figure the doc string will be rewritten to Sphinx format anyway, so
-let's not mess with it now.
-
-> @@ -294,7 +295,8 @@ def connect_doc(self, doc=None):
->              m.connect_doc(doc)
->  
->      def is_implicit(self):
-> -        # See QAPISchema._make_implicit_enum_type() and ._def_predefineds()
-> +        # See QAPISchema._make_implicit_enum_type() and
-> +        # ._def_predefineds()
->          return self.name.endswith('Kind') or self.name == 'QType'
->  
->      def c_type(self):
-
-Not an improvement, drop the hunk.
-
-> @@ -421,9 +423,9 @@ def check(self, schema):
->  
->          self.members = members  # mark completed
->  
-> -    # Check that the members of this type do not cause duplicate JSON members,
-> -    # and update seen to track the members seen so far. Report any errors
-> -    # on behalf of info, which is not necessarily self.info
-> +    # Check that the members of this type do not cause duplicate JSON
-> +    # members, and update seen to track the members seen so far. Report
-> +    # any errors on behalf of info, which is not necessarily self.info
->      def check_clash(self, info, seen):
->          assert self._checked
->          assert not self.variants       # not implemented
-
-Improvement.  Two spaces again.
-
-> @@ -494,11 +496,12 @@ def __init__(self, name, info, doc, ifcond, features, variants):
->      def check(self, schema):
->          super().check(schema)
->          self.variants.tag_member.check(schema)
-> -        # Not calling self.variants.check_clash(), because there's nothing
-> -        # to clash with
-> +        # Not calling self.variants.check_clash(), because there's
-> +        # nothing to clash with
->          self.variants.check(schema, {})
-> -        # Alternate branch names have no relation to the tag enum values;
-> -        # so we have to check for potential name collisions ourselves.
-> +        # Alternate branch names have no relation to the tag enum
-> +        # values; so we have to check for potential name collisions
-> +        # ourselves.
->          seen = {}
->          types_seen = {}
->          for v in self.variants.variants:
-
-Why not.
-
-> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-> index 20d572a23a..2e67ab1752 100644
-> --- a/scripts/qapi/types.py
-> +++ b/scripts/qapi/types.py
-> @@ -35,8 +35,8 @@
->  from .source import QAPISourceInfo
->  
->  
-> -# variants must be emitted before their container; track what has already
-> -# been output
-> +# variants must be emitted before their container; track what has
-> +# already been output
->  objects_seen = set()
->  
->  
-
-Why not.
-
-> @@ -297,7 +297,8 @@ def _begin_user_module(self, name: str) -> None:
->  '''))
->  
->      def visit_begin(self, schema: QAPISchema) -> None:
-> -        # gen_object() is recursive, ensure it doesn't visit the empty type
-> +        # gen_object() is recursive, ensure
-> +        # it doesn't visit the empty type
-
-Looks a bit odd.  Since the original is only slightly over the limit, we
-can keep it.
-
-Pattern: turning single line comments into multi-line comments to avoid
-small length overruns is usually not an improvement.
-
->          objects_seen.add(schema.the_empty_object_type.name)
->  
->      def _gen_type_cleanup(self, name: str) -> None:
-
-Bottom line: I find some hunks likable enough.
-
-Ways forward:
-
-1. If you need to respin:
-
-1.1. you may keep this patch, and work in my feedback.
-
-1.2. you may drop it.  I can pick it up and take care of it.
-
-2. If we decide to go without a respin:
-
-2.1. I can work in my feedback in my tree.
-
-2.2. I can extract the patch and take care of it separately.
-
-I'd prefer to avoid 2.1, because I feel it's too much change for
-comfort.  1.1. vs. 1.2 would be up to you.
-
-
-
-[*] https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html#an-example-class-with-docstrings
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index b613ff3bba..e6caa537fa 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -50,15 +50,19 @@ static const MemoryRegionPortio ide_portio2_list[] = {
+     PORTIO_END_OF_LIST(),
+ };
+ 
+-void ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
++int ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
+ {
++    int ret;
++
+     /* ??? Assume only ISA and PCI configurations, and that the PCI-ISA
+        bridge has been setup properly to always register with ISA.  */
+-    isa_register_portio_list(dev, &bus->portio_list,
+-                             iobase, ide_portio_list, bus, "ide");
++    ret = isa_register_portio_list(dev, &bus->portio_list,
++                                   iobase, ide_portio_list, bus, "ide");
+ 
+-    if (iobase2) {
+-        isa_register_portio_list(dev, &bus->portio2_list,
+-                                 iobase2, ide_portio2_list, bus, "ide");
++    if (ret == 0 && iobase2) {
++        ret = isa_register_portio_list(dev, &bus->portio2_list,
++                                       iobase2, ide_portio2_list, bus, "ide");
+     }
++
++    return ret;
+ }
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index b9860e35a5..d3e738320b 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -26,6 +26,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
+ #include "migration/vmstate.h"
++#include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "sysemu/block-backend.h"
+ #include "sysemu/blockdev.h"
+@@ -123,7 +124,8 @@ static void piix_ide_reset(DeviceState *dev)
+     pci_conf[0x20] = 0x01; /* BMIBA: 20-23h */
+ }
+ 
+-static void pci_piix_init_ports(PCIIDEState *d) {
++static int pci_piix_init_ports(PCIIDEState *d)
++{
+     static const struct {
+         int iobase;
+         int iobase2;
+@@ -132,24 +134,30 @@ static void pci_piix_init_ports(PCIIDEState *d) {
+         {0x1f0, 0x3f6, 14},
+         {0x170, 0x376, 15},
+     };
+-    int i;
++    int i, ret;
+ 
+     for (i = 0; i < 2; i++) {
+         ide_bus_new(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+-        ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+-                        port_info[i].iobase2);
++        ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
++                              port_info[i].iobase2);
++        if (ret) {
++            return ret;
++        }
+         ide_init2(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
+ 
+         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+         d->bmdma[i].bus = &d->bus[i];
+         ide_register_restart_cb(&d->bus[i]);
+     }
++
++    return 0;
+ }
+ 
+ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+ {
+     PCIIDEState *d = PCI_IDE(dev);
+     uint8_t *pci_conf = dev->config;
++    int rc;
+ 
+     pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
+ 
+@@ -158,7 +166,11 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+ 
+     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
+ 
+-    pci_piix_init_ports(d);
++    rc = pci_piix_init_ports(d);
++    if (rc) {
++        error_setg_errno(errp, -rc, "Failed to realize %s",
++                         object_get_typename(OBJECT(dev)));
++    }
+ }
+ 
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 7820068e6e..cffaa35e9c 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -131,13 +131,17 @@ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start)
+     isa_init_ioport(dev, start);
+ }
+ 
+-void isa_register_portio_list(ISADevice *dev,
+-                              PortioList *piolist, uint16_t start,
+-                              const MemoryRegionPortio *pio_start,
+-                              void *opaque, const char *name)
++int isa_register_portio_list(ISADevice *dev,
++                             PortioList *piolist, uint16_t start,
++                             const MemoryRegionPortio *pio_start,
++                             void *opaque, const char *name)
+ {
+     assert(piolist && !piolist->owner);
+ 
++    if (!isabus) {
++        return -ENODEV;
++    }
++
+     /* START is how we should treat DEV, regardless of the actual
+        contents of the portio array.  This is how the old code
+        actually handled e.g. the FDC device.  */
+@@ -145,6 +149,8 @@ void isa_register_portio_list(ISADevice *dev,
+ 
+     portio_list_init(piolist, OBJECT(dev), pio_start, opaque, name);
+     portio_list_add(piolist, isabus->address_space_io, start);
++
++    return 0;
+ }
+ 
+ static void isa_device_init(Object *obj)
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 2d09162eeb..79172217cc 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -624,7 +624,7 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+                    int chs_trans, Error **errp);
+ void ide_init2(IDEBus *bus, qemu_irq irq);
+ void ide_exit(IDEState *s);
+-void ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
++int ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
+ void ide_register_restart_cb(IDEBus *bus);
+ 
+ void ide_exec_cmd(IDEBus *bus, uint32_t val);
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index ddaae89a85..d4417b34b6 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -132,12 +132,15 @@ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start);
+  * @portio: the ports, sorted by offset.
+  * @opaque: passed into the portio callbacks.
+  * @name: passed into memory_region_init_io.
++ *
++ * Returns: 0 on success, negative error code otherwise (e.g. if the
++ *          ISA bus is not available)
+  */
+-void isa_register_portio_list(ISADevice *dev,
+-                              PortioList *piolist,
+-                              uint16_t start,
+-                              const MemoryRegionPortio *portio,
+-                              void *opaque, const char *name);
++int isa_register_portio_list(ISADevice *dev,
++                             PortioList *piolist,
++                             uint16_t start,
++                             const MemoryRegionPortio *portio,
++                             void *opaque, const char *name);
+ 
+ static inline ISABus *isa_bus_from_device(ISADevice *d)
+ {
+-- 
+2.27.0
 
 
