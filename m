@@ -2,98 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43E3361ACE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 09:50:01 +0200 (CEST)
-Received: from localhost ([::1]:52896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A518361AE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 09:56:21 +0200 (CEST)
+Received: from localhost ([::1]:55622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXJEm-0003Ef-U6
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 03:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
+	id 1lXJKu-0004hH-DD
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 03:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1lXJCu-0001zu-NW; Fri, 16 Apr 2021 03:48:04 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62726
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lXJK6-00045S-Ku
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:55:30 -0400
+Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:57848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1lXJCr-0003ED-FO; Fri, 16 Apr 2021 03:48:04 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13G7Y09r027624; Fri, 16 Apr 2021 03:47:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=nhnLJfk998j4jXJX2GUEMtkLv35fQTvL+7aylhHCdVU=;
- b=ImZqXGy/po9PtyxPddfEy7DhlHMJvOJZSN06HPl/W+EABcjRLO0Sj8keOXUddy4//Wvz
- X0XSGex9Ov/Q5a7TVdGY8UTMvaHGF19YY90+urca01lbKfKC/bHEUlrrMbTPtxRgXTiO
- iRJ6qqSYyeZ9ast98rAALKRaC5kxI1mNNVdludjaFF7n8r5Y/r2acAbVOMBQP7aQVuP+
- mTzQ+wm/X2cQh6mJTcQ5hKDOjronIxLgWH8HvshwAai8P+0koisKKK1Lyg2q4GH/Cv3X
- sAwT5h7+/z3+pK3REnAOp9WEL60a92TjkLR108ktR6TxYtcSIBL+7XDBTAB7/iYbdMHo wA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37xbpu772b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Apr 2021 03:47:58 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13G7YovJ030007;
- Fri, 16 Apr 2021 03:47:58 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 37xbpu771x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Apr 2021 03:47:57 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13G7gR2e012662;
- Fri, 16 Apr 2021 07:47:56 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 37u3n8var2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Apr 2021 07:47:56 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 13G7lVND28049878
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Apr 2021 07:47:31 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C557C4C046;
- Fri, 16 Apr 2021 07:47:53 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 746324C044;
- Fri, 16 Apr 2021 07:47:53 +0000 (GMT)
-Received: from marcibm.fritz.box (unknown [9.171.61.175])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 16 Apr 2021 07:47:53 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] pc-bios/s390-ccw: don't try to read the next block if end of
- chunk is reached
-Date: Fri, 16 Apr 2021 09:47:36 +0200
-Message-Id: <20210416074736.17409-1-mhartmay@linux.ibm.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lXJK4-0007tP-GS
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 03:55:30 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.141])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 1DB4F278181;
+ Fri, 16 Apr 2021 09:55:23 +0200 (CEST)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Apr
+ 2021 09:55:22 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001abd74327-f1ae-4712-bcbd-30c04eed69b0,
+ 98643AE5B40D77660504470F9E4DE59E1F602129) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [EXTERNAL] Re: [PULL 18/23] accel/tcg: re-factor non-RAM
+ execution code
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210218094706.23038-1-alex.bennee@linaro.org>
+ <20210218094706.23038-19-alex.bennee@linaro.org>
+ <CAFEAcA8micdrGgwyS-20mnGkdpJ3mMnq=MEJJFZCh3XGx0uMbg@mail.gmail.com>
+ <CAFEAcA9G-WabAM_EdgMzd0Xv6z8xRYjw57DiEqB6Z_Wbj=X1Eg@mail.gmail.com>
+ <87blaflit2.fsf@linaro.org>
+ <CAFEAcA_Uqvc5zyJs8XHWDGR1B_jUZ9jY5EdgHSmaczuOc02ykg@mail.gmail.com>
+ <b989ebfe-1294-5eef-53a2-9599421e0069@amsat.org>
+ <6597cb54-44d9-0798-0786-098286001fe0@kaod.org>
+ <CAFEAcA-x-eNaH=JROoSgF-ruWJDC2++qLNxz3ZEtziyUO-3aEQ@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <959e497c-7873-f449-c3d8-546479cccace@kaod.org>
+Date: Fri, 16 Apr 2021 09:55:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-x-eNaH=JROoSgF-ruWJDC2++qLNxz3ZEtziyUO-3aEQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -oRsTP-OofabORSkwz7Q5tWjE1CWmYoD
-X-Proofpoint-GUID: NMrLPP7jzjZihAZB_d4Cnabr8gEYK2d4
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-15_11:2021-04-15,
- 2021-04-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=827 clxscore=1011 suspectscore=0 adultscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104060000 definitions=main-2104160056
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 273d0e23-ca36-4178-ad91-255a9d141f3f
+X-Ovh-Tracer-Id: 4821947828536642409
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudelgedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,34 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- "Collin L. Walling" <walling@linux.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't read the block if a null block number is reached, because this means that
-the end of chunk is reached.
+On 4/15/21 7:34 PM, Peter Maydell wrote:
+> On Thu, 15 Apr 2021 at 18:18, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> On 4/15/21 5:55 PM, Philippe Mathieu-Daudé wrote:
+>>> On 4/15/21 4:54 PM, Peter Maydell wrote:
+>>>> On Thu, 15 Apr 2021 at 15:32, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>>>> --8<---------------cut here---------------start------------->8---
+>>>>> accel/tcg: avoid re-translating one-shot instructions
+>>>>>
+>>>>> By definition a single instruction is capable of being an IO
+>>>>> instruction. This avoids a problem of triggering a cpu_io_recompile on
+>>>>> a non-cached translation which would only do exactly this anyway.
+>>>>>
+>>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>>>
+>>>>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>> accel/tcg/translate-all.c | 2 +-
+>>>>>
+>>>>> modified   accel/tcg/translate-all.c
+>>>>> @@ -1863,7 +1863,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>>>>>
+>>>>>      if (phys_pc == -1) {
+>>>>>          /* Generate a one-shot TB with 1 insn in it */
+>>>>> -        cflags = (cflags & ~CF_COUNT_MASK) | 1;
+>>>>> +        cflags = (cflags & ~CF_COUNT_MASK) | CF_LAST_IO | 1;
+>>>>>      }
+>>>>>
+>>>>>      max_insns = cflags & CF_COUNT_MASK;
+>>>>> --8<---------------cut here---------------end--------------->8---
+>>>>
+>>>> Yes, this fixes the problem. Do we want to put this in for 6.0? My
+>>>> feeling is that executing from non-RAM is pretty niche, so maybe
+>>>> if we need an rc4 anyway, but this isn't important enough to cause an
+>>>> rc4 itself.
+>>>
+>>> Isn't it the default for Aspeed machines (with U-Boot)? (Cc'ing Cédric).
+>>
+>> You need to set the 'execute-in-place' machine option to load/execute the
+>> instructions from the AHB window of CE0. It's not on by default because
+>> boot can be really slow with some recent u-boot which heavily trash the TBs.
+>>
+>> But this seems to work fine with -rc3.
+> 
+> Triggering the bug requires both execute-in-place and -icount -- did
+> you test with -icount enabled?
 
-Reviewed-by: Collin Walling <walling@linux.ibm.com>
-Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
----
- pc-bios/s390-ccw/bootmap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It crashes.
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index 44df7d16afca..b46997c0b7c1 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -213,7 +213,7 @@ static int eckd_get_boot_menu_index(block_number_t s1b_block_nr)
-                 next_block_nr = eckd_block_num(&s1b->seek[i + 1].chs);
-             }
- 
--            if (next_block_nr) {
-+            if (next_block_nr && !is_null_block_number(next_block_nr)) {
-                 read_block(next_block_nr, s2_next_blk,
-                            "Cannot read stage2 boot loader");
-             }
--- 
-2.25.1
+Thanks,
 
+C. 
+
+$ qemu-system-arm -M romulus-bmc,execute-in-place=true -icount auto -drive file=./flash-romulus,format=raw,if=mtd  -serial mon:stdio
+qemu: fatal: cpu_io_recompile: could not find TB for pc=0x7efbcc001992
+R00=0005107a R01=00000000 R02=00000000 R03=00000000
+R04=00000350 R05=00000000 R06=00000000 R07=00000000
+R08=00000000 R09=00000000 R10=00000000 R11=00000000
+R12=00000000 R13=00000000 R14=00000350 R15=00000c70
+PSR=400001d3 -Z-- A S svc32
+s00=00000000 s01=00000000 d00=0000000000000000
+s02=00000000 s03=00000000 d01=0000000000000000
+s04=00000000 s05=00000000 d02=0000000000000000
+s06=00000000 s07=00000000 d03=0000000000000000
+s08=00000000 s09=00000000 d04=0000000000000000
+s10=00000000 s11=00000000 d05=0000000000000000
+s12=00000000 s13=00000000 d06=0000000000000000
+s14=00000000 s15=00000000 d07=0000000000000000
+s16=00000000 s17=00000000 d08=0000000000000000
+s18=00000000 s19=00000000 d09=0000000000000000
+s20=00000000 s21=00000000 d10=0000000000000000
+s22=00000000 s23=00000000 d11=0000000000000000
+s24=00000000 s25=00000000 d12=0000000000000000
+s26=00000000 s27=00000000 d13=0000000000000000
+s28=00000000 s29=00000000 d14=0000000000000000
+s30=00000000 s31=00000000 d15=0000000000000000
+FPSCR: 00000000
+Aborted (core dumped)
 
