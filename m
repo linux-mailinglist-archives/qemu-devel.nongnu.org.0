@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3AB362188
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 15:57:04 +0200 (CEST)
-Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABD8362190
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 15:58:51 +0200 (CEST)
+Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXOxz-000050-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 09:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
+	id 1lXOzi-0002KC-AE
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 09:58:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXOwn-0007HQ-T1
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:49 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36671)
+ id 1lXOwo-0007HU-1n
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:50 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXOwl-0004wx-Sc
+ id 1lXOwm-0004xz-E0
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 09:55:49 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id m9so14042263wrx.3
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 06:55:47 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id c15so17848138wro.13
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 06:55:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IGbPHmqiZp18VB3m9ykl3gVfTn6MP1LZc1HijN6f0ds=;
- b=SJlBywbInh+hlGAN51pDlfyDbBm2kDQz2TdrqtVPihJwwY81i3ddxlS5B+sDvuHTxU
- lv8mROPoB1WNT7R/g8q3pqO0P99pBe1eDO93aGoc/dGAEQOl0hbkjb2nMsg7wG9Fy10b
- zKjKaXIJmz0dzoD0Aegnb1nj59Prjg/qeVHml69HlIDrEW3xg+s6YoklkRFCMFtu0xUU
- SQGR0cTv6j0WKBD37CUmWZVTTkDvEaXkZ9ZHdQGfOFcdgvJF/gjfpSkQOkHqDw/7k1Ul
- 1NPtXw5kPpYFgItqPR5A/tmkILkExiy6TpxiYzaWr9GbLneF14Yyz5FvSh6lY3ulScBY
- nIaw==
+ bh=cZehfILUJtGk9HUzuIGzJjH/JKzgTkA2dSQh0622GUc=;
+ b=dNXtTYHnny80kgrQ7dz46aEA/bgDs0WX+Vq0PbbQ4bHZkpnaWiLPy+XTPNL+yo2RfB
+ PpfxPfTelVY/1jz7lOhLGHNhy2YaaRJ22vg0CuuwKN4e2lGYgdSR6w2lKQPusgITj+4X
+ mi415NcY3n3ZzJK4a4nXqjkQrLM8KftGlj9fs4oOdMtBT4ik27YgE5VY4ED5rrSSruJu
+ XuBwWtnqo1zMYbX/DuLEtkAs8XEPWZrv2mhhHaBMWPYojtxPzzzFVq01tiQYkVyL3V5G
+ 6m818YdvVj03wm0ZlcKIX4hMzEgXrQX+rRYrcvxLvVfOyB88YhG7ecVy8kUOYIBT+t+U
+ k9ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IGbPHmqiZp18VB3m9ykl3gVfTn6MP1LZc1HijN6f0ds=;
- b=HYplLX75xc0jjR5yKACYt11xgzGSJp1e0Gjgg+xezl5cxwKQ7M1hqJwc3pDPSjphYb
- RiyV+cYThVmMsmRJPvLL3fNkZEjMk863lX1+P4ASEopPxlXGepahP4BXttiXgyVSH9sP
- xFrVkfmq73juSBos/xeo1vvw38AiVxzGKS0JlZceYjmct1uL6gR7xUXmQk336AXjhrzZ
- 5P4UCofaDijy5xOKozqtth0rRcDK4NMcWiIPNg0jsw/ViWnZMceq4BJONrt+WEEE5nc5
- hqK1QzcgxEMKcwB56in5zntoYEdZml3JST/UPszonaVvHEbKgnkhj3xwQViUK82MxEWj
- +mFQ==
-X-Gm-Message-State: AOAM530/q5lpNtoDigymHR46XC8YtmII/arPab5KUKmUJMPFd5rd11K+
- RAdf5eyoNRw8KWyGhOloJvaP6TBkCVC3r0tU
-X-Google-Smtp-Source: ABdhPJyAZzNONn84ndLPk5K65Fk1UOr3ic9c8tyLq2yyUL2CXwZXM34EsbbIeSYaWH5w2rZk5+5zow==
-X-Received: by 2002:a5d:6a08:: with SMTP id m8mr9276086wru.57.1618581346504;
- Fri, 16 Apr 2021 06:55:46 -0700 (PDT)
+ bh=cZehfILUJtGk9HUzuIGzJjH/JKzgTkA2dSQh0622GUc=;
+ b=gJfj1VSxvGoRBScilDn0wyyxs2wWAW7qybxFW40P777IuuAzG9qhHoxLHy5r2mbXRS
+ xSvaB5wq7mL8B69KSqjA9xA31zq6wLCl6HwxJmzdc9R3lst1N0CV+3nffjDRNyh559QZ
+ cChDppyfTa/9mxcfK/Stg6GUPtz+EfQS9AUa2IoCSRJz91egj40qh1QNRJR0Kl3EuTL/
+ j3nAXsGP1kI1+tXKZix4J/UqXzlSWGfOHRPNk1QfQYmnWMhkDc3QcjSUDyosBXxdhJ5V
+ r7NYaBfOkAux3FXGOzpTx4H8bbQ3LSYvZ9AUbenFjtA63/bvDzU4kfFV9nkgqr2uYEu8
+ Eczw==
+X-Gm-Message-State: AOAM530VUxD8ewV/wxR2snd2XsmiY8Q3EoFaaDT0L+hqslIVy+zlt5vU
+ X8kS82FyTXTq+/eppR7KQGQIG2mvWjPqWgmY
+X-Google-Smtp-Source: ABdhPJw07lkIYGLxJkaLJZHEvfZ+qQGobzUmmTYasx7wG65PjE2GGnneUrncBXpsq5nTFBWDK4t4hA==
+X-Received: by 2002:a05:6000:178c:: with SMTP id
+ e12mr9318241wrg.42.1618581347192; 
+ Fri, 16 Apr 2021 06:55:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p14sm10686528wrn.49.2021.04.16.06.55.45
+ by smtp.gmail.com with ESMTPSA id p14sm10686528wrn.49.2021.04.16.06.55.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 16 Apr 2021 06:55:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0? 2/6] osdep: protect qemu/osdep.h with extern "C"
-Date: Fri, 16 Apr 2021 14:55:39 +0100
-Message-Id: <20210416135543.20382-3-peter.maydell@linaro.org>
+Subject: [PATCH for-6.0? 3/6] include/qemu/osdep.h: Move system includes to top
+Date: Fri, 16 Apr 2021 14:55:40 +0100
+Message-Id: <20210416135543.20382-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210416135543.20382-1-peter.maydell@linaro.org>
 References: <20210416135543.20382-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,118 +89,79 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+Mostly osdep.h puts the system includes at the top of the file; but
+there are a couple of exceptions where we include a system header
+halfway through the file.  Move these up to the top with the rest
+so that all the system headers we include are included before
+we include os-win32.h or os-posix.h.
 
-System headers may include templates if compiled with a C++ compiler,
-which cause the compiler to complain if qemu/osdep.h is included
-within a C++ source file's 'extern "C"' block.  Add
-an 'extern "C"' block directly to qemu/osdep.h, so that
-system headers can be kept out of it.
-
-There is a stray declaration early in qemu/osdep.h, which needs
-to be special cased.  Add a definition in qemu/compiler.h to
-make it look nice.
-
-config-host.h, CONFIG_TARGET, exec/poison.h and qemu/compiler.h
-are included outside the 'extern "C"' block; that is not
-an issue because they consist entirely of preprocessor directives.
-
-This allows us to move the include of osdep.h in our two C++
-source files outside the extern "C" block they were previously
-using for it, which in turn means that they compile successfully
-against newer versions of glib which insist that glib.h is
-*not* inside an extern "C" block.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-[PMM: Moved disas/arm-a64.cc osdep.h include out of its extern "C" block;
- explained in commit message why we're doing this]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-id: 20210414184343.26235-1-peter.maydell@linaro.org
 ---
- include/qemu/compiler.h |  6 ++++++
- include/qemu/osdep.h    | 10 +++++++++-
- disas/arm-a64.cc        |  2 +-
- disas/nanomips.cpp      |  2 +-
- 4 files changed, 17 insertions(+), 3 deletions(-)
+ include/qemu/osdep.h | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index cf28bb2bcd7..091c45248b0 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -11,6 +11,12 @@
- #define QEMU_STATIC_ANALYSIS 1
- #endif
- 
-+#ifdef __cplusplus
-+#define QEMU_EXTERN_C extern "C"
-+#else
-+#define QEMU_EXTERN_C extern
-+#endif
-+
- #define QEMU_NORETURN __attribute__ ((__noreturn__))
- 
- #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
 diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index ab84ecc7c1c..6d8562eaf40 100644
+index 6d8562eaf40..cb2a07e472e 100644
 --- a/include/qemu/osdep.h
 +++ b/include/qemu/osdep.h
-@@ -57,7 +57,7 @@
- #define daemon qemu_fake_daemon_function
- #include <stdlib.h>
- #undef daemon
--extern int daemon(int, int);
-+QEMU_EXTERN_C int daemon(int, int);
+@@ -104,6 +104,15 @@ QEMU_EXTERN_C int daemon(int, int);
+ #include <setjmp.h>
+ #include <signal.h>
+ 
++#ifdef CONFIG_IOVEC
++#include <sys/uio.h>
++#endif
++
++#if defined(__linux__) && defined(__sparc__)
++/* The SPARC definition of QEMU_VMALLOC_ALIGN needs SHMLBA */
++#include <sys/shm.h>
++#endif
++
+ #ifndef _WIN32
+ #include <sys/wait.h>
+ #else
+@@ -111,6 +120,10 @@ QEMU_EXTERN_C int daemon(int, int);
+ #define WEXITSTATUS(x) (x)
+ #endif
+ 
++#ifdef __APPLE__
++#include <AvailabilityMacros.h>
++#endif
++
+ /*
+  * This is somewhat like a system header; it must be outside any extern "C"
+  * block because it includes system headers itself, including glib.h,
+@@ -130,10 +143,6 @@ extern "C" {
+ #include "sysemu/os-posix.h"
+ #endif
+ 
+-#ifdef __APPLE__
+-#include <AvailabilityMacros.h>
+-#endif
+-
+ #include "qemu/typedefs.h"
+ 
+ /*
+@@ -469,7 +478,6 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+    /* Use 1 MiB (segment size) alignment so gmap can be used by KVM. */
+ #  define QEMU_VMALLOC_ALIGN (256 * 4096)
+ #elif defined(__linux__) && defined(__sparc__)
+-#include <sys/shm.h>
+ #  define QEMU_VMALLOC_ALIGN MAX(qemu_real_host_page_size, SHMLBA)
+ #else
+ #  define QEMU_VMALLOC_ALIGN qemu_real_host_page_size
+@@ -549,8 +557,6 @@ struct iovec {
+ 
+ ssize_t readv(int fd, const struct iovec *iov, int iov_cnt);
+ ssize_t writev(int fd, const struct iovec *iov, int iov_cnt);
+-#else
+-#include <sys/uio.h>
  #endif
  
  #ifdef _WIN32
-@@ -118,6 +118,10 @@ extern int daemon(int, int);
-  */
- #include "glib-compat.h"
- 
-+#ifdef __cplusplus
-+extern "C" {
-+#endif
-+
- #ifdef _WIN32
- #include "sysemu/os-win32.h"
- #endif
-@@ -728,4 +732,8 @@ static inline int platform_does_not_support_system(const char *command)
- }
- #endif /* !HAVE_SYSTEM_FUNCTION */
- 
-+#ifdef __cplusplus
-+}
-+#endif
-+
- #endif
-diff --git a/disas/arm-a64.cc b/disas/arm-a64.cc
-index 9fa779e175e..27613d4b256 100644
---- a/disas/arm-a64.cc
-+++ b/disas/arm-a64.cc
-@@ -17,8 +17,8 @@
-  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
- 
--extern "C" {
- #include "qemu/osdep.h"
-+extern "C" {
- #include "disas/dis-asm.h"
- }
- 
-diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index 2b096552719..8ddef897f0d 100644
---- a/disas/nanomips.cpp
-+++ b/disas/nanomips.cpp
-@@ -27,8 +27,8 @@
-  *      Reference Manual", Revision 01.01, April 27, 2018
-  */
- 
--extern "C" {
- #include "qemu/osdep.h"
-+extern "C" {
- #include "disas/dis-asm.h"
- }
- 
 -- 
 2.20.1
 
