@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001BD361CE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 11:54:07 +0200 (CEST)
-Received: from localhost ([::1]:45776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15F7361CE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 12:03:20 +0200 (CEST)
+Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXLAs-0006QC-KL
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 05:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
+	id 1lXLJn-00008w-SD
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 06:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1lXL9D-0005uc-4x
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 05:52:23 -0400
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:45728)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lXLHq-0007fd-2A
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:01:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1lXL9A-0001RX-Tt
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 05:52:22 -0400
-Received: by mail-vs1-xe2d.google.com with SMTP id r18so7737687vso.12
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 02:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hX8EXsNF2qrRQCqZyoWi9S8IFc6cCC7TLO4ay8lK7RM=;
- b=Mnp8vu93AmTvppCGkDchuP87aNGMHiwHhjhzM3VB54e7WBPvORv3wOkKfYIJi8ZODl
- yp5mk5W+4t/vp5cyTeHtrwmaqPP9T7QKYzTKsTcB3GBxNLNbu6RpQyG+GeOc+rhrDeSP
- mABpibXhWlQEDxrfUNsTjbt7i0/6vUKykZFwDIjtKvDWwIk3wT8qyrjVQ9IPUYnWCP3p
- 0IjEJYhUL4JrjzeoB5yuPFZHxN2Dx6GT57WmqQEa6sLN/q/5Z4mzqCyi8DaIAc7h1e6y
- raVPIRFOqv6YBtAOY/z257bPn7ZWV7CSHELx8EGPb6amEBqdHNRCiFbW11lnhRhoLp7g
- sC2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hX8EXsNF2qrRQCqZyoWi9S8IFc6cCC7TLO4ay8lK7RM=;
- b=dgLjzN50ZwxfWfaeuH/OjnD2T51iK48kgf/jKg3ktZFOotabRbigkc9VavBYqwiTJw
- OrnlreKYSOGWPnrK4orN5SjefLTq35sILYFDpMQ4Qfm0OpaFJ4FS9anniWwry0dlbdJi
- AKbTpB88xI1LMNfiJ2EFKanlR006ruuYi8J7kRGPPdK78ATBS8j/5JbyVc1vS+vsSnYG
- cgQTCnJz0a254MTnejk6QBHH2IYVwYRYzH2WaToqEe7ZLGAdmskYPxnsnIbxlSXZ6F0T
- vBfATh5URMNv0i2mQ3MDtvNglUcfGmKQoQcomJbqhTtnHh7waLBtaR+pzMZ0owN85Bbp
- sstA==
-X-Gm-Message-State: AOAM530fVx3Xf7UYHqPgsDUBMA6BLY/20PW2+/w2bu4Rli1irokipdqV
- M7Nfpyhtno9myPeqPKpkhFS2MSmQ+NcUrAb0NPM=
-X-Google-Smtp-Source: ABdhPJwaQZS4QdTr06OoylDdpgz9k7VNce4MLBEttr5UQKkEykyHtQifiKdLlkAzEvEsVh0ledZtQDDmIttu/9gLK0o=
-X-Received: by 2002:a05:6102:ed0:: with SMTP id
- m16mr5923650vst.4.1618566739939; 
- Fri, 16 Apr 2021 02:52:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lXLHl-0006FB-NC
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 06:01:17 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lXLHj-0001ZI-9Z
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:01:11 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 045262E8161
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:01:11 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210315170636.704201-1-zhlcindy@gmail.com>
- <20210315170636.704201-2-zhlcindy@gmail.com>
- <8735vu1ybo.fsf@dusky.pond.sub.org>
- <CAD8of+oJM6+5Q05WRrbj=dd0fmcR2C80YvWK4F=T1A_HK4nKBQ@mail.gmail.com>
- <87a6py7evm.fsf@dusky.pond.sub.org>
-In-Reply-To: <87a6py7evm.fsf@dusky.pond.sub.org>
-From: Li Zhang <zhlcindy@gmail.com>
-Date: Fri, 16 Apr 2021 11:52:09 +0200
-Message-ID: <CAD8of+pzxhQZaZQEY5VjqVYwjnz-rD85fkP7Sf-UcExPaheK6A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Support monitor chardev hotswap with QMP
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=zhlcindy@gmail.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 16 Apr 2021 09:53:13 -0000
+From: ml-0 <1923861@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ml-0 pmaydell
+X-Launchpad-Bug-Reporter: ml-0 (ml-0)
+X-Launchpad-Bug-Modifier: ml-0 (ml-0)
+References: <161841503123.8560.18071871517113740352.malonedeb@gac.canonical.com>
+Message-Id: <161856679399.29084.14217039528355745107.malone@soybean.canonical.com>
+Subject: [Bug 1923861] Re: Hardfault when accessing FPSCR register
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="929bdb49da44562d032228b8f93c5c598dae8678"; Instance="production"
+X-Launchpad-Hash: 3a15a4b22a4b90d2ed436aafb4a681b1f1e2d696
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,63 +69,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lukasstraub2@web.de, alexandr.iarygin@profitbricks.com,
- qemu-devel@nongnu.org, Li Zhang <li.zhang@cloud.ionos.com>,
- pankaj.gupta@cloud.ionos.com, marcandre.lureau@redhat.com
+Reply-To: Bug 1923861 <1923861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When I tried chardev-change, it reports this error:
+I changed the compile options to single precision, only. Then, my small
+FP example works. Ok for my purposes, I don't need double.
 
-{
-    "error": {
-        "class": "GenericError",
-        "desc": "Chardev user does not support chardev hotswap"
-    }
-}
+But I would need MVE. Are there any plans to implement MVE?
 
-On Fri, Apr 16, 2021 at 11:33 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Li Zhang <zhlcindy@gmail.com> writes:
->
-> > On Tue, Apr 13, 2021 at 8:41 AM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> Li Zhang <zhlcindy@gmail.com> writes:
-> >>
-> >> > From: Li Zhang <li.zhang@cloud.ionos.com>
-> >> >
-> >> > For some scenarios, it needs to hot-add a monitor device.
-> >> > But QEMU doesn't support hotplug yet. It also works by adding
-> >> > a monitor with null backend by default and then change its
-> >> > backend to socket by QMP command "chardev-change".
-> >> >
-> >> > So this patch is to support monitor chardev hotswap with QMP.
-> >> >
-> >> > Signed-off-by: Li Zhang <li.zhang@cloud.ionos.com>
-> >>
-> >> I think what what you're trying to say is that chardev-change does not
-> >> work when the character device changes is used by a QMP monitor.
-> >> Correct?
-> >>
-> > I mean that when the character device is a monitor device, it doesn't
-> > work with a QMP monitor.
-> > For example, I add 2 QMP monitors and change one of the monitor's
-> > backends from socket to a null device.
-> > It doesn't work because it needs the monitor device to support chardev-change.
-> >
-> >> If yes, how exactly does it misbehave?
-> > This command chardev-change needs specific device's change callback function.
->
-> Yes, but what happens if you try anyway?  I'm asking, because I'd like
-> the answer to be worked into the commit message.
->
-> >> Does it work with an HMP monitor?
-> > No, it doesn't work.
->
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1923861
 
--- 
+Title:
+  Hardfault when accessing FPSCR register
 
-Best Regards
--Li
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU release version: v6.0.0-rc2
+
+  command line:
+  qemu-system-arm -machine mps3-an547 -nographic -kernel <my_project>.elf -=
+semihosting -semihosting-config enable=3Don,target=3Dnative
+
+  host operating system: Linux ISCNR90TMR1S 5.4.72-microsoft-standard-
+  WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64
+  GNU/Linux
+
+  guest operating system: none (bare metal)
+
+  Observation:
+  I am simulating embedded firmware for a Cortex-M55 device, using MPS3-AN5=
+47 machine. In the startup code I am accessing the FPSCR core register:
+
+  =C2=A0=C2=A0=C2=A0=C2=A0unsigned int fpscr =3D__get_FPSCR();
+  =C2=A0=C2=A0=C2=A0=C2=A0fpscr =3D fpscr & (~FPU_FPDSCR_AHP_Msk);
+  =C2=A0=C2=A0=C2=A0=C2=A0__set_FPSCR(fpscr);
+
+  where the register access functions __get_FPSCR() and
+  __set_FPSCR(fpscr) are taken from CMSIS_5 at
+  ./CMSIS/Core/include/cmsis_gcc.h
+
+  I observe hardfaults upon __get_FPSCR() and __set_FPSCR(fpscr). The
+  same startup code works fine on the Arm Corstone-300 FVP (MPS3-AN547).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1923861/+subscriptions
 
