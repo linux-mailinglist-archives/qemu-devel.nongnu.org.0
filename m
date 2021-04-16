@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E05B3626A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:22:55 +0200 (CEST)
-Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE27D36267E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:14:42 +0200 (CEST)
+Received: from localhost ([::1]:34026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSBC-0007lq-D4
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46838)
+	id 1lXS3F-0007HK-VV
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLR-0004mu-0G
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:25 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45238)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLO-0004gB-7N
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLA-0001Y9-EU
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:24 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLA-0001Y5-Ct
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:21 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 773FAB2D6;
- Fri, 16 Apr 2021 16:28:49 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 5EB75B2EA;
+ Fri, 16 Apr 2021 16:28:50 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 51/80] tests: do not run test-hmp on all machines for ARM
+Subject: [RFC v14 53/80] tests: do not run qom-test on all machines for ARM
  KVM-only
-Date: Fri, 16 Apr 2021 18:27:55 +0200
-Message-Id: <20210416162824.25131-52-cfontana@suse.de>
+Date: Fri, 16 Apr 2021 18:27:57 +0200
+Message-Id: <20210416162824.25131-54-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
@@ -73,15 +73,15 @@ machine in this case.
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/test-hmp.c | 20 ++++++++++++++++++++
+ tests/qtest/qom-test.c | 20 ++++++++++++++++++++
  1 file changed, 20 insertions(+)
 
-diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
-index 413eb95d2a..1d4b4f2f0e 100644
---- a/tests/qtest/test-hmp.c
-+++ b/tests/qtest/test-hmp.c
-@@ -157,8 +157,28 @@ int main(int argc, char **argv)
- 
+diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
+index eb34af843b..b0a6d10148 100644
+--- a/tests/qtest/qom-test.c
++++ b/tests/qtest/qom-test.c
+@@ -90,7 +90,27 @@ int main(int argc, char **argv)
+ {
      g_test_init(&argc, &argv, NULL);
  
 +    /*
@@ -106,9 +106,8 @@ index 413eb95d2a..1d4b4f2f0e 100644
 +    goto add_machine_test_done;
  
 + add_machine_test_done:
-     /* as none machine has no memory by default, add a test case with memory */
-     qtest_add_data_func("hmp/none+2MB", g_strdup("none -m 2"), test_machine);
- 
+     return g_test_run();
+ }
 -- 
 2.26.2
 
