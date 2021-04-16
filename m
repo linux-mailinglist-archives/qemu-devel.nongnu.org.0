@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8382236278F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:15:24 +0200 (CEST)
-Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEB6362796
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:19:28 +0200 (CEST)
+Received: from localhost ([::1]:35032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSzz-0001bD-J0
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
+	id 1lXT3v-0003yn-OU
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:19:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXSYC-0002rj-Sm; Fri, 16 Apr 2021 13:46:40 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXSYA-0003aQ-WE; Fri, 16 Apr 2021 13:46:40 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h4so18428725wrt.12;
- Fri, 16 Apr 2021 10:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MrOc6ZehVCG/YLPBwV+Pro29+HUpOQe0K9Z4xnhhdTM=;
- b=lDh8c3GjtMaLHgtqvJiv65HJGrwIkUAjC1G+nm8PWI3tvllnIWzsBWAjZ9MPZwVlF+
- dfxue5Pt72pkrIzimIGbwBM8rP9YSYMKmNo3Xi+HPA34A8fk9fh2zD/xFr/nHTFagD7I
- cZDdzYXxvfuaILhsPJ1pvmJoOw3LYOi3VEDKhWZwtKnM9Rl0bl6gVD9tPRfGD5KqkkkP
- Sd2Gh0AtgKV8EMAOwu75sC7BtG35SUE8GkEwvY/rSlLvh1pVQzP9Xn4h0ndr9qnagOSn
- RmMmxyAZfR5d/9DBHzwnJy8cb34jx5HXxaHbj2Z7ax7J+tPwuWFDiyEqao+HtE4g0VO1
- n2sQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXSew-00051i-Os
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:53:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXSem-0007Wk-C8
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:53:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618595606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pclVr/KY8UOuGrZFXxg2lMxcKH0Z+oPHoROLoY2WHuk=;
+ b=c1ETC2tIkJ/UQ0BmeSC8l0SBXheFmbuPtUmhFK86GQh4oG5KG9PiUNhzxatJc7CzAmHihZ
+ 2SYxVjHIbx8Yu81P4rzjw2gVx2RSBMJtVDgdIMQmNRBOnQ8c3gqXa5wgpiqUfsJR3WOuXN
+ ePI9hHRN/8Hh6eh4anSglhmH+C0g6eQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-WcYjk-qpPpiv2M_bavgjMw-1; Fri, 16 Apr 2021 13:53:24 -0400
+X-MC-Unique: WcYjk-qpPpiv2M_bavgjMw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m2-20020a5d64a20000b02900fd24e6af66so4800394wrp.21
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:53:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MrOc6ZehVCG/YLPBwV+Pro29+HUpOQe0K9Z4xnhhdTM=;
- b=X0+Ku78uRkLpOgDE+tIonsqDwtjh+Ae9aOTK6J6cCpSlaC62fX/Dap/JapTXgyztan
- 279FLOKDMDkgS+vyjjRZVTmbaWld5oMIBfqusJfvzhkZbxsXZw+JrBz6ORBlx7WDMF99
- NMXCulhBh5/ZJwazhgAqviDjcbGR4f1rkmk2D3AGRRrZfe6KEWWyqivZRkMp2VXlJrrU
- 7xHhn517yNxCsYGFIGN9YXLjIimSE93aBA3jugJ53lo+6hVLO2Y2IkN83gA4nOWcuCHq
- jzfmAaRhBJTLjiqWlNWcTy+QyCAZKtPhyhb6u9vRvatjwqbYyJOXs4GciWwoAidxHuPN
- w1Tg==
-X-Gm-Message-State: AOAM531+gsnwb6FF0xrK1H3j5l9fAATk63xDNV7mkHhHqpcuIgmufZzM
- Ti+gVcOu16YhBBJFmCBXt8g=
-X-Google-Smtp-Source: ABdhPJzJfaSvo454J15YBup0dvYAZv3NqeBmZE6td9DvlyCWQbLk/YrkIqRUhCrpkleFjpHHKW9IZQ==
-X-Received: by 2002:a05:6000:154e:: with SMTP id
- 14mr401782wry.24.1618595196883; 
- Fri, 16 Apr 2021 10:46:36 -0700 (PDT)
+ bh=pclVr/KY8UOuGrZFXxg2lMxcKH0Z+oPHoROLoY2WHuk=;
+ b=KwE0QVEkROcWXXDsey3sLRVHwEc7XxIQyeOS9BV8lUxOYu7esqdJztHL5L2t4Hl5ex
+ xpUlLxe5HmUzXDMIjbCPLskc0uXcmPVtpd+4GB3636Q3kbeinVvwX1BmUiylHie9q4MZ
+ ALraYPWmcjPdMs0D1KhbIBjf6vAPKT7Hx+9zJGSAvdQ53sAUYxi8YS80N9f99ZB6RBSu
+ ol8JvHl7M0T7LFSC5W3ScXXRTcWjOkqBgdY1WJ4RqutSWaw38TffOljXVH686I0fbWVn
+ RumXiWeujqozHWDnSy+JsWgjBi9xl3PzwZmfnASy9GmxWkZr+FCTtomQdZKR57qofjL+
+ UqAg==
+X-Gm-Message-State: AOAM531gYj5zexsylDYV4U3mOM/dJp+4Yjt9NNyVSQR7EzaRYSSS/91m
+ RjW+iiFkB5KeZN4WcGX9uUIYHSPaST6lfzlClukWHl/Etz1evFE8PxuhpjGhpjsf83gcBHYH15h
+ hRlnpTHfrhWINqdQ=
+X-Received: by 2002:a05:600c:379a:: with SMTP id
+ o26mr9040010wmr.66.1618595603531; 
+ Fri, 16 Apr 2021 10:53:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxv05Qhenq9HB6mu9/d/wTK0ZrWskNWyiToF8GWUmoCCwZWIsLe58qzIdvR201ip0HwBNRZKg==
+X-Received: by 2002:a05:600c:379a:: with SMTP id
+ o26mr9039987wmr.66.1618595603181; 
+ Fri, 16 Apr 2021 10:53:23 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id l14sm385943wrv.94.2021.04.16.10.46.35
+ by smtp.gmail.com with ESMTPSA id v3sm10289421wmj.25.2021.04.16.10.53.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 10:46:36 -0700 (PDT)
-Subject: Re: [PATCH 3/8] tests/acceptance/linux_ssh_mips_malta.py: drop
- identical setUp
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210415215141.1865467-1-crosa@redhat.com>
- <20210415215141.1865467-4-crosa@redhat.com>
- <229a10ef-b912-2191-c670-a2c74a0870a4@amsat.org>
- <20210416154356.GB1914548@amachine.somewhere>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <15232a34-9cc1-a9cb-3261-ee61d53976d1@amsat.org>
-Date: Fri, 16 Apr 2021 19:46:35 +0200
+ Fri, 16 Apr 2021 10:53:22 -0700 (PDT)
+Subject: Re: [PATCH 2/4] Do not include hw/boards.h if it's not really
+ necessary
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210416171314.2074665-1-thuth@redhat.com>
+ <20210416171314.2074665-3-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e55a2cf6-2994-5318-0fa5-9a9057457e84@redhat.com>
+Date: Fri, 16 Apr 2021 19:53:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210416154356.GB1914548@amachine.somewhere>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20210416171314.2074665-3-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,44 +102,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/21 5:43 PM, Cleber Rosa wrote:
-> On Fri, Apr 16, 2021 at 07:26:05AM +0200, Philippe Mathieu-Daudé wrote:
->> On 4/15/21 11:51 PM, Cleber Rosa wrote:
->>> These tests' setUp do not do anything beyong what their base class do.
->>> And while they do decorate the setUp() we can decorate the classes
->>> instead, so no functionality is lost here.
->>
->> This is what I did first when adding this test, but it was not working,
->> so I had to duplicate it to each method. Did something change so now
->> this is possible?
->>
+Hi Thomas,
+
+On 4/16/21 7:13 PM, Thomas Huth wrote:
+> Stop including hw/boards.h in files that don't need it.
 > 
-> It did, but quite a while ago:
-> 
->   https://avocado-framework.readthedocs.io/en/87.0/releases/76_0.html#users-test-writers
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  accel/tcg/tcg-accel-ops-icount.c | 1 -
+>  accel/tcg/tcg-accel-ops-rr.c     | 1 -
+>  accel/tcg/tcg-accel-ops.c        | 1 -
+>  hw/acpi/cpu.c                    | 1 -
+>  hw/acpi/memory_hotplug.c         | 1 -
+>  hw/alpha/typhoon.c               | 1 -
+>  hw/arm/aspeed.c                  | 1 -
 
-OK, the test is older. Do you mind adding a comment?
+It requires the macros declared by:
 
-"Since Avocado 76.0 we can decorate setUp() directly, ..."
+OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  hw/arm/omap1.c                   | 1 -
+>  hw/arm/omap2.c                   | 1 -
+>  hw/arm/strongarm.c               | 1 -
+>  hw/arm/virt.c                    | 1 -
 
-> It could have been updated much earlier, but, better late than never.
+Ditto.
 
-Sure :)
+>  hw/avr/arduino.c                 | 1 -
 
-Thanks,
+Ditto.
 
-Phil.
+>  hw/avr/atmega.c                  | 1 -
+>  hw/display/next-fb.c             | 1 -
+>  hw/hppa/machine.c                | 1 -
+
+Ditto.
+
+>  hw/i386/acpi-build.c             | 1 -
+>  hw/i386/acpi-microvm.c           | 1 -
+>  hw/i386/intel_iommu.c            | 1 -
+>  hw/i386/pc.c                     | 1 -
+
+Ditto (MACHINE_CLASS macro).
+
+>  hw/i386/x86-iommu.c              | 1 -
+>  hw/intc/sifive_plic.c            | 1 -
+>  hw/mips/loongson3_virt.c         | 1 -
+
+Ditto.
+
+(skipping the rest).
+
+>  hw/ppc/e500.c                    | 1 -
+>  hw/ppc/mac_newworld.c            | 1 -
+>  hw/ppc/mac_oldworld.c            | 1 -
+>  hw/ppc/pnv.c                     | 1 -
+>  hw/ppc/ppc4xx_devs.c             | 1 -
+>  hw/ppc/rs6000_mc.c               | 1 -
+>  hw/ppc/spapr.c                   | 1 -
+>  hw/ppc/spapr_rtas.c              | 1 -
+>  hw/remote/iohub.c                | 1 -
+>  hw/s390x/s390-virtio-ccw.c       | 2 --
+>  hw/tricore/tc27x_soc.c           | 1 -
+>  hw/tricore/triboard.c            | 1 -
+>  softmmu/vl.c                     | 1 -
+>  35 files changed, 36 deletions(-)
+
 
