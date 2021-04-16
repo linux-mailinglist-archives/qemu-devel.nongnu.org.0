@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7681C362645
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:03:27 +0200 (CEST)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40405362652
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:07:20 +0200 (CEST)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRsM-0004L3-H2
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46490)
+	id 1lXRw7-0008FN-11
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL9-0004Fi-GN
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:07 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44334)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLD-0004KP-QC
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL1-0001Sr-Te
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:07 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRL2-0001Tj-SA
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:11 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4A2CDB1C9;
- Fri, 16 Apr 2021 16:28:40 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 25A95B2E7;
+ Fri, 16 Apr 2021 16:28:41 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 30/80] target/arm: fixup sve_exception_el code style before
- move
-Date: Fri, 16 Apr 2021 18:27:34 +0200
-Message-Id: <20210416162824.25131-31-cfontana@suse.de>
+Subject: [RFC v14 32/80] target/arm: fix comments style of fp_exception_el
+ before moving it
+Date: Fri, 16 Apr 2021 18:27:36 +0200
+Message-Id: <20210416162824.25131-33-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
@@ -61,49 +61,53 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-before moving over sve_exception_el from the helper code,
-cleanup the style.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/tcg/helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/arm/tcg/helper.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index 5ec8f9c005..e4f18bcaa7 100644
+index aaa307daca..4e027b98fe 100644
 --- a/target/arm/tcg/helper.c
 +++ b/target/arm/tcg/helper.c
-@@ -261,7 +261,8 @@ static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
+@@ -1625,13 +1625,15 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
+     return crc32c(acc, buf, bytes) ^ 0xffffffff;
  }
- #endif /* TARGET_AARCH64 */
  
--/* Return the exception level to which exceptions should be taken
+-/* Return the exception level to which FP-disabled exceptions should
 +/*
-+ * Return the exception level to which exceptions should be taken
-  * via SVEAccessTrap.  If an exception should be routed through
-  * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
-  * take care of raising that exception.
-@@ -275,7 +276,8 @@ int sve_exception_el(CPUARMState *env, int el)
-     if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-         bool disabled = false;
++ * Return the exception level to which FP-disabled exceptions should
+  * be taken, or 0 if FP is enabled.
+  */
+ int fp_exception_el(CPUARMState *env, int cur_el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    /* CPACR and the CPTR registers don't exist before v6, so FP is
++    /*
++     * CPACR and the CPTR registers don't exist before v6, so FP is
+      * always accessible
+      */
+     if (!arm_feature(env, ARM_FEATURE_V6)) {
+@@ -1654,7 +1656,8 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+         return 0;
+     }
  
--        /* The CPACR.ZEN controls traps to EL1:
-+        /*
-+         * The CPACR.ZEN controls traps to EL1:
-          * 0, 2 : trap EL0 and EL1 accesses
-          * 1    : trap only EL0 accesses
-          * 3    : trap no accesses
-@@ -301,7 +303,8 @@ int sve_exception_el(CPUARMState *env, int el)
+-    /* The CPACR controls traps to EL1, or PL1 if we're 32 bit:
++    /*
++     * The CPACR controls traps to EL1, or PL1 if we're 32 bit:
+      * 0, 2 : trap EL0 and EL1/PL1 accesses
+      * 1    : trap only EL0 accesses
+      * 3    : trap no accesses
+@@ -1701,7 +1704,8 @@ int fp_exception_el(CPUARMState *env, int cur_el)
          }
      }
  
--    /* CPTR_EL2.  Since TZ and TFP are positive,
+-    /* For the CPTR registers we don't need to guard with an ARM_FEATURE
 +    /*
-+     * CPTR_EL2.  Since TZ and TFP are positive,
-      * they will be zero when EL2 is not present.
++     * For the CPTR registers we don't need to guard with an ARM_FEATURE
+      * check because zero bits in the registers mean "don't trap".
       */
-     if (el <= 2 && arm_is_el2_enabled(env)) {
+ 
 -- 
 2.26.2
 
