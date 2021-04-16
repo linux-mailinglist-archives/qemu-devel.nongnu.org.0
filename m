@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF0F3627D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:39:54 +0200 (CEST)
-Received: from localhost ([::1]:42992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF98362804
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:48:12 +0200 (CEST)
+Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXTNh-0003WZ-HM
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:39:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43976)
+	id 1lXTVj-0008EO-3U
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:48:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lXTG0-0001YS-0t
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27815)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lXTTg-0007Lj-C0; Fri, 16 Apr 2021 14:46:04 -0400
+Resent-Date: Fri, 16 Apr 2021 14:46:04 -0400
+Resent-Message-Id: <E1lXTTg-0007Lj-C0@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lXTFx-0004Dk-Ht
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618597912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MerynAwfnaWYhBvNBAO0tT0lkCPQcygijoyA2GTlY4k=;
- b=b8rKMCh73N0cWTbKPrXEdennV3iY6j4arzPmuYfyl5j2SO8JLk05/UoE67emTiQ3rYtMJd
- GfIHOxuCqYHT4F3dG6N7bHll2krLUBsINFgtX7nTYy246SsB68zk+zVD9mXIfFSvk56wd0
- WFcZkdax/WMyLKCabXOBtScOyZZlp2A=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-c41MqSi8NLyMfbJI7-rX0A-1; Fri, 16 Apr 2021 14:31:49 -0400
-X-MC-Unique: c41MqSi8NLyMfbJI7-rX0A-1
-Received: by mail-pf1-f200.google.com with SMTP id
- t17-20020a056a001391b02902472d81c024so4721276pfg.2
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 11:31:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MerynAwfnaWYhBvNBAO0tT0lkCPQcygijoyA2GTlY4k=;
- b=b9HZ30/RJDimPpM3xUx/l2zQqcyV1NFPvUvZuwwq/DKlsfw+v4VKC+PDnSN1argMC8
- pHH85ea9S7prH4W/JLcxUEptcNFG9FW6b8At8ZpXxWluXQQl7EahosExEUDO6OVcwl1x
- oEz5IwR/A42kAtR4w+Kx+rZrwqti75hRzcgMUzMY4DvNiE8NP86X5e7HZbZAUGnsVUNY
- 3Ro4Yh0zNhq9NByBYUsf+wtVb6esEd1dJvr9Alk3K4ZY0lyxt5oncrb3njV04J9wlIBZ
- MWud486xsIqhSHbtgm27pAEXxr8/DexgF/59ZXAHlcszHMS8PADx77aZQDWAVEY8WjOB
- HymQ==
-X-Gm-Message-State: AOAM530VroBx1gsr++R8cp4rPtUei3RR6vOXwFbJkdBk+6UeWEYszP4H
- sj7M+09M/cDhyYHoQqgc48kJkqRhPAhnWIkBXE829+1jNYGGk/J6jOU3jUMyck0ALK0bhQxaidG
- FE6nqSxS3Zt3UbrLDK38X8tCHaWWjLkk=
-X-Received: by 2002:a17:902:a988:b029:eb:679:462b with SMTP id
- bh8-20020a170902a988b02900eb0679462bmr10913071plb.67.1618597908692; 
- Fri, 16 Apr 2021 11:31:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSLuKJa9b6/Hd7cpMki6ZLvm90nMwG9lm5IshvOjaSgZ+xbq416kymagC3ojmOcRPUuG/6b2QPz/OfENaJYgo=
-X-Received: by 2002:a17:902:a988:b029:eb:679:462b with SMTP id
- bh8-20020a170902a988b02900eb0679462bmr10913049plb.67.1618597908365; Fri, 16
- Apr 2021 11:31:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lXTTZ-0004DR-RR; Fri, 16 Apr 2021 14:46:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618598751; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KOJ11l6hnx9x2LwoFPDAjelQXk5sdHyfWVnV6ntOGt1oIBM5y5ZZ30V3m7j3tcUTfwG9hkaHE3FPXDoGTaHRYO70SZS6N3JhI/OaLMfk/hBgZ3kQyLFW1TE19xX2RXXmZ+5lsOqYzpjZGF7sobwNK1hAn3XufWdeKNkI3h3eL6o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618598751;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=LXQxHJo/9wZ+JgtBrU+BxFHEDyB5HhN5QTy51zioyk8=; 
+ b=gtM1q+0KiuvZSaUUAbnETFJ1cLpiBiIIZi1JlMDAHZqb4cpoq838WFC1yP3o8jkHO5xfMdtFAR6A2puUm4k+rAXd5OfQM8+PXaNh9MMo5uIBI4Z3HoJuOs/dmylbVRzQU1+t7u7IvapXnAUjWd0apxG+e/KAZqnf0gs/2OGyz54=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618598749516328.04631760582436;
+ Fri, 16 Apr 2021 11:45:49 -0700 (PDT)
+In-Reply-To: <20210416183106.1516563-1-richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 for-6.1 0/9] target/arm mte fixes
+Message-ID: <161859874844.2382.1031653393101241510@72b6d80f974b>
 MIME-Version: 1.0
-References: <20210416135543.20382-1-peter.maydell@linaro.org>
- <63df4bb6-77ae-b8fe-770e-6eb8efa7699d@redhat.com>
- <CAFEAcA9nJmPfcOx7dkF050-cXF6Qf1+5nXWAEkysy-2cn4iTFg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9nJmPfcOx7dkF050-cXF6Qf1+5nXWAEkysy-2cn4iTFg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 16 Apr 2021 20:31:36 +0200
-Message-ID: <CABgObfYaByKBWr8oQUQv_QVkoWZT_vV57CVY0w2MKi74FuqgNQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.0? 0/6] extern "C" overhaul for C++ files
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000005cd6c505c01b31f0"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Fri, 16 Apr 2021 11:45:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,79 +65,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005cd6c505c01b31f0
-Content-Type: text/plain; charset="UTF-8"
-
-Il ven 16 apr 2021, 19:08 Peter Maydell <peter.maydell@linaro.org> ha
-scritto:
-
-> > I think at least 1-3 are 6.0 material because build on a supported
-> > distro (Fedora 34, due for release on April 27) is broken right now.
->
-> We don't support not-yet-released distros, because there's no way
-> to do that: they might always spring new surprises on us that we
-> don't have time to react to. But I agree that the weight of stuff
-> we've built up justifies an rc4.
->
-
-Also we can expect that other distros will have the same issue over the
-next 4 months. (In fact rolling release distros like Debian testing and
-Arch might be already broken for what we know).
-
-Is patch 3 also required? I thought 1 and 2 would suffice, but
-> I don't have a system which has the newer glib.
->
-
-Yes, they do.
-
-Paolo
-
-
-> -- PMM
->
->
-
---0000000000005cd6c505c01b31f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il ven 16 apr 2021, 19:08 Peter Maydell &lt;<a href=3D=
-"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scrit=
-to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">&gt; I think at least 1-3 are 6=
-.0 material because build on a supported<br>
-&gt; distro (Fedora 34, due for release on April 27) is broken right now.<b=
-r>
-<br>
-We don&#39;t support not-yet-released distros, because there&#39;s no way<b=
-r>
-to do that: they might always spring new surprises on us that we<br>
-don&#39;t have time to react to. But I agree that the weight of stuff<br>
-we&#39;ve built up justifies an rc4.<br></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Also we can expect that other distros=
- will have the same issue over the next 4 months. (In fact rolling release =
-distros like Debian testing and Arch might be already broken for what we kn=
-ow).</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail=
-_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">Is patch 3 also required? I thought =
-1 and 2 would suffice, but<br>
-I don&#39;t have a system which has the newer glib.<br></blockquote></div><=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes, they do.</div><div =
-dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">
-<br>
--- PMM<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000005cd6c505c01b31f0--
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxNjE4MzEwNi4xNTE2
+NTYzLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
+ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
+IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNDE2
+MTgzMTA2LjE1MTY1NjMtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
+QVRDSCB2NSBmb3ItNi4xIDAvOV0gdGFyZ2V0L2FybSBtdGUgZml4ZXMKCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8
+IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0
+aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09
+PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVm
+N2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9x
+ZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMTYxODUzODkwNC05MzQzMy0xLWdpdC1z
+ZW5kLWVtYWlsLXJvYmVydC5odUBsaW51eC5pbnRlbC5jb20gLT4gcGF0Y2hldy8xNjE4NTM4OTA0
+LTkzNDMzLTEtZ2l0LXNlbmQtZW1haWwtcm9iZXJ0Lmh1QGxpbnV4LmludGVsLmNvbQogLSBbdGFn
+IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNDE1MTYzMzA0LjQxMjAwNTItMS1waGlsbWRAcmVk
+aGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwNDE1MTYzMzA0LjQxMjAwNTItMS1waGlsbWRAcmVkaGF0
+LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNDE1MjE1MTQxLjE4NjU0Njct
+MS1jcm9zYUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTA0MTUyMTUxNDEuMTg2NTQ2Ny0xLWNy
+b3NhQHJlZGhhdC5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDQxNjEzNTU0
+My4yMDM4Mi0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwNDE2MTM1
+NTQzLjIwMzgyLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAg
+IHBhdGNoZXcvMjAyMTA0MTYxODMxMDYuMTUxNjU2My0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFy
+by5vcmcgLT4gcGF0Y2hldy8yMDIxMDQxNjE4MzEwNi4xNTE2NTYzLTEtcmljaGFyZC5oZW5kZXJz
+b25AbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmQ2OWUxZjYgdGFy
+Z2V0L2FybTogUmVtb3ZlIGxvZzJfZXNpemUgcGFyYW1ldGVyIHRvIGdlbl9tdGVfY2hlY2tOCjgx
+NDMwNzYgdGFyZ2V0L2FybTogU2ltcGxpZnkgc3ZlIG10ZSBjaGVja2luZwo1YmIxMmE4IHRhcmdl
+dC9hcm06IFJlbmFtZSBtdGVfcHJvYmUxIHRvIG10ZV9wcm9iZQowOTRjYTgwIHRhcmdldC9hcm06
+IE1lcmdlIG10ZV9jaGVjazEsIG10ZV9jaGVja04KMmNkZGQ3YiB0YXJnZXQvYXJtOiBSZXBsYWNl
+IE1URURFU0MgRVNJWkUrVFNJWkUgd2l0aCBTSVpFTTEKZGNiOTNjMCB0ZXN0L3RjZy9hYXJjaDY0
+OiBBZGQgbXRlLTUKY2M2Nzc1ZCB0YXJnZXQvYXJtOiBGaXggdW5hbGlnbmVkIGNoZWNrcyBmb3Ig
+bXRlX2NoZWNrMSwgbXRlX3Byb2JlMQpmZmU2ODE3IHRhcmdldC9hcm06IFNwbGl0IG91dCBtdGVf
+cHJvYmVfaW50Cjk4MjY4ZTMgdGFyZ2V0L2FybTogRml4IG10ZV9jaGVja04KCj09PSBPVVRQVVQg
+QkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21taXQgOTgyNjhlM2E3MjU4ICh0YXJnZXQvYXJtOiBG
+aXggbXRlX2NoZWNrTikKMi85IENoZWNraW5nIGNvbW1pdCBmZmU2ODE3MDU2ZjkgKHRhcmdldC9h
+cm06IFNwbGl0IG91dCBtdGVfcHJvYmVfaW50KQozLzkgQ2hlY2tpbmcgY29tbWl0IGNjNjc3NWRi
+ODcyMyAodGFyZ2V0L2FybTogRml4IHVuYWxpZ25lZCBjaGVja3MgZm9yIG10ZV9jaGVjazEsIG10
+ZV9wcm9iZTEpCjQvOSBDaGVja2luZyBjb21taXQgZGNiOTNjMGI5MWFhICh0ZXN0L3RjZy9hYXJj
+aDY0OiBBZGQgbXRlLTUpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBl
+Y3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpX
+QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
+IG5lZWQgdXBkYXRpbmc/CiMzMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDUyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvOSBoYXMgc3R5bGUgcHJv
+YmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBw
+b3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGlu
+IE1BSU5UQUlORVJTLgo1LzkgQ2hlY2tpbmcgY29tbWl0IDJjZGRkN2I4NWI1YiAodGFyZ2V0L2Fy
+bTogUmVwbGFjZSBNVEVERVNDIEVTSVpFK1RTSVpFIHdpdGggU0laRU0xKQo2LzkgQ2hlY2tpbmcg
+Y29tbWl0IDA5NGNhODA5NmZjNCAodGFyZ2V0L2FybTogTWVyZ2UgbXRlX2NoZWNrMSwgbXRlX2No
+ZWNrTikKNy85IENoZWNraW5nIGNvbW1pdCA1YmIxMmE4MWEyMzUgKHRhcmdldC9hcm06IFJlbmFt
+ZSBtdGVfcHJvYmUxIHRvIG10ZV9wcm9iZSkKOC85IENoZWNraW5nIGNvbW1pdCA4MTQzMDc2MjZl
+Y2EgKHRhcmdldC9hcm06IFNpbXBsaWZ5IHN2ZSBtdGUgY2hlY2tpbmcpCkVSUk9SOiBzcGFjZXMg
+cmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQojOTY6IEZJTEU6IHRhcmdldC9hcm0v
+c3ZlX2hlbHBlci5jOjQ0Mzg6CisgICAgICAgICAgICAgICBzdmVfbGRzdDFfdGxiX2ZuICp0bGJf
+Zm4pCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVx
+dWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQojMTkwOiBGSUxFOiB0YXJnZXQvYXJtL3N2
+ZV9oZWxwZXIuYzo1MDYzOgorICAgICAgICAgICAgICAgc3ZlX2xkc3QxX3RsYl9mbiAqdGxiX2Zu
+KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMiBlcnJvcnMsIDAg
+d2FybmluZ3MsIDIwMiBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzkgaGFzIHN0eWxlIHByb2JsZW1z
+LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
+dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
+VEFJTkVSUy4KCjkvOSBDaGVja2luZyBjb21taXQgZDY5ZTFmNjg1ZWRiICh0YXJnZXQvYXJtOiBS
+ZW1vdmUgbG9nMl9lc2l6ZSBwYXJhbWV0ZXIgdG8gZ2VuX210ZV9jaGVja04pCj09PSBPVVRQVVQg
+RU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cg
+aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNDE2MTgzMTA2LjE1
+MTY1NjMtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
