@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D6F3626C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:29:43 +0200 (CEST)
-Received: from localhost ([::1]:49062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5238F3626C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:30:08 +0200 (CEST)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSHm-0000kI-CT
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
+	id 1lXSIB-0001Ht-BO
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:30:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLW-00051b-3z
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46636)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLb-0005HQ-ER
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:35 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLN-0001cG-0X
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:29 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lXRLP-0001dE-AU
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:29:35 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DAB40B315;
- Fri, 16 Apr 2021 16:28:55 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 972E4B314;
+ Fri, 16 Apr 2021 16:28:57 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v14 65/80] target/arm: arch_dump: restrict ELFCLASS64 to AArch64
-Date: Fri, 16 Apr 2021 18:28:09 +0200
-Message-Id: <20210416162824.25131-66-cfontana@suse.de>
+Subject: [RFC v14 69/80] target/arm: tcg-sve: rename the narrow_vq and
+ change_el functions
+Date: Fri, 16 Apr 2021 18:28:13 +0200
+Message-Id: <20210416162824.25131-70-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210416162824.25131-1-cfontana@suse.de>
 References: <20210416162824.25131-1-cfontana@suse.de>
@@ -60,106 +61,118 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this will allow us to restrict more code to TARGET_AARCH64
+make them canonical for the module name.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/arch_dump.c | 12 +++++++-----
- target/arm/cpu.c       |  1 -
- target/arm/cpu64.c     |  4 ++++
- 3 files changed, 11 insertions(+), 6 deletions(-)
+ target/arm/tcg/tcg-sve.h         | 6 +++---
+ linux-user/syscall.c             | 2 +-
+ target/arm/cpu-exceptions-aa64.c | 2 +-
+ target/arm/tcg/cpregs.c          | 2 +-
+ target/arm/tcg/helper-a64.c      | 2 +-
+ target/arm/tcg/tcg-sve.c         | 6 +++---
+ 6 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-index 0184845310..9cc75a6fda 100644
---- a/target/arm/arch_dump.c
-+++ b/target/arm/arch_dump.c
-@@ -23,6 +23,8 @@
- #include "elf.h"
- #include "sysemu/dump.h"
+diff --git a/target/arm/tcg/tcg-sve.h b/target/arm/tcg/tcg-sve.h
+index 5855bb4289..46e42d1139 100644
+--- a/target/arm/tcg/tcg-sve.h
++++ b/target/arm/tcg/tcg-sve.h
+@@ -21,9 +21,9 @@ uint32_t tcg_sve_disable_lens(unsigned long *sve_vq_map,
+ bool tcg_sve_validate_lens(unsigned long *sve_vq_map, uint32_t max_vq,
+                            Error **errp);
  
-+#ifdef TARGET_AARCH64
-+
- /* struct user_pt_regs from arch/arm64/include/uapi/asm/ptrace.h */
- struct aarch64_user_regs {
-     uint64_t regs[31];
-@@ -141,7 +143,6 @@ static int aarch64_write_elf64_prfpreg(WriteCoreDumpFunction f,
-     return 0;
+-void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
++void tcg_sve_narrow_vq(CPUARMState *env, unsigned vq);
+ 
+-void aarch64_sve_change_el(CPUARMState *env, int old_el,
+-                           int new_el, bool el0_a64);
++void tcg_sve_change_el(CPUARMState *env, int old_el,
++                       int new_el, bool el0_a64);
+ 
+ #endif /* TCG_SVE_H */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d935a98e2f..187fe261d6 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10932,7 +10932,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 vq = MIN(vq, cpu->sve_max_vq);
+ 
+                 if (vq < old_vq) {
+-                    aarch64_sve_narrow_vq(env, vq);
++                    tcg_sve_narrow_vq(env, vq);
+                 }
+                 env->vfp.zcr_el[1] = vq - 1;
+                 arm_rebuild_hflags(env);
+diff --git a/target/arm/cpu-exceptions-aa64.c b/target/arm/cpu-exceptions-aa64.c
+index adaf3bab17..1a3e1d6458 100644
+--- a/target/arm/cpu-exceptions-aa64.c
++++ b/target/arm/cpu-exceptions-aa64.c
+@@ -119,7 +119,7 @@ void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+          * Note that new_el can never be 0.  If cur_el is 0, then
+          * el0_a64 is is_a64(), else el0_a64 is ignored.
+          */
+-        aarch64_sve_change_el(env, cur_el, new_el, is_a64(env));
++        tcg_sve_change_el(env, cur_el, new_el, is_a64(env));
+     }
+ 
+     if (cur_el < new_el) {
+diff --git a/target/arm/tcg/cpregs.c b/target/arm/tcg/cpregs.c
+index 5c5915574e..477d8153a6 100644
+--- a/target/arm/tcg/cpregs.c
++++ b/target/arm/tcg/cpregs.c
+@@ -5814,7 +5814,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+      */
+     new_len = sve_zcr_len_for_el(env, cur_el);
+     if (new_len < old_len) {
+-        aarch64_sve_narrow_vq(env, new_len + 1);
++        tcg_sve_narrow_vq(env, new_len + 1);
+     }
  }
  
--#ifdef TARGET_AARCH64
- static off_t sve_zreg_offset(uint32_t vq, int n)
+diff --git a/target/arm/tcg/helper-a64.c b/target/arm/tcg/helper-a64.c
+index 18d4809c23..7bb1a9d7bd 100644
+--- a/target/arm/tcg/helper-a64.c
++++ b/target/arm/tcg/helper-a64.c
+@@ -1042,7 +1042,7 @@ void HELPER(exception_return)(CPUARMState *env, uint64_t new_pc)
+      * Note that cur_el can never be 0.  If new_el is 0, then
+      * el0_a64 is return_to_aa64, else el0_a64 is ignored.
+      */
+-    aarch64_sve_change_el(env, cur_el, new_el, return_to_aa64);
++    tcg_sve_change_el(env, cur_el, new_el, return_to_aa64);
+ 
+     qemu_mutex_lock_iothread();
+     arm_call_el_change_hook(env_archcpu(env));
+diff --git a/target/arm/tcg/tcg-sve.c b/target/arm/tcg/tcg-sve.c
+index 908d2c2f2c..25d5a5867c 100644
+--- a/target/arm/tcg/tcg-sve.c
++++ b/target/arm/tcg/tcg-sve.c
+@@ -95,7 +95,7 @@ bool tcg_sve_validate_lens(unsigned long *sve_vq_map, uint32_t max_vq,
+  * may well be cheaper than conditionals to restrict the operation
+  * to the relevant portion of a uint16_t[16].
+  */
+-void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq)
++void tcg_sve_narrow_vq(CPUARMState *env, unsigned vq)
  {
-     off_t off = sizeof(struct aarch64_user_sve_header);
-@@ -229,7 +230,6 @@ static int aarch64_write_elf64_sve(WriteCoreDumpFunction f,
+     int i, j;
+     uint64_t pmask;
+@@ -124,7 +124,7 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq)
+ /*
+  * Notice a change in SVE vector size when changing EL.
+  */
+-void aarch64_sve_change_el(CPUARMState *env, int old_el,
++void tcg_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -162,6 +162,6 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
  
-     return 0;
- }
--#endif
- 
- int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-                              int cpuid, void *opaque)
-@@ -272,15 +272,15 @@ int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-         return ret;
+     /* When changing vector length, clear inaccessible state.  */
+     if (new_len < old_len) {
+-        aarch64_sve_narrow_vq(env, new_len + 1);
++        tcg_sve_narrow_vq(env, new_len + 1);
      }
- 
--#ifdef TARGET_AARCH64
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-         ret = aarch64_write_elf64_sve(f, env, cpuid, s);
-     }
--#endif
- 
-     return ret;
  }
- 
-+#endif /* TARGET_AARCH64 */
-+
- /* struct pt_regs from arch/arm/include/asm/ptrace.h */
- struct arm_user_regs {
-     uint32_t regs[17];
-@@ -449,12 +449,14 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-     size_t note_size;
- 
-     if (class == ELFCLASS64) {
-+#ifdef TARGET_AARCH64
-         note_size = AARCH64_PRSTATUS_NOTE_SIZE;
-         note_size += AARCH64_PRFPREG_NOTE_SIZE;
--#ifdef TARGET_AARCH64
-         if (cpu_isar_feature(aa64_sve, cpu)) {
-             note_size += AARCH64_SVE_NOTE_SIZE(&cpu->env);
-         }
-+#else
-+        return -1; /* unsupported */
- #endif
-     } else {
-         note_size = ARM_PRSTATUS_NOTE_SIZE;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d192dd1ba4..ffa31729e1 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1391,7 +1391,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->asidx_from_attrs = arm_asidx_from_attrs;
-     cc->vmsd = &vmstate_arm_cpu;
-     cc->virtio_is_big_endian = arm_cpu_virtio_is_big_endian;
--    cc->write_elf64_note = arm_cpu_write_elf64_note;
-     cc->write_elf32_note = arm_cpu_write_elf32_note;
- #endif
- 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 7d6e0b553f..8c96a108fc 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -636,6 +636,10 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_arch_name = aarch64_gdb_arch_name;
-     cc->dump_state = arm_cpu_dump_state;
- 
-+#ifndef CONFIG_USER_ONLY
-+    cc->write_elf64_note = arm_cpu_write_elf64_note;
-+#endif /* !CONFIG_USER_ONLY */
-+
-     object_class_property_add_bool(oc, "aarch64", aarch64_cpu_get_aarch64,
-                                    aarch64_cpu_set_aarch64);
-     object_class_property_set_description(oc, "aarch64",
 -- 
 2.26.2
 
