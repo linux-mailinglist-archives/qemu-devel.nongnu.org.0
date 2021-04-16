@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEB6362796
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:19:28 +0200 (CEST)
-Received: from localhost ([::1]:35032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2C7362761
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:03:55 +0200 (CEST)
+Received: from localhost ([::1]:60418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXT3v-0003yn-OU
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35174)
+	id 1lXSos-00078o-KU
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXSew-00051i-Os
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54613)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXSlE-0005JJ-Hi
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:00:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lXSem-0007Wk-C8
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:53:33 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXSlC-00031o-2Z
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618595606;
+ s=mimecast20190719; t=1618596004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pclVr/KY8UOuGrZFXxg2lMxcKH0Z+oPHoROLoY2WHuk=;
- b=c1ETC2tIkJ/UQ0BmeSC8l0SBXheFmbuPtUmhFK86GQh4oG5KG9PiUNhzxatJc7CzAmHihZ
- 2SYxVjHIbx8Yu81P4rzjw2gVx2RSBMJtVDgdIMQmNRBOnQ8c3gqXa5wgpiqUfsJR3WOuXN
- ePI9hHRN/8Hh6eh4anSglhmH+C0g6eQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-WcYjk-qpPpiv2M_bavgjMw-1; Fri, 16 Apr 2021 13:53:24 -0400
-X-MC-Unique: WcYjk-qpPpiv2M_bavgjMw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m2-20020a5d64a20000b02900fd24e6af66so4800394wrp.21
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:53:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pclVr/KY8UOuGrZFXxg2lMxcKH0Z+oPHoROLoY2WHuk=;
- b=KwE0QVEkROcWXXDsey3sLRVHwEc7XxIQyeOS9BV8lUxOYu7esqdJztHL5L2t4Hl5ex
- xpUlLxe5HmUzXDMIjbCPLskc0uXcmPVtpd+4GB3636Q3kbeinVvwX1BmUiylHie9q4MZ
- ALraYPWmcjPdMs0D1KhbIBjf6vAPKT7Hx+9zJGSAvdQ53sAUYxi8YS80N9f99ZB6RBSu
- ol8JvHl7M0T7LFSC5W3ScXXRTcWjOkqBgdY1WJ4RqutSWaw38TffOljXVH686I0fbWVn
- RumXiWeujqozHWDnSy+JsWgjBi9xl3PzwZmfnASy9GmxWkZr+FCTtomQdZKR57qofjL+
- UqAg==
-X-Gm-Message-State: AOAM531gYj5zexsylDYV4U3mOM/dJp+4Yjt9NNyVSQR7EzaRYSSS/91m
- RjW+iiFkB5KeZN4WcGX9uUIYHSPaST6lfzlClukWHl/Etz1evFE8PxuhpjGhpjsf83gcBHYH15h
- hRlnpTHfrhWINqdQ=
-X-Received: by 2002:a05:600c:379a:: with SMTP id
- o26mr9040010wmr.66.1618595603531; 
- Fri, 16 Apr 2021 10:53:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxv05Qhenq9HB6mu9/d/wTK0ZrWskNWyiToF8GWUmoCCwZWIsLe58qzIdvR201ip0HwBNRZKg==
-X-Received: by 2002:a05:600c:379a:: with SMTP id
- o26mr9039987wmr.66.1618595603181; 
- Fri, 16 Apr 2021 10:53:23 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id v3sm10289421wmj.25.2021.04.16.10.53.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 10:53:22 -0700 (PDT)
-Subject: Re: [PATCH 2/4] Do not include hw/boards.h if it's not really
- necessary
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210416171314.2074665-1-thuth@redhat.com>
- <20210416171314.2074665-3-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e55a2cf6-2994-5318-0fa5-9a9057457e84@redhat.com>
-Date: Fri, 16 Apr 2021 19:53:21 +0200
+ bh=o1nkhymr+6hLcTRcwTaBhRqO6hPDr9KFt/t7KAdeiO0=;
+ b=AeA3ut5L4tw2HYtKZtxvAst7CtwVLf+gZdC8cEE764nUakr9tCebJO4oyhEfmyEy3Iytj/
+ T5tJrg4YdeF1i+BlSwuxOoqJKu75rLjkguX6T2v0OTdme22JgBprgXBmll5vuNnbthKg5B
+ TximtzTSYtAqbG0+U5fDUiRZcoI/woI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-V418an_lP52slmPdWEDTtQ-1; Fri, 16 Apr 2021 14:00:00 -0400
+X-MC-Unique: V418an_lP52slmPdWEDTtQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 757B880A19E;
+ Fri, 16 Apr 2021 17:59:59 +0000 (UTC)
+Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 878E719727;
+ Fri, 16 Apr 2021 17:59:58 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] qapi/error: Repurpose QAPIError as a generic
+ exception base class
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210330171844.1197918-1-jsnow@redhat.com>
+ <20210330171844.1197918-2-jsnow@redhat.com>
+ <87mtu0gi6u.fsf@dusky.pond.sub.org>
+ <662c4eae-f704-37b4-9d89-f3bbf9108ec2@redhat.com>
+ <87im4mrchp.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <545d16db-1251-2153-b36f-14ebeb3b07cb@redhat.com>
+Date: Fri, 16 Apr 2021 13:59:57 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210416171314.2074665-3-thuth@redhat.com>
+In-Reply-To: <87im4mrchp.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,7 +72,7 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,74 +85,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
-
-On 4/16/21 7:13 PM, Thomas Huth wrote:
-> Stop including hw/boards.h in files that don't need it.
+On 4/16/21 2:04 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  accel/tcg/tcg-accel-ops-icount.c | 1 -
->  accel/tcg/tcg-accel-ops-rr.c     | 1 -
->  accel/tcg/tcg-accel-ops.c        | 1 -
->  hw/acpi/cpu.c                    | 1 -
->  hw/acpi/memory_hotplug.c         | 1 -
->  hw/alpha/typhoon.c               | 1 -
->  hw/arm/aspeed.c                  | 1 -
+>> On 4/15/21 2:44 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> Rename QAPIError to QAPISourceError, and then create a new QAPIError
+>>>> class that serves as the basis for all of our other custom exceptions.
+>>>
+>>> Isn't the existing QAPIError such a base class already?  Peeking
+>>> ahead...  aha, your new base class is abstract.  Can you explain why we
+>>> that's useful?
+>>>
+>>
+>> Sure. The existing QAPIError class assumes that it's an error that has a
+>> source location, but not all errors will. The idea is that an abstract
+>> error class can be used as the ancestor for all other errors in a
+>> type-safe way, such that:
+>>
+>> try:
+>>       qapi.something_or_other()
+>> except QAPIError as err:
+>>       err.some_sort_of_method()
+>>
+>> (1) This is a type-safe construct, and
+>> (2) This is sufficient to catch all errors that originate from within
+>> the library, regardless of their exact type.
+>>
+>> Primarily, it's a ploy to get the SourceInfo stuff out of the
+>> common/root exception for type safety reasons.
+>>
+>> (Later in the series, you'll see there's a few places where we try to
+>> fake SourceInfo stuff in order to use QAPIError, by shuffling this
+>> around, we allow ourselves to raise exceptions that don't need this
+>> hackery.)
+> 
+> I think you're conflating a real issue with a non-issue.
+> 
+> The real issue: you want to get rid of fake QAPISourceInfo.  This isn't
+> terribly important, but small cleanups count, too.  I can't see the "few
+> places where we try to fake" in this series, though.  Is it in a later
+> part, or am I just blind?
+> 
 
-It requires the macros declared by:
+I was mistaken, we don't fudge it except in one place, and that gets 
+fixed in the parser.py series, not this one.
 
-OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
+What I really wanted: I wanted to make the base error object something 
+that doesn't have an info field at all, fake or not, so that it can be 
+ubiquitously re-used as an abstract, common ancestor.
 
->  hw/arm/omap1.c                   | 1 -
->  hw/arm/omap2.c                   | 1 -
->  hw/arm/strongarm.c               | 1 -
->  hw/arm/virt.c                    | 1 -
+A separate issue: Sometimes, we want to raise errors that *usually* have 
+source information, but *might* not sometimes, because of reasons.
 
-Ditto.
+So, I guess I don't really have a particularly strong technical 
+justification for this anymore, beyond "following a pattern I see and 
+use in other projects":
 
->  hw/avr/arduino.c                 | 1 -
+https://docs.python.org/3/tutorial/errors.html#user-defined-exceptions
 
-Ditto.
+"When creating a module that can raise several distinct errors, a common 
+practice is to create a base class for exceptions defined by that 
+module, and subclass that to create specific exception classes for 
+different error conditions"
 
->  hw/avr/atmega.c                  | 1 -
->  hw/display/next-fb.c             | 1 -
->  hw/hppa/machine.c                | 1 -
+Which QAPIError does not violate, though I usually see this pattern used 
+with a tabula rasa class to maximize re-use.
 
-Ditto.
+Some of my parser.py drafts that attempted to split out QAPIDoc using 
+the Exception-chaining method we discussed on call winds up using this 
+abstract class more directly, but we aren't sure we want that yet. (Or, 
+we're fairly sure we want to try to delay thinking about it. I am still 
+working on re-cleaning part 5.)
 
->  hw/i386/acpi-build.c             | 1 -
->  hw/i386/acpi-microvm.c           | 1 -
->  hw/i386/intel_iommu.c            | 1 -
->  hw/i386/pc.c                     | 1 -
+> The non-issue: wanting a common base class.  Yes, we want one, but we
+> already got one: QAPIError.
+> 
+> I think the commit message should explain the real issue more clearly,
+> without confusing readers with the non-issue.
+> 
+> Makes sense?
+> 
 
-Ditto (MACHINE_CLASS macro).
+I'll spend a few minutes and see if dropping this patch doesn't deeply 
+disturb later patches (or if it can be shuffled backwards to a point 
+where it makes more sense contextually).
 
->  hw/i386/x86-iommu.c              | 1 -
->  hw/intc/sifive_plic.c            | 1 -
->  hw/mips/loongson3_virt.c         | 1 -
+I genuinely can't remember if it's going to wrench something else up 
+later or not right now, though; and I still haven't finished rebasing 
+part 5 so I don't have a "finished" product repository to test on anymore.
 
-Ditto.
-
-(skipping the rest).
-
->  hw/ppc/e500.c                    | 1 -
->  hw/ppc/mac_newworld.c            | 1 -
->  hw/ppc/mac_oldworld.c            | 1 -
->  hw/ppc/pnv.c                     | 1 -
->  hw/ppc/ppc4xx_devs.c             | 1 -
->  hw/ppc/rs6000_mc.c               | 1 -
->  hw/ppc/spapr.c                   | 1 -
->  hw/ppc/spapr_rtas.c              | 1 -
->  hw/remote/iohub.c                | 1 -
->  hw/s390x/s390-virtio-ccw.c       | 2 --
->  hw/tricore/tc27x_soc.c           | 1 -
->  hw/tricore/triboard.c            | 1 -
->  softmmu/vl.c                     | 1 -
->  35 files changed, 36 deletions(-)
+--js
 
 
