@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C373627A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:25:40 +0200 (CEST)
-Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9ED3627C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 20:34:09 +0200 (CEST)
+Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXT9v-0007cq-LE
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41454)
+	id 1lXTI7-0002Xk-HX
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 14:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXT8t-0007BV-AO
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:24:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58244)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXT8q-0007un-Mz
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:24:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618597471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2KwMyUIRd9IVBKE3mnNvcs5cvGOxWkR19iOyYBJ8yjY=;
- b=PDdolBuN4s4AWgRcNipZvyLKdxo2MLACGtZflRoQqTr+SZzqVZYiSlCzMzil6Euvug1zjR
- Y0MRnshzkHySZeAYzRWUAwpRwXjKUIrs+sHrnFZJzow02iIdq7DOAcyY13s0pw6ze6UE4f
- vH/YkuBb6DeD8cEad4KxQLjYuCgz20g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-wXJQVQvkMSaicFlZPkc9cQ-1; Fri, 16 Apr 2021 14:24:27 -0400
-X-MC-Unique: wXJQVQvkMSaicFlZPkc9cQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B77B5192AB9F;
- Fri, 16 Apr 2021 18:24:26 +0000 (UTC)
-Received: from [10.10.117.61] (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53B656F439;
- Fri, 16 Apr 2021 18:24:24 +0000 (UTC)
-Subject: Re: [PATCH v2 4/8] qapi/error: Change assertion
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210330171844.1197918-1-jsnow@redhat.com>
- <20210330171844.1197918-5-jsnow@redhat.com>
- <e760661b-0c3f-bb9b-0b4d-6c5ff77cfd70@redhat.com>
- <87blagghg5.fsf@dusky.pond.sub.org>
- <7436de5c-afda-160a-068d-18bed05a6a68@redhat.com>
- <87eefarbwl.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <95994cdf-7e6b-6d76-578d-c7da27422cbc@redhat.com>
-Date: Fri, 16 Apr 2021 14:24:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lXTFI-0000ev-E1
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:12 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:40658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lXTFG-0003fG-C6
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 14:31:12 -0400
+Received: by mail-pf1-x435.google.com with SMTP id a12so18886172pfc.7
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 11:31:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MRiN8JGM9eYShplxibiJfAaD7a9FxgKLo1Lkxp1IlB0=;
+ b=si7jIqgKlvUT5186r8NpASDthDX/Zo+WjXR7DL/Rn0NiO/C6oLBY9zUfMe+YOa5tYe
+ o0+nAx/ld0jBLJRLIj0vgpHzFYwipV6g+XBu8e0Ovozf18rZx40PhFpw5zz2sOd3YpUE
+ mr+ySYON1cvP6pZA6VNaJVeDkcvEVoR1Bi1wm7rLGiBvOn2gskcuO5UqZKFf0EWXmEXc
+ y6rqyQbRd9CxMgYJynAsxXlA3z+MNs6GGPa5a7tQXjGH1sm8/hY9uCxM+hl8yuBBxSGu
+ PYUFqwtoUy/tjjNrILyGA0mH/aKf3NIBbTM2NibMACHq6yUGfgYbfhJNvsbGEFHoEKeM
+ bjmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MRiN8JGM9eYShplxibiJfAaD7a9FxgKLo1Lkxp1IlB0=;
+ b=dpdGm6jfVdaTO+fEcW6e5Pk+yiduNyPyDGWTn7Fw5CO3mbT30z+vBAnWQKh4E7vCu6
+ c87h7Qp3PN1gL1ezzPH83R4G0gq/jSXflXeiWCdaz7qaIm0HDFjtFEOWHO0KiiP1viTT
+ fuIl0sDPKX6foh2n9UzqMrO+9BAhSFq8LVfpd1zu3/taZq7c0CZqZq9YqhVJPihDvWTD
+ QiyJF1FQ2lIFIt0DZevVzVEBjgUPajzt+azQkXGuD3eElwba0XXt9A2GpZCSWu549lCW
+ Hb43T3jzVEI73BsBRi8JyYB0UPOLPGnVcj6StIth/ME2rKcupeQQN+Gpq3aHMUQRkKO9
+ L9XA==
+X-Gm-Message-State: AOAM533UllzBr3ZlhB8V7VYLszOQVXLeUJuB5ykbsKew5lOAMX6PQAOK
+ Pqs0puyHmtcoXvFN0Wx6qeTQa0sHGfZzSg==
+X-Google-Smtp-Source: ABdhPJx2rIv8G1COOU6EtMelMK/Bg/qSvJdlsZupIuf/An2/IG2VFqalkeqYu/p/fn/GBz8vYalaRg==
+X-Received: by 2002:a63:338b:: with SMTP id z133mr370901pgz.442.1618597868677; 
+ Fri, 16 Apr 2021 11:31:08 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.131.83])
+ by smtp.gmail.com with ESMTPSA id p18sm3057307pju.3.2021.04.16.11.31.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 11:31:08 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 for-6.1 0/9] target/arm mte fixes
+Date: Fri, 16 Apr 2021 11:30:57 -0700
+Message-Id: <20210416183106.1516563-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <87eefarbwl.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,160 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/21 2:17 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On 4/15/21 3:00 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> On 3/30/21 1:18 PM, John Snow wrote:
->>>>
->>>> Realizing now that this commit topic is wrong :)
->>>>
->>>> A prior version modified the assertion, I decided it was less churn to
->>>> simply add one.
->>>>
->>>> I think ideally we'd have no assertions here and we'd rely on the type
->>>> hints, but I don't think I can prove that this is safe until after part
->>>> 6, so I did this for now instead.
->>>>
->>>>> Eventually, we'll be able to prove that 'info.line' must be an int and
->>>>> is never None at static analysis time, and this assert can go
->>>>> away. Until then, it's a type error to assume that self.info is not
->>>>> None.
->>>>>
->>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>> ---
->>>>>     scripts/qapi/error.py | 1 +
->>>>>     1 file changed, 1 insertion(+)
->>>>>
->>>>> diff --git a/scripts/qapi/error.py b/scripts/qapi/error.py
->>>>> index d179a3bd0c..d0bc7af6e7 100644
->>>>> --- a/scripts/qapi/error.py
->>>>> +++ b/scripts/qapi/error.py
->>>>> @@ -25,6 +25,7 @@ def __init__(self, info, msg, col=None):
->>>>>             self.col = col
->>>>>            def __str__(self):
->>>>> +        assert self.info is not None
->>>>>             loc = str(self.info)
->>>>>             if self.col is not None:
->>>>>                 assert self.info.line is not None
->>>>>
->>> Please show us the revised commit message.  I'm asking because the
->>> patch's purpose isn't quite clear to me.  Peeking ahead at PATCH 7, I
->>> see that info becomes Optional[QAPISourceInfo].  This means something
->>> passes None for info (else you wouldn't make it optional).  None info
->>> Works (in the sense of "doesn't crash") as long as col is also None.
->>> After the patch, it doesn't.  I'm not saying that's bad, only that I
->>> don't quite understand what you're trying to accomplish here.
->>>
->>
->> Sure.
->>
->> If you recall, I tried to enforce that QAPISourceInfo was *never* None
->> by creating a special value for QSI that represented "No Source
->> Info". Ultimately, that idea didn't go through and we solidified that
->> the 'info' parameter that gets passed around can sometimes be None.
->>
->> Hence, this property is Optional[QAPISourceInfo].
->>
->> Since I know you wanted to crash messily in the case that we allowed a
->> None-info to leak into a context like this, I added the new assertion
->> to make sure this remains the case.
->>
->> (since str(None) evaluates to "None", it seemed like there was already
->> the implicit assumption that info would never be None. Plus, if 'col'
->> is set, mypy notices that we are performing an unsafe check on
->> self.info.line, which had to be remedied.)
->>
->> Later in the series, after schema.py is typed, it may be possible to
->> remove these assertions as we may be able to rely on the strict typing
->> to prove that this situation can never occur. However, since schema.py
->> is not yet typed, we can't yet.
->>
->>
->>
->> Alright. So given that, I think what you'd like to see for a commit
->> message is:
->>
->> qapi/error: assert QAPISourceInfo is not None
->>
->> We implicitly assume that self.info will never be None, as the error
->> reporting function will not produce meaningful output in this case,
->> and will crash if self.col was set. Assert that self.info is not None
->> in order to formalize this assumption.
->>
->> We can not yet change the type of the initializer to prove that this
->> is provably true at static analysis time until the rest of this
->> library is fully typed.
-> 
-> Let's insert another paragraph to make the intent even clearer, and
-> adjust the remainder for it:
-> 
->    qapi/error: assert QAPISourceInfo is not None
-> 
->    Built-in stuff is not parsed from a source file, and therefore have no
->    QAPISourceInfo.  If such None info was used for reporting an error,
->    built-in stuff would be broken.  Programming error.  Instead of
->    reporting a confusing error with bogus source location then, we better
->    crash.
-> 
->    We currently crash only if self.col was set.  Assert that self.info is
->    not None in order to crash reliably.
-> 
->    We can not yet change the type of the initializer to prove this cannot
->    happen at static analysis time before the remainder of the code is
->    fully typed.
-> 
-> Note I also replaced "this library" because I'm not sure what it means.
-> 
+Changes for v5:
+  * Rebase.  Three patches upstream and a minor conflict fixed.
 
-Wiggly-brain, wiggly-mouth. I meant "package". I get these terms 
-consistently wrong, and I need to really make a very direct effort to 
-treat them precisely correctly in the future.
-
-MODULE: A single Python file. It may be a script, or serve only as a 
-library meant for consumption by other scripts.
-
-PACKAGE: A collection of one or more Python modules. QAPI is a package 
-because it's a folder with an __init__.py file, containing several modules.
-
-LIBRARY: No formal definition; however, I think of it as a Python module 
-that is meant primarily to be consumed by another script or entry-point. 
-It has some implications for things like Python's hierarchical logging 
-library where the distinction is important for how logger setup is 
-handled. Modules that use the "if __name__ == '__main__'" stanza serve 
-dual purpose as a script *and* library.
+Changes for v4:
+  * Fix tag count computation error in mte_checkN, which when used
+    by mte_check1 in patch 5, caused all sorts of KASAN failures.
+  * Fix PAGE_ANON / PAGE_TARGET_1 overlap.
 
 
-In this case, I meant "package". I think I accidentally avoid this term 
-because I don't want to imply that it is a "distributed package" in the 
-sense of a "PyPI package" and my brain skips a clock cycle and picks 
-another random word.
+r~
 
-Bad habit. :(
 
-> What do you think?
-> 
-> 
+Richard Henderson (9):
+  target/arm: Fix mte_checkN
+  target/arm: Split out mte_probe_int
+  target/arm: Fix unaligned checks for mte_check1, mte_probe1
+  test/tcg/aarch64: Add mte-5
+  target/arm: Replace MTEDESC ESIZE+TSIZE with SIZEM1
+  target/arm: Merge mte_check1, mte_checkN
+  target/arm: Rename mte_probe1 to mte_probe
+  target/arm: Simplify sve mte checking
+  target/arm: Remove log2_esize parameter to gen_mte_checkN
 
-TLDR: I took your phrasing wholesale. Thanks!
+ target/arm/helper-a64.h           |   3 +-
+ target/arm/internals.h            |  11 +-
+ target/arm/translate-a64.h        |   2 +-
+ target/arm/mte_helper.c           | 183 ++++++++++++------------------
+ target/arm/sve_helper.c           | 100 ++++++----------
+ target/arm/translate-a64.c        |  22 ++--
+ target/arm/translate-sve.c        |   9 +-
+ tests/tcg/aarch64/mte-5.c         |  44 +++++++
+ tests/tcg/aarch64/Makefile.target |   2 +-
+ 9 files changed, 172 insertions(+), 204 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-5.c
 
---js
-
-(Random aside on patch submission process: I do dislike how when I 
-change the topic of a commit, I lose out on git-backport-diff 
-functionality. I wish I had a persistent ID for commits that survived 
-beyond title changes. Sometimes I debate scripting adding some kind of 
-Patch-GUID: <...> tag, but I don't know if that would look like 
-undesirable clutter in the git log to everyone else. Maybe a "WAS: 
-old-topic-name-here" in the comment section would suffice well enough?)
+-- 
+2.25.1
 
 
