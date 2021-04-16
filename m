@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FB23628A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:29:51 +0200 (CEST)
-Received: from localhost ([::1]:37372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C812D3628AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 21:32:11 +0200 (CEST)
+Received: from localhost ([::1]:41508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXUA2-0007pT-3V
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56248)
+	id 1lXUCI-0001Cj-Ry
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 15:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8q-0006hP-HL
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31511)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8m-0006eo-6G
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8l-0003P8-90
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lXU8h-0003Nm-WD
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 15:28:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618601310;
+ s=mimecast20190719; t=1618601306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DsbzNOehjco8iyDIl0NkBWztj8jPzptsvkz3Pr0Iy7A=;
- b=NrW/Jz4hnV9IvGBnsEi7wz4Sc6cX4OTjs29z4OsS0kBlq+M5wRyJx6jwu0dAjy3riMwcyq
- InaACpkM+C4IsnvpbtUHKpN6KhzmGmiGm2yr6CrRenpIAsyUaV2kPOsOYm40JeP+HjaZAD
- YFTTRkl/jutaS6+0bpN1WwOckWYkJUc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SCwqpNb+MSNAIvMb7bC3+Ey7FAQ+H4c2d4YL+a8Lvkc=;
+ b=dftL9Lut6uJcU9kJ9tA5B3imCL0bAOHHNuV1jaTb8ubBpeb7bSAgoQ/VPH/K+WIXi/k24+
+ gzIBWO2uE1FJ7ht+e6Ea63qbkBfcHG9x3IO1pg7ZhN6WaGW0E1f4xOiCOwcbuUKeX1qtjf
+ dfv5nNTkDQZdkMDOPhERaBvqoTf6kH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-BRWUAmG5PRKVAuNOEsXOjQ-1; Fri, 16 Apr 2021 15:28:29 -0400
-X-MC-Unique: BRWUAmG5PRKVAuNOEsXOjQ-1
+ us-mta-498-4uGgJhL5PyiLIL_8w6OSqg-1; Fri, 16 Apr 2021 15:28:25 -0400
+X-MC-Unique: 4uGgJhL5PyiLIL_8w6OSqg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23F2283DD21
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 19:28:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 623376D582
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 19:28:24 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-61.rdu2.redhat.com [10.10.117.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A365107D5C6;
- Fri, 16 Apr 2021 19:28:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1691210023B2;
+ Fri, 16 Apr 2021 19:28:20 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] [DO-NOT-MERGE]: Add some ad-hoc linting helpers.
-Date: Fri, 16 Apr 2021 15:28:19 -0400
-Message-Id: <20210416192819.2958482-5-jsnow@redhat.com>
-In-Reply-To: <20210416192819.2958482-1-jsnow@redhat.com>
-References: <20210416192819.2958482-1-jsnow@redhat.com>
+Subject: [PATCH v2 0/4] [DO-NOT-MERGE] qapi: static typing conversion, "pt0"
+Date: Fri, 16 Apr 2021 15:28:15 -0400
+Message-Id: <20210416192819.2958482-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,78 +79,92 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These aren't ready for upstream inclusion, because they do not properly
-manage version dependencies, execution environment and so on. These are
-just the tools I use in my Own Special Environment :tm: for testing and
-debugging.
-
-I *think*, but can't exhaustively guarantee, that these should
-work:
-
-Python >= 3.6
-isort >= 5.7.0  (But possibly earlier)
-mypy >= 0.770   (Currently using 0.800)
-pylint >= 2.6.0 (Currently using 2.7.4)
-
-My python packaging series does a more exhaustive treatment and
-exploration of minimum package requirements; eventually these two series
-will converge and these dependencies will be handled in one place.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi-lint.sh  | 29 +++++++++++++++++++++++++++++
- scripts/qapi/Makefile |  5 +++++
- 2 files changed, 34 insertions(+)
- create mode 100755 scripts/qapi-lint.sh
- create mode 100644 scripts/qapi/Makefile
-
-diff --git a/scripts/qapi-lint.sh b/scripts/qapi-lint.sh
-new file mode 100755
-index 00000000000..2c2f2808ca6
---- /dev/null
-+++ b/scripts/qapi-lint.sh
-@@ -0,0 +1,29 @@
-+#!/usr/bin/env bash
-+set -e
-+
-+if [[ -f qapi/.flake8 ]]; then
-+    echo "flake8 --config=qapi/.flake8 qapi/"
-+    flake8 --config=qapi/.flake8 qapi/
-+fi
-+if [[ -f qapi/pylintrc ]]; then
-+    echo "pylint --rcfile=qapi/pylintrc qapi/"
-+    pylint --rcfile=qapi/pylintrc qapi/
-+fi
-+if [[ -f qapi/mypy.ini ]]; then
-+    echo "mypy --config-file=qapi/mypy.ini qapi/"
-+    mypy --config-file=qapi/mypy.ini qapi/
-+fi
-+
-+if [[ -f qapi/.isort.cfg ]]; then
-+    pushd qapi
-+    echo "isort -c ."
-+    isort -c .
-+    popd
-+fi
-+
-+pushd ../bin/git
-+make -j9
-+make check-qapi-schema
-+make docs
-+make sphinxdocs
-+popd
-diff --git a/scripts/qapi/Makefile b/scripts/qapi/Makefile
-new file mode 100644
-index 00000000000..314e8a5505e
---- /dev/null
-+++ b/scripts/qapi/Makefile
-@@ -0,0 +1,5 @@
-+check:
-+	isort -c .
-+	flake8 .
-+	cd .. && pylint --rcfile=qapi/pylintrc qapi
-+	cd .. && mypy -p qapi --config-file=qapi/mypy.ini
--- 
-2.30.2
+This is a manual testing pre-requisite for other QAPI cleanup=0D
+patches. It isn't polished, and I am not ready to polish it, so it's=0D
+included here as an informative basis for ongoing work only.=0D
+=0D
+It changes the default role for Sphinx markup involving single-backticks=0D
+from "default", which merely renders text as if it was a ``literal``, to=0D
+"any", which behaves like a cross-reference target.=0D
+=0D
+To do this, existing uses of the single-backtick markup are converted=0D
+(whenever they do not resolve to something meaningful), to=0D
+double-backticks.=0D
+=0D
+Then, sphinx-autodoc is enabled for the scripts/qapi package so that=0D
+docstring formatting can be validated and inspected to make sure the=0D
+output looks "nice". It is not necessarily how we'd want to expose this=0D
+information, ultimately, but serves as a good smoke test for base-line=0D
+docstring consistency.=0D
+=0D
+Lastly, some scripts/tools for running linters with "canonical"=0D
+configurations are provided as a means to verify the linting=0D
+base-line. I use these to validate my own work.=0D
+=0D
+John Snow (4):=0D
+  [DO-NOT-MERGE] docs: replace single backtick (`) with double-backtick=0D
+    (``)=0D
+  [DO-NOT-MERGE] docs/sphinx: change default role to "any"=0D
+  [DO-NOT-MERGE] docs: enable sphinx-autodoc for scripts/qapi=0D
+  [DO-NOT-MERGE]: Add some ad-hoc linting helpers.=0D
+=0D
+ docs/conf.py                               |   6 +-=0D
+ docs/devel/build-system.rst                | 146 ++++++++++-----------=0D
+ docs/devel/fuzzing.rst                     |   9 +-=0D
+ docs/devel/index.rst                       |   1 +=0D
+ docs/devel/migration.rst                   |  59 +++++----=0D
+ docs/devel/python/index.rst                |   7 +=0D
+ docs/devel/python/qapi.commands.rst        |   7 +=0D
+ docs/devel/python/qapi.common.rst          |   7 +=0D
+ docs/devel/python/qapi.error.rst           |   7 +=0D
+ docs/devel/python/qapi.events.rst          |   7 +=0D
+ docs/devel/python/qapi.expr.rst            |   7 +=0D
+ docs/devel/python/qapi.gen.rst             |   7 +=0D
+ docs/devel/python/qapi.introspect.rst      |   7 +=0D
+ docs/devel/python/qapi.main.rst            |   7 +=0D
+ docs/devel/python/qapi.parser.rst          |   8 ++=0D
+ docs/devel/python/qapi.rst                 |  26 ++++=0D
+ docs/devel/python/qapi.schema.rst          |   7 +=0D
+ docs/devel/python/qapi.source.rst          |   7 +=0D
+ docs/devel/python/qapi.types.rst           |   7 +=0D
+ docs/devel/python/qapi.visit.rst           |   7 +=0D
+ docs/devel/qgraph.rst                      |   8 +-=0D
+ docs/devel/tcg-plugins.rst                 |  14 +-=0D
+ docs/devel/testing.rst                     |   8 +-=0D
+ docs/interop/live-block-operations.rst     |   4 +-=0D
+ docs/system/arm/cpu-features.rst           | 116 ++++++++--------=0D
+ docs/system/arm/nuvoton.rst                |   2 +-=0D
+ docs/system/arm/sbsa.rst                   |   4 +-=0D
+ docs/system/cpu-hotplug.rst                |   2 +-=0D
+ docs/system/guest-loader.rst               |   6 +-=0D
+ docs/system/ppc/powernv.rst                |   8 +-=0D
+ docs/system/removed-features.rst           |   2 +-=0D
+ docs/system/riscv/microchip-icicle-kit.rst |   2 +-=0D
+ docs/system/s390x/protvirt.rst             |  12 +-=0D
+ qapi/block-core.json                       |   4 +-=0D
+ scripts/qapi-lint.sh                       |  29 ++++=0D
+ scripts/qapi/Makefile                      |   5 +=0D
+ 36 files changed, 370 insertions(+), 202 deletions(-)=0D
+ create mode 100644 docs/devel/python/index.rst=0D
+ create mode 100644 docs/devel/python/qapi.commands.rst=0D
+ create mode 100644 docs/devel/python/qapi.common.rst=0D
+ create mode 100644 docs/devel/python/qapi.error.rst=0D
+ create mode 100644 docs/devel/python/qapi.events.rst=0D
+ create mode 100644 docs/devel/python/qapi.expr.rst=0D
+ create mode 100644 docs/devel/python/qapi.gen.rst=0D
+ create mode 100644 docs/devel/python/qapi.introspect.rst=0D
+ create mode 100644 docs/devel/python/qapi.main.rst=0D
+ create mode 100644 docs/devel/python/qapi.parser.rst=0D
+ create mode 100644 docs/devel/python/qapi.rst=0D
+ create mode 100644 docs/devel/python/qapi.schema.rst=0D
+ create mode 100644 docs/devel/python/qapi.source.rst=0D
+ create mode 100644 docs/devel/python/qapi.types.rst=0D
+ create mode 100644 docs/devel/python/qapi.visit.rst=0D
+ create mode 100755 scripts/qapi-lint.sh=0D
+ create mode 100644 scripts/qapi/Makefile=0D
+=0D
+--=20=0D
+2.30.2=0D
+=0D
 
 
