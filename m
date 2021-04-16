@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E40362746
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:57:33 +0200 (CEST)
-Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA059362744
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 19:56:19 +0200 (CEST)
+Received: from localhost ([::1]:42544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXSii-0001Fm-SW
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49868)
+	id 1lXShX-00089e-0K
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 13:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRYM-0001Kn-OB
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:42:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lXRYK-0007fd-D1
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:42:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618591363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PfLZn06GCpWd2sD/kQWoasE4+SqYa8RYjXnZgdDZcZ0=;
- b=DK/ZrkWLSA/T+zT1oI1/ln1Uo3EyjhHUEf0FEHjarWQUhcaPFLaun1ekAgPpZfp0SqFaaW
- CIm1lptOyDQ8VA+Tk0ijmToStUEDww5ZtVOLEk5dsFhAnPgEDoKa5vgbBLzttP0tWCBryN
- G0h1g7bWoxqZADsdGYMwgnowO+yvVvo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-h4MXXkxTNOCZ9unr-w6ECw-1; Fri, 16 Apr 2021 12:42:41 -0400
-X-MC-Unique: h4MXXkxTNOCZ9unr-w6ECw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56887107ACC7;
- Fri, 16 Apr 2021 16:42:40 +0000 (UTC)
-Received: from localhost (ovpn-116-207.rdu2.redhat.com [10.10.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 497C660BE5;
- Fri, 16 Apr 2021 16:42:30 +0000 (UTC)
-Date: Fri, 16 Apr 2021 12:42:20 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/8] Tests: introduce custom jobs
-Message-ID: <20210416164220.GF1914548@amachine.somewhere>
-References: <20210415215141.1865467-1-crosa@redhat.com>
- <ad6d0dda-ba29-d9e5-1ca9-d849ef28eb66@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lXRrK-0004tB-5j
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:02:22 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lXRrE-0007c9-Fi
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 13:02:20 -0400
+Received: by mail-wr1-x435.google.com with SMTP id w4so23624683wrt.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 10:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d51u6hgF20CTqvNNatVXOlH0PfAiulv+u5hvvPIEuVw=;
+ b=rCbvB9DKKtFc5q0Z1gEx0bqNkUjY54L/XS6jFzr837GUNg/VY0LoXuJHJkd4+hb7N1
+ eAj67BYJImKIVF0rsLER4cm6vkJh2FzhWjC3LGOUZyv7TgSgyCOpEBuTdE+f+FH/omoa
+ vqIPSJNHM8QPEhQuUR1v4vejScm+ETbcBfnAen0iD8ngt8Xt3UR0CEHi44EInmVcQTx2
+ BQ5cPlVI+0Lu/e7Hof3YpMfTnAQbKWUNUaCaS8USg27hRIhWuA7Njg969k9/sOaXumaP
+ dxQtnUOcLvmh/H/63vShpGVGkBZu/7t5ajpqtHjgIZ6a9kom0xD8tT6zZIBqiR8i+JIO
+ EfRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d51u6hgF20CTqvNNatVXOlH0PfAiulv+u5hvvPIEuVw=;
+ b=fmVPmt69Nah19tdhVnyBwWKyCz0M++DcuRKAE0USrtLgo5UDQJJaA3+CuXnd9XA/yG
+ oo4J26+j0zYRmJyDom1poGdBijfDikQvytJPJDZtAfHNyhwRlSIqY0YPXnbkyqKjS6Yh
+ Yk0iDM1lSvkeB59TU0XqAEDf9L/0ce4c2fSqvYeBWaCNjMfFYZOXx3A1s9KL6qZgWJQI
+ qKeFDYRhkL99ew68h7PicJsBEJz4MnMkgySw17OonLG8lZnYz/3qoCdZaPw148goOS/R
+ ePAl74lCK+hdU+VbP0FgBisnJA+T8UvHKMYS/T+C9ebYICaAZ9vmU7GIZ6nQMw5uDC3S
+ QZHQ==
+X-Gm-Message-State: AOAM533+B8hgZliFzZOXWvU7qEeqiJNjFWODhj7Z3g3KBqPREDWt5Y1d
+ s3eKZHEfGf4nLKS413yZXEP8MA==
+X-Google-Smtp-Source: ABdhPJwhaY3jxpeBMMy8YJO2e5oqkfeqfbh/6iwCGICWSM6xtJiDMcDvaB4QSpa7Q64TTu+fLFP1dQ==
+X-Received: by 2002:a5d:47ce:: with SMTP id o14mr180028wrc.236.1618592534701; 
+ Fri, 16 Apr 2021 10:02:14 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o2sm9598031wmc.23.2021.04.16.10.02.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 10:02:13 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 057591FF7E;
+ Fri, 16 Apr 2021 18:02:13 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] target/arm: drop CF_LAST_IO/dc->condjump check
+Date: Fri, 16 Apr 2021 18:02:07 +0100
+Message-Id: <20210416170207.12504-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <ad6d0dda-ba29-d9e5-1ca9-d849ef28eb66@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Wb5NtZlyOqqy58h0"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,94 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Wb5NtZlyOqqy58h0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a left over erroneous check from the days front-ends handled
+io start/end themselves. Regardless just because IO could be performed
+on the last instruction doesn't obligate the front end to do so.
 
-On Fri, Apr 16, 2021 at 06:22:12PM +0200, Paolo Bonzini wrote:
-> On 15/04/21 23:51, Cleber Rosa wrote:
-> > Different users (or even companies) have different interests, and
-> > may want to run a reduced set of tests during development, or a
-> > larger set of tests during QE.
-> >=20
-> > To cover these use cases, this introduces some example (but
-> > functional) jobs.
-> >=20
-> > It's expected that some common jobs will come up from common
-> > requirements for different users (and maybe be added to a common
-> > location such as tests/jobs), and that very specific jobs will be
-> > added to directories specific to certain groups, say
-> > "contrib/com.redhat/jobs" or the like.
-> >=20
-> > This series does*not*  add new jobs to GitLab CI pipeline, but this is
-> > expected to be done later on custom runners.  That is, custom runners
-> > could be used for custom jobs.  Anyway, a GitLab CI pipeline can be
-> > seen here:
-> >=20
-> >   https://gitlab.com/cleber.gnu/qemu/-/pipelines/287210066
-> >=20
-> > This is based on the Avocado version bump patch:
-> >=20
-> >   https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg02391.html
->=20
-> I admit I haven't even having read the patches (only the diffstat), but
-> still: documentation please.
->=20
-> Paolo
->=20
+This fixes an abort faced by the aspeed execute-in-place support which
+will necessarily trigger this state (even before the one-shot
+CF_LAST_IO fix). The test still seems to hang once it attempts to boot
+the Linux kernel but I suspect this is an unrelated issue with icount
+and the timer handling code.
 
-Hi Paolo,
+The original intention of the cpu_abort (added in commit 2e70f6efa8b9
+when the icount stuff was first added) seems to have been to act as
+an assert() to catch an unhandled corner case where the generated code
+would be something like:
+    conditional branch to condlabel if its cc failed
+    implementation of the insn (a conditional branch or trap)
+    code emitted by gen_io_end()
+ condlabel:
+    gen_goto_tb or equivalent thing to go to next insn
 
-Absolutely, formal docs are very much needed and will be provided.
+At runtime the cc-failed case would skip over the code emitted by
+gen_io_end(), leaving the can_do_io flag incorrectly set.
 
-For now, please refer to patch 8's commit message.  It contains basic
-usage information for these jobs, and pointers to external
-documentation.
+In commit ba3e7926691ed33 we switched to an implementation which
+always clears can_do_io at the start of the following TB instead
+of trying to clear it at the end of a TB that did IO. So the corner
+case that this cpu_abort() was trying to flag is no longer possible,
+because the gen_io_end() call has been deleted. We can therefore
+safely remove the no-longer-valid assertion.
 
-PS: I'm very much interested in knowing what are user's first
-questions or use cases, so that I can tune the documentation
-accordingly.  Questions and ideas like the one from Phil (about a YAML
-config file) would definitely help me to write a more relevant set of
-docs.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Cc: Cédric Le Goater <clg@kaod.org>
 
-Thanks,
-- Cleber.
+--
+v2
+  - added Peter's extended analysis to the commit message
+---
+ target/arm/translate.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
---Wb5NtZlyOqqy58h0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmB5vmYACgkQZX6NM6Xy
-CfNEIg/+KpPfFWBVLXdQxsWHqUo0+vZs2fmJOiLqFcgqW/OjXm/5DPLl8FVavs/3
-OSjSLiKR8TfvKOFK3aqXl0chtB8BeWKtUCPgNyTwEgxM3XLBtRudySHbSOg4u9OS
-yNJZ5SwidxPTOIgvHMBArYeTPv5I60U/7ny1tOc6ht1u8+Fc7yBr+v+bLaFFvbu3
-v7Xck46+Vpbel3Dam5Q3YOv3LUiydNB6kgTWRjiiH7Rl4vIwlWSIRIM/MzhALHY7
-V93WHGRImG6g82J/OK3t2AztcNCsxnD/21jYjNkGNKjUhm3w6TQrgBlpT6eXE6R/
-fNoMwH45DDuJqY2zzMhlZaJgAtsuA82WQHTXPXVfjtyjBMcMHgYwWeOnJpW39vEQ
-E0fdS3VHpkBVp4k5j3QKlN7/nvkoVMSxuwpoqTMHsaH9drTCilcu/E7uMzvzl0+R
-8r7lkQ+AGM77AxSA/AJf45C+Ff+lIg+9NyTDaWWbdx+3fDyi9429VJk9eKV2T85Z
-T9UwiIhQKzTHMRyyh0tDUE0rBGlpaY6UTV6UlZal993PJI0NmWmT3UHWZiGUgNKg
-YFxlC6nsIoIc6cTAQL0zlCSln9N/DDVgkQZVfMLTMf/R3DUJSXmxYKoSbGeOB4/L
-r92GEYp+b5gSd8+1Am4Om9z/8OimC2VZ9XhMHB6iyzHceNI9GGQ=
-=jbBv
------END PGP SIGNATURE-----
-
---Wb5NtZlyOqqy58h0--
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 62b1c2081b..7103da2d7a 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9199,11 +9199,6 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
+-    if (tb_cflags(dc->base.tb) & CF_LAST_IO && dc->condjmp) {
+-        /* FIXME: This can theoretically happen with self-modifying code. */
+-        cpu_abort(cpu, "IO on conditional branch instruction");
+-    }
+-
+     /* At this stage dc->condjmp will only be set when the skipped
+        instruction was a conditional branch or trap, and the PC has
+        already been written.  */
+-- 
+2.20.1
 
 
