@@ -2,142 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3E036200A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:44:20 +0200 (CEST)
-Received: from localhost ([::1]:57426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 544AD362014
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 14:47:07 +0200 (CEST)
+Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXNpb-00072x-7w
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:44:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50864)
+	id 1lXNsI-0000mG-3v
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 08:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lXNnj-0006Ho-NU
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:42:23 -0400
-Received: from mail-db8eur05on2122.outbound.protection.outlook.com
- ([40.107.20.122]:43121 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXNqA-00083H-Ma
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:44:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lXNnf-0001Hp-9T
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:42:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=awo6m/D2il7G1EGpXsdfIHIVlVTTVl7nLoV5KzRnG0mz41C7bXIrjJFhgN4RR/4XGXnX0UJUeQp5nFZe+1ms5uGNZsdhyjeKz0sDq6CmTTwihAOkmMRBdXyFVZm773xBmQRTuclk5CMzHeangbibJDdDhRAngSKoYXiekHwYONgX1tSRrG+6EqL6f08FYzct2hDl/SrYupd/R+FS6rVXzHff/zVDSf9RROtmukd3+mX6LRQ8kGfMLoUkRWfAJzCiPDrYwb2yHyGAEW7G1Nf/eEwTmquLhcQy8EtUGDTpo3g3mep9swP2leHJoeXJRp9nE1zQlmc4rPnVGVrsSRuL+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k6K4nbPFnjH3VUyc+BsRJnBEE55UtitXTS1czcZtSLM=;
- b=b7YZwBBOC1r0lOtxt1Fpxy7nnuqPXssE85k3Cu4uq+3NhRrXe9GeXI38fFg1rV6zp6dr9gJW+tYitoB9QtUYPv13/x7VSFdJFI1QJIzxfLnG28q/c4wIR67AFE7ykCzpatyteOfI/p3UdN9p7/L4a2Q7LKaeHBdTZ8g1ppfU1jjz8b0SWQyprtlV+GECKOZBINkrCnMf0quTDqYNUlvUYudylYFWygYqsaC5rq4OhzAeeuR6U9Xpr/lDiY53r7nQGsZO9Wev/V3d0xvmRg3HwtTgFkw0M/mlLpOC/UocQy+P9THiigWuyKHojsnfznKOFUPykQaan5kfjXv0Zs7UAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k6K4nbPFnjH3VUyc+BsRJnBEE55UtitXTS1czcZtSLM=;
- b=th0u543QTuLvavXDDQclyW+XPseTcsTy70VhzsoxCGZDz9wG5d353XFHDHRl5Kr7BNEaUYUHXRo6YG5UcJqFetOounvT9RCnEOzzSFyesH0of5fT/a6UaqHcgb7JOPLyX5KVPGgrF//YjU5xkZO9E1EvbMrJUsxDmy1vfMqJ0OM=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
- by AM0PR08MB4433.eurprd08.prod.outlook.com (2603:10a6:208:13b::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.18; Fri, 16 Apr
- 2021 12:27:10 +0000
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::d4d5:1c34:eadb:ca42]) by AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::d4d5:1c34:eadb:ca42%4]) with mapi id 15.20.4020.022; Fri, 16 Apr 2021
- 12:27:10 +0000
-Subject: Re: [RFC PATCH 0/9] migration/snap-tool: External snapshot utility
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20210317163222.182609-1-andrey.gruzdev@virtuozzo.com>
- <20210415235032.GS4440@xz-x1>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <7a9f8bbd-01f9-f7fe-76ee-12a17b5861e0@virtuozzo.com>
-Date: Fri, 16 Apr 2021 15:27:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
-In-Reply-To: <20210415235032.GS4440@xz-x1>
-Content-Type: multipart/alternative;
- boundary="------------EDA78BD7D07424FF733B5238"
-Content-Language: en-US
-X-Originating-IP: [109.252.109.82]
-X-ClientProxiedBy: PR0P264CA0095.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:18::35) To AM0PR08MB3364.eurprd08.prod.outlook.com
- (2603:10a6:208:e4::15)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXNq6-0002hi-Cv
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 08:44:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618577088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eRcTvg5U8caAVjs8k7xsNNjOg6LgYyY2Aen+lR0Y3X8=;
+ b=aWPRsRIv4CJkTcBZVlZ+mrcN4hwo9gCmfHQRTdF/cj00IuO0BbZmHgmptbqxial4qlAqkm
+ InCwitk5+cAxAZYBR0M7wOrCbsq5hO7igJyhlCigBElmCkMhErhiIODKGtxUrRS4A8GabW
+ 03fH72s5KNuj81Z2odHmqwfLUeUnnNQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-ka5KCwMnP3y2TaBw4TV4NA-1; Fri, 16 Apr 2021 08:44:44 -0400
+X-MC-Unique: ka5KCwMnP3y2TaBw4TV4NA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31DFE8189C7;
+ Fri, 16 Apr 2021 12:44:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A5D8B47;
+ Fri, 16 Apr 2021 12:44:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 21D86113525D; Fri, 16 Apr 2021 14:44:41 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 02/19] flake8: Enforce shorter line length for
+ comments and docstrings
+References: <20210325060356.4040114-1-jsnow@redhat.com>
+ <20210325060356.4040114-3-jsnow@redhat.com>
+Date: Fri, 16 Apr 2021 14:44:41 +0200
+In-Reply-To: <20210325060356.4040114-3-jsnow@redhat.com> (John Snow's message
+ of "Thu, 25 Mar 2021 02:03:39 -0400")
+Message-ID: <878s5i5rgm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.3] (109.252.109.82) by
- PR0P264CA0095.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:18::35) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4042.16 via Frontend Transport; Fri, 16 Apr 2021 12:27:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c10181ad-c5bb-4439-8ae5-08d900d2f4e5
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4433:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB4433979323C4BEA1F0966C739F4C9@AM0PR08MB4433.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RVxPD2bLlWuDLfLCCKtLxkPcP/wSdJ0annFtuU30PLl1ReTQ8Ihy3bzCOV7i/XCB2XOC/ZdqNyEZZ9J4T3xGeHqw5n7OSDA3Rm+mK/b4jGFgLqkFObPPCl2Dvs1DAG6Wi1uxomc3CTZt1rc2auT/G5s3aDiaF7TstFHohImZaDKfwW7XVxU9vgxSaH2+p5bN/MQpzDtoy+HVyOZ3WA8SmjraTiwFHgFaQIa3t1f9Riq3KUR8vNxeBOHXEoWv1ue1eN3cJEA2MfdYtpImVCAMn2IpqejI9kgLjWzG3FY90XL7YkQ/3WtAEH34nuXUzOnSaAG5/n2JPLU/tPUqq6XM62n59LALlyQkFU8GhK6ROobcIbToKR+JcOSX70vNtXus8Yd6RVDTjyPVM+VlOM6uUJLrwQ5jyB3W8/J+xqofe4Jw1Ef5ZXNse0JtPBmM+UuWZGlVOLcX/4vj9wkzB8Xg0KLbW1e0m4GW22v3z/ZdLmGW/phR2BSTuj8nknN1lvhLwH2PmsMoHwb7VxgMDly/ns5hKSNd+ISYk1t+SJrVu0oL+SRhXszY7F3SlmLSwZ2eNupVs+dvqlc0XCcdSkpcyg+ZzMv2jCf8Cfa7197YZ8whka8Cg5tc1jvzIqfnNDHw6m+f6oYx61YwTn3M6gNarDQMzLVlSOXEzTfFgTiNZ9/jdUhNRpENf8R0D8f3O/Kwx84RHV3G1OgnZhqgMNRacw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39840400004)(396003)(136003)(346002)(366004)(4326008)(53546011)(8936002)(16576012)(66476007)(66556008)(8676002)(44832011)(26005)(16526019)(5660300002)(66946007)(31696002)(52116002)(30864003)(478600001)(38350700002)(86362001)(6916009)(316002)(36756003)(2906002)(54906003)(33964004)(956004)(2616005)(83380400001)(186003)(6486002)(31686004)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UG81QWRSUHh0aXZwMEkxb0dDMkFaa1hBTW03MENxSTBsUFZSVlBRN3FpZ0ww?=
- =?utf-8?B?SFRJeHMwS1k1WThpRFlLZ0loMGQyWS93OUQ0a3paUjE0QUdmM1o1anRXZW9k?=
- =?utf-8?B?Vzk3V1kxbHBKWFJoeEdLc1daeUx5ZkFKQkN2eGRneVorWVdERjV1NXlCUVVV?=
- =?utf-8?B?bWpaVlBxeUVSdThJNFZRQzE0bWdQWjZjeGFZeGtidmFmNFFSaUVSU3VYTVZ0?=
- =?utf-8?B?akdTNjlTSEovSTZLSDlnWTVlSTZlNHc2QlFpMWo0aXJtcjM2SkY2aDR6UXhR?=
- =?utf-8?B?YlNKK205TlVKSy82czRKUTc4VmtxN0Z2UFFnWS9pckdTT1A3QjB4WlNXbm5S?=
- =?utf-8?B?eFE3ZUQrY1pqVDZIK1h6alBKa2pjMldzSS9reFdHUVgxT2Z0K1k0TGVSMnIv?=
- =?utf-8?B?VHpSamw0a2thekpkMUMxQ2tRWEdrYVNkWm1UQkxsdWluOE5sc2N1Qnoxb0or?=
- =?utf-8?B?c0FIL3BYOGNMSGx5NU00N0dJY0ZHdWc1MVh4dG5lR3F2MHlMSTRzZmFlZitm?=
- =?utf-8?B?NzF4UkU4QnBXOE4vU0pWNVVxWlVsN3c1S1JTWjR6TkpmeCt1R2padlFIV2lQ?=
- =?utf-8?B?OHlXRjJHM3VkR1BNNEp2Y0RaRS8wbHFVTHlXWWp6clJxbmNVSG9lUlkvMmlE?=
- =?utf-8?B?YU9MSVR1NWxPVUZFcTdlVVhGQ3VxQzRzcTRwWFkvV1pkRThGbkcwZ290RlRN?=
- =?utf-8?B?WWtnNlB2TjVBYlZtcGlXUTJNRkFjRFQ4NGhDbVIwRFZLU010RDdvL3hnY0lD?=
- =?utf-8?B?emljZGs3bmxHNjhaSVJHU3R6U0dGY2UzWGdqZHlrcG50TExXTU1EdFB5c0RJ?=
- =?utf-8?B?NEMvRTdzRUZiQmJra2ZQdUIvZmQzTmFtZkowYmZCZ1RjSFB4RmhVOWVEcWVx?=
- =?utf-8?B?V214bmlJNHZyRVIzSGpXYmdZQWdrRWRpRnI4Zi9MRm8xUWM4KzdDOEY0ZEFD?=
- =?utf-8?B?R0VURlN2Q2pKSUh0WDFKWTRrbzRSamJqMDN6QWpid2VWbnNtQVowQzRtMVNz?=
- =?utf-8?B?amtVcXdmWFR6NStEZHZRZUpKTE9JRWUvUnY2UEdIUTQrblRWa0VzckkrcU9G?=
- =?utf-8?B?bWwxZUt2alpOQXBSTWZScW9lU1RnYWxqZ1dxd3JOclFGVkIrdW5SYytadVhZ?=
- =?utf-8?B?eU01d3dOL1p4WG5zeGtqN2tBT01oMmJ5ZHdCNW1GRVduNGRMbWVOZnZwOEpu?=
- =?utf-8?B?YWdPYlJrTWlLWmdHckNnUHUralZvdFdHaTFVOU02RHp1NGlSdEl2eHlwVnJC?=
- =?utf-8?B?Zkh4U29LcWNUMkN6OFBsZWRFRTh0RllSdExRTlRYM01ycXEzelJNY052dkdV?=
- =?utf-8?B?MExoYWxqR1JCRFkrbnBQem5hR0lOcnJPd0l2Mk1IN296TTdIeEpDT2NJMUl1?=
- =?utf-8?B?QlJiS0s1anc4NzcvTXF5dzRuM3RXbElNd2wycWVESUZDVm1ia3hpbEt4VlZ6?=
- =?utf-8?B?VFZvc2JPSk56cGZzYUJtK1ZtaWNQcVNkM3laVS96Zm5JNlp3enJvMUdRZnhV?=
- =?utf-8?B?RnQ2M0FNQzY5QVhaY1QvODU0MEFWQml4V2IvNmQ5SiszRUhpbFNqRHQ0di9E?=
- =?utf-8?B?ZjNEZUQwRW9RcERYQlFuMklNT1A0VzlIRDRROFZPcmpETDZJVGlmM3ltYXU3?=
- =?utf-8?B?d21RN2xUR2tFc3JZL3lBTDlabDhWanNLVitkbzBnK1BUTGliRC95UWdHYkZU?=
- =?utf-8?B?S3hlOXZ1aXRoMnJQclVGdjRrSGl4ZGRJU2IrbGZWT3lpc0czOVlFUWdWdFFV?=
- =?utf-8?Q?IH9b8qgd8agogrzYO95rPzfHCe+rT2dD7ZoM4yN?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c10181ad-c5bb-4439-8ae5-08d900d2f4e5
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2021 12:27:10.3430 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rmn0crOXrVd4EpV+QRXEdhd+HNYrgZ/ig8spD8gFGL0shv7Rsm2iDZq7Ji6MDSWEEjbAhUgEOIFcs1xmacTbPHxvIhFIPjNovi07Kn2jR7Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4433
-Received-SPF: pass client-ip=40.107.20.122;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -150,264 +81,398 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------EDA78BD7D07424FF733B5238
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+John Snow <jsnow@redhat.com> writes:
 
-On 16.04.2021 02:50, Peter Xu wrote:
-> On Wed, Mar 17, 2021 at 07:32:13PM +0300, Andrey Gruzdev wrote:
->> This series is a kind of PoC for asynchronous snapshot reverting. This is
->> about external snapshots only and doesn't involve block devices. Thus, it's
->> mainly intended to be used with the new 'background-snapshot' migration
->> capability and otherwise standard QEMU migration mechanism.
->>
->> The major ideas behind this first version were:
->>    * Make it compatible with 'exec:'-style migration - options can be create
->>      some separate tool or integrate into qemu-system.
->>    * Support asynchronous revert stage by using unaltered postcopy logic
->>      at destination. To do this, we should be capable of saving RAM pages
->>      so that any particular page can be directly addressed by it's block ID
->>      and page offset. Possible solutions here seem to be:
->>        use separate index (and storing it somewhere)
->>        create sparse file on host FS and address pages with file offset
->>        use QCOW2 (or other) image container with inherent sparsity support
->>    * Make snapshot image file dense on the host FS so we don't depend on
->>      copy/backup tools and how they deal with sparse files. Off course,
->>      there's some performance cost for this choice.
->>    * Make the code which is parsing unstructered format of migration stream,
->>      at least, not very sophisticated. Also, try to have minimum dependencies
->>      on QEMU migration code, both RAM and device.
->>    * Try to keep page save latencies small while not degrading migration
->>      bandwidth too much.
->>
->> For this first version I decided not to integrate into main QEMU code but
->> create a separate tool. The main reason is that there's not too much migration
->> code that is target-specific and can be used in it's unmodified form. Also,
->> it's still not very clear how to make 'qemu-system' integration in terms of
->> command-line (or monitor/QMP?) interface extension.
->>
->> For the storage format, QCOW2 as a container and large (1MB) cluster size seem
->> to be an optimal choice. Larger cluster is beneficial for performance particularly
->> in the case when image preallocation is disabled. Such cluster size does not result
->> in too high internal fragmentation level (~10% of space waste in most cases) yet
->> allows to reduce significantly the number of expensive cluster allocations.
->>
->> A bit tricky part is dispatching QEMU migration stream cause it is mostly
->> unstructered and depends on configuration parameters like 'send-configuration'
->> and 'send-section-footer'. But, for the case with default values in migration
->> globals it seems that implemented dispatching code works well and won't have
->> compatibility issues in a reasonably long time frame.
->>
->> I decided to keep RAM save path synchronous, anyhow it's better to use writeback
->> cache mode for the live snapshots cause of it's interleaving page address pattern.
->> Page coalescing buffer is used to merge contiguous pages to optimize block layer
->> writes.
->>
->> Since for snapshot loading opening image file in cached mode would not do any good,
->> it implies that Linux native AIO and O_DIRECT mode is used in a common scenario.
->> AIO support in RAM loading path is implemented by using a ring of preallocated
->> fixed-sized buffers in such a way that there's always a number of outstanding block
->> requests anytime. It also ensures in-order request completion.
->>
->> How to use:
->>
->> **Save:**
->> * qemu> migrate_set_capability background-snapshot on
->> * qemu> migrate "exec:<qemu-bin-path>/qemu-snap -s <virtual-size>
->>             --cache=writeback --aio=threads save <image-file.qcow2>"
->>
->> **Load:**
->> * Use 'qemu-system-* -incoming defer'
->> * qemu> migrate_incoming "exec:<qemu-bin-path>/qemu-snap
->>            --cache=none --aio=native load <image-file.qcow2>"
->>
->> **Load with postcopy:**
->> * Use 'qemu-system-* -incoming defer'
->> * qemu> migrate_set_capability postcopy-ram on
->> * qemu> migrate_incoming "exec:<qemu-bin-path>/qemu-snap --postcopy=60
->>            --cache=none --aio=native load <image-file.qcow2>"
->>
->> And yes, asynchronous revert works well only with SSD, not with rotational disk..
->>
->> Some performance stats:
->> * SATA SSD drive with ~500/450 MB/s sequantial read/write and ~60K IOPS max.
->> * 220 MB/s average save rate (depends on workload)
->> * 440 MB/s average load rate in precopy
->> * 260 MB/s average load rate in postcopy
-> Andrey,
+> PEP8's BDFL writes: "For flowing long blocks of text with fewer
+> structural restrictions (docstrings or comments), the line length should
+> be limited to 72 characters."
 >
-> Before I try to read it (since I'm probably not the best person to review
-> it..).. Would you remind me on the major difference of external snapshots
-> comparing to the existing one, and problems to solve?
+> I do not like this patch. I have included it explicitly to recommend we
+> do not pay any further heed to the 72 column limit.
+
+Let me go through the patch hunk by hunk to see what I like and what I
+don't like.
+
+In case you'd prefer not to pay any further heed to line length: please
+check out my comment on c_name() anyway.  It's about doc string style,
+and relevant regardless of line length limits.
+
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/.flake8       |  1 +
+>  scripts/qapi/common.py     |  8 +++++---
+>  scripts/qapi/events.py     |  9 +++++----
+>  scripts/qapi/gen.py        |  8 ++++----
+>  scripts/qapi/introspect.py |  8 +++++---
+>  scripts/qapi/main.py       |  4 ++--
+>  scripts/qapi/parser.py     | 15 ++++++++-------
+>  scripts/qapi/schema.py     | 23 +++++++++++++----------
+>  scripts/qapi/types.py      |  7 ++++---
+>  9 files changed, 47 insertions(+), 36 deletions(-)
 >
-> Thanks,
->
-Hi Peter,
+> diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
+> index 6b158c68b8..4f00455290 100644
+> --- a/scripts/qapi/.flake8
+> +++ b/scripts/qapi/.flake8
+> @@ -1,2 +1,3 @@
+>  [flake8]
+>  extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
+> +max-doc-length = 72
+> \ No newline at end of file
 
-For the external snapshots - the difference (compared to internal) is that snapshot
-data is going to storage objects which are not part VM config. I mean that for internal
-snapshots we use configured storage of the VM instance to store both vm state and blockdev
-snapshot data. The opposite is for external snapshots when we save vmstate and blockdev
-snapshots to separate files on the host. Also external snapshots are not managed by QEMU.
+Since we intend to make use of PEP 8's license to go over the line
+length limit, having the build gripe about it is not useful.  Drop.
 
-One of the problems is that the vmstate part of external snapshot is essentially the
-migration stream which is schema-less and it's structure is dependent on QEMU target.
-That means that currently we can do a revert-to-snapshot operation with the sequence of
-QMP commands but we can do that only in a synchronous way, i.e. vcpus can't be started
-until all of the vmstate data has been transferred. The reason for this synchronous
-behavior is that we cannot locate arbitrary RAM page in raw migration stream if we start
-vcpus early and get faults for the pages that are missing on destination vm.
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index cbd3fd81d3..6e3d9b8ecd 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -41,7 +41,8 @@ def camel_to_upper(value: str) -> str:
+>      length = len(c_fun_str)
+>      for i in range(length):
+>          char = c_fun_str[i]
+> -        # When char is upper case and no '_' appears before, do more checks
+> +        # When char is upper case and no '_' appears before,
+> +        # do more checks
+>          if char.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
+>              if i < length - 1 and c_fun_str[i + 1].islower():
+>                  new_name += '_'
 
-So the major goal of this PoC is to demonstrate asynchronous snapshot reverting in QEMU
-while keeping migration code mostly unchanged. To do that we need to split migration stream
-into two parts, particularly these parts are RAM pages and the rest of vmstate. And then,
-if we can do this, RAM pages can be dispatched directly to a block device with block offsets
-deduced from page GPAs.
+The comment paraphrases the if condition.  Feels useless.  Let's drop
+it.
+
+> @@ -78,8 +79,9 @@ def c_name(name: str, protect: bool = True) -> str:
+>      protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
+>  
+>      :param name: The name to map.
+> -    :param protect: If true, avoid returning certain ticklish identifiers
+> -                    (like C keywords) by prepending ``q_``.
+> +    :param protect: If true, avoid returning certain ticklish
+> +                    identifiers (like C keywords) by prepending
+> +                    ``q_``.
+
+Better:
+
+       :param protect: If true, avoid returning certain ticklish
+           identifiers (like C keywords) by prepending ``q_``.
+
+For what it's worth, this indentation style is also used in the
+Sphinx-RTD-Tutorial[*].  I like it much better than aligning the text
+like you did, because that wastes screen real estate when the parameter
+names are long, and tempts people to aligning all the parameters, like
+
+       :param name:    The name to map.
+       :param protect: If true, avoid returning certain ticklish identifiers
+                       (like C keywords) by prepending ``q_``.
+
+which leads to either churn or inconsistency when parameters with longer
+names get added.
+
+>      """
+>      # ANSI X3J11/88-090, 3.1.1
+>      c89_words = set(['auto', 'break', 'case', 'char', 'const', 'continue',
+> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+> index fee8c671e7..210b56974f 100644
+> --- a/scripts/qapi/events.py
+> +++ b/scripts/qapi/events.py
+> @@ -48,7 +48,8 @@ def gen_param_var(typ: QAPISchemaObjectType) -> str:
+>      """
+>      Generate a struct variable holding the event parameters.
+>  
+> -    Initialize it with the function arguments defined in `gen_event_send`.
+> +    Initialize it with the function arguments defined in
+> +    `gen_event_send`.
+>      """
+>      assert not typ.variants
+>      ret = mcgen('''
+
+Looks like a wash.  I figure the doc string will be rewritten to Sphinx
+format (or whatever other format we adopt for our Python code) anyway,
+so let's not mess with it now.
+
+> @@ -86,9 +87,9 @@ def gen_event_send(name: str,
+>      # FIXME: Our declaration of local variables (and of 'errp' in the
+>      # parameter list) can collide with exploded members of the event's
+>      # data type passed in as parameters.  If this collision ever hits in
+> -    # practice, we can rename our local variables with a leading _ prefix,
+> -    # or split the code into a wrapper function that creates a boxed
+> -    # 'param' object then calls another to do the real work.
+> +    # practice, we can rename our local variables with a leading _
+> +    # prefix, or split the code into a wrapper function that creates a
+> +    # boxed 'param' object then calls another to do the real work.
+>      have_args = boxed or (arg_type and not arg_type.is_empty())
+>  
+>      ret = mcgen('''
+
+Improvement.
+
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index 1fa503bdbd..c54980074e 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -63,9 +63,9 @@ def _bottom(self) -> str:
+>          return ''
+>  
+>      def write(self, output_dir: str) -> None:
+> -        # Include paths starting with ../ are used to reuse modules of the main
+> -        # schema in specialised schemas. Don't overwrite the files that are
+> -        # already generated for the main schema.
+> +        # Include paths starting with ../ are used to reuse modules
+> +        # of the main schema in specialised schemas. Don't overwrite
+> +        # the files that are already generated for the main schema.
+>          if self.fname.startswith('../'):
+>              return
+>          pathname = os.path.join(output_dir, self.fname)
+
+Improvement, but mind PEP 8's "You should use two spaces after a
+sentence-ending period in multi-sentence comments".
+
+> @@ -189,7 +189,7 @@ def _bottom(self) -> str:
+>  @contextmanager
+>  def ifcontext(ifcond: Sequence[str], *args: QAPIGenCCode) -> Iterator[None]:
+>      """
+> -    A with-statement context manager that wraps with `start_if()` / `end_if()`.
+> +    A context manager that wraps output with `start_if()` / `end_if()`.
+>  
+>      :param ifcond: A sequence of conditionals, passed to `start_if()`.
+>      :param args: any number of `QAPIGenCCode`.
+
+Improvement.
+
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index 9a348ca2e5..faf00013ad 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -61,8 +61,9 @@
+>  # With optional annotations, the type of all values is:
+>  # JSONValue = Union[_Value, Annotated[_Value]]
+>  #
+> -# Sadly, mypy does not support recursive types; so the _Stub alias is used to
+> -# mark the imprecision in the type model where we'd otherwise use JSONValue.
+> +# Sadly, mypy does not support recursive types; so the _Stub alias is
+> +# used to mark the imprecision in the type model where we'd otherwise
+> +# use JSONValue.
+>  _Stub = Any
+>  _Scalar = Union[str, bool, None]
+>  _NonScalar = Union[Dict[str, _Stub], List[_Stub]]
+
+Improvement.
+
+> @@ -217,7 +218,8 @@ def visit_end(self) -> None:
+>          self._name_map = {}
+>  
+>      def visit_needed(self, entity: QAPISchemaEntity) -> bool:
+> -        # Ignore types on first pass; visit_end() will pick up used types
+> +        # Ignore types on first pass;
+> +        # visit_end() will pick up used types
+
+Looks a bit odd.  Since the original is only slightly over the limit, we
+can keep it.  Alternatively.
+
+           # Ignore types on first pass; visit_end() will pick up the
+           # types that are actually used
+
+>          return not isinstance(entity, QAPISchemaType)
+>  
+>      def _name(self, name: str) -> str:
+> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+> index 703e7ed1ed..5bcac83985 100644
+> --- a/scripts/qapi/main.py
+> +++ b/scripts/qapi/main.py
+> @@ -1,5 +1,5 @@
+> -# This work is licensed under the terms of the GNU GPL, version 2 or later.
+> -# See the COPYING file in the top-level directory.
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later. See the COPYING file in the top-level directory.
+
+Let's drop this one.  The line is only slightly too long, and
+consistency with the copright notices elsewhere is more important.
+
+>  
+>  """
+>  QAPI Generator
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index 58267c3db9..d5bf91f2b0 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -331,8 +331,8 @@ def __init__(self, parser, name=None, indent=0):
+>              self._indent = indent
+>  
+>          def append(self, line):
+> -            # Strip leading spaces corresponding to the expected indent level
+> -            # Blank lines are always OK.
+> +            # Strip leading spaces corresponding to the expected indent
+> +            # level. Blank lines are always OK.
+>              if line:
+>                  indent = re.match(r'\s*', line).end()
+>                  if indent < self._indent:
+
+Improvement, but mind PEP 8's "You should use two spaces after a
+sentence-ending period".
+
+> @@ -353,10 +353,10 @@ def connect(self, member):
+>              self.member = member
+>  
+>      def __init__(self, parser, info):
+> -        # self._parser is used to report errors with QAPIParseError.  The
+> -        # resulting error position depends on the state of the parser.
+> -        # It happens to be the beginning of the comment.  More or less
+> -        # servicable, but action at a distance.
+> +        # self._parser is used to report errors with QAPIParseError.
+> +        # The resulting error position depends on the state of the
+> +        # parser. It happens to be the beginning of the comment. More
+> +        # or less servicable, but action at a distance.
+>          self._parser = parser
+>          self.info = info
+>          self.symbol = None
+
+Why not.  Two spaces again.
+
+> @@ -430,7 +430,8 @@ def _append_body_line(self, line):
+>              if not line.endswith(':'):
+>                  raise QAPIParseError(self._parser, "line should end with ':'")
+>              self.symbol = line[1:-1]
+> -            # FIXME invalid names other than the empty string aren't flagged
+> +            # FIXME invalid names other than the empty string aren't
+> +            # flagged
+>              if not self.symbol:
+>                  raise QAPIParseError(self._parser, "invalid name")
+>          elif self.symbol:
+
+Not an improvement, drop the hunk.
+
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 703b446fd2..01cdd753cd 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -166,9 +166,10 @@ def is_user_module(cls, name: str) -> bool:
+>      @classmethod
+>      def is_builtin_module(cls, name: str) -> bool:
+>          """
+> -        The built-in module is a single System module for the built-in types.
+> +        Return true when given the built-in module name.
+>  
+> -        It is always "./builtin".
+> +        The built-in module is a specific System module for the built-in
+> +        types. It is always "./builtin".
+>          """
+>          return name == cls.BUILTIN_MODULE_NAME
+>  
+
+I figure the doc string will be rewritten to Sphinx format anyway, so
+let's not mess with it now.
+
+> @@ -294,7 +295,8 @@ def connect_doc(self, doc=None):
+>              m.connect_doc(doc)
+>  
+>      def is_implicit(self):
+> -        # See QAPISchema._make_implicit_enum_type() and ._def_predefineds()
+> +        # See QAPISchema._make_implicit_enum_type() and
+> +        # ._def_predefineds()
+>          return self.name.endswith('Kind') or self.name == 'QType'
+>  
+>      def c_type(self):
+
+Not an improvement, drop the hunk.
+
+> @@ -421,9 +423,9 @@ def check(self, schema):
+>  
+>          self.members = members  # mark completed
+>  
+> -    # Check that the members of this type do not cause duplicate JSON members,
+> -    # and update seen to track the members seen so far. Report any errors
+> -    # on behalf of info, which is not necessarily self.info
+> +    # Check that the members of this type do not cause duplicate JSON
+> +    # members, and update seen to track the members seen so far. Report
+> +    # any errors on behalf of info, which is not necessarily self.info
+>      def check_clash(self, info, seen):
+>          assert self._checked
+>          assert not self.variants       # not implemented
+
+Improvement.  Two spaces again.
+
+> @@ -494,11 +496,12 @@ def __init__(self, name, info, doc, ifcond, features, variants):
+>      def check(self, schema):
+>          super().check(schema)
+>          self.variants.tag_member.check(schema)
+> -        # Not calling self.variants.check_clash(), because there's nothing
+> -        # to clash with
+> +        # Not calling self.variants.check_clash(), because there's
+> +        # nothing to clash with
+>          self.variants.check(schema, {})
+> -        # Alternate branch names have no relation to the tag enum values;
+> -        # so we have to check for potential name collisions ourselves.
+> +        # Alternate branch names have no relation to the tag enum
+> +        # values; so we have to check for potential name collisions
+> +        # ourselves.
+>          seen = {}
+>          types_seen = {}
+>          for v in self.variants.variants:
+
+Why not.
+
+> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+> index 20d572a23a..2e67ab1752 100644
+> --- a/scripts/qapi/types.py
+> +++ b/scripts/qapi/types.py
+> @@ -35,8 +35,8 @@
+>  from .source import QAPISourceInfo
+>  
+>  
+> -# variants must be emitted before their container; track what has already
+> -# been output
+> +# variants must be emitted before their container; track what has
+> +# already been output
+>  objects_seen = set()
+>  
+>  
+
+Why not.
+
+> @@ -297,7 +297,8 @@ def _begin_user_module(self, name: str) -> None:
+>  '''))
+>  
+>      def visit_begin(self, schema: QAPISchema) -> None:
+> -        # gen_object() is recursive, ensure it doesn't visit the empty type
+> +        # gen_object() is recursive, ensure
+> +        # it doesn't visit the empty type
+
+Looks a bit odd.  Since the original is only slightly over the limit, we
+can keep it.
+
+Pattern: turning single line comments into multi-line comments to avoid
+small length overruns is usually not an improvement.
+
+>          objects_seen.add(schema.the_empty_object_type.name)
+>  
+>      def _gen_type_cleanup(self, name: str) -> None:
+
+Bottom line: I find some hunks likable enough.
+
+Ways forward:
+
+1. If you need to respin:
+
+1.1. you may keep this patch, and work in my feedback.
+
+1.2. you may drop it.  I can pick it up and take care of it.
+
+2. If we decide to go without a respin:
+
+2.1. I can work in my feedback in my tree.
+
+2.2. I can extract the patch and take care of it separately.
+
+I'd prefer to avoid 2.1, because I feel it's too much change for
+comfort.  1.1. vs. 1.2 would be up to you.
 
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
 
+[*] https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html#an-example-class-with-docstrings
 
---------------EDA78BD7D07424FF733B5238
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 16.04.2021 02:50, Peter Xu wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20210415235032.GS4440@xz-x1">
-      <pre class="moz-quote-pre" wrap="">On Wed, Mar 17, 2021 at 07:32:13PM +0300, Andrey Gruzdev wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">This series is a kind of PoC for asynchronous snapshot reverting. This is
-about external snapshots only and doesn't involve block devices. Thus, it's
-mainly intended to be used with the new 'background-snapshot' migration
-capability and otherwise standard QEMU migration mechanism.
-
-The major ideas behind this first version were:
-  * Make it compatible with 'exec:'-style migration - options can be create
-    some separate tool or integrate into qemu-system.
-  * Support asynchronous revert stage by using unaltered postcopy logic
-    at destination. To do this, we should be capable of saving RAM pages
-    so that any particular page can be directly addressed by it's block ID
-    and page offset. Possible solutions here seem to be:
-      use separate index (and storing it somewhere)
-      create sparse file on host FS and address pages with file offset
-      use QCOW2 (or other) image container with inherent sparsity support
-  * Make snapshot image file dense on the host FS so we don't depend on
-    copy/backup tools and how they deal with sparse files. Off course,
-    there's some performance cost for this choice.
-  * Make the code which is parsing unstructered format of migration stream,
-    at least, not very sophisticated. Also, try to have minimum dependencies
-    on QEMU migration code, both RAM and device.
-  * Try to keep page save latencies small while not degrading migration
-    bandwidth too much.
-
-For this first version I decided not to integrate into main QEMU code but
-create a separate tool. The main reason is that there's not too much migration
-code that is target-specific and can be used in it's unmodified form. Also,
-it's still not very clear how to make 'qemu-system' integration in terms of
-command-line (or monitor/QMP?) interface extension.
-
-For the storage format, QCOW2 as a container and large (1MB) cluster size seem
-to be an optimal choice. Larger cluster is beneficial for performance particularly
-in the case when image preallocation is disabled. Such cluster size does not result
-in too high internal fragmentation level (~10% of space waste in most cases) yet
-allows to reduce significantly the number of expensive cluster allocations.
-
-A bit tricky part is dispatching QEMU migration stream cause it is mostly
-unstructered and depends on configuration parameters like 'send-configuration'
-and 'send-section-footer'. But, for the case with default values in migration
-globals it seems that implemented dispatching code works well and won't have
-compatibility issues in a reasonably long time frame.
-
-I decided to keep RAM save path synchronous, anyhow it's better to use writeback
-cache mode for the live snapshots cause of it's interleaving page address pattern.
-Page coalescing buffer is used to merge contiguous pages to optimize block layer
-writes.
-
-Since for snapshot loading opening image file in cached mode would not do any good,
-it implies that Linux native AIO and O_DIRECT mode is used in a common scenario.
-AIO support in RAM loading path is implemented by using a ring of preallocated
-fixed-sized buffers in such a way that there's always a number of outstanding block
-requests anytime. It also ensures in-order request completion.
-
-How to use:
-
-**Save:**
-* qemu&gt; migrate_set_capability background-snapshot on
-* qemu&gt; migrate &quot;exec:&lt;qemu-bin-path&gt;/qemu-snap -s &lt;virtual-size&gt;
-           --cache=writeback --aio=threads save &lt;image-file.qcow2&gt;&quot;
-
-**Load:**
-* Use 'qemu-system-* -incoming defer'
-* qemu&gt; migrate_incoming &quot;exec:&lt;qemu-bin-path&gt;/qemu-snap
-          --cache=none --aio=native load &lt;image-file.qcow2&gt;&quot;
-
-**Load with postcopy:**
-* Use 'qemu-system-* -incoming defer'
-* qemu&gt; migrate_set_capability postcopy-ram on
-* qemu&gt; migrate_incoming &quot;exec:&lt;qemu-bin-path&gt;/qemu-snap --postcopy=60
-          --cache=none --aio=native load &lt;image-file.qcow2&gt;&quot;
-
-And yes, asynchronous revert works well only with SSD, not with rotational disk..
-
-Some performance stats:
-* SATA SSD drive with ~500/450 MB/s sequantial read/write and ~60K IOPS max.
-* 220 MB/s average save rate (depends on workload)
-* 440 MB/s average load rate in precopy
-* 260 MB/s average load rate in postcopy
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Andrey,
-
-Before I try to read it (since I'm probably not the best person to review
-it..).. Would you remind me on the major difference of external snapshots
-comparing to the existing one, and problems to solve?
-
-Thanks,
-
-</pre>
-    </blockquote>
-    <pre>Hi Peter,
-
-For the external snapshots - the difference (compared to internal) is that snapshot
-data is going to storage objects which are not part VM config. I mean that for internal
-snapshots we use configured storage of the VM instance to store both vm state and blockdev
-snapshot data. The opposite is for external snapshots when we save vmstate and blockdev
-snapshots to separate files on the host. Also external snapshots are not managed by QEMU.
-
-One of the problems is that the vmstate part of external snapshot is essentially the
-migration stream which is schema-less and it's structure is dependent on QEMU target.
-That means that currently we can do a revert-to-snapshot operation with the sequence of
-QMP commands but we can do that only in a synchronous way, i.e. vcpus can't be started
-until all of the vmstate data has been transferred. The reason for this synchronous
-behavior is that we cannot locate arbitrary RAM page in raw migration stream if we start
-vcpus early and get faults for the pages that are missing on destination vm.
-
-So the major goal of this PoC is to demonstrate asynchronous snapshot reverting in QEMU
-while keeping migration code mostly unchanged. To do that we need to split migration stream
-into two parts, particularly these parts are RAM pages and the rest of vmstate. And then,
-if we can do this, RAM pages can be dispatched directly to a block device with block offsets
-deduced from page GPAs.
-</pre>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                virtuzzo.com</pre>
-  </body>
-</html>
-
---------------EDA78BD7D07424FF733B5238--
 
