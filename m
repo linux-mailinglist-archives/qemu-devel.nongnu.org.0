@@ -2,50 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79062361906
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:55:00 +0200 (CEST)
-Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93829361907
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:56:21 +0200 (CEST)
+Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXGVP-0000MX-Jw
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
+	id 1lXGWi-0001me-NN
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lXGTH-00075i-FT; Fri, 16 Apr 2021 00:52:47 -0400
-Received: from ozlabs.org ([203.11.71.1]:40335)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lXGTE-0003se-Vi; Fri, 16 Apr 2021 00:52:47 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FM3jg0kvZz9sV5; Fri, 16 Apr 2021 14:52:39 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1618548759;
- bh=xzDjLcE+Vp35WNszZszf3jflZGkgZOi88sfHa2aTpkY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l7iXB19ZTtOdUk+xJxfb2pIE+wJ3Atb1DGTYPd9PF+RRceaEH4G3YB9QaKrmljAcV
- SUV91KS2tJ3eY4MIcny8dzTgBgBMUsOD+G1mzfKFb19J2zAVLxjoFj44/cao/v+4Ry
- LZ8Y3b7REOWOiqbWTXhOiHxPMKxTiDdubUo3DTcg=
-Date: Fri, 16 Apr 2021 14:52:31 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH v2 1/6] device_tree: Add qemu_fdt_add_path
-Message-ID: <YHkYD+cCl9/GCxwJ@yekko.fritz.box>
-References: <20210413080745.33004-1-wangyanan55@huawei.com>
- <20210413080745.33004-2-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lXGVv-00015K-K7; Fri, 16 Apr 2021 00:55:31 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:38690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lXGVs-0005bn-Lt; Fri, 16 Apr 2021 00:55:31 -0400
+Received: by mail-io1-xd30.google.com with SMTP id f15so17754497iob.5;
+ Thu, 15 Apr 2021 21:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TqhPBmIdX2fXKUKlrpYBCEXvJNh9xPtljVtd4cKyVpM=;
+ b=dbA5OtcmCSKbyO3+EEv/+Y/t0uMkS0FK84qy1RmGOfBJvBqRCdXstc0uS9x1DDTmzU
+ tUfwKrd9i3WrYrf2qTKqDKTF1U3EfR3J6setkJcv4OW2IrrxS+FAY/kgBwiyBMpHKvyE
+ fpEQjAMzt6jQQl2lfLQfeMFVfaVomfFx0cCULOYAY44VSxFDQ/uSnvDHTFIHxPeN5Nyy
+ zGCf0YKRw5jdVQmSLckpEF3/PUCQ2Ggmm2Ky6IrakvwFsjniLWRFnKwtDFmsqOVpRexA
+ 5qLe2bWJm3m9oLZb7sMlbQYJDrr8s5pIXeJAcjbB7vhU1huGmyExqBTgTF1n5aE6dtjy
+ 4ahg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TqhPBmIdX2fXKUKlrpYBCEXvJNh9xPtljVtd4cKyVpM=;
+ b=rPpUQRwYTYjsSwfb5Ba4VWwhovHOIRdAsCjDmbdl1cRmp+65TPDdmbnSpSZblPQN0W
+ Yp6q0BwqajoDTPnFsSv6j4xjD/3FFLltqX6SvZ02CTmM0cs9/9GMzWi8WfZSoUTRs3C8
+ dF/S7hFrSDSaGPvM+eA2n5AFx3gONFcu641IAdsJwsE6DdOT7gwqbFCh9DH4QWfElXXf
+ Y8T1xoy4kAa9b+MHraLH2+fZnQjvjq6hbZ74szjwB0Cy1UwUzzXqQ4Nv57TGdLelume/
+ mcQfoPkNFNe0FGZs/8OYYOqV7iKa3gGhFkIH+Zt8eeKm3IJ/CGfz7rtW/iZAiTyE2GO+
+ TxHw==
+X-Gm-Message-State: AOAM530aKQ0W8ztA4NxfbqNYbSK6S8aCmFGD5ZaiCQ57yiYe9gIp2cdD
+ yghGSei4Iq7sq+u1raqSVWSox7fEIEGOoKL0oy4=
+X-Google-Smtp-Source: ABdhPJzO1Si2smTymgF/iLc8zzOdlXuEk3X0yde6VyTdWaZ/yxguCW3kcVbIyRkDq+24oAKa1Dyax+b2F5MuqnOUnqQ=
+X-Received: by 2002:a02:a38f:: with SMTP id y15mr2475580jak.106.1618548926208; 
+ Thu, 15 Apr 2021 21:55:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bpxvPzcUlgYJX94H"
-Content-Disposition: inline
-In-Reply-To: <20210413080745.33004-2-wangyanan55@huawei.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210410194047.559189-1-josemartins90@gmail.com>
+In-Reply-To: <20210410194047.559189-1-josemartins90@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 16 Apr 2021 14:55:00 +1000
+Message-ID: <CAKmqyKPpjRfowvYjofny8JNwnDUZkyH4jnU6mvVxaWNJuEgsqA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix wfi exception behavior
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,159 +75,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- prime.zeng@hisilicon.com, yangyicong@huawei.com, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, zhukeqian1@huawei.com,
- Jiajie Li <lijiajie11@huawei.com>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---bpxvPzcUlgYJX94H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 13, 2021 at 04:07:40PM +0800, Yanan Wang wrote:
-> From: Andrew Jones <drjones@redhat.com>
->=20
-> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except
-> it also adds any missing subnodes in the path. We also tweak
-> an error message of qemu_fdt_add_subnode().
->=20
-> We'll make use of this new function in a coming patch.
->=20
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+On Sun, Apr 11, 2021 at 5:41 AM Jose Martins <josemartins90@gmail.com> wrote:
+>
+> The wfi exception trigger behavior was not taking into account the fact
+> that user mode is not allowed to execute wfi instructions or the effect
+> of the hstatus.vtw bit. It was also always generating virtual instruction
+> exceptions when this should only happen when the wfi instruction is
+> executed when the virtualization mode is enabled:
+>
+> - when a wfi instruction is executed, an illegal exception should be triggered
+> if either the current mode is user or the mode is supervisor and mstatus.tw is
+> set.
+>
+> - a virtual instruction exception should be raised when a wfi is executed from
+> virtual-user or virtual-supervisor and hstatus.vtw is set.
+>
+> Signed-off-by: Jose Martins <josemartins90@gmail.com>
 > ---
->  include/sysemu/device_tree.h |  1 +
->  softmmu/device_tree.c        | 45 ++++++++++++++++++++++++++++++++++--
->  2 files changed, 44 insertions(+), 2 deletions(-)
->=20
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index 8a2fe55622..ef060a9759 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *=
-path);
->  uint32_t qemu_fdt_alloc_phandle(void *fdt);
->  int qemu_fdt_nop_node(void *fdt, const char *node_path);
->  int qemu_fdt_add_subnode(void *fdt, const char *name);
-> +int qemu_fdt_add_path(void *fdt, const char *path);
-> =20
->  #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)           =
-      \
->      do {                                                                =
-      \
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 2691c58cf6..8592c7aa1b 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -541,8 +541,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
-> =20
->      retval =3D fdt_add_subnode(fdt, parent, basename);
->      if (retval < 0) {
-> -        error_report("FDT: Failed to create subnode %s: %s", name,
-> -                     fdt_strerror(retval));
-> +        error_report("%s: Failed to create subnode %s: %s",
-> +                     __func__, name, fdt_strerror(retval));
->          exit(1);
->      }
-> =20
-> @@ -550,6 +550,47 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->      return retval;
->  }
-> =20
-> +/*
-> + * Like qemu_fdt_add_subnode(), but will add all missing
-> + * subnodes in the path.
-> + */
-> +int qemu_fdt_add_path(void *fdt, const char *path)
-> +{
-> +    char *dupname, *basename, *p;
-> +    int parent, retval =3D -1;
-> +
-> +    if (path[0] !=3D '/') {
-> +        return retval;
-> +    }
-> +
-> +    parent =3D fdt_path_offset(fdt, "/");
-
-Getting the offset for "/" is never needed - it's always 0.
-
-> +    p =3D dupname =3D g_strdup(path);
-
-You shouldn't need the strdup(), see below.
-
-> +
-> +    while (p) {
-> +        *p =3D '/';
-> +        basename =3D p + 1;
-> +        p =3D strchr(p + 1, '/');
-> +        if (p) {
-> +            *p =3D '\0';
-> +        }
-> +        retval =3D fdt_path_offset(fdt, dupname);
-
-The fdt_path_offset_namelen() function exists *exactly* so that you
-can look up partial parths without having to mangle your input
-string.  Just set the namelen right, and it will ignore anything to
-the right of that.
-
-> +        if (retval < 0 && retval !=3D -FDT_ERR_NOTFOUND) {
-> +            error_report("%s: Invalid path %s: %s",
-> +                         __func__, path, fdt_strerror(retval));
-
-If you're getting an error other than FDT_ERR_NOTFOUND here, chances
-are it's not an invalid path, but a corrupted fdt blob or something
-else.
-
-> +            exit(1);
-> +        } else if (retval =3D=3D -FDT_ERR_NOTFOUND) {
-> +            retval =3D fdt_add_subnode(fdt, parent, basename);
-> +            if (retval < 0) {
-> +                break;
-> +            }
-> +        }
-> +        parent =3D retval;
-> +    }
-> +
-> +    g_free(dupname);
-> +    return retval;
-> +}
-> +
->  void qemu_fdt_dumpdtb(void *fdt, int size)
+>  target/riscv/cpu_bits.h  | 1 +
+>  target/riscv/op_helper.c | 8 +++++---
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 24b24c69c5..ed8b97c788 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -436,6 +436,7 @@
+>  #define HSTATUS_HU           0x00000200
+>  #define HSTATUS_VGEIN        0x0003F000
+>  #define HSTATUS_VTVM         0x00100000
+> +#define HSTATUS_VTW          0x00200000
+>  #define HSTATUS_VTSR         0x00400000
+>  #if defined(TARGET_RISCV64)
+>  #define HSTATUS_VSXL        0x300000000
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index d55def76cf..354e39ec26 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -174,9 +174,11 @@ void helper_wfi(CPURISCVState *env)
 >  {
->      const char *dumpdtb =3D current_machine->dumpdtb;
+>      CPUState *cs = env_cpu(env);
+>
+> -    if ((env->priv == PRV_S &&
+> -        get_field(env->mstatus, MSTATUS_TW)) ||
+> -        riscv_cpu_virt_enabled(env)) {
+> +    if ((!riscv_cpu_virt_enabled(env) && env->priv == PRV_U) ||
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+> +        (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TW))) {
 
---bpxvPzcUlgYJX94H
-Content-Type: application/pgp-signature; name="signature.asc"
+Shouldn't we check here that we aren't virtualised?
 
------BEGIN PGP SIGNATURE-----
+Alistair
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB5GA0ACgkQbDjKyiDZ
-s5LXeg//WsVtzYGhSyod/Dl72fGuT/4ta3YGMnJvZNPTAyywNIVuHjw15N5P9Zc1
-FWlUAy4ZmvrPV9KwECvcCQe1cXErjIjRsEn86kqt1o++v01I9UU+56hmkufNGSeB
-7SEqkPoJDcfht+H2SSfk6SppzLG1sGo4pr3E7liLTPWNhP1oVwDSqRhvpXR6tUN7
-CXdPehhcbLSS+K/vii0atlrCWnrOu9TjR+HBJ/5ACFJOLiAOqMifvkxhxkY6GpNw
-zM16XayBu5+09L3QPPVfid4xbSqPFjgmCzlCBddkzxalDUcjuON+WQxf+sSMljKq
-mIGUw7OcVbfRlS82NxcZxZ/VBxIs7lEfp+LIyoaUyI/RKWXzPBG0oa91ybzvDktE
-VSN74anWHnNMujCPfCI+MBl2nQLf8A49rTySpusagnON503jsY63I3CW3QQns6W9
-fS45CWb25UtHmBp4t+V7B3CjcJ40NPko0mLPcw6s81iIGVPzaxodrb2kg/2bP4yO
-TDHQfZzy9aYCqmIfXxMu3qKeOP/LMMGRLFZf/lTzal1YnmNTCqHEqWIUKwoCugg5
-ro5nh/kUf4H5YcUQFc4F47X5Jitgl5jBZVpaY44Ql/TKFviih0Qqj/50+QHqZsNE
-BU9qU9WWfDAyS4NXSzCKRes2eFbReROhcCMnCOS6pV9tbpBdYrQ=
-=FoGC
------END PGP SIGNATURE-----
-
---bpxvPzcUlgYJX94H--
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> +    } else if (riscv_cpu_virt_enabled(env) && (env->priv == PRV_U ||
+> +            (env->priv == PRV_S && get_field(env->hstatus, HSTATUS_VTW)))) {
+>          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>      } else {
+>          cs->halted = 1;
+> --
+> 2.25.1
+>
+>
 
