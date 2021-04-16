@@ -2,82 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B4A362331
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:58:05 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9F6362333
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:58:32 +0200 (CEST)
+Received: from localhost ([::1]:53286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXPv2-0007wV-4J
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52848)
+	id 1lXPvT-0008TT-C3
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXPtL-0007I4-86
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:56:19 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lXPtE-00081d-W5
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:56:15 -0400
-Received: by mail-wr1-x432.google.com with SMTP id x7so26958365wrw.10
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 07:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aO05T/irpzubNF1vjr4wITeSHnOls63tUeATE0icNl8=;
- b=EPIDeFHFQe4L+lOB4DXTj3aeTqNFIHuXWKm23z+Bapp6u1FN4yS2Vqzg/B6ZDdNMMJ
- Uvt3B0HUNqG+by9v4NitEfx15yfScwo3CBUS5U7aK4+5oxzMSIZN1uEfu/IqbeVAd79k
- /x9H6NHx4t2tSJvx6n80vqWig6h3RxF7YFOoJFHIofTyN7I1AsPwkDes3EIdo8PqnEYf
- LV6XFbflq88xIHxYxf/HmOJW1ic3A+jjyV021RjBU3LqKADbDxokeVWTA2j1u4NkTReE
- X/CU5vdHqbVpvoMevLbIdf6e/3Jv+0UAM+AFVRWm4AaEDbnwU8UlI+0k0gdRmc8oyNnh
- RKnw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lXPtc-0007Uk-9Z
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:56:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lXPtZ-0008GO-JQ
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:56:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618584991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hYQuDg6idCeaJGB7SqwxevQcv6zo9OAM1x4jMf/7Weo=;
+ b=HHKndKV7H/Rlc4qA/jn7yyTKzyjTPMKafZ4LCdI0i5vFc0CR2JQEyV9VbG992BzzyWn12H
+ SPc+esUWtms1wmzt+Xo76CTb9kJs2uiGwEI2rarG1MxxXYV+8QXSQVnuhOH27xWOSubOPr
+ nLgdbFTrO9k74NI4Zc6MoGMd39M9pCk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-7KDWSJItM76jvRI2Q844pw-1; Fri, 16 Apr 2021 10:56:28 -0400
+X-MC-Unique: 7KDWSJItM76jvRI2Q844pw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ t11-20020aa7d4cb0000b0290382e868be07so7132610edr.20
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 07:56:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=aO05T/irpzubNF1vjr4wITeSHnOls63tUeATE0icNl8=;
- b=NhNZrdZQh8ZwAsuBWBvnyK6k8k1GRjh9oqdVHTs9dKEM7g12LhKyubNLi22zHrMTd5
- Q6naWS17XUZkhcd5WInD6Vg6l8qEbgLUPEz84flA8L9bBfPEEDYGWjuMIY6ehADLmvaq
- vcnpznC40AALs1XhyQWiGNO9O/GYPxaKnyWJg4rzr1/HUTEsJFE7DPVz2UcRVE4ArBww
- KZpuA6DBXuBhqV/K6fM/zQjZbmAchtnusSKkzwJcw0RKC1n5V9fg1lfhzs3/v2ZLZgkq
- rzOELdXbRjYrLeCeYHB0t+fqG/rMizngLEHN1DYtqyRAHMqvuq03JOQwVqIKpk4dF6zR
- yMog==
-X-Gm-Message-State: AOAM5333V+0bz14CikHoN6zOu8eIDm4EFMHVuFj9MLxFDeK0Lbly0tmk
- Pt2qT0av68KqGofRgqFpyLU=
-X-Google-Smtp-Source: ABdhPJz19klqcOAVCbZ4Oal2QW3getKELPsrFUpXtjUZ39BFNwRAzbH17kFkbVRJrQ46WeMe0ufnZQ==
-X-Received: by 2002:adf:9148:: with SMTP id j66mr9682262wrj.124.1618584970354; 
- Fri, 16 Apr 2021 07:56:10 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id i12sm9742937wrm.77.2021.04.16.07.56.08
+ bh=hYQuDg6idCeaJGB7SqwxevQcv6zo9OAM1x4jMf/7Weo=;
+ b=FcKv4aMbPJZyJA8DsS7Z86o+hDIcZK22+t21RlWYvaMJ7yHbY7YrLzhHVPl8T39h22
+ pZmFaeDbef4DtfzGo8nO27d94wV2yvVvwp0i4sUNmeGJ5IbpRtD74JwzdkwS2UctoyNK
+ 4/tpyvs3YLmzHYOH2ikHLsq/rYLkFl5YntqeJTLPG+yOhSPOo6bIYnVfh4c8Qs/Fovfi
+ 2yow520XA9380XKXOslPjHD2RLtkvh/q9oZVzfPJja1NlMRZLetV5jP57xqJPIwoZ3tY
+ hEwtN4R7c59sxJy9wMD6OLaD2QQXCPlOA7QI4giDmhHmE7sbzS0P5y68tyFHSOP0zGHZ
+ bcRQ==
+X-Gm-Message-State: AOAM533h+Ufm/95aBo2HaNSnpTwGbcmTIePneFo/x/hNZVk8A9i9tWvo
+ GWgzPQ+oI6M1M8oXwtvrQxdsm3A3/zBX/SVhLlVjyGMjJ5ZLg5LL7Z43e/mJgRdZKw5lNCO/BcC
+ C5qdx5QwwzuidqhFcw8vKSpMvPcBsU9cyGlwrVxUd/v++WfcaGjeMZyw91ZMBaS5dzoc=
+X-Received: by 2002:a17:906:40da:: with SMTP id
+ a26mr8694870ejk.513.1618584986923; 
+ Fri, 16 Apr 2021 07:56:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxwtJ84XP5dJyO3/qagsLzaF1UAJCxuZlv72kj4bUVUy1/iImBAl9soLduZH62ghV4+4T++A==
+X-Received: by 2002:a17:906:40da:: with SMTP id
+ a26mr8694851ejk.513.1618584986763; 
+ Fri, 16 Apr 2021 07:56:26 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id kx3sm4432993ejc.44.2021.04.16.07.56.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Apr 2021 07:56:09 -0700 (PDT)
-Subject: Re: [PATCH for-6.0? 0/6] extern "C" overhaul for C++ files
-To: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Petar Jovanovic <petar.jovanovic@syrmia.com>, Vince.DelVecchio@mediatek.com,
- Filip Vidojevic <Filip.Vidojevic@Syrmia.com>
-References: <20210416135543.20382-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <aaf058e8-ba51-b408-d82d-acf08d20a8b7@amsat.org>
-Date: Fri, 16 Apr 2021 16:56:08 +0200
+ Fri, 16 Apr 2021 07:56:26 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] qom: move user_creatable_add_opts logic to vl.c
+ and QAPIfy it
+To: Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
+References: <20210312173547.1283477-1-pbonzini@redhat.com>
+ <20210312173547.1283477-3-pbonzini@redhat.com>
+ <f0ea67d8-9641-104d-f8ec-5fc343256cc9@redhat.com>
+ <87im4q23v2.fsf@dusky.pond.sub.org>
+ <07c08cc3-f3ca-6f7a-e5f7-d2d3ee8de79e@redhat.com>
+ <87mtu2wm49.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bd57550a-666a-3d25-b9d3-3baa7bd7b453@redhat.com>
+Date: Fri, 16 Apr 2021 16:56:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210416135543.20382-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87mtu2wm49.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,66 +108,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing MediaTek future contributors who expressed interest
-in reviewing this.
+On 13/04/21 11:48, Markus Armbruster wrote:
+>> Oh, there is qapi/qom.json -- maybe that does the trick.
+>>
+>> (I have mixed feelings about having to specify the same thing twice at
+>> different locations)
+> 
+> With reason.
+> 
+> We've talked about generating QOM boilerplate from the QAPI schema, but
+> haven't progressed to actual patches.
 
-On 4/16/21 3:55 PM, Peter Maydell wrote:
-> Hi; this patchseries is:
->  (1) a respin of Paolo's patches, with the review issue Dan
->      noticed fixed (ie handle arm-a64.cc too)
->  (2) a copy of my "osdep.h: Move system includes to top" patch
->  (3) some new patches which try to more comprehensively address
->      the extern "C" issue
-> 
-> I've marked this "for-6.0?", but more specifically:
->  * I think patches 1 and 2 should go in if we do an rc4
->    (and maybe we should do an rc4 given various things that
->    have appeared that aren't individually rc4-worthy)
->  * patches 3-6 are definitely 6.1 material
-> 
-> We have 2 C++ files in the tree which need to include QEMU
-> headers: disas/arm-a64.cc and disas/nanomips.cpp. These
-> include only osdep.h and dis-asm.h, so it is sufficient to
-> extern-C-ify those two files only.
-> 
-> I'm not wildly enthusiastic about this because it's pretty
-> invasive (and needs extending if we ever find we need to
-> include further headers from C++), but it seems to be what
-> C++ forces upon us...
-> 
-> Patches 1, 2 and 3 have been reviewed (I kept Dan's r-by on
-> patch 1 since the change to it is just fixing the thing he
-> noticed). Further review, and opinions on the 6.0-ness, whether
-> we should do an rc4, etc, appreciated.
-> 
-> thanks
-> -- PMM
-> 
-> Paolo Bonzini (2):
->   osdep: include glib-compat.h before other QEMU headers
->   osdep: protect qemu/osdep.h with extern "C"
-> 
-> Peter Maydell (4):
->   include/qemu/osdep.h: Move system includes to top
->   osdep: Make os-win32.h and os-posix.h handle 'extern "C"' themselves
->   include/qemu/bswap.h: Handle being included outside extern "C" block
->   include/disas/dis-asm.h: Handle being included outside 'extern "C"'
-> 
->  include/disas/dis-asm.h   | 12 ++++++++++--
->  include/qemu/bswap.h      | 26 ++++++++++++++++++++++----
->  include/qemu/compiler.h   |  6 ++++++
->  include/qemu/osdep.h      | 34 +++++++++++++++++++++++++++-------
->  include/sysemu/os-posix.h |  8 ++++++++
->  include/sysemu/os-win32.h |  8 ++++++++
->  disas/arm-a64.cc          |  2 --
->  disas/nanomips.cpp        |  2 --
->  8 files changed, 81 insertions(+), 17 deletions(-)
-> 
+There is an initial sketch at
+https://wiki.qemu.org/Features/QOM-QAPI_integration, covering what can 
+be done before touching the code generator.
+
+The basic idea is to keep property getters, which allow to read how an 
+object was configured and already vastly reduces the amount of 
+boilerplate, and replace the setters with a method that takes a QAPI 
+visitor.
+
+Later on the low-level QAPI code can be generated by qapi-gen, similar 
+to QMP commands.  However, unlike QMP (where QAPIfication included 
+switching from raw QDicts to QAPI structs) here we already start with 
+code that uses vistors and QAPI structs.  So it's not like having to 
+rewrite things twice.
+
+Paolo
 
 
