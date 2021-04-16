@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902A93625CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:38:51 +0200 (CEST)
-Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0113625B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 18:32:27 +0200 (CEST)
+Received: from localhost ([::1]:47964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXRUY-0006Hp-BS
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
+	id 1lXROM-0006Uo-IN
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 12:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lXRKI-0002MN-0L
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:14 -0400
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:60002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lXRKA-000173-Db
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lXRKG-0002KU-Ts
  for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:13 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id DB86C25DD68;
- Fri, 16 Apr 2021 18:28:02 +0200 (CEST)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Apr
- 2021 18:28:02 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004d6a67272-8e9a-431b-9531-619e7147866a,
- 98643AE5B40D77660504470F9E4DE59E1F602129) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.73.13
-Subject: Re: [RFC PATCH] target/arm: drop CF_LAST_IO/dc->condjump check
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- <qemu-devel@nongnu.org>
-References: <20210416154908.21673-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <9e52582e-a010-5426-a645-5046d2eb0f32@kaod.org>
-Date: Fri, 16 Apr 2021 18:28:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lXRKA-000181-2G
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 12:28:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1618590485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ve2aUqxor2ZCKOL7evhGhkY8GvNcDgLOiGYvIJPti/s=;
+ b=clqFj2KNGOgJYanPSa5kG0sa2zi7BQvLFtbEdbMlvi6qa7xFS73amv18l4YJFH0rcdzmYk
+ 27efpl9kL6YhIpyfkR0mP4MxtmpLqQXnRxKu/5UACCoN8lQ+TRQFxDtcfjvWIhXesB5CDs
+ gGfhKfkg4UhacVdAyEsC6JBJqVSlZqY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-1k_Plyd_NNegfapAc2RA8A-1; Fri, 16 Apr 2021 12:28:03 -0400
+X-MC-Unique: 1k_Plyd_NNegfapAc2RA8A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F075195D560
+ for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 16:28:02 +0000 (UTC)
+Received: from localhost (ovpn-114-144.rdu2.redhat.com [10.10.114.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49FD060BE5;
+ Fri, 16 Apr 2021 16:28:02 +0000 (UTC)
+Date: Fri, 16 Apr 2021 12:28:01 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH RFC] migration: warn about non-migratable configurations
+ unless '--no-migration' was specified
+Message-ID: <20210416162801.zluqlbvyipoanedw@habkost.net>
+References: <20210415154402.28424-1-vkuznets@redhat.com>
+ <YHhj/bo883jJ9ocy@redhat.com> <YHh3trxdMQ85NRTh@work-vm>
+ <874kg68z07.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416154908.21673-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <874kg68z07.fsf@vitty.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d47737ef-bb41-44b9-a130-e7ef56d21d3c
-X-Ovh-Tracer-Id: 13479836636903017440
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudelhedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,52 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/21 5:49 PM, Alex Bennée wrote:
-> This is a left over erroneous check from the days front-ends handled
-> io start/end themselves. Regardless just because IO could be performed
-> on the last instruction doesn't obligate the front end to do so.
+On Fri, Apr 16, 2021 at 09:33:28AM +0200, Vitaly Kuznetsov wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 > 
-> This fixes an abort faced by the aspeed execute-in-place support which
-> will necessarily trigger this state (even before the one-shot
-> CF_LAST_IO fix). The test still seems to hang once it attempts to boot
-> the Linux kernel but I suspect this is an unrelated issue with icount
-> and the timer handling code.
+> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> >> On Thu, Apr 15, 2021 at 05:44:02PM +0200, Vitaly Kuznetsov wrote:
+> >> > When a migration blocker is added nothing is reported to the user,
+> >> > inability to migrate such guest may come as a late surprise. As a bare
+> >> > minimum, we can print a warning. To not pollute the output for those, who
+> >> > have no intention to migrate their guests, introduce '--no-migration'
+> >> > option which both block the migration and eliminates warning from
+> >> 
+> >> I wonder how this is actually going to work in practice ?
+> >> 
+> >> At the time libvirt starts a guest, it has no idea whether the guest
+> >> is likely to need migration 3, 6, 12, 24 months in to the future.
+> >> 
+> >> IOW, we can't use a --no-migration flag and will be stuck with these
+> >> warnings no mtter what.
+> >> 
+> >> Is it possible to query the migration blockers via QMP ?
+> >
+> > It's possible to query the currently active ones, as of 6.0; from my
+> > commit  3af8554bd068576b0399087583df48518a2a98f6 it appears in the
+> > output of query-migrate in the 'blocked-reasons' list.
+> >
+> > The HMP equivalent is a64aec725ea0b26fa4e44f8b8b8c72be9aaa4230 showing:
+> >
+> >     (qemu) info migrate
+> >     globals:
+> >     store-global-state: on
+> >     only-migratable: off
+> >     send-configuration: on
+> >     send-section-footer: on
+> >     decompress-error-check: on
+> >     clear-bitmap-shift: 18
+> >     Outgoing migration blocked:
+> >       Migration is disabled when VirtFS export path '/home' is mounted in the guest using mount_tag 'fs'
+> >       non-migratable device: 0000:00:01.2/1/usb-serial
+> >     
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Cédric Le Goater <clg@kaod.org>
-
-
-Tested-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C. 
-
-
-> ---
->  target/arm/translate.c | 5 -----
->  1 file changed, 5 deletions(-)
+> FWIW, this patch makes '--no-migration' an 'ultimate big hammer' so not
+> matter how many blockers are there, the output will look like:
 > 
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index 62b1c2081b..7103da2d7a 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -9199,11 +9199,6 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
->  {
->      DisasContext *dc = container_of(dcbase, DisasContext, base);
->  
-> -    if (tb_cflags(dc->base.tb) & CF_LAST_IO && dc->condjmp) {
-> -        /* FIXME: This can theoretically happen with self-modifying code. */
-> -        cpu_abort(cpu, "IO on conditional branch instruction");
-> -    }
-> -
->      /* At this stage dc->condjmp will only be set when the skipped
->         instruction was a conditional branch or trap, and the PC has
->         already been written.  */
-> 
+> (qemu) info migrate
+> globals:
+> store-global-state: on
+> only-migratable: off
+> send-configuration: on
+> send-section-footer: on
+> decompress-error-check: on
+> clear-bitmap-shift: 18
+> Outgoing migration blocked:
+>   Guest is not migratable ('--no-migration' used)
+
+I would change that.  I expect "--no-migration" to only mean
+"live migration not really needed", not "live migration should be
+blocked".
+
+However, I still don't think libvirt should say "live migration
+not needed" unconditionally (because this isn't always true).  In
+that case, we would need a different mechanism to silence the
+warnings somehow.
+
+I would make live migration policy an enum, just to make sure
+we are explicit about the requirements:
+
+- UNKNOWN: this is the current state in QEMU 6.0, where we don't
+  really know what the user expects.
+  This can be the default on existing versioned machine types,
+  just for compatibility.
+  I suggest making this print warnings for every migration
+  blocker (like this patch does).
+  I suggest deprecating this behavior as soon as we can.
+
+- PREFERRED: try to make the VM migratable when possible, but
+  don't print a warning or error out if migration is blocked.
+  This seems to be the behavior expected by libvirt today.
+
+- NOT_NEEDED: live migration is not needed, and QEMU is free to
+  enable features that block live migration or change guest ABI.
+  We can probably make this the default on machine types that
+  never supported live migration.
+
+- REQUIRED: live migration is required, and adding a migration
+  blocker would be a fatal error.
+  This is already implemented by --only-migratable.
+  I suggest making this the default on versioned machine types
+  after a few releases, and after deprecating UNKNOWN.
+
+-- 
+Eduardo
 
 
