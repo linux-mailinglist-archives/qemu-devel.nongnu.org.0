@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A793623F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 17:30:56 +0200 (CEST)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40EF362404
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 17:34:07 +0200 (CEST)
+Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXQQp-0006Za-QF
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 11:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60976)
+	id 1lXQTu-00005e-0S
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 11:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lXQOz-0005gl-VT
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:29:02 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:35705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lXQOy-0007QD-6U
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:29:01 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id x8so25396442ybx.2
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 08:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vo608acMwIoukPVjYtwQNghbjDddtmcym6Os8ZMP/gM=;
- b=CcsEmNNl0dEinhAraIkeHiTuOwouMQ06yJ+dF+kg98bF+NVk8ywTmmEoBmU6PZLlOE
- I75pojL6gGXY5QW2/n0q2LHQc6Gn/5YeeD9yfUdEU+9fDkoJ3w1PIH4rzFplxDWcbSzo
- advsQL61w6wfMF4CqMfyHmcXQ9zpgFhkh3JW0smM2Dbe7KUgztMR4lof4fOFelcod0Wm
- wW/1Gmljt6iGUyKa/wmwHelrciNNzKTI/22rv9a15YyQyI5zpJKIZTk/vgB5aBdczOMc
- T5aQDMOdJQ1rYiKjiYHsUePgOuOWqHknJDPJfkxInQ+tSUW0ymQ00H6XxHhwlO2uQvzl
- fBUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Vo608acMwIoukPVjYtwQNghbjDddtmcym6Os8ZMP/gM=;
- b=CISLFlLHFkgTJ5XEmaSP4+uuN/lEvVM+8AYZGva6dsvb9LrF3SmATYsuBX/thfNX5I
- CUxAS+ZhTWLCJS4wLVSaOCWvzgP0WU+1udlWaNDjTdWO8k+axi06aiLw35NL07EnaY3u
- YYWHuT26mIZtrCfG+XQFvFNjPX6vZ71b24y1747kq1T95++gm4sNfEqqf0/B3R2y/qaC
- tQMWM6+kmc5e6FR/4c8LF96CCoys339TKgM5rR/f/DOJZ34fI8W9phGKYMnv6FC8iqwC
- Eyk+diOKmH/OKShLkLokKDIm1JX/jY7p6UuXxo2sJttdK6d5kqho0qpgZSU7RL6YF0pz
- sGLg==
-X-Gm-Message-State: AOAM530QRXJDNCQVevlyBZt7mcXLsQSP9nWNlIj9q61hi4OGW8dEAYLE
- 9bvMaF/KwABHLKnciTR6Uq1NxQ9INfRw1TPNavbr7gU3UPx9lg==
-X-Google-Smtp-Source: ABdhPJy+1YcvKYdScS8bO38Mxe+l7AnAmXy/YzmQLUND32KbcgFRb9uUC7QYbPX6bFR5bNhiTKFRE7M+C3hO52W8x08=
-X-Received: by 2002:a25:8b08:: with SMTP id i8mr11767330ybl.370.1618586939006; 
- Fri, 16 Apr 2021 08:28:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210416152429.91832-1-ziqiaokong@gmail.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lXQQz-0007N2-EZ
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:31:05 -0400
+Resent-Date: Fri, 16 Apr 2021 11:31:05 -0400
+Resent-Message-Id: <E1lXQQz-0007N2-EZ@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lXQQu-0008Pn-JX
+ for qemu-devel@nongnu.org; Fri, 16 Apr 2021 11:31:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1618587050; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=SIODeaPlgIv1ei4jdib8q58otAETOa4b4Q5RnoUzxQsnhTJq9382r4Mmfd0B1QdKN68+qD6/nMZTyFogPFzP7HdBySv9NtNRMKwGQ9GhTMqtO8PjFuKCoj7oE5302axukXKfPKZSa8lSSyMlmWIYgvVX/CkBNgsaYxcBz4rsa7M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618587050;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=EK7WJ05PsTB7kcAE362Oh9N7ZGZ3TO8iSJsGDhlB4ks=; 
+ b=Q+DGt6bM+IqvvgMDgvF3Bs7Am/m5o8FmMIatbdEcldqi/6TQXFDNGQOLznTFzkreP9POIsukbTLZyYVxR1oXq3WySEZdTEI11b/WgZyL+s4i8R5WElTwqKsEuuYlXz/ncAh0c64fQilzPz/62Cf792vW4aMJr9NlTkyb6LeY7Y8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1618587047935907.1234836052481;
+ Fri, 16 Apr 2021 08:30:47 -0700 (PDT)
 In-Reply-To: <20210416152429.91832-1-ziqiaokong@gmail.com>
-From: Ziqiao Kong <ziqiaokong@gmail.com>
-Date: Fri, 16 Apr 2021 23:28:48 +0800
-Message-ID: <CAM0BWNA87STu36XpjSrgvrPXBipXyC6WRe9+B=OOxVofkh4Nsg@mail.gmail.com>
 Subject: Re: [PATCH] Set the correct env->fpip for x86 float instructions
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Message-ID: <161858704665.31688.10056471501880366996@72b6d80f974b>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ziqiaokong@gmail.com
+Date: Fri, 16 Apr 2021 08:30:47 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,69 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, ziqiaokong@gmail.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sry, the second link is duplicated. It should be
-https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg00307.html,
-which is my previous email.
-
-Ziqiao
-
-On Fri, Apr 16, 2021 at 11:25 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
->
-> Hello, everyone!
->
-> This patch follows https://lists.gnu.org/archive/html/qemu-devel/2010-11/msg02497.html and https://lists.gnu.org/archive/html/qemu-devel/2010-11/msg02497.html
->
-> It's my first time to submit a patch to qemu. Any advice is highly welcome!
->
-> Ziqiao
-> ---
->  target/i386/tcg/fpu_helper.c | 4 ++--
->  target/i386/tcg/translate.c  | 3 +++
->  2 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-> index 60ed93520a..e8cbde4e1a 100644
-> --- a/target/i386/tcg/fpu_helper.c
-> +++ b/target/i386/tcg/fpu_helper.c
-> @@ -2395,7 +2395,7 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
->          cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
->          cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
->          cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
-> -        cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
-> +        cpu_stl_data_ra(env, ptr + 12, env->fpip, retaddr); /* fpip */
->          cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
->          cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
->          cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
-> @@ -2404,7 +2404,7 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
->          cpu_stw_data_ra(env, ptr, env->fpuc, retaddr);
->          cpu_stw_data_ra(env, ptr + 2, fpus, retaddr);
->          cpu_stw_data_ra(env, ptr + 4, fptag, retaddr);
-> -        cpu_stw_data_ra(env, ptr + 6, 0, retaddr);
-> +        cpu_stw_data_ra(env, ptr + 6, env->fpip, retaddr);
->          cpu_stw_data_ra(env, ptr + 8, 0, retaddr);
->          cpu_stw_data_ra(env, ptr + 10, 0, retaddr);
->          cpu_stw_data_ra(env, ptr + 12, 0, retaddr);
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 880bc45561..cc4398f03b 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -6337,7 +6337,10 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                  goto unknown_op;
->              }
->          }
-> +        tcg_gen_movi_tl(s->tmp0, pc_start - s->cs_base);
-> +        tcg_gen_st_tl(s->tmp0, cpu_env, offsetof(CPUX86State, fpip));
->          break;
-> +
->          /************************/
->          /* string ops */
->
-> --
-> 2.25.1
->
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDQxNjE1MjQyOS45MTgz
+Mi0xLXppcWlhb2tvbmdAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA0MTYxNTI0MjkuOTE4
+MzItMS16aXFpYW9rb25nQGdtYWlsLmNvbQpTdWJqZWN0OiBbUEFUQ0hdIFNldCB0aGUgY29ycmVj
+dCBlbnYtPmZwaXAgZm9yIHg4NiBmbG9hdCBpbnN0cnVjdGlvbnMKCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
+aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
+aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
+RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
+NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11
+CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA0MTYxMDQwMTAuMTMyMjgtMS1wZXRl
+ci5tYXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDQxNjEwNDAxMC4xMzIyOC0xLXBl
+dGVyLm1heWRlbGxAbGluYXJvLm9yZwogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEw
+NDE2MTUyNDI5LjkxODMyLTEtemlxaWFva29uZ0BnbWFpbC5jb20gLT4gcGF0Y2hldy8yMDIxMDQx
+NjE1MjQyOS45MTgzMi0xLXppcWlhb2tvbmdAZ21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJy
+YW5jaCAndGVzdCcKYmRiODMyYiBTZXQgdGhlIGNvcnJlY3QgZW52LT5mcGlwIGZvciB4ODYgZmxv
+YXQgaW5zdHJ1Y3Rpb25zCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogTWlzc2luZyBTaWdu
+ZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDI2IGxpbmVz
+IGNoZWNrZWQKCkNvbW1pdCBiZGI4MzJiZDdkZTAgKFNldCB0aGUgY29ycmVjdCBlbnYtPmZwaXAg
+Zm9yIHg4NiBmbG9hdCBpbnN0cnVjdGlvbnMpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09
+PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNDE2
+MTUyNDI5LjkxODMyLTEtemlxaWFva29uZ0BnbWFpbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90
+eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3
+IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0
+Y2hldy1kZXZlbEByZWRoYXQuY29t
 
