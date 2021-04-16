@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93063621DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:12:17 +0200 (CEST)
-Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459193621F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 16:18:47 +0200 (CEST)
+Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXPCi-0000Nm-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:12:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
+	id 1lXPJ0-0003A9-8e
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 10:18:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXPBf-0008Ew-15
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:11:11 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:39665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lXPBa-0005eq-95
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 10:11:10 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id g17so31739289edm.6
- for <qemu-devel@nongnu.org>; Fri, 16 Apr 2021 07:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IPZpvGks/i5oe8yrSf39bSTkCfi5w1ciO0y9KaI0XgY=;
- b=Mqv5Nb+jql35jT4dsOicYtQkucptk9EjTWclgkt+ZvQO2+aUpGvU2jwxYQUu/V/BP+
- 8oGBlGSY4GGA4Au9eMQdtGvkBfLb01ZwRmLOlcfzrk4P34blz3isXSp+L3YKiAq3Dx+E
- 57TvvE3s7/xtn1wNi36vczOrs12nkcTaC6NBiOrZvESwEXxVQtOEY/+l82odBF0obd8D
- Nh1uUer8JTR5VymcPApQiBpkHc+HW7V6b4piHpivcUjoMvPrKSPDNN78VceKVCGmzl9s
- H3OMOP3085Z+HJHm9ElbKE99l9NbHtxo8JDUVgDs5j7h2MZMVYF02kRPI9b6vsu/cRr6
- Po7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IPZpvGks/i5oe8yrSf39bSTkCfi5w1ciO0y9KaI0XgY=;
- b=bSI2naCnKmdaOPx4CjemEf8jFUnIGGjNOrD8sGnpnGIzAD3PKJRdspVDahNV6zgVUc
- /D9yJNyj+sv8CEdAai5WdQTW1qhc4qJwEocmwsts2oC1iG6BmZnmkHJl+6n2Z0G/GV/+
- Qh97CssbnZemOuSxTozIM66RcGjAuDsNS6H1EO57RHfasTAlQaLGO4HI1thvU9PGPhwS
- ypbyAZdTxtoIPu5VEybcTxjydeCGd4QCv7LyCXjY4DEq9QvRPO4Tv1dbRgAk2mTD6IO7
- hb2e6qDHbjXnOTmxzFwxJmlg6JNpAcQcf38bMC2H6EIupnJ0PZF+AZyynR/AOy6Evkfw
- Wn8Q==
-X-Gm-Message-State: AOAM5315i4YzD0e/f7kCbweTujJ9b7mgdFIFMear3pcm8fnx1ZNU9YLn
- 4CtRsCpC7+RM1C6G+wFH84xz5DrjM2L08e6TLffqww==
-X-Google-Smtp-Source: ABdhPJyFmcLtb7ddxjpdt/xoYIXAyMGKJjrXkaKYAR7wBT/YtXAHGzWRUKg24cte4tqtD6HPWGF+RF3UVlkmbkDid7M=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr10155918edt.36.1618582263941; 
- Fri, 16 Apr 2021 07:11:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lXPEJ-0001Hs-56; Fri, 16 Apr 2021 10:13:55 -0400
+Received: from [201.28.113.2] (port=19358 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lXPEH-0007Dg-B8; Fri, 16 Apr 2021 10:13:54 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 16 Apr 2021 11:13:49 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id DE8AA8005F0;
+ Fri, 16 Apr 2021 11:13:48 -0300 (-03)
+Subject: Re: [RFC PATCH 0/3] tests/tcg/ppc64le: paddi tests
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210415214138.563795-1-matheus.ferst@eldorado.org.br>
+ <YHkJ52c/ysoS00qk@yekko.fritz.box>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <338d679e-6619-4f60-5620-24de3ed3bf6d@eldorado.org.br>
+Date: Fri, 16 Apr 2021 11:13:48 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210415130305.28640-1-iii@linux.ibm.com>
- <20210415130305.28640-3-iii@linux.ibm.com>
-In-Reply-To: <20210415130305.28640-3-iii@linux.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 16 Apr 2021 15:10:15 +0100
-Message-ID: <CAFEAcA-8yh2GNEdP5yuY=_rKG_g4TLHauU=nYfGR_O-fT-2oMw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] target/arm: Make sure that commpage's tb->size != 0
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <YHkJ52c/ysoS00qk@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 16 Apr 2021 14:13:49.0383 (UTC)
+ FILETIME=[B8ACBD70:01D732CA]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,45 +59,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: thuth@redhat.com, gustavo.romero@protonmail.com, qemu-devel@nongnu.org,
+ wainersm@redhat.com, f4bug@amsat.org, luis.pires@eldorado.org.br,
+ qemu-ppc@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Apr 2021 at 14:03, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
->
-> tb_gen_code() assumes that tb->size must never be zero, otherwise it
-> may produce spurious exceptions. For ARM this may happen when creating
-> a translation block for the commpage.
->
-> Fix by pretending that commpage translation blocks have at least one
-> instruction.
->
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->  target/arm/translate.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index 62b1c2081b..885f69b044 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -9060,6 +9060,7 @@ static void arm_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
->      unsigned int insn;
->
->      if (arm_pre_translate_insn(dc)) {
-> +        dc->base.pc_next += 4;
->          return;
->      }
+On 16/04/2021 00:52, David Gibson wrote:
+> On Thu, Apr 15, 2021 at 06:41:35PM -0300, matheus.ferst@eldorado.org.br wrote:
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>
+>> Based-on: <20210413211129.457272-1-luis.pires@eldorado.org.br>
+> 
+> First things first: it's unclear to me if this is testing stuff that's
+> already merged, or it's speculative tests for the in-progress prefixed
+> instruction stuff.  i.e. If these tests are applied right now, will
+> they pass?
 
-Why does the call to arm_pre_translate_insn() in arm_tr_translate_insn() need
-this change but not the one in thumb_tr_translate_insn() ?
+GCC-10 images can be used to test already merged Power10 instructions, 
+such as brh/brw/brd, but I haven't writen tests for them (yet?). Both 
+tests are targeting paddi, whose implementation is in-progress, so 
+applying them now will fail. Maybe I should split the series? Patch 1 
+for now, and Patch 2 and 3 when paddi are merged?
 
-thanks
--- PMM
+>> This series adds gcc-10 based images to enable the build of tests with Power10
+>> instructions. Then two tests for paddi are added:
+>> - The first one checks a weird behavior observed on POWER10 Functional Simulator
+>>    1.1.0, where the 34-bit immediate is treated as a 32-bits one;
+>> - The second one exercises the R=1 path of paddi, where CIA is used instead of RA.
+>>    The test is failing with the current implementation because we use cpu_nip,
+>>    which is not updated all the time. Luis already has the fix, it should be
+>>    applied on the next version of his patch series.
+>>
+>> The main reason to submit this patch as an RFC first is the docker part. I would
+>> lie if I tell you that I understand half of what is going on there.
+>>   - 'make docker-test-tcg' fails, but apparently on unrelated things;
+>>   - 'make docker-run-test-tcg@debian-ppc64el-cross' passes, but it looks
+>>     like the test is skipped?
+>>   - 'make check-tcg' runs the test and passes (with the fix in place for the
+>>     second).
+> 
+> What sort of host was that on?  Unfortunately 'make check-tcg' has
+> been broken on a POWER host for some time, and I've never had time to
+> look into it.
+> 
+
+I'm testing on amd64, but I can also try on ppc64le.
+
+>>
+>> Finally, get_maintainer.pl found no maintainers for
+>> tests/tcg/ppc64{,le}/Makefile.target. Would it be Mr. Gibson?
+> 
+> Uh... sorta?  I also don't know much about what's going on here, but
+> I'm probably maintainer by default.
+> 
+
+So, should I update MAINTAINERS in this series?
+
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
