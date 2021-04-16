@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754103619C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 08:18:33 +0200 (CEST)
-Received: from localhost ([::1]:57136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4143619CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 08:25:31 +0200 (CEST)
+Received: from localhost ([::1]:60534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXHoG-0000s8-AD
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 02:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38374)
+	id 1lXHuz-0002Zz-MG
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 02:25:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXHnV-0000Sf-Nw
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 02:17:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lXHnT-00060k-Ai
- for qemu-devel@nongnu.org; Fri, 16 Apr 2021 02:17:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1618553862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aIU6IRF7dc55C4FpPq4nFM3OLkVSNaHTi/HPHsw0uGY=;
- b=WlbVCSfbZcGTNg4iNjvY+QwnenRjdJf0xaqEwsMHKp450yGsZZllRE6pU4HrMchk3ECRGs
- Bkw0aqcg92BAdXreR+1U0o6UVe1t9TMLNO/mr7A8G4S9JVquJJ8BqysG4kr+bp0GA4g2SI
- c2DRukLyChLLwS2JkLb9m45bGE3RlZQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-4hdW2TsLN-aHuXhsOdrMxA-1; Fri, 16 Apr 2021 02:17:37 -0400
-X-MC-Unique: 4hdW2TsLN-aHuXhsOdrMxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9266E192299B;
- Fri, 16 Apr 2021 06:17:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 161575D9C0;
- Fri, 16 Apr 2021 06:17:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8E9F1113525D; Fri, 16 Apr 2021 08:17:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 4/8] qapi/error: Change assertion
-References: <20210330171844.1197918-1-jsnow@redhat.com>
- <20210330171844.1197918-5-jsnow@redhat.com>
- <e760661b-0c3f-bb9b-0b4d-6c5ff77cfd70@redhat.com>
- <87blagghg5.fsf@dusky.pond.sub.org>
- <7436de5c-afda-160a-068d-18bed05a6a68@redhat.com>
-Date: Fri, 16 Apr 2021 08:17:30 +0200
-In-Reply-To: <7436de5c-afda-160a-068d-18bed05a6a68@redhat.com> (John Snow's
- message of "Thu, 15 Apr 2021 11:44:24 -0400")
-Message-ID: <87eefarbwl.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lXHto-0001so-F7; Fri, 16 Apr 2021 02:24:16 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34379)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lXHtm-0001rP-4l; Fri, 16 Apr 2021 02:24:16 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r7so13523672wrm.1;
+ Thu, 15 Apr 2021 23:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/SBDXKDMbFao64focPhNSp5xHUFzymOtjJc1vnARJFw=;
+ b=ozabp7Kp2kifAfFq/bf3mliF1NwaE06j/UZXTHoMlvurGUvpSeGouMCWmy1HpN6N/n
+ MVpROt8Ma3qr911Ph3ltl0zjM9uvRZ/onf54IsX/bkyHxAJKyT3z6zlFdR3azEE1Aa3X
+ q+4wDBeKgPUOWDN9knFDWBLuWFNLGJWLRljrqIfqWdXKMzSQtoUsNPA89MpS172ejMQH
+ rpjWyQwXNg+nN0ASZPx/11X466f40U+LMeF+vqYPoQBgcUX9caLiON47/XMd+xdjkrqX
+ PuWWacmtNe+vs3sLj+2FN97FrwRn/cawJ9TZ3Bb+pnpguwP4TCKk2x+2cY3hWyiW0uJb
+ S6Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/SBDXKDMbFao64focPhNSp5xHUFzymOtjJc1vnARJFw=;
+ b=FLaTx+pHHb3OS+zEGZaZrv4PazGUsyScRDo9QtRp+J+ktuFeQ0fM9o5s0hMwqtIH55
+ IjzCDQf5BzBHkmAcReboliGBqtAkLu5V/LtPodwGoMIYAd/hP5J8DUDCBTlXP/NDqciT
+ PQPltV1WZEW9Tn4Kx65PkaowLT6Yt3+5L6dTG8ADXtifrM7u1SMxKN9xh2FPgVAYL5QI
+ 3C7X6h9N7GsAM1samaIvVa3JqpbqNCVRqKcb481umb1Ft5fd82tPZajXZEjtxexnEB1b
+ JETu/rPX3OJ5Ye7i7rTqopvZ9wRdv4fjkWKl3qmhSbjPsyIMrxHXAETGDuGBn0mHKajA
+ w7Aw==
+X-Gm-Message-State: AOAM530eTr9M3RTyIxU+T321z7n1sEUgxWP5Y//l2Z6dO//nmQ/5tpqe
+ KZ8hzw06wGksYOeveHtnu54=
+X-Google-Smtp-Source: ABdhPJxhMGr+D0Y5XDVvyIi16SqKU6bbZOiHA7tLbpbICTzogNSRJ1aQ0vXe6lutgfBmn8jjMtM59g==
+X-Received: by 2002:a5d:6983:: with SMTP id g3mr6976238wru.415.1618554251507; 
+ Thu, 15 Apr 2021 23:24:11 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id m3sm8185940wme.40.2021.04.15.23.24.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Apr 2021 23:24:10 -0700 (PDT)
+Subject: Re: [PATCH 3/5] hw/pci-host/prep: Remove unuseful memory region
+ mapping
+To: David Gibson <david@gibson.dropbear.id.au>, Peter Xu <peterx@redhat.com>
+References: <20210312182851.1922972-1-f4bug@amsat.org>
+ <20210312182851.1922972-4-f4bug@amsat.org> <20210312203821.GN194839@xz-x1>
+ <YFgYYHOroOLHBbm7@yekko.fritz.box>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <095a86c6-1ead-5a6d-54e6-601aa43853bf@amsat.org>
+Date: Fri, 16 Apr 2021 08:24:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YFgYYHOroOLHBbm7@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,119 +89,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On 4/15/21 3:00 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> On 3/30/21 1:18 PM, John Snow wrote:
+On 3/22/21 5:09 AM, David Gibson wrote:
+> On Fri, Mar 12, 2021 at 03:38:21PM -0500, Peter Xu wrote:
+>> On Fri, Mar 12, 2021 at 07:28:49PM +0100, Philippe Mathieu-Daudé wrote:
+>>> The pci_io_non_contiguous region is mapped on top of pci_io
+>>> with higher priority, but simply dispatch into this region
+>>> address space. Simplify by directly registering the former
+>>> region in place, and adapt the address space dispatch offsets.
 >>>
->>> Realizing now that this commit topic is wrong :)
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>  hw/pci-host/prep.c | 11 ++++-------
+>>>  1 file changed, 4 insertions(+), 7 deletions(-)
 >>>
->>> A prior version modified the assertion, I decided it was less churn to
->>> simply add one.
->>>
->>> I think ideally we'd have no assertions here and we'd rely on the type
->>> hints, but I don't think I can prove that this is safe until after part
->>> 6, so I did this for now instead.
->>>
->>>> Eventually, we'll be able to prove that 'info.line' must be an int and
->>>> is never None at static analysis time, and this assert can go
->>>> away. Until then, it's a type error to assume that self.info is not
->>>> None.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>    scripts/qapi/error.py | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/scripts/qapi/error.py b/scripts/qapi/error.py
->>>> index d179a3bd0c..d0bc7af6e7 100644
->>>> --- a/scripts/qapi/error.py
->>>> +++ b/scripts/qapi/error.py
->>>> @@ -25,6 +25,7 @@ def __init__(self, info, msg, col=None):
->>>>            self.col = col
->>>>           def __str__(self):
->>>> +        assert self.info is not None
->>>>            loc = str(self.info)
->>>>            if self.col is not None:
->>>>                assert self.info.line is not None
->>>>
->> Please show us the revised commit message.  I'm asking because the
->> patch's purpose isn't quite clear to me.  Peeking ahead at PATCH 7, I
->> see that info becomes Optional[QAPISourceInfo].  This means something
->> passes None for info (else you wouldn't make it optional).  None info
->> Works (in the sense of "doesn't crash") as long as col is also None.
->> After the patch, it doesn't.  I'm not saying that's bad, only that I
->> don't quite understand what you're trying to accomplish here.
->> 
->
-> Sure.
->
-> If you recall, I tried to enforce that QAPISourceInfo was *never* None
-> by creating a special value for QSI that represented "No Source
-> Info". Ultimately, that idea didn't go through and we solidified that
-> the 'info' parameter that gets passed around can sometimes be None.
->
-> Hence, this property is Optional[QAPISourceInfo].
->
-> Since I know you wanted to crash messily in the case that we allowed a
-> None-info to leak into a context like this, I added the new assertion
-> to make sure this remains the case.
->
-> (since str(None) evaluates to "None", it seemed like there was already
-> the implicit assumption that info would never be None. Plus, if 'col'
-> is set, mypy notices that we are performing an unsafe check on 
-> self.info.line, which had to be remedied.)
->
-> Later in the series, after schema.py is typed, it may be possible to
-> remove these assertions as we may be able to rely on the strict typing 
-> to prove that this situation can never occur. However, since schema.py
-> is not yet typed, we can't yet.
->
->
->
-> Alright. So given that, I think what you'd like to see for a commit
-> message is:
->
-> qapi/error: assert QAPISourceInfo is not None
->
-> We implicitly assume that self.info will never be None, as the error
-> reporting function will not produce meaningful output in this case,
-> and will crash if self.col was set. Assert that self.info is not None
-> in order to formalize this assumption.
->
-> We can not yet change the type of the initializer to prove that this
-> is provably true at static analysis time until the rest of this
-> library is fully typed.
+>>> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+>>> index 0a9162fba97..00a28c2d18c 100644
+>>> --- a/hw/pci-host/prep.c
+>>> +++ b/hw/pci-host/prep.c
+>>> @@ -159,8 +159,7 @@ static uint64_t raven_io_read(void *opaque, hwaddr addr,
+>>>      uint8_t buf[4];
+>>>  
+>>>      addr = raven_io_address(s, addr);
+>>> -    address_space_read(&s->pci_io_as, addr + 0x80000000,
+>>> -                       MEMTXATTRS_UNSPECIFIED, buf, size);
+>>> +    address_space_read(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, buf, size);
+>>>  
+>>>      if (size == 1) {
+>>>          return buf[0];
+>>> @@ -191,8 +190,7 @@ static void raven_io_write(void *opaque, hwaddr addr,
+>>>          g_assert_not_reached();
+>>>      }
+>>>  
+>>> -    address_space_write(&s->pci_io_as, addr + 0x80000000,
+>>> -                        MEMTXATTRS_UNSPECIFIED, buf, size);
+>>> +    address_space_write(&s->pci_io_as, addr, MEMTXATTRS_UNSPECIFIED, buf, size);
+>>
+>> This changes access to s->pci_io_as, but below didn't change s->pci_io_as
+>> layout at all (below is about address_space_mem).  Is this intended?
+>>
+>>>  }
+>>>  
+>>>  static const MemoryRegionOps raven_io_ops = {
+>>> @@ -294,9 +292,8 @@ static void raven_pcihost_initfn(Object *obj)
+>>>      address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
+>>>  
+>>>      /* CPU address space */
+>>> -    memory_region_add_subregion(address_space_mem, 0x80000000, &s->pci_io);
+>>> -    memory_region_add_subregion_overlap(address_space_mem, 0x80000000,
+>>> -                                        &s->pci_io_non_contiguous, 1);
+>>> +    memory_region_add_subregion(address_space_mem, 0x80000000,
+>>> +                                &s->pci_io_non_contiguous);
+>>
+>> I don't know any of this code at all... but it seems the two memory regions are
+>> not identical in size:
+>>
+>>     memory_region_init(&s->pci_io, obj, "pci-io", 0x3f800000);
+>>     memory_region_init_io(&s->pci_io_non_contiguous, obj, &raven_io_ops, s,
+>>                           "pci-io-non-contiguous", 0x00800000);
+>>
+>> Then it seems the memory access dispatching to (0x00800000, 0x3f800000) would
+>> change too, from s->pci_io to nothing.  Raise this up too since I don't know
+>> either whether it's intended..
+> 
+> Right, it seems like this removes the mapping of s->pci_io entirely.
 
-Let's insert another paragraph to make the intent even clearer, and
-adjust the remainder for it:
+Yes, this is on purpose. The dispatching is done via raven_io_ops:
 
-  qapi/error: assert QAPISourceInfo is not None
+    address_space_init(&s->pci_io_as, &s->pci_io, "raven-io");
 
-  Built-in stuff is not parsed from a source file, and therefore have no
-  QAPISourceInfo.  If such None info was used for reporting an error,
-  built-in stuff would be broken.  Programming error.  Instead of
-  reporting a confusing error with bogus source location then, we better
-  crash.
+raven_io_ops uses raven_io_address() which returns an address in
+"pci-io" range if < 0x800000, else it returns io_mem_unassigned
+because the address is outside the pci_io_as AddressSpace.
 
-  We currently crash only if self.col was set.  Assert that self.info is
-  not None in order to crash reliably.
+Note, the flatview is unchanged with this patch.
 
-  We can not yet change the type of the initializer to prove this cannot
-  happen at static analysis time before the remainder of the code is
-  fully typed.
+My take here is 1/ I squashed too much changes and 2/ I didn't
+documented enough. I'll respin improved.
 
-Note I also replaced "this library" because I'm not sure what it means.
+Thanks for your reviews!
 
-What do you think?
-
+Phil.
 
