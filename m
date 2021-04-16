@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58AE3618EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:33:20 +0200 (CEST)
-Received: from localhost ([::1]:58176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867C73618EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Apr 2021 06:31:17 +0200 (CEST)
+Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lXGAS-0004fY-0a
-	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:33:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52366)
+	id 1lXG8S-0002Wq-JG
+	for lists+qemu-devel@lfdr.de; Fri, 16 Apr 2021 00:31:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lXG6R-0000uZ-6I; Fri, 16 Apr 2021 00:29:11 -0400
-Received: from ozlabs.org ([203.11.71.1]:55207)
+ id 1lXG6T-0000us-0k; Fri, 16 Apr 2021 00:29:14 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:38309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lXG6O-0005kU-Em; Fri, 16 Apr 2021 00:29:10 -0400
+ id 1lXG6O-0005kV-Pg; Fri, 16 Apr 2021 00:29:12 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FM3BR44T8z9s1l; Fri, 16 Apr 2021 14:29:03 +1000 (AEST)
+ id 4FM3BR4kywz9sWX; Fri, 16 Apr 2021 14:29:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1618547343;
- bh=I6rAh0jptNHWsDghIClpeKu7A11Mh59COqeUXdAWAyY=;
+ bh=/Lwz1ap63+9I4zCBZfD6zTHZChxtNnGNicezsBbUomU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SwHEzggiQh33u4A2wBnqxqIGQSUqzXOybFW4CHVaoF/laIvkcUBl9N729LkC5Lu0+
- migkiBOch3c51sWJ8PORahwI4LlZWFp7Y46/iPRgfGmctRmF38kM6zRy7uv7Usbl+X
- ZOMQiKlC3ISRgQ04kIRPPgO9ILowoYaa6DDy08fE=
-Date: Fri, 16 Apr 2021 14:15:00 +1000
+ b=WTMj4W6yRswY+rHaQDYAqVzzQFEFxremlyhuHRdFUmzQLe/OBRPKp+pp9czgTNDxx
+ gSeWMhtFKGaFCPTeYekmt21e+sBZtuoi+fcjXYVyCJbNB9+hT82wfnkStDVugfUDw+
+ pkFiZahVZysN4GkqtA2bT0gY9te6IsRTtdUEvmY4=
+Date: Fri, 16 Apr 2021 14:28:57 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [EXTERNAL] [PATCH v2 2/4] target/ppc: POWER10 supports scv
-Message-ID: <YHkPRM83d0x3krxN@yekko.fritz.box>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 4/4] target/ppc: Add POWER10 exception model
+Message-ID: <YHkSiZD/LncmrKeX@yekko.fritz.box>
 References: <20210415054227.1793812-1-npiggin@gmail.com>
- <20210415054227.1793812-3-npiggin@gmail.com>
- <adc7acbc-f083-5e9c-c1ae-e00c2ec8b85c@kaod.org>
+ <20210415054227.1793812-5-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZC3dGK6HkvL7Bdy2"
+ protocol="application/pgp-signature"; boundary="J7JqiaAi970hXbks"
 Content-Disposition: inline
-In-Reply-To: <adc7acbc-f083-5e9c-c1ae-e00c2ec8b85c@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210415054227.1793812-5-npiggin@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,51 +58,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Fabiano Rosas <farosas@linux.ibm.com>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ZC3dGK6HkvL7Bdy2
+--J7JqiaAi970hXbks
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 15, 2021 at 09:43:23AM +0200, C=E9dric Le Goater wrote:
-> On 4/15/21 7:42 AM, Nicholas Piggin wrote:
-> > This must have slipped through the cracks between adding POWER10 support
-> > and scv support.
-> >=20
-> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+On Thu, Apr 15, 2021 at 03:42:27PM +1000, Nicholas Piggin wrote:
+> POWER10 adds a new bit that modifies interrupt behaviour, LPCR[HAIL],
+> and it removes support for the LPCR[AIL]=3D0b10 mode.
 >=20
 > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+> Tested-by: C=E9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
+>  hw/ppc/spapr_hcall.c            |  7 ++++-
+>  target/ppc/cpu-qom.h            |  2 ++
+>  target/ppc/cpu.h                |  5 ++--
+>  target/ppc/excp_helper.c        | 51 +++++++++++++++++++++++++++++++--
+>  target/ppc/translate.c          |  3 +-
+>  target/ppc/translate_init.c.inc |  2 +-
+>  6 files changed, 62 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 2fbe04a689..6802cd4dc8 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1396,7 +1396,12 @@ static target_ulong h_set_mode_resource_addr_trans=
+_mode(PowerPCCPU *cpu,
+>      }
+> =20
+>      if (mflags =3D=3D 1) {
+> -        /* AIL=3D1 is reserved */
+> +        /* AIL=3D1 is reserved in POWER8/POWER9 */
+> +        return H_UNSUPPORTED_FLAG;
+> +    }
+> +
+> +    if (mflags =3D=3D 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
+> +        /* AIL=3D2 is also reserved in POWER10 (ISA v3.1) */
+>          return H_UNSUPPORTED_FLAG;
+>      }
+> =20
+> diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+> index 118baf8d41..06b6571bc9 100644
+> --- a/target/ppc/cpu-qom.h
+> +++ b/target/ppc/cpu-qom.h
+> @@ -116,6 +116,8 @@ enum powerpc_excp_t {
+>      POWERPC_EXCP_POWER8,
+>      /* POWER9 exception model           */
+>      POWERPC_EXCP_POWER9,
+> +    /* POWER10 exception model           */
+> +    POWERPC_EXCP_POWER10,
+>  };
+> =20
+>  /***********************************************************************=
+******/
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 5200a16d23..9d35cdfa92 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -354,10 +354,11 @@ typedef struct ppc_v3_pate_t {
+>  #define LPCR_PECE_U_SHIFT (63 - 19)
+>  #define LPCR_PECE_U_MASK  (0x7ull << LPCR_PECE_U_SHIFT)
+>  #define LPCR_HVEE         PPC_BIT(17) /* Hypervisor Virt Exit Enable */
+> -#define LPCR_RMLS_SHIFT   (63 - 37)
+> +#define LPCR_RMLS_SHIFT   (63 - 37)   /* RMLS (removed in ISA v3.0) */
+>  #define LPCR_RMLS         (0xfull << LPCR_RMLS_SHIFT)
+> +#define LPCR_HAIL         PPC_BIT(37) /* ISA v3.1 HV AIL=3D3 equivalent =
+*/
+>  #define LPCR_ILE          PPC_BIT(38)
+> -#define LPCR_AIL_SHIFT    (63 - 40)      /* Alternate interrupt location=
+ */
+> +#define LPCR_AIL_SHIFT    (63 - 40)   /* Alternate interrupt location */
+>  #define LPCR_AIL          (3ull << LPCR_AIL_SHIFT)
+>  #define LPCR_UPRT         PPC_BIT(41) /* Use Process Table */
+>  #define LPCR_EVIRT        PPC_BIT(42) /* Enhanced Virtualisation */
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 964a58cfdc..38a1482519 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -170,7 +170,27 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPC=
+State *env, int excp,
+>   * +-------------------------------------------------------+
+>   *
+>   * The difference with POWER9 being that MSR[HV] 0->1 interrupts can be =
+sent to
+> - * the hypervisor in AIL mode if the guest is radix.
+> + * the hypervisor in AIL mode if the guest is radix. This is good for
+> + * performance but allows the guest to influence the AIL of hypervisor
+> + * interrupts using its MSR, and also the hypervisor must disallow guest
+> + * interrupts (MSR[HV] 0->0) from using AIL if the hypervisor does not w=
+ant to
+> + * use AIL for its MSR[HV] 0->1 interrupts.
+> + *
+> + * POWER10 addresses those issues with a new LPCR[HAIL] bit that is appl=
+ied to
+> + * interrupts that begin execution with MSR[HV]=3D1 (so both MSR[HV] 0->=
+1 and
+> + * MSR[HV] 1->1).
+> + *
+> + * HAIL=3D1 is equivalent to AIL=3D3, for interrupts delivered with MSR[=
+HV]=3D1.
+> + *
+> + * POWER10 behaviour is
+> + * | LPCR[AIL] | LPCR[HAIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
+> + * +-----------+------------+-------------+---------+-------------+-----+
+> + * | a         | h          | 00/01/10    | 0       | 0           | 0   |
+> + * | a         | h          | 11          | 0       | 0           | a   |
+> + * | a         | h          | x           | 0       | 1           | h   |
+> + * | a         | h          | 00/01/10    | 1       | 1           | 0   |
+> + * | a         | h          | 11          | 1       | 1           | h   |
+> + * +--------------------------------------------------------------------+
+>   */
+>  static inline void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, i=
+nt excp,
+>                                        target_ulong msr,
+> @@ -210,6 +230,29 @@ static inline void ppc_excp_apply_ail(PowerPCCPU *cp=
+u, int excp_model, int excp,
+>              /* AIL=3D1 is reserved */
+>              return;
+>          }
+> +
+> +    } else if (excp_model =3D=3D POWERPC_EXCP_POWER10) {
+> +        if (!mmu_all_on && !hv_escalation) {
+> +            /*
+> +             * AIL works for HV interrupts even with guest MSR[IR/DR] di=
+sabled.
+> +             * Guest->guest and HV->HV interrupts do require MMU on.
+> +             */
+> +            return;
+> +        }
+> +
+> +        if (*new_msr & MSR_HVB) {
+> +            if (!(env->spr[SPR_LPCR] & LPCR_HAIL)) {
+> +                /* HV interrupts depend on LPCR[HAIL] */
+> +                return;
+> +            }
+> +            ail =3D 3; /* HAIL=3D1 gives AIL=3D3 behaviour for HV interr=
+upts */
+> +        } else {
+> +            ail =3D (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
+> +        }
+> +        if (ail !=3D 3) {
+> +            /* AIL=3D1 and AIL=3D2 are reserved */
+> +            return;
 
-Applied to ppc-for-6.1, thanks.
+As with POWER9, I wonder if we should actuall filter this at LPCR
+write time and assert() here.
 
->=20
->=20
-> > ---
-> >  target/ppc/translate_init.c.inc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_ini=
-t.c.inc
-> > index c03a7c4f52..70f9b9b150 100644
-> > --- a/target/ppc/translate_init.c.inc
-> > +++ b/target/ppc/translate_init.c.inc
-> > @@ -9323,7 +9323,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *da=
-ta)
-> >      pcc->flags =3D POWERPC_FLAG_VRE | POWERPC_FLAG_SE |
-> >                   POWERPC_FLAG_BE | POWERPC_FLAG_PMM |
-> >                   POWERPC_FLAG_BUS_CLK | POWERPC_FLAG_CFAR |
-> > -                 POWERPC_FLAG_VSX | POWERPC_FLAG_TM;
-> > +                 POWERPC_FLAG_VSX | POWERPC_FLAG_TM | POWERPC_FLAG_SCV;
-> >      pcc->l1_dcache_size =3D 0x8000;
-> >      pcc->l1_icache_size =3D 0x8000;
-> >      pcc->interrupts_big_endian =3D ppc_cpu_interrupts_big_endian_lpcr;
-> >=20
->=20
+On actual hardware, what will happen if you attempt to write a bad AIL
+to the LPCR?
+
+> +        }
+>      } else {
+>          /* Other processors do not support AIL */
+>          return;
+> @@ -322,7 +365,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+>  #if defined(TARGET_PPC64)
+>      if (excp_model =3D=3D POWERPC_EXCP_POWER7 ||
+>          excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+> -        excp_model =3D=3D POWERPC_EXCP_POWER9) {
+> +        excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+> +        excp_model =3D=3D POWERPC_EXCP_POWER10) {
+>          lpes0 =3D !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+>      } else
+>  #endif /* defined(TARGET_PPC64) */
+> @@ -842,7 +886,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+>          } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+>              new_msr |=3D (target_ulong)1 << MSR_LE;
+>          }
+> -    } else if (excp_model =3D=3D POWERPC_EXCP_POWER9) {
+> +    } else if (excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+> +               excp_model =3D=3D POWERPC_EXCP_POWER10) {
+>          if (new_msr & MSR_HVB) {
+>              if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
+>                  new_msr |=3D (target_ulong)1 << MSR_LE;
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 0984ce637b..e9ed001229 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -7731,7 +7731,8 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int =
+flags)
+>  #if defined(TARGET_PPC64)
+>      if (env->excp_model =3D=3D POWERPC_EXCP_POWER7 ||
+>          env->excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+> -        env->excp_model =3D=3D POWERPC_EXCP_POWER9)  {
+> +        env->excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+> +        env->excp_model =3D=3D POWERPC_EXCP_POWER10)  {
+>          qemu_fprintf(f, "HSRR0 " TARGET_FMT_lx " HSRR1 " TARGET_FMT_lx "=
+\n",
+>                       env->spr[SPR_HSRR0], env->spr[SPR_HSRR1]);
+>      }
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
+c.inc
+> index a82d9ed647..76d82cc2f6 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -9317,7 +9317,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+>      pcc->radix_page_info =3D &POWER10_radix_page_info;
+>      pcc->lrg_decr_bits =3D 56;
+>  #endif
+> -    pcc->excp_model =3D POWERPC_EXCP_POWER9;
+> +    pcc->excp_model =3D POWERPC_EXCP_POWER10;
+>      pcc->bus_model =3D PPC_FLAGS_INPUT_POWER9;
+>      pcc->bfd_mach =3D bfd_mach_ppc64;
+>      pcc->flags =3D POWERPC_FLAG_VRE | POWERPC_FLAG_SE |
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -111,25 +278,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ZC3dGK6HkvL7Bdy2
+--J7JqiaAi970hXbks
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB5D0QACgkQbDjKyiDZ
-s5LQjA//ReCv+HFcEO9DY6+ZmyzhxYgxYFf2xI9b5a0fzA93+6xk30U45GxeiGlR
-6JvNoHquVbmFMID8WJ2zw3KUMl6S9z1VKsS5SvnWhZ4sgYXoNNtOZROsRSFFMWdx
-FZJbhGsbOdTgsqJzpGs+tHd0EZd/aZbPC9bMBvT/BFdOHHdGvK+VHFJ9v32/fBFR
-dSc8yiKDsJzBoeFPMl0RT0Pm1z19rpHp0fWAK23klTetqSZxGYNXNnQ1PqQ92ldo
-QUyx8AKgRZczP7U+0wCEOtihF+9Bh4obVta2XvO54FWtRcBmhufI7sSoc8PLnT3v
-Z8ZMQUKqI/gjO60/QbaOkclioQkGMlNMR4Ho3vjVC8w2UfAEEFiXnW+KWhuhqAag
-yFlRvJKhPqf4hoABnDwXO2DHTxkvKdRD3hhiC+PZrycwAZjsY2tD30yFM4zXXizp
-X5P1/mFLRde3dKpgzcth/X7vzQw4dfsdR40yc9bg/DmDTfEvIplZ3+3b+ynYjdGZ
-i0WTXYIdMAFHvWEoDWtk5bDG/NnryDPbC+S+iCub3c53lhHkwsRkx8LdaP5idZ0t
-Qp7qcqIU2bXobRKrtYZNe/OetUgl9IuLpdAwo4YnW4Gc3XYLKx+Aaa1AT8eCziYK
-+RsRrPWcjP9eXKjgIzJU+aceNNK4JITkspRE0LPorG6a+AXo460=
-=LDVn
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmB5EokACgkQbDjKyiDZ
+s5KqVA//ZZ+ZWIL9PcO86IwARI1+YkBV34OxsCxdchwq4xKppnzzpceAWtASVpVR
+9p+2DFsXYeum5RnIL5azdx2/CnvYVbvNCKlxAbBGx/6Wcm8Amb//5ktg1tUuUshx
+hLIbWWiqiaGw9Sa/Sy011EqBemi3zQpIyb5h+2JW2r+3Qz82/waYct6Cf3N85k7f
+b3CY2MhWHMmQM958MRnfq2v1XLj9jFiWyFqud5E5nOh0q+qE3ssa4BtWvf68xJJ9
+QrBekyKMJYDcvtWyCnhcK515YBqWT499jABwdwKH8mXO5YcIS/Pw56djH9oMXffV
+bEhFlbIXx1ynNjYnQU0rDPBRTF1X3oVoEgMxArockwlH48FDfaLncel0DtKv1Bwu
+K7P03KovZC9iD0484X7MogGyGx2TqlopEPfmHPzMm+h3fA6woYN0cogARcDJXb9B
+fum+o49a8Hm3GtORy4/AXbPIIojAis0AA1SZv2vqqzOA17d4pzPVgyrosSCcUUyS
+77iPDRcS3MQgTF/nOCYyuQhtl0JpwAMyXUm2q8tE/7vzEUxmg9Jq+kSAfcZpGMlK
+0eRJ0YEAPlOT5NiQHJOyNDFlhGl9YB9uFJRsH8jMUJ6Sc9jtqzAuNtG+JZciLl4M
+PjkRxkj/23QmB6KL4YzDXWGUIecKISN3nyn3d7fYG1291wwVdwE=
+=UkEh
 -----END PGP SIGNATURE-----
 
---ZC3dGK6HkvL7Bdy2--
+--J7JqiaAi970hXbks--
 
